@@ -13,7 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @example
 		 * alert( CKEDITOR.lang.en );  // "true"
 		 */
-		languages: { 'ar':1,'en':1,'it':1,'pt-br':1 },
+		languages: { 'en':1 },
 
 		/**
 		 * Loads a specific language file, or auto detect it. A callback is
