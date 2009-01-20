@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: htmldataprocessor</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+
+CKEDITOR.plugins.load( 'htmldataprocessor' );
+
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+var testCase;
+
+CKEDITOR.test.addTestCase( testCase = (function()
+{
+	// Local references.
+	var assert = CKEDITOR.test.assert;
+
+	// In these tests, we may "reset" the writer rules to avoid it formatting
+	// the output, making the assertion easier to the done. We don't need to
+	// test formatting features here, so this is ok.
+	var getDataProcessor = function()
+	{
+		var dataProcessor = new CKEDITOR.htmlDataProcessor();
+		dataProcessor.writer._.rules = [];
+		return dataProcessor;
+	};
+
+	// These tests go far beyond the strict htmlDataProcessor code testing. We
+	// are actually testing the entire parsing system here. The combination of
+	// htmlParser and htmlWriter inside htmlDataProcessor is useful in this
+	// sense.
+
+	return {
+		test_toDataFormat_1a : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><p>Test</p></div>' );
+
+			assert.areSame( '<p>Test</p>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		test_toDataFormat_1b : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x>Test</x:x></div>' );
+
+			// IE adds the XML namespace tag.
+			if ( CKEDITOR.env.ie )
+				assert.areSame( '<?xml:namespace prefix="x" /><x:x>Test</x:x>', getDataProcessor().toDataFormat( element ) );
+			else
+				assert.areSame( '<x:x>Test</x:x>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		test_toDataFormat_2a : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><br /><p>Test</p></div>' );
+
+			assert.areSame( '<br /><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		test_toDataFormat_2b : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x></x:x><p>Test</p></div>' );
+
+			// IE adds the XML namespace tag.
+			if ( CKEDITOR.env.ie )
+				assert.areSame( '<?xml:namespace prefix="x" /><x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+			else
+				assert.areSame( '<x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		test_toDataFormat_3 : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x><p>Test</p></div>' );
+
+			assert.areSame( '<x:x><p>Test</p></x:x>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		test_toDataFormat_ticket_2774 : function()
+		{
+			var element = new CKEDITOR.dom.element.createFromHtml( '<div><P class=MsoNormal><B><I><SPAN lang=EN-US><o:p>Test</o:p></SPAN></I></B></P></div>' );
+
+			// IE adds the XML namespace tag.
+			if ( CKEDITOR.env.ie )
+				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><?xml:namespace prefix="o" /><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element ) );
+			else
+				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element ) );
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>

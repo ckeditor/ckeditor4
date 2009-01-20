@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEditor Core Tests Runner</title>
+	<link rel="stylesheet" type="text/css" href="test.css" />
+	<script type="text/javascript">
+	//<![CDATA[
+
+var testList =
+[
+	'core/ajax',
+	'core/ckeditor',
+	'core/ckeditor2',
+	'core/editor',
+	'core/env',
+	'core/event',
+	'core/scriptloader',
+	'core/tools',
+	'core/xml',
+	'core/dom/document',
+	'core/dom/element',
+	'core/dom/node',
+	'core/dom/range',
+	'core/dom/window',
+	'core/htmlparser/fragment',
+	'plugins/htmldataprocessor/htmldataprocessor',
+	'plugins/styles/styles'
+];
+
+var currentTest;
+var totalFailed = 0;
+var totalPassed = 0;
+
+function runTest()
+{
+	currentTest = testList.shift();
+
+	if ( currentTest )
+		document.getElementById( 'testFrame' ).src = currentTest + '.html';
+}
+
+function onTestStart( data )
+{
+	var div = document.getElementById('testLogger').appendChild( document.createElement( 'div' ) );
+	div.className = 'testEntry';
+	div.innerHTML = 'Testing "' + data.testCase.name + '"...';
+}
+
+function onTestComplete( data )
+{
+	var failed = data.results.failed;
+	var passed = data.results.passed;
+
+	var html = '<span class="testIgnore">Unknown</span>';
+
+	if ( failed > 0 )
+		html = '<span class="testFail">FAIL</span>';
+	else
+		html = '<span class="testPass">PASS</span>';
+
+	html += ' <a href="' + currentTest + '.html" target="_blank">Test case "' + data.testCase.name + '"</a> (' + failed + ' failed / ' + passed + ' passed)';
+
+	var div = document.getElementById('testLogger').lastChild;
+	div.innerHTML = html;
+
+	totalFailed += failed;
+	totalPassed += passed;
+
+	document.getElementById('testFailed').innerHTML = totalFailed;
+	document.getElementById('testPassed').innerHTML = totalPassed;
+
+	document.title = totalFailed + ' failed / ' + totalPassed + ' passed - CKEditor Core Tests Runner';
+
+	runTest();
+}
+
+window.onload = function()
+{
+	// IE was "caching" the latest logged div on refresh. So, we must clean it
+	// on startup.
+	document.getElementById('testLogger').innerHTML = '';
+
+	runTest();
+};
+
+	//]]>
+	</script>
+</head>
+<body>
+	<h1>CKEditor Core Tests Runner (<span id="testFailed">0</span> failed / <span id="testPassed">0</span> passed)</h1>
+	<iframe id="testFrame" src="javascript:;" style="position: absolute; width: 50px; height: 50px; left: -1000px">
+	</iframe>
+	<div id="testLogger" class="testAll"></div>
+</body>
+</html>

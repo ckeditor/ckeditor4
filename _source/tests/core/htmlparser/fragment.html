@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.htmlParser.fragment</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+		test_fromHtml_1 : function()
+		{
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>Test</p>' );
+
+			assert.areSame( 1, fragment.children.length, 'Wrong size' );
+			assert.areSame( CKEDITOR.NODE_ELEMENT, fragment.children[0].type, 'Wrong child type' );
+			assert.areSame( 'p', fragment.children[0].name, 'Wrong child name' );
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.dom.document</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+		test_$ : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			assert.areSame( document, doc.$ );
+		},
+
+		test_appendStyleSheet : function()
+		{
+			var cssUrl = CKEDITOR.basePath + '_source/tests/_assets/sample.css';
+
+			var doc = new CKEDITOR.dom.document( document );
+			doc.appendStyleSheet( cssUrl );
+
+			var links = document.getElementsByTagName( 'link' );
+
+			for ( var i = 0 ; i < links.length ; i++ )
+			{
+				if ( links[i].href == cssUrl )
+					return ;
+			}
+
+			assert.fail( 'The link element was not found' );
+		},
+
+		test_equals1 : function()
+		{
+			// Actually checks the real need for equals().
+			var doc1 = new CKEDITOR.dom.document( document );
+			assert.isFalse( doc1 == document );
+		},
+
+		test_equals2 : function()
+		{
+			// Actually checks the real need for equals().
+			var doc1 = new CKEDITOR.dom.document( document );
+			var doc2 = new CKEDITOR.dom.document( document );
+			assert.isFalse( doc1 == doc2, 'doc1 == doc2' );
+		},
+
+		test_equals3 : function()
+		{
+			var doc1 = new CKEDITOR.dom.document( document );
+			var doc2 = new CKEDITOR.dom.document( document );
+			assert.isTrue( doc1.equals( doc2 ), 'doc1.equals( doc2 )' );
+			assert.isTrue( doc2.equals( doc1 ), 'doc2.equals( doc1 )' );
+		},
+
+		test_getById1 : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			var element = doc.getById( 'test1' );
+			assert.areSame( document.getElementById( 'test1' ), element.$ );
+		},
+
+		test_getById2 : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			var element = doc.getById( 'test_invalid' );
+			assert.isNull( element );
+		},
+
+		test_getHead : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			assert.areSame( document.getElementsByTagName( 'head' )[0], doc.getHead().$ );
+		},
+
+		test_getBody : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			assert.areSame( document.body, doc.getBody().$, '1st call failed' );
+			assert.areSame( document.body, doc.getBody().$, '2nd call failed' );
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="test1"></div>
+</body>
+</html>

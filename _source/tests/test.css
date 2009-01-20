@@ -1,0 +1,81 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+body
+{
+	margin:10px;
+}
+
+#testLogger
+{
+	position: absolute;
+	right: 10px;
+	left: 10px;
+	top: 10px;
+	font-family: Monospace;
+	border: solid 2px black;
+	background: #ffffff;
+	padding: 0px;
+}
+
+/* IE6 */
+* html #testLogger
+{
+	width: 100%;
+}
+
+#testLogger.testAll
+{
+	position: static;
+}
+
+#testLogger pre
+{
+	margin: 0 0 0 40px;
+	background-color: #f0f0f0;
+	padding: 1px 4px 1px 4px;
+}
+
+#testLogger div
+{
+	margin: 2px;
+}
+
+#testLogger div div
+{
+	margin-left: 20px;
+}
+
+.testEntry
+{
+	padding: 5px;
+	margin: 0 !important;
+}
+
+.testEntry:hover
+{
+	background-color: #ffff99;
+}
+
+.testFail, .testPass, .testIgnore
+{
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.testFail
+{
+	background-color: #ff0000;
+}
+
+.testPass
+{
+	background-color: #00ff00;
+}
+
+.testIgnore
+{
+	background-color: #f1f100;
+}

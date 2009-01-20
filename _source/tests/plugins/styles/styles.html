@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: styles</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+
+CKEDITOR.plugins.load( 'styles' );
+
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+var testCase;
+
+CKEDITOR.test.addTestCase( testCase = (function()
+{
+	// Local references.
+	var assert			= CKEDITOR.test.assert;
+	var getInnerHtml	= CKEDITOR.test.getInnerHtml;
+
+	var doc = new CKEDITOR.dom.document( document );
+
+	return {
+		test_inline1 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this is some sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ).getFirst(), 5 );
+			range.setEnd( doc.getById( '_P1' ).getFirst(), 7 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <b>is</b> some sample text', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline2 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some </b>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ).getChild( 1 ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 2 );
+
+			var style = new CKEDITOR.style( { element : 'i' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <i><b>is some </b></i>sample text', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline3 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some </b>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ).getChild( 1 ), 0 );
+			range.setEnd( doc.getById( '_P1' ).getChild( 1 ).getFirst(), 2 );
+
+			var style = new CKEDITOR.style( { element : 'i' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <b><i>is</i> some </b>sample text', getInnerHtml( '_P1' ) );
+		},
+
+		// Inline - Remove inner duplicates.
+		test_inline4 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some </b>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 3 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this is some sample text</b>', getInnerHtml( '_P1' ) );
+		},
+
+		// Inline - Merge with next.
+		test_inline5 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some </b>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 1 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this is some </b>sample text', getInnerHtml( '_P1' ) );
+		},
+
+		// Inline - Merge with previous.
+		test_inline6 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some </b>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 2 );
+			range.setEnd( doc.getById( '_P1' ).getChild( 2 ), 6 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <b>is some sample</b> text', getInnerHtml( '_P1' ) );
+		},
+
+		// Inline - Merge several with next.
+		test_inline7 : function()
+		{
+			doc.getById( '_P1' ).setHtml( '<i><u>this </u></i><b><i><u>is</u> some</i> sample</b> text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 1 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b><i><u>this is</u> some</i> sample</b> text', getInnerHtml( '_P1' ) );
+		},
+
+		// Inline - Merge several with previous.
+		test_inline8 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is <i>some <u>sample</u></i></b><i><u> text</u></i>' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 2 );
+			range.setEnd( doc.getById( '_P1' ), 3 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <b>is <i>some <u>sample text</u></i></b>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline9 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <i>is some </i>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ).getChild( 1 ), 0 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this </b><i>is some </i>sample text', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline10 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this is some sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 1 );
+
+			var style = new CKEDITOR.style(
+				{
+					element : 'b',
+					attributes :
+						{
+							lang : 'it',
+							title : 'test'
+						},
+					styles :
+						{
+							'font-size' : '10pt',
+							'text-decoration' : 'line-through'
+						}
+				} );
+			style.applyToRange( range );
+
+			assert.areSame( '<b lang="it" style="font-size: 10pt; text-decoration: line-through;" title="test">this is some sample text</b>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline11 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b lang="it" class="sample">is</b> <b lang="it" style="font-size: 10pt; text-decoration: line-through;" title="test">some sample</b> <b>t</b>ext' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 7 );
+
+			var style = new CKEDITOR.style(
+				{
+					element : 'b',
+					attributes :
+						{
+							lang : 'it',
+							title : 'test'
+						},
+					styles :
+						{
+							'font-size' : '10pt',
+							'text-decoration' : 'line-through'
+						}
+				} );
+			style.applyToRange( range );
+
+			assert.areSame( '<b lang="it" style="font-size: 10pt; text-decoration: line-through;" title="test">this <b class="sample">is</b> some sample text</b>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline11 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <span class="a">is</span> some <span class="b">sample</span> text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 5 );
+
+			var style = new CKEDITOR.style( { element : 'span', attributes : { 'class' : 'b' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<span class="b">this <span class="a">is</span> some sample text</span>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline12 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <span style="font-size:12pt; font-weight:600">is</span> some <span style="font-size:10px;">sample</span> text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ), 5 );
+
+			var style = new CKEDITOR.style( { element : 'span', styles : { 'font-size' : '1.5em' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<span style="font-size: 1.5em;">this <span style="font-weight: 600;">is</span> some sample text</span>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline13 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this <b>is some sample</b> text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ).getChild( 1 ).getFirst(), 3 );
+			range.setEnd( doc.getById( '_P1' ), 3 );
+
+			var style = new CKEDITOR.style( { element : 'i' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this <b>is <i>some sample</i></b><i> text</i>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline_nobreak1 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 0 );
+			range.setEnd( doc.getById( '_P1' ).getChild( 1 ).getFirst(), 4 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text', getInnerHtml( '_P1' ) );
+		},
+
+		test_ticket_2040 : function()
+		{
+			doc.getById( '_P1' ).setHtml( 'This is some <strong>sample text<\/strong>. You are using <a href="http://www.fckeditor.net/">FCKeditor<\/a>.' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_P1' ), 1 );
+			range.setEnd( doc.getById( '_P1' ).getChild( 1 ).getFirst(), 6 );
+
+			var style = new CKEDITOR.style( { element : 'i' } );
+			style.applyToRange( range );
+
+			assert.areSame( 'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">fckeditor<\/a>.', getInnerHtml( '_P1' ) );
+		},
+
+		name : document.title
+	};
+})() );
+
+//window.onload = function()
+//{
+//	testCase.test_inline4();
+//}
+
+	//]]>
+	</script>
+</head>
+<body>
+	<p id="_P1"></p>
+</body>
+</html>

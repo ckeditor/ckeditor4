@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.dom.text</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+		test_substring1 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '123', text.substring( 1, 4 ) );
+		},
+
+		test_substring2 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '56789', text.substring( 5 ) );
+		},
+
+		test_substring3 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '', text.substring( 1,1 ) );
+		},
+
+		test_substring4 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '012', text.substring( -10,3 ) );
+		},
+
+		test_substring5 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '89', text.substring( 8,100 ) );
+		},
+
+		test_substring6 : function()
+		{
+			var text = new CKEDITOR.dom.text( '0123456789' );
+
+			assert.areSame( '234', text.substring( 5,2 ) );
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+	<p>0123456789</p>
+</body>
+</html>
