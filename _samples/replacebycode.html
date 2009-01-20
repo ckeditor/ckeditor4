@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Replace Textarea by Code - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+</head>
+<body>
+	<div id="html">
+		<form action="">
+			<p>
+				<label for="editor1">
+					Editor 1:</label><br />
+				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					// This call can be placed at any point after the
+					// <textarea>, or inside a <head><script> in a
+					// window.onload event handler.
+
+					// Replace the <textarea id="editor"> with an CKEditor
+					// instance, using default configurations.
+					CKEDITOR.replace( 'editor1' );
+
+				//]]>
+				</script>
+			</p>
+			<p>
+				<label for="editor2">
+					Editor 2:</label><br />
+				<textarea id="editor2" name="editor2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					// This call can be placed at any point after the
+					// <textarea>, or inside a <head><script> in a
+					// window.onload event handler.
+
+					// Replace the <textarea id="editor"> with an CKEditor
+					// instance, using default configurations.
+					CKEDITOR.replace( 'editor2' );
+
+				//]]>
+				</script>
+			</p>
+			<p>
+				<input type="submit" value="Submit" />
+			</p>
+		</form>
+	</div>
+	<div id="code">
+		<pre>
+&lt;form action=""&gt;
+  &lt;p&gt;
+    &lt;label for="editor1"&gt;
+      Editor 1:&lt;/label&gt;&lt;br /&gt;
+    &lt;textarea <b>name="editor1"</b> rows="10" cols="80"&gt;&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;&lt;/textarea&gt;
+    &lt;script type="text/javascript"&gt;
+    //&lt;![CDATA[
+
+      <b>CKEDITOR.replace( 'editor1' );</b>
+
+    //]]&gt;
+    &lt;/script&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;input type="submit" value="Submit" /&gt;
+  &lt;/p&gt;
+&lt;/form&gt;
+</pre>
+	</div>
+</body>
+</html>

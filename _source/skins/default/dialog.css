@@ -1,0 +1,701 @@
+/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+.cke_skin_default .cke_dialog_tl,
+.cke_skin_default .cke_dialog_t,
+.cke_skin_default .cke_dialog_tr,
+.cke_skin_default .cke_dialog_l,
+.cke_skin_default .cke_dialog_c,
+.cke_skin_default .cke_dialog_r,
+.cke_skin_default .cke_dialog_bl,
+.cke_skin_default .cke_dialog_b,
+.cke_skin_default .cke_dialog_br
+{
+	float: left;
+}
+
+.cke_skin_default .cke_dialog_tl,
+.cke_skin_default .cke_dialog_l,
+.cke_skin_default .cke_dialog_bl
+{
+	clear: left;
+}
+
+.cke_skin_default .cke_dialog_tl,
+.cke_skin_default .cke_dialog_tr,
+.cke_skin_default .cke_dialog_l,
+.cke_skin_default .cke_dialog_r
+{
+	width: 16px;
+}
+
+.cke_skin_default .cke_dialog_tl,
+.cke_skin_default .cke_dialog_t,
+.cke_skin_default .cke_dialog_tr
+{
+	height: 16px;
+}
+
+.cke_skin_default .cke_dialog_tl,
+.cke_skin_default .cke_dialog_t,
+.cke_skin_default .cke_dialog_tr,
+.cke_skin_default .cke_dialog_bl,
+.cke_skin_default .cke_dialog_b,
+.cke_skin_default .cke_dialog_br
+{
+	background-image: url(images/sprites.png);
+	/* IE6 does not support full color transparent PNG. */
+	_background-image: url(images/sprites.gif);
+	background-repeat: no-repeat;
+}
+
+.cke_skin_default .cke_dialog_l,
+.cke_skin_default .cke_dialog_r
+{
+	background-image: url(images/dialog.sides.png);
+	/* IE6 does not support full color transparent PNG. */
+	_background-image: url(images/dialog.sides.gif);
+	background-repeat: repeat-y;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_l,
+.cke_skin_default.cke_rtl .cke_dialog_r
+{
+	background-image: url(images/dialog.sides.rtl.png);
+	_background-image: url(images/dialog.sides.gif);
+}
+
+.cke_skin_default .cke_dialog_bl,
+.cke_skin_default .cke_dialog_b,
+.cke_skin_default .cke_dialog_br
+{
+	height: 51px;
+}
+
+.cke_skin_default .cke_dialog_bl,
+.cke_skin_default .cke_dialog_br
+{
+	width: 30px;
+}
+
+.cke_skin_default .cke_dialog_tl
+{
+	background-position: -16px -16px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_tl
+{
+	background-position: -16px -397px;
+}
+
+.cke_skin_default .cke_dialog_tr
+{
+	background-position: -16px -76px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_tr
+{
+	background-position: -16px -457px;
+}
+
+.cke_skin_default .cke_dialog_t
+{
+	background-position: 0px -136px;
+	background-repeat: repeat-x;
+}
+
+.cke_skin_default .cke_dialog_l
+{
+	background-position: 0px 0px;
+}
+
+.cke_skin_default .cke_dialog_r
+{
+	background-position: -16px 0px;
+}
+
+.cke_skin_default .cke_dialog_bl
+{
+	background-position: -16px -196px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_bl
+{
+	background-position: -16px -517px;
+}
+
+.cke_skin_default .cke_dialog_b
+{
+	background-position: 0px -330px;
+	background-repeat: repeat-x;
+}
+
+.cke_skin_default .cke_dialog_br
+{
+	background-position: -16px -263px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_br
+{
+	background-position: -16px -584px;
+}
+
+.cke_skin_default .cke_dialog_title
+{
+	position: absolute;
+	top: 2px;
+	left: 16px;
+	height: 23px;
+	right: 16px;
+	font-weight: bold;
+	font-size: 14pt;
+	color: #737357;
+	background-color: #e3e3c7;
+	padding: 3px 10px 3px 10px;
+	overflow: hidden;
+	cursor: move;
+}
+
+.cke_skin_default .single_page .cke_dialog_tabs
+{
+	display: none;
+}
+
+.cke_skin_default .cke_dialog_tabs
+{
+	position: absolute;
+	top: 31px;
+	left: 16px;
+	height: 23px;
+	right: 16px;
+	background-color: #e3e3c7;
+	z-index: 1;
+	border-collapse: separate;
+}
+
+.cke_skin_default.cke_browser_ie .cke_dialog_tabs
+{
+	border-collapse: collapse;
+}
+
+.cke_skin_default .cke_dialog_tabs .head_filler
+{
+	padding-left: 10px;
+	border-bottom: 1px solid #D5D59D;
+	line-height: 50%;
+}
+
+.cke_skin_default .cke_dialog_tabs .tail_filler
+{
+	width: 100%;
+	border-bottom: 1px solid #D5D59D;
+	line-height: 50%;
+}
+
+.cke_skin_default .cke_dialog_contents
+{
+	position: absolute;
+	background-color: #f1f1e3;
+	top: 54px;
+	left: 16px;
+	bottom: 51px;
+	right: 16px;
+	border: #d5d59d 1px solid;
+	border-top: none;
+}
+
+.cke_skin_default .single_page .cke_dialog_contents
+{
+	top: 31px;
+	border-top: #d5d59d 1px solid;
+}
+
+.cke_skin_default .cke_dialog_footer
+{
+	position: absolute;
+	background-color: #e3e3c7;
+	height: 31px;
+	left: 16px;
+	right: 16px;
+	bottom: 20px;
+}
+
+.cke_skin_default .cke_dialog_page_contents
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	padding: 5px 10px;
+}
+
+.cke_skin_default .cke_dialog_tab_center
+{
+	cursor: pointer;
+}
+
+.cke_skin_default .cke_dialog_tab
+{
+	border-bottom: 1px solid #D5D59D;
+}
+
+.cke_skin_default .cke_dialog_tab_left,
+.cke_skin_default .cke_dialog_tab_right
+{
+	cursor: pointer;
+}
+
+.cke_skin_default .cke_dialog_tab_center
+{
+	color: #737357;
+	border-left: 1px solid #d5d59d;
+	border-right: 1px solid #d5d59d;
+	border-top: 1px solid #d5d59d;
+	height: 15px;
+	padding: 4px 5px;
+}
+
+.cke_skin_default.cke_browser_webkit.cke_mode_quirks .cke_dialog_tab_center
+{
+	padding: 4px 5px 5px 5px;
+}
+
+.cke_skin_default.cke_browser_webkit.cke_mode_standards .cke_dialog_tab_center
+{
+	padding: 4px 5px 2px 5px;
+}
+
+
+.cke_skin_default .cke_dialog_tab_selected
+{
+	border-bottom: 1px solid #F1F1E3;
+}
+
+.cke_skin_default .cke_dialog_tab_selected .cke_dialog_tab_left,
+.cke_skin_default .cke_dialog_tab_selected .cke_dialog_tab_center,
+.cke_skin_default .cke_dialog_tab_selected .cke_dialog_tab_right
+{
+	cursor: default;
+}
+
+.cke_skin_default .cke_dialog_tab_selected .cke_dialog_tab_center
+{
+	background-color: #f1f1e3;
+	font-weight: bold;
+}
+
+.cke_skin_default .cke_dialog_ui_vbox table,
+.cke_skin_default .cke_dialog_ui_hbox table
+{
+	margin: auto;
+}
+
+.cke_skin_default .cke_dialog_ui_vbox_child
+{
+	padding: 5px 0px;
+}
+
+.cke_skin_default input.cke_dialog_ui_input_text,
+.cke_skin_default input.cke_dialog_ui_input_password
+{
+	background-color: white;
+	border: none;
+	padding: 0px;
+	width: 100%;
+	height: 14px;
+}
+
+.cke_skin_default div.cke_dialog_ui_input_text,
+.cke_skin_default div.cke_dialog_ui_input_password
+{
+	background-color: white;
+	border: 1px solid #a0a0a0;
+	padding: 1px 0px;
+}
+
+.cke_skin_default textarea.cke_dialog_ui_input_textarea
+{
+	background-color: white;
+	border: none;
+	padding: 0px;
+	width: 100%;
+	/*
+	 * IE6 BUG: Scrollbars in textareas can overflow even if the outer DIV is set to overflow:hidden.
+	 * So leave 1% width for the scrollbar. In most situations the 1% isn't noticeable by users.
+	 */
+	_width: 99%;
+	overflow: auto;
+}
+
+.cke_skin_default div.cke_dialog_ui_input_textarea
+{
+	background-color: white;
+	border: 1px solid #a0a0a0;
+	padding: 1px 0px;
+}
+
+.cke_skin_default .cke_dialog_ui_hbox
+{
+	width: 100%;
+}
+
+.cke_skin_default.cke_browser_ie .cke_dialog_ui_hbox,
+.cke_skin_default.cke_browser_ie .cke_dialog_ui_vbox,
+.cke_skin_default.cke_browser_webkit .cke_dialog_ui_hbox,
+.cke_skin_default.cke_browser_webkit .cke_dialog_ui_vbox
+{
+	table-layout: fixed;
+}
+
+.cke_skin_default.cke_browser_ie .cke_dialog_footer_buttons
+{
+	table-layout: auto;
+}
+
+.cke_skin_default.cke_ltr .cke_dialog_ui_hbox_first,
+.cke_skin_default.cke_ltr .cke_dialog_ui_hbox_child
+{
+	padding-right: 10px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_ui_hbox_first,
+.cke_skin_default.cke_rtl .cke_dialog_ui_hbox_child
+{
+	padding-left: 10px;
+}
+
+.cke_skin_default .cke_dialog_ui_button
+{
+	border: #737357 1px solid;
+}
+
+.cke_skin_default .cke_dialog_ui_button.disabled
+{
+	border: #898980 1px solid;
+}
+
+.cke_skin_default .cke_dialog_ui_button_txt
+{
+	padding: 2px 10px;
+	text-align: center;
+	color: #3b3b1f;
+	background-color: #c7c78f;
+}
+
+.cke_skin_default .cke_dialog_ui_button.disabled .cke_dialog_ui_button_txt
+{
+	color: #5e5e55;
+	background-color: #c5c5b3;
+}
+
+.cke_skin_default .cke_dialog_ui_button.active .cke_dialog_ui_button_txt
+{
+	background-color: #e3e3c7;
+}
+
+.cke_skin_default strong
+{
+	font-weight: bold;
+}
+
+.cke_skin_default .cke_dialog_footer_buttons
+{
+	width: auto;
+	position: absolute;
+	right: 10px;
+	top: 7px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_footer_buttons
+{
+	right: auto;
+	left: 10px;
+}
+
+.cke_skin_default .cke_dialog_close_button
+{
+	background-image: url(images/sprites.png);
+	/* IE6 does not support full color transparent PNG. */
+	_background-image: url(images/sprites.gif);
+	background-repeat: no-repeat;
+	background-position: -16px -651px;
+	position: absolute;
+	cursor: pointer;
+	height: 20px;
+	width: 20px;
+	right: 10px;
+	top: 5px;
+}
+
+.cke_skin_default .cke_dialog_close_button:hover
+{
+	background-position: -16px -687px;
+}
+
+.cke_skin_default.cke_rtl .cke_dialog_close_button
+{
+	left: 10px;
+	right: auto;
+}
+
+.cke_skin_default .cke_dialog_tl_resize,
+.cke_skin_default .cke_dialog_t_resize,
+.cke_skin_default .cke_dialog_tr_resize,
+.cke_skin_default .cke_dialog_bl_resize,
+.cke_skin_default .cke_dialog_b_resize,
+.cke_skin_default .cke_dialog_br_resize
+{
+	position: absolute;
+	height: 5px;
+	overflow: hidden;
+	background-color: transparent;
+}
+
+.cke_skin_default .cke_dialog_l_resize,
+.cke_skin_default .cke_dialog_r_resize
+{
+	position: absolute;
+	width: 5px;
+	overflow: hidden;
+	background-color: transparent;
+}
+
+.cke_skin_default .cke_dialog_tl_resize
+{
+	width: 5px;
+	left: 11px;
+	top: -3px;
+	cursor: nw-resize;
+}
+
+.cke_skin_default .cke_dialog_t_resize
+{
+	left: 16px;
+	top: -3px;
+	cursor: n-resize;
+}
+
+.cke_skin_default .cke_dialog_tr_resize
+{
+	width: 5px;
+	right: 14px;
+	top: -3px;
+	cursor: ne-resize;
+}
+
+.cke_skin_default .cke_dialog_l_resize
+{
+	top: 2px;
+	left: 11px;
+	cursor: w-resize;
+}
+
+.cke_skin_default .cke_dialog_r_resize
+{
+	top: 2px;
+	right: 14px;
+	cursor: e-resize;
+}
+
+.cke_skin_default .cke_dialog_bl_resize
+{
+	bottom: 18px;
+	left: 11px;
+	width: 5px;
+	cursor: sw-resize;
+}
+
+.cke_skin_default .cke_dialog_b_resize
+{
+	bottom: 18px;
+	left: 16px;
+	cursor: s-resize;
+}
+
+.cke_skin_default .cke_dialog_br_resize
+{
+	bottom: 18px;
+	right: 14px;
+	width: 8px;
+	height: 8px;
+	cursor: se-resize;
+}
+
+.cke_skin_default .cke_dialog_ui_input_select
+{
+	border: 1px solid #a0a0a0;
+	background-color: white;
+}
+
+.cke_skin_default iframe.cke_dialog_ui_input_file
+{
+	width: 100%;
+	height: 25px;
+}
+
+.cke_skin_default.cke_browser_ie div.cke_dialog_ui_input_file
+{
+	height: 25px;
+}
+
+/*
+ * Safari and Gecko on Mac actually distinguish between single-sided and
+ * double-sided resize cursors. The double-sided resize cursors should be used.
+ */
+.cke_skin_default.cke_browser_gecko .cke_dialog_tl_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_tl_resize,
+.cke_skin_default.cke_browser_gecko .cke_dialog_br_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_br_resize
+{
+	cursor: nwse-resize;
+}
+
+.cke_skin_default.cke_browser_gecko .cke_dialog_tr_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_tr_resize,
+.cke_skin_default.cke_browser_gecko .cke_dialog_bl_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_bl_resize
+{
+	cursor: nesw-resize;
+}
+
+.cke_skin_default.cke_browser_gecko .cke_dialog_l_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_l_resize,
+.cke_skin_default.cke_browser_gecko .cke_dialog_r_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_r_resize
+{
+	cursor: ew-resize;
+}
+
+.cke_skin_default.cke_browser_gecko .cke_dialog_t_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_t_resize,
+.cke_skin_default.cke_browser_gecko .cke_dialog_b_resize,
+.cke_skin_default.cke_browser_webkit .cke_dialog_b_resize
+{
+	cursor: ns-resize;
+}
+
+/*
+ * Some utility CSS classes for dialog authors.
+ */
+.cke_skin_default .cke_dialog .dark_background
+{
+	background-color: #eaead1;
+}
+
+.cke_skin_default .cke_dialog .hand
+{
+	cursor: pointer;
+}
+
+.cke_skin_default .cke_dialog .centered
+{
+	text-align: center;
+}
+
+.cke_skin_default .cke_dialog .BtnReset
+{
+	float: right;
+	background-position: center center;
+	background-image: url(images/reset.gif);
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	border: 1px none;
+	font-size: 1px;
+}
+
+.cke_skin_default .cke_dialog .BtnLocked, .BtnUnlocked
+{
+	float: left;
+	background-position: center center;
+	background-image: url(images/locked.gif);
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	border: none 1px;
+	font-size: 1px;
+}
+
+.cke_skin_default .cke_dialog .BtnUnlocked
+{
+	background-image: url(images/unlocked.gif);
+}
+
+.cke_skin_default .cke_dialog .BtnOver
+{
+	border: outset 1px;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.cke_skin_default .cke_dialog  #ImagePreviewBox
+{
+	white-space : normal;
+	border : 2px ridge black;
+	overflow : scroll;
+	height : 160px;
+	width : 230px;
+	padding : 2px;
+	background-color : white;
+}
+.cke_skin_default .cke_dialog  #ImagePreviewLoader
+{
+	position: absolute;
+	white-space : normal;
+	overflow : hidden;
+	height : 160px;
+	width : 230px;
+	margin : 2px;
+	padding : 2px;
+	opacity : 0.9;
+	filter : alpha(opacity=90);
+
+	background-color : #e4e4e4;
+}
+
+.cke_skin_default .cke_dialog  #FlashPreviewBox
+{
+	white-space : normal;
+	border : 2px ridge black;
+	overflow : scroll;
+	height : 160px;
+	width : 390px;
+	padding : 2px;
+	background-color : white;
+}
+
+.cke_skin_default .cke_dialog .loading
+{
+	height : 160px;
+	width : 230px;
+	background-image: url(images/dialog.loading.gif);
+	background-repeat: no-repeat;
+	background-position: 47% 47%;
+}
+
+.cke_skin_default .cke_dialog .DarkBackground
+{
+	text-align : center;
+	background-color: #eaead1;
+	font-size : 14px;
+}
+
+.cke_skin_default .cke_dialog .LightBackground
+{
+	text-align : center;
+	background-color: #ffffbe;
+}
+
+.cke_skin_default .cke_dialog .Hand
+{
+	cursor: pointer;
+	cursor: hand;
+}
+
+.cke_skin_default .disabled
+{
+	color: #a0a0a0;
+}

@@ -1,0 +1,49 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+fieldset
+{
+	margin: 0;
+	padding: 10px;
+}
+
+form
+{
+	margin: 0;
+	padding: 0;
+}
+
+pre
+{
+	background-color: #F7F7F7;
+	border: 1px solid #D7D7D7;
+	overflow: auto;
+	margin: 0;
+	padding: 0.25em;
+}
+
+#alerts
+{
+	color: Red;
+}
+
+#footer hr
+{
+	margin: 10px 0 15px 0;
+	height: 1px;
+	border: solid 1px gray;
+	border-bottom: none;
+}
+
+#footer p
+{
+	margin: 0 10px 10px 10px;
+	float: left;
+}
+
+#footer #copy
+{
+	float: right;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ajax - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+	<script id="headscript" type="text/javascript">
+	//<![CDATA[
+
+var editor;
+
+function createEditor()
+{
+	if ( editor )
+		return;
+
+	var html = document.getElementById( 'editorcontents' ).innerHTML;
+
+	// Create a new editor inside the <div id="editor">
+	editor = CKEDITOR.appendTo( 'editor' );
+	editor.setData( html );
+
+	// This sample may break here if the ckeditor_basic.js is used. In such case, the following code should be used instead:
+	/*
+	if ( editor.setData )
+		editor.setData( html );
+	else
+		CKEDITOR.on( 'loaded', function()
+			{
+				editor.setData( html );
+			});
+	*/
+}
+
+function removeEditor()
+{
+	if ( !editor )
+		return;
+
+	// Retrieve the editor contents. In an Ajax application, this data would be
+	// sent to the server or used in any other way.
+	document.getElementById( 'editorcontents' ).innerHTML = editor.getData();
+	document.getElementById( 'contents' ).style.display = '';
+
+	// Destroy the editor.
+	editor.destroy();
+	editor = null;
+}
+
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="html">
+		<p>
+			<input type="button" value="Create Editor" onclick="createEditor();" />
+			<input type="button" value="Remove Editor" onclick="removeEditor();" />
+		</p>
+		<div id="editor">
+		</div>
+		<div id="contents" style="display: none">
+			<p>Edited Contents:</p>
+			<div id="editorcontents"></div>
+		</div>
+	</div>
+	<div id="code">
+		<pre></pre>
+	</div>
+</body>
+</html>
