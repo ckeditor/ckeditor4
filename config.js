@@ -4,6 +4,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.editorConfig = function( config ) {
+	// This is a temporary setting we'll have while moving plugins from the
+	// prototype to trunk.
+	config.plugins = '';
+
 	// Define changes to default configuration here. For example:
 	// config.autoLanguage = false;
 	// config.defaultLanguage = 'pt-br';
