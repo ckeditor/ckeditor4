@@ -1,0 +1,65 @@
+fixLineEnds : true,
+
+ignore : 
+[
+	'_dev',
+	'_docs/api',
+	'_samples',
+	'_source/adapters',
+	'ckeditor.js',
+	'ckeditor_basic.js',
+	'.svn',
+	'.settings',
+	'.project'
+],
+
+copy :
+[
+	{
+		source : '_source/lang',
+		target : 'lang',
+		minify : true
+	},
+
+	{
+		source : '_source/plugins',
+		target : 'plugins',
+		minify : true
+	},
+
+	{
+		source : '_source/tests',
+		target : 'tests',
+		minify : false
+	},
+
+	{
+		source : '_source/themes',
+		target : 'themes',
+		minify : true
+	}
+],
+
+packages :
+[
+	'../../../ckeditor.pack'
+],
+
+documentation :
+{
+	config: '_dev/docs_build/docs_build.conf',
+	target: '_docs/api'
+},
+
+samples :
+{
+	source : '_samples',
+	target : '_samples',
+	template : '_samples/sample.html',
+},
+
+skins :
+{
+	source : '_source/skins',
+	target : 'skins'
+}
