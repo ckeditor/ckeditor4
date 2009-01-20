@@ -64,7 +64,7 @@ CKEDITOR.remove = function( editor ) {
 };
 
 // Load the bootstrap script.
-CKEDITOR.loader.load( 'core/_bootstrap' ); // %REMOVE_LINE%
+CKEDITOR.loader.load( 'core/_bootstrap' ); // @Packager.RemoveLine
 
 // Tri-state constants.
 /**

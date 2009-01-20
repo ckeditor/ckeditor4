@@ -1,0 +1,109 @@
+﻿/*
+ * CKPackager - Sample Package file
+ */
+
+header :
+	'/*'																			+ '\n' +
+	'Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.'	+ '\n' +
+	'For licensing, see LICENSE.html or http://ckeditor.com/license'				+ '\n' +
+	'*/'																			+ '\n' +
+	'\n',
+
+noCheck : false,
+
+constants :
+	{
+		'CKEDITOR.ELEMENT_MODE_NONE' : 0,
+		'CKEDITOR.ELEMENT_MODE_REPLACE' : 1,
+		'CKEDITOR.ELEMENT_MODE_APPENDTO' : 2,
+		'CKEDITOR.CTRL' : 1000,
+		'CKEDITOR.SHIFT' : 2000,
+		'CKEDITOR.ALT' : 4000,
+		'CKEDITOR.NODE_ELEMENT' : 1,
+		'CKEDITOR.NODE_TEXT' : 3,
+		'CKEDITOR.NODE_COMMENT' : 8,
+		'CKEDITOR.NODE_DOCUMENT_FRAGMENT' : 11,
+		'CKEDITOR.POSITION_IDENTICAL' : 0,
+		'CKEDITOR.POSITION_DISCONNECTED' : 1,
+		'CKEDITOR.POSITION_FOLLOWING' : 2,
+		'CKEDITOR.POSITION_PRECEDING' : 4,
+		'CKEDITOR.POSITION_IS_CONTAINED' : 8,
+		'CKEDITOR.POSITION_CONTAINS' : 16,
+		'CKEDITOR.TRISTATE_ON' : 1,
+		'CKEDITOR.TRISTATE_OFF' : 2,
+		'CKEDITOR.TRISTATE_DISABLED' : 0,
+		'CKEDITOR.POSITION_AFTER_START' : 1,
+		'CKEDITOR.POSITION_BEFORE_END' : 2,
+		'CKEDITOR.POSITION_BEFORE_START' : 3,
+		'CKEDITOR.POSITION_AFTER_END' : 4,
+		'CKEDITOR.ENLARGE_ELEMENT' : 1,
+		'CKEDITOR.ENLARGE_BLOCK_CONTENTS' : 2,
+		'CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS' : 3
+	},
+
+packages :
+	[
+		{
+			output : 'ckeditor_basic.js',
+			wrap : true,
+			files :
+				[
+					'_source/core/ckeditor_base.js',
+					'_source/core/event.js',
+					'_source/core/editor_basic.js',
+					'_source/core/env.js',
+					'_source/core/ckeditor_basic.js'
+				]
+		},
+
+		{
+			output : 'ckeditor.js',
+			wrap : true,
+			files :
+				[
+					'_source/core/ckeditor_base.js',
+					'_source/core/event.js',
+					'_source/core/editor_basic.js',
+					'_source/core/env.js',
+					'_source/core/ckeditor_basic.js',
+					'_source/core/dom.js',
+					'_source/core/tools.js',
+					'_source/core/dtd.js',
+					'_source/core/dom/event.js',
+					'_source/core/dom/domobject.js',
+					'_source/core/dom/node.js',
+					'_source/core/dom/nodelist.js',
+					'_source/core/dom/element.js',
+					'_source/core/dom/window.js',
+					'_source/core/dom/document.js',
+					'_source/core/command.js',
+					'_source/core/config.js',
+					'_source/core/focusmanager.js',
+					'_source/core/lang.js',
+					'_source/core/scriptloader.js',
+					'_source/core/resourcemanager.js',
+					'_source/core/plugins.js',
+					'_source/core/imagecacher.js',
+					'_source/core/skins.js',
+					'_source/core/themes.js',
+					'_source/core/ui.js',
+					'_source/core/editor.js',
+					'_source/core/htmlparser.js',
+					'_source/core/htmlparser/comment.js',
+					'_source/core/htmlparser/text.js',
+					'_source/core/htmlparser/fragment.js',
+					'_source/core/htmlparser/element.js',
+					'_source/core/ckeditor.js',
+					'_source/core/dom/elementpath.js',
+					'_source/core/dom/text.js',
+					'_source/core/dom/documentFragment.js',
+					'_source/core/dom/domwalker.js',
+					'_source/core/dom/range.js',
+					'_source/core/_bootstrap.js',
+//					'_source/lang/en.js',
+					'_source/skins/default/skin.js',
+					'_source/themes/default/theme.js'
+				]
+		}
+
+	]
