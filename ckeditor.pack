@@ -38,7 +38,14 @@ constants :
 		'CKEDITOR.POSITION_AFTER_END' : 4,
 		'CKEDITOR.ENLARGE_ELEMENT' : 1,
 		'CKEDITOR.ENLARGE_BLOCK_CONTENTS' : 2,
-		'CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS' : 3
+		'CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS' : 3,
+		'CKEDITOR.UI_BUTTON' : 1,
+		'CKEDITOR.STYLE_BLOCK' : 1,
+		'CKEDITOR.STYLE_INLINE' : 2,
+		'CKEDITOR.STYLE_OBJECT' : 3,
+		'CKEDITOR.SELECTION_NONE' : 1,
+		'CKEDITOR.SELECTION_TEXT' : 2,
+		'CKEDITOR.SELECTION_ELEMENT' : 3
 	},
 
 packages :
@@ -101,6 +108,20 @@ packages :
 					'_source/core/dom/range.js',
 					'_source/core/_bootstrap.js',
 //					'_source/lang/en.js',
+					'_source/plugins/basicstyles/plugin.js',
+					'_source/plugins/button/plugin.js',
+					'_source/plugins/editingblock/plugin.js',
+					'_source/plugins/elementspath/plugin.js',
+					'_source/plugins/htmldataprocessor/plugin.js',
+					'_source/plugins/keystrokes/plugin.js',
+					'_source/plugins/removeformat/plugin.js',
+					'_source/plugins/sourcearea/plugin.js',
+					'_source/plugins/tab/plugin.js',
+					'_source/plugins/toolbar/plugin.js',
+					'_source/plugins/wysiwygarea/plugin.js',
+					'_source/plugins/styles/plugin.js',
+					'_source/plugins/selection/plugin.js',
+					'_source/plugins/htmlwriter/plugin.js',
 					'_source/skins/default/skin.js',
 					'_source/themes/default/theme.js'
 				]
