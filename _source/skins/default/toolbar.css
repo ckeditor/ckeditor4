@@ -69,18 +69,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 /* IE6 BUG: Hover removes the padding and border, for some unknown reason. */
-.cke_skin_default.cke_browser_ie a.cke_button.cke_disabled:hover
+.cke_skin_default.cke_browser_ie a:hover.cke_button.cke_disabled
 {
 	padding: 2px 4px;
 	border: solid 1px #efefde;
 }
 
-.cke_skin_default a.cke_button.cke_off:hover,
-.cke_skin_default a.cke_button.cke_off:focus,
-.cke_skin_default a.cke_button.cke_off:active,	/* IE */
-.cke_skin_default a.cke_button.cke_on:hover,
-.cke_skin_default a.cke_button.cke_on:focus,
-.cke_skin_default a.cke_button.cke_on:active	/* IE */
+.cke_skin_default a:hover.cke_button.cke_on,
+.cke_skin_default a:focus.cke_button.cke_on,
+.cke_skin_default a:active.cke_button.cke_on,	/* IE */
+.cke_skin_default a:hover.cke_button.cke_off,
+.cke_skin_default a:focus.cke_button.cke_off,
+.cke_skin_default a:active.cke_button.cke_off	/* IE */
 {
 	border: solid 1px #316ac5;
 	background-color: #dff1ff;
@@ -99,8 +99,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-radius: 3px;
 }
 
-.cke_skin_default.cke_rtl a.cke_button.cke_off:hover,
-.cke_skin_default.cke_rtl a.cke_button.cke_on:hover,
+.cke_skin_default.cke_rtl a:hover.cke_button.cke_on,
+.cke_skin_default.cke_rtl a:hover.cke_button.cke_off
 {
 	float: right;
 }
