@@ -79,60 +79,71 @@ CKEDITOR.themes.add( 'default', ( function() {
 		},
 
 		buildDialog: function( editor ) {
-			var container = CKEDITOR.dom.element.createFromHtml( [
+			var baseIdNumber = CKEDITOR.tools.getNextNumber();
+
+			var element = CKEDITOR.dom.element.createFromHtml( [
 				'<div class="cke_skin_', editor.config.skin, ' ', browserCssClass, ' ',
 					CKEDITOR.document.$.compatMode == 'CSS1Compat' ? 'cke_mode_standards' : 'cke_mode_quirks',
-					' ', 'cke_', editor.lang.dir,
-					'" ', 'dir="', editor.lang.dir, '"><div id="%#" class="cke_dialog" style="position:',
-					( CKEDITOR.env.ie6Compat ? 'absolute;' : 'fixed;' ),
-					'">',
-					'<div>',
-						'<div id="%tl_#" class="%tl">',
-							'<div id="%tl_resize_#" class="%tl_resize"></div>',
-						'</div>',
-						'<div id="%t_#" class="%t">',
-							'<div id="%t_resize_#" class="%t_resize"></div>',
-						'</div>',
-						'<div id="%tr_#" class="%tr">',
-							'<div id="%tr_resize_#" class="%tr_resize"></div>',
-						'</div>',
-					'</div>',
-					'<div>',
-						'<div id="%l_#" class="%l">',
-							'<div id="%l_resize_#" class="%l_resize"></div>',
-						'</div>',
-						'<div id="%c_#" class="%c">',
-							'<div id="%title_#" class="%title">',
-								'<div id="%close_button_#" class="%close_button"></div>',
-							'</div>',
-							'<table id="%tabs_#" class="%tabs" cellpadding="0" border="0" cellspacing="0"><tbody><tr>',
-							'<td class="head_filler">&nbsp;</td>',
-							'<td class="tail_filler">&nbsp;</td>',
-							'</tr></tbody></table>',
-							'<div id="%contents_#" class="%contents"></div>',
-							'<div id="%footer_#" class="%footer"></div>',
-						'</div>',
-						'<div id="%r_#" class="%r">',
-							'<div id="%r_resize_#" class="%r_resize"></div>',
-						'</div>',
-					'</div>',
-					'<div>',
-						'<div id="%bl_#" class="%bl">',
-							'<div id="%bl_resize_#" class="%bl_resize"></div>',
-						'</div>',
-						'<div id="%b_#" class="%b">',
-							'<div id="%b_resize_#" class="%b_resize"></div>',
-						'</div>',
-						'<div id="%br_#" class="%br">',
-							'<div id="%br_resize_#" class="%br_resize"></div>',
-						'</div>',
-					'</div>',
-				'</div></div>'
-				].join( '' ).replace( /#/g, CKEDITOR.tools.getNextNumber() ).replace( /%/g, 'cke_dialog_' ) );
+					' cke_', editor.lang.dir,
+					'" dir="', editor.lang.dir, '">' +
+					'<div id="%#" class="cke_dialog" style="position:',
+						( CKEDITOR.env.ie6Compat ? 'absolute;' : 'fixed;' ), '">',
+						'<div>' +
+							'<div id="%tl_#" class="%tl">' +
+								'<div id="%tl_resize_#" class="%tl_resize"></div>' +
+							'</div>' +
+							'<div id="%t_#" class="%t">' +
+								'<div id="%t_resize_#" class="%t_resize"></div>' +
+							'</div>' +
+							'<div id="%tr_#" class="%tr">' +
+								'<div id="%tr_resize_#" class="%tr_resize"></div>' +
+							'</div>' +
+						'</div>' +
+						'<div>' +
+							'<div id="%l_#" class="%l">' +
+								'<div id="%l_resize_#" class="%l_resize"></div>' +
+							'</div>' +
+							'<div id="%c_#" class="%c">' +
+								'<div id="%title_#" class="%title">' +
+									'<div id="%close_button_#" class="%close_button"></div>' +
+								'</div>' +
+								'<table id="%tabs_#" class="%tabs" cellpadding="0" border="0" cellspacing="0"><tbody><tr>' +
+								'<td class="head_filler">&nbsp;</td>' +
+								'<td class="tail_filler">&nbsp;</td>' +
+								'</tr></tbody></table>' +
+								'<div id="%contents_#" class="%contents"></div>' +
+								'<div id="%footer_#" class="%footer"></div>' +
+							'</div>' +
+							'<div id="%r_#" class="%r">' +
+								'<div id="%r_resize_#" class="%r_resize"></div>' +
+							'</div>' +
+						'</div>' +
+						'<div>' +
+							'<div id="%bl_#" class="%bl">' +
+								'<div id="%bl_resize_#" class="%bl_resize"></div>' +
+							'</div>' +
+							'<div id="%b_#" class="%b">' +
+								'<div id="%b_resize_#" class="%b_resize"></div>' +
+							'</div>' +
+							'<div id="%br_#" class="%br">' +
+								'<div id="%br_resize_#" class="%br_resize"></div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>'
+				].join( '' ).replace( /#/g, baseIdNumber ).replace( /%/g, 'cke_dialog_' ) );
 
-			container.getChild( [ 0, 1, 1, 0 ] ).unselectable();
+			// Make the Title unselectable.
+			element.getChild( [ 0, 1, 1, 0 ] ).unselectable();
 
-			return container;
+			return {
+				element: element,
+				titleId: 'cke_dialog_title_' + baseIdNumber,
+				contentsId: 'cke_dialog_contents_' + baseIdNumber,
+				footerId: 'cke_dialog_footer_' + baseIdNumber,
+				closeIds: [ 'cke_dialog_close_button_' + baseIdNumber ],
+				dragIds: [ 'cke_dialog_title_' + baseIdNumber, 'cke_dialog_tabs_' + baseIdNumber ]
+			};
 		},
 
 		destroy: function( editor ) {

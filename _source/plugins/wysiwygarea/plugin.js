@@ -63,7 +63,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var $doc = this.document.$;
 
 				if ( CKEDITOR.env.ie )
-					$doc.selection.createRange().pasteHtml( evt.data );
+					$doc.selection.createRange().pasteHTML( evt.data );
 				else
 					$doc.execCommand( 'inserthtml', false, evt.data );
 			}

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Replace Textarea by Code - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+	<style id="styles" type="text/css">
+
+.cke_button_myDialogCmd .cke_icon
+{
+	display : none !important;
+}
+
+.cke_button_myDialogCmd .cke_label
+{
+	display : inline !important;
+}
+
+	</style>
+	<script id="headscript" type="text/javascript">
+	//<![CDATA[
+
+// When opening a dialog, its "definition" is created for it, for
+// each editor instance. The "dialogDefinition" event is then
+// fired. We should use this event to make customizations to the
+// definition of existing dialogs.
+CKEDITOR.on( 'dialogDefinition', function( ev )
+	{
+		// Take the dialog name and its definition from the event
+		// data.
+		var dialogName = ev.data.name;
+		var dialogDefinition = ev.data.definition;
+
+		// Check if the definition is from the dialog we're
+		// interested on (the "Link" dialog).
+		if ( dialogName == 'link' )
+		{
+			// Get a reference to the "Link Info" tab.
+			var infoTab = dialogDefinition.getContents( 'info' );
+
+			// Add a text field to the "info" tab.
+			infoTab.add( {
+					type : 'text',
+					label : 'My Custom Field',
+					id : 'customField',
+					'default' : 'Sample!',
+					validate : function()
+					{
+						if ( /\d/.test( this.getValue() ) )
+							return 'My Custom Field must not contain digits';
+					}
+				});
+
+			// Remove the "Link Type" combo and the "Browser
+			// Server" button from the "info" tab.
+			infoTab.remove( 'protocol' );
+			infoTab.remove( 'browse' );
+
+			// Set the default value for the URL field.
+			var urlField = infoTab.get( 'url' );
+			urlField['default'] = 'www.example.com';
+
+			// Remove the "Target" tab from the "Link" dialog.
+			dialogDefinition.removeContents( 'target' );
+
+			// Add a new tab to the "Link" dialog.
+			dialogDefinition.addContents({
+				id : 'customTab',
+				label : 'My Tab',
+				accessKey : 'M',
+				elements : [
+					{
+						id : 'myField1',
+						type : 'text',
+						label : 'My Text Field'
+					},
+					{
+						id : 'myField2',
+						type : 'text',
+						label : 'Another Text Field'
+					}
+				]
+			});
+		}
+	});
+	
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="html">
+		<p>
+			This sample shows how to use the dialog API to customize dialogs whithout changing
+			the original editor code. The following customizations are being done::</p>
+		<ol>
+			<li><strong>Add dialog pages</strong> ("My Tab" in the Link dialog).</li>
+			<li><strong>Remove a dialog tab</strong> ("Target" tab from the Link dialog).</li>
+			<li><strong>Add dialog fields</strong> ("My Custom Field" into the Link dialog).</li>
+			<li><strong>Remove dialog fields</strong> ("Link Type" and "Browser Server" the Link dialog).</li>
+			<li><strong>Set default values for dialog fields</strong> (for the "URL" field in the
+				Link dialog). </li>
+			<li><strong>Create a custom dialog</strong> ("My Dialog" button).</li>
+		</ol>
+		<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<script type="text/javascript">
+		//<![CDATA[
+			// Replace the <textarea id="editor1"> with an CKEditor instance.
+			var editor = CKEDITOR.replace( 'editor1',
+				{
+					// Defines a simpler toolbar to be used in this sample.
+					// Note that we have added out "MyButton" button here.
+					toolbar : [ [ 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike','-','Link', '-', 'MyButton' ] ]
+				});
+
+			// Listen for the "pluginsLoaded" event, so we are sure that the
+			// "dialog" plugin has been loaded and we are able to do our
+			// customizations.
+			editor.on( 'pluginsLoaded', function( ev )
+				{
+					// If our custom dialog has not been registered, do that now.
+					if ( !CKEDITOR.dialog.exists( 'myDialog' ) )
+					{
+						// We need to do the following trick to find out the dialog
+						// definition file URL path. In the real world, you would simply
+						// point to an absolute path directly, like "/mydir/mydialog.js".
+						var href = document.location.href.split( '/' );
+						href.pop();
+						href.push( 'api_dialog', 'my_dialog.js' );
+						href = href.join( '/' );
+
+						// Finally, register the dialog.
+						CKEDITOR.dialog.add( 'myDialog', href );
+					}
+				
+					// Register the command used to open the dialog.
+					editor.addCommand( 'myDialogCmd', new CKEDITOR.dialogCommand( 'myDialog' ) );
+
+					// Add the a custom toolbar buttons, which fires the above
+					// command..
+					editor.ui.addButton( 'MyButton',
+						{
+							label : 'My Dialog',
+							command : 'myDialogCmd'
+						} );
+				});
+		//]]>
+		</script>
+	</div>
+</body>
+</html>

@@ -169,6 +169,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					// Load the editor skin.
+					editor.fire( 'pluginsLoaded' );
 					loadSkin( editor );
 				});
 			});
@@ -348,7 +349,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 
 		var eventData = this._.data;
 
-		if ( !eventData ) {
+		if ( typeof eventData != 'string' ) {
 			var element = this.element;
 			if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
 				eventData = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
