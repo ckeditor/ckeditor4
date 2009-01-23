@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -62,7 +62,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		// Fire the "dialogDefinition" event, making it possible to customize
 		// the dialog definition.
-		definition = CKEDITOR.fire( 'dialogDefinition', {
+		this.definition = definition = CKEDITOR.fire( 'dialogDefinition', {
 			name: dialogName,
 			definition: definition
 		}, editor ).definition;
@@ -74,7 +74,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			editor: editor,
 			element: themeBuilt.element,
 			name: dialogName,
-			definition: definition,
 			size: { width: 0, height: 0 },
 			contents: {},
 			buttons: {},
@@ -378,7 +377,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		show: function() {
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
-			var definition = this._.definition;
+			var definition = this.definition;
 			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) )
 				element.appendTo( CKEDITOR.document.getBody() );
 			else
@@ -392,7 +391,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this.move( ( viewSize.width - this._.size.width ) / 2, ( viewSize.height - this._.size.height ) / 2 );
 
 			// Select the first tab by default.
-			this.selectPage( this._.definition.contents[ 0 ].id );
+			this.selectPage( this.definition.contents[ 0 ].id );
 
 			// Reset all inputs back to their default value.
 			this.reset();
@@ -1221,7 +1220,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	var initResizeHandles = function( dialog ) {
-			var definition = dialog._.definition,
+			var definition = dialog.definition,
 				minWidth = definition.minWidth || 0,
 				minHeight = definition.minHeight || 0,
 				resizable = definition.resizable,

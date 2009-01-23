@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -70,8 +70,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 	return {
 		title: editor.lang.smiley.title,
-		minWidth: config.windowWidth,
-		minHeight: config.windowHeight,
+		minWidth: 320,
+		minHeight: 210,
 		contents: [
 			{
 			id: 'tab1',
