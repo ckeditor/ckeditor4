@@ -187,7 +187,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var editorTheme = editor.theme = CKEDITOR.themes.get( theme );
 				editorTheme.path = CKEDITOR.themes.getPath( theme );
 				editorTheme.build( editor );
+
+				if ( editor.config.autoUpdateElement )
+					attachToForm( editor );
 			});
+		};
+
+	var attachToForm = function( editor ) {
+			var element = editor.element;
+
+			// If are replacing a textarea, we must
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
+				var form = new CKEDITOR.dom.element( element.$.form );
+				if ( form ) {
+					form.on( 'submit', function() {
+						editor.updateElement()
+					});
+
+					// If we have a submit function, override it also, because it doesn't fire the "submit" event.
+					if ( form.submit && form.submit.call ) {
+						CKEDITOR.tools.override( form.submit, function( originalSubmit ) {
+							return function() {
+								editor.updateElement();
+								originalSubmit.apply( this, arguments );
+							};
+						});
+					}
+				}
+			}
 		};
 
 	/**
@@ -214,7 +241,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * var editor = CKEDITOR.instances.editor1;
 		 * alert( <b>editor.element</b>.getName() );  "textarea"
 		 */
-		this.element = element && element;
+		this.element = element;
 
 		/**
 		 * The editor instance name. It hay be the replaced element id, name or

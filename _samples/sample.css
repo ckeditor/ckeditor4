@@ -47,3 +47,35 @@ pre
 {
 	float: right;
 }
+
+#outputSample
+{
+	width: 100%;
+	table-layout: fixed;
+}
+
+#outputSample thead th
+{
+	color: #dddddd;
+	background-color: #999999;
+	padding: 4px;
+	white-space: nowrap;
+}
+
+#outputSample tbody th
+{
+	vertical-align: top;
+	text-align: left;
+}
+
+#outputSample pre
+{
+	margin: 0;
+	padding: 0;
+	white-space: pre; /* CSS2 */
+	white-space: -moz-pre-wrap; /* Mozilla*/
+	white-space: -o-pre-wrap; /* Opera 7 */
+	white-space: pre-wrap; /* CSS 2.1 */
+	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+	word-wrap: break-word; /* IE */
+}
