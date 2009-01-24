@@ -53,6 +53,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					isHandlingData = false;
 				}
 			});
+
+			editor.on( 'getSnapshot', function( event ) {
+				if ( editor.mode )
+					event.data = getMode( editor ).getSnapshotData();
+			});
 		}
 	});
 
@@ -86,7 +91,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 */
 	CKEDITOR.editor.prototype.setMode = function( mode ) {
 		var data,
-			holderElement = this.getThemeSpace( 'contents' );
+			holderElement = this.getThemeSpace( 'contents' ),
+			isDirty = this.checkDirty();
 
 		// Unload the previous mode.
 		if ( this.mode ) {
@@ -106,10 +112,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !modeEditor )
 			throw '[CKEDITOR.editor.setMode] Unknown mode "' + mode + '".';
 
-		modeEditor.load( holderElement, data || this.getData() );
+		if ( !isDirty ) {
+			this.on( 'mode', function() {
+				this.resetDirty();
+				this.removeListener( 'mode', arguments.callee );
+			});
+		}
 
-		this.mode = mode;
-		this.fire( 'mode' );
+		modeEditor.load( holderElement, data || this.getData() );
 	};
 
 	/**

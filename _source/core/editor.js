@@ -365,6 +365,18 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		return eventData.dataValue;
 	},
 
+	getSnapshot: function() {
+		var data = this.fire( 'getSnapshot' );
+
+		if ( typeof data != 'string' ) {
+			var element = this.element;
+			if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+				data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
+		}
+
+		return data;
+	},
+
 	/**
 	 * Sets the editor data. The data must be provided in raw format.
 	 * @param {String} data HTML code to replace the curent content in the editor.
@@ -402,6 +414,15 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 */
 	insertElement: function( element ) {
 		this.fire( 'insertElement', element );
+	},
+
+	checkDirty: function() {
+		return ( this.mayBeDirty && this._.previousValue !== this.getSnapshot() );
+	},
+
+	resetDirty: function() {
+		if ( this.mayBeDirty )
+			this._.previousValue = this.getSnapshot();
 	},
 
 	/**

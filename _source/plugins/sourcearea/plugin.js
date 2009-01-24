@@ -55,8 +55,14 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					holderElement.setHtml( '' );
 					holderElement.append( textarea );
 
+					// The editor data "may be dirty" after this point.
+					editor.mayBeDirty = true;
+
 					// Set the <textarea> value.
 					this.loadData( data );
+
+					editor.mode = 'source';
+					editor.fire( 'mode' );
 				},
 
 				loadData: function( data ) {
