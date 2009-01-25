@@ -4,9 +4,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.dialog.add( 'smiley', function( editor ) {
-	var config = editor.config.smiley,
-		images = config.images,
-		columns = config.columns,
+	var config = editor.config,
+		images = config.smiley_images,
+		columns = config.smiley_columns,
 		i;
 
 	// Build the HTML for the smiley images table.
@@ -17,8 +17,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			html.push( '<tr>' );
 
 		html.push( '<td class="dark_background hand centered" style="vertical-align: middle;">' +
-			'<img border="0" class="hand" title="', config.descriptions[ i ], '"' +
-				' src="', CKEDITOR.tools.htmlEncode( config.path + images[ i ] ), '"',
+			'<img border="0" class="hand" title="', config.smiley_descriptions[ i ], '"' +
+				' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
 			'</td>' );

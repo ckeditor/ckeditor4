@@ -1159,7 +1159,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var lastCoords = null,
 				abstractDialogCoords = null,
 				element = dialog.getElement().getFirst(),
-				magnetDistance = dialog._.editor.config.dialog.magnetDistance,
+				magnetDistance = dialog._.editor.config.dialog_magnetDistance,
 				mouseMoveHandler = function( evt ) {
 					var dialogSize = dialog.getSize(),
 						viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
@@ -1347,7 +1347,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
 				'; z-index: ', editor.config.baseFloatZIndex,
 				'; top: 0px; left: 0px; ',
-				'background-color: ', editor.config.dialog.backgroundCoverColor,
+				'background-color: ', editor.config.dialog_backgroundCoverColor,
 				'" id="cke_dialog_background_cover">'
 				];
 
@@ -1398,7 +1398,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}, 0 );
 				scrollFunc();
 			}
-			element.setOpacity( editor.config.dialog.backgroundCoverOpacity );
+			element.setOpacity( editor.config.dialog_backgroundCoverOpacity );
 			element.appendTo( CKEDITOR.document.getBody() );
 		};
 
@@ -2205,31 +2205,32 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 });
 
 // Dialog related configurations.
-CKEDITOR.config.dialog = {
-	/**
-	 * The color of the dialog background cover. It should be a valid CSS color string.
-	 * @type String
-	 * @default white
-	 * @example
-	 * backgroundCoverColor = 'rgb(255, 254, 253)';
-	 */
-	backgroundCoverColor: 'white',
+/**
+ * The color of the dialog background cover. It should be a valid CSS color
+ * string.
+ * @type String
+ * @default white
+ * @example
+ * config.dialog_backgroundCoverColor = 'rgb(255, 254, 253)';
+ */
+CKEDITOR.config.dialog_backgroundCoverColor = 'white';
 
-	/**
-	 * The opacity of the dialog background cover. It should be a number within the range [0.0, 1.0].
-	 * @type Number
-	 * @default 0.5
-	 * @example
-	 * backgroundCoverOpacity = 0.7;
-	 */
-	backgroundCoverOpacity: 0.5,
+/**
+ * The opacity of the dialog background cover. It should be a number within the
+ * range [0.0, 1.0].
+ * @type Number
+ * @default 0.5
+ * @example
+ * config.dialog_backgroundCoverOpacity = 0.7;
+ */
+CKEDITOR.config.dialog_backgroundCoverOpacity = 0.5;
 
-	/**
-	 * The distance of magnetic borders used in moving and resizing dialogs, measured in pixels.
-	 * @type Number
-	 * @default 20
-	 * @example
-	 * magnetic = 30;
-	 */
-	magnetDistance: 20
-};
+/**
+ * The distance of magnetic borders used in moving and resizing dialogs,
+ * measured in pixels.
+ * @type Number
+ * @default 20
+ * @example
+ * config.dialog_magnetDistance = 30;
+ */
+CKEDITOR.config.dialog_magnetDistance = 20;
