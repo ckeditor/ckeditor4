@@ -54,6 +54,8 @@ CKEDITOR.themes.add( 'default', ( function() {
 						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:100%">', contentsHtml, '</td></tr>' +
 						'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
 					'</tbody></table>' +
+					//Hide the container when loading skins, later restored by skin css.
+								'<style>.cke_container{visibility:hidden;}</style>' +
 				'</span>' ].join( '' ) );
 
 			container.getChild( [ 0, 0, 0 ] ).unselectable();
@@ -129,7 +131,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 								'<div id="%br_resize_#" class="%br_resize"></div>' +
 							'</div>' +
 						'</div>' +
-					'</div>' +
+					'</div>',
+					//Hide the container when loading skins, later restored by skin css.
+			( CKEDITOR.env.ie ? '' : '<style>.cke_dialog{visibility:hidden;}</style>' ),
 				'</div>'
 				].join( '' ).replace( /#/g, baseIdNumber ).replace( /%/g, 'cke_dialog_' ) );
 

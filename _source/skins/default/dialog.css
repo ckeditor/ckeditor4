@@ -1,7 +1,13 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
+
+/* Restore the dialog visibility */
+body .cke_dialog
+{
+	visibility: visible;
+}
 
 .cke_skin_default .cke_dialog_tl,
 .cke_skin_default .cke_dialog_t,

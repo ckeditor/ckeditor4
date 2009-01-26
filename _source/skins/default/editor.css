@@ -7,3 +7,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 @import url("mainui.css");
 @import url("toolbar.css");
 @import url("elementspath.css");
+
+/* Restore the container visibility */
+body .cke_container
+{
+	visibility: visible;
+}
