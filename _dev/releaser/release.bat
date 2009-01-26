@@ -1,4 +1,4 @@
-:: Copyright (c) 2003-2008, Frederico Caldeira Knabben. All rights reserved.
+:: Copyright (c) 2003-2009, Frederico Caldeira Knabben. All rights reserved.
 :: For licensing, see LICENSE.html or http://ckeditor.com/license
 
 @ECHO OFF
