@@ -1,3 +1,10 @@
+header :
+	'/*'																			+ '\n' +
+	'Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.'	+ '\n' +
+	'For licensing, see LICENSE.html or http://ckeditor.com/license'				+ '\n' +
+	'*/'																			+ '\n' +
+	'\n',
+
 fixLineEnds : true,
 
 ignore : 
@@ -40,6 +47,14 @@ copy :
 	}
 ],
 
+rename :
+[
+	{
+		source : 'tests',
+		target : '_tests',
+	},
+],
+
 packages :
 [
 	'../../../ckeditor.pack'
@@ -61,5 +76,6 @@ samples :
 skins :
 {
 	source : '_source/skins',
-	target : 'skins'
+	target : 'skins',
+	minify : true
 }
