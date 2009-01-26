@@ -183,8 +183,12 @@ CKEDITOR.config.toolbarLocation = 'top';
  * ]</b>;
  */
 CKEDITOR.config.toolbar = [
-	[ 'Source', '-', 'NewPage', '-', 'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'Print', 'Find', 'Replace', '-',
-		'SelectAll', 'RemoveFormat', '-',
-		'Link', 'Unlink', 'Anchor', 'Image', 'Flash', 'Table', 'Smiley', 'HorizontalRule', 'SpecialChar', 'PageBreak', '-',
-		'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ]
+	[
+	'Source', '-',
+	'NewPage', '-',
+	'Bold', 'Italic', 'Underline', 'Strike', '-',
+	'Subscript', 'Superscript', '-',
+	'SelectAll', 'RemoveFormat', '-',
+	'Smiley', 'HorizontalRule', 'SpecialChar'
+	]
 	];

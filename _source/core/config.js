@@ -142,11 +142,10 @@ CKEDITOR.config = {
 	 * Comma separated list of plugins to load and initialize for an editor
 	 * instance.
 	 * @type String
-	 * @default 'editingblock,elementspath,sourcearea,toolbar,wysiwygarea'
 	 * @example
-	 * config.plugins = 'elementspath,toolbar,wysiwygarea';
+	 * config.plugins = 'basicstyles,button,htmldataprocessor,toolbar,wysiwygarea';
 	 */
-	plugins: 'basicstyles,button,dialog,elementspath,horizontalrule,htmldataprocessor,keystrokes,removeformat,smiley,link,sourcearea,tab,toolbar,wysiwygarea,forms,image,find,table,specialchar,flash,print,pagebreak,newpage',
+	plugins: 'basicstyles,button,elementspath,horizontalrule,htmldataprocessor,keystrokes,newpage,removeformat,smiley,sourcearea,specialchar,tab,toolbar,wysiwygarea',
 
 	/**
 	 * The theme to be used to build the UI.
