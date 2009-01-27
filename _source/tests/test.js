@@ -11,6 +11,9 @@ document.write( '<script type="text/javascript" src="' +
 	CKEDITOR.basePath +
 	'_source/' + // %REMOVE_LINE%
 	'tests/yuitest.js"></script>' );
+/* %REMOVE_LINE%
+	'_tests/yuitest.js"></script>' );
+%REMOVE_LINE%	*/
 
 document.write( '<script type="text/javascript" src="' +
 	CKEDITOR.basePath +
