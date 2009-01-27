@@ -13,8 +13,6 @@ ignore :
 	'_docs/api',
 	'_samples',
 	'_source/adapters',
-	'ckeditor.js',
-	'ckeditor_basic.js',
 	'.svn',
 	'.settings',
 	'.project'
