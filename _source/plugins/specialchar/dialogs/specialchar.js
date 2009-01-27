@@ -121,9 +121,11 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							var target = evt.data.getTarget();
 							var targetName = target.getName();
 							var editor = this.getDialog().getParentEditor();
+							var value;
+
 							if ( targetName == 'td' ) {
 								target = target.$;
-								if ( value = target.getAttribute( 'value' ) ) {
+								if ( ( value = target.getAttribute( 'value' ) ) ) {
 									this.getDialog().restoreSelection();
 									editor.insertHtml( value );
 									this.getDialog().hide();

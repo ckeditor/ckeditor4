@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	var html = [ '<table cellspacing="2" cellpadding="2"><tbody>' ];
 
 	for ( i = 0; i < images.length; i++ ) {
-		if ( i % columns == 0 )
+		if ( i % columns === 0 )
 			html.push( '<tr>' );
 
 		html.push( '<td class="dark_background hand centered" style="vertical-align: middle;">' +

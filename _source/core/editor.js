@@ -201,7 +201,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var form = new CKEDITOR.dom.element( element.$.form );
 				if ( form ) {
 					form.on( 'submit', function() {
-						editor.updateElement()
+						editor.updateElement();
 					});
 
 					// If we have a submit function, override it also, because it doesn't fire the "submit" event.

@@ -331,10 +331,11 @@ CKEDITOR.dom.selection = function( document ) {
 
 				var sel = this.getNative(),
 					nativeRange = sel.createRange(),
-					type = this.getType();
+					type = this.getType(),
+					range;
 
 				if ( type == CKEDITOR.SELECTION_TEXT ) {
-					var range = new CKEDITOR.dom.range( this.document );
+					range = new CKEDITOR.dom.range( this.document );
 
 					var boundaryInfo = getBoundaryInformation( nativeRange, true );
 					range.setStart( new CKEDITOR.dom.node( boundaryInfo.container ), boundaryInfo.offset );
@@ -349,10 +350,13 @@ CKEDITOR.dom.selection = function( document ) {
 					for ( var i = 0; i < nativeRange.length; i++ ) {
 						var element = nativeRange.item( i ),
 							parentElement = element.parentNode,
-							j = 0,
-							range = new CKEDITOR.dom.range( this.document );
-						for ( ; j < parentElement.childNodes.length && parentElement.childNodes[ j ] != element; j++ )
-							;
+							j = 0;
+
+						range = new CKEDITOR.dom.range( this.document );
+
+						for ( ; j < parentElement.childNodes.length && parentElement.childNodes[ j ] != element; j++ ) {
+	/*jsl:pass*/
+						}
 
 						range.setStart( new CKEDITOR.dom.node( parentElement ), j );
 						range.setEnd( new CKEDITOR.dom.node( parentElement ), j + 1 );
@@ -432,7 +436,7 @@ CKEDITOR.dom.selection = function( document ) {
 					}
 
 					if ( CKEDITOR.env.ie ) {
-						var range = sel.createRange();
+						range = sel.createRange();
 						range.collapse( true );
 
 						node = range.parentElement();

@@ -278,7 +278,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}, buttonsHtml ).getChild();
 		this.parts.footer.setHtml( buttonsHtml.join( '' ) );
 
-		for ( var i = 0; i < buttons.length; i++ )
+		for ( i = 0; i < buttons.length; i++ )
 			this._.buttons[ buttons[ i ].id ] = buttons[ i ];
 
 		// Insert dummy text box for grabbing focus away from the editing area.
@@ -356,7 +356,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					'left': x + 'px',
 					'top': y + 'px'
 				});
-			}
+			};
 		})(),
 
 		/**
@@ -403,7 +403,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Maintain the dialog ordering and dialog cover.
 			// Also register key handlers if first dialog.
-			if ( CKEDITOR.dialog._.currentTop == null ) {
+			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
 				addCover( this._.editor );
@@ -439,9 +439,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @returns {CKEDITOR.dialog} The current dialog object.
 		 */
 		foreach: function( fn ) {
-			for ( var i in this._.contents )
+			for ( var i in this._.contents ) {
 				for ( var j in this._.contents[ i ] )
-				fn( this._.contents[ i ][ j ] );
+					fn( this._.contents[ i ][ j ] );
+			}
 			return this;
 		},
 
@@ -528,16 +529,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			unregisterAccessKey( this );
 
 			// Maintain dialog ordering and remove cover if needed.
-			if ( this._.parentDialog == null )
+			if ( !this._.parentDialog )
 				removeCover();
 			else {
 				var parentElement = this._.parentDialog.getElement().getFirst();
-				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
+				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
 			}
 			CKEDITOR.dialog._.currentTop = this._.parentDialog;
 
 			// Deduct or clear the z-index.
-			if ( this._.parentDialog == null ) {
+			if ( !this._.parentDialog ) {
 				CKEDITOR.dialog._.currentZIndex = null;
 
 				// Remove access key handlers.
@@ -589,7 +590,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			tab.addClass( this._.pageCount > 0 ? 'last' : 'first' );
 
 			// If only a single page exist, a different style is used in the central pane.
-			if ( this._.pageCount == 0 )
+			if ( this._.pageCount === 0 )
 				this.parts.c.addClass( 'single_page' );
 			else
 				this.parts.c.removeClass( 'single_page' );
@@ -979,19 +980,19 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	// Tool function used to remove an item from an array based on its id.
-	removeById = function( array, id, recurse ) {
-		for ( var i = 0, item;
-		( item = array[ i ] ); i++ ) {
-			if ( item.id == id )
-				return array.splice( i, 1 );
-			if ( recurse && item[ recurse ] ) {
-				var retval = removeById( item[ recurse ], id, recurse );
-				if ( retval )
-					return retval;
+	var removeById = function( array, id, recurse ) {
+			for ( var i = 0, item;
+			( item = array[ i ] ); i++ ) {
+				if ( item.id == id )
+					return array.splice( i, 1 );
+				if ( recurse && item[ recurse ] ) {
+					var retval = removeById( item[ recurse ], id, recurse );
+					if ( retval )
+						return retval;
+				}
 			}
-		}
-		return null;
-	};
+			return null;
+		};
 
 	/**
 	 * This class is not really part of the API. It is the "definition" property value
@@ -1378,7 +1379,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					do {
 						var dialogPos = cursor.getPosition();
 						cursor.move( dialogPos.x, dialogPos.y );
-					} while ( cursor = cursor._.parentDialog );
+					} while ( ( cursor = cursor._.parentDialog ) );
 				};
 
 			resizeCover = resizeFunc;
@@ -1469,7 +1470,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					if ( list[ j ].dialog == obj || list[ j ].uiElement == obj )
 						list.splice( j, 1 );
 				}
-				if ( list.length == 0 )
+				if ( list.length === 0 )
 					delete accessKeyProcessors[ i ];
 			}
 		};
@@ -1485,7 +1486,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		var decimalRegex = /^\d+(?:\.\d+)?$/,
 			fixLength = function( length ) {
 				return length + ( decimalRegex.test( length ) ? 'px' : '' );
-			}
+			};
 
 		CKEDITOR.ui.dialog = {
 			/**
@@ -1835,8 +1836,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var element = this.getInputElement(),
 				cursor = element,
 				tabId;
-			while ( ( cursor = cursor.getParent() ) && cursor.$.className.search( 'cke_dialog_page_contents' ) == -1 )
-				;
+			while ( ( cursor = cursor.getParent() ) && cursor.$.className.search( 'cke_dialog_page_contents' ) == -1 ) {
+	/*jsl:pass*/
+			}
+
 			tabId = cursor.getAttribute( 'name' );
 
 			this._.dialog.selectPage( tabId );
@@ -2135,7 +2138,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						return false;
 					}
 					return true;
-				}
+				};
 			},
 
 			notEmpty: function( msg ) {
@@ -2201,6 +2204,8 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			me.openDialog( dialogName );
 			body.setStyle( 'cursor', cursor );
 		});
+
+		return null;
 	}
 });
 

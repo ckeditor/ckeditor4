@@ -232,10 +232,11 @@ CKEDITOR.dom.range = function( document ) {
 			var startNode = this.startContainer,
 				endNode = this.endContainer,
 				startOffset = this.startOffset,
-				endOffset = this.endOffset;
+				endOffset = this.endOffset,
+				childCount;
 
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT ) {
-				var childCount = startNode.getChildCount();
+				childCount = startNode.getChildCount();
 				if ( childCount > startOffset )
 					startNode = startNode.getChild( startOffset );
 				else if ( childCount < 1 )
@@ -255,7 +256,7 @@ CKEDITOR.dom.range = function( document ) {
 				}
 			}
 			if ( endNode.type == CKEDITOR.NODE_ELEMENT ) {
-				var childCount = endNode.getChildCount();
+				childCount = endNode.getChildCount();
 				if ( childCount > endOffset )
 					endNode = endNode.getChild( endOffset ).getPreviousSourceNode();
 				else if ( childCount < 1 )

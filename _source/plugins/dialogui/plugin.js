@@ -72,7 +72,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					delete def[ i ];
 			}
 			return def;
-		}
+		};
 
 	CKEDITOR.tools.extend( CKEDITOR.ui.dialog,
 	/** @lends CKEDITOR.ui.dialog */ {
@@ -244,7 +244,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 						html.push( i + '="' + CKEDITOR.tools.htmlEncode( attributes[ i ] ) + '" ' );
 					html.push( '>', CKEDITOR.tools.htmlEncode( me.getDefault() ), '</textarea></div>' );
 					return html.join( '' );
-				}
+				};
 			CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 		},
 
@@ -318,7 +318,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 				return;
 
 			initPrivateObject.call( this, elementDefinition );
-			if ( this.getDefault() == '' )
+			if ( !this.getDefault() )
 				this._[ 'default' ] = [ elementDefinition.items[ 0 ][ 1 ] ];
 			if ( elementDefinition.validate )
 				this.validate = elementDefinition.valdiate;
@@ -512,7 +512,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					cleanInnerDefinition( myDefinition );
 					for ( var i = 0, item; i < elementDefinition.items.length && ( item = elementDefinition.items[ i ] ); i++ ) {
 						innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
-					};
+					}
 
 					_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
 					return html.join( '' );
@@ -653,7 +653,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 				}
 
 				htmlList.push( [ theirMatch[ 1 ], ' ', myMatch[ 1 ] || '', theirMatch[ 2 ] ].join( '' ) );
-			}
+			};
 		})()
 	}, true );
 
@@ -926,13 +926,13 @@ CKEDITOR.plugins.add( 'dialogui' );
 						var element = this._.checkbox.getElement();
 						element.on( 'propertychange', function( evt ) {
 							evt = evt.data.$;
-							if ( evt.propertyName != 'checked' )
-								return;
-							this.fire( 'change', { value: element.$.checked } );
+							if ( evt.propertyName == 'checked' )
+								this.fire( 'change', { value: element.$.checked } );
 						}, this );
 					}, this );
 					this.on( 'change', func );
 				}
+				return null;
 			}
 		}
 	}, commonPrototype, true );
@@ -1003,14 +1003,14 @@ CKEDITOR.plugins.add( 'dialogui' );
 							var element = children[ i ].getElement();
 							element.on( 'propertychange', function( evt ) {
 								evt = evt.data.$;
-								if ( evt.propertyName != 'checked' || !this.$.checked )
-									return;
-								me.fire( 'change', { value: this.getAttribute( 'value' ) } );
+								if ( evt.propertyName == 'checked' && this.$.checked )
+									me.fire( 'change', { value: this.getAttribute( 'value' ) } );
 							});
 						}
 					}, this );
 					this.on( 'change', func );
 				}
+				return null;
 			}
 		}
 	}, commonPrototype, true );

@@ -71,8 +71,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var onInsertElement = function( evt ) {
 			if ( this.mode == 'wysiwyg' ) {
-				var element = evt.data;
-				isBlock = CKEDITOR.dtd.$block[ element.getName() ];
+				var element = evt.data,
+					isBlock = CKEDITOR.dtd.$block[ element.getName() ];
 
 				var selection = this.getSelection(),
 					ranges = selection.getRanges();
