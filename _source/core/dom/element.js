@@ -237,6 +237,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return this.$.innerHTML;
 	},
 
+	getOuterHtml: function() {
+		if ( this.$.outerHTML )
+			return this.$.outerHTML;
+
+		var tmpDiv = this.$.ownerDocument.createElement( 'div' );
+		tmpDiv.appendChild( this.$.cloneNode( true ) );
+		return tmpDiv.innerHTML;
+	},
+
 	/**
 	 * Sets the inner HTML of this element.
 	 * @param {String} html The HTML to be set for this element.
@@ -501,6 +510,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	getNext: function() {
 		var $ = this.$.nextSibling;
 		return $ ? new CKEDITOR.dom.node( $ ) : null;
+	},
+
+	getStyle: function( name ) {
+		return this.$.style[ CKEDITOR.tools.cssStyleToDomStyle( name ) ];
 	},
 
 	/**

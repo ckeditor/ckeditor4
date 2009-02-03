@@ -40,22 +40,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// #### protectEvents - END
 
 	// #### protectAttributes - START
+
+	// TODO: Clean and simplify these regexes.
 	var protectUrlTagRegex = /<(?:a|area|img)(?=\s).*?\s(?:href|src)=((?:(?:\s*)("|').*?\2)|(?:[^"'][^ >]+))/gi,
-		protectUrlAttributeRegex = /\s(href|src)(\s*=\s*?('|")[\s\S]*?\3)/gi,
-		protectedUrlTagRegex = /<(?:a|area|img)(?=\s)(?:"[^"]*"|'[^']*'|[^<])*>/gi,
-		protectedAttributeRegex = /_cke_saved_/gi,
-		protectUrls = function( html ) {
+		protectUrlAttributeRegex = /\s(href|src)(\s*=\s*?('|")[\s\S]*?\3)/gi;
+
+	var protectUrls = function( html ) {
 			return html.replace( protectUrlTagRegex, protectUrls_ReplaceTags );
-		},
-		protectUrls_ReplaceTags = function( tagMatch ) {
-			return tagMatch.replace( protectUrlAttributeRegex, '$& _cke_saved_$1$2' );
-		},
-		protectUrlsRestore = function( html ) {
-			return html.replace( protectedUrlTagRegex, protectUrlsRestore_ReplaceTags );
-		},
-		protectUrlsRestore_ReplaceTags = function( tagMatch ) {
-			return tagMatch.replace( protectUrlAttributeRegex, '' ).replace( protectedAttributeRegex, '' );
 		};
+
+	var protectUrls_ReplaceTags = function( tagMatch ) {
+			return tagMatch.replace( protectUrlAttributeRegex, '$& _cke_saved_$1$2' );
+		};
+
 	// #### protectAttributes - END
 
 	var onInsertHtml = function( evt ) {
@@ -266,13 +263,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Protect src or href attributes.
 						data = protectUrls( data );
 
-						// Replace tags with fake elements.
-						if ( editor.fakeobjects )
-							data = editor.fakeobjects.protectHtml( data );
-
 						data = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 																'<head>' +
 																	'<link href="' + editor.config.contentsCss + '" type="text/css" rel="stylesheet" _fcktemp="true"/>' +
+																	'<style type="text/css" _fcktemp="true">' +
+																		editor._.styles.join( '\n' ) +
+																	'</style>' +
 																'</head>' +
 																'<body>' +
 																	data +
@@ -317,13 +313,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Restore protected attributes.
 						data = protectEventsRestore( data );
-
-						// Restore protected URLs.
-						data = protectUrlsRestore( data );
-
-						// Restore fake elements.
-						if ( editor.fakeobjects )
-							data = editor.fakeobjects.restoreHtml( data );
 
 						return data;
 					},

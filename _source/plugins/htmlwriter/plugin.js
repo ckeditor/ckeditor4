@@ -208,7 +208,7 @@ CKEDITOR.htmlWriter.prototype = {
 	/**
 	 * Writes the current indentation chars. It uses the
 	 * {@link #indentationChars} property, repeating it for the current
-	 * intentation steps.
+	 * indentation steps.
 	 * @example
 	 * // Writes "\t" (e.g.).
 	 * writer.indentation();
@@ -216,6 +216,15 @@ CKEDITOR.htmlWriter.prototype = {
 	indentation: function() {
 		this._.output.push( this._.indentation );
 		this._.indent = false;
+	},
+
+	/**
+	 * Writes any kind of data to the ouput.
+	 * @example
+	 * writer.write( 'This is an &lt;b&gt;example&lt;/b&gt;.' );
+	 */
+	write: function( data ) {
+		this._.output.push( data );
 	},
 
 	/**

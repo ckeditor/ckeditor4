@@ -12,6 +12,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 CKEDITOR.htmlParser.element = function( name, attributes ) {
+	if ( attributes._cke_saved_src )
+		attributes.src = attributes._cke_saved_src;
+
+	if ( attributes._cke_saved_href )
+		attributes.href = attributes._cke_saved_href;
+
 	/**
 	 * The element name.
 	 * @type String
@@ -90,13 +96,33 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 		 * @example
 		 */
 		writeHtml: function( writer ) {
+			var attributes = this.attributes;
+
+			// The "_cke_realelement" attribute indicates that the current
+			// element is a placeholder for another element.
+			if ( attributes._cke_realelement ) {
+				var realFragment = new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( attributes._cke_realelement ) );
+				realFragment.writeHtml( writer );
+				return;
+			}
+
+			// The "_cke_replacedata" indicates that this element is replacing
+			// a data snippet, which should be outputted as is.
+			if ( attributes._cke_replacedata ) {
+				writer.write( attributes._cke_replacedata );
+				return;
+			}
+
 			// Open element tag.
 			writer.openTag( this.name, this.attributes );
 
 			// Copy all attributes to an array.
 			var attribsArray = [];
-			for ( var a in this.attributes )
-				attribsArray.push( [ a, this.attributes[ a ] ] );
+			for ( var a in attributes ) {
+				// Ignore all attributes starting with "_cke".
+				if ( !/^_cke/.test( a ) )
+					attribsArray.push( [ a, this.attributes[ a ] ] );
+			}
 
 			// Sort the attributes by name.
 			attribsArray.sort( sortAttribs );
@@ -104,9 +130,6 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 			// Send the attributes.
 			for ( var i = 0, len = attribsArray.length; i < len; i++ ) {
 				var attrib = attribsArray[ i ];
-				// IE's treated expand fields as dom attributes, skip it
-				if ( CKEDITOR.env.ie && attrib === '_cke_expando' )
-					continue;
 				writer.attribute( attrib[ 0 ], attrib[ 1 ] );
 			}
 

@@ -373,5 +373,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		}
 
 		return this;
+	},
+
+	replace: function( nodeToReplace ) {
+		this.insertBefore( nodeToReplace );
+		nodeToReplace.remove();
 	}
 });
