@@ -10,7 +10,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 (function() {
 	var initPrivateObject = function( elementDefinition ) {
 			this._ || ( this._ = {} );
-			this._[ 'default' ] = [ elementDefinition[ 'default' ] || '' ];
+			this._[ 'default' ] = this._.initValue = elementDefinition[ 'default' ] || '';
 			var args = [ this._ ];
 			for ( var i = 1; i < arguments.length; i++ )
 				args.push( arguments[ i ] );
@@ -30,24 +30,23 @@ CKEDITOR.plugins.add( 'dialogui' );
 		},
 		commonPrototype = {
 			isChanged: function() {
-				return this.getValue() != this.getDefault();
+				return this.getValue() != this.getInitValue();
 			},
 
 			reset: function() {
-				this.setValue( this.getDefault() );
+				this.setValue( this.getInitValue() );
 			},
 
-			getDefault: function() {
-				var defs = this._[ 'default' ];
-				return defs[ defs.length - 1 ];
+			setInitValue: function() {
+				this._.initValue = this.getValue();
 			},
 
-			pushDefault: function() {
-				this._[ 'default' ].push( this.getValue() );
+			resetInitValue: function() {
+				this._.initValue = this._[ 'default' ];
 			},
 
-			popDefault: function() {
-				this._[ 'default' ].pop();
+			getInitValue: function() {
+				return this._.initValue;
 			}
 		},
 		commonEventProcessors = CKEDITOR.tools.extend( {}, CKEDITOR.ui.dialog.uiElement.prototype.eventProcessors, {
@@ -242,7 +241,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					var html = [ '<div class="cke_dialog_ui_input_textarea"><textarea class="cke_dialog_ui_input_textarea" id="', domId, '" ' ];
 					for ( var i in attributes )
 						html.push( i + '="' + CKEDITOR.tools.htmlEncode( attributes[ i ] ) + '" ' );
-					html.push( '>', CKEDITOR.tools.htmlEncode( me.getDefault() ), '</textarea></div>' );
+					html.push( '>', CKEDITOR.tools.htmlEncode( me._[ 'default' ] ), '</textarea></div>' );
 					return html.join( '' );
 				};
 			CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
@@ -318,8 +317,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 				return;
 
 			initPrivateObject.call( this, elementDefinition );
-			if ( !this.getDefault() )
-				this._[ 'default' ] = [ elementDefinition.items[ 0 ][ 1 ] ];
+			if ( !this._[ 'default' ] )
+				this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
 			if ( elementDefinition.validate )
 				this.validate = elementDefinition.valdiate;
 			var children = [],
@@ -351,7 +350,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 								name: commonName,
 								value: value
 							};
-						if ( me.getDefault() == value )
+						if ( me._[ 'default' ] == value )
 							inputAttributes.checked = 'checked';
 						cleanInnerDefinition( inputDefinition );
 						cleanInnerDefinition( labelDefinition );
