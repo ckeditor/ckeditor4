@@ -276,6 +276,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return parents;
 	},
 
+	getCommonAncestor: function( node ) {
+		if ( node.equals( this ) )
+			return this;
+
+		if ( node.contains && node.contains( this ) )
+			return node;
+
+		var start = this.contains ? this : this.getParent();
+
+		do {
+			if ( start.contains( node ) ) return start;
+		}
+		while ( ( start = start.getParent() ) );
+
+		return null;
+	},
+
 	getPosition: function( otherNode ) {
 		var $ = this.$;
 		var $other = otherNode.$;

@@ -430,18 +430,7 @@ CKEDITOR.dom.range = function( document ) {
 				return start;
 			}
 
-			if ( end.type == CKEDITOR.NODE_ELEMENT && end.contains( start ) )
-				return end;
-
-			if ( start.type != CKEDITOR.NODE_ELEMENT )
-				start = start.getParent();
-
-			do {
-				if ( start.contains( end ) ) return start;
-			}
-			while ( ( start = start.getParent() ) )
-
-			return null;
+			return start.getCommonAncestor( end );
 		},
 
 		/**

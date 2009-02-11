@@ -94,86 +94,86 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 	});
-})();
-
-/**
- * Gets the current selection from the editing area when in WYSIWYG mode.
- * @returns {CKEDITOR.dom.selection} A selection object or null if not on
- *		WYSIWYG mode or no selection is available.
- * @example
- * var selection = CKEDITOR.instances.editor1.<b>getSelection()</b>;
- * alert( selection.getType() );
- */
-CKEDITOR.editor.prototype.getSelection = function() {
-	var retval = this.document ? this.document.getSelection() : null;
 
 	/**
-	 * IE BUG: The selection's document may be a different document than the
-	 * editor document. Return null if that's the case.
+	 * Gets the current selection from the editing area when in WYSIWYG mode.
+	 * @returns {CKEDITOR.dom.selection} A selection object or null if not on
+	 *		WYSIWYG mode or no selection is available.
+	 * @example
+	 * var selection = CKEDITOR.instances.editor1.<b>getSelection()</b>;
+	 * alert( selection.getType() );
 	 */
-	if ( retval && CKEDITOR.env.ie ) {
-		var range = retval.getNative().createRange();
-		if ( !range )
-			return null;
-		else if ( range.item )
-			return range.item( 0 ).ownerDocument == this.document.$ ? retval : null;
-		else
-			return range.parentElement().ownerDocument == this.document.$ ? retval : null;
-	}
-	return retval;
-};
+	CKEDITOR.editor.prototype.getSelection = function() {
+		var retval = this.document ? this.document.getSelection() : null;
 
-/**
- * Gets the current selection from the document.
- * @returns {CKEDITOR.dom.selection} A selection object.
- * @example
- * var selection = CKEDITOR.instances.editor1.document.<b>getSelection()</b>;
- * alert( selection.getType() );
- */
-CKEDITOR.dom.document.prototype.getSelection = function() {
-	return new CKEDITOR.dom.selection( this );
-};
+		/**
+		 * IE BUG: The selection's document may be a different document than the
+		 * editor document. Return null if that's the case.
+		 */
+		if ( retval && CKEDITOR.env.ie ) {
+			var range = retval.getNative().createRange();
+			if ( !range )
+				return null;
+			else if ( range.item )
+				return range.item( 0 ).ownerDocument == this.document.$ ? retval : null;
+			else
+				return range.parentElement().ownerDocument == this.document.$ ? retval : null;
+		}
 
-/**
- * No selection.
- * @constant
- * @example
- * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
- *     alert( 'Nothing is selected' );
- */
-CKEDITOR.SELECTION_NONE = 1;
-
-/**
- * Text or collapsed selection.
- * @constant
- * @example
- * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
- *     alert( 'Text is selected' );
- */
-CKEDITOR.SELECTION_TEXT = 2;
-
-/**
- * Element selection.
- * @constant
- * @example
- * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
- *     alert( 'An element is selected' );
- */
-CKEDITOR.SELECTION_ELEMENT = 3;
-
-/**
- * Manipulates the selection in a DOM document.
- * @constructor
- * @example
- */
-CKEDITOR.dom.selection = function( document ) {
-	this.document = document;
-	this._ = {
-		cache: {}
+		retval.onSelectionSet = CKEDITOR.tools.bind( checkSelectionChangeTimeout, this );
+		return retval;
 	};
-};
 
-(function() {
+	/**
+	 * Gets the current selection from the document.
+	 * @returns {CKEDITOR.dom.selection} A selection object.
+	 * @example
+	 * var selection = CKEDITOR.instances.editor1.document.<b>getSelection()</b>;
+	 * alert( selection.getType() );
+	 */
+	CKEDITOR.dom.document.prototype.getSelection = function() {
+		return new CKEDITOR.dom.selection( this );
+	};
+
+	/**
+	 * No selection.
+	 * @constant
+	 * @example
+	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
+	 *     alert( 'Nothing is selected' );
+	 */
+	CKEDITOR.SELECTION_NONE = 1;
+
+	/**
+	 * Text or collapsed selection.
+	 * @constant
+	 * @example
+	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
+	 *     alert( 'Text is selected' );
+	 */
+	CKEDITOR.SELECTION_TEXT = 2;
+
+	/**
+	 * Element selection.
+	 * @constant
+	 * @example
+	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
+	 *     alert( 'An element is selected' );
+	 */
+	CKEDITOR.SELECTION_ELEMENT = 3;
+
+	/**
+	 * Manipulates the selection in a DOM document.
+	 * @constructor
+	 * @example
+	 */
+	CKEDITOR.dom.selection = function( document ) {
+		this.document = document;
+		this._ = {
+			cache: {}
+		};
+	};
+
 	var styleObjectElements = { img:1,hr:1,li:1,table:1,tr:1,td:1,embed:1,object:1,ol:1,ul:1 };
 
 	CKEDITOR.dom.selection.prototype = {
@@ -499,6 +499,7 @@ CKEDITOR.dom.selection = function( document ) {
 			}
 
 			range.select();
+			this.onSelectionSet && this.onSelectionSet();
 		} : function( element ) {
 			// Create the range for the element.
 			var range = this.document.$.createRange();
@@ -508,6 +509,7 @@ CKEDITOR.dom.selection = function( document ) {
 			var sel = this.getNative();
 			sel.removeAllRanges();
 			sel.addRange( range );
+			this.onSelectionSet && this.onSelectionSet();
 		},
 
 		selectRanges: CKEDITOR.env.ie ?
@@ -516,6 +518,7 @@ CKEDITOR.dom.selection = function( document ) {
 			// select the first one.
 			if ( ranges[ 0 ] )
 				ranges[ 0 ].select();
+			this.onSelectionSet && this.onSelectionSet();
 		} : function( ranges ) {
 			var sel = this.getNative();
 			sel.removeAllRanges();
@@ -529,6 +532,7 @@ CKEDITOR.dom.selection = function( document ) {
 				// Select the range.
 				sel.addRange( nativeRange );
 			}
+			this.onSelectionSet && this.onSelectionSet();
 		},
 
 		createBookmarks: function() {

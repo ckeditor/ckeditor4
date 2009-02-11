@@ -305,3 +305,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -880px;
 }
+
+.cke_skin_default a.cke_button_numberedlist .cke_icon
+{
+	background-position: 0 -400px;
+}
+
+.cke_skin_default a.cke_button_bulletedlist .cke_icon
+{
+	background-position: 0 -416px;
+}

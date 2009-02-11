@@ -151,7 +151,18 @@ CKEDITOR.dom.domObject.prototype = (function() {
 		var expandoNumber = this.$._cke_expando,
 			dataSlot = expandoNumber && customData[ expandoNumber ];
 
-		return ( dataSlot && dataSlot[ key ] ) || null;
+		if ( dataSlot && dataSlot[ key ] !== undefined )
+			return dataSlot[ key ];
+		return null;
+	};
+
+	domObjectProto.removeCustomData = function( key ) {
+		var expandoNumber = this.$._cke_expando,
+			dataSlot = expandoNumber && customData[ expandoNumber ],
+			retval = dataSlot[ key ];
+
+		delete dataSlot[ key ];
+		return retval || null;
 	};
 
 	// Implement CKEDITOR.event.

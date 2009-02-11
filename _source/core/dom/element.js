@@ -69,6 +69,32 @@ CKEDITOR.dom.element.createFromHtml = function( html, ownerDocument ) {
 	return temp.getFirst().remove();
 };
 
+CKEDITOR.dom.element.setMarker = function( database, element, name, value ) {
+	var id = element.getCustomData( 'list_marker_id' ) || ( element.setCustomData( 'list_marker_id', CKEDITOR.tools.getNextNumber() ).getCustomData( 'list_marker_id' ) ),
+		markerNames = element.getCustomData( 'list_marker_names' ) || ( element.setCustomData( 'list_marker_names', {} ).getCustomData( 'list_marker_names' ) );
+	database[ id ] = element;
+	markerNames[ name ] = 1;
+
+	return element.setCustomData( name, value );
+};
+
+CKEDITOR.dom.element.clearAllMarkers = function( database ) {
+	for ( var i in database )
+		CKEDITOR.dom.element.clearMarkers( database, database[ i ], true );
+};
+
+CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatabase ) {
+	var names = element.getCustomData( 'list_marker_names' ),
+		id = element.getCustomData( 'list_marker_id' );
+	for ( var i in names )
+		element.removeCustomData( names[ i ] );
+	element.removeCustomData( 'list_marker_names' );
+	if ( removeFromDatabase ) {
+		element.removeCustomData( 'list_marker_id' );
+		delete database[ id ];
+	}
+};
+
 CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 /** @lends CKEDITOR.dom.element.prototype */ {
 	/**
