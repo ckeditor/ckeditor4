@@ -378,5 +378,62 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	replace: function( nodeToReplace ) {
 		this.insertBefore( nodeToReplace );
 		nodeToReplace.remove();
+	},
+
+	trim: function() {
+		this.ltrim();
+		this.rtrim();
+	},
+
+	ltrim: function() {
+		var child;
+		while ( this.getFirst && ( child = this.getFirst() ) ) {
+			if ( child.type == CKEDITOR.NODE_TEXT ) {
+				var trimmed = CKEDITOR.tools.ltrim( child.getText() ),
+					originalLength = child.getLength();
+
+				if ( trimmed.length == 0 ) {
+					child.remove();
+					continue;
+				} else if ( trimmed.length < originalLength ) {
+					child.split( originalLength - trimmed.length );
+
+					// IE BUG: child.remove() may raise JavaScript errors here. (#81)
+					this.$.removeChild( this.$.firstChild );
+				}
+			}
+			break;
+		}
+	},
+
+	rtrim: function() {
+		var child;
+		while ( this.getLast && ( child = this.getLast() ) ) {
+			if ( child.type == CKEDITOR.NODE_TEXT ) {
+				var trimmed = CKEDITOR.tools.rtrim( child.getText() ),
+					originalLength = child.getLength();
+
+				if ( trimmed.length == 0 ) {
+					child.remove();
+					continue;
+				} else if ( trimmed.length < originalLength ) {
+					child.split( trimmed.length );
+
+					// IE BUG: child.getNext().remove() may raise JavaScript errors here.
+					// (#81)
+					this.$.lastChild.parentNode.removeChild( this.$.lastChild );
+				}
+			}
+			break;
+		}
+
+		if ( !CKEDITOR.env.ie && !CKEDITOR.env.opera ) {
+			child = this.$.lastChild;
+
+			if ( child && child.type == 1 && child.nodeName.toLowerCase() == 'br' ) {
+				// Use "eChildNode.parentNode" instead of "node" to avoid IE bug (#324).
+				child.parentNode.removeChild( child );
+			}
+		}
 	}
 });

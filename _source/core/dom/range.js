@@ -228,52 +228,6 @@ CKEDITOR.dom.range = function( document ) {
 
 	var inlineChildReqElements = { abbr:1,acronym:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 };
 
-	var getBoundaryNodes = function() {
-			var startNode = this.startContainer,
-				endNode = this.endContainer,
-				startOffset = this.startOffset,
-				endOffset = this.endOffset,
-				childCount;
-
-			if ( startNode.type == CKEDITOR.NODE_ELEMENT ) {
-				childCount = startNode.getChildCount();
-				if ( childCount > startOffset )
-					startNode = startNode.getChild( startOffset );
-				else if ( childCount < 1 )
-					startNode = startNode.getPreviousSourceNode();
-				else // startOffset > childCount but childCount is not 0
-				{
-					// Try to take the node just after the current position.
-					startNode = startNode.$;
-					while ( startNode.lastChild )
-						startNode = startNode.lastChild;
-					startNode = new CKEDITOR.dom.node( startNode );
-
-					// Normally we should take the next node in DFS order. But it
-					// is also possible that we've already reached the end of
-					// document.
-					startNode = startNode.getNextSourceNode() || startNode;
-				}
-			}
-			if ( endNode.type == CKEDITOR.NODE_ELEMENT ) {
-				childCount = endNode.getChildCount();
-				if ( childCount > endOffset )
-					endNode = endNode.getChild( endOffset ).getPreviousSourceNode();
-				else if ( childCount < 1 )
-					endNode = endNode.getPreviousSourceNode();
-				else // endOffset > childCount but childCount is not 0
-				{
-					// Try to take the node just before the current position.
-					endNode = endNode.$;
-					while ( endNode.lastChild )
-						endNode = endNode.lastChild;
-					endNode = new CKEDITOR.dom.node( endNode );
-				}
-			}
-
-			return { startNode: startNode, endNode: endNode };
-		};
-
 	// Check every node between the block boundary and the startNode or endNode.
 	var getCheckStartEndBlockFunction = function( isStart ) {
 			return function( evt ) {
@@ -418,6 +372,52 @@ CKEDITOR.dom.range = function( document ) {
 				endNode.remove();
 			} else
 				this.collapse( true );
+		},
+
+		getBoundaryNodes: function() {
+			var startNode = this.startContainer,
+				endNode = this.endContainer,
+				startOffset = this.startOffset,
+				endOffset = this.endOffset,
+				childCount;
+
+			if ( startNode.type == CKEDITOR.NODE_ELEMENT ) {
+				childCount = startNode.getChildCount();
+				if ( childCount > startOffset )
+					startNode = startNode.getChild( startOffset );
+				else if ( childCount < 1 )
+					startNode = startNode.getPreviousSourceNode();
+				else // startOffset > childCount but childCount is not 0
+				{
+					// Try to take the node just after the current position.
+					startNode = startNode.$;
+					while ( startNode.lastChild )
+						startNode = startNode.lastChild;
+					startNode = new CKEDITOR.dom.node( startNode );
+
+					// Normally we should take the next node in DFS order. But it
+					// is also possible that we've already reached the end of
+					// document.
+					startNode = startNode.getNextSourceNode() || startNode;
+				}
+			}
+			if ( endNode.type == CKEDITOR.NODE_ELEMENT ) {
+				childCount = endNode.getChildCount();
+				if ( childCount > endOffset )
+					endNode = endNode.getChild( endOffset ).getPreviousSourceNode();
+				else if ( childCount < 1 )
+					endNode = endNode.getPreviousSourceNode();
+				else // endOffset > childCount but childCount is not 0
+				{
+					// Try to take the node just before the current position.
+					endNode = endNode.$;
+					while ( endNode.lastChild )
+						endNode = endNode.lastChild;
+					endNode = new CKEDITOR.dom.node( endNode );
+				}
+			}
+
+			return { startNode: startNode, endNode: endNode };
 		},
 
 		getCommonAncestor: function( includeSelf ) {
@@ -844,7 +844,7 @@ CKEDITOR.dom.range = function( document ) {
 				case CKEDITOR.ENLARGE_BLOCK_CONTENTS:
 				case CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS:
 					// DFS backward to get the block/list item boundary at or before the start.
-					var boundaryNodes = getBoundaryNodes.apply( this ),
+					var boundaryNodes = this.getBoundaryNodes(),
 						startNode = boundaryNodes.startNode,
 						endNode = boundaryNodes.endNode,
 						guardFunction = ( unit == CKEDITOR.ENLARGE_BLOCK_CONTENTS ? CKEDITOR.dom.domWalker.blockBoundary() : CKEDITOR.dom.domWalker.listItemBoundary() ),
@@ -1013,7 +1013,6 @@ CKEDITOR.dom.range = function( document ) {
 			updateCollapsed( this );
 		},
 
-		// TODO: The fixed block isn't trimmed, does not work for <pre>.
 		// TODO: Does not add bogus <br> to empty fixed blocks.
 		fixBlock: function( isStart, blockTag ) {
 			var bookmark = this.createBookmark(),
@@ -1021,6 +1020,7 @@ CKEDITOR.dom.range = function( document ) {
 			this.collapse( isStart );
 			this.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 			this.extractContents().appendTo( fixedBlock );
+			fixedBlock.trim();
 			this.insertNode( fixedBlock );
 			this.moveToBookmark( bookmark );
 			return fixedBlock;
@@ -1106,7 +1106,7 @@ CKEDITOR.dom.range = function( document ) {
 					return false;
 			}
 
-			var startNode = getBoundaryNodes.apply( this ).startNode,
+			var startNode = this.getBoundaryNodes().startNode,
 				walker = new CKEDITOR.dom.domWalker( startNode );
 
 			// DFS backwards until the block boundary, with the checker function.
@@ -1128,7 +1128,7 @@ CKEDITOR.dom.range = function( document ) {
 					return false;
 			}
 
-			var endNode = getBoundaryNodes.apply( this ).endNode,
+			var endNode = this.getBoundaryNodes().endNode,
 				walker = new CKEDITOR.dom.domWalker( endNode );
 
 			// DFS forward until the block boundary, with the checker function.

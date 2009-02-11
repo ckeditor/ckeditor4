@@ -152,27 +152,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	/*
+	 * Anything whose display computed style is block, list-item, table,
+	 * table-row-group, table-header-group, table-footer-group, table-row,
+	 * table-column-group, table-column, table-cell, table-caption, or whose node
+	 * name is hr, br (when enterMode is br only) is a block boundary.
+	 */
+	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
+		blockBoundaryNodeNameMatch = { hr:1 };
+
+	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
+		var nodeNameMatches = CKEDITOR.tools.extend( {}, blockBoundaryNodeNameMatch, customNodeNames || {} );
+
+		return blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
+	};
+
 	CKEDITOR.dom.domWalker.blockBoundary = function( customNodeNames ) {
 		return function( evt ) {
-			/*
-			 * Anything whose display computed style is block, list-item, table,
-			 * table-row-group, table-header-group, table-footer-group, table-row,
-			 * table-column-group, table-column, table-cell, table-caption, or whose node
-			 * name is hr, br (when enterMode is br only) is a block boundary.
-			 */
-			var displayMatches = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
-				nodeNameMatches = CKEDITOR.tools.extend( { hr:1 }, customNodeNames || {} ),
-				to = evt.data.to,
+			var to = evt.data.to,
 				from = evt.data.from;
 			if ( to && to.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( displayMatches[ to.getComputedStyle( 'display' ) ] || nodeNameMatches[ to.getName() ] ) {
+				if ( to.isBlockBoundary( customNodeNames ) ) {
 					evt.stop();
 					this.stop();
 					return;
 				}
 			}
 			if ( ( evt.data.type == 'up' || evt.data.type == 'sibling' ) && from && from.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( displayMatches[ from.getComputedStyle( 'display' ) ] || nodeNameMatches[ from.getName() ] ) {
+				if ( from.isBlockBoundary( customNodeNames ) ) {
 					evt.stop();
 					this.stop();
 				}
