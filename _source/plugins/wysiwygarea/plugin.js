@@ -84,9 +84,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					clone = element.clone( true );
 
-					// If the new node is a block element, split the current block.
-					if ( this.config.enterMode != 'br' && isBlock )
-						range.splitBlock();
+					// If the new node is a block element, split the current block (if any).
+					if ( this.config.enterMode != 'br' && isBlock ) {
+						var startPath = new CKEDITOR.dom.elementPath( range.startContainer );
+						if ( startPath.block )
+							range.splitBlock();
+					}
 
 					// Insert the new node.
 					range.insertNode( clone );

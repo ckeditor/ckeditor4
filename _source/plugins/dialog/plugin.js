@@ -755,6 +755,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( this._.editor.mode ) {
 				var selection = new CKEDITOR.dom.selection( this._.editor.document );
 				this._.selectedRanges = selection.getRanges();
+				this._.selectedElement = selection.getSelectedElement();
 			}
 		},
 
@@ -766,6 +767,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		clearSavedSelection: function() {
 			delete this._.selectedRanges;
+			delete this._.selectedElement;
+		},
+
+		/**
+		 * Gets the saved control selection. Control selections should be retrieved
+		 * with this function instead of from restoreSelection() because
+		 * restoreSelection() does not properly restore control selections.
+		 * @returns {CKEDITOR.dom.element} The element that was selected.
+		 * @example
+		 */
+		getSelectedElement: function() {
+			return this._.selectedElement;
 		},
 
 		/**
