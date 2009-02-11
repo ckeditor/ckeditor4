@@ -189,6 +189,7 @@ CKEDITOR.config.toolbar = [
 	'Bold', 'Italic', 'Underline', 'Strike', '-',
 	'Subscript', 'Superscript', '-',
 	'SelectAll', 'RemoveFormat', '-',
+	'Link', 'Unlink', 'Anchor', '-',
 	'Table', 'Smiley', 'HorizontalRule', 'SpecialChar', 'PageBreak'
 	]
 	];

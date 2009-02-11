@@ -806,6 +806,18 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 */
 		accessKeyUp: function() {
 			this.select();
+		},
+
+		/**
+		 * Sets the value of this text input object.
+		 * @param {Object} value The new value.
+		 * @returns {CKEDITOR.ui.dialog.textInput} The current UI element.
+		 * @example
+		 * uiElement.setValue( 'Blamo' );
+		 */
+		setValue: function( value ) {
+			value = value || '';
+			return CKEDITOR.ui.dialog.uiElement.prototype.setValue.call( this, value );
 		}
 	}, commonPrototype, true );
 
