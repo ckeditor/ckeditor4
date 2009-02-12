@@ -461,10 +461,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	var styleVariableAttNameRegex = /#\(\s*("|')(.+?)\1[^\)]*\s*\)/g;
 
 	var getElement = function( style, targetDocument ) {
-			var el = style._.element;
-
-			if ( el )
-				return el.clone();
+			var el;
 
 			var def = style._.definition;
 			var variables = style._.variables;
@@ -508,8 +505,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 			}
 
-			// Save the created element. It will be reused on future calls.
-			return ( style._.element = el );
+			return el;
 		};
 })();
 
