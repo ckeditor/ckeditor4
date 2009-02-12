@@ -92,6 +92,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				label: editor.lang.selectAll,
 				command: 'selectAll'
 			});
+
+			editor.selectionChange = checkSelectionChangeTimeout;
 		}
 	});
 
