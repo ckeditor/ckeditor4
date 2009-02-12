@@ -7,7 +7,9 @@ CKEDITOR.plugins.add( 'htmldataprocessor', {
 	requires: [ 'htmlwriter' ],
 
 	init: function( editor, pluginPath ) {
-		editor.dataProcessor = new CKEDITOR.htmlDataProcessor();
+		var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor();
+
+		dataProcessor.writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
 	}
 });
 
@@ -32,3 +34,5 @@ CKEDITOR.htmlDataProcessor.prototype = {
 		return writer.getHtml( true );
 	}
 };
+
+CKEDITOR.config.forceSimpleAmpersand = false;
