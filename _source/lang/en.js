@@ -358,5 +358,7 @@ CKEDITOR.lang[ 'en' ] = {
 	},
 
 	numberedlist: 'Insert/Remove Numbered List',
-	bulletedlist: 'Insert/Remove Bulleted List'
+	bulletedlist: 'Insert/Remove Bulleted List',
+	indent: 'Increase Indent',
+	outdent: 'Decrease Indent'
 };

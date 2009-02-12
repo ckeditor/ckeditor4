@@ -188,6 +188,7 @@ CKEDITOR.config.toolbar = [
 	'NewPage', '-',
 	'Bold', 'Italic', 'Underline', 'Strike', '-',
 	'NumberedList', 'BulletedList', '-',
+	'Outdent', 'Indent', '-',
 	'Subscript', 'Superscript', '-',
 	'SelectAll', 'RemoveFormat', '-',
 	'Link', 'Unlink', 'Anchor', '-',

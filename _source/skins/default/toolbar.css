@@ -315,3 +315,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -416px;
 }
+
+.cke_skin_default a.cke_button_outdent .cke_icon
+{
+	background-position: 0 -432px;
+}
+
+.cke_skin_default a.cke_button_indent .cke_icon
+{
+	background-position: 0 -448px;
+}

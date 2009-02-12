@@ -145,7 +145,7 @@ CKEDITOR.config = {
 	 * @example
 	 * config.plugins = 'basicstyles,button,htmldataprocessor,toolbar,wysiwygarea';
 	 */
-	plugins: 'basicstyles,button,elementspath,horizontalrule,htmldataprocessor,keystrokes,newpage,pagebreak,removeformat,smiley,link,list,sourcearea,table,specialchar,tab,toolbar,wysiwygarea',
+	plugins: 'basicstyles,button,elementspath,horizontalrule,htmldataprocessor,keystrokes,newpage,pagebreak,removeformat,smiley,indent,link,list,sourcearea,table,specialchar,tab,toolbar,wysiwygarea',
 
 	/**
 	 * The theme to be used to build the UI.
