@@ -151,6 +151,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 -48px;
 }
 
+.cke_skin_default a.cke_button_preview .cke_icon
+{
+	background-position: 0 -64px;
+}
+
 .cke_skin_default a.cke_button_find .cke_icon
 {
 	background-position: 0 -240px;

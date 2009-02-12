@@ -185,7 +185,7 @@ CKEDITOR.config.toolbarLocation = 'top';
 CKEDITOR.config.toolbar = [
 	[
 	'Source', '-',
-	'NewPage', '-',
+	'NewPage', 'Preview', '-',
 	'Bold', 'Italic', 'Underline', 'Strike', '-',
 	'NumberedList', 'BulletedList', '-',
 	'Outdent', 'Indent', '-',
