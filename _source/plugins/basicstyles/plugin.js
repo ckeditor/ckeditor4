@@ -13,9 +13,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				var style = new CKEDITOR.style( styleDefiniton );
 
 				editor.attachStyleStateChange( style, function( state ) {
-					var command = editor.getCommand( commandName );
-					command.state = state;
-					command.fire( 'state' );
+					editor.getCommand( commandName ).setState( state );
 				});
 
 				editor.addCommand( commandName, new CKEDITOR.styleCommand( style ) );

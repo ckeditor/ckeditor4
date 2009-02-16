@@ -144,9 +144,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	function setState( editor, state ) {
-		var command = editor.getCommand( this.name );
-		command.state = state;
-		command.fire( 'state' );
+		editor.getCommand( this.name ).setState( state );
 	}
 
 	function onSelectionChange( evt ) {

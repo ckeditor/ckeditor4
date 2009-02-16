@@ -53,10 +53,9 @@ CKEDITOR.plugins.add( 'link', {
 			var command = editor.getCommand( 'unlink' ),
 				element = evt.data.path.lastElement.getAscendant( 'a', true );
 			if ( element && element.getName() == 'a' && element.getAttribute( 'href' ) )
-				command.state = CKEDITOR.TRISTATE_OFF;
+				command.setState( CKEDITOR.TRISTATE_OFF );
 			else
-				command.state = CKEDITOR.TRISTATE_DISABLED;
-			command.fire( 'state' );
+				command.setState( CKEDITOR.TRISTATE_DISABLED );
 		});
 
 		// Register a contentDom handler for displaying placeholders after mode change.

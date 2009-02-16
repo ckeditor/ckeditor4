@@ -11,9 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var listNodeNames = { ol:1,ul:1 };
 
 	function setState( editor, state ) {
-		var command = editor.getCommand( this.name );
-		command.state = state;
-		command.fire( 'state' );
+		editor.getCommand( this.name ).setState( state );
 	}
 
 	function onSelectionChange( evt ) {

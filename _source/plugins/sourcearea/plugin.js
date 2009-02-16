@@ -97,9 +97,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 		}
 
 		editor.on( 'mode', function() {
-			var command = editor.getCommand( 'source' );
-			command.state = ( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-			command.fire( 'state' );
+			editor.getCommand( 'source' ).setState( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		});
 	}
 });
