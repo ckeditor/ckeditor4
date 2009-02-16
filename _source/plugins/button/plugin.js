@@ -106,6 +106,10 @@ CKEDITOR.ui.button.prototype = {
 			}
 		};
 
+		var index = CKEDITOR.ui.button._.instances.push( instance ) - 1;
+
+		var classes = 'cke_button';
+
 		// Get the command name.
 		var command = this.command;
 
@@ -117,13 +121,16 @@ CKEDITOR.ui.button.prototype = {
 				command.on( 'state', function() {
 					this.setState( command.state );
 				}, this );
+
+				classes += ' cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 			}
 		}
 
-		var index = CKEDITOR.ui.button._.instances.push( instance ) - 1;
+		if ( this.className )
+			classes += ' ' + this.className;
 
 		output.push( '<a id="', id, '"' +
-			' class="cke_button ', this.className, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+			' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
 			' title="', this.title, '"' +
 			' tabindex="-1"' +
 			' hidefocus="true"' );
