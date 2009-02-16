@@ -204,7 +204,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !selection || !range )
 				return;
 
-			var bookmarks = selection.createBookmarks(),
+			var bookmarks = selection.createBookmarks( true ),
 				boundaryNodes = range.getBoundaryNodes(),
 				nearestListBlock = boundaryNodes.startNode.getCommonAncestor( boundaryNodes.endNode );
 

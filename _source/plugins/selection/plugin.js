@@ -537,11 +537,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.onSelectionSet && this.onSelectionSet();
 		},
 
-		createBookmarks: function() {
+		createBookmarks: function( serializable ) {
 			var retval = [],
 				ranges = this.getRanges();
 			for ( var i = 0; i < ranges.length; i++ )
-				retval.push( ranges[ i ].createBookmark() );
+				retval.push( ranges[ i ].createBookmark( serializable ) );
 			return retval;
 		},
 

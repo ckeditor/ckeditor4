@@ -312,14 +312,24 @@ CKEDITOR.dom.range = function( document ) {
 			return docFrag;
 		},
 
-		// This is an "intrusive" way to create a bookmark. It includes <span> tags
-		// in the range boundaries. The advantage of it is that it is possible to
-		// handle DOM mutations when moving back to the bookmark.
-		// Attention: the inclusion of nodes in the DOM is a design choice and
-		// should not be changed as there are other points in the code that may be
-		// using those nodes to perform operations. See GetBookmarkNode.
-		createBookmark: function() {
+		/**
+		 * Creates a bookmark object, which can be later used to restore the
+		 * range by using the moveToBookmark function.
+		 * This is an "intrusive" way to create a bookmark. It includes <span> tags
+		 * in the range boundaries. The advantage of it is that it is possible to
+		 * handle DOM mutations when moving back to the bookmark.
+		 * Attention: the inclusion of nodes in the DOM is a design choice and
+		 * should not be changed as there are other points in the code that may be
+		 * using those nodes to perform operations. See GetBookmarkNode.
+		 * @param {Boolean} [serializable] Indicates that the bookmark nodes
+		 *		must contain ids, which can be used to restore the range even
+		 *		when these nodes suffer mutations (like a clonation or innerHTML
+		 *		change).
+		 * @returns {Object} And object representing a bookmark.
+		 */
+		createBookmark: function( serializable ) {
 			var startNode, endNode;
+			var baseId;
 			var clone;
 
 			startNode = this.document.createElement( 'span' );
@@ -330,10 +340,18 @@ CKEDITOR.dom.range = function( document ) {
 			// removed during DOM operations.
 			startNode.setHtml( '&nbsp;' );
 
+			if ( serializable ) {
+				baseId = 'cke_bm_' + CKEDITOR.tools.getNextNumber();
+				startNode.setAttribute( 'id', baseId + 'S' );
+			}
+
 			// If collapsed, the endNode will not be created.
 			if ( !this.collapsed ) {
 				endNode = startNode.clone();
 				endNode.setHtml( '&nbsp;' );
+
+				if ( serializable )
+					endNode.setAttribute( 'id', baseId + 'E' );
 
 				clone = this.clone();
 				clone.collapse();
@@ -352,21 +370,25 @@ CKEDITOR.dom.range = function( document ) {
 				this.moveToPosition( startNode, CKEDITOR.POSITION_AFTER_END );
 
 			return {
-				startNode: startNode,
-				endNode: endNode
+				startNode: serializable ? baseId + 'S' : startNode,
+				endNode: serializable ? baseId + 'E' : endNode,
+				serializable: serializable
 			};
 		},
 
 		moveToBookmark: function( bookmark ) {
+			var serializable = bookmark.serializable,
+				startNode = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
+				endNode = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
+
 			// Set the range start at the bookmark start node position.
-			this.setStartBefore( bookmark.startNode );
+			this.setStartBefore( startNode );
 
 			// Remove it, because it may interfere in the setEndBefore call.
-			bookmark.startNode.remove();
+			startNode.remove();
 
 			// Set the range end at the bookmark end node position, or simply
 			// collapse it if it is not available.
-			var endNode = bookmark.endNode;
 			if ( endNode ) {
 				this.setEndBefore( endNode );
 				endNode.remove();

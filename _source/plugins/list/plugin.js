@@ -324,7 +324,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 
-			var bookmarks = selection.createBookmarks();
+			var bookmarks = selection.createBookmarks( true );
 
 			// Group the blocks up because there are many cases where multiple lists have to be created,
 			// or multiple lists have to be cancelled.
