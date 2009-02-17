@@ -368,5 +368,8 @@ CKEDITOR.lang[ 'en' ] = {
 		center: 'Center Justify',
 		right: 'Right Justify',
 		block: 'Block Justify'
-	}
+	},
+
+	outdent: 'Decrease Indent',
+	blockquote: 'Blockquote'
 };

@@ -87,7 +87,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	var names = element.getCustomData( 'list_marker_names' ),
 		id = element.getCustomData( 'list_marker_id' );
 	for ( var i in names )
-		element.removeCustomData( names[ i ] );
+		element.removeCustomData( i );
 	element.removeCustomData( 'list_marker_names' );
 	if ( removeFromDatabase ) {
 		element.removeCustomData( 'list_marker_id' );
