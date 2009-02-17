@@ -138,6 +138,50 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
+	 * Retrieves a uniquely identifiable tree address for this node.
+	 * The tree address returns is an array of integers, with each integer
+	 * indicating a child index of a DOM node, starting from
+	 * document.documentElement.
+	 *
+	 * For example, assuming <body> is the second child from <html> (<head>
+	 * being the first), and we'd like to address the third child under the
+	 * fourth child of body, the tree address returned would be:
+	 * [1, 3, 2]
+	 *
+	 * The tree address cannot be used for finding back the DOM tree node once
+	 * the DOM tree structure has been modified.
+	 */
+	getAddress: function( normalized ) {
+		var address = [];
+		var $documentElement = this.getDocument().$.documentElement;
+		var node = this.$;
+
+		while ( node && node != $documentElement ) {
+			var parentNode = node.parentNode;
+			var currentIndex = -1;
+
+			for ( var i = 0; i < parentNode.childNodes.length; i++ ) {
+				var candidate = parentNode.childNodes[ i ];
+
+				if ( normalized && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
+					continue;
+				}
+
+				currentIndex++;
+
+				if ( candidate == node )
+					break;
+			}
+
+			address.unshift( currentIndex );
+
+			node = node.parentNode;
+		}
+
+		return address;
+	},
+
+	/**
 	 * Gets a DOM tree descendant under the current node.
 	 * @param {Array|Number} indices The child index or array of child indices under the node.
 	 * @returns {CKEDITOR.dom.node} The specified DOM child under the current node. Null if child does not exist.

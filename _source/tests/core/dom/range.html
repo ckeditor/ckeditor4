@@ -11,6 +11,7 @@
 	//<![CDATA[
 
 var html1, html2;
+var tests;
 
 CKEDITOR.test.addTestCase( (function()
 {
@@ -20,7 +21,7 @@ CKEDITOR.test.addTestCase( (function()
 
 	var doc = new CKEDITOR.dom.document( document );
 
-	return {
+	return tests = {
 		test__constructor : function()
 		{
 			var range = new CKEDITOR.dom.range( doc );
@@ -1510,6 +1511,100 @@ CKEDITOR.test.addTestCase( (function()
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
+		test_createBookmark2_1 : function()
+		{
+			doc.getById( 'playground' ).setHtml( '<p id="P">This is <b id="B">a test</b></p>' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( 'P' ), 0 );
+			range.setEnd( doc.getById( 'B' ).getFirst(), 3 );
+
+			var bookmark = range.createBookmark2();
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('B').firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		// This test is just like test_createBookmark2_3, but uses a "non
+		// normalized" bookmark.
+		test_createBookmark2_2 : function()
+		{
+			var html = '<p id="P">A B <b>C </b>D E</p>';
+
+			doc.getById( 'playground' ).setHtml( html );
+
+			var p = doc.getById( 'P' );
+
+			// Split the text nodes.
+			p.getFirst().split( 2 );	// Right before "B"
+			p.getChild( 3 ).split( 2 );	// Right before "E"
+
+			assert.areSame( 5, p.getChildCount(), 'The number of nodes after split doesn\'t match' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Create a range that enbraces "E".
+			range.setStartBefore( p.getChild( 4 ) );
+			range.setEndAfter( p.getChild( 4 ) );
+
+			var bookmark = range.createBookmark2();
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 4, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('P'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_createBookmark2_3 : function()
+		{
+			var html = '<p id="P">A B <b>C </b>D E</p>';
+
+			doc.getById( 'playground' ).setHtml( html );
+
+			var p = doc.getById( 'P' );
+
+			// Split the text nodes.
+			p.getFirst().split( 2 );	// Right before "B"
+			p.getChild( 3 ).split( 2 );	// Right before "E"
+
+			assert.areSame( 5, p.getChildCount(), 'The number of nodes after split doesn\'t match' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Create a range that enbraces "E".
+			range.setStartBefore( p.getChild( 4 ) );
+			range.setEndAfter( p.getChild( 4 ) );
+
+			var bookmark = range.createBookmark2( true );
+
+			// Normalize the contents.
+			doc.getById( 'playground' ).setHtml( html );
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P').childNodes[2], range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('P'), range.endContainer.$, 'range.endContainer' );
+
+			// Note that the endOffset doesn't get normalized as it's not
+			// needed. Any offset pointing over the container size is meant to
+			// be at the end of it.
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
 		/////////////
 
 		setUp : function()
@@ -1524,19 +1619,7 @@ CKEDITOR.test.addTestCase( (function()
 
 //window.onload = function()
 //{
-//	// Local references.
-//	var assert			= CKEDITOR.test.assert;
-//	var getInnerHtml	= CKEDITOR.test.getInnerHtml;
-
-//	var doc = new CKEDITOR.dom.document( document );
-
-//			doc.getById( '_EnlargeP' ).setHtml( 'this <i>is some </i>sample text' );
-
-//			var range = new CKEDITOR.dom.range( doc );
-//			range.setStart( doc.getById( '_EnlargeP' ), 0 );
-//			range.setEnd( doc.getById( '_EnlargeP' ).getChild( 1 ), 0 );
-
-//			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+//	tests.test_createBookmark2_3();
 //}
 
 	//]]>

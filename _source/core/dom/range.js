@@ -376,24 +376,124 @@ CKEDITOR.dom.range = function( document ) {
 			};
 		},
 
+		/**
+		 * Creates a "non intrusive" and "mutation sensible" bookmark. This
+		 * kind of bookmark should be used only when the DOM is supposed to
+		 * remain stable after its creation.
+		 * @param {Boolean} [normalized] Indicates that the bookmark must
+		 *		normalized. When normalized, the successive text nodes are
+		 *		considered a single node. To sucessful load a normalized
+		 *		bookmark, the DOM tree must be also normalized before calling
+		 *		moveToBookmark.
+		 * @returns {Object} An object representing the bookmark.
+		 */
+		createBookmark2: function( normalized ) {
+			var startContainer = this.startContainer,
+				endContainer = this.endContainer;
+
+			var startOffset = this.startOffset,
+				endOffset = this.endOffset;
+
+			var child, previous;
+
+			// If there is no range then get out of here.
+			// It happens on initial load in Safari #962 and if the editor it's
+			// hidden also in Firefox
+			if ( !startContainer || !endContainer )
+				return { start: 0, end: 0 };
+
+			if ( normalized ) {
+				// Find out if the start is pointing to a text node that will
+				// be normalized.
+				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					var child = startContainer.getChild( startOffset );
+
+					// In this case, move the start information to that text
+					// node.
+					if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+						startContainer = child;
+						startOffset = 0;
+					}
+				}
+
+				// Normalize the start.
+				while ( startContainer.type == CKEDITOR.NODE_TEXT && ( previous = startContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
+					startContainer = previous;
+					startOffset += previous.getLength();
+				}
+
+				// Process the end only if not normalized.
+				if ( !this.isCollapsed ) {
+					// Find out if the start is pointing to a text node that
+					// will be normalized.
+					if ( endContainer.type == CKEDITOR.NODE_ELEMENT ) {
+						child = endContainer.getChild( endOffset );
+
+						// In this case, move the start information to that
+						// text node.
+						if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+							endContainer = child;
+							endOffset = 0;
+						}
+					}
+
+					// Normalize the end.
+					while ( endContainer.type == CKEDITOR.NODE_TEXT && ( previous = endContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
+						endContainer = previous;
+						endOffset += previous.getLength();
+					}
+				}
+			}
+
+			return {
+				start: startContainer.getAddress( normalized ),
+				end: this.isCollapsed ? null : endContainer.getAddress( normalized ),
+				startOffset: startOffset,
+				endOffset: endOffset,
+				normalized: normalized,
+				is2: true // It's a createBookmark2 bookmark.
+			};
+		},
+
 		moveToBookmark: function( bookmark ) {
-			var serializable = bookmark.serializable,
-				startNode = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
-				endNode = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
+			if ( bookmark.is2 ) // Created with createBookmark2().
+			{
+				// Get the start information.
+				var startContainer = this.document.getByAddress( bookmark.start, bookmark.normalized ),
+					startOffset = bookmark.startOffset;
 
-			// Set the range start at the bookmark start node position.
-			this.setStartBefore( startNode );
+				// Get the end information.
+				var endContainer = bookmark.end && this.document.getByAddress( bookmark.end, bookmark.normalized ),
+					endOffset = bookmark.endOffset;
 
-			// Remove it, because it may interfere in the setEndBefore call.
-			startNode.remove();
+				// Set the start boundary.
+				this.setStart( startContainer, startOffset );
 
-			// Set the range end at the bookmark end node position, or simply
-			// collapse it if it is not available.
-			if ( endNode ) {
-				this.setEndBefore( endNode );
-				endNode.remove();
-			} else
-				this.collapse( true );
+				// Set the end boundary. If not available, collapse it.
+				if ( endContainer )
+					this.setEnd( endContainer, endOffset );
+				else
+					this.collapse( true );
+			} else // Created with createBookmark().
+			{
+				var serializable = bookmark.serializable,
+					startNode = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
+					endNode = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
+
+				// Set the range start at the bookmark start node position.
+				this.setStartBefore( startNode );
+
+				// Remove it, because it may interfere in the setEndBefore call.
+				startNode.remove();
+
+				// Set the range end at the bookmark end node position, or simply
+				// collapse it if it is not available.
+				if ( endNode ) {
+					this.setEndBefore( endNode );
+					endNode.remove();
+				} else
+					this.collapse( true );
+			}
 		},
 
 		getBoundaryNodes: function() {

@@ -78,6 +78,38 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return $ ? new CKEDITOR.dom.element( $ ) : null;
 	},
 
+	getByAddress: function( address, normalized ) {
+		var $ = this.$.documentElement;
+
+		for ( var i = 0; $ && i < address.length; i++ ) {
+			var target = address[ i ];
+
+			if ( !normalized ) {
+				$ = $.childNodes[ target ];
+				continue;
+			}
+
+			var currentIndex = -1;
+
+			for ( var j = 0; j < $.childNodes.length; j++ ) {
+				var candidate = $.childNodes[ j ];
+
+				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
+					continue;
+				}
+
+				currentIndex++;
+
+				if ( currentIndex == target ) {
+					$ = candidate;
+					break;
+				}
+			}
+		}
+
+		return $ ? new CKEDITOR.dom.node( $ ) : null;
+	},
+
 	/**
 	 * Gets the &lt;head&gt; element for this document.
 	 * @returns {CKEDITOR.dom.element} The &lt;head&gt; element.
