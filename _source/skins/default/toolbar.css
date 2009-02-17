@@ -330,3 +330,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -448px;
 }
+
+.cke_skin_default a.cke_button_justifyleft .cke_icon
+{
+	background-position: 0 -464px;
+}
+
+.cke_skin_default a.cke_button_justifycenter .cke_icon
+{
+	background-position: 0 -480px;
+}
+
+.cke_skin_default a.cke_button_justifyright .cke_icon
+{
+	background-position: 0 -496px;
+}
+
+.cke_skin_default a.cke_button_justifyblock .cke_icon
+{
+	background-position: 0 -512px;
+}

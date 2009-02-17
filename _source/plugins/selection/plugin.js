@@ -122,8 +122,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return range.parentElement().ownerDocument == this.document.$ ? retval : null;
 		}
 
-		retval.onSelectionSet = CKEDITOR.tools.bind( checkSelectionChangeTimeout, this );
 		return retval;
+	};
+
+	CKEDITOR.editor.prototype.forceNextSelectionCheck = function() {
+		delete this._.selectionPreviousPath;
 	};
 
 	/**
@@ -501,7 +504,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			range.select();
-			this.onSelectionSet && this.onSelectionSet();
 		} : function( element ) {
 			// Create the range for the element.
 			var range = this.document.$.createRange();
@@ -511,7 +513,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var sel = this.getNative();
 			sel.removeAllRanges();
 			sel.addRange( range );
-			this.onSelectionSet && this.onSelectionSet();
 		},
 
 		selectRanges: CKEDITOR.env.ie ?
@@ -520,7 +521,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// select the first one.
 			if ( ranges[ 0 ] )
 				ranges[ 0 ].select();
-			this.onSelectionSet && this.onSelectionSet();
 		} : function( ranges ) {
 			var sel = this.getNative();
 			sel.removeAllRanges();
@@ -534,7 +534,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Select the range.
 				sel.addRange( nativeRange );
 			}
-			this.onSelectionSet && this.onSelectionSet();
 		},
 
 		createBookmarks: function( serializable ) {
