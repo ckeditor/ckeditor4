@@ -309,7 +309,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * });
 	 */
 	addCommand: function( commandName, commandDefinition ) {
-		this._.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
+		return this._.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
 	},
 
 	addCss: function( css ) {
