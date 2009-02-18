@@ -109,17 +109,21 @@ CKEDITOR.resourceManager.prototype = {
 
 	/**
 	 * Registers a resource to be loaded from an external path instead of the core base path.
-	 * @param {String} name The resource name.
+	 * @param {String} names The resource names, separated by commas.
 	 * @param {String} path The resource external path.
 	 * @example
 	 * // Loads a plugin from '/myplugin/samples/plugin.js'.
 	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 */
-	addExternal: function( name, path ) {
-		if ( this.registered[ name ] || this.externals[ name ] )
-			throw '[CKEDITOR.resourceManager.import] The resource name "' + name + '" is already registered or imported.';
+	addExternal: function( names, path ) {
+		names = names.split( ',' );
+		for ( var i = 0; i < names.length; i++ ) {
+			var name = names[ i ];
+			if ( this.registered[ name ] || this.externals[ name ] )
+				throw '[CKEDITOR.resourceManager.import] The resource name "' + name + '" is already registered or imported.';
 
-		this.externals[ name ] = path;
+			this.externals[ name ] = path;
+		}
 	},
 
 	/**
@@ -159,20 +163,27 @@ CKEDITOR.resourceManager.prototype = {
 			if ( !loaded[ name ] && !registered[ name ] ) {
 				var url = CKEDITOR.getUrl( this.getPath( name ) + this.fileName + '.js' );
 				urls.push( url );
-				urlsNames[ url ] = name;
+				if ( !( url in urlsNames ) )
+					urlsNames[ url ] = [];
+				urlsNames[ url ].push( name );
 			} else
 				resources[ name ] = this.get( name );
 		}
 
 		CKEDITOR.scriptLoader.load( urls, function( completed, failed ) {
-			if ( failed.length )
-				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ] + '" was not found at "' + failed[ 0 ] + '".';
+			if ( failed.length ) {
+				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' )
+											+ '" was not found at "' + failed[ 0 ] + '".';
+			}
 
 			for ( var i = 0; i < completed.length; i++ ) {
-				var name = urlsNames[ completed[ i ] ];
-				resources[ name ] = this.get( name );
+				var nameList = urlsNames[ completed[ i ] ];
+				for ( var j = 0; j < nameList.length; j++ ) {
+					var name = nameList[ j ];
+					resources[ name ] = this.get( name );
 
-				loaded[ name ] = 1;
+					loaded[ name ] = 1;
+				}
 			}
 
 			callback.call( scope, resources );
