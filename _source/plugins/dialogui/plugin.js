@@ -269,7 +269,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 			if ( arguments.length < 3 )
 				return;
 
-			var _ = initPrivateObject.call( this, elementDefinition, { 'default': !!elementDefinition.checked } );
+			var _ = initPrivateObject.call( this, elementDefinition, { 'default': !!elementDefinition[ 'default' ] } );
 
 			if ( elementDefinition.validate )
 				this.validate = elementDefinition.validate;
