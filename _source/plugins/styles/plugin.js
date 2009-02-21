@@ -14,7 +14,7 @@ CKEDITOR.plugins.add( 'styles', {
  * @param {CKEDITOR.style} The style to be watched.
  * @param {Function} The function to be called when the style state changes.
  * @example
- * // Create a style object for the <b> element.
+ * // Create a style object for the &lt;b&gt; element.
  * var style = new CKEDITOR.style( { element : 'b' } );
  * var editor = CKEDITOR.instances.editor1;
  * editor.attachStyleStateChange( style, function( state )
