@@ -20,7 +20,8 @@ CKEDITOR.skins.add( 'default', ( function() {
 	return {
 		preload: preload,
 		editor: { css: [ 'editor.css' ] },
-		dialog: { css: [ 'dialog.css' ], js: dialogJs }
+		dialog: { css: [ 'dialog.css' ], js: dialogJs },
+		templates: { css: [ 'templates.css' ] }
 	};
 })() );
 

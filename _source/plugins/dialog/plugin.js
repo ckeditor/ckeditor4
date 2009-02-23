@@ -816,6 +816,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			return !!this._.dialogDefinitions[ name ];
 		},
 
+		getCurrent: function() {
+			return CKEDITOR.dialog._.currentTop;
+		},
+
 		/**
 		 * The default OK button for dialogs. Fires the "ok" event and closes the dialog if the event succeeds.
 		 * @static

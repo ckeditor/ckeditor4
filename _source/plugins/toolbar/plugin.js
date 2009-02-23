@@ -185,7 +185,7 @@ CKEDITOR.config.toolbarLocation = 'top';
 CKEDITOR.config.toolbar = [
 	[
 	'Source', '-',
-	'NewPage', 'Preview', 'Print', '-',
+	'NewPage', 'Preview', 'Templates', 'Print', '-',
 	'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
 	'Undo', 'Redo', '-',
 	'Bold', 'Italic', 'Underline', 'Strike', '-',

@@ -397,5 +397,13 @@ CKEDITOR.lang[ 'en' ] = {
 	pasteText: {
 		button: 'Paste as plain text',
 		title: 'Paste as Plain Text'
+	},
+
+	templates: {
+		button: 'Templates',
+		title: 'Content Templates',
+		insertOption: 'Replace actual contents',
+		selectPromptMsg: 'Please select the template to open in the editor',
+		emptyListMsg: '(No templates defined)'
 	}
 };

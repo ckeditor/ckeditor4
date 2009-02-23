@@ -338,6 +338,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -224px;
 }
+
+.cke_skin_default a.cke_button_templates .cke_icon
+{
+	background-position: 0 -80px;
+}
+
 .cke_skin_default a.cke_button_numberedlist .cke_icon
 {
 	background-position: 0 -400px;
