@@ -196,17 +196,27 @@ if ( !CKEDITOR.event ) {
 					stopped = canceled = false;
 
 					if ( event ) {
-						// Loop through all listeners.
-						for ( var i = 0, listeners = event.listeners; i < listeners.length; i++ ) {
-							// Call the listener, passing the event data.
-							var retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+						var listeners = event.listeners;
 
-							if ( typeof retData != 'undefined' )
-								data = retData;
+						if ( listeners.length ) {
+							// As some listeners may remove themselves from the
+							// event, the original array length is dinamic. So,
+							// let's make a copy of all listeners, so we are
+							// sure we'll call all of them.
+							listeners = listeners.slice( 0 );
 
-							// No further calls is stopped or canceled.
-							if ( stopped || canceled )
-								break;
+							// Loop through all listeners.
+							for ( var i = 0; i < listeners.length; i++ ) {
+								// Call the listener, passing the event data.
+								var retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+
+								if ( typeof retData != 'undefined' )
+									data = retData;
+
+								// No further calls is stopped or canceled.
+								if ( stopped || canceled )
+									break;
+							}
 						}
 					}
 

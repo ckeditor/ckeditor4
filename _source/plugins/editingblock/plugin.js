@@ -39,10 +39,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			editor.on( 'afterSetData', function() {
-				if ( !isHandlingData && editor.mode ) {
-					isHandlingData = true;
-					getMode( editor ).loadData( editor.getData() );
-					isHandlingData = false;
+				if ( !isHandlingData ) {
+					function setData() {
+						isHandlingData = true;
+						getMode( editor ).loadData( editor.getData() );
+						isHandlingData = false;
+					}
+
+					if ( editor.mode )
+						setData();
+					else {
+						editor.on( 'mode', function() {
+							setData();
+							editor.removeListener( 'mode', arguments.callee );
+						});
+					}
 				}
 			});
 
