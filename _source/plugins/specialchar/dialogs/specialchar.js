@@ -74,86 +74,75 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			id: 'info',
 			label: editor.lang.common.generalTab,
 			title: editor.lang.common.generalTab,
+			align: top,
 			elements: [
 				{
 				type: 'hbox',
 				align: 'top',
-				widths: [ '300px', '90px' ],
+				widths: [ '320px', '90px' ],
 				children: [
+					{
+					type: 'html',
+					id: 'charContainer',
+					html: '',
+					onMouseover: function( evt ) {
+						var target = evt.data.getTarget(),
+							value;
+						if ( target.getName() == 'td' && ( value = target.getAttribute( 'value' ) ) ) {
+							var dialog = this.getDialog(),
+								htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
+
+							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
+							htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
+							target.addClass( "LightBackground" );
+						}
+					},
+					onMouseout: function( evt ) {
+						var target = evt.data.getTarget();
+						if ( target.getName() == 'td' ) {
+							var dialog = this.getDialog();
+							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
+							dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
+							target.removeClass( "LightBackground" );
+						}
+					},
+					onClick: function( evt ) {
+						var target = evt.data.getTarget();
+						if ( target.getName() == 'td' && ( value = target.$.getAttribute( 'value' ) ) ) {
+							var dialog = this.getDialog();
+							target.removeClass( "LightBackground" );
+							dialog.restoreSelection();
+							dialog.getParentEditor().insertHtml( value );
+							dialog.hide();
+						}
+					}
+				},
 					{
 					type: 'hbox',
 					align: 'top',
-					padding: 0,
-					widths: [ '350px' ],
+					widths: [ '100%' ],
 					children: [
 						{
-						type: 'html',
-						id: 'charContainer',
-						html: '',
-						onMouseover: function( evt ) {
-							var target = evt.data.getTarget(),
-								targetName = target.getName(),
-								value;
-
-							if ( targetName == 'td' && ( value = target.getAttribute( 'value' ) ) ) {
-								var dialog = this.getDialog(),
-									preview = dialog.getContentElement( 'info', 'charPreview' ).getElement(),
-									htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
-
-								preview.setHtml( value );
-								htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
-								target.addClass( "LightBackground" );
-							}
+						type: 'vbox',
+						align: 'top',
+						children: [
+							{
+							type: 'html',
+							html: '<div></div>'
 						},
-						onMouseout: function( evt ) {
-							var dialog = this.getDialog();
-							var preview = dialog.getContentElement( 'info', 'charPreview' ).getElement();
-							var htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
-							var target = evt.data.getTarget();
-							var targetName = target.getName();
-							preview.setHtml( '&nbsp;' );
-							htmlPreview.setHtml( '&nbsp;' );
-
-							if ( targetName == 'td' )
-								target.removeClass( "LightBackground" );
+							{
+							type: 'html',
+							id: 'charPreview',
+							style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:28px;height:40px;width:70px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+							html: '<div>&nbsp;</div>'
 						},
-						onClick: function( evt ) {
-							var target = evt.data.getTarget();
-							var targetName = target.getName();
-							var editor = this.getDialog().getParentEditor();
-							var value;
-
-							if ( targetName == 'td' ) {
-								target = target.$;
-								if ( ( value = target.getAttribute( 'value' ) ) ) {
-									this.getDialog().restoreSelection();
-									editor.insertHtml( value );
-									this.getDialog().hide();
-								}
-							}
+							{
+							type: 'html',
+							id: 'htmlPreview',
+							style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:14px;height:20px;width:70px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+							html: '<div>&nbsp;</div>'
 						}
-					}
-					]
-				},
-					{
-					type: 'vbox',
-					align: 'top',
-					children: [
-						{
-						type: 'html',
-						html: '<div></div>'
-					},
-						{
-						type: 'html',
-						id: 'charPreview',
-						style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:28px;height:40px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
-						html: '<div>&nbsp;</div>'
-					},
-						{
-						type: 'html',
-						id: 'htmlPreview',
-						style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:14px;height:20px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
-						html: '<div>&nbsp;</div>'
+						]
 					}
 					]
 				}
