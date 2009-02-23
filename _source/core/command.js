@@ -6,8 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.command = function( editor, commandDefinition ) {
 	this.state = ( 'state' in commandDefinition ) ? commandDefinition.state : CKEDITOR.TRISTATE_OFF;
 
-	this.exec = function() {
-		commandDefinition.exec.call( this, editor );
+	this.exec = function( data ) {
+		return commandDefinition.exec.call( this, editor, data );
 	};
 
 	CKEDITOR.tools.extend( this, commandDefinition );

@@ -156,6 +156,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 -64px;
 }
 
+.cke_skin_default a.cke_button_cut .cke_icon
+{
+	background-position: 0 -96px;
+}
+
+.cke_skin_default a.cke_button_copy .cke_icon
+{
+	background-position: 0 -112px;
+}
+
+.cke_skin_default a.cke_button_paste .cke_icon
+{
+	background-position: 0 -128px;
+}
+
+.cke_skin_default a.cke_button_pastetext .cke_icon
+{
+	background-position: 0 -144px;
+}
+
 .cke_skin_default a.cke_button_find .cke_icon
 {
 	background-position: 0 -240px;
