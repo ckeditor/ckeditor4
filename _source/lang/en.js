@@ -371,5 +371,13 @@ CKEDITOR.lang[ 'en' ] = {
 	},
 
 	outdent: 'Decrease Indent',
-	blockquote: 'Blockquote'
+	blockquote: 'Blockquote',
+
+	pastefromword: {
+		toolbar: 'Paste from Word',
+		title: 'Paste from Word',
+		advice: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit <strong>OK</strong>.',
+		ignoreFontFace: 'Ignore Font Face definitions',
+		removeStyle: 'Remove Styles definitions'
+	}
 };

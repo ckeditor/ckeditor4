@@ -355,3 +355,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -1152px;
 }
+
+.cke_skin_default a.cke_button_pastefromword .cke_icon
+{
+	background-position: 0 -160px;
+}

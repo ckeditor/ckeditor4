@@ -1913,15 +1913,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		eventProcessors: {
 			onLoad: function( dialog, func ) {
-				dialog.on( 'load', func );
+				dialog.on( 'load', func, this );
 			},
 
 			onShow: function( dialog, func ) {
-				dialog.on( 'show', func );
+				dialog.on( 'show', func, this );
 			},
 
 			onHide: function( dialog, func ) {
-				dialog.on( 'hide', func );
+				dialog.on( 'hide', func, this );
 			}
 		},
 
