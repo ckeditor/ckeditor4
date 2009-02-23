@@ -346,8 +346,21 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 */
 	execCommand: function( commandName, data ) {
 		var command = this.getCommand( commandName );
-		if ( command && command.state != CKEDITOR.TRISTATE_DISABLED )
-			return command.exec( data );
+
+		var eventData = {
+			name: commandName,
+			commandData: data,
+			command: command
+		};
+
+		if ( command && command.state != CKEDITOR.TRISTATE_DISABLED ) {
+			if ( this.fire( 'beforeCommandExec', eventData ) !== true ) {
+				eventData.returnValue = command.exec( eventData.commandData );
+
+				if ( this.fire( 'afterCommandExec', eventData ) !== true )
+					return eventData.returnValue;
+			}
+		}
 
 		// throw 'Unknown command name "' + commandName + '"';
 		return false;
@@ -407,6 +420,10 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		}
 
 		return data;
+	},
+
+	loadSnapshot: function( snapshot ) {
+		this.fire( 'loadSnapshot', snapshot );
 	},
 
 	/**

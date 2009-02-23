@@ -14,6 +14,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 CKEDITOR.tools = {
+	arrayCompare: function( arrayA, arrayB ) {
+		if ( !arrayA && !arrayB )
+			return true;
+
+		if ( !arrayA || !arrayB || arrayA.length != arrayB.length )
+			return false;
+
+		for ( var i = 0; i < arrayA.length; i++ ) {
+			if ( arrayA[ i ] != arrayB[ i ] )
+				return false;
+		}
+
+		return true;
+	},
+
 	/**
 	 * Copy the properties from one object to another. By default, properties
 	 * already present in the target object <strong>are not</strong> overwritten.

@@ -544,6 +544,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return retval;
 		},
 
+		createBookmarks2: function( normalized ) {
+			var bookmarks = [],
+				ranges = this.getRanges();
+
+			for ( var i = 0; i < ranges.length; i++ )
+				bookmarks.push( ranges[ i ].createBookmark2( normalized ) );
+
+			return bookmarks;
+		},
+
 		selectBookmarks: function( bookmarks ) {
 			var ranges = [];
 			for ( var i = 0; i < bookmarks.length; i++ ) {

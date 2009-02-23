@@ -330,7 +330,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -880px;
 }
-
+.cke_skin_default a.cke_button_undo .cke_icon
+{
+	background-position: 0 -208px;
+}
+.cke_skin_default a.cke_button_redo .cke_icon
+{
+	background-position: 0 -224px;
+}
 .cke_skin_default a.cke_button_numberedlist .cke_icon
 {
 	background-position: 0 -400px;

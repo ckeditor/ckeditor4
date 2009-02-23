@@ -7,7 +7,10 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	this.state = ( 'state' in commandDefinition ) ? commandDefinition.state : CKEDITOR.TRISTATE_OFF;
 
 	this.exec = function( data ) {
-		return commandDefinition.exec.call( this, editor, data );
+		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
+			return false;
+
+		return ( commandDefinition.exec.call( this, editor, data ) !== false );
 	};
 
 	CKEDITOR.tools.extend( this, commandDefinition );

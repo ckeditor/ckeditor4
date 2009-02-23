@@ -69,6 +69,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( editor.mode )
 					event.data = getMode( editor ).getSnapshotData();
 			});
+
+			editor.on( 'loadSnapshot', function( event ) {
+				if ( editor.mode )
+					getMode( editor ).loadSnapshotData( event.data );
+			});
 		}
 	});
 

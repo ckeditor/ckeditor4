@@ -58,7 +58,12 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			// set to the event.
 
 			// Get the listeners holder object.
-			var nativeListeners = this.getCustomData( '_cke_nativeListeners' ) || this.setCustomData( '_cke_nativeListeners', {} );
+			var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
+
+			if ( !nativeListeners ) {
+				nativeListeners = {};
+				this.setCustomData( '_cke_nativeListeners', nativeListeners );
+			}
 
 			// Check if we have a listener for that event.
 			if ( !nativeListeners[ eventName ] ) {
