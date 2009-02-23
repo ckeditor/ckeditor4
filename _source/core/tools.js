@@ -287,12 +287,18 @@ CKEDITOR.tools = {
 	 * @returns {Number} The (zero based) index of the first entry that matches
 	 *		the entry, or -1 if not found.
 	 * @example
-	 * var letters = [ 'a', 'b', 'c' ];
-	 * alert( CKEDITOR.tools.indexOf( letters, 'b' ) );  "1"
+	 * var letters = [ 'a', 'b', 0, 'c', false ]; 
+	 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  "-1" because 0 !== '0' 
+	 * alert( CKEDITOR.tools.indexOf( letters, false ) );  "4" because 0 !== false 
 	 */
-	indexOf: function( array, entry ) {
+	indexOf:
+	// #2514: We should try to use Array.indexOf if it does exist.
+	( Array.prototype.indexOf ) ?
+	function( array, entry ) {
+		return array.indexOf( entry );
+	} : function( array, entry ) {
 		for ( var i = 0, len = array.length; i < len; i++ ) {
-			if ( array[ i ] == entry )
+			if ( array[ i ] === entry )
 				return i;
 		}
 		return -1;
