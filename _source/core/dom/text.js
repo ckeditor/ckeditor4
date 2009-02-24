@@ -73,6 +73,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
 	 * @returns {CKEDITOR.dom.text} The new text node.
 	 */
 	split: function( offset ) {
+		// If the offset is after the last char, IE creates the text node
+		// on split, but don't include it into the DOM. So, we have to do
+		// that manually here.
+		if ( CKEDITOR.env.ie && offset == this.getLength() ) {
+			var next = this.getDocument().createText( '' );
+			next.insertAfter( this );
+			return next;
+		}
+
 		return new CKEDITOR.dom.text( this.$.splitText( offset ) );
 	},
 

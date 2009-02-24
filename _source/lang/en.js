@@ -170,7 +170,8 @@ CKEDITOR.lang[ 'en' ] = {
 		matchCase: 'Match case',
 		matchWord: 'Match whole word',
 		matchCyclic: 'Match cyclic',
-		replaceAll: 'Replace All'
+		replaceAll: 'Replace All',
+		replaceSuccessMsg: '%1 occurrence(s) replaced.'
 	},
 
 	// Table Dialog

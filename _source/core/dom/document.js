@@ -62,7 +62,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	},
 
 	createText: function( text ) {
-		return new CKEDITOR.dom.text( '', this );
+		return new CKEDITOR.dom.text( text, this );
 	},
 
 	/**

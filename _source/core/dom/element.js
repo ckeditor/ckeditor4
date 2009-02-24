@@ -857,5 +857,79 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				}
 			}
 		}
+	},
+
+	getPositionedAncestor: function() {
+		var current = this;
+		while ( current.getName() != 'html' ) {
+			if ( current.getComputedStyle( 'position' ) != 'static' )
+				return current;
+
+			current = current.getParent();
+		}
+		return null;
+	},
+
+	getDocumentPosition: function() {
+		var x = 0,
+			y = 0,
+			current = this,
+			previous = null;
+		while ( current && !( current.getName() == 'body' || current.getName() == 'html' ) ) {
+			x += current.$.offsetLeft - current.$.scrollLeft;
+			y += current.$.offsetTop - current.$.scrollTop;
+
+			if ( !CKEDITOR.env.opera ) {
+				var scrollElement = previous;
+				while ( scrollElement && !scrollElement.equals( current ) ) {
+					x -= scrollElement.$.scrollLeft;
+					y -= scrollElement.$.scrollTop;
+					scrollElement = scrollElement.getParent();
+				}
+			}
+
+			previous = current;
+			current = new CKEDITOR.dom.element( current.$.offsetParent );
+		}
+
+		// document.body is a special case when it comes to offsetTop and offsetLeft
+		// values.
+		// 1. It matters if document.body itself is a positioned element;
+		// 2. It matters when we're in IE and the element has no positioned ancestor.
+		// Otherwise the values should be ignored.
+		if ( this.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && this.getPositionedAncestor() == null ) ) {
+			x += this.getDocument().getBody().$.offsetLeft;
+			y += this.getDocument().getBody().$.offsetTop;
+		}
+
+		return { x: x, y: y };
+	},
+
+	scrollIntoView: function( alignTop ) {
+		// Get the element window.
+		var win = this.getWindow(),
+			winHeight = win.getViewPaneSize().height;
+
+		// Starts from the offset that will be scrolled with the negative value of
+		// the visible window height.
+		var offset = winHeight * -1;
+
+		// Append the height if we are about the align the bottom.
+		if ( !alignTop ) {
+			offset += this.$.offsetHeight || 0;
+
+			// Consider the margin in the scroll, which is ok for our current needs, but
+			// needs investigation if we will be using this function in other places.
+			offset += parseInt( this.getComputedStyle( 'marginBottom' ) || 0, 10 ) || 0;
+		}
+
+		// Append the offsets for the entire element hierarchy.
+		var elementPosition = this.getDocumentPosition();
+		offset += elementPosition.y;
+
+		// Scroll the window to the desired position, if not already visible.
+		var currentScroll = win.getScrollPosition().y;
+		if ( offset > 0 && ( offset > currentScroll || offset < currentScroll - winHeight ) )
+			win.$.scrollTo( 0, offset );
 	}
 });

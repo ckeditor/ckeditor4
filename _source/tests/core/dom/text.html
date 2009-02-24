@@ -58,6 +58,51 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( '234', text.substring( 5,2 ) );
 		},
 
+		test_split1 : function()
+		{
+			var div = CKEDITOR.document.getById( 'playground' );
+			div.setHtml( '01234' );
+
+			var text = div.getFirst(),
+				next = text.split( 3 );
+
+			assert.areSame( '012', text.getText(), 'text.getText() is wrong' );
+			assert.areSame( '34', next.getText(), 'next.getText() is wrong' );
+
+			assert.areSame( div.$, next.$.parentNode, 'parentNode is wrong' );
+			assert.areSame( text.$, next.$.previousSibling, 'sibling is wrong' );
+		},
+
+		test_split2 : function()
+		{
+			var div = CKEDITOR.document.getById( 'playground' );
+			div.setHtml( '01234' );
+
+			var text = div.getFirst(),
+				next = text.split( 5 );
+
+			assert.areSame( '01234', text.getText(), 'text.getText() is wrong' );
+			assert.areSame( '', next.getText(), 'next.getText() is wrong' );
+
+			assert.areSame( div.$, next.$.parentNode, 'parentNode is wrong' );
+			assert.areSame( text.$, next.$.previousSibling, 'sibling is wrong' );
+		},
+
+		test_split3 : function()
+		{
+			var div = CKEDITOR.document.getById( 'playground' );
+			div.setHtml( '01234' );
+
+			var text = div.getFirst(),
+				next = text.split( 0 );
+
+			assert.areSame( '', text.getText(), 'text.getText() is wrong' );
+			assert.areSame( '01234', next.getText(), 'next.getText() is wrong' );
+
+			assert.areSame( div.$, next.$.parentNode, 'parentNode is wrong' );
+			assert.areSame( text.$, next.$.previousSibling, 'sibling is wrong' );
+		},
+
 		name : document.title
 	};
 })() );
@@ -66,6 +111,6 @@ CKEDITOR.test.addTestCase( (function()
 	</script>
 </head>
 <body>
-	<p>0123456789</p>
+	<div id="playground"></p>
 </body>
 </html>

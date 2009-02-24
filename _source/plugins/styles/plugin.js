@@ -83,22 +83,35 @@ CKEDITOR.STYLE_OBJECT = 3;
 		};
 	};
 
-	CKEDITOR.style.prototype = {
-		apply: function( document ) {
+	var applyStyle = function( document, remove ) {
 			// Get all ranges from the selection.
 			var selection = document.getSelection();
 			var ranges = selection.getRanges();
+			var func = remove ? this.removeFromRange : this.applyToRange;
 
 			// Apply the style to the ranges.
 			for ( var i = 0; i < ranges.length; i++ )
-				this.applyToRange( ranges[ i ] );
+				func.call( this, ranges[ i ] );
 
 			// Select the ranges again.
 			selection.selectRanges( ranges );
+		};
+
+	CKEDITOR.style.prototype = {
+		apply: function( document ) {
+			applyStyle.call( this, document, false );
+		},
+
+		remove: function( document ) {
+			applyStyle.call( this, document, true );
 		},
 
 		applyToRange: function( range ) {
 			return ( this.applyToRange = this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle : null ).call( this, range );
+		},
+
+		removeFromRange: function( range ) {
+			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : null ).call( this, range );
 		},
 
 		/**
@@ -305,7 +318,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 						// Here we do some cleanup, removing all duplicated
 						// elements from the style element.
-						removeFromElement( this, styleNode );
+						removeFromInsideElement( this, styleNode );
 
 						// Insert it into the range position (it is collapsed after
 						// extractContents.
@@ -335,33 +348,103 @@ CKEDITOR.STYLE_OBJECT = 3;
 			range.moveToBookmark( bookmark );
 		};
 
+	var removeInlineStyle = function( range ) {
+			/*
+			 * Make sure our range has included all "collpased" parent inline nodes so
+			 * that our operation logic can be simpler.
+			 */
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			var bookmark = range.createBookmark( true ),
+				startNode = range.document.getById( bookmark.startNode ),
+				startPath = new CKEDITOR.dom.elementPath( startNode.getParent() );
+
+			if ( range.collapsed ) {
+				/* 
+				 * If the range is collapsed, try to remove the style from all ancestor
+				 * elements, until either a block boundary is reached, or the style is
+				 * removed.
+				 */
+				for ( var i = 0, element; i < startPath.elements.length && ( element = startPath.elements[ i ] ); i++ ) {
+					if ( element == startPath.block || element == startPath.blockLimit )
+						break;
+
+					if ( this.checkElementRemovable( element ) ) {
+						removeFromElement( this, element );
+						break;
+					}
+				}
+			} else {
+				/*
+				 * Now our range isn't collapsed. Lets walk from the start node to the end
+				 * node via DFS and remove the styles one-by-one.
+				 */
+				var endNode = range.document.getById( bookmark.endNode ),
+					endPath = new CKEDITOR.dom.elementPath( endNode.getParent() );
+				currentNode = startNode;
+
+				// Find out the ancestor that needs to be broken down at startNode and endNode.
+				var breakStart = null,
+					breakEnd = null;
+				for ( var i = 0; i < startPath.elements.length; i++ ) {
+					if ( this.checkElementRemovable( startPath.elements[ i ] ) ) {
+						breakStart = startPath.elements[ i ];
+						break;
+					}
+				}
+				for ( var i = 0; i < endPath.elements.length; i++ ) {
+					if ( this.checkElementRemovable( endPath.elements[ i ] ) ) {
+						breakEnd = endPath.elements[ i ];
+						break;
+					}
+				}
+
+				if ( breakEnd )
+					endNode.breakParent( breakEnd );
+				if ( breakStart )
+					startNode.breakParent( breakStart );
+
+				// Now, do the DFS walk.
+				while ( ( currentNode = currentNode.getNextSourceNode() ) && !currentNode.equals( endNode ) ) {
+					if ( currentNode.type == CKEDITOR.NODE_ELEMENT )
+						removeFromElement( this, currentNode );
+				}
+			}
+
+			range.moveToBookmark( bookmark );
+		};
+
 	var applyBlockStyle = function( range ) {};
 
-	// Removes a style from inside an element.
+	// Removes a style from an element itself, don't care about its subtree.
 	var removeFromElement = function( style, element ) {
+			var def = style._.definition,
+				attributes = def.attributes,
+				styles = def.styles;
+
+			for ( var attName in attributes ) {
+				// The 'class' element value must match (#1318).
+				if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
+					continue;
+				element.removeAttribute( attName );
+			}
+
+			for ( var styleName in styles )
+				element.removeStyle( styleName );
+
+			removeNoAttribsElement( element );
+		};
+
+	// Removes a style from inside an element.
+	var removeFromInsideElement = function( style, element ) {
 			var def = style._.definition;
 			var attribs = def.attributes;
 			var styles = def.styles;
 
 			var innerElements = element.getElementsByTag( style.element );
 
-			for ( var i = innerElements.count(); --i >= 0; ) {
-				var innerElement = innerElements.getItem( i );
-
-				for ( var attName in attribs ) {
-					// The 'class' element value must match (#1318).
-					if ( attName == 'class' && innerElement.getAttribute( 'class' ) != attribs[ attName ] )
-						continue;
-
-					innerElement.removeAttribute( attName );
-				}
-
-				for ( var styleName in styles ) {
-					innerElement.removeStyle( styleName );
-				}
-
-				removeNoAttribsElement( innerElement );
-			}
+			for ( var i = innerElements.count(); --i >= 0; )
+				removeFromElement( style, innerElements.getItem( i ) );
 		};
 
 	// If the element has no more attributes, remove it.
@@ -518,8 +601,12 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 
 	var doc = editor.document;
 
-	if ( doc )
-		this.style.apply( doc );
+	if ( doc ) {
+		if ( this.state == CKEDITOR.TRISTATE_OFF )
+			this.style.apply( doc );
+		else if ( this.state == CKEDITOR.TRISTATE_ON )
+			this.style.remove( doc );
+	}
 
 	return !!doc;
 };
