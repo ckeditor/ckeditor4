@@ -110,6 +110,8 @@ if ( !CKEDITOR.event ) {
 					if ( isNaN( priority ) )
 						priority = 10;
 
+					var me = this;
+
 					// Create the function to be fired for this listener.
 					var listenerFirer = function( editor, publisherData, stopFn, cancelFn ) {
 							var ev = {
@@ -119,7 +121,10 @@ if ( !CKEDITOR.event ) {
 								data: publisherData,
 								listenerData: listenerData,
 								stop: stopFn,
-								cancel: cancelFn
+								cancel: cancelFn,
+								removeListener: function() {
+									me.removeListener( eventName, listenerFunction );
+								}
 							};
 
 							listenerFunction.call( scopeObj, ev );

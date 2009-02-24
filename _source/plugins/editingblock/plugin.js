@@ -74,6 +74,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( editor.mode )
 					getMode( editor ).loadSnapshotData( event.data );
 			});
+
+			// For the first "mode" call, we'll also fire the "instanceReady"
+			// event.
+			editor.on( 'mode', function( event ) {
+				// Do that once only.
+				event.removeListener();
+
+				// Fire instanceReady for both the editor and CKEDITOR.
+				editor.fireOnce( 'instanceReady' );
+				CKEDITOR.fire( 'instanceReady', null, editor );
+			});
 		}
 	});
 
