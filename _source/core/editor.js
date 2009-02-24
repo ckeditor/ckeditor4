@@ -198,7 +198,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// If are replacing a textarea, we must
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
-				var form = new CKEDITOR.dom.element( element.$.form );
+				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
 				if ( form ) {
 					form.on( 'submit', function() {
 						editor.updateElement();
