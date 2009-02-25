@@ -397,7 +397,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								align: 'center',
 								label: editor.lang.common.browseServer,
 								onLoad: function() {
-									if ( this.getParentEditor().config.image_browseServer == false )
+									if ( this.getDialog().getParentEditor().config.image_browseServer == false )
 										this.getContentElement( 'info', 'browse' ).getElement().hide();
 								},
 								onClick: function() {
