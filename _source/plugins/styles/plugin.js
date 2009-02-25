@@ -356,22 +356,27 @@ CKEDITOR.STYLE_OBJECT = 3;
 			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
 			var bookmark = range.createBookmark( true ),
-				startNode = range.document.getById( bookmark.startNode ),
-				startPath = new CKEDITOR.dom.elementPath( startNode.getParent() );
+				startNode = range.document.getById( bookmark.startNode );
 
 			if ( range.collapsed ) {
 				/* 
 				 * If the range is collapsed, try to remove the style from all ancestor
-				 * elements, until either a block boundary is reached, or the style is
-				 * removed.
+				 * elements, until a block boundary is reached.
 				 */
+				var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() );
 				for ( var i = 0, element; i < startPath.elements.length && ( element = startPath.elements[ i ] ); i++ ) {
 					if ( element == startPath.block || element == startPath.blockLimit )
 						break;
 
 					if ( this.checkElementRemovable( element ) ) {
+						/*
+						 * Before removing the style node, there may be a sibling to the style node
+						 * that's exactly the same to the one to be removed. To the user, it makes
+						 * no difference that they're separate entities in the DOM tree. So, merge
+						 * them before removal.
+						 */
+						mergeSiblings( element );
 						removeFromElement( this, element );
-						break;
 					}
 				}
 			} else {
@@ -380,34 +385,66 @@ CKEDITOR.STYLE_OBJECT = 3;
 				 * node via DFS and remove the styles one-by-one.
 				 */
 				var endNode = range.document.getById( bookmark.endNode ),
-					endPath = new CKEDITOR.dom.elementPath( endNode.getParent() );
-				currentNode = startNode;
+					me = this;
 
-				// Find out the ancestor that needs to be broken down at startNode and endNode.
-				var breakStart = null,
-					breakEnd = null;
-				for ( var i = 0; i < startPath.elements.length; i++ ) {
-					if ( this.checkElementRemovable( startPath.elements[ i ] ) ) {
-						breakStart = startPath.elements[ i ];
-						break;
-					}
-				}
-				for ( var i = 0; i < endPath.elements.length; i++ ) {
-					if ( this.checkElementRemovable( endPath.elements[ i ] ) ) {
-						breakEnd = endPath.elements[ i ];
-						break;
-					}
-				}
+				/*
+				 * Find out the style ancestor that needs to be broken down at startNode
+				 * and endNode.
+				 */
+				function breakNodes() {
+					var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+						endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
+						breakStart = null,
+						breakEnd = null;
+					for ( var i = 0; i < startPath.elements.length; i++ ) {
+						var element = startPath.elements[ i ];
 
-				if ( breakEnd )
-					endNode.breakParent( breakEnd );
-				if ( breakStart )
-					startNode.breakParent( breakStart );
+						if ( element == startPath.block || element == startPath.blockLimit )
+							break;
+
+						if ( me.checkElementRemovable( element ) )
+							breakStart = element;
+					}
+					for ( var i = 0; i < endPath.elements.length; i++ ) {
+						var element = endPath.elements[ i ];
+
+						if ( element == endPath.block || element == endPath.blockLimit )
+							break;
+
+						if ( me.checkElementRemovable( element ) )
+							breakEnd = element;
+					}
+
+					if ( breakEnd )
+						endNode.breakParent( breakEnd );
+					if ( breakStart )
+						startNode.breakParent( breakStart );
+				}
+				breakNodes();
 
 				// Now, do the DFS walk.
-				while ( ( currentNode = currentNode.getNextSourceNode() ) && !currentNode.equals( endNode ) ) {
-					if ( currentNode.type == CKEDITOR.NODE_ELEMENT )
+				var currentNode = startNode.getNext();
+				while ( !currentNode.equals( endNode ) ) {
+					/*
+					 * Need to get the next node first because removeFromElement() can remove
+					 * the current node from DOM tree.
+					 */
+					var nextNode = currentNode.getNextSourceNode();
+					if ( currentNode.type == CKEDITOR.NODE_ELEMENT && this.checkElementRemovable( currentNode ) ) {
 						removeFromElement( this, currentNode );
+
+						/*
+						 * removeFromElement() may have merged the next node with something before
+						 * the startNode via mergeSiblings(). In that case, the nextNode would
+						 * contain startNode and we'll have to call breakNodes() again and also
+						 * reassign the nextNode to something after startNode.
+						 */
+						if ( nextNode.type == CKEDITOR.NODE_ELEMENT && nextNode.contains( startNode ) ) {
+							breakNodes();
+							nextNode = startNode.getNext();
+						}
+					}
+					currentNode = nextNode;
 				}
 			}
 
