@@ -16,7 +16,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 									+ 'document.designMode = "on";'
 								+ 'window.focus();'
 							+ '};'
-							+ '</script><style>body { margin: 3px; } </style><body></body>',
+							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',
 		cleanWord: function( editor, html, ignoreFont, removeStyles ) {
 			html = html.replace( /<o:p>\s*<\/o:p>/g, '' );
 			html = html.replace( /<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;' );
