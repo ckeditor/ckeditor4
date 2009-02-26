@@ -31,6 +31,8 @@ CKEDITOR.ui.button = function( definition ) {
 	 * @example
 	 */
 	this.label = definition.label;
+	if ( CKEDITOR.env.ie )
+		this.label += '\ufeff';
 
 	/**
 	 * The button advisory title. It is usually displayed as the button tooltip.
