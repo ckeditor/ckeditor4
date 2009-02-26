@@ -340,6 +340,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 						return tabIndex;
 						break;
+
+					case 'style':
+						// IE does not return inline styles via getAttribute(). See #2947.
+						return this.$.style.cssText;
 				}
 
 				return standard.call( this, name );
