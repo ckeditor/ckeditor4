@@ -7,7 +7,6 @@ importClass( java.io.BufferedReader );
 importClass( java.io.BufferedWriter );
 importClass( java.io.DataInputStream );
 importClass( java.io.File );
-importClass( java.io.FileOutputStream );
 importClass( java.io.FileInputStream );
 importClass( java.io.FileOutputStream );
 importClass( java.io.InputStreamReader );
