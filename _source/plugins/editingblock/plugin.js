@@ -146,7 +146,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 
-		modeEditor.load( holderElement, data || this.getData() );
+		modeEditor.load( holderElement, ( typeof data ) != 'string' ? this.getData() : data );
 	};
 
 	/**
