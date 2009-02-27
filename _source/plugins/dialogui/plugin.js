@@ -282,7 +282,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 						html = [],
 						attributes = { 'class': 'cke_dialog_ui_checkbox_input', type: 'checkbox' };
 					cleanInnerDefinition( myDefinition );
-					if ( elementDefinition.checked )
+					if ( elementDefinition[ 'default' ] )
 						attributes.checked = 'checked';
 					_.checkbox = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'input', null, attributes );
 					html.push( ' ', CKEDITOR.tools.htmlEncode( elementDefinition.label ) );
