@@ -33,6 +33,13 @@ CKEDITOR.command.prototype = {
 		this.fire( 'state' );
 
 		return true;
+	},
+
+	toggleState: function() {
+		if ( this.state == CKEDITOR.TRISTATE_OFF )
+			this.setState( CKEDITOR.TRISTATE_ON );
+		else if ( this.state == CKEDITOR.TRISTATE_ON )
+			this.setState( CKEDITOR.TRISTATE_OFF );
 	}
 }
 

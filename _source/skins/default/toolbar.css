@@ -310,6 +310,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -816px;
 }
+.cke_skin_default a.cke_button_showblocks .cke_icon
+{
+	background-position: 0 -1136px;
+}
 
 .cke_skin_default a.cke_button_select .cke_icon
 {

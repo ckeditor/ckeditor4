@@ -197,6 +197,7 @@ CKEDITOR.config.toolbar = [
 	'SelectAll', 'RemoveFormat', '-',
 	'Link', 'Unlink', 'Anchor', '-',
 	'Image', '-',
-	'Table', 'Smiley', 'HorizontalRule', 'SpecialChar', 'PageBreak'
+	'Table', 'Smiley', 'HorizontalRule', 'SpecialChar', 'PageBreak', '-',
+	'ShowBlocks'
 	]
 	];

@@ -406,5 +406,7 @@ CKEDITOR.lang[ 'en' ] = {
 		insertOption: 'Replace actual contents',
 		selectPromptMsg: 'Please select the template to open in the editor',
 		emptyListMsg: '(No templates defined)'
-	}
+	},
+
+	showBlocks: 'Show Blocks'
 };
