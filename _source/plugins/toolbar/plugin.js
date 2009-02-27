@@ -189,6 +189,7 @@ CKEDITOR.config.toolbar = [
 	'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
 	'Undo', 'Redo', '-',
 	'Find', 'Replace', '-',
+	'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField', '-',
 	'Bold', 'Italic', 'Underline', 'Strike', '-',
 	'NumberedList', 'BulletedList', '-',
 	'Outdent', 'Indent', 'Blockquote', '-',
