@@ -96,11 +96,11 @@ var CKLANGTOOL = {
 		missing: Pattern.compile( "\\/\\/\\s*MISSING", Pattern.CASE_INSENSITIVE ),
 		blockCommentStart: Pattern.compile( "\\/\\*" ),
 		blockCommentEnd: Pattern.compile( "\\*\\/" ),
-		entry: Pattern.compile( "^(\\s*)([a-z0-9]+)(\\s*:\\s*\\').*?(\\'.*)$", Pattern.CASE_INSENSITIVE ),
-		arrayEntry: Pattern.compile( "^(\\s*)([a-z0-9]+)(\\s*:\\s*\\[)(.*?)(\\].*)$", Pattern.CASE_INSENSITIVE ),
+		entry: Pattern.compile( "^(\\s*)([a-z0-9][_a-z0-9]*)(\\s*:\\s*\\').*?(\\'.*)$", Pattern.CASE_INSENSITIVE ),
+		arrayEntry: Pattern.compile( "^(\\s*)([a-z0-9][_a-z0-9]*)(\\s*:\\s*\\[)(.*?)(\\].*)$", Pattern.CASE_INSENSITIVE ),
 		arrayItemEntry: Pattern.compile( "\\s*(?:'(.*?)'(?:\\s*,\\s*)?)" ),
 		arrayTranslationKey: Pattern.compile( "^(.*)\\[(\\d+)\\]$" ),
-		objectName: Pattern.compile( "^\\s*([a-z][a-z0-9]*)\\s*:\\s*$", Pattern.CASE_INSENSITIVE ),
+		objectName: Pattern.compile( "^\\s*([a-z][_a-z0-9]*)\\s*:\\s*$", Pattern.CASE_INSENSITIVE ),
 		objectStart: Pattern.compile( "\\{" ),
 		objectEnd: Pattern.compile( "\\}" ),
 		fileOverview: Pattern.compile( " @fileOverview" ),
@@ -394,7 +394,14 @@ var CKLANGTOOL = {
 			return false;
 		}
 
-		return result.replace( "\\", "\\\\" ).replace( "\r", "\\r" ).replace( "\n", "\\n" ).replace( "'", "\\'" );
+		return escapeString( result );
+	}
+
+	/*
+	 * Escapes all characters so that a string could be properly saved to a file.
+	 */
+	function escapeString( string ) {
+		return string.replace( "\\", "\\\\" ).replace( "\r", "\\r" ).replace( "\n", "\\n" ).replace( "'", "\\'" ).replace( "\u200b", "\\u200b" );
 	}
 
 	function processFile( file ) {
@@ -414,8 +421,6 @@ var CKLANGTOOL = {
 			translationKey = matchResult.group( 0 ).slice( 22, -1 );
 			replacement = getTranslation( translation, translationKey );
 
-			if ( translationKey.substring( 0, 2 ) != "__" )
-				found++;
 			/*
 			 * common.textField[1] -> common.textField
 			 */
@@ -431,6 +436,9 @@ var CKLANGTOOL = {
 					missing++;
 			} else {
 				string = ( string.substring( 0, matchResult.start() ) + replacement + string.substring( matchResult.end() ) );
+
+				if ( translationKey.substring( 0, 2 ) != "__" )
+					found++;
 			}
 
 			matcher.reset( string );
@@ -448,7 +456,7 @@ var CKLANGTOOL = {
 				if ( line.indexOf( "//" ) == -1 ) {
 					lines[ i ] = line.replace( /\[MISSING_TRANSLATION\]/g, '' ) + " // MISSING";
 				} else {
-					lines[ i ] = line.replace( "//", "// MISSING" ).replace( /\[MISSING_TRANSLATION\]/g, '' );
+					lines[ i ] = line.replace( "//", "// MISSING //" ).replace( /\[MISSING_TRANSLATION\]/g, '' );
 				}
 			}
 		}
@@ -499,7 +507,9 @@ var CKLANGTOOL = {
 				print( "WARNING: language files not found." );
 			}
 
-			CKLANGTOOL.io.saveFile( new File( CKLANGTOOL.languageDir, "_translationstatus.txt" ), status.join( "\r\n" ), false );
+			var header = "Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.\r\nFor licensing, see LICENSE.html or http://ckeditor.com/license\r\n\r\n";
+
+			CKLANGTOOL.io.saveFile( new File( CKLANGTOOL.languageDir, "_translationstatus.txt" ), header + status.join( "\r\n" ), false );
 			print( "Process completed." );
 		}
 	};
