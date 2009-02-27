@@ -108,7 +108,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				// IE BUG: target attribute is an empty string instead of null in IE if it's not set.
 				if ( !target ) {
-					var onclick = element.getAttribute( '_cke_saved_onclick' ) || element.getAttribute( 'onclick' ),
+					var onclick = element.getAttribute( '_cke_pa_onclick' ) || element.getAttribute( 'onclick' ),
 						onclickMatch = onclick && onclick.match( popupRegex );
 					if ( onclickMatch ) {
 						retval.target.type = 'popup';
@@ -950,11 +950,11 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					addFeature( 'top' );
 
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
-					attributes._cke_saved_onclick = onclickList.join( '' );
+					attributes[ CKEDITOR.env.ie || CKEDITOR.env.webkit ? '_cke_pa_onclick' : 'onclick' ] = onclickList.join( '' );
 				} else {
 					if ( data.target.type != 'notSet' && data.target.name )
 						attributes.target = data.target.name;
-					removeAttributes.push( '_cke_saved_onclick', 'onclick' );
+					removeAttributes.push( '_cke_pa_onclick', 'onclick' );
 				}
 			}
 
