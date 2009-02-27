@@ -97,6 +97,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							toolbarId = 'cke_' + CKEDITOR.tools.getNextNumber(),
 							toolbarObj = { id: toolbarId, items: [] };
 
+						if ( row === '/' ) {
+							output.push( '<div class="cke_break"></div>' );
+							continue;
+						}
+
 						output.push( '<div id="', toolbarId, '" class="cke_toolbar">' );
 
 						// Add the toolbar to the "editor.toolbox.toolbars"
@@ -183,23 +188,15 @@ CKEDITOR.config.toolbarLocation = 'top';
  * ]</b>;
  */
 CKEDITOR.config.toolbar = [
-	[
-	'Source', '-',
-	'NewPage', 'Preview', 'Templates', 'Print', '-',
-	'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
-	'Undo', 'Redo', '-',
-	'Find', 'Replace', '-',
-	'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField', '-',
-	'Bold', 'Italic', 'Underline', 'Strike', '-',
-	'NumberedList', 'BulletedList', '-',
-	'Outdent', 'Indent', 'Blockquote', '-',
-	'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
-	'Subscript', 'Superscript', '-',
-	'SelectAll', 'RemoveFormat', '-',
-	'Link', 'Unlink', 'Anchor', '-',
-	'Image', 'Flash', '-',
-	'Table', 'Smiley', 'HorizontalRule', 'SpecialChar', 'PageBreak', '-',
-	'ShowBlocks', '-',
-	'Format'
-	]
+	[ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ],
+	[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print' ],
+	[ 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat' ],
+	[ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ],
+	'/',
+	[ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript' ],
+	[ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote' ],
+	[ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+	[ 'Link', 'Unlink', 'Anchor' ], [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ],
+	'/',
+	[ 'Format' ], [ 'ShowBlocks' ]
 	];

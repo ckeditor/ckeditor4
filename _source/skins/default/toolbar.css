@@ -13,8 +13,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_default .cke_toolbar
 {
-	padding: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 	display:inline-block;
+	float:left;
 }
 
 .cke_skin_default .cke_separator
@@ -29,6 +31,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_default.cke_rtl .cke_separator
 {
 	float:right;
+}
+
+.cke_skin_default .cke_break
+{
+	float:left;
+	clear:left;
+
+	/* IE */
+	*float:none;
+	*clear:right;
+    *height: 26px;
 }
 
 .cke_skin_default a.cke_button
