@@ -91,8 +91,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var isOn = ( this.state == CKEDITOR.TRISTATE_ON );
 			var funcName = isOn ? 'removeClass' : 'addClass';
 			editor.document.getBody()[ funcName ]( 'cke_show_blocks' );
+
 			this.toggleState();
-			editor._.showBlocks = isOn;
+			editor._.showBlocks = !isOn;
 		}
 	};
 
