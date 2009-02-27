@@ -666,7 +666,7 @@ body .cke_dialog
 {
 	white-space : normal;
 	border : 2px ridge black;
-	overflow : scroll;
+	overflow : auto;
 	height : 160px;
 	width : 390px;
 	padding : 2px;

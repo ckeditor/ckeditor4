@@ -81,6 +81,10 @@ CKEDITOR.htmlParser.fragment = function() {
 			};
 
 		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+			// If the tag name is ?xml:namespace, ignore.
+			if ( tagName == '?xml:namespace' )
+				return;
+
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// "isEmpty" will be always "false" for unknown elements, so we

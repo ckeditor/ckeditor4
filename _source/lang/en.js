@@ -199,8 +199,8 @@ CKEDITOR.lang[ 'en' ] = {
 		headersColumn: 'First column',
 		headersRow: 'First Row',
 		headersBoth: 'Both',
-		invalidRows: 'Number of rows must be an integer greater than 0.',
-		invalidCols: 'Number of columns must be an integer greater than 0.',
+		invalidRows: 'Number of rows must be a number greater than 0.',
+		invalidCols: 'Number of columns must be a number greater than 0.',
 		invalidBorder: 'Border size must be a number.',
 		invalidWidth: 'Table width must be a number.',
 		invalidHeight: 'Table height must be a number.',
@@ -352,7 +352,12 @@ CKEDITOR.lang[ 'en' ] = {
 		width: 'Width',
 		height: 'Height',
 		hSpace: 'HSpace',
-		vSpace: 'VSpace'
+		vSpace: 'VSpace',
+		validateSrc: 'URL must not be empty.',
+		validateWidth: 'Width must be a number.',
+		validateHeight: 'Height must be a number.',
+		validateHSpace: 'HSpace must be a number.',
+		validateVSpace: 'VSpace must be a number.'
 	},
 
 	smiley: {

@@ -66,6 +66,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		};
 
+	// ### protectCkeTags - START
+	var protectCkeTagRegex = /(<\/?)(object|embed|param)/gi
+	var protectCkeTags = function( html ) {
+			return html.replace( protectCkeTagRegex, '$1cke:$2' );
+		};
+	// ### protectCkeTags - END
+
 	var onInsertElement = function( evt ) {
 			if ( this.mode == 'wysiwyg' ) {
 				var element = evt.data,
@@ -265,6 +272,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Protect src or href attributes.
 						data = protectUrls( data );
+
+						// Protect cke prefixed tags.
+						data = protectCkeTags( data );
 
 						data = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 																'<head>' +

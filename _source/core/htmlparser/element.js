@@ -68,6 +68,9 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 		};
 
 	var ckeAttrRegex = /^_cke/,
+		ckeNamespaceRegex = /^cke:/,
+		ckeStyleWidthRegex = /width\s*:\s*(\d+)/i,
+		ckeStyleHeightRegex = /height\s*:\s*(\d+)/i,
 		ckeClassRegex = /(?:^|\s+)cke_[^\s]*/g,
 		ckePrivateAttrRegex = /^_cke_pa_/;
 
@@ -111,6 +114,35 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 			// element is a placeholder for another element.
 			if ( attributes._cke_realelement ) {
 				var realFragment = new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( attributes._cke_realelement ) );
+
+				// If _cke_resizable is set, and the fake element contains inline CSS width
+				// and height; then sync the width and height to the real element.
+				if ( attributes._cke_resizable && ( 'style' in attributes ) ) {
+					var match = ckeStyleWidthRegex.exec( attributes.style ),
+						width = match ? match[ 1 ] : null;
+					match = ckeStyleHeightRegex.exec( attributes.style );
+					var height = match ? match[ 1 ] : null;
+
+					var targetElement = realFragment.children[ 0 ];
+					if ( targetElement && ( width != null || height != null ) ) {
+						targetElement.attributes.width = width;
+						targetElement.attributes.height = height;
+
+						// Special case for #2916: If there's an EMBED inside an OBJECT, we need
+						// to set the EMBED's dimensions as well.
+						if ( targetElement.name == 'cke:object' ) {
+							for ( var i = 0; i < targetElement.children.length; i++ ) {
+								var child = targetElement.children[ i ];
+								if ( child.name == 'cke:embed' ) {
+									child.attributes.width = width;
+									child.attributes.height = height;
+									break;
+								}
+							}
+						}
+					}
+				}
+
 				realFragment.writeHtml( writer );
 				return;
 			}
@@ -122,8 +154,11 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 				return;
 			}
 
+			// Ignore cke: prefixes when writing HTML.
+			var writeName = this.name.replace( ckeNamespaceRegex, '' );
+
 			// Open element tag.
-			writer.openTag( this.name, this.attributes );
+			writer.openTag( writeName, this.attributes );
 
 			// Copy all attributes to an array.
 			var attribsArray = [];
@@ -157,14 +192,14 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 			}
 
 			// Close the tag.
-			writer.openTagClose( this.name, this.isEmpty );
+			writer.openTagClose( writeName, this.isEmpty );
 
 			if ( !this.isEmpty ) {
 				// Send children.
 				CKEDITOR.htmlParser.fragment.prototype.writeHtml.apply( this, arguments );
 
 				// Close the element.
-				writer.closeTag( this.name );
+				writer.closeTag( writeName );
 			}
 		}
 	};
