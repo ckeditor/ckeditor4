@@ -451,7 +451,54 @@ CKEDITOR.STYLE_OBJECT = 3;
 			range.moveToBookmark( bookmark );
 		};
 
-	var applyBlockStyle = function( range ) {};
+	var applyBlockStyle = function( range ) {
+			// Bookmark the range so we can re-select it after processing.
+			var bookmark = range.createBookmark();
+
+			var iterator = range.createIterator();
+			iterator.enforceRealBlocks = true;
+
+			var block;
+			var doc = range.document;
+			var previousPreBlock;
+
+			while ( ( block = iterator.getNextParagraph() ) ) // Only one =
+			{
+				// Create the new node right before the current one.
+				var newBlock = getElement( this, doc );
+
+				// Check if we are changing from/to <pre>.
+				//			var newBlockIsPre	= newBlock.nodeName.IEquals( 'pre' );
+				//			var blockIsPre		= block.nodeName.IEquals( 'pre' );
+
+				//			var toPre	= newBlockIsPre && !blockIsPre;
+				//			var fromPre	= !newBlockIsPre && blockIsPre;
+
+				// Move everything from the current node to the new one.
+				//			if ( toPre )
+				//				newBlock = this._ToPre( doc, block, newBlock );
+				//			else if ( fromPre )
+				//				newBlock = this._FromPre( doc, block, newBlock );
+				//			else	// Convering from a regular block to another regular block.
+				block.moveChildren( newBlock );
+
+				// Replace the current block.
+				newBlock.insertBefore( block );
+				block.remove();
+
+				// Complete other tasks after inserting the node in the DOM.
+				//			if ( newBlockIsPre )
+				//			{
+				//				if ( previousPreBlock )
+				//					this._CheckAndMergePre( previousPreBlock, newBlock ) ;	// Merge successive <pre> blocks.
+				//				previousPreBlock = newBlock;
+				//			}
+				//			else if ( fromPre )
+				//				this._CheckAndSplitPre( newBlock ) ;				// Split <br><br> in successive <pre>s.
+				}
+
+			range.moveToBookmark( bookmark );
+		};
 
 	// Removes a style from an element itself, don't care about its subtree.
 	var removeFromElement = function( style, element ) {

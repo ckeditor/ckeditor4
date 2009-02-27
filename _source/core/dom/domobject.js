@@ -133,7 +133,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * element.setCustomData( 'hasCustomData', true );
 	 */
 	domObjectProto.setCustomData = function( key, value ) {
-		var expandoNumber = this.$._cke_expando || ( this.$._cke_expando = CKEDITOR.tools.getNextNumber() ),
+		var expandoNumber = this.getUniqueId(),
 			dataSlot = customData[ expandoNumber ] || ( customData[ expandoNumber ] = {} );
 
 		dataSlot[ key ] = value;
@@ -168,6 +168,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 		delete dataSlot[ key ];
 		return retval || null;
+	};
+
+	domObjectProto.getUniqueId = function() {
+		return this.$._cke_expando || ( this.$._cke_expando = CKEDITOR.tools.getNextNumber() );
 	};
 
 	// Implement CKEDITOR.event.

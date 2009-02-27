@@ -151,6 +151,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		}
 	},
 
+	hasClass: function( className ) {
+		var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', '' );
+		return regex.test( this.$.className );
+	},
+
 	/**
 	 * Append a node as a child of this element.
 	 * @param {CKEDITOR.dom.node|String} node The node or element name to be
@@ -178,6 +183,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			this.$.appendChild( node.$ );
 
 		return node;
+	},
+
+	appendHtml: function( html ) {
+		var temp = new CKEDITOR.dom.element( 'div', this.getDocument() );
+		temp.setHtml( html );
+		temp.moveChildren( this );
 	},
 
 	/**

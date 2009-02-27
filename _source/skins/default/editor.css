@@ -6,6 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 @import url("reset.css");
 @import url("mainui.css");
 @import url("toolbar.css");
+@import url("panel.css");
+@import url("richcombo.css");
 @import url("elementspath.css");
 
 /* Restore the container visibility */

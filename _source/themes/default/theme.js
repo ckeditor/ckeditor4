@@ -48,7 +48,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 			// differently by the browsers ("semi-inline").
 			var container = CKEDITOR.dom.element.createFromHtml( [
 				'<span id="cke_', name, '" onmousedown="return false;" class="cke_container cke_skin_', editor.config.skin, ' ', browserCssClass,
-					' cke_', editor.lang.dir, '" dir="', editor.lang.dir, '">' +
+					' cke_', editor.lang.dir, '" dir="', editor.lang.dir, '" title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, ';height:', height, '"><tbody>' +
 						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
 						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:100%">', contentsHtml, '</td></tr>' +

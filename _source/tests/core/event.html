@@ -449,6 +449,34 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( false, isCanceledC, 'event C must not be canceled' );
 		},
 
+		test_event_removeListener : function()
+		{
+			// Create a testObject and implement CKEDITOR.event on it.
+			var testObject = {};
+			CKEDITOR.event.implementOn( testObject );
+
+			var counter = 0;
+
+			// Add two listeners for the same event "A".
+
+			testObject.on( 'A', function( ev )
+				{
+					counter++;
+					ev.removeListener();
+				});
+
+			testObject.on( 'A', function( ev )
+				{
+					counter++;
+				});
+
+			// Fire the event twice.
+			testObject.fire( 'A' );
+			testObject.fire( 'A' );
+
+			assert.areSame( 3, counter );
+		},
+
 		name : document.title
 	};
 })() );

@@ -40,8 +40,20 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 
 					if ( requiredPlugins.length )
 						loadPlugins.call( this, requiredPlugins );
-					else if ( callback )
-						callback.call( scope || window, allPlugins );
+					else {
+						// Call the "onLoad" function for all plugins.
+						for ( pluginName in allPlugins ) {
+							plugin = allPlugins[ pluginName ];
+							if ( plugin.onLoad && !plugin.onLoad._called ) {
+								plugin.onLoad();
+								plugin.onLoad._called = 1;
+							}
+						}
+
+						// Call the callback.
+						if ( callback )
+							callback.call( scope || window, allPlugins );
+					}
 				}, this );
 
 			};

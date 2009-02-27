@@ -44,9 +44,10 @@ CKEDITOR.ui.prototype = {
 	 *     });
 	 */
 	add: function( name, type, definition ) {
-		var item = this._.handlers[ type ].create( definition );
-		item.name = name;
-		this._.items[ name ] = item;
+		this._.items[ name ] = {
+			type: type,
+			args: Array.prototype.slice.call( arguments, 2 )
+		};
 	},
 
 	/**
@@ -54,8 +55,11 @@ CKEDITOR.ui.prototype = {
 	 * @param {String} name The UI item hame.
 	 * @example
 	 */
-	get: function( name ) {
-		return this._.items[ name ] || null;
+	create: function( name ) {
+		var item = this._.items[ name ],
+			handler = item && this._.handlers[ item.type ];
+
+		return handler && handler.create.apply( this, item.args );
 	},
 
 	/**

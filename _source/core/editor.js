@@ -69,10 +69,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( instanceConfig )
 					CKEDITOR.tools.extend( editor.config, instanceConfig, true );
 
-				// Fire the "configLoaded" event.
-				editor.fireOnce( 'configLoaded' );
-
-				loadLang( editor );
+				onConfigLoaded( editor );
 			});
 
 			// The instance config may override the customConfig setting to avoid
@@ -86,6 +83,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 	// ##### END: Config Privates
+
+	var onConfigLoaded = function( editor ) {
+			// Set config related properties.
+
+			editor.skinPath = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
+									'skins/' + editor.config.skin + '/' );
+
+			// Fire the "configLoaded" event.
+			editor.fireOnce( 'configLoaded' );
+
+			// Load language file.
+			loadLang( editor );
+		};
 
 	var loadLang = function( editor ) {
 			CKEDITOR.lang.load( editor.config.defaultLanguage, editor.config.autoLanguage, function( languageCode, lang ) {
