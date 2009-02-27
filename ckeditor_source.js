@@ -30,7 +30,7 @@ if ( !window.CKEDITOR )
 		})(), getUrl: function( d ) {
 			if ( d.indexOf( '://' ) == -1 && d.indexOf( '/' ) !== 0 )
 				d = this.basePath + d;
-			if ( this.timestamp )
+			if ( this.timestamp && d.charAt( d.length - 1 ) != '/' )
 				d += ( d.indexOf( '?' ) >= 0 ? '&' : '?' ) + ( 't=' ) + this.timestamp;
 			return d;
 		} },
