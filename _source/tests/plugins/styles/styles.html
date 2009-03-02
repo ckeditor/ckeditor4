@@ -179,7 +179,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				} );
 			style.applyToRange( range );
 
-			assert.areSame( '<b lang="it" style="font-size: 10pt; text-decoration: line-through;" title="test">this is some sample text</b>', getInnerHtml( '_P1' ) );
+			assert.areSame( '<b lang="it" style="font-size:10pt;text-decoration:line-through;" title="test">this is some sample text</b>', getInnerHtml( '_P1' ) );
 		},
 
 		test_inline11 : function()
@@ -234,7 +234,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			var style = new CKEDITOR.style( { element : 'span', styles : { 'font-size' : '1.5em' } } );
 			style.applyToRange( range );
 
-			assert.areSame( '<span style="font-size: 1.5em;">this <span style="font-weight: 600;">is</span> some sample text</span>', getInnerHtml( '_P1' ) );
+			assert.areSame( '<span style="font-size:1.5em;">this <span style="font-weight:600;">is</span> some sample text</span>', getInnerHtml( '_P1' ) );
 		},
 
 		test_inline13 : function()
@@ -249,6 +249,75 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			style.applyToRange( range );
 
 			assert.areSame( 'this <b>is <i>some sample</i></b><i> text</i>', getInnerHtml( '_P1' ) );
+		},
+
+		test_inline14 : function()
+		{
+			var para = doc.getById( '_P1' );
+
+			para.setHtml( 'this is some sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( para.getFirst(), 0 );
+			range.setEnd( para.getFirst(), 7 );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this is</b> some sample text', getInnerHtml( '_P1' ), 'First range' );
+
+			para.setHtml( para.getHtml() );
+
+			range = new CKEDITOR.dom.range( doc );
+			range.setStart( para.getFirst().getFirst(), 5 );
+			range.setEnd( para.getChild( 1 ), 5 );
+
+			style.applyToRange( range );
+
+			assert.areSame( '<b>this is some</b> sample text', getInnerHtml( '_P1' ), 'Second range' );
+		},
+
+		test_inline15 : function()
+		{
+			var para = doc.getById( '_P1' );
+
+			para.setHtml( 'this is some sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( para.getFirst(), 0 );
+			range.setEnd( para.getFirst(), 7 );
+
+			var style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Arial,Helvetica,sans-serif' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<span style="font-family:arial,helvetica,sans-serif;">this is</span> some sample text', getInnerHtml( '_P1' ), 'First range' );
+
+			para.setHtml( para.getHtml() );
+
+			range = new CKEDITOR.dom.range( doc );
+			range.setStart( para.getFirst().getFirst(), 5 );
+			range.setEnd( para.getChild( 1 ), 5 );
+
+			style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Georgia,serif' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<span style="font-family:arial,helvetica,sans-serif;">this <span style="font-family:georgia,serif;">is</span></span><span style="font-family:georgia,serif;"> some</span> sample text', getInnerHtml( '_P1' ), 'Second range' );
+		},
+
+		test_inline16 : function()
+		{
+			var para = doc.getById( '_P1' );
+
+			para.setHtml( '<b lang="pt" style="font-size:11pt;color:red;">this is some sample text</b>' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( para.getFirst().getFirst(), 4 );
+			range.setEnd( para.getFirst(), 10 );
+
+			var style = new CKEDITOR.style( { element : 'b', styles : { color : 'red', 'font-weight' : '700' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<b lang="pt" style="font-size:11pt;color:red;">this<b style="font-weight:700;"> is some sample text</b></b>', getInnerHtml( '_P1' ), 'First range' );
 		},
 
 		test_inline_nobreak1 : function()
@@ -278,6 +347,78 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 			assert.areSame( 'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">fckeditor<\/a>.', getInnerHtml( '_P1' ) );
 		},
+		
+		test_checkElementRemovable1 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<b>Test</b>', doc );
+
+			var style = new CKEDITOR.style( { element : 'b' } );
+
+			assert.isTrue( style.checkElementRemovable( element ) );
+		},
+
+		test_checkElementRemovable2 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<b>Test</b>', doc );
+
+			var style = new CKEDITOR.style( { element : 'i' } );
+
+			assert.isFalse( style.checkElementRemovable( element ) );
+		},
+
+		test_checkElementRemovable3 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<b>Test</b>', doc );
+
+			var style = new CKEDITOR.style( { element : 'b', attributes : { lang : 'pt' } } );
+
+			assert.isTrue( style.checkElementRemovable( element ) );
+		},
+
+		test_checkElementRemovable4 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<b>Test</b>', doc );
+
+			var style = new CKEDITOR.style( { element : 'b', attributes : { lang : 'pt' } } );
+
+			assert.isFalse( style.checkElementRemovable( element, true ) );
+		},
+
+		test_checkElementRemovable5 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<span lang="pt" style="color : #fff">Test</span>', doc );
+
+			var style = new CKEDITOR.style( { element : 'span', attributes : { lang : 'pt' }, style : { color : '#ffffff' } } );
+
+			assert.isTrue( style.checkElementRemovable( element, true ) );
+		},
+
+		test_checkElementRemovable6 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<span lang="pt" style="color : #fff">Test</span>', doc );
+
+			var style = new CKEDITOR.style( { element : 'span', attributes : { lang : 'pt' }, style : { color : '#fffff0' } } );
+
+			assert.isTrue( style.checkElementRemovable( element, true ) );
+		},
+
+		test_checkElementRemovable7 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<span lang="pt" style="color : #fff">Test</span>', doc );
+
+			var style = new CKEDITOR.style( { element : 'span', attributes : { lang : 'fr' }, style : { color : '#ffffff' } } );
+
+			assert.isFalse( style.checkElementRemovable( element, true ) );
+		},
+
+		test_checkElementRemovable8 : function()
+		{
+			var element = CKEDITOR.dom.element.createFromHtml( '<span lang="pt" style="font-size: 10px">Test</span>', doc );
+
+			var style = new CKEDITOR.style( { element : 'span', attributes : { lang : 'pt' , style : 'font-size:10px;' } } );
+
+			assert.isTrue( style.checkElementRemovable( element, true ) );
+		},
 
 		name : document.title
 	};
@@ -285,7 +426,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 //window.onload = function()
 //{
-//	testCase.test_inline4();
+//	testCase.test_checkElementRemovable8();
 //}
 
 	//]]>

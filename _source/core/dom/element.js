@@ -585,6 +585,40 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return false;
 	},
 
+	isIdentical: function( otherElement ) {
+		if ( this.getName() != otherElement.getName() )
+			return false;
+
+		var thisAttribs = this.$.attributes,
+			otherAttribs = otherElement.$.attributes;
+
+		var thisLength = thisAttribs.length,
+			otherLength = otherAttribs.length;
+
+		if ( !CKEDITOR.env.ie && thisLength != otherLength )
+			return false;
+
+		for ( var i = 0; i < thisLength; i++ ) {
+			var attribute = thisAttribs[ i ];
+
+			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != '_cke_expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
+				return false;
+		}
+
+		// For IE, we have to for both elements, because it's difficult to
+		// know how the atttibutes collection is organized in its DOM.
+		if ( CKEDITOR.env.ie ) {
+			for ( i = 0; i < otherLength; i++ ) {
+				attribute = otherAttribs[ i ];
+
+				if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != '_cke_expando' ) ) && attribute.nodeValue != thisAttribs.getAttribute( attribute.nodeName ) )
+					return false;
+			}
+		}
+
+		return true;
+	},
+
 	/**
 	 * Indicates that the element has defined attributes.
 	 * @returns {Boolean} True if the element has attributes.

@@ -65,11 +65,11 @@ CKEDITOR.test = {
 
 			match = match.replace( /\s([^\s=]+)=((?:"[^"]*")|(?:'[^']*')|(?:[^\s]+))/g, function( match, attName, attValue ) {
 				if ( attName == 'style' ) {
+					// Safari adds some extra space to the end.
+					attValue = attValue.replace( /\s+/g, '' );
+
 					// IE doesn't add the final ";"
 					attValue = attValue.replace( /([^"';\s])\s*(["']?)$/, '$1;$2' );
-
-					// Safari adds some extra space to the end.
-					attValue = attValue.replace( /\s+(["']?)$/, '$1' );
 				}
 
 				// IE may have 'class' more than once.
