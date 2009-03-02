@@ -1,0 +1,30 @@
+/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/* "Format" panel size */
+.cke_skin_default.cke_panel.cke_format
+{
+	width: 150px;
+	height: 170px;
+}
+
+/* "Font" panel size */
+.cke_skin_default.cke_panel.cke_font
+{
+	width: 150px;
+	height: 170px;
+}
+
+/* "Font Size" panel size */
+.cke_skin_default.cke_panel.cke_fontSize
+{
+	height: 170px;
+}
+
+/* "Font Size" combo width */
+.cke_skin_default .cke_fontSize .cke_text
+{
+	width: 20px;
+}

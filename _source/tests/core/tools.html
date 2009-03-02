@@ -125,6 +125,30 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( ' \n \t  test', CKEDITOR.tools.rtrim( ' \n \t  test\n  \t ' ) );
 		},
 
+		test_clone : function()
+		{
+			var obj =
+			{
+				name : 'John',
+				cars :
+				{
+					Mercedes : { color : 'blue' },
+					Porsche : { color : 'red' }
+				}
+			};
+
+			var clone = CKEDITOR.tools.clone( obj );
+
+			clone.name = 'Paul';
+			clone.cars.Porsche.color = 'silver';
+
+			assert.areSame( 'John', obj.name );
+			assert.areSame( 'Paul', clone.name );
+
+			assert.areSame( 'red', obj.cars.Porsche.color );
+			assert.areSame( 'silver', clone.cars.Porsche.color );
+		},
+
 		name : document.title
 	};
 })() );

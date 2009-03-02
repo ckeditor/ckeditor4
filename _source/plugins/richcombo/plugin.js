@@ -169,11 +169,6 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			};
 
 			list.onClick = function( value, marked ) {
-				if ( marked )
-					me.setValue( value, me._.items[ value ] );
-				else
-					me.setValue( '' );
-
 				// Move the focus to the main windows, otherwise it will stay
 				// into the floating panel, even if invisible, and Safari and
 				// Opera will go a bit crazy.
@@ -181,6 +176,11 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 				if ( me.onClick )
 					me.onClick.call( me, value, marked );
+
+				if ( marked )
+					me.setValue( value, me._.items[ value ] );
+				else
+					me.setValue( '' );
 
 				panel.hide();
 			};

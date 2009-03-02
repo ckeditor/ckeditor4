@@ -24,12 +24,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-top-right-radius: 3px;
 }
 
-.cke_skin_default.cke_panel.cke_format
-{
-	width: 150px;
-	height: 170px;
-}
-
 /* Ideally we would use "inherit here"... but you know... IE :( */
 .cke_skin_default.cke_panel iframe
 {

@@ -33,6 +33,45 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
+		 * Creates a deep copy of an object.
+		 * Attention: there is no support for deep copy of Array properties and
+		 * for recursive references.
+		 * @param {Object} object The object to be cloned.
+		 * @returns {Object} The object clone.
+		 * @example
+		 * var obj =
+		 *     {
+		 *         name : 'John',
+		 *         cars :
+		 *             {
+		 *                 Mercedes : { color : 'blue' },
+		 *                 Porsche : { color : 'red' }
+		 *             }
+		 *     };
+		 * var clone = CKEDITOR.tools.clone( obj );
+		 * clone.name = 'Paul';
+		 * clone.cars.Porsche.color = 'silver';
+		 * alert( obj.name );	// John
+		 * alert( clone.name );	// Paul
+		 * alert( obj.cars.Porsche.color );	// red
+		 * alert( clone.cars.Porsche.color );	// silver
+		 */
+		clone: function( object ) {
+			var clone = {};
+
+			for ( var propertyName in object ) {
+				var property = object[ propertyName ];
+
+				if ( typeof property == 'object' )
+					property = this.clone( property );
+
+				clone[ propertyName ] = property;
+			}
+
+			return clone;
+		},
+
+		/**
 		 * Copy the properties from one object to another. By default, properties
 		 * already present in the target object <strong>are not</strong> overwritten.
 		 * @param {Object} target The object to be extended.

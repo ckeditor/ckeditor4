@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'format', {
-	requires: [ 'richcombo' ],
+	requires: [ 'richcombo', 'styles' ],
 
 	init: function( editor ) {
 		var config = editor.config,
@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'format', {
 		var saveRanges;
 
 		// Gets the list of tags from the settings.
-		var tags = config.format_tags.split( ',' );
+		var tags = config.format_tags.split( ';' );
 
 		// Create style objects for all defined styles.
 		var styles = {};
@@ -88,7 +88,7 @@ CKEDITOR.plugins.add( 'format', {
 	}
 });
 
-CKEDITOR.config.format_tags = 'p,h1,h2,h3,h4,h5,h6,pre,address,div';
+CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 
 CKEDITOR.config.format_p = { element: 'p' };
 CKEDITOR.config.format_div = { element: 'div' };
