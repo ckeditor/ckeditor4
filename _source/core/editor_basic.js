@@ -162,5 +162,5 @@ if ( !CKEDITOR.editor ) {
 	};
 
 	// "Inherit" (copy actually) from CKEDITOR.event.
-	CKEDITOR.event.implementOn( CKEDITOR.editor.prototype );
+	CKEDITOR.event.implementOn( CKEDITOR.editor.prototype, true );
 }

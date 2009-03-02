@@ -16,12 +16,18 @@ if ( !CKEDITOR.event ) {
 	 * @example
 	 */
 	CKEDITOR.event = function() {
+		//In case of preserving existed events
+		var preExistedEvents = this._ && this._.events;
+		if ( !preExistedEvents )
 		( this._ || ( this._ = {} ) ).events = {};
 	};
 
 	/**
 	 * Implements the {@link CKEDITOR.event} features in an object.
 	 * @param {Object} targetObject The object in which implement the features.
+	 * @param {Boolean} isTargetPrototype If the target is a prototype of
+	 *            constructor, the internal 'events' object will not be copied,
+	 *            which should be composed by the constructor itself.
 	 * @example
 	 * var myObject = { message : 'Example' };
 	 * <b>CKEDITOR.event.implementOn( myObject }</b>;
@@ -31,12 +37,25 @@ if ( !CKEDITOR.event ) {
 	 *     });
 	 * myObject.fire( 'testEvent' );
 	 */
-	CKEDITOR.event.implementOn = function( targetObject ) {
-		CKEDITOR.event.call( targetObject );
+	CKEDITOR.event.implementOn = function( targetObject, isTargetPrototype ) {
+		if ( !isTargetPrototype )
+			CKEDITOR.event.call( targetObject );
 
 		for ( var prop in CKEDITOR.event.prototype ) {
-			if ( targetObject[ prop ] == undefined )
-				targetObject[ prop ] = CKEDITOR.event.prototype[ prop ];
+			(function() {
+
+				var property = prop;
+
+				if ( targetObject[ property ] == undefined )
+					targetObject[ property ] = isTargetPrototype ?
+				function() {
+					//pre-setup events model 
+					if ( !( this._ && this._.events ) )
+						CKEDITOR.event.call( this );
+
+					( this[ property ] = CKEDITOR.event.prototype[ property ] ).apply( this, arguments );
+				} : CKEDITOR.event.prototype[ property ];
+			})();
 		}
 	};
 
