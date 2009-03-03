@@ -3,6 +3,13 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/* "Styles" panel size */
+.cke_skin_default.cke_panel.cke_styles
+{
+	width: 150px;
+	height: 170px;
+}
+
 /* "Format" panel size */
 .cke_skin_default.cke_panel.cke_format
 {

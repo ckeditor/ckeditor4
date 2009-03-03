@@ -415,6 +415,13 @@ CKEDITOR.lang[ 'en' ] = {
 
 	showBlocks: 'Show Blocks',
 
+	stylesCombo: {
+		label: 'Styles',
+		panelTitle1: 'Block Styles',
+		panelTitle2: 'Inline Styles',
+		panelTitle3: 'Object Styles'
+	},
+
 	format: {
 		label: 'Format',
 		panelTitle: 'Paragraph Format',

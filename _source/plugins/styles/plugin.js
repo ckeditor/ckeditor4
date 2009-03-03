@@ -73,6 +73,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1 };
 	var objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,ul:1 };
 
+	var semicolonFixRegex = /\s*(?:;\s*|$)/;
+
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
 		if ( variablesValues ) {
 			styleDefinition = CKEDITOR.tools.clone( styleDefinition );
@@ -105,6 +107,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		removeFromRange: function( range ) {
 			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : null ).call( this, range );
+		},
+
+		applyToObject: function( element ) {
+			setupElement( element, this );
 		},
 
 		/**
@@ -163,6 +169,38 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			return true;
 		}
+	};
+
+	// Build the cssText based on the styles definition.
+	CKEDITOR.style.getStyleText = function( styleDefinition ) {
+		// If we have already computed it, just return it.
+		var stylesDef = styleDefinition._ST;
+		if ( stylesDef )
+			return stylesDef;
+
+		stylesDef = styleDefinition.styles;
+
+		// Builds the StyleText.
+
+		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '';
+
+		if ( stylesText.length )
+			stylesText = stylesText.replace( semicolonFixRegex, ';' );
+
+		for ( var style in stylesDef )
+			stylesText += style + ':' + stylesDef[ style ] + ';';
+
+		// Browsers make some changes to the style when applying them. So, here
+		// we normalize it to the browser format.
+		if ( stylesText.length ) {
+			stylesText = normalizeCssText( stylesText );
+
+			if ( stylesText.length )
+				stylesText = stylesText.replace( semicolonFixRegex, ';' );
+		}
+
+		// Return it, saving it to the next request.
+		return ( styleDefinition._ST = stylesText );
 	};
 
 	function applyInlineStyle( range ) {
@@ -584,8 +622,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var def = style._.definition;
 
 		var elementName = style.element;
-		var attributes = def.attributes;
-		var styles = getStyleText( def );
 
 		// The "*" element name will always be a span for this function.
 		if ( elementName == '*' )
@@ -593,6 +629,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Create the element.
 		el = new CKEDITOR.dom.element( elementName, targetDocument );
+
+		return setupElement( el, style );
+	}
+
+	function setupElement( el, style ) {
+		var def = style._.definition;
+		var attributes = def.attributes;
+		var styles = CKEDITOR.style.getStyleText( def );
 
 		// Assign all defined attributes.
 		if ( attributes ) {
@@ -643,7 +687,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		// Includes the style definitions.
-		var styleText = getStyleText( styleDefinition );
+		var styleText = CKEDITOR.style.getStyleText( styleDefinition );
 		if ( styleText.length > 0 ) {
 			if ( !attribs[ 'style' ] )
 				length++;
@@ -656,40 +700,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Return it, saving it to the next request.
 		return ( styleDefinition._AC = attribs );
-	}
-
-	var semicolonFixRegex = /\s*(?:;\s*|$)/;
-
-	// Build the cssText based on the styles definition.
-	function getStyleText( styleDefinition ) {
-		// If we have already computed it, just return it.
-		var stylesDef = styleDefinition._ST;
-		if ( stylesDef )
-			return stylesDef;
-
-		stylesDef = styleDefinition.styles;
-
-		// Builds the StyleText.
-
-		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '';
-
-		if ( stylesText.length )
-			stylesText = stylesText.replace( semicolonFixRegex, ';' );
-
-		for ( var style in stylesDef )
-			stylesText += style + ':' + stylesDef[ style ] + ';';
-
-		// Browsers make some changes to the style when applying them. So, here
-		// we normalize it to the browser format.
-		if ( stylesText.length ) {
-			stylesText = normalizeCssText( stylesText );
-
-			if ( stylesText.length )
-				stylesText = stylesText.replace( semicolonFixRegex, ';' );
-		}
-
-		// Return it, saving it to the next request.
-		return ( styleDefinition._ST = stylesText );
 	}
 
 	function normalizeCssText( unparsedCssText ) {

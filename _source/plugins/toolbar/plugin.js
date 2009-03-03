@@ -198,6 +198,6 @@ CKEDITOR.config.toolbar = [
 	[ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
 	[ 'Link', 'Unlink', 'Anchor' ], [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ],
 	'/',
-	[ 'Format', 'Font', 'FontSize' ],
+	[ 'Styles', 'Format', 'Font', 'FontSize' ],
 	[ 'ShowBlocks' ]
 	];

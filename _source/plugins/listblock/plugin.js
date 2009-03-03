@@ -22,7 +22,8 @@ CKEDITOR.plugins.add( 'listblock', {
 
 				this._ = {
 					pendingHtml: [],
-					items: {}
+					items: {},
+					groups: {}
 				};
 			},
 
@@ -69,7 +70,12 @@ CKEDITOR.plugins.add( 'listblock', {
 
 				startGroup: function( title ) {
 					this._.close();
-					this._.pendingHtml.push( '<h1 class=cke_panel_grouptitle>', title, '</h1>' );
+
+					var id = CKEDITOR.tools.getNextNumber();
+
+					this._.groups[ title ] = id;
+
+					this._.pendingHtml.push( '<h1 id=cke_', id, ' class=cke_panel_grouptitle>', title, '</h1>' );
 				},
 
 				commit: function() {
@@ -86,6 +92,42 @@ CKEDITOR.plugins.add( 'listblock', {
 						this.mark( value );
 
 					return !isMarked;
+				},
+
+				hideGroup: function( groupTitle ) {
+					var group = this.element.getDocument().getById( 'cke_' + this._.groups[ groupTitle ] ),
+						list = group && group.getNext();
+
+					if ( group ) {
+						group.setStyle( 'display', 'none' );
+
+						if ( list && list.getName() == 'ul' )
+							list.setStyle( 'display', 'none' );
+					}
+				},
+
+				hideItem: function( value ) {
+					this.element.getDocument().getById( 'cke_' + this._.items[ value ] ).setStyle( 'display', 'none' );
+				},
+
+				showAll: function() {
+					var items = this._.items,
+						groups = this._.groups,
+						doc = this.element.getDocument();
+
+					for ( var value in items ) {
+						doc.getById( 'cke_' + items[ value ] ).setStyle( 'display', '' );
+					}
+
+					for ( title in groups ) {
+						var group = doc.getById( 'cke_' + groups[ title ] ),
+							list = group.getNext();
+
+						group.setStyle( 'display', '' );
+
+						if ( list && list.getName() == 'ul' )
+							list.setStyle( 'display', '' );
+					}
 				},
 
 				mark: function( value ) {
