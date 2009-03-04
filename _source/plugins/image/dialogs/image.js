@@ -533,7 +533,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( resetButton ) {
 											resetButton.on( 'click', function() {
 												resetSize( this );
-											}, this ); //this = dialog.
+											}, this.getDialog() );
 											resetButton.on( 'mouseover', function() {
 												this.addClass( 'BtnOver' );
 											}, resetButton );
@@ -555,7 +555,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 														updatePreview( this );
 													}
 												}
-											}, this );
+											}, this.getDialog() );
 											ratioButton.on( 'mouseover', function() {
 												this.addClass( 'BtnOver' );
 											}, ratioButton );
