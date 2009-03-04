@@ -59,7 +59,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
-				this._.panel.showBlock( name );
+				var panel = this._.panel,
+					block = panel.showBlock( name );
 
 				var element = this.element,
 					iframe = this._.iframe,
@@ -79,6 +80,18 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					top: top + 'px',
 					display: ''
 				});
+
+				if ( block.autoSize ) {
+					function setHeight() {
+						element.setStyle( 'height', block.element.$.scrollHeight + 'px' );
+					}
+
+					if ( !CKEDITOR.env.gecko || panel.isLoaded )
+						setHeight();
+					else
+						panel.onLoad = setHeight;
+				} else
+					element.removeStyle( 'height' );
 
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {

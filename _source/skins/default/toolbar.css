@@ -144,6 +144,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-top:3px;
 }
 
+.cke_skin_default a.cke_button .cke_buttonarrow
+{
+	float: left;
+	height: 18px;
+	width: 8px;
+	background-position: right center;
+	background-image: url(images/toolbar.buttonarrow.gif);
+	background-repeat: no-repeat;
+}
+
 .cke_skin_default.cke_rtl a.cke_button .cke_label
 {
 	float: right;
@@ -297,6 +307,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_default a.cke_button_pagebreak .cke_icon
 {
 	background-position: 0 -672px;
+}
+
+.cke_skin_default a.cke_button_textcolor .cke_icon
+{
+	background-position: 0 -704px;
+}
+
+.cke_skin_default a.cke_button_bgcolor .cke_icon
+{
+	background-position: 0 -720px;
 }
 
 .cke_skin_default a.cke_button_form .cke_icon

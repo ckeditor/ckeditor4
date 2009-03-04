@@ -162,6 +162,9 @@ CKEDITOR.ui.button.prototype = {
 	setState: function( state ) {
 		var element = CKEDITOR.document.getById( this._.id );
 
+		if ( this._.currentState == state )
+			return;
+
 		switch ( state ) {
 			case CKEDITOR.TRISTATE_ON:
 				element.addClass( 'cke_on' );
@@ -179,6 +182,8 @@ CKEDITOR.ui.button.prototype = {
 				element.removeClass( 'cke_disabled' );
 				break;
 		}
+
+		this._.currentState = state;
 	}
 };
 

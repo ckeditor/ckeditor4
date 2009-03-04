@@ -254,3 +254,61 @@ li.cke_panel_listItem
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
+
+.cke_skin_default.cke_panel.cke_button_textcolor,
+.cke_skin_default.cke_panel.cke_button_bgcolor
+{
+	width: 150px;
+	height: 135px;
+}
+
+.cke_colorblock
+{
+	padding: 3px;
+    font-size: 11px;
+    font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
+}
+
+.cke_colorblock,
+.cke_colorblock a
+{
+	text-decoration: none;
+	color: #000;
+}
+
+span.cke_colorbox
+{
+	width: 10px;
+	height: 10px;
+    border: #808080 1px solid;
+	float: left;
+}
+
+a.cke_colorbox
+{
+    border: #fff 1px solid;
+    padding: 2px;
+    float: left;
+}
+
+a:hover.cke_colorbox
+{
+    border: #316ac5 1px solid;
+    background-color: #dff1ff;
+}
+
+a.cke_colorauto,
+a.cke_colormore
+{
+    border: #fff 1px solid;
+    padding: 2px;
+    display: block;
+}
+
+a:hover.cke_colorauto,
+a:hover.cke_colormore
+{
+    border: #316ac5 1px solid;
+    background-color: #dff1ff;
+}
+

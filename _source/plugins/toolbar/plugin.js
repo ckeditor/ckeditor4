@@ -199,5 +199,6 @@ CKEDITOR.config.toolbar = [
 	[ 'Link', 'Unlink', 'Anchor' ], [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ],
 	'/',
 	[ 'Styles', 'Format', 'Font', 'FontSize' ],
+	[ 'TextColor', 'BGColor' ],
 	[ 'ShowBlocks' ]
 	];

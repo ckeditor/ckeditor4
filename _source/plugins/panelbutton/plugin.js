@@ -1,0 +1,156 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+CKEDITOR.plugins.add( 'panelbutton', {
+	requires: [ 'button' ],
+	beforeInit: function( editor ) {
+		editor.ui.addHandler( CKEDITOR.UI_PANELBUTTON, CKEDITOR.ui.panelButton.handler );
+	}
+});
+
+/**
+ * Button UI element.
+ * @constant
+ * @example
+ */
+CKEDITOR.UI_PANELBUTTON = 4;
+
+CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
+	$: function( definition ) {
+		// Copy all definition properties to this object.
+		CKEDITOR.tools.extend( this, definition,
+		// Set defaults.
+		{
+			title: definition.label
+		});
+
+		// We don't want the panel definition in this object.
+		var panelDefinition = this.panel;
+		delete this.panel;
+
+		this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
+		this._ = {
+			panelDefinition: panelDefinition
+		};
+	},
+
+	statics: {
+		handler: {
+			create: function( definition ) {
+				return new CKEDITOR.ui.panelButton( definition );
+			}
+		}
+	},
+
+	proto: {
+		render: function( editor, output ) {
+			var id = this._.id = 'cke_' + CKEDITOR.tools.getNextNumber();
+
+			var instance = {
+				id: id,
+				focus: function() {
+					var element = CKEDITOR.document.getById( id );
+					element.focus();
+				},
+				execute: function() {
+					this.button.click( editor );
+				}
+			};
+
+			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
+				var _ = this._;
+
+				this.createPanel();
+
+				if ( _.on ) {
+					_.panel.hide();
+					return;
+				}
+
+				_.panel.showBlock( this._.id, new CKEDITOR.dom.element( $element ), 4 );
+			}, this );
+
+			var label = this.label || '';
+
+			var classes = 'cke_button cke_off';
+
+			if ( this.className )
+				classes += ' ' + this.className;
+
+			if ( CKEDITOR.env.ie )
+				label += '\ufeff';
+
+			output.push( '<a id="', id, '"' +
+				' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+				' title="', this.title, '"' +
+				' tabindex="-1"' +
+				' hidefocus="true"' );
+
+			// Some browsers don't cancel key events in the keydown but in the
+			// keypress.
+			// TODO: Check if really needed for Gecko+Mac.
+			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) ) {
+				output.push( ' onkeypress="return false;"' );
+			}
+
+			// With Firefox, we need to force the button to redraw, otherwise it
+			// will remain in the focus state.
+			if ( CKEDITOR.env.gecko ) {
+				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
+			}
+
+			output.push(
+			//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
+			' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
+				'<span class="cke_icon"></span>' +
+				'<span class="cke_label">', label, '</span>' +
+				'<span class="cke_buttonarrow"></span>' +
+				'</a>' );
+
+			return instance;
+		},
+
+		createPanel: function() {
+			var _ = this._;
+
+			if ( _.panel )
+				return;
+
+			var panelDefinition = this._.panelDefinition || {},
+				panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
+				panel = this._.panel = new CKEDITOR.ui.floatPanel( panelParentElement, panelDefinition ),
+				me = this;
+
+			panel.onShow = function() {
+				if ( me.className )
+					this.element.addClass( me.className );
+
+				me.document.getById( _.id ).addClass( 'cke_on' );
+
+				_.on = 1;
+
+				if ( me.onOpen )
+					me.onOpen();
+			};
+
+			panel.onHide = function() {
+				if ( me.className )
+					this.element.removeClass( me.className );
+
+				me.document.getById( _.id ).removeClass( 'cke_on' );
+
+				_.on = 0;
+
+				if ( me.onClose )
+					me.onClose();
+			};
+
+			if ( this.onBlock )
+				this.onBlock( panel, _.id );
+		},
+
+		setState: CKEDITOR.ui.button.prototype.setState
+	}
+});
