@@ -6,12 +6,7 @@
 :: Checks translation files in given directory.
 ::
 
-
-@ECHO OFF
-
 CLS
 ECHO.
 
-:: rmdir /S /Q release
-
-java -cp js.jar org.mozilla.javascript.tools.shell.Main langtool.js ../../_source/lang
+java -jar langtool/langtool.jar ../../_source/lang
