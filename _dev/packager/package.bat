@@ -6,4 +6,4 @@
 @ECHO OFF
 CLS
 
-java -jar ckpackager/js.jar -opt -1 ckpackager/ckpackager.js ../../ckeditor.pack
+java -jar ckpackager/ckpackager.jar ../../ckeditor.pack -v
