@@ -7,7 +7,7 @@ header :
 
 fixLineEnds : true,
 
-ignore : 
+ignore :
 [
 	'_dev',
 	'_docs/api',
@@ -55,7 +55,7 @@ rename :
 
 packages :
 [
-	'../../../ckeditor.pack'
+	'ckeditor.pack'
 ],
 
 documentation :
