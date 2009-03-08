@@ -304,6 +304,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 -176px;
 }
 
+.cke_skin_default a.cke_button_checkspell .cke_icon
+{
+	background-position: 0 -192px;
+}
+
 .cke_skin_default a.cke_button_pagebreak .cke_icon
 {
 	background-position: 0 -672px;

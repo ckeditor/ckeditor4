@@ -189,7 +189,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 CKEDITOR.config.toolbar = [
 	[ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ],
-	[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print' ],
+	[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker' ],
 	[ 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat' ],
 	[ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ],
 	'/',
