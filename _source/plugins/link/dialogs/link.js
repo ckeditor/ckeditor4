@@ -248,7 +248,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						style: 'width : 100%;',
 						items: [
 							[ 'http://' ],
-							[ 'https//' ],
+							[ 'https://' ],
 							[ 'ftp://' ],
 							[ 'news://' ],
 							[ '<other>', '' ]
@@ -268,6 +268,29 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						id: 'url',
 						label: editor.lang.common.url,
+						onLoad: function() {
+							this.allowOnChange = true;
+						},
+						onKeyUp: function() {
+							this.allowOnChange = false;
+							var protocolCmb = this.getDialog().getContentElement( 'info', 'protocol' ),
+								url = this.getValue(),
+								urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/gi,
+								urlOnChangeTestOther = /^((javascript:)|[#\/\.])/gi;
+
+							var protocol = urlOnChangeProtocol.exec( url );
+							if ( protocol ) {
+								this.setValue( url.substr( protocol[ 0 ].length ) );
+								protocolCmb.setValue( protocol[ 0 ].toLowerCase() );
+							} else if ( urlOnChangeTestOther.test( url ) )
+								protocolCmb.setValue( '' );
+
+							this.allowOnChange = true;
+						},
+						onChange: function() {
+							if ( this.allowOnChange ) // Dont't call on dialog load.
+							this.onKeyUp();
+						},
 						validate: function() {
 							var dialog = this.getDialog();
 
@@ -281,18 +304,22 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							return func.apply( this );
 						},
 						setup: function( data ) {
+							this.allowOnChange = false;
 							if ( data.url )
 								this.setValue( data.url.url );
+							this.allowOnChange = true;
 
 							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
 							if ( linkType && linkType.getValue() == 'url' )
 								this.select();
+
 						},
 						commit: function( data ) {
 							if ( !data.url )
 								data.url = {};
 
 							data.url.url = this.getValue();
+							this.allowOnChange = false;
 						}
 					}
 					],
@@ -903,7 +930,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			// Compose the URL.
 			switch ( data.type || 'url' ) {
 				case 'url':
-					var protocol = ( data.url && data.url.protocol ) || 'http://',
+					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
 						url = ( data.url && data.url.url ) || '';
 					attributes._cke_saved_href = protocol + url;
 					break;
