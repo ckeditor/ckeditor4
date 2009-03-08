@@ -25,7 +25,8 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 
 			if ( isInsertMode ) {
 				editor = this.getParentEditor();
-				element = CKEDITOR.dom.element.createFromHtml( '<form><br></form>' );
+				element = editor.document.createElement( 'form' );
+				element.append( editor.document.createElement( 'br' ) );
 			}
 			this.commitContent( element );
 
