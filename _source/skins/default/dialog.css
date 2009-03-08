@@ -365,12 +365,14 @@ body .cke_dialog
 .cke_skin_default.cke_ltr .cke_dialog_ui_hbox_child
 {
 	padding-right: 10px;
+	vertical-align: top;
 }
 
 .cke_skin_default.cke_rtl .cke_dialog_ui_hbox_first,
 .cke_skin_default.cke_rtl .cke_dialog_ui_hbox_child
 {
 	padding-left: 10px;
+	vertical-align: top;
 }
 
 .cke_skin_default .cke_dialog_ui_button
