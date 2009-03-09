@@ -97,7 +97,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 			output.push( '">' +
 				'<span class=cke_label>', this.label, '</span>' +
-				'<a hidefocus=true title="', this.title, '" href="javascript:void(\'', this.label, '\')"' );
+				'<a hidefocus=true title="', this.title, '" tabindex="-1" href="javascript:void(\'', this.label, '\')"' );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.

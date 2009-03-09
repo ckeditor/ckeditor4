@@ -169,6 +169,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// must be done after setting the "src", to avoid the
 						// "secure/unsecure" message under HTTPS.
 						mainElement.append( iframe );
+
+
+						if ( CKEDITOR.env.gecko ) {
+							// Accessibility attributes for Firefox.
+							mainElement.setAttributes({
+								role: 'region',
+								title: 'CKEditor ' + editor.name + '. Type in text.'
+							});
+							iframe.setAttributes({
+								role: 'region',
+								title: ' '
+							});
+						} else if ( CKEDITOR.env.ie ) {
+							// Accessibility label for IE.
+							var label = CKEDITOR.document.createElement( 'label' );
+							label.setStyles({
+								position: 'absolute',
+								'top': '-1000000px',
+								left: '-1000000px'
+							});
+							label.append( CKEDITOR.document.createText( 'CKEditor ' + editor.name ) );
+							label.insertBefore( iframe );
+						}
 					};
 
 				// The script that is appended to the data being loaded. It
