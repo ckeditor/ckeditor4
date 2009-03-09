@@ -47,7 +47,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 			// bring any evident problem as it seems that tables are treated
 			// differently by the browsers ("semi-inline").
 			var container = CKEDITOR.dom.element.createFromHtml( [
-				'<span id="cke_', name, '" onmousedown="return false;" class="cke_container cke_skin_', editor.config.skin, ' ', browserCssClass,
+				'<span id="cke_', name, '" onmousedown="return false;" class="cke_container ', editor.skinClass, ' ', browserCssClass,
 					' cke_', editor.lang.dir, '" dir="', editor.lang.dir, '" title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, ';height:', height, '"><tbody>' +
 						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +

@@ -28,14 +28,17 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		});
 
 		// We don't want the panel definition in this object.
+		var panelDefinition = this.panel || {};
 		delete this.panel;
 
 		this.id = CKEDITOR.tools.getNextNumber();
 
-		this.document = ( definition.panel && definition.panel.parent && definition.panel.parent.getDocument() ) || CKEDITOR.document;
+		this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
+
+		panelDefinition.className = ( panelDefinition.className || '' ) + ' cke_rcombopanel';
 
 		this._ = {
-			panelDefinition: definition.panel,
+			panelDefinition: panelDefinition,
 			items: {}
 		};
 	},
@@ -138,7 +141,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			if ( this._.panel )
 				return;
 
-			var panelDefinition = this._.panelDefinition || {},
+			var panelDefinition = this._.panelDefinition,
 				panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
 				panel = new CKEDITOR.ui.floatPanel( panelParentElement, panelDefinition ),
 				list = panel.addListBlock( this.id, this.multiSelect ),

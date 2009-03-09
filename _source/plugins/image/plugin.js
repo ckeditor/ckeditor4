@@ -22,6 +22,27 @@ CKEDITOR.plugins.add( 'image', {
 			label: editor.lang.common.image,
 			command: pluginName
 		});
+
+		// If the "menu" plugin is loaded, register the menu items.
+		if ( editor.addMenuItems ) {
+			editor.addMenuItems({
+				image: {
+					label: editor.lang.image.menu,
+					command: 'image',
+					group: 'image'
+				}
+			});
+		}
+
+		// If the "contextmenu" plugin is loaded, register the listeners.
+		if ( editor.contextMenu ) {
+			editor.contextMenu.addListener( function( element, selection ) {
+				if ( !element || !element.is( 'img' ) || element.getAttribute( '_cke_realelement' ) )
+					return;
+
+				return { image: CKEDITOR.TRISTATE_OFF };
+			});
+		}
 	}
 });
 

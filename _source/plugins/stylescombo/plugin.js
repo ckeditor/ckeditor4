@@ -125,7 +125,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				onOpen: function() {
 					var selection = editor.getSelection();
 
-					if ( CKEDITOR.env.ie ) {
+					if ( CKEDITOR.env.ie && selection ) {
 						editor.focus();
 						saveRanges = selection.getRanges();
 					}

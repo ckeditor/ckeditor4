@@ -394,14 +394,33 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * @returns {CKEDITOR.dom.node} Ancestor node.
 	 */
 	getAscendant: function( name, includeSelf ) {
-		var node = this.$;
-		if ( includeSelf && node.nodeName.toLowerCase() == name )
-			return this;
-		while ( ( node = node.parentNode ) ) {
-			if ( node.nodeName && node.nodeName.toLowerCase() == name )
-				return new CKEDITOR.dom.node( node );
+		var $ = this.$;
+
+		if ( !includeSelf )
+			$ = $.parentNode;
+
+		while ( $ ) {
+			if ( $.nodeName && $.nodeName.toLowerCase() == name )
+				return new CKEDITOR.dom.node( $ );
+
+			$ = $.parentNode;
 		}
 		return null;
+	},
+
+	hasAscendant: function( name, includeSelf ) {
+		var $ = this.$;
+
+		if ( !includeSelf )
+			$ = $.parentNode;
+
+		while ( $ ) {
+			if ( $.nodeName && $.nodeName.toLowerCase() == name )
+				return true;
+
+			$ = $.parentNode;
+		}
+		return false;
 	},
 
 	move: function( target, toStart ) {

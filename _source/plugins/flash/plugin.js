@@ -61,6 +61,25 @@ CKEDITOR.plugins.add( 'flash', {
 				fakeElement.replace( embedNode );
 			}
 		});
+
+		// If the "menu" plugin is loaded, register the menu items.
+		if ( editor.addMenuItems ) {
+			editor.addMenuItems({
+				flash: {
+					label: editor.lang.flash.properties,
+					command: 'flash',
+					group: 'flash'
+				}
+			});
+		}
+
+		// If the "contextmenu" plugin is loaded, register the listeners.
+		if ( editor.contextMenu ) {
+			editor.contextMenu.addListener( function( element, selection ) {
+				if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'flash' )
+					return { flash: CKEDITOR.TRISTATE_OFF };
+			});
+		}
 	},
 
 	requires: [ 'fakeobjects' ]

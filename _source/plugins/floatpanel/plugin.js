@@ -10,10 +10,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 (function() {
 	var panels = {};
 
-	function getPanel( doc, parentElement, definition ) {
+	function getPanel( doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-CSSs
 		var key = doc.getUniqueId() + '-' + parentElement.getUniqueId() +
-						( ( definition.css && ( '-' + definition.css ) ) || '' );
+						( ( definition.css && ( '-' + definition.css ) ) || '' ) +
+						( ( level && ( '-' + level ) ) || '' );
 
 		var panel = panels[ key ];
 
@@ -31,11 +32,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	}
 
 	CKEDITOR.ui.floatPanel = CKEDITOR.tools.createClass({
-		$: function( parentElement, definition ) {
+		$: function( parentElement, definition, level ) {
 			definition.forceIFrame = true;
 
 			var doc = parentElement.getDocument(),
-				panel = getPanel( doc, parentElement, definition ),
+				panel = getPanel( doc, parentElement, definition, level || 0 ),
 				element = panel.element,
 				iframe = element.getFirst();
 
@@ -44,8 +45,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			this._ = {
 				// The panel that will be floating.
 				panel: panel,
+				parentElement: parentElement,
+				definition: definition,
 				document: doc,
-				iframe: iframe
+				iframe: iframe,
+				children: []
 			}
 		},
 
@@ -58,13 +62,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				return this._.panel.addListBlock( name, multiSelect );
 			},
 
+			getBlock: function( name ) {
+				return this._.panel.getBlock( name );
+			},
+
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
 				var element = this.element,
 					iframe = this._.iframe,
-					position = offsetParent.getDocumentPosition();
+					position = offsetParent.getDocumentPosition( element.getDocument() );
 
 				var left = position.x + ( offsetX || 0 ),
 					top = position.y + ( offsetY || 0 );
@@ -98,7 +106,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					// Non IE prefer the event into a window object.
 					var focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow );
 
-					focused.on( 'blur', CKEDITOR.tools.bind( this.hide, this ) );
+					focused.on( 'blur', function() {
+						if ( !this._.activeChild )
+							this.hide();
+					}, this );
+
+					focused.on( 'focus', function() {
+						this._.focused = true;
+						this.hideChild();
+					}, this );
 
 					this._.blurSet = 1;
 				}
@@ -113,8 +129,38 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			hide: function() {
-				if ( !this.onHide || this.onHide.call( this ) !== true )
+				if ( !this.onHide || this.onHide.call( this ) !== true ) {
+					this.hideChild();
 					this.element.setStyle( 'display', 'none' );
+				}
+			},
+
+			showAsChild: function( panel, blockName, offsetParent, corner, offsetX, offsetY ) {
+				this.hideChild();
+
+				panel.onHide = CKEDITOR.tools.bind( function() {
+					// Use a timeout, so we give time for this menu to get
+					// potentially focused.
+					CKEDITOR.tools.setTimeout( function() {
+						if ( !this._.focused )
+							this.hide();
+					}, 0, this );
+				}, this );
+
+				this._.activeChild = panel;
+				this._.focused = false;
+
+				panel.showBlock( blockName, offsetParent, corner, offsetX, offsetY );
+			},
+
+			hideChild: function() {
+				var activeChild = this._.activeChild;
+
+				if ( activeChild ) {
+					delete activeChild.onHide;
+					delete this._.activeChild;
+					activeChild.hide();
+				}
 			}
 		}
 	});

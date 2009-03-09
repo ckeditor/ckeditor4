@@ -6,6 +6,14 @@
 	float: left;
 }
 
+.cke_skin_default.cke_rcombopanel
+{
+	border: 1px solid #316ac5;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+}
+
 /* IE6 only */
 /*\*/
 * html .cke_skin_default .cke_rcombo

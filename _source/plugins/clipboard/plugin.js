@@ -105,21 +105,43 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		init: function( editor ) {
-			var addButtonCommand = function( buttonName, commandName, command ) {
-					editor.addCommand( commandName, command );
-					editor.ui.addButton( buttonName, {
-						label: editor.lang[ commandName ],
-						command: commandName
+			function addButtonCommand( buttonName, commandName, command, ctxMenuOrder ) {
+				var lang = editor.lang[ commandName ];
+
+				editor.addCommand( commandName, command );
+				editor.ui.addButton( buttonName, {
+					label: lang,
+					command: commandName
+				});
+
+				// If the "menu" plugin is loaded, register the menu item.
+				if ( editor.addMenuItems ) {
+					editor.addMenuItem( commandName, {
+						label: lang,
+						command: commandName,
+						group: 'clipboard',
+						order: ctxMenuOrder
 					});
 				}
+			}
 
-			addButtonCommand( 'Cut', 'cut', new cutCopyCmd( 'cut' ) );
-			addButtonCommand( 'Copy', 'copy', new cutCopyCmd( 'copy' ) );
-			addButtonCommand( 'Paste', 'paste', pasteCmd );
+			addButtonCommand( 'Cut', 'cut', new cutCopyCmd( 'cut' ), 1 );
+			addButtonCommand( 'Copy', 'copy', new cutCopyCmd( 'copy' ), 4 );
+			addButtonCommand( 'Paste', 'paste', pasteCmd, 8 );
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			editor.on( 'key', onKey, editor );
+
+			// If the "contextmenu" plugin is loaded, register the listeners.
+			if ( editor.contextMenu ) {
+				editor.contextMenu.addListener( function() {
+					return {
+						cut: CKEDITOR.TRISTATE_DISABLED,
+						copy: CKEDITOR.TRISTATE_DISABLED,
+						paste: CKEDITOR.TRISTATE_DISABLED };
+				});
+			}
 		}
 	});
 })();

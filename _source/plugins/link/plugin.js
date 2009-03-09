@@ -72,6 +72,50 @@ CKEDITOR.plugins.add( 'link', {
 					anchor.addClass( 'cke_anchor' );
 			}
 		});
+
+		// If the "menu" plugin is loaded, register the menu items.
+		if ( editor.addMenuItems ) {
+			editor.addMenuItems({
+				anchor: {
+					label: editor.lang.anchor.menu,
+					command: 'anchor',
+					group: 'anchor'
+				},
+
+				link: {
+					label: editor.lang.link.menu,
+					command: 'link',
+					group: 'link',
+					order: 1
+				},
+
+				unlink: {
+					label: editor.lang.unlink,
+					command: 'unlink',
+					group: 'link',
+					order: 5
+				}
+			});
+		}
+
+		// If the "contextmenu" plugin is loaded, register the listeners.
+		if ( editor.contextMenu ) {
+			editor.contextMenu.addListener( function( element, selection ) {
+				if ( !element )
+					return;
+
+				var isAnchor = ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' );
+
+				if ( !isAnchor ) {
+					if ( !( element = element.getAscendant( 'a', true ) ) )
+						return;
+
+					isAnchor = ( element.getAttribute( 'name' ) && !element.getAttribute( 'href' ) );
+				}
+
+				return isAnchor ? { anchor: CKEDITOR.TRISTATE_OFF } : { link: CKEDITOR.TRISTATE_OFF, unlink: CKEDITOR.TRISTATE_OFF };
+			});
+		}
 	},
 
 	requires: [ 'fakeobjects' ]
