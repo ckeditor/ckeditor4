@@ -58,11 +58,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var onInsertHtml = function( evt ) {
 			if ( this.mode == 'wysiwyg' ) {
 				var $doc = this.document.$;
+				var data = protectHtml( evt.data );
 
 				if ( CKEDITOR.env.ie )
-					$doc.selection.createRange().pasteHTML( evt.data );
+					$doc.selection.createRange().pasteHTML( data );
 				else
-					$doc.execCommand( 'inserthtml', false, evt.data );
+					$doc.execCommand( 'inserthtml', false, data );
 			}
 		};
 
@@ -72,6 +73,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return html.replace( protectCkeTagRegex, '$1cke:$2' );
 		};
 	// ### protectCkeTags - END
+
+	function protectHtml( html ) {
+		// Prevent event attributes (like "onclick") to
+		// execute while editing.
+		if ( CKEDITOR.env.ie || CKEDITOR.env.webkit )
+			html = protectEvents( html );
+
+		// Protect src or href attributes.
+		html = protectUrls( html );
+
+		// Protect cke prefixed tags.
+		html = protectCkeTags( html );
+
+		return html;
+	}
 
 	var onInsertElement = function( evt ) {
 			if ( this.mode == 'wysiwyg' ) {
@@ -265,17 +281,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( CKEDITOR.env.ie )
 							data = data.replace( invalidSelfCloseTagsRegex, '$1></$2>' );
 
-						// Prevent event attributes (like "onclick") to
-						// execute while editing.
-						if ( CKEDITOR.env.ie || CKEDITOR.env.webkit )
-							data = protectEvents( data );
-
-						// Protect src or href attributes.
-						data = protectUrls( data );
-
-						// Protect cke prefixed tags.
-						data = protectCkeTags( data );
-
+						data = protectHtml( data );
 						data = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 																'<head>' +
 																	'<link href="' + editor.config.contentsCss + '" type="text/css" rel="stylesheet" _fcktemp="true"/>' +
