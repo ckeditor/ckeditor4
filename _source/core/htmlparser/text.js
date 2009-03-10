@@ -38,8 +38,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
 		 * @example
 		 */
-		writeHtml: function( writer ) {
-			writer.text( this.value );
+		writeHtml: function( writer, filter ) {
+			var text = this.value;
+
+			if ( filter && !( text = filter.onText( text ) ) )
+				return;
+
+			writer.text( text );
 		}
 	};
 })();

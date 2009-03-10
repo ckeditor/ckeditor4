@@ -40,7 +40,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 		{
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><p>Test</p></div>' );
 
-			assert.areSame( '<p>Test</p>', getDataProcessor().toDataFormat( element ) );
+			assert.areSame( '<p>Test</p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		test_toDataFormat_1b : function()
@@ -49,16 +49,16 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 			// IE adds the XML namespace tag.
 			if ( CKEDITOR.env.ie )
-				assert.areSame( '<?xml:namespace prefix="x" /><x:x>Test</x:x>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<?xml:namespace prefix="x" /><x:x>Test</x:x>', getDataProcessor().toDataFormat( element.getHtml() ) );
 			else
-				assert.areSame( '<x:x>Test</x:x>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<x:x>Test</x:x>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		test_toDataFormat_2a : function()
 		{
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><br /><p>Test</p></div>' );
 
-			assert.areSame( '<br /><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+			assert.areSame( '<br /><p>Test</p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		test_toDataFormat_2b : function()
@@ -67,16 +67,16 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 			// IE adds the XML namespace tag.
 			if ( CKEDITOR.env.ie )
-				assert.areSame( '<?xml:namespace prefix="x" /><x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<?xml:namespace prefix="x" /><x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 			else
-				assert.areSame( '<x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<x:x></x:x><p>Test</p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		test_toDataFormat_3 : function()
 		{
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x><p>Test</p></div>' );
 
-			assert.areSame( '<x:x><p>Test</p></x:x>', getDataProcessor().toDataFormat( element ) );
+			assert.areSame( '<x:x><p>Test</p></x:x>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		test_toDataFormat_ticket_2774 : function()
@@ -85,9 +85,9 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 			// IE adds the XML namespace tag.
 			if ( CKEDITOR.env.ie )
-				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><?xml:namespace prefix="o" /><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><?xml:namespace prefix="o" /><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 			else
-				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element ) );
+				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
 		name : document.title

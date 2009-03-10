@@ -22,7 +22,7 @@ if ( !CKEDITOR.loader ) {
 		var scripts = {
 			'core/_bootstrap': [ 'core/config', 'core/ckeditor', 'core/plugins', 'core/scriptloader', 'core/tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'core/dom/elementpath', 'core/dom/text', 'core/dom/range' ],
 			'core/ajax': [ 'core/xml' ],
-			'core/ckeditor': [ 'core/ckeditor_basic', 'core/dom', 'core/dtd', 'core/dom/document', 'core/dom/element', 'core/editor', 'core/event', 'core/htmlparser', 'core/htmlparser/element', 'core/htmlparser/fragment', 'core/tools' ],
+			'core/ckeditor': [ 'core/ckeditor_basic', 'core/dom', 'core/dtd', 'core/dom/document', 'core/dom/element', 'core/editor', 'core/event', 'core/htmlparser', 'core/htmlparser/element', 'core/htmlparser/fragment', 'core/htmlparser/filter', 'core/htmlparser/basicwriter', 'core/tools' ],
 			'core/ckeditor_base': [],
 			'core/ckeditor_basic': [ 'core/editor_basic', 'core/env', 'core/event' ],
 			'core/command': [],
@@ -51,6 +51,8 @@ if ( !CKEDITOR.loader ) {
 			'core/htmlparser/element': [ 'core/htmlparser', 'core/htmlparser/fragment' ],
 			'core/htmlparser/fragment': [ 'core/htmlparser', 'core/htmlparser/comment', 'core/htmlparser/text' ],
 			'core/htmlparser/text': [ 'core/htmlparser' ],
+			'core/htmlparser/filter': [ 'core/htmlparser' ],
+			'core/htmlparser/basicwriter': [ 'core/htmlparser' ],
 			'core/imagecacher': [ 'core/dom/element' ],
 			'core/lang': [],
 			'core/plugins': [ 'core/resourcemanager' ],

@@ -58,21 +58,6 @@ CKEDITOR.plugins.add( 'link', {
 				command.setState( CKEDITOR.TRISTATE_DISABLED );
 		});
 
-		// Register a contentDom handler for displaying placeholders after mode change.
-		editor.on( 'contentDom', function() {
-			var rawAnchors = editor.document.$.anchors;
-			for ( var i = rawAnchors.length - 1, anchor; i >= 0; i-- ) {
-				anchor = new CKEDITOR.dom.element( rawAnchors[ i ] );
-
-				// IE BUG: When an <a> tag doesn't have href, IE would return empty string
-				// instead of null on getAttribute.
-				if ( !anchor.getAttribute( 'href' ) )
-					editor.createFakeElement( anchor, 'cke_anchor', 'anchor' ).replace( anchor );
-				else
-					anchor.addClass( 'cke_anchor' );
-			}
-		});
-
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {
 			editor.addMenuItems({
@@ -114,6 +99,25 @@ CKEDITOR.plugins.add( 'link', {
 				}
 
 				return isAnchor ? { anchor: CKEDITOR.TRISTATE_OFF } : { link: CKEDITOR.TRISTATE_OFF, unlink: CKEDITOR.TRISTATE_OFF };
+			});
+		}
+	},
+
+	afterInit: function( editor ) {
+		// Register a filter to displaying placeholders after mode change.
+
+		var dataProcessor = editor.dataProcessor,
+			dataFilter = dataProcessor && dataProcessor.dataFilter;
+
+		if ( dataFilter ) {
+			dataFilter.addRules({
+				elements: {
+					a: function( element ) {
+						var attributes = element.attributes;
+						if ( attributes.name && !attributes.href )
+							return editor.createFakeParserElement( element, 'cke_anchor', 'anchor' );
+					}
+				}
 			});
 		}
 	},

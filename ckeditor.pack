@@ -109,6 +109,8 @@ packages :
 					'_source/core/htmlparser/text.js',
 					'_source/core/htmlparser/fragment.js',
 					'_source/core/htmlparser/element.js',
+					'_source/core/htmlparser/filter.js',
+					'_source/core/htmlparser/basicwriter.js',
 					'_source/core/ckeditor.js',
 					'_source/core/dom/elementpath.js',
 					'_source/core/dom/text.js',

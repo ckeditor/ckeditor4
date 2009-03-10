@@ -167,7 +167,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Load all plugin specific language files in a row.
 				CKEDITOR.scriptLoader.load( languageFiles, function() {
 					// Initialize all plugins that have the "beforeInit" and "init" methods defined.
-					var methods = [ 'beforeInit', 'init' ];
+					var methods = [ 'beforeInit', 'init', 'afterInit' ];
 					for ( var m = 0; m < methods.length; m++ ) {
 						for ( var i = 0; i < pluginsArray.length; i++ ) {
 							var plugin = pluginsArray[ i ];

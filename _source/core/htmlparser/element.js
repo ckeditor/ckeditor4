@@ -12,17 +12,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 CKEDITOR.htmlParser.element = function( name, attributes ) {
-	if ( attributes._cke_saved_src )
-		attributes.src = attributes._cke_saved_src;
-
-	if ( attributes._cke_saved_href )
-		attributes.href = attributes._cke_saved_href;
-
-	// IE outputs style attribute in capital letters. We should convert them
-	// back to lower case.
-	if ( CKEDITOR.env.ie && attributes.style )
-		attributes.style = attributes.style.toLowerCase();
-
 	/**
 	 * The element name.
 	 * @type String
@@ -67,13 +56,6 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 			return a < b ? -1 : a > b ? 1 : 0;
 		};
 
-	var ckeAttrRegex = /^_cke/,
-		ckeNamespaceRegex = /^cke:/,
-		ckeStyleWidthRegex = /width\s*:\s*(\d+)/i,
-		ckeStyleHeightRegex = /height\s*:\s*(\d+)/i,
-		ckeClassRegex = /(?:^|\s+)cke_[^\s]*/g,
-		ckePrivateAttrRegex = /^_cke_pa_/;
-
 	CKEDITOR.htmlParser.element.prototype = {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR.NODE_ELEMENT}.
@@ -107,45 +89,8 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 		 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
 		 * @example
 		 */
-		writeHtml: function( writer ) {
+		writeHtml: function( writer, filter ) {
 			var attributes = this.attributes;
-
-			// The "_cke_realelement" attribute indicates that the current
-			// element is a placeholder for another element.
-			if ( attributes._cke_realelement ) {
-				var realFragment = new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( attributes._cke_realelement ) );
-
-				// If _cke_resizable is set, and the fake element contains inline CSS width
-				// and height; then sync the width and height to the real element.
-				if ( attributes._cke_resizable && ( 'style' in attributes ) ) {
-					var match = ckeStyleWidthRegex.exec( attributes.style ),
-						width = match ? match[ 1 ] : null;
-					match = ckeStyleHeightRegex.exec( attributes.style );
-					var height = match ? match[ 1 ] : null;
-
-					var targetElement = realFragment.children[ 0 ];
-					if ( targetElement && ( width != null || height != null ) ) {
-						targetElement.attributes.width = width;
-						targetElement.attributes.height = height;
-
-						// Special case for #2916: If there's an EMBED inside an OBJECT, we need
-						// to set the EMBED's dimensions as well.
-						if ( targetElement.name == 'cke:object' ) {
-							for ( var i = 0; i < targetElement.children.length; i++ ) {
-								var child = targetElement.children[ i ];
-								if ( child.name == 'cke:embed' ) {
-									child.attributes.width = width;
-									child.attributes.height = height;
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				realFragment.writeHtml( writer );
-				return;
-			}
 
 			// The "_cke_replacedata" indicates that this element is replacing
 			// a data snippet, which should be outputted as is.
@@ -155,48 +100,66 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 			}
 
 			// Ignore cke: prefixes when writing HTML.
-			var writeName = this.name.replace( ckeNamespaceRegex, '' );
+			var element = this,
+				writeName = element.name,
+				a, value;
 
-			// Open element tag.
-			writer.openTag( writeName, this.attributes );
+			if ( filter ) {
+				while ( true ) {
+					if ( !( writeName = filter.onElementName( writeName ) ) )
+						return;
 
-			// Copy all attributes to an array.
-			var attribsArray = [];
-			for ( var a in attributes ) {
-				var value = attributes[ a ];
+					element.name = writeName;
 
-				// If the attribute name is _cke_pa_*, strip away the _cke_pa part.
-				a = a.replace( ckePrivateAttrRegex, '' );
+					if ( !( element = filter.onElement( element ) ) )
+						return;
 
-				// Ignore all attributes starting with "_cke".
-				if ( ckeAttrRegex.test( a ) )
-					continue;
+					if ( element.name == writeName )
+						break;
 
-				// Ignore all cke_* CSS classes.
-				if ( a.toLowerCase() == 'class' ) {
-					value = CKEDITOR.tools.ltrim( value.replace( ckeClassRegex, '' ) );
-					if ( value == '' )
-						continue;
+					writeName = element.name;
 				}
 
-				attribsArray.push( [ a, value ] );
+				// The element may have been changed, so update the local
+				// references.
+				attributes = element.attributes;
 			}
 
-			// Sort the attributes by name.
-			attribsArray.sort( sortAttribs );
+			// Open element tag.
+			writer.openTag( writeName, attributes );
 
-			// Send the attributes.
-			for ( var i = 0, len = attribsArray.length; i < len; i++ ) {
-				var attrib = attribsArray[ i ];
-				writer.attribute( attrib[ 0 ], attrib[ 1 ] );
+			if ( writer.sortAttributes ) {
+				// Copy all attributes to an array.
+				var attribsArray = [];
+				for ( a in attributes ) {
+					value = attributes[ a ];
+
+					if ( filter && ( !( a = filter.onAttributeName( a ) ) || ( value = filter.onAttribute( element, a, value ) ) === false ) )
+						continue;
+
+					attribsArray.push( [ a, value ] );
+				}
+
+				// Sort the attributes by name.
+				attribsArray.sort( sortAttribs );
+
+				// Send the attributes.
+				for ( var i = 0, len = attribsArray.length; i < len; i++ ) {
+					var attrib = attribsArray[ i ];
+					writer.attribute( attrib[ 0 ], attrib[ 1 ] );
+				}
+			} else {
+				for ( a in attributes ) {
+					writer.attribute( a, attributes[ a ] );
+				}
 			}
 
 			// Close the tag.
-			writer.openTagClose( writeName, this.isEmpty );
+			writer.openTagClose( writeName, element.isEmpty );
 
-			if ( !this.isEmpty ) {
+			if ( !element.isEmpty ) {
 				// Send children.
-				CKEDITOR.htmlParser.fragment.prototype.writeHtml.apply( this, arguments );
+				CKEDITOR.htmlParser.fragment.prototype.writeHtml.apply( element, arguments );
 
 				// Close the element.
 				writer.closeTag( writeName );

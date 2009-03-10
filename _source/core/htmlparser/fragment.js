@@ -81,10 +81,6 @@ CKEDITOR.htmlParser.fragment = function() {
 			};
 
 		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
-			// If the tag name is ?xml:namespace, ignore.
-			if ( tagName == '?xml:namespace' )
-				return;
-
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// "isEmpty" will be always "false" for unknown elements, so we
@@ -250,9 +246,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * fragment.writeHtml( writer )
 		 * alert( writer.getHtml() );  "&lt;p&gt;&lt;b&gt;Example&lt;/b&gt;&lt;/p&gt;"
 		 */
-		writeHtml: function( writer ) {
+		writeHtml: function( writer, filter ) {
 			for ( var i = 0, len = this.children.length; i < len; i++ )
-				this.children[ i ].writeHtml( writer );
+				this.children[ i ].writeHtml( writer, filter );
 		}
 	};
 })();

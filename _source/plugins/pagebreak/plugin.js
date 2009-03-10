@@ -34,19 +34,30 @@ CKEDITOR.plugins.add( 'pagebreak', {
 				'height: 5px;' +
 
 			'}' );
-
-		// Listen for the "contentDom" event, so the document can be fixed to
-		// display the placeholders.
-		editor.on( 'contentDom', function() {
-			var divs = editor.document.getBody().getElementsByTag( 'div' );
-			for ( var div, i = 0, length = divs.count(); i < length; i++ ) {
-				div = divs.getItem( i );
-				if ( div.getStyle( 'page-break-after' ) == 'always' && !/[^\s\u00A0]/.test( div.getText() ) ) {
-					editor.createFakeElement( div, 'cke_pagebreak', 'div' ).replace( div );
-				}
-			}
-		});
 	},
+
+	afterInit: function( editor ) {
+		// Register a filter to displaying placeholders after mode change.
+
+		var dataProcessor = editor.dataProcessor,
+			dataFilter = dataProcessor && dataProcessor.dataFilter;
+
+		if ( dataFilter ) {
+			dataFilter.addRules({
+				elements: {
+					div: function( element ) {
+						var style = element.attributes.style,
+							child = style && element.children.length == 1 && element.children[ 0 ],
+							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
+
+						if ( childStyle && /page-break-after\s*:\s*always/i.test( style ) && /display\s*:\s*none/i.test( childStyle ) )
+							return editor.createFakeParserElement( element, 'cke_pagebreak', 'div' );
+					}
+				}
+			});
+		}
+	},
+
 	requires: [ 'fakeobjects' ]
 });
 
