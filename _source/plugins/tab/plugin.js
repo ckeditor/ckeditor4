@@ -44,7 +44,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'tab', {
 		requires: [ 'keystrokes' ],
 
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			// Register the keystrokes.
 			var keystrokes = editor.keystrokeHandler.keystrokes;
 			keystrokes[ 9 /* TAB */ ] = 'tab';

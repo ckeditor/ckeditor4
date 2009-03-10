@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'sourcearea', {
 	requires: [ 'editingblock' ],
 
-	init: function( editor, pluginPath ) {
+	init: function( editor ) {
 		var sourcearea = CKEDITOR.plugins.sourcearea;
 
 		editor.on( 'editingBlockReady', function() {

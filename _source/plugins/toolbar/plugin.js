@@ -37,7 +37,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.plugins.add( 'toolbar', {
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			var itemKeystroke = function( item, keystroke ) {
 					switch ( keystroke ) {
 						case 39: // RIGHT-ARROW

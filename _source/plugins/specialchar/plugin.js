@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'specialchar', {
-	init: function( editor, pluginPath ) {
+	init: function( editor ) {
 		var pluginName = 'specialchar';
 
 		// Register the dialog.

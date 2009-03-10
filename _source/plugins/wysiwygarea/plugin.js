@@ -67,7 +67,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		requires: [ 'editingblock' ],
 
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			editor.on( 'editingBlockReady', function() {
 				var mainElement, iframe, isLoadingData, isPendingFocus, fireMode;
 

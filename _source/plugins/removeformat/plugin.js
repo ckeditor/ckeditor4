@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'removeformat', {
 	requires: [ 'selection' ],
 
-	init: function( editor, pluginPath ) {
+	init: function( editor ) {
 		editor.addCommand( 'removeFormat', CKEDITOR.plugins.removeformat.commands.removeformat );
 		editor.ui.addButton( 'RemoveFormat', {
 			label: editor.lang.removeFormat,

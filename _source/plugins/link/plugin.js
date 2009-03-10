@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'link', {
-	init: function( editor, pluginPath ) {
+	init: function( editor ) {
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor' ) );

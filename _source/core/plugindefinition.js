@@ -39,11 +39,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @name CKEDITOR.pluginDefinition.prototype.beforeInit
  * @function
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
- * @param {String} pluginPath The URL path for the plugin installation folder.
  * @example
  * CKEDITOR.plugins.add( 'sample',
  * {
- *     beforeInit : function( editor, pluginPath )
+ *     beforeInit : function( editor )
  *     {
  *         alert( 'Editor "' + editor.name + '" is to be initialized!' );
  *     }
@@ -56,11 +55,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @name CKEDITOR.pluginDefinition.prototype.init
  * @function
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
- * @param {String} pluginPath The URL path for the plugin installation folder.
  * @example
  * CKEDITOR.plugins.add( 'sample',
  * {
- *     init : function( editor, pluginPath )
+ *     init : function( editor )
  *     {
  *         alert( 'Editor "' + editor.name + '" is being initialized!' );
  *     }

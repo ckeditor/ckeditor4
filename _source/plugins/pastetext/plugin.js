@@ -26,7 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'pastetext', {
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			var commandName = 'pastetext',
 				command = editor.addCommand( commandName, pasteTextCmd );
 

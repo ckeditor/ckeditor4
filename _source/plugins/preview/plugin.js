@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview,

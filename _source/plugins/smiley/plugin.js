@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'smiley', {
 	requires: [ 'dialog' ],
 
-	init: function( editor, pluginPath ) {
+	init: function( editor ) {
 		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley' ) );
 		editor.ui.addButton( 'Smiley', {
 			label: editor.lang.smiley.toolbar,

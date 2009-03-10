@@ -86,7 +86,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'htmldataprocessor', {
 		requires: [ 'htmlwriter' ],
 
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor();
 
 			dataProcessor.writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;

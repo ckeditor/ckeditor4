@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var isHandlingData;
 
 	CKEDITOR.plugins.add( 'editingblock', {
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			if ( !editor.config.editingBlock )
 				return;
 
