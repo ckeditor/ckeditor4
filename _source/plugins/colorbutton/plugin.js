@@ -12,13 +12,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		var saveRanges, clickFn;
 
-		addButton( 'TextColor', 'fore' );
-		addButton( 'BGColor', 'back' );
+		addButton( 'TextColor', 'fore', lang.textColorTitle );
+		addButton( 'BGColor', 'back', lang.bgColorTitle );
 
-		function addButton( name, type ) {
+		function addButton( name, type, title ) {
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: lang.label,
-				title: lang.panelTitle,
+				title: title,
 				className: 'cke_button_' + name.toLowerCase(),
 
 				panel: {

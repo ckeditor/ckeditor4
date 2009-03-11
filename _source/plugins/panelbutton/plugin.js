@@ -71,6 +71,23 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 
 				_.panel.showBlock( this._.id, new CKEDITOR.dom.element( $element ), 4 );
 			}, this );
+			var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
+
+				ev = new CKEDITOR.dom.event( ev );
+				var keystroke = ev.getKeystroke();
+				switch ( keystroke ) {
+					case 13: // ENTER
+					case 32: // SPACE
+						// Show panel  
+						CKEDITOR.tools.callFunction( clickFn, element );
+						break;
+					default:
+						// Delegate the default behavior to toolbar button key handling.
+						instance.onkey( instance, keystroke );
+				}
+				// Avoid subsequent focus grab on editor document.
+				ev.preventDefault();
+			});
 
 			var label = this.label || '';
 
@@ -101,12 +118,11 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
 			}
 
-			output.push(
-			//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
-			' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
-				'<span class="cke_icon"></span>' +
-				'<span class="cke_label">', label, '</span>' +
-				'<span class="cke_buttonarrow"></span>' +
+			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
+				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
+					'<span class="cke_icon"></span>' +
+					'<span class="cke_label">', label, '</span>' +
+					'<span class="cke_buttonarrow"></span>' +
 				'</a>' );
 
 			return instance;
