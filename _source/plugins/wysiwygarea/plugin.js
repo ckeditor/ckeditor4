@@ -13,10 +13,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( this.mode == 'wysiwyg' ) {
 			var $doc = this.document.$,
 				data = evt.data;
-			var data = protectHtml( evt.data );
 
-			if ( editor.dataProcessor )
-				data = editor.dataProcessor.toHtml( data );
+			if ( this.dataProcessor )
+				data = this.dataProcessor.toHtml( data );
 
 			if ( CKEDITOR.env.ie )
 				$doc.selection.createRange().pasteHTML( data );
