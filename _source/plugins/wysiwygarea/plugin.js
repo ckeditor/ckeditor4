@@ -84,6 +84,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							width: '100%',
 							height: '100%' } );
 
+						var tabIndex = editor.element && editor.element.getAttribute( 'tabIndex' );
+						if ( tabIndex )
+							iframe.setAttribute( 'tabIndex', tabIndex );
+
 						if ( CKEDITOR.env.ie ) {
 							if ( isCustomDomain ) {
 								// The document domain must be set within the src

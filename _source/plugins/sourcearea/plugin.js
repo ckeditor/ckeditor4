@@ -30,6 +30,11 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						outline: 'none',
 						'text-align': 'left' } );
 
+					// Add the tab index for #3098.
+					var tabIndex = editor.element && editor.element.getAttribute( 'tabIndex' );
+					if ( tabIndex )
+						textarea.setAttribute( 'tabIndex', tabIndex );
+
 					// The textarea height/width='100%' doesn't
 					// constraint to the 'td' in IE strick mode
 					if ( CKEDITOR.env.ie ) {
