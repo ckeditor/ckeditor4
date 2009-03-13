@@ -92,7 +92,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 					if ( this.$.removeEventListener )
 						this.$.removeEventListener( eventName, listener, false );
 					else if ( this.$.detachEvent )
-						this.$.detachEvent( eventName, listener );
+						this.$.detachEvent( 'on' + eventName, listener );
 
 					delete nativeListeners[ eventName ];
 				}
