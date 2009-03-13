@@ -352,6 +352,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			};
 		},
 
+		/**
+		 * Class creation based on prototype inheritance, with supports of the
+		 * following features:
+		 * <ul>
+		 * <li> Static fields </li>
+		 * <li> Private fields </li>
+		 * <li> Public(prototype) fields </li>
+		 * <li> Chainable base class constructor </li>
+		 * </ul>
+		 * 
+		 * @param {Object} definiton (Optional)The class definiton object.
+		 */
 		createClass: function( definition ) {
 			var $ = definition.$,
 				baseClass = definition.base,
@@ -362,8 +374,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( privates ) {
 				var originalConstructor = $;
 				$ = function() {
-					originalConstructor.apply( this, arguments );
-
 					// Create (and get) the private namespace.
 					var _ = this._ || ( this._ = {} );
 
@@ -374,12 +384,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						_[ privateName ] = ( typeof priv == 'function' ) ? CKEDITOR.tools.bind( priv, this ) : priv;
 					}
+
+					originalConstructor.apply( this, arguments );
 				};
 			}
 
 			if ( baseClass ) {
 				$.prototype = this.prototypedCopy( baseClass.prototype );
-
+				$.prototype.constructor = $;
 				$.prototype.base = function() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );

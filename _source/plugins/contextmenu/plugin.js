@@ -15,15 +15,12 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 	$: function( editor ) {
 		this.id = 'cke_' + CKEDITOR.tools.getNextNumber();
 		this.editor = editor;
-		this._ = {
-			listeners: [],
-
-			functionId: CKEDITOR.tools.addFunction( function( commandName ) {
-				this._.panel.hide();
-				editor.focus();
-				editor.execCommand( commandName );
-			}, this )
-		}
+		this._.listeners = [];
+		this._.functionId = CKEDITOR.tools.addFunction( function( commandName ) {
+			this._.panel.hide();
+			editor.focus();
+			editor.execCommand( commandName );
+		}, this );
 	},
 
 	_: {

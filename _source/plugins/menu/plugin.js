@@ -41,9 +41,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 			this.editor = editor;
 			this.items = [];
 
-			this._ = {
-				level: level || 1
-			};
+			this._.level = level || 1;
 		},
 
 		_: {

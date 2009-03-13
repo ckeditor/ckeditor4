@@ -20,11 +20,9 @@ CKEDITOR.plugins.add( 'listblock', {
 
 				this.multiSelect = !!multiSelect;
 
-				this._ = {
-					pendingHtml: [],
-					items: {},
-					groups: {}
-				};
+				this._.pendingHtml = [];
+				this._.items = {};
+				this._.groups = {};
 			},
 
 			_: {
