@@ -231,7 +231,9 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 				' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');"' +
 				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, ');"' +
 				'>' +
-					'<span class="cke_icon"></span>' +
+					'<span class="cke_icon"' +
+						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 0;"' : '' ) +
+						'></span>' +
 					'<span class="cke_label">' );
 
 			if ( this.getItems ) {
