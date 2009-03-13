@@ -88,7 +88,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	clone: function( includeChildren ) {
-		return new CKEDITOR.dom.node( this.$.cloneNode( includeChildren ) );
+		var $clone = this.$.cloneNode( includeChildren );
+
+		if ( this.type == CKEDITOR.NODE_ELEMENT ) {
+			// The "id" attribute should never be cloned to avoid duplication.
+			$clone.removeAttribute( 'id', false );
+			$clone.removeAttribute( '_cke_expando', false );
+		}
+
+		return new CKEDITOR.dom.node( $clone );
 	},
 
 	hasPrevious: function() {

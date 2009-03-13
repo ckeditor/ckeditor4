@@ -13,6 +13,8 @@ CKEDITOR.plugins.add( 'keystrokes', {
 		 * @example
 		 */
 		editor.keystrokeHandler = new CKEDITOR.keystrokeHandler( editor );
+
+		editor.specialKeys = {};
 	},
 
 	init: function( editor ) {
@@ -75,17 +77,23 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 
 			var keyCombination = event.getKeystroke();
 			var command = this.keystrokes[ keyCombination ];
+			var editor = this._.editor;
 
-			cancel = ( this._.editor.fire( 'key', { keyCode: keyCombination } ) === true );
+			cancel = ( editor.fire( 'key', { keyCode: keyCombination } ) === true );
 
 			if ( !cancel ) {
 				if ( command ) {
 					var data = { from: 'keystrokeHandler' };
-					cancel = ( this._.editor.execCommand( command, data ) !== false );
+					cancel = ( editor.execCommand( command, data ) !== false );
 				}
 
-				if ( !cancel )
-					cancel = !!this.blockedKeystrokes[ keyCombination ];
+				if ( !cancel ) {
+					var handler = editor.specialKeys[ keyCombination ],
+						cancel = ( handler && handler( editor ) === true );
+
+					if ( !cancel )
+						cancel = !!this.blockedKeystrokes[ keyCombination ];
+				}
 			}
 
 			if ( cancel )
@@ -149,10 +157,10 @@ CKEDITOR.config.keystrokes = [
 	[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
 	[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
 	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ],
+
 	[ CKEDITOR.CTRL + 76 /*L*/, 'link' ],
+
 	[ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
 	[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
-	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
-	[ CKEDITOR.CTRL + CKEDITOR.ALT + 13 /*ENTER*/, 'fitWindow' ],
-	[ CKEDITOR.SHIFT + 32 /*SPACE*/, 'nbsp' ]
+	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 	];

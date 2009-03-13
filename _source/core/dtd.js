@@ -77,11 +77,19 @@ CKEDITOR.dtd = (function() {
 		$listItem: { dd:1,dt:1,li:1 },
 
 		/**
+		 * Elements that accept text nodes, but are not possible to edit into
+		 * the browser.
+		 * @type Object
+		 * @example
+		 */
+		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1 },
+
+		/**
 		 * List of elements that can be ignored if empty, like "b" or "span".
 		 * @type Object
 		 * @example
 		 */
-		$removeEmpty: { abbr:1,acronym:1,address:1,b:1,bdo:1,big:1,cite:1,code:1,dfn:1,em:1,font:1,i:1,kbd:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 },
+		$removeEmpty: { abbr:1,acronym:1,address:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 },
 
 		/**
 		 * List of elements that have tabindex set to zero by default.

@@ -8,6 +8,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * default configuration settings.
  */
 
+CKEDITOR.ENTER_P = 1;
+CKEDITOR.ENTER_BR = 2;
+CKEDITOR.ENTER_DIV = 3;
+
 /**
  * Holds the default configuration settings. Changes to this object are
  * reflected in all editor instances, if not specificaly specified for those
@@ -94,8 +98,8 @@ CKEDITOR.config = {
 	 */
 	defaultLanguage: 'en',
 
-	enterMode: 'p',
-	shiftEnterMode: 'br',
+	enterMode: CKEDITOR.ENTER_P,
+	shiftEnterMode: CKEDITOR.ENTER_BR,
 
 	/**
 	 * A comma separated list of plugins that are not related to editor
@@ -146,7 +150,7 @@ CKEDITOR.config = {
 	 * config.plugins = 'basicstyles,button,htmldataprocessor,toolbar,wysiwygarea';
 	 */
 
-	plugins: 'basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,smiley,showblocks,sourcearea,stylescombo,table,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
+	plugins: 'basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,smiley,showblocks,sourcearea,stylescombo,table,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
 	 * The theme to be used to build the UI.

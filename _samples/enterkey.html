@@ -1,0 +1,74 @@
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>ENTER Key Configuration - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+	<script id="headscript" type="text/javascript">
+	//<![CDATA[
+
+var editor;
+
+function changeEnter()
+{
+	// If we already have an editor, let's destroy it first.
+	if ( editor )
+		editor.destroy();
+
+	// Create the editor again, with the appropriate settings.
+	editor = CKEDITOR.replace( 'editor1',
+		{
+			enterMode		: Number( document.getElementById( 'xEnter' ).value ),
+			shiftEnterMode	: Number( document.getElementById( 'xShiftEnter' ).value )
+		});
+}
+
+window.onload = changeEnter;
+
+	//]]>
+	</script>
+</head>
+<body>
+	<!--
+		The values in the select boxes represent the contants taht can be used
+		to configure the enter key. You can use the constants directly instead
+		of their numeric values:
+			- CKEDITOR.ENTER_P		= 1;
+			- CKEDITOR.ENTER_BR		= 2;
+			- CKEDITOR.ENTER_DIV	= 3;
+	-->
+	<div id="html">
+		<div style="float: left; margin-right: 20px">
+			When ENTER is pressed:<br />
+			<select id="xEnter" onchange="changeEnter();">
+				<option value="1" selected="selected">Create new &lt;P&gt; (recommended)</option>
+				<option value="3">Create new &lt;DIV&gt;</option>
+				<option value="2">Break the line with a &lt;BR&gt;</option>
+			</select>
+		</div>
+		<div style="float: left">
+			When SHIFT + ENTER is pressed:<br />
+			<select id="xShiftEnter" onchange="changeEnter();">
+				<option value="1">Create new &lt;P&gt;</option>
+				<option value="3">Create new &lt;DIV&gt;</option>
+				<option value="2" selected="selected">Break the line with a &lt;BR&gt; (recommended)</option>
+			</select>
+		</div>
+		<br style="clear: both" />
+		<form action="sample_posteddata.php" method="post">
+			<p>
+				<br />
+				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			</p>
+			<p>
+				<input type="submit" value="Submit" />
+			</p>
+		</form>
+	</div>
+	<div id="code">
+		<pre></pre>
+	</div>
+</body>
+</html>

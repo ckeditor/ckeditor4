@@ -17,6 +17,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins = new CKEDITOR.resourceManager( '_source/' + // %REMOVE_LINE%
 	'plugins/', 'plugin' );
 
+// PACKAGER_RENAME( CKEDITOR.plugins )
+
 CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function( originalLoad ) {
 	return function( name, callback, scope ) {
 		var allPlugins = {};
