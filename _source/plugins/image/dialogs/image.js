@@ -525,7 +525,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								},
 									{
 									type: 'html',
-									style: 'position:relative;top:-10px;height:20px',
+									style: 'position:relative;top:10px;height:50px;',
 									onLoad: function() {
 										// Activate Reset button
 										var resetButton = CKEDITOR.document.getById( 'btnResetSize' );
