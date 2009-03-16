@@ -753,6 +753,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		saveSelection: function() {
 			if ( this._.editor.mode ) {
+				this._.editor.focus();
+
 				var selection = new CKEDITOR.dom.selection( this._.editor.document );
 				this._.selectedRanges = selection.getRanges();
 				this._.selectedElement = selection.getSelectedElement();
