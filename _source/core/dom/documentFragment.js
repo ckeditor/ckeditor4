@@ -2,57 +2,24 @@
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
-
+/**
+ * DocumentFragment is a "lightweight" or "minimal" Document object. It is
+ * commonly used to extract a portion of a document's tree or to create a new
+ * fragment of a document. Various operations may take DocumentFragment objects
+ * as arguments and results in all the child nodes of the DocumentFragment being
+ * moved to the child list of this node.
+ * 
+ * @param {Object} ownerDocument
+ */
 CKEDITOR.dom.documentFragment = function( ownerDocument ) {
-	this.$ = CKEDITOR.env.ie ? ownerDocument.$.createElement( 'div' ) : ownerDocument.$.createDocumentFragment();
+	ownerDocument = ownerDocument || CKEDITOR.document;
+	this.$ = ownerDocument.$.createDocumentFragment();
 };
 
-(function() {
-	var elementPrototype = CKEDITOR.dom.element.prototype;
-
-	CKEDITOR.dom.documentFragment.prototype = {
-		type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
-
-		append: elementPrototype.append,
-
-		getFirst: elementPrototype.getFirst,
-
-		getLast: elementPrototype.getLast,
-
-		appendTo: function( targetElement ) {
-			if ( CKEDITOR.env.ie )
-				elementPrototype.moveChildren.call( this, targetElement );
-			else
-				targetElement.$.appendChild( this.$ );
-		},
-
-		moveChildren: elementPrototype.moveChildren,
-
-		insertAfterNode: function( node ) {
-			var $ = this.$;
-			var $node = node.$;
-			var $parent = $node.parentNode;
-
-			if ( CKEDITOR.env.ie ) {
-				for ( var child; child = $.lastChild; )
-					$parent.insertBefore( $.removeChild( child ), $node.nextSibling );
-			} else
-				$parent.insertBefore( $, $node.nextSibling );
-		},
-
-		replace: function( nodeToReplace ) {
-			this.insertAfterNode( nodeToReplace );
-			nodeToReplace.remove();
-		},
-
-		trim: elementPrototype.trim,
-		ltrim: elementPrototype.ltrim,
-		rtrim: elementPrototype.rtrim,
-		getFirst: elementPrototype.getFirst,
-		getLast: elementPrototype.getLast,
-		getDocument: elementPrototype.getDocument,
-		getChildCount: elementPrototype.getChildCount,
-		getChild: elementPrototype.getChild,
-		contains: elementPrototype.contains
-	};
-})();
+CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.element.prototype, {
+	type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
+	insertAfterNode: function( node ) {
+		node = node.$;
+		node.parentNode.insertBefore( this.$, node.nextSibling );
+	}
+}, true, { 'append':1,'getFirst':1,'getLast':1,'appendTo':1,'moveChildren':1,'insertAfterNode':1,'replace':1,'trim':1,'ltrim':1,'rtrim':1,'getDocument':1,'getChildCount':1,'getChild':1,'getChildren':1 });

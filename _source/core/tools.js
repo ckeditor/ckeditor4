@@ -77,9 +77,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @param {Object} target The object to be extended.
 		 * @param {Object} source[,souce(n)] The objects from which copy
 		 *		properties. Any number of objects can be passed to this function.
-		 * @param {Boolean} [overwrite] Indicates that properties already present
-		 *		in the target object must be overwritten. This must be the last
-		 *		parameter in the function call.
+		 * @param {Boolean} [overwrite] If 'true' is specified it indicates that
+		 *            properties already present in the target object could be
+		 *            overwritten by subsequent objects.
+		 * @param {Object} [properties] Only properties within the specified names
+		 *            list will be received from the source object.
 		 * @returns {Object} the extended object (target).
 		 * @example
 		 * // Create the sample object.
@@ -101,19 +103,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		extend: function( target ) {
 			var argsLength = arguments.length,
-				overwrite = arguments[ argsLength - 1 ];
+				overwrite, propertiesList;
 
-			if ( typeof overwrite == 'boolean' )
+			if ( typeof( overwrite = arguments[ argsLength - 1 ] ) == 'boolean' )
 				argsLength--;
-			else
-				overwrite = false;
-
+			else if ( typeof( overwrite = arguments[ argsLength - 2 ] ) == 'boolean' ) {
+				propertiesList = arguments[ argsLength - 1 ];
+				argsLength -= 2;
+			}
 			for ( var i = 1; i < argsLength; i++ ) {
 				var source = arguments[ i ];
-
 				for ( var propertyName in source ) {
-					if ( overwrite || target[ propertyName ] == undefined )
-						target[ propertyName ] = source[ propertyName ];
+					// Only copy existed fields if in overwrite mode. 
+					if ( overwrite === true || target[ propertyName ] == undefined ) {
+						// Only copy  specified fields if list is provided.
+						if ( !propertiesList || ( propertyName in propertiesList ) )
+							target[ propertyName ] = source[ propertyName ];
+
+					}
 				}
 			}
 
