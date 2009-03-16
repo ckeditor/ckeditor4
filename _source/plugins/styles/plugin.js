@@ -238,6 +238,21 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var firstNode = range.startContainer.getChild( range.startOffset ) || range.startContainer.getNextSourceNode();
 		var lastNode = range.endContainer.getChild( range.endOffset ) || ( range.endOffset ? range.endContainer.getNextSourceNode() : range.endContainer );
 
+		if ( lastNode.equals( firstNode ) ) {
+			// If the last node is the same as the the first one, we must move
+			// it to the next one, otherwise the first one will not be
+			// processed.
+			lastNode = lastNode.getNextSourceNode( true );
+
+			// It may happen that there are no more nodes after it (the end of
+			// the document), so we must add something there to make our code
+			// simpler.
+			if ( !lastNode ) {
+				lastNode = document.createText( '' );
+				lastNode.insertAfter( firstNode );
+			}
+		}
+
 		var currentNode = firstNode;
 
 		var styleRange;
