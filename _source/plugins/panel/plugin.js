@@ -48,9 +48,9 @@ CKEDITOR.ui.panel.handler = {
 };
 
 CKEDITOR.ui.panel.prototype = {
-	renderHtml: function() {
+	renderHtml: function( editor ) {
 		var output = [];
-		this.render( output );
+		this.render( editor, output );
 		return output.join( '' );
 	},
 
@@ -62,10 +62,11 @@ CKEDITOR.ui.panel.prototype = {
 	 *		to this button.
 	 * @example
 	 */
-	render: function( output ) {
+	render: function( editor, output ) {
 		var id = 'cke_' + this.id;
 
-		output.push( '<div id=', id, ' class="cke_panel' );
+		output.push( '<div class="', editor.skinClass, '">' +
+			'<div id=', id, ' class="cke_panel' );
 
 		if ( this.className )
 			output.push( ' ', this.className );
@@ -79,7 +80,8 @@ CKEDITOR.ui.panel.prototype = {
 				'></iframe>' );
 		}
 
-		output.push( '</div>' );
+		output.push( '</div>' +
+			'</div>' );
 
 		return id;
 	},

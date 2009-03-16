@@ -3,30 +3,30 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-.cke_skin_default.cke_contextmenu
+.cke_skin_default .cke_contextmenu
 {
     padding: 2px;
 }
 
-.cke_skin_default a.cke_menuitem
+.cke_skin_default .cke_menuitem a
 {
 	display:block;
 }
 
-.cke_skin_default a:hover.cke_menuitem,
-.cke_skin_default a:focus.cke_menuitem
+.cke_skin_default .cke_menuitem a:hover,
+.cke_skin_default .cke_menuitem a:focus
 {
 	background-color: #8f8f73;
 	display:block;
 }
 
-.cke_skin_default a.cke_menuitem.cke_disabled
+.cke_skin_default .cke_menuitem a.cke_disabled
 {
 	filter: alpha(opacity=30); /* IE */
 	opacity : 0.3; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default a.cke_menuitem .cke_icon
+.cke_skin_default .cke_menuitem .cke_icon
 {
 	background-image: url(icons.gif);
 	background-position: 100px;
@@ -40,8 +40,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default a:hover.cke_menuitem .cke_icon,
-.cke_skin_default a:focus.cke_menuitem .cke_icon
+.cke_skin_default .cke_menuitem a:hover .cke_icon,
+.cke_skin_default .cke_menuitem a:focus .cke_icon
 {
 	background-color: #737357;
 	border: solid 4px #737357;
@@ -49,7 +49,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 1; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default a.cke_menuitem .cke_label
+.cke_skin_default .cke_menuitem .cke_label
 {
 	display:block;
     padding-right: 3px;
@@ -59,8 +59,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     background-color: #fff;
 }
 
-.cke_skin_default a:hover.cke_menuitem .cke_label,
-.cke_skin_default a:focus.cke_menuitem .cke_label
+.cke_skin_default .cke_menuitem a:hover .cke_label,
+.cke_skin_default .cke_menuitem a:focus .cke_label
 {
 	color: #fff;
 	background-color: #8f8f73;

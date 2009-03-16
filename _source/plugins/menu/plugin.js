@@ -97,7 +97,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 
 				// Create the floating panel for this menu.
 				if ( !panel ) {
-					panel = this._.panel = new CKEDITOR.ui.floatPanel( CKEDITOR.document.getBody(), {
+					panel = this._.panel = new CKEDITOR.ui.floatPanel( this.editor, CKEDITOR.document.getBody(), {
 						css: [ CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ],
 						level: this._.level - 1,
 						className: editor.skinClass + ' cke_contextmenu'
@@ -198,19 +198,19 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 	proto: {
 		render: function( menu, index, output ) {
 			var id = menu.id + String( index ),
-				classes = 'cke_menuitem',
 				state = this.state || CKEDITOR.TRISTATE_OFF;
 
-			classes += ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
+			var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 
 			if ( this.className )
 				classes += ' ' + this.className;
 
-			output.push( '<a id="', id, '"' +
-				' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
-				' title="', this.label, '"' +
-				' tabindex="-1"' +
-				' hidefocus="true"' );
+			output.push( '<span class="cke_menuitem">' +
+				'<a id="', id, '"' +
+					' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+					' title="', this.label, '"' +
+					' tabindex="-1"' +
+					' hidefocus="true"' );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.
@@ -241,7 +241,8 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 			}
 
 			output.push( this.label, '</span>' +
-				'</a>' );
+				'</a>' +
+				'</span>' );
 		}
 	}
 });

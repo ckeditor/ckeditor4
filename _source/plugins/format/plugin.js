@@ -29,8 +29,7 @@ CKEDITOR.plugins.add( 'format', {
 			multiSelect: false,
 
 			panel: {
-				css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ],
-				className: 'cke_skin_default'
+				css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ]
 			},
 
 			init: function() {

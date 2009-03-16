@@ -8,6 +8,14 @@ CKEDITOR.themes.add( 'default', ( function() {
 	// to apply browser specific styles to it.
 	var browserCssClass = 'cke_browser_' + ( CKEDITOR.env.ie ? 'ie' : CKEDITOR.env.gecko ? 'gecko' : CKEDITOR.env.opera ? 'opera' : CKEDITOR.env.air ? 'air' : CKEDITOR.env.webkit ? 'webkit' : 'unknown' );
 
+	if ( CKEDITOR.env.ie ) {
+		if ( CKEDITOR.env.version < 7 )
+			browserCssClass += ' cke_browser_ie6';
+
+		if ( CKEDITOR.env.quirks )
+			browserCssClass += ' cke_browser_iequirks';
+	}
+
 	return {
 		build: function( editor, themePath ) {
 			var name = editor.name,
@@ -47,19 +55,21 @@ CKEDITOR.themes.add( 'default', ( function() {
 			// bring any evident problem as it seems that tables are treated
 			// differently by the browsers ("semi-inline").
 			var container = CKEDITOR.dom.element.createFromHtml( [
-				'<span id="cke_', name, '" onmousedown="return false;" class="cke_container ', editor.skinClass, ' ', browserCssClass,
-					' cke_', editor.lang.dir, '" dir="', editor.lang.dir, '" title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '">' +
+				'<span id="cke_', name, '" onmousedown="return false;" class="', editor.skinClass,
+					'" dir="', editor.lang.dir, '" title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '">' +
+				'<span class="', browserCssClass, ' cke_', editor.lang.dir, '">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, ';height:', height, '"><tbody>' +
 						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
 						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:100%">', contentsHtml, '</td></tr>' +
 						'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
 					'</tbody></table>' +
 					//Hide the container when loading skins, later restored by skin css.
-								'<style>.cke_container{visibility:hidden;}</style>' +
+								'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
+				'</span>' +
 				'</span>' ].join( '' ) );
 
-			container.getChild( [ 0, 0, 0 ] ).unselectable();
-			container.getChild( [ 0, 0, 2 ] ).unselectable();
+			container.getChild( [ 0, 0, 0, 0 ] ).unselectable();
+			container.getChild( [ 0, 0, 0, 2 ] ).unselectable();
 
 			if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
 				container.insertAfter( element );

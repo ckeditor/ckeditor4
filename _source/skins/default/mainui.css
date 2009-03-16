@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border: solid 1px #696969;
 }
 
-.cke_skin_default.cke_focus
+.cke_skin_default .cke_focus
 {
 	outline: auto 5px -webkit-focus-ring-color;
 }

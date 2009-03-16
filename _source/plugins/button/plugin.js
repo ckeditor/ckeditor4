@@ -31,8 +31,6 @@ CKEDITOR.ui.button = function( definition ) {
 	 * @example
 	 */
 	this.label = definition.label;
-	if ( CKEDITOR.env.ie )
-		this.label += '\ufeff';
 
 	/**
 	 * The button advisory title. It is usually displayed as the button tooltip.
@@ -112,7 +110,7 @@ CKEDITOR.ui.button.prototype = {
 
 		var index = CKEDITOR.ui.button._.instances.push( instance ) - 1;
 
-		var classes = 'cke_button';
+		var classes = '';
 
 		// Get the command name.
 		var command = this.command;
@@ -133,8 +131,8 @@ CKEDITOR.ui.button.prototype = {
 		if ( this.className )
 			classes += ' ' + this.className;
 
-		output.push( '<a id="', id, '"' +
-			' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+		output.push( '<span class="cke_button">', '<a id="', id, '"' +
+			' class="', classes, '" href="javascript:void(\'', ( this.title || '' ).replace( "'", '' ), '\')"' +
 			' title="', this.title, '"' +
 			' tabindex="-1"' +
 			' hidefocus="true"' );
@@ -162,7 +160,7 @@ CKEDITOR.ui.button.prototype = {
 
 		output.push( '></span>' +
 			'<span class="cke_label">', this.label, '</span>' +
-			'</a>' );
+			'</a>', '</span>' );
 
 		return instance;
 	},

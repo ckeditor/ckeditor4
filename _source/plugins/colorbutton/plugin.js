@@ -22,8 +22,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				className: 'cke_button_' + name.toLowerCase(),
 
 				panel: {
-					css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ],
-					className: 'cke_skin_default'
+					css: [ CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ]
 				},
 
 				onBlock: function( panel, blockName ) {

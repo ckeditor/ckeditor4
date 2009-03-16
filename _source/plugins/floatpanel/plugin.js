@@ -10,9 +10,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 (function() {
 	var panels = {};
 
-	function getPanel( doc, parentElement, definition, level ) {
+	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-CSSs
 		var key = doc.getUniqueId() + '-' + parentElement.getUniqueId() +
+						'-' + editor.skinName +
 						( ( definition.css && ( '-' + definition.css ) ) || '' ) +
 						( ( level && ( '-' + level ) ) || '' );
 
@@ -20,7 +21,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 		if ( !panel ) {
 			panel = panels[ key ] = new CKEDITOR.ui.panel( doc, definition );
-			panel.element = parentElement.append( CKEDITOR.dom.element.createFromHtml( panel.renderHtml(), doc ) );
+			panel.element = parentElement.append( CKEDITOR.dom.element.createFromHtml( panel.renderHtml( editor ), doc ) );
 
 			panel.element.setStyles({
 				display: 'none',
@@ -32,13 +33,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	}
 
 	CKEDITOR.ui.floatPanel = CKEDITOR.tools.createClass({
-		$: function( parentElement, definition, level ) {
+		$: function( editor, parentElement, definition, level ) {
 			definition.forceIFrame = true;
 
 			var doc = parentElement.getDocument(),
-				panel = getPanel( doc, parentElement, definition, level || 0 ),
+				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
 				element = panel.element,
-				iframe = element.getFirst();
+				iframe = element.getFirst().getFirst();
 
 			this.element = element;
 
@@ -91,7 +92,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( block.autoSize ) {
 					function setHeight() {
-						element.setStyle( 'height', block.element.$.scrollHeight + 'px' );
+						element.getFirst().setStyle( 'height', block.element.$.scrollHeight + 'px' );
 					}
 
 					if ( !CKEDITOR.env.gecko || panel.isLoaded )
@@ -99,7 +100,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					else
 						panel.onLoad = setHeight;
 				} else
-					element.removeStyle( 'height' );
+					element.getFirst().removeStyle( 'height' );
 
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {

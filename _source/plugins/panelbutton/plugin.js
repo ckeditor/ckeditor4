@@ -62,7 +62,7 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
 				var _ = this._;
 
-				this.createPanel();
+				this.createPanel( editor );
 
 				if ( _.on ) {
 					_.panel.hide();
@@ -91,16 +91,13 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 
 			var label = this.label || '';
 
-			var classes = 'cke_button cke_off';
+			var classes = 'cke_off';
 
 			if ( this.className )
 				classes += ' ' + this.className;
 
-			if ( CKEDITOR.env.ie )
-				label += '\ufeff';
-
-			output.push( '<a id="', id, '"' +
-				' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+			output.push( '<span class="cke_button">', '<a id="', id, '"' +
+				' class="', classes, '" href="javascript:void(\'', ( this.title || '' ).replace( "'", '' ), '\')"' +
 				' title="', this.title, '"' +
 				' tabindex="-1"' +
 				' hidefocus="true"' );
@@ -121,14 +118,15 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
 					'<span class="cke_icon"></span>' +
-					'<span class="cke_label">', label, '</span>' +
+					'<span class="cke_label">', this.label, '</span>' +
 					'<span class="cke_buttonarrow"></span>' +
-				'</a>' );
+				'</a>' +
+				'</span>' );
 
 			return instance;
 		},
 
-		createPanel: function() {
+		createPanel: function( editor ) {
 			var _ = this._;
 
 			if ( _.panel )
@@ -136,14 +134,14 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 
 			var panelDefinition = this._.panelDefinition || {},
 				panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
-				panel = this._.panel = new CKEDITOR.ui.floatPanel( panelParentElement, panelDefinition ),
+				panel = this._.panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
 				me = this;
 
 			panel.onShow = function() {
 				if ( me.className )
-					this.element.addClass( me.className );
+					this.element.getFirst().addClass( me.className + '_panel' );
 
-				me.document.getById( _.id ).addClass( 'cke_on' );
+				me.setState( CKEDITOR.TRISTATE_ON );
 
 				_.on = 1;
 
@@ -153,9 +151,9 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 
 			panel.onHide = function() {
 				if ( me.className )
-					this.element.removeClass( me.className );
+					this.element.getFirst().removeClass( me.className + '_panel' );
 
-				me.document.getById( _.id ).removeClass( 'cke_on' );
+				me.setState( CKEDITOR.TRISTATE_OFF );
 
 				_.on = 0;
 

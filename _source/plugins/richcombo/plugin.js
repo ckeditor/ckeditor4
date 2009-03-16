@@ -71,7 +71,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
 				var _ = this._;
 
-				this.createPanel();
+				this.createPanel( editor );
 
 				if ( _.on ) {
 					_.panel.hide();
@@ -121,12 +121,12 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				ev.preventDefault();
 			});
 
-			output.push( '<span id=', id, ' class="cke_rcombo' );
+			output.push( '<span class="cke_rcombo">', '<span id=', id );
 
 			if ( this.className )
-				output.push( ' ', this.className );
+				output.push( ' class="', this.className, '"' );
 
-			output.push( '">' +
+			output.push( '>' +
 				'<span class=cke_label>', this.label, '</span>' +
 				'<a hidefocus=true title="', this.title, '" tabindex="-1" href="javascript:void(\'', this.label, '\')"' );
 
@@ -148,6 +148,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 					'<span id="', id, '_text" class=cke_text>&nbsp;</span>' +
 					'<span class=cke_openbutton></span>' +
 				'</a>' +
+				'</span>' +
 				'</span>' );
 
 			if ( this.onRender )
@@ -156,19 +157,19 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			return instance;
 		},
 
-		createPanel: function() {
+		createPanel: function( editor ) {
 			if ( this._.panel )
 				return;
 
 			var panelDefinition = this._.panelDefinition,
 				panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
-				panel = new CKEDITOR.ui.floatPanel( panelParentElement, panelDefinition ),
+				panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
 				list = panel.addListBlock( this.id, this.multiSelect ),
 				me = this;
 
 			panel.onShow = function() {
 				if ( me.className )
-					this.element.addClass( me.className );
+					this.element.getFirst().addClass( me.className + '_panel' );
 
 				me.document.getById( 'cke_' + me.id ).addClass( 'cke_on' );
 
@@ -180,7 +181,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 			panel.onHide = function() {
 				if ( me.className )
-					this.element.removeClass( me.className );
+					this.element.getFirst().removeClass( me.className + '_panel' );
 
 				me.document.getById( 'cke_' + me.id ).removeClass( 'cke_on' );
 
