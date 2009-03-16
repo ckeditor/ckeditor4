@@ -150,7 +150,7 @@ CKEDITOR.config = {
 	 * config.plugins = 'basicstyles,button,htmldataprocessor,toolbar,wysiwygarea';
 	 */
 
-	plugins: 'basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,smiley,showblocks,sourcearea,stylescombo,table,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
+	plugins: 'basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,save,smiley,showblocks,sourcearea,stylescombo,table,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
 	 * The theme to be used to build the UI.

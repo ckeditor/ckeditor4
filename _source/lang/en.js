@@ -29,6 +29,7 @@ CKEDITOR.lang[ 'en' ] = {
 	// Toolbar buttons without dialogs.
 	source: 'Source',
 	newPage: 'New Page',
+	save: 'Save',
 	preview: 'Preview',
 	cut: 'Cut',
 	copy: 'Copy',

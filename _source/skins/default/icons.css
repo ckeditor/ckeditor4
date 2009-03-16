@@ -279,3 +279,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -160px;
 }
+
+.cke_skin_default .cke_button_save .cke_icon
+{
+	background-position: 0 -32px;
+}
