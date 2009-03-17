@@ -99,13 +99,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						iframe = new CKEDITOR.dom.element( 'iframe' ).setAttributes({
 							frameBorder: 0,
+							tabIndex: -1,
 							allowTransparency: true } ).setStyles({
 							width: '100%',
 							height: '100%' } );
-
-						var tabIndex = editor.element && editor.element.getAttribute( 'tabIndex' );
-						if ( tabIndex )
-							iframe.setAttribute( 'tabIndex', tabIndex );
 
 						if ( CKEDITOR.env.ie ) {
 							if ( isCustomDomain ) {

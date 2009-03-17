@@ -21,7 +21,10 @@ CKEDITOR.plugins.add( 'sourcearea', {
 				load: function( holderElement, data ) {
 					// Create the source area <textarea>.
 					textarea = new CKEDITOR.dom.element( 'textarea' );
-					textarea.setAttribute( 'dir', 'ltr' );
+					textarea.setAttributes({
+						dir: 'ltr',
+						tabIndex: -1
+					});
 					textarea.addClass( 'cke_source' );
 					textarea.setStyles({
 						width: '100%',
@@ -29,11 +32,6 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						resize: 'none',
 						outline: 'none',
 						'text-align': 'left' } );
-
-					// Add the tab index for #3098.
-					var tabIndex = editor.element && editor.element.getAttribute( 'tabIndex' );
-					if ( tabIndex )
-						textarea.setAttribute( 'tabIndex', tabIndex );
 
 					// The textarea height/width='100%' doesn't
 					// constraint to the 'td' in IE strick mode
@@ -65,6 +63,10 @@ CKEDITOR.plugins.add( 'sourcearea', {
 
 					// Set the <textarea> value.
 					this.loadData( data );
+
+					var keystrokeHandler = editor.keystrokeHandler;
+					if ( keystrokeHandler )
+						keystrokeHandler.attach( textarea );
 
 					editor.mode = 'source';
 					editor.fire( 'mode' );

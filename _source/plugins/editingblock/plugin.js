@@ -81,6 +81,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Do that once only.
 				event.removeListener();
 
+				// Grab editor focus if the editor container is focused. (#3104)
+				editor.container.on( 'focus', function() {
+					editor.focus();
+				});
+
 				// Fire instanceReady for both the editor and CKEDITOR.
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );

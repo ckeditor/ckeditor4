@@ -4,40 +4,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var blurInternal = function( editor, previous ) {
-			var hasContainer = editor.container;
-
-			if ( hasContainer ) {
-				// We need an empty element after the container, so the focus don't go to a container child.
-				var tempSpan = new CKEDITOR.dom.element( 'span' );
-				tempSpan.setAttribute( 'tabindex', editor.container.getTabIndex() );
-				tempSpan.hide();
-
-				// Insert the temp element and set the focus.
-				if ( previous ) {
-					tempSpan.insertBefore( editor.container );
-					tempSpan.focusPrevious();
-				} else {
-					tempSpan.insertAfter( editor.container );
-					tempSpan.focusNext();
-				}
-
-				// Remove the temporary node.
-				tempSpan.remove();
-			}
-
-			return hasContainer;
-		};
-
 	var blurCommand = {
 		exec: function( editor ) {
-			return blurInternal( editor );
+			editor.container.focusNext( true );
 		}
 	};
 
 	var blurBackCommand = {
 		exec: function( editor ) {
-			return blurInternal( editor, true );
+			editor.container.focusPrevious( true );
 		}
 	};
 
@@ -102,50 +77,58 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * var element = CKEDITOR.document.getById( 'example' );
  * element.focusNext();
  */
-CKEDITOR.dom.element.prototype.focusNext = function() {
+CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren ) {
 	var $ = this.$,
 		curTabIndex = this.getTabIndex(),
-		passedCurrent = false,
-		elected, electedTabIndex;
-
-	var all = document.body.all || document.body.getElementsByTagName( '*' );
+		passedCurrent, enteredCurrent, elected, electedTabIndex, element, elementTabIndex;
 
 	if ( curTabIndex <= 0 ) {
-		for ( var i = 0, element; element = all[ i ]; i++ ) {
-			if ( !passedCurrent ) {
-				if ( element == $ )
-					passedCurrent = true;
-				continue;
-			}
+		// If this element has tabindex <= 0 then we must simply look for any
+		// element following it containing tabindex=0.
 
-			element = new CKEDITOR.dom.element( element );
+		var element = this.getNextSourceNode( ignoreChildren, CKEDITOR.NODE_ELEMENT );
 
-			if ( element.getComputedStyle( 'display' ) == 'none' || element.getComputedStyle( 'visibility' ) == 'hidden' )
-				continue;
-
-			if ( element.getTabIndex() === 0 ) {
+		while ( element ) {
+			if ( element.isVisible() && element.getTabIndex() === 0 ) {
 				elected = element;
 				break;
 			}
+
+			element = element.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT );
 		}
 	} else {
-		for ( i = 0, element; element = all[ i ]; i++ ) {
-			if ( !passedCurrent && element == $ ) {
-				passedCurrent = true;
-				continue;
+		// If this element has tabindex > 0 then we must look for:
+		//		1. An element following this element with the same tabindex.
+		//		2. The first element in source other with the lowest tabindex
+		//		   that is higher than this element tabindex.
+		//		3. The first element with tabindex=0.
+
+		var element = this.getDocument().getBody().getFirst();
+
+		while ( ( element = element.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ) ) ) {
+			if ( !passedCurrent ) {
+				if ( !enteredCurrent && element.equals( this ) ) {
+					enteredCurrent = true;
+
+					// Ignore this element, if required.
+					if ( ignoreChildren ) {
+						if ( !( element = element.getNextSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) )
+							break;
+						passedCurrent = 1;
+					}
+				} else if ( enteredCurrent && !this.contains( element ) )
+					passedCurrent = 1;
 			}
 
-			element = new CKEDITOR.dom.element( element );
-
-			if ( element.getComputedStyle( 'display' ) == 'none' || element.getComputedStyle( 'visibility' ) == 'hidden' )
+			if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
 				continue;
-
-			var elementTabIndex = element.getTabIndex();
 
 			if ( passedCurrent && elementTabIndex == curTabIndex ) {
 				elected = element;
 				break;
-			} else if ( elementTabIndex > curTabIndex && ( !elected || electedTabIndex > elementTabIndex || electedTabIndex === 0 ) ) {
+			}
+
+			if ( elementTabIndex > curTabIndex && ( !elected || !electedTabIndex || elementTabIndex < electedTabIndex ) ) {
 				elected = element;
 				electedTabIndex = elementTabIndex;
 			} else if ( !elected && elementTabIndex === 0 ) {
@@ -165,55 +148,61 @@ CKEDITOR.dom.element.prototype.focusNext = function() {
  * var element = CKEDITOR.document.getById( 'example' );
  * element.focusPrevious();
  */
-CKEDITOR.dom.element.prototype.focusPrevious = function() {
+CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren ) {
 	var $ = this.$,
 		curTabIndex = this.getTabIndex(),
-		passedCurrent = false,
-		elected, electedTabIndex;
+		passedCurrent, enteredCurrent, elected,
+		electedTabIndex = 0,
+		elementTabIndex;
 
-	var all = document.body.all || document.body.getElementsByTagName( '*' );
+	var element = this.getDocument().getBody().getLast();
 
-	if ( curTabIndex <= 0 ) {
-		for ( var i = 0, element; element = all[ i ]; i++ ) {
-			if ( !passedCurrent && element == $ ) {
-				if ( elected && electedTabIndex === 0 )
-					break;
+	while ( ( element = element.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT ) ) ) {
+		if ( !passedCurrent ) {
+			if ( !enteredCurrent && element.equals( this ) ) {
+				enteredCurrent = true;
 
-				passedCurrent = true;
-				continue;
+				// Ignore this element, if required.
+				if ( ignoreChildren ) {
+					if ( !( element = element.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) )
+						break;
+					passedCurrent = 1;
+				}
+			} else if ( enteredCurrent && !this.contains( element ) )
+				passedCurrent = 1;
+		}
+
+		if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
+			continue;
+
+		if ( curTabIndex <= 0 ) {
+			// If this element has tabindex <= 0 then we must look for:
+			//		1. An element before this one containing tabindex=0.
+			//		2. The last element with the highest tabindex.
+
+			if ( passedCurrent && elementTabIndex === 0 ) {
+				elected = element;
+				break;
 			}
 
-			element = new CKEDITOR.dom.element( element );
-
-			if ( element.getComputedStyle( 'display' ) == 'none' || element.getComputedStyle( 'visibility' ) == 'hidden' )
-				continue;
-
-			var elementTabIndex = element.getTabIndex();
-
-			if ( ( !passedCurrent && elementTabIndex === 0 ) || ( elementTabIndex > 0 && ( !elected || ( electedTabIndex > 0 && electedTabIndex <= elementTabIndex ) ) ) ) {
+			if ( elementTabIndex > electedTabIndex ) {
 				elected = element;
 				electedTabIndex = elementTabIndex;
 			}
-		}
-	} else {
-		for ( i = 0, element; element = all[ i ]; i++ ) {
-			if ( !passedCurrent && element == $ ) {
-				if ( elected && electedTabIndex == curTabIndex )
-					break;
+		} else {
+			// If this element has tabindex > 0 we must look for:
+			//		1. An element preceeding this one, with the same tabindex.
+			//		2. The last element in source other with the highest tabindex
+			//		   that is lower than this element tabindex.
 
-				passedCurrent = true;
-				continue;
+			if ( passedCurrent && elementTabIndex == curTabIndex ) {
+				elected = element;
+				break;
 			}
 
-			element = new CKEDITOR.dom.element( element );
-
-			elementTabIndex = element.getTabIndex();
-
-			if ( elementTabIndex > 0 ) {
-				if ( ( !passedCurrent && elementTabIndex == curTabIndex ) || ( elementTabIndex < curTabIndex && ( !elected || electedTabIndex <= elementTabIndex ) ) ) {
-					elected = element;
-					electedTabIndex = elementTabIndex;
-				}
+			if ( elementTabIndex < curTabIndex && ( !elected || elementTabIndex > electedTabIndex ) ) {
+				elected = element;
+				electedTabIndex = elementTabIndex;
 			}
 		}
 	}

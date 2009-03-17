@@ -153,6 +153,15 @@ CKEDITOR.config = {
 	plugins: 'basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,save,smiley,showblocks,sourcearea,stylescombo,table,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
+	 * The editor tabindex value.
+	 * @type Number
+	 * @default 0 (zero)
+	 * @example
+	 * config.tabIndex = 1;
+	 */
+	tabIndex: 0,
+
+	/**
 	 * The theme to be used to build the UI.
 	 * @type String
 	 * @default 'default'

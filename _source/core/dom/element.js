@@ -647,6 +647,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
+	 * Checks if this element is visible. May not work if the element is
+	 * child of an element with visibility set to "hidden", but works well
+	 * on the great majority of cases.
+	 * @return {Boolean} True if the element is visible.
+	 */
+	isVisible: function() {
+		return this.$.offsetWidth && ( this.$.style.visibility != 'hidden' );
+	},
+
+	/**
 	 * Indicates that the element has defined attributes.
 	 * @returns {Boolean} True if the element has attributes.
 	 * @example
@@ -777,8 +787,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			return function( name, value ) {
 				if ( name == 'class' )
 					this.$.className = value;
-				if ( name == 'style' )
+				else if ( name == 'style' )
 					this.$.style.cssText = value;
+				else if ( name == 'tabindex' ) // Case sensitive.
+				this.$.tabIndex = value;
 				else
 					standard.apply( this, arguments );
 				return this;

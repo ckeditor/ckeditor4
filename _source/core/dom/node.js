@@ -277,23 +277,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	getPreviousSourceNode: function( startFromSibling, nodeType ) {
-		var $ = startFromSibling ? this.$.previousSibling : this.$,
-			node = null;
+		var $ = this.$;
 
-		if ( !$ )
-			return null;
+		var node = ( !startFromSibling && $.lastChild ) ? $.lastChild : $.previousSibling;
 
-		if ( ( node = $.previousSibling ) ) {
-			while ( node.lastChild )
-				node = node.lastChild;
-		} else
-			node = $.parentNode;
+		var parent;
+
+		while ( !node && ( parent = ( parent || $ ).parentNode ) )
+			node = parent.previousSibling;
 
 		if ( !node )
 			return null;
 
 		if ( nodeType && node.nodeType != nodeType )
-			return arguments.callee.apply({ $: node }, false, nodeType );
+			return arguments.callee.call({ $: node }, false, nodeType );
 
 		return new CKEDITOR.dom.node( node );
 	},
