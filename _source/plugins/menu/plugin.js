@@ -225,6 +225,7 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
 			}
 
+			var offset = ( this.iconOffset || 0 ) * -16;
 			output.push(
 			//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
 			' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
@@ -232,7 +233,8 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, ');"' +
 				'>' +
 					'<span class="cke_icon"' +
-						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 0;"' : '' ) +
+						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
+												: '' ) +
 						'></span>' +
 					'<span class="cke_label">' );
 
