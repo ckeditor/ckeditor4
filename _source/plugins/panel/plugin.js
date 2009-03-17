@@ -94,14 +94,17 @@ CKEDITOR.ui.panel.prototype = {
 				var iframe = this.document.getById( 'cke_' + this.id + '_frame' );
 				var doc = new CKEDITOR.dom.document( iframe.$.contentWindow.document );
 
+				var className = iframe.getParent().getParent().getAttribute( 'class' );
+
 				// Initialize the IFRAME document body.
 				doc.$.open();
 				doc.$.write( '<!DOCTYPE html>' +
 					'<html>' +
 						'<head>' +
 							'<link type="text/css" rel=stylesheet href="' + this.css.join( '"><link type="text/css" rel="stylesheet" href="' ) + '">' +
+							'<style>.' + className + '_container{visibility:hidden}</style>' +
 						'</head>' +
-						'<body class="cke_panel_frame" style="margin:0;padding:0">' +
+						'<body class="' + className + '_container cke_panel_frame" style="margin:0;padding:0">' +
 						'</body>' +
 					'<\/html>' );
 				doc.$.close();
