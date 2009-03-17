@@ -120,6 +120,19 @@ CKEDITOR.ui.panel.prototype = {
 						this.onLoad();
 				}, this );
 
+				doc.on( 'keydown', function( evt ) {
+					var keystroke = evt.data.getKeystroke();
+
+					// Delegate key processing to block.
+					if ( this._.onKeyDown && this._.onKeyDown( keystroke ) === false ) {
+						evt.data.preventDefault();
+						return;
+					}
+
+					if ( keystroke == 27 ) // ESC
+					this.onEscape && this.onEscape();
+				}, this );
+
 				holder = doc.getBody();
 			} else
 				holder = this.document.getById( 'cke_' + this.id );
@@ -153,29 +166,92 @@ CKEDITOR.ui.panel.prototype = {
 
 		this._.currentBlock = block;
 
+		// Reset the focus index, so it will always go into the first one.
+		block._.focusIndex = -1;
+
+		this._.onKeyDown = block.onKeyDown && CKEDITOR.tools.bind( block.onKeyDown, block );
+
 		block.show();
 
 		return block;
 	}
 };
 
-CKEDITOR.ui.panel.block = function( blockHolder ) {
-	this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
-		attributes: {
-			'class': 'cke_panel_block'
-		},
-		styles: {
-			display: 'none'
-		}
-	}));
-};
+CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
+	$: function( blockHolder ) {
+		this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
+			attributes: {
+				'class': 'cke_panel_block'
+			},
+			styles: {
+				display: 'none'
+			}
+		}));
 
-CKEDITOR.ui.panel.block.prototype = {
-	show: function() {
-		this.element.setStyle( 'display', '' );
+		this.keys = {};
+
+		this._.focusIndex = -1;
 	},
 
-	hide: function() {
-		this.element.setStyle( 'display', 'none' );
+	_: {},
+
+	proto: {
+		show: function() {
+			this.element.setStyle( 'display', '' );
+		},
+
+		hide: function() {
+			this.element.setStyle( 'display', 'none' );
+		},
+
+		onKeyDown: function( keystroke ) {
+			var keyAction = this.keys[ keystroke ];
+			switch ( keyAction ) {
+				// Move forward.
+				case 'next':
+					var index = this._.focusIndex,
+						links = this.element.getElementsByTag( 'a' ),
+						link;
+
+					while ( ( link = links.getItem( ++index ) ) ) {
+						// Move the focus only if the element is marked with
+						// the _cke_focus and it it's visible (check if it has
+						// width).
+						if ( link.getAttribute( '_cke_focus' ) && link.$.offsetWidth ) {
+							this._.focusIndex = index;
+							link.focus();
+							break;
+						}
+					}
+					return false;
+
+					// Move backward.
+				case 'prev':
+					var index = this._.focusIndex,
+						links = this.element.getElementsByTag( 'a' ),
+						link;
+
+					while ( index > 0 && ( link = links.getItem( --index ) ) ) {
+						// Move the focus only if the element is marked with
+						// the _cke_focus and it it's visible (check if it has
+						// width).
+						if ( link.getAttribute( '_cke_focus' ) && link.$.offsetWidth ) {
+							this._.focusIndex = index;
+							link.focus();
+							break;
+						}
+					}
+					return false;
+
+				case 'click':
+					var index = this._.focusIndex,
+						link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
+
+					if ( link )
+						link.$.click();
+
+					return false;
+			}
+		}
 	}
-};
+});

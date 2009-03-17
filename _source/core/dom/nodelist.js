@@ -13,6 +13,7 @@ CKEDITOR.dom.nodeList.prototype = {
 	},
 
 	getItem: function( index ) {
-		return new CKEDITOR.dom.node( this.$[ index ] );
+		var $node = this.$[ index ];
+		return $node ? new CKEDITOR.dom.node( $node ) : null;
 	}
 };

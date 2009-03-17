@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -19,6 +19,13 @@ CKEDITOR.plugins.add( 'listblock', {
 				this.base( blockHolder );
 
 				this.multiSelect = !!multiSelect;
+
+				var keys = this.keys;
+				keys[ 40 ] = 'next'; // ARROW-DOWN
+				keys[ 9 ] = 'next'; // TAB
+				keys[ 38 ] = 'prev'; // ARROW-UP
+				keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+				keys[ 32 ] = 'click'; // SPACE
 
 				this._.pendingHtml = [];
 				this._.items = {};
@@ -52,9 +59,9 @@ CKEDITOR.plugins.add( 'listblock', {
 			},
 
 			proto: {
-				add: function( value, html ) {
+				add: function( value, html, title ) {
 					var pendingHtml = this._.pendingHtml,
-						id = CKEDITOR.tools.getNextNumber();
+						id = 'cke_' + CKEDITOR.tools.getNextNumber();
 
 					if ( !this._.started ) {
 						pendingHtml.push( '<ul class=cke_panel_list>' );
@@ -63,17 +70,22 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					this._.items[ value ] = id;
 
-					pendingHtml.push( '<li id=cke_', id, ' class=cke_panel_listItem><a hidefocus=true href="javascript:void(\'', value, '\')" onclick="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\');">', html || value, '</a></li>' );
+					pendingHtml.push( '<li id=', id, ' class=cke_panel_listItem>' +
+						'<a _cke_focus=1 hidefocus=true' +
+							' title="', title || value, '"' +
+							' href="javascript:void(\'', value, '\')"' +
+							' onclick="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\');">', html || value, '</a>' +
+						'</li>' );
 				},
 
 				startGroup: function( title ) {
 					this._.close();
 
-					var id = CKEDITOR.tools.getNextNumber();
+					var id = 'cke_' + CKEDITOR.tools.getNextNumber();
 
 					this._.groups[ title ] = id;
 
-					this._.pendingHtml.push( '<h1 id=cke_', id, ' class=cke_panel_grouptitle>', title, '</h1>' );
+					this._.pendingHtml.push( '<h1 id=', id, ' class=cke_panel_grouptitle>', title, '</h1>' );
 				},
 
 				commit: function() {
@@ -93,7 +105,7 @@ CKEDITOR.plugins.add( 'listblock', {
 				},
 
 				hideGroup: function( groupTitle ) {
-					var group = this.element.getDocument().getById( 'cke_' + this._.groups[ groupTitle ] ),
+					var group = this.element.getDocument().getById( this._.groups[ groupTitle ] ),
 						list = group && group.getNext();
 
 					if ( group ) {
@@ -105,7 +117,7 @@ CKEDITOR.plugins.add( 'listblock', {
 				},
 
 				hideItem: function( value ) {
-					this.element.getDocument().getById( 'cke_' + this._.items[ value ] ).setStyle( 'display', 'none' );
+					this.element.getDocument().getById( this._.items[ value ] ).setStyle( 'display', 'none' );
 				},
 
 				showAll: function() {
@@ -114,11 +126,11 @@ CKEDITOR.plugins.add( 'listblock', {
 						doc = this.element.getDocument();
 
 					for ( var value in items ) {
-						doc.getById( 'cke_' + items[ value ] ).setStyle( 'display', '' );
+						doc.getById( items[ value ] ).setStyle( 'display', '' );
 					}
 
 					for ( title in groups ) {
-						var group = doc.getById( 'cke_' + groups[ title ] ),
+						var group = doc.getById( groups[ title ] ),
 							list = group.getNext();
 
 						group.setStyle( 'display', '' );
@@ -132,11 +144,11 @@ CKEDITOR.plugins.add( 'listblock', {
 					if ( !this.multiSelect )
 						this.unmarkAll();
 
-					this.element.getDocument().getById( 'cke_' + this._.items[ value ] ).addClass( 'cke_selected' );
+					this.element.getDocument().getById( this._.items[ value ] ).addClass( 'cke_selected' );
 				},
 
 				unmark: function( value ) {
-					this.element.getDocument().getById( 'cke_' + this._.items[ value ] ).removeClass( 'cke_selected' );
+					this.element.getDocument().getById( this._.items[ value ] ).removeClass( 'cke_selected' );
 				},
 
 				unmarkAll: function() {
@@ -144,12 +156,35 @@ CKEDITOR.plugins.add( 'listblock', {
 						doc = this.element.getDocument();
 
 					for ( var value in items ) {
-						doc.getById( 'cke_' + items[ value ] ).removeClass( 'cke_selected' );
+						doc.getById( items[ value ] ).removeClass( 'cke_selected' );
 					}
 				},
 
 				isMarked: function( value ) {
-					return this.element.getDocument().getById( 'cke_' + this._.items[ value ] ).hasClass( 'cke_selected' );
+					return this.element.getDocument().getById( this._.items[ value ] ).hasClass( 'cke_selected' );
+				},
+
+				focus: function( value ) {
+					this._.focusIndex = -1;
+
+					if ( value ) {
+						var selected = this.element.getDocument().getById( this._.items[ value ] ).getFirst();
+
+						var links = this.element.getElementsByTag( 'a' ),
+							link,
+							i = -1;
+
+						while ( ( link = links.getItem( ++i ) ) ) {
+							if ( link.equals( selected ) ) {
+								this._.focusIndex = i;
+								break;
+							}
+						}
+
+						setTimeout( function() {
+							selected.focus();
+						}, 0 );
+					}
 				}
 			}
 		});

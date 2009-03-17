@@ -74,10 +74,12 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 
 				ev = new CKEDITOR.dom.event( ev );
+
 				var keystroke = ev.getKeystroke();
 				switch ( keystroke ) {
 					case 13: // ENTER
 					case 32: // SPACE
+					case 40: // ARROW-DOWN
 						// Show panel  
 						CKEDITOR.tools.callFunction( clickFn, element );
 						break;
@@ -85,6 +87,7 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 						// Delegate the default behavior to toolbar button key handling.
 						instance.onkey( instance, keystroke );
 				}
+
 				// Avoid subsequent focus grab on editor document.
 				ev.preventDefault();
 			});
@@ -160,6 +163,12 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 				if ( me.onClose )
 					me.onClose();
 			};
+
+			panel.onEscape = function() {
+				panel.hide();
+				me.document.getById( _.id ).focus();
+			};
+
 
 			if ( this.onBlock )
 				this.onBlock( panel, _.id );

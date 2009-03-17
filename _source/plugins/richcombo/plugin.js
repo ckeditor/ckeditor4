@@ -103,13 +103,14 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			};
 
 			var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
-
 				ev = new CKEDITOR.dom.event( ev );
+
 				var keystroke = ev.getKeystroke();
 				switch ( keystroke ) {
 					case 13: // ENTER
 					case 32: // SPACE
-						// Show panel  
+					case 40: // ARROW-DOWN
+						// Show panel
 						CKEDITOR.tools.callFunction( clickFn, element );
 						break;
 					default:
@@ -173,6 +174,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 				me.document.getById( 'cke_' + me.id ).addClass( 'cke_on' );
 
+				list.focus( !me.multiSelect && me.getValue() );
+
 				me._.on = 1;
 
 				if ( me.onOpen )
@@ -189,6 +192,11 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 				if ( me.onClose )
 					me.onClose();
+			};
+
+			panel.onEscape = function() {
+				panel.hide();
+				me.document.getById( 'cke_' + me.id ).getFirst().getNext().focus();
 			};
 
 			list.onClick = function( value, marked ) {
@@ -248,7 +256,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 		add: function( value, html, text ) {
 			this._.items[ value ] = text || value;
-			this._.list.add( value, html );
+			this._.list.add( value, html, text );
 		},
 
 		startGroup: function( title ) {

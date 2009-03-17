@@ -30,6 +30,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( panel, type ) );
+
+					var keys = block.keys;
+					keys[ 39 ] = 'next'; // ARROW-RIGHT
+					keys[ 9 ] = 'next'; // TAB
+					keys[ 37 ] = 'prev'; // ARROW-LEFT
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+					keys[ 32 ] = 'click'; // SPACE
 				},
 
 				onOpen: function() {
@@ -77,7 +84,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			// Render the "Automatic" button.
-			output.push( '<a class="cke_colorauto"' +
+			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+				' title="', lang.auto, '"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');"' +
 				' href="javascript:void(\'', lang.auto, '\')">' +
 				'<table cellspacing=0 cellpadding=0 width="100%">' +
@@ -98,7 +106,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				var color = colors[ i ];
 				output.push( '<td>' +
-					'<a class="cke_colorbox"' +
+					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+						' title="', color, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#', color, '\',\'', type, '\');"' +
 						' href="javascript:void(\'', color, '\')">' +
 						'<span class="cke_colorbox" style="background-color:#', color, '"></span>' +
@@ -111,7 +120,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan=8 align=center>' +
-							'<a class="cke_colormore"' +
+							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
+								' title="', lang.more, '"' +
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');"' +
 								' href="javascript:void(\'', lang.more, '\')">', lang.more, '</a>' +
 						'</td>' ); // It is later in the code.

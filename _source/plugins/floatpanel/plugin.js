@@ -125,6 +125,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					iframe.$.contentWindow.focus();
 				}, 0 );
 
+				panel.onEscape = CKEDITOR.tools.bind( function() {
+					this.onEscape && this.onEscape();
+				}, this );
+
 				if ( this.onShow )
 					this.onShow.call( this );
 			},
