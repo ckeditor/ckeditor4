@@ -960,7 +960,7 @@ CKEDITOR.dom.range = function( document ) {
 					var startNode = this.getTouchedStartNode(),
 						endNode = this.getTouchedEndNode();
 
-					if ( startNode.isBlockBoundary() ) {
+					if ( startNode.type == CKEDITOR.NODE_ELEMENT && startNode.isBlockBoundary() ) {
 						this.setStartAt( startNode, CKEDITOR.dtd.$empty[ startNode.getName() ] ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_AFTER_START );
 					} else {
 						// Get the function used to check the enlaarging limits.
@@ -977,8 +977,8 @@ CKEDITOR.dom.range = function( document ) {
 						this.setStartBefore( boundaryEvent.from );
 					}
 
-					if ( endNode.isBlockBoundary() ) {
-						this.setEndAt( endNode, CKEDITOR.dtd.$empty[ startNode.getName() ] ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_BEFORE_END );
+					if ( endNode.type == CKEDITOR.NODE_ELEMENT && endNode.isBlockBoundary() ) {
+						this.setEndAt( endNode, CKEDITOR.dtd.$empty[ endNode.getName() ] ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_BEFORE_END );
 					} else {
 						// DFS forward to get the block/list item boundary at or before the end.
 						walker.setNode( endNode );
