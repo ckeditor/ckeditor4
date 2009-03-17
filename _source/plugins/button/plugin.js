@@ -169,30 +169,12 @@ CKEDITOR.ui.button.prototype = {
 	},
 
 	setState: function( state ) {
-		var element = CKEDITOR.document.getById( this._.id );
-
-		if ( this._.currentState == state )
+		if ( this._.state == state )
 			return;
 
-		switch ( state ) {
-			case CKEDITOR.TRISTATE_ON:
-				element.addClass( 'cke_on' );
-				element.removeClass( 'cke_off' );
-				element.removeClass( 'cke_disabled' );
-				break;
-			case CKEDITOR.TRISTATE_DISABLED:
-				element.addClass( 'cke_disabled' );
-				element.removeClass( 'cke_off' );
-				element.removeClass( 'cke_on' );
-				break;
-			default:
-				element.addClass( 'cke_off' );
-				element.removeClass( 'cke_on' );
-				element.removeClass( 'cke_disabled' );
-				break;
-		}
+		CKEDITOR.document.getById( this._.id ).setState( state );
 
-		this._.currentState = state;
+		this._.state = state;
 	}
 };
 

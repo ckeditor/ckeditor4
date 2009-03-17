@@ -54,19 +54,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function() {
-				if ( !undoManager.enabled && editor.mode == 'wysiwyg' ) {
-					undoManager.enabled = true;
+				if ( editor.mode == 'wysiwyg' ) {
+					if ( !undoManager.enabled ) {
+						undoManager.enabled = true;
 
-					editor.document.on( 'keydown', function( event ) {
-						// Do not capture CTRL hotkeys.
-						if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
-							undoManager.type();
-					});
+						editor.document.on( 'keydown', function( event ) {
+							// Do not capture CTRL hotkeys.
+							if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
+								undoManager.type();
+						});
 
-					// Being this the first call, let's get an undo snapshot.
-					if ( undoManager.index == -1 )
-						undoManager.save();
-				}
+						// Being this the first call, let's get an undo snapshot.
+						if ( undoManager.index == -1 )
+							undoManager.save();
+					}
+				} else
+					undoManager.enabled = false;
 
 				undoManager.onChange();
 			});

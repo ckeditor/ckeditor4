@@ -1,10 +1,10 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'richcombo', {
-	requires: [ 'floatpanel', 'listblock' ],
+	requires: [ 'floatpanel', 'listblock', 'button' ],
 
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_RICHCOMBO, CKEDITOR.ui.richCombo.handler );
@@ -24,7 +24,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
-			title: definition.label
+			title: definition.label,
+			modes: { wysiwyg:1 }
 		});
 
 		// We don't want the panel definition in this object.
@@ -39,7 +40,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 		this._ = {
 			panelDefinition: panelDefinition,
-			items: {}
+			items: {},
+			state: CKEDITOR.TRISTATE_OFF
 		};
 	},
 
@@ -70,6 +72,9 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			var id = 'cke_' + this.id;
 			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
 				var _ = this._;
+
+				if ( _.state == CKEDITOR.TRISTATE_DISABLED )
+					return;
 
 				this.createPanel( editor );
 
@@ -102,6 +107,10 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				execute: clickFn
 			};
 
+			editor.on( 'mode', function() {
+				this.setState( this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			}, this );
+
 			var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 				ev = new CKEDITOR.dom.event( ev );
 
@@ -125,7 +134,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			output.push( '<span class="cke_rcombo">', '<span id=', id );
 
 			if ( this.className )
-				output.push( ' class="', this.className, '"' );
+				output.push( ' class="', this.className, ' cke_off"' );
 
 			output.push( '>' +
 				'<span class=cke_label>', this.label, '</span>' +
@@ -172,7 +181,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				if ( me.className )
 					this.element.getFirst().addClass( me.className + '_panel' );
 
-				me.document.getById( 'cke_' + me.id ).addClass( 'cke_on' );
+				me.setState( CKEDITOR.TRISTATE_ON );
 
 				list.focus( !me.multiSelect && me.getValue() );
 
@@ -186,7 +195,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				if ( me.className )
 					this.element.getFirst().removeClass( me.className + '_panel' );
 
-				me.document.getById( 'cke_' + me.id ).removeClass( 'cke_on' );
+				me.setState( CKEDITOR.TRISTATE_OFF );
 
 				me._.on = 0;
 
@@ -265,6 +274,15 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 		commit: function() {
 			this._.list.commit();
+		},
+
+		setState: function( state ) {
+			if ( this._.state == state )
+				return;
+
+			this.document.getById( 'cke_' + this.id ).setState( state );
+
+			this._.state = state;
 		}
 	}
 });

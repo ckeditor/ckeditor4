@@ -4,8 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.command = function( editor, commandDefinition ) {
-	this.state = ( 'state' in commandDefinition ) ? commandDefinition.state : CKEDITOR.TRISTATE_OFF;
-
 	this.exec = function( data ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
 			return false;
@@ -13,7 +11,11 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		return ( commandDefinition.exec.call( this, editor, data ) !== false );
 	};
 
-	CKEDITOR.tools.extend( this, commandDefinition );
+	CKEDITOR.tools.extend( this, commandDefinition,
+	// Defaults
+	{ modes:{wysiwyg:1 },
+		state: CKEDITOR.TRISTATE_OFF
+	});
 
 	// Call the CKEDITOR.event constructor to initialize this instance.
 	CKEDITOR.event.call( this );

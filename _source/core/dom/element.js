@@ -1042,5 +1042,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		var currentScroll = win.getScrollPosition().y;
 		if ( offset > 0 && ( offset > currentScroll || offset < currentScroll - winHeight ) )
 			win.$.scrollTo( 0, offset );
+	},
+
+	setState: function( state ) {
+		switch ( state ) {
+			case CKEDITOR.TRISTATE_ON:
+				this.addClass( 'cke_on' );
+				this.removeClass( 'cke_off' );
+				this.removeClass( 'cke_disabled' );
+				break;
+			case CKEDITOR.TRISTATE_DISABLED:
+				this.addClass( 'cke_disabled' );
+				this.removeClass( 'cke_off' );
+				this.removeClass( 'cke_on' );
+				break;
+			default:
+				this.addClass( 'cke_off' );
+				this.removeClass( 'cke_on' );
+				this.removeClass( 'cke_disabled' );
+				break;
+		}
 	}
 });

@@ -23,7 +23,8 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
-			title: definition.label
+			title: definition.label,
+			modes: { wysiwyg:1 }
 		});
 
 		// We don't want the panel definition in this object.
@@ -62,6 +63,9 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
 				var _ = this._;
 
+				if ( _.state == CKEDITOR.TRISTATE_DISABLED )
+					return;
+
 				this.createPanel( editor );
 
 				if ( _.on ) {
@@ -98,6 +102,10 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 
 			if ( this.className )
 				classes += ' ' + this.className;
+
+			editor.on( 'mode', function() {
+				this.setState( this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			}, this );
 
 			output.push( '<span class="cke_button">', '<a id="', id, '"' +
 				' class="', classes, '" href="javascript:void(\'', ( this.title || '' ).replace( "'", '' ), '\')"' +

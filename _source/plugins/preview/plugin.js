@@ -8,7 +8,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var previewCmd = {
+	var previewCmd = { modes:{wysiwyg:1,source:1 },
+
 		exec: function( editor ) {
 			var sHTML,
 				isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;

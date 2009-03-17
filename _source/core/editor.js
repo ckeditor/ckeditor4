@@ -238,6 +238,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		};
 
+	function updateCommandsMode() {
+		var command,
+			commands = this._.commands,
+			mode = this.mode;
+
+		for ( var name in commands ) {
+			command = commands[ name ];
+
+			command.setState( command.modes[ mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+		}
+	}
+
 	/**
 	 * Initializes the editor instance. This function is called by the editor
 	 * contructor (editor_basic.js).
@@ -308,6 +320,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.focusManager = new CKEDITOR.focusManager( this );
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
+
+		this.on( 'mode', updateCommandsMode );
 
 		initConfig( this, instanceConfig );
 	};

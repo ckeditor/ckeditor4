@@ -8,7 +8,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var saveCmd = {
+	var saveCmd = { modes:{wysiwyg:1,source:1 },
+
 		exec: function( editor ) {
 			var $form = editor.element.$.form;
 

@@ -10,7 +10,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 // Register a plugin named "newpage".
 CKEDITOR.plugins.add( 'newpage', {
 	init: function( editor ) {
-		editor.addCommand( 'newpage', {
+		editor.addCommand( 'newpage', { modes:{wysiwyg:1,source:1 },
+
 			exec: function( editor ) {
 				editor.setData( editor.config.newpage_html );
 				editor.focus();
