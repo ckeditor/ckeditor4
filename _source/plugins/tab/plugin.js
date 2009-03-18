@@ -37,10 +37,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Fire the "tab" event, making it possible to
 					// customize the TAB key behavior on specific cases.
 					if ( !editor.fire( 'tab' ) ) {
-						if ( tabText.length > 0 ) {
-							// TODO
-							/*jsl:pass*/
-						} else {
+						if ( tabText.length > 0 )
+							editor.insertHtml( tabText );
+						else {
 							// All browsers jump to the next field on TAB,
 							// except Safari, so we have to do that manually
 							// here.
