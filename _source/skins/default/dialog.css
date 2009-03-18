@@ -375,12 +375,12 @@ body .cke_dialog
 	vertical-align: top;
 }
 
-.cke_skin_default .cke_dialog_ui_button
+.cke_skin_default .cke_dialog_ui_button table
 {
 	border: #737357 1px solid;
 }
 
-.cke_skin_default .cke_dialog_ui_button.disabled
+.cke_skin_default .cke_dialog_ui_button.disabled table
 {
 	border: #898980 1px solid;
 }
@@ -399,7 +399,8 @@ body .cke_dialog
 	background-color: #c5c5b3;
 }
 
-.cke_skin_default .cke_dialog_ui_button.active .cke_dialog_ui_button_txt
+.cke_skin_default a:focus.cke_dialog_ui_button .cke_dialog_ui_button_txt,
+.cke_skin_default a:active.cke_dialog_ui_button .cke_dialog_ui_button_txt
 {
 	background-color: #e3e3c7;
 }
