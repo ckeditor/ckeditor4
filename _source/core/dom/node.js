@@ -87,10 +87,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return element;
 	},
 
-	clone: function( includeChildren ) {
+	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
-		if ( this.type == CKEDITOR.NODE_ELEMENT ) {
+		if ( this.type == CKEDITOR.NODE_ELEMENT && !cloneId ) {
 			// The "id" attribute should never be cloned to avoid duplication.
 			$clone.removeAttribute( 'id', false );
 			$clone.removeAttribute( '_cke_expando', false );
