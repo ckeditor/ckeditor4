@@ -104,7 +104,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
 						if ( currentListItem.getLast() && currentListItem.getLast().type == CKEDITOR.NODE_ELEMENT && currentListItem.getLast().getAttribute( 'type' ) == '_moz' )
 							currentListItem.getLast().remove();
-						currentListItem.append( doc.createElement( 'br' ) );
+						currentListItem.appendBogus();
 					}
 
 					if ( currentListItem.getName() == paragraphName && currentListItem.$.firstChild ) {
@@ -119,7 +119,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var currentListItemName = currentListItem.$.nodeName.toLowerCase();
 					if ( !CKEDITOR.env.ie && currentListItemName == 'div' || currentListItemName == 'p' )
-						currentListItem.append( doc.createElement( 'br' ) );
+						currentListItem.appendBogus();
 					retval.append( currentListItem );
 					rootNode = null;
 					currentIndex++;
