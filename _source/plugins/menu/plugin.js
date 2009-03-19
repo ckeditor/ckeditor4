@@ -103,9 +103,22 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 						className: editor.skinClass + ' cke_contextmenu'
 					}, this._.level );
 
+					panel.onEscape = CKEDITOR.tools.bind( function() {
+						this.hide();
+						this.onEscape && this.onEscape();
+					}, this );
+
 					// Create an autosize block inside the panel.
 					var block = panel.addBlock( this.id );
 					block.autoSize = true;
+
+					var keys = block.keys;
+					keys[ 40 ] = 'next'; // ARROW-DOWN
+					keys[ 9 ] = 'next'; // TAB
+					keys[ 38 ] = 'prev'; // ARROW-UP
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+					keys[ 32 ] = 'click'; // SPACE
+					keys[ 39 ] = 'click'; // ARROW-RIGHT
 
 					element = this._.element = block.element;
 					element.addClass( editor.skinClass );
@@ -210,6 +223,7 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 					' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
 					' title="', this.label, '"' +
 					' tabindex="-1"' +
+					'_cke_focus=1' +
 					' hidefocus="true"' );
 
 			// Some browsers don't cancel key events in the keydown but in the

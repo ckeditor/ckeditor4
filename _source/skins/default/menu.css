@@ -14,7 +14,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 .cke_skin_default .cke_menuitem a:hover,
-.cke_skin_default .cke_menuitem a:focus
+.cke_skin_default .cke_menuitem a:focus,
+.cke_skin_default .cke_menuitem a:active
 {
 	background-color: #8f8f73;
 	display:block;
@@ -41,7 +42,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 .cke_skin_default .cke_menuitem a:hover .cke_icon,
-.cke_skin_default .cke_menuitem a:focus .cke_icon
+.cke_skin_default .cke_menuitem a:focus .cke_icon,
+.cke_skin_default .cke_menuitem a:active .cke_icon
 {
 	background-color: #737357;
 	border: solid 4px #737357;
@@ -60,7 +62,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 .cke_skin_default .cke_menuitem a:hover .cke_label,
-.cke_skin_default .cke_menuitem a:focus .cke_label
+.cke_skin_default .cke_menuitem a:focus .cke_label,
+.cke_skin_default .cke_menuitem a:active .cke_label
 {
 	color: #fff;
 	background-color: #8f8f73;
