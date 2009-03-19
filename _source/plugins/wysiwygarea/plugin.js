@@ -41,7 +41,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Remove the original contents.
 				range.deleteContents();
 
-				clone = element.clone( true );
+				clone = !i && element || element.clone( true );
 
 				var toSplit;
 
