@@ -97,32 +97,52 @@ CKEDITOR.resourceManager.prototype = {
 	},
 
 	/**
-	 * Get the full path for a specific loaded resource.
+	 * Get the folder path for a specific loaded resource.
 	 * @param {String} name The resource name.
 	 * @type String
 	 * @example
 	 * alert( <b>CKEDITOR.plugins.getPath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/"
 	 */
 	getPath: function( name ) {
-		return this.externals[ name ] || this.basePath + name + '/';
+		var external = this.externals[ name ]
+		return CKEDITOR.getUrl( ( external && external.dir ) || this.basePath + name + '/' );
 	},
 
 	/**
-	 * Registers a resource to be loaded from an external path instead of the core base path.
+	 * Get the file path for a specific loaded resource.
+	 * @param {String} name The resource name.
+	 * @type String
+	 * @example
+	 * alert( <b>CKEDITOR.plugins.getFilePath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/plugin.js"
+	 */
+	getFilePath: function( name ) {
+		var external = this.externals[ name ]
+		return CKEDITOR.getUrl( this.getPath( name ) + ( ( external && external.file ) || ( this.fileName + '.js' ) ) );
+	},
+
+	/**
+	 * Registers one or more resources to be loaded from an external path
+	 * instead of the core base path.
 	 * @param {String} names The resource names, separated by commas.
-	 * @param {String} path The resource external path.
+	 * @param {String} path The path of the folder containing the resource.
+	 * @param {String} [fileName] The resource file name. If not provided, the
+	 *		default name is used.
 	 * @example
 	 * // Loads a plugin from '/myplugin/samples/plugin.js'.
 	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
+	 * @example
+	 * // Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 */
-	addExternal: function( names, path ) {
+	addExternal: function( names, path, fileName ) {
 		names = names.split( ',' );
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
-			if ( this.registered[ name ] || this.externals[ name ] )
-				throw '[CKEDITOR.resourceManager.import] The resource name "' + name + '" is already registered or imported.';
 
-			this.externals[ name ] = path;
+			this.externals[ name ] = {
+				dir: path,
+				file: fileName
+			};
 		}
 	},
 
@@ -161,7 +181,7 @@ CKEDITOR.resourceManager.prototype = {
 
 			// If not available yet.
 			if ( !loaded[ name ] && !registered[ name ] ) {
-				var url = CKEDITOR.getUrl( this.getPath( name ) + this.fileName + '.js' );
+				var url = this.getFilePath( name );
 				urls.push( url );
 				if ( !( url in urlsNames ) )
 					urlsNames[ url ] = [];
