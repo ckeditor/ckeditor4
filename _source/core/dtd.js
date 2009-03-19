@@ -52,6 +52,8 @@ CKEDITOR.dtd = (function() {
 		P = X( { form:1 }, A, D, E, I ),
 		Q = { li:1 };
 
+	var block = { address:1,blockquote:1,center:1,dir:1,div:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,menu:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 };
+
 	return /** @lends CKEDITOR.dtd */ {
 
 		// The "$" items have been added manually.
@@ -60,7 +62,9 @@ CKEDITOR.dtd = (function() {
 		 * @type Object
 		 * @example
 		 */
-		$block: { address:1,blockquote:1,center:1,dir:1,div:1,dl:1,fieldset:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,menu:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 },
+		$block: block,
+
+		$body: X( { script:1 }, block ),
 
 		/**
 		 * List of empty (self-closing) elements, like "br" or "img".

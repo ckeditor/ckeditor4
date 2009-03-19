@@ -255,7 +255,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Get the HTML version of the data.
 						if ( editor.dataProcessor )
-							data = editor.dataProcessor.toHtml( data );
+							data = editor.dataProcessor.toHtml( data, ( editor.config.enterMode != CKEDITOR.ENTER_BR ) );
 
 						data = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 																'<head>' +
@@ -301,7 +301,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var data = iframe.$.contentWindow.document.body.innerHTML;
 
 						if ( editor.dataProcessor )
-							data = editor.dataProcessor.toDataFormat( data );
+							data = editor.dataProcessor.toDataFormat( data, ( editor.config.enterMode != CKEDITOR.ENTER_BR ) );
 
 						return data;
 					},

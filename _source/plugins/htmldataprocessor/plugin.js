@@ -103,7 +103,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.htmlDataProcessor.prototype = {
-		toHtml: function( data ) {
+		toHtml: function( data, fixForBody ) {
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 
@@ -119,7 +119,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( div.innerHTML ),
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( div.innerHTML, fixForBody ),
 				writer = new CKEDITOR.htmlParser.basicWriter();
 
 			fragment.writeHtml( writer, this.dataFilter );
@@ -127,9 +127,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return writer.getHtml( true );
 		},
 
-		toDataFormat: function( html ) {
+		toDataFormat: function( html, fixForBody ) {
 			var writer = this.writer,
-				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, fixForBody );
 
 			writer.reset();
 

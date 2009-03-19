@@ -47,7 +47,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * alert( fragment.children[0].name );  "b"
 	 * alert( fragment.children[1].value );  " Text"
 	 */
-	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml ) {
+	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, fixForBody ) {
 		var parser = new CKEDITOR.htmlParser(),
 			html = [],
 			fragment = new CKEDITOR.htmlParser.fragment(),
@@ -81,6 +81,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			};
 
 		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+			if ( fixForBody && !currentNode.type && !CKEDITOR.dtd.$body[ tagName ] )
+				this.onTagOpen( 'p', {} );
+
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// "isEmpty" will be always "false" for unknown elements, so we
@@ -186,6 +189,10 @@ CKEDITOR.htmlParser.fragment = function() {
 			}
 
 			checkPending();
+
+			if ( fixForBody && !currentNode.type )
+				this.onTagOpen( 'p', {} );
+
 			currentNode.add( new CKEDITOR.htmlParser.text( text ) );
 		};
 
