@@ -211,22 +211,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( keystrokeHandler )
 							keystrokeHandler.attach( domDocument );
 
-						editor.fire( 'contentDom' );
-
 						// Adds the document body as a context menu target.
 						if ( editor.contextMenu )
 							editor.contextMenu.addTarget( domDocument );
 
-						if ( fireMode ) {
-							editor.mode = 'wysiwyg';
-							editor.fire( 'mode' );
-							fireMode = false;
-						}
+						setTimeout( function() {
+							editor.fire( 'contentDom' );
 
-						isLoadingData = false;
+							if ( fireMode ) {
+								editor.mode = 'wysiwyg';
+								editor.fire( 'mode' );
+								fireMode = false;
+							}
 
-						if ( isPendingFocus )
-							editor.focus();
+							isLoadingData = false;
+
+							if ( isPendingFocus ) {
+								editor.focus();
+								isPendingFocus = false;
+							}
+						}, 0 );
 					};
 
 				editor.addMode( 'wysiwyg', {
