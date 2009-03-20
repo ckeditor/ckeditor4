@@ -65,13 +65,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.on( 'selectionChange', function( ev ) {
 					var currentValue = this.getValue();
 
-					var elementPath = ev.data.path;
+					var elementPath = ev.data.path,
+						elements = elementPath.elements;
 
-					for ( var value in styles ) {
-						if ( styles[ value ].checkActive( elementPath ) ) {
-							if ( value != currentValue )
-								this.setValue( value );
-							return;
+					// For each element into the elements path.
+					for ( var i = 0, element; i < elements.length; i++ ) {
+						element = elements[ i ];
+
+						// Check if the element is removable by any of
+						// the styles.
+						for ( var value in styles ) {
+							if ( styles[ value ].checkElementRemovable( element, true ) ) {
+								if ( value != currentValue )
+									this.setValue( value );
+								return;
+							}
 						}
 					}
 
