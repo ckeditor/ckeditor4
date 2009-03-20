@@ -119,6 +119,7 @@ CKEDITOR.plugins.sourcearea = {
 		source: { modes:{wysiwyg:1,source:1 },
 
 			exec: function( editor ) {
+				editor.getCommand( 'source' ).setState( CKEDITOR.TRISTATE_DISABLED );
 				editor.setMode( editor.mode == 'source' ? 'wysiwyg' : 'source' );
 			}
 		}
