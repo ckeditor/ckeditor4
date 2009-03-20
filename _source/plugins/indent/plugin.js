@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// possible about the surrounding lists, we need to feed it the further
 		// ancestor node that is still a list.
 		var listParents = listNode.getParents();
-		for ( var i = listParents.length - 1; i >= 0; i-- ) {
+		for ( var i = 0; i < listParents.length; i++ ) {
 			if ( listParents[ i ].getName && listNodeNames[ listParents[ i ].getName() ] ) {
 				listNode = listParents[ i ];
 				break;
