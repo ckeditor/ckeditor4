@@ -938,7 +938,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @see CKEDITOR.dialog.dialogDefinition
 		 */
 		add: function( name, dialogDefinition ) {
-			this._.dialogDefinitions[ name ] = dialogDefinition;
+			// Avoid path registration from multiple instances override definition.
+			if ( !this._.dialogDefinitions[ name ] || typeof dialogDefinition == 'function' )
+				this._.dialogDefinitions[ name ] = dialogDefinition;
 		},
 
 		exists: function( name ) {
