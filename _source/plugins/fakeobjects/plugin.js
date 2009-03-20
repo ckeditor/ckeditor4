@@ -18,11 +18,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( style ) {
 						// Get the width from the style.
-						var match = /(?:$|\s)width\s*:\s*(\d+)/.exec( style ),
+						var match = /(?:^|\s)width\s*:\s*(\d+)/.exec( style ),
 							width = match && match[ 1 ];
 
 						// Get the height from the style.
-						match = /(?:$|\s)height\s*:\s*(\d+)/.exec( style );
+						match = /(?:^|\s)height\s*:\s*(\d+)/.exec( style );
 						var height = match && match[ 1 ];
 
 						if ( width )
