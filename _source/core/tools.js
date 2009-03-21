@@ -114,7 +114,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			for ( var i = 1; i < argsLength; i++ ) {
 				var source = arguments[ i ];
 				for ( var propertyName in source ) {
-					// Only copy existed fields if in overwrite mode. 
+					// Only copy existed fields if in overwrite mode.
 					if ( overwrite === true || target[ propertyName ] == undefined ) {
 						// Only copy  specified fields if list is provided.
 						if ( !propertiesList || ( propertyName in propertiesList ) )
@@ -336,9 +336,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @returns {Number} The (zero based) index of the first entry that matches
 		 *		the entry, or -1 if not found.
 		 * @example
-		 * var letters = [ 'a', 'b', 0, 'c', false ]; 
-		 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  "-1" because 0 !== '0' 
-		 * alert( CKEDITOR.tools.indexOf( letters, false ) );  "4" because 0 !== false 
+		 * var letters = [ 'a', 'b', 0, 'c', false ];
+		 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  "-1" because 0 !== '0'
+		 * alert( CKEDITOR.tools.indexOf( letters, false ) );  "4" because 0 !== false
 		 */
 		indexOf:
 		// #2514: We should try to use Array.indexOf if it does exist.
@@ -368,7 +368,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * <li> Public(prototype) fields </li>
 		 * <li> Chainable base class constructor </li>
 		 * </ul>
-		 * 
+		 *
 		 * @param {Object} definiton (Optional)The class definiton object.
 		 */
 		createClass: function( definition ) {

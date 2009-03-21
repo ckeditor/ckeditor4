@@ -49,7 +49,7 @@ if ( !CKEDITOR.event ) {
 				if ( targetObject[ property ] == undefined )
 					targetObject[ property ] = isTargetPrototype ?
 				function() {
-					//pre-setup events model 
+					//pre-setup events model
 					if ( !( this._ && this._.events ) )
 						CKEDITOR.event.call( this );
 

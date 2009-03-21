@@ -15,12 +15,12 @@ CKEDITOR.test.addTestCase( ( function()
 	var assert = YAHOO.util.Assert;
 
 	return {
-		
+
 		test_appendTo : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner = 
+			var inner =
 					new CKEDITOR.dom.element( 'b' );
 			frag.append( inner );
 			var container = CKEDITOR.document.getById( 'fragmentContainer1' );
@@ -30,9 +30,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_append : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner = 
+			var inner =
 					new CKEDITOR.dom.element( 'b' );
 			frag.append( inner );
 			var container = CKEDITOR.document.getById( 'fragmentContainer3' );
@@ -42,9 +42,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getFirst : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner = 
+			var inner =
 					new CKEDITOR.dom.element( 'b' );
 			frag.append( inner );
 			var first = frag.getFirst();
@@ -53,9 +53,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getLast : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner = 
+			var inner =
 					new CKEDITOR.dom.element( 'b' ), lastInner = inner.clone();
 			frag.append( inner );
 			frag.append( lastInner );
@@ -65,9 +65,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_moveChildren : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner1 = new CKEDITOR.dom.element( 'b' ), 
+			var inner1 = new CKEDITOR.dom.element( 'b' ),
 			inner2 = new CKEDITOR.dom.element( 'i' );
 			frag.append( inner1 );
 			frag.append( inner2 );
@@ -81,9 +81,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_moveChildren2 : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner1 = new CKEDITOR.dom.element( 'b' ), 
+			var inner1 = new CKEDITOR.dom.element( 'b' ),
 				inner2 = new CKEDITOR.dom.element( 'i' );
 			frag.append( inner1 );
 			frag.append( inner2 );
@@ -107,7 +107,7 @@ CKEDITOR.test.addTestCase( ( function()
 		{
 			var element = CKEDITOR.document.getById( 'trimTarget' )
 				.clone( true );
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
 			frag.ltrim();
@@ -120,7 +120,7 @@ CKEDITOR.test.addTestCase( ( function()
 		{
 			var element = CKEDITOR.document.getById( 'trimTarget' )
 				.clone( true );
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
 			frag.rtrim();
@@ -131,9 +131,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_trim : function()
 		{
-			var element = 
+			var element =
 					CKEDITOR.document.getById( 'trimTarget' ).clone( true );
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
 			frag.trim();
@@ -144,7 +144,7 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_insertAfter : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner = new CKEDITOR.dom.element( 'b' );
 			frag.append( inner );
@@ -156,9 +156,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getChildCount : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner1 = new CKEDITOR.dom.element( 'b' ), 
+			var inner1 = new CKEDITOR.dom.element( 'b' ),
 				inner2 = new CKEDITOR.dom.element( 'i' );
 			frag.append( inner1 );
 			frag.append( inner2 );
@@ -168,9 +168,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getChild : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner1 = new CKEDITOR.dom.element( 'b' ), 
+			var inner1 = new CKEDITOR.dom.element( 'b' ),
 				inner2 = new CKEDITOR.dom.element( 'i' );
 			frag.append( inner1 );
 			frag.append( inner2 );
@@ -180,9 +180,9 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getChildren : function()
 		{
-			var frag = 
+			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
-			var inner1 = new CKEDITOR.dom.element( 'b' ), 
+			var inner1 = new CKEDITOR.dom.element( 'b' ),
 				inner2 = new CKEDITOR.dom.element( 'i' );
 			frag.append( inner1 );
 			frag.append( inner2 );
@@ -194,10 +194,10 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_getDocument : function()
 		{
-			var doc = CKEDITOR.document, 
-				innerDoc = new CKEDITOR.dom.document( 
+			var doc = CKEDITOR.document,
+				innerDoc = new CKEDITOR.dom.document(
 					doc.getById( 'innerFrame' ).$.contentWindow.document );
-			var frag1 = new CKEDITOR.dom.documentFragment( doc ), 
+			var frag1 = new CKEDITOR.dom.documentFragment( doc ),
 				frag2 = new CKEDITOR.dom.documentFragment( innerDoc );
 
 			assert.isTrue( doc.equals( frag1.getDocument() ) );
@@ -215,8 +215,8 @@ CKEDITOR.test.addTestCase( ( function()
 	<div id="fragmentContainer1"></div>
 	<div id="fragmentContainer2"><div id="fragmentSibling1"></div></div>
 	<div id="fragmentContainer3"></div>
-	<div id="trimTarget"> 	
-text 	
+	<div id="trimTarget">
+text
 </div>
 	<iframe id="innerFrame" name="innerFrame" src="about:blank"></iframe>
 </body>

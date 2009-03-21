@@ -84,7 +84,7 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 					case 13: // ENTER
 					case 32: // SPACE
 					case 40: // ARROW-DOWN
-						// Show panel  
+						// Show panel
 						CKEDITOR.tools.callFunction( clickFn, element );
 						break;
 					default:

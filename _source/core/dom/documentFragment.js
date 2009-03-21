@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * fragment of a document. Various operations may take DocumentFragment objects
  * as arguments and results in all the child nodes of the DocumentFragment being
  * moved to the child list of this node.
- * 
+ *
  * @param {Object} ownerDocument
  */
 CKEDITOR.dom.documentFragment = function( ownerDocument ) {

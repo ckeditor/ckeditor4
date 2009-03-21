@@ -14,7 +14,7 @@ CKEDITOR.test.addTestCase( (function()
 {
 	// Local reference to the "assert" object.
 	var assert = CKEDITOR.test.assert;
-	
+
 	return {
 
 		/**
@@ -22,15 +22,15 @@ CKEDITOR.test.addTestCase( (function()
 		 */
 		test_addExternal : function()
 		{
-			CKEDITOR.plugins.addExternal( 'myplugin', 
+			CKEDITOR.plugins.addExternal( 'myplugin',
 			'_source/' + // %REMOVE_LINE%
 			'tests/core/plugins/myplugins/sample/', 'my_plugin.js' );
-			
+
 			CKEDITOR.plugins.load( 'myplugin', function(){
 				this.resume( function(){
-					
+
 					assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
-				} );				
+				} );
 			}, this );
 			this.wait();
 		},

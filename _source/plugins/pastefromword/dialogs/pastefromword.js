@@ -181,7 +181,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 				onShow: function() {
 					/*
 					 * SAFARI BUG: The advice label would overflow if the table layout
-					 * isn't fixed. 
+					 * isn't fixed.
 					 */
 					if ( CKEDITOR.env.webkit )
 						this.getElement().getAscendant( 'table' ).setStyle( 'table-layout', 'fixed' );

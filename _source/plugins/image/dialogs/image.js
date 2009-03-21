@@ -319,7 +319,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						this.originalElement.removeListener( 'error', onImgLoadErrorEvent );
 						this.originalElement.removeListener( 'abort', onImgLoadErrorEvent );
 						this.originalElement.remove();
-						this.originalElement = false; // Dialog is closed. 
+						this.originalElement = false; // Dialog is closed.
 					}
 				},
 				contents: [
