@@ -117,7 +117,7 @@ packages :
 					'_source/core/ckeditor.js',
 					'_source/core/dom/elementpath.js',
 					'_source/core/dom/text.js',
-					'_source/core/dom/documentFragment.js',
+					'_source/core/dom/documentfragment.js',
 					'_source/core/dom/domwalker.js',
 					'_source/core/dom/range.js',
 					'_source/core/_bootstrap.js',
