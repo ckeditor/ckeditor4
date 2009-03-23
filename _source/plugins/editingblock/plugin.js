@@ -33,9 +33,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'uiReady', function() {
 				editor.setMode( editor.config.startupMode );
-
-				if ( editor.config.startupFocus )
-					editor.focus();
 			});
 
 			editor.on( 'afterSetData', function() {
@@ -85,6 +82,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.container.on( 'focus', function() {
 					editor.focus();
 				});
+
+				if ( editor.config.startupFocus )
+					editor.focus();
 
 				// Fire instanceReady for both the editor and CKEDITOR.
 				editor.fireOnce( 'instanceReady' );

@@ -68,8 +68,10 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					if ( keystrokeHandler )
 						keystrokeHandler.attach( textarea );
 
-					editor.mode = 'source';
-					editor.fire( 'mode' );
+					setTimeout( function() {
+						editor.mode = 'source';
+						editor.fire( 'mode' );
+					}, ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) ? 100 : 0 );
 				},
 
 				loadData: function( data ) {
