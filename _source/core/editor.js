@@ -65,9 +65,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var initConfig = function( editor, instanceConfig ) {
 			// Setup the lister for the "customConfigLoaded" event.
 			editor.on( 'customConfigLoaded', function() {
-				// Overwrite the settings from the in-page config.
-				if ( instanceConfig )
+				if ( instanceConfig ) {
+					// Register the events that may have been set at the instance
+					// configuration object.
+					if ( instanceConfig.on ) {
+						for ( var eventName in instanceConfig.on ) {
+							editor.on( eventName, instanceConfig.on[ eventName ] );
+						}
+					}
+
+					// Overwrite the settings from the in-page config.
 					CKEDITOR.tools.extend( editor.config, instanceConfig, true );
+
+					delete editor.config.on;
+				}
 
 				onConfigLoaded( editor );
 			});
