@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 			this.restoreSelection();
 
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "input" && ( element.getAttribute( 'type' ) == "text" && !element.getAttribute( 'type' ) ) ) {
+			if ( element && element.getName() == "input" && ( element.getAttribute( 'type' ) == "text" || !element.getAttribute( 'type' ) ) ) {
 				this._element = element;
 				this.setupContent( element );
 			}
