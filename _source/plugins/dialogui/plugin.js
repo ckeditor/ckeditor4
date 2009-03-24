@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -572,8 +572,29 @@ CKEDITOR.plugins.add( 'dialogui' );
 			/** @ignore */
 			var innerHTML = function() {
 					_.frameId = CKEDITOR.tools.getNextNumber() + '_fileInput';
-					var html = [ '<iframe frameborder="0" allowtransparency="0" class="cke_dialog_ui_input_file" id="',
-												_.frameId, '" src="javascript: void(0)" ></iframe>' ];
+
+					// Support for custom document.domain in IE.
+					var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
+
+					var html = [
+						'<iframe' +
+							' frameborder="0"' +
+							' allowtransparency="0"' +
+							' class="cke_dialog_ui_input_file"' +
+							' id="', _.frameId, '"' +
+							' src="javascript:void(' ];
+
+					html.push( isCustomDomain ? '(function(){' +
+						'document.open();' +
+						'document.domain=\'' + document.domain + '\';' +
+						'document.close();' +
+						'})()'
+						:
+						'0' );
+
+					html.push( ')">' +
+						'</iframe>' );
+
 					return html.join( '' );
 				};
 
@@ -1074,7 +1095,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 * @example
 		 */
 		getInputElement: function() {
-			return new CKEDITOR.dom.element( CKEDITOR.document.getById( this._.frameId ).$.contentWindow.document.forms[ 0 ].elements[ 0 ] );
+			return new CKEDITOR.dom.element( CKEDITOR.document.getById( this._.frameId ).getFrameDocument().$.forms[ 0 ].elements[ 0 ] );
 		},
 
 		/**
@@ -1095,11 +1116,17 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 */
 		reset: function() {
 			var frameElement = CKEDITOR.document.getById( this._.frameId ),
-				frameDocument = frameElement.$.contentWindow.document,
+				frameDocument = frameElement.getFrameDocument(),
 				elementDefinition = this._.definition,
 				buttons = this._.buttons;
-			frameDocument.open();
-			frameDocument.write( [ '<html><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
+
+			frameDocument.$.open();
+
+			// Support for custom document.domain in IE.
+			if ( CKEDITOR.env.isCustomDomain() )
+				frameDocument.$.domain = document.domain;
+
+			frameDocument.$.write( [ '<html><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
 											'<form enctype="multipart/form-data" method="POST" action="',
 											CKEDITOR.tools.htmlEncode( elementDefinition.action ),
 											'">',
@@ -1110,7 +1137,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 											'" />',
 											'</form>',
 											'</body></html>' ].join( '' ) );
-			frameDocument.close();
+
+			frameDocument.$.close();
 
 			for ( var i = 0; i < buttons.length; i++ )
 				buttons[ i ].enable();

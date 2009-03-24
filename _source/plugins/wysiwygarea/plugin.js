@@ -89,8 +89,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'editingBlockReady', function() {
 				var mainElement, iframe, isLoadingData, isPendingFocus, fireMode;
 
-				// The following information is needed for IE only.
-				var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
+				// Support for custom document.domain in IE.
+				var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 				// Creates the iframe that holds the editable document.
 				var createIFrame = function() {
@@ -302,7 +302,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					},
 
 					getData: function() {
-						var data = iframe.$.contentWindow.document.body.innerHTML;
+						var data = iframe.getFrameDocument().getBody().getHtml();
 
 						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toDataFormat( data, ( editor.config.enterMode != CKEDITOR.ENTER_BR ) );
@@ -311,11 +311,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					},
 
 					getSnapshotData: function() {
-						return iframe.$.contentWindow.document.body.innerHTML;
+						return iframe.getFrameDocument().getBody().getHtml();
 					},
 
 					loadSnapshotData: function( data ) {
-						iframe.$.contentWindow.document.body.innerHTML = data;
+						iframe.getFrameDocument().getBody().setHtml( data );
 					},
 
 					unload: function( holderElement ) {

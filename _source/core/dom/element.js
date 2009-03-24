@@ -1062,5 +1062,37 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				this.removeClass( 'cke_disabled' );
 				break;
 		}
+	},
+
+	/**
+	 * Returns the inner document of this IFRAME element.
+	 * @returns {CKEDITOR.dom.document} The inner document.
+	 */
+	getFrameDocument: function() {
+		var $ = this.$;
+
+		try {
+			// In IE, with custom document.domain, it may happen that
+			// the iframe is not yet available, resulting in "Access
+			// Denied" for the following property access.
+			void( $.contentWindow.document );
+		} catch ( e ) {
+			// Trick to solve this issue, forcing the iframe to get ready
+			// by simply setting its "src" property.
+			$.src = $.src;
+
+			// In IE6 though, the above is not enough, so we must pause the
+			// execution for a while, giving it time to think.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
+				window.showModalDialog( 'javascript:document.write("' +
+					'<script>' +
+						'window.setTimeout(' +
+							'function(){window.close();}' +
+							',50);' +
+					'</script>")' );
+			}
+		}
+
+		return $ && new CKEDITOR.dom.document( $.contentWindow.document );
 	}
 });
