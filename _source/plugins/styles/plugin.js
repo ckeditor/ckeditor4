@@ -242,7 +242,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// The detection algorithm below skips the contents inside bookmark nodes, so
 		// we'll need to make sure lastNode isn't the &nbsp; inside a bookmark node.
 		var lastParent = lastNode.getParent();
-		if ( lastParent && lastParent.type == CKEDITOR.NODE_ELEMENT && lastParent.getAttribute( '_fck_bookmark' ) )
+		if ( lastParent && lastParent.getAttribute( '_fck_bookmark' ) )
 			lastNode = lastParent;
 
 		if ( lastNode.equals( firstNode ) ) {
