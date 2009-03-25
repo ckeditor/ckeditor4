@@ -14,10 +14,6 @@ CKEDITOR.plugins.add( 'print', {
 		// Register the command.
 		var command = editor.addCommand( pluginName, CKEDITOR.plugins.print );
 
-		// It is imposible to print the inner document in Opera.
-		if ( CKEDITOR.env.opera )
-			command.state = CKEDITOR.TRISTATE_DISABLED;
-
 		// Register the toolbar button.
 		editor.ui.addButton( 'Print', {
 			label: editor.lang.print,
@@ -34,5 +30,6 @@ CKEDITOR.plugins.print = {
 			editor.window.$.print();
 		else
 			editor.document.$.execCommand( "Print" );
-	}
+	},
+	modes: { wysiwyg: !( CKEDITOR.env.opera ) } // It is imposible to print the inner document in Opera.
 };

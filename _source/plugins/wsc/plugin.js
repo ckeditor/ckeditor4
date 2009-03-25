@@ -15,8 +15,7 @@ CKEDITOR.plugins.add( 'wsc', {
 		var command = editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName ) );
 
 		// SpellChecker doesn't work in Opera.
-		if ( CKEDITOR.env.opera )
-			command.state = CKEDITOR.TRISTATE_DISABLED;
+		command.modes = { wysiwyg: !( CKEDITOR.env.opera ) }
 
 		editor.ui.addButton( 'SpellChecker', {
 			label: editor.lang.spellCheck.toolbar,
