@@ -14,8 +14,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 @import url("presets.css");
 
 /* Restore the container visibility */
-html .cke_skin_default,
-html .cke_skin_default_container
+html .cke_skin_v2,
+html .cke_skin_v2_container
 {
 	visibility: visible;
 }

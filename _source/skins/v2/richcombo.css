@@ -1,13 +1,13 @@
 /* Special Combo */
 
-.cke_skin_default .cke_rcombo
+.cke_skin_v2 .cke_rcombo
 {
 	float: left;
 	margin-left: 2px;
 	margin-right: 2px;
 }
 
-.cke_skin_default .cke_rcombopanel
+.cke_skin_v2 .cke_rcombopanel
 {
 	border: 1px solid #316ac5;
 	-moz-border-radius-topleft: 0;
@@ -16,18 +16,18 @@
 }
 
 /* IE6 only */
-.cke_skin_default cke_browser_ie6 .cke_rcombo
+.cke_skin_v2 cke_browser_ie6 .cke_rcombo
 {
 	float: none;
 }
 
-.cke_skin_default .cke_rcombo a
+.cke_skin_v2 .cke_rcombo a
 {
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default .cke_rcombo .cke_label
+.cke_skin_v2 .cke_rcombo .cke_label
 {
 	padding-top: 6px;
 	padding-left: 4px;
@@ -38,7 +38,7 @@
 	background-color: #f1f1e3;	/* Because of IE6+ClearType */
 }
 
-.cke_skin_default .cke_rcombo .cke_text
+.cke_skin_v2 .cke_rcombo .cke_text
 {
 	border: 1px solid #8f8f73;
 	background-color: #fff;
@@ -59,13 +59,13 @@
 	border-bottom-left-radius: 3px;
 }
 
-.cke_skin_default .cke_browser_iequirks .cke_rcombo .cke_text
+.cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_text
 {
 	height: 24px;
 	width: 72px;
 }
 
-.cke_skin_default .cke_rcombo .cke_openbutton
+.cke_skin_v2 .cke_rcombo .cke_openbutton
 {
     background-position: center center;
     background-image: url(images/arrowdown.gif);
@@ -85,66 +85,66 @@
 	border-bottom-left-radius: 3px;
 }
 
-.cke_skin_default .cke_browser_iequirks .cke_rcombo .cke_openbutton
+.cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_openbutton
 {
 	height: 24px;
     width: 15px;
 }
 
-.cke_skin_default .cke_rcombo .cke_off a:hover,
-.cke_skin_default .cke_rcombo .cke_off a:focus,
-.cke_skin_default .cke_rcombo .cke_off a:active,
-.cke_skin_default .cke_rcombo .cke_on a
+.cke_skin_v2 .cke_rcombo .cke_off a:hover,
+.cke_skin_v2 .cke_rcombo .cke_off a:focus,
+.cke_skin_v2 .cke_rcombo .cke_off a:active,
+.cke_skin_v2 .cke_rcombo .cke_on a
 {
 	filter: alpha(opacity=100); /* IE */
 	opacity: 1; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default .cke_rcombo .cke_off a:hover .cke_text,
-.cke_skin_default .cke_rcombo .cke_off a:focus .cke_text,
-.cke_skin_default .cke_rcombo .cke_off a:active .cke_text,
-.cke_skin_default .cke_rcombo .cke_on .cke_text
+.cke_skin_v2 .cke_rcombo .cke_off a:hover .cke_text,
+.cke_skin_v2 .cke_rcombo .cke_off a:focus .cke_text,
+.cke_skin_v2 .cke_rcombo .cke_off a:active .cke_text,
+.cke_skin_v2 .cke_rcombo .cke_on .cke_text
 {
 	border-color: #316ac5;
 }
 
-.cke_skin_default .cke_rcombo .cke_off a:hover .cke_openbutton,
-.cke_skin_default .cke_rcombo .cke_off a:focus .cke_openbutton,
-.cke_skin_default .cke_rcombo .cke_off a:active .cke_openbutton,
-.cke_skin_default .cke_rcombo .cke_on .cke_openbutton
+.cke_skin_v2 .cke_rcombo .cke_off a:hover .cke_openbutton,
+.cke_skin_v2 .cke_rcombo .cke_off a:focus .cke_openbutton,
+.cke_skin_v2 .cke_rcombo .cke_off a:active .cke_openbutton,
+.cke_skin_v2 .cke_rcombo .cke_on .cke_openbutton
 {
 	border-color: #316ac5;
 	background-color: #dff1ff;
 }
 
-.cke_skin_default .cke_rcombo .cke_on .cke_text
+.cke_skin_v2 .cke_rcombo .cke_on .cke_text
 {
 	-moz-border-radius-bottomleft: 0px;
 	-webkit-border-bottom-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 }
 
-.cke_skin_default .cke_rcombo .cke_on .cke_openbutton
+.cke_skin_v2 .cke_rcombo .cke_on .cke_openbutton
 {
 	-moz-border-radius-bottomright: 0px;
 	-webkit-border-bottom-right-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
 
-.cke_skin_default .cke_rcombo .cke_disabled .cke_label
+.cke_skin_v2 .cke_rcombo .cke_disabled .cke_label
 {
 	filter: alpha(opacity=30); /* IE */
 	opacity: 0.3; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default .cke_rcombo .cke_disabled .cke_text,
-.cke_skin_default .cke_rcombo .cke_disabled .cke_openbutton
+.cke_skin_v2 .cke_rcombo .cke_disabled .cke_text,
+.cke_skin_v2 .cke_rcombo .cke_disabled .cke_openbutton
 {
 	filter: alpha(opacity=50); /* IE */
 	opacity: 0.5; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_default .cke_rcombo .cke_disabled .cke_text
+.cke_skin_v2 .cke_rcombo .cke_disabled .cke_text
 {
 	color: #fff;
 }

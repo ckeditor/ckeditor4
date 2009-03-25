@@ -11,12 +11,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 }
 
-.cke_skin_default .cke_path
+.cke_skin_v2 .cke_path
 {
 	padding: 3px;
 }
 
-.cke_skin_default .cke_path a
+.cke_skin_v2 .cke_path a
 {
 	border: solid 1px #efefde;
 	background-color: #efefde;
@@ -26,9 +26,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-right: 4px;
 }
 
-.cke_skin_default .cke_path a:hover,
-.cke_skin_default .cke_path a:focus,
-.cke_skin_default .cke_path a:active	/* IE */
+.cke_skin_v2 .cke_path a:hover,
+.cke_skin_v2 .cke_path a:focus,
+.cke_skin_v2 .cke_path a:active	/* IE */
 {
 	border: solid 1px #316ac5;
 	background-color: #dff1ff;

@@ -6,11 +6,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Reset and Default Values
  */
-.cke_skin_default *,
-.cke_skin_default a:hover,
-.cke_skin_default a:link,
-.cke_skin_default a:visited,
-.cke_skin_default a:active
+.cke_skin_v2 *,
+.cke_skin_v2 a:hover,
+.cke_skin_v2 a:link,
+.cke_skin_v2 a:visited,
+.cke_skin_v2 a:active
 {
 	margin: 0;
 	padding: 0;
@@ -31,21 +31,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
 }
 
-.cke_skin_default.cke_rtl *,
-.cke_skin_default.cke_rtl a:hover,
-.cke_skin_default.cke_rtl a:link,
-.cke_skin_default.cke_rtl a:visited,
-.cke_skin_default.cke_rtl a:active
+.cke_skin_v2.cke_rtl *,
+.cke_skin_v2.cke_rtl a:hover,
+.cke_skin_v2.cke_rtl a:link,
+.cke_skin_v2.cke_rtl a:visited,
+.cke_skin_v2.cke_rtl a:active
 {
 	text-align: right;
 }
 
-.cke_skin_default iframe
+.cke_skin_v2 iframe
 {
 	vertical-align: inherit;	/** For IE */
 }
 
-.cke_skin_default textarea
+.cke_skin_v2 textarea
 {
 	white-space: pre;
 }

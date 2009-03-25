@@ -3,7 +3,7 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.skins.add( 'default', ( function() {
+CKEDITOR.skins.add( 'v2', ( function() {
 	var preload = [];
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
@@ -29,7 +29,7 @@ if ( CKEDITOR.dialog ) {
 			dialog = data.dialog,
 			standardsMode = !CKEDITOR.env.quirk;
 
-		if ( data.skin != 'default' )
+		if ( data.skin != 'v2' )
 			return;
 
 		dialog.parts.contents.setStyles({

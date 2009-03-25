@@ -7,7 +7,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * Styles for the "templates" plugin.
  */
 
-.cke_skin_default .cke_tpl_list
+.cke_skin_v2 .cke_tpl_list
 {
 	border: #dcdcdc 2px solid;
 	background-color: #ffffff;
@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 220px;
 }
 
-.cke_skin_default .cke_tpl_item
+.cke_skin_v2 .cke_tpl_item
 {
 	margin: 5px;
 	padding: 7px;
@@ -24,32 +24,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	*width: 88%;
 }
 
-.cke_skin_default .cke_tpl_preview
+.cke_skin_v2 .cke_tpl_preview
 {
 	border-collapse: separate;
 	text-indent:0;
 	width: 100%;
 }
-.cke_skin_default .cke_tpl_preview td
+.cke_skin_v2 .cke_tpl_preview td
 {
 	padding: 2px;
 	vertical-align: middle;
 }
-.cke_skin_default .cke_tpl_preview .cke_tpl_preview_img
+.cke_skin_v2 .cke_tpl_preview .cke_tpl_preview_img
 {
 	width: 100px;
 }
-.cke_skin_default .cke_tpl_preview span
+.cke_skin_v2 .cke_tpl_preview span
 {
 	white-space: normal;
 }
 
-.cke_skin_default .cke_tpl_title
+.cke_skin_v2 .cke_tpl_title
 {
 	font-weight: bold;
 }
 
-.cke_skin_default .cke_tpl_hover
+.cke_skin_v2 .cke_tpl_hover
 {
 	border: #ff9933 1px solid !important;
 	background-color: #fffacd !important;
@@ -59,12 +59,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /*
  * Fix property 'cursor' doesn't inherit on table
  */
-.cke_skin_default .cke_tpl_hover *
+.cke_skin_v2 .cke_tpl_hover *
 {
 	cursor: inherit;
 }
 
-.cke_skin_default .cke_tpl_empty, .cke_tpl_loading
+.cke_skin_v2 .cke_tpl_empty, .cke_tpl_loading
 {
 	text-align: center;
 	padding: 5px;

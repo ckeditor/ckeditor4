@@ -3,7 +3,7 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-.cke_skin_default .cke_panel
+.cke_skin_v2 .cke_panel
 {
     border: 1px solid #8f8f73;
 	background-color: #fff;
@@ -19,7 +19,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 /* Ideally we would use "inherit here"... but you know... IE :( */
-.cke_skin_default .cke_panel iframe
+.cke_skin_v2 .cke_panel iframe
 {
 	width: 100%;
 	height: 100%;
@@ -118,8 +118,8 @@ li.cke_panel_listItem
 	margin-bottom: 3px;
 }
 
-.cke_skin_default .cke_button_textcolor_panel,
-.cke_skin_default .cke_button_bgcolor_panel
+.cke_skin_v2 .cke_button_textcolor_panel,
+.cke_skin_v2 .cke_button_bgcolor_panel
 {
 	width: 150px;
 	height: 135px;

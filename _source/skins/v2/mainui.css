@@ -3,7 +3,7 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-.cke_skin_default .cke_editor
+.cke_skin_v2 .cke_editor
 {
 /*
 	border: solid 1px #dcdcdc;
@@ -11,12 +11,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline-table;
 }
 
-.cke_skin_default .cke_top, .cke_skin_default .cke_bottom
+.cke_skin_v2 .cke_top, .cke_skin_v2 .cke_bottom
 {
 	background-color: #efefde;
 }
 
-.cke_skin_default .cke_top
+.cke_skin_v2 .cke_top
 {
     border-top: solid 1px #fafaf5;
     border-left: solid 1px #fafaf5;
@@ -24,24 +24,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     border-bottom: solid 2px #696969;
 }
 
-.cke_skin_default .cke_bottom
+.cke_skin_v2 .cke_bottom
 {
     border-left: solid 1px #696969;
     border-right: solid 1px #696969;
     border-bottom: solid 1px #696969;
 }
 
-.cke_skin_default .cke_contents
+.cke_skin_v2 .cke_contents
 {
 	border: solid 1px #696969;
 }
 
-.cke_skin_default .cke_focus
+.cke_skin_v2 .cke_focus
 {
 	outline: auto 5px -webkit-focus-ring-color;
 }
 
-.cke_skin_default textarea.cke_source
+.cke_skin_v2 textarea.cke_source
 {
 	font-family: 'Courier New' , Monospace;
 	font-size: small;

@@ -9,7 +9,7 @@ body .cke_dialog
 	visibility: visible;
 }
 
-.cke_skin_default .cke_dialog_body
+.cke_skin_v2 .cke_dialog_body
 {
 	margin-left: 16px;
 	margin-right: 16px;
@@ -19,12 +19,12 @@ body .cke_dialog
 	z-index: 1;
 }
 
-.cke_skin_default .cke_dialog_tl,
-.cke_skin_default .cke_dialog_tr,
-.cke_skin_default .cke_dialog_tc,
-.cke_skin_default .cke_dialog_bl,
-.cke_skin_default .cke_dialog_br,
-.cke_skin_default .cke_dialog_bc
+.cke_skin_v2 .cke_dialog_tl,
+.cke_skin_v2 .cke_dialog_tr,
+.cke_skin_v2 .cke_dialog_tc,
+.cke_skin_v2 .cke_dialog_bl,
+.cke_skin_v2 .cke_dialog_br,
+.cke_skin_v2 .cke_dialog_bc
 {
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
@@ -34,7 +34,7 @@ body .cke_dialog
 	_background-image: url(images/sprites_ie6.png);
 }
 
-.cke_skin_default .cke_dialog_tl
+.cke_skin_v2 .cke_dialog_tl
 {
 	background-position: -16px -16px;
 	height: 16px;
@@ -43,7 +43,7 @@ body .cke_dialog
 	left: 0;
 }
 
-.cke_skin_default .cke_dialog_tr
+.cke_skin_v2 .cke_dialog_tr
 {
 	background-position: -16px -76px;
 	height: 16px;
@@ -52,7 +52,7 @@ body .cke_dialog
 	right: 0;
 }
 
-.cke_skin_default .cke_dialog_tc
+.cke_skin_v2 .cke_dialog_tc
 {
 	background-position: 0 -136px;
 	background-repeat: repeat-x;
@@ -62,7 +62,7 @@ body .cke_dialog
 	right: 16px;
 }
 
-.cke_skin_default .cke_dialog_bl
+.cke_skin_v2 .cke_dialog_bl
 {
 	background-position: -16px -196px;
 	height: 51px;
@@ -71,7 +71,7 @@ body .cke_dialog
 	left: 0;
 }
 
-.cke_skin_default .cke_dialog_br
+.cke_skin_v2 .cke_dialog_br
 {
 	background-position: -16px -263px;
 	height: 51px;
@@ -80,7 +80,7 @@ body .cke_dialog
 	right: 0;
 }
 
-.cke_skin_default .cke_dialog_bc
+.cke_skin_v2 .cke_dialog_bc
 {
 	background-position: 0 -330px;
 	background-repeat: repeat-x;
@@ -90,8 +90,8 @@ body .cke_dialog
 	right: 30px;
 }
 
-.cke_skin_default .cke_dialog_ml,
-.cke_skin_default .cke_dialog_mr
+.cke_skin_v2 .cke_dialog_ml,
+.cke_skin_v2 .cke_dialog_mr
 {
 	background-image: url(images/dialog_sides.png);
 	background-repeat: repeat-y;
@@ -104,25 +104,25 @@ body .cke_dialog
 	_background-image: url(images/dialog_sides.gif);
 }
 
-.cke_skin_default .cke_dialog_ml
+.cke_skin_v2 .cke_dialog_ml
 {
 	background-position: 0 0;
 	left: 0;
 }
 
-.cke_skin_default .cke_dialog_mr
+.cke_skin_v2 .cke_dialog_mr
 {
 	background-position: -16px 0;
 	right: 0;
 }
 
-.cke_skin_default .cke_browser_iequirks .cke_dialog_ml,
-.cke_skin_default .cke_browser_iequirks .cke_dialog_mr
+.cke_skin_v2 .cke_browser_iequirks .cke_dialog_ml,
+.cke_skin_v2 .cke_browser_iequirks .cke_dialog_mr
 {
 	margin-top: 3px;
 }
 
-.cke_skin_default .cke_dialog_title
+.cke_skin_v2 .cke_dialog_title
 {
 	font-weight: bold;
 	font-size: 14pt;
@@ -133,7 +133,7 @@ body .cke_dialog
 	position: relative;
 }
 
-.cke_skin_default .cke_dialog_contents
+.cke_skin_v2 .cke_dialog_contents
 {
 	background-color: #f1f1e3;
 	border: #d5d59d 1px solid;
@@ -141,7 +141,7 @@ body .cke_dialog
 	padding: 5px 10px;
 }
 
-.cke_skin_default .cke_dialog_footer
+.cke_skin_v2 .cke_dialog_footer
 {
 	background-color: #e3e3c7;
 	text-align: right;
@@ -149,7 +149,7 @@ body .cke_dialog
 
 /* tabs */
 
-.cke_skin_default .cke_dialog_tabs
+.cke_skin_v2 .cke_dialog_tabs
 {
 	height: 23px;
 	background-color: #e3e3c7;
@@ -160,11 +160,11 @@ body .cke_dialog
 	z-index: 2;
 }
 
-.cke_skin_default a.cke_dialog_tab,
-.cke_skin_default a:link.cke_dialog_tab,
-.cke_skin_default a:active.cke_dialog_tab,
-.cke_skin_default a:hover.cke_dialog_tab,
-.cke_skin_default a:visited.cke_dialog_tab
+.cke_skin_v2 a.cke_dialog_tab,
+.cke_skin_v2 a:link.cke_dialog_tab,
+.cke_skin_v2 a:active.cke_dialog_tab,
+.cke_skin_v2 a:hover.cke_dialog_tab,
+.cke_skin_v2 a:visited.cke_dialog_tab
 {
 	color: #737357;
 	border-left: 1px solid #d5d59d;
@@ -177,16 +177,16 @@ body .cke_dialog
 	cursor: pointer;
 }
 
-.cke_skin_default a:hover.cke_dialog_tab
+.cke_skin_v2 a:hover.cke_dialog_tab
 {
 	background-color: #f1f1e3;
 }
 
-.cke_skin_default a.cke_dialog_tab_selected,
-.cke_skin_default a:link.cke_dialog_tab_selected,
-.cke_skin_default a:active.cke_dialog_tab_selected,
-.cke_skin_default a:hover.cke_dialog_tab_selected,
-.cke_skin_default a:visited.cke_dialog_tab_selected
+.cke_skin_v2 a.cke_dialog_tab_selected,
+.cke_skin_v2 a:link.cke_dialog_tab_selected,
+.cke_skin_v2 a:active.cke_dialog_tab_selected,
+.cke_skin_v2 a:hover.cke_dialog_tab_selected,
+.cke_skin_v2 a:visited.cke_dialog_tab_selected
 {
 	border-bottom: 1px solid #f1f1e3;
 	background-color: #f1f1e3;
@@ -196,29 +196,29 @@ body .cke_dialog
 
 /* single_page */
 
-.cke_skin_default .cke_single_page .cke_dialog_tabs
+.cke_skin_v2 .cke_single_page .cke_dialog_tabs
 {
 	display: none;
 }
 
-.cke_skin_default .cke_single_page .cke_dialog_title
+.cke_skin_v2 .cke_single_page .cke_dialog_title
 {
 	padding-bottom: 3px;
 }
 
-.cke_skin_default .cke_dialog_ui_vbox table,
-.cke_skin_default .cke_dialog_ui_hbox table
+.cke_skin_v2 .cke_dialog_ui_vbox table,
+.cke_skin_v2 .cke_dialog_ui_hbox table
 {
 	margin: auto;
 }
 
-.cke_skin_default .cke_dialog_ui_vbox_child
+.cke_skin_v2 .cke_dialog_ui_vbox_child
 {
 	padding: 5px 0px;
 }
 
-.cke_skin_default input.cke_dialog_ui_input_text,
-.cke_skin_default input.cke_dialog_ui_input_password
+.cke_skin_v2 input.cke_dialog_ui_input_text,
+.cke_skin_v2 input.cke_dialog_ui_input_password
 {
 	background-color: white;
 	border: none;
@@ -227,15 +227,15 @@ body .cke_dialog
 	height: 14px;
 }
 
-.cke_skin_default div.cke_dialog_ui_input_text,
-.cke_skin_default div.cke_dialog_ui_input_password
+.cke_skin_v2 div.cke_dialog_ui_input_text,
+.cke_skin_v2 div.cke_dialog_ui_input_password
 {
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
 }
 
-.cke_skin_default textarea.cke_dialog_ui_input_textarea
+.cke_skin_v2 textarea.cke_dialog_ui_input_textarea
 {
 	background-color: white;
 	border: none;
@@ -249,40 +249,40 @@ body .cke_dialog
 	overflow: auto;
 }
 
-.cke_skin_default div.cke_dialog_ui_input_textarea
+.cke_skin_v2 div.cke_dialog_ui_input_textarea
 {
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
 }
 
-.cke_skin_default .cke_dialog_ui_hbox
+.cke_skin_v2 .cke_dialog_ui_hbox
 {
 	width: 100%;
 }
 
-.cke_skin_default.cke_browser_ie .cke_dialog_ui_hbox,
-.cke_skin_default.cke_browser_ie .cke_dialog_ui_vbox,
-.cke_skin_default.cke_browser_webkit .cke_dialog_ui_hbox,
-.cke_skin_default.cke_browser_webkit .cke_dialog_ui_vbox
+.cke_skin_v2.cke_browser_ie .cke_dialog_ui_hbox,
+.cke_skin_v2.cke_browser_ie .cke_dialog_ui_vbox,
+.cke_skin_v2.cke_browser_webkit .cke_dialog_ui_hbox,
+.cke_skin_v2.cke_browser_webkit .cke_dialog_ui_vbox
 {
 	table-layout: fixed;
 }
 
-.cke_skin_default.cke_browser_ie .cke_dialog_footer_buttons
+.cke_skin_v2.cke_browser_ie .cke_dialog_footer_buttons
 {
 	table-layout: auto;
 }
 
-.cke_skin_default.cke_ltr .cke_dialog_ui_hbox_first,
-.cke_skin_default.cke_ltr .cke_dialog_ui_hbox_child
+.cke_skin_v2.cke_ltr .cke_dialog_ui_hbox_first,
+.cke_skin_v2.cke_ltr .cke_dialog_ui_hbox_child
 {
 	padding-right: 10px;
 	vertical-align: top;
 }
 
-.cke_skin_default.cke_rtl .cke_dialog_ui_hbox_first,
-.cke_skin_default.cke_rtl .cke_dialog_ui_hbox_child
+.cke_skin_v2.cke_rtl .cke_dialog_ui_hbox_first,
+.cke_skin_v2.cke_rtl .cke_dialog_ui_hbox_child
 {
 	padding-left: 10px;
 	vertical-align: top;
@@ -290,12 +290,12 @@ body .cke_dialog
 
 /* button */
 
-.cke_skin_default a.cke_dialog_ui_button
+.cke_skin_v2 a.cke_dialog_ui_button
 {
 	border-collapse: separate;
 }
 
-.cke_skin_default span.cke_dialog_ui_button
+.cke_skin_v2 span.cke_dialog_ui_button
 {
 	border: #737357 1px solid;
 	padding: 2px 10px;
@@ -305,20 +305,20 @@ body .cke_dialog
 	display: inline-block;
 }
 
-.cke_skin_default a.cke_dialog_ui_button span.cke_disabled
+.cke_skin_v2 a.cke_dialog_ui_button span.cke_disabled
 {
 	border: #898980 1px solid;
 	color: #5e5e55;
 	background-color: #c5c5b3;
 }
 
-.cke_skin_default a:focus span.cke_dialog_ui_button,
-.cke_skin_default a:active span.cke_dialog_ui_button
+.cke_skin_v2 a:focus span.cke_dialog_ui_button,
+.cke_skin_v2 a:active span.cke_dialog_ui_button
 {
 	background-color: #e3e3c7;
 }
 
-.cke_skin_default .cke_dialog_footer_buttons
+.cke_skin_v2 .cke_dialog_footer_buttons
 {
 	display: inline-table;
 	margin-right: 12px;
@@ -326,20 +326,20 @@ body .cke_dialog
 	position: relative;
 }
 
-.cke_skin_default .cke_dialog_footer_buttons span.cke_dialog_ui_button
+.cke_skin_v2 .cke_dialog_footer_buttons span.cke_dialog_ui_button
 {
 	width: 60px;
 	margin: 7px 0;
 }
 
-.cke_skin_default strong
+.cke_skin_v2 strong
 {
 	font-weight: bold;
 }
 
 /* close_button */
 
-.cke_skin_default .cke_dialog_close_button
+.cke_skin_v2 .cke_dialog_close_button
 {
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
@@ -357,30 +357,30 @@ body .cke_dialog
 	_background-image: url(images/sprites_ie6.png);
 }
 
-.cke_skin_default .cke_dialog_close_button:hover
+.cke_skin_v2 .cke_dialog_close_button:hover
 {
 	background-position: -16px -687px;
 }
 
-.cke_skin_default.cke_rtl .cke_dialog_close_button
+.cke_skin_v2.cke_rtl .cke_dialog_close_button
 {
 	left: 10px;
 	right: auto;
 }
 
-.cke_skin_default .cke_dialog_ui_input_select
+.cke_skin_v2 .cke_dialog_ui_input_select
 {
 	border: 1px solid #a0a0a0;
 	background-color: white;
 }
 
-.cke_skin_default iframe.cke_dialog_ui_input_file
+.cke_skin_v2 iframe.cke_dialog_ui_input_file
 {
 	width: 100%;
 	height: 25px;
 }
 
-.cke_skin_default.cke_browser_ie div.cke_dialog_ui_input_file
+.cke_skin_v2.cke_browser_ie div.cke_dialog_ui_input_file
 {
 	height: 25px;
 }
@@ -388,22 +388,22 @@ body .cke_dialog
 /*
  * Some utility CSS classes for dialog authors.
  */
-.cke_skin_default .cke_dialog .dark_background
+.cke_skin_v2 .cke_dialog .dark_background
 {
 	background-color: #eaead1;
 }
 
-.cke_skin_default .cke_dialog .hand
+.cke_skin_v2 .cke_dialog .hand
 {
 	cursor: pointer;
 }
 
-.cke_skin_default .cke_dialog .centered
+.cke_skin_v2 .cke_dialog .centered
 {
 	text-align: center;
 }
 
-.cke_skin_default .cke_dialog .BtnReset
+.cke_skin_v2 .cke_dialog .BtnReset
 {
 	float: right;
 	background-position: 0 -32px;
@@ -415,7 +415,7 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_default .cke_dialog .BtnLocked, .BtnUnlocked
+.cke_skin_v2 .cke_dialog .BtnLocked, .BtnUnlocked
 {
 	float: left;
 	background-position: 0 0;
@@ -427,20 +427,20 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_default .cke_dialog .BtnUnlocked
+.cke_skin_v2 .cke_dialog .BtnUnlocked
 {
 	background-position: 0 -16px;
 	background-image: url(images/mini.gif);
 }
 
-.cke_skin_default .cke_dialog .BtnOver
+.cke_skin_v2 .cke_dialog .BtnOver
 {
 	border: outset 1px;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.cke_skin_default .cke_dialog  #ImagePreviewBox
+.cke_skin_v2 .cke_dialog  #ImagePreviewBox
 {
 	white-space : normal;
 	border : 2px ridge black;
@@ -450,7 +450,7 @@ body .cke_dialog
 	padding : 2px;
 	background-color : white;
 }
-.cke_skin_default .cke_dialog  #ImagePreviewLoader
+.cke_skin_v2 .cke_dialog  #ImagePreviewLoader
 {
 	position: absolute;
 	white-space : normal;
@@ -465,7 +465,7 @@ body .cke_dialog
 	background-color : #e4e4e4;
 }
 
-.cke_skin_default .cke_dialog  #FlashPreviewBox
+.cke_skin_v2 .cke_dialog  #FlashPreviewBox
 {
 	white-space : normal;
 	border : 2px ridge black;
@@ -476,26 +476,26 @@ body .cke_dialog
 	background-color : white;
 }
 
-.cke_skin_default .cke_dialog .DarkBackground
+.cke_skin_v2 .cke_dialog .DarkBackground
 {
 	text-align : center;
 	background-color: #eaead1;
 	font-size : 14px;
 }
 
-.cke_skin_default .cke_dialog .LightBackground
+.cke_skin_v2 .cke_dialog .LightBackground
 {
 	text-align : center;
 	background-color: #ffffbe;
 }
 
-.cke_skin_default .cke_dialog .Hand
+.cke_skin_v2 .cke_dialog .Hand
 {
 	cursor: pointer;
 	cursor: hand;
 }
 
-.cke_skin_default .disabled
+.cke_skin_v2 .disabled
 {
 	color: #a0a0a0;
 }

@@ -178,7 +178,7 @@ CKEDITOR.config = {
 	 * @example
 	 * config.skin = 'v2';
 	 */
-	skin: 'default',
+	skin: 'v2',
 
 	/**
 	 * The editor width in CSS size format or pixel integer.
