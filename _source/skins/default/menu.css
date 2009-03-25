@@ -29,7 +29,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_default .cke_menuitem .cke_icon
 {
-	background-image: url(icons.gif);
+	background-image: url(icons.png);
 	background-position: 100px;
 	background-repeat:no-repeat;
 	background-color: #e3e3c7;
@@ -79,7 +79,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_default .cke_menuarrow
 {
-	background-image: url(images/toolbar.arrowright.gif);
+	background-image: url(images/arrowright.gif);
 	height: 7px;
 	width: 7px;
 	float: right;

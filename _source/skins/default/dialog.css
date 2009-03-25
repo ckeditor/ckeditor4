@@ -31,7 +31,7 @@ body .cke_dialog
 	position: absolute;
 
 	/* IE6 does not support full color transparent PNG. */
-	_background-image: url(images/sprites.gif);
+	_background-image: url(images/sprites_ie6.png);
 }
 
 .cke_skin_default .cke_dialog_tl
@@ -93,7 +93,7 @@ body .cke_dialog
 .cke_skin_default .cke_dialog_ml,
 .cke_skin_default .cke_dialog_mr
 {
-	background-image: url(images/dialog.sides.png);
+	background-image: url(images/dialog_sides.png);
 	background-repeat: repeat-y;
 	position: absolute;
 	width: 16px;
@@ -101,7 +101,7 @@ body .cke_dialog
 	bottom: 51px;
 
 	/* IE6 does not support full color transparent PNG. */
-	_background-image: url(images/dialog.sides.gif);
+	_background-image: url(images/dialog_sides.gif);
 }
 
 .cke_skin_default .cke_dialog_ml
@@ -354,7 +354,7 @@ body .cke_dialog
 	_right: 22px;
 
 	/* IE6 does not support full color transparent PNG. */
-	_background-image: url(images/sprites.gif);
+	_background-image: url(images/sprites_ie6.png);
 }
 
 .cke_skin_default .cke_dialog_close_button:hover
@@ -406,8 +406,8 @@ body .cke_dialog
 .cke_skin_default .cke_dialog .BtnReset
 {
 	float: right;
-	background-position: center center;
-	background-image: url(images/reset.gif);
+	background-position: 0 -32px;
+	background-image: url(images/mini.gif);
 	width: 16px;
 	height: 16px;
 	background-repeat: no-repeat;
@@ -418,8 +418,8 @@ body .cke_dialog
 .cke_skin_default .cke_dialog .BtnLocked, .BtnUnlocked
 {
 	float: left;
-	background-position: center center;
-	background-image: url(images/locked.gif);
+	background-position: 0 0;
+	background-image: url(images/mini.gif);
 	width: 16px;
 	height: 16px;
 	background-repeat: no-repeat;
@@ -429,7 +429,8 @@ body .cke_dialog
 
 .cke_skin_default .cke_dialog .BtnUnlocked
 {
-	background-image: url(images/unlocked.gif);
+	background-position: 0 -16px;
+	background-image: url(images/mini.gif);
 }
 
 .cke_skin_default .cke_dialog .BtnOver
@@ -473,15 +474,6 @@ body .cke_dialog
 	width : 390px;
 	padding : 2px;
 	background-color : white;
-}
-
-.cke_skin_default .cke_dialog .loading
-{
-	height : 160px;
-	width : 230px;
-	background-image: url(images/dialog.loading.gif);
-	background-repeat: no-repeat;
-	background-position: 47% 47%;
 }
 
 .cke_skin_default .cke_dialog .DarkBackground

@@ -84,7 +84,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_default .cke_button .cke_icon
 {
-	background-image: url(icons.gif);
+	background-image: url(icons.png);
 	background-position: 100px;
 	background-repeat:no-repeat;
 	margin-top:1px;
@@ -106,7 +106,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 18px;
 	width: 8px;
 	background-position: right center;
-	background-image: url(images/toolbar.buttonarrow.gif);
+	background-image: url(images/arrowdown.gif);
 	background-repeat: no-repeat;
 }
 

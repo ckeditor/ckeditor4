@@ -155,7 +155,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Set Error image.
 					var noimage = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
-														'skins/' + editor.config.skin + '/images/dialog.noimage.gif' );
+														'skins/' + editor.config.skin + '/images/noimage.png' );
 
 					if ( this.preview )
 						this.preview.setAttribute( 'src', noimage );
