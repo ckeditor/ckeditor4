@@ -70,14 +70,15 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 	return {
 		title: editor.lang.smiley.title,
-		minWidth: 320,
-		minHeight: 210,
+		minWidth: 270,
+		minHeight: 120,
 		contents: [
 			{
 			id: 'tab1',
 			label: '',
 			title: '',
 			expand: true,
+			padding: 0,
 			elements: [
 				smileySelector
 				]

@@ -10,8 +10,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return {
 			title: editor.lang.pasteText.title,
 
-			minWidth: 400,
-			minHeight: 330,
+			minWidth: 350,
+			minHeight: 240,
 
 			onShow: function() {
 				// Reset the textarea value.

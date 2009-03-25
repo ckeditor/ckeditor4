@@ -474,8 +474,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return {
 				title: editor.lang.findAndReplace.title,
 				resizable: CKEDITOR.DIALOG_RESIZE_NONE,
-				minWidth: 400,
-				minHeight: 255,
+				minWidth: 350,
+				minHeight: 165,
 				buttons: [ CKEDITOR.dialog.cancelButton ], //Cancel button only.
 				contents: [
 					{

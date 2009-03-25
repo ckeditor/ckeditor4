@@ -121,8 +121,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 
 	return {
 		title: editor.lang.select.title,
-		minWidth: 400,
-		minHeight: 370,
+		minWidth: 375,
+		minHeight: 270,
 		onShow: function() {
 			// IE BUG: Selection must be in the editor for getSelectedElement()
 			// to work.

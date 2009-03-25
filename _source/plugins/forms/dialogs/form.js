@@ -5,8 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'form', function( editor ) {
 	return {
 		title: editor.lang.form.title,
-		minWidth: 400,
-		minHeight: 270,
+		minWidth: 350,
+		minHeight: 190,
 		onShow: function() {
 			// IE BUG: Selection must be in the editor for getSelectedElement()
 			// to work.

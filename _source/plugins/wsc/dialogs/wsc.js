@@ -111,8 +111,8 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 
 	return {
 		title: editor.lang.spellCheck.title,
-		minWidth: 540,
-		minHeight: 480,
+		minWidth: 490,
+		minHeight: 390,
 		buttons: [ CKEDITOR.dialog.cancelButton ],
 		onShow: function() {
 			contentArea = this.getContentElement( 'general', 'content' ).getElement();

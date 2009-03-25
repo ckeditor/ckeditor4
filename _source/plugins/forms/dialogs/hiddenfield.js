@@ -5,8 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 	return {
 		title: editor.lang.hidden.title,
-		minWidth: 400,
-		minHeight: 200,
+		minWidth: 350,
+		minHeight: 110,
 		onShow: function() {
 			// IE BUG: Selection must be in the editor for getSelectedElement()
 			// to work.

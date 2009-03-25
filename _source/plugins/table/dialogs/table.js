@@ -79,8 +79,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		return {
 			title: editor.lang.table.title,
-			minWidth: 480,
-			minHeight: 260,
+			minWidth: 430,
+			minHeight: 180,
 			onShow: function() {
 				// Detect if there's a selected table.
 				this.restoreSelection();

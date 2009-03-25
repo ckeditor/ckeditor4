@@ -48,8 +48,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	return {
 		title: editor.lang.clipboard.title,
 
-		minWidth: 400,
-		minHeight: 330,
+		minWidth: 350,
+		minHeight: 240,
 
 		onShow: function() {
 			if ( isCustomDomain )
