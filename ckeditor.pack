@@ -178,7 +178,7 @@ packages :
 					'_source/plugins/panel/plugin.js',
 					'_source/plugins/listblock/plugin.js',
 					'_source/plugins/dialogui/plugin.js',
-					'_source/skins/default/skin.js',
+					'_source/skins/v2/skin.js',
 					'_source/themes/default/theme.js'
 				]
 		}
