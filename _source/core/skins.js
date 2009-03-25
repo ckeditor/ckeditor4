@@ -17,6 +17,7 @@ CKEDITOR.skins = (function() {
 	// Holds the list of loaded skins.
 	var loaded = {};
 	var preloaded = {};
+	var paths = {};
 
 	var loadedPart = function( skinName, part, callback ) {
 			// Get the skin definition.
@@ -24,8 +25,7 @@ CKEDITOR.skins = (function() {
 
 			var appendSkinPath = function( fileNames ) {
 					for ( var n = 0; n < fileNames.length; n++ ) {
-						fileNames[ n ] = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
-																	'skins/' + skinName + '/' + fileNames[ n ] );
+						fileNames[ n ] = paths[ skinName ] + fileNames[ n ];
 					}
 				};
 
@@ -117,8 +117,7 @@ CKEDITOR.skins = (function() {
 		add: function( skinName, skinDefinition ) {
 			loaded[ skinName ] = skinDefinition;
 
-			skinDefinition.skinPath = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
-											'skins/' + skinName + '/' );
+			skinDefinition.skinPath = paths[ skinName ];
 		},
 
 		/**
@@ -132,12 +131,15 @@ CKEDITOR.skins = (function() {
 		 *		part files are loaded.
 		 * @example
 		 */
-		load: function( skinName, skinPart, callback ) {
+		load: function( editor, skinPart, callback ) {
+			var skinName = editor.skinName,
+				skinPath = editor.skinPath;
+
 			if ( loaded[ skinName ] )
 				loadedPart( skinName, skinPart, callback );
 			else {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
-													'skins/' + skinName + '/skin.js' ), function() {
+				paths[ skinName ] = skinPath;
+				CKEDITOR.scriptLoader.load( skinPath + 'skin.js', function() {
 					loadedPart( skinName, skinPart, callback );
 				});
 			}

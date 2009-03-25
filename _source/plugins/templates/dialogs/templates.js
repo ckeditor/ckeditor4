@@ -85,7 +85,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
 		// Load skin at first.
-		CKEDITOR.skins.load( 'default', 'templates' );
+		CKEDITOR.skins.load( editor, 'templates' );
 
 		/**
 		 * Load templates once.

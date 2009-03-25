@@ -101,7 +101,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 			var baseIdNumber = CKEDITOR.tools.getNextNumber();
 
 			var element = CKEDITOR.dom.element.createFromHtml( [
-				'<div class="cke_skin_', editor.config.skin,
+				'<div class="cke_skin_', editor.skinName,
 					' ', browserCssClass,
 					' ', CKEDITOR.env.quirks ? 'cke_mode_quirks' : 'cke_mode_standards',
 					' cke_', editor.lang.dir,

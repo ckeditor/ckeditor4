@@ -154,8 +154,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					original.removeListener( 'abort', onImgLoadErrorEvent );
 
 					// Set Error image.
-					var noimage = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
-														'skins/' + editor.config.skin + '/images/noimage.png' );
+					var noimage = CKEDITOR.getUrl( editor.skinPath + 'images/noimage.png' );
 
 					if ( this.preview )
 						this.preview.setAttribute( 'src', noimage );

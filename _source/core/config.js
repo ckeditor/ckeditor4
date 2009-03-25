@@ -172,11 +172,14 @@ CKEDITOR.config = {
 	theme: 'default',
 
 	/**
-	 * The skin to load.
+	 * The skin to load. It may be the name of the skin folder inside the
+	 * editor installation path, or the name and the path separated by a comma.
 	 * @type String
 	 * @default 'default'
 	 * @example
 	 * config.skin = 'v2';
+	 * @example
+	 * config.skin = 'myskin,/customstuff/myskin/';
 	 */
 	skin: 'v2',
 
