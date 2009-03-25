@@ -90,9 +90,26 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><o:p>Test</o:p></span></i></b></p>', getDataProcessor().toDataFormat( element.getHtml() ) );
 		},
 
+		test_toDataFormat_ticket_3036_1 : function()
+		{
+			assert.areSame( '<input autocomplete="off" checked="checked" type="checkbox" />', 
+				getDataProcessor().toDataFormat( '<INPUT type="checkbox" CHECKED  autocomplete=off>' ) );
+		},
+
+		test_toDataFormat_ticket_3036_2 : function()
+		{
+			assert.areSame( '<input autocomplete="off" type="checkbox" unknown="" />', 
+				getDataProcessor().toDataFormat( '<INPUT type="checkbox" UNKNOWN  autocomplete=off>' ) );
+		},
+
 		name : document.title
 	};
 })() );
+
+//window.onload = function()
+//{
+//	testCase.test_toDataFormat_ticket_3036();
+//}
 
 	//]]>
 	</script>
