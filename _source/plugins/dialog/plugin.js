@@ -1428,17 +1428,17 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					' hidefocus="true"' +
 					' frameborder="0"' +
 					' id="cke_dialog_background_iframe"' +
-					' src="javascript:void(' );
+					' src="javascript:' );
 
-				html.push( isCustomDomain ? '(function(){' +
+				html.push( isCustomDomain ? 'void((function(){' +
 					'document.open();' +
 					'document.domain=\'' + document.domain + '\';' +
 					'document.close();' +
-					'})()'
+					'})())'
 					:
-					'0' );
+					'\'\'' );
 
-				html.push( ')"' +
+				html.push( '"' +
 					' style="' +
 						'position:absolute;' +
 						'left:0;' +
