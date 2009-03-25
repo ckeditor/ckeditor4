@@ -235,8 +235,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Get the first node to be processed and the last, which concludes the
 		// processing.
-		var firstNode = range.startContainer.getChild( range.startOffset ) || range.startContainer.getNextSourceNode();
-		var lastNode = range.endContainer.getChild( range.endOffset ) || ( range.endOffset ? range.endContainer.getNextSourceNode() : range.endContainer );
+		var boundaryNodes = range.getBoundaryNodes();
+		var firstNode = boundaryNodes.startNode;
+		var lastNode = boundaryNodes.endNode;
+
+		// The detection algorithm below skips the contents inside bookmark nodes, so
+		// we'll need to make sure lastNode isn't the &nbsp; inside a bookmark node.
+		var lastParent = lastNode.getParent();
+		if ( lastParent && lastParent.type == CKEDITOR.NODE_ELEMENT && lastParent.getAttribute( '_fck_bookmark' ) )
+			lastNode = lastParent;
 
 		if ( lastNode.equals( firstNode ) ) {
 			// If the last node is the same as the the first one, we must move
