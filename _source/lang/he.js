@@ -1,0 +1,512 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/**
+ * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
+ * Hebrew language.
+ */
+
+/**#@+
+   @type String
+   @example
+*/
+
+/**
+ * Constains the dictionary of language entries.
+ * @namespace
+ */
+CKEDITOR.lang[ 'he' ] = {
+	/**
+	 * The language reading direction. Possible values are "rtl" for
+	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
+	 * languages (like English).
+	 * @default 'ltr'
+	 */
+	dir: 'rtl',
+
+	// Toolbar buttons without dialogs.
+	source: 'מקור',
+	newPage: 'דף חדש',
+	save: 'שמירה',
+	preview: 'תצוגה מקדימה',
+	cut: 'גזירה',
+	copy: 'העתקה',
+	paste: 'הדבקה',
+	print: 'הדפסה',
+	underline: 'קו תחתון',
+	bold: 'מודגש',
+	italic: 'נטוי',
+	selectAll: 'בחירת הכל',
+	removeFormat: 'הסרת העיצוב',
+	strike: 'כתיב מחוק',
+	subscript: 'כתיב תחתון',
+	superscript: 'כתיב עליון',
+	horizontalrule: 'הוספת קו אופקי',
+	pagebreak: 'הוסף שבירת דף',
+	unlink: 'הסרת הקישור',
+	undo: 'ביטול צעד אחרון',
+	redo: 'חזרה על צעד אחרון',
+
+	// Common messages and labels.
+	common: {
+		browseServer: 'סייר השרת',
+		url: 'כתובת (URL)',
+		protocol: 'פרוטוקול',
+		upload: 'העלאה',
+		uploadSubmit: 'שליחה לשרת',
+		image: 'תמונה',
+		flash: 'פלאש',
+		form: 'טופס',
+		checkbox: 'תיבת סימון',
+		radio: 'לחצן אפשרויות',
+		textField: 'שדה טקסט',
+		textarea: 'איזור טקסט',
+		hiddenField: 'שדה חבוי',
+		button: 'כפתור',
+		select: 'שדה בחירה',
+		imageButton: 'כפתור תמונה',
+		notSet: '<לא נקבע>',
+		id: 'זיהוי (Id)',
+		name: 'שם',
+		langDir: 'כיוון שפה',
+		langDirLtr: 'שמאל לימין (LTR)',
+		langDirRtl: 'ימין לשמאל (RTL)',
+		langCode: 'קוד שפה',
+		longDescr: 'קישור לתיאור מפורט',
+		cssClass: 'גיליונות עיצוב קבוצות',
+		advisoryTitle: 'כותרת מוצעת',
+		cssStyle: 'סגנון',
+		ok: 'אישור',
+		cancel: 'ביטול',
+		generalTab: 'כללי',
+		advancedTab: 'אפשרויות מתקדמות',
+		validateNumberFailed: 'This value is not a number.', // MISSING
+		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?' // MISSING
+	},
+
+	// Special char dialog.
+	specialChar: {
+		toolbar: 'הוספת תו מיוחד',
+		title: 'בחירת תו מיוחד'
+	},
+
+	// Link dialog.
+	link: {
+		toolbar: 'הוספת/עריכת קישור', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		menu: 'עריכת קישור',
+		title: 'קישור',
+		info: 'מידע על הקישור',
+		target: 'מטרה',
+		upload: 'העלאה',
+		advanced: 'אפשרויות מתקדמות',
+		type: 'סוג קישור',
+		toAnchor: 'עוגן בעמוד זה',
+		toEmail: 'דוא\'\'ל',
+		target: 'מטרה',
+		targetNotSet: '<לא נקבע>',
+		targetFrame: '<מסגרת>',
+		targetPopup: '<חלון קופץ>',
+		targetNew: 'חלון חדש (_blank)',
+		targetTop: 'חלון ראשי (_top)',
+		targetSelf: 'באותו החלון (_self)',
+		targetParent: 'חלון האב (_parent)',
+		targetFrameName: 'שם מסגרת היעד',
+		targetPopupName: 'שם החלון הקופץ',
+		popupFeatures: 'תכונות החלון הקופץ',
+		popupResizable: 'Resizable', // MISSING
+		popupStatusBar: 'סרגל חיווי',
+		popupLocationBar: 'סרגל כתובת',
+		popupToolbar: 'סרגל הכלים',
+		popupMenuBar: 'סרגל תפריט',
+		popupFullScreen: 'מסך מלא (IE)',
+		popupScrollBars: 'ניתן לגלילה',
+		popupDependent: 'תלוי (Netscape)',
+		popupWidth: 'רוחב',
+		popupLeft: 'מיקום צד שמאל',
+		popupHeight: 'גובה',
+		popupTop: 'מיקום צד עליון',
+		id: 'Id', // MISSING
+		langDir: 'כיוון שפה',
+		langDirNotSet: '<לא נקבע>',
+		langDirLTR: 'שמאל לימין (LTR)',
+		langDirRTL: 'ימין לשמאל (RTL)',
+		acccessKey: 'מקש גישה',
+		name: 'שם',
+		langCode: 'כיוון שפה',
+		tabIndex: 'מספר טאב',
+		advisoryTitle: 'כותרת מוצעת',
+		advisoryContentType: 'Content Type מוצע',
+		cssClasses: 'גיליונות עיצוב קבוצות',
+		charset: 'קידוד המשאב המקושר',
+		styles: 'סגנון',
+		selectAnchor: 'בחירת עוגן',
+		anchorName: 'עפ\'\'י שם העוגן',
+		anchorId: 'עפ\'\'י זיהוי (Id) הרכיב',
+		emailAddress: 'כתובת הדוא\'\'ל',
+		emailSubject: 'נושא ההודעה',
+		emailBody: 'גוף ההודעה',
+		noAnchors: '(אין עוגנים זמינים בדף)',
+		noUrl: 'נא להקליד את כתובת הקישור (URL)',
+		noEmail: 'נא להקליד את כתובת הדוא\'\'ל'
+	},
+
+	// Anchor dialog
+	anchor: {
+		toolbar: 'הוספת/עריכת נקודת עיגון',
+		menu: 'מאפייני נקודת עיגון',
+		title: 'מאפייני נקודת עיגון',
+		name: 'שם לנקודת עיגון',
+		errorName: 'אנא הזן שם לנקודת עיגון'
+	},
+
+	// Find And Replace Dialog
+	findAndReplace: {
+		title: 'חפש והחלף',
+		find: 'חיפוש',
+		replace: 'החלפה',
+		findWhat: 'חיפוש מחרוזת:',
+		replaceWith: 'החלפה במחרוזת:',
+		notFoundMsg: 'הטקסט המבוקש לא נמצא.',
+		matchCase: 'התאמת סוג אותיות (Case)',
+		matchWord: 'התאמה למילה המלאה',
+		matchCyclic: 'Match cyclic', // MISSING
+		replaceAll: 'החלפה בכל העמוד',
+		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+	},
+
+	// Table Dialog
+	table: {
+		toolbar: 'טבלה',
+		title: 'תכונות טבלה',
+		menu: 'תכונות טבלה',
+		deleteTable: 'מחק טבלה',
+		rows: 'שורות',
+		columns: 'עמודות',
+		border: 'גודל מסגרת',
+		align: 'יישור',
+		alignNotSet: '<לא נקבע>',
+		alignLeft: 'שמאל',
+		alignCenter: 'מרכז',
+		alignRight: 'ימין',
+		width: 'רוחב',
+		widthPx: 'פיקסלים',
+		widthPc: 'אחוז',
+		height: 'גובה',
+		cellSpace: 'מרווח תא',
+		cellPad: 'ריפוד תא',
+		caption: 'כיתוב',
+		summary: 'סיכום',
+		headers: 'כותרות',
+		headersNone: 'אין',
+		headersColumn: 'עמודה ראשונה',
+		headersRow: 'שורה ראשונה',
+		headersBoth: 'שניהם',
+		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
+		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
+		invalidBorder: 'Border size must be a number.', // MISSING
+		invalidWidth: 'Table width must be a number.', // MISSING
+		invalidHeight: 'Table height must be a number.', // MISSING
+		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
+		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+
+		cell: {
+			menu: 'תא',
+			insertBefore: 'הוסף תא אחרי',
+			insertAfter: 'הוסף תא אחרי',
+			deleteCell: 'מחיקת תאים',
+			merge: 'מיזוג תאים',
+			mergeRight: 'מזג ימינה',
+			mergeDown: 'מזג למטה',
+			splitHorizontal: 'פצל תא אופקית',
+			splitVertical: 'פצל תא אנכית'
+		},
+
+		row: {
+			menu: 'שורה',
+			insertBefore: 'הוסף שורה לפני',
+			insertAfter: 'הוסף שורה אחרי',
+			deleteRow: 'מחיקת שורות'
+		},
+
+		column: {
+			menu: 'עמודה',
+			insertBefore: 'הוסף עמודה לפני',
+			insertAfter: 'הוסף עמודה אחרי',
+			deleteColumn: 'מחיקת עמודות'
+		}
+	},
+
+	// Button Dialog.
+	button: {
+		title: 'מאפייני כפתור',
+		text: 'טקסט (ערך)',
+		type: 'סוג',
+		typeBtn: 'כפתור',
+		typeSbm: 'שלח',
+		typeRst: 'אפס'
+	},
+
+	// Checkbox and Radio Button Dialogs.
+	checkboxAndRadio: {
+		checkboxTitle: 'מאפייני תיבת סימון',
+		radioTitle: 'מאפייני לחצן אפשרויות',
+		value: 'ערך',
+		selected: 'בחור'
+	},
+
+	// Form Dialog.
+	form: {
+		title: 'מאפיני טופס',
+		menu: 'מאפיני טופס',
+		action: 'שלח אל',
+		method: 'סוג שליחה',
+		encoding: 'Encoding', // MISSING
+		target: 'מטרה',
+		targetNotSet: '<לא נקבע>',
+		targetNew: 'חלון חדש (_blank)',
+		targetTop: 'חלון ראשי (_top)',
+		targetSelf: 'באותו החלון (_self)',
+		targetParent: 'חלון האב (_parent)'
+	},
+
+	// Select Field Dialog.
+	select: {
+		title: 'מאפייני שדה בחירה',
+		selectInfo: 'מידע',
+		opAvail: 'אפשרויות זמינות',
+		value: 'ערך',
+		size: 'גודל',
+		lines: 'שורות',
+		chkMulti: 'אפשר בחירות מרובות',
+		opText: 'טקסט',
+		opValue: 'ערך',
+		btnAdd: 'הוסף',
+		btnModify: 'שנה',
+		btnUp: 'למעלה',
+		btnDown: 'למטה',
+		btnSetValue: 'קבע כברירת מחדל',
+		btnDelete: 'מחק'
+	},
+
+	// Textarea Dialog.
+	textarea: {
+		title: 'מאפיני איזור טקסט',
+		cols: 'עמודות',
+		rows: 'שורות'
+	},
+
+	// Text Field Dialog.
+	textfield: {
+		title: 'מאפייני שדה טקסט',
+		name: 'שם',
+		value: 'ערך',
+		charWidth: 'רוחב באותיות',
+		maxChars: 'מקסימות אותיות',
+		type: 'סוג',
+		typeText: 'טקסט',
+		typePass: 'סיסמה'
+	},
+
+	// Hidden Field Dialog.
+	hidden: {
+		title: 'מאפיני שדה חבוי',
+		name: 'שם',
+		value: 'ערך'
+	},
+
+	// Image Dialog.
+	image: {
+		title: 'תכונות התמונה',
+		titleButton: 'מאפיני כפתור תמונה',
+		menu: 'תכונות התמונה',
+		infoTab: 'מידע על התמונה',
+		btnUpload: 'שליחה לשרת',
+		url: 'כתובת (URL)',
+		upload: 'העלאה',
+		alt: 'טקסט חלופי',
+		width: 'רוחב',
+		height: 'גובה',
+		lockRatio: 'נעילת היחס',
+		resetSize: 'איפוס הגודל',
+		border: 'מסגרת',
+		hSpace: 'מרווח אופקי',
+		vSpace: 'מרווח אנכי',
+		align: 'יישור',
+		alignLeft: 'לשמאל',
+		alignAbsBottom: 'לתחתית האבסולוטית',
+		alignAbsMiddle: 'מרכוז אבסולוטי',
+		alignBaseline: 'לקו התחתית',
+		alignBottom: 'לתחתית',
+		alignMiddle: 'לאמצע',
+		alignRight: 'לימין',
+		alignTextTop: 'לראש הטקסט',
+		alignTop: 'למעלה',
+		preview: 'תצוגה מקדימה',
+		alertUrl: 'נא להקליד את כתובת התמונה',
+		linkTab: 'קישור',
+		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+	},
+
+	// Flash Dialog
+	flash: {
+		properties: 'מאפייני פלאש',
+		propertiesTab: 'Properties', // MISSING
+		title: 'מאפיני פלאש',
+		chkPlay: 'נגן אוטומטי',
+		chkLoop: 'לולאה',
+		chkMenu: 'אפשר תפריט פלאש',
+		chkFull: 'Allow Fullscreen', // MISSING
+		scale: 'גודל',
+		scaleAll: 'הצג הכל',
+		scaleNoBorder: 'ללא גבולות',
+		scaleFit: 'התאמה מושלמת',
+		access: 'Script Access', // MISSING
+		accessAlways: 'Always', // MISSING
+		accessSameDomain: 'Same domain', // MISSING
+		accessNever: 'Never', // MISSING
+		align: 'יישור',
+		alignLeft: 'לשמאל',
+		alignAbsBottom: 'לתחתית האבסולוטית',
+		alignAbsMiddle: 'מרכוז אבסולוטי',
+		alignBaseline: 'לקו התחתית',
+		alignBottom: 'לתחתית',
+		alignMiddle: 'לאמצע',
+		alignRight: 'לימין',
+		alignTextTop: 'לראש הטקסט',
+		alignTop: 'למעלה',
+		quality: 'Quality', // MISSING
+		windowMode: 'Window mode', // MISSING
+		flashvars: 'Variables for Flash', // MISSING
+		bgcolor: 'צבע רקע',
+		width: 'רוחב',
+		height: 'גובה',
+		hSpace: 'מרווח אופקי',
+		vSpace: 'מרווח אנכי',
+		validateSrc: 'נא להקליד את כתובת הקישור (URL)',
+		validateWidth: 'Width must be a number.', // MISSING
+		validateHeight: 'Height must be a number.', // MISSING
+		validateHSpace: 'HSpace must be a number.', // MISSING
+		validateVSpace: 'VSpace must be a number.' // MISSING
+	},
+
+	// Speller Pages Dialog
+	spellCheck: {
+		toolbar: 'בדיקת איות',
+		title: 'Spell Check', // MISSING
+		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
+		errorLoading: 'Error loading application service host: %s.', // MISSING
+		notInDic: 'לא נמצא במילון',
+		changeTo: 'שנה ל',
+		btnIgnore: 'התעלם',
+		btnIgnoreAll: 'התעלם מהכל',
+		btnReplace: 'החלף',
+		btnReplaceAll: 'החלף הכל',
+		btnUndo: 'החזר',
+		noSuggestions: '- אין הצעות -',
+		progress: 'בדיקות איות בתהליך ....',
+		noMispell: 'בדיקות איות הסתיימה: לא נמצאו שגיעות כתיב',
+		noChanges: 'בדיקות איות הסתיימה: לא שונתה אף מילה',
+		oneChange: 'בדיקות איות הסתיימה: שונתה מילה אחת',
+		manyChanges: 'בדיקות איות הסתיימה: %1 מילים שונו',
+		ieSpellDownload: 'בודק האיות לא מותקן, האם אתה מעוניין להוריד?'
+	},
+
+	smiley: {
+		toolbar: 'סמיילי',
+		title: 'הוספת סמיילי'
+	},
+
+	elementsPath: {
+		eleTitle: '%1 element' // MISSING
+	},
+
+	numberedlist: 'רשימה ממוספרת',
+	bulletedlist: 'רשימת נקודות',
+	indent: 'הגדלת אינדנטציה',
+	outdent: 'הקטנת אינדנטציה',
+
+	justify: {
+		left: 'יישור לשמאל',
+		center: 'מרכוז',
+		right: 'יישור לימין',
+		block: 'יישור לשוליים'
+	},
+
+	outdent: 'הקטנת אינדנטציה',
+	blockquote: 'בלוק ציטוט',
+
+	clipboard: {
+		title: 'הדבקה',
+		cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה  אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+X).',
+		copyError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות העתקה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+C).',
+		pasteMsg: 'אנא הדבק בתוך הקופסה באמצעות  (<STRONG>Ctrl+V</STRONG>) ולחץ על  <STRONG>אישור</STRONG>.',
+		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (clipboard) בצורה ישירה.אנא בצע הדבק שוב בחלון זה.'
+	},
+
+	pastefromword: {
+		toolbar: 'הדבקה מ-וורד',
+		title: 'הדבקה מ-וורד',
+		advice: 'אנא הדבק בתוך הקופסה באמצעות  (<STRONG>Ctrl+V</STRONG>) ולחץ על  <STRONG>אישור</STRONG>.',
+		ignoreFontFace: 'התעלם מהגדרות סוג פונט',
+		removeStyle: 'הסר הגדרות סגנון'
+	},
+
+	pasteText: {
+		button: 'הדבקה כטקסט פשוט',
+		title: 'הדבקה כטקסט פשוט'
+	},
+
+	templates: {
+		button: 'תבניות',
+		title: 'תביות תוכן',
+		insertOption: 'החלפת תוכן ממשי',
+		selectPromptMsg: 'אנא בחר תבנית לפתיחה בעורך <BR>התוכן המקורי ימחק:',
+		emptyListMsg: '(לא הוגדרו תבניות)'
+	},
+
+	showBlocks: 'הצג בלוקים',
+
+	stylesCombo: {
+		label: 'סגנון',
+		panelTitle1: 'Block Styles', // MISSING
+		panelTitle2: 'Inline Styles', // MISSING
+		panelTitle3: 'Object Styles' // MISSING
+	},
+
+	format: {
+		label: 'עיצוב',
+		panelTitle: 'עיצוב',
+
+		tag_p: 'נורמלי',
+		tag_pre: 'קוד',
+		tag_address: 'כתובת',
+		tag_h1: 'כותרת',
+		tag_h2: 'כותרת 2',
+		tag_h3: 'כותרת 3',
+		tag_h4: 'כותרת 4',
+		tag_h5: 'כותרת 5',
+		tag_h6: 'כותרת 6',
+		tag_div: 'Normal (DIV)' // MISSING
+	},
+
+	font: {
+		label: 'גופן',
+		panelTitle: 'גופן'
+	},
+
+	fontSize: {
+		label: 'גודל',
+		panelTitle: 'גודל'
+	},
+
+	colorButton: {
+		textColorTitle: 'צבע טקסט',
+		bgColorTitle: 'צבע רקע',
+		auto: 'אוטומטי',
+		more: 'צבעים נוספים...'
+	}
+};

@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'wsc', {
 			command.state = CKEDITOR.TRISTATE_DISABLED;
 
 		editor.ui.addButton( 'SpellChecker', {
-			label: editor.lang.spellCheck.title,
+			label: editor.lang.spellCheck.toolbar,
 			command: commandName
 		});
 		CKEDITOR.dialog.add( commandName, this.path + 'dialogs/wsc.js' );
