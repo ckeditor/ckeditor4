@@ -29,9 +29,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 *		function: the language code and the loaded language entries.
 		 * @example
 		 */
-		load: function( languageCode, autoDetect, callback ) {
-			if ( autoDetect )
-				languageCode = this.detect( languageCode );
+		load: function( languageCode, defaultLanguage, callback ) {
+			if ( !languageCode )
+				languageCode = this.detect( defaultLanguage );
 
 			if ( !this[ languageCode ] ) {
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
