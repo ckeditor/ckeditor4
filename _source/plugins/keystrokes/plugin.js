@@ -88,8 +88,8 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				}
 
 				if ( !cancel ) {
-					var handler = editor.specialKeys[ keyCombination ],
-						cancel = ( handler && handler( editor ) === true );
+					var handler = editor.specialKeys[ keyCombination ];
+					cancel = ( handler && handler( editor ) === true );
 
 					if ( !cancel )
 						cancel = !!this.blockedKeystrokes[ keyCombination ];
