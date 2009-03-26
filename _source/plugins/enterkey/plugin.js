@@ -184,7 +184,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var isEndOfBlock = range.checkEndOfBlock();
 
-		var elementPath = new CKEDITOR.dom.elementPath( range.getBoundaryNodes().startNode );
+		var elementPath = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() );
 
 		var startBlock = elementPath.block,
 			startBlockTag = startBlock && elementPath.block.getName();
