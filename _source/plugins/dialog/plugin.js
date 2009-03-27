@@ -109,7 +109,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			editor: editor,
 			element: themeBuilt.element,
 			name: dialogName,
+			contentSize: { width: 0, height: 0 },
 			size: { width: 0, height: 0 },
+			updateSize: false,
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
@@ -365,7 +367,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		resize: (function() {
 			return function( width, height ) {
-				if ( this._.size && this._.size.width == width && this._.size.height == height )
+				if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
 					return;
 
 				CKEDITOR.dialog.fire( 'resize', {
@@ -375,7 +377,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					height: height
 				}, this._.editor );
 
-				this._.size = { width: width, height: height };
+				this._.contentSize = { width: width, height: height };
+				this._.updateSize = true;
 			};
 		})(),
 
@@ -386,8 +389,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * var width = dialogObj.getSize().width;
 		 */
 		getSize: function() {
-			var element = this._.element.getFirst();
-			return { width: element.$.offsetWidth, height: element.$.offsetHeight };
+			if ( !this._.updateSize )
+				return this._.size;
+			var element = this._.element.getElementsByTag( 'div' ).getItem( 0 );
+			var size = this._.size = { width: element.$.offsetWidth || 0, height: element.$.offsetHeight || 0 };
+
+			// If either the offsetWidth or offsetHeight is 0, the element isn't visible.
+			this._.updateSize = !size.width || !size.height;
+
+			return size;
 		},
 
 		/**
@@ -456,7 +466,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Rearrange the dialog to the middle of the window.
 			var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
-			this.move( ( viewSize.width - this._.size.width ) / 2, ( viewSize.height - this._.size.height ) / 2 );
+			var dialogSize = this.getSize();
+			this.move( ( viewSize.width - dialogSize.width ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
 
 			// Select the first tab by default.
 			this.selectPage( this.definition.contents[ 0 ].id );
