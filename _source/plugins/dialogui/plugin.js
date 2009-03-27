@@ -407,45 +407,16 @@ CKEDITOR.plugins.add( 'dialogui' );
 			dialog.on( 'load', function( eventInfo ) {
 				var element = this.getElement();
 
-				element.on( 'mousedown', function( evt ) {
-					// If button is disabled, don't do anything.
-					if ( me._.disabled )
-						return;
-
-					// Store the currently active button.
-					CKEDITOR.ui.dialog.button._.activeButton = [ me, me.getElement() ];
-				});
-
-				element.on( 'keydown', function( evt ) {
-					// Click if Enter is pressed.
-					if ( evt.data.$.keyCode == 13 ) {
+				(function() {
+					element.on( 'click', function( evt ) {
 						me.fire( 'click', { dialog: me.getDialog() } );
-						evt.data.preventDefault();
-					}
-				});
-
-				if ( !eventInfo.data.buttonHandlerRegistered ) {
-					CKEDITOR.document.on( 'mouseup', function( evt ) {
-						var target = evt.data.getTarget(),
-							activeButton = CKEDITOR.ui.dialog.button._.activeButton;
-
-						// If there's no active button, bail out.
-						if ( !activeButton )
-							return;
-
-						// Fire the click event - but only if the
-						// active button is the same as target.
-						if ( activeButton[ 1 ].equals( target.getAscendant( 'a' ) ) )
-							activeButton[ 0 ].fire( 'click', { dialog: activeButton[ 0 ].getDialog() } );
-
-						// Clear active button flag.
-						CKEDITOR.ui.dialog.button._.activeButton = null;
 					});
+					element.on( 'keypress', function( evt ) {
+						console.log( evt.data.$.keyCode );
+					});
+				})();
 
-					eventInfo.data.buttonHandlerRegistered = true;
-				}
-
-				this.getElement().getFirst().unselectable();
+				element.unselectable();
 			}, this );
 
 			var outerDefinition = CKEDITOR.tools.extend( {}, elementDefinition );
@@ -453,7 +424,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 
 			CKEDITOR.ui.dialog.uiElement.call( this, dialog, outerDefinition, htmlList, 'a', null, {
 				style: elementDefinition.style,
-				href: 'javascript:void(0);',
+				href: 'javascript:void(0)',
 				title: elementDefinition.label,
 				hidefocus: 'true'
 			}, '<span class="cke_dialog_ui_button">' +
@@ -1135,8 +1106,6 @@ CKEDITOR.plugins.add( 'dialogui' );
 	}, true );
 
 	CKEDITOR.ui.dialog.fileButton.prototype = new CKEDITOR.ui.dialog.button;
-
-	CKEDITOR.ui.dialog.button._ = { activeButton: null };
 
 	CKEDITOR.dialog.addUIElement( 'text', textBuilder );
 	CKEDITOR.dialog.addUIElement( 'password', textBuilder );
