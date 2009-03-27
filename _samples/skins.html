@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Skins - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+</head>
+<body>
+	<div id="html">
+		<form action="sample_posteddata.php" method="post">
+			<p>
+				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					CKEDITOR.replace( 'editor1',
+						{
+							skin : 'office2003'
+						});
+
+				//]]>
+				</script>
+			</p>
+			<p>
+				<textarea id="editor2" name="editor2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;FCKeditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					CKEDITOR.replace( 'editor2',
+						{
+							skin : 'v2'
+						});
+
+				//]]>
+				</script>
+			</p>
+		</form>
+	</div>
+	<div id="code">
+		<pre></pre>
+	</div>
+</body>
+</html>

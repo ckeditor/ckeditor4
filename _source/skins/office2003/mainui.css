@@ -1,0 +1,56 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+.cke_skin_office2003 .cke_editor
+{
+/*
+	border: solid 1px #dcdcdc;
+*/
+	display: inline-table;
+}
+
+.cke_skin_office2003 .cke_top, .cke_skin_office2003 .cke_bottom
+{
+	background-color: #f7f8fd;
+}
+
+.cke_skin_office2003 .cke_top
+{
+    border-top: solid 1px #fafaf5;
+    border-left: solid 1px #fafaf5;
+    border-right: solid 1px #696969;
+    border-bottom: solid 2px #696969;
+}
+
+.cke_skin_office2003 .cke_rtl .cke_top
+{
+    border-left: solid 1px #696969;
+    border-right: solid 1px #fafaf5;
+}
+
+.cke_skin_office2003 .cke_bottom
+{
+    border-left: solid 1px #696969;
+    border-right: solid 1px #696969;
+    border-bottom: solid 1px #696969;
+}
+
+.cke_skin_office2003 .cke_contents
+{
+	border: solid 1px #696969;
+}
+
+.cke_skin_office2003 .cke_focus
+{
+	outline: auto 5px -webkit-focus-ring-color;
+}
+
+.cke_skin_office2003 textarea.cke_source
+{
+	font-family: 'Courier New' , Monospace;
+	font-size: small;
+	white-space: pre;
+	background-color: #fff;
+}

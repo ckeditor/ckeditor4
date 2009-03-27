@@ -1,0 +1,56 @@
+﻿/*
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/**
+ * Reset and Default Values
+ */
+.cke_skin_office2003 *,
+.cke_skin_office2003 a:hover,
+.cke_skin_office2003 a:link,
+.cke_skin_office2003 a:visited,
+.cke_skin_office2003 a:active
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-decoration: none;
+	font: normal normal normal 100% Sans-Serif;
+	width: auto;
+	height: auto;
+	border-collapse: collapse;
+	text-align: left;
+	vertical-align: baseline;
+	white-space: nowrap;
+	cursor: default;
+	color: #000;
+
+    font-size: 11px;
+    font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
+}
+
+.cke_skin_office2003 .cke_rtl *,
+.cke_skin_office2003 .cke_rtl a:hover,
+.cke_skin_office2003 .cke_rtl a:link,
+.cke_skin_office2003 .cke_rtl a:visited,
+.cke_skin_office2003 .cke_rtl a:active,
+.cke_rtl .cke_skin_office2003 *,
+.cke_rtl .cke_skin_office2003 a:hover,
+.cke_rtl .cke_skin_office2003 a:link,
+.cke_rtl .cke_skin_office2003 a:visited,
+.cke_rtl .cke_skin_office2003 a:active
+{
+	text-align: right;
+}
+
+.cke_skin_office2003 iframe
+{
+	vertical-align: inherit;	/** For IE */
+}
+
+.cke_skin_office2003 textarea
+{
+	white-space: pre;
+}
