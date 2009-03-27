@@ -154,7 +154,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			}
 
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
-				' onmousedown="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
+				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span id="', id, '_text" class=cke_text>&nbsp;</span>' +
 					'<span class=cke_openbutton></span>' +
 				'</a>' +

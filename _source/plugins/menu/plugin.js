@@ -244,11 +244,11 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 			//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
 			' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
 				' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');"' +
-				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, ');"' +
+				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
 				'>' +
 					'<span class="cke_icon"' +
 						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
-												: '' ) +
+											: '' ) +
 						'></span>' +
 					'<span class="cke_label">' );
 

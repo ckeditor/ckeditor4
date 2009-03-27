@@ -74,7 +74,7 @@ CKEDITOR.plugins.add( 'listblock', {
 						'<a _cke_focus=1 hidefocus=true' +
 							' title="', title || value, '"' +
 							' href="javascript:void(\'', value, '\')"' +
-							' onclick="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\');">', html || value, '</a>' +
+							' onclick="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\'); return false;">', html || value, '</a>' +
 						'</li>' );
 				},
 

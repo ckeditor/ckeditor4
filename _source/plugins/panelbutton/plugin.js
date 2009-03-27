@@ -127,7 +127,7 @@ CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			}
 
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
-				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this);">' +
+				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span class="cke_icon"></span>' +
 					'<span class="cke_label">', this.label, '</span>' +
 					'<span class="cke_buttonarrow"></span>' +
