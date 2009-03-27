@@ -6,9 +6,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	var htmlFilterRules = {
 		elements: {
-			$: function( element, filter ) {
+			$: function( element ) {
 				var realHtml = element.attributes._cke_realelement;
-				realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( realHtml ), filter ), realElement = realFragment && realFragment.children[ 0 ];
+				realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( realHtml ) ), realElement = realFragment && realFragment.children[ 0 ];
 
 				if ( realElement ) {
 					// If we have width/height in the element, we must move it into
