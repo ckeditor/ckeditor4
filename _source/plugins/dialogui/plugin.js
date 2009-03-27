@@ -411,9 +411,6 @@ CKEDITOR.plugins.add( 'dialogui' );
 					element.on( 'click', function( evt ) {
 						me.fire( 'click', { dialog: me.getDialog() } );
 					});
-					element.on( 'keypress', function( evt ) {
-						console.log( evt.data.$.keyCode );
-					});
 				})();
 
 				element.unselectable();
