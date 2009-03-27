@@ -572,6 +572,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * dialogObj.hide();
 		 */
 		hide: function() {
+			this.fire( 'hide', {} );
+
 			// Remove the dialog's element from the root document.
 			var element = this._.element;
 			if ( !element.getParent() )
@@ -604,7 +606,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
 
-			this.fire( 'hide', {} );
 
 			// Reset the initial values of the dialog.
 			this.foreach( function( contentObj ) {
