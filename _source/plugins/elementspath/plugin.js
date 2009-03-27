@@ -39,7 +39,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'themeSpace', function( event ) {
 				if ( event.data.space == 'bottom' )
-					event.data.html += '<div id="' + spaceId + '" class="cke_path"><br></div>';
+					event.data.html += '<div id="' + spaceId + '" class="cke_path"><span class="cke_empty">&nbsp;</span></div>';
 			});
 
 			editor.on( 'selectionChange', function( ev ) {

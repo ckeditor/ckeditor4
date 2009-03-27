@@ -24,6 +24,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     border-bottom: solid 2px #696969;
 }
 
+.cke_skin_v2 .cke_rtl .cke_top
+{
+    border-left: solid 1px #696969;
+    border-right: solid 1px #fafaf5;
+}
+
 .cke_skin_v2 .cke_bottom
 {
     border-left: solid 1px #696969;

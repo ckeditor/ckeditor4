@@ -105,7 +105,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							continue;
 						}
 
-						output.push( '<div id="', toolbarId, '" class="cke_toolbar">' );
+						output.push( '<div id="', toolbarId, '" class="cke_toolbar"><span class="cke_toolbar_start"></span>' );
 
 						// Add the toolbar to the "editor.toolbox.toolbars"
 						// array.
@@ -150,7 +150,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							}
 						}
 
-						output.push( '</div>' );
+						output.push( '<span class="cke_toolbar_end"></span></div>' );
 					}
 
 					output.push( '</div>' );

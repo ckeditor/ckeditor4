@@ -79,7 +79,7 @@ li.cke_panel_listItem
 	color: #000;
 }
 
-.cke_panel_listItem.cke_selected a
+.cke_panel_listItem .cke_selected a
 {
 	border: 1px solid #ccc;
 	background-color: #e9f5ff;
@@ -147,11 +147,21 @@ span.cke_colorbox
 	float: left;
 }
 
+.cke_rtl span.cke_colorbox
+{
+	float: right;
+}
+
 a.cke_colorbox
 {
     border: #fff 1px solid;
     padding: 2px;
     float: left;
+}
+
+.cke_rtl a.cke_colorbox
+{
+    float: right;
 }
 
 a:hover.cke_colorbox,

@@ -19,6 +19,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float:left;
 }
 
+.cke_skin_v2 .cke_rtl .cke_toolbar
+{
+	float:right;
+}
+
 .cke_skin_v2 .cke_separator
 {
 	display:inline-block;
@@ -31,6 +36,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 .cke_break
 {
 	clear:left;
+}
+
+.cke_skin_v2 .cke_rtl .cke_break
+{
+	clear:right;
+}
+
+.cke_skin_v2 .cke_toolbar_start
+{
+	display: inline-block;
+    background-image: url(images/toolbar_start.gif);
+    background-repeat: no-repeat;
+    margin: 4px 2px 0 2px;
+    width: 3px;
+    height: 16px;
 }
 
 .cke_skin_v2 .cke_button a,
@@ -110,6 +130,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-repeat: no-repeat;
 }
 
+.cke_skin_v2 .cke_rtl .cke_button .cke_buttonarrow
+{
+	background-position: left center;
+}
+
 
 /* IE Section */
 
@@ -161,20 +186,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /* Firefox 2 Section */
 
+.cke_skin_v2 .cke_browser_gecko .cke_toolbar,
 .cke_skin_v2 .cke_browser_gecko .cke_button a,
 .cke_skin_v2 .cke_browser_gecko .cke_button a.cke_off,
 .cke_skin_v2 .cke_browser_gecko .cke_button .cke_icon,
 .cke_skin_v2 .cke_browser_gecko .cke_button .cke_buttonarrow,
-.cke_skin_v2 .cke_browser_gecko .cke_separator
+.cke_skin_v2 .cke_browser_gecko .cke_separator,
+.cke_skin_v2 .cke_browser_gecko .cke_toolbar_start
 {
 	display: block;
 	float: left;
+}
+
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_toolbar,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_button a,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_button a.cke_off,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_button .cke_icon,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_button .cke_buttonarrow,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_separator,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_toolbar_start
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_browser_gecko .cke_button .cke_label,
 .cke_skin_v2 .cke_browser_gecko .cke_break
 {
 	float: left;
+}
+
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_button .cke_label,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_break
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_browser_gecko .cke_separator

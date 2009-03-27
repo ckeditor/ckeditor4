@@ -2,7 +2,7 @@
 
 .cke_skin_v2 .cke_rcombo
 {
-	float: left;
+	display: inline-block;
 	margin-left: 2px;
 	margin-right: 2px;
 }
@@ -15,12 +15,6 @@
 	border-top-left-radius: 0;
 }
 
-/* IE6 only */
-.cke_skin_v2 cke_browser_ie6 .cke_rcombo
-{
-	float: none;
-}
-
 .cke_skin_v2 .cke_rcombo a
 {
 	filter: alpha(opacity=70); /* IE */
@@ -29,20 +23,26 @@
 
 .cke_skin_v2 .cke_rcombo .cke_label
 {
-	padding-top: 6px;
+	display: inline-block;
+	line-height: 24px;
+	vertical-align: top;
 	padding-left: 4px;
 	padding-right: 5px;
-	float: left;
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 	background-color: #f1f1e3;	/* Because of IE6+ClearType */
+}
+
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_label
+{
+	padding-right: 4px;
+	padding-left: 5px;
 }
 
 .cke_skin_v2 .cke_rcombo .cke_text
 {
 	border: 1px solid #8f8f73;
 	background-color: #fff;
-	float: left;
 	height: 14px;
 	width:60px;
 	padding-top: 4px;
@@ -51,12 +51,27 @@
 	padding-right: 5px;
     text-overflow: ellipsis;
     overflow: hidden;
+	display: inline-block;
+}
+
+.cke_skin_v2 .cke_ltr .cke_rcombo .cke_text
+{
 	-moz-border-radius-topleft: 3px;
 	-webkit-border-top-left-radius: 3px;
 	border-top-left-radius: 3px;
 	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
+}
+
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_text
+{
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_text
@@ -69,19 +84,33 @@
 {
     background-position: center center;
     background-image: url(images/arrowdown.gif);
-    border-right: 1px solid #8f8f73;
     border-top: 1px solid #8f8f73;
     border-bottom: 1px solid #8f8f73;
-	display: block;
-	float: left;
+	display: inline-block;
     width: 14px;
 	height: 22px;
     background-repeat: no-repeat;
+}
+
+.cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
+{
+    border-right: 1px solid #8f8f73;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_openbutton
+{
+    border-left: 1px solid #8f8f73;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
@@ -147,4 +176,27 @@
 .cke_skin_v2 .cke_rcombo .cke_disabled .cke_text
 {
 	color: #fff;
+}
+
+/* Firefox 2 & WebKit Section */
+
+.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_openbutton,
+.cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_openbutton
+{
+	display: block;
+	float: left;
+}
+
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_openbutton,
+.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_openbutton
+{
+	float: right;
 }

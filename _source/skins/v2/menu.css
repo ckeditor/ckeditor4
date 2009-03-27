@@ -41,6 +41,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
+.cke_rtl .cke_skin_v2 .cke_menuitem .cke_icon
+{
+	float: right;
+}
+
 .cke_skin_v2 .cke_menuitem a:hover .cke_icon,
 .cke_skin_v2 .cke_menuitem a:focus .cke_icon,
 .cke_skin_v2 .cke_menuitem a:active .cke_icon
@@ -59,6 +64,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     height:19px;
     margin-left: 28px;
     background-color: #fff;
+}
+
+.cke_rtl .cke_skin_v2 .cke_menuitem .cke_label
+{
+    padding-right: 0;
+    margin-left: 0;
+    padding-left: 3px;
+    margin-right: 28px;
 }
 
 .cke_skin_v2 .cke_menuitem a:hover .cke_label,
@@ -85,4 +98,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 	margin-right: 2px;
 	margin-top: 3px;
+}
+
+.cke_rtl .cke_skin_v2 .cke_menuarrow
+{
+	float: left;
+	margin-right: 0;
+	margin-left: 2px;
 }

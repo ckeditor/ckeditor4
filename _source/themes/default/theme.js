@@ -4,18 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.themes.add( 'default', ( function() {
-	// The CSS class to be appended on the main UI containers, making it easy
-	// to apply browser specific styles to it.
-	var browserCssClass = 'cke_browser_' + ( CKEDITOR.env.ie ? 'ie' : CKEDITOR.env.gecko ? 'gecko' : CKEDITOR.env.opera ? 'opera' : CKEDITOR.env.air ? 'air' : CKEDITOR.env.webkit ? 'webkit' : 'unknown' );
-
-	if ( CKEDITOR.env.ie ) {
-		if ( CKEDITOR.env.version < 7 )
-			browserCssClass += ' cke_browser_ie6';
-
-		if ( CKEDITOR.env.quirks )
-			browserCssClass += ' cke_browser_iequirks';
-	}
-
 	return {
 		build: function( editor, themePath ) {
 			var name = editor.name,
@@ -64,7 +52,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' tabindex="' + tabIndex + '">' +
-				'<span class="', browserCssClass, ' cke_', editor.lang.dir, '">' +
+				'<span class="', CKEDITOR.env.cssClass, ' cke_', editor.lang.dir, '">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, ';height:', height, '"><tbody>' +
 						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
 						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:100%">', contentsHtml, '</td></tr>' +
@@ -102,12 +90,11 @@ CKEDITOR.themes.add( 'default', ( function() {
 
 			var element = CKEDITOR.dom.element.createFromHtml( [
 				'<div class="cke_skin_', editor.skinName,
-					' ', browserCssClass,
-					' ', CKEDITOR.env.quirks ? 'cke_mode_quirks' : 'cke_mode_standards',
-					' cke_', editor.lang.dir,
+					' ', CKEDITOR.env.cssClass,
 					'" dir="', editor.lang.dir, '">' +
 
-					'<div class="cke_dialog" style="position:absolute">' +
+					'<div class="cke_dialog',
+						' cke_', editor.lang.dir, '" style="position:absolute">' +
 						'<div class="%body">' +
 							'<div id="%title#" class="%title"></div>' +
 							'<div id="%close_button#" class="%close_button"></div>' +

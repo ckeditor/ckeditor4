@@ -43,6 +43,11 @@ body .cke_dialog
 	left: 0;
 }
 
+.cke_skin_v2 .cke_rtl .cke_dialog_tl
+{
+	background-position: -16px -397px;
+}
+
 .cke_skin_v2 .cke_dialog_tr
 {
 	background-position: -16px -76px;
@@ -50,6 +55,11 @@ body .cke_dialog
 	width: 16px;
 	top: 0;
 	right: 0;
+}
+
+.cke_skin_v2 .cke_rtl .cke_dialog_tr
+{
+	background-position: -16px -457px;
 }
 
 .cke_skin_v2 .cke_dialog_tc
@@ -71,6 +81,11 @@ body .cke_dialog
 	left: 0;
 }
 
+.cke_skin_v2 .cke_rtl .cke_dialog_bl
+{
+	background-position: -16px -517px;
+}
+
 .cke_skin_v2 .cke_dialog_br
 {
 	background-position: -16px -263px;
@@ -78,6 +93,11 @@ body .cke_dialog
 	width: 30px;
 	bottom: 0;
 	right: 0;
+}
+
+.cke_skin_v2 .cke_rtl .cke_dialog_br
+{
+	background-position: -16px -584px;
 }
 
 .cke_skin_v2 .cke_dialog_bc
@@ -99,6 +119,15 @@ body .cke_dialog
 	width: 16px;
 	top: 16px;
 	bottom: 51px;
+
+	/* IE6 does not support full color transparent PNG. */
+	_background-image: url(images/dialog_sides.gif);
+}
+
+.cke_skin_v2 .cke_rtl .cke_dialog_ml,
+.cke_skin_v2 .cke_rtl .cke_dialog_mr
+{
+	background-image: url(images/dialog_sides_rtl.png);
 
 	/* IE6 does not support full color transparent PNG. */
 	_background-image: url(images/dialog_sides.gif);
@@ -133,6 +162,11 @@ body .cke_dialog
 	position: relative;
 }
 
+.cke_browser_ie.cke_skin_v2 .cke_rtl .cke_dialog_title
+{
+	position: static !important;
+}
+
 .cke_skin_v2 .cke_dialog_contents
 {
 	background-color: #f1f1e3;
@@ -147,17 +181,28 @@ body .cke_dialog
 	text-align: right;
 }
 
+.cke_skin_v2 .cke_rtl .cke_dialog_footer
+{
+	text-align: left;
+}
+
 /* tabs */
 
 .cke_skin_v2 .cke_dialog_tabs
 {
 	height: 23px;
 	background-color: #e3e3c7;
-	float:left;
+	display: inline-block;
 	margin-left:10px;
+	margin-right:10px;
 	margin-top:-23px;
 	position: absolute;
 	z-index: 2;
+}
+
+.cke_skin_v2 .cke_rtl .cke_dialog_tabs
+{
+	right: 10px;
 }
 
 .cke_skin_v2 a.cke_dialog_tab,
@@ -172,8 +217,7 @@ body .cke_dialog
 	border-top: 1px solid #d5d59d;
 	height: 14px;
 	padding: 4px 5px;
-	display: block;
-	float: left;
+	display: inline-block;
 	cursor: pointer;
 }
 
@@ -261,28 +305,8 @@ body .cke_dialog
 	width: 100%;
 }
 
-.cke_skin_v2.cke_browser_ie .cke_dialog_ui_hbox,
-.cke_skin_v2.cke_browser_ie .cke_dialog_ui_vbox,
-.cke_skin_v2.cke_browser_webkit .cke_dialog_ui_hbox,
-.cke_skin_v2.cke_browser_webkit .cke_dialog_ui_vbox
-{
-	table-layout: fixed;
-}
-
-.cke_skin_v2.cke_browser_ie .cke_dialog_footer_buttons
-{
-	table-layout: auto;
-}
-
-.cke_skin_v2.cke_ltr .cke_dialog_ui_hbox_first,
-.cke_skin_v2.cke_ltr .cke_dialog_ui_hbox_child
-{
-	padding-right: 10px;
-	vertical-align: top;
-}
-
-.cke_skin_v2.cke_rtl .cke_dialog_ui_hbox_first,
-.cke_skin_v2.cke_rtl .cke_dialog_ui_hbox_child
+.cke_skin_v2 .cke_rtl .cke_dialog_ui_hbox_first,
+.cke_skin_v2 .cke_rtl .cke_dialog_ui_hbox_child
 {
 	padding-left: 10px;
 	vertical-align: top;
@@ -322,6 +346,7 @@ body .cke_dialog
 {
 	display: inline-table;
 	margin-right: 12px;
+	margin-left: 12px;
 	width: auto;
 	position: relative;
 }
@@ -348,10 +373,7 @@ body .cke_dialog
 	cursor: pointer;
 	height: 20px;
 	width: 20px;
-	right: 10px;
 	top: 5px;
-
-	_right: 22px;
 
 	/* IE6 does not support full color transparent PNG. */
 	_background-image: url(images/sprites_ie6.png);
@@ -362,10 +384,34 @@ body .cke_dialog
 	background-position: -16px -687px;
 }
 
-.cke_skin_v2.cke_rtl .cke_dialog_close_button
+.cke_skin_v2 .cke_ltr .cke_dialog_close_button
+{
+	right: 10px;
+	_right: 22px;
+}
+
+.cke_skin_v2 .cke_rtl .cke_dialog_close_button
 {
 	left: 10px;
-	right: auto;
+	_left: 22px;
+}
+
+.cke_browser_ie6.cke_skin_v2 .cke_rtl .cke_dialog_close_button
+{
+	position: relative;
+	float: left;
+	margin-top: -55px;
+	margin-left: -7px;
+}
+
+.cke_browser_iequirks.cke_skin_v2 .cke_rtl.cke_single_page .cke_dialog_close_button
+{
+	margin-top: -32px;
+}
+
+.cke_browser_iequirks.cke_skin_v2 .cke_ltr .cke_dialog_close_button
+{
+	margin-top: 0;
 }
 
 .cke_skin_v2 .cke_dialog_ui_input_select
@@ -377,11 +423,6 @@ body .cke_dialog
 .cke_skin_v2 iframe.cke_dialog_ui_input_file
 {
 	width: 100%;
-	height: 25px;
-}
-
-.cke_skin_v2.cke_browser_ie div.cke_dialog_ui_input_file
-{
 	height: 25px;
 }
 
@@ -415,6 +456,11 @@ body .cke_dialog
 	font-size: 1px;
 }
 
+.cke_skin_v2 .cke_rtl .cke_dialog .BtnReset
+{
+	float: left;
+}
+
 .cke_skin_v2 .cke_dialog .BtnLocked, .BtnUnlocked
 {
 	float: left;
@@ -425,6 +471,11 @@ body .cke_dialog
 	background-repeat: no-repeat;
 	border: none 1px;
 	font-size: 1px;
+}
+
+.cke_skin_v2 .cke_dialog .BtnLocked, .BtnUnlocked
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_dialog .BtnUnlocked
@@ -498,4 +549,12 @@ body .cke_dialog
 .cke_skin_v2 .disabled
 {
 	color: #a0a0a0;
+}
+
+/* Firefox 2 */
+
+.cke_skin_v2 .cke_browser_gecko .cke_dialog_tabs
+{
+	display: block;
+	float: left;
 }

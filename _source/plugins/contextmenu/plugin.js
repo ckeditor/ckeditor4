@@ -83,7 +83,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			if ( CKEDITOR.env.ie )
 				this.saveSelection();
 
-			menu.show( offsetParent, 1, offsetX, offsetY );
+			menu.show( offsetParent, editor.lang.dir == 'rtl' ? 2 : 1, offsetX, offsetY );
 		}
 	},
 

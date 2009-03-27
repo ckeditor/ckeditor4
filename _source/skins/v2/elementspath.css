@@ -13,17 +13,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_path
 {
-	padding: 3px;
+	padding: 3px 3px 0 3px;
 }
 
-.cke_skin_v2 .cke_path a
+.cke_skin_v2 .cke_path a,
+.cke_skin_v2 .cke_path .cke_empty
 {
+	display: block;
+	float: left;
 	border: solid 1px #efefde;
 	background-color: #efefde;
 	padding-top: 1px;
 	padding-bottom: 1px;
 	padding-left: 4px;
 	padding-right: 4px;
+	margin-bottom : 3px;
+}
+
+.cke_skin_v2 .cke_path .cke_empty
+{
+	visibility: hidden;
+}
+
+.cke_skin_v2 .cke_rtl .cke_path a,
+.cke_skin_v2 .cke_path .cke_empty
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_path a:hover,

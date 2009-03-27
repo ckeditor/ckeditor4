@@ -11,9 +11,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	var panels = {};
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
-		// Generates the panel key: docId-eleId-CSSs
+		// Generates the panel key: docId-eleId-skinName-langDir[-CSSs][-level]
 		var key = doc.getUniqueId() + '-' + parentElement.getUniqueId() +
 						'-' + editor.skinName +
+						'-' + editor.lang.dir +
 						( ( definition.css && ( '-' + definition.css ) ) || '' ) +
 						( ( level && ( '-' + level ) ) || '' );
 
@@ -50,7 +51,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				definition: definition,
 				document: doc,
 				iframe: iframe,
-				children: []
+				children: [],
+				dir: editor.lang.dir
 			}
 		},
 
@@ -67,40 +69,44 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				return this._.panel.getBlock( name );
 			},
 
+			/*
+				corner (LTR):
+					1 = top-left
+					2 = top-right
+					3 = bottom-right
+					4 = bottom-left
+				
+				corner (RTL):
+					1 = top-right
+					2 = top-left
+					3 = bottom-left
+					4 = bottom-right
+			 */
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
 				var element = this.element,
 					iframe = this._.iframe,
-					position = offsetParent.getDocumentPosition( element.getDocument() );
+					position = offsetParent.getDocumentPosition( element.getDocument() ),
+					rtl = this._.dir == 'rtl';
 
 				var left = position.x + ( offsetX || 0 ),
 					top = position.y + ( offsetY || 0 );
 
-				if ( corner == 2 || corner == 3 )
+				if ( ( rtl && ( corner == 1 || corner == 4 ) ) || ( !rtl && ( corner == 2 || corner == 3 ) ) )
 					left += offsetParent.$.offsetWidth - 1;
 
 				if ( corner == 3 || corner == 4 )
 					top += offsetParent.$.offsetHeight - 1;
 
 				element.setStyles({
-					left: left + 'px',
 					top: top + 'px',
+					left: '0',
+					visibility: 'hidden',
+					opacity: '0', // FF3 is ignoring "visibility"
 					display: ''
 				});
-
-				if ( block.autoSize ) {
-					function setHeight() {
-						element.getFirst().setStyle( 'height', block.element.$.scrollHeight + 'px' );
-					}
-
-					if ( !CKEDITOR.env.gecko || panel.isLoaded )
-						setHeight();
-					else
-						panel.onLoad = setHeight;
-				} else
-					element.getFirst().removeStyle( 'height' );
 
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {
@@ -120,14 +126,37 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this._.blurSet = 1;
 				}
 
-				// Set the IFrame focus, so the blur event gets fired.
-				setTimeout( function() {
-					iframe.$.contentWindow.focus();
-				}, 0 );
-
 				panel.onEscape = CKEDITOR.tools.bind( function() {
 					this.onEscape && this.onEscape();
 				}, this );
+
+				setTimeout( function() {
+					if ( rtl )
+						left -= element.$.offsetWidth;
+
+					element.setStyles({
+						left: left + 'px',
+						visibility: '',
+						opacity: '1' // FF3 is ignoring "visibility"
+					});
+
+					if ( block.autoSize ) {
+						function setHeight() {
+							element.getFirst().setStyle( 'height', block.element.$.scrollHeight + 'px' );
+						}
+
+						if ( !CKEDITOR.env.gecko || panel.isLoaded )
+							setHeight();
+						else
+							panel.onLoad = setHeight;
+					} else
+						element.getFirst().removeStyle( 'height' );
+
+					// Set the IFrame focus, so the blur event gets fired.
+					setTimeout( function() {
+						iframe.$.contentWindow.focus();
+					}, 0 );
+				}, 0 );
 
 				if ( this.onShow )
 					this.onShow.call( this );

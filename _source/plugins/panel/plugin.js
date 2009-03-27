@@ -66,7 +66,8 @@ CKEDITOR.ui.panel.prototype = {
 		var id = 'cke_' + this.id;
 
 		output.push( '<div class="', editor.skinClass, '">' +
-			'<div id=', id, ' class="cke_panel' );
+			'<div' +
+				' id=', id, ' dir=', editor.lang.dir, ' class="cke_panel cke_', editor.lang.dir );
 
 		if ( this.className )
 			output.push( ' ', this.className );
@@ -103,8 +104,9 @@ CKEDITOR.ui.panel.prototype = {
 		if ( !holder ) {
 			if ( this.forceIFrame || this.css.length ) {
 				var iframe = this.document.getById( 'cke_' + this.id + '_frame' ),
-					className = iframe.getParent().getParent().getAttribute( 'class' ),
-					doc = iframe.getFrameDocument();
+					parentDiv = iframe.getParent();
+				dir = parentDiv.getAttribute( 'dir' );
+				className = parentDiv.getParent().getAttribute( 'class' ), doc = iframe.getFrameDocument();
 
 				// Initialize the IFRAME document body.
 				doc.$.open();
@@ -114,12 +116,12 @@ CKEDITOR.ui.panel.prototype = {
 					doc.$.domain = document.domain;
 
 				doc.$.write( '<!DOCTYPE html>' +
-					'<html>' +
+					'<html dir="' + dir + '" class="' + className + '_container">' +
 						'<head>' +
 							'<link type="text/css" rel=stylesheet href="' + this.css.join( '"><link type="text/css" rel="stylesheet" href="' ) + '">' +
 							'<style>.' + className + '_container{visibility:hidden}</style>' +
 						'</head>' +
-						'<body class="' + className + '_container cke_panel_frame" style="margin:0;padding:0">' +
+						'<body class="cke_' + dir + ' cke_panel_frame" style="margin:0;padding:0">' +
 						'</body>' +
 					'<\/html>' );
 				doc.$.close();
