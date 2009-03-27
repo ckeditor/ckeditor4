@@ -18,8 +18,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return;
 			}
 
+			// Check if the selection is inside the editing area for IE. (#3216)
+			if ( !editor.getSelection() )
+				editor.focus();
 			text = clipboardData.getData( 'Text' );
-
 			editor.insertText( text );
 		}
 	};
