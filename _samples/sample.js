@@ -7,7 +7,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 // It is just a helper file that displays a red message about browser compatibility
 // at the top of the samples (if incompatible browser is detected).
 // %REMOVE_START%
-// In the SVN version of CKEditor, it does some more magic, for example it 
+// In the SVN version of CKEditor, it does some more magic, for example it
 // redirects all samples to the sample.html file. It still can be ignored anyway.
 // %REMOVE_END%
 

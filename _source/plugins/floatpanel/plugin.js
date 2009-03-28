@@ -75,7 +75,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					2 = top-right
 					3 = bottom-right
 					4 = bottom-left
-				
+
 				corner (RTL):
 					1 = top-right
 					2 = top-left

@@ -123,7 +123,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// not a direct reference to it.
 				editor.lang = CKEDITOR.tools.prototypedCopy( lang );
 
-				// We're not able to support RTL in Firefox 2 at this time.				
+				// We're not able to support RTL in Firefox 2 at this time.
 				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
 					editor.lang.dir = 'ltr';
 

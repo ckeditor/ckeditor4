@@ -92,13 +92,13 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 		test_toDataFormat_ticket_3036_1 : function()
 		{
-			assert.areSame( '<input autocomplete="off" checked="checked" type="checkbox" />', 
+			assert.areSame( '<input autocomplete="off" checked="checked" type="checkbox" />',
 				getDataProcessor().toDataFormat( '<INPUT type="checkbox" CHECKED  autocomplete=off>' ) );
 		},
 
 		test_toDataFormat_ticket_3036_2 : function()
 		{
-			assert.areSame( '<input autocomplete="off" type="checkbox" unknown="" />', 
+			assert.areSame( '<input autocomplete="off" type="checkbox" unknown="" />',
 				getDataProcessor().toDataFormat( '<INPUT type="checkbox" UNKNOWN  autocomplete=off>' ) );
 		},
 
