@@ -57,7 +57,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 		entities = entities.replace( /\b(nbsp|shy|gt|lt|amp)(?:,|$)/g, function( match, entity ) {
-			table[ specialTable[ entity ] ] = entity;
+			table[ specialTable[ entity ] ] = '&' + entity + ';';
 			regex.push( specialTable[ entity ] );
 			return '';
 		});
