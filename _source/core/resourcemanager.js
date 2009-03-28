@@ -104,7 +104,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * alert( <b>CKEDITOR.plugins.getPath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/"
 	 */
 	getPath: function( name ) {
-		var external = this.externals[ name ]
+		var external = this.externals[ name ];
 		return CKEDITOR.getUrl( ( external && external.dir ) || this.basePath + name + '/' );
 	},
 
@@ -116,7 +116,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * alert( <b>CKEDITOR.plugins.getFilePath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/plugin.js"
 	 */
 	getFilePath: function( name ) {
-		var external = this.externals[ name ]
+		var external = this.externals[ name ];
 		return CKEDITOR.getUrl( this.getPath( name ) + ( ( external && external.file ) || ( this.fileName + '.js' ) ) );
 	},
 

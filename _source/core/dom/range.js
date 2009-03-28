@@ -406,7 +406,7 @@ CKEDITOR.dom.range = function( document ) {
 				// Find out if the start is pointing to a text node that will
 				// be normalized.
 				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-					var child = startContainer.getChild( startOffset );
+					child = startContainer.getChild( startOffset );
 
 					// In this case, move the start information to that text
 					// node.

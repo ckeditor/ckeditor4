@@ -47,7 +47,7 @@ if ( CKEDITOR.dialog ) {
 				innerDialog = body.getParent();
 
 			// tc
-			el = innerDialog.getChild( 2 );
+			var el = innerDialog.getChild( 2 );
 			el.setStyle( 'width', ( body.$.offsetWidth ) + 'px' );
 
 			// bc

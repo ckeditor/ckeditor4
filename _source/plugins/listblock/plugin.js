@@ -129,7 +129,7 @@ CKEDITOR.plugins.add( 'listblock', {
 						doc.getById( items[ value ] ).setStyle( 'display', '' );
 					}
 
-					for ( title in groups ) {
+					for ( var title in groups ) {
 						var group = doc.getById( groups[ title ] ),
 							list = group.getNext();
 

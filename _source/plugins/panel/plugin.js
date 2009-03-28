@@ -104,9 +104,10 @@ CKEDITOR.ui.panel.prototype = {
 		if ( !holder ) {
 			if ( this.forceIFrame || this.css.length ) {
 				var iframe = this.document.getById( 'cke_' + this.id + '_frame' ),
-					parentDiv = iframe.getParent();
-				dir = parentDiv.getAttribute( 'dir' );
-				className = parentDiv.getParent().getAttribute( 'class' ), doc = iframe.getFrameDocument();
+					parentDiv = iframe.getParent(),
+					dir = parentDiv.getAttribute( 'dir' ),
+					className = parentDiv.getParent().getAttribute( 'class' ),
+					doc = iframe.getFrameDocument();
 
 				// Initialize the IFRAME document body.
 				doc.$.open();
@@ -244,9 +245,8 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 
 					// Move backward.
 				case 'prev':
-					var index = this._.focusIndex,
-						links = this.element.getElementsByTag( 'a' ),
-						link;
+					index = this._.focusIndex;
+					links = this.element.getElementsByTag( 'a' );
 
 					while ( index > 0 && ( link = links.getItem( --index ) ) ) {
 						// Move the focus only if the element is marked with
@@ -261,14 +261,16 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 					return false;
 
 				case 'click':
-					var index = this._.focusIndex,
-						link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
+					index = this._.focusIndex;
+					link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
 
 					if ( link )
 						link.$.click();
 
 					return false;
 			}
+
+			return true;
 		}
 	}
 });

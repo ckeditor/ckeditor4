@@ -117,7 +117,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 						// happen only if ForceBrBreak.
 						if ( nodeName == 'br' )
 							includeNode = true;
-						else if ( !range && currentNode.getChildCount() == 0 && nodeName != 'hr' ) {
+						else if ( !range && !currentNode.getChildCount() && nodeName != 'hr' ) {
 							// If we have found an empty block, and haven't started
 							// the range yet, it means we must return this block.
 							block = currentNode;
@@ -217,8 +217,8 @@ CKEDITOR.plugins.add( 'domiterator' );
 					return null;
 				}
 
-				var startPath = new CKEDITOR.dom.elementPath( range.startContainer ),
-					startBlockLimit = startPath.blockLimit,
+				startPath = new CKEDITOR.dom.elementPath( range.startContainer );
+				var startBlockLimit = startPath.blockLimit,
 					checkLimits = { div:1,th:1,td:1 };
 				block = startPath.block;
 

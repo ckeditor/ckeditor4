@@ -79,7 +79,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Append the desired class name.
 					if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
 						block.addClass( cssClassName );
-					else if ( className.length == 0 )
+					else if ( !className )
 						block.removeAttribute( 'class' );
 				} else {
 					if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )

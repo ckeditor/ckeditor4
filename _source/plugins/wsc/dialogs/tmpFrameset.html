@@ -24,14 +24,14 @@ function doLoadScript( url )
 
 function tryLoad ()
 {
-    if ( typeof( opener ) == 'undefined' || !opener )
-        opener = parent ;
+    if ( !window.opener )
+        window.opener = window.parent ;
 
     // get access to global parameters
-    oParams = opener.oldFramesetPageParams ;
+    var oParams = window.opener.oldFramesetPageParams ;
 
     // make frameset rows string prepare
-    sFramesetRows = ( parseInt( oParams.firstframeh, 10 ) || '30') + ",*," + ( parseInt( oParams.thirdframeh, 10 ) || '150' ) + ',0' ;
+    var sFramesetRows = ( parseInt( oParams.firstframeh, 10 ) || '30') + ",*," + ( parseInt( oParams.thirdframeh, 10 ) || '150' ) + ',0' ;
     document.getElementById( 'itFrameset' ).rows = sFramesetRows ;
 
     // dynamic including init frames and crossdomain transport code

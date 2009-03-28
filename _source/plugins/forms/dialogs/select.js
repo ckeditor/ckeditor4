@@ -22,7 +22,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				oOption.$.innerHTML = optionText.length > 0 ? optionText : '';
 				oOption.$.value = optionValue;
 			} else {
-				if ( index != null && index < combo.getChildCount() )
+				if ( index !== null && index < combo.getChildCount() )
 					combo.getChild( index < 0 ? 0 : index ).insertBeforeMe( oOption );
 				else
 					combo.append( oOption );
@@ -64,8 +64,9 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 
 	function removeAllOptions( combo ) {
 		combo = getSelect( combo );
-		while ( combo.getChild( 0 ) && combo.getChild( 0 ).remove() )
-			;
+		while ( combo.getChild( 0 ) && combo.getChild( 0 ).remove() ) {
+	/*jsl:pass*/
+		}
 	}
 	// Moves the selected option by a number of steps (also negative).
 	function changeOptionPosition( combo, steps, documentObject ) {
@@ -100,7 +101,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 	function setSelectedIndex( combo, index ) {
 		combo = getSelect( combo );
 		if ( index < 0 )
-			return;
+			return null;
 		var count = combo.getChildren().count();
 		combo.$.selectedIndex = ( index >= count ) ? ( count - 1 ) : index;
 		return combo;
@@ -179,7 +180,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					}
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'name', this.getValue() );
 				}
 			},
@@ -210,14 +211,14 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					style: 'width:175px',
 					validate: function() {
 						var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-						return ( ( this.getValue() == '' ) || func.apply( this ) );
+						return ( ( this.getValue() === '' ) || func.apply( this ) );
 					},
 					setup: function( name, element ) {
 						if ( name == 'select' )
 							this.setValue( element.getAttribute( 'size' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'size', this.getValue() );
 					}
 				},
@@ -334,8 +335,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 									this.getDialog().getContentElement( 'info', 'txtValue' ).setValue( oValue );
 							}
 						}
-					},
-						]
+					}
+					]
 				},
 					{
 					type: 'vbox',
@@ -349,8 +350,12 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						style: 'width:100%;',
 						onClick: function() {
 							//Add new option.
-							var dialog = this.getDialog();
-							parentEditor = dialog.getParentEditor(), optName = dialog.getContentElement( 'info', 'txtOptName' ), optValue = dialog.getContentElement( 'info', 'txtOptValue' ), names = dialog.getContentElement( 'info', 'cmbName' ), values = dialog.getContentElement( 'info', 'cmbValue' );
+							var dialog = this.getDialog(),
+								parentEditor = dialog.getParentEditor(),
+								optName = dialog.getContentElement( 'info', 'txtOptName' ),
+								optValue = dialog.getContentElement( 'info', 'txtOptValue' ),
+								names = dialog.getContentElement( 'info', 'cmbName' ),
+								values = dialog.getContentElement( 'info', 'cmbValue' );
 
 							addOption( names, optName.getValue(), optName.getValue(), dialog.getParentEditor().document );
 							addOption( values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document );
@@ -366,8 +371,12 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						style: 'width:100%;',
 						onClick: function() {
 							//Modify selected option.
-							var dialog = this.getDialog();
-							optName = dialog.getContentElement( 'info', 'txtOptName' ), optValue = dialog.getContentElement( 'info', 'txtOptValue' ), names = dialog.getContentElement( 'info', 'cmbName' ), values = dialog.getContentElement( 'info', 'cmbValue' ), iIndex = getSelectedIndex( names );
+							var dialog = this.getDialog(),
+								optName = dialog.getContentElement( 'info', 'txtOptName' ),
+								optValue = dialog.getContentElement( 'info', 'txtOptValue' ),
+								names = dialog.getContentElement( 'info', 'cmbName' ),
+								values = dialog.getContentElement( 'info', 'cmbValue' ),
+								iIndex = getSelectedIndex( names );
 
 							if ( iIndex >= 0 ) {
 								modifyOption( names, iIndex, optName.getValue(), optName.getValue() );
@@ -456,7 +465,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							this.setValue( element.getAttribute( 'multiple' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() == true || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'multiple', this.getValue() );
 					}
 				}

@@ -173,11 +173,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				CKEDITOR.dom.element.clearAllMarkers( database );
 
 				var movedNodes = [],
-					processedBlockquoteBlocks = [],
-					database = {};
+					processedBlockquoteBlocks = [];
+
+				database = {};
 				while ( moveOutNodes.length > 0 ) {
-					var node = moveOutNodes.shift(),
-						bqBlock = node.getParent();
+					var node = moveOutNodes.shift();
+					bqBlock = node.getParent();
 
 					// If the node is located at the beginning or the end, just take it out
 					// without splitting. Otherwise, split the blockquote node and move the
@@ -203,8 +204,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				CKEDITOR.dom.element.clearAllMarkers( database );
 
 				// Clear blockquote nodes that have become empty.
-				for ( var i = processedBlockquoteBlocks.length - 1; i >= 0; i-- ) {
-					var bqBlock = processedBlockquoteBlocks[ i ];
+				for ( i = processedBlockquoteBlocks.length - 1; i >= 0; i-- ) {
+					bqBlock = processedBlockquoteBlocks[ i ];
 					if ( noBlockLeft( bqBlock ) )
 						bqBlock.remove();
 				}
@@ -212,15 +213,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
 					var firstTime = true;
 					while ( movedNodes.length ) {
-						var node = movedNodes.shift();
+						node = movedNodes.shift();
 
 						if ( node.getName() == 'div' ) {
-							var docFrag = new CKEDITOR.dom.documentFragment( editor.document ),
-								needBeginBr = firstTime && node.getPrevious() && !( node.getPrevious().type == CKEDITOR.NODE_ELEMENT && node.getPrevious().isBlockBoundary() );
+							docFrag = new CKEDITOR.dom.documentFragment( editor.document );
+							var needBeginBr = firstTime && node.getPrevious() && !( node.getPrevious().type == CKEDITOR.NODE_ELEMENT && node.getPrevious().isBlockBoundary() );
 							if ( needBeginBr )
 								docFrag.append( editor.document.createElement( 'br' ) );
 
-							var needEngBr = node.getNext() && !( node.getNext().type == CKEDITOR.NODE_ELEMENT && node.getNext().isBlockBoundary() );
+							var needEndBr = node.getNext() && !( node.getNext().type == CKEDITOR.NODE_ELEMENT && node.getNext().isBlockBoundary() );
 							while ( node.getFirst() )
 								node.getFirst().remove().appendTo( docFrag );
 

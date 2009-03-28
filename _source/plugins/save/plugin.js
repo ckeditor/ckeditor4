@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// function is masked and can't be called in IE/FF, so we
 					// call the click() method of that button.
 					if ( $form.submit.click )
-						$form.submit.click()
+						$form.submit.click();
 				}
 			}
 		}

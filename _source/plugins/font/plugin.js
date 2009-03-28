@@ -53,7 +53,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					saveRanges = false;
 				}
 
-				var style = styles[ value ]
+				var style = styles[ value ];
 
 				if ( this.getValue() == value )
 					style.remove( editor.document );
@@ -125,7 +125,7 @@ CKEDITOR.config.font_names = 'Arial/Arial, Helvetica, sans-serif;' +
 	'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
 	'Verdana/Verdana, Geneva, sans-serif';
 
-CKEDITOR.config.font_defaultLabel = ''
+CKEDITOR.config.font_defaultLabel = '';
 CKEDITOR.config.font_style = {
 	element: 'span',
 	styles: { 'font-family': '#(family)' },
@@ -138,7 +138,7 @@ CKEDITOR.config.font_style = {
 
 CKEDITOR.config.fontSize_sizes = '8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px';
 
-CKEDITOR.config.fontSize_defaultLabel = ''
+CKEDITOR.config.fontSize_defaultLabel = '';
 CKEDITOR.config.fontSize_style = {
 	element: 'span',
 	styles: { 'font-size': '#(size)' },

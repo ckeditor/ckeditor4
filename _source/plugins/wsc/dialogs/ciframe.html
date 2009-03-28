@@ -16,15 +16,17 @@ function gup( name )
 	var regex = new RegExp( regexS ) ;
 	var results = regex.exec( window.location.href ) ;
 
-	if( results == null )
-		return '' ;
-	else
+	if( results )
 		return results[ 1 ] ;
+	else
+		return '' ;
 }
+
+var interval;
 
 function sendData2Master()
 {
-	var destination = parent.parent ;
+	var destination = window.parent.parent ;
 	try
 	{
 		if ( destination.XDTMaster )

@@ -16,7 +16,8 @@ CKEDITOR.plugins.add( 'iframedialog', {
 				src: src,
 				width: '100%',
 				height: '100%'
-			}
+			};
+
 			if ( typeof( onContentLoad ) == 'function' )
 				element.onContentLoad = onContentLoad;
 

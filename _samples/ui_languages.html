@@ -27,11 +27,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					//<![CDATA[
 
 						// Get the language list from the _languages.js file.
-						for ( var i = 0 ; i < CKEDITOR_LANGS.length ; i++ )
+						for ( var i = 0 ; i < window.CKEDITOR_LANGS.length ; i++ )
 						{
 							document.write(
-								'<option value="' + CKEDITOR_LANGS[i].code + '">' +
-									CKEDITOR_LANGS[i].name +
+								'<option value="' + window.CKEDITOR_LANGS[i].code + '">' +
+									window.CKEDITOR_LANGS[i].name +
 								'</option>' );
 						}
 
@@ -48,7 +48,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				//<![CDATA[
 
 					// Set the number of languages.
-					document.getElementById( 'count' ).innerHTML = CKEDITOR_LANGS.length;
+					document.getElementById( 'count' ).innerHTML = window.CKEDITOR_LANGS.length;
 
 					var editor;
 

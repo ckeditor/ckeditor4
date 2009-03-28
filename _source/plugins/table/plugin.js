@@ -135,7 +135,7 @@ CKEDITOR.plugins.add( 'table', {
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
 				if ( !element )
-					return;
+					return null;
 
 				var isTable = element.is( 'table' );
 				var isCell = !isTable && element.hasAscendant( 'table' );

@@ -75,7 +75,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			label: editor.lang.common.generalTab,
 			title: editor.lang.common.generalTab,
 			padding: 0,
-			align: top,
+			align: 'top',
 			elements: [
 				{
 				type: 'hbox',
@@ -108,7 +108,8 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						}
 					},
 					onClick: function( evt ) {
-						var target = evt.data.getTarget();
+						var target = evt.data.getTarget(),
+							value;
 						if ( target.getName() == 'td' && ( value = target.$.getAttribute( 'value' ) ) ) {
 							var dialog = this.getDialog();
 							target.removeClass( "LightBackground" );

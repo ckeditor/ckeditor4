@@ -50,7 +50,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 							child = style && element.children.length == 1 && element.children[ 0 ],
 							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
 
-						if ( childStyle && /page-break-after\s*:\s*always/i.test( style ) && /display\s*:\s*none/i.test( childStyle ) )
+						if ( childStyle && ( /page-break-after\s*:\s*always/i ).test( style ) && ( /display\s*:\s*none/i ).test( childStyle ) )
 							return editor.createFakeParserElement( element, 'cke_pagebreak', 'div' );
 					}
 				}

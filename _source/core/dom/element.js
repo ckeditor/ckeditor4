@@ -217,7 +217,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		var lastChild = this.getLast();
 
 		// Ignore empty/spaces text.
-		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.rtrim( lastChild.getText() ).length == 0 )
+		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
 			lastChild = lastChild.getPrevious();
 
 		if ( !lastChild || ( lastChild.is && ( !lastChild.is( 'br' ) || !lastChild.getAttribute( '_cke_bogus' ) ) ) ) {
@@ -1008,7 +1008,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// 1. It matters if document.body itself is a positioned element;
 		// 2. It matters when we're in IE and the element has no positioned ancestor.
 		// Otherwise the values should be ignored.
-		if ( this.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && this.getPositionedAncestor() == null ) ) {
+		if ( this.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) {
 			x += this.getDocument().getBody().$.offsetLeft;
 			y += this.getDocument().getBody().$.offsetTop;
 		}
@@ -1075,7 +1075,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			// In IE, with custom document.domain, it may happen that
 			// the iframe is not yet available, resulting in "Access
 			// Denied" for the following property access.
-			void( $.contentWindow.document );
+			$.contentWindow.document;
 		} catch ( e ) {
 			// Trick to solve this issue, forcing the iframe to get ready
 			// by simply setting its "src" property.

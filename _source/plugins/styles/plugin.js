@@ -457,8 +457,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 					if ( me.checkElementRemovable( element ) )
 						breakStart = element;
 				}
-				for ( var i = 0; i < endPath.elements.length; i++ ) {
-					var element = endPath.elements[ i ];
+				for ( i = 0; i < endPath.elements.length; i++ ) {
+					element = endPath.elements[ i ];
 
 					if ( element == endPath.block || element == endPath.blockLimit )
 						break;

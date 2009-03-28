@@ -69,7 +69,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		onOk: function() {
 			var iframe = CKEDITOR.document.getById( iframeId );
 
-			var body = new CKEDITOR.dom.element( iframe.$.contentDocument ? oBody = iframe.$.contentDocument.body : oBody = iframe.$.contentWindow.document.body );
+			var body = new CKEDITOR.dom.element( iframe.$.contentDocument ? iframe.$.contentDocument.body : iframe.$.contentWindow.document.body );
 
 			var html = body.getHtml();
 

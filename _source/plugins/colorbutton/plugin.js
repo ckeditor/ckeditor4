@@ -101,7 +101,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
-				if ( ( i % 8 ) == 0 )
+				if ( ( i % 8 ) === 0 )
 					output.push( '</tr><tr>' );
 
 				var color = colors[ i ];

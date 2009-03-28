@@ -52,7 +52,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					this.focus();
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'name', this.getValue() );
 				}
 			},
@@ -71,7 +71,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					this.setValue( element.getAttribute( 'cols' ) );
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'cols', this.getValue() );
 				}
 			},
@@ -90,7 +90,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					this.setValue( element.getAttribute( 'rows' ) );
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'rows', this.getValue() );
 				}
 			}

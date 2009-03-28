@@ -94,7 +94,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		type: ATTRTYPE_PARAM, name: names[ i ]
 	}];
 	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
-	for ( var i = 0; i < names.length; i++ )
+	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
 
 	function loadValue( objectNode, embedNode, paramMap ) {
@@ -109,7 +109,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case ATTRTYPE_OBJECT:
 					if ( !objectNode )
 						continue;
-					if ( objectNode.getAttribute( attrDef.name ) != null ) {
+					if ( objectNode.getAttribute( attrDef.name ) !== null ) {
 						var value = objectNode.getAttribute( attrDef.name );
 						if ( isCheckbox )
 							this.setValue( value.toLowerCase() == 'true' );
@@ -122,7 +122,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !objectNode )
 						continue;
 					if ( attrDef.name in paramMap ) {
-						var value = paramMap[ attrDef.name ];
+						value = paramMap[ attrDef.name ];
 						if ( isCheckbox )
 							this.setValue( value.toLowerCase() == 'true' );
 						else
@@ -133,8 +133,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case ATTRTYPE_EMBED:
 					if ( !embedNode )
 						continue;
-					if ( embedNode.getAttribute( attrDef.name ) != null ) {
-						var value = embedNode.getAttribute( attrDef.name );
+					if ( embedNode.getAttribute( attrDef.name ) ) {
+						value = embedNode.getAttribute( attrDef.name );
 						if ( isCheckbox )
 							this.setValue( value.toLowerCase() == 'true' );
 						else
@@ -142,7 +142,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						return;
 					} else if ( isCheckbox )
 						this.setValue( !!attrDef[ 'default' ] );
-				default:
 			}
 		}
 	}
@@ -170,7 +169,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case ATTRTYPE_PARAM:
 					if ( !objectNode )
 						continue;
-					var value = this.getValue();
+					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] ) {
 						if ( attrDef.name in paramMap )
 							paramMap[ attrDef.name ].remove();
@@ -190,12 +189,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case ATTRTYPE_EMBED:
 					if ( !embedNode )
 						continue;
-					var value = this.getValue();
+					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
 						embedNode.removeAttribute( attrDef.name );
 					else
 						embedNode.setAttribute( attrDef.name, value );
-				default:
 			}
 		}
 	}
@@ -213,10 +211,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			minWidth: 400,
 			minHeight: 310,
 			onLoad: function() {
-				if ( editor.config.flashUploadTab == false )
+				if ( !editor.config.flashUploadTab )
 					this.hidePage( 'Upload' ); // Hide Upload tab.
 
-				if ( editor.config.flashBrowseServer == false )
+				if ( !editor.config.flashBrowseServer )
 					this.getContentElement( 'info', 'browse' ).getElement().hide();
 			},
 			onShow: function() {
@@ -368,7 +366,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 						commit: function( objectNode, embedNode, paramMap, extraStyles ) {
 							commitValue.apply( this, arguments );
-							if ( this.getValue() != '' )
+							if ( this.getValue() )
 								extraStyles.width = this.getValue() + 'px';
 						}
 					},
@@ -387,7 +385,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 						commit: function( objectNode, embedNode, paramMap, extraStyles ) {
 							commitValue.apply( this, arguments );
-							if ( this.getValue() != '' )
+							if ( this.getValue() )
 								extraStyles.height = this.getValue() + 'px';
 						}
 					},
@@ -518,8 +516,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							],
 						setup: loadValue,
 						commit: commitValue
-					},
-						]
+					}
+					]
 				},
 					{
 					type: 'hbox',

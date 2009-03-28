@@ -87,13 +87,13 @@ CKEDITOR.plugins.add( 'link', {
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
 				if ( !element )
-					return;
+					return null;
 
 				var isAnchor = ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' );
 
 				if ( !isAnchor ) {
 					if ( !( element = element.getAscendant( 'a', true ) ) )
-						return;
+						return null;
 
 					isAnchor = ( element.getAttribute( 'name' ) && !element.getAttribute( 'href' ) );
 				}

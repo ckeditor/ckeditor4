@@ -260,7 +260,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				processed = true;
 			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
 				// Arrow keys - used for changing tabs.
-				var nextId = ( keystroke == 37 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
+				nextId = ( keystroke == 37 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
 				me.selectPage( nextId );
 				me._.tabs[ nextId ][ 0 ].focus();
 				processed = true;
@@ -311,7 +311,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
 
 		// Insert the tabs and contents.
-		for ( i = 0; i < definition.contents.length; i++ )
+		for ( var i = 0; i < definition.contents.length; i++ )
 			this.addPage( definition.contents[ i ] );
 
 		var tabRegex = /cke_dialog_tab(\s|$|_)/,
@@ -326,7 +326,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				return;
 
 			// Find the outer <td> container of the tab.
-			var id = target.$.id.substr( 0, target.$.id.lastIndexOf( '_' ) );
+			id = target.$.id.substr( 0, target.$.id.lastIndexOf( '_' ) );
 			this.selectPage( id );
 
 			if ( this._.tabBarMode ) {

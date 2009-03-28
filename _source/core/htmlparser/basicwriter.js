@@ -7,7 +7,7 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 	$: function() {
 		this._ = {
 			output: []
-		}
+		};
 	},
 
 	proto: {

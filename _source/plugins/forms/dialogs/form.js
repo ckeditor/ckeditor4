@@ -53,7 +53,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					this.focus();
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'name', this.getValue() );
 				}
 			},
@@ -67,7 +67,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					this.setValue( element.getAttribute( 'action' ) );
 				},
 				commit: function( element ) {
-					if ( this.getValue() != '' || this.isChanged() )
+					if ( this.getValue() || this.isChanged() )
 						element.setAttribute( 'action', this.getValue() );
 				}
 			},
@@ -85,7 +85,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 						this.setValue( element.getAttribute( 'id' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'id', this.getValue() );
 					}
 				},
@@ -106,7 +106,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 						this.setValue( element.getAttribute( 'encoding' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'encoding', this.getValue() );
 					}
 				}
@@ -134,7 +134,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 						this.setValue( element.getAttribute( 'target' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'target', this.getValue() );
 					}
 				},

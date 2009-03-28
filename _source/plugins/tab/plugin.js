@@ -85,7 +85,7 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren ) {
 		// If this element has tabindex <= 0 then we must simply look for any
 		// element following it containing tabindex=0.
 
-		var element = this.getNextSourceNode( ignoreChildren, CKEDITOR.NODE_ELEMENT );
+		element = this.getNextSourceNode( ignoreChildren, CKEDITOR.NODE_ELEMENT );
 
 		while ( element ) {
 			if ( element.isVisible() && element.getTabIndex() === 0 ) {
@@ -102,7 +102,7 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren ) {
 		//		   that is higher than this element tabindex.
 		//		3. The first element with tabindex=0.
 
-		var element = this.getDocument().getBody().getFirst();
+		element = this.getDocument().getBody().getFirst();
 
 		while ( ( element = element.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ) ) ) {
 			if ( !passedCurrent ) {

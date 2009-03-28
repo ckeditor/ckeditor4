@@ -41,15 +41,15 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 	function burnSpelling( dialog, errorMsg ) {
 		var i = 0;
 		return function() {
-			if ( typeof( doSpell ) == 'function' )
+			if ( typeof( window.doSpell ) == 'function' )
 				initAndSpell( dialog );
 			else if ( i++ == 180 ) // Timeout: 180 * 250ms = 45s.
 			_cancelOnError( errorMsg );
-		}
-	};
+		};
+	}
 
 	function _cancelOnError( m ) {
-		if ( typeof( WSC_Error ) == 'undefined' ) {
+		if ( typeof( window.WSC_Error ) == 'undefined' ) {
 			CKEDITOR.document.getById( iframeId ).setStyle( 'display', 'none' );
 			var errorBox = CKEDITOR.document.getById( errorBoxId );
 			errorBox.setStyle( 'display', 'block' );
@@ -60,15 +60,12 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 	function initAndSpell( dialog ) {
 		//Call from window.setInteval expected at once.
 		if ( typeof( interval ) == 'undefined' )
-			return null;
+			return;
 		window.clearInterval( interval );
-
-		// Global var is used in FCK specific core.
-		gFCKPluginName = 'wsc';
 
 		var sData = editor.getData(),
 			// Get the data to be checked.
-			LangComparer = new _SP_FCK_LangCompare(),
+			LangComparer = new window._SP_FCK_LangCompare(),
 			// Language abbr standarts comparer.
 			pluginPath = CKEDITOR.getUrl( editor.plugins.wsc.path + 'dialogs/' ),
 			// Service paths corecting/preparing.
@@ -83,7 +80,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		CKEDITOR.document.getById( errorBoxId ).setStyle( 'display', 'none' );
 		CKEDITOR.document.getById( iframeId ).setStyle( 'display', 'block' );
 
-		doSpell({
+		window.doSpell({
 			ctrl: textareaId,
 			lang: LangComparer.getSPLangCode( editor.langCode ),
 			winType: iframeId, // If not defined app will run on winpopup.
@@ -107,7 +104,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 			// Styles defining.
 			schemaURI: pluginPath + 'wsc.css'
 		});
-	};
+	}
 
 	return {
 		title: editor.lang.spellCheck.title,
@@ -115,10 +112,10 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		minHeight: 380,
 		buttons: [ CKEDITOR.dialog.cancelButton ],
 		onShow: function() {
-			contentArea = this.getContentElement( 'general', 'content' ).getElement();
+			var contentArea = this.getContentElement( 'general', 'content' ).getElement();
 			contentArea.setHtml( pasteArea );
 
-			if ( typeof( doSpell ) != 'function' ) {
+			if ( typeof( window.doSpell ) != 'function' ) {
 				// Load script.
 				CKEDITOR.document.getHead().append( CKEDITOR.document.createElement( 'script', {
 					attributes: {

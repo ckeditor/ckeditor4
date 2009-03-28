@@ -57,7 +57,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 						this.focus();
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'name', this.getValue() );
 					}
 				},
@@ -71,7 +71,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 						this.setValue( element.getAttribute( 'value' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'value', this.getValue() );
 					}
 				}
@@ -90,13 +90,13 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					style: 'width:50px',
 					validate: function() {
 						var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-						return isValid = func.apply( this );
+						return func.apply( this );
 					},
 					setup: function( element ) {
 						this.setValue( element.getAttribute( 'size' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'size', this.getValue() );
 					}
 				},
@@ -109,13 +109,13 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					style: 'width:50px',
 					validate: function() {
 						var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-						return isValid = func.apply( this );
+						return func.apply( this );
 					},
 					setup: function( element ) {
 						this.setValue( element.getAttribute( 'maxlength' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() != '' || this.isChanged() )
+						if ( this.getValue() || this.isChanged() )
 							element.setAttribute( 'maxlength', this.getValue() );
 					}
 				}
@@ -129,7 +129,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				accessKey: 'M',
 				items: [
 					[ editor.lang.textfield.typeText, 'text' ],
-					[ editor.lang.textfield.typePass, 'pass' ],
+					[ editor.lang.textfield.typePass, 'pass' ]
 					],
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'type' ) );

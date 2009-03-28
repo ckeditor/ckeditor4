@@ -95,8 +95,9 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				// Cancel the browser context menu.
 				domEvent.preventDefault();
 
-				var offsetParent = domEvent.getTarget().getDocument().getDocumentElement();
-				offsetX = domEvent.$.clientX, offsetY = domEvent.$.clientY;
+				var offsetParent = domEvent.getTarget().getDocument().getDocumentElement(),
+					offsetX = domEvent.$.clientX,
+					offsetY = domEvent.$.clientY;
 
 				CKEDITOR.tools.setTimeout( function() {
 					this._.onMenu( offsetParent, offsetX, offsetY );

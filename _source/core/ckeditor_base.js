@@ -153,7 +153,7 @@ if ( !window.CKEDITOR ) {
 			var originalGetUrl = CKEDITOR.getUrl;
 			CKEDITOR.getUrl = function( resource ) {
 				return newGetUrl.call( CKEDITOR, resource ) || originalGetUrl.call( CKEDITOR, resource );
-			}
+			};
 		}
 
 		return CKEDITOR;

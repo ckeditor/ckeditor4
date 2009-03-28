@@ -87,8 +87,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode );
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
-				} else if ( item.indent == -1 && baseIndex == 0 && item.grandparent ) {
-					var currentListItem;
+				} else if ( item.indent == -1 && !baseIndex && item.grandparent ) {
+					currentListItem;
 					if ( listNodeNames[ item.grandparent.getName() ] )
 						currentListItem = doc.createElement( 'li' );
 					else {
@@ -98,7 +98,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							currentListItem = new CKEDITOR.dom.documentFragment( doc );
 					}
 
-					for ( var i = 0; i < item.contents.length; i++ )
+					for ( i = 0; i < item.contents.length; i++ )
 						currentListItem.append( item.contents[ i ].clone( true, true ) );
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
@@ -152,11 +152,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var elements = evt.data.path.elements;
 
 		for ( var i = 0; i < elements.length; i++ ) {
-			if ( listNodeNames[ elements[ i ].getName() ] )
+			if ( listNodeNames[ elements[ i ].getName() ] ) {
 				return setState.call( this, evt.editor, this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			}
 		}
 
-		setState.call( this, evt.editor, CKEDITOR.TRISTATE_OFF );
+		return setState.call( this, evt.editor, CKEDITOR.TRISTATE_OFF );
 	}
 
 	function changeListType( editor, groupObj, database, listsCreated ) {
@@ -178,12 +179,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		var fakeParent = groupObj.root.getDocument().createElement( this.type );
-		for ( var i = 0; i < selectedListItems.length; i++ ) {
+		for ( i = 0; i < selectedListItems.length; i++ ) {
 			var listIndex = selectedListItems[ i ].getCustomData( 'listarray_index' );
 			listArray[ listIndex ].parent = fakeParent;
 		}
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
-		for ( var i = 0, length = newList.listNode.getChildCount(), child;
+		var child;
+		for ( i = 0, length = newList.listNode.getChildCount();
 		i < length && ( child = newList.listNode.getChild( i ) ); i++ ) {
 			if ( child.getName() == this.type )
 				listsCreated.push( child );
@@ -213,7 +215,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// We want to insert things that are in the same tree level only, so calculate the contents again
 		// by expanding the selected blocks to the same tree level.
-		for ( var i = 0; i < contents.length; i++ ) {
+		for ( i = 0; i < contents.length; i++ ) {
 			var contentNode = contents[ i ],
 				parentNode;
 			while ( ( parentNode = contentNode.getParent() ) ) {
@@ -262,7 +264,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		var lastListIndex = null;
-		for ( var i = 0; i < selectedListItems.length; i++ ) {
+		for ( i = 0; i < selectedListItems.length; i++ ) {
 			var listIndex = selectedListItems[ i ].getCustomData( 'listarray_index' );
 			listArray[ listIndex ].indent = -1;
 			lastListIndex = listIndex;
@@ -271,7 +273,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// After cutting parts of the list out with indent=-1, we still have to maintain the array list
 		// model's nextItem.indent <= currentItem.indent + 1 invariant. Otherwise the array model of the
 		// list cannot be converted back to a real DOM list.
-		for ( var i = lastListIndex + 1; i < listArray.length; i++ ) {
+		for ( i = lastListIndex + 1; i < listArray.length; i++ ) {
 			if ( listArray[ i ].indent > listArray[ i - 1 ].indent + 1 ) {
 				var indentOffset = listArray[ i - 1 ].indent + 1 - listArray[ i ].indent;
 				var oldIndent = listArray[ i ].indent;
@@ -286,7 +288,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
 		// If groupObj.root is the last element in its parent, or its nextSibling is a <br>, then we should
 		// not add a <br> after the final item. So, check for the cases and trim the <br>.
-		if ( groupObj.root.getNext() == null || groupObj.root.getNext().$.nodeName.toLowerCase() == 'br' ) {
+		if ( !groupObj.root.getNext() || groupObj.root.getNext().$.nodeName.toLowerCase() == 'br' ) {
 			if ( newList.listNode.getLast().$.nodeName.toLowerCase() == 'br' )
 				newList.listNode.getLast().remove();
 		}
@@ -384,7 +386,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( root.getCustomData( 'list_group_object' ) )
 						root.getCustomData( 'list_group_object' ).contents.push( block );
 					else {
-						var groupObj = { root: root, contents: [ block ] };
+						groupObj = { root: root, contents: [ block ] };
 						CKEDITOR.dom.element.setMarker( database, root, 'list_group_object', groupObj );
 						listGroups.push( groupObj );
 					}
@@ -396,7 +398,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// at the group that's not rooted at lists. So we have three cases to handle.
 			var listsCreated = [];
 			while ( listGroups.length > 0 ) {
-				var groupObj = listGroups.shift();
+				groupObj = listGroups.shift();
 				if ( this.state == CKEDITOR.TRISTATE_OFF ) {
 					if ( listNodeNames[ groupObj.root.getName() ] )
 						changeListType.call( this, editor, groupObj, database, listsCreated );
@@ -407,9 +409,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// For all new lists created, merge adjacent, same type lists.
-			for ( var i = 0; i < listsCreated.length; i++ ) {
-				var listNode = listsCreated[ i ],
-					stopFlag = false,
+			for ( i = 0; i < listsCreated.length; i++ ) {
+				listNode = listsCreated[ i ];
+				var stopFlag = false,
 					currentNode = listNode;
 
 				while ( !stopFlag ) {
