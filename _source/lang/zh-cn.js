@@ -26,6 +26,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	 */
 	dir: 'ltr',
 
+	/*
+	 * Screenreader titles. Please note that screenreaders are not always capable
+	 * of reading non-English words. So be careful while translating it.
+	 */
+	editorTitle: 'Rich text editor, %1', // MISSING
+
 	// Toolbar buttons without dialogs.
 	source: '源代码',
 	newPage: '新建',

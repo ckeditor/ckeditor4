@@ -26,6 +26,12 @@ CKEDITOR.lang[ 'sv' ] = {
 	 */
 	dir: 'ltr',
 
+	/*
+	 * Screenreader titles. Please note that screenreaders are not always capable
+	 * of reading non-English words. So be careful while translating it.
+	 */
+	editorTitle: 'Rich text editor, %1', // MISSING
+
 	// Toolbar buttons without dialogs.
 	source: 'Källa',
 	newPage: 'Ny sida',
