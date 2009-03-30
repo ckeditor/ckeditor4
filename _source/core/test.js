@@ -55,7 +55,15 @@ CKEDITOR.test = {
 	 * Gets the inner HTML of an element, for testing purposes.
 	 */
 	getInnerHtml: function( elementOrId ) {
-		var html = ( elementOrId.nodeType ? elementOrId : document.getElementById( elementOrId ) ).innerHTML;
+		var html;
+
+		if ( typeof elementOrId == 'string' )
+			html = document.getElementById( elementOrId ).innerHTML;
+		else if ( elementOrId.getHtml )
+			html = elementOrId.getHtml();
+		else
+			html = elementOrId.innerHTML || '';
+
 		html = html.toLowerCase();
 		html = html.replace( /[\n\r]/g, '' );
 

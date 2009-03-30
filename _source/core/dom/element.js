@@ -867,7 +867,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * element.removeStyle( 'display' );
 	 */
 	removeStyle: function( name ) {
-		this.setStyle( name, '' );
+		if ( this.$.style.removeAttribute )
+			this.$.style.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
+		else
+			this.setStyle( name, '' );
 
 		if ( !this.$.style.cssText )
 			this.removeAttribute( 'style' );

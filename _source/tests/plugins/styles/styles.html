@@ -420,19 +420,80 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			assert.isTrue( style.checkElementRemovable( element, true ) );
 		},
 
+		test_ticket_3091 : function()
+		{
+			var element = doc.getById( '_P1' );
+			element.setHtml( 'outter<table><tr><td>text</td></tr></table>outter' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( element );
+			
+			var styleDef = 
+			{
+				element		: 'span',
+				styles		: { 'font-family' : '#(family)' },
+				overrides	: [ { element : 'font', attributes : { 'face' : null } } ]
+			};
+
+			var style = new CKEDITOR.style( styleDef, { 'family' : 'Arial,Helvetica,sans-serif' } );
+			style.applyToRange( range );
+
+			style = new CKEDITOR.style( styleDef, { 'family' : 'Comic Sans MS,cursive' } );
+			style.applyToRange( range );
+
+			style = new CKEDITOR.style( styleDef, { 'family' : 'Courier New,Courier,monospace' } );
+			style.applyToRange( range );
+
+			assert.areSame( '<span style="font-family:couriernew,courier,monospace;">outter</span><table><tbody><tr><td><span style="font-family:couriernew,courier,monospace;">text</span></td></tr></tbody></table><span style="font-family:couriernew,courier,monospace;">outter</span>', getInnerHtml( element ) );
+		},
+
+		test_ticket_3091_2 : function()
+		{
+			var element = doc.getById( '_P1' );
+			element.setHtml( 'outter<p>text</p>outter' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( element );
+
+			var style = new CKEDITOR.style( { element : 'i', attributes : { title : 'x' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<i title="x">outter</i><p><i title="x">text</i></p><i title="x">outter</i>', getInnerHtml( element ), 'First step failed' );
+
+			style = new CKEDITOR.style( { element : 'i', attributes : { title : 'y' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<i title="y">outter</i><p><i title="y">text</i></p><i title="y">outter</i>', getInnerHtml( element ), 'Second step failed' );
+
+			style = new CKEDITOR.style( { element : 'i', attributes : { title : 'z' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<i title="z">outter</i><p><i title="z">text</i></p><i title="z">outter</i>', getInnerHtml( element ), 'Third step failed' );
+		},
+
+		// TC based on the state of the second step in the above test, before it got fixed.
+		test_ticket_3091_3 : function()
+		{
+			var element = doc.getById( '_P1' );
+			element.setHtml( '<p><i title="y">text</i><i title="x"></i></p><i title="y">outter</i><i title="x"></i>' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( element );
+
+			var style = new CKEDITOR.style( { element : 'i', attributes : { title : 'z' } } );
+			style.applyToRange( range );
+
+			assert.areSame( '<p><i title="z">text</i></p><i title="z">outter</i>', getInnerHtml( element ) );
+		},
+
 		name : document.title
 	};
 })() );
-
-//window.onload = function()
-//{
-//	testCase.test_checkElementRemovable8();
-//}
 
 	//]]>
 	</script>
 </head>
 <body>
-	<p id="_P1"></p>
+	<div id="_P1"></div>
 </body>
 </html>

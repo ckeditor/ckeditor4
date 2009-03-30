@@ -301,7 +301,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 						// Non element nodes, or empty elements can be added
 						// completely to the range.
-						if ( nodeType == CKEDITOR.NODE_TEXT || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() && currentNode.$.offsetWidth ) ) {
+						if ( nodeType == CKEDITOR.NODE_TEXT || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
