@@ -47,6 +47,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			onClick: function( value ) {
 				editor.focus();
+				editor.fire( 'saveSnapshot' );
 
 				if ( saveRanges ) {
 					editor.getSelection().selectRanges( saveRanges );

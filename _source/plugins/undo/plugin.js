@@ -52,6 +52,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'beforeCommandExec', recordCommand );
 			editor.on( 'afterCommandExec', recordCommand );
 
+			// Save snapshots before doing custom changes.
+			editor.on( 'saveSnapshot', function() {
+				undoManager.save();
+			});
+
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function() {
 				if ( editor.mode == 'wysiwyg' ) {

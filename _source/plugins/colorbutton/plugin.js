@@ -75,6 +75,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: color || '#000' } );
 
+				editor.fire( 'saveSnapshot' );
 				if ( color )
 					style.apply( editor.document );
 				else
