@@ -302,6 +302,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.insertElement( newFakeImage );
 				}
 			},
+
+			onHide: function() {
+				if ( this.preview )
+					this.preview.setHtml( '' );
+			},
+
 			contents: [
 				{
 				id: 'info',
@@ -329,12 +335,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							setup: loadValue,
 							commit: commitValue,
 							onLoad: function() {
-								var dialog = this.getDialog();
-								var previewElement = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
-								this.getInputElement().on( 'change', function() {
-									previewElement.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( this.getValue() )
-																										+ '" type="application/x-shockwave-flash"></embed>' );
+								var dialog = this.getDialog(),
+									updatePreview = function( src ) {
+
+										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( src )
+																									+ '" type="application/x-shockwave-flash"></embed>' );
+									};
+								// Preview element
+								dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
+
+								// Sync on inital value loaded.
+								this.on( 'change', function( evt ) {
+
+									if ( evt.data && evt.data.value )
+										updatePreview( evt.data.value );
 								});
+								// Sync when input value changed.
+								this.getInputElement().on( 'change', function( evt ) {
+
+									updatePreview( this.getValue() );
+								}, this );
 							}
 						},
 							{
