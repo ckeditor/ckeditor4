@@ -10,7 +10,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var config = editor.config,
 			lang = editor.lang.colorButton;
 
-		var saveRanges, clickFn;
+		var saveRanges;
 
 		addButton( 'TextColor', 'fore', lang.textColorTitle );
 		addButton( 'BGColor', 'back', lang.bgColorTitle );
@@ -57,31 +57,29 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var output = [],
 				colors = CKEDITOR.config.colorButton_colors.split( ',' );
 
-			if ( !clickFn ) {
-				clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
-					if ( color == '?' ) {
-						// TODO : Implement the colors dialog.
-						// editor.openDialog( '' );
-						return;
-					}
+			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
+				if ( color == '?' ) {
+					// TODO : Implement the colors dialog.
+					// editor.openDialog( '' );
+					return;
+				}
 
-					editor.focus();
+				editor.focus();
 
-					if ( saveRanges ) {
-						editor.getSelection().selectRanges( saveRanges );
-						saveRanges = false;
-					}
+				if ( saveRanges ) {
+					editor.getSelection().selectRanges( saveRanges );
+					saveRanges = false;
+				}
 
-					panel.hide();
+				panel.hide();
 
-					var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: color || '#000' } );
+				var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: color || '#000' } );
 
-					if ( color )
-						style.apply( editor.document );
-					else
-						style.remove( editor.document );
-				});
-			}
+				if ( color )
+					style.apply( editor.document );
+				else
+					style.remove( editor.document );
+			});
 
 			// Render the "Automatic" button.
 			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
