@@ -27,15 +27,6 @@ CKEDITOR.dom.domObject = function( nativeDomObject ) {
 		 * alert( element.$.nodeType );  // "1"
 		 */
 		this.$ = nativeDomObject;
-
-		// Get the main private function from the custom data. Create it if not
-		// defined.
-		if ( !( this._ = this.getCustomData( '_' ) ) )
-			this.setCustomData( '_', ( this._ = {} ) );
-
-		// Call the base event constructor.
-		if ( !this._.events )
-			CKEDITOR.event.call( this );
 	}
 };
 
@@ -54,6 +45,17 @@ CKEDITOR.dom.domObject.prototype = (function() {
 		};
 
 	return /** @lends CKEDITOR.dom.domObject.prototype */ {
+
+		getPrivate: function() {
+			var priv;
+
+			// Get the main private function from the custom data. Create it if not
+			// defined.
+			if ( !( priv = this.getCustomData( '_' ) ) )
+				this.setCustomData( '_', ( priv = {} ) );
+
+			return priv;
+		},
 
 		/** @ignore */
 		on: function( eventName ) {
@@ -179,6 +181,6 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	// Implement CKEDITOR.event.
-	CKEDITOR.event.implementOn( domObjectProto, true );
+	CKEDITOR.event.implementOn( domObjectProto );
 
 })( CKEDITOR.dom.domObject.prototype );
