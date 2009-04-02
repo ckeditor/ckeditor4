@@ -153,21 +153,24 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			// Find out whether we have any anchors in the editor.
 			// Get all IMG elements in CK document.
-			var elements = editor.document.$.getElementsByTagName( 'img' ),
-				realAnchors = editor.document.$.anchors,
+			var elements = editor.document.getElementsByTag( 'img' ),
+				realAnchors = new CKEDITOR.dom.nodeList( editor.document.$.anchors ),
 				anchors = retval.anchors = [];
-			for ( var i = 0; i < elements.length; i++ ) {
-				var item = elements.item( i );
+
+			for ( var i = 0; i < elements.count(); i++ ) {
+				var item = elements.getItem( i );
 				if ( item.getAttribute( '_cke_realelement' ) && item.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
-					var domElement = new CKEDITOR.dom.element( item );
-					domElement = editor.restoreRealElement( domElement );
-					anchors.push( domElement );
+					anchors.push( editor.restoreRealElement( item ) );
 				}
 			}
-			for ( i = 0; i < realAnchors.length; i++ )
-				anchors.push( realAnchors[ i ] );
-			for ( i = 0, length = anchors.length; i < length && ( item = anchors.shift() ); i++ )
-				anchors.push({ name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
+
+			for ( i = 0; i < realAnchors.count(); i++ )
+				anchors.push( realAnchors.getItem( i ) );
+
+			for ( i = 0; i < anchors.length; i++ ) {
+				item = anchors[ i ];
+				anchors[ i ] = { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) };
+			}
 
 			// Record down the selected element in the dialog.
 			this._.selectedElement = element;

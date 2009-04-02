@@ -418,11 +418,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return dtd;
 	},
 
-	getElementsByTag: function( tagName, namespace ) {
-		if ( !CKEDITOR.env.ie && namespace )
-			tagName = namespace + ':' + tagName;
-		return new CKEDITOR.dom.nodeList( this.$.getElementsByTagName( tagName ) );
-	},
+	getElementsByTag: CKEDITOR.dom.document.prototype.getElementsByTag,
 
 	/**
 	 * Gets the computed tabindex for this element.

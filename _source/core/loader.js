@@ -28,7 +28,7 @@ if ( !CKEDITOR.loader ) {
 			'core/command': [],
 			'core/config': [ 'core/ckeditor_base' ],
 			'core/dom': [],
-			'core/dom/document': [ 'core/dom', 'core/dom/element', 'core/dom/domobject', 'core/dom/window' ],
+			'core/dom/document': [ 'core/dom', 'core/dom/domobject', 'core/dom/window' ],
 			'core/dom/documentfragment': [ 'core/dom/element' ],
 			'core/dom/element': [ 'core/dom', 'core/dom/document', 'core/dom/domobject', 'core/dom/node', 'core/dom/nodelist', 'core/tools' ],
 			'core/dom/elementpath': [ 'core/dom/element' ],

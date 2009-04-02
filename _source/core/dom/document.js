@@ -114,6 +114,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return $ ? new CKEDITOR.dom.node( $ ) : null;
 	},
 
+	getElementsByTag: function( tagName, namespace ) {
+		if ( !CKEDITOR.env.ie && namespace )
+			tagName = namespace + ':' + tagName;
+		return new CKEDITOR.dom.nodeList( this.$.getElementsByTagName( tagName ) );
+	},
+
 	/**
 	 * Gets the &lt;head&gt; element for this document.
 	 * @returns {CKEDITOR.dom.element} The &lt;head&gt; element.
