@@ -297,10 +297,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				newFakeImage.setStyles( extraStyles );
 				if ( this.fakeImage )
 					newFakeImage.replace( this.fakeImage );
-				else {
-					this.restoreSelection();
+				else
 					editor.insertElement( newFakeImage );
-				}
 			},
 
 			onHide: function() {

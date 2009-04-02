@@ -77,9 +77,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			var re = new RegExp( window.location + "#", 'g' );
 			html = html.replace( re, '#' );
 
-			this.restoreSelection();
-			this.clearSavedSelection();
-
 			this.getParentEditor().insertHtml( html );
 		},
 

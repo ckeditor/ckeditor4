@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -17,10 +17,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.openDialog( 'pastetext' );
 				return;
 			}
-
-			// Check if the selection is inside the editing area for IE. (#3216)
-			if ( !editor.getSelection() )
-				editor.focus();
 
 			editor.insertText( window.clipboardData.getData( 'Text' ) );
 		}

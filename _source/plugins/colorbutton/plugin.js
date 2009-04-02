@@ -10,7 +10,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var config = editor.config,
 			lang = editor.lang.colorButton;
 
-		var saveRanges;
+		var clickFn;
 
 		addButton( 'TextColor', 'fore', lang.textColorTitle );
 		addButton( 'BGColor', 'back', lang.bgColorTitle );
@@ -37,17 +37,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 37 ] = 'prev'; // ARROW-LEFT
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
-				},
-
-				onOpen: function() {
-					if ( CKEDITOR.env.ie ) {
-						editor.focus();
-						saveRanges = editor.getSelection().getRanges();
-					}
-				},
-
-				onClose: function() {
-					saveRanges = null;
 				}
 			});
 		}
@@ -65,11 +54,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 
 				editor.focus();
-
-				if ( saveRanges ) {
-					editor.getSelection().selectRanges( saveRanges );
-					saveRanges = false;
-				}
 
 				panel.hide();
 

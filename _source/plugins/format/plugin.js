@@ -10,8 +10,6 @@ CKEDITOR.plugins.add( 'format', {
 		var config = editor.config,
 			lang = editor.lang.format;
 
-		var saveRanges;
-
 		// Gets the list of tags from the settings.
 		var tags = config.format_tags.split( ';' );
 
@@ -47,11 +45,6 @@ CKEDITOR.plugins.add( 'format', {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				if ( saveRanges ) {
-					editor.getSelection().selectRanges( saveRanges );
-					saveRanges = false;
-				}
-
 				styles[ value ].apply( editor.document );
 			},
 
@@ -72,17 +65,6 @@ CKEDITOR.plugins.add( 'format', {
 					// If no styles match, just empty it.
 					this.setValue( '' );
 				}, this );
-			},
-
-			onOpen: function() {
-				if ( CKEDITOR.env.ie ) {
-					editor.focus();
-					saveRanges = editor.getSelection().getRanges();
-				}
-			},
-
-			onClose: function() {
-				saveRanges = null;
 			}
 		});
 	}

@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var config = editor.config,
 				lang = editor.lang.stylesCombo,
 				pluginPath = this.path,
-				styles, saveRanges;
+				styles;
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
@@ -82,11 +82,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var style = styles[ value ],
 						selection = editor.getSelection();
 
-					if ( saveRanges ) {
-						selection.selectRanges( saveRanges );
-						saveRanges = false;
-					}
-
 					if ( style.type == CKEDITOR.STYLE_OBJECT ) {
 						var element = selection.getSelectedElement();
 						if ( element )
@@ -135,9 +130,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var selection = editor.getSelection();
 
-					if ( CKEDITOR.env.ie && selection )
-						saveRanges = selection.getRanges();
-
 					var elementPath,
 						element = selection.getSelectedElement(),
 						elementName = element && element.getName(),
@@ -183,10 +175,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( !counter[ CKEDITOR.STYLE_OBJECT ] )
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
-				},
-
-				onClose: function() {
-					saveRanges = null;
 				}
 			});
 		}

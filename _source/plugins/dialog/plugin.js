@@ -467,6 +467,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * dialogObj.show();
 		 */
 		show: function() {
+			if ( CKEDITOR.env.ie )
+				this._.editor.getSelection().lock();
+
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -514,10 +517,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			registerAccessKey( this, this, '\x1b', null, function() {
 				this.getButton( 'cancel' ) && this.getButton( 'cancel' ).click();
 			});
-
-			// Save editor selection and grab the focus.
-			if ( !this._.parentDialog )
-				this.saveSelection();
 
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
@@ -612,9 +611,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				CKEDITOR.document.removeListener( 'keydown', accessKeyDownHandler );
 				CKEDITOR.document.removeListener( 'keyup', accessKeyUpHandler );
 
-				// Restore focus and (if not already restored) selection in the editing area.
-				this.restoreSelection();
-				this._.editor.focus();
+				var editor = this._.editor;
+				editor.focus();
+
+				if ( CKEDITOR.env.ie )
+					editor.getSelection().unlock( true );
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
 
@@ -842,53 +843,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		},
 
 		/**
-		 * Saves the current selection position in the editor.
-		 * This function is automatically called when a non-nested dialog is opened,
-		 * but it may also be called by event handlers in dialog definition.
-		 * @example
-		 */
-		saveSelection: function() {
-			if ( this._.editor.mode ) {
-				this._.editor.focus();
-
-				var selection = new CKEDITOR.dom.selection( this._.editor.document );
-				this._.selectedRanges = selection.getRanges();
-				this._.selectedElement = selection.getSelectedElement();
-			}
-		},
-
-		/**
-		 * Clears the saved selection in the dialog object.
-		 * This function should be called if the dialog's code has already changed the
-		 * current selection position because the dialog closed. (e.g. at onOk())
-		 * @example
-		 */
-		clearSavedSelection: function() {
-			delete this._.selectedRanges;
-			delete this._.selectedElement;
-		},
-
-		/**
-		 * Gets the saved control selection. Control selections should be retrieved
-		 * with this function instead of from restoreSelection() because
-		 * restoreSelection() does not properly restore control selections.
-		 * @returns {CKEDITOR.dom.element} The element that was selected.
-		 * @example
+		 * Gets the element that was selected when opening the dialog, if any.
+		 * @returns {CKEDITOR.dom.element} The element that was selected, or null.
 		 */
 		getSelectedElement: function() {
-			return this._.selectedElement;
-		},
-
-		/**
-		 * Restores the editor's selection from the previously saved position in this
-		 * dialog.
-		 * This function is automatically called when a non-nested dialog is closed,
-		 * but it may also be called by event handlers in dialog definition.
-		 * @example
-		 */
-		restoreSelection: function() {
-			if ( this._.editor.mode && this._.selectedRanges )
-			( new CKEDITOR.dom.selection( this._.editor.document ) ).selectRanges( this._.selectedRanges );
+			return this.getParentEditor().getSelection().getSelectedElement();
 		}
 	};
 

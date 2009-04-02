@@ -113,7 +113,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						if ( target.getName() == 'td' && ( value = target.$.getAttribute( 'value' ) ) ) {
 							var dialog = this.getDialog();
 							target.removeClass( "LightBackground" );
-							dialog.restoreSelection();
 							dialog.getParentEditor().insertHtml( value );
 							dialog.hide();
 						}

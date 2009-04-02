@@ -47,8 +47,6 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			else if ( targetName != 'img' )
 				return;
 
-			this.getDialog().restoreSelection();
-
 			var src = target.getAttribute( 'src' ),
 				title = target.getAttribute( 'title' );
 

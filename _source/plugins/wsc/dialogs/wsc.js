@@ -90,8 +90,6 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 				dialog.hide();
 			},
 			onFinish: function( dT ) {
-				dialog.restoreSelection();
-				dialog.clearSavedSelection();
 				dialog.getParentEditor().setData( dT.value );
 				dialog.hide();
 			},

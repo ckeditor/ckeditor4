@@ -167,7 +167,6 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 				editor = this.getParentEditor(),
 				html = this.definition.cleanWord( editor, iframe.$.contentWindow.document.body.innerHTML, this.getValueOf( 'general', 'ignoreFontFace' ), this.getValueOf( 'general', 'removeStyle' ) );
 
-			this.restoreSelection();
 			editor.insertHtml( html );
 		},
 		contents: [

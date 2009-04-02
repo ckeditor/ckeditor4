@@ -73,13 +73,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( isInsert ) {
 			editor.setData( html );
 		} else {
-			if ( CKEDITOR.env.ie )
-				dialog.restoreSelection();
-
 			editor.insertHtml( html );
 		}
 
-		dialog.clearSavedSelection();
 		dialog.hide();
 	}
 

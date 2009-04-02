@@ -104,8 +104,12 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 					}, this._.level );
 
 					panel.onEscape = CKEDITOR.tools.bind( function() {
-						this.hide();
 						this.onEscape && this.onEscape();
+						this.hide();
+					}, this );
+
+					panel.onHide = CKEDITOR.tools.bind( function() {
+						this.onHide && this.onHide();
 					}, this );
 
 					// Create an autosize block inside the panel.

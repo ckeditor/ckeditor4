@@ -65,6 +65,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return new CKEDITOR.dom.text( text, this );
 	},
 
+	focus: function() {
+		this.getWindow().focus();
+	},
+
 	/**
 	 * Gets and element based on its id.
 	 * @param {String} elementId The element id.

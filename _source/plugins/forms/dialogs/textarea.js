@@ -8,10 +8,6 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 		minWidth: 350,
 		minHeight: 140,
 		onShow: function() {
-			// IE BUG: Selection must be in the editor for getSelectedElement()
-			// to work.
-			this.restoreSelection();
-
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "textarea" ) {
 				this._element = element;
@@ -29,11 +25,8 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 			}
 			this.commitContent( element );
 
-			if ( isInsertMode ) {
-				this.restoreSelection();
-				this.clearSavedSelection();
+			if ( isInsertMode )
 				editor.insertElement( element );
-			}
 		},
 		contents: [
 			{

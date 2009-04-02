@@ -459,9 +459,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * selection prior.
 			 */
 			function getStartCursor() {
-				if ( CKEDITOR.env.ie )
-					this.restoreSelection();
-
 				var sel = editor.getSelection();
 				if ( sel ) {
 					var lastRange = sel.getRanges()[ sel.getRanges().length - 1 ];
@@ -680,6 +677,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				onHide: function() {
 					if ( finder.range && finder.range.isMatched() ) {
 						finder.range.removeHighlight();
+						editor.focus();
 						editor.getSelection().selectRanges( [ finder.range.toDomRange() ] );
 					}
 

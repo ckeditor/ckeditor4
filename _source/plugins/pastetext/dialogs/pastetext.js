@@ -22,10 +22,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Get the textarea value.
 				var text = CKEDITOR.document.getById( textareaId ).getValue();
 
-				// Restore the editing area selection.
-				this.restoreSelection();
-				this.clearSavedSelection();
-
 				// Inserts the text.
 				this.getParentEditor().insertText( text );
 			},

@@ -6,7 +6,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	// Function called in onShow to load selected element.
 	var loadElements = function( editor, selection, ranges, element ) {
-			this.saveSelection();
 			this.editMode = true;
 			this.editObj = element;
 
@@ -38,22 +37,19 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			// Insert a new anchor.
 			var fakeElement = editor.createFakeElement( element, 'cke_anchor', 'anchor' );
 			if ( !this.editMode ) {
-				// It doesn't work with IE.
-				this.restoreSelection();
-				this.clearSavedSelection();
-
 				editor.insertElement( fakeElement );
-			} else
+			} else {
 				fakeElement.replace( this.fakeObj );
+
+				editor.getSelection().selectElement( fakeElement );
+			}
+
 			return true;
 		},
 		onShow: function() {
 			this.editObj = false;
 			this.fakeObj = false;
 			this.editMode = false;
-
-			// IE BUG: Selection must be in the editor for getSelection() to work.
-			this.restoreSelection();
 
 			var editor = this.getParentEditor(),
 				selection = editor.getSelection(),
@@ -68,7 +64,6 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					element = editor.restoreRealElement( this.fakeObj );
 					loadElements.apply( this, [ editor, selection, ranges, element ] );
 					selection.selectElement( this.fakeObj );
-					this.saveSelection();
 				}
 			}
 			this.getContentElement( 'info', 'txtName' ).focus();
