@@ -93,7 +93,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var output = [ '<div class="cke_toolbox">' ];
 
 					var toolbars = editor.toolbox.toolbars,
-						toolbar = editor.config.toolbar;
+						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
 
 					for ( var r = 0; r < toolbar.length; r++ ) {
 						var row = toolbar[ r ],
@@ -188,18 +188,22 @@ CKEDITOR.ui.separator = {
 CKEDITOR.config.toolbarLocation = 'top';
 
 /**
- * The toolbox (alias toolbar) definition. It is an array of toolbars (strips),
+ * The toolbar definition. It is an array of toolbars (strips),
  * each one being also an array, containing a list of UI items.
  * @type Array
  * @example
  * // Defines a toolbar with only one strip containing the "Source" button, a
  * // separator and the "Bold" and "Italic" buttons.
- * <b>CKEDITOR.config.toolbar =
+ * <b>CKEDITOR.config.toolbar_Basic =
  * [
  *     [ 'Source', '-', 'Bold', 'Italic' ]
  * ]</b>;
  */
-CKEDITOR.config.toolbar = [
+CKEDITOR.config.toolbar_Basic = [
+	[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ]
+	];
+
+CKEDITOR.config.toolbar_Full = [
 	[ 'Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates' ],
 	[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker' ],
 	[ 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat' ],
@@ -214,3 +218,19 @@ CKEDITOR.config.toolbar = [
 	[ 'TextColor', 'BGColor' ],
 	[ 'ShowBlocks' ]
 	];
+
+/**
+ * The toolbox (alias toolbar) definition. It is a toolbar name or an array of toolbars (strips),
+ * each one being also an array, containing a list of UI items.
+ * @type Array or String
+ * @example
+ * // Defines a toolbar with only one strip containing the "Source" button, a
+ * // separator and the "Bold" and "Italic" buttons.
+ * <b>CKEDITOR.config.toolbar =
+ * [
+ *     [ 'Source', '-', 'Bold', 'Italic' ]
+ * ]</b>;
+ * // Load toolbar_Name where Name = Basic.
+ * <b>CKEDITOR.config.toolbar = 'Basic'; 
+ */
+CKEDITOR.config.toolbar = 'Full';
