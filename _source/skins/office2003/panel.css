@@ -33,6 +33,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * panel iframe.
  */
 
+html.cke_skin_office2003_container
+{
+	overflow: auto;
+	overflow-x: hidden;
+}
+
 body.cke_panel_frame
 {
 	overflow: auto;
