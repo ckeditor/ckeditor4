@@ -1093,5 +1093,64 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		}
 
 		return $ && new CKEDITOR.dom.document( $.contentWindow.document );
+	},
+
+	/**
+	 * Copy all the attributes from one node to the other, kinda like a clone
+	 * skipAttributes is an object with the attributes that must NOT be copied.
+	 * @param {CKEDITOR.dom.element} dest The destination element.
+	 * @param {Object} skipAttributes A dictionary of attributes to skip.
+	 * @example
+	 */
+	copyAttributes: function( dest, skipAttributes ) {
+		var attributes = this.$.attributes;
+		skipAttributes = skipAttributes || {};
+
+		for ( var n = 0; n < attributes.length; n++ ) {
+			var attribute = attributes[ n ];
+
+			if ( attribute.specified ) {
+				var attrName = attribute.nodeName;
+				// We can set the type only once, so do it with the proper value, not copying it.
+				if ( attrName in skipAttributes )
+					continue;
+
+				var attrValue = this.getAttribute( attrName );
+				if ( attrValue === null )
+					attrValue = attribute.nodeValue;
+
+				dest.setAttribute( attrName, attrValue );
+			}
+		}
+
+		// The style:
+		if ( this.$.style.cssText !== '' )
+			dest.$.style.cssText = this.$.style.cssText;
+	},
+
+	/**
+	 * Changes the tag name of the current element.
+	 * @param {String} newTag The new tag for the element.
+	 */
+	renameNode: function( newTag ) {
+		// If it's already correct exit here.
+		if ( this.getName() == newTag )
+			return;
+
+		var doc = this.getDocument();
+
+		// Create the new node.
+		var newNode = new CKEDITOR.dom.element( newTag, doc );
+
+		// Copy all attributes.
+		this.copyAttributes( newNode );
+
+		// Move children to the new node.
+		this.moveChildren( newNode );
+
+		// Replace the node.
+		this.$.parentNode.replaceChild( newNode.$, this.$ );
+		newNode.$._cke_expando = this.$._cke_expando;
+		this.$ = newNode.$;
 	}
 });

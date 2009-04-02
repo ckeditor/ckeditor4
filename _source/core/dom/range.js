@@ -526,7 +526,7 @@ CKEDITOR.dom.range = function( document ) {
 			if ( endNode.type == CKEDITOR.NODE_ELEMENT ) {
 				childCount = endNode.getChildCount();
 				if ( childCount > endOffset )
-					endNode = endNode.getChild( endOffset ).getPreviousSourceNode();
+					endNode = endNode.getChild( endOffset ).getPreviousSourceNode( true );
 				else if ( childCount < 1 )
 					endNode = endNode.getPreviousSourceNode();
 				else // endOffset > childCount but childCount is not 0

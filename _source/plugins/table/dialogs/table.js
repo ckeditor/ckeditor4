@@ -14,64 +14,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			data.info[ id ] = this.getValue();
 		};
 
-	// Copy all the attributes from one node to the other, kinda like a clone
-	// skipAttributes is an object with the attributes that must NOT be copied
-	function copyAttributes( source, dest, skipAttributes ) {
-		var attributes = source.$.attributes;
-
-		for ( var n = 0; n < attributes.length; n++ ) {
-			var attribute = attributes[ n ];
-
-			if ( attribute.specified ) {
-				var attrName = attribute.nodeName;
-				// We can set the type only once, so do it with the proper value, not copying it.
-				if ( attrName in skipAttributes )
-					continue;
-
-				var attrValue = source.getAttribute( attrName );
-				if ( attrValue === null )
-					attrValue = attribute.nodeValue;
-
-				dest.setAttribute( attrName, attrValue );
-			}
-		}
-		// The style:
-		if ( source.$.style.cssText !== '' )
-			dest.$.style.cssText = source.$.style.cssText;
-	}
-
-	/**
-	 * Replaces a tag with another one, keeping its contents:
-	 * for example TD --> TH, and TH --> TD.
-	 * input: the original node, and the new tag name
-	 * http://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-renameNode
-	 */
-	function renameNode( node, newTag ) {
-		// Only rename element nodes.
-		if ( node.type != CKEDITOR.NODE_ELEMENT )
-			return null;
-
-		// If it's already correct exit here.
-		if ( node.getName() == newTag )
-			return node;
-
-		var doc = node.getDocument();
-
-		// Create the new node
-		var newNode = new CKEDITOR.dom.element( newTag, doc );
-
-		// Copy all attributes
-		copyAttributes( node, newNode, {} );
-
-		// Move children to the new node
-		node.moveChildren( newNode );
-
-		// Finally replace the node and return the new one
-		node.$.parentNode.replaceChild( newNode.$, node.$ );
-
-		return newNode;
-	}
-
 	function tableDialog( editor, command ) {
 		var makeElement = function( name ) {
 				return new CKEDITOR.dom.element( name, editor.document );
@@ -153,9 +95,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Change TD to TH:
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
-							var th = renameNode( theRow.getChild( i ), 'th' );
-							if ( th )
-								th.setAttribute( 'scope', 'col' );
+							var th = theRow.getChild( i );
+							if ( th.type == CKEDITOR.NODE_ELEMENT ) {
+								th.renameNode( 'th' );
+								if ( i == 0 )
+									th.setAttribute( 'scope', 'col' );
+							}
 						}
 						thead.append( theRow.remove() );
 					}
@@ -169,9 +114,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						while ( thead.getChildCount() > 0 ) {
 							theRow = thead.getFirst();
 							for ( i = 0; i < theRow.getChildCount(); i++ ) {
-								var newCell = renameNode( theRow.getChild( i ), 'td' );
-								if ( newCell )
+								var newCell = theRow.getChild( i );
+								if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
+									newCell.renameNode( 'td' );
 									newCell.removeAttribute( 'scope' );
+								}
 							}
 							theRow.insertBefore( previousFirstRow );
 						}
@@ -181,9 +128,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
 						for ( row = 0; row < table.$.rows.length; row++ ) {
-							newCell = renameNode( new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] ), 'th' );
-							if ( newCell )
-								newCell.setAttribute( 'scope', 'col' );
+							var newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
+							newCell.renameNode( 'th' );
+							newCell.setAttribute( 'scope', 'col' );
 						}
 					}
 
@@ -192,9 +139,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( i = 0; i < table.$.rows.length; i++ ) {
 							row = new CKEDITOR.dom.element( table.$.rows[ i ] );
 							if ( row.getParent().getName() == 'tbody' ) {
-								newCell = renameNode( new CKEDITOR.dom.element( row.$.cells[ 0 ] ), 'td' );
-								if ( newCell )
-									newCell.removeAttribute( 'scope' );
+								var newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
+								newCell.renameNode( 'td' );
+								newCell.removeAttribute( 'scope' );
 							}
 						}
 					}
