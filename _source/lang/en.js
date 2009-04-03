@@ -50,7 +50,7 @@ CKEDITOR.lang[ 'en' ] = {
 	subscript: 'Subscript',
 	superscript: 'Superscript',
 	horizontalrule: 'Insert Horizontal Line',
-	pagebreak: 'Insert Page Break',
+	pagebreak: 'Insert Page Break for Printing',
 	unlink: 'Unlink',
 	undo: 'Undo',
 	redo: 'Redo',
