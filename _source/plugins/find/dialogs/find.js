@@ -560,6 +560,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							label: editor.lang.findAndReplace.replace,
 							onClick: function() {
 								var dialog = this.getDialog();
+								editor.fire( 'saveSnapshot' );
 								if ( !finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), dialog.getValueOf( 'replace', 'txtReplaceCyclic' ) ) )
 									alert( editor.lang.findAndReplace.notFoundMsg );
 							}
@@ -588,6 +589,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								var dialog = this.getDialog();
 								var replaceNums;
 
+								editor.fire( 'saveSnapshot' );
 								finder.replaceCounter = 0;
 								if ( ( replaceNums = finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), dialog.getValueOf( 'replace', 'txtReplaceCyclic' ), true ) ) )
 									alert( editor.lang.findAndReplace.replaceSuccessMsg.replace( /%1/, replaceNums ) );
