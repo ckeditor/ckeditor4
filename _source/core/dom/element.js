@@ -978,6 +978,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			y += current.$.offsetTop - current.$.scrollTop;
 
 			if ( !CKEDITOR.env.opera ) {
+				// Opera includes clientTop|Left into offsetTop|Left.
+				if ( !current.equals( this ) ) {
+					x += ( current.$.clientLeft || 0 );
+					y += ( current.$.clientTop || 0 );
+				}
+
 				var scrollElement = previous;
 				while ( scrollElement && !scrollElement.equals( current ) ) {
 					x -= scrollElement.$.scrollLeft;
@@ -1002,14 +1008,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			}
 		}
 
+		var body = this.getDocument().getBody();
+
 		// document.body is a special case when it comes to offsetTop and offsetLeft
 		// values.
 		// 1. It matters if document.body itself is a positioned element;
 		// 2. It matters when we're in IE and the element has no positioned ancestor.
 		// Otherwise the values should be ignored.
-		if ( this.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) {
-			x += this.getDocument().getBody().$.offsetLeft;
-			y += this.getDocument().getBody().$.offsetTop;
+		if ( body.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) {
+			x += body.$.offsetLeft + ( body.$.clientLeft || 0 );
+			y += body.$.offsetTop + ( body.$.clientTop || 0 );
+		}
+
+		// In Firefox, we'll endup one pixel before the element positions,
+		// so we must add it here.
+		if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
+			x += this.$.clientLeft ? 1 : 0;
+			y += this.$.clientTop ? 1 : 0;;
 		}
 
 		return { x: x, y: y };
