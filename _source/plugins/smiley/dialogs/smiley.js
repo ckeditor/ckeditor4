@@ -18,7 +18,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 		html.push( '<td class="dark_background hand centered" style="vertical-align: middle;">' +
 			'<img border="0" class="hand" title="', config.smiley_descriptions[ i ], '"' +
-				' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
+				' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"', ' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
 			'</td>' );
@@ -47,7 +47,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			else if ( targetName != 'img' )
 				return;
 
-			var src = target.getAttribute( 'src' ),
+			var src = target.getAttribute( 'cke_src' ),
 				title = target.getAttribute( 'title' );
 
 			var img = editor.document.createElement( 'img', {
