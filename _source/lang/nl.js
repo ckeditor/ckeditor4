@@ -227,7 +227,28 @@ CKEDITOR.lang[ 'nl' ] = {
 			mergeRight: 'Voeg samen naar rechts',
 			mergeDown: 'Voeg samen naar beneden',
 			splitHorizontal: 'Splits cellen horizontaal',
-			splitVertical: 'Splits cellen verticaal'
+			splitVertical: 'Splits cellen verticaal',
+			title: 'Cell Properties', // MISSING
+			cellType: 'Cell Type', // MISSING
+			rowSpan: 'Rows Span', // MISSING
+			colSpan: 'Columns Span', // MISSING
+			wordWrap: 'Word Wrap', // MISSING
+			hAlign: 'Horizontal Alignment', // MISSING
+			vAlign: 'Vertical Alignment', // MISSING
+			alignTop: 'Top', // MISSING
+			alignMiddle: 'Middle', // MISSING
+			alignBottom: 'Bottom', // MISSING
+			alignBaseline: 'Baseline', // MISSING
+			bgColor: 'Background Color', // MISSING
+			borderColor: 'Border Color', // MISSING
+			data: 'Data', // MISSING
+			header: 'Header', // MISSING
+			yes: 'Yes', // MISSING
+			no: 'No', // MISSING
+			invalidWidth: 'Cell width must be a number.', // MISSING
+			invalidHeight: 'Cell height must be a number.', // MISSING
+			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
+			invalidColSpan: 'Columns span must be a whole number.' // MISSING
 		},
 
 		row: {
