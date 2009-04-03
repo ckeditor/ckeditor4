@@ -143,12 +143,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								iframe.setAttribute( 'src', 'javascript:void(0)' );
 						}
 
-						// Append the new IFRAME to the main element. For IE, it
-						// must be done after setting the "src", to avoid the
-						// "secure/unsecure" message under HTTPS.
-						mainElement.append( iframe );
-
-
 						if ( CKEDITOR.env.gecko ) {
 							// Accessibility attributes for Firefox.
 							mainElement.setAttributes({
@@ -161,15 +155,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							});
 						} else if ( CKEDITOR.env.ie ) {
 							// Accessibility label for IE.
-							var label = CKEDITOR.document.createElement( 'label' );
-							label.setStyles({
-								position: 'absolute',
-								'top': '-1000000px',
-								left: '-1000000px'
-							});
-							label.append( CKEDITOR.document.createText( editor.lang.editorTitle.replace( '%1', editor.name ) ) );
-							label.insertBefore( iframe );
+							var fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%">' +
+								'<legend style="position:absolute;top:-1000px">' +
+									CKEDITOR.tools.htmlEncode( editor.lang.editorTitle.replace( '%1', editor.name ) ) +
+								'</legend>' +
+								'</fieldset>'
+								, CKEDITOR.document );
+							iframe.appendTo( fieldset );
+							fieldset.appendTo( mainElement );
 						}
+
+						if ( !CKEDITOR.env.ie )
+							mainElement.append( iframe );
 					};
 
 				// The script that is appended to the data being loaded. It
