@@ -133,6 +133,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		this.parts = themeBuilt.parts;
 
+		// Set the startup styles for the dialog, avoiding it enlarging the
+		// page size on the dialog creation.
+		this.parts.dialog.setStyles({
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			visibility: 'hidden'
+		});
+
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
 
@@ -445,8 +454,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}
 
 				element.setStyles({
-					'left': x + 'px',
-					'top': y + 'px'
+					'left': ( x > 0 ? x : 0 ) + 'px',
+					'top': ( y > 0 ? y : 0 ) + 'px'
 				});
 			};
 		})(),
@@ -480,11 +489,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// First, set the dialog to an appropriate size.
 			this.resize( definition.minWidth, definition.minHeight );
-
-			// Rearrange the dialog to the middle of the window.
-			var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
-			var dialogSize = this.getSize();
-			this.move( ( viewSize.width - dialogSize.width ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
 
 			// Select the first tab by default.
 			this.selectPage( this.definition.contents[ 0 ].id );
@@ -521,14 +525,24 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
-			// Execute onLoad for the first show.
-			this.fireOnce( 'load', {} );
-			this.fire( 'show', {} );
-
 			// Save the initial values of the dialog.
 			this.foreach( function( contentObj ) {
 				contentObj.setInitValue && contentObj.setInitValue();
 			});
+
+			// Rearrange the dialog to the middle of the window.
+			CKEDITOR.tools.setTimeout( function() {
+				var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
+				var dialogSize = this.getSize();
+
+				this.move( ( viewSize.width - dialogSize.width ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
+
+				this.parts.dialog.setStyle( 'visibility', '' );
+
+				// Execute onLoad for the first show.
+				this.fireOnce( 'load', {} );
+				this.fire( 'show', {} );
+			}, 100, this );
 		},
 
 		/**
@@ -589,7 +603,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var element = this._.element;
 			if ( !element.getParent() )
 				return;
+
 			element.remove();
+			this.parts.dialog.setStyle( 'visibility', 'hidden' );
 
 			// Unregister all access keys associated with this dialog.
 			unregisterAccessKey( this );

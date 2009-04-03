@@ -61,6 +61,6 @@ if ( CKEDITOR.dialog ) {
 			// mr
 			el = innerDialog.getChild( 5 );
 			el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
-		}, 0 );
+		}, 100 );
 	});
 }
