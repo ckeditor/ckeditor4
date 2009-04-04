@@ -436,7 +436,7 @@ CKEDITOR.test.addTestCase( (function()
 			var a = new CKEDITOR.dom.element( document.getElementById( 'test1' ) );
 			var b = new CKEDITOR.dom.element( document.getElementById( 'test1' ) );
 
-			assert.areSame( a._, b._ );
+			assert.areSame( a.getPrivate(), b.getPrivate() );
 		},
 
 		test_private2 : function()
@@ -444,7 +444,7 @@ CKEDITOR.test.addTestCase( (function()
 			var a = new CKEDITOR.dom.element( document.getElementById( 'test1' ) );
 			var b = new CKEDITOR.dom.element( document.getElementById( 'test2' ) );
 
-			assert.areNotSame( a._, b._ );
+			assert.areNotSame( a.getPrivate(), b.getPrivate() );
 		},
 
 		test_getText1 : function()
