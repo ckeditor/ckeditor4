@@ -437,9 +437,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// CKEDITOR.dom.range instances.
 
 				var sel = this.getNative(),
-					nativeRange = sel.createRange(),
+					nativeRange = sel && sel.createRange(),
 					type = this.getType(),
 					range;
+
+				if ( !sel )
+					return [];
 
 				if ( type == CKEDITOR.SELECTION_TEXT ) {
 					range = new CKEDITOR.dom.range( this.document );
@@ -486,6 +489,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var ranges = [];
 			var sel = this.getNative();
+
+			if ( !sel )
+				return [];
 
 			for ( var i = 0; i < sel.rangeCount; i++ ) {
 				var nativeRange = sel.getRangeAt( i );
