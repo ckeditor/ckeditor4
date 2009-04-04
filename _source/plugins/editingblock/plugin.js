@@ -79,7 +79,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				event.removeListener();
 
 				// Grab editor focus if the editor container is focused. (#3104)
-				editor.container.on( 'focus', function() {
+				var focusGrabber = editor.container;
+
+				// Safari 3 can't handle tabindex in all elements, so we do
+				// a trick to make it move the focus to the editor on TAB.
+				if ( CKEDITOR.env.webkit && CKEDITOR.env.version < 528 ) {
+					var tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
+					focusGrabber = focusGrabber.append( CKEDITOR.dom.element.createFromHtml( '<input' +
+						' tabindex="' + tabIndex + '"' +
+						' style="position:absolute; left:-10000">' ) );
+				}
+
+				focusGrabber.on( 'focus', function() {
 					editor.focus();
 				});
 
