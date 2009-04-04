@@ -143,21 +143,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								iframe.setAttribute( 'src', 'javascript:void(0)' );
 						}
 
+						var accTitle = editor.lang.editorTitle.replace( '%1', editor.name );
+
 						if ( CKEDITOR.env.gecko ) {
 							// Accessibility attributes for Firefox.
 							mainElement.setAttributes({
 								role: 'region',
-								title: editor.lang.editorTitle.replace( '%1', editor.name ) + '. Type in text.'
+								title: accTitle
 							});
 							iframe.setAttributes({
 								role: 'region',
 								title: ' '
 							});
+						} else if ( CKEDITOR.env.webkit ) {
+							iframe.setAttribute( 'title', accTitle ); // Safari 4
+							iframe.setAttribute( 'name', accTitle ); // Safari 3
 						} else if ( CKEDITOR.env.ie ) {
 							// Accessibility label for IE.
 							var fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%">' +
 								'<legend style="position:absolute;top:-1000px">' +
-									CKEDITOR.tools.htmlEncode( editor.lang.editorTitle.replace( '%1', editor.name ) ) +
+									CKEDITOR.tools.htmlEncode( accTitle ) +
 								'</legend>' +
 								'</fieldset>'
 								, CKEDITOR.document );
