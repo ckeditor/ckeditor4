@@ -15,3 +15,10 @@ body
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
 }
+img:-moz-broken
+{
+	-moz-force-broken-image-icon : 1;
+	width : 24px;
+	height : 24px;
+}
+
