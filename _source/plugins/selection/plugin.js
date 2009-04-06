@@ -217,7 +217,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * alert( selection.getType() );
 	 */
 	CKEDITOR.dom.document.prototype.getSelection = function() {
-		return new CKEDITOR.dom.selection( this );
+		var sel = new CKEDITOR.dom.selection( this );
+		return ( !sel || sel.isInvalid ) ? null : sel;
 	};
 
 	/**
@@ -271,11 +272,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( CKEDITOR.env.ie ) {
 			var range = this.getNative().createRange();
 			if ( !range || ( range.item && range.item( 0 ).ownerDocument != this.document.$ ) || ( range.parentElement && range.parentElement().ownerDocument != this.document.$ ) ) {
-				return null;
+				this.isInvalid = true;
 			}
 		}
-
-		return this;
 	};
 
 	var styleObjectElements = { img:1,hr:1,li:1,table:1,tr:1,td:1,embed:1,object:1,ol:1,ul:1,a:1,input:1,form:1,select:1,textarea:1,button:1,fieldset:1,th:1,thead:1,tfoot:1 };
