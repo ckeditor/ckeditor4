@@ -257,42 +257,65 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return next ? new CKEDITOR.dom.node( next ) : null;
 	},
 
-	getNextSourceNode: function( startFromSibling, nodeType ) {
-		var $ = this.$;
+	getNextSourceNode: function( startFromSibling, nodeType, guard ) {
+		var node = ( !startFromSibling && this.getFirst && this.getFirst() ) || this.getNext(),
+			parent;
 
-		var node = ( !startFromSibling && $.firstChild ) ? $.firstChild : $.nextSibling;
+		// If "guard" is a node, transform it in a function.
+		if ( guard && !guard.call ) {
+			var guardNode = guard;
+			guard = function( node ) {
+				return !node.equals( guardNode );
+			}
+		}
 
-		var parent;
+		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
+			if ( guard && guard( parent ) === false )
+				return null;
 
-		while ( !node && ( parent = ( parent || $ ).parentNode ) )
-			node = parent.nextSibling;
+			node = parent.getNext();
+		}
 
 		if ( !node )
 			return null;
 
-		if ( nodeType && nodeType != node.nodeType )
+		if ( guard && guard( node ) === false )
+			return null;
+
+		if ( nodeType && nodeType != node.type )
 			return arguments.callee.call({ $: node }, false, nodeType );
 
-		return new CKEDITOR.dom.node( node );
+		return node;
 	},
 
-	getPreviousSourceNode: function( startFromSibling, nodeType ) {
-		var $ = this.$;
+	getPreviousSourceNode: function( startFromSibling, nodeType, guard ) {
+		var node = ( !startFromSibling && this.getLast && this.getLast() ) || this.getPrevious(),
+			parent;
 
-		var node = ( !startFromSibling && $.lastChild ) ? $.lastChild : $.previousSibling;
+		if ( guard && !guard.call ) {
+			var guardNode = guard;
+			guard = function( node ) {
+				return !node.equals( guardNode );
+			}
+		}
 
-		var parent;
+		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
+			if ( guard && guard( parent ) === false )
+				return null;
 
-		while ( !node && ( parent = ( parent || $ ).parentNode ) )
-			node = parent.previousSibling;
+			node = parent.getPrevious();
+		}
 
 		if ( !node )
 			return null;
 
-		if ( nodeType && node.nodeType != nodeType )
+		if ( guard && guard( node ) === false )
+			return null;
+
+		if ( nodeType && node.type != nodeType )
 			return arguments.callee.call({ $: node }, false, nodeType );
 
-		return new CKEDITOR.dom.node( node );
+		return node;
 	},
 
 	getPrevious: function() {
