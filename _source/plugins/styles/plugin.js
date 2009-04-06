@@ -237,7 +237,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// processing.
 		var boundaryNodes = range.getBoundaryNodes();
 		var firstNode = boundaryNodes.startNode;
-		var lastNode = boundaryNodes.endNode;
+		var lastNode = boundaryNodes.endNode.getNextSourceNode( true );
 
 		// The detection algorithm below skips the contents inside bookmark nodes, so
 		// we'll need to make sure lastNode isn't the &nbsp; inside a bookmark node.
