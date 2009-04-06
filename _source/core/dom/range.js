@@ -228,38 +228,29 @@ CKEDITOR.dom.range = function( document ) {
 
 	var inlineChildReqElements = { abbr:1,acronym:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 };
 
-	// Check every node between the block boundary and the startNode or endNode.
-	var getCheckStartEndBlockFunction = function( isStart ) {
-			return function( evt ) {
-				// Don't check the block boundary itself.
-				if ( this.stopped() || !evt.data.node )
-					return;
+	// Creates the appropriate node evaluator for the dom walker used inside
+	// check(Start|End)OfBlock.
+	function getCheckStartEndBlockEvalFunction( isStart ) {
+		return function( node ) {
+			var hadBr = false;
 
-				var node = evt.data.node,
-					hadBr = false;
-				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-					// If there are non-empty inline elements (e.g. <img />), then we're not
-					// at the start.
-					if ( !inlineChildReqElements[ node.getName() ] ) {
-						// If we're working at the end-of-block, forgive the first <br />.
-						if ( !isStart && node.getName() == 'br' && !hadBr )
-							hadBr = true;
-						else {
-							this.checkFailed = true;
-							this.stop();
-						}
-					}
-				} else if ( node.type == CKEDITOR.NODE_TEXT ) {
-					// If there's any visible text, then we're not at the start.
-					var visibleText = CKEDITOR.tools.trim( node.getText() );
-					if ( visibleText.length > 0 ) {
-						this.checkFailed = true;
-						this.stop();
-					}
+			if ( node.type == CKEDITOR.NODE_TEXT ) {
+				// If there's any visible text, then we're not at the start.
+				if ( CKEDITOR.tools.trim( node.getText() ).length )
+					return false;
+			} else {
+				// If there are non-empty inline elements (e.g. <img />), then we're not
+				// at the start.
+				if ( !inlineChildReqElements[ node.getName() ] ) {
+					// If we're working at the end-of-block, forgive the first <br />.
+					if ( !isStart && node.getName() == 'br' && !hadBr )
+						hadBr = true;
+					else
+						return false;
 				}
-			};
+			}
 		};
-
+	}
 
 	CKEDITOR.dom.range.prototype = {
 		clone: function() {
@@ -1235,46 +1226,68 @@ CKEDITOR.dom.range = function( document ) {
 
 		checkStartOfBlock: function() {
 			var startContainer = this.startContainer,
-				startOffset = this.startOffset;
+				startOffset = this.startOffset,
+				startNode, startInclusive;
 
-			// If the starting node is a text node, and non-empty before the offset,
-			// then we're surely not at the start of block.
-			if ( startContainer.type == CKEDITOR.NODE_TEXT ) {
-				var textBefore = CKEDITOR.tools.ltrim( startContainer.getText().substr( 0, startOffset ) );
-				if ( textBefore.length > 0 )
-					return false;
+			if ( startOffset ) {
+				// If the starting node is a text node, and non-empty before the offset,
+				// then we're surely not at the start of block.
+				if ( startContainer.type == CKEDITOR.NODE_TEXT ) {
+					var textBefore = CKEDITOR.tools.ltrim( startContainer.substring( 0, startOffset ) );
+					if ( textBefore.length )
+						return false;
+				} else {
+					startNode = startContainer.getChild( startOffset - 1 );
+					startInclusive = true;
+				}
 			}
 
-			var startNode = this.getBoundaryNodes().startNode,
-				walker = new CKEDITOR.dom.domWalker( startNode );
+			if ( !startNode )
+				startNode = startContainer;
 
-			// DFS backwards until the block boundary, with the checker function.
-			walker.on( 'step', getCheckStartEndBlockFunction( true ), null, null, 20 );
-			walker.reverse( CKEDITOR.dom.domWalker.blockBoundary() );
+			var path = new CKEDITOR.dom.elementPath( startNode ),
+				walker = new CKEDITOR.dom.walker( startNode, ( path.block || path.blockLimit ) );
 
-			return !walker.checkFailed;
+			if ( ( path.block && startNode.equals( path.block ) ) || ( !path.block && startNode.equals( path.blockLimit ) ) ) {
+				return true;
+			}
+
+			walker.startInclusive = startInclusive;
+			walker.evaluator = getCheckStartEndBlockEvalFunction( true );
+
+			return walker.checkBackward();
 		},
 
 		checkEndOfBlock: function() {
 			var endContainer = this.endContainer,
-				endOffset = this.endOffset;
+				endOffset = this.endOffset,
+				startNode, startInclusive;
 
 			// If the ending node is a text node, and non-empty after the offset,
 			// then we're surely not at the end of block.
 			if ( endContainer.type == CKEDITOR.NODE_TEXT ) {
-				var textAfter = CKEDITOR.tools.rtrim( endContainer.getText().substr( endOffset ) );
-				if ( textAfter.length > 0 )
+				var textAfter = CKEDITOR.tools.rtrim( endContainer.substring( endOffset ) );
+				if ( textAfter.length )
 					return false;
+			} else {
+				startNode = endContainer.getChild( endOffset );
+				startInclusive = !!startNode;
 			}
 
-			var endNode = this.getBoundaryNodes().endNode,
-				walker = new CKEDITOR.dom.domWalker( endNode );
+			if ( !startNode )
+				startNode = endContainer;
 
-			// DFS forward until the block boundary, with the checker function.
-			walker.on( 'step', getCheckStartEndBlockFunction( false ), null, null, 20 );
-			walker.forward( CKEDITOR.dom.domWalker.blockBoundary() );
+			var path = new CKEDITOR.dom.elementPath( startNode ),
+				walker = new CKEDITOR.dom.walker( startNode, ( path.block || path.blockLimit ) );
 
-			return !walker.checkFailed;
+			if ( ( path.block && startNode.equals( path.block ) ) || ( !path.block && startNode.equals( path.blockLimit ) ) ) {
+				return true;
+			}
+
+			walker.startInclusive = startInclusive;
+			walker.evaluator = getCheckStartEndBlockEvalFunction( false );
+
+			return walker.checkForward();
 		},
 
 		/**
