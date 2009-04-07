@@ -42,6 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					html: '<textarea id="' + textareaId + '" style="' +
 																'width:346px;' +
 																'height:170px;' +
+																'resize: none;' +
 																'border:1px solid black;' +
 																'background-color:white">' +
 															'</textarea>'
