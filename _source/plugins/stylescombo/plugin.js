@@ -190,7 +190,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var stylesSet = stylesSets[ name ];
 
 		if ( stylesSet ) {
-			callback( stylesSets );
+			callback( stylesSet );
 			return;
 		}
 
