@@ -90,10 +90,21 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
-		if ( this.type == CKEDITOR.NODE_ELEMENT && !cloneId ) {
+		if ( !cloneId ) {
+			var removeIds = function( node ) {
+					if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
+						return;
+
+					node.removeAttribute( 'id', false );
+					node.removeAttribute( '_cke_expando', false );
+
+					var childs = node.childNodes;
+					for ( var i = 0; i < childs.length; i++ )
+						removeIds( childs[ i ] );
+				};
+
 			// The "id" attribute should never be cloned to avoid duplication.
-			$clone.removeAttribute( 'id', false );
-			$clone.removeAttribute( '_cke_expando', false );
+			removeIds( $clone );
 		}
 
 		return new CKEDITOR.dom.node( $clone );
