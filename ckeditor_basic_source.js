@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 if ( !window.CKEDITOR )
 	window.CKEDITOR = (function() {
 	var a = {
-		timestamp: '', _: {},
+		timestamp: '', version: '%VERSION%', revision: '%REV%', _: {},
 		status: 'unloaded', basePath: (function() {
 			var d = window.CKEDITOR_BASEPATH || '';
 			if ( !d ) {
