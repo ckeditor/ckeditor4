@@ -46,7 +46,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.addCss( 'img.cke_flash' +
 				'{' +
-					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/flashlogo.gif' ) + ');' +
+					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/placeholder.png' ) + ');' +
 					'background-position: center center;' +
 					'background-repeat: no-repeat;' +
 					'border: 1px solid #a9a9a9;' +
