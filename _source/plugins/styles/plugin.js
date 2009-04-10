@@ -142,7 +142,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Checks if an element, or any of its attributes, is removable by the
 		// current style definition.
 		checkElementRemovable: function( element, fullMatch ) {
-			if ( !element || element.getName() != this.element )
+			if ( !element )
 				return false;
 
 			var def = this._.definition,
@@ -167,8 +167,90 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 			}
 
-			return true;
-		}
+			// Check if the element can be somehow overriden.
+			var override = this.getOverrides()[ element.getName() ];
+			if ( override ) {
+				// If no attributes have been defined, remove the element.
+				if ( !( attribs = override.attributes ) )
+					return true;
+
+				for ( var i = 0; i < attribs.length; i++ ) {
+					var attName = attribs[ i ][ 0 ],
+						actualAttrValue;
+					if ( actualAttrValue = element.getAttribute( attName ) ) {
+						var attValue = attribs[ i ][ 1 ];
+
+						// Remove the attribute if:
+						//    - The override definition value is null;
+						//    - The override definition valie is a string that
+						//      matches the attribute value exactly.
+						//    - The override definition value is a regex that
+						//      has matches in the attribute value.
+						if ( attValue == null || ( typeof attValue == 'string' && actualAttrValue == attValue ) || attValue.test( actualAttrValue ) )
+							return true;
+					}
+				}
+			}
+
+		},
+
+		/**
+		 * Get the the collection used to compare the elements and attributes,
+		 * defined in this style overrides, with other element. All information in
+		 * it is lowercased.
+		 */
+		getOverrides: function() {
+			var overrides = {},
+				definition = this._.definition.overrides;
+
+			if ( definition ) {
+				// The override description can be a string, object or array.
+				// Internally, well handle arrays only, so transform it if needed.
+				if ( !CKEDITOR.tools.isArray( definition ) )
+					definition = [ definition ];
+
+				// Loop through all override definitions.
+				for ( var i = 0; i < definition.length; i++ ) {
+					var override = definition[ i ];
+					var elementName;
+					var overrideEl;
+					var attrs;
+
+					// If can be a string with the element name.
+					if ( typeof override == 'string' )
+						elementName = override.toLowerCase();
+					// Or an object.
+					else {
+						elementName = override.element ? override.element.toLowerCase() : this.element;
+						attrs = override.attributes;
+					}
+
+					// We can have more than one override definition for the same
+					// element name, so we attempt to simply append information to
+					// it if it already exists.
+					overrideEl = overrides[ elementName ] || ( overrides[ elementName ] = {} );
+
+					if ( attrs ) {
+						// The returning attributes list is an array, because we
+						// could have different override definitions for the same
+						// attribute name.
+						var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
+						for ( var attName in attrs ) {
+							// Each item in the attributes array is also an array,
+							// where [0] is the attribute name and [1] is the
+							// override value.
+							overrideAttrs.push( [ attName.toLowerCase(), attrs[ attName ] ] );
+						}
+					}
+				}
+			}
+
+			// Cache the overrides resolution.
+			return ( this.getOverrides = function() {
+				return overrides;
+			})();
+		},
+
 	};
 
 	// Build the cssText based on the styles definition.
@@ -483,7 +565,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 				 */
 				var nextNode = currentNode.getNextSourceNode();
 				if ( currentNode.type == CKEDITOR.NODE_ELEMENT && this.checkElementRemovable( currentNode ) ) {
-					removeFromElement( this, currentNode );
+					// Remove style from element or overriding element.
+					if ( currentNode.getName() == this.element )
+						removeFromElement( this, currentNode );
+					else
+						removeOverrides( currentNode, this.getOverrides()[ currentNode.getName() ] );
 
 					/*
 					 * removeFromElement() may have merged the next node with something before
@@ -542,11 +628,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			//			if ( newBlockIsPre )
 			//			{
 			//				if ( previousPreBlock )
-			//					this._CheckAndMergePre( previousPreBlock, newBlock ) ;	// Merge successive <pre> blocks.
+			//					this._CheckAndMergePre( previousPreBlock, newBlock );	// Merge successive <pre> blocks.
 			//				previousPreBlock = newBlock;
 			//			}
 			//			else if ( fromPre )
-				//				this._CheckAndSplitPre( newBlock ) ;				// Split <br><br> in successive <pre>s.
+				//				this._CheckAndSplitPre( newBlock );				// Split <br><br> in successive <pre>s.
 				}
 
 		range.moveToBookmark( bookmark );
@@ -556,7 +642,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	function removeFromElement( style, element ) {
 		var def = style._.definition,
 			attributes = def.attributes,
-			styles = def.styles;
+			styles = def.styles,
+			overrides = style.getOverrides();
 
 		for ( var attName in attributes ) {
 			// The 'class' element value must match (#1318).
@@ -568,19 +655,75 @@ CKEDITOR.STYLE_OBJECT = 3;
 		for ( var styleName in styles )
 			element.removeStyle( styleName );
 
+		// Now scan override styles on the element.
+		attributes = overrides[ element.getName() ];
+		if ( attributes ) {
+			for ( attName in attributes ) {
+				// The 'class' element value must match (#1318).
+				if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
+					continue;
+				element.removeAttribute( attName );
+			}
+		}
 		removeNoAttribsElement( element );
 	}
 
 	// Removes a style from inside an element.
 	function removeFromInsideElement( style, element ) {
-		var def = style._.definition;
-		var attribs = def.attributes;
-		var styles = def.styles;
+		var def = style._.definition,
+			attribs = def.attributes,
+			styles = def.styles,
+			overrides = style.getOverrides();
 
 		var innerElements = element.getElementsByTag( style.element );
 
 		for ( var i = innerElements.count(); --i >= 0; )
 			removeFromElement( style, innerElements.getItem( i ) );
+
+		// Now remove any other element with different name that is
+		// defined to be overriden.
+		for ( var overrideElement in overrides ) {
+			if ( overrideElement != style.element ) {
+				var innerElements = element.getElementsByTag( overrideElement );
+				for ( var i = innerElements.count() - 1; i >= 0; i-- ) {
+					var innerElement = innerElements.getItem( i );
+					removeOverrides( innerElement, overrides[ overrideElement ] );
+				}
+			}
+		}
+
+	}
+
+	/**
+	 *  Remove overriding styles/attributes from the specific element.
+	 *  Note: Remove the element if no attributes remain.
+	 * @param {Object} element
+	 * @param {Object} overrides
+	 */
+	function removeOverrides( element, overrides ) {
+		var attributes = overrides && overrides.attributes;
+
+		if ( attributes ) {
+			for ( var i = 0; i < attributes.length; i++ ) {
+				var attName = attributes[ i ][ 0 ],
+					actualAttrValue;
+
+				if ( actualAttrValue = element.getAttribute( attName ) ) {
+					var attValue = attributes[ i ][ 1 ];
+
+					// Remove the attribute if:
+					//    - The override definition value is null ;
+					//    - The override definition valie is a string that
+					//      matches the attribute value exactly.
+					//    - The override definition value is a regex that
+					//      has matches in the attribute value.
+					if ( attValue == null || ( attValue.test && attValue.test( actualAttrValue ) ) || ( typeof attValue == 'string' && actualAttrValue == attValue ) )
+						element.removeAttribute( attName );
+				}
+			}
+		}
+
+		removeNoAttribsElement( element );
 	}
 
 	// If the element has no more attributes, remove it.
