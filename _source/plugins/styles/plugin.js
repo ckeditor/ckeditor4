@@ -148,27 +148,31 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var def = this._.definition,
 				attribs;
 
-			// If no attributes are defined in the element.
-			if ( !fullMatch && !element.hasAttributes() )
-				return true;
+			// If the element name is the same as the style name.
+			if ( element.getName() == this.element ) {
+				// If no attributes are defined in the element.
+				if ( !fullMatch && !element.hasAttributes() )
+					return true;
 
-			attribs = getAttributesForComparison( def );
+				attribs = getAttributesForComparison( def );
 
-			if ( attribs._length ) {
-				for ( var attName in attribs ) {
-					if ( attName == '_length' )
-						continue;
+				if ( attribs._length ) {
+					for ( var attName in attribs ) {
+						if ( attName == '_length' )
+							continue;
 
-					if ( compareAttributeValues( attName, attribs[ attName ], element.getAttribute( attName ) ) ) {
-						if ( !fullMatch )
-							return true;
-					} else if ( fullMatch )
-						return false;
-				}
+						if ( compareAttributeValues( attName, attribs[ attName ], element.getAttribute( attName ) ) ) {
+							if ( !fullMatch )
+								return true;
+						} else if ( fullMatch )
+							return false;
+					}
+				} else
+					return true;
 			}
 
 			// Check if the element can be somehow overriden.
-			var override = this.getOverrides()[ element.getName() ];
+			var override = getOverrides( this )[ element.getName() ];
 			if ( override ) {
 				// If no attributes have been defined, remove the element.
 				if ( !( attribs = override.attributes ) )
@@ -191,66 +195,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 					}
 				}
 			}
-
-		},
-
-		/**
-		 * Get the the collection used to compare the elements and attributes,
-		 * defined in this style overrides, with other element. All information in
-		 * it is lowercased.
-		 */
-		getOverrides: function() {
-			var overrides = {},
-				definition = this._.definition.overrides;
-
-			if ( definition ) {
-				// The override description can be a string, object or array.
-				// Internally, well handle arrays only, so transform it if needed.
-				if ( !CKEDITOR.tools.isArray( definition ) )
-					definition = [ definition ];
-
-				// Loop through all override definitions.
-				for ( var i = 0; i < definition.length; i++ ) {
-					var override = definition[ i ];
-					var elementName;
-					var overrideEl;
-					var attrs;
-
-					// If can be a string with the element name.
-					if ( typeof override == 'string' )
-						elementName = override.toLowerCase();
-					// Or an object.
-					else {
-						elementName = override.element ? override.element.toLowerCase() : this.element;
-						attrs = override.attributes;
-					}
-
-					// We can have more than one override definition for the same
-					// element name, so we attempt to simply append information to
-					// it if it already exists.
-					overrideEl = overrides[ elementName ] || ( overrides[ elementName ] = {} );
-
-					if ( attrs ) {
-						// The returning attributes list is an array, because we
-						// could have different override definitions for the same
-						// attribute name.
-						var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
-						for ( var attName in attrs ) {
-							// Each item in the attributes array is also an array,
-							// where [0] is the attribute name and [1] is the
-							// override value.
-							overrideAttrs.push( [ attName.toLowerCase(), attrs[ attName ] ] );
-						}
-					}
-				}
-			}
-
-			// Cache the overrides resolution.
-			return ( this.getOverrides = function() {
-				return overrides;
-			})();
+			return false;
 		}
-
 	};
 
 	// Build the cssText based on the styles definition.
@@ -569,7 +515,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					if ( currentNode.getName() == this.element )
 						removeFromElement( this, currentNode );
 					else
-						removeOverrides( currentNode, this.getOverrides()[ currentNode.getName() ] );
+						removeOverrides( currentNode, getOverrides( this )[ currentNode.getName() ] );
 
 					/*
 					 * removeFromElement() may have merged the next node with something before
@@ -628,11 +574,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			//			if ( newBlockIsPre )
 			//			{
 			//				if ( previousPreBlock )
-			//					this._CheckAndMergePre( previousPreBlock, newBlock );	// Merge successive <pre> blocks.
+			//					this._CheckAndMergePre( previousPreBlock, newBlock ) ;	// Merge successive <pre> blocks.
 			//				previousPreBlock = newBlock;
 			//			}
 			//			else if ( fromPre )
-				//				this._CheckAndSplitPre( newBlock );				// Split <br><br> in successive <pre>s.
+				//				this._CheckAndSplitPre( newBlock ) ;				// Split <br><br> in successive <pre>s.
 				}
 
 		range.moveToBookmark( bookmark );
@@ -643,28 +589,26 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var def = style._.definition,
 			attributes = def.attributes,
 			styles = def.styles,
-			overrides = style.getOverrides();
+			overrides = getOverrides( style );
 
-		for ( var attName in attributes ) {
-			// The 'class' element value must match (#1318).
-			if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
-				continue;
-			element.removeAttribute( attName );
-		}
-
-		for ( var styleName in styles )
-			element.removeStyle( styleName );
-
-		// Now scan override styles on the element.
-		attributes = overrides[ element.getName() ];
-		if ( attributes ) {
-			for ( attName in attributes ) {
+		function removeAttrs() {
+			for ( var attName in attributes ) {
 				// The 'class' element value must match (#1318).
 				if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
 					continue;
 				element.removeAttribute( attName );
 			}
 		}
+
+		// Remove definition attributes/style from the elemnt.		
+		removeAttrs();
+		for ( var styleName in styles )
+			element.removeStyle( styleName );
+
+		// Now remove override styles on the element.
+		attributes = overrides[ element.getName() ];
+		if ( attributes )
+			removeAttrs();
 		removeNoAttribsElement( element );
 	}
 
@@ -673,7 +617,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var def = style._.definition,
 			attribs = def.attributes,
 			styles = def.styles,
-			overrides = style.getOverrides();
+			overrides = getOverrides( style );
 
 		var innerElements = element.getElementsByTag( style.element );
 
@@ -865,6 +809,64 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Return it, saving it to the next request.
 		return ( styleDefinition._AC = attribs );
+	}
+
+	/**
+	 * Get the the collection used to compare the elements and attributes,
+	 * defined in this style overrides, with other element. All information in
+	 * it is lowercased.
+	 * @param {CKEDITOR.style} style
+	 */
+	function getOverrides( style ) {
+		if ( style._.overrides )
+			return style._.overrides;
+
+		var overrides = ( style._.overrides = {} ),
+			definition = style._.definition.overrides;
+
+		if ( definition ) {
+			// The override description can be a string, object or array.
+			// Internally, well handle arrays only, so transform it if needed.
+			if ( !CKEDITOR.tools.isArray( definition ) )
+				definition = [ definition ];
+
+			// Loop through all override definitions.
+			for ( var i = 0; i < definition.length; i++ ) {
+				var override = definition[ i ];
+				var elementName;
+				var overrideEl;
+				var attrs;
+
+				// If can be a string with the element name.
+				if ( typeof override == 'string' )
+					elementName = override.toLowerCase();
+				// Or an object.
+				else {
+					elementName = override.element ? override.element.toLowerCase() : style.element;
+					attrs = override.attributes;
+				}
+
+				// We can have more than one override definition for the same
+				// element name, so we attempt to simply append information to
+				// it if it already exists.
+				overrideEl = overrides[ elementName ] || ( overrides[ elementName ] = {} );
+
+				if ( attrs ) {
+					// The returning attributes list is an array, because we
+					// could have different override definitions for the same
+					// attribute name.
+					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
+					for ( var attName in attrs ) {
+						// Each item in the attributes array is also an array,
+						// where [0] is the attribute name and [1] is the
+						// override value.
+						overrideAttrs.push( [ attName.toLowerCase(), attrs[ attName ] ] );
+					}
+				}
+			}
+		}
+
+		return overrides;
 	}
 
 	function normalizeCssText( unparsedCssText ) {
