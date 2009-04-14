@@ -25,7 +25,7 @@ CKEDITOR.skins = (function() {
 
 			var appendSkinPath = function( fileNames ) {
 					for ( var n = 0; n < fileNames.length; n++ ) {
-						fileNames[ n ] = paths[ skinName ] + fileNames[ n ];
+						fileNames[ n ] = CKEDITOR.getUrl( paths[ skinName ] + fileNames[ n ] );
 					}
 				};
 
