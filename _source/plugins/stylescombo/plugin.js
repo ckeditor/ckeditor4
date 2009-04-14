@@ -20,7 +20,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				multiSelect: true,
 
 				panel: {
-					css: [ config.contentsCss, CKEDITOR.getUrl( skinPath + 'editor.css' ) ]
+					css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ]
 				},
 
 				init: function() {
