@@ -167,6 +167,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 						} else if ( fullMatch )
 							return false;
 					}
+					if ( fullMatch )
+						return true;
 				} else
 					return true;
 			}
