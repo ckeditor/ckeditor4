@@ -184,9 +184,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			listArray[ listIndex ].parent = fakeParent;
 		}
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
-		var child;
-		for ( i = 0, length = newList.listNode.getChildCount();
-		i < length && ( child = newList.listNode.getChild( i ) ); i++ ) {
+		var child,
+			length = newList.listNode.getChildCount();
+		for ( i = 0; i < length && ( child = newList.listNode.getChild( i ) ); i++ ) {
 			if ( child.getName() == this.type )
 				listsCreated.push( child );
 		}
