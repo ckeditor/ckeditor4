@@ -160,7 +160,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							iframe.setAttribute( 'name', accTitle ); // Safari 3
 						} else if ( CKEDITOR.env.ie ) {
 							// Accessibility label for IE.
-							var fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%">' +
+							var fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%' +
+								( CKEDITOR.env.quirks ? ';position:absolute' : '' ) +
+								'">' +
 								'<legend style="position:absolute;top:-1000px">' +
 									CKEDITOR.tools.htmlEncode( accTitle ) +
 								'</legend>' +
