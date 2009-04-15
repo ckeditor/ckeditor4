@@ -161,12 +161,8 @@ CKEDITOR.config.keystrokes = [
 	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ],
 
 	[ CKEDITOR.CTRL + 76 /*L*/, 'link' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 76 /*L*/, 'unlink' ],
 
 	[ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
 	[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
-	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
-
-	[ CKEDITOR.CTRL + 77 /*M*/, 'image' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 83 /*S*/, 'save' ]
+	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 	];
