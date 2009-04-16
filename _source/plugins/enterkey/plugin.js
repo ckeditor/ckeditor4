@@ -35,6 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Use setTimout so the keys get cancelled immediatelly.
 		setTimeout( function() {
+			editor.fire( 'saveSnapshot' ); // Save undo step.
 			if ( mode == CKEDITOR.ENTER_BR || editor.getSelection().getStartElement().hasAscendant( 'pre', true ) )
 				enterBr( editor, mode );
 			else
