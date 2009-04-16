@@ -31,6 +31,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						height: '100%',
 						resize: 'none',
 						outline: 'none',
+						'white-space': 'normal',
 						'text-align': 'left' } );
 
 					// The textarea height/width='100%' doesn't
