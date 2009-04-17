@@ -99,6 +99,11 @@ if ( !CKEDITOR.env ) {
 			 *     alert( "I'm on IE6 or quirks mode!" );
 			 */
 			env.ie6Compat = ( version < 7 || env.quirks );
+
+			/**
+			 *  Indicate IE8. 
+			 */
+			env.ie8 = ( version >= 8 );
 		}
 
 		// Gecko.

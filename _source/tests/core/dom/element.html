@@ -400,6 +400,25 @@ CKEDITOR.test.addTestCase( (function()
 			var element = new CKEDITOR.dom.element( document.getElementById( 'tabIndexScriptDef' ) );
 			assert.areEqual( null, element.getAttribute( 'tabindex' ) );
 		},
+		
+		/**
+		 *  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute. 
+		 */
+		test_getAttribute_ignoreExpandoAttributes : function()
+		{
+			var element = new CKEDITOR.dom.element( document.getElementById( 'testExpandoAttributes' ) );
+			assert.areEqual( 1, element.getAttribute( 'tabindex' ) );
+			element.removeAttribute( 'tabindex' );
+			assert.areEqual( 'hasExpando', element.getAttribute( 'class' ) );
+			element.removeAttribute( 'class' );
+			if( CKEDITOR.env.ie )
+				assert.areEqual( 'FLOAT: right', element.getAttribute( 'style' ) );
+			else 
+				assert.areEqual( 'float: right;', element.getAttribute( 'style' ) );
+			element.removeAttribute( 'style' );
+			element.removeAttribute( 'id' );
+			assert.isFalse( element.hasAttributes() );
+		},
 
 		test_getTabIndex1 : function()
 		{
@@ -505,6 +524,7 @@ CKEDITOR.test.addTestCase( (function()
 	<div id="removeClass"></div>
 	<div id="removeOuter"><b id="removeInner"></b></div>
 	<div id="tabIndex10" tabindex="10"></div>
+	<div id="testExpandoAttributes" _cke_expando ="1" class="hasExpando" tabindex="1" style="float:right"></div>
 	<div id="tabIndexDef"></div>
 	<input id="tabIndexInputDef" />
 	<input id="tabIndexInput20" tabindex="20" />
