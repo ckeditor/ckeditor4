@@ -125,7 +125,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Convert the array back to a DOM forest (yes we might have a few subtrees now).
 		// And replace the old list with the new forest.
-		var newList = CKEDITOR.plugins.list.arrayToList( listArray, null, null, editor.config.enterMode );
+		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, 0 );
 		if ( newList )
 			newList.listNode.replace( listNode );
 
@@ -205,14 +205,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return;
 
 			var bookmarks = selection.createBookmarks( true ),
-				boundaryNodes = range.getBoundaryNodes(),
-				nearestListBlock = boundaryNodes.startNode.getCommonAncestor( boundaryNodes.endNode );
+				nearestListBlock = range.getCommonAncestor();
 
-			while ( nearestListBlock ) {
-				if ( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ nearestListBlock.getName() ] )
-					break;
+			while ( !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ nearestListBlock.getName() ] ) )
 				nearestListBlock = nearestListBlock.getParent();
-			}
 
 			if ( nearestListBlock )
 				indentList.call( this, editor, range, nearestListBlock );
