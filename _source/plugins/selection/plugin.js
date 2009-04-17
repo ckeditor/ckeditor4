@@ -670,13 +670,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Try to select the node as a control.
 					range = this.document.$.body.createControlRange();
 					range.addElement( element.$ );
+					range.select();
 				} catch ( e ) {
 					// If failed, select it as a text range.
 					range = this.document.$.body.createTextRange();
 					range.moveToElementText( element.$ );
+					range.select();
 				}
-
-				range.select();
 
 				this.reset();
 			} else {
