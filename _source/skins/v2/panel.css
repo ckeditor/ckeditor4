@@ -85,7 +85,7 @@ li.cke_panel_listItem
 	color: #000;
 }
 
-.cke_panel_listItem .cke_selected a
+.cke_panel_listItem.cke_selected a
 {
 	border: 1px solid #ccc;
 	background-color: #e9f5ff;
