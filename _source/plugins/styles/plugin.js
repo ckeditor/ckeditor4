@@ -269,6 +269,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var firstNode = boundaryNodes.startNode;
 		var lastNode = boundaryNodes.endNode.getNextSourceNode( true );
 
+		// Probably the document end is reached, we need a marker node.  
+		if ( !lastNode ) {
+			lastNode = document.createText( '' );
+			lastNode.insertAfter( range.endContainer );
+		}
 		// The detection algorithm below skips the contents inside bookmark nodes, so
 		// we'll need to make sure lastNode isn't the &nbsp; inside a bookmark node.
 		var lastParent = lastNode.getParent();
