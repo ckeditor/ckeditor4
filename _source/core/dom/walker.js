@@ -44,7 +44,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( node == this.endNode && !this.endInclusive )
 				break;
 
-			if ( !this.evaluator && this.evaluator( node ) !== false )
+			if ( !this.evaluator || this.evaluator( node ) !== false )
 				return node;
 			else if ( breakOnFalse && this.evaluator )
 				return false;
@@ -57,7 +57,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function iterateToLast( rtl ) {
-		var node, last;
+		var node,
+			last = null;
 
 		while ( node = iterate.call( this, rtl ) )
 			last = node;
