@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'km' ] = {
 		bgColorTitle: 'ពណ៌ផ្ទៃខាងក្រោយ',
 		auto: 'ស្វ័យប្រវត្ត',
 		more: 'ពណ៌ផ្សេងទៀត..'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

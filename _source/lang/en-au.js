@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'en-au' ] = {
 		bgColorTitle: 'Background Colour',
 		auto: 'Automatic',
 		more: 'More Colours...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

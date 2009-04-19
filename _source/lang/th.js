@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'th' ] = {
 		bgColorTitle: 'สีพื้นหลัง',
 		auto: 'สีอัตโนมัติ',
 		more: 'เลือกสีอื่นๆ...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

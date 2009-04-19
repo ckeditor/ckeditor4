@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'fi' ] = {
 		bgColorTitle: 'Taustaväri',
 		auto: 'Automaattinen',
 		more: 'Lisää värejä...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

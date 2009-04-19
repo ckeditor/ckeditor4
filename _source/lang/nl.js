@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'nl' ] = {
 		bgColorTitle: 'Achtergrondkleur',
 		auto: 'Automatisch',
 		more: 'Meer kleuren...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

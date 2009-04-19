@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'lt' ] = {
 		bgColorTitle: 'Fono spalva',
 		auto: 'Automatinis',
 		more: 'Daugiau spalvų...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

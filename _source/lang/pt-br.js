@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		bgColorTitle: 'Cor do Plano de Fundo',
 		auto: 'Automático',
 		more: 'Mais Cores...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };

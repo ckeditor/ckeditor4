@@ -535,5 +535,11 @@ CKEDITOR.lang[ 'cs' ] = {
 		bgColorTitle: 'Barva pozadí',
 		auto: 'Automaticky',
 		more: 'Více barev...'
+	},
+
+	about: {
+		title: 'About CKEditor', // MISSING
+		moreInfo: 'For licensing information please visit our web site:', // MISSING
+		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	}
 };
