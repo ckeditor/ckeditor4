@@ -26,13 +26,19 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						tabIndex: -1
 					});
 					textarea.addClass( 'cke_source' );
-					textarea.setStyles({
+
+					var styles = {
 						width: '100%',
 						height: '100%',
 						resize: 'none',
 						outline: 'none',
-						'white-space': 'normal',
-						'text-align': 'left' } );
+						'text-align': 'left'
+					};
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
+						styles[ 'white-space' ] = 'normal';
+
+					textarea.setStyles( styles );
 
 					// The textarea height/width='100%' doesn't
 					// constraint to the 'td' in IE strick mode
