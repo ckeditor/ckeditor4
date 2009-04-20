@@ -128,6 +128,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							height: '100%' } );
 
 						if ( CKEDITOR.env.ie ) {
+							if ( CKEDITOR.env.version < 8 )
+								iframe.setStyle( 'position', 'absolute' );
+
 							if ( isCustomDomain ) {
 								// The document domain must be set within the src
 								// attribute.
@@ -161,7 +164,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						} else if ( CKEDITOR.env.ie ) {
 							// Accessibility label for IE.
 							var fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%' +
-								( CKEDITOR.env.quirks ? ';position:absolute' : '' ) +
+								( CKEDITOR.env.quirks ? ';position:relative' : '' ) +
 								'">' +
 								'<legend style="position:absolute;top:-1000px">' +
 									CKEDITOR.tools.htmlEncode( accTitle ) +
@@ -263,6 +266,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.addMode( 'wysiwyg', {
 					load: function( holderElement, data, isSnapshot ) {
 						mainElement = holderElement;
+
+						if ( CKEDITOR.env.ie && ( CKEDITOR.env.quirks || CKEDITOR.env.version < 8 ) )
+							holderElement.setStyle( 'position', 'relative' );
 
 						// Create the iframe at load for all browsers
 						// except FF and IE with custom domain.

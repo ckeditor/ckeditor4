@@ -21,6 +21,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	var emptyHtml = '<span class="cke_empty">&nbsp;</span>';
+
 	CKEDITOR.plugins.add( 'elementspath', {
 		requires: [ 'selection' ],
 
@@ -39,7 +41,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'themeSpace', function( event ) {
 				if ( event.data.space == 'bottom' )
-					event.data.html += '<div id="' + spaceId + '" class="cke_path"><span class="cke_empty">&nbsp;</span></div>';
+					event.data.html += '<div id="' + spaceId + '" class="cke_path">' + emptyHtml + '</div>';
 			});
 
 			editor.on( 'selectionChange', function( ev ) {
@@ -88,11 +90,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element = element.getParent();
 				}
 
-				getSpaceElement().setHtml( html.join( '' ) );
+				getSpaceElement().setHtml( html.join( '' ) + emptyHtml );
 			});
 
 			editor.on( 'contentDomUnload', function() {
-				getSpaceElement().setHtml( '<br>' );
+				getSpaceElement().setHtml( emptyHtml );
 			});
 
 			editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );

@@ -53,9 +53,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' tabindex="' + tabIndex + '">' +
 				'<span class="', CKEDITOR.env.cssClass, ' cke_', editor.lang.dir, '">' +
-					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, ';height:', height, '"><tbody>' +
+					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, '"><tbody>' +
 						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
-						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:100%">', contentsHtml, '</td></tr>' +
+						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '">', contentsHtml, '</td></tr>' +
 						'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
 					'</tbody></table>' +
 					//Hide the container when loading skins, later restored by skin css.

@@ -51,6 +51,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	font-family: 'Courier New' , Monospace;
 	font-size: small;
-	white-space: pre;
 	background-color: #fff;
+	white-space: pre;
+}
+
+.cke_skin_v2 .cke_browser_iequirks textarea.cke_source
+{
+	/* For IE6+Quirks only */
+	_white-space: normal;
 }

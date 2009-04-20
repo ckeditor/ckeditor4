@@ -15,10 +15,13 @@ CKEDITOR.plugins.add( 'sourcearea', {
 		var sourcearea = CKEDITOR.plugins.sourcearea;
 
 		editor.on( 'editingBlockReady', function() {
-			var textarea;
+			var textarea, onResize;
 
 			editor.addMode( 'source', {
 				load: function( holderElement, data ) {
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+						holderElement.setStyle( 'position', 'relative' );
+
 					// Create the source area <textarea>.
 					textarea = new CKEDITOR.dom.element( 'textarea' );
 					textarea.setAttributes({
@@ -35,30 +38,39 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						'text-align': 'left'
 					};
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
-						styles[ 'white-space' ] = 'normal';
-
-					textarea.setStyles( styles );
-
 					// The textarea height/width='100%' doesn't
 					// constraint to the 'td' in IE strick mode
 					if ( CKEDITOR.env.ie ) {
-						textarea.setStyles({
-							height: holderElement.$.clientHeight + 'px',
-							width: holderElement.$.clientWidth + 'px' } );
-					}
+						if ( CKEDITOR.env.quirks || CKEDITOR.env.version < 8 ) {
+							// In IE, we must use absolute positioning to
+							// have the textarea filling the full content
+							// space height.
+							holderElement.setStyle( 'position', 'relative' );
+							styles[ 'position' ] = 'absolute';
+						}
 
-					// By some yet unknown reason, we must stop the
-					// mousedown propagation for the textarea,
-					// otherwise it's not possible to place the caret
-					// inside of it (non IE).
-					if ( !CKEDITOR.env.ie ) {
+						if ( !CKEDITOR.env.quirks || CKEDITOR.env.version < 7 ) {
+							onResize = function() {
+								textarea.setStyles({
+									height: holderElement.$.clientHeight + 'px',
+									width: holderElement.$.clientWidth + 'px' } );
+							};
+							editor.on( 'resize', onResize );
+							onResize();
+						}
+					} else {
+						// By some yet unknown reason, we must stop the
+						// mousedown propagation for the textarea,
+						// otherwise it's not possible to place the caret
+						// inside of it (non IE).
 						textarea.on( 'mousedown', function( evt ) {
 							evt = evt.data.$;
 							if ( evt.stopPropagation )
 								evt.stopPropagation();
 						});
 					}
+
+					textarea.setStyles( styles );
 
 					// Reset the holder element and append the
 					// <textarea> to it.
@@ -95,6 +107,9 @@ CKEDITOR.plugins.add( 'sourcearea', {
 
 				unload: function( holderElement ) {
 					textarea = null;
+
+					if ( onResize )
+						editor.removeListener( 'resize', onResize );
 				},
 
 				focus: function() {
