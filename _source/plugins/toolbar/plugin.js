@@ -36,6 +36,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	var collapserFn = CKEDITOR.tools.addFunction( function( collapser ) {
+		var toolbox = collapser.getPrevious();
+
+		if ( toolbox.isVisible() ) {
+			toolbox.hide();
+			collapser.addClass( 'cke_toolbox_collapser_min' );
+		} else {
+			toolbox.show();
+			collapser.removeClass( 'cke_toolbox_collapser_min' );
+		}
+	});
+
 	CKEDITOR.plugins.add( 'toolbar', {
 		init: function( editor ) {
 			var itemKeystroke = function( item, keystroke ) {
@@ -90,7 +102,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( event.data.space == editor.config.toolbarLocation ) {
 					editor.toolbox = new toolbox();
 
-					var output = [ '<div class="cke_toolbox">' ];
+					var output = [ '<div class="cke_toolbox"' ],
+						expanded = editor.config.toolbarStartupExpanded;
+
+					output.push( expanded ? '>' : ' style="display:none">' );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
@@ -154,6 +169,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					output.push( '</div>' );
+
+					if ( editor.config.toolbarCanCollapse ) {
+						output.push( '<a class="cke_toolbox_collapser' );
+
+						if ( !expanded )
+							output.push( ' cke_toolbox_collapser_min' );
+
+						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ',new CKEDITOR.dom.element(this))"></a>' );
+					}
 
 					event.data.html += output.join( '' );
 				}
@@ -234,3 +258,6 @@ CKEDITOR.config.toolbar_Full = [
  * <b>CKEDITOR.config.toolbar = 'Basic'; 
  */
 CKEDITOR.config.toolbar = 'Full';
+
+CKEDITOR.config.toolbarCanCollapse = true;
+CKEDITOR.config.toolbarStartupExpanded = true;

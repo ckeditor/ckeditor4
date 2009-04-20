@@ -16,6 +16,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 }
 
+.cke_skin_v2 a.cke_toolbox_collapser, 
+.cke_skin_v2 a:hover.cke_toolbox_collapser
+{
+	background-image: url(images/arrowtop.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 11px;
+	height: 11px;
+	float: right;
+	border: outset 1px;
+	margin: 11px 2px 2px;
+	cursor: pointer;
+}
+
+.cke_skin_v2 .cke_rtl a.cke_toolbox_collapser, 
+.cke_skin_v2 .cke_rtl a:hover.cke_toolbox_collapser
+{
+	float: left;
+}
+
+.cke_skin_v2 a.cke_toolbox_collapser_min, 
+.cke_skin_v2 a:hover.cke_toolbox_collapser_min
+{
+	background-image: url(images/arrowleft.gif);
+	margin: 2px;
+}
+
+.cke_skin_v2 .cke_rtl a.cke_toolbox_collapser_min, 
+.cke_skin_v2 .cke_rtl a:hover.cke_toolbox_collapser_min
+{
+	background-image: url(images/arrowright.gif);
+}
+
 .cke_skin_v2 .cke_toolbar
 {
 	padding-top: 1px;
