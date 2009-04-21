@@ -541,5 +541,7 @@ CKEDITOR.lang[ 'et' ] = {
 		title: 'About CKEditor', // MISSING
 		moreInfo: 'For licensing information please visit our web site:', // MISSING
 		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
-	}
+	},
+
+	maximize: 'Maximize' // MISSING
 };

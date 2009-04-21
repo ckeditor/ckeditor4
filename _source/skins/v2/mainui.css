@@ -11,6 +11,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline-table;
 }
 
+.cke_skin_v2 .cke_browser_opera .cke_editor
+{
+	display: table;
+}
+
 .cke_skin_v2 .cke_top, .cke_skin_v2 .cke_bottom
 {
 	background-color: #efefde;

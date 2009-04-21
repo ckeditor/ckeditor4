@@ -301,3 +301,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -736px;
 }
+
+.cke_skin_v2 .cke_button_maximize .cke_icon
+{
+	background-position: 0 -1040px;
+}

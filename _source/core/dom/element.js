@@ -1039,8 +1039,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// the visible window height.
 		var offset = winHeight * -1;
 
-		// Append the height if we are about the align the bottom.
-		if ( !alignTop ) {
+		// Append the view pane's height if align to top.
+		// Append element height if we are aligning to the bottom.
+		if ( alignTop )
+			offset += winHeight;
+		else {
 			offset += this.$.offsetHeight || 0;
 
 			// Consider the margin in the scroll, which is ok for our current needs, but

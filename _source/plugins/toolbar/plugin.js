@@ -36,20 +36,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	var collapserFn = CKEDITOR.tools.addFunction( function( collapser ) {
-		var toolbox = collapser.getPrevious();
-
-		if ( toolbox.isVisible() ) {
-			toolbox.hide();
-			collapser.addClass( 'cke_toolbox_collapser_min' );
-		} else {
-			toolbox.show();
-			collapser.removeClass( 'cke_toolbox_collapser_min' );
-		}
-	});
-
 	CKEDITOR.plugins.add( 'toolbar', {
 		init: function( editor ) {
+			var collapserFn = CKEDITOR.tools.addFunction( function( collapser ) {
+				var toolbox = collapser.getPrevious();
+				var contents = editor.getThemeSpace( 'contents' );
+				var toolboxContainer = toolbox.getParent();
+				var contentHeight = parseInt( contents.$.style.height, 10 );
+				var previousHeight = toolboxContainer.$.offsetHeight;
+
+				if ( toolbox.isVisible() ) {
+					toolbox.hide();
+					collapser.addClass( 'cke_toolbox_collapser_min' );
+				} else {
+					toolbox.show();
+					collapser.removeClass( 'cke_toolbox_collapser_min' );
+				}
+
+				var dy = toolboxContainer.$.offsetHeight - previousHeight;
+				contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
+			});
+
 			var itemKeystroke = function( item, keystroke ) {
 					switch ( keystroke ) {
 						case 39: // RIGHT-ARROW
@@ -240,7 +247,7 @@ CKEDITOR.config.toolbar_Full = [
 	'/',
 	[ 'Styles', 'Format', 'Font', 'FontSize' ],
 	[ 'TextColor', 'BGColor' ],
-	[ 'ShowBlocks', '-', 'About' ]
+	[ 'Maximize', 'ShowBlocks', '-', 'About' ]
 	];
 
 /**

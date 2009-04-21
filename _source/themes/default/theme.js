@@ -154,3 +154,25 @@ CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
 	var space = this._[ spacePrefix ] || ( this._[ spacePrefix ] = CKEDITOR.document.getById( spacePrefix + '_' + this.name ) );
 	return space;
 };
+
+CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight ) {
+	var numberRegex = /^\d+$/;
+	if ( numberRegex.test( width ) )
+		width += 'px';
+
+	var contents = CKEDITOR.document.getById( 'cke_contents_' + this.name );
+	var outer = contents.getAscendant( 'table' );
+
+	// Resize the width first.
+	outer.setStyle( 'width', width );
+
+	// Get the height delta between the outer table and the content area.
+	// If we're setting the content area's height, then we don't need the delta.
+	var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
+
+	// Resize the height.
+	contents.setStyle( 'height', ( height - delta ) + 'px' );
+
+	// Emit a resize event.
+	this.fire( 'resize' );
+};
