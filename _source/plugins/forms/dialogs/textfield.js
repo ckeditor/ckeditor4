@@ -3,13 +3,22 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.dialog.add( 'textfield', function( editor ) {
+	var autoAttributes = { value:1,size:1,maxLength:1 };
+
+	var ieDefaults = {
+		size: 20,
+		maxLength: 0x7fffffff
+	};
+
+	var acceptedTypes = { text:1,password:1 };
+
 	return {
 		title: editor.lang.textfield.title,
 		minWidth: 350,
 		minHeight: 140,
 		onShow: function() {
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "input" && ( element.getAttribute( 'type' ) == "text" || !element.getAttribute( 'type' ) ) ) {
+			if ( element && element.getName() == "input" && ( acceptedTypes[ element.getAttribute( 'type' ) ] || !element.getAttribute( 'type' ) ) ) {
 				this._element = element;
 				this.setupContent( element );
 			}
@@ -24,10 +33,36 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'text' );
 			}
-			this.commitContent( element );
 
 			if ( isInsertMode )
 				editor.insertElement( element );
+			this.commitContent({ element: element } );
+		},
+		onLoad: function() {
+			var autoSetup = function( element ) {
+					var value = element.getAttribute( this.id );
+					if ( CKEDITOR.env.ie && ( this.id in ieDefaults ) && ieDefaults[ this.id ] == value )
+						this.setValue( '' );
+					else
+						this.setValue( element.getAttribute( this.id ) || '' );
+				};
+
+			var autoCommit = function( data ) {
+					var element = data.element;
+					var value = this.getValue();
+
+					if ( value )
+						element.setAttribute( this.id, value );
+					else
+						element.removeAttribute( this.id );
+				};
+
+			this.foreach( function( contentObj ) {
+				if ( autoAttributes[ contentObj.id ] ) {
+					contentObj.setup = autoSetup;
+					contentObj.commit = autoCommit;
+				}
+			});
 		},
 		contents: [
 			{
@@ -40,33 +75,31 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				widths: [ '50%', '50%' ],
 				children: [
 					{
-					id: 'txtName',
+					id: '_cke_saved_name',
 					type: 'text',
 					label: editor.lang.textfield.name,
 					'default': '',
 					accessKey: 'N',
 					setup: function( element ) {
-						this.setValue( element.getAttribute( 'name' ) );
-						this.focus();
+						this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
 					},
-					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
-							element.setAttribute( 'name', this.getValue() );
+					commit: function( data ) {
+						var element = data.element;
+
+						if ( this.getValue() )
+							element.setAttribute( '_cke_saved_name', this.getValue() );
+						else {
+							element.removeAttribute( '_cke_saved_name' );
+							element.removeAttribute( 'name' );
+						}
 					}
 				},
 					{
-					id: 'txtValue',
+					id: 'value',
 					type: 'text',
 					label: editor.lang.textfield.value,
 					'default': '',
-					accessKey: 'V',
-					setup: function( element ) {
-						this.setValue( element.getAttribute( 'value' ) );
-					},
-					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
-							element.setAttribute( 'value', this.getValue() );
-					}
+					accessKey: 'V'
 				}
 				]
 			},
@@ -75,60 +108,54 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				widths: [ '50%', '50%' ],
 				children: [
 					{
-					id: 'txtTextCharWidth',
+					id: 'size',
 					type: 'text',
 					label: editor.lang.textfield.charWidth,
 					'default': '',
 					accessKey: 'C',
 					style: 'width:50px',
-					validate: function() {
-						var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-						return func.apply( this );
-					},
-					setup: function( element ) {
-						this.setValue( element.getAttribute( 'size' ) );
-					},
-					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
-							element.setAttribute( 'size', this.getValue() );
-					}
+					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
 				},
 					{
-					id: 'txtMaxChars',
+					id: 'maxLength',
 					type: 'text',
 					label: editor.lang.textfield.maxChars,
 					'default': '',
 					accessKey: 'M',
 					style: 'width:50px',
-					validate: function() {
-						var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-						return func.apply( this );
-					},
-					setup: function( element ) {
-						this.setValue( element.getAttribute( 'maxlength' ) );
-					},
-					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
-							element.setAttribute( 'maxlength', this.getValue() );
-					}
+					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
 				}
 				]
 			},
 				{
-				id: 'cmbType',
+				id: 'type',
 				type: 'select',
 				label: editor.lang.textfield.type,
 				'default': 'text',
 				accessKey: 'M',
 				items: [
 					[ editor.lang.textfield.typeText, 'text' ],
-					[ editor.lang.textfield.typePass, 'pass' ]
+					[ editor.lang.textfield.typePass, 'password' ]
 					],
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'type' ) );
 				},
-				commit: function( element ) {
-					element.setAttribute( 'type', this.getValue() );
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( CKEDITOR.env.ie ) {
+						var elementType = element.getAttribute( 'type' );
+						var myType = this.getValue();
+
+						if ( elementType != myType ) {
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="' + myType + '"></input>', editor.document );
+							element.copyAttributes( replace, { type:1 } );
+							replace.replace( element );
+							editor.getSelection().selectElement( replace );
+							data.element = element;
+						}
+					} else
+						element.setAttribute( 'type', this.getValue() );
 				}
 			}
 			]

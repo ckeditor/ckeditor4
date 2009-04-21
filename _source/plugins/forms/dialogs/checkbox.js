@@ -26,10 +26,9 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				element.setAttribute( 'type', 'checkbox' );
 			}
 
-			this.commitContent( element );
-
 			if ( isInsertMode )
 				editor.insertElement( element );
+			this.commitContent({ element: element } );
 		},
 		contents: [
 			{
@@ -45,11 +44,18 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'name' ) );
+					this.setValue( element.getAttribute( '_cke_saved_name' ) || '' );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'name', this.getValue() );
+				commit: function( data ) {
+					var element = data.element;
+
+					// IE failed to update 'name' property on input elements, protect it now.
+					if ( this.getValue() )
+						element.setAttribute( '_cke_saved_name', this.getValue() );
+					else {
+						element.removeAttribute( '_cke_saved_name' );
+						element.removeAttribute( 'name' );
+					}
 				}
 			},
 				{
@@ -59,11 +65,15 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'value' ) );
+					this.setValue( element.getAttribute( 'value' ) || '' );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( this.getValue() )
 						element.setAttribute( 'value', this.getValue() );
+					else
+						element.removeAttribute( 'value' );
 				}
 			},
 				{
@@ -76,9 +86,27 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'checked' ) );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'checked', this.getValue() );
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( CKEDITOR.env.ie ) {
+						var isElementChecked = !!element.getAttribute( 'checked' );
+						var isChecked = !!this.getValue();
+
+						if ( isElementChecked != isChecked ) {
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="checkbox"' + ( isChecked ? ' checked="checked"' : '' )
+																			+ '></input>', editor.document );
+							element.copyAttributes( replace, { type:1,checked:1 } );
+							replace.replace( element );
+							editor.getSelection().selectElement( replace );
+							data.element = replace;
+						}
+					} else {
+						if ( this.getValue() )
+							element.setAttribute( 'checked', this.getValue() );
+						else
+							element.removeAttribute( 'checked' );
+					}
 				}
 			}
 			]

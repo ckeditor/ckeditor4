@@ -24,10 +24,10 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'hidden' );
 			}
-			this.commitContent( element );
 
 			if ( isInsertMode )
 				editor.insertElement( element );
+			this.commitContent( element );
 		},
 		contents: [
 			{
@@ -36,32 +36,37 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 			title: editor.lang.hidden.title,
 			elements: [
 				{
-				id: 'txtName',
+				id: '_cke_saved_name',
 				type: 'text',
 				label: editor.lang.hidden.name,
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'name' ) );
-					this.focus();
+					this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'name', this.getValue() );
+					if ( this.getValue() )
+						element.setAttribute( '_cke_saved_name', this.getValue() );
+					else {
+						element.removeAttribute( '_cke_saved_name' );
+						element.removeAttribute( 'name' );
+					}
 				}
 			},
 				{
-				id: 'txtValue',
+				id: 'value',
 				type: 'text',
 				label: editor.lang.hidden.value,
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'value' ) );
+					this.setValue( element.getAttribute( 'value' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
+					if ( this.getValue() )
 						element.setAttribute( 'value', this.getValue() );
+					else
+						element.removeAttribute( 'value' );
 				}
 			}
 			]

@@ -24,10 +24,10 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'radio' );
 			}
-			this.commitContent( element );
 
 			if ( isInsertMode )
 				editor.insertElement( element );
+			this.commitContent({ element: element } );
 		},
 		contents: [
 			{
@@ -36,36 +36,45 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 			title: editor.lang.checkboxAndRadio.radioTitle,
 			elements: [
 				{
-				id: 'txtName',
+				id: 'name',
 				type: 'text',
 				label: editor.lang.common.name,
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'name' ) );
-					this.focus();
+					this.setValue( element.getAttribute( '_cke_saved_name' ) || '' );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'name', this.getValue() );
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( this.getValue() )
+						element.setAttribute( '_cke_saved_name', this.getValue() );
+					else {
+						element.removeAttribute( '_cke_saved_name' );
+						element.removeAttribute( 'name' );
+					}
 				}
 			},
 				{
-				id: 'txtValue',
+				id: 'value',
 				type: 'text',
 				label: editor.lang.checkboxAndRadio.value,
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'value' ) );
+					this.setValue( element.getAttribute( 'value' ) || '' );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( this.getValue() )
 						element.setAttribute( 'value', this.getValue() );
+					else
+						element.removeAttribute( 'value' );
 				}
 			},
 				{
-				id: 'cmbSelected',
+				id: 'checked',
 				type: 'checkbox',
 				label: editor.lang.checkboxAndRadio.selected,
 				'default': '',
@@ -74,9 +83,27 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'checked' ) );
 				},
-				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'checked', this.getValue() );
+				commit: function( data ) {
+					var element = data.element;
+
+					if ( !CKEDITOR.env.ie ) {
+						if ( this.getValue() )
+							element.setAttribute( 'checked', 'checked' );
+						else
+							element.removeAttribute( 'checked' );
+					} else {
+						var isElementChecked = element.getAttribute( 'checked' );
+						var isChecked = !!this.getValue();
+
+						if ( isElementChecked != isChecked ) {
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' )
+																			+ '></input>', editor.document );
+							element.copyAttributes( replace, { type:1,checked:1 } );
+							replace.replace( element );
+							editor.getSelection().selectElement( replace );
+							data.element = replace;
+						}
+					}
 				}
 			}
 			]

@@ -35,56 +35,61 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 			title: editor.lang.textarea.title,
 			elements: [
 				{
-				id: 'txtName',
+				id: '_cke_saved_name',
 				type: 'text',
 				label: editor.lang.common.name,
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'name' ) );
-					this.focus();
+					this.setValue( element.getAttribute( '_cke_saved_name' ) );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'name', this.getValue() );
+					if ( this.getValue() )
+						element.setAttribute( '_cke_saved_name', this.getValue() );
+					else {
+						element.removeAttribute( '_cke_saved_name' );
+						element.removeAttribute( 'name' );
+					}
 				}
 			},
 				{
-				id: 'txtColumns',
+				id: 'cols',
 				type: 'text',
 				label: editor.lang.textarea.cols,
 				'default': '',
 				accessKey: 'C',
 				style: 'width:50px',
-				validate: function() {
-					var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-					return func.apply( this );
-				},
+				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'cols' ) );
+					var ieDefault = 20;
+					var value = element.getAttribute( 'cols' );
+					this.setValue( ( CKEDITOR.env.ie && ( value == ieDefault ) ? '' : value ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
+					if ( this.getValue() )
 						element.setAttribute( 'cols', this.getValue() );
+					else
+						element.removeAttribute( 'cols' );
 				}
 			},
 				{
-				id: 'txtRows',
+				id: 'rows',
 				type: 'text',
 				label: editor.lang.textarea.rows,
 				'default': '',
 				accessKey: 'R',
 				style: 'width:50px',
-				validate: function() {
-					var func = CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed );
-					return func.apply( this );
-				},
+				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'rows' ) );
+					var ieDefault = 2;
+					var value = element.getAttribute( 'rows' );
+					this.setValue( ( CKEDITOR.env.ie && ( value == ieDefault ) ? '' : value ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
+					if ( this.getValue() )
 						element.setAttribute( 'rows', this.getValue() );
+					else
+						element.removeAttribute( 'rows' );
 				}
 			}
 			]

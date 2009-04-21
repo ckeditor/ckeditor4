@@ -123,7 +123,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 	return {
 		title: editor.lang.select.title,
 		minWidth: 375,
-		minHeight: 270,
+		minHeight: 290,
 		onShow: function() {
 			this.setupContent( 'clear' );
 			var element = this.getParentEditor().getSelection().getSelectedElement();
@@ -131,7 +131,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				this._element = element;
 				this.setupContent( element.getName(), element );
 
-				//Load Options into dialog.
+				// Load Options into dialog.
 				var objOptions = getOptions( element );
 				for ( var i = 0; i < objOptions.count(); i++ )
 					this.setupContent( 'option', objOptions.getItem( i ) );
@@ -167,14 +167,18 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				align: 'center',
 				style: 'width:350px',
 				setup: function( name, element ) {
-					if ( name == 'select' ) {
-						this.setValue( element.getAttribute( 'name' ) );
-						this.focus();
-					}
+					if ( name == 'clear' )
+						this.setValue( '' );
+					else if ( name == 'select' )
+						this.setValue( element.getAttribute( '_cke_saved_name' ) || '' );
 				},
 				commit: function( element ) {
-					if ( this.getValue() || this.isChanged() )
-						element.setAttribute( 'name', this.getValue() );
+					if ( this.getValue() )
+						element.setAttribute( '_cke_saved_name', this.getValue() );
+					else {
+						element.removeAttribute( '_cke_saved_name' );
+						element.removeAttribute( 'name' );
+					}
 				}
 			},
 				{
@@ -185,8 +189,15 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				label: editor.lang.select.value,
 				style: 'width:350px',
 				'default': '',
-				readonly: true, // TODO: make it readonly somehow.
-				disabled: true
+				onLoad: function() {
+					this.getInputElement().setAttribute( 'readOnly', true );
+				},
+				setup: function( name, element ) {
+					if ( name == 'clear' )
+						this.setValue( '' );
+					else if ( name == 'option' && element.getAttribute( 'selected' ) )
+						this.setValue( element.$.value );
+				}
 			},
 				{
 				type: 'hbox',
@@ -208,11 +219,13 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					},
 					setup: function( name, element ) {
 						if ( name == 'select' )
-							this.setValue( element.getAttribute( 'size' ) );
+							this.setValue( element.getAttribute( 'size' ) || '' );
 					},
 					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
+						if ( this.getValue() )
 							element.setAttribute( 'size', this.getValue() );
+						else
+							element.removeAttribute( 'size' );
 					}
 				},
 					{
@@ -458,8 +471,10 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							this.setValue( element.getAttribute( 'multiple' ) );
 					},
 					commit: function( element ) {
-						if ( this.getValue() || this.isChanged() )
+						if ( this.getValue() )
 							element.setAttribute( 'multiple', this.getValue() );
+						else
+							element.removeAttribute( 'multiple' );
 					}
 				}
 				]
