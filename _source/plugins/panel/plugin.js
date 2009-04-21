@@ -266,7 +266,7 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 					link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
 
 					if ( link )
-						link.$.click();
+						link.$.click ? link.$.click() : link.$.onclick();
 
 					return false;
 			}
