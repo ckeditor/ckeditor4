@@ -90,10 +90,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 
 			var element = CKEDITOR.dom.element.createFromHtml( [
 				'<div class="cke_skin_', editor.skinName,
-					' ', CKEDITOR.env.cssClass,
 					'" dir="', editor.lang.dir, '">' +
 
-					'<div class="cke_dialog',
+					'<div class="cke_dialog', ' ' + CKEDITOR.env.cssClass,
 						' cke_', editor.lang.dir, '" style="position:absolute">' +
 						'<div class="%body">' +
 							'<div id="%title#" class="%title"></div>' +
