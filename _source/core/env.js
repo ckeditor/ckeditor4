@@ -168,6 +168,9 @@ if ( !CKEDITOR.env ) {
 				env.cssClass += ' cke_browser_iequirks';
 		}
 
+		if ( env.gecko && version < 10900 )
+			env.cssClass += ' cke_browser_gecko18';
+
 		return env;
 	})();
 }

@@ -224,6 +224,18 @@ body .cke_dialog
 	cursor: pointer;
 }
 
+/* Gecko 1.8 layout workaround. */
+.cke_browser_gecko18.cke_skin_office2003 a.cke_dialog_tab,
+.cke_browser_gecko18.cke_skin_office2003 a:link.cke_dialog_tab,
+.cke_browser_gecko18.cke_skin_office2003 a:active.cke_dialog_tab,
+.cke_browser_gecko18.cke_skin_office2003 a:hover.cke_dialog_tab,
+.cke_browser_gecko18.cke_skin_office2003 a:visited.cke_dialog_tab
+{
+	display: inline;
+	position: relative;
+	top: 6px;
+}
+
 .cke_skin_office2003 a:hover.cke_dialog_tab
 {
 	background-color: #f7f8fd;
@@ -335,6 +347,12 @@ body .cke_dialog
 	display: inline-block;
 }
 
+/* Gecko 1.8 does not support display: inline-block */
+.cke_browser_gecko18.cke_skin_office2003 .cke_dialog_footer_buttons span.cke_dialog_ui_button
+{
+	display: block;
+}
+
 .cke_skin_office2003 a.cke_dialog_ui_button span.cke_disabled
 {
 	border: #898980 1px solid;
@@ -355,6 +373,12 @@ body .cke_dialog
 	margin-left: 12px;
 	width: auto;
 	position: relative;
+}
+
+/* Gecko 1.8 does not support for display: inline-table */
+.cke_browser_gecko18.cke_skin_office2003 .cke_dialog_footer_buttons
+{
+	display: inline;
 }
 
 .cke_skin_office2003 .cke_dialog_footer_buttons span.cke_dialog_ui_button
@@ -550,12 +574,4 @@ body .cke_dialog
 .cke_skin_office2003 .disabled
 {
 	color: #a0a0a0;
-}
-
-/* Firefox 2 */
-
-.cke_skin_office2003 .cke_browser_gecko .cke_dialog_tabs
-{
-	display: block;
-	float: left;
 }

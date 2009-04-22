@@ -136,7 +136,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// Set the startup styles for the dialog, avoiding it enlarging the
 		// page size on the dialog creation.
 		this.parts.dialog.setStyles({
-			position: 'absolute',
+			position: CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed',
 			top: 0,
 			left: 0,
 			visibility: 'hidden'
@@ -486,6 +486,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				element.appendTo( CKEDITOR.document.getBody() );
 			else
 				return;
+
+			// FIREFOX BUG: Fix vanishing caret for Firefox 2 or Gecko 1.8.
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) {
+				var dialogElement = this.parts.dialog;
+				dialogElement.setStyle( 'position', 'absolute' );
+				setTimeout( function() {
+					dialogElement.setStyle( 'position', 'fixed' );
+				}, 0 );
+			}
+
 
 			// First, set the dialog to an appropriate size.
 			this.resize( definition.minWidth, definition.minHeight );
