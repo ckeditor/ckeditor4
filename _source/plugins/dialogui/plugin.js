@@ -110,7 +110,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 			var innerHTML = function() {
 					var html = [];
 					if ( elementDefinition.labelLayout != 'horizontal' )
-						html.push( '<div class="cke_dialog_ui_labeled_label" id="', _.labelId, '" >', CKEDITOR.tools.htmlEncode( elementDefinition.label ), '</div>', '<div class="cke_dialog_ui_labeled_content">', contentHtml( dialog, elementDefinition ), '</div>' );
+						html.push( '<div class="cke_dialog_ui_labeled_label" id="', _.labelId, '" >', elementDefinition.label, '</div>', '<div class="cke_dialog_ui_labeled_content">', contentHtml( dialog, elementDefinition ), '</div>' );
 					else {
 						var hboxDefinition = {
 							type: 'hbox',

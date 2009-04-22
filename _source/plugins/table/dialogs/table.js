@@ -21,8 +21,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		return {
 			title: editor.lang.table.title,
-			minWidth: 430,
-			minHeight: 180,
+			minWidth: 250,
+			minHeight: CKEDITOR.env.ie ? 280 : 265,
 			onShow: function() {
 				// Detect if there's a selected table.
 				var selection = editor.getSelection(),
@@ -171,11 +171,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				{
 				id: 'info',
 				label: editor.lang.table.title,
-				accessKey: 'I',
 				elements: [
 					{
 					type: 'hbox',
-					widths: [ '40%', '10%', '60%' ],
+					widths: [ null, '1%' ],
+					styles: [ 'vertical-align:top' ],
 					children: [
 						{
 						type: 'vbox',
@@ -184,11 +184,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtRows',
-							labelLayout: 'horizontal',
-							widths: [ '60%', '40%' ],
-							style: 'width:105px',
 							'default': 3,
 							label: editor.lang.table.rows,
+							style: 'width:5em',
 							validate: function() {
 								var pass = true,
 									value = this.getValue();
@@ -207,11 +205,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtCols',
-							labelLayout: 'horizontal',
-							widths: [ '60%', '40%' ],
-							style: 'width:105px',
 							'default': 2,
 							label: editor.lang.table.columns,
+							style: 'width:5em',
 							validate: function() {
 								var pass = true,
 									value = this.getValue();
@@ -228,11 +224,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							commit: commitValue
 						},
 							{
+							type: 'html',
+							html: '&nbsp;'
+						},
+							{
 							type: 'select',
 							id: 'selHeaders',
-							labelLayout: 'horizontal',
 							'default': '',
-							widths: [ '40%', '60%' ],
 							label: editor.lang.table.headers,
 							items: [
 								[ editor.lang.table.headersNone, '' ],
@@ -265,11 +263,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtBorder',
-							labelLayout: 'horizontal',
-							widths: [ '60%', '40%' ],
-							style: 'width:105px',
 							'default': 1,
 							label: editor.lang.table.border,
+							style: 'width:3em',
 							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidBorder ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
@@ -284,9 +280,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							id: 'cmbAlign',
 							type: 'select',
-							labelLayout: 'horizontal',
 							'default': '',
-							widths: [ '40%', '60%' ],
 							label: editor.lang.table.align,
 							items: [
 								[ editor.lang.table.alignNotSet, '' ],
@@ -307,25 +301,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						]
 					},
 						{
-						type: 'html',
-						align: 'right',
-						html: ''
-					},
-						{
 						type: 'vbox',
-						align: 'right',
 						padding: 0,
 						children: [
 							{
 							type: 'hbox',
-							align: 'center',
-							widths: [ '70%', '30%' ],
+							widths: [ '5em' ],
 							children: [
 								{
 								type: 'text',
 								id: 'txtWidth',
-								labelLayout: 'horizontal',
-								widths: [ '50%', '50%' ],
+								style: 'width:5em',
 								label: editor.lang.table.width,
 								'default': 200,
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidWidth ),
@@ -339,9 +325,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 								id: 'cmbWidthType',
 								type: 'select',
-								labelLayout: 'horizontal',
-								widths: [ '0%', '100%' ],
-								label: '',
+								label: '&nbsp;',
 								'default': 'pixels',
 								items: [
 									[ editor.lang.table.widthPx, 'pixels' ],
@@ -358,13 +342,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 							{
 							type: 'hbox',
-							widths: [ '70%', '30%' ],
+							widths: [ '5em' ],
 							children: [
 								{
 								type: 'text',
 								id: 'txtHeight',
-								labelLayout: 'horizontal',
-								widths: [ '50%', '50%' ],
+								style: 'width:5em',
 								label: editor.lang.table.height,
 								'default': '',
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidHeight ),
@@ -377,7 +360,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							},
 								{
 								type: 'html',
-								html: editor.lang.table.widthPx
+								html: '<br />' + editor.lang.table.widthPx
 							}
 							]
 						},
@@ -388,9 +371,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtCellSpace',
-							labelLayout: 'horizontal',
-							widths: [ '50%', '50%' ],
-							style: 'width:140px',
+							style: 'width:3em',
 							label: editor.lang.table.cellSpace,
 							'default': 1,
 							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidCellSpacing ),
@@ -407,9 +388,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtCellPad',
-							labelLayout: 'horizontal',
-							widths: [ '50%', '50%' ],
-							style: 'width:140px',
+							style: 'width:3em',
 							label: editor.lang.table.cellPad,
 							'default': 1,
 							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidCellPadding ),
@@ -437,13 +416,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					padding: 0,
 					children: [
 						{
-						id: 'txtCaption',
 						type: 'text',
 						label: editor.lang.table.caption,
-						widths: [ '30%', '70%' ],
-						labelLayout: 'horizontal',
-						'default': '',
-						style: 'width:400px',
 						setup: function( selectedTable ) {
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
 							if ( nodeList.count() > 0 ) {
@@ -475,14 +449,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					},
 						{
-						id: 'txtSummary',
 						type: 'text',
-						labelLayout: 'horizontal',
 						label: editor.lang.table.summary,
-						'default': '',
-						widths: [ '30%', '70%' ],
-						accessKey: 'A',
-						style: 'width:400px',
 						setup: function( selectedTable ) {
 							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
 						},
