@@ -294,8 +294,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	getOuterHtml: function() {
-		if ( this.$.outerHTML )
-			return this.$.outerHTML;
+		if ( this.$.outerHTML ) {
+			// IE includes the <?xml:namespace> tag in the outerHTML of
+			// namespaced element. So, we must strip it here. (#3341)
+			return this.$.outerHTML.replace( /<\?[^>]*>/, '' );
+		}
 
 		var tmpDiv = this.$.ownerDocument.createElement( 'div' );
 		tmpDiv.appendChild( this.$.cloneNode( true ) );
