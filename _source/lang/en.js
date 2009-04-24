@@ -522,7 +522,7 @@ CKEDITOR.lang[ 'en' ] = {
 
 	font: {
 		label: 'Font',
-		panelTitle: 'Font Style'
+		panelTitle: 'Font Name'
 	},
 
 	fontSize: {
