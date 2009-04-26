@@ -152,6 +152,26 @@ CKEDITOR.config = {
 	plugins: 'about,basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,maximize,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,save,smiley,showblocks,sourcearea,stylescombo,table,tabletools,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
+	 * List of additional plugins to be loaded. This is a tool setting which
+	 * makes it easier to add new plugins, whithout having to touch and
+	 * possibly breaking the <i>plugins</i> setting.
+	 * @type String
+	 * @example
+	 * config.addPlugins = 'myplugin,anotherplugin';
+	 */
+	addPlugins: '',
+
+	/**
+	 * List of plugins that must not be loaded. This is a tool setting which
+	 * makes it easier to avoid loading plugins definied in the <i>plugins</i>
+	 * setting, whithout having to touch and possibly breaking it.
+	 * @type String
+	 * @example
+	 * config.removePlugins = 'elementspath,save,font';
+	 */
+	removePlugins: '',
+
+	/**
 	 * The editor tabindex value.
 	 * @type Number
 	 * @default 0 (zero)

@@ -32,7 +32,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var loadedConfig = loadConfigLoaded[ customConfig ] || ( loadConfigLoaded[ customConfig ] = {} );
 
-
 			// If the custom config has already been downloaded, reuse it.
 			if ( loadedConfig.fn ) {
 				// Call the cached CKEDITOR.editorConfig defined in the custom
@@ -132,8 +131,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 	var loadPlugins = function( editor ) {
+			var config = editor.config,
+				plugins = config.plugins,
+				addPlugins = config.addPlugins,
+				removePlugins = config.removePlugins;
+
+			if ( addPlugins ) {
+				// Remove them first to avoid duplications.
+				var removeRegex = new RegExp( '(?:^|,)(?:' + addPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+				plugins = plugins.replace( removeRegex, '' );
+
+				plugins += ',' + addPlugins;
+			}
+
+			if ( removePlugins ) {
+				removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+				plugins = plugins.replace( removeRegex, '' );
+			}
+
 			// Load all plugins defined in the "plugins" setting.
-			CKEDITOR.plugins.load( editor.config.plugins.split( ',' ), function( plugins ) {
+			CKEDITOR.plugins.load( plugins.split( ',' ), function( plugins ) {
 				// The list of plugins.
 				var pluginsArray = [];
 
