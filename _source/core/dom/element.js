@@ -997,10 +997,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 		// document.body is a special case when it comes to offsetTop and offsetLeft
 		// values.
-		// 1. It matters if document.body itself is a positioned element;
-		// 2. It matters when we're in IE and the element has no positioned ancestor.
+		// 1. It does not matter if we're in IE Quirks mode - in this case body is
+		// 	equal to the view pane itself.
+		// 2. It matters if document.body itself is a positioned element;
+		// 3. It matters when we're in IE Standards mode and the element has no
+		// 	positioned ancestor.
 		// Otherwise the values should be ignored.
-		if ( body.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) {
+		if ( !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) && ( body.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) ) {
 			x += body.$.offsetLeft + ( body.$.clientLeft || 0 );
 			y += body.$.offsetTop + ( body.$.clientTop || 0 );
 		}
