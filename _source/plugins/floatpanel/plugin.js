@@ -142,7 +142,16 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					if ( block.autoSize ) {
 						function setHeight() {
-							element.getFirst().setStyle( 'height', block.element.$.scrollHeight + 'px' );
+							var target = element.getFirst();
+							var height = block.element.$.scrollHeight;
+
+							// Account for extra height needed due to IE quirks box model bug:
+							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
+							// (#3426)
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && height > 0 )
+								height += ( target.$.offsetHeight || 0 ) - ( target.$.clientHeight || 0 );
+
+							target.setStyle( 'height', height + 'px' );
 						}
 
 						if ( !CKEDITOR.env.gecko || panel.isLoaded )
