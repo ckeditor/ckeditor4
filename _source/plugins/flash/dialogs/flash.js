@@ -208,7 +208,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		return {
 			title: editor.lang.flash.title,
-			minWidth: 400,
+			minWidth: 420,
 			minHeight: 310,
 			onLoad: function() {
 				if ( !editor.config.flashUploadTab )

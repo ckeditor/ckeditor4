@@ -123,7 +123,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 	return {
 		title: editor.lang.select.title,
 		minWidth: 375,
-		minHeight: 290,
+		minHeight: 300,
 		onShow: function() {
 			this.setupContent( 'clear' );
 			var element = this.getParentEditor().getSelection().getSelectedElement();
