@@ -629,6 +629,21 @@ CKEDITOR.plugins.add( 'dialogui' );
 				if ( theirHtml.charAt( 0 ) != '<' )
 					theirHtml = '<span>' + theirHtml + '</span>';
 
+				// Look for focus function in definition.
+				if ( elementDefinition.focus ) {
+					var oldFocus = this.focus;
+					this.focus = function() {
+						oldFocus.call( this );
+						elementDefinition.focus.call( this );
+						this.fire( 'focus' );
+					};
+					if ( elementDefinition.isFocusable ) {
+						var oldIsFocusable = this.isFocusable;
+						this.isFocusable = oldIsFocusable;
+					}
+					this.keyboardFocusable = true;
+				}
+
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, myHtmlList, 'span', null, null, '' );
 
 				// Append the attributes created by the uiElement call to the real HTML.

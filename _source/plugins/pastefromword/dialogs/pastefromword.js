@@ -14,7 +14,9 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 									+ 'document.body.contentEditable = "true";'
 								+ 'else '
 									+ 'document.designMode = "on";'
-								+ 'window.focus();'
+								+ 'var iframe = new window.parent.CKEDITOR.dom.element( frameElement );'
+								+ 'var dialog = iframe.getCustomData( "dialog" );'
+								+ 'dialog.fire( "iframeAdded", { iframe : iframe } );'
 							+ '};'
 							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',
 		cleanWord: function( editor, html, ignoreFont, removeStyles ) {
@@ -130,6 +132,9 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			return html;
 		},
 		onShow: function() {
+			if ( CKEDITOR.env.ie )
+				this.getParentEditor().document.getBody().$.contentEditable = 'false';
+
 			// FIREFOX BUG: Force the browser to render the dialog to make the to-be-
 			// inserted iframe editable. (#3366)
 			this.parts.dialog.$.offsetHeight;
@@ -137,13 +142,32 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			var container = this.getContentElement( 'general', 'editing_area' ).getElement(),
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="javascript:void(0)" frameborder="0" allowtransparency="1"></iframe>' );
 
+			var lang = this.getParentEditor().lang;
+
 			iframe.setStyles({
 				width: '346px',
 				height: '152px',
 				'background-color': 'white',
 				border: '1px solid black'
 			});
-			container.setHtml( '' );
+			iframe.setCustomData( 'dialog', this );
+
+			var accTitle = lang.editorTitle.replace( '%1', lang.pastefromword.title );
+
+			if ( CKEDITOR.env.ie )
+				container.setHtml( '<legend style="position:absolute;top:-1000000px;left:-1000000px;">' + CKEDITOR.tools.htmlEncode( accTitle )
+										+ '</legend>' );
+			else {
+				container.setHtml( '' );
+				container.setAttributes({
+					role: 'region',
+					title: accTitle
+				});
+				iframe.setAttributes({
+					role: 'region',
+					title: ' '
+				});
+			}
 			container.append( iframe );
 			if ( CKEDITOR.env.ie )
 				container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
@@ -173,6 +197,10 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 
 			editor.insertHtml( html );
 		},
+		onHide: function() {
+			if ( CKEDITOR.env.ie )
+				this.getParentEditor().document.getBody().$.contentEditable = 'true';
+		},
 		contents: [
 			{
 			id: 'general',
@@ -195,7 +223,21 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 				type: 'html',
 				id: 'editing_area',
 				style: 'width: 100%; height: 100%;',
-				html: '<div>&nbsp;</div>'
+				html: '<fieldset></fieldset>',
+				focus: function() {
+					var div = this.getElement();
+					var iframe = div.getElementsByTag( 'iframe' );
+					if ( iframe.count() < 1 )
+						return;
+					iframe = iframe.getItem( 0 );
+
+					// #3291 : JAWS needs the 500ms delay to detect that the editor iframe
+					// iframe is no longer editable. So that it will put the focus into the
+					// Paste from Word dialog's editable area instead.
+					setTimeout( function() {
+						iframe.$.contentWindow.focus();
+					}, 500 );
+				}
 			},
 				{
 				type: 'vbox',

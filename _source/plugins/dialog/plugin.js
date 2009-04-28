@@ -293,6 +293,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.on( 'hide', function() {
 			CKEDITOR.document.removeListener( 'keydown', focusKeydownHandler );
 		});
+		this.on( 'iframeAdded', function( evt ) {
+			var doc = new CKEDITOR.dom.document( evt.data.iframe.$.contentWindow.document );
+			doc.on( 'keydown', focusKeydownHandler, this, null, 0 );
+		});
 
 		// Auto-focus logic in dialog.
 		this.on( 'show', function() {
