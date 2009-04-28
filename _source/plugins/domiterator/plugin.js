@@ -280,8 +280,11 @@ CKEDITOR.plugins.add( 'domiterator' );
 
 			if ( removeLastBr ) {
 				var lastChild = block.getLast();
-				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' )
-					lastChild.remove();
+				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' ) {
+					// Take care not to remove the block expanding <br> in non-IE browsers.
+					if ( CKEDITOR.env.ie || lastChild.getPrevious() || lastChild.getNext() )
+						lastChild.remove();
+				}
 			}
 
 			// Get a reference for the next element. This is important because the
