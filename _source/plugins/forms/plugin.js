@@ -143,3 +143,26 @@ CKEDITOR.plugins.add( 'forms', {
 	},
 	requires: [ 'image' ]
 });
+
+if ( CKEDITOR.env.ie ) {
+	CKEDITOR.dom.element.prototype.hasAttribute = function( name ) {
+		var $attr = this.$.attributes.getNamedItem( name );
+
+		if ( this.getName() == 'input' ) {
+			switch ( name ) {
+				case 'class':
+					return this.$.className.length > 0;
+				case 'checked':
+					return !!this.$.checked;
+				case 'value':
+					var type = this.getAttribute( 'type' );
+					if ( type == 'checkbox' || type == 'radio' )
+						return this.$.value != 'on';
+					break;
+				default:
+			}
+		}
+
+		return !!( $attr && $attr.specified );
+	};
+}

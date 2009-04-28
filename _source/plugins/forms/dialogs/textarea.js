@@ -61,9 +61,8 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				style: 'width:50px',
 				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
 				setup: function( element ) {
-					var ieDefault = 20;
-					var value = element.getAttribute( 'cols' );
-					this.setValue( ( CKEDITOR.env.ie && ( value == ieDefault ) ? '' : value ) || '' );
+					var value = element.hasAttribute( 'cols' ) && element.getAttribute( 'cols' );
+					this.setValue( value || '' );
 				},
 				commit: function( element ) {
 					if ( this.getValue() )
@@ -81,9 +80,8 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				style: 'width:50px',
 				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
 				setup: function( element ) {
-					var ieDefault = 2;
-					var value = element.getAttribute( 'rows' );
-					this.setValue( ( CKEDITOR.env.ie && ( value == ieDefault ) ? '' : value ) || '' );
+					var value = element.hasAttribute( 'rows' ) && element.getAttribute( 'rows' );
+					this.setValue( value || '' );
 				},
 				commit: function( element ) {
 					if ( this.getValue() )

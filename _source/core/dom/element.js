@@ -708,6 +708,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
+	 * Indicates whether a specified attribute is defined for this element.
+	 * @returns {Boolean} True if the specified attribute is defined.
+	 * @param (String) name The attribute name.
+	 * @example
+	 */
+	hasAttribute: function( name ) {
+		var $attr = this.$.attributes.getNamedItem( name );
+		return !!( $attr && $attr.specified );
+	},
+
+	/**
 	 * Hides this element (display:none).
 	 * @example
 	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
