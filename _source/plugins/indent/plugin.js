@@ -137,16 +137,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var iterator = range.createIterator();
 		iterator.enforceRealBlocks = true;
 
-		range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
-		var commonParent = range.getCommonAncestor(),
-			block;
-
+		var block;
 		while ( ( block = iterator.getNextParagraph() ) ) {
-			// We don't want to indent subtrees recursively, so only perform the indent
-			// operation if the block itself is the nearestParent, or the block's parent
-			// is the commonParent.
-			if ( !( block.equals( commonParent ) || block.getParent().equals( commonParent ) ) )
-				continue;
 
 			if ( this.useIndentClasses ) {
 				// Transform current class name to indent step index.
