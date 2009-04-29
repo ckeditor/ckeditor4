@@ -227,6 +227,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 						domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
 
+						// Gecko/Webkit need some help when selecting control type elements. (#3448) 
+						if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
+							domDocument.on( 'mousedown', function( ev ) {
+								var control = ev.data.getTarget();
+								if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
+									editor.getSelection().selectElement( control );
+							});
+						}
+
+						// Webkit: avoid from editing form control elements content.
+						if ( CKEDITOR.env.webkit ) {
+							// Prevent from tick checkbox/radiobox/select
+							domDocument.on( 'click', function( ev ) {
+								if ( ev.data.getTarget().is( 'input', 'select' ) )
+									ev.data.preventDefault();
+							});
+
+							// Prevent from editig textfield/textarea value.
+							domDocument.on( 'mouseup', function( ev ) {
+								if ( ev.data.getTarget().is( 'input', 'textarea' ) )
+									ev.data.preventDefault();
+							});
+						}
+
 						var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.safari ) ? domWindow : domDocument;
 
 						focusTarget.on( 'blur', function() {
