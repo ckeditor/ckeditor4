@@ -81,6 +81,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						' href="javascript:void(\'', name, '\')"' +
 						' tabindex="-1"' +
 						' title="', editor.lang.elementsPath.eleTitle.replace( /%1/, name ), '"' +
+						( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
+						' hidefocus="true" ' +
 						' onkeydown="return CKEDITOR._.elementsPath.keydown(\'', this.name, '\',', index, ', event);"' +
 						extra, ' onclick="return CKEDITOR._.elementsPath.click(\'', this.name, '\',', index, ');">', name, '</a>' );
 
