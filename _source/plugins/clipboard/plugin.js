@@ -91,14 +91,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Paste
 				case CKEDITOR.CTRL + 86: // CTRL+V
 				case CKEDITOR.SHIFT + 45: // SHIFT+INS
-					if ( this.fire( 'beforePaste' ) )
+
+					var editor = this;
+					editor.fire( 'saveSnapshot' ); // Save before paste
+
+					if ( editor.fire( 'beforePaste' ) )
 						event.cancel();
+
+					setTimeout( function() {
+						editor.fire( 'saveSnapshot' ); // Save after paste
+					}, 0 );
 					return;
 
 					// Cut
 				case CKEDITOR.CTRL + 88: // CTRL+X
 				case CKEDITOR.SHIFT + 46: // SHIFT+DEL
+
 					// Save Undo snapshot.
+					var editor = this;
+					editor.fire( 'saveSnapshot' ); // Save before paste
+					setTimeout( function() {
+						editor.fire( 'saveSnapshot' ); // Save after paste
+					}, 0 );
 			}
 		};
 
