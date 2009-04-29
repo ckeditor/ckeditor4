@@ -897,10 +897,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				ranges = selection.getRanges(),
 				element = null,
 				me = this;
-
 			// Fill in all the relevant fields if there's already one link selected.
 			if ( ranges.length == 1 ) {
-				ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
 				var rangeRoot = ranges[ 0 ].getCommonAncestor( true );
 				element = rangeRoot.getAscendant( 'a', true );
