@@ -114,12 +114,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				command: 'showblocks'
 			});
 
-			editor.on( 'contentDom', function() {
-				// Restore show blocks state after mode switches.
-				command.setState( CKEDITOR.TRISTATE_OFF );
-				if ( this._.showBlocks )
+			// Restore the command state after mode change.
+			editor.on( 'mode', function() {
+				if ( editor.mode == 'wysiwyg' && this._.showBlocks )
 					command.exec();
-			});
+			}, null, null, 100 );
 		}
 	});
 })();

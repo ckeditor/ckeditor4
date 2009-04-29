@@ -213,9 +213,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				command: 'maximize'
 			});
 
+			// Restore the command state after mode change.
 			editor.on( 'mode', function() {
 				editor.getCommand( 'maximize' ).setState( savedState );
-			});
+			}, null, null, 100 );
 		}
 	});
 })();
