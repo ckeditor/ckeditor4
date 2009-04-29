@@ -1966,7 +1966,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			tabId = cursor.getAttribute( 'name' );
 			// Avoid duplicate select.
-			if ( !this._.dialog._.currentTabId == tabId )
+			if ( this._.dialog._.currentTabId != tabId )
 				this._.dialog.selectPage( tabId );
 			return this;
 		},
