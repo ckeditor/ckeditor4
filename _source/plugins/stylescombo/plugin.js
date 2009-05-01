@@ -96,6 +96,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style.remove( editor.document );
 					else
 						style.apply( editor.document );
+
+					editor.fire( 'saveSnapshot' );
 				},
 
 				onRender: function() {
