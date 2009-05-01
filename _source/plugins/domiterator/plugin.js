@@ -10,47 +10,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'domiterator' );
 
 (function() {
-	// Functions ported over from v2.
-	function getTouchedStartNode( range ) {
-		var container = range.startContainer;
 
-		if ( range.collapsed || container.type != CKEDITOR.NODE_ELEMENT )
-			return container;
-
-		return container.getChildCount() > range.startOffset ? container.getChild( range.startOffset ) : container;
-	}
-
-	function getTouchedEndNode( range ) {
-		var container = range.endContainer;
-
-		if ( range.collapsed || container.type != CKEDITOR.NODE_ELEMENT )
-			return container;
-
-		return container.getChildCount() > range.endOffset ? container.getChild( range.endOffset ) : container;
-	}
-
-	function getNextSourceNode( currentNode, startFromSibling, nodeType, stopSearchNode ) {
-		if ( !currentNode )
-			return null;
-
-		var node;
-
-		if ( !startFromSibling && currentNode.getFirst && currentNode.getFirst() )
-			node = currentNode.getFirst();
-		else {
-			if ( stopSearchNode && currentNode.equals( stopSearchNode ) )
-				return null;
-
-			node = currentNode.getNext();
-
-			if ( !node && ( !stopSearchNode || !stopSearchNode.equals( currentNode.parentNode ) ) )
-				return getNextSourceNode( currentNode.getParent(), true, nodeType, stopSearchNode );
+	/**
+	 * Find next source order node, ignore bookmark nodes and stop at the specified end node.
+	 * @param {Object} currentNode 
+	 * @param {Object} endNode
+	 */
+	function getNextSourceNode( currentNode, endNode, startFromSibling ) {
+		var next = currentNode;
+		do {
+			next = next.getNextSourceNode( startFromSibling, null, endNode );
 		}
-
-		if ( nodeType && node && node.type != nodeType )
-			return getNextSourceNode( node, false, nodeType, stopSearchNode );
-
-		return node;
+		while ( next && next.getName && next.getName() == 'span' && next.getAttribute( '_fck_bookmark' ) )
+		return next;
 	}
 
 	var iterator = function( range ) {
@@ -85,8 +57,14 @@ CKEDITOR.plugins.add( 'domiterator' );
 				range = this.range.clone();
 				range.enlarge( this.forceBrBreak ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
-				this._.nextNode = getTouchedStartNode( range );
-				this._.lastNode = getTouchedEndNode( range );
+				var boundary = range.getBoundaryNodes();
+				this._.nextNode = boundary.startNode;
+				this._.lastNode = boundary.endNode.getNextSourceNode( true );
+				// Probably the document end is reached, we need a marker node.  
+				if ( !this._.lastNode ) {
+					this._.lastNode = range.document.createText( '' );
+					this._.lastNode.insertAfter( boundary.endNode );
+				}
 
 				// Let's reuse this variable.
 				range = null;
@@ -206,7 +184,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 				if ( isLast )
 					break;
 
-				currentNode = getNextSourceNode( currentNode, continueFromSibling, null, lastNode );
+				currentNode = getNextSourceNode( currentNode, lastNode, continueFromSibling );
 			}
 
 			// Now, based on the processed range, look for (or create) the block to be returned.
@@ -264,7 +242,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : getNextSourceNode( range.getBoundaryNodes().endNode, true, null, lastNode ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : getNextSourceNode( range.getBoundaryNodes().endNode, lastNode, true ) );
 				}
 			}
 
@@ -291,7 +269,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
 			if ( !this._.nextNode )
-				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : getNextSourceNode( block, true, null, lastNode );
+				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : getNextSourceNode( block, lastNode, true );
 
 			return block;
 		}
