@@ -336,7 +336,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 		test_ticket_2040 : function()
 		{
-			doc.getById( '_P1' ).setHtml( 'This is some <strong>sample text<\/strong>. You are using <a href="http://www.fckeditor.net/">FCKeditor<\/a>.' );
+			doc.getById( '_P1' ).setHtml( 'This is some <strong>sample text<\/strong>. You are using <a href="http://www.fckeditor.net/">CKEditor<\/a>.' );
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_P1' ), 1 );
@@ -345,7 +345,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			var style = new CKEDITOR.style( { element : 'i' } );
 			style.applyToRange( range );
 
-			assert.areSame( 'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">fckeditor<\/a>.', getInnerHtml( '_P1' ) );
+			assert.areSame( 'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">CKEditor<\/a>.', getInnerHtml( '_P1' ) );
 		},
 
 		test_checkElementRemovable1 : function()

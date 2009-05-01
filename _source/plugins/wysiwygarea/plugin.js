@@ -423,7 +423,7 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * Disables the built-in spell checker while typing natively available in the
  * browser (currently Firefox and Safari only).<br /><br />
  *
- * Even if word suggestions will not appear in the FCKeditor context menu, this
+ * Even if word suggestions will not appear in the CKEditor context menu, this
  * feature is useful to help quickly identifying misspelled words.<br /><br />
  *
  * This setting is currently compatible with Firefox only due to limitations in
