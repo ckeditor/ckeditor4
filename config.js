@@ -5,6 +5,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
-	// config.autoLanguage = false;
-	// config.defaultLanguage = 'pt-br';
+	// config.language = 'fr';
+	// config.skin = 'office2003';
 };

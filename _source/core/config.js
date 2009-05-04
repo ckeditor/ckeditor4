@@ -88,8 +88,8 @@ CKEDITOR.config = {
 	language: '',
 
 	/**
-	 * The language to be used if [@link #autoLanguage] is set to false, or
-	 * when it's not possible to localize the editor to the user language.
+	 * The language to be used if [@link #language] is left empty and it's not
+	 * possible to localize the editor to the user language.
 	 * @default 'en'
 	 * @type String
 	 * @example
