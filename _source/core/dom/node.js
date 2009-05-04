@@ -201,30 +201,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
-	 * Gets a DOM tree descendant under the current node.
-	 * @param {Array|Number} indices The child index or array of child indices under the node.
-	 * @returns {CKEDITOR.dom.node} The specified DOM child under the current node. Null if child does not exist.
-	 * @example
-	 * var strong = p.getChild(0);
-	 */
-	getChild: function( indices ) {
-		var rawNode = this.$;
-
-		if ( !indices.slice )
-			rawNode = rawNode.childNodes[ indices ];
-		else {
-			while ( indices.length > 0 && rawNode )
-				rawNode = rawNode.childNodes[ indices.shift() ];
-		}
-
-		return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
-	},
-
-	getChildCount: function() {
-		return this.$.childNodes.length;
-	},
-
-	/**
 	 * Gets the document containing this element.
 	 * @returns {CKEDITOR.dom.document} The document.
 	 * @example

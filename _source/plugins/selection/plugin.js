@@ -532,6 +532,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( !range.collapsed ) {
 							range.optimize();
 
+							// Decrease the range content to exclude particial
+							// selected node on the start which doesn't have
+							// visual impact. ( #3231 )
+							while ( true ) {
+								var startContainer = range.startContainer,
+									startOffset = range.startOffset;
+								if ( startOffset == ( startContainer.getChildCount ? startContainer.getChildCount() : startContainer.getLength() ) )
+									range.setStartAfter( startContainer );
+								else
+									break;
+							}
+							do
+
 							node = range.startContainer;
 
 							if ( node.type != CKEDITOR.NODE_ELEMENT )
