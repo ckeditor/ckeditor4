@@ -87,13 +87,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( ( i % 8 ) === 0 )
 					output.push( '</tr><tr>' );
 
-				var color = colors[ i ];
+				var colorCode = colors[ i ];
+				var colorLabel = editor.lang.colors[ colorCode ] || colorCode;
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-						' title="', color, '"' +
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#', color, '\',\'', type, '\'); return false;"' +
-						' href="javascript:void(\'', color, '\')">' +
-						'<span class="cke_colorbox" style="background-color:#', color, '"></span>' +
+						' title="', colorLabel, '"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#', colorCode, '\',\'', type, '\'); return false;"' +
+						' href="javascript:void(\'', colorLabel, '\')">' +
+						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
 					'</td>' );
 			}
@@ -118,13 +119,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 });
 
 CKEDITOR.config.colorButton_enableMore = false;
-CKEDITOR.config.colorButton_colors = '000,930,330,030,036,000080,339,333,' +
-	'800000,F60,808000,808080,008080,00F,669,808080,' +
-	'F00,F90,9C0,396,3CC,36F,800080,999,' +
-	'F0F,FC0,FF0,0F0,0FF,0CF,936,C0C0C0,' +
-	'F9C,FC9,FF9,CFC,CFF,9CF,C9F,FFF';
+CKEDITOR.config.colorButton_colors = '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
+	'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
+	'F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,' +
+	'FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,' +
+	'FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF'
 
-CKEDITOR.config.colorButton_foreStyle = {
+CKEDITOR.config.colorButton_foreStyle =
+	{
 	element: 'span',
 	styles: { 'color': '#(color)' },
 	overrides: [ {
