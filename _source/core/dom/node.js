@@ -257,7 +257,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
-			if ( guard && guard( parent ) === false )
+			// The guard check sends the "true" paramenter to indicate that
+			// we are moving "out" of the element.
+			if ( guard && guard( parent, true ) === false )
 				return null;
 
 			node = parent.getNext();
@@ -287,7 +289,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
-			if ( guard && guard( parent ) === false )
+			// The guard check sends the "true" paramenter to indicate that
+			// we are moving "out" of the element.
+			if ( guard && guard( parent, true ) === false )
 				return null;
 
 			node = parent.getPrevious();
