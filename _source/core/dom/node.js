@@ -253,7 +253,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 			var guardNode = guard;
 			guard = function( node ) {
 				return !node.equals( guardNode );
-			}
+			};
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
@@ -283,7 +283,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 			var guardNode = guard;
 			guard = function( node ) {
 				return !node.equals( guardNode );
-			}
+			};
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {

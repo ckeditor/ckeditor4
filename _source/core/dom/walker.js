@@ -24,7 +24,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						return false;
 
 					return originalGuard( node );
-				}
+				};
 			} else
 				guard = endNode;
 		}

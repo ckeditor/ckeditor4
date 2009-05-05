@@ -1023,7 +1023,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// so we must add it here.
 		if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
 			x += this.$.clientLeft ? 1 : 0;
-			y += this.$.clientTop ? 1 : 0;;
+			y += this.$.clientTop ? 1 : 0;
 		}
 
 		return { x: x, y: y };
@@ -1194,6 +1194,5 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 	getChildCount: function() {
 		return this.$.childNodes.length;
-	},
-
+	}
 });
