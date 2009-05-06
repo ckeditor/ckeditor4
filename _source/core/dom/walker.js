@@ -39,7 +39,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				blockerLTR = limitLTR.getChild( range.endOffset );
 
 			this._.guardLTR = function( node, movingOut ) {
-				return ( ( !movingOut || !limitLTR.equals( node ) ) && ( !blockerLTR || !node.equals( blockerLTR ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.name != 'body' ) );
+				return ( ( !movingOut || !limitLTR.equals( node ) ) && ( !blockerLTR || !node.equals( blockerLTR ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.getName() != 'body' ) );
 			}
 		}
 
@@ -50,7 +50,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				blockerRTL = ( range.startOffset > 0 ) && limitRTL.getChild( range.startOffset - 1 );
 
 			this._.guardRTL = function( node, movingOut ) {
-				return ( ( !movingOut || !limitRTL.equals( node ) ) && ( !blockerRTL || !node.equals( blockerRTL ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.name != 'body' ) );
+				return ( ( !movingOut || !limitRTL.equals( node ) ) && ( !blockerRTL || !node.equals( blockerRTL ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.getName() != 'body' ) );
 			}
 		}
 
