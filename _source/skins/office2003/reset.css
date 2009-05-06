@@ -24,7 +24,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	text-align: left;
 	vertical-align: baseline;
 	white-space: nowrap;
-	cursor: default;
+	cursor: auto;
 	color: #000;
 
     font-size: 11px;
@@ -53,4 +53,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_office2003 textarea
 {
 	white-space: pre;
+}
+
+.cke_skin_office2003 .cke_browser_gecko textarea
+{
+	cursor: text;
+}
+
+.cke_skin_office2003 .cke_browser_gecko textarea[disabled]
+{
+	cursor: default;
+}
+
+.cke_skin_office2003 input[type="text"],
+.cke_skin_office2003 input[type="password"]
+{
+	cursor: text; 
+}
+
+.cke_skin_office2003 input[type="text"][disabled],
+.cke_skin_office2003 input[type="password"][disabled]
+{
+	cursor: default; 
 }

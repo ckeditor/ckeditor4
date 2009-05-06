@@ -347,6 +347,7 @@ body .cke_dialog
 .cke_skin_office2003 a.cke_dialog_ui_button
 {
 	border-collapse: separate;
+	cursor: default;
 }
 
 .cke_skin_office2003 span.cke_dialog_ui_button
@@ -360,6 +361,7 @@ body .cke_dialog
 	color: #0E3460;
 	background-color: #8db1ff;
 	display: inline-block;
+	cursor: default;
 }
 
 /* Gecko 1.8 does not support display: inline-block */
