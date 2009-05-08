@@ -82,7 +82,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
 			return next;
 		}
 
-		return new CKEDITOR.dom.text( this.$.splitText( offset ) );
+		var doc = this.getDocument();
+		var retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
+
+		// IE BUG: IE8 does not update the childNodes array in DOM after splitText(),
+		// we need to make some DOM changes to make it update. (#3436)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 8 ) {
+			var workaround = new CKEDITOR.dom.text( '', doc );
+			workaround.insertAfter( retval );
+			workaround.remove();
+		}
+
+		return retval;
 	},
 
 	/**

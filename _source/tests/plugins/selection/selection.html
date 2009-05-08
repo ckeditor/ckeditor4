@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: selection</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+//<![CDATA[
+CKEDITOR.plugins.load( [ 'selection' ] );
+//]]>
+	</script>
+	<script type="text/javascript">
+//<![CDATA[
+CKEDITOR.test.addTestCase( (function()
+{
+	var assert = CKEDITOR.test.assert;
+	var doc = new CKEDITOR.dom.document( document );
+
+	return {
+		test_selection_ie : function()
+		{
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			var $range = document.body.createTextRange();
+			$range.findText( 'This' );
+			$range.select();
+
+			var range = doc.getSelection().getRanges()[ 0 ];
+			range.select();
+
+			var $range2 = document.selection.createRange();
+			assert.areSame( 0, $range.compareEndPoints( 'StartToStart', $range2 ), 'StartToStart' );
+			assert.areSame( 0, $range.compareEndPoints( 'EndToEnd', $range2 ), 'EndToEnd' );
+		},
+
+		name : document.title
+	};
+})());
+//]]>
+	</script>
+</head>
+<body>
+	<p>
+		This is some <strong>sample text</strong>. You are using <a href="http://www.fckeditor.net/">CKEditor</a>.</p>
+</body>
+</html>
