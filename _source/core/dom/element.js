@@ -482,7 +482,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * alert( <b>element.getText()</b> );  // "Sample text."
 	 */
 	getText: function() {
-		return this.$.textContent || this.$.innerText;
+		return this.$.textContent || this.$.innerText || '';
 	},
 
 	/**
