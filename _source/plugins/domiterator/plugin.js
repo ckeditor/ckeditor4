@@ -268,8 +268,9 @@ CKEDITOR.plugins.add( 'domiterator' );
 			// Get a reference for the next element. This is important because the
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
-			if ( !this._.nextNode )
+			if ( !this._.nextNode ) {
 				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : getNextSourceNode( block, lastNode, true );
+			}
 
 			return block;
 		}

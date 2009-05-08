@@ -82,7 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( guard( node ) === false )
 						node = null;
 				} else
-					node = node.getPreviousSourceNode( true, type, guard );
+					node = ( guard( node ) === false ) ? null : node.getPreviousSourceNode( true, type, guard );
 			} else {
 				node = range.startContainer;
 				node = node.getChild( range.startOffset );
@@ -91,16 +91,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( guard( node ) === false )
 						node = null;
 				} else
-					node = range.startContainer.getNextSourceNode( true, type, guard );
+					node = ( guard( range.startContainer ) === false ) ? null : range.startContainer.getNextSourceNode( true, type, guard );
 			}
 		}
 
 		while ( node && !this._.end ) {
 			this.current = node;
 
-			if ( !this.evaluator || this.evaluator( node ) !== false )
-				return node;
-			else if ( breakOnFalse && this.evaluator )
+			if ( !this.evaluator || this.evaluator( node ) !== false ) {
+				if ( !breakOnFalse )
+					return node;
+			} else if ( breakOnFalse && this.evaluator )
 				return false;
 
 			node = node[ getSourceNodeFn ]( false, type, guard );
@@ -110,15 +111,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return this.current = null;
 	}
 
-	//	function iterateToLast( rtl )
-	//	{
-	//		var node, last = null;
+	function iterateToLast( rtl ) {
+		var node,
+			last = null;
 
-	//		while ( node = iterate.call( this, rtl ) )
-	//			last = node;
+		while ( node = iterate.call( this, rtl ) )
+			last = node;
 
-	//		return last;
-	//	}
+		return last;
+	}
 
 	CKEDITOR.dom.walker = CKEDITOR.tools.createClass({
 		/**
@@ -151,7 +152,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * it's to be considered into the walk or not. If not provided, all
 			 * matched nodes are considered good.
 			 * If the function returns "false" the node is ignored.
-			 * @name CKEDITOR.pluginDefinition.prototype.evaluator
+			 * @name CKEDITOR.dom.walker.prototype.evaluator
 			 * @property
 			 * @type Function
 			 */
@@ -162,7 +163,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * entering and exiting nodes, as well as for the matched nodes.
 			 * If this function returns "false", the walking ends and no more
 			 * nodes are evaluated.
-			 * @name CKEDITOR.pluginDefinition.prototype.guard
+			 * @name CKEDITOR.dom.walker.prototype.guard
 			 * @property
 			 * @type Function
 			 */
@@ -186,17 +187,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		//			createOnNodes : function( startNode, endNode, startInclusive, endInclusive )
 		//			{
 		//				var range = new CKEDITOR.dom.range();
-		//				range.setStartAt( startNode, startInclusive ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END ) ;
-
+		//				if ( startNode )
+		//					range.setStartAt( startNode, startInclusive ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END ) ;
+		//				else
+		//					range.setStartAt( startNode.getDocument().getBody(), CKEDITOR.POSITION_AFTER_START ) ;
+		//
 		//				if ( endNode )
 		//					range.setEndAt( endNode, endInclusive ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START ) ;
 		//				else
-					//					range.setEndAt( startNode.getDocument().getBody(), CKEDITOR.POSITION_BEFORE_END ) ;
-
+		//					range.setEndAt( startNode.getDocument().getBody(), CKEDITOR.POSITION_BEFORE_END ) ;
+		//
 		//				return new CKEDITOR.dom.walker( range );
 		//			}
 		//		},
-
+		//
 		proto: {
 			/**
 			 * Stop walking. No more nodes are retrieved if this function gets
@@ -240,32 +244,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 */
 			checkBackward: function() {
 				return iterate.call( this, true, true ) !== false;
+			},
+
+			/**
+			 * Executes a full walk forward (to the right), until no more nodes
+			 * are available, returning the last valid node.
+			 * @returns {CKEDITOR.dom.node} The last node at the right or null
+			 *		if no valid nodes are available.
+			 */
+			lastForward: function() {
+				return iterateToLast.call( this );
+			},
+
+			/**
+			 * Executes a full walk backwards (to the left), until no more nodes
+			 * are available, returning the last valid node.
+			 * @returns {CKEDITOR.dom.node} The last node at the left or null
+			 *		if no valid nodes are available.
+			 */
+			lastBackward: function() {
+				return iterateToLast.call( this, true );
 			}
 
-			// The following features have been originally included in the implementation,
-			// but they are not used anywhere in the code, so they got commented out.
-
-			//			/**
-			//			 * Executes a full walk forward (to the right), until no more nodes
-			//			 * are available, returning the last valid node.
-			//			 * @returns {CKEDITOR.dom.node} The last node at the right or null
-			//			 *		if no valid nodes are available.
-			//			 */
-			//			lastForward : function()
-			//			{
-			//				return iterateToLast.call( this );
-			//			},
-
-			//			/**
-			//			 * Executes a full walk backwards (to the left), until no more nodes
-			//			 * are available, returning the last valid node.
-			//			 * @returns {CKEDITOR.dom.node} The last node at the left or null
-			//			 *		if no valid nodes are available.
-			//			 */
-			//			lastBackward : function()
-			//			{
-			//				return iterateToLast.call( this, true );
-			//			}
 		}
 	});
+
+	/*
+	 * Anything whose display computed style is block, list-item, table,
+	 * table-row-group, table-header-group, table-footer-group, table-row,
+	 * table-column-group, table-column, table-cell, table-caption, or whose node
+	 * name is hr, br (when enterMode is br only) is a block boundary.
+	 */
+	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
+		blockBoundaryNodeNameMatch = { hr:1 };
+
+	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
+		var nodeNameMatches = CKEDITOR.tools.extend( {}, blockBoundaryNodeNameMatch, customNodeNames || {} );
+
+		return blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
+	};
+
+	CKEDITOR.dom.walker.blockBoundary = function( customNodeNames ) {
+		return function( node, type ) {
+			return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary( customNodeNames ) );
+		};
+	};
+
+	CKEDITOR.dom.walker.listItemBoundary = function() {
+		return this.blockBoundary( { br:1 } );
+	};
+
 })();

@@ -231,9 +231,8 @@ CKEDITOR.dom.range = function( document ) {
 	// Creates the appropriate node evaluator for the dom walker used inside
 	// check(Start|End)OfBlock.
 	function getCheckStartEndBlockEvalFunction( isStart ) {
+		var hadBr = false;
 		return function( node ) {
-			var hadBr = false;
-
 			if ( node.type == CKEDITOR.NODE_TEXT ) {
 				// If there's any visible text, then we're not at the start.
 				if ( CKEDITOR.tools.trim( node.getText() ).length )
@@ -242,8 +241,9 @@ CKEDITOR.dom.range = function( document ) {
 				// If there are non-empty inline elements (e.g. <img />), then we're not
 				// at the start.
 				if ( !inlineChildReqElements[ node.getName() ] ) {
-					// If we're working at the end-of-block, forgive the first <br />.
-					if ( !isStart && node.getName() == 'br' && !hadBr )
+					// If we're working at the end-of-block, forgive the first <br /> in non-IE
+					// browsers.
+					if ( !isStart && !CKEDITOR.env.ie && node.getName() == 'br' && !hadBr )
 						hadBr = true;
 					else
 						return false;
@@ -949,39 +949,40 @@ CKEDITOR.dom.range = function( document ) {
 
 				case CKEDITOR.ENLARGE_BLOCK_CONTENTS:
 				case CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS:
-					// DFS backward to get the block/list item boundary at or before the start.
 
-					// Get the boundaries nodes.
-					var startNode = this.getTouchedStartNode(),
-						endNode = this.getTouchedEndNode();
+					// Enlarging the start boundary.
+					var walkerRange = new CKEDITOR.dom.range( this.document );
+					walkerRange.setStartAt( this.document.getBody(), CKEDITOR.POSITION_AFTER_START );
+					walkerRange.setEnd( this.startContainer, this.startOffset );
+					var walker = new CKEDITOR.dom.walker( walkerRange ),
 
-					if ( startNode.type == CKEDITOR.NODE_ELEMENT && startNode.isBlockBoundary() ) {
-						this.setStartAt( startNode, CKEDITOR.dtd.$empty[ startNode.getName() ] ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_AFTER_START );
-					} else {
-						// Get the function used to check the enlaarging limits.
-						var guardFunction = ( unit == CKEDITOR.ENLARGE_BLOCK_CONTENTS ? CKEDITOR.dom.domWalker.blockBoundary() : CKEDITOR.dom.domWalker.listItemBoundary() );
+						guard = CKEDITOR.dom.walker.blockBoundary(
+						( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br:1 } : null ),
+						tailBr,
+					listGuard = function( node ) {
+							var result = guard( node );
+							if ( !result && node.is && node.is( 'br' ) )
+								tailBr = node;
+							return result;
+						},
+						enlargeable;
+					walker.guard = guard;
 
-						// Create the DOM walker, which will traverse the DOM.
-						var walker = new CKEDITOR.dom.domWalker( startNode );
+					if ( ( enlargeable = walker.lastBackward() ) )
+						this.setStartAt( enlargeable, CKEDITOR.POSITION_BEFORE_START );
 
-						// Go walk in reverse sense.
-						var data = walker.reverse( guardFunction );
-
-						var boundaryEvent = data.events.shift();
-
-						this.setStartBefore( boundaryEvent.from );
-					}
-
-					if ( endNode.type == CKEDITOR.NODE_ELEMENT && endNode.isBlockBoundary() ) {
-						this.setEndAt( endNode, CKEDITOR.dtd.$empty[ endNode.getName() ] ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_BEFORE_END );
-					} else {
-						// DFS forward to get the block/list item boundary at or before the end.
-						walker.setNode( endNode );
-						data = walker.forward( guardFunction );
-						boundaryEvent = data.events.shift();
-
-						this.setEndAfter( boundaryEvent.from );
-					}
+					// Enlarging the end boundary.
+					walkerRange = this.clone();
+					walkerRange.collapse();
+					walkerRange.setEndAt( this.document.getBody(), CKEDITOR.POSITION_BEFORE_END );
+					walker = new CKEDITOR.dom.walker( walkerRange );
+					walker.guard = ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? listGuard : guard;
+					if ( ( enlargeable = walker.lastForward() ) )
+						this.setEndAfter( enlargeable );
+					// We must include the <br> at the end of range if there's
+					// one and we're expanding list item contents
+					if ( tailBr )
+						this.setEndAfter( tailBr );
 			}
 		},
 
@@ -1333,7 +1334,7 @@ CKEDITOR.dom.range = function( document ) {
 			if ( this.collapsed || container.type != CKEDITOR.NODE_ELEMENT )
 				return container;
 
-			return container.getChild[ this.endOffset - 1 ] || container;
+			return container.getChild( this.endOffset - 1 ) || container;
 		}
 	};
 })();

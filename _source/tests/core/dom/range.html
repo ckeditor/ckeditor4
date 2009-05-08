@@ -21,6 +21,13 @@ CKEDITOR.test.addTestCase( (function()
 
 	var doc = new CKEDITOR.dom.document( document );
 
+	var getRange = function( startId, endId )
+	{
+		var range = new CKEDITOR.dom.range( CKEDITOR.document );
+		range.moveToBookmark( { startNode : startId, endNode : endId, serializable : true } );
+		return range;
+	};
+
 	return tests = {
 		test__constructor : function()
 		{
@@ -928,6 +935,128 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( document.getElementById( '_EnlargeP' ).childNodes[ 1 ], range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list1 : function()
+		{
+			var range = getRange( 'S1', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP7' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP7' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list2 : function()
+		{
+			var range = getRange( 'S2', 'E2' );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP8' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP8' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 4, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list3 : function()
+		{
+			var range = getRange( 'S3', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP9' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP9' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list4 : function()
+		{
+			var range = getRange( 'S4', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP10' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 3, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP10' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list5 : function()
+		{
+			var range = getRange( 'S9', null );
+			var bookmark = range.createBookmark();
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP15' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP15' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 4, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+			range.moveToBookmark( bookmark );
+		},
+
+		test_enlarge_block1 : function()
+		{
+			var range = getRange( 'S5', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP11' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP11'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_block2 : function()
+		{
+			var range = getRange( 'S10', null );
+			var bookmark = range.createBookmark();
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP16' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP16'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+			range.moveToBookmark( bookmark );
+		},
+
+		test_enlarge_block3 : function()
+		{
+			var range = getRange( 'S6', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP12' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP12'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+		
+		test_enlarge_block4 : function()
+		{
+			var range = getRange( 'S7', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP13' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP13'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_block5 : function()
+		{
+			var range = getRange( 'S8', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP14' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
 		test_deleteContents_W3C_1 : function()
@@ -1970,6 +2099,16 @@ CKEDITOR.test.addTestCase( (function()
 		<p id="_EnlargeP4">Test <i id="_EnlargeI4"> Enlarge</i></p>
 		<p id="_EnlargeP5">Test <i id="_EnlargeI5">Enlarge</i></p>
 		<p id="_EnlargeP6">Test <i id="_EnlargeI6"><b></b>Enlarge</i></p>
+		<p id="_EnlargeP7">Test <span id="S1"></span>List<br/ >Item Enlarge</p>
+		<p id="_EnlargeP8">Test <span id="S2"></span>List<span id="E2"></span> <br /><br />Item Enlarge</p>
+		<p id="_EnlargeP9">Test List <br /><span id="S3"></span><br />Item Enlarge</p>
+		<p id="_EnlargeP10">Test List <br /><br />Item<span id="S4"></span> Enlarge</p>
+		<p id="_EnlargeP11">Test <strong>Block<span id="S5"></span></strong><br /><br />Enlarge</p>
+		<div id="_EnlargeP12">Test<span id="S6"></span> Block <div>Enlarge</div></div>
+		<div>Test <div id="_EnlargeP13">Blo<span id="S7"></span>ck</div> Enlarge</div>
+		<p id="_EnlargeP14"><span id="S8"></span></p>
+		<p id="_EnlargeP15">Test <span id="S9"></span>List<br/ >Item Enlarge</p>
+		<p id="_EnlargeP16">Test <strong>Block<span id="S10"></span></strong><br /><br />Enlarge</p>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
