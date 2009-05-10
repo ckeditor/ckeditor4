@@ -241,6 +241,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			contentBlock.moveChildren( listItem );
 			contentBlock.remove();
 			listItem.appendTo( listNode );
+
+			// Append a bogus BR to force the LI to render at full height
+			if ( !CKEDITOR.env.ie )
+				listItem.appendBogus();
 		}
 		if ( insertAnchor )
 			listNode.insertBefore( insertAnchor );
