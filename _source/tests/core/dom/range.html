@@ -1237,7 +1237,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<b id="_b">ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 'this is <b id="_b">s</b>ext.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -1260,7 +1260,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b id="_b">s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 't<b id="_b">ome</b> text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -1283,7 +1283,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1 id="_h1">ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1>ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1">f</h1><p>nother paragraph.</p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
@@ -1304,7 +1304,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1>fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1"></h1><p></p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
@@ -1439,7 +1439,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b id="_b">some</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( 'his is <b>some</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1467,7 +1467,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<b id="_b">ome</b> t', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1495,7 +1495,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b id="_b">s</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1523,7 +1523,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1 id="_h1">ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1>ckw3crange test</h1><p>this is <b>some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1550,7 +1550,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1577,7 +1577,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1628,7 +1628,7 @@ CKEDITOR.test.addTestCase( (function()
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'this is <b id="_b">some</b> text.', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( 'this is <b>some</b> text.', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -1732,6 +1732,224 @@ CKEDITOR.test.addTestCase( (function()
 			// be at the end of it.
 			assert.areSame( 5, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+		
+		test_checkStartOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock5 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p> Test </p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// IE trims the space in the beginning of text nodes in our case.
+			// So, let's just check it and make it pass.
+			range.setStart( el, ( el.substring( 0, 1 ) == 'T' ) ? 0 : 1 );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+			
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+			
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkEndOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock5 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 1 );
+			range.collapse( true );
+			
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+			
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+			
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+			
+			assert.isFalse( range.checkEndOfBlock() );
 		},
 		
 		test_checkStartOfBlock1 : function()
