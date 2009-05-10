@@ -13,7 +13,8 @@
 CKEDITOR.test.addTestCase( (function()
 {
 	// Local reference to the "assert" object.
-	var assert = CKEDITOR.test.assert;
+	var assert = CKEDITOR.test.assert,
+		arrayAssert = YAHOO.util.ArrayAssert;
 
 	return {
 		test_$ : function()
@@ -89,6 +90,31 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( document.body, doc.getBody().$, '1st call failed' );
 			assert.areSame( document.body, doc.getBody().$, '2nd call failed' );
 		},
+		test_createText : function()
+		{
+			var doc = new CKEDITOR.dom.document( document ), contentText = 'text content';
+			var textNode = doc.createText( contentText );
+			assert.areSame( contentText, textNode.getText(),
+				'Create text node content doesn\'t match.' );
+		},
+
+		test_getByAddress1 : function()
+		{
+			var doc = new CKEDITOR.dom.document( document );
+			var node = doc.getByAddress( [ 1, 1, 0, 1, 0, 0 ] );
+			assert.areSame( 'target', node.getText(),
+				'Addressing target doesn\'t match.' );
+		},
+		
+		test_getElementsByTag : function()
+		{
+			var nodeList = new CKEDITOR.dom.document( document ).getElementsByTag( 'span' ),
+				results = [];
+			for( var i = 0; i < nodeList.count(); i++ ){
+				results.push( nodeList.getItem( i ).$ );
+			}
+			arrayAssert.itemsAreEqual( results, document.getElementsByTagName( 'span' ) );
+		},
 
 		name : document.title
 	};
@@ -97,7 +123,5 @@ CKEDITOR.test.addTestCase( (function()
 	//]]>
 	</script>
 </head>
-<body>
-	<div id="test1"></div>
-</body>
+<body><div id="test1"></div><div><p>text<span><b id="addressTarget1">target</b>text</span>text</p></div><span ><b id="addressTarget2">target</b></span></body>
 </html>
