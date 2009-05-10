@@ -20,9 +20,9 @@ function prepareEditor( elementId, mode, config, callback, context )
 	CKEDITOR.on( 'instanceReady',
 		function( evt )
 		{
-			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ? 
+			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ?
 				evt.editor.name == elementId
-				: evt.editor.element.$ == 
+				: evt.editor.element.$ ==
 					document.getElementById( elementId );
 			if ( isMe )
 			{
@@ -53,9 +53,9 @@ function getTextAreaValue( id )
 
 CKEDITOR.test.addTestCase( ( function()
 	{
-		
+
 		// Local references.
-		var assert = CKEDITOR.test.assert, 
+		var assert = CKEDITOR.test.assert,
 			doc = CKEDITOR.document,
 			action = YAHOO.util.UserAction,
 			selector = YAHOO.util.Selector;
@@ -64,15 +64,15 @@ CKEDITOR.test.addTestCase( ( function()
 		 * Set the range with the start/end position specified by the locator, which in form of bookmark2.
 		 * @param {Object} range
 		 * @param {Array} startPosition range start path including offset
-		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed 
+		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed
 		 */
 		function setRange( range, startPosition, endPositoin )
 		{
 			var bm = {
-				end : null, 
-				start : null, 
-				is2: true, 
-				startOffset : 0, 
+				end : null,
+				start : null,
+				is2: true,
+				startOffset : 0,
 				endoffset : 0
 			};
 			bm.start = startPosition.slice( 0, startPosition.length - 1 );
@@ -91,42 +91,42 @@ CKEDITOR.test.addTestCase( ( function()
 		}
 
 		return	{
-			
+
 			/**
-			 *  Test remove numbered list with 'enterMode = BR'. 
+			 *  Test remove numbered list with 'enterMode = BR'.
 			 */
 			test_ticket_3151 : function()
 			{
-				prepareEditor( 'test_ticket_3151_editor', null, 
-					{ enterMode : CKEDITOR.ENTER_BR }, 
+				prepareEditor( 'test_ticket_3151_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
 					function( editor )
 					{
 						this.resume( function()
 						{
 							editor.focus();
-							
+
 							// Force result data unformatted.
 							editor.dataProcessor.writer._.rules = {};
-							
-							var doc = editor.document, 
+
+							var doc = editor.document,
 								range = new CKEDITOR.dom.range( doc );
-							
+
 							setRange( range, [ 1, 0, 0, 0, 0 ], true );
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
-							
+
 							// Waiting for 'comand state' effected.
 							this.wait( function(){
 								// Remove list.
 								editor.execCommand( 'numberedlist' );
-								assert.areSame( getTextAreaValue( 'test_ticket_3151_resultContent' ), 
-									editor.getData(), 
+								assert.areSame( getTextAreaValue( 'test_ticket_3151_resultContent' ),
+									editor.getData(),
 									'Remove list result not correct.' );
 							}, 1000);
-							
+
 						} );
 					}, this );
-					this.wait();	
+					this.wait();
 			},
 
 			name :document.title
@@ -162,9 +162,9 @@ function prepareEditor( elementId, mode, config, callback, context )
 	CKEDITOR.on( 'instanceReady',
 		function( evt )
 		{
-			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ? 
+			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ?
 				evt.editor.name == elementId
-				: evt.editor.element.$ == 
+				: evt.editor.element.$ ==
 					document.getElementById( elementId );
 			if ( isMe )
 			{
@@ -195,9 +195,9 @@ function getTextAreaValue( id )
 
 CKEDITOR.test.addTestCase( ( function()
 	{
-		
+
 		// Local references.
-		var assert = CKEDITOR.test.assert, 
+		var assert = CKEDITOR.test.assert,
 			doc = CKEDITOR.document,
 			action = YAHOO.util.UserAction,
 			selector = YAHOO.util.Selector;
@@ -206,15 +206,15 @@ CKEDITOR.test.addTestCase( ( function()
 		 * Set the range with the start/end position specified by the locator, which in form of bookmark2.
 		 * @param {Object} range
 		 * @param {Array} startPosition range start path including offset
-		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed 
+		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed
 		 */
 		function setRange( range, startPosition, endPositoin )
 		{
 			var bm = {
-				end : null, 
-				start : null, 
-				is2: true, 
-				startOffset : 0, 
+				end : null,
+				start : null,
+				is2: true,
+				startOffset : 0,
 				endoffset : 0
 			};
 			bm.start = startPosition.slice( 0, startPosition.length - 1 );
@@ -233,42 +233,42 @@ CKEDITOR.test.addTestCase( ( function()
 		}
 
 		return	{
-			
+
 			/**
-			 *  Test remove numbered list with 'enterMode = BR'. 
+			 *  Test remove numbered list with 'enterMode = BR'.
 			 */
 			test_ticket_3151 : function()
 			{
-				prepareEditor( 'test_ticket_3151_editor', null, 
-					{ enterMode : CKEDITOR.ENTER_BR }, 
+				prepareEditor( 'test_ticket_3151_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
 					function( editor )
 					{
 						this.resume( function()
 						{
 							editor.focus();
-							
+
 							// Force result data unformatted.
 							editor.dataProcessor.writer._.rules = {};
-							
-							var doc = editor.document, 
+
+							var doc = editor.document,
 								range = new CKEDITOR.dom.range( doc );
-							
+
 							setRange( range, [ 1, 0, 0, 0, 0 ], true );
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
-							
+
 							// Waiting for 'comand state' effected.
 							this.wait( function(){
 								// Remove list.
 								editor.execCommand( 'numberedlist' );
-								assert.areSame( getTextAreaValue( 'test_ticket_3151_resultContent' ), 
-									editor.getData(), 
+								assert.areSame( getTextAreaValue( 'test_ticket_3151_resultContent' ),
+									editor.getData(),
 									'Remove list result not correct.' );
 							}, 1000);
-							
+
 						} );
 					}, this );
-					this.wait();	
+					this.wait();
 			},
 
 			name :document.title

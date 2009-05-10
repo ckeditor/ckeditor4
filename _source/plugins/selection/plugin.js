@@ -25,7 +25,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
 			}
 		} catch ( e ) {}
-	};
+	}
 
 	var checkSelectionChangeTimer, checkSelectionChangeTimeoutPending;
 
@@ -275,6 +275,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.isInvalid = true;
 			}
 		}
+
+		return this;
 	};
 
 	var styleObjectElements = { img:1,hr:1,li:1,table:1,tr:1,td:1,embed:1,object:1,ol:1,ul:1,a:1,input:1,form:1,select:1,textarea:1,button:1,fieldset:1,th:1,thead:1,tfoot:1 };
@@ -677,7 +679,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( CKEDITOR.env.ie ) {
 				this.getNative().empty();
 
-				var range;
 				try {
 					// Try to select the node as a control.
 					range = this.document.$.body.createControlRange();
@@ -693,7 +694,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.reset();
 			} else {
 				// Create the range for the element.
-				var range = this.document.$.createRange();
+				range = this.document.$.createRange();
 				range.selectNode( element.$ );
 
 				// Select the range.

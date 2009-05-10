@@ -18,11 +18,11 @@ CKEDITOR.test.addTestCase( tc = (function()
 	var assert = CKEDITOR.test.assert;
 
 	var doc = new CKEDITOR.dom.document( document );
-	
+
 	function assertNodesList( wanted, nodes )
 	{
 		var simplifiedNodes = [];
-		
+
 		for ( var i = 0 ; i < nodes.length ; i++ )
 			simplifiedNodes.push( nodes[i].type == CKEDITOR.NODE_TEXT ? nodes[i].getText() : ( '<' + nodes[i].getName() + '>' ) );
 
@@ -40,9 +40,9 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			range.setStartAt( node.getFirst(), CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
-			
+
 			assert.isNull( walker.next() );
 		},
 
@@ -53,15 +53,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( node );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.next() )
-			{
+			var nodes = [];
+			while ( ( node = walker.next() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', ' test' ], nodes );
 		},
@@ -74,15 +71,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getFirst(), CKEDITOR.POSITION_AFTER_START );
 			range.setEnd( node.getChild( [0,1,1,0] ), 2 );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.next() )
-			{
+			var nodes = [];
+			while ( ( node = walker.next() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ 'This is ', '<b>', 'a ', '<i>', 'si' ], nodes );
 		},
@@ -95,15 +89,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 1 ), CKEDITOR.POSITION_BEFORE_START );
 			range.setEndAt( node.getChild( 1 ), CKEDITOR.POSITION_AFTER_START );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.next() )
-			{
+			var nodes = [];
+			while ( ( node = walker.next() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<h1>' ], nodes );
 		},
@@ -116,15 +107,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 0 ), CKEDITOR.POSITION_BEFORE_END );
 			range.setEndAt( node.getChild( 0 ), CKEDITOR.POSITION_AFTER_END );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.next() )
-			{
+			var nodes = [];
+			while ( ( node = walker.next() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [], nodes );
 		},
@@ -137,15 +125,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 0 ), CKEDITOR.POSITION_BEFORE_END );
 			range.setEndAt( node.getChild( 1 ), CKEDITOR.POSITION_AFTER_START );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.next() )
-			{
+			var nodes = [];
+			while ( ( node = walker.next() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<h1>' ], nodes );
 		},
@@ -157,15 +142,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( node );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.previous() )
-			{
+			var nodes = [];
+			while ( ( node = walker.previous() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
@@ -178,15 +160,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEnd( node.getChild( [0,0] ), 2 );
 			range.setEnd( node.getChild( [0,1,1,0] ), 2 );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.previous() )
-			{
+			var nodes = [];
+			while ( ( node = walker.previous() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ 'si', 'a ', 'is is ' ], nodes );
 		},
@@ -199,15 +178,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 1 ), CKEDITOR.POSITION_BEFORE_START );
 			range.setEndAt( node.getChild( 1 ), CKEDITOR.POSITION_AFTER_START );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.previous() )
-			{
+			var nodes = [];
+			while ( ( node = walker.previous() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '' ], nodes );
 		},
@@ -220,15 +196,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 0 ), CKEDITOR.POSITION_BEFORE_END );
 			range.setEndAt( node.getChild( 0 ), CKEDITOR.POSITION_AFTER_END );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.previous() )
-			{
+			var nodes = [];
+			while ( ( node = walker.previous() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<p>' ], nodes );
 		},
@@ -241,15 +214,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getChild( 0 ), CKEDITOR.POSITION_BEFORE_END );
 			range.setEndAt( node.getChild( 1 ), CKEDITOR.POSITION_AFTER_START );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
 
-			var nodes = [],
-				node;
-			while ( node = walker.previous() )
-			{
+			var nodes = [];
+			while ( ( node = walker.previous() ) )
 				nodes.push( node );
-			}
 
 			assertNodesList( [ '<p>' ], nodes );
 		},
@@ -264,16 +234,18 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( node );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
-			var nodes = [],
-				node;
-			walker.guard = function( node ){
+			var nodes = [];
+
+			walker.guard = function( node )
+			{
 				nodes.push( node );
 				return true;
 			};
-			while ( node = walker.next() )
-			{}
+
+			while ( ( node = walker.next() ) )
+			{ /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', '<i>', '<b>',' test' , '<p>' ], nodes );
 		},
@@ -288,16 +260,18 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( node );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
-			var nodes = [],
-				node;
-			walker.guard = function( node ){
+			var nodes = [];
+
+			walker.guard = function( node )
+			{
 				nodes.push( node );
 				return true;
 			};
-			while ( node = walker.previous() )
-			{}
+
+			while ( ( node = walker.previous() ) )
+			{ /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', '<i>', 'a ', '<b>', 'This is ', '<p>' ], nodes );
 		},
@@ -312,16 +286,18 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( node );
-			
+
 			var walker = new CKEDITOR.dom.walker( range );
-			var nodes = [],
-				node;
-			walker.evaluator = function( node ){
+			var nodes = [];
+
+			walker.evaluator = function( node )
+			{
 				nodes.push( node );
 				return true;
 			};
-			while ( node = walker.previous() )
-			{}
+
+			while ( ( node = walker.previous() ) )
+			{ /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},

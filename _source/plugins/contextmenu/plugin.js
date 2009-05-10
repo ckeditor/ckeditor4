@@ -46,7 +46,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				menu.onClick = CKEDITOR.tools.bind( function( item ) {
 					menu.onHide = null;
 
-					noUnlock = true;
+					var noUnlock = true;
 					menu.hide();
 
 					if ( CKEDITOR.env.ie )

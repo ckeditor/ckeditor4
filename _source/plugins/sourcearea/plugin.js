@@ -54,7 +54,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 								return {
 									height: holderElement.$.clientHeight + 'px',
 									width: holderElement.$.clientWidth + 'px'
-								}
+								};
 							}
 
 							onResize = function() {

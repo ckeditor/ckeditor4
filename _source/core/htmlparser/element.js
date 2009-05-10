@@ -150,7 +150,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 				}
 			} else {
 				for ( a in attributes ) {
-					var value = attributes[ a ];
+					value = attributes[ a ];
 
 					if ( filter && ( !( a = filter.onAttributeName( a ) ) || ( value = filter.onAttribute( element, a, value ) ) === false ) )
 						continue;

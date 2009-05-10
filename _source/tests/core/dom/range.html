@@ -1036,7 +1036,7 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( 2, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
-		
+
 		test_enlarge_block4 : function()
 		{
 			var range = getRange( 'S7', null );
@@ -1733,7 +1733,7 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areSame( 5, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
-		
+
 		test_checkStartOfBlock1 : function()
 		{
 			var p = doc.getById( 'playground' );
@@ -1744,7 +1744,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
@@ -1758,7 +1758,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
@@ -1772,7 +1772,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
@@ -1786,7 +1786,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
@@ -1802,7 +1802,7 @@ CKEDITOR.test.addTestCase( (function()
 			// So, let's just check it and make it pass.
 			range.setStart( el, ( el.substring( 0, 1 ) == 'T' ) ? 0 : 1 );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
@@ -1816,7 +1816,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStart( p.getFirst(), 5 );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
@@ -1828,7 +1828,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
-			
+
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
@@ -1840,7 +1840,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
-			
+
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
@@ -1854,7 +1854,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
@@ -1868,7 +1868,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
@@ -1882,7 +1882,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
@@ -1896,7 +1896,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
@@ -1910,7 +1910,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStart( p.getFirst(), 1 );
 			range.collapse( true );
-			
+
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
@@ -1924,7 +1924,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			range.setStart( p.getFirst(), 5 );
 			range.collapse( true );
-			
+
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
@@ -1936,7 +1936,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
-			
+
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
@@ -1948,7 +1948,7 @@ CKEDITOR.test.addTestCase( (function()
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
-			
+
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 		

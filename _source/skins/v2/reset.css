@@ -68,11 +68,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 input[type="text"],
 .cke_skin_v2 input[type="password"]
 {
-	cursor: text; 
+	cursor: text;
 }
 
 .cke_skin_v2 input[type="text"][disabled],
 .cke_skin_v2 input[type="password"][disabled]
 {
-	cursor: default; 
+	cursor: default;
 }

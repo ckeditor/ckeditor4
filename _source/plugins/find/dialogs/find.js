@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	function guardDomWalkerNonEmptyTextNode( node ) {
-		return ( node.type == CKEDITOR.NODE_TEXT && node.getLength() > 0 )
+		return ( node.type == CKEDITOR.NODE_TEXT && node.getLength() > 0 );
 	}
 
 	/**
@@ -64,7 +64,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * Iterator which walk through document char by char.
 			 * @param {Object} start
 			 * @param {Number} offset
-			 * @param {Boolean} isStrict 
+			 * @param {Boolean} isStrict
 			 */
 			var characterWalker = function( range, matchWord ) {
 					var walker = new CKEDITOR.dom.walker( range );
@@ -418,7 +418,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								var cursors = this.matchRange.getCursors(),
 									tail = cursors[ cursors.length - 1 ],
 									head = cursors[ 0 ];
-								headWalker = new characterWalker( getRangeBeforeCursor( head ), true ), tailWalker = new characterWalker( getRangeAfterCursor( tail ), true );
+
+								var headWalker = new characterWalker( getRangeBeforeCursor( head ), true ),
+									tailWalker = new characterWalker( getRangeAfterCursor( tail ), true );
+
 								if ( !( isWordSeparator( headWalker.back().character ) && isWordSeparator( tailWalker.next().character ) ) )
 									continue;
 							}

@@ -400,9 +400,9 @@ CKEDITOR.test.addTestCase( (function()
 			var element = new CKEDITOR.dom.element( document.getElementById( 'tabIndexScriptDef' ) );
 			assert.areEqual( null, element.getAttribute( 'tabindex' ) );
 		},
-		
+
 		/**
-		 *  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute. 
+		 *  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute.
 		 */
 		test_getAttribute_ignoreExpandoAttributes : function()
 		{
@@ -413,7 +413,7 @@ CKEDITOR.test.addTestCase( (function()
 			element.removeAttribute( 'class' );
 			if( CKEDITOR.env.ie )
 				assert.areEqual( 'FLOAT: right', element.getAttribute( 'style' ) );
-			else 
+			else
 				assert.areEqual( 'float: right;', element.getAttribute( 'style' ) );
 			element.removeAttribute( 'style' );
 			element.removeAttribute( 'id' );

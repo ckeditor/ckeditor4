@@ -98,7 +98,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var th = theRow.getChild( i );
 							if ( th.type == CKEDITOR.NODE_ELEMENT ) {
 								th.renameNode( 'th' );
-								if ( i == 0 )
+								if ( !i )
 									th.setAttribute( 'scope', 'col' );
 							}
 						}
@@ -128,7 +128,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
 						for ( row = 0; row < table.$.rows.length; row++ ) {
-							var newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
+							newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
 							newCell.renameNode( 'th' );
 							newCell.setAttribute( 'scope', 'col' );
 						}
@@ -139,7 +139,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( i = 0; i < table.$.rows.length; i++ ) {
 							row = new CKEDITOR.dom.element( table.$.rows[ i ] );
 							if ( row.getParent().getName() == 'tbody' ) {
-								var newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
+								newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
 								newCell.renameNode( 'td' );
 								newCell.removeAttribute( 'scope' );
 							}

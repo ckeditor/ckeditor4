@@ -206,7 +206,7 @@ CKEDITOR.ui.button._ = {
 		if ( instance.onfocus )
 			retVal = ( instance.onfocus( instance, new CKEDITOR.dom.event( ev ) ) !== false );
 
-		// FF2: prevent focus event been bubbled up to editor container, which caused unexpected editor focus. 
+		// FF2: prevent focus event been bubbled up to editor container, which caused unexpected editor focus.
 		if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
 			ev.preventBubble();
 		return retVal;

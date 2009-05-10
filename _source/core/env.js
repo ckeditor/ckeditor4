@@ -101,7 +101,7 @@ if ( !CKEDITOR.env ) {
 			env.ie6Compat = ( version < 7 || env.quirks );
 
 			/**
-			 *  Indicate IE8. 
+			 *  Indicate IE8.
 			 */
 			env.ie8 = ( version >= 8 );
 		}

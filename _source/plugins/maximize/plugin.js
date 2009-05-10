@@ -169,7 +169,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							restoreStyles( editorElements[ i ], editorElements[ i ].getCustomData( 'maximize_saved_styles' ) );
 							editorElements[ i ].removeCustomData( 'maximize_saved_styles' );
 						}
-						var currentNode = editor.container;
+
+						currentNode = editor.container;
 						while ( ( currentNode = currentNode.getParent() ) ) {
 							restoreStyles( currentNode, currentNode.getCustomData( 'maximize_saved_styles' ) );
 							currentNode.removeCustomData( 'maximize_saved_styles' );

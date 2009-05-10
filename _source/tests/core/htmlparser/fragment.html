@@ -93,9 +93,9 @@ CKEDITOR.test.addTestCase( tc = (function()
 			testParser(	'<p><b></b>text</p>',
 						'<p>text</p>' );
 		},
-		
+
 		/**
-		 *  Test remove multiple empty inline elements. 
+		 *  Test remove multiple empty inline elements.
 		 */
 		test_parser_8_2 : function()
 		{
@@ -117,7 +117,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 			testParser(	'<table><tbody><tr><td>A<b></b></td></tr></tbody></table>',
 						'<table><tbody><tr><td>A</td></tr></tbody></table>' );
 		},
-		
+
 		/**
 		 *  Test fixing paragraph inside table row.
 		 */
@@ -126,7 +126,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 			testParser(	'<table><tr><td>1</td><p>2</p><td>3</td></tr></table>',
 						'<p>2</p><table><tr><td>1</td><td>3</td></tr></table>' );
 		},
-		
+
 		/**
 		 *  Test fixing paragraph inside list.
 		 */
@@ -144,7 +144,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 			testParser(	'<p>1<div>2</div><span>3</span></p>',
 						'<p>1</p><div>2</div><p><span>3</span></p>' );
 		},
-		
+
 		name : document.title
 	};
 })() );

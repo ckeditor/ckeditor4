@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 }
 
-.cke_skin_office2003 a.cke_toolbox_collapser, 
+.cke_skin_office2003 a.cke_toolbox_collapser,
 .cke_skin_office2003 a:hover.cke_toolbox_collapser
 {
 	background-image: url(images/arrowtop.gif);
@@ -25,20 +25,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: pointer;
 }
 
-.cke_skin_office2003 .cke_rtl a.cke_toolbox_collapser, 
+.cke_skin_office2003 .cke_rtl a.cke_toolbox_collapser,
 .cke_skin_office2003 .cke_rtl a:hover.cke_toolbox_collapser
 {
 	float: left;
 }
 
-.cke_skin_office2003 a.cke_toolbox_collapser_min, 
+.cke_skin_office2003 a.cke_toolbox_collapser_min,
 .cke_skin_office2003 a:hover.cke_toolbox_collapser_min
 {
 	background-image: url(images/arrowleft.gif);
 	margin: 2px;
 }
 
-.cke_skin_office2003 .cke_rtl a.cke_toolbox_collapser_min, 
+.cke_skin_office2003 .cke_rtl a.cke_toolbox_collapser_min,
 .cke_skin_office2003 .cke_rtl a:hover.cke_toolbox_collapser_min
 {
 	background-image: url(images/arrowright.gif);

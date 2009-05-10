@@ -61,7 +61,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 
 			/**
-			 * IE sucks with dynamic 'name' attribute after element is created, '_cke_saved_name' is used instead for this attribute.    
+			 * IE sucks with dynamic 'name' attribute after element is created, '_cke_saved_name' is used instead for this attribute.
 			 */
 			input: function( element ) {
 				var attribs = element.attributes;

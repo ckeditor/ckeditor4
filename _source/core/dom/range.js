@@ -249,6 +249,7 @@ CKEDITOR.dom.range = function( document ) {
 						return false;
 				}
 			}
+			return true;
 		};
 	}
 
@@ -954,6 +955,7 @@ CKEDITOR.dom.range = function( document ) {
 					var walkerRange = new CKEDITOR.dom.range( this.document );
 					walkerRange.setStartAt( this.document.getBody(), CKEDITOR.POSITION_AFTER_START );
 					walkerRange.setEnd( this.startContainer, this.startOffset );
+
 					var walker = new CKEDITOR.dom.walker( walkerRange ),
 
 						guard = CKEDITOR.dom.walker.blockBoundary(
@@ -964,8 +966,7 @@ CKEDITOR.dom.range = function( document ) {
 							if ( !result && node.is && node.is( 'br' ) )
 								tailBr = node;
 							return result;
-						},
-						enlargeable;
+						};
 					walker.guard = guard;
 
 					if ( ( enlargeable = walker.lastBackward() ) )

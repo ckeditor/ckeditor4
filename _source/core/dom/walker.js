@@ -40,7 +40,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			this._.guardLTR = function( node, movingOut ) {
 				return ( ( !movingOut || !limitLTR.equals( node ) ) && ( !blockerLTR || !node.equals( blockerLTR ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.getName() != 'body' ) );
-			}
+			};
 		}
 
 		// Create the RTL guard function, if necessary.
@@ -51,11 +51,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			this._.guardRTL = function( node, movingOut ) {
 				return ( ( !movingOut || !limitRTL.equals( node ) ) && ( !blockerRTL || !node.equals( blockerRTL ) ) && ( node.type != CKEDITOR.NODE_ELEMENT || node.getName() != 'body' ) );
-			}
+			};
 		}
 
 		// Define which guard function to use.
-		stopGuard = rtl ? this._.guardRTL : this._.guardLTR;
+		var stopGuard = rtl ? this._.guardRTL : this._.guardLTR;
 
 		// Make the user defined guard function participate in the process,
 		// otherwise simply use the boundary guard.
@@ -65,7 +65,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return false;
 
 				return userGuard( node );
-			}
+			};
 		} else
 			guard = stopGuard;
 
@@ -115,7 +115,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var node,
 			last = null;
 
-		while ( node = iterate.call( this, rtl ) )
+		while ( ( node = iterate.call( this, rtl ) ) )
 			last = node;
 
 		return last;

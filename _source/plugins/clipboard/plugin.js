@@ -108,7 +108,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case CKEDITOR.SHIFT + 46: // SHIFT+DEL
 
 					// Save Undo snapshot.
-					var editor = this;
+					editor = this;
 					editor.fire( 'saveSnapshot' ); // Save before paste
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' ); // Save after paste

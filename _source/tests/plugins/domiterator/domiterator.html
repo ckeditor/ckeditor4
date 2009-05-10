@@ -18,7 +18,7 @@ CKEDITOR.plugins.load( [ 'htmldataprocessor', 'htmlwriter', 'domiterator'] );
 /**
  * IE always returning CRLF for linefeed, so remove it when retrieve pre-formated text from text area.
  * @param {Object} id
- */	
+ */
 function getTextAreaValue( id )
 {
 	return CKEDITOR.document.getById( id ).getValue().replace(/\r/gi,'');
@@ -26,11 +26,11 @@ function getTextAreaValue( id )
 
 CKEDITOR.test.addTestCase( (function()
 {
-	
+
 	// Local references.
 	var assert = CKEDITOR.test.assert,
 		arrayAssert = YAHOO.util.ArrayAssert;
-	
+
 	var doc = new CKEDITOR.dom.document( document );
 
 	// In these tests, we may "reset" the writer rules to avoid it formatting
@@ -60,7 +60,7 @@ CKEDITOR.test.addTestCase( (function()
 		var html = getDataProcessor().toDataFormat( container.getHtml() );
 		assert.areSame( getTextAreaValue( textareaId ) , html );
 	}
-	
+
 	function assumeElementAreSame( element, textareaId )
 	{
 		if( typeof element == 'string' )
@@ -69,9 +69,9 @@ CKEDITOR.test.addTestCase( (function()
 		var html = getDataProcessor().toDataFormat( element.getOuterHtml() );
 		assert.areSame( getTextAreaValue( textareaId ) , html );
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param {String|CKEDITOR.dom.range} containerId|range Either the id of html container which contents are treated as range, or a exisiting range object.
 	 * @param {Object} iteratorOption
 	 * @param {Array} expectedTagList block elements tagName list in iteration orders.
@@ -86,19 +86,19 @@ CKEDITOR.test.addTestCase( (function()
 		}
 		else
 			range = containerIdOrRange;
-			
+
 		var iter = range.createIterator();
 		CKEDITOR.tools.extend( iter, iteratorOption, true );
 		var blockList = [], block;
-		while (( block = iter.getNextParagraph() ) ) 
+		while (( block = iter.getNextParagraph() ) )
 		{
 			blockList.push( block.getName() );
 		}
 		arrayAssert.itemsAreEqual( expectedTagList, blockList );
 	}
-	
+
 	return {
-		
+
 		/**
 		 * Test iterating over table cells.
 		 */
@@ -196,10 +196,10 @@ CKEDITOR.test.addTestCase( (function()
 		<th id="iterTarget2a">
 			head1</th>
 	</tr>
-	<tr>	
+	<tr>
 		<td><p>cell1</p></td>
 	</tr>
-	<tr>	
+	<tr>
 		<td id="iterTarget2b">cell2</td>
 	</tr>
 </table></div>
@@ -210,9 +210,9 @@ CKEDITOR.test.addTestCase( (function()
 	<li><p>item2</p></li>
 	<li>
 		<ul><li>item3</li></ul>
-		<ul><li><p>item5</p></li></ul>		
+		<ul><li><p>item5</p></li></ul>
 	</li>
-	<li id="iterTarget3b">item5</li>	
+	<li id="iterTarget3b">item5</li>
 	</ul></div>
 <textarea id="iterResult3"><ul><li id="iterTarget3a">item1</li><li><p>item2</p></li><li><ul><li>item3</li></ul><ul><li><p>item5</p></li></ul></li><li id="iterTarget3b">item5</li></ul></textarea>
 

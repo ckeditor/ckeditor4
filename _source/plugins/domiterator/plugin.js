@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 
 	/**
 	 * Find next source order node, ignore bookmark nodes and stop at the specified end node.
-	 * @param {Object} currentNode 
+	 * @param {Object} currentNode
 	 * @param {Object} endNode
 	 */
 	function getNextSourceNode( currentNode, endNode, startFromSibling ) {
@@ -60,7 +60,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 				var boundary = range.getBoundaryNodes();
 				this._.nextNode = boundary.startNode;
 				this._.lastNode = boundary.endNode.getNextSourceNode( true );
-				// Probably the document end is reached, we need a marker node.  
+				// Probably the document end is reached, we need a marker node.
 				if ( !this._.lastNode ) {
 					this._.lastNode = range.document.createText( '' );
 					this._.lastNode.insertAfter( boundary.endNode );

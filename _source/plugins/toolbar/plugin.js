@@ -262,7 +262,7 @@ CKEDITOR.config.toolbar_Full = [
  *     [ 'Source', '-', 'Bold', 'Italic' ]
  * ]</b>;
  * // Load toolbar_Name where Name = Basic.
- * <b>CKEDITOR.config.toolbar = 'Basic'; 
+ * <b>CKEDITOR.config.toolbar = 'Basic';
  */
 CKEDITOR.config.toolbar = 'Full';
 

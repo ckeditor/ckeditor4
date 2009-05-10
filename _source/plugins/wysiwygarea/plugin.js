@@ -227,7 +227,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 						domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
 
-						// Gecko/Webkit need some help when selecting control type elements. (#3448) 
+						// Gecko/Webkit need some help when selecting control type elements. (#3448)
 						if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
 							domDocument.on( 'mousedown', function( ev ) {
 								var control = ev.data.getTarget();
