@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'ja' ] = {
 		block: '両端揃え'
 	},
 
-	outdent: 'インデント解除',
 	blockquote: 'ブロック引用',
 
 	clipboard: {

@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'no' ] = {
 		block: 'Blokkjuster'
 	},
 
-	outdent: 'Senk nivå',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

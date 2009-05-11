@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'bg' ] = {
 		block: 'Двустранно подравняване'
 	},
 
-	outdent: 'Намали отстъпа',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

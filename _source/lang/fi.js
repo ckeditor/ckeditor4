@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		block: 'Tasaa molemmat reunat'
 	},
 
-	outdent: 'Pienennä sisennystä',
 	blockquote: 'Lainaus',
 
 	clipboard: {

@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'ko' ] = {
 		block: '양쪽 맞춤'
 	},
 
-	outdent: '내어쓰기',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

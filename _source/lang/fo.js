@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'fo' ] = {
 		block: 'Javnir tekstkantar'
 	},
 
-	outdent: 'Minka reglubrotarinntriv',
 	blockquote: 'Blockquote',
 
 	clipboard: {

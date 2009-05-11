@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'sr' ] = {
 		block: 'Обострано равнање'
 	},
 
-	outdent: 'Смањи леву маргину',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'km' ] = {
 		block: 'តំរឹមសងខាង'
 	},
 
-	outdent: 'បន្ថយការចូលបន្ទាត់',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'mn' ] = {
 		block: 'Блок хэлбэрээр байрлуулах'
 	},
 
-	outdent: 'Догол мөр нэмэх',
 	blockquote: 'Хайрцаглах',
 
 	clipboard: {

@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'hi' ] = {
 		block: 'ब्लॉक जस्टीफ़ाई'
 	},
 
-	outdent: 'इन्डॅन्ट कम करें',
 	blockquote: 'ब्लॉक-कोट',
 
 	clipboard: {

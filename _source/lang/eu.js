@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'eu' ] = {
 		block: 'Justifikatu'
 	},
 
-	outdent: 'Txikitu Koska',
 	blockquote: 'Aipamen blokea',
 
 	clipboard: {

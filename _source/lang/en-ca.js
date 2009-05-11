@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
- * English (Canadian) language.
+ * English (Australia) language.
  */
 
 /**#@+
@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Source',
@@ -51,7 +51,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	superscript: 'Superscript',
 	horizontalrule: 'Insert Horizontal Line',
 	pagebreak: 'Insert Page Break for Printing',
-	unlink: 'Remove Link',
+	unlink: 'Unlink',
 	undo: 'Undo',
 	redo: 'Redo',
 
@@ -88,9 +88,9 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		cancel: 'Cancel',
 		generalTab: 'General',
 		advancedTab: 'Advanced',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?' // MISSING
+		validateNumberFailed: 'This value is not a number.',
+		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?',
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?'
 	},
 
 	// Special char dialog.
@@ -101,7 +101,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'Insert/Edit Link', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: 'Link\u200b', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
 		menu: 'Edit Link',
 		title: 'Link',
 		info: 'Link Info',
@@ -110,7 +110,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		advanced: 'Advanced',
 		type: 'Link Type',
 		toAnchor: 'Link to anchor in the text',
-		toEmail: 'E-Mail',
+		toEmail: 'E-mail',
 		target: 'Target',
 		targetNotSet: '<not set>',
 		targetFrame: '<frame>',
@@ -122,7 +122,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		targetFrameName: 'Target Frame Name',
 		targetPopupName: 'Popup Window Name',
 		popupFeatures: 'Popup Window Features',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Resizable',
 		popupStatusBar: 'Status Bar',
 		popupLocationBar: 'Location Bar',
 		popupToolbar: 'Toolbar',
@@ -134,14 +134,14 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		popupLeft: 'Left Position',
 		popupHeight: 'Height',
 		popupTop: 'Top Position',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Language Direction',
 		langDirNotSet: '<not set>',
 		langDirLTR: 'Left to Right (LTR)',
 		langDirRTL: 'Right to Left (RTL)',
 		acccessKey: 'Access Key',
 		name: 'Name',
-		langCode: 'Language Direction',
+		langCode: 'Language Code',
 		tabIndex: 'Tab Index',
 		advisoryTitle: 'Advisory Title',
 		advisoryContentType: 'Advisory Content Type',
@@ -161,8 +161,8 @@ CKEDITOR.lang[ 'en-ca' ] = {
 
 	// Anchor dialog
 	anchor: {
-		toolbar: 'Insert/Edit Anchor',
-		menu: 'Anchor Properties',
+		toolbar: 'Anchor',
+		menu: 'Edit Anchor',
 		title: 'Anchor Properties',
 		name: 'Anchor Name',
 		errorName: 'Please type the anchor name'
@@ -178,9 +178,9 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		notFoundMsg: 'The specified text was not found.',
 		matchCase: 'Match case',
 		matchWord: 'Match whole word',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Match cyclic',
 		replaceAll: 'Replace All',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 occurrence(s) replaced.'
 	},
 
 	// Table Dialog
@@ -205,18 +205,18 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		cellPad: 'Cell padding',
 		caption: 'Caption',
 		summary: 'Summary',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Headers',
+		headersNone: 'None',
+		headersColumn: 'First column',
+		headersRow: 'First Row',
+		headersBoth: 'Both',
+		invalidRows: 'Number of rows must be a number greater than 0.',
+		invalidCols: 'Number of columns must be a number greater than 0.',
+		invalidBorder: 'Border size must be a number.',
+		invalidWidth: 'Table width must be a number.',
+		invalidHeight: 'Table height must be a number.',
+		invalidCellSpacing: 'Cell spacing must be a number.',
+		invalidCellPadding: 'Cell padding must be a number.',
 
 		cell: {
 			menu: 'Cell',
@@ -228,27 +228,27 @@ CKEDITOR.lang[ 'en-ca' ] = {
 			mergeDown: 'Merge Down',
 			splitHorizontal: 'Split Cell Horizontally',
 			splitVertical: 'Split Cell Vertically',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'Cell Properties',
+			cellType: 'Cell Type',
+			rowSpan: 'Rows Span',
+			colSpan: 'Columns Span',
+			wordWrap: 'Word Wrap',
+			hAlign: 'Horizontal Alignment',
+			vAlign: 'Vertical Alignment',
+			alignTop: 'Top',
+			alignMiddle: 'Middle',
+			alignBottom: 'Bottom',
+			alignBaseline: 'Baseline',
+			bgColor: 'Background Color',
+			borderColor: 'Border Color',
+			data: 'Data',
+			header: 'Header',
+			yes: 'Yes',
+			no: 'No',
+			invalidWidth: 'Cell width must be a number.',
+			invalidHeight: 'Cell height must be a number.',
+			invalidRowSpan: 'Rows span must be a whole number.',
+			invalidColSpan: 'Columns span must be a whole number.'
 		},
 
 		row: {
@@ -290,7 +290,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		menu: 'Form Properties',
 		action: 'Action',
 		method: 'Method',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Encoding',
 		target: 'Target',
 		targetNotSet: '<not set>',
 		targetNew: 'New Window (_blank)',
@@ -302,7 +302,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	// Select Field Dialog.
 	select: {
 		title: 'Selection Field Properties',
-		selectInfo: 'Info',
+		selectInfo: 'Select Info',
 		opAvail: 'Available Options',
 		value: 'Value',
 		size: 'Size',
@@ -374,27 +374,27 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		preview: 'Preview',
 		alertUrl: 'Please type the image URL',
 		linkTab: 'Link',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: 'Do you want to transform the selected image button on a simple image?',
+		img2Button: 'Do you want to transform the selected image on a image button?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash Properties',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Properties',
 		title: 'Flash Properties',
 		chkPlay: 'Auto Play',
 		chkLoop: 'Loop',
 		chkMenu: 'Enable Flash Menu',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Allow Fullscreen',
 		scale: 'Scale',
 		scaleAll: 'Show all',
 		scaleNoBorder: 'No Border',
 		scaleFit: 'Exact Fit',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Script Access',
+		accessAlways: 'Always',
+		accessSameDomain: 'Same domain',
+		accessNever: 'Never',
 		align: 'Align',
 		alignLeft: 'Left',
 		alignAbsBottom: 'Abs Bottom',
@@ -405,27 +405,27 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		alignRight: 'Right',
 		alignTextTop: 'Text Top',
 		alignTop: 'Top',
-		quality: 'Quality', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
-		bgcolor: 'Background Colour',
+		quality: 'Quality',
+		windowMode: 'Window mode',
+		flashvars: 'Variables for Flash',
+		bgcolor: 'Background colour',
 		width: 'Width',
 		height: 'Height',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
-		validateSrc: 'Please type the link URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateSrc: 'URL must not be empty.',
+		validateWidth: 'Width must be a number.',
+		validateHeight: 'Height must be a number.',
+		validateHSpace: 'HSpace must be a number.',
+		validateVSpace: 'VSpace must be a number.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Check Spelling',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Spell Check',
+		notAvailable: 'Sorry, but service is unavailable now.',
+		errorLoading: 'Error loading application service host: %s.',
 		notInDic: 'Not in dictionary',
 		changeTo: 'Change to',
 		btnIgnore: 'Ignore',
@@ -448,11 +448,11 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 element'
 	},
 
-	numberedlist: 'Numbered List',
-	bulletedlist: 'Bulleted List',
+	numberedlist: 'Insert/Remove Numbered List',
+	bulletedlist: 'Insert/Remove Bulleted List',
 	indent: 'Increase Indent',
 	outdent: 'Decrease Indent',
 
@@ -463,14 +463,13 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		block: 'Block Justify'
 	},
 
-	outdent: 'Decrease Indent',
 	blockquote: 'Blockquote',
 
 	clipboard: {
 		title: 'Paste',
 		cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl+X).',
 		copyError: 'Your browser security settings don\'t permit the editor to automatically execute copying operations. Please use the keyboard for that (Ctrl+C).',
-		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit <strong>OK</strong>.',
+		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK',
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.'
 	},
 
@@ -483,7 +482,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	},
 
 	pasteText: {
-		button: 'Paste as Plain Text',
+		button: 'Paste as plain text',
 		title: 'Paste as Plain Text'
 	},
 
@@ -491,22 +490,22 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		button: 'Templates',
 		title: 'Content Templates',
 		insertOption: 'Replace actual contents',
-		selectPromptMsg: 'Please select the template to open in the editor<br />(the actual contents will be lost):',
+		selectPromptMsg: 'Please select the template to open in the editor',
 		emptyListMsg: '(No templates defined)'
 	},
 
 	showBlocks: 'Show Blocks',
 
 	stylesCombo: {
-		label: 'Style',
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		label: 'Styles',
+		panelTitle1: 'Block Styles',
+		panelTitle2: 'Inline Styles',
+		panelTitle3: 'Object Styles'
 	},
 
 	format: {
 		label: 'Format',
-		panelTitle: 'Format',
+		panelTitle: 'Paragraph Format',
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -522,12 +521,12 @@ CKEDITOR.lang[ 'en-ca' ] = {
 
 	font: {
 		label: 'Font',
-		panelTitle: 'Font'
+		panelTitle: 'Font Name'
 	},
 
 	fontSize: {
 		label: 'Size',
-		panelTitle: 'Size'
+		panelTitle: 'Font Size'
 	},
 
 	colorButton: {
@@ -581,10 +580,10 @@ CKEDITOR.lang[ 'en-ca' ] = {
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'About CKEditor',
+		moreInfo: 'For licensing information please visit our web site:',
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize' // MISSING
+	maximize: 'Maximize'
 };

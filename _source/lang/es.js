@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'es' ] = {
 		block: 'Justificado'
 	},
 
-	outdent: 'Disminuir Sangría',
 	blockquote: 'Cita',
 
 	clipboard: {

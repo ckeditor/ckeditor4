@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'zh' ] = {
 		block: '左右對齊'
 	},
 
-	outdent: '減少縮排',
 	blockquote: '引用文字',
 
 	clipboard: {

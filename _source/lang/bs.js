@@ -57,7 +57,7 @@ CKEDITOR.lang[ 'bs' ] = {
 
 	// Common messages and labels.
 	common: {
-		browseServer: 'Browser Server', // MISSING
+		browseServer: 'Browse Server', // MISSING
 		url: 'URL',
 		protocol: 'Protokol',
 		upload: 'Šalji',
@@ -463,14 +463,13 @@ CKEDITOR.lang[ 'bs' ] = {
 		block: 'Puno poravnanje'
 	},
 
-	outdent: 'Smanji uvod',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {
 		title: 'Zalijepi',
 		cutError: 'Sigurnosne postavke vašeg pretraživaèa ne dozvoljavaju operacije automatskog rezanja. Molimo koristite kraticu na tastaturi (Ctrl+X).',
 		copyError: 'Sigurnosne postavke Vašeg pretraživaèa ne dozvoljavaju operacije automatskog kopiranja. Molimo koristite kraticu na tastaturi (Ctrl+C).',
-		pasteMsg: 'Please paste inside the following box using the keyboard (Ctrl+V) and hit OK', // MISSING
+		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK', // MISSING
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
 	},
 

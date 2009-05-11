@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'sv' ] = {
 		block: 'Justera till marginaler'
 	},
 
-	outdent: 'Minska indrag',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

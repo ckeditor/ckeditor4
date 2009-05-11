@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		block: 'Justificado'
 	},
 
-	outdent: 'Diminuir Recuo',
 	blockquote: 'Recuo',
 
 	clipboard: {

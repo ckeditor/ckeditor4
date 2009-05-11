@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'el' ] = {
 		block: 'Πλήρης Στοίχιση (Block)'
 	},
 
-	outdent: 'Μείωση Εσοχής',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {

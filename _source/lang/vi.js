@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'vi' ] = {
 		block: 'Canh đều'
 	},
 
-	outdent: 'Dịch ra ngoài',
 	blockquote: 'Khối Trích dẫn',
 
 	clipboard: {

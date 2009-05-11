@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'nl' ] = {
 		block: 'Uitvullen'
 	},
 
-	outdent: 'Inspringen verkleinen',
 	blockquote: 'Citaatblok',
 
 	clipboard: {

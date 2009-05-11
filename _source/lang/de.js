@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'de' ] = {
 		block: 'Blocksatz'
 	},
 
-	outdent: 'Einzug verringern',
 	blockquote: 'Zitatblock',
 
 	clipboard: {

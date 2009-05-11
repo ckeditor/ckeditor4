@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'tr' ] = {
 		block: 'İki Kenara Yaslanmış'
 	},
 
-	outdent: 'Sekme Azalt',
 	blockquote: 'Blok Oluştur',
 
 	clipboard: {

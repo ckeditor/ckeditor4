@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		block: 'По ширине'
 	},
 
-	outdent: 'Уменьшить отступ',
 	blockquote: 'Цитата',
 
 	clipboard: {

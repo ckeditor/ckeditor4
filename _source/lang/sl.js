@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'sl' ] = {
 		block: 'Obojestranska poravnava'
 	},
 
-	outdent: 'Zmanjšaj zamik',
 	blockquote: 'Citat',
 
 	clipboard: {

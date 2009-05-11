@@ -463,7 +463,6 @@ CKEDITOR.lang[ 'af' ] = {
 		block: 'Blok paradeer'
 	},
 
-	outdent: 'Paradeering verkort',
 	blockquote: 'Blockquote', // MISSING
 
 	clipboard: {
