@@ -38,10 +38,6 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				menu.hide();
 				menu.removeAll();
 			} else {
-				var unlockFn = function() {
-						editor.getSelection().unlock();
-					};
-
 				menu = this._.menu = new CKEDITOR.menu( editor );
 				menu.onClick = CKEDITOR.tools.bind( function( item ) {
 					menu.onHide = null;
@@ -78,7 +74,9 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			// menu.
 			if ( CKEDITOR.env.ie ) {
 				selection.lock();
-				menu.onHide = unlockFn;
+				menu.onHide = function() {
+					editor.getSelection().unlock();
+				};
 			}
 
 			// Call all listeners, filling the list of items to be displayed.
