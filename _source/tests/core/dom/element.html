@@ -407,17 +407,18 @@ CKEDITOR.test.addTestCase( (function()
 		test_getAttribute_ignoreExpandoAttributes : function()
 		{
 			var element = new CKEDITOR.dom.element( document.getElementById( 'testExpandoAttributes' ) );
-			assert.areEqual( 1, element.getAttribute( 'tabindex' ) );
+
+			assert.areEqual( 1, element.getAttribute( 'tabindex' ), 'tabindex is wrong' );
 			element.removeAttribute( 'tabindex' );
-			assert.areEqual( 'hasExpando', element.getAttribute( 'class' ) );
+
+			assert.areEqual( 'hasExpando', element.getAttribute( 'class' ), 'class is wrong' );
 			element.removeAttribute( 'class' );
-			if( CKEDITOR.env.ie )
-				assert.areEqual( 'FLOAT: right', element.getAttribute( 'style' ) );
-			else
-				assert.areEqual( 'float: right;', element.getAttribute( 'style' ) );
+
+			assert.areEqual( 'float:right', element.getAttribute( 'style' ).toLowerCase().replace( /[ ;]/g, '' ) );
+
 			element.removeAttribute( 'style' );
 			element.removeAttribute( 'id' );
-			assert.isFalse( element.hasAttributes() );
+			assert.isFalse( element.hasAttributes(), 'hasAttributes should be false' );
 		},
 
 		test_getTabIndex1 : function()
