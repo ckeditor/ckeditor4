@@ -1058,7 +1058,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 * @example
 		 */
 		getInputElement: function() {
-			return new CKEDITOR.dom.element( CKEDITOR.document.getById( this._.frameId ).getFrameDocument().$.forms[ 0 ].elements[ 0 ] );
+			var frameDocument = CKEDITOR.document.getById( this._.frameId ).getFrameDocument();
+			return frameDocument.$.forms.length > 0 ? new CKEDITOR.dom.element( frameDocument.$.forms[ 0 ].elements[ 0 ] ) : this.getElement();
 		},
 
 		/**
@@ -1083,28 +1084,40 @@ CKEDITOR.plugins.add( 'dialogui' );
 				elementDefinition = this._.definition,
 				buttons = this._.buttons;
 
-			frameDocument.$.open();
+			function generateFormField() {
+				frameDocument.$.open();
 
-			// Support for custom document.domain in IE.
-			if ( CKEDITOR.env.isCustomDomain() )
-				frameDocument.$.domain = document.domain;
+				// Support for custom document.domain in IE.
+				if ( CKEDITOR.env.isCustomDomain() )
+					frameDocument.$.domain = document.domain;
 
-			frameDocument.$.write( [ '<html><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
-											'<form enctype="multipart/form-data" method="POST" action="',
-											CKEDITOR.tools.htmlEncode( elementDefinition.action ),
-											'">',
-											'<input type="file" name="',
-											CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
-											'" size="',
-											CKEDITOR.tools.htmlEncode( elementDefinition.size || '' ),
-											'" />',
-											'</form>',
-											'</body></html>' ].join( '' ) );
+				frameDocument.$.write( [ '<html><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
+													'<form enctype="multipart/form-data" method="POST" action="',
+													CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+													'">',
+													'<input type="file" name="',
+													CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+													'" size="',
+													CKEDITOR.tools.htmlEncode( elementDefinition.size || '' ),
+													'" />',
+													'</form>',
+													'</body></html>' ].join( '' ) );
 
-			frameDocument.$.close();
+				frameDocument.$.close();
 
-			for ( var i = 0; i < buttons.length; i++ )
-				buttons[ i ].enable();
+				for ( var i = 0; i < buttons.length; i++ )
+					buttons[ i ].enable();
+			}
+
+			// #3465: Wait for the browser to finish rendering the dialog first.
+			setTimeout( generateFormField, 500 );
+		},
+
+		getValue: function() {
+			// The file path returned from the input tag is incomplete anyway, so it's
+			// safe to ignore it and prevent the confirmation dialog from appearing.
+			// (Part of #3465)
+			return '';
 		},
 
 		/**
