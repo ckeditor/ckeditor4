@@ -5,8 +5,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.dialog.add( 'pastetext', function( editor ) {
-		var textareaId = 'cke_' + CKEDITOR.tools.getNextNumber();
-
 		return {
 			title: editor.lang.pasteText.title,
 
@@ -15,12 +13,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			onShow: function() {
 				// Reset the textarea value.
-				CKEDITOR.document.getById( textareaId ).setValue( '' );
+				this.getContentElement( 'general', 'content' ).getInputElement().setValue( '' );
 			},
 
 			onOk: function() {
 				// Get the textarea value.
-				var text = CKEDITOR.document.getById( textareaId ).getValue();
+				var text = this.getContentElement( 'general', 'content' ).getInputElement().getValue();
 
 				// Inserts the text.
 				this.getParentEditor().insertText( text );
@@ -29,6 +27,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			contents: [
 				{
 				label: editor.lang.common.generalTab,
+				id: 'general',
 				elements: [
 					{
 					type: 'html',
@@ -39,13 +38,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					type: 'html',
 					id: 'content',
 					style: 'width:340px;height:170px',
-					html: '<textarea id="' + textareaId + '" style="' +
-																'width:346px;' +
-																'height:170px;' +
-																'resize: none;' +
-																'border:1px solid black;' +
-																'background-color:white">' +
-															'</textarea>'
+					html: '<textarea style="' +
+						'width:346px;' +
+						'height:170px;' +
+						'resize: none;' +
+						'border:1px solid black;' +
+						'background-color:white">' +
+						'</textarea>',
+					focus: function() {
+						this.getElement().focus();
+					}
 				}
 				]
 			}

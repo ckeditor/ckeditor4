@@ -191,7 +191,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 		},
 		onOk: function() {
 			var container = this.getContentElement( 'general', 'editing_area' ).getElement(),
-				iframe = container.getFirst(),
+				iframe = container.getElementsByTag( 'iframe' ).getItem( 0 ),
 				editor = this.getParentEditor(),
 				html = this.definition.cleanWord( editor, iframe.$.contentWindow.document.body.innerHTML, this.getValueOf( 'general', 'ignoreFontFace' ), this.getValueOf( 'general', 'removeStyle' ) );
 

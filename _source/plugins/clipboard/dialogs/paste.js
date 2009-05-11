@@ -6,78 +6,94 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'paste', function( editor ) {
 	var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
 
-	var iframeId = 'cke_' + CKEDITOR.tools.getNextNumber();
-
-	// For document.domain compatibility (#123) we must do all the magic in
-	// the URL for IE.
-	var src = isCustomDomain ? 'javascript:void((function(){' +
-						'document.open();' +
-						'document.domain=\'' + document.domain + '\';' +
-						'document.write( window.parent.CKEDITOR._htmlToLoad );' +
-						'document.close();' +
-						'document.body.contentEditable = true;' +
-						'delete window.parent.CKEDITOR._htmlToLoad;' +
-						'window.focus();' +
-					'})())'
-				:
-					'javascript:void(0)';
-
-	var iframeHtml = '<iframe' +
-					' src="' + src + '"' +
-					' id="' + iframeId + '"' +
-					' style="width:346px;background-color:white;height:130px;border:1px solid black"' +
-					' frameborder="0"' +
-					' allowtransparency="1">' +
-				'</iframe>';
-
-	var htmlToLoad = '<!doctype html>' +
-				'<script type="text/javascript">' +
-					'window.onload = function()' +
-					'{' +
-						( CKEDITOR.env.ie ? 'document.body.contentEditable = "true";' : 'document.designMode = "on";' ) +
-						'window.focus();' +
-					'};' +
-					// Avoid errors if the pasted content has any script that
-	// fails. (#389)
-						'window.onerror = function()' +
-					'{' +
-						'return true;' +
-					'};' +
-				'</script><body style="margin:3px"></body>';
-
 	return {
 		title: editor.lang.clipboard.title,
 
 		minWidth: 350,
 		minHeight: 240,
+		htmlToLoad: '<!doctype html><script type="text/javascript">' + 'window.onload = function()'
+							+ '{'
+								+ 'if ( ' + CKEDITOR.env.ie + ' ) '
+									+ 'document.body.contentEditable = "true";'
+								+ 'else '
+									+ 'document.designMode = "on";'
+								+ 'var iframe = new window.parent.CKEDITOR.dom.element( frameElement );'
+								+ 'var dialog = iframe.getCustomData( "dialog" );'
+								+ 'dialog.fire( "iframeAdded", { iframe : iframe } );'
+							+ '};'
+							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',
 
 		onShow: function() {
-			if ( isCustomDomain )
-				CKEDITOR._htmlToLoad = htmlToLoad;
+			if ( CKEDITOR.env.ie )
+				this.getParentEditor().document.getBody().$.contentEditable = 'false';
+
+			// FIREFOX BUG: Force the browser to render the dialog to make the to-be-
+			// inserted iframe editable. (#3366)
+			this.parts.dialog.$.offsetHeight;
+
+			var container = this.getContentElement( 'general', 'editing_area' ).getElement(),
+				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="javascript:void(0)" frameborder="0" allowtransparency="1"></iframe>' );
+
+			var lang = this.getParentEditor().lang;
+
+			iframe.setStyles({
+				width: '346px',
+				height: '130px',
+				'background-color': 'white',
+				border: '1px solid black'
+			});
+			iframe.setCustomData( 'dialog', this );
+
+			var accTitle = lang.editorTitle.replace( '%1', lang.clipboard.title );
+
+			if ( CKEDITOR.env.ie )
+				container.setHtml( '<legend style="position:absolute;top:-1000000px;left:-1000000px;">' + CKEDITOR.tools.htmlEncode( accTitle )
+										+ '</legend>' );
 			else {
-				var iframe = CKEDITOR.document.getById( iframeId );
+				container.setHtml( '' );
+				container.setAttributes({
+					role: 'region',
+					title: accTitle
+				});
+				iframe.setAttributes({
+					role: 'region',
+					title: ' '
+				});
+			}
+			container.append( iframe );
+			if ( CKEDITOR.env.ie )
+				container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
 
-				var $doc = iframe.$.contentWindow.document;
-				$doc.open();
-				$doc.write( htmlToLoad );
-				$doc.close();
-
-				iframe.$.contentWindow.focus();
+			if ( isCustomDomain ) {
+				CKEDITOR._cke_htmlToLoad = this.definition.htmlToLoad;
+				iframe.setAttribute( 'src', 'javascript:void( (function(){' +
+					'document.open();' +
+					'document.domain="' + document.domain + '";' +
+					'document.write( window.parent.CKEDITOR._cke_htmlToLoad );' +
+					'delete window.parent.CKEDITOR._cke_htmlToLoad;' +
+					'document.close();' +
+					'})() )' );
+			} else {
+				var doc = iframe.$.contentWindow.document;
+				doc.open();
+				doc.write( this.definition.htmlToLoad );
+				doc.close();
 			}
 		},
 
+		onHide: function() {
+			if ( CKEDITOR.env.ie )
+				this.getParentEditor().document.getBody().$.contentEditable = 'true';
+		},
+
 		onOk: function() {
-			var iframe = CKEDITOR.document.getById( iframeId );
+			var container = this.getContentElement( 'general', 'editing_area' ).getElement(),
+				iframe = container.getElementsByTag( 'iframe' ).getItem( 0 ),
+				editor = this.getParentEditor(),
+				html = iframe.$.contentWindow.document.body.innerHTML;
 
-			var body = new CKEDITOR.dom.element( iframe.$.contentDocument ? iframe.$.contentDocument.body : iframe.$.contentWindow.document.body );
+			editor.insertHtml( html );
 
-			var html = body.getHtml();
-
-			// Fix relative anchor URLs (IE automatically adds the current page URL).
-			var re = new RegExp( window.location + "#", 'g' );
-			html = html.replace( re, '#' );
-
-			this.getParentEditor().insertHtml( html );
 		},
 
 		contents: [
@@ -97,9 +113,23 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			},
 				{
 				type: 'html',
-				id: 'content',
-				style: 'width:340px;height:130px',
-				html: '<div>' + iframeHtml + '</div>'
+				id: 'editing_area',
+				style: 'width: 100%; height: 100%;',
+				html: '<fieldset></fieldset>',
+				focus: function() {
+					var div = this.getElement();
+					var iframe = div.getElementsByTag( 'iframe' );
+					if ( iframe.count() < 1 )
+						return;
+					iframe = iframe.getItem( 0 );
+
+					// #3291 : JAWS needs the 500ms delay to detect that the editor iframe
+					// iframe is no longer editable. So that it will put the focus into the
+					// Paste from Word dialog's editable area instead.
+					setTimeout( function() {
+						iframe.$.contentWindow.focus();
+					}, 500 );
+				}
 			}
 			]
 		}
