@@ -61,7 +61,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return setState.call( this, editor, CKEDITOR.TRISTATE_DISABLED );
 			return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
 		} else {
-			var indent = parseInt( firstBlock.getComputedStyle( this.indentCssProperty ), 10 );
+			var indent = parseInt( firstBlock.getStyle( this.indentCssProperty ), 10 );
 			if ( isNaN( indent ) )
 				indent = 0;
 			if ( indent <= 0 )
@@ -163,7 +163,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				else
 					block.addClass( editor.config.indentClasses[ indentStep - 1 ] );
 			} else {
-				var currentOffset = parseInt( block.getComputedStyle( this.indentCssProperty ), 10 );
+				var currentOffset = parseInt( block.getStyle( this.indentCssProperty ), 10 );
 				if ( isNaN( currentOffset ) )
 					currentOffset = 0;
 				currentOffset += ( this.name == 'indent' ? 1 : -1 ) * editor.config.indentOffset;
