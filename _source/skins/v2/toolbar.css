@@ -158,6 +158,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	vertical-align: 3px;
 }
 
+.cke_skin_v2 .cke_accessibility
+{
+	position: absolute;
+	top: -1000000px;
+}
+
 .cke_skin_v2 .cke_button .cke_buttonarrow
 {
 	display: inline-block;

@@ -88,6 +88,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
+					definition = this._.definition,
 					position = offsetParent.getDocumentPosition( element.getDocument() ),
 					rtl = this._.dir == 'rtl';
 
@@ -168,6 +169,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the IFrame focus, so the blur event gets fired.
 					setTimeout( function() {
+						if ( definition.voiceLabel ) {
+							if ( CKEDITOR.env.gecko ) {
+								var container = iframe.getParent();
+								container.setAttribute( 'role', 'region' );
+								container.setAttribute( 'title', definition.voiceLabel );
+								iframe.setAttribute( 'role', 'region' );
+								iframe.setAttribute( 'title', ' ' );
+							}
+						}
 						iframe.$.contentWindow.focus();
 					}, 0 );
 				}, 0 );

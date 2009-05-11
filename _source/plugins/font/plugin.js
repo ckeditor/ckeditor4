@@ -26,11 +26,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
+			voiceLabel: lang.voiceLabel,
 			className: 'cke_' + ( styleType == 'size' ? 'fontSize' : 'font' ),
 			multiSelect: false,
 
 			panel: {
-				css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ]
+				css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ],
+				voiceLabel: lang.panelVoiceLabel
 			},
 
 			init: function() {
