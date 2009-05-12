@@ -9,10 +9,12 @@
 	<script type="text/javascript" src="../../test.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
-CKEDITOR.test.addTestCase( ( function()
+var tc;
+CKEDITOR.test.addTestCase( tc = ( function()
 {
 	// Local reference to the "assert" object.
-	var assert = YAHOO.util.Assert;
+	var assert = YAHOO.util.Assert,
+		doc = CKEDITOR.document;
 
 	return {
 
@@ -105,37 +107,105 @@ CKEDITOR.test.addTestCase( ( function()
 
 		test_ltrim : function()
 		{
-			var element = CKEDITOR.document.getById( 'trimTarget' )
-				.clone( true );
+			// IE need special treatement to setup this tc, see
+			// next tc for this.
+			if ( CKEDITOR.env.ie )
+				return;
+			var element = CKEDITOR.document.getById(
+						'trimTarget' ).clone( true );
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
 			frag.ltrim();
 			var ct = new CKEDITOR.dom.element( 'div' );
 			ct.append( frag );
-			assert.areSame( 'text \t\n', ct.getText() );
+			assert.areSame( 'text\t\n', ct.getText() );
+		},
+		
+		test_ltrim_ie : function()
+		{
+			if ( !CKEDITOR.env.ie )
+				return;
+			// IE dom operation will trim preceding empty text,
+			// here we use 'splitText' way to create leading spaces
+			// instead for testing.
+			var emptyTextNode = doc.createText( '@ \ttext\t ');
+			var frag =
+					new CKEDITOR.dom.documentFragment( doc );
+			frag.append( emptyTextNode );
+			frag.getFirst().$.splitText( 1 );
+			frag.getFirst().remove();
+			frag.ltrim();
+			var ct = new CKEDITOR.dom.element( 'div' );
+			ct.append( frag );
+			assert.areSame( 'text\t ', ct.getText() );
 		},
 
 		test_rtrim : function()
 		{
-			var element = CKEDITOR.document.getById( 'trimTarget' )
-				.clone( true );
+			if ( CKEDITOR.env.ie )
+				return;
+			var element = CKEDITOR.document.getById(
+						'trimTarget' ).clone( true );
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
 			frag.rtrim();
 			var ct = new CKEDITOR.dom.element( 'div' );
 			ct.append( frag );
-			assert.areSame( ' \t\ntext', ct.getText() );
+			
+			assert.areSame( '\t\ntext', ct.getText() );
 		},
+
+		/**
+		 *@see test_ltrim_ie
+		 */
+		test_rtrim_ie : function()
+		{
+			if ( !CKEDITOR.env.ie )
+				return;
+			var emptyTextNode = doc.createText( '@ \ttext\t ');
+			var frag =
+					new CKEDITOR.dom.documentFragment( doc );
+			frag.append( emptyTextNode );
+			frag.getFirst().$.splitText( 1 );
+			frag.getFirst().remove();
+			frag.rtrim();
+			var ct = new CKEDITOR.dom.element( 'div' );
+			ct.append( frag );
+			assert.areSame( ' \ttext', ct.getText() );
+		},
+
 
 		test_trim : function()
 		{
+			if ( !CKEDITOR.env.ie )
+				return;
 			var element =
 					CKEDITOR.document.getById( 'trimTarget' ).clone( true );
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
+			frag.trim();
+			var ct = new CKEDITOR.dom.element( 'div' );
+			ct.append( frag );
+			assert.areSame( 'text', ct.getText() );
+		},
+
+
+		/**
+		 *@see test_ltrim_ie
+		 */
+		test_trim_ie : function()
+		{
+			if ( !CKEDITOR.env.ie )
+				return;
+			var emptyTextNode = doc.createText( '@ \t\ntext\t\n ');
+			var frag =
+					new CKEDITOR.dom.documentFragment( doc );
+			frag.append( emptyTextNode );
+			frag.getFirst().$.splitText( 1 );
+			frag.getFirst().remove();
 			frag.trim();
 			var ct = new CKEDITOR.dom.element( 'div' );
 			ct.append( frag );
@@ -208,6 +278,7 @@ CKEDITOR.test.addTestCase( ( function()
 	};
 } )() );
 
+//window.onload = tc.test_rtrim_ie;
 	//]]>
 	</script>
 </head>
@@ -215,8 +286,8 @@ CKEDITOR.test.addTestCase( ( function()
 	<div id="fragmentContainer1"></div>
 	<div id="fragmentContainer2"><div id="fragmentSibling1"></div></div>
 	<div id="fragmentContainer3"></div>
-	<div id="trimTarget">
-text
+	<div id="trimTarget">	
+text	
 </div>
 	<iframe id="innerFrame" name="innerFrame" src="about:blank"></iframe>
 </body>
