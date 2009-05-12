@@ -16,25 +16,43 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
 		var retval = [];
+		var database = {};
+
+		function moveOutOfCellGuard( node ) {
+			// Apply to the first cell only.
+			if ( retval.length > 0 )
+				return;
+
+			// If we are exiting from the first </td>, then the td should definitely be
+			// included.
+			if ( node.type == CKEDITOR.NODE_ELEMENT && cellNodeRegex.test( node.getName() ) && !node.getCustomData( 'selected_cell' ) ) {
+				CKEDITOR.dom.element.setMarker( database, node, 'selected_cell', true );
+				retval.push( node );
+			}
+		}
 
 		for ( var i = 0; i < ranges.length; i++ ) {
 			var range = ranges[ i ];
-			var boundaryNodes = range.getBoundaryNodes();
-			var currentNode = boundaryNodes.startNode;
-			var endNode = boundaryNodes.endNode;
-			var startCell = currentNode.getAscendant( 'td', true ) || currentNode.getAscendant( 'th', true );
+			var walker = new CKEDITOR.dom.walker( range );
+			walker.guard = moveOutOfCellGuard;
 
-			if ( startCell )
-				retval.push( startCell );
+			while ( ( node = walker.next() ) ) {
+				// If may be possible for us to have a range like this:
+				// <td>^1</td><td>^2</td>
+				// The 2nd td shouldn't be included.
+				//
+				// So we have to take care to include a td we've entered only when we've
+				// walked into its children.
 
-			if ( range.collapsed || currentNode.equals( endNode ) )
-				continue;
-
-			while ( !( currentNode = currentNode.getNextSourceNode() ).equals( endNode ) ) {
-				if ( currentNode.type == CKEDITOR.NODE_ELEMENT && cellNodeRegex.test( currentNode.getName() ) )
-					retval.push( currentNode );
+				var parent = node.getParent();
+				if ( parent && cellNodeRegex.test( parent.getName() ) && !parent.getCustomData( 'selected_cell' ) ) {
+					CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
+					retval.push( parent );
+				}
 			}
 		}
+
+		CKEDITOR.dom.element.clearAllMarkers( database );
 
 		return retval;
 	}
