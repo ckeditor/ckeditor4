@@ -134,19 +134,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var selection = editor.getSelection();
 
-					var elementPath,
-						element = selection.getSelectedElement(),
+					var element = selection.getSelectedElement(),
 						elementName = element && element.getName(),
-						isInline = elementName && !CKEDITOR.dtd.$block[ elementName ] && !CKEDITOR.dtd.$listItem[ elementName ] && !CKEDITOR.dtd.$tableContent[ elementName ];
+						elementPath = new CKEDITOR.dom.elementPath( element || selection.getStartElement() );
 
 					var counter = [ 0, 0, 0, 0 ];
-
-					if ( !element || isInline )
-						elementPath = new CKEDITOR.dom.elementPath( selection.getStartElement() );
-
 					this.showAll();
 					this.unmarkAll();
-
 					for ( var name in styles ) {
 						var style = styles[ name ],
 							type = style.type;
@@ -160,14 +154,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							} else
 								this.hideItem( name );
 						} else {
-							if ( elementPath ) {
-								if ( style.checkActive( elementPath ) )
-									this.mark( name );
+							if ( style.checkActive( elementPath ) )
+								this.mark( name );
 
-								counter[ type ]++;
-
-							} else
-								this.hideItem( name );
+							counter[ type ]++;
 						}
 					}
 
