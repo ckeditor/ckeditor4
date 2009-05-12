@@ -64,6 +64,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     height:19px;
     margin-left: 28px;
     background-color: #fff;
+	_overflow: hidden;
+	_width: 86px;
 }
 
 .cke_rtl .cke_skin_v2 .cke_menuitem .cke_label
@@ -95,8 +97,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 .cke_menuarrow
 {
 	background-image: url(images/arrowright.gif);
-	height: 7px;
-	width: 7px;
+	background-repeat: no-repeat;
+	height: 5px;
+	width: 3px;
 	float: right;
 	margin-right: 2px;
 	margin-top: 3px;
@@ -107,4 +110,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 	margin-right: 0;
 	margin-left: 2px;
+	background-image: url(images/arrowleft.gif);
 }
