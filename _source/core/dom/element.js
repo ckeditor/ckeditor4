@@ -219,9 +219,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// Ignore empty/spaces text.
 		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
 			lastChild = lastChild.getPrevious();
-
-		if ( !lastChild || ( lastChild.is && ( !lastChild.is( 'br' ) || !lastChild.getAttribute( '_cke_bogus' ) ) ) ) {
-			this.append( CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br', { attributes:{_cke_bogus:1 } } ) );
+		if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
+			this.append( CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' ) );
 		}
 	},
 

@@ -227,12 +227,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			range.insertNode( lineBreak );
 
 			// A text node is required by Gecko only to make the cursor blink.
+			// We need some text inside of it, so the bogus <br> is properly
+			// created.
 			if ( CKEDITOR.env.gecko )
-				doc.createText( '' ).insertAfter( lineBreak );
+				doc.createText( '\ufeff' ).insertAfter( lineBreak );
 
 			// If we are at the end of a block, we must be sure the bogus node is available in that block.
 			if ( isEndOfBlock && !CKEDITOR.env.ie )
 				lineBreak.getParent().appendBogus();
+
+			// Now we can remove the text node contents, so the caret doesn't
+			// stop on it.
+			if ( CKEDITOR.env.gecko )
+				lineBreak.getNext().$.nodeValue = '';
 
 			// IE has different behavior regarding position.
 			if ( CKEDITOR.env.ie )
