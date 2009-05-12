@@ -190,7 +190,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Call the temporary function for the editing
 				// boostrap.
-										'window.parent.CKEDITOR._.contentDomReady' + editor.name + '( window );' +
+										'window.parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
 					'}' +
 					'</script>';
 
