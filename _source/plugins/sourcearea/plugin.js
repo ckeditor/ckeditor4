@@ -58,7 +58,12 @@ CKEDITOR.plugins.add( 'sourcearea', {
 							}
 
 							onResize = function() {
+								// Holder rectange size is stretched by textarea, 
+								// so hide it just for a moment.
+								textarea.hide();
 								textarea.setStyles( getHolderRect() );
+								// When we have proper holder size, show textarea again.
+								textarea.show();
 							};
 							styles = CKEDITOR.tools.extend( styles, getHolderRect(), true );
 							editor.on( 'resize', onResize );
