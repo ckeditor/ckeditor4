@@ -145,6 +145,12 @@ CKEDITOR.test.addTestCase( tc = (function()
 						'<p>1</p><div>2</div><p><span>3</span></p>' );
 		},
 
+		test_ticket_3441 : function()
+		{
+			testParser(	'<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>',
+						'<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>' );
+		},
+
 		name : document.title
 	};
 })() );

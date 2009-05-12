@@ -66,6 +66,8 @@ CKEDITOR.dtd = (function() {
 
 		$body: X( { script:1 }, block ),
 
+		$cdata: { script:1,style:1 },
+
 		/**
 		 * List of empty (self-closing) elements, like "br" or "img".
 		 * @type Object
