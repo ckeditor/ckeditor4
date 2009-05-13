@@ -568,20 +568,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return $ ? new CKEDITOR.dom.node( $ ) : null;
 	},
 
-	/**
-	 * Gets the node that follows this element in its parent's child list.
-	 * @returns {CKEDITOR.dom.node} The next node or null if not
-	 *		available.
-	 * @example
-	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;&lt;b&gt;Example&lt;/b&gt; &lt;i&gt;next&lt;/i&gt;&lt;/div&gt;' );
-	 * var first = <b>element.getFirst().getNext()</b>;
-	 * alert( first.getName() );  // "i"
-	 */
-	getNext: function() {
-		var $ = this.$.nextSibling;
-		return $ ? new CKEDITOR.dom.node( $ ) : null;
-	},
-
 	getStyle: function( name ) {
 		return this.$.style[ CKEDITOR.tools.cssStyleToDomStyle( name ) ];
 	},

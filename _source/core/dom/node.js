@@ -315,6 +315,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
+	 * Gets the node that follows this element in its parent's child list.
+	 * @returns {CKEDITOR.dom.node} The next node or null if not
+	 *		available.
+	 * @example
+	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;&lt;b&gt;Example&lt;/b&gt; &lt;i&gt;next&lt;/i&gt;&lt;/div&gt;' );
+	 * var first = <b>element.getFirst().getNext()</b>;
+	 * alert( first.getName() );  // "i"
+	 */
+	getNext: function() {
+		var $ = this.$.nextSibling;
+		return $ ? new CKEDITOR.dom.node( $ ) : null;
+	},
+
+	/**
 	 * Gets the parent element for this node.
 	 * @returns {CKEDITOR.dom.element} The parent element.
 	 * @example
