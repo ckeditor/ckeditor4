@@ -21,6 +21,12 @@
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
+.cke_skin_v2 .cke_hc .cke_rcombo a
+{
+	filter: alpha(opacity=100); /* IE */
+	opacity: 1.0; /* Safari, Opera and Mozilla */
+}
+
 .cke_skin_v2 .cke_rcombo .cke_label
 {
 	display: inline-block;
@@ -31,6 +37,12 @@
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 	background-color: #f1f1e3;	/* Because of IE6+ClearType */
+}
+
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_label
+{
+	filter: alpha(opacity=100);
+	opacity: 1.0;
 }
 
 .cke_skin_v2 .cke_rtl .cke_rcombo .cke_label
@@ -166,11 +178,24 @@
 	opacity: 0.3; /* Safari, Opera and Mozilla */
 }
 
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_disabled .cke_label
+{
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+
 .cke_skin_v2 .cke_rcombo .cke_disabled .cke_text,
 .cke_skin_v2 .cke_rcombo .cke_disabled .cke_openbutton
 {
 	filter: alpha(opacity=50); /* IE */
 	opacity: 0.5; /* Safari, Opera and Mozilla */
+}
+
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_disabled .cke_text,
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_disabled .cke_openbutton
+{
+	filter: alpha(opacity=80);
+	opacity: 0.8;
 }
 
 .cke_skin_v2 .cke_rcombo .cke_disabled .cke_text

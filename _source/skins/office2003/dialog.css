@@ -418,12 +418,18 @@ body .cke_dialog
 	background-position: -20px -655px;
 	position: absolute;
 	cursor: pointer;
+	text-align: center;
 	height: 21px;
 	width: 21px;
 	top: 4px;
 
 	/* IE6 does not support full color transparent PNG. */
 	_background-image: url(images/sprites_ie6.png);
+}
+
+.cke_skin_office2003 .cke_dialog_close_button span
+{
+	display: none;
 }
 
 .cke_skin_office2003 .cke_ltr .cke_dialog_close_button
@@ -591,4 +597,34 @@ body .cke_dialog
 .cke_skin_office2003 .disabled
 {
 	color: #a0a0a0;
+}
+
+/* High Contrast Mode */
+.cke_skin_office2003 .cke_hc .cke_dialog_title,
+.cke_skin_office2003 .cke_hc .cke_dialog_tabs,
+.cke_skin_office2003 .cke_hc .cke_dialog_contents,
+.cke_skin_office2003 .cke_hc .cke_dialog_footer
+{
+	border-left: 1px solid;
+	border-right: 1px solid;
+}
+
+.cke_skin_office2003 .cke_hc .cke_dialog_title
+{
+	border-top: 1px solid;
+}
+
+.cke_skin_office2003 .cke_hc .cke_dialog_footer
+{
+	border-bottom: 1px solid;
+}
+
+.cke_skin_office2003 .cke_hc .cke_dialog_close_button span
+{
+	display: inline;
+	cursor: pointer;
+	cursor: hand;
+	font-weight: bold;
+	position: relative;
+	top: 3px;
 }

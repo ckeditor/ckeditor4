@@ -110,12 +110,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 18px;
 }
 
+.cke_skin_v2 .cke_hc .cke_button a,
+.cke_skin_v2 .cke_hc .cke_button a.cke_off
+{
+	opacity: 1.0;
+	filter: alpha(opacity=100);
+}
+
 .cke_skin_v2 .cke_button a.cke_on
 {
 	border: solid 1px #316ac5;
 	background-color: #a3d7ff;
 	filter: alpha(opacity=100); /* IE */
 	opacity: 1; /* Safari, Opera and Mozilla */
+	padding: 2px 4px;
+}
+
+.cke_skin_v2 .cke_hc .cke_button a.cke_on
+{
+	padding: 0 2px !important;
+	border-width: 3px;
 }
 
 .cke_skin_v2 .cke_button a.cke_disabled,
@@ -125,6 +139,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-color: #efefde;
 	filter: alpha(opacity=30); /* IE */
 	opacity : 0.3; /* Safari, Opera and Mozilla */
+}
+
+.cke_skin_v2 .cke_hc .cke_button a.cke_disabled,
+.cke_skin_v2 .cke_browser_ie.cke_hc a:hover.cke_button .cke_disabled
+{
+	filter: alpha(opacity=60);
+	opacity: 0.6;
 }
 
 .cke_skin_v2 .cke_button a:hover.cke_on,
@@ -138,6 +159,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-color: #dff1ff;
 	filter: alpha(opacity=100); /* IE */
 	opacity: 1; /* Safari, Opera and Mozilla */
+	padding: 2px 4px;
+}
+
+.cke_skin_v2 .cke_hc .cke_button a:hover.cke_on,
+.cke_skin_v2 .cke_hc .cke_button a:focus.cke_on,
+.cke_skin_v2 .cke_hc .cke_button a:active.cke_on,	/* IE */
+.cke_skin_v2 .cke_hc .cke_button a:hover.cke_off,
+.cke_skin_v2 .cke_hc .cke_button a:focus.cke_off,
+.cke_skin_v2 .cke_hc .cke_button a:active.cke_off	/* IE */
+{
+	padding: 0 2px !important;
+	border-width: 3px;
 }
 
 .cke_skin_v2 .cke_button .cke_icon
@@ -156,6 +189,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: none;
 	padding-left: 3px;
 	vertical-align: 3px;
+}
+
+.cke_skin_v2 .cke_hc .cke_button .cke_label
+{
+	display: inline-block;
+}
+
+.cke_skin_v2 .cke_hc .cke_button .cke_icon
+{
+	display: none;
 }
 
 .cke_skin_v2 .cke_accessibility
@@ -240,6 +283,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	display: block;
 	float: left;
+}
+
+.cke_skin_v2 .cke_browser_gecko.cke_hc .cke_button .cke_icon
+{
+	display: none;
 }
 
 .cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_toolbar,

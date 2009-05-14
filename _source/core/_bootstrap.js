@@ -7,6 +7,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @fileOverview API initialization code.
  */
 
+(function() {
+	// Check is High Contrast is active by creating a temporary element with a
+	// background image.
+
+	var testImage = ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? ( CKEDITOR.basePath + 'images/spacer.gif' ) : 'about:blank';
+
+	var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0px;height:0px;' +
+		'position:absolute;left:-10000px;' +
+		'background-image:url(' + testImage + ')"></div>', CKEDITOR.document );
+
+	hcDetect.appendTo( CKEDITOR.document.getHead() );
+
+	// Update CKEDITOR.env.
+	if ( CKEDITOR.env.hc = ( hcDetect.getComputedStyle( 'background-image' ) == 'none' ) )
+		CKEDITOR.env.cssClass += ' cke_hc';
+
+	hcDetect.remove();
+})();
+
 // Load core plugins.
 CKEDITOR.plugins.load( CKEDITOR.config.corePlugins.split( ',' ), function() {
 	CKEDITOR.status = 'loaded';
