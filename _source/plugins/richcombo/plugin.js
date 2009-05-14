@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -94,7 +95,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				else
 					_.list.unmarkAll();
 
-				_.panel.showBlock( this.id, new CKEDITOR.dom.element( $element ).getFirst(), 4 );
+				_.panel.showBlock( this.id, new CKEDITOR.dom.element( $element ).getChild( [ 0, 1 ] ), 4 );
 			}, this );
 
 			var instance = {
