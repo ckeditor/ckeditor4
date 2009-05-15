@@ -627,3 +627,17 @@ body .cke_dialog
 	position: relative;
 	top: 3px;
 }
+
+.cke_skin_v2 a.cke_smile img
+{
+	/* IE6 does not support transparent borders */
+	border: 2px solid #eaead1;
+}
+
+.cke_skin_v2 a.cke_smile:focus img,
+.cke_skin_v2 a.cke_smile:active img,
+.cke_skin_v2 a.cke_smile:hover img
+{
+	border-color: #C7C78F;
+}
+
