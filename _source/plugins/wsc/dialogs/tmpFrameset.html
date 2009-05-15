@@ -24,8 +24,7 @@ function doLoadScript( url )
 
 function tryLoad ()
 {
-    if ( !window.opener )
-        window.opener = window.parent ;
+	opener = window.parent;
 
     // get access to global parameters
     var oParams = window.opener.oldFramesetPageParams ;
