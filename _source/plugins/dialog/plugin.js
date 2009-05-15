@@ -365,6 +365,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this._.currentFocusIndex = -1;
 				changeFocus( true );
 			}
+
+			evt.data.preventDefault();
 		}, this );
 
 		// Insert buttons.

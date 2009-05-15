@@ -410,6 +410,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 				(function() {
 					element.on( 'click', function( evt ) {
 						me.fire( 'click', { dialog: me.getDialog() } );
+						evt.data.preventDefault();
 					});
 				})();
 
