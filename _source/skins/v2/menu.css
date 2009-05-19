@@ -10,7 +10,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_menuitem a
 {
-	display:block;
+	display: block;
+	cursor: default;
+}
+
+.cke_skin_v2 .cke_menuitem span
+{
+	cursor: default;
 }
 
 .cke_skin_v2 .cke_menuitem a:hover,
