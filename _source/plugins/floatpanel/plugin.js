@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				element.setStyles({
 					top: top + 'px',
-					left: '0',
+					left: '-3000px',
 					visibility: 'hidden',
 					opacity: '0', // FF3 is ignoring "visibility"
 					display: ''
