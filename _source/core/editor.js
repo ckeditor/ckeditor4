@@ -279,8 +279,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		for ( var name in commands ) {
 			command = commands[ name ];
-
-			command.setState( command.modes[ mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			command[ command.modes[ mode ] ? 'enable' : 'disable' ]();
 		}
 	}
 
@@ -355,7 +354,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
-		this.on( 'mode', updateCommandsMode );
+		this.on( 'mode', updateCommandsMode, null, null, 1 );
 
 		initConfig( this, instanceConfig );
 	};

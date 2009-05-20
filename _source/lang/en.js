@@ -587,6 +587,25 @@ CKEDITOR.lang[ 'en' ] = {
 		'FFF': 'White'
 	},
 
+	scayt: {
+		title: 'Spell Check As You Type',
+		enable: 'Enable SCAYT',
+		disable: 'Disable SCAYT',
+		about: 'About SCAYT',
+		toggle: 'Toggle SCAYT',
+		options: 'Options',
+		langs: 'Languages',
+		moreSuggestions: 'More suggestions',
+		ignore: 'Ignore',
+		ignoreAll: 'Ignore All',
+		addWord: 'Add Word',
+		emptyDic: 'Dictionary name should not be empty.',
+		optionsTab: 'Options',
+		languagesTab: 'Languages',
+		dictionariesTab: 'Dictionaries',
+		aboutTab: 'About'
+	},
+
 	about: {
 		title: 'About CKEditor',
 		moreInfo: 'For licensing information please visit our web site:',

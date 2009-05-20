@@ -25,10 +25,21 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 };
 
 CKEDITOR.command.prototype = {
+	enable: function() {
+		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
+			this.setState( ( !this.preserveState || ( typeof this.previousState == 'undefined' ) ) ? CKEDITOR.TRISTATE_OFF : this.previousState );
+	},
+
+	disable: function() {
+		this.setState( CKEDITOR.TRISTATE_DISABLED );
+	},
+
 	setState: function( newState ) {
 		// Do nothing if there is no state change.
 		if ( this.state == newState )
 			return false;
+
+		this.previousState = this.state;
 
 		// Set the new state.
 		this.state = newState;
