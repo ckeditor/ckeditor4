@@ -498,6 +498,8 @@ CKEDITOR.lang[ 'hu' ] = {
 
 	stylesCombo: {
 		label: 'Stílus',
+		voiceLabel: 'Styles', // MISSING
+		panelVoiceLabel: 'Select a style', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -505,7 +507,9 @@ CKEDITOR.lang[ 'hu' ] = {
 
 	format: {
 		label: 'Formátum',
+		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Formátum',
+		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normál',
 		tag_pre: 'Formázott',
@@ -521,12 +525,16 @@ CKEDITOR.lang[ 'hu' ] = {
 
 	font: {
 		label: 'Betűtípus',
-		panelTitle: 'Betűtípus'
+		voiceLabel: 'Font', // MISSING
+		panelTitle: 'Betűtípus',
+		panelVoiceLabel: 'Select a font' // MISSING
 	},
 
 	fontSize: {
 		label: 'Méret',
-		panelTitle: 'Méret'
+		voiceLabel: 'Font Size', // MISSING
+		panelTitle: 'Méret',
+		panelVoiceLabel: 'Select a font size' // MISSING
 	},
 
 	colorButton: {
@@ -577,6 +585,25 @@ CKEDITOR.lang[ 'hu' ] = {
 		'F0F8FF': 'Alice Blue',
 		'E6E6FA': 'Lavender',
 		'FFF': 'White'
+	},
+
+	scayt: {
+		title: 'Spell Check As You Type', // MISSING
+		enable: 'Enable SCAYT', // MISSING
+		disable: 'Disable SCAYT', // MISSING
+		about: 'About SCAYT', // MISSING
+		toggle: 'Toggle SCAYT', // MISSING
+		options: 'Options', // MISSING
+		langs: 'Languages', // MISSING
+		moreSuggestions: 'More suggestions', // MISSING
+		ignore: 'Ignore', // MISSING
+		ignoreAll: 'Ignore All', // MISSING
+		addWord: 'Add Word', // MISSING
+		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		optionsTab: 'Options', // MISSING
+		languagesTab: 'Languages', // MISSING
+		dictionariesTab: 'Dictionaries', // MISSING
+		aboutTab: 'About' // MISSING
 	},
 
 	about: {

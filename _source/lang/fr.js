@@ -498,6 +498,8 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	stylesCombo: {
 		label: 'Styles',
+		voiceLabel: 'Styles', // MISSING
+		panelVoiceLabel: 'Select a style', // MISSING
 		panelTitle1: 'Styles de blocs',
 		panelTitle2: 'Styles en ligne',
 		panelTitle3: 'Styles d\'objet'
@@ -505,7 +507,9 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	format: {
 		label: 'Format',
+		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Format de paragraphes',
+		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatté',
@@ -521,12 +525,16 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	font: {
 		label: 'Police',
-		panelTitle: 'Style de police'
+		voiceLabel: 'Font', // MISSING
+		panelTitle: 'Style de police',
+		panelVoiceLabel: 'Select a font' // MISSING
 	},
 
 	fontSize: {
 		label: 'Taille',
-		panelTitle: 'Taille de police'
+		voiceLabel: 'Font Size', // MISSING
+		panelTitle: 'Taille de police',
+		panelVoiceLabel: 'Select a font size' // MISSING
 	},
 
 	colorButton: {
@@ -577,6 +585,25 @@ CKEDITOR.lang[ 'fr' ] = {
 		'F0F8FF': 'Alice Blue',
 		'E6E6FA': 'Lavender',
 		'FFF': 'White'
+	},
+
+	scayt: {
+		title: 'Spell Check As You Type', // MISSING
+		enable: 'Enable SCAYT', // MISSING
+		disable: 'Disable SCAYT', // MISSING
+		about: 'About SCAYT', // MISSING
+		toggle: 'Toggle SCAYT', // MISSING
+		options: 'Options', // MISSING
+		langs: 'Languages', // MISSING
+		moreSuggestions: 'More suggestions', // MISSING
+		ignore: 'Ignore', // MISSING
+		ignoreAll: 'Ignore All', // MISSING
+		addWord: 'Add Word', // MISSING
+		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		optionsTab: 'Options', // MISSING
+		languagesTab: 'Languages', // MISSING
+		dictionariesTab: 'Dictionaries', // MISSING
+		aboutTab: 'About' // MISSING
 	},
 
 	about: {

@@ -498,6 +498,8 @@ CKEDITOR.lang[ 'th' ] = {
 
 	stylesCombo: {
 		label: 'ลักษณะ',
+		voiceLabel: 'Styles', // MISSING
+		panelVoiceLabel: 'Select a style', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -505,7 +507,9 @@ CKEDITOR.lang[ 'th' ] = {
 
 	format: {
 		label: 'รูปแบบ',
+		voiceLabel: 'Format', // MISSING
 		panelTitle: 'รูปแบบ',
+		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -521,12 +525,16 @@ CKEDITOR.lang[ 'th' ] = {
 
 	font: {
 		label: 'แบบอักษร',
-		panelTitle: 'แบบอักษร'
+		voiceLabel: 'Font', // MISSING
+		panelTitle: 'แบบอักษร',
+		panelVoiceLabel: 'Select a font' // MISSING
 	},
 
 	fontSize: {
 		label: 'ขนาด',
-		panelTitle: 'ขนาด'
+		voiceLabel: 'Font Size', // MISSING
+		panelTitle: 'ขนาด',
+		panelVoiceLabel: 'Select a font size' // MISSING
 	},
 
 	colorButton: {
@@ -577,6 +585,25 @@ CKEDITOR.lang[ 'th' ] = {
 		'F0F8FF': 'Alice Blue',
 		'E6E6FA': 'Lavender',
 		'FFF': 'White'
+	},
+
+	scayt: {
+		title: 'Spell Check As You Type', // MISSING
+		enable: 'Enable SCAYT', // MISSING
+		disable: 'Disable SCAYT', // MISSING
+		about: 'About SCAYT', // MISSING
+		toggle: 'Toggle SCAYT', // MISSING
+		options: 'Options', // MISSING
+		langs: 'Languages', // MISSING
+		moreSuggestions: 'More suggestions', // MISSING
+		ignore: 'Ignore', // MISSING
+		ignoreAll: 'Ignore All', // MISSING
+		addWord: 'Add Word', // MISSING
+		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		optionsTab: 'Options', // MISSING
+		languagesTab: 'Languages', // MISSING
+		dictionariesTab: 'Dictionaries', // MISSING
+		aboutTab: 'About' // MISSING
 	},
 
 	about: {

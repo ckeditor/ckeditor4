@@ -498,6 +498,8 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	stylesCombo: {
 		label: 'શૈલી/રીત',
+		voiceLabel: 'Styles', // MISSING
+		panelVoiceLabel: 'Select a style', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -505,7 +507,9 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	format: {
 		label: 'ફૉન્ટ ફૉર્મટ, રચનાની શૈલી',
+		voiceLabel: 'Format', // MISSING
 		panelTitle: 'ફૉન્ટ ફૉર્મટ, રચનાની શૈલી',
+		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'સામાન્ય',
 		tag_pre: 'ફૉર્મટેડ',
@@ -521,12 +525,16 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	font: {
 		label: 'ફૉન્ટ',
-		panelTitle: 'ફૉન્ટ'
+		voiceLabel: 'Font', // MISSING
+		panelTitle: 'ફૉન્ટ',
+		panelVoiceLabel: 'Select a font' // MISSING
 	},
 
 	fontSize: {
 		label: 'ફૉન્ટ સાઇઝ/કદ',
-		panelTitle: 'ફૉન્ટ સાઇઝ/કદ'
+		voiceLabel: 'Font Size', // MISSING
+		panelTitle: 'ફૉન્ટ સાઇઝ/કદ',
+		panelVoiceLabel: 'Select a font size' // MISSING
 	},
 
 	colorButton: {
@@ -577,6 +585,25 @@ CKEDITOR.lang[ 'gu' ] = {
 		'F0F8FF': 'Alice Blue',
 		'E6E6FA': 'Lavender',
 		'FFF': 'White'
+	},
+
+	scayt: {
+		title: 'Spell Check As You Type', // MISSING
+		enable: 'Enable SCAYT', // MISSING
+		disable: 'Disable SCAYT', // MISSING
+		about: 'About SCAYT', // MISSING
+		toggle: 'Toggle SCAYT', // MISSING
+		options: 'Options', // MISSING
+		langs: 'Languages', // MISSING
+		moreSuggestions: 'More suggestions', // MISSING
+		ignore: 'Ignore', // MISSING
+		ignoreAll: 'Ignore All', // MISSING
+		addWord: 'Add Word', // MISSING
+		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		optionsTab: 'Options', // MISSING
+		languagesTab: 'Languages', // MISSING
+		dictionariesTab: 'Dictionaries', // MISSING
+		aboutTab: 'About' // MISSING
 	},
 
 	about: {
