@@ -379,7 +379,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 					case 'style':
 						// IE does not return inline styles via getAttribute(). See #2947.
-						return this.$.style.cssText;
+						var styleText = this.$.style.cssText;
+						return styleText.toLowerCase().replace( /\s*(?:;\s*|$)/, ';' ).replace( /([^;])$/, '$1;' );
 				}
 
 				return standard.call( this, name );

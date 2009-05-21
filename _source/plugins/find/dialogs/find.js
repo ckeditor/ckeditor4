@@ -21,13 +21,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * position thing.
 	 */
 	var cursorStep = function() {
-			var obj = {
+			return {
 				textNode: this.textNode,
 				offset: this.offset,
 				character: this.textNode ? this.textNode.getText().charAt( this.offset ) : null,
 				hitMatchBoundary: this._.matchBoundary
 			};
-			return obj;
 		};
 
 	var pages = [ 'find', 'replace' ],
@@ -61,10 +60,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var highlightStyle = new CKEDITOR.style( editor.config.find_highlight );
 
 			/**
-			 * Iterator which walk through document char by char.
-			 * @param {Object} start
-			 * @param {Number} offset
-			 * @param {Boolean} isStrict
+			 * Iterator which walk through the specified range char by char. By
+			 * default the walking will not stop at the character boundaries, until
+			 * the end of the range is encountered.
+			 * @param { CKEDITOR.dom.range } range
+			 * @param {Boolean} matchWord Whether the walking will stop at character boundary.
 			 */
 			var characterWalker = function( range, matchWord ) {
 					var walker = new CKEDITOR.dom.walker( range );
@@ -162,49 +162,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					range.setEnd( last.textNode, last.offset + 1 );
 					return range;
 				},
-
+				/**
+				 * Reflect the latest changes from dom range.
+				 */
 				updateFromDomRange: function( domRange ) {
-					var startNode = domRange.startContainer,
-						startIndex = domRange.startOffset,
-						endNode = domRange.endContainer,
-						endIndex = domRange.endOffset,
-						boundaryNodes = domRange.getBoundaryNodes();
-
-					if ( startNode.type != CKEDITOR.NODE_TEXT ) {
-						startNode = boundaryNodes.startNode;
-						while ( startNode.type != CKEDITOR.NODE_TEXT )
-							startNode = startNode.getFirst();
-						startIndex = 0;
-					}
-
-					if ( endNode.type != CKEDITOR.NODE_TEXT ) {
-						endNode = boundaryNodes.endNode;
-						while ( endNode.type != CKEDITOR.NODE_TEXT )
-							endNode = endNode.getLast();
-						endIndex = endNode.getLength();
-					}
-
-					// If the endNode is an empty text node, our walker would just walk through
-					// it without stopping. So need to backtrack to the nearest non-emtpy text
-					// node.
-					if ( endNode.getLength() < 1 ) {
-						while ( ( endNode = endNode.getPreviousSourceNode() ) && !( endNode.type == CKEDITOR.NODE_TEXT && endNode.getLength() > 0 ) ) {
-	/*jsl:pass*/
-						}
-
-						endIndex = endNode.getLength();
-					}
-
-					// Rebuild the character range.
 					var cursor,
-						walker = new characterWalker( getRangeAfterCursor(
-					({ textNode: startNode, offset: startIndex } ), true ) );
+						walker = new characterWalker( domRange );
 					this._.cursors = [];
 					do {
 						cursor = walker.next();
-						this._.cursors.push( cursor );
+						if ( cursor.character ) this._.cursors.push( cursor );
 					}
-					while ( !( cursor.textNode.equals( endNode ) && cursor.offset == endIndex - 1 ) );
+					while ( cursor.character );
 					this._.rangeLength = this._.cursors.length;
 				},
 
@@ -371,7 +340,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this._.state = this._.overlap[ this._.state ];
 					}
 
-					return null;
 				},
 
 				reset: function() {
@@ -449,31 +417,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				replaceCounter: 0,
 
 				replace: function( dialog, pattern, newString, matchCase, matchWord, matchCyclic, matchReplaceAll ) {
-					var replaceResult = false;
-					if ( this.range && this.range.isMatched() ) {
-						var domRange = this.range.toDomRange();
+					// Successiveness of current replace/find.
+					var result = false;
+
+					// 1. Perform the replace when there's already a match here.
+					// 2. Otherwise perform the find but don't replace it immediately.
+					if ( this.matchRange && this.matchRange.isMatched() ) {
+						var domRange = this.matchRange.toDomRange();
 						var text = editor.document.createText( newString );
 						domRange.deleteContents();
 						domRange.insertNode( text );
-						this.range.updateFromDomRange( domRange );
-
+						this.matchRange.updateFromDomRange( domRange );
+						this.matchRange._.isMatched = false;
 						this.replaceCounter++;
-						replaceResult = true;
-					}
+						result = true;
+					} else
+						result = this.find( pattern, matchCase, matchWord, matchCyclic );
 
-					var findResult = this.find( pattern, matchCase, matchWord, matchCyclic );
-					if ( findResult && matchReplaceAll )
+					// Recusively replace all matches.
+					if ( matchReplaceAll && result )
 						this.replace.apply( this, Array.prototype.slice.call( arguments ) );
-					return matchReplaceAll ? this.replaceCounter : replaceResult || findResult;
+
+					return matchReplaceAll ? this.replaceCounter : result;
 				}
 			};
-
-			/**
-			 * Get the default cursor which is the start of this document.
-			 */
-			function getDefaultStartCursor() {
-				return { textNode: editor.document.getBody(), offset: 0 };
-			}
 
 			/**
 			 * The range in which find/replace happened, receive from user

@@ -172,7 +172,7 @@ CKEDITOR.test.addTestCase( (function()
 			var element = new CKEDITOR.dom.element( document.getElementById( 'test1' ) );
 			element.setAttribute( 'style', 'position: absolute;' );
 
-			assert.areEqual( 'position:absolute', document.getElementById( 'test1' ).style.cssText.replace( /[\s;]/g, '' ).toLowerCase() );
+			assert.areEqual( 'position: absolute;', element.getAttribute( 'style' ) );
 		},
 
 		test_setAttribute3 : function()
@@ -201,7 +201,7 @@ CKEDITOR.test.addTestCase( (function()
 				'rows'	: 5 });
 
 			assert.areSame( 'Test', document.getElementById( 'test1' ).className, 'class is wrong' );
-			assert.areEqual( 'position:absolute', document.getElementById( 'test1' ).style.cssText.replace( /[\s;]/g, '' ).toLowerCase(), 'style is wrong' );
+			assert.areEqual( 'position: absolute;', element.getAttribute( 'style'), 'style is wrong' );
 			assert.areEqual( 'TestName', document.getElementById( 'test1' ).name, 'name is wrong' );
 			assert.areEqual( 5, document.getElementById( 'test1' ).rows, 'rows is wrong' );
 		},
@@ -414,7 +414,7 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areEqual( 'hasExpando', element.getAttribute( 'class' ), 'class is wrong' );
 			element.removeAttribute( 'class' );
 
-			assert.areEqual( 'float:right', element.getAttribute( 'style' ).toLowerCase().replace( /[ ;]/g, '' ) );
+			assert.areEqual( 'float: right;', element.getAttribute( 'style' ) );
 
 			element.removeAttribute( 'style' );
 			element.removeAttribute( 'id' );
