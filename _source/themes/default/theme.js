@@ -51,6 +51,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' class="', editor.skinClass, '"' +
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
+					' lang="', editor.langCode, '"' +
 					' tabindex="' + tabIndex + '">' +
 				'<span class="', CKEDITOR.env.cssClass, ' cke_', editor.lang.dir, '">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, '"><tbody>' +
@@ -90,7 +91,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 
 			var element = CKEDITOR.dom.element.createFromHtml( [
 				'<div class="cke_skin_', editor.skinName,
-					'" dir="', editor.lang.dir, '">' +
+					'" dir="', editor.lang.dir, '"' +
+					' lang="', editor.langCode, '"' +
+					'>' +
 
 					'<div class="cke_dialog', ' ' + CKEDITOR.env.cssClass,
 						' cke_', editor.lang.dir, '" style="position:absolute">' +
