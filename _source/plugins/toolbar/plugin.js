@@ -45,25 +45,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'toolbar', {
 		init: function( editor ) {
-			var collapserFn = CKEDITOR.tools.addFunction( function( collapser ) {
-				var toolbox = collapser.getPrevious();
-				var contents = editor.getThemeSpace( 'contents' );
-				var toolboxContainer = toolbox.getParent();
-				var contentHeight = parseInt( contents.$.style.height, 10 );
-				var previousHeight = toolboxContainer.$.offsetHeight;
-
-				if ( toolbox.isVisible() ) {
-					toolbox.hide();
-					collapser.addClass( 'cke_toolbox_collapser_min' );
-				} else {
-					toolbox.show();
-					collapser.removeClass( 'cke_toolbox_collapser_min' );
-				}
-
-				var dy = toolboxContainer.$.offsetHeight - previousHeight;
-				contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
-			});
-
 			var itemKeystroke = function( item, keystroke ) {
 					switch ( keystroke ) {
 						case 39: // RIGHT-ARROW
@@ -185,12 +166,40 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					output.push( '</div>' );
 
 					if ( editor.config.toolbarCanCollapse ) {
-						output.push( '<a class="cke_toolbox_collapser' );
+						var collapserFn = CKEDITOR.tools.addFunction( function() {
+							editor.execCommand( 'toolbarCollapse' );
+						});
+
+						var collapserId = 'cke_' + CKEDITOR.tools.getNextNumber();
+
+						editor.addCommand( 'toolbarCollapse', {
+							exec: function( editor ) {
+								var collapser = CKEDITOR.document.getById( collapserId );
+								var toolbox = collapser.getPrevious();
+								var contents = editor.getThemeSpace( 'contents' );
+								var toolboxContainer = toolbox.getParent();
+								var contentHeight = parseInt( contents.$.style.height, 10 );
+								var previousHeight = toolboxContainer.$.offsetHeight;
+
+								if ( toolbox.isVisible() ) {
+									toolbox.hide();
+									collapser.addClass( 'cke_toolbox_collapser_min' );
+								} else {
+									toolbox.show();
+									collapser.removeClass( 'cke_toolbox_collapser_min' );
+								}
+
+								var dy = toolboxContainer.$.offsetHeight - previousHeight;
+								contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
+							}
+						});
+
+						output.push( '<a id="' + collapserId + '" class="cke_toolbox_collapser' );
 
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );
 
-						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ',new CKEDITOR.dom.element(this))"></a>' );
+						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')"></a>' );
 					}
 
 					event.data.html += output.join( '' );
