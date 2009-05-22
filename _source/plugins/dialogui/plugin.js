@@ -1111,7 +1111,10 @@ CKEDITOR.plugins.add( 'dialogui' );
 			}
 
 			// #3465: Wait for the browser to finish rendering the dialog first.
-			setTimeout( generateFormField, 500 );
+			if ( CKEDITOR.env.gecko )
+				setTimeout( generateFormField, 500 );
+			else
+				generateFormField();
 		},
 
 		getValue: function() {
