@@ -614,5 +614,12 @@ CKEDITOR.lang[ 'en' ] = {
 
 	maximize: 'Maximize',
 
+	fakeobjects: {
+		anchor: 'Anchor',
+		flash: 'Flash Animation',
+		div: 'Page Break',
+		unknown: 'Unknown Object'
+	},
+
 	resize: 'Drag to resize'
 };
