@@ -78,7 +78,7 @@ if ( window.CKEDITOR ) {
 				var html = '<p><strong>Your browser is not compatible with CKEditor.</strong>';
 
 				var browsers = {
-					gecko: 'Firefox 1.5',
+					gecko: 'Firefox 2.0',
 					ie: 'Internet Explorer 6.0',
 					opera: 'Opera 9.5',
 					webkit: 'Safari 3.0'
