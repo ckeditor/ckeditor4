@@ -9,8 +9,8 @@
 	<script type="text/javascript" src="../../test.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
-var tc;
-CKEDITOR.test.addTestCase( tc = (function()
+
+CKEDITOR.test.addTestCase( (function()
 {
 	// Local reference to the "assert" object.
 	var assert = CKEDITOR.test.assert;
@@ -68,6 +68,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 		{
 			var node1 = new CKEDITOR.dom.node( document.getElementsByTagName( 'h1' )[0] );
 			var node2 = new CKEDITOR.dom.node( document.getElementsByTagName( 'h1' )[0].firstChild );
+
 			assert.areSame( CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
@@ -103,17 +104,6 @@ CKEDITOR.test.addTestCase( tc = (function()
 			assert.areSame( CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
-		/**
-		 *  Test 'preceding' position.
-		 */
-		test_getPosition_3240: function()
-		{
-			var node1 = new CKEDITOR.dom.node( document.getElementsByTagName( 'b' )[0].firstChild );
-			var node2 = new CKEDITOR.dom.node( document.getElementsByTagName( 'span' )[0].firstChild );
-
-			assert.areSame( CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
-		},
-
 		name : document.title
 	};
 })() );
@@ -125,7 +115,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 //
 //	alert( node1.getPosition( node2 ) );
 //};
-//window.onload =  tc.test_getPosition6;
+
 	//]]>
 	</script>
 </head>
@@ -134,6 +124,5 @@ CKEDITOR.test.addTestCase( tc = (function()
 		<h1>Title</h1>
 		<p><b>Sample</b> <i>Text</i></p>
 	</div>
-	<span>Another</span>
 </body>
 </html>
