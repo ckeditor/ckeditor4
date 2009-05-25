@@ -26,7 +26,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	var commands = {
-		toolbarFocus: {
+		toolbarFocus: { modes:{wysiwyg:1,source:1 },
+
 			exec: function( editor ) {
 				if ( editor.toolbox ) {
 					editor.toolbox.focusCommandExecuted = true;
