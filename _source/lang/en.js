@@ -612,5 +612,7 @@ CKEDITOR.lang[ 'en' ] = {
 		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize'
+	maximize: 'Maximize',
+
+	resize: 'Drag to resize'
 };

@@ -169,15 +169,24 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight ) {
 	var outer = contents.getAscendant( 'table' );
 
 	// Resize the width first.
+	// WEBKIT BUG: Webkit requires that we put the editor off from display when we
+	// resize it. If we don't, the browser crashes!
+	CKEDITOR.env.webkit && outer.setStyle( 'display', 'none' );
 	outer.setStyle( 'width', width );
+	if ( CKEDITOR.env.webkit ) {
+		outer.$.offsetWidth;
+		outer.setStyle( 'display', '' );
+	}
 
 	// Get the height delta between the outer table and the content area.
 	// If we're setting the content area's height, then we don't need the delta.
 	var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
-
-	// Resize the height.
-	contents.setStyle( 'height', ( height - delta ) + 'px' );
+	contents.setStyle( 'height', Math.max( height - delta, 0 ) + 'px' );
 
 	// Emit a resize event.
 	this.fire( 'resize' );
+};
+
+CKEDITOR.editor.prototype.getResizable = function() {
+	return this.container.getChild( [ 0, 0 ] );
 };
