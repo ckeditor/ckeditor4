@@ -382,41 +382,40 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		if ( $ == $other )
 			return CKEDITOR.POSITION_IDENTICAL;
 
-		// Handle non element nodes (don't support contains nor sourceIndex).
-		if ( this.type != CKEDITOR.NODE_ELEMENT || otherNode.type != CKEDITOR.NODE_ELEMENT ) {
-			if ( $.parentNode == $other )
-				return CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING;
-			else if ( $other.parentNode == $ )
-				return CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING;
-			else if ( $.parentNode == $other.parentNode )
-				return this.getIndex() < otherNode.getIndex() ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
-			else {
-				$ = $.parentNode;
-				$other = $other.parentNode;
+		// Only element nodes support contains and sourceIndex.
+		if ( this.type == CKEDITOR.NODE_ELEMENT && otherNode.type == CKEDITOR.NODE_ELEMENT ) {
+			if ( $.contains ) {
+				if ( $.contains( $other ) )
+					return CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING;
+
+				if ( $other.contains( $ ) )
+					return CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING;
+			}
+
+			if ( 'sourceIndex' in $ ) {
+				return ( $.sourceIndex < 0 || $other.sourceIndex < 0 ) ? CKEDITOR.POSITION_DISCONNECTED : ( $.sourceIndex < $other.sourceIndex ) ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
 			}
 		}
 
-		if ( $.contains( $other ) )
-			return CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING;
+		// For nodes that don't support compareDocumentPosition, contains
+		// or sourceIndex, their "address" is compared.
 
-		if ( $other.contains( $ ) )
-			return CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING;
+		var addressOfThis = this.getAddress(),
+			addressOfOther = otherNode.getAddress(),
+			minLevel = Math.min( addressOfThis.length, addressOfOther.length );
 
-		if ( 'sourceIndex' in $ ) {
-			return ( $.sourceIndex < 0 || $other.sourceIndex < 0 ) ? CKEDITOR.POSITION_DISCONNECTED : ( $.sourceIndex < $other.sourceIndex ) ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
+		// Determinate preceed/follow relationship.
+		for ( var i = 0; i <= minLevel - 1; i++ ) {
+			if ( addressOfThis[ i ] != addressOfOther[ i ] ) {
+				if ( i < minLevel ) {
+					return addressOfThis[ i ] < addressOfOther[ i ] ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
+				}
+				break;
+			}
 		}
 
-		// WebKit has no support for sourceIndex.
-
-		var doc = this.getDocument().$;
-
-		var range1 = doc.createRange();
-		var range2 = doc.createRange();
-
-		range1.selectNode( $ );
-		range2.selectNode( $other );
-
-		return range1.compareBoundaryPoints( 1, range2 ) > 0 ? CKEDITOR.POSITION_FOLLOWING : CKEDITOR.POSITION_PRECEDING;
+		// Determinate contains/contained relationship.
+		return ( addressOfThis.length < addressOfOther.length ) ? CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING;
 	},
 
 	/**
