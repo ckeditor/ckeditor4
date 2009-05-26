@@ -91,6 +91,23 @@ if ( !CKEDITOR.env ) {
 			version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 
 			/**
+			 *  Indicate IE8 browser.
+			 */
+			env.ie8 = !!document.documentMode;
+
+			/**
+			 * Indicte IE8 document mode.
+			 */
+			env.ie8Compat = document.documentMode == 8;
+
+			/**
+			 * Indicates that CKEditor is running on an IE7-like environment, which
+			 * includes IE7 itself and IE8's IE7 document mode.
+			 * @type Boolean
+			 */
+			env.ie7Compat = ( ( version == 7 && !document.documentMode ) || document.documentMode == 7 );
+
+			/**
 			 * Indicates that CKEditor is running on an IE6-like environment, which
 			 * includes IE6 itself and IE7 and IE8 quirks mode.
 			 * @type Boolean
@@ -100,10 +117,6 @@ if ( !CKEDITOR.env ) {
 			 */
 			env.ie6Compat = ( version < 7 || env.quirks );
 
-			/**
-			 *  Indicate IE8.
-			 */
-			env.ie8 = ( version >= 8 );
 		}
 
 		// Gecko.
