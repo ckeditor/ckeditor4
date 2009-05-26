@@ -245,15 +245,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	getNextSourceNode: function( startFromSibling, nodeType, guard ) {
-		var node = ( !startFromSibling && this.getFirst && this.getFirst() ) || this.getNext(),
-			parent;
-
 		// If "guard" is a node, transform it in a function.
 		if ( guard && !guard.call ) {
 			var guardNode = guard;
 			guard = function( node ) {
 				return !node.equals( guardNode );
 			};
+		}
+
+		var node = ( !startFromSibling && this.getFirst && this.getFirst() ),
+			parent;
+
+		// Guarding when we're skipping the current element( no children or 'startFromSibling' ).
+		// send the 'moving out' signal even we don't actually dive into.
+		if ( !node ) {
+			if ( this.type == CKEDITOR.NODE_ELEMENT && guard && guard( this, true ) === false )
+				return null;
+			node = this.getNext();
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {
@@ -278,14 +286,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	getPreviousSourceNode: function( startFromSibling, nodeType, guard ) {
-		var node = ( !startFromSibling && this.getLast && this.getLast() ) || this.getPrevious(),
-			parent;
-
 		if ( guard && !guard.call ) {
 			var guardNode = guard;
 			guard = function( node ) {
 				return !node.equals( guardNode );
 			};
+		}
+
+		var node = ( !startFromSibling && this.getLast && this.getLast() ),
+			parent;
+
+		// Guarding when we're skipping the current element( no children or 'startFromSibling' ).
+		// send the 'moving out' signal even we don't actually dive into.
+		if ( !node ) {
+			if ( this.type == CKEDITOR.NODE_ELEMENT && guard && guard( this, true ) === false )
+				return null;
+			node = this.getPrevious();
 		}
 
 		while ( !node && ( parent = ( parent || this ).getParent() ) ) {

@@ -301,15 +301,42 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
+		/**
+		 * Test walker stop at empty endContainer.
+		 */
+		test_stopGuard : function()
+		{
+			var node = doc.getById( 'playground' );
+			node.setHtml( '<span></span>afterEnd' );
+			var endContainer = node.getFirst();
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( node );
+			range.setEndAt( endContainer, CKEDITOR.POSITION_AFTER_START );
 
+			var walker = new CKEDITOR.dom.walker( range );
+			var nodes = [];
+
+			walker.evaluator = function( node )
+			{
+				nodes.push( node );
+				return true;
+			};
+
+			while ( ( node = walker.next() ) )
+			{ /*jsl:pass*/ }
+
+			assertNodesList( [ '<span>' ], nodes );
+
+		},
 		name : document.title
 	};
 })() );
 
+//window.onload = tc.test_stopGuard;
 	//]]>
 	</script>
 </head>
 <body>
-	<div id="playground"></p>
+	<div id="playground"></div>
 </body>
 </html>
