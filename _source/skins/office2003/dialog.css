@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -477,22 +477,22 @@ body .cke_dialog
 /*
  * Some utility CSS classes for dialog authors.
  */
-.cke_skin_office2003 .cke_dialog .dark_background
+.cke_skin_office2003 .cke_dialog .cke_dark_background
 {
 	background-color: #eaead1;
 }
 
-.cke_skin_office2003 .cke_dialog .hand
+.cke_skin_office2003 .cke_dialog .cke_hand
 {
 	cursor: pointer;
 }
 
-.cke_skin_office2003 .cke_dialog .centered
+.cke_skin_office2003 .cke_dialog .cke_centered
 {
 	text-align: center;
 }
 
-.cke_skin_office2003 .cke_dialog .BtnReset
+.cke_skin_office2003 .cke_dialog .cke_btn_reset
 {
 	float: right;
 	background-position: 0 -32px;
@@ -504,12 +504,13 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_office2003 .cke_rtl .cke_dialog .BtnReset
+.cke_skin_office2003 .cke_rtl .cke_dialog .cke_btn_reset
 {
 	float: left;
 }
 
-.cke_skin_office2003 .cke_dialog .BtnLocked, .BtnUnlocked
+.cke_skin_office2003 .cke_dialog .cke_btn_locked,
+.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
 {
 	float: left;
 	background-position: 0 0;
@@ -521,18 +522,19 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_office2003 .cke_dialog .BtnLocked, .BtnUnlocked
+.cke_skin_office2003 .cke_dialog .cke_btn_locked,
+.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
 {
 	float: right;
 }
 
-.cke_skin_office2003 .cke_dialog .BtnUnlocked
+.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
 {
 	background-position: 0 -16px;
 	background-image: url(images/mini.gif);
 }
 
-.cke_skin_office2003 .cke_dialog .BtnOver
+.cke_skin_office2003 .cke_dialog .cke_btn_over
 {
 	border: outset 1px;
 	cursor: pointer;
@@ -575,26 +577,26 @@ body .cke_dialog
 	background-color : white;
 }
 
-.cke_skin_office2003 .cke_dialog .DarkBackground
+.cke_skin_office2003 .cke_dialog .cke_dark_background
 {
 	text-align : center;
 	background-color: #eaead1;
 	font-size : 14px;
 }
 
-.cke_skin_office2003 .cke_dialog .LightBackground
+.cke_skin_office2003 .cke_dialog .cke_light_background
 {
 	text-align : center;
 	background-color: #ffffbe;
 }
 
-.cke_skin_office2003 .cke_dialog .Hand
+.cke_skin_office2003 .cke_dialog .cke_hand
 {
 	cursor: pointer;
 	cursor: hand;
 }
 
-.cke_skin_office2003 .disabled
+.cke_skin_office2003 .cke_disabled
 {
 	color: #a0a0a0;
 }

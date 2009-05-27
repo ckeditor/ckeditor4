@@ -55,10 +55,10 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						html.push( '<td width="1%"' +
 							' title="', chars[ i ].replace( /&/g, '&amp;' ), '"' +
 							' value="', chars[ i ].replace( /&/g, "&amp;" ), '"' +
-							' class="DarkBackground Hand">' );
+							' class="cke_dark_background cke_hand">' );
 						html.push( chars[ i ] );
 					} else
-						html.push( '<td class="DarkBackground">&nbsp;' );
+						html.push( '<td class="cke_dark_background">&nbsp;' );
 
 					html.push( '</td>' );
 				}
@@ -95,7 +95,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
 							htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
-							target.addClass( "LightBackground" );
+							target.addClass( "cke_light_background" );
 						}
 					},
 					onMouseout: function( evt ) {
@@ -104,7 +104,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							var dialog = this.getDialog();
 							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
 							dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
-							target.removeClass( "LightBackground" );
+							target.removeClass( "cke_light_background" );
 						}
 					},
 					onClick: function( evt ) {
@@ -112,7 +112,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							value;
 						if ( target.getName() == 'td' && ( value = target.$.getAttribute( 'value' ) ) ) {
 							var dialog = this.getDialog();
-							target.removeClass( "LightBackground" );
+							target.removeClass( "cke_light_background" );
 							dialog.getParentEditor().insertHtml( value );
 							dialog.hide();
 						}
