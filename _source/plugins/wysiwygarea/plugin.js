@@ -9,6 +9,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
+	/**
+	 * List of elements in which has no way to move editing focus outside.
+	 */
+	var nonExitableElementNames = { table:1,pre:1 };
+
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
 			this.focus();
@@ -63,28 +68,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				clone = !i && element || element.clone( true );
 
-				var toSplit;
-
-				// If the new node is a block element, split the current block (if any).
-				if ( this.config.enterMode != CKEDITOR.ENTER_BR && isBlock ) {
-					var startPath = new CKEDITOR.dom.elementPath( range.startContainer ),
-						j = 0,
-						parent;
-
-					while ( ( parent = startPath.elements[ j++ ] ) && parent != startPath.blockLimit ) {
-						var parentName = parent.getName(),
-							parentDtd = CKEDITOR.dtd[ parentName ];
-
-						if ( parentDtd && !parentDtd[ elementName ] )
-							toSplit = parent;
-					}
-				}
+				// If we're inserting a block at dtd-violated positoin, split
+				// the parent blocks until we reach blockLimit.
+				var parent, dtd;
+				if ( this.config.enterMode != CKEDITOR.ENTER_BR && isBlock )
+					while ( ( parent = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ parent.getName() ] ) && !( dtd && dtd[ elementName ] ) )
+					range.splitBlock();
 
 				// Insert the new node.
 				range.insertNode( clone );
-
-				if ( toSplit )
-					clone.breakParent( toSplit );
 
 				// Save the last element reference so we can make the
 				// selection later.
@@ -102,6 +94,48 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( selIsLocked )
 				this.getSelection().lock();
+		}
+	}
+
+	/**
+	 *  Auto-fixing block-less content by wrapping paragraph, prevent 
+	 *  non-exitable-block by padding extra br.
+	 */
+	function onSelectionChangeFixBody( evt ) {
+		var editor = evt.editor,
+			path = evt.data.path,
+			blockLimit = path.blockLimit,
+			body = editor.document.getBody(),
+			enterMode = editor.config.enterMode;
+
+		// When enterMode set to block, we'll establing new paragraph if the
+		// current range is block-less within body.
+		if ( enterMode != CKEDITOR.ENTER_BR && blockLimit.getName() == 'body' && !path.block ) {
+			var selection = evt.data.selection,
+				range = evt.data.selection.getRanges()[ 0 ],
+				bms = selection.createBookmarks(),
+				fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+
+			// For IE, we'll be removing any bogus br ( introduce by fixing body )
+			// right now to prevent it introducing visual line break.
+			if ( CKEDITOR.env.ie ) {
+				var brNodeList = fixedBlock.getElementsByTag( 'br' ),
+					brNode;
+				for ( var i = 0; i < brNodeList.count(); i++ )
+					if ( ( brNode = brNodeList.getItem( i ) ) && brNode.hasAttribute( '_fck_bookmark' ) )
+					brNode.remove();
+			}
+
+			selection.selectBookmarks( bms );
+		}
+
+		// Inserting the padding-br before body if it's preceded by an
+		// unexitable block.
+		var lastNode = body.getLast( true );
+		if ( lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
+			var paddingBlock = editor.document.createElement(
+			( CKEDITOR.env.ie && enterMode != CKEDITOR.ENTER_BR ) ? '<br _cke_bogus="true" />' : 'br' );
+			body.append( paddingBlock );
 		}
 	}
 
@@ -393,6 +427,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				editor.on( 'insertHtml', onInsertHtml, null, null, 20 );
 				editor.on( 'insertElement', onInsertElement, null, null, 20 );
+				// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
+				editor.on( 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
 			});
 		}
 	});

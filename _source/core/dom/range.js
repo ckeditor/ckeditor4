@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -23,6 +23,8 @@ CKEDITOR.dom.range = function( document ) {
 	// contents.
 	// V2
 	var execContentsAction = function( range, action, docFrag ) {
+			range.optimizeBookmark();
+
 			var startNode = range.startContainer;
 			var endNode = range.endContainer;
 
@@ -534,17 +536,25 @@ CKEDITOR.dom.range = function( document ) {
 			return { startNode: startNode, endNode: endNode };
 		},
 
-		getCommonAncestor: function( includeSelf ) {
-			var start = this.startContainer;
-			var end = this.endContainer;
+		/**
+		 * Find the node which fully contains the range.
+		 * @param includeSelf
+		 * @param {Boolean} ignoreTextNode Whether ignore CKEDITOR.NODE_TEXT type.
+		 */
+		getCommonAncestor: function( includeSelf, ignoreTextNode ) {
+			var start = this.startContainer,
+				end = this.endContainer,
+				ancestor;
 
 			if ( start.equals( end ) ) {
 				if ( includeSelf && start.type == CKEDITOR.NODE_ELEMENT && this.startOffset == this.endOffset - 1 )
-					return start.getChild( this.startOffset );
-				return start;
-			}
+					ancestor = start.getChild( this.startOffset );
+				else
+					ancestor = start;
+			} else
+				ancestor = start.getCommonAncestor( end );
 
-			return start.getCommonAncestor( end );
+			return ignoreTextNode && !ancestor.is ? ancestor.getParent() : ancestor;
 		},
 
 		/**
@@ -573,6 +583,19 @@ CKEDITOR.dom.range = function( document ) {
 				else if ( offset >= container.getLength() )
 					this.setEndAfter( container );
 			}
+		},
+
+		/**
+		 * Move the range out of bookmark nodes if they're been the container.
+		 */
+		optimizeBookmark: function() {
+			var startNode = this.startContainer,
+				endNode = this.endContainer;
+
+			if ( startNode.is && startNode.is( 'span' ) && startNode.hasAttribute( '_fck_bookmark' ) )
+				this.setStartAt( startNode, CKEDITOR.POSITION_BEFORE_START );
+			if ( endNode && endNode.is && endNode.is( 'span' ) && endNode.hasAttribute( '_fck_bookmark' ) )
+				this.setEndAt( endNode, CKEDITOR.POSITION_AFTER_END );
 		},
 
 		trim: function( ignoreStart, ignoreEnd ) {
@@ -992,6 +1015,7 @@ CKEDITOR.dom.range = function( document ) {
 		 * the contain the node.
 		 */
 		insertNode: function( node ) {
+			this.optimizeBookmark();
 			this.trim( false, true );
 
 			var startContainer = this.startContainer;
@@ -1166,7 +1190,6 @@ CKEDITOR.dom.range = function( document ) {
 				endBlock = endPath.block;
 
 			var elementPath = null;
-
 			// Do nothing if the boundaries are in different block limits.
 			if ( !startBlockLimit.equals( endBlockLimit ) )
 				return null;

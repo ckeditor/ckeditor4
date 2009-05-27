@@ -564,9 +564,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return $ ? new CKEDITOR.dom.node( $ ) : null;
 	},
 
-	getLast: function() {
+	/**
+	 * @param ignoreEmpty Skip empty text nodes.
+	 */
+	getLast: function( ignoreEmpty ) {
 		var $ = this.$.lastChild;
-		return $ ? new CKEDITOR.dom.node( $ ) : null;
+		if ( ignoreEmpty && $ && ( $.nodeType == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( $.nodeValue ) )
+			return new CKEDITOR.dom.node( $ ).getPrevious( true );
+		else
+			return $ ? new CKEDITOR.dom.node( $ ) : null;
 	},
 
 	getStyle: function( name ) {
