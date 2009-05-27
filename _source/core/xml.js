@@ -37,7 +37,7 @@ CKEDITOR.xml = function( xmlObjectOrData ) {
 				baseXml.async = false;
 				baseXml.resolveExternals = false;
 				baseXml.validateOnParse = false;
-				baseXml.loadXML( xmlObjectOrData || '' );
+				baseXml.loadXML( ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' ) );
 			}
 		}
 	}
