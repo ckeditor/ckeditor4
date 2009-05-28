@@ -137,6 +137,22 @@ CKEDITOR.test.addTestCase( (function()
 			this.wait();
 		},
 
+		test_parseXml : function()
+		{
+			var data = new CKEDITOR.xml( '<?xml version="1.0" encoding="utf-8" ?><list><item id="test1" /><item id="test2" /></list>' );
+			assert.isInstanceOf( CKEDITOR.xml, data );
+			assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
+			assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
+		},
+
+		test_parseXml_nbsp : function()
+		{
+			var data = new CKEDITOR.xml( '<?xml version="1.0" encoding="utf-8" ?><list><item id="test1">&nbsp;</item><item id="test2" /></list>' );
+			assert.isInstanceOf( CKEDITOR.xml, data );
+			assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
+			assert.isNotUndefined( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (undefined)' );
+		},
+
 		name : document.title
 	};
 })() );

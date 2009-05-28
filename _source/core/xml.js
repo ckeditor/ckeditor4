@@ -22,8 +22,9 @@ CKEDITOR.xml = function( xmlObjectOrData ) {
 	if ( typeof xmlObjectOrData == 'object' )
 		baseXml = xmlObjectOrData;
 	else {
+		var data = ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' );
 		if ( window.DOMParser )
-			baseXml = ( new DOMParser() ).parseFromString( xmlObjectOrData || '', 'text/xml' );
+			baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
 		else if ( window.ActiveXObject ) {
 			try {
 				baseXml = new ActiveXObject( 'MSXML2.DOMDocument' );
@@ -37,7 +38,7 @@ CKEDITOR.xml = function( xmlObjectOrData ) {
 				baseXml.async = false;
 				baseXml.resolveExternals = false;
 				baseXml.validateOnParse = false;
-				baseXml.loadXML( ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' ) );
+				baseXml.loadXML( data );
 			}
 		}
 	}
