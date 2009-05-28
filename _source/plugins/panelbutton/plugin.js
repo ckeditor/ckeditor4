@@ -106,9 +106,13 @@ CKEDITOR.UI_PANELBUTTON = 4;
 					me.document.getById( _.id ).focus();
 				};
 
-
 				if ( this.onBlock )
 					this.onBlock( panel, _.id );
+
+				panel.getBlock( _.id ).onHide = function() {
+					_.on = 0;
+					me.setState( CKEDITOR.TRISTATE_OFF );
+				};
 			}
 		}
 	});

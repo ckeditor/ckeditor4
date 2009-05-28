@@ -225,7 +225,8 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 		},
 
 		hide: function() {
-			this.element.setStyle( 'display', 'none' );
+			if ( !this.onHide || this.onHide.call( this ) !== true )
+				this.element.setStyle( 'display', 'none' );
 		},
 
 		onKeyDown: function( keystroke ) {
