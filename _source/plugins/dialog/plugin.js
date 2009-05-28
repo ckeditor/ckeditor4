@@ -541,11 +541,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
-			// Save the initial values of the dialog.
-			this.foreach( function( contentObj ) {
-				contentObj.setInitValue && contentObj.setInitValue();
-			});
-
 			// Rearrange the dialog to the middle of the window.
 			CKEDITOR.tools.setTimeout( function() {
 				var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
@@ -558,6 +553,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Execute onLoad for the first show.
 				this.fireOnce( 'load', {} );
 				this.fire( 'show', {} );
+
+				// Save the initial values of the dialog.
+				this.foreach( function( contentObj ) {
+					contentObj.setInitValue && contentObj.setInitValue();
+				});
+
 			}, 100, this );
 		},
 
