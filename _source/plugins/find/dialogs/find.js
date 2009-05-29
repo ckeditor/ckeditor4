@@ -422,13 +422,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// 1. Perform the replace when there's already a match here.
 					// 2. Otherwise perform the find but don't replace it immediately.
-					if ( this.matchRange && this.matchRange.isMatched() ) {
+					if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced ) {
 						var domRange = this.matchRange.toDomRange();
 						var text = editor.document.createText( newString );
 						domRange.deleteContents();
 						domRange.insertNode( text );
 						this.matchRange.updateFromDomRange( domRange );
-						this.matchRange._.isMatched = false;
+						this.matchRange._.isReplaced = true;
 						this.replaceCounter++;
 						result = true;
 					} else
