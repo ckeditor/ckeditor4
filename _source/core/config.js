@@ -157,9 +157,9 @@ CKEDITOR.config = {
 	 * possibly breaking the <i>plugins</i> setting.
 	 * @type String
 	 * @example
-	 * config.addPlugins = 'myplugin,anotherplugin';
+	 * config.extraPlugins = 'myplugin,anotherplugin';
 	 */
-	addPlugins: '',
+	extraPlugins: '',
 
 	/**
 	 * List of plugins that must not be loaded. This is a tool setting which

@@ -133,15 +133,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var loadPlugins = function( editor ) {
 			var config = editor.config,
 				plugins = config.plugins,
-				addPlugins = config.addPlugins,
+				extraPlugins = config.extraPlugins,
 				removePlugins = config.removePlugins;
 
-			if ( addPlugins ) {
+			if ( extraPlugins ) {
 				// Remove them first to avoid duplications.
-				var removeRegex = new RegExp( '(?:^|,)(?:' + addPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+				var removeRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
 				plugins = plugins.replace( removeRegex, '' );
 
-				plugins += ',' + addPlugins;
+				plugins += ',' + extraPlugins;
 			}
 
 			if ( removePlugins ) {
