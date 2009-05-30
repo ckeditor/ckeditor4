@@ -9,16 +9,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var commandName = "scaytcheck",
-		sc_on_cssclass = "scayt_enabled",
+	var commandName = 'scaytcheck',
+		sc_on_cssclass = 'scayt_enabled',
 		sc_off_cssclass = 'scayt_disabled',
 		openPage = '';
 
 	var onEngineLoad = function() {
 			var editor = this;
-			dojo.requireLocalization( 'scayt', 'caption', '', "ROOT" );
+			dojo.requireLocalization( 'scayt', 'caption', '', 'ROOT' );
 
-			var createInstnce = function() // Create new instance every time Document is created.
+			var createInstance = function() // Create new instance every time Document is created.
 				{
 					// Initialise Scayt instance.
 					var scayt_control = new scayt({
@@ -26,7 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					});
 
 					// Copy config.
-					var lastInstance = plugin.instances[ editor.name ]
+					var lastInstance = plugin.instances[ editor.name ];
 					if ( lastInstance ) {
 						scayt_control.sLang = lastInstance.sLang;
 						scayt_control.option( lastInstance.option() );
@@ -36,11 +36,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					plugin.instances[ editor.name ] = scayt_control;
 
 					try {
-						scayt_control.setDisabled( scayt_control.paused === false ); // I really don't know why it couse JS error in IE
+						scayt_control.setDisabled( scayt_control.paused === false ); // I really don't know why it causes JS error in IE
 					} catch ( e ) {}
 				};
 
-			editor.on( 'contentDom', createInstnce ) // Get the iframe somehow.
+			editor.on( 'contentDom', createInstance ); // Get the iframe somehow.
 			editor.on( 'contentDomUnload', function() {
 				// Remove scripts.
 				var scripts = CKEDITOR.document.getElementsByTag( 'script' );
@@ -55,12 +55,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( id && src && id.match( scaytIdRegex ) && src.match( scaytSrcRegex ) )
 						script.remove();
 				}
-			})
+			});
 
 			editor.on( 'beforeCommandExec', function( ev ) // Disable SCAYT before Source command execution.
 			{
 				if ( ev.data.name == 'source' && editor.mode == 'wysiwyg' ) {
-					var scayt = plugin.getScayt( editor )
+					var scayt = plugin.getScayt( editor );
 					if ( scayt ) {
 						scayt.paused = !scayt.disabled;
 						scayt.setDisabled( true );
@@ -88,7 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			if ( editor.document ) {
-				createInstnce();
+				createInstance();
 				editor.fire( 'showScaytState' );
 			}
 		};
@@ -111,19 +111,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( this.engineLoaded === true )
 				return onEngineLoad.apply( editor ); // Add new instance.
 			else if ( this.engineLoaded == -1 ) // We are waiting.
-			return CKEDITOR.on( "scaytReady", function() {
-				onEngineLoad.apply( editor )
+			return CKEDITOR.on( 'scaytReady', function() {
+				onEngineLoad.apply( editor );
 			}); // Use function(){} to avoid rejection as duplicate.
 
-			CKEDITOR.on( "scaytReady", onEngineLoad, editor );
-			CKEDITOR.on( "scaytReady", function() {
+			CKEDITOR.on( 'scaytReady', onEngineLoad, editor );
+			CKEDITOR.on( 'scaytReady', function() {
 				this.engineLoaded = true;
 			}, this, null, 0 ); // First to run.
 
 			this.engineLoaded = -1; // Loading in progress.
 			djConfig = {
-				baseUrl: "./",
-				blankGif: "http://demo.spellchecker.net/spellcheck3/lf/scayt/blank.gif",
+				baseUrl: './',
+				blankGif: 'http://demo.spellchecker.net/spellcheck3/lf/scayt/blank.gif',
 				parseOnLoad: true,
 				afterOnLoad: true,
 				useXDomain: true,
@@ -132,26 +132,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				preventCache: false,
 				scaytNodes: document.getElementById( 'foo' ),
 				require: [
-					"dojo.i18n",
-					"scayt._base"
+					'dojo.i18n',
+					'scayt._base'
 					],
 				modulePaths: {
-					"scayt": "http://demo.spellchecker.net/spellcheck3/lf/scayt"
+					'scayt': 'http://demo.spellchecker.net/spellcheck3/lf/scayt'
 				},
 				addOnLoad: [
 					function()
 					{
-					CKEDITOR.fireOnce( "scaytReady" );
+					CKEDITOR.fireOnce( 'scaytReady' );
 				}
 				],
 				isDebug: false
 			};
 
-			// Append javascrip code.
+			// Append javascript code.
 			CKEDITOR.document.getHead().append( CKEDITOR.document.createElement( 'script', {
 				attributes: {
 					type: 'text/javascript',
-					src: "http://demo.spellchecker.net/spellcheck3/lf/dojo/dojo/dojo.xd.js"
+					src: 'http://demo.spellchecker.net/spellcheck3/lf/dojo/dojo/dojo.xd.js'
 				}
 			}));
 		}
@@ -253,7 +253,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
-			editor.ui.add( "Scayt", CKEDITOR.UI_MENUBUTTON, {
+			editor.ui.add( 'Scayt', CKEDITOR.UI_MENUBUTTON, {
 				label: editor.lang.scayt.title,
 				title: editor.lang.scayt.title,
 				className: 'cke_button_scayt',
@@ -304,7 +304,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					moreSuggestions = {}; // Reset items.
 					mainSuggestions = {};
 
-					// Rgister the More suggestions group;
+					// Register the More suggestions group;
 					editor.addMenuItem( 'scayt_moresuggest', {
 						label: editor.lang.scayt.moreSuggestions,
 						group: 'scayt_moresuggest',
@@ -315,7 +315,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					});
 
 					for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
-						var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( " ", "_" );
+						var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );
 						var exec = (function( el, s ) {
 							return {
 								exec: function( editor ) {
@@ -325,11 +325,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						})( element.$, items_suggestion[ i ] );
 
 						if ( i < editor.config.scayt_maxSuggestions ) {
-							addButtonCommand( editor, "button_" + commandName, items_suggestion[ i ], commandName, exec, 'scayt_suggest', i + 1 );
+							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_suggest', i + 1 );
 							_r[ commandName ] = CKEDITOR.TRISTATE_OFF;
 							mainSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
 						} else {
-							addButtonCommand( editor, "button_" + commandName, items_suggestion[ i ], commandName, exec, 'scayt_moresuggest', i + 1 );
+							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_moresuggest', i + 1 );
 							moreSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
 						}
 					}
@@ -350,9 +350,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					};
 
-					addButtonCommand( editor, "ignore", editor.lang.scayt.ignore, 'scayt_ignore', ignore_command, 'scayt_control', 1 );
-					addButtonCommand( editor, "ignore_all", editor.lang.scayt.ignoreAll, 'scayt_ignore_all', ignore_all_command, 'scayt_control', 2 );
-					addButtonCommand( editor, "add_word", editor.lang.scayt.addWord, 'scayt_add_word', addword_command, 'scayt_control', 3 );
+					addButtonCommand( editor, 'ignore', editor.lang.scayt.ignore, 'scayt_ignore', ignore_command, 'scayt_control', 1 );
+					addButtonCommand( editor, 'ignore_all', editor.lang.scayt.ignoreAll, 'scayt_ignore_all', ignore_all_command, 'scayt_control', 2 );
+					addButtonCommand( editor, 'add_word', editor.lang.scayt.addWord, 'scayt_add_word', addword_command, 'scayt_control', 3 );
 
 					mainSuggestions[ 'scayt_moresuggest' ] = CKEDITOR.TRISTATE_OFF;
 					mainSuggestions[ 'scayt_ignore' ] = CKEDITOR.TRISTATE_OFF;
