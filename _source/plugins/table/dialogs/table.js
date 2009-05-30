@@ -417,6 +417,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					children: [
 						{
 						type: 'text',
+						id: 'txtCaption',
 						label: editor.lang.table.caption,
 						setup: function( selectedTable ) {
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
@@ -450,6 +451,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					},
 						{
 						type: 'text',
+						id: 'txtSummary',
 						label: editor.lang.table.summary,
 						setup: function( selectedTable ) {
 							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
