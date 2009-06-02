@@ -59,6 +59,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			img: function( element ) {
 				var attribs = element.attributes;
 
+				if ( attribs._cke_saved_name )
+					delete attribs.name;
 				if ( attribs._cke_saved_src )
 					delete attribs.src;
 			},
@@ -66,6 +68,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			a: function( element ) {
 				var attribs = element.attributes;
 
+				if ( attribs._cke_saved_name )
+					delete attribs.name;
 				if ( attribs._cke_saved_href )
 					delete attribs.href;
 			},
