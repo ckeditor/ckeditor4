@@ -318,6 +318,12 @@ body .cke_dialog
 	padding: 1px 0px;
 }
 
+.cke_skin_office2003 div.cke_disabled .cke_dialog_ui_labeled_content *
+{
+	background-color : #a0a0a0;
+	cursor : default;
+}
+
 .cke_skin_office2003 .cke_dialog_ui_hbox
 {
 	width: 100%;

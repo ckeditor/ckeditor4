@@ -190,6 +190,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				label: editor.lang.select.value,
 				style: 'width:350px',
 				'default': '',
+				className: 'cke_disabled',
 				onLoad: function() {
 					this.getInputElement().setAttribute( 'readOnly', true );
 				},
