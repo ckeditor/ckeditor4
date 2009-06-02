@@ -352,7 +352,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				return this.$.getAttribute( name, 2 );
 			};
 
-		if ( CKEDITOR.env.ie && ( !CKEDITOR.env.ie8 || CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.ie8 ) {
 			return function( name ) {
 				switch ( name ) {
 					case 'class':
