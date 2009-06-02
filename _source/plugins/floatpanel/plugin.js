@@ -9,6 +9,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 (function() {
 	var panels = {};
+	var isShowing = false;
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-skinName-langDir[-CSSs][-level]
@@ -86,6 +87,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
+				isShowing = true;
+
 				var element = this.element,
 					iframe = this._.iframe,
 					definition = this._.definition,
@@ -115,7 +118,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					var focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow );
 
 					focused.on( 'blur', function() {
-						if ( !this._.activeChild )
+						if ( !this._.activeChild && !isShowing )
 							this.hide();
 					}, this );
 
@@ -184,6 +187,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( this.onShow )
 					this.onShow.call( this );
+
+				isShowing = false;
 			},
 
 			hide: function() {
