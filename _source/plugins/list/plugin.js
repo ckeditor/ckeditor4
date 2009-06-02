@@ -415,33 +415,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// For all new lists created, merge adjacent, same type lists.
 			for ( i = 0; i < listsCreated.length; i++ ) {
 				listNode = listsCreated[ i ];
-				var stopFlag = false,
-					currentNode = listNode;
+				var mergeSibling,
+					listCommand = this;
+				( mergeSibling = function( rtl ) {
 
-				while ( !stopFlag ) {
-					currentNode = currentNode.getNext();
-					if ( currentNode && currentNode.type == CKEDITOR.NODE_TEXT && emptyTextRegex.test( currentNode.getText() ) )
-						continue;
-					stopFlag = true;
-				}
-
-				if ( currentNode && currentNode.getName() == this.type ) {
-					currentNode.remove();
-					currentNode.moveChildren( listNode );
-				}
-
-				stopFlag = false;
-				currentNode = listNode;
-				while ( !stopFlag ) {
-					currentNode = currentNode.getNext();
-					if ( currentNode && currentNode.type == CKEDITOR.NODE_TEXT && emptyTextRegex.test( currentNode.getText() ) )
-						continue;
-					stopFlag = true;
-				}
-				if ( currentNode && currentNode.getName() == this.type ) {
-					currentNode.remove();
-					currentNode.moveChildren( listNode, true );
-				}
+					var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ].call( listNode, true );
+					if ( sibling && sibling.getName && sibling.getName() == listCommand.type ) {
+						sibling.remove();
+						sibling.moveChildren( listNode );
+					}
+				})();
+				mergeSibling( true );
 			}
 
 			// Clean up, restore selection and update toolbar button states.
