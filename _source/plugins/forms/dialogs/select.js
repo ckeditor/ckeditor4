@@ -169,8 +169,9 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				setup: function( name, element ) {
 					if ( name == 'clear' )
 						this.setValue( '' );
-					else if ( name == 'select' )
-						this.setValue( element.getAttribute( '_cke_saved_name' ) || '' );
+					else if ( name == 'select' ) {
+						this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
+					}
 				},
 				commit: function( element ) {
 					if ( this.getValue() )

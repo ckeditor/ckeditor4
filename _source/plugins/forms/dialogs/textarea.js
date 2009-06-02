@@ -41,7 +41,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( '_cke_saved_name' ) );
+					this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
 				},
 				commit: function( element ) {
 					if ( this.getValue() )

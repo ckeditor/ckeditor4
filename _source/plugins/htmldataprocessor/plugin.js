@@ -17,6 +17,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			]
 	};
 
+	/**
+	 * IE sucks with dynamic 'name' attribute after element is created, '_cke_saved_name' is used instead for this attribute.
+	 */
+	var removeName = function( element ) {
+			var attribs = element.attributes;
+
+			if ( attribs._cke_saved_name )
+				delete attribs.name;
+		};
+
 	var defaultHtmlFilterRules = {
 		elementNames: [
 			// Remove the "cke:" namespace prefix.
@@ -60,15 +70,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					delete attribs.href;
 			},
 
-			/**
-			 * IE sucks with dynamic 'name' attribute after element is created, '_cke_saved_name' is used instead for this attribute.
-			 */
-			input: function( element ) {
-				var attribs = element.attributes;
-
-				if ( attribs._cke_saved_name )
-					delete attribs.name;
-			}
+			input: removeName,
+			textarea: removeName,
+			select: removeName,
+			form: removeName
 		},
 
 		attributes: {
