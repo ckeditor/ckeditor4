@@ -69,9 +69,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								undoManager.type();
 						});
 
-						// Being this the first call, let's get an undo snapshot.
-						if ( undoManager.index == -1 )
-							undoManager.save();
+						// Always save an undo snapshot - the previous mode might have changed
+						// editor contents.
+						undoManager.save( true );
 					}
 				} else
 					undoManager.enabled = false;
@@ -243,6 +243,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( image.bookmarks )
 				this.editor.getSelection().selectBookmarks( image.bookmarks );
+			else if ( CKEDITOR.env.ie ) {
+				// IE BUG: If I don't set the selection to *somewhere* after setting
+				// document contents, then IE would create an empty paragraph at the bottom
+				// the next time the document is modified.
+				$range = this.editor.document.getBody().$.createTextRange();
+				$range.collapse( true );
+				$range.select();
+			}
 
 			this.index = image.index;
 
