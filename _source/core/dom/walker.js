@@ -293,5 +293,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.dom.walker.listItemBoundary = function() {
 		return this.blockBoundary( { br:1 } );
 	};
+	/**
+	 * Whether the node is a bookmark node's inner text node.
+	 */
+	CKEDITOR.dom.walker.bookmarkContents = function( node ) {},
+
+	/**
+	 * Whether the to-be-evaluated node is a bookmark node OR bookmark node
+	 * inner contents.
+	 * @param {Boolean} contentOnly Whether only test againt the text content of
+	 * bookmark node instead of the element itself(default).
+	 * @param {Boolean} isReject Whether should return 'false' for the bookmark
+	 * node instead of 'true'(default).
+	 */
+	CKEDITOR.dom.walker.bookmark = function( contentOnly, isReject ) {
+		function isBookmarkNode( node ) {
+			return ( node && node.getName && node.getName() == 'span' && node.hasAttribute( '_fck_bookmark' ) );
+		}
+
+		return function( node ) {
+			var retval, parent;
+			// Is bookmark inner text node?
+			retval = ( node && !node.getName && ( parent = node.getParent() ) && isBookmarkNode( parent ) );
+			// Is bookmark node?
+			retval = contentOnly ? retval : retval || isBookmarkNode( node );
+			return isReject ? !retval : !!retval;
+		};
+	};
 
 })();

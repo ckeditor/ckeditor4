@@ -326,7 +326,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var paragraph = doc.createElement( editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : ( editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'br' ) );
 					paragraph.appendTo( body );
 					ranges = [ new CKEDITOR.dom.range( doc ) ];
-					ranges[ 0 ].selectNodeContents( paragraph );
+					// IE exception on inserting anything when anchor inside <br>.
+					if ( paragraph.is( 'br' ) ) {
+						ranges[ 0 ].setStartBefore( paragraph );
+						ranges[ 0 ].setEndAfter( paragraph );
+					} else
+						ranges[ 0 ].selectNodeContents( paragraph );
 					selection.selectRanges( ranges );
 				}
 			}
