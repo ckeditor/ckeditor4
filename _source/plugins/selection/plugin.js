@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -744,31 +745,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		createBookmarks: function( serializable ) {
 			var retval = [],
-				ranges = this.getRanges(),
-				length = ranges.length;
-			for ( var i = 0; i < length; i++ ) {
-				// Updating the offset values for rest of ranges which have been mangled.
-				for ( var j = i + 1; j < length; j++ ) {
-					retval.push( ranges[ i ].createBookmark( serializable, true ) );
-
-					var dirtyRange = ranges[ j ];
-
-					function updateDirtyRange( isRangeStart, isBookmarkStart ) {
-						if ( dirtyRange[ isRangeStart ? 'startContainer' : 'endContainer' ].equals( retval[ i ][ isBookmarkStart ?
-																'startNode' : 'endNode' ].getParent() ) )
-							dirtyRange[ isRangeStart ? 'startOffset' : 'endOffset' ]++;
-					}
-
-					updateDirtyRange( false, true );
-					updateDirtyRange( false, false );
-					updateDirtyRange( true, true );
-					updateDirtyRange( true, false );
-				}
-			}
-
-			// Update ranges caches on dirty.
-			if ( dirtyRange )
-				this._.cache.ranges = ranges;
+				ranges = this.getRanges();
+			for ( var i = 0; i < ranges.length; i++ )
+				retval.push( ranges[ i ].createBookmark( serializable ) );
 			return retval;
 		},
 
