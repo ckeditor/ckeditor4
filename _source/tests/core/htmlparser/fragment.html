@@ -151,12 +151,31 @@ CKEDITOR.test.addTestCase( tc = (function()
 						'<p><b>Test</b></p><script type="test">var a = "<A Href=xxx>Testing</ A>";\nGo();<\/script>' );
 		},
 
+		test_ticket_3585 : function()
+		{
+			testParser(	'<p><br />\t\r\n</p>',
+						'<p><br /></p>' );
+		},
+
+		test_ticket_3585_1 : function()
+		{
+			testParser(	'<p><br />text\t\r\n</p>',
+						'<p><br />text</p>' );
+		},
+
+
+		test_ticket_3585_2 : function()
+		{
+			testParser(	'<b>inline </b>\n<p>paragraph\t\r\n</p>\t\r\n',
+						'<p><b>inline </b></p><p>paragraph</p>' );
+		},
+
 		name : document.title
 	};
 })() );
 
 // Uncomment the following to run a single test.
-// window.onload = tc.test_ticket_3195_2;
+// window.onload = tc.test_ticket_3585_2;
 
 	//]]>
 	</script>

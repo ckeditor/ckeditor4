@@ -104,6 +104,20 @@ CKEDITOR.htmlParser.fragment = function() {
 					currentNode = savedCurrent;
 			}
 
+			// Rtrim empty spaces on block end boundary. (#3585)
+			if ( element._.isBlockLike ) {
+
+				var length = element.children.length,
+					lastChild = element.children[ length - 1 ],
+					text;
+				if ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT ) {
+					if ( !( text = CKEDITOR.tools.rtrim( lastChild.value ) ) )
+						element.children.length = length - 1;
+					else
+						lastChild.value = text;
+				}
+			}
+
 			target.add( element );
 
 			if ( element.returnPoint ) {
