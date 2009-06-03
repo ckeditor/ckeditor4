@@ -158,6 +158,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							left: ( -1 * offset.x ) + 'px',
 							top: ( -1 * offset.y ) + 'px'
 						});
+
+						// Add cke_maximized class.
+						container.addClass( 'cke_maximized' );
 					} else if ( this.state == CKEDITOR.TRISTATE_ON ) // Restore from fullscreen if the state is on.
 					{
 						// Remove event handler for resizing.
@@ -178,6 +181,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Restore the window scroll position.
 						mainWindow.$.scrollTo( outerScroll.x, outerScroll.y );
+
+						// Remove cke_maximized class.
+						container.removeClass( 'cke_maximized' );
 
 						// Emit a resize event, because this time the size is modified in
 						// restoreStyles.
