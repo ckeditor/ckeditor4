@@ -512,9 +512,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ 'window' ],
-							[ 'opaque' ],
-							[ 'transparent' ]
+							[ editor.lang.flash.windowModeWindow, 'window' ],
+							[ editor.lang.flash.windowModeOpaque, 'opaque' ],
+							[ editor.lang.flash.windowModeTransparent, 'transparent' ]
 							],
 						setup: loadValue,
 						commit: commitValue
@@ -527,12 +527,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ 'best' ],
-							[ 'high' ],
-							[ 'autohigh' ],
-							[ 'medium' ],
-							[ 'autolow' ],
-							[ 'low' ]
+							[ editor.lang.flash.qualityBest, 'best' ],
+							[ editor.lang.flash.qualityHigh, 'high' ],
+							[ editor.lang.flash.qualityAutoHigh, 'autohigh' ],
+							[ editor.lang.flash.qualityMedium, 'medium' ],
+							[ editor.lang.flash.qualityAutoLow, 'autolow' ],
+							[ editor.lang.flash.qualityLow, 'low' ]
 							],
 						setup: loadValue,
 						commit: commitValue

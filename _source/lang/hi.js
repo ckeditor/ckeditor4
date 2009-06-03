@@ -406,6 +406,15 @@ CKEDITOR.lang[ 'hi' ] = {
 		alignTextTop: 'टेक्स्ट ऊपर',
 		alignTop: 'ऊपर',
 		quality: 'Quality', // MISSING
+		qualityBest: 'Best', // MISSING
+		qualityHigh: 'High', // MISSING
+		qualityAutoHigh: 'Auto High', // MISSING
+		qualityMedium: 'Medium', // MISSING
+		qualityAutoLow: 'Auto Low', // MISSING
+		qualityLow: 'Low', // MISSING
+		windowModeWindow: 'Window', // MISSING
+		windowModeOpaque: 'Opaque', // MISSING
+		windowModeTransparent: 'Transparent', // MISSING
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'बैक्ग्राउन्ड रंग',

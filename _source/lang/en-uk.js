@@ -406,6 +406,15 @@ CKEDITOR.lang[ 'en-uk' ] = {
 		alignTextTop: 'Text Top',
 		alignTop: 'Top',
 		quality: 'Quality',
+		qualityBest: 'Best', // MISSING
+		qualityHigh: 'High', // MISSING
+		qualityAutoHigh: 'Auto High', // MISSING
+		qualityMedium: 'Medium', // MISSING
+		qualityAutoLow: 'Auto Low', // MISSING
+		qualityLow: 'Low', // MISSING
+		windowModeWindow: 'Window', // MISSING
+		windowModeOpaque: 'Opaque', // MISSING
+		windowModeTransparent: 'Transparent', // MISSING
 		windowMode: 'Window mode',
 		flashvars: 'Variables for Flash',
 		bgcolor: 'Background colour',
