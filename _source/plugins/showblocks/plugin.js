@@ -105,6 +105,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		init: function( editor ) {
 			var command = editor.addCommand( 'showblocks', commandDefinition );
+			command.canUndo = false;
 
 			if ( editor.config.startupOutlineBlocks )
 				command.setState( CKEDITOR.TRISTATE_ON );

@@ -69,7 +69,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case 'source':
 					// TODO
 			}
-		}
+		},
+		canUndo: false
 	};
 
 	CKEDITOR.plugins.add( 'selection', {

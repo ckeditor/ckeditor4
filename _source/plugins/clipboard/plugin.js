@@ -49,6 +49,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// A class that represents one of the cut or copy commands.
 	var cutCopyCmd = function( type ) {
 			this.type = type;
+			this.canUndo = ( this.type == 'cut' ); // We can't undo copy to clipboard.
 		};
 
 	cutCopyCmd.prototype = {

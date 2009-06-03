@@ -206,7 +206,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					savedSelection = savedScroll = null;
 					savedState = this.state;
-				}
+				},
+				canUndo: false
 			});
 
 			editor.ui.addButton( 'Maximize', {
