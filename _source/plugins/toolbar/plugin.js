@@ -192,7 +192,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 								var dy = toolboxContainer.$.offsetHeight - previousHeight;
 								contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
-							}
+							},
+
+							modes: { wysiwyg:1,source:1 }
 						});
 
 						output.push( '<a id="' + collapserId + '" class="cke_toolbox_collapser' );
