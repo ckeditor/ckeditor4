@@ -607,9 +607,6 @@ CKEDITOR.dom.range = function( document ) {
 			var startContainer = this.startContainer;
 			var startOffset = this.startOffset;
 
-			var endContainer = this.endContainer;
-			var endOffset = this.endOffset;
-
 			if ( !ignoreStart && startContainer && startContainer.type == CKEDITOR.NODE_TEXT ) {
 				// If the offset is zero, we just insert the new node before
 				// the start.
@@ -640,6 +637,9 @@ CKEDITOR.dom.range = function( document ) {
 
 				this.setStart( startContainer, startOffset );
 			}
+
+			var endContainer = this.endContainer;
+			var endOffset = this.endOffset;
 
 			if ( !ignoreEnd && endContainer && !this.collapsed && endContainer.type == CKEDITOR.NODE_TEXT ) {
 				// If the offset is zero, we just insert the new node before
