@@ -132,7 +132,10 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 
 					element = this._.element = block.element;
 					element.addClass( editor.skinClass );
-					element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
+
+					var elementDoc = element.getDocument();
+					elementDoc.getBody().setStyle( 'overflow', 'hidden' );
+					elementDoc.getElementsByTag( 'html' ).getItem( 0 ).setStyle( 'overflow', 'hidden' );
 
 					this._.itemOverFn = CKEDITOR.tools.addFunction( function( index ) {
 						clearTimeout( this._.showSubTimeout );

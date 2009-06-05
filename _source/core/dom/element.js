@@ -963,13 +963,26 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	getDocumentPosition: function( refDocument ) {
 		var x = 0,
 			y = 0,
-			current = this,
-			previous = null;
-		while ( current && !( current.getName() == 'body' || current.getName() == 'html' ) ) {
-			x += current.$.offsetLeft - current.$.scrollLeft;
-			y += current.$.offsetTop - current.$.scrollTop;
+			body = this.getDocument().getBody();
 
-			if ( !CKEDITOR.env.opera ) {
+		if ( document.documentElement[ "getBoundingClientRect" ] ) {
+			var box = this.$.getBoundingClientRect(),
+				doc = this.getDocument().$,
+				docElem = doc.documentElement,
+				clientTop = docElem.clientTop || body.$.clientTop || 0,
+				clientLeft = docElem.clientLeft || body.$.clientLeft || 0;
+
+			x = box.left + ( !CKEDITOR.env.quirks && docElem.scrollLeft || body.$.scrollLeft );
+			x -= clientLeft;
+			y = box.top + ( !CKEDITOR.env.quirks && docElem.scrollTop || body.$.scrollTop );
+			y -= clientTop;
+		} else {
+			var current = this,
+				previous = null;
+			while ( current && !( current.getName() == 'body' || current.getName() == 'html' ) ) {
+				x += current.$.offsetLeft - current.$.scrollLeft;
+				y += current.$.offsetTop - current.$.scrollTop;
+
 				// Opera includes clientTop|Left into offsetTop|Left.
 				if ( !current.equals( this ) ) {
 					x += ( current.$.clientLeft || 0 );
@@ -982,14 +995,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 					y -= scrollElement.$.scrollTop;
 					scrollElement = scrollElement.getParent();
 				}
-			}
 
-			previous = current;
-			current = new CKEDITOR.dom.element( current.$.offsetParent );
+				previous = current;
+				current = new CKEDITOR.dom.element( current.$.offsetParent );
+			}
 		}
 
 		if ( refDocument ) {
-			var currentWindow = current.getWindow(),
+			var currentWindow = this.getWindow(),
 				refWindow = refDocument.getWindow();
 
 			if ( !currentWindow.equals( refWindow ) && currentWindow.$.frameElement ) {
@@ -1000,26 +1013,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			}
 		}
 
-		var body = this.getDocument().getBody();
-
-		// document.body is a special case when it comes to offsetTop and offsetLeft
-		// values.
-		// 1. It does not matter if we're in IE Quirks mode - in this case body is
-		// 	equal to the view pane itself.
-		// 2. It matters if document.body itself is a positioned element;
-		// 3. It matters when we're in IE Standards mode and the element has no
-		// 	positioned ancestor.
-		// Otherwise the values should be ignored.
-		if ( !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) && ( body.getComputedStyle( 'position' ) != 'static' || ( CKEDITOR.env.ie && !this.getPositionedAncestor() ) ) ) {
-			x += body.$.offsetLeft + ( body.$.clientLeft || 0 );
-			y += body.$.offsetTop + ( body.$.clientTop || 0 );
-		}
-
-		// In Firefox, we'll endup one pixel before the element positions,
-		// so we must add it here.
-		if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
-			x += this.$.clientLeft ? 1 : 0;
-			y += this.$.clientTop ? 1 : 0;
+		if ( !document.documentElement[ "getBoundingClientRect" ] ) {
+			// In Firefox, we'll endup one pixel before the element positions,
+			// so we must add it here.
+			if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
+				x += this.$.clientLeft ? 1 : 0;
+				y += this.$.clientTop ? 1 : 0;
+			}
 		}
 
 		return { x: x, y: y };

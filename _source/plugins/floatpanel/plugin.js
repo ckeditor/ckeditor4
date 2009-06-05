@@ -181,7 +181,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 								iframe.setAttribute( 'title', ' ' );
 							}
 						}
-						iframe.$.contentWindow.focus();
+						if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
+							iframe.focus();
+						else
+							iframe.$.contentWindow.focus();
 					}, 0 );
 				}, 0 );
 
