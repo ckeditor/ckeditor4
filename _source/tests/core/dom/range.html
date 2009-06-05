@@ -2170,6 +2170,24 @@ CKEDITOR.test.addTestCase( (function()
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
+		/**
+		 *  Test trim with text range.
+		 */
+		test_trim : function()
+		{
+			var text = doc.getById( '_trim_ct').getFirst();
+			var range = new CKEDITOR.dom.range();
+			range.setStart(text, 2);
+			range.setEnd(text, 6);
+			range.trim();
+
+			assert.isFalse( range.collapsed );
+			assert.isTrue( range.startContainer.equals( doc.getById( '_trim_ct') ) );
+			assert.areEqual( range.startOffset, 1 );
+			assert.isTrue( range.endContainer.equals( doc.getById( '_trim_ct') ) );
+			assert.areEqual( range.endOffset, 2 );
+		},
+
 		/////////////
 
 		setUp : function()
@@ -2327,6 +2345,7 @@ CKEDITOR.test.addTestCase( (function()
 		<p id="_EnlargeP14"><span id="S8"></span></p>
 		<p id="_EnlargeP15">Test <span id="S9"></span>List<br/ >Item Enlarge</p>
 		<p id="_EnlargeP16">Test <strong>Block<span id="S10"></span></strong><br /><br />Enlarge</p>
+		<p id="_trim_ct">Test trim</p>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
