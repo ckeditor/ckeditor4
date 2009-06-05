@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return {
 			title: editor.lang.pasteText.title,
 
-			minWidth: 350,
+			minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 368 : 350,
 			minHeight: 240,
 
 			onShow: function() {

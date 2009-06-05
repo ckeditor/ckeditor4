@@ -9,8 +9,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	return {
 		title: editor.lang.clipboard.title,
 
-		minWidth: 350,
-		minHeight: 240,
+		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 370 : 350,
+		minHeight: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 250 : 240,
 		htmlToLoad: '<!doctype html><script type="text/javascript">' + 'window.onload = function()'
 							+ '{'
 								+ 'if ( ' + CKEDITOR.env.ie + ' ) '
