@@ -229,7 +229,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// A text node is required by Gecko only to make the cursor blink.
 			// We need some text inside of it, so the bogus <br> is properly
 			// created.
-			if ( CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.ie )
 				doc.createText( '\ufeff' ).insertAfter( lineBreak );
 
 			// If we are at the end of a block, we must be sure the bogus node is available in that block.
@@ -238,9 +238,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Now we can remove the text node contents, so the caret doesn't
 			// stop on it.
-			if ( CKEDITOR.env.gecko )
+			if ( !CKEDITOR.env.ie )
 				lineBreak.getNext().$.nodeValue = '';
-
 			// IE has different behavior regarding position.
 			if ( CKEDITOR.env.ie )
 				range.setStartAt( lineBreak, CKEDITOR.POSITION_AFTER_END );
@@ -251,9 +250,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !CKEDITOR.env.ie ) {
 				var dummy = null;
 
-				if ( CKEDITOR.env.opera )
+				// BR is not positioned in Opera and Webkit.
+				if ( !CKEDITOR.env.gecko ) {
 					dummy = doc.createElement( 'span' );
-				else
+					// We need have some contents for Webkit to position it
+					// under parent node. ( #3681)
+					dummy.setHtml( '&nbsp;' );
+				} else
 					dummy = doc.createElement( 'br' );
 
 				dummy.insertBefore( lineBreak.getNext() );
