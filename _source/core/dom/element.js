@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 /*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -996,199 +996,200 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 					y -= scrollElement.$.scrollTop;
 					scrollElement = scrollElement.getParent();
 				}
-
-				previous = current;
-				current = ( offsetParent = current.$.offsetParent ) ? new CKEDITOR.dom.element( offsetParent ) : null;
 			}
 
-			if ( refDocument ) {
-				var currentWindow = this.getWindow(),
-					refWindow = refDocument.getWindow();
-
-				if ( !currentWindow.equals( refWindow ) && currentWindow.$.frameElement ) {
-					var iframePosition = ( new CKEDITOR.dom.element( currentWindow.$.frameElement ) ).getDocumentPosition( refDocument );
-
-					x += iframePosition.x;
-					y += iframePosition.y;
-				}
-			}
-
-			if ( !document.documentElement[ "getBoundingClientRect" ] ) {
-				// In Firefox, we'll endup one pixel before the element positions,
-				// so we must add it here.
-				if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
-					x += this.$.clientLeft ? 1 : 0;
-					y += this.$.clientTop ? 1 : 0;
-				}
-			}
-
-			return { x: x, y: y };
-		},
-
-		scrollIntoView: function( alignTop ) {
-			// Get the element window.
-			var win = this.getWindow(),
-				winHeight = win.getViewPaneSize().height;
-
-			// Starts from the offset that will be scrolled with the negative value of
-			// the visible window height.
-			var offset = winHeight * -1;
-
-			// Append the view pane's height if align to top.
-			// Append element height if we are aligning to the bottom.
-			if ( alignTop )
-				offset += winHeight;
-			else {
-				offset += this.$.offsetHeight || 0;
-
-				// Consider the margin in the scroll, which is ok for our current needs, but
-				// needs investigation if we will be using this function in other places.
-				offset += parseInt( this.getComputedStyle( 'marginBottom' ) || 0, 10 ) || 0;
-			}
-
-			// Append the offsets for the entire element hierarchy.
-			var elementPosition = this.getDocumentPosition();
-			offset += elementPosition.y;
-
-			// Scroll the window to the desired position, if not already visible.
-			var currentScroll = win.getScrollPosition().y;
-			if ( offset > 0 && ( offset > currentScroll || offset < currentScroll - winHeight ) )
-				win.$.scrollTo( 0, offset );
-		},
-
-		setState: function( state ) {
-			switch ( state ) {
-				case CKEDITOR.TRISTATE_ON:
-					this.addClass( 'cke_on' );
-					this.removeClass( 'cke_off' );
-					this.removeClass( 'cke_disabled' );
-					break;
-				case CKEDITOR.TRISTATE_DISABLED:
-					this.addClass( 'cke_disabled' );
-					this.removeClass( 'cke_off' );
-					this.removeClass( 'cke_on' );
-					break;
-				default:
-					this.addClass( 'cke_off' );
-					this.removeClass( 'cke_on' );
-					this.removeClass( 'cke_disabled' );
-					break;
-			}
-		},
-
-		/**
-		 * Returns the inner document of this IFRAME element.
-		 * @returns {CKEDITOR.dom.document} The inner document.
-		 */
-		getFrameDocument: function() {
-			var $ = this.$;
-
-			try {
-				// In IE, with custom document.domain, it may happen that
-				// the iframe is not yet available, resulting in "Access
-				// Denied" for the following property access.
-				$.contentWindow.document;
-			} catch ( e ) {
-				// Trick to solve this issue, forcing the iframe to get ready
-				// by simply setting its "src" property.
-				$.src = $.src;
-
-				// In IE6 though, the above is not enough, so we must pause the
-				// execution for a while, giving it time to think.
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
-					window.showModalDialog( 'javascript:document.write("' +
-						'<script>' +
-							'window.setTimeout(' +
-								'function(){window.close();}' +
-								',50);' +
-						'</script>")' );
-				}
-			}
-
-			return $ && new CKEDITOR.dom.document( $.contentWindow.document );
-		},
-
-		/**
-		 * Copy all the attributes from one node to the other, kinda like a clone
-		 * skipAttributes is an object with the attributes that must NOT be copied.
-		 * @param {CKEDITOR.dom.element} dest The destination element.
-		 * @param {Object} skipAttributes A dictionary of attributes to skip.
-		 * @example
-		 */
-		copyAttributes: function( dest, skipAttributes ) {
-			var attributes = this.$.attributes;
-			skipAttributes = skipAttributes || {};
-
-			for ( var n = 0; n < attributes.length; n++ ) {
-				var attribute = attributes[ n ];
-
-				// IE BUG: value attribute is never specified even if it exists.
-				if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attribute.nodeName.toLowerCase() == 'value' ) ) {
-					var attrName = attribute.nodeName;
-					// We can set the type only once, so do it with the proper value, not copying it.
-					if ( attrName in skipAttributes )
-						continue;
-
-					var attrValue = this.getAttribute( attrName );
-					if ( attrValue === null )
-						attrValue = attribute.nodeValue;
-
-					dest.setAttribute( attrName, attrValue );
-				}
-			}
-
-			// The style:
-			if ( this.$.style.cssText !== '' )
-				dest.$.style.cssText = this.$.style.cssText;
-		},
-
-		/**
-		 * Changes the tag name of the current element.
-		 * @param {String} newTag The new tag for the element.
-		 */
-		renameNode: function( newTag ) {
-			// If it's already correct exit here.
-			if ( this.getName() == newTag )
-				return;
-
-			var doc = this.getDocument();
-
-			// Create the new node.
-			var newNode = new CKEDITOR.dom.element( newTag, doc );
-
-			// Copy all attributes.
-			this.copyAttributes( newNode );
-
-			// Move children to the new node.
-			this.moveChildren( newNode );
-
-			// Replace the node.
-			this.$.parentNode.replaceChild( newNode.$, this.$ );
-			newNode.$._cke_expando = this.$._cke_expando;
-			this.$ = newNode.$;
-		},
-
-		/**
-		 * Gets a DOM tree descendant under the current node.
-		 * @param {Array|Number} indices The child index or array of child indices under the node.
-		 * @returns {CKEDITOR.dom.node} The specified DOM child under the current node. Null if child does not exist.
-		 * @example
-		 * var strong = p.getChild(0);
-		 */
-		getChild: function( indices ) {
-			var rawNode = this.$;
-
-			if ( !indices.slice )
-				rawNode = rawNode.childNodes[ indices ];
-			else {
-				while ( indices.length > 0 && rawNode )
-					rawNode = rawNode.childNodes[ indices.shift() ];
-			}
-
-			return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
-		},
-
-		getChildCount: function() {
-			return this.$.childNodes.length;
+			previous = current;
+			current = ( offsetParent = current.$.offsetParent ) ? new CKEDITOR.dom.element( offsetParent ) : null;
 		}
-	});
+
+		if ( refDocument ) {
+			var currentWindow = this.getWindow(),
+				refWindow = refDocument.getWindow();
+
+			if ( !currentWindow.equals( refWindow ) && currentWindow.$.frameElement ) {
+				var iframePosition = ( new CKEDITOR.dom.element( currentWindow.$.frameElement ) ).getDocumentPosition( refDocument );
+
+				x += iframePosition.x;
+				y += iframePosition.y;
+			}
+		}
+
+		if ( !document.documentElement[ "getBoundingClientRect" ] ) {
+			// In Firefox, we'll endup one pixel before the element positions,
+			// so we must add it here.
+			if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
+				x += this.$.clientLeft ? 1 : 0;
+				y += this.$.clientTop ? 1 : 0;
+			}
+		}
+
+		return { x: x, y: y };
+	},
+
+	scrollIntoView: function( alignTop ) {
+		// Get the element window.
+		var win = this.getWindow(),
+			winHeight = win.getViewPaneSize().height;
+
+		// Starts from the offset that will be scrolled with the negative value of
+		// the visible window height.
+		var offset = winHeight * -1;
+
+		// Append the view pane's height if align to top.
+		// Append element height if we are aligning to the bottom.
+		if ( alignTop )
+			offset += winHeight;
+		else {
+			offset += this.$.offsetHeight || 0;
+
+			// Consider the margin in the scroll, which is ok for our current needs, but
+			// needs investigation if we will be using this function in other places.
+			offset += parseInt( this.getComputedStyle( 'marginBottom' ) || 0, 10 ) || 0;
+		}
+
+		// Append the offsets for the entire element hierarchy.
+		var elementPosition = this.getDocumentPosition();
+		offset += elementPosition.y;
+
+		// Scroll the window to the desired position, if not already visible.
+		var currentScroll = win.getScrollPosition().y;
+		if ( offset > 0 && ( offset > currentScroll || offset < currentScroll - winHeight ) )
+			win.$.scrollTo( 0, offset );
+	},
+
+	setState: function( state ) {
+		switch ( state ) {
+			case CKEDITOR.TRISTATE_ON:
+				this.addClass( 'cke_on' );
+				this.removeClass( 'cke_off' );
+				this.removeClass( 'cke_disabled' );
+				break;
+			case CKEDITOR.TRISTATE_DISABLED:
+				this.addClass( 'cke_disabled' );
+				this.removeClass( 'cke_off' );
+				this.removeClass( 'cke_on' );
+				break;
+			default:
+				this.addClass( 'cke_off' );
+				this.removeClass( 'cke_on' );
+				this.removeClass( 'cke_disabled' );
+				break;
+		}
+	},
+
+	/**
+	 * Returns the inner document of this IFRAME element.
+	 * @returns {CKEDITOR.dom.document} The inner document.
+	 */
+	getFrameDocument: function() {
+		var $ = this.$;
+
+		try {
+			// In IE, with custom document.domain, it may happen that
+			// the iframe is not yet available, resulting in "Access
+			// Denied" for the following property access.
+			$.contentWindow.document;
+		} catch ( e ) {
+			// Trick to solve this issue, forcing the iframe to get ready
+			// by simply setting its "src" property.
+			$.src = $.src;
+
+			// In IE6 though, the above is not enough, so we must pause the
+			// execution for a while, giving it time to think.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
+				window.showModalDialog( 'javascript:document.write("' +
+					'<script>' +
+						'window.setTimeout(' +
+							'function(){window.close();}' +
+							',50);' +
+					'</script>")' );
+			}
+		}
+
+		return $ && new CKEDITOR.dom.document( $.contentWindow.document );
+	},
+
+	/**
+	 * Copy all the attributes from one node to the other, kinda like a clone
+	 * skipAttributes is an object with the attributes that must NOT be copied.
+	 * @param {CKEDITOR.dom.element} dest The destination element.
+	 * @param {Object} skipAttributes A dictionary of attributes to skip.
+	 * @example
+	 */
+	copyAttributes: function( dest, skipAttributes ) {
+		var attributes = this.$.attributes;
+		skipAttributes = skipAttributes || {};
+
+		for ( var n = 0; n < attributes.length; n++ ) {
+			var attribute = attributes[ n ];
+
+			// IE BUG: value attribute is never specified even if it exists.
+			if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attribute.nodeName.toLowerCase() == 'value' ) ) {
+				var attrName = attribute.nodeName;
+				// We can set the type only once, so do it with the proper value, not copying it.
+				if ( attrName in skipAttributes )
+					continue;
+
+				var attrValue = this.getAttribute( attrName );
+				if ( attrValue === null )
+					attrValue = attribute.nodeValue;
+
+				dest.setAttribute( attrName, attrValue );
+			}
+		}
+
+		// The style:
+		if ( this.$.style.cssText !== '' )
+			dest.$.style.cssText = this.$.style.cssText;
+	},
+
+	/**
+	 * Changes the tag name of the current element.
+	 * @param {String} newTag The new tag for the element.
+	 */
+	renameNode: function( newTag ) {
+		// If it's already correct exit here.
+		if ( this.getName() == newTag )
+			return;
+
+		var doc = this.getDocument();
+
+		// Create the new node.
+		var newNode = new CKEDITOR.dom.element( newTag, doc );
+
+		// Copy all attributes.
+		this.copyAttributes( newNode );
+
+		// Move children to the new node.
+		this.moveChildren( newNode );
+
+		// Replace the node.
+		this.$.parentNode.replaceChild( newNode.$, this.$ );
+		newNode.$._cke_expando = this.$._cke_expando;
+		this.$ = newNode.$;
+	},
+
+	/**
+	 * Gets a DOM tree descendant under the current node.
+	 * @param {Array|Number} indices The child index or array of child indices under the node.
+	 * @returns {CKEDITOR.dom.node} The specified DOM child under the current node. Null if child does not exist.
+	 * @example
+	 * var strong = p.getChild(0);
+	 */
+	getChild: function( indices ) {
+		var rawNode = this.$;
+
+		if ( !indices.slice )
+			rawNode = rawNode.childNodes[ indices ];
+		else {
+			while ( indices.length > 0 && rawNode )
+				rawNode = rawNode.childNodes[ indices.shift() ];
+		}
+
+		return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
+	},
+
+	getChildCount: function() {
+		return this.$.childNodes.length;
+	}
+});
