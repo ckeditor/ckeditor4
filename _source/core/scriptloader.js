@@ -129,7 +129,11 @@ CKEDITOR.scriptLoader = (function() {
 						} else {
 							/** @ignore */
 							script.$.onload = function() {
-								onLoad( url, true );
+								// Some browsers, such as Safari, may call the onLoad function
+								// immediately. Which will break the loading sequence. (#3661)
+								setTimeout( function() {
+									onLoad( url, true );
+								}, 0 );
 							};
 
 							// FIXME: Opera and Safari will not fire onerror.
