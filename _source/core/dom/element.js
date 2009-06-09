@@ -996,10 +996,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 					y -= scrollElement.$.scrollTop;
 					scrollElement = scrollElement.getParent();
 				}
-			}
 
-			previous = current;
-			current = ( offsetParent = current.$.offsetParent ) ? new CKEDITOR.dom.element( offsetParent ) : null;
+				previous = current;
+				current = ( offsetParent = current.$.offsetParent ) ? new CKEDITOR.dom.element( offsetParent ) : null;
+			}
 		}
 
 		if ( refDocument ) {
