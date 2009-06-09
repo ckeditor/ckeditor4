@@ -228,7 +228,7 @@ CKEDITOR.lang[ 'fa' ] = {
 			mergeDown: 'ادغام به پایین',
 			splitHorizontal: 'جدا کردن افقی سلول',
 			splitVertical: 'جدا کردن عمودی سلول',
-			title: 'Cell Properties', // MISSING
+			title: "ویژگیهای سلول",
 			cellType: 'Cell Type', // MISSING
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING

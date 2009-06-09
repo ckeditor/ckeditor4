@@ -228,7 +228,7 @@ CKEDITOR.lang[ 'ar' ] = {
 			mergeDown: 'دمج للأسفل',
 			splitHorizontal: 'تقسيم الخلية أفقياً',
 			splitVertical: 'تقسيم الخلية عمودياً',
-			title: 'Cell Properties', // MISSING
+			title: "خصائص الخلية",
 			cellType: 'Cell Type', // MISSING
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING

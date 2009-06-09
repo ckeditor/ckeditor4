@@ -228,7 +228,7 @@ CKEDITOR.lang[ 'he' ] = {
 			mergeDown: 'מזג למטה',
 			splitHorizontal: 'פצל תא אופקית',
 			splitVertical: 'פצל תא אנכית',
-			title: 'Cell Properties', // MISSING
+			title: "תכונות התא",
 			cellType: 'Cell Type', // MISSING
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING
