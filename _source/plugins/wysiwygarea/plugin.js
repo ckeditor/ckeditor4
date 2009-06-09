@@ -13,6 +13,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * List of elements in which has no way to move editing focus outside.
 	 */
 	var nonExitableElementNames = { table:1,pre:1 };
+	// Matching an empty paragraph at the end of document.
+	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|&#160;)\s*(:?<\/\1>)?\s*$/gi;
 
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
@@ -416,6 +418,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toDataFormat( data, ( editor.config.enterMode != CKEDITOR.ENTER_BR ) );
 
+						// Strip the last blank paragraph within document.
+						if ( editor.config.ignoreEmptyParagraph )
+							data = data.replace( emptyParagraphRegexp, '' );
+
 						return data;
 					},
 
@@ -488,3 +494,11 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * config.disableNativeSpellChecker = false;
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
+/**
+ * The editor will post an empty value ("") if you have just an empty paragraph on it, like this:
+ * @example
+ * <p></p>
+ * <p><br /></p>
+ * <p><b></b></p>
+ */
+CKEDITOR.config.ignoreEmptyParagraph = true;
