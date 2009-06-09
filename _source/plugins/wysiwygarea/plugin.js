@@ -47,6 +47,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function onInsertElement( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
 			this.focus();
+			this.fire( 'saveSnapshot' );
 
 			var element = evt.data,
 				elementName = element.getName(),
@@ -96,6 +97,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( selIsLocked )
 				this.getSelection().lock();
+
+			// Save snaps after the whole execution completed.
+			// This's a workaround for make DOM modification's happened after
+			// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
+			// call.
+			CKEDITOR.tools.setTimeout( function() {
+				this.fire( 'saveSnapshot' );
+			}, 0, this );
 		}
 	}
 
