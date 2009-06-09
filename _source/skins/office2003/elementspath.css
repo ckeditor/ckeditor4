@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_office2003 .cke_path
 {
 	padding: 3px 3px 0 3px;
-	display: block;
+	display: inline-block;
 	float: left;
 }
 
@@ -26,7 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_office2003 .cke_path a,
 .cke_skin_office2003 .cke_path .cke_empty
 {
-	display: block;
+	display: inline-block;
 	float: left;
 	border: solid 1px #f7f8fd;
 	background-color: #f7f8fd;
@@ -43,7 +43,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 .cke_skin_office2003 .cke_rtl .cke_path a,
-.cke_skin_office2003 .cke_rtl .cke_path .cke_empty
+.cke_skin_office2003 .cke_rtl .cke_path cke_empty
 {
 	float: right;
 }
@@ -59,4 +59,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-left: 4px;
 	padding-right: 4px;
 	outline: none;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_path a,
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_path .cke_empty
+{
+	float: none;
 }

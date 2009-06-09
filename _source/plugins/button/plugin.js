@@ -51,6 +51,8 @@ CKEDITOR.ui.button.handler = {
 };
 
 CKEDITOR.ui.button.prototype = {
+	canGroup: true,
+
 	/**
 	 * Renders the button.
 	 * @param {CKEDITOR.editor} editor The editor instance which this button is

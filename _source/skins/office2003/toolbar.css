@@ -1,11 +1,11 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 @media print
 {
-	.cke_toolbox
+	.cke_skin_office2003 .cke_toolbox
 	{
 		display: none;
 	}
@@ -51,32 +51,49 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -962px;
 	background-repeat: repeat-x;
-	display:inline-block;
-	float:left;
+	display: inline-block;
+	float: left;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_toolbar
 {
-	float:right;
+	float: right;
+}
+
+.cke_skin_office2003 .cke_toolgroup 
+{
+	display: inline-block;
+	float: left;
+	height: 28px;
+}
+
+.cke_skin_office2003 .cke_rtl .cke_toolgroup 
+{
+	float: right;
 }
 
 .cke_skin_office2003 .cke_separator
 {
-	display:inline-block;
+	display: inline-block;
+	float: left;
 	border-left: solid 1px #B2CBFF;
-	margin-left: 2px;
-	margin-right: 2px;
-	height:16px;
+	margin: 6px 2px;
+	height: 16px;
+}
+
+.cke_skin_office2003 .cke_rtl .cke_separator
+{
+	float: right;
 }
 
 .cke_skin_office2003 .cke_break
 {
-	clear:left;
+	clear: left;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_break
 {
-	clear:right;
+	clear: right;
 }
 
 .cke_skin_office2003 .cke_toolbar_start
@@ -84,15 +101,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline-block;
 	background-image: url(images/sprites.png);
 	_background-image: url(images/sprites_ie6.png);
-    background-repeat: no-repeat;
-    background-position: -27px -765px;
-    width: 10px;
-    height: 28px;
+	background-repeat: no-repeat;
+	background-position: -27px -765px;
+	width: 10px;
+	height: 28px;
+	float: left;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_toolbar_start
 {
     background-position: -27px -816px;
+    float: right;
 }
 
 .cke_skin_office2003 .cke_toolbar_end
@@ -100,15 +119,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline-block;
 	background-image: url(images/sprites.png);
 	_background-image: url(images/sprites_ie6.png);
-    background-repeat: no-repeat;
-    background-position: -29px -861px;
-    width: 4px;
-    height: 28px;
+	background-repeat: no-repeat;
+	background-position: -29px -861px;
+	width: 4px;
+	height: 28px;
+	float: left;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_toolbar_end
 {
     background-position: -29px -907px;
+    float: right;
 }
 
 .cke_skin_office2003 .cke_button a,
@@ -271,105 +292,86 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: left center;
 }
 
+/*** Firefox 2 ***/
 
-/* IE Section */
-
-/* Repeat it here for all variations of ".cke_button a" because of IE6 */
-.cke_skin_office2003 .cke_browser_ie .cke_button a,
-.cke_skin_office2003 .cke_browser_ie .cke_button a.cke_off,
-.cke_skin_office2003 .cke_browser_ie .cke_button a.cke_on,
-.cke_skin_office2003 .cke_browser_ie .cke_button a.cke_disabled,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:hover.cke_on,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:focus.cke_on,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:active.cke_on,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:hover.cke_off,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:focus.cke_off,
-.cke_skin_office2003 .cke_browser_ie .cke_button a:active.cke_off
-{
-	padding-top: 2px;
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-bottom: 2px;
-	height: 18px;
-}
-
-.cke_skin_office2003 .cke_browser_ie .cke_separator
-{
-	vertical-align: 35%;
-}
-
-
-.cke_skin_office2003 .cke_browser_ie .cke_button .cke_label
-{
-	vertical-align: 1px;
-}
-
-/* IE+Quirks Section */
-
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a.cke_off,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a.cke_on,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a.cke_disabled,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:hover.cke_on,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:focus.cke_on,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:active.cke_on,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:hover.cke_off,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:focus.cke_off,
-.cke_skin_office2003 .cke_browser_iequirks .cke_button a:active.cke_off
-{
-	padding-bottom: 3px;
-}
-
-/* Firefox 2 Section */
-
-.cke_skin_office2003 .cke_browser_gecko .cke_toolbar,
-.cke_skin_office2003 .cke_browser_gecko .cke_button a,
-.cke_skin_office2003 .cke_browser_gecko .cke_button a.cke_off,
-.cke_skin_office2003 .cke_browser_gecko .cke_button .cke_icon,
-.cke_skin_office2003 .cke_browser_gecko .cke_button .cke_buttonarrow,
-.cke_skin_office2003 .cke_browser_gecko .cke_separator,
-.cke_skin_office2003 .cke_browser_gecko .cke_toolbar_start,
-.cke_skin_office2003 .cke_browser_gecko .cke_toolbar_end
+.cke_skin_office2003 .cke_browser_gecko18 .cke_toolbar,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button a,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button a.cke_off,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button .cke_icon,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button .cke_buttonarrow,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_separator,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_toolbar_start,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_toolbar_end
 {
 	display: block;
 	float: left;
 }
 
-.cke_skin_office2003 .cke_browser_gecko.cke_hc .cke_button .cke_icon
+.cke_skin_office2003 .cke_browser_gecko18 .cke_hc .cke_button .cke_icon
 {
 	display: none;
 }
 
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_toolbar,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_button a,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_button a.cke_off,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_button .cke_icon,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_button .cke_buttonarrow,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_separator,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_toolbar_start,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_toolbar_end
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_toolbar,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_button a,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_button a.cke_off,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_button .cke_icon,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_button .cke_buttonarrow,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_separator,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_toolbar_start,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_toolbar_end
 {
 	float: right;
 }
 
-.cke_skin_office2003 .cke_browser_gecko .cke_button .cke_label,
-.cke_skin_office2003 .cke_browser_gecko .cke_break
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button .cke_label,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_break
 {
 	float: left;
 }
 
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_button .cke_label,
-.cke_skin_office2003 .cke_rtl.cke_browser_gecko .cke_break
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl span.cke_inline_label
 {
 	float: right;
 }
 
-.cke_skin_office2003 .cke_browser_gecko .cke_separator
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_button .cke_label,
+.cke_skin_office2003 .cke_browser_gecko18 .cke_rtl .cke_break
+{
+	float: right;
+}
+
+.cke_skin_office2003 .cke_browser_gecko18 .cke_separator
 {
 	margin-top: 4px;
 }
 
-.cke_skin_office2003 .cke_browser_gecko .cke_button .cke_label
+.cke_skin_office2003 .cke_browser_gecko18 .cke_button .cke_label
 {
 	padding-top: 3px;
+}
+
+/*** IE6 ***/
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolgroup,
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_separator,
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolbar_start,
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolbar_end
+{
+	float: none;
+}
+
+/*** IE8 ***/
+
+.cke_skin_office2003 .cke_browser_ie8 .cke_toolbar,
+.cke_skin_office2003 .cke_browser_ie8 .cke_toolgroup
+{
+	vertical-align: top;
+}
+
+.cke_skin_office2003 .cke_browser_iequirks.cke_browser_ie8 .cke_toolbar,
+.cke_skin_office2003 .cke_browser_iequirks.cke_browser_ie8 .cke_toolgroup
+{
+	/* revert previous */
+	vertical-align: baseline;
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -35,15 +35,6 @@ CKEDITOR.themes.add( 'default', ( function() {
 			if ( !isNaN( width ) )
 				width += 'px';
 
-			// Using a <div> as the outer element container can make IE goes crazy.
-			// The fact is that a <textarea> is an inline element. We aim to
-			// replace it with our structure, but <div> is a block element and it
-			// seems to be the cause of it. Using a <span>, which is inline just
-			// like <textarea>, makes it work.
-			// <table> is also a block element and should not go inside a <span>,
-			// not even in the places where <textarea> is valid. But this doesn't
-			// bring any evident problem as it seems that tables are treated
-			// differently by the browsers ("semi-inline").
 			var container = CKEDITOR.dom.element.createFromHtml( [
 				'<span' +
 					' id="cke_', name, '"' +
@@ -53,19 +44,21 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' lang="', editor.langCode, '"' +
 					' tabindex="' + tabIndex + '">' +
-				'<span class="', CKEDITOR.env.cssClass, ' cke_', editor.lang.dir, '">' +
-					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, '"><tbody>' +
-						'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
-						'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '">', contentsHtml, '</td></tr>' +
-						'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
-					'</tbody></table>' +
-					//Hide the container when loading skins, later restored by skin css.
-								'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
-				'</span>' +
+					'<span class="', CKEDITOR.env.cssClass, '">' +
+						'<span class="cke_wrapper cke_', editor.lang.dir, '">' +
+							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, '"><tbody>' +
+								'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
+								'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '">', contentsHtml, '</td></tr>' +
+								'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
+							'</tbody></table>' +
+							//Hide the container when loading skins, later restored by skin css.
+										'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
+						'</span>' +
+					'</span>' +
 				'</span>' ].join( '' ) );
 
-			container.getChild( [ 0, 0, 0, 0 ] ).unselectable();
-			container.getChild( [ 0, 0, 0, 2 ] ).unselectable();
+			container.getChild( [ 0, 0, 0, 0, 0 ] ).unselectable();
+			container.getChild( [ 0, 0, 0, 0, 2 ] ).unselectable();
 
 			if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
 				container.insertAfter( element );
@@ -90,7 +83,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 			var baseIdNumber = CKEDITOR.tools.getNextNumber();
 
 			var element = CKEDITOR.dom.element.createFromHtml( [
-				'<div class="cke_skin_', editor.skinName,
+				'<div id="cke_' + editor.name.replace( '.', '\\.' ) + '_dialog" class="cke_skin_', editor.skinName,
 					'" dir="', editor.lang.dir, '"' +
 					' lang="', editor.langCode, '"' +
 					'>' +
@@ -160,13 +153,13 @@ CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
 	return space;
 };
 
-CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight ) {
+CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
 	var numberRegex = /^\d+$/;
 	if ( numberRegex.test( width ) )
 		width += 'px';
 
 	var contents = CKEDITOR.document.getById( 'cke_contents_' + this.name );
-	var outer = contents.getAscendant( 'table' );
+	var outer = resizeInner ? contents.getAscendant( 'table' ).getParent() : contents.getAscendant( 'table' ).getParent().getParent().getParent();
 
 	// Resize the width first.
 	// WEBKIT BUG: Webkit requires that we put the editor off from display when we

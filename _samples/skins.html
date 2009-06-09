@@ -12,11 +12,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="html">
 		<form action="sample_posteddata.php" method="post">
 			<p>
-				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<textarea id="editor_kama" name="editor_kama" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 				<script type="text/javascript">
 				//<![CDATA[
 
-					CKEDITOR.replace( 'editor1',
+					CKEDITOR.replace( 'editor_kama',
+						{
+							skin : 'kama'
+						});
+
+				//]]>
+				</script>
+			</p>
+			<p>
+				<textarea id="editor_office2003" name="editor_office2003" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					CKEDITOR.replace( 'editor_office2003',
 						{
 							skin : 'office2003'
 						});
@@ -25,11 +38,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				</script>
 			</p>
 			<p>
-				<textarea id="editor2" name="editor2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<textarea id="editor_v2" name="editor_v2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 				<script type="text/javascript">
 				//<![CDATA[
 
-					CKEDITOR.replace( 'editor2',
+					CKEDITOR.replace( 'editor_v2',
 						{
 							skin : 'v2'
 						});

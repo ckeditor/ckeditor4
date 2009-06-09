@@ -95,7 +95,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				else
 					_.list.unmarkAll();
 
-				_.panel.showBlock( this.id, new CKEDITOR.dom.element( $element ).getChild( [ 0, 1 ] ), 4 );
+				_.panel.showBlock( this.id, new CKEDITOR.dom.element( $element ), 4 );
 			}, this );
 
 			var instance = {
@@ -158,7 +158,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span>' +
 						'<span class="cke_accessibility">' + ( this.voiceLabel ? this.voiceLabel + ' ' : '' ) + '</span>' +
-						'<span id="' + id + '_text" class="cke_text">&nbsp;</span></span>' +
+						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
+					'</span>' +
 					'<span class=cke_openbutton></span>' +
 				'</a>' +
 				'</span>' +
@@ -244,6 +245,12 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			this._.value = value;
 
 			var textElement = this.document.getById( 'cke_' + this.id + '_text' );
+
+			if ( !value ) {
+				text = this.label;
+				textElement.addClass( 'cke_inline_label' );
+			} else
+				textElement.removeClass( 'cke_inline_label' );
 			textElement.setHtml( typeof text != 'undefined' ? text : value );
 		},
 

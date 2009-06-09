@@ -5,6 +5,14 @@
 	display: inline-block;
 	margin-left: 2px;
 	margin-right: 2px;
+	margin-top: 2px;
+	vertical-align: top;
+	float: left;
+}
+
+.cke_skin_v2 .cke_rtl .cke_rcombo
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_rcombopanel
@@ -13,12 +21,22 @@
 	-moz-border-radius-topleft: 0;
 	-webkit-border-top-left-radius: 0;
 	border-top-left-radius: 0;
+	/*margin-left: 1px;*/
+	/*_margin-left: 0;*/
 }
 
 .cke_skin_v2 .cke_rcombo a
 {
+	display: inline-block;
+	float: left;
+
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
+}
+
+.cke_skin_v2 .cke_rtl .cke_rcombo a
+{
+	float: right;
 }
 
 .cke_skin_v2 .cke_hc .cke_rcombo a
@@ -30,7 +48,11 @@
 .cke_skin_v2 .cke_rcombo .cke_label
 {
 	display: inline-block;
+	float: left;
+
 	line-height: 24px;
+	height: 24px;
+
 	vertical-align: top;
 	padding-left: 4px;
 	padding-right: 5px;
@@ -39,16 +61,22 @@
 	background-color: #f1f1e3;	/* Because of IE6+ClearType */
 }
 
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_label
+{
+	float: right;
+	padding-right: 4px;
+	padding-left: 5px;
+}
+
 .cke_skin_v2 .cke_hc .cke_rcombo .cke_label
 {
 	filter: alpha(opacity=100);
 	opacity: 1.0;
 }
 
-.cke_skin_v2 .cke_rtl .cke_rcombo .cke_label
+.cke_skin_v2 .cke_rcombo .cke_inline_label
 {
-	padding-right: 4px;
-	padding-left: 5px;
+	color: #fff;
 }
 
 .cke_skin_v2 .cke_rcombo .cke_text
@@ -61,8 +89,8 @@
 	padding-bottom: 4px;
 	padding-left: 5px;
 	padding-right: 5px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+	text-overflow: ellipsis;
+	overflow: hidden;
 	display: inline-block;
 }
 
@@ -86,22 +114,24 @@
 	border-bottom-right-radius: 3px;
 }
 
+/* Fix for IE height */
 .cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_text
 {
-	height: 24px;
-	width: 72px;
+	height: 22px;
 }
 
 .cke_skin_v2 .cke_rcombo .cke_openbutton
 {
-    background-position: center center;
-    background-image: url(images/arrowdown.gif);
-    border-top: 1px solid #8f8f73;
-    border-bottom: 1px solid #8f8f73;
 	display: inline-block;
-    width: 14px;
+
+	background-position: center center;
+	background-image: url(images/arrowdown.gif);
+	background-repeat: no-repeat;
+
+	border-top: 1px solid #8f8f73;
+	border-bottom: 1px solid #8f8f73;
+	width: 14px;
 	height: 22px;
-    background-repeat: no-repeat;
 }
 
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
@@ -124,12 +154,6 @@
 	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
-}
-
-.cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_openbutton
-{
-	height: 24px;
-    width: 15px;
 }
 
 .cke_skin_v2 .cke_rcombo .cke_off a:hover,
@@ -205,9 +229,10 @@
 
 /* Firefox 2 & WebKit Section */
 
-.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_label,
-.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_text,
-.cke_skin_v2 .cke_browser_gecko .cke_rcombo .cke_openbutton,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rcombo,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rcombo .cke_openbutton,
 .cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_label,
 .cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_text,
 .cke_skin_v2 .cke_browser_webkit .cke_rcombo .cke_openbutton
@@ -216,12 +241,22 @@
 	float: left;
 }
 
-.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_label,
-.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_text,
-.cke_skin_v2 .cke_rtl.cke_browser_gecko .cke_rcombo .cke_openbutton,
-.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_label,
-.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_text,
-.cke_skin_v2 .cke_rtl.cke_browser_webkit .cke_rcombo .cke_openbutton
+.cke_skin_v2 .cke_browser_gecko18 .cke_rtl .cke_rcombo,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rtl .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rtl .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_browser_gecko18 .cke_rtl .cke_rcombo .cke_openbutton,
+.cke_skin_v2 .cke_browser_webkit .cke_rtl .cke_rcombo .cke_label,
+.cke_skin_v2 .cke_browser_webkit .cke_rtl .cke_rcombo .cke_text,
+.cke_skin_v2 .cke_browser_webkit .cke_rtl .cke_rcombo .cke_openbutton
 {
 	float: right;
+}
+
+/*** IE ***/
+
+.cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo,
+.cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo a,
+.cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo .cke_label
+{
+	float: none;
 }

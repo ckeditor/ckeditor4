@@ -926,6 +926,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						id: 'ok',
 						type: 'button',
 						label: editor.lang.common.ok,
+						'class': 'cke_dialog_ui_button_ok',
 						onClick: function( evt ) {
 							var dialog = evt.data.dialog;
 							if ( dialog.fire( 'ok', { hide: true } ).hide !== false )
@@ -956,6 +957,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						id: 'cancel',
 						type: 'button',
 						label: editor.lang.common.cancel,
+						'class': 'cke_dialog_ui_button_cancel',
 						onClick: function( evt ) {
 							var dialog = evt.data.dialog;
 							if ( dialog.fire( 'cancel', { hide: true } ).hide !== false )

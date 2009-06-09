@@ -424,7 +424,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 				style: elementDefinition.style,
 				href: 'javascript:void(0)',
 				title: elementDefinition.label,
-				hidefocus: 'true'
+				hidefocus: 'true',
+				'class': elementDefinition[ 'class' ]
 			}, '<span class="cke_dialog_ui_button">' +
 				CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
 				'</span>' );

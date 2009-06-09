@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -9,6 +9,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border: solid 1px #dcdcdc;
 */
 	display: inline-table;
+}
+
+.cke_skin_v2
+{
+	display: block;
+}
+
+.cke_skin_v2 .cke_wrapper
+{
+	display: block;
 }
 
 .cke_skin_v2 .cke_browser_opera .cke_editor
@@ -77,14 +87,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: se-resize;
 }
 
-.cke_skin_v2 .cke_maximized .cke_resizer
-{
-	display: none;
-}
-
 .cke_skin_v2 .cke_rtl .cke_resizer
 {
 	cursor: sw-resize;
 	background-image: url(images/resizer_rtl.gif);
 	float: left;
+}
+
+.cke_skin_v2 .cke_maximized .cke_resizer
+{
+	display: none;
+}
+
+.cke_skin_v2 .cke_browser_ie6 .cke_contents textarea,
+.cke_skin_v2 .cke_browser_ie7 .cke_contents textarea
+{
+	position: absolute;
 }

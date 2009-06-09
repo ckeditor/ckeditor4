@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return {
 			title: editor.lang.table.title,
 			minWidth: 250,
-			minHeight: 280,
+			minHeight: CKEDITOR.env.ie ? 295 : 280,
 			onShow: function() {
 				// Detect if there's a selected table.
 				var selection = editor.getSelection(),

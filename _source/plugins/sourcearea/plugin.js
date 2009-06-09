@@ -41,32 +41,17 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					// The textarea height/width='100%' doesn't
 					// constraint to the 'td' in IE strick mode
 					if ( CKEDITOR.env.ie ) {
-						if ( CKEDITOR.env.quirks || CKEDITOR.env.version < 8 ) {
-							// In IE, we must use absolute positioning to
-							// have the textarea filling the full content
-							// space height.
-							holderElement.setStyle( 'position', 'relative' );
-							styles[ 'position' ] = 'absolute';
-						}
-
-						if ( !CKEDITOR.env.quirks || CKEDITOR.env.version < 7 ) {
-							function getHolderRect() {
-								return {
-									height: holderElement.$.clientHeight + 'px',
-									width: holderElement.$.clientWidth + 'px'
-								};
-							}
-
+						if ( !CKEDITOR.env.ie8Compat ) {
 							onResize = function() {
 								// Holder rectange size is stretched by textarea, 
 								// so hide it just for a moment.
 								textarea.hide();
-								textarea.setStyles( getHolderRect() );
+								textarea.setStyle( 'height', holderElement.$.clientHeight + 'px' );
 								// When we have proper holder size, show textarea again.
 								textarea.show();
 							};
-							styles = CKEDITOR.tools.extend( styles, getHolderRect(), true );
 							editor.on( 'resize', onResize );
+							styles.height = holderElement.$.clientHeight + 'px';
 						}
 					} else {
 						// By some yet unknown reason, we must stop the

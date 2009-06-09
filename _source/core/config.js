@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -200,7 +200,7 @@ CKEDITOR.config = {
 	 * @example
 	 * config.skin = 'myskin,/customstuff/myskin/';
 	 */
-	skin: 'v2',
+	skin: 'kama',
 
 	/**
 	 * The editor width in CSS size format or pixel integer.

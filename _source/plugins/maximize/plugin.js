@@ -71,7 +71,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getResizeHandler( mainWindow, editor ) {
 		return function() {
 			var viewPaneSize = mainWindow.getViewPaneSize();
-			editor.resize( viewPaneSize.width, viewPaneSize.height );
+			editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
 		};
 	}
 
@@ -150,7 +150,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							left: '0px',
 							top: '0px'
 						});
-						editor.resize( viewPaneSize.width, viewPaneSize.height );
+						editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
 
 						// Still not top left? Fix it. (Bug #174)
 						var offset = container.getDocumentPosition();

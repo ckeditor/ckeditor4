@@ -173,9 +173,11 @@ if ( !CKEDITOR.env ) {
 		// easy to apply browser specific styles to it.
 		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.opera ? 'opera' : env.air ? 'air' : env.webkit ? 'webkit' : 'unknown' );
 
+		if ( env.quirks )
+			env.cssClass += ' cke_browser_quirks';
+
 		if ( env.ie ) {
-			if ( env.version < 7 )
-				env.cssClass += ' cke_browser_ie6';
+			env.cssClass += ' cke_browser_ie' + ( env.version < 7 ? '6' : env.version >= 8 ? '8' : '7' );
 
 			if ( env.quirks )
 				env.cssClass += ' cke_browser_iequirks';

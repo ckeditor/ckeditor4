@@ -173,9 +173,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							height: '100%' } );
 
 						if ( CKEDITOR.env.ie ) {
-							if ( CKEDITOR.env.version < 8 )
-								iframe.setStyle( 'position', 'absolute' );
-
 							if ( isCustomDomain ) {
 								// The document domain must be set within the src
 								// attribute.
