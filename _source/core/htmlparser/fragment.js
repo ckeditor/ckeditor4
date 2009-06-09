@@ -45,6 +45,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	/**
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
+	 * @param {Number} [fixForBody=false] Wrap body with specified element if needed.
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 * @example
 	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
@@ -95,7 +96,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				// Create a <p> in the fragment.
 				currentNode = target;
-				parser.onTagOpen( 'p', {} );
+				parser.onTagOpen( fixForBody, {} );
 
 				// The new target now is the <p>.
 				target = currentNode;
@@ -263,7 +264,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			checkPending();
 
 			if ( fixForBody && !currentNode.type )
-				this.onTagOpen( 'p', {} );
+				this.onTagOpen( fixForBody, {} );
 
 			currentNode.add( new CKEDITOR.htmlParser.text( text ) );
 		};
@@ -286,7 +287,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			if ( fixForBody && !parent.type && !CKEDITOR.dtd.$body[ node.name ] ) {
 				currentNode = parent;
-				parser.onTagOpen( 'p', {} );
+				parser.onTagOpen( fixForBody, {} );
 				parent = currentNode;
 			}
 
