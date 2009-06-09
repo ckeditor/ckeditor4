@@ -101,7 +101,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'Link\u200b', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: 'Link',
 		menu: 'Edit Link',
 		title: 'Link',
 		info: 'Link Info',
