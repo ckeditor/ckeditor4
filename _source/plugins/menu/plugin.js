@@ -233,6 +233,10 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 
 			var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 
+			var htmlLabel = this.label;
+			if ( state == CKEDITOR.TRISTATE_DISABLED )
+				htmlLabel = this.editor.lang.common.unavailable.replace( '%1', htmlLabel );
+
 			if ( this.className )
 				classes += ' ' + this.className;
 
@@ -274,7 +278,7 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 				output.push( '<span class="cke_menuarrow"></span>' );
 			}
 
-			output.push( this.label, '</span>' +
+			output.push( htmlLabel, '</span>' +
 				'</a>' +
 				'</span>' );
 		}

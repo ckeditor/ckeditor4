@@ -63,6 +63,7 @@ CKEDITOR.ui.button.prototype = {
 		var env = CKEDITOR.env;
 
 		var id = this._.id = 'cke_' + CKEDITOR.tools.getNextNumber();
+		this._.editor = editor;
 
 		var instance = {
 			id: id,
@@ -153,7 +154,17 @@ CKEDITOR.ui.button.prototype = {
 		if ( this._.state == state )
 			return;
 
-		CKEDITOR.document.getById( this._.id ).setState( state );
+		var element = CKEDITOR.document.getById( this._.id );
+		element.setState( state );
+
+		var htmlTitle = this.title,
+			unavailable = this._.editor.lang.common.unavailable,
+			labelElement = element.getChild( 1 );
+
+		if ( state == CKEDITOR.TRISTATE_DISABLED )
+			htmlTitle = unavailable.replace( '%1', this.title );
+
+		labelElement.setHtml( htmlTitle );
 
 		this._.state = state;
 	}
