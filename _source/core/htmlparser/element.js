@@ -118,6 +118,11 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 						break;
 
 					writeName = element.name;
+					if ( !writeName ) // Send children.
+					{
+						CKEDITOR.htmlParser.fragment.prototype.writeHtml.apply( element, arguments );
+						return;
+					}
 				}
 
 				// The element may have been changed, so update the local

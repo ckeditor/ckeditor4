@@ -70,11 +70,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			// Listen to data manipulation to reflect scayt markup.
-			editor.on( 'beforeGetData', function() {
-				if ( plugin.isScaytEnabled( editor ) )
-					plugin.getScayt( editor ).refresh();
-			});
-
 			editor.on( 'afterSetData', function() {
 				if ( plugin.isScaytEnabled( editor ) )
 					plugin.getScayt( editor ).refresh();
@@ -87,6 +82,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ev.data.tab = openPage;
 				ev.data.scayt = scayt;
 			});
+
+			var dataProcessor = editor.dataProcessor,
+				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+			if ( htmlFilter ) {
+				htmlFilter.addRules({
+					elements: {
+						span: function( element ) {
+							if ( element.attributes.scayt_word && element.attributes.scaytid ) {
+								delete element.name; // Write children, but don't write this node. 
+								return element;
+							}
+						}
+					}
+				});
+			}
 
 			if ( editor.document )
 				createInstance();
