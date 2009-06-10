@@ -109,22 +109,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	/**
-	 *  Auto-fixing block-less content by wrapping paragraph, prevent 
-	 *  non-exitable-block by padding extra br.
+	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
+	 *  non-exitable-block by padding extra br.(#3189)
 	 */
 	function onSelectionChangeFixBody( evt ) {
 		var editor = evt.editor,
 			path = evt.data.path,
 			blockLimit = path.blockLimit,
+			selection = evt.data.selection,
+			range = selection.getRanges()[ 0 ],
 			body = editor.document.getBody(),
 			enterMode = editor.config.enterMode;
 
-		// When enterMode set to block, we'll establing new paragraph if the
-		// current range is block-less within body.
-		if ( enterMode != CKEDITOR.ENTER_BR && blockLimit.getName() == 'body' && !path.block ) {
-			var selection = evt.data.selection,
-				range = evt.data.selection.getRanges()[ 0 ],
-				bms = selection.createBookmarks(),
+		// When enterMode set to block, we'll establing new paragraph only if we're
+		// selecting inline contents right under body. (#3657)
+		if ( enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
+			var bms = selection.createBookmarks(),
 				fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we'll be removing any bogus br ( introduce by fixing body )
@@ -133,7 +133,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var brNodeList = fixedBlock.getElementsByTag( 'br' ),
 					brNode;
 				for ( var i = 0; i < brNodeList.count(); i++ )
-					if ( ( brNode = brNodeList.getItem( i ) ) && brNode.hasAttribute( '_fck_bookmark' ) )
+					if ( ( brNode = brNodeList.getItem( i ) ) && brNode.hasAttribute( '_cke_bogus' ) )
 					brNode.remove();
 			}
 
