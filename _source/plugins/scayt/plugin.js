@@ -38,6 +38,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					try {
 						scayt_control.setDisabled( scayt_control.paused === false ); // I really don't know why it causes JS error in IE
 					} catch ( e ) {}
+					editor.fire( 'showScaytState' );
 				};
 
 			editor.on( 'contentDom', createInstance ); // Get the iframe somehow.
@@ -87,10 +88,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ev.data.scayt = scayt;
 			});
 
-			if ( editor.document ) {
+			if ( editor.document )
 				createInstance();
-				editor.fire( 'showScaytState' );
-			}
 		};
 
 	CKEDITOR.plugins.scayt = {
@@ -364,8 +363,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// Start plugin
-			if ( editor.config.scayt_autoStartup )
+			if ( editor.config.scayt_autoStartup ) {
+				var showInitialState = function() {
+						editor.removeListener( 'showScaytState', showInitialState );
+						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+					};
+				editor.on( 'showScaytState', showInitialState );
+
 				plugin.loadEngine( editor );
+			}
 		}
 	});
 })();
