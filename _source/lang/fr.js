@@ -90,7 +90,10 @@ CKEDITOR.lang[ 'fr' ] = {
 		advancedTab: 'Avancé',
 		validateNumberFailed: 'Cette valeur n\'est pas un nombre.',
 		confirmNewPage: 'Les changements non sauvegardés seront perdus. Etes-vous sur de voiloir charger une nouvelle page ?',
-		confirmCancel: 'Certaines options ont été modifiées. Etes-vous sur de vouloir fermer ?'
+		confirmCancel: 'Certaines options ont été modifiées. Etes-vous sur de vouloir fermer ?',
+
+		// Put the voice-only part of the label in the span.
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
 	// Special char dialog.
@@ -101,7 +104,7 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'Lien', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: 'Lien',
 		menu: 'Editer le lien',
 		title: 'Lien',
 		info: 'Infos sur le lien',

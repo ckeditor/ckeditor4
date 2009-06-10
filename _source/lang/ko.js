@@ -90,7 +90,10 @@ CKEDITOR.lang[ 'ko' ] = {
 		advancedTab: '자세히',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?' // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+
+		// Put the voice-only part of the label in the span.
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
 	// Special char dialog.
@@ -101,7 +104,7 @@ CKEDITOR.lang[ 'ko' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: '링크 삽입/변경', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: '링크 삽입/변경',
 		menu: '링크 수정',
 		title: '링크',
 		info: '링크 정보',

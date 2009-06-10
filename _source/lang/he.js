@@ -90,7 +90,10 @@ CKEDITOR.lang[ 'he' ] = {
 		advancedTab: 'אפשרויות מתקדמות',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?' // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+
+		// Put the voice-only part of the label in the span.
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
 	// Special char dialog.
@@ -101,7 +104,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'הוספת/עריכת קישור', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: 'הוספת/עריכת קישור',
 		menu: 'עריכת קישור',
 		title: 'קישור',
 		info: 'מידע על הקישור',
@@ -228,7 +231,7 @@ CKEDITOR.lang[ 'he' ] = {
 			mergeDown: 'מזג למטה',
 			splitHorizontal: 'פצל תא אופקית',
 			splitVertical: 'פצל תא אנכית',
-			title: "תכונות התא",
+			title: 'תכונות התא',
 			cellType: 'Cell Type', // MISSING
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING

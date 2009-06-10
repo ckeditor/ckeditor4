@@ -90,7 +90,10 @@ CKEDITOR.lang[ 'fo' ] = {
 		advancedTab: 'Fjølbroytt',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?' // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+
+		// Put the voice-only part of the label in the span.
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
 	// Special char dialog.
@@ -101,7 +104,7 @@ CKEDITOR.lang[ 'fo' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'Ger/broyt tilknýti', // IE6 BUG: A title called "Link" in an <A> tag would invalidate its padding!!
+		toolbar: 'Ger/broyt tilknýti',
 		menu: 'Broyt tilknýti',
 		title: 'Tilknýti',
 		info: 'Tilknýtis upplýsingar',

@@ -90,7 +90,10 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?',
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?'
+		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?',
+
+		// Put the voice-only part of the label in the span.
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
 	// Special char dialog.
