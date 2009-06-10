@@ -1049,11 +1049,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// Append the offsets for the entire element hierarchy.
 		var elementPosition = this.getDocumentPosition();
 		offset += elementPosition.y;
-
 		// Scroll the window to the desired position, if not already visible.
 		var currentScroll = win.getScrollPosition().y;
-		if ( offset > 0 && ( offset > currentScroll || offset < currentScroll - winHeight ) )
-			win.$.scrollTo( 0, offset );
+
+		// Though the computed offset value maybe out of range ( e.g.
+		// a negative value ), browser will try to scroll as much as possible. (#3692)
+		win.$.scrollTo( 0, offset > 0 ? offset : 0 );
 	},
 
 	setState: function( state ) {
