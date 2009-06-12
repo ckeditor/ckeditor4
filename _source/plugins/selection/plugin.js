@@ -745,9 +745,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		createBookmarks: function( serializable ) {
 			var retval = [],
-				ranges = this.getRanges();
-			for ( var i = 0; i < ranges.length; i++ )
-				retval.push( ranges[ i ].createBookmark( serializable ) );
+				ranges = this.getRanges(),
+				length = ranges.length,
+				bookmark;
+			for ( var i = 0; i < length; i++ ) {
+				retval.push( bookmark = ranges[ i ].createBookmark( serializable, true ) );
+
+				var serializable = bookmark.serializable,
+					bookmarkStart = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
+					bookmarkEnd = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
+
+				// Updating the offset values for rest of ranges which have been mangled(#3256).
+				for ( var j = i + 1; j < length; j++ ) {
+					var dirtyRange = ranges[ j ],
+						rangeStart = dirtyRange.startContainer,
+						rangeEnd = dirtyRange.endContainer;
+
+					rangeStart.equals( bookmarkStart.getParent() ) && dirtyRange.startOffset++;
+					rangeStart.equals( bookmarkEnd.getParent() ) && dirtyRange.startOffset++;
+					rangeEnd.equals( bookmarkStart.getParent() ) && dirtyRange.endOffset++;
+					rangeEnd.equals( bookmarkEnd.getParent() ) && dirtyRange.endOffset++;
+				}
+			}
+
 			return retval;
 		},
 

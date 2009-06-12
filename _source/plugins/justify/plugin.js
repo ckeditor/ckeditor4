@@ -58,35 +58,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	justifyCommand.prototype = {
 		exec: function( editor ) {
-			var selection = editor.getSelection(),
-				range = selection && selection.getRanges()[ 0 ];
-
-			if ( !range )
+			var selection = editor.getSelection();
+			if ( !selection )
 				return;
 
 			var bookmarks = selection.createBookmarks(),
-				cssClassName = this.cssClassName,
-				iterator = range.createIterator(),
-				block;
+				ranges = selection.getRanges();
 
-			while ( ( block = iterator.getNextParagraph() ) ) {
-				block.removeAttribute( 'align' );
 
-				if ( cssClassName ) {
-					// Remove any of the alignment classes from the className.
-					var className = block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) );
+			var cssClassName = this.cssClassName,
+				iterator, block;
+			for ( var i = ranges.length - 1; i >= 0; i-- ) {
+				iterator = ranges[ i ].createIterator();
+				while ( ( block = iterator.getNextParagraph() ) ) {
+					block.removeAttribute( 'align' );
 
-					// Append the desired class name.
-					if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
-						block.addClass( cssClassName );
-					else if ( !className )
-						block.removeAttribute( 'class' );
-				} else {
-					if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
-						block.setStyle( 'text-align', this.value );
-					else
-						block.removeStyle( 'text-align' );
+					if ( cssClassName ) {
+						// Remove any of the alignment classes from the className.
+						var className = block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) );
+
+						// Append the desired class name.
+						if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
+							block.addClass( cssClassName );
+						else if ( !className )
+							block.removeAttribute( 'class' );
+					} else {
+						if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
+							block.setStyle( 'text-align', this.value );
+						else
+							block.removeStyle( 'text-align' );
+					}
 				}
+
 			}
 
 			editor.focus();
