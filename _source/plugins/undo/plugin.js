@@ -88,6 +88,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				label: editor.lang.redo,
 				command: 'redo'
 			});
+
+			editor.resetUndo = function() {
+				// Reset the undo stack.
+				undoManager.reset();
+
+				// Create the first image.
+				editor.fire( 'saveSnapshot' );
+			}
 		}
 	});
 
@@ -136,28 +144,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * @constructor Main logic for Redo/Undo feature.
 	 */
 	function UndoManager( editor ) {
-		this.typesCount = 0;
-		this.modifiersCount = 0;
-
 		this.editor = editor;
 
-		/**
-		 * Stack for all the undo and redo snapshots, they're always created/removed
-		 * in consistency.
-		 */
-		this.snapshots = [];
-
-		/**
-		 * Current snapshot history index.
-		 */
-		this.index = -1;
-
-		this.limit = editor.config.undoStackSize;
-
-		/**
-		 * Remember last pressed key.
-		 */
-		this.lastKeystroke = 0;
+		// Reset the undo stack.
+		this.reset();
 	}
 
 	UndoManager.prototype = {
@@ -243,6 +233,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			this.typing = true;
+		},
+
+		reset: function() // Reset the undo stack.
+		{
+			/**
+			 * Remember last pressed key.
+			 */
+			this.lastKeystroke = 0;
+
+			/**
+			 * Stack for all the undo and redo snapshots, they're always created/removed
+			 * in consistency.
+			 */
+			this.snapshots = [];
+
+			/**
+			 * Current snapshot history index.
+			 */
+			this.index = -1;
+
+			this.limit = this.editor.config.undoStackSize;
+
+			this.currentImage = null;
+
+			this.hasUndo = false;
+			this.hasRedo = false;
+
+			this.resetType();
 		},
 
 		/**
