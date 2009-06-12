@@ -4,6 +4,177 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.dialog.add( 'specialchar', function( editor ) {
+	/**
+	 * Simulate "this" of a dialog for non-dialog events.
+	 * @type {CKEDITOR.dialog}
+	 */
+	var dialog;
+	var onChoice = function( evt ) {
+			var target = evt.data.getTarget(),
+				value;
+
+			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
+				target.removeClass( "cke_light_background" );
+				editor.insertHtml( value );
+				dialog.hide();
+			}
+		};
+
+	var focusedNode;
+
+	var onFocus = function( evt, target ) {
+			var value;
+			target = target || evt.data.getTarget();
+
+			if ( target.getName() == 'span' )
+				target = target.getParent();
+
+			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
+				// Trigger blur manually if there is focused node.
+				if ( focusedNode )
+					onBlur( null, focusedNode );
+
+				var htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
+
+				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
+				htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
+				target.getParent().addClass( "cke_light_background" );
+
+				// Memorize focused node.
+				focusedNode = target;
+			}
+		};
+
+	var onBlur = function( evt, target ) {
+			target = target || evt.data.getTarget();
+
+			if ( target.getName() == 'span' )
+				target = target.getParent();
+
+			if ( target.getName() == 'a' ) {
+				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
+				dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
+				target.getParent().removeClass( "cke_light_background" );
+
+				focusedNode = undefined;
+			}
+		};
+
+	var onKeydown = CKEDITOR.tools.addFunction( function( ev ) {
+		ev = new CKEDITOR.dom.event( ev );
+
+		// Get an Anchor element.
+		var element = ev.getTarget();
+		var relative, nodeToMove;
+		var keystroke = ev.getKeystroke();
+
+		switch ( keystroke ) {
+			// RIGHT-ARROW
+			case 39:
+				// relative is TD
+				if ( ( relative = element.getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					if ( nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( null, element );
+						onFocus( null, nodeToMove );
+					}
+				}
+				ev.preventDefault();
+				break;
+				// LEFT-ARROW
+			case 37:
+				// relative is TD
+				if ( ( relative = element.getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					nodeToMove.focus();
+					onBlur( null, element );
+					onFocus( null, nodeToMove );
+				}
+				ev.preventDefault();
+				break;
+				// UP-ARROW
+			case 38:
+				// relative is TR
+				if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+					nodeToMove.focus();
+					onBlur( null, element );
+					onFocus( null, nodeToMove );
+				}
+				ev.preventDefault();
+				break;
+				// DOWN-ARROW
+			case 40:
+				// relative is TR
+				if ( ( relative = element.getParent().getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+					if ( nodeToMove && nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( null, element );
+						onFocus( null, nodeToMove );
+					}
+				}
+				ev.preventDefault();
+				break;
+				// ENTER
+				// SPACE
+			case 13:
+			case 32:
+				onChoice({ data: ev } );
+				ev.preventDefault();
+				break;
+				// TAB
+			case 9:
+				// relative is TD
+				if ( ( relative = element.getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					if ( nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( null, element );
+						onFocus( null, nodeToMove );
+						ev.preventDefault( true );
+					} else
+						onBlur( null, element );
+				}
+				// relative is TR
+				else if ( ( relative = element.getParent().getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ 0, 0 ] );
+					if ( nodeToMove && nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( null, element );
+						onFocus( null, nodeToMove );
+						ev.preventDefault( true );
+					} else
+						onBlur( null, element );
+				}
+				break;
+				// SHIFT + TAB
+			case CKEDITOR.SHIFT + 9:
+				// relative is TD
+				if ( ( relative = element.getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					nodeToMove.focus();
+					onBlur( null, element );
+					onFocus( null, nodeToMove );
+					ev.preventDefault( true );
+				}
+				// relative is TR
+				else if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
+					nodeToMove = relative.getLast().getChild( 0 );
+					nodeToMove.focus();
+					onBlur( null, element );
+					onFocus( null, nodeToMove );
+					ev.preventDefault( true );
+				} else
+					onBlur( null, element );
+				break;
+			default:
+				// Do not stop not handled events.
+				return;
+		}
+	});
+
 	return {
 		title: editor.lang.specialChar.title,
 		minWidth: 430,
@@ -52,11 +223,13 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 				for ( var j = 0; j < columns; j++, i++ ) {
 					if ( chars[ i ] ) {
-						html.push( '<td width="1%"' +
-							' title="', chars[ i ].replace( /&/g, '&amp;' ), '"' +
-							' value="', chars[ i ].replace( /&/g, "&amp;" ), '"' +
-							' class="cke_dark_background cke_hand">' );
-						html.push( chars[ i ] );
+						html.push( '<td class="cke_dark_background">' +
+							'<a href="#" style="display: block; height: 1.25em; margin-top: 0.25em; text-align: center;" title="', chars[ i ].replace( /&/g, '&amp;' ), '"' +
+							' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydown + ', event, this )"' +
+							' tabindex="-1">' +
+							'<span style="margin: 0 auto;">' +
+							chars[ i ] +
+							'</span></a>' );
 					} else
 						html.push( '<td class="cke_dark_background">&nbsp;' );
 
@@ -86,36 +259,26 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 					type: 'html',
 					id: 'charContainer',
 					html: '',
-					onMouseover: function( evt ) {
-						var target = evt.data.getTarget(),
-							value;
-						if ( target.getName() == 'td' && ( value = target.getAttribute( 'value' ) ) ) {
-							var dialog = this.getDialog(),
-								htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
-
-							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
-							htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
-							target.addClass( "cke_light_background" );
-						}
+					onMouseover: onFocus,
+					onMouseout: onBlur,
+					onClick: onChoice,
+					focus: function() {
+						var firstChar = this.getElement().getChild( [ 0, 0, 0, 0, 0 ] );
+						setTimeout( function() {
+							firstChar.focus();
+							onFocus( null, firstChar );
+						});
 					},
-					onMouseout: function( evt ) {
-						var target = evt.data.getTarget();
-						if ( target.getName() == 'td' ) {
-							var dialog = this.getDialog();
-							dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
-							dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
-							target.removeClass( "cke_light_background" );
-						}
+					// Needed only for webkit.
+					onShow: function() {
+						var firstChar = this.getElement().getChild( [ 0, 0, 0, 0, 0 ] );
+						setTimeout( function() {
+							firstChar.focus();
+							onFocus( null, firstChar );
+						});
 					},
-					onClick: function( evt ) {
-						var target = evt.data.getTarget(),
-							value;
-						if ( target.getName() == 'td' && ( value = target.$.getAttribute( 'value' ) ) ) {
-							var dialog = this.getDialog();
-							target.removeClass( "cke_light_background" );
-							dialog.getParentEditor().insertHtml( value );
-							dialog.hide();
-						}
+					onLoad: function( event ) {
+						dialog = event.sender;
 					}
 				},
 					{
