@@ -36,9 +36,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		if ( blockNeedsExtension( block ) ) {
 			if ( CKEDITOR.env.ie )
-				block.children.push( new CKEDITOR.htmlParser.text( '\xa0' ) );
+				block.add( new CKEDITOR.htmlParser.text( '\xa0' ) );
 			else
-				block.children.push( new CKEDITOR.htmlParser.element( 'br', {} ) );
+				block.add( new CKEDITOR.htmlParser.element( 'br', {} ) );
 		}
 	}
 
@@ -46,7 +46,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		trimFillers( block );
 
 		if ( blockNeedsExtension( block ) )
-			block.children.push( new CKEDITOR.htmlParser.text( '\xa0' ) );
+			block.add( new CKEDITOR.htmlParser.text( '\xa0' ) );
 	}
 
 	var dtd = CKEDITOR.dtd;
