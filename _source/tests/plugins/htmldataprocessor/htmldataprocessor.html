@@ -3,7 +3,9 @@
 <head>
 	<title>Plugin: htmldataprocessor</title>
 	<link rel="stylesheet" type="text/css" href="../../test.css" />
-	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script> <!-- %REMOVE_LINE%
+	<script type="text/javascript" src="../../../ckeditor.js"></script>
+	%REMOVE_LINE% -->
 	<script type="text/javascript" src="../../test.js"></script>
 	<script type="text/javascript">
 
@@ -102,6 +104,119 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				getDataProcessor().toDataFormat( '<INPUT type="checkbox" UNKNOWN  autocomplete=off>' ) );
 		},
 
+		test_toDataFormat_ticket_2886_1 : function()
+		{
+			var editor = CKEDITOR.instances.editor1;
+			var test = this;
+			var isReady = !!editor.dataProcessor;
+
+			if ( !isReady )
+			{
+				editor.on( 'instanceReady', function()
+				{
+					isReady = true;
+				} );
+			}
+
+			this.wait( function()
+				{
+					if ( !isReady )
+					{
+						test.wait( arguments.callee, 100 );
+						return;
+					}
+
+					assert.areSame( '<p>\n\t&nbsp;</p>\n',
+						editor.dataProcessor.toDataFormat( '<p></p>' ) );
+				}, 100 );
+		},
+
+		test_toDataFormat_ticket_2886_2 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var source = '<p>Some text<br><br><br></p>';
+			if ( CKEDITOR.env.ie )
+				source = '<p>Some text<br><br></p>';
+			assert.areSame( '<p>\n\tSome text<br />\n\t<br />\n\t&nbsp;</p>\n',
+				dataProcessor.toDataFormat( source ) );
+		},
+
+		test_toDataFormat_ticket_2886_3 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			assert.areSame( '<p>\n\tSome text<br />\n\t<br />\n\t<br />\n\tSome more text</p>\n',
+				dataProcessor.toDataFormat( '<p>Some text<br><br><br>Some more text</p>' ) );
+		},
+
+		test_toDataFormat_ticket_2886_4 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			assert.areSame( '<p>\n\tSome text<br />\n\t<br />\n\t&nbsp;</p>\n',
+				dataProcessor.toDataFormat( '<p>Some text<br><br>&nbsp;</p>' ) );
+		},
+
+		test_toDataFormat_ticket_2886_5 : function()
+		{
+			if ( CKEDITOR.env.ie )
+				return;
+
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			assert.areSame( '<p>\n\t&nbsp;</p>\n',
+				dataProcessor.toDataFormat( '<p><br></p>' ) );
+		},
+
+		test_toDataFormat_ticket_2886_6 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var source = '<p><br><br></p>';
+			if ( CKEDITOR.env.ie )
+				source = '<p><br></p>';
+
+			assert.areSame( '<p>\n\t<br />\n\t&nbsp;</p>\n',
+				dataProcessor.toDataFormat( source ) );
+		},
+
+		test_toHtml_ticket_2886_1 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var expected = '<p><br /></p>';
+			if ( CKEDITOR.env.ie )
+				expected = '<p>\xa0</p>';
+			assert.areSame( expected, dataProcessor.toHtml( '<p></p>' ) );
+		},
+
+		test_toHtml_ticket_2886_2 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var expected = '<p>Some text<br />Some other text</p>';
+			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br>Some other text</p>' ) );
+		},
+
+		test_toHtml_ticket_2886_3 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var expected = '<p>Some text<br /><br /></p>';
+			if ( CKEDITOR.env.ie )
+				expected = '<p>Some text<br />\xa0</p>';
+			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br>&nbsp;</p>' ) );
+		},
+
+		test_toHtml_ticket_2886_4 : function()
+		{
+			var dataProcessor = CKEDITOR.instances.editor1.dataProcessor;
+
+			var expected = '<p>Some text</p>';
+			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br></p>' ));
+		},
+
 		name : document.title
 	};
 })() );
@@ -115,5 +230,6 @@ CKEDITOR.test.addTestCase( testCase = (function()
 	</script>
 </head>
 <body>
+	<textarea id="editor1" class="ckeditor" cols="80" rows="10"></textarea>
 </body>
 </html>
