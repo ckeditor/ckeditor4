@@ -138,6 +138,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			selection.selectBookmarks( bms );
+
+			// If the fixed block is blank and is already followed by a exitable
+			// block, we should drop it and move to the exist block(#3684).
+			var children = fixedBlock.getChildren(),
+				count = children.count(),
+				firstChild,
+				previousElement = fixedBlock.getPrevious( true ),
+				nextElement = fixedBlock.getNext( true ),
+				enterBlock;
+			if ( !previousElement.is( nonExitableElementNames ) )
+				enterBlock = previousElement;
+			else if ( !nextElement.is( nonExitableElementNames ) )
+				enterBlock = nextElement;
+
+			if ( ( !count || ( firstChild = children.getItem( 0 ) ) && firstChild.is && firstChild.is( 'br' ) ) && enterBlock ) {
+				fixedBlock.remove();
+				range.moveToElementEditStart( enterBlock );
+				range.select();
+			}
 		}
 
 		// Inserting the padding-br before body if it's preceded by an
