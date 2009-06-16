@@ -52,8 +52,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_menuitem .cke_icon_wrapper
 {
-	background-color: #e3e3c7;
-	border: solid 4px #e3e3c7;
+	background-color: #D3D3D3;
+	border: solid 4px #D3D3D3;
 	width: 16px;
 	height: 16px;
 	float: left;
@@ -81,8 +81,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_menuitem a:focus.cke_disabled .cke_icon_wrapper,
 .cke_skin_kama .cke_menuitem a:active.cke_disabled .cke_icon_wrapper
 {
-	background-color: #e3e3c7;
-	border: solid 4px #e3e3c7;
+	background-color: #D3D3D3;
+	border: solid 4px #D3D3D3;
 }
 
 .cke_skin_kama .cke_menuitem .cke_label
@@ -130,7 +130,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_menuseparator
 {
-	background-color: #e3e3c7;
+	background-color: #D3D3D3;
 	height: 2px;
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
