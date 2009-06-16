@@ -168,6 +168,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return html.replace( protectAttributeRegex, '$& _cke_saved_$1' );
 	}
 
+	var protectStyleTagsRegex = /<(style)(?=[ >])[^>]*>[^<]*<\/\1>/gi;
+	var encodedTagsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
+
+	function protectStyleTagsMatch( match ) {
+		return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
+	}
+
+	function protectStyleTags( html ) {
+		return html.replace( protectStyleTagsRegex, protectStyleTagsMatch );
+	}
+
+	function unprotectEncodedTagsMatch( match, encoded ) {
+		return decodeURIComponent( encoded );
+	}
+
+	function unprotectEncodedTags( html ) {
+		return html.replace( encodedTagsRegex, unprotectEncodedTagsMatch );
+	}
+
 	CKEDITOR.plugins.add( 'htmldataprocessor', {
 		requires: [ 'htmlwriter' ],
 
@@ -199,14 +218,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// the code.
 			data = protectAttributes( data );
 
+			// IE remvoes style tags from innerHTML. (#3710).
+			if ( CKEDITOR.env.ie )
+				data = protectStyleTags( data );
+
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
 			var div = document.createElement( 'div' );
 			div.innerHTML = data;
+			data = div.innerHTML;
+
+			if ( CKEDITOR.env.ie )
+				data = unprotectEncodedTags( data );
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( div.innerHTML, fixForBody ),
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, fixForBody ),
 				writer = new CKEDITOR.htmlParser.basicWriter();
 
 			fragment.writeHtml( writer, this.dataFilter );
