@@ -52,3 +52,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *     canUndo : false    // No support for undo/redo
  * });
  */
+
+/**
+ * Whether the command is asynchronous, which means the 'afterCommandExec' event
+ * will be fired by the command itself manually, and the 'exec' function return value
+ * of this command is not to be returned.
+ * @name  CKEDITOR.commandDefinition.async
+ * @type {Boolean} If defined as 'true', the command is asynchronous.
+ * @example
+ * editorInstance.addCommand( 'alertName',
+ * {
+ *     exec : function( editor )
+ *     {
+ *         // Asynchronous operation below.
+ *         CKEDITOR.ajax.loadXml( 'data.xml' );
+ *     },
+ *     async : true    // The command need some time to complete after exec function returns.
+ * });
+ */

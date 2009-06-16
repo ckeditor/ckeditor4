@@ -13,9 +13,32 @@ CKEDITOR.plugins.add( 'newpage', {
 		editor.addCommand( 'newpage', { modes:{wysiwyg:1,source:1 },
 
 			exec: function( editor ) {
+				var command = this;
+
+				function afterCommand() {
+					// Defer to happen after 'selectionChange'.
+					setTimeout( function() {
+						editor.fire( 'afterCommandExec', {
+							name: command.name,
+							command: command
+						});
+					}, 500 );
+				}
+				if ( editor.mode == 'wysiwyg' )
+					editor.on( 'contentDom', function( evt ) {
+
+					evt.removeListener();
+					afterCommand();
+				});
+
 				editor.setData( editor.config.newpage_html );
 				editor.focus();
-			}
+
+				if ( editor.mode == 'source' )
+					afterCommand();
+
+			},
+			async: true
 		});
 
 		editor.ui.addButton( 'NewPage', {
