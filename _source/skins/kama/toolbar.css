@@ -117,6 +117,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	outline: none;
 	padding: 2px 4px;
 	height: 18px;
+	cursor: default;
 }
 
 .cke_skin_kama .cke_hc .cke_button a,

@@ -153,6 +153,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	_border: none;
 	_margin: 3px 1px 1px 1px;
+	cursor: default;
 }
 
 .cke_skin_office2003 .cke_hc .cke_button a,
