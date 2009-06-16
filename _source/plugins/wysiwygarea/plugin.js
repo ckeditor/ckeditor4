@@ -147,9 +147,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				previousElement = fixedBlock.getPrevious( true ),
 				nextElement = fixedBlock.getNext( true ),
 				enterBlock;
-			if ( !previousElement.is( nonExitableElementNames ) )
+			if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) )
 				enterBlock = previousElement;
-			else if ( !nextElement.is( nonExitableElementNames ) )
+			else if ( nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) )
 				enterBlock = nextElement;
 
 			if ( ( !count || ( firstChild = children.getItem( 0 ) ) && firstChild.is && firstChild.is( 'br' ) ) && enterBlock ) {
