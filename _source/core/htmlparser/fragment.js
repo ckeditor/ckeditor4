@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -58,6 +58,8 @@ CKEDITOR.htmlParser.fragment = function() {
 			fragment = new CKEDITOR.htmlParser.fragment(),
 			pendingInline = [],
 			currentNode = fragment,
+			// Indicate we're inside a <pre> element, spaces should be touched differently.
+			inPre = false,
 			returnPoint;
 
 		function checkPending( newTagName ) {
@@ -106,7 +108,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			}
 
 			// Rtrim empty spaces on block end boundary. (#3585)
-			if ( element._.isBlockLike ) {
+			if ( element._.isBlockLike && inPre ) {
 
 				var length = element.children.length,
 					lastChild = element.children[ length - 1 ],
@@ -138,6 +140,11 @@ CKEDITOR.htmlParser.fragment = function() {
 			// This is a tag to be removed if empty, so do not add it immediately.
 			if ( CKEDITOR.dtd.$removeEmpty[ tagName ] ) {
 				pendingInline.push( element );
+				return;
+			} else if ( tagName == 'pre' )
+				inPre = true;
+			else if ( tagName == 'br' && inPre ) {
+				currentNode.add( new CKEDITOR.htmlParser.text( '\n' ) );
 				return;
 			}
 
@@ -232,6 +239,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				currentNode = candidate;
 
+				if ( currentNode.name == 'pre' )
+					inPre = false;
+
 				addElement( candidate, candidate.parent );
 
 				// The parent should start receiving new nodes now, except if
@@ -254,7 +264,8 @@ CKEDITOR.htmlParser.fragment = function() {
 		};
 
 		parser.onText = function( text ) {
-			if ( !currentNode._.hasInlineStarted ) {
+			// Trim empty spaces at beginning of element contents except <pre>.
+			if ( !currentNode._.hasInlineStarted && !inPre ) {
 				text = CKEDITOR.tools.ltrim( text );
 
 				if ( text.length === 0 )
@@ -265,6 +276,11 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			if ( fixForBody && !currentNode.type )
 				this.onTagOpen( fixForBody, {} );
+
+			// Shrinking consequential spaces into one single for all elements 
+			// text contents.
+			if ( !inPre )
+				text = text.replace( /[\t\r\n ]{2,}|[\t\r\n]/g, ' ' );
 
 			currentNode.add( new CKEDITOR.htmlParser.text( text ) );
 		};

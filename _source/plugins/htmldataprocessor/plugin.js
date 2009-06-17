@@ -57,7 +57,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !( 'br' in dtd[ i ] ) )
 			delete blockLikeTags[ i ];
 	}
-
+	// We just avoid filler in <pre> right now.
+	// TODO: Support filler for <pre>, line break is also occupy line height.
+	delete blockLikeTags.pre;
 	var defaultDataFilterRules = {
 		elementNames: [
 			// Elements that cause problems in wysiwyg mode.

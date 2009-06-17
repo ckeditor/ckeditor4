@@ -74,9 +74,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				breakAfterClose: true
 			});
 		}
-
 		this.setRules( 'br', {
 			breakAfterOpen: true
+		});
+		// Disable indentation on <pre>.
+		this.setRules( 'pre', {
+			indent: false
 		});
 	},
 
