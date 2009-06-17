@@ -423,11 +423,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// 1. Perform the replace when there's already a match here.
 					// 2. Otherwise perform the find but don't replace it immediately.
 					if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced ) {
+						// Turn off highlight for a while when saving snapshots.
+						this.matchRange.removeHighlight();
 						var domRange = this.matchRange.toDomRange();
 						var text = editor.document.createText( newString );
+
+						// Save undo snaps before and after the replacement.
+						var selection = editor.getSelection();
+						selection.selectRanges( [ domRange ] );
+						editor.fire( 'saveSnapshot' );
+
 						domRange.deleteContents();
 						domRange.insertNode( text );
+
+						selection.selectRanges( [ domRange ] );
+						editor.fire( 'saveSnapshot' );
+
 						this.matchRange.updateFromDomRange( domRange );
+						this.matchRange.highlight();
 						this.matchRange._.isReplaced = true;
 						this.replaceCounter++;
 						result = true;
@@ -551,7 +564,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							label: editor.lang.findAndReplace.replace,
 							onClick: function() {
 								var dialog = this.getDialog();
-								editor.fire( 'saveSnapshot' );
 								if ( !finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), dialog.getValueOf( 'replace', 'txtReplaceCyclic' ) ) )
 									alert( editor.lang.findAndReplace.notFoundMsg );
 							}
@@ -580,7 +592,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								var dialog = this.getDialog();
 								var replaceNums;
 
-								editor.fire( 'saveSnapshot' );
 								finder.replaceCounter = 0;
 								if ( ( replaceNums = finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), dialog.getValueOf( 'replace', 'txtReplaceCyclic' ), true ) ) )
 									alert( editor.lang.findAndReplace.replaceSuccessMsg.replace( /%1/, replaceNums ) );
