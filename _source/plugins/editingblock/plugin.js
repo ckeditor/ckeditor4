@@ -97,9 +97,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( editor.config.startupFocus )
 					editor.focus();
 
-				// Fire instanceReady for both the editor and CKEDITOR.
-				editor.fireOnce( 'instanceReady' );
-				CKEDITOR.fire( 'instanceReady', null, editor );
+				// Fire instanceReady for both the editor and CKEDITOR, but
+				// defer this until the whole execution has completed
+				// to guarantee the editor is fully responsible.
+				setTimeout( function() {
+					editor.fireOnce( 'instanceReady' );
+					CKEDITOR.fire( 'instanceReady', null, editor );
+				});
 			});
 		}
 	});
