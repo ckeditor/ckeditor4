@@ -358,9 +358,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							 */
 							if ( CKEDITOR.env.ie ) {
 								setTimeout( function() {
-									var $body = editor.document.$.body;
-									$body.runtimeStyle.marginBottom = '0px';
-									$body.runtimeStyle.marginBottom = '';
+									if ( editor.document ) {
+										var $body = editor.document.$.body;
+										$body.runtimeStyle.marginBottom = '0px';
+										$body.runtimeStyle.marginBottom = '';
+									}
 								}, 1000 );
 							}
 						}, 0 );
