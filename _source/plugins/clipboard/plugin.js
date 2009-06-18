@@ -150,11 +150,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
+				function stateFromNamedCommand( command ) {
+					return editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+				}
+
 				editor.contextMenu.addListener( function() {
 					return {
-						cut: CKEDITOR.TRISTATE_DISABLED,
-						copy: CKEDITOR.TRISTATE_DISABLED,
-						paste: CKEDITOR.TRISTATE_DISABLED };
+						cut: stateFromNamedCommand( 'Cut' ),
+
+						// Browser bug: 'Cut' has the correct states for both Copy and Cut.
+						copy: stateFromNamedCommand( 'Cut' ),
+						paste: stateFromNamedCommand( 'Paste' )
+					};
 				});
 			}
 		}
