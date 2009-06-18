@@ -64,24 +64,11 @@ CKEDITOR.loader.load( 'core/env' );
 	</div>
 	<!-- This <fieldset> holds the HTML that you will usually find in your
 	     pages. -->
-	<fieldset title="Output">
-		<legend>Output</legend>
-		<script id="html" type="text/javascript">
-		//<![CDATA[
-			document.write( CKEDITOR.samples.htmlData );
-		//]]>
-		</script>
-	</fieldset>
-	<!-- This <fieldset> contains the output readable code that illustrates
-	     how to use the editor, having the results shown in this sample. -->
-	<fieldset title="Code">
-		<legend>Code</legend>
-		<script id="code" type="text/javascript">
-		//<![CDATA[
-			document.write( CKEDITOR.samples.codeData );
-		//]]>
-		</script>
-	</fieldset>
+	<script id="html" type="text/javascript">
+	//<![CDATA[
+		document.write( CKEDITOR.samples.htmlData );
+	//]]>
+	</script>
 	<div id="footer">
 		<hr />
 		<p>
