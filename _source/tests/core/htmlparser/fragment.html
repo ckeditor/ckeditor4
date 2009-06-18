@@ -163,11 +163,16 @@ CKEDITOR.test.addTestCase( tc = (function()
 						'<p><br />text</p>' );
 		},
 
-
 		test_ticket_3585_2 : function()
 		{
 			testParser(	'<b>inline </b>\n<p>paragraph\t\r\n</p>\t\r\n',
 						'<p><b>inline </b></p><p>paragraph</p>' );
+		},
+
+		test_ticket_3744 : function()
+		{
+			testParser(	'<div><b><font><span>A</font></span></b></div><div>X</div>',
+						'<div><b><font><span>A</span></font></b></div><div>X</div>' );
 		},
 
 		name : document.title
