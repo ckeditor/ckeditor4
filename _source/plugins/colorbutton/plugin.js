@@ -59,7 +59,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				panel.hide();
 
-				var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: color || '#000' } );
+				var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], color && { color: color } );
 
 				editor.fire( 'saveSnapshot' );
 				if ( color )
