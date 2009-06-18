@@ -19,7 +19,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 
 	function testParser( input, expected )
 	{
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( input, true ),
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( input, 'p' ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 
 		fragment.writeHtml( writer );
