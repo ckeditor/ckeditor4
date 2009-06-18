@@ -12,10 +12,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	var isShowing = false;
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
-		// Generates the panel key: docId-eleId-skinName-langDir[-CSSs][-level]
+		// Generates the panel key: docId-eleId-skinName-langDir[-uiColor][-CSSs][-level]
 		var key = doc.getUniqueId() + '-' + parentElement.getUniqueId() +
 						'-' + editor.skinName +
 						'-' + editor.lang.dir +
+						( ( editor.uiColor && ( '-' + editor.uiColor ) ) || '' ) +
 						( ( definition.css && ( '-' + definition.css ) ) || '' ) +
 						( ( level && ( '-' + level ) ) || '' );
 
