@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -286,7 +287,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.on( 'keydown', focusKeydownHandler, this, null, 0 );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = CKEDITOR.document.getById( 'cke_dialog_background_iframe' ).getFrameDocument();
+				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
 				coverDoc.on( 'keydown', focusKeydownHandler, this, null, 0 );
 			}
 		});
@@ -1269,7 +1270,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.removeListener( 'mouseup', mouseUpHandler );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = CKEDITOR.document.getById( 'cke_dialog_background_iframe' ).getFrameDocument();
+				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 			}
@@ -1283,7 +1284,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			abstractDialogCoords = dialog.getPosition();
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = CKEDITOR.document.getById( 'cke_dialog_background_iframe' ).getFrameDocument();
+				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
 				coverDoc.on( 'mousemove', mouseMoveHandler );
 				coverDoc.on( 'mouseup', mouseUpHandler );
 			}
@@ -1334,7 +1335,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = CKEDITOR.document.getById( 'cke_dialog_background_iframe' ).getFrameDocument();
+				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
 				coverDoc.on( 'mousemove', mouseMoveHandler, dialog, { part: partName } );
 				coverDoc.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 			}
@@ -1402,7 +1403,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.removeListener( 'mousemove', mouseMoveHandler );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = CKEDITOR.document.getById( 'cke_dialog_background_iframe' ).getFrameDocument();
+				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
@@ -1426,50 +1427,56 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	var resizeCover;
+	var coverElement;
 
 	var addCover = function( editor ) {
 			var win = CKEDITOR.document.getWindow();
 
-			var html = [
-				'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
-				'; z-index: ', editor.config.baseFloatZIndex,
-				'; top: 0px; left: 0px; ',
-				'background-color: ', editor.config.dialog_backgroundCoverColor,
-				'" id="cke_dialog_background_cover">'
-				];
+			if ( !coverElement ) {
+				var html = [
+					'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
+					'; z-index: ', editor.config.baseFloatZIndex,
+					'; top: 0px; left: 0px; ',
+					'background-color: ', editor.config.dialog_backgroundCoverColor,
+					'" id="cke_dialog_background_cover">'
+					];
 
-			if ( CKEDITOR.env.ie6Compat ) {
-				// Support for custom document.domain in IE.
-				var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
-				html.push( '<iframe' +
-					' hidefocus="true"' +
-					' frameborder="0"' +
-					' id="cke_dialog_background_iframe"' +
-					' src="javascript:' );
+				if ( CKEDITOR.env.ie6Compat ) {
+					// Support for custom document.domain in IE.
+					var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
-				html.push( isCustomDomain ? 'void((function(){' +
-					'document.open();' +
-					'document.domain=\'' + document.domain + '\';' +
-					'document.close();' +
-					'})())'
-					:
-					'\'\'' );
+					html.push( '<iframe' +
+						' hidefocus="true"' +
+						' frameborder="0"' +
+						' id="cke_dialog_background_iframe"' +
+						' src="javascript:' );
 
-				html.push( '"' +
-					' style="' +
-						'position:absolute;' +
-						'left:0;' +
-						'top:0;' +
-						'width:100%;' +
-						'height: 100%;' +
-						'progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
-					'</iframe>' );
+					html.push( isCustomDomain ? 'void((function(){' +
+						'document.open();' +
+						'document.domain=\'' + document.domain + '\';' +
+						'document.close();' +
+						'})())'
+						:
+						'\'\'' );
+
+					html.push( '"' +
+						' style="' +
+							'position:absolute;' +
+							'left:0;' +
+							'top:0;' +
+							'width:100%;' +
+							'height: 100%;' +
+							'progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
+						'</iframe>' );
+				}
+
+				html.push( '</div>' );
+
+				coverElement = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
 			}
 
-			html.push( '</div>' );
-
-			var element = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
+			var element = coverElement;
 
 			var resizeFunc = function() {
 					var size = win.getViewPaneSize();
@@ -1515,20 +1522,20 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	var removeCover = function() {
-			var element = CKEDITOR.document.getById( 'cke_dialog_background_cover' ),
-				win = CKEDITOR.document.getWindow();
-			if ( element ) {
-				element.remove();
-				win.removeListener( 'resize', resizeCover );
+			if ( !coverElement )
+				return;
 
-				if ( CKEDITOR.env.ie6Compat ) {
-					win.$.setTimeout( function() {
-						var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
-						window.onscroll = prevScrollHandler || null;
-					}, 0 );
-				}
-				resizeCover = null;
+			var win = CKEDITOR.document.getWindow();
+			coverElement.remove();
+			win.removeListener( 'resize', resizeCover );
+
+			if ( CKEDITOR.env.ie6Compat ) {
+				win.$.setTimeout( function() {
+					var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
+					window.onscroll = prevScrollHandler || null;
+				}, 0 );
 			}
+			resizeCover = null;
 		};
 
 	var accessKeyProcessors = {};
