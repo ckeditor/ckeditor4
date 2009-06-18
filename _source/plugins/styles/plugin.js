@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -437,29 +437,65 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 */
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-		var bookmark = range.createBookmark( true ),
-			startNode = range.document.getById( bookmark.startNode );
+		var bookmark = range.createBookmark(),
+			startNode = bookmark.startNode;
 
 		if ( range.collapsed ) {
-			/*
-			 * If the range is collapsed, try to remove the style from all ancestor
-			 * elements, until a block boundary is reached.
-			 */
-			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() );
+
+			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+				// The topmost element in elementspatch which we should jump out of.
+				boundaryElement;
+
+
 			for ( var i = 0, element; i < startPath.elements.length && ( element = startPath.elements[ i ] ); i++ ) {
+				/*
+				 * 1. If it's collaped inside text nodes, try to remove the style from the whole element.
+				 *
+				 * 2. Otherwise if it's collapsed on element boundaries, moving the selection
+				 *  outside the styles instead of removing the whole tag,
+				 *  also make sure other inner styles were well preserverd.(#3309)
+				 */
 				if ( element == startPath.block || element == startPath.blockLimit )
 					break;
 
 				if ( this.checkElementRemovable( element ) ) {
-					/*
-					 * Before removing the style node, there may be a sibling to the style node
-					 * that's exactly the same to the one to be removed. To the user, it makes
-					 * no difference that they're separate entities in the DOM tree. So, merge
-					 * them before removal.
-					 */
-					mergeSiblings( element );
-					removeFromElement( this, element );
+					var endOfElement = range.checkBoundaryOfElement( element, CKEDITOR.END ),
+						startOfElement = !endOfElement && range.checkBoundaryOfElement( element, CKEDITOR.START );
+					if ( startOfElement || endOfElement ) {
+						boundaryElement = element;
+						boundaryElement.match = startOfElement ? 'start' : 'end';
+					} else {
+						/*
+						 * Before removing the style node, there may be a sibling to the style node
+						 * that's exactly the same to the one to be removed. To the user, it makes
+						 * no difference that they're separate entities in the DOM tree. So, merge
+						 * them before removal.
+						 */
+						mergeSiblings( element );
+						removeFromElement( this, element );
+
+					}
 				}
+			}
+
+			// Re-create the style tree after/before the boundary element,
+			// the replication start from bookmark start node to define the
+			// new range.
+			if ( boundaryElement ) {
+				var clonedElement = startNode;
+				for ( var i = 0;; i++ ) {
+					var newElement = startPath.elements[ i ];
+					if ( newElement.equals( boundaryElement ) )
+						break;
+					// Avoid copying any matched element.
+					else if ( newElement.match )
+						continue;
+					else
+						newElement = newElement.clone();
+					newElement.append( clonedElement );
+					clonedElement = newElement;
+				}
+				clonedElement[ boundaryElement.match == 'start' ? 'insertBefore' : 'insertAfter' ]( boundaryElement );
 			}
 		} else {
 			/*
