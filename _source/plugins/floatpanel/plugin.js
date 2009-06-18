@@ -119,7 +119,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					var focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow );
 
 					focused.on( 'blur', function() {
-						if ( !this._.activeChild && !isShowing )
+						if ( this.visible && !this._.activeChild && !isShowing )
 							this.hide();
 					}, this );
 
@@ -192,6 +192,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, 0 );
 				}, 0 );
 
+				this.visible = 1;
+
 				if ( this.onShow )
 					this.onShow.call( this );
 
@@ -199,9 +201,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			hide: function() {
-				if ( !this.onHide || this.onHide.call( this ) !== true ) {
+				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
 					this.element.setStyle( 'display', 'none' );
+					this.visible = 0;
 				}
 			},
 
