@@ -60,14 +60,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 }
 
-.cke_skin_office2003 .cke_toolgroup 
+.cke_skin_office2003 .cke_toolgroup
 {
 	display: inline-block;
 	float: left;
 	height: 28px;
 }
 
-.cke_skin_office2003 .cke_rtl .cke_toolgroup 
+.cke_skin_office2003 .cke_rtl .cke_toolgroup
 {
 	float: right;
 }

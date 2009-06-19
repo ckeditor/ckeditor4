@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 	var dic_buttons = [
 		// [0] contains buttons for creating
 			"dic_create,dic_restore",
-		// [1] contains buton for manipulation 
+		// [1] contains buton for manipulation
 			"dic_rename,dic_delete"
 		];
 
@@ -220,7 +220,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				}
 			}
 
-			// * user dictionary    
+			// * user dictionary
 			scayt.getNameUserDictionary( function( o ) {
 				var dic_name = o.dname;
 				if ( dic_name ) {

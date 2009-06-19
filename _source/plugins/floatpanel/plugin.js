@@ -180,7 +180,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 							target.setStyle( 'height', height + 'px' );
 
-							// Fix IE < 8 visibility. 
+							// Fix IE < 8 visibility.
 							panel._.currentBlock.element.setStyle( 'display', 'none' ).removeStyle( 'display' );
 						}
 

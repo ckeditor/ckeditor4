@@ -276,7 +276,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( fixForBody && !currentNode.type )
 				this.onTagOpen( fixForBody, {} );
 
-			// Shrinking consequential spaces into one single for all elements 
+			// Shrinking consequential spaces into one single for all elements
 			// text contents.
 			if ( !inPre )
 				text = text.replace( /[\t\r\n ]{2,}|[\t\r\n]/g, ' ' );

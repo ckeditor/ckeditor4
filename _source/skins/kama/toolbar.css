@@ -24,7 +24,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding: 5px 6px 5px 3px;
 }
 
-.cke_skin_kama a.cke_toolbox_collapser, 
+.cke_skin_kama a.cke_toolbox_collapser,
 .cke_skin_kama a:hover.cke_toolbox_collapser
 {
 	background-image: url(images/arrowtop.gif);
@@ -38,20 +38,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: pointer;
 }
 
-.cke_skin_kama .cke_rtl a.cke_toolbox_collapser, 
+.cke_skin_kama .cke_rtl a.cke_toolbox_collapser,
 .cke_skin_kama .cke_rtl a:hover.cke_toolbox_collapser
 {
 	float: left;
 }
 
-.cke_skin_kama a.cke_toolbox_collapser_min, 
+.cke_skin_kama a.cke_toolbox_collapser_min,
 .cke_skin_kama a:hover.cke_toolbox_collapser_min
 {
 	background-image: url(images/arrowleft.gif);
 	margin: 2px 4px;
 }
 
-.cke_skin_kama .cke_rtl a.cke_toolbox_collapser_min, 
+.cke_skin_kama .cke_rtl a.cke_toolbox_collapser_min,
 .cke_skin_kama .cke_rtl a:hover.cke_toolbox_collapser_min
 {
 	background-image: url(images/arrowright.gif);
@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: none;
 }
 
-.cke_skin_kama .cke_toolgroup 
+.cke_skin_kama .cke_toolgroup
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;

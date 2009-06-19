@@ -186,7 +186,7 @@ CKEDITOR.skins.add( 'kama', ( function() {
 			//						var last = toolbar.getLast();
 			//						if ( !last || !last.getPrevious().hasClass( 'cke_rcombo' ) )
 			//							continue;
-			//						
+			//
 			//						last.addClass( 'cke_toolbar_end_last' );
 			//					}
 			//				});

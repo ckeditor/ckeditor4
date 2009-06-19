@@ -92,7 +92,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					elements: {
 						span: function( element ) {
 							if ( element.attributes.scayt_word && element.attributes.scaytid ) {
-								delete element.name; // Write children, but don't write this node. 
+								delete element.name; // Write children, but don't write this node.
 								return element;
 							}
 						}
@@ -376,7 +376,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// ** ahow ads entry point
 					// ** hide ads listener register
 					//						try{
-					//scayt_control.showBanner( editor )	
+					//scayt_control.showBanner( editor )
 					//						}catch(err){}
 
 					return mainSuggestions;
