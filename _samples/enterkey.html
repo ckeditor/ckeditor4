@@ -16,7 +16,7 @@ function changeEnter()
 {
 	// If we already have an editor, let's destroy it first.
 	if ( editor )
-		editor.destroy();
+		editor.destroy( true );
 
 	// Create the editor again, with the appropriate settings.
 	editor = CKEDITOR.replace( 'editor1',
@@ -58,10 +58,11 @@ window.onload = changeEnter;
 			</select>
 		</div>
 		<br style="clear: both" />
+		
 		<form action="sample_posteddata.php" method="post">
 			<p>
 				<br />
-				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<textarea id="editor1" name="editor1" rows="10" cols="80">This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.</textarea>
 			</p>
 			<p>
 				<input type="submit" value="Submit" />
