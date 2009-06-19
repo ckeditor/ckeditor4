@@ -21,9 +21,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var createInstance = function() // Create new instance every time Document is created.
 				{
 					// Initialise Scayt instance.
-					var scayt_control = new scayt({
-						srcNodeRef: editor.document.getWindow().$.frameElement
-					});
+					var oParams = CKEDITOR.config.scaytParams || {};
+					oParams.srcNodeRef = editor.document.getWindow().$.frameElement; // Get the iframe.
+					// syntax : AppName.AppVersion@AppRevision
+					oParams.assocApp = "CKEDITOR." + CKEDITOR.version + "@" + CKEDITOR.revision;
+					var scayt_control = new scayt( oParams );
 
 					// Copy config.
 					var lastInstance = plugin.instances[ editor.name ];
@@ -41,13 +43,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.fire( 'showScaytState' );
 				};
 
-			editor.on( 'contentDom', createInstance ); // Get the iframe somehow.
+			editor.on( 'contentDom', createInstance );
 			editor.on( 'contentDomUnload', function() {
 				// Remove scripts.
 				var scripts = CKEDITOR.document.getElementsByTag( 'script' );
 				scaytIdRegex = /^dojoIoScript(\d+)$/i;
-				scaytSrcRegex = /^http:\/\/demo\.spellchecker\.net\/spellcheck3\/script\/ssrv\.cgi/i;
-
+				scaytSrcRegex = /^https?:\/\/svc\.spellchecker\.net\/spellcheck\/script\/ssrv\.cgi/i;
 				for ( var i = 0; i < scripts.count(); i++ ) {
 					var script = scripts.getItem( i ),
 						id = script.getId(),
@@ -130,37 +131,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, this, null, 0 ); // First to run.
 
 			this.engineLoaded = -1; // Loading in progress.
-			djConfig = {
-				baseUrl: './',
-				blankGif: 'http://demo.spellchecker.net/spellcheck3/lf/scayt/blank.gif',
-				parseOnLoad: true,
-				afterOnLoad: true,
-				useXDomain: true,
-				locale: 'en',
-				xdWaitSeconds: 10,
-				preventCache: false,
-				scaytNodes: document.getElementById( 'foo' ),
-				require: [
-					'dojo.i18n',
-					'scayt._base'
-					],
-				modulePaths: {
-					'scayt': 'http://demo.spellchecker.net/spellcheck3/lf/scayt'
-				},
+			// assign diojo configurable vars
+			var parseUrl = function( data ) {
+					var m = data.match( /(.*)[\/\\]([^\/\\]+\.\w+)$/ );
+					return { path: m[ 1 ], file: m[ 2 ] }
+				}
+
+				// compose scayt url
+			var protocol = document.location.protocol;
+			var baseUrl = "svc.spellchecker.net/spellcheck/lf/scayt/scayt.js";
+			var scaytUrl = editor.config.scaytParams.srcScayt || ( protocol + "//" + baseUrl );
+			var scaytConfigBaseUrl = parseUrl( scaytUrl ).path + "/";
+
+			djScaytConfig = {
+				baseUrl: scaytConfigBaseUrl,
 				addOnLoad: [
 					function()
 					{
-					CKEDITOR.fireOnce( 'scaytReady' );
+					CKEDITOR.fireOnce( "scaytReady" );
 				}
 				],
 				isDebug: false
 			};
-
 			// Append javascript code.
 			CKEDITOR.document.getHead().append( CKEDITOR.document.createElement( 'script', {
 				attributes: {
 					type: 'text/javascript',
-					src: 'http://demo.spellchecker.net/spellcheck3/lf/dojo/dojo/dojo.xd.js'
+					src: scaytUrl
 				}
 			}));
 		}
@@ -192,7 +189,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				var scayt_control = plugin.getScayt( editor );
 				scayt_control.setDisabled( isEnabled );
-			} else if ( !editor.config.scayt_autoStartup && plugin.engineLoaded >= 0 ) // Load first time
+			} else if ( !editor.config.scaytParams.autoStartup && plugin.engineLoaded >= 0 ) // Load first time
 			{
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 
@@ -300,7 +297,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var sLang = scayt_control.getLang(),
 						_r = {},
 						items_suggestion = scayt.getSuggestion( word, sLang );
-
+					if ( !items_suggestion || !items_suggestion.length || items_suggestion.length == 0 )
+						return null;
 					// Remove unused commands and menuitems
 					for ( i in moreSuggestions ) {
 						delete editor._.menuItems[ i ];
@@ -312,16 +310,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 					moreSuggestions = {}; // Reset items.
 					mainSuggestions = {};
-
-					// Register the More suggestions group;
-					editor.addMenuItem( 'scayt_moresuggest', {
-						label: editor.lang.scayt.moreSuggestions,
-						group: 'scayt_moresuggest',
-						order: 10,
-						getItems: function() {
-							return moreSuggestions;
-						}
-					});
+					moreSuggestionsUnable = false;
 
 					for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
 						var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );
@@ -333,15 +322,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							};
 						})( element.$, items_suggestion[ i ] );
 
-						if ( i < editor.config.scayt_maxSuggestions ) {
+						if ( i < editor.config.scaytParams.maxSuggestions ) {
 							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_suggest', i + 1 );
 							_r[ commandName ] = CKEDITOR.TRISTATE_OFF;
 							mainSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
 						} else {
 							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_moresuggest', i + 1 );
 							moreSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
+							moreSuggestionsUnable = true;
 						}
 					}
+					if ( moreSuggestionsUnable )
+						// Rgister the More suggestions group;
+						editor.addMenuItem( 'scayt_moresuggest', {
+						label: editor.lang.scayt.moreSuggestions,
+						group: 'scayt_moresuggest',
+						order: 10,
+						getItems: function() {
+							return moreSuggestions;
+						}
+					});
+
 
 					var ignore_command = {
 						exec: function() {
@@ -368,12 +369,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					mainSuggestions[ 'scayt_ignore_all' ] = CKEDITOR.TRISTATE_OFF;
 					mainSuggestions[ 'scayt_add_word' ] = CKEDITOR.TRISTATE_OFF;
 
+					// ** ahow ads entry point
+					// ** hide ads listener register
+					//						try{
+					//scayt_control.showBanner( editor )	
+					//						}catch(err){}
+
 					return mainSuggestions;
 				});
 			}
 
 			// Start plugin
-			if ( editor.config.scayt_autoStartup ) {
+			if ( editor.config.scaytParams.autoStartup ) {
 				var showInitialState = function() {
 						editor.removeListener( 'showScaytState', showInitialState );
 						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
@@ -386,5 +393,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 })();
 
-CKEDITOR.config.scayt_maxSuggestions = 5;
-CKEDITOR.config.scayt_autoStartup = false;
+CKEDITOR.config.scaytParams = CKEDITOR.config.scaytParams || {};
+CKEDITOR.config.scaytParams.maxSuggestions = CKEDITOR.config.scaytParams.maxSuggestions || 5;
+CKEDITOR.config.scaytParams.autoStartup = CKEDITOR.config.scaytParams.autoStartup || false;
