@@ -76,7 +76,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var defaultDataBlockFilterRules = {
 		elements: {} };
 
-	for ( var i in blockLikeTags )
+	for ( i in blockLikeTags )
 		defaultDataBlockFilterRules.elements[ i ] = extendBlockForDisplay;
 
 	/**
@@ -153,7 +153,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var defaultHtmlBlockFilterRules = {
 		elements: {} };
 
-	for ( var i in blockLikeTags )
+	for ( i in blockLikeTags )
 		defaultHtmlBlockFilterRules.elements[ i ] = extendBlockForOutput;
 
 	if ( CKEDITOR.env.ie ) {

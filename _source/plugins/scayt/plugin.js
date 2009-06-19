@@ -46,9 +46,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'contentDom', createInstance );
 			editor.on( 'contentDomUnload', function() {
 				// Remove scripts.
-				var scripts = CKEDITOR.document.getElementsByTag( 'script' );
-				scaytIdRegex = /^dojoIoScript(\d+)$/i;
-				scaytSrcRegex = /^https?:\/\/svc\.spellchecker\.net\/spellcheck\/script\/ssrv\.cgi/i;
+				var scripts = CKEDITOR.document.getElementsByTag( 'script' ),
+					scaytIdRegex = /^dojoIoScript(\d+)$/i,
+					scaytSrcRegex = /^https?:\/\/svc\.spellchecker\.net\/spellcheck\/script\/ssrv\.cgi/i;
+
 				for ( var i = 0; i < scripts.count(); i++ ) {
 					var script = scripts.getItem( i ),
 						id = script.getId(),
@@ -134,16 +135,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// assign diojo configurable vars
 			var parseUrl = function( data ) {
 					var m = data.match( /(.*)[\/\\]([^\/\\]+\.\w+)$/ );
-					return { path: m[ 1 ], file: m[ 2 ] }
-				}
+					return { path: m[ 1 ], file: m[ 2 ] };
+				};
 
-				// compose scayt url
+			// compose scayt url
 			var protocol = document.location.protocol;
 			var baseUrl = "svc.spellchecker.net/spellcheck/lf/scayt/scayt.js";
 			var scaytUrl = editor.config.scaytParams.srcScayt || ( protocol + "//" + baseUrl );
 			var scaytConfigBaseUrl = parseUrl( scaytUrl ).path + "/";
 
-			djScaytConfig = {
+			var djScaytConfig = {
 				baseUrl: scaytConfigBaseUrl,
 				addOnLoad: [
 					function()
@@ -160,6 +161,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					src: scaytUrl
 				}
 			}));
+
+			return null;
 		}
 	};
 
@@ -297,7 +300,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var sLang = scayt_control.getLang(),
 						_r = {},
 						items_suggestion = scayt.getSuggestion( word, sLang );
-					if ( !items_suggestion || !items_suggestion.length || items_suggestion.length == 0 )
+					if ( !items_suggestion || !items_suggestion.length )
 						return null;
 					// Remove unused commands and menuitems
 					for ( i in moreSuggestions ) {
@@ -310,7 +313,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 					moreSuggestions = {}; // Reset items.
 					mainSuggestions = {};
-					moreSuggestionsUnable = false;
+
+					var moreSuggestionsUnable = false;
 
 					for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
 						var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );

@@ -71,12 +71,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				clone = !i && element || element.clone( true );
 
-				// If we're inserting a block at dtd-violated positoin, split
+				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
 				var parent, dtd;
-				if ( this.config.enterMode != CKEDITOR.ENTER_BR && isBlock )
-					while ( ( parent = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ parent.getName() ] ) && !( dtd && dtd[ elementName ] ) )
-					range.splitBlock();
+				if ( this.config.enterMode != CKEDITOR.ENTER_BR && isBlock ) {
+					while ( ( parent = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ parent.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+						range.splitBlock();
+					}
+				}
 
 				// Insert the new node.
 				range.insertNode( clone );
@@ -132,9 +134,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( CKEDITOR.env.ie ) {
 				var brNodeList = fixedBlock.getElementsByTag( 'br' ),
 					brNode;
-				for ( var i = 0; i < brNodeList.count(); i++ )
+				for ( var i = 0; i < brNodeList.count(); i++ ) {
 					if ( ( brNode = brNodeList.getItem( i ) ) && brNode.hasAttribute( '_cke_bogus' ) )
-					brNode.remove();
+						brNode.remove();
+				}
 			}
 
 			selection.selectBookmarks( bms );

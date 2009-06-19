@@ -1,5 +1,4 @@
-﻿﻿
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -751,8 +750,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			for ( var i = 0; i < length; i++ ) {
 				retval.push( bookmark = ranges[ i ].createBookmark( serializable, true ) );
 
-				var serializable = bookmark.serializable,
-					bookmarkStart = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
+				serializable = bookmark.serializable;
+
+				var bookmarkStart = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
 					bookmarkEnd = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
 
 				// Updating the offset values for rest of ranges which have been mangled(#3256).

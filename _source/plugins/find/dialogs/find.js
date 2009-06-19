@@ -340,6 +340,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this._.state = this._.overlap[ this._.state ];
 					}
 
+					return null;
 				},
 
 				reset: function() {

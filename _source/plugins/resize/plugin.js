@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'resize', {
 			}
 
 			var mouseDownFn = CKEDITOR.tools.addFunction( function( $event ) {
-				if ( container == null )
+				if ( !container )
 					container = editor.getResizable();
 
 				startSize = { width: container.$.offsetWidth || 0, height: container.$.offsetHeight || 0 };

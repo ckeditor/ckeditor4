@@ -62,8 +62,8 @@ CKEDITOR.plugins.add( 'domiterator' );
 				range = null;
 			}
 
-			var currentNode = this._.nextNode,
-				lastNode = this._.lastNode;
+			var currentNode = this._.nextNode;
+			lastNode = this._.lastNode;
 
 			this._.nextNode = null;
 			while ( currentNode ) {
