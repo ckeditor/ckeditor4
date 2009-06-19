@@ -106,18 +106,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 .cke_skin_kama .cke_button a,
+.cke_skin_kama .cke_button a:hover,
+.cke_skin_kama .cke_button a:focus,
+.cke_skin_kama .cke_button a:active,
 .cke_skin_kama .cke_button a.cke_off
 {
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
-	display: inline-block;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	outline: none;
 	padding: 2px 4px;
 	height: 18px;
+	display: inline-block;
 	cursor: default;
+}
+
+.cke_skin_kama .cke_button a,
+.cke_skin_kama .cke_button a.cke_off
+{
+	filter: alpha(opacity=70); /* IE */
+	opacity: 0.70; /* Safari, Opera and Mozilla */
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 .cke_skin_kama .cke_hc .cke_button a,
