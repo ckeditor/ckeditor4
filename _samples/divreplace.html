@@ -8,14 +8,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Replace DIV - CKEditor Sample</title>
 	<style id="styles" type="text/css">
 
-		div
+		div.editable
 		{
 			border: solid 2px Transparent;
 			padding-left: 15px;
 			padding-right: 15px;
 		}
 
-		div:hover
+		div.editable:hover
 		{
 			border-color: black;
 		}
@@ -68,7 +68,7 @@ function replaceDiv( div )
 	<div id="html">
 		<p>
 			Double-click on any of the following DIVs to transform them into editor instances.</p>
-		<div>
+		<div class='editable'>
 			<h3>
 				Part 1</h3>
 			<p>
@@ -79,7 +79,7 @@ function replaceDiv( div )
 				eu ipsum. Suspendisse auctor. Phasellus fermentum porttitor risus.
 			</p>
 		</div>
-		<div>
+		<div class='editable'>
 			<h3>
 				Part 2</h3>
 			<p>
@@ -95,7 +95,7 @@ function replaceDiv( div )
 				vitae leo. Suspendisse nec mi tristique nulla laoreet vulputate.
 			</p>
 		</div>
-		<div>
+		<div class='editable'>
 			<h3>
 				Part 3</h3>
 			<p>
