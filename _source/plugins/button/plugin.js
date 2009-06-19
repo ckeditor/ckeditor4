@@ -112,6 +112,7 @@ CKEDITOR.ui.button.prototype = {
 			' class="', classes, '" href="javascript:void(\'', ( this.title || '' ).replace( "'", '' ), '\')"' +
 			' title="', this.title, '"' +
 			' tabindex="-1"' +
+			' role="button"' +
 			' hidefocus="true"' );
 
 		// Some browsers don't cancel key events in the keydown but in the
