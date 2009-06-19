@@ -90,6 +90,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// Completes the definition with the default values.
 		definition = CKEDITOR.tools.extend( definition( editor ), defaultDialogDefinition );
 
+		// Clone a functionally independent copy for this dialog.
+		definition = CKEDITOR.tools.clone( definition );
+
 		// Create a complex definition object, extending it with the API
 		// functions.
 		definition = new definitionObject( this, definition );

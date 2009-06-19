@@ -34,8 +34,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/**
 		 * Creates a deep copy of an object.
-		 * Attention: there is no support for deep copy of Array properties and
-		 * for recursive references.
+		 * Attention: there is no support for recursive references.
 		 * @param {Object} object The object to be cloned.
 		 * @returns {Object} The object clone.
 		 * @example
@@ -56,14 +55,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * alert( obj.cars.Porsche.color );	// red
 		 * alert( clone.cars.Porsche.color );	// silver
 		 */
-		clone: function( object ) {
-			if ( object === null || typeof( object ) != 'object' )
-				return object;
+		clone: function( obj ) {
+			var clone;
 
-			var clone = new object.constructor();
+			// Array.
+			if ( obj && ( obj instanceof Array ) ) {
+				clone = [];
 
-			for ( var propertyName in object ) {
-				var property = object[ propertyName ];
+				for ( var i = 0; i < obj.length; i++ )
+					clone[ i ] = this.clone( obj[ i ] );
+
+				return clone;
+			}
+
+			// "Static" types.
+			if ( obj === null || ( typeof( obj ) != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) ) {
+				return obj;
+			}
+
+			// Objects.
+			clone = new obj.constructor();
+
+			for ( var propertyName in obj ) {
+				var property = obj[ propertyName ];
 				clone[ propertyName ] = this.clone( property );
 			}
 
