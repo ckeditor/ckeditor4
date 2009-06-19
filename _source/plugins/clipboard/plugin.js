@@ -160,7 +160,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Browser bug: 'Cut' has the correct states for both Copy and Cut.
 						copy: stateFromNamedCommand( 'Cut' ),
-						paste: stateFromNamedCommand( 'Paste' )
+						paste: CKEDITOR.env.webkit ? CKEDITOR.TRISTATE_OFF : stateFromNamedCommand( 'Paste' )
 					};
 				});
 			}
