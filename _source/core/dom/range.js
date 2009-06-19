@@ -545,6 +545,11 @@ CKEDITOR.dom.range = function( document ) {
 				}
 			}
 
+			// Sometimes the endNode will come right before startNode for collapsed
+			// ranges. Fix it. (#3780)
+			if ( startNode.getPosition( endNode ) & CKEDITOR.POSITION_FOLLOWING )
+				startNode = endNode;
+
 			return { startNode: startNode, endNode: endNode };
 		},
 
