@@ -117,8 +117,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				command: 'showblocks'
 			});
 
-			// Refresh the command on mode changes.
-			editor.on( 'mode', function() {
+			// Refresh the command on setData.
+			editor.on( 'contentDom', function() {
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
 			});
