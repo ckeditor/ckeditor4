@@ -502,7 +502,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			 * Now our range isn't collapsed. Lets walk from the start node to the end
 			 * node via DFS and remove the styles one-by-one.
 			 */
-			var endNode = range.document.getById( bookmark.endNode ),
+			var endNode = bookmark.endNode,
 				me = this;
 
 			/*
