@@ -236,6 +236,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_hc .cke_button .cke_label
 {
+	padding: 0;
 	display: inline-block;
 }
 
@@ -286,7 +287,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
-.cke_skin_kama .cke_browser_gecko .cke_hc .cke_button .cke_icon
+.cke_skin_kama .cke_browser_gecko.cke_hc .cke_button .cke_icon
 {
 	display: none;
 }
