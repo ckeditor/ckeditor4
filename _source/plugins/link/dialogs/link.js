@@ -30,15 +30,18 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 	var linkTypeChanged = function() {
 			var dialog = this.getDialog(),
 				partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
-				typeValue = this.getValue();
+				typeValue = this.getValue(),
+				uploadInitiallyHidden = dialog.definition.getContents( 'upload' ).hidden;
+
 			if ( typeValue == 'url' ) {
 				if ( editor.config.linkShowTargetTab )
 					dialog.showPage( 'target' );
-				if ( editor.config.linkUploadTab )
+				if ( !uploadInitiallyHidden )
 					dialog.showPage( 'upload' );
 			} else {
 				dialog.hidePage( 'target' );
-				dialog.hidePage( 'upload' );
+				if ( !uploadInitiallyHidden )
+					dialog.hidePage( 'upload' );
 			}
 
 			for ( var i = 0; i < partIds.length; i++ ) {
@@ -334,6 +337,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					{
 					type: 'button',
 					id: 'browse',
+					hidden: 'true',
+					filebrowser: 'info:url',
 					label: editor.lang.common.browseServer
 				}
 				]
@@ -723,18 +728,20 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			id: 'upload',
 			label: editor.lang.link.upload,
 			title: editor.lang.link.upload,
+			hidden: true,
+			filebrowser: 'uploadButton',
 			elements: [
 				{
 				type: 'file',
 				id: 'upload',
 				label: editor.lang.common.upload,
-				action: editor.config.linkUploadAction,
 				size: 38
 			},
 				{
 				type: 'fileButton',
 				id: 'uploadButton',
 				label: editor.lang.common.uploadSubmit,
+				filebrowser: 'info:url',
 				'for': [ 'upload', 'upload' ]
 			}
 			]
@@ -930,7 +937,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				case 'url':
 					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
 						url = ( data.url && data.url.url ) || '';
-					attributes._cke_saved_href = protocol + url;
+					attributes._cke_saved_href = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
 					break;
 				case 'anchor':
 					var name = ( data.anchor && data.anchor.name ),
@@ -1068,14 +1075,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			}
 		},
 		onLoad: function() {
-			if ( !editor.config.linkUploadTab )
-				this.hidePage( 'upload' ); //Hide Upload tab.
-
 			if ( !editor.config.linkShowAdvancedTab )
 				this.hidePage( 'advanced' ); //Hide Advanded tab.
-
-			if ( !editor.config.linkBrowseServer )
-				this.getContentElement( 'info', 'browse' ).getElement().hide();
 
 			if ( !editor.config.linkShowTargetTab )
 				this.hidePage( 'target' ); //Hide Target tab.

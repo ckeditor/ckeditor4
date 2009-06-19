@@ -686,6 +686,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				'<a class="cke_dialog_tab"',
 					( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),
 					titleHtml,
+					( !!contents.hidden ? ' style="display:none"' : '' ),
 					' id="', contents.id + '_', CKEDITOR.tools.getNextNumber(), '"' +
 					' href="javascript:void(0)"',
 					' hidefocus="true">',
@@ -789,6 +790,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		getElement: function() {
 			return this._.element;
+		},
+
+		/**
+		 * Gets the name of the dialog.
+		 * @returns {String} The name of this dialog.
+		 * @example
+		 * var dialogName = dialogObj.getName();
+		 */
+		getName: function() {
+			return this._.name;
 		},
 
 		/**
@@ -1618,6 +1629,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			 * 	generate the final widget.</li>
 			 * 	<li><strong>title</strong> (Optional) The popup tooltip for the UI
 			 * 	element.</li>
+			 * 	<li><strong>hidden</strong> (Optional) A flag that tells if the element
+			 * 	should be initially visible.</li>
 			 * 	<li><strong>className</strong> (Optional) Additional CSS class names
 			 * 	to add to the UI element. Separated by space.</li>
 			 * 	<li><strong>style</strong> (Optional) Additional CSS inline styles
@@ -1689,12 +1702,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				var styleStr = ( elementDefinition.style || '' ).split( ';' );
 				for ( i in styles )
 					styleStr.push( i + ':' + styles[ i ] );
+				if ( elementDefinition.hidden )
+					styleStr.push( 'display:none' );
 				for ( i = styleStr.length - 1; i >= 0; i-- ) {
 					if ( styleStr[ i ] === '' )
 						styleStr.splice( i, 1 );
 				}
 				if ( styleStr.length > 0 )
-					attributes.style = ( attributes.style || '' ) + styleStr.join( '; ' );
+					attributes.style = ( attributes.style ? ( attributes.style + '; ' ) : '' ) + styleStr.join( '; ' );
 
 				// Write the attributes.
 				for ( i in attributes )

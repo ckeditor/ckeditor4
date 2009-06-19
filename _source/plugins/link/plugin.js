@@ -156,9 +156,6 @@ CKEDITOR.unlinkCommand.prototype = {
 };
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
-	linkUploadTab: true,
-	linkBrowseServer: true,
-	linkUploadAction: 'nowhere.php',
 	linkShowAdvancedTab: true,
 	linkShowTargetTab: true
 });

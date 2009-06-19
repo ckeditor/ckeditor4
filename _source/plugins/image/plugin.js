@@ -46,17 +46,4 @@ CKEDITOR.plugins.add( 'image', {
 	}
 });
 
-/**
- * Show Browse Server button.
- * @type Boolean
- * @default true
- */
-CKEDITOR.config.image_browseServer = true;
-
-/**
- * Upload action attribute.
- * @type URL
- */
-CKEDITOR.config.image_uploadAction = 'nowhere.php';
-
 CKEDITOR.config.image_removeLinkByEmptyURL = true;
