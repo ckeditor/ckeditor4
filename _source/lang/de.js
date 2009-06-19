@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'de' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Quellcode',
@@ -88,9 +88,9 @@ CKEDITOR.lang[ 'de' ] = {
 		cancel: 'Abbrechen',
 		generalTab: 'Allgemein',
 		advancedTab: 'Erweitert',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Dieser Wert ist keine Nummer.',
+		confirmNewPage: 'Alle nicht gespeicherten Änderungen gehen verlohren. Sind sie sicher die neue Seite zu laden?',
+		confirmCancel: 'Einige Optionen wurden geändert. Wollen Sie den Dialog dennoch schließen?',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'de' ] = {
 		targetFrameName: 'Ziel-Fenster-Name',
 		targetPopupName: 'Pop-up Fenster-Name',
 		popupFeatures: 'Pop-up Fenster-Eigenschaften',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Größe änderbar',
 		popupStatusBar: 'Statusleiste',
 		popupLocationBar: 'Adress-Leiste',
 		popupToolbar: 'Werkzeugleiste',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'de' ] = {
 		popupLeft: 'Linke Position',
 		popupHeight: 'Höhe',
 		popupTop: 'Obere Position',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Schreibrichtung',
 		langDirNotSet: '<nichts>',
 		langDirLTR: 'Links nach Rechts (LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'de' ] = {
 		notFoundMsg: 'Der gesuchte Text wurde nicht gefunden.',
 		matchCase: 'Groß-Kleinschreibung beachten',
 		matchWord: 'Nur ganze Worte suchen',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'zyklische suche',
 		replaceAll: 'Alle Ersetzen',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 vorkommen ersetzt.'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'de' ] = {
 		cellPad: 'Zellenabstand innen',
 		caption: 'Überschrift',
 		summary: 'Inhaltsübersicht',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Überschriften',
+		headersNone: 'keine',
+		headersColumn: 'Erste Spalte',
+		headersRow: 'Erste Zeile',
+		headersBoth: 'keine',
+		invalidRows: 'Die Anzahl der Zeilen muß größer als 0 sein.',
+		invalidCols: 'Die Anzahl der Spalten muß größer als 0 sein..',
+		invalidBorder: 'Die Rahmenbreite muß eine Zahl sein.',
+		invalidWidth: 'Die Tabellenbreite muss eine Zahl sein.',
+		invalidHeight: 'Die Tabellenbreite muß eine Zahl sein.',
+		invalidCellSpacing: 'Der Zellenabstand außen muß eine Zahl sein.',
+		invalidCellPadding: 'Der Zellenabstand innen muß eine Zahl sein.',
 
 		cell: {
 			menu: 'Zelle',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'de' ] = {
 			mergeDown: 'nach unten verbinden',
 			splitHorizontal: 'Zelle horizontal teilen',
 			splitVertical: 'Zelle vertikal teilen',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'Zellen Eigenschaften',
+			cellType: 'Zellart',
+			rowSpan: 'Anzahl Zeilen verbinden',
+			colSpan: 'Anzahl Spalten verbinden',
+			wordWrap: 'Zeilenumbruch',
+			hAlign: 'Horizontale Ausrichtung',
+			vAlign: 'Vertikale Ausrichtung',
+			alignTop: 'Oben',
+			alignMiddle: 'Mitte',
+			alignBottom: 'Unten',
+			alignBaseline: 'Grundlinie',
+			bgColor: 'Hintergrundfarbe',
+			borderColor: 'Rahmenfarbe',
+			data: 'Daten',
+			header: 'Überschrift',
+			yes: 'Ja',
+			no: 'Nein',
+			invalidWidth: 'Zellenbreite muß eine Zahl sein.',
+			invalidHeight: 'Zellenhöhe muß eine Zahl sein.',
+			invalidRowSpan: '"Anzahl Zeilen verbinden" muss eine Ganzzahl sein.',
+			invalidColSpan: '"Anzahl Spalten verbinden" muss eine Ganzzahl sein.'
 		},
 
 		row: {
@@ -293,9 +293,9 @@ CKEDITOR.lang[ 'de' ] = {
 		menu: 'Formular-Eigenschaften',
 		action: 'Action',
 		method: 'Method',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Zeichenkodierung',
 		target: 'Zielseite',
-		targetNotSet: '<nichts>',
+		targetNotSet: '<keins>',
 		targetNew: 'Neues Fenster (_blank)',
 		targetTop: 'Oberstes Fenster (_top)',
 		targetSelf: 'Gleiches Fenster (_self)',
@@ -355,11 +355,11 @@ CKEDITOR.lang[ 'de' ] = {
 		infoTab: 'Bild-Info',
 		btnUpload: 'Zum Server senden',
 		url: 'Bildauswahl',
-		upload: 'Upload',
+		upload: 'Hochladen',
 		alt: 'Alternativer Text',
 		width: 'Breite',
 		height: 'Höhe',
-		lockRatio: 'Größenverhältniss beibehalten',
+		lockRatio: 'Größenverhältnis beibehalten',
 		resetSize: 'Größe zurücksetzen',
 		border: 'Rahmen',
 		hSpace: 'Horizontal-Abstand',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'de' ] = {
 		preview: 'Vorschau',
 		alertUrl: 'Bitte geben Sie die Bild-URL an',
 		linkTab: 'Link',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: 'Möchten Sie den gewählten Bild-Button in ein einfaches Bild umwandeln?',
+		img2Button: 'Möchten Sie das gewählten Bild in einen Bild-Button umwandeln?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash-Eigenschaften',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Eigenschaften',
 		title: 'Flash-Eigenschaften',
 		chkPlay: 'autom. Abspielen',
 		chkLoop: 'Endlosschleife',
 		chkMenu: 'Flash-Menü aktivieren',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Vollbildmodus erlauben',
 		scale: 'Skalierung',
 		scaleAll: 'Alles anzeigen',
 		scaleNoBorder: 'ohne Rand',
 		scaleFit: 'Passgenau',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Skript Zugang',
+		accessAlways: 'Immer',
+		accessSameDomain: 'Gleiche Domain',
+		accessNever: 'Nie',
 		align: 'Ausrichtung',
 		alignLeft: 'Links',
 		alignAbsBottom: 'Abs Unten',
@@ -408,7 +408,7 @@ CKEDITOR.lang[ 'de' ] = {
 		alignRight: 'Rechts',
 		alignTextTop: 'Text Oben',
 		alignTop: 'Oben',
-		quality: 'Quality', // MISSING
+		quality: 'Qualität',
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
 		qualityAutoHigh: 'Auto High', // MISSING
@@ -418,26 +418,26 @@ CKEDITOR.lang[ 'de' ] = {
 		windowModeWindow: 'Window', // MISSING
 		windowModeOpaque: 'Opaque', // MISSING
 		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		windowMode: 'Fenster Modus',
+		flashvars: 'Variablen für Flash',
 		bgcolor: 'Hintergrundfarbe',
 		width: 'Breite',
 		height: 'Höhe',
 		hSpace: 'Horizontal-Abstand',
 		vSpace: 'Vertikal-Abstand',
 		validateSrc: 'Bitte geben Sie die Link-URL an',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Breite muss eine Zahl sein.',
+		validateHeight: 'Höhe muss eine Zahl sein.',
+		validateHSpace: 'HSpace muss eine Zahl sein.',
+		validateVSpace: 'VSpace muss eine Zahl sein.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Rechtschreibprüfung',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Rechtschreibprüfung',
+		notAvailable: 'Entschuldigung, aber dieser Dienst steht im Moment nicht zur verfügung.',
+		errorLoading: 'Fehler beim laden des Dienstanbieters: %s.',
 		notInDic: 'Nicht im Wörterbuch',
 		changeTo: 'Ändern in',
 		btnIgnore: 'Ignorieren',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'de' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 Element'
 	},
 
 	numberedlist: 'Nummerierte Liste',
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'de' ] = {
 
 	stylesCombo: {
 		label: 'Stil',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'Stilarten',
+		panelVoiceLabel: 'Stilart auswahl',
+		panelTitle1: 'Block Stilart',
+		panelTitle2: 'Inline Stilart',
+		panelTitle3: 'Objekt Stilart'
 	},
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Format',
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Wählen Sie einen Absatzformat',
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatiert',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'de' ] = {
 
 	font: {
 		label: 'Schriftart',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Schriftart',
 		panelTitle: 'Schriftart',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Wählen Sie eine Schriftart'
 	},
 
 	fontSize: {
 		label: 'Größe',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Schrifgröße',
 		panelTitle: 'Größe',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Wählen Sie eine Schriftgröße'
 	},
 
 	colorButton: {
@@ -600,36 +600,36 @@ CKEDITOR.lang[ 'de' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Rechtschreibprüfung während der Texteingabe',
+		enable: 'SCAYT einschalten',
+		disable: 'SCAYT ausschalten',
+		about: 'Über SCAYT',
+		toggle: 'SCAYT umschalten',
+		options: 'Optionen',
+		langs: 'Sprachen',
+		moreSuggestions: 'Mehr Vorschläge',
+		ignore: 'Ignorieren',
+		ignoreAll: 'Alle ignorieren',
+		addWord: 'Wort hinzufügen',
+		emptyDic: 'Wörterbuchname sollt leer sein.',
+		optionsTab: 'Optionen',
+		languagesTab: 'Sprachen',
+		dictionariesTab: 'Wörterbücher',
+		aboutTab: 'Über'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Über CKEditor',
+		moreInfo: 'Für Informationen Liztenzbestimmungen besuchen sie bitte unsere Webseite:',
+		copy: 'Copyright &copy; $1. Alle Rechte vorbehalten.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Maximieren',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
+		anchor: 'Anker',
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		div: 'Seitenumbruch',
 		unknown: 'Unknown Object' // MISSING
 	},
 
