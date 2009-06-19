@@ -118,6 +118,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			// Refresh the command on setData.
+			editor.on( 'mode', function() {
+				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
+					command.refresh( editor );
+			});
+
+			// Refresh the command on setData.
 			editor.on( 'contentDom', function() {
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
