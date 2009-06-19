@@ -88,7 +88,6 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				break;
 				// ENTER
 				// SPACE
-			case 13:
 			case 32:
 				onClick({ data: ev } );
 				ev.preventDefault();
@@ -142,7 +141,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			html.push( '<tr>' );
 
 		html.push( '<td class="cke_dark_background cke_hand cke_centered" style="vertical-align: middle;">' +
-			'<a href="#" class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
+			'<a href="javascript:void(0)" class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
 					' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', config.smiley_descriptions[ i ], '"', ' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
