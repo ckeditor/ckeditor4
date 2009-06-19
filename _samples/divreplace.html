@@ -45,8 +45,7 @@ function onDoubleClick( ev )
 	var element = ev.target || ev.srcElement;
 
 	// Find out the div that holds this element.
-	while( element.parentNode && element.parentNode.nodeName.toLowerCase() != 'fieldset' )
-		element = element.parentNode;
+	element = element.parentNode;
 
 	if ( element.nodeName.toLowerCase() == 'div' )
 		replaceDiv( element );
