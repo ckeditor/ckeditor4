@@ -88,6 +88,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
+				this.allowBlur( false );
 				isShowing = true;
 
 				var element = this.element,
@@ -118,7 +119,25 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					// Non IE prefer the event into a window object.
 					var focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow );
 
-					focused.on( 'blur', function() {
+					// With addEventListener compatible browsers, we must
+					// useCapture when registering the focus/blur events to
+					// guarantee they will be firing in all situations. (#3068, #3222 )
+					CKEDITOR.event.useCapture = true;
+
+					focused.on( 'blur', function( ev ) {
+						if ( CKEDITOR.env.ie && !this.allowBlur() )
+							return;
+
+						// As we are using capture to register the listener,
+						// the blur event may get fired even when focusing
+						// inside the window itself, so we must ensure the
+						// target is out of it.
+						var target = ev.data.getTarget(),
+							targetWindow = target.getWindow && target.getWindow();
+
+						if ( targetWindow && targetWindow.equals( focused ) )
+							return;
+
 						if ( this.visible && !this._.activeChild && !isShowing )
 							this.hide();
 					}, this );
@@ -126,7 +145,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					focused.on( 'focus', function() {
 						this._.focused = true;
 						this.hideChild();
+						this.allowBlur( true );
 					}, this );
+
+					CKEDITOR.event.useCapture = false;
 
 					this._.blurSet = 1;
 				}
@@ -206,6 +228,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.element.setStyle( 'display', 'none' );
 					this.visible = 0;
 				}
+			},
+
+			allowBlur: function( allow ) // Prevent editor from hiding the panel. #3222.
+			{
+				var panel = this._.panel;
+				if ( allow != undefined )
+					panel.allowBlur = allow;
+
+				return panel.allowBlur;
 			},
 
 			showAsChild: function( panel, blockName, offsetParent, corner, offsetX, offsetY ) {
