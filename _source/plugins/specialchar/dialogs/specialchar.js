@@ -18,8 +18,8 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
 				target.removeClass( "cke_light_background" );
-				editor.insertHtml( value );
 				dialog.hide();
+				editor.insertHtml( value );
 			}
 		};
 
