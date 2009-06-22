@@ -962,19 +962,43 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	getDocumentPosition: function( refDocument ) {
 		var x = 0,
 			y = 0,
-			body = this.getDocument().getBody();
+			body = this.getDocument().getBody(),
+			quirks = this.getDocument().$.compatMode == 'BackCompat';
+
+		var doc = this.getDocument();
 
 		if ( document.documentElement[ "getBoundingClientRect" ] ) {
 			var box = this.$.getBoundingClientRect(),
-				doc = this.getDocument().$,
-				docElem = doc.documentElement,
-				clientTop = docElem.clientTop || body.$.clientTop || 0,
-				clientLeft = docElem.clientLeft || body.$.clientLeft || 0;
+				$doc = doc.$,
+				$docElem = $doc.documentElement;
 
-			x = box.left + ( !CKEDITOR.env.quirks && docElem.scrollLeft || body.$.scrollLeft );
-			x -= clientLeft;
-			y = box.top + ( !CKEDITOR.env.quirks && docElem.scrollTop || body.$.scrollTop );
-			y -= clientTop;
+			var clientTop = $docElem.clientTop || body.$.clientTop || 0,
+				clientLeft = $docElem.clientLeft || body.$.clientLeft || 0,
+				needAdjustScrollAndBorders = true;
+
+			/*
+			 * #3804: getBoundingClientRect() works differently on IE and non-IE
+			 * browsers, regarding scroll positions.
+			 *
+			 * On IE, the top position of the <html> element is always 0, no matter
+			 * how much you scrolled down.
+			 *
+			 * On other browsers, the top position of the <html> element is negative
+			 * scrollTop.
+			 */
+			if ( CKEDITOR.env.ie ) {
+				var inDocElem = doc.getDocumentElement().contains( this ),
+					inBody = doc.getBody().contains( this );
+
+				needAdjustScrollAndBorders = ( quirks && inBody ) || ( !quirks && inDocElem );
+			}
+
+			if ( needAdjustScrollAndBorders ) {
+				x = box.left + ( !quirks && $docElem.scrollLeft || body.$.scrollLeft );
+				x -= clientLeft;
+				y = box.top + ( !quirks && $docElem.scrollTop || body.$.scrollTop );
+				y -= clientTop;
+			}
 		} else {
 			var current = this,
 				previous = null,
@@ -1016,7 +1040,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		if ( !document.documentElement[ "getBoundingClientRect" ] ) {
 			// In Firefox, we'll endup one pixel before the element positions,
 			// so we must add it here.
-			if ( CKEDITOR.env.gecko && !CKEDITOR.env.quirks ) {
+			if ( CKEDITOR.env.gecko && !quirks ) {
 				x += this.$.clientLeft ? 1 : 0;
 				y += this.$.clientTop ? 1 : 0;
 			}
