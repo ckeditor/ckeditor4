@@ -166,8 +166,3 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	position: absolute;
 	right: 0;
 }
-
-.cke_browser_ie8.cke_browser_iequirks .cke_skin_v2 .cke_label
-{
-	height: 24px;
-}
