@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 	return {
 		title: editor.lang.pastefromword.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 370 : 350,
-		minHeight: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 270 : 250,
+		minHeight: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 270 : 260,
 		htmlToLoad: '<!doctype html><script type="text/javascript">' + 'window.onload = function()'
 							+ '{'
 								+ 'if ( ' + CKEDITOR.env.ie + ' ) '

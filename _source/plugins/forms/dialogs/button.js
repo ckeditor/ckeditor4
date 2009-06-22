@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 	return {
 		title: editor.lang.button.title,
 		minWidth: 350,
-		minHeight: 140,
+		minHeight: 150,
 		onShow: function() {
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "input" ) {

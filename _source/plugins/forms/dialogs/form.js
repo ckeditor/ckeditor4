@@ -8,7 +8,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 	return {
 		title: editor.lang.form.title,
 		minWidth: 350,
-		minHeight: 190,
+		minHeight: 200,
 		onShow: function() {
 			var element = this.getParentEditor().getSelection().getStartElement();
 			var form = element && element.getAscendant( 'form', true );

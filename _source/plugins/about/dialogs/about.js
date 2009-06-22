@@ -8,8 +8,8 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 
 	return {
 		title: lang.title,
-		minWidth: 380,
-		minHeight: 210,
+		minWidth: 390,
+		minHeight: 230,
 		contents: [
 			{
 			id: 'tab1',

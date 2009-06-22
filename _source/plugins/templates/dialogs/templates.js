@@ -91,8 +91,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return {
 			title: editor.lang.templates.title,
 
-			minWidth: 400,
-			minHeight: 310,
+			minWidth: CKEDITOR.env.ie ? 440 : 400,
+			minHeight: 340,
 
 			contents: [
 				{
