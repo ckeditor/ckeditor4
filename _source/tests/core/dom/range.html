@@ -2188,6 +2188,49 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areEqual( range.endOffset, 2 );
 		},
 
+		/**
+		 * Trim range which collapsed at text node boundary.
+		 */
+		test_trim_3790 : function()
+		{
+
+			var ct = doc.getById( '_trim_ct');
+			ct.setHtml( '<span id="_SPAN1">text</span>' );
+			var text = doc.getById( '_trim_ct').getFirst();
+
+			// <span id="_SPAN1">text^</span>
+			var range = new CKEDITOR.dom.range();
+			range.setStartAt( doc.getById( '_SPAN1' ).getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			range.trim( true );
+
+			// <span id="_SPAN1">text^</span>
+			assert.isTrue( range.collapsed );
+			assert.areEqual( doc.getById( '_SPAN1').$, range.startContainer.$ );
+			assert.areEqual( range.startOffset, 1 );
+		},
+
+		/**
+		 * Trim range which collapsed inside text node.
+		 */
+		test_trim_3790_2 : function()
+		{
+
+			var ct = doc.getById( '_trim_ct');
+			ct.setHtml( '<span id="_SPAN1">text</span>' );
+			var text = doc.getById( '_trim_ct').getFirst();
+
+			// <span id="_SPAN1">te^xt</span>
+			var range = new CKEDITOR.dom.range();
+			range.setStart( doc.getById( '_SPAN1' ).getFirst(), 2 );
+			range.collapse( true );
+			range.trim( true );
+
+			// <span id="_SPAN1">te^xt</span>
+			assert.isTrue( range.collapsed );
+			assert.areEqual( doc.getById( '_SPAN1').$, range.startContainer.$ );
+			assert.areEqual( range.startOffset, 1 );
+		},
 		/////////////
 
 		setUp : function()
@@ -2200,11 +2243,7 @@ CKEDITOR.test.addTestCase( (function()
 	};
 })() );
 
-//window.onload = function()
-//{
-//	tests.test_createBookmark2_3();
-//}
-
+//window.onload = tests.test_trim;
 	//]]>
 	</script>
 </head>
