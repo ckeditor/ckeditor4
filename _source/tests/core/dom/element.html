@@ -506,10 +506,10 @@ CKEDITOR.test.addTestCase( (function()
 			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'small' )[0] );
 			assert.isTrue( element.hasAttributes() );
 		},
-		
+
 		test_getDocumentPosition : function()
 		{
-			// Assign the page location of the element. 
+			// Assign the page location of the element.
 			YAHOO.util.Dom.setXY('DocPositionTarget', [ 350, 450 ] );
 			var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition();
 			if ( !CKEDITOR.env.ie )
@@ -523,7 +523,7 @@ CKEDITOR.test.addTestCase( (function()
 				assert.areEqual( 448, pos.y, 'Position coordinates:y relative to document doesn\'t match.' );
 			}
 		},
-		
+
 		name : document.title
 	};
 })() );
@@ -601,8 +601,8 @@ CKEDITOR.test.addTestCase( (function()
 B</div>
 	<big>Test</big>
 	<small title="Testing">Test</small>
-	
+
 	<div class="block1 scroll" id="block1"><div class="block2 scroll" id="block2"><div class="block3 scroll" id="block3"><div class="block4 scroll" id="block4"><div id="DocPositionTarget">target</div></div></div></div></div>
-	
+
 </body>
 </html>

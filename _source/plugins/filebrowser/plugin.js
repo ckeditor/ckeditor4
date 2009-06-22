@@ -6,14 +6,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * @fileOverview The "filebrowser" plugin, it adds support for file uploads and
  *               browsing.
- * 
+ *
  * When file is selected inside of the file browser or uploaded, its url is
  * inserted automatically to a field, which is described in the 'filebrowser'
  * attribute. To specify field that should be updated, pass the tab id and
  * element id, separated with a colon.
- * 
+ *
  * Example 1: (Browse)
- * 
+ *
  * <pre>
  * {
  * 	type : 'button',
@@ -22,12 +22,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 	label : editor.lang.common.browseServer
  * }
  * </pre>
- * 
+ *
  * If you set the 'filebrowser' attribute on any element other than
  * 'fileButton', the 'Browse' action will be triggered.
- * 
+ *
  * Example 2: (Quick Upload)
- * 
+ *
  * <pre>
  * {
  * 	type : 'fileButton',
@@ -37,15 +37,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 	'for' : [ 'upload', 'upload' ]
  * }
  * </pre>
- * 
+ *
  * If you set the 'filebrowser' attribute on a fileButton element, the
  * 'QuickUpload' action will be executed.
- * 
+ *
  * Filebrowser plugin also supports more advanced configuration (through
  * javascript object).
- * 
+ *
  * The following settings are supported:
- * 
+ *
  * <pre>
  *  [action] - Browse or QuickUpload
  *  [target] - field to update, tabId:elementId
@@ -53,9 +53,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *  [onSelect] - function to execute when file is selected/uploaded (optional)
  *  [url] - the URL to be called (optional)
  * </pre>
- * 
+ *
  * Example 3: (Quick Upload)
- * 
+ *
  * <pre>
  * {
  * 	type : 'fileButton',
@@ -70,25 +70,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 			type : 'Files',
  * 			currentFolder : '/folder/'
  * 		},
- * 		onSelect : function( fileUrl, errorMessage ) //optional 
+ * 		onSelect : function( fileUrl, errorMessage ) //optional
  * 		{
- * 			// Do not call the built-in selectFuntion 
+ * 			// Do not call the built-in selectFuntion
  * 			// return false;
  * 		}
  * 	},
  * 	'for' : [ 'tab1', 'myFile' ]
  * }
  * </pre>
- * 
+ *
  * Suppose we have a file element with id 'myFile', text field with id
  * 'elementId' and a fileButton. If filebowser.url is not specified explicitly,
  * form action will be set to 'filebrowser[DialogName]UploadUrl' or, if not
  * specified, to 'filebrowserUploadUrl'. Additional parameters from 'params'
  * object will be added to the query string. It is possible to create your own
  * uploadHandler and cancel the built-in updateTargetElement command.
- * 
+ *
  * Example 4: (Browse)
- * 
+ *
  * <pre>
  * {
  * 	type : 'button',
@@ -102,17 +102,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 	}
  * }
  * </pre>
- * 
+ *
  * In this example, after pressing a button, file browser will be opened in a
  * popup. If we don't specify filebrowser.url attribute,
  * 'filebrowser[DialogName]BrowseUrl' or 'filebrowserBrowseUrl' will be used.
  * After selecting a file in a file browser, an element with id 'elementId' will
- * be updated. Just like in the third example, a custom 'onSelect' function may be 
+ * be updated. Just like in the third example, a custom 'onSelect' function may be
  * defined.
  */ ( function() {
 	/**
 	 * Adds (additional) arguments to given url.
-	 * 
+	 *
 	 * @param {String}
 	 *            url The url.
 	 * @param {Object}
@@ -133,7 +133,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/**
 	 * Make a string's first character uppercase.
-	 * 
+	 *
 	 * @param {String}
 	 *            str String.
 	 */
@@ -146,7 +146,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	/**
 	 * The onlick function assigned to the 'Browse Server' button. Opens the
 	 * file browser and updates target field when file is selected.
-	 * 
+	 *
 	 * @param {CKEDITOR.event}
 	 *            evt The event object.
 	 */
@@ -173,7 +173,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * The onlick function assigned to the 'Upload' button. Makes the final
 	 * decision whether form is really submitted and updates target field when
 	 * file is uploaded.
-	 * 
+	 *
 	 * @param {CKEDITOR.event}
 	 *            evt The event object.
 	 */
@@ -195,7 +195,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/**
 	 * Setups the file element.
-	 * 
+	 *
 	 * @param {CKEDITOR.ui.dialog.file}
 	 *            fileInput The file element used during file upload.
 	 * @param {Object}
@@ -216,7 +216,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	/**
 	 * Traverse through the content definition and attach filebrowser to
 	 * elements with 'filebrowser' attribute.
-	 * 
+	 *
 	 * @param String
 	 *            dialogName Dialog name.
 	 * @param {CKEDITOR.dialog.dialogDefinitionObject}
@@ -268,7 +268,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/**
 	 * Updates the target element with the url of uploaded/selected file.
-	 * 
+	 *
 	 * @param {String}
 	 *            url The url of a file.
 	 */
@@ -289,8 +289,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	/**
-	 * Returns true if filebrowser is configured in one of the elements.   
-	 * 
+	 * Returns true if filebrowser is configured in one of the elements.
+	 *
 	 * @param {CKEDITOR.dialog.dialogDefinitionObject}
 	 *            definition Dialog definition.
 	 * @param String
@@ -322,7 +322,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( onSelect && onSelect.call( this._.filebrowserSe, fileUrl, data ) === false )
 			return;
 
-		// The "data" argument may be used to pass the error message to the editor.   
+		// The "data" argument may be used to pass the error message to the editor.
 		if ( typeof data == 'string' && data )
 			alert( data );
 

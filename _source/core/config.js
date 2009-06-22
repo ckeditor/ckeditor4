@@ -175,9 +175,9 @@ CKEDITOR.config = {
 	 * indicating code that must stay untouched.
 	 * @type Array
 	 * @example
-	 * config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code 
-	 * config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code 
-	 * config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net Code 
+	 * config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code
+	 * config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code
+	 * config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net Code
 	 */
 	protectedSource: [],
 
