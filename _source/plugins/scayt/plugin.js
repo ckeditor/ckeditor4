@@ -262,28 +262,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
-			editor.ui.add( 'Scayt', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.scayt.title,
-				title: editor.lang.scayt.title,
-				className: 'cke_button_scayt',
-				onRender: function() {
-					command.on( 'state', function() {
-						this.setState( command.state );
-					}, this );
-				},
-				onMenu: function() {
-					var isEnabled = plugin.isScaytEnabled( editor );
+			// Disabling it on IE for now, as it's blocking the browser (#3802).
+			if ( !CKEDITOR.env.ie ) {
+				editor.ui.add( 'Scayt', CKEDITOR.UI_MENUBUTTON, {
+					label: editor.lang.scayt.title,
+					title: editor.lang.scayt.title,
+					className: 'cke_button_scayt',
+					onRender: function() {
+						command.on( 'state', function() {
+							this.setState( command.state );
+						}, this );
+					},
+					onMenu: function() {
+						var isEnabled = plugin.isScaytEnabled( editor );
 
-					editor.getMenuItem( 'scaytToggle' ).label = editor.lang.scayt[ isEnabled ? 'disable' : 'enable' ];
+						editor.getMenuItem( 'scaytToggle' ).label = editor.lang.scayt[ isEnabled ? 'disable' : 'enable' ];
 
-					return {
-						scaytToggle: CKEDITOR.TRISTATE_OFF,
-						scaytOptions: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-						scaytLangs: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-						scaytAbout: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
-					};
-				}
-			});
+						return {
+							scaytToggle: CKEDITOR.TRISTATE_OFF,
+							scaytOptions: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							scaytLangs: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							scaytAbout: isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
+						};
+					}
+				});
+			}
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu && editor.addMenuItems ) {
