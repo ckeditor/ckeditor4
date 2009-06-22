@@ -158,16 +158,19 @@ CKEDITOR.ui.button.prototype = {
 			return;
 
 		var element = CKEDITOR.document.getById( this._.id );
-		element.setState( state );
 
-		var htmlTitle = this.title,
-			unavailable = this._.editor.lang.common.unavailable,
-			labelElement = element.getChild( 1 );
+		if ( element ) {
+			element.setState( state );
 
-		if ( state == CKEDITOR.TRISTATE_DISABLED )
-			htmlTitle = unavailable.replace( '%1', this.title );
+			var htmlTitle = this.title,
+				unavailable = this._.editor.lang.common.unavailable,
+				labelElement = element.getChild( 1 );
 
-		labelElement.setHtml( htmlTitle );
+			if ( state == CKEDITOR.TRISTATE_DISABLED )
+				htmlTitle = unavailable.replace( '%1', this.title );
+
+			labelElement.setHtml( htmlTitle );
+		}
 
 		this._.state = state;
 	}
