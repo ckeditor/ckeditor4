@@ -179,12 +179,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				setMatched: function() {
 					this._.isMatched = true;
-					this.highlight();
 				},
 
 				clearMatched: function() {
 					this._.isMatched = false;
-					this.removeHighlight();
 				},
 
 				isMatched: function() {
@@ -360,7 +358,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var finder = {
 				searchRange: null,
 				matchRange: null,
-				find: function( pattern, matchCase, matchWord, matchCyclic ) {
+				find: function( pattern, matchCase, matchWord, matchCyclic, highlightMatched ) {
 					if ( !this.matchRange )
 						this.matchRange = new characterRange( new characterWalker( this.searchRange ), pattern.length );
 					else {
@@ -394,8 +392,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								if ( !( isWordSeparator( headWalker.back().character ) && isWordSeparator( tailWalker.next().character ) ) )
 									continue;
 							}
-
 							this.matchRange.setMatched();
+							if ( highlightMatched !== false )
+								this.matchRange.highlight();
 							return true;
 						}
 					}
@@ -417,7 +416,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				 */
 				replaceCounter: 0,
 
-				replace: function( dialog, pattern, newString, matchCase, matchWord, matchCyclic, matchReplaceAll ) {
+				replace: function( dialog, pattern, newString, matchCase, matchWord, matchCyclic, isReplaceAll ) {
 					// Successiveness of current replace/find.
 					var result = false;
 
@@ -428,31 +427,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						this.matchRange.removeHighlight();
 						var domRange = this.matchRange.toDomRange();
 						var text = editor.document.createText( newString );
-
-						// Save undo snaps before and after the replacement.
-						var selection = editor.getSelection();
-						selection.selectRanges( [ domRange ] );
-						editor.fire( 'saveSnapshot' );
-
+						if ( !isReplaceAll ) {
+							// Save undo snaps before and after the replacement.
+							var selection = editor.getSelection();
+							selection.selectRanges( [ domRange ] );
+							editor.fire( 'saveSnapshot' );
+						}
 						domRange.deleteContents();
 						domRange.insertNode( text );
-
-						selection.selectRanges( [ domRange ] );
-						editor.fire( 'saveSnapshot' );
-
+						if ( !isReplaceAll ) {
+							selection.selectRanges( [ domRange ] );
+							editor.fire( 'saveSnapshot' );
+						}
 						this.matchRange.updateFromDomRange( domRange );
-						this.matchRange.highlight();
+						if ( !isReplaceAll )
+							this.matchRange.highlight();
 						this.matchRange._.isReplaced = true;
 						this.replaceCounter++;
 						result = true;
 					} else
-						result = this.find( pattern, matchCase, matchWord, matchCyclic );
+						result = this.find( pattern, matchCase, matchWord, matchCyclic, !isReplaceAll );
 
-					// Recusively replace all matches.
-					if ( matchReplaceAll && result )
-						this.replace.apply( this, Array.prototype.slice.call( arguments ) );
-
-					return matchReplaceAll ? this.replaceCounter : result;
+					return result;
 				}
 			};
 
@@ -597,10 +593,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 								// Scope to full document.
 								finder.searchRange = getSearchRange( true );
-								finder.matchRange = null;
-								if ( ( replaceNums = finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), false, true ) ) )
-									alert( editor.lang.findAndReplace.replaceSuccessMsg.replace( /%1/, replaceNums ) );
-								else
+								if ( finder.matchRange ) {
+									finder.matchRange.removeHighlight();
+									finder.matchRange = null;
+								}
+								editor.fire( 'saveSnapshot' );
+								while ( finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), false, true ) )
+									;
+
+								if ( finder.replaceCounter ) {
+									alert( editor.lang.findAndReplace.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) );
+									editor.fire( 'saveSnapshot' );
+								} else
 									alert( editor.lang.findAndReplace.notFoundMsg );
 							}
 						}
