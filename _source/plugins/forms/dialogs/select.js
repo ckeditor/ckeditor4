@@ -125,10 +125,11 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		minWidth: CKEDITOR.env.ie ? 460 : 395,
 		minHeight: CKEDITOR.env.ie ? 320 : 300,
 		onShow: function() {
+			delete this.selectBox;
 			this.setupContent( 'clear' );
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "select" ) {
-				this._element = element;
+				this.selectBox = element;
 				this.setupContent( element.getName(), element );
 
 				// Load Options into dialog.
@@ -139,7 +140,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		},
 		onOk: function() {
 			var editor = this.getParentEditor(),
-				element = this._element,
+				element = this.selectBox,
 				isInsertMode = !element;
 
 			if ( isInsertMode )

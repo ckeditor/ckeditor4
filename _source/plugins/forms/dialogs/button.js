@@ -8,18 +8,19 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		minWidth: 350,
 		minHeight: 150,
 		onShow: function() {
+			delete this.button;
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "input" ) {
 				var type = element.getAttribute( 'type' );
 				if ( type == "button" || type == "reset" || type == "submit" ) {
-					this._element = element;
+					this.button = element;
 					this.setupContent( element );
 				}
 			}
 		},
 		onOk: function() {
 			var editor,
-				element = this._element,
+				element = this.button,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {

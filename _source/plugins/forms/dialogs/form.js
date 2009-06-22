@@ -10,16 +10,18 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 		minWidth: 350,
 		minHeight: 200,
 		onShow: function() {
+			delete this.form;
+
 			var element = this.getParentEditor().getSelection().getStartElement();
 			var form = element && element.getAscendant( 'form', true );
 			if ( form ) {
-				this._element = form;
+				this.form = form;
 				this.setupContent( form );
 			}
 		},
 		onOk: function() {
 			var editor,
-				element = this._element,
+				element = this.form,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {

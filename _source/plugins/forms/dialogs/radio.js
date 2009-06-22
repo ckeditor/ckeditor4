@@ -8,15 +8,17 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 		minWidth: 350,
 		minHeight: 140,
 		onShow: function() {
+			delete this.radioButton;
+
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "input" && element.getAttribute( 'type' ) == "radio" ) {
-				this._element = element;
+				this.radioButton = element;
 				this.setupContent( element );
 			}
 		},
 		onOk: function() {
 			var editor,
-				element = this._element,
+				element = this.radioButton,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {

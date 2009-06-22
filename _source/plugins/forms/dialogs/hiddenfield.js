@@ -8,15 +8,17 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 		minWidth: 350,
 		minHeight: 110,
 		onShow: function() {
+			delete this.hiddenField;
+
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == "input" && element.getAttribute( 'type' ) == "checkbox" ) {
-				this._element = element;
+				this.hiddenField = element;
 				this.setupContent( element );
 			}
 		},
 		onOk: function() {
 			var editor,
-				element = this._element,
+				element = this.hiddenField,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {
