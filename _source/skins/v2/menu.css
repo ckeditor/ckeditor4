@@ -159,3 +159,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-left: 2px;
 	background-image: url(images/arrowleft.gif);
 }*/
+
+/* #3766 In the context menu, long labels with second level menu get wrapped */
+.cke_browser_ie .cke_skin_v2 .cke_menuarrow
+{
+	position: absolute;
+	right: 0;
+}
+
+.cke_browser_ie8.cke_browser_iequirks .cke_skin_v2 .cke_label
+{
+	height: 24px;
+}
