@@ -255,6 +255,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				this._.focused = false;
 
 				panel.showBlock( blockName, offsetParent, corner, offsetX, offsetY );
+
+				/* #3767 IE: Second level menu may not have borders */
+				if ( CKEDITOR.env.ie7Compat || ( CKEDITOR.env.ie8 && CKEDITOR.env.ie6Compat ) ) {
+					setTimeout( function() {
+						panel.element.getChild( 0 ).$.style.cssText += '';
+					}, 100 );
+				}
 			},
 
 			hideChild: function() {
