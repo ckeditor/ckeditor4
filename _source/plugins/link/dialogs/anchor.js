@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	// Function called in onShow to load selected element.
-	var loadElements = function( editor, selection, ranges, element ) {
+	var loadElements = function( editor, selection, element ) {
 			this.editMode = true;
 			this.editObj = element;
 
@@ -32,15 +32,15 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			}
 
 			// Set name.
+			element.removeAttribute( '_cke_saved_name' );
 			element.setAttribute( 'name', name );
 
 			// Insert a new anchor.
 			var fakeElement = editor.createFakeElement( element, 'cke_anchor', 'anchor' );
-			if ( !this.editMode ) {
+			if ( !this.editMode )
 				editor.insertElement( fakeElement );
-			} else {
+			else {
 				fakeElement.replace( this.fakeObj );
-
 				editor.getSelection().selectElement( fakeElement );
 			}
 
@@ -51,20 +51,13 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			this.fakeObj = false;
 			this.editMode = false;
 
-			var editor = this.getParentEditor(),
-				selection = editor.getSelection(),
-				ranges = selection.getRanges();
-
-			if ( ranges.length == 1 ) {
-				ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
-				var rangeRoot = ranges[ 0 ].getCommonAncestor( true );
-				var element = rangeRoot.getAscendant( 'img', true );
-				if ( element && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
-					this.fakeObj = element;
-					element = editor.restoreRealElement( this.fakeObj );
-					loadElements.apply( this, [ editor, selection, ranges, element ] );
-					selection.selectElement( this.fakeObj );
-				}
+			var selection = editor.getSelection();
+			var element = selection.getSelectedElement();
+			if ( element && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
+				this.fakeObj = element;
+				element = editor.restoreRealElement( this.fakeObj );
+				loadElements.apply( this, [ editor, selection, element ] );
+				selection.selectElement( this.fakeObj );
 			}
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
