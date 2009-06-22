@@ -38,8 +38,15 @@ CKEDITOR.htmlParser.comment.prototype = {
 	writeHtml: function( writer, filter ) {
 		var comment = this.value;
 
-		if ( filter && !( comment = filter.onComment( comment ) ) )
-			return;
+		if ( filter ) {
+			if ( !( comment = filter.onComment( comment ) ) )
+				return;
+
+			if ( typeof comment != 'string' ) {
+				comment.writeHtml( writer, filter );
+				return;
+			}
+		}
 
 		writer.comment( comment );
 	}

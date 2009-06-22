@@ -7,6 +7,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
 	var tailNbspRegex = /^[\t\r\n ]*&nbsp;$/;
 
+	var protectedSourceMarker = '{cke_protected}';
+
 	function trimFillers( block, fromSource ) {
 		// If the current node is a block, and if we're converting from source or
 		// we're not in IE then search for and remove any tailing BR node.
@@ -147,6 +149,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Remove all class names starting with "cke_".
 				return CKEDITOR.tools.ltrim( value.replace( /(?:^|\s+)cke_[^\s]*/g, '' ) ) || false;
 			}
+		},
+
+		comment: function( contents ) {
+			if ( contents.substr( 0, protectedSourceMarker.length ) == protectedSourceMarker )
+				return new CKEDITOR.htmlParser.cdata( decodeURIComponent( contents.substr( protectedSourceMarker.length ) ) );
+
+			return contents;
 		}
 	};
 
@@ -189,11 +198,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return html.replace( encodedTagsRegex, unprotectEncodedTagsMatch );
 	}
 
+	function protectSource( data, protectRegexes ) {
+		var regexes = [
+			// First of any other protection, we must protect all comments
+					// to avoid loosing them (of course, IE related).
+					/<!--[\s\S]*?-->/g,
+
+			// Script tags will also be forced to be protected, otherwise
+					// IE will execute them.
+					/<script[\s\S]*?<\/script>/gi,
+
+			// <noscript> tags (get lost in IE and messed up in FF).
+					/<noscript[\s\S]*?<\/noscript>/gi
+			].concat( protectRegexes );
+
+		for ( var i = 0; i < regexes.length; i++ ) {
+			data = data.replace( regexes[ i ], function( match ) {
+				return '<!--' + protectedSourceMarker + encodeURIComponent( match ).replace( /--/g, '%2D%2D' ) + '-->';
+			});
+		}
+
+		return data;
+	}
+
 	CKEDITOR.plugins.add( 'htmldataprocessor', {
 		requires: [ 'htmlwriter' ],
 
 		init: function( editor ) {
-			var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor();
+			var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
 
 			dataProcessor.writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
 
@@ -204,7 +236,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	});
 
-	CKEDITOR.htmlDataProcessor = function() {
+	CKEDITOR.htmlDataProcessor = function( editor ) {
+		this.editor = editor;
+
 		this.writer = new CKEDITOR.htmlWriter();
 		this.dataFilter = new CKEDITOR.htmlParser.filter();
 		this.htmlFilter = new CKEDITOR.htmlParser.filter();
@@ -214,6 +248,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		toHtml: function( data, fixForBody ) {
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
+
+			data = protectSource( data, this.editor.config.protectedSource );
 
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in

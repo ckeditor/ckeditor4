@@ -21,6 +21,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 {
 	// Local references.
 	var assert = CKEDITOR.test.assert;
+	var doc = new CKEDITOR.dom.document( document );
 
 	// In these tests, we may "reset" the writer rules to avoid it formatting
 	// the output, making the assertion easier to the done. We don't need to
@@ -31,6 +32,15 @@ CKEDITOR.test.addTestCase( testCase = (function()
 		dataProcessor.writer._.rules = [];
 		return dataProcessor;
 	};
+
+	/**
+	 * IE always returning CRLF for linefeed, so remove it when retrieve pre-formated text from text area.
+	 * @param {Object} id
+	 */
+	function getTextAreaValue( id )
+	{
+		return CKEDITOR.document.getById( id ).getValue().replace(/\r/gi,'');
+	}
 
 	// These tests go far beyond the strict htmlDataProcessor code testing. We
 	// are actually testing the entire parsing system here. The combination of
@@ -217,19 +227,36 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br></p>' ));
 		},
 
+		test_ticket_3407 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor,
+				config = editor.config;
+
+			config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code
+			config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code
+			config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net Code
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			var html = getTextAreaValue( '_TEXTAREA1' );
+			var protectedHtml = dataProcessor.toHtml( html );
+			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
+		},
+
 		name : document.title
 	};
 })() );
 
-//window.onload = function()
-//{
-//	testCase.test_toDataFormat_ticket_3036();
-//}
-
+//window.onload = testCase.test_ticket_3407;
 	//]]>
 	</script>
 </head>
 <body>
 	<textarea id="editor1" class="ckeditor" cols="80" rows="10"></textarea>
+	<textarea id="_TEXTAREA1"><script type="text/javascript">alert('>');</script><table><tbody><tr><!--- IE doesn't handle this comment ---><!--[if gte IE 6 ]>
+	<![if lt IE 8 ]>
+	gIE conditional comments
+<![endif]>
+<![endif]--><td><%Response.Write(now())%></td><td><asp:control_name id="some_id" runat="server"/></td><td><?php
+include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn't support JavaScript</noscript></textarea>
 </body>
 </html>
