@@ -214,6 +214,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_button .cke_label
 {
+	cursor: default;
 	display: none;
 	padding-left: 3px;
 	vertical-align: 3px;
