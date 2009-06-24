@@ -3,7 +3,7 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.dialog.add( 'form', function( editor ) {
-	var autoAttributes = { action:1,id:1,method:1,encoding:1,target:1 };
+	var autoAttributes = { action:1,id:1,method:1,enctype:1,target:1 };
 
 	return {
 		title: editor.lang.form.title,
@@ -96,7 +96,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					accessKey: 'I'
 				},
 					{
-					id: 'encoding',
+					id: 'enctype',
 					type: 'select',
 					label: editor.lang.form.encoding,
 					style: 'width:100%',
