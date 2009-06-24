@@ -427,7 +427,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ].call( listNode, true );
 					if ( sibling && sibling.getName && sibling.getName() == listCommand.type ) {
 						sibling.remove();
-						sibling.moveChildren( listNode );
+						// Move children order by merge direction.(#3820)  
+						sibling.moveChildren( listNode, rtl ? true : false );
 					}
 				})();
 				mergeSibling( true );
