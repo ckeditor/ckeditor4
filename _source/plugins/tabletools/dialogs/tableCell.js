@@ -280,16 +280,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		}
 		],
 		onShow: function() {
-			// Get the selected table cell.
-			var startElement = editor.getSelection().getStartElement();
-			this.cell = startElement.getAscendant( 'td', true ) || startElement.getAscendant( 'th', true );
-
-			// Call setupContent().
-			this.setupContent( this.cell );
+			this.cells = CKEDITOR.plugins.tabletools.getSelectedCells( this._.editor.getSelection() );
+			this.setupContent( this.cells[ 0 ] );
 		},
 		onOk: function() {
-			// Call commitContent().
-			this.commitContent( this.cell );
+			var cells = this.cells
+			for ( var i = 0; i < cells.length; i++ )
+				this.commitContent( cells[ i ] );
 		}
 	};
 });
