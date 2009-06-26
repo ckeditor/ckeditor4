@@ -165,7 +165,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Inserting the padding-br before body if it's preceded by an
 		// unexitable block.
 		var lastNode = body.getLast( true );
-		if ( lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
+		if ( lastNode && lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
 			var paddingBlock = editor.document.createElement(
 			( CKEDITOR.env.ie && enterMode != CKEDITOR.ENTER_BR ) ? '<br _cke_bogus="true" />' : 'br' );
 			body.append( paddingBlock );
