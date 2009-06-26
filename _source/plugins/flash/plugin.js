@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function isFlashEmbed( element ) {
 		var attributes = element.attributes;
 
-		return ( attributes.type != 'application/x-shockwave-flash' || !flashFilenameRegex.test( attributes.src || '' ) );
+		return ( attributes.type == 'application/x-shockwave-flash' || flashFilenameRegex.test( attributes.src || '' ) );
 	}
 
 	function createFakeElement( editor, realElement ) {

@@ -242,6 +242,35 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
+		test_ticket_3591 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor;
+
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			var html = getTextAreaValue( '_TEXTAREA_3591' );
+			var protectedHtml = dataProcessor.toHtml( html );
+
+			assert.areSame( getTextAreaValue( '_TEXTAREA_3591_protected' ),
+				protectedHtml );
+			assert.areSame( getTextAreaValue( '_TEXTAREA_3591' ),
+				dataProcessor.toDataFormat( protectedHtml ) );
+		},
+
+		test_ticket_3591_2 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor;
+
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			var html = getTextAreaValue( '_TEXTAREA_3591_2' );
+			var protectedHtml = dataProcessor.toHtml( html );
+
+			assert.areSame( getTextAreaValue( '_TEXTAREA_3591_2' ),
+				dataProcessor.toDataFormat( protectedHtml ) );
+		},
+
+
 		name : document.title
 	};
 })() );
@@ -258,5 +287,8 @@ CKEDITOR.test.addTestCase( testCase = (function()
 <![endif]>
 <![endif]--><td><%Response.Write(now())%></td><td><asp:control_name id="some_id" runat="server"/></td><td><?php
 include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn't support JavaScript</noscript></textarea>
+	<textarea id="_TEXTAREA_3591"><object><param /><param /><embed></embed></object></textarea>
+	<textarea id="_TEXTAREA_3591_protected"><cke:object><cke:param></cke:param><cke:param></cke:param><cke:embed></cke:embed></cke:object></textarea>
+	<textarea id="_TEXTAREA_3591_2"><object classid="clsid"><param name="movie" value="movie.swf" /><embed src="movie.swf" type="application/x-shockwave-flash"></embed></object></textarea>
 </body>
 </html>

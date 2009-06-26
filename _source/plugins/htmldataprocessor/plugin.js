@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -63,11 +64,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// TODO: Support filler for <pre>, line break is also occupy line height.
 	delete blockLikeTags.pre;
 	var defaultDataFilterRules = {
-		elementNames: [
-			// Elements that cause problems in wysiwyg mode.
-					[ ( /^(object|embed|param)$/ ), 'cke:$1' ]
-			],
-
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
 					// active in the editing area (IE|WebKit).
@@ -121,9 +117,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// If the <embed> is child of a <object>, copy the width
 				// and height attributes from it.
 				if ( parent && parent.name == 'object' ) {
-					element.attributes.width = parent.attributes.width;
-					element.attributes.height = parent.attributes.height;
+					var parentWidth = parent.attributes.width,
+						parentHeight = parent.attributes.height;
+					parentWidth && ( element.attributes.width = parentWidth );
+					parentHeight && ( element.attributes.height = parentHeight );
 				}
+			},
+			// Restore param elements into self-closing.
+			param: function( param ) {
+				param.children = [];
+				param.isEmpty = true;
+				return param;
 			}
 		},
 
@@ -164,6 +168,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var protectStyleTagsRegex = /<(style)(?=[ >])[^>]*>[^<]*<\/\1>/gi;
 	var encodedTagsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
+	var protectElementNamesRegex = /(<\/?)((?:object|embed|param).*?>)/gi;
+	var protectSelfClosingRegex = /<cke:param(.*?)\/>/gi;
 
 	function protectStyleTagsMatch( match ) {
 		return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
@@ -171,6 +177,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function protectStyleTags( html ) {
 		return html.replace( protectStyleTagsRegex, protectStyleTagsMatch );
+	}
+
+	function protectElementsNames( html ) {
+		return html.replace( protectElementNamesRegex, '$1cke:$2' );
+	}
+
+	function protectSelfClosingElements( html ) {
+		return html.replace( protectSelfClosingRegex, '<cke:param$1></cke:param>' );
 	}
 
 	function unprotectEncodedTagsMatch( match, encoded ) {
@@ -242,6 +256,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// IE remvoes style tags from innerHTML. (#3710).
 			if ( CKEDITOR.env.ie )
 				data = protectStyleTags( data );
+
+			// Certain elements has problem to go through DOM operation, protect
+			// them by prefixing 'cke' namespace.(#3591)
+			data = protectElementsNames( data );
+
+			// All none-IE browsers ignore self-closed custom elements,
+			// protecting them into open-close.(#3591)
+			data = protectSelfClosingElements( data );
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
