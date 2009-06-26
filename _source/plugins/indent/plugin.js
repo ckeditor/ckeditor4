@@ -134,9 +134,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function indentBlock( editor, range ) {
-		var iterator = range.createIterator();
+		var iterator = range.createIterator(),
+			enterMode = editor.config.enterMode;
 		iterator.enforceRealBlocks = true;
-
+		iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 		var block;
 		while ( ( block = iterator.getNextParagraph() ) ) {
 
