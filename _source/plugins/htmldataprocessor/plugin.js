@@ -128,6 +128,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				param.children = [];
 				param.isEmpty = true;
 				return param;
+			},
+
+			// Remove empty link but not empty anchor.(#3829)
+			a: function( element ) {
+				if ( !( element.children.length || element.attributes.name ) )
+					return false;
 			}
 		},
 
