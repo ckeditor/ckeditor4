@@ -81,16 +81,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	for ( i in blockLikeTags )
 		defaultDataBlockFilterRules.elements[ i ] = extendBlockForDisplay;
 
-	/**
-	 * IE sucks with dynamic 'name' attribute after element is created, '_cke_saved_name' is used instead for this attribute.
-	 */
-	var removeName = function( element ) {
-			var attribs = element.attributes;
-
-			if ( attribs._cke_saved_name )
-				delete attribs.name;
-		};
-
 	var defaultHtmlFilterRules = {
 		elementNames: [
 			// Remove the "cke:" namespace prefix.
@@ -109,6 +99,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			],
 
 		elements: {
+			$: function( element ) {
+				// Remove duplicated attributes - #3789.
+				var attribs = element.attributes;
+
+				if ( attribs ) {
+					// Remove duplicates that have been saved with our
+					// special names.
+					if ( attribs._cke_saved_name )
+						delete attribs.name;
+					if ( attribs._cke_saved_href )
+						delete attribs.href;
+					if ( attribs._cke_saved_src )
+						delete attribs.src;
+				}
+			},
+
 			embed: function( element ) {
 				var parent = element.parent;
 
@@ -118,30 +124,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element.attributes.width = parent.attributes.width;
 					element.attributes.height = parent.attributes.height;
 				}
-			},
-
-			img: function( element ) {
-				var attribs = element.attributes;
-
-				if ( attribs._cke_saved_name )
-					delete attribs.name;
-				if ( attribs._cke_saved_src )
-					delete attribs.src;
-			},
-
-			a: function( element ) {
-				var attribs = element.attributes;
-
-				if ( attribs._cke_saved_name )
-					delete attribs.name;
-				if ( attribs._cke_saved_href )
-					delete attribs.href;
-			},
-
-			input: removeName,
-			textarea: removeName,
-			select: removeName,
-			form: removeName
+			}
 		},
 
 		attributes: {
