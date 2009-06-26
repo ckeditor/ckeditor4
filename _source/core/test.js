@@ -111,5 +111,25 @@ CKEDITOR.test = {
 		});
 
 		return html;
+	},
+
+	/**
+	 * Wrapper of CKEDITOR.dom.element::getAttribute for style text normalization.
+	 * @param element
+	 * @param attrName
+	 */
+	getAttribute: function( element, attrName ) {
+		var retval = element.getAttribute( attrName );
+		if ( attrName == 'style' ) {
+			// 1. Lower case property name.
+			// 2. Add space after colon.
+			// 3. Strip whitepsaces around semicolon.
+			// 4. Always end with semicolon
+			return retval.replace( /(?:^|;)\s*([A-Z-_]+)(:\s*)/ig, function( match, property, colon ) {
+				return property.toLowerCase() + ': ';
+			}).replace( /\s+(?:;\s*|$)/g, ';' ).replace( /([^;])$/g, '$1;' );
+		}
+
+		return retval;
 	}
 };
