@@ -22,6 +22,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				label: title,
 				title: title,
 				className: 'cke_button_' + name.toLowerCase(),
+				modes: { wysiwyg:1 },
 
 				panel: {
 					css: [ CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ]

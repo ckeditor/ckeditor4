@@ -89,7 +89,11 @@ CKEDITOR.ui.button.prototype = {
 		// Get the command name.
 		var command = this.command;
 
-		if ( command ) {
+		if ( this.modes ) {
+			editor.on( 'mode', function() {
+				this.setState( this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			}, this );
+		} else if ( command ) {
 			// Get the command instance.
 			command = editor.getCommand( command );
 
