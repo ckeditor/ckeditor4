@@ -363,6 +363,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	// Context menu on table caption incorrect (#3834)
+	var contextMenuTags = { thead:1,tbody:1,tfoot:1,td:1,tr:1,th:1 };
+
 	CKEDITOR.plugins.tabletools = {
 		init: function( editor ) {
 			var lang = editor.lang.table;
@@ -578,9 +581,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !element )
 						return null;
 
-					var isCell = !element.is( 'table' ) && element.hasAscendant( 'table' );
-
-					if ( isCell ) {
+					if ( element.getName() in contextMenuTags && element.hasAscendant( 'table' ) ) {
 						return {
 							tablecell: CKEDITOR.TRISTATE_OFF,
 							tablerow: CKEDITOR.TRISTATE_OFF,
