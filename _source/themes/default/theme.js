@@ -138,6 +138,25 @@ CKEDITOR.themes.add( 'default', ( function() {
 		destroy: function( editor ) {
 			var container = editor.container;
 
+			/* 
+			 * IE BUG: Removing the editor DOM elements while the selection is inside
+			 * the editing area would break IE7/8's selection system. So we need to put
+			 * the selection back to the parent document without scrolling the window.
+			 * (#3812)
+			 */
+			if ( CKEDITOR.env.ie ) {
+				container.setStyle( 'display', 'none' );
+
+				var $range = document.body.createTextRange();
+				$range.moveToElementText( container.$ );
+				try {
+					// Putting the selection to a display:none element - this will certainly
+					// fail. But! We've just put the selection document back to the parent
+					// document without scrolling the window!
+					$range.select();
+				} catch ( e ) {}
+			}
+
 			if ( container )
 				container.remove();
 
