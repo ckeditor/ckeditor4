@@ -309,6 +309,7 @@ body .cke_dialog
 	 */
 	_width: 99%;
 	overflow: auto;
+	resize: none;
 }
 
 .cke_skin_office2003 div.cke_dialog_ui_input_textarea
