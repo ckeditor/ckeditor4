@@ -369,6 +369,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						type: 'text',
 						id: 'width',
+						style: 'width:95px',
 						label: editor.lang.flash.width,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateWidth ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
@@ -388,6 +389,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						type: 'text',
 						id: 'height',
+						style: 'width:95px',
 						label: editor.lang.flash.height,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateHeight ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
@@ -407,6 +409,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						type: 'text',
 						id: 'hSpace',
+						style: 'width:95px',
 						label: editor.lang.flash.hSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateHSpace ),
 						setup: loadValue,
@@ -415,6 +418,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						type: 'text',
 						id: 'vSpace',
+						style: 'width:95px',
 						label: editor.lang.flash.vSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateVSpace ),
 						setup: loadValue,
