@@ -57,18 +57,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				undoManager.save();
 			});
 
+			// Registering keydown on every document recreation.(#3844)
+			editor.on( 'contentDom', function() {
+				editor.document.on( 'keydown', function( event ) {
+					// Do not capture CTRL hotkeys.
+					if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
+						undoManager.type( event );
+				});
+
+			});
+
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function() {
 				if ( editor.mode == 'wysiwyg' ) {
 					if ( !undoManager.enabled ) {
 						undoManager.enabled = true;
-
-						editor.document.on( 'keydown', function( event ) {
-							// Do not capture CTRL hotkeys.
-							if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
-								undoManager.type( event );
-						});
-
 						// Always save an undo snapshot - the previous mode might have changed
 						// editor contents.
 						undoManager.save( true );
