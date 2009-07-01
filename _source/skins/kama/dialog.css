@@ -271,40 +271,62 @@ body .cke_dialog
 }
 
 /* IE6 buttons. */
+.cke_skin_kama .cke_browser_ie6 a.cke_dialog_ui_button span
+{
+	width: 70px;
+}
+
+.cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button span,
+.cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button span
+{
+	width: 100px;
+}
+
+.cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button span,
 .cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button span,
 .cke_skin_kama .cke_browser_ie6 a.cke_dialog_ui_button span
 {
-	/*border: #53D9F0 1px solid;*/
-	padding: 5px 20px;
+	padding: 5px 15px;
 	text-align: center;
 	color: #3b3b1f;
 	background: #53D9F0 none;
 	display: inline-block;
 	cursor: default;
 }
+/* END IE6 buttons. */
+
+.cke_skin_kama .cke_browser_webkit a.cke_dialog_ui_button span.cke_dialog_ui_button
+{
+	margin: 0;
+}
+.cke_skin_kama .cke_browser_webkit a.cke_dialog_ui_button
+{
+	float: right;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	margin: 2px 0;
+}
+
+.cke_skin_kama a.cke_dialog_ui_button_ok span,
+.cke_skin_kama a.cke_dialog_ui_button_cancel span
+{
+	padding-right: 20px;
+	padding-left: 20px;
+}
 
 .cke_skin_kama a.cke_dialog_ui_button_ok
 {
 	background-position: 0 -1143px;
-	text-align: left;
 }
 
 .cke_skin_kama a.cke_dialog_ui_button_ok span
 {
 	background: transparent url(sprites.png) no-repeat scroll right -1219px;
-	min-width: 60px;
-	padding-right: 20px;
-	text-align: left;
 }
 
 .cke_skin_kama .cke_rtl a.cke_dialog_ui_button_ok span
 {
 	background-position: left -1219px;
-}
-
-.cke_skin_kama .cke_browser_ie7 a.cke_dialog_ui_button_ok span
-{
-	margin-right: 40px;
 }
 
 .cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button_ok span,
@@ -322,8 +344,6 @@ body .cke_dialog
 .cke_skin_kama a.cke_dialog_ui_button_cancel span
 {
 	background: transparent url(sprites.png) no-repeat scroll right -1245px;
-	padding-right: 20px;
-	padding-left: 20px;
 }
 
 .cke_skin_kama .cke_rtl a.cke_dialog_ui_button_cancel span
@@ -404,6 +424,7 @@ body .cke_dialog
 .cke_skin_kama .cke_dialog_footer_buttons span.cke_dialog_ui_button
 {
 	margin: 7px 0;
+	width: 60px;
 	text-align: center;
 }
 
