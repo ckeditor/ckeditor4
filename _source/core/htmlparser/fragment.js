@@ -249,6 +249,12 @@ CKEDITOR.htmlParser.fragment = function() {
 				if ( candidate == currentNode )
 					currentNode = currentNode.parent;
 			}
+			// The tag is not actually closing anything, thus we need invalidate
+			// the pending elements.(#3862)
+			else {
+				pendingInline.splice( 0, index );
+				index = 0;
+			}
 
 			// Check if there is any pending tag to be closed.
 			for ( ; index < pendingInline.length; index++ ) {
