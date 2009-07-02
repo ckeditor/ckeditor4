@@ -200,7 +200,12 @@ CKEDITOR.plugins.add( 'dialogui' );
 			var innerHTML = function() {
 					// IE BUG: Text input fields in IE at 100% would exceed a <td> or inline
 					// container's width, so need to wrap it inside a <div>.
-					var html = [ '<div class="cke_dialog_ui_input_', elementDefinition.type, '"><input ' ];
+					var html = [ '<div class="cke_dialog_ui_input_', elementDefinition.type, '"' ];
+
+					if ( elementDefinition.width )
+						html.push( 'style="width:' + elementDefinition.width + '" ' );
+
+					html.push( '><input ' );
 					for ( var i in attributes )
 						html.push( i + '="' + attributes[ i ] + '" ' );
 					html.push( ' /></div>' );

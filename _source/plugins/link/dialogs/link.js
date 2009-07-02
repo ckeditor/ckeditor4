@@ -771,7 +771,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						id: 'advLangDir',
 						label: editor.lang.link.langDir,
 						'default': '',
-						style: 'width: 100%;',
+						style: 'width:110px',
 						items: [
 							[ editor.lang.link.langDirNotSet, '' ],
 							[ editor.lang.link.langDirLTR, 'ltr' ],
@@ -783,6 +783,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						id: 'advAccessKey',
+						width: '80px',
 						label: editor.lang.link.acccessKey,
 						maxLength: 1,
 						setup: setupAdvParams,
@@ -807,6 +808,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						label: editor.lang.link.langCode,
 						id: 'advLangCode',
+						width: '110px',
 						'default': '',
 						setup: setupAdvParams,
 						commit: commitAdvParams
@@ -816,6 +818,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						label: editor.lang.link.tabIndex,
 						id: 'advTabIndex',
+						width: '80px',
 						maxLength: 5,
 						setup: setupAdvParams,
 						commit: commitAdvParams
