@@ -807,7 +807,7 @@ CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
 // V2
 function() {
 	var collapsed = this.collapsed;
-	var isStartMakerAlone;
+	var isStartMarkerAlone;
 	var dummySpan;
 
 	var bookmark = this.createBookmark();
@@ -837,19 +837,11 @@ function() {
 		ieRange.setEndPoint( 'EndToEnd', ieRangeEnd );
 		ieRange.moveEnd( 'character', -1 );
 	} else {
-		// The isStartMakerAlone logic comes from V2. It guarantees that the lines
+		// The isStartMarkerAlone logic comes from V2. It guarantees that the lines
 		// will expand and that the cursor will be blinking on the right place.
 		// Actually, we are using this flag just to avoid using this hack in all
 		// situations, but just on those needed.
-
-		// But, in V3, somehow it is not interested on working whe hitting SHIFT+ENTER
-		// inside text. So, let's jsut leave the hack happen always.
-
-		// I'm still leaving the code here just in case. We may find some other IE
-		// weirdness and uncommenting this stuff may be useful.
-
-		//				isStartMakerAlone = ( !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) ) )
-		//					&& !startNode.hasNext();
+		isStartMarkerAlone = !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) );
 
 		// Append a temporary <span>&#65279;</span> before the selection.
 		// This is needed to avoid IE destroying selections inside empty
@@ -860,14 +852,13 @@ function() {
 		dummySpan.setHtml( '&#65279;' ); // Zero Width No-Break Space (U+FEFF). See #1359.
 		dummySpan.insertBefore( startNode );
 
-		//				if ( isStartMakerAlone )
-		//				{
-		// To expand empty blocks or line spaces after <br>, we need
-		// instead to have any char, which will be later deleted using the
-		// selection.
-		// \ufeff = Zero Width No-Break Space (U+FEFF). (#1359)
-		this.document.createText( '\ufeff' ).insertBefore( startNode );
-		//				}
+		if ( isStartMarkerAlone ) {
+			// To expand empty blocks or line spaces after <br>, we need
+			// instead to have any char, which will be later deleted using the
+			// selection.
+			// \ufeff = Zero Width No-Break Space (U+FEFF). (#1359)
+			this.document.createText( '\ufeff' ).insertBefore( startNode );
+		}
 	}
 
 	// Remove the markers (reset the position, because of the changes in the DOM tree).
@@ -875,18 +866,16 @@ function() {
 	startNode.remove();
 
 	if ( collapsed ) {
-		//				if ( isStartMakerAlone )
-		//				{
-		// Move the selection start to include the temporary \ufeff.
-		ieRange.moveStart( 'character', -1 );
+		if ( isStartMarkerAlone ) {
+			// Move the selection start to include the temporary \ufeff.
+			ieRange.moveStart( 'character', -1 );
 
-		ieRange.select();
+			ieRange.select();
 
-		// Remove our temporary stuff.
-		this.document.$.selection.clear();
-		//				}
-		//				else
-					//					ieRange.select();
+			// Remove our temporary stuff.
+			this.document.$.selection.clear();
+		} else
+			ieRange.select();
 
 		dummySpan.remove();
 	} else {
