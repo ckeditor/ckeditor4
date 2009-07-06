@@ -270,12 +270,24 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
+		/**
+		 * Test empty value attributes.
+		 */
+		test_ticket_3884 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor;
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+
+			assert.areSame( '<p><a href="" name="">emptylink</a></p>',
+				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><a href="" name="">emptylink</a></p>' ) ) );
+		},
 
 		name : document.title
 	};
 })() );
 
-//window.onload = testCase.test_ticket_3407;
+//window.onload = testCase.test_ticket_3884;
 	//]]>
 	</script>
 </head>

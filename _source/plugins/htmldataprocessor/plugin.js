@@ -100,14 +100,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var attribs = element.attributes;
 
 				if ( attribs ) {
-					// Remove duplicates that have been saved with our
-					// special names.
-					if ( attribs._cke_saved_name )
-						delete attribs.name;
-					if ( attribs._cke_saved_href )
-						delete attribs.href;
-					if ( attribs._cke_saved_src )
-						delete attribs.src;
+					var attributeNames = [ 'name', 'href', 'src' ],
+						savedAttributeName;
+					for ( var i = 0; i < attributeNames.length; i++ ) {
+						savedAttributeName = '_cke_saved_' + attributeNames[ i ];
+						savedAttributeName in attribs && ( delete attribs[ savedAttributeName ] );
+					}
 				}
 			},
 
