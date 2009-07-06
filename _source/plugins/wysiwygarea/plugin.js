@@ -294,6 +294,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 						domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
 
+						// Gecko need a key event to 'wake up' the editing
+						// ability when document is empty.(#3864)
+						var firstNode = domDocument.getBody().getFirst();
+						if ( CKEDITOR.env.gecko && firstNode && firstNode.is && firstNode.is( 'br' ) && firstNode.hasAttribute( '_moz_editor_bogus_node' ) ) {
+							var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
+							keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
+							domDocument.$.dispatchEvent( keyEventSimulate );
+							var bogusText = domDocument.getBody().getFirst();
+							// Compensate the line maintaining <br> if enterMode is not block.
+							if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
+								domDocument.createElement( 'br', {
+								attributes: { '_moz_dirty': "" } } ).replace( bogusText );
+							else
+								bogusText.remove();
+						}
+
 						// Gecko/Webkit need some help when selecting control type elements. (#3448)
 						if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
 							domDocument.on( 'mousedown', function( ev ) {
