@@ -234,7 +234,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 .cke_accessibility
 {
 	position: absolute;
-	top: -1000000px;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
 }
 
 .cke_skin_v2 .cke_button .cke_buttonarrow
