@@ -10,9 +10,20 @@
 	float: left;
 }
 
+.cke_skin_office2003 .cke_browser_ie .cke_rcombo
+{
+	#float: none;
+	#display: inline;
+}
+
 .cke_skin_office2003 .cke_rtl .cke_rcombo
 {
 	float: right;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rcombo
+{
+	#float: none;
 }
 
 .cke_skin_office2003 .cke_rcombopanel

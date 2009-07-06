@@ -67,9 +67,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 28px;
 }
 
+.cke_skin_office2003 .cke_browser_ie .cke_toolgroup
+{
+	#float: none;
+	#display: inline;
+}
+
 .cke_skin_office2003 .cke_rtl .cke_toolgroup
 {
 	float: right;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolgroup
+{
+	#float: none;
 }
 
 .cke_skin_office2003 .cke_separator
@@ -81,9 +92,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 16px;
 }
 
+.cke_skin_office2003 .cke_browser_ie .cke_separator
+{
+	#float: none;
+	#display: inline;
+}
+
 .cke_skin_office2003 .cke_rtl .cke_separator
 {
 	float: right;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_separator
+{
+	#float: none;
 }
 
 .cke_skin_office2003 .cke_break
@@ -108,10 +130,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
+.cke_skin_office2003 .cke_browser_ie .cke_toolbar_start
+{
+	#float: none;
+	#display: inline;
+}
+
 .cke_skin_office2003 .cke_rtl .cke_toolbar_start
 {
     background-position: -27px -816px;
     float: right;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolbar_start
+{
+	#float: none;
 }
 
 .cke_skin_office2003 .cke_toolbar_end
@@ -126,10 +159,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
+.cke_skin_office2003 .cke_browser_ie .cke_toolbar_end
+{
+	#float: none;
+	#display: inline;
+}
+
 .cke_skin_office2003 .cke_rtl .cke_toolbar_end
 {
     background-position: -29px -907px;
     float: right;
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_rtl .cke_toolbar_end
+{
+	#float: none;
 }
 
 .cke_skin_office2003 .cke_button a,
