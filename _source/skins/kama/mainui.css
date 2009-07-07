@@ -73,6 +73,11 @@ span.cke_skin_kama
 	border: 1px solid black;
 }
 
+.cke_skin_kama .cke_contents iframe
+{
+	background-color: #fff;
+}
+
 .cke_skin_kama .cke_focus
 {
 	outline: auto 5px -webkit-focus-ring-color;
