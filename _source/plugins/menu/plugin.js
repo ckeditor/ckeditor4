@@ -88,6 +88,12 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 
 		proto: {
 			add: function( item ) {
+				// Later we may sort the items, but Array#sort is not stable in
+				// some browsers, here we're forcing the original sequence with
+				// 'order' attribute if it hasn't been assigned. (#3868)
+				if ( !item.order )
+					item.order = this.items.length;
+
 				this.items.push( item );
 			},
 
