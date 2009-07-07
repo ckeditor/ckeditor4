@@ -581,12 +581,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !element )
 						return null;
 
-					if ( element.getName() in contextMenuTags && element.hasAscendant( 'table' ) ) {
-						return {
-							tablecell: CKEDITOR.TRISTATE_OFF,
-							tablerow: CKEDITOR.TRISTATE_OFF,
-							tablecolumn: CKEDITOR.TRISTATE_OFF
-						};
+					while ( element ) {
+						if ( element.getName() in contextMenuTags ) {
+							return {
+								tablecell: CKEDITOR.TRISTATE_OFF,
+								tablerow: CKEDITOR.TRISTATE_OFF,
+								tablecolumn: CKEDITOR.TRISTATE_OFF
+							};
+						}
+						element = element.getParent();
 					}
 
 					return null;
