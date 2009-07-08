@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -192,14 +192,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							fieldset.remove();
 
 						// The document domain must be set within the src
-						// attribute.
-						var src = 'void( (function(){' +
-							'document.open();' +
-							( CKEDITOR.env.ie && isCustomDomain ? 'document.domain="' + document.domain + '";' : '' ) +
-							'document.write( window.parent._cke_htmlToLoad_' + editor.name + ' );' +
-							'document.close();' +
-							'window.parent._cke_htmlToLoad_' + editor.name + ' = null;' +
-							'})() )';
+						// attribute;
+						// Defer the script execution until iframe
+						// has been added to main window, this is needed for some
+						// browsers which will begin to load the frame content
+						// prior to it's presentation in DOM.(#3894)
+						var src = 'void( ' + ( CKEDITOR.env.gecko ? 'setTimeout' : '' ) + '( function(){' +
+															'document.open();' +
+															( CKEDITOR.env.ie && isCustomDomain ? 'document.domain="' + document.domain + '";' : '' ) +
+															'document.write( window.parent._cke_htmlToLoad_' + editor.name + ' );' +
+															'document.close();' +
+															'window.parent._cke_htmlToLoad_' + editor.name + ' = null;' +
+															'}'
+															+ ( CKEDITOR.env.gecko ? ', 0 )' : ')()' )
+															+ ' )';
 
 						// Loading via src attribute does not work in Opera.
 						if ( CKEDITOR.env.opera )
