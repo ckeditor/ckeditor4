@@ -283,6 +283,23 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><a href="" name="">emptylink</a></p>' ) ) );
 		},
 
+		test_innerHtmlComments_ticket_3801 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor;
+
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+
+			for ( var i = 1; i <= 7; i++ )
+			{
+				var html = getTextAreaValue( '_TEXTAREA_3801_' + i );
+				var protectedHtml = dataProcessor.toHtml( html );
+
+				assert.areSame( getTextAreaValue( '_TEXTAREA_3801_' + i ),
+					dataProcessor.toDataFormat( protectedHtml ) );
+			}
+		},
+		
 		name : document.title
 	};
 })() );

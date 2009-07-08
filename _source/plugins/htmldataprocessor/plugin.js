@@ -1,4 +1,4 @@
-﻿﻿
+﻿﻿﻿
 /*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -272,8 +272,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
 			var div = document.createElement( 'div' );
-			div.innerHTML = data;
-			data = div.innerHTML;
+			// Add fake character to workaround IE comments bug. (#3801)
+			div.innerHTML = 'a' + data;
+			data = div.innerHTML.substr( 1 );
 
 			if ( CKEDITOR.env.ie )
 				data = unprotectEncodedTags( data );
