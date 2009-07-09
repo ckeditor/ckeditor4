@@ -735,7 +735,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				type: 'file',
 				id: 'upload',
 				label: editor.lang.common.upload,
-				size: 38
+				style: 'height:40px',
+				size: 29
 			},
 				{
 				type: 'fileButton',
