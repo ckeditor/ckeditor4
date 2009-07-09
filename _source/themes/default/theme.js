@@ -22,7 +22,6 @@ CKEDITOR.themes.add( 'default', ( function() {
 			var bottomHtml = editor.fireOnce( 'themeSpace', { space: 'bottom', html: '' } ).html;
 
 			var height = contentsHtml && editor.config.height;
-			var width = editor.config.width;
 
 			var tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
 
@@ -32,8 +31,15 @@ CKEDITOR.themes.add( 'default', ( function() {
 			else if ( !isNaN( height ) )
 				height += 'px';
 
-			if ( !isNaN( width ) )
-				width += 'px';
+			var style = '';
+			var width = editor.config.width;
+
+			if ( width ) {
+				if ( !isNaN( width ) )
+					width += 'px';
+
+				style += "width: " + width + ";";
+			}
 
 			var container = CKEDITOR.dom.element.createFromHtml( [
 				'<span' +
@@ -43,10 +49,12 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' lang="', editor.langCode, '"' +
-					' tabindex="' + tabIndex + '">' +
+					' tabindex="' + tabIndex + '"' +
+					( style ? ' style="' + style + '"' : '' ) +
+					'>' +
 					'<span class="', CKEDITOR.env.cssClass, '">' +
 						'<span class="cke_wrapper cke_', editor.lang.dir, '">' +
-							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" style="width:', width, '"><tbody>' +
+							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0"><tbody>' +
 								'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
 								'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '">', contentsHtml, '</td></tr>' +
 								'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +

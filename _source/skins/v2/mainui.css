@@ -9,6 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border: solid 1px #dcdcdc;
 */
 	display: inline-table;
+	width: 100%;
 }
 
 .cke_skin_v2

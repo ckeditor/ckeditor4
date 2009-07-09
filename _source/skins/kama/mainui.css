@@ -45,6 +45,7 @@ span.cke_skin_kama
 	border: solid 1px #dcdcdc;
 */
 	display: inline-table;
+	width: 100%;
 }
 
 .cke_skin_kama .ltr .cke_browser_ie iframe
