@@ -56,11 +56,27 @@ CKEDITOR.plugins.add( 'domiterator' );
 				walker.evaluator = ignoreBookmarkTextEvaluator;
 				var lastNode = walker.previous();
 				this._.lastNode = lastNode.getNextSourceNode( true );
+
+				if ( this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tool.trim( this._.lastNode.getText() ) ) {
+					// Special case for #3887:
+					// We may have an empty text node at the end of block due to [3770].
+					// If that node is the lastNode, it would cause our logic to leak to the
+					// next block.
+					var testRange = new CKEDITOR.dom.range( range.document );
+					testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
+					if ( testRange.checkEndOfBlock() ) {
+						var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
+						var block = path.block || path.blockLimit;
+						this._.lastNode = block.getNextSourceNode( true );
+					}
+				}
+
 				// Probably the document end is reached, we need a marker node.
 				if ( !this._.lastNode ) {
 					this._.lastNode = range.document.createText( '' );
 					this._.lastNode.insertAfter( lastNode );
 				}
+
 				// Let's reuse this variable.
 				range = null;
 			}
