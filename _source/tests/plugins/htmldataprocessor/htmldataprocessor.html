@@ -270,6 +270,36 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
+		test_ticket_3869_1 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor;
+ 
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			var html = getTextAreaValue( '_TEXTAREA_3869_1' );
+			var protectedHtml = dataProcessor.toHtml( html );
+
+			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
+		},
+
+		test_ticket_3869_2 : function()
+		{
+			var editor = CKEDITOR.instances.editor1,
+				dataProcessor = editor.dataProcessor,
+				config = editor.config;
+
+			config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code
+			config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code
+			config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net Code
+			config.protectedSource.push(/<gallery[\s\S]*?<\/gallery>/gi );	// custom protected source
+			config.protectedSource.push(/<options[\s\S]*?<\/options>/gi );
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			var html = getTextAreaValue( '_TEXTAREA_3869_2' );
+			var protectedHtml = dataProcessor.toHtml( html );
+
+			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
+		},
+
 		/**
 		 * Test empty value attributes.
 		 */
@@ -318,6 +348,30 @@ CKEDITOR.test.addTestCase( testCase = (function()
 include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn't support JavaScript</noscript></textarea>
 	<textarea id="_TEXTAREA_3591"><object><param /><param /><embed></embed></object></textarea>
 	<textarea id="_TEXTAREA_3591_protected"><cke:object><cke:param></cke:param><cke:param></cke:param><cke:embed></cke:embed></cke:object></textarea>
+	<textarea id="_TEXTAREA_3869_1">#3869<script language="Javascript" type="text/javascript">
+	<!--
+		alert('-->')
+	//-->
+	</script></textarea>
+	<textarea id="_TEXTAREA_3869_2">#3869<gallery>
+	file.jpg
+	<options name="test1" value="value1"></options>
+	<options name="test2" value="value2"></options>
+	</gallery><?
+		echo '<script type="text/javascript">';
+		echo '<!--alert("-->");//-->';
+		echo '</script>';
+	?><!--<%Response.Write(now())%>//-->invalid<?
+		echo 'bbb<script>
+		<!-- 
+		ccc();<!-- </script><!-- </script>
+		//--></script>
+		<script><!-- 
+		<!-- 
+		ffff();
+		//--></script>
+		ddd';
+	?>html</textarea>
 	<textarea id="_TEXTAREA_3591_2"><object classid="clsid"><param name="movie" value="movie.swf" /><embed src="movie.swf" type="application/x-shockwave-flash"></embed></object></textarea>
 </body>
 </html>
