@@ -252,12 +252,13 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 					type: 'checkbox',
 					id: 'ignoreFontFace',
 					label: editor.lang.pastefromword.ignoreFontFace,
-					'default': true
+					'default': editor.config.pasteFromWordIgnoreFontFace
 				},
 					{
 					type: 'checkbox',
 					id: 'removeStyle',
-					label: editor.lang.pastefromword.removeStyle
+					label: editor.lang.pastefromword.removeStyle,
+					'default': editor.config.pasteFromWordRemoveStyle
 				}
 				]
 			}
