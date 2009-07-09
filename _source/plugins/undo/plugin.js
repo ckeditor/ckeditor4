@@ -67,18 +67,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			});
 
+			// Always save an undo snapshot - the previous mode might have
+			// changed editor contents.
+			editor.on( 'beforeModeUnload', function() {
+				editor.mode == 'wysiwyg' && undoManager.save( true );
+			});
+
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function() {
-				if ( editor.mode == 'wysiwyg' ) {
-					if ( !undoManager.enabled ) {
-						undoManager.enabled = true;
-						// Always save an undo snapshot - the previous mode might have changed
-						// editor contents.
-						undoManager.save( true );
-					}
-				} else
-					undoManager.enabled = false;
-
+				undoManager.enabled = editor.mode == 'wysiwyg';
 				undoManager.onChange();
 			});
 
