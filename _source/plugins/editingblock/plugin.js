@@ -146,9 +146,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( mode == this.mode )
 				return;
 
+			this.fire( 'beforeModeUnload' );
+
 			var currentMode = getMode( this );
 			data = currentMode.getData();
-			data = this.fire( 'beforeModeUnload', data );
 			currentMode.unload( holderElement );
 			this.mode = '';
 		}

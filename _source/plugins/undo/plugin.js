@@ -64,7 +64,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
 						undoManager.type( event );
 				});
-
 			});
 
 			// Always save an undo snapshot - the previous mode might have
