@@ -109,7 +109,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						saveSelection();
 					});
 
-					editor.window.on( 'blur', function() {
+					// Check document selection before 'blur' fired, this
+					// will prevent us from breaking text selection somewhere
+					// else on the host page.(#3909)
+					editor.document.on( 'beforedeactivate', function() {
 						// Disable selections from being saved.
 						saveEnabled = false;
 
