@@ -46,9 +46,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 
 		function renderColors( panel, type ) {
-
 			var output = [],
-				colors = CKEDITOR.config.colorButton_colors.split( ',' );
+				colors = config.colorButton_colors.split( ',' );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				if ( color == '?' ) {
