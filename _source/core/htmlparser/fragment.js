@@ -93,18 +93,25 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			// If the target is the fragment and this element can't go inside
 			// body (if fixForBody).
-			if ( fixForBody && !target.type && !CKEDITOR.dtd.$body[ element.name ] ) {
-				var savedCurrent = currentNode;
+			if ( fixForBody && !target.type ) {
+				var elementName, realElementName;
+				if ( element.attributes && ( realElementName = element.attributes[ '_cke_real_element_type' ] ) )
+					elementName = realElementName;
+				else
+					elementName = element.name;
+				if ( !( elementName in CKEDITOR.dtd.$body ) ) {
+					var savedCurrent = currentNode;
 
-				// Create a <p> in the fragment.
-				currentNode = target;
-				parser.onTagOpen( fixForBody, {} );
+					// Create a <p> in the fragment.
+					currentNode = target;
+					parser.onTagOpen( fixForBody, {} );
 
-				// The new target now is the <p>.
-				target = currentNode;
+					// The new target now is the <p>.
+					target = currentNode;
 
-				if ( enforceCurrent )
-					currentNode = savedCurrent;
+					if ( enforceCurrent )
+						currentNode = savedCurrent;
+				}
 			}
 
 			// Rtrim empty spaces on block end boundary. (#3585)
