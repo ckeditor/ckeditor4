@@ -174,6 +174,14 @@ body .cke_dialog
 	margin-top: 10px;
 }
 
+/* IE7 + IE quirks */
+.cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_contents
+{
+	margin-top: -10px;
+	position: relative;
+	margin-bottom: -22px;
+}
+
 .cke_skin_kama .cke_dialog_ui_vbox table,
 .cke_skin_kama .cke_dialog_ui_hbox table
 {
@@ -465,29 +473,63 @@ body .cke_dialog
 .cke_skin_kama .cke_ltr .cke_dialog_close_button
 {
 	right: 10px;
-	_right: 22px;
+}
+
+.cke_skin_kama .cke_browser_ie8.cke_rtl .cke_dialog_close_button
+{
+	left: 8px;
 }
 
 .cke_skin_kama .cke_rtl .cke_dialog_close_button
 {
 	left: 10px;
-	_left: 22px;
 }
 
-.cke_skin_kama .cke_browser_ie6.cke_rtl .cke_dialog_close_button
+.cke_skin_kama .cke_browser_ie7.cke_rtl .cke_dialog_close_button
 {
-	position: relative;
+	left: 16px;
+	top: 0;
+}
+
+/*.cke_skin_kama .cke_browser_ie6.cke_rtl .cke_dialog_close_button
+{
+	left: 16px;
+}*/
+
+/* IE7 + IE quirks */
+.cke_skin_kama .cke_browser_ie7.cke_rtl .cke_dialog_close_button
+{
+	position: absolute;
+	left: 10px;
+	top: 5px;
+}
+
+/* IE7 + IE quirks */
+.cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_contents
+{
 	float: left;
-	margin-top: -55px;
-	margin-left: -7px;
 }
 
-.cke_skin_kama .cke_browser_iequirks.cke_rtl.cke_single_page .cke_dialog_close_button
+/* IE7 + IE quirks */
+.cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_footer
 {
-	margin-top: -32px;
+	clear: left;
 }
 
-.cke_skin_kama .cke_browser_iequirks.cke_ltr .cke_dialog_close_button
+.cke_skin_kama .cke_browser_ie6 .cke_dialog_close_button,
+.cke_skin_kama .cke_browser_iequirks .cke_dialog_close_button
+{
+	top: 7px;
+}
+
+/* Fix missing right border */
+.cke_skin_kama .cke_browser_ie6.cke_rtl .cke_dialog_body
+{
+	float: left;
+}
+
+/* IE7 + IE quirks */
+.cke_skin_kama .cke_browser_ie7.cke_ltr .cke_dialog_close_button
 {
 	margin-top: 0;
 }
