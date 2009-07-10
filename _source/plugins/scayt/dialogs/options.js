@@ -7,14 +7,184 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 	var firstLoad = true,
 		captions,
 		doc = CKEDITOR.document,
-		fckLang = 'en';
+		tags = [],
+		i,
+		contents = [],
+		userDicActive = false;
 	var dic_buttons = [
 		// [0] contains buttons for creating
 			"dic_create,dic_restore",
 		// [1] contains buton for manipulation
 			"dic_rename,dic_delete"
 		];
+	var tags_contents = [
+		{
+		id: 'options',
+		label: editor.lang.scayt.optionsTab,
+		elements: [
+			{
+			type: 'html',
+			id: 'options',
+			html: '<div class="inner_options">' +
+				'	<div class="messagebox"></div>' +
+				'	<div style="display:none;">' +
+				'		<input type="checkbox" value="0" id="allCaps" />' +
+				'		<label for="allCaps" id="label_allCaps"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'		<input type="checkbox" value="0" id="ignoreDomainNames" />' +
+				'		<label for="ignoreDomainNames" id="label_ignoreDomainNames"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'	<input type="checkbox" value="0" id="mixedCase" />' +
+				'		<label for="mixedCase" id="label_mixedCase"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'		<input type="checkbox" value="0" id="mixedWithDigits" />' +
+				'		<label for="mixedWithDigits" id="label_mixedWithDigits"></label>' +
+				'	</div>' +
+				'</div>'
+		}
+		]
+	},
+		{
+		id: 'langs',
+		label: editor.lang.scayt.languagesTab,
+		elements: [
+			{
+			type: 'html',
+			id: 'langs',
+			html: '<div class="inner_langs">' +
+				'	<div class="messagebox"></div>	' +
+				'   <div style="float:left;width:47%;margin-left:5px;" id="scayt_lcol" ></div>' +
+				'   <div style="float:left;width:47%;margin-left:15px;" id="scayt_rcol"></div>' +
+				'</div>'
+		}
+		]
+	},
+		{
+		id: 'dictionaries',
+		label: editor.lang.scayt.dictionariesTab,
+		elements: [
+			{
+			type: 'html',
+			style: '',
+			id: 'dic',
+			html: '<div class="inner_dictionary" style="text-align:left; white-space:normal;">' +
+				'	<div style="margin:5px auto; width:80%;white-space:normal; overflow:hidden;" id="dic_message"> </div>' +
+				'	<div style="margin:5px auto; width:80%;white-space:normal;"> ' +
+				'       <span class="cke_dialog_ui_labeled_label" >Dictionary name</span><br>' +
+				'		<span class="cke_dialog_ui_labeled_content" >' +
+				'			<div class="cke_dialog_ui_input_text">' +
+				'				<input id="dic_name" type="text" class="cke_dialog_ui_input_text"/>' +
+				'		</div></span></div>' +
+				'		<div style="margin:5px auto; width:80%;white-space:normal;">' +
+				'			<a style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_create">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_delete">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_rename">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_restore">' +
+				'				</a>' +
+				'		</div>' +
+				'	<div style="margin:5px auto; width:95%;white-space:normal;" id="dic_info"></div>' +
+				'</div>'
+		}
+		]
+	},
+		{
+		id: 'about',
+		label: editor.lang.scayt.aboutTab,
+		elements: [
+			{
+			type: 'html',
+			id: 'about',
+			style: 'margin: 10px 40px;',
+			html: '<div id="scayt_about"></div>'
+		}
+		]
+	}
+	];
+	var dialogDefiniton = {
+		title: editor.lang.scayt.title,
+		minWidth: 340,
+		minHeight: 200,
+		onShow: function() {
+			var dialog = this;
+			dialog.data = editor.fire( 'scaytDialog', {} );
+			dialog.options = dialog.data.scayt_control.option();
+			dialog.sLang = dialog.data.scayt_control.sLang;
 
+			if ( !dialog.data || !dialog.data.scayt || !dialog.data.scayt_control ) {
+				alert( 'Error loading application service' );
+				dialog.hide();
+				return;
+			}
+
+			var stop = 0;
+			if ( firstLoad ) {
+				dialog.data.scayt.getCaption( 'en', function( caps ) {
+					if ( stop++ > 0 ) // Once only
+					return;
+					captions = caps;
+					init_with_captions.apply( dialog );
+					reload.apply( dialog );
+					firstLoad = false;
+				});
+			} else
+				reload.apply( dialog );
+
+			dialog.selectPage( dialog.data.tab );
+		},
+		onOk: function() {
+			var scayt_control = this.data.scayt_control,
+				o = scayt_control.option(),
+				c = 0;
+
+			// Set up options if any was set.
+			for ( var i in this.options ) {
+				if ( o[ i ] != this.options[ i ] && c === 0 ) {
+					scayt_control.option( this.options );
+					c++;
+				}
+			}
+
+			// Setup languge if it was changed.
+			var csLang = this.chosed_lang;
+			if ( csLang && this.data.sLang != csLang ) {
+				scayt_control.setLang( csLang );
+				c++;
+			}
+			if ( c > 0 )
+				scayt_control.refresh();
+		},
+		contents: contents
+	};
+
+	var scayt_control = CKEDITOR.plugins.scayt.getScayt( editor );
+	if ( scayt_control ) {
+		tags = scayt_control.uiTags;
+	}
+
+	for ( i in tags ) {
+		if ( tags[ i ] == 1 )
+			contents[ contents.length ] = tags_contents[ i ];
+	}
+	if ( tags[ 2 ] == 1 )
+		userDicActive = true;
+
+	function onDicButtonClick() {
+		var dic_name = doc.getById( 'dic_name' ).getValue();
+		if ( !dic_name ) {
+			dic_error_message( " Dictionary name should not be empty. " );
+			return false;
+		}
+		//apply handler
+		dic[ this.getId() ].apply( null, [ this, dic_name, dic_buttons ] );
+
+		return true;
+	}
 	var init_with_captions = function() {
 			var dialog = this,
 				lang_list = dialog.data.scayt.getLangList(),
@@ -23,11 +193,14 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				i;
 
 			// Add buttons titles
-			for ( i in buttons ) {
-				var button = buttons[ i ];
-				doc.getById( button ).setHtml( '<span class="cke_dialog_ui_button">' + captions[ 'button_' + button ] + '</span>' );
+			if ( userDicActive ) {
+				for ( i in buttons ) {
+					var button = buttons[ i ];
+					doc.getById( button ).setHtml( '<span class="cke_dialog_ui_button">' + captions[ 'button_' + button ] + '</span>' );
+				}
+				doc.getById( 'dic_info' ).setHtml( captions[ 'dic_info' ] );
 			}
-			doc.getById( 'dic_info' ).setHtml( captions[ 'dic_info' ] );
+
 
 			// Fill options and dictionary labels.
 			for ( i in labels ) {
@@ -186,20 +359,11 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 			for ( i = 0, l = arr_buttons.length; i < l; i += 1 ) {
 				var dic_button = doc.getById( arr_buttons[ i ] );
-
-				dic_button.on( 'click', function() {
-					var dic_name = doc.getById( 'dic_name' ).getValue();
-					if ( !dic_name ) {
-						dic_error_message( " Dictionary name should not be empty. " );
-						return false;
-					}
-					//apply handler
-					dic[ this.getId() ].apply( null, [ this, dic_name, dic_buttons ] );
-
-					return true;
-				});
+				if ( dic_button )
+					dic_button.on( 'click', onDicButtonClick, this );
 			}
 		};
+
 	var reload = function() {
 			var dialog = this;
 
@@ -221,19 +385,21 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			}
 
 			// * user dictionary
-			scayt.getNameUserDictionary( function( o ) {
-				var dic_name = o.dname;
-				if ( dic_name ) {
-					doc.getById( 'dic_name' ).setValue( dic_name );
-					display_dic_buttons( dic_buttons[ 1 ] );
-				} else
-					display_dic_buttons( dic_buttons[ 0 ] );
+			if ( userDicActive ) {
+				scayt.getNameUserDictionary( function( o ) {
+					var dic_name = o.dname;
+					if ( dic_name ) {
+						doc.getById( 'dic_name' ).setValue( dic_name );
+						display_dic_buttons( dic_buttons[ 1 ] );
+					} else
+						display_dic_buttons( dic_buttons[ 0 ] );
 
-			}, function() {
-				doc.getById( 'dic_name' ).setValue( "" );
-			});
+				}, function() {
+					doc.getById( 'dic_name' ).setValue( "" );
+				});
+				dic_success_message( "" );
+			}
 
-			dic_success_message( "" );
 		};
 
 	function dic_error_message( m ) {
@@ -246,7 +412,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 	function display_dic_buttons( sIds ) {
 
-		sIds = new String( sIds );
+		sIds = String( sIds );
 		var aIds = sIds.split( ',' );
 		for ( var i = 0, l = aIds.length; i < l; i += 1 ) {
 			doc.getById( aIds[ i ] ).$.style.display = "inline";
@@ -255,7 +421,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 	}
 
 	function hide_dic_buttons( sIds ) {
-		sIds = new String( sIds );
+		sIds = String( sIds );
 		var aIds = sIds.split( ',' );
 		for ( var i = 0, l = aIds.length; i < l; i += 1 ) {
 			doc.getById( aIds[ i ] ).$.style.display = "none";
@@ -266,147 +432,5 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 		doc.getById( 'dic_name' ).$.value = dic_name;
 	}
 
-	return {
-		title: editor.lang.scayt.title,
-		minWidth: 340,
-		minHeight: 200,
-		onShow: function() {
-			var dialog = this;
-			dialog.data = editor.fire( 'scaytDialog', {} );
-			dialog.options = dialog.data.scayt_control.option();
-			dialog.sLang = dialog.data.scayt_control.sLang;
-
-			if ( !dialog.data || !dialog.data.scayt || !dialog.data.scayt_control ) {
-				alert( 'Error loading application service' );
-				dialog.hide();
-				return;
-			}
-
-			var stop = 0;
-			if ( firstLoad ) {
-				dialog.data.scayt.getCaption( 'en', function( caps ) {
-					if ( stop++ > 0 ) // Once only
-					return;
-					captions = caps;
-					init_with_captions.apply( dialog );
-					reload.apply( dialog );
-					firstLoad = false;
-				});
-			} else
-				reload.apply( dialog );
-
-			dialog.selectPage( dialog.data.tab );
-		},
-		onOk: function() {
-			var scayt_control = this.data.scayt_control,
-				o = scayt_control.option(),
-				c = 0;
-
-			// Set up options if any was set.
-			for ( var oN in this.options ) {
-				if ( o[ oN ] != this.options[ oN ] && c === 0 ) {
-					scayt_control.option( this.options );
-					c++;
-				}
-			}
-
-			// Setup languge if it was changed.
-			var csLang = this.chosed_lang;
-			if ( csLang && this.data.sLang != csLang ) {
-				scayt_control.setLang( csLang );
-				c++;
-			}
-			if ( c > 0 )
-				scayt_control.refresh();
-		},
-		contents: [
-			{
-			id: 'options',
-			label: editor.lang.scayt.optionsTab,
-			elements: [
-				{
-				type: 'html',
-				id: 'options',
-				html: '<div class="inner_options">' +
-					'	<div class="messagebox"></div>' +
-					'	<div style="display:none;">' +
-					'		<input type="checkbox" value="0" id="allCaps" />' +
-					'		<label for="allCaps" id="label_allCaps"></label>' +
-					'	</div>' +
-					'	<div style="display:none;">' +
-					'		<input type="checkbox" value="0" id="ignoreDomainNames" />' +
-					'		<label for="ignoreDomainNames" id="label_ignoreDomainNames"></label>' +
-					'	</div>' +
-					'	<div style="display:none;">' +
-					'	<input type="checkbox" value="0" id="mixedCase" />' +
-					'		<label for="mixedCase" id="label_mixedCase"></label>' +
-					'	</div>' +
-					'	<div style="display:none;">' +
-					'		<input type="checkbox" value="0" id="mixedWithDigits" />' +
-					'		<label for="mixedWithDigits" id="label_mixedWithDigits"></label>' +
-					'	</div>' +
-					'</div>'
-			}
-			]
-		},
-			{
-			id: 'langs',
-			label: editor.lang.scayt.languagesTab,
-			elements: [
-				{
-				type: 'html',
-				id: 'langs',
-				html: '<div class="inner_langs">' +
-					'	<div class="messagebox"></div>	' +
-					'   <div style="float:left;width:47%;margin-left:5px;" id="scayt_lcol" ></div>' +
-					'   <div style="float:left;width:47%;margin-left:15px;" id="scayt_rcol"></div>' +
-					'</div>'
-			}
-			]
-		},
-			{
-			id: 'dictionaries',
-			label: editor.lang.scayt.dictionariesTab,
-			elements: [
-				{
-				type: 'html',
-				style: '',
-				id: 'dic',
-				html: '<div class="inner_dictionary" style="text-align:left; white-space:normal;">' +
-					'	<div style="margin:5px auto; width:80%;white-space:normal; overflow:hidden;" id="dic_message"> </div>' +
-					'	<div style="margin:5px auto; width:80%;white-space:normal;"> ' +
-					'       <span class="cke_dialog_ui_labeled_label" >Dictionary name</span><br>' +
-					'		<span class="cke_dialog_ui_labeled_content" >' +
-					'			<div class="cke_dialog_ui_input_text">' +
-					'				<input id="dic_name" type="text" class="cke_dialog_ui_input_text"/>' +
-					'		</div></span></div>' +
-					'		<div style="margin:5px auto; width:80%;white-space:normal;">' +
-					'			<a style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_create">' +
-					'				</a>' +
-					'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_delete">' +
-					'				</a>' +
-					'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_rename">' +
-					'				</a>' +
-					'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_restore">' +
-					'				</a>' +
-					'		</div>' +
-					'	<div style="margin:5px auto; width:95%;white-space:normal;" id="dic_info"></div>' +
-					'</div>'
-			}
-			]
-		},
-			{
-			id: 'about',
-			label: editor.lang.scayt.aboutTab,
-			elements: [
-				{
-				type: 'html',
-				id: 'about',
-				style: 'margin: 10px 40px;',
-				html: '<div id="scayt_about"></div>'
-			}
-			]
-		}
-		]
-	};
+	return dialogDefiniton;
 });
