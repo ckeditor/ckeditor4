@@ -227,12 +227,12 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 				for ( var j = 0; j < columns; j++, i++ ) {
 					if ( chars[ i ] ) {
-						html.push( '<td class="cke_dark_background">' +
-							'<a href="javascript: void(0);" style="display: block; height: 1.25em; margin-top: 0.25em; text-align: center;" title="', chars[ i ].replace( /&/g, '&amp;' ), '"' +
+						html.push( '<td class="cke_dark_background" style="cursor: default">' +
+							'<a href="javascript: void(0);" style="cursor: inherit; display: block; height: 1.25em; margin-top: 0.25em; text-align: center;" title="', chars[ i ].replace( /&/g, '&amp;' ), '"' +
 							' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydown + ', event, this )"' +
 							' onclick="CKEDITOR.tools.callFunction(' + onClick + ', this); return false;"' +
 							' tabindex="-1">' +
-							'<span style="margin: 0 auto;">' +
+							'<span style="margin: 0 auto;cursor: inherit">' +
 							chars[ i ] +
 							'</span></a>' );
 					} else
