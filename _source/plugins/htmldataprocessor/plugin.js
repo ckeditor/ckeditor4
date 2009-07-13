@@ -104,7 +104,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						savedAttributeName;
 					for ( var i = 0; i < attributeNames.length; i++ ) {
 						savedAttributeName = '_cke_saved_' + attributeNames[ i ];
-						savedAttributeName in attribs && ( delete attribs[ savedAttributeName ] );
+						savedAttributeName in attribs && ( delete attribs[ attributeNames[ i ] ] );
 					}
 				}
 			},

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: list</title>
+	<link rel="stylesheet" type="text/css" href="../../test.css" />
+	<script type="text/javascript" src="../../../../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../../test.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+/**
+ * Load the editor and wait for fully interactable.
+ * @param {Object} elementId
+ * @parma {Object} mode
+ * @param {Object} config
+ * @param {Object} callback Continuation with {@param editor}.
+ * @param {Object} context
+ */
+function prepareEditor( elementId, mode, config, callback, context )
+{
+	CKEDITOR.on( 'instanceReady',
+		function( evt )
+		{
+			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+				evt.editor.name == elementId
+				: evt.editor.element.$ ==
+					document.getElementById( elementId );
+			if ( isMe )
+			{
+				var editor = evt.editor;
+				// Force result data unformatted.
+				editor.dataProcessor.writer._.rules = {};
+				// Force remove tail br.
+				editor.dataProcessor.htmlFilter.addRules( {
+					elements : {
+						'br' : function( br ){
+							var parent = br.parent,
+								length = parent.children.length,
+								lastChild = parent.children[ length - 1 ];
+							if( lastChild == br )
+								return false;
+						}
+					}
+				} );
+				callback.call( context, editor );
+			}
+		}, this );
+
+	mode = mode || CKEDITOR.ELEMENT_MODE_REPLACE;
+	switch( mode )
+	{
+		case CKEDITOR.ELEMENT_MODE_REPLACE :
+			CKEDITOR.replace( elementId, config );
+			break;
+		case CKEDITOR.ELEMENT_MODE_APPENDTO :
+			CKEDITOR.appendTo( elementId, config );
+			break;
+	}
+}
+
+/**
+ * IE always returning CRLF for line-feed, so remove it when retrieving
+ * pre-formated text from text area.
+ */
+function getTextAreaValue( id )
+{
+	return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
+}
+
+CKEDITOR.test.addTestCase( ( function()
+	{
+
+		// Local references.
+		var assert = CKEDITOR.test.assert,
+			doc = CKEDITOR.document,
+			action = YAHOO.util.UserAction,
+			selector = YAHOO.util.Selector;
+
+		return	{
+
+			/**
+			 *  Test remove numbered list with 'enterMode = BR'.
+			 */
+			test_create_link : function()
+			{
+				prepareEditor( 'test_create_link_editor', null,
+					null,
+					function( editor )
+					{
+						this.resume( function()
+						{
+				            editor.focus();
+				            editor.execCommand( 'link' );
+							// waiting for dialog to open.
+				            this.wait( function()
+							 {
+							 	var dialog = editor._.storedDialogs[ 'link' ];
+							 	var urlField = dialog.getContentElement( 'info', 'url' );
+							 	urlField.setValue( 'http://svn.fckeditor.net' );
+
+							 	dialog.fire( 'ok' );
+							 	dialog.hide();
+
+							 	var result = editor.getData();
+							 	assert.areEqual(
+								 '<p><a href="http://svn.fckeditor.net">http://svn.fckeditor.net</a></p>',
+								 result, 'Created link element doesn\'t match.' );
+
+							 }, 1000 );
+						} );
+					}, this );
+					this.wait();
+			},
+
+			name :document.title
+		};
+	} )() );
+	//]]>
+	</script>
+</head>
+<body>
+<textarea id="test_create_link_editor"></textarea>
+</body>
+</html>
