@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="../../test.js"></script>
 	<script type="text/javascript">
 
-CKEDITOR.plugins.load( 'styles' );
+CKEDITOR.plugins.load( [ 'styles', 'domiterator', 'htmldataprocessor' ] );
 
 	</script>
 	<script type="text/javascript">
@@ -20,6 +20,13 @@ CKEDITOR.test.addTestCase( testCase = (function()
 	// Local references.
 	var assert			= CKEDITOR.test.assert;
 	var getInnerHtml	= CKEDITOR.test.getInnerHtml;
+
+	function getInnerHtmlParsed( element )
+	{
+		var dataProcessor = new CKEDITOR.htmlDataProcessor();
+		dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+		return dataProcessor.toDataFormat( getInnerHtml( element, false ) );
+	}
 
 	var doc = new CKEDITOR.dom.document( document );
 
@@ -537,10 +544,45 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			// text <span><i>^</i></span><bold><span><b><i>styles</i></b></span></bold>
 			assert.areSame( 'text <span><i></i></span><strong><bold><span><b><i id="_i1">styles</i></b></span></bold></strong>', getInnerHtml( element ) );
 		},
+
+		// Test convert multiple paragraphs to one <pre>.
+		test_ticket_3188 : function()
+		{
+			var element = doc.getById( '_P1' );
+			element.setHtml( '<p id="_P2">\nparagraph1<br /><br />para\t\ngraph2</p><p id="_P3">\nparagraph3\n</p>' );
+
+			// <p id="_P2">[paragraph1</p><p id="_P3">paragraph2]</p>
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( '_P2' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( doc.getById( '_P3' ), CKEDITOR.POSITION_BEFORE_END );
+
+			var style = new CKEDITOR.style( { element : 'pre' } );
+			style.applyToRange( range );
+
+			var result = getInnerHtmlParsed( element );
+			assert.areSame( '<pre>paragraph1\n\npara graph2\n\nparagraph3</pre>', result );
+		},
+
+		// Test convert one <pre> to multiple paragraphs. 
+		test_ticket_3188_2 : function()
+		{
+			var element = doc.getById( '_P1' );
+			element.setHtml( '<pre>\n\tparagraph1\t\tparagraph1\nparagraph2\n\t\n\tpara   graph3\n</pre>' );
+
+			//<pre>[\n\tparagraph1\t\tparagraph1\nparagraph2\n\t\n\tpara   graph3\n]</pre>
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( doc.getById( '_P1' ).getFirst() );
+			var style = new CKEDITOR.style( { element : 'p' } );
+			style.applyToRange( range );
+
+			var result = getInnerHtmlParsed( element );
+			assert.areSame( '<p>&nbsp;paragraph1&nbsp; paragraph1<br />paragraph2</p><p>&nbsp;para&nbsp;&nbsp; graph3</p>',
+					 result );
+		},
 		name : document.title
 	};
 })() );
-//window.onload = testCase.test_ticket_3309_3;
+//window.onload = testCase.test_ticket_3188;
 	//]]>
 	</script>
 </head>

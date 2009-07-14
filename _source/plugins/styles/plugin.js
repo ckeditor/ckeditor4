@@ -574,8 +574,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyBlockStyle( range ) {
-		// Bookmark the range so we can re-select it after processing.
-		var bookmark = range.createBookmark();
+		// Serializible bookmarks is needed here since
+		// elements may be merged.
+		var bookmark = range.createBookmark( true );
 
 		var iterator = range.createIterator();
 		iterator.enforceRealBlocks = true;
@@ -586,40 +587,164 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
 		{
-			// Create the new node right before the current one.
 			var newBlock = getElement( this, doc );
-
-			// Check if we are changing from/to <pre>.
-			//			var newBlockIsPre	= newBlock.nodeName.IEquals( 'pre' );
-			//			var blockIsPre		= block.nodeName.IEquals( 'pre' );
-
-			//			var toPre	= newBlockIsPre && !blockIsPre;
-			//			var fromPre	= !newBlockIsPre && blockIsPre;
-
-			// Move everything from the current node to the new one.
-			//			if ( toPre )
-			//				newBlock = this._ToPre( doc, block, newBlock );
-			//			else if ( fromPre )
-			//				newBlock = this._FromPre( doc, block, newBlock );
-			//			else	// Convering from a regular block to another regular block.
-			block.moveChildren( newBlock );
-
-			// Replace the current block.
-			newBlock.insertBefore( block );
-			block.remove();
-
-			// Complete other tasks after inserting the node in the DOM.
-			//			if ( newBlockIsPre )
-			//			{
-			//				if ( previousPreBlock )
-			//					this._CheckAndMergePre( previousPreBlock, newBlock ) ;	// Merge successive <pre> blocks.
-			//				previousPreBlock = newBlock;
-			//			}
-			//			else if ( fromPre )
-				//				this._CheckAndSplitPre( newBlock ) ;				// Split <br><br> in successive <pre>s.
-				}
+			replaceBlock( block, newBlock );
+		}
 
 		range.moveToBookmark( bookmark );
+	}
+
+	// Replace the original block with new one, with special treatment
+	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
+	// when necessary.(#3188)
+	function replaceBlock( block, newBlock ) {
+		var newBlockIsPre = newBlock.is( 'pre' );
+		var blockIsPre = block.is( 'pre' );
+
+		var isToPre = newBlockIsPre && !blockIsPre;
+		var isFromPre = !newBlockIsPre && blockIsPre;
+
+		if ( isToPre )
+			newBlock = toPre( block, newBlock );
+		else if ( isFromPre )
+			// Split big <pre> into pieces before start to convert.
+			newBlock = fromPres( splitIntoPres( block ), newBlock );
+		else
+			block.moveChildren( newBlock );
+
+		newBlock.replace( block );
+
+		if ( newBlockIsPre )
+			// Merge previous <pre> blocks.
+			mergePre( newBlock );
+	};
+
+	/**
+	 * Merge a <pre> block with a previous sibling if available.
+	 */
+	function mergePre( preBlock ) {
+		var previousBlock;
+		if ( !( ( previousBlock = preBlock.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) && previousBlock.is && previousBlock.is( 'pre' ) ) )
+			return;
+
+		// Merge the previous <pre> block contents into the current <pre>
+		// block.
+		//
+		// Another thing to be careful here is that currentBlock might contain
+		// a '\n' at the beginning, and previousBlock might contain a '\n'
+		// towards the end. These new lines are not normally displayed but they
+		// become visible after merging.
+		var mergedHtml = replace( previousBlock.getHtml(), /\n$/, '' ) + '\n\n' +
+			replace( preBlock.getHtml(), /^\n/, '' );
+
+		// Krugle: IE normalizes innerHTML from <pre>, breaking whitespaces.
+		if ( CKEDITOR.env.ie )
+			preBlock.$.outerHTML = '<pre>' + mergedHtml + '</pre>';
+		else
+			preBlock.setHtml( mergedHtml );
+
+		previousBlock.remove();
+	}
+
+	/**
+	 * Split into multiple <pre> blocks separated by double line-break.
+	 * @param preBlock
+	 */
+	function splitIntoPres( preBlock ) {
+		// Exclude the ones at header OR at tail,
+		// and ignore bookmark content between them.
+		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+_fck_bookmark.*?\/span>))*\n(?!$)/gi,
+			blockName = preBlock.getName(),
+			splitedHtml = replace( preBlock.getOuterHtml(), duoBrRegex, function( match, charBefore, bookmark ) {
+				return charBefore + '</pre>' + bookmark + '<pre>';
+			});
+
+		var pres = [];
+		splitedHtml.replace( /<pre>([\s\S]*?)<\/pre>/gi, function( match, preContent ) {
+			pres.push( preContent );
+		});
+		return pres;
+	}
+
+	// Wrapper function of String::replace without considering of head/tail bookmarks nodes.
+	function replace( str, regexp, replacement ) {
+		var headBookmark = '',
+			tailBookmark = '';
+
+		str = str.replace( /(^<span[^>]+_fck_bookmark.*?\/span>)|(<span[^>]+_fck_bookmark.*?\/span>$)/gi, function( str, m1, m2 ) {
+			m1 && ( headBookmark = m1 );
+			m2 && ( tailBookmark = m2 );
+			return '';
+		});
+		return headBookmark + str.replace( regexp, replacement ) + tailBookmark;
+	}
+	/**
+	 * Converting a list of <pre> into blocks with format well preserved.
+	 */
+	function fromPres( preHtmls, newBlock ) {
+		var docFrag = new CKEDITOR.dom.documentFragment( newBlock.getDocument() );
+		for ( var i = 0; i < preHtmls.length; i++ ) {
+			var blockHtml = preHtmls[ i ];
+
+			// 1. Trim the first and last line-breaks immediately after and before <pre>,
+			// they're not visible.
+			blockHtml = blockHtml.replace( /(\r\n|\r)/g, '\n' );
+			blockHtml = replace( blockHtml, /^[ \t]*\n/, '' );
+			blockHtml = replace( blockHtml, /\n$/, '' );
+			// 2. Convert spaces or tabs at the beginning or at the end to &nbsp;
+			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
+				if ( match.length == 1 ) // one space, preserve it
+				return '&nbsp;';
+				else if ( offset == 0 ) // beginning of block
+				return CKEDITOR.tools.replace( '&nbsp;', match.length - 1 ) + ' ';
+				else // end of block
+				return ' ' + CKEDITOR.tools.replace( '&nbsp;', match.length - 1 );
+			});
+
+			// 3. Convert \n to <BR>.
+			// 4. Convert contiguous (i.e. non-singular) spaces or tabs to &nbsp;
+			blockHtml = blockHtml.replace( /\n/g, '<br>' );
+			blockHtml = blockHtml.replace( /[ \t]{2,}/g, function( match ) {
+				return CKEDITOR.tools.replace( '&nbsp;', match.length - 1 ) + ' ';
+			});
+
+			var newBlockClone = newBlock.clone();
+			newBlockClone.setHtml( blockHtml );
+			docFrag.append( newBlockClone );
+		}
+		return docFrag;
+	}
+
+	/**
+	 * Converting from a non-PRE block to a PRE block in formatting operations.
+	 */
+	function toPre( block, newBlock ) {
+		// First trim the block content.
+		var preHtml = block.getHtml();
+
+		// 1. Trim head/tail spaces, they're not visible.
+		preHtml = replace( preHtml, /(?:^[ \t\n\r]+)|(?:[ \t\n\r]+$)/g, '' );
+		// 2. Delete ANSI whitespaces immediately before and after <BR> because
+		//    they are not visible.
+		preHtml = preHtml.replace( /[ \t\r\n]*(<br[^>]*>)[ \t\r\n]*/gi, '$1' );
+		// 3. Compress other ANSI whitespaces since they're only visible as one
+		//    single space previously.
+		// 4. Convert &nbsp; to spaces since &nbsp; is no longer needed in <PRE>.
+		preHtml = preHtml.replace( /([ \t\n\r]+|&nbsp;)/g, ' ' );
+		// 5. Convert any <BR /> to \n. This must not be done earlier because
+		//    the \n would then get compressed.
+		preHtml = preHtml.replace( /<br\b[^>]*>/gi, '\n' );
+
+		// Krugle: IE normalizes innerHTML to <pre>, breaking whitespaces.
+		if ( CKEDITOR.env.ie ) {
+			var temp = block.getDocument().createElement( 'div' );
+			temp.append( newBlock );
+			newBlock.$.outerHTML = '<pre>' + preHtml + '</pre>';
+			newBlock = temp.getFirst().remove();
+		} else
+			newBlock.setHtml( preHtml );
+
+		return newBlock;
 	}
 
 	// Removes a style from an element itself, don't care about its subtree.

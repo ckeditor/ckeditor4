@@ -459,7 +459,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return function( length ) {
 				return length + ( decimalRegex.test( length ) ? 'px' : '' );
 			};
-		})()
+		})(),
+
+		repeat: function( str, times ) {
+			return new Array( times + 1 ).join( str );
+		}
 	};
 })();
 

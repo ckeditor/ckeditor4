@@ -53,8 +53,9 @@ CKEDITOR.test = {
 
 	/**
 	 * Gets the inner HTML of an element, for testing purposes.
+	 * @param {Boolean} stripLineBreaks Assign 'false' to avoid trimming line-breaks.
 	 */
-	getInnerHtml: function( elementOrId ) {
+	getInnerHtml: function( elementOrId, stripLineBreaks ) {
 		var html;
 
 		if ( typeof elementOrId == 'string' )
@@ -62,10 +63,14 @@ CKEDITOR.test = {
 		else if ( elementOrId.getHtml )
 			html = elementOrId.getHtml();
 		else
-			html = elementOrId.innerHTML || '';
+			html = elementOrId.innerHTML // retrieve from innerHTML
+		|| elementOrId.value; // retrieve from value
 
 		html = html.toLowerCase();
-		html = html.replace( /[\n\r]/g, '' );
+		if ( stripLineBreaks !== false )
+			html = html.replace( /[\n\r]/g, '' );
+		else
+			html = html.replace( /\r/g, '' ); // Normalize CRLF.
 
 		html = html.replace( /<\w[^>]*/g, function( match ) {
 			var attribs = [];

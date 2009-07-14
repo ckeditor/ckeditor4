@@ -154,6 +154,11 @@ CKEDITOR.test.addTestCase( testcase = (function()
 			assert.areSame( 'silver', clone.cars.Porsche.color );
 		},
 
+		test_multiple : function()
+		{
+			assert.areSame( '&nbsp;&nbsp;&nbsp;', CKEDITOR.tools.replace( '&nbsp;', 3 ) );
+		},
+
 		name : document.title
 	};
 })() );
