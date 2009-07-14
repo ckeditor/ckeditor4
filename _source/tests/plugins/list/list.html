@@ -161,6 +161,40 @@ CKEDITOR.test.addTestCase( ( function()
 					this.wait();
 			},
 
+			/**
+			 *  Test remove list first list item not merging with previous text node.
+			 */
+			test_ticket_3836 : function()
+			{
+				prepareEditor( 'test_ticket_3836_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
+					function( editor )
+					{
+						this.resume( function()
+						{
+							editor.focus();
+
+							var doc = editor.document,
+								range = new CKEDITOR.dom.range( doc );
+							setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
+							debugger;
+							var sel = editor.getSelection();
+							sel.selectRanges( [ range ] );
+
+							// Waiting for 'comand state' effected.
+							this.wait( function(){
+								// Remove list.
+								editor.execCommand( 'bulletedlist' );
+								assert.areSame( getTextAreaValue( 'test_ticket_3836_result' ),
+									editor.getData(),
+									'Remove list result not correct.' );
+							}, 1000 );
+
+						} );
+					}, this );
+					this.wait();
+			},
+
 			name :document.title
 		};
 	} )() );
@@ -174,5 +208,7 @@ CKEDITOR.test.addTestCase( ( function()
 <textarea id="test_ticket_3820_result"><ul><li>bullet line 1</li><li>bullet line 2</li><li>Second line</li></ul></textarea>
 <textarea id="test_ticket_3773_editor"><ol><li>line1</li><li>line2</li></ol></textarea>
 <textarea id="test_ticket_3773_result">line1<br />line2</textarea>
+<textarea id="test_ticket_3836_editor">line1<ul><li>item1</li><li>item2</li></ul>line2</textarea>
+<textarea id="test_ticket_3836_result">line1<br />item1<br />item2<br />line2</textarea>
 </body>
 </html>

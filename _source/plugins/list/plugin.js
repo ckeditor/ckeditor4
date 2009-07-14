@@ -290,13 +290,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
+
+		// Compensate a <br> before the first node if the previous node of list is a non-blocks.(#3836) 
+		var docFragment = newList.listNode,
+			firstNode, previousNode;
+		if ( ( firstNode = docFragment.getFirst() ) && !( firstNode.is && firstNode.isBlockBoundary() ) && ( previousNode = groupObj.root.getPrevious( true ) ) && !( previousNode.is && previousNode.isBlockBoundary( { br:1 } ) ) )
+			editor.document.createElement( 'br' ).insertBefore( firstNode );
+
 		// If groupObj.root is the last element in its parent, or its nextSibling is a <br>, then we should
 		// not add a <br> after the final item. So, check for the cases and trim the <br>.
 		if ( !groupObj.root.getNext() || groupObj.root.getNext().$.nodeName.toLowerCase() == 'br' ) {
 			if ( newList.listNode.getLast().$.nodeName.toLowerCase() == 'br' )
 				newList.listNode.getLast().remove();
 		}
-		newList.listNode.replace( groupObj.root );
+		docFragment.replace( groupObj.root );
 	}
 
 	function listCommand( name, type ) {
