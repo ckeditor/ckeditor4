@@ -111,7 +111,6 @@ CKEDITOR.ui.panel.prototype = {
 					className = parentDiv.getParent().getAttribute( 'class' ),
 					langCode = parentDiv.getParent().getAttribute( 'lang' ),
 					doc = iframe.getFrameDocument();
-
 				// Initialize the IFRAME document body.
 				doc.$.open();
 
@@ -119,12 +118,19 @@ CKEDITOR.ui.panel.prototype = {
 				if ( CKEDITOR.env.isCustomDomain() )
 					doc.$.domain = document.domain;
 
+				var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function( ev ) {
+					this.isLoaded = true;
+					if ( this.onLoad )
+						this.onLoad();
+				}, this ) );
+
 				doc.$.write( '<!DOCTYPE html>' +
 					'<html dir="' + dir + '" class="' + className + '_container" lang="' + langCode + '">' +
 						'<head>' +
 							'<style>.' + className + '_container{visibility:hidden}</style>' +
 						'</head>' +
-						'<body class="cke_' + dir + ' cke_panel_frame ' + CKEDITOR.env.cssClass + '" style="margin:0;padding:0">' +
+						'<body class="cke_' + dir + ' cke_panel_frame ' + CKEDITOR.env.cssClass + '" style="margin:0;padding:0"' +
+						' onload="( window.CKEDITOR || window.parent.CKEDITOR ).tools.callFunction(' + onLoad + ');">' +
 						'</body>' +
 						// It looks strange, but for FF2, the styles must go
 				// after <body>, so it (body) becames immediatelly
@@ -137,12 +143,6 @@ CKEDITOR.ui.panel.prototype = {
 
 				// Register the CKEDITOR global.
 				win.$.CKEDITOR = CKEDITOR;
-
-				win.on( 'load', function( ev ) {
-					this.isLoaded = true;
-					if ( this.onLoad )
-						this.onLoad();
-				}, this );
 
 				doc.on( 'keydown', function( evt ) {
 					var keystroke = evt.data.getKeystroke();
