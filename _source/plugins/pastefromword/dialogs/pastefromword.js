@@ -213,7 +213,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			elements: [
 				{
 				type: 'html',
-				style: 'white-space: normal;',
+				style: 'white-space:normal;width:346px;display:block',
 				onShow: function() {
 					/*
 					 * SAFARI BUG: The advice label would overflow if the table layout
