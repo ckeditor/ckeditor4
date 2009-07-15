@@ -414,7 +414,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					testRange.setEndPoint( 'StartToStart', range );
-					var distance = testRange.text.length;
+					// IE report line break as CRLF with range.text but
+					// only LF with textnode.nodeValue, normalize them to avoid
+					// breaking character counting logic below. (#3949)
+					var distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
 
 					while ( distance > 0 )
 						distance -= siblings[ --i ].nodeValue.length;
@@ -808,7 +811,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
 // V2
-function() {
+function( forceExpand ) {
 	var collapsed = this.collapsed;
 	var isStartMarkerAlone;
 	var dummySpan;
@@ -844,7 +847,7 @@ function() {
 		// will expand and that the cursor will be blinking on the right place.
 		// Actually, we are using this flag just to avoid using this hack in all
 		// situations, but just on those needed.
-		isStartMarkerAlone = !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) );
+		isStartMarkerAlone = forceExpand || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) );
 
 		// Append a temporary <span>&#65279;</span> before the selection.
 		// This is needed to avoid IE destroying selections inside empty
