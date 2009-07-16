@@ -16,6 +16,12 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 									+ 'document.designMode = "on";'
 								+ 'var iframe = new window.parent.CKEDITOR.dom.element( frameElement );'
 								+ 'var dialog = iframe.getCustomData( "dialog" );'
+							+ ''
+								+ 'iframe.getFrameDocument().on( "keydown", function( e )\
+						{\
+							if ( e.data.getKeystroke() == 27 )\
+								dialog.hide();\
+						});'
 								+ 'dialog.fire( "iframeAdded", { iframe : iframe } );'
 							+ '};'
 							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',

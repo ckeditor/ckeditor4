@@ -19,7 +19,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 									+ 'document.designMode = "on";'
 								+ 'var iframe = new window.parent.CKEDITOR.dom.element( frameElement );'
 								+ 'var dialog = iframe.getCustomData( "dialog" );'
-								+ 'dialog.fire( "iframeAdded", { iframe : iframe } );'
+							+ ''
+								+ 'iframe.getFrameDocument().on( "keydown", function( e )\
+						{\
+							if ( e.data.getKeystroke() == 27 )\
+								dialog.hide();\
+						});'
 							+ '};'
 							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',
 
