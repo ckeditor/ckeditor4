@@ -126,3 +126,9 @@ span.cke_skin_kama
 {
 	position: absolute;
 }
+
+.cke_skin_kama .cke_browser_ie.cke_browser_quirks .cke_contents iframe
+{
+	position: absolute;
+	top: 0;
+}

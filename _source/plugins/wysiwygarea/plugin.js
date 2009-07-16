@@ -237,11 +237,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						} else if ( CKEDITOR.env.ie ) {
 							// Accessibility label for IE.
 							fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%' +
-								( CKEDITOR.env.quirks ? ';position:relative' : '' ) +
 								'">' +
-								'<legend style="position:absolute;left:-10000px">' +
-									CKEDITOR.tools.htmlEncode( accTitle ) +
-								'</legend>' +
+									'<legend style="position:absolute;left:-10000px">' +
+										CKEDITOR.tools.htmlEncode( accTitle ) +
+									'</legend>' +
 								'</fieldset>'
 								, CKEDITOR.document );
 							iframe.appendTo( fieldset );
@@ -398,7 +397,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					load: function( holderElement, data, isSnapshot ) {
 						mainElement = holderElement;
 
-						if ( CKEDITOR.env.ie && ( CKEDITOR.env.quirks || CKEDITOR.env.version < 8 ) )
+						if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
 							holderElement.setStyle( 'position', 'relative' );
 
 						// The editor data "may be dirty" after this

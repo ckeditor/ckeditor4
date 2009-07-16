@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -104,6 +105,9 @@ CKEDITOR.plugins.add( 'sourcearea', {
 
 					if ( onResize )
 						editor.removeListener( 'resize', onResize );
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+						holderElement.removeStyle( 'position' );
 				},
 
 				focus: function() {
