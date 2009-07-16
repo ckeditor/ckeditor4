@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					for ( i = 0; i < item.contents.length; i++ )
 						currentListItem.append( item.contents[ i ].clone( true, true ) );
 
-					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
+					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
 						if ( currentListItem.getLast() && currentListItem.getLast().type == CKEDITOR.NODE_ELEMENT && currentListItem.getLast().getAttribute( 'type' ) == '_moz' )
 							currentListItem.getLast().remove();
 						currentListItem.appendBogus();
@@ -297,13 +297,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( ( firstNode = docFragment.getFirst() ) && !( firstNode.is && firstNode.isBlockBoundary() ) && ( previousNode = groupObj.root.getPrevious( true ) ) && !( previousNode.is && previousNode.isBlockBoundary( { br:1 } ) ) )
 			editor.document.createElement( 'br' ).insertBefore( firstNode );
 
-		// If groupObj.root is the last element in its parent, or its nextSibling is a <br>, then we should
-		// not add a <br> after the final item. So, check for the cases and trim the <br>.
-		if ( !groupObj.root.getNext() || groupObj.root.getNext().$.nodeName.toLowerCase() == 'br' ) {
-			if ( newList.listNode.getLast().$.nodeName.toLowerCase() == 'br' )
-				newList.listNode.getLast().remove();
-		}
+		var rootParent = groupObj.root.getParent();
 		docFragment.replace( groupObj.root );
+		// The list content might be empty.(#3782)
+		if ( !CKEDITOR.env.ie && rootParent )
+			rootParent.appendBogus();
 	}
 
 	function listCommand( name, type ) {
