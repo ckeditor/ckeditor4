@@ -355,12 +355,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return ( parent && parent.nodeType == 1 ) ? new CKEDITOR.dom.node( parent ) : null;
 	},
 
-	getParents: function() {
+	getParents: function( closerFirst ) {
 		var node = this;
 		var parents = [];
 
 		do {
-			parents.unshift( node );
+			parents[ closerFirst ? 'push' : 'unshift' ]( node );
 		}
 		while ( ( node = node.getParent() ) )
 

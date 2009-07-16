@@ -100,7 +100,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// list's DOM tree itself. The array model demands that it knows as much as
 		// possible about the surrounding lists, we need to feed it the further
 		// ancestor node that is still a list.
-		var listParents = listNode.getParents();
+		var listParents = listNode.getParents( true );
 		for ( var i = 0; i < listParents.length; i++ ) {
 			if ( listParents[ i ].getName && listNodeNames[ listParents[ i ].getName() ] ) {
 				listNode = listParents[ i ];
