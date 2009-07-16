@@ -305,6 +305,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				onLoad: function() {
 					if ( dialogType != 'image' )
 						this.hidePage( 'Link' ); //Hide Link tab.
+					var doc = this._.element.getDocument();
+					this.addFocusable( doc.getById( 'btnLockSizes' ), 5 );
+					this.addFocusable( doc.getById( 'btnResetSize' ), 5 );
 				},
 				onHide: function() {
 					if ( this.preview )
@@ -527,10 +530,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 												resetSize( this );
 											}, this.getDialog() );
 											resetButton.on( 'mouseover', function() {
-												this.addClass( 'BtnOver' );
+												this.addClass( 'cke_btn_over' );
 											}, resetButton );
 											resetButton.on( 'mouseout', function() {
-												this.removeClass( 'BtnOver' );
+												this.removeClass( 'cke_btn_over' );
 											}, resetButton );
 										}
 										// Activate (Un)LockRatio button
@@ -549,18 +552,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 												}
 											}, this.getDialog() );
 											ratioButton.on( 'mouseover', function() {
-												this.addClass( 'BtnOver' );
+												this.addClass( 'cke_btn_over' );
 											}, ratioButton );
 											ratioButton.on( 'mouseout', function() {
-												this.removeClass( 'BtnOver' );
+												this.removeClass( 'cke_btn_over' );
 											}, ratioButton );
 										}
 									},
 									html: '<div>' +
-										'<div title="' + editor.lang.image.lockRatio +
-										'" class="cke_btn_locked" id="btnLockSizes"></div>' +
-										'<div title="' + editor.lang.image.resetSize +
-										'" class="cke_btn_reset" id="btnResetSize"></div>' +
+										'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.lockRatio +
+										'" class="cke_btn_locked" id="btnLockSizes"></a>' +
+										'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.resetSize +
+										'" class="cke_btn_reset" id="btnResetSize"></a>' +
 										'</div>'
 								}
 								]

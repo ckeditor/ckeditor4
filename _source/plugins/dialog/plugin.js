@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -387,6 +388,30 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		CKEDITOR.skins.load( editor, 'dialog' );
 	};
+
+	// Focusable interface. Use it via dialog.addFocusable.
+	function Focusable( dialog, element, index ) {
+		this.element = element;
+		this.focusIndex = index;
+		this.isFocusable = function() {
+			return true;
+		};
+		this.focus = function() {
+			dialog._.currentFocusIndex = this.focusIndex;
+			this.element.focus();
+		};
+		// Bind events
+		element.on( 'keydown', function( e ) {
+			if ( e.data.getKeystroke() in { 32:1,13:1 } )
+				this.fire( 'click' );
+		});
+		element.on( 'focus', function() {
+			this.fire( 'mouseover' );
+		});
+		element.on( 'blur', function() {
+			this.fire( 'mouseout' );
+		});
+	}
 
 	CKEDITOR.dialog.prototype = {
 		/**
@@ -895,6 +920,23 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		getSelectedElement: function() {
 			return this.getParentEditor().getSelection().getSelectedElement();
+		},
+
+		/**
+		 * Adds element to dialog's focusable list.
+		 *
+		 * @param {CKEDITOR.dom.element} element
+		 * @param {Number} [index]
+		 */
+		addFocusable: function( element, index ) {
+			if ( typeof index == 'undefined' ) {
+				index = this._.focusList.length;
+				this._.focusList.push( new Focusable( this, element, index ) );
+			} else {
+				this._.focusList.splice( index, 0, new Focusable( this, element, index ) );
+				for ( var i = index + 1; i < this._.focusList.length; i++ )
+					this._.focusList[ i ].focusIndex++;
+			}
 		}
 	};
 
