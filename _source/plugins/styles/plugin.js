@@ -1035,7 +1035,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// retrieving its final format.
 		var temp = new CKEDITOR.dom.element( 'span' );
 		temp.setAttribute( 'style', unparsedCssText );
-		return temp.getAttribute( 'style' );
+		var styleText = temp.getAttribute( 'style' );
+		// IE will leave a single semicolon when failed to parse the style text.(#3891)
+		return styleText == ';' ? '' : styleText;
 	}
 
 	function applyStyle( document, remove ) {
