@@ -33,8 +33,8 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			html = html.replace( /\s*mso-[^:]+:[^;"]+;?/gi, '' );
 
 			// Remove margin styles.
-			html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*;/gi, '' );
-			html = html.replace( /\s*MARGIN: 0cm 0cm 0pt\s*"/gi, "\"" );
+			html = html.replace( /\s*MARGIN: 0(?:cm|in) 0(?:cm|in) 0pt\s*;/gi, '' );
+			html = html.replace( /\s*MARGIN: 0(?:cm|in) 0(?:cm|in) 0pt\s*"/gi, "\"" );
 
 			html = html.replace( /\s*TEXT-INDENT: 0cm\s*;/gi, '' );
 			html = html.replace( /\s*TEXT-INDENT: 0cm\s*"/gi, "\"" );
