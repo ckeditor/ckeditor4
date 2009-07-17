@@ -696,16 +696,16 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( match.length == 1 ) // one space, preserve it
 				return '&nbsp;';
 				else if ( offset == 0 ) // beginning of block
-				return CKEDITOR.tools.replace( '&nbsp;', match.length - 1 ) + ' ';
+				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 				else // end of block
-				return ' ' + CKEDITOR.tools.replace( '&nbsp;', match.length - 1 );
+				return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
 			});
 
 			// 3. Convert \n to <BR>.
 			// 4. Convert contiguous (i.e. non-singular) spaces or tabs to &nbsp;
 			blockHtml = blockHtml.replace( /\n/g, '<br>' );
 			blockHtml = blockHtml.replace( /[ \t]{2,}/g, function( match ) {
-				return CKEDITOR.tools.replace( '&nbsp;', match.length - 1 ) + ' ';
+				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 			});
 
 			var newBlockClone = newBlock.clone();
