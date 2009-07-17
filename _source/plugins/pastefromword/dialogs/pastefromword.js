@@ -26,6 +26,9 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 							+ '};'
 							+ '</script><style>body { margin: 3px; height: 95%; } </style><body></body>',
 		cleanWord: function( editor, html, ignoreFont, removeStyles ) {
+			// Remove comments [SF BUG-1481861].
+			html = html.replace( /<\!--[\s\S]*?-->/g, '' );
+
 			html = html.replace( /<o:p>\s*<\/o:p>/g, '' );
 			html = html.replace( /<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;' );
 
@@ -89,9 +92,6 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 
 			// Remove Tags with XML namespace declarations: <o:p><\/o:p>
 			html = html.replace( /<\/?\w+:[^>]*>/gi, '' );
-
-			// Remove comments [SF BUG-1481861].
-			html = html.replace( /<\!--[\s\S]*?-->/g, '' );
 
 			html = html.replace( /<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;' );
 
