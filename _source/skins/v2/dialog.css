@@ -447,7 +447,8 @@ body .cke_dialog
 .cke_skin_v2 .cke_rtl .cke_dialog_close_button
 {
 	left: 10px;
-	_left: 22px;
+	_left: 16px;
+	_top: 7px;
 }
 
 .cke_skin_v2 .cke_browser_ie6.cke_rtl .cke_dialog_close_button

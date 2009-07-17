@@ -157,6 +157,7 @@ body .cke_dialog
 .cke_skin_office2003 .cke_dialog_title
 {
 	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -678px;
 	background-repeat: repeat-x;
 	font-weight: bold;
@@ -360,6 +361,7 @@ body .cke_dialog
 .cke_skin_office2003 span.cke_dialog_ui_button
 {
 	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -678px;
 	background-repeat: repeat-x;
 	border: #0E3460 1px solid;
@@ -448,7 +450,8 @@ body .cke_dialog
 .cke_skin_office2003 .cke_rtl .cke_dialog_close_button
 {
 	left: 10px;
-	_left: 22px;
+	_left: 16px;
+	_top: 6px;
 }
 
 .cke_skin_office2003 .cke_browser_ie6.cke_rtl .cke_dialog_close_button

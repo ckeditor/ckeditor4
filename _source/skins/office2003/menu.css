@@ -99,14 +99,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
-/* Never applied */
-/*.cke_rtl .cke_skin_office2003 .cke_menuitem .cke_label
+.cke_rtl .cke_skin_office2003 .cke_menuitem .cke_label
 {
 	padding-right: 0;
 	margin-left: 0;
 	padding-left: 3px;
 	margin-right: 28px;
-}*/
+}
 
 .cke_skin_office2003 .cke_menuitem a.cke_disabled .cke_label
 {
@@ -140,7 +139,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_office2003 .cke_menuarrow
 {
-	background-image: url(images/arrowright.gif);
+	/* arrowright.gif*/
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
+	background-position: 0 -1071px;
 	background-repeat: no-repeat;
 	height: 5px;
 	width: 3px;
@@ -149,18 +151,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-top: 3px;
 }
 
-/* Never applied */
-/*.cke_rtl .cke_skin_office2003 .cke_menuarrow
+.cke_rtl .cke_skin_office2003 .cke_menuarrow
 {
 	float: left;
 	margin-right: 0;
 	margin-left: 2px;
-	background-image: url(images/arrowleft.gif);
-}*/
+	/* arrowleft.gif*/
+	background-position: 0 -1050px;
+}
 
 /* #3766 In the context menu, long labels with second level menu get wrapped */
-.cke_browser_ie .cke_skin_office2003 .cke_menuarrow
+.cke_browser_ie.cke_ltr .cke_skin_office2003 .cke_menuarrow
 {
 	position: absolute;
-	right: 0;
+	right: 2px;
 }
+
+.cke_browser_ie.cke_rtl .cke_skin_office2003 .cke_menuarrow
+{
+	position: absolute;
+	left: 2px;
+}
+/* END #3766 */

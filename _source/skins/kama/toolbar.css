@@ -27,9 +27,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama a.cke_toolbox_collapser,
 .cke_skin_kama a:hover.cke_toolbox_collapser
 {
-	background-image: url(images/arrowtop.gif);
+	/* arrowtop.gif */
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
+	background-position: 3px -1366px; /* +3px +4px */
 	background-repeat: no-repeat;
-	background-position: center center;
 	width: 11px;
 	height: 11px;
 	float: right;
@@ -47,14 +49,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama a.cke_toolbox_collapser_min,
 .cke_skin_kama a:hover.cke_toolbox_collapser_min
 {
-	background-image: url(images/arrowleft.gif);
+	/* arrowleft.gif*/
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
+	background-position: 4px -1387px; /* +4px +3px */
+	background-repeat: no-repeat;
 	margin: 2px 4px;
 }
 
 .cke_skin_kama .cke_rtl a.cke_toolbox_collapser_min,
 .cke_skin_kama .cke_rtl a:hover.cke_toolbox_collapser_min
 {
-	background-image: url(images/arrowright.gif);
+	/* arrowright.gif*/
+	background-position: 4px -1408px; /* +2px +3px */
 }
 
 .cke_skin_kama .cke_toolbar
@@ -88,7 +95,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-image: url(sprites.png);
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-repeat: repeat-x;
 	background-position: 0 -500px;
 	float: left;
@@ -260,15 +268,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline-block;
 	height: 17px;
 	width: 8px;
-	background-position: right center;
-	background-image: url(images/arrowdown.gif);
+	background-position: 2px -1469px; /* (+2, -5) */
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-repeat: no-repeat;
 	float: left;
 }
 
 .cke_skin_kama .cke_rtl .cke_button .cke_buttonarrow
 {
-	background-position: left center;
+	background-position: 0 -1469px; /* (0, -5) */
 	float: right;
 }
 

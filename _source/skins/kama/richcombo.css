@@ -38,7 +38,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-image: url(sprites.png);
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-repeat: repeat-x;
 	background-position: 0 -100px;
 	border-bottom:1px solid #DAD9D9;
@@ -120,7 +121,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_rcombo .cke_openbutton
 {
-	background-image: url(sprites.png);
+	background-image: url(images/sprites.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -68px;
 	background-repeat: no-repeat;
 	display: inline-block;
