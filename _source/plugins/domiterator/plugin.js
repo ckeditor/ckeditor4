@@ -66,8 +66,8 @@ CKEDITOR.plugins.add( 'domiterator' );
 					testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
 					if ( testRange.checkEndOfBlock() ) {
 						var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
-						var block = path.block || path.blockLimit;
-						this._.lastNode = block.getNextSourceNode( true );
+						var lastBlock = path.block || path.blockLimit;
+						this._.lastNode = lastBlock.getNextSourceNode( true );
 					}
 				}
 
