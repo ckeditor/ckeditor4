@@ -266,10 +266,13 @@ CKEDITOR.plugins.add( 'domiterator' );
 			}
 
 			if ( removeLastBr ) {
+				// Ignore bookmark nodes.(#3783)
+				var bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true );
+
 				var lastChild = block.getLast();
 				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' ) {
 					// Take care not to remove the block expanding <br> in non-IE browsers.
-					if ( CKEDITOR.env.ie || lastChild.getPrevious() || lastChild.getNext() )
+					if ( CKEDITOR.env.ie || lastChild.getPrevious( bookmarkGuard ) || lastChild.getNext( bookmarkGuard ) )
 						lastChild.remove();
 				}
 			}

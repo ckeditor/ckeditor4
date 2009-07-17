@@ -316,30 +316,35 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return node;
 	},
 
-	getPrevious: function( ignoreSpaces ) {
-		var previous = this.$.previousSibling;
-		while ( ignoreSpaces && previous && ( previous.nodeType == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( previous.nodeValue ) )
+	getPrevious: function( evaluator ) {
+		var previous = this.$,
+			retval;
+		do {
 			previous = previous.previousSibling;
-
-		return previous ? new CKEDITOR.dom.node( previous ) : null;
+			retval = previous && new CKEDITOR.dom.node( previous );
+		}
+		while ( retval && evaluator && !evaluator( retval ) )
+		return retval;
 	},
 
 	/**
 	 * Gets the node that follows this element in its parent's child list.
-	 * @param {Boolean} ignoreSpaces Whether should ignore empty text nodes.
-	 * @returns {CKEDITOR.dom.node} The next node or null if not
-	 *		available.
+	 * @param {Function} evaluator Filtering the result node.
+	 * @returns {CKEDITOR.dom.node} The next node or null if not available.
 	 * @example
 	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;&lt;b&gt;Example&lt;/b&gt; &lt;i&gt;next&lt;/i&gt;&lt;/div&gt;' );
 	 * var first = <b>element.getFirst().getNext()</b>;
 	 * alert( first.getName() );  // "i"
 	 */
-	getNext: function( ignoreSpaces ) {
-		var next = this.$.nextSibling;
-		while ( ignoreSpaces && next && ( next.nodeType == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( next.nodeValue ) )
+	getNext: function( evaluator ) {
+		var next = this.$,
+			retval;
+		do {
 			next = next.nextSibling;
-
-		return next ? new CKEDITOR.dom.node( next ) : null;
+			retval = next && new CKEDITOR.dom.node( next );
+		}
+		while ( retval && evaluator && !evaluator( retval ) )
+		return retval;
 	},
 
 	/**

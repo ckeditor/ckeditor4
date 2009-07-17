@@ -34,7 +34,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( this.name == 'outdent' )
 				return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
 			else {
-				while ( listItem && ( listItem = listItem.getPrevious() ) ) {
+				while ( listItem && ( listItem = listItem.getPrevious( CKEDITOR.dom.walker.whitespaces( true ) ) ) ) {
 					if ( listItem.getName && listItem.getName() == 'li' )
 						return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
 				}

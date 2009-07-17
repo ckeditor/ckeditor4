@@ -147,8 +147,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var children = fixedBlock.getChildren(),
 				count = children.count(),
 				firstChild,
-				previousElement = fixedBlock.getPrevious( true ),
-				nextElement = fixedBlock.getNext( true ),
+				whitespaceGuard = CKEDITOR.dom.walker.whitespaces( true ),
+				previousElement = fixedBlock.getPrevious( whitespaceGuard ),
+				nextElement = fixedBlock.getNext( whitespaceGuard ),
 				enterBlock;
 			if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) )
 				enterBlock = previousElement;
