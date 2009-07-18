@@ -620,6 +620,7 @@ CKEDITOR.lang[ 'en' ] = {
 
 	about: {
 		title: 'About CKEditor',
+		dlgTitle: 'About CKEditor',
 		moreInfo: 'For licensing information please visit our web site:',
 		copy: 'Copyright &copy; $1. All rights reserved.'
 	},

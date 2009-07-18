@@ -619,7 +619,8 @@ CKEDITOR.lang[ 'ar' ] = {
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
+		title: 'حول CKEditor',
+		dlgTitle: 'حول rotidEKC',
 		moreInfo: 'For licensing information please visit our web site:', // MISSING
 		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	},

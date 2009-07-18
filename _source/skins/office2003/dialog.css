@@ -172,6 +172,7 @@ body .cke_dialog
 .cke_skin_office2003 .cke_browser_ie.cke_rtl .cke_dialog_title
 {
 	position: static !important;
+	unicode-bidi: bidi-override;
 }
 
 .cke_skin_office2003 .cke_dialog_contents

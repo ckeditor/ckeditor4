@@ -620,6 +620,7 @@ CKEDITOR.lang[ 'de' ] = {
 
 	about: {
 		title: 'Über CKEditor',
+		dlgTitle: 'About CKEditor', // MISSING
 		moreInfo: 'Für Informationen Liztenzbestimmungen besuchen sie bitte unsere Webseite:',
 		copy: 'Copyright &copy; $1. Alle Rechte vorbehalten.'
 	},
