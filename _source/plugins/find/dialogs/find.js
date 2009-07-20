@@ -598,8 +598,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									finder.matchRange = null;
 								}
 								editor.fire( 'saveSnapshot' );
-								while ( finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), false, true ) )
-									;
+								while ( finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), false, true ) ) {
+	/*jsl:pass*/
+								}
 
 								if ( finder.replaceCounter ) {
 									alert( editor.lang.findAndReplace.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) );

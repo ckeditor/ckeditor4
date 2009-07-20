@@ -327,9 +327,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 */
 	CKEDITOR.dom.walker.whitespaces = function( isReject ) {
 		return function( node ) {
-			var isWhitespace = node && ( node.type == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( node.getText() )
+			var isWhitespace = node && ( node.type == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( node.getText() );
 			return isReject ^ isWhitespace;
 		};
-	}
-
+	};
 })();

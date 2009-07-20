@@ -284,7 +284,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			this.setupContent( this.cells[ 0 ] );
 		},
 		onOk: function() {
-			var cells = this.cells
+			var cells = this.cells;
 			for ( var i = 0; i < cells.length; i++ )
 				this.commitContent( cells[ i ] );
 		}

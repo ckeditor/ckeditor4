@@ -1,5 +1,4 @@
-﻿﻿﻿
-/*
+﻿/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -201,11 +200,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function protectSource( data, protectRegexes ) {
 		var protectedHtml = [],
-			tempRegex = /<\!--{cke_temp}(\d*?)-->/g;
+			tempRegex = /<\!--\{cke_temp\}(\d*?)-->/g;
 		var regexes = [
 			// First of any other protection, we must protect all comments
 					// to avoid loosing them (of course, IE related).
-					/<!--[\s\S]*?-->/g,
+		( /<!--[\s\S]*?-->/g ),
 
 			// Script tags will also be forced to be protected, otherwise
 					// IE will execute them.

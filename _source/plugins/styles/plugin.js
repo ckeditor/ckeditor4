@@ -614,10 +614,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		newBlock.replace( block );
 
-		if ( newBlockIsPre )
+		if ( newBlockIsPre ) {
 			// Merge previous <pre> blocks.
 			mergePre( newBlock );
-	};
+		}
+	}
 
 	/**
 	 * Merge a <pre> block with a previous sibling if available.
@@ -695,7 +696,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
 				if ( match.length == 1 ) // one space, preserve it
 				return '&nbsp;';
-				else if ( offset == 0 ) // beginning of block
+				else if ( !offset ) // beginning of block
 				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 				else // end of block
 				return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
