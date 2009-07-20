@@ -274,7 +274,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 		{
 			var editor = CKEDITOR.instances.editor1,
 				dataProcessor = editor.dataProcessor;
- 
+
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
 			var html = getTextAreaValue( '_TEXTAREA_3869_1' );
 			var protectedHtml = dataProcessor.toHtml( html );
@@ -329,7 +329,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 					dataProcessor.toDataFormat( protectedHtml ) );
 			}
 		},
-		
+
 		name : document.title
 	};
 })() );
@@ -363,11 +363,11 @@ include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn'
 		echo '&lt;/script&gt;';
 	?&gt;&lt;!--&lt;%Response.Write(now())%&gt;//--&gt;invalid&lt;?
 		echo 'bbb&lt;script&gt;
-		&lt;!-- 
+		&lt;!--
 		ccc();&lt;!-- &lt;/script&gt;&lt;!-- &lt;/script&gt;
 		//--&gt;&lt;/script&gt;
-		&lt;script&gt;&lt;!-- 
-		&lt;!-- 
+		&lt;script&gt;&lt;!--
+		&lt;!--
 		ffff();
 		//--&gt;&lt;/script&gt;
 		ddd';
