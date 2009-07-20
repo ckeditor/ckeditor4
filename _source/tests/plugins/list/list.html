@@ -177,7 +177,6 @@ CKEDITOR.test.addTestCase( ( function()
 							var doc = editor.document,
 								range = new CKEDITOR.dom.range( doc );
 							setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
-							debugger;
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
 
