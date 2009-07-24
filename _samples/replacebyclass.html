@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -12,11 +12,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="html">
 		<form action="sample_posteddata.php" method="post">
 			<p>
+				<label for="editor1">
+					Editor 1:</label><br />
 				<textarea id="editor1" name="editor1" class="ckeditor" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			</p>
+			<p>
+				<input type="submit" value="Submit" />
 			</p>
 		</form>
 	</div>
 	<div id="code">
+		<pre>
+&lt;form action=""&gt;
+  &lt;p&gt;
+    &lt;label for="editor1"&gt;
+      Editor 1:&lt;/label&gt;&lt;br /&gt;
+    &lt;textarea id="editor1" name="editor1" <b>class="ckeditor"</b> rows="10" cols="80"&gt;&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;&lt;/textarea&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;label for="editor2"&gt;
+      Editor 2:&lt;/label&gt;&lt;br /&gt;
+    &lt;textarea id="editor2" name="editor2" <b>class="ckeditor"</b> rows="10" cols="80"&gt;&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;&lt;/textarea&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;input type="submit" value="Submit" /&gt;
+  &lt;/p&gt;
+&lt;/form&gt;
+</pre>
 	</div>
 </body>
 </html>
