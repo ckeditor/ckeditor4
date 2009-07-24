@@ -49,9 +49,6 @@ CKEDITOR.loader.load( 'core/env' );
 	</script>
 </head>
 <body>
-	<h1>
-		CKEditor Sample
-	</h1>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -69,14 +66,13 @@ CKEDITOR.loader.load( 'core/env' );
 		document.write( CKEDITOR.samples.htmlData );
 	//]]>
 	</script>
-	<div id="footer">
-		<hr />
-		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
-		</p>
-		<p id="copy">
-			Copyright &copy; 2003-2009, <a href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
-		</p>
-	</div>
+	<div id="console2"><input type="button" value="debugme();" onclick="javascript:debugme();"></div>
+	<script type="text/javascript">
+		window.console2 = {
+			log: function( msg ) {
+				document.getElementById('console2').innerHTML += "<br />" + msg;
+			}
+		};
+	</script>
 </body>
 </html>
