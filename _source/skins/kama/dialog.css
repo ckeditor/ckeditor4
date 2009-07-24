@@ -437,6 +437,31 @@ body .cke_dialog
 	text-align: center;
 }
 
+/* Firefox2 buttons */
+.cke_skin_kama .cke_browser_gecko18 .cke_dialog_footer_buttons a.cke_dialog_ui_button
+{
+	display: block;
+	padding: 0;
+}
+
+.cke_skin_kama .cke_browser_gecko18 .cke_dialog_footer_buttons span.cke_dialog_ui_button
+{
+	padding-bottom: 5px;
+	padding-top: 6px;
+	margin-bottom: 0;
+}
+
+.cke_skin_kama .cke_browser_gecko18 .cke_dialog_footer_buttons .cke_dialog_ui_button_ok .cke_dialog_ui_button
+{
+	background-position: right -1214px;
+}
+
+.cke_skin_kama .cke_browser_gecko18 .cke_dialog_footer_buttons .cke_dialog_ui_button_cancel .cke_dialog_ui_button
+{
+	background-position: right -1242px;
+}
+/* END Firefox2 buttons */
+
 .cke_skin_kama strong
 {
 	font-weight: bold;
