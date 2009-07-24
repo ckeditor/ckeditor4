@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'リッチテキストエディタ, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'ソース',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'ja' ] = {
 		cancel: 'キャンセル',
 		generalTab: '全般',
 		advancedTab: '高度な設定',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: '値が数ではありません',
+		confirmNewPage: '変更内容を保存せず、 新しいページを開いてもよろしいでしょうか？',
+		confirmCancel: 'オプション設定を変更しました。ダイアログを閉じてもよろしいでしょうか？',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		targetFrameName: '目的のフレーム名',
 		targetPopupName: 'ポップアップウィンドウ名',
 		popupFeatures: 'ポップアップウィンドウ特徴',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'サイズ可変',
 		popupStatusBar: 'ステータスバー',
 		popupLocationBar: 'ロケーションバー',
 		popupToolbar: 'ツールバー',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		popupLeft: '左端からの座標で指定',
 		popupHeight: '高さ',
 		popupTop: '上端からの座標で指定',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: '文字表記の方向',
 		langDirNotSet: '<なし>',
 		langDirLTR: '左から右 (LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'ja' ] = {
 		notFoundMsg: '指定された文字列は見つかりませんでした。',
 		matchCase: '部分一致',
 		matchWord: '単語単位で一致',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: '大文字/小文字区別一致',
 		replaceAll: 'すべて置換え',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 に置換しました。'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'ja' ] = {
 		cellPad: 'セル内間隔',
 		caption: 'ｷｬﾌﾟｼｮﾝ',
 		summary: 'テーブル目的/構造',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'テーブルヘッダ(th)',
+		headersNone: 'なし',
+		headersColumn: '初めの列のみ',
+		headersRow: '初めの行のみ',
+		headersBoth: '両方',
+		invalidRows: '行は0より大きな数値で入力してください。',
+		invalidCols: '列は0より大きな数値で入力してください。',
+		invalidBorder: 'ボーダーサイズは数値で入力してください。',
+		invalidWidth: 'テーブル幅は数値で入力してください。',
+		invalidHeight: 'テーブル高さは数値で入力してください。',
+		invalidCellSpacing: 'セル内余白は数値で入力してください。',
+		invalidCellPadding: 'セル内間隔は数値で入力してください。',
 
 		cell: {
 			menu: 'セル',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'ja' ] = {
 			mergeDown: '下に結合',
 			splitHorizontal: 'セルを水平方向分割',
 			splitVertical: 'セルを垂直方向に分割',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'セルプロパティ',
+			cellType: 'セルタイプ',
+			rowSpan: '縦幅(行数)',
+			colSpan: '横幅(列数)',
+			wordWrap: '折り返し',
+			hAlign: 'セル横の整列',
+			vAlign: 'セル縦の整列',
+			alignTop: '上',
+			alignMiddle: '中央',
+			alignBottom: '下',
+			alignBaseline: 'ベースライン',
+			bgColor: '背景色',
+			borderColor: 'ボーダーカラー',
+			data: 'テーブルデータ(td)',
+			header: 'テーブルヘッダ(th)',
+			yes: 'Yes',
+			no: 'No',
+			invalidWidth: 'セル幅は数値で入力してください。',
+			invalidHeight: 'セル高さは数値で入力してください。',
+			invalidRowSpan: '縦幅(行数)は数値で入力してください。',
+			invalidColSpan: '横幅(列数)は数値で入力してください。'
 		},
 
 		row: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		menu: 'フォーム プロパティ',
 		action: 'アクション',
 		method: 'メソッド',
-		encoding: 'Encoding', // MISSING
+		encoding: 'エンコーディング',
 		target: 'ターゲット',
 		targetNotSet: '<なし>',
 		targetNew: '新しいウィンドウ (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'ja' ] = {
 		preview: 'プレビュー',
 		alertUrl: 'イメージのURLを入力してください。',
 		linkTab: 'リンク',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: '選択したボタンを画像に置き換えますか？',
+		img2Button: '選択した画像をボタンに置き換えますか？'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash プロパティ',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'プロパティ',
 		title: 'Flash プロパティ',
 		chkPlay: '再生',
 		chkLoop: 'ループ再生',
 		chkMenu: 'Flashメニュー可能',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'フルスクリーン許可',
 		scale: '拡大縮小設定',
 		scaleAll: 'すべて表示',
 		scaleNoBorder: '外が見えない様に拡大',
 		scaleFit: '上下左右にフィット',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'スプリクトアクセス(AllowScriptAccess)',
+		accessAlways: 'すべての場合に通信可能(Always)',
+		accessSameDomain: '同一ドメインのみに通信可能(Same domain)',
+		accessNever: 'すべての場合に通信不可能(Never)',
 		align: '行揃え',
 		alignLeft: '左',
 		alignAbsBottom: '下部(絶対的)',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignRight: '右',
 		alignTextTop: 'テキスト上部',
 		alignTop: '上',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: '画質',
+		qualityBest: '品質優先',
+		qualityHigh: '高',
+		qualityAutoHigh: '自動/高',
+		qualityMedium: '中',
+		qualityAutoLow: '自動/低',
+		qualityLow: '低',
+		windowModeWindow: '標準',
+		windowModeOpaque: '背景を不透明設定',
+		windowModeTransparent: '背景を透過設定',
+		windowMode: 'ウィンドウモード',
+		flashvars: 'フラッシュに渡す変数(FlashVars)',
 		bgcolor: '背景色',
 		width: '幅',
 		height: '高さ',
 		hSpace: '横間隔',
 		vSpace: '縦間隔',
 		validateSrc: 'リンクURLを入力してください。',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: '幅は数値で入力してください。',
+		validateHeight: '高さは数値で入力してください。',
+		validateHSpace: '横間隔は数値で入力してください。',
+		validateVSpace: '縦間隔は数値で入力してください。'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'スペルチェック',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'スペルチェック',
+		notAvailable: '申し訳ありません、現在サービスを利用することができません',
+		errorLoading: 'アプリケーションサービスホスト読込みエラー: %s.',
 		notInDic: '辞書にありません',
 		changeTo: '変更',
 		btnIgnore: '無視',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 エレメント'
 	},
 
 	numberedlist: '段落番号',
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	stylesCombo: {
 		label: 'スタイル',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'スタイル',
+		panelVoiceLabel: 'スタイルを選択してください',
+		panelTitle1: 'ブロックスタイル',
+		panelTitle2: 'インラインスタイル',
+		panelTitle3: 'オブジェクトスタイル'
 	},
 
 	format: {
 		label: 'フォーマット',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'フォーマット',
 		panelTitle: 'フォーマット',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'パラグラフ形式を選択してください。',
 
 		tag_p: '標準',
 		tag_pre: '書式付き',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	font: {
 		label: 'フォント',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'フォント',
 		panelTitle: 'フォント',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'フォントを選択してください'
 	},
 
 	fontSize: {
 		label: 'サイズ',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'フォントサイズ',
 		panelTitle: 'サイズ',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'フォントサイズを選択してください'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'ja' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
+		title: 'スペルチェック設定(SCAYT)',
+		enable: 'SCAYT有効',
+		disable: 'SCAYT無効',
+		about: 'SCAYTﾊﾞｰｼﾞｮﾝ',
+		toggle: 'SCAYT切替',
+		options: 'オプション',
+		langs: '言語',
 		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		ignore: '無視',
+		ignoreAll: 'すべて無視',
+		addWord: '語句追加',
+		emptyDic: '辞書名は必ず入力してください',
+		optionsTab: 'オプション',
+		languagesTab: '言語',
+		dictionariesTab: '辞書',
+		aboutTab: 'バージョン情報'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'CKEditorバージョン情報',
+		dlgTitle: 'CKEditorバージョン情報',
+		moreInfo: 'ライセンス情報の詳細はウェブサイトにて確認してください:',
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: '最大化',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'アンカー',
+		flash: 'Flash Animation',
+		div: 'Page Break',
+		unknown: 'Unknown Object'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'ドラックしてリサイズ'
 };
