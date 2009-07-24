@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
- * Ukrainian language.
+ * Ukrainian language. Translated by Alexander Pervak.
  */
 
 /**#@+
@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'uk' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Візуальний текстовий редактор, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Джерело',
@@ -88,9 +88,9 @@ CKEDITOR.lang[ 'uk' ] = {
 		cancel: 'Скасувати',
 		generalTab: 'Загальна',
 		advancedTab: 'Розширений',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Значення не є числом.',
+		confirmNewPage: 'Всі не збережені зміни будуть втрачені. Ви впевнені, що хочете завантажити нову сторінку?',
+		confirmCancel: 'Деякі опції були змінені. Закрити вікно?',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		targetFrameName: 'Ім\'я целевого фрейма',
 		targetPopupName: 'Ім\'я спливаючого вікна',
 		popupFeatures: 'Властивості спливаючого вікна',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Масштабоване',
 		popupStatusBar: 'Строка статусу',
 		popupLocationBar: 'Панель локації',
 		popupToolbar: 'Панель інструментів',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		popupLeft: 'Позиція зліва',
 		popupHeight: 'Висота',
 		popupTop: 'Позиція зверху',
-		id: 'Id', // MISSING
+		id: 'Ідентифікатор (Id)',
 		langDir: 'Напрямок мови',
 		langDirNotSet: '<не визначено>',
 		langDirLTR: 'Зліва на право (LTR)',
@@ -179,11 +179,11 @@ CKEDITOR.lang[ 'uk' ] = {
 		findWhat: 'Шукати:',
 		replaceWith: 'Замінити на:',
 		notFoundMsg: 'Вказаний текст не знайдений.',
-		matchCase: 'Учитывать регистр',
+		matchCase: 'Враховувати регістр',
 		matchWord: 'Збіг цілих слів',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Циклічна заміна',
 		replaceAll: 'Замінити все',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 співпадінь(я) замінено.'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'uk' ] = {
 		cellPad: 'Відступ (padding)',
 		caption: 'Заголовок',
 		summary: 'Резюме',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Заголовки',
+		headersNone: 'Жодного',
+		headersColumn: 'Перша колонка',
+		headersRow: 'Перший рядок',
+		headersBoth: 'Обидва',
+		invalidRows: 'Кількість рядків повинна бути числом більше за 0.',
+		invalidCols: 'Кількість колонок повинна бути числом більше за  0.',
+		invalidBorder: 'Розмір бордюра повинен бути числом.',
+		invalidWidth: 'Ширина таблиці повинна бути числом.',
+		invalidHeight: 'Висота таблиці повинна бути числом.',
+		invalidCellSpacing: 'Проміжок (spacing) комірки повинен бути числом.',
+		invalidCellPadding: 'Відступ (padding) комірки повинен бути числом.',
 
 		cell: {
 			menu: 'Осередок',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'uk' ] = {
 			mergeDown: 'Об\'єднати до низу',
 			splitHorizontal: 'Розділити комірку по горизонталі',
 			splitVertical: 'Розділити комірку по вертикалі',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'Властивості комірки',
+			cellType: 'Тип комірки',
+			rowSpan: 'Обєднання рядків (Rows Span)',
+			colSpan: 'Обєднання стовпчиків (Columns Span)',
+			wordWrap: 'Авто згортання тексту (Word Wrap)',
+			hAlign: 'Горизонтальне вирівнювання',
+			vAlign: 'Вертикальне вирівнювання',
+			alignTop: 'До верху',
+			alignMiddle: 'Посередині',
+			alignBottom: 'До низу',
+			alignBaseline: 'По базовій лінії',
+			bgColor: 'Колір фону',
+			borderColor: 'Колір бордюру',
+			data: 'Дані',
+			header: 'Заголовок',
+			yes: 'Так',
+			no: 'Ні',
+			invalidWidth: 'Ширина комірки повинна бути числом.',
+			invalidHeight: 'Висота комірки повинна бути числом.',
+			invalidRowSpan: 'Кількість обєднуваних рядків повинна бути цілим числом.',
+			invalidColSpan: 'Кількість обєднуваних стовпчиків повинна бути цілим числом.'
 		},
 
 		row: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		menu: 'Властивості форми',
 		action: 'Дія',
 		method: 'Метод',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Кодування',
 		target: 'Ціль',
 		targetNotSet: '<не визначено>',
 		targetNew: 'Нове вікно (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'uk' ] = {
 		preview: 'Попередній перегляд',
 		alertUrl: 'Будь ласка, введіть URL зображення',
 		linkTab: 'Посилання',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: 'Ви хочете перетворити обрану кнопку-зображення на просте зображення?',
+		img2Button: 'Ви хочете перетворити обране зображення на кнопку-зображення?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Властивості Flash',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Властивості',
 		title: 'Властивості Flash',
 		chkPlay: 'Авто програвання',
 		chkLoop: 'Зациклити',
 		chkMenu: 'Дозволити меню Flash',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Дозволити повноекранний перегляд',
 		scale: 'Масштаб',
 		scaleAll: 'Показати всі',
 		scaleNoBorder: 'Без рамки',
 		scaleFit: 'Дійсний розмір',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Доступ до скрипта',
+		accessAlways: 'Завжди',
+		accessSameDomain: 'З того ж домена',
+		accessNever: 'Ніколи',
 		align: 'Вирівнювання',
 		alignLeft: 'По лівому краю',
 		alignAbsBottom: 'Абс по низу',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'uk' ] = {
 		alignRight: 'По правому краю',
 		alignTextTop: 'Текст на верху',
 		alignTop: 'По верху',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Якість',
+		qualityBest: 'Відмінна',
+		qualityHigh: 'Висока',
+		qualityAutoHigh: 'Авто відмінна',
+		qualityMedium: 'Середня',
+		qualityAutoLow: 'Авто низька',
+		qualityLow: 'Низька',
+		windowModeWindow: 'Вікно',
+		windowModeOpaque: 'Непрозорість (Opaque)',
+		windowModeTransparent: 'Прозорість (Transparent)',
+		windowMode: 'Режим вікна',
+		flashvars: 'Змінні Flash',
 		bgcolor: 'Колір фону',
 		width: 'Ширина',
 		height: 'Висота',
 		hSpace: 'Горизонтальний відступ',
 		vSpace: 'Вертикальний відступ',
 		validateSrc: 'Будь ласка, занесіть URL посилання',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Ширина повинна бути числом.',
+		validateHeight: 'Висота повинна бути числом.',
+		validateHSpace: 'HSpace повинна бути числом.',
+		validateVSpace: 'VSpace повинна бути числом.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Перевірити орфографію',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Перевірка орфографії',
+		notAvailable: 'Вибачте, але сервіс наразі недоступний.',
+		errorLoading: 'Помилка завантаження : %s.',
 		notInDic: 'Не має в словнику',
 		changeTo: 'Замінити на',
 		btnIgnore: 'Ігнорувати',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'uk' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 елемент'
 	},
 
 	numberedlist: 'Нумерований список',
@@ -481,7 +481,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		title: 'Вставити',
 		cutError: 'Настройки безпеки вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl+X).',
 		copyError: 'Настройки безпеки вашого браузера не дозволяють редактору автоматично виконувати операції копіювання. Будь ласка, використовуйте клавіатуру для цього (Ctrl+C).',
-		pasteMsg: 'Будь-ласка, вставте з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl+V</STRONG>) та натисніть <STRONG>OK</STRONG>.',
+		pasteMsg: 'Будь ласка, вставте з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl+V</STRONG>) та натисніть <STRONG>OK</STRONG>.',
 		securityMsg: 'Редактор не може отримати прямий доступ до буферу обміну у зв\'язку з налаштуваннями вашого браузера. Вам потрібно вставити інформацію повторно в це вікно.'
 	},
 
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'uk' ] = {
 
 	stylesCombo: {
 		label: 'Стиль',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'Стилі',
+		panelVoiceLabel: 'Оберіть стиль',
+		panelTitle1: 'Block стилі',
+		panelTitle2: 'Inline стилі',
+		panelTitle3: 'Object стилі'
 	},
 
 	format: {
 		label: 'Форматування',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Формат',
 		panelTitle: 'Форматування',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Оберіть формат абзацу',
 
 		tag_p: 'Нормальний',
 		tag_pre: 'Форматований',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'uk' ] = {
 
 	font: {
 		label: 'Шрифт',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Шрифт',
 		panelTitle: 'Шрифт',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Оберіть шрифт'
 	},
 
 	fontSize: {
 		label: 'Розмір',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Розмір шрифта',
 		panelTitle: 'Розмір',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Оберіть розмір шрифта'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'uk' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Перефірка орфографії по мірі набору',
+		enable: 'Включити SCAYT',
+		disable: 'Відключити SCAYT',
+		about: 'Про SCAYT',
+		toggle: 'Перемкнути SCAYT',
+		options: 'Опції',
+		langs: 'Мови',
+		moreSuggestions: 'Більше пропозицій',
+		ignore: 'Ігнорувати',
+		ignoreAll: 'Ігнорувати всі',
+		addWord: 'Додати слово',
+		emptyDic: 'Назва словника повинна бути заповнена.',
+		optionsTab: 'Опції',
+		languagesTab: 'Мови',
+		dictionariesTab: 'Словники',
+		aboutTab: 'Про'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Про CKEditor',
+		dlgTitle: 'Про CKEditor',
+		moreInfo: 'Щодо інформації з ліцензування завітайте до нашого сайту:',
+		copy: 'Copyright &copy; $1. Всі права застережено.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Максимізувати',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Якір',
+		flash: 'Flash анімація',
+		div: 'Розрив сторінки',
+		unknown: 'Невідомий об`єкт'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Пересувайте для зміни розміру'
 };
