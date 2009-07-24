@@ -91,6 +91,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				this.getParentEditor().document.getBody().$.contentEditable = 'true';
 		},
 
+		onLoad: function() {
+			if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && editor.lang.dir == 'rtl' )
+				this.parts.contents.setStyle( 'overflow', 'hidden' );
+		},
+
 		onOk: function() {
 			var container = this.getContentElement( 'general', 'editing_area' ).getElement(),
 				iframe = container.getElementsByTag( 'iframe' ).getItem( 0 ),

@@ -212,6 +212,10 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			if ( CKEDITOR.env.ie )
 				this.getParentEditor().document.getBody().$.contentEditable = 'true';
 		},
+		onLoad: function() {
+			if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && editor.lang.dir == 'rtl' )
+				this.parts.contents.setStyle( 'overflow', 'hidden' );
+		},
 		contents: [
 			{
 			id: 'general',
