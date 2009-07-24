@@ -248,9 +248,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
 				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
 				if ( form ) {
-					form.on( 'submit', function() {
+					function onSubmit() {
 						editor.updateElement();
-					});
+					}
+					form.on( 'submit', onSubmit );
 
 					// Setup the submit function because it doesn't fire the
 					// "submit" event.
@@ -269,6 +270,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 					}
 				}
+
+				// Remove 'submit' events registered on form element before destroying.(#3988)
+				editor.on( 'destroy', function() {
+					form.removeListener( 'submit', onSubmit );
+				});
 			}
 		};
 
@@ -403,6 +409,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			this.updateElement();
 
 		this.theme.destroy( this );
+		this.fire( 'destroy' );
 		CKEDITOR.remove( this );
 	},
 

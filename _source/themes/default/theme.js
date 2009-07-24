@@ -168,8 +168,10 @@ CKEDITOR.themes.add( 'default', ( function() {
 			if ( container )
 				container.remove();
 
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				editor.element.show();
+				delete editor.element;
+			}
 		}
 	};
 })() );
