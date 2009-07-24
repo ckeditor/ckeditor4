@@ -67,6 +67,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					style.apply( editor.document );
 				else
 					style.remove( editor.document );
+				editor.fire( 'saveSnapshot' );
 			});
 
 			// Render the "Automatic" button.
