@@ -129,8 +129,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Remove empty link but not empty anchor.(#3829)
 			a: function( element ) {
-				if ( !( element.children.length || element.attributes.name ) )
+				if ( !( element.children.length || element.attributes.name || element.attributes._cke_saved_name ) ) {
 					return false;
+				}
 			}
 		},
 
