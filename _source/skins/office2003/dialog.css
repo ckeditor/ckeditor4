@@ -503,7 +503,7 @@ body .cke_dialog
 	text-align: center;
 }
 
-.cke_skin_office2003 .cke_dialog .cke_btn_reset
+.cke_skin_office2003 .cke_dialog a.cke_btn_reset
 {
 	float: right;
 	background-position: 0 -32px;
@@ -515,13 +515,13 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_office2003 .cke_rtl .cke_dialog .cke_btn_reset
+.cke_skin_office2003 .cke_rtl .cke_dialog a.cke_btn_reset
 {
 	float: left;
 }
 
-.cke_skin_office2003 .cke_dialog .cke_btn_locked,
-.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
+.cke_skin_office2003 .cke_dialog a.cke_btn_locked,
+.cke_skin_office2003 .cke_dialog a.cke_btn_unlocked
 {
 	float: left;
 	background-position: 0 0;
@@ -533,13 +533,13 @@ body .cke_dialog
 	font-size: 1px;
 }
 
-.cke_skin_office2003 .cke_dialog .cke_btn_locked,
-.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
+.cke_skin_office2003 .cke_rtl .cke_dialog a.cke_btn_locked,
+.cke_skin_office2003 .cke_rtl .cke_dialog a.cke_btn_unlocked
 {
 	float: right;
 }
 
-.cke_skin_office2003 .cke_dialog .cke_btn_unlocked
+.cke_skin_office2003 .cke_dialog a.cke_btn_unlocked
 {
 	background-position: 0 -16px;
 	background-image: url(images/mini.gif);

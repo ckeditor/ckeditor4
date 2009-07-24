@@ -306,8 +306,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( dialogType != 'image' )
 						this.hidePage( 'Link' ); //Hide Link tab.
 					var doc = this._.element.getDocument();
-					this.addFocusable( doc.getById( 'btnLockSizes' ), 5 );
 					this.addFocusable( doc.getById( 'btnResetSize' ), 5 );
+					this.addFocusable( doc.getById( 'btnLockSizes' ), 5 );
 				},
 				onHide: function() {
 					if ( this.preview )
@@ -520,7 +520,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								},
 									{
 									type: 'html',
-									style: 'position:relative;top:10px;width:40px;height:50px;',
+									style: 'margin-top:10px;width:40px;height:40px;',
 									onLoad: function() {
 										// Activate Reset button
 										var resetButton = CKEDITOR.document.getById( 'btnResetSize' ),
