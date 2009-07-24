@@ -181,7 +181,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			return false;
 		}
 		//apply handler
-		dic[ this.getId() ].apply( null, [ this, dic_name, dic_buttons ] );
+		window.dic[ this.getId() ].apply( null, [ this, dic_name, dic_buttons ] );
 
 		return true;
 	}
@@ -278,7 +278,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				var suc_massage = captions[ "succ_dic_create" ];
 				//console.info("--plugin ");
 
-				scayt.createUserDictionary( dic_name, function( arg ) {
+				window.scayt.createUserDictionary( dic_name, function( arg ) {
 					//console.info( "dic_create callback called with args" , arg );
 					hide_dic_buttons( all_buttons );
 					display_dic_buttons( dic_buttons[ 1 ] );
@@ -292,14 +292,14 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 			};
 
-			dic.dic_rename = function( el, dic_name, dic_buttons ) {
+			dic.dic_rename = function( el, dic_name ) {
 				//
 				// try to rename dictionary
 				// @TODO: rename dict
 				//console.info ( captions["err_dic_rename"] )
 				var err_massage = captions[ "err_dic_rename" ] || "";
 				var suc_massage = captions[ "succ_dic_rename" ] || "";
-				scayt.renameUserDictionary( dic_name, function( arg ) {
+				window.scayt.renameUserDictionary( dic_name, function( arg ) {
 					//console.info( "dic_rename callback called with args" , arg );
 					suc_massage = suc_massage.replace( "%s", arg.dname );
 					set_dic_name( dic_name );
@@ -319,7 +319,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 				// try to delete dictionary
 				// @TODO: delete dict
-				scayt.deleteUserDictionary( function( arg ) {
+				window.scayt.deleteUserDictionary( function( arg ) {
 					//console.info( "dic_delete callback " , dic_name ,arg );
 					suc_massage = suc_massage.replace( "%s", arg.dname );
 					hide_dic_buttons( all_buttons );
@@ -340,7 +340,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				var err_massage = captions[ "err_dic_restore" ];
 				var suc_massage = captions[ "succ_dic_restore" ];
 
-				scayt.restoreUserDictionary( dic_name, function( arg ) {
+				window.scayt.restoreUserDictionary( dic_name, function( arg ) {
 					//console.info( "dic_restore callback called with args" , arg );
 					suc_massage = suc_massage.replace( "%s", arg.dname );
 					hide_dic_buttons( all_buttons );
@@ -386,7 +386,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 			// * user dictionary
 			if ( userDicActive ) {
-				scayt.getNameUserDictionary( function( o ) {
+				window.scayt.getNameUserDictionary( function( o ) {
 					var dic_name = o.dname;
 					if ( dic_name ) {
 						doc.getById( 'dic_name' ).setValue( dic_name );
