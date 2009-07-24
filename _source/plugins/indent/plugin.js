@@ -126,8 +126,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Convert the array back to a DOM forest (yes we might have a few subtrees now).
 		// And replace the old list with the new forest.
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, 0 );
+
+		// Avoid nested <li> after outdent even they're visually same,
+		// recording them for later refactoring.(#3982)
+		if ( this.name == 'outdent' ) {
+			var parentLiElement;
+			if ( ( parentLiElement = listNode.getParent() ) && parentLiElement.is( 'li' ) ) {
+				var children = newList.listNode.getChildren(),
+					pendingLis = [],
+					count = children.count(),
+					child;
+				for ( var i = count - 1; i >= 0; i-- )
+					if ( ( child = children.getItem( i ) ) && child.is && child.is( 'li' ) )
+					pendingLis.push( child );
+			}
+		}
+
 		if ( newList )
 			newList.listNode.replace( listNode );
+
+		// Move the nested <li> to be appeared after the parent.
+		if ( pendingLis && pendingLis.length )
+			for ( var i = 0; i < pendingLis.length; i++ ) {
+			var li = pendingLis[ i ],
+				followingList = li;
+			// Nest preceding <ul>/<ol> inside current <li> if any.
+			while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in listNodeNames )
+				li.append( followingList );
+			li.insertAfter( parentLiElement );
+		}
 
 		// Clean up the markers.
 		CKEDITOR.dom.element.clearAllMarkers( database );
