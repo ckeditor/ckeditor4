@@ -237,11 +237,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
-.cke_skin_kama .cke_browser_gecko18 .cke_rcombo
-{
-	display: -moz-box;
-}
-
 .cke_skin_kama .cke_browser_gecko .cke_rtl .cke_rcombo .cke_label,
 .cke_skin_kama .cke_browser_gecko .cke_rtl .cke_rcombo .cke_text,
 .cke_skin_kama .cke_browser_gecko .cke_rtl .cke_rcombo .cke_openbutton,
