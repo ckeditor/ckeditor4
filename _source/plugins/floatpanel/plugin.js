@@ -160,7 +160,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.onEscape && this.onEscape();
 				}, this );
 
-				setTimeout( function() {
+				CKEDITOR.tools.setTimeout( function() {
 					if ( rtl )
 						left -= element.$.offsetWidth;
 
@@ -195,7 +195,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						element.getFirst().removeStyle( 'height' );
 
 					// Set the IFrame focus, so the blur event gets fired.
-					setTimeout( function() {
+					CKEDITOR.tools.setTimeout( function() {
 						if ( definition.voiceLabel ) {
 							if ( CKEDITOR.env.gecko ) {
 								var container = iframe.getParent();
@@ -205,13 +205,16 @@ CKEDITOR.plugins.add( 'floatpanel', {
 								iframe.setAttribute( 'title', ' ' );
 							}
 						}
-						if ( CKEDITOR.env.ie )
+						if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
 							iframe.focus();
 						else
 							iframe.$.contentWindow.focus();
-					}, 0 );
-				}, 0 );
 
+						// We need this get fired manually because of unfired focus() function. 
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks )
+							this.allowBlur( true );
+					}, 0, this );
+				}, 0, this );
 				this.visible = 1;
 
 				if ( this.onShow )
