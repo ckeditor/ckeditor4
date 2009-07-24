@@ -375,7 +375,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				// from the element to be applied.
 				while ( styleNode && parent ) {
 					if ( parent.getName() == elementName ) {
-						for ( var attName in def.attribs ) {
+						for ( var attName in def.attributes ) {
 							if ( styleNode.getAttribute( attName ) == parent.getAttribute( attName ) )
 								styleNode.removeAttribute( attName );
 						}

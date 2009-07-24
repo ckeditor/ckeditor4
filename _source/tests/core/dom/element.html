@@ -507,6 +507,18 @@ CKEDITOR.test.addTestCase( (function()
 			assert.isTrue( element.hasAttributes() );
 		},
 
+		/**
+		 * Test detecting of 'class' attribute in IE6/7.
+		 */
+		test_hasAttributes_4075 : function()
+		{
+			if ( !CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) )
+				return;
+			var element = new CKEDITOR.dom.element( 'span' );
+			element.setAttribute( 'class', 'value' );
+			assert.isTrue( element.hasAttributes(), 'Failed to detect "class" attribute existence.' );
+		},
+
 		test_getDocumentPosition : function()
 		{
 			// Assign the page location of the element.

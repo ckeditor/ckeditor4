@@ -679,7 +679,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 					// outerHTML of the element is not displaying the class attribute.
 					// Note : I was not able to reproduce it outside the editor,
 					// but I've faced it while working on the TC of #1391.
-					if ( this.getAttribute( 'class' ) > 0 )
+					if ( this.getAttribute( 'class' ) )
 						return true;
 
 					// Attributes to be ignored.
