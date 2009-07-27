@@ -93,7 +93,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		confirmCancel: 'Деякі опції були змінені. Закрити вікно?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, не доступне</span>'
 	},
 
 	// Special char dialog.
