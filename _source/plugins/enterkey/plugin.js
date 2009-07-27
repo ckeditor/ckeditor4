@@ -224,6 +224,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			else
 				lineBreak = doc.createElement( 'br' );
 
+			range.deleteContents();
 			range.insertNode( lineBreak );
 
 			// A text node is required by Gecko only to make the cursor blink.
