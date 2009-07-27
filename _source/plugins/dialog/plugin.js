@@ -573,7 +573,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
 				var dialogSize = this.getSize();
 
-				this.move( ( viewSize.width - dialogSize.width ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
+				// We're using definition size for initial position because of
+				// offten corrupted data in offsetWidth at this point. (#4084)
+				this.move( ( viewSize.width - definition.minWidth ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
 
 				this.parts.dialog.setStyle( 'visibility', '' );
 
