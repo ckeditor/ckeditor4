@@ -373,13 +373,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								},
 								setup: function( type, element ) {
 									if ( type == IMAGE ) {
-										var dialog = this.getDialog();
-										var url = element.getAttribute( '_cke_saved_src' );
-										if ( !url )
-											url = element.getAttribute( 'src' );
-										dialog.dontResetSize = true;
-										this.setValue( url ); // And call this.onChange()
-										this.focus();
+										var url = element.getAttribute( '_cke_saved_src' ) || element.getAttribute( 'src' );
+										var field = this;
+
+										this.getDialog().dontResetSize = true;
+
+										// In IE7 the dialog is being rendered improperly when loading
+										// an image with a long URL. So we need to delay it a bit. (#4122)
+										setTimeout( function() {
+											field.setValue( url ); // And call this.onChange()
+											field.focus();
+										}, 0 );
 									}
 								},
 								commit: function( type, element ) {
