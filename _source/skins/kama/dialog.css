@@ -530,15 +530,9 @@ body .cke_dialog
 }
 
 /* IE7 + IE quirks */
-.cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_contents
-{
-	float: left;
-}
-
-/* IE7 + IE quirks */
 .cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_footer
 {
-	clear: left;
+	margin-top: 22px;
 }
 
 .cke_skin_kama .cke_browser_ie6 .cke_dialog_close_button,
