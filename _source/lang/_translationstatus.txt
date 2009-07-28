@@ -22,7 +22,7 @@ fa.js      Found: 327 Missing: 108
 fi.js      Found: 325 Missing: 110
 fo.js      Found: 326 Missing: 109
 fr-ca.js   Found: 327 Missing: 108
-fr.js      Found: 369 Missing: 66
+fr.js      Found: 434 Missing: 1
 gl.js      Found: 308 Missing: 127
 gu.js      Found: 326 Missing: 109
 he.js      Found: 332 Missing: 103

@@ -30,12 +30,12 @@ CKEDITOR.lang[ 'fr' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Editeur de Texte Enrichi, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Source',
 	newPage: 'Nouvelle page',
-	save: 'Sauver',
+	save: 'Enregistrer',
 	preview: 'Aperçu',
 	cut: 'Couper',
 	copy: 'Copier',
@@ -80,20 +80,20 @@ CKEDITOR.lang[ 'fr' ] = {
 		langDirLtr: 'Gauche à droite (LTR)',
 		langDirRtl: 'Droite à gauche (RTL)',
 		langCode: 'Code de langue',
-		longDescr: 'URL de longue description (longdesc => malvoyant)',
+		longDescr: 'URL de description longue (longdesc => malvoyant)',
 		cssClass: 'Classe CSS',
 		advisoryTitle: 'Description (title)',
 		cssStyle: 'Style',
 		ok: 'OK',
 		cancel: 'Annuler',
-		generalTab: 'General',
+		generalTab: 'Général',
 		advancedTab: 'Avancé',
 		validateNumberFailed: 'Cette valeur n\'est pas un nombre.',
-		confirmNewPage: 'Les changements non sauvegardés seront perdus. Etes-vous sur de voiloir charger une nouvelle page ?',
-		confirmCancel: 'Certaines options ont été modifiées. Etes-vous sur de vouloir fermer ?',
+		confirmNewPage: 'Les changements non sauvegardés seront perdus. Etes-vous sûr de vouloir charger une nouvelle page?',
+		confirmCancel: 'Certaines options ont été modifiées. Etes-vous sûr de vouloir fermer?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, Indisponible</span>'
 	},
 
 	// Special char dialog.
@@ -116,13 +116,13 @@ CKEDITOR.lang[ 'fr' ] = {
 		toEmail: 'E-mail',
 		target: 'Cible',
 		targetNotSet: '<non définie>',
-		targetFrame: '<frame>',
+		targetFrame: '<cadre>',
 		targetPopup: '<fenêtre popup>',
 		targetNew: 'Nouvelle fenêtre (_blank)',
 		targetTop: 'Même fenêtre (_top)',
-		targetSelf: 'Même Frame (_self)',
+		targetSelf: 'Même Cadre (_self)',
 		targetParent: 'Fenêtre parente (_parent)',
-		targetFrameName: 'Nom de la Frame cible',
+		targetFrameName: 'Nom du Cadre destination',
 		targetPopupName: 'Nom de la fenêtre popup',
 		popupFeatures: 'Options de la fenêtre popup',
 		popupResizable: 'Redimensionnable',
@@ -131,7 +131,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		popupToolbar: 'Barre d\'outils',
 		popupMenuBar: 'Barre de menu',
 		popupFullScreen: 'Plein écran (IE)',
-		popupScrollBars: 'Barres de défillement',
+		popupScrollBars: 'Barres de défilement',
 		popupDependent: 'Dépendante (Netscape)',
 		popupWidth: 'Largeur',
 		popupLeft: 'Position gauche',
@@ -142,7 +142,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		langDirNotSet: '<non défini>',
 		langDirLTR: 'Gauche à droite',
 		langDirRTL: 'Droite à gauche',
-		acccessKey: 'Touche daccessibilité',
+		acccessKey: 'Touche d\'accessibilité',
 		name: 'Nom',
 		langCode: 'Code de langue',
 		tabIndex: 'Index de tabulation',
@@ -151,7 +151,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		cssClasses: 'Classe du CSS',
 		charset: 'Charset de la cible',
 		styles: 'Style',
-		selectAnchor: 'Selectionner l\'ancre',
+		selectAnchor: 'Sélectionner l\'ancre',
 		anchorName: 'Par nom d\'ancre',
 		anchorId: 'Par ID d\'élément',
 		emailAddress: 'Adresse E-Mail',
@@ -176,8 +176,8 @@ CKEDITOR.lang[ 'fr' ] = {
 		title: 'Trouver et remplacer',
 		find: 'Trouver',
 		replace: 'Remplacer',
-		findWhat: 'Expression à trouver : ',
-		replaceWith: 'Remplacer par : ',
+		findWhat: 'Expression à trouver: ',
+		replaceWith: 'Remplacer par: ',
 		notFoundMsg: 'Le texte spécifié ne peut être trouvé.',
 		matchCase: 'Respecter la casse',
 		matchWord: 'Mot entier uniquement',
@@ -195,7 +195,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		rows: 'Lignes',
 		columns: 'Colonnes',
 		border: 'Taille de la bordure',
-		align: 'Alignment du contenu',
+		align: 'Alignement du contenu',
 		alignNotSet: '<non définie>',
 		alignLeft: 'Gauche',
 		alignCenter: 'Centré',
@@ -224,47 +224,47 @@ CKEDITOR.lang[ 'fr' ] = {
 		cell: {
 			menu: 'Cellule',
 			insertBefore: 'Insérer une cellule avant',
-			insertAfter: 'Inserer une cellule après',
+			insertAfter: 'Insérer une cellule après',
 			deleteCell: 'Supprimer les cellules',
 			merge: 'Fusionner les cellules',
 			mergeRight: 'Fusionner à droite',
 			mergeDown: 'Fusionner en bas',
-			splitHorizontal: 'Fractionner horizontallement',
-			splitVertical: 'Fractionner verticallement',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
+			splitHorizontal: 'Fractionner horizontalement',
+			splitVertical: 'Fractionner verticalement',
+			title: 'Propriétés de Cellule',
+			cellType: 'Type de Cellule',
+			rowSpan: 'Fusion de Lignes',
+			colSpan: 'Fusion de Colonnes',
 			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			hAlign: 'Alignement Horizontal',
+			vAlign: 'Alignement Vertical',
+			alignTop: 'Haut',
+			alignMiddle: 'Milieu',
+			alignBottom: 'Bas',
+			alignBaseline: 'Bas du texte',
+			bgColor: 'Couleur d\'arrière-plan',
+			borderColor: 'Couleur de Bordure',
+			data: 'Données',
+			header: 'Entête',
+			yes: 'Oui',
+			no: 'Non',
+			invalidWidth: 'La Largeur de Cellule doit être un nombre.',
+			invalidHeight: 'La Hauteur de Cellule doit être un nombre.',
+			invalidRowSpan: 'La fusion de lignes doit être un nombre entier.',
+			invalidColSpan: 'La fusion de colonnes doit être un nombre entier.'
 		},
 
 		row: {
 			menu: 'Ligne',
 			insertBefore: 'Insérer une ligne avant',
-			insertAfter: 'Inserer une ligne après',
+			insertAfter: 'Insérer une ligne après',
 			deleteRow: 'Supprimer les lignes'
 		},
 
 		column: {
 			menu: 'Colonnes',
-			insertBefore: 'Inserer une colonne avant',
-			insertAfter: 'Inserer une colonne après',
+			insertBefore: 'Insérer une colonne avant',
+			insertAfter: 'Insérer une colonne après',
 			deleteColumn: 'Supprimer les colonnes'
 		}
 	},
@@ -284,7 +284,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		checkboxTitle: 'Propriétés de la case à cocher',
 		radioTitle: 'Propriétés du bouton Radio',
 		value: 'Valeur',
-		selected: 'Selectionné'
+		selected: 'Sélectionné'
 	},
 
 	// Form Dialog.
@@ -298,7 +298,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		targetNotSet: '<non définie>',
 		targetNew: 'Nouvelle fenêtre (_blank)',
 		targetTop: 'Même fenêtre (_top)',
-		targetSelf: 'Même Frame (_self)',
+		targetSelf: 'Même Cadre (_self)',
 		targetParent: 'Fenêtre parente (_parent)'
 	},
 
@@ -366,8 +366,8 @@ CKEDITOR.lang[ 'fr' ] = {
 		vSpace: 'Espacement vertical',
 		align: 'Alignement',
 		alignLeft: 'Gauche',
-		alignAbsBottom: 'Bas absolue',
-		alignAbsMiddle: 'Milieu absolue',
+		alignAbsBottom: 'Bas absolu',
+		alignAbsMiddle: 'Milieu absolu',
 		alignBaseline: 'Bas du texte',
 		alignBottom: 'Bas',
 		alignMiddle: 'Milieu',
@@ -377,8 +377,8 @@ CKEDITOR.lang[ 'fr' ] = {
 		preview: 'Aperçu',
 		alertUrl: 'Veuillez entrer l\'adresse de l\'image',
 		linkTab: 'Lien',
-		button2Img: 'Voulez vous transformer le bouton image sélectionné, en simple image ?',
-		img2Button: 'Voulez vous transformer l\'image en bouton image ?'
+		button2Img: 'Voulez-vous transformer le bouton image sélectionné en simple image?',
+		img2Button: 'Voulez-vous transformer l\'image en bouton image?'
 	},
 
 	// Flash Dialog
@@ -400,32 +400,32 @@ CKEDITOR.lang[ 'fr' ] = {
 		accessNever: 'Jamais',
 		align: 'Alignement',
 		alignLeft: 'Gauche',
-		alignAbsBottom: 'Bas absolue',
-		alignAbsMiddle: 'Milieu absolue',
+		alignAbsBottom: 'Bas absolu',
+		alignAbsMiddle: 'Milieu absolu',
 		alignBaseline: 'Bas du texte',
 		alignBottom: 'Bas',
 		alignMiddle: 'Milieu',
 		alignRight: 'Droite',
 		alignTextTop: 'Haut du texte',
-		alignTop: 'Dessus',
+		alignTop: 'Haut',
 		quality: 'Qualité',
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
+		qualityBest: 'Meilleure',
+		qualityHigh: 'Haute',
+		qualityAutoHigh: 'Haute Auto',
+		qualityMedium: 'Moyenne',
+		qualityAutoLow: 'Basse Auto',
+		qualityLow: 'Basse',
+		windowModeWindow: 'Fenêtre',
+		windowModeOpaque: 'Opaque',
+		windowModeTransparent: 'Transparent',
 		windowMode: 'Mode fenêtre',
 		flashvars: 'Variables du Flash',
-		bgcolor: 'Couleur d\'arrière plan',
+		bgcolor: 'Couleur d\'arrière-plan',
 		width: 'Largeur',
 		height: 'Hauteur',
 		hSpace: 'Espacement horizontal',
 		vSpace: 'Espacement vertical',
-		validateSrc: 'L\'adresse ne dois pas être vide.',
+		validateSrc: 'L\'adresse ne doit pas être vide.',
 		validateWidth: 'La largeur doit être un nombre.',
 		validateHeight: 'La hauteur doit être un nombre.',
 		validateHSpace: 'L\'espacement horizontal doit être un nombre.',
@@ -436,22 +436,22 @@ CKEDITOR.lang[ 'fr' ] = {
 	spellCheck: {
 		toolbar: 'Vérifier l\'orthographe',
 		title: 'Vérifier l\'orthographe',
-		notAvailable: 'Désolé, le service est indisponnible actuellement.',
+		notAvailable: 'Désolé, le service est indisponible actuellement.',
 		errorLoading: 'Erreur du chargement du service depuis l\'hôte : %s.',
-		notInDic: 'N\'existe pas dasn le dictionnaire',
+		notInDic: 'N\'existe pas dans le dictionnaire',
 		changeTo: 'Modifier pour',
 		btnIgnore: 'Ignorer',
 		btnIgnoreAll: 'Ignorer tout',
 		btnReplace: 'Remplacer',
 		btnReplaceAll: 'Remplacer tout',
 		btnUndo: 'Annuler',
-		noSuggestions: '- Aucunes sugestions -',
+		noSuggestions: '- Aucune suggestion -',
 		progress: 'Vérification de l\'orthographe en cours...',
 		noMispell: 'Vérification de l\'orthographe terminée : aucune erreur trouvée',
 		noChanges: 'Vérification de l\'orthographe terminée : Aucun mot corrigé',
 		oneChange: 'Vérification de l\'orthographe terminée : Un seul mot corrigé',
 		manyChanges: 'Vérification de l\'orthographe terminée : %1 mots corrigés',
-		ieSpellDownload: 'La vérification orthographique n\'est pas installée. Voulez-vous la télécharger maintenant ?'
+		ieSpellDownload: 'La vérification d\'orthographe n\'est pas installée. Voulez-vous la télécharger maintenant?'
 	},
 
 	smiley: {
@@ -479,9 +479,9 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	clipboard: {
 		title: 'Coller',
-		cutError: 'Les paramètres de sécurité de votre navigateur, ne permettent pas à l\'éditeur d\'exécuter automatiquement des opérations de coupage. Veuillez utiliser le raccourci clavier (Ctrl+X).',
-		copyError: 'Les paramètres de sécurité de votre navigateur, ne permettent pas à l\'éditeur d\'exécuter automatiquement des opérations de copie. Veuillez utiliser le raccourci clavier (Ctrl+C).',
-		pasteMsg: 'Veuillez coller le texte dans la zone suivante, en utilisant le raccourci clavier (<strong>Ctrl+V</strong>) et cliquez sur OK',
+		cutError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement l\'opération "couper". Veuillez utiliser le raccourci clavier (Ctrl+X).',
+		copyError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement des opérations de copie. Veuillez utiliser le raccourci clavier (Ctrl+C).',
+		pasteMsg: 'Veuillez coller le texte dans la zone suivante en utilisant le raccourci clavier (<strong>Ctrl+V</strong>) et cliquez sur OK',
 		securityMsg: 'A cause des paramètres de sécurité de votre navigateur, l\'éditeur n\'est pas en mesure d\'accéder directement à vos données contenues dans le presse-papier. Vous devriez réessayer de coller les données dans la fenêtre.'
 	},
 
@@ -490,7 +490,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		title: 'Coller depuis Word',
 		advice: 'Veuillez coller le texte dans la zone suivante, en utilisant le raccourci clavier (<strong>Ctrl+V</strong>) et cliquez sur OK.',
 		ignoreFontFace: 'Supprimer la définition des polices',
-		removeStyle: 'Supprimer la défiition des styles'
+		removeStyle: 'Supprimer la définition des styles'
 	},
 
 	pasteText: {
@@ -510,8 +510,8 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	stylesCombo: {
 		label: 'Styles',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		voiceLabel: 'Styles',
+		panelVoiceLabel: 'Choisissez un style',
 		panelTitle1: 'Styles de blocs',
 		panelTitle2: 'Styles en ligne',
 		panelTitle3: 'Styles d\'objet'
@@ -519,12 +519,12 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
-		panelTitle: 'Format de paragraphes',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		voiceLabel: 'Format',
+		panelTitle: 'Format de paragraphe',
+		panelVoiceLabel: 'Choisissez un format de paragraphe',
 
 		tag_p: 'Normal',
-		tag_pre: 'Formatté',
+		tag_pre: 'Formaté',
 		tag_address: 'Adresse',
 		tag_h1: 'Titre 1',
 		tag_h2: 'Titre 2',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	font: {
 		label: 'Police',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Police',
 		panelTitle: 'Style de police',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Choisissez une police'
 	},
 
 	fontSize: {
 		label: 'Taille',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Taille de police',
 		panelTitle: 'Taille de police',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Choisissez une taille de police'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'fr' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Vérification d\'Orthographe en Cours de Frappe (SCAYT: Spell Check As You Type)',
+		enable: 'Activer SCAYT',
+		disable: 'Désactiver SCAYT',
+		about: 'A propos de SCAYT',
+		toggle: 'Activer/Désactiver SCAYT',
+		options: 'Options',
+		langs: 'Langues',
+		moreSuggestions: 'Plus de suggestions',
+		ignore: 'Ignorer',
+		ignoreAll: 'Ignorer Tout',
+		addWord: 'Ajouter le mot',
+		emptyDic: 'Le nom du dictionnaire ne devrait pas être vide.',
+		optionsTab: 'Options',
+		languagesTab: 'Langues',
+		dictionariesTab: 'Dictionnaires',
+		aboutTab: 'A propos de'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'A propos de CKEditor',
+		dlgTitle: 'A propos de CKEditor',
+		moreInfo: 'Pour les informations de licence, veuillez visiter notre site web:',
+		copy: 'Copyright &copy; $1. Tous droits réservés.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Agrandir',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Ancre',
+		flash: 'Animation Flash',
+		div: 'Saut de Page',
+		unknown: 'Objet Inconnu'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Glisser pour modifier la taille'
 };
