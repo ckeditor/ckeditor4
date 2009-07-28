@@ -180,7 +180,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var fixForBody = ( editor.config.enterMode != CKEDITOR.ENTER_BR ) ? editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 
 			editor.on( 'editingBlockReady', function() {
-				var mainElement, fieldset, iframe, isLoadingData, isPendingFocus, fireMode;
+				var mainElement, fieldset, iframe, isLoadingData, isPendingFocus, frameLoaded, fireMode;
 
 				// Support for custom document.domain in IE.
 				var isCustomDomain = CKEDITOR.env.isCustomDomain();
@@ -192,6 +192,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( fieldset )
 							fieldset.remove();
 
+						frameLoaded = 0;
 						// The document domain must be set within the src
 						// attribute;
 						// Defer the script execution until iframe
@@ -223,6 +224,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var accTitle = editor.lang.editorTitle.replace( '%1', editor.name );
 
 						if ( CKEDITOR.env.gecko ) {
+							// Double checking the iframe will be loaded properly(#4058).
+							iframe.on( 'load', function( ev ) {
+								ev.removeListener();
+								contentDomReady( iframe.$.contentWindow );
+							});
+
 							// Accessibility attributes for Firefox.
 							mainElement.setAttributes({
 								role: 'region',
@@ -260,10 +267,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var activationScript = '<script id="cke_actscrpt" type="text/javascript">' +
 					'window.onload = function()' +
 					'{' +
-						// Remove this script from the DOM.
-										'var s = document.getElementById( "cke_actscrpt" );' +
-						's.parentNode.removeChild( s );' +
-
 						// Call the temporary function for the editing
 				// boostrap.
 										'window.parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
@@ -272,10 +275,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Editing area bootstrap code.
 				var contentDomReady = function( domWindow ) {
-						delete CKEDITOR._[ 'contentDomReady' + editor.name ];
+						if ( frameLoaded )
+							return;
+
+						frameLoaded = 1;
 
 						var domDocument = domWindow.document,
 							body = domDocument.body;
+
+						// Remove this script from the DOM.
+						var script = domDocument.getElementById( "cke_actscrpt" );
+						script.parentNode.removeChild( script );
+
+						delete CKEDITOR._[ 'contentDomReady' + editor.name ];
 
 						body.spellcheck = !editor.config.disableNativeSpellChecker;
 
