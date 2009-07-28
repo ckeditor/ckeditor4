@@ -41,26 +41,31 @@ if ( CKEDITOR.dialog ) {
 			return;
 
 		// Fix the size of the elements which have flexible lengths.
-		setTimeout( function() {
-			var content = dialog.parts.contents,
-				body = content.getParent(),
-				innerDialog = body.getParent();
+		var fixSize = function() {
+				var content = dialog.parts.contents,
+					body = content.getParent(),
+					innerDialog = body.getParent();
 
-			// tc
-			var el = innerDialog.getChild( 2 );
-			el.setStyle( 'width', ( body.$.offsetWidth ) + 'px' );
+				// tc
+				var el = innerDialog.getChild( 2 );
+				el.setStyle( 'width', ( body.$.offsetWidth ) + 'px' );
 
-			// bc
-			el = innerDialog.getChild( 7 );
-			el.setStyle( 'width', ( body.$.offsetWidth - 28 ) + 'px' );
+				// bc
+				el = innerDialog.getChild( 7 );
+				el.setStyle( 'width', ( body.$.offsetWidth - 28 ) + 'px' );
 
-			// ml
-			el = innerDialog.getChild( 4 );
-			el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
+				// ml
+				el = innerDialog.getChild( 4 );
+				el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
 
-			// mr
-			el = innerDialog.getChild( 5 );
-			el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
-		}, 100 );
+				// mr
+				el = innerDialog.getChild( 5 );
+				el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
+			};
+		setTimeout( fixSize, 100 );
+
+		// Ensure size is correct for RTL mode. (#4003)
+		if ( evt.editor.lang.dir == 'rtl' )
+			setTimeout( fixSize, 1000 );
 	});
 }
