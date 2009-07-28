@@ -188,19 +188,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.preview = CKEDITOR.document.getById( 'previewImage' );
 
 					var editor = this.getParentEditor(),
-						element = this.getParentEditor().getSelection().getSelectedElement();
+						sel = this.getParentEditor().getSelection(),
+						element = sel.getSelectedElement(),
+						link = element && element.getAscendant( 'a' );
 
 					// Copy of the image
 					this.originalElement = editor.document.createElement( 'img' );
 					this.originalElement.setAttribute( 'alt', '' );
 					this.originalElement.setCustomData( 'isReady', 'false' );
 
-					if ( element && element.getName() == 'a' ) {
-						this.linkElement = element;
+					if ( link ) {
+						this.linkElement = link;
 						this.linkEditMode = true;
 
 						// Look for Image element.
-						var linkChildren = element.getChildren();
+						var linkChildren = link.getChildren();
 						if ( linkChildren.count() == 1 ) // 1 child.
 						{
 							var childTagName = linkChildren.getItem( 0 ).getName();
@@ -214,8 +216,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 						// Fill out all fields.
 						if ( dialogType == 'image' )
-							this.setupContent( LINK, element );
-					} else if ( element && element.getName() == 'img' && !element.getAttribute( '_cke_protected_html' ) )
+							this.setupContent( LINK, link );
+					}
+
+					if ( element && element.getName() == 'img' && !element.getAttribute( '_cke_protected_html' ) )
 						this.imageEditMode = 'img';
 					else if ( element && element.getName() == 'input' && element.getAttribute( 'type' ) && element.getAttribute( 'type' ) == 'image' )
 						this.imageEditMode = 'input';
