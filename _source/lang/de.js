@@ -93,7 +93,7 @@ CKEDITOR.lang[ 'de' ] = {
 		confirmCancel: 'Einige Optionen wurden geändert. Wollen Sie den Dialog dennoch schließen?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>'
 	},
 
 	// Special char dialog.
@@ -409,15 +409,15 @@ CKEDITOR.lang[ 'de' ] = {
 		alignTextTop: 'Text Oben',
 		alignTop: 'Oben',
 		quality: 'Qualität',
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
+		qualityBest: 'Beste',
+		qualityHigh: 'Hoch',
+		qualityAutoHigh: 'Auto Hoch',
+		qualityMedium: 'Medium',
+		qualityAutoLow: 'Auto Niedrig',
+		qualityLow: 'Niedrig',
+		windowModeWindow: 'Fenster',
+		windowModeOpaque: 'Deckend',
+		windowModeTransparent: 'Transparent',
 		windowMode: 'Fenster Modus',
 		flashvars: 'Variablen für Flash',
 		bgcolor: 'Hintergrundfarbe',
@@ -557,46 +557,46 @@ CKEDITOR.lang[ 'de' ] = {
 	},
 
 	colors: {
-		'000': 'Black',
-		'800000': 'Maroon',
-		'8B4513': 'Saddle Brown',
-		'2F4F4F': 'Dark Slate Gray',
-		'008080': 'Teal',
+		'000': 'Schwarz',
+		'800000': 'Kastanienbraun',
+		'8B4513': 'Braun',
+		'2F4F4F': 'Dunkles Schiefergrau',
+		'008080': 'Blaugrün',
 		'000080': 'Navy',
 		'4B0082': 'Indigo',
-		'696969': 'Dim Gray',
-		'B22222': 'Fire Brick',
-		'A52A2A': 'Brown',
-		'DAA520': 'Golden Rod',
-		'006400': 'Dark Green',
-		'40E0D0': 'Turquoise',
-		'0000CD': 'Medium Blue',
-		'800080': 'Purple',
-		'808080': 'Gray',
-		'F00': 'Red',
-		'FF8C00': 'Dark Orange',
+		'696969': 'Dunkelgrau',
+		'B22222': 'Ziegelrot',
+		'A52A2A': 'Braun',
+		'DAA520': 'Goldgelb',
+		'006400': 'Dunkelgrün',
+		'40E0D0': 'Türkis',
+		'0000CD': 'Medium Blau',
+		'800080': 'Lila',
+		'808080': 'Grau',
+		'F00': 'Rot',
+		'FF8C00': 'Dunkelorange',
 		'FFD700': 'Gold',
-		'008000': 'Green',
+		'008000': 'Grün',
 		'0FF': 'Cyan',
-		'00F': 'Blue',
-		'EE82EE': 'Violet',
-		'A9A9A9': 'Dark Gray',
-		'FFA07A': 'Light Salmon',
+		'00F': 'Blau',
+		'EE82EE': 'Hellviolett',
+		'A9A9A9': 'Dunkelgrau',
+		'FFA07A': 'Helles Lachsrosa',
 		'FFA500': 'Orange',
-		'FFFF00': 'Yellow',
+		'FFFF00': 'Gelb',
 		'00FF00': 'Lime',
-		'AFEEEE': 'Pale Turquoise',
-		'ADD8E6': 'Light Blue',
-		'DDA0DD': 'Plum',
-		'D3D3D3': 'Light Grey',
-		'FFF0F5': 'Lavender Blush',
-		'FAEBD7': 'Antique White',
-		'FFFFE0': 'Light Yellow',
-		'F0FFF0': 'Honeydew',
-		'F0FFFF': 'Azure',
-		'F0F8FF': 'Alice Blue',
-		'E6E6FA': 'Lavender',
-		'FFF': 'White'
+		'AFEEEE': 'Blaß-Türkis',
+		'ADD8E6': 'Hellblau',
+		'DDA0DD': 'Pflaumenblau',
+		'D3D3D3': 'Hellgrau',
+		'FFF0F5': 'Lavendel',
+		'FAEBD7': 'Antik Weiß',
+		'FFFFE0': 'Hellgelb',
+		'F0FFF0': 'Honigtau',
+		'F0FFFF': 'Azurblau',
+		'F0F8FF': 'Alice Blau',
+		'E6E6FA': 'Lavendel',
+		'FFF': 'Weiß'
 	},
 
 	scayt: {
@@ -611,7 +611,7 @@ CKEDITOR.lang[ 'de' ] = {
 		ignore: 'Ignorieren',
 		ignoreAll: 'Alle ignorieren',
 		addWord: 'Wort hinzufügen',
-		emptyDic: 'Wörterbuchname sollt leer sein.',
+		emptyDic: 'Wörterbuchname sollte leer sein.',
 		optionsTab: 'Optionen',
 		languagesTab: 'Sprachen',
 		dictionariesTab: 'Wörterbücher',
@@ -620,7 +620,7 @@ CKEDITOR.lang[ 'de' ] = {
 
 	about: {
 		title: 'Über CKEditor',
-		dlgTitle: 'About CKEditor', // MISSING
+		dlgTitle: 'Über CKEditor',
 		moreInfo: 'Für Informationen Liztenzbestimmungen besuchen sie bitte unsere Webseite:',
 		copy: 'Copyright &copy; $1. Alle Rechte vorbehalten.'
 	},
@@ -629,10 +629,10 @@ CKEDITOR.lang[ 'de' ] = {
 
 	fakeobjects: {
 		anchor: 'Anker',
-		flash: 'Flash Animation', // MISSING
+		flash: 'Flash Animation',
 		div: 'Seitenumbruch',
-		unknown: 'Unknown Object' // MISSING
+		unknown: 'Unbekanntes Objekt'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Zum Vergrößern ziehen'
 };
