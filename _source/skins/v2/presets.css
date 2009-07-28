@@ -6,7 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /* "Source" button label */
 .cke_skin_v2 .cke_button_source .cke_label
 {
-	display: inline;
+	display: inline;		/* FF2 */
+	display: inline-block;
 }
 
 /* "Styles" panel size */
