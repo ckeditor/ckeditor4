@@ -30,10 +30,10 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: '富文本编辑器, %1',
 
 	// Toolbar buttons without dialogs.
-	source: '源代码',
+	source: '源码',
 	newPage: '新建',
 	save: '保存',
 	preview: '预览',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cancel: '取消',
 		generalTab: '常规',
 		advancedTab: '高级',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: '需要输入数字格式',
+		confirmNewPage: '当前文档内容未保存,是否确认新建文档？',
+		confirmCancel: '部分选项尚未保存，是否确认关闭对话框？',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, 不可用</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		targetFrameName: '目标框架名称',
 		targetPopupName: '弹出窗口名称',
 		popupFeatures: '弹出窗口属性',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: '可缩放',
 		popupStatusBar: '状态栏',
 		popupLocationBar: '地址栏',
 		popupToolbar: '工具栏',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		popupLeft: '左',
 		popupHeight: '高',
 		popupTop: '右',
-		id: 'Id', // MISSING
+		id: 'ID',
 		langDir: '语言方向',
 		langDirNotSet: '<没有设置>',
 		langDirLTR: '从左到右 (LTR)',
@@ -178,12 +178,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		replace: '替换',
 		findWhat: '查找:',
 		replaceWith: '替换:',
-		notFoundMsg: '指定文本没有找到。',
+		notFoundMsg: '指定文本没有找到',
 		matchCase: '区分大小写',
 		matchWord: '全字匹配',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: '循环匹配',
 		replaceAll: '全部替换',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '共完成 %1 处替换.'
 	},
 
 	// Table Dialog
@@ -213,13 +213,13 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		headersColumn: '第一列',
 		headersRow: '第一行',
 		headersBoth: '第一列和第一行',
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		invalidRows: '指定的列数必须大于零',
+		invalidCols: '指定的行数必须大于零',
+		invalidBorder: '边框粗细必须为数字格式',
+		invalidWidth: '表格宽度必须为数字格式',
+		invalidHeight: '表格高度必须为数字格式',
+		invalidCellSpacing: '单元格间距必须为数字格式',
+		invalidCellPadding: '单元格填充必须为数字格式',
 
 		cell: {
 			menu: '单元格',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 			mergeDown: '向下合并单元格',
 			splitHorizontal: '水平拆分单元格',
 			splitVertical: '垂直拆分单元格',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: '单元格属性',
+			cellType: '单元格类型',
+			rowSpan: '行跨度',
+			colSpan: '列跨度',
+			wordWrap: '自动换行',
+			hAlign: '水平对齐',
+			vAlign: '垂直对齐',
+			alignTop: '顶对齐',
+			alignMiddle: '中对齐',
+			alignBottom: '底对齐',
+			alignBaseline: '基线对齐',
+			bgColor: '背景颜色',
+			borderColor: '边框颜色',
+			data: '数据',
+			header: '表头',
+			yes: '是',
+			no: '否',
+			invalidWidth: '单元格宽度必须为数字格式',
+			invalidHeight: '单元格高度必须为数字格式',
+			invalidRowSpan: '行跨度必须为整数格式',
+			invalidColSpan: '列跨度必须为整数格式'
 		},
 
 		row: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		menu: '表单属性',
 		action: '动作',
 		method: '方法',
-		encoding: 'Encoding', // MISSING
+		encoding: '表单编码',
 		target: '目标',
 		targetNotSet: '<没有设置>',
 		targetNew: '新窗口 (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		preview: '预览',
 		alertUrl: '请输入图象地址',
 		linkTab: '链接',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: '确定要把当前按钮改变为图像吗?',
+		img2Button: '确定要把当前图像改变为按钮吗?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash 属性',
-		propertiesTab: 'Properties', // MISSING
-		title: 'Flash 属性',
+		propertiesTab: '属性',
+		title: '标题',
 		chkPlay: '自动播放',
 		chkLoop: '循环',
 		chkMenu: '启用 Flash 菜单',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: '启用全屏',
 		scale: '缩放',
 		scaleAll: '全部显示',
 		scaleNoBorder: '无边框',
 		scaleFit: '严格匹配',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: '允许脚本访问',
+		accessAlways: '总是',
+		accessSameDomain: '同域',
+		accessNever: '从不',
 		align: '对齐方式',
 		alignLeft: '左对齐',
 		alignAbsBottom: '绝对底边',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		alignRight: '右对齐',
 		alignTextTop: '文本上方',
 		alignTop: '顶端',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: '质量',
+		qualityBest: '最好',
+		qualityHigh: '高',
+		qualityAutoHigh: '高（自动）',
+		qualityMedium: '中（自动）',
+		qualityAutoLow: '低（自动）',
+		qualityLow: '低',
+		windowModeWindow: '窗体',
+		windowModeOpaque: '不透明',
+		windowModeTransparent: '透明',
+		windowMode: '窗体模式',
+		flashvars: 'Flash变量',
 		bgcolor: '背景颜色',
 		width: '宽度',
 		height: '高度',
 		hSpace: '水平间距',
 		vSpace: '垂直间距',
 		validateSrc: '请输入超链接地址',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: '宽度必须为数字格式',
+		validateHeight: '高度必须为数字格式',
+		validateHSpace: '水平间距必须为数字格式',
+		validateVSpace: '垂直间距必须为数字格式'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: '拼写检查',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: '拼写检查',
+		notAvailable: '抱歉，服务目前暂不可用',
+		errorLoading: '无法联系该应用的主机: %s.',
 		notInDic: '没有在字典里',
 		changeTo: '更改为',
 		btnIgnore: '忽略',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 元素'
 	},
 
 	numberedlist: '编号列表',
@@ -479,16 +479,16 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	clipboard: {
 		title: '粘贴',
-		cutError: '您的浏览器安全设置不允许编辑器自动执行剪切操作，请使用键盘快捷键(Ctrl+X)来完成。',
-		copyError: '您的浏览器安全设置不允许编辑器自动执行复制操作，请使用键盘快捷键(Ctrl+C)来完成。',
-		pasteMsg: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>。',
-		securityMsg: '因为你的浏览器的安全设置原因，本编辑器不能直接访问你的剪贴板内容，你需要在本窗口重新粘贴一次。'
+		cutError: '您的浏览器安全设置不允许编辑器自动执行剪切操作，请使用键盘快捷键(Ctrl+X)来完成',
+		copyError: '您的浏览器安全设置不允许编辑器自动执行复制操作，请使用键盘快捷键(Ctrl+C)来完成',
+		pasteMsg: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>',
+		securityMsg: '因为你的浏览器的安全设置原因，本编辑器不能直接访问你的剪贴板内容，你需要在本窗口重新粘贴一次'
 	},
 
 	pastefromword: {
 		toolbar: '从 MS Word 粘贴',
 		title: '从 MS Word 粘贴',
-		advice: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>。',
+		advice: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>',
 		ignoreFontFace: '忽略 Font 标签',
 		removeStyle: '清理 CSS 样式'
 	},
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	stylesCombo: {
 		label: '样式',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: '样式',
+		panelVoiceLabel: '选择样式',
+		panelTitle1: '块级元素样式',
+		panelTitle2: '内联元素样式',
+		panelTitle3: '对象元素样式'
 	},
 
 	format: {
 		label: '格式',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: '格式',
 		panelTitle: '格式',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: '选择格式',
 
 		tag_p: '普通',
 		tag_pre: '已编排格式',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	font: {
 		label: '字体',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: '字体',
 		panelTitle: '字体',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: '选择字体'
 	},
 
 	fontSize: {
 		label: '大小',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: '文字大小',
 		panelTitle: '大小',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: '选择文字大小'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: '即时拼写检查',
+		enable: '启用即时拼写检查',
+		disable: '禁用即时拼写检查',
+		about: '关于即时拼写检查',
+		toggle: '暂停/启用即时拼写检查',
+		options: '选项',
+		langs: '语言',
+		moreSuggestions: '更多拼写建议',
+		ignore: '忽略',
+		ignoreAll: '全部忽略',
+		addWord: '添加单词',
+		emptyDic: '字典名不应为空.',
+		optionsTab: '选项',
+		languagesTab: '语言',
+		dictionariesTab: '字典',
+		aboutTab: '关于'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: '关于CKEditor',
+		dlgTitle: '关于CKEditor',
+		moreInfo: '访问我们的网站以获取更多关于协议的信息',
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: '全屏',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: '锚点',
+		flash: 'Flash',
+		div: 'DIV',
+		unknown: '位置对象'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: '拖拽以改变尺寸'
 };
