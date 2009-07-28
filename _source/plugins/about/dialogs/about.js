@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 	var lang = editor.lang.about;
 
 	return {
-		title: lang.dlgTitle,
+		title: CKEDITOR.env.ie ? lang.dlgTitle : lang.title,
 		minWidth: 390,
 		minHeight: 230,
 		contents: [
