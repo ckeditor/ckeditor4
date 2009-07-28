@@ -238,8 +238,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				onOk: function() {
 					// Edit existing Image.
 					if ( this.imageEditMode ) {
-						var imgTagName = this.imageEditMode,
-							removeObj = this.imageElement;
+						var imgTagName = this.imageEditMode;
 
 						// Image dialog and Input element.
 						if ( dialogType == 'image' && imgTagName == 'input' && confirm( editor.lang.image.button2Img ) ) {
@@ -247,9 +246,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							imgTagName = 'img';
 							this.imageElement = editor.document.createElement( 'img' );
 							this.imageElement.setAttribute( 'alt', '' );
-							removeObj.insertBeforeMe( this.imageElement );
-							removeObj.remove( false );
-
+							editor.insertElement( this.imageElement );
 						}
 						// ImageButton dialog and Image element.
 						else if ( dialogType != 'image' && imgTagName == 'img' && confirm( editor.lang.image.img2Button ) ) {
@@ -260,8 +257,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								type: 'image',
 								alt: ''
 							});
-							removeObj.insertBeforeMe( this.imageElement );
-							removeObj.remove( false );
+							editor.insertElement( this.imageElement );
 						}
 					} else // Create a new image.
 					{
@@ -288,22 +284,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( this.addLink ) {
 							//Insert a new Link.
 							if ( !this.linkEditMode ) {
-								this.linkElement.append( this.imageElement, false );
 								editor.insertElement( this.linkElement );
+								this.linkElement.append( this.imageElement, false );
 							} else //Link already exists, image not.
-							this.linkElement.append( this.imageElement, false );
+							editor.insertElement( this.imageElement );
 						} else
 							editor.insertElement( this.imageElement );
 					} else // Image already exists.
 					{
 						//Add a new link element.
 						if ( !this.linkEditMode && this.addLink ) {
-							this.imageElement.insertBeforeMe( this.linkElement );
+							editor.insertElement( this.linkElement );
 							this.imageElement.appendTo( this.linkElement );
 						}
 						//Remove Link, Image exists.
-						else if ( this.linkEditMode && !this.addLink )
-							this.linkElement.remove( true );
+						else if ( this.linkEditMode && !this.addLink ) {
+							editor.getSelection().selectElement( this.linkElement );
+							editor.insertElement( this.imageElement );
+						}
 					}
 				},
 				onLoad: function() {
