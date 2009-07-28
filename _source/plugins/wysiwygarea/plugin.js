@@ -240,7 +240,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%' +
 								( CKEDITOR.env.ie && CKEDITOR.env.quirks ? ';position:relative' : '' ) +
 								'">' +
-									'<legend style="display:block;width:0;height:0;overflow:hidden">' +
+									'<legend style="display:block;width:0;height:0;overflow:hidden;' +
+									( CKEDITOR.env.ie && CKEDITOR.env.quirks ? 'position:absolute' : '' ) +
+									'">' +
 										CKEDITOR.tools.htmlEncode( accTitle ) +
 									'</legend>' +
 								'</fieldset>'
