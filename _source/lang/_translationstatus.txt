@@ -30,7 +30,7 @@ hi.js      Found: 327 Missing: 108
 hr.js      Found: 327 Missing: 108
 hu.js      Found: 326 Missing: 109
 is.js      Found: 332 Missing: 103
-it.js      Found: 325 Missing: 110
+it.js      Found: 434 Missing: 1
 ja.js      Found: 434 Missing: 1
 km.js      Found: 299 Missing: 136
 ko.js      Found: 318 Missing: 117
@@ -55,5 +55,5 @@ th.js      Found: 312 Missing: 123
 tr.js      Found: 332 Missing: 103
 uk.js      Found: 435 Missing: 0
 vi.js      Found: 326 Missing: 109
-zh-cn.js   Found: 332 Missing: 103
+zh-cn.js   Found: 435 Missing: 0
 zh.js      Found: 327 Missing: 108
