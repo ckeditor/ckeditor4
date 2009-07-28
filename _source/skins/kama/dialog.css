@@ -285,6 +285,11 @@ body .cke_dialog
 	padding: 5px 0;
 }
 
+.cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button
+{
+	padding: 0;
+}
+
 /* IE6 buttons. */
 .cke_skin_kama .cke_browser_ie6 a.cke_dialog_ui_button span
 {
