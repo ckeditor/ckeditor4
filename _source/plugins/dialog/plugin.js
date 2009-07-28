@@ -1333,6 +1333,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}
 
 		dialog.parts.title.on( 'mousedown', function( evt ) {
+			dialog._.updateSize = true;
+
 			lastCoords = { x: evt.data.$.screenX, y: evt.data.$.screenY };
 
 			CKEDITOR.document.on( 'mousemove', mouseMoveHandler );
