@@ -107,6 +107,7 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	display: inline-block;
+	vertical-align: top;
 }
 
 .cke_skin_office2003 .cke_ltr .cke_rcombo .cke_text
