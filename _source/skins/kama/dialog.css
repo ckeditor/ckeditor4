@@ -11,7 +11,6 @@ body .cke_dialog
 
 .cke_skin_kama .cke_dialog_body
 {
-	position: relative;
 	z-index: 1;
 	border: solid 1px #ddd;
 	padding: 5px;
@@ -48,6 +47,13 @@ body .cke_dialog
 .cke_skin_kama .cke_browser_ie7 .cke_dialog_title
 {
 	margin-bottom: 22px;
+}
+
+.cke_skin_kama .cke_browser_iequirks.cke_single_page .cke_dialog_title,
+.cke_skin_kama .cke_browser_ie6.cke_single_page .cke_dialog_title,
+.cke_skin_kama .cke_browser_ie7.cke_single_page .cke_dialog_title
+{
+	margin-bottom: 10px;
 }
 
 .cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_title
@@ -539,12 +545,6 @@ body .cke_dialog
 .cke_skin_kama .cke_browser_iequirks .cke_dialog_close_button
 {
 	top: 7px;
-}
-
-/* Fix missing right border */
-.cke_skin_kama .cke_browser_ie6.cke_rtl .cke_dialog_body
-{
-	float: left;
 }
 
 /* IE7 + IE quirks */
