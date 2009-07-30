@@ -131,7 +131,7 @@ CKEDITOR.test.addTestCase( (function()
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( 'iterTarget4a' ), CKEDITOR.POSITION_AFTER_START );
 			range.setEndAt( doc.getById( 'iterTarget4b' ), CKEDITOR.POSITION_BEFORE_END );
-			assumeIterationSameAs( range, null, [ 'p', 'div' ] );
+			assumeIterationSameAs( range, null, [ 'p', 'p' ] );
 			assumeElementContentAreSame( 'iterContainer4', 'iterResult4' );
 		},
 
@@ -219,7 +219,7 @@ CKEDITOR.test.addTestCase( (function()
 <div id="iterContainer4">
 	<div id="iterTarget4b"><p id="iterTarget4a">paragraph</p>text</div>
 </div>
-<textarea id="iterResult4"><div id="iterTarget4b"><p id="iterTarget4a">paragraph</p>text</div></textarea>
+<textarea id="iterResult4"><div id="iterTarget4b"><p id="iterTarget4a">paragraph</p><p>text</p></div></textarea>
 
 <div id="iterContainer7"><p id="iterTarget7">paragraph</p></div>
 <textarea id="iterResult7"><p id="iterTarget7">paragraph</p></textarea>
