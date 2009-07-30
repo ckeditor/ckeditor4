@@ -295,17 +295,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
 
-		// Compensate a <br> before the first node if the previous node of list is a non-blocks.(#3836)
+		// Compensate <br> before/after the list node if the surrounds are non-blocks.(#3836)
 		var docFragment = newList.listNode,
-			firstNode, previousNode;
-		if ( ( firstNode = docFragment.getFirst() ) && !( firstNode.is && firstNode.isBlockBoundary() ) && ( previousNode = groupObj.root.getPrevious( true ) ) && !( previousNode.is && previousNode.isBlockBoundary( { br:1 } ) ) )
-			editor.document.createElement( 'br' ).insertBefore( firstNode );
+			boundaryNode, siblingNode;
+
+		function compensateBrs( isStart ) {
+			if ( ( boundaryNode = docFragment[ isStart ? 'getFirst' : 'getLast' ]() ) && !( boundaryNode.is && boundaryNode.isBlockBoundary() ) && ( siblingNode = groupObj.root[ isStart ? 'getPrevious' : 'getNext' ]
+			( CKEDITOR.dom.walker.whitespaces( true ) ) ) && !( siblingNode.is && siblingNode.isBlockBoundary( { br:1 } ) ) )
+				editor.document.createElement( 'br' )[ isStart ? 'insertBefore' : 'insertAfter' ]( boundaryNode );
+		}
+		compensateBrs( true );
+		compensateBrs();
 
 		var rootParent = groupObj.root.getParent();
 		docFragment.replace( groupObj.root );
-		// The list content might be empty.(#3782)
-		if ( !CKEDITOR.env.ie && rootParent )
-			rootParent.appendBogus();
 	}
 
 	function listCommand( name, type ) {
