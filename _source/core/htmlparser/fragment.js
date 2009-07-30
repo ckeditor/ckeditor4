@@ -115,7 +115,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			}
 
 			// Rtrim empty spaces on block end boundary. (#3585)
-			if ( element._.isBlockLike && !inPre ) {
+			if ( element._.isBlockLike && element.name != 'pre' ) {
 
 				var length = element.children.length,
 					lastChild = element.children[ length - 1 ],
