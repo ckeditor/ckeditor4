@@ -12,6 +12,14 @@
 
 var before_loadFullCore = CKEDITOR.status;
 
+var isLoaded;
+
+CKEDITOR.on( 'loaded', function()
+	{
+		isLoaded = true;
+	});
+
+
 CKEDITOR.loadFullCore();
 
 	//]]>
@@ -32,6 +40,10 @@ CKEDITOR.test.addTestCase( (function()
 
 		test_status2 : function()
 		{
+			// In IE, CKEDITOR.on( 'loaded' ) will be called immediately if the scripts are cached.
+			if ( isLoaded )
+				return;
+
 			var testCase = this;
 			CKEDITOR.on( 'loaded', function()
 				{
