@@ -109,7 +109,7 @@ CKEDITOR.dom.range = function( document ) {
 
 				// For Extract and Clone, we must clone this level.
 				if ( clone && !levelStartNode.equals( startNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone() );
+				levelClone = clone.append( levelStartNode.clone( false, action == 1 ) );
 
 				currentNode = levelStartNode.getNext();
 
@@ -150,7 +150,7 @@ CKEDITOR.dom.range = function( document ) {
 
 				// For Extract and Clone, we must clone this level.
 				if ( action > 0 && !levelStartNode.equals( endNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone() );
+				levelClone = clone.append( levelStartNode.clone( false, action == 1 ) );
 
 				// The processing of siblings may have already been done by the parent.
 				if ( !startParents[ k ] || levelStartNode.$.parentNode != startParents[ k ].$.parentNode ) {
