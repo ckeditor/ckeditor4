@@ -9,8 +9,17 @@
 	<script type="text/javascript" src="../test.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
+	// Clean up all instances been created on the page.
+	function removeAllInstances()
+	{
+		var allInstances = CKEDITOR.instances;
+		for( var i in allInstances )
+		{
+			CKEDITOR.remove(  allInstances[ i ] );
+		}
+	}
 
-CKEDITOR.test.addTestCase( (function()
+	CKEDITOR.test.addTestCase( (function()
 {
 	// Local reference to the "assert" object.
 	var assert = CKEDITOR.test.assert;
@@ -125,6 +134,11 @@ CKEDITOR.test.addTestCase( (function()
 			CKEDITOR.add( editor );
 
 			assert.areSame( editor, CKEDITOR.instances.test_add );
+		},
+
+		setUp : function()
+		{
+			removeAllInstances();
 		},
 
 		name : document.title
