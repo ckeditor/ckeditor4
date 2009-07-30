@@ -66,7 +66,12 @@ CKEDITOR.test = {
 			html = elementOrId.innerHTML // retrieve from innerHTML
 		|| elementOrId.value; // retrieve from value
 
+		return CKEDITOR.test.fixHtml( html, stripLineBreaks );
+	},
+
+	fixHtml: function( html, stripLineBreaks ) {
 		html = html.toLowerCase();
+
 		if ( stripLineBreaks !== false )
 			html = html.replace( /[\n\r]/g, '' );
 		else
@@ -78,11 +83,24 @@ CKEDITOR.test = {
 
 			match = match.replace( /\s([^\s=]+)=((?:"[^"]*")|(?:'[^']*')|(?:[^\s]+))/g, function( match, attName, attValue ) {
 				if ( attName == 'style' ) {
-					// Safari adds some extra space to the end.
-					attValue = attValue.replace( /\s+/g, '' );
+					// Reorganize the style rules so they are sorted by name.
 
-					// IE doesn't add the final ";"
-					attValue = attValue.replace( /([^"';\s])\s*(["']?)$/, '$1;$2' );
+					var rules = [];
+
+					// Push all rules into an Array.
+					attValue.replace( /(?:"| |;|^ )\s*([^ :]+?)\s*:\s*([^;"]+?)\s*(?=;|"|$)/g, function( match, name, value ) {
+						rules.push( [ name, value ] );
+					});
+
+					// Sort the Array.
+					rules.sort( sorter );
+
+					// Transform each rule entry into a string name:value.
+					for ( i = 0; i < rules.length; i++ )
+						rules[ i ] = rules[ i ].join( ':' );
+
+					// Join all rules with commas, removing spaces and adding an extra comma to the end.
+					attValue = '"' + rules && ( rules.join( ';' ).replace( /\s+/g, '' ) + ';' );
 				}
 
 				// IE may have 'class' more than once.
@@ -99,15 +117,11 @@ CKEDITOR.test = {
 				return '';
 			});
 
-			attribs.sort( function( a, b ) {
-				var nameA = a[ 0 ];
-				var nameB = b[ 0 ];
-				return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-			});
+			attribs.sort( sorter );
 
 			var ret = match.replace( /\s{2,}/g, ' ' );
 
-			for ( var i = 0; i < attribs.length; i++ ) {
+			for ( i = 0; i < attribs.length; i++ ) {
 				ret += ' ' + attribs[ i ][ 0 ] + '=';
 				ret += ( /^["']/ ).test( attribs[ i ][ 1 ] ) ? attribs[ i ][ 1 ] : '"' + attribs[ i ][ 1 ] + '"';
 			}
@@ -116,6 +130,12 @@ CKEDITOR.test = {
 		});
 
 		return html;
+
+		function sorter( a, b ) {
+			var nameA = a[ 0 ];
+			var nameB = b[ 0 ];
+			return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+		}
 	},
 
 	/**

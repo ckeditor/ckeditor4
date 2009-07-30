@@ -263,6 +263,8 @@ CKEDITOR.test.addTestCase( testCase = (function()
 				dataProcessor = editor.dataProcessor;
 
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			dataProcessor.writer.sortAttributes = true;
+
 			var html = getTextAreaValue( '_TEXTAREA_3591_2' );
 			var protectedHtml = dataProcessor.toHtml( html );
 
@@ -308,6 +310,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			var editor = CKEDITOR.instances.editor1,
 				dataProcessor = editor.dataProcessor;
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			dataProcessor.writer.sortAttributes = true;
 
 			assert.areSame( '<p><a href="" name="">emptylink</a></p>',
 				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><a href="" name="">emptylink</a></p>' ) ) );

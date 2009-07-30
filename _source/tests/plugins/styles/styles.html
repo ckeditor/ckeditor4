@@ -324,7 +324,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			var style = new CKEDITOR.style( { element : 'b', styles : { color : 'red', 'font-weight' : '700' } } );
 			style.applyToRange( range );
 
-			assert.areSame( '<b lang="pt" style="font-size:11pt;color:red;">this<b style="font-weight:700;"> is some sample text</b></b>', getInnerHtml( '_P1' ), 'First range' );
+			assert.areSame( '<b lang="pt" style="color:red;font-size:11pt;">this<b style="font-weight:700;"> is some sample text</b></b>', getInnerHtml( '_P1' ), 'First range' );
 		},
 
 		test_inline_nobreak1 : function()
