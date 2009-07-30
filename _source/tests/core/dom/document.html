@@ -25,9 +25,9 @@ CKEDITOR.test.addTestCase( (function()
 
 		test_appendStyleSheet : function()
 		{
-			var cssUrl = CKEDITOR.basePath + 
-				'_source/' +		// %REMOVE_LINE%
-				'tests/_assets/sample.css';
+			var cssUrl = CKEDITOR.basePath + '_tests/';
+			cssUrl = CKEDITOR.basePath + '_source/tests/';	// %REMOVE_LINE%
+			cssUrl += '_assets/sample.css';
 
 			var doc = new CKEDITOR.dom.document( document );
 			doc.appendStyleSheet( cssUrl );
