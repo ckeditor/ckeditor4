@@ -160,7 +160,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 					for ( var attName in attribs ) {
 						if ( attName == '_length' )
 							continue;
-						if ( attribs[ attName ] == element.getAttribute( attName ) ) {
+
+						var elementAttr = element.getAttribute( attName );
+						if ( attribs[ attName ] == ( attName == 'style' ? normalizeCssText( elementAttr, false ) : elementAttr ) ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -1032,14 +1034,22 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return overrides;
 	}
 
-	function normalizeCssText( unparsedCssText ) {
-		// Injects the style in a temporary span object, so the browser parses it,
-		// retrieving its final format.
-		var temp = new CKEDITOR.dom.element( 'span' );
-		temp.setAttribute( 'style', unparsedCssText );
-		var styleText = temp.getAttribute( 'style' );
-		// IE will leave a single semicolon when failed to parse the style text.(#3891)
-		return styleText == ';' ? '' : styleText;
+	function normalizeCssText( unparsedCssText, nativeNormalize ) {
+		var styleText;
+		if ( nativeNormalize != false ) {
+			// Injects the style in a temporary span object, so the browser parses it,
+			// retrieving its final format.
+			var temp = new CKEDITOR.dom.element( 'span' );
+			temp.setAttribute( 'style', unparsedCssText );
+			styleText = temp.getAttribute( 'style' );
+		} else
+			styleText = unparsedCssText;
+
+		// Shrinking white-spaces around colon(#4147).
+		// Shrinking white-spaces around semi-colon.
+		// Compensate tail semi-colon.
+		return styleText.replace( /\s*:\s*/, ':' ).replace( /\s*(?:;\s*|$)/, ';' ).replace( /([^\s;])$/, '$1;' ).toLowerCase();
+
 	}
 
 	function applyStyle( document, remove ) {
