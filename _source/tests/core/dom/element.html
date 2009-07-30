@@ -82,7 +82,7 @@ CKEDITOR.test.addTestCase( (function()
 			assert.areEqual( 'p', element.getName(), 'element name doesn\'t match' );
 			assert.areEqual( 'My test', element.$.innerHTML, 'the innerHTML doesn\'t match' );
 		},
-		
+
 		test_createFromHtml2 : function()
 		{
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x><p>Test</p></div>' );

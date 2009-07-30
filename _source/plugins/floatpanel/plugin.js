@@ -210,7 +210,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						else
 							iframe.$.contentWindow.focus();
 
-						// We need this get fired manually because of unfired focus() function. 
+						// We need this get fired manually because of unfired focus() function.
 						if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks )
 							this.allowBlur( true );
 					}, 0, this );
