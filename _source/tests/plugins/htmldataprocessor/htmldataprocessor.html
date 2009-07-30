@@ -86,9 +86,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 		test_toDataFormat_3 : function()
 		{
-			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x><p>Test</p></div>' );
-
-			assert.areSame( '<x:x><p>Test</p></x:x>', getDataProcessor().toDataFormat( element.getHtml() ) );
+			assert.areSame( '<div><x:x><p>Test</p></x:x></div>', getDataProcessor().toDataFormat( '<div><x:x><p>Test</p></div>' ) );
 		},
 
 		test_toDataFormat_ticket_2774 : function()
