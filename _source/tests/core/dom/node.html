@@ -137,7 +137,7 @@ CKEDITOR.test.addTestCase( tc = (function()
 			var span2 = new CKEDITOR.dom.element( 'span' );
 			element.append( span2 );
 			var next = span1.getNext( CKEDITOR.dom.walker.whitespaces( true ) );
-			assert.areSame( span1.$, next.$ );
+			assert.areSame( span2.$, next.$ );
 		},
 
 		name : document.title
