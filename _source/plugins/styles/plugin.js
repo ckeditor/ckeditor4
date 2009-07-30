@@ -1036,7 +1036,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function normalizeCssText( unparsedCssText, nativeNormalize ) {
 		var styleText;
-		if ( nativeNormalize != false ) {
+		if ( nativeNormalize !== false ) {
 			// Injects the style in a temporary span object, so the browser parses it,
 			// retrieving its final format.
 			var temp = new CKEDITOR.dom.element( 'span' );
