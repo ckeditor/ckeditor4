@@ -251,7 +251,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			var html = getTextAreaValue( '_TEXTAREA_3591' );
 			var protectedHtml = dataProcessor.toHtml( html );
 
-			assert.areSame( getTextAreaValue( '_TEXTAREA_3591_protected' ),
+			assert.areSame( getTextAreaValue( CKEDITOR.env.ie ? '_TEXTAREA_3591_protected_ie' : '_TEXTAREA_3591_protected' ),
 				protectedHtml );
 			assert.areSame( getTextAreaValue( '_TEXTAREA_3591' ),
 				dataProcessor.toDataFormat( protectedHtml ) );
@@ -351,6 +351,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn't support JavaScript</noscript></textarea>
 	<textarea id="_TEXTAREA_3591"><object><param /><param /><embed></embed></object></textarea>
 	<textarea id="_TEXTAREA_3591_protected"><cke:object><cke:param></cke:param><cke:param></cke:param><cke:embed></cke:embed></cke:object></textarea>
+	<textarea id="_TEXTAREA_3591_protected_ie"><?xml:namespace prefix="cke" /><cke:object><cke:param></cke:param><cke:param></cke:param><cke:embed></cke:embed></cke:object></textarea>
  	<textarea id="_TEXTAREA_3801_1"><!-- foo --><p>bar</p></textarea> 
  	<textarea id="_TEXTAREA_3801_2"><p><!-- foo -->bar</p></textarea> 
  	<textarea id="_TEXTAREA_3801_3"><!-- foo --><p><!-- foo -->bar</p></textarea> 
