@@ -31,7 +31,8 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					textarea.addClass( 'cke_source' );
 
 					var styles = {
-						width: '100%',
+						// IE7 has overflow the <textarea> from wrapping table cell.
+						width: CKEDITOR.env.ie7Compat ? '99%' : '100%',
 						height: '100%',
 						resize: 'none',
 						outline: 'none',
