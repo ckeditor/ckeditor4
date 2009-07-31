@@ -530,7 +530,7 @@ CKEDITOR.test.addTestCase( (function()
 			// Assign the page location of the element.
 			YAHOO.util.Dom.setXY('DocPositionTarget', [ 350, 450 ] );
 			var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition();
-			if ( !CKEDITOR.env.ie )
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.ie8 )
 			{
 				assert.areEqual( 350, pos.x, 'Position coordinates:x relative to document doesn\'t match.' );
 				assert.areEqual( 450, pos.y, 'Position coordinates:y relative to document doesn\'t match.' );
