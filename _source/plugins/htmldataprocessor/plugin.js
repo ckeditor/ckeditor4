@@ -5,7 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
-	var tailNbspRegex = /^[\t\r\n ]*&nbsp;$/;
+	// Safari transforms the &nbsp; to \xa0. (#4172)
+	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
 	var protectedSourceMarker = '{cke_protected}';
 

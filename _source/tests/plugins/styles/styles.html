@@ -578,6 +578,10 @@ CKEDITOR.test.addTestCase( testCase = (function()
 			style.applyToRange( range );
 
 			var result = getInnerHtmlParsed( element );
+
+			if ( CKEDITOR.env.webkit )
+				result = result.replace( /\xa0/g, '&nbsp;' );
+
 			assert.areSame( '<p>&nbsp;paragraph1&nbsp; paragraph1<br />paragraph2</p><p>&nbsp;para&nbsp;&nbsp; graph3</p>',
 					 result );
 		},
