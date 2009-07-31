@@ -109,7 +109,7 @@ CKEDITOR.dom.range = function( document ) {
 
 				// For Extract and Clone, we must clone this level.
 				if ( clone && !levelStartNode.equals( startNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone( false, action == 1 ) );
+				levelClone = clone.append( levelStartNode.clone() );
 
 				currentNode = levelStartNode.getNext();
 
@@ -150,7 +150,7 @@ CKEDITOR.dom.range = function( document ) {
 
 				// For Extract and Clone, we must clone this level.
 				if ( action > 0 && !levelStartNode.equals( endNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone( false, action == 1 ) );
+				levelClone = clone.append( levelStartNode.clone() );
 
 				// The processing of siblings may have already been done by the parent.
 				if ( !startParents[ k ] || levelStartNode.$.parentNode != startParents[ k ].$.parentNode ) {
@@ -1023,14 +1023,13 @@ CKEDITOR.dom.range = function( document ) {
 					walker.guard = boundaryGuard;
 
 
-					if ( ( enlargeable = walker.lastBackward() ) ) {
-						// It's the body which stop the enlaring if no block boundary found.
-						blockBoundary = blockBoundary || body;
+					enlargeable = walker.lastBackward()
+					// It's the body which stop the enlarging if no block boundary found.
+					blockBoundary = blockBoundary || body;
 
-						// Start the range at different position by comparing
-						// the document position of it with 'enlargeable' node.
-						this.setStartAt( blockBoundary, blockBoundary.contains( enlargeable ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
-					}
+					// Start the range at different position by comparing
+					// the document position of it with 'enlargeable' node.
+					this.setStartAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable || blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
 
 					// Enlarging the end boundary.
 					walkerRange = this.clone();
@@ -1043,14 +1042,13 @@ CKEDITOR.dom.range = function( document ) {
 					blockBoundary = null;
 					// End the range right before the block boundary node.
 
-					if ( ( enlargeable = walker.lastForward() ) ) {
-						// It's the body which stop the enlaring if no block boundary found.
-						blockBoundary = blockBoundary || body;
+					enlargeable = walker.lastForward()
+					// It's the body which stop the enlarging if no block boundary found.
+					blockBoundary = blockBoundary || body;
 
-						// Start the range at different position by comparing
-						// the document position of it with 'enlargeable' node.
-						this.setEndAt( blockBoundary, blockBoundary.contains( enlargeable ) ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_BEFORE_START );
-					}
+					// Start the range at different position by comparing
+					// the document position of it with 'enlargeable' node.
+					this.setEndAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable || blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_BEFORE_START );
 					// We must include the <br> at the end of range if there's
 					// one and we're expanding list item contents
 					if ( tailBr )

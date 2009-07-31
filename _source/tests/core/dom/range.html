@@ -1059,6 +1059,20 @@ CKEDITOR.test.addTestCase( (function()
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
+		/**
+		 * Test enlarge list when there's no nodes between
+		 * range start and the block boundary.
+		 */
+		test_enlarge_block6 : function()
+		{
+			var range = getRange( 'S11', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP17' ),
+				range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+		},
+
 		test_deleteContents_W3C_1 : function()
 		{
 			// W3C DOM Range Specs - Section 2.6 - Example 1
@@ -2384,6 +2398,7 @@ CKEDITOR.test.addTestCase( (function()
 		<p id="_EnlargeP14"><span id="S8"></span></p>
 		<p id="_EnlargeP15">Test <span id="S9"></span>List<br/ >Item Enlarge</p>
 		<p id="_EnlargeP16">Test <strong>Block<span id="S10"></span></strong><br /><br />Enlarge</p>
+		<p id="_EnlargeP17"><span><span id="S11"></span>Test Block Enlarge<span id="E11"></span></span></p>
 		<p id="_trim_ct">Test trim</p>
 	</div>
 	<script type="text/javascript">
