@@ -579,7 +579,7 @@ CKEDITOR.test.addTestCase( testCase = (function()
 
 			var result = getInnerHtmlParsed( element );
 
-			if ( CKEDITOR.env.webkit )
+			if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
 				result = result.replace( /\xa0/g, '&nbsp;' );
 
 			assert.areSame( '<p>&nbsp;paragraph1&nbsp; paragraph1<br />paragraph2</p><p>&nbsp;para&nbsp;&nbsp; graph3</p>',
