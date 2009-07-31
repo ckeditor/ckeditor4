@@ -231,4 +231,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 })();
 
+/**
+ * The "styles definition set" to load into the styles combo. The styles may
+ * be defined in the page containing the editor, or can be loaded on demand
+ * from an external file when opening the styles combo for the fist time. In
+ * the second case, if this setting contains only a name, the styles definition
+ * file will be loaded from the "styles" folder inside the stylescombo plugin
+ * folder. Otherwise, this setting has the "name:url" syntax, making it
+ * possible to set the URL from which loading the styles file.
+ * @type string
+ * @default 'default'
+ * @example
+ * // Load from the stylescombo styles folder (mystyles.js file).
+ * config.stylesCombo_stylesSet = 'mystyles';
+ * @example
+ * // Load from a relative URL.
+ * config.stylesCombo_stylesSet = 'mystyles:/editorstyles/styles.js';
+ * @example
+ * // Load from a full URL.
+ * config.stylesCombo_stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
+ */
 CKEDITOR.config.stylesCombo_stylesSet = 'default';

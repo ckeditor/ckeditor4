@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	var config = editor.config,
 		images = config.smiley_images,
-		columns = config.smiley_columns,
+		columns = 8,
 		i;
 
 	/**

@@ -249,3 +249,17 @@ if ( CKEDITOR.dialog ) {
 		}, 100 );
 	});
 }
+
+/**
+ * The base user interface color to be used by the editor. Not all skins are
+ * compatible with this setting.
+ * @name CKEDITOR.config.uiColor
+ * @type String
+ * @default '' (empty)
+ * @example
+ * // Using a color code.
+ * config.uiColor = '#AADC6E';
+ * @example
+ * // Using an HTML color name.
+ * config.uiColor = 'Gold';
+ */

@@ -99,7 +99,20 @@ CKEDITOR.plugins.removeformat = {
 	}
 };
 
-// Only inline elements are valid.
+/**
+ * A comma separated list of elements to be removed when executing the "remove
+ " format" command. Note that only inline elements are allowed.
+ * @type String
+ * @default 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var'
+ * @example
+ */
 CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var';
 
+/**
+ * A comma separated list of elements attributes to be removed when executing
+ * the "remove format" command.
+ * @type String
+ * @default 'class,style,lang,width,height,align,hspace,valign'
+ * @example
+ */
 CKEDITOR.config.removeFormatAttributes = 'class,style,lang,width,height,align,hspace,valign';

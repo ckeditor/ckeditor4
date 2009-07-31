@@ -510,7 +510,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Disables the ability of resize objects (image and tables) in the editing
- * area
+ * area.
  * @type Boolean
  * @default false
  * @example
@@ -544,11 +544,13 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * config.disableNativeSpellChecker = false;
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
+
 /**
- * The editor will post an empty value ("") if you have just an empty paragraph on it, like this:
+ * Whether the editor must output an empty value ("") if it's contents is made
+ * by an empty paragraph only.
+ * @type Boolean
+ * @default true
  * @example
- * <p></p>
- * <p><br /></p>
- * <p><b></b></p>
+ * config.ignoreEmptyParagraph = false;
  */
 CKEDITOR.config.ignoreEmptyParagraph = true;

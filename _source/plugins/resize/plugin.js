@@ -58,8 +58,47 @@ CKEDITOR.plugins.add( 'resize', {
 	}
 });
 
+/**
+ * The minimum editor width, in pixels, when resizing it with the resize handle.
+ * @type Number
+ * @default 750
+ * @example
+ * config.resize_minWidth = 500;
+ */
 CKEDITOR.config.resize_minWidth = 750;
+
+/**
+ * The minimum editor height, in pixels, when resizing it with the resize handle.
+ * @type Number
+ * @default 250
+ * @example
+ * config.resize_minHeight = 600;
+ */
 CKEDITOR.config.resize_minHeight = 250;
+
+/**
+ * The maximum editor width, in pixels, when resizing it with the resize handle.
+ * @type Number
+ * @default 3000
+ * @example
+ * config.resize_maxWidth = 750;
+ */
 CKEDITOR.config.resize_maxWidth = 3000;
+
+/**
+ * The maximum editor height, in pixels, when resizing it with the resize handle.
+ * @type Number
+ * @default 3000
+ * @example
+ * config.resize_maxHeight = 600;
+ */
 CKEDITOR.config.resize_maxHeight = 3000;
+
+/**
+ * Whether to enable the resizing feature. If disabed the resize handler will not be visible.
+ * @type Boolean
+ * @default true
+ * @example
+ * config.resize_enabled = false;
+ */
 CKEDITOR.config.resize_enabled = true;

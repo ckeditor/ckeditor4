@@ -114,4 +114,13 @@ CKEDITOR.editor.prototype.insertText = function( text ) {
 	this.insertHtml( text );
 };
 
+/**
+ * Whether to force all pasting operations to insert on plain text into the
+ * editor, loosing any formatting information possibly available in the source
+ * text.
+ * @type Boolean
+ * @default false
+ * @example
+ * config.forcePasteAsPlainText = true;
+ */
 CKEDITOR.config.forcePasteAsPlainText = false;

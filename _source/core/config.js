@@ -41,6 +41,14 @@ CKEDITOR.config = {
 	 */
 	customConfig: CKEDITOR.getUrl( 'config.js' ),
 
+	/**
+	 * Whether the replaced element (usually a textarea) is to be updated
+	 * automatically when posting the form containing the editor.
+	 * @type Boolean
+	 * @default true
+	 * @example
+	 * config.autoUpdateElement = true;
+	 */
 	autoUpdateElement: true,
 
 	/**
@@ -78,7 +86,7 @@ CKEDITOR.config = {
 	/**
 	 * The user interface language localization to use. If empty, the editor
 	 * automatically localize the editor to the user language, if supported,
-	 * otherwise the [@link #defaultLanguage] language is used.
+	 * otherwise the {@link CKEDITOR.config.defaultLanguage} language is used.
 	 * @default true
 	 * @type Boolean
 	 * @example
@@ -88,7 +96,7 @@ CKEDITOR.config = {
 	language: '',
 
 	/**
-	 * The language to be used if [@link #language] is left empty and it's not
+	 * The language to be used if {@link CKEDITOR.config.language} is left empty and it's not
 	 * possible to localize the editor to the user language.
 	 * @default 'en'
 	 * @type String
@@ -97,7 +105,42 @@ CKEDITOR.config = {
 	 */
 	defaultLanguage: 'en',
 
+	/**
+	 * Sets the behavior for the ENTER key. It also dictates other behaviour
+	 * rules in the editor, like whether the &lt;br&gt; element is to be used
+	 * as a paragraph separator when indenting text.
+	 * The allowed values are the following constants, and their relative
+	 * behavior:
+	 * <ul>
+	 *     <li>{@link CKEDITOR.ENTER_P} (1): new &lt;p&gt; paragraphs are created;</li>
+	 *     <li>{@link CKEDITOR.ENTER_BR} (2): lines are broken with &lt;br&gt; elements;</li>
+	 *     <li>{@link CKEDITOR.ENTER_DIV} (3): new &lt;div&gt; blocks are created.</li>
+	 * </ul>
+	 * <strong>Note</strong>: It's recommended to use the
+	 * {@link CKEDITOR.ENTER_P} value because of its semantic value and
+	 * correctness. The editor is optimized for this value.
+	 * @type Number
+	 * @default {@link CKEDITOR.ENTER_P}
+	 * @example
+	 * // Not recommended.
+	 * config.enterMode = CKEDITOR.ENTER_BR;
+	 */
 	enterMode: CKEDITOR.ENTER_P,
+
+	/**
+	 * Just like the {@link CKEDITOR.config.enterMode} setting, it defines the behavior for the SHIFT+ENTER key.
+	 * The allowed values are the following constants, and their relative
+	 * behavior:
+	 * <ul>
+	 *     <li>{@link CKEDITOR.ENTER_P} (1): new &lt;p&gt; paragraphs are created;</li>
+	 *     <li>{@link CKEDITOR.ENTER_BR} (2): lines are broken with &lt;br&gt; elements;</li>
+	 *     <li>{@link CKEDITOR.ENTER_DIV} (3): new &lt;div&gt; blocks are created.</li>
+	 * </ul>
+	 * @type Number
+	 * @default {@link CKEDITOR.ENTER_BR}
+	 * @example
+	 * config.shiftEnterMode = CKEDITOR.ENTER_P;
+	 */
 	shiftEnterMode: CKEDITOR.ENTER_BR,
 
 	/**
@@ -135,25 +178,29 @@ CKEDITOR.config = {
 
 	/**
 	 * The editor height, in CSS size format or pixel integer.
-	 * @type String|Number
+	 * @type Number|String
 	 * @default '200'
 	 * @example
+	 * config.height = 500;
+	 * @example
+	 * config.height = '25em';
 	 */
 	height: 200,
 
 	/**
 	 * Comma separated list of plugins to load and initialize for an editor
-	 * instance.
+	 * instance. This should be rarely changed, using instead the
+	 * {@link CKEDITOR.config.extraPlugins} and
+	 * {@link CKEDITOR.config.removePlugins} for customizations.
 	 * @type String
 	 * @example
-	 * config.plugins = 'basicstyles,button,htmldataprocessor,toolbar,wysiwygarea';
 	 */
 	plugins: 'about,basicstyles,blockquote,button,clipboard,colorbutton,contextmenu,elementspath,enterkey,entities,filebrowser,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,maximize,newpage,pagebreak,pastefromword,pastetext,popup,preview,print,removeformat,resize,save,scayt,smiley,showblocks,sourcearea,stylescombo,table,tabletools,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
 	 * List of additional plugins to be loaded. This is a tool setting which
 	 * makes it easier to add new plugins, whithout having to touch and
-	 * possibly breaking the <i>plugins</i> setting.
+	 * possibly breaking the {@link CKEDITOR.config.plugins} setting.
 	 * @type String
 	 * @example
 	 * config.extraPlugins = 'myplugin,anotherplugin';
@@ -162,8 +209,9 @@ CKEDITOR.config = {
 
 	/**
 	 * List of plugins that must not be loaded. This is a tool setting which
-	 * makes it easier to avoid loading plugins definied in the <i>plugins</i>
-	 * setting, whithout having to touch and possibly breaking it.
+	 * makes it easier to avoid loading plugins definied in the
+	 * {@link CKEDITOR.config.plugins} setting, whithout having to touch it and
+	 * potentially breaking it.
 	 * @type String
 	 * @example
 	 * config.removePlugins = 'elementspath,save,font';
@@ -174,6 +222,7 @@ CKEDITOR.config = {
 	 * List of regular expressions to be executed over the input HTML,
 	 * indicating code that must stay untouched.
 	 * @type Array
+	 * @default [] (empty array)
 	 * @example
 	 * config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code
 	 * config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code
@@ -215,8 +264,11 @@ CKEDITOR.config = {
 	/**
 	 * The editor width in CSS size format or pixel integer.
 	 * @type String|Number
-	 * @default ''
+	 * @default '' (empty)
 	 * @example
+	 * config.width = 850;
+	 * @example
+	 * config.width = '75%';
 	 */
 	width: '',
 

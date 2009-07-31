@@ -312,4 +312,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 })();
 
+/**
+ * Whether to force using "&" instead of "&amp;amp;" in elements attributes
+ * values. It's not recommended to change this setting for compliance with the
+ * W3C XHTML 1.0 standards
+ * (<a href="http://www.w3.org/TR/xhtml1/#C_12">C.12, XHTML 1.0</a>).
+ * @type Boolean
+ * @default false
+ * @example
+ * config.forceSimpleAmpersand = false;
+ */
 CKEDITOR.config.forceSimpleAmpersand = false;

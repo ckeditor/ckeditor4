@@ -291,7 +291,27 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 	}
 });
 
+/**
+ * The amount of time, in milliseconds, the editor waits before showing submenu
+ * options when moving the mouse over options that contains submenus, like the
+ * "Cell Properties" entry for tables.
+ * @type Number
+ * @default 400
+ * @example
+ * // Remove the submenu delay.
+ * config.menu_subMenuDelay = 0;
+ */
 CKEDITOR.config.menu_subMenuDelay = 400;
+
+/**
+ * A comma separated list of items group names to be displayed in the context
+ * menu. The items order will reflect the order in this list if no priority
+ * has been definted in the groups.
+ * @type String
+ * @default 'clipboard,form,tablecell,tablecellproperties,tablerow,tablecolumn,table,anchor,link,image,flash,checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea'
+ * @example
+ * config.menu_groups = 'clipboard,table,anchor,link,image';
+ */
 CKEDITOR.config.menu_groups = 'clipboard,' +
 	'form,' +
 	'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +

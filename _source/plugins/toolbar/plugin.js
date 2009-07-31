@@ -270,19 +270,50 @@ CKEDITOR.config.toolbarLocation = 'top';
 /**
  * The toolbar definition. It is an array of toolbars (strips),
  * each one being also an array, containing a list of UI items.
+ * Note that this setting is composed by "toolbar_" added by the toolbar name,
+ * which in this case is called "Basic". This second part of the setting name
+ * can be anything. You must use this name in the
+ * {@link CKEDITOR.config.toolbar} setting, so you instruct the editor which
+ * toolbar_(name) setting to you.
  * @type Array
  * @example
  * // Defines a toolbar with only one strip containing the "Source" button, a
  * // separator and the "Bold" and "Italic" buttons.
- * <b>CKEDITOR.config.toolbar_Basic =
+ * <b>config.toolbar_Basic =
  * [
  *     [ 'Source', '-', 'Bold', 'Italic' ]
  * ]</b>;
+ * config.toolbar = 'Basic';
  */
 CKEDITOR.config.toolbar_Basic = [
 	[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About' ]
 	];
 
+/**
+ * This is the default toolbar definition used by the editor. It contains all
+ * editor features.
+ * @type Array
+ * @default (see example)
+ * @example
+ * // This is actually the default value.
+ * config.toolbar_Full =
+ * [
+ *     ['Source','-','Save','NewPage','Preview','-','Templates'],
+ *     ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
+ *     ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+ *     ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+ *     '/',
+ *     ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+ *     ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+ *     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+ *     ['Link','Unlink','Anchor'],
+ *     ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+ *     '/',
+ *     ['Styles','Format','Font','FontSize'],
+ *     ['TextColor','BGColor'],
+ *     ['Maximize', 'ShowBlocks','-','About']
+ * ];
+ */
 CKEDITOR.config.toolbar_Full = [
 	[ 'Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates' ],
 	[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt' ],
@@ -292,7 +323,8 @@ CKEDITOR.config.toolbar_Full = [
 	[ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript' ],
 	[ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote' ],
 	[ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
-	[ 'Link', 'Unlink', 'Anchor' ], [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ],
+	[ 'Link', 'Unlink', 'Anchor' ],
+	[ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak' ],
 	'/',
 	[ 'Styles', 'Format', 'Font', 'FontSize' ],
 	[ 'TextColor', 'BGColor' ],
@@ -300,20 +332,38 @@ CKEDITOR.config.toolbar_Full = [
 	];
 
 /**
- * The toolbox (alias toolbar) definition. It is a toolbar name or an array of toolbars (strips),
- * each one being also an array, containing a list of UI items.
- * @type Array or String
+ * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
+ * toolbars (strips), each one being also an array, containing a list of UI items.
+ * @type Array|String
+ * @default 'Full'
  * @example
  * // Defines a toolbar with only one strip containing the "Source" button, a
  * // separator and the "Bold" and "Italic" buttons.
- * <b>CKEDITOR.config.toolbar =
+ * config.toolbar =
  * [
  *     [ 'Source', '-', 'Bold', 'Italic' ]
- * ]</b>;
+ * ];
+ * @example
  * // Load toolbar_Name where Name = Basic.
- * <b>CKEDITOR.config.toolbar = 'Basic';
+ * config.toolbar = 'Basic';
  */
 CKEDITOR.config.toolbar = 'Full';
 
+/**
+ * Whether the toolbar can be collapsed by the user. If disabled, the collapser
+ * button will not be displayed.
+ * @type Boolean
+ * @default true
+ * @example
+ * config.toolbarCanCollapse = false;
+ */
 CKEDITOR.config.toolbarCanCollapse = true;
+
+/**
+ * Whether the toolbar must start expanded when the editor is loaded.
+ * @type Boolean
+ * @default true
+ * @example
+ * config.toolbarStartupExpanded = false;
+ */
 CKEDITOR.config.toolbarStartupExpanded = true;

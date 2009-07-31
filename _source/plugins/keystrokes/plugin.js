@@ -131,11 +131,19 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 })();
 
 /**
- * A list of keystrokes to be blocked if not defined in the {@link #keystrokes}
+ * A list of keystrokes to be blocked if not defined in the {@link CKEDITOR.config.keystrokes}
  * setting. In this way it is possible to block the default browser behavior
  * for those keystrokes.
  * @type Array
+ * @default (see example)
  * @example
+ * // This is actually the default value.
+ * config.blockedKeystrokes =
+ * [
+ *     CKEDITOR.CTRL + 66 &#47;*B*&#47;,
+ *     CKEDITOR.CTRL + 73 &#47;*I*&#47;,
+ *     CKEDITOR.CTRL + 85 &#47;*U*&#47;
+ * ];
  */
 CKEDITOR.config.blockedKeystrokes = [
 	CKEDITOR.CTRL + 66 /*B*/,
@@ -146,9 +154,30 @@ CKEDITOR.config.blockedKeystrokes = [
 /**
  * A list associating keystrokes to editor commands. Each element in the list
  * is an array where the first item is the keystroke, and the second is the
- * command to be executed.
+ * name of the command to be executed.
  * @type Array
+ * @default (see example)
  * @example
+ * // This is actually the default value.
+ * config.keystrokes =
+ * [
+ *     [ CKEDITOR.ALT + 121 &#47;*F10*&#47;, 'toolbarFocus' ],
+ *     [ CKEDITOR.ALT + 122 &#47;*F11*&#47;, 'elementsPathFocus' ],
+ *
+ *     [ CKEDITOR.SHIFT + 121 &#47;*F10*&#47;, 'contextMenu' ],
+ *
+ *     [ CKEDITOR.CTRL + 90 &#47;*Z*&#47;, 'undo' ],
+ *     [ CKEDITOR.CTRL + 89 &#47;*Y*&#47;, 'redo' ],
+ *     [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 &#47;*Z*&#47;, 'redo' ],
+ *
+ *     [ CKEDITOR.CTRL + 76 &#47;*L*&#47;, 'link' ],
+ *
+ *     [ CKEDITOR.CTRL + 66 &#47;*B*&#47;, 'bold' ],
+ *     [ CKEDITOR.CTRL + 73 &#47;*I*&#47;, 'italic' ],
+ *     [ CKEDITOR.CTRL + 85 &#47;*U*&#47;, 'underline' ],
+ *
+ *     [ CKEDITOR.ALT + 109 &#47;*-*&#47;, 'toolbarCollapse' ]
+ * ];
  */
 CKEDITOR.config.keystrokes = [
 	[ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],

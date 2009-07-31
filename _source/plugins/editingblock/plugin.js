@@ -187,7 +187,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @type String
  * @default 'wysiwyg'
  * @example
- * config.toolbarLocation = 'source';
+ * config.startupMode = 'source';
  */
 CKEDITOR.config.startupMode = 'wysiwyg';
 
@@ -195,7 +195,16 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * Sets whether the editor should have the focus when the page loads.
  * @type Boolean
  * @default false
+ * @example
+ * config.startupFocus = true;
  */
 CKEDITOR.config.startupFocus = false;
 
+/**
+ * Whether to render or not the editing block area in the editor interface.
+ * @type Boolean
+ * @default true
+ * @example
+ * config.editingBlock = false;
+ */
 CKEDITOR.config.editingBlock = true;

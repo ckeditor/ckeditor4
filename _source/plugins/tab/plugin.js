@@ -212,9 +212,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren ) {
 
 /**
  * Intructs the editor to add a number of spaces (&amp;nbsp;) to the text when
- * hitting the TAB key. If set to zero, the TAB key will have its default
- * behavior instead (like moving out of the editor).
- * @type {Number}
+ * hitting the TAB key. If set to zero, the TAB key will be used to move the
+ * cursor focus to the next element in the page, out of the editor focus.
+ * @type Number
  * @default 0
  * @example
  * config.tabSpaces = 4;

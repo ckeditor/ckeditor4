@@ -56,6 +56,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * comma. It must match definitions loaded with the templates_files setting.
  * @type String
  * @default 'default'
+ * @example
+ * config.templates = 'my_templates';
  */
 CKEDITOR.config.templates = 'default';
 
@@ -63,6 +65,13 @@ CKEDITOR.config.templates = 'default';
  * The list of templates definition files to load.
  * @type (String) Array
  * @default [ 'plugins/templates/templates/default.js' ]
+ * @example
+ * config.templates_files =
+ *     [
+ *         '/editor_templates/site_default.js',
+ *         'http://www.example.com/user_templates.js
+ *     ];
+ *
  */
 CKEDITOR.config.templates_files = [
 	CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
@@ -70,9 +79,11 @@ CKEDITOR.config.templates_files = [
 	];
 
 /**
- * Whether replace the current document content OR insert current
- * editing position.
+ * Whether the "Replace actual contents" checkbox is checked by default in the
+ * Templates dialog.
  * @type Boolean
  * @default true
+ * @example
+ * config.templates_replaceContent = false;
  */
 CKEDITOR.config.templates_replaceContent = true;

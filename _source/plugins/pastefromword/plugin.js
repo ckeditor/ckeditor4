@@ -19,6 +19,33 @@ CKEDITOR.plugins.add( 'pastefromword', {
 	}
 });
 
+/**
+ * Whether the "Ignore font face definitions" checkbox is enabled by default in
+ * the Paste from Word dialog.
+ * @type Boolean
+ * @default true
+ * @example
+ * config.pasteFromWordIgnoreFontFace = false;
+ */
 CKEDITOR.config.pasteFromWordIgnoreFontFace = true;
+
+/**
+ * Whether the "Remove styles definitions" checkbox is enabled by default in
+ * the Paste from Word dialog.
+ * @type Boolean
+ * @default false
+ * @example
+ * config.pasteFromWordRemoveStyle = true;
+ */
 CKEDITOR.config.pasteFromWordRemoveStyle = false;
+
+/**
+ * Whether to keep structure markup (&lt;h1&gt;, &lt;h2&gt;, etc.) or replace
+ * it with elements that create more similar pasting results when pasting
+ * content from Microsoft Word into the Paste from Word dialog.
+ * @type Boolean
+ * @default false
+ * @example
+ * config.pasteFromWordKeepsStructure = true;
+ */
 CKEDITOR.config.pasteFromWordKeepsStructure = false;

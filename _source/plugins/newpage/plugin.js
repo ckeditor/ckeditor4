@@ -47,5 +47,11 @@ CKEDITOR.plugins.add( 'newpage', {
 		});
 	}
 });
-
+/**
+ * The HTML to load in the editor when the "new page" command is executed.
+ * @type String
+ * @default ''
+ * @example
+ * config.newpage_html = '&lt;p&gt;Type your text here.&lt;/p&gt;';
+ */
 CKEDITOR.config.newpage_html = '';

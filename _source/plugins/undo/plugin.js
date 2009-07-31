@@ -415,4 +415,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 })();
 
+/**
+ * The number of undo steps to be saved. The higher this setting value the more
+ * memory is used for it.
+ * @type Number
+ * @default 20
+ * @example
+ * config.undoStackSize = 50;
+ */
 CKEDITOR.config.undoStackSize = 20;
