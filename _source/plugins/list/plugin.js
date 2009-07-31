@@ -346,6 +346,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						ranges[ 0 ].selectNodeContents( paragraph );
 					selection.selectRanges( ranges );
 				}
+				// Maybe a single range there enclosing the whole list,
+				// turn on the list state manually(#4129).
+				else {
+					var range = ranges.length == 1 && ranges[ 0 ],
+						enclosedNode = range && range.getEnclosedNode();
+					if ( enclosedNode && enclosedNode.is && this.type == enclosedNode.getName() ) {
+						setState.call( this, editor, CKEDITOR.TRISTATE_ON );
+					}
+				}
 			}
 
 			var bookmarks = selection.createBookmarks( true );

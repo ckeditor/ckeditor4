@@ -542,6 +542,19 @@ CKEDITOR.test.addTestCase( (function()
 			}
 		},
 
+		// Test get last non-spaces child node.
+		test_getLast : function()
+		{
+			var element = new CKEDITOR.dom.element( document.getElementById( 'append' ) );
+			var span1 = new CKEDITOR.dom.element( 'span' );
+			element.append( span1 );
+			element.append( new CKEDITOR.dom.text( ' ' ) );
+			element.append( new CKEDITOR.dom.text( ' ' ) );
+			var last = element.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
+			assert.areSame( span1.$, last.$ );
+		},
+
+
 		name : document.title
 	};
 })() );

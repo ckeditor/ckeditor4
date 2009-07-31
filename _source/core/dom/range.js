@@ -1408,6 +1408,23 @@ CKEDITOR.dom.range = function( document ) {
 				return false;
 		},
 
+		/**
+		 * Get the single node enclosed within the range if there's one.
+		 */
+		getEnclosedNode: function() {
+			var walkerRange = this.clone(),
+				walker = new CKEDITOR.dom.walker( walkerRange ),
+				isNotBookmarks = CKEDITOR.dom.walker.bookmark( true ),
+				isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+				evaluator = function( node ) {
+					return isNotWhitespaces( node ) && isNotBookmarks( node );
+				};
+			walkerRange.evaluator = evaluator;
+			var node = walker.next();
+			walker.reset();
+			return node && node.equals( walker.previous() ) ? node : null;
+		},
+
 		getTouchedStartNode: function() {
 			var container = this.startContainer;
 

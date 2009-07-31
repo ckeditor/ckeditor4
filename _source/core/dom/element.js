@@ -564,14 +564,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * @param ignoreEmpty Skip empty text nodes.
+	 * @param {Function} evaluator Filtering the result node.
 	 */
-	getLast: function( ignoreEmpty ) {
-		var $ = this.$.lastChild;
-		if ( ignoreEmpty && $ && ( $.nodeType == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( $.nodeValue ) )
-			return new CKEDITOR.dom.node( $ ).getPrevious( true );
-		else
-			return $ ? new CKEDITOR.dom.node( $ ) : null;
+	getLast: function( evaluator ) {
+		var last = this.$.lastChild,
+			retval = last && new CKEDITOR.dom.node( last );
+		if ( retval && evaluator && !evaluator( retval ) )
+			retval = retval.getPrevious( evaluator );
+
+		return retval;
 	},
 
 	getStyle: function( name ) {
