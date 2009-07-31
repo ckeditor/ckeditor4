@@ -10,6 +10,9 @@
 	<script type="text/javascript">
 	//<![CDATA[
 
+// Disable 'scayt' plugin due to it may alter editor config after initialized.
+CKEDITOR.config.removePlugins = 'scayt';
+
 CKEDITOR.test.addTestCase( (function()
 {
 	// Local reference to the "assert" object.
