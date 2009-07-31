@@ -10,7 +10,6 @@ fixLineEnds : true,
 ignore :
 [
 	'_dev',
-	'_docs/api',
 	'_samples',
 	'_source/adapters',
 	'.svn',
