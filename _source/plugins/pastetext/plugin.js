@@ -37,10 +37,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				editor.on( 'beforePaste', function( event ) {
-					setTimeout( function() {
-						command.exec();
-					}, 0 );
-					event.cancel();
+					if ( editor.mode == "wysiwyg" ) {
+						setTimeout( function() {
+							command.exec();
+						}, 0 );
+						event.cancel();
+					}
 				}, null, null, 20 );
 			}
 		},
