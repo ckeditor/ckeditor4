@@ -116,7 +116,6 @@ CKEDITOR.test.addTestCase( ( function()
 							setRange( range, [ 1, 0, 0, 0, 0 ], true );
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
-							editor.selectionChange();
 
 							// Waiting for 'comand state' effected.
 							this.wait( function(){
@@ -150,7 +149,6 @@ CKEDITOR.test.addTestCase( ( function()
 							setRange( range, [ 1, 1, 0 ], true );
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
-							editor.selectionChange();
 
 							// Waiting for 'comand state' effected.
 							this.wait( function(){
@@ -184,7 +182,6 @@ CKEDITOR.test.addTestCase( ( function()
 							setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
 							var sel = editor.getSelection();
 							sel.selectRanges( [ range ] );
-							editor.selectionChange();
 
 							// Waiting for 'comand state' effected.
 							this.wait( function(){
