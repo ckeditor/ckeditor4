@@ -111,8 +111,9 @@ CKEDITOR.test.addTestCase( tc = ( function()
 			// next tc for this.
 			if ( CKEDITOR.env.ie )
 				return;
-			var element = CKEDITOR.document.getById(
-						'trimTarget' ).clone( true );
+			var element = CKEDITOR.dom.element.createFromHtml(
+				'<div id="trimTarget">\t\ntext\t\n</div>'
+			);
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
@@ -145,8 +146,9 @@ CKEDITOR.test.addTestCase( tc = ( function()
 		{
 			if ( CKEDITOR.env.ie )
 				return;
-			var element = CKEDITOR.document.getById(
-						'trimTarget' ).clone( true );
+			var element = CKEDITOR.dom.element.createFromHtml(
+				'<div id="trimTarget">\t\ntext\t\n</div>'
+			);
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
@@ -181,8 +183,9 @@ CKEDITOR.test.addTestCase( tc = ( function()
 		{
 			if ( !CKEDITOR.env.ie )
 				return;
-			var element =
-					CKEDITOR.document.getById( 'trimTarget' ).clone( true );
+			var element = CKEDITOR.dom.element.createFromHtml(
+				'<div id="trimTarget">\t\ntext\t\n</div>'
+			);
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			element.moveChildren( frag );
@@ -286,9 +289,6 @@ CKEDITOR.test.addTestCase( tc = ( function()
 	<div id="fragmentContainer1"></div>
 	<div id="fragmentContainer2"><div id="fragmentSibling1"></div></div>
 	<div id="fragmentContainer3"></div>
-	<div id="trimTarget">
-text
-</div>
 	<iframe id="innerFrame" name="innerFrame" src="about:blank"></iframe>
 </body>
 </html>
