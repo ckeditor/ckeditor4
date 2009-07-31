@@ -175,21 +175,24 @@ CKEDITOR.test.addTestCase( ( function()
 					{
 						this.resume( function()
 						{
-							editor.focus();
+							this.wait( function ()
+							{
+								editor.focus();
 
-							var doc = editor.document,
-								range = new CKEDITOR.dom.range( doc );
-							setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
-							var sel = editor.getSelection();
-							sel.selectRanges( [ range ] );
+								var doc = editor.document,
+									range = new CKEDITOR.dom.range( doc );
+								setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
+								var sel = editor.getSelection();
+								sel.selectRanges( [ range ] );
 
-							// Waiting for 'comand state' effected.
-							this.wait( function(){
-								// Remove list.
-								editor.execCommand( 'bulletedlist' );
-								assert.areSame( getTextAreaValue( 'test_ticket_3836_result' ),
-									editor.getData(),
-									'Remove list result not correct.' );
+								// Waiting for 'comand state' effected.
+								this.wait( function(){
+									// Remove list.
+									editor.execCommand( 'bulletedlist' );
+									assert.areSame( getTextAreaValue( 'test_ticket_3836_result' ),
+										editor.getData(),
+										'Remove list result not correct.' );
+								}, 1000 );
 							}, 1000 );
 
 						} );
