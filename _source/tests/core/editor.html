@@ -41,20 +41,37 @@ CKEDITOR.test.addTestCase( (function()
 
 		test_config_inpage : function()
 		{
-			// Pass in-page settings to the instance.
-			CKEDITOR.replace( 'editor2', { test1 : 'ball', baseHref : 'test' } );
+			var self = this;
 
-			var config = CKEDITOR.instances.editor2.config;
+			CKEDITOR.replace( 'editor2',
+				{
+					// The custom setting to be checked.
+					test1 : 'ball',
+					baseHref : 'test',
 
-			assert.areSame( 'ball', config.test1, '"test1" doesn\'t match' );
-			assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
+					on :
+					{
+						instanceReady : function()
+						{
+							self.resume( function()
+							{
+								var config = CKEDITOR.instances.editor2.config;
 
-			// All other settings must match CKEDITOR.config.
-			for ( var prop in CKEDITOR.config )
-			{
-				if ( prop != 'test1' && prop != 'baseHref' )
-					assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
-			}
+								assert.areSame( 'ball', config.test1, '"test1" doesn\'t match' );
+								assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
+
+								// All other settings must match CKEDITOR.config.
+								for ( var prop in CKEDITOR.config )
+								{
+									if ( prop != 'test1' && prop != 'baseHref' )
+										assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
+								}
+							} );
+						}
+					}
+				});
+
+			this.wait();
 		},
 
 		test_config_customConfig : function()
