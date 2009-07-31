@@ -8,12 +8,14 @@
 	%REMOVE_LINE% -->
 	<script type="text/javascript" src="../../test.js"></script>
 	<script type="text/javascript">
-
-CKEDITOR.plugins.load( 'htmldataprocessor' );
-
-	</script>
-	<script type="text/javascript">
 	//<![CDATA[
+
+// Load the required plugins and launch the runner.
+CKEDITOR.test.deferRunner = true;
+CKEDITOR.plugins.load( 'htmldataprocessor' , function()
+{
+ CKEDITOR.test.runner.run();
+} );
 
 var testCase;
 
