@@ -58,12 +58,6 @@ packages :
 	'ckeditor.pack'
 ],
 
-documentation :
-{
-	config: '_dev/docs_build/docs_build.conf',
-	target: '_docs/api'
-},
-
 samples :
 {
 	source : '_samples',
