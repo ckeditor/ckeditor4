@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Trình biên tập trực quan, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Mã HTML',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'vi' ] = {
 		cancel: 'Bỏ qua',
 		generalTab: 'Chung',
 		advancedTab: 'Mở rộng',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Giá trị này không phải là số.',
+		confirmNewPage: 'Mọi thay đổi không được không được lưu lại của nội dung này sẽ bị mất. Bạn có chắc chắn muốn tải một trang mới?',
+		confirmCancel: 'Một vài tùy chọn đã bị thay đổi. Bạn có chắc chắn muốn đóng hộp thoại?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, không có</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		targetFrameName: 'Tên Khung đích',
 		targetPopupName: 'Tên Cửa sổ Popup',
 		popupFeatures: 'Đặc điểm của Cửa sổ Popup',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Có thể thay đổi kích cỡ',
 		popupStatusBar: 'Thanh trạng thái',
 		popupLocationBar: 'Thanh vị trí',
 		popupToolbar: 'Thanh công cụ',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		popupLeft: 'Vị trí Trái',
 		popupHeight: 'Cao',
 		popupTop: 'Vị trí Trên',
-		id: 'Id', // MISSING
+		id: 'Định danh',
 		langDir: 'Đường dẫn Ngôn ngữ',
 		langDirNotSet: '<không thiết lập>',
 		langDirLTR: 'Trái sang Phải (LTR)',
@@ -153,7 +153,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		styles: 'Mẫu',
 		selectAnchor: 'Chọn một Neo',
 		anchorName: 'Theo Tên Neo',
-		anchorId: 'Theo Định danh Element',
+		anchorId: 'Theo Định danh Thành phần',
 		emailAddress: 'Thư điện tử',
 		emailSubject: 'Tiêu đề Thông điệp',
 		emailBody: 'Nội dung Thông điệp',
@@ -180,10 +180,10 @@ CKEDITOR.lang[ 'vi' ] = {
 		replaceWith: 'Thay bằng:',
 		notFoundMsg: 'Không tìm thấy chuỗi cần tìm.',
 		matchCase: 'Phân biệt chữ hoa/thường',
-		matchWord: 'Đúng toàn bộ từ',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchWord: 'Giống toàn bộ từ',
+		matchCyclic: 'Giống một phần',
 		replaceAll: 'Thay thế Tất cả',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 vị trí đã được thay thế.'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'vi' ] = {
 		cellPad: 'Đệm Ô',
 		caption: 'Đầu đề',
 		summary: 'Tóm lược',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Đầu đề',
+		headersNone: 'Không có',
+		headersColumn: 'Cột Đầu tiên',
+		headersRow: 'Hàng Đầu tiên',
+		headersBoth: 'Cả hai',
+		invalidRows: 'Số lượng hàng phải là một số lớn hơn 0.',
+		invalidCols: 'Số lượng cột phải là một số lớn hơn 0.',
+		invalidBorder: 'Kích cỡ của đường biên phải là một số nguyên.',
+		invalidWidth: 'Chiều rộng của Bảng phải là một số nguyên.',
+		invalidHeight: 'Chiều cao của Bảng phải là một số nguyên.',
+		invalidCellSpacing: 'Khoảng cách giữa các ô phải là một số nguyên.',
+		invalidCellPadding: 'Đệm giữa các ô phải là một số nguyên.',
 
 		cell: {
 			menu: 'Ô',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'vi' ] = {
 			mergeDown: 'Kết hợp Xuống dưới',
 			splitHorizontal: 'Tách ngang Ô',
 			splitVertical: 'Tách dọc Ô',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'Thuộc tính của Ô',
+			cellType: 'Kiểu của Ô',
+			rowSpan: 'Kết hợp hàng',
+			colSpan: 'Kết hợp cột',
+			wordWrap: 'Word Wrap',
+			hAlign: 'Canh lề ngang',
+			vAlign: 'Canh lề dọc',
+			alignTop: 'Trên cùng',
+			alignMiddle: 'Chính giữa',
+			alignBottom: 'Dưới cùng',
+			alignBaseline: 'Đường cơ sở',
+			bgColor: 'Màu nền',
+			borderColor: 'Màu viền',
+			data: 'Dữ liệu',
+			header: 'Đầu đề',
+			yes: 'Có',
+			no: 'Không',
+			invalidWidth: 'Chiều rộng của Ô phải là một số nguyên.',
+			invalidHeight: 'Chiều cao của Ô phải là một số nguyên.',
+			invalidRowSpan: 'Số hàng kết hợp phải là một số nguyên.',
+			invalidColSpan: 'Số cột kết hợp phải là một số nguyên.'
 		},
 
 		row: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		menu: 'Thuộc tính Biểu mẫu',
 		action: 'Hành động',
 		method: 'Phương thức',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Bảng mã',
 		target: 'Đích',
 		targetNotSet: '<không thiết lập>',
 		targetNew: 'Cửa sổ mới (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'vi' ] = {
 		preview: 'Xem trước',
 		alertUrl: 'Hãy đưa vào URL của hình ảnh',
 		linkTab: 'Liên kết',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: 'Bạn có muốn chuyển nút bấm bằng hình ảnh được chọn thành hình ảnh?',
+		img2Button: 'Bạn có muốn chuyển đổi hình ảnh được chọn thành nút bấm bằng hình ảnh?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Thuộc tính Flash',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Thuộc tính',
 		title: 'Thuộc tính Flash',
 		chkPlay: 'Tự động chạy',
 		chkLoop: 'Lặp',
 		chkMenu: 'Cho phép bật Menu của Flash',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Cho phép Toàn màn hình',
 		scale: 'Tỷ lệ',
 		scaleAll: 'Hiển thị tất cả',
 		scaleNoBorder: 'Không đường viền',
 		scaleFit: 'Vừa vặn',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Truy cập Mã',
+		accessAlways: 'Luôn luôn',
+		accessSameDomain: 'Cùng tên miền',
+		accessNever: 'Không bao giờ',
 		align: 'Vị trí',
 		alignLeft: 'Trái',
 		alignAbsBottom: 'Dưới tuyệt đối',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignRight: 'Phải',
 		alignTextTop: 'Phía trên chữ',
 		alignTop: 'Trên',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Chất lượng',
+		qualityBest: 'TỐt nhất',
+		qualityHigh: 'Cao',
+		qualityAutoHigh: 'Cao Tự động',
+		qualityMedium: 'Trung bình',
+		qualityAutoLow: 'Thấp Tự động',
+		qualityLow: 'Thấp',
+		windowModeWindow: 'Cửa sổ',
+		windowModeOpaque: 'Mờ đục',
+		windowModeTransparent: 'Trong suốt',
+		windowMode: 'Chế độ Cửa sổ',
+		flashvars: 'Các biến số dành cho Flash',
 		bgcolor: 'Màu nền',
 		width: 'Rộng',
 		height: 'Cao',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Hãy đưa vào Liên kết URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Chiều rộng phải là số nguyên.',
+		validateHeight: 'Chiều cao phải là số nguyên.',
+		validateHSpace: 'HSpace phải là số nguyên.',
+		validateVSpace: 'VSpace phải là số nguyên.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Kiểm tra Chính tả',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Kiểm tra Chính tả',
+		notAvailable: 'Xin lỗi, dịch vụ này hiện tại không có.',
+		errorLoading: 'Lỗi khi đang nạp dịch vụ ứng dụng: %s.',
 		notInDic: 'Không có trong từ điển',
 		changeTo: 'Chuyển thành',
 		btnIgnore: 'Bỏ qua',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 thành phần'
 	},
 
 	numberedlist: 'Danh sách có thứ tự',
@@ -482,7 +482,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		cutError: 'Các thiết lập bảo mật của trình duyệt không cho phép trình biên tập tự động thực thi lệnh cắt. Hãy sử dụng bàn phím cho lệnh này (Ctrl+X).',
 		copyError: 'Các thiết lập bảo mật của trình duyệt không cho phép trình biên tập tự động thực thi lệnh sao chép. Hãy sử dụng bàn phím cho lệnh này (Ctrl+C).',
 		pasteMsg: 'Hãy dán nội dung vào trong khung bên dưới, sử dụng tổ hợp phím (<STRONG>Ctrl+V</STRONG>) và nhấn vào nút <STRONG>Đồng ý</STRONG>.',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Do thiết lập bảo mật của trình duyệt nên trình biên tập không thể truy cập trực tiếp vào nội dung đã sao chép. Bạn cần phải dán lại nội dung vào cửa sổ này.'
 	},
 
 	pastefromword: {
@@ -509,19 +509,19 @@ CKEDITOR.lang[ 'vi' ] = {
 	showBlocks: 'Hiển thị các Khối',
 
 	stylesCombo: {
-		label: 'Mẫu',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		label: 'Kiểu',
+		voiceLabel: 'Kiểu',
+		panelVoiceLabel: 'Chọn một kiểu',
+		panelTitle1: 'Kiểu Khối',
+		panelTitle2: 'Kiểu Trực tiếp',
+		panelTitle3: 'Kiểu Đối tượng'
 	},
 
 	format: {
 		label: 'Định dạng',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Định dạng',
 		panelTitle: 'Định dạng',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Chọn định dạng đoạn văn bản',
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'vi' ] = {
 
 	font: {
 		label: 'Phông',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Phông',
 		panelTitle: 'Phông',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Chọn phông'
 	},
 
 	fontSize: {
 		label: 'Cỡ chữ',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Kích cỡ phông',
 		panelTitle: 'Cỡ chữ',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Chọn kích cỡ phông'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Kiểm tra chính tả ngay khi gõ chữ (SCAYT)',
+		enable: 'Bật SCAYT',
+		disable: 'Tắt SCAYT',
+		about: 'Thông tin về SCAYT',
+		toggle: 'Bật tắt SCAYT',
+		options: 'Tùy chọn',
+		langs: 'Ngôn ngữ',
+		moreSuggestions: 'Đề xuất thêm',
+		ignore: 'Bỏ qua',
+		ignoreAll: 'Bỏ qua Tất cả',
+		addWord: 'Thêm Từ',
+		emptyDic: 'Tên của từ điển không được để trống.',
+		optionsTab: 'Tùy chọn',
+		languagesTab: 'Ngôn ngữ',
+		dictionariesTab: 'Từ điển',
+		aboutTab: 'Thông tin'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Thông tin về CKEditor',
+		dlgTitle: 'Thông tin về CKEditor',
+		moreInfo: 'Vui lòng ghé thăm trang web của chúng tôi để có thông tin về giấy phép:',
+		copy: 'Bản quyền &copy; $1. Giữ toàn quyền.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Phóng to tối đa',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Neo',
+		flash: 'Hoạt họa Flash',
+		div: 'Ngắt Trang',
+		unknown: 'Đối tượng không rõ ràng'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Kéo rê để thay đổi kích cỡ'
 };
