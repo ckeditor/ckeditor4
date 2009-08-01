@@ -56,4 +56,4 @@ tr.js      Found: 332 Missing: 103
 uk.js      Found: 435 Missing: 0
 vi.js      Found: 435 Missing: 0
 zh-cn.js   Found: 435 Missing: 0
-zh.js      Found: 327 Missing: 108
+zh.js      Found: 435 Missing: 0

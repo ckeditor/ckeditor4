@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: '文書處理器, %1',
 
 	// Toolbar buttons without dialogs.
 	source: '原始碼',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'zh' ] = {
 		cancel: '取消',
 		generalTab: '一般',
 		advancedTab: '進階',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: '需要輸入數字格式',
+		confirmNewPage: '現存的修改尚未儲存，要開新檔案？',
+		confirmCancel: '部份選項尚未儲存，要關閉對話盒？',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, 已關閉</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		targetFrameName: '目標框架名稱',
 		targetPopupName: '快顯視窗名稱',
 		popupFeatures: '快顯視窗屬性',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: '可縮放',
 		popupStatusBar: '狀態列',
 		popupLocationBar: '網址列',
 		popupToolbar: '工具列',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		popupLeft: '左',
 		popupHeight: '高',
 		popupTop: '右',
-		id: 'Id', // MISSING
+		id: 'ID',
 		langDir: '語言方向',
 		langDirNotSet: '<尚未設定>',
 		langDirLTR: '由左而右 (LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'zh' ] = {
 		notFoundMsg: '未找到指定的文字。',
 		matchCase: '大小寫須相符',
 		matchWord: '全字相符',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: '循環搜索',
 		replaceAll: '全部取代',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '共完成 %1 次取代'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'zh' ] = {
 		cellPad: '內距',
 		caption: '標題',
 		summary: '摘要',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: '標題',
+		headersNone: '無標題',
+		headersColumn: '第一欄',
+		headersRow: '第一列',
+		headersBoth: '第一欄和第一列',
+		invalidRows: '必須有一或更多的列',
+		invalidCols: '必須有一或更多的欄',
+		invalidBorder: '邊框大小必須為數字格式',
+		invalidWidth: '表格寬度必須為數字格式',
+		invalidHeight: '表格高度必須為數字格式',
+		invalidCellSpacing: '儲存格間距必須為數字格式',
+		invalidCellPadding: '儲存格內距必須為數字格式',
 
 		cell: {
 			menu: '儲存格',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'zh' ] = {
 			mergeDown: '向下合併儲存格',
 			splitHorizontal: '橫向分割儲存格',
 			splitVertical: '縱向分割儲存格',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: '儲存格屬性',
+			cellType: '儲存格類別',
+			rowSpan: '儲存格列數',
+			colSpan: '儲存格欄數',
+			wordWrap: '自動換行',
+			hAlign: '水平對齊',
+			vAlign: '垂直對齊',
+			alignTop: '向上對齊',
+			alignMiddle: '置中對齊',
+			alignBottom: '向下對齊',
+			alignBaseline: '基線對齊',
+			bgColor: '背景顏色',
+			borderColor: '邊框顏色',
+			data: '數據',
+			header: '標題',
+			yes: '是',
+			no: '否',
+			invalidWidth: '儲存格寬度必須為數字格式',
+			invalidHeight: '儲存格高度必須為數字格式',
+			invalidRowSpan: '儲存格列數必須為整數格式',
+			invalidColSpan: '儲存格欄數度必須為整數格式'
 		},
 
 		row: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		menu: '表單屬性',
 		action: '動作',
 		method: '方法',
-		encoding: 'Encoding', // MISSING
+		encoding: '表單編碼',
 		target: '目標',
 		targetNotSet: '<尚未設定>',
 		targetNew: '新視窗 (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'zh' ] = {
 		preview: '預覽',
 		alertUrl: '請輸入影像 URL',
 		linkTab: '超連結',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: '要把影像按鈕改成影像嗎？',
+		img2Button: '要把影像改成影像按鈕嗎？'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash 屬性',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: '屬性',
 		title: 'Flash 屬性',
 		chkPlay: '自動播放',
 		chkLoop: '重複',
 		chkMenu: '開啟選單',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: '啟動全螢幕顯示',
 		scale: '縮放',
 		scaleAll: '全部顯示',
 		scaleNoBorder: '無邊框',
 		scaleFit: '精確符合',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: '允許腳本訪問',
+		accessAlways: '永遠',
+		accessSameDomain: '相同域名',
+		accessNever: '永不',
 		align: '對齊',
 		alignLeft: '靠左對齊',
 		alignAbsBottom: '絕對下方',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'zh' ] = {
 		alignRight: '靠右對齊',
 		alignTextTop: '文字上方',
 		alignTop: '靠上對齊',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: '質素',
+		qualityBest: '最好',
+		qualityHigh: '高',
+		qualityAutoHigh: '高（自動）',
+		qualityMedium: '中（自動）',
+		qualityAutoLow: '低（自動）',
+		qualityLow: '低',
+		windowModeWindow: '視窗',
+		windowModeOpaque: '不透明',
+		windowModeTransparent: '透明',
+		windowMode: '視窗模式',
+		flashvars: 'Flash 變數',
 		bgcolor: '背景顏色',
 		width: '寬度',
 		height: '高度',
 		hSpace: '水平距離',
 		vSpace: '垂直距離',
 		validateSrc: '請輸入欲連結的 URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: '寬度必須為數字格式',
+		validateHeight: '高度必須為數字格式',
+		validateHSpace: '水平間距必須為數字格式',
+		validateVSpace: '垂直間距必須為數字格式'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: '拼字檢查',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: '拼字檢查',
+		notAvailable: '抱歉，服務目前暫不可用',
+		errorLoading: '無法聯系侍服器: %s.',
 		notInDic: '不在字典中',
 		changeTo: '更改為',
 		btnIgnore: '忽略',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 元素'
 	},
 
 	numberedlist: '編號清單',
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'zh' ] = {
 
 	stylesCombo: {
 		label: '樣式',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: '樣式',
+		panelVoiceLabel: '選擇樣式',
+		panelTitle1: '塊級元素樣式',
+		panelTitle2: '內聯元素樣式',
+		panelTitle3: '物件元素樣式'
 	},
 
 	format: {
 		label: '格式',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: '格式',
 		panelTitle: '格式',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: '選擇段落格式',
 
 		tag_p: '一般',
 		tag_pre: '已格式化',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'zh' ] = {
 
 	font: {
 		label: '字體',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: '字體',
 		panelTitle: '字體',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: '選擇字體'
 	},
 
 	fontSize: {
 		label: '大小',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: '文字大小',
 		panelTitle: '大小',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: '選擇文字大小'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: '即時拼寫檢查',
+		enable: '啟用即時拼寫檢查',
+		disable: '關閉即時拼寫檢查',
+		about: '關於即時拼寫檢查',
+		toggle: '啟用／關閉即時拼寫檢查',
+		options: '選項',
+		langs: '語言',
+		moreSuggestions: '更多拼寫建議',
+		ignore: '忽略',
+		ignoreAll: '全部忽略',
+		addWord: '添加單詞',
+		emptyDic: '字典名不應為空.',
+		optionsTab: '選項',
+		languagesTab: '語言',
+		dictionariesTab: '字典',
+		aboutTab: '關於'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: '關於 CKEditor',
+		dlgTitle: '關於 CKEditor',
+		moreInfo: '訪問我們的網站以獲取更多關於協議的信息',
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: '最大化',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: '錨點',
+		flash: 'Flash 動畫',
+		div: '分頁',
+		unknown: '不明物件'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: '拖拽改變大小'
 };

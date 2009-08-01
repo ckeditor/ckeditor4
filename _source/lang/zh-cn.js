@@ -630,7 +630,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	fakeobjects: {
 		anchor: '锚点',
 		flash: 'Flash',
-		div: 'DIV',
+		div: '分页',
 		unknown: '位置对象'
 	},
 
