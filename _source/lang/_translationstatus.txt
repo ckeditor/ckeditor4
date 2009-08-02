@@ -6,7 +6,7 @@ ar.js      Found: 329 Missing: 106
 bg.js      Found: 305 Missing: 130
 bn.js      Found: 307 Missing: 128
 bs.js      Found: 210 Missing: 225
-ca.js      Found: 327 Missing: 108
+ca.js      Found: 435 Missing: 0
 cs.js      Found: 327 Missing: 108
 da.js      Found: 326 Missing: 109
 de.js      Found: 435 Missing: 0
