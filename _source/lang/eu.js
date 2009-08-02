@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Testu aberastuentzako editorea, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'HTML Iturburua',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'eu' ] = {
 		cancel: 'Utzi',
 		generalTab: 'Orokorra',
 		advancedTab: 'Aurreratua',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Balio hau ez da zenbaki bat.',
+		confirmNewPage: 'Eduki honetan gorde gabe dauden aldaketak galduko dira. Ziur zaude orri berri bat kargatu nahi duzula?',
+		confirmCancel: 'Aukera batzuk aldatu egin dira. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		targetFrameName: 'Marko Helburuaren Izena',
 		targetPopupName: 'Popup Leihoaren Izena',
 		popupFeatures: 'Popup Leihoaren Ezaugarriak',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Tamaina Aldakorra',
 		popupStatusBar: 'Egoera Barra',
 		popupLocationBar: 'Kokaleku Barra',
 		popupToolbar: 'Tresna Barra',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		popupLeft: 'Ezkerreko  Posizioa',
 		popupHeight: 'Altuera',
 		popupTop: 'Goiko Posizioa',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Hizkuntzaren Norabidea',
 		langDirNotSet: '<Ezarri gabe>',
 		langDirLTR: 'Ezkerretik Eskumara(LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'eu' ] = {
 		notFoundMsg: 'Idatzitako testua ez da topatu.',
 		matchCase: 'Maiuskula/minuskula',
 		matchWord: 'Esaldi osoa bilatu',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Bilaketa ziklikoa',
 		replaceAll: 'Ordeztu Guztiak',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: 'Zenbat aldiz ordeztua: %1'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'eu' ] = {
 		cellPad: 'Gelaxken betegarria',
 		caption: 'Epigrafea',
 		summary: 'Laburpena',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Goiburuak',
+		headersNone: 'Bat ere ez',
+		headersColumn: 'Lehen zutabea',
+		headersRow: 'Lehen lerroa',
+		headersBoth: 'Biak',
+		invalidRows: 'Lerro kopurua 0 baino handiagoa den zenbakia izan behar da.',
+		invalidCols: 'Zutabe kopurua 0 baino handiagoa den zenbakia izan behar da.',
+		invalidBorder: 'Ertzaren tamaina zenbaki bat izan behar da.',
+		invalidWidth: 'Taularen zabalera zenbaki bat izan behar da.',
+		invalidHeight: 'Taularen altuera zenbaki bat izan behar da.',
+		invalidCellSpacing: 'Gelaxka arteko tartea zenbaki bat izan behar da.',
+		invalidCellPadding: 'Gelaxken betegarria zenbaki bat izan behar da.',
 
 		cell: {
 			menu: 'Gelaxka',
@@ -231,34 +231,34 @@ CKEDITOR.lang[ 'eu' ] = {
 			mergeDown: 'Elkartu Behera',
 			splitHorizontal: 'Banatu Gelaxkak Horizontalki',
 			splitVertical: 'Banatu Gelaxkak Bertikalki',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			title: 'Gelaxken Ezaugarriak',
+			cellType: 'Gelaxka Mota',
+			rowSpan: 'Hedatutako Lerroak',
+			colSpan: 'Hedatutako Zutabeak',
+			wordWrap: 'Itzulbira',
+			hAlign: 'Lerrokatze Horizontala',
+			vAlign: 'Lerrokatze Bertikala',
+			alignTop: 'Goian',
+			alignMiddle: 'Erdian',
+			alignBottom: 'Behean',
+			alignBaseline: 'Oinarri-lerroan',
+			bgColor: 'Fondoaren Kolorea',
+			borderColor: 'Ertzaren Kolorea',
+			data: 'Data',
+			header: 'Goiburua',
+			yes: 'Bai',
+			no: 'Ez',
+			invalidWidth: 'Gelaxkaren zabalera zenbaki bat izan behar da.',
+			invalidHeight: 'Gelaxkaren altuera zenbaki bat izan behar da.',
+			invalidRowSpan: 'Lerroen hedapena zenbaki osoa izan behar da.',
+			invalidColSpan: 'Zutabeen hedapena zenbaki osoa izan behar da.'
 		},
 
 		row: {
-			menu: 'Errenkada',
+			menu: 'Lerroa',
 			insertBefore: 'Txertatu Lerroa Aurretik',
 			insertAfter: 'Txertatu Lerroa Ostean',
-			deleteRow: 'Ezabatu Errenkadak'
+			deleteRow: 'Ezabatu Lerroak'
 		},
 
 		column: {
@@ -293,7 +293,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		menu: 'Formularioaren Ezaugarriak',
 		action: 'Ekintza',
 		method: 'Metodoa',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Kodeketa',
 		target: 'Target (Helburua)',
 		targetNotSet: '<Ezarri gabe>',
 		targetNew: 'Leiho Berria (_blank)',
@@ -377,27 +377,27 @@ CKEDITOR.lang[ 'eu' ] = {
 		preview: 'Aurrebista',
 		alertUrl: 'Mesedez Irudiaren URLa idatzi',
 		linkTab: 'Esteka',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		button2Img: 'Aukeratutako irudi botoia, irudi normal batean eraldatu nahi duzu?',
+		img2Button: 'Aukeratutako irudia, irudi botoi batean eraldatu nahi duzu?'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flasharen Ezaugarriak',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Ezaugarriak',
 		title: 'Flasharen Ezaugarriak',
 		chkPlay: 'Automatikoki Erreproduzitu',
 		chkLoop: 'Begizta',
 		chkMenu: 'Flasharen Menua Gaitu',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Onartu Pantaila osoa',
 		scale: 'Eskalatu',
 		scaleAll: 'Dena erakutsi',
 		scaleNoBorder: 'Ertzik gabe',
 		scaleFit: 'Doitu',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Scriptak baimendu',
+		accessAlways: 'Beti',
+		accessSameDomain: 'Domeinu berdinekoak',
+		accessNever: 'Inoiz ere ez',
 		align: 'Lerrokatu',
 		alignLeft: 'Ezkerrera',
 		alignAbsBottom: 'Abs Behean',
@@ -408,36 +408,36 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignRight: 'Eskuman',
 		alignTextTop: 'Testua Goian',
 		alignTop: 'Goian',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Kalitatea',
+		qualityBest: 'Hoberena',
+		qualityHigh: 'Altua',
+		qualityAutoHigh: 'Auto Altua',
+		qualityMedium: 'Ertaina',
+		qualityAutoLow: 'Auto Baxua',
+		qualityLow: 'Baxua',
+		windowModeWindow: 'Leihoa',
+		windowModeOpaque: 'Opakoa',
+		windowModeTransparent: 'Gardena',
+		windowMode: 'Leihoaren modua',
+		flashvars: 'Flash Aldagaiak',
 		bgcolor: 'Atzeko kolorea',
 		width: 'Zabalera',
 		height: 'Altuera',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Mesedez URL esteka idatzi',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Zabalera zenbaki bat izan behar da.',
+		validateHeight: 'Altuera zenbaki bat izan behar da.',
+		validateHSpace: 'HSpace zenbaki bat izan behar da.',
+		validateVSpace: 'VSpace zenbaki bat izan behar da.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Ortografia',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Ortografia zuzenketa',
+		notAvailable: 'Barkatu baina momentu honetan zerbitzua ez dago erabilgarri.',
+		errorLoading: 'Errorea gertatu da aplikazioa zerbitzaritik kargatzean: %s.',
 		notInDic: 'Ez dago hiztegian',
 		changeTo: 'Honekin ordezkatu',
 		btnIgnore: 'Ezikusi',
@@ -460,7 +460,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 elementua'
 	},
 
 	numberedlist: 'Zenbakidun Zerrenda',
@@ -510,18 +510,18 @@ CKEDITOR.lang[ 'eu' ] = {
 
 	stylesCombo: {
 		label: 'Estiloa',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'Estiloak',
+		panelVoiceLabel: 'Estilo bat aukeratu',
+		panelTitle1: 'Bloke Estiloak',
+		panelTitle2: 'Inline Estiloak',
+		panelTitle3: 'Objektu Estiloak'
 	},
 
 	format: {
 		label: 'Formatua',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Formatua',
 		panelTitle: 'Formatua',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Aukeratu paragrafo formatu bat',
 
 		tag_p: 'Arrunta',
 		tag_pre: 'Formateatua',
@@ -537,16 +537,16 @@ CKEDITOR.lang[ 'eu' ] = {
 
 	font: {
 		label: 'Letra-tipoa',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Letra-tipoa',
 		panelTitle: 'Letra-tipoa',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Aukeratu letra-tipoa'
 	},
 
 	fontSize: {
 		label: 'Tamaina',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Tamaina',
 		panelTitle: 'Tamaina',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Aukeratu letraren tamaina'
 	},
 
 	colorButton: {
@@ -600,39 +600,39 @@ CKEDITOR.lang[ 'eu' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Ortografia Zuzenketa Idatzi Ahala (SCAYT)',
+		enable: 'Gaitu SCAYT',
+		disable: 'Desgaitu SCAYT',
+		about: 'SCAYTi buruz',
+		toggle: 'SCAYT aldatu',
+		options: 'Aukerak',
+		langs: 'Hizkuntzak',
+		moreSuggestions: 'Iradokizun gehiago',
+		ignore: 'Baztertu',
+		ignoreAll: 'Denak baztertu',
+		addWord: 'Hitza Gehitu',
+		emptyDic: 'Hiztegiaren izena ezin da hutsik egon.',
+		optionsTab: 'Aukerak',
+		languagesTab: 'Hizkuntzak',
+		dictionariesTab: 'Hiztegiak',
+		aboutTab: 'Honi buruz'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'CKEditor(r)i buruz',
+		dlgTitle: 'CKEditor(r)i buruz',
+		moreInfo: 'Lizentziari buruzko informazioa gure webgunean:',
+		copy: 'Copyright &copy; $1. Eskubide guztiak erreserbaturik.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Maximizatu',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Aingura',
+		flash: 'Flash Animazioa',
+		div: 'Orrialde Saltoa',
+		unknown: 'Objektu ezezaguna'
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Arrastatu tamaina aldatzeko'
 };
