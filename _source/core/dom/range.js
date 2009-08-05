@@ -1022,8 +1022,8 @@ CKEDITOR.dom.range = function( document ) {
 
 					walker.guard = boundaryGuard;
 
+					enlargeable = walker.lastBackward();
 
-					enlargeable = walker.lastBackward()
 					// It's the body which stop the enlarging if no block boundary found.
 					blockBoundary = blockBoundary || body;
 
@@ -1042,7 +1042,8 @@ CKEDITOR.dom.range = function( document ) {
 					blockBoundary = null;
 					// End the range right before the block boundary node.
 
-					enlargeable = walker.lastForward()
+					enlargeable = walker.lastForward();
+
 					// It's the body which stop the enlarging if no block boundary found.
 					blockBoundary = blockBoundary || body;
 

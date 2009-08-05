@@ -365,17 +365,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				database = {};
 
 			while ( ranges.length > 0 ) {
-				var range = ranges.shift(),
-					boundaryNodes = range.getBoundaryNodes(),
+				range = ranges.shift();
+
+				var boundaryNodes = range.getBoundaryNodes(),
 					startNode = boundaryNodes.startNode,
 					endNode = boundaryNodes.endNode;
+
 				if ( startNode.type == CKEDITOR.NODE_ELEMENT && startNode.getName() == 'td' )
 					range.setStartAt( boundaryNodes.startNode, CKEDITOR.POSITION_AFTER_START );
+
 				if ( endNode.type == CKEDITOR.NODE_ELEMENT && endNode.getName() == 'td' )
 					range.setEndAt( boundaryNodes.endNode, CKEDITOR.POSITION_BEFORE_END );
 
 				var iterator = range.createIterator(),
 					block;
+
 				iterator.forceBrBreak = ( this.state == CKEDITOR.TRISTATE_OFF );
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
