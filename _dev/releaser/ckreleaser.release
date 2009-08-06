@@ -32,12 +32,6 @@ copy :
 	},
 
 	{
-		source : '_source/tests',
-		target : 'tests',
-		minify : false
-	},
-
-	{
 		source : '_source/themes',
 		target : 'themes',
 		minify : true
@@ -46,10 +40,6 @@ copy :
 
 rename :
 [
-	{
-		source : 'tests',
-		target : '_tests',
-	},
 ],
 
 packages :
