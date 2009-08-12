@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.bootstrap</title>
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+var before_loadFullCore = CKEDITOR.status;
+
+var isLoaded;
+
+CKEDITOR.on( 'loaded', function()
+	{
+		isLoaded = true;
+	});
+
+
+CKEDITOR.loadFullCore();
+
+	//]]>
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+		test_status1 : function()
+		{
+			assert.areSame( 'basic_loaded', before_loadFullCore );
+		},
+
+		test_status2 : function()
+		{
+			// In IE, CKEDITOR.on( 'loaded' ) will be called immediately if the scripts are cached.
+			if ( isLoaded )
+				return;
+
+			var testCase = this;
+			CKEDITOR.on( 'loaded', function()
+				{
+					testCase.resume( function()
+						{
+							assert.areSame( 'loaded', CKEDITOR.status );
+						});
+				});
+
+			this.wait();
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>

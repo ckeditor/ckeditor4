@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ticket: #4048</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+/**
+ * Load the editor and wait for fully interactable.
+ * @param {Object} elementId
+ * @parma {Object} mode
+ * @param {Object} config
+ * @param {Object} callback Continuation with {@param editor}.
+ * @param {Object} context
+ */
+function prepareEditor( elementId, mode, config, callback, context )
+{
+	CKEDITOR.on( 'instanceReady',
+		function( evt )
+		{
+			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+				evt.editor.name == elementId
+				: evt.editor.element.$ ==
+					document.getElementById( elementId );
+			if ( isMe )
+			{
+				var editor = evt.editor;
+				// Force result data unformatted.
+				editor.dataProcessor.writer._.rules = {};
+				callback.call( context, editor );
+			}
+		}, this );
+
+	mode = mode || CKEDITOR.ELEMENT_MODE_REPLACE;
+	switch( mode )
+	{
+		case CKEDITOR.ELEMENT_MODE_REPLACE :
+			CKEDITOR.replace( elementId, config );
+			break;
+		case CKEDITOR.ELEMENT_MODE_APPENDTO :
+			CKEDITOR.appendTo( elementId, config );
+			break;
+	}
+}
+
+/**
+ * IE always returning CRLF for line-feed, so remove it when retrieving
+ * pre-formated text from text area.
+ */
+function getTextAreaValue( id )
+{
+	return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
+}
+
+CKEDITOR.test.addTestCase( ( function()
+	{
+
+		// Local references.
+		var assert = CKEDITOR.test.assert,
+			doc = CKEDITOR.document,
+			action = YAHOO.util.UserAction,
+			selector = YAHOO.util.Selector;
+
+		/**
+		 * Set the range with the start/end position specified by the locator, which in form of bookmark2.
+		 * @param {Object} range
+		 * @param {Array} startPosition range start path including offset
+		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed
+		 */
+		function setRange( range, startPosition, endPositoin )
+		{
+			var bm = {
+				end : null,
+				start : null,
+				is2: true,
+				startOffset : 0,
+				endoffset : 0
+			};
+			bm.start = startPosition.slice( 0, startPosition.length - 1 );
+			bm.startOffset = startPosition[ startPosition.length -1];
+			if( endPositoin === true )
+			{
+				bm.end = bm.start.slice();
+				bm.endOffset = bm.startOffset;
+			}
+			else
+			{
+				bm.end = endPositoin.slice( 0, endPositoin.length - 1 );
+				bm.endOffset = endPositoin[ endPositoin.length -1 ];
+			}
+			range.moveToBookmark( bm );
+		}
+
+		return	{
+
+			test_ticket_4048 : function()
+			{
+				var testSelf = this;
+				prepareEditor( 'ticket_4048', null,
+					{ enterMode : CKEDITOR.ENTER_BR, uiColor : '#FFFFFF' },
+					function( editor )
+					{
+							editor.setUiColor( '#FFF' );
+							editor.focus();
+
+							// Set range for context menu.
+							var doc = editor.document,
+								range = new CKEDITOR.dom.range( doc );
+							setRange( range, [ 0, 0, 0, 0 ], true );
+
+							// Show context menu.
+							editor.contextMenu.show(
+								editor._.cke_contents.getChild( 0 ).getFrameDocument().getBody().getChild( [ 0, 0, 0, 0 ] )
+							);
+
+							// Wait for context menu to show.
+							setTimeout( function()
+							{
+								var submenuEval = editor.contextMenu._.menu._.element.getChild( [ 0, 4, 0 ] ).getAttribute( 'onclick' );
+								submenuEval = submenuEval.split( ';' )[ 0 ];
+
+								// Show context submenu.
+								eval( submenuEval );
+
+								// Wait for context submenu to show.
+								setTimeout( function()
+								{
+									// Get submenu background color.
+									var backgroundBefore = editor.contextMenu._.menu._.subMenu._.element.getChild( [ 0, 0, 0, 0 ] )
+										.getComputedStyle( 'background-color' );
+
+									// Change UI color and give it some time to propagate.
+									editor.setUiColor( '#000' );
+									setTimeout( function()
+									{
+										testSelf.resume( function()
+										{
+											// Get submenu background color (the new one).
+											var backgroundAfter = editor.contextMenu._.menu._.subMenu._.element.getChild( [ 0, 0, 0, 0 ] )
+												.getComputedStyle( 'background-color' );
+											
+											assert.areSame( 'rgb(255,255,255)', backgroundBefore.toLowerCase().replace( / /g, '' ),
+												'Before UI color change' );
+
+											assert.areSame( 'rgb(0,0,0)', backgroundAfter.toLowerCase().replace( / /g, '' ),
+												'After UI color change' );
+										});
+									}, 200);
+								}, 200);
+							}, 1000);
+					}, this );
+				testSelf.wait( function() {
+					assert.isTrue( false, "Timed out." );
+				}, 8000);
+			},
+
+			name :document.title
+		};
+	} )() );
+	//]]>
+	</script>
+</head>
+<body>
+<textarea id="ticket_4048"><table>
+	<tbody>
+		<tr>
+			<td>table cell</td>
+		</tr>
+	</tbody>
+</table></textarea>
+</body>
+</html>

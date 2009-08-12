@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.plugins</title>
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+
+		/**
+		 * Test loading self defined external plugin file paths.
+		 */
+		test_addExternal : function()
+		{
+			CKEDITOR.plugins.addExternal( 'myplugin',
+			CKTester.cell.getAbsolutePath( 'plugins/myplugins/sample/' ), 'my_plugin.js' );
+
+			CKEDITOR.plugins.load( 'myplugin', function(){
+				this.resume( function(){
+
+					assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
+				} );
+			}, this );
+			this.wait();
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>

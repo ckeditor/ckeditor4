@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>CKEDITOR.test.suites.editorTestSuite</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script>
+( function()
+{
+	var ts, tc, assert = CKEDITOR.test.assert, doc = CKEDITOR.document,
+		editorData = '<p>\n\tsample text</p>\n';
+	YAHOO.tool.TestRunner.add( ts = new CKEDITOR.test.suites.editorTestSuite(
+		{
+				startupData :  editorData,
+				editorName : 'test_editor',
+				config : { lang : 'zh-cn' },
+				name :document.title
+		} ) );
+
+	ts.add( tc = new YAHOO.tool.TestCase(
+		{
+			/**
+			 * Test the editor is fully interactive.
+			 */
+			test_editor_full_interactive : function()
+			{
+				assert.areSame( 'test_editor', ts.editor.name );
+				assert.areSame( 'zh-cn', ts.editor.config.lang );
+				assert.areSame( editorData, ts.editor.getData() );
+				assert.isTrue( ts.editor.focusManager.hasFocus );
+			},
+
+			/**
+			 * Test the editor has been reset by 'setUp'.
+			 */
+			test_editor_reset : function()
+			{
+				assert.areSame( editorData, ts.editor.getData() );
+				assert.isTrue( ts.editor.focusManager.hasFocus );
+			},
+
+			setUp : function()
+			{
+				ts.editor.loadSnapshot( editorData );
+				ts.editor.focus();
+			},
+
+			tearDown : function()
+			{
+				ts.editor.loadSnapshot( '' );
+				doc.getById( 'focusTarget' ).focus();
+			}
+			
+		} ) );
+} )();
+	</script>
+</head>
+<body>
+<input id="focusTarget" type="text"/>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: domiterator</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../../cktester/cell.js"></script>
+	<script type="text/javascript">
+CKEDITOR.plugins.load( [ 'htmldataprocessor', 'htmlwriter', 'domiterator'] );
+
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+/**
+ * IE always returning CRLF for linefeed, so remove it when retrieve pre-formated text from text area.
+ * @param {Object} id
+ */
+function getTextAreaValue( id )
+{
+	return CKEDITOR.document.getById( id ).getValue().replace(/\r/gi,'');
+}
+
+CKEDITOR.test.addTestCase( (function()
+{
+
+	// Local references.
+	var assert = CKEDITOR.test.assert,
+		arrayAssert = YAHOO.util.ArrayAssert;
+
+	var doc = new CKEDITOR.dom.document( document );
+
+	// In these tests, we may "reset" the writer rules to avoid it formatting
+	// the output, making the assertion easier to the done. We don't need to
+	// test formatting features here, so this is ok.
+	var getDataProcessor = function()
+	{
+		var dataProcessor = new CKEDITOR.htmlDataProcessor();
+		dataProcessor.writer._.rules = [];
+		return dataProcessor;
+	};
+
+	/**
+	 * IE always returning CRLF for line-feed, so remove it when retrieving
+	 * pre-formated text from text area.
+	 */
+	function getTextAreaValue( id )
+	{
+		return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
+	}
+
+	function assumeElementContentAreSame( container, textareaId )
+	{
+		if( typeof container == 'string' )
+			container = doc.getById( container );
+		//Assume result document content
+		var html = getDataProcessor().toDataFormat( container.getHtml() );
+		assert.areSame( getTextAreaValue( textareaId ) , html );
+	}
+
+	function assumeElementAreSame( element, textareaId )
+	{
+		if( typeof element == 'string' )
+			element = doc.getById( element );
+		//Assume result document content
+		var html = getDataProcessor().toDataFormat( element.getOuterHtml() );
+		assert.areSame( getTextAreaValue( textareaId ) , html );
+	}
+
+	/**
+	 *
+	 * @param {String|CKEDITOR.dom.range} containerId|range Either the id of html container which contents are treated as range, or a exisiting range object.
+	 * @param {Object} iteratorOption
+	 * @param {Array} expectedTagList block elements tagName list in iteration orders.
+	 */
+	function assumeIterationSameAs( containerIdOrRange, iteratorOption, expectedTagList )
+	{
+		var range;
+		if( typeof containerIdOrRange == 'string' )
+		{
+			range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( doc.getById( containerIdOrRange ) );
+		}
+		else
+			range = containerIdOrRange;
+
+		var iter = range.createIterator();
+		CKEDITOR.tools.extend( iter, iteratorOption, true );
+		var blockList = [], block;
+		while (( block = iter.getNextParagraph() ) )
+		{
+			blockList.push( block.getName() );
+		}
+		arrayAssert.itemsAreEqual( expectedTagList, blockList );
+	}
+
+	return {
+
+		/**
+		 * Test iterating over table cells.
+		 */
+		test_iterator_table_cells : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( 'iterTarget2a' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( doc.getById( 'iterTarget2b' ), CKEDITOR.POSITION_BEFORE_END );
+			assumeIterationSameAs( range, null, [ 'th', 'p', 'td' ]);
+			assumeElementContentAreSame( 'iterContainer2', 'iterResult2' );
+		},
+
+		/**
+		 * Test iterating over list items.
+		 */
+		test_iterator_listItems : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( 'iterTarget3a' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( doc.getById( 'iterTarget3b' ), CKEDITOR.POSITION_BEFORE_END );
+			assumeIterationSameAs( range, null, [ 'li', 'p', 'li' ,'p', 'li' ]);
+			assumeElementContentAreSame( 'iterContainer3', 'iterResult3' );
+		},
+
+		/**
+		 * Test iterating over pseudo block.
+		 */
+		test_iterator_pseudoBlock : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( 'iterTarget4a' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( doc.getById( 'iterTarget4b' ), CKEDITOR.POSITION_BEFORE_END );
+			assumeIterationSameAs( range, null, [ 'p', 'p' ] );
+			assumeElementContentAreSame( 'iterContainer4', 'iterResult4' );
+		},
+
+		/**
+		 * Test collapsed range before paraghraph end.
+		 */
+		test_iterator_collapsed_before_paragraph : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( 'iterTarget7' ), CKEDITOR.POSITION_BEFORE_END );
+			assumeIterationSameAs( range, null, [ 'p' ]);
+			assumeElementContentAreSame( 'iterContainer7', 'iterResult7' );
+		},
+
+		/**
+		 * Test range collapsed  inside paraghraph.
+		 */
+		test_iterator_collapsed_inside_paragraph : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'para8' ).getFirst(), 3 );
+			assumeIterationSameAs( range, null, [ 'p' ]);
+			assumeElementContentAreSame( 'iterContainer8', 'iterResult8' );
+		},
+
+		/**
+		 * Test fix paragraph-less content.
+		 */
+		test_iterator_establish_paragraph: function()
+		{
+			var range = new CKEDITOR.dom.range(doc);
+			range.setStartAt(doc.getById('iterTarget9'), CKEDITOR.POSITION_AFTER_START);
+			range.setEndAt(doc.getById('iterTarget9'), CKEDITOR.POSITION_BEFORE_END);
+			assumeIterationSameAs(range, null, ['p']);
+			assumeElementContentAreSame( 'iterContainer9', 'iterResult9');
+		},
+
+		/**
+		 * Test iterating over more than one paragraphs. (#3352)
+		 */
+		test_iterator_multiple_paragraphs: function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt(doc.getById( 'iterTarget10a' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt(doc.getById( 'iterTarget10b' ), CKEDITOR.POSITION_BEFORE_END );
+			assumeIterationSameAs( range, null, [ 'p', 'p' ] );
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+
+
+<div id="iterContainer2"><table summary="summary">
+	<caption>caption</caption>
+	<tr>
+		<th id="iterTarget2a">
+			head1</th>
+	</tr>
+	<tr>
+		<td><p>cell1</p></td>
+	</tr>
+	<tr>
+		<td id="iterTarget2b">cell2</td>
+	</tr>
+</table></div>
+<textarea id="iterResult2"><table summary="summary"><caption>caption</caption><tbody><tr><th id="iterTarget2a">head1</th></tr><tr><td><p>cell1</p></td></tr><tr><td id="iterTarget2b">cell2</td></tr></tbody></table></textarea>
+
+<div id="iterContainer3"><ul>
+	<li id="iterTarget3a">item1</li>
+	<li><p>item2</p></li>
+	<li>
+		<ul><li>item3</li></ul>
+		<ul><li><p>item5</p></li></ul>
+	</li>
+	<li id="iterTarget3b">item5</li>
+	</ul></div>
+<textarea id="iterResult3"><ul><li id="iterTarget3a">item1</li><li><p>item2</p></li><li><ul><li>item3</li></ul><ul><li><p>item5</p></li></ul></li><li id="iterTarget3b">item5</li></ul></textarea>
+
+<div id="iterContainer4">
+	<div id="iterTarget4b"><p id="iterTarget4a">paragraph</p>text</div>
+</div>
+<textarea id="iterResult4"><div id="iterTarget4b"><p id="iterTarget4a">paragraph</p><p>text</p></div></textarea>
+
+<div id="iterContainer7"><p id="iterTarget7">paragraph</p></div>
+<textarea id="iterResult7"><p id="iterTarget7">paragraph</p></textarea>
+
+<div id="iterContainer8"><p id="para8">paragraph</p></div>
+<textarea id="iterResult8"><p id="para8">paragraph</p></textarea>
+
+<form id="iterContainer9"><span id="iterTarget9">non-paragraph</span></form>
+<textarea id="iterResult9"><p><span id="iterTarget9">non-paragraph</span></p></textarea>
+
+<div id="iterContainer10"><p id="iterTarget10a">para1</p><p id="iterTarget10b">para2</p></div>
+
+</body>
+</html>

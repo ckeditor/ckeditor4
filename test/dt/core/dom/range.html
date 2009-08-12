@@ -1,0 +1,2410 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.dom.range</title>
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+var html1, html2;
+var tests;
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local references.
+	var assert			= CKEDITOR.test.assert;
+	var getInnerHtml	= CKEDITOR.test.getInnerHtml;
+
+	var doc = new CKEDITOR.dom.document( document );
+
+	var getRange = function( startId, endId )
+	{
+		var range = new CKEDITOR.dom.range( CKEDITOR.document );
+		range.moveToBookmark( { startNode : startId, endNode : endId, serializable : true } );
+		return range;
+	};
+
+	return tests = {
+		test__constructor : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			assert.isNotNull( range, 'range must not be null' );
+
+			assert.isNull( range.startContainer, 'startContainer must be null' );
+			assert.isNull( range.startOffset, 'startOffset must be null' );
+			assert.isNull( range.endContainer, 'endContainer must be null' );
+			assert.isNull( range.endOffset, 'endOffset must be null' );
+
+			assert.isTrue( range.collapsed, 'range must be collapsed' );
+		},
+
+		test_setStart : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'playground' ), 1 );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$ );
+			assert.areSame( 1, range.startOffset );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$ );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed );
+		},
+
+		test_setEnd : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEnd( doc.getById( 'playground' ), 1 );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$ );
+			assert.areSame( 1, range.startOffset );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$ );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed );
+		},
+
+		test_setStartAfter : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAfter( doc.getById( '_B' ) );
+			range.setStartAfter( doc.getById( '_H1' ).getFirst() );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_setStartBefore : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartBefore( doc.getById( '_B' ) );
+			range.setStartBefore( doc.getById( '_H1' ).getFirst() );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_setEndAfter : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndAfter( doc.getById( '_H1' ).getFirst() );
+			range.setEndAfter( doc.getById( '_B' ) );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_setEndBefore : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndBefore( doc.getById( '_H1' ).getFirst() );
+			range.setEndBefore( doc.getById( '_B' ) );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_setStartAt_1 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById('_Span'), CKEDITOR.POSITION_AFTER_START );
+
+			assert.areSame( document.getElementById('_Span'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Span'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setStartAt_2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById('_Span'), CKEDITOR.POSITION_BEFORE_END );
+
+			assert.areSame( document.getElementById('_Span'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Span'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setStartAt_3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById('_Span'), CKEDITOR.POSITION_BEFORE_START );
+
+			assert.areSame( document.getElementById('_P'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_P'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setStartAt_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById('_Span'), CKEDITOR.POSITION_AFTER_END );
+
+			assert.areSame( document.getElementById('_P'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_P'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setEndAt_1 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndAt( doc.getById('_Span'), CKEDITOR.POSITION_AFTER_START );
+
+			assert.areSame( document.getElementById('_Span'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Span'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setEndAt_2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndAt( doc.getById('_Span'), CKEDITOR.POSITION_BEFORE_END );
+
+			assert.areSame( document.getElementById('_Span'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Span'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setEndAt_3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndAt( doc.getById('_Span'), CKEDITOR.POSITION_BEFORE_START );
+
+			assert.areSame( document.getElementById('_P'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_P'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_setEndAt_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setEndAt( doc.getById('_Span'), CKEDITOR.POSITION_AFTER_END );
+
+			assert.areSame( document.getElementById('_P'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_P'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_collapsed : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( '_P' ), CKEDITOR.POSITION_AFTER_START );
+
+			assert.isTrue( range.collapsed );
+		},
+
+		test_collapse : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAt( doc.getById( '_Para' ), CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_END );
+
+			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Span'), range.endContainer.$, 'endContainer' );
+			assert.isFalse( range.collapsed, 'collapsed' );
+
+			range.collapse( true );
+
+			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'startContainer' );
+			assert.areSame( document.getElementById('_Para'), range.endContainer.$, 'endContainer' );
+			assert.isTrue( range.collapsed, 'collapsed' );
+		},
+
+		test_selectNodeContents_Element : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Test with an Element node.
+			range.selectNodeContents( doc.getById( '_Para' ) );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_selectNodeContents_Text : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Test with a Text node.
+			range.selectNodeContents( doc.getById( '_Para' ).getFirst() );
+
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 8, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_collapse_ToStart : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById( '_P' ) );
+			range.collapse( true );
+
+			assert.areSame( document.getElementById( '_P' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_P' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_collapse_ToEnd : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById( '_Para' ) );
+			range.collapse( false );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 3, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_ElementContents : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById( '_B' ) );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( '_B' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_B' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_ElementCollapsed : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartBefore( doc.getById( '_Para' ) );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_ElementNotCollapsed : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartBefore( doc.getById( '_Para' ) );
+			range.setStartBefore( doc.getById( '_H1' ) );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_DiffElements : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById( '_Para' ) );
+
+			range.setStart( doc.getById( '_H1' ), 0 );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+
+			assert.isTrue( range.startContainer.getChild( range.startOffset ).equals( newNode ), 'Start must be on new node' );
+		},
+
+		test_insertNode_TextCollapsed : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( '_H1' ).getFirst(), 3 );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_H1' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_TextNotCollapsed : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( '_H1' ).getFirst(), 3 );
+			range.setEnd( doc.getById( '_H1' ).getFirst(), 5 );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_H1' ).childNodes[2], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_insertNode_Mixed : function()
+		{
+			var newNode = new CKEDITOR.dom.element( 'span' );
+			newNode.setHtml( 'test_' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( '_H1' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_P' ), 1 );
+			range.insertNode( newNode );
+
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_P' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_getCommonAncestor1 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ).getFirst(), 3 );
+
+			assert.areSame( document.getElementById( '_H1' ).firstChild, range.getCommonAncestor().$ );
+		},
+
+		test_getCommonAncestor2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ), 0 );
+
+			assert.areSame( document.getElementById( '_H1' ), range.getCommonAncestor().$ );
+		},
+
+		test_getCommonAncestor3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ), 0 );
+			range.setEnd( doc.getById( '_Para' ), 0 );
+
+			assert.areSame( document.getElementById( 'playground' ), range.getCommonAncestor().$ );
+		},
+
+		test_getCommonAncestor4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_Para' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_B' ), 0 );
+
+			assert.areSame( document.getElementById( '_Para' ), range.getCommonAncestor().$ );
+		},
+
+		test_getCommonAncestor5 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getBody(), 0 );
+			range.setEnd( doc.getById( '_B' ).getFirst(), 1 );
+
+			assert.areSame( document.body, range.getCommonAncestor().$ );
+		},
+
+		test_getCommonAncestor6 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB' ), 3 );
+
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.getCommonAncestor().$ );
+		},
+
+		test_enlarge_element1 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> Test <b> <i>  [Enlarge]</i> this</b>   </p>
+			// <p> Test <b> [<i>  Enlarge</i>] this</b>   </p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeI' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element1_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>Test <b><i>[Enlarge]</i> this</b></p>
+			// <p>Test <b>[<i>Enlarge</i>] this</b></p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeI' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element2 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> Test <b> <i>  [Enlarge</i> this]</b>   </p>
+			// <p> Test [<b> <i>  Enlarge</i> this</b>]   </p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB' ), 3 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element2_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>Test <b><i>[Enlarge</i> this]</b></p>
+			// <p>Test [<b><i>Enlarge</i> this</b>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element3 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> [Test <b> <i>  Enlarge]</i> this</b>   </p>
+			// <p> [Test <b> <i>  Enlarge</i>] this</b>   </p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeP' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_EnlargeI' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element3_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>[Test <b><i>Enlarge]</i> this</b></p>
+			// <p>[Test <b><i>Enlarge</i>] this</b></p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeP' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeI' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element4 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> [Test <b> <i>  Enlarge</i> this]</b>   </p>
+			// [<p> Test <b> <i>  Enlarge</i> this</b>   </p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeP' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_EnlargeB' ).getChild( 2 ), 5 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ).parentNode, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( doc.getById( '_EnlargeP' ).getIndex(), range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element4_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>[Test <b><i>Enlarge</i> this]</b></p>
+			// [<p>Test <b><i>Enlarge</i> this</b></p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeP' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB' ).getChild( 1 ), 5 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ).parentNode, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( doc.getById( '_EnlargeP' ).getIndex(), range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element5 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> Test<b> <i>  [Enlarge</i> this]</b>   </p>
+			// <p> Test<b> [<i>  Enlarge</i> this]</b>   </p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI1' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB1' ).getChild( 2 ), 5 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB1' ).childNodes[ 2 ], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element5_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>Test<b> <i>[Enlarge</i> this]</b></p>
+			// <p>Test<b> [<i>Enlarge</i> this]</b></p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI1' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB1' ).getChild( 2 ), 5 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB1' ).childNodes[ 2 ], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element6 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> <b> <i>  [Enlarge</i>] this</b>   </p>
+			// <p> <b> [<i>  Enlarge</i>] this</b>   </p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI2' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB2' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB2' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element6_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p><b><i>[Enlarge</i>] this</b></p>
+			// <p><b>[<i>Enlarge</i>] this</b></p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI2' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeB2' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB2' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element7 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> <b> <i>  [Enlarge</i> this]</b>   </p>
+			// [<p> <b> <i>  Enlarge</i> this</b>   </p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI2' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 3 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex(), range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element7_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p><b><i>[Enlarge</i> this]</b></p>
+			// [<p><b><i>Enlarge</i> this</b></p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI2' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex(), range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element8 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p> Test <b> <i>  [Enlarge</i> this</b>   </p><p> <b> <i>  Enlarge</i> this]</b>   </p>
+			// <p> Test [<b> <i>  Enlarge</i> this</b>   </p><p> <b> <i>  Enlarge</i> this</b>   </p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 2 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 3 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element8_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>Test <b><i>[Enlarge</i> this</b></p><p><b><i>Enlarge</i> this]</b></p>
+			// <p>Test [<b><i>Enlarge</i> this</b></p><p><b><i>Enlarge</i> this</b></p>]
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB2' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element9 : function()
+		{
+			// <p>Test<i> [Enlarge</i>]</p>
+			// <p>Test<i> [Enlarge</i>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI3' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_EnlargeP3' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeI3' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP3' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element10 : function()
+		{
+			// For IE, see the next test.
+			if ( CKEDITOR.env.ie )
+				return;
+
+			// <p>Test <i> [Enlarge</i>]</p>
+			// <p>Test [<i> Enlarge</i>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI4' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_EnlargeP4' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP4' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP4' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element10_ie : function()
+		{
+			// IE normalizes whitespaces when parsing the HTML, so we need a
+			// specific test for it.
+			if ( !CKEDITOR.env.ie )
+				return;
+
+			// <p>Test <i>[Enlarge</i>]</p>
+			// <p>Test [<i>Enlarge</i>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI4' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeP4' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP4' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP4' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element11 : function()
+		{
+			// <p>Test <i>[Enlarge]</i></p>
+			// <p>Test [<i>Enlarge</i>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI5' ), 0 );
+			range.setEnd( doc.getById( '_EnlargeI5' ), 1 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP5' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP5' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element12 : function()
+		{
+			// <p>Test <i><b></b>[Enlarge]</i></p>
+			// <p>Test [<i><b></b>Enlarge</i>]</p>
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI6' ), 1 );
+			range.setEnd( doc.getById( '_EnlargeI6' ), 2 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP6' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP6' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_element13 : function()
+		{
+			// <p>Test <i><b></b>[Enlarge]</i></p>
+			// <p>Test [<i><b></b>Enlarge</i>]</p>
+
+			doc.getById( '_EnlargeP' ).setHtml( 'this <i>is some </i>sample text' );
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeP' ), 0 );
+			range.setEnd( doc.getById( '_EnlargeP' ).getChild( 1 ), 0 );
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			assert.areSame( document.getElementById( '_EnlargeP' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP' ).childNodes[ 1 ], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list1 : function()
+		{
+			var range = getRange( 'S1', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP7' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP7' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list2 : function()
+		{
+			var range = getRange( 'S2', 'E2' );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP8' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP8' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 4, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list3 : function()
+		{
+			var range = getRange( 'S3', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP9' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP9' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list4 : function()
+		{
+			var range = getRange( 'S4', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP10' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 3, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP10' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_list5 : function()
+		{
+			var range = getRange( 'S9', null );
+			var bookmark = range.createBookmark();
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP15' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP15' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 4, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+			range.moveToBookmark( bookmark );
+		},
+
+		test_enlarge_block1 : function()
+		{
+			var range = getRange( 'S5', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP11' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP11'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_block2 : function()
+		{
+			var range = getRange( 'S10', null );
+			var bookmark = range.createBookmark();
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP16' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP16'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+			range.moveToBookmark( bookmark );
+		},
+
+		test_enlarge_block3 : function()
+		{
+			var range = getRange( 'S6', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP12' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP12'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_block4 : function()
+		{
+			var range = getRange( 'S7', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP13' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeP13'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_enlarge_block5 : function()
+		{
+			var range = getRange( 'S8', null );
+			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP14' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		/**
+		 * Test enlarge list when there's no nodes between
+		 * range start and the block boundary.
+		 */
+		test_enlarge_block6 : function()
+		{
+			var range = getRange( 'S11', null );
+			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
+
+			assert.areSame( document.getElementById( '_EnlargeP17' ),
+				range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+		},
+
+		test_deleteContents_W3C_1 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 1
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_Para' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_Para' ), 2 );
+
+			range.deleteContents();
+
+			assert.areSame( 't text.', getInnerHtml( '_Para' ), 'HTML after deletion' );
+
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_W3C_2 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 2
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_B' ).getNext(), 1 );
+
+			range.deleteContents();
+
+			assert.areSame( 'this is <b id="_b">s</b>text.', getInnerHtml( '_Para' ) );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_W3C_3 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 3
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getPrevious(), 1 );
+			range.setEnd( doc.getById( '_B' ).getFirst(), 1 );
+
+			range.deleteContents();
+
+			assert.areSame( 't<b id="_b">ome</b> text.', getInnerHtml( '_Para' ) );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_W3C_4 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 4
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ).getFirst(), 1 );
+			range.setEnd( doc.getById( 'playground' ).getLast().getFirst(), 1 );
+
+			range.deleteContents();
+
+			assert.areSame( '<h1 id="_h1">f</h1><p>nother paragraph.</p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_Other : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ), 0 );
+			range.setEnd( doc.getById( 'playground' ).getLast(), 1 );
+
+			range.deleteContents();
+
+			assert.areSame( '<h1 id="_h1"></h1><p></p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_Other_2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'playground' ), 0 );
+			range.setEnd( doc.getById( 'playground' ), 2 );
+
+			range.deleteContents();
+
+			assert.areSame( '<p>another paragraph.</p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame(document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_Other_3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( doc.getById('_B') );
+
+			range.deleteContents();
+
+			assert.areSame( '', getInnerHtml('_B') );
+
+			assert.areSame( document.getElementById('_B'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_B'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_deleteContents_Other_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( doc.getById('_Para') );
+
+			range.deleteContents();
+
+			assert.areSame( '', getInnerHtml('_Para') );
+
+			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_Para'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_W3C_1 : function()
+		{
+			// W3C DOM Range Specs - Section 2.7 - Example 1
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_Para' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_Para' ), 2 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'his is <b id="_b">some</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 't text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_W3C_2 : function()
+		{
+			// W3C DOM Range Specs - Section 2.7 - Example 2
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_B' ).getNext(), 2 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 'this is <b id="_b">s</b>ext.', getInnerHtml( '_Para' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_W3C_3 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 3
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getPrevious(), 1 );
+			range.setEnd( doc.getById( '_B' ).getFirst(), 1 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 't<b id="_b">ome</b> text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_W3C_4 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 4
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ).getFirst(), 1 );
+			range.setEnd( doc.getById( 'playground' ).getLast().getFirst(), 1 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1>ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1">f</h1><p>nother paragraph.</p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ), 0 );
+			range.setEnd( doc.getById( 'playground' ).getLast(), 1 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1>fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1"></h1><p></p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other_2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'playground' ), 0 );
+			range.setEnd( doc.getById( 'playground' ), 2 );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<p>another paragraph.</p>', getInnerHtml( 'playground' ) );
+
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other_3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById('_B') );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'some', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '', getInnerHtml('_B'), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById('_B'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_B'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById('_Para') );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'this is <b id="_b">some</b> text.', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '', getInnerHtml('_Para'), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_Para'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other_5 : function()
+		{
+			document.getElementById( 'playground' ).innerHTML = '<p><b><i>test</i></b></p>';
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStartAfter( new CKEDITOR.dom.element( document.getElementById( 'playground' ).getElementsByTagName('i')[0] ) );
+			range.setEndAfter( new CKEDITOR.dom.element( document.getElementById( 'playground' ).getElementsByTagName('b')[0] ) );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<b></b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<p><b><i>test</i></b></p>', getInnerHtml( 'playground' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( 'playground' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_extractContents_Other_6 : function()
+		{
+			document.getElementById( 'playground' ).innerHTML = '<p><b><i>test</i></b></p>';
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartBefore( new CKEDITOR.dom.element( document.getElementById( 'playground' ).getElementsByTagName('b')[0] ) );
+			range.setEndBefore( new CKEDITOR.dom.element( document.getElementById( 'playground' ).getElementsByTagName('i')[0] ) );
+
+			var docFrag = range.extractContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<b></b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<p><b><i>test</i></b></p>', getInnerHtml( 'playground' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( 'playground' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 0, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_W3C_1 : function()
+		{
+			// W3C DOM Range Specs - Section 2.7 - Example 1
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_Para' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_Para' ), 2 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'his is <b>some</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_W3C_2 : function()
+		{
+			// W3C DOM Range Specs - Section 2.7 - Example 2
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_B' ).getNext(), 2 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( '_B' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_B' ).nextSibling, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_W3C_3 : function()
+		{
+			// W3C DOM Range Specs - Section 2.6 - Example 3
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_B' ).getPrevious(), 1 );
+			range.setEnd( doc.getById( '_B' ).getFirst(), 1 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( '_B' ).previousSibling, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_B' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		// W3C DOM Range Specs - Section 2.6 - Example 4
+		test_cloneContents_W3C_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( '_H1' ).getFirst(), 1 );
+			range.setEnd( doc.getById( 'playground' ).getLast().getFirst(), 1 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1>ckw3crange test</h1><p>this is <b>some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( '_H1' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ).lastChild.firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_Other : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( '_H1' ), 0 );
+			range.setEnd( doc.getById( 'playground' ).getLast(), 1 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ).lastChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_Other_2 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( 'playground' ), 0 );
+			range.setEnd( doc.getById( 'playground' ), 2 );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			// The range must also remain unchanged.
+			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 2, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_Other_3 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById('_B') );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'some', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			assert.areSame( document.getElementById('_B'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_B'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_cloneContents_Other_4 : function()
+		{
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getById('_Para') );
+
+			var bodyHtml = document.getElementById( 'playground' ).innerHTML;
+
+			var docFrag = range.cloneContents();
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'this is <b>some</b> text.', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+
+			// The body HTML must remain unchanged.
+			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
+
+			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('_Para'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_createBookmark2_1 : function()
+		{
+			doc.getById( 'playground' ).setHtml( '<p id="P">This is <b id="B">a test</b></p>' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( doc.getById( 'P' ), 0 );
+			range.setEnd( doc.getById( 'B' ).getFirst(), 3 );
+
+			var bookmark = range.createBookmark2();
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 0, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('B').firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 3, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		// This test is just like test_createBookmark2_3, but uses a "non
+		// normalized" bookmark.
+		test_createBookmark2_2 : function()
+		{
+			var html = '<p id="P">A B <b>C </b>D E</p>';
+
+			doc.getById( 'playground' ).setHtml( html );
+
+			var p = doc.getById( 'P' );
+
+			// Split the text nodes.
+			p.getFirst().split( 2 );	// Right before "B"
+			p.getChild( 3 ).split( 2 );	// Right before "E"
+
+			assert.areSame( 5, p.getChildCount(), 'The number of nodes after split doesn\'t match' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Create a range that enbraces "E".
+			range.setStartBefore( p.getChild( 4 ) );
+			range.setEndAfter( p.getChild( 4 ) );
+
+			var bookmark = range.createBookmark2();
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 4, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('P'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_createBookmark2_3 : function()
+		{
+			var html = '<p id="P">A B <b>C </b>D E</p>';
+
+			doc.getById( 'playground' ).setHtml( html );
+
+			var p = doc.getById( 'P' );
+
+			// Split the text nodes.
+			p.getFirst().split( 2 );	// Right before "B"
+			p.getChild( 3 ).split( 2 );	// Right before "E"
+
+			assert.areSame( 5, p.getChildCount(), 'The number of nodes after split doesn\'t match' );
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// Create a range that enbraces "E".
+			range.setStartBefore( p.getChild( 4 ) );
+			range.setEndAfter( p.getChild( 4 ) );
+
+			var bookmark = range.createBookmark2( true );
+
+			// Normalize the contents.
+			doc.getById( 'playground' ).setHtml( html );
+
+			range = new CKEDITOR.dom.range( doc );
+			range.moveToBookmark( bookmark );
+
+			assert.areSame( document.getElementById('P').childNodes[2], range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 2, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById('P'), range.endContainer.$, 'range.endContainer' );
+
+			// Note that the endOffset doesn't get normalized as it's not
+			// needed. Any offset pointing over the container size is meant to
+			// be at the end of it.
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
+
+		test_checkStartOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock5 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p> Test </p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// IE trims the space in the beginning of text nodes in our case.
+			// So, let's just check it and make it pass.
+			range.setStart( el, ( el.substring( 0, 1 ) == 'T' ) ? 0 : 1 );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkEndOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock5 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 1 );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkStartOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock5 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p> Test </p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			// IE trims the space in the beginning of text nodes in our case.
+			// So, let's just check it and make it pass.
+			range.setStart( el, ( el.substring( 0, 1 ) == 'T' ) ? 0 : 1 );
+			range.collapse( true );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isTrue( range.checkStartOfBlock() );
+		},
+
+		test_checkStartOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isFalse( range.checkStartOfBlock() );
+		},
+
+		test_checkEndOfBlock1 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock2 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p, CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock3 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock4 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p>Test</p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStartAt( p.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock5 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 1 );
+			range.collapse( true );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock6 : function()
+		{
+			var p = doc.getById( 'playground' );
+			p.setHtml( '<p> Test </p>' );
+			p = p.getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.setStart( p.getFirst(), 5 );
+			range.collapse( true );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock7 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p><b>Test</b></p>' );
+			el = el.getFirst().getFirst();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isTrue( range.checkEndOfBlock() );
+		},
+
+		test_checkEndOfBlock8 : function()
+		{
+			var el = doc.getById( 'playground' );
+			el.setHtml( '<p>A<b>Test</b>B</p>' );
+			el = el.getFirst().getFirst().getNext();
+
+			var range = new CKEDITOR.dom.range( doc );
+			range.selectNodeContents( el );
+
+			assert.isFalse( range.checkEndOfBlock() );
+		},
+
+		/**
+		 *  Test trim with text range.
+		 */
+		test_trim : function()
+		{
+			var text = doc.getById( '_trim_ct').getFirst();
+			var range = new CKEDITOR.dom.range();
+			range.setStart(text, 2);
+			range.setEnd(text, 6);
+			range.trim();
+
+			assert.isFalse( range.collapsed );
+			assert.isTrue( range.startContainer.equals( doc.getById( '_trim_ct') ) );
+			assert.areEqual( range.startOffset, 1 );
+			assert.isTrue( range.endContainer.equals( doc.getById( '_trim_ct') ) );
+			assert.areEqual( range.endOffset, 2 );
+		},
+
+		/**
+		 * Trim range which collapsed at text node boundary.
+		 */
+		test_trim_3790 : function()
+		{
+
+			var ct = doc.getById( '_trim_ct');
+			ct.setHtml( '<span id="_SPAN1">text</span>' );
+			var text = doc.getById( '_trim_ct').getFirst();
+
+			// <span id="_SPAN1">text^</span>
+			var range = new CKEDITOR.dom.range();
+			range.setStartAt( doc.getById( '_SPAN1' ).getFirst(), CKEDITOR.POSITION_BEFORE_END );
+			range.collapse( true );
+			range.trim( true );
+
+			// <span id="_SPAN1">text^</span>
+			assert.isTrue( range.collapsed );
+			assert.areEqual( doc.getById( '_SPAN1').$, range.startContainer.$ );
+			assert.areEqual( range.startOffset, 1 );
+		},
+
+		/**
+		 * Trim range which collapsed inside text node.
+		 */
+		test_trim_3790_2 : function()
+		{
+
+			var ct = doc.getById( '_trim_ct');
+			ct.setHtml( '<span id="_SPAN1">text</span>' );
+			var text = doc.getById( '_trim_ct').getFirst();
+
+			// <span id="_SPAN1">te^xt</span>
+			var range = new CKEDITOR.dom.range();
+			range.setStart( doc.getById( '_SPAN1' ).getFirst(), 2 );
+			range.collapse( true );
+			range.trim( true );
+
+			// <span id="_SPAN1">te^xt</span>
+			assert.isTrue( range.collapsed );
+			assert.areEqual( doc.getById( '_SPAN1').$, range.startContainer.$ );
+			assert.areEqual( range.startOffset, 1 );
+		},
+		/////////////
+
+		setUp : function()
+		{
+			 document.getElementById( 'playground' ).innerHTML = html1;
+			 document.getElementById( 'playground2' ).innerHTML = html2;
+		},
+
+		name : document.title
+	};
+})() );
+
+//window.onload = tests.test_trim;
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="playground" style="visibility:hidden"><h1 id="_H1">FCKW3CRange Test</h1><p id="_Para">This is <b id="_B">some</b> text.</p><p>Another paragraph.</p></div>
+	<div id="playground2" style="visibility: hidden">
+		<h1>
+			Test page for CKEditor
+		</h1>
+		<p id="_P">
+			This document contains various markup features commonly used by content editors
+			or "<span id="_Span" lang="fr">r&eacute;dacteurs de contenu</span>" as they are
+			called in <a id="_A" href="http://en.wikipedia.org/wiki/France" title="Wikipedia article about France">
+				France</a>.<br />
+			It is important that a <acronym id="_Acronym" title="what you see is what you get">WYSIWYG</acronym>
+			tool has features that are easily available for the editor. If not, there is a risk
+			that content won't receive <strong id="_Strong">proper</strong> markup. Examples
+			of commonly found content are:</p>
+		<p id="_Pnbsp">
+			&nbsp;
+		</p>
+		<p id="_Pspaces">
+		</p>
+		<ol>
+			<li>Headings</li>
+			<li style="color: Red">Links (with optional title) </li>
+			<li>Lists (like this one)
+				<ul>
+					<li>including nested lists </li>
+				</ul>
+			</li>
+			<li>Tables
+				<ul>
+					<li>caption</li>
+					<li>headers</li>
+					<li>summary</li>
+				</ul>
+			</li>
+			<li>Language information</li>
+			<li>Acronyms and abbreviations</li>
+			<li>Emphasis and strong emphasis </li>
+			<li>Quotes, inline and block </li>
+			<li>Images</li>
+		</ol>
+		<hr />
+		<h2 style="background-color: Silver">
+			Test procedure
+		</h2>
+		This text has no block tag. It should be corrected when working with the enter key
+		set to "p" or "div" tags. The "br" configuration should not make changes instead.
+		<p id="_P2">
+			In the test we will try to recreate this document using the editor tools. To make
+			sure tables can be inserted <em id="_Em">properly</em> we re-visit banana import
+			statistics from 1998.
+		</p>
+		<p id="_P3">
+			This paragraph has and image at the very end of its contents.<img id="_Img" src="img.gif"
+				alt="" />
+		</p>
+		This text has no block tag.<br />It should be corrected when working with the enter key
+		set to "p" or "div" tags. The <strong id="_StrongNoPara">"br" configuration</strong>
+		should not make changes instead.<br />It has three lines separated by BR tags.
+		<p>
+			In the test we will try to recreate this document using the editor tools. To make
+			sure tables can be inserted <em>properly</em> we re-visit banana import statistics
+			from 1998.
+		</p>
+		<table summary="Sweden was the top importing country by far in 1998.">
+			<caption>
+				Top banana importers 1998 (value of banana imports in millions of US dollars per
+				million people)<br />
+				<br />
+			</caption>
+			<tr>
+				<th scope="col">
+					Country</th>
+				<th scope="col">
+					Millions of US dollars per million people</th>
+			</tr>
+			<tr>
+				<td>
+					Sweden</td>
+				<td>
+					17.12</td>
+			</tr>
+			<tr>
+				<td>
+					United&nbsp;Kingdom</td>
+				<td>
+					8.88</td>
+			</tr>
+			<tr>
+				<td>
+					Germany</td>
+				<td>
+					8.36</td>
+			</tr>
+			<tr>
+				<td>
+					Italy</td>
+				<td>
+					5.96</td>
+			</tr>
+			<tr>
+				<td>
+					United States</td>
+				<td>
+					4.78</td>
+			</tr>
+		</table>
+		<p>
+			For block quotes we will have a look at <a href="http://fawny.org/rhcp.html">what Joe
+				Clark says about redheads</a>:</p>
+		<blockquote cite="http://fawny.org/rhcp.html#me">
+			<p>
+				"Since boyhood I&rsquo;ve always believed, at the deepest level, that redheads are
+				standard-bearers of the grandest and most wondrous human beauty."</p>
+		</blockquote>
+		<p>
+			<img src="img.gif" alt="" /></p>
+		<p>
+			The above is the CKEditor logo loaded from the FCKeditor.net web site.</p>
+		<p><b id="_B1">Line 1<br />Line 2<br /><i id="_I1">Line 3</i></b></p>
+		<p id="_EnlargeP"> Test <b id="_EnlargeB"> <i id="_EnlargeI">  Enlarge</i> this</b>   </p>
+		<p id="_EnlargeP1"> Test<b id="_EnlargeB1"> <i id="_EnlargeI1">  Enlarge</i> this</b>   </p>
+		<p id="_EnlargeP2"> <b id="_EnlargeB2"> <i id="_EnlargeI2">  Enlarge</i> this</b>   </p>
+		<p id="_EnlargeP3">Test<i id="_EnlargeI3"> Enlarge</i></p>
+		<p id="_EnlargeP4">Test <i id="_EnlargeI4"> Enlarge</i></p>
+		<p id="_EnlargeP5">Test <i id="_EnlargeI5">Enlarge</i></p>
+		<p id="_EnlargeP6">Test <i id="_EnlargeI6"><b></b>Enlarge</i></p>
+		<p id="_EnlargeP7">Test <span id="S1"></span>List<br/ >Item Enlarge</p>
+		<p id="_EnlargeP8">Test <span id="S2"></span>List<span id="E2"></span> <br /><br />Item Enlarge</p>
+		<p id="_EnlargeP9">Test List <br /><span id="S3"></span><br />Item Enlarge</p>
+		<p id="_EnlargeP10">Test List <br /><br />Item<span id="S4"></span> Enlarge</p>
+		<p id="_EnlargeP11">Test <strong>Block<span id="S5"></span></strong><br /><br />Enlarge</p>
+		<div id="_EnlargeP12">Test<span id="S6"></span> Block <div>Enlarge</div></div>
+		<div>Test <div id="_EnlargeP13">Blo<span id="S7"></span>ck</div> Enlarge</div>
+		<p id="_EnlargeP14"><span id="S8"></span></p>
+		<p id="_EnlargeP15">Test <span id="S9"></span>List<br/ >Item Enlarge</p>
+		<p id="_EnlargeP16">Test <strong>Block<span id="S10"></span></strong><br /><br />Enlarge</p>
+		<p id="_EnlargeP17"><span><span id="S11"></span>Test Block Enlarge<span id="E11"></span></span></p>
+		<p id="_trim_ct">Test trim</p>
+	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+
+html1 = document.getElementById( 'playground' ).innerHTML;
+html2 = document.getElementById( 'playground2' ).innerHTML;
+
+	//]]>
+	</script>
+</body>
+</html>

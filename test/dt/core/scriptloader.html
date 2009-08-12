@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKEDITOR.scriptLoader</title>
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( (function()
+{
+	// Local reference to the "assert" object.
+	var assert = CKEDITOR.test.assert;
+
+	return {
+		test_loadCode : function()
+		{
+			CKEDITOR.scriptLoader.loadCode( 'var test="Testing!";' );
+
+			/*jsl:ignore*/
+			assert.areEqual( 'Testing!', test );
+			/*jsl:end*/
+		},
+
+		test_load : function()
+		{
+			var testCase = this;
+			var callback = function( data )
+			{
+				testCase.resume( function()
+					{
+						/*jsl:ignore*/
+						assert.areSame( 'Test!', testVar );
+						/*jsl:end*/
+					} );
+			};
+
+			CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback );
+			this.wait();
+		},
+
+		name : document.title
+	};
+})() );
+
+	//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>

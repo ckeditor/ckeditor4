@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Plugin: list</title>
+	<meta name="tags" content="editor,unit,stable">
+	<script type="text/javascript" src="../../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+/**
+ * Load the editor and wait for fully interactable.
+ * @param {Object} elementId
+ * @parma {Object} mode
+ * @param {Object} config
+ * @param {Object} callback Continuation with {@param editor}.
+ * @param {Object} context
+ */
+function prepareEditor( elementId, mode, config, callback, context )
+{
+	CKEDITOR.on( 'instanceReady',
+		function( evt )
+		{
+			var isMe = mode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+				evt.editor.name == elementId
+				: evt.editor.element.$ ==
+					document.getElementById( elementId );
+			if ( isMe )
+			{
+				var editor = evt.editor;
+				// Force result data unformatted.
+				editor.dataProcessor.writer._.rules = {};
+				callback.call( context, editor );
+			}
+		}, this );
+
+	mode = mode || CKEDITOR.ELEMENT_MODE_REPLACE;
+	switch( mode )
+	{
+		case CKEDITOR.ELEMENT_MODE_REPLACE :
+			CKEDITOR.replace( elementId, config );
+			break;
+		case CKEDITOR.ELEMENT_MODE_APPENDTO :
+			CKEDITOR.appendTo( elementId, config );
+			break;
+	}
+}
+
+/**
+ * IE always returning CRLF for line-feed, so remove it when retrieving
+ * pre-formated text from text area.
+ */
+function getTextAreaValue( id )
+{
+	return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
+}
+
+CKEDITOR.test.addTestCase( ( function()
+	{
+
+		// Local references.
+		var assert = CKEDITOR.test.assert,
+			doc = CKEDITOR.document,
+			action = YAHOO.util.UserAction,
+			selector = YAHOO.util.Selector;
+
+		/**
+		 * Set the range with the start/end position specified by the locator, which in form of bookmark2.
+		 * @param {Object} range
+		 * @param {Array} startPosition range start path including offset
+		 * @param {Array|Boolean} endPositoin range end path including offset or is collapsed
+		 */
+		function setRange( range, startPosition, endPositoin )
+		{
+			var bm = {
+				end : null,
+				start : null,
+				is2: true,
+				startOffset : 0,
+				endoffset : 0
+			};
+			bm.start = startPosition.slice( 0, startPosition.length - 1 );
+			bm.startOffset = startPosition[ startPosition.length -1];
+			if( endPositoin === true )
+			{
+				bm.end = bm.start.slice();
+				bm.endOffset = bm.startOffset;
+			}
+			else
+			{
+				bm.end = endPositoin.slice( 0, endPositoin.length - 1 );
+				bm.endOffset = endPositoin[ endPositoin.length -1 ];
+			}
+			range.moveToBookmark( bm );
+		}
+
+		return	{
+
+			/**
+			 *  Test remove numbered list with 'enterMode = BR'.
+			 */
+			test_ticket_3151 : function()
+			{
+				prepareEditor( 'test_ticket_3151_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
+					function( editor )
+					{
+						this.resume( function()
+						{
+							editor.focus();
+
+							var doc = editor.document,
+								range = new CKEDITOR.dom.range( doc );
+
+							setRange( range, [ 1, 0, 0, 0, 0 ], true );
+							var sel = editor.getSelection();
+							sel.selectRanges( [ range ] );
+
+							// Waiting for 'comand state' effected.
+							this.wait( function(){
+								// Remove list.
+								editor.execCommand( 'numberedlist' );
+								assert.areSame( getTextAreaValue( 'test_ticket_3151_result' ),
+									editor.getData(),
+									'Remove list result not correct.' );
+							}, 1000 );
+
+						} );
+					}, this );
+					this.wait();
+			},
+
+			/**
+			 *  Test merge newlist with previous list.
+			 */
+			test_ticket_3820 : function()
+			{
+				prepareEditor( 'test_ticket_3820_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
+					function( editor )
+					{
+						this.resume( function()
+						{
+							editor.focus();
+
+							var doc = editor.document,
+								range = new CKEDITOR.dom.range( doc );
+							setRange( range, [ 1, 1, 0 ], true );
+							var sel = editor.getSelection();
+							sel.selectRanges( [ range ] );
+
+							// Waiting for 'comand state' effected.
+							this.wait( function(){
+								// Remove list.
+								editor.execCommand( 'bulletedlist' );
+								assert.areSame( getTextAreaValue( 'test_ticket_3820_result' ),
+									editor.getData(),
+									'Merge list result not correct.' );
+							}, 1000 );
+
+						} );
+					}, this );
+					this.wait();
+			},
+
+			/**
+			 *  Test remove list first list item not merging with previous text node.
+			 */
+			test_ticket_3836 : function()
+			{
+				prepareEditor( 'test_ticket_3836_editor', null,
+					{ enterMode : CKEDITOR.ENTER_BR },
+					function( editor )
+					{
+						this.resume( function()
+						{
+							this.wait( function ()
+							{
+								editor.focus();
+
+								var doc = editor.document,
+									range = new CKEDITOR.dom.range( doc );
+								setRange( range, [ 1, 1, 0, 0 ], [ 1, 1, 1, 1 ] );
+								var sel = editor.getSelection();
+								sel.selectRanges( [ range ] );
+
+								// Waiting for 'comand state' effected.
+								this.wait( function(){
+									// Remove list.
+									editor.execCommand( 'bulletedlist' );
+									assert.areSame( getTextAreaValue( 'test_ticket_3836_result' ),
+										editor.getData(),
+										'Remove list result not correct.' );
+								}, 1000 );
+							}, 1000 );
+
+						} );
+					}, this );
+					this.wait();
+			},
+
+			name :document.title
+		};
+	} )() );
+	//]]>
+	</script>
+</head>
+<body>￘
+<textarea id="test_ticket_3151_editor"><ol><li>text</li></ol></textarea>
+<textarea id="test_ticket_3151_result">text</textarea>
+<textarea id="test_ticket_3820_editor"><ul><li>bullet line 1</li><li>bullet line 2</li></ul><p>Second line</p></textarea>
+<textarea id="test_ticket_3820_result"><ul><li>bullet line 1</li><li>bullet line 2</li><li>Second line</li></ul></textarea>
+<textarea id="test_ticket_3773_editor"><ol><li>line1</li><li>line2</li></ol></textarea>
+<textarea id="test_ticket_3773_result">line1<br />line2</textarea>
+<textarea id="test_ticket_3836_editor">line1<ul><li>item1</li><li>item2</li></ul>line2</textarea>
+<textarea id="test_ticket_3836_result">line1<br />item1<br />item2<br />line2</textarea>
+</body>
+</html>

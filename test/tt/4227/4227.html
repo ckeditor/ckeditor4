@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Ticket: #4227</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script>
+CKEDITOR.test.addTestCase( {
+	/**
+	 * Test destroying an editor instance created from textarea which is not inside a form. 
+	 */
+	test_destroy : function()
+	{
+		var self = this;
+
+		CKEDITOR.replace( 'editor1',
+			{
+				on :
+				{
+					instanceReady : function()
+					{
+						self.resume( function()
+						{
+							CKEDITOR.instances.editor1.destroy();
+						} );
+					}
+				}
+			} );
+
+		this.wait();
+	}
+} );
+	</script>
+</head>
+<body>
+<textarea id="editor1"></textarea>
+</body>
+</html>
