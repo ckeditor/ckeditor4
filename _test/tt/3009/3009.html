@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>CKEDITOR.test.suites.editorTestSuite</title>
+	<title>Ticket: #3009</title>
 	<meta name="tags" content="editor,unit,all">
 	<script type="text/javascript" src="../../cktester/cell.js"></script>
 	<script>
@@ -32,7 +32,7 @@
 			},
 
 			/**
-			 * Test the editor has been reset by 'setUp'.
+			 * Test the editor has been reset by 'setUp' and 'tearDown'.
 			 */
 			test_editor_reset : function()
 			{
@@ -42,8 +42,19 @@
 
 			setUp : function()
 			{
-				ts.editor.loadSnapshot( editorData );
-				ts.editor.focus();
+				ts.editor.on( 'contentDom', function( evt )
+				{
+					evt.removeListener();
+					// focus editor is asynchronous.
+					ts.editor.focus();
+					CKEDITOR.tools.setTimeout( function()
+					{
+						this.resumeSetup();
+					}, 0, this );
+				}, this );
+				// Load data is asynchronous.
+				ts.editor.setData( editorData );
+				this.wait();
 			},
 
 			tearDown : function()
