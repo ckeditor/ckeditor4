@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Ticket: #4237</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+
+	<script type="text/javascript">
+CKEDITOR.config.width='400';
+CKEDITOR.config.customConfig = CKTester.cell.getAbsolutePath( '_asset/custom-config.js' );
+CKEDITOR.test.addTestCase( ( function ()
+{
+	// Local references.
+	var assert = CKEDITOR.test.assert,
+		env = CKEDITOR.env;
+	return {
+		/**
+		 * Test editor toolbar.
+		 */
+		test_replace : function()
+		{
+			var self = this;
+
+			CKEDITOR.replace( 'editor1',
+				{
+					on :
+					{
+						instanceReady : function()
+						{
+							self.resume( function()
+							{
+								if( env.webkit && env.version >= 525 )
+									assert.fail();
+							} );
+						}
+					}
+				} );
+
+			this.wait();
+		}
+	};
+} )() );
+	</script>
+<body>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<textarea id="editor1"></textarea>
+</body>
+</html>
