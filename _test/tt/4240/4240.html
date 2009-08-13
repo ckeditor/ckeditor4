@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Ticket: #4240</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+CKEDITOR.test.addTestCase( ( function ()
+{
+	// Local references.
+	return {
+		/**
+		 * Test create editor on element which contains hyphen in 'id'. 
+		 */
+		test_create_editor_with_hyphen : function()
+		{
+			var self = this;
+			CKEDITOR.replace( 'editor-1',
+				{
+					on :
+					{
+						instanceReady : function()
+						{
+							self.resume();
+						}
+					}
+				} );
+
+			this.wait();
+		}
+	};
+} )() );
+	</script>
+<body>
+<textarea id="editor-1"></textarea>
+</body>
+</html>
