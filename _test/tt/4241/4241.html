@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Ticket: #4241</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+
+	<script type="text/javascript">
+CKEDITOR.config.toolbar_Full = [['Styles','Bold','Italic','Underline']];
+CKEDITOR.test.addTestCase( ( function ()
+{
+	// Local references.
+	var assert = CKEDITOR.test.assert,
+		doc = CKEDITOR.document,
+		action = YAHOO.util.UserAction,
+		selector = YAHOO.util.Selector;
+	return {
+		/**
+		 * Test destroying an editor instance created from textarea which is not inside a form.
+		 */
+		test_destroy : function()
+		{
+			var self = this;
+
+			CKEDITOR.replace( 'editor1',
+				{
+					on :
+					{
+						instanceReady : function()
+						{
+							self.resume( function()
+							{
+								// Open style combo;
+								var styleComboButton = selector.query( '.cke_rcombo .cke_styles a' )[ 0 ];
+								styleComboButton.onclick();
+
+								// combo panel opening is synchronous;
+								self.wait( function()
+								{
+									var stylePanel = new CKEDITOR.dom.element( selector.query( '.cke_rcombopanel' )[ 0 ] ); 
+									CKEDITOR.instances.editor1.destroy();
+									assert.isNull( stylePanel.getDocument() );
+								}, 1000 );
+							} );
+						}
+					}
+				} );
+
+			this.wait();
+		}
+	};
+} )() );
+	</script>
+<body>
+<div id="editor1"></div>
+</body>
+</html>
