@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ticket: #4242</title>
+	<meta name="tags" content="editor,unit,all">
+	<script type="text/javascript" src="../../cktester/cell.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+CKEDITOR.test.addTestCase( ( function()
+	{
+
+		// Local references.
+		var assert = CKEDITOR.test.assert;
+
+		return	{
+
+			_should :
+			{
+				ignoreAllBut : 'test_not_ignored'
+			},
+
+			test_ignored1 : function()
+			{
+				// This test should not ignored.
+				assert.fail();
+			},
+			test_ignored2 : function()
+			{
+				// This test should not ignored.
+				assert.fail();
+			},
+			test_not_ignored : function()
+			{
+			},
+			name :document.title
+		};
+	} )() );
+	
+//]]>
+	</script>
+</head>
+<body>
+</body>
+</html>
