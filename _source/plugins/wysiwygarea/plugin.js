@@ -202,9 +202,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var src = 'void( ' + ( CKEDITOR.env.gecko ? 'setTimeout' : '' ) + '( function(){' +
 															'document.open();' +
 															( CKEDITOR.env.ie && isCustomDomain ? 'document.domain="' + document.domain + '";' : '' ) +
-															'document.write( window.parent._cke_htmlToLoad_' + editor.name + ' );' +
+															'document.write( window.parent[ "_cke_htmlToLoad_' + editor.name + '" ] );' +
 															'document.close();' +
-															'window.parent._cke_htmlToLoad_' + editor.name + ' = null;' +
+															'window.parent[ "_cke_htmlToLoad_' + editor.name + '" ] = null;' +
 															'}'
 															+ ( CKEDITOR.env.gecko ? ', 0 )' : ')()' )
 															+ ' )';
