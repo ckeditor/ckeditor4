@@ -58,7 +58,7 @@ CKEDITOR.lang[ 'de' ] = {
 	// Common messages and labels.
 	common: {
 		browseServer: 'Server durchsuchen',
-		url: 'Bildauswahl',
+		url: 'URL',
 		protocol: 'Protokoll',
 		upload: 'Upload',
 		uploadSubmit: 'Zum Server senden',
@@ -354,7 +354,7 @@ CKEDITOR.lang[ 'de' ] = {
 		menu: 'Bild-Eigenschaften',
 		infoTab: 'Bild-Info',
 		btnUpload: 'Zum Server senden',
-		url: 'Bildauswahl',
+		url: 'URL',
 		upload: 'Hochladen',
 		alt: 'Alternativer Text',
 		width: 'Breite',
