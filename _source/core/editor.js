@@ -269,12 +269,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							};
 						});
 					}
-				}
 
-				// Remove 'submit' events registered on form element before destroying.(#3988)
-				editor.on( 'destroy', function() {
-					form.removeListener( 'submit', onSubmit );
-				});
+					// Remove 'submit' events registered on form element before destroying.(#3988)
+					editor.on( 'destroy', function() {
+						form.removeListener( 'submit', onSubmit );
+					});
+				}
 			}
 		};
 
