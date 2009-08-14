@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<list>
-	<item id="test1" />
-	<item id="test2" />
-</list>
