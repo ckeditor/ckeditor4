@@ -394,7 +394,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										element.setAttribute( 'src', '' ); // If removeAttribute doesn't work.
 										element.removeAttribute( 'src' );
 									}
-								}
+								},
+								validate: CKEDITOR.dialog.validate.notEmpty( editor.lang.image.urlMissing )
 							},
 								{
 								type: 'button',

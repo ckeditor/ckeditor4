@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		alertUrl: '请输入图象地址',
 		linkTab: '链接',
 		button2Img: '确定要把当前按钮改变为图像吗?',
-		img2Button: '确定要把当前图像改变为按钮吗?'
+		img2Button: '确定要把当前图像改变为按钮吗?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

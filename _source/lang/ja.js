@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		alertUrl: 'イメージのURLを入力してください。',
 		linkTab: 'リンク',
 		button2Img: '選択したボタンを画像に置き換えますか？',
-		img2Button: '選択した画像をボタンに置き換えますか？'
+		img2Button: '選択した画像をボタンに置き換えますか？',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

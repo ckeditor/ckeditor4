@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		alertUrl: '請輸入影像 URL',
 		linkTab: '超連結',
 		button2Img: '要把影像按鈕改成影像嗎？',
-		img2Button: '要把影像改成影像按鈕嗎？'
+		img2Button: '要把影像改成影像按鈕嗎？',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

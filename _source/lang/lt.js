@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'lt' ] = {
 		alertUrl: 'Prašome įvesti vaizdo URL',
 		linkTab: 'Nuoroda',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?' // MISSING
+		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

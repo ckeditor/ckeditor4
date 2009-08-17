@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'hr' ] = {
 		alertUrl: 'Unesite URL slike',
 		linkTab: 'Link',
 		button2Img: 'Želite li promijeniti odabrani gumb u jednostavnu sliku?',
-		img2Button: 'Želite li promijeniti odabranu sliku u gumb?'
+		img2Button: 'Želite li promijeniti odabranu sliku u gumb?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

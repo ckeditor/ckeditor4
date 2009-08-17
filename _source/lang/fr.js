@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'fr' ] = {
 		alertUrl: 'Veuillez entrer l\'adresse de l\'image',
 		linkTab: 'Lien',
 		button2Img: 'Voulez-vous transformer le bouton image sélectionné en simple image?',
-		img2Button: 'Voulez-vous transformer l\'image en bouton image?'
+		img2Button: 'Voulez-vous transformer l\'image en bouton image?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

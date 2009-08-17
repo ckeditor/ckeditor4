@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		alertUrl: 'Mesedez Irudiaren URLa idatzi',
 		linkTab: 'Esteka',
 		button2Img: 'Aukeratutako irudi botoia, irudi normal batean eraldatu nahi duzu?',
-		img2Button: 'Aukeratutako irudia, irudi botoi batean eraldatu nahi duzu?'
+		img2Button: 'Aukeratutako irudia, irudi botoi batean eraldatu nahi duzu?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

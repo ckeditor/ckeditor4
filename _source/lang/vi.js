@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'vi' ] = {
 		alertUrl: 'Hãy đưa vào URL của hình ảnh',
 		linkTab: 'Liên kết',
 		button2Img: 'Bạn có muốn chuyển nút bấm bằng hình ảnh được chọn thành hình ảnh?',
-		img2Button: 'Bạn có muốn chuyển đổi hình ảnh được chọn thành nút bấm bằng hình ảnh?'
+		img2Button: 'Bạn có muốn chuyển đổi hình ảnh được chọn thành nút bấm bằng hình ảnh?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog

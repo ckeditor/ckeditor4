@@ -378,7 +378,8 @@ CKEDITOR.lang[ 'de' ] = {
 		alertUrl: 'Bitte geben Sie die Bild-URL an',
 		linkTab: 'Link',
 		button2Img: 'Möchten Sie den gewählten Bild-Button in ein einfaches Bild umwandeln?',
-		img2Button: 'Möchten Sie das gewählten Bild in einen Bild-Button umwandeln?'
+		img2Button: 'Möchten Sie das gewählten Bild in einen Bild-Button umwandeln?',
+		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog
