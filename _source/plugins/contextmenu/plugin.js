@@ -11,7 +11,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 		editor.addCommand( 'contextMenu', {
 			exec: function() {
-				editor.contextMenu.show();
+				editor.contextMenu.show( editor.document.getBody() );
 			}
 		});
 	}
