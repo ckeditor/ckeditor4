@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'en' ] = {
 	},
 
 	maximize: 'Maximize',
+	minimize: 'Minimize',
 
 	fakeobjects: {
 		anchor: 'Anchor',

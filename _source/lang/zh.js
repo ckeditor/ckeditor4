@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	maximize: '最大化',
+	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
 		anchor: '錨點',

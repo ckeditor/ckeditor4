@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	maximize: 'Phóng to tối đa',
+	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
 		anchor: 'Neo',

@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'uk' ] = {
 	},
 
 	maximize: 'Максимізувати',
+	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
 		anchor: 'Якір',

@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'hr' ] = {
 	},
 
 	maximize: 'Povećaj',
+	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
 		anchor: 'Sidro',

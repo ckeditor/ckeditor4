@@ -192,6 +192,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					this.toggleState();
 
+					// Toggle button label.
+					var button = this.uiItems[ 0 ];
+					var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize : lang.minimize;
+					var buttonNode = editor.element.getDocument().getById( button._.id );
+					buttonNode.getChild( 1 ).setHtml( label );
+					buttonNode.setAttribute( 'title', label );
+					buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
+
 					// Restore selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
 						editor.getSelection().selectRanges( savedSelection );

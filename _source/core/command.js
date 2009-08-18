@@ -4,6 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.command = function( editor, commandDefinition ) {
+	this.uiItems = [];
+
 	this.exec = function( data ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
 			return false;

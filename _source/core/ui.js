@@ -19,7 +19,8 @@ CKEDITOR.ui = function( editor ) {
 	 */
 	this._ = {
 		handlers: {},
-		items: {}
+		items: {},
+		editor: editor
 	};
 
 	return this;
@@ -46,6 +47,8 @@ CKEDITOR.ui.prototype = {
 	add: function( name, type, definition ) {
 		this._.items[ name ] = {
 			type: type,
+			// The name of {@link CKEDITOR.command} which associate with this UI.
+			command: definition.command || null,
 			args: Array.prototype.slice.call( arguments, 2 )
 		};
 	},
@@ -57,9 +60,16 @@ CKEDITOR.ui.prototype = {
 	 */
 	create: function( name ) {
 		var item = this._.items[ name ],
-			handler = item && this._.handlers[ item.type ];
+			handler = item && this._.handlers[ item.type ],
+			command = item.command && this._.editor.getCommand( item.command );
 
-		return handler && handler.create.apply( this, item.args );
+		var result = handler && handler.create.apply( this, item.args );
+
+		// Add reference inside command object.
+		if ( command )
+			command.uiItems.push( result );
+
+		return result;
 	},
 
 	/**

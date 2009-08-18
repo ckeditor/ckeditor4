@@ -627,6 +627,7 @@ CKEDITOR.lang[ 'it' ] = {
 	},
 
 	maximize: 'Massimizza',
+	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
 		anchor: 'Ancora',
