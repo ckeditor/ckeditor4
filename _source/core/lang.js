@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,8 +31,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @example
 		 */
 		load: function( languageCode, defaultLanguage, callback ) {
-			if ( !languageCode )
-				languageCode = this.detect( defaultLanguage );
+			// If no languageCode - fallback to browser or default.
+			// If languageCode - fallback to no-localized version or default.
+			if ( !languageCode || !CKEDITOR.lang[ languageCode ] )
+				languageCode = this.detect( defaultLanguage, languageCode );
 
 			if ( !this[ languageCode ] ) {
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
@@ -54,10 +57,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @example
 		 * alert( CKEDITOR.lang.detect( 'en' ) );  // e.g., in a German browser: "de"
 		 */
-		detect: function( defaultLanguage ) {
+		detect: function( defaultLanguage, probeLanguage ) {
 			var languages = this.languages;
+			probeLanguage = probeLanguage || navigator.userLanguage || navigator.language;
 
-			var parts = ( navigator.userLanguage || navigator.language ).toLowerCase().match( /([a-z]+)(?:-([a-z]+))?/ ),
+			var parts = probeLanguage.toLowerCase().match( /([a-z]+)(?:-([a-z]+))?/ ),
 				lang = parts[ 1 ],
 				locale = parts[ 2 ];
 
