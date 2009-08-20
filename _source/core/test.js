@@ -65,4 +65,47 @@ CKEDITOR.test = {
 	}
 
 };
+
+// Inherit generic testing APIs from CKTESTER.
 YAHOO.lang.augmentObject( CKEDITOR.test, CKTESTER.tools );
+
+
+// Provide a set of default test suites/test cases.
+CKEDITOR.test.suites = {};
+CKEDITOR.test.cases = {};
+/**
+ *  All test cases in this suite share a fully interacted 'playground' editor instance.
+ */
+YAHOO.lang.extend( ( CKEDITOR.test.suites.editorTestSuite = function( template ) {
+	// The editor instance shared by all tests.
+	this.editor = null;
+	// The editor name to be used.
+	this.editorName = '';
+	// The editor instance config to be used.
+	this.config = null;
+	// The initial editor data loaded.
+	this.startupData = null;
+
+	CKEDITOR.test.suites.editorTestSuite.superclass.constructor.call( this, template );
+
+}), YAHOO.tool.TestSuite, {
+	setUp: function() {
+
+		var editorName = this.editorName || 'test_editor';
+		var element = CKEDITOR.document.getById( editorName ) || CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( '<div id="' + editorName + '"></div>' ) );
+		element.setValue( this.startupData );
+		CKEDITOR.on( 'instanceReady', function( evt ) {
+			if ( evt.editor.name == editorName ) {
+				this.editor = evt.editor;
+				this.editor.focus();
+				this.resumeSetup();
+			}
+		}, this );
+		CKEDITOR.replace( element.getAttribute( 'id' ), this.config );
+		this.wait();
+	},
+
+	tearDown: function() {
+		this.editor.destroy();
+	}
+});
