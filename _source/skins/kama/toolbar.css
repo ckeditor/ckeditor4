@@ -13,6 +13,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 }
 
+.cke_skin_kama .cke_browser_webkit .cke_toolbox,
+.cke_skin_kama .cke_browser_webkit .cke_toolbox > span
+{
+	white-space: normal;
+}
+
 .cke_skin_kama .cke_toolbox
 {
 	clear: both;
