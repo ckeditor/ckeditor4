@@ -553,6 +553,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				CKEDITOR.document.on( 'keydown', accessKeyDownHandler );
 				CKEDITOR.document.on( 'keyup', accessKeyUpHandler );
+
+				// Prevent some keys from bubbling up. (#4269)
+				for ( var event in { keyup:1,keydown:1,keypress:1 } )
+					CKEDITOR.document.on( event, preventKeyBubbling );
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
@@ -672,6 +676,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Remove access key handlers.
 				CKEDITOR.document.removeListener( 'keydown', accessKeyDownHandler );
 				CKEDITOR.document.removeListener( 'keyup', accessKeyUpHandler );
+				CKEDITOR.document.removeListener( 'keypress', accessKeyUpHandler );
+
+				// Remove bubbling-prevention handler. (#4269)
+				for ( var event in { keyup:1,keydown:1,keypress:1 } )
+					CKEDITOR.document.removeListener( event, preventKeyBubbling );
 
 				var editor = this._.editor;
 				editor.focus();
@@ -1657,6 +1666,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	var tabAccessKeyDown = function( dialog, key ) {};
+
+	// ESC, ENTER
+	var preventKeyBubblingKeys = { 27:1,13:1 };
+	var preventKeyBubbling = function( e ) {
+			if ( e.data.getKeystroke() in preventKeyBubblingKeys )
+				e.data.preventDefault( true );
+		};
 
 	(function() {
 		CKEDITOR.ui.dialog = {
