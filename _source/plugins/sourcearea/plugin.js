@@ -72,6 +72,14 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					holderElement.append( textarea );
 					textarea.setStyles( styles );
 
+					textarea.on( 'blur', function() {
+						editor.focusManager.blur();
+					});
+
+					textarea.on( 'focus', function() {
+						editor.focusManager.focus();
+					});
+
 					// The editor data "may be dirty" after this point.
 					editor.mayBeDirty = true;
 

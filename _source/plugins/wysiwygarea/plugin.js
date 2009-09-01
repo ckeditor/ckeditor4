@@ -355,7 +355,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							});
 						}
 
-						var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.safari ) ? domWindow : domDocument;
+						var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.webkit ) ? domWindow : domDocument;
 
 						focusTarget.on( 'blur', function() {
 							editor.focusManager.blur();
