@@ -47,11 +47,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'toolbar', {
 		init: function( editor ) {
 			var itemKeystroke = function( item, keystroke ) {
+					function isDisabled( item ) {
+						return item.id && CKEDITOR.document.getById( item.id ).hasClass( 'cke_disabled' );
+					}
 					switch ( keystroke ) {
 						case 39: // RIGHT-ARROW
 						case 9: // TAB
 							// Look for the next item in the toolbar.
-							while ( ( item = item.next || ( item.toolbar.next && item.toolbar.next.items[ 0 ] ) ) && !item.focus ) {
+							// Jump to next toolbar if this one finishes.
+							// Skip non-focusable items (eg separators) and disabled ones also.
+							while ( ( item = item.next || ( item.toolbar.next && item.toolbar.next.items[ 0 ] ) ) && ( !item.focus || isDisabled( item ) ) ) {
 	/*jsl:pass*/
 							}
 
@@ -67,7 +72,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						case 37: // LEFT-ARROW
 						case CKEDITOR.SHIFT + 9: // SHIFT + TAB
 							// Look for the previous item in the toolbar.
-							while ( ( item = item.previous || ( item.toolbar.previous && item.toolbar.previous.items[ item.toolbar.previous.items.length - 1 ] ) ) && !item.focus ) {
+							// Jump to previous toolbar if this one finishes.
+							// Skip non-focusable items (eg separators) and disabled ones also.
+							while ( ( item = item.previous || ( item.toolbar.previous && item.toolbar.previous.items[ item.toolbar.previous.items.length - 1 ] ) ) && ( !item.focus || isDisabled( item ) ) ) {
 	/*jsl:pass*/
 							}
 
