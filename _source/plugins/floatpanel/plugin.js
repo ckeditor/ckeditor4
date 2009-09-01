@@ -104,7 +104,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var left = position.x + ( offsetX || 0 ),
 					top = position.y + ( offsetY || 0 );
 
-				if ( ( rtl && ( corner == 1 || corner == 4 ) ) || ( !rtl && ( corner == 2 || corner == 3 ) ) )
+				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
+				if ( rtl && ( corner == 1 || corner == 4 ) )
+					left += offsetParent.$.offsetWidth;
+				else if ( !rtl && ( corner == 2 || corner == 3 ) )
 					left += offsetParent.$.offsetWidth - 1;
 
 				if ( corner == 3 || corner == 4 )
