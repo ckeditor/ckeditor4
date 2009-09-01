@@ -180,8 +180,7 @@ CKEDITOR.dialog.add( 'pastefromword', function( editor ) {
 			if ( CKEDITOR.env.ie )
 				container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
 
-			var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
-			if ( isCustomDomain ) {
+			if ( CKEDITOR.env.isCustomDomain() ) {
 				CKEDITOR._cke_htmlToLoad = this.definition.htmlToLoad;
 				iframe.setAttribute( 'src', 'javascript:void( (function(){' +
 					'document.open();' +

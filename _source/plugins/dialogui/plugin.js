@@ -532,7 +532,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					_.frameId = CKEDITOR.tools.getNextNumber() + '_fileInput';
 
 					// Support for custom document.domain in IE.
-					var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
+					var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 					var html = [
 						'<iframe' +

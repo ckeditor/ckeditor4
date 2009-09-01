@@ -12,7 +12,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		canUndo: false,
 		exec: function( editor ) {
 			var sHTML,
-				isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
+				isCustomDomain = CKEDITOR.env.isCustomDomain();
 			if ( editor.config.fullPage )
 				sHTML = editor.getData();
 			else {

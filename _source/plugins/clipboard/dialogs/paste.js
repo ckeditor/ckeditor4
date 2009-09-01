@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
-	var isCustomDomain = CKEDITOR.env.ie && document.domain != window.location.hostname;
+	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 	return {
 		title: editor.lang.clipboard.title,
