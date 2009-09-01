@@ -20,7 +20,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	hcDetect.appendTo( CKEDITOR.document.getHead() );
 
 	// Update CKEDITOR.env.
-	if ( ( CKEDITOR.env.hc = ( hcDetect.getComputedStyle( 'background-image' ) == 'none' ) ) )
+	// Catch exception needed sometimes for FF. (#4230)
+	try {
+		CKEDITOR.env.hc = ( hcDetect.getComputedStyle( 'background-image' ) == 'none' );
+	} catch ( e ) {
+		CKEDITOR.env.hc = false;
+	}
+	if ( CKEDITOR.env.hc )
 		CKEDITOR.env.cssClass += ' cke_hc';
 
 	hcDetect.remove();
