@@ -46,6 +46,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 			this.element = element;
 
+			// Register panels to editor for easy destroying ( #4241 ).
+			editor.panels ? editor.panels.push( element ) : editor.panels = [ element ];
+
+
 			this._ = {
 				// The panel that will be floating.
 				panel: panel,
