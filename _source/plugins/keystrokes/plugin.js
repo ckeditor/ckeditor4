@@ -184,6 +184,7 @@ CKEDITOR.config.keystrokes = [
 	[ CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' ],
 
 	[ CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
+	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
 
 	[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
 	[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
