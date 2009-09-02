@@ -234,6 +234,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Refresh LockRatio button
 						switchLockRatio( this, true );
 					}
+
+					// Dont show preview if no URL given.
+					if ( !CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtUrl' ) ) ) {
+						this.preview.removeAttribute( 'src' );
+						this.preview.setStyle( 'display', 'none' );
+					}
 				},
 				onOk: function() {
 					// Edit existing Image.
@@ -356,6 +362,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										dialog = this.getDialog();
 										var original = dialog.originalElement;
 
+										dialog.preview.removeStyle( 'display' );
+
 										original.setCustomData( 'isReady', 'false' );
 										// Show loader
 										var loader = CKEDITOR.document.getById( 'ImagePreviewLoader' );
@@ -369,6 +377,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										dialog.preview.setAttribute( 'src', newUrl );
 
 										updatePreview( dialog );
+									}
+									// Dont show preview if no URL given.
+									else if ( dialog.preview ) {
+										dialog.preview.removeAttribute( 'src' );
+										dialog.preview.setStyle( 'display', 'none' );
 									}
 								},
 								setup: function( type, element ) {
