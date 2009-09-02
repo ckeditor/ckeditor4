@@ -27,6 +27,12 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			editor.focus();
 			editor.execCommand( commandName );
 		}, this );
+
+		// Disable context menu for top and bottom editor's UI parts.
+		var self = this;
+		editor.on( 'themeLoaded', function() {
+			self.addDisabledTarget( this.container );
+		});
 	},
 
 	_: {
@@ -118,6 +124,13 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 					this._.onMenu( offsetParent, null, offsetX, offsetY );
 				}, 0, this );
 			}, this );
+		},
+
+		addDisabledTarget: function( element ) {
+			element.on( 'contextmenu', function( event ) {
+				// Cancel the browser context menu.
+				event.data.preventDefault();
+			});
 		},
 
 		addListener: function( listenerFn ) {
