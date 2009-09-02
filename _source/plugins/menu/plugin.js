@@ -196,6 +196,8 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 					this.parent._.panel.showAsChild( panel, this.id, offsetParent, corner, offsetX, offsetY );
 				else
 					panel.showBlock( this.id, offsetParent, corner, offsetX, offsetY );
+
+				editor.fire( 'menuShow', [ panel ] );
 			},
 
 			hide: function() {
