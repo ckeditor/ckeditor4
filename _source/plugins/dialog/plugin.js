@@ -241,6 +241,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					break;
 			}
 			focusList[ currentIndex ].focus();
+
+			// Select whole field content.
+			if ( focusList[ currentIndex ].type == 'text' )
+				focusList[ currentIndex ].select();
 		}
 
 		function focusKeydownHandler( evt ) {
