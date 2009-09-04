@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -29,6 +30,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						tabIndex: -1
 					});
 					textarea.addClass( 'cke_source' );
+					textarea.addClass( 'cke_enable_context_menu' );
 
 					var styles = {
 						// IE7 has overflow the <textarea> from wrapping table cell.
