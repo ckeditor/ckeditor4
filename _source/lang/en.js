@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'en' ] = {
 			invalidWidth: 'Cell width must be a number.',
 			invalidHeight: 'Cell height must be a number.',
 			invalidRowSpan: 'Rows span must be a whole number.',
-			invalidColSpan: 'Columns span must be a whole number.'
+			invalidColSpan: 'Columns span must be a whole number.',
+			chooseColor: 'Choose'
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'en' ] = {
 		unknown: 'Unknown Object'
 	},
 
-	resize: 'Drag to resize'
+	resize: 'Drag to resize',
+
+	colordialog: {
+		title: 'Select color',
+		highlight: 'Highlight',
+		selected: 'Selected',
+		clear: 'Clear'
+	}
 };

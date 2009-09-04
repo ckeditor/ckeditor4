@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'it' ] = {
 			invalidWidth: 'La larghezza della cella dev\'essere un numero.',
 			invalidHeight: 'L\'altezza della cella dev\'essere un numero.',
 			invalidRowSpan: 'Il numero di righe dev\'essere un numero intero.',
-			invalidColSpan: 'Il numero di colonne dev\'essere un numero intero.'
+			invalidColSpan: 'Il numero di colonne dev\'essere un numero intero.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'it' ] = {
 		unknown: 'Oggetto sconosciuto'
 	},
 
-	resize: 'Trascina per ridimensionare'
+	resize: 'Trascina per ridimensionare',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

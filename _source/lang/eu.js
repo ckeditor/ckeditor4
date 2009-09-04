@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'eu' ] = {
 			invalidWidth: 'Gelaxkaren zabalera zenbaki bat izan behar da.',
 			invalidHeight: 'Gelaxkaren altuera zenbaki bat izan behar da.',
 			invalidRowSpan: 'Lerroen hedapena zenbaki osoa izan behar da.',
-			invalidColSpan: 'Zutabeen hedapena zenbaki osoa izan behar da.'
+			invalidColSpan: 'Zutabeen hedapena zenbaki osoa izan behar da.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'eu' ] = {
 		unknown: 'Objektu ezezaguna'
 	},
 
-	resize: 'Arrastatu tamaina aldatzeko'
+	resize: 'Arrastatu tamaina aldatzeko',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

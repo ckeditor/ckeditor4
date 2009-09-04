@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 			invalidWidth: '单元格宽度必须为数字格式',
 			invalidHeight: '单元格高度必须为数字格式',
 			invalidRowSpan: '行跨度必须为整数格式',
-			invalidColSpan: '列跨度必须为整数格式'
+			invalidColSpan: '列跨度必须为整数格式',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		unknown: '位置对象'
 	},
 
-	resize: '拖拽以改变尺寸'
+	resize: '拖拽以改变尺寸',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

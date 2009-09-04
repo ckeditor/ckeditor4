@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'uk' ] = {
 			invalidWidth: 'Ширина комірки повинна бути числом.',
 			invalidHeight: 'Висота комірки повинна бути числом.',
 			invalidRowSpan: 'Кількість обєднуваних рядків повинна бути цілим числом.',
-			invalidColSpan: 'Кількість обєднуваних стовпчиків повинна бути цілим числом.'
+			invalidColSpan: 'Кількість обєднуваних стовпчиків повинна бути цілим числом.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'uk' ] = {
 		unknown: 'Невідомий об`єкт'
 	},
 
-	resize: 'Пересувайте для зміни розміру'
+	resize: 'Пересувайте для зміни розміру',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

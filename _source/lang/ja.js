@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'ja' ] = {
 			invalidWidth: 'セル幅は数値で入力してください。',
 			invalidHeight: 'セル高さは数値で入力してください。',
 			invalidRowSpan: '縦幅(行数)は数値で入力してください。',
-			invalidColSpan: '横幅(列数)は数値で入力してください。'
+			invalidColSpan: '横幅(列数)は数値で入力してください。',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'ja' ] = {
 		unknown: 'Unknown Object'
 	},
 
-	resize: 'ドラックしてリサイズ'
+	resize: 'ドラックしてリサイズ',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

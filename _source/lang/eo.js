@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'eo' ] = {
 			invalidWidth: 'Cell width must be a number.', // MISSING
 			invalidHeight: 'Cell height must be a number.', // MISSING
 			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.' // MISSING
+			invalidColSpan: 'Columns span must be a whole number.', // MISSING
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'eo' ] = {
 		unknown: 'Unknown Object' // MISSING
 	},
 
-	resize: 'Drag to resize' // MISSING
+	resize: 'Drag to resize', // MISSING
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

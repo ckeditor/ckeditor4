@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'hr' ] = {
 			invalidWidth: 'Širina ćelije mora biti broj.',
 			invalidHeight: 'Visina ćelije mora biti broj.',
 			invalidRowSpan: 'Rows span mora biti cijeli broj.',
-			invalidColSpan: 'Columns span mora biti cijeli broj.'
+			invalidColSpan: 'Columns span mora biti cijeli broj.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'hr' ] = {
 		unknown: 'Nepoznati objekt'
 	},
 
-	resize: 'Povuci za promjenu veličine'
+	resize: 'Povuci za promjenu veličine',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

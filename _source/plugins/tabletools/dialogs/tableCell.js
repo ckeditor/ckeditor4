@@ -16,10 +16,54 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		return { type: 'html', html: '&nbsp;' };
 	}
 
+	/**
+	 *
+	 * @param dialogName
+	 * @param callback [ childDialog ]
+	 */
+	function getDialogValue( dialogName, callback ) {
+		var onOk = function() {
+				releaseHandlers( this );
+				callback( this );
+			};
+		var onCancel = function() {
+				releaseHandlers( this );
+			};
+		var bindToDialog = function( dialog ) {
+				dialog.on( 'ok', onOk );
+				dialog.on( 'cancel', onCancel );
+			};
+		var releaseHandlers = function( dialog ) {
+				dialog.removeListener( 'ok', onOk );
+				dialog.removeListener( 'cancel', onCancel );
+			};
+		editor.execCommand( dialogName );
+		if ( editor._.storedDialogs.colordialog )
+			bindToDialog( editor._.storedDialogs.colordialog );
+		else {
+			CKEDITOR.on( 'dialogDefinition', function( e ) {
+				if ( e.data.name != dialogName )
+					return;
+
+				var definition = e.data.definition;
+
+				e.removeListener();
+				definition.onLoad = CKEDITOR.tools.override( definition.onLoad, function( orginal ) {
+					return function() {
+						bindToDialog( this );
+						definition.onLoad = orginal;
+						if ( typeof orginal == 'function' )
+							orginal.call( this );
+					};
+				});
+			});
+		}
+	};
+
 	return {
 		title: langCell.title,
-		minWidth: 480,
-		minHeight: 140,
+		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 550 : 480,
+		minHeight: CKEDITOR.env.ie ? ( CKEDITOR.env.quirks ? 180 : 150 ) : 140,
 		contents: [
 			{
 			id: 'info',
@@ -28,7 +72,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			elements: [
 				{
 				type: 'hbox',
-				widths: [ '45%', '10%', '45%' ],
+				widths: [ '40%', '5%', '40%' ],
 				children: [
 					{
 					type: 'vbox',
@@ -239,38 +283,77 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					},
 						spacer(),
 					{
-						type: 'text',
-						id: 'bgColor',
-						label: langCell.bgColor,
-						labelLayout: 'horizontal',
-						widths: [ '50%', '50%' ],
-						'default': '',
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'bgColor' ) || '' );
+						type: 'hbox',
+						padding: 0,
+						widths: [ '80%', '20%' ],
+						children: [
+							{
+							type: 'text',
+							id: 'bgColor',
+							label: langCell.bgColor,
+							labelLayout: 'horizontal',
+							widths: [ '70%', '30%' ],
+							'default': '',
+							setup: function( selectedCell ) {
+								this.setValue( selectedCell.getAttribute( 'bgColor' ) || '' );
+							},
+							commit: function( selectedCell ) {
+								if ( this.getValue() )
+									selectedCell.setAttribute( 'bgColor', this.getValue() );
+								else
+									selectedCell.removeAttribute( 'bgColor' );
+							}
 						},
-						commit: function( selectedCell ) {
-							if ( this.getValue() )
-								selectedCell.setAttribute( 'bgColor', this.getValue() );
-							else
-								selectedCell.removeAttribute( 'bgColor' );
+							{
+							type: 'button',
+							id: 'bgColorChoose',
+							label: langCell.chooseColor,
+							style: 'margin-left: 10px',
+							onClick: function() {
+								var self = this;
+								getDialogValue( 'colordialog', function( colorDialog ) {
+									self.getDialog().getContentElement( 'info', 'bgColor' ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
+								});
+							}
 						}
+						]
 					},
-						{
-						type: 'text',
-						id: 'borderColor',
-						label: langCell.borderColor,
-						labelLayout: 'horizontal',
-						widths: [ '50%', '50%' ],
-						'default': '',
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'borderColor' ) || '' );
+						spacer(),
+					{
+						type: 'hbox',
+						padding: 0,
+						widths: [ '80%', '20%' ],
+						children: [
+							{
+							type: 'text',
+							id: 'borderColor',
+							label: langCell.borderColor,
+							labelLayout: 'horizontal',
+							widths: [ '70%', '30%' ],
+							'default': '',
+							setup: function( selectedCell ) {
+								this.setValue( selectedCell.getAttribute( 'borderColor' ) || '' );
+							},
+							commit: function( selectedCell ) {
+								if ( this.getValue() )
+									selectedCell.setAttribute( 'borderColor', this.getValue() );
+								else
+									selectedCell.removeAttribute( 'borderColor' );
+							}
 						},
-						commit: function( selectedCell ) {
-							if ( this.getValue() )
-								selectedCell.setAttribute( 'borderColor', this.getValue() );
-							else
-								selectedCell.removeAttribute( 'borderColor' );
+							{
+							type: 'button',
+							id: 'borderColorChoose',
+							label: langCell.chooseColor,
+							style: 'margin-left: 10px',
+							onClick: function() {
+								var self = this;
+								getDialogValue( 'colordialog', function( colorDialog ) {
+									self.getDialog().getContentElement( 'info', 'borderColor' ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
+								});
+							}
 						}
+						]
 					}
 					]
 				}

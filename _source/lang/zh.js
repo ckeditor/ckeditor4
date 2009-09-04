@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'zh' ] = {
 			invalidWidth: '儲存格寬度必須為數字格式',
 			invalidHeight: '儲存格高度必須為數字格式',
 			invalidRowSpan: '儲存格列數必須為整數格式',
-			invalidColSpan: '儲存格欄數度必須為整數格式'
+			invalidColSpan: '儲存格欄數度必須為整數格式',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'zh' ] = {
 		unknown: '不明物件'
 	},
 
-	resize: '拖拽改變大小'
+	resize: '拖拽改變大小',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

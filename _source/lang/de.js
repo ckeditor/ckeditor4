@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'de' ] = {
 			invalidWidth: 'Zellenbreite muß eine Zahl sein.',
 			invalidHeight: 'Zellenhöhe muß eine Zahl sein.',
 			invalidRowSpan: '"Anzahl Zeilen verbinden" muss eine Ganzzahl sein.',
-			invalidColSpan: '"Anzahl Spalten verbinden" muss eine Ganzzahl sein.'
+			invalidColSpan: '"Anzahl Spalten verbinden" muss eine Ganzzahl sein.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'de' ] = {
 		unknown: 'Unbekanntes Objekt'
 	},
 
-	resize: 'Zum Vergrößern ziehen'
+	resize: 'Zum Vergrößern ziehen',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

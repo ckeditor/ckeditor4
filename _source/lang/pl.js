@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'pl' ] = {
 			invalidWidth: 'Szerokość komórki musi być liczbą.',
 			invalidHeight: 'Wysokość komórki musi być liczbą.',
 			invalidRowSpan: 'Scalenie wierszy musi być liczbą całkowitą.',
-			invalidColSpan: 'Scalenie komórek musi być liczbą całkowitą.'
+			invalidColSpan: 'Scalenie komórek musi być liczbą całkowitą.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'pl' ] = {
 		unknown: 'Nieznany obiekt'
 	},
 
-	resize: 'Przeciągnij, aby zmienić rozmiar'
+	resize: 'Przeciągnij, aby zmienić rozmiar',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };

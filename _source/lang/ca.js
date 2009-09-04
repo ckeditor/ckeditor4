@@ -251,7 +251,8 @@ CKEDITOR.lang[ 'ca' ] = {
 			invalidWidth: 'L\'amplada de cel·la ha de ser un nombre.',
 			invalidHeight: 'L\'alçada de cel·la ha de ser un nombre.',
 			invalidRowSpan: 'L\'expansió de files ha de ser un nombre enter.',
-			invalidColSpan: 'L\'expansió de columnes ha de ser un nombre enter.'
+			invalidColSpan: 'L\'expansió de columnes ha de ser un nombre enter.',
+			chooseColor: 'Choose' // MISSING
 		},
 
 		row: {
@@ -636,5 +637,12 @@ CKEDITOR.lang[ 'ca' ] = {
 		unknown: 'Objecte desconegut'
 	},
 
-	resize: 'Arrossegueu per redimensionar'
+	resize: 'Arrossegueu per redimensionar',
+
+	colordialog: {
+		title: 'Select color', // MISSING
+		highlight: 'Highlight', // MISSING
+		selected: 'Selected', // MISSING
+		clear: 'Clear' // MISSING
+	}
 };
