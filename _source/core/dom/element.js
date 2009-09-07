@@ -1217,5 +1217,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 	getChildCount: function() {
 		return this.$.childNodes.length;
+	},
+
+	disableContextMenu: function() {
+		this.on( 'contextmenu', function( event ) {
+			// Cancel the browser context menu.
+			if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
+				event.data.preventDefault();
+		});
 	}
 });
