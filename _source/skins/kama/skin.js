@@ -81,7 +81,7 @@ CKEDITOR.skins.add( 'kama', ( function() {
 			// We have to split CSS declarations for webkit.
 			if ( CKEDITOR.env.webkit ) {
 				uiColorMenuCss = uiColorMenuCss.split( '}' ).slice( 0, -1 );
-				for ( var i in uiColorMenuCss )
+				for ( var i = 0; i < uiColorMenuCss.length; i++ )
 					uiColorMenuCss[ i ] = uiColorMenuCss[ i ].split( '{' );
 			}
 
@@ -94,22 +94,23 @@ CKEDITOR.skins.add( 'kama', ( function() {
 			}
 
 			function updateStylesheets( styleNodes, styleContent, replace ) {
-				for ( var id in styleNodes ) {
+				var r, i, content;
+				for ( var id = 0; id < styleNodes.length; id++ ) {
 					if ( CKEDITOR.env.webkit ) {
 						// Truncate manually.
-						for ( var i = 0; i < styleNodes[ id ].$.sheet.rules.length; i++ )
+						for ( i = 0; i < styleNodes[ id ].$.sheet.rules.length; i++ )
 							styleNodes[ id ].$.sheet.removeRule( i );
 
-						for ( var i in styleContent ) {
-							var content = styleContent[ i ][ 1 ];
-							for ( var r in replace )
+						for ( i = 0; i < styleContent.length; i++ ) {
+							content = styleContent[ i ][ 1 ];
+							for ( r = 0; r < replace.length; r++ )
 								content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
 
 							styleNodes[ id ].$.sheet.addRule( styleContent[ i ][ 0 ], content );
 						}
 					} else {
-						var content = styleContent;
-						for ( var r in replace )
+						content = styleContent;
+						for ( r = 0; r < replace.length; r++ )
 							content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
 
 						if ( CKEDITOR.env.ie )
