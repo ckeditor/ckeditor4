@@ -301,7 +301,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							body.contentEditable = true;
 							body.removeAttribute( 'disabled' );
 						} else
-							domDocument.designMode = 'on';
+						// Avoid opening design mode in a frame window thread,
+						// which will cause host page scrolling.(#4397)
+						setTimeout( function() {
+							domDocument.$.designMode = 'on';
+						}, 0 );
 
 						// IE, Opera and Safari may not support it and throw
 						// errors.
