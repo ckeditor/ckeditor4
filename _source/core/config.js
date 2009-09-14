@@ -177,13 +177,13 @@ CKEDITOR.config = {
 	fullPage: false,
 
 	/**
-	 * The editor height, in CSS size format or pixel integer.
+	 * The height of editing area( content ), in relative or pixel integer.
 	 * @type Number|String
 	 * @default '200'
 	 * @example
 	 * config.height = 500;
-	 * @example
 	 * config.height = '25em';
+	 * config.height = '300px';
 	 */
 	height: 200,
 
