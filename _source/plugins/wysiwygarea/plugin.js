@@ -110,6 +110,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	// DOM modification here should not bother dirty flag.(#4385)
+	function restoreDirty( editor ) {
+		if ( !editor.checkDirty() )
+			setTimeout( function() {
+			editor.resetDirty()
+		});
+	}
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -121,12 +129,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
 			body = editor.document.getBody(),
-			enterMode = editor.config.enterMode,
-			isDirtyBeforeFix = editor.checkDirty();
+			enterMode = editor.config.enterMode;
 
 		// When enterMode set to block, we'll establing new paragraph only if we're
 		// selecting inline contents right under body. (#3657)
 		if ( enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
+			restoreDirty( editor );
 			var bms = selection.createBookmarks(),
 				fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
@@ -168,14 +176,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// unexitable block.
 		var lastNode = body.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
 		if ( lastNode && lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
+			restoreDirty( editor );
 			var paddingBlock = editor.document.createElement(
 			( CKEDITOR.env.ie && enterMode != CKEDITOR.ENTER_BR ) ? '<br _cke_bogus="true" />' : 'br' );
 			body.append( paddingBlock );
 		}
-
-		// DOM modification here should not bother dirty flag.(#4385)
-		if ( !isDirtyBeforeFix )
-			editor.resetDirty();
 	}
 
 	CKEDITOR.plugins.add( 'wysiwygarea', {
