@@ -311,7 +311,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							body.contentEditable = true;
 							body.removeAttribute( 'disabled' );
 						} else
-							domDocument.$.designMode = 'on';
+							domDocument.designMode = 'on';
 
 						// IE, Opera and Safari may not support it and throw
 						// errors.
