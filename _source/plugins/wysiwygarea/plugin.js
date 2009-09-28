@@ -311,11 +311,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							body.contentEditable = true;
 							body.removeAttribute( 'disabled' );
 						} else
-						// Avoid opening design mode in a frame window thread,
-						// which will cause host page scrolling.(#4397)
-						setTimeout( function() {
 							domDocument.$.designMode = 'on';
-						}, 0 );
 
 						// IE, Opera and Safari may not support it and throw
 						// errors.
@@ -328,22 +324,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 						domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
-
-						// Gecko need a key event to 'wake up' the editing
-						// ability when document is empty.(#3864)
-						var firstNode = domDocument.getBody().getFirst();
-						if ( CKEDITOR.env.gecko && firstNode && firstNode.is && firstNode.is( 'br' ) && firstNode.hasAttribute( '_moz_editor_bogus_node' ) ) {
-							var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
-							keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
-							domDocument.$.dispatchEvent( keyEventSimulate );
-							var bogusText = domDocument.getBody().getFirst();
-							// Compensate the line maintaining <br> if enterMode is not block.
-							if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
-								domDocument.createElement( 'br', {
-								attributes: { '_moz_dirty': "" } } ).replace( bogusText );
-							else
-								bogusText.remove();
-						}
 
 						// Gecko/Webkit need some help when selecting control type elements. (#3448)
 						if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
@@ -376,6 +356,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 
 						focusTarget.on( 'focus', function() {
+							// Gecko need a key event to 'wake up' the editing
+							// ability when document is empty.(#3864)
+							if ( CKEDITOR.env.gecko ) {
+								var first = body;
+								while ( first.firstChild )
+									first = first.firstChild;
+
+								if ( !first.nextSibling && ( 'BR' == first.tagName ) && first.hasAttribute( '_moz_editor_bogus_node' ) ) {
+									var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
+									keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
+									domDocument.$.dispatchEvent( keyEventSimulate );
+									var bogusText = domDocument.getBody().getFirst();
+									// Compensate the line maintaining <br> if enterMode is not block.
+									if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
+										domDocument.createElement( 'br', {
+										attributes: { '_moz_dirty': "" } } ).replace( bogusText );
+									else
+										bogusText.remove();
+								}
+							}
+
 							editor.focusManager.focus();
 						});
 
