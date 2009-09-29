@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>API usage - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+	<script id="headscript" type="text/javascript">
+	//<![CDATA[
+
+// The instanceReady event is fired when an instance of CKEditor has finished 
+// its initialization.
+CKEDITOR.on( 'instanceReady', function( ev )
+	{
+		// Show the editor name and description in the browser status bar.
+		document.getElementById('eMessage').innerHTML = '<p>Instance "' + ev.editor.name + '" loaded.<\/p>' ;
+
+		// Show this sample buttons.
+		document.getElementById('eButtons').style.visibility = '' ;
+	});
+
+function InsertHTML()
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+	var value = document.getElementById( 'plainArea' ).value ;
+
+	// Check the active editing mode.
+	if (oEditor.mode == 'wysiwyg' )
+	{
+		// Insert the desired HTML.
+		oEditor.insertHtml( value ) ;
+	}
+	else
+		alert( 'You must be on WYSIWYG mode!' ) ;
+}
+
+function SetContents()
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+	var value = document.getElementById( 'plainArea' ).value ;
+
+	// Set the editor contents (replace the actual one).
+	oEditor.setData( value ) ;
+}
+
+function GetContents()
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+
+	// Get the editor contents
+	alert( oEditor.getData() ) ;	
+}
+
+function ExecuteCommand( commandName )
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+
+	// Check the active editing mode.
+	if (oEditor.mode == 'wysiwyg' )
+	{
+		// Execute the command.
+		oEditor.execCommand( commandName ) ;
+	}
+	else
+		alert( 'You must be on WYSIWYG mode!' ) ;
+}
+
+function CheckDirty()
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+	alert( oEditor.checkDirty() ) ;
+}
+
+function ResetDirty()
+{
+	// Get the editor instance that we want to interact with.
+	var oEditor = CKEDITOR.instances.editor1 ;
+	oEditor.resetDirty() ;
+	alert( 'The "IsDirty" status has been reset' ) ;
+}
+
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="html">
+		<form action="sample_posteddata.php" method="post">
+		<p>
+		This sample shows how to use the CKeditor JavaScript API to interact with the editor
+		at runtime.</p>
+		<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://www.fckeditor.net/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<script type="text/javascript">
+		//<![CDATA[
+			// Replace the <textarea id="editor1"> with an CKEditor instance.
+			var editor = CKEDITOR.replace( 'editor1');
+		//]]>
+		</script>
+		<div id="eMessage">
+			
+		</div>
+		<div id="eButtons" style="visibility: hidden">
+			<input type="button" value="Insert HTML" onclick="InsertHTML();" />
+			<input type="button" value="Set Editor Contents" onclick="SetContents();" />
+			<input type="button" value="Get Editor Contents (XHTML)" onclick="GetContents();" />
+			<br />
+			<textarea id="plainArea" cols="80" rows="3">&lt;h2&gt;Test&lt;/h2&gt;&lt;p&gt;This is some &lt;a href="/Test1.html"&gt;sample&lt;/a&gt; HTML&lt;/p&gt;</textarea>
+			<br />
+			<br />
+			<input type="button" value='Execute "bold" Command' onclick="ExecuteCommand('bold');" />
+			<input type="button" value='Execute "link" Command' onclick="ExecuteCommand('link');" />
+		<br />
+		<br />
+		<input type="button" value="checkDirty()" onclick="CheckDirty();" />
+		<input type="button" value="resetDirty()" onclick="ResetDirty();" />
+		</div>
+		</form>
+	</div>
+</body>
+</html>
