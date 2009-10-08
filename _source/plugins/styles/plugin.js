@@ -1047,7 +1047,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Shrinking white-spaces around colon and semi-colon (#4147).
 		// Compensate tail semi-colon.
-		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' ).toLowerCase();
+		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' ).replace( /,\s+/g, ',' ) // Trimming spaces after comma (e.g. font-family name)(#4107).
+		.toLowerCase();
 	}
 
 	function applyStyle( document, remove ) {
