@@ -10,14 +10,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var protectedSourceMarker = '{cke_protected}';
 
+
+	// Return the last non-space child node of the block (#4344).
+	function lastNoneSpaceChild( block ) {
+		var lastIndex = block.children.length,
+			last = block.children[ lastIndex - 1 ];
+		while ( last && last.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( last.value ) )
+			last = block.children[ --lastIndex ];
+		return last;
+	}
+
 	function trimFillers( block, fromSource ) {
 		// If the current node is a block, and if we're converting from source or
 		// we're not in IE then search for and remove any tailing BR node.
 		//
 		// Also, any &nbsp; at the end of blocks are fillers, remove them as well.
 		// (#2886)
-		var children = block.children;
-		var lastChild = children[ children.length - 1 ];
+		var children = block.children,
+			lastChild = lastNoneSpaceChild( block );
 		if ( lastChild ) {
 			if ( ( fromSource || !CKEDITOR.env.ie ) && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br' )
 				children.pop();
@@ -27,11 +37,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function blockNeedsExtension( block ) {
-		if ( block.children.length < 1 )
-			return true;
-
-		var lastChild = block.children[ block.children.length - 1 ];
-		return lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br';
+		var lastChild = lastNoneSpaceChild( block );
+		return !lastChild || lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br';
 	}
 
 	function extendBlockForDisplay( block ) {
