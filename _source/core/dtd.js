@@ -83,6 +83,13 @@ CKEDITOR.dtd = (function() {
 		$listItem: { dd:1,dt:1,li:1 },
 
 		/**
+		 * List of list root elements.
+		 * @type Object
+		 * @example
+		 */
+		$list: { ul:1,ol:1,dl:1 },
+
+		/**
 		 * Elements that accept text nodes, but are not possible to edit into
 		 * the browser.
 		 * @type Object
