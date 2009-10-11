@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -389,6 +389,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		return this._.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
 	},
 
+	/**
+	 * Add a trunk of css text to the editor which will be applied to the wysiwyg editing document.
+	 * Note: This function should be called before editor is loaded to take effect.
+	 * @param css {String} CSS text.
+	 * @example
+	 * editorInstance.addCss( 'body { background-color: grey; }' ); 
+	 */
 	addCss: function( css ) {
 		this._.styles.push( css );
 	},
