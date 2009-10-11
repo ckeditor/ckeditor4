@@ -177,7 +177,8 @@ CKEDITOR.config = {
 	fullPage: false,
 
 	/**
-	 * The height of editing area( content ), in relative or pixel integer.
+	 * The height of editing area( content ), in relative or absolute, e.g. 30px, 5em.
+	 * Note: Percentage unit is not supported yet. e.g. 30%.
 	 * @type Number|String
 	 * @default '200'
 	 * @example
