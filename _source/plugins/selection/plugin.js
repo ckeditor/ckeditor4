@@ -581,7 +581,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					} else {
 						node = sel.anchorNode;
 
-						if ( node.nodeType != 1 )
+						if ( node && node.nodeType != 1 )
 							node = node.parentNode;
 					}
 			}
