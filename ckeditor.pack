@@ -133,6 +133,7 @@ packages :
 					'_source/plugins/button/plugin.js',
 					'_source/plugins/clipboard/plugin.js',
 					'_source/plugins/colorbutton/plugin.js',
+					'_source/plugins/colordialog/plugin.js',
 					'_source/plugins/contextmenu/plugin.js',
 					'_source/plugins/elementspath/plugin.js',
 					'_source/plugins/enterkey/plugin.js',
