@@ -219,7 +219,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			stylesText = stylesText.replace( semicolonFixRegex, ';' );
 
 		for ( var style in stylesDef )
-			stylesText += style + ':' + stylesDef[ style ] + ';';
+			stylesText += ( style + ':' + stylesDef[ style ] ).replace( semicolonFixRegex, ';' );
 
 		// Browsers make some changes to the style when applying them. So, here
 		// we normalize it to the browser format.
