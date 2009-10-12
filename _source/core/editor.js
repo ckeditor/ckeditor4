@@ -515,10 +515,21 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	/**
 	 * Sets the editor data. The data must be provided in raw format.
 	 * @param {String} data HTML code to replace the curent content in the editor.
+	 * @param {Function} callback Function to be called after the setData is completed. 
 	 * @example
 	 * CKEDITOR.instances.editor1.<b>setData( '&lt;p&gt;This is the editor data.&lt;/p&gt;' )</b>;
+	 * CKEDITOR.instances.editor1.setData( '&lt;p&gt;Some other editor data.&lt;/p&gt;', function()
+	 * {
+	 * 		CKEDITOR.instances.editor1.checkDirty(); 	// true
+	 * } );
 	 */
-	setData: function( data ) {
+	setData: function( data, callback ) {
+		if ( callback ) {
+			this.on( 'dataReady', function( evt ) {
+				evt.removeListener();
+				callback.call( evt.editor );
+			});
+		}
 		// Fire "setData" so data manipulation may happen.
 		var eventData = { dataValue: data };
 		this.fire( 'setData', eventData );
