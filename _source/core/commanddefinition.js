@@ -70,3 +70,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *     async : true    // The command need some time to complete after exec function returns.
  * });
  */
+
+/**
+ * Whether the command should give focus to the editor before execution.
+ * @name  CKEDITOR.commandDefinition.editorFocus
+ * @type {Boolean}
+ * @example
+ * editorInstance.addCommand( 'maximize',
+ * {
+ *     exec : function( editor )
+ *     {
+ *     },
+ *     editorFocus : false    // The command doesn't require focusing the editing document.
+ * });
+ */

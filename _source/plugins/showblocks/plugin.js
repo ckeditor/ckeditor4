@@ -88,6 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var commandDefinition = {
 		preserveState: true,
+		editorFocus: false,
 
 		exec: function( editor ) {
 			this.toggleState();

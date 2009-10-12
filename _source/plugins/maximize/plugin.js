@@ -95,7 +95,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var savedState = CKEDITOR.TRISTATE_OFF;
 
 			editor.addCommand( 'maximize', { modes:{wysiwyg:1,source:1 },
-
+				editorFocus: false,
 				exec: function() {
 					var container = editor.container.getChild( [ 0, 0 ] );
 					var contents = editor.getThemeSpace( 'contents' );
