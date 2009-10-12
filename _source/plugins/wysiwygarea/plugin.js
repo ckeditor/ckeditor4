@@ -391,6 +391,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( keystrokeHandler )
 							keystrokeHandler.attach( domDocument );
 
+						// Cancel default action for backspace in IE on control types. (#4047)
+						if ( CKEDITOR.env.ie ) {
+							editor.on( 'key', function( event ) {
+								// Backspace.
+								var control = event.data.keyCode == 8 && editor.getSelection().getSelectedElement();
+								if ( control ) {
+									// Make undo snapshot.
+									editor.fire( 'saveSnapshot' );
+									// Remove manually.
+									control.remove();
+									editor.fire( 'saveSnapshot' );
+									event.cancel();
+								}
+							});
+						}
+
 						// Adds the document body as a context menu target.
 						if ( editor.contextMenu )
 							editor.contextMenu.addTarget( domDocument );
