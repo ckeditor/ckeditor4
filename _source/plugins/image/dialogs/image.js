@@ -395,6 +395,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										// an image with a long URL. So we need to delay it a bit. (#4122)
 										setTimeout( function() {
 											field.setValue( url ); // And call this.onChange()
+											// Manually set the initial value.(#4191)
+											field.setInitValue();
 											field.focus();
 										}, 0 );
 									}
