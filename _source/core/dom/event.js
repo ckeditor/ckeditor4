@@ -81,13 +81,18 @@ CKEDITOR.dom.event.prototype = {
 		else
 			$.returnValue = false;
 
-		if ( stopPropagation ) {
-			if ( $.stopPropagation )
-				$.stopPropagation();
-			else
-				$.cancelBubble = true;
-		}
+		if ( stopPropagation )
+			this.stopPropagation();
 	},
+
+	stopPropagation: function() {
+		var $ = this.$;
+		if ( $.stopPropagation )
+			$.stopPropagation();
+		else
+			$.cancelBubble = true;
+	},
+
 	/**
 	 * Returns the DOM node where the event was targeted to.
 	 * @returns {CKEDITOR.dom.node} The target DOM node.

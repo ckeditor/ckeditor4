@@ -1675,7 +1675,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	var preventKeyBubblingKeys = { 27:1,13:1 };
 	var preventKeyBubbling = function( e ) {
 			if ( e.data.getKeystroke() in preventKeyBubblingKeys )
-				e.data.preventDefault( true );
+				e.data.stopPropagation();
 		};
 
 	(function() {
