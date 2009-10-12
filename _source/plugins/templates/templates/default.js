@@ -16,7 +16,7 @@ CKEDITOR.addTemplates( 'default', {
 		image: 'template1.gif',
 		description: 'One main image with a title and text that surround the image.',
 		html: '<h3>' +
-			'<img style="margin-right: 10px" height="100" alt="" width="100" align="left"/>' +
+			'<img style="margin-right: 10px" height="100" width="100" align="left"/>' +
 			'Type the title here' +
 			'</h3>' +
 			'<p>' +
@@ -27,13 +27,13 @@ CKEDITOR.addTemplates( 'default', {
 		title: 'Strange Template',
 		image: 'template2.gif',
 		description: 'A template that defines two colums, each one with a title, and some text.',
-		html: '<table cellspacing="0" cellpadding="0" width="100%" border="0">' +
+		html: '<table cellspacing="0" cellpadding="0" style="width:100%" border="0">' +
 			'<tr>' +
-				'<td width="50%">' +
+				'<td style="width:50%">' +
 					'<h3>Title 1</h3>' +
 				'</td>' +
 				'<td></td>' +
-				'<td width="50%">' +
+				'<td style="width:50%">' +
 					'<h3>Title 2</h3>' +
 				'</td>' +
 			'</tr>' +
@@ -59,7 +59,7 @@ CKEDITOR.addTemplates( 'default', {
 			'<h3>' +
 				'Title goes here' +
 			'</h3>' +
-			'<table style="float: right" cellspacing="0" cellpadding="0" width="150" border="1">' +
+			'<table style="float: right" cellspacing="0" cellpadding="0" style="width:150px" border="1">' +
 				'<caption style="border:solid 1px black">' +
 					'<strong>Table title</strong>' +
 				'</caption>' +
