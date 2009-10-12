@@ -73,10 +73,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
-				var parent, dtd;
-				if ( this.config.enterMode != CKEDITOR.ENTER_BR && isBlock ) {
-					while ( ( parent = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ parent.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
-						range.splitBlock();
+				var current, dtd;
+				if ( isBlock ) {
+					while ( ( current = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+						// If we're in an empty block which indicate a new paragraph,
+						// simply replace it with the inserting block.(#3664)
+						if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+							range.setStartBefore( current );
+							range.collapse( true );
+							current.remove();
+						} else
+							range.splitBlock();
 					}
 				}
 
