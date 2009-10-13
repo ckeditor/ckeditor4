@@ -14,5 +14,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @augments CKEDITOR.resourceManager
  * @example
  */
-CKEDITOR.themes = new CKEDITOR.resourceManager( '_source/' + // %REMOVE_LINE%
+CKEDITOR.themes = new CKEDITOR.resourceManager( '_source/' + // @Packager.RemoveLine
 	'themes/', 'theme' );

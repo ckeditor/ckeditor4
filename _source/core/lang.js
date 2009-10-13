@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				languageCode = this.detect( defaultLanguage, languageCode );
 
 			if ( !this[ languageCode ] ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // @Packager.RemoveLine
 													'lang/' + languageCode + '.js' ), function() {
 					callback( languageCode, this[ languageCode ] );
 				}, this );

@@ -99,7 +99,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var skin = editor.config.skin.split( ',' ),
 				skinName = skin[ 0 ],
-				skinPath = CKEDITOR.getUrl( skin[ 1 ] || ( '_source/' + // %REMOVE_LINE%
+				skinPath = CKEDITOR.getUrl( skin[ 1 ] || ( '_source/' + // @Packager.RemoveLine
 												'skins/' + skinName + '/' ) );
 
 			editor.skinName = skinName;

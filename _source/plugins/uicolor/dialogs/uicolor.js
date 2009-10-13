@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		type: 'html',
 		html: "<div id='cke_uicolor_picker' style='width: 360px; height: 200px; position: relative;'></div>",
 		onLoad: function( event ) {
-			var url = CKEDITOR.getUrl( '_source/' + // %REMOVE_LINE%
+			var url = CKEDITOR.getUrl( '_source/' + // @Packager.RemoveLine
 												'plugins/uicolor/yui/'
 								);
 
