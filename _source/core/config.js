@@ -62,13 +62,14 @@ CKEDITOR.config = {
 	baseHref: '',
 
 	/**
-	 * The CSS file to be used to apply style to the contents. It should
+	 * The CSS file(s) to be used to apply style to the contents. It should
 	 * reflect the CSS used in the final pages where the contents are to be
 	 * used.
-	 * @type String
+	 * @type String|Array
 	 * @default '&lt;CKEditor folder&gt;/contents.css'
 	 * @example
 	 * config.contentsCss = '/css/mysitestyles.css';
+	 * config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
 	 */
 	contentsCss: CKEDITOR.basePath + 'contents.css',
 

@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				multiSelect: true,
 
 				panel: {
-					css: [ config.contentsCss, CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ],
+					css: [ CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ].concat( config.contentsCss ),
 					voiceLabel: lang.panelVoiceLabel
 				},
 
