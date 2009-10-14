@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					}
 
-					// Modify the table headers. Depends on havint rows and cols generated
+					// Modify the table headers. Depends on having rows and cols generated
 					// correctly so it can't be done in commit functions.
 
 					// Should we make a <thead>?
@@ -98,8 +98,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var th = theRow.getChild( i );
 							if ( th.type == CKEDITOR.NODE_ELEMENT ) {
 								th.renameNode( 'th' );
-								if ( !i )
-									th.setAttribute( 'scope', 'col' );
+								th.setAttribute( 'scope', 'col' );
 							}
 						}
 						thead.append( theRow.remove() );
@@ -130,7 +129,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( row = 0; row < table.$.rows.length; row++ ) {
 							newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
 							newCell.renameNode( 'th' );
-							newCell.setAttribute( 'scope', 'col' );
+							newCell.setAttribute( 'scope', 'row' );
 						}
 					}
 
