@@ -252,7 +252,7 @@ CKEDITOR.lang[ 'he' ] = {
 			invalidHeight: 'גובה תא חייב להיות מספר.',
 			invalidRowSpan: 'מתיחת שורות חייב להיות מספר שלם.',
 			invalidColSpan: 'מתיחת עמודות חייב להיות מספר שלם.',
-			chooseColor: 'Choose' // MISSING
+			chooseColor: 'בחר'
 		},
 
 		row: {
@@ -380,7 +380,7 @@ CKEDITOR.lang[ 'he' ] = {
 		linkTab: 'קישור',
 		button2Img: 'האם להפוך את תמונת כפתור לתמונה פשוטה?',
 		img2Button: 'האם להפוך את התמונה לכפתור תמונה?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'כתובת התמונה חסרה.'
 	},
 
 	// Flash Dialog
@@ -628,7 +628,7 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	maximize: 'להגדיל למקסימום',
-	minimize: 'Minimize', // MISSING
+	minimize: 'הקטן למינימום',
 
 	fakeobjects: {
 		anchor: 'עוגן',
@@ -640,9 +640,9 @@ CKEDITOR.lang[ 'he' ] = {
 	resize: 'גרור בכדי לשנות גודל',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'בחר צבע',
+		highlight: 'סמן',
+		selected: 'נבחר',
+		clear: 'נקה'
 	}
 };
