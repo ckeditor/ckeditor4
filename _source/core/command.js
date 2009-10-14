@@ -10,7 +10,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
 			return false;
 
-		if ( commandDefinition.editorFocus ) // Give editor focus if necessary.
+		if ( this.editorFocus ) // Give editor focus if necessary (#4355).
 		editor.focus();
 
 		return ( commandDefinition.exec.call( this, editor, data ) !== false );
