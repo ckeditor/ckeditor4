@@ -131,7 +131,8 @@ CKEDITOR.skins.add( 'kama', ( function() {
 				},
 
 				setUiColor: function( color ) {
-					var uiStyle = addStylesheet( CKEDITOR.document ),
+					var cssContent,
+						uiStyle = addStylesheet( CKEDITOR.document ),
 						cssId = '#cke_' + editor.name.replace( '.', '\\.' );
 
 					var cssSelectors = [
@@ -143,9 +144,9 @@ CKEDITOR.skins.add( 'kama', ( function() {
 					var cssProperties = "background-color: $color !important;";
 
 					if ( CKEDITOR.env.webkit )
-						var cssContent = [ [ cssSelectors, cssProperties ] ];
+						cssContent = [ [ cssSelectors, cssProperties ] ];
 					else
-						var cssContent = cssSelectors + '{' + cssProperties + '}';
+						cssContent = cssSelectors + '{' + cssProperties + '}';
 
 					return ( this.setUiColor = function( color ) {
 						var replace = [ [ uiColorRegexp, color ] ];
