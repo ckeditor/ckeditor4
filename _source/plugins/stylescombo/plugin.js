@@ -27,8 +27,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				init: function() {
 					var combo = this,
-						stylesSet = config.stylesCombo_stylesSet.split( ':', 2 ),
-						stylesSetPath = stylesSet[ 1 ] || CKEDITOR.getUrl( pluginPath + 'styles/' + stylesSet[ 0 ] + '.js' );
+						stylesSet = config.stylesCombo_stylesSet.split( ':' );
+
+					var stylesSetPath = stylesSet[ 1 ] ? stylesSet.slice( 1 ).join( ':' ) : // #4481
+					CKEDITOR.getUrl( pluginPath + 'styles/' + stylesSet[ 0 ] + '.js' );
 
 					stylesSet = stylesSet[ 0 ];
 
