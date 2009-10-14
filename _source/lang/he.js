@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'he' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'עורך טקסט עשיר, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'מקור',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'he' ] = {
 		cancel: 'ביטול',
 		generalTab: 'כללי',
 		advancedTab: 'אפשרויות מתקדמות',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'הערך חייב להיות מספר.',
+		confirmNewPage: 'כל השינויים שלא נשמרו יאבדו. האם להעלות דף חדש?',
+		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג. ?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'he' ] = {
 		targetFrameName: 'שם מסגרת היעד',
 		targetPopupName: 'שם החלון הקופץ',
 		popupFeatures: 'תכונות החלון הקופץ',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'שינוי גודל',
 		popupStatusBar: 'סרגל חיווי',
 		popupLocationBar: 'סרגל כתובת',
 		popupToolbar: 'סרגל הכלים',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'he' ] = {
 		popupLeft: 'מיקום צד שמאל',
 		popupHeight: 'גובה',
 		popupTop: 'מיקום צד עליון',
-		id: 'Id', // MISSING
+		id: 'זיהוי (Id)',
 		langDir: 'כיוון שפה',
 		langDirNotSet: '<לא נקבע>',
 		langDirLTR: 'שמאל לימין (LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'he' ] = {
 		notFoundMsg: 'הטקסט המבוקש לא נמצא.',
 		matchCase: 'התאמת סוג אותיות (Case)',
 		matchWord: 'התאמה למילה המלאה',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'התאמה מחזורית',
 		replaceAll: 'החלפה בכל העמוד',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 טקסטים הוחלפו.'
 	},
 
 	// Table Dialog
@@ -213,13 +213,13 @@ CKEDITOR.lang[ 'he' ] = {
 		headersColumn: 'עמודה ראשונה',
 		headersRow: 'שורה ראשונה',
 		headersBoth: 'שניהם',
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		invalidRows: 'מספר השורות חייב להיות מספר גדול מ 0.',
+		invalidCols: 'מספר העמודות חייב להיות מספר גדול מ 0.',
+		invalidBorder: 'גודל מסגרת חייב להיות מספר.',
+		invalidWidth: 'רוחה טבלה חייב להיות רוחב.',
+		invalidHeight: 'גובה טבלה חייב להיות מספר.',
+		invalidCellSpacing: 'ריווח תאים חייב להיות מספר.',
+		invalidCellPadding: 'ריפוד תאים חייב להיות מספר.',
 
 		cell: {
 			menu: 'תא',
@@ -232,26 +232,26 @@ CKEDITOR.lang[ 'he' ] = {
 			splitHorizontal: 'פצל תא אופקית',
 			splitVertical: 'פצל תא אנכית',
 			title: 'תכונות התא',
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
+			cellType: 'סוג תא',
+			rowSpan: 'מתיחת שורות',
+			colSpan: 'מתיחת תאים',
+			wordWrap: 'מניעת גלישת שורות',
+			hAlign: 'יישור אופקי',
+			vAlign: 'יישור אנכי',
+			alignTop: 'למעלה',
+			alignMiddle: 'מרכז',
+			alignBottom: 'למטה',
+			alignBaseline: 'שורת בסיס',
+			bgColor: 'צבע רקע',
+			borderColor: 'צבע מסגרת',
+			data: 'מידע',
+			header: 'כותרת',
+			yes: 'כן',
+			no: 'לא',
+			invalidWidth: 'רוחב תא חייב להיות מספר.',
+			invalidHeight: 'גובה תא חייב להיות מספר.',
+			invalidRowSpan: 'מתיחת שורות חייב להיות מספר שלם.',
+			invalidColSpan: 'מתיחת עמודות חייב להיות מספר שלם.',
 			chooseColor: 'Choose' // MISSING
 		},
 
@@ -294,7 +294,7 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'מאפיני טופס',
 		action: 'שלח אל',
 		method: 'סוג שליחה',
-		encoding: 'Encoding', // MISSING
+		encoding: 'קידוד',
 		target: 'מטרה',
 		targetNotSet: '<לא נקבע>',
 		targetNew: 'חלון חדש (_blank)',
@@ -378,28 +378,28 @@ CKEDITOR.lang[ 'he' ] = {
 		preview: 'תצוגה מקדימה',
 		alertUrl: 'נא להקליד את כתובת התמונה',
 		linkTab: 'קישור',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+		button2Img: 'האם להפוך את תמונת כפתור לתמונה פשוטה?',
+		img2Button: 'האם להפוך את התמונה לכפתור תמונה?',
 		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'מאפייני פלאש',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'מאפיינים',
 		title: 'מאפיני פלאש',
 		chkPlay: 'נגן אוטומטי',
 		chkLoop: 'לולאה',
 		chkMenu: 'אפשר תפריט פלאש',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'אפשר חלון מלא',
 		scale: 'גודל',
 		scaleAll: 'הצג הכל',
 		scaleNoBorder: 'ללא גבולות',
 		scaleFit: 'התאמה מושלמת',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'גישת סקריפט',
+		accessAlways: 'תמיד',
+		accessSameDomain: 'דומיין זהה',
+		accessNever: 'אף פעם',
 		align: 'יישור',
 		alignLeft: 'לשמאל',
 		alignAbsBottom: 'לתחתית האבסולוטית',
@@ -410,36 +410,36 @@ CKEDITOR.lang[ 'he' ] = {
 		alignRight: 'לימין',
 		alignTextTop: 'לראש הטקסט',
 		alignTop: 'למעלה',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'איכות',
+		qualityBest: 'מעולה',
+		qualityHigh: 'גבוהה',
+		qualityAutoHigh: 'אוטומטית גבוהה',
+		qualityMedium: 'ממוצעת',
+		qualityAutoLow: 'אוטומטית נמוך',
+		qualityLow: 'נמוך',
+		windowModeWindow: 'חלון',
+		windowModeOpaque: 'אטום',
+		windowModeTransparent: 'שקוף',
+		windowMode: 'מצב חלון',
+		flashvars: 'משתנים לפלאש',
 		bgcolor: 'צבע רקע',
 		width: 'רוחב',
 		height: 'גובה',
 		hSpace: 'מרווח אופקי',
 		vSpace: 'מרווח אנכי',
 		validateSrc: 'נא להקליד את כתובת הקישור (URL)',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'רוחב חייב להיות מספר.',
+		validateHeight: 'גובהה חייב להיות מספר.',
+		validateHSpace: 'ריווח אופקי חייב להיות מספר.',
+		validateVSpace: 'ריווח אנחי חייב להיות מספר.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'בדיקת איות',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'בדיקת איות',
+		notAvailable: 'מצטערים לא נמצא שירות זמין.',
+		errorLoading: 'שגיעה בהעלאת שירת אפליקציה: %s.',
 		notInDic: 'לא נמצא במילון',
 		changeTo: 'שנה ל',
 		btnIgnore: 'התעלם',
@@ -462,7 +462,7 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 אלמנט'
 	},
 
 	numberedlist: 'רשימה ממוספרת',
@@ -512,18 +512,18 @@ CKEDITOR.lang[ 'he' ] = {
 
 	stylesCombo: {
 		label: 'סגנון',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'סגנונות',
+		panelVoiceLabel: 'בחר סגנון',
+		panelTitle1: 'סיגנונות בלוק',
+		panelTitle2: 'סגנונות רצף',
+		panelTitle3: 'סגנונות אובייקט'
 	},
 
 	format: {
 		label: 'עיצוב',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'עיצוב',
 		panelTitle: 'עיצוב',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'בחר פיסקת עיצוב',
 
 		tag_p: 'נורמלי',
 		tag_pre: 'קוד',
@@ -534,21 +534,21 @@ CKEDITOR.lang[ 'he' ] = {
 		tag_h4: 'כותרת 4',
 		tag_h5: 'כותרת 5',
 		tag_h6: 'כותרת 6',
-		tag_div: 'Normal (DIV)' // MISSING
+		tag_div: 'נורמלי (DIV)'
 	},
 
 	font: {
 		label: 'גופן',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'גופן',
 		panelTitle: 'גופן',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'בחר גופן'
 	},
 
 	fontSize: {
 		label: 'גודל',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'גודל גופן',
 		panelTitle: 'גודל',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'בחר גודל גופן'
 	},
 
 	colorButton: {
@@ -602,42 +602,42 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'בדיקת איות בזמן כתיבה',
+		enable: 'אפשר SCAYT',
+		disable: 'בטל SCAYT',
+		about: 'אודות SCAYT',
+		toggle: 'שינוי SCAYT',
+		options: 'אפשרויות',
+		langs: 'שפות',
+		moreSuggestions: 'עוד הצעות',
+		ignore: 'התעלם',
+		ignoreAll: 'התעלם מהכל',
+		addWord: 'הודף מילה',
+		emptyDic: 'אסור לשם המילון להיות ריק.',
+		optionsTab: 'אפשרויות',
+		languagesTab: 'שפות',
+		dictionariesTab: 'מילון',
+		aboutTab: 'אודות'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'אודות CKEditor',
+		dlgTitle: 'אודות CKEditor',
+		moreInfo: 'לרישוי אנה בקרו באתר שלנו:',
+		copy: 'Copyright &copy; $1. כל הזכויות שמורות.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'להגדיל למקסימום',
 	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'עוגן',
+		flash: 'אנימצית פלאש',
+		div: 'שבירת דף',
+		unknown: 'אובייקט לא ידוע'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'גרור בכדי לשנות גודל',
 
 	colordialog: {
 		title: 'Select color', // MISSING
