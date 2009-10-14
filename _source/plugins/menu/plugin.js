@@ -277,7 +277,7 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
 				'>' +
 					'<span class="cke_icon_wrapper"><span class="cke_icon"' +
-						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"></span>'
+						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
 											: '' ) +
 						'></span></span>' +
 					'<span class="cke_label">' );
