@@ -168,7 +168,7 @@ CKEDITOR.htmlParser.fragment = function() {
 					return;
 
 				var reApply = false,
-					addPoint; // New position to start adding nodes. 
+					addPoint; // New position to start adding nodes.
 
 				// Fixing malformed nested lists(#3828).
 				if ( tagName in listBlocks && currentName in listBlocks ) {
