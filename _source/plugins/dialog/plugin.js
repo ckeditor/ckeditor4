@@ -1302,6 +1302,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			magnetDistance = editor.config.dialog_magnetDistance,
 			margins = skinData[ editor.skinName ].margins || [ 0, 0, 0, 0 ];
 
+		if ( typeof magnetDistance == 'undefined' )
+			magnetDistance = 20;
+
 		function mouseMoveHandler( evt ) {
 			var dialogSize = dialog.getSize(),
 				viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
@@ -1508,7 +1511,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
 					'; z-index: ', editor.config.baseFloatZIndex,
 					'; top: 0px; left: 0px; ',
-					'background-color: ', editor.config.dialog_backgroundCoverColor,
+					'background-color: ', editor.config.dialog_backgroundCoverColor || 'white',
 					'" id="cke_dialog_background_cover">'
 					];
 
@@ -1588,7 +1591,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}, 0 );
 				scrollFunc();
 			}
-			element.setOpacity( editor.config.dialog_backgroundCoverOpacity );
+
+			var opacity = editor.config.dialog_backgroundCoverOpacity;
+			element.setOpacity( typeof opacity != 'undefined' ? opacity : 0.5 );
+
 			element.appendTo( CKEDITOR.document.getBody() );
 		};
 
@@ -2477,29 +2483,29 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 /**
  * The color of the dialog background cover. It should be a valid CSS color
  * string.
+ * @name CKEDITOR.config.dialog_backgroundCoverColor
  * @type String
- * @default white
+ * @default 'white'
  * @example
  * config.dialog_backgroundCoverColor = 'rgb(255, 254, 253)';
  */
-CKEDITOR.config.dialog_backgroundCoverColor = 'white';
 
 /**
  * The opacity of the dialog background cover. It should be a number within the
  * range [0.0, 1.0].
+ * @name CKEDITOR.config.dialog_backgroundCoverOpacity
  * @type Number
  * @default 0.5
  * @example
  * config.dialog_backgroundCoverOpacity = 0.7;
  */
-CKEDITOR.config.dialog_backgroundCoverOpacity = 0.5;
 
 /**
  * The distance of magnetic borders used in moving and resizing dialogs,
  * measured in pixels.
+ * @name CKEDITOR.config.dialog_magnetDistance
  * @type Number
  * @default 20
  * @example
  * config.dialog_magnetDistance = 30;
  */
-CKEDITOR.config.dialog_magnetDistance = 20;
