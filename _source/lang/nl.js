@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Tekstverwerker, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Code',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'nl' ] = {
 		cancel: 'Annuleren',
 		generalTab: 'Algemeen',
 		advancedTab: 'Geavanceerd',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Deze waarde is geen geldig nummer.',
+		confirmNewPage: 'Alle niet opgeslagen wijzigingen gaan verloren. Weet u zeker dat u een nieuwe pagina wilt openen?',
+		confirmCancel: 'Enkele opties zijn gewijzigd. Weet u zeker dat u dit dialoog wilt sluiten?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		targetFrameName: 'Naam doelframe',
 		targetPopupName: 'Naam popupvenster',
 		popupFeatures: 'Instellingen popupvenster',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Herschaalbaar',
 		popupStatusBar: 'Statusbalk',
 		popupLocationBar: 'Locatiemenu',
 		popupToolbar: 'Menubalk',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		popupLeft: 'Positie links',
 		popupHeight: 'Hoogte',
 		popupTop: 'Positie boven',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Schrijfrichting',
 		langDirNotSet: '<niet ingevuld>',
 		langDirLTR: 'Links naar rechts (LTR)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'nl' ] = {
 		notFoundMsg: 'De opgegeven tekst is niet gevonden.',
 		matchCase: 'Hoofdlettergevoelig',
 		matchWord: 'Hele woord moet voorkomen',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Doorlopen zoeken',
 		replaceAll: 'Alles vervangen',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 resulaten vervangen.'
 	},
 
 	// Table Dialog
@@ -205,21 +205,21 @@ CKEDITOR.lang[ 'nl' ] = {
 		widthPc: 'procent',
 		height: 'Hoogte',
 		cellSpace: 'Afstand tussen cellen',
-		cellPad: 'Afstand vanaf rand cel',
+		cellPad: 'Ruimte in de cel',
 		caption: 'Naam',
 		summary: 'Samenvatting',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Koppen',
+		headersNone: 'Geen',
+		headersColumn: 'Eerste kolom',
+		headersRow: 'Eerste rij',
+		headersBoth: 'Beide',
+		invalidRows: 'Het aantal rijen moet een nummer zijn groter dan 0.',
+		invalidCols: 'Het aantal kolommen moet een nummer zijn groter dan 0.',
+		invalidBorder: 'De rand breedte moet een nummer zijn.',
+		invalidWidth: 'De tabel breedte moet een nummer zijn.',
+		invalidHeight: 'De tabel hoogte moet een nummer zijn.',
+		invalidCellSpacing: 'Afstand tussen cellen moet een nummer zijn.',
+		invalidCellPadding: 'Ruimte in de cel moet een nummer zijn.',
 
 		cell: {
 			menu: 'Cel',
@@ -231,27 +231,27 @@ CKEDITOR.lang[ 'nl' ] = {
 			mergeDown: 'Voeg samen naar beneden',
 			splitHorizontal: 'Splits cellen horizontaal',
 			splitVertical: 'Splits cellen verticaal',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
+			title: 'Cel eigenschappen',
+			cellType: 'Cel type',
+			rowSpan: 'Rijen samenvoegen',
+			colSpan: 'Kolommen samenvoegen',
+			wordWrap: 'Automatische terugloop',
+			hAlign: 'Horizontale uitlijning',
+			vAlign: 'Verticale uitlijning',
+			alignTop: 'Boven',
+			alignMiddle: 'Midden',
+			alignBottom: 'Onder',
+			alignBaseline: 'Basislijn',
+			bgColor: 'Achtergrondkleur',
+			borderColor: 'Kleur rand',
+			data: 'Inhoud',
+			header: 'Kop',
+			yes: 'Ja',
+			no: 'Nee',
+			invalidWidth: 'De cel breedte moet een nummer zijn.',
+			invalidHeight: 'De cel hoogte moet een nummer zijn.',
+			invalidRowSpan: 'Rijen samenvoegen moet een heel nummer zijn.',
+			invalidColSpan: 'Kolommen samenvoegen moet een heel nummer zijn.',
 			chooseColor: 'Choose' // MISSING
 		},
 
@@ -294,7 +294,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		menu: 'Eigenschappen formulier',
 		action: 'Actie',
 		method: 'Methode',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Codering',
 		target: 'Doel',
 		targetNotSet: '<niet ingevuld>',
 		targetNew: 'Nieuw venster (_blank)',
@@ -378,28 +378,28 @@ CKEDITOR.lang[ 'nl' ] = {
 		preview: 'Voorbeeld',
 		alertUrl: 'Geef de URL van de afbeelding',
 		linkTab: 'Link',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+		button2Img: 'Wilt u de geselecteerde afbeeldingsknop vervangen door een eenvoudige afbeelding?',
+		img2Button: 'Wilt u de geselecteerde afbeelding vervangen door een afbeeldingsknop?',
 		urlMissing: 'Image source URL is missing.' // MISSING
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Eigenschappen Flash',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Eigenschappen',
 		title: 'Eigenschappen Flash',
 		chkPlay: 'Automatisch afspelen',
 		chkLoop: 'Herhalen',
 		chkMenu: 'Flashmenu\'s inschakelen',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Schermvullend toestaan',
 		scale: 'Schaal',
 		scaleAll: 'Alles tonen',
 		scaleNoBorder: 'Geen rand',
 		scaleFit: 'Precies passend',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Script toegang',
+		accessAlways: 'Altijd',
+		accessSameDomain: 'Zelfde domeinnaam',
+		accessNever: 'Nooit',
 		align: 'Uitlijning',
 		alignLeft: 'Links',
 		alignAbsBottom: 'Absoluut-onder',
@@ -410,36 +410,36 @@ CKEDITOR.lang[ 'nl' ] = {
 		alignRight: 'Rechts',
 		alignTextTop: 'Boven tekst',
 		alignTop: 'Boven',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Kwaliteit',
+		qualityBest: 'Beste',
+		qualityHigh: 'Hoog',
+		qualityAutoHigh: 'Automatisch hoog',
+		qualityMedium: 'Gemiddeld',
+		qualityAutoLow: 'Automatisch laag',
+		qualityLow: 'Laag',
+		windowModeWindow: 'Venster',
+		windowModeOpaque: 'Ondoorzichtig',
+		windowModeTransparent: 'Doorzichtig',
+		windowMode: 'Venster mode',
+		flashvars: 'Variabelen voor Flash',
 		bgcolor: 'Achtergrondkleur',
 		width: 'Breedte',
 		height: 'Hoogte',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Geef de link van de URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'De breedte moet een nummer zijn.',
+		validateHeight: 'De hoogte moet een nummer zijn.',
+		validateHSpace: 'De HSpace moet een nummer zijn.',
+		validateVSpace: 'De VSpace moet een nummer zijn.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Spellingscontrole',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Spellingscontrole',
+		notAvailable: 'Excuses, deze dienst is momenteel niet beschikbaar.',
+		errorLoading: 'Er is een fout opgetreden bij het laden van de diesnt: %s.',
 		notInDic: 'Niet in het woordenboek',
 		changeTo: 'Wijzig in',
 		btnIgnore: 'Negeren',
@@ -462,7 +462,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 element'
 	},
 
 	numberedlist: 'Genummerde lijst',
@@ -512,18 +512,18 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	stylesCombo: {
 		label: 'Stijl',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'Stijl',
+		panelVoiceLabel: 'Selecteer een stijl',
+		panelTitle1: 'Blok stijlen',
+		panelTitle2: 'In-line stijlen',
+		panelTitle3: 'Object stijlen'
 	},
 
 	format: {
 		label: 'Opmaak',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Opmaak',
 		panelTitle: 'Opmaak',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Selecteer een paragraafopmaak',
 
 		tag_p: 'Normaal',
 		tag_pre: 'Met opmaak',
@@ -539,16 +539,16 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	font: {
 		label: 'Lettertype',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Lettertype',
 		panelTitle: 'Lettertype',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Selecteer een lettertype'
 	},
 
 	fontSize: {
-		label: 'Grootte',
-		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Grootte',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		label: 'Lettergrootte',
+		voiceLabel: 'Lettergrootte',
+		panelTitle: 'Lettergrootte',
+		panelVoiceLabel: 'Selecteer een lettergrootte'
 	},
 
 	colorButton: {
@@ -602,42 +602,42 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Controleer de spelling tijdens het typen',
+		enable: 'SCAYT inschakelen',
+		disable: 'SCAYT uitschakelen',
+		about: 'Over SCAYT',
+		toggle: 'SCAYT in/uitschakelen',
+		options: 'Opties',
+		langs: 'Taken',
+		moreSuggestions: 'Meer suggesties',
+		ignore: 'Negeren',
+		ignoreAll: 'Alles negeren',
+		addWord: 'Woord toevoegen',
+		emptyDic: 'De naam van het woordenboek mag niet leeg zijn.',
+		optionsTab: 'Opties',
+		languagesTab: 'Talen',
+		dictionariesTab: 'Woordenboeken',
+		aboutTab: 'Over'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Over CKEditor',
+		dlgTitle: 'Over CKEditor',
+		moreInfo: 'Voor licentie informatie, bezoek onze website:',
+		copy: 'Copyright &copy; $1. Alle rechten voorbehouden.'
 	},
 
-	maximize: 'Maximize', // MISSING
+	maximize: 'Maximaliseren',
 	minimize: 'Minimize', // MISSING
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Anker',
+		flash: 'Flash animatie',
+		div: 'Pagina einde',
+		unknown: 'Onbekend object'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'Sleep om te herschalen',
 
 	colordialog: {
 		title: 'Select color', // MISSING
