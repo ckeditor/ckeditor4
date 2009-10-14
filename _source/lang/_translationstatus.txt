@@ -7,8 +7,8 @@ bg.js      Found: 305 Missing: 137
 bn.js      Found: 307 Missing: 135
 bs.js      Found: 210 Missing: 232
 ca.js      Found: 435 Missing: 7
-cs.js      Found: 327 Missing: 115
-da.js      Found: 326 Missing: 116
+cs.js      Found: 442 Missing: 0
+da.js      Found: 435 Missing: 7
 de.js      Found: 435 Missing: 7
 el.js      Found: 311 Missing: 131
 en-au.js   Found: 395 Missing: 47
@@ -25,7 +25,7 @@ fr-ca.js   Found: 327 Missing: 115
 fr.js      Found: 434 Missing: 8
 gl.js      Found: 308 Missing: 134
 gu.js      Found: 326 Missing: 116
-he.js      Found: 332 Missing: 110
+he.js      Found: 442 Missing: 0
 hi.js      Found: 327 Missing: 115
 hr.js      Found: 435 Missing: 7
 hu.js      Found: 326 Missing: 116
@@ -39,9 +39,9 @@ lv.js      Found: 308 Missing: 134
 mn.js      Found: 326 Missing: 116
 ms.js      Found: 287 Missing: 155
 nb.js      Found: 325 Missing: 117
-nl.js      Found: 327 Missing: 115
+nl.js      Found: 435 Missing: 7
 no.js      Found: 325 Missing: 117
-pl.js      Found: 435 Missing: 7
+pl.js      Found: 442 Missing: 0
 pt-br.js   Found: 434 Missing: 8
 pt.js      Found: 307 Missing: 135
 ro.js      Found: 326 Missing: 116
