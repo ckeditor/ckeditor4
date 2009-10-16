@@ -88,9 +88,9 @@ CKEDITOR.lang[ 'nl' ] = {
 		cancel: 'Annuleren',
 		generalTab: 'Algemeen',
 		advancedTab: 'Geavanceerd',
-		validateNumberFailed: 'Deze waarde is geen geldig nummer.',
-		confirmNewPage: 'Alle niet opgeslagen wijzigingen gaan verloren. Weet u zeker dat u een nieuwe pagina wilt openen?',
-		confirmCancel: 'Enkele opties zijn gewijzigd. Weet u zeker dat u dit dialoog wilt sluiten?',
+		validateNumberFailed: 'Deze waarde is geen geldig getal.',
+		confirmNewPage: 'Alle aangebrachte wijzigingen gaan verloren. Weet u zeker dat u een nieuwe pagina wilt openen?',
+		confirmCancel: 'Enkele opties zijn gewijzigd. Weet u zeker dat u dit dialoogvenster wilt sluiten?',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		notFoundMsg: 'De opgegeven tekst is niet gevonden.',
 		matchCase: 'Hoofdlettergevoelig',
 		matchWord: 'Hele woord moet voorkomen',
-		matchCyclic: 'Doorlopen zoeken',
+		matchCyclic: 'Doorlopend zoeken',
 		replaceAll: 'Alles vervangen',
 		replaceSuccessMsg: '%1 resulaten vervangen.'
 	},
@@ -213,13 +213,13 @@ CKEDITOR.lang[ 'nl' ] = {
 		headersColumn: 'Eerste kolom',
 		headersRow: 'Eerste rij',
 		headersBoth: 'Beide',
-		invalidRows: 'Het aantal rijen moet een nummer zijn groter dan 0.',
-		invalidCols: 'Het aantal kolommen moet een nummer zijn groter dan 0.',
-		invalidBorder: 'De rand breedte moet een nummer zijn.',
-		invalidWidth: 'De tabel breedte moet een nummer zijn.',
-		invalidHeight: 'De tabel hoogte moet een nummer zijn.',
-		invalidCellSpacing: 'Afstand tussen cellen moet een nummer zijn.',
-		invalidCellPadding: 'Ruimte in de cel moet een nummer zijn.',
+		invalidRows: 'Het aantal rijen moet een getal zijn groter dan 0.',
+		invalidCols: 'Het aantal kolommen moet een getal zijn groter dan 0.',
+		invalidBorder: 'De rand breedte moet een getal zijn.',
+		invalidWidth: 'De tabel breedte moet een getal zijn.',
+		invalidHeight: 'De tabel hoogte moet een getal zijn.',
+		invalidCellSpacing: 'Afstand tussen cellen moet een getal zijn.',
+		invalidCellPadding: 'Ruimte in de cel moet een getal zijn.',
 
 		cell: {
 			menu: 'Cel',
@@ -248,10 +248,10 @@ CKEDITOR.lang[ 'nl' ] = {
 			header: 'Kop',
 			yes: 'Ja',
 			no: 'Nee',
-			invalidWidth: 'De cel breedte moet een nummer zijn.',
-			invalidHeight: 'De cel hoogte moet een nummer zijn.',
-			invalidRowSpan: 'Rijen samenvoegen moet een heel nummer zijn.',
-			invalidColSpan: 'Kolommen samenvoegen moet een heel nummer zijn.',
+			invalidWidth: 'De celbreedte moet een getal zijn.',
+			invalidHeight: 'De celhoogte moet een getal zijn.',
+			invalidRowSpan: 'Rijen samenvoegen moet een heel getal zijn.',
+			invalidColSpan: 'Kolommen samenvoegen moet een heel getal zijn.',
 			chooseColor: 'Choose' // MISSING
 		},
 
@@ -420,7 +420,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		windowModeWindow: 'Venster',
 		windowModeOpaque: 'Ondoorzichtig',
 		windowModeTransparent: 'Doorzichtig',
-		windowMode: 'Venster mode',
+		windowMode: 'Venster modus',
 		flashvars: 'Variabelen voor Flash',
 		bgcolor: 'Achtergrondkleur',
 		width: 'Breedte',
@@ -428,10 +428,10 @@ CKEDITOR.lang[ 'nl' ] = {
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Geef de link van de URL',
-		validateWidth: 'De breedte moet een nummer zijn.',
-		validateHeight: 'De hoogte moet een nummer zijn.',
-		validateHSpace: 'De HSpace moet een nummer zijn.',
-		validateVSpace: 'De VSpace moet een nummer zijn.'
+		validateWidth: 'De breedte moet een getal zijn.',
+		validateHeight: 'De hoogte moet een getal zijn.',
+		validateHSpace: 'De HSpace moet een getal zijn.',
+		validateVSpace: 'De VSpace moet een getal zijn.'
 	},
 
 	// Speller Pages Dialog
@@ -523,7 +523,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		label: 'Opmaak',
 		voiceLabel: 'Opmaak',
 		panelTitle: 'Opmaak',
-		panelVoiceLabel: 'Selecteer een paragraafopmaak',
+		panelVoiceLabel: 'Selecteer een alinea-opmaak',
 
 		tag_p: 'Normaal',
 		tag_pre: 'Met opmaak',
@@ -608,7 +608,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		about: 'Over SCAYT',
 		toggle: 'SCAYT in/uitschakelen',
 		options: 'Opties',
-		langs: 'Taken',
+		langs: 'Talen',
 		moreSuggestions: 'Meer suggesties',
 		ignore: 'Negeren',
 		ignoreAll: 'Alles negeren',
