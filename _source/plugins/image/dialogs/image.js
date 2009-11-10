@@ -219,7 +219,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this.setupContent( LINK, link );
 					}
 
-					if ( element && element.getName() == 'img' && !element.getAttribute( '_cke_protected_html' ) )
+					if ( element && element.getName() == 'img' && !element.getAttribute( '_cke_realelement' ) )
 						this.imageEditMode = 'img';
 					else if ( element && element.getName() == 'input' && element.getAttribute( 'type' ) && element.getAttribute( 'type' ) == 'image' )
 						this.imageEditMode = 'input';

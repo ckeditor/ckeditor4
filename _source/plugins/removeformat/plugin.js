@@ -79,7 +79,7 @@ CKEDITOR.plugins.removeformat = {
 						var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT );
 
 						// This node must not be a fake element.
-						if ( currentNode.getName() != 'img' || !currentNode.getAttribute( '_cke_protected_html' ) ) {
+						if ( !( currentNode.getName() == 'img' && currentNode.getAttribute( '_cke_realelement' ) ) ) {
 							// Remove elements nodes that match with this style rules.
 							if ( tagsRegex.test( currentNode.getName() ) )
 								currentNode.remove( true );
