@@ -394,6 +394,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Cancel default action for backspace in IE on control types. (#4047)
 						if ( CKEDITOR.env.ie ) {
 							editor.on( 'key', function( event ) {
+								if ( editor.mode != 'wysiwyg' )
+									return;
+
 								// Backspace.
 								var control = event.data.keyCode == 8 && editor.getSelection().getSelectedElement();
 								if ( control ) {
