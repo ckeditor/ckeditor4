@@ -31,7 +31,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			var dialog = this.getDialog(),
 				partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
 				typeValue = this.getValue(),
-				uploadInitiallyHidden = dialog.definition.getContents( 'upload' ).hidden;
+				uploadTab = dialog.definition.getContents( 'upload' ),
+				uploadInitiallyHidden = uploadTab && uploadTab.hidden;
 
 			if ( typeValue == 'url' ) {
 				if ( editor.config.linkShowTargetTab )
