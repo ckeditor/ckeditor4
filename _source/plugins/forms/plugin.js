@@ -102,7 +102,7 @@ CKEDITOR.plugins.add( 'forms', {
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element ) {
-				if ( element && element.hasAscendant( 'form' ) )
+				if ( element && element.hasAscendant( 'form', true ) )
 					return { form: CKEDITOR.TRISTATE_OFF };
 			});
 
