@@ -283,7 +283,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return this;
 	};
 
-	var styleObjectElements = { img:1,hr:1,li:1,table:1,tr:1,td:1,embed:1,object:1,ol:1,ul:1,a:1,input:1,form:1,select:1,textarea:1,button:1,fieldset:1,th:1,thead:1,tfoot:1 };
+	var styleObjectElements = { img:1,hr:1,li:1,table:1,tr:1,td:1,th:1,embed:1,object:1,ol:1,ul:1,a:1,input:1,form:1,select:1,textarea:1,button:1,fieldset:1,th:1,thead:1,tfoot:1 };
 
 	CKEDITOR.dom.selection.prototype = {
 		/**
