@@ -199,6 +199,10 @@ CKEDITOR.ui.panel.prototype = {
 		block.show();
 
 		return block;
+	},
+
+	destroy: function() {
+		this.element && this.element.remove();
 	}
 };
 

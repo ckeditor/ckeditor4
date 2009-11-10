@@ -168,6 +168,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return ( !!object && object instanceof Array );
 		},
 
+		isEmpty: function( object ) {
+			for ( var i in object ) {
+				if ( object.hasOwnProperty( i ) )
+					return false;
+			}
+			return true;
+		},
 		/**
 		 * Transforms a CSS property name to its relative DOM style name.
 		 * @param {String} cssName The CSS property name.

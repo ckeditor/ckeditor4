@@ -147,8 +147,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 		},
 
 		destroy: function( editor ) {
-			var container = editor.container,
-				panels = editor.panels;
+			var container = editor.container;
 
 			/*
 			 * IE BUG: Removing the editor DOM elements while the selection is inside
@@ -171,9 +170,6 @@ CKEDITOR.themes.add( 'default', ( function() {
 
 			if ( container )
 				container.remove();
-
-			for ( var i = 0; panels && i < panels.length; i++ )
-				panels[ i ].remove();
 
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				editor.element.show();
