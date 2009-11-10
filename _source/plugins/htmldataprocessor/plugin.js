@@ -172,7 +172,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	}
 
-	var protectAttributeRegex = /<(?:a|area|img|input).*?\s((?:href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+)))/gi;
+	var protectAttributeRegex = /<(?:a|area|img|input)[\s\S]*?\s((?:href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+)))/gi;
 
 	function protectAttributes( html ) {
 		return html.replace( protectAttributeRegex, '$& _cke_saved_$1' );
@@ -180,8 +180,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var protectStyleTagsRegex = /<(style)(?=[ >])[^>]*>[^<]*<\/\1>/gi;
 	var encodedTagsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
-	var protectElementNamesRegex = /(<\/?)((?:object|embed|param).*?>)/gi;
-	var protectSelfClosingRegex = /<cke:param(.*?)\/>/gi;
+	var protectElementNamesRegex = /(<\/?)((?:object|embed|param)[\s\S]*?>)/gi;
+	var protectSelfClosingRegex = /<cke:param([\s\S]*?)\/>/gi;
 
 	function protectStyleTagsMatch( match ) {
 		return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
