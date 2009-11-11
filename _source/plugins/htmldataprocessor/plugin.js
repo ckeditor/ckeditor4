@@ -181,7 +181,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var protectStyleTagsRegex = /<(style)(?=[ >])[^>]*>[^<]*<\/\1>/gi;
 	var encodedTagsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param)[\s\S]*?>)/gi;
-	var protectSelfClosingRegex = /<cke:param([\s\S]*?)\/>/gi;
+	var protectSelfClosingRegex = /<cke:(param|embed)([\s\S]*?)\/?>/gi;
 
 	function protectStyleTagsMatch( match ) {
 		return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
@@ -196,7 +196,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function protectSelfClosingElements( html ) {
-		return html.replace( protectSelfClosingRegex, '<cke:param$1></cke:param>' );
+		return html.replace( protectSelfClosingRegex, '<cke:$1$2></cke:$1>' );
 	}
 
 	function unprotectEncodedTagsMatch( match, encoded ) {

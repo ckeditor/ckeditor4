@@ -95,7 +95,7 @@ CKEDITOR.dtd = (function() {
 		 * @type Object
 		 * @example
 		 */
-		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1 },
+		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1,param:1 },
 
 		/**
 		 * List of elements that can be ignored if empty, like "b" or "span".

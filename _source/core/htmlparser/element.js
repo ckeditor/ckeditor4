@@ -34,7 +34,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	this.children = [];
 
 	var dtd = CKEDITOR.dtd,
-		isBlockLike = !!( dtd.$block[ name ] || dtd.$listItem[ name ] || dtd.$tableContent[ name ] ),
+		isBlockLike = !!( dtd.$block[ name ] || dtd.$listItem[ name ] || dtd.$tableContent[ name ] || dtd.$nonEditable ),
 		isEmpty = !!dtd.$empty[ name ];
 
 	this.isEmpty = isEmpty;
