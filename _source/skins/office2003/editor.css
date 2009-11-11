@@ -17,5 +17,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 html .cke_skin_office2003,
 html.cke_skin_office2003_container
 {
-	visibility: visible;
+	visibility: inherit;
 }
