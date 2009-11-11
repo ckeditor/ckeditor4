@@ -239,6 +239,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
+		 * Replace characters can't be represented through CSS Selectors string
+		 * by CSS Escape Notation where the character escape sequence consists
+		 * of a backslash character (\) followed by the orginal characters.
+		 * Ref: http://www.w3.org/TR/css3-selectors/#grammar
+		 * @param cssSelectText
+		 * @return the escaped selector text. 
+		 */
+		escapeCssSelector: function( cssSelectText ) {
+			return cssSelectText.replace( /[\s#:.,$*^\[\]()~=+>]/g, '\\$&' );
+		},
+
+		/**
 		 * Gets a unique number for this CKEDITOR execution session. It returns
 		 * progressive numbers starting at 1.
 		 * @function
