@@ -1029,7 +1029,7 @@ CKEDITOR.dom.range = function( document ) {
 
 					// Start the range at different position by comparing
 					// the document position of it with 'enlargeable' node.
-					this.setStartAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable || blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
+					this.setStartAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable && this.checkStartOfBlock() || enlargeable && blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
 
 					// Enlarging the end boundary.
 					walkerRange = this.clone();
@@ -1049,7 +1049,7 @@ CKEDITOR.dom.range = function( document ) {
 
 					// Start the range at different position by comparing
 					// the document position of it with 'enlargeable' node.
-					this.setEndAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable || blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_BEFORE_START );
+					this.setEndAt( blockBoundary, ( !enlargeable && this.checkEndOfBlock() || enlargeable && blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_BEFORE_START );
 					// We must include the <br> at the end of range if there's
 					// one and we're expanding list item contents
 					if ( tailBr )
