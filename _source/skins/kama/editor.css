@@ -14,8 +14,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 @import url("presets.css");
 
 /* Restore the container visibility */
-html .cke_skin_kama,
-html.cke_skin_kama_container
+html .cke_skin_kama
 {
 	visibility: inherit;
+}
+
+html.cke_skin_kama_container
+{
+	visibility: visible;
 }
