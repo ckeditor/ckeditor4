@@ -98,7 +98,8 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				}
 			}
 
-			menu.show( offsetParent, corner || ( editor.lang.dir == 'rtl' ? 2 : 1 ), offsetX, offsetY );
+			// Don't show context menu with zero items.
+			menu.items.length && menu.show( offsetParent, corner || ( editor.lang.dir == 'rtl' ? 2 : 1 ), offsetX, offsetY );
 		}
 	},
 
