@@ -247,13 +247,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				focusList[ currentIndex ].select();
 		}
 
+		var processed;
+
 		function focusKeydownHandler( evt ) {
 			// If I'm not the top dialog, ignore.
 			if ( me != CKEDITOR.dialog._.currentTop )
 				return;
 
-			var keystroke = evt.data.getKeystroke(),
-				processed = false;
+			var keystroke = evt.data.getKeystroke();
+
+			processed = 0;
 			if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
 				var shiftPressed = ( keystroke == CKEDITOR.SHIFT + 9 );
 
@@ -268,18 +271,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					changeFocus( !shiftPressed );
 				}
 
-				processed = true;
+				processed = 1;
 			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode ) {
 				// Alt-F10 puts focus into the current tab item in the tab bar.
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
-				processed = true;
+				processed = 1;
 			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
 				// Arrow keys - used for changing tabs.
 				nextId = ( keystroke == 37 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
 				me.selectPage( nextId );
 				me._.tabs[ nextId ][ 0 ].focus();
-				processed = true;
+				processed = 1;
 			}
 
 			if ( processed ) {
@@ -288,9 +291,17 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}
 		}
 
+		function focusKeyPressHandler( evt ) {
+			processed && evt.data.preventDefault();
+		}
+
 		// Add the dialog keyboard handlers.
 		this.on( 'show', function() {
 			CKEDITOR.document.on( 'keydown', focusKeydownHandler, this, null, 0 );
+			// Some browsers instead, don't cancel key events in the keydown, but in the
+			// keypress. So we must do a longer trip in those cases. (#4531)
+			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+				CKEDITOR.document.on( 'keypress', focusKeyPressHandler, this );
 
 			if ( CKEDITOR.env.ie6Compat ) {
 				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
@@ -2222,7 +2233,17 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		isVisible: function() {
-			return !!this.getInputElement().$.offsetHeight;
+			var element = this.getInputElement(),
+				elementWindow = element.getWindow(),
+				elementFrame,
+				isVisible = !!element.$.offsetHeight;
+
+			// Webkit and Opera report non-zero offsetHeight despite that
+			// element is inside an invisible iframe. (#4542)
+			if ( isVisible && ( CKEDITOR.env.webkit || CKEDITOR.env.opera ) && !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementFrame = elementWindow.$.frameElement ) )
+				isVisible = !!elementFrame.offsetHeight;
+
+			return isVisible;
 		},
 
 		/**
