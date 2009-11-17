@@ -262,7 +262,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							],
 						setup: function( data ) {
 							if ( data.url )
-								this.setValue( data.url.protocol );
+								this.setValue( data.url.protocol || '' );
 						},
 						commit: function( data ) {
 							if ( !data.url )
