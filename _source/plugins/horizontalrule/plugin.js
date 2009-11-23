@@ -9,6 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	var horizontalruleCmd = {
+		canUndo: false, // The undo snapshot will be handled by 'insertElement'.
 		exec: function( editor ) {
 			editor.insertElement( editor.document.createElement( 'hr' ) );
 		}
