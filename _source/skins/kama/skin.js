@@ -4,7 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.skins.add( 'kama', ( function() {
-	var preload = [];
+	var preload = [],
+		uiColorStylesheetId = 'cke_ui_color';
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
 		// For IE6, we need to preload some images, otherwhise they will be
@@ -85,11 +86,13 @@ CKEDITOR.skins.add( 'kama', ( function() {
 					uiColorMenuCss[ i ] = uiColorMenuCss[ i ].split( '{' );
 			}
 
-			function addStylesheet( document ) {
-				var node = document.getHead().append( 'style' );
-				node.setAttribute( "id", "cke_ui_color" );
-				node.setAttribute( "type", "text/css" );
-
+			function getStylesheet( document ) {
+				var node = document.getById( uiColorStylesheetId );
+				if ( !node ) {
+					node = document.getHead().append( 'style' );
+					node.setAttribute( "id", uiColorStylesheetId );
+					node.setAttribute( "type", "text/css" );
+				}
 				return node;
 			}
 
@@ -97,10 +100,6 @@ CKEDITOR.skins.add( 'kama', ( function() {
 				var r, i, content;
 				for ( var id = 0; id < styleNodes.length; id++ ) {
 					if ( CKEDITOR.env.webkit ) {
-						// Truncate manually.
-						for ( i = 0; i < styleNodes[ id ].$.sheet.rules.length; i++ )
-							styleNodes[ id ].$.sheet.removeRule( i );
-
 						for ( i = 0; i < styleContent.length; i++ ) {
 							content = styleContent[ i ][ 1 ];
 							for ( r = 0; r < replace.length; r++ )
@@ -114,9 +113,9 @@ CKEDITOR.skins.add( 'kama', ( function() {
 							content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
 
 						if ( CKEDITOR.env.ie )
-							styleNodes[ id ].$.styleSheet.cssText = content;
+							styleNodes[ id ].$.styleSheet.cssText += content;
 						else
-							styleNodes[ id ].setHtml( content );
+							styleNodes[ id ].$.innerHTML += content;
 					}
 				}
 			}
@@ -132,7 +131,7 @@ CKEDITOR.skins.add( 'kama', ( function() {
 
 				setUiColor: function( color ) {
 					var cssContent,
-						uiStyle = addStylesheet( CKEDITOR.document ),
+						uiStyle = getStylesheet( CKEDITOR.document ),
 						cssId = '#cke_' + CKEDITOR.tools.escapeCssSelector( editor.name );
 
 					var cssSelectors = [
@@ -167,7 +166,7 @@ CKEDITOR.skins.add( 'kama', ( function() {
 
 				// Add stylesheet if missing.
 				if ( !iframe.getById( 'cke_ui_color' ) ) {
-					var node = addStylesheet( iframe );
+					var node = getStylesheet( iframe );
 					uiColorMenus.push( node );
 
 					var color = editor.getUiColor();
