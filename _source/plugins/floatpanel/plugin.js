@@ -131,7 +131,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					CKEDITOR.event.useCapture = true;
 
 					focused.on( 'blur', function( ev ) {
-						if ( CKEDITOR.env.ie && !this.allowBlur() )
+						if ( !this.allowBlur() )
 							return;
 
 						// As we are using capture to register the listener,
@@ -208,10 +208,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 								iframe.setAttribute( 'title', ' ' );
 							}
 						}
-						if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
-							iframe.focus();
-						else
-							iframe.$.contentWindow.focus();
+
+						iframe.$.contentWindow.focus();
 
 						// We need this get fired manually because of unfired focus() function.
 						if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks )
