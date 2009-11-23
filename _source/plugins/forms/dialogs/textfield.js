@@ -146,7 +146,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 							element.copyAttributes( replace, { type:1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );
-							data.element = element;
+							data.element = replace;
 						}
 					} else
 						element.setAttribute( 'type', this.getValue() );
