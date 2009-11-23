@@ -240,18 +240,17 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				this.init();
 		},
 
-		setValue: function( value, emptyLabel ) {
+		setValue: function( value, text ) {
 			this._.value = value;
 
 			var textElement = this.document.getById( 'cke_' + this.id + '_text' );
 
-			if ( !value ) {
-				value = emptyLabel || this.label;
+			if ( !( value || text ) ) {
+				text = this.label;
 				textElement.addClass( 'cke_inline_label' );
 			} else
 				textElement.removeClass( 'cke_inline_label' );
-
-			textElement.setHtml( value );
+			textElement.setHtml( typeof text != 'undefined' ? text : value );
 		},
 
 		getValue: function() {
