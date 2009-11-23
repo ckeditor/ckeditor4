@@ -403,3 +403,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	/* revert previous */
 	vertical-align: baseline;
 }
+
+/* Fix cursor shape consistency on toolbar combos (#4031) */
+.cke_skin_v2 .cke_browser_ie .cke_rcombo,
+.cke_skin_v2 .cke_browser_ie .cke_rcombo *
+{
+	cursor: default;
+}
