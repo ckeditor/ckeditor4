@@ -126,7 +126,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
 					doc.on( 'mousedown', disableSave );
-					doc.on( 'mouseup', function() {
+					doc.on( 'mouseup', function( evt ) {
+						// IE context-menu event in table cells collapse
+						// whatever selection is, avoiding saving this
+						// 'wrong' snapshot.(#3001)
+						var evt = evt.data;
+						if ( evt.$.button == 2 && evt.getTarget().hasAscendant( 'table' ) )
+							return;
+
 						saveEnabled = true;
 						setTimeout( function() {
 							saveSelection( true );
