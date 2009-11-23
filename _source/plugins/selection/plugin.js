@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -547,7 +547,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							while ( true ) {
 								var startContainer = range.startContainer,
 									startOffset = range.startOffset;
-								if ( startOffset == ( startContainer.getChildCount ? startContainer.getChildCount() : startContainer.getLength() ) )
+								// Limit the fix only to non-block elements.(#3950)
+								if ( startOffset == ( startContainer.getChildCount ? startContainer.getChildCount() : startContainer.getLength() ) && !startContainer.isBlockBoundary() )
 									range.setStartAfter( startContainer );
 								else
 									break;
