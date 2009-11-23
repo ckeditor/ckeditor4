@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -650,7 +650,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * @return {Boolean} True if the element is visible.
 	 */
 	isVisible: function() {
-		return this.$.offsetWidth && ( this.$.style.visibility != 'hidden' );
+		var isVisible = !!this.$.offsetHeight && this.getComputedStyle( 'visibility' ) != 'hidden',
+			elementWindow, elementWindowFrame;
+
+		// Webkit and Opera report non-zero offsetHeight despite that
+		// element is inside an invisible iframe. (#4542)
+		if ( isVisible && ( CKEDITOR.env.webkit || CKEDITOR.env.opera ) ) {
+			elementWindow = this.getWindow();
+
+			if ( !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementWindowFrame = elementWindow.$.frameElement ) ) {
+				isVisible = new CKEDITOR.dom.element( elementWindowFrame ).isVisible();
+			}
+		}
+
+		return isVisible;
 	},
 
 	/**

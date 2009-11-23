@@ -408,7 +408,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.element = element;
 		this.focusIndex = index;
 		this.isFocusable = function() {
-			return true;
+			return !( element.getAttribute( 'disabled' ) || !element.isVisible() )
 		};
 		this.focus = function() {
 			dialog._.currentFocusIndex = this.focusIndex;
@@ -2233,17 +2233,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		isVisible: function() {
-			var element = this.getInputElement(),
-				elementWindow = element.getWindow(),
-				elementFrame,
-				isVisible = !!element.$.offsetHeight;
-
-			// Webkit and Opera report non-zero offsetHeight despite that
-			// element is inside an invisible iframe. (#4542)
-			if ( isVisible && ( CKEDITOR.env.webkit || CKEDITOR.env.opera ) && !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementFrame = elementWindow.$.frameElement ) )
-				isVisible = !!elementFrame.offsetHeight;
-
-			return isVisible;
+			return this.getInputElement().isVisible();
 		},
 
 		/**
