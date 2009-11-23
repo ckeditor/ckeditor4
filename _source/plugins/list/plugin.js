@@ -307,7 +307,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		compensateBrs( true );
 		compensateBrs();
 
-		var rootParent = groupObj.root.getParent();
 		docFragment.replace( groupObj.root );
 	}
 
@@ -384,14 +383,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					var path = new CKEDITOR.dom.elementPath( block ),
+						pathElements = path.elements,
+						pathElementsCount = pathElements.length,
 						listNode = null,
 						processedFlag = false,
 						blockLimit = path.blockLimit,
 						element;
 
 					// First, try to group by a list ancestor.
-					for ( var i = 0; i < path.elements.length && ( element = path.elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
-						if ( listNodeNames[ element.getName() ] ) {
+					for ( var i = pathElementsCount - 1; i >= 0 && ( element = pathElements[ i ] ); i-- ) {
+						if ( listNodeNames[ element.getName() ] && blockLimit.contains( element ) ) // Don't leak outside block limit (#3940).
+						{
 							// If we've encountered a list inside a block limit
 							// The last group object of the block limit element should
 							// no longer be valid. Since paragraphs after the list
