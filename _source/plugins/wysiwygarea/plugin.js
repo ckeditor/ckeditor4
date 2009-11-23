@@ -555,20 +555,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Fixing Firefox 'Back-Forward Cache' break design mode. (#4514)
 	if ( CKEDITOR.env.gecko ) {
-		var topBody = new CKEDITOR.dom.element( window.top.document.body );
-		topBody.setAttribute( 'onpageshow', topBody.getAttribute( 'onpageshow' ) + ';event.persisted && CKEDITOR.tools.callFunction(' +
-			CKEDITOR.tools.addFunction( function() {
-			var allInstances = CKEDITOR.instances,
-				editor, doc;
-			for ( var i in allInstances ) {
-				editor = allInstances[ i ];
-				doc = editor.document;
-				if ( doc ) {
-					doc.$.designMode = 'off';
-					doc.$.designMode = 'on';
-				}
+		var topWin = window.top;
+
+		(function() {
+			var topBody = topWin.document.body;
+
+			if ( !topBody )
+				topWin.addEventListener( 'load', arguments.callee, false );
+			else {
+				topBody.setAttribute( 'onpageshow', topBody.getAttribute( 'onpageshow' ) + ';event.persisted && CKEDITOR.tools.callFunction(' +
+					CKEDITOR.tools.addFunction( function() {
+					var allInstances = CKEDITOR.instances,
+						editor, doc;
+					for ( var i in allInstances ) {
+						editor = allInstances[ i ];
+						doc = editor.document;
+						if ( doc ) {
+							doc.$.designMode = 'off';
+							doc.$.designMode = 'on';
+						}
+					}
+				}) + ')' );
 			}
-		}) + ')' );
+		})();
+
 	}
 })();
 
