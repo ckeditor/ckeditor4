@@ -54,11 +54,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 			showSubMenu: function( index ) {
 				var menu = this._.subMenu,
 					item = this.items[ index ],
-					subItems = item.getItems && item.getItems();
+					subItemDefs = item.getItems && item.getItems();
 
 				// If this item has no subitems, we just hide the submenu, if
 				// available, and return back.
-				if ( !subItems ) {
+				if ( !subItemDefs ) {
 					this._.panel.hideChild();
 					return;
 				}
@@ -74,8 +74,12 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 				}
 
 				// Add all submenu items to the menu.
-				for ( var itemName in subItems ) {
-					menu.add( this.editor.getMenuItem( itemName ) );
+				for ( var subItemName in subItemDefs ) {
+					var subItem = this.editor.getMenuItem( subItemName );
+					if ( subItem ) {
+						subItem.state = subItemDefs[ subItemName ];
+						menu.add( subItem );
+					}
 				}
 
 				// Get the element representing the current item.
