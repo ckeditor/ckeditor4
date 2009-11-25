@@ -279,15 +279,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							mainElement.append( iframe );
 					};
 
-				// The script that is appended to the data being loaded. It
-				// enables editing, and makes some
+				// The script that launches the bootstrap logic on 'domReady', so the document
+				// is fully editable even before the editing iframe is fully loaded (#4455).
 				var activationScript = '<script id="cke_actscrpt" type="text/javascript">' +
-					'window.onload = function()' +
-					'{' +
-						// Call the temporary function for the editing
-				// boostrap.
-										'window.parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
-					'}' +
+					'window.parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
 					'</script>';
 
 				// Editing area bootstrap code.
