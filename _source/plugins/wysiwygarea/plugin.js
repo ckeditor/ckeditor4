@@ -412,7 +412,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Adds the document body as a context menu target.
 						if ( editor.contextMenu )
-							editor.contextMenu.addTarget( domDocument );
+							editor.contextMenu.addTarget( domDocument, editor.config.browserContextMenuOnCtrl !== false );
 
 						setTimeout( function() {
 							editor.fire( 'contentDom' );
