@@ -71,12 +71,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			isInsert = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
 
 		if ( isInsert ) {
+			// Everything should happen after the document is loaded (#4073).
+			editor.on( 'contentDom', function( evt ) {
+				evt.removeListener();
+				dialog.hide();
+
+				// Place the cursor at the first editable place.
+				var range = new CKEDITOR.dom.range( editor.document );
+				range.moveToElementEditStart( editor.document.getBody() );
+				range.select( true );
+			});
 			editor.setData( html );
 		} else {
 			editor.insertHtml( html );
+			dialog.hide();
 		}
-
-		dialog.hide();
 	}
 
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
