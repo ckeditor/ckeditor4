@@ -468,6 +468,58 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	var dtd = CKEDITOR.dtd;
+	var tailNbspRegex = /[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+
+	function indexOfFirstChildElement( element, tagNameList ) {
+		var children = element.children,
+			child,
+			length = children.length;
+		for ( var i = 0; i < length; i++ ) {
+			child = children[ i ];
+			if ( child.name && ( child.name in tagNameList ) )
+				return i;
+		}
+	}
+
+	function getExtendNestedListFilter( isHtmlFilter ) {
+		// An element filter function that corrects nested list start in an empty
+		// list item for better displaying/outputting. (#3165)
+		return function( listItem ) {
+			var children = listItem.children,
+				firstNestedListIndex = indexOfFirstChildElement( listItem, dtd.$list ),
+				firstNestedList = children[ firstNestedListIndex ],
+				nodeBefore = firstNestedList && firstNestedList.previous,
+				tailNbspmatch;
+
+			if ( nodeBefore && ( nodeBefore.name && nodeBefore.name == 'br' || nodeBefore.value && ( tailNbspmatch = nodeBefore.value.match( tailNbspRegex ) ) ) ) {
+				var fillerNode = nodeBefore;
+
+				// Always use 'nbsp' as filler node if we found a nested list appear
+				// in front of a list item.
+				if ( !( tailNbspmatch && tailNbspmatch.index ) && fillerNode == children[ 0 ] )
+					children[ 0 ] = ( isHtmlFilter || CKEDITOR.env.ie ) ? new CKEDITOR.htmlParser.text( '\xa0' ) : new CKEDITOR.htmlParser.element( 'br', {} );
+
+				// Otherwise the filler is not needed anymore.
+				else if ( fillerNode.name == 'br' )
+					children.splice( firstNestedListIndex - 1, 1 );
+				else
+					fillerNode.value = fillerNode.value.replace( tailNbspRegex, '' );
+			}
+
+		};
+	}
+
+	var defaultListDataFilterRules = {
+		elements: {} };
+	for ( var i in dtd.$listItem )
+		defaultListDataFilterRules.elements[ i ] = getExtendNestedListFilter();
+
+	var defaultListHtmlFilterRules = {
+		elements: {} };
+	for ( i in dtd.$listItem )
+		defaultListHtmlFilterRules.elements[ i ] = getExtendNestedListFilter( true );
+
 	CKEDITOR.plugins.add( 'list', {
 		init: function( editor ) {
 			// Register commands.
@@ -489,6 +541,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Register the state changing handlers.
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, numberedListCommand ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, bulletedListCommand ) );
+		},
+
+		afterInit: function( editor ) {
+			var dataProcessor = editor.dataProcessor;
+			if ( dataProcessor ) {
+				dataProcessor.dataFilter.addRules( defaultListDataFilterRules );
+				dataProcessor.htmlFilter.addRules( defaultListHtmlFilterRules );
+			}
 		},
 
 		requires: [ 'domiterator' ]

@@ -89,10 +89,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// block limits (start/end).
 		if ( !isStartOfBlock && !isEndOfBlock ) {
 			// If the next block is an <li> with another list tree as the first
-			// child, we'll need to append a placeholder or the list item
+			// child, we'll need to append a filler (<br>/NBSP) or the list item
 			// wouldn't be editable. (#1420)
-			if ( nextBlock.is( 'li' ) && ( node = nextBlock.getFirst() ) && node.is && node.is( 'ul', 'ol' ) )
-				nextBlock.insertBefore( doc.createText( '\xa0' ), node );
+			if ( nextBlock.is( 'li' ) && ( node = nextBlock.getFirst( CKEDITOR.dom.walker.invisible( true ) ) ) && node.is && node.is( 'ul', 'ol' ) )
+			( CKEDITOR.env.ie ? doc.createText( '\xa0' ) : doc.createElement( 'br' ) ).insertBefore( node );
 
 			// Move the selection to the end block.
 			if ( nextBlock )

@@ -816,112 +816,118 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 })();
+(function() {
+	var notWhitespaces = CKEDITOR.dom.walker.whitespaces( true );
+	var fillerTextRegex = /\ufeff|\u00a0/;
 
-CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
-// V2
-function( forceExpand ) {
-	var collapsed = this.collapsed;
-	var isStartMarkerAlone;
-	var dummySpan;
+	CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
+	// V2
+	function( forceExpand ) {
+		var collapsed = this.collapsed;
+		var isStartMarkerAlone;
+		var dummySpan;
 
-	var bookmark = this.createBookmark();
+		var bookmark = this.createBookmark();
 
-	// Create marker tags for the start and end boundaries.
-	var startNode = bookmark.startNode;
+		// Create marker tags for the start and end boundaries.
+		var startNode = bookmark.startNode;
 
-	var endNode;
-	if ( !collapsed )
-		endNode = bookmark.endNode;
+		var endNode;
+		if ( !collapsed )
+			endNode = bookmark.endNode;
 
-	// Create the main range which will be used for the selection.
-	var ieRange = this.document.$.body.createTextRange();
+		// Create the main range which will be used for the selection.
+		var ieRange = this.document.$.body.createTextRange();
 
-	// Position the range at the start boundary.
-	ieRange.moveToElementText( startNode.$ );
-	ieRange.moveStart( 'character', 1 );
+		// Position the range at the start boundary.
+		ieRange.moveToElementText( startNode.$ );
+		ieRange.moveStart( 'character', 1 );
 
-	if ( endNode ) {
-		// Create a tool range for the end.
-		var ieRangeEnd = this.document.$.body.createTextRange();
+		if ( endNode ) {
+			// Create a tool range for the end.
+			var ieRangeEnd = this.document.$.body.createTextRange();
 
-		// Position the tool range at the end.
-		ieRangeEnd.moveToElementText( endNode.$ );
+			// Position the tool range at the end.
+			ieRangeEnd.moveToElementText( endNode.$ );
 
-		// Move the end boundary of the main range to match the tool range.
-		ieRange.setEndPoint( 'EndToEnd', ieRangeEnd );
-		ieRange.moveEnd( 'character', -1 );
-	} else {
-		// The isStartMarkerAlone logic comes from V2. It guarantees that the lines
-		// will expand and that the cursor will be blinking on the right place.
-		// Actually, we are using this flag just to avoid using this hack in all
-		// situations, but just on those needed.
-		isStartMarkerAlone = forceExpand || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) );
+			// Move the end boundary of the main range to match the tool range.
+			ieRange.setEndPoint( 'EndToEnd', ieRangeEnd );
+			ieRange.moveEnd( 'character', -1 );
+		} else {
+			// The isStartMarkerAlone logic comes from V2. It guarantees that the lines
+			// will expand and that the cursor will be blinking on the right place.
+			// Actually, we are using this flag just to avoid using this hack in all
+			// situations, but just on those needed.
+			var next = startNode.getNext( notWhitespaces );
+			isStartMarkerAlone = ( !( next && next.getText && next.getText().match( fillerTextRegex ) ) // already a filler there?
+			&& ( forceExpand || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) ) ) );
 
-		// Append a temporary <span>&#65279;</span> before the selection.
-		// This is needed to avoid IE destroying selections inside empty
-		// inline elements, like <b></b> (#253).
-		// It is also needed when placing the selection right after an inline
-		// element to avoid the selection moving inside of it.
-		dummySpan = this.document.createElement( 'span' );
-		dummySpan.setHtml( '&#65279;' ); // Zero Width No-Break Space (U+FEFF). See #1359.
-		dummySpan.insertBefore( startNode );
+			// Append a temporary <span>&#65279;</span> before the selection.
+			// This is needed to avoid IE destroying selections inside empty
+			// inline elements, like <b></b> (#253).
+			// It is also needed when placing the selection right after an inline
+			// element to avoid the selection moving inside of it.
+			dummySpan = this.document.createElement( 'span' );
+			dummySpan.setHtml( '&#65279;' ); // Zero Width No-Break Space (U+FEFF). See #1359.
+			dummySpan.insertBefore( startNode );
 
-		if ( isStartMarkerAlone ) {
-			// To expand empty blocks or line spaces after <br>, we need
-			// instead to have any char, which will be later deleted using the
-			// selection.
-			// \ufeff = Zero Width No-Break Space (U+FEFF). (#1359)
-			this.document.createText( '\ufeff' ).insertBefore( startNode );
+			if ( isStartMarkerAlone ) {
+				// To expand empty blocks or line spaces after <br>, we need
+				// instead to have any char, which will be later deleted using the
+				// selection.
+				// \ufeff = Zero Width No-Break Space (U+FEFF). (#1359)
+				this.document.createText( '\ufeff' ).insertBefore( startNode );
+			}
 		}
-	}
 
-	// Remove the markers (reset the position, because of the changes in the DOM tree).
-	this.setStartBefore( startNode );
-	startNode.remove();
+		// Remove the markers (reset the position, because of the changes in the DOM tree).
+		this.setStartBefore( startNode );
+		startNode.remove();
 
-	if ( collapsed ) {
-		if ( isStartMarkerAlone ) {
-			// Move the selection start to include the temporary \ufeff.
-			ieRange.moveStart( 'character', -1 );
+		if ( collapsed ) {
+			if ( isStartMarkerAlone ) {
+				// Move the selection start to include the temporary \ufeff.
+				ieRange.moveStart( 'character', -1 );
 
+				ieRange.select();
+
+				// Remove our temporary stuff.
+				this.document.$.selection.clear();
+			} else
+				ieRange.select();
+
+			dummySpan.remove();
+		} else {
+			this.setEndBefore( endNode );
+			endNode.remove();
 			ieRange.select();
+		}
+	} : function() {
+		var startContainer = this.startContainer;
 
-			// Remove our temporary stuff.
-			this.document.$.selection.clear();
-		} else
-			ieRange.select();
+		// If we have a collapsed range, inside an empty element, we must add
+		// something to it, otherwise the caret will not be visible.
+		if ( this.collapsed && startContainer.type == CKEDITOR.NODE_ELEMENT && !startContainer.getChildCount() )
+			startContainer.append( new CKEDITOR.dom.text( '' ) );
 
-		dummySpan.remove();
-	} else {
-		this.setEndBefore( endNode );
-		endNode.remove();
-		ieRange.select();
-	}
-} : function() {
-	var startContainer = this.startContainer;
+		var nativeRange = this.document.$.createRange();
+		nativeRange.setStart( startContainer.$, this.startOffset );
 
-	// If we have a collapsed range, inside an empty element, we must add
-	// something to it, otherwise the caret will not be visible.
-	if ( this.collapsed && startContainer.type == CKEDITOR.NODE_ELEMENT && !startContainer.getChildCount() )
-		startContainer.append( new CKEDITOR.dom.text( '' ) );
-
-	var nativeRange = this.document.$.createRange();
-	nativeRange.setStart( startContainer.$, this.startOffset );
-
-	try {
-		nativeRange.setEnd( this.endContainer.$, this.endOffset );
-	} catch ( e ) {
-		// There is a bug in Firefox implementation (it would be too easy
-		// otherwise). The new start can't be after the end (W3C says it can).
-		// So, let's create a new range and collapse it to the desired point.
-		if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 ) {
-			this.collapse( true );
+		try {
 			nativeRange.setEnd( this.endContainer.$, this.endOffset );
-		} else
-			throw ( e );
-	}
+		} catch ( e ) {
+			// There is a bug in Firefox implementation (it would be too easy
+			// otherwise). The new start can't be after the end (W3C says it can).
+			// So, let's create a new range and collapse it to the desired point.
+			if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 ) {
+				this.collapse( true );
+				nativeRange.setEnd( this.endContainer.$, this.endOffset );
+			} else
+				throw ( e );
+		}
 
-	var selection = this.document.getSelection().getNative();
-	selection.removeAllRanges();
-	selection.addRange( nativeRange );
-};
+		var selection = this.document.getSelection().getNative();
+		selection.removeAllRanges();
+		selection.addRange( nativeRange );
+	};
+})();
