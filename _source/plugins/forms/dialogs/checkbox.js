@@ -67,13 +67,16 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
-					this.setValue( element.getAttribute( 'value' ) || '' );
+					var value = element.getAttribute( 'value' );
+					// IE Return 'on' as default attr value.
+					this.setValue( CKEDITOR.env.ie && value == 'on' ? '' : value );
 				},
 				commit: function( data ) {
-					var element = data.element;
+					var element = data.element,
+						value = this.getValue();
 
-					if ( this.getValue() )
-						element.setAttribute( 'value', this.getValue() );
+					if ( value && !( CKEDITOR.env.ie && value == 'on' ) )
+						element.setAttribute( 'value', value );
 					else
 						element.removeAttribute( 'value' );
 				}
@@ -97,15 +100,17 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 
 						if ( isElementChecked != isChecked ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="checkbox"' + ( isChecked ? ' checked="checked"' : '' )
-																			+ '></input>', editor.document );
+																			+ '/>', editor.document );
+
 							element.copyAttributes( replace, { type:1,checked:1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );
 							data.element = replace;
 						}
 					} else {
-						if ( this.getValue() )
-							element.setAttribute( 'checked', this.getValue() );
+						var value = this.getValue();
+						if ( value )
+							element.setAttribute( 'checked', 'checked' );
 						else
 							element.removeAttribute( 'checked' );
 					}

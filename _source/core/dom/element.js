@@ -374,8 +374,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 						break;
 
 					case 'checked':
-						return this.$.checked;
-						break;
+						{
+							var attr = this.$.attributes.getNamedItem( name ),
+								attrValue = attr.specified ? attr.nodeValue // For value given by parser.
+								: this.$.checked; // For value created via DOM interface.
+
+							return attrValue ? 'checked' : null;
+						}
 
 					case 'style':
 						// IE does not return inline styles via getAttribute(). See #2947.
@@ -1166,14 +1171,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		for ( var n = 0; n < attributes.length; n++ ) {
 			var attribute = attributes[ n ];
 
-			// IE BUG: value attribute is never specified even if it exists.
-			if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attribute.nodeName.toLowerCase() == 'value' ) ) {
-				var attrName = attribute.nodeName;
-				// We can set the type only once, so do it with the proper value, not copying it.
-				if ( attrName in skipAttributes )
-					continue;
+			// Lowercase attribute name hard rule is broken for
+			// some attribute on IE, e.g. CHECKED.
+			var attrName = attribute.nodeName.toLowerCase(),
+				attrValue;
 
-				var attrValue = this.getAttribute( attrName );
+			// We can set the type only once, so do it with the proper value, not copying it.
+			if ( attrName in skipAttributes )
+				continue;
+
+			if ( attrName == 'checked' && ( attrValue = this.getAttribute( attrName ) ) )
+				dest.setAttribute( attrName, attrValue );
+			// IE BUG: value attribute is never specified even if it exists.
+			else if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attrName == 'value' ) ) {
+				attrValue = this.getAttribute( attrName );
 				if ( attrValue === null )
 					attrValue = attribute.nodeValue;
 

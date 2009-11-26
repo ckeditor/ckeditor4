@@ -141,6 +141,25 @@ CKEDITOR.plugins.add( 'forms', {
 			});
 		}
 	},
+
+	afterInit: function( editor ) {
+		// Cleanup certain IE form elements default values.
+		if ( CKEDITOR.env.ie ) {
+			var dataProcessor = editor.dataProcessor,
+				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+
+			htmlFilter && htmlFilter.addRules({
+				elements: {
+					input: function( input ) {
+						var attrs = input.attributes,
+							type = attrs.type;
+						if ( type == 'checkbox' || type == 'radio' )
+							attrs.value == 'on' && delete attrs.value;
+					}
+				}
+			});
+		}
+	},
 	requires: [ 'image' ]
 });
 
