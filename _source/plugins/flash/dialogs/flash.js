@@ -290,9 +290,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Refresh the fake image.
 				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_flash', 'flash', true );
 				newFakeImage.setStyles( extraStyles );
-				if ( this.fakeImage )
+				if ( this.fakeImage ) {
 					newFakeImage.replace( this.fakeImage );
-				else
+					editor.getSelection().selectElement( newFakeImage );
+				} else
 					editor.insertElement( newFakeImage );
 			},
 
