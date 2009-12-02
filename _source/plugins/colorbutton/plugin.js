@@ -51,8 +51,20 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				if ( color == '?' ) {
-					// TODO : Implement the colors dialog.
-					// editor.openDialog( '' );
+					var applyColorStyle = arguments.callee;
+
+					function onColorDialogClose( evt ) {
+						this.removeListener( 'ok', onColorDialogClose );
+						this.removeListener( 'cancel', onColorDialogClose );
+
+						evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
+					}
+
+					editor.openDialog( 'colordialog', function() {
+						this.on( 'ok', onColorDialogClose );
+						this.on( 'cancel', onColorDialogClose );
+					});
+
 					return;
 				}
 
@@ -129,7 +141,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * @example
  * config.colorButton_enableMore = false;
  */
-CKEDITOR.config.colorButton_enableMore = false;
+CKEDITOR.config.colorButton_enableMore = true;
 
 /**
  * Defines the colors to be displayed in the color selectors. It's a string
