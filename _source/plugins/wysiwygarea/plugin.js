@@ -125,6 +125,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		});
 	}
 
+	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+
+	function isNotEmpty( node ) {
+		return isNotWhitespace( node ) && isNotBookmark( node );
+	};
+
+	function isNbsp( node ) {
+		return node.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( node.getText() ).match( /^(?:&nbsp;|\xa0)$/ );
+	}
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -145,15 +156,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var bms = selection.createBookmarks(),
 				fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
-			// For IE, we'll be removing any bogus br ( introduce by fixing body )
-			// right now to prevent it introducing visual line break.
+			// For IE, we should remove any filler node which was introduced before.
 			if ( CKEDITOR.env.ie ) {
-				var brNodeList = fixedBlock.getElementsByTag( 'br' ),
-					brNode;
-				for ( var i = 0; i < brNodeList.count(); i++ ) {
-					if ( ( brNode = brNodeList.getItem( i ) ) && brNode.hasAttribute( '_cke_bogus' ) )
-						brNode.remove();
-				}
+				var first = fixedBlock.getFirst( isNotEmpty );
+				isNbsp( first ) && first.remove();
 			}
 
 			selection.selectBookmarks( bms );
@@ -163,9 +169,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var children = fixedBlock.getChildren(),
 				count = children.count(),
 				firstChild,
-				whitespaceGuard = CKEDITOR.dom.walker.whitespaces( true ),
-				previousElement = fixedBlock.getPrevious( whitespaceGuard ),
-				nextElement = fixedBlock.getNext( whitespaceGuard ),
+				previousElement = fixedBlock.getPrevious( isNotWhitespace ),
+				nextElement = fixedBlock.getNext( isNotWhitespace ),
 				enterBlock;
 			if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) )
 				enterBlock = previousElement;
@@ -179,14 +184,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		// Inserting the padding-br before body if it's preceded by an
-		// unexitable block.
+		// All browsers are incapable to moving cursor out of certain non-exitable
+		// blocks (e.g. table, list, pre) at the end of document, make this happen by
+		// place a bogus node there, which would be later removed by dataprocessor.  
 		var lastNode = body.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
 		if ( lastNode && lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
 			restoreDirty( editor );
-			var paddingBlock = editor.document.createElement(
-			( CKEDITOR.env.ie && enterMode != CKEDITOR.ENTER_BR ) ? '<br _cke_bogus="true" />' : 'br' );
-			body.append( paddingBlock );
+			if ( !CKEDITOR.env.ie )
+				body.appendBogus();
+			else
+				body.append( editor.document.createText( '\xa0' ) );
 		}
 	}
 
