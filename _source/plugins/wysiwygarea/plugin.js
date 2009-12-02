@@ -351,6 +351,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							});
 						}
 
+						// IE standard compliant in editing frame doesn't focus the editor when
+						// clicking outside actual content, manually apply the focus. (#1659)
+						if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' ) {
+							var htmlElement = domDocument.getDocumentElement();
+							htmlElement.on( 'mousedown', function( evt ) {
+								// Setting focus directly on editor doesn't work, we
+								// have to use here a temporary element to 'redirect'
+								// the focus. 
+								if ( evt.data.getTarget().equals( htmlElement ) )
+									ieFocusGrabber.focus();
+							});
+						}
+
 						var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.webkit ) ? domWindow : domDocument;
 
 						focusTarget.on( 'blur', function() {
@@ -545,6 +558,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
 				editor.on( 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
 			});
+
+			// Create an invisible element to grab focus.
+			if ( CKEDITOR.env.ie ) {
+				var ieFocusGrabber;
+				editor.on( 'uiReady', function() {
+					ieFocusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml( '<input tabindex="-1" style="position:absolute; left:-10000">' ) );
+
+					ieFocusGrabber.on( 'focus', function() {
+						editor.focus();
+					});
+				});
+			}
 		}
 	});
 
