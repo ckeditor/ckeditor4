@@ -64,6 +64,13 @@ CKEDITOR.dtd = (function() {
 		 */
 		$block: block,
 
+		/**
+		 * List of block limit elements.
+		 * @type Object
+		 * @example
+		 */
+		$blockLimit: { body:1,div:1,td:1,th:1,caption:1,form:1 },
+
 		$body: X( { script:1 }, block ),
 
 		$cdata: { script:1,style:1 },
