@@ -447,6 +447,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	vertical-align: baseline;
 }
 
+/* Separator + Combo penetrate toolbar in IE quirks. (#4461) */
+.cke_skin_office2003 .cke_browser_iequirks .cke_separator
+{
+	vertical-align: text-bottom;
+}
 /* Fix cursor shape consistency on toolbar combos (#4031) */
 .cke_skin_office2003 .cke_browser_ie .cke_rcombo,
 .cke_skin_office2003 .cke_browser_ie .cke_rcombo *
