@@ -727,6 +727,12 @@ body .cke_dialog
 	position: relative;
 	top: 3px;
 }
+.cke_skin_kama .cke_hc a.cke_btn_locked,
+.cke_skin_kama .cke_hc a.cke_btn_unlocked,
+.cke_skin_kama .cke_hc a.cke_btn_reset
+{
+	border-style: solid;
+}
 
 .cke_skin_kama a.cke_smile img
 {
