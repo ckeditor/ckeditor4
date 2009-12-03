@@ -537,22 +537,6 @@ CKEDITOR.lang[ 'en' ] = {
 		tag_div: 'Normal (DIV)'
 	},
 
-	div: {
-		title: 'Create Div Container',
-		toolbar: 'Create Div Container',
-		cssClassInputLabel: 'Stylesheet Classes',
-		styleSelectLabel: 'Style',
-		IdInputLabel: 'Id',
-		languageCodeInputLabel: ' Language Code',
-		inlineStyleInputLabel: 'Inline Style',
-		advisoryTitleInputLabel: 'Advisory Title',
-		langDirLabel: 'Language Direction',
-		langDirLTRLabel: 'Left to Right (LTR)',
-		langDirRTLLabel: 'Right to Left (RTL)',
-		edit: 'Edit Div',
-		remove: 'Remove Div'
-	},
-
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font',
