@@ -569,12 +569,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this._.parentDialog = null;
 				addCover( this._.editor );
 
-				CKEDITOR.document.on( 'keydown', accessKeyDownHandler );
-				CKEDITOR.document.on( 'keyup', accessKeyUpHandler );
+				element.on( 'keydown', accessKeyDownHandler );
+				element.on( 'keyup', accessKeyUpHandler );
 
 				// Prevent some keys from bubbling up. (#4269)
 				for ( var event in { keyup:1,keydown:1,keypress:1 } )
-					CKEDITOR.document.on( event, preventKeyBubbling );
+					element.on( event, preventKeyBubbling );
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
@@ -692,13 +692,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				CKEDITOR.dialog._.currentZIndex = null;
 
 				// Remove access key handlers.
-				CKEDITOR.document.removeListener( 'keydown', accessKeyDownHandler );
-				CKEDITOR.document.removeListener( 'keyup', accessKeyUpHandler );
-				CKEDITOR.document.removeListener( 'keypress', accessKeyUpHandler );
+				element.removeListener( 'keydown', accessKeyDownHandler );
+				element.removeListener( 'keyup', accessKeyUpHandler );
+				element.removeListener( 'keypress', accessKeyUpHandler );
 
 				// Remove bubbling-prevention handler. (#4269)
 				for ( var event in { keyup:1,keydown:1,keypress:1 } )
-					CKEDITOR.document.removeListener( event, preventKeyBubbling );
+					element.removeListener( event, preventKeyBubbling );
 
 				var editor = this._.editor;
 				editor.focus();
