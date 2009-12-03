@@ -159,7 +159,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// For IE, we should remove any filler node which was introduced before.
 			if ( CKEDITOR.env.ie ) {
 				var first = fixedBlock.getFirst( isNotEmpty );
-				isNbsp( first ) && first.remove();
+				first && isNbsp( first ) && first.remove();
 			}
 
 			selection.selectBookmarks( bms );
