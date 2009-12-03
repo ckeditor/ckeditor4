@@ -813,6 +813,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 			this.selectRanges( ranges );
 			return this;
+		},
+
+		// Moving scroll bar to the current selection's start position.
+		scrollIntoView: function() {
+			// If we have split the block, adds a temporary span at the
+			// range position and scroll relatively to it.
+			var start = this.getStartElement();
+			start.scrollIntoView();
 		}
 	};
 })();
