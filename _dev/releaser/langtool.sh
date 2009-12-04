@@ -9,8 +9,6 @@ else
     DIR=$(dirname $0) ;
 fi ;
 
-LANGTOOL="$(cd $(dirname "$0"); pwd)/langtool.sh"
-
-pushd $DIR
-java -jar ckreleaser/ckreleaser.jar ckreleaser.release ../.. release "3.0 SVN" ckeditor_3.0_svn --run-before-release=$LANGTOOL
-popd
+# pushd $DIR
+java -jar ../langtool/langtool/langtool.jar release/release/_source/lang
+# popd
