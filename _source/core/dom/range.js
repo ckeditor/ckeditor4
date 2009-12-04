@@ -244,7 +244,7 @@ CKEDITOR.dom.range = function( document ) {
 				// If there's any visible text, then we're not at the start.
 				if ( CKEDITOR.tools.trim( node.getText() ).length )
 					return false;
-			} else {
+			} else if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 				// If there are non-empty inline elements (e.g. <img />), then we're not
 				// at the start.
 				if ( !inlineChildReqElements[ node.getName() ] ) {
