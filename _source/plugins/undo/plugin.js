@@ -161,37 +161,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.reset();
 	}
 
+
+	var editingKeyCodes = { /*Backspace*/8:1,/*Delete*/46:1 },
+		modifierKeyCodes = { /*Shift*/16:1,/*Ctrl*/17:1,/*Alt*/18:1 },
+		navigationKeyCodes = { 37:1,38:1,39:1,40:1 }; // Arrows: L, T, R, B
+
 	UndoManager.prototype = {
 		/**
 		 * Process undo system regard keystrikes.
 		 * @param {CKEDITOR.dom.event} event
 		 */
 		type: function( event ) {
-			var keystroke = event && event.data.getKeystroke(),
-
-				// Backspace, Delete
-				modifierCodes = { 8:1,46:1 },
-				// Keystrokes which will modify the contents.
-				isModifier = keystroke in modifierCodes,
-				wasModifier = this.lastKeystroke in modifierCodes,
-				lastWasSameModifier = isModifier && keystroke == this.lastKeystroke,
-
-				// Arrows: L, T, R, B
-				resetTypingCodes = { 37:1,38:1,39:1,40:1 },
+			var keystroke = event && event.data.getKey(),
+				isModifierKey = keystroke in modifierKeyCodes,
+				isEditingKey = keystroke in editingKeyCodes,
+				wasEditingKey = this.lastKeystroke in editingKeyCodes,
+				sameAsLastEditingKey = isEditingKey && keystroke == this.lastKeystroke,
 				// Keystrokes which navigation through contents.
-				isReset = keystroke in resetTypingCodes,
-				wasReset = this.lastKeystroke in resetTypingCodes,
+				isReset = keystroke in navigationKeyCodes,
+				wasReset = this.lastKeystroke in navigationKeyCodes,
 
 				// Keystrokes which just introduce new contents.
-				isContent = ( !isModifier && !isReset ),
+				isContent = ( !isEditingKey && !isReset ),
 
 				// Create undo snap for every different modifier key.
-				modifierSnapshot = ( isModifier && !lastWasSameModifier ),
+				modifierSnapshot = ( isEditingKey && !sameAsLastEditingKey ),
 				// Create undo snap on the following cases:
-				// 1. Just start to type.
+				// 1. Just start to type .
 				// 2. Typing some content after a modifier.
 				// 3. Typing some content after make a visible selection.
-				startedTyping = !this.typing || ( isContent && ( wasModifier || wasReset ) );
+				startedTyping = !( isModifierKey || this.typing ) || ( isContent && ( wasEditingKey || wasReset ) );
 
 			if ( startedTyping || modifierSnapshot ) {
 				var beforeTypeImage = new Image( this.editor );
@@ -224,8 +223,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			this.lastKeystroke = keystroke;
+
+			// Ignore modifier keys. (#4673)
+			if ( isModifierKey )
+				return;
 			// Create undo snap after typed too much (over 25 times).
-			if ( isModifier ) {
+			if ( isEditingKey ) {
 				this.typesCount = 0;
 				this.modifiersCount++;
 
