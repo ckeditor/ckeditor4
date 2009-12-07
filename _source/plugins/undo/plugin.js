@@ -110,9 +110,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.contents = this.contents.replace( /\s+_cke_expando=".*?"/g, '' );
 	}
 
+	// Attributes that browser may changing them when setting via innerHTML. 
+	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
+
 	Image.prototype = {
 		equals: function( otherImage, contentOnly ) {
-			if ( this.contents != otherImage.contents )
+			var thisContents = this.contents,
+				otherContents = otherImage.contents;
+
+			// For IE6/7 : Comparing only the protected attribute values but not the original ones.(#4522)
+			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+				thisContents = thisContents.replace( protectedAttrs, '' );
+				otherContents = otherContents.replace( protectedAttrs, '' );
+			}
+
+			if ( thisContents != otherContents )
 				return false;
 
 			if ( contentOnly )
