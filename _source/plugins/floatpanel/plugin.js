@@ -115,7 +115,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				element.setStyles({
 					top: top + 'px',
 					left: '-3000px',
-					visibility: 'hidden',
 					opacity: '0', // FF3 is ignoring "visibility"
 					display: ''
 				});
@@ -167,14 +166,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					if ( rtl )
 						left -= element.$.offsetWidth;
 
-					element.setStyles({
-						left: left + 'px',
-						visibility: '',
-						opacity: '1' // FF3 is ignoring "visibility"
-					});
-
-					if ( block.autoSize ) {
-						function setHeight() {
+					var panelLoad = CKEDITOR.tools.bind( function() {
+						if ( block.autoSize ) {
 							var target = element.getFirst();
 							var height = block.element.$.scrollHeight;
 
@@ -188,16 +181,38 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 							// Fix IE < 8 visibility.
 							panel._.currentBlock.element.setStyle( 'display', 'none' ).removeStyle( 'display' );
-						}
+						} else
+							element.getFirst().removeStyle( 'height' );
 
-						if ( panel.isLoaded )
-							setHeight();
-						else
-							panel.onLoad = setHeight;
-					} else
-						element.getFirst().removeStyle( 'height' );
+						var panelElement = panel.element,
+							panelWindow = panelElement.getWindow(),
+							windowScroll = panelWindow.getScrollPosition(),
+							viewportSize = panelWindow.getViewPaneSize(),
+							panelSize = {
+								'height': panelElement.$.offsetHeight,
+								'width': panelElement.$.offsetWidth
+							};
 
-					// Set the IFrame focus, so the blur event gets fired.
+						// If the menu is horizontal off, shift it toward
+						// the opposite language direction.
+						if ( rtl ? left < 0 : left + panelSize.width > viewportSize.width + windowScroll.x )
+							left += ( panelSize.width * ( rtl ? 1 : -1 ) );
+
+						// Vertical off screen is simpler.
+						if ( top + panelSize.height > viewportSize.height + windowScroll.y )
+							top -= panelSize.height;
+
+						element.setStyles({
+							top: top + 'px',
+							left: left + 'px',
+							opacity: '1'
+						});
+
+					}, this );
+
+					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
+
+					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
 						if ( definition.voiceLabel ) {
 							if ( CKEDITOR.env.gecko ) {
@@ -210,10 +225,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						}
 
 						iframe.$.contentWindow.focus();
-
 						// We need this get fired manually because of unfired focus() function.
-						if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks )
-							this.allowBlur( true );
+						this.allowBlur( true );
+
 					}, 0, this );
 				}, 0, this );
 				this.visible = 1;
