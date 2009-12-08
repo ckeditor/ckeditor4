@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -81,10 +81,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	CKEDITOR.dialog = function( editor, dialogName ) {
 		// Load the dialog definition.
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
-		if ( !definition ) {
-			console.log( 'Error: The dialog "' + dialogName + '" is not defined.' );
-			return;
-		}
 
 		// Completes the definition with the default values.
 		definition = CKEDITOR.tools.extend( definition( editor ), defaultDialogDefinition );
