@@ -230,10 +230,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( focusList.length < 1 )
 				return;
 
-			var currentIndex = ( me._.currentFocusIndex + offset + focusList.length ) % focusList.length;
+			var startIndex = ( me._.currentFocusIndex + offset + focusList.length ) % focusList.length,
+				currentIndex = startIndex;
 			while ( !focusList[ currentIndex ].isFocusable() ) {
 				currentIndex = ( currentIndex + offset + focusList.length ) % focusList.length;
-				if ( currentIndex == me._.currentFocusIndex )
+				if ( currentIndex == startIndex )
 					break;
 			}
 			focusList[ currentIndex ].focus();
