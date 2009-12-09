@@ -188,8 +188,8 @@ CKEDITOR.plugins.add( 'domiterator' );
 						startPath = new CKEDITOR.dom.elementPath( range.startContainer ),
 						endPath = new CKEDITOR.dom.elementPath( range.endContainer );
 
-					// Drop the range if it only contains bookmark nodes.(#4087)
-					if ( boundaryNodes.startNode.equals( boundaryNodes.endNode ) && boundaryNodes.startNode.getParent().equals( startPath.blockLimit ) && boundaryNodes.startNode.type == CKEDITOR.NODE_ELEMENT && boundaryNodes.startNode.getAttribute( '_fck_bookmark' ) ) {
+					// Drop the range if it only contains bookmark nodes.(#4087,#4450)
+					if ( boundaryNodes.startNode.getParent().equals( startPath.blockLimit ) && boundaryNodes.startNode.is && boundaryNodes.startNode.getAttribute( '_fck_bookmark' ) && boundaryNodes.endNode.is && boundaryNodes.startNode.getAttribute( '_fck_bookmark' ) ) {
 						range = null;
 						this._.nextNode = null;
 					} else
