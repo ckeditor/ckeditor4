@@ -644,5 +644,8 @@ CKEDITOR.lang[ 'en' ] = {
 		highlight: 'Highlight',
 		selected: 'Selected',
 		clear: 'Clear'
-	}
+	},
+
+	toolbarCollapse: 'Collapse Toolbar',
+	toolbarExpand: 'Expand Toolbar'
 };

@@ -644,5 +644,8 @@ CKEDITOR.lang[ 'it' ] = {
 		highlight: 'Highlight', // MISSING
 		selected: 'Selected', // MISSING
 		clear: 'Clear' // MISSING
-	}
+	},
+
+	toolbarCollapse: 'Collapse Toolbar', // MISSING
+	toolbarExpand: 'Expand Toolbar' // MISSING
 };

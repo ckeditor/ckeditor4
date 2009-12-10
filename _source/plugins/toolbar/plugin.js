@@ -99,7 +99,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.toolbox = new toolbox();
 
 					var output = [ '<div class="cke_toolbox"' ],
-						expanded = editor.config.toolbarStartupExpanded,
+						expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted;
 
 					output.push( expanded ? '>' : ' style="display:none">' );
@@ -215,9 +215,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								if ( toolbox.isVisible() ) {
 									toolbox.hide();
 									collapser.addClass( 'cke_toolbox_collapser_min' );
+									collapser.setAttribute( 'title', editor.lang.toolbarExpand );
 								} else {
 									toolbox.show();
 									collapser.removeClass( 'cke_toolbox_collapser_min' );
+									collapser.setAttribute( 'title', editor.lang.toolbarCollapse );
 								}
 
 								var dy = toolboxContainer.$.offsetHeight - previousHeight;
@@ -227,7 +229,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							modes: { wysiwyg:1,source:1 }
 						});
 
-						output.push( '<a id="' + collapserId + '" class="cke_toolbox_collapser' );
+						output.push( '<a title="' + ( expanded ? editor.lang.toolbarCollapse : editor.lang.toolbarExpand )
+																					+ '" id="' + collapserId + '" class="cke_toolbox_collapser' );
 
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );
@@ -361,9 +364,9 @@ CKEDITOR.config.toolbarCanCollapse = true;
 
 /**
  * Whether the toolbar must start expanded when the editor is loaded.
+ * @name CKEDITOR.config.toolbarStartupExpanded
  * @type Boolean
  * @default true
  * @example
  * config.toolbarStartupExpanded = false;
  */
-CKEDITOR.config.toolbarStartupExpanded = true;
