@@ -38,9 +38,9 @@ lt.js      Found: 331 Missing: 113
 lv.js      Found: 308 Missing: 136
 mn.js      Found: 326 Missing: 118
 ms.js      Found: 287 Missing: 157
-nb.js      Found: 325 Missing: 119
+nb.js      Found: 442 Missing: 2
 nl.js      Found: 442 Missing: 2
-no.js      Found: 325 Missing: 119
+no.js      Found: 442 Missing: 2
 pl.js      Found: 442 Missing: 2
 pt-br.js   Found: 434 Missing: 10
 pt.js      Found: 307 Missing: 137

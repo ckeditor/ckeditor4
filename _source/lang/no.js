@@ -30,7 +30,7 @@ CKEDITOR.lang[ 'no' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rikteksteditor, %1',
 
 	// Toolbar buttons without dialogs.
 	source: 'Kilde',
@@ -88,12 +88,12 @@ CKEDITOR.lang[ 'no' ] = {
 		cancel: 'Avbryt',
 		generalTab: 'Generelt',
 		advancedTab: 'Avansert',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		validateNumberFailed: 'Denne verdien er ikke ett nummer',
+		confirmNewPage: 'Alle endringer som er gjort i dette innholdet vil bli tapt. Er du sikker på at du vil laste en ny side?',
+		confirmCancel: 'Noen av valgene har blitt endret. Er du sikker på at du vil lukke dialogen?',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
 	},
 
 	// Special char dialog.
@@ -125,7 +125,7 @@ CKEDITOR.lang[ 'no' ] = {
 		targetFrameName: 'Målramme',
 		targetPopupName: 'Navn på popup-vindus',
 		popupFeatures: 'Egenskaper for popup-vindu',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Skalérbar',
 		popupStatusBar: 'Statuslinje',
 		popupLocationBar: 'Adresselinje',
 		popupToolbar: 'Verktøylinje',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'no' ] = {
 		popupLeft: 'Venstre posisjon',
 		popupHeight: 'Høyde',
 		popupTop: 'Topp-posisjon',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Språkretning',
 		langDirNotSet: '<ikke satt>',
 		langDirLTR: 'Venstre til høyre (VTH)',
@@ -181,9 +181,9 @@ CKEDITOR.lang[ 'no' ] = {
 		notFoundMsg: 'Fant ikke søketeksten.',
 		matchCase: 'Skill mellom store og små bokstaver',
 		matchWord: 'Bare hele ord',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Søk i hele dokumentet',
 		replaceAll: 'Erstatt alle',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 tilfelle erstattet.'
 	},
 
 	// Table Dialog
@@ -208,18 +208,18 @@ CKEDITOR.lang[ 'no' ] = {
 		cellPad: 'Cellepolstring',
 		caption: 'Tittel',
 		summary: 'Sammendrag',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		headers: 'Overskrifter',
+		headersNone: 'Ingen',
+		headersColumn: 'Første kolonne',
+		headersRow: 'Første rad',
+		headersBoth: 'Begge',
+		invalidRows: 'Antall rader må være ett tall større enn 0.',
+		invalidCols: 'Antall kolonner må være ett tall større enn 0.',
+		invalidBorder: 'Rammestørrelse må være ett tall.',
+		invalidWidth: 'Tabellbredde må være ett nummer.',
+		invalidHeight: 'Tabellhøyde må være ett nummer.',
+		invalidCellSpacing: 'Cellemellomrom må være ett nummer.',
+		invalidCellPadding: 'Cellefyll må være ett nummer.',
 
 		cell: {
 			menu: 'Celle',
@@ -231,28 +231,28 @@ CKEDITOR.lang[ 'no' ] = {
 			mergeDown: 'Slå sammen ned',
 			splitHorizontal: 'Del celle horisontalt',
 			splitVertical: 'Del celle vertikalt',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			title: 'Celleegenskaper',
+			cellType: 'Celletype',
+			rowSpan: 'Radspenn',
+			colSpan: 'Kolonnespenn',
+			wordWrap: 'Tekstbrytning',
+			hAlign: 'Horisontal justering',
+			vAlign: 'Vertikal justering',
+			alignTop: 'Topp',
+			alignMiddle: 'Midten',
+			alignBottom: 'Bunnen',
+			alignBaseline: 'Grunnlinje',
+			bgColor: 'Bakgrunnsfarge',
+			borderColor: 'Rammefarge',
+			data: 'Data',
+			header: 'Overskrift',
+			yes: 'Ja',
+			no: 'Nei',
+			invalidWidth: 'Cellebredde må være ett nummer',
+			invalidHeight: 'Cellehøyde må være ett nummer',
+			invalidRowSpan: 'Radspenn må være ett nummer.',
+			invalidColSpan: 'Kolonnespenn må være ett nummer.',
+			chooseColor: 'Velg'
 		},
 
 		row: {
@@ -294,7 +294,7 @@ CKEDITOR.lang[ 'no' ] = {
 		menu: 'Egenskaper for skjema',
 		action: 'Handling',
 		method: 'Metode',
-		encoding: 'Encoding', // MISSING
+		encoding: 'Encoding',
 		target: 'Mål',
 		targetNotSet: '<ikke satt>',
 		targetNew: 'Nytt vindu (_blank)',
@@ -378,28 +378,28 @@ CKEDITOR.lang[ 'no' ] = {
 		preview: 'Forhåndsvis',
 		alertUrl: 'Vennligst skriv bilde-urlen',
 		linkTab: 'Lenke',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		button2Img: 'Vil du endre den valgte bildeknappen til ett vanlig bilde?',
+		img2Button: 'Vil du endre det valgte bildet til en bildeknapp?',
+		urlMissing: 'Bildets adresse mangler.'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Egenskaper for Flash-objekt',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Egenskaper',
 		title: 'Flash-egenskaper',
 		chkPlay: 'Autospill',
 		chkLoop: 'Loop',
 		chkMenu: 'Slå på Flash-meny',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Tillat fullskjerm',
 		scale: 'Skaler',
 		scaleAll: 'Vis alt',
 		scaleNoBorder: 'Ingen ramme',
 		scaleFit: 'Skaler til å passe',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Scripttilgang',
+		accessAlways: 'Alltid',
+		accessSameDomain: 'Samme domene',
+		accessNever: 'Aldri',
 		align: 'Juster',
 		alignLeft: 'Venstre',
 		alignAbsBottom: 'Abs bunn',
@@ -410,36 +410,36 @@ CKEDITOR.lang[ 'no' ] = {
 		alignRight: 'Høyre',
 		alignTextTop: 'Tekst topp',
 		alignTop: 'Topp',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Kvalitet',
+		qualityBest: 'Best',
+		qualityHigh: 'Høy',
+		qualityAutoHigh: 'Auto Høy',
+		qualityMedium: 'Medium',
+		qualityAutoLow: 'Auto Lav',
+		qualityLow: 'Lav',
+		windowModeWindow: 'Vindu',
+		windowModeOpaque: 'Opaque',
+		windowModeTransparent: 'Gjennomsiktig',
+		windowMode: 'Vindu modus',
+		flashvars: 'Variabler for flash',
 		bgcolor: 'Bakgrunnsfarge',
 		width: 'Bredde',
 		height: 'Høyde',
 		hSpace: 'HMarg',
 		vSpace: 'VMarg',
 		validateSrc: 'Vennligst skriv inn lenkens url',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Bredde må være ett nummer.',
+		validateHeight: 'Høyde må være ett nummer',
+		validateHSpace: 'HSpace må være ett nummer.',
+		validateVSpace: 'VSpace må være ett nummer.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Stavekontroll',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Stavekontroll',
+		notAvailable: 'Beklager, tjenesten er utilgjenglig nå.',
+		errorLoading: 'Feil under lasting av applicationstjeneste tjener: %s.',
 		notInDic: 'Ikke i ordboken',
 		changeTo: 'Endre til',
 		btnIgnore: 'Ignorer',
@@ -462,7 +462,7 @@ CKEDITOR.lang[ 'no' ] = {
 	},
 
 	elementsPath: {
-		eleTitle: '%1 element' // MISSING
+		eleTitle: '%1 element'
 	},
 
 	numberedlist: 'Nummerert liste',
@@ -477,7 +477,7 @@ CKEDITOR.lang[ 'no' ] = {
 		block: 'Blokkjuster'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Blockquote',
 
 	clipboard: {
 		title: 'Lim inn',
@@ -508,22 +508,22 @@ CKEDITOR.lang[ 'no' ] = {
 		emptyListMsg: '(Ingen maler definert)'
 	},
 
-	showBlocks: 'Show Blocks', // MISSING
+	showBlocks: 'Vis blokker',
 
 	stylesCombo: {
 		label: 'Stil',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		voiceLabel: 'Stiler',
+		panelVoiceLabel: 'Velg en stil',
+		panelTitle1: 'Blokkstiler',
+		panelTitle2: 'Inlinestiler',
+		panelTitle3: 'Objektstiler'
 	},
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
+		voiceLabel: 'Format',
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
+		panelVoiceLabel: 'Vel ett paragrafformat',
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatert',
@@ -539,16 +539,16 @@ CKEDITOR.lang[ 'no' ] = {
 
 	font: {
 		label: 'Skrift',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Font',
 		panelTitle: 'Skrift',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelVoiceLabel: 'Velg en font'
 	},
 
 	fontSize: {
 		label: 'Størrelse',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Font Størrelse',
 		panelTitle: 'Størrelse',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelVoiceLabel: 'Velg en fontstørrelse'
 	},
 
 	colorButton: {
@@ -602,48 +602,48 @@ CKEDITOR.lang[ 'no' ] = {
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
-		optionsTab: 'Options', // MISSING
-		languagesTab: 'Languages', // MISSING
-		dictionariesTab: 'Dictionaries', // MISSING
-		aboutTab: 'About' // MISSING
+		title: 'Stavekontroll mens du skriver',
+		enable: 'Slå på SCAYT',
+		disable: 'Slå av SCAYT',
+		about: 'Om SCAYT',
+		toggle: 'Veksle SCAYT',
+		options: 'Valg',
+		langs: 'Språk',
+		moreSuggestions: 'Flere forslag',
+		ignore: 'Ignorer',
+		ignoreAll: 'Ignorer Alle',
+		addWord: 'Legg til ord',
+		emptyDic: 'Ordboknavn skal ikke være tom',
+		optionsTab: 'Valg',
+		languagesTab: 'Språk',
+		dictionariesTab: 'Ordbøker',
+		aboutTab: 'Om'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Om CKEditor',
+		dlgTitle: 'Om CKEditor',
+		moreInfo: 'For lisensieringsinformasjon vennligst besøk vårt nettsted:',
+		copy: 'Copyright &copy; $1. Alle rettigheter reservert.'
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'Maksimer',
+	minimize: 'Minimer',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Anker',
+		flash: 'Flash Animasjon',
+		div: 'Sideskift',
+		unknown: 'Ukjent objekt'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'Dra for å skalere',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Velg farge',
+		highlight: 'Merk',
+		selected: 'Valgt',
+		clear: 'Tøm'
 	},
 
 	toolbarCollapse: 'Collapse Toolbar', // MISSING
