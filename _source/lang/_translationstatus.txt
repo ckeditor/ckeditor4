@@ -2,14 +2,14 @@ Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 
 af.js      Found: 312 Missing: 172
-ar.js      Found: 442 Missing: 42
+ar.js      Found: 482 Missing: 2
 bg.js      Found: 305 Missing: 179
 bn.js      Found: 307 Missing: 177
 bs.js      Found: 210 Missing: 274
 ca.js      Found: 435 Missing: 49
 cs.js      Found: 442 Missing: 42
 da.js      Found: 435 Missing: 49
-de.js      Found: 435 Missing: 49
+de.js      Found: 475 Missing: 9
 el.js      Found: 311 Missing: 173
 en-au.js   Found: 395 Missing: 89
 en-ca.js   Found: 395 Missing: 89

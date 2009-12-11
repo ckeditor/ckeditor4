@@ -559,46 +559,46 @@ CKEDITOR.lang[ 'ar' ] = {
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'أسود',
+		'800000': 'كستنائي',
+		'8B4513': 'بني فاتح',
+		'2F4F4F': 'رمادي أردوازي غامق',
+		'008080': 'أزرق مخضر',
+		'000080': 'أزرق داكن',
+		'4B0082': 'كحلي',
+		'696969': 'رمادي داكن',
+		'B22222': 'طوبي',
+		'A52A2A': 'بني',
+		'DAA520': 'ذهبي داكن',
+		'006400': 'أخضر داكن',
+		'40E0D0': 'فيروزي',
+		'0000CD': 'أزرق متوسط',
+		'800080': 'بنفسجي غامق',
+		'808080': 'رمادي',
+		'F00': 'أحمر',
+		'FF8C00': 'برتقالي داكن',
+		'FFD700': 'ذهبي',
+		'008000': 'أخضر',
+		'0FF': 'تركواز',
+		'00F': 'أزرق',
+		'EE82EE': 'بنفسجي',
+		'A9A9A9': 'رمادي شاحب',
+		'FFA07A': 'برتقالي وردي',
+		'FFA500': 'برتقالي',
+		'FFFF00': 'أصفر',
+		'00FF00': 'ليموني',
+		'AFEEEE': 'فيروزي شاحب',
+		'ADD8E6': 'أزرق فاتح',
+		'DDA0DD': 'بنفسجي فاتح',
+		'D3D3D3': 'رمادي فاتح',
+		'FFF0F5': 'وردي فاتح',
+		'FAEBD7': 'أبيض عتيق',
+		'FFFFE0': 'أصفر فاتح',
+		'F0FFF0': 'أبيض مائل للأخضر',
+		'F0FFFF': 'سماوي',
+		'F0F8FF': 'لبني',
+		'E6E6FA': 'أرجواني',
+		'FFF': 'أبيض'
 	},
 
 	scayt: {

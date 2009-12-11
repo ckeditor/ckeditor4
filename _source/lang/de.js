@@ -559,46 +559,46 @@ CKEDITOR.lang[ 'de' ] = {
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'Schwarz',
+		'800000': 'Kastanienbraun',
+		'8B4513': 'Braun',
+		'2F4F4F': 'Dunkles Schiefergrau',
+		'008080': 'Blaugrün',
+		'000080': 'Navy',
+		'4B0082': 'Indigo',
+		'696969': 'Dunkelgrau',
+		'B22222': 'Ziegelrot',
+		'A52A2A': 'Braun',
+		'DAA520': 'Goldgelb',
+		'006400': 'Dunkelgrün',
+		'40E0D0': 'Türkis',
+		'0000CD': 'Medium Blau',
+		'800080': 'Lila',
+		'808080': 'Grau',
+		'F00': 'Rot',
+		'FF8C00': 'Dunkelorange',
+		'FFD700': 'Gold',
+		'008000': 'Grün',
+		'0FF': 'Cyan',
+		'00F': 'Blau',
+		'EE82EE': 'Hellviolett',
+		'A9A9A9': 'Dunkelgrau',
+		'FFA07A': 'Helles Lachsrosa',
+		'FFA500': 'Orange',
+		'FFFF00': 'Gelb',
+		'00FF00': 'Lime',
+		'AFEEEE': 'Blaß-Türkis',
+		'ADD8E6': 'Hellblau',
+		'DDA0DD': 'Pflaumenblau',
+		'D3D3D3': 'Hellgrau',
+		'FFF0F5': 'Lavendel',
+		'FAEBD7': 'Antik Weiß',
+		'FFFFE0': 'Hellgelb',
+		'F0FFF0': 'Honigtau',
+		'F0FFFF': 'Azurblau',
+		'F0F8FF': 'Alice Blau',
+		'E6E6FA': 'Lavendel',
+		'FFF': 'Weiß'
 	},
 
 	scayt: {
