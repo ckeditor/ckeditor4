@@ -76,7 +76,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'selection', {
 		init: function( editor ) {
 			editor.on( 'contentDom', function() {
-				var doc = editor.document;
+				var doc = editor.document,
+					body = doc.getBody();
 
 				if ( CKEDITOR.env.ie ) {
 					// Other browsers don't loose the selection if the
@@ -89,7 +90,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// "onfocusin" is fired before "onfocus". It makes it
 					// possible to restore the selection before click
 					// events get executed.
-					doc.on( 'focusin', function() {
+					body.on( 'focusin', function() {
 						// If we have saved a range, restore it at this
 						// point.
 						if ( savedRange ) {
@@ -109,24 +110,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						saveSelection();
 					});
 
-					// Check document selection before 'blur' fired, this
-					// will prevent us from breaking text selection somewhere
-					// else on the host page.(#3909)
-					editor.document.on( 'beforedeactivate', function() {
+					body.on( 'beforedeactivate', function() {
 						// Disable selections from being saved.
 						saveEnabled = false;
-
-						// IE may leave the selection still inside the
-						// document. Let's force it to be removed.
-						// TODO: The following has effect for
-						// collapsed selections.
-						editor.document.$.execCommand( 'Unselect' );
 					});
 
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
-					doc.on( 'mousedown', disableSave );
-					doc.on( 'mouseup', function( evt ) {
+					body.on( 'mousedown', disableSave );
+					body.on( 'mouseup', function( evt ) {
 						// IE context-menu event in table cells collapse
 						// whatever selection is, avoiding saving this
 						// 'wrong' snapshot.(#3001)
@@ -140,8 +132,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}, 0 );
 					});
 
-					doc.on( 'keydown', disableSave );
-					doc.on( 'keyup', function() {
+					body.on( 'keydown', disableSave );
+					body.on( 'keyup', function() {
 						saveEnabled = true;
 						saveSelection();
 					});
