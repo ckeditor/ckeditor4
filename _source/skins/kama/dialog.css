@@ -9,6 +9,12 @@ body .cke_dialog
 	visibility: visible;
 }
 
+/* Force Gecko to consider table as positioned */
+.cke_skin_kama table.cke_dialog.cke_browser_gecko
+{
+	display:block;
+}
+
 .cke_skin_kama .cke_dialog_body
 {
 	z-index: 1;
@@ -18,6 +24,11 @@ body .cke_dialog
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+
+	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
+		need it to be positioned to hold e.g. close button. */
+	position: relative;
+	_position: static;
 }
 
 .cke_skin_kama .cke_dialog_tl,

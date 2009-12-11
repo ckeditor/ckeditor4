@@ -27,12 +27,12 @@ if ( CKEDITOR.dialog ) {
 			width = data.width,
 			height = data.height,
 			dialog = data.dialog,
-			standardsMode = !CKEDITOR.env.quirk;
+			contents = dialog.parts.contents;
 
 		if ( data.skin != 'office2003' )
 			return;
 
-		dialog.parts.contents.setStyles({
+		contents.setStyles({
 			width: width + 'px',
 			height: height + 'px'
 		});
@@ -42,9 +42,8 @@ if ( CKEDITOR.dialog ) {
 
 		// Fix the size of the elements which have flexible lengths.
 		var fixSize = function() {
-				var content = dialog.parts.contents,
-					body = content.getParent(),
-					innerDialog = body.getParent();
+				var innerDialog = dialog.parts.dialog.getChild( [ 0, 0, 0 ] ),
+					body = innerDialog.getChild( 0 );
 
 				// tc
 				var el = innerDialog.getChild( 2 );

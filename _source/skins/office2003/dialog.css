@@ -9,14 +9,24 @@ body .cke_dialog
 	visibility: visible;
 }
 
+/* Force Gecko to consider table as positioned */
+.cke_skin_office2003 table.cke_dialog.cke_browser_gecko
+{
+	display:block;
+}
+
 .cke_skin_office2003 .cke_dialog_body
 {
 	margin-left: 16px;
 	margin-right: 16px;
 	margin-top: 2px;
 	margin-bottom: 20px;
-	position: relative;
 	z-index: 1;
+
+	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we 
+		need it to be positioned to hold e.g. close button. */
+	position: relative;
+	_position: static;
 }
 
 .cke_skin_office2003 .cke_dialog_tl,

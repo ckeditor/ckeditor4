@@ -98,16 +98,18 @@ CKEDITOR.themes.add( 'default', ( function() {
 					'" dir="', editor.lang.dir, '"' +
 					' lang="', editor.langCode, '"' +
 					'>' +
-
-					'<div class="cke_dialog', ' ' + CKEDITOR.env.cssClass,
+					'<table class="cke_dialog', ' ' + CKEDITOR.env.cssClass,
 						' cke_', editor.lang.dir, '" style="position:absolute">' +
+						'<tr><td>' +
 						'<div class="%body">' +
 							'<div id="%title#" class="%title"></div>' +
 							'<div id="%close_button#" class="%close_button">' +
 								'<span>X</span>' +
 							'</div>' +
 							'<div id="%tabs#" class="%tabs"></div>' +
-							'<div id="%contents#" class="%contents"></div>' +
+								'<table class="%contents"><tr>' +
+								'<td id="%contents#" class="%contents"></td>' +
+								'</tr></table>' +
 							'<div id="%footer#" class="%footer"></div>' +
 						'</div>' +
 						'<div id="%tl#" class="%tl"></div>' +
@@ -118,7 +120,8 @@ CKEDITOR.themes.add( 'default', ( function() {
 						'<div id="%bl#" class="%bl"></div>' +
 						'<div id="%bc#" class="%bc"></div>' +
 						'<div id="%br#" class="%br"></div>' +
-					'</div>',
+						'</td></tr>' +
+					'</table>',
 
 					//Hide the container when loading skins, later restored by skin css.
 			( CKEDITOR.env.ie ? '' : '<style>.cke_dialog{visibility:hidden;}</style>' ),
@@ -126,21 +129,23 @@ CKEDITOR.themes.add( 'default', ( function() {
 				'</div>'
 				].join( '' ).replace( /#/g, '_' + baseIdNumber ).replace( /%/g, 'cke_dialog_' ) );
 
-			var body = element.getChild( [ 0, 0 ] );
+			var body = element.getChild( [ 0, 0, 0, 0, 0 ] ),
+				title = body.getChild( 0 ),
+				close = body.getChild( 1 );
 
 			// Make the Title and Close Button unselectable.
-			body.getChild( 0 ).unselectable();
-			body.getChild( 1 ).unselectable();
+			title.unselectable();
+			close.unselectable();
 
 
 			return {
 				element: element,
 				parts: {
 					dialog: element.getChild( 0 ),
-					title: body.getChild( 0 ),
-					close: body.getChild( 1 ),
+					title: title,
+					close: close,
 					tabs: body.getChild( 2 ),
-					contents: body.getChild( 3 ),
+					contents: body.getChild( [ 3, 0, 0, 0 ] ),
 					footer: body.getChild( 4 )
 				}
 			};
