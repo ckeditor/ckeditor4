@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 */
 	var nonExitableElementNames = { table:1,pre:1 };
 	// Matching an empty paragraph at the end of document.
-	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)\s*(:?<\/\1>)?\s*$/gi;
+	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*$/gi;
 
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
@@ -156,8 +156,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// selecting inline contents right under body. (#3657)
 		if ( enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
 			restoreDirty( editor );
-			var bms = selection.createBookmarks(),
-				fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we should remove any filler node which was introduced before.
 			if ( CKEDITOR.env.ie ) {
@@ -165,26 +164,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				first && isNbsp( first ) && first.remove();
 			}
 
-			selection.selectBookmarks( bms );
+			// If the fixed block is blank and already followed by a exitable
+			// block, we should revert the fix. (#3684)
+			if ( fixedBlock.getOuterHtml().match( emptyParagraphRegexp ) ) {
+				var previousElement = fixedBlock.getPrevious( isNotWhitespace ),
+					nextElement = fixedBlock.getNext( isNotWhitespace );
 
-			// If the fixed block is blank and is already followed by a exitable
-			// block, we should drop it and move to the exist block(#3684).
-			var children = fixedBlock.getChildren(),
-				count = children.count(),
-				firstChild,
-				previousElement = fixedBlock.getPrevious( isNotWhitespace ),
-				nextElement = fixedBlock.getNext( isNotWhitespace ),
-				enterBlock;
-			if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) )
-				enterBlock = previousElement;
-			else if ( nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) )
-				enterBlock = nextElement;
 
-			// Not all blocks are editable, e.g. <hr />, further checking it.(#3994)
-			if ( ( !count || ( firstChild = children.getItem( 0 ) ) && firstChild.is && firstChild.is( 'br' ) ) && enterBlock && range.moveToElementEditStart( enterBlock ) ) {
-				fixedBlock.remove();
-				range.select();
+				if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( previousElement ) || nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( nextElement ) ) {
+					fixedBlock.remove();
+				}
 			}
+
+			range.select();
+			// Notify non-IE that selection has changed.
+			if ( !CKEDITOR.env.ie )
+				editor.selectionChange();
 		}
 
 		// All browsers are incapable to moving cursor out of certain non-exitable
