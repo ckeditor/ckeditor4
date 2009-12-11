@@ -1270,19 +1270,7 @@ CKEDITOR.dom.range = function( document ) {
 					this.moveToPosition( startBlock, CKEDITOR.POSITION_BEFORE_START );
 					startBlock = null;
 				} else {
-					// Extract the contents of the block from the selection point to the end
-					// of its contents.
-					this.setEndAt( startBlock, CKEDITOR.POSITION_BEFORE_END );
-					var documentFragment = this.extractContents();
-
-					// Duplicate the block element after it.
-					endBlock = startBlock.clone( false );
-
-					// Place the extracted contents into the duplicated block.
-					documentFragment.appendTo( endBlock );
-					endBlock.insertAfter( startBlock );
-					this.moveToPosition( startBlock, CKEDITOR.POSITION_AFTER_END );
-
+					this.splitElement( startBlock );
 					// In Gecko, the last child node must be a bogus <br>.
 					// Note: bogus <br> added under <ul> or <ol> would cause
 					// lists to be incorrectly rendered.
@@ -1298,6 +1286,30 @@ CKEDITOR.dom.range = function( document ) {
 				wasEndOfBlock: isEndOfBlock,
 				elementPath: elementPath
 			};
+		},
+
+		/**
+		 * Branch the specified element from the collapsed range position and
+		 * place the caret between the two result branches.
+		 * Note: The range must be collapsed and been enclosed by this element.
+		 * @param {CKEDITOR.dom.element} element
+		 */
+		splitElement: function( toSplit ) {
+			if ( !this.collapsed )
+				return;
+
+			// Extract the contents of the block from the selection point to the end
+			// of its contents.
+			this.setEndAt( toSplit, CKEDITOR.POSITION_BEFORE_END );
+			var documentFragment = this.extractContents();
+
+			// Duplicate the element after it.
+			var clone = toSplit.clone( false );
+
+			// Place the extracted contents into the duplicated element.
+			documentFragment.appendTo( clone );
+			clone.insertAfter( toSplit );
+			this.moveToPosition( toSplit, CKEDITOR.POSITION_AFTER_END );
 		},
 
 		/**

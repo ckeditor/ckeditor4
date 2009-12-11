@@ -76,9 +76,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var current, dtd;
 				if ( isBlock ) {
 					while ( ( current = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+						// Split up inline elements.
+						if ( current.getName() in CKEDITOR.dtd.span )
+							range.splitElement( current );
 						// If we're in an empty block which indicate a new paragraph,
 						// simply replace it with the inserting block.(#3664)
-						if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+						else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 							range.setStartBefore( current );
 							range.collapse( true );
 							current.remove();
