@@ -50,7 +50,7 @@ CKEDITOR.lang[ 'he' ] = {
 	subscript: 'כתיב תחתון',
 	superscript: 'כתיב עליון',
 	horizontalrule: 'הוספת קו אופקי',
-	pagebreak: 'הוסף שבירת דף',
+	pagebreak: 'הוספת שבירת דף',
 	unlink: 'הסרת הקישור',
 	undo: 'ביטול צעד אחרון',
 	redo: 'חזרה על צעד אחרון',
@@ -81,16 +81,16 @@ CKEDITOR.lang[ 'he' ] = {
 		langDirRtl: 'ימין לשמאל (RTL)',
 		langCode: 'קוד שפה',
 		longDescr: 'קישור לתיאור מפורט',
-		cssClass: 'גיליונות עיצוב קבוצות',
+		cssClass: 'מחלקת עיצוב (CSS Class)',
 		advisoryTitle: 'כותרת מוצעת',
 		cssStyle: 'סגנון',
 		ok: 'אישור',
 		cancel: 'ביטול',
 		generalTab: 'כללי',
 		advancedTab: 'אפשרויות מתקדמות',
-		validateNumberFailed: 'הערך חייב להיות מספר.',
+		validateNumberFailed: 'הערך חייב להיות מספרי.',
 		confirmNewPage: 'כל השינויים שלא נשמרו יאבדו. האם להעלות דף חדש?',
-		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג. ?',
+		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג?',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -105,7 +105,7 @@ CKEDITOR.lang[ 'he' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'הוספת/עריכת קישור',
-		menu: 'עריכת קישור',
+		menu: 'מאפייני קישור',
 		title: 'קישור',
 		info: 'מידע על הקישור',
 		target: 'מטרה',
@@ -144,7 +144,7 @@ CKEDITOR.lang[ 'he' ] = {
 		langDirRTL: 'ימין לשמאל (RTL)',
 		acccessKey: 'מקש גישה',
 		name: 'שם',
-		langCode: 'כיוון שפה',
+		langCode: 'קוד שפה',
 		tabIndex: 'מספר טאב',
 		advisoryTitle: 'כותרת מוצעת',
 		advisoryContentType: 'Content Type מוצע',
@@ -158,8 +158,8 @@ CKEDITOR.lang[ 'he' ] = {
 		emailSubject: 'נושא ההודעה',
 		emailBody: 'גוף ההודעה',
 		noAnchors: '(אין עוגנים זמינים בדף)',
-		noUrl: 'נא להקליד את כתובת הקישור (URL)',
-		noEmail: 'נא להקליד את כתובת הדוא\'\'ל'
+		noUrl: 'יש להקליד את כתובת הקישור (URL)',
+		noEmail: 'יש להקליד את כתובת הדוא\'\'ל'
 	},
 
 	// Anchor dialog
@@ -168,18 +168,18 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'מאפייני נקודת עיגון',
 		title: 'מאפייני נקודת עיגון',
 		name: 'שם לנקודת עיגון',
-		errorName: 'אנא הזן שם לנקודת עיגון'
+		errorName: 'יש להזין שם לנקודת עיגון'
 	},
 
 	// Find And Replace Dialog
 	findAndReplace: {
-		title: 'חפש והחלף',
+		title: 'חיפוש והחלפה',
 		find: 'חיפוש',
 		replace: 'החלפה',
 		findWhat: 'חיפוש מחרוזת:',
 		replaceWith: 'החלפה במחרוזת:',
 		notFoundMsg: 'הטקסט המבוקש לא נמצא.',
-		matchCase: 'התאמת סוג אותיות (Case)',
+		matchCase: 'הבחנה בין אותיות רשיות לקטנות (Case)',
 		matchWord: 'התאמה למילה המלאה',
 		matchCyclic: 'התאמה מחזורית',
 		replaceAll: 'החלפה בכל העמוד',
@@ -189,8 +189,8 @@ CKEDITOR.lang[ 'he' ] = {
 	// Table Dialog
 	table: {
 		toolbar: 'טבלה',
-		title: 'תכונות טבלה',
-		menu: 'תכונות טבלה',
+		title: 'מאפייני טבלה',
+		menu: 'מאפייני טבלה',
 		deleteTable: 'מחק טבלה',
 		rows: 'שורות',
 		columns: 'עמודות',
@@ -213,28 +213,28 @@ CKEDITOR.lang[ 'he' ] = {
 		headersColumn: 'עמודה ראשונה',
 		headersRow: 'שורה ראשונה',
 		headersBoth: 'שניהם',
-		invalidRows: 'מספר השורות חייב להיות מספר גדול מ 0.',
-		invalidCols: 'מספר העמודות חייב להיות מספר גדול מ 0.',
-		invalidBorder: 'גודל מסגרת חייב להיות מספר.',
-		invalidWidth: 'רוחה טבלה חייב להיות רוחב.',
-		invalidHeight: 'גובה טבלה חייב להיות מספר.',
-		invalidCellSpacing: 'ריווח תאים חייב להיות מספר.',
-		invalidCellPadding: 'ריפוד תאים חייב להיות מספר.',
+		invalidRows: 'שדה מספר השורות חייב להיות מספר גדול מ 0.',
+		invalidCols: 'שדה מספר העמודות חייב להיות מספר גדול מ 0.',
+		invalidBorder: 'שדה גודל המסגרת חייב להיות מספר.',
+		invalidWidth: 'שדה רוחב הטבלה חייב להיות רוחב.',
+		invalidHeight: 'שדה גובה הטבלה חייב להיות מספר.',
+		invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר.',
+		invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר.',
 
 		cell: {
-			menu: 'תא',
-			insertBefore: 'הוסף תא אחרי',
-			insertAfter: 'הוסף תא אחרי',
+			menu: 'מאפייני תא',
+			insertBefore: 'הוספת תא לפני',
+			insertAfter: 'הוספת תא אחרי',
 			deleteCell: 'מחיקת תאים',
 			merge: 'מיזוג תאים',
 			mergeRight: 'מזג ימינה',
 			mergeDown: 'מזג למטה',
-			splitHorizontal: 'פצל תא אופקית',
-			splitVertical: 'פצל תא אנכית',
+			splitHorizontal: 'פיצלו תא אופקית',
+			splitVertical: 'פיצול תא אנכית',
 			title: 'תכונות התא',
-			cellType: 'סוג תא',
-			rowSpan: 'מתיחת שורות',
-			colSpan: 'מתיחת תאים',
+			cellType: 'סוג התא',
+			rowSpan: 'מתיחת השורות',
+			colSpan: 'מתיחת התאים',
 			wordWrap: 'מניעת גלישת שורות',
 			hAlign: 'יישור אופקי',
 			vAlign: 'יישור אנכי',
@@ -248,24 +248,24 @@ CKEDITOR.lang[ 'he' ] = {
 			header: 'כותרת',
 			yes: 'כן',
 			no: 'לא',
-			invalidWidth: 'רוחב תא חייב להיות מספר.',
-			invalidHeight: 'גובה תא חייב להיות מספר.',
-			invalidRowSpan: 'מתיחת שורות חייב להיות מספר שלם.',
-			invalidColSpan: 'מתיחת עמודות חייב להיות מספר שלם.',
+			invalidWidth: 'שדה רוחב התא חייב להיות מספר.',
+			invalidHeight: 'שדה גובה התא חייב להיות מספר.',
+			invalidRowSpan: 'שדה מתיחת השורות חייב להיות מספר שלם.',
+			invalidColSpan: 'שדה מתיחת העמודות חייב להיות מספר שלם.',
 			chooseColor: 'בחר'
 		},
 
 		row: {
 			menu: 'שורה',
-			insertBefore: 'הוסף שורה לפני',
-			insertAfter: 'הוסף שורה אחרי',
+			insertBefore: 'הוספת שורה לפני',
+			insertAfter: 'הוספת שורה אחרי',
 			deleteRow: 'מחיקת שורות'
 		},
 
 		column: {
 			menu: 'עמודה',
-			insertBefore: 'הוסף עמודה לפני',
-			insertAfter: 'הוסף עמודה אחרי',
+			insertBefore: 'הוספת עמודה לפני',
+			insertAfter: 'הוספת עמודה אחרי',
 			deleteColumn: 'מחיקת עמודות'
 		}
 	},
@@ -276,8 +276,8 @@ CKEDITOR.lang[ 'he' ] = {
 		text: 'טקסט (ערך)',
 		type: 'סוג',
 		typeBtn: 'כפתור',
-		typeSbm: 'שלח',
-		typeRst: 'אפס'
+		typeSbm: 'שליחה',
+		typeRst: 'איפוס'
 	},
 
 	// Checkbox and Radio Button Dialogs.
@@ -285,7 +285,7 @@ CKEDITOR.lang[ 'he' ] = {
 		checkboxTitle: 'מאפייני תיבת סימון',
 		radioTitle: 'מאפייני לחצן אפשרויות',
 		value: 'ערך',
-		selected: 'בחור'
+		selected: 'מסומן'
 	},
 
 	// Form Dialog.
@@ -311,20 +311,20 @@ CKEDITOR.lang[ 'he' ] = {
 		value: 'ערך',
 		size: 'גודל',
 		lines: 'שורות',
-		chkMulti: 'אפשר בחירות מרובות',
+		chkMulti: 'איפשור בחירות מרובות',
 		opText: 'טקסט',
 		opValue: 'ערך',
-		btnAdd: 'הוסף',
-		btnModify: 'שנה',
+		btnAdd: 'הוספה',
+		btnModify: 'שינוי',
 		btnUp: 'למעלה',
 		btnDown: 'למטה',
-		btnSetValue: 'קבע כברירת מחדל',
-		btnDelete: 'מחק'
+		btnSetValue: 'קביעה כברירת מחדל',
+		btnDelete: 'מחיקה'
 	},
 
 	// Textarea Dialog.
 	textarea: {
-		title: 'מאפיני איזור טקסט',
+		title: 'מאפייני איזור טקסט',
 		cols: 'עמודות',
 		rows: 'שורות'
 	},
@@ -350,7 +350,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	// Image Dialog.
 	image: {
-		title: 'תכונות התמונה',
+		title: 'מאפייני התמונה',
 		titleButton: 'מאפיני כפתור תמונה',
 		menu: 'תכונות התמונה',
 		infoTab: 'מידע על התמונה',
@@ -376,9 +376,9 @@ CKEDITOR.lang[ 'he' ] = {
 		alignTextTop: 'לראש הטקסט',
 		alignTop: 'למעלה',
 		preview: 'תצוגה מקדימה',
-		alertUrl: 'נא להקליד את כתובת התמונה',
+		alertUrl: 'יש להקליד את כתובת התמונה',
 		linkTab: 'קישור',
-		button2Img: 'האם להפוך את תמונת כפתור לתמונה פשוטה?',
+		button2Img: 'האם להפוך את תמונת הכפתור לתמונה פשוטה?',
 		img2Button: 'האם להפוך את התמונה לכפתור תמונה?',
 		urlMissing: 'כתובת התמונה חסרה.'
 	},
@@ -388,7 +388,7 @@ CKEDITOR.lang[ 'he' ] = {
 		properties: 'מאפייני פלאש',
 		propertiesTab: 'מאפיינים',
 		title: 'מאפיני פלאש',
-		chkPlay: 'נגן אוטומטי',
+		chkPlay: 'ניגון אוטומטי',
 		chkLoop: 'לולאה',
 		chkMenu: 'אפשר תפריט פלאש',
 		chkFull: 'אפשר חלון מלא',
@@ -413,10 +413,10 @@ CKEDITOR.lang[ 'he' ] = {
 		quality: 'איכות',
 		qualityBest: 'מעולה',
 		qualityHigh: 'גבוהה',
-		qualityAutoHigh: 'אוטומטית גבוהה',
+		qualityAutoHigh: 'גבוהה אוטומטית',
 		qualityMedium: 'ממוצעת',
-		qualityAutoLow: 'אוטומטית נמוך',
-		qualityLow: 'נמוך',
+		qualityAutoLow: 'נמוכה אוטומטית',
+		qualityLow: 'נמוכה',
 		windowModeWindow: 'חלון',
 		windowModeOpaque: 'אטום',
 		windowModeTransparent: 'שקוף',
@@ -427,33 +427,33 @@ CKEDITOR.lang[ 'he' ] = {
 		height: 'גובה',
 		hSpace: 'מרווח אופקי',
 		vSpace: 'מרווח אנכי',
-		validateSrc: 'נא להקליד את כתובת הקישור (URL)',
-		validateWidth: 'רוחב חייב להיות מספר.',
-		validateHeight: 'גובהה חייב להיות מספר.',
-		validateHSpace: 'ריווח אופקי חייב להיות מספר.',
-		validateVSpace: 'ריווח אנחי חייב להיות מספר.'
+		validateSrc: 'יש להקליד את כתובת סרטון הפלאש (URL)',
+		validateWidth: 'הרוחב חייב להיות מספר.',
+		validateHeight: 'הגובה חייב להיות מספר.',
+		validateHSpace: 'המרווח האופקי חייב להיות מספר.',
+		validateVSpace: 'המרווח האנכי חייב להיות מספר.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'בדיקת איות',
 		title: 'בדיקת איות',
-		notAvailable: 'מצטערים לא נמצא שירות זמין.',
-		errorLoading: 'שגיעה בהעלאת שירת אפליקציה: %s.',
+		notAvailable: 'לא נמצא שירות זמין.',
+		errorLoading: 'שגיאה בהעלאת השירות: %s.',
 		notInDic: 'לא נמצא במילון',
-		changeTo: 'שנה ל',
-		btnIgnore: 'התעלם',
-		btnIgnoreAll: 'התעלם מהכל',
-		btnReplace: 'החלף',
-		btnReplaceAll: 'החלף הכל',
-		btnUndo: 'החזר',
+		changeTo: 'שינוי ל',
+		btnIgnore: 'התעלמות',
+		btnIgnoreAll: 'התעלמות מהכל',
+		btnReplace: 'החלפה',
+		btnReplaceAll: 'החלפת הכל',
+		btnUndo: 'החזרה',
 		noSuggestions: '- אין הצעות -',
-		progress: 'בדיקות איות בתהליך ....',
-		noMispell: 'בדיקות איות הסתיימה: לא נמצאו שגיעות כתיב',
+		progress: 'בודק האיות בתהליך בדיקה....',
+		noMispell: 'בדיקות איות הסתיימה: לא נמצאו שגיאות כתיב',
 		noChanges: 'בדיקות איות הסתיימה: לא שונתה אף מילה',
 		oneChange: 'בדיקות איות הסתיימה: שונתה מילה אחת',
 		manyChanges: 'בדיקות איות הסתיימה: %1 מילים שונו',
-		ieSpellDownload: 'בודק האיות לא מותקן, האם אתה מעוניין להוריד?'
+		ieSpellDownload: 'בודק האיות לא מותקן, האם להורידו?'
 	},
 
 	smiley: {
@@ -467,8 +467,8 @@ CKEDITOR.lang[ 'he' ] = {
 
 	numberedlist: 'רשימה ממוספרת',
 	bulletedlist: 'רשימת נקודות',
-	indent: 'הגדלת אינדנטציה',
-	outdent: 'הקטנת אינדנטציה',
+	indent: 'הגדלת הזחה',
+	outdent: 'הקטנת הזחה',
 
 	justify: {
 		left: 'יישור לשמאל',
@@ -481,18 +481,18 @@ CKEDITOR.lang[ 'he' ] = {
 
 	clipboard: {
 		title: 'הדבקה',
-		cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה  אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+X).',
+		cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+X).',
 		copyError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות העתקה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+C).',
-		pasteMsg: 'אנא הדבק בתוך הקופסה באמצעות  (<STRONG>Ctrl+V</STRONG>) ולחץ על  <STRONG>אישור</STRONG>.',
-		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (clipboard) בצורה ישירה.אנא בצע הדבק שוב בחלון זה.'
+		pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<STRONG>Ctrl+V</STRONG>) וללחוץ על <STRONG>אישור</STRONG>.',
+		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.'
 	},
 
 	pastefromword: {
-		toolbar: 'הדבקה מ-וורד',
-		title: 'הדבקה מ-וורד',
-		advice: 'אנא הדבק בתוך הקופסה באמצעות  (<STRONG>Ctrl+V</STRONG>) ולחץ על  <STRONG>אישור</STRONG>.',
-		ignoreFontFace: 'התעלם מהגדרות סוג פונט',
-		removeStyle: 'הסר הגדרות סגנון'
+		toolbar: 'הדבקה מ-Word',
+		title: 'הדבקה מ-Word',
+		advice: 'נא להדביק בתוך הקופסה באמצעות (<STRONG>Ctrl+V</STRONG>) ולחץ על <STRONG>אישור</STRONG>.',
+		ignoreFontFace: 'התעלמות מהגדרות סוג פונט',
+		removeStyle: 'הסרת הגדרות סגנון'
 	},
 
 	pasteText: {
@@ -504,17 +504,17 @@ CKEDITOR.lang[ 'he' ] = {
 		button: 'תבניות',
 		title: 'תביות תוכן',
 		insertOption: 'החלפת תוכן ממשי',
-		selectPromptMsg: 'אנא בחר תבנית לפתיחה בעורך <BR>התוכן המקורי ימחק:',
+		selectPromptMsg: 'יש לבחור תבנית לפתיחה בעורך.<br />התוכן המקורי ימחק:',
 		emptyListMsg: '(לא הוגדרו תבניות)'
 	},
 
-	showBlocks: 'הצג בלוקים',
+	showBlocks: 'הצגת בלוקים',
 
 	stylesCombo: {
 		label: 'סגנון',
 		voiceLabel: 'סגנונות',
-		panelVoiceLabel: 'בחר סגנון',
-		panelTitle1: 'סיגנונות בלוק',
+		panelVoiceLabel: 'בחירת סגנון',
+		panelTitle1: 'סגנונות בלוק',
 		panelTitle2: 'סגנונות רצף',
 		panelTitle3: 'סגנונות אובייקט'
 	},
@@ -523,7 +523,7 @@ CKEDITOR.lang[ 'he' ] = {
 		label: 'עיצוב',
 		voiceLabel: 'עיצוב',
 		panelTitle: 'עיצוב',
-		panelVoiceLabel: 'בחר פיסקת עיצוב',
+		panelVoiceLabel: 'בחירת עיצוב פסקה',
 
 		tag_p: 'נורמלי',
 		tag_pre: 'קוד',
@@ -541,14 +541,14 @@ CKEDITOR.lang[ 'he' ] = {
 		label: 'גופן',
 		voiceLabel: 'גופן',
 		panelTitle: 'גופן',
-		panelVoiceLabel: 'בחר גופן'
+		panelVoiceLabel: 'בחירת גופן'
 	},
 
 	fontSize: {
 		label: 'גודל',
-		voiceLabel: 'גודל גופן',
+		voiceLabel: 'גודל',
 		panelTitle: 'גודל',
-		panelVoiceLabel: 'בחר גודל גופן'
+		panelVoiceLabel: 'בחירת גודל גופן'
 	},
 
 	colorButton: {
@@ -602,18 +602,18 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	scayt: {
-		title: 'בדיקת איות בזמן כתיבה',
+		title: 'בדיקת איות בזמן כתיבה (SCAYT)',
 		enable: 'אפשר SCAYT',
 		disable: 'בטל SCAYT',
 		about: 'אודות SCAYT',
 		toggle: 'שינוי SCAYT',
 		options: 'אפשרויות',
 		langs: 'שפות',
-		moreSuggestions: 'עוד הצעות',
-		ignore: 'התעלם',
-		ignoreAll: 'התעלם מהכל',
-		addWord: 'הודף מילה',
-		emptyDic: 'אסור לשם המילון להיות ריק.',
+		moreSuggestions: 'הצעות נוספות',
+		ignore: 'התעלמות',
+		ignoreAll: 'התעלמות מהכל',
+		addWord: 'הוספת מילה',
+		emptyDic: 'יש לבחור מילון.',
 		optionsTab: 'אפשרויות',
 		languagesTab: 'שפות',
 		dictionariesTab: 'מילון',
@@ -623,29 +623,29 @@ CKEDITOR.lang[ 'he' ] = {
 	about: {
 		title: 'אודות CKEditor',
 		dlgTitle: 'אודות CKEditor',
-		moreInfo: 'לרישוי אנה בקרו באתר שלנו:',
+		moreInfo: 'למידע נוסף בקרו באתרנו:',
 		copy: 'Copyright &copy; $1. כל הזכויות שמורות.'
 	},
 
-	maximize: 'להגדיל למקסימום',
+	maximize: 'הגדל למקסימום',
 	minimize: 'הקטן למינימום',
 
 	fakeobjects: {
 		anchor: 'עוגן',
-		flash: 'אנימצית פלאש',
+		flash: 'סרטון פלאש',
 		div: 'שבירת דף',
 		unknown: 'אובייקט לא ידוע'
 	},
 
-	resize: 'גרור בכדי לשנות גודל',
+	resize: 'יש לגרור בכדי לשנות את הגודל',
 
 	colordialog: {
-		title: 'בחר צבע',
-		highlight: 'סמן',
-		selected: 'נבחר',
-		clear: 'נקה'
+		title: 'בחירת צבע',
+		highlight: 'סימון',
+		selected: 'בחירה',
+		clear: 'ניקוי'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'מזעור סרגל כלים',
+	toolbarExpand: 'הרחבת סרגל כלים'
 };
