@@ -183,7 +183,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		matchWord: '単語単位で一致',
 		matchCyclic: '大文字/小文字区別一致',
 		replaceAll: 'すべて置換え',
-		replaceSuccessMsg: '%1 に置換しました。'
+		replaceSuccessMsg: '%1 個置換しました。'
 	},
 
 	// Table Dialog
@@ -195,19 +195,19 @@ CKEDITOR.lang[ 'ja' ] = {
 		rows: '行',
 		columns: '列',
 		border: 'ボーダーサイズ',
-		align: 'キャプションの整列',
+		align: 'テーブルの整列',
 		alignNotSet: '<なし>',
 		alignLeft: '左',
 		alignCenter: '中央',
 		alignRight: '右',
-		width: 'テーブル幅',
+		width: '幅',
 		widthPx: 'ピクセル',
 		widthPc: 'パーセント',
-		height: 'テーブル高さ',
+		height: '高さ',
 		cellSpace: 'セル内余白',
 		cellPad: 'セル内間隔',
-		caption: 'ｷｬﾌﾟｼｮﾝ',
-		summary: 'テーブル目的/構造',
+		caption: 'キャプション',
+		summary: 'テーブルの概要',
 		headers: 'テーブルヘッダ(th)',
 		headersNone: 'なし',
 		headersColumn: '初めの列のみ',
@@ -216,8 +216,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidRows: '行は0より大きな数値で入力してください。',
 		invalidCols: '列は0より大きな数値で入力してください。',
 		invalidBorder: 'ボーダーサイズは数値で入力してください。',
-		invalidWidth: 'テーブル幅は数値で入力してください。',
-		invalidHeight: 'テーブル高さは数値で入力してください。',
+		invalidWidth: '幅は数値で入力してください。',
+		invalidHeight: '高さは数値で入力してください。',
 		invalidCellSpacing: 'セル内余白は数値で入力してください。',
 		invalidCellPadding: 'セル内間隔は数値で入力してください。',
 
@@ -252,13 +252,13 @@ CKEDITOR.lang[ 'ja' ] = {
 			invalidHeight: 'セル高さは数値で入力してください。',
 			invalidRowSpan: '縦幅(行数)は数値で入力してください。',
 			invalidColSpan: '横幅(列数)は数値で入力してください。',
-			chooseColor: 'Choose' // MISSING
+			chooseColor: '色の選択'
 		},
 
 		row: {
 			menu: '行',
-			insertBefore: '列の前に挿入',
-			insertAfter: '列の後に挿入',
+			insertBefore: '行の前に挿入',
+			insertAfter: '行の後に挿入',
 			deleteRow: '行削除'
 		},
 
@@ -380,7 +380,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		linkTab: 'リンク',
 		button2Img: '選択したボタンを画像に置き換えますか？',
 		img2Button: '選択した画像をボタンに置き換えますか？',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'イメージのURLを入力してください。'
 	},
 
 	// Flash Dialog
@@ -609,7 +609,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		toggle: 'SCAYT切替',
 		options: 'オプション',
 		langs: '言語',
-		moreSuggestions: 'More suggestions', // MISSING
+		moreSuggestions: '他の候補',
 		ignore: '無視',
 		ignoreAll: 'すべて無視',
 		addWord: '語句追加',
@@ -628,7 +628,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	},
 
 	maximize: '最大化',
-	minimize: 'Minimize', // MISSING
+	minimize: '最小化',
 
 	fakeobjects: {
 		anchor: 'アンカー',
@@ -637,15 +637,15 @@ CKEDITOR.lang[ 'ja' ] = {
 		unknown: 'Unknown Object'
 	},
 
-	resize: 'ドラックしてリサイズ',
+	resize: 'ドラッグしてリサイズ',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: '色選択',
+		highlight: 'ハイライト',
+		selected: '選択された色',
+		clear: 'クリア'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'ツールバーを閉じる',
+	toolbarExpand: 'ツールバーを開く'
 };

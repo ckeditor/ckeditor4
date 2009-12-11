@@ -31,7 +31,7 @@ hr.js      Found: 435 Missing: 49
 hu.js      Found: 326 Missing: 158
 is.js      Found: 332 Missing: 152
 it.js      Found: 434 Missing: 50
-ja.js      Found: 434 Missing: 50
+ja.js      Found: 444 Missing: 40
 km.js      Found: 299 Missing: 185
 ko.js      Found: 318 Missing: 166
 lt.js      Found: 331 Missing: 153
