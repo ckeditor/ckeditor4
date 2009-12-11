@@ -252,7 +252,7 @@ CKEDITOR.lang[ 'nl' ] = {
 			invalidHeight: 'De celhoogte moet een getal zijn.',
 			invalidRowSpan: 'Rijen samenvoegen moet een heel getal zijn.',
 			invalidColSpan: 'Kolommen samenvoegen moet een heel getal zijn.',
-			chooseColor: 'Choose' // MISSING
+			chooseColor: 'Kies'
 		},
 
 		row: {
@@ -380,7 +380,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		linkTab: 'Link',
 		button2Img: 'Wilt u de geselecteerde afbeeldingsknop vervangen door een eenvoudige afbeelding?',
 		img2Button: 'Wilt u de geselecteerde afbeelding vervangen door een afbeeldingsknop?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'De URL naar de afbeelding ontbreekt.'
 	},
 
 	// Flash Dialog
@@ -628,7 +628,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	maximize: 'Maximaliseren',
-	minimize: 'Minimize', // MISSING
+	minimize: 'Minimaliseren',
 
 	fakeobjects: {
 		anchor: 'Anker',
@@ -640,10 +640,10 @@ CKEDITOR.lang[ 'nl' ] = {
 	resize: 'Sleep om te herschalen',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Selecteer kleur',
+		highlight: 'Actief',
+		selected: 'Geselecteerd',
+		clear: 'Wissen'
 	},
 
 	toolbarCollapse: 'Collapse Toolbar', // MISSING
