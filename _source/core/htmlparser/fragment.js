@@ -258,7 +258,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			if ( candidate.type ) {
 				// Add all elements that have been found in the above loop.
-				for ( var i = 0; i < pendingAdd.length; i++ ) {
+				for ( i = 0; i < pendingAdd.length; i++ ) {
 					var node = pendingAdd[ i ];
 					addElement( node, node.parent );
 				}

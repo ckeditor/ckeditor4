@@ -405,7 +405,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.element = element;
 		this.focusIndex = index;
 		this.isFocusable = function() {
-			return !( element.getAttribute( 'disabled' ) || !element.isVisible() )
+			return !element.getAttribute( 'disabled' ) && element.isVisible();
 		};
 		this.focus = function() {
 			dialog._.currentFocusIndex = this.focusIndex;

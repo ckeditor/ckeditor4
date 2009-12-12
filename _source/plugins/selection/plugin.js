@@ -122,7 +122,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// IE context-menu event in table cells collapse
 						// whatever selection is, avoiding saving this
 						// 'wrong' snapshot.(#3001)
-						var evt = evt.data;
+						evt = evt.data;
 						if ( evt.$.button == 2 && evt.getTarget().hasAscendant( 'table' ) )
 							return;
 

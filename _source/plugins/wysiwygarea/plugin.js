@@ -133,7 +133,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function isNotEmpty( node ) {
 		return isNotWhitespace( node ) && isNotBookmark( node );
-	};
+	}
 
 	function isNbsp( node ) {
 		return node.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( node.getText() ).match( /^(?:&nbsp;|\xa0)$/ );

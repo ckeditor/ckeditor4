@@ -472,14 +472,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var tailNbspRegex = /[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
 	function indexOfFirstChildElement( element, tagNameList ) {
-		var children = element.children,
-			child,
+		var child,
+			children = element.children,
 			length = children.length;
+
 		for ( var i = 0; i < length; i++ ) {
 			child = children[ i ];
 			if ( child.name && ( child.name in tagNameList ) )
 				return i;
 		}
+
+		return length;
 	}
 
 	function getExtendNestedListFilter( isHtmlFilter ) {
