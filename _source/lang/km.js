@@ -367,14 +367,7 @@ CKEDITOR.lang[ 'km' ] = {
 		vSpace: 'គំលាតបណ្តោយ',
 		align: 'កំណត់ទីតាំង',
 		alignLeft: 'ខាងឆ្វង',
-		alignAbsBottom: 'Abs Bottom', // MISSING
-		alignAbsMiddle: 'Abs Middle', // MISSING
-		alignBaseline: 'បន្ទាត់ជាមូលដ្ឋាន',
-		alignBottom: 'ខាងក្រោម',
-		alignMiddle: 'កណ្តាល',
 		alignRight: 'ខាងស្តាំ',
-		alignTextTop: 'លើអត្ថបទ',
-		alignTop: 'ខាងលើ',
 		preview: 'មើលសាកល្បង',
 		alertUrl: 'សូមសរសេរងាស័យដ្ឋានរបស់រូបភាព',
 		linkTab: 'ឈ្នាប់',
