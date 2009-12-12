@@ -382,6 +382,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 							return attrValue ? 'checked' : null;
 						}
 
+					case 'hspace':
+						return this.$.hspace;
+
 					case 'style':
 						// IE does not return inline styles via getAttribute(). See #2947.
 						return this.$.style.cssText;
@@ -876,10 +879,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * element.removeStyle( 'display' );
 	 */
 	removeStyle: function( name ) {
+		this.setStyle( name, '' );
 		if ( this.$.style.removeAttribute )
 			this.$.style.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
-		else
-			this.setStyle( name, '' );
 
 		if ( !this.$.style.cssText )
 			this.removeAttribute( 'style' );
