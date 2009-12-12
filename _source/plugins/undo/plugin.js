@@ -110,7 +110,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.contents = this.contents.replace( /\s+_cke_expando=".*?"/g, '' );
 	}
 
-	// Attributes that browser may changing them when setting via innerHTML. 
+	// Attributes that browser may changing them when setting via innerHTML.
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
 
 	Image.prototype = {

@@ -23,7 +23,7 @@ body .cke_dialog
 	margin-bottom: 20px;
 	z-index: 1;
 
-	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we 
+	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
 		need it to be positioned to hold e.g. close button. */
 	position: relative;
 	_position: static;

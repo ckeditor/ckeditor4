@@ -27,7 +27,7 @@ body .cke_dialog
 		need it to be positioned to hold e.g. close button. */
 	position: relative;
 	_position: static;
-	
+
 }
 
 .cke_skin_v2 .cke_dialog_tl,
