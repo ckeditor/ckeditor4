@@ -1297,7 +1297,7 @@ CKEDITOR.dom.range = function( document ) {
 		 */
 		splitElement: function( toSplit ) {
 			if ( !this.collapsed )
-				return;
+				return null;
 
 			// Extract the contents of the block from the selection point to the end
 			// of its contents.
