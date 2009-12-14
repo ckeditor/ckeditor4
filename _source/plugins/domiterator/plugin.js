@@ -11,21 +11,22 @@ CKEDITOR.plugins.add( 'domiterator' );
 
 (function() {
 
-	var iterator = function( range ) {
-			if ( arguments.length < 1 )
-				return;
+	function iterator( range ) {
+		if ( arguments.length < 1 )
+			return;
 
-			this.range = range;
-			this.forceBrBreak = false;
+		this.range = range;
+		this.forceBrBreak = false;
 
-			// Whether include <br>s into the enlarged range.(#3730).
-			this.enlargeBr = true;
-			this.enforceRealBlocks = false;
+		// Whether include <br>s into the enlarged range.(#3730).
+		this.enlargeBr = true;
+		this.enforceRealBlocks = false;
 
-			this._ || ( this._ = {} );
-		},
-		beginWhitespaceRegex = /^[\r\n\t ]+$/;
+		this._ || ( this._ = {} );
+	};
 
+	var beginWhitespaceRegex = /^[\r\n\t ]+$/,
+		isBookmark = CKEDITOR.dom.walker.bookmark();
 
 	iterator.prototype = {
 		getNextParagraph: function( blockTag ) {
@@ -184,12 +185,11 @@ CKEDITOR.plugins.add( 'domiterator' );
 				// We have found a block boundary. Let's close the range and move out of the
 				// loop.
 				if ( ( closeRange || isLast ) && range ) {
-					var boundaryNodes = range.getBoundaryNodes(),
-						startPath = new CKEDITOR.dom.elementPath( range.startContainer ),
-						endPath = new CKEDITOR.dom.elementPath( range.endContainer );
+					var boundaryNodes = range.getBoundaryNodes();
 
-					// Drop the range if it only contains bookmark nodes.(#4087,#4450)
-					if ( boundaryNodes.startNode.getParent().equals( startPath.blockLimit ) && boundaryNodes.startNode.is && boundaryNodes.startNode.getAttribute( '_fck_bookmark' ) && boundaryNodes.endNode.is && boundaryNodes.startNode.getAttribute( '_fck_bookmark' ) ) {
+					// Drop the range if it only contains bookmark nodes, and is
+					// not because of the original collapsed range. (#4087,#4450)
+					if ( !this.range.collapsed && isBookmark( boundaryNodes.startNode ) && isBookmark( boundaryNodes.endNode ) ) {
 						range = null;
 						this._.nextNode = null;
 					} else
