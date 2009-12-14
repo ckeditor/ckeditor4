@@ -1293,7 +1293,7 @@ CKEDITOR.dom.range = function( document ) {
 		 * place the caret between the two result branches.
 		 * Note: The range must be collapsed and been enclosed by this element.
 		 * @param {CKEDITOR.dom.element} element
-		 * @return {CKEDITOR.dom.element} Root element of the new branch after the split. 
+		 * @return {CKEDITOR.dom.element} Root element of the new branch after the split.
 		 */
 		splitElement: function( toSplit ) {
 			if ( !this.collapsed )
