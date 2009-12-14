@@ -1270,7 +1270,7 @@ CKEDITOR.dom.range = function( document ) {
 					this.moveToPosition( startBlock, CKEDITOR.POSITION_BEFORE_START );
 					startBlock = null;
 				} else {
-					this.splitElement( startBlock );
+					endBlock = this.splitElement( startBlock );
 					// In Gecko, the last child node must be a bogus <br>.
 					// Note: bogus <br> added under <ul> or <ol> would cause
 					// lists to be incorrectly rendered.
@@ -1293,6 +1293,7 @@ CKEDITOR.dom.range = function( document ) {
 		 * place the caret between the two result branches.
 		 * Note: The range must be collapsed and been enclosed by this element.
 		 * @param {CKEDITOR.dom.element} element
+		 * @return {CKEDITOR.dom.element} Root element of the new branch after the split. 
 		 */
 		splitElement: function( toSplit ) {
 			if ( !this.collapsed )
@@ -1310,6 +1311,7 @@ CKEDITOR.dom.range = function( document ) {
 			documentFragment.appendTo( clone );
 			clone.insertAfter( toSplit );
 			this.moveToPosition( toSplit, CKEDITOR.POSITION_AFTER_END );
+			return clone;
 		},
 
 		/**
