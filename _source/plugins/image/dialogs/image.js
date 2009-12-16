@@ -689,22 +689,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									commit: function( type, element, internalCommit ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
-											if ( value )
-												element.setStyle( 'border', CKEDITOR.tools.cssLength( value ) + ' solid' );
-											else if ( !value && this.isChanged() ) {
-												if ( CKEDITOR.env.ie ) {
-													element.removeStyle( 'border-width' );
-													element.removeStyle( 'border-style' );
-													element.removeStyle( 'border-color' );
-												} else
-													element.removeStyle( 'border' );
+											if ( value ) {
+												element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
+												element.setStyle( 'border-style', 'solid' );
+											} else if ( !value && this.isChanged() ) {
+												element.removeStyle( 'border-width' );
+												element.removeStyle( 'border-style' );
+												element.removeStyle( 'border-color' );
 											}
 
 											if ( !internalCommit && type == IMAGE )
 												element.removeAttribute( 'border' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'border' );
-											element.removeStyle( 'border' );
+											element.removeStyle( 'border-width' );
+											element.removeStyle( 'border-style' );
+											element.removeStyle( 'border-color' );
 										}
 									}
 								},
