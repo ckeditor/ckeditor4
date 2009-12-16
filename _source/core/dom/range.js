@@ -268,6 +268,14 @@ CKEDITOR.dom.range = function( document ) {
 		return node.type != CKEDITOR.NODE_TEXT && node.getName() in CKEDITOR.dtd.$removeEmpty || !CKEDITOR.tools.trim( node.getText() ) || node.getParent().hasAttribute( '_fck_bookmark' );
 	}
 
+	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
+		bookmarkEval = new CKEDITOR.dom.walker.bookmark();
+
+	function nonWhitespaceOrBookmarkEval( node ) {
+		// Whitespaces and bookmark nodes are to be ignored.
+		return !whitespaceEval( node ) && !bookmarkEval( node );
+	}
+
 	CKEDITOR.dom.range.prototype = {
 		clone: function() {
 			var clone = new CKEDITOR.dom.range( this.document );
@@ -1401,26 +1409,38 @@ CKEDITOR.dom.range = function( document ) {
 		 * element. For example, in an element tree like
 		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;", the start editing point is
 		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;^&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;" (inside &lt;i&gt;).
-		 * @param {CKEDITOR.dom.element} targetElement The element into which
-		 *		look for the editing spot.
+		 * @param {CKEDITOR.dom.element} el The element into which look for the
+		 *		editing spot.
 		 */
-		moveToElementEditStart: function( targetElement ) {
-			var editableElement;
+		moveToElementEditStart: function( el ) {
+			var isEditable;
 
-			while ( targetElement && targetElement.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( targetElement.isEditable() )
-					editableElement = targetElement;
-				else if ( editableElement )
-					break; // If we already found an editable element, stop the loop.
+			while ( el && el.type == CKEDITOR.NODE_ELEMENT ) {
+				isEditable = el.isEditable();
 
-				targetElement = targetElement.getFirst();
+				// If an editable element is found, move inside it.
+				if ( isEditable )
+					this.moveToPosition( el, CKEDITOR.POSITION_AFTER_START );
+				// Stop immediately if we've found a non editable inline element (e.g <img>).
+				else if ( CKEDITOR.dtd.$inline[ el.getName() ] ) {
+					this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
+					return true;
+				}
+
+				// Non-editable non-inline elements are to be bypassed, getting the next one.
+				if ( CKEDITOR.dtd.$empty[ el.getName() ] )
+					el = el.getNext( nonWhitespaceOrBookmarkEval );
+				else
+					el = el.getFirst( nonWhitespaceOrBookmarkEval );
+
+				// Stop immediately if we've found a text node.
+				if ( el && el.type == CKEDITOR.NODE_TEXT ) {
+					this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
+					return true;
+				}
 			}
 
-			if ( editableElement ) {
-				this.moveToPosition( editableElement, CKEDITOR.POSITION_AFTER_START );
-				return true;
-			} else
-				return false;
+			return isEditable;
 		},
 
 		/**
