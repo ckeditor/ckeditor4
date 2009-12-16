@@ -66,6 +66,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
 			if ( !isCustomDomain ) {
+				oWindow.document.open();
 				oWindow.document.write( sHTML );
 				oWindow.document.close();
 			}
