@@ -185,11 +185,12 @@ CKEDITOR.plugins.add( 'domiterator' );
 				// We have found a block boundary. Let's close the range and move out of the
 				// loop.
 				if ( ( closeRange || isLast ) && range ) {
-					var boundaryNodes = range.getBoundaryNodes();
+					var boundaryNodes = range.getBoundaryNodes(),
+						startPath = new CKEDITOR.dom.elementPath( range.startContainer );
 
 					// Drop the range if it only contains bookmark nodes, and is
 					// not because of the original collapsed range. (#4087,#4450)
-					if ( !this.range.collapsed && isBookmark( boundaryNodes.startNode ) && isBookmark( boundaryNodes.endNode ) ) {
+					if ( boundaryNodes.startNode.getParent().equals( startPath.blockLimit ) && isBookmark( boundaryNodes.startNode ) && isBookmark( boundaryNodes.endNode ) ) {
 						range = null;
 						this._.nextNode = null;
 					} else
