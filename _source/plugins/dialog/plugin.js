@@ -569,7 +569,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				addCover( this._.editor );
 
 				element.on( 'keydown', accessKeyDownHandler );
-				element.on( 'keyup', accessKeyUpHandler );
+				element.on( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
 
 				// Prevent some keys from bubbling up. (#4269)
 				for ( var event in { keyup:1,keydown:1,keypress:1 } )
@@ -692,8 +692,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				// Remove access key handlers.
 				element.removeListener( 'keydown', accessKeyDownHandler );
-				element.removeListener( 'keyup', accessKeyUpHandler );
-				element.removeListener( 'keypress', accessKeyUpHandler );
+				element.removeListener( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
 
 				// Remove bubbling-prevention handler. (#4269)
 				for ( var event in { keyup:1,keydown:1,keypress:1 } )
@@ -1660,8 +1659,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				return;
 
 			keyProcessor = keyProcessor[ keyProcessor.length - 1 ];
-			keyProcessor.keyup && keyProcessor.keyup.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
-			evt.data.preventDefault();
+			if ( keyProcessor.keyup ) {
+				keyProcessor.keyup.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
+				evt.data.preventDefault();
+			}
 		};
 
 	var registerAccessKey = function( uiElement, dialog, key, downFunc, upFunc ) {
