@@ -307,6 +307,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		});
 		this.on( 'hide', function() {
 			CKEDITOR.document.removeListener( 'keydown', focusKeydownHandler );
+			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+				CKEDITOR.document.removeListener( 'keypress', focusKeyPressHandler );
 		});
 		this.on( 'iframeAdded', function( evt ) {
 			var doc = new CKEDITOR.dom.document( evt.data.iframe.$.contentWindow.document );
