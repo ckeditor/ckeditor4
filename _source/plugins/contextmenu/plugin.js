@@ -154,7 +154,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 
 				if ( nativeContextMenuOnCtrl &&
 				// Safari on Windows always show 'ctrlKey' as true in 'contextmenu' event,
-				// which make this property unreliable. (#4826)    
+				// which make this property unreliable. (#4826)
 				( CKEDITOR.env.webkit ? holdCtrlKey : domEvent.$.ctrlKey || domEvent.$.metaKey ) )
 					return;
 
