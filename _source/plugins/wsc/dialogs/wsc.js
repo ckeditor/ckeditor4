@@ -76,7 +76,9 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 
 		window.doSpell({
 			ctrl: textareaId,
-			lang: LangComparer.getSPLangCode( editor.langCode ),
+
+			lang: editor.config.wsc_lang || LangComparer.getSPLangCode( editor.langCode ),
+			intLang: editor.config.wsc_uiLang || LangComparer.getSPLangCode( editor.langCode ),
 			winType: iframeId, // If not defined app will run on winpopup.
 
 			// Callback binding section.
@@ -95,7 +97,12 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 			iframePath: pluginPath + 'ciframe.html',
 
 			// Styles defining.
-			schemaURI: pluginPath + 'wsc.css'
+			schemaURI: pluginPath + 'wsc.css',
+
+			userDictionaryName: editor.config.wsc_userDictionaryName,
+			customDictionaryName: editor.config.wsc_customDictionaryIds && editor.config.wsc_customDictionaryIds.split( "," ),
+			domainName: editor.config.wsc_domainName
+
 		});
 
 		// Hide user message console (if application was loaded more then after timeout).
@@ -104,7 +111,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 	}
 
 	return {
-		title: editor.lang.spellCheck.title,
+		title: editor.config.wsc_dialogTitle || editor.lang.spellCheck.title,
 		minWidth: 485,
 		minHeight: 380,
 		buttons: [ CKEDITOR.dialog.cancelButton ],
@@ -136,7 +143,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		contents: [
 			{
 			id: 'general',
-			label: editor.lang.spellCheck.title,
+			label: editor.config.wsc_dialogTitle || editor.lang.spellCheck.title,
 			padding: 0,
 			elements: [
 				{
