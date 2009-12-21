@@ -25,7 +25,7 @@
 		var children = element.getChildren();
 		for ( var i = 0; i < children.count(); i++ ) {
 			var child = children.getItem( i );
-			if ( !( child.type === CKEDITOR.NODE_TEXT && /^[ \t\n\r]+$/.test( child.getText() ) ) )
+			if ( !( child.type === CKEDITOR.NODE_TEXT && ( /^[ \t\n\r]+$/ ).test( child.getText() ) ) )
 				retval.push( child );
 		}
 		return retval;
@@ -96,7 +96,8 @@
 							var fieldValue = this.getValue();
 							// ignore default element attribute values
 							if ( 'dir' == field.id && element.getComputedStyle( 'direction' ) == fieldValue )
-								return true;
+								return;
+
 							if ( fieldValue )
 								element.setAttribute( field.id, fieldValue );
 							else
@@ -158,13 +159,13 @@
 
 				// Calculate the common parent node of all contained elements.
 				ancestor = currentNode.getParent();
-				for ( var j = 1; j < blockGroups[ i ].length; j++ )
+				for ( j = 1; j < blockGroups[ i ].length; j++ )
 					ancestor = ancestor.getCommonAncestor( blockGroups[ i ][ j ] );
 
 				divElement = new CKEDITOR.dom.element( 'div', editor.document );
 
 				// Normalize the blocks in each group to a common parent.
-				for ( var j = 0; j < blockGroups[ i ].length; j++ ) {
+				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
 					while ( !currentNode.getParent().equals( ancestor ) )
@@ -176,7 +177,7 @@
 
 				// Wrapped blocks counting
 				var fixedBlock = null;
-				for ( var j = 0; j < blockGroups[ i ].length; j++ ) {
+				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
 					// Avoid DUP elements introduced by grouping.
@@ -184,7 +185,7 @@
 						currentNode.is && CKEDITOR.dom.element.setMarker( database, currentNode, 'block_processed', true );
 
 						// Establish new container, wrapping all elements in this group.
-						if ( j == 0 )
+						if ( !j )
 							divElement.insertBefore( currentNode );
 
 						divElement.append( currentNode );

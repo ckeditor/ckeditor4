@@ -416,7 +416,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var trs = new CKEDITOR.dom.nodeList( table.$.rows ),
 				count = trs.count();
 
-			for ( var i = count - 1; i >= 0; i-- ) {
+			for ( i = count - 1; i >= 0; i-- ) {
 				var tailTr = trs.getItem( i );
 				if ( !tailTr.$.cells.length ) {
 					tailTr.remove();
@@ -475,9 +475,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				newCellTr.append( newCell, true );
 		} else {
 			newCellRowSpan = newRowSpan = 1;
-			var newCellTr = tr.clone();
+
+			newCellTr = tr.clone();
 			newCellTr.insertAfter( tr );
 			newCellTr.append( newCell = cell.clone() );
+
 			var cellsInSameRow = cellInRow( map, rowIndex );
 			for ( var i = 0; i < cellsInSameRow.length; i++ )
 				cellsInSameRow[ i ].rowSpan++;

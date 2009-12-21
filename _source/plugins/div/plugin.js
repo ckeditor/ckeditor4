@@ -48,7 +48,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					}
 
-					for ( var i = 0; i < toRemove.length; i++ )
+					for ( i = 0; i < toRemove.length; i++ )
 						toRemove[ i ].remove( true );
 
 					selection.selectBookmarks( bookmarks );
@@ -89,7 +89,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							return {
 								editdiv: CKEDITOR.TRISTATE_OFF,
 								removediv: CKEDITOR.TRISTATE_OFF
-							}
+							};
 						}
 
 						return null;

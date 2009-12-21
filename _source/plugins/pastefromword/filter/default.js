@@ -42,6 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	fragmentPrototype.firstChild = elementPrototype.firstChild = function( evaluator ) {
 		var child;
+
 		for ( var i = 0; i < this.children.length; i++ ) {
 			child = this.children[ i ];
 			if ( evaluator( child ) )
@@ -54,6 +55,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					continue;
 			}
 		}
+
+		return null;
 	};
 
 	// Adding a (set) of styles to the element's attributes.
@@ -163,7 +166,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			isContainingOnlySpaces: function( element ) {
 				var text;
-				return ( ( text = element.onlyChild() ) && /^(:?\s|&nbsp;)+$/.test( text.value ) );
+				return ( ( text = element.onlyChild() ) && ( /^(:?\s|&nbsp;)+$/ ).test( text.value ) );
 			},
 
 			resolveList: function( element ) {
@@ -181,14 +184,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													[ 'text-indent' ],
 							[ 'line-height' ],
 							// Resolve indent level from 'margin-left' value.
-													[ /^margin(:?-left)?$/, null, function( value )
+													[ ( /^margin(:?-left)?$/ ), null, function( value )
 															{
 							// Be able to deal with component/short-hand form style.
 							var values = value.split( ' ' );
 							value = values[ 3 ] || values[ 1 ] || values[ 0 ];
 							attrs[ 'cke:indent' ] =
 							// Indent margin unit by 36pt.
-							Math.floor( parseInt( value ) / 36 );
+							Math.floor( parseInt( value, 10 ) / 36 );
 						}]
 							] )( attrs.style, element ) || '';
 					}
@@ -307,7 +310,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						listItemAttrs = listItem.attributes;
 						listType = listItem.attributes[ 'cke:listtype' ];
 						// The indent attribute might not present.
-						listItemIndent = parseInt( listItemAttrs[ 'cke:indent' ] ) || 0;
+						listItemIndent = parseInt( listItemAttrs[ 'cke:indent' ], 10 ) || 0;
 
 						// Ignore the 'list-style-type' attribute if it's matched with
 						// the list root element's default style type.
@@ -408,7 +411,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element.name = styleDef.element;
 					CKEDITOR.tools.extend( element.attributes, CKEDITOR.tools.clone( styleDef.attributes ) );
 					element.addStyle( CKEDITOR.style.getStyleText( styleDef ) );
-				}
+				};
 			},
 
 			/**
@@ -475,7 +478,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				elementNames: [
 					// Remove script, meta and link elements.
-									[ /meta|link|script/, '' ]
+									[ ( /meta|link|script/ ), '' ]
 					],
 
 				root: function( element ) {
@@ -498,7 +501,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Convert length unit of width/height on blocks to
 						// a more editor-friendly way (px).
 						if ( tagName in blockLike && attrs.style ) {
-							attrs.style = stylesFilter( [ [ /^width|height$/, null, convertToPx ] ] )( attrs.style ) || '';
+							attrs.style = stylesFilter( [ [ ( /^width|height$/ ), null, convertToPx ] ] )( attrs.style ) || '';
 						}
 
 						// Processing headings.
@@ -683,7 +686,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						element.filterChildren();
 						if ( containsNothingButSpaces( element ) ) {
 							delete element.name;
-							return;
+							return null;
 						}
 
 						// For IE/Safari: List item bullet type is supposed to be indicated by
@@ -710,13 +713,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							attrs.style = stylesFilter( [
 								// Drop 'inline-height' style which make lines overlapping.
 															[ 'line-height' ],
-								[ /^font-family$/, null, !removeFontStyles ? styleMigrateFilter( config[ 'font_style' ], 'family' ) : null ],
-								[ /^font-size$/, null, !removeFontStyles ? styleMigrateFilter( config[ 'fontSize_style' ], 'size' ) : null ],
-								[ /^color$/, null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_foreStyle' ], 'color' ) : null ],
-								[ /^background-color$/, null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
+								[ ( /^font-family$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'font_style' ], 'family' ) : null ],
+								[ ( /^font-size$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'fontSize_style' ], 'size' ) : null ],
+								[ ( /^color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_foreStyle' ], 'color' ) : null ],
+								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
 								] )( styleText, element ) || '';
 						}
 
+						return null;
 					},
 
 					// Migrate basic style formats to editor configured ones.
@@ -741,13 +745,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				attributeNames: [
 					// Remove onmouseover and onmouseout events (from MS Word comments effect)
-									[ /^onmouse(:?out|over)/, '' ],
+									[ ( /^onmouse(:?out|over)/ ), '' ],
 					// Onload on image element.
-									[ /^onload$/, '' ],
+									[ ( /^onload$/ ), '' ],
 					// Remove office and vml attribute from elements.
-									[ /(?:v|o):\w+/, '' ],
+									[ ( /(?:v|o):\w+/ ), '' ],
 					// Remove lang/language attributes.
-									[ /^lang/, '' ]
+									[ ( /^lang/ ), '' ]
 					],
 
 				attributes: {
@@ -755,20 +759,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Provide a white-list of styles that we preserve, those should
 					// be the ones that could later be altered with editor tools.
 					[
-						[ /^margin$|^margin-(?!bottom|top)/, null, function( value, element )
+						[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element )
 													{
 						if ( element.name in { p:1,div:1 } && !emptyMarginRegex.test( value ) )
 							return value;
 					}],
 
-						[ /^border.*|margin.*|vertical-align|float$/, null,
+						[ ( /^border.*|margin.*|vertical-align|float$/ ), null,
 													function( value, element )
 													{
 						if ( element.name == 'img' )
 							return value;
 					}],
 
-						[ /^width|height$/, null,
+						[ ( /^width|height$/ ), null,
 													function( value, element )
 													{
 						if ( element.name in { table:1,td:1,th:1,img:1 } )
@@ -777,9 +781,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						] :
 					// Otherwise provide a black-list of styles that we remove.
 					[
-						[ /^mso-/ ],
+						[ ( /^mso-/ ) ],
 						// Fixing color values.
-											[ /-color$/, null, function( value )
+											[ ( /-color$/ ), null, function( value )
 												{
 						if ( value == 'transparent' )
 							return false;
@@ -787,12 +791,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							return value.replace( /-moz-use-text-color/g, 'transparent' );
 					}],
 						// Remove empty margin values, e.g. 0.00001pt 0em 0pt
-											[ /^margin$/, emptyMarginRegex ],
+											[ ( /^margin$/ ), emptyMarginRegex ],
 						[ 'text-indent', '0cm' ],
 						[ 'page-break-before' ],
 						[ 'tab-stops' ],
 						[ 'display', 'none' ],
-						removeFontStyles ? [ /font-?/ ] : null,
+						removeFontStyles ? [ ( /font-?/ ) ] : null
 						], removeStyles ),
 
 					// Prefer width styles over 'width' attributes.

@@ -190,7 +190,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			sel.selectBookmarks( bms );
 			callback( pastebin[ 'get' + ( mode == 'text' ? 'Value' : 'Html' ) ]() );
 		}, 0 );
-	};
+	}
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {

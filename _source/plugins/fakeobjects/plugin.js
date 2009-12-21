@@ -74,7 +74,7 @@ CKEDITOR.editor.prototype.createFakeElement = function( realElement, className, 
 
 CKEDITOR.editor.prototype.createFakeParserElement = function( realElement, className, realElementType, isResizable ) {
 	var lang = this.lang.fakeobjects,
-		html, writer;
+		html;
 
 	var writer = new CKEDITOR.htmlParser.basicWriter();
 	realElement.writeHtml( writer );

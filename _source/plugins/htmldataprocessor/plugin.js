@@ -248,7 +248,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function unprotectRealComments( html ) {
-		return html.replace( /<!--{cke_protected}{C}([\s\S]+?)-->/g, function( match, data ) {
+		return html.replace( /<!--\{cke_protected\}\{C\}([\s\S]+?)-->/g, function( match, data ) {
 			return decodeURIComponent( data );
 		});
 	}
@@ -260,7 +260,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var regexes = [
 			// Script tags will also be forced to be protected, otherwise
 					// IE will execute them.
-					/<script[\s\S]*?<\/script>/gi,
+		( /<script[\s\S]*?<\/script>/gi ),
 
 			// <noscript> tags (get lost in IE and messed up in FF).
 					/<noscript[\s\S]*?<\/noscript>/gi

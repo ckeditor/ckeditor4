@@ -190,7 +190,8 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 				attribsArray.sort( sortAttribs );
 
 			// Send the attributes.
-			for ( i = 0, len = attribsArray.length; i < len; i++ ) {
+			var len = attribsArray.length;
+			for ( i = 0; i < len; i++ ) {
 				var attrib = attribsArray[ i ];
 				writer.attribute( attrib[ 0 ], attrib[ 1 ] );
 			}
