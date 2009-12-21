@@ -319,7 +319,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Invalid merge request if:
 		// 1. In batch mode despite that less than two selected.
-		// 2. In solo mode while not exactly only one selected.    
+		// 2. In solo mode while not exactly only one selected.
 		// 3. Cells distributed in different table groups (e.g. from both thead and tbody).
 		if ( ( mergeDirection ? cells.length != 1 : cells.length < 2 ) || selection.getCommonAncestor().is( 'table' ) )
 			return false;

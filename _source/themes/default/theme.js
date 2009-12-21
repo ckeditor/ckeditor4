@@ -7,13 +7,13 @@ CKEDITOR.themes.add( 'default', ( function() {
 	function checkSharedSpace( editor, spaceName ) {
 		var container, element;
 
-		// Try to retrieve the target element from the sharedSpaces settings. 
+		// Try to retrieve the target element from the sharedSpaces settings.
 		element = editor.config.sharedSpaces;
 		element = element && element[ spaceName ];
 		element = element && CKEDITOR.document.getById( element );
 
 		// If the element is available, we'll then create the container for
-		// the space.			
+		// the space.
 		if ( element ) {
 			// Creates an HTML structure that reproduces the editor class hierarchy.
 			var html = '<span class="cke_shared">' +

@@ -64,7 +64,7 @@ function CKEditorNotifyAboutOpenedDialog(&$CKEditor) {
 // Include CKEditor class.
 include("../../ckeditor.php");
 
-// Create class instance. 
+// Create class instance.
 $CKEditor = new CKEditor();
 
 // Set configuration option for all editors.

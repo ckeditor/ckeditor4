@@ -47,7 +47,7 @@
 			// Exclude 'div' itself.
 			delete definition.div;
 
-			// Exclude 'td' and 'th' when 'wrapping table' 
+			// Exclude 'td' and 'th' when 'wrapping table'
 			if ( editor.config.div_wrapTable ) {
 				delete definition.td;
 				delete definition.th;
@@ -230,7 +230,7 @@
 		}
 
 		/**
-		 * Hold a collection of created block container elements.  
+		 * Hold a collection of created block container elements.
 		 */
 		var containers = [];
 		/**

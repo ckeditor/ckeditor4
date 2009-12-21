@@ -51,13 +51,13 @@ class CKEditor
 	/**
 	 * A boolean variable indicating whether CKEditor has been initialized.
 	 * Set it to true only if you have already included
-	 * &lt;script&gt; tag loading ckeditor.js in your website. 
+	 * &lt;script&gt; tag loading ckeditor.js in your website.
 	 */
 	public $initialized = false;
 	/**
 	 * Boolean variable indicating whether created code should be printed out or returned by a function.
 	 *
-	 * Example 1: get the code creating %CKEditor instance and print it on a page with the "echo" function. 
+	 * Example 1: get the code creating %CKEditor instance and print it on a page with the "echo" function.
 	 * @code
 	 * $CKEditor = new CKEditor();
 	 * $CKEditor->returnOutput = true;
@@ -72,7 +72,7 @@ class CKEditor
 	 *
 	 * When %CKEditor is created with the editor() method, a HTML &lt;textarea&gt; element is created,
 	 * it will be displayed to anyone with JavaScript disabled or with incompatible browser.
-	 */	
+	 */
 	public $textareaAttributes = array( "rows" => 8, "cols" => 60 );
 	/**
 	 * A string indicating the creation date of %CKEditor.
@@ -100,7 +100,7 @@ class CKEditor
 	}
 
 	/**
-	 * Creates a %CKEditor instance. 
+	 * Creates a %CKEditor instance.
 	 * In incompatible browsers %CKEditor will downgrade to plain HTML &lt;textarea&gt; element.
 	 *
 	 * @param $name (string) Name of the %CKEditor instance (this will be also the "name" attribute of textarea element).
@@ -198,7 +198,7 @@ class CKEditor
 
 	/**
 	 * Replace all &lt;textarea&gt; elements available in the document with editor instances.
-	 * 
+	 *
 	 * @param $className (string) If set, replace all textareas with class className in the page.
 	 *
 	 * Example 1: replace all &lt;textarea&gt; elements in the page.
@@ -206,7 +206,7 @@ class CKEditor
 	 * $CKEditor = new CKEditor();
 	 * $CKEditor->replaceAll();
 	 * @endcode
-	 * 
+	 *
 	 * Example 2: replace all &lt;textarea class="myClassName"&gt; elements in the page.
 	 * @code
 	 * $CKEditor = new CKEditor();
@@ -241,7 +241,7 @@ class CKEditor
 			}
 			$js .= "	CKEDITOR.tools.extend(config, ". $this->jsEncode($_config) .", true);";
 			$js .= "} );";
-			
+
 		}
 
 		$out .= $this->script($js);
@@ -282,7 +282,7 @@ class CKEditor
 	/**
 	 * Clear registered event handlers.
 	 * Note: this function will have no effect on already created editor instances.
-	 * 
+	 *
 	 * @param $event (string) Event name, if not set all event handlers will be removed (optional).
 	 */
 	public function clearEventHandlers($event = null)
@@ -353,7 +353,7 @@ class CKEditor
 
 	/**
 	 * Returns the configuration array (global and instance specific settings are merged into one array).
-	 * 
+	 *
 	 * @param $config (array) The specific configurations to apply to editor instance.
 	 * @param $events (array) Event listeners for editor instance.
 	 */
@@ -460,11 +460,11 @@ class CKEditor
 		$out .= "<script type=\"text/javascript\" src=\"" . $ckeditorPath . 'ckeditor.js' . $args . "\"></script>\n";
 
 		$extraCode = "";
-		// CKReleaser %REMOVE_START% 
-		if (self::version == '%VERSION%') { 
+		// CKReleaser %REMOVE_START%
+		if (self::version == '%VERSION%') {
 			$extraCode .= ($extraCode ? "\n" : "") . "if (typeof(CKEDITOR) == 'undefined') { alert('The CKEDITOR object was not found. Please make sure that the ckeditor.js file is available in your installation.'); }";
 		}
-		// %REMOVE_END% 
+		// %REMOVE_END%
 		if (!empty($this->timestamp) && $this->timestamp != self::timestamp) {
 			$extraCode .= ($extraCode ? "\n" : "") . "CKEDITOR.timestamp = '". $this->timestamp ."';";
 		}

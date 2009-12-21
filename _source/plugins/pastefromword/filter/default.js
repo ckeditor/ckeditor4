@@ -521,7 +521,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								delete element.name;
 						}
 						// Remove element with ms-office namespace,
-						// with it's content preserved, e.g. 'o:p'. 
+						// with it's content preserved, e.g. 'o:p'.
 						else if ( tagName.indexOf( ':' ) != -1 && tagName.indexOf( 'cke' ) == -1 ) {
 							element.filterChildren();
 
@@ -849,7 +849,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							imgSrcInfo = previousComment && previousComment.value.match( /<v:imagedata[^>]*o:href=['"](.*?)['"]/ ),
 							imgSrc = imgSrcInfo && imgSrcInfo[ 1 ];
 
-						// Is there a real 'src' url to be used? 
+						// Is there a real 'src' url to be used?
 						imgSrc && ( img.attributes.src = imgSrc );
 						return img;
 					}
@@ -888,7 +888,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// These rules will have higher priorities than default ones.
 		dataFilter.addRules( CKEDITOR.plugins.pastefromword.getRules( editor ) );
 
-		// Allow extending data filter rules. 
+		// Allow extending data filter rules.
 		editor.fire( 'beforeCleanWord', { filter: dataFilter } );
 
 		try {
@@ -936,7 +936,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Whether remove element styles that can't be managed with editor, note that this
  * this doesn't handle the font-specific styles, which depends on
- * how {@link CKEDITOR.config.pasteFromWordRemoveFontStyles} is configured. 
+ * how {@link CKEDITOR.config.pasteFromWordRemoveFontStyles} is configured.
  * @name CKEDITOR.config.pasteFromWordRemoveStyles
  * @type Boolean
  * @default true

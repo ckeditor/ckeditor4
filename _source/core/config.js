@@ -173,7 +173,7 @@ CKEDITOR.config = {
 	bodyId: '',
 
 	/**
-	 * Sets the 'class' attribute to be used on body if it doesn't have one.  
+	 * Sets the 'class' attribute to be used on body if it doesn't have one.
 	 * @type String
 	 * @default ''
 	 */

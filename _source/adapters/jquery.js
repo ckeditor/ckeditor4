@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *   Triggered when getData event is fired inside editor. It can change returned data using eventData reference.
  * - setData.ckeditor( editor )
  *   Triggered when getData event is fired inside editor.
- * 
+ *
  * @example
  * <script src="jquery.js"></script>
  * <script src="ckeditor.js"></script>

@@ -34,7 +34,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 // Include CKEditor class.
 include("../../ckeditor.php");
 
-// Create class instance. 
+// Create class instance.
 $CKEditor = new CKEditor();
 
 // Do not print the code directly to the browser, return it instead
