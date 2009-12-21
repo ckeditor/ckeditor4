@@ -230,15 +230,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * @param {CKEDITOR.dom.element} parent The anscestor element to get broken.
 	 * @example
 	 * // Before breaking:
-	 * //     <b>This <i>is some<span /> sample</i> test text</b>
-	 * // If "element" is <span /> and "parent" is <i>:
-	 * //     <b>This <i>is some</i><span /><i> sample</i> test text</b>
+	 * //     &lt;b&gt;This &lt;i&gt;is some&lt;span /&gt; sample&lt;/i&gt; test text&lt;/b&gt;
+	 * // If "element" is &lt;span /&gt; and "parent" is &lt;i&gt;:
+	 * //     &lt;b&gt;This &lt;i&gt;is some&lt;/i&gt;&lt;span /&gt;&lt;i&gt; sample&lt;/i&gt; test text&lt;/b&gt;
 	 * element.breakParent( parent );
 	 * @example
 	 * // Before breaking:
-	 * //     <b>This <i>is some<span /> sample</i> test text</b>
-	 * // If "element" is <span /> and "parent" is <b>:
-	 * //     <b>This <i>is some</i></b><span /><b><i> sample</i> test text</b>
+	 * //     &lt;b&gt;This &lt;i&gt;is some&lt;span /&gt; sample&lt;/i&gt; test text&lt;/b&gt;
+	 * // If "element" is &lt;span /&gt; and "parent" is &lt;b&gt;:
+	 * //     &lt;b&gt;This &lt;i&gt;is some&lt;/i&gt;&lt;/b&gt;&lt;span /&gt;&lt;b&gt;&lt;i&gt; sample&lt;/i&gt; test text&lt;/b&gt;
 	 * element.breakParent( parent );
 	 */
 	breakParent: function( parent ) {
