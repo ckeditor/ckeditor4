@@ -654,6 +654,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		clear: 'Poista'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'Kutista työkalupalkki',
+	toolbarExpand: 'Laajenna työkalupalkki'
 };
