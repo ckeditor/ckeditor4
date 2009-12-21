@@ -354,4 +354,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	};
 
+	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
+		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
+		fillerEvaluator = function( element ) {
+			return isNotBookmark( element ) && isNotWhitespaces( element );
+		};
+
+	// Check if there's a filler node at the end of an element, and return it.
+	CKEDITOR.dom.element.prototype.getBogus = function() {
+		var tail = this.getLast( fillerEvaluator );
+		if ( tail && ( !CKEDITOR.env.ie ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
+			return tail;
+		}
+		return false;
+	};
+
 })();

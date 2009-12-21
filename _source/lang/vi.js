@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'Văn bản bạn muốn dán có kèm định dạng của Word. Bạn có muốn loại bỏ định dạng Word trước khi dán?',
 		toolbar: 'Dán với định dạng Word',
 		title: 'Dán với định dạng Word',
-		advice: 'Hãy dán nội dung vào trong khung bên dưới, sử dụng tổ hợp phím (<STRONG>Ctrl+V</STRONG>) và nhấn vào nút <STRONG>Đồng ý</STRONG>.',
-		ignoreFontFace: 'Chấp nhận các định dạng phông',
-		removeStyle: 'Gỡ bỏ các định dạng Styles'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'vi' ] = {
 		tag_h5: 'Heading 5',
 		tag_h6: 'Heading 6',
 		tag_div: 'Normal (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

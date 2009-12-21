@@ -63,44 +63,75 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/,
 		emailBodyRegex = /body=([^;?:@&=$,\/]*)/,
 		anchorRegex = /^#(.*)$/,
-		urlRegex = /^((?:http|https|ftp|news):\/\/)?(.*)$/,
-		selectableTargets = /^(_(?:self|top|parent|blank))$/;
+		urlRegex = /^(?!javascript)((?:http|https|ftp|news):\/\/)?(.*)$/,
+		selectableTargets = /^(_(?:self|top|parent|blank))$/,
+		encodedEmailLinkRegex = /^javascript:void\(location\.href='mailto:'\+String\.fromCharCode\(([^)]+)\)(?:\+'(.*)')?\)$/,
+		functionCallProtectedEmailLinkRegex = /^javascript:([^(]+)\(([^)]+)\)$/;
 
 	var popupRegex = /\s*window.open\(\s*this\.href\s*,\s*(?:'([^']*)'|null)\s*,\s*'([^']*)'\s*\)\s*;\s*return\s*false;*\s*/;
 	var popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi;
 
 	var parseLink = function( editor, element ) {
 			var href = element ? ( element.getAttribute( '_cke_saved_href' ) || element.getAttribute( 'href' ) ) : '',
-				emailMatch = '',
-				anchorMatch = '',
-				urlMatch = false,
+				emailMatch, anchorMatch, urlMatch,
 				retval = {};
 
-			if ( href ) {
-				emailMatch = href.match( emailRegex );
-				anchorMatch = href.match( anchorRegex );
-				urlMatch = href.match( urlRegex );
-			}
-
-			// Load the link type and URL.
-			if ( emailMatch ) {
-				var subjectMatch = href.match( emailSubjectRegex ),
-					bodyMatch = href.match( emailBodyRegex );
-				retval.type = 'email';
-				retval.email = {};
-				retval.email.address = emailMatch[ 1 ];
-				subjectMatch && ( retval.email.subject = decodeURIComponent( subjectMatch[ 1 ] ) );
-				bodyMatch && ( retval.email.body = decodeURIComponent( bodyMatch[ 1 ] ) );
-			} else if ( anchorMatch ) {
+			if ( anchorMatch = href.match( anchorRegex ) ) {
 				retval.type = 'anchor';
 				retval.anchor = {};
 				retval.anchor.name = retval.anchor.id = anchorMatch[ 1 ];
-			} else if ( href && urlMatch ) // urlRegex matches empty strings, so need to check for href as well.
-			{
+			}
+			// urlRegex matches empty strings, so need to check for href as well.
+			else if ( href && ( urlMatch = href.match( urlRegex ) ) ) {
 				retval.type = 'url';
 				retval.url = {};
 				retval.url.protocol = urlMatch[ 1 ];
 				retval.url.url = urlMatch[ 2 ];
+			}
+			// Protected email link as encoded string.
+			else if ( !emailProtection || emailProtection == 'encode' ) {
+				if ( emailProtection == 'encode' ) {
+					href = href.replace( encodedEmailLinkRegex, function( match, protectedAddress, rest ) {
+						return 'mailto:' +
+							String.fromCharCode.apply( String, protectedAddress.split( ',' ) ) +
+							( rest && unescapeSingleQuote( rest ) );
+					});
+				}
+
+				emailMatch = href.match( emailRegex );
+
+				if ( emailMatch ) {
+					var subjectMatch = href.match( emailSubjectRegex ),
+						bodyMatch = href.match( emailBodyRegex );
+
+					retval.type = 'email';
+					var email = ( retval.email = {} );
+					email.address = emailMatch[ 1 ];
+					subjectMatch && ( email.subject = decodeURIComponent( subjectMatch[ 1 ] ) );
+					bodyMatch && ( email.body = decodeURIComponent( bodyMatch[ 1 ] ) );
+				}
+			}
+			// Protected email link as function call.
+			else if ( emailProtection ) {
+				href.replace( functionCallProtectedEmailLinkRegex, function( match, funcName, funcArgs ) {
+					if ( funcName == compiledProtectionFunction.name ) {
+						retval.type = 'email';
+						var email = retval.email = {};
+
+						var paramRegex = /[^,\s]+/g,
+							paramQuoteRegex = /(^')|('$)/g,
+							paramsMatch = funcArgs.match( paramRegex ),
+							paramsMatchLength = paramsMatch.length,
+							paramName, paramVal;
+
+						for ( var i = 0; i < paramsMatchLength; i++ ) {
+							paramVal = decodeURIComponent( unescapeSingleQuote( paramsMatch[ i ].replace( paramQuoteRegex, '' ) ) );
+							paramName = compiledProtectionFunction.params[ i ].toLowerCase();
+							email[ paramName ] = paramVal;
+						}
+						email.address = [ email.name, email.domain ].join( '@' );
+					}
+				});
 			} else
 				retval.type = 'url';
 
@@ -209,6 +240,58 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 	var commitAdvParams = function( data ) {
 			return commitParams.call( this, 'adv', data );
 		};
+
+	function unescapeSingleQuote( str ) {
+		return str.replace( /\\'/g, '\'' );
+	}
+
+	function escapeSingleQuote( str ) {
+		return str.replace( /'/g, '\\$&' );
+	}
+
+	var emailProtection = editor.config.emailProtection || '';
+
+	// Compile the protection function pattern.
+	if ( emailProtection && emailProtection != 'encode' ) {
+		var compiledProtectionFunction = {};
+
+		emailProtection.replace( /^([^(]+)\(([^)]+)\)$/, function( match, funcName, params ) {
+			compiledProtectionFunction.name = funcName;
+			compiledProtectionFunction.params = [];
+			params.replace( /[^,\s]+/g, function( param ) {
+				compiledProtectionFunction.params.push( param );
+			});
+		});
+	}
+
+	function protectEmailLinkAsFunction( email ) {
+		var retval,
+			name = compiledProtectionFunction.name,
+			params = compiledProtectionFunction.params,
+			paramName, paramValue;
+
+		retval = [ name, '(' ];
+		for ( var i = 0; i < params.length; i++ ) {
+			paramName = params[ i ].toLowerCase();
+			paramValue = email[ paramName ];
+
+			i > 0 && retval.push( ',' );
+			retval.push( '\'', paramValue ? escapeSingleQuote( encodeURIComponent( email[ paramName ] ) ) : '', '\'' );
+		}
+		retval.push( ')' );
+		return retval.join( '' );
+	}
+
+	function protectEmailAddressAsEncodedString( address ) {
+		var charCode,
+			length = address.length,
+			encodedChars = [];
+		for ( var i = 0; i < length; i++ ) {
+			charCode = address.charCodeAt( i );
+			encodedChars.push( charCode );
+		}
+		return 'String.fromCharCode(' + encodedChars.join( ',' ) + ')';
+	}
 
 	return {
 		title: editor.lang.link.title,
@@ -948,20 +1031,49 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					attributes._cke_saved_href = '#' + ( name || id || '' );
 					break;
 				case 'email':
-					var address = ( data.email && data.email.address ),
-						subject = ( data.email && encodeURIComponent( data.email.subject || '' ) ),
-						body = ( data.email && encodeURIComponent( data.email.body || '' ) ),
-						linkList = [ 'mailto:', address ];
-					if ( subject || body ) {
-						var argList = [];
-						linkList.push( '?' );
-						subject && argList.push( 'subject=' + subject );
-						body && argList.push( 'body=' + body );
-						linkList.push( argList.join( '&' ) );
+
+					var linkHref,
+					email = data.email,
+						address = email.address;
+
+					switch ( emailProtection ) {
+						case '':
+						case 'encode':
+							{
+								var subject = encodeURIComponent( email.subject || '' ),
+									body = encodeURIComponent( email.body || '' );
+
+								// Build the e-mail parameters first.
+								var argList = [];
+								subject && argList.push( 'subject=' + subject );
+								body && argList.push( 'body=' + body );
+								argList = argList.length ? '?' + argList.join( '&' ) : '';
+
+								if ( emailProtection == 'encode' ) {
+									linkHref = [ 'javascript:void(location.href=\'mailto:\'+',
+																					protectEmailAddressAsEncodedString( address ) ];
+									// parameters are optional.
+									argList && linkHref.push( '+\'', escapeSingleQuote( argList ), '\'' );
+
+									linkHref.push( ')' );
+								} else
+									linkHref = [ 'mailto:', address, argList ];
+
+								break;
+							}
+						default:
+							{
+								// Separating name and domain.
+								var nameAndDomain = address.split( '@', 2 );
+								email.name = nameAndDomain[ 0 ];
+								email.domain = nameAndDomain[ 1 ];
+
+								linkHref = [ 'javascript:', protectEmailLinkAsFunction( email ) ];
+							}
 					}
-					attributes._cke_saved_href = linkList.join( '' );
+
+					attributes._cke_saved_href = linkHref.join( '' );
 					break;
-				default:
 			}
 
 			// Popups and target.
@@ -1088,4 +1200,24 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				this.hidePage( 'target' ); //Hide Target tab.
 		}
 	};
-});
+})
+
+/**
+ * The e-mail address anti-spam protection option.
+ * @name CKEDITOR.config.emailProtection
+ * @type {String}
+ * Two forms of protection could be choosed from :
+ * 1. The whole address parts ( name, domain with any other query string ) are assembled into a
+ *   function call pattern which invoke you own provided function, with the specified arguments.
+ * 2. Only the e-mail address is obfuscated into unicode code point sequences, replacement are
+ *   done by a String.fromCharCode() call.
+ * Note: Both approaches require JavaScript to be enabled.
+ * @default ''
+ * @example
+ *  config.emailProtection = '';
+ *  // href="mailto:tester@ckeditor.com?subject=subject&body=body"
+ *  config.emailProtection = 'encode';
+ *  // href="<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(116,101,115,116,101,114,64,99,107,101,100,105,116,111,114,46,99,111,109)+\'?subject=subject&body=body\')\">e-mail</a>"
+ *  config.emailProtection = 'mt(NAME,DOMAIN,SUBJECT,BODY)';
+ *  // href="javascript:mt('tester','ckeditor.com','subject','body')"
+ */

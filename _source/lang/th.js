@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'th' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
 		toolbar: 'วางสำเนาจากตัวอักษรเวิร์ด',
 		title: 'วางสำเนาจากตัวอักษรเวิร์ด',
-		advice: 'กรุณาใช้คีย์บอร์ดเท่านั้น โดยกดปุ๋ม (<strong>Ctrl และ V</strong>)พร้อมๆกัน และกด <strong>OK</strong>.',
-		ignoreFontFace: 'ไม่สนใจ Font Face definitions',
-		removeStyle: 'ลบ Styles definitions'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'th' ] = {
 		tag_h5: 'Heading 5',
 		tag_h6: 'Heading 6',
 		tag_div: 'Paragraph (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

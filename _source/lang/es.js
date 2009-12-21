@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'es' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'El texto que desea parece provenir de Word. Desea depurarlo antes de pegarlo?',
 		toolbar: 'Pegar desde Word',
 		title: 'Pegar desde Word',
-		advice: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>); luego presione <STRONG>OK</STRONG>.',
-		ignoreFontFace: 'Ignorar definiciones de fuentes',
-		removeStyle: 'Remover definiciones de estilo'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'es' ] = {
 		tag_h5: 'Encabezado 5',
 		tag_h6: 'Encabezado 6',
 		tag_div: 'Normal (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

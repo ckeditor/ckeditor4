@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -50,7 +50,7 @@ CKEDITOR.scriptLoader = (function() {
 		 *         alert( 'Number of failures: ' + failed.length );
 		 *     });
 		 */
-		load: function( scriptUrl, callback, scope, noCheck ) {
+		load: function( scriptUrl, callback, scope, noCheck, showBusy ) {
 			var isString = ( typeof scriptUrl == 'string' );
 
 			if ( isString )
@@ -80,8 +80,10 @@ CKEDITOR.scriptLoader = (function() {
 			var checkLoaded = function( url, success ) {
 					( success ? completed : failed ).push( url );
 
-					if ( --scriptCount <= 0 )
+					if ( --scriptCount <= 0 ) {
+						showBusy && CKEDITOR.document.getDocumentElement().removeStyle( 'cursor' );
 						doCallback( success );
+					}
 				};
 
 			var onLoad = function( url, success ) {
@@ -150,6 +152,7 @@ CKEDITOR.scriptLoader = (function() {
 					CKEDITOR.fire( 'download', url ); // @Packager.RemoveLine
 				};
 
+			showBusy && CKEDITOR.document.getDocumentElement().setStyle( 'cursor', 'wait' );
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
 			}

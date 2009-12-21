@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -85,7 +85,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// "Static" types.
-			if ( obj === null || ( typeof( obj ) != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) ) {
+			if ( obj === null || ( typeof( obj ) != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) || ( obj instanceof RegExp ) ) {
 				return obj;
 			}
 
@@ -98,6 +98,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			return clone;
+		},
+
+		/**
+		 * Turn the first letter of string to upper-case.
+		 * @param {String} str
+		 */
+		capitalize: function( str ) {
+			return str.charAt( 0 ).toUpperCase() + str.substring( 1 ).toLowerCase();
 		},
 
 		/**
@@ -214,6 +222,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			};
 		})(),
+
+		/**
+		 * Build the HTML snippet of a set of <style>/<link>.
+		 * @param css {String|Array} Each of which are url (absolute) of a CSS file or
+		 * a trunk of style text.
+		 */
+		buildStyleHtml: function( css ) {
+			css = [].concat( css );
+			var item,
+				retval = [];
+			for ( var i = 0; i < css.length; i++ ) {
+				item = css[ i ];
+				// Is CSS style text ?
+				if ( /@import|[{}]/.test( item ) )
+					retval.push( '<style>' + item + '</style>' );
+				else
+					retval.push( '<link type="text/css" rel=stylesheet href="' + item + '">' );
+			}
+			return retval.join( '' );
+		},
 
 		/**
 		 * Replace special HTML characters in a string with their relative HTML
@@ -553,6 +581,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		repeat: function( str, times ) {
 			return new Array( times + 1 ).join( str );
+		},
+
+		tryThese: function() {
+			var returnValue;
+			for ( var i = 0, length = arguments.length; i < length; i++ ) {
+				var lambda = arguments[ i ];
+				try {
+					returnValue = lambda();
+					break;
+				} catch ( e ) {}
+			}
+			return returnValue;
 		}
 	};
 })();

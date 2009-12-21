@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'ja' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: '貼り付けを行うテキストは、ワード文章からコピーされようとしています。貼り付ける前にクリーニングを行いますか？',
 		toolbar: 'ワード文章から貼り付け',
 		title: 'ワード文章から貼り付け',
-		advice: 'キーボード(<STRONG>Ctrl+V</STRONG>)を使用して、次の入力エリア内で貼って、<STRONG>OK</STRONG>を押してください。',
-		ignoreFontFace: 'FontタグのFace属性を無視します。',
-		removeStyle: 'スタイル定義を削除します。'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'ja' ] = {
 		tag_h5: '見出し 5',
 		tag_h6: '見出し 6',
 		tag_div: '標準 (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

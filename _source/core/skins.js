@@ -19,15 +19,32 @@ CKEDITOR.skins = (function() {
 	var preloaded = {};
 	var paths = {};
 
-	var loadedPart = function( skinName, part, callback ) {
+	var loadPart = function( editor, skinName, part, callback ) {
 			// Get the skin definition.
 			var skinDefinition = loaded[ skinName ];
+
+			if ( !editor.skin ) {
+				editor.skin = skinDefinition;
+
+				// Trigger init function if any.
+				if ( skinDefinition.init )
+					skinDefinition.init( editor );
+			}
 
 			var appendSkinPath = function( fileNames ) {
 					for ( var n = 0; n < fileNames.length; n++ ) {
 						fileNames[ n ] = CKEDITOR.getUrl( paths[ skinName ] + fileNames[ n ] );
 					}
 				};
+
+			function fixCSSTextRelativePath( cssStyleText, baseUrl ) {
+				return cssStyleText.replace( /url\s*\(([\s'"]*)(.*?)([\s"']*)\)/g, function( match, opener, path, closer ) {
+					if ( /^\/|^\w?:/.test( path ) )
+						return match;
+					else
+						return 'url(' + baseUrl + opener + path + closer + ')';
+				});
+			}
 
 			// Check if we need to preload images from it.
 			if ( !preloaded[ skinName ] ) {
@@ -36,7 +53,7 @@ CKEDITOR.skins = (function() {
 					appendSkinPath( preload );
 					CKEDITOR.imageCacher.load( preload, function() {
 						preloaded[ skinName ] = 1;
-						loadedPart( skinName, part, callback );
+						loadPart( editor, skinName, part, callback );
 					});
 					return;
 				}
@@ -84,10 +101,19 @@ CKEDITOR.skins = (function() {
 
 				// Load the "css" pieces.
 				if ( !cssIsLoaded ) {
-					appendSkinPath( part.css );
+					var cssPart = part.css;
 
-					for ( var c = 0; c < part.css.length; c++ )
-						CKEDITOR.document.appendStyleSheet( part.css[ c ] );
+					if ( CKEDITOR.tools.isArray( cssPart ) ) {
+						appendSkinPath( cssPart );
+						for ( var c = 0; c < cssPart.length; c++ )
+							CKEDITOR.document.appendStyleSheet( cssPart[ c ] );
+					} else {
+						cssPart = fixCSSTextRelativePath( cssPart, CKEDITOR.getUrl( paths[ skinName ] ) );
+						// Processing Inline CSS part.
+						CKEDITOR.document.appendStyleText( cssPart );
+					}
+
+					part.css = cssPart;
 
 					cssIsLoaded = 1;
 				}
@@ -136,26 +162,12 @@ CKEDITOR.skins = (function() {
 			var skinName = editor.skinName,
 				skinPath = editor.skinPath;
 
-			if ( loaded[ skinName ] ) {
-				loadedPart( skinName, skinPart, callback );
-
-				// Get the skin definition.
-				var skinDefinition = loaded[ skinName ];
-
-				// Trigger init function if any.
-				if ( skinDefinition.init )
-					skinDefinition.init( editor );
-			} else {
+			if ( loaded[ skinName ] )
+				loadPart( editor, skinName, skinPart, callback );
+			else {
 				paths[ skinName ] = skinPath;
 				CKEDITOR.scriptLoader.load( skinPath + 'skin.js', function() {
-					loadedPart( skinName, skinPart, callback );
-
-					// Get the skin definition.
-					var skinDefinition = loaded[ skinName ];
-
-					// Trigger init function if any.
-					if ( skinDefinition.init )
-						skinDefinition.init( editor );
+					loadPart( editor, skinName, skinPart, callback );
 				});
 			}
 		}

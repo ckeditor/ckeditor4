@@ -47,6 +47,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		}
 	},
 
+	appendStyleText: function( cssStyleText ) {
+		if ( this.$.createStyleSheet ) {
+			var styleSheet = this.$.createStyleSheet( "" );
+			styleSheet.cssText = cssStyleText;
+		} else {
+			var style = new CKEDITOR.dom.element( 'style', this );
+			style.append( new CKEDITOR.dom.text( cssStyleText, this ) );
+			this.getHead().append( style );
+		}
+	},
+
 	createElement: function( name, attribsAndStyles ) {
 		var element = new CKEDITOR.dom.element( name, this );
 

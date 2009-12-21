@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'km' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
 		toolbar: 'ចំលងដាក់ពី Word',
 		title: 'ចំលងដាក់ពី Word',
-		advice: 'សូមចំលងអត្ថបទទៅដាក់ក្នុងប្រអប់ដូចខាងក្រោមដោយប្រើប្រាស់ ឃី \u200b(<STRONG>Ctrl+V</STRONG>) ហើយចុច <STRONG>OK</STRONG> ។',
-		ignoreFontFace: 'មិនគិតអំពីប្រភេទពុម្ភអក្សរ',
-		removeStyle: 'លប់ម៉ូត'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'km' ] = {
 		tag_h5: 'Heading 5',
 		tag_h6: 'Heading 6',
 		tag_div: 'Normal (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

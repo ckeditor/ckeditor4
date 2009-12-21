@@ -29,10 +29,11 @@ copy :
 		source : '_source/plugins',
 		target : 'plugins',
 		minify : true,
-		ignore : {
+		ignore :
+		{
 			sourcePackage : 'ckeditor.pack',
 			files : 'packages[1].files'
-		}	
+		}
 	},
 
 	{

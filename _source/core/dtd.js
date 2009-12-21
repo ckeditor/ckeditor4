@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -50,13 +51,22 @@ CKEDITOR.dtd = (function() {
 		N = { '#':1 },
 		O = X( { param:1 }, K ),
 		P = X( { form:1 }, A, D, E, I ),
-		Q = { li:1 };
+		Q = { li:1 },
+		R = { style:1,script:1 },
+		S = { base:1,link:1,meta:1,title:1 },
+		T = X( S, R ),
+		U = { head:1,body:1 },
+		V = { html:1 };
 
 	var block = { address:1,blockquote:1,center:1,dir:1,div:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,menu:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 };
 
 	return /** @lends CKEDITOR.dtd */ {
 
 		// The "$" items have been added manually.
+
+		// List of elements living outside body.
+		$nonBodyContent: X( V, U, S ),
+
 		/**
 		 * List of block elements, like "p" or "div".
 		 * @type Object
@@ -64,9 +74,16 @@ CKEDITOR.dtd = (function() {
 		 */
 		$block: block,
 
+		/**
+		 * List of block limit elements.
+		 * @type Object
+		 * @example
+		 */
+		$blockLimit: { body:1,div:1,td:1,th:1,caption:1,form:1 },
+
 		$inline: L, // Just like span.
 
-		$body: X( { script:1 }, block ),
+		$body: X( { script:1,style:1 }, block ),
 
 		$cdata: { script:1,style:1 },
 
@@ -120,6 +137,15 @@ CKEDITOR.dtd = (function() {
 		 */
 		$tableContent: { caption:1,col:1,colgroup:1,tbody:1,td:1,tfoot:1,th:1,thead:1,tr:1 },
 
+		html: U,
+		head: T,
+		style: N,
+		script: N,
+		body: P,
+		base: {},
+		link: {},
+		meta: {},
+		title: N,
 		col: {},
 		tr: { td:1,th:1 },
 		img: {},

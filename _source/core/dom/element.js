@@ -289,7 +289,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * alert( <b>p.getHtml()</b> );  // "&lt;b&gt;Example&lt;/b&gt;"
 	 */
 	getHtml: function() {
-		return this.$.innerHTML;
+		var retval = this.$.innerHTML;
+		// Strip <?xml:namespace> tags in IE. (#3341).
+		return CKEDITOR.env.ie ? retval.replace( /<\?[^>]*>/g, '' ) : retval;
 	},
 
 	getOuterHtml: function() {

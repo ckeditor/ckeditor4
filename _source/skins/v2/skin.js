@@ -21,7 +21,7 @@ CKEDITOR.skins.add( 'v2', ( function() {
 	};
 })() );
 
-if ( CKEDITOR.dialog ) {
+CKEDITOR.on( 'dialogPluginReady', function() {
 	CKEDITOR.dialog.on( 'resize', function( evt ) {
 		var data = evt.data,
 			width = data.width,
@@ -62,4 +62,4 @@ if ( CKEDITOR.dialog ) {
 			el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
 		}, 100 );
 	});
-}
+});

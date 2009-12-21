@@ -9,16 +9,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	/**
-	 * List of elements in which has no way to move editing focus outside.
-	 */
+	// List of elements in which has no way to move editing focus outside.
 	var nonExitableElementNames = { table:1,pre:1 };
+
 	// Matching an empty paragraph at the end of document.
-	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*$/gi;
+	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*(?=$|<\/body>)/gi;
 
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
 			this.focus();
+			this.fire( 'saveSnapshot' );
 
 			var selection = this.getSelection(),
 				data = evt.data;
@@ -41,6 +41,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.getSelection().lock();
 			} else
 				this.document.$.execCommand( 'inserthtml', false, data );
+
+			CKEDITOR.tools.setTimeout( function() {
+				this.fire( 'saveSnapshot' );
+			}, 0, this );
 		}
 	}
 
@@ -208,50 +212,45 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 				// Creates the iframe that holds the editable document.
-				var createIFrame = function() {
+				var createIFrame = function( data ) {
 						if ( iframe )
 							iframe.remove();
 						if ( fieldset )
 							fieldset.remove();
 
 						frameLoaded = 0;
-						// The document domain must be set within the src
-						// attribute;
-						// Defer the script execution until iframe
-						// has been added to main window, this is needed for some
-						// browsers which will begin to load the frame content
-						// prior to it's presentation in DOM.(#3894)
-						var src = 'void( ' + ( CKEDITOR.env.gecko ? 'setTimeout' : '' ) + '( function(){' +
-															'document.open();' +
-															( CKEDITOR.env.ie && isCustomDomain ? 'document.domain="' + document.domain + '";' : '' ) +
-															'document.write( window.parent[ "_cke_htmlToLoad_' + editor.name + '" ] );' +
-															'document.close();' +
-															'window.parent[ "_cke_htmlToLoad_' + editor.name + '" ] = null;' +
-															'}'
-															+ ( CKEDITOR.env.gecko ? ', 0 )' : ')()' )
-															+ ' )';
-
-						// Loading via src attribute does not work in Opera.
-						if ( CKEDITOR.env.opera )
-							src = 'void(0);';
 
 						iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 							' style="width:100%;height:100%"' +
 							' frameBorder="0"' +
+							// Support for custom document.domain in IE.
+						( isCustomDomain ? ' src="javascript:void((function(){' +
+							'document.open();' +
+							'document.domain=\'' + document.domain + '\';' +
+							'document.close();' +
+							'})())"' : '' ) +
 							' tabIndex="-1"' +
 							' allowTransparency="true"' +
-							' src="javascript:' + encodeURIComponent( src ) + '"' +
 							'></iframe>' );
+
+						// Register onLoad event for iframe element, which
+						// will fill it with content and set custom domain.
+						iframe.on( 'load', function( e ) {
+							e.removeListener();
+							var doc = iframe.getFrameDocument().$;
+
+							// Custom domain handling is needed after each document.open().
+							doc.open();
+							if ( isCustomDomain )
+								doc.domain = document.domain;
+							doc.write( data );
+							doc.close();
+
+						});
 
 						var accTitle = editor.lang.editorTitle.replace( '%1', editor.name );
 
 						if ( CKEDITOR.env.gecko ) {
-							// Double checking the iframe will be loaded properly(#4058).
-							iframe.on( 'load', function( ev ) {
-								ev.removeListener();
-								contentDomReady( iframe.$.contentWindow );
-							});
-
 							// Accessibility attributes for Firefox.
 							mainElement.setAttributes({
 								role: 'region',
@@ -498,48 +497,93 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					loadData: function( data ) {
 						isLoadingData = true;
 
+						var config = editor.config,
+							fullPage = config.fullPage,
+							docType = config.docType;
+
+						// Build the additional stuff to be included into <head>.
+						var headExtra = '<style type="text/css" cke_temp="1">' +
+							editor._.styles.join( '\n' ) +
+							'</style>';
+
+						!fullPage && ( headExtra = CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) + headExtra );
+
+						var baseTag = config.baseHref ? '<base href="' + config.baseHref + '" cke_temp="1" />' : '';
+
+						if ( fullPage ) {
+							// Search and sweep out the doctype declaration.
+							data = data.replace( /<!DOCTYPE[^>]*>/i, function( match ) {
+								editor.docType = docType = match;
+								return '';
+							});
+						}
+
 						// Get the HTML version of the data.
-						if ( editor.dataProcessor ) {
+						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toHtml( data, fixForBody );
+
+						if ( fullPage ) {
+							// Check if the <body> tag is available.
+							if ( !( /<body[\s|>]/ ).test( data ) )
+								data = '<body>' + data;
+
+							// Check if the <html> tag is available.
+							if ( !( /<html[\s|>]/ ).test( data ) )
+								data = '<html>' + data + '</html>';
+
+							// Check if the <head> tag is available.
+							if ( !( /<head[\s|>]/ ).test( data ) )
+								data = data.replace( /<html[^>]*>/, '$&<head><title></title></head>' );
+
+							// The base must be the first tag in the HEAD, e.g. to get relative
+							// links on styles.
+							baseTag && ( data = data.replace( /<head>/, '$&' + baseTag ) );
+
+							// Inject the extra stuff into <head>.
+							// Attention: do not change it before testing it well. (V2)
+							// This is tricky... if the head ends with <meta ... content type>,
+							// Firefox will break. But, it works if we place our extra stuff as
+							// the last elements in the HEAD.
+							data = data.replace( /<\/head\s*>/, headExtra + '$&' );
+
+							// Add the DOCTYPE back to it.
+							data = docType + data;
+						} else {
+							data = config.docType + '<html dir="' + config.contentsLangDirection + '">' +
+																		'<head>' +
+																			baseTag +
+																			headExtra +
+																		'</head>' +
+																		'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
+																					( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
+																					'>' +
+																			data +
+																		'</html>';
 						}
 
-						data = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
-																'<head>' +
-																	'<link type="text/css" rel="stylesheet" href="' +
-																	[].concat( editor.config.contentsCss ).join( '"><link type="text/css" rel="stylesheet" href="' ) +
-																	'">' +
-																	'<style type="text/css" _fcktemp="true">' +
-																		editor._.styles.join( '\n' ) +
-																	'</style>' +
-																'</head>' +
-																'<body>' +
-																	data +
-																'</body>' +
-																'</html>' +
-																activationScript;
+						data += activationScript;
 
-						window[ '_cke_htmlToLoad_' + editor.name ] = data;
 						CKEDITOR._[ 'contentDomReady' + editor.name ] = contentDomReady;
-						createIFrame();
-
-						// Opera must use the old method for loading contents.
-						if ( CKEDITOR.env.opera ) {
-							var doc = iframe.$.contentWindow.document;
-							doc.open();
-							doc.write( data );
-							doc.close();
-						}
+						createIFrame( data );
 					},
 
 					getData: function() {
-						var data = iframe.getFrameDocument().getBody().getHtml();
+						var config = editor.config,
+							fullPage = config.fullPage,
+							docType = fullPage && editor.docType,
+							doc = iframe.getFrameDocument();
+
+						var data = fullPage ? doc.getDocumentElement().getOuterHtml() : doc.getBody().getHtml();
 
 						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toDataFormat( data, fixForBody );
 
 						// Strip the last blank paragraph within document.
-						if ( editor.config.ignoreEmptyParagraph )
+						if ( config.ignoreEmptyParagraph )
 							data = data.replace( emptyParagraphRegexp, '' );
+
+						if ( docType )
+							data = docType + '\n' + data;
 
 						return data;
 					},

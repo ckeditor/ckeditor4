@@ -1279,6 +1279,7 @@ CKEDITOR.dom.range = function( document ) {
 					startBlock = null;
 				} else {
 					endBlock = this.splitElement( startBlock );
+
 					// In Gecko, the last child node must be a bogus <br>.
 					// Note: bogus <br> added under <ul> or <ol> would cause
 					// lists to be incorrectly rendered.
@@ -1405,14 +1406,15 @@ CKEDITOR.dom.range = function( document ) {
 		},
 
 		/**
-		 * Moves the range boundaries to the first editing point inside an
+		 * Moves the range boundaries to the first/end editing point inside an
 		 * element. For example, in an element tree like
 		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;", the start editing point is
 		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;^&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;" (inside &lt;i&gt;).
 		 * @param {CKEDITOR.dom.element} el The element into which look for the
 		 *		editing spot.
+		 * @param {Boolean} isMoveToEnd Whether move to the end editable position.
 		 */
-		moveToElementEditStart: function( el ) {
+		moveToElementEditablePosition: function( el, isMoveToEnd ) {
 			var isEditable;
 
 			while ( el && el.type == CKEDITOR.NODE_ELEMENT ) {
@@ -1420,27 +1422,41 @@ CKEDITOR.dom.range = function( document ) {
 
 				// If an editable element is found, move inside it.
 				if ( isEditable )
-					this.moveToPosition( el, CKEDITOR.POSITION_AFTER_START );
+					this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_AFTER_START );
 				// Stop immediately if we've found a non editable inline element (e.g <img>).
 				else if ( CKEDITOR.dtd.$inline[ el.getName() ] ) {
-					this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
+					this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
 					return true;
 				}
 
 				// Non-editable non-inline elements are to be bypassed, getting the next one.
 				if ( CKEDITOR.dtd.$empty[ el.getName() ] )
-					el = el.getNext( nonWhitespaceOrBookmarkEval );
+					el = el[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonWhitespaceOrBookmarkEval );
 				else
-					el = el.getFirst( nonWhitespaceOrBookmarkEval );
+					el = el[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonWhitespaceOrBookmarkEval );
 
 				// Stop immediately if we've found a text node.
 				if ( el && el.type == CKEDITOR.NODE_TEXT ) {
-					this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
+					this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
 					return true;
 				}
 			}
 
 			return isEditable;
+		},
+
+		/**
+		 *@see {CKEDITOR.dom.range.moveToElementEditablePosition}
+		 */
+		moveToElementEditStart: function( target ) {
+			return this.moveToElementEditablePosition( target );
+		},
+
+		/**
+		 *@see {CKEDITOR.dom.range.moveToElementEditablePosition}
+		 */
+		moveToElementEditEnd: function( target ) {
+			return this.moveToElementEditablePosition( target, true );
 		},
 
 		/**

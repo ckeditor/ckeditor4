@@ -161,7 +161,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						if ( attName == '_length' )
 							continue;
 
-						var elementAttr = element.getAttribute( attName );
+						var elementAttr = element.getAttribute( attName ) || '';
 						if ( attribs[ attName ] == ( attName == 'style' ? normalizeCssText( elementAttr, false ) : elementAttr ) ) {
 							if ( !fullMatch )
 								return true;

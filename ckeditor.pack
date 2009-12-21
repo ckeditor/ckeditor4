@@ -98,6 +98,7 @@ packages :
 					'_source/core/dom/document.js',
 					'_source/core/dom/node.js',
 					'_source/core/dom/nodelist.js',
+					'_source/core/dom/comment.js',
 					'_source/core/dom/element.js',
 					'_source/core/command.js',
 					'_source/core/config.js',

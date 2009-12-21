@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Replace Textarea by Code - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+	<style id="styles" type="text/css">
+
+#editorsForm
+{
+	height: 400px;
+	overflow: auto;
+	border: solid 1px #555;
+	margin: 10px 0;
+	padding: 0 10px;
+}
+
+	</style>
+</head>
+<body>
+	<div id="html">
+		<div id="topSpace">
+		</div>
+		<form id="editorsForm" action="sample_posteddata.php" method="post">
+			<p>
+				<label for="editor1">
+					Editor 1 (uses the shared toolbar and element path):</label><br />
+				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+					CKEDITOR.replace( 'editor1',
+						{
+							sharedSpaces :
+							{
+								top : 'topSpace',
+								bottom : 'bottomSpace'
+							},
+
+							// Removes the maximize plugin as it's not usable
+							// in a shared toolbar.
+							// Removes the resizer as it's not usable in a
+							// shared elements path.
+							removePlugins : 'maximize,resize'
+						} );
+				//]]>
+				</script>
+			</p>
+			<p>
+				<label for="editor2">
+					Editor 2 (uses the shared toolbar and element path):</label><br />
+				<textarea id="editor2" name="editor2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+					CKEDITOR.replace( 'editor2',
+						{
+							sharedSpaces :
+							{
+								top : 'topSpace',
+								bottom : 'bottomSpace'
+							},
+
+							// Removes the maximize plugin as it's not usable
+							// in a shared toolbar.
+							// Removes the resizer as it's not usable in a
+							// shared elements path.
+							removePlugins : 'maximize,resize'
+						} );
+				//]]>
+				</script>
+			</p>
+			<p>
+				<label for="editor3">
+					Editor 3 (uses the shared toolbar only):</label><br />
+				<textarea id="editor3" name="editor3" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+					CKEDITOR.replace( 'editor3',
+						{
+							sharedSpaces :
+							{
+								top : 'topSpace'
+							},
+							
+							// Removes the maximize plugin as it's not usable
+							// in a shared toolbar.
+							removePlugins : 'maximize'
+						} );
+				//]]>
+				</script>
+			</p>
+			<p>
+				<label for="editor4">
+					Editor 4 (no shared spaces):</label><br />
+				<textarea id="editor4" name="editor4" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+					CKEDITOR.replace( 'editor4' );
+				//]]>
+				</script>
+			</p>
+			<p>
+				<input type="submit" value="Submit" />
+			</p>
+		</form>
+		<div id="bottomSpace">
+		</div>
+	</div>
+	<div id="code">
+		<pre></pre>
+	</div>
+</body>
+</html>

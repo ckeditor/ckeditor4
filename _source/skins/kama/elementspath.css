@@ -13,9 +13,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_path
 {
-	padding: 0 5px;
 	display: inline-block;
 	float: left;
+	margin-top: 5px;
 }
 
 .cke_skin_kama .cke_rtl .cke_path
@@ -23,16 +23,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 }
 
+.cke_shared .cke_skin_kama .cke_path
+{
+	margin: 0 0 5px;
+}
+
 .cke_skin_kama .cke_path a,
 .cke_skin_kama .cke_path .cke_empty
 {
 	display: inline-block;
 	float: left;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	padding-left: 4px;
-	padding-right: 4px;
-	margin-bottom : 3px;
+	padding: 1px 4px 0;
 	color: #60676a;
 }
 
@@ -52,10 +53,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_path a:active	/* IE */
 {
 	background-color: #dff1ff;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	padding-left: 4px;
-	padding-right: 4px;
+	padding: 1px 4px 0;
 	outline: none;
 	color : #000;
 }

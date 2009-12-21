@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'ar' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'يبدو أن النص المراد لصقه منسوخ من برنامج وورد. هل تود تنظيفه قبل الشروع في عملية اللصق؟',
 		toolbar: 'لصق من وورد',
 		title: 'لصق من وورد',
-		advice: 'الصق داخل الصندوق بإستخدام مفاتيح (<STRONG>Ctrl+V</STRONG>) في لوحة المفاتيح، ثم اضغط مفتاح <STRONG>موافق</STRONG>.',
-		ignoreFontFace: 'تجاهل تعريفات أسماء الخطوط',
-		removeStyle: 'إزالة تعريفات الأنماط'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'ar' ] = {
 		tag_h5: 'العنوان  5',
 		tag_h6: 'العنوان  6',
 		tag_div: 'عادي (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

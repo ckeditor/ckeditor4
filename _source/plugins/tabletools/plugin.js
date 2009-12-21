@@ -74,140 +74,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return retval;
 	}
 
-	function createTableMap( $refCell ) {
-		var refCell = new CKEDITOR.dom.element( $refCell );
-		var $table = ( refCell.getName() == 'table' ? $refCell : refCell.getAscendant( 'table' ) ).$;
-		var $rows = $table.rows;
-
-		// Row and column counters.
-		var r = -1;
-		var map = [];
-		for ( var i = 0; i < $rows.length; i++ ) {
-			r++;
-			if ( !map[ r ] )
-				map[ r ] = [];
-
-			var c = -1;
-
-			for ( var j = 0; j < $rows[ i ].cells.length; j++ ) {
-				var $cell = $rows[ i ].cells[ j ];
-
-				c++;
-				while ( map[ r ][ c ] )
-					c++;
-
-				var colSpan = isNaN( $cell.colSpan ) ? 1 : $cell.colSpan;
-				var rowSpan = isNaN( $cell.rowSpan ) ? 1 : $cell.rowSpan;
-
-				for ( var rs = 0; rs < rowSpan; rs++ ) {
-					if ( !map[ r + rs ] )
-						map[ r + rs ] = [];
-
-					for ( var cs = 0; cs < colSpan; cs++ )
-						map[ r + rs ][ c + cs ] = $rows[ i ].cells[ j ];
-				}
-
-				c += colSpan - 1;
-			}
-		}
-
-		return map;
-	}
-
-	function installTableMap( tableMap, $table ) {
-		/*
-		 * IE BUG: rowSpan is always 1 in IE if the cell isn't attached to a row. So
-		 * store is separately in another attribute. (#1917)
-		 */
-		var rowSpanAttr = CKEDITOR.env.ie ? '_cke_rowspan' : 'rowSpan';
-
-		/*
-		 * Disconnect all the cells in tableMap from their parents, set all colSpan
-		 * and rowSpan attributes to 1.
-		 */
-		for ( var i = 0; i < tableMap.length; i++ ) {
-			for ( var j = 0; j < tableMap[ i ].length; j++ ) {
-				var $cell = tableMap[ i ][ j ];
-				if ( $cell.parentNode )
-					$cell.parentNode.removeChild( $cell );
-				$cell.colSpan = $cell[ rowSpanAttr ] = 1;
-			}
-		}
-
-		// Scan by rows and set colSpan.
-		var maxCol = 0;
-		for ( i = 0; i < tableMap.length; i++ ) {
-			for ( j = 0; j < tableMap[ i ].length; j++ ) {
-				$cell = tableMap[ i ][ j ];
-				if ( !$cell )
-					continue;
-				if ( j > maxCol )
-					maxCol = j;
-				if ( $cell[ '_cke_colScanned' ] )
-					continue;
-				if ( tableMap[ i ][ j - 1 ] == $cell )
-					$cell.colSpan++;
-				if ( tableMap[ i ][ j + 1 ] != $cell )
-					$cell[ '_cke_colScanned' ] = 1;
-			}
-		}
-
-		// Scan by columns and set rowSpan.
-		for ( i = 0; i <= maxCol; i++ ) {
-			for ( j = 0; j < tableMap.length; j++ ) {
-				if ( !tableMap[ j ] )
-					continue;
-				$cell = tableMap[ j ][ i ];
-				if ( !$cell || $cell[ '_cke_rowScanned' ] )
-					continue;
-				if ( tableMap[ j - 1 ] && tableMap[ j - 1 ][ i ] == $cell )
-					$cell[ rowSpanAttr ]++;
-				if ( !tableMap[ j + 1 ] || tableMap[ j + 1 ][ i ] != $cell )
-					$cell[ '_cke_rowScanned' ] = 1;
-			}
-		}
-
-		// Clear all temporary flags.
-		for ( i = 0; i < tableMap.length; i++ ) {
-			for ( j = 0; j < tableMap[ i ].length; j++ ) {
-				$cell = tableMap[ i ][ j ];
-				removeRawAttribute( $cell, '_cke_colScanned' );
-				removeRawAttribute( $cell, '_cke_rowScanned' );
-			}
-		}
-
-		// Insert physical rows and columns to table.
-		for ( i = 0; i < tableMap.length; i++ ) {
-			var $row = $table.ownerDocument.createElement( 'tr' );
-			for ( j = 0; j < tableMap[ i ].length; ) {
-				$cell = tableMap[ i ][ j ];
-				if ( tableMap[ i - 1 ] && tableMap[ i - 1 ][ j ] == $cell ) {
-					j += $cell.colSpan;
-					continue;
-				}
-				$row.appendChild( $cell );
-				if ( rowSpanAttr != 'rowSpan' ) {
-					$cell.rowSpan = $cell[ rowSpanAttr ];
-					$cell.removeAttribute( rowSpanAttr );
-				}
-				j += $cell.colSpan;
-				if ( $cell.colSpan == 1 )
-					$cell.removeAttribute( 'colSpan' );
-				if ( $cell.rowSpan == 1 )
-					$cell.removeAttribute( 'rowSpan' );
-			}
-
-			if ( CKEDITOR.env.ie )
-				$table.rows[ i ].replaceNode( $row );
-			else {
-				var dest = new CKEDITOR.dom.element( $table.rows[ i ] );
-				var src = new CKEDITOR.dom.element( $row );
-				dest.setHtml( '' );
-				src.moveChildren( dest );
-			}
-		}
-	}
-
 	function clearRow( $tr ) {
 		// Get the array of row's cells.
 		var $cells = $tr.cells;
@@ -363,6 +229,312 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	// Remove filler at end and empty spaces around the cell content.
+	function trimCell( cell ) {
+		var bogus = cell.getBogus();
+		bogus && bogus.remove();
+		cell.trim();
+	}
+
+	function placeCursorInCell( cell, placeAtEnd ) {
+		var range = new CKEDITOR.dom.range( cell.getDocument() );
+		if ( !range[ 'moveToElementEdit' + ( placeAtEnd ? 'End' : 'Start' ) ]( cell ) ) {
+			range.selectNodeContents( cell );
+			range.collapse( placeAtEnd ? false : true );
+		}
+		range.select( true );
+	}
+
+	function buildTableMap( table ) {
+
+		var aRows = table.$.rows;
+
+		// Row and Column counters.
+		var r = -1;
+
+		var aMap = [];
+
+		for ( var i = 0; i < aRows.length; i++ ) {
+			r++;
+			!aMap[ r ] && ( aMap[ r ] = [] );
+
+			var c = -1;
+
+			for ( var j = 0; j < aRows[ i ].cells.length; j++ ) {
+				var oCell = aRows[ i ].cells[ j ];
+
+				c++;
+				while ( aMap[ r ][ c ] )
+					c++;
+
+				var iColSpan = isNaN( oCell.colSpan ) ? 1 : oCell.colSpan;
+				var iRowSpan = isNaN( oCell.rowSpan ) ? 1 : oCell.rowSpan;
+
+				for ( var rs = 0; rs < iRowSpan; rs++ ) {
+					if ( !aMap[ r + rs ] )
+						aMap[ r + rs ] = new Array();
+
+					for ( var cs = 0; cs < iColSpan; cs++ ) {
+						aMap[ r + rs ][ c + cs ] = aRows[ i ].cells[ j ];
+					}
+				}
+
+				c += iColSpan - 1;
+			}
+		}
+		return aMap;
+	}
+
+	function cellInRow( tableMap, rowIndex, cell ) {
+		var oRow = tableMap[ rowIndex ];
+		if ( typeof cell == 'undefined' )
+			return oRow;
+
+		for ( var c = 0; oRow && c < oRow.length; c++ ) {
+			if ( cell.is && oRow[ c ] == cell.$ )
+				return c;
+			else if ( c == cell )
+				return new CKEDITOR.dom.element( oRow[ c ] );
+		}
+		return cell.is ? -1 : null;
+	}
+
+	function cellInCol( tableMap, colIndex, cell ) {
+		var oCol = [];
+		for ( var r = 0; r < tableMap.length; r++ ) {
+			var row = tableMap[ r ];
+			if ( typeof cell == 'undefined' )
+				oCol.push( row[ colIndex ] );
+			else if ( cell.is && row[ colIndex ] == cell.$ )
+				return r;
+			else if ( r == cell )
+				return new CKEDITOR.dom.element( row[ colIndex ] );
+		}
+
+		return ( typeof cell == 'undefined' ) ? oCol : cell.is ? -1 : null;
+	}
+
+	function mergeCells( selection, mergeDirection, isDetect ) {
+		var cells = getSelectedCells( selection );
+
+		// Invalid merge request if:
+		// 1. In batch mode despite that less than two selected.
+		// 2. In solo mode while not exactly only one selected.    
+		// 3. Cells distributed in different table groups (e.g. from both thead and tbody).
+		if ( ( mergeDirection ? cells.length != 1 : cells.length < 2 ) || selection.getCommonAncestor().is( 'table' ) )
+			return false;
+
+		var cell,
+			firstCell = cells[ 0 ],
+			table = firstCell.getAscendant( 'table' ),
+			map = buildTableMap( table ),
+			mapHeight = map.length,
+			mapWidth = map[ 0 ].length,
+			startRow = firstCell.getParent().$.rowIndex,
+			startColumn = cellInRow( map, startRow, firstCell );
+
+		if ( mergeDirection ) {
+			var targetCell;
+			try {
+				targetCell = map[ mergeDirection == 'up' ? ( startRow - 1 ) : mergeDirection == 'down' ? ( startRow + 1 ) : startRow ][
+					mergeDirection == 'left' ?
+						( startColumn - 1 ) :
+					mergeDirection == 'right' ? ( startColumn + 1 ) : startColumn ];
+
+			} catch ( er ) {
+				return false;
+			}
+
+			// 1. No cell could be merged.
+			// 2. Same cell actually.
+			if ( !targetCell || firstCell.$ == targetCell )
+				return false;
+
+			// Sort in map order regardless of the DOM sequence.
+			cells[ ( mergeDirection == 'up' || mergeDirection == 'left' ) ? 'unshift' : 'push' ]( new CKEDITOR.dom.element( targetCell ) );
+		}
+
+		// Start from here are merging way ignorance (merge up/right, batch merge).
+		var doc = firstCell.getDocument(),
+			lastRowIndex = startRow,
+			totalRowSpan = 0,
+			totalColSpan = 0,
+			// Use a documentFragment as buffer when appending cell contents.
+			frag = !isDetect && new CKEDITOR.dom.documentFragment( doc ),
+			dimension = 0;
+
+		for ( var i = 0; i < cells.length; i++ ) {
+			cell = cells[ i ];
+
+			var tr = cell.getParent(),
+				cellFirstChild = cell.getFirst(),
+				colSpan = cell.$.colSpan,
+				rowSpan = cell.$.rowSpan,
+				rowIndex = tr.$.rowIndex,
+				colIndex = cellInRow( map, rowIndex, cell );
+
+			// Accumulated the actual places taken by all selected cells.
+			dimension += colSpan * rowSpan;
+			// Accumulated the maximum virtual spans from column and row.
+			totalColSpan = Math.max( totalColSpan, colIndex - startColumn + colSpan );
+			totalRowSpan = Math.max( totalRowSpan, rowIndex - startRow + rowSpan );
+
+			if ( !isDetect ) {
+				// Trim all cell fillers and check to remove empty cells.
+				if ( trimCell( cell ), cell.getChildren().count() ) {
+					// Merge vertically cells as two separated paragraphs.
+					if ( rowIndex != lastRowIndex && cellFirstChild && !( cellFirstChild.isBlockBoundary && cellFirstChild.isBlockBoundary( { br:1 } ) ) ) {
+						var last = frag.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
+						if ( last && !( last.is && last.is( 'br' ) ) )
+							frag.append( new CKEDITOR.dom.element( 'br' ) );
+					}
+
+					cell.moveChildren( frag );
+				}
+				i ? cell.remove() : cell.setHtml( '' );
+			}
+			lastRowIndex = rowIndex;
+		}
+
+		if ( !isDetect ) {
+			frag.moveChildren( firstCell );
+
+			if ( !CKEDITOR.env.ie )
+				firstCell.appendBogus();
+
+			if ( totalColSpan >= mapWidth )
+				firstCell.removeAttribute( 'rowSpan' );
+			else
+				firstCell.$.rowSpan = totalRowSpan;
+
+			if ( totalRowSpan >= mapHeight )
+				firstCell.removeAttribute( 'colSpan' );
+			else
+				firstCell.$.colSpan = totalColSpan;
+
+			// Swip empty <tr> left at the end of table due to the merging.
+			var trs = new CKEDITOR.dom.nodeList( table.$.rows ),
+				count = trs.count();
+
+			for ( var i = count - 1; i >= 0; i-- ) {
+				var tailTr = trs.getItem( i );
+				if ( !tailTr.$.cells.length ) {
+					tailTr.remove();
+					count++;
+					continue;
+				}
+			}
+
+			return firstCell;
+		}
+		// Be able to merge cells only if actual dimension of selected
+		// cells equals to the caculated rectangle.
+		else
+			return ( totalRowSpan * totalColSpan ) == dimension;
+	}
+
+	function verticalSplitCell( selection, isDetect ) {
+		var cells = getSelectedCells( selection );
+		if ( cells.length > 1 )
+			return false;
+		else if ( isDetect )
+			return true;
+
+		var cell = cells[ 0 ],
+			tr = cell.getParent(),
+			table = tr.getAscendant( 'table' ),
+			map = buildTableMap( table ),
+			rowIndex = tr.$.rowIndex,
+			colIndex = cellInRow( map, rowIndex, cell ),
+			rowSpan = cell.$.rowSpan,
+			newCell, newRowSpan, newCellRowSpan, newRowIndex;
+
+		if ( rowSpan > 1 ) {
+			newRowSpan = Math.ceil( rowSpan / 2 );
+			newCellRowSpan = Math.floor( rowSpan / 2 );
+			newRowIndex = rowIndex + newRowSpan;
+			var newCellTr = new CKEDITOR.dom.element( table.$.rows[ newRowIndex ] ),
+				newCellRow = cellInRow( map, newRowIndex ),
+				candidateCell;
+
+			newCell = cell.clone();
+
+			// Figure out where to insert the new cell by checking the vitual row.
+			for ( var c = 0; c < newCellRow.length; c++ ) {
+				candidateCell = newCellRow[ c ];
+				// Catch first cell actually following the column.
+				if ( candidateCell.parentNode == newCellTr.$ && c > colIndex ) {
+					newCell.insertBefore( new CKEDITOR.dom.element( candidateCell ) );
+					break;
+				} else
+					candidateCell = null;
+			}
+
+			// The destination row is empty, append at will.
+			if ( !candidateCell )
+				newCellTr.append( newCell, true );
+		} else {
+			newCellRowSpan = newRowSpan = 1;
+			var newCellTr = tr.clone();
+			newCellTr.insertAfter( tr );
+			newCellTr.append( newCell = cell.clone() );
+			var cellsInSameRow = cellInRow( map, rowIndex );
+			for ( var i = 0; i < cellsInSameRow.length; i++ )
+				cellsInSameRow[ i ].rowSpan++;
+		}
+
+		if ( !CKEDITOR.env.ie )
+			newCell.appendBogus();
+
+		cell.$.rowSpan = newRowSpan;
+		newCell.$.rowSpan = newCellRowSpan;
+		if ( newRowSpan == 1 )
+			cell.removeAttribute( 'rowSpan' );
+		if ( newCellRowSpan == 1 )
+			newCell.removeAttribute( 'rowSpan' );
+
+		return newCell;
+	}
+
+	function horizontalSplitCell( selection, isDetect ) {
+		var cells = getSelectedCells( selection );
+		if ( cells.length > 1 )
+			return false;
+		else if ( isDetect )
+			return true;
+
+		var cell = cells[ 0 ],
+			tr = cell.getParent(),
+			table = tr.getAscendant( 'table' ),
+			map = buildTableMap( table ),
+			rowIndex = tr.$.rowIndex,
+			colIndex = cellInRow( map, rowIndex, cell ),
+			colSpan = cell.$.colSpan,
+			newCell, newColSpan, newCellColSpan;
+
+		if ( colSpan > 1 ) {
+			newColSpan = Math.ceil( colSpan / 2 );
+			newCellColSpan = Math.floor( colSpan / 2 );
+		} else {
+			newCellColSpan = newColSpan = 1;
+			var cellsInSameCol = cellInCol( map, colIndex );
+			for ( var i = 0; i < cellsInSameCol.length; i++ )
+				cellsInSameCol[ i ].colSpan++;
+		}
+		newCell = cell.clone();
+		newCell.insertAfter( cell );
+		if ( !CKEDITOR.env.ie )
+			newCell.appendBogus();
+
+		cell.$.colSpan = newColSpan;
+		newCell.$.colSpan = newCellColSpan;
+		if ( newColSpan == 1 )
+			cell.removeAttribute( 'colSpan' );
+		if ( newCellColSpan == 1 )
+			newCell.removeAttribute( 'colSpan' );
+
+		return newCell;
+	}
 	// Context menu on table caption incorrect (#3834)
 	var contextMenuTags = { thead:1,tbody:1,tfoot:1,td:1,tr:1,th:1 };
 
@@ -445,6 +617,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			editor.addCommand( 'cellMerge', {
+				exec: function( editor ) {
+					placeCursorInCell( mergeCells( editor.getSelection() ), true );
+				}
+			});
+
+			editor.addCommand( 'cellMergeRight', {
+				exec: function( editor ) {
+					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
+				}
+			});
+
+			editor.addCommand( 'cellMergeDown', {
+				exec: function( editor ) {
+					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
+				}
+			});
+
+			editor.addCommand( 'cellVerticalSplit', {
+				exec: function( editor ) {
+					placeCursorInCell( verticalSplitCell( editor.getSelection() ) );
+				}
+			});
+
+			editor.addCommand( 'cellHorizontalSplit', {
+				exec: function( editor ) {
+					placeCursorInCell( horizontalSplitCell( editor.getSelection() ) );
+				}
+			});
+
 			editor.addCommand( 'cellInsertBefore', {
 				exec: function( editor ) {
 					var selection = editor.getSelection();
@@ -467,11 +669,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						group: 'tablecell',
 						order: 1,
 						getItems: function() {
-							var cells = getSelectedCells( editor.getSelection() );
+							var selection = editor.getSelection(),
+								cells = getSelectedCells( selection );
 							return {
 								tablecell_insertBefore: CKEDITOR.TRISTATE_OFF,
 								tablecell_insertAfter: CKEDITOR.TRISTATE_OFF,
 								tablecell_delete: CKEDITOR.TRISTATE_OFF,
+								tablecell_merge: mergeCells( selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_right: mergeCells( selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_down: mergeCells( selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_split_vertical: verticalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_split_horizontal: horizontalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_properties: cells.length > 0 ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
 							};
 						}
@@ -498,11 +706,46 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						order: 15
 					},
 
+					tablecell_merge: {
+						label: lang.cell.merge,
+						group: 'tablecell',
+						command: 'cellMerge',
+						order: 16
+					},
+
+					tablecell_merge_right: {
+						label: lang.cell.mergeRight,
+						group: 'tablecell',
+						command: 'cellMergeRight',
+						order: 17
+					},
+
+					tablecell_merge_down: {
+						label: lang.cell.mergeDown,
+						group: 'tablecell',
+						command: 'cellMergeDown',
+						order: 18
+					},
+
+					tablecell_split_horizontal: {
+						label: lang.cell.splitHorizontal,
+						group: 'tablecell',
+						command: 'cellHorizontalSplit',
+						order: 19
+					},
+
+					tablecell_split_vertical: {
+						label: lang.cell.splitVertical,
+						group: 'tablecell',
+						command: 'cellVerticalSplit',
+						order: 20
+					},
+
 					tablecell_properties: {
 						label: lang.cell.title,
 						group: 'tablecellproperties',
 						command: 'cellProperties',
-						order: 20
+						order: 21
 					},
 
 					tablerow: {

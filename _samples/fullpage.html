@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Full Page Editing - CKEditor Sample</title>
+	<script type="text/javascript" src="sample.js"></script>
+</head>
+<body>
+	<div id="html">
+		<form action="sample_posteddata.php" method="post">
+			<p>
+				In this sample the editor is configured to edit entire HTML pages, from the 
+				&lt;html&gt; tag to &lt;/html&gt;.</p>
+			<p>
+				<label for="editor1">
+					Editor 1:</label><br />
+				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;html&gt;&lt;head&gt;&lt;title&gt;CKEditor Sample&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+
+					CKEDITOR.replace( 'editor1',
+						{
+							fullPage : true
+						});
+
+				//]]>
+				</script>
+			</p>
+			<p>
+				<input type="submit" value="Submit" />
+			</p>
+		</form>
+	</div>
+	<div id="code">
+		<pre></pre>
+	</div>
+</body>
+</html>

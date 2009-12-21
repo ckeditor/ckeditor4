@@ -46,7 +46,8 @@ CKEDITOR.plugins.add( 'pagebreak', {
 			dataFilter.addRules({
 				elements: {
 					div: function( element ) {
-						var style = element.attributes.style,
+						var attributes = element.attributes
+						style = attributes && attributes.style,
 							child = style && element.children.length == 1 && element.children[ 0 ],
 							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
 

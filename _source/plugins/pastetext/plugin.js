@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -11,16 +11,49 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// The pastetext command definition.
 	var pasteTextCmd = {
 		exec: function( editor ) {
-			// We use getClipboardData just to test if the clipboard access has
-			// been granted by the user.
-			if ( CKEDITOR.getClipboardData() === false || !window.clipboardData ) {
-				editor.openDialog( 'pastetext' );
-				return;
-			}
+			var clipboardText = CKEDITOR.tools.tryThese( function() {
+				var clipboardText = window.clipboardData.getData( 'Text' );
+				if ( !clipboardText )
+					throw 0;
+				return clipboardText;
+			}, function() {
+				netscape.security.PrivilegeManager.enablePrivilege( "UniversalXPConnect" );
 
-			editor.insertText( window.clipboardData.getData( 'Text' ) );
+				var clip = Components.classes[ "@mozilla.org/widget/clipboard;1" ].getService( Components.interfaces.nsIClipboard );
+				var trans = Components.classes[ "@mozilla.org/widget/transferable;1" ].createInstance( Components.interfaces.nsITransferable );
+				trans.addDataFlavor( "text/unicode" );
+				clip.getData( trans, clip.kGlobalClipboard );
+
+				var str = {},
+					strLength = {},
+					clipboardText;
+				trans.getTransferData( "text/unicode", str, strLength );
+				str = str.value.QueryInterface( Components.interfaces.nsISupportsString );
+				clipboardText = str.data.substring( 0, strLength.value / 2 );
+				return clipboardText;
+			}
+			// Any other approach that's working... 
+			);
+
+			if ( !clipboardText ) // Clipboard access privilege is not granted.
+			{
+				editor.openDialog( 'pastetext' );
+				return false;
+			} else
+				editor.fire( 'paste', { 'text': clipboardText } );
 		}
 	};
+
+	function doInsertText( doc, text ) {
+		// Native text insertion.
+		if ( CKEDITOR.env.ie ) {
+			var selection = doc.selection;
+			if ( selection.type == 'Control' )
+				selection.clear();
+			selection.createRange().pasteHTML( text );
+		} else
+			doc.execCommand( 'inserthtml', false, text );
+	}
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'pastetext', {
@@ -36,91 +69,81 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.dialog.add( commandName, CKEDITOR.getUrl( this.path + 'dialogs/pastetext.js' ) );
 
 			if ( editor.config.forcePasteAsPlainText ) {
-				editor.on( 'beforePaste', function( event ) {
-					if ( editor.mode == "wysiwyg" ) {
-						setTimeout( function() {
-							command.exec();
-						}, 0 );
-						event.cancel();
+				// Intercept the default pasting process.
+				editor.on( 'beforeCommandExec', function( evt ) {
+					if ( evt.data.name == 'paste' ) {
+						editor.execCommand( 'pastetext' );
+						evt.cancel();
 					}
-				}, null, null, 20 );
+				}, null, null, 0 );
 			}
 		},
+
 		requires: [ 'clipboard' ]
 	});
 
-	var clipboardDiv;
+	function doInsertText( doc, text ) {
+		// Native text insertion.
+		if ( CKEDITOR.env.ie ) {
+			var selection = doc.selection;
+			if ( selection.type == 'Control' )
+				selection.clear();
+			selection.createRange().pasteHTML( text );
+		} else
+			doc.execCommand( 'inserthtml', false, text );
+	}
 
-	CKEDITOR.getClipboardData = function() {
-		if ( !CKEDITOR.env.ie )
-			return false;
-
-		var doc = CKEDITOR.document,
-			body = doc.getBody();
-
-		if ( !clipboardDiv ) {
-			clipboardDiv = doc.createElement( 'div', {
-				attributes: {
-					id: 'cke_hiddenDiv'
-				},
-				styles: {
-					position: 'absolute',
-					visibility: 'hidden',
-					overflow: 'hidden',
-					width: '1px',
-					height: '1px'
-				}
-			});
-
-			clipboardDiv.setHtml( '' );
-
-			clipboardDiv.appendTo( body );
+	function doEnter( editor, mode, times, forceMode ) {
+		while ( times-- ) {
+			CKEDITOR.plugins.enterkey[ mode == CKEDITOR.ENTER_BR ? 'enterBr' : 'enterBlock' ]
+			( editor, mode, null, forceMode );
 		}
+	}
 
-		// The "enabled" flag is used to check whether the paste operation has
-		// been completed (the onpaste event has been fired).
-		var enabled = false;
-		var setEnabled = function() {
-				enabled = true;
-			};
+	CKEDITOR.editor.prototype.insertText = function( text ) {
+		this.fire( 'saveSnapshot' );
 
-		body.on( 'paste', setEnabled );
+		var mode = this.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : this.config.enterMode,
+			isEnterBrMode = mode == CKEDITOR.ENTER_BR,
+			doc = this.document.$,
+			self = this,
+			line;
 
-		// Create a text range and move it inside the div.
-		var textRange = body.$.createTextRange();
-		textRange.moveToElementText( clipboardDiv.$ );
+		text = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
 
-		// The execCommand in will fire the "onpaste", only if the
-		// security settings are enabled.
-		textRange.execCommand( 'Paste' );
+		var startIndex = 0;
+		text.replace( /\n+/g, function( match, lastIndex ) {
+			line = text.substring( startIndex, lastIndex );
+			startIndex = lastIndex + match.length;
+			line.length && doInsertText( doc, line );
 
-		// Get the DIV html and reset it.
-		var html = clipboardDiv.getHtml();
-		clipboardDiv.setHtml( '' );
+			var lineBreakNums = match.length,
+				// Duo consequence line-break as a enter block.
+				enterBlockTimes = isEnterBrMode ? 0 : Math.floor( lineBreakNums / 2 ),
+				// Per link-break as a enter br.
+				enterBrTimes = isEnterBrMode ? lineBreakNums : lineBreakNums % 2;
 
-		body.removeListener( 'paste', setEnabled );
+			// Line-breaks are converted to editor enter key strokes.
+			doEnter( self, mode, enterBlockTimes );
+			doEnter( self, CKEDITOR.ENTER_BR, enterBrTimes, isEnterBrMode ? false : true );
+		});
 
-		// Return the HTML or false if not enabled.
-		return enabled && html;
+		// Insert the last text line of text.
+		line = text.substring( startIndex, text.length );
+		line.length && doInsertText( doc, line );
+
+		this.fire( 'saveSnapshot' );
 	};
 })();
 
-CKEDITOR.editor.prototype.insertText = function( text ) {
-	text = CKEDITOR.tools.htmlEncode( text );
-
-	// TODO: Replace the following with fill line break processing (see V2).
-	text = text.replace( /(?:\r\n)|\n|\r/g, '<br>' );
-
-	this.insertHtml( text );
-};
 
 /**
  * Whether to force all pasting operations to insert on plain text into the
  * editor, loosing any formatting information possibly available in the source
  * text.
+ * @name CKEDITOR.config.forcePasteAsPlainText
  * @type Boolean
  * @default false
  * @example
  * config.forcePasteAsPlainText = true;
  */
-CKEDITOR.config.forcePasteAsPlainText = false;

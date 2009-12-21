@@ -12,13 +12,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		canUndo: false,
 		exec: function( editor ) {
 			var sHTML,
+				config = editor.config,
+				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
 				isCustomDomain = CKEDITOR.env.isCustomDomain();
-			if ( editor.config.fullPage )
-				sHTML = editor.getData();
-			else {
+
+			if ( config.fullPage ) {
+				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, editor.lang.preview );
+			} else {
 				var bodyHtml = '<body ',
-					body = CKEDITOR.document.getBody(),
-					baseTag = ( editor.config.baseHref.length > 0 ) ? '<base href="' + editor.config.baseHref + '" _cktemp="true"></base>' : '';
+					body = editor.document.getBody();
 
 				if ( body.getAttribute( 'id' ) )
 					bodyHtml += 'id="' + body.getAttribute( 'id' ) + '" ';
@@ -30,9 +32,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										'<head>' +
 										baseTag +
 										'<title>' + editor.lang.preview + '</title>' +
-										'<link type="text/css" rel="stylesheet" href="' +
-										[].concat( editor.config.contentsCss ).join( '"><link type="text/css" rel="stylesheet" href="' ) +
-										'">' +
+										CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
 										'</head>' + bodyHtml +
 										editor.getData() +
 										'</body></html>';

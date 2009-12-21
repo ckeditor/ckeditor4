@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: '您要粘贴的内容好像是来自 MS Word，是否要清除 MS Word 格式后再粘贴？',
 		toolbar: '从 MS Word 粘贴',
 		title: '从 MS Word 粘贴',
-		advice: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>',
-		ignoreFontFace: '忽略 Font 标签',
-		removeStyle: '清理 CSS 样式'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		tag_h5: '标题 5',
 		tag_h6: '标题 6',
 		tag_div: '段落(DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

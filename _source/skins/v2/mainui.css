@@ -27,7 +27,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: table;
 }
 
-.cke_skin_v2 .cke_top, .cke_skin_v2 .cke_bottom
+.cke_skin_v2 .cke_top,
+.cke_skin_v2 .cke_bottom,
+ .cke_shared .cke_skin_v2
 {
 	background-color: #efefde;
 }

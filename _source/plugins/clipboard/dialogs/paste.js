@@ -103,7 +103,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				html = iframe.$.contentWindow.document.body.innerHTML;
 
 			setTimeout( function() {
-				editor.insertHtml( html );
+				editor.fire( 'paste', { 'html': html } );
 			}, 0 );
 
 		},

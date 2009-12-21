@@ -18,7 +18,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: block;
 }
 
-.cke_skin_office2003 .cke_top, .cke_skin_office2003 .cke_bottom
+.cke_skin_office2003 .cke_top,
+.cke_skin_office2003 .cke_bottom,
+ .cke_shared .cke_skin_office2003
 {
 	background-color: #f7f8fd;
 }

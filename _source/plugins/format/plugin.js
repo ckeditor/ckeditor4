@@ -28,7 +28,7 @@ CKEDITOR.plugins.add( 'format', {
 			multiSelect: false,
 
 			panel: {
-				css: [ CKEDITOR.getUrl( editor.skinPath + 'editor.css' ) ].concat( config.contentsCss ),
+				css: editor.skin.editor.css.concat( config.contentsCss ),
 				voiceLabel: lang.panelVoiceLabel
 			},
 

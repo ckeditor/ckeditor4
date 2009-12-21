@@ -481,11 +481,10 @@ CKEDITOR.lang[ 'hi' ] = {
 	},
 
 	pastefromword: {
+		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
 		toolbar: 'पेस्ट (वर्ड से)',
 		title: 'पेस्ट (वर्ड से)',
-		advice: 'Ctrl+V का प्रयोग करके पेस्ट करें और ठीक है करें.',
-		ignoreFontFace: 'फ़ॉन्ट परिभाषा निकालें',
-		removeStyle: 'स्टाइल परिभाषा निकालें'
+		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
 	},
 
 	pasteText: {
@@ -528,6 +527,22 @@ CKEDITOR.lang[ 'hi' ] = {
 		tag_h5: 'शीर्षक 5',
 		tag_h6: 'शीर्षक 6',
 		tag_div: 'शीर्षक (DIV)'
+	},
+
+	div: {
+		title: 'Create Div Container', // MISSING
+		toolbar: 'Create Div Container', // MISSING
+		cssClassInputLabel: 'Stylesheet Classes', // MISSING
+		styleSelectLabel: 'Style', // MISSING
+		IdInputLabel: 'Id', // MISSING
+		languageCodeInputLabel: ' Language Code', // MISSING
+		inlineStyleInputLabel: 'Inline Style', // MISSING
+		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		langDirLabel: 'Language Direction', // MISSING
+		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+		edit: 'Edit Div', // MISSING
+		remove: 'Remove Div' // MISSING
 	},
 
 	font: {

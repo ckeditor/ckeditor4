@@ -65,7 +65,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		var dtd = CKEDITOR.dtd;
 
-		for ( var e in CKEDITOR.tools.extend( {}, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
+		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
 			this.setRules( e, {
 				indent: true,
 				breakBeforeOpen: true,
@@ -74,9 +74,21 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				breakAfterClose: true
 			});
 		}
+
 		this.setRules( 'br', {
 			breakAfterOpen: true
 		});
+
+		this.setRules( 'title', {
+			indent: false,
+			breakAfterOpen: false
+		});
+
+		this.setRules( 'style', {
+			indent: false,
+			breakBeforeClose: true
+		});
+
 		// Disable indentation on <pre>.
 		this.setRules( 'pre', {
 			indent: false
@@ -243,7 +255,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 *	<li><b>breakAfterClose</b>: break line after the closer tag for this element.</li>
 		 * </ul>
 		 *
-		 * All rules default to "false".
+		 * All rules default to "false". Each call to the function overrides
+		 * already present rules, leaving the undefined untouched.
 		 *
 		 * By default, all elements available in the {@link CKEDITOR.dtd.$block),
 		 * {@link CKEDITOR.dtd.$listItem} and {@link CKEDITOR.dtd.$tableContent}
@@ -263,7 +276,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * writer.setRules( 'h1', {} );
 		 */
 		setRules: function( tagName, rules ) {
-			this._.rules[ tagName ] = rules;
+			var currentRules = this._.rules[ tagName ];
+
+			if ( currentRules )
+				CKEDITOR.tools.extend( currentRules, rules, true );
+			else
+				this._.rules[ tagName ] = rules;
 		}
 	}
 });

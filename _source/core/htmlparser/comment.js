@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -39,10 +39,11 @@ CKEDITOR.htmlParser.comment.prototype = {
 		var comment = this.value;
 
 		if ( filter ) {
-			if ( !( comment = filter.onComment( comment ) ) )
+			if ( !( comment = filter.onComment( comment, this ) ) )
 				return;
 
 			if ( typeof comment != 'string' ) {
+				comment.parent = this.parent;
 				comment.writeHtml( writer, filter );
 				return;
 			}
