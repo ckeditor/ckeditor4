@@ -62,8 +62,7 @@
 	float: left;
 
 	line-height: 24px;
-	height: 24px;
-
+	height: 22px;
 	vertical-align: top;
 	padding-left: 4px;
 	padding-right: 5px;
@@ -94,7 +93,7 @@
 {
 	border: 1px solid #8f8f73;
 	background-color: #fff;
-	height: 14px;
+	height: 12px;
 	width:60px;
 	padding-top: 4px;
 	padding-bottom: 4px;
@@ -144,7 +143,7 @@
 	border-top: 1px solid #8f8f73;
 	border-bottom: 1px solid #8f8f73;
 	width: 14px;
-	height: 22px;
+	height: 20px;
 }
 
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
