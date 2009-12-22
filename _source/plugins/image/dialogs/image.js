@@ -229,15 +229,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.firstLoad = true;
 					this.addLink = false;
 
-					//Hide loader.
-					CKEDITOR.document.getById( 'ImagePreviewLoader' ).setStyle( 'display', 'none' );
-					// Preview
-					this.preview = CKEDITOR.document.getById( 'previewImage' );
-
 					var editor = this.getParentEditor(),
 						sel = this.getParentEditor().getSelection(),
 						element = sel.getSelectedElement(),
 						link = element && element.getAscendant( 'a' );
+
+					//Hide loader.
+					CKEDITOR.document.getById( 'ImagePreviewLoader' ).setStyle( 'display', 'none' );
+					// Create the preview before setup the dialog contents.
+					previewPreloader = new CKEDITOR.dom.element( 'img', editor.document );
+					this.preview = CKEDITOR.document.getById( 'previewImage' );
 
 					// Copy of the image
 					this.originalElement = editor.document.createElement( 'img' );
@@ -285,7 +286,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					} else
 						this.imageElement = editor.document.createElement( 'img' );
 
-					previewPreloader = new CKEDITOR.dom.element( 'img', editor.document );
 					// Dont show preview if no URL given.
 					if ( !CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtUrl' ) ) ) {
 						this.preview.removeAttribute( 'src' );
