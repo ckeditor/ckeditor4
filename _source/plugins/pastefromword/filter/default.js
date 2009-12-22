@@ -73,9 +73,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( name.hasOwnProperty( style ) )
 						addingStyleText += style + ':' + name[ style ] + ';';
 				}
-				// Avoid CKPackager produce buggy output (#4695)
-				// TODO: Remove after CKPackager get fixed.
-				;
 			}
 			// raw style text form.
 			else
