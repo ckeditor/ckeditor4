@@ -248,6 +248,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'contentDom', function() {
 				var body = editor.document.getBody();
 				body.on( ( mode == 'text' && CKEDITOR.env.ie ) ? 'paste' : 'beforepaste', function( evt ) {
+					if ( depressBeforePasteEvent )
+						return;
+
 					getClipboardData.call( editor, evt, mode, function( data ) {
 						// The very last guard to make sure the
 						// paste has successfully happened.
@@ -264,8 +267,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
+				var depressBeforePasteEvent;
+
 				function stateFromNamedCommand( command ) {
-					return editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+					// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste',
+					// guard to distinguish from the ordinary sources( either
+					// keyboard paste or execCommand ) (#4874).
+					CKEDITOR.env.ie && command == 'Paste' && ( depressBeforePasteEvent = 1 );
+
+					var retval = editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+					depressBeforePasteEvent = 0;
+					return retval;
 				}
 
 				editor.contextMenu.addListener( function() {

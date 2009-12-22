@@ -146,17 +146,6 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				});
 			}
 
-			// Certain forms of IE selection changes on 'contextmenu' event,
-			// lock the selection before that.(#4041)
-			if ( CKEDITOR.env.ie ) {
-				element.on( 'mousedown', function( event ) {
-					if ( event.data.$.button == 2 ) {
-						var selection = this.editor.getSelection();
-						selection && selection.lock();
-					}
-				}, this );
-			}
-
 			element.on( 'contextmenu', function( event ) {
 				var domEvent = event.data;
 
@@ -165,6 +154,13 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				// which make this property unreliable. (#4826)
 				( CKEDITOR.env.webkit ? holdCtrlKey : domEvent.$.ctrlKey || domEvent.$.metaKey ) )
 					return;
+
+				// Selection will be unavailable after context menu shows up
+				// in IE, lock it now.
+				if ( CKEDITOR.env.ie ) {
+					var selection = this.editor.getSelection();
+					selection && selection.lock();
+				}
 
 				// Cancel the browser context menu.
 				domEvent.preventDefault();
