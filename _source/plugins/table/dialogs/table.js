@@ -58,6 +58,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			},
 			onOk: function() {
+				if ( this._.selectedElement ) {
+					var selection = editor.getSelection(),
+						bms = editor.getSelection().createBookmarks();
+				}
+
 				var table = this._.selectedElement || makeElement( 'table' ),
 					me = this,
 					data = {};
@@ -165,6 +170,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement )
 					editor.insertElement( table );
+				// Properly restore the selection inside table. (#4822) 
+				else
+					selection.selectBookmarks( bms );
 
 				return true;
 			},
