@@ -556,15 +556,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ editor.lang.image.alignLeft, 'left' ],
-							[ editor.lang.image.alignAbsBottom, 'absBottom' ],
-							[ editor.lang.image.alignAbsMiddle, 'absMiddle' ],
-							[ editor.lang.image.alignBaseline, 'baseline' ],
-							[ editor.lang.image.alignBottom, 'bottom' ],
-							[ editor.lang.image.alignMiddle, 'middle' ],
-							[ editor.lang.image.alignRight, 'right' ],
-							[ editor.lang.image.alignTextTop, 'textTop' ],
-							[ editor.lang.image.alignTop, 'top' ]
+							[ editor.lang.flash.alignLeft, 'left' ],
+							[ editor.lang.flash.alignAbsBottom, 'absBottom' ],
+							[ editor.lang.flash.alignAbsMiddle, 'absMiddle' ],
+							[ editor.lang.flash.alignBaseline, 'baseline' ],
+							[ editor.lang.flash.alignBottom, 'bottom' ],
+							[ editor.lang.flash.alignMiddle, 'middle' ],
+							[ editor.lang.flash.alignRight, 'right' ],
+							[ editor.lang.flash.alignTextTop, 'textTop' ],
+							[ editor.lang.flash.alignTop, 'top' ]
 							],
 						setup: loadValue,
 						commit: commitValue
