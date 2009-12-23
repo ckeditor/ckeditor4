@@ -220,6 +220,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				};
 			})(),
 
+			// Providing a shorthand style then retrieve one or more style component values. 
+			getStyleComponents: (function() {
+				var calculator = CKEDITOR.dom.element.createFromHtml( '<div style="position:absolute;left:-9999px;top:-9999px;"></div>', CKEDITOR.document );
+				CKEDITOR.document.getBody().append( calculator );
+
+				return function( name, styleValue, fetchList ) {
+					calculator.setStyle( name, styleValue );
+					var styles = {},
+						count = fetchList.length;
+					for ( var i = 0; i < count; i++ )
+						styles[ fetchList[ i ] ] = calculator.getStyle( fetchList[ i ] );
+
+					return styles;
+				};
+			})(),
+
 			listDtdParents: CKEDITOR.dtd.parentOf( 'ol' )
 		},
 
@@ -379,7 +395,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									whitelist && ( newValue = newValue || value );
 
 									if ( typeof newValue == 'function' )
-										newValue = newValue( value, element );
+										newValue = newValue( value, element, name );
+
+									// Return an couple indicate both name and value
+									// changed.
+									if ( newValue && newValue.push )
+										name = newValue[ 0 ], newValue = newValue[ 1 ];
+
 									if ( typeof newValue == 'string' )
 										rules.push( [ name, newValue ] );
 									return;
@@ -467,6 +489,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				containsNothingButSpaces = this.utils.isContainingOnlySpaces,
 				resolveListItem = this.utils.resolveList,
 				convertToPx = this.utils.convertToPx,
+				getStyleComponents = this.utils.getStyleComponents,
 				listDtdParents = this.utils.listDtdParents,
 				removeFontStyles = config.pasteFromWordRemoveFontStyles !== false,
 				removeStyles = config.pasteFromWordRemoveStyles !== false;
@@ -756,10 +779,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Provide a white-list of styles that we preserve, those should
 					// be the ones that could later be altered with editor tools.
 					[
-						[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element )
+						// Preserve margin-left/right which used as default indent style in the editor.
+											[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element, name )
 													{
-						if ( element.name in { p:1,div:1 } && !emptyMarginRegex.test( value ) )
-							return value;
+						if ( element.name in { p:1,div:1 } ) {
+							var indentStyleName = config.contentsLangDirection == 'ltr' ? 'margin-left' : 'margin-right';
+
+							// Extract component value from 'margin' shorthand.
+							if ( name == 'margin' ) {
+								value = getStyleComponents( name, value, [ indentStyleName ] )[ indentStyleName ];
+							} else if ( name != indentStyleName )
+								return;
+
+							if ( value && !emptyMarginRegex.test( value ) )
+								return [ indentStyleName, value ];
+						}
 					}],
 
 						[ ( /^border.*|margin.*|vertical-align|float$/ ), null,
