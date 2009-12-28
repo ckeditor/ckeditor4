@@ -205,6 +205,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentSnapshot = currentSnapshot.replace( /\s+_cke_expando=".*?"/g, '' );
 
 					if ( beforeTypeImage.contents != currentSnapshot ) {
+						// It's safe to now indicate typing state.
+						this.typing = true;
+
 						// This's a special save, with specified snapshot
 						// and without auto 'fireChange'.
 						if ( !this.save( false, beforeTypeImage, false ) )
@@ -224,16 +227,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			this.lastKeystroke = keystroke;
 
-			// Ignore modifier keys. (#4673)
-			if ( isModifierKey )
-				return;
 			// Create undo snap after typed too much (over 25 times).
 			if ( isEditingKey ) {
 				this.typesCount = 0;
 				this.modifiersCount++;
 
 				if ( this.modifiersCount > 25 ) {
-					this.save();
+					this.save( false, null, false );
 					this.modifiersCount = 1;
 				}
 			} else if ( !isReset ) {
@@ -241,12 +241,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.typesCount++;
 
 				if ( this.typesCount > 25 ) {
-					this.save();
+					this.save( false, null, false );
 					this.typesCount = 1;
 				}
 			}
 
-			this.typing = true;
 		},
 
 		reset: function() // Reset the undo stack.
