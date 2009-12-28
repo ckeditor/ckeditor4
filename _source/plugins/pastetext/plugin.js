@@ -92,6 +92,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.editor.prototype.insertText = function( text ) {
+		this.focus();
 		this.fire( 'saveSnapshot' );
 
 		var mode = this.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : this.config.enterMode,
