@@ -49,7 +49,10 @@ CKEDITOR.plugins.add( 'format', {
 
 				styles[ value ].apply( editor.document );
 
-				editor.fire( 'saveSnapshot' );
+				// Save the undo snapshot after all changes are affected. (#4899)
+				setTimeout( function() {
+					editor.fire( 'saveSnapshot' );
+				}, 0 );
 			},
 
 			onRender: function() {
