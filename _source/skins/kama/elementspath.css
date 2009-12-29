@@ -25,6 +25,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_shared .cke_skin_kama .cke_path
 {
+	_width: 100%;
 	margin: 0 0 5px;
 }
 

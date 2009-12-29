@@ -149,11 +149,13 @@ span.cke_skin_kama
 	top: 0;
 }
 
+.cke_skin_kama .cke_browser_ie6 .cke_editor,
 .cke_skin_kama .cke_browser_ie7 .cke_editor
 {
 	display: inline-block;
 }
 
+.cke_skin_kama .cke_browser_ie6 .cke_editor,
 .cke_shared .cke_skin_kama .cke_browser_ie7 .cke_wrapper
 {
 	padding-bottom: 5px;
