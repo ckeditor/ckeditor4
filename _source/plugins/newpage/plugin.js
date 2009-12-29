@@ -15,10 +15,14 @@ CKEDITOR.plugins.add( 'newpage', {
 			exec: function( editor ) {
 				var command = this;
 				editor.setData( editor.config.newpage_html, function() {
-					editor.fire( 'afterCommandExec', {
-						name: command.name,
-						command: command
-					});
+					// Save the undo snapshot after all document changes are affected. (#4889)
+					setTimeout( function() {
+						editor.fire( 'afterCommandExec', {
+							name: command.name,
+							command: command
+						});
+
+					}, 200 );
 				});
 				editor.focus();
 			},
