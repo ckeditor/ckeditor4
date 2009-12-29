@@ -33,6 +33,8 @@ span.cke_skin_kama
 	background-repeat: repeat-x;
 	background-position: 0 -1950px;
 	display: block;
+	/* IE Quirks: editor chrome overflow horizontally without an explicit width. */
+	_display: inline-block;
 	padding: 5px;
 
 	/*background-color: Red;*/
