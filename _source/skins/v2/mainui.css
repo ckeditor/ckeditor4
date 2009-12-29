@@ -17,6 +17,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: block;
 }
 
+.cke_skin_v2 span.cke_browser_webkit
+{
+	display: block;
+}
+
 .cke_skin_v2 .cke_wrapper
 {
 	display: block;

@@ -12,6 +12,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: 100%;
 }
 
+.cke_skin_office2003 span.cke_browser_webkit
+{
+	display: block;
+}
+
 .cke_skin_office2003,
 .cke_skin_office2003 .cke_wrapper
 {
