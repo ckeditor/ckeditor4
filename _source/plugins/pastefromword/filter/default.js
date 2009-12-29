@@ -650,6 +650,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							elementMigrateFilter( config[ 'format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ] )( element );
 					},
 
+					'div': function( element ) {
+						// Aligned table with no text surrounded is represented by a wrapper div, from which
+						// table cells inherit as text-align styles, which is wrong.
+						// Instead we use a clear-float div after the table to properly achieve the same layout.
+						var singleChild = element.onlyChild();
+						if ( singleChild && singleChild.name == 'table' ) {
+							var attrs = element.attributes;
+							singleChild.attributes = CKEDITOR.tools.extend( singleChild.attributes, attrs );
+							attrs.style && singleChild.addStyle( attrs.style );
+
+							var clearFloatDiv = new CKEDITOR.htmlParser.element( 'div' );
+							clearFloatDiv.addStyle( 'clear', 'both' );
+							element.add( clearFloatDiv );
+							delete element.name;
+						}
+					},
+
 					'td': function( element ) {
 						// 'td' in 'thead' is actually <th>.
 						if ( element.getAncestor( 'thead' ) )
@@ -804,6 +821,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								return [ indentStyleName, value ];
 						}
 					}],
+
+						// Preserve clear float style.
+											[ /^clear$/ ],
 
 						[ ( /^border.*|margin.*|vertical-align|float$/ ), null,
 													function( value, element )
