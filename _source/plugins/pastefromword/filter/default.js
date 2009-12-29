@@ -220,7 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				CKEDITOR.document.getBody().append( calculator );
 
 				return function( cssLength ) {
-					if ( cssLength.indexOf( '%' ) == -1 ) {
+					if ( cssLengthRelativeUnit.test( cssLength ) ) {
 						calculator.setStyle( 'width', cssLength );
 						return calculator.$.clientWidth + 'px';
 					}
@@ -530,7 +530,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Convert length unit of width/height on blocks to
 						// a more editor-friendly way (px).
 						if ( tagName in blockLike && attrs.style ) {
-							attrs.style = stylesFilter( [ [ ( /^width|height$/ ), null, convertToPx ] ] )( attrs.style ) || '';
+							attrs.style = stylesFilter( [ [ ( /^(:?width|height)$/ ), null, convertToPx ] ] )( attrs.style ) || '';
 						}
 
 						// Processing headings.
