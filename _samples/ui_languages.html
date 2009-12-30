@@ -1,94 +1,111 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>User Interface Globalization - CKEditor Sample</title>
-	<script type="text/javascript" src="sample.js"></script>
-	<script id="headscript" type="text/javascript">
-	//<![CDATA[
-
-	document.write( '<script type="text/javascript" src="../' +
-		'_source/' + 	// %REMOVE_LINE%
-		'lang/_languages.js"><\/script>' );
-
-	//]]>
-	</script>
+	<title>Sample - CKEditor</title>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+	<!-- CKReleaser %REMOVE_LINE%
+	<script type="text/javascript" src="../ckeditor.js"></script>
+	<script type="text/javascript" src="../lang/_languages.js"></script>
+	CKReleaser %REMOVE_START% -->
+	<script type="text/javascript" src="../ckeditor_source.js"></script>
+	<script type="text/javascript" src="../_source/lang/_languages.js"></script>
+	<!-- CKReleaser %REMOVE_END% -->
+	<script src="sample.js" type="text/javascript"></script>
+	<link href="sample.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="html">
-		<form action="sample_posteddata.php" method="post">
+	<h1>
+		CKEditor Sample
+	</h1>
+	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div id="alerts">
+		<noscript>
 			<p>
-				<label for="editor1">
-					Available languages (<span id="count">&nbsp;</span>
-					languages!):</label><br />
-				<select id="languages" onchange="createEditor( this.value );" disabled="disabled">
-					<script type="text/javascript">
-					//<![CDATA[
-
-						// Get the language list from the _languages.js file.
-						for ( var i = 0 ; i < window.CKEDITOR_LANGS.length ; i++ )
-						{
-							document.write(
-								'<option value="' + window.CKEDITOR_LANGS[i].code + '">' +
-									window.CKEDITOR_LANGS[i].name +
-								'</option>' );
-						}
-
-					//]]>
-					</script>
-				</select>
-				<br />
-				<span style="color: #888888">(You may see strange characters if your system doesn't
-					support the selected language)</span>
+				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
+				support, like yours, you should still see the contents (HTML data) and you should
+				be able to edit it normally, without a rich editor interface.
 			</p>
-			<p>
-				<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		</noscript>
+	</div>
+	<form action="sample_posteddata.php" method="post">
+		<p>
+			<label for="editor1">
+				Available languages (<span id="count"> </span>languages!):</label><br />
+			<select disabled="disabled" id="languages" onchange="createEditor( this.value );">
 				<script type="text/javascript">
 				//<![CDATA[
 
-					// Set the number of languages.
-					document.getElementById( 'count' ).innerHTML = window.CKEDITOR_LANGS.length;
-
-					var editor;
-
-					function createEditor( languageCode )
+					// Get the language list from the _languages.js file.
+					for ( var i = 0 ; i < window.CKEDITOR_LANGS.length ; i++ )
 					{
-						if ( editor )
-							editor.destroy();
-
-						// Replace the <textarea id="editor"> with an CKEditor
-						// instance, using default configurations.
-						editor = CKEDITOR.replace( 'editor1',
-							{
-								language : languageCode,
-
-								on :
-								{
-									instanceReady : function()
-									{
-										// Wait for the editor to be ready to set
-										// the language combo.
-										var languages = document.getElementById( 'languages' );
-										languages.value = this.langCode;
-										languages.disabled = false;
-									}
-								}
-							} );
+						document.write(
+							'<option value="' + window.CKEDITOR_LANGS[i].code + '">' +
+								window.CKEDITOR_LANGS[i].name +
+							'</option>' );
 					}
-
-					// At page startup, load the default language:
-					createEditor( '' );
 
 				//]]>
 				</script>
-			</p>
-		</form>
-	</div>
-	<div id="code">
-		<pre></pre>
+			</select>
+			<br />
+			<span style="color: #888888">(You may see strange characters if your system doesn't
+				support the selected language)</span>
+		</p>
+		<p>
+			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+			//<![CDATA[
+
+				// Set the number of languages.
+				document.getElementById( 'count' ).innerHTML = window.CKEDITOR_LANGS.length;
+
+				var editor;
+
+				function createEditor( languageCode )
+				{
+					if ( editor )
+						editor.destroy();
+
+					// Replace the <textarea id="editor"> with an CKEditor
+					// instance, using default configurations.
+					editor = CKEDITOR.replace( 'editor1',
+						{
+							language : languageCode,
+
+							on :
+							{
+								instanceReady : function()
+								{
+									// Wait for the editor to be ready to set
+									// the language combo.
+									var languages = document.getElementById( 'languages' );
+									languages.value = this.langCode;
+									languages.disabled = false;
+								}
+							}
+						} );
+				}
+
+				// At page startup, load the default language:
+				createEditor( '' );
+
+			//]]>
+			</script>
+		</p>
+	</form>
+	<div id="footer">
+		<hr />
+		<p>
+			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2009, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
 	</div>
 </body>
 </html>

@@ -1,62 +1,87 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Skins - CKEditor Sample</title>
-	<script type="text/javascript" src="sample.js"></script>
+	<title>Sample - CKEditor</title>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+	<!-- CKReleaser %REMOVE_LINE%
+	<script type="text/javascript" src="../ckeditor.js"></script>
+	CKReleaser %REMOVE_START% -->
+	<script type="text/javascript" src="../ckeditor_source.js"></script>
+	<!-- CKReleaser %REMOVE_END% -->
+	<script src="sample.js" type="text/javascript"></script>
+	<link href="sample.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="html">
-		<form action="sample_posteddata.php" method="post">
+	<h1>
+		CKEditor Sample
+	</h1>
+	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div id="alerts">
+		<noscript>
 			<p>
-				"Kama" skin:<br />
-				<textarea id="editor_kama" name="editor_kama" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-				<script type="text/javascript">
-				//<![CDATA[
-
-					CKEDITOR.replace( 'editor_kama',
-						{
-							skin : 'kama'
-						});
-
-				//]]>
-				</script>
+				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
+				support, like yours, you should still see the contents (HTML data) and you should
+				be able to edit it normally, without a rich editor interface.
 			</p>
-			<p>
-				"Office 2003" skin:<br />
-				<textarea id="editor_office2003" name="editor_office2003" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-				<script type="text/javascript">
-				//<![CDATA[
-
-					CKEDITOR.replace( 'editor_office2003',
-						{
-							skin : 'office2003'
-						});
-
-				//]]>
-				</script>
-			</p>
-			<p>
-				"V2" skin:<br />
-				<textarea id="editor_v2" name="editor_v2" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-				<script type="text/javascript">
-				//<![CDATA[
-
-					CKEDITOR.replace( 'editor_v2',
-						{
-							skin : 'v2'
-						});
-
-				//]]>
-				</script>
-			</p>
-		</form>
+		</noscript>
 	</div>
-	<div id="code">
-		<pre></pre>
+	<form action="sample_posteddata.php" method="post">
+		<p>
+			"Kama" skin:<br />
+			<textarea cols="80" id="editor_kama" name="editor_kama" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+			//<![CDATA[
+
+				CKEDITOR.replace( 'editor_kama',
+					{
+						skin : 'kama'
+					});
+
+			//]]>
+			</script>
+		</p>
+		<p>
+			"Office 2003" skin:<br />
+			<textarea cols="80" id="editor_office2003" name="editor_office2003" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+			//<![CDATA[
+
+				CKEDITOR.replace( 'editor_office2003',
+					{
+						skin : 'office2003'
+					});
+
+			//]]>
+			</script>
+		</p>
+		<p>
+			"V2" skin:<br />
+			<textarea cols="80" id="editor_v2" name="editor_v2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+			//<![CDATA[
+
+				CKEDITOR.replace( 'editor_v2',
+					{
+						skin : 'v2'
+					});
+
+			//]]>
+			</script>
+		</p>
+	</form>
+	<div id="footer">
+		<hr />
+		<p>
+			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2009, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
 	</div>
 </body>
 </html>

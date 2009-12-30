@@ -5,9 +5,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Ajax - CKEditor Sample</title>
-	<script type="text/javascript" src="sample.js"></script>
-	<script id="headscript" type="text/javascript">
+	<title>Sample - CKEditor</title>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+	<!-- CKReleaser %REMOVE_LINE%
+	<script type="text/javascript" src="../ckeditor.js"></script>
+	CKReleaser %REMOVE_START% -->
+	<script type="text/javascript" src="../ckeditor_source.js"></script>
+	<!-- CKReleaser %REMOVE_END% -->
+	<script src="sample.js" type="text/javascript"></script>
+	<link href="sample.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript">
 	//<![CDATA[
 
 var editor;
@@ -26,12 +33,12 @@ function createEditor()
 	// This sample may break here if the ckeditor_basic.js is used. In such case, the following code should be used instead:
 	/*
 	if ( editor.setData )
-		editor.setData( html );
+	editor.setData( html );
 	else
-		CKEDITOR.on( 'loaded', function()
-			{
-				editor.setData( html );
-			});
+	CKEDITOR.on( 'loaded', function()
+	{
+	editor.setData( html );
+	});
 	*/
 }
 
@@ -54,20 +61,42 @@ function removeEditor()
 	</script>
 </head>
 <body>
-	<div id="html">
+	<h1>
+		CKEditor Sample
+	</h1>
+	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div id="alerts">
+		<noscript>
+			<p>
+				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
+				support, like yours, you should still see the contents (HTML data) and you should
+				be able to edit it normally, without a rich editor interface.
+			</p>
+		</noscript>
+	</div>
+	<p>
+		<input onclick="createEditor();" type="button" value="Create Editor" />
+		<input onclick="removeEditor();" type="button" value="Remove Editor" />
+	</p>
+	<!-- This div will hold the editor. -->
+	<div id="editor">
+	</div>
+	<div id="contents" style="display: none">
 		<p>
-			<input type="button" value="Create Editor" onclick="createEditor();" />
-			<input type="button" value="Remove Editor" onclick="removeEditor();" />
-		</p>
-		<div id="editor">
-		</div>
-		<div id="contents" style="display: none">
-			<p>Edited Contents:</p>
-			<div id="editorcontents"></div>
+			Edited Contents:</p>
+		<!-- This div will be used to display the editor contents. -->
+		<div id="editorcontents">
 		</div>
 	</div>
-	<div id="code">
-		<pre></pre>
+	<div id="footer">
+		<hr />
+		<p>
+			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2009, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
 	</div>
 </body>
 </html>

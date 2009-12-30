@@ -5,22 +5,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Replace Textarea by Code - CKEditor Sample</title>
-	<script type="text/javascript" src="sample.js"></script>
+	<title>Sample - CKEditor</title>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+	<!-- CKReleaser %REMOVE_LINE%
+	<script type="text/javascript" src="../ckeditor.js"></script>
+	CKReleaser %REMOVE_START% -->
+	<script type="text/javascript" src="../ckeditor_source.js"></script>
+	<!-- CKReleaser %REMOVE_END% -->
+	<script src="sample.js" type="text/javascript"></script>
+	<link href="sample.css" rel="stylesheet" type="text/css" />
 	<style id="styles" type="text/css">
 
-.cke_button_myDialogCmd .cke_icon
-{
-	display : none !important;
-}
+		.cke_button_myDialogCmd .cke_icon
+		{
+			display: none !important;
+		}
 
-.cke_button_myDialogCmd .cke_label
-{
-	display : inline !important;
-}
+		.cke_button_myDialogCmd .cke_label
+		{
+			display: inline !important;
+		}
 
 	</style>
-	<script id="headscript" type="text/javascript">
+	<script type="text/javascript">
 	//<![CDATA[
 
 // When opening a dialog, its "definition" is created for it, for
@@ -89,23 +96,39 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 
 	//]]>
 	</script>
+
 </head>
 <body>
-	<div id="html">
-		<p>
-			This sample shows how to use the dialog API to customize dialogs whithout changing
-			the original editor code. The following customizations are being done::</p>
-		<ol>
-			<li><strong>Add dialog pages</strong> ("My Tab" in the Link dialog).</li>
-			<li><strong>Remove a dialog tab</strong> ("Target" tab from the Link dialog).</li>
-			<li><strong>Add dialog fields</strong> ("My Custom Field" into the Link dialog).</li>
-			<li><strong>Remove dialog fields</strong> ("Link Type" and "Browser Server" the Link dialog).</li>
-			<li><strong>Set default values for dialog fields</strong> (for the "URL" field in the
-				Link dialog). </li>
-			<li><strong>Create a custom dialog</strong> ("My Dialog" button).</li>
-		</ol>
-		<textarea id="editor1" name="editor1" rows="10" cols="80">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-		<script type="text/javascript">
+	<h1>
+		CKEditor Sample
+	</h1>
+	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div id="alerts">
+		<noscript>
+			<p>
+				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
+				support, like yours, you should still see the contents (HTML data) and you should
+				be able to edit it normally, without a rich editor interface.
+			</p>
+		</noscript>
+	</div>
+	<!-- This <fieldset> holds the HTML that you will usually find in your
+	     pages. -->
+	<p>
+		This sample shows how to use the dialog API to customize dialogs whithout changing
+		the original editor code. The following customizations are being done::</p>
+	<ol>
+		<li><strong>Add dialog pages</strong> ("My Tab" in the Link dialog).</li>
+		<li><strong>Remove a dialog tab</strong> ("Target" tab from the Link dialog).</li>
+		<li><strong>Add dialog fields</strong> ("My Custom Field" into the Link dialog).</li>
+		<li><strong>Remove dialog fields</strong> ("Link Type" and "Browser Server" the Link
+			dialog).</li>
+		<li><strong>Set default values for dialog fields</strong> (for the "URL" field in the
+			Link dialog). </li>
+		<li><strong>Create a custom dialog</strong> ("My Dialog" button).</li>
+	</ol>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+	<script type="text/javascript">
 		//<![CDATA[
 			// Replace the <textarea id="editor1"> with an CKEditor instance.
 			var editor = CKEDITOR.replace( 'editor1',
@@ -147,7 +170,16 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 						} );
 				});
 		//]]>
-		</script>
+	</script>
+	<div id="footer">
+		<hr />
+		<p>
+			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2009, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
 	</div>
 </body>
 </html>
