@@ -11,7 +11,6 @@ ignore :
 [
 	'_dev',
 	'_samples',
-	'_source/adapters',
 	'.svn',
 	'.settings',
 	'.project'
@@ -22,6 +21,12 @@ copy :
 	{
 		source : '_source/lang',
 		target : 'lang',
+		minify : true
+	},
+
+	{
+		source : '_source/adapters',
+		target : 'adapters',
 		minify : true
 	},
 
