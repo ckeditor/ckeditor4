@@ -514,7 +514,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
-	 * Sets the editor data. The data must be provided in raw format.
+	 * Sets the editor data. The data must be provided in raw format (HTML).
+	 * <b>Note:</b> This's an asynchronous method, the {@param callback}
+	 * function should be relied on if you want to interact with the editor
+	 * after data is fully loaded.
+	 *
 	 * @param {String} data HTML code to replace the curent content in the editor.
 	 * @param {Function} callback Function to be called after the setData is completed.
 	 * @example
