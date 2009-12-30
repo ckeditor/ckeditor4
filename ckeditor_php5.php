@@ -448,7 +448,7 @@ class CKEditor
 		$args = "";
 		$ckeditorPath = $this->ckeditorPath();
 
-		if (!empty($this->timestamp) && $this->timestamp != "%TIMESTAMP%") {
+		if (!empty($this->timestamp) && $this->timestamp != "%"."TIMESTAMP%") {
 			$args = '?t=' . $this->timestamp;
 		}
 
@@ -465,7 +465,7 @@ class CKEditor
 			$extraCode .= ($extraCode ? "\n" : "") . "if (typeof(CKEDITOR) == 'undefined') { alert('The CKEDITOR object was not found. Please make sure that the ckeditor.js file is available in your installation.'); }";
 		}
 		// %REMOVE_END%
-		if (!empty($this->timestamp) && $this->timestamp != self::timestamp) {
+		if ($this->timestamp != self::timestamp) {
 			$extraCode .= ($extraCode ? "\n" : "") . "CKEDITOR.timestamp = '". $this->timestamp ."';";
 		}
 		if ($extraCode) {
