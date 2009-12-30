@@ -170,7 +170,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement )
 					editor.insertElement( table );
-				// Properly restore the selection inside table. (#4822) 
+				// Properly restore the selection inside table. (#4822)
 				else
 					selection.selectBookmarks( bms );
 
