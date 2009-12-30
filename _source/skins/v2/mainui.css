@@ -63,6 +63,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 .cke_contents
 {
 	border: solid 1px #696969;
+	/* Prevent background content from penetrate through when switching between editing modes. (#4918) */
+	background-color: white;
 }
 
 .cke_skin_v2 .cke_focus
