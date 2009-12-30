@@ -10,7 +10,6 @@ fixLineEnds : true,
 ignore :
 [
 	'_dev',
-	'_samples',
 	'.svn',
 	'.settings',
 	'.project'
@@ -56,13 +55,6 @@ packages :
 [
 	'ckeditor.pack'
 ],
-
-samples :
-{
-	source : '_samples',
-	target : '_samples',
-	template : '_samples/sample.html',
-},
 
 skins :
 {
