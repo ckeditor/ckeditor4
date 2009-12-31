@@ -20,12 +20,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, editor.lang.preview );
 			} else {
 				var bodyHtml = '<body ',
-					body = editor.document.getBody();
+					body = editor.document && editor.document.getBody();
 
-				if ( body.getAttribute( 'id' ) )
-					bodyHtml += 'id="' + body.getAttribute( 'id' ) + '" ';
-				if ( body.getAttribute( 'class' ) )
-					bodyHtml += 'class="' + body.getAttribute( 'class' ) + '" ';
+				if ( body ) {
+					if ( body.getAttribute( 'id' ) )
+						bodyHtml += 'id="' + body.getAttribute( 'id' ) + '" ';
+					if ( body.getAttribute( 'class' ) )
+						bodyHtml += 'class="' + body.getAttribute( 'class' ) + '" ';
+				}
+
 				bodyHtml += '>';
 
 				sHTML = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
