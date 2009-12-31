@@ -18,7 +18,8 @@ span.cke_skin_kama
 	padding: 5px;
 }
 
-.cke_skin_kama span.cke_browser_webkit
+.cke_skin_kama span.cke_browser_webkit,
+.cke_skin_kama span.cke_browser_gecko18
 {
 	display: block;
 }
