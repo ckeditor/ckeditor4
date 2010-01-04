@@ -191,8 +191,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( this.firstLoad )
 						CKEDITOR.tools.setTimeout( function() {
-						switchLockRatio( this, 'check' )
+						switchLockRatio( this, 'check' );
 					}, 0, this );
+
 					this.firstLoad = false;
 					this.dontResetSize = false;
 				};

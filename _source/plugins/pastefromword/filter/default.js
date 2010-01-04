@@ -210,6 +210,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Indicate a list has ended.
 				else
 					listBaseIndent = 0;
+
+				return false;
 			},
 
 			// Convert various length units to 'px' in ignorance of DPI.
@@ -815,15 +817,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( name == 'margin' ) {
 								value = getStyleComponents( name, value, [ indentStyleName ] )[ indentStyleName ];
 							} else if ( name != indentStyleName )
-								return;
+								return null;
 
 							if ( value && !emptyMarginRegex.test( value ) )
 								return [ indentStyleName, value ];
 						}
+
+						return null;
 					}],
 
 						// Preserve clear float style.
-											[ /^clear$/ ],
+											[ ( /^clear$/ ) ],
 
 						[ ( /^border.*|margin.*|vertical-align|float$/ ), null,
 													function( value, element )
