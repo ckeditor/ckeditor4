@@ -24,11 +24,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// download them more than once for several instances.
 	var loadConfigLoaded = {};
 	var loadConfig = function( editor ) {
-			var customConfig = CKEDITOR.getUrl( editor.config.customConfig );
+			var customConfig = editor.config.customConfig;
 
 			// Check if there is a custom config to load.
 			if ( !customConfig )
 				return false;
+
+			customConfig = CKEDITOR.getUrl( customConfig );
 
 			var loadedConfig = loadConfigLoaded[ customConfig ] || ( loadConfigLoaded[ customConfig ] = {} );
 
