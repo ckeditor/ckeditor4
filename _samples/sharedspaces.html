@@ -101,34 +101,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				removePlugins : 'maximize,resize'
 			} );
 
-			CKEDITOR.replace( 'editor2',
+		CKEDITOR.replace( 'editor2',
+			{
+				sharedSpaces :
 				{
-					sharedSpaces :
-					{
-						top : 'topSpace',
-						bottom : 'bottomSpace'
-					},
+					top : 'topSpace',
+					bottom : 'bottomSpace'
+				},
 
-					// Removes the maximize plugin as it's not usable
-					// in a shared toolbar.
-					// Removes the resizer as it's not usable in a
-					// shared elements path.
-					removePlugins : 'maximize,resize'
-				} );
+				// Removes the maximize plugin as it's not usable
+				// in a shared toolbar.
+				// Removes the resizer as it's not usable in a
+				// shared elements path.
+				removePlugins : 'maximize,resize'
+			} );
 
-			CKEDITOR.replace( 'editor3',
+		CKEDITOR.replace( 'editor3',
+			{
+				sharedSpaces :
 				{
-					sharedSpaces :
-					{
-						top : 'topSpace'
-					},
+					top : 'topSpace'
+				},
 
-					// Removes the maximize plugin as it's not usable
-					// in a shared toolbar.
-					removePlugins : 'maximize'
-				} );
+				// Removes the maximize plugin as it's not usable
+				// in a shared toolbar.
+				removePlugins : 'maximize'
+			} );
 
-			CKEDITOR.replace( 'editor4' );
+		CKEDITOR.replace( 'editor4' );
 	//]]>
 	</script>
 </body>
