@@ -107,7 +107,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var cssLengthRelativeUnit = /^(\d[.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
 	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/;
 
-	var listBaseIndent;
+	var listBaseIndent = 0,
+		previousListItemMargin;
 
 	CKEDITOR.plugins.pastefromword = {
 		utils: {
@@ -183,18 +184,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													[ 'text-indent' ],
 							[ 'line-height' ],
 							// Resolve indent level from 'margin-left' value.
-													[ ( /^margin(:?-left)?$/ ), null, function( value )
+													[ ( /^margin(:?-left)?$/ ), null, function( margin )
 																{
 							// Be able to deal with component/short-hand form style.
-							var values = value.split( ' ' );
-							value = values[ 3 ] || values[ 1 ] || values[ 0 ];
-							value = parseInt( value, 10 );
+							var values = margin.split( ' ' );
+							margin = values[ 3 ] || values[ 1 ] || values[ 0 ];
+							margin = parseInt( margin, 10 );
 
-							// Figure out the indent unit by looking at the first list item.
-							!listBaseIndent && ( listBaseIndent = value );
+							// Figure out the indent unit by looking at the first increament.
+							if ( !listBaseIndent && previousListItemMargin && margin > previousListItemMargin )
+								listBaseIndent = margin - previousListItemMargin;
 
-							// Indent level start with one.
-							attrs[ 'cke:indent' ] = Math.floor( value / listBaseIndent ) + 1;
+							attrs[ 'cke:margin' ] = previousListItemMargin = margin;
 						}]
 							] )( attrs.style, element ) || '';
 					}
@@ -207,9 +208,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					CKEDITOR.tools.extend( attrs, listBulletAttrs );
 					return true;
 				}
-				// Indicate a list has ended.
-				else
-					listBaseIndent = 0;
 
 				return false;
 			},
@@ -300,6 +298,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						child.name = 'cke:li';
 						attributes[ 'cke:indent' ] = indentLevel;
+						previousListItemMargin = 0;
 						attributes[ 'cke:listtype' ] = element.name;
 						listStyleType && child.addStyle( 'list-style-type', listStyleType, true );
 					}
@@ -333,8 +332,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						listItem = child;
 						listItemAttrs = listItem.attributes;
 						listType = listItem.attributes[ 'cke:listtype' ];
-						// The indent attribute might not present.
-						listItemIndent = parseInt( listItemAttrs[ 'cke:indent' ], 10 ) || 0;
+
+						// List item indent level might come from a real list indentation or
+						// been resolved from a pseudo list item's margin value, even get
+						// no indentation at all.
+						listItemIndent = parseInt( listItemAttrs[ 'cke:indent' ], 10 ) || listBaseIndent && ( Math.ceil( listItemAttrs[ 'cke:margin' ] / listBaseIndent ) ) || 1;
 
 						// Ignore the 'list-style-type' attribute if it's matched with
 						// the list root element's default style type.
@@ -343,18 +345,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							] )( listItemAttrs.style ) || '' );
 
 						if ( !list ) {
-							parentList = list = new CKEDITOR.htmlParser.element( listType );
+							list = new CKEDITOR.htmlParser.element( listType );
 							list.add( listItem );
 							children[ i ] = list;
 						} else {
 							if ( listItemIndent > indent ) {
-								parentList = list;
 								list = new CKEDITOR.htmlParser.element( listType );
 								list.add( listItem );
 								lastListItem.add( list );
 							} else if ( listItemIndent < indent ) {
-								list = parentList;
-								parentList = list.parent ? list.parent.parent : list;
+								// There might be a negative gap between two list levels. (#4944)
+								var diff = indent - listItemIndent,
+									parent = list.parent;
+								while ( diff-- && parent )
+									list = parent.parent;
+
 								list.add( listItem );
 							} else
 								list.add( listItem );
@@ -367,6 +372,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					} else
 						list = null;
 				}
+
+				listBaseIndent = 0;
 			},
 
 			/**
@@ -972,8 +979,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Remove the dummy spans ( having no inline style ).
 		data = data.replace( /<span>/g, '' );
 
-		// Clean up certain stateful session variables.
-		listBaseIndent = 0;
 		return data;
 	};
 })();
