@@ -42,6 +42,8 @@ body .cke_dialog
 
 	/* IE6 does not support full color transparent PNG. */
 	_background-image: url(images/sprites_ie6.png);
+	/* Dialog corner parts require a negative z-index to avoid covering dialog body. (#4954) */
+	_z-index: -1;
 }
 
 .cke_skin_office2003 .cke_dialog_tl
