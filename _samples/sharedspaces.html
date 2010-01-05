@@ -48,77 +48,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<label for="editor1">
 				Editor 1 (uses the shared toolbar and element path):</label><br />
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			<script type="text/javascript">
-			//<![CDATA[
-				CKEDITOR.replace( 'editor1',
-					{
-						sharedSpaces :
-						{
-							top : 'topSpace',
-							bottom : 'bottomSpace'
-						},
-
-						// Removes the maximize plugin as it's not usable
-						// in a shared toolbar.
-						// Removes the resizer as it's not usable in a
-						// shared elements path.
-						removePlugins : 'maximize,resize'
-					} );
-			//]]>
-			</script>
 		</p>
 		<p>
 			<label for="editor2">
 				Editor 2 (uses the shared toolbar and element path):</label><br />
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			<script type="text/javascript">
-			//<![CDATA[
-				CKEDITOR.replace( 'editor2',
-					{
-						sharedSpaces :
-						{
-							top : 'topSpace',
-							bottom : 'bottomSpace'
-						},
-
-						// Removes the maximize plugin as it's not usable
-						// in a shared toolbar.
-						// Removes the resizer as it's not usable in a
-						// shared elements path.
-						removePlugins : 'maximize,resize'
-					} );
-			//]]>
-			</script>
 		</p>
 		<p>
 			<label for="editor3">
 				Editor 3 (uses the shared toolbar only):</label><br />
 			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			<script type="text/javascript">
-			//<![CDATA[
-				CKEDITOR.replace( 'editor3',
-					{
-						sharedSpaces :
-						{
-							top : 'topSpace'
-						},
-
-						// Removes the maximize plugin as it's not usable
-						// in a shared toolbar.
-						removePlugins : 'maximize'
-					} );
-			//]]>
-			</script>
 		</p>
 		<p>
 			<label for="editor4">
 				Editor 4 (no shared spaces):</label><br />
 			<textarea cols="80" id="editor4" name="editor4" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			<script type="text/javascript">
-			//<![CDATA[
-				CKEDITOR.replace( 'editor4' );
-			//]]>
-			</script>
 		</p>
 		<p>
 			<input type="submit" value="Submit" />
@@ -136,5 +80,56 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			Knabben. All rights reserved.
 		</p>
 	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+
+		// Create all editor instances at the end of the page, so we are sure
+		// that the "bottomSpace" div is available in the DOM (IE issue).
+
+		CKEDITOR.replace( 'editor1',
+			{
+				sharedSpaces :
+				{
+					top : 'topSpace',
+					bottom : 'bottomSpace'
+				},
+
+				// Removes the maximize plugin as it's not usable
+				// in a shared toolbar.
+				// Removes the resizer as it's not usable in a
+				// shared elements path.
+				removePlugins : 'maximize,resize'
+			} );
+
+			CKEDITOR.replace( 'editor2',
+				{
+					sharedSpaces :
+					{
+						top : 'topSpace',
+						bottom : 'bottomSpace'
+					},
+
+					// Removes the maximize plugin as it's not usable
+					// in a shared toolbar.
+					// Removes the resizer as it's not usable in a
+					// shared elements path.
+					removePlugins : 'maximize,resize'
+				} );
+
+			CKEDITOR.replace( 'editor3',
+				{
+					sharedSpaces :
+					{
+						top : 'topSpace'
+					},
+
+					// Removes the maximize plugin as it's not usable
+					// in a shared toolbar.
+					removePlugins : 'maximize'
+				} );
+
+			CKEDITOR.replace( 'editor4' );
+	//]]>
+	</script>
 </body>
 </html>
