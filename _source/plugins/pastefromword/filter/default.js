@@ -984,11 +984,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
- * Whether the ignore all font-related format styles, including:
- * - font size;
- * - font family;
- * - font fore/background color;
+ * Whether to ignore all font related formatting styles, including:
+ * <ul>	<li>font size;</li>
+ *		<li>font family;</li>
+ *		<li>font foreground/background color.</li></ul>
  * @name CKEDITOR.config.pasteFromWordRemoveFontStyles
+ * @since 3.1
  * @type Boolean
  * @default true
  * @example
@@ -996,8 +997,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Whether transform MS-Word Outline Numbered Heading into html list.
+ * Whether to transform MS Word outline numbered headings into lists.
  * @name CKEDITOR.config.pasteFromWordNumberedHeadingToList
+ * @since 3.1
  * @type Boolean
  * @default false
  * @example
@@ -1005,10 +1007,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Whether remove element styles that can't be managed with editor, note that this
- * this doesn't handle the font-specific styles, which depends on
- * how {@link CKEDITOR.config.pasteFromWordRemoveFontStyles} is configured.
+ * Whether to remove element styles that can't be managed with the editor. Note
+ * that this doesn't handle the font specific styles, which depends on the
+ * {@link CKEDITOR.config.pasteFromWordRemoveFontStyles} setting instead.
  * @name CKEDITOR.config.pasteFromWordRemoveStyles
+ * @since 3.1
  * @type Boolean
  * @default true
  * @example
