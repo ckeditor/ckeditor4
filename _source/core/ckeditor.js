@@ -87,3 +87,11 @@ CKEDITOR.TRISTATE_OFF = 2;
  * @example
  */
 CKEDITOR.TRISTATE_DISABLED = 0;
+
+/**
+ * Fired when the CKEDITOR.currentInstance object reference changes. This may
+ * happen when setting the focus on different editor instances in the page.
+ * @name CKEDITOR#currentInstance
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ */

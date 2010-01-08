@@ -2519,3 +2519,19 @@ CKEDITOR.plugins.add( 'dialog', {
  * @example
  * config.dialog_magnetDistance = 30;
  */
+
+/**
+ * Fired when a dialog definition is about to be used to create a dialog into
+ * an editor instance. This event makes it possible to customize the definition
+ * before creating it.
+ * <p>Note that this event is called only the first time a specific dialog is
+ * opened. Successive openings will use the cached dialog, and this event will
+ * not get fired.</p>
+ * @name CKEDITOR#dialogDefinition
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ * @param {CKEDITOR.dialog.dialogDefinition} e.data The dialog defination that
+ *		is being loaded.
+ * @param {CKEDITOR.editor} e.editor The editor instance that will use the
+ *		dialog.
+ */

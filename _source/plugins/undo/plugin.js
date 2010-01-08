@@ -438,3 +438,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * config.undoStackSize = 50;
  */
 CKEDITOR.config.undoStackSize = 20;
+
+/**
+ * Fired when the editor is about to save an undo snapshot. This event can be
+ * fired by plugins and customizations to make the editor saving undo snapshots.
+ * @name CKEDITOR.editor#saveSnapshot
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ */

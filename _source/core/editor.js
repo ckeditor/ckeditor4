@@ -621,3 +621,28 @@ CKEDITOR.on( 'loaded', function() {
  * @example
  * config.htmlEncodeOutput = true;
  */
+
+/**
+ * Fired when a CKEDITOR instance is created, but still before initializing it.
+ * To interact with a fully initialized instance, use the
+ * {@link CKEDITOR#instanceReady} event instead.
+ * @name CKEDITOR#instanceCreated
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ * @param {CKEDITOR.editor} e.editor The editor instance that has been created.
+ */
+
+/**
+ * Fired when a CKEDITOR instance is destroyed.
+ * @name CKEDITOR#instanceDestroyed
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ * @param {CKEDITOR.editor} e.editor The editor instance that has been destroyed.
+ */
+
+/**
+ * Fired when all plugins are loaded and initialized into the editor instance.
+ * @name CKEDITOR#pluginsLoaded
+ * @event
+ * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
+ */
