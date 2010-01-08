@@ -142,9 +142,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		var head = this.$.getElementsByTagName( 'head' )[ 0 ];
 		head = new CKEDITOR.dom.element( head );
 
-		return (
-		/** @ignore */
-		this.getHead = function() {
+		return ( this.getHead = function() {
 			return head;
 		})();
 	},
@@ -159,19 +157,19 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	getBody: function() {
 		var body = new CKEDITOR.dom.element( this.$.body );
 
-		return (
-		/** @ignore */
-		this.getBody = function() {
+		return ( this.getBody = function() {
 			return body;
 		})();
 	},
 
+	/**
+	 * Gets the DOM document element for this document.
+	 * @returns {CKEDITOR.dom.element} The DOM document element.
+	 */
 	getDocumentElement: function() {
 		var documentElement = new CKEDITOR.dom.element( this.$.documentElement );
 
-		return (
-		/** @ignore */
-		this.getDocumentElement = function() {
+		return ( this.getDocumentElement = function() {
 			return documentElement;
 		})();
 	},
@@ -179,14 +177,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	/**
 	 * Gets the window object that holds this document.
 	 * @returns {CKEDITOR.dom.window} The window object.
-	 * @example
 	 */
 	getWindow: function() {
 		var win = new CKEDITOR.dom.window( this.$.parentWindow || this.$.defaultView );
 
-		return (
-		/** @ignore */
-		this.getWindow = function() {
+		return ( this.getWindow = function() {
 			return win;
 		})();
 	}

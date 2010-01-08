@@ -543,9 +543,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				nodeName = scopeName.toLowerCase() + ':' + nodeName;
 		}
 
-		return (
-		/** @ignore */
-		this.getName = function() {
+		return ( this.getName = function() {
 			return nodeName;
 		})();
 	},

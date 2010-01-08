@@ -10,7 +10,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'domiterator' );
 
 (function() {
-
+	/**
+	 * @name CKEDITOR.dom.iterator
+	 */
 	function iterator( range ) {
 		if ( arguments.length < 1 )
 			return;
