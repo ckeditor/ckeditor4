@@ -444,5 +444,4 @@ CKEDITOR.config.undoStackSize = 20;
  * fired by plugins and customizations to make the editor saving undo snapshots.
  * @name CKEDITOR.editor#saveSnapshot
  * @event
- * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
  */

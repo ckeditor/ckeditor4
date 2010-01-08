@@ -93,5 +93,4 @@ CKEDITOR.TRISTATE_DISABLED = 0;
  * happen when setting the focus on different editor instances in the page.
  * @name CKEDITOR#currentInstance
  * @event
- * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
  */

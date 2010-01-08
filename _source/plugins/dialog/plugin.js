@@ -2529,9 +2529,8 @@ CKEDITOR.plugins.add( 'dialog', {
  * not get fired.</p>
  * @name CKEDITOR#dialogDefinition
  * @event
- * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
- * @param {CKEDITOR.dialog.dialogDefinition} e.data The dialog defination that
+ * @param {CKEDITOR.dialog.dialogDefinition} data The dialog defination that
  *		is being loaded.
- * @param {CKEDITOR.editor} e.editor The editor instance that will use the
+ * @param {CKEDITOR.editor} editor The editor instance that will use the
  *		dialog.
  */

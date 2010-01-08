@@ -73,5 +73,4 @@ if ( CKEDITOR.env.ie )
  * Fired when a CKEDITOR core object is fully loaded and ready for interaction.
  * @name CKEDITOR#loaded
  * @event
- * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
  */

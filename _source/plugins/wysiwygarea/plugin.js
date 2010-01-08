@@ -727,5 +727,4 @@ CKEDITOR.config.ignoreEmptyParagraph = true;
  * Fired when data is loaded and ready for retrieval in an editor instance.
  * @name CKEDITOR.editor#dataReady
  * @event
- * @param {CKEDITOR.eventInfo} e The standard event object passed to listeners.
  */

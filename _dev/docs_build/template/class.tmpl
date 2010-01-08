@@ -597,16 +597,26 @@
 				</div>
 				<for each="member" in="ownEvents">
 					<a name="event:{+Link.symbolNameToLinkName(member)+}"> </a>
-					<div class="fixedFont">{!
+					<div class="fixedFont" style="float:left">{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
-					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name+}</b>{+makeSignature(member.params)+}
+					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if>
+					<b>{+member.name+}</b> : &lt;object&gt;.{+new Link().toSymbol('CKEDITOR.event#on').withText('on')+}( '{+member.name+}', function( e ){ ... } )
 					
 					</div>
+					<div style="float:right">
+						<span class="heading">Since:</span>
+							<if test="member.since">
+								{+ member.since +}
+							<else />
+								3.0
+							</if>
+					</div>
+					<div style="clear:both"></div>
 					<div class="description">
 						{+resolveLinks(member.desc)+}
 						<if test="member.srcFile != data.srcFile">
@@ -618,35 +628,36 @@
 					
 					<if test="member.example.length">
 					<for each="example" in="member.example">
-					<pre class="code">{+example+}</pre>
+						<if test="example.desc">
+							<pre class="code">{+example+}</pre>
+						</if>
 					</for>
+					<else />
+						<pre class="code"><span style="color:red">NO EXAMPLE AVAILABLE</span></pre>
 					</if>
 					
-						<if test="member.params.length">
 							<dl class="detailList">
 							<dt class="heading">Parameters:</dt>
+								<dt>
+									<span class="light fixedFont">{{+new Link().toSymbol('CKEDITOR.eventInfo')+}}</span> <b>e</b>
+								</dt>
+								<dd>The standard event object passed to event listeners.</dd>
+
 							<for each="item" in="member.params">
 								<dt>
-									{+((item.type)?"<span class=\"light fixedFont\">{"+(new Link().toSymbol(item.type))+"}</span> " : "")+}<b>{+item.name+}</b>
+									{+((item.type)?"<span class=\"light fixedFont\">{"+(new Link().toSymbol(item.type))+"}</span> " : "")+}<b>e.{+item.name+}</b>
 									<if test="item.isOptional"><i>Optional<if test="item.defaultValue">, Default: {+item.defaultValue+}</if></i></if>
 								</dt>
 								<dd>{+ resolveLinks(item.desc) +}</dd>
 							</for>
 							</dl>
-						</if>
+
 						<if test="member.deprecated">
 							<dl class="detailList">
 							<dt class="heading">Deprecated:</dt>
 							<dt>
 								{+ resolveLinks(member.deprecated) +}
 							</dt>
-							</dl>
-						</if>
-						<if test="member.since">
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>{+ member.since +}</dd>
-							</dl>
 							</dl>
 						</if>
 						<if test="member.exceptions.length">
