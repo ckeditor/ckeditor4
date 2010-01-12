@@ -164,6 +164,10 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCell.yes, 'yes' ],
 							[ langCell.no, 'no' ]
 							],
+						setup: function( selectedCell ) {
+							if ( selectedCell.getAttribute( 'noWrap' ) )
+								this.setValue( 'no' );
+						},
 						commit: function( selectedCell ) {
 							if ( this.getValue() == 'no' )
 								selectedCell.setAttribute( 'noWrap', 'nowrap' );
