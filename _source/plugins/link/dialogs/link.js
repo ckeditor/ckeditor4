@@ -405,6 +405,10 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 						},
 						commit: function( data ) {
+							// IE will not trigger the onChange event if the mouse has been used
+							// to carry all the operations #4724
+							this.onChange();
+
 							if ( !data.url )
 								data.url = {};
 
