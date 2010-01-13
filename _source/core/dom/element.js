@@ -220,7 +220,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
 			lastChild = lastChild.getPrevious();
 		if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
-			this.append( CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' ) );
+			var bogus = CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' );
+
+			CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' );
+
+			this.append( bogus );
 		}
 	},
 
