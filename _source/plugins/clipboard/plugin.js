@@ -196,7 +196,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
-		requires: [ 'htmldataprocessor' ],
+		requires: [ 'dialog', 'htmldataprocessor' ],
 		init: function( editor ) {
 			// Inserts processed data into the editor at the end of the
 			// events chain.
