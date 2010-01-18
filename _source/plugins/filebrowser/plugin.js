@@ -330,6 +330,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( targetInput )
 			dialog.getContentElement( targetInput[ 0 ], targetInput[ 1 ] ).reset();
 
+		if ( typeof data == 'function' && data.call( this._.filebrowserSe ) === false )
+			return;
+
 		if ( onSelect && onSelect.call( this._.filebrowserSe, fileUrl, data ) === false )
 			return;
 
