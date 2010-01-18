@@ -32,6 +32,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 				'border-top: #999999 1px dotted;' +
 				'border-bottom: #999999 1px dotted;' +
 				'height: 5px;' +
+				'page-break-after: always;' +
 
 			'}' );
 	},
