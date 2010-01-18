@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
- * English (Australia) language.
+ * English (United Kingdom) language.
  */
 
 /**#@+
@@ -17,7 +17,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * Constains the dictionary of language entries.
  * @namespace
  */
-CKEDITOR.lang[ 'en-uk' ] = {
+CKEDITOR.lang[ 'en-gb' ] = {
 	/**
 	 * The language reading direction. Possible values are "rtl" for
 	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right

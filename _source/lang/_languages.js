@@ -18,7 +18,7 @@ var CKEDITOR_LANGS = (function() {
 		en: 'English',
 		'en-au': 'English (Australia)',
 		'en-ca': 'English (Canadian)',
-		'en-uk': 'English (United Kingdom)',
+		'en-gb': 'English (United Kingdom)',
 		eo: 'Esperanto',
 		es: 'Spanish',
 		et: 'Estonian',

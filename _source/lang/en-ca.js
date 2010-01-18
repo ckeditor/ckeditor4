@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
- * English (Australia) language.
+ * English (Canadian) language.
  */
 
 /**#@+
