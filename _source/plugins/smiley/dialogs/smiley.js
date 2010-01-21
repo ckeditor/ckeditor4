@@ -40,6 +40,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			editor.insertElement( img );
 
 			dialog.hide();
+			evt.data.preventDefault();
 		};
 
 	var onKeydown = CKEDITOR.tools.addFunction( function( ev, element ) {

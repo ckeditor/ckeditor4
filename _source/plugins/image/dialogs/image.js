@@ -619,8 +619,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										var resetButton = CKEDITOR.document.getById( 'btnResetSize' ),
 											ratioButton = CKEDITOR.document.getById( 'btnLockSizes' );
 										if ( resetButton ) {
-											resetButton.on( 'click', function() {
+											resetButton.on( 'click', function( evt ) {
 												resetSize( this );
+												evt.data.preventDefault();
 											}, this.getDialog() );
 											resetButton.on( 'mouseover', function() {
 												this.addClass( 'cke_btn_over' );
@@ -631,7 +632,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										}
 										// Activate (Un)LockRatio button
 										if ( ratioButton ) {
-											ratioButton.on( 'click', function() {
+											ratioButton.on( 'click', function( evt ) {
 												var locked = switchLockRatio( this ),
 													oImageOriginal = this.originalElement,
 													width = this.getValueOf( 'info', 'txtWidth' );
@@ -643,6 +644,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 														updatePreview( this );
 													}
 												}
+												evt.data.preventDefault();
 											}, this.getDialog() );
 											ratioButton.on( 'mouseover', function() {
 												this.addClass( 'cke_btn_over' );
