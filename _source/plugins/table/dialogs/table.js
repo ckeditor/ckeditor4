@@ -328,6 +328,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									var widthMatch = widthPattern.exec( selectedTable.$.style.width );
 									if ( widthMatch )
 										this.setValue( widthMatch[ 1 ] );
+									else
+										this.setValue( '' );
 								},
 								commit: commitValue
 							},
