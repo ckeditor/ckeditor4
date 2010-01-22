@@ -47,7 +47,7 @@ pt.js      Found: 297 Missing: 192
 ro.js      Found: 316 Missing: 173
 ru.js      Found: 322 Missing: 167
 sk.js      Found: 317 Missing: 172
-sl.js      Found: 315 Missing: 174
+sl.js      Found: 432 Missing: 57
 sr-latn.js Found: 291 Missing: 198
 sr.js      Found: 291 Missing: 198
 sv.js      Found: 314 Missing: 175
