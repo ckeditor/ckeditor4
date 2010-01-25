@@ -688,18 +688,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( type == IMAGE ) {
 											var value,
 												borderStyle = element.getStyle( 'border-width' );
-
 											borderStyle = borderStyle && borderStyle.match( /^(\d+px)(?: \1 \1 \1)?$/ );
 											value = borderStyle && parseInt( borderStyle[ 1 ], 10 );
-											!value && ( value = element.getAttribute( 'border' ) );
-
+											isNaN( parseInt( value ) ) && ( value = element.getAttribute( 'border' ) );
 											this.setValue( value );
 										}
 									},
 									commit: function( type, element, internalCommit ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
-											if ( value ) {
+											if ( !isNaN( value ) ) {
 												element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
 												element.setStyle( 'border-style', 'solid' );
 											} else if ( !value && this.isChanged() ) {
@@ -747,7 +745,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											marginRightPx = parseInt( marginRightStyle, 10 );
 
 											value = ( marginLeftPx == marginRightPx ) && marginLeftPx;
-											!value && ( value = element.getAttribute( 'hspace' ) );
+											isNaN( parseInt( value ) ) && ( value = element.getAttribute( 'hspace' ) );
 
 											this.setValue( value );
 										}
@@ -755,7 +753,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									commit: function( type, element, internalCommit ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
-											if ( value ) {
+											if ( !isNaN( value ) ) {
 												element.setStyle( 'margin-left', CKEDITOR.tools.cssLength( value ) );
 												element.setStyle( 'margin-right', CKEDITOR.tools.cssLength( value ) );
 											} else if ( !value && this.isChanged() ) {
@@ -801,14 +799,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											marginBottomPx = parseInt( marginBottomStyle, 10 );
 
 											value = ( marginTopPx == marginBottomPx ) && marginTopPx;
-											!value && ( value = element.getAttribute( 'vspace' ) );
+											isNaN( parseInt( value ) ) && ( value = element.getAttribute( 'vspace' ) );
 											this.setValue( value );
 										}
 									},
 									commit: function( type, element, internalCommit ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
-											if ( value ) {
+											if ( !isNaN( value ) ) {
 												element.setStyle( 'margin-top', CKEDITOR.tools.cssLength( value ) );
 												element.setStyle( 'margin-bottom', CKEDITOR.tools.cssLength( value ) );
 											} else if ( !value && this.isChanged() ) {

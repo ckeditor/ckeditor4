@@ -853,7 +853,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 * uiElement.setValue( 'Blamo' );
 		 */
 		setValue: function( value ) {
-			value = value || '';
+			value = ( value != null ) ? value : '';
 			return CKEDITOR.ui.dialog.uiElement.prototype.setValue.call( this, value );
 		},
 
