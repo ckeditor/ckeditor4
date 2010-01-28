@@ -85,12 +85,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// functions.
 		definition = new definitionObject( this, definition );
 
-		// Fire the "dialogDefinition" event, making it possible to customize
-		// the dialog definition.
-		this.definition = definition = CKEDITOR.fire( 'dialogDefinition', {
-			name: dialogName,
-			definition: definition
-		}, editor ).definition;
 
 		var doc = CKEDITOR.document;
 
@@ -137,6 +131,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
 
+		// Fire the "dialogDefinition" event, making it possible to customize
+		// the dialog definition.
+		this.definition = definition = CKEDITOR.fire( 'dialogDefinition', {
+			name: dialogName,
+			definition: definition
+		}, editor ).definition;
 		// Initialize load, show, hide, ok and cancel events.
 		if ( definition.onLoad )
 			this.on( 'load', definition.onLoad );
