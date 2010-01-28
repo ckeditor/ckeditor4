@@ -1041,7 +1041,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// retrieving its final format.
 			var temp = new CKEDITOR.dom.element( 'span' );
 			temp.setAttribute( 'style', unparsedCssText );
-			styleText = temp.getAttribute( 'style' );
+			styleText = temp.getAttribute( 'style' ) || '';
 		} else
 			styleText = unparsedCssText;
 
