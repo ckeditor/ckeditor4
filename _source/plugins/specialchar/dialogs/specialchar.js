@@ -301,13 +301,15 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							{
 							type: 'html',
 							id: 'charPreview',
-							style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:28px;height:40px;width:70px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+							className: 'cke_dark_background',
+							style: 'border:1px solid #eeeeee;font-size:28px;height:40px;width:70px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
 							html: '<div>&nbsp;</div>'
 						},
 							{
 							type: 'html',
 							id: 'htmlPreview',
-							style: 'border:1px solid #eeeeee;background-color:#EAEAD1;font-size:14px;height:20px;width:70px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+							className: 'cke_dark_background',
+							style: 'border:1px solid #eeeeee;font-size:14px;height:20px;width:70px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
 							html: '<div>&nbsp;</div>'
 						}
 						]
