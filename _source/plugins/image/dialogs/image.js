@@ -868,7 +868,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( value )
 												element.setStyle( 'float', value );
-											else if ( !value && this.isChanged() )
+											else
 												element.removeStyle( 'float' );
 
 											if ( !internalCommit && type == IMAGE ) {
