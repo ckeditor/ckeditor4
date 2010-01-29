@@ -15,15 +15,25 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				return;
 
 			popupFeatures = popupFeatures.getElement();
+			popupFeatures.hide();
+			targetName.setValue( '' );
 
-			if ( value == 'popup' ) {
-				popupFeatures.show();
-				targetName.setLabel( editor.lang.link.targetPopupName );
-			} else {
-				popupFeatures.hide();
-				targetName.setLabel( editor.lang.link.targetFrameName );
-				this.getDialog().setValueOf( 'target', 'linkTargetName', value.charAt( 0 ) == '_' ? value : '' );
+			switch ( value ) {
+				case 'frame':
+					targetName.setLabel( editor.lang.link.targetFrameName );
+					targetName.getElement().show();
+					break;
+				case 'popup':
+					popupFeatures.show();
+					targetName.setLabel( editor.lang.link.targetPopupName );
+					targetName.getElement().show();
+					break;
+				default:
+					targetName.setValue( value );
+					targetName.getElement().hide();
+					break;
 			}
+
 		};
 
 	// Handles the event when the "Type" selection box is changed.
