@@ -484,7 +484,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		confirmCleanup: 'De tekst die u plakte lijkt gekopieerd te zijn vanuit Word. Wilt u de tekst opschonen voordat deze geplakt wordt?',
 		toolbar: 'Plakken als Word-gegevens',
 		title: 'Plakken als Word-gegevens',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'Het was niet mogelijk om de geplakte tekst op te schonen door een interne fout'
 	},
 
 	pasteText: {
@@ -530,19 +530,19 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Div aanmaken',
+		toolbar: 'Div aanmaken',
+		cssClassInputLabel: 'Stylesheet klassen',
+		styleSelectLabel: 'Stijl',
+		IdInputLabel: 'Id',
+		languageCodeInputLabel: ' Taalcode',
+		inlineStyleInputLabel: 'Inline stijl',
+		advisoryTitleInputLabel: 'informatieve titel',
+		langDirLabel: 'Schrijfrichting',
+		langDirLTRLabel: 'Links naar rechts (LTR)',
+		langDirRTLLabel: 'Rechts naar links (RTL)',
+		edit: 'Div wijzigen',
+		remove: 'Div verwijderen'
 	},
 
 	font: {
@@ -567,46 +567,46 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'Zwart',
+		'800000': 'Kastanjebruin',
+		'8B4513': 'Chocoladebruin',
+		'2F4F4F': 'Donkerleigrijs',
+		'008080': 'Blauwgroen',
+		'000080': 'Marine',
+		'4B0082': 'Indigo',
+		'696969': 'Donkergrijs',
+		'B22222': 'Baksteen',
+		'A52A2A': 'Bruin',
+		'DAA520': 'Donkergeel',
+		'006400': 'Donkergroen',
+		'40E0D0': 'Turquoise',
+		'0000CD': 'Middenblauw',
+		'800080': 'Paars',
+		'808080': 'Grijs',
+		'F00': 'Rood',
+		'FF8C00': 'Donkeroranje',
+		'FFD700': 'Goud',
+		'008000': 'Groen',
+		'0FF': 'Cyaan',
+		'00F': 'Blauw',
+		'EE82EE': 'Violet',
+		'A9A9A9': 'Donkergrijs',
+		'FFA07A': 'Lichtzalm',
+		'FFA500': 'Oranje',
+		'FFFF00': 'Geel',
+		'00FF00': 'Felgroen',
+		'AFEEEE': 'Lichtturquoise',
+		'ADD8E6': 'Lichtblauw',
+		'DDA0DD': 'Pruim',
+		'D3D3D3': 'Lichtgrijs',
+		'FFF0F5': 'Linnen',
+		'FAEBD7': 'Ivoor',
+		'FFFFE0': 'Lichtgeel',
+		'F0FFF0': 'Honingdauw',
+		'F0FFFF': 'Azuur',
+		'F0F8FF': 'Licht hemelsblauw',
+		'E6E6FA': 'Lavendel',
+		'FFF': 'Wit'
 	},
 
 	scayt: {
@@ -654,6 +654,6 @@ CKEDITOR.lang[ 'nl' ] = {
 		clear: 'Wissen'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'Werkbalk inklappen',
+	toolbarExpand: 'Werkbalk uitklappen'
 };
