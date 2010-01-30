@@ -1174,7 +1174,9 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				}
 			} else {
 				// We're only editing an existing link, so just overwrite the attributes.
-				var element = this._.selectedElement;
+				var element = this._.selectedElement,
+					href = element.getAttribute( '_cke_saved_href' ),
+					textView = element.getHtml();
 
 				// IE BUG: Setting the name attribute to an existing link doesn't work.
 				// Must re-create the link from weired syntax to workaround.
@@ -1193,7 +1195,9 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				element.setAttributes( attributes );
 				element.removeAttributes( removeAttributes );
-
+				// Update text view when user changes protocol #4612.
+				if ( href == textView )
+					element.setHtml( attributes._cke_saved_href );
 				// Make the element display as an anchor if a name has been set.
 				if ( element.getAttribute( 'name' ) )
 					element.addClass( 'cke_anchor' );
