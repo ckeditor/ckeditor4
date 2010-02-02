@@ -174,7 +174,12 @@ CKEDITOR.config.colorButton_foreStyle = {
 	styles: { 'color': '#(color)' },
 	overrides: [ {
 		element: 'font', attributes: { 'color': null }
-	}]
+	}],
+
+	// Fore color style must be applied inside links instead of around it.
+	childRule: function( element ) {
+		return element.getName() != 'a';
+	}
 };
 
 /**
