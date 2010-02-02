@@ -523,6 +523,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *
 	 * @param {String} data HTML code to replace the curent content in the editor.
 	 * @param {Function} callback Function to be called after the setData is completed.
+	 * @param {Boolean} noUndo Specify false to avoid editor from creating undo snapshot for this load.    
 	 * @example
 	 * CKEDITOR.instances.editor1.<b>setData( '&lt;p&gt;This is the editor data.&lt;/p&gt;' )</b>;
 	 * CKEDITOR.instances.editor1.setData( '&lt;p&gt;Some other editor data.&lt;/p&gt;', function()
@@ -530,13 +531,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * 		CKEDITOR.instances.editor1.checkDirty(); 	// true
 	 * } );
 	 */
-	setData: function( data, callback ) {
-		if ( callback ) {
-			this.on( 'dataReady', function( evt ) {
-				evt.removeListener();
-				callback.call( evt.editor );
-			});
-		}
+	setData: function( data, callback, noUndo ) {
+		noUndo !== false && this.fire( 'saveSnapshot' );
+
+		this.on( 'dataReady', function( evt ) {
+			evt.removeListener();
+			callback && callback.call( evt.editor );
+			noUndo !== false && this.fire( 'saveSnapshot' );
+		});
 		// Fire "setData" so data manipulation may happen.
 		var eventData = { dataValue: data };
 		this.fire( 'setData', eventData );
