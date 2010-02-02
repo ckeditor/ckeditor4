@@ -383,17 +383,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							testRange = range.duplicate();
 
 							testRange.moveToElementText( child );
+
+							var comparisonStart = testRange.compareEndPoints( 'StartToStart', range ),
+								comparisonEnd = testRange.compareEndPoints( 'EndToStart', range );
+
 							testRange.collapse();
 
-							var comparison = testRange.compareEndPoints( 'StartToStart', range );
-
-							if ( comparison > 0 )
+							if ( comparisonStart > 0 )
 								break;
-							else if ( comparison === 0 )
-								return {
-								container: parent,
-								offset: i
-							};
+							// When selection stay at the side of certain self-closing elements, e.g. BR,
+							// our comparison will never shows an equality. (#4824)
+							else if ( comparisonStart == 0 || comparisonEnd == 1 && comparisonStart == -1 )
+								return { container: parent, offset: i };
+							else if ( comparisonEnd == 0 )
+								return { container: parent, offset: i + 1 };
 
 							testRange = null;
 						}
