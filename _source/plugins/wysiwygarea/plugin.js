@@ -404,17 +404,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							keystrokeHandler.attach( domDocument );
 
 						if ( CKEDITOR.env.ie ) {
-							// Cancel default action for backspace in IE on control types. (#4047)
+							// Override keystrokes which should have deletion behavior
+							//  on control types in IE . (#4047)
 							domDocument.on( 'keydown', function( evt ) {
-								// Backspace.
-								var control = evt.data.getKeystroke() == 8 && editor.getSelection().getSelectedElement();
-								if ( control ) {
-									// Make undo snapshot.
-									editor.fire( 'saveSnapshot' );
-									// Remove manually.
-									control.remove();
-									editor.fire( 'saveSnapshot' );
-									evt.cancel();
+								var keyCode = evt.data.getKeystroke();
+
+								// Backspace OR Delete.
+								if ( keyCode in { 8:1,46:1 } ) {
+									var sel = editor.getSelection(),
+										control = sel.getSelectedElement();
+
+									if ( control ) {
+										// Make undo snapshot.
+										editor.fire( 'saveSnapshot' );
+
+										// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
+										// break up the selection, safely manage it here. (#4795)
+										var bookmark = sel.getRanges()[ 0 ].createBookmark();
+										// Remove the control manually.
+										control.remove();
+										sel.selectBookmarks( [ bookmark ] );
+
+										editor.fire( 'saveSnapshot' );
+
+										evt.data.preventDefault();
+									}
 								}
 							});
 
