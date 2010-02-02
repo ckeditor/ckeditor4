@@ -58,7 +58,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	justifyCommand.prototype = {
 		exec: function( editor ) {
-			var selection = editor.getSelection();
+			var selection = editor.getSelection(),
+				enterMode = editor.config.enterMode;
+
 			if ( !selection )
 				return;
 
@@ -70,6 +72,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iterator, block;
 			for ( var i = ranges.length - 1; i >= 0; i-- ) {
 				iterator = ranges[ i ].createIterator();
+				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
+
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					block.removeAttribute( 'align' );
 
