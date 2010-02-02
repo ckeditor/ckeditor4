@@ -266,11 +266,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 
 				getNextCharacterRange: function( maxLength ) {
-					var lastCursor,
+					var lastCursor, nextRangeWalker,
 						cursors = this._.cursors;
-					if ( !( lastCursor = cursors[ cursors.length - 1 ] ) )
-						return null;
-					return new characterRange( new characterWalker( getRangeAfterCursor( lastCursor ) ), maxLength );
+
+					if ( ( lastCursor = cursors[ cursors.length - 1 ] ) )
+						nextRangeWalker = new characterWalker( getRangeAfterCursor( lastCursor ) );
+					// In case it's an empty range (no cursors), figure out next range from walker (#4951).
+					else
+						nextRangeWalker = this._.walker;
+
+					return new characterRange( nextRangeWalker, maxLength );
 				},
 
 				getCursors: function() {
