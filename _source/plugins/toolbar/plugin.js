@@ -224,6 +224,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 								var dy = toolboxContainer.$.offsetHeight - previousHeight;
 								contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
+
+								editor.fire( 'resize' );
 							},
 
 							modes: { wysiwyg:1,source:1 }

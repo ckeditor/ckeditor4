@@ -12,7 +12,8 @@ CKEDITOR.plugins.add( 'sourcearea', {
 	requires: [ 'editingblock' ],
 
 	init: function( editor ) {
-		var sourcearea = CKEDITOR.plugins.sourcearea;
+		var sourcearea = CKEDITOR.plugins.sourcearea,
+			win = CKEDITOR.document.getWindow();
 
 		editor.on( 'editingBlockReady', function() {
 			var textarea, onResize;
@@ -40,25 +41,24 @@ CKEDITOR.plugins.add( 'sourcearea', {
 						'text-align': 'left'
 					};
 
-					// The textarea height/width='100%' doesn't
-					// constraint to the 'td' in IE strick mode
+					// Having to make <textarea> fixed sized to conque the following bugs:
+					// 1. The textarea height/width='100%' doesn't constraint to the 'td' in IE6/7.
+					// 2. Unexpected vertical-scrolling behavior happens whenever focus is moving out of editor
+					// if text content within it has overflowed. (#4762)
 					if ( CKEDITOR.env.ie ) {
-						if ( !CKEDITOR.env.ie8Compat ) {
-							onResize = function() {
-								// Holder rectange size is stretched by textarea,
-								// so hide it just for a moment.
-								textarea.hide();
-								textarea.setStyle( 'height', holderElement.$.clientHeight + 'px' );
-								// When we have proper holder size, show textarea again.
-								textarea.show();
-							};
-							editor.on( 'resize', onResize );
-							editor.on( 'afterCommandExec', function( event ) {
-								if ( event.data.name == 'toolbarCollapse' )
-									onResize();
-							});
-							styles.height = holderElement.$.clientHeight + 'px';
-						}
+						onResize = function() {
+							// Holder rectange size is stretched by textarea,
+							// so hide it just for a moment.
+							textarea.hide();
+							textarea.setStyle( 'height', holderElement.$.clientHeight + 'px' );
+							textarea.setStyle( 'width', holderElement.$.clientWidth + 'px' );
+							// When we have proper holder size, show textarea again.
+							textarea.show();
+						};
+
+						editor.on( 'resize', onResize );
+						win.on( 'resize', onResize );
+						setTimeout( onResize, 0 );
 					} else {
 						// By some yet unknown reason, we must stop the
 						// mousedown propagation for the textarea,
@@ -115,8 +115,10 @@ CKEDITOR.plugins.add( 'sourcearea', {
 				unload: function( holderElement ) {
 					editor.textarea = textarea = null;
 
-					if ( onResize )
+					if ( onResize ) {
 						editor.removeListener( 'resize', onResize );
+						win.removeListener( 'resize', onResize );
+					}
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
 						holderElement.removeStyle( 'position' );
