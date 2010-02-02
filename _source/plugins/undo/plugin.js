@@ -341,7 +341,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			this.index = image.index;
 
-			this.currentImage = image;
+			// Update current image with the actual editor
+			// content, since actualy content may differ from
+			// the original snapshot due to dom change. (#4622) 
+			this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
 
 			this.fireChange();
 		},
