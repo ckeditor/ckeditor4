@@ -648,15 +648,20 @@ CKEDITOR.dom.range = function( document ) {
 
 					startOffset = startContainer.getIndex() + 1;
 					startContainer = startContainer.getParent();
-					// Check if it is necessary to update the end boundary.
-					if ( !collapsed && this.startContainer.equals( this.endContainer ) )
+
+					// Check all necessity of updating the end boundary.
+					if ( collapsed )
+						this.collapse( true );
+					else if ( this.startContainer.equals( this.endContainer ) )
 						this.setEnd( nextText, this.endOffset - this.startOffset );
+					else if ( startContainer.equals( this.endContainer ) )
+						this.endOffset += 1;
 				}
 
 				this.setStart( startContainer, startOffset );
 
 				if ( collapsed )
-					this.collapse( true );
+					return;
 			}
 
 			var endContainer = this.endContainer;
