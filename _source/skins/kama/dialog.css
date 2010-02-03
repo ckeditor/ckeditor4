@@ -332,7 +332,7 @@ body .cke_dialog
 }
 .cke_skin_kama .cke_browser_webkit a.cke_dialog_ui_button
 {
-	float: right;
+	display:inline-block;
 	padding-top: 3px;
 	padding-bottom: 2px;
 	margin: 2px 0;
