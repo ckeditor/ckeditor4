@@ -113,6 +113,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					body.on( 'beforedeactivate', function() {
 						// Disable selections from being saved.
 						saveEnabled = false;
+
+						// IE before version 8 will leave cursor blinking inside the document after
+						// editor blurred unless we clean up the selection. (#4716)
+						var env = CKEDITOR.env;
+						if ( env.ie && env.version < 8 )
+							editor.document.$.selection.empty();
 					});
 
 					// IE fires the "selectionchange" event when clicking
