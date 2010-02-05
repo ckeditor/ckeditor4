@@ -119,6 +119,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					display: ''
 				});
 
+				// To allow the context menu to decrease back their width
+				element.getFirst().removeStyle( 'width' );
+
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {
 					// Non IE prefer the event into a window object.
@@ -167,8 +170,33 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						left -= element.$.offsetWidth;
 
 					var panelLoad = CKEDITOR.tools.bind( function() {
+						var target = element.getFirst();
+
 						if ( block.autoSize ) {
-							var target = element.getFirst();
+							// We must adjust first the width or IE6 could include extra lines in the height computation
+							var widthNode = block.element.$;
+
+							if ( CKEDITOR.env.gecko || CKEDITOR.env.opera )
+								widthNode = widthNode.parentNode;
+
+							if ( CKEDITOR.env.ie )
+								widthNode = widthNode.document.body;
+
+							var width = widthNode.scrollWidth;
+							// Account for extra height needed due to IE quirks box model bug:
+							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
+							// (#3426)
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
+								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 );
+							// A little extra at the end.
+							// If not present, IE6 might break into the next line, but also it looks better this way
+							width += 4;
+
+							target.setStyle( 'width', width + 'px' );
+
+							// IE doesn't compute the scrollWidth if a filter is applied previously
+							block.element.addClass( 'cke_frameLoaded' )
+
 							var height = block.element.$.scrollHeight;
 
 							// Account for extra height needed due to IE quirks box model bug:
@@ -182,7 +210,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// Fix IE < 8 visibility.
 							panel._.currentBlock.element.setStyle( 'display', 'none' ).removeStyle( 'display' );
 						} else
-							element.getFirst().removeStyle( 'height' );
+							target.removeStyle( 'height' );
 
 						var panelElement = panel.element,
 							panelWindow = panelElement.getWindow(),

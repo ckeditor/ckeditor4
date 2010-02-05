@@ -93,8 +93,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height:19px;
 	margin-left: 24px;
 	background-color: #fff;
-	_overflow: hidden;
-	_width: 80px;
+}
+/* Set these after the document has been loaded and we know the dimensions*/
+.cke_skin_v2 .cke_frameLoaded .cke_menuitem .cke_label
+{
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
