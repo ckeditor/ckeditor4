@@ -163,9 +163,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								// Bind to submit event.
 								$element.parents( 'form' ).submit( onSubmit );
 
+								// Bind to form-pre-serialize from jQuery Forms plugin.
+								$element.parents( 'form' ).bind( 'form-pre-serialize', onSubmit );
+
 								// Unbind when editor destroyed.
 								$element.bind( 'destroy.ckeditor', function() {
 									$element.parents( 'form' ).unbind( 'submit', onSubmit );
+									$element.parents( 'form' ).unbind( 'form-pre-serialize', onSubmit );
 								});
 							}
 
