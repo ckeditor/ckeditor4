@@ -74,6 +74,7 @@ $config['skin'] = 'v2';
 // Create second instance.
 echo $CKEditor->editor("editor2", $initialValue, $config);
 ?>
+			<p>
 				<input type="submit" value="Submit"/>
 			</p>
 		</form>
