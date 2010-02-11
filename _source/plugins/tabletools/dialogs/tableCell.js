@@ -89,17 +89,23 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							widths: [ '71%', '29%' ],
 							labelLayout: 'horizontal',
 							validate: validate[ 'number' ]( langCell.invalidWidth ),
-							setup: function( selectedCell ) {
-								var widthMatch = widthPattern.exec( selectedCell.$.style.width );
-								if ( widthMatch )
-									this.setValue( widthMatch[ 1 ] );
+							setup: function( element ) {
+								var widthAttr = parseInt( element.getAttribute( 'width' ), 10 ),
+									widthStyle = parseInt( element.getStyle( 'width' ), 10 );
+
+								!isNaN( widthAttr ) && this.setValue( widthAttr );
+								!isNaN( widthStyle ) && this.setValue( widthStyle );
 							},
-							commit: function( selectedCell ) {
-								var unit = this.getDialog().getValueOf( 'info', 'widthType' );
-								if ( this.getValue() !== '' )
-									selectedCell.$.style.width = this.getValue() + unit;
+							commit: function( element ) {
+								var value = parseInt( this.getValue(), 10 ),
+									unit = this.getDialog().getValueOf( 'info', 'widthType' );
+
+								if ( !isNaN( value ) )
+									element.setStyle( 'width', value + unit );
 								else
-									selectedCell.$.style.width = '';
+									element.removeStyle( 'width' );
+
+								element.removeAttribute( 'width' );
 							},
 							'default': ''
 						},
@@ -134,16 +140,22 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							widths: [ '71%', '29%' ],
 							labelLayout: 'horizontal',
 							validate: validate[ 'number' ]( langCell.invalidHeight ),
-							setup: function( selectedCell ) {
-								var heightMatch = heightPattern.exec( selectedCell.$.style.height );
-								if ( heightMatch )
-									this.setValue( heightMatch[ 1 ] );
+							setup: function( element ) {
+								var heightAttr = parseInt( element.getAttribute( 'height' ), 10 ),
+									heightStyle = parseInt( element.getStyle( 'height' ), 10 );
+
+								!isNaN( heightAttr ) && this.setValue( heightAttr );
+								!isNaN( heightStyle ) && this.setValue( heightStyle );
 							},
-							commit: function( selectedCell ) {
-								if ( this.getValue() !== '' )
-									selectedCell.$.style.height = this.getValue() + 'px';
+							commit: function( element ) {
+								var value = parseInt( this.getValue(), 10 );
+
+								if ( !isNaN( value ) )
+									element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
 								else
-									selectedCell.$.style.height = '';
+									element.removeStyle( 'height' );
+
+								element.removeAttribute( 'height' );
 							}
 						},
 							{
@@ -164,15 +176,20 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCell.yes, 'yes' ],
 							[ langCell.no, 'no' ]
 							],
-						setup: function( selectedCell ) {
-							if ( selectedCell.getAttribute( 'noWrap' ) )
+						setup: function( element ) {
+							var wordWrapAttr = element.getAttribute( 'noWrap' ),
+								wordWrapStyle = element.getStyle( 'white-space' );
+
+							if ( wordWrapStyle == 'nowrap' || wordWrapAttr )
 								this.setValue( 'no' );
 						},
-						commit: function( selectedCell ) {
+						commit: function( element ) {
 							if ( this.getValue() == 'no' )
-								selectedCell.setAttribute( 'noWrap', 'nowrap' );
+								element.setStyle( 'white-space', 'nowrap' );
 							else
-								selectedCell.removeAttribute( 'noWrap' );
+								element.removeStyle( 'white-space' );
+
+							element.removeAttribute( 'noWrap' );
 						}
 					},
 						spacer(),
@@ -189,14 +206,21 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langTable.alignCenter, 'center' ],
 							[ langTable.alignRight, 'right' ]
 							],
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'align' ) || '' );
+						setup: function( element ) {
+							var alignAttr = element.getAttribute( 'align' ),
+								textAlignStyle = element.getStyle( 'text-align' );
+
+							this.setValue( textAlignStyle || alignAttr );
 						},
 						commit: function( selectedCell ) {
-							if ( this.getValue() )
-								selectedCell.setAttribute( 'align', this.getValue() );
+							var value = this.getValue();
+
+							if ( value )
+								selectedCell.setStyle( 'text-align', value );
 							else
-								selectedCell.removeAttribute( 'align' );
+								selectedCell.removeStyle( 'text-align' );
+
+							selectedCell.removeAttribute( 'align' );
 						}
 					},
 						{
@@ -213,14 +237,32 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCell.alignBottom, 'bottom' ],
 							[ langCell.alignBaseline, 'baseline' ]
 							],
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'vAlign' ) || '' );
+						setup: function( element ) {
+							var vAlignAttr = element.getAttribute( 'vAlign' ),
+								vAlignStyle = element.getStyle( 'vertical-align' );
+
+							switch ( vAlignStyle ) {
+								// Ignore all other unrelated style values..
+								case 'top':
+								case 'middle':
+								case 'bottom':
+								case 'baseline':
+									break;
+								default:
+									vAlignStyle = '';
+							}
+
+							this.setValue( vAlignStyle || vAlignAttr );
 						},
-						commit: function( selectedCell ) {
-							if ( this.getValue() )
-								selectedCell.setAttribute( 'vAlign', this.getValue() );
+						commit: function( element ) {
+							var value = this.getValue();
+
+							if ( value )
+								element.setStyle( 'vertical-align', value );
 							else
-								selectedCell.removeAttribute( 'vAlign' );
+								element.removeStyle( 'vertical-align' );
+
+							element.removeAttribute( 'vAlign' );
 						}
 					}
 					]
@@ -258,10 +300,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						'default': '',
 						validate: validate.integer( langCell.invalidRowSpan ),
 						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'rowSpan' ) || '' );
+							var attrVal = parseInt( selectedCell.getAttribute( 'rowSpan' ), 10 );
+							if ( attrVal && attrVal != 1 )
+								this.setValue( attrVal );
 						},
 						commit: function( selectedCell ) {
-							if ( this.getValue() )
+							var value = parseInt( this.getValue(), 10 );
+							if ( value && value != 1 )
 								selectedCell.setAttribute( 'rowSpan', this.getValue() );
 							else
 								selectedCell.removeAttribute( 'rowSpan' );
@@ -275,11 +320,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						widths: [ '50%', '50%' ],
 						'default': '',
 						validate: validate.integer( langCell.invalidColSpan ),
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getAttribute( 'colSpan' ) || '' );
+						setup: function( element ) {
+							var attrVal = parseInt( element.getAttribute( 'colSpan' ), 10 );
+							if ( attrVal && attrVal != 1 )
+								this.setValue( attrVal );
 						},
 						commit: function( selectedCell ) {
-							if ( this.getValue() )
+							var value = parseInt( this.getValue(), 10 );
+							if ( value && value != 1 )
 								selectedCell.setAttribute( 'colSpan', this.getValue() );
 							else
 								selectedCell.removeAttribute( 'colSpan' );
@@ -298,14 +346,21 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							labelLayout: 'horizontal',
 							widths: [ '70%', '30%' ],
 							'default': '',
-							setup: function( selectedCell ) {
-								this.setValue( selectedCell.getAttribute( 'bgColor' ) || '' );
+							setup: function( element ) {
+								var bgColorAttr = element.getAttribute( 'bgColor' ),
+									bgColorStyle = element.getStyle( 'background-color' );
+
+								this.setValue( bgColorStyle || bgColorAttr );
 							},
 							commit: function( selectedCell ) {
-								if ( this.getValue() )
-									selectedCell.setAttribute( 'bgColor', this.getValue() );
+								var value = this.getValue();
+
+								if ( value )
+									selectedCell.setStyle( 'background-color', this.getValue() );
 								else
-									selectedCell.removeAttribute( 'bgColor' );
+									selectedCell.removeStyle( 'background-color' );
+
+								selectedCell.removeAttribute( 'bgColor' );
 							}
 						},
 							{
@@ -335,14 +390,20 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							labelLayout: 'horizontal',
 							widths: [ '70%', '30%' ],
 							'default': '',
-							setup: function( selectedCell ) {
-								this.setValue( selectedCell.getStyle( 'border-color' ) || '' );
+							setup: function( element ) {
+								var borderColorAttr = element.getAttribute( 'borderColor' ),
+									borderColorStyle = element.getStyle( 'border-color' );
+
+								this.setValue( borderColorStyle || borderColorAttr );
 							},
 							commit: function( selectedCell ) {
-								if ( this.getValue() )
+								var value = this.getValue();
+								if ( value )
 									selectedCell.setStyle( 'border-color', this.getValue() );
 								else
 									selectedCell.removeStyle( 'border-color' );
+
+								selectedCell.removeAttribute( 'borderColor' );
 							}
 						},
 							{
