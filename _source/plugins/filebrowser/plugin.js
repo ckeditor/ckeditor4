@@ -437,7 +437,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Link tab of Image dialog.
  * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
  * @name CKEDITOR.config.filebrowserImageBrowseLinkUrl
- * @since 3.0
+ * @since 3.2
  * @type String
  * @default '' (empty string = disabled)
  * @example
