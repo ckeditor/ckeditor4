@@ -35,10 +35,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<p>
 			<label for="editor1">
 				Available languages (<span id="count"> </span>languages!):</label><br />
-			<select disabled="disabled" id="languages" onchange="createEditor( this.value );">
 				<script type="text/javascript">
 				//<![CDATA[
-
+					document.write( '<select disabled="disabled" id="languages" onchange="createEditor( this.value );">' );
 					// Get the language list from the _languages.js file.
 					for ( var i = 0 ; i < window.CKEDITOR_LANGS.length ; i++ )
 					{
@@ -47,10 +46,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								window.CKEDITOR_LANGS[i].name +
 							'</option>' );
 					}
-
+					document.write( '</select>' );
 				//]]>
 				</script>
-			</select>
 			<br />
 			<span style="color: #888888">(You may see strange characters if your system doesn't
 				support the selected language)</span>
