@@ -364,3 +364,82 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 })();
+
+/**
+ * The location of an external file browser, that should be launched when "Browse Server" button is pressed.
+ * If configured, the "Browse Server" button will appear in Link, Image and Flash dialogs.
+ * @see The <a href="http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)">File Browser/Uploader</a> documentation.
+ * @name CKEDITOR.config.filebrowserBrowseUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserBrowseUrl = '/browser/browse.php';
+ */
+
+/**
+ * The location of a script that handles file uploads.
+ * If set, the "Upload" tab will appear in "Link", "Image" and "Flash" dialogs.
+ * @name CKEDITOR.config.filebrowserUploadUrl
+ * @see The <a href="http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)">File Browser/Uploader</a> documentation.
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserUploadUrl = '/uploader/upload.php';
+ */
+
+/**
+ * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Image dialog.
+ * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * @name CKEDITOR.config.filebrowserImageBrowseUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
+ */
+
+/**
+ * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Flash dialog.
+ * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * @name CKEDITOR.config.filebrowserFlashBrowseUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
+ */
+
+/**
+ * The location of a script that handles file uploads in the Image dialog.
+ * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserUploadUrl}.
+ * @name CKEDITOR.config.filebrowserImageUploadUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
+ */
+
+/**
+ * The location of a script that handles file uploads in the Flash dialog.
+ * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserUploadUrl}.
+ * @name CKEDITOR.config.filebrowserFlashUploadUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
+ */
+
+/**
+ * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Link tab of Image dialog.
+ * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * @name CKEDITOR.config.filebrowserImageBrowseLinkUrl
+ * @since 3.0
+ * @type String
+ * @default '' (empty string = disabled)
+ * @example
+ * config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
+ */
