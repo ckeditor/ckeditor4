@@ -195,7 +195,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							target.setStyle( 'width', width + 'px' );
 
 							// IE doesn't compute the scrollWidth if a filter is applied previously
-							block.element.addClass( 'cke_frameLoaded' )
+							block.element.addClass( 'cke_frameLoaded' );
 
 							var height = block.element.$.scrollHeight;
 

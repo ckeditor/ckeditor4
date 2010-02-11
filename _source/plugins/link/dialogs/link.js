@@ -87,7 +87,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				javascriptMatch, emailMatch, anchorMatch, urlMatch,
 				retval = {};
 
-			if ( javascriptMatch = href.match( javascriptProtocolRegex ) ) {
+			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
 				if ( emailProtection == 'encode' ) {
 					href = href.replace( encodedEmailLinkRegex, function( match, protectedAddress, rest ) {
 						return 'mailto:' +
@@ -126,7 +126,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					retval.anchor.name = retval.anchor.id = anchorMatch[ 1 ];
 				}
 				// Protected email link as encoded string.
-				else if ( emailMatch = href.match( emailRegex ) ) {
+				else if ( ( emailMatch = href.match( emailRegex ) ) ) {
 					var subjectMatch = href.match( emailSubjectRegex ),
 						bodyMatch = href.match( emailBodyRegex );
 
