@@ -149,8 +149,8 @@ if ( !CKEDITOR.loader ) {
 
 				// We must guarantee the execution order of the scripts, so we
 				// need to load them one by one. (#4145)
-				// The followin if/else block has been taken from the scriptloader core code.
-				if ( CKEDITOR.env.ie ) {
+				// The following if/else block has been taken from the scriptloader core code.
+				if ( typeof( script.onreadystatechange ) !== "undefined" ) {
 					/** @ignore */
 					script.onreadystatechange = function() {
 						if ( script.readyState == 'loaded' || script.readyState == 'complete' ) {
@@ -174,7 +174,7 @@ if ( !CKEDITOR.loader ) {
 
 			/**
 			 * Loads a specific script, including its dependencies. This is not a
-			 * synchronous loading, which means that the code the be loaded will
+			 * synchronous loading, which means that the code to be loaded will
 			 * not necessarily be available after this call.
 			 * @example
 			 * CKEDITOR.loader.load( 'core/dom/element' );
@@ -200,7 +200,10 @@ if ( !CKEDITOR.loader ) {
 				var scriptSrc = getUrl( '_source/' + scriptName + '.js' );
 
 				// Append the <script> element to the DOM.
-				if ( document.body ) {
+				// If the page is fully loaded, we can't use document.write
+				// but if the script is run while the body is loading then it's safe to use it
+				// Unfortunately, Firefox <3.6 doesn't support document.readyState, so it won't get this improvement
+				if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
 					pendingLoad.push( scriptName );
 
 					if ( !defer )
