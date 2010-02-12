@@ -424,8 +424,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// breaking character counting logic below. (#3949)
 					var distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
 
-					while ( distance > 0 )
-						distance -= siblings[ --i ].nodeValue.length;
+					try {
+						while ( distance > 0 )
+							distance -= siblings[ --i ].nodeValue.length;
+					}
+					// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
+					catch ( e ) {
+						distance = 0;
+					}
+
 
 					if ( distance === 0 ) {
 						return {
