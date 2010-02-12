@@ -59,12 +59,15 @@ CKEDITOR.htmlParser.fragment = function() {
 			html = [],
 			fragment = new CKEDITOR.htmlParser.fragment(),
 			pendingInline = [],
+			pendingBRs = [],
 			currentNode = fragment,
 			// Indicate we're inside a <pre> element, spaces should be touched differently.
 			inPre = false,
 			returnPoint;
 
 		function checkPending( newTagName ) {
+			var pendingBRsSent;
+
 			if ( pendingInline.length > 0 ) {
 				for ( var i = 0; i < pendingInline.length; i++ ) {
 					var pendingElement = pendingInline[ i ],
@@ -73,6 +76,11 @@ CKEDITOR.htmlParser.fragment = function() {
 						currentDtd = currentNode.name && CKEDITOR.dtd[ currentNode.name ];
 
 					if ( ( !currentDtd || currentDtd[ pendingName ] ) && ( !newTagName || !pendingDtd || pendingDtd[ newTagName ] || !CKEDITOR.dtd[ newTagName ] ) ) {
+						if ( !pendingBRsSent ) {
+							sendPendingBRs();
+							pendingBRsSent = 1;
+						}
+
 						// Get a clone for the pending element.
 						pendingElement = pendingElement.clone();
 
@@ -88,6 +96,11 @@ CKEDITOR.htmlParser.fragment = function() {
 					}
 				}
 			}
+		}
+
+		function sendPendingBRs() {
+			while ( pendingBRs.length )
+				currentNode.add( pendingBRs.shift() );
 		}
 
 		function addElement( element, target, enforceCurrent ) {
@@ -154,6 +167,11 @@ CKEDITOR.htmlParser.fragment = function() {
 				inPre = true;
 			else if ( tagName == 'br' && inPre ) {
 				currentNode.add( new CKEDITOR.htmlParser.text( '\n' ) );
+				return;
+			}
+
+			if ( tagName == 'br' ) {
+				pendingBRs.push( element );
 				return;
 			}
 
@@ -268,6 +286,9 @@ CKEDITOR.htmlParser.fragment = function() {
 				if ( currentNode.name == 'pre' )
 					inPre = false;
 
+				if ( candidate._.isBlockLike )
+					sendPendingBRs();
+
 				addElement( candidate, candidate.parent );
 
 				// The parent should start receiving new nodes now, except if
@@ -291,6 +312,7 @@ CKEDITOR.htmlParser.fragment = function() {
 					return;
 			}
 
+			sendPendingBRs();
 			checkPending();
 
 			if ( fixForBody && ( !currentNode.type || currentNode.name == 'body' ) && CKEDITOR.tools.trim( text ) ) {
@@ -315,6 +337,8 @@ CKEDITOR.htmlParser.fragment = function() {
 
 		// Parse it.
 		parser.parse( fragmentHtml );
+
+		sendPendingBRs();
 
 		// Close all pending nodes.
 		while ( currentNode.type ) {
