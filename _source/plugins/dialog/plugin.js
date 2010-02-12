@@ -858,7 +858,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @returns {CKEDITOR.ui.dialog.uiElement} The dialog UI element.
 		 */
 		getContentElement: function( pageId, elementId ) {
-			return this._.contents[ pageId ][ elementId ];
+			var page = this._.contents[ pageId ];
+			return page && page[ elementId ];
 		},
 
 		/**
