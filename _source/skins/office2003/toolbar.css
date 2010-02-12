@@ -65,6 +65,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-repeat: repeat-x;
 	display: inline-block;
 	float: left;
+	!height: 28px;
+	!line-height: 28px;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_toolbar
