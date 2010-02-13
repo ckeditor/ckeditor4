@@ -74,7 +74,7 @@ CKEDITOR.lang[ 'he' ] = {
 		select: 'שדה בחירה',
 		imageButton: 'כפתור תמונה',
 		notSet: '<לא נקבע>',
-		id: 'זיהוי (Id)',
+		id: 'זיהוי (ID)',
 		name: 'שם',
 		langDir: 'כיוון שפה',
 		langDirLtr: 'שמאל לימין (LTR)',
@@ -113,7 +113,7 @@ CKEDITOR.lang[ 'he' ] = {
 		advanced: 'אפשרויות מתקדמות',
 		type: 'סוג קישור',
 		toAnchor: 'עוגן בעמוד זה',
-		toEmail: 'דוא\'\'ל',
+		toEmail: 'דוא"ל',
 		target: 'מטרה',
 		targetNotSet: '<לא נקבע>',
 		targetFrame: '<מסגרת>',
@@ -137,7 +137,7 @@ CKEDITOR.lang[ 'he' ] = {
 		popupLeft: 'מיקום צד שמאל',
 		popupHeight: 'גובה',
 		popupTop: 'מיקום צד עליון',
-		id: 'זיהוי (Id)',
+		id: 'זיהוי (ID)',
 		langDir: 'כיוון שפה',
 		langDirNotSet: '<לא נקבע>',
 		langDirLTR: 'שמאל לימין (LTR)',
@@ -152,14 +152,14 @@ CKEDITOR.lang[ 'he' ] = {
 		charset: 'קידוד המשאב המקושר',
 		styles: 'סגנון',
 		selectAnchor: 'בחירת עוגן',
-		anchorName: 'עפ\'\'י שם העוגן',
-		anchorId: 'עפ\'\'י זיהוי (Id) הרכיב',
-		emailAddress: 'כתובת הדוא\'\'ל',
+		anchorName: 'עפ"י שם העוגן',
+		anchorId: 'עפ"י זיהוי (ID) האלמנט',
+		emailAddress: 'כתובת הדוא"ל',
 		emailSubject: 'נושא ההודעה',
 		emailBody: 'גוף ההודעה',
 		noAnchors: '(אין עוגנים זמינים בדף)',
 		noUrl: 'יש להקליד את כתובת הקישור (URL)',
-		noEmail: 'יש להקליד את כתובת הדוא\'\'ל'
+		noEmail: 'יש להקליד את כתובת הדוא"ל'
 	},
 
 	// Anchor dialog
@@ -168,7 +168,7 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'מאפייני נקודת עיגון',
 		title: 'מאפייני נקודת עיגון',
 		name: 'שם לנקודת עיגון',
-		errorName: 'יש להזין שם לנקודת עיגון'
+		errorName: 'יש להקליד שם לנקודת עיגון'
 	},
 
 	// Find And Replace Dialog
@@ -207,7 +207,7 @@ CKEDITOR.lang[ 'he' ] = {
 		cellSpace: 'מרווח תא',
 		cellPad: 'ריפוד תא',
 		caption: 'כיתוב',
-		summary: 'סיכום',
+		summary: 'תקציר',
 		headers: 'כותרות',
 		headersNone: 'אין',
 		headersColumn: 'עמודה ראשונה',
@@ -229,7 +229,7 @@ CKEDITOR.lang[ 'he' ] = {
 			merge: 'מיזוג תאים',
 			mergeRight: 'מזג ימינה',
 			mergeDown: 'מזג למטה',
-			splitHorizontal: 'פיצלו תא אופקית',
+			splitHorizontal: 'פיצול תא אופקית',
 			splitVertical: 'פיצול תא אנכית',
 			title: 'תכונות התא',
 			cellType: 'סוג התא',
@@ -334,8 +334,8 @@ CKEDITOR.lang[ 'he' ] = {
 		title: 'מאפייני שדה טקסט',
 		name: 'שם',
 		value: 'ערך',
-		charWidth: 'רוחב באותיות',
-		maxChars: 'מקסימות אותיות',
+		charWidth: 'רוחב לפי תווים',
+		maxChars: 'מקסימום תווים',
 		type: 'סוג',
 		typeText: 'טקסט',
 		typePass: 'סיסמה'
@@ -476,7 +476,7 @@ CKEDITOR.lang[ 'he' ] = {
 		title: 'הדבקה',
 		cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+X).',
 		copyError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות העתקה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+C).',
-		pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<STRONG>Ctrl+V</STRONG>) וללחוץ על <STRONG>אישור</STRONG>.',
+		pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<b>Ctrl+V</b>) וללחוץ על <b>אישור</b>.',
 		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.'
 	},
 
@@ -484,7 +484,7 @@ CKEDITOR.lang[ 'he' ] = {
 		confirmCleanup: 'נראה הטקסט שבכוונתך להדביק מקורו בקובץ וורד. האם ברצונך לנקות אותו טרם ההדבקה?',
 		toolbar: 'הדבקה מ-Word',
 		title: 'הדבקה מ-Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'לא ניתן היה לנקות את המידע בשל תקלה פנימית.'
 	},
 
 	pasteText: {
@@ -530,19 +530,19 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'יצירת מיכל (Div)',
+		toolbar: 'יצירת מיכל (Div)',
+		cssClassInputLabel: 'מחלקת עיצוב',
+		styleSelectLabel: 'סגנון',
+		IdInputLabel: 'מזהה (ID)',
+		languageCodeInputLabel: 'קוד שפה',
+		inlineStyleInputLabel: 'סגנון פנימי',
+		advisoryTitleInputLabel: 'כותרת מוצעת',
+		langDirLabel: 'כיוון שפה',
+		langDirLTRLabel: 'שמאל לימין (LTR)',
+		langDirRTLLabel: 'ימין לשמאל (RTL)',
+		edit: 'עריכת מיכל (Div)',
+		remove: 'הסרת מיכל (Div)'
 	},
 
 	font: {
@@ -567,46 +567,46 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'שחור',
+		'800000': 'סגול כהה',
+		'8B4513': 'חום בהיר',
+		'2F4F4F': 'אפור צפחה',
+		'008080': 'כחול-ירוק',
+		'000080': 'כחול-סגול',
+		'4B0082': 'אינדיגו',
+		'696969': 'אפור מעומעם',
+		'B22222': 'אדום-חום',
+		'A52A2A': 'חום',
+		'DAA520': 'כתום זהב',
+		'006400': 'ירוק כהה',
+		'40E0D0': 'טורקיז',
+		'0000CD': 'כחול בינוני',
+		'800080': 'סגול',
+		'808080': 'אפור',
+		'F00': 'אדום',
+		'FF8C00': 'כתום כהה',
+		'FFD700': 'זהב',
+		'008000': 'ירוק',
+		'0FF': 'ציאן',
+		'00F': 'כחול',
+		'EE82EE': 'סגלגל',
+		'A9A9A9': 'אפור כהה',
+		'FFA07A': 'כתום-וורוד',
+		'FFA500': 'כתום',
+		'FFFF00': 'צהוב',
+		'00FF00': 'ליים',
+		'AFEEEE': 'טורקיז בהיר',
+		'ADD8E6': 'כחול בהיר',
+		'DDA0DD': 'שזיף',
+		'D3D3D3': 'אפור בהיר',
+		'FFF0F5': 'לבנדר מסמיק',
+		'FAEBD7': 'לבן עתיק',
+		'FFFFE0': 'צהוב בהיר',
+		'F0FFF0': 'טל דבש',
+		'F0FFFF': 'תכלת',
+		'F0F8FF': 'כחול טיפת מים',
+		'E6E6FA': 'לבנדר',
+		'FFF': 'לבן'
 	},
 
 	scayt: {
@@ -635,8 +635,8 @@ CKEDITOR.lang[ 'he' ] = {
 		copy: 'Copyright &copy; $1. כל הזכויות שמורות.'
 	},
 
-	maximize: 'הגדל למקסימום',
-	minimize: 'הקטן למינימום',
+	maximize: 'הגדלה למקסימום',
+	minimize: 'הקטנה למינימום',
 
 	fakeobjects: {
 		anchor: 'עוגן',
