@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'es' ] = {
 		cssClass: 'Clases de hojas de estilo',
 		advisoryTitle: 'Título',
 		cssStyle: 'Estilo',
-		ok: 'OK',
+		ok: 'Aceptar',
 		cancel: 'Cancelar',
 		generalTab: 'General',
 		advancedTab: 'Avanzado',
@@ -144,7 +144,7 @@ CKEDITOR.lang[ 'es' ] = {
 		langDirRTL: 'Derecha a Izquierda (RTL)',
 		acccessKey: 'Clave de Acceso',
 		name: 'Nombre',
-		langCode: 'Orientación',
+		langCode: 'Código idioma',
 		tabIndex: 'Indice de tabulación',
 		advisoryTitle: 'Título',
 		advisoryContentType: 'Tipo de Contenido',
@@ -252,7 +252,7 @@ CKEDITOR.lang[ 'es' ] = {
 			invalidHeight: 'La altura de celda debe ser un número.',
 			invalidRowSpan: 'La expansión de filas debe ser un número entero.',
 			invalidColSpan: 'La expansión de columnas debe ser un número entero.',
-			chooseColor: 'Choose' // MISSING
+			chooseColor: 'Elegir'
 		},
 
 		row: {
@@ -373,7 +373,7 @@ CKEDITOR.lang[ 'es' ] = {
 		linkTab: 'Vínculo',
 		button2Img: '¿Desea convertir el botón de imagen en una simple imagen?',
 		img2Button: '¿Desea convertir la imagen en un botón de imagen?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Debe indicar la URL de la imagen.'
 	},
 
 	// Flash Dialog
@@ -414,7 +414,7 @@ CKEDITOR.lang[ 'es' ] = {
 		windowModeOpaque: 'Opaco',
 		windowModeTransparent: 'Transparente',
 		windowMode: 'WindowMode',
-		flashvars: 'FlashVars',
+		flashvars: 'Opciones',
 		bgcolor: 'Color de Fondo',
 		width: 'Anchura',
 		height: 'Altura',
@@ -476,7 +476,7 @@ CKEDITOR.lang[ 'es' ] = {
 		title: 'Pegar',
 		cutError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de cortado. Por favor use el teclado (Ctrl+X).',
 		copyError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de copiado. Por favor use el teclado (Ctrl+C).',
-		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>); luego presione <STRONG>OK</STRONG>.',
+		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>); luego presione <STRONG>Aceptar</STRONG>.',
 		securityMsg: 'Debido a la configuración de seguridad de su navegador, el editor no tiene acceso al portapapeles. Es necesario que lo pegue de nuevo en esta ventana.'
 	},
 
@@ -484,7 +484,7 @@ CKEDITOR.lang[ 'es' ] = {
 		confirmCleanup: 'El texto que desea parece provenir de Word. Desea depurarlo antes de pegarlo?',
 		toolbar: 'Pegar desde Word',
 		title: 'Pegar desde Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'No ha sido posible limpiar los datos debido a un error interno'
 	},
 
 	pasteText: {
@@ -530,19 +530,19 @@ CKEDITOR.lang[ 'es' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Crear contenedor DIV',
+		toolbar: 'Crear contenedor DIV',
+		cssClassInputLabel: 'Clase de hoja de estilos',
+		styleSelectLabel: 'Estilo',
+		IdInputLabel: 'Id',
+		languageCodeInputLabel: ' Codigo de idioma',
+		inlineStyleInputLabel: 'Estilo',
+		advisoryTitleInputLabel: 'Título',
+		langDirLabel: 'Orientación',
+		langDirLTRLabel: 'Izquierda a Derecha (LTR)',
+		langDirRTLLabel: 'Derecha a Izquierda (RTL)',
+		edit: 'Editar Div',
+		remove: 'Quitar Div'
 	},
 
 	font: {
@@ -567,54 +567,54 @@ CKEDITOR.lang[ 'es' ] = {
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
+		'000': 'Negro',
+		'800000': 'Granate',
 		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
+		'2F4F4F': 'Pizarra Oscuro',
+		'008080': 'Azul verdoso',
+		'000080': 'Azul marino',
+		'4B0082': 'Añil',
+		'696969': 'Gris medio',
 		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
+		'A52A2A': 'Marrón',
 		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
+		'006400': 'Verde oscuro',
+		'40E0D0': 'Turquesa',
 		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
+		'800080': 'Púrpura',
+		'808080': 'Gris',
+		'F00': 'Rojo',
+		'FF8C00': 'Naranja oscuro',
+		'FFD700': 'Oro',
+		'008000': 'Verde',
+		'0FF': 'Cian',
+		'00F': 'Azul',
+		'EE82EE': 'Violeta',
+		'A9A9A9': 'Gris oscuro',
+		'FFA07A': 'Salmón claro',
+		'FFA500': 'Naranja',
+		'FFFF00': 'Amarillo',
+		'00FF00': 'Lima',
+		'AFEEEE': 'Turquesa claro',
+		'ADD8E6': 'Azul claro',
+		'DDA0DD': 'Ciruela',
+		'D3D3D3': 'Gris claro',
 		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
+		'FAEBD7': 'Blanco antiguo',
+		'FFFFE0': 'Amarillo claro',
+		'F0FFF0': 'Miel',
+		'F0FFFF': 'Azul celeste',
 		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'E6E6FA': 'LAvanda',
+		'FFF': 'Blanco'
 	},
 
 	scayt: {
 		title: 'Comprobar Ortografía Mientras Escribe',
-		enable: 'Activar COME',
-		disable: 'Desactivar COME',
-		about: 'Acerca de COME',
-		toggle: 'Cambiar COME',
+		enable: 'Activar Corrector',
+		disable: 'Desactivar Corrector',
+		about: 'Acerca de Corrector',
+		toggle: 'Cambiar Corrector',
 		options: 'Opciones',
 		langs: 'Idiomas',
 		moreSuggestions: 'Más sugerencias',
@@ -636,7 +636,7 @@ CKEDITOR.lang[ 'es' ] = {
 	},
 
 	maximize: 'Maximizar',
-	minimize: 'Minimize', // MISSING
+	minimize: 'Minimizar',
 
 	fakeobjects: {
 		anchor: 'Ancla',
@@ -648,12 +648,12 @@ CKEDITOR.lang[ 'es' ] = {
 	resize: 'Arrastre para redimensionar',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Elegir color',
+		highlight: 'Muestra',
+		selected: 'Elegido',
+		clear: 'Borrar'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'Contraer barra de herramientas',
+	toolbarExpand: 'Expandir barra de herramientas'
 };
