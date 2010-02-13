@@ -132,6 +132,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( CKEDITOR.env.ie && doc.getById( 'cke_pastebin' ) )
 			return;
 
+		// If the browser supports it, get the data directly
+		if ( mode == 'text' && evt.data && evt.data.$.clipboardData ) {
+			// evt.data.$.clipboardData.types contains all the flavours in Mac's Safari, but not on windows.
+			var plain = evt.data.$.clipboardData.getData( 'text/plain' );
+			if ( plain ) {
+				evt.data.preventDefault();
+				callback( plain );
+				return;
+			}
+		}
+
 		var sel = this.getSelection(),
 			range = new CKEDITOR.dom.range( doc );
 
@@ -251,7 +262,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// user paste behaviors. (e.g. Ctrl-V)
 			editor.on( 'contentDom', function() {
 				var body = editor.document.getBody();
-				body.on( ( mode == 'text' && CKEDITOR.env.ie ) ? 'paste' : 'beforepaste', function( evt ) {
+				body.on( ( ( mode == 'text' && CKEDITOR.env.ie ) || CKEDITOR.env.webkit ) ? 'paste' : 'beforepaste', function( evt ) {
 					if ( depressBeforePasteEvent )
 						return;
 
