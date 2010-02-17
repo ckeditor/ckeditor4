@@ -516,20 +516,23 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
-	 * Sets the editor data. The data must be provided in raw format (HTML).
-	 * <b>Note:</b> This's an asynchronous method, the {@param callback}
-	 * function should be relied on if you want to interact with the editor
-	 * after data is fully loaded.
-	 *
-	 * @param {String} data HTML code to replace the curent content in the editor.
-	 * @param {Function} callback Function to be called after the setData is completed.
-	 * @param {Boolean} noUndo Specify false to avoid editor from creating undo snapshot for this load.    
+	 * Sets the editor data. The data must be provided in raw format (HTML).<br />
+	 * <br />
+	 * Note that this menthod is asynchronous. The "callback" parameter must
+	 * be used if interaction with the editor is needed after setting the data.
+	 * @param {String} data HTML code to replace the curent content in the
+	 *		editor.
+	 * @param {Function} callback Function to be called after the setData
+	 *		is completed.
+	 * @param {Boolean} noUndo Indicates that the function call must not
+	 *		create and undo snapshot.
 	 * @example
-	 * CKEDITOR.instances.editor1.<b>setData( '&lt;p&gt;This is the editor data.&lt;/p&gt;' )</b>;
-	 * CKEDITOR.instances.editor1.setData( '&lt;p&gt;Some other editor data.&lt;/p&gt;', function()
-	 * {
-	 * 		CKEDITOR.instances.editor1.checkDirty(); 	// true
-	 * } );
+	 * CKEDITOR.instances.editor1.<b>setData</b>( '&lt;p&gt;This is the editor data.&lt;/p&gt;' );
+	 * @example
+	 * CKEDITOR.instances.editor1.<b>setData</b>( '&lt;p&gt;Some other editor data.&lt;/p&gt;', function()
+	 *     {
+	 *         this.checkDirty();    // true
+	 *     });
 	 */
 	setData: function( data, callback, noUndo ) {
 		noUndo !== false && this.fire( 'saveSnapshot' );
@@ -539,6 +542,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			callback && callback.call( evt.editor );
 			noUndo !== false && this.fire( 'saveSnapshot' );
 		});
+
 		// Fire "setData" so data manipulation may happen.
 		var eventData = { dataValue: data };
 		this.fire( 'setData', eventData );
