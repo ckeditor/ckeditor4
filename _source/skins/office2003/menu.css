@@ -162,6 +162,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 -1050px;
 }
 
+.cke_skin_office2003 .cke_menuarrow span
+{
+	display: none;
+}
+
+.cke_hc .cke_skin_office2003 .cke_menuarrow
+{
+	width: auto;
+	margin-top: 0;
+}
+
+.cke_hc .cke_skin_office2003 .cke_menuarrow span
+{
+	display: inline;
+}
+
 /* #3766 In the context menu, long labels with second level menu get wrapped */
 .cke_browser_ie.cke_ltr .cke_skin_office2003 .cke_menuarrow
 {

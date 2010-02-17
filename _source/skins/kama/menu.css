@@ -166,6 +166,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-repeat: no-repeat;
 }
 
+.cke_skin_kama .cke_menuarrow span
+{
+	display: none;
+}
+
+.cke_hc .cke_skin_kama .cke_menuarrow
+{
+	width: auto;
+	margin-top: 0;
+}
+
+.cke_hc .cke_skin_kama .cke_menuarrow span
+{
+	display: inline;
+}
+
 /* #3766 In the context menu, long labels with second level menu get wrapped */
 .cke_browser_ie.cke_ltr .cke_skin_kama .cke_menuarrow
 {
