@@ -306,7 +306,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Do nothing if it was not possible to retrieve an image.
 			if ( image.contents === false )
-				return;
+				return false;
 
 			// Check if this is a duplicate. In such case, do nothing.
 			if ( this.currentImage && image.equals( this.currentImage, onContentOnly ) )
