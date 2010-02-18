@@ -117,7 +117,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// IE before version 8 will leave cursor blinking inside the document after
 						// editor blurred unless we clean up the selection. (#4716)
 						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
-							// IE stack overflows when we're doing so inside table. (#5114)   
+							// IE stack overflows when we're doing so inside table. (#5114)
 							var parent = savedRange && savedRange.parentElement && savedRange.parentElement();
 
 							if ( !( parent && parent.tagName.toLowerCase() in CKEDITOR.dtd.$tableContent ) )
