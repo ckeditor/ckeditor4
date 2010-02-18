@@ -100,14 +100,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Gets a snapshot image which represent the current document status.
 	function Image( editor ) {
-		var selection = editor.getSelection();
-
-		this.contents = editor.getSnapshot();
-		this.bookmarks = selection && selection.createBookmarks2( true );
+		var contents = editor.getSnapshot(),
+			selection = contents && editor.getSelection();
 
 		// In IE, we need to remove the expando attributes.
-		if ( CKEDITOR.env.ie )
-			this.contents = this.contents.replace( /\s+_cke_expando=".*?"/g, '' );
+		CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+_cke_expando=".*?"/g, '' ) );
+
+		this.contents = contents;
+		this.bookmarks = selection && selection.createBookmarks2( true );
 	}
 
 	// Attributes that browser may changing them when setting via innerHTML.
@@ -303,6 +303,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Get a content image.
 			if ( !image )
 				image = new Image( this.editor );
+
+			// Do nothing if it was not possible to retrieve an image.
+			if ( image.contents === false )
+				return;
 
 			// Check if this is a duplicate. In such case, do nothing.
 			if ( this.currentImage && image.equals( this.currentImage, onContentOnly ) )
