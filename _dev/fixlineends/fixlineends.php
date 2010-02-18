@@ -286,7 +286,7 @@ function fixFile($path, $nl) {
                 break;
 
             case 'LF':
-                if(substr($line, -2) === CRLF) {
+                if (substr($line, -2) === CRLF) {
                     $line = substr($line, 0, -2) . LF;
                     $modified = true;
                 }
