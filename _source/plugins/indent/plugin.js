@@ -279,3 +279,29 @@ CKEDITOR.tools.extend( CKEDITOR.config, {
 	indentUnit: 'px',
 	indentClasses: null
 });
+
+/**
+ * Size of each indentation step
+ * @type Number
+ * @default 40
+ * @example
+ * config.indentOffset = 4;
+ */
+
+/**
+ * Unit for the indentation style
+ * @type String
+ * @default 'px'
+ * @example
+ * config.indentUnit = 'em';
+ */
+
+/**
+ * List of classes to use for indenting the contents. If it's null, no classes will be used
+ * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
+ * @type Array
+ * default null
+ * @example
+ * // Use the classes 'Indent1', 'Indent2', 'Indent3'
+ * config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
+ */
