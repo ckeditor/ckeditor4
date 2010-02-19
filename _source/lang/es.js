@@ -89,8 +89,8 @@ CKEDITOR.lang[ 'es' ] = {
 		generalTab: 'General',
 		advancedTab: 'Avanzado',
 		validateNumberFailed: 'El valor no es un número.',
-		confirmNewPage: 'Cualquier cambio que no se haya guardado se perderá. ¿Está seguro de querer crear una nueva página?',
-		confirmCancel: 'Algunas de las opciones se han cambiado. ¿Está seguro de querer cerrar el diálogo?',
+		confirmNewPage: 'Cualquier cambio que no se haya guardado se perderá.\r\n¿Está seguro de querer crear una nueva página?',
+		confirmCancel: 'Algunas de las opciones se han cambiado.\r\n¿Está seguro de querer cerrar el diálogo?',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -446,7 +446,7 @@ CKEDITOR.lang[ 'es' ] = {
 		noChanges: 'Control finalizado: no se ha cambiado ninguna palabra',
 		oneChange: 'Control finalizado: se ha cambiado una palabra',
 		manyChanges: 'Control finalizado: se ha cambiado %1 palabras',
-		ieSpellDownload: 'Módulo de Control de Ortografía no instalado. ¿Desea descargarlo ahora?'
+		ieSpellDownload: 'Módulo de Control de Ortografía no instalado.\r\n¿Desea descargarlo ahora?'
 	},
 
 	smiley: {
@@ -474,14 +474,14 @@ CKEDITOR.lang[ 'es' ] = {
 
 	clipboard: {
 		title: 'Pegar',
-		cutError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de cortado. Por favor use el teclado (Ctrl+X).',
-		copyError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de copiado. Por favor use el teclado (Ctrl+C).',
-		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>); luego presione <STRONG>Aceptar</STRONG>.',
-		securityMsg: 'Debido a la configuración de seguridad de su navegador, el editor no tiene acceso al portapapeles. Es necesario que lo pegue de nuevo en esta ventana.'
+		cutError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de cortado.\r\nPor favor use el teclado (Ctrl+X).',
+		copyError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de copiado.\r\nPor favor use el teclado (Ctrl+C).',
+		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>);\r\nluego presione <STRONG>Aceptar</STRONG>.',
+		securityMsg: 'Debido a la configuración de seguridad de su navegador, el editor no tiene acceso al portapapeles.\r\nEs necesario que lo pegue de nuevo en esta ventana.'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'El texto que desea parece provenir de Word. Desea depurarlo antes de pegarlo?',
+		confirmCleanup: 'El texto que desea parece provenir de Word.\r\n¿Desea depurarlo antes de pegarlo?',
 		toolbar: 'Pegar desde Word',
 		title: 'Pegar desde Word',
 		error: 'No ha sido posible limpiar los datos debido a un error interno'
@@ -568,19 +568,19 @@ CKEDITOR.lang[ 'es' ] = {
 
 	colors: {
 		'000': 'Negro',
-		'800000': 'Granate',
-		'8B4513': 'Saddle Brown', // MISSING
+		'800000': 'Marrón oscuro',
+		'8B4513': 'Marrón tierra',
 		'2F4F4F': 'Pizarra Oscuro',
 		'008080': 'Azul verdoso',
 		'000080': 'Azul marino',
 		'4B0082': 'Añil',
-		'696969': 'Gris medio',
-		'B22222': 'Fire Brick', // MISSING
+		'696969': 'Gris oscuro',
+		'B22222': 'Ladrillo',
 		'A52A2A': 'Marrón',
-		'DAA520': 'Golden Rod', // MISSING
+		'DAA520': 'Oro oscuro',
 		'006400': 'Verde oscuro',
 		'40E0D0': 'Turquesa',
-		'0000CD': 'Medium Blue', // MISSING
+		'0000CD': 'Azul medio-oscuro',
 		'800080': 'Púrpura',
 		'808080': 'Gris',
 		'F00': 'Rojo',
@@ -590,22 +590,22 @@ CKEDITOR.lang[ 'es' ] = {
 		'0FF': 'Cian',
 		'00F': 'Azul',
 		'EE82EE': 'Violeta',
-		'A9A9A9': 'Gris oscuro',
+		'A9A9A9': 'Gris medio',
 		'FFA07A': 'Salmón claro',
 		'FFA500': 'Naranja',
 		'FFFF00': 'Amarillo',
 		'00FF00': 'Lima',
 		'AFEEEE': 'Turquesa claro',
 		'ADD8E6': 'Azul claro',
-		'DDA0DD': 'Ciruela',
+		'DDA0DD': 'Violeta claro',
 		'D3D3D3': 'Gris claro',
-		'FFF0F5': 'Lavender Blush', // MISSING
+		'FFF0F5': 'Lavanda rojizo',
 		'FAEBD7': 'Blanco antiguo',
 		'FFFFE0': 'Amarillo claro',
 		'F0FFF0': 'Miel',
 		'F0FFFF': 'Azul celeste',
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'LAvanda',
+		'F0F8FF': 'Azul pálido',
+		'E6E6FA': 'Lavanda',
 		'FFF': 'Blanco'
 	},
 
