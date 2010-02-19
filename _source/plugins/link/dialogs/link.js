@@ -1222,19 +1222,19 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 });
 
 /**
- * <p>The e-mail address anti-spam protection option. The protection will be
- * applied when creating or modifying e-mail links through the editor interface.</p>
- * <p>Two methods of protection can be choosed:</p>
+ * The e-mail address anti-spam protection option. The protection will be
+ * applied when creating or modifying e-mail links through the editor interface.<br>
+ * Two methods of protection can be choosed:
  * <ol>	<li>The e-mail parts (name, domain and any other query string) are
  *			assembled into a function call pattern. Such function must be
  *			provided by the developer in the pages that will use the contents.
  *		<li>Only the e-mail address is obfuscated into a special string that
  *			has no meaning for humans or spam bots, but which is properly
  *			rendered and accepted by the browser.</li></ol>
- * <p>Both approaches require JavaScript to be enabled.</p>
+ * Both approaches require JavaScript to be enabled.
  * @name CKEDITOR.config.emailProtection
  * @since 3.1
- * @type {String}
+ * @type String
  * @default '' (empty string = disabled)
  * @example
  * // href="mailto:tester@ckeditor.com?subject=subject&body=body"

@@ -88,8 +88,8 @@ CKEDITOR.config = {
 	 * The user interface language localization to use. If empty, the editor
 	 * automatically localize the editor to the user language, if supported,
 	 * otherwise the {@link CKEDITOR.config.defaultLanguage} language is used.
-	 * @default true
-	 * @type Boolean
+	 * @default '' (empty)
+	 * @type String
 	 * @example
 	 * // Load the German interface.
 	 * config.language = 'de';

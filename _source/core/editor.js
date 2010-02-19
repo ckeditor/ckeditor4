@@ -622,7 +622,7 @@ CKEDITOR.on( 'loaded', function() {
  * Whether escape HTML when editor update original input element.
  * @name CKEDITOR.config.htmlEncodeOutput
  * @since 3.1
- * @type {Boolean}
+ * @type Boolean
  * @default false
  * @example
  * config.htmlEncodeOutput = true;
