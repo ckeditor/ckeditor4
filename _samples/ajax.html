@@ -28,17 +28,17 @@ function createEditor()
 
 	// Create a new editor inside the <div id="editor">
 	editor = CKEDITOR.appendTo( 'editor' );
-	editor.setData( html, null, true );
+	editor.setData( html );
 
 	// This sample may break here if the ckeditor_basic.js is used. In such case, the following code should be used instead:
 	/*
 	if ( editor.setData )
-		editor.setData( html, null, true );
+		editor.setData( html );
 	else
 	{
 		CKEDITOR.on( 'loaded', function()
 			{
-				editor.setData( html, null, true );
+				editor.setData( html );
 			});
 	}
 	*/
