@@ -524,8 +524,6 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *		editor.
 	 * @param {Function} callback Function to be called after the setData
 	 *		is completed.
-	 * @param {Boolean} noUndo Indicates that the function call must not
-	 *		create and undo snapshot.
 	 * @example
 	 * CKEDITOR.instances.editor1.<b>setData</b>( '&lt;p&gt;This is the editor data.&lt;/p&gt;' );
 	 * @example
@@ -534,14 +532,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *         this.checkDirty();    // true
 	 *     });
 	 */
-	setData: function( data, callback, noUndo ) {
-		noUndo !== false && this.fire( 'saveSnapshot' );
-
-		this.on( 'dataReady', function( evt ) {
-			evt.removeListener();
-			callback && callback.call( evt.editor );
-			noUndo !== false && this.fire( 'saveSnapshot' );
-		});
+	setData: function( data, callback ) {
+		if ( callback ) {
+			this.on( 'dataReady', function( evt ) {
+				evt.removeListener();
+				callback.call( evt.editor );
+			});
+		}
 
 		// Fire "setData" so data manipulation may happen.
 		var eventData = { dataValue: data };
