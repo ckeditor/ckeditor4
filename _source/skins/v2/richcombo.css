@@ -144,7 +144,6 @@
 	border-bottom: 1px solid #8f8f73;
 	width: 14px;
 	height: 20px;
-	_height: 22px;
 }
 
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
@@ -272,4 +271,9 @@
 .cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo .cke_label
 {
 	float: none;
+}
+
+.cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_openbutton
+{
+	height: 22px;
 }
