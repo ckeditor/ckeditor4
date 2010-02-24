@@ -210,7 +210,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							var alignAttr = element.getAttribute( 'align' ),
 								textAlignStyle = element.getStyle( 'text-align' );
 
-							this.setValue( textAlignStyle || alignAttr );
+							this.setValue( textAlignStyle || alignAttr || '' );
 						},
 						commit: function( selectedCell ) {
 							var value = this.getValue();
@@ -252,7 +252,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									vAlignStyle = '';
 							}
 
-							this.setValue( vAlignStyle || vAlignAttr );
+							this.setValue( vAlignStyle || vAlignAttr || '' );
 						},
 						commit: function( element ) {
 							var value = this.getValue();
