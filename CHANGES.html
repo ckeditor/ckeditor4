@@ -39,64 +39,64 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<p>
 		New features:</p>
 	<ul>
-		<li><a href="http://dev.fckeditor.net/ticket/4399">#4399</a> : Improved support for external file browsers by allowing to execute a callback function.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4612">#4612</a> : Update text view when user changes protocol.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4399">#4399</a> : Improved support for external file browsers by allowing executing a callback function.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4612">#4612</a> : The text of links is now updated if it matches the URL to which it points to.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4936">#4936</a> : New localization support for the Welsh language.</li>
 	</ul>
 	<p>
 		Fixed issues:</p>
 	<ul>
-		<li><a href="http://dev.fckeditor.net/ticket/4272">#4272</a> : Kama skin toolbar was broken in IE+RTL+quirks.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4987">#4987</a> : Changed the url which is called by the Browser Server button in Link tab of Image Properties dialog.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5030">#5030</a> : Fixed CKEDITOR.timestamp wasn't added while loading skin.js.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4993">#4993</a> : Remove float value of image in case user selects 'not set'.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4944">#4944</a> : Fixed a bug where nested list structure with inconsequent levels are not pasted correclty from MS-Word.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4637">#4637</a> : Table cells' 'nowrap' attribute is not loaded to cell property dialog. Thanks to pomu0325.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4272">#4272</a> : Kama skin toolbar was broken in IE+Quirks+RTL.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4987">#4987</a> : Changed the url which is called by the Browser Server button in the Link tab of Image Properties dialog.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5030">#5030</a> : The CKEDITOR.timestamp wasn't been appended to the skin.js file.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4993">#4993</a> : Removed the float style from images when the user selects 'not set' for alignment.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4944">#4944</a> : Fixed a bug where nested list structures with inconsequent levels were not being pasted correctly from MS Word.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4637">#4637</a> : Table cells' 'nowrap' attribute was not being loaded by the cell property dialog. Thanks to pomu0325.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4724">#4724</a> : Using the mouse to insert a link in IE might create incorrect results.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4640">#4640</a> : Small optimizations for the fileBrowser plugin.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4583">#4583</a> : The "Target Frame Name" field only visible when select is 'frame'.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4863">#4863</a> : Fixing iframedialog's height doesn't stretch to 100%</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4583">#4583</a> : The "Target Frame Name" field is now visible when target is set to 'frame' only.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4863">#4863</a> : Fixing iframedialog's height doesn't stretch to 100%.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4964">#4964</a> : The BACKSPACE key positioning was not correct in some cases with Firefox.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4980">#4980</a> : The border, vspace, hspace of img are zero not working.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4773">#4773</a> : The fileBrowser plugin overwrote any onClick function for a fileButton element.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4980">#4980</a> : Setting border, vspace and hspace of images to zero was not working.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4773">#4773</a> : The fileBrowser plugin was overwriting onClick functions eventually defined on fileButton elements.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4731">#4731</a> : The clipboard plugin was missing a reference to the dialog plugin.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5051">#5051</a> : The about plugin was missing a reference to the dialog plugin.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5146">#5146</a> : The wsc plugin was missing a reference to the dialog plugin.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4632">#4632</a> : The print command will now properly break on the insertion point of page break for printing.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4862">#4862</a> : Corrected English (United Kingdom) locale as en-gb.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4862">#4862</a> : The English (United Kingdom) language file has been renamed to en-gb.js.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4618">#4618</a> : Selecting an emoticon or the lock and reset buttons in the image dialog fired the onBeforeUnload event in IE.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4678">#4678</a> : Respect empty width in tables.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4678">#4678</a> : It was not possible to set tables' width to empty value.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5012">#5012</a> : Fixed dependency issues with the menu plugin.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5040">#5040</a> : The editor will not properly ignore font related settings that have extra item separators (semi-colons).</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4046">#4046</a> : Justify should respect config.enterMode = CKEDITOR.ENTER_BR.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4622">#4622</a> : Inserting table multiple times will corrupt the undo system.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4622">#4622</a> : Inserting tables multiple times was corrupting the undo system.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4647">#4647</a> : [IE] Selection on an element within positioned container is lost after open context-menu then click one menu item.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4683">#4683</a> : Double-quote character in attribute values is not escaped in editor output.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4683">#4683</a> : Double-quote character in attribute values was not escaped in the editor output.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4762">#4762</a> : [IE] Unexpected vertical-scrolling behavior happens whenever focus is moving out of editor in source mode.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4772">#4772</a> : Fore-color style must be applied within a link instead of wrapping it.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4772">#4772</a> : Text color was not being applied properly on links.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4795">#4795</a> : [IE] Press 'Del' key on horizontal line or table result in error.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4824">#4824</a> : [IE] &lt;br/&gt;&nbsp; at the very first table cell breaks the editor selection.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4824">#4824</a> : [IE] &lt;br/&gt; at the very first table cell breaks the editor selection.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4851">#4851</a> : [IE] Delete table rows with context-menu may cause error.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4951">#4951</a> : Replacing patterns into empty string throws errors.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4963">#4963</a> : Link dialog doesn't open properly for e-mail type links.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4951">#4951</a> : Replacing text with empty string was throwing errors.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4963">#4963</a> : Link dialog was not opening properly for e-mail type links.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5043">#5043</a> : Removed the possibility of having an unwanted script tag being outputted with the editor contents.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/3678">#3678</a> : There were issues when editing links inside floating divs with IE.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4763">#4763</a> : Press Enter key with text selected will not delete the text.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5096">#5096</a> : Simple ampersand attribute value doesn't work for more than once occurance.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4763">#4763</a> : Pressing ENTER key with text selected was not deleting the text in some situations.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5096">#5096</a> : Simple ampersand attribute value doesn't work for more than one occurrence.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/3494">#3494</a> : Context menu is too narrow in some translations.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5005">#5005</a> : Fixed HTML errors in PHP samples.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5123">#5123</a> : Fixed broken XHTML in User Interface Languages sample.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4893">#4893</a> : Editor should understand table cell inline styles.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4611">#4611</a> : Selection around &lt;select&gt; in editor doesn't anymore cause error.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4893">#4893</a> : Editor now understands table cell inline styles.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4611">#4611</a> : Selection around &lt;select&gt; in editor doesn't cause error anymore.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4886">#4886</a> : Extra BR tags were being created in the output HTML.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4933">#4933</a> : Empty tags with BR were being left in the DOM.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5127">#5127</a> : Remove dialog definition pages sometimes been error prone.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4767">#4767</a> : CKEditor does not work when ckeditor_source.js is loaded in the &lt;body&gt; .</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5062">#5062</a> : Security warning message occurs when loading wysiwyg area in IE6 under HTTPS.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5127">#5127</a> : There were errors when removing dialog definition pages through code.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4767">#4767</a> : CKEditor was not working when ckeditor_source.js is loaded in the &lt;body&gt; .</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5062">#5062</a> : Avoided security warning message when loading the wysiwyg area in IE6 under HTTPS.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5135">#5135</a> : The TAB key will now behave properly when in Source mode.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4988">#4988</a> : It wasn't possible to use forcePasteAsPlainText with Safari on Mac.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5095">#5095</a> : Safari on Mac deleted current selection when Edit menu was clicked.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5140">#5140</a> : In High Contrast mode, arrows will now be displayed for menus with submenus.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5095">#5095</a> : Safari on Mac deleted the current selection in the editor when Edit menu was clicked.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5140">#5140</a> : In High Contrast mode, arrows were now been displayed for menus with submenus.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5163">#5163</a> : The undo system was not working on some specific cases.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5162">#5162</a> : The ajax sample was throwing errors when loading data.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/4999">#4999</a> : The Template dialog was not generating an undo snapshot.</li>
