@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'nb' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rikteksteditor, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Kilde',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'nb' ] = {
 		cssStyle: 'Stil',
 		ok: 'OK',
 		cancel: 'Avbryt',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Generelt',
 		advancedTab: 'Avansert',
 		validateNumberFailed: 'Denne verdien er ikke ett nummer',
 		confirmNewPage: 'Alle endringer som er gjort i dette innholdet vil bli tapt. Er du sikker på at du vil laste en ny side?',
 		confirmCancel: 'Noen av valgene har blitt endret. Er du sikker på at du vil lukke dialogen?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'nb' ] = {
 		upload: 'Last opp',
 		advanced: 'Avansert',
 		type: 'Lenketype',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Lenke til anker i teksten',
 		toEmail: 'E-post',
-		target: 'Mål',
-		targetNotSet: '<ikke satt>',
 		targetFrame: '<ramme>',
 		targetPopup: '<popup vindu>',
-		targetNew: 'Nytt vindu (_blank)',
-		targetTop: 'Hele vindu (_top)',
-		targetSelf: 'Samme vindu (_self)',
-		targetParent: 'Foreldrevindu (_parent)',
 		targetFrameName: 'Målramme',
 		targetPopupName: 'Navn på popup-vindus',
 		popupFeatures: 'Egenskaper for popup-vindu',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'nb' ] = {
 		popupTop: 'Topp-posisjon',
 		id: 'Id',
 		langDir: 'Språkretning',
-		langDirNotSet: '<ikke satt>',
 		langDirLTR: 'Venstre til høyre (VTH)',
 		langDirRTL: 'Høyre til venstre (HTV)',
 		acccessKey: 'Aksessknapp',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'nb' ] = {
 		columns: 'Kolonner',
 		border: 'Rammestørrelse',
 		align: 'Justering',
-		alignNotSet: '<Ikke satt>',
 		alignLeft: 'Venstre',
 		alignCenter: 'Midtjuster',
 		alignRight: 'Høyre',
 		width: 'Bredde',
 		widthPx: 'piksler',
 		widthPc: 'prosent',
+		widthUnit: 'width unit', // MISSING
 		height: 'Høyde',
 		cellSpace: 'Cellemarg',
 		cellPad: 'Cellepolstring',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		menu: 'Egenskaper for skjema',
 		action: 'Handling',
 		method: 'Metode',
-		encoding: 'Encoding',
-		target: 'Mål',
-		targetNotSet: '<ikke satt>',
-		targetNew: 'Nytt vindu (_blank)',
-		targetTop: 'Hele vindu (_top)',
-		targetSelf: 'Samme vindu (_self)',
-		targetParent: 'Foreldrevindu (_parent)'
+		encoding: 'Encoding'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'nb' ] = {
 		menu: 'Bildeegenskaper',
 		infoTab: 'Bildeinformasjon',
 		btnUpload: 'Send det til serveren',
-		url: 'URL',
 		upload: 'Last opp',
 		alt: 'Alternativ tekst',
 		width: 'Bredde',
 		height: 'Høyde',
 		lockRatio: 'Lås forhold',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Tilbakestill størrelse',
 		border: 'Ramme',
 		hSpace: 'HMarg',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'nb' ] = {
 		align: 'Juster',
 		alignLeft: 'Venstre',
 		alignRight: 'Høyre',
-		preview: 'Forhåndsvis',
 		alertUrl: 'Vennligst skriv bilde-urlen',
 		linkTab: 'Lenke',
 		button2Img: 'Vil du endre den valgte bildeknappen til ett vanlig bilde?',
 		img2Button: 'Vil du endre det valgte bildet til en bildeknapp?',
-		urlMissing: 'Bildets adresse mangler.'
+		urlMissing: 'Bildets adresse mangler.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'nb' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'nb' ] = {
 		cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk klipping av tekst. Vennligst bruk snareveien (Ctrl+X).',
 		copyError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk kopiering av tekst. Vennligst bruk snareveien (Ctrl+C).',
 		pasteMsg: 'Vennligst lim inn i den følgende boksen med tastaturet (<STRONG>Ctrl+V</STRONG>) og trykk <STRONG>OK</STRONG>.',
-		securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må lime det igjen i dette vinduet.'
+		securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må lime det igjen i dette vinduet.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'nb' ] = {
 
 	stylesCombo: {
 		label: 'Stil',
-		voiceLabel: 'Stiler',
-		panelVoiceLabel: 'Velg en stil',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Blokkstiler',
 		panelTitle2: 'Inlinestiler',
 		panelTitle3: 'Objektstiler'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'nb' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format',
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Vel ett paragrafformat',
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatert',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'nb' ] = {
 	font: {
 		label: 'Skrift',
 		voiceLabel: 'Font',
-		panelTitle: 'Skrift',
-		panelVoiceLabel: 'Velg en font'
+		panelTitle: 'Skrift'
 	},
 
 	fontSize: {
 		label: 'Størrelse',
 		voiceLabel: 'Font Størrelse',
-		panelTitle: 'Størrelse',
-		panelVoiceLabel: 'Velg en fontstørrelse'
+		panelTitle: 'Størrelse'
 	},
 
 	colorButton: {
 		textColorTitle: 'Tekstfarge',
 		bgColorTitle: 'Bakgrunnsfarge',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatisk',
 		more: 'Flere farger...'
 	},

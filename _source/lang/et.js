@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'et' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Lähtekood',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'et' ] = {
 		cssStyle: 'Laad',
 		ok: 'OK',
 		cancel: 'Loobu',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Täpsemalt',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'et' ] = {
 		upload: 'Lae üles',
 		advanced: 'Täpsemalt',
 		type: 'Lingi tüüp',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Ankur sellel lehel',
 		toEmail: 'E-post',
-		target: 'Sihtkoht',
-		targetNotSet: '<määramata>',
 		targetFrame: '<raam>',
 		targetPopup: '<hüpikaken>',
-		targetNew: 'Uus aken (_blank)',
-		targetTop: 'Pealmine aken (_top)',
-		targetSelf: 'Sama aken (_self)',
-		targetParent: 'Esivanem aken (_parent)',
 		targetFrameName: 'Sihtmärk raami nimi',
 		targetPopupName: 'Hüpikakna nimi',
 		popupFeatures: 'Hüpikakna omadused',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'et' ] = {
 		popupTop: 'Ülemine asukoht',
 		id: 'Id', // MISSING
 		langDir: 'Keele suund',
-		langDirNotSet: '<määramata>',
 		langDirLTR: 'Vasakult paremale (LTR)',
 		langDirRTL: 'Paremalt vasakule (RTL)',
 		acccessKey: 'Juurdepääsu võti',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'et' ] = {
 		columns: 'Veerud',
 		border: 'Joone suurus',
 		align: 'Joondus',
-		alignNotSet: '<Määramata>',
 		alignLeft: 'Vasak',
 		alignCenter: 'Kesk',
 		alignRight: 'Parem',
 		width: 'Laius',
 		widthPx: 'pikslit',
 		widthPc: 'protsenti',
+		widthUnit: 'width unit', // MISSING
 		height: 'Kõrgus',
 		cellSpace: 'Lahtri vahe',
 		cellPad: 'Lahtri täidis',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'et' ] = {
 		menu: 'Vormi omadused',
 		action: 'Toiming',
 		method: 'Meetod',
-		encoding: 'Encoding', // MISSING
-		target: 'Sihtkoht',
-		targetNotSet: '<määramata>',
-		targetNew: 'Uus aken (_blank)',
-		targetTop: 'Pealmine aken (_top)',
-		targetSelf: 'Sama aken (_self)',
-		targetParent: 'Esivanem aken (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'et' ] = {
 		menu: 'Pildi atribuudid',
 		infoTab: 'Pildi info',
 		btnUpload: 'Saada serverissee',
-		url: 'URL',
 		upload: 'Lae üles',
 		alt: 'Alternatiivne tekst',
 		width: 'Laius',
 		height: 'Kõrgus',
 		lockRatio: 'Lukusta kuvasuhe',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Lähtesta suurus',
 		border: 'Joon',
 		hSpace: 'H. vaheruum',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'et' ] = {
 		align: 'Joondus',
 		alignLeft: 'Vasak',
 		alignRight: 'Paremale',
-		preview: 'Eelvaade',
 		alertUrl: 'Palun kirjuta pildi URL',
 		linkTab: 'Link',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'et' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'et' ] = {
 		cutError: 'Sinu veebisirvija turvaseaded ei luba redaktoril automaatselt lõigata. Palun kasutage selleks klaviatuuri klahvikombinatsiooni (Ctrl+X).',
 		copyError: 'Sinu veebisirvija turvaseaded ei luba redaktoril automaatselt kopeerida. Palun kasutage selleks klaviatuuri klahvikombinatsiooni (Ctrl+C).',
 		pasteMsg: 'Palun kleebi järgnevasse kasti kasutades klaviatuuri klahvikombinatsiooni (<STRONG>Ctrl+V</STRONG>) ja vajuta seejärel <STRONG>OK</STRONG>.',
-		securityMsg: 'Sinu veebisirvija turvaseadete tõttu, ei oma redaktor otsest ligipääsu lõikelaua andmetele. Sa pead kleepima need uuesti siia aknasse.'
+		securityMsg: 'Sinu veebisirvija turvaseadete tõttu, ei oma redaktor otsest ligipääsu lõikelaua andmetele. Sa pead kleepima need uuesti siia aknasse.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'et' ] = {
 
 	stylesCombo: {
 		label: 'Laad',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'et' ] = {
 
 	format: {
 		label: 'Vorming',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Vorming',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Tavaline',
 		tag_pre: 'Vormindatud',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'et' ] = {
 	font: {
 		label: 'Kiri',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Kiri',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Kiri'
 	},
 
 	fontSize: {
 		label: 'Suurus',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Suurus',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Suurus'
 	},
 
 	colorButton: {
 		textColorTitle: 'Teksti värv',
 		bgColorTitle: 'Tausta värv',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automaatne',
 		more: 'Rohkem värve...'
 	},

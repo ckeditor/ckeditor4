@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'ro' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Sursa',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'ro' ] = {
 		cssStyle: 'Stil',
 		ok: 'Bine',
 		cancel: 'Anulare',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Avansat',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'ro' ] = {
 		upload: 'Încarcă',
 		advanced: 'Avansat',
 		type: 'Tipul link-ului (al legăturii web)',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Ancoră în această pagină',
 		toEmail: 'E-Mail',
-		target: 'Ţintă (Target)',
-		targetNotSet: '<nesetat>',
 		targetFrame: '<frame>',
 		targetPopup: '<fereastra popup>',
-		targetNew: 'Fereastră nouă (_blank)',
-		targetTop: 'Fereastra din topul ierarhiei (_top)',
-		targetSelf: 'Aceeaşi fereastră (_self)',
-		targetParent: 'Fereastra părinte (_parent)',
 		targetFrameName: 'Numele frame-ului ţintă',
 		targetPopupName: 'Numele ferestrei popup',
 		popupFeatures: 'Proprietăţile ferestrei popup',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'ro' ] = {
 		popupTop: 'Poziţia la dreapta',
 		id: 'Id', // MISSING
 		langDir: 'Direcţia cuvintelor',
-		langDirNotSet: '<nesetat>',
 		langDirLTR: 'stânga-dreapta (LTR)',
 		langDirRTL: 'dreapta-stânga (RTL)',
 		acccessKey: 'Tasta de acces',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'ro' ] = {
 		columns: 'Coloane',
 		border: 'Mărimea marginii',
 		align: 'Aliniament',
-		alignNotSet: '<Nesetat>',
 		alignLeft: 'Stânga',
 		alignCenter: 'Centru',
 		alignRight: 'Dreapta',
 		width: 'Lăţime',
 		widthPx: 'pixeli',
 		widthPc: 'procente',
+		widthUnit: 'width unit', // MISSING
 		height: 'Înălţime',
 		cellSpace: 'Spaţiu între celule',
 		cellPad: 'Spaţiu în cadrul celulei',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		menu: 'Proprietăţi formular (Form)',
 		action: 'Acţiune',
 		method: 'Metodă',
-		encoding: 'Encoding', // MISSING
-		target: 'Ţintă (Target)',
-		targetNotSet: '<nesetat>',
-		targetNew: 'Fereastră nouă (_blank)',
-		targetTop: 'Fereastra din topul ierarhiei (_top)',
-		targetSelf: 'Aceeaşi fereastră (_self)',
-		targetParent: 'Fereastra părinte (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'ro' ] = {
 		menu: 'Proprietăţile imaginii',
 		infoTab: 'Informaţii despre imagine',
 		btnUpload: 'Trimite la server',
-		url: 'URL',
 		upload: 'Încarcă',
 		alt: 'Text alternativ',
 		width: 'Lăţime',
 		height: 'Înălţime',
 		lockRatio: 'Păstrează proporţiile',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Resetează mărimea',
 		border: 'Margine',
 		hSpace: 'HSpace',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'ro' ] = {
 		align: 'Aliniere',
 		alignLeft: 'Stânga',
 		alignRight: 'Dreapta',
-		preview: 'Previzualizare',
 		alertUrl: 'Vă rugăm să scrieţi URL-ul imaginii',
 		linkTab: 'Link (Legătură web)',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'ro' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'ro' ] = {
 		cutError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de tăiere. Vă rugăm folosiţi tastatura (Ctrl+X).',
 		copyError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de copiere. Vă rugăm folosiţi tastatura (Ctrl+C).',
 		pasteMsg: 'Vă rugăm adăugaţi în căsuţa următoare folosind tastatura (<STRONG>Ctrl+V</STRONG>) şi apăsaţi <STRONG>OK</STRONG>.',
-		securityMsg: 'Din cauza setărilor de securitate ale programului dvs. cu care navigaţi pe internet (browser), editorul nu poate accesa direct datele din clipboard. Va trebui să adăugaţi din nou datele în această fereastră.'
+		securityMsg: 'Din cauza setărilor de securitate ale programului dvs. cu care navigaţi pe internet (browser), editorul nu poate accesa direct datele din clipboard. Va trebui să adăugaţi din nou datele în această fereastră.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'ro' ] = {
 
 	stylesCombo: {
 		label: 'Stil',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'ro' ] = {
 
 	format: {
 		label: 'Formatare',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Formatare',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'ro' ] = {
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Font',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Font'
 	},
 
 	fontSize: {
 		label: 'Mărime',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Mărime',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Mărime'
 	},
 
 	colorButton: {
 		textColorTitle: 'Culoarea textului',
 		bgColorTitle: 'Coloarea fundalului',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatic',
 		more: 'Mai multe culori...'
 	},

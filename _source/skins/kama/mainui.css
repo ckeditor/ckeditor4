@@ -161,3 +161,23 @@ span.cke_skin_kama
 {
 	padding-bottom: 5px;
 }
+
+/* All voice labels are not displayed. */
+.cke_skin_kama .cke_voice_label
+{
+	display: none;
+}
+
+.cke_skin_kama legend.cke_voice_label
+{
+	display: none;
+}
+
+.cke_skin_kama .cke_browser_ie legend.cke_voice_label
+{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}

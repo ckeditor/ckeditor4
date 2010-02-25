@@ -46,6 +46,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
+.cke_skin_kama a.cke_toolbox_collapser span
+{
+	display: none;
+}
+
+.cke_skin_kama .cke_hc a.cke_toolbox_collapser span
+{
+	font-size: 10px;
+	font-weight: bold;
+	font-family: Arial;
+	display: inline;
+}
+
 .cke_skin_kama a.cke_toolbox_collapser_min,
 .cke_skin_kama a:hover.cke_toolbox_collapser_min
 {
@@ -390,14 +403,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: default;
 }
 
-.cke_skin_kama .cke_browser_ie7 .cke_toolbox
+.cke_skin_kama .cke_browser_ie .cke_toolbox
 {
-	margin-bottom: 2px;
+	padding-bottom: 5px;
+	_padding-bottom: 6px;
 }
 
-.cke_shared .cke_skin_kama .cke_browser_ie7 .cke_toolbox
+.cke_shared .cke_skin_kama .cke_browser_ie .cke_toolbox
 {
-	margin-bottom: 0;
+	padding-bottom: 0;
 }
 
 .cke_skin_kama .cke_browser_gecko .cke_toolbox

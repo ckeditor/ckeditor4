@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'gu' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'મૂળ કે પ્રાથમિક દસ્તાવેજ',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssStyle: 'સ્ટાઇલ',
 		ok: 'ઠીક છે',
 		cancel: 'રદ કરવું',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'અડ્વાન્સડ',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'gu' ] = {
 		upload: 'અપલોડ',
 		advanced: 'અડ્વાન્સડ',
 		type: 'લિંક પ્રકાર',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'આ પેજનો ઍંકર',
 		toEmail: 'ઈ-મેલ',
-		target: 'ટાર્ગેટ/લક્ષ્ય',
-		targetNotSet: '<સેટ નથી>',
 		targetFrame: '<ફ્રેમ>',
 		targetPopup: '<પૉપ-અપ વિન્ડો>',
-		targetNew: 'નવી  વિન્ડો (_blank)',
-		targetTop: 'ઉપરની વિન્ડો (_top)',
-		targetSelf: 'આજ વિન્ડો (_self)',
-		targetParent: 'મૂળ વિન્ડો (_parent)',
 		targetFrameName: 'ટાર્ગેટ ફ્રેમ નું નામ',
 		targetPopupName: 'પૉપ-અપ વિન્ડો નું નામ',
 		popupFeatures: 'પૉપ-અપ વિન્ડો ફીચરસૅ',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'gu' ] = {
 		popupTop: 'જમણી બાજુ',
 		id: 'Id', // MISSING
 		langDir: 'ભાષા લેખવાની પદ્ધતિ',
-		langDirNotSet: '<સેટ નથી>',
 		langDirLTR: 'ડાબે થી જમણે (LTR)',
 		langDirRTL: 'જમણે થી ડાબે (RTL)',
 		acccessKey: 'ઍક્સેસ કી',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'gu' ] = {
 		columns: 'કૉલમ/ઊભી કટાર',
 		border: 'કોઠાની બાજુ(બોર્ડર) સાઇઝ',
 		align: 'અલાઇનમન્ટ/ગોઠવાયેલું ',
-		alignNotSet: '<સેટ નથી>',
 		alignLeft: 'ડાબી બાજુ',
 		alignCenter: 'મધ્ય સેન્ટર',
 		alignRight: 'જમણી બાજુ',
 		width: 'પહોળાઈ',
 		widthPx: 'પિકસલ',
 		widthPc: 'પ્રતિશત',
+		widthUnit: 'width unit', // MISSING
 		height: 'ઊંચાઈ',
 		cellSpace: 'સેલ અંતર',
 		cellPad: 'સેલ પૅડિંગ',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		menu: 'ફૉર્મ/પત્રકના ગુણ',
 		action: 'ક્રિયા',
 		method: 'પદ્ધતિ',
-		encoding: 'Encoding', // MISSING
-		target: 'ટાર્ગેટ/લક્ષ્ય',
-		targetNotSet: '<સેટ નથી>',
-		targetNew: 'નવી  વિન્ડો (_blank)',
-		targetTop: 'ઉપરની વિન્ડો (_top)',
-		targetSelf: 'આજ વિન્ડો (_self)',
-		targetParent: 'મૂળ વિન્ડો (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'gu' ] = {
 		menu: 'ચિત્રના ગુણ',
 		infoTab: 'ચિત્ર ની જાણકારી',
 		btnUpload: 'આ સર્વરને મોકલવું',
-		url: 'URL',
 		upload: 'અપલોડ',
 		alt: 'ઑલ્ટર્નટ ટેક્સ્ટ',
 		width: 'પહોળાઈ',
 		height: 'ઊંચાઈ',
 		lockRatio: 'લૉક ગુણોત્તર',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'રીસેટ સાઇઝ',
 		border: 'બોર્ડર',
 		hSpace: 'સમસ્તરીય જગ્યા',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'gu' ] = {
 		align: 'લાઇનદોરીમાં ગોઠવવું',
 		alignLeft: 'ડાબી બાજુ ગોઠવવું',
 		alignRight: 'જમણી',
-		preview: 'પૂર્વદર્શન',
 		alertUrl: 'ચિત્રની URL ટાઇપ કરો',
 		linkTab: 'લિંક',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		cutError: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસ કટ કરવાની પરવાનગી નથી આપતી. (Ctrl+X) નો ઉપયોગ કરો.',
 		copyError: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસ કોપી કરવાની પરવાનગી નથી આપતી.  (Ctrl+C) का प्रयोग करें।',
 		pasteMsg: 'Ctrl+V નો પ્રયોગ કરી પેસ્ટ કરો',
-		securityMsg: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસના કારણે,એડિટર તમારા કિલ્પબોર્ડ ડેટા ને કોપી નથી કરી શકતો. તમારે આ વિન્ડોમાં ફરીથી પેસ્ટ કરવું પડશે.'
+		securityMsg: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસના કારણે,એડિટર તમારા કિલ્પબોર્ડ ડેટા ને કોપી નથી કરી શકતો. તમારે આ વિન્ડોમાં ફરીથી પેસ્ટ કરવું પડશે.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	stylesCombo: {
 		label: 'શૈલી/રીત',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	format: {
 		label: 'ફૉન્ટ ફૉર્મટ, રચનાની શૈલી',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'ફૉન્ટ ફૉર્મટ, રચનાની શૈલી',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'સામાન્ય',
 		tag_pre: 'ફૉર્મટેડ',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'gu' ] = {
 	font: {
 		label: 'ફૉન્ટ',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'ફૉન્ટ',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'ફૉન્ટ'
 	},
 
 	fontSize: {
 		label: 'ફૉન્ટ સાઇઝ/કદ',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'ફૉન્ટ સાઇઝ/કદ',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'ફૉન્ટ સાઇઝ/કદ'
 	},
 
 	colorButton: {
 		textColorTitle: 'શબ્દનો રંગ',
 		bgColorTitle: 'બૅકગ્રાઉન્ડ રંગ,',
+		panelTitle: 'Colors', // MISSING
 		auto: 'સ્વચાલિત',
 		more: 'ઔર રંગ...'
 	},

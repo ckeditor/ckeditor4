@@ -205,7 +205,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			makeEmbedTag = editor.config.flashAddEmbedTag || editor.config.flashEmbedTagOnly;
 
 		var previewPreloader,
-			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.image.preview ) + '<br>' +
+			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
 						'<div id="FlashPreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
 						'<div id="FlashPreviewBox"></div></div>';
 
@@ -315,10 +315,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					padding: 0,
 					children: [
 						{
-						type: 'html',
-						html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.image.url ) + '</span>'
-					},
-						{
 						type: 'hbox',
 						widths: [ '280px', '110px' ],
 						align: 'right',
@@ -326,7 +322,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							id: 'src',
 							type: 'text',
-							label: '',
+							label: editor.lang.common.url,
+							required: true,
 							validate: CKEDITOR.dialog.validate.notEmpty( editor.lang.flash.validateSrc ),
 							setup: loadValue,
 							commit: commitValue,
@@ -359,7 +356,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							id: 'browse',
 							filebrowser: 'info:src',
 							hidden: true,
-							align: 'center',
+							// v-align with the 'src' field.
+							// TODO: We need something better than a fixed size here.
+							style: 'display:inline-block;margin-top:10px;',
 							label: editor.lang.common.browseServer
 						}
 						]
@@ -576,44 +575,46 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					]
 				},
 					{
-					type: 'vbox',
-					padding: 0,
+					type: 'fieldset',
+					label: CKEDITOR.tools.htmlEncode( editor.lang.flash.flashvars ),
 					children: [
 						{
-						type: 'html',
-						html: CKEDITOR.tools.htmlEncode( editor.lang.flash.flashvars )
-					},
-						{
-						type: 'checkbox',
-						id: 'menu',
-						label: editor.lang.flash.chkMenu,
-						'default': true,
-						setup: loadValue,
-						commit: commitValue
-					},
-						{
-						type: 'checkbox',
-						id: 'play',
-						label: editor.lang.flash.chkPlay,
-						'default': true,
-						setup: loadValue,
-						commit: commitValue
-					},
-						{
-						type: 'checkbox',
-						id: 'loop',
-						label: editor.lang.flash.chkLoop,
-						'default': true,
-						setup: loadValue,
-						commit: commitValue
-					},
-						{
-						type: 'checkbox',
-						id: 'allowFullScreen',
-						label: editor.lang.flash.chkFull,
-						'default': true,
-						setup: loadValue,
-						commit: commitValue
+						type: 'vbox',
+						padding: 0,
+						children: [
+							{
+							type: 'checkbox',
+							id: 'menu',
+							label: editor.lang.flash.chkMenu,
+							'default': true,
+							setup: loadValue,
+							commit: commitValue
+						},
+							{
+							type: 'checkbox',
+							id: 'play',
+							label: editor.lang.flash.chkPlay,
+							'default': true,
+							setup: loadValue,
+							commit: commitValue
+						},
+							{
+							type: 'checkbox',
+							id: 'loop',
+							label: editor.lang.flash.chkLoop,
+							'default': true,
+							setup: loadValue,
+							commit: commitValue
+						},
+							{
+							type: 'checkbox',
+							id: 'allowFullScreen',
+							label: editor.lang.flash.chkFull,
+							'default': true,
+							setup: loadValue,
+							commit: commitValue
+						}
+						]
 					}
 					]
 				}

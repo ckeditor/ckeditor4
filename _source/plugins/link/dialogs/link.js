@@ -320,7 +320,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				label: editor.lang.link.type,
 				'default': 'url',
 				items: [
-					[ editor.lang.common.url, 'url' ],
+					[ editor.lang.link.toUrl, 'url' ],
 					[ editor.lang.link.toAnchor, 'anchor' ],
 					[ editor.lang.link.toEmail, 'email' ]
 					],
@@ -369,6 +369,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						id: 'url',
 						label: editor.lang.common.url,
+						required: true,
 						onLoad: function() {
 							this.allowOnChange = true;
 						},
@@ -410,10 +411,6 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 								this.setValue( data.url.url );
 							this.allowOnChange = true;
 
-							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
-							if ( linkType && linkType.getValue() == 'url' )
-								this.select();
-
 						},
 						commit: function( data ) {
 							// IE will not trigger the onChange event if the mouse has been used
@@ -450,93 +447,97 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				padding: 0,
 				children: [
 					{
-					type: 'html',
+					type: 'fieldset',
 					id: 'selectAnchorText',
-					html: CKEDITOR.tools.htmlEncode( editor.lang.link.selectAnchor ),
+					label: editor.lang.link.selectAnchor,
 					setup: function( data ) {
 						if ( data.anchors.length > 0 )
 							this.getElement().show();
 						else
 							this.getElement().hide();
+					},
+					children: [
+						{
+						type: 'hbox',
+						id: 'selectAnchor',
+						children: [
+							{
+							type: 'select',
+							id: 'anchorName',
+							'default': '',
+							label: editor.lang.link.anchorName,
+							style: 'width: 100%;',
+							items: [
+								[ '' ]
+								],
+							setup: function( data ) {
+								this.clear();
+								this.add( '' );
+								for ( var i = 0; i < data.anchors.length; i++ ) {
+									if ( data.anchors[ i ].name )
+										this.add( data.anchors[ i ].name );
+								}
+
+								if ( data.anchor )
+									this.setValue( data.anchor.name );
+
+								var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
+								if ( linkType && linkType.getValue() == 'email' )
+									this.focus();
+							},
+							commit: function( data ) {
+								if ( !data.anchor )
+									data.anchor = {};
+
+								data.anchor.name = this.getValue();
+							}
+						},
+							{
+							type: 'select',
+							id: 'anchorId',
+							'default': '',
+							label: editor.lang.link.anchorId,
+							style: 'width: 100%;',
+							items: [
+								[ '' ]
+								],
+							setup: function( data ) {
+								this.clear();
+								this.add( '' );
+								for ( var i = 0; i < data.anchors.length; i++ ) {
+									if ( data.anchors[ i ].id )
+										this.add( data.anchors[ i ].id );
+								}
+
+								if ( data.anchor )
+									this.setValue( data.anchor.id );
+							},
+							commit: function( data ) {
+								if ( !data.anchor )
+									data.anchor = {};
+
+								data.anchor.id = this.getValue();
+							}
+						}
+						],
+						setup: function( data ) {
+							if ( data.anchors.length > 0 )
+								this.getElement().show();
+							else
+								this.getElement().hide();
+						}
 					}
+					]
 				},
 					{
 					type: 'html',
 					id: 'noAnchors',
 					style: 'text-align: center;',
-					html: '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.link.noAnchors ) + '</div>',
+					html: '<div role="label" tabIndex="-1">' + CKEDITOR.tools.htmlEncode( editor.lang.link.noAnchors ) + '</div>',
+					// Focus the first element defined in above html.
+					focus: true,
 					setup: function( data ) {
 						if ( data.anchors.length < 1 )
-							this.getElement().show();
-						else
-							this.getElement().hide();
-					}
-				},
-					{
-					type: 'hbox',
-					id: 'selectAnchor',
-					children: [
-						{
-						type: 'select',
-						id: 'anchorName',
-						'default': '',
-						label: editor.lang.link.anchorName,
-						style: 'width: 100%;',
-						items: [
-							[ '' ]
-							],
-						setup: function( data ) {
-							this.clear();
-							this.add( '' );
-							for ( var i = 0; i < data.anchors.length; i++ ) {
-								if ( data.anchors[ i ].name )
-									this.add( data.anchors[ i ].name );
-							}
-
-							if ( data.anchor )
-								this.setValue( data.anchor.name );
-
-							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
-							if ( linkType && linkType.getValue() == 'email' )
-								this.focus();
-						},
-						commit: function( data ) {
-							if ( !data.anchor )
-								data.anchor = {};
-
-							data.anchor.name = this.getValue();
-						}
-					},
-						{
-						type: 'select',
-						id: 'anchorId',
-						'default': '',
-						label: editor.lang.link.anchorId,
-						style: 'width: 100%;',
-						items: [
-							[ '' ]
-							],
-						setup: function( data ) {
-							this.clear();
-							this.add( '' );
-							for ( var i = 0; i < data.anchors.length; i++ ) {
-								if ( data.anchors[ i ].id )
-									this.add( data.anchors[ i ].id );
-							}
-
-							if ( data.anchor )
-								this.setValue( data.anchor.id );
-						},
-						commit: function( data ) {
-							if ( !data.anchor )
-								data.anchor = {};
-
-							data.anchor.id = this.getValue();
-						}
-					}
-					],
-					setup: function( data ) {
-						if ( data.anchors.length > 0 )
 							this.getElement().show();
 						else
 							this.getElement().hide();
@@ -557,6 +558,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					type: 'text',
 					id: 'emailAddress',
 					label: editor.lang.link.emailAddress,
+					required: true,
 					validate: function() {
 						var dialog = this.getDialog();
 
@@ -633,17 +635,17 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					{
 					type: 'select',
 					id: 'linkTargetType',
-					label: editor.lang.link.target,
+					label: editor.lang.common.target,
 					'default': 'notSet',
 					style: 'width : 100%;',
 					'items': [
-						[ editor.lang.link.targetNotSet, 'notSet' ],
+						[ editor.lang.common.notSet, 'notSet' ],
 						[ editor.lang.link.targetFrame, 'frame' ],
 						[ editor.lang.link.targetPopup, 'popup' ],
-						[ editor.lang.link.targetNew, '_blank' ],
-						[ editor.lang.link.targetTop, '_top' ],
-						[ editor.lang.link.targetSelf, '_self' ],
-						[ editor.lang.link.targetParent, '_parent' ]
+						[ editor.lang.common.targetNew, '_blank' ],
+						[ editor.lang.common.targetTop, '_top' ],
+						[ editor.lang.common.targetSelf, '_self' ],
+						[ editor.lang.common.targetParent, '_parent' ]
 						],
 					onChange: targetChanged,
 					setup: function( data ) {
@@ -683,139 +685,141 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				id: 'popupFeatures',
 				children: [
 					{
-					type: 'html',
-					html: CKEDITOR.tools.htmlEncode( editor.lang.link.popupFeatures )
-				},
-					{
-					type: 'hbox',
+					type: 'fieldset',
+					label: editor.lang.link.popupFeatures,
 					children: [
 						{
-						type: 'checkbox',
-						id: 'resizable',
-						label: editor.lang.link.popupResizable,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'checkbox',
+							id: 'resizable',
+							label: editor.lang.link.popupResizable,
+							setup: setupPopupParams,
+							commit: commitPopupParams
+						},
+							{
+							type: 'checkbox',
+							id: 'status',
+							label: editor.lang.link.popupStatusBar,
+							setup: setupPopupParams,
+							commit: commitPopupParams
+
+						}
+						]
 					},
 						{
-						type: 'checkbox',
-						id: 'status',
-						label: editor.lang.link.popupStatusBar,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'checkbox',
+							id: 'location',
+							label: editor.lang.link.popupLocationBar,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					}
-					]
-				},
-					{
-					type: 'hbox',
-					children: [
-						{
-						type: 'checkbox',
-						id: 'location',
-						label: editor.lang.link.popupLocationBar,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						},
+							{
+							type: 'checkbox',
+							id: 'toolbar',
+							label: editor.lang.link.popupToolbar,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
+						}
+						]
 					},
 						{
-						type: 'checkbox',
-						id: 'toolbar',
-						label: editor.lang.link.popupToolbar,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'checkbox',
+							id: 'menubar',
+							label: editor.lang.link.popupMenuBar,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					}
-					]
-				},
-					{
-					type: 'hbox',
-					children: [
-						{
-						type: 'checkbox',
-						id: 'menubar',
-						label: editor.lang.link.popupMenuBar,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						},
+							{
+							type: 'checkbox',
+							id: 'fullscreen',
+							label: editor.lang.link.popupFullScreen,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
+						}
+						]
 					},
 						{
-						type: 'checkbox',
-						id: 'fullscreen',
-						label: editor.lang.link.popupFullScreen,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'checkbox',
+							id: 'scrollbars',
+							label: editor.lang.link.popupScrollBars,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					}
-					]
-				},
-					{
-					type: 'hbox',
-					children: [
-						{
-						type: 'checkbox',
-						id: 'scrollbars',
-						label: editor.lang.link.popupScrollBars,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						},
+							{
+							type: 'checkbox',
+							id: 'dependent',
+							label: editor.lang.link.popupDependent,
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
+						}
+						]
 					},
 						{
-						type: 'checkbox',
-						id: 'dependent',
-						label: editor.lang.link.popupDependent,
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'text',
+							widths: [ '30%', '70%' ],
+							labelLayout: 'horizontal',
+							label: editor.lang.link.popupWidth,
+							id: 'width',
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					}
-					]
-				},
-					{
-					type: 'hbox',
-					children: [
-						{
-						type: 'text',
-						widths: [ '30%', '70%' ],
-						labelLayout: 'horizontal',
-						label: editor.lang.link.popupWidth,
-						id: 'width',
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						},
+							{
+							type: 'text',
+							labelLayout: 'horizontal',
+							widths: [ '55%', '45%' ],
+							label: editor.lang.link.popupLeft,
+							id: 'left',
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
+						}
+						]
 					},
 						{
-						type: 'text',
-						labelLayout: 'horizontal',
-						widths: [ '55%', '45%' ],
-						label: editor.lang.link.popupLeft,
-						id: 'left',
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						type: 'hbox',
+						children: [
+							{
+							type: 'text',
+							labelLayout: 'horizontal',
+							widths: [ '30%', '70%' ],
+							label: editor.lang.link.popupHeight,
+							id: 'height',
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					}
-					]
-				},
-					{
-					type: 'hbox',
-					children: [
-						{
-						type: 'text',
-						labelLayout: 'horizontal',
-						widths: [ '30%', '70%' ],
-						label: editor.lang.link.popupHeight,
-						id: 'height',
-						setup: setupPopupParams,
-						commit: commitPopupParams
+						},
+							{
+							type: 'text',
+							labelLayout: 'horizontal',
+							label: editor.lang.link.popupTop,
+							widths: [ '55%', '45%' ],
+							id: 'top',
+							setup: setupPopupParams,
+							commit: commitPopupParams
 
-					},
-						{
-						type: 'text',
-						labelLayout: 'horizontal',
-						label: editor.lang.link.popupTop,
-						widths: [ '55%', '45%' ],
-						id: 'top',
-						setup: setupPopupParams,
-						commit: commitPopupParams
-
+						}
+						]
 					}
 					]
 				}
@@ -873,7 +877,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						'default': '',
 						style: 'width:110px',
 						items: [
-							[ editor.lang.link.langDirNotSet, '' ],
+							[ editor.lang.common.notSet, '' ],
 							[ editor.lang.link.langDirLTR, 'ltr' ],
 							[ editor.lang.link.langDirRTL, 'rtl' ]
 							],
@@ -1217,6 +1221,15 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			if ( !editor.config.linkShowTargetTab )
 				this.hidePage( 'target' ); //Hide Target tab.
+		},
+		// Inital focus on 'url' field if link is of type URL.
+		onFocus: function() {
+			var linkType = this.getContentElement( 'info', 'linkType' ),
+				urlField;
+			if ( linkType && linkType.getValue() == 'url' ) {
+				urlField = this.getContentElement( 'info', 'url' );
+				urlField.select();
+			}
 		}
 	};
 });

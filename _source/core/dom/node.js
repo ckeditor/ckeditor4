@@ -22,6 +22,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {
 		switch ( domNode.nodeType ) {
+			// Safari don't consider document as element node type. (#3389)
+			case CKEDITOR.NODE_DOCUMENT:
+				return new CKEDITOR.dom.document( domNode );
+
 			case CKEDITOR.NODE_ELEMENT:
 				return new CKEDITOR.dom.element( domNode );
 
@@ -44,6 +48,13 @@ CKEDITOR.dom.node.prototype = new CKEDITOR.dom.domObject();
  * @example
  */
 CKEDITOR.NODE_ELEMENT = 1;
+
+/**
+ * Document node type.
+ * @constant
+ * @example
+ */
+CKEDITOR.NODE_DOCUMENT = 9;
 
 /**
  * Text node type.

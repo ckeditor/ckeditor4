@@ -37,13 +37,25 @@ CKEDITOR.plugins.add( 'menu', {
 
 (function() {
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
-		$: function( editor, level ) {
+		$: function( editor, definition ) {
+			definition = this._.definition = definition || {};
 			this.id = 'cke_' + CKEDITOR.tools.getNextNumber();
 
 			this.editor = editor;
 			this.items = [];
 
-			this._.level = level || 1;
+			this._.level = definition.level || 1;
+
+			var panelDefinition = CKEDITOR.tools.extend( {}, definition.panel, {
+				css: editor.skin.editor.css,
+				level: this._.level - 1,
+				block: {}
+			});
+
+			var attrs = panelDefinition.block.attributes = ( panelDefinition.attributes || {} );
+			// Provide default role of 'menu'.
+			!attrs.role && ( attrs.role = 'menu' );
+			this._.panelDefinition = panelDefinition;
 		},
 
 		_: {
@@ -59,14 +71,20 @@ CKEDITOR.plugins.add( 'menu', {
 					return;
 				}
 
+				// Record parent menu focused item first (#3389).
+				var block = this._.panel.getBlock( this.id );
+				block._.focusIndex = index;
+
 				// Create the submenu, if not available, or clean the existing
 				// one.
 				if ( menu )
 					menu.removeAll();
 				else {
-					menu = this._.subMenu = new CKEDITOR.menu( this.editor, this._.level + 1 );
+					menu = this._.subMenu = new CKEDITOR.menu( this.editor, CKEDITOR.tools.extend( {}, this._.definition, { level: this._.level + 1 }, true ) );
 					menu.parent = this;
 					menu.onClick = CKEDITOR.tools.bind( this.onClick, this );
+					// Sub menu use their own scope for binding onEscape.
+					menu.onEscape = this.onEscape;
 				}
 
 				// Add all submenu items to the menu.
@@ -109,15 +127,11 @@ CKEDITOR.plugins.add( 'menu', {
 
 				// Create the floating panel for this menu.
 				if ( !panel ) {
-					panel = this._.panel = new CKEDITOR.ui.floatPanel( this.editor, CKEDITOR.document.getBody(), {
-						css: editor.skin.editor.css,
-						level: this._.level - 1,
-						className: editor.skinClass + ' cke_contextmenu'
-					}, this._.level );
+					panel = this._.panel = new CKEDITOR.ui.floatPanel( this.editor, CKEDITOR.document.getBody(), this._.panelDefinition, this._.level );
 
-					panel.onEscape = CKEDITOR.tools.bind( function() {
-						this.onEscape && this.onEscape();
-						this.hide();
+					panel.onEscape = CKEDITOR.tools.bind( function( keystroke ) {
+						if ( this.onEscape && this.onEscape( keystroke ) === false )
+							return false;
 					}, this );
 
 					panel.onHide = CKEDITOR.tools.bind( function() {
@@ -125,7 +139,7 @@ CKEDITOR.plugins.add( 'menu', {
 					}, this );
 
 					// Create an autosize block inside the panel.
-					var block = panel.addBlock( this.id );
+					var block = panel.addBlock( this.id, this._.panelDefinition.block );
 					block.autoSize = true;
 
 					var keys = block.keys;
@@ -134,7 +148,7 @@ CKEDITOR.plugins.add( 'menu', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
-					keys[ 39 ] = 'click'; // ARROW-RIGHT
+					keys[ ( editor.lang.dir == 'rtl' ? 37 : 39 ) ] = 'click'; // ARROW-RIGHT/ARROW-LEFT(rtl)
 
 					element = this._.element = block.element;
 					element.addClass( editor.skinClass );
@@ -171,7 +185,7 @@ CKEDITOR.plugins.add( 'menu', {
 				sortItems( items );
 
 				// Build the HTML that composes the menu and its items.
-				var output = [ '<div class="cke_menu">' ];
+				var output = [ '<div class="cke_menu" role="presentation">' ];
 
 				var length = items.length,
 					lastGroup = length && items[ 0 ].group;
@@ -179,7 +193,7 @@ CKEDITOR.plugins.add( 'menu', {
 				for ( var i = 0; i < length; i++ ) {
 					var item = items[ i ];
 					if ( lastGroup != item.group ) {
-						output.push( '<div class="cke_menuseparator"></div>' );
+						output.push( '<div class="cke_menuseparator" role="separator"></div>' );
 						lastGroup = item.group;
 					}
 
@@ -242,11 +256,11 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 			var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 
 			var htmlLabel = this.label;
-			if ( state == CKEDITOR.TRISTATE_DISABLED )
-				htmlLabel = this.editor.lang.common.unavailable.replace( '%1', htmlLabel );
 
 			if ( this.className )
 				classes += ' ' + this.className;
+
+			var hasSubMenu = this.getItems;
 
 			output.push( '<span class="cke_menuitem">' +
 				'<a id="', id, '"' +
@@ -254,7 +268,11 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 					' title="', this.label, '"' +
 					' tabindex="-1"' +
 					'_cke_focus=1' +
-					' hidefocus="true"' );
+					' hidefocus="true"' +
+					' role="menuitem"' +
+					( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
+					( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
+					( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.
@@ -282,7 +300,7 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 						'></span></span>' +
 					'<span class="cke_label">' );
 
-			if ( this.getItems ) {
+			if ( hasSubMenu ) {
 				output.push( '<span class="cke_menuarrow">', '<span>&#', ( this.editor.lang.dir == 'rtl' ? '9668' : // BLACK LEFT-POINTING POINTER
 				'9658' ), // BLACK RIGHT-POINTING POINTER
 				';</span>', '</span>' );

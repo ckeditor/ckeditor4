@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'gl' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Código Fonte',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'gl' ] = {
 		cssStyle: 'Estilo',
 		ok: 'OK',
 		cancel: 'Cancelar',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Advanzado',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'gl' ] = {
 		upload: 'Carregar',
 		advanced: 'Advanzado',
 		type: 'Tipo de Ligazón',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Referencia nesta páxina',
 		toEmail: 'E-Mail',
-		target: 'Destino',
-		targetNotSet: '<non definido>',
 		targetFrame: '<frame>',
 		targetPopup: '<Xanela Emerxente>',
-		targetNew: 'Nova Xanela (_blank)',
-		targetTop: 'Xanela Primaria (_top)',
-		targetSelf: 'Mesma Xanela (_self)',
-		targetParent: 'Xanela Pai (_parent)',
 		targetFrameName: 'Nome do Marco Destino',
 		targetPopupName: 'Nome da Xanela Emerxente',
 		popupFeatures: 'Características da Xanela Emerxente',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'gl' ] = {
 		popupTop: 'Posición dende Arriba',
 		id: 'Id', // MISSING
 		langDir: 'Orientación do Idioma',
-		langDirNotSet: '<non definido>',
 		langDirLTR: 'Esquerda a Dereita (LTR)',
 		langDirRTL: 'Dereita a Esquerda (RTL)',
 		acccessKey: 'Chave de Acceso',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'gl' ] = {
 		columns: 'Columnas',
 		border: 'Tamaño do Borde',
 		align: 'Aliñamento',
-		alignNotSet: '<Non Definido>',
 		alignLeft: 'Esquerda',
 		alignCenter: 'Centro',
 		alignRight: 'Ereita',
 		width: 'Largura',
 		widthPx: 'pixels',
 		widthPc: 'percent',
+		widthUnit: 'width unit', // MISSING
 		height: 'Altura',
 		cellSpace: 'Marxe entre Celas',
 		cellPad: 'Marxe interior',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'gl' ] = {
 		menu: 'Propriedades do Formulario',
 		action: 'Acción',
 		method: 'Método',
-		encoding: 'Encoding', // MISSING
-		target: 'Destino',
-		targetNotSet: '<non definido>',
-		targetNew: 'Nova Xanela (_blank)',
-		targetTop: 'Xanela Primaria (_top)',
-		targetSelf: 'Mesma Xanela (_self)',
-		targetParent: 'Xanela Pai (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'gl' ] = {
 		menu: 'Propriedades da Imaxe',
 		infoTab: 'Información da Imaxe',
 		btnUpload: 'Enviar ó Servidor',
-		url: 'URL',
 		upload: 'Carregar',
 		alt: 'Texto Alternativo',
 		width: 'Largura',
 		height: 'Altura',
 		lockRatio: 'Proporcional',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Tamaño Orixinal',
 		border: 'Límite',
 		hSpace: 'Esp. Horiz.',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'gl' ] = {
 		align: 'Aliñamento',
 		alignLeft: 'Esquerda',
 		alignRight: 'Dereita',
-		preview: 'Vista Previa',
 		alertUrl: 'Por favor, escriba a URL da imaxe',
 		linkTab: 'Ligazón',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'gl' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'gl' ] = {
 		block: 'Xustificado'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Pegar',
 		cutError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de corte. Por favor, use o teclado para iso (Ctrl+X).',
 		copyError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de copia. Por favor, use o teclado para iso (Ctrl+C).',
 		pasteMsg: 'Por favor, pegue dentro do seguinte cadro usando o teclado (<STRONG>Ctrl+V</STRONG>) e pulse <STRONG>OK</STRONG>.',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'gl' ] = {
 
 	stylesCombo: {
 		label: 'Estilo',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'gl' ] = {
 
 	format: {
 		label: 'Formato',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Formato',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formateado',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'gl' ] = {
 	font: {
 		label: 'Tipo',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Tipo',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Tipo'
 	},
 
 	fontSize: {
 		label: 'Tamaño',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Tamaño',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Tamaño'
 	},
 
 	colorButton: {
 		textColorTitle: 'Cor do Texto',
 		bgColorTitle: 'Cor do Fondo',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automático',
 		more: 'Máis Cores...'
 	},

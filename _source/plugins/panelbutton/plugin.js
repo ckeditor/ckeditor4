@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -47,6 +47,10 @@ CKEDITOR.UI_PANELBUTTON = 4;
 
 			this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
 
+			panelDefinition.block = {
+				attributes: panelDefinition.attributes
+			};
+
 			this.hasArrow = true;
 
 			this.click = clickFn;
@@ -72,8 +76,10 @@ CKEDITOR.UI_PANELBUTTON = 4;
 					return;
 
 				var panelDefinition = this._.panelDefinition || {},
+					panelBlockDefinition = this._.panelDefinition.block,
 					panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
 					panel = this._.panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
+					block = panel.addBlock( _.id, panelBlockDefinition ),
 					me = this;
 
 				panel.onShow = function() {
@@ -107,9 +113,9 @@ CKEDITOR.UI_PANELBUTTON = 4;
 				};
 
 				if ( this.onBlock )
-					this.onBlock( panel, _.id );
+					this.onBlock( panel, block );
 
-				panel.getBlock( _.id ).onHide = function() {
+				block.onHide = function() {
 					_.on = 0;
 					me.setState( CKEDITOR.TRISTATE_OFF );
 				};

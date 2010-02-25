@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'ms' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Sumber',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'ms' ] = {
 		cssStyle: 'Stail',
 		ok: 'OK',
 		cancel: 'Batal',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'ms' ] = {
 		upload: 'Muat Naik',
 		advanced: 'Advanced',
 		type: 'Jenis Sambungan',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Pautan dalam muka surat ini',
 		toEmail: 'E-Mail',
-		target: 'Sasaran',
-		targetNotSet: '<tidak di set>',
 		targetFrame: '<bingkai>',
 		targetPopup: '<tetingkap popup>',
-		targetNew: 'Tetingkap Baru (_blank)',
-		targetTop: 'Tetingkap yang paling atas (_top)',
-		targetSelf: 'Tetingkap yang Sama (_self)',
-		targetParent: 'Tetingkap Parent (_parent)',
 		targetFrameName: 'Nama Bingkai Sasaran',
 		targetPopupName: 'Nama Tetingkap Popup',
 		popupFeatures: 'Ciri Tetingkap Popup',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'ms' ] = {
 		popupTop: 'Posisi Atas',
 		id: 'Id', // MISSING
 		langDir: 'Arah Tulisan',
-		langDirNotSet: '<tidak di set>',
 		langDirLTR: 'Kiri ke Kanan (LTR)',
 		langDirRTL: 'Kanan ke Kiri (RTL)',
 		acccessKey: 'Kunci Akses',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'ms' ] = {
 		columns: 'Jaluran',
 		border: 'Saiz Border',
 		align: 'Penjajaran',
-		alignNotSet: '<Tidak diset>',
 		alignLeft: 'Kiri',
 		alignCenter: 'Tengah',
 		alignRight: 'Kanan',
 		width: 'Lebar',
 		widthPx: 'piksel-piksel',
 		widthPc: 'peratus',
+		widthUnit: 'width unit', // MISSING
 		height: 'Tinggi',
 		cellSpace: 'Ruangan Antara Sel',
 		cellPad: 'Tambahan Ruang Sel',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		menu: 'Ciri-ciri Borang',
 		action: 'Tindakan borang',
 		method: 'Cara borang dihantar',
-		encoding: 'Encoding', // MISSING
-		target: 'Sasaran',
-		targetNotSet: '<tidak di set>',
-		targetNew: 'Tetingkap Baru (_blank)',
-		targetTop: 'Tetingkap yang paling atas (_top)',
-		targetSelf: 'Tetingkap yang Sama (_self)',
-		targetParent: 'Tetingkap Parent (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'ms' ] = {
 		menu: 'Ciri-ciri Imej',
 		infoTab: 'Info Imej',
 		btnUpload: 'Hantar ke Server',
-		url: 'URL',
 		upload: 'Muat Naik',
 		alt: 'Text Alternatif',
 		width: 'Lebar',
 		height: 'Tinggi',
 		lockRatio: 'Tetapkan Nisbah',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Saiz Set Semula',
 		border: 'Border',
 		hSpace: 'Ruang Melintang',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'ms' ] = {
 		align: 'Jajaran',
 		alignLeft: 'Kiri',
 		alignRight: 'Kanan',
-		preview: 'Prebiu',
 		alertUrl: 'Sila taip URL untuk fail gambar',
 		linkTab: 'Sambungan',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'ms' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'ms' ] = {
 		block: 'Jajaran Blok'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Tampal',
 		cutError: 'Keselamatan perisian browser anda tidak membenarkan operasi suntingan text/imej. Sila gunakan papan kekunci (Ctrl+X).',
 		copyError: 'Keselamatan perisian browser anda tidak membenarkan operasi salinan text/imej. Sila gunakan papan kekunci (Ctrl+C).',
 		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK', // MISSING
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'ms' ] = {
 
 	stylesCombo: {
 		label: 'Stail',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'ms' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Telah Diformat',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'ms' ] = {
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Font',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Font'
 	},
 
 	fontSize: {
 		label: 'Saiz',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Saiz',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Saiz'
 	},
 
 	colorButton: {
 		textColorTitle: 'Warna Text',
 		bgColorTitle: 'Warna Latarbelakang',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Otomatik',
 		more: 'Warna lain-lain...'
 	},

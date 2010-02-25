@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'hi' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'सोर्स',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'hi' ] = {
 		cssStyle: 'स्टाइल',
 		ok: 'ठीक है',
 		cancel: 'रद्द करें',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'सामान्य',
 		advancedTab: 'ऍड्वान्स्ड',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'hi' ] = {
 		upload: 'अपलोड',
 		advanced: 'ऍड्वान्स्ड',
 		type: 'लिंक प्रकार',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'इस पेज का ऐंकर',
 		toEmail: 'ई-मेल',
-		target: 'टार्गेट',
-		targetNotSet: '<सॅट नहीं>',
 		targetFrame: '<फ़्रेम>',
 		targetPopup: '<पॉप-अप विन्डो>',
-		targetNew: 'नया विन्डो (_blank)',
-		targetTop: 'शीर्ष विन्डो (_top)',
-		targetSelf: 'इसी विन्डो (_self)',
-		targetParent: 'मूल विन्डो (_parent)',
 		targetFrameName: 'टार्गेट फ़्रेम का नाम',
 		targetPopupName: 'पॉप-अप विन्डो का नाम',
 		popupFeatures: 'पॉप-अप विन्डो फ़ीचर्स',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'hi' ] = {
 		popupTop: 'दायीं तरफ',
 		id: 'Id', // MISSING
 		langDir: 'भाषा लिखने की दिशा',
-		langDirNotSet: '<सॅट नहीं>',
 		langDirLTR: 'बायें से दायें (LTR)',
 		langDirRTL: 'दायें से बायें (RTL)',
 		acccessKey: 'ऍक्सॅस की',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'hi' ] = {
 		columns: 'कालम',
 		border: 'बॉर्डर साइज़',
 		align: 'ऍलाइन्मॅन्ट',
-		alignNotSet: '<सॅट नहीं>',
 		alignLeft: 'दायें',
 		alignCenter: 'बीच में',
 		alignRight: 'बायें',
 		width: 'चौड़ाई',
 		widthPx: 'पिक्सैल',
 		widthPc: 'प्रतिशत',
+		widthUnit: 'width unit', // MISSING
 		height: 'ऊँचाई',
 		cellSpace: 'सैल अंतर',
 		cellPad: 'सैल पैडिंग',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'hi' ] = {
 		menu: 'फ़ॉर्म प्रॉपर्टीज़',
 		action: 'क्रिया',
 		method: 'तरीका',
-		encoding: 'Encoding', // MISSING
-		target: 'टार्गेट',
-		targetNotSet: '<सॅट नहीं>',
-		targetNew: 'नया विन्डो (_blank)',
-		targetTop: 'शीर्ष विन्डो (_top)',
-		targetSelf: 'इसी विन्डो (_self)',
-		targetParent: 'मूल विन्डो (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'hi' ] = {
 		menu: 'तस्वीर प्रॉपर्टीज़',
 		infoTab: 'तस्वीर की जानकारी',
 		btnUpload: 'इसे सर्वर को भेजें',
-		url: 'URL',
 		upload: 'अपलोड',
 		alt: 'वैकल्पिक टेक्स्ट',
 		width: 'चौड़ाई',
 		height: 'ऊँचाई',
 		lockRatio: 'लॉक अनुपात',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'रीसॅट साइज़',
 		border: 'बॉर्डर',
 		hSpace: 'हॉरिज़ॉन्टल स्पेस',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'hi' ] = {
 		align: 'ऍलाइन',
 		alignLeft: 'दायें',
 		alignRight: 'दायें',
-		preview: 'प्रीव्यू',
 		alertUrl: 'तस्वीर का URL टाइप करें ',
 		linkTab: 'लिंक',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'hi' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'hi' ] = {
 		cutError: 'आपके ब्राउज़र की सुरक्षा सॅटिन्ग्स ने कट करने की अनुमति नहीं प्रदान की है। (Ctrl+X) का प्रयोग करें।',
 		copyError: 'आपके ब्राआउज़र की सुरक्षा सॅटिन्ग्स ने कॉपी करने की अनुमति नहीं प्रदान की है। (Ctrl+C) का प्रयोग करें।',
 		pasteMsg: 'Ctrl+V का प्रयोग करके पेस्ट करें और ठीक है करें.',
-		securityMsg: 'आपके ब्राउज़र की सुरक्षा आपके ब्राउज़र की सुरKश सैटिंग के कारण, एडिटर आपके क्लिपबोर्ड डेटा को नहीं पा सकता है. आपको उसे इस विन्डो में दोबारा पेस्ट करना होगा.'
+		securityMsg: 'आपके ब्राउज़र की सुरक्षा आपके ब्राउज़र की सुरKश सैटिंग के कारण, एडिटर आपके क्लिपबोर्ड डेटा को नहीं पा सकता है. आपको उसे इस विन्डो में दोबारा पेस्ट करना होगा.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'hi' ] = {
 
 	stylesCombo: {
 		label: 'स्टाइल',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'hi' ] = {
 
 	format: {
 		label: 'फ़ॉर्मैट',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'फ़ॉर्मैट',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'साधारण',
 		tag_pre: 'फ़ॉर्मैटॅड',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'hi' ] = {
 	font: {
 		label: 'फ़ॉन्ट',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'फ़ॉन्ट',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'फ़ॉन्ट'
 	},
 
 	fontSize: {
 		label: 'साइज़',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'साइज़',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'साइज़'
 	},
 
 	colorButton: {
 		textColorTitle: 'टेक्स्ट रंग',
 		bgColorTitle: 'बैक्ग्राउन्ड रंग',
+		panelTitle: 'Colors', // MISSING
 		auto: 'स्वचालित',
 		more: 'और रंग...'
 	},

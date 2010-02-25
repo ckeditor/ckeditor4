@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: '富文本编辑器, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: '源码',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cssStyle: '行内样式',
 		ok: '确定',
 		cancel: '取消',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: '常规',
 		advancedTab: '高级',
 		validateNumberFailed: '需要输入数字格式',
 		confirmNewPage: '当前文档内容未保存,是否确认新建文档？',
 		confirmCancel: '部分选项尚未保存，是否确认关闭对话框？',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 不可用</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		upload: '上传',
 		advanced: '高级',
 		type: '超链接类型',
+		toUrl: 'URL', // MISSING
 		toAnchor: '页内锚点链接',
 		toEmail: '电子邮件',
-		target: '目标',
-		targetNotSet: '<没有设置>',
 		targetFrame: '<框架>',
 		targetPopup: '<弹出窗口>',
-		targetNew: '新窗口 (_blank)',
-		targetTop: '整页 (_top)',
-		targetSelf: '本窗口 (_self)',
-		targetParent: '父窗口 (_parent)',
 		targetFrameName: '目标框架名称',
 		targetPopupName: '弹出窗口名称',
 		popupFeatures: '弹出窗口属性',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		popupTop: '右',
 		id: 'ID',
 		langDir: '语言方向',
-		langDirNotSet: '<没有设置>',
 		langDirLTR: '从左到右 (LTR)',
 		langDirRTL: '从右到左 (RTL)',
 		acccessKey: '访问键',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		columns: '列数',
 		border: '边框',
 		align: '对齐',
-		alignNotSet: '<没有设置>',
 		alignLeft: '左对齐',
 		alignCenter: '居中',
 		alignRight: '右对齐',
 		width: '宽度',
 		widthPx: '像素',
 		widthPc: '百分比',
+		widthUnit: 'width unit', // MISSING
 		height: '高度',
 		cellSpace: '间距',
 		cellPad: '边距',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		menu: '表单属性',
 		action: '动作',
 		method: '方法',
-		encoding: '表单编码',
-		target: '目标',
-		targetNotSet: '<没有设置>',
-		targetNew: '新窗口 (_blank)',
-		targetTop: '整页 (_top)',
-		targetSelf: '本窗口 (_self)',
-		targetParent: '父窗口 (_parent)'
+		encoding: '表单编码'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		menu: '图象属性',
 		infoTab: '图象',
 		btnUpload: '发送到服务器上',
-		url: '源文件',
 		upload: '上传',
 		alt: '替换文本',
 		width: '宽度',
 		height: '高度',
 		lockRatio: '锁定比例',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: '恢复尺寸',
 		border: '边框大小',
 		hSpace: '水平间距',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		align: '对齐方式',
 		alignLeft: '左对齐',
 		alignRight: '右对齐',
-		preview: '预览',
 		alertUrl: '请输入图象地址',
 		linkTab: '链接',
 		button2Img: '确定要把当前按钮改变为图像吗?',
 		img2Button: '确定要把当前图像改变为按钮吗?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 元素'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cutError: '您的浏览器安全设置不允许编辑器自动执行剪切操作，请使用键盘快捷键(Ctrl+X)来完成',
 		copyError: '您的浏览器安全设置不允许编辑器自动执行复制操作，请使用键盘快捷键(Ctrl+C)来完成',
 		pasteMsg: '请使用键盘快捷键(<STRONG>Ctrl+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>',
-		securityMsg: '因为你的浏览器的安全设置原因，本编辑器不能直接访问你的剪贴板内容，你需要在本窗口重新粘贴一次'
+		securityMsg: '因为你的浏览器的安全设置原因，本编辑器不能直接访问你的剪贴板内容，你需要在本窗口重新粘贴一次',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	stylesCombo: {
 		label: '样式',
-		voiceLabel: '样式',
-		panelVoiceLabel: '选择样式',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: '块级元素样式',
 		panelTitle2: '内联元素样式',
 		panelTitle3: '对象元素样式'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	format: {
 		label: '格式',
-		voiceLabel: '格式',
 		panelTitle: '格式',
-		panelVoiceLabel: '选择格式',
 
 		tag_p: '普通',
 		tag_pre: '已编排格式',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	font: {
 		label: '字体',
 		voiceLabel: '字体',
-		panelTitle: '字体',
-		panelVoiceLabel: '选择字体'
+		panelTitle: '字体'
 	},
 
 	fontSize: {
 		label: '大小',
 		voiceLabel: '文字大小',
-		panelTitle: '大小',
-		panelVoiceLabel: '选择文字大小'
+		panelTitle: '大小'
 	},
 
 	colorButton: {
 		textColorTitle: '文本颜色',
 		bgColorTitle: '背景颜色',
+		panelTitle: 'Colors', // MISSING
 		auto: '自动',
 		more: '其它颜色...'
 	},

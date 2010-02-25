@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'cs' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Editor formátovaného textu, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Zdroj',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'cs' ] = {
 		cssStyle: 'Styl',
 		ok: 'OK',
 		cancel: 'Storno',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Obecné',
 		advancedTab: 'Rozšířené',
 		validateNumberFailed: 'Zadaná hodnota není číselná.',
 		confirmNewPage: 'Jakékoliv neuložené změny obsahu budou ztraceny. Skutečně chete otevrít novou stránku?',
 		confirmCancel: 'Některá z nastavení byla změněna. Skutečně chete zavřít dialogové okno?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedostupné</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'cs' ] = {
 		upload: 'Odeslat',
 		advanced: 'Rozšířené',
 		type: 'Typ odkazu',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Kotva v této stránce',
 		toEmail: 'E-Mail',
-		target: 'Cíl',
-		targetNotSet: '<nenastaveno>',
 		targetFrame: '<rámec>',
 		targetPopup: '<vyskakovací okno>',
-		targetNew: 'Nové okno (_blank)',
-		targetTop: 'Hlavní okno (_top)',
-		targetSelf: 'Stejné okno (_self)',
-		targetParent: 'Rodičovské okno (_parent)',
 		targetFrameName: 'Název cílového rámu',
 		targetPopupName: 'Název vyskakovacího okna',
 		popupFeatures: 'Vlastnosti vyskakovacího okna',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'cs' ] = {
 		popupTop: 'Horní okraj',
 		id: 'Id',
 		langDir: 'Orientace jazyka',
-		langDirNotSet: '<nenastaveno>',
 		langDirLTR: 'Zleva do prava (LTR)',
 		langDirRTL: 'Zprava do leva (RTL)',
 		acccessKey: 'Přístupový klíč',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'cs' ] = {
 		columns: 'Sloupce',
 		border: 'Ohraničení',
 		align: 'Zarovnání',
-		alignNotSet: '<nenastaveno>',
 		alignLeft: 'Vlevo',
 		alignCenter: 'Na střed',
 		alignRight: 'Vpravo',
 		width: 'Šířka',
 		widthPx: 'bodů',
 		widthPc: 'procent',
+		widthUnit: 'width unit', // MISSING
 		height: 'Výška',
 		cellSpace: 'Vzdálenost buněk',
 		cellPad: 'Odsazení obsahu v buňce',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		menu: 'Vlastnosti formuláře',
 		action: 'Akce',
 		method: 'Metoda',
-		encoding: 'Kódování',
-		target: 'Cíl',
-		targetNotSet: '<nenastaveno>',
-		targetNew: 'Nové okno (_blank)',
-		targetTop: 'Hlavní okno (_top)',
-		targetSelf: 'Stejné okno (_self)',
-		targetParent: 'Rodičovské okno (_parent)'
+		encoding: 'Kódování'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'cs' ] = {
 		menu: 'Vlastnosti obrázku',
 		infoTab: 'Informace o obrázku',
 		btnUpload: 'Odeslat na server',
-		url: 'URL',
 		upload: 'Odeslat',
 		alt: 'Alternativní text',
 		width: 'Šířka',
 		height: 'Výška',
 		lockRatio: 'Zámek',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Původní velikost',
 		border: 'Okraje',
 		hSpace: 'H-mezera',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'cs' ] = {
 		align: 'Zarovnání',
 		alignLeft: 'Vlevo',
 		alignRight: 'Vpravo',
-		preview: 'Náhled',
 		alertUrl: 'Zadejte prosím URL obrázku',
 		linkTab: 'Odkaz',
 		button2Img: 'Skutečně chcete převést zvolené obrázkové tlačítko na obyčejný obrázek?',
 		img2Button: 'Skutečně chcete převést zvolený obrázek na obrázkové tlačítko?',
-		urlMissing: 'Zadané URL zdroje obrázku nebylo nalezeno.'
+		urlMissing: 'Zadané URL zdroje obrázku nebylo nalezeno.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'cs' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 objekt'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'cs' ] = {
 		cutError: 'Bezpečnostní nastavení Vašeho prohlížeče nedovolují editoru spustit funkci pro vyjmutí zvoleného textu do schránky. Prosím vyjměte zvolený text do schránky pomocí klávesnice (Ctrl+X).',
 		copyError: 'Bezpečnostní nastavení Vašeho prohlížeče nedovolují editoru spustit funkci pro kopírování zvoleného textu do schránky. Prosím zkopírujte zvolený text do schránky pomocí klávesnice (Ctrl+C).',
 		pasteMsg: 'Do následujícího pole vložte požadovaný obsah pomocí klávesnice (<STRONG>Ctrl+V</STRONG>) a stiskněte <STRONG>OK</STRONG>.',
-		securityMsg: 'Z důvodů nastavení bezpečnosti Vašeho prohlížeče nemůže editor přistupovat přímo do schránky. Obsah schránky prosím vložte znovu do tohoto okna.'
+		securityMsg: 'Z důvodů nastavení bezpečnosti Vašeho prohlížeče nemůže editor přistupovat přímo do schránky. Obsah schránky prosím vložte znovu do tohoto okna.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'cs' ] = {
 
 	stylesCombo: {
 		label: 'Styl',
-		voiceLabel: 'Styly',
-		panelVoiceLabel: 'Výběr stylu',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Blokové styly',
 		panelTitle2: 'Řádkové styly',
 		panelTitle3: 'Objektové styly'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'cs' ] = {
 
 	format: {
 		label: 'Formát',
-		voiceLabel: 'Formátování',
 		panelTitle: 'Formát',
-		panelVoiceLabel: 'Volba formátu odstavce',
 
 		tag_p: 'Normální',
 		tag_pre: 'Naformátováno',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'cs' ] = {
 	font: {
 		label: 'Písmo',
 		voiceLabel: 'Písmo',
-		panelTitle: 'Písmo',
-		panelVoiceLabel: 'Volba písma'
+		panelTitle: 'Písmo'
 	},
 
 	fontSize: {
 		label: 'Velikost',
 		voiceLabel: 'Velikost písma',
-		panelTitle: 'Velikost',
-		panelVoiceLabel: 'Volba velikosti písma'
+		panelTitle: 'Velikost'
 	},
 
 	colorButton: {
 		textColorTitle: 'Barva textu',
 		bgColorTitle: 'Barva pozadí',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automaticky',
 		more: 'Více barev...'
 	},

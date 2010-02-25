@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -37,6 +37,10 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
 
 		panelDefinition.className = ( panelDefinition.className || '' ) + ' cke_rcombopanel';
+		panelDefinition.block = {
+			multiSelect: panelDefinition.multiSelect,
+			attributes: panelDefinition.attributes
+		};
 
 		this._ = {
 			panelDefinition: panelDefinition,
@@ -69,6 +73,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		 * @example
 		 */
 		render: function( editor, output ) {
+			var env = CKEDITOR.env;
+
 			var id = 'cke_' + this.id;
 			var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
 				var _ = this._;
@@ -136,9 +142,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			if ( this.className )
 				output.push( ' class="', this.className, ' cke_off"' );
 
-			output.push( '>' +
-				'<span class=cke_label>', this.label, '</span>' +
-				'<a hidefocus=true title="', this.title, '" tabindex="-1" href="javascript:void(\'', this.label, '\')"' );
+			output.push( '>', '<span id="' + id + '_label" class=cke_label>', this.label, '</span>', '<a hidefocus=true title="', this.title, '" tabindex="-1"', env.gecko && env.version >= 10900 && !env.hc ? '' : ' href="javascript:void(\'' + this.label + '\')"', ' role="button" aria-labelledby="', id, '_label" aria-describedby="', id, '_text" aria-haspopup="true"' );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.
@@ -156,11 +160,10 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span>' +
-						'<span class="cke_accessibility">' + ( this.voiceLabel ? this.voiceLabel + ' ' : '' ) + '</span>' +
 						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
 					'</span>' +
-					'<span class=cke_openbutton></span>' +
-				'</a>' +
+					'<span class=cke_openbutton>' + ( CKEDITOR.env.hc ? '<span>&#9660;</span>' : '' ) + '</span>' + // BLACK DOWN-POINTING TRIANGLE
+							'</a>' +
 				'</span>' +
 				'</span>' );
 
@@ -175,9 +178,10 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				return;
 
 			var panelDefinition = this._.panelDefinition,
+				panelBlockDefinition = this._.panelDefinition.block,
 				panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
 				panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
-				list = panel.addListBlock( this.id, this.multiSelect ),
+				list = panel.addListBlock( this.id, panelBlockDefinition ),
 				me = this;
 
 			panel.onShow = function() {
@@ -250,6 +254,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				textElement.addClass( 'cke_inline_label' );
 			} else
 				textElement.removeClass( 'cke_inline_label' );
+
 			textElement.setHtml( typeof text != 'undefined' ? text : value );
 		},
 

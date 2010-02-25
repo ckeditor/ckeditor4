@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'th' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'ดูรหัส HTML',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'th' ] = {
 		cssStyle: 'ลักษณะการแสดงผล',
 		ok: 'ตกลง',
 		cancel: 'ยกเลิก',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'ขั้นสูง',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'th' ] = {
 		upload: 'อัพโหลดไฟล์',
 		advanced: 'ขั้นสูง',
 		type: 'ประเภทของลิงค์',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'จุดเชื่อมโยง (Anchor)',
 		toEmail: 'ส่งอีเมล์ (E-Mail)',
-		target: 'การเปิดหน้าลิงค์',
-		targetNotSet: '<ไม่ระบุ>',
 		targetFrame: '<เปิดในเฟรม>',
 		targetPopup: '<เปิดหน้าจอเล็ก (Pop-up)>',
-		targetNew: 'เปิดหน้าจอใหม่ (_blank)',
-		targetTop: 'เปิดในหน้าบนสุด (_top)',
-		targetSelf: 'เปิดในหน้าปัจจุบัน (_self)',
-		targetParent: 'เปิดในหน้าหลัก (_parent)',
 		targetFrameName: 'ชื่อทาร์เก็ตเฟรม',
 		targetPopupName: 'ระบุชื่อหน้าจอเล็ก (Pop-up)',
 		popupFeatures: 'คุณสมบัติของหน้าจอเล็ก (Pop-up)',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'th' ] = {
 		popupTop: 'พิกัดบน (Top Position)',
 		id: 'Id', // MISSING
 		langDir: 'การเขียน-อ่านภาษา',
-		langDirNotSet: '<ไม่ระบุ>',
 		langDirLTR: 'จากซ้ายไปขวา (LTR)',
 		langDirRTL: 'จากขวามาซ้าย (RTL)',
 		acccessKey: 'แอคเซส คีย์',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'th' ] = {
 		columns: 'สดมน์',
 		border: 'ขนาดเส้นขอบ',
 		align: 'การจัดตำแหน่ง',
-		alignNotSet: '<ไม่ระบุ>',
 		alignLeft: 'ชิดซ้าย',
 		alignCenter: 'กึ่งกลาง',
 		alignRight: 'ชิดขวา',
 		width: 'กว้าง',
 		widthPx: 'จุดสี',
 		widthPc: 'เปอร์เซ็น',
+		widthUnit: 'width unit', // MISSING
 		height: 'สูง',
 		cellSpace: 'ระยะแนวนอนน',
 		cellPad: 'ระยะแนวตั้ง',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'th' ] = {
 		menu: 'คุณสมบัติของ แบบฟอร์ม',
 		action: 'แอคชั่น',
 		method: 'เมธอด',
-		encoding: 'Encoding', // MISSING
-		target: 'การเปิดหน้าลิงค์',
-		targetNotSet: '<ไม่ระบุ>',
-		targetNew: 'เปิดหน้าจอใหม่ (_blank)',
-		targetTop: 'เปิดในหน้าบนสุด (_top)',
-		targetSelf: 'เปิดในหน้าปัจจุบัน (_self)',
-		targetParent: 'เปิดในหน้าหลัก (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'th' ] = {
 		menu: 'คุณสมบัติของ รูปภาพ',
 		infoTab: 'ข้อมูลของรูปภาพ',
 		btnUpload: 'อัพโหลดไฟล์ไปเก็บไว้ที่เครื่องแม่ข่าย (เซิร์ฟเวอร์)',
-		url: 'ที่อยู่อ้างอิง URL',
 		upload: 'อัพโหลดไฟล์',
 		alt: 'คำประกอบรูปภาพ',
 		width: 'ความกว้าง',
 		height: 'ความสูง',
 		lockRatio: 'กำหนดอัตราส่วน กว้าง-สูง แบบคงที่',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'กำหนดรูปเท่าขนาดจริง',
 		border: 'ขนาดขอบรูป',
 		hSpace: 'ระยะแนวนอน',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'th' ] = {
 		align: 'การจัดวาง',
 		alignLeft: 'ชิดซ้าย',
 		alignRight: 'ชิดขวา',
-		preview: 'หน้าเอกสารตัวอย่าง',
 		alertUrl: 'กรุณาระบุที่อยู่อ้างอิงออนไลน์ของไฟล์รูปภาพ (URL)',
 		linkTab: 'ลิ้งค์',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'th' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'th' ] = {
 		block: 'จัดพอดีหน้ากระดาษ'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'วาง',
 		cutError: 'ไม่สามารถตัดข้อความที่เลือกไว้ได้เนื่องจากการกำหนดค่าระดับความปลอดภัย. กรุณาใช้ปุ่มลัดเพื่อวางข้อความแทน (กดปุ่ม Ctrl และตัว X พร้อมกัน).',
 		copyError: 'ไม่สามารถสำเนาข้อความที่เลือกไว้ได้เนื่องจากการกำหนดค่าระดับความปลอดภัย. กรุณาใช้ปุ่มลัดเพื่อวางข้อความแทน (กดปุ่ม Ctrl และตัว C พร้อมกัน).',
 		pasteMsg: 'กรุณาใช้คีย์บอร์ดเท่านั้น โดยกดปุ๋ม (<strong>Ctrl และ V</strong>)พร้อมๆกัน และกด <strong>OK</strong>.',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'th' ] = {
 
 	stylesCombo: {
 		label: 'ลักษณะ',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'th' ] = {
 
 	format: {
 		label: 'รูปแบบ',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'รูปแบบ',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'th' ] = {
 	font: {
 		label: 'แบบอักษร',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'แบบอักษร',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'แบบอักษร'
 	},
 
 	fontSize: {
 		label: 'ขนาด',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'ขนาด',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'ขนาด'
 	},
 
 	colorButton: {
 		textColorTitle: 'สีตัวอักษร',
 		bgColorTitle: 'สีพื้นหลัง',
+		panelTitle: 'Colors', // MISSING
 		auto: 'สีอัตโนมัติ',
 		more: 'เลือกสีอื่นๆ...'
 	},

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'eo' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Fonto',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'eo' ] = {
 		cssStyle: 'Stilo',
 		ok: 'Akcepti',
 		cancel: 'Rezigni',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Speciala',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'eo' ] = {
 		upload: 'Alŝuti',
 		advanced: 'Speciala',
 		type: 'Tipo de Ligilo',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Ankri en tiu ĉi paĝo',
 		toEmail: 'Retpoŝto',
-		target: 'Celo',
-		targetNotSet: '<Defaŭlta>',
 		targetFrame: '<kadro>',
 		targetPopup: '<ŝprucfenestro>',
-		targetNew: 'Nova Fenestro (_blank)',
-		targetTop: 'Plej Supra Fenestro (_top)',
-		targetSelf: 'Sama Fenestro (_self)',
-		targetParent: 'Gepatra Fenestro (_parent)',
 		targetFrameName: 'Nomo de Kadro',
 		targetPopupName: 'Nomo de Ŝprucfenestro',
 		popupFeatures: 'Atributoj de la Ŝprucfenestro',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'eo' ] = {
 		popupTop: 'Pozicio de Supro',
 		id: 'Id', // MISSING
 		langDir: 'Skribdirekto',
-		langDirNotSet: '<Defaŭlta>',
 		langDirLTR: 'De maldekstro dekstren (LTR)',
 		langDirRTL: 'De dekstro maldekstren (RTL)',
 		acccessKey: 'Fulmoklavo',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'eo' ] = {
 		columns: 'Kolumnoj',
 		border: 'Bordero',
 		align: 'Ĝisrandigo',
-		alignNotSet: '<Defaŭlte>',
 		alignLeft: 'Maldekstre',
 		alignCenter: 'Centre',
 		alignRight: 'Dekstre',
 		width: 'Larĝo',
 		widthPx: 'Bitbilderoj',
 		widthPc: 'elcentoj',
+		widthUnit: 'width unit', // MISSING
 		height: 'Alto',
 		cellSpace: 'Interspacigo de Ĉeloj',
 		cellPad: 'Ĉirkaŭenhava Plenigado',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		menu: 'Formularaj Atributoj',
 		action: 'Ago',
 		method: 'Metodo',
-		encoding: 'Encoding', // MISSING
-		target: 'Celo',
-		targetNotSet: '<Defaŭlta>',
-		targetNew: 'Nova Fenestro (_blank)',
-		targetTop: 'Plej Supra Fenestro (_top)',
-		targetSelf: 'Sama Fenestro (_self)',
-		targetParent: 'Gepatra Fenestro (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'eo' ] = {
 		menu: 'Atributoj de Bildo',
 		infoTab: 'Informoj pri Bildo',
 		btnUpload: 'Sendu al Servilo',
-		url: 'URL',
 		upload: 'Alŝuti',
 		alt: 'Anstataŭiga Teksto',
 		width: 'Larĝo',
 		height: 'Alto',
 		lockRatio: 'Konservi Proporcion',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Origina Grando',
 		border: 'Bordero',
 		hSpace: 'HSpaco',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'eo' ] = {
 		align: 'Ĝisrandigo',
 		alignLeft: 'Maldekstre',
 		alignRight: 'Dekstre',
-		preview: 'Vidigi Aspekton',
 		alertUrl: 'Bonvolu tajpi la URL de la bildo',
 		linkTab: 'Link', // MISSING
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'eo' ] = {
 		block: 'Ĝisrandigi Ambaŭflanke'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Interglui',
 		cutError: 'La sekurecagordo de via TTT-legilo ne permesas, ke la redaktilo faras eltondajn operaciojn. Bonvolu uzi la klavaron por tio (ctrl-X).',
 		copyError: 'La sekurecagordo de via TTT-legilo ne permesas, ke la redaktilo faras kopiajn operaciojn. Bonvolu uzi la klavaron por tio (ctrl-C).',
 		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK', // MISSING
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'eo' ] = {
 
 	stylesCombo: {
 		label: 'Stilo',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'eo' ] = {
 
 	format: {
 		label: 'Formato',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Formato',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normala',
 		tag_pre: 'Formatita',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'eo' ] = {
 	font: {
 		label: 'Tiparo',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Tiparo',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Tiparo'
 	},
 
 	fontSize: {
 		label: 'Grando',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Grando',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Grando'
 	},
 
 	colorButton: {
 		textColorTitle: 'Teksta Koloro',
 		bgColorTitle: 'Fona Koloro',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Aŭtomata',
 		more: 'Pli da Koloroj...'
 	},

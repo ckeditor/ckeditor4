@@ -1,10 +1,11 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	var config = editor.config,
+		lang = editor.lang.smiley,
 		images = config.smiley_images,
 		columns = 8,
 		i;
@@ -50,25 +51,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 		var keystroke = ev.getKeystroke();
 		switch ( keystroke ) {
-			// RIGHT-ARROW
-			case 39:
-				// relative is TD
-				if ( ( relative = element.getParent().getNext() ) ) {
-					nodeToMove = relative.getChild( 0 );
-					nodeToMove.focus();
-				}
-				ev.preventDefault();
-				break;
-				// LEFT-ARROW
-			case 37:
-				// relative is TD
-				if ( ( relative = element.getParent().getPrevious() ) ) {
-					nodeToMove = relative.getChild( 0 );
-					nodeToMove.focus();
-				}
-				ev.preventDefault();
-				break;
-				// UP-ARROW
+			// UP-ARROW
 			case 38:
 				// relative is TR
 				if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
@@ -93,6 +76,9 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				onClick({ data: ev } );
 				ev.preventDefault();
 				break;
+
+				// RIGHT-ARROW
+			case 39:
 				// TAB
 			case 9:
 				// relative is TD
@@ -109,6 +95,9 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 					ev.preventDefault( true );
 				}
 				break;
+
+				// LEFT-ARROW
+			case 37:
 				// SHIFT + TAB
 			case CKEDITOR.SHIFT + 9:
 				// relative is TD
@@ -132,20 +121,24 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 
 	// Build the HTML for the smiley images table.
 	var html = [
-		'<table cellspacing="2" cellpadding="2"',
+		'<div>' +
+		'<span id="smiley_emtions_label" class="cke_voice_label">' + editor.lang.common.options + '</span>',
+		'<table role="listbox" aria-labelledby="smiley_emtions_label" style="width:100%;height:100%" cellspacing="2" cellpadding="2"',
 		CKEDITOR.env.ie && CKEDITOR.env.quirks ? ' style="position:absolute;"' : '',
 		'><tbody>'
 		];
 
-	for ( i = 0; i < images.length; i++ ) {
+	var size = images.length;
+	for ( i = 0; i < size; i++ ) {
 		if ( i % columns === 0 )
 			html.push( '<tr>' );
 
 		html.push( '<td class="cke_dark_background cke_hand cke_centered" style="vertical-align: middle;">' +
-			'<a href="javascript:void(0)" class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
+			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="cke_smile_label_' + i + '"', ' class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
 					' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', config.smiley_descriptions[ i ], '"', ' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
+				'<span id="cke_smile_label_' + i + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
 			'</a>', '</td>' );
 
 		if ( i % columns == columns - 1 )
@@ -158,7 +151,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		html.push( '</tr>' );
 	}
 
-	html.push( '</tbody></table>' );
+	html.push( '</tbody></table></div>' );
 
 	var smileySelector = {
 		type: 'html',
@@ -167,7 +160,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			dialog = event.sender;
 		},
 		focus: function() {
-			var firstSmile = this.getElement().getChild( [ 0, 0, 0, 0 ] );
+			var firstSmile = this.getElement().getElementsByTag( 'a' ).getItem( 0 );
 			firstSmile.focus();
 		},
 		onClick: onClick,

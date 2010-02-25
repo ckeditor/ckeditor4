@@ -25,6 +25,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 100%;
 }
 
+.cke_skin_v2 .cke_panel_frame .cke_label
+{
+	display: none;
+}
+
 /*
  * All the following styles are to be used inside the iframe that holds panel
  * contents. We don't use the cke_skin_default there to avoid the reset to be
@@ -42,7 +47,6 @@ html.cke_skin_v2_container
 body.cke_panel_frame
 {
 	overflow: auto;
-	overflow-x: hidden;
 }
 
 ul.cke_panel_list
@@ -97,6 +101,15 @@ li.cke_panel_listItem
 {
 	border-color: #316ac5;
 	background-color: #dff1ff;
+}
+
+.cke_hc .cke_panel_listItem.cke_selected a,
+.cke_hc .cke_panel_listItem a:hover,
+.cke_hc .cke_panel_listItem a:focus,
+.cke_hc .cke_panel_listItem a:active
+{
+	border-width: 3px;
+	padding: 0px;
 }
 
 .cke_panel_grouptitle

@@ -1084,3 +1084,5 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 
 	return !!doc;
 };
+
+CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );

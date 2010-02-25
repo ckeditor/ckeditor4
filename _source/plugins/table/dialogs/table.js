@@ -292,7 +292,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'default': '',
 							label: editor.lang.table.align,
 							items: [
-								[ editor.lang.table.alignNotSet, '' ],
+								[ editor.lang.common.notSet, '' ],
 								[ editor.lang.table.alignLeft, 'left' ],
 								[ editor.lang.table.alignCenter, 'center' ],
 								[ editor.lang.table.alignRight, 'right' ]
@@ -324,6 +324,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								label: editor.lang.table.width,
 								'default': 200,
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidWidth ),
+
+								// Extra labelling of width unit type.
+								onLoad: function() {
+									var widthType = this.getDialog().getContentElement( 'info', 'cmbWidthType' ),
+										labelElement = widthType.getElement(),
+										inputElement = this.getInputElement(),
+										ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
+
+									inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
+								},
+
 								setup: function( selectedTable ) {
 									var widthMatch = widthPattern.exec( selectedTable.$.style.width );
 									if ( widthMatch )
@@ -336,7 +347,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 								id: 'cmbWidthType',
 								type: 'select',
-								label: '&nbsp;',
+								label: editor.lang.table.widthUnit,
+								labelStyle: 'visibility:hidden',
 								'default': 'pixels',
 								items: [
 									[ editor.lang.table.widthPx, 'pixels' ],
@@ -362,6 +374,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								label: editor.lang.table.height,
 								'default': '',
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidHeight ),
+
+								// Extra labelling of height unit type.
+								onLoad: function() {
+									var heightType = this.getDialog().getContentElement( 'info', 'htmlHeightType' ),
+										labelElement = heightType.getElement(),
+										inputElement = this.getInputElement(),
+										ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
+
+									inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
+								},
+
 								setup: function( selectedTable ) {
 									var heightMatch = heightPattern.exec( selectedTable.$.style.height );
 									if ( heightMatch )
@@ -370,8 +393,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								commit: commitValue
 							},
 								{
+								id: 'htmlHeightType',
 								type: 'html',
-								html: '<br />' + editor.lang.table.widthPx
+								html: '<div><br />' + editor.lang.table.widthPx + '</div>'
 							}
 							]
 						},

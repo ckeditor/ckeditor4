@@ -47,6 +47,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						'border:1px solid black;' +
 						'background-color:white">' +
 						'</textarea>',
+
+					onLoad: function() {
+						var label = this.getDialog().getContentElement( 'general', 'pasteMsg' ).getElement(),
+							input = this.getElement();
+
+						input.setAttribute( 'aria-labelledby', label.$.id );
+					},
+
 					focus: function() {
 						this.getElement().focus();
 					}

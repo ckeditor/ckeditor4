@@ -146,6 +146,16 @@
 	height: 20px;
 }
 
+.cke_skin_v2 .cke_rcombo .cke_openbutton span
+{
+	display: none;
+}
+
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_openbutton span
+{
+	display	: inline;
+}
+
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
 {
     border-right: 1px solid #8f8f73;

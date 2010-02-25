@@ -32,6 +32,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: pointer;
 }
 
+.cke_skin_v2 a.cke_toolbox_collapser span
+{
+	display: none;
+}
+
+.cke_skin_v2 .cke_hc a.cke_toolbox_collapser span
+{
+	font-size: 10px;
+	font-weight: bold;
+	font-family: Arial;
+	display: inline;
+}
+
 .cke_skin_v2 .cke_rtl a.cke_toolbox_collapser,
 .cke_skin_v2 .cke_rtl a:hover.cke_toolbox_collapser
 {

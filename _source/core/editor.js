@@ -108,6 +108,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.skinPath = skinPath;
 			editor.skinClass = 'cke_skin_' + skinName;
 
+			editor.tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
+
 			// Fire the "configLoaded" event.
 			editor.fireOnce( 'configLoaded' );
 

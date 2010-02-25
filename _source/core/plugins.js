@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -65,6 +65,8 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 });
 
 CKEDITOR.plugins.setLang = function( pluginName, languageCode, languageEntries ) {
-	var plugin = this.get( pluginName );
-	plugin.lang[ languageCode ] = languageEntries;
+	var plugin = this.get( pluginName ),
+		pluginLang = plugin.lang || ( plugin.lang = {} );
+
+	pluginLang[ languageCode ] = languageEntries;
 };

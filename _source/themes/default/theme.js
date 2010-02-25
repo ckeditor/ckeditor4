@@ -106,15 +106,17 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' lang="', editor.langCode, '"' +
-					' tabindex="' + tabIndex + '"' +
+					' role="application"' +
+					' aria-labelledby="cke_', name, '_arialbl"' +
 					( style ? ' style="' + style + '"' : '' ) +
 					'>' +
-					'<span class="', CKEDITOR.env.cssClass, '">' +
-						'<span class="cke_wrapper cke_', editor.lang.dir, '">' +
-							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0"><tbody>' +
-								'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top">', topHtml, '</td></tr>' +
-								'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '">', contentsHtml, '</td></tr>' +
-								'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom">', bottomHtml, '</td></tr>' +
+					'<span id="cke_', name, '_arialbl" class="cke_voice_label">' + editor.lang.editor + '</span>' +
+					'<span class="', CKEDITOR.env.cssClass, '" role="presentation">' +
+						'<span class="cke_wrapper cke_', editor.lang.dir, '" role="presentation">' +
+							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody>' +
+								'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top" role="presentation">', topHtml, '</td></tr>' +
+								'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '" role="presentation">', contentsHtml, '</td></tr>' +
+								'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom" role="presentation">', bottomHtml, '</td></tr>' +
 							'</tbody></table>' +
 							//Hide the container when loading skins, later restored by skin css.
 										'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
@@ -122,8 +124,8 @@ CKEDITOR.themes.add( 'default', ( function() {
 					'</span>' +
 				'</span>' ].join( '' ) );
 
-			container.getChild( [ 0, 0, 0, 0, 0 ] ).unselectable();
-			container.getChild( [ 0, 0, 0, 0, 2 ] ).unselectable();
+			container.getChild( [ 1, 0, 0, 0, 0 ] ).unselectable();
+			container.getChild( [ 1, 0, 0, 0, 2 ] ).unselectable();
 
 			if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
 				container.insertAfter( element );
@@ -154,20 +156,20 @@ CKEDITOR.themes.add( 'default', ( function() {
 				'<div class="cke_editor_' + editor.name.replace( '.', '\\.' ) + '_dialog cke_skin_', editor.skinName,
 					'" dir="', editor.lang.dir, '"' +
 					' lang="', editor.langCode, '"' +
+					' role="dialog"' +
+					' aria-labelledby="%title#"' +
 					'>' +
 					'<table class="cke_dialog', ' ' + CKEDITOR.env.cssClass,
-						' cke_', editor.lang.dir, '" style="position:absolute">' +
-						'<tr><td>' +
-						'<div class="%body">' +
-							'<div id="%title#" class="%title"></div>' +
-							'<div id="%close_button#" class="%close_button">' +
-								'<span>X</span>' +
-							'</div>' +
-							'<div id="%tabs#" class="%tabs"></div>' +
-								'<table class="%contents"><tr>' +
-								'<td id="%contents#" class="%contents"></td>' +
-								'</tr></table>' +
-							'<div id="%footer#" class="%footer"></div>' +
+						' cke_', editor.lang.dir, '" style="position:absolute" role="presentation">' +
+						'<tr><td role="presentation">' +
+						'<div class="%body" role="presentation">' +
+							'<div id="%title#" class="%title" role="presentation"></div>' +
+							'<a id="%close_button#" class="%close_button" href="javascript:void(0)" title="' + editor.lang.common.close + '" role="button"><span class="cke_label">X</span></a>' +
+							'<div id="%tabs#" class="%tabs" role="tablist"></div>' +
+							'<table class="%contents" role="presentation"><tr>' +
+								'<td id="%contents#" class="%contents" role="presentation"></td>' +
+							'</tr></table>' +
+							'<div id="%footer#" class="%footer" role="presentation"></div>' +
 						'</div>' +
 						'<div id="%tl#" class="%tl"></div>' +
 						'<div id="%tc#" class="%tc"></div>' +
@@ -254,7 +256,7 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, res
 
 	var container = this.container,
 		contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
-		outer = resizeInner ? container.getChild( 0 ) : container;
+		outer = resizeInner ? container.getChild( 1 ) : container;
 
 	// Resize the width first.
 	// WEBKIT BUG: Webkit requires that we put the editor off from display when we
@@ -276,7 +278,7 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, res
 };
 
 CKEDITOR.editor.prototype.getResizable = function() {
-	return this.container.getChild( 0 );
+	return this.container.getChild( 1 );
 };
 
 /**

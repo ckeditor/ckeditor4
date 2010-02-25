@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'sr' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Kôд',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'sr' ] = {
 		cssStyle: 'Стил',
 		ok: 'OK',
 		cancel: 'Oткажи',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Напредни тагови',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'sr' ] = {
 		upload: 'Пошаљи',
 		advanced: 'Напредни тагови',
 		type: 'Врста линка',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Сидро на овој страници',
 		toEmail: 'Eлектронска пошта',
-		target: 'Meтa',
-		targetNotSet: '<није постављено>',
 		targetFrame: '<оквир>',
 		targetPopup: '<искачући прозор>',
-		targetNew: 'Нови прозор (_blank)',
-		targetTop: 'Прозор на врху (_top)',
-		targetSelf: 'Исти прозор (_self)',
-		targetParent: 'Родитељски прозор (_parent)',
 		targetFrameName: 'Назив одредишног фрејма',
 		targetPopupName: 'Назив искачућег прозора',
 		popupFeatures: 'Могућности искачућег прозора',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'sr' ] = {
 		popupTop: 'Од врха екрана (пиксела)',
 		id: 'Id', // MISSING
 		langDir: 'Смер језика',
-		langDirNotSet: '<није постављено>',
 		langDirLTR: 'С лева на десно (LTR)',
 		langDirRTL: 'С десна на лево (RTL)',
 		acccessKey: 'Приступни тастер',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'sr' ] = {
 		columns: 'Kолона',
 		border: 'Величина оквира',
 		align: 'Равнање',
-		alignNotSet: '<није постављено>',
 		alignLeft: 'Лево',
 		alignCenter: 'Средина',
 		alignRight: 'Десно',
 		width: 'Ширина',
 		widthPx: 'пиксела',
 		widthPc: 'процената',
+		widthUnit: 'width unit', // MISSING
 		height: 'Висина',
 		cellSpace: 'Ћелијски простор',
 		cellPad: 'Размак ћелија',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'sr' ] = {
 		menu: 'Особине форме',
 		action: 'Aкција',
 		method: 'Mетода',
-		encoding: 'Encoding', // MISSING
-		target: 'Meтa',
-		targetNotSet: '<није постављено>',
-		targetNew: 'Нови прозор (_blank)',
-		targetTop: 'Прозор на врху (_top)',
-		targetSelf: 'Исти прозор (_self)',
-		targetParent: 'Родитељски прозор (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'sr' ] = {
 		menu: 'Особине слика',
 		infoTab: 'Инфо слике',
 		btnUpload: 'Пошаљи на сервер',
-		url: 'УРЛ',
 		upload: 'Пошаљи',
 		alt: 'Алтернативни текст',
 		width: 'Ширина',
 		height: 'Висина',
 		lockRatio: 'Закључај однос',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Ресетуј величину',
 		border: 'Оквир',
 		hSpace: 'HSpace',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'sr' ] = {
 		align: 'Равнање',
 		alignLeft: 'Лево',
 		alignRight: 'Десно',
-		preview: 'Изглед',
 		alertUrl: 'Унесите УРЛ слике',
 		linkTab: 'Линк',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'sr' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'sr' ] = {
 		block: 'Обострано равнање'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Залепи',
 		cutError: 'Сигурносна подешавања Вашег претраживача не дозвољавају операције аутоматског исецања текста. Молимо Вас да користите пречицу са тастатуре (Ctrl+X).',
 		copyError: 'Сигурносна подешавања Вашег претраживача не дозвољавају операције аутоматског копирања текста. Молимо Вас да користите пречицу са тастатуре (Ctrl+C).',
 		pasteMsg: 'Молимо Вас да залепите унутар доње површине користећи тастатурну пречицу (<STRONG>Ctrl+V</STRONG>) и да притиснете <STRONG>OK</STRONG>.',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'sr' ] = {
 
 	stylesCombo: {
 		label: 'Стил',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'sr' ] = {
 
 	format: {
 		label: 'Формат',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Формат',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatirano',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'sr' ] = {
 	font: {
 		label: 'Фонт',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Фонт',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Фонт'
 	},
 
 	fontSize: {
 		label: 'Величина фонта',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Величина фонта',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Величина фонта'
 	},
 
 	colorButton: {
 		textColorTitle: 'Боја текста',
 		bgColorTitle: 'Боја позадине',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Аутоматски',
 		more: 'Више боја...'
 	},

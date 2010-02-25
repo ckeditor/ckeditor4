@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'mn' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Код',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'mn' ] = {
 		cssStyle: 'Загвар',
 		ok: 'OK',
 		cancel: 'Болих',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Нэмэлт',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'mn' ] = {
 		upload: 'Хуулах',
 		advanced: 'Нэмэлт',
 		type: 'Линкийн төрөл',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Энэ хуудасандах холбоос',
 		toEmail: 'E-Mail',
-		target: 'Байрлал',
-		targetNotSet: '<Оноохгүй>',
 		targetFrame: '<Агуулах хүрээ>',
 		targetPopup: '<popup цонх>',
-		targetNew: 'Шинэ цонх (_blank)',
-		targetTop: 'Хамгийн түрүүн байх цонх (_top)',
-		targetSelf: 'Төстэй цонх (_self)',
-		targetParent: 'Эцэг цонх (_parent)',
 		targetFrameName: 'Очих фремын нэр',
 		targetPopupName: 'Popup цонхны нэр',
 		popupFeatures: 'Popup цонхны онцлог',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'mn' ] = {
 		popupTop: 'Дээд байрлал',
 		id: 'Id', // MISSING
 		langDir: 'Хэлний чиглэл',
-		langDirNotSet: '<Оноохгүй>',
 		langDirLTR: 'Зүүнээс баруун (LTR)',
 		langDirRTL: 'Баруунаас зүүн (RTL)',
 		acccessKey: 'Холбох түлхүүр',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'mn' ] = {
 		columns: 'Багана',
 		border: 'Хүрээний хэмжээ',
 		align: 'Эгнээ',
-		alignNotSet: '<Оноохгүй>',
 		alignLeft: 'Зүүн талд',
 		alignCenter: 'Төвд',
 		alignRight: 'Баруун талд',
 		width: 'Өргөн',
 		widthPx: 'цэг',
 		widthPc: 'хувь',
+		widthUnit: 'width unit', // MISSING
 		height: 'Өндөр',
 		cellSpace: 'Нүх хоорондын зай (spacing)',
 		cellPad: 'Нүх доторлох(padding)',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'mn' ] = {
 		menu: 'Форм шинж чанар',
 		action: 'Үйлдэл',
 		method: 'Арга',
-		encoding: 'Encoding', // MISSING
-		target: 'Байрлал',
-		targetNotSet: '<Оноохгүй>',
-		targetNew: 'Шинэ цонх (_blank)',
-		targetTop: 'Хамгийн түрүүн байх цонх (_top)',
-		targetSelf: 'Төстэй цонх (_self)',
-		targetParent: 'Эцэг цонх (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'mn' ] = {
 		menu: 'Зураг',
 		infoTab: 'Зурагны мэдээлэл',
 		btnUpload: 'Үүнийг сервэррүү илгээ',
-		url: 'URL',
 		upload: 'Хуулах',
 		alt: 'Тайлбар текст',
 		width: 'Өргөн',
 		height: 'Өндөр',
 		lockRatio: 'Радио түгжих',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'хэмжээ дахин оноох',
 		border: 'Хүрээ',
 		hSpace: 'Хөндлөн зай',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'mn' ] = {
 		align: 'Эгнээ',
 		alignLeft: 'Зүүн',
 		alignRight: 'Баруун',
-		preview: 'Уридчлан харах',
 		alertUrl: 'Зурагны URL-ын төрлийн сонгоно уу',
 		linkTab: 'Линк',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'mn' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'mn' ] = {
 		cutError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хайчлах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl+X) товчны хослолыг ашиглана уу.',
 		copyError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хуулах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl+C) товчны хослолыг ашиглана уу.',
 		pasteMsg: '(<strong>Ctrl+V</strong>) товчийг ашиглан paste хийнэ үү. Мөн <strong>OK</strong> дар.',
-		securityMsg: 'Таны үзүүлэгч/browser/-н хамгаалалтын тохиргооноос болоод editor clipboard өгөгдөлрүү шууд хандах боломжгүй. Энэ цонход дахин paste хийхийг оролд.'
+		securityMsg: 'Таны үзүүлэгч/browser/-н хамгаалалтын тохиргооноос болоод editor clipboard өгөгдөлрүү шууд хандах боломжгүй. Энэ цонход дахин paste хийхийг оролд.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'mn' ] = {
 
 	stylesCombo: {
 		label: 'Загвар',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'mn' ] = {
 
 	format: {
 		label: 'Формат',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Формат',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Хэвийн',
 		tag_pre: 'Formatted',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'mn' ] = {
 	font: {
 		label: 'Фонт',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Фонт',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Фонт'
 	},
 
 	fontSize: {
 		label: 'Хэмжээ',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Хэмжээ',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Хэмжээ'
 	},
 
 	colorButton: {
 		textColorTitle: 'Фонтны өнгө',
 		bgColorTitle: 'Фонны өнгө',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Автоматаар',
 		more: 'Нэмэлт өнгөнүүд...'
 	},

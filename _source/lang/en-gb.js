@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'en-gb' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Source',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		cssStyle: 'Style',
 		ok: 'OK',
 		cancel: 'Cancel',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General',
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?',
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		upload: 'Upload',
 		advanced: 'Advanced',
 		type: 'Link Type',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Link to anchor in the text',
 		toEmail: 'E-mail',
-		target: 'Target',
-		targetNotSet: '<not set>',
 		targetFrame: '<frame>',
 		targetPopup: '<popup window>',
-		targetNew: 'New Window (_blank)',
-		targetTop: 'Topmost Window (_top)',
-		targetSelf: 'Same Window (_self)',
-		targetParent: 'Parent Window (_parent)',
 		targetFrameName: 'Target Frame Name',
 		targetPopupName: 'Popup Window Name',
 		popupFeatures: 'Popup Window Features',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		popupTop: 'Top Position',
 		id: 'Id',
 		langDir: 'Language Direction',
-		langDirNotSet: '<not set>',
 		langDirLTR: 'Left to Right (LTR)',
 		langDirRTL: 'Right to Left (RTL)',
 		acccessKey: 'Access Key',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		columns: 'Columns',
 		border: 'Border size',
 		align: 'Alignment',
-		alignNotSet: '<Not set>',
 		alignLeft: 'Left',
 		alignCenter: 'Centre',
 		alignRight: 'Right',
 		width: 'Width',
 		widthPx: 'pixels',
 		widthPc: 'percent',
+		widthUnit: 'width unit', // MISSING
 		height: 'Height',
 		cellSpace: 'Cell spacing',
 		cellPad: 'Cell padding',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		menu: 'Form Properties',
 		action: 'Action',
 		method: 'Method',
-		encoding: 'Encoding',
-		target: 'Target',
-		targetNotSet: '<not set>',
-		targetNew: 'New Window (_blank)',
-		targetTop: 'Topmost Window (_top)',
-		targetSelf: 'Same Window (_self)',
-		targetParent: 'Parent Window (_parent)'
+		encoding: 'Encoding'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		menu: 'Image Properties',
 		infoTab: 'Image Info',
 		btnUpload: 'Send it to the Server',
-		url: 'URL',
 		upload: 'Upload',
 		alt: 'Alternative Text',
 		width: 'Width',
 		height: 'Height',
 		lockRatio: 'Lock Ratio',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Reset Size',
 		border: 'Border',
 		hSpace: 'HSpace',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		align: 'Align',
 		alignLeft: 'Left',
 		alignRight: 'Right',
-		preview: 'Preview',
 		alertUrl: 'Please type the image URL',
 		linkTab: 'Link',
 		button2Img: 'Do you want to transform the selected image button on a simple image?',
 		img2Button: 'Do you want to transform the selected image on a image button?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element'
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		block: 'Block Justify'
 	},
 
-	blockquote: 'Blockquote',
+	blockquote: 'Block Quote',
 
 	clipboard: {
 		title: 'Paste',
 		cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl+X).',
 		copyError: 'Your browser security settings don\'t permit the editor to automatically execute copying operations. Please use the keyboard for that (Ctrl+C).',
 		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.'
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.',
+		pasteArea: 'Paste Area'
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 
 	stylesCombo: {
 		label: 'Styles',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles',
 		panelTitle2: 'Inline Styles',
 		panelTitle3: 'Object Styles'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Paragraph Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'en-gb' ] = {
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Font Name',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Font Name'
 	},
 
 	fontSize: {
 		label: 'Size',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Font Size',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Font Size'
 	},
 
 	colorButton: {
 		textColorTitle: 'Text Colour',
 		bgColorTitle: 'Background Colour',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatic',
 		more: 'More Colours...'
 	},

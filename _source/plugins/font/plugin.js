@@ -32,13 +32,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
-			voiceLabel: lang.voiceLabel,
 			className: 'cke_' + ( styleType == 'size' ? 'fontSize' : 'font' ),
-			multiSelect: false,
-
 			panel: {
 				css: editor.skin.editor.css.concat( config.contentsCss ),
-				voiceLabel: lang.panelVoiceLabel
+				multiSelect: false,
+				attributes: { 'aria-label': lang.panelTitle }
 			},
 
 			init: function() {

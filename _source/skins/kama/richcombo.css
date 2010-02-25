@@ -89,9 +89,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	color: #666666;
 }
 
-.cke_skin_kama .cke_browser_ie .cke_rcombo .cke_text
+.cke_skin_kama .cke_hc .cke_rcombo .cke_openbutton
 {
-/*	float: left; */
+	vertical-align: top;
 }
 
 .cke_skin_kama .cke_hc .cke_rcombo .cke_label
@@ -130,6 +130,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 19px;
 	margin: 1px 2px;
 	background-repeat: no-repeat;
+}
+
+.cke_skin_kama .cke_rcombo .cke_openbutton span
+{
+	display: none;
+}
+
+.cke_skin_kama .cke_hc .cke_rcombo .cke_openbutton span
+{
+	display	: inline;
 }
 
 .cke_skin_kama .cke_browser_iequirks .cke_rcombo .cke_openbutton

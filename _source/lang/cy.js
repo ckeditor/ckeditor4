@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'cy' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Golygydd testun cyfoethog, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Tarddle',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'cy' ] = {
 		cssStyle: 'Arddull',
 		ok: 'Iawn',
 		cancel: 'Diddymu',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Cyffredinol',
 		advancedTab: 'Uwch',
 		validateNumberFailed: 'Nid yw\'r gwerth hwn yn rhif.',
 		confirmNewPage: 'Byddwch yn colli unrhyw newidiadau i\'r cynnwys sydd heb eu cadw. A ydych am barhau i lwytho tudalen newydd?',
 		confirmCancel: 'Mae rhai o\'r opsiynau wedi\'u newid. A ydych wir am gau\'r deialog?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'cy' ] = {
 		upload: 'Lanlwytho',
 		advanced: 'Uwch',
 		type: 'Math y Ddolen',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Dolen at angor yn y testun',
 		toEmail: 'E-bost',
-		target: 'Targed',
-		targetNotSet: '<heb osod>',
 		targetFrame: '<ffrâm>',
 		targetPopup: '<ffenestr bop>',
-		targetNew: 'Ffenestr Newydd (_blank)',
-		targetTop: 'Ffenestr Dop (_top)',
-		targetSelf: 'R\'un Ffenestr (_self)',
-		targetParent: 'Ffenestr y Rhiant (_parent)',
 		targetFrameName: 'Enw Ffrâm y Targed',
 		targetPopupName: 'Enw Ffenestr Bop',
 		popupFeatures: 'Nodweddion Ffenestr Bop',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		popupTop: 'Safle Top',
 		id: 'Id',
 		langDir: 'Cyfeiriad Iaith',
-		langDirNotSet: '<heb osod>',
 		langDirLTR: 'Chwith i\'r Dde (LTR)',
 		langDirRTL: 'Dde i\'r Chwith (RTL)',
 		acccessKey: 'Allwedd Mynediad',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'cy' ] = {
 		columns: 'Colofnau',
 		border: 'Maint yr Ymyl',
 		align: 'Aliniad',
-		alignNotSet: '<Heb osod>',
 		alignLeft: 'Chwith',
 		alignCenter: 'Canol',
 		alignRight: 'Dde',
 		width: 'Lled',
 		widthPx: 'picsel',
 		widthPc: 'y cant',
+		widthUnit: 'width unit', // MISSING
 		height: 'Uchder',
 		cellSpace: 'Bylchu\'r gell',
 		cellPad: 'Padio\'r gell',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		menu: 'Priodweddau Ffurflen',
 		action: 'Gweithred',
 		method: 'Dull',
-		encoding: 'Amgodio',
-		target: 'Targed',
-		targetNotSet: '<heb osod>',
-		targetNew: 'Ffenestr Newydd (_blank)',
-		targetTop: 'Ffenestr Dop (_top)',
-		targetSelf: 'R\'un Ffenestr (_self)',
-		targetParent: 'Ffenestr y Rhiant(_parent)'
+		encoding: 'Amgodio'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'cy' ] = {
 		menu: 'Priodweddau Delwedd',
 		infoTab: 'Gwyb Delwedd',
 		btnUpload: 'Anfon i\'r Gweinydd',
-		url: 'URL',
 		upload: 'lanlwytho',
 		alt: 'Testun Amgen',
 		width: 'Lled',
 		height: 'Uchder',
 		lockRatio: 'Cloi Cymhareb',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Ailosod Maint',
 		border: 'Ymyl',
 		hSpace: 'BwlchLl',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'cy' ] = {
 		align: 'Alinio',
 		alignLeft: 'Chwith',
 		alignRight: 'Dde',
-		preview: 'Rhagolwg',
 		alertUrl: 'Rhowch URL y ddelwedd',
 		linkTab: 'Dolen',
 		button2Img: 'Ydych am drawsffurfio\'r botwm ddelwedd hwn ar ddelwedd syml?',
 		img2Button: 'Ydych am drawsffurfio\'r ddelwedd hon ar fotwm delwedd?',
-		urlMissing: 'URL tarddle\'r ddelwedd ar goll.'
+		urlMissing: 'URL tarddle\'r ddelwedd ar goll.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: 'Elfen %1'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'cy' ] = {
 		cutError: 'Nid yw gosodiadau diogelwch eich porwr yn caniatàu\'r golygydd i gynnal \'gweithredoedd torri\' yn awtomatig. Defnyddiwch y bysellfwrdd (Ctrl+X).',
 		copyError: 'Nid yw gosodiadau diogelwch eich porwr yn caniatàu\'r golygydd i gynnal \'gweithredoedd copïo\' yn awtomatig. Defnyddiwch y bysellfwrdd (Ctrl+C).',
 		pasteMsg: 'Gludwch i mewn i\'r blwch canlynol gan ddefnyddio\'r bysellfwrdd (<strong>Ctrl+V</strong>) a phwyso <strong>Iawn</strong>.',
-		securityMsg: 'Oherwydd gosodiadau diogelwch eich porwr, nid yw\'r porwr yn gallu ennill mynediad i\'r data ar y clipfwrdd yn uniongyrchol. Mae angen i chi ei ludo eto i\'r ffenestr hon.'
+		securityMsg: 'Oherwydd gosodiadau diogelwch eich porwr, nid yw\'r porwr yn gallu ennill mynediad i\'r data ar y clipfwrdd yn uniongyrchol. Mae angen i chi ei ludo eto i\'r ffenestr hon.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'cy' ] = {
 
 	stylesCombo: {
 		label: 'Arddulliau',
-		voiceLabel: 'Arddulliau',
-		panelVoiceLabel: 'Dewiswch arddull',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Arddulliau Bloc',
 		panelTitle2: 'Arddulliau Mewnol',
 		panelTitle3: 'Arddulliau Gwrthrych'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'cy' ] = {
 
 	format: {
 		label: 'Fformat',
-		voiceLabel: 'Fformat',
 		panelTitle: 'Fformat Paragraff',
-		panelVoiceLabel: 'Dewiswch fformat y paragraff',
 
 		tag_p: 'Normal',
 		tag_pre: 'Wedi\'i Fformatio',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'cy' ] = {
 	font: {
 		label: 'Ffont',
 		voiceLabel: 'Ffont',
-		panelTitle: 'Enw\'r Ffont',
-		panelVoiceLabel: 'Dewiswch ffont'
+		panelTitle: 'Enw\'r Ffont'
 	},
 
 	fontSize: {
 		label: 'Maint',
 		voiceLabel: 'Maint y Ffont',
-		panelTitle: 'Maint y Ffont',
-		panelVoiceLabel: 'Dewiswch faint i\'r ffont'
+		panelTitle: 'Maint y Ffont'
 	},
 
 	colorButton: {
 		textColorTitle: 'Lliw Testun',
 		bgColorTitle: 'Lliw Cefndir',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Awtomatig',
 		more: 'Mwy o Liwiau...'
 	},

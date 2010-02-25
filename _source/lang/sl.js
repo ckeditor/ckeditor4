@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'sl' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Urejevalnik obogatenega besedila, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Izvorna koda',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'sl' ] = {
 		cssStyle: 'Slog',
 		ok: 'V redu',
 		cancel: 'Prekliči',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Splošno',
 		advancedTab: 'Napredno',
 		validateNumberFailed: 'Ta vrednost ni število.',
 		confirmNewPage: 'Vse neshranjene spremembe te vsebine bodo izgubljene. Ali gotovo želiš naložiti novo stran?',
 		confirmCancel: 'Nekaj možnosti je bilo spremenjenih. Ali gotovo želiš zapreti okno?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedosegljiv</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'sl' ] = {
 		upload: 'Prenesi',
 		advanced: 'Napredno',
 		type: 'Vrsta povezave',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Zaznamek na tej strani',
 		toEmail: 'Elektronski naslov',
-		target: 'Cilj',
-		targetNotSet: '<ni postavljen>',
 		targetFrame: '<okvir>',
 		targetPopup: '<pojavno okno>',
-		targetNew: 'Novo okno (_blank)',
-		targetTop: 'Najvišje okno (_top)',
-		targetSelf: 'Isto okno (_self)',
-		targetParent: 'Starševsko okno (_parent)',
 		targetFrameName: 'Ime ciljnega okvirja',
 		targetPopupName: 'Ime pojavnega okna',
 		popupFeatures: 'Značilnosti pojavnega okna',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'sl' ] = {
 		popupTop: 'Lega na vrhu',
 		id: 'Id',
 		langDir: 'Smer jezika',
-		langDirNotSet: '<ni postavljen>',
 		langDirLTR: 'Od leve proti desni (LTR)',
 		langDirRTL: 'Od desne proti levi (RTL)',
 		acccessKey: 'Vstopno geslo',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'sl' ] = {
 		columns: 'Stolpci',
 		border: 'Velikost obrobe',
 		align: 'Poravnava',
-		alignNotSet: '<Ni nastavljeno>',
 		alignLeft: 'Levo',
 		alignCenter: 'Sredinsko',
 		alignRight: 'Desno',
 		width: 'Širina',
 		widthPx: 'pik',
 		widthPc: 'procentov',
+		widthUnit: 'width unit', // MISSING
 		height: 'Višina',
 		cellSpace: 'Razmik med celicami',
 		cellPad: 'Polnilo med celicami',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'sl' ] = {
 		menu: 'Lastnosti obrazca',
 		action: 'Akcija',
 		method: 'Metoda',
-		encoding: 'Kodiranje znakov',
-		target: 'Cilj',
-		targetNotSet: '<ni postavljen>',
-		targetNew: 'Novo okno (_blank)',
-		targetTop: 'Najvišje okno (_top)',
-		targetSelf: 'Isto okno (_self)',
-		targetParent: 'Starševsko okno (_parent)'
+		encoding: 'Kodiranje znakov'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'sl' ] = {
 		menu: 'Lastnosti slike',
 		infoTab: 'Podatki o sliki',
 		btnUpload: 'Pošlji na strežnik',
-		url: 'URL',
 		upload: 'Pošlji',
 		alt: 'Nadomestno besedilo',
 		width: 'Širina',
 		height: 'Višina',
 		lockRatio: 'Zakleni razmerje',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Ponastavi velikost',
 		border: 'Obroba',
 		hSpace: 'Vodoravni razmik',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'sl' ] = {
 		align: 'Poravnava',
 		alignLeft: 'Levo',
 		alignRight: 'Desno',
-		preview: 'Predogled',
 		alertUrl: 'Vnesite URL slike',
 		linkTab: 'Povezava',
 		button2Img: 'Želiš pretvoriti izbrani gumb s sliko v preprosto sliko?',
 		img2Button: 'Želiš pretvoriti izbrano sliko v gumb s sliko?',
-		urlMissing: 'Manjka vir (URL) slike.'
+		urlMissing: 'Manjka vir (URL) slike.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'sl' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'sl' ] = {
 		cutError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega izrezovanja. Uporabite kombinacijo tipk na tipkovnici (Ctrl+X).',
 		copyError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega kopiranja. Uporabite kombinacijo tipk na tipkovnici (Ctrl+C).',
 		pasteMsg: 'Prosim prilepite v sleči okvir s pomočjo tipkovnice (<STRONG>Ctrl+V</STRONG>) in pritisnite <STRONG>V redu</STRONG>.',
-		securityMsg: 'Zaradi varnostnih nastavitev vašega brskalnika urejevalnik ne more neposredno dostopati do odložišča. Vsebino odložišča ponovno prilepite v to okno.'
+		securityMsg: 'Zaradi varnostnih nastavitev vašega brskalnika urejevalnik ne more neposredno dostopati do odložišča. Vsebino odložišča ponovno prilepite v to okno.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'sl' ] = {
 
 	stylesCombo: {
 		label: 'Slog',
-		voiceLabel: 'Slogi',
-		panelVoiceLabel: 'Izberi slog',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Slogi odstavkov',
 		panelTitle2: 'Slogi besedila',
 		panelTitle3: 'Slogi objektov'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'sl' ] = {
 
 	format: {
 		label: 'Oblika',
-		voiceLabel: 'Oblika',
 		panelTitle: 'Oblika',
-		panelVoiceLabel: 'Izberi obliko odstavka',
 
 		tag_p: 'Navaden',
 		tag_pre: 'Oblikovan',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'sl' ] = {
 	font: {
 		label: 'Pisava',
 		voiceLabel: 'Pisava',
-		panelTitle: 'Pisava',
-		panelVoiceLabel: 'Izberi pisavo'
+		panelTitle: 'Pisava'
 	},
 
 	fontSize: {
 		label: 'Velikost',
 		voiceLabel: 'Velikost',
-		panelTitle: 'Velikost',
-		panelVoiceLabel: 'Izberi velikost'
+		panelTitle: 'Velikost'
 	},
 
 	colorButton: {
 		textColorTitle: 'Barva besedila',
 		bgColorTitle: 'Barva ozadja',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Samodejno',
 		more: 'Več barv...'
 	},

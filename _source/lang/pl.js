@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'pl' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Wzbogacony edytor treści, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Źródło dokumentu',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'pl' ] = {
 		cssStyle: 'Styl',
 		ok: 'OK',
 		cancel: 'Anuluj',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Ogólne',
 		advancedTab: 'Zaawansowane',
 		validateNumberFailed: 'Ta wartość nie jest liczbą.',
 		confirmNewPage: 'Wszystkie niezapisane zmiany zostaną utracone. Czy na pewno wczytać nową stronę?',
 		confirmCancel: 'Pewne opcje zostały zmienione. Czy na pewno zamknąć okno dialogowe?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niedostępne</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'pl' ] = {
 		upload: 'Wyślij',
 		advanced: 'Zaawansowane',
 		type: 'Typ hiperłącza',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Odnośnik wewnątrz strony',
 		toEmail: 'Adres e-mail',
-		target: 'Cel',
-		targetNotSet: '<nie ustawione>',
 		targetFrame: '<ramka>',
 		targetPopup: '<wyskakujące okno>',
-		targetNew: 'Nowe okno (_blank)',
-		targetTop: 'Okno najwyższe w hierarchii (_top)',
-		targetSelf: 'To samo okno (_self)',
-		targetParent: 'Okno nadrzędne (_parent)',
 		targetFrameName: 'Nazwa Ramki Docelowej',
 		targetPopupName: 'Nazwa wyskakującego okna',
 		popupFeatures: 'Właściwości wyskakującego okna',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'pl' ] = {
 		popupTop: 'Pozycja w pionie',
 		id: 'Id',
 		langDir: 'Kierunek tekstu',
-		langDirNotSet: '<nie ustawione>',
 		langDirLTR: 'Od lewej do prawej (LTR)',
 		langDirRTL: 'Od prawej do lewej (RTL)',
 		acccessKey: 'Klawisz dostępu',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'pl' ] = {
 		columns: 'Liczba kolumn',
 		border: 'Grubość ramki',
 		align: 'Wyrównanie',
-		alignNotSet: '<brak ustawień>',
 		alignLeft: 'Do lewej',
 		alignCenter: 'Do środka',
 		alignRight: 'Do prawej',
 		width: 'Szerokość',
 		widthPx: 'piksele',
 		widthPc: '%',
+		widthUnit: 'width unit', // MISSING
 		height: 'Wysokość',
 		cellSpace: 'Odstęp pomiędzy komórkami',
 		cellPad: 'Margines wewnętrzny komórek',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		menu: 'Właściwości formularza',
 		action: 'Akcja',
 		method: 'Metoda',
-		encoding: 'Kodowanie',
-		target: 'Cel',
-		targetNotSet: '<nie ustawione>',
-		targetNew: 'Nowe okno (_blank)',
-		targetTop: 'Okno najwyższe w hierarchii (_top)',
-		targetSelf: 'To samo okno (_self)',
-		targetParent: 'Okno nadrzędne (_parent)'
+		encoding: 'Kodowanie'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'pl' ] = {
 		menu: 'Właściwości obrazka',
 		infoTab: 'Informacje o obrazku',
 		btnUpload: 'Wyślij',
-		url: 'Adres URL',
 		upload: 'Wyślij',
 		alt: 'Tekst zastępczy',
 		width: 'Szerokość',
 		height: 'Wysokość',
 		lockRatio: 'Zablokuj proporcje',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Przywróć rozmiar',
 		border: 'Ramka',
 		hSpace: 'Odstęp poziomy',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'pl' ] = {
 		align: 'Wyrównaj',
 		alignLeft: 'Do lewej',
 		alignRight: 'Do prawej',
-		preview: 'Podgląd',
 		alertUrl: 'Podaj adres obrazka.',
 		linkTab: 'Hiperłącze',
 		button2Img: 'Czy chcesz przekonwertować zaznaczony przycisk graficzny do zwykłego obrazka?',
 		img2Button: 'Czy chcesz przekonwertować zaznaczony obrazek do przycisku graficznego?',
-		urlMissing: 'Podaj adres URL obrazka.'
+		urlMissing: 'Podaj adres URL obrazka.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'pl' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: 'element %1'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl+X.',
 		copyError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne kopiowanie tekstu. Użyj skrótu klawiszowego Ctrl+C.',
 		pasteMsg: 'Proszę wkleić w poniższym polu używając klawiaturowego skrótu (<STRONG>Ctrl+V</STRONG>) i kliknąć <STRONG>OK</STRONG>.',
-		securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę dane wkleić ponownie w tym okienku.'
+		securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę dane wkleić ponownie w tym okienku.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'pl' ] = {
 
 	stylesCombo: {
 		label: 'Styl',
-		voiceLabel: 'Styl',
-		panelVoiceLabel: 'Wybierz styl',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Style blokowe',
 		panelTitle2: 'Style liniowe',
 		panelTitle3: 'Style obiektowe'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'pl' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format',
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Wybierz paragraf do sformatowania',
 
 		tag_p: 'Normalny',
 		tag_pre: 'Tekst sformatowany',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'pl' ] = {
 	font: {
 		label: 'Czcionka',
 		voiceLabel: 'Czcionka',
-		panelTitle: 'Czcionka',
-		panelVoiceLabel: 'Wybierz czcionkę'
+		panelTitle: 'Czcionka'
 	},
 
 	fontSize: {
 		label: 'Rozmiar',
 		voiceLabel: 'Rozmiar czcionki',
-		panelTitle: 'Rozmiar',
-		panelVoiceLabel: 'Wybierz rozmiar czcionki'
+		panelTitle: 'Rozmiar'
 	},
 
 	colorButton: {
 		textColorTitle: 'Kolor tekstu',
 		bgColorTitle: 'Kolor tła',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatycznie',
 		more: 'Więcej kolorów...'
 	},

@@ -3,7 +3,7 @@ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.addStylesSet( 'default', [
+CKEDITOR.stylesSet.add( 'default', [
 	/* Block Styles */
 
 	// These styles are already available in the "Format" combo, so they are

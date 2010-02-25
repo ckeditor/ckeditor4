@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'bs' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'HTML kôd',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'bs' ] = {
 		cssStyle: 'Stil',
 		ok: 'OK',
 		cancel: 'Odustani',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Naprednije',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'bs' ] = {
 		upload: 'Šalji',
 		advanced: 'Naprednije',
 		type: 'Tip linka',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Sidro na ovoj stranici',
 		toEmail: 'E-Mail',
-		target: 'Prozor',
-		targetNotSet: '<nije podešeno>',
 		targetFrame: '<frejm>',
 		targetPopup: '<popup prozor>',
-		targetNew: 'Novi prozor (_blank)',
-		targetTop: 'Najgornji prozor (_top)',
-		targetSelf: 'Isti prozor (_self)',
-		targetParent: 'Glavni prozor (_parent)',
 		targetFrameName: 'Target Frame Name', // MISSING
 		targetPopupName: 'Naziv popup prozora',
 		popupFeatures: 'Moguænosti popup prozora',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'bs' ] = {
 		popupTop: 'Gornja pozicija',
 		id: 'Id', // MISSING
 		langDir: 'Smjer pisanja',
-		langDirNotSet: '<nije podešeno>',
 		langDirLTR: 'S lijeva na desno (LTR)',
 		langDirRTL: 'S desna na lijevo (RTL)',
 		acccessKey: 'Pristupna tipka',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'bs' ] = {
 		columns: 'Kolona',
 		border: 'Okvir',
 		align: 'Poravnanje',
-		alignNotSet: '<Nije podešeno>',
 		alignLeft: 'Lijevo',
 		alignCenter: 'Centar',
 		alignRight: 'Desno',
 		width: 'Širina',
 		widthPx: 'piksela',
 		widthPc: 'posto',
+		widthUnit: 'width unit', // MISSING
 		height: 'Visina',
 		cellSpace: 'Razmak æelija',
 		cellPad: 'Uvod æelija',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'bs' ] = {
 		menu: 'Form Properties', // MISSING
 		action: 'Action', // MISSING
 		method: 'Method', // MISSING
-		encoding: 'Encoding', // MISSING
-		target: 'Prozor',
-		targetNotSet: '<nije podešeno>',
-		targetNew: 'Novi prozor (_blank)',
-		targetTop: 'Najgornji prozor (_top)',
-		targetSelf: 'Isti prozor (_self)',
-		targetParent: 'Glavni prozor (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'bs' ] = {
 		menu: 'Svojstva slike',
 		infoTab: 'Info slike',
 		btnUpload: 'Šalji na server',
-		url: 'URL',
 		upload: 'Šalji',
 		alt: 'Tekst na slici',
 		width: 'Širina',
 		height: 'Visina',
 		lockRatio: 'Zakljuèaj odnos',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Resetuj dimenzije',
 		border: 'Okvir',
 		hSpace: 'HSpace',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'bs' ] = {
 		align: 'Poravnanje',
 		alignLeft: 'Lijevo',
 		alignRight: 'Desno',
-		preview: 'Prikaz',
 		alertUrl: 'Molimo ukucajte URL od slike.',
 		linkTab: 'Link', // MISSING
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'bs' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'bs' ] = {
 		block: 'Puno poravnanje'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Zalijepi',
 		cutError: 'Sigurnosne postavke vašeg pretraživaèa ne dozvoljavaju operacije automatskog rezanja. Molimo koristite kraticu na tastaturi (Ctrl+X).',
 		copyError: 'Sigurnosne postavke Vašeg pretraživaèa ne dozvoljavaju operacije automatskog kopiranja. Molimo koristite kraticu na tastaturi (Ctrl+C).',
 		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK', // MISSING
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'bs' ] = {
 
 	stylesCombo: {
 		label: 'Stil',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'bs' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formatted',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'bs' ] = {
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Font',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Font'
 	},
 
 	fontSize: {
 		label: 'Velièina',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Velièina',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Velièina'
 	},
 
 	colorButton: {
 		textColorTitle: 'Boja teksta',
 		bgColorTitle: 'Boja pozadine',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatska',
 		more: 'Više boja...'
 	},

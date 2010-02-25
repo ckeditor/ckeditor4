@@ -46,8 +46,12 @@ html.cke_skin_kama_container
 
 body.cke_panel_frame
 {
-	overflow: auto;
-	overflow-x: hidden;
+	overflow: hidden;
+}
+
+.cke_panel_frame .cke_label
+{
+	display: none;
 }
 
 ul.cke_panel_list
@@ -102,6 +106,15 @@ li.cke_panel_listItem
 {
 	border-color: #316ac5;
 	background-color: #dff1ff;
+}
+
+.cke_hc .cke_panel_listItem.cke_selected a,
+.cke_hc .cke_panel_listItem a:hover,
+.cke_hc .cke_panel_listItem a:focus,
+.cke_hc .cke_panel_listItem a:active
+{
+	border-width: 3px;
+	padding: 0px;
 }
 
 .cke_panel_grouptitle

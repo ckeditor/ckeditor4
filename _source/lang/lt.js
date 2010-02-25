@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'lt' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Šaltinis',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'lt' ] = {
 		cssStyle: 'Stilius',
 		ok: 'OK',
 		cancel: 'Nutraukti',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Bendros savybės',
 		advancedTab: 'Papildomas',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'lt' ] = {
 		upload: 'Siųsti',
 		advanced: 'Papildomas',
 		type: 'Nuorodos tipas',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Žymė šiame puslapyje',
 		toEmail: 'El.paštas',
-		target: 'Paskirties vieta',
-		targetNotSet: '<nėra nustatyta>',
 		targetFrame: '<kadras>',
 		targetPopup: '<išskleidžiamas langas>',
-		targetNew: 'Naujas langas (_blank)',
-		targetTop: 'Svarbiausias langas (_top)',
-		targetSelf: 'Tas pats langas (_self)',
-		targetParent: 'Pirminis langas (_parent)',
 		targetFrameName: 'Paskirties kadro vardas',
 		targetPopupName: 'Paskirties lango vardas',
 		popupFeatures: 'Išskleidžiamo lango savybės',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'lt' ] = {
 		popupTop: 'Viršutinė pozicija',
 		id: 'Id', // MISSING
 		langDir: 'Teksto kryptis',
-		langDirNotSet: '<nėra nustatyta>',
 		langDirLTR: 'Iš kairės į dešinę (LTR)',
 		langDirRTL: 'Iš dešinės į kairę (RTL)',
 		acccessKey: 'Prieigos raktas',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'lt' ] = {
 		columns: 'Stulpeliai',
 		border: 'Rėmelio dydis',
 		align: 'Lygiuoti',
-		alignNotSet: '<Nenustatyta>',
 		alignLeft: 'Kairę',
 		alignCenter: 'Centrą',
 		alignRight: 'Dešinę',
 		width: 'Plotis',
 		widthPx: 'taškais',
 		widthPc: 'procentais',
+		widthUnit: 'width unit', // MISSING
 		height: 'Aukštis',
 		cellSpace: 'Tarpas tarp langelių',
 		cellPad: 'Trapas nuo langelio rėmo iki teksto',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		menu: 'Formos savybės',
 		action: 'Veiksmas',
 		method: 'Metodas',
-		encoding: 'Encoding', // MISSING
-		target: 'Paskirties vieta',
-		targetNotSet: '<nėra nustatyta>',
-		targetNew: 'Naujas langas (_blank)',
-		targetTop: 'Svarbiausias langas (_top)',
-		targetSelf: 'Tas pats langas (_self)',
-		targetParent: 'Pirminis langas (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'lt' ] = {
 		menu: 'Vaizdo savybės',
 		infoTab: 'Vaizdo informacija',
 		btnUpload: 'Siųsti į serverį',
-		url: 'URL',
 		upload: 'Nusiųsti',
 		alt: 'Alternatyvus Tekstas',
 		width: 'Plotis',
 		height: 'Aukštis',
 		lockRatio: 'Išlaikyti proporciją',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Atstatyti dydį',
 		border: 'Rėmelis',
 		hSpace: 'Hor.Erdvė',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'lt' ] = {
 		align: 'Lygiuoti',
 		alignLeft: 'Kairę',
 		alignRight: 'Dešinę',
-		preview: 'Peržiūra',
 		alertUrl: 'Prašome įvesti vaizdo URL',
 		linkTab: 'Nuoroda',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'lt' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'lt' ] = {
 		cutError: 'Jūsų naršyklės saugumo nustatymai neleidžia redaktoriui automatiškai įvykdyti iškirpimo operacijų. Tam prašome naudoti klaviatūrą (Ctrl+X).',
 		copyError: 'Jūsų naršyklės saugumo nustatymai neleidžia redaktoriui automatiškai įvykdyti kopijavimo operacijų. Tam prašome naudoti klaviatūrą (Ctrl+C).',
 		pasteMsg: 'Žemiau esančiame įvedimo lauke įdėkite tekstą, naudodami klaviatūrą (<STRONG>Ctrl+V</STRONG>) ir paspauskite mygtuką <STRONG>OK</STRONG>.',
-		securityMsg: 'Dėl jūsų naršyklės saugumo nustatymų, redaktorius negali tiesiogiai pasiekti laikinosios atminties. Jums reikia nukopijuoti dar kartą į šį langą.'
+		securityMsg: 'Dėl jūsų naršyklės saugumo nustatymų, redaktorius negali tiesiogiai pasiekti laikinosios atminties. Jums reikia nukopijuoti dar kartą į šį langą.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'lt' ] = {
 
 	stylesCombo: {
 		label: 'Stilius',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'lt' ] = {
 
 	format: {
 		label: 'Šrifto formatas',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Šrifto formatas',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normalus',
 		tag_pre: 'Formuotas',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'lt' ] = {
 	font: {
 		label: 'Šriftas',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Šriftas',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Šriftas'
 	},
 
 	fontSize: {
 		label: 'Šrifto dydis',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Šrifto dydis',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Šrifto dydis'
 	},
 
 	colorButton: {
 		textColorTitle: 'Teksto spalva',
 		bgColorTitle: 'Fono spalva',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatinis',
 		more: 'Daugiau spalvų...'
 	},

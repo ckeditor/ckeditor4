@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'tr' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Kaynak',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'tr' ] = {
 		cssStyle: 'Biçem',
 		ok: 'Tamam',
 		cancel: 'İptal',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Genel',
 		advancedTab: 'Gelişmiş',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'tr' ] = {
 		upload: 'Karşıya Yükle',
 		advanced: 'Gelişmiş',
 		type: 'Köprü Türü',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Bu sayfada çapa',
 		toEmail: 'E-Posta',
-		target: 'Hedef',
-		targetNotSet: '<tanımlanmamış>',
 		targetFrame: '<çerçeve>',
 		targetPopup: '<yeni açılan pencere>',
-		targetNew: 'Yeni Pencere(_blank)',
-		targetTop: 'En Üst Pencere (_top)',
-		targetSelf: 'Kendi Penceresi (_self)',
-		targetParent: 'Anne Pencere (_parent)',
 		targetFrameName: 'Hedef Çerçeve Adı',
 		targetPopupName: 'Yeni Açılan Pencere Adı',
 		popupFeatures: 'Yeni Açılan Pencere Özellikleri',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'tr' ] = {
 		popupTop: 'Yukarıya Göre Konum',
 		id: 'Id', // MISSING
 		langDir: 'Dil Yönü',
-		langDirNotSet: '<tanımlanmamış>',
 		langDirLTR: 'Soldan Sağa (LTR)',
 		langDirRTL: 'Sağdan Sola (RTL)',
 		acccessKey: 'Erişim Tuşu',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'tr' ] = {
 		columns: 'Sütunlar',
 		border: 'Kenar Kalınlığı',
 		align: 'Hizalama',
-		alignNotSet: '<Tanımlanmamış>',
 		alignLeft: 'Sol',
 		alignCenter: 'Merkez',
 		alignRight: 'Sağ',
 		width: 'Genişlik',
 		widthPx: 'piksel',
 		widthPc: 'yüzde',
+		widthUnit: 'width unit', // MISSING
 		height: 'Yükseklik',
 		cellSpace: 'Izgara kalınlığı',
 		cellPad: 'Izgara yazı arası',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		menu: 'Form Özellikleri',
 		action: 'İşlem',
 		method: 'Yöntem',
-		encoding: 'Encoding', // MISSING
-		target: 'Hedef',
-		targetNotSet: '<tanımlanmamış>',
-		targetNew: 'Yeni Pencere(_blank)',
-		targetTop: 'En Üst Pencere (_top)',
-		targetSelf: 'Kendi Penceresi (_self)',
-		targetParent: 'Anne Pencere (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'tr' ] = {
 		menu: 'Resim Özellikleri',
 		infoTab: 'Resim Bilgisi',
 		btnUpload: 'Sunucuya Yolla',
-		url: 'URL',
 		upload: 'Karşıya Yükle',
 		alt: 'Alternatif Yazı',
 		width: 'Genişlik',
 		height: 'Yükseklik',
 		lockRatio: 'Oranı Kilitle',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Boyutu Başa Döndür',
 		border: 'Kenar',
 		hSpace: 'Yatay Boşluk',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'tr' ] = {
 		align: 'Hizalama',
 		alignLeft: 'Sol',
 		alignRight: 'Sağ',
-		preview: 'Ön İzleme',
 		alertUrl: 'Lütfen resmin URL\'sini yazınız',
 		linkTab: 'Köprü',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'tr' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		cutError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kesme işlemine izin vermiyor. İşlem için (Ctrl+X) tuşlarını kullanın.',
 		copyError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl+C) tuşlarını kullanın.',
 		pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
-		securityMsg: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin direkt olarak panoya erişimine izin vermiyor. Bu pencere içine tekrar yapıştırmalısınız..'
+		securityMsg: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin direkt olarak panoya erişimine izin vermiyor. Bu pencere içine tekrar yapıştırmalısınız..',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'tr' ] = {
 
 	stylesCombo: {
 		label: 'Biçem',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'tr' ] = {
 
 	format: {
 		label: 'Biçim',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Biçim',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Biçimli',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'tr' ] = {
 	font: {
 		label: 'Yazı Türü',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Yazı Türü',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Yazı Türü'
 	},
 
 	fontSize: {
 		label: 'Boyut',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Boyut',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Boyut'
 	},
 
 	colorButton: {
 		textColorTitle: 'Yazı Rengi',
 		bgColorTitle: 'Arka Renk',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Otomatik',
 		more: 'Diğer renkler...'
 	},

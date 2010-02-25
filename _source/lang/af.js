@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'af' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Source',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'af' ] = {
 		cssStyle: 'Styl',
 		ok: 'OK',
 		cancel: 'Kanseleer',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Ingewikkeld',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'af' ] = {
 		upload: 'Oplaai',
 		advanced: 'Ingewikkeld',
 		type: 'Skakel soort',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Skakel na plekhouers in text',
 		toEmail: 'E-Mail',
-		target: 'Mikpunt',
-		targetNotSet: '<geen instelling>',
 		targetFrame: '<raam>',
 		targetPopup: '<popup venster>',
-		targetNew: 'Nuwe Venster (_blank)',
-		targetTop: 'Boonste Venster (_top)',
-		targetSelf: 'Selfde Venster (_self)',
-		targetParent: 'Vorige Venster (_parent)',
 		targetFrameName: 'Mikpunt Venster Naam',
 		targetPopupName: 'Popup Venster Naam',
 		popupFeatures: 'Popup Venster Geaartheid',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'af' ] = {
 		popupTop: 'Bo Posisie',
 		id: 'Id', // MISSING
 		langDir: 'Taal rigting',
-		langDirNotSet: '<geen instelling>',
 		langDirLTR: 'Links na regs (LTR)',
 		langDirRTL: 'Regs na links (RTL)',
 		acccessKey: 'Toegang sleutel',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'af' ] = {
 		columns: 'Kolome',
 		border: 'Kant groote',
 		align: 'Parideering',
-		alignNotSet: '<geen instelling>',
 		alignLeft: 'Links',
 		alignCenter: 'Middel',
 		alignRight: 'Regs',
 		width: 'Weite',
 		widthPx: 'pixels',
 		widthPc: 'percent',
+		widthUnit: 'width unit', // MISSING
 		height: 'Hoogde',
 		cellSpace: 'Cell spasieering',
 		cellPad: 'Cell buffer',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'af' ] = {
 		menu: 'Form eienskappe',
 		action: 'Aksie',
 		method: 'Metode',
-		encoding: 'Encoding', // MISSING
-		target: 'Mikpunt',
-		targetNotSet: '<geen instelling>',
-		targetNew: 'Nuwe Venster (_blank)',
-		targetTop: 'Boonste Venster (_top)',
-		targetSelf: 'Selfde Venster (_self)',
-		targetParent: 'Vorige Venster (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'af' ] = {
 		menu: 'Beeld eienskappe',
 		infoTab: 'Beeld informasie',
 		btnUpload: 'Stuur dit na die Server',
-		url: 'URL',
 		upload: 'Uplaai',
 		alt: 'Alternatiewe beskrywing',
 		width: 'Weidte',
 		height: 'Hoogde',
 		lockRatio: 'Behou preporsie',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Herstel groote',
 		border: 'Kant',
 		hSpace: 'HSpasie',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'af' ] = {
 		align: 'Paradeer',
 		alignLeft: 'Links',
 		alignRight: 'Regs',
-		preview: 'Voorskou',
 		alertUrl: 'Voeg asseblief Beeld URL in.',
 		linkTab: 'Skakel',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'af' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -470,14 +475,15 @@ CKEDITOR.lang[ 'af' ] = {
 		block: 'Blok paradeer'
 	},
 
-	blockquote: 'Blockquote', // MISSING
+	blockquote: 'Block Quote', // MISSING
 
 	clipboard: {
 		title: 'Byvoeg',
 		cutError: 'U browser se sekuriteit instelling behinder die uitsny aksie. Gebruik asseblief die sleutel kombenasie(Ctrl+X).',
 		copyError: 'U browser se sekuriteit instelling behinder die kopieerings aksie. Gebruik asseblief die sleutel kombenasie(Ctrl+C).',
 		pasteMsg: 'Voeg asseblief die inhoud in die gegewe box by met sleutel kombenasie(<STRONG>Ctrl+V</STRONG>) en druk <STRONG>OK</STRONG>.',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.' // MISSING
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'af' ] = {
 
 	stylesCombo: {
 		label: 'Styl',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'af' ] = {
 
 	format: {
 		label: 'Karakter formaat',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Karakter formaat',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normaal',
 		tag_pre: 'Geformateerd',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'af' ] = {
 	font: {
 		label: 'Karakters',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Karakters',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Karakters'
 	},
 
 	fontSize: {
 		label: 'Karakter grote',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Karakter grote',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Karakter grote'
 	},
 
 	colorButton: {
 		textColorTitle: 'Karakter kleur',
 		bgColorTitle: 'Agtergrond kleur',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automaties',
 		more: 'Meer Kleure...'
 	},

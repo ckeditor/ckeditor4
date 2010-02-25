@@ -65,3 +65,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	float: none;
 }
+
+.cke_skin_kama .cke_path .cke_label
+{
+	display: none;
+}

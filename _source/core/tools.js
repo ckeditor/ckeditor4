@@ -552,6 +552,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
+		 * Removes the function reference created with {@see CKEDITOR.tools.addFunction}.
+		 * @param {Number} ref The function reference created with
+		 *		CKEDITOR.tools.addFunction.
+		 */
+		removeFunction: function( ref ) {
+			functions[ ref ] = null;
+		},
+
+		/**
 		 * Executes a function based on the reference created with
 		 * CKEDITOR.tools.addFunction.
 		 * @param {Number} ref The function reference created with

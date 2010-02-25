@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1', // MISSING
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Source',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		cssStyle: 'Style',
 		ok: 'OK',
 		cancel: 'Annuler',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Général',
 		advancedTab: 'Avancée',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		upload: 'Télécharger',
 		advanced: 'Avancée',
 		type: 'Type de lien',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Ancre dans cette page',
 		toEmail: 'E-Mail',
-		target: 'Destination',
-		targetNotSet: '<Par défaut>',
 		targetFrame: '<Cadre>',
 		targetPopup: '<fenêtre popup>',
-		targetNew: 'Nouvelle fenêtre (_blank)',
-		targetTop: 'Fenêtre supérieure (_top)',
-		targetSelf: 'Même fenêtre (_self)',
-		targetParent: 'Fenêtre mère (_parent)',
 		targetFrameName: 'Nom du cadre de destination',
 		targetPopupName: 'Nom de la fenêtre popup',
 		popupFeatures: 'Caractéristiques de la fenêtre popup',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		popupTop: 'Position à partir du haut',
 		id: 'Id', // MISSING
 		langDir: 'Sens d\'écriture',
-		langDirNotSet: '<Par défaut>',
 		langDirLTR: 'De gauche à droite (LTR)',
 		langDirRTL: 'De droite à gauche (RTL)',
 		acccessKey: 'Équivalent clavier',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		columns: 'Colonnes',
 		border: 'Taille de la bordure',
 		align: 'Alignement',
-		alignNotSet: '<Par défaut>',
 		alignLeft: 'Gauche',
 		alignCenter: 'Centré',
 		alignRight: 'Droite',
 		width: 'Largeur',
 		widthPx: 'pixels',
 		widthPc: 'pourcentage',
+		widthUnit: 'width unit', // MISSING
 		height: 'Hauteur',
 		cellSpace: 'Espacement',
 		cellPad: 'Contour',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		menu: 'Propriétés du formulaire',
 		action: 'Action',
 		method: 'Méthode',
-		encoding: 'Encoding', // MISSING
-		target: 'Destination',
-		targetNotSet: '<Par défaut>',
-		targetNew: 'Nouvelle fenêtre (_blank)',
-		targetTop: 'Fenêtre supérieure (_top)',
-		targetSelf: 'Même fenêtre (_self)',
-		targetParent: 'Fenêtre mère (_parent)'
+		encoding: 'Encoding' // MISSING
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		menu: 'Propriétés de l\'image',
 		infoTab: 'Informations sur l\'image',
 		btnUpload: 'Envoyer sur le serveur',
-		url: 'URL',
 		upload: 'Télécharger',
 		alt: 'Texte de remplacement',
 		width: 'Largeur',
 		height: 'Hauteur',
 		lockRatio: 'Garder les proportions',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Taille originale',
 		border: 'Bordure',
 		hSpace: 'Espacement horizontal',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		align: 'Alignement',
 		alignLeft: 'Gauche',
 		alignRight: 'Droite',
-		preview: 'Prévisualisation',
 		alertUrl: 'Veuillez saisir l\'URL de l\'image',
 		linkTab: 'Lien',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 element' // MISSING
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		cutError: 'Les paramètres de sécurité de votre navigateur empêchent l\'éditeur de couper automatiquement vos données. Veuillez utiliser les équivalents claviers (Ctrl+X).',
 		copyError: 'Les paramètres de sécurité de votre navigateur empêchent l\'éditeur de copier automatiquement vos données. Veuillez utiliser les équivalents claviers (Ctrl+C).',
 		pasteMsg: 'Veuillez coller dans la zone ci-dessous en utilisant le clavier (<STRONG>Ctrl+V</STRONG>) et appuyer sur <STRONG>OK</STRONG>.',
-		securityMsg: 'A cause des paramètres de sécurité de votre navigateur, l\'éditeur ne peut accéder au presse-papier directement. Vous devez coller à nouveau le contenu dans cette fenêtre.'
+		securityMsg: 'A cause des paramètres de sécurité de votre navigateur, l\'éditeur ne peut accéder au presse-papier directement. Vous devez coller à nouveau le contenu dans cette fenêtre.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 
 	stylesCombo: {
 		label: 'Style',
-		voiceLabel: 'Styles', // MISSING
-		panelVoiceLabel: 'Select a style', // MISSING
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles', // MISSING
 		panelTitle2: 'Inline Styles', // MISSING
 		panelTitle3: 'Object Styles' // MISSING
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 
 	format: {
 		label: 'Format',
-		voiceLabel: 'Format', // MISSING
 		panelTitle: 'Format',
-		panelVoiceLabel: 'Select a paragraph format', // MISSING
 
 		tag_p: 'Normal',
 		tag_pre: 'Formaté',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	font: {
 		label: 'Police',
 		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Police',
-		panelVoiceLabel: 'Select a font' // MISSING
+		panelTitle: 'Police'
 	},
 
 	fontSize: {
 		label: 'Taille',
 		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Taille',
-		panelVoiceLabel: 'Select a font size' // MISSING
+		panelTitle: 'Taille'
 	},
 
 	colorButton: {
 		textColorTitle: 'Couleur de caractère',
 		bgColorTitle: 'Couleur de fond',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatique',
 		more: 'Plus de couleurs...'
 	},

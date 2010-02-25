@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'ru' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Редактор с «богатым» форматированием, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'Источник',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'ru' ] = {
 		cssStyle: 'Стиль CSS',
 		ok: 'ОК',
 		cancel: 'Отмена',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Информация',
 		advancedTab: 'Расширенный',
 		validateNumberFailed: 'Это значение не является числом.',
 		confirmNewPage: 'Все несохраненные изменения будут утеряны. Вы уверены, что хотите перейти на другую страницу?',
 		confirmCancel: 'Некоторые опции были изменены. Вы уверены, что хотите закрыть диалог?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, недоступно</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'ru' ] = {
 		upload: 'Закачать',
 		advanced: 'Расширенный',
 		type: 'Тип ссылки',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Якорь на эту страницу',
 		toEmail: 'Эл. почта',
-		target: 'Цель',
-		targetNotSet: '<не определено>',
 		targetFrame: '<фрейм>',
 		targetPopup: '<всплывающее окно>',
-		targetNew: 'Новое окно (_blank)',
-		targetTop: 'Самое верхнее окно (_top)',
-		targetSelf: 'Тоже окно (_self)',
-		targetParent: 'Родительское окно (_parent)',
 		targetFrameName: 'Имя целевого фрейма',
 		targetPopupName: 'Имя всплывающего окна',
 		popupFeatures: 'Свойства всплывающего окна',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		popupTop: 'Позиция сверху',
 		id: 'Id',
 		langDir: 'Направление языка',
-		langDirNotSet: '<не определено>',
 		langDirLTR: 'Слева направо (LTR)',
 		langDirRTL: 'Справа налево (RTL)',
 		acccessKey: 'Горячая клавиша',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'ru' ] = {
 		columns: 'Колонки',
 		border: 'Размер бордюра',
 		align: 'Выравнивание',
-		alignNotSet: '<Не уст.>',
 		alignLeft: 'Слева',
 		alignCenter: 'По центру',
 		alignRight: 'Справа',
 		width: 'Ширина',
 		widthPx: 'пикселей',
 		widthPc: 'процентов',
+		widthUnit: 'width unit', // MISSING
 		height: 'Высота',
 		cellSpace: 'Промежуток (spacing)',
 		cellPad: 'Отступ (padding)',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		menu: 'Свойства формы',
 		action: 'Действие',
 		method: 'Метод',
-		encoding: 'Кодировка',
-		target: 'Цель',
-		targetNotSet: '<не определено>',
-		targetNew: 'Новое окно (_blank)',
-		targetTop: 'Самое верхнее окно (_top)',
-		targetSelf: 'То же окно (_self)',
-		targetParent: 'Родительское окно (_parent)'
+		encoding: 'Кодировка'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'ru' ] = {
 		menu: 'Свойства изображения',
 		infoTab: 'Информация о изображении',
 		btnUpload: 'Отправить на сервер',
-		url: 'URL',
 		upload: 'Закачать',
 		alt: 'Альтернативный текст',
 		width: 'Ширина',
 		height: 'Высота',
 		lockRatio: 'Сохранять пропорции',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Сбросить размер',
 		border: 'Бордюр',
 		hSpace: 'Горизонтальный отступ',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'ru' ] = {
 		align: 'Выравнивание',
 		alignLeft: 'По левому краю',
 		alignRight: 'По правому краю',
-		preview: 'Предварительный просмотр',
 		alertUrl: 'Пожалуйста, введите URL изображения',
 		linkTab: 'Ссылка',
 		button2Img: 'Do you want to transform the selected image button on a simple image?',
 		img2Button: 'Do you want to transform the selected image on a image button?',
-		urlMissing: 'Отсутствует URL картинки.'
+		urlMissing: 'Отсутствует URL картинки.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'ru' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 элемент'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'ru' ] = {
 		cutError: 'Настройки безопасности вашего браузера не позволяют редактору автоматически выполнять операции вырезания. Пожалуйста, используйте клавиатуру для этого (Ctrl+X).',
 		copyError: 'Настройки безопасности вашего браузера не позволяют редактору автоматически выполнять операции копирования. Пожалуйста, используйте клавиатуру для этого (Ctrl+C).',
 		pasteMsg: 'Пожалуйста, вставьте текст в прямоугольник, используя сочетание клавиш (<STRONG>Ctrl+V</STRONG>), и нажмите <STRONG>OK</STRONG>.',
-		securityMsg: 'По причине настроек безопасности браузера, редактор не имеет доступа к данным буфера обмена напрямую. Вам необходимо вставить текст снова в это окно.'
+		securityMsg: 'По причине настроек безопасности браузера, редактор не имеет доступа к данным буфера обмена напрямую. Вам необходимо вставить текст снова в это окно.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'ru' ] = {
 
 	stylesCombo: {
 		label: 'Стиль',
-		voiceLabel: 'Стили',
-		panelVoiceLabel: 'Выберите стиль',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Block Styles',
 		panelTitle2: 'Inline Styles',
 		panelTitle3: 'Стили объекта'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'ru' ] = {
 
 	format: {
 		label: 'Форматирование',
-		voiceLabel: 'Форматирование',
 		panelTitle: 'Форматирование',
-		panelVoiceLabel: 'Выберите форматирование абзаца',
 
 		tag_p: 'Нормальный',
 		tag_pre: 'Форматированный',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'ru' ] = {
 	font: {
 		label: 'Шрифт',
 		voiceLabel: 'Шрифт',
-		panelTitle: 'Шрифт',
-		panelVoiceLabel: 'Выберите шрифт'
+		panelTitle: 'Шрифт'
 	},
 
 	fontSize: {
 		label: 'Размер',
 		voiceLabel: 'Размер шрифта',
-		panelTitle: 'Размер',
-		panelVoiceLabel: 'Выберите размер шрифта'
+		panelTitle: 'Размер'
 	},
 
 	colorButton: {
 		textColorTitle: 'Цвет текста',
 		bgColorTitle: 'Цвет фона',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Автоматический',
 		more: 'Цвета...'
 	},

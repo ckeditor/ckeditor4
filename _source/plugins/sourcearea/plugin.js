@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -27,7 +27,9 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					editor.textarea = textarea = new CKEDITOR.dom.element( 'textarea' );
 					textarea.setAttributes({
 						dir: 'ltr',
-						tabIndex: -1
+						tabIndex: editor.tabIndex,
+						'role': 'textbox',
+						'aria-label': editor.lang.editorTitle.replace( '%1', editor.name )
 					});
 					textarea.addClass( 'cke_source' );
 					textarea.addClass( 'cke_enable_context_menu' );
@@ -74,6 +76,8 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					holderElement.setHtml( '' );
 					holderElement.append( textarea );
 					textarea.setStyles( styles );
+
+					editor.fire( 'ariaWidget', textarea );
 
 					textarea.on( 'blur', function() {
 						editor.focusManager.blur();

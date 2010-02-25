@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'he' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'עורך טקסט עשיר, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'מקור',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'he' ] = {
 		cssStyle: 'סגנון',
 		ok: 'אישור',
 		cancel: 'ביטול',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'כללי',
 		advancedTab: 'אפשרויות מתקדמות',
 		validateNumberFailed: 'הערך חייב להיות מספרי.',
 		confirmNewPage: 'כל השינויים שלא נשמרו יאבדו. האם להעלות דף חדש?',
 		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'he' ] = {
 		upload: 'העלאה',
 		advanced: 'אפשרויות מתקדמות',
 		type: 'סוג קישור',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'עוגן בעמוד זה',
 		toEmail: 'דוא"ל',
-		target: 'מטרה',
-		targetNotSet: '<לא נקבע>',
 		targetFrame: '<מסגרת>',
 		targetPopup: '<חלון קופץ>',
-		targetNew: 'חלון חדש (_blank)',
-		targetTop: 'חלון ראשי (_top)',
-		targetSelf: 'באותו החלון (_self)',
-		targetParent: 'חלון האב (_parent)',
 		targetFrameName: 'שם מסגרת היעד',
 		targetPopupName: 'שם החלון הקופץ',
 		popupFeatures: 'תכונות החלון הקופץ',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'he' ] = {
 		popupTop: 'מיקום צד עליון',
 		id: 'זיהוי (ID)',
 		langDir: 'כיוון שפה',
-		langDirNotSet: '<לא נקבע>',
 		langDirLTR: 'שמאל לימין (LTR)',
 		langDirRTL: 'ימין לשמאל (RTL)',
 		acccessKey: 'מקש גישה',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'he' ] = {
 		columns: 'עמודות',
 		border: 'גודל מסגרת',
 		align: 'יישור',
-		alignNotSet: '<לא נקבע>',
 		alignLeft: 'שמאל',
 		alignCenter: 'מרכז',
 		alignRight: 'ימין',
 		width: 'רוחב',
 		widthPx: 'פיקסלים',
 		widthPc: 'אחוז',
+		widthUnit: 'width unit', // MISSING
 		height: 'גובה',
 		cellSpace: 'מרווח תא',
 		cellPad: 'ריפוד תא',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'מאפיני טופס',
 		action: 'שלח אל',
 		method: 'סוג שליחה',
-		encoding: 'קידוד',
-		target: 'מטרה',
-		targetNotSet: '<לא נקבע>',
-		targetNew: 'חלון חדש (_blank)',
-		targetTop: 'חלון ראשי (_top)',
-		targetSelf: 'באותו החלון (_self)',
-		targetParent: 'חלון האב (_parent)'
+		encoding: 'קידוד'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'תכונות התמונה',
 		infoTab: 'מידע על התמונה',
 		btnUpload: 'שליחה לשרת',
-		url: 'כתובת (URL)',
 		upload: 'העלאה',
 		alt: 'טקסט חלופי',
 		width: 'רוחב',
 		height: 'גובה',
 		lockRatio: 'נעילת היחס',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'איפוס הגודל',
 		border: 'מסגרת',
 		hSpace: 'מרווח אופקי',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'he' ] = {
 		align: 'יישור',
 		alignLeft: 'לשמאל',
 		alignRight: 'לימין',
-		preview: 'תצוגה מקדימה',
 		alertUrl: 'יש להקליד את כתובת התמונה',
 		linkTab: 'קישור',
 		button2Img: 'האם להפוך את תמונת הכפתור לתמונה פשוטה?',
 		img2Button: 'האם להפוך את התמונה לכפתור תמונה?',
-		urlMissing: 'כתובת התמונה חסרה.'
+		urlMissing: 'כתובת התמונה חסרה.',
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 אלמנט'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'he' ] = {
 		cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+X).',
 		copyError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות העתקה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl+C).',
 		pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<b>Ctrl+V</b>) וללחוץ על <b>אישור</b>.',
-		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.'
+		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	stylesCombo: {
 		label: 'סגנון',
-		voiceLabel: 'סגנונות',
-		panelVoiceLabel: 'בחירת סגנון',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'סגנונות בלוק',
 		panelTitle2: 'סגנונות רצף',
 		panelTitle3: 'סגנונות אובייקט'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	format: {
 		label: 'עיצוב',
-		voiceLabel: 'עיצוב',
 		panelTitle: 'עיצוב',
-		panelVoiceLabel: 'בחירת עיצוב פסקה',
 
 		tag_p: 'נורמלי',
 		tag_pre: 'קוד',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'he' ] = {
 	font: {
 		label: 'גופן',
 		voiceLabel: 'גופן',
-		panelTitle: 'גופן',
-		panelVoiceLabel: 'בחירת גופן'
+		panelTitle: 'גופן'
 	},
 
 	fontSize: {
 		label: 'גודל',
 		voiceLabel: 'גודל',
-		panelTitle: 'גודל',
-		panelVoiceLabel: 'בחירת גודל גופן'
+		panelTitle: 'גודל'
 	},
 
 	colorButton: {
 		textColorTitle: 'צבע טקסט',
 		bgColorTitle: 'צבע רקע',
+		panelTitle: 'Colors', // MISSING
 		auto: 'אוטומטי',
 		more: 'צבעים נוספים...'
 	},

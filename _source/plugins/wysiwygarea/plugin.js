@@ -205,8 +205,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		init: function( editor ) {
 			var fixForBody = ( editor.config.enterMode != CKEDITOR.ENTER_BR ) ? editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 
+			var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
+
 			editor.on( 'editingBlockReady', function() {
-				var mainElement, fieldset, iframe, isLoadingData, isPendingFocus, frameLoaded, fireMode;
+				var mainElement, iframe, isLoadingData, isPendingFocus, frameLoaded, fireMode;
+
 
 				// Support for custom document.domain in IE.
 				var isCustomDomain = CKEDITOR.env.isCustomDomain();
@@ -215,87 +218,64 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var createIFrame = function( data ) {
 						if ( iframe )
 							iframe.remove();
-						if ( fieldset )
-							fieldset.remove();
 
 						frameLoaded = 0;
+
+						var setDataFn = !CKEDITOR.env.gecko && CKEDITOR.tools.addFunction( function( doc ) {
+							CKEDITOR.tools.removeFunction( setDataFn );
+							doc.write( data );
+						});
+
+						var srcScript = 'document.open();' +
+
+							// The document domain must be set any time we
+						// call document.open().
+						( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+
+							// With FF, it's better to load the data on
+						// iframe.load. (#3894,#4058)
+						// But in FF, we still need the open()-close() call
+						// to avoid HTTPS warnings.
+						( CKEDITOR.env.gecko ? '' : ( 'parent.CKEDITOR.tools.callFunction(' + setDataFn + ',document);' ) ) +
+
+							'document.close();';
 
 						iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 							' style="width:100%;height:100%"' +
 							' frameBorder="0"' +
-							( !CKEDITOR.env.webkit ?
-						// Support for custom document.domain in IE.
-						' src="javascript:void((function(){' +
-							'document.open();' + // To avoid HTTPS warnings.
-						( isCustomDomain ? 'document.domain=\'' + document.domain + '\';' : '' ) +
-							'document.close();' +
-							'})())"' : '' ) +
-							' tabIndex="-1"' +
+							' src="javascript:void(function(){' + encodeURIComponent( srcScript ) + '}())"' +
+							' tabIndex="' + editor.tabIndex + '"' +
 							' allowTransparency="true"' +
 							'></iframe>' );
 
-						// Register onLoad event for iframe element, which
-						// will fill it with content and set custom domain.
-						iframe.on( 'load', function( e ) {
-							e.removeListener();
+						// With FF, it's better to load the data on iframe.load. (#3894,#4058)
+						CKEDITOR.env.gecko && iframe.on( 'load', function( ev ) {
+							ev.removeListener();
+
 							var doc = iframe.getFrameDocument().$;
 
-							// Custom domain handling is needed after each document.open().
 							doc.open();
-							if ( isCustomDomain )
-								doc.domain = document.domain;
 							doc.write( data );
 							doc.close();
-
 						});
 
-						var accTitle = editor.lang.editorTitle.replace( '%1', editor.name );
-
-						if ( CKEDITOR.env.gecko ) {
-							// Accessibility attributes for Firefox.
-							mainElement.setAttributes({
-								role: 'region',
-								title: accTitle
-							});
-							iframe.setAttributes({
-								role: 'region',
-								title: ' '
-							});
-						} else if ( CKEDITOR.env.webkit ) {
-							iframe.setAttribute( 'title', accTitle ); // Safari 4
-							iframe.setAttribute( 'name', accTitle ); // Safari 3
-						} else if ( CKEDITOR.env.ie ) {
-							// Accessibility label for IE.
-							fieldset = CKEDITOR.dom.element.createFromHtml( '<fieldset style="height:100%' +
-								( CKEDITOR.env.ie && CKEDITOR.env.quirks ? ';position:relative' : '' ) +
-								'">' +
-									'<legend style="display:block;width:0;height:0;overflow:hidden;' +
-									( CKEDITOR.env.ie && CKEDITOR.env.quirks ? 'position:absolute' : '' ) +
-									'">' +
-										CKEDITOR.tools.htmlEncode( accTitle ) +
-									'</legend>' +
-								'</fieldset>'
-								, CKEDITOR.document );
-							iframe.appendTo( fieldset );
-							fieldset.appendTo( mainElement );
-						}
-
-						if ( !CKEDITOR.env.ie )
-							mainElement.append( iframe );
+						mainElement.append( iframe );
 					};
 
 				// The script that launches the bootstrap logic on 'domReady', so the document
 				// is fully editable even before the editing iframe is fully loaded (#4455).
 				var activationScript = '<script id="cke_actscrpt" type="text/javascript" cke_temp="1">' +
-					'window.parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
+					( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+					'parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
 					'</script>';
 
 				// Editing area bootstrap code.
 				var contentDomReady = function( domWindow ) {
 						if ( frameLoaded )
 							return;
-
 						frameLoaded = 1;
+
+						editor.fire( 'ariaWidget', iframe );
 
 						var domDocument = domWindow.document,
 							body = domDocument.body;
@@ -565,6 +545,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							data = docType + data;
 						} else {
 							data = config.docType + '<html dir="' + config.contentsLangDirection + '">' +
+																		'<title>' + frameLabel + '</title>' +
 																		'<head>' +
 																			baseTag +
 																			headExtra +
@@ -648,11 +629,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.on( 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
 			});
 
+			var titleBackup;
+			// Setting voice label as window title, backup the original one
+			// and restore it before running into use.
+			editor.on( 'contentDom', function() {
+				var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
+				title.setAttribute( '_cke_title', editor.document.$.title );
+				editor.document.$.title = frameLabel;
+			});
+
+
 			// Create an invisible element to grab focus.
 			if ( CKEDITOR.env.ie ) {
 				var ieFocusGrabber;
 				editor.on( 'uiReady', function() {
-					ieFocusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml( '<input tabindex="-1" style="position:absolute; left:-10000">' ) );
+					ieFocusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
+					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
+					'<span tabindex="-1" style="position:absolute; left:-10000" role="presentation"></span>' ) );
 
 					ieFocusGrabber.on( 'focus', function() {
 						editor.focus();

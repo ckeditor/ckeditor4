@@ -257,6 +257,11 @@ body .cke_dialog
 {
 	background-color: #f7f8fd;
 }
+.cke_skin_office2003 .cke_hc a:hover.cke_dialog_tab
+{
+	padding: 2px 3px !important;
+	border-width: 3px;
+}
 
 .cke_skin_office2003 a.cke_dialog_tab_selected,
 .cke_skin_office2003 a:link.cke_dialog_tab_selected,
@@ -269,12 +274,29 @@ body .cke_dialog
 	font-weight: bold;
 	cursor: default;
 }
+.cke_skin_office2003 .cke_hc a.cke_dialog_tab_selected,
+.cke_skin_office2003 .cke_hc a:link.cke_dialog_tab_selected,
+.cke_skin_office2003 .cke_hc a:active.cke_dialog_tab_selected,
+.cke_skin_office2003 .cke_hc a:hover.cke_dialog_tab_selected,
+.cke_skin_office2003 .cke_hc a:visited.cke_dialog_tab_selected
+{
+	padding: 2px 3px !important;
+	border-width: 3px;
+}
 
 /* single_page */
 
 .cke_skin_office2003 .cke_single_page .cke_dialog_tabs
 {
 	display: none;
+}
+
+.cke_skin_office2003 .cke_hc .cke_dialog_tabs a,
+.cke_skin_office2003 .cke_hc .cke_dialog_footer a
+{
+	opacity: 1.0;
+	filter: alpha(opacity=100);
+	border: 1px solid white;
 }
 
 .cke_skin_office2003 .cke_single_page .cke_dialog_title
@@ -309,6 +331,18 @@ body .cke_dialog
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
+}
+
+.cke_skin_office2003 .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_text,
+.cke_skin_office2003 .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_password
+{
+	border-width: 0px;
+}
+
+.cke_skin_office2003 .cke_browser_gecko18.cke_hc div.cke_dialog_ui_input_text,
+.cke_skin_office2003 .cke_browser_gecko18.cke_hc div.cke_dialog_ui_input_password
+{
+	border-width: 1px;
 }
 
 .cke_skin_office2003 textarea.cke_dialog_ui_input_textarea
@@ -404,6 +438,11 @@ body .cke_dialog
 {
 	background-color: #8db1ff;
 }
+.cke_skin_office2003 .cke_hc a:focus span.cke_dialog_ui_button,
+.cke_skin_office2003 .cke_hc a:active span.cke_dialog_ui_button
+{
+	border-width: 2px;
+}
 
 .cke_skin_office2003 .cke_dialog_footer_buttons
 {
@@ -433,7 +472,7 @@ body .cke_dialog
 
 /* close_button */
 
-.cke_skin_office2003 .cke_dialog_close_button
+.cke_skin_office2003 .cke_dialog .cke_dialog_body .cke_dialog_close_button
 {
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
@@ -654,9 +693,29 @@ body .cke_dialog
 	top: 3px;
 }
 
+.cke_skin_office2003 .cke_dialog_body .cke_label
+{
+	display: none;
+}
+
+.cke_skin_office2003 .cke_hc .cke_dialog_body .cke_label
+{
+	display: inline;
+}
+
 .cke_skin_office2003 .cke_hc a.cke_btn_locked,
 .cke_skin_office2003 .cke_hc a.cke_btn_unlocked,
 .cke_skin_office2003 .cke_hc a.cke_btn_reset
 {
 	border-style: solid;
+	float: left;
+	width: auto;
+	height: auto;
+}
+
+.cke_skin_office2003 .cke_rtl.cke_hc a.cke_btn_locked,
+.cke_skin_office2003 .cke_rtl.cke_hc a.cke_btn_unlocked,
+.cke_skin_office2003 .cke_rtl.cke_hc a.cke_btn_reset
+{
+	float: right;
 }

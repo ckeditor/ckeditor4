@@ -118,16 +118,16 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					{
 					id: 'target',
 					type: 'select',
-					label: editor.lang.form.target,
+					label: editor.lang.common.target,
 					style: 'width:100%',
 					accessKey: 'M',
 					'default': '',
 					items: [
-						[ editor.lang.form.targetNotSet, '' ],
-						[ editor.lang.form.targetNew, '_blank' ],
-						[ editor.lang.form.targetTop, '_top' ],
-						[ editor.lang.form.targetSelf, '_self' ],
-						[ editor.lang.form.targetParent, '_parent' ]
+						[ editor.lang.common.notSet, '' ],
+						[ editor.lang.common.targetNew, '_blank' ],
+						[ editor.lang.common.targetTop, '_top' ],
+						[ editor.lang.common.targetSelf, '_self' ],
+						[ editor.lang.common.targetParent, '_parent' ]
 						]
 				},
 					{

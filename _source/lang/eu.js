@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -30,7 +30,11 @@ CKEDITOR.lang[ 'eu' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Testu aberastuentzako editorea, %1',
+	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+
+	// ARIA descriptions.
+	toolbar: 'Toolbar', // MISSING
+	editor: 'Rich Text Editor', // MISSING
 
 	// Toolbar buttons without dialogs.
 	source: 'HTML Iturburua',
@@ -86,11 +90,19 @@ CKEDITOR.lang[ 'eu' ] = {
 		cssStyle: 'Estiloa',
 		ok: 'Ados',
 		cancel: 'Utzi',
+		close: 'Close', // MISSING
+		preview: 'Preview', // MISSING
 		generalTab: 'Orokorra',
 		advancedTab: 'Aurreratua',
 		validateNumberFailed: 'Balio hau ez da zenbaki bat.',
 		confirmNewPage: 'Eduki honetan gorde gabe dauden aldaketak galduko dira. Ziur zaude orri berri bat kargatu nahi duzula?',
 		confirmCancel: 'Aukera batzuk aldatu egin dira. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
+		options: 'Options', // MISSING
+		target: 'Target', // MISSING
+		targetNew: 'New Window (_blank)', // MISSING
+		targetTop: 'Topmost Window (_top)', // MISSING
+		targetSelf: 'Same Window (_self)', // MISSING
+		targetParent: 'Parent Window (_parent)', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'
@@ -112,16 +124,11 @@ CKEDITOR.lang[ 'eu' ] = {
 		upload: 'Gora kargatu',
 		advanced: 'Aurreratua',
 		type: 'Esteka Mota',
+		toUrl: 'URL', // MISSING
 		toAnchor: 'Aingura orrialde honetan',
 		toEmail: 'ePosta',
-		target: 'Target (Helburua)',
-		targetNotSet: '<Ezarri gabe>',
 		targetFrame: '<marko>',
 		targetPopup: '<popup leihoa>',
-		targetNew: 'Leiho Berria (_blank)',
-		targetTop: 'Goiko Leihoa (_top)',
-		targetSelf: 'Leiho Berdina (_self)',
-		targetParent: 'Leiho Gurasoa (_parent)',
 		targetFrameName: 'Marko Helburuaren Izena',
 		targetPopupName: 'Popup Leihoaren Izena',
 		popupFeatures: 'Popup Leihoaren Ezaugarriak',
@@ -139,7 +146,6 @@ CKEDITOR.lang[ 'eu' ] = {
 		popupTop: 'Goiko Posizioa',
 		id: 'Id',
 		langDir: 'Hizkuntzaren Norabidea',
-		langDirNotSet: '<Ezarri gabe>',
 		langDirLTR: 'Ezkerretik Eskumara(LTR)',
 		langDirRTL: 'Eskumatik Ezkerrera (RTL)',
 		acccessKey: 'Sarbide-gakoa',
@@ -196,13 +202,13 @@ CKEDITOR.lang[ 'eu' ] = {
 		columns: 'Zutabeak',
 		border: 'Ertzaren Zabalera',
 		align: 'Lerrokatu',
-		alignNotSet: '<Ezarri gabe>',
 		alignLeft: 'Ezkerrean',
 		alignCenter: 'Erdian',
 		alignRight: 'Eskuman',
 		width: 'Zabalera',
 		widthPx: 'pixel',
 		widthPc: 'ehuneko',
+		widthUnit: 'width unit', // MISSING
 		height: 'Altuera',
 		cellSpace: 'Gelaxka arteko tartea',
 		cellPad: 'Gelaxken betegarria',
@@ -294,13 +300,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		menu: 'Formularioaren Ezaugarriak',
 		action: 'Ekintza',
 		method: 'Metodoa',
-		encoding: 'Kodeketa',
-		target: 'Target (Helburua)',
-		targetNotSet: '<Ezarri gabe>',
-		targetNew: 'Leiho Berria (_blank)',
-		targetTop: 'Goiko Leihoa (_top)',
-		targetSelf: 'Leiho Berdina (_self)',
-		targetParent: 'Leiho Gurasoa (_parent)'
+		encoding: 'Kodeketa'
 	},
 
 	// Select Field Dialog.
@@ -355,12 +355,12 @@ CKEDITOR.lang[ 'eu' ] = {
 		menu: 'Irudi Ezaugarriak',
 		infoTab: 'Irudi informazioa',
 		btnUpload: 'Zerbitzarira bidalia',
-		url: 'URL',
 		upload: 'Gora Kargatu',
 		alt: 'Ordezko Testua',
 		width: 'Zabalera',
 		height: 'Altuera',
 		lockRatio: 'Erlazioa Blokeatu',
+		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Tamaina Berrezarri',
 		border: 'Ertza',
 		hSpace: 'HSpace',
@@ -368,12 +368,16 @@ CKEDITOR.lang[ 'eu' ] = {
 		align: 'Lerrokatu',
 		alignLeft: 'Ezkerrera',
 		alignRight: 'Eskuman',
-		preview: 'Aurrebista',
 		alertUrl: 'Mesedez Irudiaren URLa idatzi',
 		linkTab: 'Esteka',
 		button2Img: 'Aukeratutako irudi botoia, irudi normal batean eraldatu nahi duzu?',
 		img2Button: 'Aukeratutako irudia, irudi botoi batean eraldatu nahi duzu?',
-		urlMissing: 'Image source URL is missing.' // MISSING
+		urlMissing: 'Image source URL is missing.', // MISSING
+		validateWidth: 'Width must be a whole number.', // MISSING
+		validateHeight: 'Height must be a whole number.', // MISSING
+		validateBorder: 'Border must be a whole number.', // MISSING
+		validateHSpace: 'HSpace must be a whole number.', // MISSING
+		validateVSpace: 'VSpace must be a whole number.' // MISSING
 	},
 
 	// Flash Dialog
@@ -455,6 +459,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	},
 
 	elementsPath: {
+		eleLabel: 'Elements path', // MISSING
 		eleTitle: '%1 elementua'
 	},
 
@@ -477,7 +482,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		cutError: 'Zure web nabigatzailearen segurtasun ezarpenak testuak automatikoki moztea ez dute baimentzen. Mesedez teklatua erabili ezazu (Ctrl+X).',
 		copyError: 'Zure web nabigatzailearen segurtasun ezarpenak testuak automatikoki kopiatzea ez dute baimentzen. Mesedez teklatua erabili ezazu (Ctrl+C).',
 		pasteMsg: 'Mesedez teklatua erabilita (<STRONG>Ctrl+V</STRONG>) ondorego eremuan testua itsatsi eta <STRONG>OK</STRONG> sakatu.',
-		securityMsg: 'Nabigatzailearen segurtasun ezarpenak direla eta, editoreak ezin du arbela zuzenean erabili. Leiho honetan berriro itsatsi behar duzu.'
+		securityMsg: 'Nabigatzailearen segurtasun ezarpenak direla eta, editoreak ezin du arbela zuzenean erabili. Leiho honetan berriro itsatsi behar duzu.',
+		pasteArea: 'Paste Area' // MISSING
 	},
 
 	pastefromword: {
@@ -504,8 +510,7 @@ CKEDITOR.lang[ 'eu' ] = {
 
 	stylesCombo: {
 		label: 'Estiloa',
-		voiceLabel: 'Estiloak',
-		panelVoiceLabel: 'Estilo bat aukeratu',
+		panelTitle: 'Formatting Styles', // MISSING
 		panelTitle1: 'Bloke Estiloak',
 		panelTitle2: 'Inline Estiloak',
 		panelTitle3: 'Objektu Estiloak'
@@ -513,9 +518,7 @@ CKEDITOR.lang[ 'eu' ] = {
 
 	format: {
 		label: 'Formatua',
-		voiceLabel: 'Formatua',
 		panelTitle: 'Formatua',
-		panelVoiceLabel: 'Aukeratu paragrafo formatu bat',
 
 		tag_p: 'Arrunta',
 		tag_pre: 'Formateatua',
@@ -548,20 +551,19 @@ CKEDITOR.lang[ 'eu' ] = {
 	font: {
 		label: 'Letra-tipoa',
 		voiceLabel: 'Letra-tipoa',
-		panelTitle: 'Letra-tipoa',
-		panelVoiceLabel: 'Aukeratu letra-tipoa'
+		panelTitle: 'Letra-tipoa'
 	},
 
 	fontSize: {
 		label: 'Tamaina',
 		voiceLabel: 'Tamaina',
-		panelTitle: 'Tamaina',
-		panelVoiceLabel: 'Aukeratu letraren tamaina'
+		panelTitle: 'Tamaina'
 	},
 
 	colorButton: {
 		textColorTitle: 'Testu Kolorea',
 		bgColorTitle: 'Atzeko kolorea',
+		panelTitle: 'Colors', // MISSING
 		auto: 'Automatikoa',
 		more: 'Kolore gehiago...'
 	},

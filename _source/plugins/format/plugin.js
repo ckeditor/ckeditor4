@@ -23,13 +23,11 @@ CKEDITOR.plugins.add( 'format', {
 		editor.ui.addRichCombo( 'Format', {
 			label: lang.label,
 			title: lang.panelTitle,
-			voiceLabel: lang.voiceLabel,
 			className: 'cke_format',
-			multiSelect: false,
-
 			panel: {
 				css: editor.skin.editor.css.concat( config.contentsCss ),
-				voiceLabel: lang.panelVoiceLabel
+				multiSelect: false,
+				attributes: { 'aria-label': lang.panelTitle }
 			},
 
 			init: function() {
