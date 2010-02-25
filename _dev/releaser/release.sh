@@ -12,5 +12,5 @@ fi ;
 LANGTOOL="$(cd $(dirname "$0"); pwd)/langtool.sh"
 
 pushd $DIR
-java -jar ckreleaser/ckreleaser.jar ckreleaser.release ../.. release "3.2 SVN" ckeditor_3.2_svn --run-before-release=$LANGTOOL
+java -jar ckreleaser/ckreleaser.jar ckreleaser.release ../.. release "3.2.1 SVN" ckeditor_3.2.1_svn --run-before-release=$LANGTOOL
 popd
