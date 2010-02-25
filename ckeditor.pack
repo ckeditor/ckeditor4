@@ -46,6 +46,12 @@ constants :
 		'CKEDITOR.END' : 2,
 		'CKEDITOR.STARTEND' : 3,
 		'CKEDITOR.UI_BUTTON' : 1,
+		'CKEDITOR.DIALOG_RESIZE_NONE' : 0,
+		'CKEDITOR.DIALOG_RESIZE_WIDTH' : 1,
+		'CKEDITOR.DIALOG_RESIZE_HEIGHT' : 2,
+		'CKEDITOR.DIALOG_RESIZE_BOTH' : 3,
+		'CKEDITOR.VALIDATE_OR' : 1,
+		'CKEDITOR.VALIDATE_AND' : 2,
 		'CKEDITOR.STYLE_BLOCK' : 1,
 		'CKEDITOR.STYLE_INLINE' : 2,
 		'CKEDITOR.STYLE_OBJECT' : 3,
@@ -55,12 +61,6 @@ constants :
 		'CKEDITOR.SELECTION_ELEMENT' : 3,
 		'CKEDITOR.UI_RICHCOMBO' : 3,
 		'CKEDITOR.UI_MENUBUTTON' : 5,
-		'CKEDITOR.DIALOG_RESIZE_NONE' : 0,
-		'CKEDITOR.DIALOG_RESIZE_WIDTH' : 1,
-		'CKEDITOR.DIALOG_RESIZE_HEIGHT' : 2,
-		'CKEDITOR.DIALOG_RESIZE_BOTH' : 3,
-		'CKEDITOR.VALIDATE_OR' : 1,
-		'CKEDITOR.VALIDATE_AND' : 2,
 		'CKEDITOR.UI_PANEL' : 2
 	},
 
@@ -181,6 +181,7 @@ packages :
 					'_source/plugins/undo/plugin.js',
 					'_source/plugins/wysiwygarea/plugin.js',
 					'_source/plugins/wsc/plugin.js',
+					'_source/plugins/dialog/plugin.js',
 					'_source/plugins/styles/plugin.js',
 					'_source/plugins/domiterator/plugin.js',
 					'_source/plugins/panelbutton/plugin.js',
@@ -192,10 +193,9 @@ packages :
 					'_source/plugins/richcombo/plugin.js',
 					'_source/plugins/htmlwriter/plugin.js',
 					'_source/plugins/menubutton/plugin.js',
-					'_source/plugins/dialog/plugin.js',
+					'_source/plugins/dialogui/plugin.js',
 					'_source/plugins/panel/plugin.js',
 					'_source/plugins/listblock/plugin.js',
-					'_source/plugins/dialogui/plugin.js',
 					'_source/themes/default/theme.js'
 				]
 		}
