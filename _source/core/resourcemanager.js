@@ -117,7 +117,7 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	getFilePath: function( name ) {
 		var external = this.externals[ name ];
-		return CKEDITOR.getUrl( this.getPath( name ) + ( ( external && external.file !== null ) ? external.file : this.fileName + '.js' ) );
+		return CKEDITOR.getUrl( this.getPath( name ) + ( ( external && ( typeof external.file == 'string' ) ) ? external.file : this.fileName + '.js' ) );
 	},
 
 	/**
