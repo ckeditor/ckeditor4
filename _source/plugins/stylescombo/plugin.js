@@ -15,16 +15,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				pluginPath = this.path,
 				styles;
 
-			if ( !stylesManager ) {
+			if ( !stylesManager )
 				stylesManager = CKEDITOR.stylesSet;
-
-				// Backward compatibilities (#5025).
-				CKEDITOR.addStylesSet = CKEDITOR.tools.bind( stylesManager.add, stylesManager );
-				CKEDITOR.loadStylesSet = function( name, url, callback ) {
-					stylesManager.addExternal( name, url, '' );
-					CKEDITOR.stylesSet.load( name, callback );
-				};
-			}
 
 			var comboStylesSet = config.stylesCombo_stylesSet.split( ':' ),
 				styleSetName = comboStylesSet[ 0 ],

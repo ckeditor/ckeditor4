@@ -1086,3 +1086,10 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 };
 
 CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );
+
+// Backward compatibility (#5025).
+CKEDITOR.addStylesSet = CKEDITOR.tools.bind( CKEDITOR.stylesSet.add, CKEDITOR.stylesSet );
+CKEDITOR.loadStylesSet = function( name, url, callback ) {
+	CKEDITOR.stylesSet.addExternal( name, url, '' );
+	CKEDITOR.stylesSet.load( name, callback );
+};
