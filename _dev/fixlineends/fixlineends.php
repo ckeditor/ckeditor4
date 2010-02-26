@@ -63,6 +63,10 @@ $list["sh"] = LF;
 $list["txt"] = CRLF;
 $list["xml"] = CRLF;
 
+$bom = array();
+$bom['asp'] = true;
+$bom['js'] = true;
+
 /**
  * Do not modify anything below
  * use command line arguments to modify script's behaviour
@@ -106,6 +110,11 @@ $nosystem = false;
  * @var boolean $nodotfiles
  */
 $nodotfiles = false;
+/**
+ * If set to true, BOM characters are fixed
+ * @var boolean $fixbom
+ */
+$fixbom = false;
 /**
  * How deep to recurse into subdirectories
  * -1 to disable
@@ -318,6 +327,17 @@ function fixFile($path, $nl) {
         $new_content .= $line;
     }
 
+    if ($GLOBALS['fixbom']) {
+        $before_fixing = $new_content;
+        $ext = strtolower(substr($path, strrpos($path, ".") + 1));
+        $new_content = stripUtf8Bom( $new_content );
+        if (!empty($GLOBALS['bom'][$ext])) {
+            $new_content = "\xEF\xBB\xBF" . $new_content; // BOM
+        }
+        if ($new_content != $before_fixing)
+            $modified = true;
+    }
+
     if ($modified) {
         $fp = fopen($path, "wb");
         if (!$fp) {
@@ -349,6 +369,18 @@ function fixFile($path, $nl) {
     }
 
     return $modified;
+}
+
+/**
+ * Strip BOM from a string
+ * @param string $data
+ */
+function stripUtf8Bom( $data )
+{
+    if ( substr( $data, 0, 3 ) == "\xEF\xBB\xBF" )
+        return stripUtf8Bom(substr_replace( $data, '', 0, 3 )) ;
+
+    return $data ;
 }
 
 /**
@@ -452,20 +484,23 @@ OPTIONS
        --excluderegex=regex
             use regex to exclude files, preg_match() format expected
 
+       --fixbom
+            fix BOM characters
+
        --help
             display this help and exit
 
        --noarchive
-            if set to true, archive files are skipped (Windows only)
+            skip archive files (Windows only)
 
        --nodotfiles
-            if set to true, dot files are skipped
+            skip dot files
 
        --nohidden
-            if set to true, hidden files are skipped (Windows only)
+            skip hidden files (Windows only)
 
        --nosystem
-            if set to true, system files are skipped (Windows only)
+            skip system files (Windows only)
 
        --maxdepth
             fix line ends only if file is N or fewer levels below
@@ -526,6 +561,10 @@ function translateCommandArgs($args) {
                 $GLOBALS['nodotfiles'] = true;
                 break;
 
+            case '--fixbom':
+                $GLOBALS['fixbom'] = true;
+                break;
+
             case '--excluderegex':
                 $GLOBALS['excluderegex'] = $arg[1];
                 break;
@@ -571,13 +610,13 @@ foreach ($list as $ext => $nl) {
 }
 
 if ($_SERVER['argc']>1) {
-	include "../_thirdparty/console_getopt/Getopt.php";
+    include "../_thirdparty/console_getopt/Getopt.php";
 
     if ($windows) {
-        $longoptions = array("eofstripwhite", "eofnewline", "eolstripwhite", "help", "noarchive", "nohidden", "nosystem", "nodotfiles", "maxdepth=", "excluderegex=");
+        $longoptions = array("eofstripwhite", "eofnewline", "eolstripwhite", "help", "noarchive", "nohidden", "nosystem", "nodotfiles", "maxdepth=", "excluderegex=", "fixbom");
     }
     else {
-        $longoptions = array("eofstripwhite", "eofnewline", "eolstripwhite", "help", "nodotfiles", "maxdepth=", "excluderegex=");
+        $longoptions = array("eofstripwhite", "eofnewline", "eolstripwhite", "help", "nodotfiles", "maxdepth=", "excluderegex=", "fixbom");
     }
 
     $con  = new Console_Getopt;
