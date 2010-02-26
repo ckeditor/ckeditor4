@@ -1,4 +1,4 @@
-(function() {
+﻿( function() {
 	CKEDITOR.plugins.colordialog = {
 		init: function( editor ) {
 			editor.addCommand( 'colordialog', new CKEDITOR.dialogCommand( 'colordialog' ) );
