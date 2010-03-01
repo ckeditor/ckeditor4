@@ -195,7 +195,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( indentStep < 1 )
 					block.$.className = className;
 				else
-					block.addClass( editor.config.indentClasses[ indentStep - 1 ] );
+					block.$.className = CKEDITOR.tools.ltrim( className + ' ' + editor.config.indentClasses[ indentStep - 1 ] );
 			} else {
 				var currentOffset = parseInt( block.getStyle( this.indentCssProperty ), 10 );
 				if ( isNaN( currentOffset ) )
@@ -279,6 +279,31 @@ CKEDITOR.tools.extend( CKEDITOR.config, {
 	indentUnit: 'px',
 	indentClasses: null
 });
+
+/**
+ * Size of each indentation step
+ * @type Number
+ * @example
+ * config.indentOffset = 40;
+ */
+
+/**
+ * Unit for the indentation style
+ * @type String
+ * @example
+ * config.indentUnit = 'px';
+ */
+
+/**
+ * List of classes to use for indenting the contents.
+ * @type Array
+ * @example
+ * // Don't use classes for indenting. (this is the default value)
+ * config.indentClasses = null;
+ * @example
+ * // Use the classes 'Indent1', 'Indent2', 'Indent3'
+ * config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
+ */
 
 /**
  * Size of each indentation step
