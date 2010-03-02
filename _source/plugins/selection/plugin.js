@@ -98,7 +98,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// "onfocusin" is fired before "onfocus". It makes it
 					// possible to restore the selection before click
 					// events get executed.
-					body.on( 'focusin', function() {
+					body.on( 'focusin', function( evt ) {
+						// If there are elements with layout they fire this event but
+						// it must be ignored to allow edit its contents #4682
+						if ( evt.data.$.srcElement.nodeName != 'BODY' )
+							return;
+
 						// If we have saved a range, restore it at this
 						// point.
 						if ( savedRange ) {
@@ -118,7 +123,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						saveSelection();
 					});
 
-					body.on( 'beforedeactivate', function() {
+					body.on( 'beforedeactivate', function( evt ) {
+						// Ignore this event if it's caused by focus switch between
+						// internal editable control type elements, e.g. layouted paragraph. (#4682)
+						if ( evt.data.$.toElement )
+							return;
+
 						// Disable selections from being saved.
 						saveEnabled = false;
 					});
