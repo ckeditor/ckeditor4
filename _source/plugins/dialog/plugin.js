@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1142,6 +1142,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		minHeight: 400,
 		buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
 	};
+
+	// The buttons in MacOS Apps are in reverse order #4750
+	CKEDITOR.env.mac && defaultDialogDefinition.buttons.reverse();
 
 	// Tool function used to return an item from an array based on its id
 	// property.
