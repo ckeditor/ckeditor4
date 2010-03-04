@@ -22,6 +22,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_toolbox
 {
 	clear: both;
+	/* Define the padding-bottom otherwise the collapser button will not be clickable #4932*/
+	padding-bottom: 1px;
 }
 
 .cke_skin_kama a.cke_toolbox_collapser,
@@ -412,10 +414,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_shared .cke_skin_kama .cke_browser_ie .cke_toolbox
 {
 	padding-bottom: 0;
-}
-
-.cke_skin_kama .cke_browser_gecko .cke_toolbox
-{
-	/* Define the padding-bottom otherwise the collapser button will not be clicable in FF */
-	padding-bottom: 1px;
 }

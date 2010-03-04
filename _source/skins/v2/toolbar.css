@@ -17,6 +17,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: normal;
 }
 
+.cke_skin_v2 .cke_toolbox
+{
+	clear: both;
+	/* Define the padding-bottom otherwise the collapser button will not be clickable #4932*/
+	padding-bottom: 1px;
+}
+
 .cke_skin_v2 a.cke_toolbox_collapser,
 .cke_skin_v2 a:hover.cke_toolbox_collapser
 {
