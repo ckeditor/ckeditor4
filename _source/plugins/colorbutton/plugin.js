@@ -200,5 +200,10 @@ CKEDITOR.config.colorButton_foreStyle = {
  */
 CKEDITOR.config.colorButton_backStyle = {
 	element: 'span',
-	styles: { 'background-color': '#(color)' }
+	styles: { 'background-color': '#(color)' },
+
+	// It's better to apply background color as the innermost style. (#3599)
+	childRule: function( element ) {
+		return false;
+	}
 };
