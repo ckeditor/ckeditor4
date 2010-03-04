@@ -59,7 +59,7 @@ CKEDITOR.addTemplates( 'default', {
 			'<h3>' +
 				'Title goes here' +
 			'</h3>' +
-			'<table style="float: right" cellspacing="0" cellpadding="0" style="width:150px" border="1">' +
+			'<table style="width:150px;float: right" cellspacing="0" cellpadding="0" border="1">' +
 				'<caption style="border:solid 1px black">' +
 					'<strong>Table title</strong>' +
 				'</caption>' +
