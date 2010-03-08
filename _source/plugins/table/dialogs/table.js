@@ -494,6 +494,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						commit: function( data, selectedTable ) {
 							if ( this.getValue() )
 								selectedTable.setAttribute( 'summary', this.getValue() );
+							else
+								selectedTable.removeAttribute( 'summary' );
 						}
 					}
 					]
