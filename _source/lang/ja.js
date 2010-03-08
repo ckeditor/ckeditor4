@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'リンク挿入/編集',
+		other: '<その他の>',
 		menu: 'リンク編集',
 		title: 'ハイパーリンク',
 		info: 'ハイパーリンク 情報',

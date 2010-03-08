@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Dolen',
+		other: '<eraill>',
 		menu: 'Golygu Dolen',
 		title: 'Dolen',
 		info: 'Gwyb ar y Ddolen',

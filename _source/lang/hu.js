@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Hivatkozás beillesztése/módosítása',
+		other: '<más>',
 		menu: 'Hivatkozás módosítása',
 		title: 'Hivatkozás tulajdonságai',
 		info: 'Alaptulajdonságok',

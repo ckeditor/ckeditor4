@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Insérer/modifier le lien',
+		other: '<other>', // MISSING			
 		menu: 'Modifier le lien',
 		title: 'Propriétés du lien',
 		info: 'Informations sur le lien',

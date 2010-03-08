@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'en-au' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Link',
+		other: '<other>',
 		menu: 'Edit Link',
 		title: 'Link',
 		info: 'Link Info',

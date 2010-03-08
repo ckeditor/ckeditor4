@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Unesi/izmeni link',
+		other: '<остало>',
 		menu: 'Izmeni link',
 		title: 'Link',
 		info: 'Link Info',

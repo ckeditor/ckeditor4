@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'da' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Indsæt/redigér hyperlink',
+		other: '<anden>',
 		menu: 'Redigér hyperlink',
 		title: 'Egenskaber for hyperlink',
 		info: 'Generelt',

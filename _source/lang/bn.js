@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'bn' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'লিংক যুক্ত কর',
+		other: '<other>', // MISSING
 		menu: 'লিংক সম্পাদন',
 		title: 'লিংক',
 		info: 'লিংক তথ্য',

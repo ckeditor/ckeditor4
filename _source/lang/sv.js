@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'sv' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Infoga/Redigera länk',
+		other: '<annan>',
 		menu: 'Redigera länk',
 		title: 'Länk',
 		info: 'Länkinformation',

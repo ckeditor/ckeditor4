@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'es' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Insertar/Editar Vínculo',
+		other: '<otro>',
 		menu: 'Editar Vínculo',
 		title: 'Vínculo',
 		info: 'Información de Vínculo',

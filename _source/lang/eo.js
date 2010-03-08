@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Enmeti/Ŝanĝi Ligilon',
+		other: '<other>', //	MISSING
 		menu: 'Modifier Ligilon',
 		title: 'Ligilo',
 		info: 'Informoj pri la Ligilo',

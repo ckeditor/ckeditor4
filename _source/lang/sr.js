@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'sr' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Унеси/измени линк',
+		other: '<other>', // MISSING
 		menu: 'Промени линк',
 		title: 'Линк',
 		info: 'Линк инфо',

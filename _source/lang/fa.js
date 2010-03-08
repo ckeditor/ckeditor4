@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'گنجاندن/ویرایش ِپیوند',
+		other: '<سایر>',
 		menu: 'ویرایش پیوند',
 		title: 'پیوند',
 		info: 'اطلاعات پیوند',

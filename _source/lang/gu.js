@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'લિંક ઇન્સર્ટ/દાખલ કરવી',
+		other: '<outro>', // MISSING
 		menu: ' લિંક એડિટ/માં ફેરફાર કરવો',
 		title: 'લિંક',
 		info: 'લિંક ઇન્ફૉ ટૅબ',

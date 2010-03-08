@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'el' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Εισαγωγή/Μεταβολή Συνδέσμου (Link)',
+		other: '<άλλος>',
 		menu: 'Μεταβολή Συνδέσμου (Link)',
 		title: 'Σύνδεσμος (Link)',
 		info: 'Link',

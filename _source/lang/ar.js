@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'ar' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'رابط',
+		other: '<أخرى>',
 		menu: 'تحرير رابط',
 		title: 'إرتباط تشعبي',
 		info: 'معلومات الرابط',

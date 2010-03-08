@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'ru' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Вставить/Редактировать ссылку',
+		other: '<другой>',
 		menu: 'Вставить ссылку',
 		title: 'Ссылка',
 		info: 'Информация ссылки',

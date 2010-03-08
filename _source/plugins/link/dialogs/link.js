@@ -352,7 +352,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							[ 'https://' ],
 							[ 'ftp://' ],
 							[ 'news://' ],
-							[ '<other>', '' ]
+							[ editor.lang.link.other, '' ]
 							],
 						setup: function( data ) {
 							if ( data.url )

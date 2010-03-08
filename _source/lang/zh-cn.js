@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	// Link dialog.
 	link: {
 		toolbar: '插入/编辑超链接',
+		other: '<其他>',
 		menu: '编辑超链接',
 		title: '超链接',
 		info: '超链接信息',

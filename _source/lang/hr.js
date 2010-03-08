@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'hr' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Ubaci/promijeni link',
+		other: '<drugi>',
 		menu: 'Promijeni link',
 		title: 'Link',
 		info: 'Link Info',

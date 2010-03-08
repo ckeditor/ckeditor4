@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'lv' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Ievietot/Labot hipersaiti',
+		other: '<cits>',
 		menu: 'Labot hipersaiti',
 		title: 'Hipersaite',
 		info: 'Hipersaites informācija',

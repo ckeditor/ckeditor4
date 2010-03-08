@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'km' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'បន្ថែម/កែប្រែ ឈ្នាប់',
+		other: '<other>', // MISSING
 		menu: 'កែប្រែឈ្នាប់',
 		title: 'ឈ្នាប់',
 		info: 'ពត៌មានអំពីឈ្នាប់',

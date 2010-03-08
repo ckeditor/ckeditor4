@@ -117,6 +117,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Txertatu/Editatu Esteka',
+		other: 'other', // MISSING
 		menu: 'Aldatu Esteka',
 		title: 'Esteka',
 		info: 'Estekaren Informazioa',
