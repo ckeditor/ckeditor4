@@ -285,12 +285,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						paramMap[ paramList.getItem( i ).getAttribute( 'name' ) ] = paramList.getItem( i );
 				}
 
-				// Apply or remove flash parameters.
-				var extraStyles = {};
-				this.commitContent( objectNode, embedNode, paramMap, extraStyles );
+				// A subset of the specified attributes/styles
+				// should also be applied on the fake element to
+				// have better visual effect. (#5240)
+				var extraStyles = {},
+					extraAttributes = {};
+				this.commitContent( objectNode, embedNode, paramMap, extraStyles, extraAttributes );
 
 				// Refresh the fake image.
 				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_flash', 'flash', true );
+				newFakeImage.setAttributes( extraAttributes );
 				newFakeImage.setStyles( extraStyles );
 				if ( this.fakeImage ) {
 					newFakeImage.replace( this.fakeImage );
@@ -566,7 +570,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							[ editor.lang.flash.alignTop, 'top' ]
 							],
 						setup: loadValue,
-						commit: commitValue
+						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {
+							var value = this.getValue();
+							commitValue.apply( this, arguments );
+							value && ( extraAttributes.align = value );
+						}
 					},
 						{
 						type: 'html',
