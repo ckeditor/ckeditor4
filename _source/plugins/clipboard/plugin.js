@@ -154,20 +154,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		doc.getBody().append( pastebin );
 
 		// It's definitely a better user experience if we make the paste-bin pretty unnoticed
-		// by pulling it off the screen, while this hack will make the paste-bin a control type element
-		// and that become a selection plain later.
-		if ( !CKEDITOR.env.ie && mode != 'html' ) {
-			pastebin.setStyles({
-				position: 'absolute',
-				left: '-1000px',
-				// Position the bin exactly at the position of the selected element
-				// to avoid any subsequent document scroll.
-				top: sel.getStartElement().getDocumentPosition().y + 'px',
-				width: '1px',
-				height: '1px',
-				overflow: 'hidden'
-			});
-		}
+		// by pulling it off the screen.
+		pastebin.setStyles({
+			position: 'absolute',
+			left: '-1000px',
+			// Position the bin exactly at the position of the selected element
+			// to avoid any subsequent document scroll.
+			top: sel.getStartElement().getDocumentPosition().y + 'px',
+			width: '1px',
+			height: '1px',
+			overflow: 'hidden'
+		});
 
 		var bms = sel.createBookmarks();
 
