@@ -364,6 +364,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									first = first.firstChild;
 
 								if ( !first.nextSibling && ( 'BR' == first.tagName ) && first.hasAttribute( '_moz_editor_bogus_node' ) ) {
+									restoreDirty( editor );
 									var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
 									keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
 									domDocument.$.dispatchEvent( keyEventSimulate );
