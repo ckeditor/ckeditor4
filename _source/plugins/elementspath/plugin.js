@@ -46,6 +46,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			var filters = editor.config.elementsPath_filters;
+
 			editor.on( 'selectionChange', function( ev ) {
 				var env = CKEDITOR.env;
 
@@ -56,38 +58,49 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					elementsList = this._.elementsPath.list = [];
 
 				while ( element ) {
-					var index = elementsList.push( element ) - 1;
-					var name;
-					if ( element.getAttribute( '_cke_real_element_type' ) )
-						name = element.getAttribute( '_cke_real_element_type' );
-					else
-						name = element.getName();
+					var ignore = 0;
+					for ( var i = 0; i < filters.length; i++ ) {
+						if ( filters[ i ]( element ) === false ) {
+							ignore = 1;
+							break;
+						}
+					}
 
-					// Use this variable to add conditional stuff to the
-					// HTML (because we are doing it in reverse order... unshift).
-					var extra = '';
+					if ( !ignore ) {
+						var index = elementsList.push( element ) - 1;
+						var name;
+						if ( element.getAttribute( '_cke_real_element_type' ) )
+							name = element.getAttribute( '_cke_real_element_type' );
+						else
+							name = element.getName();
 
-					// Some browsers don't cancel key events in the keydown but in the
-					// keypress.
-					// TODO: Check if really needed for Gecko+Mac.
-					if ( env.opera || ( env.gecko && env.mac ) )
-						extra += ' onkeypress="return false;"';
+						// Use this variable to add conditional stuff to the
+						// HTML (because we are doing it in reverse order... unshift).
+						var extra = '';
 
-					// With Firefox, we need to force the button to redraw, otherwise it
-					// will remain in the focus state.
-					if ( env.gecko )
-						extra += ' onblur="this.style.cssText = this.style.cssText;"';
+						// Some browsers don't cancel key events in the keydown but in the
+						// keypress.
+						// TODO: Check if really needed for Gecko+Mac.
+						if ( env.opera || ( env.gecko && env.mac ) )
+							extra += ' onkeypress="return false;"';
 
-					var label = editor.lang.elementsPath.eleTitle.replace( /%1/, name );
-					html.unshift( '<a' +
-						' id="', idBase, index, '"' +
-						' href="javascript:void(\'', name, '\')"' +
-						' tabindex="-1"' +
-						' title="', label, '"' +
-						( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
-						' hidefocus="true" ' +
-						' onkeydown="return CKEDITOR._.elementsPath.keydown(\'', this.name, '\',', index, ', event);"' +
-						extra, ' onclick="return CKEDITOR._.elementsPath.click(\'', this.name, '\',', index, ');"', ' role="button" aria-labelledby="' + idBase + index + '_label">', name, '<span id="', idBase, index, '_label" class="cke_label">' + label + '</span>', '</a>' );
+						// With Firefox, we need to force the button to redraw, otherwise it
+						// will remain in the focus state.
+						if ( env.gecko )
+							extra += ' onblur="this.style.cssText = this.style.cssText;"';
+
+						var label = editor.lang.elementsPath.eleTitle.replace( /%1/, name );
+						html.unshift( '<a' +
+							' id="', idBase, index, '"' +
+							' href="javascript:void(\'', name, '\')"' +
+							' tabindex="-1"' +
+							' title="', label, '"' +
+							( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
+							' hidefocus="true" ' +
+							' onkeydown="return CKEDITOR._.elementsPath.keydown(\'', this.name, '\',', index, ', event);"' +
+							extra, ' onclick="return CKEDITOR._.elementsPath.click(\'', this.name, '\',', index, ');"', ' role="button" aria-labelledby="' + idBase + index + '_label">', name, '<span id="', idBase, index, '_label" class="cke_label">' + label + '</span>', '</a>' );
+
+					}
 
 					if ( name == 'body' )
 						break;
@@ -163,3 +176,17 @@ CKEDITOR._.elementsPath = {
 		return true;
 	}
 };
+
+/**
+ * A list of filter functions to determinate whether an element should display in elements path bar.
+ * @type Array Array of functions that optionaly return 'false' to prevent the element from displaying.
+ * @default  []
+ * @example
+ *	// Prevent elements with attribute 'myAttribute' to appear in elements path.
+ *	editor.config.elementsPath_filters.push( function( element )
+ *	{
+ *		if( element.hasAttribute( 'myAttribute') )
+ *			return false;
+ *	});
+ */
+CKEDITOR.config.elementsPath_filters = [];

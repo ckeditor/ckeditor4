@@ -509,6 +509,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				plugin.loadEngine( editor );
 			}
+
+			// Prevent word marker line from displaying in elements path. (#3570)
+			var elementsPathFilters;
+			if ( elementsPathFilters = editor.config.elementsPath_filters ) {
+				elementsPathFilters.push( function( element ) {
+					if ( element.hasAttribute( 'scaytid' ) )
+						return false;
+				});
+			}
+
 		}
 	});
 })();
