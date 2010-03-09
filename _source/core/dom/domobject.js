@@ -103,6 +103,24 @@ CKEDITOR.dom.domObject.prototype = (function() {
 					delete nativeListeners[ eventName ];
 				}
 			}
+		},
+
+		/**
+		 * Removes any listener set on this object.
+		 * To avoid memory leaks we must assure that there are no
+		 * references left after the object is no longer needed.
+		 */
+		removeAllListeners: function() {
+			var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
+			for ( eventName in nativeListeners ) {
+				var listener = nativeListeners[ eventName ];
+				if ( this.$.removeEventListener )
+					this.$.removeEventListener( eventName, listener, false );
+				else if ( this.$.detachEvent )
+					this.$.detachEvent( 'on' + eventName, listener );
+
+				delete nativeListeners[ eventName ];
+			}
 		}
 	};
 })();
@@ -177,6 +195,21 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			delete dataSlot[ key ];
 
 		return retval || null;
+	};
+
+	/**
+	 * Removes any data stored on this object.
+	 * To avoid memory leaks we must assure that there are no
+	 * references left after the object is no longer needed.
+	 * @name CKEDITOR.dom.domObject.prototype.clearCustomData
+	 * @function
+	 */
+	domObjectProto.clearCustomData = function() {
+		// Clear all event listeners
+		this.removeAllListeners();
+
+		var expandoNumber = this.$._cke_expando;
+		expandoNumber && delete customData[ expandoNumber ];
 	};
 
 	/**

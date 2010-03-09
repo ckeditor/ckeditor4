@@ -419,7 +419,44 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		if ( !noUpdate )
 			this.updateElement();
 
+		if ( this.mode ) {
+			// ->		currentMode.unload( holderElement );
+			this._.modes[ this.mode ].unload( this.getThemeSpace( 'contents' ) );
+		}
+
 		this.theme.destroy( this );
+
+		var toolbars,
+			index = 0,
+			j, items, instance;
+
+		if ( this.toolbox ) {
+			toolbars = this.toolbox.toolbars;
+			for ( ; index < toolbars.length; index++ ) {
+				items = toolbars[ index ].items;
+				for ( j = 0; j < items.length; j++ ) {
+					instance = items[ j ];
+					if ( instance.clickFn )
+						CKEDITOR.tools.removeFunction( instance.clickFn );
+					if ( instance.keyDownFn )
+						CKEDITOR.tools.removeFunction( instance.keyDownFn );
+
+					if ( instance.index )
+						CKEDITOR.ui.button._.instances[ instance.index ] = null;
+				}
+			}
+		}
+
+		if ( this.contextMenu )
+			CKEDITOR.tools.removeFunction( this.contextMenu._.functionId );
+
+		if ( this._.filebrowserFn )
+			CKEDITOR.tools.removeFunction( this._.filebrowserFn );
+
+		items = editor.config.elementsPath_filters;
+		for ( index = 0; index < items.length; index++ )
+			items[ index ] = null;
+
 		this.fire( 'destroy' );
 		CKEDITOR.remove( this );
 		CKEDITOR.fire( 'instanceDestroyed', null, this );

@@ -242,6 +242,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							editor.execCommand( 'toolbarCollapse' );
 						});
 
+						editor.on( 'destroy', function() {
+							CKEDITOR.tools.removeFunction( collapserFn );
+						});
+
 						var collapserId = 'cke_' + CKEDITOR.tools.getNextNumber();
 
 						editor.addCommand( 'toolbarCollapse', {

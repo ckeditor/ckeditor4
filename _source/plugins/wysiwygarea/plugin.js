@@ -594,6 +594,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					},
 
 					unload: function( holderElement ) {
+						editor.document.getDocumentElement().clearCustomData();
+						editor.document.getBody().clearCustomData();
+
+						editor.window.clearCustomData();
+						editor.document.clearCustomData();
+
 						editor.window = editor.document = iframe = mainElement = isPendingFocus = null;
 
 						editor.fire( 'contentDomUnload' );
@@ -651,6 +657,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					ieFocusGrabber.on( 'focus', function() {
 						editor.focus();
 					});
+				});
+				editor.on( 'destroy', function() {
+					ieFocusGrabber.clearCustomData();
 				});
 			}
 		}
