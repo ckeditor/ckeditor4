@@ -107,12 +107,20 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( ( i % 8 ) === 0 )
 					output.push( '</tr><tr>' );
 
-				var colorCode = colors[ i ];
+				var parts = colors[ i ].split( '/' ),
+					colorName = parts[ 0 ],
+					colorCode = parts[ 1 ] || colorName;
+
+				// The data can be only a color code (without #) or colorName + color code
+				// If only a color code is provided, then the colorName is the color with the hash
+				if ( !parts[ 1 ] )
+					colorName = '#' + colorName;
+
 				var colorLabel = editor.lang.colors[ colorCode ] || colorCode;
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="', colorLabel, '"' +
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#', colorCode, '\',\'', type, '\'); return false;"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
@@ -151,11 +159,17 @@ CKEDITOR.config.colorButton_enableMore = true;
 /**
  * Defines the colors to be displayed in the color selectors. It's a string
  * containing the hexadecimal notation for HTML colors, without the "#" prefix.
+ *
+ * Since 3.3: A name may be optionally defined by prefixing the entries with the
+ * name and the slash character. For example, "FontColor1/FF9900" will be
+ * displayed as the color #FF9900 in the selector, but will be outputted as "FontColor1".
  * @type String
  * @default '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF'
  * @example
  * // Brazil colors only.
  * config.colorButton_colors = '00923E,F8C100,28166F';
+ * @example
+ * config.colorButton_colors = 'FontColor1/FF9900,FontColor2/0066CC,FontColor3/F00'
  */
 CKEDITOR.config.colorButton_colors = '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
 	'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
