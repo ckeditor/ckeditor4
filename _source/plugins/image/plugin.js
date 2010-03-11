@@ -54,3 +54,22 @@ CKEDITOR.plugins.add( 'image', {
  * config.image_removeLinkByEmptyURL = false;
  */
 CKEDITOR.config.image_removeLinkByEmptyURL = true;
+
+/**
+ *  Padding text to set off the image in preview area.
+ * @name CKEDITOR.config.image_previewText
+ * @type String
+ * @default "Lorem ipsum dolor..." placehoder text.
+ * @example
+ * config.image_previewText = CKEDITOR.tools.repeat( '___ ', 100 );
+ */
+
+
+/**
+ *  Padding text to set off the image in preview area.
+ * @name CKEDITOR.config.image_previewText
+ * @type String
+ * @default "Lorem ipsum dolor..." placehoder text.
+ * @example
+ * config.image_previewText = CKEDITOR.tools.repeat( '___ ', 100 );
+ */
