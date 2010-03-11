@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -73,6 +73,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 		var element = ev.getTarget();
 		var relative, nodeToMove;
 		var keystroke = ev.getKeystroke();
+		var rtl = editor.lang.dir == 'rtl';
 
 		switch ( keystroke ) {
 			// UP-ARROW
@@ -107,7 +108,8 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				break;
 
 				// RIGHT-ARROW
-			case 39:
+			case rtl ? 37:
+				39 :
 				// TAB
 			case 9:
 				// relative is TD
@@ -135,7 +137,8 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				break;
 
 				// LEFT-ARROW
-			case 37:
+			case rtl ? 39:
+				37 :
 				// SHIFT + TAB
 			case CKEDITOR.SHIFT + 9:
 				// relative is TD
