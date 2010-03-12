@@ -77,8 +77,17 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 
 					if ( value && !( CKEDITOR.env.ie && value == 'on' ) )
 						element.setAttribute( 'value', value );
-					else
-						element.removeAttribute( 'value' );
+					else {
+						if ( CKEDITOR.env.ie ) {
+							// Remove attribute 'value' of checkbox #4721. 
+							var checkbox = new CKEDITOR.dom.element( 'input' );
+							element.copyAttributes( checkbox, { value:1 } );
+							checkbox.replace( element );
+							editor.getSelection().selectElement( checkbox );
+							data.element = checkbox;
+						} else
+							element.removeAttribute( 'value' );
+					}
 				}
 			},
 				{
