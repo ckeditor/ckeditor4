@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'it' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Inserisci carattere speciale',
-		title: 'Seleziona carattere speciale'
+		title: 'Seleziona carattere speciale',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'it' ] = {
 
 	smiley: {
 		toolbar: 'Emoticon',
-		title: 'Inserisci emoticon'
+		title: 'Inserisci emoticon',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'it' ] = {
 	templates: {
 		button: 'Modelli',
 		title: 'Contenuto dei modelli',
+		options: 'Template Options', // MISSING
 		insertOption: 'Cancella il contenuto corrente',
 		selectPromptMsg: 'Seleziona il modello da aprire nell\'editor<br />(il contenuto attuale verrà eliminato):',
 		emptyListMsg: '(Nessun modello definito)'

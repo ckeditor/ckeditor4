@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'es' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Insertar Caracter Especial',
-		title: 'Seleccione un caracter especial'
+		title: 'Seleccione un caracter especial',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'es' ] = {
 
 	smiley: {
 		toolbar: 'Emoticons',
-		title: 'Insertar un Emoticon'
+		title: 'Insertar un Emoticon',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'es' ] = {
 	templates: {
 		button: 'Plantillas',
 		title: 'Contenido de Plantillas',
+		options: 'Template Options', // MISSING
 		insertOption: 'Reemplazar el contenido actual',
 		selectPromptMsg: 'Por favor selecciona la plantilla a abrir en el editor<br>(el contenido actual se perderá):',
 		emptyListMsg: '(No hay plantillas definidas)'

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'cs' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Vložit speciální znaky',
-		title: 'Výběr speciálního znaku'
+		title: 'Výběr speciálního znaku',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'cs' ] = {
 
 	smiley: {
 		toolbar: 'Smajlíky',
-		title: 'Vkládání smajlíků'
+		title: 'Vkládání smajlíků',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'cs' ] = {
 	templates: {
 		button: 'Šablony',
 		title: 'Šablony obsahu',
+		options: 'Template Options', // MISSING
 		insertOption: 'Nahradit aktuální obsah',
 		selectPromptMsg: 'Prosím zvolte šablonu pro otevření v editoru<br>(aktuální obsah editoru bude ztracen):',
 		emptyListMsg: '(Není definována žádná šablona)'

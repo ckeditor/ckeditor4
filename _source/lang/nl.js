@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'nl' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Speciaal teken invoegen',
-		title: 'Selecteer speciaal teken'
+		title: 'Selecteer speciaal teken',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	smiley: {
 		toolbar: 'Smiley',
-		title: 'Smiley invoegen'
+		title: 'Smiley invoegen',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	templates: {
 		button: 'Sjablonen',
 		title: 'Inhoud sjabonen',
+		options: 'Template Options', // MISSING
 		insertOption: 'Vervang de huidige inhoud',
 		selectPromptMsg: 'Selecteer het sjabloon dat in de editor geopend moet worden (de actuele inhoud gaat verloren):',
 		emptyListMsg: '(Geen sjablonen gedefinieerd)'

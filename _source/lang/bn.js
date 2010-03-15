@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'bn' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'বিশেষ অক্ষর যুক্ত কর',
-		title: 'বিশেষ ক্যারেক্টার বাছাই কর'
+		title: 'বিশেষ ক্যারেক্টার বাছাই কর',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'bn' ] = {
 
 	smiley: {
 		toolbar: 'স্মাইলী',
-		title: 'স্মাইলী যুক্ত কর'
+		title: 'স্মাইলী যুক্ত কর',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'bn' ] = {
 	templates: {
 		button: 'টেমপ্লেট',
 		title: 'কনটেন্ট টেমপ্লেট',
+		options: 'Template Options', // MISSING
 		insertOption: 'Replace actual contents', // MISSING
 		selectPromptMsg: 'অনুগ্রহ করে এডিটরে ওপেন করার জন্য টেমপ্লেট বাছাই করুন<br>(আসল কনটেন্ট হারিয়ে যাবে):',
 		emptyListMsg: '(কোন টেমপ্লেট ডিফাইন করা নেই)'

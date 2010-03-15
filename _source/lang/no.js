@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'no' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Sett inn spesielt tegn',
-		title: 'Velg spesielt tegn'
+		title: 'Velg spesielt tegn',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'no' ] = {
 
 	smiley: {
 		toolbar: 'Smil',
-		title: 'Sett inn smil'
+		title: 'Sett inn smil',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'no' ] = {
 	templates: {
 		button: 'Maler',
 		title: 'Innholdsmaler',
+		options: 'Template Options', // MISSING
 		insertOption: 'Erstatt faktisk innold',
 		selectPromptMsg: 'Velg malen du vil åpne<br>(innholdet du har skrevet blir tapt!):',
 		emptyListMsg: '(Ingen maler definert)'

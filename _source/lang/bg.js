@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'bg' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Вмъкни специален символ',
-		title: 'Изберете специален символ'
+		title: 'Изберете специален символ',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'bg' ] = {
 
 	smiley: {
 		toolbar: 'Усмивка',
-		title: 'Добави усмивка'
+		title: 'Добави усмивка',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'bg' ] = {
 	templates: {
 		button: 'Шаблони',
 		title: 'Шаблони',
+		options: 'Template Options', // MISSING
 		insertOption: 'Replace actual contents', // MISSING
 		selectPromptMsg: 'Изберете шаблон <br>(текущото съдържание на редактора ще бъде загубено):',
 		emptyListMsg: '(Няма дефинирани шаблони)'

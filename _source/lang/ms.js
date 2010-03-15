@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'ms' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Masukkan Huruf Istimewa',
-		title: 'Sila pilih huruf istimewa'
+		title: 'Sila pilih huruf istimewa',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'ms' ] = {
 
 	smiley: {
 		toolbar: 'Smiley',
-		title: 'Masukkan Smiley'
+		title: 'Masukkan Smiley',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'ms' ] = {
 	templates: {
 		button: 'Templat',
 		title: 'Templat Kandungan',
+		options: 'Template Options', // MISSING
 		insertOption: 'Replace actual contents', // MISSING
 		selectPromptMsg: 'Sila pilih templat untuk dibuka oleh editor<br>(kandungan sebenar akan hilang):',
 		emptyListMsg: '(Tiada Templat Disimpan)'

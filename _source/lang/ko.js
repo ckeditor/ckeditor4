@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'ko' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: '특수문자 삽입',
-		title: '특수문자 선택'
+		title: '특수문자 선택',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'ko' ] = {
 
 	smiley: {
 		toolbar: '아이콘',
-		title: '아이콘 삽입'
+		title: '아이콘 삽입',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'ko' ] = {
 	templates: {
 		button: '템플릿',
 		title: '내용 템플릿',
+		options: 'Template Options', // MISSING
 		insertOption: '현재 내용 바꾸기',
 		selectPromptMsg: '에디터에서 사용할 템플릿을 선택하십시요.<br>(지금까지 작성된 내용은 사라집니다.):',
 		emptyListMsg: '(템플릿이 없습니다.)'

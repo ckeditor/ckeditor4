@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'hr' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Ubaci posebne znakove',
-		title: 'Odaberite posebni karakter'
+		title: 'Odaberite posebni karakter',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'hr' ] = {
 
 	smiley: {
 		toolbar: 'Smješko',
-		title: 'Ubaci smješka'
+		title: 'Ubaci smješka',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'hr' ] = {
 	templates: {
 		button: 'Predlošci',
 		title: 'Predlošci sadržaja',
+		options: 'Template Options', // MISSING
 		insertOption: 'Zamijeni trenutne sadržaje',
 		selectPromptMsg: 'Molimo odaberite predložak koji želite otvoriti<br>(stvarni sadržaj će biti izgubljen):',
 		emptyListMsg: '(Nema definiranih predložaka)'

@@ -254,7 +254,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				html.push( '</tr>' );
 			}
 
-			html.push( '</tbody></table>', '<span id="specialchar_table_label" class="cke_voice_label">' + editor.lang.common.options + '</span>' );
+			html.push( '</tbody></table>', '<span id="specialchar_table_label" class="cke_voice_label">' + lang.options + '</span>' );
 
 			this.getContentElement( 'info', 'charContainer' ).getElement().setHtml( html.join( '' ) );
 		},

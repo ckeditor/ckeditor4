@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'ar' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'إدراج  خاص.ِ',
-		title: 'اختر الخواص'
+		title: 'اختر الخواص',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'ar' ] = {
 
 	smiley: {
 		toolbar: 'ابتسامات',
-		title: 'إدراج ابتسامات'
+		title: 'إدراج ابتسامات',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'ar' ] = {
 	templates: {
 		button: 'القوالب',
 		title: 'قوالب المحتوى',
+		options: 'Template Options', // MISSING
 		insertOption: 'استبدال المحتوى',
 		selectPromptMsg: 'اختر القالب الذي تود وضعه في المحرر',
 		emptyListMsg: '(لم يتم تعريف أي قالب)'

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'hu' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Speciális karakter beillesztése',
-		title: 'Speciális karakter választása'
+		title: 'Speciális karakter választása',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'hu' ] = {
 
 	smiley: {
 		toolbar: 'Hangulatjelek',
-		title: 'Hangulatjel beszúrása'
+		title: 'Hangulatjel beszúrása',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	templates: {
 		button: 'Sablonok',
 		title: 'Elérhető sablonok',
+		options: 'Template Options', // MISSING
 		insertOption: 'Kicseréli a jelenlegi tartalmat',
 		selectPromptMsg: 'Válassza ki melyik sablon nyíljon meg a szerkesztőben<br>(a jelenlegi tartalom elveszik):',
 		emptyListMsg: '(Nincs sablon megadva)'

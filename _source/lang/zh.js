@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'zh' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: '插入特殊符號',
-		title: '請選擇特殊符號'
+		title: '請選擇特殊符號',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'zh' ] = {
 
 	smiley: {
 		toolbar: '表情符號',
-		title: '插入表情符號'
+		title: '插入表情符號',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	templates: {
 		button: '樣版',
 		title: '內容樣版',
+		options: 'Template Options', // MISSING
 		insertOption: '取代原有內容',
 		selectPromptMsg: '請選擇欲開啟的樣版<br> (原有的內容將會被清除):',
 		emptyListMsg: '(無樣版)'

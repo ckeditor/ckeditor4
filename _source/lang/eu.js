@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,13 +111,14 @@ CKEDITOR.lang[ 'eu' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Txertatu Karaktere Berezia',
-		title: 'Karaktere Berezia Aukeratu'
+		title: 'Karaktere Berezia Aukeratu',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
 	link: {
 		toolbar: 'Txertatu/Editatu Esteka',
-		other: 'other', // MISSING
+		other: '<other>', // MISSING
 		menu: 'Aldatu Esteka',
 		title: 'Esteka',
 		info: 'Estekaren Informazioa',
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'eu' ] = {
 
 	smiley: {
 		toolbar: 'Aurpegierak',
-		title: 'Aurpegiera Sartu'
+		title: 'Aurpegiera Sartu',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	templates: {
 		button: 'Txantiloiak',
 		title: 'Eduki Txantiloiak',
+		options: 'Template Options', // MISSING
 		insertOption: 'Ordeztu oraingo edukiak',
 		selectPromptMsg: 'Mesedez txantiloia aukeratu editorean kargatzeko<br>(orain dauden edukiak galduko dira):',
 		emptyListMsg: '(Ez dago definitutako txantiloirik)'

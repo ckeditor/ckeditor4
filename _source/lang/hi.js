@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'hi' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'विशेष करॅक्टर इन्सर्ट करें',
-		title: 'विशेष करॅक्टर चुनें'
+		title: 'विशेष करॅक्टर चुनें',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'hi' ] = {
 
 	smiley: {
 		toolbar: 'स्माइली',
-		title: 'स्माइली इन्सर्ट करें'
+		title: 'स्माइली इन्सर्ट करें',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'hi' ] = {
 	templates: {
 		button: 'टॅम्प्लेट',
 		title: 'कन्टेन्ट टॅम्प्लेट',
+		options: 'Template Options', // MISSING
 		insertOption: 'मूल शब्दों को बदलें',
 		selectPromptMsg: 'ऍडिटर में ओपन करने हेतु टॅम्प्लेट चुनें(वर्तमान कन्टॅन्ट सेव नहीं होंगे):',
 		emptyListMsg: '(कोई टॅम्प्लेट डिफ़ाइन नहीं किया गया है)'

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'sv' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Klistra in utökat tecken',
-		title: 'Välj utökat tecken'
+		title: 'Välj utökat tecken',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'sv' ] = {
 
 	smiley: {
 		toolbar: 'Smiley',
-		title: 'Infoga smiley'
+		title: 'Infoga smiley',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'sv' ] = {
 	templates: {
 		button: 'Sidmallar',
 		title: 'Sidmallar',
+		options: 'Template Options', // MISSING
 		insertOption: 'Ersätt aktuellt innehåll',
 		selectPromptMsg: 'Var god välj en mall att använda med editorn<br>(allt nuvarande innehåll raderas):',
 		emptyListMsg: '(Ingen mall är vald)'

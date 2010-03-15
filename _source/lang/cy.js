@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'cy' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Mewnosod Nodau Arbennig',
-		title: 'Dewis Nod Arbennig'
+		title: 'Dewis Nod Arbennig',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'cy' ] = {
 
 	smiley: {
 		toolbar: 'Gwenoglun',
-		title: 'Mewnosod Gwenoglun'
+		title: 'Mewnosod Gwenoglun',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	templates: {
 		button: 'Templedi',
 		title: 'Templedi Cynnwys',
+		options: 'Template Options', // MISSING
 		insertOption: 'Amnewid y cynnwys go iawn',
 		selectPromptMsg: 'Dewiswch dempled i\'w agor yn y golygydd',
 		emptyListMsg: '(Dim templedi wedi\'u diffinio)'

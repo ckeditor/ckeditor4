@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'fo' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Set inn sertekn',
-		title: 'Vel sertekn'
+		title: 'Vel sertekn',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'fo' ] = {
 
 	smiley: {
 		toolbar: 'Smiley',
-		title: 'Vel Smiley'
+		title: 'Vel Smiley',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'fo' ] = {
 	templates: {
 		button: 'Skabelónir',
 		title: 'Innihaldsskabelónir',
+		options: 'Template Options', // MISSING
 		insertOption: 'Yvirskriva núverandi innihald',
 		selectPromptMsg: 'Vinarliga vel ta skabelón, ið skal opnast í tekstviðgeranum<br>(Hetta yvirskrivar núverandi innihald):',
 		emptyListMsg: '(Ongar skabelónir tøkar)'

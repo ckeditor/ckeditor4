@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,7 +111,8 @@ CKEDITOR.lang[ 'el' ] = {
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Εισαγωγή Ειδικού Συμβόλου',
-		title: 'Επιλέξτε ένα Ειδικό Σύμβολο'
+		title: 'Επιλέξτε ένα Ειδικό Σύμβολο',
+		options: 'Special Character Options' // MISSING
 	},
 
 	// Link dialog.
@@ -456,7 +457,8 @@ CKEDITOR.lang[ 'el' ] = {
 
 	smiley: {
 		toolbar: 'Smiley',
-		title: 'Επιλέξτε ένα Smiley'
+		title: 'Επιλέξτε ένα Smiley',
+		options: 'Smiley Options' // MISSING
 	},
 
 	elementsPath: {
@@ -502,6 +504,7 @@ CKEDITOR.lang[ 'el' ] = {
 	templates: {
 		button: 'Πρότυπα',
 		title: 'Πρότυπα περιεχομένου',
+		options: 'Template Options', // MISSING
 		insertOption: 'Αντικατάσταση υπάρχοντων περιεχομένων',
 		selectPromptMsg: 'Παρακαλώ επιλέξτε πρότυπο για εισαγωγή στο πρόγραμμα<br>(τα υπάρχοντα περιεχόμενα θα χαθούν):',
 		emptyListMsg: '(Δεν έχουν καθοριστεί πρότυπα)'
