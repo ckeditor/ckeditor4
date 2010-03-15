@@ -37,7 +37,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function blockNeedsExtension( block ) {
 		var lastChild = lastNoneSpaceChild( block );
-		return !lastChild || lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br';
+
+		return !lastChild || lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br'
+		// Some of the controls in form needs extension too,
+		// to move cursor at the end of the form. (#4791)
+		|| block.name == 'form' && lastChild.name == 'input';
 	}
 
 	function extendBlockForDisplay( block ) {
