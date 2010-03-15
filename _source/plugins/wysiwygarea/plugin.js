@@ -232,18 +232,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// call document.open().
 						( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 
-							// With FF, it's better to load the data on
-						// iframe.load. (#3894,#4058)
-						// But in FF, we still need the open()-close() call
-						// to avoid HTTPS warnings.
-						( CKEDITOR.env.gecko ? '' : ( 'parent.CKEDITOR.tools.callFunction(' + setDataFn + ',document);' ) ) +
+							( ( 'parent.CKEDITOR.tools.callFunction(' + setDataFn + ',document);' ) ) +
 
 							'document.close();';
 
 						iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 							' style="width:100%;height:100%"' +
 							' frameBorder="0"' +
-							' src="javascript:void(function(){' + encodeURIComponent( srcScript ) + '}())"' +
+							// With FF, the 'src' attribute should be left empty to
+						// trigger iframe's 'load' event.
+													' src="' + ( CKEDITOR.env.gecko ? '' : 'javascript:void(function(){' + encodeURIComponent( srcScript ) + '}())' ) + '"' +
 							' tabIndex="' + editor.tabIndex + '"' +
 							' allowTransparency="true"' +
 							'></iframe>' );
