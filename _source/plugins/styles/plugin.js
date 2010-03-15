@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -71,7 +71,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 (function() {
 	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1 };
-	var objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,ul:1 };
+	var objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1 };
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/;
 
@@ -102,7 +102,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		applyToRange: function( range ) {
-			return ( this.applyToRange = this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle : null ).call( this, range );
+			return ( this.applyToRange = this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle : this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle : null ).call( this, range );
 		},
 
 		removeFromRange: function( range ) {
@@ -122,6 +122,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				case CKEDITOR.STYLE_BLOCK:
 					return this.checkElementRemovable( elementPath.block || elementPath.blockLimit, true );
 
+				case CKEDITOR.STYLE_OBJECT:
 				case CKEDITOR.STYLE_INLINE:
 
 					var elements = elementPath.elements;
@@ -129,7 +130,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 					for ( var i = 0, element; i < elements.length; i++ ) {
 						element = elements[ i ];
 
-						if ( element == elementPath.block || element == elementPath.blockLimit )
+						if ( this.type == CKEDITOR.STYLE_INLINE && ( element == elementPath.block || element == elementPath.blockLimit ) )
+							continue;
+
+						if ( this.type == CKEDITOR.STYLE_OBJECT && !( element.getName() in objectElements ) )
 							continue;
 
 						if ( this.checkElementRemovable( element, true ) )
@@ -137,6 +141,17 @@ CKEDITOR.STYLE_OBJECT = 3;
 					}
 			}
 			return false;
+		},
+
+		checkApplicable: function( elementPath ) {
+			switch ( this.type ) {
+				case CKEDITOR.STYLE_INLINE:
+				case CKEDITOR.STYLE_BLOCK:
+					return true;
+
+				case CKEDITOR.STYLE_OBJECT:
+					return elementPath.lastElement.getAscendant( this.element, true );
+			}
 		},
 
 		// Checks if an element, or any of its attributes, is removable by the
@@ -568,6 +583,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		range.moveToBookmark( bookmark );
+	}
+
+	function applyObjectStyle( range ) {
+		var root = range.getCommonAncestor( true, true ),
+			element = root.getAscendant( this.element, true );
+		element && setupElement( element, this );
 	}
 
 	function applyBlockStyle( range ) {
