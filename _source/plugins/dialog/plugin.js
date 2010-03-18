@@ -294,7 +294,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}
 
 				processed = 1;
-			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode ) {
+			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
 				// Alt-F10 puts focus into the current tab item in the tab bar.
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
@@ -798,17 +798,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			page.setAttribute( 'aria-labelledby', tabId );
 
-			// If only a single page exist, a different style is used in the central pane.
-			if ( this._.pageCount === 0 )
-				this.parts.dialog.addClass( 'cke_single_page' );
-			else
-				this.parts.dialog.removeClass( 'cke_single_page' );
-
 			// Take records for the tabs and elements created.
 			this._.tabs[ contents.id ] = [ tab, page ];
 			this._.tabIdList.push( contents.id );
-			this._.pageCount++;
+			!contents.hidden && this._.pageCount++;
 			this._.lastTab = tab;
+			this.updateStyle();
 
 			var contentMap = this._.contents[ contents.id ] = {},
 				cursor,
@@ -860,6 +855,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
 		},
 
+		// Dialog state-specific style updates.
+		updateStyle: function() {
+			// If only a single page shown, a different style is used in the central pane.
+			this.parts.dialog[ ( this._.pageCount === 1 ? 'add' : 'remove' ) + 'Class' ]( 'cke_single_page' );
+		},
+
 		/**
 		 * Hides a page's tab away from the dialog.
 		 * @param {String} id The page's Id.
@@ -868,9 +869,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		hidePage: function( id ) {
 			var tab = this._.tabs[ id ] && this._.tabs[ id ][ 0 ];
-			if ( !tab )
+			if ( !tab || this._.pageCount == 1 )
 				return;
+			// Switch to other tab first when we're hiding the active tab.
+			else if ( id == this._.currentTabId )
+				this.selectPage( getPreviousVisibleTab.call( this ) );
+
 			tab.hide();
+			this._.pageCount--;
+			this.updateStyle();
 		},
 
 		/**
@@ -884,6 +891,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( !tab )
 				return;
 			tab.show();
+			this._.pageCount++;
+			this.updateStyle();
 		},
 
 		/**
