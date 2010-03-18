@@ -13,7 +13,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var config = editor.config,
 				lang = editor.lang.stylesCombo,
 				pluginPath = this.path,
-				styles;
+				styles = {},
+				stylesList = [];
 
 			if ( !stylesManager )
 				stylesManager = CKEDITOR.stylesSet;
@@ -24,26 +25,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			stylesManager.addExternal( styleSetName, externalPath ? comboStylesSet.slice( 1 ).join( ':' ) : pluginPath + 'styles/' + styleSetName + '.js', '' );
 
-			editor.ui.addRichCombo( 'Styles', {
-				label: lang.label,
-				title: lang.panelTitle,
-				className: 'cke_styles',
-
-				panel: {
-					css: editor.skin.editor.css.concat( config.contentsCss ),
-					multiSelect: true,
-					attributes: { 'aria-label': lang.panelTitle }
-				},
-
-				init: function() {
-					var combo = this;
-
-					CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+			function loadStylesSet( callback ) {
+				CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+					if ( !stylesList.length ) {
 						var stylesDefinitions = stylesSet[ styleSetName ],
-							style, styleName,
-							stylesList = [];
-
-						styles = {};
+							style, styleName;
 
 						// Put all styles into an Array.
 						for ( var i = 0; i < stylesDefinitions.length; i++ ) {
@@ -60,11 +46,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Sorts the Array, so the styles get grouped
 						// by type.
 						stylesList.sort( sortStyles );
+					}
+
+					callback && callback();
+				});
+			}
+
+			editor.ui.addRichCombo( 'Styles', {
+				label: lang.label,
+				title: lang.panelTitle,
+				className: 'cke_styles',
+
+				panel: {
+					css: editor.skin.editor.css.concat( config.contentsCss ),
+					multiSelect: true,
+					attributes: { 'aria-label': lang.panelTitle }
+				},
+
+				init: function() {
+					var combo = this;
+
+					loadStylesSet( function() {
+						var style, styleName;
 
 						// Loop over the Array, adding all items to the
 						// combo.
 						var lastType;
-						for ( i = 0; i < stylesList.length; i++ ) {
+						for ( var i = 0; i < stylesList.length; i++ ) {
 							style = stylesList[ i ];
 							styleName = style._name;
 
@@ -163,6 +171,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !counter[ CKEDITOR.STYLE_OBJECT ] )
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
 				}
+			});
+
+			editor.on( 'instanceReady', function() {
+				loadStylesSet();
 			});
 		}
 	});
