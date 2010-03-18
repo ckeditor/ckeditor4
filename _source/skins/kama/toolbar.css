@@ -173,15 +173,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-width: 3px;
 }
 
-.cke_skin_kama .cke_button a.cke_disabled,
-.cke_skin_kama .cke_browser_ie a:hover.cke_button .cke_disabled
+.cke_skin_kama .cke_button a.cke_disabled *,
+.cke_skin_kama .cke_browser_ie a:hover.cke_button .cke_disabled *
 {
 	filter: alpha(opacity=30); /* IE */
 	opacity: 0.3; /* Safari, Opera and Mozilla */
 }
 
-.cke_skin_kama .cke_hc .cke_button a.cke_disabled,
-.cke_skin_kama .cke_browser_ie.cke_hc a:hover.cke_button .cke_disabled
+.cke_skin_kama .cke_hc .cke_button a.cke_disabled *,
+.cke_skin_kama .cke_browser_ie.cke_hc a:hover.cke_button .cke_disabled *
 {
 	filter: alpha(opacity=60);
 	opacity: 0.6;
@@ -199,6 +199,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding: 2px 4px;
 }
 
+.cke_skin_kama .cke_button a:hover,
+.cke_skin_kama .cke_button a:focus,
+.cke_skin_kama .cke_button a:active	/* IE */
+{
+	background-color: #dff1ff;
+}
+
 .cke_skin_kama .cke_button a:hover.cke_on,
 .cke_skin_kama .cke_button a:focus.cke_on,
 .cke_skin_kama .cke_button a:active.cke_on	/* IE */
@@ -206,19 +213,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-color: #86caff;
 }
 
-.cke_skin_kama .cke_button a:hover.cke_off,
-.cke_skin_kama .cke_button a:focus.cke_off,
-.cke_skin_kama .cke_button a:active.cke_off	/* IE */
-{
-	background-color: #dff1ff;
-}
-
-.cke_skin_kama .cke_hc .cke_button a:hover.cke_on,
-.cke_skin_kama .cke_hc .cke_button a:focus.cke_on,
-.cke_skin_kama .cke_hc .cke_button a:active.cke_on,	/* IE */
-.cke_skin_kama .cke_hc .cke_button a:hover.cke_off,
-.cke_skin_kama .cke_hc .cke_button a:focus.cke_off,
-.cke_skin_kama .cke_hc .cke_button a:active.cke_off	/* IE */
+.cke_skin_kama .cke_hc .cke_button a:hover,
+.cke_skin_kama .cke_hc .cke_button a:focus,
+.cke_skin_kama .cke_hc .cke_button a:active	/* IE */
 {
 	padding: 0 2px !important;
 	border-width: 3px;

@@ -33,20 +33,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border: 2px solid;
 }
 
-.cke_skin_kama .cke_menuitem a.cke_disabled:hover,
-.cke_skin_kama .cke_menuitem a.cke_disabled:focus,
-.cke_skin_kama .cke_menuitem a.cke_disabled:active
-{
-	background-color: transparent !important;
-}
-
-.cke_hc .cke_menuitem a.cke_disabled:hover,
-.cke_hc .cke_menuitem a.cke_disabled:focus,
-.cke_hc .cke_menuitem a.cke_disabled:active
-{
-	border-width: 0px;
-}
-
 .cke_skin_kama .cke_menuitem .cke_icon
 {
 	background-image: url(icons.png);
