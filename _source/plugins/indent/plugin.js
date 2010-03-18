@@ -220,6 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
 		} else
 			this.indentCssProperty = editor.config.contentsLangDirection == 'ltr' ? 'margin-left' : 'margin-right';
+		this.startDisabled = name == 'outdent';
 	}
 
 	indentCommand.prototype = {

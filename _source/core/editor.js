@@ -289,7 +289,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		for ( var name in commands ) {
 			command = commands[ name ];
-			command[ command.modes[ mode ] ? 'enable' : 'disable' ]();
+			command[ command.startDisabled ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
 		}
 	}
 

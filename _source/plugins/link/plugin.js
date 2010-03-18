@@ -152,7 +152,9 @@ CKEDITOR.unlinkCommand.prototype = {
 		selection.selectRanges( ranges );
 		editor.document.$.execCommand( 'unlink', false, null );
 		selection.selectBookmarks( bookmarks );
-	}
+	},
+
+	startDisabled: true
 };
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
