@@ -620,6 +620,13 @@ body .cke_dialog
 	padding : 2px;
 	background-color : white;
 }
+
+/* Fix iframedialog's height doesn't stretch to 100% #4863.*/
+.cke_skin_office2003 .cke_browser_iequirks .cke_dialog_page_contents
+{
+	_position: absolute;
+}
+
 .cke_skin_office2003 .cke_dialog  #ImagePreviewLoader
 {
 	position: absolute;

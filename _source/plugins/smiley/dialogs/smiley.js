@@ -167,7 +167,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			firstSmile.focus();
 		},
 		onClick: onClick,
-		style: 'width: 100%; height: 100%; border-collapse: separate;'
+		style: 'width: 100%; border-collapse: separate;'
 	};
 
 	return {

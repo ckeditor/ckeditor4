@@ -773,7 +773,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					children: contents.elements,
 					expand: !!contents.expand,
 					padding: contents.padding,
-					style: contents.style || 'width: 100%;' + ( CKEDITOR.env.ie6Compat ? '' : 'height: 100%;' )
+					style: contents.style || 'width: 100%; height: 100%;'
 				}, pageHtml );
 
 			// Create the HTML for the tab and the content block.
