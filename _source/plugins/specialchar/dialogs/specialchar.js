@@ -20,7 +20,14 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
 				target.removeClass( "cke_light_background" );
 				dialog.hide();
-				editor.insertHtml( value );
+
+				// Firefox has some bug on insert html, so let's process it single (#5170)
+				if ( CKEDITOR.env.gecko ) {
+					editor.fire( 'insertSpecialChar', value, editor );
+				} else {
+					editor.insertHtml( value );
+				}
+
 			}
 		};
 
