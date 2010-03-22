@@ -88,27 +88,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		function keyNavigation( evt ) {
 			var target = evt.data.getTarget(),
-				position = listContainer.getPosition( target );
+				onList = listContainer.equals( target );
 
 			// Keyboard navigation for template list.
-			if ( position > CKEDITOR.POSITION_CONTAINS ) {
+			if ( onList || listContainer.contains( target ) ) {
 				var keystroke = evt.data.getKeystroke(),
 					items = listContainer.getElementsByTag( 'a' ),
 					focusItem;
 
 				if ( items ) {
-					switch ( keystroke ) {
-						case 40: // ARROW-DOWN
-							focusItem = target.getNext();
-							break;
+					// Focus not yet onto list items?
+					if ( onList )
+						focusItem = items.getItem( 0 );
+					else {
+						switch ( keystroke ) {
+							case 40: // ARROW-DOWN
+								focusItem = target.getNext();
+								break;
 
-						case 38: // ARROW-UP
-							focusItem = target.getPrevious();
-							break;
+							case 38: // ARROW-UP
+								focusItem = target.getPrevious();
+								break;
 
-						case 13: // ENTER
-						case 32: // SPACE
-							target.fire( 'click' );
+							case 13: // ENTER
+							case 32: // SPACE
+								target.fire( 'click' );
+						}
 					}
 
 					if ( focusItem ) {
@@ -148,12 +153,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						id: "templatesList",
 						type: 'html',
-						focus: function() {
-							// Move focus to the first list item if available.
-							try {
-								this.getElement().getElementsByTag( 'a' ).getItem( 0 ).focus();
-							} catch ( er ) {}
-						},
+						focus: true,
 						html: '<div class="cke_tpl_list" tabIndex="-1" role="listbox" aria-labelledby="cke_tpl_list_label">' +
 							'<div class="cke_tpl_loading"><span></span></div>' +
 							'</div>' +
