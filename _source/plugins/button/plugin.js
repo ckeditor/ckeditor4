@@ -146,7 +146,9 @@ CKEDITOR.ui.button.prototype = {
 			'<span id="', id, '_label" class="cke_label">', this.label, '</span>' );
 
 		if ( this.hasArrow ) {
-			output.push( '<span class="cke_buttonarrow"></span>' );
+			output.push( '<span class="cke_buttonarrow">'
+			// BLACK DOWN-POINTING TRIANGLE
+			+ ( CKEDITOR.env.hc ? '&#9660;' : '' ) + '</span>' );
 		}
 
 		output.push( '</a>', '</span>' );

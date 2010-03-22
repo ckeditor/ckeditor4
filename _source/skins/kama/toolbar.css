@@ -293,11 +293,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 }
 
-.cke_skin_kama .cke_hc .cke_button .cke_buttonarrow
-{
-	display: none;
-}
-
 /*** Firefox 2 ***/
 
 .cke_skin_kama .cke_browser_gecko .cke_toolbar,
