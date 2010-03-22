@@ -82,7 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( guard( node ) === false )
 						node = null;
 				} else
-					node = ( guard( node ) === false ) ? null : node.getPreviousSourceNode( true, type, guard );
+					node = ( guard( node, true ) === false ) ? null : node.getPreviousSourceNode( true, type, guard );
 			} else {
 				node = range.startContainer;
 				node = node.getChild( range.startOffset );
@@ -91,7 +91,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( guard( node ) === false )
 						node = null;
 				} else
-					node = ( guard( range.startContainer ) === false ) ? null : range.startContainer.getNextSourceNode( true, type, guard );
+					node = ( guard( range.startContainer, true ) === false ) ? null : range.startContainer.getNextSourceNode( true, type, guard );
 			}
 		}
 
