@@ -109,6 +109,34 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : null ).call( this, range );
 		},
 
+		// Removes any conflicting styles from within the specified range..
+		removeConflictsFromRange: function( range ) {
+			var style = this,
+				overrides = getOverrides( style ),
+				styleCandidates = [],
+				overrideCandidates = [];
+
+			var walker = new CKEDITOR.dom.walker( range );
+			walker.evaluator = function( node ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+					if ( node.is( style.element ) )
+						styleCandidates.push( node );
+					if ( node.getName() in overrides )
+						overrideCandidates.push( node );
+				}
+			};
+			walker.lastForward();
+
+			// First remove from element any style conflictions.
+			for ( var i = styleCandidates.length - 1; i >= 0; i-- )
+				removeFromElement( style, styleCandidates[ i ] );
+
+			// Now remove any other element with different name that is
+			// defined to be overriden.
+			for ( i = overrideCandidates.length - 1; i >= 0; i-- )
+				removeOverrides( overrideCandidates[ i ], overrides[ overrideCandidates[ i ].getName() ] );
+		},
+
 		applyToObject: function( element ) {
 			setupElement( element, this );
 		},
@@ -275,6 +303,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 		range.trim();
 
+		// Remove all style conflictions within the range,
+		// e.g. style="color:red" is conflicting with style="color:blue".
+		var enlargedBookmark = range.createBookmark();
+		this.removeConflictsFromRange( range );
+		range.moveToBookmark( enlargedBookmark );
+
 		// Get the first node to be processed and the last, which concludes the
 		// processing.
 		var boundaryNodes = range.getBoundaryNodes();
@@ -409,10 +443,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( styleNode ) {
 					// Move the contents of the range to the style element.
 					styleRange.extractContents().appendTo( styleNode );
-
-					// Here we do some cleanup, removing all duplicated
-					// elements from the style element.
-					removeFromInsideElement( this, styleNode );
 
 					// Insert it into the range position (it is collapsed after
 					// extractContents.
@@ -792,32 +822,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( attributes )
 			removeAttrs();
 		removeNoAttribsElement( element );
-	}
-
-	// Removes a style from inside an element.
-	function removeFromInsideElement( style, element ) {
-		var def = style._.definition,
-			attribs = def.attributes,
-			styles = def.styles,
-			overrides = getOverrides( style );
-
-		var innerElements = element.getElementsByTag( style.element );
-
-		for ( var i = innerElements.count(); --i >= 0; )
-			removeFromElement( style, innerElements.getItem( i ) );
-
-		// Now remove any other element with different name that is
-		// defined to be overriden.
-		for ( var overrideElement in overrides ) {
-			if ( overrideElement != style.element ) {
-				innerElements = element.getElementsByTag( overrideElement );
-				for ( i = innerElements.count() - 1; i >= 0; i-- ) {
-					var innerElement = innerElements.getItem( i );
-					removeOverrides( innerElement, overrides[ overrideElement ] );
-				}
-			}
-		}
-
 	}
 
 	/**
