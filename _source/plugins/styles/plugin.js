@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -799,29 +799,26 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// Removes a style from an element itself, don't care about its subtree.
 	function removeFromElement( style, element ) {
 		var def = style._.definition,
-			attributes = def.attributes,
+			attributes = CKEDITOR.tools.extend( {}, def.attributes, getOverrides( style )[ element.getName() ] ),
 			styles = def.styles,
-			overrides = getOverrides( style );
-
-		function removeAttrs() {
-			for ( var attName in attributes ) {
-				// The 'class' element value must match (#1318).
-				if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
-					continue;
-				element.removeAttribute( attName );
-			}
-		}
+			// If the style is only about the element itself, we have to remove the element.
+			removeEmpty = CKEDITOR.tools.isEmpty( attributes ) && CKEDITOR.tools.isEmpty( styles );
 
 		// Remove definition attributes/style from the elemnt.
-		removeAttrs();
-		for ( var styleName in styles )
-			element.removeStyle( styleName );
+		for ( var attName in attributes ) {
+			// The 'class' element value must match (#1318).
+			if ( attName == 'class' && element.getAttribute( attName ) != attributes[ attName ] )
+				continue;
+			removeEmpty = element.hasAttribute( attName );
+			element.removeAttribute( attName );
+		}
 
-		// Now remove override styles on the element.
-		attributes = overrides[ element.getName() ];
-		if ( attributes )
-			removeAttrs();
-		removeNoAttribsElement( element );
+		for ( var styleName in styles ) {
+			removeEmpty = removeEmpty || !!element.getStyle( styleName );
+			element.removeStyle( styleName );
+		}
+
+		removeEmpty && removeNoAttribsElement( element );
 	}
 
 	/**
