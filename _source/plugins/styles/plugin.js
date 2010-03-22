@@ -1131,3 +1131,56 @@ CKEDITOR.loadStylesSet = function( name, url, callback ) {
 	CKEDITOR.stylesSet.addExternal( name, url, '' );
 	CKEDITOR.stylesSet.load( name, callback );
 };
+
+
+/**
+ * Gets the current styleSet for this instance
+ * @param {Function} The function to be called with the styles data.
+ * @example
+ * editor.getStylesSet( function( stylesDefinitions ) {} );
+ */
+CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
+	if ( !this._.stylesDefinitions ) {
+		var editor = this,
+			// Respect the backwards compatible definition entry
+			configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet,
+			partsStylesSet = configStyleSet.split( ':' ),
+			styleSetName = partsStylesSet[ 0 ],
+			externalPath = partsStylesSet[ 1 ],
+			pluginPath = CKEDITOR.plugins.registered.styles.path;
+
+		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : pluginPath + 'styles/' + styleSetName + '.js', '' );
+
+
+		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+			editor._.stylesDefinitions = stylesSet[ styleSetName ];
+			callback( editor._.stylesDefinitions );
+		});
+	} else
+		callback( this._.stylesDefinitions );
+};
+
+/**
+ * The "styles definition set" to use in the editor. They will be used in the
+ * styles combo and the Style selector of the div container. <br>
+ * The styles may be defined in the page containing the editor, or can be
+ * loaded on demand from an external file. In the second case, if this setting
+ * contains only a name, the styles definition file will be loaded from the
+ * "styles" folder inside the styles plugin folder.
+ * Otherwise, this setting has the "name:url" syntax, making it
+ * possible to set the URL from which loading the styles file.<br>
+ * Previously this setting was available as config.stylesCombo_stylesSet<br>
+ * @type string
+ * @default 'default'
+ * @since 3.3
+ * @example
+ * // Load from the styles' styles folder (mystyles.js file).
+ * config.stylesSet = 'mystyles';
+ * @example
+ * // Load from a relative URL.
+ * config.stylesSet = 'mystyles:/editorstyles/styles.js';
+ * @example
+ * // Load from a full URL.
+ * config.stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
+ */
+CKEDITOR.config.stylesSet = 'default';

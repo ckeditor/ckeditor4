@@ -389,42 +389,36 @@
 
 				// Preparing for the 'elementStyle' field.
 				var dialog = this,
-					stylesField = this.getContentElement( 'info', 'elementStyle' ),
-					// Reuse the 'stylescombo' plugin's styles definition.
-					customStylesConfig = editor.config.stylesCombo_stylesSet,
-					stylesSetName = customStylesConfig && customStylesConfig.split( ':' )[ 0 ];
+					stylesField = this.getContentElement( 'info', 'elementStyle' );
 
-				if ( stylesSetName ) {
-					CKEDITOR.stylesSet.load( stylesSetName, function( stylesSet ) {
-						var stylesDefinitions = stylesSet[ stylesSetName ],
-							styleName;
+				// Reuse the 'stylescombo' plugin's styles definition.
+				editor.getStylesSet( function( stylesDefinitions ) {
+					var styleName;
 
-						if ( stylesDefinitions ) {
-							// Digg only those styles that apply to 'div'.
-							for ( var i = 0; i < stylesDefinitions.length; i++ ) {
-								var styleDefinition = stylesDefinitions[ i ];
-								if ( styleDefinition.element && styleDefinition.element == 'div' ) {
-									styleName = styleDefinition.name;
-									styles[ styleName ] = new CKEDITOR.style( styleDefinition );
+					if ( stylesDefinitions ) {
+						// Digg only those styles that apply to 'div'.
+						for ( var i = 0; i < stylesDefinitions.length; i++ ) {
+							var styleDefinition = stylesDefinitions[ i ];
+							if ( styleDefinition.element && styleDefinition.element == 'div' ) {
+								styleName = styleDefinition.name;
+								styles[ styleName ] = new CKEDITOR.style( styleDefinition );
 
-									// Populate the styles field options with style name.
-									stylesField.items.push( [ styleName, styleName ] );
-									stylesField.add( styleName, styleName );
-								}
+								// Populate the styles field options with style name.
+								stylesField.items.push( [ styleName, styleName ] );
+								stylesField.add( styleName, styleName );
 							}
 						}
+					}
 
+					// We should disable the content element
+					// it if no options are available at all.
+					stylesField[ stylesField.items.length > 1 ? 'enable' : 'disable' ]();
 
-						// We should disable the content element
-						// it if no options are available at all.
-						stylesField[ stylesField.items.length > 1 ? 'enable' : 'disable' ]();
-
-						// Now setup the field value manually.
-						setTimeout( function() {
-							stylesField.setup( dialog._element );
-						}, 0 );
-					});
-				}
+					// Now setup the field value manually.
+					setTimeout( function() {
+						stylesField.setup( dialog._element );
+					}, 0 );
+				});
 			},
 			onShow: function() {
 				// Whether always create new container regardless of existed

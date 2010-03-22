@@ -4,32 +4,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var stylesManager;
-
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: [ 'richcombo', 'styles' ],
 
 		init: function( editor ) {
 			var config = editor.config,
 				lang = editor.lang.stylesCombo,
-				pluginPath = this.path,
 				styles = {},
 				stylesList = [];
 
-			if ( !stylesManager )
-				stylesManager = CKEDITOR.stylesSet;
-
-			var comboStylesSet = config.stylesCombo_stylesSet.split( ':' ),
-				styleSetName = comboStylesSet[ 0 ],
-				externalPath = comboStylesSet[ 1 ];
-
-			stylesManager.addExternal( styleSetName, externalPath ? comboStylesSet.slice( 1 ).join( ':' ) : pluginPath + 'styles/' + styleSetName + '.js', '' );
-
 			function loadStylesSet( callback ) {
-				CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+				editor.getStylesSet( function( stylesDefinitions ) {
 					if ( !stylesList.length ) {
-						var stylesDefinitions = stylesSet[ styleSetName ],
-							style, styleName;
+						var style, styleName;
 
 						// Put all styles into an Array.
 						for ( var i = 0; i < stylesDefinitions.length; i++ ) {
@@ -43,8 +30,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							stylesList.push( style );
 						}
 
-						// Sorts the Array, so the styles get grouped
-						// by type.
+						// Sorts the Array, so the styles get grouped by type.
 						stylesList.sort( sortStyles );
 					}
 
@@ -215,25 +201,3 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return typeA == typeB ? 0 : typeA == CKEDITOR.STYLE_OBJECT ? -1 : typeB == CKEDITOR.STYLE_OBJECT ? 1 : typeB == CKEDITOR.STYLE_BLOCK ? 1 : -1;
 	}
 })();
-
-/**
- * The "styles definition set" to load into the styles combo. The styles may
- * be defined in the page containing the editor, or can be loaded on demand
- * from an external file when opening the styles combo for the fist time. In
- * the second case, if this setting contains only a name, the styles definition
- * file will be loaded from the "styles" folder inside the stylescombo plugin
- * folder. Otherwise, this setting has the "name:url" syntax, making it
- * possible to set the URL from which loading the styles file.
- * @type string
- * @default 'default'
- * @example
- * // Load from the stylescombo styles folder (mystyles.js file).
- * config.stylesCombo_stylesSet = 'mystyles';
- * @example
- * // Load from a relative URL.
- * config.stylesCombo_stylesSet = 'mystyles:/editorstyles/styles.js';
- * @example
- * // Load from a full URL.
- * config.stylesCombo_stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
- */
-CKEDITOR.config.stylesCombo_stylesSet = 'default';
