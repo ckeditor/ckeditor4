@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -143,6 +143,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return node.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( node.getText() ).match( /^(?:&nbsp;|\xa0)$/ );
 	}
 
+	function restoreSelection( selection ) {
+		if ( selection.isLocked ) {
+			selection.unlock();
+			setTimeout( function() {
+				selection.lock();
+			}, 0 );
+		}
+	}
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -160,6 +169,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// selecting inline contents right under body. (#3657)
 		if ( enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
 			restoreDirty( editor );
+			CKEDITOR.env.ie && restoreSelection( selection );
+
 			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we should remove any filler node which was introduced before.
@@ -192,6 +203,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var lastNode = body.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
 		if ( lastNode && lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
 			restoreDirty( editor );
+			CKEDITOR.env.ie && restoreSelection( selection );
+
 			if ( !CKEDITOR.env.ie )
 				body.appendBogus();
 			else
