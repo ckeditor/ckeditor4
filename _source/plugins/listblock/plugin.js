@@ -165,10 +165,13 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					this.element.getDocument().getById( itemId + '_option' ).setAttribute( 'aria-selected', true );
 					this.element.setAttribute( 'aria-activedescendant', itemId + '_option' );
+
+					this.onMark && this.onMark( item );
 				},
 
 				unmark: function( value ) {
 					this.element.getDocument().getById( this._.items[ value ] ).removeClass( 'cke_selected' );
+					this.onUnmark && this.onUnmark( this._.items[ value ] );
 				},
 
 				unmarkAll: function() {
@@ -178,6 +181,8 @@ CKEDITOR.plugins.add( 'listblock', {
 					for ( var value in items ) {
 						doc.getById( items[ value ] ).removeClass( 'cke_selected' );
 					}
+
+					this.onUnmark && this.onUnmark();
 				},
 
 				isMarked: function( value ) {
