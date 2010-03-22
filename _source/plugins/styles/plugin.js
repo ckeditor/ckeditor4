@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -205,7 +205,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 							continue;
 
 						var elementAttr = element.getAttribute( attName ) || '';
-						if ( attribs[ attName ] == ( attName == 'style' ? normalizeCssText( elementAttr, false ) : elementAttr ) ) {
+						if ( attName == 'style' ? compareCssText( attribs[ attName ], normalizeCssText( elementAttr, false ) ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -1065,6 +1065,28 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Compensate tail semi-colon.
 		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' ).replace( /,\s+/g, ',' ) // Trimming spaces after comma (e.g. font-family name)(#4107).
 		.toLowerCase();
+	}
+
+	// Turn inline style text properties into one hash.
+	function parseStyleText( styleText ) {
+		var retval = {};
+		styleText.replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
+			retval[ name ] = value;
+		});
+		return retval;
+	}
+
+	function compareCssText( source, target ) {
+		typeof source == 'string' && ( source = parseStyleText( source ) );
+		typeof target == 'string' && ( target = parseStyleText( target ) );
+		for ( var name in source ) {
+			// Value 'inheirt'  is treated as a wildcard,
+			// which will matches any value.   
+			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	function applyStyle( document, remove ) {
