@@ -188,7 +188,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				isPre = ( startBlockTag == 'pre' );
 
-				if ( isPre )
+				// Gecko prefers <br> as line-break inside <pre> (#4711).
+				if ( isPre && !CKEDITOR.env.gecko )
 					lineBreak = doc.createText( CKEDITOR.env.ie ? '\r' : '\n' );
 				else
 					lineBreak = doc.createElement( 'br' );
