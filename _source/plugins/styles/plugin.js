@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -709,7 +709,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			});
 
 		var pres = [];
-		splitedHtml.replace( /<pre>([\s\S]*?)<\/pre>/gi, function( match, preContent ) {
+		splitedHtml.replace( /<pre\b.*?>([\s\S]*?)<\/pre>/gi, function( match, preContent ) {
 			pres.push( preContent );
 		});
 		return pres;
