@@ -640,8 +640,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var enclosed;
 				if ( range.startContainer.equals( range.endContainer ) && ( range.endOffset - range.startOffset ) == 1 && styleObjectElements[ ( enclosed = range.startContainer.getChild( range.startOffset ) ).getName() ] ) {
 					return enclosed.$;
-				} else
-					throw '';
+				}
 			});
 
 			return cache.selectedElement = ( node ? new CKEDITOR.dom.element( node ) : null );
