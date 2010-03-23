@@ -1503,6 +1503,10 @@ CKEDITOR.dom.range = function( document ) {
 		moveToElementEditablePosition: function( el, isMoveToEnd ) {
 			var isEditable;
 
+			// Empty elements are rejected.
+			if ( CKEDITOR.dtd.$empty[ el.getName() ] )
+				return false;
+
 			while ( el && el.type == CKEDITOR.NODE_ELEMENT ) {
 				isEditable = el.isEditable();
 
