@@ -10,6 +10,28 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 	 */
 	var dialog,
 		lang = editor.lang.specialChar;
+
+	var insertSpecialChar = function( specialChar ) {
+			var selection = editor.getSelection(),
+				ranges = selection.getRanges(),
+				range, textNode;
+
+			editor.fire( 'saveSnapshot' );
+
+			for ( var i = 0, len = ranges.length; i < len; i++ ) {
+				range = ranges[ i ];
+				range.deleteContents();
+
+				textNode = CKEDITOR.dom.element.createFromHtml( specialChar );
+				range.insertNode( textNode );
+			}
+
+			range.moveToPosition( textNode, CKEDITOR.POSITION_AFTER_END );
+			range.select();
+
+			editor.fire( 'saveSnapshot' );
+		};
+
 	var onChoice = function( evt ) {
 			var target, value;
 			if ( evt.data )
@@ -20,7 +42,12 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
 				target.removeClass( "cke_light_background" );
 				dialog.hide();
-				editor.insertHtml( value );
+
+				// Firefox has bug on insert chars into a element use its own API. (#5170)
+				if ( CKEDITOR.env.gecko )
+					insertSpecialChar( value );
+				else
+					editor.insertHtml( value );
 			}
 		};
 
