@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -127,6 +127,18 @@ CKEDITOR.config = {
 	 * config.enterMode = CKEDITOR.ENTER_BR;
 	 */
 	enterMode: CKEDITOR.ENTER_P,
+
+	/**
+	 * Force the respect of {@link CKEDITOR.config.enterMode} as line break regardless of the context,
+	 * E.g. If {@link CKEDITOR.config.enterMode} is set to {@link CKEDITOR.ENTER_P},
+	 * press enter key inside a 'div' will create a new paragraph with 'p' instead of 'div'.
+	 * @since 3.2.1
+	 * @default false
+	 * @example
+	 * // Not recommended.
+	 * config.forceEnterMode = true;
+	 */
+	forceEnterMode: false,
 
 	/**
 	 * Just like the {@link CKEDITOR.config.enterMode} setting, it defines the behavior for the SHIFT+ENTER key.

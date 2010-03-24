@@ -255,6 +255,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function enter( editor, mode, forceMode ) {
+		forceMode = editor.config.forceEnterMode || forceMode;
+
 		// Only effective within document.
 		if ( editor.mode != 'wysiwyg' )
 			return false;
