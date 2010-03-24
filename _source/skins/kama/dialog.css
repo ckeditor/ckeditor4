@@ -322,6 +322,7 @@ body .cke_dialog
 	background: transparent url(images/sprites.png) repeat-x scroll 0 -1069px;
 	_background: none;
 	padding: 5px 0;
+	text-align: center;
 }
 
 .cke_skin_kama .cke_browser_iequirks a.cke_dialog_ui_button
@@ -431,6 +432,8 @@ body .cke_dialog
 	color: #222;
 	display: inline-block;
 	cursor: default;
+	min-width: 60px;
+	+margin: 2px 0; /* IE7 */
 }
 
 /* Gecko 1.8 does not support display: inline-block */
