@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'vi' ] = {
 		unavailable: '%1<span class="cke_accessibility">, không có</span>'
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Chèn Ký tự đặc biệt',

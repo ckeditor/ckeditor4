@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'he' ] = {
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'הוספת תו מיוחד',

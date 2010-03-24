@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'bn' ] = {
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'বিশেষ অক্ষর যুক্ত কর',

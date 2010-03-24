@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'gu' ] = {
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'વિશિષ્ટ અક્ષર ઇન્સર્ટ/દાખલ કરવું',

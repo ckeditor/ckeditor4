@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'ja' ] = {
 		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: '特殊文字挿入',

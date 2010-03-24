@@ -28,11 +28,11 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			editor.execCommand( commandName );
 		}, this );
 
-		this._.definiton = {
+		this.definiton = {
 			panel: {
 				className: editor.skinClass + ' cke_contextmenu',
 				attributes: {
-					'aria-label': editor.lang.common.options
+					'aria-label': editor.lang.contextmenu.options
 				}
 			}
 		};
@@ -47,7 +47,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				menu.hide();
 				menu.removeAll();
 			} else {
-				menu = this._.menu = new CKEDITOR.menu( editor, this._.definiton );
+				menu = this._.menu = new CKEDITOR.menu( editor, this.definiton );
 				menu.onClick = CKEDITOR.tools.bind( function( item ) {
 					menu.hide();
 

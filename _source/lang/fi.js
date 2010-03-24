@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'fi' ] = {
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Lisää erikoismerkki',

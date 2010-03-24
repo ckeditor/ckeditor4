@@ -108,6 +108,10 @@ CKEDITOR.lang[ 'zh' ] = {
 		unavailable: '%1<span class="cke_accessibility">, 已關閉</span>'
 	},
 
+	contextmenu: {
+		options: 'Context Menu Options' // MISSING
+	},
+
 	// Special char dialog.
 	specialChar: {
 		toolbar: '插入特殊符號',
