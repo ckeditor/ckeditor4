@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'sk' ] = {
 
 	clipboard: {
 		title: 'Vložiť',
-		cutError: 'Bezpečnostné nastavenia Vášho prehliadača nedovoľujú editoru spustiť funkciu pre vystrihnutie zvoleného textu do schránky. Prosím vystrihnite zvolený text do schránky pomocou klávesnice (Ctrl+X).',
-		copyError: 'Bezpečnostné nastavenia Vášho prehliadača nedovoľujú editoru spustiť funkciu pre kopírovanie zvoleného textu do schránky. Prosím skopírujte zvolený text do schránky pomocou klávesnice (Ctrl+C).',
-		pasteMsg: 'Prosím vložte nasledovný rámček použitím klávesnice (<STRONG>Ctrl+V</STRONG>) a stlačte <STRONG>OK</STRONG>.',
+		cutError: 'Bezpečnostné nastavenia Vášho prehliadača nedovoľujú editoru spustiť funkciu pre vystrihnutie zvoleného textu do schránky. Prosím vystrihnite zvolený text do schránky pomocou klávesnice (Ctrl/Cmd+X).',
+		copyError: 'Bezpečnostné nastavenia Vášho prehliadača nedovoľujú editoru spustiť funkciu pre kopírovanie zvoleného textu do schránky. Prosím skopírujte zvolený text do schránky pomocou klávesnice (Ctrl/Cmd+C).',
+		pasteMsg: 'Prosím vložte nasledovný rámček použitím klávesnice (<STRONG>Ctrl/Cmd+V</STRONG>) a stlačte <STRONG>OK</STRONG>.',
 		securityMsg: 'Bezpečnostné nastavenia Vášho prehliadača nedovoľujú editoru pristupovať priamo k datám v schránke. Musíte ich vložiť znovu do tohto okna.',
 		pasteArea: 'Paste Area' // MISSING
 	},

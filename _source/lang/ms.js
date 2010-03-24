@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'ms' ] = {
 
 	clipboard: {
 		title: 'Tampal',
-		cutError: 'Keselamatan perisian browser anda tidak membenarkan operasi suntingan text/imej. Sila gunakan papan kekunci (Ctrl+X).',
-		copyError: 'Keselamatan perisian browser anda tidak membenarkan operasi salinan text/imej. Sila gunakan papan kekunci (Ctrl+C).',
-		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit OK', // MISSING
+		cutError: 'Keselamatan perisian browser anda tidak membenarkan operasi suntingan text/imej. Sila gunakan papan kekunci (Ctrl/Cmd+X).',
+		copyError: 'Keselamatan perisian browser anda tidak membenarkan operasi salinan text/imej. Sila gunakan papan kekunci (Ctrl/Cmd+C).',
+		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 		pasteArea: 'Paste Area' // MISSING
 	},

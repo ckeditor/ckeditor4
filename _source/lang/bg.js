@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'bg' ] = {
 
 	clipboard: {
 		title: 'Вмъкни',
-		cutError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни изрязването. За целта използвайте клавиатурата (Ctrl+X).',
-		copyError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни запаметяването. За целта използвайте клавиатурата (Ctrl+C).',
-		pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
+		cutError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни изрязването. За целта използвайте клавиатурата (Ctrl/Cmd+X).',
+		copyError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни запаметяването. За целта използвайте клавиатурата (Ctrl/Cmd+C).',
+		pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl/Cmd+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 		pasteArea: 'Paste Area' // MISSING
 	},

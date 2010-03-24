@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'ca' ] = {
 
 	clipboard: {
 		title: 'Enganxa',
-		cutError: 'La seguretat del vostre navegador no permet executar automàticament les operacions de retallar. Si us plau, utilitzeu el teclat (Ctrl+X).',
-		copyError: 'La seguretat del vostre navegador no permet executar automàticament les operacions de copiar. Si us plau, utilitzeu el teclat (Ctrl+C).',
-		pasteMsg: 'Si us plau, enganxeu dins del següent camp utilitzant el teclat (<STRONG>Ctrl+V</STRONG>) i premeu <STRONG>OK</STRONG>.',
+		cutError: 'La seguretat del vostre navegador no permet executar automàticament les operacions de retallar. Si us plau, utilitzeu el teclat (Ctrl/Cmd+X).',
+		copyError: 'La seguretat del vostre navegador no permet executar automàticament les operacions de copiar. Si us plau, utilitzeu el teclat (Ctrl/Cmd+C).',
+		pasteMsg: 'Si us plau, enganxeu dins del següent camp utilitzant el teclat (<STRONG>Ctrl/Cmd+V</STRONG>) i premeu <STRONG>OK</STRONG>.',
 		securityMsg: 'A causa de la configuració de seguretat del vostre navegador, l\'editor no pot accedir al porta-retalls directament. Enganxeu-ho un altre cop en aquesta finestra.',
 		pasteArea: 'Paste Area' // MISSING
 	},

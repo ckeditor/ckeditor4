@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'fr' ] = {
 
 	clipboard: {
 		title: 'Coller',
-		cutError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement l\'opération "couper". Veuillez utiliser le raccourci clavier (Ctrl+X).',
-		copyError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement des opérations de copie. Veuillez utiliser le raccourci clavier (Ctrl+C).',
-		pasteMsg: 'Veuillez coller le texte dans la zone suivante en utilisant le raccourci clavier (<strong>Ctrl+V</strong>) et cliquez sur OK',
+		cutError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement l\'opération "couper". Veuillez utiliser le raccourci clavier (Ctrl/Cmd+X).',
+		copyError: 'Les paramètres de sécurité de votre navigateur ne permettent pas à l\'éditeur d\'exécuter automatiquement des opérations de copie. Veuillez utiliser le raccourci clavier (Ctrl/Cmd+C).',
+		pasteMsg: 'Veuillez coller le texte dans la zone suivante en utilisant le raccourci clavier (<strong>Ctrl/Cmd+V</strong>) et cliquez sur OK',
 		securityMsg: 'A cause des paramètres de sécurité de votre navigateur, l\'éditeur n\'est pas en mesure d\'accéder directement à vos données contenues dans le presse-papier. Vous devriez réessayer de coller les données dans la fenêtre.',
 		pasteArea: 'Paste Area' // MISSING
 	},

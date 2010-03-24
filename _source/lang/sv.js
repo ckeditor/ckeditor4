@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'sv' ] = {
 
 	clipboard: {
 		title: 'Klistra in',
-		cutError: 'Säkerhetsinställningar i Er webläsare tillåter inte åtgården Klipp ut. Använd (Ctrl+X) istället.',
-		copyError: 'Säkerhetsinställningar i Er webläsare tillåter inte åtgården Kopiera. Använd (Ctrl+C) istället',
-		pasteMsg: 'Var god och klistra in Er text i rutan nedan genom att använda (<STRONG>Ctrl+V</STRONG>) klicka sen på <STRONG>OK</STRONG>.',
+		cutError: 'Säkerhetsinställningar i Er webläsare tillåter inte åtgården Klipp ut. Använd (Ctrl/Cmd+X) istället.',
+		copyError: 'Säkerhetsinställningar i Er webläsare tillåter inte åtgården Kopiera. Använd (Ctrl/Cmd+C) istället',
+		pasteMsg: 'Var god och klistra in Er text i rutan nedan genom att använda (<STRONG>Ctrl/Cmd+V</STRONG>) klicka sen på <STRONG>OK</STRONG>.',
 		securityMsg: 'På grund av din webläsares säkerhetsinställningar kan verktyget inte få åtkomst till urklippsdatan. Var god och använd detta fönster istället.',
 		pasteArea: 'Paste Area' // MISSING
 	},

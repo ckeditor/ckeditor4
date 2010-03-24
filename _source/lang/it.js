@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'it' ] = {
 
 	clipboard: {
 		title: 'Incolla',
-		cutError: 'Le impostazioni di sicurezza del browser non permettono di tagliare automaticamente il testo. Usa la tastiera (Ctrl+X).',
-		copyError: 'Le impostazioni di sicurezza del browser non permettono di copiare automaticamente il testo. Usa la tastiera (Ctrl+C).',
-		pasteMsg: 'Incolla il testo all\'interno dell\'area sottostante usando la scorciatoia di tastiere (<STRONG>Ctrl+V</STRONG>) e premi <STRONG>OK</STRONG>.',
+		cutError: 'Le impostazioni di sicurezza del browser non permettono di tagliare automaticamente il testo. Usa la tastiera (Ctrl/Cmd+X).',
+		copyError: 'Le impostazioni di sicurezza del browser non permettono di copiare automaticamente il testo. Usa la tastiera (Ctrl/Cmd+C).',
+		pasteMsg: 'Incolla il testo all\'interno dell\'area sottostante usando la scorciatoia di tastiere (<STRONG>Ctrl/Cmd+V</STRONG>) e premi <STRONG>OK</STRONG>.',
 		securityMsg: 'A causa delle impostazioni di sicurezza del browser,l\'editor non è in grado di accedere direttamente agli appunti. E\' pertanto necessario incollarli di nuovo in questa finestra.',
 		pasteArea: 'Paste Area' // MISSING
 	},

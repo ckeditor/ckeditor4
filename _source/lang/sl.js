@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'sl' ] = {
 
 	clipboard: {
 		title: 'Prilepi',
-		cutError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega izrezovanja. Uporabite kombinacijo tipk na tipkovnici (Ctrl+X).',
-		copyError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega kopiranja. Uporabite kombinacijo tipk na tipkovnici (Ctrl+C).',
-		pasteMsg: 'Prosim prilepite v sleči okvir s pomočjo tipkovnice (<STRONG>Ctrl+V</STRONG>) in pritisnite <STRONG>V redu</STRONG>.',
+		cutError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega izrezovanja. Uporabite kombinacijo tipk na tipkovnici (Ctrl/Cmd+X).',
+		copyError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega kopiranja. Uporabite kombinacijo tipk na tipkovnici (Ctrl/Cmd+C).',
+		pasteMsg: 'Prosim prilepite v sleči okvir s pomočjo tipkovnice (<STRONG>Ctrl/Cmd+V</STRONG>) in pritisnite <STRONG>V redu</STRONG>.',
 		securityMsg: 'Zaradi varnostnih nastavitev vašega brskalnika urejevalnik ne more neposredno dostopati do odložišča. Vsebino odložišča ponovno prilepite v to okno.',
 		pasteArea: 'Paste Area' // MISSING
 	},

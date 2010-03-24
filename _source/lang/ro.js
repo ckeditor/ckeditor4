@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'ro' ] = {
 
 	clipboard: {
 		title: 'Adaugă',
-		cutError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de tăiere. Vă rugăm folosiţi tastatura (Ctrl+X).',
-		copyError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de copiere. Vă rugăm folosiţi tastatura (Ctrl+C).',
-		pasteMsg: 'Vă rugăm adăugaţi în căsuţa următoare folosind tastatura (<STRONG>Ctrl+V</STRONG>) şi apăsaţi <STRONG>OK</STRONG>.',
+		cutError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de tăiere. Vă rugăm folosiţi tastatura (Ctrl/Cmd+X).',
+		copyError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de copiere. Vă rugăm folosiţi tastatura (Ctrl/Cmd+C).',
+		pasteMsg: 'Vă rugăm adăugaţi în căsuţa următoare folosind tastatura (<STRONG>Ctrl/Cmd+V</STRONG>) şi apăsaţi <STRONG>OK</STRONG>.',
 		securityMsg: 'Din cauza setărilor de securitate ale programului dvs. cu care navigaţi pe internet (browser), editorul nu poate accesa direct datele din clipboard. Va trebui să adăugaţi din nou datele în această fereastră.',
 		pasteArea: 'Paste Area' // MISSING
 	},

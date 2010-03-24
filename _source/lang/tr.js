@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'tr' ] = {
 
 	clipboard: {
 		title: 'Yapıştır',
-		cutError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kesme işlemine izin vermiyor. İşlem için (Ctrl+X) tuşlarını kullanın.',
-		copyError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl+C) tuşlarını kullanın.',
-		pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
+		cutError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kesme işlemine izin vermiyor. İşlem için (Ctrl/Cmd+X) tuşlarını kullanın.',
+		copyError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl/Cmd+C) tuşlarını kullanın.',
+		pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl/Cmd+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
 		securityMsg: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin direkt olarak panoya erişimine izin vermiyor. Bu pencere içine tekrar yapıştırmalısınız..',
 		pasteArea: 'Paste Area' // MISSING
 	},

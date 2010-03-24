@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'gl' ] = {
 
 	clipboard: {
 		title: 'Pegar',
-		cutError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de corte. Por favor, use o teclado para iso (Ctrl+X).',
-		copyError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de copia. Por favor, use o teclado para iso (Ctrl+C).',
-		pasteMsg: 'Por favor, pegue dentro do seguinte cadro usando o teclado (<STRONG>Ctrl+V</STRONG>) e pulse <STRONG>OK</STRONG>.',
+		cutError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de corte. Por favor, use o teclado para iso (Ctrl/Cmd+X).',
+		copyError: 'Os axustes de seguridade do seu navegador non permiten que o editor realice automáticamente as tarefas de copia. Por favor, use o teclado para iso (Ctrl/Cmd+C).',
+		pasteMsg: 'Por favor, pegue dentro do seguinte cadro usando o teclado (<STRONG>Ctrl/Cmd+V</STRONG>) e pulse <STRONG>OK</STRONG>.',
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 		pasteArea: 'Paste Area' // MISSING
 	},

@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'fo' ] = {
 
 	clipboard: {
 		title: 'Innrita',
-		cutError: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í at kvetta tekstin. Vinarliga nýt knappaborðið til at kvetta tekstin (CTRL+X).',
-		copyError: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í at avrita tekstin. Vinarliga nýt knappaborðið til at avrita tekstin (CTRL+C).',
-		pasteMsg: 'Vinarliga koyr tekstin í hendan rútin við knappaborðinum (<strong>CTRL+V</strong>) og klikk á <strong>Góðtak</strong>.',
+		cutError: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í at kvetta tekstin. Vinarliga nýt knappaborðið til at kvetta tekstin (Ctrl/Cmd+X).',
+		copyError: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í at avrita tekstin. Vinarliga nýt knappaborðið til at avrita tekstin (Ctrl/Cmd+C).',
+		pasteMsg: 'Vinarliga koyr tekstin í hendan rútin við knappaborðinum (<strong>Ctrl/Cmd+V</strong>) og klikk á <strong>Góðtak</strong>.',
 		securityMsg: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í beinleiðis atgongd til avritingarminnið. Tygum mugu royna aftur í hesum rútinum.',
 		pasteArea: 'Paste Area' // MISSING
 	},

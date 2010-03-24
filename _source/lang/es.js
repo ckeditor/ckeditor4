@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'es' ] = {
 
 	clipboard: {
 		title: 'Pegar',
-		cutError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de cortado.\r\nPor favor use el teclado (Ctrl+X).',
-		copyError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de copiado.\r\nPor favor use el teclado (Ctrl+C).',
-		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl+V</STRONG>);\r\nluego presione <STRONG>Aceptar</STRONG>.',
+		cutError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de cortado.\r\nPor favor use el teclado (Ctrl/Cmd+X).',
+		copyError: 'La configuración de seguridad de este navegador no permite la ejecución automática de operaciones de copiado.\r\nPor favor use el teclado (Ctrl/Cmd+C).',
+		pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl/Cmd+V</STRONG>);\r\nluego presione <STRONG>Aceptar</STRONG>.',
 		securityMsg: 'Debido a la configuración de seguridad de su navegador, el editor no tiene acceso al portapapeles.\r\nEs necesario que lo pegue de nuevo en esta ventana.',
 		pasteArea: 'Paste Area' // MISSING
 	},

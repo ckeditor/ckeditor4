@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'pl' ] = {
 
 	clipboard: {
 		title: 'Wklej',
-		cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl+X.',
-		copyError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne kopiowanie tekstu. Użyj skrótu klawiszowego Ctrl+C.',
-		pasteMsg: 'Proszę wkleić w poniższym polu używając klawiaturowego skrótu (<STRONG>Ctrl+V</STRONG>) i kliknąć <STRONG>OK</STRONG>.',
+		cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl/Cmd+X.',
+		copyError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne kopiowanie tekstu. Użyj skrótu klawiszowego Ctrl/Cmd+C.',
+		pasteMsg: 'Proszę wkleić w poniższym polu używając klawiaturowego skrótu (<STRONG>Ctrl/Cmd+V</STRONG>) i kliknąć <STRONG>OK</STRONG>.',
 		securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę dane wkleić ponownie w tym okienku.',
 		pasteArea: 'Paste Area' // MISSING
 	},

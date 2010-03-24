@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	clipboard: {
 		title: 'Liitä',
-		cutError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa leikkaamista. Käytä näppäimistöä leikkaamiseen (Ctrl+X).',
-		copyError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa kopioimista. Käytä näppäimistöä kopioimiseen (Ctrl+C).',
-		pasteMsg: 'Liitä painamalla (<STRONG>Ctrl+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
+		cutError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa leikkaamista. Käytä näppäimistöä leikkaamiseen (Ctrl/Cmd+X).',
+		copyError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa kopioimista. Käytä näppäimistöä kopioimiseen (Ctrl/Cmd+C).',
+		pasteMsg: 'Liitä painamalla (<STRONG>Ctrl/Cmd+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
 		securityMsg: 'Selaimesi turva-asetukset eivät salli editorin käyttää leikepöytää suoraan. Sinun pitää suorittaa liittäminen tässä ikkunassa.',
 		pasteArea: 'Paste Area' // MISSING
 	},

@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	clipboard: {
 		title: 'Plakken',
-		cutError: 'De beveiligingsinstelling van de browser verhinderen het automatisch knippen. Gebruik de sneltoets Ctrl+X van het toetsenbord.',
-		copyError: 'De beveiligingsinstelling van de browser verhinderen het automatisch kopiëren. Gebruik de sneltoets Ctrl+C van het toetsenbord.',
-		pasteMsg: 'Plak de tekst in het volgende vak gebruik makend van uw toetsenbord (<strong>Ctrl+V</strong>) en klik op <strong>OK</strong>.',
+		cutError: 'De beveiligingsinstelling van de browser verhinderen het automatisch knippen. Gebruik de sneltoets Ctrl/Cmd+X van het toetsenbord.',
+		copyError: 'De beveiligingsinstelling van de browser verhinderen het automatisch kopiëren. Gebruik de sneltoets Ctrl/Cmd+C van het toetsenbord.',
+		pasteMsg: 'Plak de tekst in het volgende vak gebruik makend van uw toetsenbord (<strong>Ctrl/Cmd+V</strong>) en klik op <strong>OK</strong>.',
 		securityMsg: 'Door de beveiligingsinstellingen van uw browser is het niet mogelijk om direct vanuit het klembord in de editor te plakken. Middels opnieuw plakken in dit venster kunt u de tekst alsnog plakken in de editor.',
 		pasteArea: 'Paste Area' // MISSING
 	},

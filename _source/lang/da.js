@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'da' ] = {
 
 	clipboard: {
 		title: 'Indsæt',
-		cutError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at klippe teksten (Ctrl+X).',
-		copyError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at kopiere teksten (Ctrl+C).',
-		pasteMsg: 'Indsæt i feltet herunder (<STRONG>Ctrl+V</STRONG>) og klik på <STRONG>OK</STRONG>.',
+		cutError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at klippe teksten (Ctrl/Cmd+X).',
+		copyError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at kopiere teksten (Ctrl/Cmd+C).',
+		pasteMsg: 'Indsæt i feltet herunder (<STRONG>Ctrl/Cmd+V</STRONG>) og klik på <STRONG>OK</STRONG>.',
 		securityMsg: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Du skal indsætte udklipsholderens indhold i dette vindue igen.',
 		pasteArea: 'Paste Area' // MISSING
 	},

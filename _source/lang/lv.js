@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'lv' ] = {
 
 	clipboard: {
 		title: 'Ievietot',
-		cutError: 'Jūsu pārlūkprogrammas drošības iestatījumi nepieļauj editoram automātiski veikt izgriešanas darbību.  Lūdzu, izmantojiet (Ctrl+X, lai veiktu šo darbību.',
-		copyError: 'Jūsu pārlūkprogrammas drošības iestatījumi nepieļauj editoram automātiski veikt kopēšanas darbību.  Lūdzu, izmantojiet (Ctrl+C), lai veiktu šo darbību.',
-		pasteMsg: 'Lūdzu, ievietojiet tekstu šajā laukumā, izmantojot klaviatūru (<STRONG>Ctrl+V</STRONG>) un apstipriniet ar <STRONG>Darīts!</STRONG>.',
+		cutError: 'Jūsu pārlūkprogrammas drošības iestatījumi nepieļauj editoram automātiski veikt izgriešanas darbību.  Lūdzu, izmantojiet (Ctrl/Cmd+X, lai veiktu šo darbību.',
+		copyError: 'Jūsu pārlūkprogrammas drošības iestatījumi nepieļauj editoram automātiski veikt kopēšanas darbību.  Lūdzu, izmantojiet (Ctrl/Cmd+C), lai veiktu šo darbību.',
+		pasteMsg: 'Lūdzu, ievietojiet tekstu šajā laukumā, izmantojot klaviatūru (<STRONG>Ctrl/Cmd+V</STRONG>) un apstipriniet ar <STRONG>Darīts!</STRONG>.',
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 		pasteArea: 'Paste Area' // MISSING
 	},

@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'mn' ] = {
 
 	clipboard: {
 		title: 'Буулгах',
-		cutError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хайчлах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl+X) товчны хослолыг ашиглана уу.',
-		copyError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хуулах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl+C) товчны хослолыг ашиглана уу.',
-		pasteMsg: '(<strong>Ctrl+V</strong>) товчийг ашиглан paste хийнэ үү. Мөн <strong>OK</strong> дар.',
+		cutError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хайчлах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl/Cmd+X) товчны хослолыг ашиглана уу.',
+		copyError: 'Таны browser-ын хамгаалалтын тохиргоо editor-д автоматаар хуулах үйлдэлийг зөвшөөрөхгүй байна. (Ctrl/Cmd+C) товчны хослолыг ашиглана уу.',
+		pasteMsg: '(<strong>Ctrl/Cmd+V</strong>) товчийг ашиглан paste хийнэ үү. Мөн <strong>OK</strong> дар.',
 		securityMsg: 'Таны үзүүлэгч/browser/-н хамгаалалтын тохиргооноос болоод editor clipboard өгөгдөлрүү шууд хандах боломжгүй. Энэ цонход дахин paste хийхийг оролд.',
 		pasteArea: 'Paste Area' // MISSING
 	},

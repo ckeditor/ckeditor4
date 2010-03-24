@@ -482,9 +482,9 @@ CKEDITOR.lang[ 'af' ] = {
 
 	clipboard: {
 		title: 'Byvoeg',
-		cutError: 'U browser se sekuriteit instelling behinder die uitsny aksie. Gebruik asseblief die sleutel kombenasie(Ctrl+X).',
-		copyError: 'U browser se sekuriteit instelling behinder die kopieerings aksie. Gebruik asseblief die sleutel kombenasie(Ctrl+C).',
-		pasteMsg: 'Voeg asseblief die inhoud in die gegewe box by met sleutel kombenasie(<STRONG>Ctrl+V</STRONG>) en druk <STRONG>OK</STRONG>.',
+		cutError: 'U browser se sekuriteit instelling behinder die uitsny aksie. Gebruik asseblief die sleutel kombenasie(Ctrl/Cmd+X).',
+		copyError: 'U browser se sekuriteit instelling behinder die kopieerings aksie. Gebruik asseblief die sleutel kombenasie(Ctrl/Cmd+C).',
+		pasteMsg: 'Voeg asseblief die inhoud in die gegewe box by met sleutel kombenasie(<STRONG>Ctrl/Cmd+V</STRONG>) en druk <STRONG>OK</STRONG>.',
 		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 		pasteArea: 'Paste Area' // MISSING
 	},
