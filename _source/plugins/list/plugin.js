@@ -27,14 +27,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !baseArray )
 				baseArray = [];
 
-			// Iterate over all list items to get their contents and look for inner lists.
+			// Iterate over all list items to and look for inner lists.
 			for ( var i = 0, count = listNode.getChildCount(); i < count; i++ ) {
 				var listItem = listNode.getChild( i );
 
 				// It may be a text node or some funny stuff.
 				if ( listItem.$.nodeName.toLowerCase() != 'li' )
 					continue;
-				var itemObj = { 'parent': listNode, indent: baseIndentLevel, contents: [] };
+
+				var itemObj = { 'parent': listNode, indent: baseIndentLevel, element: listItem };
 				if ( !grandparentNode ) {
 					itemObj.grandparent = listNode.getParent();
 					if ( itemObj.grandparent && itemObj.grandparent.$.nodeName.toLowerCase() == 'li' )
@@ -46,14 +47,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					CKEDITOR.dom.element.setMarker( database, listItem, 'listarray_index', baseArray.length );
 				baseArray.push( itemObj );
 
-				for ( var j = 0, itemChildCount = listItem.getChildCount(); j < itemChildCount; j++ ) {
-					var child = listItem.getChild( j );
+				for ( var j = 0, itemChildCount = listItem.getChildCount(), child; j < itemChildCount; j++ ) {
+					child = listItem.getChild( j );
+					// Push inner list items with +1 indentation in the correct order.
 					if ( child.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ child.getName() ] )
-					// Note the recursion here, it pushes inner list items with
-					// +1 indentation in the correct order.
-					CKEDITOR.plugins.list.listToArray( child, database, baseArray, baseIndentLevel + 1, itemObj.grandparent );
-					else
-						itemObj.contents.push( child );
+						CKEDITOR.plugins.list.listToArray( child, database, baseArray, baseIndentLevel + 1, itemObj.grandparent );
 				}
 			}
 			return baseArray;
@@ -79,9 +77,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						rootNode = listArray[ currentIndex ].parent.clone( false, true );
 						retval.append( rootNode );
 					}
-					currentListItem = rootNode.append( doc.createElement( 'li' ) );
-					for ( var i = 0; i < item.contents.length; i++ )
-						currentListItem.append( item.contents[ i ].clone( true, true ) );
+					currentListItem = rootNode.append( item.element );
 					currentIndex++;
 				} else if ( item.indent == Math.max( indentLevel, 0 ) + 1 ) {
 					var listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode );
@@ -90,16 +86,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				} else if ( item.indent == -1 && !baseIndex && item.grandparent ) {
 					currentListItem;
 					if ( listNodeNames[ item.grandparent.getName() ] )
-						currentListItem = doc.createElement( 'li' );
+						currentListItem = item.element;
 					else {
+						// Create completely new blocks here, attributes are dropped.
 						if ( paragraphMode != CKEDITOR.ENTER_BR && item.grandparent.getName() != 'td' )
 							currentListItem = doc.createElement( paragraphName );
 						else
 							currentListItem = new CKEDITOR.dom.documentFragment( doc );
 					}
 
-					for ( i = 0; i < item.contents.length; i++ )
-						currentListItem.append( item.contents[ i ].clone( true, true ) );
+					item.element.moveChildren( currentListItem );
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
 						if ( currentListItem.getLast() && currentListItem.getLast().type == CKEDITOR.NODE_ELEMENT && currentListItem.getLast().getAttribute( 'type' ) == '_moz' )
