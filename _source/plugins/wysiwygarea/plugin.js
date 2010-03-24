@@ -152,6 +152,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -185,31 +187,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var previousElement = fixedBlock.getPrevious( isNotWhitespace ),
 					nextElement = fixedBlock.getNext( isNotWhitespace );
 
-
 				if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( previousElement ) || nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( nextElement ) ) {
 					fixedBlock.remove();
 				}
 			}
-
-			range.select();
-			// Notify non-IE that selection has changed.
-			if ( !CKEDITOR.env.ie )
-				editor.selectionChange();
 		}
 
 		// All browsers are incapable to moving cursor out of certain non-exitable
 		// blocks (e.g. table, list, pre) at the end of document, make this happen by
 		// place a bogus node there, which would be later removed by dataprocessor.
-		var lastNode = body.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
-		if ( lastNode && lastNode.getName && ( lastNode.getName() in nonExitableElementNames ) ) {
+		var walkerRange = new CKEDITOR.dom.range( editor.document ),
+			walker = new CKEDITOR.dom.walker( walkerRange );
+		walkerRange.selectNodeContents( body );
+		walker.evaluator = function( node ) {
+			return node.type == CKEDITOR.NODE_ELEMENT && ( node.getName() in nonExitableElementNames );
+		};
+		walker.guard = function( node, isMoveout ) {
+			return !( ( node.type == CKEDITOR.NODE_TEXT && isNotWhitespace( node ) ) || isMoveout );
+		};
+
+		if ( walker.previous() ) {
 			restoreDirty( editor );
 			CKEDITOR.env.ie && restoreSelection( selection );
 
-			if ( !CKEDITOR.env.ie )
-				body.appendBogus();
+			var paddingBlock;
+			if ( enterMode != CKEDITOR.ENTER_BR )
+				paddingBlock = body.append( new CKEDITOR.dom.element( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
 			else
-				body.append( editor.document.createText( '\xa0' ) );
+				paddingBlock = body;
+
+			if ( !CKEDITOR.env.ie )
+				paddingBlock.appendBogus();
 		}
+
+		range.select();
+		editor.selectionChange();
 	}
 
 	CKEDITOR.plugins.add( 'wysiwygarea', {
