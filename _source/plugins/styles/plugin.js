@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1080,8 +1080,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		typeof source == 'string' && ( source = parseStyleText( source ) );
 		typeof target == 'string' && ( target = parseStyleText( target ) );
 		for ( var name in source ) {
-			// Value 'inheirt'  is treated as a wildcard,
-			// which will matches any value.   
+			// Value 'inherit'  is treated as a wildcard,
+			// which will match any value.
 			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
 				return false;
 			}
@@ -1143,14 +1143,21 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
 	if ( !this._.stylesDefinitions ) {
 		var editor = this,
 			// Respect the backwards compatible definition entry
-			configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet,
-			partsStylesSet = configStyleSet.split( ':' ),
+			configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet || 'default';
+
+		// #5352 Allow to define the styles directly in the config object
+		if ( configStyleSet instanceof Array ) {
+			editor._.stylesDefinitions = configStyleSet;
+			callback( configStyleSet );
+			return;
+		}
+
+		var partsStylesSet = configStyleSet.split( ':' ),
 			styleSetName = partsStylesSet[ 0 ],
 			externalPath = partsStylesSet[ 1 ],
 			pluginPath = CKEDITOR.plugins.registered.styles.path;
 
 		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : pluginPath + 'styles/' + styleSetName + '.js', '' );
-
 
 		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
 			editor._.stylesDefinitions = stylesSet[ styleSetName ];
@@ -1170,7 +1177,7 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * Otherwise, this setting has the "name:url" syntax, making it
  * possible to set the URL from which loading the styles file.<br>
  * Previously this setting was available as config.stylesCombo_stylesSet<br>
- * @type string
+ * @type String|Array
  * @default 'default'
  * @since 3.3
  * @example
@@ -1182,5 +1189,9 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * @example
  * // Load from a full URL.
  * config.stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
+ * @example
+ * // Load from a list of definitions.
+ * config.stylesSet = [
+ *  { name : 'Strong Emphasis', element : 'strong' },
+ * { name : 'Emphasis', element : 'em' }, ... ];
  */
-CKEDITOR.config.stylesSet = 'default';
