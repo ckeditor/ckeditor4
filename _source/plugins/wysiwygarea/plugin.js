@@ -584,6 +584,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						data += activationScript;
 
 						CKEDITOR._[ 'contentDomReady' + editor.name ] = contentDomReady;
+
+						// The iframe is recreated on each call of setData, so we need to clear DOM objects
+						this.onDispose();
 						createIFrame( data );
 					},
 
@@ -616,12 +619,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						iframe.getFrameDocument().getBody().setHtml( data );
 					},
 
-					unload: function( holderElement ) {
+					onDispose: function() {
+						if ( !editor.document )
+							return;
+
 						editor.document.getDocumentElement().clearCustomData();
 						editor.document.getBody().clearCustomData();
 
 						editor.window.clearCustomData();
 						editor.document.clearCustomData();
+
+						iframe.clearCustomData();
+					},
+
+					unload: function( holderElement ) {
+						this.onDispose();
 
 						editor.window = editor.document = iframe = mainElement = isPendingFocus = null;
 
