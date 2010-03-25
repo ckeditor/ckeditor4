@@ -56,8 +56,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	var findDialog = function( editor, startupPage ) {
-			// Style object for highlights.
-			var highlightStyle = new CKEDITOR.style( editor.config.find_highlight );
+			// Style object for highlights: (#5018)
+			// 1. Defined as full match style to avoid compromising ordinary text color styles.
+			// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
+			var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend({
+				fullMatch: true, childRule: function() {
+					return false;
+				} }, editor.config.find_highlight ) );
 
 			/**
 			 * Iterator which walk through the specified range char by char. By
