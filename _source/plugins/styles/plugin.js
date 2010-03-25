@@ -255,19 +255,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 		stylesDef = styleDefinition.styles;
 
 		// Builds the StyleText.
-
-		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '';
+		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '',
+			specialStylesText = '';
 
 		if ( stylesText.length )
 			stylesText = stylesText.replace( semicolonFixRegex, ';' );
 
-		for ( var style in stylesDef )
-			stylesText += ( style + ':' + stylesDef[ style ] ).replace( semicolonFixRegex, ';' );
+		for ( var style in stylesDef ) {
+			var styleVal = stylesDef[ style ],
+				stylesText = ( style + ':' + styleVal ).replace( semicolonFixRegex, ';' );
+
+			// Some browsers don't support 'inheirt' property value, leave them intact. (#5242)
+			if ( styleVal == 'inherit' )
+				specialStylesText += stylesText;
+			else
+				stylesText += stylesText;
+		}
 
 		// Browsers make some changes to the style when applying them. So, here
 		// we normalize it to the browser format.
 		if ( stylesText.length )
 			stylesText = normalizeCssText( stylesText );
+
+		stylesText += specialStylesText;
 
 		// Return it, saving it to the next request.
 		return ( styleDefinition._ST = stylesText );
