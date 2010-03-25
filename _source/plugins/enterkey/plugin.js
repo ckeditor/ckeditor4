@@ -21,6 +21,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var doc = range.document;
 
+			// Exit the list when we're inside an empty list item block. (#5376)
+			if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+				var path = new CKEDITOR.dom.elementPath( range.startContainer ),
+					block = path.block;
+
+				if ( block.is( 'li' ) || block.getParent().is( 'li' ) ) {
+					editor.execCommand( 'outdent' );
+					return;
+				}
+			}
+
 			// Determine the block element to be used.
 			var blockTag = ( mode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
@@ -66,12 +77,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( nextBlock )
 					range.moveToElementEditStart( nextBlock );
 			} else {
-
-				if ( isStartOfBlock && isEndOfBlock && previousBlock.is( 'li' ) ) {
-					editor.execCommand( 'outdent' );
-					return;
-				}
-
 				var newBlock;
 
 				if ( previousBlock ) {
