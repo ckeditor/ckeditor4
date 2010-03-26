@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -28,7 +28,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			editor.execCommand( commandName );
 		}, this );
 
-		this.definiton = {
+		this.definition = {
 			panel: {
 				className: editor.skinClass + ' cke_contextmenu',
 				attributes: {
@@ -47,7 +47,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				menu.hide();
 				menu.removeAll();
 			} else {
-				menu = this._.menu = new CKEDITOR.menu( editor, this.definiton );
+				menu = this._.menu = new CKEDITOR.menu( editor, this.definition );
 				menu.onClick = CKEDITOR.tools.bind( function( item ) {
 					menu.hide();
 
