@@ -73,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 */
 			var characterWalker = function( range, matchWord ) {
 					var walker = new CKEDITOR.dom.walker( range );
-					walker[ matchWord ? 'guard' : 'evaluator' ] = guardDomWalkerNonEmptyTextNode;
+					walker[ 'evaluator' ] = guardDomWalkerNonEmptyTextNode;
 					walker.breakOnFalse = true;
 
 					this._ = {
