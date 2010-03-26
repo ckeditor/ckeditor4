@@ -1144,7 +1144,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	CKEDITOR.event.implementOn( CKEDITOR.dialog.prototype, true );
 
 	var defaultDialogDefinition = {
-		resizable: CKEDITOR.DIALOG_RESIZE_NONE,
+		resizable: CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 600,
 		minHeight: 400,
 		buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
@@ -2528,10 +2528,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed. null if the dialog name is not registered.
 	 */
 	openDialog: function( dialogName, callback ) {
-		var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+		var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
+			dialogSkin = this.skin.dialog;
 
 		// If the dialogDefinition is already loaded, open it immediately.
-		if ( typeof dialogDefinitions == 'function' ) {
+		if ( typeof dialogDefinitions == 'function' && dialogSkin._isLoaded ) {
 			var storedDialogs = this._.storedDialogs || ( this._.storedDialogs = {} );
 
 			var dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
@@ -2555,7 +2556,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 				skin = me.skin.dialog;
 
 			// Check if both skin part and definition is loaded.
-			if ( !skin._isLoaded || typeof success == 'undefined' )
+			if ( !skin._isLoaded || loadDefinition && typeof success == 'undefined' )
 				return;
 
 			// In case of plugin error, mark it as loading failed.
@@ -2566,7 +2567,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			body.setStyle( 'cursor', cursor );
 		}
 
-		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ), onDialogFileLoaded );
+		if ( typeof dialogDefinitions == 'string' ) {
+			var loadDefinition = 1;
+			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ), onDialogFileLoaded );
+		}
+
 		CKEDITOR.skins.load( this, 'dialog', onDialogFileLoaded );
 
 		return null;
