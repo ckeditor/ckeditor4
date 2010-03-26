@@ -480,6 +480,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Remove the temporary marking node.(#4111)
 		marker && marker.remove();
 		range.moveToBookmark( bookmark );
+		// Minimize the result range to exclude empty text nodes. (#5374)
+		range.shrink( CKEDITOR.SHRINK_TEXT );
 	}
 
 	function removeInlineStyle( range ) {
