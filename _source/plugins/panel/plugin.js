@@ -243,6 +243,9 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 		if ( blockDefinition )
 			CKEDITOR.tools.extend( this, blockDefinition );
 
+		if ( !this.attributes.title )
+			this.attributes.title = this.attributes[ 'aria-label' ];
+
 		this.keys = {};
 
 		this._.focusIndex = -1;
