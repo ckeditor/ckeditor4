@@ -4,6 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.dialog.add( 'link', function( editor ) {
+	var plugin = CKEDITOR.plugins.link;
 	// Handles the event when the "Target" selection box is changed.
 	var targetChanged = function() {
 			var dialog = this.getDialog(),
@@ -83,7 +84,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 	var popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi;
 
 	var parseLink = function( editor, element ) {
-			var href = element ? ( element.getAttribute( '_cke_saved_href' ) || element.getAttribute( 'href' ) ) : '',
+			var href = ( element && ( element.getAttribute( '_cke_saved_href' ) || element.getAttribute( 'href' ) ) ) || '',
 				javascriptMatch, emailMatch, anchorMatch, urlMatch,
 				retval = {};
 
@@ -1008,23 +1009,17 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			var editor = this.getParentEditor(),
 				selection = editor.getSelection(),
-				ranges = selection.getRanges(),
-				element = null,
-				me = this;
-			// Fill in all the relevant fields if there's already one link selected.
-			if ( ranges.length == 1 ) {
+				element = null;
 
-				var rangeRoot = ranges[ 0 ].getCommonAncestor( true );
-				element = rangeRoot.getAscendant( 'a', true );
-				if ( element && element.getAttribute( 'href' ) ) {
-					selection.selectElement( element );
-				} else if ( ( element = rangeRoot.getAscendant( 'img', true ) ) && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
-					this.fakeObj = element;
-					element = editor.restoreRealElement( this.fakeObj );
-					selection.selectElement( this.fakeObj );
-				} else
-					element = null;
-			}
+			// Fill in all the relevant fields if there's already one link selected.
+			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) )
+				selection.selectElement( element );
+			else if ( ( element = selection.getSelectedElement() ) && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
+				this.fakeObj = element;
+				element = editor.restoreRealElement( this.fakeObj );
+				selection.selectElement( this.fakeObj );
+			} else
+				element = null;
 
 			this.setupContent( parseLink.apply( this, [ editor, element ] ) );
 		},
