@@ -117,8 +117,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Apply indenting or outdenting on the array.
 		var baseIndent = listArray[ lastItem.getCustomData( 'listarray_index' ) ].indent;
-		for ( i = startItem.getCustomData( 'listarray_index' ); i <= lastItem.getCustomData( 'listarray_index' ); i++ )
+		for ( i = startItem.getCustomData( 'listarray_index' ); i <= lastItem.getCustomData( 'listarray_index' ); i++ ) {
 			listArray[ i ].indent += indentOffset;
+			// Make sure the newly created sublist get a brand-new element of the same type. (#5372)
+			var listRoot = listArray[ i ].parent;
+			listArray[ i ].parent = new CKEDITOR.dom.element( listRoot.getName(), listRoot.getDocument() );
+		}
+
 		for ( i = lastItem.getCustomData( 'listarray_index' ) + 1;
 		i < listArray.length && listArray[ i ].indent > baseIndent; i++ )
 			listArray[ i ].indent += indentOffset;
