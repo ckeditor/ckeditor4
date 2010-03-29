@@ -614,13 +614,16 @@ body .cke_dialog
 
 .cke_skin_v2 .cke_dialog  #ImagePreviewBox
 {
-	white-space : normal;
 	border : 2px ridge black;
 	overflow : scroll;
 	height : 160px;
 	width : 230px;
 	padding : 2px;
 	background-color : white;
+}
+
+.cke_skin_v2 .cke_dialog #ImagePreviewBox table td {
+	white-space: normal;
 }
 
 /* Fix iframedialog's height doesn't stretch to 100% #4863.*/
