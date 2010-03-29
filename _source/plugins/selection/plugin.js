@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -133,13 +133,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						saveEnabled = false;
 					});
 
-					doc.getWindow().on( 'blur', function( evt ) {
-						// IE before version 8 will leave cursor blinking inside the document after
-						// editor blurred unless we clean up the selection. (#4716)
-						var env = CKEDITOR.env;
-						if ( env.ie && env.version < 8 )
+					// IE before version 8 will leave cursor blinking inside the document after
+					// editor blurred unless we clean up the selection. (#4716)
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
+						doc.getWindow().on( 'blur', function( evt ) {
 							editor.document.$.selection.empty();
-					});
+						});
+					}
 
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
