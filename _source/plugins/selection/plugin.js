@@ -133,6 +133,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						saveEnabled = false;
 					});
 
+					doc.getWindow().on( 'blur', function( evt ) {
+						// IE before version 8 will leave cursor blinking inside the document after
+						// editor blurred unless we clean up the selection. (#4716)
+						var env = CKEDITOR.env;
+						if ( env.ie && env.version < 8 )
+							editor.document.$.selection.empty();
+					});
+
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
 					body.on( 'mousedown', disableSave );
