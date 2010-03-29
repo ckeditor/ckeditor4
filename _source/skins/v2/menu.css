@@ -58,6 +58,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
+	clear: both;
 }
 
 .cke_rtl .cke_skin_v2 .cke_menuitem .cke_icon_wrapper
