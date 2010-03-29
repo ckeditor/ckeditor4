@@ -240,7 +240,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	border: 1px solid transparent;
 }
 
 .cke_skin_office2003 .cke_hc .cke_button a,
@@ -248,6 +247,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	opacity: 1.0;
 	filter: alpha(opacity=100);
+	_border: 1px solid transparent;
 }
 
 .cke_skin_office2003 .cke_button a.cke_on
