@@ -69,7 +69,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								lastType = type;
 							}
 
-							combo.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : buildPreview( style._.definition ), styleName );
+							combo.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(), styleName );
 						}
 
 						combo.commit();
@@ -164,35 +164,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 	});
-
-	function buildPreview( styleDefinition ) {
-		var html = [];
-
-		var elementName = styleDefinition.element;
-
-		// Avoid <bdo> in the preview.
-		if ( elementName == 'bdo' )
-			elementName = 'span';
-
-		html = [ '<', elementName ];
-
-		// Assign all defined attributes.
-		var attribs = styleDefinition.attributes;
-		if ( attribs ) {
-			for ( var att in attribs ) {
-				html.push( ' ', att, '="', attribs[ att ], '"' );
-			}
-		}
-
-		// Assign the style attribute.
-		var cssStyle = CKEDITOR.style.getStyleText( styleDefinition );
-		if ( cssStyle )
-			html.push( ' style="', cssStyle, '"' );
-
-		html.push( '>', styleDefinition.name, '</', elementName, '>' );
-
-		return html.join( '' );
-	}
 
 	function sortStyles( styleA, styleB ) {
 		var typeA = styleA.type,

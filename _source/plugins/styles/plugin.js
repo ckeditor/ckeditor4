@@ -242,6 +242,36 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 			}
 			return false;
+		},
+
+		// Builds the preview HTML based on the styles definition.
+		buildPreview: function() {
+			var styleDefinition = this._.definition,
+				html = [],
+				elementName = styleDefinition.element;
+
+			// Avoid <bdo> in the preview.
+			if ( elementName == 'bdo' )
+				elementName = 'span';
+
+			html = [ '<', elementName ];
+
+			// Assign all defined attributes.
+			var attribs = styleDefinition.attributes;
+			if ( attribs ) {
+				for ( var att in attribs ) {
+					html.push( ' ', att, '="', attribs[ att ], '"' );
+				}
+			}
+
+			// Assign the style attribute.
+			var cssStyle = CKEDITOR.style.getStyleText( styleDefinition );
+			if ( cssStyle )
+				html.push( ' style="', cssStyle, '"' );
+
+			html.push( '>', styleDefinition.name, '</', elementName, '>' );
+
+			return html.join( '' );
 		}
 	};
 
