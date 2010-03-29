@@ -34,7 +34,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				'</a>' );
 
 			// Build the inner HTML of our new item DIV.
-			var html = '<table style="width:350px;" class="cke_tpl_preview"><tr>';
+			var html = '<table style="width:350px;" class="cke_tpl_preview" role="presentation"><tr>';
 
 			if ( template.image && imagesPath )
 				html += '<td class="cke_tpl_preview_img"><img src="' + CKEDITOR.getUrl( imagesPath + template.image ) + '"' + ( CKEDITOR.env.ie6Compat ? ' onload="this.width=this.width"' : '' ) + ' alt="" title=""></td>';
