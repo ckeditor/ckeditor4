@@ -123,7 +123,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 
 				onOpen: function() {
-					if ( CKEDITOR.env.ie )
+					if ( CKEDITOR.env.ie || CKEDITOR.env.webkit )
 						editor.focus();
 
 					var selection = editor.getSelection();
