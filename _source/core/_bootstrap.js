@@ -8,12 +8,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
+	// Disable HC detaction in WebKit. (#5429)
+	if ( CKEDITOR.env.webkit ) {
+		CKEDITOR.env.hc = false;
+		return;
+	}
+
 	// Check is High Contrast is active by creating a temporary element with a
 	// background image.
 
 	var useSpacer = CKEDITOR.env.ie && CKEDITOR.env.version < 7,
 		useBlank = CKEDITOR.env.ie && CKEDITOR.env.version == 7;
-
 
 	var backgroundImageUrl = useSpacer ? ( CKEDITOR.basePath + 'images/spacer.gif' ) : useBlank ? 'about:blank' : 'data:image/png;base64,';
 
@@ -30,6 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	} catch ( e ) {
 		CKEDITOR.env.hc = false;
 	}
+
 	if ( CKEDITOR.env.hc )
 		CKEDITOR.env.cssClass += ' cke_hc';
 
