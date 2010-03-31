@@ -205,7 +205,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 			// Add buttons titles
 			if ( userDicActive ) {
-				for ( i in buttons ) {
+				for ( i = 0; i < buttons.length; i++ ) {
 					var button = buttons[ i ];
 					doc.getById( button ).setHtml( '<span class="cke_dialog_ui_button">' + captions[ 'button_' + button ] + '</span>' );
 				}
