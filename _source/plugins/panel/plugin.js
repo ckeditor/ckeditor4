@@ -192,6 +192,9 @@ CKEDITOR.ui.panel.prototype = {
 			current = this._.currentBlock,
 			holder = this.forceIFrame ? this.document.getById( 'cke_' + this.id + '_frame' ) : this._.holder;
 
+		// Disable context menu for block panel.
+		holder.getParent().getParent().disableContextMenu();
+
 		if ( current ) {
 			// Clean up the current block's effects on holder.
 			holder.removeAttributes( current.attributes );
