@@ -43,6 +43,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					oParams.userDictionaryName = editor.config.scayt_userDictionaryName || '';
 					oParams.sLang = editor.config.scayt_sLang || "en_US";
 
+					oParams.onBeforeChange = function() {
+						if ( !editor.checkDirty() )
+							setTimeout( function() {
+							editor.resetDirty();
+						});
+					};
 
 					var scayt_custom_params = window.scayt_custom_params;
 					if ( typeof scayt_custom_params == 'object' ) {
