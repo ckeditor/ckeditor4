@@ -938,6 +938,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			} else
 				ieRange.select();
 
+			this.moveToPosition( dummySpan, CKEDITOR.POSITION_BEFORE_START );
 			dummySpan.remove();
 		} else {
 			this.setEndBefore( endNode );
