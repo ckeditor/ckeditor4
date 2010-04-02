@@ -128,7 +128,7 @@ if ( !window.CKEDITOR ) {
 				}
 
 				if ( !path )
-					throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.'
+					throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
 
 				return path;
 			})(),

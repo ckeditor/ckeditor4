@@ -453,7 +453,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		if ( this._.filebrowserFn )
 			CKEDITOR.tools.removeFunction( this._.filebrowserFn );
 
-		items = editor.config.elementsPath_filters;
+		items = this.config.elementsPath_filters;
 		if ( items ) {
 			for ( index = 0; index < items.length; index++ )
 				items[ index ] = null;
