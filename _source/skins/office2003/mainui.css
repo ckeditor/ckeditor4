@@ -72,12 +72,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-color: #fff;
 }
 
-.cke_skin_office2003 .cke_browser_iequirks textarea.cke_source 
-{ 
-    /* For IE6+Quirks only */ 
-    _white-space: normal; 
+.cke_skin_office2003 .cke_browser_iequirks textarea.cke_source
+{
+    /* For IE6+Quirks only */
+    _white-space: normal;
 }
- 
+
 .cke_skin_office2003 .cke_resizer
 {
 	width: 12px;

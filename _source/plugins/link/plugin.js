@@ -131,7 +131,7 @@ CKEDITOR.plugins.link = {
 	 * @param editor
 	 * @example CKEDITOR.plugins.link.getSelectedLink( editor );
 	 * @since 3.2.1
-	 * The following selection will all return the link element.   
+	 * The following selection will all return the link element.
 	 *	 <pre>
 	 *  <a href="#">li^nk</a>
 	 *  <a href="#">[link]</a>
