@@ -363,7 +363,7 @@ CKEDITOR.config.toolbar_Basic = [
  *     ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
  *     '/',
  *     ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
- *     ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+ *     ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
  *     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
  *     ['Link','Unlink','Anchor'],
  *     ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
