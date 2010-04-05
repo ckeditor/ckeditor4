@@ -81,6 +81,10 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 			range.splitBlock( 'p' );
 			range.insertNode( breakObject );
+			if ( i == ranges.length - 1 ) {
+				range.moveToPosition( breakObject, CKEDITOR.POSITION_AFTER_END );
+				range.select();
+			}
 		}
 	}
 };
