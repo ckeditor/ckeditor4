@@ -541,10 +541,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					plugin.loadEngine( editor );
 				});
 			}
+		},
 
+		afterInit: function( editor ) {
 			// Prevent word marker line from displaying in elements path. (#3570)
 			var elementsPathFilters;
-			if ( ( elementsPathFilters = editor.config.elementsPath_filters ) ) {
+			if ( editor._.elementsPath && ( elementsPathFilters = editor._.elementsPath.filters ) ) {
 				elementsPathFilters.push( function( element ) {
 					if ( element.hasAttribute( 'scaytid' ) )
 						return false;
