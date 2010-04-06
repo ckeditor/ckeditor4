@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Do not enter this block if it's a header tag, or we are in
 					// a Shift+Enter (#77). Create a new block element instead
 					// (later in the code).
-					if ( !forceMode && !headerTagRegex.test( previousBlock.getName() ) ) {
+					if ( previousBlock.is( 'li' ) || !( forceMode || headerTagRegex.test( previousBlock.getName() ) ) ) {
 						// Otherwise, duplicate the previous block.
 						newBlock = previousBlock.clone();
 					}
