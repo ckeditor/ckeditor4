@@ -74,6 +74,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return retval;
 	}
 
+	function getFocusedCell( cellsToDelete ) {
+		var i = 0,
+			last = cellsToDelete.length - 1,
+			database = {},
+			cell, focusedCell, tr;
+
+		while ( cell = cellsToDelete[ i++ ] )
+			CKEDITOR.dom.element.setMarker( database, cell, 'delete_cell', true );
+
+		// 1.first we check left or right side focusable cell row by row;
+		i = 0;
+		while ( cell = cellsToDelete[ i++ ] ) {
+			if ( ( focusedCell = cell.getPrevious() ) && !focusedCell.getCustomData( 'delete_cell' ) || ( focusedCell = cell.getNext() ) && !focusedCell.getCustomData( 'delete_cell' ) ) {
+				CKEDITOR.dom.element.clearAllMarkers( database );
+				return focusedCell;
+			}
+		}
+
+		CKEDITOR.dom.element.clearAllMarkers( database );
+
+		// 2. then we check the toppest row (outside the selection area square) focusable cell
+		tr = cellsToDelete[ 0 ].getParent();
+		if ( tr = tr.getPrevious() )
+			return tr.getLast();
+
+		// 3. last we check the lowerest  row focusable cell
+		tr = cellsToDelete[ last ].getParent();
+		if ( tr = tr.getNext() )
+			return tr.getChild( 0 );
+
+		return null;
+	}
+
 	function clearRow( $tr ) {
 		// Get the array of row's cells.
 		var $cells = $tr.cells;
@@ -239,11 +272,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function deleteCells( selectionOrCell ) {
 		if ( selectionOrCell instanceof CKEDITOR.dom.selection ) {
 			var cellsToDelete = getSelectedCells( selectionOrCell );
+			var table = cellsToDelete[ 0 ] && cellsToDelete[ 0 ].getAscendant( 'table' );
+			var cellToFocus = getFocusedCell( cellsToDelete );
+
 			for ( var i = cellsToDelete.length - 1; i >= 0; i-- )
 				deleteCells( cellsToDelete[ i ] );
+
+			if ( cellToFocus )
+				placeCursorInCell( cellToFocus, true );
+			else if ( table )
+				table.remove();
 		} else if ( selectionOrCell instanceof CKEDITOR.dom.element ) {
-			if ( selectionOrCell.getParent().getChildCount() == 1 )
-				selectionOrCell.getParent().remove();
+			var tr = selectionOrCell.getParent();
+			if ( tr.getChildCount() == 1 )
+				tr.remove();
 			else
 				selectionOrCell.remove();
 		}
