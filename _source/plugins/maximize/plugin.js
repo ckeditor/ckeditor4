@@ -75,6 +75,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	}
 
+	function refreshCursor( editor ) {
+		if ( editor.focusManager.hasFocus ) {
+			var focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute; left:-10000" role="presentation"></span>' ) );
+
+			focusGrabber.on( 'focus', function() {
+				editor.focus();
+			});
+			focusGrabber.focus();
+			focusGrabber.remove();
+		}
+	}
+
 	CKEDITOR.plugins.add( 'maximize', {
 		init: function( editor ) {
 			var lang = editor.lang;
@@ -162,6 +174,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							top: ( -1 * offset.y ) + 'px'
 						});
 
+						// Fixing positioning editor chrome in Firefox break design mode. (#5149)
+						CKEDITOR.env.gecko && refreshCursor( editor );
+
 						// Add cke_maximized class.
 						container.addClass( 'cke_maximized' );
 					} else if ( this.state == CKEDITOR.TRISTATE_ON ) // Restore from fullscreen if the state is on.
@@ -208,6 +223,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Restore selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
 						if ( savedSelection ) {
+							// Fixing positioning editor chrome in Firefox break design mode. (#5149)
+							CKEDITOR.env.gecko && refreshCursor( editor );
+
 							editor.getSelection().selectRanges( savedSelection );
 							var element = editor.getSelection().getStartElement();
 							element && element.scrollIntoView( true );
