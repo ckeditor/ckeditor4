@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -90,7 +90,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return false;
 					} :
 					// Fore color style must be applied inside links instead of around it.
-					function() {
+					function( element ) {
 						return element.getName() != 'a';
 					};
 
