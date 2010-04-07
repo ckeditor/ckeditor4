@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -110,7 +110,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		// Removes any conflicting styles from within the specified range..
-		removeConflictsFromRange: function( range ) {
+		removeConflictsFromRange: function( range, nodeToPreserve ) {
 			var style = this,
 				overrides = getOverrides( style ),
 				styleCandidates = [],
@@ -118,9 +118,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			var walker = new CKEDITOR.dom.walker( range );
 			walker.evaluator = function( node ) {
-				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT && ( !nodeToPreserve || !node.equals( nodeToPreserve ) ) ) {
 					if ( node.is( style.element ) )
 						styleCandidates.push( node );
+
 					if ( node.getName() in overrides )
 						overrideCandidates.push( node );
 				}
@@ -345,12 +346,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 		range.trim();
 
-		// Remove all style conflictions within the range,
-		// e.g. style="color:red" is conflicting with style="color:blue".
-		var enlargedBookmark = range.createBookmark();
-		this.removeConflictsFromRange( range );
-		range.moveToBookmark( enlargedBookmark );
-
 		// Get the first node to be processed and the last, which concludes the
 		// processing.
 		var boundaryNodes = range.getBoundaryNodes();
@@ -487,8 +482,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 					styleRange.extractContents().appendTo( styleNode );
 
 					// Insert it into the range position (it is collapsed after
-					// extractContents.
+					// extractContents).
 					styleRange.insertNode( styleNode );
+
+					// Remove all style conflicts within the range, including
+					// parents boundaries touched by styleNode.
+					styleRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+					this.removeConflictsFromRange( styleRange, styleNode );
 
 					// Let's merge our new style with its neighbors, if possible.
 					mergeSiblings( styleNode );
