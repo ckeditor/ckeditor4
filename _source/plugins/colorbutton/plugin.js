@@ -75,13 +75,28 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				panel.hide();
 
-				var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: color || 'inherit' } );
 
 				editor.fire( 'saveSnapshot' );
-				if ( color )
-					style.apply( editor.document );
-				else
-					style.remove( editor.document );
+
+				// Clean up any conflicting style within the range.
+				new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ).remove( editor.document );
+
+				if ( color ) {
+					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
+
+					colorStyle.childRule = type == 'back' ?
+					// It's better to apply background color as the innermost style. (#3599)
+					function() {
+						return false;
+					} :
+					// Fore color style must be applied inside links instead of around it.
+					function() {
+						return element.getName() != 'a';
+					};
+
+					new CKEDITOR.style( colorStyle, { color: color } ).apply( editor.document );
+				}
+
 				editor.fire( 'saveSnapshot' );
 			});
 
@@ -193,12 +208,7 @@ CKEDITOR.config.colorButton_foreStyle = {
 	styles: { 'color': '#(color)' },
 	overrides: [ {
 		element: 'font', attributes: { 'color': null }
-	}],
-
-	// Fore color style must be applied inside links instead of around it.
-	childRule: function( element ) {
-		return element.getName() != 'a';
-	}
+	}]
 };
 
 /**
@@ -214,10 +224,5 @@ CKEDITOR.config.colorButton_foreStyle = {
  */
 CKEDITOR.config.colorButton_backStyle = {
 	element: 'span',
-	styles: { 'background-color': '#(color)' },
-
-	// It's better to apply background color as the innermost style. (#3599)
-	childRule: function( element ) {
-		return false;
-	}
+	styles: { 'background-color': '#(color)' }
 };
