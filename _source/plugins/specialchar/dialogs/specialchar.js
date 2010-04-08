@@ -261,7 +261,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						// Use character in case description unavailable.
 						charDesc = charDesc || character;
 
-						html.push( '<td class="cke_dark_background" style="cursor: default">' +
+						html.push( '<td class="cke_dark_background" style="cursor: default" role="presentation">' +
 							'<a href="javascript: void(0);" role="option"' +
 							' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="cke_specialchar_label_' + i + '"', ' style="cursor: inherit; display: block; height: 1.25em; margin-top: 0.25em; text-align: center;" title="', CKEDITOR.tools.htmlEncode( charDesc ), '"' +
 							' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydown + ', event, this )"' +
