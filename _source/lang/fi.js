@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'fi' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Rikastekstieditori, %1, paina ALT 0 nähdäksesi ohjeen.',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'Työkalupalkki',
+	editor: 'Rikastekstieditori',
 
 	// Toolbar buttons without dialogs.
 	source: 'Koodi',
@@ -90,19 +90,19 @@ CKEDITOR.lang[ 'fi' ] = {
 		cssStyle: 'Tyyli',
 		ok: 'OK',
 		cancel: 'Peruuta',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'Sulje',
+		preview: 'Esikatselu',
 		generalTab: 'Yleinen',
 		advancedTab: 'Lisäominaisuudet',
 		validateNumberFailed: 'Arvon pitää olla numero.',
 		confirmNewPage: 'Kaikki tallentamattomat muutokset tähän sisältöön menetetään. Oletko varma, että haluat ladata uuden sivun?',
 		confirmCancel: 'Jotkut asetuksista on muuttuneet. Oletko varma, että haluat sulkea valintaikkunan?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		options: 'Asetukset',
+		target: 'Kohde',
+		targetNew: 'Uusi ikkuna (_blank)',
+		targetTop: 'Päällimmäinen ikkuna (_top)',
+		targetSelf: 'Sama ikkuna (_self)',
+		targetParent: 'Ylemmän tason ikkuna (_parent)',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
@@ -122,7 +122,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Lisää linkki/muokkaa linkkiä',
-		other: '<muu>',
+		other: '<other>', // MISSING
 		menu: 'Muokkaa linkkiä',
 		title: 'Linkki',
 		info: 'Linkin tiedot',
@@ -130,7 +130,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		upload: 'Lisää tiedosto',
 		advanced: 'Lisäominaisuudet',
 		type: 'Linkkityyppi',
-		toUrl: 'URL', // MISSING
+		toUrl: 'Osoite',
 		toAnchor: 'Ankkuri tässä sivussa',
 		toEmail: 'Sähköposti',
 		targetFrame: '<kehys>',
@@ -214,7 +214,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		width: 'Leveys',
 		widthPx: 'pikseliä',
 		widthPc: 'prosenttia',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'leveysyksikkö',
 		height: 'Korkeus',
 		cellSpace: 'Solujen väli',
 		cellPad: 'Solujen sisennys',
@@ -366,7 +366,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		width: 'Leveys',
 		height: 'Korkeus',
 		lockRatio: 'Lukitse suhteet',
-		unlockRatio: 'Unlock Ratio', // MISSING
+		unlockRatio: 'Vapauta suhteet',
 		resetSize: 'Alkuperäinen koko',
 		border: 'Raja',
 		hSpace: 'Vaakatila',
@@ -379,11 +379,11 @@ CKEDITOR.lang[ 'fi' ] = {
 		button2Img: 'Haluatko muuntaa valitun kuvanäppäimen kuvaksi?',
 		img2Button: 'Haluatko muuntaa valitun kuvan kuvanäppäimeksi?',
 		urlMissing: 'Kuvan lähdeosoite puuttuu.',
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		validateWidth: 'Leveyden täytyy olla kokonaisluku.',
+		validateHeight: 'Korkeuden täytyy olla kokonaisluku.',
+		validateBorder: 'Reunan täytyy olla kokonaisluku.',
+		validateHSpace: 'HSpace-määrityksen täytyy olla kokonaisluku.',
+		validateVSpace: 'VSpace-määrityksen täytyy olla kokonaisluku.'
 	},
 
 	// Flash Dialog
@@ -466,7 +466,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'Elementin polku',
 		eleTitle: '%1 elementti'
 	},
 
@@ -486,11 +486,11 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	clipboard: {
 		title: 'Liitä',
-		cutError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa leikkaamista. Käytä näppäimistöä leikkaamiseen (Ctrl/Cmd+X).',
-		copyError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa kopioimista. Käytä näppäimistöä kopioimiseen (Ctrl/Cmd+C).',
-		pasteMsg: 'Liitä painamalla (<STRONG>Ctrl/Cmd+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
+		cutError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa leikkaamista. Käytä näppäimistöä leikkaamiseen (Ctrl+X).',
+		copyError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa kopioimista. Käytä näppäimistöä kopioimiseen (Ctrl+C).',
+		pasteMsg: 'Liitä painamalla (<STRONG>Ctrl+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
 		securityMsg: 'Selaimesi turva-asetukset eivät salli editorin käyttää leikepöytää suoraan. Sinun pitää suorittaa liittäminen tässä ikkunassa.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'Leikealue'
 	},
 
 	pastefromword: {
@@ -518,7 +518,7 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	stylesCombo: {
 		label: 'Tyyli',
-		panelTitle: 'Formatting Styles', // MISSING
+		panelTitle: 'Muotoilujen tyylit',
 		panelTitle1: 'Lohkojen tyylit',
 		panelTitle2: 'Rivinsisäiset tyylit',
 		panelTitle3: 'Objektien tyylit'
@@ -571,7 +571,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	colorButton: {
 		textColorTitle: 'Tekstiväri',
 		bgColorTitle: 'Taustaväri',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'Värit',
 		auto: 'Automaattinen',
 		more: 'Lisää värejä...'
 	},
