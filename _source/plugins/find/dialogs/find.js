@@ -162,7 +162,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( textNode )
 							range.setStartAfter( textNode );
 						else
-							return;
+							return null;
 					} else {
 						var first = cursors[ 0 ],
 							last = cursors[ cursors.length - 1 ];

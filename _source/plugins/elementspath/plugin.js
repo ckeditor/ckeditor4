@@ -52,7 +52,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element = selection.getStartElement(),
 					html = [],
 					editor = ev.editor,
-					elementsList = editor._.elementsPath.list = []
+					elementsList = editor._.elementsPath.list = [],
 					filters = editor._.elementsPath.filters;
 
 				while ( element ) {
