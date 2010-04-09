@@ -29,7 +29,7 @@ gu.js      Found: 300 Missing: 194
 he.js      Found: 467 Missing: 27
 hi.js      Found: 302 Missing: 192
 hr.js      Found: 404 Missing: 90
-hu.js      Found: 301 Missing: 193
+hu.js      Found: 445 Missing: 49
 is.js      Found: 307 Missing: 187
 it.js      Found: 404 Missing: 90
 ja.js      Found: 413 Missing: 81
