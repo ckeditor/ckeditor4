@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -2404,7 +2404,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// undo support should dedicate to specific dialog implementation.
 		canUndo: false,
 
-		editorFocus: CKEDITOR.env.ie
+		editorFocus: CKEDITOR.env.ie || CKEDITOR.env.webkit
 	};
 
 	(function() {
