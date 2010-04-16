@@ -554,6 +554,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Check if the <head> tag is available.
 							if ( !( /<head[\s|>]/ ).test( data ) )
 								data = data.replace( /<html[^>]*>/, '$&<head><title></title></head>' );
+							else if ( !( /<title[\s|>]/ ).test( data ) )
+								data = data.replace( /<head[^>]*>/, '$&<title></title>' );
 
 							// The base must be the first tag in the HEAD, e.g. to get relative
 							// links on styles.
