@@ -10,6 +10,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	var listNodeNames = { ol:1,ul:1 };
 
+	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+
 	function setState( editor, state ) {
 		editor.getCommand( this.name ).setState( state );
 	}
@@ -160,6 +163,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Nest preceding <ul>/<ol> inside current <li> if any.
 				while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in listNodeNames ) {
+					// IE requires a filler NBSP for nested list inside empty list item,
+					// otherwise the list item will be inaccessiable. (#4476)
+					if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
+						return isNotWhitespaces( node ) && isNotBookmark( node );
+					}))
+						li.append( range.document.createText( '\u00a0' ) );
+
 					li.append( followingList );
 				}
 
