@@ -626,9 +626,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					range.collapse();
 					selection.selectRanges( [ range ] );
 
-					// If the table's parent has only one child, remove it as well.
-					if ( table.getParent().getChildCount() == 1 )
-						table.getParent().remove();
+					// If the table's parent has only one child, remove it,except body,as well.( #5416 )
+					var parent = table.getParent();
+					if ( parent.getChildCount() == 1 && parent.getName() != 'body' )
+						parent.remove();
 					else
 						table.remove();
 				}
