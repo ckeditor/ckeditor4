@@ -55,8 +55,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	border: #ff9933 1px solid !important;
 	background-color: #fffacd !important;
+}
+
+.cke_skin_v2 .cke_tpl_list a:active *,
+.cke_skin_v2 .cke_tpl_list a:hover *,
+.cke_skin_v2 .cke_tpl_list a:focus *
+{
 	cursor: pointer;
-	cursor: hand;
+}
+
+/* IE6 contextual selectors childs won't get :hover transition until,
+	the hover style of the link itself contains certain CSS declarations.*/
+.cke_skin_v2 .cke_browser_ie6 .cke_tpl_list a:active,
+.cke_skin_v2 .cke_browser_ie6 .cke_tpl_list a:hover,
+.cke_skin_v2 .cke_browser_ie6 .cke_tpl_list a:focus
+{
+	background-position: 0 0;
 }
 
 .cke_skin_v2 .cke_tpl_list a:active .cke_tpl_item,
@@ -64,14 +78,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_v2 .cke_tpl_list a:focus .cke_tpl_item
 {
 	border-width: 3px;
-}
-
-/*
- * Fix property 'cursor' doesn't inherit on table
- */
-.cke_skin_v2 .cke_tpl_hover *
-{
-	cursor: inherit;
 }
 
 .cke_skin_v2 .cke_tpl_empty, .cke_tpl_loading
