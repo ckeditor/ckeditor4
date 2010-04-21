@@ -68,13 +68,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		restoreFormStyles( data );
 	}
 
-	function getResizeHandler( mainWindow, editor ) {
-		return function() {
-			var viewPaneSize = mainWindow.getViewPaneSize();
-			editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
-		};
-	}
-
 	function refreshCursor( editor ) {
 		if ( editor.focusManager.hasFocus ) {
 			var focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute; left:-10000" role="presentation"></span>' ) );
@@ -85,6 +78,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			focusGrabber.focus();
 			focusGrabber.remove();
 		}
+	}
+
+	/**
+	 * Adding an iframe shim to this element, OR removing the existing one if already applied.
+	 * Note: This will only affect IE version below 7.
+	 */
+	function createIframeShim( element ) {
+		if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 6 )
+			return;
+
+		var shim = CKEDITOR.dom.element.createFromHtml( '<iframe frameborder="0" tabindex="-1"' +
+			' src="javascript:' +
+				'void((function(){' +
+					'document.open();' +
+					( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + this.getDocument().$.domain + '\';' : '' ) +
+					'document.close();' +
+				'})())"' +
+			' style="display:block;position:absolute;z-index:-1;' +
+			'progid:DXImageTransform.Microsoft.Alpha(opacity=0);' +
+			'"></iframe>' );
+		return element.append( shim, true );
 	}
 
 	CKEDITOR.plugins.add( 'maximize', {
@@ -100,8 +114,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Saved scroll position for the outer window.
 			var outerScroll;
 
+			var shim;
+
 			// Saved resize handler function.
-			var resizeHandler = getResizeHandler( mainWindow, editor );
+			function resizeHandler() {
+				var viewPaneSize = mainWindow.getViewPaneSize();
+				shim && shim.setStyles({ width: viewPaneSize.width + 'px', height: viewPaneSize.height + 'px' } );
+				editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
+			};
 
 			// Retain state after mode switches.
 			var savedState = CKEDITOR.TRISTATE_OFF;
@@ -165,7 +185,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							left: '0px',
 							top: '0px'
 						});
-						editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
+
+						shim = createIframeShim( container ); // IE6 select element penetration when maximized. (#4459)
+						resizeHandler();
 
 						// Still not top left? Fix it. (Bug #174)
 						var offset = container.getDocumentPosition();
@@ -204,6 +226,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Remove cke_maximized class.
 						container.removeClass( 'cke_maximized' );
+
+						if ( shim ) {
+							shim.remove();
+							shim = null;
+						}
 
 						// Emit a resize event, because this time the size is modified in
 						// restoreStyles.
