@@ -244,7 +244,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( iframe )
 							iframe.remove();
 
-						frameLoaded = 0;
 
 						var setDataFn = !CKEDITOR.env.gecko && CKEDITOR.tools.addFunction( function( doc ) {
 							CKEDITOR.tools.removeFunction( setDataFn );
@@ -257,23 +256,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// call document.open().
 						( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 
-							( ( 'parent.CKEDITOR.tools.callFunction(' + setDataFn + ',document);' ) ) +
-
 							'document.close();';
 
 						iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 							' style="width:100%;height:100%"' +
 							' frameBorder="0"' +
 							' title="' + frameLabel + '"' +
-							// With FF, the 'src' attribute should be left empty to
+							// With IE, the custom domain has to be taken care at first,
+						// for other browers, the 'src' attribute should be left empty to
 						// trigger iframe's 'load' event.
-													' src="' + ( CKEDITOR.env.gecko ? '' : 'javascript:void(function(){' + encodeURIComponent( srcScript ) + '}())' ) + '"' +
+													' src="' + ( CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( srcScript ) + '}())' : '' ) + '"' +
 							' tabIndex="' + editor.tabIndex + '"' +
 							' allowTransparency="true"' +
 							'></iframe>' );
 
 						// With FF, it's better to load the data on iframe.load. (#3894,#4058)
-						CKEDITOR.env.gecko && iframe.on( 'load', function( ev ) {
+						iframe.on( 'load', function( ev ) {
+							frameLoaded = 1;
 							ev.removeListener();
 
 							var doc = iframe.getFrameDocument().$;
@@ -295,9 +294,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Editing area bootstrap code.
 				var contentDomReady = function( domWindow ) {
-						if ( frameLoaded )
+						if ( !frameLoaded )
 							return;
-						frameLoaded = 1;
+						frameLoaded = 0;
 
 						editor.fire( 'ariaWidget', iframe );
 
