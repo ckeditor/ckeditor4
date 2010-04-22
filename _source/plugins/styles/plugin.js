@@ -461,7 +461,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					styleRange.insertNode( styleNode );
 
 					// Let's merge our new style with its neighbors, if possible.
-					mergeSiblings( styleNode );
+					styleNode.mergeSiblings();
 
 					// As the style system breaks text nodes constantly, let's normalize
 					// things for performance.
@@ -527,7 +527,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						 * no difference that they're separate entities in the DOM tree. So, merge
 						 * them before removal.
 						 */
-						mergeSiblings( element );
+						element.mergeSiblings();
 						removeFromElement( this, element );
 
 					}
@@ -911,43 +911,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			if ( firstChild ) {
 				// Check the cached nodes for merging.
-				mergeSiblings( firstChild );
+				firstChild.type == CKEDITOR.NODE_ELEMENT && firstChild.mergeSiblings();
 
-				if ( lastChild && !firstChild.equals( lastChild ) )
-					mergeSiblings( lastChild );
-			}
-		}
-	}
-
-	function mergeSiblings( element ) {
-		if ( !element || element.type != CKEDITOR.NODE_ELEMENT || !CKEDITOR.dtd.$removeEmpty[ element.getName() ] )
-			return;
-
-		mergeElements( element, element.getNext(), true );
-		mergeElements( element, element.getPrevious() );
-	}
-
-	function mergeElements( element, sibling, isNext ) {
-		if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT ) {
-			var hasBookmark = sibling.getAttribute( '_fck_bookmark' );
-
-			if ( hasBookmark )
-				sibling = isNext ? sibling.getNext() : sibling.getPrevious();
-
-			if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT && element.isIdentical( sibling ) ) {
-				// Save the last child to be checked too, to merge things like
-				// <b><i></i></b><b><i></i></b> => <b><i></i></b>
-				var innerSibling = isNext ? element.getLast() : element.getFirst();
-
-				if ( hasBookmark )
-				( isNext ? sibling.getPrevious() : sibling.getNext() ).move( element, !isNext );
-
-				sibling.moveChildren( element, !isNext );
-				sibling.remove();
-
-				// Now check the last inner child (see two comments above).
-				if ( innerSibling )
-					mergeSiblings( innerSibling );
+				if ( lastChild && !firstChild.equals( lastChild ) && lastChild.type == CKEDITOR.NODE_ELEMENT )
+					lastChild.mergeSiblings();
 			}
 		}
 	}

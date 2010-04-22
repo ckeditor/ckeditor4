@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -684,6 +684,27 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
+	 * Whether it's an empty inline elements which has no visual impact when removed.
+	 */
+	isEmptyInlineRemoveable: function() {
+		if ( !CKEDITOR.dtd.$removeEmpty[ this.getName() ] )
+			return false;
+
+		var children = this.getChildren();
+		for ( var i = 0, count = children.count(); i < count; i++ ) {
+			var child = children.getItem( i );
+
+			if ( child.type == CKEDITOR.NODE_ELEMENT && child.getAttribute( '_fck_bookmark' ) )
+				continue;
+
+			if ( child.type == CKEDITOR.NODE_ELEMENT && !child.isEmptyInlineRemoveable() || child.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( child.getText() ) ) {
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/**
 	 * Indicates that the element has defined attributes.
 	 * @returns {Boolean} True if the element has attributes.
 	 * @example
@@ -767,6 +788,49 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				target.appendChild( $.removeChild( child ) );
 		}
 	},
+
+	mergeSiblings: (function() {
+		function mergeElements( element, sibling, isNext ) {
+			if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT ) {
+				// Jumping over bookmark nodes and empty inline elements, e.g. <b><i></i></b>,
+				// queuing them to be moved later. (#5567)
+				var pendingNodes = [];
+
+				while ( sibling.getAttribute( '_fck_bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
+					pendingNodes.push( sibling );
+					sibling = isNext ? sibling.getNext() : sibling.getPrevious();
+					if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT )
+						return;
+				}
+
+				if ( element.isIdentical( sibling ) ) {
+					// Save the last child to be checked too, to merge things like
+					// <b><i></i></b><b><i></i></b> => <b><i></i></b>
+					var innerSibling = isNext ? element.getLast() : element.getFirst();
+
+					// Move pending nodes first into the target element.
+					while ( pendingNodes.length )
+						pendingNodes.shift().move( element, !isNext );
+
+					sibling.moveChildren( element, !isNext );
+					sibling.remove();
+
+					// Now check the last inner child (see two comments above).
+					if ( innerSibling && innerSibling.type == CKEDITOR.NODE_ELEMENT )
+						innerSibling.mergeSiblings();
+				}
+			}
+		}
+
+		return function() {
+			// Merge empty links and anchors also. (#5567)
+			if ( !( CKEDITOR.dtd.$removeEmpty[ this.getName() ] || this.is( 'a' ) ) )
+				return;
+
+			mergeElements( this, this.getNext(), true );
+			mergeElements( this, this.getPrevious() );
+		}
+	})(),
 
 	/**
 	 * Shows this element (display it).
