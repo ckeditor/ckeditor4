@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'da' ] = {
 
 	scayt: {
 		title: 'Stavekontrol mens du skriver',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: 'Aktivér SCAYT',
 		disable: 'Deaktivér SCAYT',
 		about: 'Om SCAYT',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'da' ] = {
 		ignoreAll: 'Ignorér alle',
 		addWord: 'Tilføj ord',
 		emptyDic: 'Ordbogsnavn må ikke være tom.',
+
 		optionsTab: 'Indstillinger',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: 'Sprog',
+
 		dictionariesTab: 'Ordbøger',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: 'Om'
 	},
 

@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'hu' ] = {
 
 	scayt: {
 		title: 'Helyesírás ellenőrzés gépelés közben',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: 'SCAYT engedélyezése',
 		disable: 'SCAYT letiltása',
 		about: 'SCAYT névjegy',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'hu' ] = {
 		ignoreAll: 'Összes kihagyása',
 		addWord: 'Szó hozzáadása',
 		emptyDic: 'A szótár nevét meg kell adni.',
+
 		optionsTab: 'Beállítások',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: 'Nyelvek',
+
 		dictionariesTab: 'Szótár',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: 'Névjegy'
 	},
 

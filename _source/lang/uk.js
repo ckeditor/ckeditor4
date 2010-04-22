@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'uk' ] = {
 
 	scayt: {
 		title: 'Перефірка орфографії по мірі набору',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: 'Включити SCAYT',
 		disable: 'Відключити SCAYT',
 		about: 'Про SCAYT',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'uk' ] = {
 		ignoreAll: 'Ігнорувати всі',
 		addWord: 'Додати слово',
 		emptyDic: 'Назва словника повинна бути заповнена.',
+
 		optionsTab: 'Опції',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: 'Мови',
+
 		dictionariesTab: 'Словники',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: 'Про'
 	},
 

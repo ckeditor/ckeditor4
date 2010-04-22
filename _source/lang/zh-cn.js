@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	scayt: {
 		title: '即时拼写检查',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: '启用即时拼写检查',
 		disable: '禁用即时拼写检查',
 		about: '关于即时拼写检查',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		ignoreAll: '全部忽略',
 		addWord: '添加单词',
 		emptyDic: '字典名不应为空.',
+
 		optionsTab: '选项',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: '语言',
+
 		dictionariesTab: '字典',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: '关于'
 	},
 

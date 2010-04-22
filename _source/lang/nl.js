@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	scayt: {
 		title: 'Controleer de spelling tijdens het typen',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: 'SCAYT inschakelen',
 		disable: 'SCAYT uitschakelen',
 		about: 'Over SCAYT',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'nl' ] = {
 		ignoreAll: 'Alles negeren',
 		addWord: 'Woord toevoegen',
 		emptyDic: 'De naam van het woordenboek mag niet leeg zijn.',
+
 		optionsTab: 'Opties',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: 'Talen',
+
 		dictionariesTab: 'Woordenboeken',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: 'Over'
 	},
 

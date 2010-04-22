@@ -621,6 +621,7 @@ CKEDITOR.lang[ 'ca' ] = {
 
 	scayt: {
 		title: 'Spell Check As You Type',
+		opera_title: 'Not supported by Opera', // MISSING
 		enable: 'Habilitat l\'SCAYT',
 		disable: 'Deshabilita SCAYT',
 		about: 'Quant a l\'SCAYT',
@@ -632,9 +633,23 @@ CKEDITOR.lang[ 'ca' ] = {
 		ignoreAll: 'Ignora\'ls tots',
 		addWord: 'Afegeix una paraula',
 		emptyDic: 'El nom del diccionari no hauria d\'estar buit.',
+
 		optionsTab: 'Opcions',
+		allCaps: 'Ignore All-Caps Words', // MISSING
+		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+
 		languagesTab: 'Idiomes',
+
 		dictionariesTab: 'Diccionaris',
+		dic_field_name: 'Dictionary name', // MISSING
+		dic_create: 'Create', // MISSING
+		dic_restore: 'Restore', // MISSING
+		dic_delete: 'Delete', // MISSING
+		dic_rename: 'Rename', // MISSING
+		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+
 		aboutTab: 'Quant a'
 	},
 
