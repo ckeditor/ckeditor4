@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -61,6 +61,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						oParams.id = scayt_control_id;
 
 					var scayt_control = new window.scayt( oParams );
+
+					scayt_control.afterMarkupRemove.push( function( node ) {
+						( new CKEDITOR.dom.element( node, scayt_control.document ) ).mergeSiblings();
+					});
 
 					// Copy config.
 					var lastInstance = plugin.instances[ editor.name ];
@@ -232,7 +236,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var protocol = document.location.protocol;
 			// Default to 'http' for unknown.
 			protocol = protocol.search( /https?:/ ) != -1 ? protocol : 'http:';
-			var baseUrl = 'svc.spellchecker.net/spellcheck31/lf/scayt/scayt22.js';
+			var baseUrl = 'svc.spellchecker.net/spellcheck31/lf/scayt24/loader__base.js';
 
 			var scaytUrl = editor.config.scayt_srcUrl || ( protocol + '//' + baseUrl );
 			var scaytConfigBaseUrl = plugin.parseUrl( scaytUrl ).path + '/';
