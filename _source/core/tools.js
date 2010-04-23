@@ -224,7 +224,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		})(),
 
 		/**
-		 * Build the HTML snippet of a set of <style>/<link>.
+		 * Build the HTML snippet of a set of &lt;style>/&lt;link>.
 		 * @param css {String|Array} Each of which are url (absolute) of a CSS file or
 		 * a trunk of style text.
 		 */
