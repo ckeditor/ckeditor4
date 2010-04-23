@@ -453,7 +453,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					});
 
 					element.on( 'keydown', function( evt ) {
-						if ( evt.data.getKeystroke() in { 32:1,13:1 } ) {
+						if ( evt.data.getKeystroke() in { 32:1 } ) {
 							me.click();
 							evt.data.preventDefault();
 						}

@@ -26,6 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							style = styles[ styleName ] = new CKEDITOR.style( styleDefinition );
 							style._name = styleName;
+							style._.enterMode = config.enterMode;
 
 							stylesList.push( style );
 						}
