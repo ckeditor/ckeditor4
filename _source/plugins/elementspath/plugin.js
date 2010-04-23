@@ -142,8 +142,10 @@ CKEDITOR._.elementsPath = {
 
 		ev = new CKEDITOR.dom.event( ev );
 
+		var rtl = editor.lang.dir == 'rtl';
 		switch ( ev.getKeystroke() ) {
-			case 37: // LEFT-ARROW
+			case rtl ? 39:
+				37 : // LEFT-ARROW
 			case 9: // TAB
 				element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
 				if ( !element )
@@ -151,7 +153,8 @@ CKEDITOR._.elementsPath = {
 				element.focus();
 				return false;
 
-			case 39: // RIGHT-ARROW
+			case rtl ? 37:
+				39 : // RIGHT-ARROW
 			case CKEDITOR.SHIFT + 9: // SHIFT + TAB
 				element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
 				if ( !element )

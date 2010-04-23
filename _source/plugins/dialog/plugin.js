@@ -276,7 +276,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( me != CKEDITOR.dialog._.currentTop )
 				return;
 
-			var keystroke = evt.data.getKeystroke();
+			var keystroke = evt.data.getKeystroke(),
+				rtl = editor.lang.dir == 'rtl';
 
 			processed = 0;
 			if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
@@ -301,7 +302,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				processed = 1;
 			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
 				// Arrow keys - used for changing tabs.
-				nextId = ( keystroke == 37 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
+				nextId = ( keystroke == ( rtl ? 39 : 37 ) ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
 				me.selectPage( nextId );
 				me._.tabs[ nextId ][ 0 ].focus();
 				processed = 1;
