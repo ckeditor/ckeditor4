@@ -176,7 +176,7 @@ if ( CKEDITOR.status == 'unloaded' ) {
 					// The textarea class name could be passed as the function
 					// parameter.
 
-					var classRegex = new RegExp( '(?:^| )' + arguments[ 0 ] + '(?:$| )' );
+					var classRegex = new RegExp( '(?:^|\\s)' + arguments[ 0 ] + '(?:$|\\s)' );
 
 					if ( !classRegex.test( textarea.className ) )
 						continue;
