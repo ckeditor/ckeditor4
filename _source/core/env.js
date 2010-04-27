@@ -71,7 +71,10 @@ if ( !CKEDITOR.env ) {
 			mobile: ( agent.indexOf( 'mobile' ) > -1 ),
 
 			isCustomDomain: function() {
-				return this.ie && document.domain != window.location.hostname;
+				var domain = document.domain,
+					hostname = window.location.hostname;
+
+				return this.ie && domain != hostname && domain != ( '[' + hostname + ']' ); // IPv6 IP support (#5434)
 			}
 		};
 
