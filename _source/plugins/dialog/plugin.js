@@ -219,6 +219,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.parts.close.on( 'click', function( evt ) {
 			if ( this.fire( 'cancel', { hide: true } ).hide !== false )
 				this.hide();
+			evt.data.preventDefault();
 		}, this );
 
 		// Sort focus list according to tab order definitions.
