@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1198,6 +1198,7 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * Otherwise, this setting has the "name:url" syntax, making it
  * possible to set the URL from which loading the styles file.<br>
  * Previously this setting was available as config.stylesCombo_stylesSet<br>
+ * @name CKEDITOR.config.stylesSet
  * @type String|Array
  * @default 'default'
  * @since 3.3
