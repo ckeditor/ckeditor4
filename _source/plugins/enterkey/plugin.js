@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Do not enter this block if it's a header tag, or we are in
 					// a Shift+Enter (#77). Create a new block element instead
 					// (later in the code).
-					if ( previousBlock.is( 'li' ) || !( forceMode || headerTagRegex.test( previousBlock.getName() ) ) ) {
+					if ( previousBlock.is( 'li' ) || !headerTagRegex.test( previousBlock.getName() ) ) {
 						// Otherwise, duplicate the previous block.
 						newBlock = previousBlock.clone();
 					}
@@ -92,6 +92,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( !newBlock )
 					newBlock = doc.createElement( blockTag );
+				else if ( forceMode )
+					newBlock.renameNode( blockTag );
 
 				// Recreate the inline elements tree, which was available
 				// before hitting enter, so the same styles will be available in
