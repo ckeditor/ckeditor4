@@ -183,6 +183,28 @@ CKEDITOR.lang[ 'en' ] = {
 		errorName: 'Please type the anchor name'
 	},
 
+	// List style dialog
+	list: {
+		numberedTitle: 'Numbered List Properties',
+		bulletedTitle: 'Bulleted List Properties',
+		type: 'Type',
+		start: 'Start',
+		circle: 'Circle',
+		disc: 'Disc',
+		square: 'Square',
+		none: 'None',
+		notset: '<not set>',
+		armenian: 'Armenian numbering',
+		georgian: 'Georgian numbering (an, ban, gan, etc.)',
+		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
+		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
+		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
+		decimal: 'Decimal (1, 2, 3, etc.)',
+		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)'
+	},
+
 	// Find And Replace Dialog
 	findAndReplace: {
 		title: 'Find and Replace',

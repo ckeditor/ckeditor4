@@ -183,6 +183,28 @@ CKEDITOR.lang[ 'zh' ] = {
 		errorName: '請輸入錨點名稱'
 	},
 
+	// List style dialog
+	list: {
+		numberedTitle: 'Numbered List Properties', // MISSING
+		bulletedTitle: 'Bulleted List Properties', // MISSING
+		type: 'Type', // MISSING
+		start: 'Start', // MISSING
+		circle: 'Circle', // MISSING
+		disc: 'Disc', // MISSING
+		square: 'Square', // MISSING
+		none: 'None', // MISSING
+		notset: '<not set>', // MISSING
+		armenian: 'Armenian numbering', // MISSING
+		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
+		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
+		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
+		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
+		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
+		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
+		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
+		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+	},
+
 	// Find And Replace Dialog
 	findAndReplace: {
 		title: '尋找與取代',
