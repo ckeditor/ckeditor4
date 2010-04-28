@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -564,7 +564,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Add the DOCTYPE back to it.
 							data = docType + data;
 						} else {
-							data = config.docType + '<html dir="' + config.contentsLangDirection + '">' +
+							data = config.docType + '<html dir="' + config.contentsLangDirection + '"' +
+																			' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
 																		'<title>' + frameLabel + '</title>' +
 																		'<head>' +
 																			baseTag +

@@ -85,6 +85,16 @@ CKEDITOR.config = {
 	contentsLangDirection: 'ltr',
 
 	/**
+	 * Language code of  the writting language which is used to author the editor
+	 * contents.
+	 * @default Same value with editor's UI language.
+	 * @type String
+	 * @example
+	 * config.contentsLanguage = 'fr';
+	 */
+	contentsLanguage: '',
+
+	/**
 	 * The user interface language localization to use. If empty, the editor
 	 * automatically localize the editor to the user language, if supported,
 	 * otherwise the {@link CKEDITOR.config.defaultLanguage} language is used.
