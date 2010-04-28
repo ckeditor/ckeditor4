@@ -468,6 +468,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	CKEDITOR.dialog.prototype = {
+		destroy: function() {
+			this._.element.remove();
+		},
+
 		/**
 		 * Resizes the dialog.
 		 * @param {Number} width The width of the dialog in pixels.
@@ -576,7 +580,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) )
 				element.appendTo( CKEDITOR.document.getBody() );
 			else
-				return;
+				element.setStyle( 'display', 'block' );
 
 			// FIREFOX BUG: Fix vanishing caret for Firefox 2 or Gecko 1.8.
 			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) {
@@ -708,15 +712,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		hide: function() {
 			this.fire( 'hide', {} );
 			this._.editor.fire( 'dialogHide', this );
-
-			// Remove the dialog's element from the root document.
 			var element = this._.element;
-			if ( !element.getParent() )
-				return;
-
-			element.remove();
+			element.setStyle( 'display', 'none' );
 			this.parts.dialog.setStyle( 'visibility', 'hidden' );
-
 			// Unregister all access keys associated with this dialog.
 			unregisterAccessKey( this );
 
@@ -2514,6 +2512,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}, msg );
 			}
 		};
+
+		CKEDITOR.on( 'instanceDestroyed', function( evt ) {
+			var dialogs = evt.editor._.storedDialogs;
+			for ( var name in dialogs )
+				dialogs[ name ].destroy();
+
+			// Remove dialog cover on last instance destroy.
+			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) )
+				;
+			coverElement.remove();
+		});
+
 	})();
 })();
 
