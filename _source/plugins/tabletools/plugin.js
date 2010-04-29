@@ -74,7 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return retval;
 	}
 
-	function getFocusedCell( cellsToDelete ) {
+	function getFocusElementAfterDelCells( cellsToDelete ) {
 		var i = 0,
 			last = cellsToDelete.length - 1,
 			database = {},
@@ -216,16 +216,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	function getFocusElementAfterDelCols( cells ) {
+		var cellIndexList = [],
+			table = cells[ 0 ] && cells[ 0 ].getAscendant( 'table' ),
+			i, length, targetIndex, targetCell;
+
+		// get the cellIndex list of delete cells
+		for ( i = 0, length = cells.length; i < length; i++ )
+			cellIndexList.push( cells[ i ].$.cellIndex );
+
+		// get the focusable column index
+		cellIndexList.sort();
+		for ( i = 1, length = cellIndexList.length; i < length; i++ ) {
+			if ( cellIndexList[ i ] - cellIndexList[ i - 1 ] > 1 ) {
+				targetIndex = cellIndexList[ i - 1 ] + 1;
+				break;
+			}
+		}
+
+		if ( !targetIndex )
+			targetIndex = cellIndexList[ 0 ] > 0 ? ( cellIndexList[ 0 ] - 1 ) : ( cellIndexList[ cellIndexList.length - 1 ] + 1 );
+
+		// scan row by row to get the target cell
+		var trs = table.$.getElementsByTagName( 'tr' );
+		for ( i = 0, length = trs.length; i < length; i++ ) {
+			targetCell = trs[ i ].getElementsByTagName( 'td' )[ targetIndex ];
+			if ( targetCell )
+				break;
+		}
+
+		return targetCell ? new CKEDITOR.dom.element( targetCell ) : table.getPrevious();
+	}
+
 	function deleteColumns( selectionOrCell ) {
 		if ( selectionOrCell instanceof CKEDITOR.dom.selection ) {
-			var colsToDelete = getSelectedCells( selectionOrCell );
-			for ( var i = colsToDelete.length; i >= 0; i-- ) {
+			var colsToDelete = getSelectedCells( selectionOrCell ),
+				elementToFocus = getFocusElementAfterDelCols( colsToDelete );
+
+			for ( var i = colsToDelete.length - 1; i >= 0; i-- ) {
 				if ( colsToDelete[ i ] )
 					deleteColumns( colsToDelete[ i ] );
 			}
+
+			return elementToFocus;
 		} else if ( selectionOrCell instanceof CKEDITOR.dom.element ) {
 			// Get the cell's table.
 			var table = selectionOrCell.getAscendant( 'table' );
+			if ( !table )
+				return;
 
 			// Get the cell index.
 			var cellIndex = selectionOrCell.$.cellIndex;
@@ -273,7 +311,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( selectionOrCell instanceof CKEDITOR.dom.selection ) {
 			var cellsToDelete = getSelectedCells( selectionOrCell );
 			var table = cellsToDelete[ 0 ] && cellsToDelete[ 0 ].getAscendant( 'table' );
-			var cellToFocus = getFocusedCell( cellsToDelete );
+			var cellToFocus = getFocusElementAfterDelCells( cellsToDelete );
 
 			for ( var i = cellsToDelete.length - 1; i >= 0; i-- )
 				deleteCells( cellsToDelete[ i ] );
@@ -659,7 +697,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( 'columnDelete', {
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					deleteColumns( selection );
+					var element = deleteColumns( selection );
+					element && placeCursorInCell( element, true );
 				}
 			});
 
