@@ -256,9 +256,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		headerTagRegex = /^h[1-6]$/;
 
 	function shiftEnter( editor ) {
-		// On SHIFT+ENTER we want to enforce the mode to be respected, instead
+		// Only effective within document.
+		if ( editor.mode != 'wysiwyg' )
+			return false;
+
+		// On SHIFT+ENTER:
+		// 1. We want to enforce the mode to be respected, instead
 		// of cloning the current block. (#77)
-		return enter( editor, editor.config.shiftEnterMode, true );
+		// 2. Always perform a block break when inside <pre> (#5402).
+		if ( editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ) {
+			setTimeout( function() {
+				enterBlock( editor, editor.config.enterMode, null, true );
+			}, 0 );
+			return true;
+		} else
+			return enter( editor, editor.config.shiftEnterMode, true );
 	}
 
 	function enter( editor, mode, forceMode ) {

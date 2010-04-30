@@ -1293,7 +1293,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		this.moveChildren( newNode );
 
 		// Replace the node.
-		this.$.parentNode.replaceChild( newNode.$, this.$ );
+		this.getParent() && this.$.parentNode.replaceChild( newNode.$, this.$ );
 		newNode.$._cke_expando = this.$._cke_expando;
 		this.$ = newNode.$;
 	},
