@@ -61,7 +61,7 @@ CKEDITOR.editor.prototype.createFakeElement = function( realElement, className, 
 		_cke_realelement: encodeURIComponent( realElement.getOuterHtml() ),
 		_cke_real_node_type: realElement.type,
 		alt: lang[ realElementType ] || lang.unknown,
-		align: realElement.attributes.align || ''
+		align: realElement.getAttribute( 'align' ) || ''
 	};
 
 	if ( realElementType )
