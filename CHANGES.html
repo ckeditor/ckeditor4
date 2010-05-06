@@ -39,13 +39,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<p>
 		New features:</p>
 	<ul>
-		<li></li>
+		<li></li>	
 	</ul>
 	<p>
 		Fixed issues:</p>
 	<ul>
 		<li><a href="http://dev.fckeditor.net/ticket/5330">#5330</a> : Corrected detection of Ctrl and Meta keys in Macs for the context menu.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5434">#5434</a> : Fixed access denied issues with IE when accessing web sites through IPv6 IP addresses.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/3601">#3601</a> : [Safari] Bad performance when drag editor chrome resizer.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4476">#4476</a> : [IE] Inaccessible empty list item contains sub list.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4881">#4881</a> : [IE] Selection range broken because of cutting a single control type element from it.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5505">#5505</a> : Image dialog throw JavaScript error when click close dialog before preview area is loading.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5144">#5144</a> : [Chrome] Paste in webkit somtimes leaves extra 'div' element.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5021">#5021</a> : [Firefox] Typing in empty document start from second line in enterMode=BR.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5416">#5416</a> : [IE] Delete table throws a error when  CKEDITOR.enterMode = CKEDITOR.ENTER_BR.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4459">#4459</a> : [IE] Select element is penetrating the maximized editor in IE6.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5559">#5559</a> : [IE] The first call of CKEDITOR.editor::setData is affected by iframe cache when loading wysiwyg mode.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5567">#5567</a> : [IE] Remove inline styles in some case doesn't join identical siblings.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4836">#4836</a> : Using SCAYT result in fragile elements when applying inline styles.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5425">#5425</a> : [Opera] Disable SCAYT plugin for Opera browser.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5450">#5450</a> : [FireFox] Press enter on 'replace' button result wrong.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5121">#5121</a> : Recognizes the &lt;br /&gt; tag as a separator when apply block styles in enterMode=BR.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5575">#5575</a> : CKEDITOR.replaceAll should consider all kind of white spaces between class names.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5582">#5582</a> : Prevent the default behavior when click the 'x' button to close dialog box.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5584">#5584</a> : Enter key with forceEnterMode turns on doesn't inherit current block attributes.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4797">#4797</a> : [Opera] Press enter key in dialog fields to close cause JavaScript error.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5578">#5578</a> : Add flash fake element align property when switch mode (source to wysiwyg).</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5577">#5578</a> : Update delete column behavior when choose mutiple cells in the same column.</li>
 	</ul>
 	<h3>
 		CKEditor 3.2.1</h3>
@@ -146,26 +166,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<li><a href="http://dev.fckeditor.net/ticket/5220">#5220</a> : DTD now shows tolerance to &lt;style&gt; appear inside content.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5440">#5440</a> : Mobile browsers (iPhone, Android...) are marked as incompatible as they don't support editing features.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5504">#5504</a> : [IE6/7] 'Paste' dialog will always get opened even when user allows the clipboard access dialog when using 'Paste' button.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/3601">#3601</a> : [Safari] Bad performance when drag editor chrome resizer.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4476">#4476</a> : [IE] Inaccessible empty list item contains sub list.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4881">#4881</a> : [IE] Selection range broken because of cutting a single control type element from it.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5505">#5505</a> : Image dialog throw JavaScript error when click close dialog before preview area is loading.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5144">#5144</a> : [Chrome] Paste in webkit somtimes leaves extra 'div' element.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5021">#5021</a> : [Firefox] Typing in empty document start from second line in enterMode=BR.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5416">#5416</a> : [IE] Delete table throws a error when  CKEDITOR.enterMode = CKEDITOR.ENTER_BR.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4459">#4459</a> : [IE] Select element is penetrating the maximized editor in IE6.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5559">#5559</a> : [IE] The first call of CKEDITOR.editor::setData is affected by iframe cache when loading wysiwyg mode.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5567">#5567</a> : [IE] Remove inline styles in some case doesn't join identical siblings.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4836">#4836</a> : Using SCAYT result in fragile elements when applying inline styles.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5425">#5425</a> : [Opera] Disable SCAYT plugin for Opera browser.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5450">#5450</a> : [FireFox] Press enter on 'replace' button result wrong.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5121">#5121</a> : Recognizes the &lt;br /&gt; tag as a separator when apply block styles in enterMode=BR.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5575">#5575</a> : CKEDITOR.replaceAll should consider all kind of white spaces between class names.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5582">#5582</a> : Prevent the default behavior when click the 'x' button to close dialog box.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5584">#5584</a> : Enter key with forceEnterMode turns on doesn't inherit current block attributes.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/4797">#4797</a> : [Opera] Press enter key in dialog fields to close cause JavaScript error.</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5578">#5578</a> : Add flash fake element align property when switch mode (source to wysiwyg).</li>
-		<li><a href="http://dev.fckeditor.net/ticket/5577">#5578</a> : Update delete column behavior when choose mutiple cells in the same column.</li>
 		<li><a href="http://dev.fckeditor.net/ticket/5516">#5516</a> : IE8: Toolbar buttons have higher bottom padding.</li>
 		<li>Updated the following language files:<ul>
 			<li><a href="http://dev.fckeditor.net/ticket/5326">#5326</a> : Catalan;</li>
