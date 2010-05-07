@@ -238,9 +238,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			targetIndex = cellIndexList[ 0 ] > 0 ? ( cellIndexList[ 0 ] - 1 ) : ( cellIndexList[ cellIndexList.length - 1 ] + 1 );
 
 		// scan row by row to get the target cell
-		var trs = table.$.getElementsByTagName( 'tr' );
-		for ( i = 0, length = trs.length; i < length; i++ ) {
-			targetCell = trs[ i ].getElementsByTagName( 'td' )[ targetIndex ];
+		var rows = table.$.rows;
+		for ( i = 0, length = rows.length; i < length; i++ ) {
+			targetCell = rows[ i ].cells[ targetIndex ];
 			if ( targetCell )
 				break;
 		}
