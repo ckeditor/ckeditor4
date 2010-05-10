@@ -170,12 +170,6 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				( CKEDITOR.env.webkit ? holdCtrlKey : ( CKEDITOR.env.mac ? domEvent.$.metaKey : domEvent.$.ctrlKey ) ) )
 					return;
 
-				// Selection will be unavailable after context menu shows up
-				// in IE, lock it now.
-				if ( CKEDITOR.env.ie ) {
-					var selection = this.editor.getSelection();
-					selection && selection.lock();
-				}
 
 				// Cancel the browser context menu.
 				domEvent.preventDefault();
@@ -210,6 +204,14 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 
 		show: function( offsetParent, corner, offsetX, offsetY ) {
 			this.editor.focus();
+
+			// Selection will be unavailable after context menu shows up
+			// in IE, lock it now.
+			if ( CKEDITOR.env.ie ) {
+				var selection = this.editor.getSelection();
+				selection && selection.lock();
+			}
+
 			this._.onMenu( offsetParent || CKEDITOR.document.getDocumentElement(), corner, offsetX || 0, offsetY || 0 );
 		}
 	}
