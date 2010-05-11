@@ -43,6 +43,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					oParams.userDictionaryName = editor.config.scayt_userDictionaryName || '';
 					oParams.sLang = editor.config.scayt_sLang || 'en_US';
 
+					// Introduce SCAYT onLoad callback. (#5632)
+					oParams.onLoad = function() {
+						// Draw down word marker to avoid being covered by background-color style.(#5466)
+						if ( !( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) )
+							this.addStyle( this.selectorCss(), 'padding-bottom: 2px !important;' );
+					};
+
 					oParams.onBeforeChange = function() {
 						if ( !editor.checkDirty() )
 							setTimeout( function() {
