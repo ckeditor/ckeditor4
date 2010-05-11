@@ -347,12 +347,12 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'select',
 						label: editor.lang.common.protocol,
 						'default': 'http://',
-						style: 'width : 100%;',
 						items: [
-							[ 'http://' ],
-							[ 'https://' ],
-							[ 'ftp://' ],
-							[ 'news://' ],
+							// Force 'ltr' for protocol names in BIDI. (#5433) 
+													[ 'http://\u200E', 'http://' ],
+							[ 'https://\u200E', 'https://' ],
+							[ 'ftp://\u200E', 'ftp://' ],
+							[ 'news://\u200E', 'news://' ],
 							[ editor.lang.link.other, '' ]
 							],
 						setup: function( data ) {
