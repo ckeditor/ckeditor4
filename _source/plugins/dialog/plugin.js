@@ -2519,9 +2519,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				dialogs[ name ].destroy();
 
 			// Remove dialog cover on last instance destroy.
-			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) )
-				;
-			coverElement.remove();
+			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) && coverElement )
+				coverElement.remove();
 		});
 
 	})();
