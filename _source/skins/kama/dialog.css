@@ -67,12 +67,6 @@ body .cke_dialog
 	margin-bottom: 10px;
 }
 
-.cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_title
-{
-	position: static !important;
-	unicode-bidi: bidi-override;
-}
-
 .cke_skin_kama .cke_dialog_contents
 {
 	background-color: #ebebeb;
