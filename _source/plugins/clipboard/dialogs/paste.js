@@ -52,10 +52,13 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			// inserted iframe editable. (#3366)
 			this.parts.dialog.$.offsetHeight;
 
-			var htmlToLoad = '<!doctype html><html><head><style>body { margin: 3px; height: 95%; } </style></head><body>' +
-				'<script id="cke_actscrpt" type="text/javascript">' +
-				'window.parent.CKEDITOR.tools.callFunction( ' + CKEDITOR.tools.addFunction( onPasteFrameLoad, this ) + ', this );' +
-				'</script></body></html>';
+			var htmlToLoad = '<!doctype html><html dir="' + editor.config.contentsLangDirection + '"' +
+								' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
+									'<head><style>body { margin: 3px; height: 95%; } </style></head><body>' +
+									'<script id="cke_actscrpt" type="text/javascript">' +
+									'window.parent.CKEDITOR.tools.callFunction( ' + CKEDITOR.tools.addFunction( onPasteFrameLoad, this ) + ', this );' +
+									'</script></body>' +
+								'</html>';
 
 			var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 				' frameborder="0" ' +
