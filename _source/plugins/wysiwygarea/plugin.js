@@ -282,211 +282,212 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// The script that launches the bootstrap logic on 'domReady', so the document
 				// is fully editable even before the editing iframe is fully loaded (#4455).
+				var contentDomReadyHandler = CKEDITOR.tools.addFunction( contentDomReady );
 				var activationScript = '<script id="cke_actscrpt" type="text/javascript" cke_temp="1">' +
 					( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
-					'parent.CKEDITOR._["contentDomReady' + editor.name + '"]( window );' +
+					'window.parent.CKEDITOR.tools.callFunction( ' + contentDomReadyHandler + ', window );' +
 					'</script>';
 
 				// Editing area bootstrap code.
-				var contentDomReady = function( domWindow ) {
-						if ( !frameLoaded )
-							return;
-						frameLoaded = 0;
+				function contentDomReady( domWindow ) {
+					if ( !frameLoaded )
+						return;
+					frameLoaded = 0;
 
-						editor.fire( 'ariaWidget', iframe );
+					editor.fire( 'ariaWidget', iframe );
 
-						var domDocument = domWindow.document,
-							body = domDocument.body;
+					var domDocument = domWindow.document,
+						body = domDocument.body;
 
-						// Remove this script from the DOM.
-						var script = domDocument.getElementById( "cke_actscrpt" );
-						script.parentNode.removeChild( script );
+					// Remove this script from the DOM.
+					var script = domDocument.getElementById( "cke_actscrpt" );
+					script.parentNode.removeChild( script );
 
-						delete CKEDITOR._[ 'contentDomReady' + editor.name ];
+					CKEDITOR.tools.removeFunction( contentDomReadyHandler );
 
-						body.spellcheck = !editor.config.disableNativeSpellChecker;
+					body.spellcheck = !editor.config.disableNativeSpellChecker;
 
-						if ( CKEDITOR.env.ie ) {
-							// Don't display the focus border.
-							body.hideFocus = true;
+					if ( CKEDITOR.env.ie ) {
+						// Don't display the focus border.
+						body.hideFocus = true;
 
-							// Disable and re-enable the body to avoid IE from
-							// taking the editing focus at startup. (#141 / #523)
-							body.disabled = true;
-							body.contentEditable = true;
-							body.removeAttribute( 'disabled' );
-						} else {
-							// Gecko need a key event to 'wake up' the editing
-							// ability when document is empty.(#3864)
-							if ( CKEDITOR.env.gecko && !body.childNodes.length ) {
-								setTimeout( function() {
-									restoreDirty( editor );
+						// Disable and re-enable the body to avoid IE from
+						// taking the editing focus at startup. (#141 / #523)
+						body.disabled = true;
+						body.contentEditable = true;
+						body.removeAttribute( 'disabled' );
+					} else {
+						// Gecko need a key event to 'wake up' the editing
+						// ability when document is empty.(#3864)
+						if ( CKEDITOR.env.gecko && !body.childNodes.length ) {
+							setTimeout( function() {
+								restoreDirty( editor );
 
-									// Simulating keyboard character input by dispatching a keydown of white-space text.
-									var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
-									keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
-									domDocument.$.dispatchEvent( keyEventSimulate );
+								// Simulating keyboard character input by dispatching a keydown of white-space text.
+								var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
+								keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
+								domDocument.$.dispatchEvent( keyEventSimulate );
 
-									// Restore the original document status by placing the cursor before a bogus br created (#5021).
-									domDocument.createElement( 'br', {
-										attributes: { '_moz_editor_bogus_node': 'TRUE', '_moz_dirty': "" } } ).replace( domDocument.getBody().getFirst() );
-									var nativeRange = new CKEDITOR.dom.range( domDocument );
-									nativeRange.setStartAt( new CKEDITOR.dom.element( body ), CKEDITOR.POSITION_AFTER_START );
-									nativeRange.select();
-								}, 0 );
+								// Restore the original document status by placing the cursor before a bogus br created (#5021).
+								domDocument.createElement( 'br', {
+									attributes: { '_moz_editor_bogus_node': 'TRUE', '_moz_dirty': "" } } ).replace( domDocument.getBody().getFirst() );
+								var nativeRange = new CKEDITOR.dom.range( domDocument );
+								nativeRange.setStartAt( new CKEDITOR.dom.element( body ), CKEDITOR.POSITION_AFTER_START );
+								nativeRange.select();
+							}, 0 );
+						}
+
+						domDocument.designMode = 'on';
+					}
+
+					// IE, Opera and Safari may not support it and throw
+					// errors.
+					try {
+						domDocument.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
+					} catch ( e ) {}
+					try {
+						domDocument.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
+					} catch ( e ) {}
+
+					domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
+					domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
+
+					// Gecko/Webkit need some help when selecting control type elements. (#3448)
+					if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
+						domDocument.on( 'mousedown', function( ev ) {
+							var control = ev.data.getTarget();
+							if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
+								editor.getSelection().selectElement( control );
+						});
+					}
+
+					// Webkit: avoid from editing form control elements content.
+					if ( CKEDITOR.env.webkit ) {
+						// Prevent from tick checkbox/radiobox/select
+						domDocument.on( 'click', function( ev ) {
+							if ( ev.data.getTarget().is( 'input', 'select' ) )
+								ev.data.preventDefault();
+						});
+
+						// Prevent from editig textfield/textarea value.
+						domDocument.on( 'mouseup', function( ev ) {
+							if ( ev.data.getTarget().is( 'input', 'textarea' ) )
+								ev.data.preventDefault();
+						});
+					}
+
+					// IE standard compliant in editing frame doesn't focus the editor when
+					// clicking outside actual content, manually apply the focus. (#1659)
+					if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' ) {
+						var htmlElement = domDocument.getDocumentElement();
+						htmlElement.on( 'mousedown', function( evt ) {
+							// Setting focus directly on editor doesn't work, we
+							// have to use here a temporary element to 'redirect'
+							// the focus.
+							if ( evt.data.getTarget().equals( htmlElement ) )
+								ieFocusGrabber.focus();
+						});
+					}
+
+					var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.webkit ) ? domWindow : domDocument;
+
+					focusTarget.on( 'blur', function() {
+						editor.focusManager.blur();
+					});
+
+					focusTarget.on( 'focus', function() {
+						editor.focusManager.focus();
+					});
+
+					var keystrokeHandler = editor.keystrokeHandler;
+					if ( keystrokeHandler )
+						keystrokeHandler.attach( domDocument );
+
+					if ( CKEDITOR.env.ie ) {
+						// Override keystrokes which should have deletion behavior
+						//  on control types in IE . (#4047)
+						domDocument.on( 'keydown', function( evt ) {
+							var keyCode = evt.data.getKeystroke();
+
+							// Backspace OR Delete.
+							if ( keyCode in { 8:1,46:1 } ) {
+								var sel = editor.getSelection(),
+									control = sel.getSelectedElement();
+
+								if ( control ) {
+									// Make undo snapshot.
+									editor.fire( 'saveSnapshot' );
+
+									// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
+									// break up the selection, safely manage it here. (#4795)
+									var bookmark = sel.getRanges()[ 0 ].createBookmark();
+									// Remove the control manually.
+									control.remove();
+									sel.selectBookmarks( [ bookmark ] );
+
+									editor.fire( 'saveSnapshot' );
+
+									evt.data.preventDefault();
+								}
 							}
-
-							domDocument.designMode = 'on';
-						}
-
-						// IE, Opera and Safari may not support it and throw
-						// errors.
-						try {
-							domDocument.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
-						} catch ( e ) {}
-						try {
-							domDocument.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-						} catch ( e ) {}
-
-						domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
-						domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
-
-						// Gecko/Webkit need some help when selecting control type elements. (#3448)
-						if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
-							domDocument.on( 'mousedown', function( ev ) {
-								var control = ev.data.getTarget();
-								if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
-									editor.getSelection().selectElement( control );
-							});
-						}
-
-						// Webkit: avoid from editing form control elements content.
-						if ( CKEDITOR.env.webkit ) {
-							// Prevent from tick checkbox/radiobox/select
-							domDocument.on( 'click', function( ev ) {
-								if ( ev.data.getTarget().is( 'input', 'select' ) )
-									ev.data.preventDefault();
-							});
-
-							// Prevent from editig textfield/textarea value.
-							domDocument.on( 'mouseup', function( ev ) {
-								if ( ev.data.getTarget().is( 'input', 'textarea' ) )
-									ev.data.preventDefault();
-							});
-						}
-
-						// IE standard compliant in editing frame doesn't focus the editor when
-						// clicking outside actual content, manually apply the focus. (#1659)
-						if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' ) {
-							var htmlElement = domDocument.getDocumentElement();
-							htmlElement.on( 'mousedown', function( evt ) {
-								// Setting focus directly on editor doesn't work, we
-								// have to use here a temporary element to 'redirect'
-								// the focus.
-								if ( evt.data.getTarget().equals( htmlElement ) )
-									ieFocusGrabber.focus();
-							});
-						}
-
-						var focusTarget = ( CKEDITOR.env.ie || CKEDITOR.env.webkit ) ? domWindow : domDocument;
-
-						focusTarget.on( 'blur', function() {
-							editor.focusManager.blur();
 						});
 
-						focusTarget.on( 'focus', function() {
-							editor.focusManager.focus();
-						});
-
-						var keystrokeHandler = editor.keystrokeHandler;
-						if ( keystrokeHandler )
-							keystrokeHandler.attach( domDocument );
-
-						if ( CKEDITOR.env.ie ) {
-							// Override keystrokes which should have deletion behavior
-							//  on control types in IE . (#4047)
+						// PageUp/PageDown scrolling is broken in document
+						// with standard doctype, manually fix it. (#4736)
+						if ( domDocument.$.compatMode == 'CSS1Compat' ) {
+							var pageUpDownKeys = { 33:1,34:1 };
 							domDocument.on( 'keydown', function( evt ) {
-								var keyCode = evt.data.getKeystroke();
-
-								// Backspace OR Delete.
-								if ( keyCode in { 8:1,46:1 } ) {
-									var sel = editor.getSelection(),
-										control = sel.getSelectedElement();
-
-									if ( control ) {
-										// Make undo snapshot.
-										editor.fire( 'saveSnapshot' );
-
-										// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
-										// break up the selection, safely manage it here. (#4795)
-										var bookmark = sel.getRanges()[ 0 ].createBookmark();
-										// Remove the control manually.
-										control.remove();
-										sel.selectBookmarks( [ bookmark ] );
-
-										editor.fire( 'saveSnapshot' );
-
-										evt.data.preventDefault();
-									}
+								if ( evt.data.getKeystroke() in pageUpDownKeys ) {
+									setTimeout( function() {
+										editor.getSelection().scrollIntoView();
+									}, 0 );
 								}
 							});
+						}
+					}
 
-							// PageUp/PageDown scrolling is broken in document
-							// with standard doctype, manually fix it. (#4736)
-							if ( domDocument.$.compatMode == 'CSS1Compat' ) {
-								var pageUpDownKeys = { 33:1,34:1 };
-								domDocument.on( 'keydown', function( evt ) {
-									if ( evt.data.getKeystroke() in pageUpDownKeys ) {
-										setTimeout( function() {
-											editor.getSelection().scrollIntoView();
-										}, 0 );
-									}
-								});
-							}
+					// Adds the document body as a context menu target.
+					if ( editor.contextMenu )
+						editor.contextMenu.addTarget( domDocument, editor.config.browserContextMenuOnCtrl !== false );
+
+					setTimeout( function() {
+						editor.fire( 'contentDom' );
+
+						if ( fireMode ) {
+							editor.mode = 'wysiwyg';
+							editor.fire( 'mode' );
+							fireMode = false;
 						}
 
-						// Adds the document body as a context menu target.
-						if ( editor.contextMenu )
-							editor.contextMenu.addTarget( domDocument, editor.config.browserContextMenuOnCtrl !== false );
+						isLoadingData = false;
 
+						if ( isPendingFocus ) {
+							editor.focus();
+							isPendingFocus = false;
+						}
 						setTimeout( function() {
-							editor.fire( 'contentDom' );
-
-							if ( fireMode ) {
-								editor.mode = 'wysiwyg';
-								editor.fire( 'mode' );
-								fireMode = false;
-							}
-
-							isLoadingData = false;
-
-							if ( isPendingFocus ) {
-								editor.focus();
-								isPendingFocus = false;
-							}
-							setTimeout( function() {
-								editor.fire( 'dataReady' );
-							}, 0 );
-
-							/*
-							 * IE BUG: IE might have rendered the iframe with invisible contents.
-							 * (#3623). Push some inconsequential CSS style changes to force IE to
-							 * refresh it.
-							 *
-							 * Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
-							 * fix the problem. :(
-							 */
-							if ( CKEDITOR.env.ie ) {
-								setTimeout( function() {
-									if ( editor.document ) {
-										var $body = editor.document.$.body;
-										$body.runtimeStyle.marginBottom = '0px';
-										$body.runtimeStyle.marginBottom = '';
-									}
-								}, 1000 );
-							}
+							editor.fire( 'dataReady' );
 						}, 0 );
-					};
+
+						/*
+						 * IE BUG: IE might have rendered the iframe with invisible contents.
+						 * (#3623). Push some inconsequential CSS style changes to force IE to
+						 * refresh it.
+						 *
+						 * Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
+						 * fix the problem. :(
+						 */
+						if ( CKEDITOR.env.ie ) {
+							setTimeout( function() {
+								if ( editor.document ) {
+									var $body = editor.document.$.body;
+									$body.runtimeStyle.marginBottom = '0px';
+									$body.runtimeStyle.marginBottom = '';
+								}
+							}, 1000 );
+						}
+					}, 0 );
+				};
 
 				editor.addMode( 'wysiwyg', {
 					load: function( holderElement, data, isSnapshot ) {
@@ -580,7 +581,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						data += activationScript;
 
-						CKEDITOR._[ 'contentDomReady' + editor.name ] = contentDomReady;
 
 						// The iframe is recreated on each call of setData, so we need to clear DOM objects
 						this.onDispose();
