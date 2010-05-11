@@ -199,6 +199,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		newList.listNode.replace( groupObj.root );
 	}
 
+	var headerTagRegex = /^h[1-6]$/;
+
 	function createList( editor, groupObj, listsCreated ) {
 		var contents = groupObj.contents,
 			doc = groupObj.root.getDocument(),
@@ -244,8 +246,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		while ( listContents.length ) {
 			var contentBlock = listContents.shift(),
 				listItem = doc.createElement( 'li' );
-			contentBlock.moveChildren( listItem );
-			contentBlock.remove();
+
+			// Preserve heading structure when converting to list item. (#5271)
+			if ( headerTagRegex.test( contentBlock.getName() ) )
+				contentBlock.appendTo( listItem );
+			else {
+				contentBlock.copyAttributes( listItem );
+				contentBlock.moveChildren( listItem );
+				contentBlock.remove();
+			}
+
 			listItem.appendTo( listNode );
 
 			// Append a bogus BR to force the LI to render at full height
