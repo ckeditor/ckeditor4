@@ -110,6 +110,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 }
 
+.cke_skin_v2 .cke_resizer_horizontal,
+.cke_skin_v2 .cke_rtl .cke_resizer_horizontal
+{
+	cursor: e-resize;
+}
+
+.cke_skin_v2 .cke_resizer_vertical,
+.cke_skin_v2 .cke_rtl .cke_resizer_vertical
+{
+	cursor: n-resize;
+}
+
 .cke_skin_v2 .cke_maximized .cke_resizer
 {
 	display: none;

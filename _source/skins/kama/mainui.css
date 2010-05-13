@@ -133,6 +133,18 @@ span.cke_skin_kama
 	float: left;
 }
 
+.cke_skin_kama .cke_resizer_horizontal,
+.cke_skin_kama .cke_rtl .cke_resizer_horizontal
+{
+	cursor: e-resize;
+}
+
+.cke_skin_kama .cke_resizer_vertical,
+.cke_skin_kama .cke_rtl .cke_resizer_vertical
+{
+	cursor: n-resize;
+}
+
 .cke_skin_kama .cke_maximized .cke_resizer
 {
 	display: none;

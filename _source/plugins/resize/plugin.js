@@ -8,16 +8,26 @@ CKEDITOR.plugins.add( 'resize', {
 		var config = editor.config;
 
 		if ( config.resize_enabled ) {
-			var container = null;
-			var origin, startSize;
+			var container = null,
+				origin, startSize,
+				resizeHorizontal = ( config.resize_dir == 'both' || config.resize_dir == 'horizontal' ) && ( config.resize_minWidth != config.resize_maxWidth ),
+				resizeVertical = ( config.resize_dir == 'both' || config.resize_dir == 'vertical' ) && ( config.resize_minHeight != config.resize_maxHeight );
 
 			function dragHandler( evt ) {
-				var dx = evt.data.$.screenX - origin.x;
-				var dy = evt.data.$.screenY - origin.y;
-				var internalWidth = startSize.width + dx * ( editor.lang.dir == 'rtl' ? -1 : 1 );
-				var internalHeight = startSize.height + dy;
+				var dx = evt.data.$.screenX - origin.x,
+					dy = evt.data.$.screenY - origin.y,
+					width = startSize.width,
+					height = startSize.height,
+					internalWidth = width + dx * ( editor.lang.dir == 'rtl' ? -1 : 1 ),
+					internalHeight = height + dy;
 
-				editor.resize( Math.max( config.resize_minWidth, Math.min( internalWidth, config.resize_maxWidth ) ), Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) ) );
+				if ( resizeHorizontal )
+					width = Math.max( config.resize_minWidth, Math.min( internalWidth, config.resize_maxWidth ) );
+
+				if ( resizeVertical )
+					height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
+
+				editor.resize( width, height );
 			}
 
 			function dragEndHandler( evt ) {
@@ -52,10 +62,16 @@ CKEDITOR.plugins.add( 'resize', {
 
 			editor.on( 'themeSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
-					event.data.html += '<div class="cke_resizer"' +
-						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
-						' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
-						'></div>';
+					var direction = '';
+					if ( resizeHorizontal && !resizeVertical )
+						direction = ' cke_resizer_horizontal';
+					if ( !resizeHorizontal && resizeVertical )
+						direction = ' cke_resizer_vertical';
+
+					event.data.html += '<div class="cke_resizer' + direction + '"' +
+													' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
+													' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
+													'></div>';
 				}
 			}, editor, null, 100 );
 		}
@@ -99,10 +115,21 @@ CKEDITOR.config.resize_maxWidth = 3000;
 CKEDITOR.config.resize_maxHeight = 3000;
 
 /**
- * Whether to enable the resizing feature. If disabed the resize handler will not be visible.
+ * Whether to enable the resizing feature. If disabled the resize handler will not be visible.
  * @type Boolean
  * @default true
  * @example
  * config.resize_enabled = false;
  */
 CKEDITOR.config.resize_enabled = true;
+
+/**
+ * The directions where resizing is enabled. It can be 'both', 'vertical' or 'horizontal'
+ * @type String
+ * @default 'both'
+ * @since 3.3
+ * @example
+ * config.resize_dir = 'vertical';
+ */
+
+CKEDITOR.config.resize_dir = 'both';

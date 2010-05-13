@@ -93,17 +93,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: se-resize;
 }
 
-.cke_skin_office2003 .cke_maximized .cke_resizer
-{
-	display: none;
-}
-
 .cke_skin_office2003 .cke_rtl .cke_resizer
 {
 	cursor: sw-resize;
 	/* resizer_rtl.gif*/
 	background-position: 0 -1115px;
 	float: left;
+}
+
+.cke_skin_office2003 .cke_resizer_horizontal,
+.cke_skin_office2003 .cke_rtl .cke_resizer_horizontal
+{
+	cursor: e-resize;
+}
+
+.cke_skin_office2003 .cke_resizer_vertical,
+.cke_skin_office2003 .cke_rtl .cke_resizer_vertical
+{
+	cursor: n-resize;
+}
+
+.cke_skin_office2003 .cke_maximized .cke_resizer
+{
+	display: none;
 }
 
 .cke_skin_office2003 .cke_browser_ie6 .cke_contents textarea,
