@@ -114,9 +114,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 					'<span class="', CKEDITOR.env.cssClass, '" role="presentation">' +
 						'<span class="cke_wrapper cke_', editor.lang.dir, '" role="presentation">' +
 							'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody>' +
-								'<tr', topHtml ? '' : ' style="display:none"', '><td id="cke_top_', name, '" class="cke_top" role="presentation">', topHtml, '</td></tr>' +
-								'<tr', contentsHtml ? '' : ' style="display:none"', '><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '" role="presentation">', contentsHtml, '</td></tr>' +
-								'<tr', bottomHtml ? '' : ' style="display:none"', '><td id="cke_bottom_', name, '" class="cke_bottom" role="presentation">', bottomHtml, '</td></tr>' +
+								'<tr', topHtml ? '' : ' style="display:none"', ' role="presentation"><td id="cke_top_', name, '" class="cke_top" role="presentation">', topHtml, '</td></tr>' +
+								'<tr', contentsHtml ? '' : ' style="display:none"', ' role="presentation"><td id="cke_contents_', name, '" class="cke_contents" style="height:', height, '" role="presentation">', contentsHtml, '</td></tr>' +
+								'<tr', bottomHtml ? '' : ' style="display:none"', ' role="presentation"><td id="cke_bottom_', name, '" class="cke_bottom" role="presentation">', bottomHtml, '</td></tr>' +
 							'</tbody></table>' +
 							//Hide the container when loading skins, later restored by skin css.
 										'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
