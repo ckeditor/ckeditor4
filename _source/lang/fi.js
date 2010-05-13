@@ -122,7 +122,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Lisää linkki/muokkaa linkkiä',
-		other: '<other>', // MISSING
+		other: '<muu>',
 		menu: 'Muokkaa linkkiä',
 		title: 'Linkki',
 		info: 'Linkin tiedot',
@@ -185,24 +185,24 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
+		numberedTitle: 'Numeroidun listan ominaisuudet',
+		bulletedTitle: 'Numeroimattoman listan ominaisuudet',
+		type: 'Tyyppi',
+		start: 'Alku',
+		circle: 'Ympyrä',
+		disc: 'Levy',
+		square: 'Neliö',
+		none: 'Ei mikään',
+		notset: '<ei asetettu>',
+		armenian: 'Armeenialainen numerointi',
 		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		lowerRoman: 'Pienet roomalaiset (i, ii, iii, iv, v, jne.)',
+		upperRoman: 'Isot roomalaiset (I, II, III, IV, V, jne.)',
+		lowerAlpha: 'Pienet aakkoset (a, b, c, d, e, jne.)',
+		upperAlpha: 'Isot aakkoset (A, B, C, D, E, jne.)',
+		lowerGreek: 'Pienet kreikkalaiset (alpha, beta, gamma, jne.)',
+		decimal: 'Desimaalit (1, 2, 3, jne.)',
+		decimalLeadingZero: 'Desimaalit, alussa nolla (01, 02, 03, jne.)'
 	},
 
 	// Find And Replace Dialog
@@ -390,7 +390,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		lockRatio: 'Lukitse suhteet',
 		unlockRatio: 'Vapauta suhteet',
 		resetSize: 'Alkuperäinen koko',
-		border: 'Raja',
+		border: 'Kehys',
 		hSpace: 'Vaakatila',
 		vSpace: 'Pystytila',
 		align: 'Kohdistus',
@@ -403,14 +403,14 @@ CKEDITOR.lang[ 'fi' ] = {
 		urlMissing: 'Kuvan lähdeosoite puuttuu.',
 		validateWidth: 'Leveyden täytyy olla kokonaisluku.',
 		validateHeight: 'Korkeuden täytyy olla kokonaisluku.',
-		validateBorder: 'Reunan täytyy olla kokonaisluku.',
+		validateBorder: 'Kehyksen täytyy olla kokonaisluku.',
 		validateHSpace: 'HSpace-määrityksen täytyy olla kokonaisluku.',
 		validateVSpace: 'VSpace-määrityksen täytyy olla kokonaisluku.'
 	},
 
 	// Flash Dialog
 	flash: {
-		properties: 'Flash ominaisuudet',
+		properties: 'Flash-ominaisuudet',
 		propertiesTab: 'Ominaisuudet',
 		title: 'Flash ominaisuudet',
 		chkPlay: 'Automaattinen käynnistys',
@@ -643,7 +643,7 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	scayt: {
 		title: 'Oikolue kirjoitettaessa',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'Opera ei tue tätä ominaisuutta',
 		enable: 'Ota käyttöön oikoluku kirjoitettaessa',
 		disable: 'Poista käytöstä oikoluku kirjoitetaessa',
 		about: 'Tietoja oikoluvusta kirjoitetaessa',
@@ -657,20 +657,20 @@ CKEDITOR.lang[ 'fi' ] = {
 		emptyDic: 'Sanakirjan nimi on annettava.',
 
 		optionsTab: 'Asetukset',
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		allCaps: 'Ohita sanat, jotka on kirjoitettu kokonaan isoilla kirjaimilla',
+		ignoreDomainNames: 'Ohita verkkotunnukset',
+		mixedCase: 'Ohita sanat, joissa on sekoitettu isoja ja pieniä kirjaimia',
+		mixedWithDigits: 'Ohita sanat, joissa on numeroita',
 
 		languagesTab: 'Kielet',
 
 		dictionariesTab: 'Sanakirjat',
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+		dic_field_name: 'Sanakirjan nimi',
+		dic_create: 'Luo',
+		dic_restore: 'Palauta',
+		dic_delete: 'Poista',
+		dic_rename: 'Nimeä uudelleen',
+		dic_info: 'Oletuksena sanakirjat tallennetaan evästeeseen, mutta evästeiden koko on kuitenkin rajallinen. Sanakirjan kasvaessa niin suureksi, ettei se enää mahdu evästeeseen, sanakirja täytyy tallentaa palvelimellemme. Tallentaaksesi sanakirjasi palvelimellemme tulee sinun antaa sille nimi. Jos olet jo tallentanut sanakirjan, anna sen nimi ja klikkaa Palauta-painiketta',
 
 		aboutTab: 'Tietoa'
 	},
