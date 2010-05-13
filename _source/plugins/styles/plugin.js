@@ -319,36 +319,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Get the first node to be processed and the last, which concludes the
 		// processing.
-		var boundaryNodes = range.getBoundaryNodes();
-		var firstNode = boundaryNodes.startNode;
-		var lastNode = boundaryNodes.endNode.getNextSourceNode( true );
-
-		// Probably the document end is reached, we need a marker node.
-		if ( !lastNode ) {
-			var marker;
-			lastNode = marker = document.createText( '' );
-			lastNode.insertAfter( range.endContainer );
-		}
-		// The detection algorithm below skips the contents inside bookmark nodes, so
-		// we'll need to make sure lastNode isn't the &nbsp; inside a bookmark node.
-		var lastParent = lastNode.getParent();
-		if ( lastParent && lastParent.getAttribute( '_fck_bookmark' ) )
-			lastNode = lastParent;
-
-		if ( lastNode.equals( firstNode ) ) {
-			// If the last node is the same as the the first one, we must move
-			// it to the next one, otherwise the first one will not be
-			// processed.
-			lastNode = lastNode.getNextSourceNode( true );
-
-			// It may happen that there are no more nodes after it (the end of
-			// the document), so we must add something there to make our code
-			// simpler.
-			if ( !lastNode ) {
-				lastNode = marker = document.createText( '' );
-				lastNode.insertAfter( firstNode );
-			}
-		}
+		var boundaryNodes = range.createBookmark(),
+			firstNode = boundaryNodes.startNode,
+			lastNode = boundaryNodes.endNode;
 
 		var currentNode = firstNode;
 
@@ -479,8 +452,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			}
 		}
 
-		// Remove the temporary marking node.(#4111)
-		marker && marker.remove();
+		firstNode.remove();
+		lastNode.remove();
 		range.moveToBookmark( bookmark );
 		// Minimize the result range to exclude empty text nodes. (#5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
