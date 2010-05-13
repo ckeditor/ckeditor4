@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'he' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'עורך טקסט עשיר, %1, לחץ אלט (ALT) + 0 לעזרה.',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'סרגל הכלים',
+	editor: 'עורך טקסט עשיר',
 
 	// Toolbar buttons without dialogs.
 	source: 'מקור',
@@ -90,33 +90,33 @@ CKEDITOR.lang[ 'he' ] = {
 		cssStyle: 'סגנון',
 		ok: 'אישור',
 		cancel: 'ביטול',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'סגירה',
+		preview: 'תצוגה מקדימה',
 		generalTab: 'כללי',
 		advancedTab: 'אפשרויות מתקדמות',
 		validateNumberFailed: 'הערך חייב להיות מספרי.',
 		confirmNewPage: 'כל השינויים שלא נשמרו יאבדו. האם להעלות דף חדש?',
 		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		options: 'אפשרויות',
+		target: 'מטרה',
+		targetNew: 'חלון חדש (_blank)',
+		targetTop: 'החלון העליון ביותר (_top)',
+		targetSelf: 'אותו חלון (_self)',
+		targetParent: 'חלון האב (_parent)',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'אפשרויות תפריט ההקשר'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'הוספת תו מיוחד',
 		title: 'בחירת תו מיוחד',
-		options: 'Special Character Options' // MISSING
+		options: 'אפשרויות תווים מיוחדים'
 	},
 
 	// Link dialog.
@@ -130,7 +130,7 @@ CKEDITOR.lang[ 'he' ] = {
 		upload: 'העלאה',
 		advanced: 'אפשרויות מתקדמות',
 		type: 'סוג קישור',
-		toUrl: 'URL', // MISSING
+		toUrl: 'כתובת (URL)',
 		toAnchor: 'עוגן בעמוד זה',
 		toEmail: 'דוא"ל',
 		targetFrame: '<מסגרת>',
@@ -185,24 +185,24 @@ CKEDITOR.lang[ 'he' ] = {
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'תכונות רשימה ממוספרת',
+		bulletedTitle: 'תכונות רשימת תבליטים',
+		type: 'סוג',
+		start: 'תחילת מספור',
+		circle: 'עיגול ריק',
+		disc: 'עיגול מלא',
+		square: 'ריבוע',
+		none: 'ללא',
+		notset: '<לא נקבע>',
+		armenian: 'ספרות ארמניות',
+		georgian: 'ספרות גיאורגיות (an, ban, gan וכו\')',
+		lowerRoman: 'ספירה רומית באותיות קטנות (i, ii, iii, iv, v וכו\')',
+		upperRoman: 'ספירה רומיות באותיות גדולות (I, II, III, IV, V וכו\')',
+		lowerAlpha: 'אותיות אנגליות קטנות (a, b, c, d, e וכו\')',
+		upperAlpha: 'אותיות אנגליות גדולות (A, B, C, D, E וכו\')',
+		lowerGreek: 'אותיות יווניות קטנות (alpha, beta, gamma וכו\')',
+		decimal: 'ספרות (1, 2, 3 וכו\')',
+		decimalLeadingZero: 'ספרות עם 0 בהתחלה (01, 02, 03 וכו\')'
 	},
 
 	// Find And Replace Dialog
@@ -236,7 +236,7 @@ CKEDITOR.lang[ 'he' ] = {
 		width: 'רוחב',
 		widthPx: 'פיקסלים',
 		widthPc: 'אחוז',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'יחידת רוחב',
 		height: 'גובה',
 		cellSpace: 'מרווח תא',
 		cellPad: 'ריפוד תא',
@@ -388,7 +388,7 @@ CKEDITOR.lang[ 'he' ] = {
 		width: 'רוחב',
 		height: 'גובה',
 		lockRatio: 'נעילת היחס',
-		unlockRatio: 'Unlock Ratio', // MISSING
+		unlockRatio: 'ביטול נעילת היחס',
 		resetSize: 'איפוס הגודל',
 		border: 'מסגרת',
 		hSpace: 'מרווח אופקי',
@@ -401,11 +401,11 @@ CKEDITOR.lang[ 'he' ] = {
 		button2Img: 'האם להפוך את תמונת הכפתור לתמונה פשוטה?',
 		img2Button: 'האם להפוך את התמונה לכפתור תמונה?',
 		urlMissing: 'כתובת התמונה חסרה.',
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		validateWidth: 'שדה הרוחב חייב להיות מספר שלם.',
+		validateHeight: 'שדה הגובה חייב להיות מספר שלם.',
+		validateBorder: 'שדה המסגרת חייב להיות מספר שלם.',
+		validateHSpace: 'שדה המרווח האופקי חייב להיות מספר שלם.',
+		validateVSpace: 'שדה המרווח האנכי חייב להיות מספר שלם.'
 	},
 
 	// Flash Dialog
@@ -484,11 +484,11 @@ CKEDITOR.lang[ 'he' ] = {
 	smiley: {
 		toolbar: 'סמיילי',
 		title: 'הוספת סמיילי',
-		options: 'Smiley Options' // MISSING
+		options: 'אפשרויות סמיילים'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'עץ האלמנטים',
 		eleTitle: '%1 אלמנט'
 	},
 
@@ -512,7 +512,7 @@ CKEDITOR.lang[ 'he' ] = {
 		copyError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות העתקה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl/Cmd+C).',
 		pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<b>Ctrl/Cmd+V</b>) וללחוץ על <b>אישור</b>.',
 		securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'איזור הדבקה'
 	},
 
 	pastefromword: {
@@ -530,7 +530,7 @@ CKEDITOR.lang[ 'he' ] = {
 	templates: {
 		button: 'תבניות',
 		title: 'תביות תוכן',
-		options: 'Template Options', // MISSING
+		options: 'אפשרויות התבניות',
 		insertOption: 'החלפת תוכן ממשי',
 		selectPromptMsg: 'יש לבחור תבנית לפתיחה בעורך.<br />התוכן המקורי ימחק:',
 		emptyListMsg: '(לא הוגדרו תבניות)'
@@ -540,7 +540,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	stylesCombo: {
 		label: 'סגנון',
-		panelTitle: 'Formatting Styles', // MISSING
+		panelTitle: 'סגנונות פורמט',
 		panelTitle1: 'סגנונות בלוק',
 		panelTitle2: 'סגנונות רצף',
 		panelTitle3: 'סגנונות אובייקט'
@@ -593,7 +593,7 @@ CKEDITOR.lang[ 'he' ] = {
 	colorButton: {
 		textColorTitle: 'צבע טקסט',
 		bgColorTitle: 'צבע רקע',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'צבעים',
 		auto: 'אוטומטי',
 		more: 'צבעים נוספים...'
 	},
@@ -643,7 +643,7 @@ CKEDITOR.lang[ 'he' ] = {
 
 	scayt: {
 		title: 'בדיקת איות בזמן כתיבה (SCAYT)',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'לא זמין בדפדפן אופרה',
 		enable: 'אפשר SCAYT',
 		disable: 'בטל SCAYT',
 		about: 'אודות SCAYT',
@@ -657,20 +657,20 @@ CKEDITOR.lang[ 'he' ] = {
 		emptyDic: 'יש לבחור מילון.',
 
 		optionsTab: 'אפשרויות',
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		allCaps: 'התעלם ממילים שכל אותיותיהן גדולות',
+		ignoreDomainNames: 'התעלם משמות מתחם',
+		mixedCase: 'התעלם ממילים עם אותיות גדולות וקטנות ביחד',
+		mixedWithDigits: 'התעלם ממילים עם מספרים',
 
 		languagesTab: 'שפות',
 
 		dictionariesTab: 'מילון',
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
+		dic_field_name: 'שם המילון',
+		dic_create: 'יצירה',
+		dic_restore: 'שחזור',
+		dic_delete: 'מחיקה',
+		dic_rename: 'שינוי שם',
+		dic_info: 'בהתחלה מילון המשתמש מאוחסן בעוגיה, אך עוגיות מוגבלות במקום. כאשר המילון מגיע לגודל בו הוא אינו יכול להתאכסן בעוגיה, המילון צריך להתאכסן בשרתנו. לשם כך עליך לתת שם למילון. אם כבר יש לך מילון מאוחסן, יש להכניס את שמו וללחוץ על כפתור השחזור.',
 
 		aboutTab: 'אודות'
 	},
