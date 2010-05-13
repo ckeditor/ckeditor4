@@ -152,6 +152,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	function isBlankParagraph( block ) {
+		return block.getOuterHtml().match( emptyParagraphRegexp );
+	}
+
+	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -180,13 +186,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				first && isNbsp( first ) && first.remove();
 			}
 
-			// If the fixed block is blank and already followed by a exitable
-			// block, we should revert the fix. (#3684)
-			if ( fixedBlock.getOuterHtml().match( emptyParagraphRegexp ) ) {
+			// If the fixed block is actually blank and is already followed by an exitable blank
+			// block, we should revert the fix and move into the existed one. (#3684)
+			if ( isBlankParagraph( fixedBlock ) ) {
 				var previousElement = fixedBlock.getPrevious( isNotWhitespace ),
 					nextElement = fixedBlock.getNext( isNotWhitespace );
 
-				if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( previousElement ) || nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) && range.moveToElementEditStart( nextElement ) ) {
+				if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) && isBlankParagraph( previousElement ) && range.moveToElementEditStart( previousElement ) || nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) && isBlankParagraph( nextElement ) && range.moveToElementEditStart( nextElement ) ) {
 					fixedBlock.remove();
 				}
 			}
