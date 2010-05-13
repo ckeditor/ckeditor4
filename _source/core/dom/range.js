@@ -1075,7 +1075,7 @@ CKEDITOR.dom.range = function( document ) {
 		 *  always anchor beside text nodes or innermost element.
 		 * @param {Number} mode  ( CKEDITOR.SHRINK_ELEMENT | CKEDITOR.SHRINK_TEXT ) The shrinking mode.
 		 */
-		shrink: function( mode ) {
+		shrink: function( mode, selectContents ) {
 			// Unable to shrink a collapsed range.
 			if ( !this.collapsed ) {
 				mode = mode || CKEDITOR.SHRINK_TEXT;
@@ -1140,13 +1140,13 @@ CKEDITOR.dom.range = function( document ) {
 
 				if ( moveStart ) {
 					var textStart = walker[ mode == CKEDITOR.SHRINK_ELEMENT ? 'lastForward' : 'next' ]();
-					textStart && this.setStartBefore( textStart );
+					textStart && this.setStartAt( textStart, selectContents ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_START );
 				}
 
 				if ( moveEnd ) {
 					walker.reset();
 					var textEnd = walker[ mode == CKEDITOR.SHRINK_ELEMENT ? 'lastBackward' : 'previous' ]();
-					textEnd && this.setEndAfter( textEnd );
+					textEnd && this.setEndAt( textEnd, selectContents ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_AFTER_END );
 				}
 
 				return !!( moveStart || moveEnd );
@@ -1202,6 +1202,10 @@ CKEDITOR.dom.range = function( document ) {
 			// we will not need this check for our use of this class so we can
 			// ignore it for now.
 
+			// Fixing invalid range start inside dtd empty elements.
+			if ( startNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ startNode.getName() ] )
+				startNode = startNode.getParent(), startOffset = startNode.getIndex();
+
 			this.startContainer = startNode;
 			this.startOffset = startOffset;
 
@@ -1225,6 +1229,10 @@ CKEDITOR.dom.range = function( document ) {
 			// boundary, the range should be collapsed to the new end. It seams we
 			// will not need this check for our use of this class so we can ignore
 			// it for now.
+
+			// Fixing invalid range end inside dtd empty elements.
+			if ( endNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ endNode.getName() ] )
+				endNode = endNode.getParent(), endOffset = endNode.getIndex() + 1;
 
 			this.endContainer = endNode;
 			this.endOffset = endOffset;
