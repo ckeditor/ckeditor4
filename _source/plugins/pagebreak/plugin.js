@@ -73,6 +73,8 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 		var ranges = editor.getSelection().getRanges();
 
+		editor.fire( 'saveSnapshot' );
+
 		for ( var range, i = 0; i < ranges.length; i++ ) {
 			range = ranges[ i ];
 
@@ -86,5 +88,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 				range.select();
 			}
 		}
+
+		editor.fire( 'saveSnapshot' );
 	}
 };

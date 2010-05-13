@@ -168,6 +168,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// When enterMode set to block, we'll establing new paragraph only if we're
 		// selecting inline contents right under body. (#3657)
 		if ( enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
+			editor.fire( 'updateSnapshot' );
 			restoreDirty( editor );
 			CKEDITOR.env.ie && restoreSelection( selection );
 
@@ -210,6 +211,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 		if ( walker.previous() ) {
+			editor.fire( 'updateSnapshot' );
 			restoreDirty( editor );
 			CKEDITOR.env.ie && restoreSelection( selection );
 
