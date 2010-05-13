@@ -561,14 +561,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		afterInit: function( editor ) {
-			// Prevent word marker line from displaying in elements path. (#3570)
-			var elementsPathFilters;
-			if ( editor._.elementsPath && ( elementsPathFilters = editor._.elementsPath.filters ) ) {
-				elementsPathFilters.push( function( element ) {
+			// Prevent word marker line from displaying in elements path and been removed when cleaning format. (#3570) (#4125)
+			var elementsPathFilters,
+				scaytFilter = function( element ) {
 					if ( element.hasAttribute( 'scaytid' ) )
 						return false;
-				});
-			}
+				};
+
+			if ( editor._.elementsPath && ( elementsPathFilters = editor._.elementsPath.filters ) )
+				elementsPathFilters.push( scaytFilter );
+
+			editor.addRemoveFormatFilter && editor.addRemoveFormatFilter( scaytFilter );
 
 		}
 	});
