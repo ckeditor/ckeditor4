@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'nl' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Tekstverwerker, %1, druk op ALT 0 voor hulp.',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'Werkbalk',
+	editor: 'Tekstverwerker',
 
 	// Toolbar buttons without dialogs.
 	source: 'Code',
@@ -90,33 +90,33 @@ CKEDITOR.lang[ 'nl' ] = {
 		cssStyle: 'Stijl',
 		ok: 'OK',
 		cancel: 'Annuleren',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'Sluiten',
+		preview: 'Voorbeeld',
 		generalTab: 'Algemeen',
 		advancedTab: 'Geavanceerd',
 		validateNumberFailed: 'Deze waarde is geen geldig getal.',
 		confirmNewPage: 'Alle aangebrachte wijzigingen gaan verloren. Weet u zeker dat u een nieuwe pagina wilt openen?',
 		confirmCancel: 'Enkele opties zijn gewijzigd. Weet u zeker dat u dit dialoogvenster wilt sluiten?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		options: 'Opties',
+		target: 'Doel',
+		targetNew: 'Nieuw venster (_blank)',
+		targetTop: 'Hele venster (_top)',
+		targetSelf: 'Zelfde venster (_self)',
+		targetParent: 'Origineel venster (_parent)',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Context menu opties'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Speciaal teken invoegen',
 		title: 'Selecteer speciaal teken',
-		options: 'Special Character Options' // MISSING
+		options: 'Speciale tekens opties'
 	},
 
 	// Link dialog.
@@ -130,7 +130,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		upload: 'Upload',
 		advanced: 'Geavanceerd',
 		type: 'Linktype',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'Interne link in pagina',
 		toEmail: 'E-mail',
 		targetFrame: '<frame>',
@@ -236,7 +236,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		width: 'Breedte',
 		widthPx: 'pixels',
 		widthPc: 'procent',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'eenheid breedte',
 		height: 'Hoogte',
 		cellSpace: 'Afstand tussen cellen',
 		cellPad: 'Ruimte in de cel',
@@ -388,7 +388,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		width: 'Breedte',
 		height: 'Hoogte',
 		lockRatio: 'Afmetingen vergrendelen',
-		unlockRatio: 'Unlock Ratio', // MISSING
+		unlockRatio: 'Afmetingen ontgrendelen',
 		resetSize: 'Afmetingen resetten',
 		border: 'Rand',
 		hSpace: 'HSpace',
@@ -401,11 +401,11 @@ CKEDITOR.lang[ 'nl' ] = {
 		button2Img: 'Wilt u de geselecteerde afbeeldingsknop vervangen door een eenvoudige afbeelding?',
 		img2Button: 'Wilt u de geselecteerde afbeelding vervangen door een afbeeldingsknop?',
 		urlMissing: 'De URL naar de afbeelding ontbreekt.',
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		validateWidth: 'Breedte moet een heel nummer zijn.',
+		validateHeight: 'Hoogte moet een heel nummer zijn.',
+		validateBorder: 'Rand moet een heel nummer zijn.',
+		validateHSpace: 'HSpace moet een heel nummer zijn.',
+		validateVSpace: 'VSpace moet een heel nummer zijn.'
 	},
 
 	// Flash Dialog
@@ -484,11 +484,11 @@ CKEDITOR.lang[ 'nl' ] = {
 	smiley: {
 		toolbar: 'Smiley',
 		title: 'Smiley invoegen',
-		options: 'Smiley Options' // MISSING
+		options: 'Smiley opties'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'Elementenpad',
 		eleTitle: '%1 element'
 	},
 
@@ -512,7 +512,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		copyError: 'De beveiligingsinstelling van de browser verhinderen het automatisch kopiëren. Gebruik de sneltoets Ctrl/Cmd+C van het toetsenbord.',
 		pasteMsg: 'Plak de tekst in het volgende vak gebruik makend van uw toetsenbord (<strong>Ctrl/Cmd+V</strong>) en klik op <strong>OK</strong>.',
 		securityMsg: 'Door de beveiligingsinstellingen van uw browser is het niet mogelijk om direct vanuit het klembord in de editor te plakken. Middels opnieuw plakken in dit venster kunt u de tekst alsnog plakken in de editor.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'Plakgebied'
 	},
 
 	pastefromword: {
@@ -530,7 +530,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	templates: {
 		button: 'Sjablonen',
 		title: 'Inhoud sjabonen',
-		options: 'Template Options', // MISSING
+		options: 'Template opties',
 		insertOption: 'Vervang de huidige inhoud',
 		selectPromptMsg: 'Selecteer het sjabloon dat in de editor geopend moet worden (de actuele inhoud gaat verloren):',
 		emptyListMsg: '(Geen sjablonen gedefinieerd)'
@@ -540,7 +540,7 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	stylesCombo: {
 		label: 'Stijl',
-		panelTitle: 'Formatting Styles', // MISSING
+		panelTitle: 'Opmaakstijlen',
 		panelTitle1: 'Blok stijlen',
 		panelTitle2: 'In-line stijlen',
 		panelTitle3: 'Object stijlen'
@@ -593,7 +593,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	colorButton: {
 		textColorTitle: 'Tekstkleur',
 		bgColorTitle: 'Achtergrondkleur',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'Kleuren',
 		auto: 'Automatisch',
 		more: 'Meer kleuren...'
 	},
