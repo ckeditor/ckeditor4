@@ -469,6 +469,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	CKEDITOR.dialog.prototype = {
 		destroy: function() {
+			this.hide();
 			this._.element.remove();
 		},
 
@@ -611,7 +612,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
-				addCover( this._.editor );
+				showCover( this._.editor );
 
 				element.on( 'keydown', accessKeyDownHandler );
 				element.on( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
@@ -710,6 +711,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * dialogObj.hide();
 		 */
 		hide: function() {
+			if ( !this.parts.dialog.isVisible() )
+				return;
+
 			this.fire( 'hide', {} );
 			this._.editor.fire( 'dialogHide', this );
 			var element = this._.element;
@@ -718,9 +722,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Unregister all access keys associated with this dialog.
 			unregisterAccessKey( this );
 
+			// Close any child(top) dialogs first.
+			while ( CKEDITOR.dialog._.currentTop != this )
+				CKEDITOR.dialog._.currentTop.hide();
+
 			// Maintain dialog ordering and remove cover if needed.
 			if ( !this._.parentDialog )
-				removeCover();
+				hideCover();
 			else {
 				var parentElement = this._.parentDialog.getElement().getFirst();
 				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
@@ -749,7 +757,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
 
-
+			delete this._.parentDialog;
 			// Reset the initial values of the dialog.
 			this.foreach( function( contentObj ) {
 				contentObj.resetInitValue && contentObj.resetInitValue();
@@ -1578,121 +1586,131 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	var resizeCover;
-	var coverElement;
+	// Caching resuable covers and allowing only one cover
+	// on screen.
+	var covers = {},
+		currentCover;
 
-	var addCover = function( editor ) {
-			var win = CKEDITOR.document.getWindow();
+	function showCover( editor ) {
+		var win = CKEDITOR.document.getWindow();
+		var backgroundColorStyle = editor.config.dialog_backgroundCoverColor || 'white',
+			backgroundCoverOpacity = editor.config.dialog_backgroundCoverOpacity,
+			baseFloatZIndex = editor.config.baseFloatZIndex,
+			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),
+			coverElement = covers[ coverKey ];
 
-			if ( !coverElement ) {
-				var backgroundColorStyle = editor.config.dialog_backgroundCoverColor || 'white';
-
-				var html = [
-					'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
-					'; z-index: ', editor.config.baseFloatZIndex,
-					'; top: 0px; left: 0px; ',
-					( !CKEDITOR.env.ie6Compat ? 'background-color: ' + backgroundColorStyle : '' ),
-					'" id="cke_dialog_background_cover">'
-					];
-
-
-				if ( CKEDITOR.env.ie6Compat ) {
-					// Support for custom document.domain in IE.
-					var isCustomDomain = CKEDITOR.env.isCustomDomain(),
-						iframeHtml = '<html><body style=\\\'background-color:' + backgroundColorStyle + ';\\\'></body></html>';
-
-					html.push( '<iframe' +
-						' hidefocus="true"' +
-						' frameborder="0"' +
-						' id="cke_dialog_background_iframe"' +
-						' src="javascript:' );
-
-					html.push( 'void((function(){' +
-						'document.open();' +
-						( isCustomDomain ? 'document.domain=\'' + document.domain + '\';' : '' ) +
-						'document.write( \'' + iframeHtml + '\' );' +
-						'document.close();' +
-						'})())' );
-
-					html.push( '"' +
-						' style="' +
-							'position:absolute;' +
-							'left:0;' +
-							'top:0;' +
-							'width:100%;' +
-							'height: 100%;' +
-							'progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
-						'</iframe>' );
-				}
-
-				html.push( '</div>' );
-
-				coverElement = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
-			}
-
-			var element = coverElement;
-
-			var resizeFunc = function() {
-					var size = win.getViewPaneSize();
-					element.setStyles({
-						width: size.width + 'px',
-						height: size.height + 'px'
-					});
-				};
-
-			var scrollFunc = function() {
-					var pos = win.getScrollPosition(),
-						cursor = CKEDITOR.dialog._.currentTop;
-					element.setStyles({
-						left: pos.x + 'px',
-						top: pos.y + 'px'
-					});
-
-					do {
-						var dialogPos = cursor.getPosition();
-						cursor.move( dialogPos.x, dialogPos.y );
-					} while ( ( cursor = cursor._.parentDialog ) );
-				};
-
-			resizeCover = resizeFunc;
-			win.on( 'resize', resizeFunc );
-			resizeFunc();
-			if ( CKEDITOR.env.ie6Compat ) {
-				// IE BUG: win.$.onscroll assignment doesn't work.. it must be window.onscroll.
-				// So we need to invent a really funny way to make it work.
-				var myScrollHandler = function() {
-						scrollFunc();
-						arguments.callee.prevScrollHandler.apply( this, arguments );
-					};
-				win.$.setTimeout( function() {
-					myScrollHandler.prevScrollHandler = window.onscroll ||
-					function() {};
-					window.onscroll = myScrollHandler;
-				}, 0 );
-				scrollFunc();
-			}
-
-			var opacity = editor.config.dialog_backgroundCoverOpacity;
-			element.setOpacity( typeof opacity != 'undefined' ? opacity : 0.5 );
-
-			element.appendTo( CKEDITOR.document.getBody() );
-		};
-
-	var removeCover = function() {
-			if ( !coverElement )
-				return;
-
-			var win = CKEDITOR.document.getWindow();
-			coverElement.remove();
-			win.removeListener( 'resize', resizeCover );
+		if ( !coverElement ) {
+			var html = [
+				'<div style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
+				'; z-index: ', baseFloatZIndex,
+				'; top: 0px; left: 0px; ',
+				( !CKEDITOR.env.ie6Compat ? 'background-color: ' + backgroundColorStyle : '' ),
+				'" class="cke_dialog_background_cover">'
+				];
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				win.$.setTimeout( function() {
-					var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
-					window.onscroll = prevScrollHandler || null;
-				}, 0 );
+				// Support for custom document.domain in IE.
+				var isCustomDomain = CKEDITOR.env.isCustomDomain(),
+					iframeHtml = '<html><body style=\\\'background-color:' + backgroundColorStyle + ';\\\'></body></html>';
+
+				html.push( '<iframe' +
+					' hidefocus="true"' +
+					' frameborder="0"' +
+					' id="cke_dialog_background_iframe"' +
+					' src="javascript:' );
+
+				html.push( 'void((function(){' +
+					'document.open();' +
+					( isCustomDomain ? 'document.domain=\'' + document.domain + '\';' : '' ) +
+					'document.write( \'' + iframeHtml + '\' );' +
+					'document.close();' +
+					'})())' );
+
+				html.push( '"' +
+					' style="' +
+						'position:absolute;' +
+						'left:0;' +
+						'top:0;' +
+						'width:100%;' +
+						'height: 100%;' +
+						'progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
+					'</iframe>' );
 			}
-			resizeCover = null;
-		};
+
+			html.push( '</div>' );
+
+			coverElement = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
+			coverElement.setOpacity( backgroundCoverOpacity != undefined ? backgroundCoverOpacity : 0.5 );
+
+			coverElement.appendTo( CKEDITOR.document.getBody() );
+			covers[ coverKey ] = coverElement;
+		} else
+			coverElement.show();
+
+		currentCover = coverElement;
+		var resizeFunc = function() {
+				var size = win.getViewPaneSize();
+				coverElement.setStyles({
+					width: size.width + 'px',
+					height: size.height + 'px'
+				});
+			};
+
+		var scrollFunc = function() {
+				var pos = win.getScrollPosition(),
+					cursor = CKEDITOR.dialog._.currentTop;
+				coverElement.setStyles({
+					left: pos.x + 'px',
+					top: pos.y + 'px'
+				});
+
+				do {
+					var dialogPos = cursor.getPosition();
+					cursor.move( dialogPos.x, dialogPos.y );
+				} while ( ( cursor = cursor._.parentDialog ) );
+			};
+
+		resizeCover = resizeFunc;
+		win.on( 'resize', resizeFunc );
+		resizeFunc();
+		if ( CKEDITOR.env.ie6Compat ) {
+			// IE BUG: win.$.onscroll assignment doesn't work.. it must be window.onscroll.
+			// So we need to invent a really funny way to make it work.
+			var myScrollHandler = function() {
+					scrollFunc();
+					arguments.callee.prevScrollHandler.apply( this, arguments );
+				};
+			win.$.setTimeout( function() {
+				myScrollHandler.prevScrollHandler = window.onscroll ||
+				function() {};
+				window.onscroll = myScrollHandler;
+			}, 0 );
+			scrollFunc();
+		}
+	};
+
+	function hideCover() {
+		if ( !currentCover )
+			return;
+
+		var win = CKEDITOR.document.getWindow();
+		currentCover.hide();
+		win.removeListener( 'resize', resizeCover );
+
+		if ( CKEDITOR.env.ie6Compat ) {
+			win.$.setTimeout( function() {
+				var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
+				window.onscroll = prevScrollHandler || null;
+			}, 0 );
+		}
+		resizeCover = null;
+	};
+
+	function removeCovers() {
+		for ( var coverId in covers )
+			covers[ coverId ].remove();
+		covers = {};
+	}
 
 	var accessKeyProcessors = {};
 
@@ -2514,13 +2532,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 		CKEDITOR.on( 'instanceDestroyed', function( evt ) {
+			// Remove dialog cover on last instance destroy.
+			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) ) {
+				var currentTopDialog;
+				while ( currentTopDialog = CKEDITOR.dialog._.currentTop )
+					currentTopDialog.hide();
+				removeCovers();
+			}
+
 			var dialogs = evt.editor._.storedDialogs;
 			for ( var name in dialogs )
 				dialogs[ name ].destroy();
 
-			// Remove dialog cover on last instance destroy.
-			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) && coverElement )
-				coverElement.remove();
 		});
 
 	})();

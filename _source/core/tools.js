@@ -614,6 +614,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				} catch ( e ) {}
 			}
 			return returnValue;
+		},
+
+		/**
+		 * Generate a combined key from a series of params.
+		 * @param {String} subKey One or more string used as sub keys.
+		 * @example
+		 * var key = CKEDITOR.tools.genKey( 'key1', 'key2', 'key3' );
+		 * alert( key );		// "key1-key2-key3".
+		 */
+		genKey: function() {
+			return Array.prototype.slice.call( arguments ).join( '-' );
 		}
 	};
 })();
