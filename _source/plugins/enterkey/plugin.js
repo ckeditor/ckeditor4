@@ -26,7 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var path = new CKEDITOR.dom.elementPath( range.startContainer ),
 					block = path.block;
 
-				if ( block.is( 'li' ) || block.getParent().is( 'li' ) ) {
+				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
 					editor.execCommand( 'outdent' );
 					return;
 				}
