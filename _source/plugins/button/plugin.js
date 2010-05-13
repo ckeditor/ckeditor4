@@ -223,3 +223,7 @@ CKEDITOR.ui.button._ = {
 CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 	this.add( name, CKEDITOR.UI_BUTTON, definition );
 };
+
+CKEDITOR.on( 'reset', function() {
+	CKEDITOR.ui.button._.instances = [];
+});

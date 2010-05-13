@@ -128,6 +128,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 (function( domObjectProto ) {
 	var customData = {};
 
+	CKEDITOR.on( 'reset', function() {
+		customData = {};
+	});
+
 	/**
 	 * Determines whether the specified object is equal to the current object.
 	 * @name CKEDITOR.dom.domObject.prototype.equals

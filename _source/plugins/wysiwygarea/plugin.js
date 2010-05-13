@@ -699,19 +699,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !body )
 				window.addEventListener( 'load', arguments.callee, false );
 			else {
-				body.setAttribute( 'onpageshow', body.getAttribute( 'onpageshow' ) + ';event.persisted && CKEDITOR.tools.callFunction(' +
-					CKEDITOR.tools.addFunction( function() {
-					var allInstances = CKEDITOR.instances,
-						editor, doc;
-					for ( var i in allInstances ) {
-						editor = allInstances[ i ];
-						doc = editor.document;
-						if ( doc ) {
-							doc.$.designMode = 'off';
-							doc.$.designMode = 'on';
-						}
-					}
-				}) + ')' );
+				var currentHandler = body.getAttribute( 'onpageshow' );
+				body.setAttribute( 'onpageshow', ( currentHandler ? currentHandler + ';' : '' ) + 'event.persisted && (function(){' +
+					'var allInstances = CKEDITOR.instances, editor, doc;' +
+					'for ( var i in allInstances )' +
+					'{' +
+					'	editor = allInstances[ i ];' +
+					'	doc = editor.document;' +
+					'	if ( doc )' +
+					'	{' +
+					'		doc.$.designMode = "off";' +
+					'		doc.$.designMode = "on";' +
+					'	}' +
+					'}' +
+					'})();' );
 			}
 		})();
 

@@ -63,6 +63,15 @@ CKEDITOR.remove = function( editor ) {
 	delete CKEDITOR.instances[ editor.name ];
 };
 
+/**
+ * Perform global clean up to free as much memory as possible
+ * when there are no instances left
+ */
+CKEDITOR.on( 'instanceDestroyed', function() {
+	if ( CKEDITOR.tools.isEmpty( this.instances ) )
+		CKEDITOR.fire( 'reset' );
+});
+
 // Load the bootstrap script.
 CKEDITOR.loader.load( 'core/_bootstrap' ); // @Packager.RemoveLine
 
