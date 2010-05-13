@@ -70,13 +70,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function refreshCursor( editor ) {
 		if ( editor.focusManager.hasFocus ) {
-			var focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute; left:-10000" role="presentation"></span>' ) );
-
-			focusGrabber.on( 'focus', function() {
-				editor.focus();
-			});
-			focusGrabber.focus();
-			focusGrabber.remove();
+			editor.toolbox.focus();
+			editor.focus();
 		}
 	}
 
