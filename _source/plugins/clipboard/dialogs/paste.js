@@ -9,15 +9,19 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
-			$ = doc.$;
+			docElement = doc.$;
 
 		doc.getById( "cke_actscrpt" ).remove();
 
-		CKEDITOR.env.ie ? $.body.contentEditable = "true" : $.designMode = "on";
+		CKEDITOR.env.ie ? docElement.body.contentEditable = "true" : docElement.designMode = "on";
 
-		CKEDITOR.env.ie && doc.getWindow().on( 'blur', function() {
-			$.body.contentEditable = "false";
-		});
+		// IE before version 8 will leave cursor blinking inside the document after
+		// editor blurred unless we clean up the selection. (#4716)
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
+			doc.getWindow().on( 'blur', function() {
+				docElement.selection.empty();
+			});
+		}
 
 		doc.on( "keydown", function( e ) {
 			var domEvent = e.data,
@@ -99,6 +103,22 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			container.setHtml( '' );
 			container.append( iframe );
 
+			// IE need a redirect on focus to make
+			// the cursor blinking inside iframe. (#5461)
+			if ( CKEDITOR.env.ie ) {
+				var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute;" role="presentation"></span>' );
+				focusGrabber.on( 'focus', function() {
+					iframe.$.contentWindow.focus();
+				});
+				container.append( focusGrabber );
+
+				// Override focus handler on field.
+				field.focus = function() {
+					focusGrabber.focus();
+					this.fire( 'focus' );
+				};
+			}
+
 			field.getInputElement = function() {
 				return iframe;
 			};
@@ -153,15 +173,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				style: 'width: 100%; height: 100%;',
 				html: '',
 				focus: function() {
-					var win = this.getInputElement().$.contentWindow,
-						body = win && win.document.body;
+					var win = this.getInputElement().$.contentWindow;
 
 					// #3291 : JAWS needs the 500ms delay to detect that the editor iframe
 					// iframe is no longer editable. So that it will put the focus into the
 					// Paste from Word dialog's editable area instead.
 					setTimeout( function() {
-						// Reactivate design mode for IE to make the cursor blinking.
-						CKEDITOR.env.ie && body && ( body.contentEditable = "true" );
 						win.focus();
 					}, 500 );
 				}
