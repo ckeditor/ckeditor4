@@ -334,10 +334,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
 				dialogElement.on( 'keypress', focusKeyPressHandler, this );
 
-			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
-				coverDoc.on( 'keydown', focusKeydownHandler, this, null, 0 );
-			}
 		});
 		this.on( 'hide', function() {
 			dialogElement.removeListener( 'keydown', focusKeydownHandler );
@@ -1427,7 +1423,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.removeListener( 'mouseup', mouseUpHandler );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
+				var coverDoc = currentCover.getChild( 0 ).getFrameDocument();
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 			}
@@ -1443,7 +1439,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			abstractDialogCoords = dialog.getPosition();
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
+				var coverDoc = currentCover.getChild( 0 ).getFrameDocument();
 				coverDoc.on( 'mousemove', mouseMoveHandler );
 				coverDoc.on( 'mouseup', mouseUpHandler );
 			}
