@@ -643,13 +643,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Figure it out by checking if there's a single enclosed
 			// node of the range.
 			function() {
-				var range = self.getRanges()[ 0 ];
-				range.shrink( CKEDITOR.SHRINK_ELEMENT );
+				var range = self.getRanges()[ 0 ],
+					enclosed, selected;
 
-				var enclosed;
-				if ( range.startContainer.equals( range.endContainer ) && ( range.endOffset - range.startOffset ) == 1 && styleObjectElements[ ( enclosed = range.startContainer.getChild( range.startOffset ) ).getName() ] ) {
-					return enclosed.$;
+				// Check first any enclosed element, e.g. <ul>[<li><a href="#">item</a></li>]</ul>
+				for ( var i = 2; i && !( ( enclosed = range.getEnclosedNode() ) && ( enclosed.type == CKEDITOR.NODE_ELEMENT ) && styleObjectElements[ enclosed.getName() ] && ( selected = enclosed ) ); i-- ) {
+					// Then check any deep wrapped element, e.g. [<b><i><img /></i></b>] 
+					range.shrink( CKEDITOR.SHRINK_ELEMENT );
 				}
+
+				return selected.$;
 			});
 
 			return cache.selectedElement = ( node ? new CKEDITOR.dom.element( node ) : null );
