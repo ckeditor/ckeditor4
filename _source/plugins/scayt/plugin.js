@@ -130,6 +130,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			editor.on( 'afterCommandExec', function( ev ) {
+				if ( !plugin.isScaytEnabled( editor ) )
+					return;
+
+				if ( editor.mode == 'wysiwyg' && ( ev.data.name == 'undo' || ev.data.name == 'redo' ) )
+					window.setTimeout( function() {
+					plugin.getScayt( editor ).refresh();
+				}, 10 );
+			});
+
 			editor.on( 'destroy', function( ev ) {
 				var editor = ev.editor,
 					scayt_instance = plugin.getScayt( editor );
@@ -205,6 +215,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				});
 			}
+
+			// Override Image.equals method avoid CK snapshot module to add SCAYT markup to snapshots. (#5546)
+			var undoImagePrototype = CKEDITOR.plugins.undo.Image.prototype;
+			undoImagePrototype.equals = CKEDITOR.tools.override( undoImagePrototype.equals, function( org ) {
+				return function( otherImage ) {
+					var thisContents = this.contents,
+						otherContents = otherImage.contents;
+					var scayt_instance = plugin.getScayt( this.editor );
+					// Making the comparison based on content without SCAYT word markers.
+					if ( scayt_instance && plugin.isScaytReady( this.editor ) ) {
+						this.contents = scayt_instance.reset( thisContents );
+						otherImage.contents = scayt_instance.reset( otherContents );
+					}
+
+					var retval = org.apply( this, arguments );
+
+					this.contents = thisContents;
+					otherImage.contents = otherContents;
+					return retval;
+				}
+			});
 
 			if ( editor.document )
 				createInstance();
