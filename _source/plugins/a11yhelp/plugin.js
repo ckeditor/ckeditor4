@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( pluginName, {
 		// List of available localizations.
-		availableLangs: { en:1 },
+		availableLangs: { en:1,he:1 },
 
 		init: function( editor ) {
 			var plugin = this;
