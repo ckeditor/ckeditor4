@@ -28,7 +28,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 				'clear: both;' +
 				'display: block;' +
 				'float: none;' +
-				'width: 100%;' +
+				'width:100%;_width:99.9%;' +
 				'border-top: #999999 1px dotted;' +
 				'border-bottom: #999999 1px dotted;' +
 				'height: 5px;' +
