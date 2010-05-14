@@ -320,8 +320,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		requires: [ 'menubutton' ],
 
 		beforeInit: function( editor ) {
-			// Register own rbc menu group.
-			editor.config.menu_groups = 'scayt_suggest,scayt_moresuggest,scayt_control,' + editor.config.menu_groups;
+			var items_order = editor.config.scayt_contextMenuItemsOrder || 'suggest|moresuggest|control',
+				items_order_str = "";
+
+			items_order = items_order.split( '|' );
+
+			if ( items_order && items_order.length )
+				for ( var pos in items_order )
+				items_order_str += 'scayt_' + items_order[ pos ] + ( items_order.length != parseInt( pos ) + 1 ? ',' : '' );
+
+			// Register scayt rbc menu group.
+			if ( editor.config.scayt_contextMenuOntop )
+				// Put it on top of all context menu items
+				editor.config.menu_groups = items_order_str + ',' + editor.config.menu_groups;
+			else
+				// Put it down
+				editor.config.menu_groups = editor.config.menu_groups + ',' + items_order_str;
 		},
 
 		init: function( editor ) {
@@ -704,4 +718,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @default ''
  * @example
  * config.scayt_userDictionaryName = 'MyDictionary';
+ */
+
+/**
+ * Makes it possible to place the SCAYT context menu items above others.
+ * @name CKEDITOR.config.scayt_contextMenuOntop
+ * @type Boolean
+ * @default false
+ * @example
+ * config.scayt_contextMenuOntop = true;
+ */
+
+/**
+ * Define order of placing of SCAYT context menu items by groups.
+ * It must be a string with one or more of the following
+ * words separated by a pipe ("|"):
+ * <ul>
+ *     <li>'suggest'     - main suggestion word list,</li>
+ *     <li>'moresuggest' - more suggestions word list,</li>
+ *     <li>'control'     - SCAYT commands, such as 'Ignore' and 'Add Word'</li>
+ * </ul>
+ * 
+ * @name CKEDITOR.config.scayt_contextMenuItemsOrder
+ * @type String
+ * @default 'suggest|moresuggest|control'
+ * @example
+ * config.scayt_contextMenuItemsOrder = 'moresuggest|control|suggest';
  */
