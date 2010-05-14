@@ -37,6 +37,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( selectedTable.getName() != 'table' )
 							selectedTable = null;
 					} else if ( ranges.length > 0 ) {
+						// Webkit could report the following range on cell selection (#4948):
+						// <table><tr><td>[&nbsp;</td></tr></table>]
+						if ( CKEDITOR.env.webkit )
+							ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
+
 						var rangeRoot = ranges[ 0 ].getCommonAncestor( true );
 						selectedTable = rangeRoot.getAscendant( 'table', true );
 					}
