@@ -156,11 +156,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.env.webkit && pastebin.append( doc.createText( '\xa0' ) );
 		doc.getBody().append( pastebin );
 
-		// It's definitely a better user experience if we make the paste-bin pretty unnoticed
-		// by pulling it off the screen.
 		pastebin.setStyles({
 			position: 'absolute',
-			left: '-1000px',
 			// Position the bin exactly at the position of the selected element
 			// to avoid any subsequent document scroll.
 			top: sel.getStartElement().getDocumentPosition().y + 'px',
@@ -168,6 +165,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			height: '1px',
 			overflow: 'hidden'
 		});
+
+		// It's definitely a better user experience if we make the paste-bin pretty unnoticed
+		// by pulling it off the screen.
+		pastebin.setStyle( this.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
 
 		var bms = sel.createBookmarks();
 
