@@ -157,8 +157,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( CKEDITOR.env.ie )
 						editor.getSelection().unlock( true );
 
-					// Swallow any SCAYT engine errors.
+					// Return focus to the editor and refresh SCAYT markup (#5573).
 					window.setTimeout( function() {
+						scayt_instance.focus();
 						scayt_instance.refresh();
 					}, 10 );
 				}
@@ -172,8 +173,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( CKEDITOR.env.ie )
 						editor.getSelection().unlock( true );
 
-					// Swallow any SCAYT engine errors.
+					// Return focus to the editor (#5573)
+					// Refresh SCAYT markup
 					window.setTimeout( function() {
+						scayt_instance.focus();
 						scayt_instance.refresh();
 					}, 10 );
 				}
