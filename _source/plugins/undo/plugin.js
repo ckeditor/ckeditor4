@@ -146,29 +146,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		equals: function( otherImage, contentOnly ) {
 
 			var thisContents = this.contents,
-				otherContents = otherImage.contents,
-				// Registered filters makes Image to respond correct on service markup of SCAYT and any other plugins 
-				// The editor object is absent in context of Image by default, 
-				// so for prototyping we use hardcoded editor name "editor1"
-				thisEqualsFilters = CKEDITOR.instances.editor1._.imageEqualsFilters,
-				i, err;
+				otherContents = otherImage.contents;
 
 			// For IE6/7 : Comparing only the protected attribute values but not the original ones.(#4522)
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
 				thisContents = thisContents.replace( protectedAttrs, '' );
 				otherContents = otherContents.replace( protectedAttrs, '' );
 			}
-
-
-			// Run custom filters
-			if ( thisEqualsFilters && thisEqualsFilters.length )
-				for ( i in thisEqualsFilters )
-				try {
-				filteredContents = thisEqualsFilters[ i ].apply( null, [ thisContents, otherContents ] );
-				thisContents = filteredContents[ 0 ];
-				otherContents = filteredContents[ 1 ];
-			} catch ( err ) {}
-
 
 			if ( thisContents != otherContents )
 				return false;
