@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'tr' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Zengin metin editörü, %1, yardım için ALT 0 tuşuna basın.',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'Toolbar',
+	editor: 'Zengin Metin Editörü',
 
 	// Toolbar buttons without dialogs.
 	source: 'Kaynak',
@@ -90,47 +90,47 @@ CKEDITOR.lang[ 'tr' ] = {
 		cssStyle: 'Biçem',
 		ok: 'Tamam',
 		cancel: 'İptal',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'Kapat',
+		preview: 'Ön gösterim',
 		generalTab: 'Genel',
 		advancedTab: 'Gelişmiş',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		validateNumberFailed: 'Bu değer sayı değildir.',
+		confirmNewPage: 'İceriğiniz kayıt edilmediğinden dolayı kaybolacaktır. Yeni bir sayfa yüklemek istediğinize eminsiniz?',
+		confirmCancel: 'Bazı seçenekler değişmiştir. Dialog penceresini kapatmak istediğinize eminmisiniz?',
+		options: 'Seçenekler',
+		target: 'Hedef',
+		targetNew: 'Yeni Pencere (_blank)',
+		targetTop: 'Enüst Pencere (_top)',
+		targetSelf: 'Aynı Pencere (_self)',
+		targetParent: 'Ana Pencere (_parent)',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'İçerik Menüsü Seçenekleri'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Özel Karakter Ekle',
 		title: 'Özel Karakter Seç',
-		options: 'Special Character Options' // MISSING
+		options: 'Özel Karakter Seçenekleri'
 	},
 
 	// Link dialog.
 	link: {
-		toolbar: 'Köprü Ekle/Düzenle',
+		toolbar: 'Link Ekle/Düzenle',
 		other: '<diğer>',
-		menu: 'Köprü Düzenle',
-		title: 'Köprü',
-		info: 'Köprü Bilgisi',
+		menu: 'Link Düzenle',
+		title: 'Link',
+		info: 'Link Bilgisi',
 		target: 'Hedef',
 		upload: 'Karşıya Yükle',
 		advanced: 'Gelişmiş',
-		type: 'Köprü Türü',
-		toUrl: 'URL', // MISSING
+		type: 'Link Türü',
+		toUrl: 'URL',
 		toAnchor: 'Bu sayfada çapa',
 		toEmail: 'E-Posta',
 		targetFrame: '<çerçeve>',
@@ -138,7 +138,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		targetFrameName: 'Hedef Çerçeve Adı',
 		targetPopupName: 'Yeni Açılan Pencere Adı',
 		popupFeatures: 'Yeni Açılan Pencere Özellikleri',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Resizable',
 		popupStatusBar: 'Durum Çubuğu',
 		popupLocationBar: 'Yer Çubuğu',
 		popupToolbar: 'Araç Çubuğu',
@@ -150,7 +150,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		popupLeft: 'Sola Göre Konum',
 		popupHeight: 'Yükseklik',
 		popupTop: 'Yukarıya Göre Konum',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'Dil Yönü',
 		langDirLTR: 'Soldan Sağa (LTR)',
 		langDirRTL: 'Sağdan Sola (RTL)',
@@ -163,24 +163,24 @@ CKEDITOR.lang[ 'tr' ] = {
 		cssClasses: 'Biçem Sayfası Sınıfları',
 		charset: 'Bağlı Kaynak Karakter Gurubu',
 		styles: 'Biçem',
-		selectAnchor: 'Çapa Seç',
-		anchorName: 'Çapa Adı ile',
+		selectAnchor: 'Bağlantı Seç',
+		anchorName: 'Bağlantı Adı ile',
 		anchorId: 'Eleman Kimlik Numarası ile',
 		emailAddress: 'E-Posta Adresi',
 		emailSubject: 'İleti Konusu',
 		emailBody: 'İleti Gövdesi',
 		noAnchors: '(Bu belgede hiç çapa yok)',
-		noUrl: 'Lütfen köprü URL\'sini yazın',
+		noUrl: 'Lütfen Link URL\'sini yazın',
 		noEmail: 'Lütfen E-posta adresini yazın'
 	},
 
 	// Anchor dialog
 	anchor: {
-		toolbar: 'Çapa Ekle/Düzenle',
-		menu: 'Çapa Özellikleri',
-		title: 'Çapa Özellikleri',
-		name: 'Çapa Adı',
-		errorName: 'Lütfen çapa için ad giriniz'
+		toolbar: 'Bağlantı Ekle/Düzenle',
+		menu: 'Bağlantı Özellikleri',
+		title: 'Bağlantı Özellikleri',
+		name: 'Bağlantı Adı',
+		errorName: 'Lütfen bağlantı için ad giriniz'
 	},
 
 	// List style dialog
@@ -215,9 +215,9 @@ CKEDITOR.lang[ 'tr' ] = {
 		notFoundMsg: 'Belirtilen yazı bulunamadı.',
 		matchCase: 'Büyük/küçük harf duyarlı',
 		matchWord: 'Kelimenin tamamı uysun',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'Eşleşen döngü',
 		replaceAll: 'Tümünü Değiştir',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 bulunanlardan değiştirildi.'
 	},
 
 	// Table Dialog
@@ -236,7 +236,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		width: 'Genişlik',
 		widthPx: 'piksel',
 		widthPc: 'yüzde',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'genişlik birimi',
 		height: 'Yükseklik',
 		cellSpace: 'Izgara kalınlığı',
 		cellPad: 'Izgara yazı arası',
@@ -247,13 +247,13 @@ CKEDITOR.lang[ 'tr' ] = {
 		headersColumn: 'İlk Sütun',
 		headersRow: 'İlk Satır',
 		headersBoth: 'Her İkisi',
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a number.', // MISSING
+		invalidRows: 'Satır sayısı 0 sayısından büyük olmalıdır.',
+		invalidCols: 'Sütün sayısı 0 sayısından büyük olmalıdır.',
+		invalidBorder: 'Çerceve büyüklüklüğü sayı olmalıdır.',
+		invalidWidth: 'Tablo genişliği sayı olmalıdır.',
+		invalidHeight: 'Tablo yüksekliği sayı olmalıdır.',
+		invalidCellSpacing: 'Hücre boşluğu (spacing) sayı olmalıdır.',
+		invalidCellPadding: 'Hücre aralığı (padding) sayı olmalıdır.',
 
 		cell: {
 			menu: 'Hücre',
@@ -265,28 +265,28 @@ CKEDITOR.lang[ 'tr' ] = {
 			mergeDown: 'Birleştir - Aşağıdaki İle ',
 			splitHorizontal: 'Hücreyi Yatay Böl',
 			splitVertical: 'Hücreyi Dikey Böl',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			title: 'Hücre Özellikleri',
+			cellType: 'Hücre Tipi',
+			rowSpan: 'Satırlar Mesafesi (Span)',
+			colSpan: 'Sütünlar Mesafesi (Span)',
+			wordWrap: 'Kelime Kaydırma',
+			hAlign: 'Düşey Hizalama',
+			vAlign: 'Yataş Hizalama',
+			alignTop: 'Üst',
+			alignMiddle: 'Orta',
+			alignBottom: 'Alt',
+			alignBaseline: 'Tabana',
+			bgColor: 'Arkaplan Rengi',
+			borderColor: 'Çerçeve Rengi',
+			data: 'Veri',
+			header: 'Başlık',
+			yes: 'Evet',
+			no: 'Hayır',
+			invalidWidth: 'Hücre genişliği sayı olmalıdır.',
+			invalidHeight: 'Hücre yüksekliği sayı olmalıdır.',
+			invalidRowSpan: 'Satırların mesafesi tam sayı olmalıdır.',
+			invalidColSpan: 'Sütünların mesafesi tam sayı olmalıdır.',
+			chooseColor: 'Seçiniz'
 		},
 
 		row: {
@@ -328,7 +328,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		menu: 'Form Özellikleri',
 		action: 'İşlem',
 		method: 'Yöntem',
-		encoding: 'Encoding' // MISSING
+		encoding: 'Kodlama'
 	},
 
 	// Select Field Dialog.
@@ -366,7 +366,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		maxChars: 'En Fazla Karakter',
 		type: 'Tür',
 		typeText: 'Metin',
-		typePass: 'Parola'
+		typePass: 'Şifre'
 	},
 
 	// Hidden Field Dialog.
@@ -388,7 +388,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		width: 'Genişlik',
 		height: 'Yükseklik',
 		lockRatio: 'Oranı Kilitle',
-		unlockRatio: 'Unlock Ratio', // MISSING
+		unlockRatio: 'Kilitli Oran',
 		resetSize: 'Boyutu Başa Döndür',
 		border: 'Kenar',
 		hSpace: 'Yatay Boşluk',
@@ -398,33 +398,33 @@ CKEDITOR.lang[ 'tr' ] = {
 		alignRight: 'Sağ',
 		alertUrl: 'Lütfen resmin URL\'sini yazınız',
 		linkTab: 'Köprü',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		button2Img: 'Seçili resim butonunu basit resime çevirmek istermisiniz?',
+		img2Button: 'Seçili olan resimi, resimli butona çevirmek istermisiniz?',
+		urlMissing: 'Resmin URL kaynağı eksiktir.',
+		validateWidth: 'Genişlik tam sayı olmalıdır.',
+		validateHeight: 'Yükseklik tam sayı olmalıdır.',
+		validateBorder: 'Çerçeve tam sayı olmalıdır.',
+		validateHSpace: 'HSpace tam sayı olmalıdır.',
+		validateVSpace: 'VSpace tam sayı olmalıdır.'
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'Flash Özellikleri',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'Özellikler',
 		title: 'Flash Özellikleri',
 		chkPlay: 'Otomatik Oynat',
 		chkLoop: 'Döngü',
 		chkMenu: 'Flash Menüsünü Kullan',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'Tam ekrana İzinver',
 		scale: 'Boyutlandır',
 		scaleAll: 'Hepsini Göster',
 		scaleNoBorder: 'Kenar Yok',
 		scaleFit: 'Tam Sığdır',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'Kod İzni',
+		accessAlways: 'Herzaman',
+		accessSameDomain: 'Aynı domain',
+		accessNever: 'Asla',
 		align: 'Hizalama',
 		alignLeft: 'Sol',
 		alignAbsBottom: 'Tam Altı',
@@ -435,36 +435,36 @@ CKEDITOR.lang[ 'tr' ] = {
 		alignRight: 'Sağ',
 		alignTextTop: 'Yazı Tepeye',
 		alignTop: 'Tepe',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Kalite',
+		qualityBest: 'En iyi',
+		qualityHigh: 'Yüksek',
+		qualityAutoHigh: 'Otomatik Yükseklik',
+		qualityMedium: 'Orta',
+		qualityAutoLow: 'Otomatik Düşüklük',
+		qualityLow: 'Düşük',
+		windowModeWindow: 'Pencere',
+		windowModeOpaque: 'Opak',
+		windowModeTransparent: 'Şeffaf',
+		windowMode: 'Pencere modu',
+		flashvars: 'Flash Değerleri',
 		bgcolor: 'Arka Renk',
 		width: 'Genişlik',
 		height: 'Yükseklik',
 		hSpace: 'Yatay Boşluk',
 		vSpace: 'Dikey Boşluk',
 		validateSrc: 'Lütfen köprü URL\'sini yazın',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateWidth: 'Width must be a number.',
+		validateHeight: 'Yükseklik sayı olmalıdır.',
+		validateHSpace: 'HSpace sayı olmalıdır.',
+		validateVSpace: 'VSpace sayı olmalıdır.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'Yazım Denetimi',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'Yazımı Denetle',
+		notAvailable: 'Üzügünüz, bu servis şuanda hizmet dışıdır.',
+		errorLoading: 'Uygulamada yüklerken hata oluştu: %s.',
 		notInDic: 'Sözlükte Yok',
 		changeTo: 'Şuna değiştir:',
 		btnIgnore: 'Yoksay',
@@ -484,12 +484,12 @@ CKEDITOR.lang[ 'tr' ] = {
 	smiley: {
 		toolbar: 'İfade',
 		title: 'İfade Ekle',
-		options: 'Smiley Options' // MISSING
+		options: 'İfade Seçenekleri'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
-		eleTitle: '%1 element' // MISSING
+		eleLabel: 'Elementlerin yolu',
+		eleTitle: '%1 element'
 	},
 
 	numberedlist: 'Numaralı Liste',
@@ -512,14 +512,14 @@ CKEDITOR.lang[ 'tr' ] = {
 		copyError: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin otomatik kopyalama işlemine izin vermiyor. İşlem için (Ctrl/Cmd+C) tuşlarını kullanın.',
 		pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl/Cmd+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
 		securityMsg: 'Gezgin yazılımınızın güvenlik ayarları düzenleyicinin direkt olarak panoya erişimine izin vermiyor. Bu pencere içine tekrar yapıştırmalısınız..',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'Paste Area'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
+		confirmCleanup: 'Yapıştırmaya çalıştığınız metin Word\'den kopyalanmıştır. Yapıştırmadan önce silmek istermisiniz?',
 		toolbar: 'Word\'den Yapıştır',
 		title: 'Word\'den Yapıştır',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'Yapıştırmadaki veri bilgisi hata düzelene kadar silinmeyecektir'
 	},
 
 	pasteText: {
@@ -530,7 +530,7 @@ CKEDITOR.lang[ 'tr' ] = {
 	templates: {
 		button: 'Şablonlar',
 		title: 'İçerik Şablonları',
-		options: 'Template Options', // MISSING
+		options: 'Şablon Seçenekleri',
 		insertOption: 'Mevcut içerik ile değiştir',
 		selectPromptMsg: 'Düzenleyicide açmak için lütfen bir şablon seçin.<br>(hali hazırdaki içerik kaybolacaktır.):',
 		emptyListMsg: '(Belirli bir şablon seçilmedi)'
@@ -540,10 +540,10 @@ CKEDITOR.lang[ 'tr' ] = {
 
 	stylesCombo: {
 		label: 'Biçem',
-		panelTitle: 'Formatting Styles', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		panelTitle: 'Stilleri Düzenliyor',
+		panelTitle1: 'Blok Stilleri',
+		panelTitle2: 'Inline Stilleri',
+		panelTitle3: 'Nesne Stilleri'
 	},
 
 	format: {
@@ -563,108 +563,108 @@ CKEDITOR.lang[ 'tr' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Div İçeriği Oluştur',
+		toolbar: 'Div İçeriği Oluştur',
+		cssClassInputLabel: 'Stilltipi Sınıfı',
+		styleSelectLabel: 'Stil',
+		IdInputLabel: 'Id',
+		languageCodeInputLabel: ' Dil Kodu',
+		inlineStyleInputLabel: 'Inline Stili',
+		advisoryTitleInputLabel: 'Tavsiye Başlığı',
+		langDirLabel: 'Dil Yönü',
+		langDirLTRLabel: 'Soldan sağa (LTR)',
+		langDirRTLLabel: 'Sağdan sola (RTL)',
+		edit: 'Div Düzenle',
+		remove: 'Div Kaldır'
 	},
 
 	font: {
 		label: 'Yazı Türü',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'Font',
 		panelTitle: 'Yazı Türü'
 	},
 
 	fontSize: {
 		label: 'Boyut',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'Font Size',
 		panelTitle: 'Boyut'
 	},
 
 	colorButton: {
 		textColorTitle: 'Yazı Rengi',
 		bgColorTitle: 'Arka Renk',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'Renkler',
 		auto: 'Otomatik',
 		more: 'Diğer renkler...'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dim Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dark Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'Siyah',
+		'800000': 'Kestane',
+		'8B4513': 'Koyu Kahverengi',
+		'2F4F4F': 'Koyu Kurşuni Gri',
+		'008080': 'Teal',
+		'000080': 'Mavi',
+		'4B0082': 'Çivit Mavisi',
+		'696969': 'Silik Gri',
+		'B22222': 'Ateş Tuğlası',
+		'A52A2A': 'Kahverengi',
+		'DAA520': 'Altun Sırık',
+		'006400': 'Koyu Yeşil',
+		'40E0D0': 'Turkuaz',
+		'0000CD': 'Orta Mavi',
+		'800080': 'Pembe',
+		'808080': 'Gri',
+		'F00': 'Kırmızı',
+		'FF8C00': 'Koyu Portakal',
+		'FFD700': 'Altın',
+		'008000': 'Yeşil',
+		'0FF': 'Ciyan',
+		'00F': 'Mavi',
+		'EE82EE': 'Menekşe',
+		'A9A9A9': 'Koyu Gri',
+		'FFA07A': 'Açık Sarımsı',
+		'FFA500': 'Portakal',
+		'FFFF00': 'Sarı',
+		'00FF00': 'Açık Yeşil',
+		'AFEEEE': 'Sönük Turkuaz',
+		'ADD8E6': 'Açık Mavi',
+		'DDA0DD': 'Mor',
+		'D3D3D3': 'Açık Gri',
+		'FFF0F5': 'Eflatun Pembe',
+		'FAEBD7': 'Antik Beyaz',
+		'FFFFE0': 'Açık Sarı',
+		'F0FFF0': 'Balsarısı',
+		'F0FFFF': 'Gök Mavisi',
+		'F0F8FF': 'Reha Mavi',
+		'E6E6FA': 'Eflatun',
+		'FFF': 'Beyaz'
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
+		title: 'Girmiş olduğunuz kelime denetimi',
 		opera_title: 'Not supported by Opera', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		enable: 'SCAYT etkinleştir',
+		disable: 'SCAYT pasifleştir',
+		about: 'SCAYT hakkında',
+		toggle: 'SCAYT değiştir',
+		options: 'Seçenekler',
+		langs: 'Diller',
+		moreSuggestions: 'Daha fazla öneri',
+		ignore: 'Yoksay',
+		ignoreAll: 'Tümünü Yoksay',
+		addWord: 'Kelime Ekle',
+		emptyDic: 'Sözlük adı boş olamaz.',
 
-		optionsTab: 'Options', // MISSING
+		optionsTab: 'Seçenekler',
 		allCaps: 'Ignore All-Caps Words', // MISSING
 		ignoreDomainNames: 'Ignore Domain Names', // MISSING
 		mixedCase: 'Ignore Words with Mixed Case', // MISSING
 		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
 
-		languagesTab: 'Languages', // MISSING
+		languagesTab: 'Diller',
 
-		dictionariesTab: 'Dictionaries', // MISSING
+		dictionariesTab: 'Sözlükler',
 		dic_field_name: 'Dictionary name', // MISSING
 		dic_create: 'Create', // MISSING
 		dic_restore: 'Restore', // MISSING
@@ -672,35 +672,35 @@ CKEDITOR.lang[ 'tr' ] = {
 		dic_rename: 'Rename', // MISSING
 		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it\'s name and click the Restore button.', // MISSING
 
-		aboutTab: 'About' // MISSING
+		aboutTab: 'Hakkında'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'CKEditor Hakkında',
+		dlgTitle: 'CKEditor Hakkında',
+		moreInfo: 'Lisanslama hakkında daha fazla bilgi almak için lütfen sitemizi ziyaret edin:',
+		copy: 'Copyright &copy; $1. Tüm hakları saklıdır.'
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'Büyült',
+	minimize: 'Küçült',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Bağlantı',
+		flash: 'Flash Animasyonu',
+		div: 'Sayfa Kesimi',
+		unknown: 'Bilinmeyen Nesne'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'Boyutlandırmak için sürükle',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Renk seç',
+		highlight: 'İşaretle',
+		selected: 'Seçilmiş',
+		clear: 'Temizle'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarCollapse: 'Toolbar\'ı topla',
+	toolbarExpand: 'Toolbar\'ı aç'
 };
