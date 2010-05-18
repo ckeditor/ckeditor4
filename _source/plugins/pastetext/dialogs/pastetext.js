@@ -44,7 +44,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						'width:346px;' +
 						'height:170px;' +
 						'resize: none;' +
-						'dir=' + editor.config.contentsLangDirection + ';' +
+						'direction:' + editor.config.contentsLangDirection + ';' +
 						'border:1px solid black;' +
 						'background-color:white">' +
 						'</textarea>',
