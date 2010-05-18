@@ -48,6 +48,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Draw down word marker to avoid being covered by background-color style.(#5466)
 						if ( !( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) )
 							this.addStyle( this.selectorCss(), 'padding-bottom: 2px !important;' );
+
+						// Call scayt_control.focus when SCAYT loaded
+						// and only if editor has focus
+						if ( editor.focusManager.hasFocus )
+							this.focus();
+
 					};
 
 					oParams.onBeforeChange = function() {
@@ -344,6 +350,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.setState( isEnabled ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON );
 
 				var scayt_control = plugin.getScayt( editor );
+				// the place where the status of editor focus should be restored
+				// after there will be ability to store its state before SCAYT button click
+				// if (storedFocusState is focused )
+				//   scayt_control.focus();
+				//
+				// now focus is set certainly
+				scayt_control.focus();
 				scayt_control.setDisabled( isEnabled );
 			} else if ( !autoStartup && plugin.engineLoaded >= 0 ) // Load first time
 			{
