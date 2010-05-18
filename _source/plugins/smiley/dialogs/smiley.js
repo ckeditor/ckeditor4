@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -123,10 +123,11 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	});
 
 	// Build the HTML for the smiley images table.
+	var labelId = 'smiley_emtions_label' + CKEDITOR.tools.getNextNumber();
 	var html = [
 		'<div>' +
-		'<span id="smiley_emtions_label" class="cke_voice_label">' + lang.options + '</span>',
-		'<table role="listbox" aria-labelledby="smiley_emtions_label" style="width:100%;height:100%" cellspacing="2" cellpadding="2"',
+		'<span id="' + labelId + '" class="cke_voice_label">' + lang.options + '</span>',
+		'<table role="listbox" aria-labelledby="' + labelId + '" style="width:100%;height:100%" cellspacing="2" cellpadding="2"',
 		CKEDITOR.env.ie && CKEDITOR.env.quirks ? ' style="position:absolute;"' : '',
 		'><tbody>'
 		];
@@ -136,12 +137,13 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		if ( i % columns === 0 )
 			html.push( '<tr>' );
 
+		var smileyLabelId = 'cke_smile_label_' + i + '_' + CKEDITOR.tools.getNextNumber();
 		html.push( '<td class="cke_dark_background cke_hand cke_centered" style="vertical-align: middle;">' +
-			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="cke_smile_label_' + i + '"', ' class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
+			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + smileyLabelId + '"', ' class="cke_smile" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="hand" title="', config.smiley_descriptions[ i ], '"' +
 					' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', config.smiley_descriptions[ i ], '"', ' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
-				'<span id="cke_smile_label_' + i + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
+				'<span id="' + smileyLabelId + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
 			'</a>', '</td>' );
 
 		if ( i % columns == columns - 1 )
