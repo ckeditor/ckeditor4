@@ -70,6 +70,10 @@ CKEDITOR.plugins.add( 'dialogui' );
 				if ( !this._.domOnChangeRegistered ) {
 					dialog.on( 'load', function() {
 						this.getInputElement().on( 'change', function() {
+							// Make sure 'onchange' doesn't get fired after dialog closed. (#5719)
+							if ( !dialog.parts.dialog.isVisible() )
+								return;
+
 							this.fire( 'change', { value: this.getValue() } );
 						}, this );
 					}, this );
