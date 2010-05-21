@@ -383,19 +383,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	line-height: 17px;
 }
 
-/* IE8 strict button valign correction */
-.cke_skin_kama .cke_browser_ie8 .cke_button .cke_label
-{
-	vertical-align: top;
-}
-
-.cke_skin_kama .cke_browser_iequirks.cke_browser_ie8 .cke_button .cke_label
-{
-	/* revert previous */
-	vertical-align: middle;
-}
-/* END IE8 strict button valign correction */
-
 /* Fix cursor shape consistency on toolbar combos (#4031) */
 .cke_skin_kama .cke_browser_ie .cke_rcombo,
 .cke_skin_kama .cke_browser_ie .cke_rcombo *

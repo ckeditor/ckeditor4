@@ -142,13 +142,13 @@ CKEDITOR.ui.button.prototype = {
 			output.push( ' style="background-image:url(', CKEDITOR.getUrl( this.icon ), ');background-position:0 ' + offset + 'px;"' );
 		}
 
-		output.push( '></span>' +
+		output.push( '>&nbsp;</span>' +
 			'<span id="', id, '_label" class="cke_label">', this.label, '</span>' );
 
 		if ( this.hasArrow ) {
 			output.push( '<span class="cke_buttonarrow">'
 			// BLACK DOWN-POINTING TRIANGLE
-			+ ( CKEDITOR.env.hc ? '&#9660;' : '' ) + '</span>' );
+			+ ( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) + '</span>' );
 		}
 
 		output.push( '</a>', '</span>' );

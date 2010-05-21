@@ -285,6 +285,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: default;
 	display: none;
 	padding-left: 3px;
+	vertical-align:middle;
 }
 
 .cke_skin_v2 .cke_hc .cke_button .cke_label
