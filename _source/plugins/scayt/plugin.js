@@ -10,9 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	var commandName = 'scaytcheck',
-		openPage = '',
-		scayt_paused = null,
-		scayt_control_id = null;
+		openPage = '';
 
 	// Checks if a value exists in an array
 	function in_array( needle, haystack ) {
@@ -50,8 +48,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this.addStyle( this.selectorCss(), 'padding-bottom: 2px !important;' );
 
 						// Call scayt_control.focus when SCAYT loaded
-						// and only if editor has focus
-						if ( editor.focusManager.hasFocus )
+						// and only if editor has focus and scayt control creates at first time (#5720)
+						if ( editor.focusManager.hasFocus && !plugin.isControlRestored( editor ) )
 							this.focus();
 
 					};
@@ -70,8 +68,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					}
 					// needs for restoring a specific scayt control settings
-					if ( scayt_control_id )
-						oParams.id = scayt_control_id;
+					if ( plugin.getControlId( editor ) )
+						oParams.id = plugin.getControlId( editor );
 
 					var scayt_control = new window.scayt( oParams );
 
@@ -99,7 +97,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					plugin.uiTabs = fTabs;
 					try {
-						scayt_control.setDisabled( scayt_paused === false );
+						scayt_control.setDisabled( plugin.isPaused( editor ) === false );
 					} catch ( e ) {}
 
 					editor.fire( 'showScaytState' );
@@ -127,13 +125,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( ( ev.data.name == 'source' || ev.data.name == 'newpage' ) && editor.mode == 'wysiwyg' ) {
 					var scayt_instance = plugin.getScayt( editor );
 					if ( scayt_instance ) {
-						scayt_paused = scayt_instance.paused = !scayt_instance.disabled;
+						plugin.setPaused( editor, !scayt_instance.disabled );
 						// store a control id for restore a specific scayt control settings
-						scayt_control_id = scayt_instance.id;
+						plugin.setControlId( editor, scayt_instance.id );
 						scayt_instance.destroy( true );
 						delete plugin.instances[ editor.name ];
 					}
 				}
+				// Catch on source mode switch off (#5720)
+				else if ( ev.data.name == 'source' && editor.mode == 'source' )
+					plugin.markControlRestore( editor )
 			});
 
 			editor.on( 'afterCommandExec', function( ev ) {
@@ -151,7 +152,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					scayt_instance = plugin.getScayt( editor );
 				delete plugin.instances[ editor.name ];
 				// store a control id for restore a specific scayt control settings
-				scayt_control_id = scayt_instance.id;
+				plugin.setControlId( editor, scayt_instance.id );
 				scayt_instance.destroy( true );
 			});
 
@@ -252,6 +253,42 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.scayt = {
 		engineLoaded: false,
 		instances: {},
+		// Data storage for SCAYT control, based on editor instances
+		controlInfo: {},
+		setControlInfo: function( editor, o ) {
+			if ( editor && editor.name && typeof( this.controlInfo[ editor.name ] ) != 'object' )
+				this.controlInfo[ editor.name ] = {};
+
+			for ( var infoOpt in o )
+				this.controlInfo[ editor.name ][ infoOpt ] = o[ infoOpt ];
+		},
+		isControlRestored: function( editor ) {
+			if ( editor && editor.name && this.controlInfo[ editor.name ] ) {
+				return this.controlInfo[ editor.name ].restored;
+			}
+			return false;
+		},
+		markControlRestore: function( editor ) {
+			this.setControlInfo( editor, { restored: true } );
+		},
+		setControlId: function( editor, id ) {
+			this.setControlInfo( editor, { id: id } );
+		},
+		getControlId: function( editor ) {
+			if ( editor && editor.name && this.controlInfo[ editor.name ] && this.controlInfo[ editor.name ].id ) {
+				return this.controlInfo[ editor.name ].id
+			}
+			return null;
+		},
+		setPaused: function( editor, bool ) {
+			this.setControlInfo( editor, { paused: bool } );
+		},
+		isPaused: function( editor ) {
+			if ( editor && editor.name && this.controlInfo[ editor.name ] ) {
+				return this.controlInfo[ editor.name ].paused;
+			}
+			return undefined;
+		},
 		getScayt: function( editor ) {
 			return this.instances[ editor.name ];
 		},
