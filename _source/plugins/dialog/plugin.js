@@ -1683,7 +1683,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}, 0 );
 			scrollFunc();
 		}
-	};
+	}
 
 	function hideCover() {
 		if ( !currentCover )
@@ -1700,7 +1700,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}, 0 );
 		}
 		resizeCover = null;
-	};
+	}
 
 	function removeCovers() {
 		for ( var coverId in covers )
@@ -2531,7 +2531,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Remove dialog cover on last instance destroy.
 			if ( CKEDITOR.tools.isEmpty( CKEDITOR.instances ) ) {
 				var currentTopDialog;
-				while ( currentTopDialog = CKEDITOR.dialog._.currentTop )
+				while ( ( currentTopDialog = CKEDITOR.dialog._.currentTop ) )
 					currentTopDialog.hide();
 				removeCovers();
 			}

@@ -186,13 +186,13 @@ function configureHtmlOutput( ev )
 					// Output alignment of paragraphs using align
 					if ( element.name == 'p' )
 					{
-						var style = element.attributes.style;
+						style = element.attributes.style;
 
 						if ( style )
 						{
 							// Get the align from the style.
-							var match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style ),
-								align = match && match[1];
+							match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+							var align = match && match[1];
 
 							if ( align )
 							{
@@ -202,7 +202,7 @@ function configureHtmlOutput( ev )
 						}
 					}
 
-					if ( element.attributes.style == '' )
+					if ( !element.attributes.style )
 						delete element.attributes.style;
 
 					return element;

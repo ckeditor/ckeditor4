@@ -36,16 +36,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !element )
 						return null;
 
-					if ( element.getAscendant( 'ol' ) ) {
-						return { numberedlist: CKEDITOR.TRISTATE_OFF }
-					}
-					if ( element.getAscendant( 'ul' ) ) {
-						return { bulletedlist: CKEDITOR.TRISTATE_OFF }
-					}
+					if ( element.getAscendant( 'ol' ) )
+						return { numberedlist: CKEDITOR.TRISTATE_OFF };
+
+					if ( element.getAscendant( 'ul' ) )
+						return { bulletedlist: CKEDITOR.TRISTATE_OFF };
 				});
 			}
 		}
-
 	};
 
 	CKEDITOR.plugins.add( 'liststyle', CKEDITOR.plugins.liststyle );

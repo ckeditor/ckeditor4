@@ -105,7 +105,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Dialog may already closed. (#5505)
 					if ( !oImageOriginal )
-						return;
+						return null;
 
 					var ratioButton = CKEDITOR.document.getById( btnLockSizesId );
 

@@ -54,7 +54,7 @@
 						},
 						commit: function( element ) {
 							var value = this.getValue();
-							if ( value != '' )
+							if ( value )
 								element.setStyle( 'list-style-type', value );
 							else
 								element.removeStyle( 'list-style-type' );
@@ -75,7 +75,7 @@
 
 					element && this.commitContent( element );
 				}
-			}
+			};
 		} else if ( startupPage == 'numberedListStyle' ) {
 			return {
 				title: editor.lang.list.numberedTitle,
@@ -124,7 +124,7 @@
 							},
 							commit: function( element ) {
 								var value = this.getValue();
-								if ( value != '' )
+								if ( value )
 									element.setStyle( 'list-style-type', value );
 								else
 									element.removeStyle( 'list-style-type' );
@@ -147,9 +147,9 @@
 
 					element && this.commitContent( element );
 				}
-			}
+			};
 		}
-	};
+	}
 
 	CKEDITOR.dialog.add( 'numberedListStyle', function( editor ) {
 		return listStyle( editor, 'numberedListStyle' );

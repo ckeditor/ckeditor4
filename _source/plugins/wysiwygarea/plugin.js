@@ -495,7 +495,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							}, 1000 );
 						}
 					}, 0 );
-				};
+				}
 
 				editor.addMode( 'wysiwyg', {
 					load: function( holderElement, data, isSnapshot ) {

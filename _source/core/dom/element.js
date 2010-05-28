@@ -829,7 +829,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 			mergeElements( this, this.getNext(), true );
 			mergeElements( this, this.getPrevious() );
-		}
+		};
 	})(),
 
 	/**

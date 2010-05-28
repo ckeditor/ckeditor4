@@ -124,12 +124,12 @@ CKEDITOR.config.resize_maxHeight = 3000;
 CKEDITOR.config.resize_enabled = true;
 
 /**
- * The directions where resizing is enabled. It can be 'both', 'vertical' or 'horizontal'
+ * The directions to which the editor resizing is enabled. Possible values
+ * are "both", "vertical" and "horizontal".
  * @type String
  * @default 'both'
  * @since 3.3
  * @example
  * config.resize_dir = 'vertical';
  */
-
 CKEDITOR.config.resize_dir = 'both';
