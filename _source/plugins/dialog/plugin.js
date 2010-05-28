@@ -1490,7 +1490,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
+				var coverDoc = currentCover.getChild( 0 ).getFrameDocument();
 				coverDoc.on( 'mousemove', mouseMoveHandler, dialog, { part: partName } );
 				coverDoc.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 			}
@@ -1558,7 +1558,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			CKEDITOR.document.removeListener( 'mousemove', mouseMoveHandler );
 
 			if ( CKEDITOR.env.ie6Compat ) {
-				var coverDoc = coverElement.getChild( 0 ).getFrameDocument();
+				var coverDoc = currentCover.getChild( 0 ).getFrameDocument();
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
