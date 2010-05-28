@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -834,7 +834,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *     <li>'moresuggest' - more suggestions word list,</li>
  *     <li>'control'     - SCAYT commands, such as 'Ignore' and 'Add Word'</li>
  * </ul>
- * 
+ *
  * @name CKEDITOR.config.scayt_contextMenuItemsOrder
  * @type String
  * @default 'suggest|moresuggest|control'

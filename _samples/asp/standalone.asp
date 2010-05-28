@@ -1,4 +1,4 @@
-<%@  codepage="65001" language="VBScript" %>
+﻿<%@  codepage="65001" language="VBScript" %>
 <% Option Explicit %>
 <!-- #INCLUDE file="../../ckeditor.asp" -->
 <%

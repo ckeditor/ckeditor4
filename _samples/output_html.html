@@ -65,7 +65,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						 * Font face
 						 */
 						// Define the way font elements will be applied to the document. The "font"
-						// element will be used. 
+						// element will be used.
 						font_style :
 						{
 								element		: 'font',
@@ -103,7 +103,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						/*
 						 * Styles combo.
 						 */
-						stylesSet : 
+						stylesSet :
 								[
 									{ name : 'Computer Code', element : 'code' },
 									{ name : 'Keyboard Phrase', element : 'kbd' },
@@ -112,7 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 									{ name : 'Deleted Text', element : 'del' },
 									{ name : 'Inserted Text', element : 'ins' },
-									
+
 									{ name : 'Cited Work', element : 'cite' },
 									{ name : 'Inline Quotation', element : 'q' }
 								],
@@ -148,7 +148,7 @@ function configureHtmlOutput( ev )
 	}
 
 	// Output properties as attributes, not styles.
-	htmlFilter.addRules( 
+	htmlFilter.addRules(
 		{
 			elements :
 			{
@@ -221,26 +221,26 @@ function configureHtmlOutput( ev )
 }
 
 
-/** 
-* Convert a CSS rgb(R, G, B) color back to #RRGGBB format. 
-* @param Css style string (can include more than one color 
-* @return Converted css style. 
-*/ 
-function convertRGBToHex( cssStyle ) 
-{ 
-	return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) 
-		{ 
-			red = parseInt( red, 10 ).toString( 16 ); 
-			green = parseInt( green, 10 ).toString( 16 ); 
-			blue = parseInt( blue, 10 ).toString( 16 ); 
-			var color = [red, green, blue] ; 
+/**
+* Convert a CSS rgb(R, G, B) color back to #RRGGBB format.
+* @param Css style string (can include more than one color
+* @return Converted css style.
+*/
+function convertRGBToHex( cssStyle )
+{
+	return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue )
+		{
+			red = parseInt( red, 10 ).toString( 16 );
+			green = parseInt( green, 10 ).toString( 16 );
+			blue = parseInt( blue, 10 ).toString( 16 );
+			var color = [red, green, blue] ;
 
-			// Add padding zeros if the hex value is less than 0x10. 
-			for ( var i = 0 ; i < color.length ; i++ ) 
-				color[i] = String( '0' + color[i] ).slice( -2 ) ; 
-			 
-			return '#' + color.join( '' ) ; 
-		 }); 
+			// Add padding zeros if the hex value is less than 0x10.
+			for ( var i = 0 ; i < color.length ; i++ )
+				color[i] = String( '0' + color[i] ).slice( -2 ) ;
+
+			return '#' + color.join( '' ) ;
+		 });
 }
 			//]]>
 			</script>

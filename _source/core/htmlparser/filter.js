@@ -208,7 +208,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// We're filtering node (element/fragment).
 			if ( isNode ) {
-				// No further filtering if it's not anymore 
+				// No further filtering if it's not anymore
 				// fitable for the subsequent filters.
 				if ( ret && ( ret.name != orgName || ret.type != orgType ) ) {
 					return ret;

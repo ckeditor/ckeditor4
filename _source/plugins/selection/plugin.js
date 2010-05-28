@@ -654,7 +654,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Check first any enclosed element, e.g. <ul>[<li><a href="#">item</a></li>]</ul>
 				for ( var i = 2; i && !( ( enclosed = range.getEnclosedNode() ) && ( enclosed.type == CKEDITOR.NODE_ELEMENT ) && styleObjectElements[ enclosed.getName() ] && ( selected = enclosed ) ); i-- ) {
-					// Then check any deep wrapped element, e.g. [<b><i><img /></i></b>] 
+					// Then check any deep wrapped element, e.g. [<b><i><img /></i></b>]
 					range.shrink( CKEDITOR.SHRINK_ELEMENT );
 				}
 
