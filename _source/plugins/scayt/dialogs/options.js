@@ -227,8 +227,8 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				}
 			}
 
-			var about = '<p><img src="' + scayt.getAboutInfo().logoURL + '" /></p>' +
-								'<p>' + captions[ 'version' ] + scayt.getAboutInfo().version.toString() + '</p>' +
+			var about = '<p><img src="' + window.scayt.getAboutInfo().logoURL + '" /></p>' +
+								'<p>' + captions[ 'version' ] + window.scayt.getAboutInfo().version.toString() + '</p>' +
 								'<p>' + captions[ 'about_throwt_copy' ] + '</p>';
 
 			doc.getById( 'scayt_about' ).setHtml( about );

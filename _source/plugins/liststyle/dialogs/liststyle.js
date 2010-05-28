@@ -115,7 +115,7 @@
 								[ editor.lang.list.upperAlpha, 'upper-alpha' ],
 								[ editor.lang.list.lowerGreek, 'lower-greek' ],
 								[ editor.lang.list.decimal, 'decimal' ],
-								[ editor.lang.list.decimalLeadingZero, 'decimal-leading-zero' ],
+								[ editor.lang.list.decimalLeadingZero, 'decimal-leading-zero' ]
 								],
 							setup: function( element ) {
 								var value = element.getStyle( 'list-style-type' ) || mapListStyle[ element.getAttribute( 'type' ) ] || element.getAttribute( 'type' ) || '';

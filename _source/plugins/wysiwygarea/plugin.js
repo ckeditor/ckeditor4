@@ -156,7 +156,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return block.getOuterHtml().match( emptyParagraphRegexp );
 	}
 
-	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
+	isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
 
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
