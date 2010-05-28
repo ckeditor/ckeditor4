@@ -92,7 +92,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( !newBlock )
 					newBlock = doc.createElement( blockTag );
-				else if ( forceMode )
+				// Force the enter block unless we're talking of a list item. 
+				else if ( forceMode && !newBlock.is( 'li' ) )
 					newBlock.renameNode( blockTag );
 
 				// Recreate the inline elements tree, which was available
