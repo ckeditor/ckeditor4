@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					editor.textarea = textarea = new CKEDITOR.dom.element( 'textarea' );
 					textarea.setAttributes({
 						dir: 'ltr',
-						tabIndex: editor.tabIndex,
+						tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
 						'role': 'textbox',
 						'aria-label': editor.lang.editorTitle.replace( '%1', editor.name )
 					});

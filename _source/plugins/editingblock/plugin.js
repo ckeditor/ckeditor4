@@ -78,6 +78,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Do that once only.
 				event.removeListener();
 
+				// Redirect the focus into editor for webkit. (#5713)
+				CKEDITOR.env.webkit && editor.container.on( 'focus', function() {
+					editor.focus();
+				});
+
 				if ( editor.config.startupFocus )
 					editor.focus();
 

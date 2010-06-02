@@ -696,6 +696,7 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	colordialog: {
 		title: '色選択',
+		options: 'Color Options', // MISSING
 		highlight: 'ハイライト',
 		selected: '選択された色',
 		clear: 'クリア'

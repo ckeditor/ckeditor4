@@ -89,5 +89,15 @@ CKEDITOR.dom.elementPath.prototype = {
 		}
 
 		return true;
+	},
+
+	contains: function( tagNames ) {
+		var elements = this.elements;
+		for ( var i = 0; i < elements.length; i++ ) {
+			if ( elements[ i ].getName() in tagNames )
+				return elements[ i ];
+		}
+
+		return null;
 	}
 };

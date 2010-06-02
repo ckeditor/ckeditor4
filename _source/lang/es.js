@@ -696,6 +696,7 @@ CKEDITOR.lang[ 'es' ] = {
 
 	colordialog: {
 		title: 'Elegir color',
+		options: 'Color Options', // MISSING
 		highlight: 'Muestra',
 		selected: 'Elegido',
 		clear: 'Borrar'

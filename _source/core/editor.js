@@ -130,6 +130,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
 					editor.lang.dir = 'ltr';
 
+				var config = editor.config;
+				config.contentsLangDirection == 'ui' && ( config.contentsLangDirection = editor.lang.dir );
+
 				loadPlugins( editor );
 			});
 		};

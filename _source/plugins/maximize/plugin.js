@@ -69,6 +69,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function refreshCursor( editor ) {
+		// Refresh all editor instances on the page (#5724).
+		var all = CKEDITOR.instances;
+		for ( var i in all ) {
+			var one = all[ i ];
+			if ( one.mode == 'wysiwyg' ) {
+				var body = one.document.getBody();
+				// Refresh 'contentEditable' otherwise
+				// DOM lifting breaks design mode. (#5560)
+				body.setAttribute( 'contentEditable', false );
+				body.setAttribute( 'contentEditable', true );
+			}
+		}
+
 		if ( editor.focusManager.hasFocus ) {
 			editor.toolbox.focus();
 			editor.focus();

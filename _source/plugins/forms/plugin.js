@@ -15,6 +15,16 @@ CKEDITOR.plugins.add( 'forms', {
 			'{' +
 				'border: 1px dotted #FF0000;' +
 				'padding: 2px;' +
+			'}\n' );
+
+		editor.addCss( 'img.cke_hidden' +
+			'{' +
+				'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/hiddenfield.gif' ) + ');' +
+				'background-position: center center;' +
+				'background-repeat: no-repeat;' +
+				'border: 1px solid #a9a9a9;' +
+				'width: 16px;' +
+				'height: 16px;' +
 			'}' );
 
 		// All buttons use the same code to register. So, to avoid
@@ -140,14 +150,52 @@ CKEDITOR.plugins.add( 'forms', {
 				}
 			});
 		}
+
+		editor.on( 'doubleclick', function( evt ) {
+			var element = evt.data.element;
+
+			if ( element.is( 'form' ) )
+				evt.data.dialog = 'form';
+			else if ( element.is( 'select' ) )
+				evt.data.dialog = 'select';
+			else if ( element.is( 'textarea' ) )
+				evt.data.dialog = 'textarea';
+			else if ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'hiddenfield' )
+				evt.data.dialog = 'hiddenfield';
+			else if ( element.is( 'input' ) ) {
+				var type = element.getAttribute( 'type' );
+
+				switch ( type ) {
+					case 'text':
+					case 'password':
+						evt.data.dialog = 'textfield';
+						break;
+					case 'button':
+					case 'submit':
+					case 'reset':
+						evt.data.dialog = 'button';
+						break;
+					case 'checkbox':
+						evt.data.dialog = 'checkbox';
+						break;
+					case 'radio':
+						evt.data.dialog = 'radio';
+						break;
+					case 'image':
+						evt.data.dialog = 'imagebutton';
+						break;
+				}
+			}
+		});
 	},
 
 	afterInit: function( editor ) {
+		var dataProcessor = editor.dataProcessor,
+			htmlFilter = dataProcessor && dataProcessor.htmlFilter,
+			dataFilter = dataProcessor && dataProcessor.dataFilter;
+
 		// Cleanup certain IE form elements default values.
 		if ( CKEDITOR.env.ie ) {
-			var dataProcessor = editor.dataProcessor,
-				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
-
 			htmlFilter && htmlFilter.addRules({
 				elements: {
 					input: function( input ) {
@@ -159,8 +207,19 @@ CKEDITOR.plugins.add( 'forms', {
 				}
 			});
 		}
+
+		if ( dataFilter ) {
+			dataFilter.addRules({
+				elements: {
+					input: function( element ) {
+						if ( element.attributes.type == 'hidden' )
+							return editor.createFakeParserElement( element, 'cke_hidden', 'hiddenfield' );
+					}
+				}
+			});
+		}
 	},
-	requires: [ 'image' ]
+	requires: [ 'image', 'fakeobjects' ]
 });
 
 if ( CKEDITOR.env.ie ) {

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -74,6 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// TODO: Support filler for <pre>, line break is also occupy line height.
 	delete blockLikeTags.pre;
 	var defaultDataFilterRules = {
+		elements: {},
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
 					// active in the editing area (IE|WebKit).
@@ -206,6 +207,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		defaultHtmlFilterRules.attributes.style = function( value, element ) {
 			return value.toLowerCase();
 		};
+	}
+
+	function protectReadOnly( element ) {
+		element.attributes.contenteditable = "false";
+	}
+
+	function unprotectReadyOnly( element ) {
+		delete element.attributes.contenteditable;
+	}
+	// Disable form elements editing mode provided by some browers. (#5746)
+	for ( i in { input:1,textarea:1 } ) {
+		defaultDataFilterRules.elements[ i ] = protectReadOnly;
+		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
 	}
 
 	var protectAttributeRegex = /<(?:a|area|img|input)[\s\S]*?\s((?:href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+)))/gi;

@@ -75,14 +75,18 @@ CKEDITOR.config = {
 
 	/**
 	 * The writting direction of the language used to write the editor
-	 * contents. Allowed values are 'ltr' for Left-To-Right language (like
-	 * English), or 'rtl' for Right-To-Left languages (like Arabic).
-	 * @default 'ltr'
+	 * contents. Allowed values are:
+	 * <ul>
+	 *     <li>'ui' - which indicate content direction will be the same with the user interface language direction;</li>
+	 *     <li>'ltr' - for Left-To-Right language (like English);</li>
+	 *     <li>'rtl' - for Right-To-Left languages (like Arabic).</li>
+	 * </ul>
+	 * @default 'ui'
 	 * @type String
 	 * @example
 	 * config.contentsLangDirection = 'rtl';
 	 */
-	contentsLangDirection: 'ltr',
+	contentsLangDirection: 'ui',
 
 	/**
 	 * Language code of  the writting language which is used to author the editor

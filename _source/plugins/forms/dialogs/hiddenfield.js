@@ -5,31 +5,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 	return {
 		title: editor.lang.hidden.title,
+		hiddenField: null,
 		minWidth: 350,
 		minHeight: 110,
 		onShow: function() {
 			delete this.hiddenField;
 
-			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "input" && element.getAttribute( 'type' ) == "checkbox" ) {
+			var editor = this.getParentEditor(),
+				selection = editor.getSelection(),
+				element = selection.getSelectedElement();
+
+			if ( element && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'hiddenfield' ) {
 				this.hiddenField = element;
+				element = editor.restoreRealElement( this.hiddenField );
 				this.setupContent( element );
+				selection.selectElement( this.hiddenField );
 			}
 		},
 		onOk: function() {
-			var editor,
-				element = this.hiddenField,
-				isInsertMode = !element;
+			var name = this.getValueOf( 'info', '_cke_saved_name' ),
+				value = this.getValueOf( 'info', 'value' ),
+				editor = this.getParentEditor(),
+				element = CKEDITOR.env.ie ? editor.document.createElement( '<input name="' + CKEDITOR.tools.htmlEncode( name ) + '">' ) : editor.document.createElement( 'input' );
 
-			if ( isInsertMode ) {
-				editor = this.getParentEditor();
-				element = editor.document.createElement( 'input' );
-				element.setAttribute( 'type', 'hidden' );
-			}
-
-			if ( isInsertMode )
-				editor.insertElement( element );
+			element.setAttribute( 'type', 'hidden' );
 			this.commitContent( element );
+			var fakeElement = editor.createFakeElement( element, 'cke_hidden', 'hiddenfield' );
+			if ( !this.hiddenField )
+				editor.insertElement( fakeElement );
+			else {
+				fakeElement.replace( this.hiddenField );
+				editor.getSelection().selectElement( fakeElement );
+			}
+			return true;
 		},
 		contents: [
 			{
@@ -48,9 +56,8 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				},
 				commit: function( element ) {
 					if ( this.getValue() )
-						element.setAttribute( '_cke_saved_name', this.getValue() );
+						element.setAttribute( 'name', this.getValue() );
 					else {
-						element.removeAttribute( '_cke_saved_name' );
 						element.removeAttribute( 'name' );
 					}
 				}

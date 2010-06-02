@@ -696,6 +696,7 @@ CKEDITOR.lang[ 'tr' ] = {
 
 	colordialog: {
 		title: 'Renk seç',
+		options: 'Color Options', // MISSING
 		highlight: 'İşaretle',
 		selected: 'Seçilmiş',
 		clear: 'Temizle'

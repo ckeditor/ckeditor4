@@ -106,6 +106,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' lang="', editor.langCode, '"' +
+					( CKEDITOR.env.webkit ? ' tabindex="' + tabIndex + '"' : '' ) +
 					' role="application"' +
 					' aria-labelledby="cke_', name, '_arialbl"' +
 					( style ? ' style="' + style + '"' : '' ) +

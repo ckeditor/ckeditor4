@@ -696,6 +696,7 @@ CKEDITOR.lang[ 'ar' ] = {
 
 	colordialog: {
 		title: 'اختر لون',
+		options: 'Color Options', // MISSING
 		highlight: 'إلقاء الضوء',
 		selected: 'مُختار',
 		clear: 'مسح'

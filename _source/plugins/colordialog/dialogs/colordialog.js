@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -20,19 +20,140 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		};
 	}
 
-	var table = new $el( 'table' );
-	createColorTable();
+	function clearSelected() {
+		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
+		dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
+	}
 
-	var cellMouseover = function( event ) {
-			var color = new $el( event.data.getTarget() ).getAttribute( 'title' );
+	function updateSelected( evt ) {
+		if ( !( evt instanceof CKEDITOR.dom.event ) )
+			evt = new CKEDITOR.dom.event( evt );
+
+		var target = evt.getTarget(),
+			color;
+
+		if ( target.getName() == 'a' && ( color = target.getChild( 0 ).getHtml() ) )
+			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( color );
+	}
+
+	function updateHighlight( event ) {
+		if ( !( event instanceof CKEDITOR.dom.event ) )
+			event = event.data;
+
+		var target = event.getTarget(),
+			color;
+
+		if ( target.getName() == 'a' && ( color = target.getChild( 0 ).getHtml() ) ) {
 			$doc.getById( hicolorId ).setStyle( 'background-color', color );
 			$doc.getById( hicolorTextId ).setHtml( color );
-		};
+		}
+	}
 
-	var cellClick = function( event ) {
-			var color = new $el( event.data.getTarget() ).getAttribute( 'title' );
-			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( color );
-		};
+	function clearHighlight() {
+		$doc.getById( hicolorId ).removeStyle( 'background-color' );
+		$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
+	}
+
+	var onMouseout = $tools.addFunction( clearHighlight );
+
+	var onClick = updateSelected,
+		onClickHandler = CKEDITOR.tools.addFunction( onClick );
+
+	var onFocus = updateHighlight,
+		onBlur = clearHighlight;
+
+	var onKeydownHandler = CKEDITOR.tools.addFunction( function( ev ) {
+		ev = new CKEDITOR.dom.event( ev );
+		var element = ev.getTarget();
+		var relative, nodeToMove;
+		var keystroke = ev.getKeystroke();
+		var rtl = editor.lang.dir == 'rtl';
+
+		switch ( keystroke ) {
+			// UP-ARROW
+			case 38:
+				// relative is TR
+				if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+					nodeToMove.focus();
+					onBlur( ev, element );
+					onFocus( ev, nodeToMove );
+				}
+				ev.preventDefault();
+				break;
+				// DOWN-ARROW
+			case 40:
+				// relative is TR
+				if ( ( relative = element.getParent().getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+					if ( nodeToMove && nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( ev, element );
+						onFocus( ev, nodeToMove );
+					}
+				}
+				ev.preventDefault();
+				break;
+				// SPACE
+				// ENTER is already handled as onClick
+			case 32:
+				onClick( ev );
+				ev.preventDefault();
+				break;
+
+				// RIGHT-ARROW
+			case rtl ? 37:
+				39 :
+				// relative is TD
+				if ( ( relative = element.getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					if ( nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( ev, element );
+						onFocus( ev, nodeToMove );
+						ev.preventDefault( true );
+					} else
+						onBlur( null, element );
+				}
+				// relative is TR
+				else if ( ( relative = element.getParent().getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ 0, 0 ] );
+					if ( nodeToMove && nodeToMove.type == 1 ) {
+						nodeToMove.focus();
+						onBlur( ev, element );
+						onFocus( ev, nodeToMove );
+						ev.preventDefault( true );
+					} else
+						onBlur( null, element );
+				}
+				break;
+
+				// LEFT-ARROW
+			case rtl ? 39:
+				37 :
+				// relative is TD
+				if ( ( relative = element.getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( 0 );
+					nodeToMove.focus();
+					onBlur( ev, element );
+					onFocus( ev, nodeToMove );
+					ev.preventDefault( true );
+				}
+				// relative is TR
+				else if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
+					nodeToMove = relative.getLast().getChild( 0 );
+					nodeToMove.focus();
+					onBlur( ev, element );
+					onFocus( ev, nodeToMove );
+					ev.preventDefault( true );
+				} else
+					onBlur( null, element );
+				break;
+			default:
+				// Do not stop not handled events.
+				return;
+		}
+	});
 
 	function createColorTable() {
 		// Create the base colors array.
@@ -60,8 +181,14 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			cell.setStyle( 'width', '15px' );
 			cell.setStyle( 'height', '15px' );
 
-			// Pass unparsed color value in some markup-degradable form.
-			cell.setAttribute( 'title', color );
+			var index = cell.$.cellIndex + 1 + 18 * targetRow.rowIndex;
+			cell.append( CKEDITOR.dom.element.createFromHtml( '<a href="javascript: void(0);" role="option"' +
+				' aria-posinset="' + index + '"' +
+				' aria-setsize="' + 13 * 18 + '"' +
+				' style="cursor: pointer;display:block;width:100%;height:100% " title="' + CKEDITOR.tools.htmlEncode( color ) + '"' +
+				' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydownHandler + ', event, this )"' +
+				' onclick="CKEDITOR.tools.callFunction(' + onClickHandler + ', event, this ); return false;"' +
+				' tabindex="-1"><span class="cke_voice_label">' + color + '</span></a>', CKEDITOR.document ) );
 		}
 
 		appendColorRow( 0, 0 );
@@ -83,15 +210,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		}
 	}
 
-	function clear() {
-		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
-		dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
-	}
-
-	var clearActual = $tools.addFunction( function() {
-		$doc.getById( hicolorId ).removeStyle( 'background-color' );
-		$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
-	});
+	var table = new $el( 'table' );
+	createColorTable();
 
 	var numbering = function( id ) {
 			return id + CKEDITOR.tools.getNextNumber();
@@ -121,11 +241,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				children: [
 					{
 					type: 'html',
-					html: '<table onmouseout="CKEDITOR.tools.callFunction( ' + clearActual + ' );">' + table.getHtml() + '</table>',
+					html: '<table role="listbox" aria-labelledby="color_table_label" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' + table.getHtml() + '</table>' +
+																		'<span id="color_table_label" class="cke_voice_label">' + lang.options + '</span>',
 					onLoad: function() {
 						var table = CKEDITOR.document.getById( this.domId );
-						table.on( 'mouseover', cellMouseover );
-						table.on( 'click', cellClick );
+						table.on( 'mouseover', updateHighlight );
+					},
+					focus: function() {
+						var firstColor = this.getElement().getElementsByTag( 'a' ).getItem( 0 );
+						firstColor.focus();
 					}
 				},
 					spacer(),
@@ -138,12 +262,13 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						type: 'html',
 						html: '<span>' + lang.highlight + '</span>\
 												<div id="' + hicolorId + '" style="border: 1px solid; height: 74px; width: 74px;"></div>\
-												<div id="' + hicolorTextId + '">&nbsp;</div>\
-												<span>' + lang.selected + '</span>\
+												<div id="' + hicolorTextId + '">&nbsp;</div><span>' + lang.selected + '</span>\
 												<div id="' + selHiColorId + '" style="border: 1px solid; height: 20px; width: 74px;"></div>'
 					},
 						{
 						type: 'text',
+						label: lang.selected,
+						labelStyle: 'display:none',
 						id: 'selectedColor',
 						style: 'width: 74px',
 						onChange: function() {
@@ -151,7 +276,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 							try {
 								$doc.getById( selHiColorId ).setStyle( 'background-color', this.getValue() );
 							} catch ( e ) {
-								clear();
+								clearSelected();
 							}
 						}
 					},
@@ -161,7 +286,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						id: 'clear',
 						style: 'margin-top: 5px',
 						label: lang.clear,
-						onClick: clear
+						onClick: clearSelected
 					}
 					]
 				}

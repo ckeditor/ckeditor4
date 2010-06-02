@@ -38,6 +38,13 @@ CKEDITOR.plugins.add( 'table', {
 			});
 		}
 
+		editor.on( 'doubleclick', function( evt ) {
+			var element = evt.data.element;
+
+			if ( element.is( 'table' ) )
+				evt.data.dialog = 'tableProperties';
+		});
+
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
