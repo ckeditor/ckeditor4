@@ -607,8 +607,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						} else {
 							data = config.docType + '<html dir="' + config.contentsLangDirection + '"' +
 																			' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
-																		'<title>' + frameLabel + '</title>' +
 																		'<head>' +
+																			'<title>' + frameLabel + '</title>' +
 																			baseTag +
 																			headExtra +
 																		'</head>' +
