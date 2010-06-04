@@ -1563,8 +1563,14 @@ CKEDITOR.dom.range = function( document ) {
 		 * Get the single node enclosed within the range if there's one.
 		 */
 		getEnclosedNode: function() {
-			var walkerRange = this.clone(),
-				walker = new CKEDITOR.dom.walker( walkerRange ),
+			var walkerRange = this.clone();
+
+			// Optimize and analyze the range to avoid DOM destructive nature of walker. (#
+			walkerRange.optimize();
+			if ( walkerRange.startContainer.type != CKEDITOR.NODE_ELEMENT || walkerRange.endContainer.type != CKEDITOR.NODE_ELEMENT )
+				return null;
+
+			var walker = new CKEDITOR.dom.walker( walkerRange ),
 				isNotBookmarks = CKEDITOR.dom.walker.bookmark( true ),
 				isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 				evaluator = function( node ) {
