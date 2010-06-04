@@ -188,7 +188,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				' style="cursor: pointer;display:block;width:100%;height:100% " title="' + CKEDITOR.tools.htmlEncode( color ) + '"' +
 				' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydownHandler + ', event, this )"' +
 				' onclick="CKEDITOR.tools.callFunction(' + onClickHandler + ', event, this ); return false;"' +
-				' tabindex="-1"><span class="cke_voice_label">' + color + '</span></a>', CKEDITOR.document ) );
+				' tabindex="-1"><span class="cke_voice_label">' + color + '</span>&nbsp;</a>', CKEDITOR.document ) );
 		}
 
 		appendColorRow( 0, 0 );
