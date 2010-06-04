@@ -35,6 +35,8 @@
 				minHeight: 50,
 				contents: [
 					{
+					id: 'info',
+					accessKey: 'I',
 					elements: [
 						{
 						type: 'select',
@@ -83,6 +85,8 @@
 				minHeight: 50,
 				contents: [
 					{
+					id: 'info',
+					accessKey: 'I',
 					elements: [
 						{
 						type: 'hbox',
