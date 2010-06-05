@@ -16,7 +16,7 @@ en-au.js   Found: 369 Missing: 155
 en-ca.js   Found: 369 Missing: 155
 en-gb.js   Found: 370 Missing: 154
 eo.js      Found: 259 Missing: 265
-es.js      Found: 467 Missing: 57
+es.js      Found: 524 Missing: 0
 et.js      Found: 301 Missing: 223
 eu.js      Found: 403 Missing: 121
 fa.js      Found: 302 Missing: 222
