@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -708,8 +708,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// IE8 stricts mode doesn't have 'contentEditable' in effect
 			// on element unless it has layout. (#5562)
-			if ( CKEDITOR.env.ie8 )
+			if ( CKEDITOR.env.ie8Compat ) {
 				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
+
+				var selectors = [];
+				for ( var tag in CKEDITOR.dtd.$removeEmpty )
+					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
+			}
 
 			// Switch on design mode for a short while and close it after then.
 			function blinkCursor( retry ) {
