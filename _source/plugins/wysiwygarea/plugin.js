@@ -422,7 +422,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					domWindow.on( 'focus', function() {
 						var doc = editor.document;
-						if ( CKEDITOR.env.gecko || CKEDITOR.env.opera )
+
+						if ( CKEDITOR.env.gecko )
+							blinkCursor();
+						else if ( CKEDITOR.env.opera )
 							doc.getBody().focus();
 						else if ( CKEDITOR.env.webkit ) {
 							// Selection will get lost after move focus
@@ -709,11 +712,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
 
 			// Switch on design mode for a short while and close it after then.
-			function blinkCursor() {
-				editor.document.$.designMode = 'on';
-				setTimeout( function() {
+			function blinkCursor( retry ) {
+				CKEDITOR.tools.tryThese( function() {
+					editor.document.$.designMode = 'on';
+					setTimeout( function() {
+						editor.document.$.designMode = 'off';
+						editor.document.getBody().focus();
+					}, 50 );
+				}, function() {
+					// The above call is known to fail when parent DOM
+					// tree layout changes may break design mode. (#5782)
+					// Refresh the 'contentEditable' is a cue to this.
 					editor.document.$.designMode = 'off';
-				}, 50 );
+					var body = editor.document.getBody();
+					body.setAttribute( 'contentEditable', false );
+					body.setAttribute( 'contentEditable', true );
+					// Try it again once..
+					!retry && blinkCursor( 1 );
+				})
 			}
 
 			// Create an invisible element to grab focus.

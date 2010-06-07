@@ -158,6 +158,7 @@ CKEDITOR.plugins.add( 'sourcearea', {
 CKEDITOR.plugins.sourcearea = {
 	commands: {
 		source: { modes:{wysiwyg:1,source:1 },
+			editorFocus: false,
 
 			exec: function( editor ) {
 				if ( editor.mode == 'wysiwyg' )
