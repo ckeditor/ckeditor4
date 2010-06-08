@@ -280,7 +280,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var lastCursor, nextRangeWalker,
 						cursors = this._.cursors;
 
-					if ( ( lastCursor = cursors[ cursors.length - 1 ] ) )
+					if ( ( lastCursor = cursors[ cursors.length - 1 ] ) && lastCursor.textNode )
 						nextRangeWalker = new characterWalker( getRangeAfterCursor( lastCursor ) );
 					// In case it's an empty range (no cursors), figure out next range from walker (#4951).
 					else
