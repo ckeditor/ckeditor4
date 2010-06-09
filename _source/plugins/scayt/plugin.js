@@ -347,6 +347,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				CKEDITOR.document.getHead().append( CKEDITOR.document.createElement( 'script', {
 					attributes: {
 						type: 'text/javascript',
+						async: 'true',
 						src: scaytUrl
 					}
 				}));
