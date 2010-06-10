@@ -306,7 +306,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 		loadEngine: function( editor ) {
 			// SCAYT doesn't work with Firefox2, Opera.
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 || CKEDITOR.env.opera )
 				return editor.fire( 'showScaytState' );
 
 			if ( this.engineLoaded === true )
