@@ -736,7 +736,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					body.setAttribute( 'contentEditable', true );
 					// Try it again once..
 					!retry && blinkCursor( 1 );
-				})
+				});
 			}
 
 			// Create an invisible element to grab focus.
