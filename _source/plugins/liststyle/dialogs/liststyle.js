@@ -79,6 +79,25 @@
 				}
 			};
 		} else if ( startupPage == 'numberedListStyle' ) {
+
+			var listStyleOptions = [
+				[ editor.lang.list.notset, '' ],
+				[ editor.lang.list.lowerRoman, 'lower-roman' ],
+				[ editor.lang.list.upperRoman, 'upper-roman' ],
+				[ editor.lang.list.lowerAlpha, 'lower-alpha' ],
+				[ editor.lang.list.upperAlpha, 'upper-alpha' ],
+				[ editor.lang.list.decimal, 'decimal' ]
+				];
+
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 7 ) {
+				listStyleOptions.concat( [
+					[ editor.lang.list.armenian, 'armenian' ],
+					[ editor.lang.list.decimalLeadingZero, 'decimal-leading-zero' ],
+					[ editor.lang.list.georgian, 'georgian' ],
+					[ editor.lang.list.lowerGreek, 'lower-greek' ]
+					] );
+			}
+
 			return {
 				title: editor.lang.list.numberedTitle,
 				minWidth: 300,
@@ -109,18 +128,7 @@
 							label: editor.lang.list.type,
 							id: 'type',
 							style: 'width: 100%;',
-							items: [
-								[ editor.lang.list.notset, '' ],
-								[ editor.lang.list.armenian, 'armenian' ],
-								[ editor.lang.list.georgian, 'georgian' ],
-								[ editor.lang.list.lowerRoman, 'lower-roman' ],
-								[ editor.lang.list.upperRoman, 'upper-roman' ],
-								[ editor.lang.list.lowerAlpha, 'lower-alpha' ],
-								[ editor.lang.list.upperAlpha, 'upper-alpha' ],
-								[ editor.lang.list.lowerGreek, 'lower-greek' ],
-								[ editor.lang.list.decimal, 'decimal' ],
-								[ editor.lang.list.decimalLeadingZero, 'decimal-leading-zero' ]
-								],
+							items: listStyleOptions,
 							setup: function( element ) {
 								var value = element.getStyle( 'list-style-type' ) || mapListStyle[ element.getAttribute( 'type' ) ] || element.getAttribute( 'type' ) || '';
 
