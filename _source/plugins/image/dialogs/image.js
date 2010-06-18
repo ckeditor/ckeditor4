@@ -514,7 +514,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						id: 'txtAlt',
 						type: 'text',
 						label: editor.lang.image.alt,
-						accessKey: 'A',
+						accessKey: 'T',
 						'default': '',
 						onChange: function() {
 							updatePreview( this.getDialog() );

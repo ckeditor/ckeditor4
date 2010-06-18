@@ -82,7 +82,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 				type: 'text',
 				label: editor.lang.form.action,
 				'default': '',
-				accessKey: 'A'
+				accessKey: 'T'
 			},
 				{
 				type: 'hbox',
