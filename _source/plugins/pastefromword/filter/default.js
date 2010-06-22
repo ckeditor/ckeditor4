@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -51,15 +51,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				child = child.firstChild( evaluator );
 				if ( child )
 					return child;
-				else
-					continue;
 			}
 		}
 
 		return null;
 	};
 
-	// Adding a (set) of styles to the element's attributes.
+	// Adding a (set) of styles to the element's 'style' attributes.
 	elementPrototype.addStyle = function( name, value, isPrepend ) {
 		var styleText,
 			addingStyleText = '';
@@ -105,7 +103,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	var cssLengthRelativeUnit = /^(\d[.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
-	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/;
+	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/; // e.g. 0px 0pt 0px
 
 	var listBaseIndent = 0,
 		previousListItemMargin;
@@ -171,8 +169,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			resolveList: function( element ) {
 				// <cke:listbullet> indicate a list item.
-				var children = element.children,
-					attrs = element.attributes,
+				var attrs = element.attributes,
 					listMarker;
 
 				if ( ( listMarker = element.removeAnyChildWithName( 'cke:listbullet' ) ) && listMarker.length && ( listMarker = listMarker[ 0 ] ) ) {
@@ -499,7 +496,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				stylesFilter = filters.stylesFilter,
 				elementMigrateFilter = filters.elementMigrateFilter,
 				styleMigrateFilter = CKEDITOR.tools.bind( this.filters.styleMigrateFilter, this.filters ),
-				bogusAttrFilter = filters.bogusAttrFilter,
 				createListBulletMarker = this.utils.createListBulletMarker,
 				flattenList = filters.flattenList,
 				assembleList = filters.assembleList,
@@ -641,10 +637,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'p': function( element ) {
 						element.filterChildren();
 
-						var attrs = element.attributes,
-							parent = element.parent,
-							children = element.children;
-
 						// Is the paragraph actually a list item?
 						if ( resolveListItem( element ) )
 							return;
@@ -706,7 +698,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							CKEDITOR.tools.extend( parent.attributes, element.attributes );
 							styleText && parent.addStyle( styleText );
 							delete element.name;
-							return;
 						}
 						// Convert the merged into a span with all attributes preserved.
 						else {
