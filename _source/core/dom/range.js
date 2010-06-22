@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -612,7 +612,7 @@ CKEDITOR.dom.range = function( document ) {
 		},
 
 		/**
-		 * Move the range out of bookmark nodes if they're been the container.
+		 * Move the range out of bookmark nodes if they'd been the container.
 		 */
 		optimizeBookmark: function() {
 			var startNode = this.startContainer,
@@ -1015,12 +1015,12 @@ CKEDITOR.dom.range = function( document ) {
 
 					var walker = new CKEDITOR.dom.walker( walkerRange ),
 						blockBoundary, // The node on which the enlarging should stop.
-						tailBr, //
-						defaultGuard = CKEDITOR.dom.walker.blockBoundary(
+						tailBr, // In case BR as block boundary.
+						notBlockBoundary = CKEDITOR.dom.walker.blockBoundary(
 						( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br:1 } : null ),
 						// Record the encountered 'blockBoundary' for later use.
 						boundaryGuard = function( node ) {
-							var retval = defaultGuard( node );
+							var retval = notBlockBoundary( node );
 							if ( !retval )
 								blockBoundary = node;
 							return retval;
@@ -1040,8 +1040,9 @@ CKEDITOR.dom.range = function( document ) {
 					// It's the body which stop the enlarging if no block boundary found.
 					blockBoundary = blockBoundary || body;
 
-					// Start the range at different position by comparing
-					// the document position of it with 'enlargeable' node.
+					// Start the range either after the end of found block (<p>...</p>[text)
+					// or at the start of block (<p>[text...), by comparing the document position
+					// with 'enlargeable' node.
 					this.setStartAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable && this.checkStartOfBlock() || enlargeable && blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
 
 					// Enlarging the end boundary.
@@ -1060,8 +1061,8 @@ CKEDITOR.dom.range = function( document ) {
 					// It's the body which stop the enlarging if no block boundary found.
 					blockBoundary = blockBoundary || body;
 
-					// Start the range at different position by comparing
-					// the document position of it with 'enlargeable' node.
+					// Close the range either before the found block start (text]<p>...</p>) or at the block end (...text]</p>)
+					// by comparing the document position with 'enlargeable' node.
 					this.setEndAt( blockBoundary, ( !enlargeable && this.checkEndOfBlock() || enlargeable && blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_BEFORE_START );
 					// We must include the <br> at the end of range if there's
 					// one and we're expanding list item contents
@@ -1074,6 +1075,13 @@ CKEDITOR.dom.range = function( document ) {
 		 *  Descrease the range to make sure that boundaries
 		 *  always anchor beside text nodes or innermost element.
 		 * @param {Number} mode  ( CKEDITOR.SHRINK_ELEMENT | CKEDITOR.SHRINK_TEXT ) The shrinking mode.
+		 * <dl>
+		 * 	 <dt>CKEDITOR.SHRINK_ELEMENT</dt>
+		 * 	 <dd>Shrink the range boundaries to the edge of the innermost element.</dd>
+		 * 	 <dt>CKEDITOR.SHRINK_TEXT</dt>
+		 * 	 <dd>Shrink the range boudaries to anchor by the side of enclosed text  node, range remains if there's no text nodes on boundaries at all.</dd>
+		 * </dl>
+		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.   
 		 */
 		shrink: function( mode, selectContents ) {
 			// Unable to shrink a collapsed range.
@@ -1430,11 +1438,11 @@ CKEDITOR.dom.range = function( document ) {
 			walkerRange[ checkType == CKEDITOR.START ? 'setStartAt' : 'setEndAt' ]
 			( element, checkType == CKEDITOR.START ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 
-			var walker = new CKEDITOR.dom.walker( walkerRange ),
-				retval = false;
+			var walker = new CKEDITOR.dom.walker( walkerRange );
 			walker.evaluator = elementBoundaryEval;
 			return walker[ checkType == CKEDITOR.START ? 'checkBackward' : 'checkForward' ]();
 		},
+
 		// Calls to this function may produce changes to the DOM. The range may
 		// be updated to reflect such changes.
 		checkStartOfBlock: function() {
@@ -1565,7 +1573,7 @@ CKEDITOR.dom.range = function( document ) {
 		getEnclosedNode: function() {
 			var walkerRange = this.clone();
 
-			// Optimize and analyze the range to avoid DOM destructive nature of walker. (#
+			// Optimize and analyze the range to avoid DOM destructive nature of walker. (#5780)
 			walkerRange.optimize();
 			if ( walkerRange.startContainer.type != CKEDITOR.NODE_ELEMENT || walkerRange.endContainer.type != CKEDITOR.NODE_ELEMENT )
 				return null;
@@ -1613,11 +1621,15 @@ CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS = 3;
 
 /**
  * Check boundary types.
- * @see CKEDITOR.dom.range::checkBoundaryOfElement
+ * @see CKEDITOR.dom.range.prototype.checkBoundaryOfElement
  */
 CKEDITOR.START = 1;
 CKEDITOR.END = 2;
 CKEDITOR.STARTEND = 3;
 
+/**
+ * Shrink range types.
+ * @see CKEDITOR.dom.range.prototype.shrink
+ */
 CKEDITOR.SHRINK_ELEMENT = 1;
 CKEDITOR.SHRINK_TEXT = 2;
