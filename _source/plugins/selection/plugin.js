@@ -396,6 +396,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return ( cache.type = type );
 		},
 
+		/**
+		 * Retrieve the {@link CKEDITOR.dom.range} instances that represent the current selection.
+		 * Note: Some browsers returns multiple ranges even on a sequent selection, e.g. Firefox returns
+		 * one range for each table cell when one or more table row is selected.
+		 * @return {Array}
+		 * @example
+		 * var ranges = selection.getRanges();
+		 * alert(ranges.length);
+		 */
 		getRanges: CKEDITOR.env.ie ? ( function() {
 			// Finds the container and offset for a specific boundary
 			// of an IE range.
@@ -712,6 +721,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this._.cache = {};
 		},
 
+		/**
+		 *  Make the current selection of type {@link CKEDITOR.SELECTION_ELEMENT} by enclosing the specified element.
+		 * @param element
+		 */
 		selectElement: function( element ) {
 			if ( this.isLocked ) {
 				var range = new CKEDITOR.dom.range( this.document );
@@ -758,6 +771,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		},
 
+		/**
+		 *  Adding the specified ranges to document selection preceding
+		 * by clearing up the original selection.
+		 * @param {CKEDITOR.dom.range} ranges
+		 */
 		selectRanges: function( ranges ) {
 			if ( this.isLocked ) {
 				this._.cache.selectedElement = null;
@@ -802,6 +820,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		},
 
+		/**
+		 *  Create bookmark for every single of this selection range (from #getRanges)
+		 * by calling the {@link CKEDITOR.dom.range.prototype.createBookmark} method,
+		 * with extra cares to avoid interferon among those ranges. Same arguments are
+		 * received as with the underlay range method.
+		 */
 		createBookmarks: function( serializable ) {
 			var retval = [],
 				ranges = this.getRanges(),
@@ -831,6 +855,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return retval;
 		},
 
+		/**
+		 *  Create bookmark for every single of this selection range (from #getRanges)
+		 * by calling the {@link CKEDITOR.dom.range.prototype.createBookmark2} method,
+		 * with extra cares to avoid interferon among those ranges. Same arguments are
+		 * received as with the underlay range method.
+		 */
 		createBookmarks2: function( normalized ) {
 			var bookmarks = [],
 				ranges = this.getRanges();
@@ -841,6 +871,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return bookmarks;
 		},
 
+		/**
+		 * Select the virtual ranges denote by the bookmarks by calling #selectRanges.
+		 * @param bookmarks
+		 */
 		selectBookmarks: function( bookmarks ) {
 			var ranges = [];
 			for ( var i = 0; i < bookmarks.length; i++ ) {
@@ -852,6 +886,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return this;
 		},
 
+		/**
+		 * Retrieve the common ancestor node of the first range and the last range.
+		 */
 		getCommonAncestor: function() {
 			var ranges = this.getRanges(),
 				startNode = ranges[ 0 ].startContainer,
@@ -859,7 +896,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return startNode.getCommonAncestor( endNode );
 		},
 
-		// Moving scroll bar to the current selection's start position.
+		/**
+		 * Moving scroll bar to the current selection's start position.
+		 */
 		scrollIntoView: function() {
 			// If we have split the block, adds a temporary span at the
 			// range position and scroll relatively to it.
@@ -868,10 +907,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 })();
+
 (function() {
-	var notWhitespaces = CKEDITOR.dom.walker.whitespaces( true );
-	var fillerTextRegex = /\ufeff|\u00a0/;
-	var nonCells = { table:1,tbody:1,tr:1 };
+	var notWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+		fillerTextRegex = /\ufeff|\u00a0/,
+		nonCells = { table:1,tbody:1,tr:1 };
 
 	CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
 	// V2
