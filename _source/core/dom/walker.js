@@ -298,10 +298,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.dom.walker.listItemBoundary = function() {
 		return this.blockBoundary( { br:1 } );
 	};
-	/**
-	 * Whether the node is a bookmark node's inner text node.
-	 */
-	CKEDITOR.dom.walker.bookmarkContents = function( node ) {},
 
 	/**
 	 * Whether the to-be-evaluated node is a bookmark node OR bookmark node
