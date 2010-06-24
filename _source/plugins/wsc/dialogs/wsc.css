@@ -70,7 +70,6 @@ body, td, input, select, textarea
 	margin-top: 1px;
 	border-bottom: #d5d59d 1px solid;
 	cursor: pointer;
-	cursor: hand;
 }
 
 .PopupTabSelected

@@ -676,7 +676,6 @@ body .cke_dialog
 {
 	border: outset 1px;
 	cursor: pointer;
-	cursor: hand;
 }
 
 .cke_skin_kama .cke_dialog  .ImagePreviewBox
@@ -741,7 +740,6 @@ body .cke_dialog
 .cke_skin_kama .cke_dialog .cke_hand
 {
 	cursor: pointer;
-	cursor: hand;
 }
 
 .cke_skin_kama .cke_disabled
@@ -774,7 +772,6 @@ body .cke_dialog
 {
 	display: inline;
 	cursor: pointer;
-	cursor: hand;
 	font-weight: bold;
 	position: relative;
 	top: 3px;
