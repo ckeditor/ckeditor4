@@ -665,12 +665,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
+	var nonWhitespaces = CKEDITOR.dom.walker.whitespaces( true );
 	/**
 	 * Merge a <pre> block with a previous sibling if available.
 	 */
 	function mergePre( preBlock ) {
 		var previousBlock;
-		if ( !( ( previousBlock = preBlock.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) ) && previousBlock.is && previousBlock.is( 'pre' ) ) )
+		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) ) && previousBlock.is && previousBlock.is( 'pre' ) ) )
 			return;
 
 		// Merge the previous <pre> block contents into the current <pre>
