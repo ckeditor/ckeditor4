@@ -300,7 +300,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * alert( CKEDITOR.tools.htmlEncodeAttr( element.getAttribute( 'title' ) );  // "&gt;a &quot; b &lt;"
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/, '&gt;' );
+			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
 		},
 
 		/**
