@@ -189,6 +189,7 @@ CKEDITOR.lang[ 'es' ] = {
 		bulletedTitle: 'Propiedades de viñetas',
 		type: 'Tipo',
 		start: 'Inicio',
+		validateStartNumber: 'List start number must be a whole number.', // MISSING
 		circle: 'Círculo',
 		disc: 'Disco',
 		square: 'Cuadrado',
