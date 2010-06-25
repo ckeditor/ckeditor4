@@ -23,8 +23,8 @@ CKEDITOR.plugins.add( 'forms', {
 				'background-position: center center;' +
 				'background-repeat: no-repeat;' +
 				'border: 1px solid #a9a9a9;' +
-				'width: 16px;' +
-				'height: 16px;' +
+				'width: 16px !important;' +
+				'height: 16px !important;' +
 			'}' );
 
 		// All buttons use the same code to register. So, to avoid
