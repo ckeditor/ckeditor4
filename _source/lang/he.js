@@ -189,6 +189,7 @@ CKEDITOR.lang[ 'he' ] = {
 		bulletedTitle: 'תכונות רשימת תבליטים',
 		type: 'סוג',
 		start: 'תחילת מספור',
+		validateStartNumber: 'List start number must be a whole number.', // MISSING
 		circle: 'עיגול ריק',
 		disc: 'עיגול מלא',
 		square: 'ריבוע',

@@ -115,6 +115,7 @@
 							label: editor.lang.list.start,
 							type: 'text',
 							id: 'start',
+							validate: CKEDITOR.dialog.validate.integer( editor.lang.list.validateStartNumber ),
 							setup: function( element ) {
 								var value = element.getAttribute( 'start' ) || 1;
 								value && this.setValue( value );

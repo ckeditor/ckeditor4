@@ -189,6 +189,7 @@ CKEDITOR.lang[ 'en' ] = {
 		bulletedTitle: 'Bulleted List Properties',
 		type: 'Type',
 		start: 'Start',
+		validateStartNumber: 'List start number must be a whole number.',
 		circle: 'Circle',
 		disc: 'Disc',
 		square: 'Square',

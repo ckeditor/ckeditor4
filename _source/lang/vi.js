@@ -189,6 +189,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		bulletedTitle: 'Thuộc tính danh sách không thứ tự',
 		type: 'Kiểu loại',
 		start: 'Bắt đầu',
+		validateStartNumber: 'List start number must be a whole number.', // MISSING
 		circle: 'Khuyên tròn',
 		disc: 'Hình đĩa',
 		square: 'Hình vuông',
