@@ -91,6 +91,13 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 					}
 				]
 			});
+
+			// Rewrite the 'onFocus' handler to always focus 'url' field.
+			dialogDefinition.onFocus = function()
+			{
+				var urlField = this.getContentElement( 'info', 'url' );
+				urlField.select();
+			}
 		}
 	});
 
