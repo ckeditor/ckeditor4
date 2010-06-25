@@ -13,7 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var nonExitableElementNames = { table:1,pre:1 };
 
 	// Matching an empty paragraph at the end of document.
-	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*(?=$|<\/body>)/gi;
+	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center|li)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*(?=$|<\/body>)/gi;
 
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
@@ -383,6 +383,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var control = ev.data.getTarget();
 							if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
 								editor.getSelection().selectElement( control );
+						});
+					}
+
+					if ( CKEDITOR.env.gecko ) {
+						domDocument.on( 'mouseup', function( ev ) {
+							if ( ev.data.$.button == 2 ) {
+								var target = ev.data.getTarget();
+
+								// Prevent right click from selecting an empty block even
+								// when selection is anchored inside it. (#5845) 
+								if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
+									var range = new CKEDITOR.dom.range( domDocument );
+									range.moveToElementEditStart( target );
+									range.select( true );
+								}
+							}
 						});
 					}
 
