@@ -52,7 +52,7 @@ CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
  * @type Object
  * @default { element : 'em', overrides : 'i' }
  * @example
- * config.coreStyles_bold = { element : 'i', overrides : 'em' };
+ * config.coreStyles_italic = { element : 'i', overrides : 'em' };
  * @example
  * CKEDITOR.config.coreStyles_italic = { element : 'span', attributes : {'class': 'Italic'} };
  */
