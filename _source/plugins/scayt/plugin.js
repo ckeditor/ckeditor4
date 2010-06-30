@@ -385,9 +385,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editorFocus: false,
 
 		exec: function( editor ) {
-			var autoStartup = editor.config.scayt_autoStartup;
-			autoStartup = ( autoStartup == undefined ) || autoStartup;
-
 			if ( plugin.isScaytReady( editor ) ) {
 				var isEnabled = plugin.isScaytEnabled( editor );
 
@@ -402,7 +399,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// now focus is set certainly
 				scayt_control.focus();
 				scayt_control.setDisabled( isEnabled );
-			} else if ( !autoStartup && plugin.engineLoaded >= 0 ) // Load first time
+			} else if ( !editor.config.scayt_autoStartup && plugin.engineLoaded >= 0 ) // Load first time
 			{
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 				plugin.loadEngine( editor );
@@ -666,8 +663,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// Start plugin
-			var autoStartup = editor.config.scayt_autoStartup;
-			if ( ( autoStartup == undefined ) || autoStartup ) {
+			if ( editor.config.scayt_autoStartup ) {
 				editor.on( 'instanceReady', function() {
 					plugin.loadEngine( editor );
 				});
@@ -695,9 +691,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * If enabled (true), turns on SCAYT automatically after loading the editor.
  * @name CKEDITOR.config.scayt_autoStartup
  * @type Boolean
- * @default true
+ * @default false
  * @example
- * config.scayt_autoStartup = false;
+ * config.scayt_autoStartup = true;
  */
 
 /**
