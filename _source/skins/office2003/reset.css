@@ -76,3 +76,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	cursor: default;
 }
+
+.cke_skin_office2003 fieldset
+{
+	padding: 10px;
+	border: 2px groove #E0DFE3;
+}
