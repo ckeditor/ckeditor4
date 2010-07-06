@@ -1151,7 +1151,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				var selection = editor.getSelection(),
 					ranges = selection.getRanges();
 				if ( ranges.length == 1 && ranges[ 0 ].collapsed ) {
-					var text = new CKEDITOR.dom.text( attributes._cke_saved_href, editor.document );
+					// Short mailto link text view (#5736).
+					var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes._cke_saved_href, editor.document );
 					ranges[ 0 ].insertNode( text );
 					ranges[ 0 ].selectNodeContents( text );
 					selection.selectRanges( ranges );
@@ -1195,9 +1196,11 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				element.setAttributes( attributes );
 				element.removeAttributes( removeAttributes );
-				// Update text view when user changes protocol #4612.
-				if ( href == textView )
-					element.setHtml( attributes._cke_saved_href );
+				// Update text view when user changes protocol (#4612).
+				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+					// Short mailto link text view (#5736).
+					element.setHtml( data.type == 'email' ? data.email.address : attributes._cke_saved_href );
+				}
 				// Make the element display as an anchor if a name has been set.
 				if ( element.getAttribute( 'name' ) )
 					element.addClass( 'cke_anchor' );
