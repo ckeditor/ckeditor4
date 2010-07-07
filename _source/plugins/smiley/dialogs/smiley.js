@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 	var config = editor.config,
 		lang = editor.lang.smiley,
 		images = config.smiley_images,
-		columns = 8,
+		columns = config.smiley_columns || 8,
 		i;
 
 	/**
