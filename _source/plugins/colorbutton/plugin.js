@@ -35,10 +35,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					block.element.setHtml( renderColors( panel, type ) );
 
 					var keys = block.keys;
-					keys[ 39 ] = 'next'; // ARROW-RIGHT
+					var rtl = editor.lang.dir == 'rtl';
+					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
 					keys[ 40 ] = 'next'; // ARROW-DOWN
 					keys[ 9 ] = 'next'; // TAB
-					keys[ 37 ] = 'prev'; // ARROW-LEFT
+					keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
