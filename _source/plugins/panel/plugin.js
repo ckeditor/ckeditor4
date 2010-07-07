@@ -164,6 +164,7 @@ CKEDITOR.ui.panel.prototype = {
 				}, this );
 
 				holder = doc.getBody();
+				holder.unselectable();
 			} else
 				holder = this.document.getById( 'cke_' + this.id );
 

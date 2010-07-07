@@ -1019,9 +1019,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	unselectable: CKEDITOR.env.gecko ?
 	function() {
 		this.$.style.MozUserSelect = 'none';
+		this.on( 'dragstart', function( evt ) {
+			evt.data.preventDefault();
+		});
 	} : CKEDITOR.env.webkit ?
 	function() {
 		this.$.style.KhtmlUserSelect = 'none';
+		this.on( 'dragstart', function( evt ) {
+			evt.data.preventDefault();
+		});
 	} : function() {
 		if ( CKEDITOR.env.ie || CKEDITOR.env.opera ) {
 			var element = this.$,
