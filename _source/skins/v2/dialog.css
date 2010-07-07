@@ -344,6 +344,10 @@ body .cke_dialog
 	padding: 1px 0px;
 }
 
+.cke_skin_v2 .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_text {
+	padding-right: 1px;
+}
+
 .cke_skin_v2 textarea.cke_dialog_ui_input_textarea
 {
 	background-color: white;

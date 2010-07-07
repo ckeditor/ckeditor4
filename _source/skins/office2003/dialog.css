@@ -333,6 +333,10 @@ body .cke_dialog
 	padding: 1px 0px;
 }
 
+.cke_skin_office2003 .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_text {
+	padding-right: 1px;
+}
+
 .cke_skin_office2003 .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_text,
 .cke_skin_office2003 .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_password
 {
