@@ -7,7 +7,13 @@ CKEDITOR.plugins.add( 'resize', {
 	init: function( editor ) {
 		var config = editor.config;
 
-		if ( config.resize_enabled ) {
+		!config.resize_dir && ( config.resize_dir = 'both' );
+		( config.resize_maxWidth == undefined ) && ( config.resize_maxWidth = 3000 );
+		( config.resize_maxHeight == undefined ) && ( config.resize_maxHeight = 3000 );
+		( config.resize_minWidth == undefined ) && ( config.resize_minWidth = 750 );
+		( config.resize_minHeight == undefined ) && ( config.resize_minHeight = 250 );
+
+		if ( config.resize_enabled !== false ) {
 			var container = null,
 				origin, startSize,
 				resizeHorizontal = ( config.resize_dir == 'both' || config.resize_dir == 'horizontal' ) && ( config.resize_minWidth != config.resize_maxWidth ),
@@ -47,6 +53,9 @@ CKEDITOR.plugins.add( 'resize', {
 				startSize = { width: container.$.offsetWidth || 0, height: container.$.offsetHeight || 0 };
 				origin = { x: $event.screenX, y: $event.screenY };
 
+				config.resize_minWidth > startSize.width && ( config.resize_minWidth = startSize.width );
+				config.resize_minHeight > startSize.height && ( config.resize_minHeight = startSize.height );
+
 				CKEDITOR.document.on( 'mousemove', dragHandler );
 				CKEDITOR.document.on( 'mouseup', dragEndHandler );
 
@@ -80,56 +89,58 @@ CKEDITOR.plugins.add( 'resize', {
 
 /**
  * The minimum editor width, in pixels, when resizing it with the resize handle.
+ * Note: It fallbacks to editor's actual width if that's smaller than the default value.
+ * @name CKEDITOR.config.resize_minWidth
  * @type Number
  * @default 750
  * @example
  * config.resize_minWidth = 500;
  */
-CKEDITOR.config.resize_minWidth = 750;
 
 /**
  * The minimum editor height, in pixels, when resizing it with the resize handle.
+ * Note: It fallbacks to editor's actual height if that's smaller than the default value.
+ * @name CKEDITOR.config.resize_minHeight
  * @type Number
  * @default 250
  * @example
  * config.resize_minHeight = 600;
  */
-CKEDITOR.config.resize_minHeight = 250;
 
 /**
  * The maximum editor width, in pixels, when resizing it with the resize handle.
+ * @name CKEDITOR.config.resize_maxWidth
  * @type Number
  * @default 3000
  * @example
  * config.resize_maxWidth = 750;
  */
-CKEDITOR.config.resize_maxWidth = 3000;
 
 /**
  * The maximum editor height, in pixels, when resizing it with the resize handle.
+ * @name CKEDITOR.config.resize_maxHeight
  * @type Number
  * @default 3000
  * @example
  * config.resize_maxHeight = 600;
  */
-CKEDITOR.config.resize_maxHeight = 3000;
 
 /**
  * Whether to enable the resizing feature. If disabled the resize handler will not be visible.
+ * @name CKEDITOR.config.resize_enabled
  * @type Boolean
  * @default true
  * @example
  * config.resize_enabled = false;
  */
-CKEDITOR.config.resize_enabled = true;
 
 /**
  * The directions to which the editor resizing is enabled. Possible values
  * are "both", "vertical" and "horizontal".
+ * @name CKEDITOR.config.resize_dir
  * @type String
  * @default 'both'
  * @since 3.3
  * @example
  * config.resize_dir = 'vertical';
  */
-CKEDITOR.config.resize_dir = 'both';
