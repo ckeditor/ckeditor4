@@ -1178,8 +1178,35 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 * @returns {String} The value of the action.
 		 * @example
 		 */
-		getAction: function( action ) {
+		getAction: function() {
 			return this.getInputElement().getParent().$.action;
+		},
+
+		/**
+		 * The events must be applied on the inner input element, and
+		 * that must be done when the iframe & form has been loaded
+		 */
+		registerEvents: function( definition ) {
+			var regex = /^on([A-Z]\w+)/,
+				match;
+
+			var registerDomEvent = function( uiElement, dialog, eventName, func ) {
+					uiElement.on( 'formLoaded', function() {
+						uiElement.getInputElement().on( eventName, func, uiElement );
+					});
+				};
+
+			for ( var i in definition ) {
+				if ( !( match = i.match( regex ) ) )
+					continue;
+
+				if ( this.eventProcessors[ i ] )
+					this.eventProcessors[ i ].call( this, this._.dialog, definition[ i ] );
+				else
+					registerDomEvent( this, this._.dialog, match[ 1 ].toLowerCase(), definition[ i ] );
+			}
+
+			return this;
 		},
 
 		/**
@@ -1192,7 +1219,28 @@ CKEDITOR.plugins.add( 'dialogui' );
 			var frameElement = CKEDITOR.document.getById( this._.frameId ),
 				frameDocument = frameElement.getFrameDocument(),
 				elementDefinition = this._.definition,
-				buttons = this._.buttons;
+				buttons = this._.buttons,
+				callNumber = this.formLoadedNumber,
+				unloadNumber = this.formUnloadNumber;
+
+			// The callback function for the iframe, but we must call tools.addFunction only once
+			// so we store the function number in this.formLoadedNumber
+			if ( !callNumber ) {
+				callNumber = this.formLoadedNumber = CKEDITOR.tools.addFunction( function() {
+					// Now we can apply the events to the input type=file
+					this.fire( 'formLoaded' );
+				}, this );
+
+				// Remove listeners attached to the content of the iframe (the file input)
+				unloadNumber = this.formUnloadNumber = CKEDITOR.tools.addFunction( function() {
+					this.getInputElement().clearCustomData();
+				}, this );
+
+				this.getDialog()._.editor.on( 'destroy', function() {
+					CKEDITOR.tools.removeFunction( callNumber );
+					CKEDITOR.tools.removeFunction( unloadNumber );
+				});
+			}
 
 			function generateFormField() {
 				frameDocument.$.open();
@@ -1215,7 +1263,9 @@ CKEDITOR.plugins.add( 'dialogui' );
 													CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
 													'" />',
 													'</form>',
-													'</body></html>' ].join( '' ) );
+													'</body></html>',
+													'<script>window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
+													'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}</script>' ].join( '' ) );
 
 				frameDocument.$.close();
 
@@ -1231,10 +1281,17 @@ CKEDITOR.plugins.add( 'dialogui' );
 		},
 
 		getValue: function() {
-			// The file path returned from the input tag is incomplete anyway, so it's
-			// safe to ignore it and prevent the confirmation dialog from appearing.
-			// (Part of #3465)
-			return '';
+			return this.getInputElement().$.value;
+		},
+
+		/***
+		 * The default value of input type="file" is an empty string, but during initialization
+		 * of this UI element, the iframe still isn't ready so it can't be read from that object
+		 * Setting it manually prevents later issues about the current value ("") being different
+		 * of the initial value (undefined as it asked for .value of a div)
+		 */
+		setInitValue: function() {
+			this._.initValue = '';
 		},
 
 		/**
@@ -1243,7 +1300,25 @@ CKEDITOR.plugins.add( 'dialogui' );
 		 * @type Object
 		 * @example
 		 */
-		eventProcessors: commonEventProcessors,
+		eventProcessors: {
+			onChange: function( dialog, func ) {
+				// If this method is called several times (I'm not sure about how this can happen but the default
+				// onChange processor includes this protection)
+				// In order to reapply to the new element, the property is deleted at the beggining of the registerEvents method
+				if ( !this._.domOnChangeRegistered ) {
+					// By listening for the formLoaded event, this handler will get reapplied when a new
+					// form is created
+					this.on( 'formLoaded', function() {
+						this.getInputElement().on( 'change', function() {
+							this.fire( 'change', { value: this.getValue() } );
+						}, this );
+					}, this );
+					this._.domOnChangeRegistered = true;
+				}
+
+				this.on( 'change', func );
+			}
+		},
 
 		keyboardFocusable: true
 	}, true );
