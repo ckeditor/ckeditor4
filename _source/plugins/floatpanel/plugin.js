@@ -113,11 +113,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				this._.panel._.offsetParentId = offsetParent.getId();
 
 				element.setStyles({
-					top: top + 'px',
-					left: '-3000px',
-					opacity: '0', // FF3 is ignoring "visibility"
+					top: '-30000px',
 					display: ''
 				});
+				// Don't use display or visibility style because we need to  
+				// calculate the rendering layout later and focus the element.  
+				element.setOpacity( 0 );
 
 				// To allow the context menu to decrease back their width
 				element.getFirst().removeStyle( 'width' );
@@ -231,10 +232,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						element.setStyles({
 							top: top + 'px',
-							left: left + 'px',
-							opacity: '1'
+							left: left + 'px'
 						});
-
+						element.setOpacity( 1 );
 					}, this );
 
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
