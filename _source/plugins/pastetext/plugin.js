@@ -16,21 +16,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( !clipboardText )
 					throw 0;
 				return clipboardText;
-			}, function() {
-				window.netscape.security.PrivilegeManager.enablePrivilege( "UniversalXPConnect" );
-
-				var clip = window.Components.classes[ "@mozilla.org/widget/clipboard;1" ].getService( window.Components.interfaces.nsIClipboard );
-				var trans = window.Components.classes[ "@mozilla.org/widget/transferable;1" ].createInstance( window.Components.interfaces.nsITransferable );
-				trans.addDataFlavor( "text/unicode" );
-				clip.getData( trans, clip.kGlobalClipboard );
-
-				var str = {},
-					strLength = {},
-					clipboardText;
-				trans.getTransferData( "text/unicode", str, strLength );
-				str = str.value.QueryInterface( window.Components.interfaces.nsISupportsString );
-				clipboardText = str.data.substring( 0, strLength.value / 2 );
-				return clipboardText;
 			}
 			// Any other approach that's working...
 			);
