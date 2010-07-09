@@ -110,7 +110,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			editor.on( 'contentDomUnload', function() {
-				getSpaceElement().setHtml( emptyHtml );
+				// If the spaceElement hasn't been initialized, don't try to do it at this time
+				// Only reuse existing reference.
+				spaceElement && spaceElement.setHtml( emptyHtml );
 			});
 
 			editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );

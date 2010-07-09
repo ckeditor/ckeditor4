@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -687,6 +687,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.document.clearCustomData();
 
 						iframe.clearCustomData();
+
+						/*
+						 * IE BUG: When destroying editor DOM with the selection remains inside
+						 * editing area would break IE7/8's selection system, we have to put the editing
+						 * iframe offline first. (#3812 and #5441)
+						 */
+						iframe.remove();
 					},
 
 					unload: function( holderElement ) {
