@@ -153,6 +153,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		if ( definition.onOk ) {
 			this.on( 'ok', function( evt ) {
+				// Dialog confirm might probably introduce content changes (#5415).
+				editor.fire( 'saveSnapshot' );
+				setTimeout( function() {
+					editor.fire( 'saveSnapshot' );
+				}, 0 );
 				if ( definition.onOk.call( this, evt ) === false )
 					evt.data.hide = false;
 			});

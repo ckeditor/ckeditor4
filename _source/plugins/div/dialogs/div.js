@@ -432,7 +432,6 @@
 				}
 			},
 			onOk: function() {
-				editor.fire( 'saveSnapshot' );
 				if ( command == 'editdiv' )
 					containers = [ this._element ];
 				else
@@ -446,7 +445,6 @@
 					// Remove empty 'style' attribute.
 					!containers[ i ].getAttribute( 'style' ) && containers[ i ].removeAttribute( 'style' );
 				}
-				editor.fire( 'saveSnapshot' );
 
 				this.hide();
 			},
