@@ -1235,7 +1235,9 @@ CKEDITOR.plugins.add( 'dialogui' );
 				elementDefinition = this._.definition,
 				buttons = this._.buttons,
 				callNumber = this.formLoadedNumber,
-				unloadNumber = this.formUnloadNumber;
+				unloadNumber = this.formUnloadNumber,
+				langDir = this._.dialog._.editor.lang.dir,
+				langCode = this._.dialog._.editor.langCode;
 
 			// The callback function for the iframe, but we must call tools.addFunction only once
 			// so we store the function number in this.formLoadedNumber
@@ -1267,8 +1269,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 				if ( elementDefinition.size )
 					size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 ); // "Browse" button is bigger in IE.
 
-				frameDocument.$.write( [ '<html><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
-													'<form enctype="multipart/form-data" method="POST" action="',
+				frameDocument.$.write( [ '<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
+													'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
 													CKEDITOR.tools.htmlEncode( elementDefinition.action ),
 													'">',
 													'<input type="file" name="',
