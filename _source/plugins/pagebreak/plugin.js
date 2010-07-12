@@ -26,9 +26,8 @@ CKEDITOR.plugins.add( 'pagebreak', {
 				'background-position: center center;' +
 				'background-repeat: no-repeat;' +
 				'clear: both;' +
-				'display: block;' +
 				'float: none;' +
-				'width:100% !important; _width:99.9% !important;' +
+				'width: 5em;' +
 				'border-top: #999999 1px dotted;' +
 				'border-bottom: #999999 1px dotted;' +
 				'height: 5px !important;' +
@@ -46,14 +45,14 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		if ( dataFilter ) {
 			dataFilter.addRules({
 				elements: {
-					div: function( element ) {
+					span: function( element ) {
 						var attributes = element.attributes,
 							style = attributes && attributes.style,
 							child = style && element.children.length == 1 && element.children[ 0 ],
 							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
 
 						if ( childStyle && ( /page-break-after\s*:\s*always/i ).test( style ) && ( /display\s*:\s*none/i ).test( childStyle ) )
-							return editor.createFakeParserElement( element, 'cke_pagebreak', 'div' );
+							return editor.createFakeParserElement( element, 'cke_pagebreak', 'span' );
 					}
 				}
 			});
@@ -66,10 +65,10 @@ CKEDITOR.plugins.add( 'pagebreak', {
 CKEDITOR.plugins.pagebreakCmd = {
 	exec: function( editor ) {
 		// Create the element that represents a print break.
-		var breakObject = CKEDITOR.dom.element.createFromHtml( '<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>' );
+		var breakObject = CKEDITOR.dom.element.createFromHtml( '<span style="page-break-after: always;"><span style="display: none;">&nbsp;</span></span>' );
 
 		// Creates the fake image used for this element.
-		breakObject = editor.createFakeElement( breakObject, 'cke_pagebreak', 'div' );
+		breakObject = editor.createFakeElement( breakObject, 'cke_pagebreak', 'span' );
 
 		var ranges = editor.getSelection().getRanges();
 
@@ -81,7 +80,6 @@ CKEDITOR.plugins.pagebreakCmd = {
 			if ( i > 0 )
 				breakObject = breakObject.clone( true );
 
-			range.splitBlock( 'p' );
 			range.insertNode( breakObject );
 			if ( i == ranges.length - 1 ) {
 				range.moveToPosition( breakObject, CKEDITOR.POSITION_AFTER_END );
