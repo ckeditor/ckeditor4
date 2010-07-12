@@ -47,6 +47,10 @@ CKEDITOR.plugins.add( 'domiterator' );
 			// This is the first iteration. Let's initialize it.
 			if ( !this._.lastNode ) {
 				range = this.range.clone();
+
+				// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
+				range.shrink( CKEDITOR.NODE_ELEMENT, true );
+
 				range.enlarge( this.forceBrBreak || !this.enlargeBr ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
 				var walker = new CKEDITOR.dom.walker( range ),
@@ -186,22 +190,8 @@ CKEDITOR.plugins.add( 'domiterator' );
 
 				// We have found a block boundary. Let's close the range and move out of the
 				// loop.
-				if ( ( closeRange || isLast ) && range ) {
-					var boundaryNodes = range.getBoundaryNodes(),
-						startPath = new CKEDITOR.dom.elementPath( range.startContainer );
-
-					// Drop the range if it only contains bookmark nodes, and is
-					// not because of the original collapsed range. (#4087,#4450)
-					if ( boundaryNodes.startNode.getParent().equals( startPath.blockLimit ) && isBookmark( boundaryNodes.startNode ) && isBookmark( boundaryNodes.endNode ) ) {
-						range = null;
-						this._.nextNode = null;
-					} else
-						break;
-				}
-
-				if ( isLast )
+				if ( isLast || ( closeRange && range ) )
 					break;
-
 			}
 
 			// Now, based on the processed range, look for (or create) the block to be returned.
