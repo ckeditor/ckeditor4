@@ -195,6 +195,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 
 						shim = createIframeShim( container ); // IE6 select element penetration when maximized. (#4459)
+
+						// Add cke_maximized class before resize handle since that will change things sizes (#5580)
+						container.addClass( 'cke_maximized' );
+
 						resizeHandler();
 
 						// Still not top left? Fix it. (Bug #174)
@@ -207,8 +211,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Fixing positioning editor chrome in Firefox break design mode. (#5149)
 						CKEDITOR.env.gecko && refreshCursor( editor );
 
-						// Add cke_maximized class.
-						container.addClass( 'cke_maximized' );
 					} else if ( this.state == CKEDITOR.TRISTATE_ON ) // Restore from fullscreen if the state is on.
 					{
 						// Remove event handler for resizing.
