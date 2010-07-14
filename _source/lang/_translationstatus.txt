@@ -10,7 +10,7 @@ ca.js      Found: 490 Missing: 35
 cs.js      Found: 411 Missing: 114
 cy.js      Found: 452 Missing: 73
 da.js      Found: 404 Missing: 121
-de.js      Found: 444 Missing: 81
+de.js      Found: 522 Missing: 3
 el.js      Found: 286 Missing: 239
 en-au.js   Found: 369 Missing: 156
 en-ca.js   Found: 369 Missing: 156
