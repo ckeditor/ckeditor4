@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// In IE, the "selectionchange" event may still get thrown when
 			// releasing the WYSIWYG mode, so we need to check it first.
 			var sel = this.getSelection();
-			if ( !sel )
+			if ( !sel || !sel.document.getWindow().$ )
 				return;
 
 			var firstElement = sel.getStartElement();
