@@ -356,7 +356,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// to allow dynamic tab order happen in dialog definition.
 			setupFocus();
 
-			if ( editor.config.dialog_startupFocusTab && me._.tabIdList.length > 1 ) {
+			if ( editor.config.dialog_startupFocusTab && me._.pageCount > 1 ) {
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
 			} else if ( !this._.hasFocus ) {
