@@ -728,6 +728,27 @@ body .cke_dialog
 	background-color : white;
 }
 
+.cke_skin_kama .cke_dialog .cke_pastetext
+{
+	width: 346px;
+	height: 170px;
+}
+
+.cke_skin_kama .cke_dialog .cke_pastetext textarea
+{
+	width: 340px;
+	height: 170px;
+	resize: none;
+}
+
+.cke_skin_kama .cke_dialog iframe.cke_pasteframe
+{
+	width: 346px;
+	height: 130px;
+	background-color: white;
+	border: 1px solid black;
+}
+
 .cke_skin_kama .cke_dialog .cke_dark_background
 {
 	text-align : center;

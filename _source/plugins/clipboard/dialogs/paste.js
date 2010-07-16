@@ -65,6 +65,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 								'</html>';
 
 			var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
+				' class="cke_pasteframe"' +
 				' frameborder="0" ' +
 				' allowTransparency="true"' +
 				// Support for custom document.domain in IE.
@@ -90,12 +91,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				doc.close();
 			}, this );
 
-			iframe.setStyles({
-				width: '346px',
-				height: '130px',
-				'background-color': 'white',
-				border: '1px solid black'
-			});
 			iframe.setCustomData( 'dialog', this );
 
 			var field = this.getContentElement( 'general', 'editing_area' ),
