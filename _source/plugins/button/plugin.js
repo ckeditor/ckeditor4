@@ -112,7 +112,7 @@ CKEDITOR.ui.button.prototype = {
 			classes += ' ' + this.className;
 
 		output.push( '<span class="cke_button">', '<a id="', id, '"' +
-			' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'" + '' ) + '\')"', ' title="', this.title, '"' +
+			' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
 			' tabindex="-1"' +
 			' hidefocus="true"' +
 			' role="button"' +
