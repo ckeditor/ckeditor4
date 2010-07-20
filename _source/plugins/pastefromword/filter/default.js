@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -135,12 +135,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					listType = 'ol';
 				} else {
-					if ( /[l\u00B7\u2002]/.test( bulletStyle[ 1 ] ) ) //l·•
-					bulletStyle = 'disc';
-					else if ( /[\u006F\u00D8]/.test( bulletStyle[ 1 ] ) ) //oØ
-					bulletStyle = 'circle';
-					else if ( /[\u006E\u25C6]/.test( bulletStyle[ 1 ] ) ) //n◆
-					bulletStyle = 'square';
+					if ( /[l\u00B7\u2002]/.test( bulletStyle[ 1 ] ) )
+						bulletStyle = 'disc';
+					else if ( /[\u006F\u00D8]/.test( bulletStyle[ 1 ] ) )
+						bulletStyle = 'circle';
+					else if ( /[\u006E\u25C6]/.test( bulletStyle[ 1 ] ) )
+						bulletStyle = 'square';
 					else
 						bulletStyle = 'disc';
 

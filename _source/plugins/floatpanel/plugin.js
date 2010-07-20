@@ -116,8 +116,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					top: '-30000px',
 					display: ''
 				});
-				// Don't use display or visibility style because we need to  
-				// calculate the rendering layout later and focus the element.  
+				// Don't use display or visibility style because we need to
+				// calculate the rendering layout later and focus the element.
 				element.setOpacity( 0 );
 
 				// To allow the context menu to decrease back their width

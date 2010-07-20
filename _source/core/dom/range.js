@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1081,7 +1081,7 @@ CKEDITOR.dom.range = function( document ) {
 		 * 	 <dt>CKEDITOR.SHRINK_TEXT</dt>
 		 * 	 <dd>Shrink the range boudaries to anchor by the side of enclosed text  node, range remains if there's no text nodes on boundaries at all.</dd>
 		 * </dl>
-		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.   
+		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.
 		 */
 		shrink: function( mode, selectContents ) {
 			// Unable to shrink a collapsed range.
