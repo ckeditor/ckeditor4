@@ -106,7 +106,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
 
 			var next = lastElement.getNextSourceNode( true );
-			var lastElementIsInline = CKEDITOR.dtd.$inline[ lastElement.getName() ]
+			var lastElementIsInline = CKEDITOR.dtd.$inline[ lastElement.getName() ];
 			if ( !lastElementIsInline && next && next.type == CKEDITOR.NODE_ELEMENT )
 				range.moveToElementEditStart( next );
 
