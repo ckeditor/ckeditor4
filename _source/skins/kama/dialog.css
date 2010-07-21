@@ -807,6 +807,11 @@ body .cke_dialog
 	display: none;
 }
 
+.cke_skin_kama .cke_dialog_body label.cke_required
+{
+	font-weight: bold;
+}
+
 .cke_skin_kama .cke_hc .cke_dialog_body .cke_label
 {
 	display: inline;

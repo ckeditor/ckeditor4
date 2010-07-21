@@ -739,6 +739,11 @@ body .cke_dialog
 	display: none;
 }
 
+.cke_skin_v2 .cke_dialog_body label.cke_required
+{
+	font-weight: bold;
+}
+
 .cke_skin_v2 .cke_hc .cke_dialog_body .cke_label
 {
 	display: inline;
