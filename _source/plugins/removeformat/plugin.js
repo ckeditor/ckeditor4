@@ -86,8 +86,10 @@ CKEDITOR.plugins.removeformat = {
 							// Remove elements nodes that match with this style rules.
 							if ( tagsRegex.test( currentNode.getName() ) )
 								currentNode.remove( true );
-							else
+							else {
 								currentNode.removeAttributes( removeAttributes );
+								editor.fire( 'removeFormatCleanup', currentNode );
+							}
 						}
 
 						currentNode = nextNode;
@@ -151,3 +153,10 @@ CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,
  * @example
  */
 CKEDITOR.config.removeFormatAttributes = 'class,style,lang,width,height,align,hspace,valign';
+
+/**
+ * Fired after an element was cleaned by the removeFormat plugin.
+ * @name CKEDITOR#removeFormatCleanup
+ * @event
+ * @param {Object} data.element The element that was cleaned up.
+ */
