@@ -130,7 +130,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								[ langTable.widthPc, '%' ]
 								],
 							setup: function( selectedCell ) {
-								var widthMatch = widthPattern.exec( selectedCell.$.style.width );
+								var widthMatch = widthPattern.exec( selectedCell.getStyle( 'width' ) || selectedCell.getAttribute( 'width' ) );
 								if ( widthMatch )
 									this.setValue( widthMatch[ 2 ] );
 							}
