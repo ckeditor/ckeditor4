@@ -216,7 +216,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			onShow: function() {
 				// Clear previously saved elements.
 				this.fakeImage = this.objectNode = this.embedNode = null;
-				previewPreloader = new CKEDITOR.dom.element( 'embeded', editor.document );
+				previewPreloader = new CKEDITOR.dom.element( 'embed', editor.document );
 
 				// Try to detect any embed or object tag that has Flash parameters.
 				var fakeImage = this.getSelectedElement();
