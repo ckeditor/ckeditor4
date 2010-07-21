@@ -200,6 +200,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							id: 'txtRows',
 							'default': 3,
 							label: editor.lang.table.rows,
+							required: true,
 							style: 'width:5em',
 							validate: function() {
 								var pass = true,
@@ -221,6 +222,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							id: 'txtCols',
 							'default': 2,
 							label: editor.lang.table.columns,
+							required: true,
 							style: 'width:5em',
 							validate: function() {
 								var pass = true,
