@@ -5,17 +5,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.liststyle = {
+		requires: [ 'dialog' ],
 		init: function( editor ) {
-
 			editor.addCommand( 'numberedListStyle', new CKEDITOR.dialogCommand( 'numberedListStyle' ) );
 			CKEDITOR.dialog.add( 'numberedListStyle', this.path + 'dialogs/liststyle.js' );
 			editor.addCommand( 'bulletedListStyle', new CKEDITOR.dialogCommand( 'bulletedListStyle' ) );
 			CKEDITOR.dialog.add( 'bulletedListStyle', this.path + 'dialogs/liststyle.js' );
 
-			//Register map group;
-			editor.addMenuGroup( "list", 108 );
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {
+				//Register map group;
+				editor.addMenuGroup( "list", 108 );
+
 				editor.addMenuItems({
 					numberedlist: {
 						label: editor.lang.list.numberedTitle,
