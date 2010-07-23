@@ -214,9 +214,9 @@ CKEDITOR.lang[ 'ja' ] = {
 		findWhat: '検索する文字列:',
 		replaceWith: '置換えする文字列:',
 		notFoundMsg: '指定された文字列は見つかりませんでした。',
-		matchCase: '部分一致',
-		matchWord: '単語単位で一致',
-		matchCyclic: '大文字/小文字区別一致',
+		matchCase: '大文字と小文字を区別する',
+		matchWord: '単語単位で探す',
+		matchCyclic: '一周する',
 		replaceAll: 'すべて置換え',
 		replaceSuccessMsg: '%1 個置換しました。'
 	},
