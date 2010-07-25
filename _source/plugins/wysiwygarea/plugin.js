@@ -42,6 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			} else
 				this.document.$.execCommand( 'inserthtml', false, data );
 
+			// Webkit does not scroll to the cursor position after pasting (#5558)
 			if ( CKEDITOR.env.webkit ) {
 				this.document.$.execCommand( 'inserthtml', false, '<span id="cke_paste_marker" cke_temp="1"></span>' );
 				var marker = this.document.getById( 'cke_paste_marker' );
