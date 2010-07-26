@@ -15,6 +15,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center|li)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?\s*(?=$|<\/body>)/gi;
 
+	var notWhitespaceEval = CKEDITOR.dom.walker.whitespaces( true );
+
 	function onInsertHtml( evt ) {
 		if ( this.mode == 'wysiwyg' ) {
 			this.focus();
@@ -113,10 +115,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
 
-			var next = lastElement.getNextSourceNode( true );
-			var lastElementIsInline = CKEDITOR.dtd.$inline[ lastElement.getName() ];
-			if ( !lastElementIsInline && next && next.type == CKEDITOR.NODE_ELEMENT )
-				range.moveToElementEditStart( next );
+			// If we're inserting a block element immediatelly followed by
+			// another block element, the selection must move there. (#3100,#5436)
+			if ( isBlock ) {
+				var next = lastElement.getNext( notWhitespaceEval ),
+					nextName = next && next.type == CKEDITOR.NODE_ELEMENT && next.getName();
+
+				// Check if it's a block element that accepts text.
+				if ( nextName && CKEDITOR.dtd.$block[ nextName ] && CKEDITOR.dtd[ nextName ][ '#' ] )
+					range.moveToElementEditStart( next );
+			}
 
 			selection.selectRanges( [ range ] );
 
