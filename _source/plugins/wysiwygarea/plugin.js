@@ -206,11 +206,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// If the fixed block is actually blank and is already followed by an exitable blank
 			// block, we should revert the fix and move into the existed one. (#3684)
 			if ( isBlankParagraph( fixedBlock ) ) {
-				var previousElement = fixedBlock.getPrevious( isNotWhitespace ),
-					nextElement = fixedBlock.getNext( isNotWhitespace );
-
-				if ( previousElement && previousElement.getName && !( previousElement.getName() in nonExitableElementNames ) && isBlankParagraph( previousElement ) && range.moveToElementEditStart( previousElement ) || nextElement && nextElement.getName && !( nextElement.getName() in nonExitableElementNames ) && isBlankParagraph( nextElement ) && range.moveToElementEditStart( nextElement ) ) {
+				var element = fixedBlock.getNext( isNotWhitespace );
+				if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonExitableElementNames[ element.getName() ] ) {
+					range.moveToElementEditStart( element );
 					fixedBlock.remove();
+				} else {
+					element = fixedBlock.getPrevious( isNotWhitespace );
+					if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonExitableElementNames[ element.getName() ] ) {
+						range.moveToElementEditEnd( element );
+						fixedBlock.remove();
+					}
 				}
 			}
 
