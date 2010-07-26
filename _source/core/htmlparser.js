@@ -159,6 +159,12 @@ CKEDITOR.htmlParser = function() {
 				// Opening tag
 				if ( ( tagName = parts[ 3 ] ) ) {
 					tagName = tagName.toLowerCase();
+
+					// There are some tag names that can break things, so let's
+					// simply ignore them when parsing. (#5224)
+					if ( /="/.test( tagName ) )
+						continue;
+
 					var attribs = {},
 						attribMatch,
 						attribsPart = parts[ 4 ],
