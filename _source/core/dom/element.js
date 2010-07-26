@@ -746,8 +746,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 		return false;
 	} : function() {
-		var attributes = this.$.attributes;
-		return ( attributes.length > 1 || ( attributes.length == 1 && attributes[ 0 ].nodeName != '_cke_expando' ) );
+		var attrs = this.$.attributes,
+			attrsNum = attrs.length;
+
+		// The _moz_dirty attribute might get into the element after pasting (#5455)
+		var execludeAttrs = { _cke_expando:1,_moz_dirty:1 };
+
+		return attrsNum > 0 && ( attrsNum > 2 || !execludeAttrs[ attrs[ 0 ].nodeName ] || ( attrsNum == 2 && !execludeAttrs[ attrs[ 1 ].nodeName ] ) );
 	},
 
 	/**
