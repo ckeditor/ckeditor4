@@ -173,7 +173,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 
 			title: function( element ) {
-				element.children[ 0 ].value = element.attributes[ '_cke_title' ];
+				var titleText = element.children[ 0 ];
+				titleText && ( titleText.value = element.attributes[ '_cke_title' ] || '' );
 			}
 		},
 
