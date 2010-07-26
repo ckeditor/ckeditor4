@@ -85,7 +85,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		init: function( editor ) {
 			editor.on( 'contentDom', function() {
 				var doc = editor.document,
-					body = doc.getBody();
+					body = doc.getBody(),
+					html = doc.getDocumentElement();
 
 				if ( CKEDITOR.env.ie ) {
 					// Other browsers don't loose the selection if the
@@ -93,7 +94,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// have support for it, so we reproduce it here, other
 					// than firing the selection change event.
 
-					var savedRange, saveEnabled;
+					var savedRange, saveEnabled,
+						restoreEnabled = 1;
 
 					// "onfocusin" is fired before "onfocus". It makes it
 					// possible to restore the selection before click
@@ -107,10 +109,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// If we have saved a range, restore it at this
 						// point.
 						if ( savedRange ) {
-							// Well not break because of this.
-							try {
-								savedRange.select();
-							} catch ( e ) {}
+							if ( restoreEnabled ) {
+								// Well not break because of this.
+								try {
+									savedRange.select();
+								} catch ( e ) {}
+							}
 
 							savedRange = null;
 						}
@@ -131,19 +135,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Disable selections from being saved.
 						saveEnabled = false;
+						restoreEnabled = 1;
 					});
 
 					// IE before version 8 will leave cursor blinking inside the document after
 					// editor blurred unless we clean up the selection. (#4716)
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
-						doc.getWindow().on( 'blur', function( evt ) {
+						editor.on( 'blur', function( evt ) {
 							editor.document.$.selection.empty();
 						});
 					}
 
+					// Listening on document element ensures that
+					// scrollbar is included. (#5280)
+					html.on( 'mousedown', function() {
+						// Lock restore selection now, as we have
+						// a followed 'click' event which introduce
+						// new selection. (#5735)
+						restoreEnabled = 0;
+					});
+
+					html.on( 'mouseup', function() {
+						restoreEnabled = 1;
+					});
+
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
-					body.on( 'mousedown', disableSave );
+					body.on( 'mousedown', function() {
+						disableSave();
+					});
+
 					body.on( 'mouseup', function() {
 						saveEnabled = true;
 						setTimeout( function() {
