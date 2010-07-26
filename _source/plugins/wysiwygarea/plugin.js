@@ -380,15 +380,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}, 0 );
 					}
 
-					// IE, Opera and Safari may not support it and throw
-					// errors.
-					try {
-						domDocument.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
-					} catch ( e ) {}
-					try {
-						domDocument.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-					} catch ( e ) {}
-
 					domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 					domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
 
@@ -550,6 +541,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						setTimeout( function() {
 							editor.fire( 'dataReady' );
 						}, 0 );
+
+						// IE, Opera and Safari may not support it and throw errors.
+						try {
+							editor.document.$.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
+						} catch ( e ) {}
+						try {
+							editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
+						} catch ( e ) {}
 
 						/*
 						 * IE BUG: IE might have rendered the iframe with invisible contents.
