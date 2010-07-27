@@ -175,6 +175,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
 
+	// Gecko need a key event to 'wake up' the editing
+	// ability when document is empty.(#3864, #5781)
+	function activateEditing( editor ) {
+		var win = editor.window,
+			doc = editor.document,
+			body = editor.document.getBody(),
+			bodyChildsNum = body.getChildren().count();
+
+		if ( !bodyChildsNum || ( bodyChildsNum == 1 && body.getFirst().hasAttribute( '_moz_editor_bogus_node' ) ) ) {
+			restoreDirty( editor );
+
+			// Simulating keyboard character input by dispatching a keydown of white-space text.
+			var keyEventSimulate = doc.$.createEvent( "KeyEvents" );
+			keyEventSimulate.initKeyEvent( 'keypress', true, true, win.$, false, false, false, false, 0, 32 );
+			doc.$.dispatchEvent( keyEventSimulate );
+
+			// Restore the original document status by placing the cursor before a bogus br created (#5021).
+			bodyChildsNum && body.getFirst().remove();
+			doc.getBody().appendBogus();
+			var nativeRange = new CKEDITOR.dom.range( doc );
+			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
+			nativeRange.select();
+		}
+	}
+
 	/**
 	 *  Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	 *  non-exitable-block by padding extra br.(#3189)
@@ -187,6 +212,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			range = selection.getRanges()[ 0 ],
 			body = editor.document.getBody(),
 			enterMode = editor.config.enterMode;
+
+		CKEDITOR.env.gecko && activateEditing( editor );
 
 		// When enterMode set to block, we'll establing new paragraph only if we're
 		// selecting inline contents right under body. (#3657)
@@ -360,25 +387,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}, 0 );
 					}
 
-					// Gecko need a key event to 'wake up' the editing
-					// ability when document is empty.(#3864)
-					if ( CKEDITOR.env.gecko && !body.childNodes.length ) {
-						setTimeout( function() {
-							restoreDirty( editor );
-
-							// Simulating keyboard character input by dispatching a keydown of white-space text.
-							var keyEventSimulate = domDocument.$.createEvent( "KeyEvents" );
-							keyEventSimulate.initKeyEvent( 'keypress', true, true, domWindow.$, false, false, false, false, 0, 32 );
-							domDocument.$.dispatchEvent( keyEventSimulate );
-
-							// Restore the original document status by placing the cursor before a bogus br created (#5021).
-							domDocument.createElement( 'br', {
-								attributes: { '_moz_editor_bogus_node': 'TRUE', '_moz_dirty': "" } } ).replace( domDocument.getBody().getFirst() );
-							var nativeRange = new CKEDITOR.dom.range( domDocument );
-							nativeRange.setStartAt( new CKEDITOR.dom.element( body ), CKEDITOR.POSITION_AFTER_START );
-							nativeRange.select();
-						}, 0 );
-					}
+					CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, null, editor );
 
 					domWindow = editor.window = new CKEDITOR.dom.window( domWindow );
 					domDocument = editor.document = new CKEDITOR.dom.document( domDocument );
