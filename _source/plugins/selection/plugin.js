@@ -159,6 +159,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						restoreEnabled = 1;
 					});
 
+					// In IE6/7 the blinking cursor appears, but contents are
+					// not editable. (#5634)
+					if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.version < 8 || CKEDITOR.env.quirks ) ) {
+						// The 'click' event is not fired when clicking the
+						// scrollbars, so we can use it to check whether
+						// the empty space following <body> has been clicked.
+						html.on( 'click', function( evt ) {
+							if ( evt.data.getTarget().getName() == 'html' )
+								editor.getSelection().getRanges()[ 0 ].select();
+						});
+					}
+
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
 					body.on( 'mousedown', function() {

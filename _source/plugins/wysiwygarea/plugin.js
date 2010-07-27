@@ -802,10 +802,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					focusGrabber.on( 'focus', function() {
 						editor.focus();
-
-						// In IE7 the blinking cursor appears, but contents are not editable. (#5634)
-						if ( CKEDITOR.env.ie7Compat )
-							editor.getSelection().getRanges()[ 0 ].select();
 					});
 				});
 				editor.on( 'destroy', function() {
