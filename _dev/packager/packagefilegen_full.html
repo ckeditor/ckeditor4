@@ -79,7 +79,7 @@ function generate()
 	{
 		var path = downloaded[i].replace( CKEDITOR.basePath, '' );
 
-		if ( path == 'config.js' )
+		if ( path == 'config.js' || /\/styles\/default\.js/.test( path ) )
 			continue;
 
 		appendFile( path, /\/lang\/(?:)/.test( path ) );
