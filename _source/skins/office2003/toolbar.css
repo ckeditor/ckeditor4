@@ -305,6 +305,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: 16px;
 	height: 16px;
 	display: inline-block;
+	cursor: default;
 }
 
 .cke_skin_office2003 .cke_button .cke_label
@@ -359,6 +360,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-image: url(images/sprites.png);
 	_background-image: url(images/sprites_ie6.png);
 	background-repeat: no-repeat;
+	cursor: default;
 }
 
 .cke_skin_office2003 .cke_rtl .cke_button .cke_buttonarrow

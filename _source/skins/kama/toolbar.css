@@ -237,6 +237,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 16px;
 	display: inline-block;
 	float: left;
+	cursor: default;
 }
 
 .cke_skin_kama .cke_rtl .cke_button .cke_icon
@@ -291,6 +292,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	_background-image: url(images/sprites_ie6.png);
 	background-repeat: no-repeat;
 	float: left;
+	cursor: default;
 }
 
 .cke_skin_kama .cke_rtl .cke_button .cke_buttonarrow
