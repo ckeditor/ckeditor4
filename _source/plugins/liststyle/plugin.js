@@ -34,14 +34,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
-					if ( !element )
-						return null;
+					while ( element ) {
+						var name = element.getName();
+						if ( name == 'ol' )
+							return { numberedlist: CKEDITOR.TRISTATE_OFF };
+						else if ( name == 'ul' )
+							return { bulletedlist: CKEDITOR.TRISTATE_OFF };
 
-					if ( element.getAscendant( 'ol' ) )
-						return { numberedlist: CKEDITOR.TRISTATE_OFF };
-
-					if ( element.getAscendant( 'ul' ) )
-						return { bulletedlist: CKEDITOR.TRISTATE_OFF };
+						element = element.getParent();
+					}
+					return null;
 				});
 			}
 		}
