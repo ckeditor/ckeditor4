@@ -35,6 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-left: 4px;
 	padding-right: 4px;
 	margin-bottom : 3px;
+	cursor: default;
 }
 
 .cke_skin_office2003 .cke_path .cke_empty

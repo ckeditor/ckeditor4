@@ -36,6 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: left;
 	padding: 1px 4px 0;
 	color: #60676a;
+	cursor: default;
 }
 
 .cke_skin_kama .cke_path .cke_empty
