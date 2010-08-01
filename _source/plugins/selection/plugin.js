@@ -142,7 +142,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// editor blurred unless we clean up the selection. (#4716)
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 						editor.on( 'blur', function( evt ) {
-							editor.document.$.selection.empty();
+							editor.document && editor.document.$.selection.empty();
 						});
 					}
 
