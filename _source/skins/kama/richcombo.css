@@ -112,6 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	overflow: hidden;
 	display: inline-block;
 	margin: 0 2px 0 4px;
+	cursor: default;
 }
 
 .cke_skin_kama .cke_rtl .cke_rcombo .cke_text

@@ -69,6 +69,7 @@
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 	background-color: #f1f1e3;	/* Because of IE6+ClearType */
+	cursor: default;
 }
 
 .cke_skin_v2 .cke_rtl .cke_rcombo .cke_label
@@ -103,6 +104,7 @@
 	overflow: hidden;
 	display: inline-block;
 	vertical-align: top;
+	cursor: default;
 }
 
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_text
