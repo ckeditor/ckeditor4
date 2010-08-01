@@ -76,7 +76,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'removeFormatCleanup', function( evt ) {
 				var element = evt.data;
-				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && !element.hasAttribute( 'border' ) )
+				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) )
 					element.addClass( showBorderClassName );
 			});
 		},
