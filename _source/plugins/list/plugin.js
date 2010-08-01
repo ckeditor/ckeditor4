@@ -184,7 +184,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.dom.element.setMarker( database, itemNode, 'list_item_processed', true );
 		}
 
-		var fakeParent = groupObj.root.getDocument().createElement( this.type );
+		var root = groupObj.root,
+			fakeParent = root.getDocument().createElement( this.type );
+		// Copy all attributes, except from 'start' and 'type'.
+		root.copyAttributes( fakeParent, { start:1,type:1 } );
+		// The list-style-type property should be ignored.
+		fakeParent.removeStyle( 'list-style-type' );
+
 		for ( i = 0; i < selectedListItems.length; i++ ) {
 			var listIndex = selectedListItems[ i ].getCustomData( 'listarray_index' );
 			listArray[ listIndex ].parent = fakeParent;
