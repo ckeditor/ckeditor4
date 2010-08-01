@@ -202,7 +202,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( $row.cells.length < ( cellIndex + 1 ) )
 				continue;
 
-			cell = new CKEDITOR.dom.element( $row.cells[ cellIndex ].cloneNode( false ) );
+			cell = ( new CKEDITOR.dom.element( $row.cells[ cellIndex ] ) ).clone( false );
 
 			if ( !CKEDITOR.env.ie )
 				cell.appendBogus();
