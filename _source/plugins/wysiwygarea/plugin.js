@@ -466,16 +466,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							blinkCursor();
 						else if ( CKEDITOR.env.opera )
 							doc.getBody().focus();
-						else if ( CKEDITOR.env.webkit ) {
-							// Selection will get lost after move focus
-							// to document element, save it first.
-							var sel = editor.getSelection(),
-								type = sel.getType(),
-								range = ( type != CKEDITOR.SELECTION_NONE ) && sel.getRanges()[ 0 ];
-
-							doc.getDocumentElement().focus();
-							range && range.select();
-						}
 
 						editor.focusManager.focus();
 					});
