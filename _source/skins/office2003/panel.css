@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_office2003 .cke_panel
 {
-    border: 1px solid #8f8f73;
+   border: 1px solid #8f8f73;
 	background-color: #fff;
 
 	width: 120px;
@@ -46,7 +46,7 @@ html.cke_skin_office2003_container
 
 body.cke_panel_frame
 {
-	overflow: hidden;
+	overflow: auto;
 }
 
 ul.cke_panel_list
@@ -54,7 +54,7 @@ ul.cke_panel_list
 	list-style-type: none;
 	margin: 3px;
 	padding: 0px;
-    white-space: nowrap;
+   white-space: nowrap;
 }
 
 li.cke_panel_listItem
@@ -70,7 +70,7 @@ li.cke_panel_listItem
 	color: inherit;
 	text-decoration: none;
 	overflow: hidden;
-    text-overflow: ellipsis;
+   text-overflow: ellipsis;
 }
 
 /* IE6 */
@@ -114,10 +114,10 @@ li.cke_panel_listItem
 
 .cke_panel_grouptitle
 {
-    font-size: 11px;
-    font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
+   font-size: 11px;
+   font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
 	font-weight: bold;
-    white-space: nowrap;
+   white-space: nowrap;
 	background-color: #dcdcdc;
 	color: #000;
 	margin:0px;
@@ -147,8 +147,8 @@ li.cke_panel_listItem
 .cke_colorblock
 {
 	padding: 3px;
-    font-size: 11px;
-    font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
+   font-size: 11px;
+   font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
 }
 
 .cke_colorblock,
@@ -162,7 +162,7 @@ span.cke_colorbox
 {
 	width: 10px;
 	height: 10px;
-    border: #808080 1px solid;
+   border: #808080 1px solid;
 	float: left;
 }
 

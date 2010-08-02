@@ -46,7 +46,7 @@ html.cke_skin_kama_container
 
 body.cke_panel_frame
 {
-	overflow: hidden;
+	overflow: auto;
 }
 
 .cke_panel_frame .cke_label
@@ -152,8 +152,8 @@ li.cke_panel_listItem
 .cke_colorblock
 {
 	padding: 3px;
-    font-size: 11px;
-    font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
+   font-size: 11px;
+   font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
 }
 
 .cke_colorblock,
@@ -167,7 +167,7 @@ span.cke_colorbox
 {
 	width: 10px;
 	height: 10px;
-    border: #808080 1px solid;
+   border: #808080 1px solid;
 	float: left;
 }
 
