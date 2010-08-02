@@ -119,7 +119,12 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					style: 'width:50px',
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
 				}
-				]
+				],
+				onLoad: function() {
+					// Repaint the style for IE7 (#6068)
+					if ( CKEDITOR.env.ie7Compat )
+						this.getElement().setStyle( 'zoom', '100%' );
+				}
 			},
 				{
 				id: 'type',
