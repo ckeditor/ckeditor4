@@ -87,6 +87,11 @@ CKEDITOR.plugins.pagebreakCmd = {
 				range.moveToPosition( breakObject, CKEDITOR.POSITION_AFTER_END );
 				range.select();
 			}
+
+			var previous = breakObject.getPrevious();
+
+			if ( CKEDITOR.dtd[ previous.getName() ].div )
+				breakObject.move( previous );
 		}
 
 		editor.fire( 'saveSnapshot' );
