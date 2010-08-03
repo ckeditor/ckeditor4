@@ -112,12 +112,12 @@ CKEDITOR.plugins.add( 'forms', {
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element ) {
-				if ( element && element.hasAscendant( 'form', true ) )
+				if ( element && element.hasAscendant( 'form', true ) && !element.isReadOnly() )
 					return { form: CKEDITOR.TRISTATE_OFF };
 			});
 
 			editor.contextMenu.addListener( function( element ) {
-				if ( element ) {
+				if ( element && !element.isReadOnly() ) {
 					var name = element.getName();
 
 					if ( name == 'select' )

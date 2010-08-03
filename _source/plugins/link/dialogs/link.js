@@ -1149,7 +1149,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			if ( !this._.selectedElement ) {
 				// Create element if current selection is collapsed.
 				var selection = editor.getSelection(),
-					ranges = selection.getRanges();
+					ranges = selection.getRanges( true );
 				if ( ranges.length == 1 && ranges[ 0 ].collapsed ) {
 					// Short mailto link text view (#5736).
 					var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes._cke_saved_href, editor.document );

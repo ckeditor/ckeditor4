@@ -103,6 +103,11 @@ CKEDITOR.lang[ 'nl' ] = {
 		targetTop: 'Hele venster (_top)',
 		targetSelf: 'Zelfde venster (_self)',
 		targetParent: 'Origineel venster (_parent)',
+		advanced: 'Advanced', // MISSING
+		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirRTL: 'Right to Left (RTL)', // MISSING
+		styles: 'Style', // MISSING
+		cssClasses: 'Stylesheet Classes', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -704,5 +709,10 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	toolbarCollapse: 'Werkbalk inklappen',
-	toolbarExpand: 'Werkbalk uitklappen'
+	toolbarExpand: 'Werkbalk uitklappen',
+
+	bidi: {
+		ltr: 'Text direction from left to right', // MISSING
+		rtl: 'Text direction from right to left' // MISSING
+	}
 };

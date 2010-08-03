@@ -214,11 +214,12 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	createColorTable();
 
 	var numbering = function( id ) {
-			return id + CKEDITOR.tools.getNextNumber();
+			return CKEDITOR.tools.getNextId() + '_' + id;
 		},
 		hicolorId = numbering( 'hicolor' ),
 		hicolorTextId = numbering( 'hicolortext' ),
-		selHiColorId = numbering( 'selhicolor' );
+		selHiColorId = numbering( 'selhicolor' ),
+		tableLabelId = numbering( 'color_table_label' );
 
 	return {
 		title: lang.title,
@@ -241,8 +242,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				children: [
 					{
 					type: 'html',
-					html: '<table role="listbox" aria-labelledby="color_table_label" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' + table.getHtml() + '</table>' +
-																		'<span id="color_table_label" class="cke_voice_label">' + lang.options + '</span>',
+					html: '<table role="listbox" aria-labelledby="' + tableLabelId + '" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' + table.getHtml() + '</table>' +
+																		'<span id="' + tableLabelId + '" class="cke_voice_label">' + lang.options + '</span>',
 					onLoad: function() {
 						var table = CKEDITOR.document.getById( this.domId );
 						table.on( 'mouseover', updateHighlight );

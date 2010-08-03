@@ -103,6 +103,11 @@ CKEDITOR.lang[ 'ca' ] = {
 		targetTop: 'Finestra major (_top)',
 		targetSelf: 'Mateixa finestra (_self)',
 		targetParent: 'Finestra pare (_parent)',
+		advanced: 'Advanced', // MISSING
+		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirRTL: 'Right to Left (RTL)', // MISSING
+		styles: 'Style', // MISSING
+		cssClasses: 'Stylesheet Classes', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -704,5 +709,10 @@ CKEDITOR.lang[ 'ca' ] = {
 	},
 
 	toolbarCollapse: 'Redueix la barra d\'eines',
-	toolbarExpand: 'Amplia la barra d\'eines'
+	toolbarExpand: 'Amplia la barra d\'eines',
+
+	bidi: {
+		ltr: 'Text direction from left to right', // MISSING
+		rtl: 'Text direction from right to left' // MISSING
+	}
 };

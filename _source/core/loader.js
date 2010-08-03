@@ -20,7 +20,7 @@ if ( !CKEDITOR.loader ) {
 	CKEDITOR.loader = (function() {
 		// Table of script names and their dependencies.
 		var scripts = {
-			'core/_bootstrap': [ 'core/config', 'core/ckeditor', 'core/plugins', 'core/scriptloader', 'core/tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'core/dom/comment', 'core/dom/elementpath', 'core/dom/text', 'core/dom/range' ],
+			'core/_bootstrap': [ 'core/config', 'core/ckeditor', 'core/plugins', 'core/scriptloader', 'core/tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'core/dom/comment', 'core/dom/elementpath', 'core/dom/text', 'core/dom/rangelist' ],
 			'core/ajax': [ 'core/xml' ],
 			'core/ckeditor': [ 'core/ckeditor_basic', 'core/dom', 'core/dtd', 'core/dom/document', 'core/dom/element', 'core/editor', 'core/event', 'core/htmlparser', 'core/htmlparser/element', 'core/htmlparser/fragment', 'core/htmlparser/filter', 'core/htmlparser/basicwriter', 'core/tools' ],
 			'core/ckeditor_base': [],
@@ -38,6 +38,7 @@ if ( !CKEDITOR.loader ) {
 			'core/dom/nodelist': [ 'core/dom/node' ],
 			'core/dom/domobject': [ 'core/dom/event' ],
 			'core/dom/range': [ 'core/dom/document', 'core/dom/documentfragment', 'core/dom/element', 'core/dom/walker' ],
+			'core/dom/rangelist': [ 'core/dom/range' ],
 			'core/dom/text': [ 'core/dom/node', 'core/dom/domobject' ],
 			'core/dom/walker': [ 'core/dom/node' ],
 			'core/dom/window': [ 'core/dom/domobject' ],

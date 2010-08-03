@@ -79,7 +79,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( editor.contextMenu ) {
 					editor.contextMenu.addListener( function( element, selection ) {
-						if ( !element )
+						if ( !element || element.isReadOnly() )
 							return null;
 
 						var elementPath = new CKEDITOR.dom.elementPath( element ),

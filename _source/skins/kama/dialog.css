@@ -610,7 +610,7 @@ body .cke_dialog
 	background-color: white;
 }
 
-.cke_skin_kama iframe.cke_dialog_ui_input_file
+.cke_skin_kama .cke_dialog_ui_input_file
 {
 	width: 100%;
 	height: 25px;

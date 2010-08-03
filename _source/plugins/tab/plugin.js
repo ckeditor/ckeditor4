@@ -21,11 +21,71 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	function selectNextCellCommand( backward ) {
+		return {
+			editorFocus: false,
+			canUndo: false,
+			modes: { wysiwyg:1 },
+			exec: function( editor ) {
+				if ( editor.focusManager.hasFocus ) {
+					var sel = editor.getSelection(),
+						ancestor = sel.getCommonAncestor(),
+						cell;
+
+					if ( ( cell = ( ancestor.getAscendant( 'td', true ) || ancestor.getAscendant( 'th', true ) ) ) ) {
+						var resultRange = new CKEDITOR.dom.range( editor.document ),
+							next = CKEDITOR.tools.tryThese( function() {
+								var row = cell.getParent(),
+									next = row.$.cells[ cell.$.cellIndex + ( backward ? -1 : 1 ) ];
+
+								// Invalid any empty value.
+								next.parentNode.parentNode;
+								return next;
+							}, function() {
+								var row = cell.getParent(),
+									table = row.getAscendant( 'table' ),
+									nextRow = table.$.rows[ row.$.rowIndex + ( backward ? -1 : 1 ) ];
+
+								return nextRow.cells[ backward ? nextRow.cells.length - 1 : 0 ];
+							});
+
+						// Clone one more row at the end of table and select the first newly established cell.
+						if ( !( next || backward ) ) {
+							var table = cell.getAscendant( 'table' ).$,
+								cells = cell.getParent().$.cells;
+
+							var newRow = new CKEDITOR.dom.element( table.insertRow( -1 ), editor.document );
+
+							for ( var i = 0, count = cells.length; i < count; i++ ) {
+								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
+								!CKEDITOR.env.ie && newCell.appendBogus();
+							}
+
+							resultRange.moveToElementEditStart( newRow );
+						} else if ( next ) {
+							next = new CKEDITOR.dom.element( next );
+							resultRange.moveToElementEditStart( next );
+							// Avoid selecting empty block makes the cursor blind.
+							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) )
+								resultRange.selectNodeContents( next );
+						} else
+							return true;
+
+						resultRange.select( true );
+						return true;
+					}
+				}
+				return false;
+			}
+		};
+	}
+
 	CKEDITOR.plugins.add( 'tab', {
 		requires: [ 'keystrokes' ],
 
 		init: function( editor ) {
-			var tabSpaces = editor.config.tabSpaces || 0,
+			var tabTools = editor.config.enableTabKeyTools !== false,
+				tabSpaces = editor.config.tabSpaces || 0,
 				tabText = '';
 
 			while ( tabSpaces-- )
@@ -38,6 +98,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.insertHtml( tabText );
 						ev.cancel();
 					}
+				});
+			}
+
+			if ( tabTools ) {
+				editor.on( 'key', function( ev ) {
+					if ( ev.data.keyCode == 9 && editor.execCommand( 'selectNextCell' ) || // TAB
+					ev.data.keyCode == ( CKEDITOR.SHIFT + 9 ) && editor.execCommand( 'selectPreviousCell' ) ) // SHIFT+TAB
+					ev.cancel();
 				});
 			}
 
@@ -61,6 +129,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.addCommand( 'blur', CKEDITOR.tools.extend( blurCommand, meta ) );
 			editor.addCommand( 'blurBack', CKEDITOR.tools.extend( blurBackCommand, meta ) );
+			editor.addCommand( 'selectNextCell', selectNextCellCommand() );
+			editor.addCommand( 'selectPreviousCell', selectNextCellCommand( true ) );
 		}
 	});
 })();
@@ -216,3 +286,24 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
  * @example
  * config.tabSpaces = 4;
  */
+
+/**
+ * Allow context-sensitive tab key behaviors, including the following scenarios:
+ * <h5>When selection is anchored inside <b>table cells</b>:</h5>
+ * <ul>
+ * 		<li>If TAB is pressed, select the contents of the "next" cell. If in the last cell in the table, add a new row to it and focus its first cell.</li>
+ * 		<li>If SHIFT+TAB is pressed, select the contents of the "previous" cell. Do nothing when it's in the first cell.</li>
+ * </ul>
+ * @name CKEDITOR.config.enableTabKeyTools
+ * @type Boolean
+ * @default true
+ * @example
+ * config.enableTabKeyTools = false;
+ */
+
+// If the TAB key is not supposed to be enabled for navigation, the following
+// settings could be used alternatively:
+// config.keystrokes.push(
+//	[ CKEDITOR.ALT + 38 /*Arrow Up*/, 'selectPreviousCell' ],
+//	[ CKEDITOR.ALT + 40 /*Arrow Down*/, 'selectNextCell' ]
+// );

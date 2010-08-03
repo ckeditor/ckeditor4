@@ -577,5 +577,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 				child.parentNode.removeChild( child );
 			}
 		}
+	},
+
+	isReadOnly: function() {
+		var current = this;
+		while ( current ) {
+			if ( current.type == CKEDITOR.NODE_ELEMENT ) {
+				if ( current.is( 'body' ) || current.getCustomData( '_cke_notReadOnly' ) )
+					break;
+
+				if ( current.getAttribute( 'contentEditable' ) == 'false' )
+					return current;
+				else if ( current.getAttribute( 'contentEditable' ) == 'true' )
+					break;
+			}
+			current = current.getParent();
+		}
+
+		return false;
 	}
 });

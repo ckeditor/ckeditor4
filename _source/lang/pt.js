@@ -103,6 +103,11 @@ CKEDITOR.lang[ 'pt' ] = {
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
+		advanced: 'Advanced', // MISSING
+		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirRTL: 'Right to Left (RTL)', // MISSING
+		styles: 'Style', // MISSING
+		cssClasses: 'Stylesheet Classes', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -704,5 +709,10 @@ CKEDITOR.lang[ 'pt' ] = {
 	},
 
 	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar' // MISSING
+	toolbarExpand: 'Expand Toolbar', // MISSING
+
+	bidi: {
+		ltr: 'Text direction from left to right', // MISSING
+		rtl: 'Text direction from right to left' // MISSING
+	}
 };

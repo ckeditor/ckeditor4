@@ -35,6 +35,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEditor Changelog
 	</h1>
 	<h3>
+			CKEditor 3.4 Beta</h3>
+	<p>
+			New features:</p>
+	<ul>
+		<li><a href="http://dev.fckeditor.net/ticket/5909">#5909</a> : New BiDi feature, making it possible to switch the base language direction of block elements.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5268">#5268</a> : Introducing the "tableresize" plugin, which makes it possible to resize tables columns by mouse drag. It's not enabled by default, so it must be enabled in the configurations file.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/979">#979</a> : New <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.enableTabKeyTools">enableTabKeyTools</a> configuration to allow using the TAB key to navigate through table cells.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/4606">#4606</a> : Introduce the "autogrow" plugin, which makes the editor resize automatically, based on the contents size.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5737">#5737</a> : Added support for the <a href="http://www.w3.org/TR/html5/editing.html#contenteditable">HTML5 contenteditable attribute</a>, making it possible to define read only regions into the editor contents.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/5418">#5418</a> : New "Advanced" tab introduced on the Table Properties dialog. It's based on the new dialogadvtab plugin.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/6082">#6082</a> : Introduced the <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.useComputedState">useComputedState</a> setting, making it possible to control whether toolbar features, like alignment and direction, should reflect the "computed" selection states, even when the effective feature value is not applied.</li>
+	</ul>
+	<p>
+			Fixed issues:</p>
+	<ul>
+		<li><a href="http://dev.fckeditor.net/ticket/5911">#5911</a> : BiDi: List items should support and retain correct base language direction
+		<li><a href="http://dev.fckeditor.net/ticket/5689">#5689</a> : Make it possible to run CKEditor inside of Firefox chrome.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/6042">#6042</a> : It wasn't possible to align a paragraph with the dir attribute to the opposite direction.</li>
+		<li><a href="http://dev.fckeditor.net/ticket/6058">#6058</a> : Fixed a small style glitch with file upload fields in IE+Quirks.</li>
+	</ul>
+	<h3>
 			CKEditor 3.3.2</h3>
 	<p>
 			New features:</p>

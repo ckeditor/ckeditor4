@@ -103,6 +103,11 @@ CKEDITOR.lang[ 'nb' ] = {
 		targetTop: 'Hele vindu (_top)',
 		targetSelf: 'Samme vindu (_self)',
 		targetParent: 'Foreldrevindu (_parent)',
+		advanced: 'Advanced', // MISSING
+		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirRTL: 'Right to Left (RTL)', // MISSING
+		styles: 'Style', // MISSING
+		cssClasses: 'Stylesheet Classes', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
@@ -704,5 +709,10 @@ CKEDITOR.lang[ 'nb' ] = {
 	},
 
 	toolbarCollapse: 'Slå sammen verktøylinje',
-	toolbarExpand: 'Vis verktøylinje'
+	toolbarExpand: 'Vis verktøylinje',
+
+	bidi: {
+		ltr: 'Text direction from left to right', // MISSING
+		rtl: 'Text direction from right to left' // MISSING
+	}
 };

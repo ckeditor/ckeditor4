@@ -76,7 +76,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
-					if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'flash' )
+					if ( element && element.is( 'img' ) && !element.isReadOnly() && element.getAttribute( '_cke_real_element_type' ) == 'flash' )
 						return { flash: CKEDITOR.TRISTATE_OFF };
 				});
 			}

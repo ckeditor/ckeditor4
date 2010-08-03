@@ -532,8 +532,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu && editor.addMenuItems ) {
-				editor.contextMenu.addListener( function() {
-					if ( !plugin.isScaytEnabled( editor ) )
+				editor.contextMenu.addListener( function( element, selection ) {
+					if ( !plugin.isScaytEnabled( editor ) || selection.getCommonAncestor().isReadOnly() )
 						return null;
 
 					var scayt_control = plugin.getScayt( editor ),

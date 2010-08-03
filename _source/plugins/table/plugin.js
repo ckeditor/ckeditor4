@@ -48,7 +48,7 @@ CKEDITOR.plugins.add( 'table', {
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
-				if ( !element )
+				if ( !element || element.isReadOnly() )
 					return null;
 
 				var isTable = element.is( 'table' ) || element.hasAscendant( 'table' );

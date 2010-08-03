@@ -103,6 +103,11 @@ CKEDITOR.lang[ 'fi' ] = {
 		targetTop: 'Päällimmäinen ikkuna (_top)',
 		targetSelf: 'Sama ikkuna (_self)',
 		targetParent: 'Ylemmän tason ikkuna (_parent)',
+		advanced: 'Advanced', // MISSING
+		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirRTL: 'Right to Left (RTL)', // MISSING
+		styles: 'Style', // MISSING
+		cssClasses: 'Stylesheet Classes', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
@@ -704,5 +709,10 @@ CKEDITOR.lang[ 'fi' ] = {
 	},
 
 	toolbarCollapse: 'Kutista työkalupalkki',
-	toolbarExpand: 'Laajenna työkalupalkki'
+	toolbarExpand: 'Laajenna työkalupalkki',
+
+	bidi: {
+		ltr: 'Text direction from left to right', // MISSING
+		rtl: 'Text direction from right to left' // MISSING
+	}
 };

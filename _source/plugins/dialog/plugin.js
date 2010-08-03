@@ -410,15 +410,19 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
 
 		// Insert the tabs and contents.
-		for ( var i = 0; i < definition.contents.length; i++ )
-			this.addPage( definition.contents[ i ] );
+		for ( var i = 0; i < definition.contents.length; i++ ) {
+			var page = definition.contents[ i ];
+			page && this.addPage( page );
+		}
 
 		this.parts[ 'tabs' ].on( 'click', function( evt ) {
 			var target = evt.data.getTarget();
 			// If we aren't inside a tab, bail out.
 			if ( target.hasClass( 'cke_dialog_tab' ) ) {
+				// Get the ID of the tab, without the 'cke_' prefix and the unique number suffix.
 				var id = target.$.id;
-				this.selectPage( id.substr( 0, id.lastIndexOf( '_' ) ) );
+				this.selectPage( id.substring( 4, id.lastIndexOf( '_' ) ) );
+
 				if ( this._.tabBarMode ) {
 					this._.tabBarMode = false;
 					this._.currentFocusIndex = -1;
@@ -788,7 +792,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			page.setAttribute( 'role', 'tabpanel' );
 
 			var env = CKEDITOR.env;
-			var tabId = contents.id + '_' + CKEDITOR.tools.getNextNumber(),
+			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
 				tab = CKEDITOR.dom.element.createFromHtml( [
 					'<a class="cke_dialog_tab"',
 						( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),
@@ -1247,7 +1251,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var contents = dialogDefinition.contents;
 			for ( var i = 0, content;
 			( content = contents[ i ] ); i++ )
-				contents[ i ] = new contentObject( dialog, content );
+				contents[ i ] = content && new contentObject( dialog, content );
 
 			CKEDITOR.tools.extend( this, dialogDefinition );
 		};
@@ -1849,7 +1853,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					styles = ( stylesArg && stylesArg.call ? stylesArg( elementDefinition ) : stylesArg ) || {},
 					attributes = ( attributesArg && attributesArg.call ? attributesArg( elementDefinition ) : attributesArg ) || {},
 					innerHTML = ( contentsArg && contentsArg.call ? contentsArg.call( this, dialog, elementDefinition ) : contentsArg ) || '',
-					domId = this.domId = attributes.id || CKEDITOR.tools.getNextNumber() + '_uiElement',
+					domId = this.domId = attributes.id || CKEDITOR.tools.getNextId() + '_uiElement',
 					id = this.id = elementDefinition.id,
 					i;
 

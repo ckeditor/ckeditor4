@@ -71,14 +71,14 @@ CKEDITOR.plugins.pagebreakCmd = {
 		// Creates the fake image used for this element.
 		breakObject = editor.createFakeElement( breakObject, 'cke_pagebreak', 'div' );
 
-		var ranges = editor.getSelection().getRanges();
+		var ranges = editor.getSelection().getRanges( true );
 
 		editor.fire( 'saveSnapshot' );
 
-		for ( var range, i = 0; i < ranges.length; i++ ) {
+		for ( var range, i = ranges.length - 1; i >= 0; i-- ) {
 			range = ranges[ i ];
 
-			if ( i > 0 )
+			if ( i < ranges.length - 1 )
 				breakObject = breakObject.clone( true );
 
 			range.splitBlock( 'p' );

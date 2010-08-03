@@ -332,6 +332,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		})(),
 
 		/**
+		 * Gets a unique ID for CKEditor's interface elements. It returns a
+		 * string with the "cke_" prefix and a progressive number.
+		 * @function
+		 * @returns {String} A unique ID.
+		 * @example
+		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // "cke_1" (e.g.)
+		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // "cke_2"
+		 */
+		getNextId: function() {
+			return 'cke_' + this.getNextNumber();
+		},
+
+		/**
 		 * Creates a function override.
 		 * @param {Function} originalFunction The function to be overridden.
 		 * @param {Function} functionBuilder A function that returns the new

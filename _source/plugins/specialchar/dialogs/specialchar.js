@@ -13,12 +13,12 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 	var insertSpecialChar = function( specialChar ) {
 			var selection = editor.getSelection(),
-				ranges = selection.getRanges(),
+				ranges = selection.getRanges( true ),
 				range, textNode;
 
 			editor.fire( 'saveSnapshot' );
 
-			for ( var i = 0, len = ranges.length; i < len; i++ ) {
+			for ( var i = ranges.length - 1; i >= 0; i-- ) {
 				range = ranges[ i ];
 				range.deleteContents();
 
@@ -26,8 +26,10 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				range.insertNode( textNode );
 			}
 
-			range.moveToPosition( textNode, CKEDITOR.POSITION_AFTER_END );
-			range.select();
+			if ( range ) {
+				range.moveToPosition( textNode, CKEDITOR.POSITION_AFTER_END );
+				range.select();
+			}
 
 			editor.fire( 'saveSnapshot' );
 		};
@@ -239,7 +241,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			var columns = this.definition.charColumns,
 				chars = this.definition.chars;
 
-			var charsTableLabel = 'specialchar_table_label' + CKEDITOR.tools.getNextNumber();
+			var charsTableLabel = CKEDITOR.tools.getNextId() + '_specialchar_table_label';
 			var html = [ '<table role="listbox" aria-labelledby="' + charsTableLabel + '"' +
 													' style="width: 320px; height: 100%; border-collapse: separate;"' +
 													' align="center" cellspacing="2" cellpadding="2" border="0">' ];

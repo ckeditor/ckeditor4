@@ -51,7 +51,7 @@ CKEDITOR.plugins.add( 'link', {
 			 * for this in Firefox. So we must detect the state by element paths.
 			 */
 			var command = editor.getCommand( 'unlink' ),
-				element = evt.data.path.lastElement.getAscendant( 'a', true );
+				element = evt.data.path.lastElement && evt.data.path.lastElement.getAscendant( 'a', true );
 			if ( element && element.getName() == 'a' && element.getAttribute( 'href' ) )
 				command.setState( CKEDITOR.TRISTATE_OFF );
 			else
@@ -95,7 +95,7 @@ CKEDITOR.plugins.add( 'link', {
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
-				if ( !element )
+				if ( !element || element.isReadOnly() )
 					return null;
 
 				var isAnchor = ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' );
@@ -153,14 +153,13 @@ CKEDITOR.plugins.link = {
 	getSelectedLink: function( editor ) {
 		var range;
 		try {
-			range = editor.getSelection().getRanges()[ 0 ];
+			range = editor.getSelection().getRanges( true )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_TEXT );
+			var root = range.getCommonAncestor();
+			return root.getAscendant( 'a', true );
 		} catch ( e ) {
 			return null;
 		}
-
-		range.shrink( CKEDITOR.SHRINK_TEXT );
-		var root = range.getCommonAncestor();
-		return root.getAscendant( 'a', true );
 	}
 };
 

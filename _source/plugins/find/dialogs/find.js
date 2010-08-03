@@ -4,8 +4,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	function nonEmptyText( node ) {
-		return ( node.type == CKEDITOR.NODE_TEXT && node.getLength() > 0 );
+	var isReplace;
+
+	function findEvaluator( node ) {
+		return node.type == CKEDITOR.NODE_TEXT && node.getLength() > 0 && ( !isReplace || !node.isReadOnly() );
 	}
 
 	/**
@@ -73,7 +75,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var characterWalker = function( range, matchWord ) {
 					var walker = new CKEDITOR.dom.walker( range );
 					walker.guard = matchWord ? nonCharactersBoundary : null;
-					walker[ 'evaluator' ] = nonEmptyText;
+					walker[ 'evaluator' ] = findEvaluator;
 					walker.breakOnFalse = true;
 
 					this._ = {
@@ -213,8 +215,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						this.removeHighlight();
 
 					// Apply the highlight.
-					var range = this.toDomRange();
+					var range = this.toDomRange(),
+						bookmark = range.createBookmark();
 					highlightStyle.applyToRange( range );
+					range.moveToBookmark( bookmark );
 					this._.highlightRange = range;
 
 					// Scroll the editor to the highlighted area.
@@ -234,9 +238,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !this._.highlightRange )
 						return;
 
+					var bookmark = this._.highlightRange.createBookmark();
 					highlightStyle.removeFromRange( this._.highlightRange );
+					this._.highlightRange.moveToBookmark( bookmark );
 					this.updateFromDomRange( this._.highlightRange );
 					this._.highlightRange = null;
+				},
+
+				isReadOnly: function() {
+					if ( !this._.highlightRange )
+						return 0;
+
+					return this._.highlightRange.startContainer.isReadOnly();
 				},
 
 				moveBack: function() {
@@ -435,12 +448,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				replaceCounter: 0,
 
 				replace: function( dialog, pattern, newString, matchCase, matchWord, matchCyclic, isReplaceAll ) {
+					isReplace = 1;
+
 					// Successiveness of current replace/find.
 					var result = false;
 
 					// 1. Perform the replace when there's already a match here.
 					// 2. Otherwise perform the find but don't replace it immediately.
-					if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced ) {
+					if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() ) {
 						// Turn off highlight for a while when saving snapshots.
 						this.matchRange.removeHighlight();
 						var domRange = this.matchRange.toDomRange();
@@ -465,6 +480,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						result = true;
 					} else
 						result = this.find( pattern, matchCase, matchWord, matchCyclic, !isReplaceAll );
+
+					isReplace = 0;
 
 					return result;
 				}

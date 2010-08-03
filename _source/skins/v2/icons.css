@@ -322,3 +322,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	background-position: 0 -1200px;
 }
+
+.cke_skin_v2 .cke_button_bidirtl .cke_icon
+{
+	background-position: 0 -1072px;
+}
+
+.cke_skin_v2 .cke_button_bidiltr .cke_icon
+{
+	background-position: 0 -1056px;
+}

@@ -26,9 +26,11 @@ CKEDITOR.plugins.removeformat = {
 				var removeAttributes = editor._.removeAttributes || ( editor._.removeAttributes = editor.config.removeFormatAttributes.split( ',' ) );
 
 				var filter = CKEDITOR.plugins.removeformat.filter;
-				var ranges = editor.getSelection().getRanges();
+				var ranges = editor.getSelection().getRanges( true ),
+					iterator = ranges.createIterator(),
+					range;
 
-				for ( var i = 0, range; range = ranges[ i ]; i++ ) {
+				while ( ( range = iterator.getNextRange() ) ) {
 					if ( range.collapsed )
 						continue;
 

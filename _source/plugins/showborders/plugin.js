@@ -133,6 +133,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					selectedTable[ ( !value || value <= 0 ) ? 'addClass' : 'removeClass' ]( showBorderClassName );
 				};
 			});
+
+			var advTab = dialogDefinition.getContents( 'advanced' ),
+				classField = advTab && advTab.get( 'advCSSClasses' );
+
+			if ( classField ) {
+				classField.setup = CKEDITOR.tools.override( classField.setup, function( originalSetup ) {
+					return function() {
+						originalSetup.apply( this, arguments );
+						this.setValue( this.getValue().replace( /cke_show_border/, '' ) );
+					};
+				});
+
+				classField.commit = CKEDITOR.tools.override( classField.commit, function( originalCommit ) {
+					return function( data, element ) {
+						originalCommit.apply( this, arguments );
+
+						if ( !parseInt( element.getAttribute( 'border' ), 10 ) )
+							element.addClass( 'cke_show_border' );
+					};
+				});
+			}
 		}
 	});
 

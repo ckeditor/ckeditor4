@@ -242,7 +242,7 @@ CKEDITOR.config = {
 	 * @type String
 	 * @example
 	 */
-	plugins: 'about,a11yhelp,basicstyles,blockquote,button,clipboard,colorbutton,colordialog,contextmenu,div,elementspath,enterkey,entities,filebrowser,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,liststyle,maximize,newpage,pagebreak,pastefromword,pastetext,popup,preview,print,removeformat,resize,save,scayt,smiley,showblocks,showborders,sourcearea,stylescombo,table,tabletools,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
+	plugins: 'about,a11yhelp,basicstyles,bidi,blockquote,button,clipboard,colorbutton,colordialog,contextmenu,dialogadvtab,div,elementspath,enterkey,entities,filebrowser,find,flash,font,format,forms,horizontalrule,htmldataprocessor,image,indent,justify,keystrokes,link,list,liststyle,maximize,newpage,pagebreak,pastefromword,pastetext,popup,preview,print,removeformat,resize,save,scayt,smiley,showblocks,showborders,sourcearea,stylescombo,table,tabletools,specialchar,tab,templates,toolbar,undo,wysiwygarea,wsc',
 
 	/**
 	 * List of additional plugins to be loaded. This is a tool setting which
@@ -328,5 +328,21 @@ CKEDITOR.config = {
 	 */
 	baseFloatZIndex: 10000
 };
+
+/**
+ * Indicates that some of the editor features, like alignement and text
+ * direction, should used the "computed value" of the feature to indicate it's
+ * on/off state, instead of using the "real value".
+ *
+ * If enabled, in a left to right written document, the "Left Justify"
+ * alignment button will show as active, even if the aligment style is not
+ * explicitly applied to the current paragraph in the editor.
+ * @name CKEDITOR.config.useComputedState
+ * @type Boolean
+ * @default true
+ * @since 3.4
+ * @example
+ * config.useComputedState = false;
+ */
 
 // PACKAGER_RENAME( CKEDITOR.config )

@@ -228,7 +228,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				};
 
 			var numbering = function( id ) {
-					return id + CKEDITOR.tools.getNextNumber();
+					return CKEDITOR.tools.getNextId() + '_' + id;
 				},
 				btnLockSizesId = numbering( 'btnLockSizes' ),
 				btnResetSizeId = numbering( 'btnResetSize' ),

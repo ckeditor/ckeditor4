@@ -124,7 +124,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 				return;
 
 			var _ = initPrivateObject.call( this, elementDefinition );
-			_.labelId = CKEDITOR.tools.getNextNumber() + '_label';
+			_.labelId = CKEDITOR.tools.getNextId() + '_label';
 			var children = this._.children = [];
 			/** @ignore */
 			var innerHTML = function() {
@@ -188,7 +188,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 				return;
 
 			initPrivateObject.call( this, elementDefinition );
-			var domId = this._.inputId = CKEDITOR.tools.getNextNumber() + '_textInput',
+			var domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textInput',
 				attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: 'text' },
 				i;
 
@@ -272,7 +272,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 
 			initPrivateObject.call( this, elementDefinition );
 			var me = this,
-				domId = this._.inputId = CKEDITOR.tools.getNextNumber() + '_textarea',
+				domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textarea',
 				attributes = {};
 
 			if ( elementDefinition.validate )
@@ -325,11 +325,11 @@ CKEDITOR.plugins.add( 'dialogui' );
 			/** @ignore */
 			var innerHTML = function() {
 					var myDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
-						id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextNumber() + '_checkbox'
+						id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextId() + '_checkbox'
 					}, true ),
 						html = [];
 
-					var labelId = CKEDITOR.tools.getNextNumber() + '_label';
+					var labelId = CKEDITOR.tools.getNextId() + '_label';
 					var attributes = { 'class': 'cke_dialog_ui_checkbox_input', type: 'checkbox', 'aria-labelledby': labelId };
 					cleanInnerDefinition( myDefinition );
 					if ( elementDefinition[ 'default' ] )
@@ -383,12 +383,12 @@ CKEDITOR.plugins.add( 'dialogui' );
 					var inputHtmlList = [],
 						html = [],
 						commonAttributes = { 'class': 'cke_dialog_ui_radio_item', 'aria-labelledby': this._.labelId },
-						commonName = elementDefinition.id ? elementDefinition.id + '_radio' : CKEDITOR.tools.getNextNumber() + '_radio';
+						commonName = elementDefinition.id ? elementDefinition.id + '_radio' : CKEDITOR.tools.getNextId() + '_radio';
 					for ( var i = 0; i < elementDefinition.items.length; i++ ) {
 						var item = elementDefinition.items[ i ],
 							title = item[ 2 ] !== undefined ? item[ 2 ] : item[ 0 ],
 							value = item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ],
-							inputId = CKEDITOR.tools.getNextNumber() + '_radio_input',
+							inputId = CKEDITOR.tools.getNextId() + '_radio_input',
 							labelId = inputId + '_label',
 							inputDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
 								id: inputId,
@@ -482,7 +482,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 			var outerDefinition = CKEDITOR.tools.extend( {}, elementDefinition );
 			delete outerDefinition.style;
 
-			var labelId = CKEDITOR.tools.getNextNumber() + '_label';
+			var labelId = CKEDITOR.tools.getNextId() + '_label';
 			CKEDITOR.ui.dialog.uiElement.call( this, dialog, outerDefinition, htmlList, 'a', null, {
 				style: elementDefinition.style,
 				href: 'javascript:void(0)',
@@ -529,11 +529,11 @@ CKEDITOR.plugins.add( 'dialogui' );
 			if ( elementDefinition.validate )
 				this.validate = elementDefinition.validate;
 
-			_.inputId = CKEDITOR.tools.getNextNumber() + '_select';
+			_.inputId = CKEDITOR.tools.getNextId() + '_select';
 			/** @ignore */
 			var innerHTML = function() {
 					var myDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
-						id: elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextNumber() + '_select'
+						id: elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextId() + '_select'
 					}, true ),
 						html = [],
 						innerHTML = [],
@@ -589,7 +589,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 
 			/** @ignore */
 			var innerHTML = function() {
-					_.frameId = CKEDITOR.tools.getNextNumber() + '_fileInput';
+					_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
 
 					// Support for custom document.domain in IE.
 					var isCustomDomain = CKEDITOR.env.isCustomDomain();

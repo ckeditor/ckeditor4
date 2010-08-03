@@ -19,6 +19,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Get the range for the current selection.
 			range = range || getRange( editor );
 
+			// We may not have valid ranges to work on, like when inside a
+			// contenteditable=false element.
+			if ( !range )
+				return;
+
 			var doc = range.document;
 
 			// Exit the list when we're inside an empty list item block. (#5376)
@@ -161,6 +166,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Get the range for the current selection.
 			range = range || getRange( editor );
 
+			// We may not have valid ranges to work on, like when inside a
+			// contenteditable=false element.
+			if ( !range )
+				return;
+
 			var doc = range.document;
 
 			// Determine the block element to be used.
@@ -300,7 +310,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function getRange( editor ) {
 		// Get the selection ranges.
-		var ranges = editor.getSelection().getRanges();
+		var ranges = editor.getSelection().getRanges( true );
 
 		// Delete the contents of all ranges except the first one.
 		for ( var i = ranges.length - 1; i > 0; i-- ) {

@@ -8,18 +8,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var alignRemoveRegex = /(-moz-|-webkit-|start|auto)/i;
-
 	function getState( editor, path ) {
 		var firstBlock = path.block || path.blockLimit;
 
 		if ( !firstBlock || firstBlock.getName() == 'body' )
 			return CKEDITOR.TRISTATE_OFF;
 
-		var currentAlign = firstBlock.getComputedStyle( 'text-align' ).replace( alignRemoveRegex, '' );
-		if ( ( !currentAlign && this.isDefaultAlign ) || currentAlign == this.value )
-			return CKEDITOR.TRISTATE_ON;
-		return CKEDITOR.TRISTATE_OFF;
+		return ( getAlignment( firstBlock, editor.config.useComputedState ) == this.value ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+	}
+
+	function getAlignment( element, useComputedState ) {
+		useComputedState = useComputedState === undefined || useComputedState;
+
+		var align = useComputedState ? element.getComputedStyle( 'text-align' ) : element.getStyle( 'text-align' ) || element.getAttribute( 'align' ) || '';
+
+		align && ( align = align.replace( /-moz-|-webkit-|start|auto/i, '' ) );
+
+		!align && useComputedState && ( align = element.getComputedStyle( 'direction' ) == 'rtl' ? 'right' : 'left' );
+
+		return align;
 	}
 
 	function onSelectionChange( evt ) {
@@ -31,9 +38,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function justifyCommand( editor, name, value ) {
 		this.name = name;
 		this.value = value;
-
-		var contentDir = editor.config.contentsLangDirection;
-		this.isDefaultAlign = ( value == 'left' && contentDir == 'ltr' ) || ( value == 'right' && contentDir == 'rtl' );
 
 		var classes = editor.config.justifyClasses;
 		if ( classes ) {
@@ -65,33 +69,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return;
 
 			var bookmarks = selection.createBookmarks(),
-				ranges = selection.getRanges();
-
+				ranges = selection.getRanges( true );
 
 			var cssClassName = this.cssClassName,
 				iterator, block;
+
+			var useComputedState = editor.config.useComputedState;
+			useComputedState = useComputedState === undefined || useComputedState;
+
 			for ( var i = ranges.length - 1; i >= 0; i-- ) {
 				iterator = ranges[ i ].createIterator();
 				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					block.removeAttribute( 'align' );
+					block.removeStyle( 'text-align' );
+
+					// Remove any of the alignment classes from the className.
+					var className = cssClassName && ( block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) ) );
+
+					var apply = ( this.state == CKEDITOR.TRISTATE_OFF ) && ( !useComputedState || ( getAlignment( block, true ) != this.value ) );
 
 					if ( cssClassName ) {
-						// Remove any of the alignment classes from the className.
-						var className = block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) );
-
 						// Append the desired class name.
-						if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
+						if ( apply )
 							block.addClass( cssClassName );
 						else if ( !className )
 							block.removeAttribute( 'class' );
-					} else {
-						if ( this.state == CKEDITOR.TRISTATE_OFF && !this.isDefaultAlign )
-							block.setStyle( 'text-align', this.value );
-						else
-							block.removeStyle( 'text-align' );
-					}
+					} else if ( apply )
+						block.setStyle( 'text-align', this.value );
 				}
 
 			}

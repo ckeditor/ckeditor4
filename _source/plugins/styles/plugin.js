@@ -316,9 +316,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Get the DTD definition for the element. Defaults to "span".
 		var dtd = CKEDITOR.dtd[ elementName ] || ( isUnknownElement = true, CKEDITOR.dtd.span );
 
-		// Bookmark the range so we can re-select it after processing.
-		var bookmark = range.createBookmark();
-
 		// Expand the range.
 		range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 		range.trim();
@@ -458,9 +455,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			}
 		}
 
-		firstNode.remove();
-		lastNode.remove();
-		range.moveToBookmark( bookmark );
+		// Remove the bookmark nodes.
+		range.moveToBookmark( boundaryNodes );
+
 		// Minimize the result range to exclude empty text nodes. (#5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
 	}
@@ -494,11 +491,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 					break;
 
 				if ( this.checkElementRemovable( element ) ) {
-					var endOfElement = range.checkBoundaryOfElement( element, CKEDITOR.END ),
-						startOfElement = !endOfElement && range.checkBoundaryOfElement( element, CKEDITOR.START );
-					if ( startOfElement || endOfElement ) {
+					var isStart;
+
+					if ( range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
 						boundaryElement = element;
-						boundaryElement.match = startOfElement ? 'start' : 'end';
+						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
 						/*
 						 * Before removing the style node, there may be a sibling to the style node
@@ -1097,17 +1094,22 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyStyle( document, remove ) {
-		// Get all ranges from the selection.
-		var selection = document.getSelection();
-		var ranges = selection.getRanges();
-		var func = remove ? this.removeFromRange : this.applyToRange;
+		var selection = document.getSelection(),
+			// Bookmark the range so we can re-select it after processing.
+			bookmarks = selection.createBookmarks(),
+			ranges = selection.getRanges( true ),
+			func = remove ? this.removeFromRange : this.applyToRange,
+			range;
 
-		// Apply the style to the ranges.
-		for ( var i = 0; i < ranges.length; i++ )
-			func.call( this, ranges[ i ] );
+		var iterator = ranges.createIterator();
+		while ( ( range = iterator.getNextRange() ) )
+			func.call( this, range );
 
-		// Select the ranges again.
-		selection.selectRanges( ranges );
+		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
+			selection.selectRanges( ranges );
+			bookmarks[ 0 ].startNode.remove();
+		} else
+			selection.selectBookmarks( bookmarks );
 	}
 })();
 
