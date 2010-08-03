@@ -226,7 +226,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							// Avoid saving selection from within text input. (#5747)
 							var parentTag;
-							if ( nativeSel && nativeSel.type == 'Text' && ( parentTag = nativeSel.createRange().parentElement().nodeName.toLowerCase() ) && parentTag in { input:1,textarea:1 } ) {
+							if ( nativeSel && nativeSel.type != 'Control' && ( parentTag = nativeSel.createRange() ) && ( parentTag = parentTag.parentElement() ) && ( parentTag = parentTag.nodeName ) && parentTag.toLowerCase() in { input:1,textarea:1 } ) {
 								return;
 							}
 
