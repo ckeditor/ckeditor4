@@ -104,10 +104,10 @@ CKEDITOR.lang[ 'de' ] = {
 		targetSelf: 'Gleiches Fenster (_self)',
 		targetParent: 'Oberes Fenster (_parent)',
 		advanced: 'Advanced', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Links nach Rechts (LNR)',
+		langDirRTL: 'Rechts nach Links (RNL)',
+		styles: 'Style',
+		cssClasses: 'Stylesheet Klasse',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>'
@@ -248,11 +248,11 @@ CKEDITOR.lang[ 'de' ] = {
 		cellPad: 'Zellenabstand innen',
 		caption: 'Überschrift',
 		summary: 'Inhaltsübersicht',
-		headers: 'Überschriften',
-		headersNone: 'keine',
+		headers: 'Headers',
+		headersNone: 'Keine',
 		headersColumn: 'Erste Spalte',
 		headersRow: 'Erste Zeile',
-		headersBoth: 'keine',
+		headersBoth: 'Beide',
 		invalidRows: 'Die Anzahl der Zeilen muß größer als 0 sein.',
 		invalidCols: 'Die Anzahl der Spalten muß größer als 0 sein..',
 		invalidBorder: 'Die Rahmenbreite muß eine Zahl sein.',
@@ -712,7 +712,7 @@ CKEDITOR.lang[ 'de' ] = {
 	toolbarExpand: 'Symbolleiste ausklappen',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Leserichtung von Links nach Rechts',
+		rtl: 'Leserichtung von Rechts nach Links'
 	}
 };
