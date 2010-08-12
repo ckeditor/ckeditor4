@@ -78,10 +78,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					heightInput = this.getContentElement( 'info', 'txtHeight' );
 
 				if ( command == 'tableProperties' ) {
-					if ( ( selectedTable = editor.getSelection().getSelectedElement() ) ) {
-						if ( selectedTable.getName() != 'table' )
-							selectedTable = null;
-					} else if ( ranges.length > 0 ) {
+					if ( ( selectedTable = selection.getSelectedElement() ) )
+						selectedTable = selectedTable.getAscendant( 'table', true );
+					else if ( ranges.length > 0 ) {
 						// Webkit could report the following range on cell selection (#4948):
 						// <table><tr><td>[&nbsp;</td></tr></table>]
 						if ( CKEDITOR.env.webkit )
