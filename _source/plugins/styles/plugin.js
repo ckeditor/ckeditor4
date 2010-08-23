@@ -340,7 +340,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var nodeType = currentNode.type;
 				var nodeName = nodeType == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null;
 
-				if ( nodeName && currentNode.getAttribute( '_fck_bookmark' ) ) {
+				if ( nodeName && currentNode.getAttribute( '_cke_bookmark' ) ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}
@@ -697,7 +697,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	function splitIntoPres( preBlock ) {
 		// Exclude the ones at header OR at tail,
 		// and ignore bookmark content between them.
-		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+_fck_bookmark.*?\/span>))*\n(?!$)/gi,
+		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+_cke_bookmark.*?\/span>))*\n(?!$)/gi,
 			blockName = preBlock.getName(),
 			splitedHtml = replace( preBlock.getOuterHtml(), duoBrRegex, function( match, charBefore, bookmark ) {
 				return charBefore + '</pre>' + bookmark + '<pre>';
@@ -715,7 +715,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var headBookmark = '',
 			tailBookmark = '';
 
-		str = str.replace( /(^<span[^>]+_fck_bookmark.*?\/span>)|(<span[^>]+_fck_bookmark.*?\/span>$)/gi, function( str, m1, m2 ) {
+		str = str.replace( /(^<span[^>]+_cke_bookmark.*?\/span>)|(<span[^>]+_cke_bookmark.*?\/span>$)/gi, function( str, m1, m2 ) {
 			m1 && ( headBookmark = m1 );
 			m2 && ( tailBookmark = m2 );
 			return '';
