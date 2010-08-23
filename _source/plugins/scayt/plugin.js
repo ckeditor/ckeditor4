@@ -422,13 +422,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					items_order_str += 'scayt_' + items_order[ pos ] + ( items_order.length != parseInt( pos, 10 ) + 1 ? ',' : '' );
 			}
 
-			// Register scayt rbc menu group.
-			if ( editor.config.scayt_contextMenuOntop )
-				// Put it on top of all context menu items
-				editor.config.menu_groups = items_order_str + ',' + editor.config.menu_groups;
-			else
-				// Put it down
-				editor.config.menu_groups = editor.config.menu_groups + ',' + items_order_str;
+			// Put it on top of all context menu items (#5717)
+			editor.config.menu_groups = items_order_str + ',' + editor.config.menu_groups;
 		},
 
 		init: function( editor ) {
@@ -811,15 +806,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @default ''
  * @example
  * config.scayt_userDictionaryName = 'MyDictionary';
- */
-
-/**
- * Makes it possible to place the SCAYT context menu items above others.
- * @name CKEDITOR.config.scayt_contextMenuOntop
- * @type Boolean
- * @default false
- * @example
- * config.scayt_contextMenuOntop = true;
  */
 
 /**
