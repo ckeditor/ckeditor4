@@ -281,6 +281,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: default;
 }
 
+.cke_skin_v2 .cke_rtl .cke_button .cke_icon
+{
+	background-image: url(icons_rtl.png);
+}
+
 .cke_skin_v2 .cke_button .cke_label
 {
 	cursor: default;

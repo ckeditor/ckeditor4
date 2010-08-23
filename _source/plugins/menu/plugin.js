@@ -184,8 +184,11 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
+				var chromeRoot = editor.element.getNext().getChild( 1 );
+				var mixedContentClass = chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+
 				// Build the HTML that composes the menu and its items.
-				var output = [ '<div class="cke_menu" role="presentation">' ];
+				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];
 
 				var length = items.length,
 					lastGroup = length && items[ 0 ].group;

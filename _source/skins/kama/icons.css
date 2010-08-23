@@ -248,6 +248,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 -416px;
 }
 
+.cke_skin_kama .cke_mixed_dir_content .cke_button_numberedlist .cke_icon
+{
+	background-position: 0 -1217px;
+}
+
+.cke_skin_kama .cke_mixed_dir_content .cke_button_bulletedlist .cke_icon
+{
+	background-position: 0 -1233px;
+}
+
 .cke_skin_kama .cke_button_outdent .cke_icon
 {
 	background-position: 0 -432px;
@@ -256,6 +266,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_button_indent .cke_icon
 {
 	background-position: 0 -448px;
+}
+
+.cke_skin_kama .cke_mixed_dir_content .cke_button_indent .cke_icon
+{
+	background-position: 0 -1265px;
+}
+
+.cke_skin_kama .cke_mixed_dir_content .cke_button_outdent .cke_icon
+{
+	background-position: 0 -1249px;
 }
 
 .cke_skin_kama .cke_button_justifyleft .cke_icon

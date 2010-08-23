@@ -9,11 +9,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
 
 	function onSelectionChange( evt ) {
-		evt.editor.getCommand( 'bidirtl' ).setState( getState( evt.editor, evt.data.path, 'rtl' ) );
-		evt.editor.getCommand( 'bidiltr' ).setState( getState( evt.editor, evt.data.path, 'ltr' ) );
-	}
-
-	function getState( editor, path, dir ) {
+		var editor = evt.editor,
+			path = evt.data.path;
 		var useComputedState = editor.config.useComputedState,
 			selectedElement;
 
@@ -35,9 +32,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !selectedElement || selectedElement.getName() == 'body' )
 			return CKEDITOR.TRISTATE_OFF;
 
-		selectedElement = useComputedState ? selectedElement.getComputedStyle( 'direction' ) : selectedElement.getStyle( 'direction' ) || selectedElement.getAttribute( 'dir' );
+		var selectionDir = useComputedState ? selectedElement.getComputedStyle( 'direction' ) : selectedElement.getStyle( 'direction' ) || selectedElement.getAttribute( 'dir' );
 
-		return ( selectedElement == dir ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+		editor.getCommand( 'bidirtl' ).setState( selectionDir == 'rtl' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+		editor.getCommand( 'bidiltr' ).setState( selectionDir == 'ltr' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+
+		var chromeRoot = editor.container.getChild( 1 );
+
+		if ( selectionDir != editor.lang.dir )
+			chromeRoot.addClass( 'cke_mixed_dir_content' );
+		else
+			chromeRoot.removeClass( 'cke_mixed_dir_content' );
 	}
 
 	function switchDir( element, dir, editor ) {

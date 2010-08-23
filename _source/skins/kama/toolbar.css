@@ -242,6 +242,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_rtl .cke_button .cke_icon
 {
+	background-image: url(icons_rtl.png);
+}
+
+.cke_skin_kama .cke_rtl .cke_button .cke_icon
+{
 	float: right;
 }
 
