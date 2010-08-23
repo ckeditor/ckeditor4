@@ -177,7 +177,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				style: 'width:350px',
 				setup: function( name, element ) {
 					if ( name == 'clear' )
-						this.setValue( '' );
+						this.setValue( this.
+					default || '' );
 					else if ( name == 'select' ) {
 						this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
 					}
