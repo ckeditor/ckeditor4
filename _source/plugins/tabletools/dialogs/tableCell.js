@@ -21,10 +21,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	function getDialogValue( dialogName, callback ) {
 		var onOk = function() {
 				releaseHandlers( this );
-				callback( this );
+				callback( this, this._.parentDialog );
+				this._.parentDialog.changeFocus( true );
 			};
 		var onCancel = function() {
 				releaseHandlers( this );
+				this._.parentDialog.changeFocus();
 			};
 		var releaseHandlers = function( dialog ) {
 				dialog.removeListener( 'ok', onOk );
