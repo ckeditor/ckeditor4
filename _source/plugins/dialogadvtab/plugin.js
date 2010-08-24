@@ -104,7 +104,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( tabConfig.styles || tabConfig.classes ) {
 				contents = [];
 
-				if ( tabConfig.id ) {
+				if ( tabConfig.styles ) {
 					contents.push({
 						id: 'advStyles',
 						att: 'style',
