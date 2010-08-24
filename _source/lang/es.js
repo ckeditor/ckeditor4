@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'es' ] = {
 		targetTop: 'Ventana principal (_top)',
 		targetSelf: 'Misma ventana (_self)',
 		targetParent: 'Ventana padre (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

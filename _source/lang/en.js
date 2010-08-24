@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'en' ] = {
 		targetTop: 'Topmost Window (_top)',
 		targetSelf: 'Same Window (_self)',
 		targetParent: 'Parent Window (_parent)',
-		advanced: 'Advanced',
 		langDirLTR: 'Left to Right (LTR)',
 		langDirRTL: 'Right to Left (RTL)',
 		styles: 'Style',

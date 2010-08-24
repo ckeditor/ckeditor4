@@ -686,7 +686,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		reset: (function() {
 			var fn = function( widget ) {
 					if ( widget.reset )
-						widget.reset();
+						widget.reset( 1 );
 				};
 			return function() {
 				this.foreach( fn );
@@ -2126,13 +2126,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/**
 		 * Sets the value of this dialog UI object.
 		 * @param {Object} value The new value.
+		 * @param {Boolean} noChangeEvent Internal commit, to supress 'change' event on this element.
 		 * @returns {CKEDITOR.dialog.uiElement} The current UI element.
 		 * @example
 		 * uiElement.setValue( 'Dingo' );
 		 */
-		setValue: function( value ) {
+		setValue: function( value, noChangeEvent ) {
 			this.getInputElement().setValue( value );
-			this.fire( 'change', { value: value } );
+			!noChangeEvent && this.fire( 'change', { value: value } );
 			return this;
 		},
 

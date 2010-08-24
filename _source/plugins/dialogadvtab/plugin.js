@@ -37,8 +37,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	var isUpdating;
-
 	CKEDITOR.plugins.add( 'dialogadvtab', {
 		/**
 		 *
@@ -53,8 +51,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var result = {
 				id: 'advanced',
-				label: lang.advanced,
-				title: lang.advanced,
+				label: lang.advancedTab,
+				title: lang.advancedTab,
 				elements: [
 					{
 					type: 'vbox',
@@ -122,12 +120,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 
 						updateStyle: function( name, value ) {
-							if ( isUpdating )
-								return;
-
-							// Flag to avoid recursion.
-							isUpdating = 1;
-
 							var styles = this.getValue();
 
 							// Remove the current value.
@@ -140,9 +132,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								styles += name + ': ' + value;
 							}
 
-							this.setValue( styles );
+							this.setValue( styles, true );
 
-							isUpdating = 0;
 						},
 
 						setup: setupAdvParams,

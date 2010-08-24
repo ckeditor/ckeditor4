@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'sk' ] = {
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

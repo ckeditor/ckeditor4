@@ -102,7 +102,6 @@ CKEDITOR.lang[ 'tr' ] = {
 		targetTop: 'Enüst Pencere (_top)',
 		targetSelf: 'Aynı Pencere (_self)',
 		targetParent: 'Ana Pencere (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

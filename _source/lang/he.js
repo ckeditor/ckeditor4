@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'he' ] = {
 		targetTop: 'החלון העליון ביותר (_top)',
 		targetSelf: 'אותו חלון (_self)',
 		targetParent: 'חלון האב (_parent)',
-		advanced: 'מתקדם',
 		langDirLTR: 'שמאל לימין (LTR)',
 		langDirRTL: 'ימין לשמאל (RTL)',
 		styles: 'סגנון',

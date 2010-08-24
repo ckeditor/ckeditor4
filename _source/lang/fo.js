@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'fo' ] = {
 		targetTop: 'Vindeyga ovast (_top)',
 		targetSelf: 'Sama vindeyga (_self)',
 		targetParent: 'Upphavligt vindeyga (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

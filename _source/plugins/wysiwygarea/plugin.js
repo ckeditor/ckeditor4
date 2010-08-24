@@ -791,7 +791,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					focus: function() {
 						if ( isLoadingData )
 							isPendingFocus = true;
-						else if ( editor.window ) {
+						// Temporary solution caused by #6025, supposed be unified by #6154.
+						else if ( CKEDITOR.env.opera && editor.document ) {
+							editor.document.getBody().focus();
+
+							editor.selectionChange();
+						} else if ( !CKEDITOR.env.opera && editor.window ) {
 							editor.window.focus();
 
 							editor.selectionChange();

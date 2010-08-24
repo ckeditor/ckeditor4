@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		targetTop: 'Päällimmäinen ikkuna (_top)',
 		targetSelf: 'Sama ikkuna (_self)',
 		targetParent: 'Ylemmän tason ikkuna (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

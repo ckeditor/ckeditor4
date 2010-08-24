@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'vi' ] = {
 		targetTop: 'Cửa sổ trên cùng (_top)',
 		targetSelf: 'Tại trang (_self)',
 		targetParent: 'Cửa sổ cha (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

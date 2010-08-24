@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'no' ] = {
 		targetTop: 'Hele vindu (_top)',
 		targetSelf: 'Samme vindu (_self)',
 		targetParent: 'Foreldrevindu (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

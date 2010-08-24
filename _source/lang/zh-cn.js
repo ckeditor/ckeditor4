@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		targetTop: '整页 (_top)',
 		targetSelf: '本窗口 (_self)',
 		targetParent: '父窗口 (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING

@@ -103,7 +103,6 @@ CKEDITOR.lang[ 'de' ] = {
 		targetTop: 'Oberstes Fenster (_top)',
 		targetSelf: 'Gleiches Fenster (_self)',
 		targetParent: 'Oberes Fenster (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Links nach Rechts (LNR)',
 		langDirRTL: 'Rechts nach Links (RNL)',
 		styles: 'Style',

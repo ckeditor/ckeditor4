@@ -102,7 +102,6 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		targetTop: 'Janela de Cima (_top)',
 		targetSelf: 'Mesma Janela (_self)',
 		targetParent: 'Janela Pai (_parent)',
-		advanced: 'Advanced', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
