@@ -62,6 +62,24 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		return null;
 	}
 
+
+	function clearOrRecoverTextInputValue( container, isRecover ) {
+		var inputs = container.$.getElementsByTagName( 'input' );
+		for ( var i = 0, length = inputs.length; i < length; i++ ) {
+			var item = new CKEDITOR.dom.element( inputs[ i ] );
+
+			if ( item.getAttribute( 'type' ).toLowerCase() == 'text' ) {
+				if ( isRecover ) {
+					item.setAttribute( 'value', item.getCustomData( 'fake_value' ) || '' );
+					item.removeCustomData( 'fake_value' );
+				} else {
+					item.setCustomData( 'fake_value', item.getAttribute( 'value' ) );
+					item.setAttribute( 'value', '' );
+				}
+			}
+		}
+	}
+
 	/**
 	 * This is the base class for runtime dialog objects. An instance of this
 	 * class represents a single named dialog for a single editor instance.
@@ -601,11 +619,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// First, set the dialog to an appropriate size.
 			this.resize( definition.minWidth, definition.minHeight );
 
-			// Select the first tab by default.
-			this.selectPage( this.definition.contents[ 0 ].id );
-
 			// Reset all inputs back to their default value.
 			this.reset();
+
+			// Select the first tab by default.
+			this.selectPage( this.definition.contents[ 0 ].id );
 
 			// Set z-index.
 			if ( CKEDITOR.dialog._.currentZIndex === null )
@@ -868,7 +886,21 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var selected = this._.tabs[ id ];
 			selected[ 0 ].addClass( 'cke_dialog_tab_selected' );
-			selected[ 1 ].show();
+
+			// [IE] a unvisible input[type='text'] will enlarge it's width 
+			// if it's value is long when it show( #5649 )
+			// so we clear it's value before it shows and then recover it
+			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
+				clearOrRecoverTextInputValue( selected[ 1 ] );
+				selected[ 1 ].show();
+				setTimeout( function() {
+					clearOrRecoverTextInputValue( selected[ 1 ], true );
+				}, 0 );
+			} else {
+				selected[ 1 ].show();
+			}
+
+
 			this._.currentTabId = id;
 			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
 		},
