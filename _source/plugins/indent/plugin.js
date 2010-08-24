@@ -251,8 +251,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ranges = selection && selection.getRanges( true ),
 				range;
 
+			var skipBookmarks = function( node ) {
+					return !node.hasAttribute( '_cke_bookmark' );
+				};
+
 			var iterator = ranges.createIterator();
 			while ( ( range = iterator.getNextRange() ) ) {
+				// Do not indent body. (#6138)
+				range.shrink( CKEDITOR.SHRINK_ELEMENT );
+				if ( range.endContainer.getName() == 'body' )
+					range.setEndAt( range.endContainer.getLast( skipBookmarks ), CKEDITOR.POSITION_BEFORE_END );
+
 				var startContainer = range.startContainer,
 					endContainer = range.endContainer,
 					rangeRoot = range.getCommonAncestor(),
