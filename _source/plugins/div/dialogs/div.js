@@ -290,8 +290,13 @@
 						},
 						commit: function( element ) {
 							var styleName;
-							if ( ( styleName = this.getValue() ) )
-								styles[ styleName ].applyToObject( element );
+							if ( ( styleName = this.getValue() ) ) {
+								var style = styles[ styleName ];
+								var customData = element.getCustomData( 'elementStyle' ) || '';
+
+								style.applyToObject( element );
+								element.setCustomData( 'elementStyle', customData + style._.definition.attributes.style );
+							}
 						}
 					},
 						{
@@ -342,9 +347,8 @@
 							'default': '',
 							commit: function( element ) {
 								// Merge with 'elementStyle', which is of higher priority.
-								var value = this.getValue(),
-									merged = [ value, element.getAttribute( 'style' ) ].join( ';' );
-								value && element.setAttribute( 'style', merged );
+								var merged = this.getValue() + ( element.getCustomData( 'elementStyle' ) || '' );
+								element.setAttribute( 'style', merged );
 							}
 						}
 						]
@@ -449,6 +453,7 @@
 				this.hide();
 			},
 			onHide: function() {
+				this._element.removeCustomData( 'elementStyle' );
 				delete this._element;
 			}
 		};
