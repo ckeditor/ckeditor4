@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -481,7 +482,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										field.setValue( url ); // And call this.onChange()
 										// Manually set the initial value.(#4191)
 										field.setInitValue();
-										field.focus();
 									}
 								},
 								commit: function( type, element ) {
