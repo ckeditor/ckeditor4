@@ -63,7 +63,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}
 
-				$sel.createRange().pasteHTML( data );
+				try {
+					$sel.createRange().pasteHTML( data );
+				} catch ( e ) {}
 
 				if ( selIsLocked )
 					this.getSelection().lock();
