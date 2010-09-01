@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						type: 'select',
 						label: lang.langDir,
 						'default': '',
-						style: 'width:110px',
+						style: 'width:100%',
 						items: [
 							[ lang.notSet, '' ],
 							[ lang.langDirLTR, 'ltr' ],
