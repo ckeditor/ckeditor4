@@ -463,6 +463,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				this.commitContent( cells[ i ] );
 
 			selection.selectBookmarks( bookmarks );
+
+			// Force selectionChange event because of alignment style.
+			var firstElement = selection.getStartElement();
+			var currentPath = new CKEDITOR.dom.elementPath( firstElement );
+
+			this._.editor._.selectionPreviousPath = currentPath;
+			this._.editor.fire( 'selectionChange', { selection: selection, path: currentPath, element: firstElement } );
 		}
 	};
 });
