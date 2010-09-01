@@ -140,7 +140,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Convert the array back to a DOM forest (yes we might have a few subtrees now).
 				// And replace the old list with the new forest.
-				var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, 0 );
+				var newListDir = listNode.getAttribute( 'dir' ) || listNode.getStyle( 'direction' );
+				var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, newListDir );
 
 				// Avoid nested <li> after outdent even they're visually same,
 				// recording them for later refactoring.(#3982)
