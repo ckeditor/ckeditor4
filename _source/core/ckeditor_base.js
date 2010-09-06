@@ -159,7 +159,7 @@ if ( !window.CKEDITOR ) {
 					resource = this.basePath + resource;
 
 				// Add the timestamp, except for directories.
-				if ( this.timestamp && resource.charAt( resource.length - 1 ) != '/' && !/[&?]t=/.test( resource ) )
+				if ( this.timestamp && resource.charAt( resource.length - 1 ) != '/' && !( /[&?]t=/ ).test( resource ) )
 					resource += ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + this.timestamp;
 
 				return resource;

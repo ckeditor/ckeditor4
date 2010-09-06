@@ -31,8 +31,9 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 			height = 420;
 
 		var top = parseInt( ( window.screen.height - height ) / 2, 10 ),
-			left = parseInt( ( window.screen.width - width ) / 2, 10 ),
-			options = ( options || 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes' ) + ',width=' + width +
+			left = parseInt( ( window.screen.width - width ) / 2, 10 );
+
+		options = ( options || 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes' ) + ',width=' + width +
 						',height=' + height +
 						',top=' + top +
 						',left=' + left;
