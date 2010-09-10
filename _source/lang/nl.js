@@ -103,10 +103,10 @@ CKEDITOR.lang[ 'nl' ] = {
 		targetTop: 'Hele venster (_top)',
 		targetSelf: 'Zelfde venster (_self)',
 		targetParent: 'Origineel venster (_parent)',
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Links naar rechts (LTR)',
+		langDirRTL: 'Rechts naar links (RTL)',
+		styles: 'Stijlen',
+		cssClasses: 'Stylesheet klassen',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -189,25 +189,25 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'Eigenschappen genummerde lijst',
+		bulletedTitle: 'Eigenschappen lijst met opsommingstekens',
+		type: 'Type',
+		start: 'Start',
+		validateStartNumber: 'Starnummer van de lijst moet een heel nummer zijn.',
+		circle: 'Cirkel',
+		disc: 'Schijf',
+		square: 'Vierkant',
+		none: 'Geen',
+		notset: '<niet gezet>',
+		armenian: 'Armeense numering',
+		georgian: 'Greorgische numering (an, ban, gan, etc.)',
+		lowerRoman: 'Romeins kleine letters (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'Romeins hoofdletters (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'Kleine letters (a, b, c, d, e, etc.)',
+		upperAlpha: 'Hoofdletters (A, B, C, D, E, etc.)',
+		lowerGreek: 'Grieks kleine letters (alpha, beta, gamma, etc.)',
+		decimal: 'Cijfers (1, 2, 3, etc.)',
+		decimalLeadingZero: 'Cijfers beginnen met nul (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -648,7 +648,7 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	scayt: {
 		title: 'Controleer de spelling tijdens het typen',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'Niet ondersteund door Opera',
 		enable: 'SCAYT inschakelen',
 		disable: 'SCAYT uitschakelen',
 		about: 'Over SCAYT',
@@ -662,20 +662,20 @@ CKEDITOR.lang[ 'nl' ] = {
 		emptyDic: 'De naam van het woordenboek mag niet leeg zijn.',
 
 		optionsTab: 'Opties',
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		allCaps: 'Negeer woorden helemaal in hoofdletters',
+		ignoreDomainNames: 'Negeer domeinnamen',
+		mixedCase: 'Negeer woorden met hoofd- en kleine letters',
+		mixedWithDigits: 'Negeer woorden met cijfers',
 
 		languagesTab: 'Talen',
 
 		dictionariesTab: 'Woordenboeken',
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dic_field_name: 'Naam woordenboek',
+		dic_create: 'Aanmaken',
+		dic_restore: 'Terugzetten',
+		dic_delete: 'Verwijderen',
+		dic_rename: 'Hernoemen',
+		dic_info: 'Initieel wordt het gebruikerswoordenboek opgeslagen in een cookie. Cookies zijn echter beperkt in grootte. Zodra het gebruikerswoordenboek het punt bereikt waarop het niet meer in een cookie opgeslagen kan worden, dan wordt het woordenboek op de server opgeslagen. Om je persoonlijke woordenboek op je eigen server op te slaan, moet je een mapnaam opgeven. Indien je al een woordenboek hebt opgeslagen, typ dan de naam en klik op de Terugzetten knop.',
 
 		aboutTab: 'Over'
 	},
@@ -701,7 +701,7 @@ CKEDITOR.lang[ 'nl' ] = {
 
 	colordialog: {
 		title: 'Selecteer kleur',
-		options: 'Color Options', // MISSING
+		options: 'Kleuropties',
 		highlight: 'Actief',
 		selected: 'Geselecteerd',
 		clear: 'Wissen'
@@ -711,7 +711,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	toolbarExpand: 'Werkbalk uitklappen',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Schrijfrichting van links naar rechts',
+		rtl: 'Schrijfrichting van rechts naar links'
 	}
 };
