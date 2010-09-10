@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -52,8 +53,13 @@ CKEDITOR.plugins.add( 'pagebreak', {
 							child = style && element.children.length == 1 && element.children[ 0 ],
 							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
 
-						if ( childStyle && ( /page-break-after\s*:\s*always/i ).test( style ) && ( /display\s*:\s*none/i ).test( childStyle ) )
-							return editor.createFakeParserElement( element, 'cke_pagebreak', 'div' );
+						if ( childStyle && ( /page-break-after\s*:\s*always/i ).test( style ) && ( /display\s*:\s*none/i ).test( childStyle ) ) {
+							var fakeImg = editor.createFakeParserElement( element, 'cke_pagebreak', 'div' );
+							var label = editor.lang.pagebreakAlt;
+							fakeImg.attributes[ 'alt' ] = label;
+							fakeImg.attributes[ 'aria-label' ] = label;
+							return fakeImg;
+						}
 					}
 				}
 			});
@@ -66,10 +72,13 @@ CKEDITOR.plugins.add( 'pagebreak', {
 CKEDITOR.plugins.pagebreakCmd = {
 	exec: function( editor ) {
 		// Create the element that represents a print break.
+		var label = editor.lang.pagebreakAlt;
 		var breakObject = CKEDITOR.dom.element.createFromHtml( '<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>' );
 
 		// Creates the fake image used for this element.
 		breakObject = editor.createFakeElement( breakObject, 'cke_pagebreak', 'div' );
+		breakObject.setAttribute( 'alt', label );
+		breakObject.setAttribute( 'aria-label', label );
 
 		var ranges = editor.getSelection().getRanges( true );
 
