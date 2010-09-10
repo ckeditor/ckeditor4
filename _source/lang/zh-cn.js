@@ -96,17 +96,17 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		advancedTab: '高级',
 		validateNumberFailed: '需要输入数字格式',
 		confirmNewPage: '当前文档内容未保存,是否确认新建文档？',
-		confirmCancel: '部分选项尚未保存，是否确认关闭对话框？',
+		confirmCancel: '部分修改尚未保存，是否确认关闭对话框？',
 		options: '选项',
 		target: '目标窗口',
 		targetNew: '新窗口 (_blank)',
 		targetTop: '整页 (_top)',
 		targetSelf: '本窗口 (_self)',
 		targetParent: '父窗口 (_parent)',
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: '从左到右 (LTR)',
+		langDirRTL: '从右到左 (RTL)',
+		styles: '样式',
+		cssClasses: '样式类',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 不可用</span>'
@@ -193,7 +193,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		bulletedTitle: '项目列表属性',
 		type: '标记类型',
 		start: '开始序号',
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
+		validateStartNumber: '列表开始序号必须为整数格式',
 		circle: '空心圆',
 		disc: '实心圆',
 		square: '实心方块',
@@ -277,10 +277,10 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 			wordWrap: '自动换行',
 			hAlign: '水平对齐',
 			vAlign: '垂直对齐',
-			alignTop: '顶端对齐',
-			alignMiddle: '中间对齐',
-			alignBottom: '底部对齐',
-			alignBaseline: '基线对齐',
+			alignTop: '顶端',
+			alignMiddle: '中间',
+			alignBottom: '底部',
+			alignBaseline: '基线',
 			bgColor: '背景颜色',
 			borderColor: '边框颜色',
 			data: '数据',
@@ -675,7 +675,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		dic_restore: '还原',
 		dic_delete: '删除',
 		dic_rename: '重命名',
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dic_info: '一开始用户词典储存在 Cookie 中, 但是 Cookies 的容量是有限的, 当用户词典增长到超出 Cookie 限制时就无法再储存了, 这时您可以将词典储存到我们的服务器上. 要把您的个人词典到储存到我们的服务器上的话, 需要为您的词典指定一个名称, 如果您在我们的服务器上已经有储存有一个词典, 请输入词典名称并按还原按钮.',
 
 		aboutTab: '关于'
 	},
@@ -684,7 +684,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		title: '关于CKEditor',
 		dlgTitle: '关于CKEditor',
 		moreInfo: '访问我们的网站以获取更多关于协议的信息',
-		copy: '版权所有 &copy; $1.'
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
 	maximize: '全屏',
@@ -692,9 +692,9 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 
 	fakeobjects: {
 		anchor: '锚点',
-		flash: 'Flash',
+		flash: 'Flash 动画',
 		div: '分页',
-		unknown: '位置对象'
+		unknown: '未知对象'
 	},
 
 	resize: '拖拽以改变尺寸',
@@ -711,7 +711,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	toolbarExpand: '展开工具栏',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: '文字方向为从左至右',
+		rtl: '文字方向为从右至左'
 	}
 };
