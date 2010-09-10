@@ -269,3 +269,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: auto;
 	line-height: 17px;
 }
+
+.cke_skin_kama .cke_rtl .cke_rcombo .cke_font .cke_text,
+.cke_skin_kama .cke_rtl .cke_rcombo .cke_fontSize .cke_text
+{
+	direction: ltr;
+}

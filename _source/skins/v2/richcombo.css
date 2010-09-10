@@ -289,3 +289,9 @@
 {
 	height: 22px;
 }
+
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_font,
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_fontSize
+{
+	direction: ltr;
+}

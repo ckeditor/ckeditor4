@@ -289,3 +289,9 @@
 {
 	float: none;
 }
+
+.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_font,
+.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_fontSize
+{
+	direction: ltr;
+}
