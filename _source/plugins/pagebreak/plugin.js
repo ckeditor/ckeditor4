@@ -99,7 +99,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 			var previous = breakObject.getPrevious();
 
-			if ( CKEDITOR.dtd[ previous.getName() ].div )
+			if ( previous && CKEDITOR.dtd[ previous.getName() ].div )
 				breakObject.move( previous );
 		}
 
