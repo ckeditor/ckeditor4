@@ -129,12 +129,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Create a clone of the row.
 		var newRow = row.clone( true );
 
-		// Insert the new row before of it.
-		newRow.insertBefore( row );
+		insertBefore ? newRow.insertBefore( row ) : newRow.insertAfter( row );
 
-		// Clean one of the rows to produce the illusion of inserting an empty row
-		// before or after.
-		clearRow( insertBefore ? newRow.$ : row.$ );
+		// Clean the new row.
+		clearRow( newRow.$ );
 	}
 
 	function deleteRows( selectionOrRow ) {
