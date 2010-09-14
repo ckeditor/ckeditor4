@@ -217,10 +217,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !bodyChildsNum || ( bodyChildsNum == 1 && body.getFirst().hasAttribute( '_moz_editor_bogus_node' ) ) ) {
 			restoreDirty( editor );
 
+			// Memorize scroll position to restore it later (#4472).
+			var hostDocument = editor.element.getDocument();
+			var hostDocumentElement = hostDocument.getDocumentElement();
+			var scrollTop = hostDocumentElement.$.scrollTop;
+			var scrollLeft = hostDocumentElement.$.scrollLeft;
+
 			// Simulating keyboard character input by dispatching a keydown of white-space text.
 			var keyEventSimulate = doc.$.createEvent( "KeyEvents" );
 			keyEventSimulate.initKeyEvent( 'keypress', true, true, win.$, false, false, false, false, 0, 32 );
 			doc.$.dispatchEvent( keyEventSimulate );
+
+			if ( scrollTop != hostDocumentElement.$.scrollTop || scrollLeft != hostDocumentElement.$.scrollLeft )
+				hostDocument.getWindow().$.scrollTo( scrollLeft, scrollTop );
 
 			// Restore the original document status by placing the cursor before a bogus br created (#5021).
 			bodyChildsNum && body.getFirst().remove();
