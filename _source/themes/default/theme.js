@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -265,10 +266,6 @@ CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
  * editor.resize( '100%', 450, true );
  */
 CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
-	var numberRegex = /^\d+$/;
-	if ( numberRegex.test( width ) )
-		width += 'px';
-
 	var container = this.container,
 		contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
 		outer = resizeInner ? container.getChild( 1 ) : container;
@@ -277,7 +274,8 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, res
 	// WEBKIT BUG: Webkit requires that we put the editor off from display when we
 	// resize it. If we don't, the browser crashes!
 	CKEDITOR.env.webkit && outer.setStyle( 'display', 'none' );
-	outer.setStyle( 'width', width );
+	// Set as border box width. (#5353)
+	outer.setSize( 'width', width, true );
 	if ( CKEDITOR.env.webkit ) {
 		outer.$.offsetWidth;
 		outer.setStyle( 'display', '' );

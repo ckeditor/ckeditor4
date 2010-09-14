@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1339,5 +1340,31 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
 				event.data.preventDefault();
 		});
-	}
+	},
+
+	/**
+	 *  Update the element's size with box model awareness.
+	 * @name CKEDITOR.dom.element.setSize
+	 * @param {String} type [width|height]
+	 * @param {Number} size The length unit in px.
+	 * @param isBorderBox Apply the {@param width} and {@param height} based on border box model.
+	 */
+	setSize: (function() {
+		var sides = {
+			width: [ "border-left-width", "border-right-width", "padding-left", "padding-right" ],
+			height: [ "border-top-width", "border-bottom-width", "padding-top", "padding-bottom" ]
+		};
+
+		return function( type, size, isBorderBox ) {
+			if ( typeof size == 'number' ) {
+				if ( isBorderBox && !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) ) {
+					var adjustment = 0;
+					for ( var i = 0, len = sides[ type ].length; i < len; i++ )
+						adjustment += parseInt( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 );
+					size -= adjustment;
+				}
+				this.setStyle( type, size + 'px' );
+			}
+		}
+	})()
 });
