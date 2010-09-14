@@ -228,7 +228,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
 	}
 
-	var protectAttributeRegex = /<(?:a|area|img|input)[\s\S]*?\s((?:href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+)))/gi;
+	var protectAttributeRegex = /<((?:a|area|img|input)[\s\S]*?\s)((href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+)))([^>]*)>/gi,
+		findSavedSrcRegex = /\s_cke_saved_src\s*=/;
 
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
@@ -239,7 +240,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var protectSelfClosingRegex = /<cke:(param|embed)([^>]*?)\/?>(?!\s*<\/cke:\1)/gi;
 
 	function protectAttributes( html ) {
-		return html.replace( protectAttributeRegex, '$& _cke_saved_$1' );
+		return html.replace( protectAttributeRegex, function( tag, beginning, fullAttr, attrName, end ) {
+			// We should not rewrite the _cke_saved_src attribute (#5218)
+			if ( attrName == 'src' && findSavedSrcRegex.test( tag ) )
+				return tag;
+			else
+				return '<' + beginning + fullAttr + ' _cke_saved_' + fullAttr + end + '>';
+		});
 	}
 
 	function protectElements( html ) {
