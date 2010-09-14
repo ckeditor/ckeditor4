@@ -72,7 +72,7 @@ li.cke_panel_listItem
 	padding: 2px;
 	display: block;
 	border: 1px solid #fff;
-	color: inherit;
+	color: inherit !important;
 	text-decoration: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
