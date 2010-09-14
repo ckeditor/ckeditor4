@@ -30,7 +30,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		selectedElement = selectedElement || path.block || path.blockLimit;
 
 		if ( !selectedElement || selectedElement.getName() == 'body' )
-			return CKEDITOR.TRISTATE_OFF;
+			return;
 
 		var selectionDir = useComputedState ? selectedElement.getComputedStyle( 'direction' ) : selectedElement.getStyle( 'direction' ) || selectedElement.getAttribute( 'dir' );
 
