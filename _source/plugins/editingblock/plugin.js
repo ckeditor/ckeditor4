@@ -92,7 +92,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				setTimeout( function() {
 					editor.fireOnce( 'instanceReady' );
 					CKEDITOR.fire( 'instanceReady', null, editor );
-				});
+				}, 0 );
 			});
 		}
 	});

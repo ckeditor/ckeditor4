@@ -314,14 +314,14 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						setTimeout( function() {
 							firstChar.focus();
 							onFocus( null, firstChar );
-						});
+						}, 0 );
 					},
 					onShow: function() {
 						var firstChar = this.getElement().getChild( [ 0, 0, 0, 0, 0 ] );
 						setTimeout( function() {
 							firstChar.focus();
 							onFocus( null, firstChar );
-						});
+						}, 0 );
 					},
 					onLoad: function( event ) {
 						dialog = event.sender;

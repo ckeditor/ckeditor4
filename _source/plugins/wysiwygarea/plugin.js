@@ -177,7 +177,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !editor.checkDirty() )
 			setTimeout( function() {
 			editor.resetDirty();
-		});
+		}, 0 );
 	}
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),

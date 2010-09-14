@@ -58,7 +58,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( plugin.getScayt( editor ) && !editor.checkDirty() )
 							setTimeout( function() {
 							editor.resetDirty();
-						});
+						}, 0 );
 					};
 
 					var scayt_custom_params = window.scayt_custom_params;
