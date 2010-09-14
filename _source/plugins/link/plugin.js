@@ -151,9 +151,15 @@ CKEDITOR.plugins.link = {
 	 * </pre>
 	 */
 	getSelectedLink: function( editor ) {
-		var range;
 		try {
-			range = editor.getSelection().getRanges( true )[ 0 ];
+			var selection = editor.getSelection();
+			if ( selection.getType() == CKEDITOR.SELECTION_ELEMENT ) {
+				var selectedElement = selection.getSelectedElement();
+				if ( selectedElement.is( 'a' ) )
+					return selectedElement;
+			}
+
+			var range = selection.getRanges( true )[ 0 ];
 			range.shrink( CKEDITOR.SHRINK_TEXT );
 			var root = range.getCommonAncestor();
 			return root.getAscendant( 'a', true );
