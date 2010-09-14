@@ -582,15 +582,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// tranform the native ranges in CKEDITOR.dom.range
 					// instances.
 
-					var ranges = [];
-					var sel = this.getNative();
+					var ranges = [],
+						range,
+						doc = this.document,
+						sel = this.getNative();
 
 					if ( !sel )
-						return [];
+						return ranges;
+
+					// On WebKit, it may happen that we'll have no selection
+					// available. We normalize it here by replicating the
+					// behavior of other browsers.
+					if ( !sel.rangeCount ) {
+						range = new CKEDITOR.dom.range( doc );
+						range.moveToElementEditStart( doc.getBody() );
+						ranges.push( range );
+					}
 
 					for ( var i = 0; i < sel.rangeCount; i++ ) {
 						var nativeRange = sel.getRangeAt( i );
-						var range = new CKEDITOR.dom.range( this.document );
+
+						range = new CKEDITOR.dom.range( doc );
 
 						range.setStart( new CKEDITOR.dom.node( nativeRange.startContainer ), nativeRange.startOffset );
 						range.setEnd( new CKEDITOR.dom.node( nativeRange.endContainer ), nativeRange.endOffset );
