@@ -171,13 +171,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 					}
 
+					var scroll;
 					// IE fires the "selectionchange" event when clicking
 					// inside a selection. We don't want to capture that.
-					body.on( 'mousedown', function() {
+					body.on( 'mousedown', function( evt ) {
+						// IE scrolls document to top on right mousedown
+						// when editor has no focus, remember this scroll
+						// position and revert it before context menu opens. (#5778)
+						if ( evt.data.$.button == 2 ) {
+							var sel = editor.document.$.selection;
+							if ( sel.type == 'None' )
+								scroll = editor.window.getScrollPosition();
+						}
 						disableSave();
 					});
 
-					body.on( 'mouseup', function() {
+					body.on( 'mouseup', function( evt ) {
+						// Restore recorded scroll position when needed on right mouseup.
+						if ( evt.data.$.button == 2 && scroll ) {
+							editor.document.$.documentElement.scrollLeft = scroll.x;
+							editor.document.$.documentElement.scrollTop = scroll.y;
+						}
+						scroll = null;
+
 						saveEnabled = true;
 						setTimeout( function() {
 							saveSelection( true );
