@@ -290,8 +290,8 @@
 	float: none;
 }
 
-.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_font,
-.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_fontSize
+.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_font .cke_text,
+.cke_skin_office2003 .cke_rtl .cke_rcombo .cke_fontSize .cke_text
 {
 	direction: ltr;
 }

@@ -453,7 +453,9 @@
 				this.hide();
 			},
 			onHide: function() {
-				this._element.removeCustomData( 'elementStyle' );
+				// Remove style only when editing existing DIV. (#6315)
+				if ( command == 'editdiv' )
+					this._element.removeCustomData( 'elementStyle' );
 				delete this._element;
 			}
 		};

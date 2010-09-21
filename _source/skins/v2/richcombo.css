@@ -290,8 +290,8 @@
 	height: 22px;
 }
 
-.cke_skin_v2 .cke_rtl .cke_rcombo .cke_font,
-.cke_skin_v2 .cke_rtl .cke_rcombo .cke_fontSize
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_font .cke_text,
+.cke_skin_v2 .cke_rtl .cke_rcombo .cke_fontSize .cke_text
 {
 	direction: ltr;
 }
