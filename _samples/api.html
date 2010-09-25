@@ -63,7 +63,7 @@ function GetContents()
 	alert( oEditor.getData() );
 }
 
-function ExecuteCommand(commandName)
+function ExecuteCommand( commandName )
 {
 	// Get the editor instance that we want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
@@ -113,7 +113,7 @@ function ResetDirty()
 	</div>
 	<form action="sample_posteddata.php" method="post">
 		<p>
-			This sample shows how to use the CKeditor JavaScript API to interact with the editor
+			This sample shows how to use the CKEditor JavaScript API to interact with the editor
 			at runtime.</p>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 
