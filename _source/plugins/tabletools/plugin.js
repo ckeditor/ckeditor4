@@ -611,9 +611,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.addCommand( 'tableDelete', {
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					var startElement = selection && selection.getStartElement();
-					var table = startElement && startElement.getAscendant( 'table', true );
+					var selection = editor.getSelection(),
+						startElement = selection && selection.getStartElement(),
+						table = startElement && startElement.getAscendant( 'table', 1 );
 
 					if ( !table )
 						return;
@@ -624,9 +624,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					range.collapse();
 					selection.selectRanges( [ range ] );
 
-					// If the table's parent has only one child, remove it,except body,as well.( #5416 )
+					// If the table's parent has only one child remove it as well (unless it's the body or a table cell) (#5416, #6289)
 					var parent = table.getParent();
-					if ( parent.getChildCount() == 1 && parent.getName() != 'body' )
+					if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
 						parent.remove();
 					else
 						table.remove();
