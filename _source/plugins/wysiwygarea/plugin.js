@@ -864,7 +864,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.document.$.designMode = 'on';
 					setTimeout( function() {
 						editor.document.$.designMode = 'off';
-						editor.document.getBody().focus();
+						if ( CKEDITOR.currentInstance == editor )
+							editor.document.getBody().focus();
 					}, 50 );
 				}, function() {
 					// The above call is known to fail when parent DOM
