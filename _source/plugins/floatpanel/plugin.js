@@ -250,6 +250,14 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							}
 						}
 
+						// Trigger the onHide event of the previously active panel to prevent
+						// incorrect styles from being applied (#6170) 
+						var innerElement = element.getFirst(),
+							activePanel;
+						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) )
+							activePanel.onHide && activePanel.onHide.call( this, 1 );
+						innerElement.setCustomData( 'activePanel', this );
+
 						element.setStyles({
 							top: top + 'px',
 							left: left + 'px'
@@ -279,6 +287,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.hideChild();
 					this.element.setStyle( 'display', 'none' );
 					this.visible = 0;
+					this.element.getFirst().removeCustomData( 'activePanel' );
 				}
 			},
 

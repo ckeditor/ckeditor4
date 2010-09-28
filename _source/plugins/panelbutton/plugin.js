@@ -95,7 +95,7 @@ CKEDITOR.UI_PANELBUTTON = 4;
 						me.onOpen();
 				};
 
-				panel.onHide = function() {
+				panel.onHide = function( preventOnClose ) {
 					if ( me.className )
 						this.element.getFirst().removeClass( me.className + '_panel' );
 
@@ -103,7 +103,7 @@ CKEDITOR.UI_PANELBUTTON = 4;
 
 					_.on = 0;
 
-					if ( me.onClose )
+					if ( !preventOnClose && me.onClose )
 						me.onClose();
 				};
 
