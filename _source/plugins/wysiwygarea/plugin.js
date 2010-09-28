@@ -534,6 +534,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.focusManager.blur();
 					});
 
+					var wasFocused;
+
 					domWindow.on( 'focus', function() {
 						var doc = editor.document;
 
@@ -541,6 +543,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							blinkCursor();
 						else if ( CKEDITOR.env.opera )
 							doc.getBody().focus();
+						// Webkit needs focus for the first time on the HTML element.
+						else if ( CKEDITOR.env.webkit ) {
+							if ( !wasFocused ) {
+								editor.document.getDocumentElement().focus();
+								wasFocused = 1;
+
+								// Webkit does not scroll to the cursor position after first focus.
+								setTimeout( function() {
+									doc.$.execCommand( 'inserthtml', false, '<span id="cke_focus_marker" cke_temp="1"></span>' );
+									var marker = doc.getById( 'cke_focus_marker' );
+									marker.scrollIntoView();
+									marker.remove();
+								}, 0 );
+							}
+						}
 
 						editor.focusManager.focus();
 					});
