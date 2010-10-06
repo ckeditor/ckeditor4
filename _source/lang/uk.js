@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
- * Ukrainian language. Translated by Alexander Pervak.
+ * Ukrainian language.
  */
 
 /**#@+
@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'uk' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Текстовий редактор, %1, натисніть ALT 0 для довідки.',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'Панель інструментів',
+	editor: 'Текстовий редактор',
 
 	// Toolbar buttons without dialogs.
 	source: 'Джерело',
@@ -49,27 +49,27 @@ CKEDITOR.lang[ 'uk' ] = {
 	bold: 'Жирний',
 	italic: 'Курсив',
 	selectAll: 'Виділити все',
-	removeFormat: 'Прибрати форматування',
+	removeFormat: 'Очистити форматування',
 	strike: 'Закреслений',
-	subscript: 'Підрядковий індекс',
-	superscript: 'Надрядковий индекс',
-	horizontalrule: 'Вставити горизонтальну лінію',
-	pagebreak: 'Вставити розривши сторінки',
-	unlink: 'Знищити посилання',
+	subscript: 'Нижній індекс',
+	superscript: 'Верхній індекс',
+	horizontalrule: 'Горизонтальна лінія',
+	pagebreak: 'Вставити розрив сторінки',
+	unlink: 'Видалити посилання',
 	undo: 'Повернути',
 	redo: 'Повторити',
 
 	// Common messages and labels.
 	common: {
-		browseServer: 'Передивитися на сервері',
+		browseServer: 'Огляд',
 		url: 'URL',
 		protocol: 'Протокол',
-		upload: 'Закачати',
+		upload: 'Надіслати',
 		uploadSubmit: 'Надіслати на сервер',
 		image: 'Зображення',
 		flash: 'Flash',
 		form: 'Форма',
-		checkbox: 'Флагова кнопка',
+		checkbox: 'Галочка',
 		radio: 'Кнопка вибору',
 		textField: 'Текстове поле',
 		textarea: 'Текстова область',
@@ -79,48 +79,48 @@ CKEDITOR.lang[ 'uk' ] = {
 		imageButton: 'Кнопка із зображенням',
 		notSet: '<не визначено>',
 		id: 'Ідентифікатор',
-		name: 'Им\'я',
+		name: 'Ім\'я',
 		langDir: 'Напрямок мови',
-		langDirLtr: 'Зліва на право (LTR)',
-		langDirRtl: 'Зправа на ліво (RTL)',
-		langCode: 'Мова',
+		langDirLtr: 'Зліва направо (LTR)',
+		langDirRtl: 'Справа наліво (RTL)',
+		langCode: 'Код мови',
 		longDescr: 'Довгий опис URL',
 		cssClass: 'Клас CSS',
 		advisoryTitle: 'Заголовок',
 		cssStyle: 'Стиль CSS',
 		ok: 'ОК',
 		cancel: 'Скасувати',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'Загальна',
-		advancedTab: 'Розширений',
-		validateNumberFailed: 'Значення не є числом.',
-		confirmNewPage: 'Всі не збережені зміни будуть втрачені. Ви впевнені, що хочете завантажити нову сторінку?',
-		confirmCancel: 'Деякі опції були змінені. Закрити вікно?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		close: 'Закрити',
+		preview: 'Попередній перегляд',
+		generalTab: 'Основне',
+		advancedTab: 'Додаткове',
+		validateNumberFailed: 'Значення не є цілим числом.',
+		confirmNewPage: 'Всі незбережені зміни будуть втрачені. Ви впевнені, що хочете завантажити нову сторінку?',
+		confirmCancel: 'Деякі опції змінено. Закрити вікно без збереження змін?',
+		options: 'Опції',
+		target: 'Ціль',
+		targetNew: 'Нове вікно (_blank)',
+		targetTop: 'Поточне вікно (_top)',
+		targetSelf: 'Поточний фрейм/вікно (_self)',
+		targetParent: 'Батьківський фрейм/вікно (_parent)',
+		langDirLTR: 'Зліва направо (LTR)',
+		langDirRTL: 'Справа наліво (RTL)',
+		styles: 'Стиль CSS',
+		cssClasses: 'Клас CSS',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, не доступне</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Опції контекстного меню'
 	},
 
 	// Special char dialog.
 	specialChar: {
-		toolbar: 'Вставити спеціальний символ',
+		toolbar: 'Спеціальний символ',
 		title: 'Оберіть спеціальний символ',
-		options: 'Special Character Options' // MISSING
+		options: 'Опції'
 	},
 
 	// Link dialog.
@@ -131,51 +131,51 @@ CKEDITOR.lang[ 'uk' ] = {
 		title: 'Посилання',
 		info: 'Інформація посилання',
 		target: 'Ціль',
-		upload: 'Закачати',
-		advanced: 'Розширений',
+		upload: 'Надіслати',
+		advanced: 'Додаткове',
 		type: 'Тип посилання',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'Якір на цю сторінку',
-		toEmail: 'Эл. пошта',
+		toEmail: 'Ел. пошта',
 		targetFrame: '<фрейм>',
-		targetPopup: '<спливаюче вікно>',
-		targetFrameName: 'Ім\'я целевого фрейма',
-		targetPopupName: 'Ім\'я спливаючого вікна',
-		popupFeatures: 'Властивості спливаючого вікна',
+		targetPopup: '<випливаюче вікно>',
+		targetFrameName: 'Ім\'я цільового фрейму',
+		targetPopupName: 'Ім\'я випливаючого вікна',
+		popupFeatures: 'Властивості випливаючого вікна',
 		popupResizable: 'Масштабоване',
-		popupStatusBar: 'Строка статусу',
+		popupStatusBar: 'Рядок статусу',
 		popupLocationBar: 'Панель локації',
 		popupToolbar: 'Панель інструментів',
 		popupMenuBar: 'Панель меню',
 		popupFullScreen: 'Повний екран (IE)',
-		popupScrollBars: 'Полоси прокрутки',
+		popupScrollBars: 'Стрічки прокрутки',
 		popupDependent: 'Залежний (Netscape)',
 		popupWidth: 'Ширина',
 		popupLeft: 'Позиція зліва',
 		popupHeight: 'Висота',
 		popupTop: 'Позиція зверху',
-		id: 'Ідентифікатор (Id)',
+		id: 'Ідентифікатор',
 		langDir: 'Напрямок мови',
-		langDirLTR: 'Зліва на право (LTR)',
-		langDirRTL: 'Зправа на ліво (RTL)',
+		langDirLTR: 'Зліва направо (LTR)',
+		langDirRTL: 'Справа наліво (RTL)',
 		acccessKey: 'Гаряча клавіша',
-		name: 'Им\'я',
-		langCode: 'Напрямок мови',
+		name: 'Ім\'я',
+		langCode: 'Код мови',
 		tabIndex: 'Послідовність переходу',
 		advisoryTitle: 'Заголовок',
 		advisoryContentType: 'Тип вмісту',
 		cssClasses: 'Клас CSS',
-		charset: 'Кодировка',
+		charset: 'Кодування',
 		styles: 'Стиль CSS',
 		selectAnchor: 'Оберіть якір',
-		anchorName: 'За ім\'ям якоря',
-		anchorId: 'За ідентифікатором елемента',
+		anchorName: 'За ім\'ям елементу',
+		anchorId: 'За ідентифікатором елементу',
 		emailAddress: 'Адреса ел. пошти',
 		emailSubject: 'Тема листа',
 		emailBody: 'Тіло повідомлення',
-		noAnchors: '(Немає якорів доступних в цьому документі)',
-		noUrl: 'Будь ласка, занесіть URL посилання',
-		noEmail: 'Будь ласка, занесіть адрес эл. почты'
+		noAnchors: '(В цьому документі немає якорів)',
+		noUrl: 'Будь ласка, вкажіть URL посилання',
+		noEmail: 'Будь ласка, вкажіть адрес ел. пошти'
 	},
 
 	// Anchor dialog
@@ -184,30 +184,30 @@ CKEDITOR.lang[ 'uk' ] = {
 		menu: 'Властивості якоря',
 		title: 'Властивості якоря',
 		name: 'Ім\'я якоря',
-		errorName: 'Будь ласка, занесіть ім\'я якоря'
+		errorName: 'Будь ласка, вкажіть ім\'я якоря'
 	},
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'Опції нумерованого списку',
+		bulletedTitle: 'Опції маркірованого списку',
+		type: 'Тип',
+		start: 'Почати з...',
+		validateStartNumber: 'Початковий номер списку повинен бути цілим числом.',
+		circle: 'Кільце',
+		disc: 'Кружечок',
+		square: 'Квадратик',
+		none: 'Нема',
+		notset: '<не вказано>',
+		armenian: 'Вірменська нумерація',
+		georgian: 'Грузинська нумерація (an, ban, gan і т.д.)',
+		lowerRoman: 'Малі римські (i, ii, iii, iv, v і т.д.)',
+		upperRoman: 'Великі римські (I, II, III, IV, V і т.д.)',
+		lowerAlpha: 'Малі лат. букви (a, b, c, d, e і т.д.)',
+		upperAlpha: 'Великі лат. букви (A, B, C, D, E і т.д.)',
+		lowerGreek: 'Малі гр. букви (альфа, бета, гамма і т.д.)',
+		decimal: 'Десяткові (1, 2, 3 і т.д.)',
+		decimalLeadingZero: 'Десяткові з нулем (01, 02, 03 і т.д.)'
 	},
 
 	// Find And Replace Dialog
@@ -217,12 +217,12 @@ CKEDITOR.lang[ 'uk' ] = {
 		replace: 'Заміна',
 		findWhat: 'Шукати:',
 		replaceWith: 'Замінити на:',
-		notFoundMsg: 'Вказаний текст не знайдений.',
+		notFoundMsg: 'Вказаний текст не знайдено.',
 		matchCase: 'Враховувати регістр',
 		matchWord: 'Збіг цілих слів',
 		matchCyclic: 'Циклічна заміна',
 		replaceAll: 'Замінити все',
-		replaceSuccessMsg: '%1 співпадінь(я) замінено.'
+		replaceSuccessMsg: '%1 співпадінь(ня) замінено.'
 	},
 
 	// Table Dialog
@@ -231,97 +231,97 @@ CKEDITOR.lang[ 'uk' ] = {
 		title: 'Властивості таблиці',
 		menu: 'Властивості таблиці',
 		deleteTable: 'Видалити таблицю',
-		rows: 'Строки',
-		columns: 'Колонки',
-		border: 'Розмір бордюра',
+		rows: 'Рядки',
+		columns: 'Стовбці',
+		border: 'Розмір рамки',
 		align: 'Вирівнювання',
-		alignLeft: 'Зліва',
+		alignLeft: 'По лівому краю',
 		alignCenter: 'По центру',
-		alignRight: 'Зправа',
+		alignRight: 'По правому краю',
 		width: 'Ширина',
 		widthPx: 'пікселів',
 		widthPc: 'відсотків',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'Одиниці вимір.',
 		height: 'Висота',
-		cellSpace: 'Проміжок (spacing)',
-		cellPad: 'Відступ (padding)',
-		caption: 'Заголовок',
-		summary: 'Резюме',
-		headers: 'Заголовки',
-		headersNone: 'Жодного',
-		headersColumn: 'Перша колонка',
-		headersRow: 'Перший рядок',
-		headersBoth: 'Обидва',
-		invalidRows: 'Кількість рядків повинна бути числом більше за 0.',
-		invalidCols: 'Кількість колонок повинна бути числом більше за  0.',
-		invalidBorder: 'Розмір бордюра повинен бути числом.',
-		invalidWidth: 'Ширина таблиці повинна бути числом.',
-		invalidHeight: 'Висота таблиці повинна бути числом.',
-		invalidCellSpacing: 'Проміжок (spacing) комірки повинен бути числом.',
-		invalidCellPadding: 'Відступ (padding) комірки повинен бути числом.',
+		cellSpace: 'Проміжок',
+		cellPad: 'Внутр. відступ',
+		caption: 'Заголовок таблиці',
+		summary: 'Детальний опис заголовку таблиці',
+		headers: 'Заголовки стовбців/рядків',
+		headersNone: 'Без заголовків',
+		headersColumn: 'Стовбці',
+		headersRow: 'Рядки',
+		headersBoth: 'Стовбці і рядки',
+		invalidRows: 'Кількість рядків повинна бути більшою 0.',
+		invalidCols: 'Кількість стовбців повинна бути більшою 0.',
+		invalidBorder: 'Розмір рамки повинен бути цілим числом.',
+		invalidWidth: 'Ширина таблиці повинна бути цілим числом.',
+		invalidHeight: 'Висота таблиці повинна бути цілим числом.',
+		invalidCellSpacing: 'Проміжок між комірками повинен бути цілим числом.',
+		invalidCellPadding: 'Внутр. відступ комірки повинен бути цілим числом.',
 
 		cell: {
-			menu: 'Осередок',
-			insertBefore: 'Вставити комірку до',
+			menu: 'Комірки',
+			insertBefore: 'Вставити комірку перед',
 			insertAfter: 'Вставити комірку після',
 			deleteCell: 'Видалити комірки',
 			merge: 'Об\'єднати комірки',
-			mergeRight: 'Об\'єднати зправа',
-			mergeDown: 'Об\'єднати до низу',
+			mergeRight: 'Об\'єднати справа',
+			mergeDown: 'Об\'єднати донизу',
 			splitHorizontal: 'Розділити комірку по горизонталі',
 			splitVertical: 'Розділити комірку по вертикалі',
 			title: 'Властивості комірки',
 			cellType: 'Тип комірки',
-			rowSpan: 'Обєднання рядків (Rows Span)',
-			colSpan: 'Обєднання стовпчиків (Columns Span)',
-			wordWrap: 'Авто згортання тексту (Word Wrap)',
-			hAlign: 'Горизонтальне вирівнювання',
-			vAlign: 'Вертикальне вирівнювання',
-			alignTop: 'До верху',
-			alignMiddle: 'Посередині',
-			alignBottom: 'До низу',
+			rowSpan: 'Об\'єднання рядків',
+			colSpan: 'Об\'єднання стовпців',
+			wordWrap: 'Автоперенесення тексту',
+			hAlign: 'Гориз. вирівнювання',
+			vAlign: 'Верт. вирівнювання',
+			alignTop: 'По верхньому краю',
+			alignMiddle: 'По середині',
+			alignBottom: 'По нижньому краю',
 			alignBaseline: 'По базовій лінії',
 			bgColor: 'Колір фону',
-			borderColor: 'Колір бордюру',
+			borderColor: 'Колір рамки',
 			data: 'Дані',
 			header: 'Заголовок',
 			yes: 'Так',
 			no: 'Ні',
-			invalidWidth: 'Ширина комірки повинна бути числом.',
-			invalidHeight: 'Висота комірки повинна бути числом.',
-			invalidRowSpan: 'Кількість обєднуваних рядків повинна бути цілим числом.',
-			invalidColSpan: 'Кількість обєднуваних стовпчиків повинна бути цілим числом.',
-			chooseColor: 'Choose' // MISSING
+			invalidWidth: 'Ширина комірки повинна бути цілим числом.',
+			invalidHeight: 'Висота комірки повинна бути цілим числом.',
+			invalidRowSpan: 'Кількість об\'єднуваних рядків повинна бути цілим числом.',
+			invalidColSpan: 'Кількість об\'єднуваних стовбців повинна бути цілим числом.',
+			chooseColor: 'Обрати'
 		},
 
 		row: {
-			menu: 'Рядок',
-			insertBefore: 'Вставити рядок до',
+			menu: 'Рядки',
+			insertBefore: 'Вставити рядок перед',
 			insertAfter: 'Вставити рядок після',
-			deleteRow: 'Видалити строки'
+			deleteRow: 'Видалити рядки'
 		},
 
 		column: {
-			menu: 'Колонка',
-			insertBefore: 'Вставити колонку до',
-			insertAfter: 'Вставити колонку після',
-			deleteColumn: 'Видалити колонки'
+			menu: 'Стовбці',
+			insertBefore: 'Вставити стовбець перед',
+			insertAfter: 'Вставити стовбець після',
+			deleteColumn: 'Видалити стовбці'
 		}
 	},
 
 	// Button Dialog.
 	button: {
 		title: 'Властивості кнопки',
-		text: 'Текст (Значення)',
+		text: 'Значення',
 		type: 'Тип',
-		typeBtn: 'Кнопка',
-		typeSbm: 'Відправити',
-		typeRst: 'Скинути'
+		typeBtn: 'Кнопка (button)',
+		typeSbm: 'Надіслати (submit)',
+		typeRst: 'Очистити (reset)'
 	},
 
 	// Checkbox and Radio Button Dialogs.
 	checkboxAndRadio: {
-		checkboxTitle: 'Властивості флагової кнопки',
+		checkboxTitle: 'Властивості галочки',
 		radioTitle: 'Властивості кнопки вибору',
 		value: 'Значення',
 		selected: 'Обрана'
@@ -342,24 +342,24 @@ CKEDITOR.lang[ 'uk' ] = {
 		selectInfo: 'Інфо',
 		opAvail: 'Доступні варіанти',
 		value: 'Значення',
-		size: 'Розмір',
-		lines: 'лінії',
-		chkMulti: 'Дозволити обрання декількох позицій',
+		size: 'Кількість',
+		lines: 'видимих позицій у списку',
+		chkMulti: 'Список з мультивибором',
 		opText: 'Текст',
 		opValue: 'Значення',
 		btnAdd: 'Добавити',
 		btnModify: 'Змінити',
 		btnUp: 'Вгору',
 		btnDown: 'Вниз',
-		btnSetValue: 'Встановити як вибране значення',
+		btnSetValue: 'Встановити як обране значення',
 		btnDelete: 'Видалити'
 	},
 
 	// Textarea Dialog.
 	textarea: {
 		title: 'Властивості текстової області',
-		cols: 'Колонки',
-		rows: 'Строки'
+		cols: 'Стовбці',
+		rows: 'Рядки'
 	},
 
 	// Text Field Dialog.
@@ -368,7 +368,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		name: 'Ім\'я',
 		value: 'Значення',
 		charWidth: 'Ширина',
-		maxChars: 'Макс. кіл-ть символів',
+		maxChars: 'Макс. к-ть символів',
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Пароль'
@@ -386,31 +386,31 @@ CKEDITOR.lang[ 'uk' ] = {
 		title: 'Властивості зображення',
 		titleButton: 'Властивості кнопки із зображенням',
 		menu: 'Властивості зображення',
-		infoTab: 'Інформація про изображении',
+		infoTab: 'Інформація про зображення',
 		btnUpload: 'Надіслати на сервер',
-		upload: 'Закачати',
+		upload: 'Надіслати',
 		alt: 'Альтернативний текст',
 		width: 'Ширина',
 		height: 'Висота',
 		lockRatio: 'Зберегти пропорції',
-		unlockRatio: 'Unlock Ratio', // MISSING
-		resetSize: 'Скинути розмір',
-		border: 'Бордюр',
-		hSpace: 'Горизонтальний відступ',
-		vSpace: 'Вертикальний відступ',
-		align: 'Вирівнювання',
+		unlockRatio: 'Не зберігати пропорції',
+		resetSize: 'Очистити поля розмірів',
+		border: 'Рамка',
+		hSpace: 'Гориз. відступ',
+		vSpace: 'Верт. відступ',
+		align: 'Вирівн.',
 		alignLeft: 'По лівому краю',
 		alignRight: 'По правому краю',
-		alertUrl: 'Будь ласка, введіть URL зображення',
+		alertUrl: 'Будь ласка, вкажіть URL зображення',
 		linkTab: 'Посилання',
-		button2Img: 'Ви хочете перетворити обрану кнопку-зображення на просте зображення?',
-		img2Button: 'Ви хочете перетворити обране зображення на кнопку-зображення?',
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		button2Img: 'Бажаєте перетворити обрану кнопку-зображення на просте зображення?',
+		img2Button: 'Бажаєте перетворити обране зображення на кнопку-зображення?',
+		urlMissing: 'Вкажіть URL зображення.',
+		validateWidth: 'Ширина повинна бути цілим числом.',
+		validateHeight: 'Висота повинна бути цілим числом.',
+		validateBorder: 'Ширина рамки повинна бути цілим числом.',
+		validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
+		validateVSpace: 'Верт. відступ повинен бути цілим числом.'
 	},
 
 	// Flash Dialog
@@ -418,50 +418,50 @@ CKEDITOR.lang[ 'uk' ] = {
 		properties: 'Властивості Flash',
 		propertiesTab: 'Властивості',
 		title: 'Властивості Flash',
-		chkPlay: 'Авто програвання',
-		chkLoop: 'Зациклити',
+		chkPlay: 'Автопрогравання',
+		chkLoop: 'Циклічно',
 		chkMenu: 'Дозволити меню Flash',
 		chkFull: 'Дозволити повноекранний перегляд',
 		scale: 'Масштаб',
-		scaleAll: 'Показати всі',
+		scaleAll: 'Показати все',
 		scaleNoBorder: 'Без рамки',
-		scaleFit: 'Дійсний розмір',
+		scaleFit: 'Поч. розмір',
 		access: 'Доступ до скрипта',
 		accessAlways: 'Завжди',
 		accessSameDomain: 'З того ж домена',
 		accessNever: 'Ніколи',
 		align: 'Вирівнювання',
 		alignLeft: 'По лівому краю',
-		alignAbsBottom: 'Абс по низу',
-		alignAbsMiddle: 'Абс по середині',
+		alignAbsBottom: 'По нижньому краю (abs)',
+		alignAbsMiddle: 'По середині (abs)',
 		alignBaseline: 'По базовій лінії',
-		alignBottom: 'По низу',
+		alignBottom: 'По нижньому краю',
 		alignMiddle: 'По середині',
 		alignRight: 'По правому краю',
-		alignTextTop: 'Текст на верху',
-		alignTop: 'По верху',
+		alignTextTop: 'Текст по верхньому краю',
+		alignTop: 'По верхньому краю',
 		quality: 'Якість',
 		qualityBest: 'Відмінна',
 		qualityHigh: 'Висока',
-		qualityAutoHigh: 'Авто відмінна',
+		qualityAutoHigh: 'Автом. відмінна',
 		qualityMedium: 'Середня',
-		qualityAutoLow: 'Авто низька',
+		qualityAutoLow: 'Автом. низька',
 		qualityLow: 'Низька',
 		windowModeWindow: 'Вікно',
-		windowModeOpaque: 'Непрозорість (Opaque)',
-		windowModeTransparent: 'Прозорість (Transparent)',
-		windowMode: 'Режим вікна',
+		windowModeOpaque: 'Непрозорість',
+		windowModeTransparent: 'Прозорість',
+		windowMode: 'Віконний режим',
 		flashvars: 'Змінні Flash',
 		bgcolor: 'Колір фону',
 		width: 'Ширина',
 		height: 'Висота',
-		hSpace: 'Горизонтальний відступ',
-		vSpace: 'Вертикальний відступ',
-		validateSrc: 'Будь ласка, занесіть URL посилання',
-		validateWidth: 'Ширина повинна бути числом.',
-		validateHeight: 'Висота повинна бути числом.',
-		validateHSpace: 'HSpace повинна бути числом.',
-		validateVSpace: 'VSpace повинна бути числом.'
+		hSpace: 'Гориз. відступ',
+		vSpace: 'Верт. відступ',
+		validateSrc: 'Будь ласка, вкажіть URL посилання',
+		validateWidth: 'Ширина повинна бути цілим числом.',
+		validateHeight: 'Висота повинна бути цілим числом.',
+		validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
+		validateVSpace: 'Верт. відступ повинен бути цілим числом.'
 	},
 
 	// Speller Pages Dialog
@@ -470,35 +470,35 @@ CKEDITOR.lang[ 'uk' ] = {
 		title: 'Перевірка орфографії',
 		notAvailable: 'Вибачте, але сервіс наразі недоступний.',
 		errorLoading: 'Помилка завантаження : %s.',
-		notInDic: 'Не має в словнику',
+		notInDic: 'Немає в словнику',
 		changeTo: 'Замінити на',
-		btnIgnore: 'Ігнорувати',
-		btnIgnoreAll: 'Ігнорувати все',
+		btnIgnore: 'Пропустити',
+		btnIgnoreAll: 'Пропустити все',
 		btnReplace: 'Замінити',
 		btnReplaceAll: 'Замінити все',
 		btnUndo: 'Назад',
-		noSuggestions: '- Немає припущень -',
+		noSuggestions: '- немає варіантів -',
 		progress: 'Виконується перевірка орфографії...',
 		noMispell: 'Перевірку орфографії завершено: помилок не знайдено',
 		noChanges: 'Перевірку орфографії завершено: жодне слово не змінено',
-		oneChange: 'Перевірку орфографії завершено: змінено одно слово',
-		manyChanges: 'Перевірку орфографії завершено: 1% слів змінено',
-		ieSpellDownload: 'Модуль перевірки орфографії не встановлено. Бажаєтн завантажити його зараз?'
+		oneChange: 'Перевірку орфографії завершено: змінено одне слово',
+		manyChanges: 'Перевірку орфографії завершено: 1% слів(ова) змінено',
+		ieSpellDownload: 'Модуль перевірки орфографії не встановлено. Бажаєте завантажити його зараз?'
 	},
 
 	smiley: {
 		toolbar: 'Смайлик',
 		title: 'Вставити смайлик',
-		options: 'Smiley Options' // MISSING
+		options: 'Опції смайликів'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'Шлях',
 		eleTitle: '%1 елемент'
 	},
 
 	numberedlist: 'Нумерований список',
-	bulletedlist: 'Маркований список',
+	bulletedlist: 'Маркірований список',
 	indent: 'Збільшити відступ',
 	outdent: 'Зменшити відступ',
 
@@ -513,18 +513,18 @@ CKEDITOR.lang[ 'uk' ] = {
 
 	clipboard: {
 		title: 'Вставити',
-		cutError: 'Настройки безпеки вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+X).',
-		copyError: 'Настройки безпеки вашого браузера не дозволяють редактору автоматично виконувати операції копіювання. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+C).',
-		pasteMsg: 'Будь ласка, вставте з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl/Cmd+V</STRONG>) та натисніть <STRONG>OK</STRONG>.',
-		securityMsg: 'Редактор не може отримати прямий доступ до буферу обміну у зв\'язку з налаштуваннями вашого браузера. Вам потрібно вставити інформацію повторно в це вікно.',
-		pasteArea: 'Paste Area' // MISSING
+		cutError: 'Налаштування безпеки Вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+X)',
+		copyError: 'Налаштування безпеки Вашого браузера не дозволяють редактору автоматично виконувати операції копіювання. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+C).',
+		pasteMsg: 'Будь ласка, вставте інформацію з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl/Cmd+V</STRONG>), та натисніть <STRONG>OK</STRONG>.',
+		securityMsg: 'Редактор не може отримати прямий доступ до буферу обміну у зв\'язку з налаштуваннями Вашого браузера. Вам потрібно вставити інформацію в це вікно.',
+		pasteArea: 'Область вставки'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'Текст, що ви хочете вставити, схожий на копійований з Word. Ви хочете очистити його перед вставкою?',
+		confirmCleanup: 'Текст, що Ви намагаєтесь вставити, схожий на скопійований з Word. Бажаєте очистити його форматування перед вставлянням?',
 		toolbar: 'Вставити з Word',
 		title: 'Вставити з Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'Неможливо очистити форматування через внутрішню помилку.'
 	},
 
 	pasteText: {
@@ -535,20 +535,20 @@ CKEDITOR.lang[ 'uk' ] = {
 	templates: {
 		button: 'Шаблони',
 		title: 'Шаблони змісту',
-		options: 'Template Options', // MISSING
+		options: 'Опції шаблону',
 		insertOption: 'Замінити поточний вміст',
 		selectPromptMsg: 'Оберіть, будь ласка, шаблон для відкриття в редакторі<br>(поточний зміст буде втрачено):',
-		emptyListMsg: '(Не визначено жодного шаблону)'
+		emptyListMsg: '(Не знайдено жодного шаблону)'
 	},
 
 	showBlocks: 'Показувати блоки',
 
 	stylesCombo: {
 		label: 'Стиль',
-		panelTitle: 'Formatting Styles', // MISSING
-		panelTitle1: 'Block стилі',
-		panelTitle2: 'Inline стилі',
-		panelTitle3: 'Object стилі'
+		panelTitle: 'Стилі форматування',
+		panelTitle1: 'Блочні стилі',
+		panelTitle2: 'Рядкові стилі',
+		panelTitle3: 'Об\'єктні стилі'
 	},
 
 	format: {
@@ -564,23 +564,23 @@ CKEDITOR.lang[ 'uk' ] = {
 		tag_h4: 'Заголовок 4',
 		tag_h5: 'Заголовок 5',
 		tag_h6: 'Заголовок 6',
-		tag_div: 'Нормальний (DIV)'
+		tag_div: 'Нормальний (div)'
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Створити блок-контейнер',
+		toolbar: 'Створити блок-контейнер',
+		cssClassInputLabel: 'Клас CSS',
+		styleSelectLabel: 'Стиль CSS',
+		IdInputLabel: 'Ідентифікатор',
+		languageCodeInputLabel: 'Код мови',
+		inlineStyleInputLabel: 'Вписаний стиль',
+		advisoryTitleInputLabel: 'Зміст випливаючої підказки',
+		langDirLabel: 'Напрямок мови',
+		langDirLTRLabel: 'Зліва направо (LTR)',
+		langDirRTLLabel: 'Справа наліво (RTL)',
+		edit: 'Редагувати блок',
+		remove: 'Видалити блок'
 	},
 
 	font: {
@@ -591,127 +591,127 @@ CKEDITOR.lang[ 'uk' ] = {
 
 	fontSize: {
 		label: 'Розмір',
-		voiceLabel: 'Розмір шрифта',
+		voiceLabel: 'Розмір шрифту',
 		panelTitle: 'Розмір'
 	},
 
 	colorButton: {
 		textColorTitle: 'Колір тексту',
 		bgColorTitle: 'Колір фону',
-		panelTitle: 'Colors', // MISSING
-		auto: 'Автоматичний',
+		panelTitle: 'Кольори',
+		auto: 'Авто',
 		more: 'Кольори...'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dim Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'Чорний',
+		'800000': 'Бордовий',
+		'8B4513': 'Коричневий',
+		'2F4F4F': 'Темний сіро-зелений',
+		'008080': 'Морської хвилі',
+		'000080': 'Сливовий',
+		'4B0082': 'Індиго',
+		'696969': 'Темносірий',
+		'B22222': 'Темночервоний',
+		'A52A2A': 'Каштановий',
+		'DAA520': 'Бежевий',
+		'006400': 'Темнозелений',
+		'40E0D0': 'Бірюзовий',
+		'0000CD': 'Темносиній',
+		'800080': 'Пурпурний',
+		'808080': 'Сірий',
+		'F00': 'Червоний',
+		'FF8C00': 'Темнооранжевий',
+		'FFD700': 'Жовтий',
+		'008000': 'Зелений',
+		'0FF': 'Синьо-зелений',
+		'00F': 'Синій',
+		'EE82EE': 'Фіолетовий',
+		'A9A9A9': 'Світлосірий',
+		'FFA07A': 'Рожевий',
+		'FFA500': 'Оранжевий',
+		'FFFF00': 'Яскравожовтий',
+		'00FF00': 'Салатовий',
+		'AFEEEE': 'Світлобірюзовий',
+		'ADD8E6': 'Блакитний',
+		'DDA0DD': 'Світлофіолетовий',
+		'D3D3D3': 'Сріблястий',
+		'FFF0F5': 'Світлорожевий',
+		'FAEBD7': 'Світлооранжевий',
+		'FFFFE0': 'Світложовтий',
+		'F0FFF0': 'Світлозелений',
+		'F0FFFF': 'Світлий синьо-зелений',
+		'F0F8FF': 'Світлоблакитний',
+		'E6E6FA': 'Лавандовий',
+		'FFF': 'Білий'
 	},
 
 	scayt: {
 		title: 'Перефірка орфографії по мірі набору',
-		opera_title: 'Not supported by Opera', // MISSING
-		enable: 'Включити SCAYT',
-		disable: 'Відключити SCAYT',
+		opera_title: 'Не підтримується в Opera',
+		enable: 'Ввімкнути SCAYT',
+		disable: 'Вимкнути SCAYT',
 		about: 'Про SCAYT',
 		toggle: 'Перемкнути SCAYT',
 		options: 'Опції',
 		langs: 'Мови',
-		moreSuggestions: 'Більше пропозицій',
-		ignore: 'Ігнорувати',
-		ignoreAll: 'Ігнорувати всі',
+		moreSuggestions: 'Більше варіантів',
+		ignore: 'Пропустити',
+		ignoreAll: 'Пропустити всі',
 		addWord: 'Додати слово',
-		emptyDic: 'Назва словника повинна бути заповнена.',
+		emptyDic: 'Назва словника повинна бути вказана.',
 
 		optionsTab: 'Опції',
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		allCaps: 'Пропустити прописні слова',
+		ignoreDomainNames: 'Пропустити доменні назви',
+		mixedCase: 'Пропустити слова зі змішаним регістром',
+		mixedWithDigits: 'Пропустити слова, що містять цифри',
 
 		languagesTab: 'Мови',
 
 		dictionariesTab: 'Словники',
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dic_field_name: 'Назва словника',
+		dic_create: 'Створити',
+		dic_restore: 'Відновити',
+		dic_delete: 'Видалити',
+		dic_rename: 'Перейменувати',
+		dic_info: 'Як правило, користувацькі словники зберігаються у cookie-файлах. Однак, cookie-файли мають обмеження на розмір. Якщо користувацький словник зростає в обсязі настільки, що вже не може бути збережений у cookie-файлі, тоді його можна зберегти на нашому сервері. Щоб зберегти Ваш персональний словник на нашому сервері необхідно вказати назву словника. Якщо Ви вже зберігали словник на сервері, будь ласка, вкажіть назву збереженого словника і натисніть кнопку Відновити.',
 
-		aboutTab: 'Про'
+		aboutTab: 'Про SCAYT'
 	},
 
 	about: {
 		title: 'Про CKEditor',
 		dlgTitle: 'Про CKEditor',
-		moreInfo: 'Щодо інформації з ліцензування завітайте до нашого сайту:',
+		moreInfo: 'Щодо інформації з ліцензування завітайте на наш сайт:',
 		copy: 'Copyright &copy; $1. Всі права застережено.'
 	},
 
 	maximize: 'Максимізувати',
-	minimize: 'Minimize', // MISSING
+	minimize: 'Мінімізувати',
 
 	fakeobjects: {
 		anchor: 'Якір',
-		flash: 'Flash анімація',
+		flash: 'Flash-анімація',
 		div: 'Розрив сторінки',
-		unknown: 'Невідомий об`єкт'
+		unknown: 'Невідомий об\'єкт'
 	},
 
-	resize: 'Пересувайте для зміни розміру',
+	resize: 'Потягніть для зміни розмірів',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		options: 'Color Options', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected Color', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Обрати колір',
+		options: 'Опції кольорів',
+		highlight: 'Колір, на який вказує курсор',
+		selected: 'Обраний колір',
+		clear: 'Очистити'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Згорнути панель інструментів',
+	toolbarExpand: 'Розгорнути панель інструментів',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Напрямок тексту зліва направо',
+		rtl: 'Напрямок тексту справа наліво'
 	}
 };
