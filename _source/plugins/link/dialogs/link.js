@@ -1113,6 +1113,9 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
 					attributes[ '_cke_pa_onclick' ] = onclickList.join( '' );
+
+					// Add the "target" attribute. (#5074)
+					removeAttributes.push( 'target' );
 				} else {
 					if ( data.target.type != 'notSet' && data.target.name )
 						attributes.target = data.target.name;
