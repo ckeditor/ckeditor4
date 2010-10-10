@@ -529,8 +529,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
 							if ( nodeList.count() > 0 ) {
 								var caption = nodeList.getItem( 0 );
-								caption = ( caption.getChild( 0 ) && caption.getChild( 0 ).getText() ) || '';
-								caption = CKEDITOR.tools.trim( caption );
+								caption = CKEDITOR.tools.trim( caption.getText() );
 								this.setValue( caption );
 							}
 						},
