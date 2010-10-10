@@ -12,8 +12,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				newHeight;
 
 			// We can not use documentElement to calculate the height for IE (#6061).
+			// It is not good for Quirks, yet using offsetHeight would also not work as expected (#6408).
 			if ( CKEDITOR.env.ie )
-				newHeight = doc.getBody().$.scrollHeight + 24;
+				newHeight = doc.getBody().$.scrollHeight + ( CKEDITOR.env.quirks ? 0 : 24 );
 			else
 				newHeight = doc.getDocumentElement().$.offsetHeight;
 
