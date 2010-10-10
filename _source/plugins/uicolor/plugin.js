@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.plugins.add( 'uicolor', {
 	requires: [ 'dialog' ],
-	lang: [ 'en' ],
+	lang: [ 'en', 'he' ],
 
 	init: function( editor ) {
 		if ( CKEDITOR.env.ie6Compat )
