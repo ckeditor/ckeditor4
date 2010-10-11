@@ -477,6 +477,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					if ( CKEDITOR.env.gecko ) {
+						// Set the HTML style to 100% to have the text cursor in affect (#6341)
+						domDocument.getDocumentElement().setStyle( 'height', '100%' );
 						domDocument.on( 'mouseup', function( ev ) {
 							if ( ev.data.$.button == 2 ) {
 								var target = ev.data.getTarget();
