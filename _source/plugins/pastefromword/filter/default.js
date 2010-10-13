@@ -102,7 +102,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return result;
 	};
 
-	var cssLengthRelativeUnit = /^(\d[.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
+	var cssLengthRelativeUnit = /^([.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
 	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/; // e.g. 0px 0pt 0px
 
 	var listBaseIndent = 0,
@@ -185,7 +185,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																{
 							// Be able to deal with component/short-hand form style.
 							var values = margin.split( ' ' );
-							margin = values[ 3 ] || values[ 1 ] || values[ 0 ];
+							margin = CKEDITOR.plugins.pastefromword.utils.convertToPx( values[ 3 ] || values[ 1 ] || values[ 0 ] );
 							margin = parseInt( margin, 10 );
 
 							// Figure out the indent unit by looking at the first increament.
