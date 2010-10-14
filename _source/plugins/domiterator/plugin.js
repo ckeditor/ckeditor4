@@ -260,6 +260,9 @@ CKEDITOR.plugins.add( 'domiterator' );
 				}
 			}
 
+			// Ignore bookmark nodes.(#3783)
+			var bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true );
+
 			if ( removePreviousBr ) {
 				var previousSibling = block.getPrevious();
 				if ( previousSibling && previousSibling.type == CKEDITOR.NODE_ELEMENT ) {
@@ -271,9 +274,6 @@ CKEDITOR.plugins.add( 'domiterator' );
 			}
 
 			if ( removeLastBr ) {
-				// Ignore bookmark nodes.(#3783)
-				var bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true );
-
 				var lastChild = block.getLast();
 				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' ) {
 					// Take care not to remove the block expanding <br> in non-IE browsers.
@@ -287,6 +287,12 @@ CKEDITOR.plugins.add( 'domiterator' );
 			// next interation.
 			if ( !this._.nextNode ) {
 				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : block.getNextSourceNode( true, null, lastNode );
+			}
+
+			if ( !bookmarkGuard( this._.nextNode ) ) {
+				this._.nextNode = this._.nextNode.getNextSourceNode( true, null, function( node ) {
+					return !node.equals( lastNode ) && bookmarkGuard( node );
+				});
 			}
 
 			return block;
