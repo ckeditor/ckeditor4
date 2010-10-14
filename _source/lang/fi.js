@@ -103,24 +103,24 @@ CKEDITOR.lang[ 'fi' ] = {
 		targetTop: 'Päällimmäinen ikkuna (_top)',
 		targetSelf: 'Sama ikkuna (_self)',
 		targetParent: 'Ylemmän tason ikkuna (_parent)',
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Vasemmalta oikealle (LTR)',
+		langDirRTL: 'Oikealta vasemmalle (RTL)',
+		styles: 'Tyyli',
+		cssClasses: 'Tyylitiedoston luokat',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Pikavalikon ominaisuudet'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Lisää erikoismerkki',
 		title: 'Valitse erikoismerkki',
-		options: 'Special Character Options' // MISSING
+		options: 'Erikoismerkin ominaisuudet'
 	},
 
 	// Link dialog.
@@ -193,14 +193,14 @@ CKEDITOR.lang[ 'fi' ] = {
 		bulletedTitle: 'Numeroimattoman listan ominaisuudet',
 		type: 'Tyyppi',
 		start: 'Alku',
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
+		validateStartNumber: 'Listan ensimmäisen numeron tulee olla kokonaisluku.',
 		circle: 'Ympyrä',
 		disc: 'Levy',
 		square: 'Neliö',
 		none: 'Ei mikään',
 		notset: '<ei asetettu>',
 		armenian: 'Armeenialainen numerointi',
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
+		georgian: 'Georgialainen numerointi (an, ban, gan, etc.)',
 		lowerRoman: 'Pienet roomalaiset (i, ii, iii, iv, v, jne.)',
 		upperRoman: 'Isot roomalaiset (I, II, III, IV, V, jne.)',
 		lowerAlpha: 'Pienet aakkoset (a, b, c, d, e, jne.)',
@@ -489,7 +489,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	smiley: {
 		toolbar: 'Hymiö',
 		title: 'Lisää hymiö',
-		options: 'Smiley Options' // MISSING
+		options: 'Hymiön ominaisuudet'
 	},
 
 	elementsPath: {
@@ -535,7 +535,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	templates: {
 		button: 'Pohjat',
 		title: 'Sisältöpohjat',
-		options: 'Template Options', // MISSING
+		options: 'Sisältöpohjan ominaisuudet',
 		insertOption: 'Korvaa editorin koko sisältö',
 		selectPromptMsg: 'Valitse pohja editoriin<br>(aiempi sisältö menetetään):',
 		emptyListMsg: '(Ei määriteltyjä pohjia)'
@@ -701,7 +701,7 @@ CKEDITOR.lang[ 'fi' ] = {
 
 	colordialog: {
 		title: 'Valitse väri',
-		options: 'Color Options', // MISSING
+		options: 'Värin ominaisuudet',
 		highlight: 'Korostus',
 		selected: 'Valittu',
 		clear: 'Poista'
@@ -711,7 +711,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	toolbarExpand: 'Laajenna työkalupalkki',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Tekstin suunta vasemmalta oikealle',
+		rtl: 'Tekstin suunta oikealta vasemmalle'
 	}
 };
