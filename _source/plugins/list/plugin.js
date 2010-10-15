@@ -93,11 +93,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( listNodeNames[ item.grandparent.getName() ] )
 						currentListItem = item.element.clone( false, true );
 					else {
-						// Create completely new blocks here, attributes are dropped.
-						if ( dir || ( paragraphMode != CKEDITOR.ENTER_BR && item.grandparent.getName() != 'td' ) ) {
+						// Create completely new blocks here.
+						if ( dir || item.element.hasAttributes() || ( paragraphMode != CKEDITOR.ENTER_BR && item.grandparent.getName() != 'td' ) ) {
 							currentListItem = doc.createElement( paragraphName );
-							if ( dir )
-								currentListItem.setAttribute( 'dir', dir );
+							item.element.copyAttributes( currentListItem, { type:1,value:1 } );
+							dir && currentListItem.setAttribute( 'dir', dir );
+
+							// There might be a case where there are no attributes in the element after all
+							// (i.e. when "type" or "value" are the only attributes set). In this case, if enterMode = BR,
+							// the current item should be a fragment.
+							if ( !dir && paragraphMode == CKEDITOR.ENTER_BR && !currentListItem.hasAttributes() )
+								currentListItem = new CKEDITOR.dom.documentFragment( doc );
 						} else
 							currentListItem = new CKEDITOR.dom.documentFragment( doc );
 					}
