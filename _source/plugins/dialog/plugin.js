@@ -32,6 +32,8 @@ CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
 CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 (function() {
+	var cssLength = CKEDITOR.tools.cssLength;
+
 	function isTabVisible( tabId ) {
 		return !!this._.tabs[ tabId ][ 0 ].$.offsetHeight;
 	}
@@ -887,19 +889,17 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var selected = this._.tabs[ id ];
 			selected[ 0 ].addClass( 'cke_dialog_tab_selected' );
 
-			// [IE] a unvisible input[type='text'] will enlarge it's width
-			// if it's value is long when it show( #5649 )
-			// so we clear it's value before it shows and then recover it
+			// [IE] an invisible input[type='text'] will enlarge it's width 
+			// if it's value is long when it shows, so we clear it's value
+			// before it shows and then recover it (#5649)
 			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
 				clearOrRecoverTextInputValue( selected[ 1 ] );
 				selected[ 1 ].show();
 				setTimeout( function() {
-					clearOrRecoverTextInputValue( selected[ 1 ], true );
+					clearOrRecoverTextInputValue( selected[ 1 ], 1 );
 				}, 0 );
-			} else {
+			} else
 				selected[ 1 ].show();
-			}
-
 
 			this._.currentTabId = id;
 			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
@@ -1637,9 +1637,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	function showCover( editor ) {
 		var win = CKEDITOR.document.getWindow();
-		var backgroundColorStyle = editor.config.dialog_backgroundCoverColor || 'white',
-			backgroundCoverOpacity = editor.config.dialog_backgroundCoverOpacity,
-			baseFloatZIndex = editor.config.baseFloatZIndex,
+		var config = editor.config,
+			backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
+			backgroundCoverOpacity = config.dialog_backgroundCoverOpacity,
+			baseFloatZIndex = config.baseFloatZIndex,
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),
 			coverElement = covers[ coverKey ];
 
@@ -2028,13 +2029,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 							html.push( '<td class="', className, '" role="presentation" ' );
 							if ( widths ) {
 								if ( widths[ i ] )
-									styles.push( 'width:' + CKEDITOR.tools.cssLength( widths[ i ] ) );
+									styles.push( 'width:' + cssLength( widths[ i ] ) );
 							} else
 								styles.push( 'width:' + Math.floor( 100 / childHtmlList.length ) + '%' );
 							if ( height )
-								styles.push( 'height:' + CKEDITOR.tools.cssLength( height ) );
+								styles.push( 'height:' + cssLength( height ) );
 							if ( elementDefinition && elementDefinition.padding != undefined )
-								styles.push( 'padding:' + CKEDITOR.tools.cssLength( elementDefinition.padding ) );
+								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
 							if ( styles.length > 0 )
 								html.push( 'style="' + styles.join( '; ' ) + '" ' );
 							html.push( '>', childHtmlList[ i ], '</td>' );
@@ -2092,7 +2093,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						html.push( 'style="' );
 						if ( elementDefinition && elementDefinition.expand )
 							html.push( 'height:100%;' );
-						html.push( 'width:' + CKEDITOR.tools.cssLength( width || '100%' ), ';' );
+						html.push( 'width:' + cssLength( width || '100%' ), ';' );
 						html.push( '"' );
 						html.push( 'align="', CKEDITOR.tools.htmlEncode(
 						( elementDefinition && elementDefinition.align ) || ( dialog.getParentEditor().lang.dir == 'ltr' ? 'left' : 'right' ) ), '" ' );
@@ -2102,13 +2103,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 							var styles = [];
 							html.push( '<tr><td role="presentation" ' );
 							if ( width )
-								styles.push( 'width:' + CKEDITOR.tools.cssLength( width || '100%' ) );
+								styles.push( 'width:' + cssLength( width || '100%' ) );
 							if ( heights )
-								styles.push( 'height:' + CKEDITOR.tools.cssLength( heights[ i ] ) );
+								styles.push( 'height:' + cssLength( heights[ i ] ) );
 							else if ( elementDefinition && elementDefinition.expand )
 								styles.push( 'height:' + Math.floor( 100 / childHtmlList.length ) + '%' );
 							if ( elementDefinition && elementDefinition.padding != undefined )
-								styles.push( 'padding:' + CKEDITOR.tools.cssLength( elementDefinition.padding ) );
+								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
 							if ( styles.length > 0 )
 								html.push( 'style="', styles.join( '; ' ), '" ' );
 							html.push( ' class="cke_dialog_ui_vbox_child">', childHtmlList[ i ], '</td></tr>' );

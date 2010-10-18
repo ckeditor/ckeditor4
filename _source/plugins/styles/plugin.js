@@ -1137,7 +1137,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var selection = document.getSelection(),
 			// Bookmark the range so we can re-select it after processing.
 			bookmarks = selection.createBookmarks(),
-			ranges = selection.getRanges( true ),
+			ranges = selection.getRanges( 1 ),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
 

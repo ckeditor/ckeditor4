@@ -66,7 +66,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			proto: {
 				add: function( value, html, title ) {
 					var pendingHtml = this._.pendingHtml,
-						id = 'cke_' + CKEDITOR.tools.getNextNumber();
+						id = CKEDITOR.tools.getNextId();
 
 					if ( !this._.started ) {
 						pendingHtml.push( '<ul role="presentation" class=cke_panel_list>' );
@@ -88,7 +88,7 @@ CKEDITOR.plugins.add( 'listblock', {
 				startGroup: function( title ) {
 					this._.close();
 
-					var id = 'cke_' + CKEDITOR.tools.getNextNumber();
+					var id = CKEDITOR.tools.getNextId();
 
 					this._.groups[ title ] = id;
 

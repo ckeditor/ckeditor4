@@ -157,7 +157,3 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		requires: [ 'domiterator' ]
 	});
 })();
-
-CKEDITOR.tools.extend( CKEDITOR.config, {
-	justifyClasses: null
-});

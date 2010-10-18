@@ -187,7 +187,6 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * @example
  * config.startupFocus = true;
  */
-CKEDITOR.config.startupFocus = false;
 
 /**
  * Whether to render or not the editing block area in the editor interface.

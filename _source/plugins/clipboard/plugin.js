@@ -14,9 +14,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var doc = editor.document,
 				body = doc.getBody();
 
-			var enabled = false;
+			var enabled = 0;
 			var onExec = function() {
-					enabled = true;
+					enabled = 1;
 				};
 
 			// The following seems to be the only reliable way to detect that
@@ -208,7 +208,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Cutting off control type element in IE standards breaks the selection entirely. (#4881)
 	function fixCut( editor ) {
-		if ( !CKEDITOR.env.ie || editor.document.$.compatMode == 'BackCompat' )
+		if ( !CKEDITOR.env.ie || CKEDITOR.env.quirks )
 			return;
 
 		var sel = editor.getSelection();

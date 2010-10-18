@@ -49,8 +49,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		element = new CKEDITOR.dom.element( element );
 		var relative, nodeToMove;
 
-		var keystroke = ev.getKeystroke();
-		var rtl = editor.lang.dir == 'rtl';
+		var keystroke = ev.getKeystroke(),
+			rtl = editor.lang.dir == 'rtl';
 		switch ( keystroke ) {
 			// UP-ARROW
 			case 38:

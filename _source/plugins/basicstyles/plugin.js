@@ -24,8 +24,8 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				});
 			};
 
-		var config = editor.config;
-		var lang = editor.lang;
+		var config = editor.config,
+			lang = editor.lang;
 
 		addButtonCommand( 'Bold', lang.bold, 'bold', config.coreStyles_bold );
 		addButtonCommand( 'Italic', lang.italic, 'italic', config.coreStyles_italic );

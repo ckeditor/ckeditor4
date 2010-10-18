@@ -159,7 +159,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 					this._.itemOverFn = CKEDITOR.tools.addFunction( function( index ) {
 						clearTimeout( this._.showSubTimeout );
-						this._.showSubTimeout = CKEDITOR.tools.setTimeout( this._.showSubMenu, editor.config.menu_subMenuDelay, this, [ index ] );
+						this._.showSubTimeout = CKEDITOR.tools.setTimeout( this._.showSubMenu, editor.config.menu_subMenuDelay || 400, this, [ index ] );
 					}, this );
 
 					this._.itemOutFn = CKEDITOR.tools.addFunction( function( index ) {
@@ -184,8 +184,8 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
-				var chromeRoot = editor.container.getChild( 1 );
-				var mixedContentClass = chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+				var chromeRoot = editor.container.getChild( 1 ),
+					mixedContentClass = chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
 				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];
@@ -326,7 +326,6 @@ CKEDITOR.menuItem = CKEDITOR.tools.createClass({
  * // Remove the submenu delay.
  * config.menu_subMenuDelay = 0;
  */
-CKEDITOR.config.menu_subMenuDelay = 400;
 
 /**
  * A comma separated list of items group names to be displayed in the context

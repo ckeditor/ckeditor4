@@ -35,14 +35,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var toLoad = [];
 
 		// Look for pending template files to get loaded.
-		for ( var i = 0; i < templateFiles.length; i++ ) {
+		for ( var i = 0, count = templateFiles.length; i < count; i++ ) {
 			if ( !loadedTemplatesFiles[ templateFiles[ i ] ] ) {
 				toLoad.push( templateFiles[ i ] );
 				loadedTemplatesFiles[ templateFiles[ i ] ] = 1;
 			}
 		}
 
-		if ( toLoad.length > 0 )
+		if ( toLoad.length )
 			CKEDITOR.scriptLoader.load( toLoad, callback );
 		else
 			setTimeout( callback, 0 );
@@ -59,7 +59,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  * config.templates = 'my_templates';
  */
-CKEDITOR.config.templates = 'default';
 
 /**
  * The list of templates definition files to load.

@@ -13,7 +13,7 @@
 		}
 
 		range.shrink( CKEDITOR.SHRINK_TEXT );
-		return range.getCommonAncestor().getAscendant( listTag, true );
+		return range.getCommonAncestor().getAscendant( listTag, 1 );
 	}
 
 	var mapListStyle = {
@@ -28,9 +28,10 @@
 	};
 
 	function listStyle( editor, startupPage ) {
+		var lang = editor.lang.list;
 		if ( startupPage == 'bulletedListStyle' ) {
 			return {
-				title: editor.lang.list.bulletedTitle,
+				title: lang.bulletedTitle,
 				minWidth: 300,
 				minHeight: 50,
 				contents: [
@@ -40,14 +41,14 @@
 					elements: [
 						{
 						type: 'select',
-						label: editor.lang.list.type,
+						label: lang.type,
 						id: 'type',
 						style: 'width: 150px; margin: auto;',
 						items: [
-							[ editor.lang.list.notset, '' ],
-							[ editor.lang.list.circle, 'circle' ],
-							[ editor.lang.list.disc, 'disc' ],
-							[ editor.lang.list.square, 'square' ]
+							[ lang.notset, '' ],
+							[ lang.circle, 'circle' ],
+							[ lang.disc, 'disc' ],
+							[ lang.square, 'square' ]
 							],
 						setup: function( element ) {
 							var value = element.getStyle( 'list-style-type' ) || mapListStyle[ element.getAttribute( 'type' ) ] || element.getAttribute( 'type' ) || '';
@@ -81,25 +82,25 @@
 		} else if ( startupPage == 'numberedListStyle' ) {
 
 			var listStyleOptions = [
-				[ editor.lang.list.notset, '' ],
-				[ editor.lang.list.lowerRoman, 'lower-roman' ],
-				[ editor.lang.list.upperRoman, 'upper-roman' ],
-				[ editor.lang.list.lowerAlpha, 'lower-alpha' ],
-				[ editor.lang.list.upperAlpha, 'upper-alpha' ],
-				[ editor.lang.list.decimal, 'decimal' ]
+				[ lang.notset, '' ],
+				[ lang.lowerRoman, 'lower-roman' ],
+				[ lang.upperRoman, 'upper-roman' ],
+				[ lang.lowerAlpha, 'lower-alpha' ],
+				[ lang.upperAlpha, 'upper-alpha' ],
+				[ lang.decimal, 'decimal' ]
 				];
 
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 7 ) {
 				listStyleOptions.concat( [
-					[ editor.lang.list.armenian, 'armenian' ],
-					[ editor.lang.list.decimalLeadingZero, 'decimal-leading-zero' ],
-					[ editor.lang.list.georgian, 'georgian' ],
-					[ editor.lang.list.lowerGreek, 'lower-greek' ]
+					[ lang.armenian, 'armenian' ],
+					[ lang.decimalLeadingZero, 'decimal-leading-zero' ],
+					[ lang.georgian, 'georgian' ],
+					[ lang.lowerGreek, 'lower-greek' ]
 					] );
 			}
 
 			return {
-				title: editor.lang.list.numberedTitle,
+				title: lang.numberedTitle,
 				minWidth: 300,
 				minHeight: 50,
 				contents: [
@@ -112,10 +113,10 @@
 						widths: [ '25%', '75%' ],
 						children: [
 							{
-							label: editor.lang.list.start,
+							label: lang.start,
 							type: 'text',
 							id: 'start',
-							validate: CKEDITOR.dialog.validate.integer( editor.lang.list.validateStartNumber ),
+							validate: CKEDITOR.dialog.validate.integer( lang.validateStartNumber ),
 							setup: function( element ) {
 								var value = element.getAttribute( 'start' ) || 1;
 								value && this.setValue( value );
@@ -126,7 +127,7 @@
 						},
 							{
 							type: 'select',
-							label: editor.lang.list.type,
+							label: lang.type,
 							id: 'type',
 							style: 'width: 100%;',
 							items: listStyleOptions,

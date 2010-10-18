@@ -122,8 +122,8 @@
 				block;
 
 			// Get all ranges from the selection.
-			var selection = editor.document.getSelection();
-			var ranges = selection.getRanges();
+			var selection = editor.document.getSelection(),
+				ranges = selection.getRanges();
 			var bookmarks = selection.createBookmarks();
 			var i, iterator;
 

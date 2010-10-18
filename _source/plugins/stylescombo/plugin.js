@@ -19,7 +19,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var style, styleName;
 
 						// Put all styles into an Array.
-						for ( var i = 0; i < stylesDefinitions.length; i++ ) {
+						for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
 							var styleDefinition = stylesDefinitions[ i ];
 
 							styleName = styleDefinition.name;
@@ -59,7 +59,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Loop over the Array, adding all items to the
 						// combo.
 						var lastType;
-						for ( var i = 0; i < stylesList.length; i++ ) {
+						for ( var i = 0, count = stylesList.length; i < count; i++ ) {
 							style = stylesList[ i ];
 							styleName = style._name;
 
@@ -106,7 +106,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							elements = elementPath.elements;
 
 						// For each element into the elements path.
-						for ( var i = 0, element; i < elements.length; i++ ) {
+						for ( var i = 0, count = elements.length, element; i < count; i++ ) {
 							element = elements[ i ];
 
 							// Check if the element is removable by any of
@@ -129,9 +129,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( CKEDITOR.env.ie || CKEDITOR.env.webkit )
 						editor.focus();
 
-					var selection = editor.getSelection();
-
-					var element = selection.getSelectedElement(),
+					var selection = editor.getSelection(),
+						element = selection.getSelectedElement(),
 						elementPath = new CKEDITOR.dom.elementPath( element || selection.getStartElement() );
 
 					var counter = [ 0, 0, 0, 0 ];

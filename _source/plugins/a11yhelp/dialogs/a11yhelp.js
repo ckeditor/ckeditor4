@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var lang = editor.lang.accessibilityHelp,
-		id = CKEDITOR.tools.getNextNumber();
+		id = CKEDITOR.tools.getNextId();
 
 	// CharCode <-> KeyChar.
 	var keyMap = {
@@ -116,8 +116,8 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
-		var pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="cke_' + id + '_arialbl" tabIndex="-1">%1</div>' +
-							'<span id="cke_' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
+		var pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
+							'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
 			sectionTpl = '<h1>%1</h1><dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 

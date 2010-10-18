@@ -55,11 +55,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 */
 		this.lineBreakChars = '\n';
 
-		this.forceSimpleAmpersand = false;
+		this.forceSimpleAmpersand = 0;
 
-		this.sortAttributes = true;
+		this.sortAttributes = 1;
 
-		this._.indent = false;
+		this._.indent = 0;
 		this._.indentation = '';
 		this._.rules = {};
 
@@ -233,7 +233,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		lineBreak: function() {
 			if ( this._.output.length > 0 )
 				this._.output.push( this.lineBreakChars );
-			this._.indent = true;
+			this._.indent = 1;
 		},
 
 		/**
@@ -246,7 +246,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 */
 		indentation: function() {
 			this._.output.push( this._.indentation );
-			this._.indent = false;
+			this._.indent = 0;
 		},
 
 		/**

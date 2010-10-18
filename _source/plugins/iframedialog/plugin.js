@@ -68,7 +68,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 						contentLoad = elementDefinition.onContentLoad && CKEDITOR.tools.bind( elementDefinition.onContentLoad, this ),
 						cssWidth = CKEDITOR.tools.cssLength( elementDefinition.width ),
 						cssHeight = CKEDITOR.tools.cssLength( elementDefinition.height );
-					_.frameId = CKEDITOR.tools.getNextNumber() + '_iframe';
+					_.frameId = CKEDITOR.tools.getNextId() + '_iframe';
 
 					// IE BUG: Parent container does not resize to contain the iframe automatically.
 					dialog.on( 'load', function() {

@@ -13,12 +13,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-skinName-langDir[-uiColor][-CSSs][-level]
-		var key = doc.getUniqueId() + '-' + parentElement.getUniqueId() +
-						'-' + editor.skinName +
-						'-' + editor.lang.dir +
-						( ( editor.uiColor && ( '-' + editor.uiColor ) ) || '' ) +
-						( ( definition.css && ( '-' + definition.css ) ) || '' ) +
-						( ( level && ( '-' + level ) ) || '' );
+		var key = CKEDITOR.tools.genKey( doc.getUniqueId(), parentElement.getUniqueId(), editor.skinName, editor.lang.dir, editor.uiColor || '', definition.css || '', level || '' );
 
 		var panel = panels[ key ];
 
@@ -37,7 +32,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 	CKEDITOR.ui.floatPanel = CKEDITOR.tools.createClass({
 		$: function( editor, parentElement, definition, level ) {
-			definition.forceIFrame = true;
+			definition.forceIFrame = 1;
 
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
@@ -89,7 +84,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					block = panel.showBlock( name );
 
 				this.allowBlur( false );
-				isShowing = true;
+				isShowing = 1;
 
 				var element = this.element,
 					iframe = this._.iframe,
@@ -279,7 +274,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				if ( this.onShow )
 					this.onShow.call( this );
 
-				isShowing = false;
+				isShowing = 0;
 			},
 
 			hide: function() {

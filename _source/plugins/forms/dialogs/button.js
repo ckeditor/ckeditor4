@@ -10,9 +10,9 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		onShow: function() {
 			delete this.button;
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "input" ) {
+			if ( element && element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );
-				if ( type == "button" || type == "reset" || type == "submit" ) {
+				if ( type in { button:1,reset:1,submit:1 } ) {
 					this.button = element;
 					this.setupContent( element );
 				}

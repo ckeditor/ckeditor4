@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
 			docElement = doc.$;
 
-		doc.getById( "cke_actscrpt" ).remove();
+		doc.getById( 'cke_actscrpt' ).remove();
 
 		CKEDITOR.env.ie ? docElement.body.contentEditable = "true" : docElement.designMode = "on";
 

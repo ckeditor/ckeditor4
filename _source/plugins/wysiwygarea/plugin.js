@@ -78,6 +78,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var marker = this.document.getById( 'cke_paste_marker' );
 				marker.scrollIntoView();
 				marker.remove();
+				marker = null;
 			}
 
 			CKEDITOR.tools.setTimeout( function() {
@@ -114,13 +115,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Remove the original contents.
 				range.deleteContents();
 
-				clone = !i && element || element.clone( true );
+				clone = !i && element || element.clone( 1 );
 
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
 				var current, dtd;
 				if ( isBlock ) {
-					while ( ( current = range.getCommonAncestor( false, true ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+					while ( ( current = range.getCommonAncestor( 0, 1 ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
 						// Split up inline elements.
 						if ( current.getName() in CKEDITOR.dtd.span )
 							range.splitElement( current );

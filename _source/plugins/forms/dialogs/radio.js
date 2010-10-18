@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 			delete this.radioButton;
 
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "input" && element.getAttribute( 'type' ) == "radio" ) {
+			if ( element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'radio' ) {
 				this.radioButton = element;
 				this.setupContent( element );
 			}

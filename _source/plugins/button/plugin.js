@@ -63,7 +63,7 @@ CKEDITOR.ui.button.prototype = {
 	 */
 	render: function( editor, output ) {
 		var env = CKEDITOR.env,
-			id = this._.id = 'cke_' + CKEDITOR.tools.getNextNumber(),
+			id = this._.id = CKEDITOR.tools.getNextId(),
 			classes = '',
 			command = this.command,
 			// Get the command name.

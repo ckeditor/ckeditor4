@@ -26,7 +26,7 @@ CKEDITOR.plugins.removeformat = {
 				var removeAttributes = editor._.removeAttributes || ( editor._.removeAttributes = editor.config.removeFormatAttributes.split( ',' ) );
 
 				var filter = CKEDITOR.plugins.removeformat.filter;
-				var ranges = editor.getSelection().getRanges( true ),
+				var ranges = editor.getSelection().getRanges( 1 ),
 					iterator = ranges.createIterator(),
 					range;
 
@@ -40,8 +40,8 @@ CKEDITOR.plugins.removeformat = {
 					var bookmark = range.createBookmark();
 
 					// The style will be applied within the bookmark boundaries.
-					var startNode = bookmark.startNode;
-					var endNode = bookmark.endNode;
+					var startNode = bookmark.startNode,
+						endNode = bookmark.endNode;
 
 					// We need to check the selection boundaries (bookmark spans) to break
 					// the code in a way that we can properly remove partially selected nodes.
@@ -55,8 +55,8 @@ CKEDITOR.plugins.removeformat = {
 
 					var breakParent = function( node ) {
 							// Let's start checking the start boundary.
-							var path = new CKEDITOR.dom.elementPath( node );
-							var pathElements = path.elements;
+							var path = new CKEDITOR.dom.elementPath( node ),
+								pathElements = path.elements;
 
 							for ( var i = 1, pathElement; pathElement = pathElements[ i ]; i++ ) {
 								if ( pathElement.equals( path.block ) || pathElement.equals( path.blockLimit ) )
@@ -87,7 +87,7 @@ CKEDITOR.plugins.removeformat = {
 						if ( !( currentNode.getName() == 'img' && currentNode.getAttribute( '_cke_realelement' ) ) && filter( editor, currentNode ) ) {
 							// Remove elements nodes that match with this style rules.
 							if ( tagsRegex.test( currentNode.getName() ) )
-								currentNode.remove( true );
+								currentNode.remove( 1 );
 							else {
 								currentNode.removeAttributes( removeAttributes );
 								editor.fire( 'removeFormatCleanup', currentNode );

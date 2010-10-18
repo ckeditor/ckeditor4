@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 };
-	var directSelectionGuardElements = {};
+	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
+		directSelectionGuardElements = {};
 	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
 
 	function onSelectionChange( evt ) {

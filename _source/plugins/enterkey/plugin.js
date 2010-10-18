@@ -60,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				node = nextBlock.getParent();
 				if ( node.is( 'li' ) ) {
 					nextBlock.breakParent( node );
-					nextBlock.move( nextBlock.getNext(), true );
+					nextBlock.move( nextBlock.getNext(), 1 );
 				}
 			} else if ( previousBlock && ( node = previousBlock.getParent() ) && node.is( 'li' ) ) {
 				previousBlock.breakParent( node );
@@ -281,7 +281,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, 0 );
 			return true;
 		} else
-			return enter( editor, editor.config.shiftEnterMode, true );
+			return enter( editor, editor.config.shiftEnterMode, 1 );
 	}
 
 	function enter( editor, mode, forceMode ) {
@@ -297,7 +297,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Use setTimout so the keys get cancelled immediatelly.
 		setTimeout( function() {
 			editor.fire( 'saveSnapshot' ); // Save undo step.
-			if ( mode == CKEDITOR.ENTER_BR || editor.getSelection().getStartElement().hasAscendant( 'pre', true ) )
+			if ( mode == CKEDITOR.ENTER_BR || editor.getSelection().getStartElement().hasAscendant( 'pre', 1 ) )
 				enterBr( editor, mode, null, forceMode );
 			else
 				enterBlock( editor, mode, null, forceMode );

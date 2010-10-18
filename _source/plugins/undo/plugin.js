@@ -296,7 +296,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 */
 			this.index = -1;
 
-			this.limit = this.editor.config.undoStackSize;
+			this.limit = this.editor.config.undoStackSize || 20;
 
 			this.currentImage = null;
 
@@ -480,7 +480,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  * config.undoStackSize = 50;
  */
-CKEDITOR.config.undoStackSize = 20;
 
 /**
  * Fired when the editor is about to save an undo snapshot. This event can be

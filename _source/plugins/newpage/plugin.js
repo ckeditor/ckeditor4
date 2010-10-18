@@ -14,7 +14,7 @@ CKEDITOR.plugins.add( 'newpage', {
 
 			exec: function( editor ) {
 				var command = this;
-				editor.setData( editor.config.newpage_html, function() {
+				editor.setData( editor.config.newpage_html || '', function() {
 					// Save the undo snapshot after all document changes are affected. (#4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
@@ -42,4 +42,3 @@ CKEDITOR.plugins.add( 'newpage', {
  * @example
  * config.newpage_html = '&lt;p&gt;Type your text here.&lt;/p&gt;';
  */
-CKEDITOR.config.newpage_html = '';

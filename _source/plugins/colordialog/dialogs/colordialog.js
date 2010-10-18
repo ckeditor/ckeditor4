@@ -13,12 +13,10 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	// Reference the dialog.
 	var dialog;
 
-	function spacer() {
-		return {
-			type: 'html',
-			html: '&nbsp;'
-		};
-	}
+	var spacer = {
+		type: 'html',
+		html: '&nbsp;'
+	};
 
 	function clearSelected() {
 		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
@@ -54,20 +52,18 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
 	}
 
-	var onMouseout = $tools.addFunction( clearHighlight );
-
-	var onClick = updateSelected,
-		onClickHandler = CKEDITOR.tools.addFunction( onClick );
-
-	var onFocus = updateHighlight,
+	var onMouseout = $tools.addFunction( clearHighlight ),
+		onClick = updateSelected,
+		onClickHandler = CKEDITOR.tools.addFunction( onClick ),
+		onFocus = updateHighlight,
 		onBlur = clearHighlight;
 
 	var onKeydownHandler = CKEDITOR.tools.addFunction( function( ev ) {
 		ev = new CKEDITOR.dom.event( ev );
 		var element = ev.getTarget();
 		var relative, nodeToMove;
-		var keystroke = ev.getKeystroke();
-		var rtl = editor.lang.dir == 'rtl';
+		var keystroke = ev.getKeystroke(),
+			rtl = editor.lang.dir == 'rtl';
 
 		switch ( keystroke ) {
 			// UP-ARROW
@@ -253,7 +249,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						firstColor.focus();
 					}
 				},
-					spacer(),
+					spacer,
 				{
 					type: 'vbox',
 					padding: 0,
@@ -281,7 +277,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 							}
 						}
 					},
-						spacer(),
+						spacer,
 					{
 						type: 'button',
 						id: 'clear',

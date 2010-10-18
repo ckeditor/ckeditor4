@@ -51,7 +51,7 @@ CKEDITOR.plugins.add( 'table', {
 				if ( !element || element.isReadOnly() )
 					return null;
 
-				var isTable = element.is( 'table' ) || element.hasAscendant( 'table' );
+				var isTable = element.hasAscendant( 'table', 1 );
 
 				if ( isTable ) {
 					return {

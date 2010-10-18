@@ -101,8 +101,8 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 		// Get an Anchor element.
 		var element = ev.getTarget();
 		var relative, nodeToMove;
-		var keystroke = ev.getKeystroke();
-		var rtl = editor.lang.dir == 'rtl';
+		var keystroke = ev.getKeystroke(),
+			rtl = editor.lang.dir == 'rtl';
 
 		switch ( keystroke ) {
 			// UP-ARROW

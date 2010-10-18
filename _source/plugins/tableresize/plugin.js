@@ -345,7 +345,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return;
 		}
 
-		target.getAscendant( 'table', true ).removeCustomData( '_cke_table_pillars' );
+		target.getAscendant( 'table', 1 ).removeCustomData( '_cke_table_pillars' );
 		evt.removeListener();
 	}
 
@@ -369,10 +369,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var target = evt.getTarget(),
 						table, pillars;
 
-					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', true ) )
+					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
 						return;
 
-					table = target.getAscendant( 'table', true );
+					table = target.getAscendant( 'table', 1 );
 
 					if ( !( pillars = table.getCustomData( '_cke_table_pillars' ) ) ) {
 						// Cache table pillars calculation result.

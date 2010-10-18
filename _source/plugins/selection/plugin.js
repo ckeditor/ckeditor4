@@ -122,7 +122,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					body.on( 'focus', function() {
 						// Enable selections to be saved.
-						saveEnabled = true;
+						saveEnabled = 1;
 
 						saveSelection();
 					});
@@ -134,7 +134,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							return;
 
 						// Disable selections from being saved.
-						saveEnabled = false;
+						saveEnabled = 0;
 						restoreEnabled = 1;
 					});
 
@@ -197,7 +197,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 						scroll = null;
 
-						saveEnabled = true;
+						saveEnabled = 1;
 						setTimeout( function() {
 							saveSelection( true );
 						}, 0 );
@@ -205,7 +205,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					body.on( 'keydown', disableSave );
 					body.on( 'keyup', function() {
-						saveEnabled = true;
+						saveEnabled = 1;
 						saveSelection();
 					});
 
@@ -215,7 +215,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					doc.on( 'selectionchange', saveSelection );
 
 					function disableSave() {
-						saveEnabled = false;
+						saveEnabled = 0;
 					}
 
 					function saveSelection( testIt ) {
@@ -341,7 +341,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return lockedSelection;
 
 		this.document = document;
-		this.isLocked = false;
+		this.isLocked = 0;
 		this._ = {
 			cache: {}
 		};
@@ -729,7 +729,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Decrease the range content to exclude particial
 							// selected node on the start which doesn't have
 							// visual impact. ( #3231 )
-							while ( true ) {
+							while ( 1 ) {
 								var startContainer = range.startContainer,
 									startOffset = range.startOffset;
 								// Limit the fix only to non-block elements.(#3950)
@@ -761,7 +761,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( CKEDITOR.env.ie ) {
 						range = sel.createRange();
-						range.collapse( true );
+						range.collapse( 1 );
 
 						node = range.parentElement();
 					} else {
@@ -823,7 +823,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// The native selection is not available when locked.
 			this._.cache.nativeSel = {};
 
-			this.isLocked = true;
+			this.isLocked = 1;
 
 			// Save this selection inside the DOM document.
 			this.document.setCustomData( 'cke_locked_selection', this );
@@ -840,7 +840,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var selectedElement = lockedSelection.getSelectedElement(),
 						ranges = !selectedElement && lockedSelection.getRanges();
 
-					this.isLocked = false;
+					this.isLocked = 0;
 					this.reset();
 
 					doc.getBody().focus();
@@ -853,7 +853,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			if ( !lockedSelection || !restore ) {
-				this.isLocked = false;
+				this.isLocked = 0;
 				this.reset();
 			}
 		},

@@ -18,11 +18,11 @@ CKEDITOR.plugins.add( 'domiterator' );
 			return;
 
 		this.range = range;
-		this.forceBrBreak = false;
+		this.forceBrBreak = 0;
 
 		// Whether include <br>s into the enlarged range.(#3730).
-		this.enlargeBr = true;
-		this.enforceRealBlocks = false;
+		this.enlargeBr = 1;
+		this.enforceRealBlocks = 0;
 
 		this._ || ( this._ = {} );
 	}
@@ -99,13 +99,13 @@ CKEDITOR.plugins.add( 'domiterator' );
 			while ( currentNode ) {
 				// closeRange indicates that a paragraph boundary has been found,
 				// so the range can be closed.
-				var closeRange = false,
+				var closeRange = 0,
 					parentPre = currentNode.hasAscendant( 'pre' );
 
 				// includeNode indicates that the current node is good to be part
 				// of the range. By default, any non-element node is ok for it.
 				var includeNode = ( currentNode.type != CKEDITOR.NODE_ELEMENT ),
-					continueFromSibling = false;
+					continueFromSibling = 0;
 
 				// If it is an element node, let's check if it can be part of the
 				// range.
@@ -116,7 +116,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 						// <br> boundaries must be part of the range. It will
 						// happen only if ForceBrBreak.
 						if ( nodeName == 'br' )
-							includeNode = true;
+							includeNode = 1;
 						else if ( !range && !currentNode.getChildCount() && nodeName != 'hr' ) {
 							// If we have found an empty block, and haven't started
 							// the range yet, it means we must return this block.
@@ -136,7 +136,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 								this._.nextNode = currentNode;
 						}
 
-						closeRange = true;
+						closeRange = 1;
 					} else {
 						// If we have child nodes, let's check them.
 						if ( currentNode.getFirst() ) {
@@ -149,13 +149,13 @@ CKEDITOR.plugins.add( 'domiterator' );
 							currentNode = currentNode.getFirst();
 							continue;
 						}
-						includeNode = true;
+						includeNode = 1;
 					}
 				} else if ( currentNode.type == CKEDITOR.NODE_TEXT ) {
 					// Ignore normal whitespaces (i.e. not including &nbsp; or
 					// other unicode whitespaces) before/after a block node.
 					if ( beginWhitespaceRegex.test( currentNode.getText() ) )
-						includeNode = false;
+						includeNode = 0;
 				}
 
 				// The current node is good to be part of the range and we are
@@ -175,15 +175,15 @@ CKEDITOR.plugins.add( 'domiterator' );
 						var parentNode = currentNode.getParent();
 
 						if ( parentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
-							closeRange = true;
+							closeRange = 1;
 							isLast = isLast || ( parentNode.equals( lastNode ) );
 							break;
 						}
 
 						currentNode = parentNode;
-						includeNode = true;
+						includeNode = 1;
 						isLast = ( currentNode.equals( lastNode ) );
-						continueFromSibling = true;
+						continueFromSibling = 1;
 					}
 				}
 

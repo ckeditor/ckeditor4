@@ -238,7 +238,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					currentOffset = Math.max( currentOffset, 0 );
 					currentOffset = Math.ceil( currentOffset / editor.config.indentOffset ) * editor.config.indentOffset;
-					element.setStyle( indentCssProperty, currentOffset ? currentOffset + editor.config.indentUnit : '' );
+					element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
 					if ( element.getAttribute( 'style' ) === '' )
 						element.removeAttribute( 'style' );
 				}
@@ -345,35 +345,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
-	indentOffset: 40,
-	indentUnit: 'px',
-	indentClasses: null
+	indentOffset: 40
 });
-
-/**
- * Size of each indentation step
- * @type Number
- * @example
- * config.indentOffset = 40;
- */
-
-/**
- * Unit for the indentation style
- * @type String
- * @example
- * config.indentUnit = 'px';
- */
-
-/**
- * List of classes to use for indenting the contents.
- * @type Array
- * @example
- * // Don't use classes for indenting. (this is the default value)
- * config.indentClasses = null;
- * @example
- * // Use the classes 'Indent1', 'Indent2', 'Indent3'
- * config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
- */
 
 /**
  * Size of each indentation step

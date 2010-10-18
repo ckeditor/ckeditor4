@@ -8,8 +8,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' )
 			return [];
 
-		var hijackRecord = [];
-		var hijackNames = [ 'style', 'className' ];
+		var hijackRecord = [],
+			hijackNames = [ 'style', 'className' ];
 		for ( var i = 0; i < hijackNames.length; i++ ) {
 			var name = hijackNames[ i ];
 			var $node = formElement.$.elements.namedItem( name );
@@ -112,12 +112,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'maximize', {
 		init: function( editor ) {
 			var lang = editor.lang;
-			var mainDocument = CKEDITOR.document;
-			var mainWindow = mainDocument.getWindow();
+			var mainDocument = CKEDITOR.document,
+				mainWindow = mainDocument.getWindow();
 
 			// Saved selection and scroll position for the editing area.
-			var savedSelection;
-			var savedScroll;
+			var savedSelection, savedScroll;
 
 			// Saved scroll position for the outer window.
 			var outerScroll;
