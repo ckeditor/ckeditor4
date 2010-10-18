@@ -117,13 +117,14 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 
 	proto: {
 		addTarget: function( element, nativeContextMenuOnCtrl ) {
-			// Opera doesn't support 'contextmenu' event, we have duo approaches employed here:
-			// 1. Inherit the 'button override' hack we introduced in v2 (#4530), while this require the Opera browser
-			//  option 'Allow script to detect context menu/right click events' to be always turned on.
+
+			// For browsers (Opera <=10a) that doesn't  support 'contextmenu' event, we have duo approaches employed here:
+			// 1. Inherit the 'button override' hack we introduced in v2 (#4530) (In Opera browser, this require the
+			//  option 'Allow script to detect context menu/right click events' to be always turned on).
 			// 2. Considering the fact that ctrl/meta key is not been occupied
 			//  for multiple range selecting (like Gecko), we use this key
 			//  combination as a fallback for triggering context-menu. (#4530)
-			if ( CKEDITOR.env.opera ) {
+			if ( CKEDITOR.env.opera && !( 'oncontextmenu' in document.body ) ) {
 				var contextMenuOverrideButton;
 				element.on( 'mousedown', function( evt ) {
 					evt = evt.data;
