@@ -659,7 +659,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
 		{
-			var newBlock = getElement( this, doc );
+			var newBlock = getElement( this, doc, block );
 			replaceBlock( block, newBlock );
 		}
 
@@ -930,7 +930,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
-	function getElement( style, targetDocument ) {
+	function getElement( style, targetDocument, block ) {
 		var el;
 
 		var def = style._.definition;
@@ -943,6 +943,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Create the element.
 		el = new CKEDITOR.dom.element( elementName, targetDocument );
+
+		// #6226: attributes should be copied before the new ones are applied
+		if ( block )
+			block.copyAttributes( el );
 
 		return setupElement( el, style );
 	}
