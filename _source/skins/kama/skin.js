@@ -217,11 +217,11 @@ CKEDITOR.skins.add( 'kama', ( function() {
 
 				// ml
 				el = innerDialog.getChild( 4 );
-				el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
+				el.setStyle( 'height', ( height + body.getChild( 0 ).$.offsetHeight ) + 'px' );
 
 				// mr
 				el = innerDialog.getChild( 5 );
-				el.setStyle( 'height', ( body.$.offsetHeight - 31 - 14 ) + 'px' );
+				el.setStyle( 'height', ( height + body.getChild( 0 ).$.offsetHeight ) + 'px' );
 			}, 100 );
 		});
 	}
