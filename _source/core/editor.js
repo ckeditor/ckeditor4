@@ -338,6 +338,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			throw '[CKEDITOR.editor] The instance "' + this.name + '" already exists.';
 
 		/**
+		 * A unique random string assigned to each editor instance in the page.
+		 * @name CKEDITOR.editor.prototype.id
+		 * @type String
+		 */
+		this.id = CKEDITOR.tools.getNextId();
+
+		/**
 		 * The configurations for this editor instance. It inherits all
 		 * settings defined in (@link CKEDITOR.config}, combined with settings
 		 * loaded from custom configuration files and those defined inline in

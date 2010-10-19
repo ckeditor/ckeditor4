@@ -132,7 +132,7 @@ CKEDITOR.skins.add( 'kama', ( function() {
 				setUiColor: function( color ) {
 					var cssContent,
 						uiStyle = getStylesheet( CKEDITOR.document ),
-						cssId = '.cke_editor_' + CKEDITOR.tools.escapeCssSelector( editor.name );
+						cssId = '.' + editor.id;
 
 					var cssSelectors = [
 						cssId + " .cke_wrapper",
