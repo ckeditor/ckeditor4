@@ -20,13 +20,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Represents a data processor, which is responsible to translate and transform
- * the editor data on input and output.
- * This class is not really part of the API. It's here for documentation
- * purposes, and serves as the base ("interface") for data processors
+ * This class is here for documentation purposes only and is not really part of
+ * the API. It serves as the base ("interface") for data processors
  * implementation.
  * @name CKEDITOR.dataProcessor
- * @contructor
+ * @class Represents a data processor, which is responsible to translate and
+ *        transform the editor data on input and output.
  * @example
  */
 
