@@ -401,28 +401,53 @@ CKEDITOR.STYLE_OBJECT = 3;
 				// Get the element that holds the entire range.
 				var parent = styleRange.getCommonAncestor();
 
+				var removeList = {
+					styles: {},
+					attrs: {},
+					// Styles cannot be removed.
+					blockedStyles: {},
+					// Attrs cannot be removed.
+					blockedAttrs: {}
+				};
+
+				var attName, styleName, value;
+
 				// Loop through the parents, removing the redundant attributes
 				// from the element to be applied.
 				while ( styleNode && parent ) {
 					if ( parent.getName() == elementName ) {
-						for ( var attName in def.attributes ) {
-							if ( styleNode.getAttribute( attName ) == parent.getAttribute( attName ) )
-								styleNode.removeAttribute( attName );
+						for ( attName in def.attributes ) {
+							if ( removeList.blockedAttrs[ attName ] || !( value = parent.getAttribute( styleName ) ) )
+								continue;
+
+							if ( styleNode.getAttribute( attName ) == value )
+								removeList.attrs[ attName ] = 1;
+							else
+								removeList.blockedAttrs[ attName ] = 1;
 						}
 
-						for ( var styleName in def.styles ) {
-							if ( styleNode.getStyle( styleName ) == parent.getStyle( styleName ) )
-								styleNode.removeStyle( styleName );
-						}
+						for ( styleName in def.styles ) {
+							if ( removeList.blockedStyles[ styleName ] || !( value = parent.getStyle( styleName ) ) )
+								continue;
 
-						if ( !styleNode.hasAttributes() ) {
-							styleNode = null;
-							break;
+							if ( styleNode.getStyle( styleName ) == value )
+								removeList.styles[ styleName ] = 1;
+							else
+								removeList.blockedStyles[ styleName ] = 1;
 						}
 					}
 
 					parent = parent.getParent();
 				}
+
+				for ( attName in removeList.attrs )
+					styleNode.removeAttribute( attName );
+
+				for ( styleName in removeList.styles )
+					styleNode.removeStyle( styleName );
+
+				if ( !styleNode.hasAttributes() )
+					styleNode = null;
 
 				if ( styleNode ) {
 					// Move the contents of the range to the style element.
@@ -447,6 +472,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// We should try to normalize with IE too in some way, somewhere.
 					if ( !CKEDITOR.env.ie )
 						styleNode.$.normalize();
+				}
+				// Style already inherit from parents, left just to clear up any internal overrides. (#5931)
+				else {
+					styleNode = new CKEDITOR.dom.element( 'span' );
+					styleRange.extractContents().appendTo( styleNode );
+					styleRange.insertNode( styleNode );
+					removeFromInsideElement( this, styleNode );
+					styleNode.remove( true );
 				}
 
 				// Style applied, let's release the range, so it gets
