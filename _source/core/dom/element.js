@@ -1365,5 +1365,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				this.setStyle( type, size + 'px' );
 			}
 		};
-	})()
+	})(),
+
+	/**
+	 * Gets element's direction. Supports both CSS 'direction' prop and 'dir' attr.
+	 */
+	getDirection: function( useComputed ) {
+		return useComputed ? this.getComputedStyle( 'direction' ) : this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
+	}
 });

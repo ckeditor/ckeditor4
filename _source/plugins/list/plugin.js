@@ -235,6 +235,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		for ( var i = 0; i < contents.length; i++ )
 			commonParent = commonParent.getCommonAncestor( contents[ i ].getParent() );
 
+		var useComputedState = editor.config.useComputedState,
+			listDir, explicitDirection;
+
+		useComputedState = useComputedState === undefined || useComputedState;
+
 		// We want to insert things that are in the same tree level only, so calculate the contents again
 		// by expanding the selected blocks to the same tree level.
 		for ( i = 0; i < contents.length; i++ ) {
@@ -243,6 +248,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			while ( ( parentNode = contentNode.getParent() ) ) {
 				if ( parentNode.equals( commonParent ) ) {
 					listContents.push( contentNode );
+
+					// Determine the lists's direction. 
+					if ( !explicitDirection && contentNode.getDirection() )
+						explicitDirection = 1;
+
+					var itemDir = contentNode.getDirection( useComputedState );
+
+					if ( listDir !== null ) {
+						// If at least one LI have a different direction than current listDir, we can't have listDir.
+						if ( listDir && listDir != itemDir )
+							listDir = null;
+						else
+							listDir = itemDir;
+					}
+
 					break;
 				}
 				contentNode = parentNode;
@@ -254,22 +274,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Insert the list to the DOM tree.
 		var insertAnchor = listContents[ listContents.length - 1 ].getNext(),
-			listNode = doc.createElement( this.type ),
-			dir;
+			listNode = doc.createElement( this.type );
 
 		listsCreated.push( listNode );
+
+		var contentBlock, listItem;
+
 		while ( listContents.length ) {
-			var contentBlock = listContents.shift(),
-				listItem = doc.createElement( 'li' );
+			contentBlock = listContents.shift();
+			listItem = doc.createElement( 'li' );
 
 			// Preserve preformat block and heading structure when converting to list item. (#5335) (#5271)
 			if ( contentBlock.is( 'pre' ) || headerTagRegex.test( contentBlock.getName() ) )
 				contentBlock.appendTo( listItem );
 			else {
-				if ( contentBlock.hasAttribute( 'dir' ) ) {
-					dir = dir || contentBlock.getAttribute( 'dir' );
+				// Remove DIR attribute if it was merged into list root.
+				if ( listDir && contentBlock.getDirection() ) {
+					contentBlock.removeStyle( 'direction' );
 					contentBlock.removeAttribute( 'dir' );
 				}
+
 				contentBlock.copyAttributes( listItem );
 				contentBlock.moveChildren( listItem );
 				contentBlock.remove();
@@ -278,8 +302,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			listItem.appendTo( listNode );
 		}
 
-		if ( dir )
-			listNode.setAttribute( 'dir', dir );
+		// Apply list root dir only if it has been explicitly declared.
+		if ( listDir && explicitDirection )
+			listNode.setAttribute( 'dir', listDir );
 
 		if ( insertAnchor )
 			listNode.insertBefore( insertAnchor );
