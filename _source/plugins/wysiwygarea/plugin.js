@@ -13,7 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var nonExitableElementNames = { table:1,pre:1 };
 
 	// Matching an empty paragraph at the end of document.
-	var emptyParagraphRegexp = /\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\1>)?(?=\s*$|<\/body>)/gi;
+	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var notWhitespaceEval = CKEDITOR.dom.walker.whitespaces( true );
 
@@ -773,9 +773,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toDataFormat( data, fixForBody );
 
-						// Strip the last blank paragraph within document.
+						// Reset empty if the document contains only one empty paragraph.
 						if ( config.ignoreEmptyParagraph )
-							data = data.replace( emptyParagraphRegexp, '' );
+							data = data.replace( emptyParagraphRegexp, function( match, lookback ) {
+							return lookback;
+						});
 
 						if ( docType )
 							data = docType + '\n' + data;
