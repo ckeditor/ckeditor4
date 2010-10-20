@@ -168,15 +168,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						container.setCustomData( 'maximize_saved_styles', saveStyles( container, true ) );
 
 						// Hide scroll bars.
+						var viewPaneSize = mainWindow.getViewPaneSize();
+						var styles = {
+							overflow: 'hidden',
+							width: ( CKEDITOR.env.opera ? viewPaneSize.width : 0 ) + 'px',
+							height: ( CKEDITOR.env.opera ? viewPaneSize.height - 16 : 0 ) + 'px'
+						};
+
 						if ( CKEDITOR.env.ie ) {
 							mainDocument.$.documentElement.style.overflow = mainDocument.getBody().$.style.overflow = 'hidden';
 						} else {
-							mainDocument.getBody().setStyles({
-								overflow: 'hidden',
-								width: '0px',
-								height: '0px'
-							});
+							mainDocument.getBody().setStyles( styles );
 						}
+
+						// #4023: [Opera] Maximize plugin
+						if ( CKEDITOR.env.opera )
+							mainDocument.getBody().getParent().setStyles( styles );
 
 						// Scroll to the top left (IE needs some time for it - #4923).
 						CKEDITOR.env.ie ? setTimeout( function() {
@@ -184,7 +191,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}, 0 ) : mainWindow.$.scrollTo( 0, 0 );
 
 						// Resize and move to top left.
-						var viewPaneSize = mainWindow.getViewPaneSize();
 						container.setStyle( 'position', 'absolute' );
 						container.$.offsetLeft; // SAFARI BUG: See #2066.
 						container.setStyles({
