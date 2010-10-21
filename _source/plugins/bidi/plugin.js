@@ -5,10 +5,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
-		directSelectionGuardElements = {};
+		directSelectionGuardElements = {},
+		// All guard elements which can have a direction applied on them.
+		allGuardElements = {};
 	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
+	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td:1 } );
 
-	function onSelectionChange( evt ) {
+	function onSelectionChange( e ) {
+		setToolbarStates( e );
+		handleMixedDirContent( e );
+	}
+
+	function setToolbarStates( evt ) {
 		var editor = evt.editor,
 			path = evt.data.path;
 		var useComputedState = editor.config.useComputedState,
@@ -16,16 +24,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		useComputedState = useComputedState === undefined || useComputedState;
 
-		if ( useComputedState ) {
-			var selection = editor.getSelection(),
-				ranges = selection.getRanges();
-
-			selectedElement = ranges && ranges[ 0 ].getEnclosedNode();
-
-			// If this is not our element of interest, apply to fully selected elements from guardElements.
-			if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
-				selectedElement = getFullySelected( selection, guardElements );
-		}
+		// We can use computedState provided by the browser or traverse parents manually.
+		if ( !useComputedState )
+			selectedElement = getElementForDirection( path.lastElement );
 
 		selectedElement = selectedElement || path.block || path.blockLimit;
 
@@ -36,13 +37,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		editor.getCommand( 'bidirtl' ).setState( selectionDir == 'rtl' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		editor.getCommand( 'bidiltr' ).setState( selectionDir == 'ltr' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+	}
 
-		var chromeRoot = editor.container.getChild( 1 );
+	function handleMixedDirContent( evt ) {
+		var editor = evt.editor,
+			chromeRoot = editor.container.getChild( 1 ),
+			directionNode = getElementForDirection( evt.data.path.lastElement );
 
-		if ( selectionDir != editor.lang.dir )
+		if ( directionNode && editor.lang.dir != directionNode.getComputedStyle( 'direction' ) )
 			chromeRoot.addClass( 'cke_mixed_dir_content' );
 		else
 			chromeRoot.removeClass( 'cke_mixed_dir_content' );
+	}
+
+	/**
+	 * Returns element with possibility of applying the direction.
+	 * @param node
+	 */
+	function getElementForDirection( node ) {
+		while ( node && !( node.getName() in allGuardElements || node.is( 'body' ) ) ) {
+			var parent = node.getParent();
+			if ( !parent )
+				break;
+
+			node = parent;
+		}
+
+		return node;
 	}
 
 	function switchDir( element, dir, editor, state ) {
