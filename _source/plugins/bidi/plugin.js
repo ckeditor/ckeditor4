@@ -79,32 +79,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// the element and all its children, so it will get really reflected
 		// like a mirror. (#5910)
 		var dirAfter = element.getComputedStyle( 'direction' );
-		if ( dirAfter != dirBefore ) {
-			var range = new CKEDITOR.dom.range( element.getDocument() );
-			range.setStartBefore( element );
-			range.setEndAfter( element );
-
-			var walker = new CKEDITOR.dom.walker( range );
-
-			var node;
-			while ( ( node = walker.next() ) ) {
-				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-					// A child with dir defined is to be ignored.
-					if ( !node.equals( element ) && node.hasAttribute( 'dir' ) ) {
-						range.setStartAfter( node );
-						walker = new CKEDITOR.dom.walker( range );
-						continue;
-					}
-
-					// Switch the margins.
-					var marginLeft = node.getStyle( 'margin-right' ),
-						marginRight = node.getStyle( 'margin-left' );
-
-					marginLeft ? node.setStyle( 'margin-left', marginLeft ) : node.removeStyle( 'margin-left' );
-					marginRight ? node.setStyle( 'margin-right', marginRight ) : node.removeStyle( 'margin-right' );
-				}
-			}
-		}
+		if ( dirAfter != dirBefore )
+			editor.fire( 'dirChanged', element );
 
 		editor.forceNextSelectionCheck();
 	}

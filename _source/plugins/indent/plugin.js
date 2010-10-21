@@ -338,6 +338,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					"	padding-left: 40px;" +
 					"}" );
 			}
+
+			// Register dirChanged listener.
+			editor.on( 'dirChanged', function( e ) {
+				var range = new CKEDITOR.dom.range( editor.document );
+				range.setStartBefore( e.data );
+				range.setEndAfter( e.data );
+
+				var walker = new CKEDITOR.dom.walker( range ),
+					node;
+
+				while ( ( node = walker.next() ) ) {
+					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+						// A child with dir defined is to be ignored.
+						if ( !node.equals( e.data ) && node.hasAttribute( 'dir' ) ) {
+							range.setStartAfter( node );
+							walker = new CKEDITOR.dom.walker( range );
+							continue;
+						}
+
+						// Switch the margins.
+						var marginLeft = node.getStyle( 'margin-right' ),
+							marginRight = node.getStyle( 'margin-left' );
+
+						marginLeft ? node.setStyle( 'margin-left', marginLeft ) : node.removeStyle( 'margin-left' );
+						marginRight ? node.setStyle( 'margin-right', marginRight ) : node.removeStyle( 'margin-right' );
+					}
+				}
+			});
 		},
 
 		requires: [ 'domiterator', 'list' ]
