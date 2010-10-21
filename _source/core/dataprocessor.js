@@ -15,7 +15,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * Generaly it will point to an instance of {@link CKEDITOR.htmlDataProcessor},
  * which handles HTML data. The editor may also handle other data formats by
  * using different data processors provided by specific plugins.
- * @name CKEDITOR.editor.dataProcessor
+ * @name CKEDITOR.editor.prototype.dataProcessor
  * @type CKEDITOR.dataProcessor
  */
 
