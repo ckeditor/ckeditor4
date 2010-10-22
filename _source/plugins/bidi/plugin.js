@@ -117,11 +117,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function getFullySelected( selection, elements ) {
-		var selectedElement = selection.getCommonAncestor();
-		while ( selectedElement.type == CKEDITOR.NODE_ELEMENT && !( selectedElement.getName() in elements ) && selectedElement.getParent().getChildCount() == 1 )
-			selectedElement = selectedElement.getParent();
+		var ancestor = selection.getCommonAncestor();
+		if ( ancestor.type != CKEDITOR.NODE_ELEMENT )
+			return;
 
-		return selectedElement.type == CKEDITOR.NODE_ELEMENT && ( selectedElement.getName() in elements ) && selectedElement;
+		var ranges = selection.getRanges();
+
+		// Join multiple ranges.
+		var range = new CKEDITOR.dom.range( selection.document );
+		range.setStart( ranges[ 0 ].startContainer, ranges[ 0 ].startOffset );
+		range.setEnd( ranges[ ranges.length - 1 ].endContainer, ranges[ ranges.length - 1 ].endOffset );
+
+		range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
+			while ( ancestor.type == CKEDITOR.NODE_ELEMENT && !( ancestor.getName() in elements ) && ancestor.getParent().getChildCount() == 1 )
+				ancestor = ancestor.getParent();
+
+			return ancestor.type == CKEDITOR.NODE_ELEMENT && ( ancestor.getName() in elements ) && ancestor;
+		}
 	}
 
 	function bidiCommand( dir ) {
