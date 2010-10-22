@@ -75,10 +75,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			if ( !nativeListeners[ eventName ] ) {
 				var listener = nativeListeners[ eventName ] = getNativeListener( this, eventName );
 
-				if ( this.$.addEventListener )
-					this.$.addEventListener( eventName, listener, !!CKEDITOR.event.useCapture );
-				else if ( this.$.attachEvent )
+				if ( this.$.attachEvent )
 					this.$.attachEvent( 'on' + eventName, listener );
+				else if ( this.$.addEventListener )
+					this.$.addEventListener( eventName, listener, !!CKEDITOR.event.useCapture );
 			}
 
 			// Call the original implementation.
@@ -95,10 +95,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 				var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
 				var listener = nativeListeners && nativeListeners[ eventName ];
 				if ( listener ) {
-					if ( this.$.removeEventListener )
-						this.$.removeEventListener( eventName, listener, false );
-					else if ( this.$.detachEvent )
+					if ( this.$.detachEvent )
 						this.$.detachEvent( 'on' + eventName, listener );
+					else if ( this.$.removeEventListener )
+						this.$.removeEventListener( eventName, listener, false );
 
 					delete nativeListeners[ eventName ];
 				}
@@ -114,10 +114,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
 			for ( var eventName in nativeListeners ) {
 				var listener = nativeListeners[ eventName ];
-				if ( this.$.removeEventListener )
-					this.$.removeEventListener( eventName, listener, false );
-				else if ( this.$.detachEvent )
+				if ( this.$.detachEvent )
 					this.$.detachEvent( 'on' + eventName, listener );
+				else if ( this.$.removeEventListener )
+					this.$.removeEventListener( eventName, listener, false );
 
 				delete nativeListeners[ eventName ];
 			}
