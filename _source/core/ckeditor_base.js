@@ -48,13 +48,14 @@ if ( !window.CKEDITOR ) {
 			 * Contains the CKEditor version number.
 			 * @type String
 			 * @example
-			 * alert( CKEDITOR.version );  // e.g. 'CKEditor 3.0 Beta'
+			 * alert( CKEDITOR.version );  // e.g. 'CKEditor 3.4.1'
 			 */
 			version: '%VERSION%',
 
 			/**
 			 * Contains the CKEditor revision number.
-			 * Revision number is incremented automatically after each modification of CKEditor source code.
+			 * The revision number is incremented automatically, following each
+			 * modification to the CKEditor source code.
 			 * @type String
 			 * @example
 			 * alert( CKEDITOR.revision );  // e.g. '3975'
@@ -136,12 +137,15 @@ if ( !window.CKEDITOR ) {
 			/**
 			 * Gets the full URL for CKEditor resources. By default, URLs
 			 * returned by this function contains a querystring parameter ("t")
-			 * set to the {@link CKEDITOR.timestamp} value.
+			 * set to the {@link CKEDITOR.timestamp} value.<br />
+			 * <br />
 			 * It's possible to provide a custom implementation to this
 			 * function by setting a global variable named CKEDITOR_GETURL.
 			 * This global variable must be set "before" the editor script
-			 * loading. If the custom implementation returns nothing, the
+			 * loading. If the custom implementation returns nothing (==null), the
 			 * default implementation is used.
+			 * @param {String} resource The resource to which get the full URL.
+			 *		It may be a full, absolute or relative URL.
 			 * @returns {String} The full URL.
 			 * @example
 			 * // e.g. http://www.example.com/ckeditor/skins/default/editor.css?t=87dm

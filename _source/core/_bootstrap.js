@@ -76,6 +76,14 @@ if ( CKEDITOR.env.ie )
 */
 
 /**
+ * Indicates that CKEditor is running on a High Contrast environment.
+ * @name CKEDITOR.env.hc
+ * @example
+ * if ( CKEDITOR.env.hc )
+ *     alert( 'You're running on High Contrast mode. The editor interface will get adapted to provide you a better experience.' );
+ */
+
+/**
  * Fired when a CKEDITOR core object is fully loaded and ready for interaction.
  * @name CKEDITOR#loaded
  * @event

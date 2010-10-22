@@ -98,8 +98,28 @@ CKEDITOR.TRISTATE_OFF = 2;
 CKEDITOR.TRISTATE_DISABLED = 0;
 
 /**
+ * The editor which is currently active (have user focus).
+ * @name CKEDITOR.currentInstance
+ * @type CKEDITOR.editor
+ * @see CKEDITOR#currentInstance
+ * @example
+ * function showCurrentEditorName()
+ * {
+ *     if ( CKEDITOR.currentInstance )
+ *         alert( CKEDITOR.currentInstance.name );
+ *     else
+ *         alert( 'Please focus an editor first.' );
+ * }
+ */
+
+/**
  * Fired when the CKEDITOR.currentInstance object reference changes. This may
  * happen when setting the focus on different editor instances in the page.
  * @name CKEDITOR#currentInstance
  * @event
+ * var editor;  // Variable to hold a reference to the current editor.
+ * CKEDITOR.on( 'currentInstance' , function( e )
+ *     {
+ *         editor = CKEDITOR.currentInstance;
+ *     });
  */
