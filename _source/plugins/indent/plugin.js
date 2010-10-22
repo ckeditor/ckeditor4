@@ -231,28 +231,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 );
 					if ( isNaN( currentOffset ) )
 						currentOffset = 0;
-					currentOffset += ( self.name == 'indent' ? 1 : -1 ) * editor.config.indentOffset;
+					var indentOffset = indentOffset || 40;
+					currentOffset += ( self.name == 'indent' ? 1 : -1 ) * indentOffset;
 
 					if ( currentOffset < 0 )
 						return false;
 
 					currentOffset = Math.max( currentOffset, 0 );
-					currentOffset = Math.ceil( currentOffset / editor.config.indentOffset ) * editor.config.indentOffset;
+					currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
 					element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
 					if ( element.getAttribute( 'style' ) === '' )
 						element.removeAttribute( 'style' );
 				}
 
-				CKEDITOR.dom.element.setMarker( database, element, 'indent_processed', true );
+				CKEDITOR.dom.element.setMarker( database, element, 'indent_processed', 1 );
 				return true;
 			}
 
 			var selection = editor.getSelection(),
-				bookmarks = selection.createBookmarks( true ),
-				ranges = selection && selection.getRanges( true ),
+				bookmarks = selection.createBookmarks( 1 ),
+				ranges = selection && selection.getRanges( 1 ),
 				range;
 
-			var skipBookmarks = CKEDITOR.dom.walker.bookmark( false, true );
+			var skipBookmarks = CKEDITOR.dom.walker.bookmark( 0, 1 );
 
 			var iterator = ranges.createIterator();
 			while ( ( range = iterator.getNextRange() ) ) {
@@ -369,10 +370,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		requires: [ 'domiterator', 'list' ]
 	});
 })();
-
-CKEDITOR.tools.extend( CKEDITOR.config, {
-	indentOffset: 40
-});
 
 /**
  * Size of each indentation step

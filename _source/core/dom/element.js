@@ -80,7 +80,7 @@ CKEDITOR.dom.element.setMarker = function( database, element, name, value ) {
 
 CKEDITOR.dom.element.clearAllMarkers = function( database ) {
 	for ( var i in database )
-		CKEDITOR.dom.element.clearMarkers( database, database[ i ], true );
+		CKEDITOR.dom.element.clearMarkers( database, database[ i ], 1 );
 };
 
 CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatabase ) {

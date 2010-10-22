@@ -79,7 +79,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 * // Do not force the editor to have focus when executing the command.
 		 * command.<b>editorFocus</b> = false;
 		 */
-		editorFocus: true,
+		editorFocus: 1,
 
 		/**
 		 * Indicates the editor state. Possible values are:
