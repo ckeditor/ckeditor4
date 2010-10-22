@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1133,8 +1133,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Shrinking white-spaces around colon and semi-colon (#4147).
 		// Compensate tail semi-colon.
-		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' ).replace( /,\s+/g, ',' ) // Trimming spaces after comma (e.g. font-family name)(#4107).
-		.toLowerCase();
+		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' )
+		// Trimming spaces after comma(#4107),
+		// remove quotations(#6403),
+		// mostly for differences on "font-family".
+		.replace( /,\s+/g, ',' ).replace( /\"/g, '' ).toLowerCase();
 	}
 
 	// Turn inline style text properties into one hash.
