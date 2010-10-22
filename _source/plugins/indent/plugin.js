@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -252,9 +252,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ranges = selection && selection.getRanges( true ),
 				range;
 
-			var skipBookmarks = function( node ) {
-					return !node.hasAttribute( '_cke_bookmark' );
-				};
+			var skipBookmarks = CKEDITOR.dom.walker.bookmark( false, true );
 
 			var iterator = ranges.createIterator();
 			while ( ( range = iterator.getNextRange() ) ) {
