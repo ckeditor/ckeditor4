@@ -86,7 +86,9 @@ function publish( symbolSet ) {
 		var symbol = classes[ i ];
 
 		symbol.events = symbol.getEvents(); // 1 order matters
-		symbol.methods = symbol.getMethods(); // 2
+		symbol.methods = symbol.getMethods().filter( function( $ ) {
+			return !$.isInner;
+		}); // 2
 
 		var output = "";
 		output = classTemplate.process( symbol );
