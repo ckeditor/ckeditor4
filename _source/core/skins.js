@@ -47,19 +47,25 @@ CKEDITOR.skins = (function() {
 			}
 
 			// Check if we need to preload images from it.
-			if ( !preloaded[ skinName ] ) {
-				var preload = skinDefinition.preload;
-				if ( preload && preload.length > 0 ) {
+			var preload = skinDefinition.preload;
+			if ( preload && preload.length > 0 ) {
+				if ( !preloaded[ skinName ] ) {
+					// Prepare image URLs
 					appendSkinPath( preload );
-					CKEDITOR.imageCacher.load( preload, function() {
-						preloaded[ skinName ] = 1;
-						loadPart( editor, skinName, part, callback );
-					});
-					return;
+
+					// Get preloader event dispatcher object.
+					preloaded[ skinName ] = CKEDITOR.imageCacher.load( preload );
 				}
 
-				// Mark it as preloaded.
-				preloaded[ skinName ] = 1;
+				if ( !preloaded[ skinName ].finished ) {
+					// Bind listener for this editor instance.
+					preloaded[ skinName ].on( 'preloaded', function() {
+						loadPart( editor, skinName, part, callback );
+					});
+
+					// Execution will be continued from event listener.
+					return;
+				}
 			}
 
 			// Get the part definition.
