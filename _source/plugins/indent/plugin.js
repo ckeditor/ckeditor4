@@ -231,7 +231,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 );
 					if ( isNaN( currentOffset ) )
 						currentOffset = 0;
-					var indentOffset = indentOffset || 40;
+					var indentOffset = editor.config.indentOffset || 40;
 					currentOffset += ( self.name == 'indent' ? 1 : -1 ) * indentOffset;
 
 					if ( currentOffset < 0 )
