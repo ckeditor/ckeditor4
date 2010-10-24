@@ -14,8 +14,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 CKEDITOR.scriptLoader = (function() {
-	var uniqueScripts = {};
-	var waitingList = {};
+	var uniqueScripts = {},
+		waitingList = {};
 
 	return /** @lends CKEDITOR.scriptLoader */ {
 		/**
@@ -34,6 +34,8 @@ CKEDITOR.scriptLoader = (function() {
 		 *		the callback call. Default to {@link CKEDITOR}.
 		 * @param {Boolean} [noCheck] Indicates that the script must be loaded
 		 *		anyway, not checking if it has already loaded.
+		 * @param {Boolean} [showBusy] Changes the cursor of the document while
++		 *		the script is loaded.
 		 * @example
 		 * CKEDITOR.scriptLoader.load( '/myscript.js' );
 		 * @example
