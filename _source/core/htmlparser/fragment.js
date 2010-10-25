@@ -203,6 +203,10 @@ CKEDITOR.htmlParser.fragment = function() {
 				// <dd>, specially in IE. Do not enter in this if block in this case.
 				else if ( tagName == currentName ) {
 					addElement( currentNode, currentNode.parent );
+				} else if ( tagName in CKEDITOR.dtd.$listItem ) {
+					parser.onTagOpen( 'ul', {} );
+					addPoint = currentNode;
+					reApply = true;
 				} else {
 					if ( nonBreakingBlocks[ currentName ] ) {
 						if ( !returnPoint )
