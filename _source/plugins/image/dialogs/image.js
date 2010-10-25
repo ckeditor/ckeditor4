@@ -963,7 +963,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						filebrowser: {
 							action: 'Browse',
 							target: 'Link:txtUrl',
-							url: editor.config.filebrowserImageBrowseLinkUrl || editor.config.filebrowserBrowseUrl
+							url: editor.config.filebrowserImageBrowseLinkUrl
 						},
 						style: 'float:right',
 						hidden: true,

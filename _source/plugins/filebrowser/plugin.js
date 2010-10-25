@@ -246,7 +246,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			if ( element.filebrowser.action == 'Browse' ) {
-				var url = element.filebrowser.url || editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'BrowseUrl' ] || editor.config.filebrowserBrowseUrl;
+				var url = element.filebrowser.url;
+				if ( url === undefined ) {
+					url = editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'BrowseUrl' ];
+					if ( url === undefined )
+						url = editor.config.filebrowserBrowseUrl;
+				}
 
 				if ( url ) {
 					element.onClick = browseServer;
@@ -254,7 +259,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element.hidden = false;
 				}
 			} else if ( element.filebrowser.action == 'QuickUpload' && element[ 'for' ] ) {
-				url = element.filebrowser.url || editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'UploadUrl' ] || editor.config.filebrowserUploadUrl;
+				var url = element.filebrowser.url;
+				if ( url === undefined ) {
+					url = editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'UploadUrl' ];
+					if ( url === undefined )
+						url = editor.config.filebrowserUploadUrl;
+				}
 
 				if ( url ) {
 					var onClick = element.onClick;
