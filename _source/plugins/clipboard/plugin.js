@@ -131,8 +131,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getClipboardData( evt, mode, callback ) {
 		var doc = this.document;
 
-		// Avoid recursions on 'paste' event for IE.
-		if ( CKEDITOR.env.ie && doc.getById( 'cke_pastebin' ) )
+		// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
+		if ( doc.getById( 'cke_pastebin' ) )
 			return;
 
 		// If the browser supports it, get the data directly
