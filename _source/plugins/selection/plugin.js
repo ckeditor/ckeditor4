@@ -557,6 +557,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						boundaryInfo = getBoundaryInformation( nativeRange );
 						range.setEnd( new CKEDITOR.dom.node( boundaryInfo.container ), boundaryInfo.offset );
 
+						// Correct an invalid IE range case on empty list item. (#5850)
+						if ( range.endContainer.getPosition( range.startContainer ) & CKEDITOR.POSITION_PRECEDING && range.endOffset <= range.startContainer.getIndex() ) {
+							range.collapse();
+						}
+
 						return [ range ];
 					} else if ( type == CKEDITOR.SELECTION_ELEMENT ) {
 						var retval = [];
@@ -750,28 +755,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							node = node.getChild( range.startOffset );
 
 							if ( !node || node.type != CKEDITOR.NODE_ELEMENT )
-								return range.startContainer;
+								node = range.startContainer;
 
 							var child = node.getFirst();
 							while ( child && child.type == CKEDITOR.NODE_ELEMENT ) {
 								node = child;
 								child = child.getFirst();
 							}
-
-							return node;
+						} else {
+							node = range.startContainer;
+							if ( node.type != CKEDITOR.NODE_ELEMENT )
+								node = node.getParent();
 						}
-					}
 
-					if ( CKEDITOR.env.ie ) {
-						range = sel.createRange();
-						range.collapse( 1 );
-
-						node = range.parentElement();
-					} else {
-						node = sel.anchorNode;
-
-						if ( node && node.nodeType != 1 )
-							node = node.parentNode;
+						node = node.$;
 					}
 			}
 
