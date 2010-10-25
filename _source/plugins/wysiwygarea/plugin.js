@@ -478,8 +478,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					if ( CKEDITOR.env.gecko ) {
-						// Set the HTML style to 100% to have the text cursor in affect (#6341)
-						domDocument.getDocumentElement().setStyle( 'height', '100%' );
 						domDocument.on( 'mouseup', function( ev ) {
 							if ( ev.data.$.button == 2 ) {
 								var target = ev.data.getTarget();
@@ -866,6 +864,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
 				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
 			}
+			// Set the HTML style to 100% to have the text cursor in affect (#6341)
+			else if ( CKEDITOR.env.gecko )
+				editor.addCss( 'html { height: 100% !important; }' );
 
 			// Switch on design mode for a short while and close it after then.
 			function blinkCursor( retry ) {
