@@ -239,6 +239,32 @@ body .cke_dialog
 	padding: 1px 0px;
 }
 
+/* Opera/IE doesn't leave enough padding in text input for cursor to blink in RTL. (#6087) */
+.cke_skin_kama .cke_browser_ie.cke_rtl input.cke_dialog_ui_input_text,
+.cke_skin_kama .cke_browser_opera.cke_rtl input.cke_dialog_ui_input_text,
+.cke_skin_kama .cke_browser_ie.cke_rtl input.cke_dialog_ui_input_password,
+.cke_skin_kama .cke_browser_opera.cke_rtl input.cke_dialog_ui_input_password
+{
+	padding-right: 2px;
+}
+
+/* Compensate the padding added above on container. */
+.cke_skin_kama .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_text,
+.cke_skin_kama .cke_browser_opera.cke_rtl div.cke_dialog_ui_input_text,
+.cke_skin_kama .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_password,
+.cke_skin_kama .cke_browser_opera.cke_rtl div.cke_dialog_ui_input_password
+{
+	padding-left: 2px;
+}
+
+.cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_ui_vbox_child,
+.cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_ui_hbox_child,
+.cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_ui_hbox_first,
+.cke_skin_kama .cke_browser_ie.cke_rtl .cke_dialog_ui_hbox_last
+{
+	padding-right: 2px !important;
+}
+
 .cke_skin_kama .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_text {
 	padding-right: 1px;
 }
