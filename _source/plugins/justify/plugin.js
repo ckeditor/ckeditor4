@@ -71,6 +71,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
+	function onDirChanged( e ) {
+		var editor = e.editor;
+
+		var range = new CKEDITOR.dom.range( editor.document );
+		range.setStartBefore( e.data );
+		range.setEndAfter( e.data );
+
+		var walker = new CKEDITOR.dom.walker( range ),
+			node;
+
+		while ( node = walker.next() ) {
+			if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+				// A child with the defined dir is to be ignored.
+				if ( !node.equals( e.data ) && node.getDirection() ) {
+					range.setStartAfter( node );
+					walker = new CKEDITOR.dom.walker( range );
+					continue;
+				}
+
+				// Switch the alignment.
+				var style = 'text-align';
+				var align = node.getStyle( style );
+
+				if ( align == 'left' )
+					node.setStyle( style, 'right' );
+				else if ( align == 'right' )
+					node.setStyle( style, 'left' );
+			}
+		}
+	}
+
 	justifyCommand.prototype = {
 		exec: function( editor ) {
 			var selection = editor.getSelection(),
@@ -152,6 +183,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, right ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, center ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, justify ) );
+			editor.on( 'dirChanged', onDirChanged );
 		},
 
 		requires: [ 'domiterator' ]
