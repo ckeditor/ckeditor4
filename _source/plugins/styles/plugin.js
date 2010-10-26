@@ -964,7 +964,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
-	function getElement( style, targetDocument ) {
+	function getElement( style, targetDocument, element ) {
 		var el;
 
 		var def = style._.definition;
@@ -977,6 +977,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Create the element.
 		el = new CKEDITOR.dom.element( elementName, targetDocument );
+
+		// #6226: attributes should be copied before the new ones are applied
+		if ( element )
+			element.copyAttributes( el );
 
 		return setupElement( el, style );
 	}
