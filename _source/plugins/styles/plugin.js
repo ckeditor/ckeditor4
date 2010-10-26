@@ -693,7 +693,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
 		{
-			var newBlock = getElement( this, doc );
+			var newBlock = getElement( this, doc, block );
 			replaceBlock( block, newBlock );
 		}
 
