@@ -349,8 +349,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				while ( ( node = walker.next() ) ) {
 					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-						// A child with dir defined is to be ignored.
-						if ( !node.equals( e.data ) && node.hasAttribute( 'dir' ) ) {
+						// A child with the defined dir is to be ignored.
+						if ( !node.equals( e.data ) && node.getDirection() ) {
 							range.setStartAfter( node );
 							walker = new CKEDITOR.dom.walker( range );
 							continue;
