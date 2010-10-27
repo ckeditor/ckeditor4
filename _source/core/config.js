@@ -8,19 +8,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * default configuration settings.
  */
 
-CKEDITOR.ENTER_P = 1;
-CKEDITOR.ENTER_BR = 2;
-CKEDITOR.ENTER_DIV = 3;
-
 /**
- * Holds the default configuration settings. Changes to this object are
+ * @namespace Holds the default configuration settings. Changes to this object are
  * reflected in all editor instances, if not specificaly specified for those
  * instances.
- * @namespace
- * @example
- * // All editor created after the following setting will not load custom
- * // configuration files.
- * CKEDITOR.config.customConfig = '';
  */
 CKEDITOR.config = {
 	/**
@@ -55,7 +46,7 @@ CKEDITOR.config = {
 	 * The base href URL used to resolve relative and absolute URLs in the
 	 * editor content.
 	 * @type String
-	 * @default '' (empty string)
+	 * @default '' (empty)
 	 * @example
 	 * config.baseHref = 'http://www.example.com/path/';
 	 */
@@ -193,19 +184,29 @@ CKEDITOR.config = {
 
 	/**
 	 * Sets the "id" attribute to be used on the body element of the editing
-	 * area.
+	 * area. This can be useful when reusing the original CSS file you're using
+	 * on your live website and you want to assing to the editor the same id
+	 * you're using for the region that'll hold the contents. In this way,
+	 * id specific CSS rules will be enabled.
 	 * @since 3.1
 	 * @type String
-	 * @default ''
+	 * @default '' (empty)
+	 * @example	
+	 * config.bodyId = 'contents_id';
 	 */
 	bodyId: '',
 
 	/**
 	 * Sets the "class" attribute to be used on the body element of the editing
-	 * area.
+	 * area. This can be useful when reusing the original CSS file you're using
+	 * on your live website and you want to assing to the editor the same class
+	 * name you're using for the region that'll hold the contents. In this way,
+	 * class specific CSS rules will be enabled.
 	 * @since 3.1
 	 * @type String
-	 * @default ''
+	 * @default '' (empty)
+	 * @example	
+	 * config.bodyClass = 'contents';
 	 */
 	bodyClass: '',
 
@@ -385,10 +386,10 @@ CKEDITOR.config = {
 };
 
 /**
- * Indicates that some of the editor features, like alignement and text
+ * Indicates that some of the editor features, like alignment and text
  * direction, should used the "computed value" of the feature to indicate it's
- * on/off state, instead of using the "real value".
- *
+ * on/off state, instead of using the "real value".<br />
+ * <br />
  * If enabled, in a left to right written document, the "Left Justify"
  * alignment button will show as active, even if the aligment style is not
  * explicitly applied to the current paragraph in the editor.
@@ -399,5 +400,29 @@ CKEDITOR.config = {
  * @example
  * config.useComputedState = false;
  */
+
+/**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;p&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_P = 1;
+
+/**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;br&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_BR = 2;
+
+/**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;div&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_DIV = 3;
 
 // PACKAGER_RENAME( CKEDITOR.config )
