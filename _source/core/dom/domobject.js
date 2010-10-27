@@ -217,7 +217,11 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * @name CKEDITOR.dom.domObject.prototype.getCustomData
+	 * Gets an ID that can be used to identiquely identify this DOM object in
+	 * the running session.
+	 * @name CKEDITOR.dom.domObject.prototype.getUniqueId
+	 * @function
+	 * @returns {Number} A unique ID.
 	 */
 	domObjectProto.getUniqueId = function() {
 		return this.$._cke_expando || ( this.$._cke_expando = CKEDITOR.tools.getNextNumber() );
