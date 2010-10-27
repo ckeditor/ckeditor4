@@ -130,10 +130,7 @@ if ( CKEDITOR.status == 'unloaded' ) {
 			return createInstance( elementOrId, config, CKEDITOR.editor.appendTo, data );
 		};
 
-		/**
-		 * @ignore
-		 * Documented at ckeditor.js.
-		 */
+		// Documented at ckeditor.js.
 		CKEDITOR.add = function( editor ) {
 			// For now, just put the editor in the pending list. It will be
 			// processed as soon as the full code gets loaded.
