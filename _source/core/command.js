@@ -191,8 +191,9 @@ CKEDITOR.event.implementOn( CKEDITOR.command.prototype, true );
 
 /**
  * Fired when the command state changes.
- * @name CKEDITOR.command.prototype#state
+ * @name CKEDITOR.command#state
  * @event
+ * @example
  * command.on( <b>'state'</b> , function( e )
  *     {
  *         // Alerts the new state.

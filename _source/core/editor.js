@@ -690,4 +690,27 @@ CKEDITOR.on( 'loaded', function() {
  * Fired when all plugins are loaded and initialized into the editor instance.
  * @name CKEDITOR#pluginsLoaded
  * @event
+ * @param {CKEDITOR.editor} editor The editor instance that has been destroyed.
+ */
+
+/**
+ * Fired before the command execution when {@link #execCommand} is called.
+ * @name CKEDITOR.editor#beforeCommandExec
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.name The command name.
+ * @param {Object} data.commandData The data to be sent to the command. This
+ *		can be manipulated by the event listener.
+ * @param {CKEDITOR.command} data.command The command itself.
+ */
+
+/**
+ * Fired after the command execution when {@link #execCommand} is called.
+ * @name CKEDITOR.editor#afterCommandExec
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.name The command name.
+ * @param {Object} data.commandData The data sent to the command.
+ * @param {CKEDITOR.command} data.command The command itself.
+ * @param {Object} data.returnValue The value returned by the command execution.
  */
