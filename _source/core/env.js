@@ -10,9 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 if ( !CKEDITOR.env ) {
 	/**
-	 * Environment and browser information.
-	 * @namespace
-	 * @example
+	 * @namespace Environment and browser information.
 	 */
 	CKEDITOR.env = (function() {
 		var agent = navigator.userAgent.toLowerCase();
@@ -66,10 +64,32 @@ if ( !CKEDITOR.env ) {
 			 */
 			mac: ( agent.indexOf( 'macintosh' ) > -1 ),
 
+			/**
+			 * Indicates that CKEditor is running on a quirks mode environemnt.
+			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.quirks )
+			 *     alert( "Nooooo!" );
+			 */
 			quirks: ( document.compatMode == 'BackCompat' ),
 
+			/**
+			 * Indicates that CKEditor is running on a mobile like environemnt.
+			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.mobile )
+			 *     alert( "I'm running with CKEditor today!" );
+			 */
 			mobile: ( agent.indexOf( 'mobile' ) > -1 ),
 
+			/**
+			 * Indicates that the browser has a custom domain enabled. This has
+			 * been set with "document.domain".
+			 * @returns {Boolean} "true" if a custom domain is enabled.
+			 * @example
+			 * if ( CKEDITOR.env.isCustomDomain() )
+			 *     alert( "I'm in a custom domain!" );
+			 */
 			isCustomDomain: function() {
 				if ( !this.ie )
 					return false;
@@ -99,32 +119,47 @@ if ( !CKEDITOR.env ) {
 			version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 
 			/**
-			 *  Indicate IE8 browser.
+			 * Indicates that CKEditor is running on Internet Explorer 8.
+			 * @name CKEDITOR.env.ie8
+			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.ie8 )
+			 *     alert( "I'm on IE8!" );
 			 */
 			env.ie8 = !!document.documentMode;
 
 			/**
-			 * Indicte IE8 document mode.
+			 * Indicates that CKEditor is running on Internet Explorer 8 on
+			 * standards mode.
+			 * @name CKEDITOR.env.ie8Compat
+			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.ie8Compat )
+			 *     alert( "Now I'm on IE8, for real!" );
 			 */
 			env.ie8Compat = document.documentMode == 8;
 
 			/**
 			 * Indicates that CKEditor is running on an IE7-like environment, which
 			 * includes IE7 itself and IE8's IE7 document mode.
+			 * @name CKEDITOR.env.ie7Compat
 			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.ie8Compat )
+			 *     alert( "I'm on IE7 or on an IE7 like IE8!" );
 			 */
 			env.ie7Compat = ( ( version == 7 && !document.documentMode ) || document.documentMode == 7 );
 
 			/**
 			 * Indicates that CKEditor is running on an IE6-like environment, which
 			 * includes IE6 itself and IE7 and IE8 quirks mode.
+			 * @name CKEDITOR.env.ie6Compat
 			 * @type Boolean
 			 * @example
 			 * if ( CKEDITOR.env.ie6Compat )
 			 *     alert( "I'm on IE6 or quirks mode!" );
 			 */
 			env.ie6Compat = ( version < 7 || env.quirks );
-
 		}
 
 		// Gecko.
@@ -151,12 +186,12 @@ if ( !CKEDITOR.env ) {
 			version = parseFloat( agent.match( / applewebkit\/(\d+)/ )[ 1 ] );
 
 		/**
-		 * Contains the browser version.
-		 *
+		 * Contains the browser version.<br />
+		 * <br />
 		 * For gecko based browsers (like Firefox) it contains the revision
 		 * number with first three parts concatenated with a padding zero
-		 * (e.g. for revision 1.9.0.2 we have 10900).
-		 *
+		 * (e.g. for revision 1.9.0.2 we have 10900).<br />
+		 * <br />
 		 * For webkit based browser (like Safari and Chrome) it contains the
 		 * WebKit build version (e.g. 522).
 		 * @name CKEDITOR.env.version
@@ -178,8 +213,14 @@ if ( !CKEDITOR.env ) {
 		env.isCompatible = !env.mobile && (
 		( env.ie && version >= 6 ) || ( env.gecko && version >= 10801 ) || ( env.opera && version >= 9.5 ) || ( env.air && version >= 1 ) || ( env.webkit && version >= 522 ) || false );
 
-		// The CSS class to be appended on the main UI containers, making it
-		// easy to apply browser specific styles to it.
+		/**
+		 * The CSS class to be appended on the main UI containers, making it
+		 * easy to apply browser specific styles to it.
+		 * @name CKEDITOR.env.cssClass
+		 * @type String
+		 * @example
+		 * myDiv.className = CKEDITOR.env.cssClass;
+		 */
 		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.opera ? 'opera' : env.air ? 'air' : env.webkit ? 'webkit' : 'unknown' );
 
 		if ( env.quirks )
