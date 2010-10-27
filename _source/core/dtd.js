@@ -10,16 +10,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Holds and object representation of the HTML DTD to be used by the editor in
- * its internal operations.
- *
- * Each element in the DTD is represented by a
- * property in this object. Each property contains the list of elements that
- * can be contained by the element. Text is represented by the "#" property.
- *
+ * @namespace Holds and object representation of the HTML DTD to be used by the
+ * editor in its internal operations.<br />
+ * <br />
+ * Each element in the DTD is represented by a property in this object. Each
+ * property contains the list of elements that can be contained by the element.
+ * Text is represented by the "#" property.<br />
+ * <br />
  * Several special grouping properties are also available. Their names start
  * with the "$" character.
- * @namespace
  * @example
  * // Check if "div" can be contained in a "p" element.
  * alert( !!CKEDITOR.dtd[ 'p' ][ 'div' ] );  "false"
@@ -80,8 +79,13 @@ CKEDITOR.dtd = (function() {
 		 */
 		$blockLimit: { body:1,div:1,td:1,th:1,caption:1,form:1 },
 
+		/**
+		 * List of inline (&lt;span&gt; like) elements.
+		 */
 		$inline: L, // Just like span.
-
+		/**
+		 * list of elements that can be children at &lt;body&gt;.
+		 */
 		$body: X( { script:1,style:1 }, block ),
 
 		$cdata: { script:1,style:1 },
