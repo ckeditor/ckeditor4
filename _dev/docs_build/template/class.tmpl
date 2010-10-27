@@ -72,7 +72,7 @@
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
-			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
+			<if test="!data.isBuiltin() && data.is('CONSTRUCTOR')">
 			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class {+data.alias+}.">
 				<caption>{+classType+}Summary</caption>
 				<thead>
@@ -312,7 +312,7 @@
 			</if>
 
 <!-- ============================== constructor details ==================== -->		
-			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
+			<if test="!data.isBuiltin() && data.is('CONSTRUCTOR')">
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
 					{+classType+}Detail

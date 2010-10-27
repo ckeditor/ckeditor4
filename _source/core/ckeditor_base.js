@@ -19,9 +19,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 if ( !window.CKEDITOR ) {
 	/**
-	 * This is the API entry point. The entire CKEditor code runs under this object.
 	 * @name CKEDITOR
-	 * @namespace
+	 * @namespace This is the API entry point. The entire CKEditor code runs under this object.
 	 * @example
 	 */
 	window.CKEDITOR = (function() {

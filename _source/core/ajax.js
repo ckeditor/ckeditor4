@@ -9,8 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Ajax methods for data loading.
- * @namespace
+ * @namespace Ajax methods for data loading.
  * @example
  */
 CKEDITOR.ajax = (function() {
