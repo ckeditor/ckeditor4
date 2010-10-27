@@ -9,10 +9,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * DOM manipulation objects and function.<br /><br />
+ * @namespace DOM manipulation objects, classes and functions.
  * @see CKEDITOR.dom.element
  * @see CKEDITOR.dom.node
- * @namespace
  * @example
  */
 CKEDITOR.dom = {};
