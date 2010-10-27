@@ -1,14 +1,14 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
+	var guardElements = { table:1,tbody:1,tr:1,ul:1,ol:1,blockquote:1,div:1 },
 		directSelectionGuardElements = {},
 		// All guard elements which can have a direction applied on them.
 		allGuardElements = {};
-	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
+	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { p:1,div:1,li:1 } );
 	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td:1 } );
 
 	function onSelectionChange( e ) {
@@ -116,23 +116,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return null;
 	}
 
-	function getFullySelected( selection, elements ) {
-		var ancestor = selection.getCommonAncestor();
-		if ( ancestor.type != CKEDITOR.NODE_ELEMENT )
-			return;
-
-		var ranges = selection.getRanges();
-
-		// Join multiple ranges.
-		var range = new CKEDITOR.dom.range( selection.document );
-		range.setStart( ranges[ 0 ].startContainer, ranges[ 0 ].startOffset );
-		range.setEnd( ranges[ ranges.length - 1 ].endContainer, ranges[ ranges.length - 1 ].endOffset );
+	function getFullySelected( range, elements ) {
+		var ancestor = range.getCommonAncestor( false, true );
 
 		range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
 		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
-			while ( ancestor.type == CKEDITOR.NODE_ELEMENT && !( ancestor.getName() in elements ) && ancestor.getParent().getChildCount() == 1 )
-				ancestor = ancestor.getParent();
+			var parent;
+			while ( ancestor && ancestor.type == CKEDITOR.NODE_ELEMENT && ( parent = ancestor.getParent() ) && parent.getChildCount() == 1 && ( !( ancestor.getName() in elements ) || ( parent.getName() in elements ) ) )
+				ancestor = parent;
 
 			return ancestor.type == CKEDITOR.NODE_ELEMENT && ( ancestor.getName() in elements ) && ancestor;
 		}
@@ -146,45 +138,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( ranges && ranges.length ) {
 				var database = {};
-				// Apply do directly selected elements from guardElements.
-				var selectedElement = ranges[ 0 ].getEnclosedNode();
-
-				// If this is not our element of interest, apply to fully selected elements from guardElements.
-				if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
-					selectedElement = getFullySelected( selection, guardElements );
-
-				if ( selectedElement && !selectedElement.isReadOnly() )
-					switchDir( selectedElement, dir, editor, database );
 
 				// Creates bookmarks for selection, as we may split some blocks.
 				var bookmarks = selection.createBookmarks();
 
-				var iterator, block;
+				var rangeIterator = ranges.createIterator(),
+					range,
+					i = 0;
 
-				for ( var i = ranges.length - 1; i >= 0; i-- ) {
-					// Array of elements processed as guardElements.
-					var processedElements = [];
+				while ( ( range = rangeIterator.getNextRange( 1 ) ) ) {
+					// Apply do directly selected elements from guardElements.
+					var selectedElement = range.getEnclosedNode();
+
+					// If this is not our element of interest, apply to fully selected elements from guardElements.
+					if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
+						selectedElement = getFullySelected( range, guardElements );
+
+					if ( selectedElement && !selectedElement.isReadOnly() )
+						switchDir( selectedElement, dir, editor, database );
+
+					var iterator, block;
+
 					// Walker searching for guardElements.
-					var walker = new CKEDITOR.dom.walker( ranges[ i ] );
+					var walker = new CKEDITOR.dom.walker( range );
+
+					var start = bookmarks[ i ].startNode,
+						end = bookmarks[ i++ ].endNode;
+
 					walker.evaluator = function( node ) {
-						return node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ) ? 'p' : 'div' && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' );
+						return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ) ? 'p' : 'div' && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
+						// Element must be fully included in the range as well. (#6485).
+						&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING && ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 					};
 
 					while ( ( block = walker.next() ) )
 						switchDir( block, dir, editor, database );
 
-					iterator = ranges[ i ].createIterator();
+					iterator = range.createIterator();
 					iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 					while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
 						!block.isReadOnly() && switchDir( block, dir, editor, database );
-
-					CKEDITOR.dom.element.clearAllMarkers( database );
-
-					editor.forceNextSelectionCheck();
-					// Restore selection position.
-					selection.selectBookmarks( bookmarks );
 				}
+
+				CKEDITOR.dom.element.clearAllMarkers( database );
+
+				editor.forceNextSelectionCheck();
+				// Restore selection position.
+				selection.selectBookmarks( bookmarks );
 
 				editor.focus();
 			}

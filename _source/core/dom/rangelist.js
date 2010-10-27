@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -35,6 +35,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		createIterator: function() {
 			var rangeList = this,
+				bookmark = CKEDITOR.dom.walker.bookmark(),
+				emptySpaces = CKEDITOR.dom.walker.whitespaces(),
+				guard = function( node ) {
+					return !( node.is && node.is( 'tr' ) );
+				},
 				bookmarks = [],
 				current;
 
@@ -45,8 +50,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				/**
 				 * Retrieves the next range in the list.
+				 * @param {Boolean} mergeConsequent Whether join two adjacent ranges into single, e.g. consequent table cells.
 				 */
-				getNextRange: function() {
+				getNextRange: function( mergeConsequent ) {
 					current = current == undefined ? 0 : current + 1;
 
 					var range = rangeList[ current ];
@@ -58,10 +64,51 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// restore them before the next iteration.
 						if ( !current ) {
 							// Make sure bookmark correctness by reverse processing.
-							for ( var i = rangeList.length - 1; i > 0; i-- )
+							for ( var i = rangeList.length - 1; i >= 0; i-- )
 								bookmarks.unshift( rangeList[ i ].createBookmark( true ) );
-						} else
-							range.moveToBookmark( bookmarks.shift() );
+						}
+
+						if ( mergeConsequent ) {
+							// Figure out how many ranges should be merged.
+							var mergeCount = 0;
+							while ( rangeList[ current + mergeCount + 1 ] ) {
+								var doc = range.document,
+									found = 0,
+									left = doc.getById( bookmarks[ mergeCount ].endNode ),
+									right = doc.getById( bookmarks[ mergeCount + 1 ].startNode ),
+									next;
+
+								// Check subsequent range.
+								while ( 1 ) {
+									next = left.getNextSourceNode( false );
+									if ( !right.equals( next ) ) {
+										// This could be yet another bookmark or
+										// walking across block boundaries.
+										if ( bookmark( next ) || ( next.type == CKEDITOR.NODE_ELEMENT && next.isBlockBoundary() ) ) {
+											left = next;
+											continue;
+										}
+									} else
+										found = 1;
+
+									break;
+								}
+
+								if ( !found )
+									break;
+
+								mergeCount++;
+							}
+						}
+
+						range.moveToBookmark( bookmarks.shift() );
+
+						// Merge ranges finally after moving to bookmarks.
+						while ( mergeCount-- ) {
+							var next = rangeList[ ++current ];
+							next.moveToBookmark( bookmarks.shift() );
+							range.setEnd( next.endContainer, next.endOffset );
+						}
 					}
 
 					return range;
