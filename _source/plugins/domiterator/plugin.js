@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -59,7 +59,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 				range.enlarge( this.forceBrBreak && !touchPre || !this.enlargeBr ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
 				var walker = new CKEDITOR.dom.walker( range ),
-					ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( false, true );
+					ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( true, true );
 				// Avoid anchor inside bookmark inner text.
 				walker.evaluator = ignoreBookmarkTextEvaluator;
 				this._.nextNode = walker.next();
