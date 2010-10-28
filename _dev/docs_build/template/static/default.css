@@ -35,9 +35,9 @@ pre.code
 
 #index
 {
-	margin-top: 24px;
+	margin-top: 14px;
 	float: left;
-	width: 160px;
+	width: 220px;
 	position: absolute;
 	left: 8px;
 	background-color: #F3F3F3;
@@ -46,7 +46,7 @@ pre.code
 
 #content
 {
-	margin-left: 190px;
+	margin-left: 250px;
 }
 
 .classList
