@@ -10,16 +10,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 if ( !CKEDITOR.event ) {
 	/**
-	 * This is a base class for classes and objects that require event handling
-	 * features.
-	 * @constructor
+	 * Creates an event class instance. This constructor is rearely used, being
+	 * the {@link #.implementOn} function used in class prototypes directly
+	 * instead.
+	 * @class This is a base class for classes and objects that require event
+	 * handling features.<br />
+	 * <br />
+	 * Do not confuse this class with {@link CKEDITOR.dom.event} which is
+	 * instead used for DOM events. The CKEDITOR.event class implements the
+	 * internal event system used by the CKEditor to fire API related events.
 	 * @example
 	 */
 	CKEDITOR.event = function() {};
 
 	/**
 	 * Implements the {@link CKEDITOR.event} features in an object.
-	 * @param {Object} targetObject The object in which implement the features.
+	 * @param {Object} targetObject The object into which implement the features.
 	 * @example
 	 * var myObject = { message : 'Example' };
 	 * <b>CKEDITOR.event.implementOn( myObject }</b>;
@@ -29,7 +35,7 @@ if ( !CKEDITOR.event ) {
 	 *     });
 	 * myObject.fire( 'testEvent' );
 	 */
-	CKEDITOR.event.implementOn = function( targetObject, isTargetPrototype ) {
+	CKEDITOR.event.implementOn = function( targetObject ) {
 		var eventProto = CKEDITOR.event.prototype;
 
 		for ( var prop in eventProto ) {
