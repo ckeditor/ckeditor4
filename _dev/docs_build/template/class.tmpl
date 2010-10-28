@@ -53,6 +53,9 @@
 				<if test="data.version"><br />Version
 					{+ data.version +}.<br />
 				</if>
+
+				{+resolveLinks(data.classDesc)+}
+				
 				<if test="data.augments.length"><br />Extends
 					{+
 						data.augments
@@ -61,11 +64,9 @@
 							function($) { return new Link().toSymbol($); }
 						)
 						.join(", ")
-					+}.<br />
+					+}.
 				</if>
 			
-				{+resolveLinks(data.classDesc)+}
-				
 				<if test="!data.isBuiltin()">{# isn't defined in any file #}
 					<br /><i>Defined in: </i> {+ ckeditor_FileLink( data.srcFile ) +}.
 				</if>
