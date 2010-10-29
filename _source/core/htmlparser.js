@@ -4,9 +4,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * HTML text parser.
- * @constructor
+ * Creates a {@link CKEDITOR.htmlParser} class instance.
+ * @class Provides an "event like" system to parse strings of HTML data.
  * @example
+ * var parser = new CKEDITOR.htmlParser();
+ * parser.onTagOpen = function( tagName, attributes, selfClosing )
+ *     {
+ *         alert( tagName );
+ *     };
+ * parser.parse( '&lt;p&gt;Some &lt;b&gt;text&lt;/b&gt;.&lt;/p&gt;' );
  */
 CKEDITOR.htmlParser = function() {
 	this._ = {
@@ -88,7 +94,7 @@ CKEDITOR.htmlParser = function() {
 		 * @param {String} comment The comment text.
 		 * @example
 		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onText = function( comment )
+		 * parser.onComment = function( comment )
 		 *     {
 		 *         alert( comment );  // e.g. " Example "
 		 *     });
