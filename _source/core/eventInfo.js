@@ -10,11 +10,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * This class is not really part of the API. It just illustrates the features
- * of the event object passed to event listeners by a {@link CKEDITOR.event}
- * based object.
+ * (Virtual Class) Do not call this constructor. This class is not really part
+ * of the API. 
+ * @class Virtual class that illustrates the features of the event object to be
+ * passed to event listeners by a {@link CKEDITOR.event} based object.
  * @name CKEDITOR.eventInfo
- * @constructor
  * @example
  * // Do not do this.
  * var myEvent = new CKEDITOR.eventInfo();  // Error: CKEDITOR.eventInfo is undefined
