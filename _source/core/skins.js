@@ -59,7 +59,7 @@ CKEDITOR.skins = (function() {
 
 				if ( !preloaded[ skinName ].finished ) {
 					// Bind listener for this editor instance.
-					preloaded[ skinName ].on( 'preloaded', function() {
+					preloaded[ skinName ].on( 'loaded', function() {
 						loadPart( editor, skinName, part, callback );
 					});
 

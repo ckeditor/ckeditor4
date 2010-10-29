@@ -20,33 +20,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 	/**
-	 * Load images into the browser cache.
-	 * @namespace
-	 * @example
+	 * @namespace Load images into the browser cache.
 	 */
 	CKEDITOR.imageCacher = {
 		/**
 		 * Loads one or more images.
-		 * @param {Array} images The URLs for the images to be loaded.
-		 * @param {Function} callback The optional function to be called once all images
-		 *		are loaded. You can bind any function to the returned event object.
-		 * @return {CKEDITOR.event} Event object which fires 'preloaded' event when all images finished.
-		 *    Additionally it set "finished" property flag after 'preloaded' event.
+		 * @param {Array} images The URLs of the images to be loaded.
+		 * @param {Function} [callback] A function to be called once all images
+		 *		are loaded.
+		 * @return {CKEDITOR.event} An event object which fires the 'loaded'
+		 *		event when all images are completely loaded. Additionally, the
+		 *		"finished" property is set after the "loaded" event call.
+		 * @example
+		 * var loader = CKEDITOR.imageCacher.load( [ '/image1.png', 'image2.png' ] );
+		 * if ( !loader.finished )
+		 * {
+		 *     loader.on( 'load', function()
+		 *         {
+		 *             alert( 'All images are loaded' );
+		 *         });
+		 * }
 		 */
 		load: function( images, callback ) {
 			var pendingCount = images.length;
 
 			var event = new CKEDITOR.event;
-			event.on( 'preloaded', function() {
-				event.finished = true;
+			event.on( 'loaded', function() {
+				event.finished = 1;
 			});
 
 			if ( callback )
-				event.on( 'preloaded', callback );
+				event.on( 'loaded', callback );
 
 			var checkPending = function() {
 					if ( --pendingCount === 0 )
-						event.fire( 'preloaded' );
+						event.fire( 'loaded' );
 				};
 
 			for ( var i = 0; i < images.length; i++ ) {
