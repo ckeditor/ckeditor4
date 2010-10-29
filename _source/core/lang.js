@@ -54,6 +54,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * supported, a default language is then returned.
 		 * @param {String} defaultLanguage The default language to be returned
 		 *		if the user language is not supported.
+		 * @param {String} [probeLanguage] A language code to try to use,
+		 *		instead of the browser based autodetection.
 		 * @returns {String} The detected language code.
 		 * @example
 		 * alert( CKEDITOR.lang.detect( 'en' ) );  // e.g., in a German browser: "de"
