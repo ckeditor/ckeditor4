@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -544,19 +544,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							blinkCursor();
 						else if ( CKEDITOR.env.opera )
 							doc.getBody().focus();
-						// Webkit needs focus for the first time on the HTML element.
+						// Webkit needs focus for the first time on the HTML element. (#6153)
 						else if ( CKEDITOR.env.webkit ) {
 							if ( !wasFocused ) {
 								editor.document.getDocumentElement().focus();
 								wasFocused = 1;
-
-								// Webkit does not scroll to the cursor position after first focus.
-								setTimeout( function() {
-									doc.$.execCommand( 'inserthtml', false, '<span id="cke_focus_marker" cke_temp="1"></span>' );
-									var marker = doc.getById( 'cke_focus_marker' );
-									marker.scrollIntoView();
-									marker.remove();
-								}, 0 );
 							}
 						}
 
