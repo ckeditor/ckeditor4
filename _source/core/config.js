@@ -9,6 +9,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;p&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_P = 1;
+
+/**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;br&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_BR = 2;
+
+/**
+ * Used in conjuction with {@link CKEDITOR.config.enterMode} and
+ * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;div&gt;
+ * tags when using the ENTER key.
+ * @constant
+ */
+CKEDITOR.ENTER_DIV = 3;
+
+/**
  * @namespace Holds the default configuration settings. Changes to this object are
  * reflected in all editor instances, if not specificaly specified for those
  * instances.
@@ -400,29 +424,5 @@ CKEDITOR.config = {
  * @example
  * config.useComputedState = false;
  */
-
-/**
- * Used in conjuction with {@link CKEDITOR.config.enterMode} and
- * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;p&gt;
- * tags when using the ENTER key.
- * @constant
- */
-CKEDITOR.ENTER_P = 1;
-
-/**
- * Used in conjuction with {@link CKEDITOR.config.enterMode} and
- * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;br&gt;
- * tags when using the ENTER key.
- * @constant
- */
-CKEDITOR.ENTER_BR = 2;
-
-/**
- * Used in conjuction with {@link CKEDITOR.config.enterMode} and
- * {@link CKEDITOR.config.shiftEnterMode} to make the editor produce &lt;div&gt;
- * tags when using the ENTER key.
- * @constant
- */
-CKEDITOR.ENTER_DIV = 3;
 
 // PACKAGER_RENAME( CKEDITOR.config )
