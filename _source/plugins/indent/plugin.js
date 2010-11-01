@@ -253,32 +253,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ranges = selection && selection.getRanges( 1 ),
 				range;
 
-			var skipBookmarks = CKEDITOR.dom.walker.bookmark( 0, 1 );
 
 			var iterator = ranges.createIterator();
 			while ( ( range = iterator.getNextRange() ) ) {
-				// Do not indent body. (#6138)
-				range.shrink( CKEDITOR.SHRINK_ELEMENT );
-				if ( range.endContainer.getName() == 'body' )
-					range.setEndAt( range.endContainer.getLast( skipBookmarks ), CKEDITOR.POSITION_BEFORE_END );
-
-				var startContainer = range.startContainer,
-					endContainer = range.endContainer,
-					rangeRoot = range.getCommonAncestor(),
+				var rangeRoot = range.getCommonAncestor(),
 					nearestListBlock = rangeRoot;
 
 				while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ nearestListBlock.getName() ] ) )
 					nearestListBlock = nearestListBlock.getParent();
 
+				// Avoid having selection enclose the entire list. (#6138)
+				// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
+				if ( !nearestListBlock ) {
+					var selectedNode = range.getEnclosedNode();
+					if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in listNodeNames ) {
+						range.setStartAt( selectedNode, CKEDITOR.POSITION_AFTER_START );
+						range.setEndAt( selectedNode, CKEDITOR.POSITION_BEFORE_END );
+						nearestListBlock = selectedNode;
+					}
+				}
+
 				// Avoid selection anchors under list root.
 				// <ul>[<li>...</li>]</ul> =>	<ul><li>[...]</li></ul>
-				if ( nearestListBlock && startContainer.type == CKEDITOR.NODE_ELEMENT && startContainer.getName() in listNodeNames ) {
+				if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in listNodeNames ) {
 					var walker = new CKEDITOR.dom.walker( range );
 					walker.evaluator = isListItem;
 					range.startContainer = walker.next();
 				}
 
-				if ( nearestListBlock && endContainer.type == CKEDITOR.NODE_ELEMENT && endContainer.getName() in listNodeNames ) {
+				if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in listNodeNames ) {
 					walker = new CKEDITOR.dom.walker( range );
 					walker.evaluator = isListItem;
 					range.endContainer = walker.previous();
