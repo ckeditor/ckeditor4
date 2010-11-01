@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -183,6 +183,17 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 					this.show( offsetParent, null, offsetX, offsetY );
 				}, 0, this );
 			}, this );
+
+			if ( CKEDITOR.env.opera ) {
+				// 'contextmenu' event triggered by Windows menu key is unpreventable,
+				// cancel the key event itself. (#6534)  
+				element.on( 'keypress', function( evt ) {
+					var domEvent = evt.data;
+
+					if ( domEvent.$.keyCode == 0 )
+						domEvent.preventDefault();
+				});
+			}
 
 			if ( CKEDITOR.env.webkit ) {
 				var holdCtrlKey,
