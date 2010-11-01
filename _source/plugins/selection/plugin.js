@@ -756,11 +756,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							if ( !node || node.type != CKEDITOR.NODE_ELEMENT )
 								node = range.startContainer;
-
-							var child = node.getFirst();
-							while ( child && child.type == CKEDITOR.NODE_ELEMENT ) {
-								node = child;
-								child = child.getFirst();
+							else {
+								var child = node.getFirst();
+								while ( child && child.type == CKEDITOR.NODE_ELEMENT ) {
+									node = child;
+									child = child.getFirst();
+								}
 							}
 						} else {
 							node = range.startContainer;
