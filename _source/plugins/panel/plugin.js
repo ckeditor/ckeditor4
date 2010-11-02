@@ -272,7 +272,7 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 
 			// Safari need focus on the iframe window first(#3389), but we need
 			// lock the blur to avoid hiding the panel.
-			if ( CKEDITOR.env.webkit )
+			if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
 				item.getDocument().getWindow().focus();
 			item.focus();
 
