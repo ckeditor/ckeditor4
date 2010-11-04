@@ -81,7 +81,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var walker = new CKEDITOR.dom.walker( range ),
 			node;
 
-		while ( node = walker.next() ) {
+		while ( ( node = walker.next() ) ) {
 			if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 				// A child with the defined dir is to be ignored.
 				if ( !node.equals( e.data ) && node.getDirection() ) {

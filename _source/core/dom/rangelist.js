@@ -102,9 +102,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						range.moveToBookmark( bookmarks.shift() );
 
+						var next;
 						// Merge ranges finally after moving to bookmarks.
 						while ( mergeCount-- ) {
-							var next = rangeList[ ++current ];
+							next = rangeList[ ++current ];
 							next.moveToBookmark( bookmarks.shift() );
 							range.setEnd( next.endContainer, next.endOffset );
 						}

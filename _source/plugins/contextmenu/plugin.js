@@ -190,7 +190,7 @@ CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 				element.on( 'keypress', function( evt ) {
 					var domEvent = evt.data;
 
-					if ( domEvent.$.keyCode == 0 )
+					if ( domEvent.$.keyCode === 0 )
 						domEvent.preventDefault();
 				});
 			}
