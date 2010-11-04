@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part
- * of the API. 
+ * of the API.
  * @class Virtual class that illustrates the features of the event object to be
  * passed to event listeners by a {@link CKEDITOR.event} based object.
  * @name CKEDITOR.eventInfo

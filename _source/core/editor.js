@@ -714,7 +714,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *     if ( CKEDITOR.instances.editor1.<b>checkDirty()</b> )
 	 * 	        return e.returnValue = "You'll loose the changes made in the editor.";
 	 * }
-	 * 
+	 *
 	 * if ( window.addEventListener )
 	 *     window.addEventListener( 'beforeunload', beforeUnload, false );
 	 * else

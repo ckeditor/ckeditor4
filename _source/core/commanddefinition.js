@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part
- * of the API. 
+ * of the API.
  * @name CKEDITOR.commandDefinition
  * @class Virtual class that illustrates the features of command objects to be
  *		passed to the {@link CKEDITOR.editor.prototype.addCommand} function.

@@ -249,7 +249,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( parentNode.equals( commonParent ) ) {
 					listContents.push( contentNode );
 
-					// Determine the lists's direction. 
+					// Determine the lists's direction.
 					if ( !explicitDirection && contentNode.getDirection() )
 						explicitDirection = 1;
 

@@ -146,7 +146,7 @@ CKEDITOR.ui.panel.prototype = {
 				// Register the CKEDITOR global.
 				win.$.CKEDITOR = CKEDITOR;
 
-				// Arrow keys for scrolling is only preventable with 'keypress' event in Opera (#4534).  
+				// Arrow keys for scrolling is only preventable with 'keypress' event in Opera (#4534).
 				doc.on( 'key' + ( CKEDITOR.env.opera ? 'press' : 'down' ), function( evt ) {
 					var keystroke = evt.data.getKeystroke(),
 						dir = this.document.getById( this.id ).getAttribute( 'dir' );

@@ -95,7 +95,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Clear direction on this element.
 		element.removeStyle( 'direction' );
 
-		// Do the second check when computed state is ON, to check 
+		// Do the second check when computed state is ON, to check
 		// if we need to apply explicit direction on this element.
 		if ( useComputedState ) {
 			element.removeAttribute( 'dir' );

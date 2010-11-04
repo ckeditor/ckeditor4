@@ -889,7 +889,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var selected = this._.tabs[ id ];
 			selected[ 0 ].addClass( 'cke_dialog_tab_selected' );
 
-			// [IE] an invisible input[type='text'] will enlarge it's width 
+			// [IE] an invisible input[type='text'] will enlarge it's width
 			// if it's value is long when it shows, so we clear it's value
 			// before it shows and then recover it (#5649)
 			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
