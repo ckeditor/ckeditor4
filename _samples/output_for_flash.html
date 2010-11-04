@@ -217,7 +217,7 @@ function configureFlashOutput( ev )
 						if ( style )
 						{
 							// Get the align from the style.
-							match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+							match = /(?:^|\s)text-align\s*:\s*(\w*);?/i.exec( style );
 							align = match && match[1];
 
 							if ( align )
