@@ -139,7 +139,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ '<div class="cke_toolbox" role="toolbar" aria-labelledby="', labelId, '"' ],
+					var output = [ '<div class="cke_toolbox" role="toolbar" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
 						expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted;
 
