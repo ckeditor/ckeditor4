@@ -78,6 +78,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( item.indent == indentLevel ) {
 					if ( !rootNode || listArray[ currentIndex ].parent.getName() != rootNode.getName() ) {
 						rootNode = listArray[ currentIndex ].parent.clone( false, 1 );
+						dir && rootNode.setAttribute( 'dir', dir );
 						retval.append( rootNode );
 					}
 					currentListItem = rootNode.append( item.element.clone( 0, 1 ) );
