@@ -86,7 +86,6 @@ CKEDITOR.UI_PANELBUTTON = 4;
 					if ( me.className )
 						this.element.getFirst().addClass( me.className + '_panel' );
 
-					_.oldState = me._.state;
 					me.setState( CKEDITOR.TRISTATE_ON );
 
 					_.on = 1;
@@ -99,7 +98,7 @@ CKEDITOR.UI_PANELBUTTON = 4;
 					if ( me.className )
 						this.element.getFirst().removeClass( me.className + '_panel' );
 
-					me.setState( _.oldState );
+					me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
 					_.on = 0;
 
