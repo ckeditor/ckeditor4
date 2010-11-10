@@ -1224,7 +1224,7 @@ CKEDITOR.dom.range = function( document ) {
 
 			// Fixing invalid range start inside dtd empty elements.
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ startNode.getName() ] )
-				startNode = startNode.getParent(), startOffset = startNode.getIndex();
+				startOffset = startNode.getIndex(), startNode = startNode.getParent();
 
 			this.startContainer = startNode;
 			this.startOffset = startOffset;
