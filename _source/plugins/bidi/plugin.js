@@ -108,8 +108,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// If the element direction changed, we need to switch the margins of
 		// the element and all its children, so it will get really reflected
 		// like a mirror. (#5910)
-		if ( dir != dirBefore )
-			editor.fire( 'dirChanged', element );
+		if ( dir != dirBefore ) {
+			editor.fire( 'dirChanged', {
+				node: element,
+				dir: dir
+			});
+		}
 
 		editor.forceNextSelectionCheck();
 

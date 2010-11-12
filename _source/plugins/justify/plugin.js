@@ -75,8 +75,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var editor = e.editor;
 
 		var range = new CKEDITOR.dom.range( editor.document );
-		range.setStartBefore( e.data );
-		range.setEndAfter( e.data );
+		range.setStartBefore( e.data.node );
+		range.setEndAfter( e.data.node );
 
 		var walker = new CKEDITOR.dom.walker( range ),
 			node;
@@ -84,13 +84,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		while ( ( node = walker.next() ) ) {
 			if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 				// A child with the defined dir is to be ignored.
-				if ( !node.equals( e.data ) && node.getDirection() ) {
+				if ( !node.equals( e.data.node ) && node.getDirection() ) {
 					range.setStartAfter( node );
 					walker = new CKEDITOR.dom.walker( range );
 					continue;
 				}
 
 				// Switch the alignment.
+				var classes = editor.config.justifyClasses;
+				if ( classes ) {
+					// The left align class.
+					if ( node.hasClass( classes[ 0 ] ) ) {
+						node.removeClass( classes[ 0 ] );
+						node.addClass( classes[ 2 ] );
+					}
+					// The right align class.
+					else if ( node.hasClass( classes[ 2 ] ) ) {
+						node.removeClass( classes[ 2 ] );
+						node.addClass( classes[ 0 ] );
+					}
+				}
+
+				// Always switch CSS margins.
 				var style = 'text-align';
 				var align = node.getStyle( style );
 

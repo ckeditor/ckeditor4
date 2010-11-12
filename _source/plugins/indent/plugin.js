@@ -342,8 +342,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( e ) {
 				var range = new CKEDITOR.dom.range( editor.document );
-				range.setStartBefore( e.data );
-				range.setEndAfter( e.data );
+				range.setStartBefore( e.data.node );
+				range.setEndAfter( e.data.node );
 
 				var walker = new CKEDITOR.dom.walker( range ),
 					node;
@@ -351,10 +351,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				while ( ( node = walker.next() ) ) {
 					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 						// A child with the defined dir is to be ignored.
-						if ( !node.equals( e.data ) && node.getDirection() ) {
+						if ( !node.equals( e.data.node ) && node.getDirection() ) {
 							range.setStartAfter( node );
 							walker = new CKEDITOR.dom.walker( range );
 							continue;
+						}
+
+						// Switch alignment classes.
+						var classes = editor.config.indentClasses;
+						if ( classes ) {
+							var suffix = ( e.data.dir == 'ltr' ) ? [ '_rtl', '' ] : [ '', '_rtl' ];
+							for ( var i = 0; i < classes.length; i++ ) {
+								if ( node.hasClass( classes[ i ] + suffix[ 0 ] ) ) {
+									node.removeClass( classes[ i ] + suffix[ 0 ] );
+									node.addClass( classes[ i ] + suffix[ 1 ] );
+								}
+							}
 						}
 
 						// Switch the margins.
