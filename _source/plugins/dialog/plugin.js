@@ -919,7 +919,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		hidePage: function( id ) {
 			var tab = this._.tabs[ id ] && this._.tabs[ id ][ 0 ];
-			if ( !tab || this._.pageCount == 1 )
+			if ( !tab || this._.pageCount == 1 || !tab.isVisible() )
 				return;
 			// Switch to other tab first when we're hiding the active tab.
 			else if ( id == this._.currentTabId )
