@@ -82,7 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( nextBlock )
 					range.moveToElementEditStart( nextBlock );
 			} else {
-				var newBlock, newBlockDir;
+				var newBlock;
 
 				if ( previousBlock ) {
 					// Do not enter this block if it's a header tag, or we are in
@@ -95,11 +95,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				} else if ( nextBlock )
 					newBlock = nextBlock.clone();
 
-				if ( !newBlock ) {
+				if ( !newBlock )
 					newBlock = doc.createElement( blockTag );
-					if ( previousBlock && ( newBlockDir = previousBlock.getDirection() ) )
-						newBlock.setAttribute( 'dir', newBlockDir );
-				}
 				// Force the enter block unless we're talking of a list item.
 				else if ( forceMode && !newBlock.is( 'li' ) )
 					newBlock.renameNode( blockTag );
@@ -195,24 +192,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// If we are at the end of a header block.
 			if ( !forceMode && isEndOfBlock && headerTagRegex.test( startBlockTag ) ) {
-				var newBlock, newBlockDir;
+				// Insert a <br> after the current paragraph.
+				doc.createElement( 'br' ).insertAfter( startBlock );
 
-				if ( newBlockDir = startBlock.getDirection() ) {
-					newBlock = doc.createElement( 'div' );
-					newBlock.setAttribute( 'dir', newBlockDir );
-					newBlock.insertAfter( startBlock );
-					range.setStart( newBlock, 0 );
-				} else {
-					// Insert a <br> after the current paragraph.
-					doc.createElement( 'br' ).insertAfter( startBlock );
+				// A text node is required by Gecko only to make the cursor blink.
+				if ( CKEDITOR.env.gecko )
+					doc.createText( '' ).insertAfter( startBlock );
 
-					// A text node is required by Gecko only to make the cursor blink.
-					if ( CKEDITOR.env.gecko )
-						doc.createText( '' ).insertAfter( startBlock );
-
-					// IE has different behaviors regarding position.
-					range.setStartAt( startBlock.getNext(), CKEDITOR.env.ie ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_START );
-				}
+				// IE has different behaviors regarding position.
+				range.setStartAt( startBlock.getNext(), CKEDITOR.env.ie ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_START );
 			} else {
 				var lineBreak;
 
