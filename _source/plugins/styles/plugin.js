@@ -11,8 +11,8 @@ CKEDITOR.plugins.add( 'styles', {
  * Registers a function to be called whenever a style changes its state in the
  * editing area. The current state is passed to the function. The possible
  * states are {@link CKEDITOR.TRISTATE_ON} and {@link CKEDITOR.TRISTATE_OFF}.
- * @param {CKEDITOR.style} The style to be watched.
- * @param {Function} The function to be called when the style state changes.
+ * @param {CKEDITOR.style} style The style to be watched.
+ * @param {Function} callback The function to be called when the style state changes.
  * @example
  * // Create a style object for the &lt;b&gt; element.
  * var style = new CKEDITOR.style( { element : 'b' } );
@@ -1215,7 +1215,7 @@ CKEDITOR.loadStylesSet = function( name, url, callback ) {
 
 /**
  * Gets the current styleSet for this instance
- * @param {Function} The function to be called with the styles data.
+ * @param {Function} callback The function to be called with the styles data.
  * @example
  * editor.getStylesSet( function( stylesDefinitions ) {} );
  */
