@@ -42,7 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function handleMixedDirContent( evt ) {
 		var editor = evt.editor,
 			chromeRoot = editor.container.getChild( 1 ),
-			directionNode = getElementForDirection( evt.data.path.lastElement );
+			directionNode = evt.data.path.block || evt.data.path.blockLimit;
 
 		if ( directionNode && editor.lang.dir != directionNode.getComputedStyle( 'direction' ) )
 			chromeRoot.addClass( 'cke_mixed_dir_content' );
