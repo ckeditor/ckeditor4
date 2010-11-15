@@ -34,13 +34,12 @@ CKEDITOR.UI_MENUBUTTON = 5;
 				menu.definition.panel.attributes[ 'aria-label' ] = editor.lang.common.options;
 
 				menu.onHide = CKEDITOR.tools.bind( function() {
-					this.setState( _.previousState );
+					this.setState( this.modes && this.modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
 				}, this );
 
 				// Initialize the menu items at this point.
-				if ( this.onMenu ) {
+				if ( this.onMenu )
 					menu.addListener( this.onMenu );
-				}
 			}
 
 			if ( _.on ) {

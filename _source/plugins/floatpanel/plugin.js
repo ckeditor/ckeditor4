@@ -51,6 +51,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				children: [],
 				dir: editor.lang.dir
 			};
+
+			editor.on( 'mode', function() {
+				this.hide();
+			}, this );
 		},
 
 		proto: {

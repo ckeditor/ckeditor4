@@ -205,7 +205,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				if ( me.className )
 					this.element.getFirst().removeClass( me.className + '_panel' );
 
-				me.setState( CKEDITOR.TRISTATE_OFF );
+				me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
 				me._.on = 0;
 
