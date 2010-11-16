@@ -229,6 +229,24 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
+	 * Retrieve block element's filler node if existed.
+	 */
+	getBogus: function() {
+		if ( !this.isBlockBoundary() )
+			return;
+
+		var lastChild = this.getLast();
+
+		// Ignore empty/spaces text.
+		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
+			lastChild = lastChild.getPrevious();
+
+		if ( lastChild && ( CKEDITOR.env.ie && lastChild.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( lastChild.getText() ).match( /^(?:&nbsp;|\xa0)$/ ) || CKEDITOR.env.gecko && CKEDITOR.env.webkit && lastChild.is( 'br' ) ) ) {
+			return lastChild;
+		}
+	},
+
+	/**
 	 * Breaks one of the ancestor element in the element position, moving
 	 * this element between the broken parts.
 	 * @param {CKEDITOR.dom.element} parent The anscestor element to get broken.
@@ -541,7 +559,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		// Cache the lowercased name inside a closure.
 		var nodeName = this.$.nodeName.toLowerCase();
 
-		if ( CKEDITOR.env.ie ) {
+		if ( CKEDITOR.env.ie && !( document.documentMode > 8 ) ) {
 			var scopeName = this.$.scopeName;
 			if ( scopeName != 'HTML' )
 				nodeName = scopeName.toLowerCase() + ':' + nodeName;
@@ -637,11 +655,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		var thisLength = thisAttribs.length,
 			otherLength = otherAttribs.length;
 
-		if ( !CKEDITOR.env.ie && thisLength != otherLength )
-			return false;
-
 		for ( var i = 0; i < thisLength; i++ ) {
 			var attribute = thisAttribs[ i ];
+
+			if ( attribute.nodeName == '_moz_dirty' )
+				continue;
 
 			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != '_cke_expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
 				return false;
