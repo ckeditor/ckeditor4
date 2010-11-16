@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -220,10 +220,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					indentStep = Math.min( indentStep, editor.config.indentClasses.length );
 					indentStep = Math.max( indentStep, 0 );
-					var className = CKEDITOR.tools.ltrim( element.$.className.replace( self.classNameRegex, '' ) );
-					if ( indentStep < 1 )
-						element.$.className = className;
-					else
+					element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( self.classNameRegex, '' ) );
+					if ( indentStep > 0 )
 						element.addClass( editor.config.indentClasses[ indentStep - 1 ] );
 				} else {
 					var indentCssProperty = getIndentCssProperty( element, dir ),
