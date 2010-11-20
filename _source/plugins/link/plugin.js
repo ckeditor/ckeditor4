@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -61,10 +61,12 @@ CKEDITOR.plugins.add( 'link', {
 		editor.on( 'doubleclick', function( evt ) {
 			var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element;
 
-			if ( element.is( 'a' ) )
-				evt.data.dialog = ( element.getAttribute( 'name' ) && !element.getAttribute( 'href' ) ) ? 'anchor' : 'link';
-			else if ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' )
-				evt.data.dialog = 'anchor';
+			if ( element.isReadOnly() ) {
+				if ( element.is( 'a' ) )
+					evt.data.dialog = ( element.getAttribute( 'name' ) && !element.getAttribute( 'href' ) ) ? 'anchor' : 'link';
+				else if ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' )
+					evt.data.dialog = 'anchor';
+			}
 		});
 
 		// If the "menu" plugin is loaded, register the menu items.
