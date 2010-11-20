@@ -384,6 +384,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Size of each indentation step
+ * @name CKEDITOR.config.indentOffset
  * @type Number
  * @default 40
  * @example
@@ -392,6 +393,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Unit for the indentation style
+ * @name CKEDITOR.config.indentUnit
  * @type String
  * @default 'px'
  * @example
@@ -401,6 +403,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * List of classes to use for indenting the contents. If it's null, no classes will be used
  * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
+ * @name CKEDITOR.config.indentClasses
  * @type Array
  * default null
  * @example
