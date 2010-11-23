@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -888,7 +888,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.on( 'uiReady', function() {
 					focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
 					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
-					'<span tabindex="-1" style="position:absolute; left:-10000" role="presentation"></span>' ) );
+					'<span tabindex="-1" style="position:absolute;" role="presentation"></span>' ) );
 
 					focusGrabber.on( 'focus', function() {
 						editor.focus();
