@@ -11,6 +11,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var listNodeNames = { ol:1,ul:1 },
 		emptyTextRegex = /^[\n\r\t ]*$/;
 
+	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
+		bookmarks = CKEDITOR.dom.walker.bookmark(),
+		nonEmpty = function( node ) {
+			return !( whitespaces( node ) || bookmarks( node ) );
+		};
+
 	CKEDITOR.plugins.list = {
 		/*
 		 * Convert a DOM list tree into a data structure that is easier to
@@ -113,9 +119,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
-						if ( currentListItem.getLast() && currentListItem.getLast().type == CKEDITOR.NODE_ELEMENT && currentListItem.getLast().getAttribute( 'type' ) == '_moz' )
-							currentListItem.getLast().remove();
-						currentListItem.appendBogus();
+						var last = currentListItem.getLast();
+						if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.getAttribute( 'type' ) == '_moz' ) {
+							last.remove();
+						}
+
+						if ( !( last = currentListItem.getLast( nonEmpty ) && last.type == CKEDITOR.NODE_ELEMENT && last.getName() in CKEDITOR.dtd.$block ) ) {
+							currentListItem.append( doc.createElement( 'br' ) );
+						}
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_ELEMENT && currentListItem.getName() == paragraphName && currentListItem.$.firstChild ) {
