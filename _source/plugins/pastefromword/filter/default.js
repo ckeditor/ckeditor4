@@ -104,6 +104,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var cssLengthRelativeUnit = /^([.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
 	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/; // e.g. 0px 0pt 0px
+	var romanLiternalPattern = '^m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$',
+		lowerRomanLiteralRegex = new RegExp( romanLiternalPattern ),
+		upperRomanLiteralRegex = new RegExp( romanLiternalPattern.toUpperCase() );
 
 	var listBaseIndent = 0,
 		previousListItemMargin;
@@ -122,8 +125,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				} else if ( bulletStyle[ 2 ] ) {
 					if ( !isNaN( bulletStyle[ 1 ] ) )
 						bulletStyle = 'decimal';
-					// No way to distinguish between Roman numerals and Alphas,
-					// detect them as a whole.
+					else if ( lowerRomanLiteralRegex.test( bulletStyle[ 1 ] ) )
+						bulletStyle = 'lower-roman';
+					else if ( upperRomanLiteralRegex.test( bulletStyle[ 1 ] ) )
+						bulletStyle = 'upper-roman';
 					else if ( /^[a-z]+$/.test( bulletStyle[ 1 ] ) )
 						bulletStyle = 'lower-alpha';
 					else if ( /^[A-Z]+$/.test( bulletStyle[ 1 ] ) )
