@@ -113,7 +113,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				element.setStyles({
 					top: top + 'px',
-					left: left + 'px',
+					left: 0,
 					display: ''
 				});
 
