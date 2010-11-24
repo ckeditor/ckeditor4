@@ -112,10 +112,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				this._.panel._.offsetParentId = offsetParent.getId();
 
 				element.setStyles({
-					top: 0,
-					left: 0,
+					top: top + 'px',
+					left: left + 'px',
 					display: ''
 				});
+
 				// Don't use display or visibility style because we need to
 				// calculate the rendering layout later and focus the element.
 				element.setOpacity( 0 );
