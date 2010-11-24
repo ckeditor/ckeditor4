@@ -269,7 +269,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
-						iframe.$.contentWindow.focus();
+						( new CKEDITOR.dom.document( iframe.$.contentWindow.document ) ).getBody().focus();
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
 					}, 0, this );
