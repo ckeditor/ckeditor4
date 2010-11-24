@@ -280,13 +280,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * table-column-group, table-column, table-cell, table-caption, or whose node
 	 * name is hr, br (when enterMode is br only) is a block boundary.
 	 */
-	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
-		blockBoundaryNodeNameMatch = { hr:1 };
+	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 };
 
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
-		var nodeNameMatches = CKEDITOR.tools.extend( {}, blockBoundaryNodeNameMatch, customNodeNames || {} );
+		var nodeNameMatches = CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames || {} );
 
-		return blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
+		// Don't consider floated formatting as block boundary, fall back to dtd check in that case. (#6297)  
+		return this.getComputedStyle( 'float' ) == 'none' && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
 	};
 
 	CKEDITOR.dom.walker.blockBoundary = function( customNodeNames ) {
