@@ -503,10 +503,10 @@ CKEDITOR.lang[ 'en' ] = {
 	outdent: 'Decrease Indent',
 
 	justify: {
-		left: 'Align Left',
-		center: 'Center',
-		right: 'Align Right',
-		block: 'Justify'
+		left: 'Left Justify',
+		center: 'Center Justify',
+		right: 'Right Justify',
+		block: 'Block Justify'
 	},
 
 	blockquote: 'Block Quote',
