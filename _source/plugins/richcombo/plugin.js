@@ -89,10 +89,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 					return;
 				}
 
-				if ( !_.committed ) {
-					_.list.commit();
-					_.committed = 1;
-				}
+				!_.committed && this.commit();
 
 				var value = this.getValue();
 				if ( value )
@@ -296,6 +293,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 		commit: function() {
 			this._.list.commit();
+			this._.committed = 1;
 		},
 
 		setState: function( state ) {
