@@ -429,6 +429,12 @@ body .cke_dialog
 	cursor: default;
 }
 
+.cke_skin_office2003 a.cke_dialog_ui_button_ok span,
+.cke_skin_office2003 a.cke_dialog_ui_button_cancel span
+{
+	width:60px;
+}
+
 .cke_skin_office2003 span.cke_dialog_ui_button
 {
 	background-image: url(images/sprites.png);
@@ -485,7 +491,6 @@ body .cke_dialog
 
 .cke_skin_office2003 .cke_dialog_footer_buttons span.cke_dialog_ui_button
 {
-	width: 60px;
 	margin: 7px 0;
 }
 

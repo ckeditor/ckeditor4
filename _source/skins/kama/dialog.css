@@ -394,6 +394,7 @@ body .cke_dialog
 .cke_skin_kama a.cke_dialog_ui_button_ok span,
 .cke_skin_kama a.cke_dialog_ui_button_cancel span
 {
+	width:60px;
 	padding-right: 20px;
 	padding-left: 20px;
 }
@@ -517,7 +518,6 @@ body .cke_dialog
 .cke_skin_kama .cke_dialog_footer_buttons span.cke_dialog_ui_button
 {
 	margin: 7px 0;
-	width: 60px;
 	text-align: center;
 }
 
