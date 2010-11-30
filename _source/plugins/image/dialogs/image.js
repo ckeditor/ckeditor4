@@ -982,8 +982,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							[ editor.lang.common.targetParent, '_parent' ]
 							],
 						setup: function( type, element ) {
-							if ( type == LINK )
-								this.setValue( element.getAttribute( 'target' ) );
+							this.setValue( element.getAttribute( 'target' ) || '' );
 						},
 						commit: function( type, element ) {
 							if ( type == LINK ) {
