@@ -208,6 +208,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 	var table = new $el( 'table' );
 	createColorTable();
+	var html = table.getHtml();
 
 	var numbering = function( id ) {
 			return CKEDITOR.tools.getNextId() + '_' + id;
@@ -238,11 +239,14 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				children: [
 					{
 					type: 'html',
-					html: '<table role="listbox" aria-labelledby="' + tableLabelId + '" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' + table.getHtml() + '</table>' +
-																		'<span id="' + tableLabelId + '" class="cke_voice_label">' + lang.options + '</span>',
+					html: '<table role="listbox" aria-labelledby="' + tableLabelId + '" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' +
+																	( !CKEDITOR.env.webkit ? html : '' ) +
+																'</table><span id="' + tableLabelId + '" class="cke_voice_label">' + lang.options + '</span>',
 					onLoad: function() {
 						var table = CKEDITOR.document.getById( this.domId );
 						table.on( 'mouseover', updateHighlight );
+						// In WebKit, the table content must be inserted after this event call (#6150)
+						CKEDITOR.env.webkit && table.setHtml( html );
 					},
 					focus: function() {
 						var firstColor = this.getElement().getElementsByTag( 'a' ).getItem( 0 );
