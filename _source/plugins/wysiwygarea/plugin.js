@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	// List of elements in which has no way to move editing focus outside.
-	var nonExitableElementNames = { table:1,pre:1 };
+	var nonExitableElementNames = { table:1 };
 
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
