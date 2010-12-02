@@ -165,8 +165,12 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			dialog = event.sender;
 		},
 		focus: function() {
-			var firstSmile = this.getElement().getElementsByTag( 'a' ).getItem( 0 );
-			firstSmile.focus();
+			var self = this;
+			// IE need a while to move the focus (#6539).
+			setTimeout( function() {
+				var firstSmile = self.getElement().getElementsByTag( 'a' ).getItem( 0 );
+				firstSmile.focus();
+			}, 0 );
 		},
 		onClick: onClick,
 		style: 'width: 100%; border-collapse: separate;'
