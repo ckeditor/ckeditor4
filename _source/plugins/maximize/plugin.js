@@ -178,6 +178,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( CKEDITOR.env.ie ) {
 							mainDocument.$.documentElement.style.overflow = mainDocument.getBody().$.style.overflow = 'hidden';
 						} else {
+							// Prevent window scrolling, e.g. focus moving outside the editor. (#6747)
+							mainDocument.getDocumentElement().setStyle( 'overflow', 'hidden' );
 							mainDocument.getBody().setStyles( styles );
 						}
 
