@@ -103,10 +103,10 @@ CKEDITOR.lang[ 'es' ] = {
 		targetTop: 'Ventana principal (_top)',
 		targetSelf: 'Misma ventana (_self)',
 		targetParent: 'Ventana padre (_parent)',
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Izquierda a derecha (LTR)',
+		langDirRTL: 'Derecha a izquierda (RTL)',
+		styles: 'Estilos',
+		cssClasses: 'Clase de la hoja de estilos',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -193,7 +193,7 @@ CKEDITOR.lang[ 'es' ] = {
 		bulletedTitle: 'Propiedades de viñetas',
 		type: 'Tipo',
 		start: 'Inicio',
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
+		validateStartNumber: 'El Inicio debe ser un número entero.',
 		circle: 'Círculo',
 		disc: 'Disco',
 		square: 'Cuadrado',
@@ -711,7 +711,7 @@ CKEDITOR.lang[ 'es' ] = {
 	toolbarExpand: 'Expandir barra de herramientas',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Dirección del texto de izquierda a derecha',
+		rtl: 'Dirección del texto de derecha a izquierda'
 	}
 };
