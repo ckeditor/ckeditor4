@@ -220,7 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				htmlFilter.addRules({
 					elements: {
 						span: function( element ) {
-							if ( element.attributes.scayt_word && element.attributes.scaytid ) {
+							if ( element.attributes[ 'data-scayt_word' ] && element.attributes[ 'data-scaytid' ] ) {
 								delete element.name; // Write children, but don't write this node.
 								return element;
 							}
@@ -672,7 +672,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Prevent word marker line from displaying in elements path and been removed when cleaning format. (#3570) (#4125)
 			var elementsPathFilters,
 				scaytFilter = function( element ) {
-					if ( element.hasAttribute( 'scaytid' ) )
+					if ( element.hasAttribute( 'data-scaytid' ) )
 						return false;
 				};
 
