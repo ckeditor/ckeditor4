@@ -21,14 +21,14 @@ if ( !window.CKEDITOR )
 					}
 				}
 			}
-			if ( d.indexOf( ':/' ) == -1 )
+			if ( d.indexOf( '://' ) == -1 )
 				if ( d.indexOf( '/' ) === 0 )
 				d = location.href.match( /^.*?:\/\/[^\/]*/ )[ 0 ] + d;
 			else
 				d = location.href.match( /^[^\?]*\/(?:)/ )[ 0 ] + d;
 			return d;
 		})(), getUrl: function( d ) {
-			if ( d.indexOf( ':/' ) == -1 && d.indexOf( '/' ) !== 0 )
+			if ( d.indexOf( '://' ) == -1 && d.indexOf( '/' ) !== 0 )
 				d = this.basePath + d;
 			if ( this.timestamp && d.charAt( d.length - 1 ) != '/' )
 				d += ( d.indexOf( '?' ) >= 0 ? '&' : '?' ) + ( 't=' ) + this.timestamp;

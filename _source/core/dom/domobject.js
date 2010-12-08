@@ -150,9 +150,6 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	/**
 	 * Sets a data slot value for this object. These values are shared by all
 	 * instances pointing to that same DOM object.
-	 * <strong>Note:</strong> The created data slot is only guarantied to be available on this unique dom node,
-	 * thus any wish to continue access it from other element clones (either created by clone node or from innerHtml)
-	 * will fail, for such usage, please use {@link CKEDITOR.dom.element::setAttribute} instead.
 	 * @name CKEDITOR.dom.domObject.prototype.setCustomData
 	 * @function
 	 * @param {String} key A key used to identify the data slot.
@@ -184,7 +181,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * alert( element.getCustomData( 'hasCustomData' ) );  // e.g. 'true'
 	 */
 	domObjectProto.getCustomData = function( key ) {
-		var expandoNumber = this.$[ 'data-cke-expando' ],
+		var expandoNumber = this.$._cke_expando,
 			dataSlot = expandoNumber && customData[ expandoNumber ];
 
 		return dataSlot && dataSlot[ key ];
@@ -194,7 +191,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * @name CKEDITOR.dom.domObject.prototype.removeCustomData
 	 */
 	domObjectProto.removeCustomData = function( key ) {
-		var expandoNumber = this.$[ 'data-cke-expando' ],
+		var expandoNumber = this.$._cke_expando,
 			dataSlot = expandoNumber && customData[ expandoNumber ],
 			retval = dataSlot && dataSlot[ key ];
 
@@ -215,7 +212,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 		// Clear all event listeners
 		this.removeAllListeners();
 
-		var expandoNumber = this.$[ 'data-cke-expando' ];
+		var expandoNumber = this.$._cke_expando;
 		expandoNumber && delete customData[ expandoNumber ];
 	};
 
@@ -227,7 +224,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * @returns {Number} A unique ID.
 	 */
 	domObjectProto.getUniqueId = function() {
-		return this.$[ 'data-cke-expando' ] || ( this.$[ 'data-cke-expando' ] = CKEDITOR.tools.getNextNumber() );
+		return this.$._cke_expando || ( this.$._cke_expando = CKEDITOR.tools.getNextNumber() );
 	};
 
 	// Implement CKEDITOR.event.

@@ -133,7 +133,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				selection = contents && editor.getSelection();
 
 			// In IE, we need to remove the expando attributes.
-			CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' ) );
+			CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+_cke_expando=".*?"/g, '' ) );
 
 			this.contents = contents;
 			this.bookmarks = selection && selection.createBookmarks2( true );
@@ -232,7 +232,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// In IE, we need to remove the expando attributes.
 					if ( CKEDITOR.env.ie )
-						currentSnapshot = currentSnapshot.replace( /\s+data-cke-expando=".*?"/g, '' );
+						currentSnapshot = currentSnapshot.replace( /\s+_cke_expando=".*?"/g, '' );
 
 					if ( beforeTypeImage.contents != currentSnapshot ) {
 						// It's safe to now indicate typing state.

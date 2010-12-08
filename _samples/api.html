@@ -32,7 +32,7 @@ function InsertHTML()
 {
 	// Get the editor instance that we want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
-	var value = document.getElementById( 'htmlArea' ).value;
+	var value = document.getElementById( 'plainArea' ).value;
 
 	// Check the active editing mode.
 	if ( oEditor.mode == 'wysiwyg' )
@@ -44,27 +44,11 @@ function InsertHTML()
 		alert( 'You must be on WYSIWYG mode!' );
 }
 
-function InsertText()
-{
-	// Get the editor instance that we want to interact with.
-	var oEditor = CKEDITOR.instances.editor1;
-	var value = document.getElementById( 'txtArea' ).value;
-
-	// Check the active editing mode.
-	if ( oEditor.mode == 'wysiwyg' )
-	{
-		// Insert as plain text.
-		oEditor.insertText( value );
-	}
-	else
-		alert( 'You must be on WYSIWYG mode!' );
-}
-
 function SetContents()
 {
 	// Get the editor instance that we want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
-	var value = document.getElementById( 'htmlArea' ).value;
+	var value = document.getElementById( 'plainArea' ).value;
 
 	// Set the editor contents (replace the actual one).
 	oEditor.setData( value );
@@ -147,14 +131,8 @@ function ResetDirty()
 			<input onclick="SetContents();" type="button" value="Set Editor Contents" />
 			<input onclick="GetContents();" type="button" value="Get Editor Contents (XHTML)" />
 			<br />
-			<textarea cols="80" id="htmlArea" rows="3">&lt;h2&gt;Test&lt;/h2&gt;&lt;p&gt;This is some &lt;a href="/Test1.html"&gt;sample&lt;/a&gt; HTML&lt;/p&gt;</textarea>
+			<textarea cols="80" id="plainArea" rows="3">&lt;h2&gt;Test&lt;/h2&gt;&lt;p&gt;This is some &lt;a href="/Test1.html"&gt;sample&lt;/a&gt; HTML&lt;/p&gt;</textarea>
 			<br />
-			<br />
-			<input onclick="InsertText();" type="button" value="Insert Text" />
-			<br />
-			<textarea cols="80" id="txtArea" rows="3">   First line with some leading whitespaces.
-
-Second line of text preceding by two line-breaks.</textarea>
 			<br />
 			<input onclick="ExecuteCommand('bold');" type="button" value="Execute &quot;bold&quot; Command" />
 			<input onclick="ExecuteCommand('link');" type="button" value="Execute &quot;link&quot; Command" />

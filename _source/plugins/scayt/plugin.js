@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -305,8 +305,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return ( scayt_instance ) ? scayt_instance.disabled === false : false;
 		},
 		loadEngine: function( editor ) {
-			// SCAYT doesn't work with Firefox2, Opera and AIR.
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 || CKEDITOR.env.opera || CKEDITOR.env.air )
+			// SCAYT doesn't work with Firefox2, Opera.
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 || CKEDITOR.env.opera )
 				return editor.fire( 'showScaytState' );
 
 			if ( this.engineLoaded === true )
@@ -646,7 +646,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var showInitialState = function() {
 					editor.removeListener( 'showScaytState', showInitialState );
 
-					if ( !CKEDITOR.env.opera && !CKEDITOR.env.air )
+					if ( !CKEDITOR.env.opera )
 						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 					else
 						command.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -654,7 +654,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'showScaytState', showInitialState );
 
-			if ( CKEDITOR.env.opera || CKEDITOR.env.air ) {
+			if ( CKEDITOR.env.opera ) {
 				editor.on( 'instanceReady', function() {
 					showInitialState();
 				});

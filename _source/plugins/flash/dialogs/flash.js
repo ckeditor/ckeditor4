@@ -220,7 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Try to detect any embed or object tag that has Flash parameters.
 				var fakeImage = this.getSelectedElement();
-				if ( fakeImage && fakeImage.data( 'cke-real-element-type' ) && fakeImage.data( 'cke-real-element-type' ) == 'flash' ) {
+				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'flash' ) {
 					this.fakeImage = fakeImage;
 
 					var realElement = editor.restoreRealElement( fakeImage ),

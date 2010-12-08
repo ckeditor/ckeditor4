@@ -268,7 +268,7 @@ CKEDITOR.dom.range = function( document ) {
 	function elementBoundaryEval( node ) {
 		// Reject any text node unless it's being bookmark
 		// OR it's spaces. (#3883)
-		return node.type != CKEDITOR.NODE_TEXT && node.getName() in CKEDITOR.dtd.$removeEmpty || !CKEDITOR.tools.trim( node.getText() ) || node.getParent().data( 'cke-bookmark' );
+		return node.type != CKEDITOR.NODE_TEXT && node.getName() in CKEDITOR.dtd.$removeEmpty || !CKEDITOR.tools.trim( node.getText() ) || node.getParent().hasAttribute( '_cke_bookmark' );
 	}
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
@@ -352,7 +352,7 @@ CKEDITOR.dom.range = function( document ) {
 			var collapsed = this.collapsed;
 
 			startNode = this.document.createElement( 'span' );
-			startNode.data( 'cke-bookmark', 1 );
+			startNode.setAttribute( '_cke_bookmark', 1 );
 			startNode.setStyle( 'display', 'none' );
 
 			// For IE, it must have something inside, otherwise it may be
@@ -626,9 +626,9 @@ CKEDITOR.dom.range = function( document ) {
 			var startNode = this.startContainer,
 				endNode = this.endContainer;
 
-			if ( startNode.is && startNode.is( 'span' ) && startNode.data( 'cke-bookmark' ) )
+			if ( startNode.is && startNode.is( 'span' ) && startNode.hasAttribute( '_cke_bookmark' ) )
 				this.setStartAt( startNode, CKEDITOR.POSITION_BEFORE_START );
-			if ( endNode && endNode.is && endNode.is( 'span' ) && endNode.data( 'cke-bookmark' ) )
+			if ( endNode && endNode.is && endNode.is( 'span' ) && endNode.hasAttribute( '_cke_bookmark' ) )
 				this.setEndAt( endNode, CKEDITOR.POSITION_AFTER_END );
 		},
 
@@ -808,7 +808,7 @@ CKEDITOR.dom.range = function( document ) {
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
 								// rendering the display:none nodes we use for bookmarks. (#3363)
-								if ( sibling.$.offsetWidth > 0 && !sibling.data( 'cke-bookmark' ) ) {
+								if ( sibling.$.offsetWidth > 0 && !sibling.getAttribute( '_cke_bookmark' ) ) {
 									// We'll accept it only if we need
 									// whitespace, and this is an inline
 									// element with whitespace only.
@@ -943,7 +943,7 @@ CKEDITOR.dom.range = function( document ) {
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
 								// rendering the display:none nodes we use for bookmarks. (#3363)
-								if ( sibling.$.offsetWidth > 0 && !sibling.data( 'cke-bookmark' ) ) {
+								if ( sibling.$.offsetWidth > 0 && !sibling.getAttribute( '_cke_bookmark' ) ) {
 									// We'll accept it only if we need
 									// whitespace, and this is an inline
 									// element with whitespace only.

@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			var img = editor.document.createElement( 'img', {
 				attributes: {
 					src: src,
-					'data-cke-saved-src': src,
+					_cke_saved_src: src,
 					title: title,
 					alt: title,
 					width: target.$.width,

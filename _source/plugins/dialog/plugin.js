@@ -93,18 +93,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 */
 	CKEDITOR.dialog = function( editor, dialogName ) {
 		// Load the dialog definition.
-		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
-			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
-			buttonsOrder = editor.config.dialog_buttonsOrder || 'OS',
-			dir = editor.lang.dir;
-
-		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (#4750)  
-		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
-			defaultDefinition.buttons.reverse();
-
+		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 		// Completes the definition with the default values.
-		definition = CKEDITOR.tools.extend( definition( editor ), defaultDefinition );
+		definition = CKEDITOR.tools.extend( definition( editor ), defaultDialogDefinition );
 
 		// Clone a functionally independent copy for this dialog.
 		definition = CKEDITOR.tools.clone( definition );
@@ -112,6 +104,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// Create a complex definition object, extending it with the API
 		// functions.
 		definition = new definitionObject( this, definition );
+
 
 		var doc = CKEDITOR.document;
 
@@ -124,6 +117,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			name: dialogName,
 			contentSize: { width: 0, height: 0 },
 			size: { width: 0, height: 0 },
+			updateSize: false,
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
@@ -167,30 +161,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			name: dialogName,
 			definition: definition
 		}, editor ).definition;
-
-		var tabsToRemove = {};
-		// Cache tabs that should be removed.
-		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
-			var removeContents = editor.config.removeDialogTabs.split( ';' );
-
-			for ( i = 0; i < removeContents.length; i++ ) {
-				var parts = removeContents[ i ].split( ':' );
-				if ( parts.length == 2 ) {
-					var removeDialogName = parts[ 0 ];
-					if ( !tabsToRemove[ removeDialogName ] )
-						tabsToRemove[ removeDialogName ] = [];
-					tabsToRemove[ removeDialogName ].push( parts[ 1 ] );
-				}
-			}
-			editor._.removeDialogTabs = tabsToRemove;
-		}
-
-		// Remove tabs of this dialog.
-		if ( editor._.removeDialogTabs && ( tabsToRemove = editor._.removeDialogTabs[ dialogName ] ) ) {
-			for ( i = 0; i < tabsToRemove.length; i++ )
-				definition.removeContents( tabsToRemove[ i ] );
-		}
-
 		// Initialize load, show, hide, ok and cancel events.
 		if ( definition.onLoad )
 			this.on( 'load', definition.onLoad );
@@ -549,6 +519,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}, this._.editor );
 
 				this._.contentSize = { width: width, height: height };
+				this._.updateSize = true;
 			};
 		})(),
 
@@ -559,8 +530,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * var width = dialogObj.getSize().width;
 		 */
 		getSize: function() {
+			if ( !this._.updateSize )
+				return this._.size;
 			var element = this._.element.getFirst();
-			return { width: element.$.offsetWidth || 0, height: element.$.offsetHeight || 0 };
+			var size = this._.size = { width: element.$.offsetWidth || 0, height: element.$.offsetHeight || 0 };
+
+			// If either the offsetWidth or offsetHeight is 0, the element isn't visible.
+			this._.updateSize = !size.width || !size.height;
+
+			return size;
 		},
 
 		/**
@@ -568,13 +546,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @function
 		 * @param {Number} x The target x-coordinate.
 		 * @param {Number} y The target y-coordinate.
-		 * @param {Boolean} save Flag indicate whether the dialog position should be remembered on next open up.
 		 * @example
 		 * dialogObj.move( 10, 40 );
 		 */
 		move: (function() {
 			var isFixed;
-			return function( x, y, save ) {
+			return function( x, y ) {
 				// The dialog may be fixed positioned or absolute positioned. Ask the
 				// browser what is the current situation first.
 				var element = this._.element.getFirst();
@@ -598,8 +575,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					'left': ( x > 0 ? x : 0 ) + 'px',
 					'top': ( y > 0 ? y : 0 ) + 'px'
 				});
-
-				save && ( this._.moved = 1 );
 			};
 		})(),
 
@@ -633,7 +608,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else
 				element.setStyle( 'display', 'block' );
 
-			CKEDITOR.ui.fire( 'ready', this );
 			// FIREFOX BUG: Fix vanishing caret for Firefox 2 or Gecko 1.8.
 			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) {
 				var dialogElement = this.parts.dialog;
@@ -645,7 +619,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 
 			// First, set the dialog to an appropriate size.
-			this.resize( this._.contentSize && this._.contentSize.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.minHeight );
+			this.resize( definition.minWidth, definition.minHeight );
 
 			// Reset all inputs back to their default value.
 			this.reset();
@@ -686,8 +660,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
+			// Rearrange the dialog to the middle of the window.
 			CKEDITOR.tools.setTimeout( function() {
-				this.layout();
+				var viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
+				var dialogSize = this.getSize();
+
+				// We're using definition size for initial position because of
+				// offten corrupted data in offsetWidth at this point. (#4084)
+				this.move( ( viewSize.width - definition.minWidth ) / 2, ( viewSize.height - dialogSize.height ) / 2 );
+
 				this.parts.dialog.setStyle( 'visibility', '' );
 
 				// Execute onLoad for the first show.
@@ -701,17 +682,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				});
 
 			}, 100, this );
-		},
-
-		/**
-		 * Rearrange the dialog to its previous position or the middle of the window.
-		 * @since 3.5
-		 */
-		layout: function() {
-			var viewSize = CKEDITOR.document.getWindow().getViewPaneSize(),
-				dialogSize = this.getSize();
-
-			this.move( this._.moved ? this._.position.x : ( viewSize.width - dialogSize.width ) / 2, this._.moved ? this._.position.y : ( viewSize.height - dialogSize.height ) / 2 );
 		},
 
 		/**
@@ -834,7 +804,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					children: contents.elements,
 					expand: !!contents.expand,
 					padding: contents.padding,
-					style: contents.style || 'width: 100%;'
+					style: contents.style || 'width: 100%; height: 100%;'
 				}, pageHtml );
 
 			// Create the HTML for the tab and the content block.
@@ -1232,6 +1202,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
 	};
 
+	// The buttons in MacOS Apps are in reverse order #4750
+	CKEDITOR.env.mac && defaultDialogDefinition.buttons.reverse();
+
 	// Tool function used to return an item from an array based on its id
 	// property.
 	var getById = function( array, id, recurse ) {
@@ -1477,7 +1450,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance )
 				realX = -margins[ 3 ];
 			else if ( abstractDialogCoords.x - margins[ 1 ] > viewPaneSize.width - dialogSize.width - magnetDistance )
-				realX = viewPaneSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
+				realX = viewPaneSize.width - dialogSize.width + margins[ 1 ];
 			else
 				realX = abstractDialogCoords.x;
 
@@ -1488,7 +1461,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else
 				realY = abstractDialogCoords.y;
 
-			dialog.move( realX, realY, 1 );
+			dialog.move( realX, realY );
 
 			evt.data.preventDefault();
 		}
@@ -1505,6 +1478,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}
 
 		dialog.parts.title.on( 'mousedown', function( evt ) {
+			dialog._.updateSize = true;
+
 			lastCoords = { x: evt.data.$.screenX, y: evt.data.$.screenY };
 
 			CKEDITOR.document.on( 'mousemove', mouseMoveHandler );
@@ -1522,101 +1497,111 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	function initResizeHandles( dialog ) {
-		var def = dialog.definition,
-			resizable = def.resizable;
+		var definition = dialog.definition,
+			minWidth = definition.minWidth || 0,
+			minHeight = definition.minHeight || 0,
+			resizable = definition.resizable,
+			margins = dialog.getParentEditor().skin.margins || [ 0, 0, 0, 0 ];
 
-		if ( resizable == CKEDITOR.DIALOG_RESIZE_NONE )
-			return;
-
-		var editor = dialog.getParentEditor();
-		var wrapperWidth, wrapperHeight, viewSize, origin, startSize;
-
-		function positionDialog( right ) {
-			// Maintain righthand sizing in RTL.
-			if ( dialog._.moved && editor.lang.dir == 'rtl' ) {
-				var element = dialog._.element.getFirst();
-				element.setStyle( 'right', right + "px" );
-				element.removeStyle( 'left' );
-			} else if ( !dialog._.moved )
-				dialog.layout();
+		function topSizer( coords, dy ) {
+			coords.y += dy;
 		}
 
-		var mouseDownFn = CKEDITOR.tools.addFunction( function( $event ) {
-			startSize = dialog.getSize();
+		function rightSizer( coords, dx ) {
+			coords.x2 += dx;
+		}
 
-			// Calculate the offset between content and chrome size.
-			wrapperHeight = startSize.height - dialog.parts.contents.getSize( 'height', !( CKEDITOR.env.gecko || CKEDITOR.env.opera || CKEDITOR.env.ie && CKEDITOR.env.quirks ) );
-			wrapperWidth = startSize.width - dialog.parts.contents.getSize( 'width', 1 );
+		function bottomSizer( coords, dy ) {
+			coords.y2 += dy;
+		}
 
-			origin = { x: $event.screenX, y: $event.screenY };
+		function leftSizer( coords, dx ) {
+			coords.x += dx;
+		}
 
-			viewSize = CKEDITOR.document.getWindow().getViewPaneSize();
+		var lastCoords = null,
+			abstractDialogCoords = null,
+			magnetDistance = dialog._.editor.config.magnetDistance,
+			parts = [ 'tl', 't', 'tr', 'l', 'r', 'bl', 'b', 'br' ];
 
-			CKEDITOR.document.on( 'mousemove', mouseMoveHandler );
-			CKEDITOR.document.on( 'mouseup', mouseUpHandler );
+		function mouseDownHandler( evt ) {
+			var partName = evt.listenerData.part,
+				size = dialog.getSize();
+			abstractDialogCoords = dialog.getPosition();
+			CKEDITOR.tools.extend( abstractDialogCoords, {
+				x2: abstractDialogCoords.x + size.width,
+				y2: abstractDialogCoords.y + size.height
+			});
+			lastCoords = { x: evt.data.$.screenX, y: evt.data.$.screenY };
+
+			CKEDITOR.document.on( 'mousemove', mouseMoveHandler, dialog, { part: partName } );
+			CKEDITOR.document.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 
 			if ( CKEDITOR.env.ie6Compat ) {
 				var coverDoc = currentCover.getChild( 0 ).getFrameDocument();
-				coverDoc.on( 'mousemove', mouseMoveHandler );
-				coverDoc.on( 'mouseup', mouseUpHandler );
+				coverDoc.on( 'mousemove', mouseMoveHandler, dialog, { part: partName } );
+				coverDoc.on( 'mouseup', mouseUpHandler, dialog, { part: partName } );
 			}
-
-			$event.preventDefault && $event.preventDefault();
-		});
-
-		// Prepend the grip to the dialog.
-		dialog.on( 'load', function() {
-			var direction = '';
-			if ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH )
-				direction = ' cke_resizer_horizontal';
-			else if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT )
-				direction = ' cke_resizer_vertical';
-			var resizer = CKEDITOR.dom.element.createFromHtml( '<div class="cke_resizer' + direction + '"' +
-									' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
-									' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )"></div>' );
-			dialog.parts.footer.append( resizer, 1 );
-		});
-		editor.on( 'destroy', function() {
-			CKEDITOR.tools.removeFunction( mouseDownFn );
-		});
-
-		function mouseMoveHandler( evt ) {
-			var rtl = editor.lang.dir == 'rtl',
-				dx = ( evt.data.$.screenX - origin.x ) * ( rtl ? -1 : 1 ),
-				dy = evt.data.$.screenY - origin.y,
-				width = startSize.width,
-				height = startSize.height,
-				internalWidth = width + dx * ( dialog._.moved ? 1 : 2 ),
-				internalHeight = height + dy * ( dialog._.moved ? 1 : 2 ),
-				element = dialog._.element.getFirst(),
-				right = rtl && element.getComputedStyle( 'right' ),
-				position = dialog.getPosition();
-
-			// IE might return "auto", we need exact position.
-			if ( right )
-				right = right == 'auto' ? viewSize.width - ( position.x || 0 ) - element.getSize( 'width' ) : parseInt( right, 10 );
-
-			if ( position.y + internalHeight > viewSize.height )
-				internalHeight = viewSize.height - position.y;
-
-			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width )
-				internalWidth = viewSize.width - ( rtl ? right : position.x );
-
-			// Make sure the dialog will not be resized to the wrong side when it's in the leftmost position for RTL.
-			if ( ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) && !( rtl && dx > 0 && !position.x ) )
-				width = Math.max( def.minWidth || 0, internalWidth - wrapperWidth );
-
-			if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT || resizable == CKEDITOR.DIALOG_RESIZE_BOTH )
-				height = Math.max( def.minHeight || 0, internalHeight - wrapperHeight );
-
-			dialog.resize( width, height );
-			// The right property might get broken during resizing, so computing it before the resizing.
-			positionDialog( right );
 
 			evt.data.preventDefault();
 		}
 
-		function mouseUpHandler() {
+		function mouseMoveHandler( evt ) {
+			var x = evt.data.$.screenX,
+				y = evt.data.$.screenY,
+				dx = x - lastCoords.x,
+				dy = y - lastCoords.y,
+				viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+				partName = evt.listenerData.part;
+
+			if ( partName.search( 't' ) != -1 )
+				topSizer( abstractDialogCoords, dy );
+			if ( partName.search( 'l' ) != -1 )
+				leftSizer( abstractDialogCoords, dx );
+			if ( partName.search( 'b' ) != -1 )
+				bottomSizer( abstractDialogCoords, dy );
+			if ( partName.search( 'r' ) != -1 )
+				rightSizer( abstractDialogCoords, dx );
+
+			lastCoords = { x: x, y: y };
+
+			var realX, realY, realX2, realY2;
+
+			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance )
+				realX = -margins[ 3 ];
+			else if ( partName.search( 'l' ) != -1 && abstractDialogCoords.x2 - abstractDialogCoords.x < minWidth + magnetDistance )
+				realX = abstractDialogCoords.x2 - minWidth;
+			else
+				realX = abstractDialogCoords.x;
+
+			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance )
+				realY = -margins[ 0 ];
+			else if ( partName.search( 't' ) != -1 && abstractDialogCoords.y2 - abstractDialogCoords.y < minHeight + magnetDistance )
+				realY = abstractDialogCoords.y2 - minHeight;
+			else
+				realY = abstractDialogCoords.y;
+
+			if ( abstractDialogCoords.x2 - margins[ 1 ] > viewPaneSize.width - magnetDistance )
+				realX2 = viewPaneSize.width + margins[ 1 ];
+			else if ( partName.search( 'r' ) != -1 && abstractDialogCoords.x2 - abstractDialogCoords.x < minWidth + magnetDistance )
+				realX2 = abstractDialogCoords.x + minWidth;
+			else
+				realX2 = abstractDialogCoords.x2;
+
+			if ( abstractDialogCoords.y2 - margins[ 2 ] > viewPaneSize.height - magnetDistance )
+				realY2 = viewPaneSize.height + margins[ 2 ];
+			else if ( partName.search( 'b' ) != -1 && abstractDialogCoords.y2 - abstractDialogCoords.y < minHeight + magnetDistance )
+				realY2 = abstractDialogCoords.y + minHeight;
+			else
+				realY2 = abstractDialogCoords.y2;
+
+			dialog.move( realX, realY );
+			dialog.resize( realX2 - realX, realY2 - realY );
+
+			evt.data.preventDefault();
+		}
+
+		function mouseUpHandler( evt ) {
 			CKEDITOR.document.removeListener( 'mouseup', mouseUpHandler );
 			CKEDITOR.document.removeListener( 'mousemove', mouseMoveHandler );
 
@@ -1625,24 +1610,23 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
-
-			// Switch back to use the left property, if RTL is used.
-			if ( editor.lang.dir == 'rtl' ) {
-				var element = dialog._.element.getFirst(),
-					left = element.getComputedStyle( 'left' );
-
-				// IE might return "auto", we need exact position.
-				if ( left == 'auto' )
-					left = viewSize.width - parseInt( element.getStyle( 'right' ), 10 ) - dialog.getSize().width;
-				else
-					left = parseInt( left, 10 );
-
-				element.removeStyle( 'right' );
-				// Make sure the left property gets applied, even if it is the same as previously.
-				dialog._.position.x += 1;
-				dialog.move( left, dialog._.position.y );
-			}
 		}
+
+		// TODO : Simplify the resize logic, having just a single resize grip <div>.
+		//		var widthTest = /[lr]/,
+		//			heightTest = /[tb]/;
+		//		for ( var i = 0 ; i < parts.length ; i++ )
+		//		{
+		//			var element = dialog.parts[ parts[i] + '_resize' ];
+		//			if ( resizable == CKEDITOR.DIALOG_RESIZE_NONE ||
+		//					resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT && widthTest.test( parts[i] ) ||
+		//			  		resizable == CKEDITOR.DIALOG_RESIZE_WIDTH && heightTest.test( parts[i] ) )
+		//			{
+		//				element.hide();
+		//				continue;
+		//			}
+		//			element.on( 'mousedown', mouseDownHandler, dialog, { part : parts[i] } );
+		//		}
 	}
 
 	var resizeCover;
@@ -2716,34 +2700,6 @@ CKEDITOR.plugins.add( 'dialog', {
  * @default 20
  * @example
  * config.dialog_magnetDistance = 30;
- */
-
-/**
- * The guildeline to follow when generating the dialog buttons. There are 3 possible options:
- * <ul>
- *     <li>'OS' - the buttons will be displayed in the default order of the user's OS;</li>
- *     <li>'ltr' - for Left-To-Right order;</li>
- *     <li>'rtl' - for Right-To-Left order.</li>
- * </ul>
- * @name CKEDITOR.config.dialog_buttonsOrder
- * @type String
- * @default 'OS'
- * @since 3.5
- * @example
- * config.dialog_buttonsOrder = 'rtl';
- */
-
-/**  
- * The dialog contents to removed. It's a string composed by dialog name and tab name with a colon between them.
- * Separate each pair with semicolon (see example).
- * <b>Note: All names are case-sensitive.</b>
- * <b>Note: Be cautious when specifying dialog tabs that are mandatory, like "info", dialog functionality might be broken because of this!<b>
- * @name CKEDITOR.config.removeDialogTabs
- * @type String
- * @since 3.5
- * @default ''
- * @example
- * config.removeDialogTabs = 'flash:advanced;image:Link';
  */
 
 /**

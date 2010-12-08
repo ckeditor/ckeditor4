@@ -31,9 +31,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							blockLimit = path.blockLimit,
 							div = blockLimit.is( 'div' ) && blockLimit;
 
-						if ( div && !div.data( 'cke-div-added' ) ) {
+						if ( div && !div.getAttribute( '_cke_div_added' ) ) {
 							toRemove.push( div );
-							div.data( 'cke-div-added' );
+							div.setAttribute( '_cke_div_added' );
 						}
 					}
 

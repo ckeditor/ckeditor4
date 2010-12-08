@@ -137,8 +137,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Whether to automaticaly enable the "show block" command when the editor
- * loads. (StartupShowBlocks in FCKeditor)
- * @name CKEDITOR.config.startupOutlineBlocks
+ * loads.
  * @type Boolean
  * @default false
  * @example

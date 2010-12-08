@@ -179,14 +179,14 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					if ( name == 'clear' )
 						this.setValue( this[ 'default' ] || '' );
 					else if ( name == 'select' ) {
-						this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
+						this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
 					}
 				},
 				commit: function( element ) {
 					if ( this.getValue() )
-						element.data( 'cke-saved-name', this.getValue() );
+						element.setAttribute( '_cke_saved_name', this.getValue() );
 					else {
-						element.data( 'cke-saved-name', false );
+						element.removeAttribute( '_cke_saved_name' );
 						element.removeAttribute( 'name' );
 					}
 				}

@@ -18,7 +18,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function addButton( name, type, title ) {
-			var colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
@@ -33,11 +32,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				onBlock: function( panel, block ) {
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
+					block.element.setHtml( renderColors( panel, type ) );
 					// The block should not have scrollbars (#5933, #6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
-
-					CKEDITOR.ui.fire( 'ready', this );
 
 					var keys = block.keys;
 					var rtl = editor.lang.dir == 'rtl';
@@ -48,35 +45,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
-				},
-
-				// The automatic colorbox should represent the real color (#6010)
-				onOpen: function() {
-					var selection = editor.getSelection(),
-						block = selection && selection.getStartElement(),
-						path = new CKEDITOR.dom.elementPath( block ),
-						color;
-
-					// Find the closest block element.
-					block = path.block || path.blockLimit;
-
-					// The background color might be transparent. In that case, look up the color in the DOM tree.
-					do {
-						color = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
-					}
-					while ( type == 'back' && color == 'transparent' && ( block = block.getParent() ) );
-
-					// The box should never be transparent.
-					if ( !color || color == 'transparent' )
-						color = '#ffffff';
-
-					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
 				}
 			});
 		}
 
 
-		function renderColors( panel, type, colorBoxId ) {
+		function renderColors( panel, type ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				total = colors.length + ( config.colorButton_enableMore ? 2 : 1 );
@@ -114,13 +88,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 
 					colorStyle.childRule = type == 'back' ?
+					// It's better to apply background color as the innermost style. (#3599)
+					function() {
+						return false;
+					} :
+					// Fore color style must be applied inside links instead of around it.
 					function( element ) {
-						// It's better to apply background color as the innermost style. (#3599)
-						// Except for "unstylable elements". (#6103)
-						return isUnstylable( element );
-					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it.
-						return element.getName() != 'a' || isUnstylable( element );
+						return element.getName() != 'a';
 					};
 
 					new CKEDITOR.style( colorStyle, { color: color } ).apply( editor.document );
@@ -138,7 +112,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 					'<tr>' +
 						'<td>' +
-							'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
+							'<span class="cke_colorbox" style="background-color:#000"></span>' +
 						'</td>' +
 						'<td colspan=7 align=center>', lang.auto, '</td>' +
 					'</tr>' +
@@ -188,10 +162,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			output.push( '</tr></table>' );
 
 			return output.join( '' );
-		}
-
-		function isUnstylable( ele ) {
-			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-cke-nostyle' );
 		}
 	}
 });

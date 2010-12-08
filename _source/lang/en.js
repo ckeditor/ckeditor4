@@ -503,10 +503,10 @@ CKEDITOR.lang[ 'en' ] = {
 	outdent: 'Decrease Indent',
 
 	justify: {
-		left: 'Align Left',
-		center: 'Center',
-		right: 'Align Right',
-		block: 'Justify'
+		left: 'Left Justify',
+		center: 'Center Justify',
+		right: 'Right Justify',
+		block: 'Block Justify'
 	},
 
 	blockquote: 'Block Quote',
@@ -581,24 +581,6 @@ CKEDITOR.lang[ 'en' ] = {
 		langDirRTLLabel: 'Right to Left (RTL)',
 		edit: 'Edit Div',
 		remove: 'Remove Div'
-	},
-
-	iframe: {
-		title: 'iFrame Properties',
-		toolbar: 'iFrame',
-		height: 'Height',
-		width: 'Width',
-		invalidHeight: 'iFrame height must be a number.',
-		invalidWidth: 'iFrame width must be a number.',
-		noUrl: 'Please type the iFrame URL',
-		scrolling: 'Enable scrollbars',
-		border: 'Show frame border',
-		align: 'Alignment',
-		alignLeft: 'Left',
-		alignRight: 'Right',
-		alignTop: 'Top',
-		alignMiddle: 'Middle',
-		alignBottom: 'Bottom'
 	},
 
 	font: {

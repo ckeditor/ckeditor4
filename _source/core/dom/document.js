@@ -140,10 +140,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	 */
 	getHead: function() {
 		var head = this.$.getElementsByTagName( 'head' )[ 0 ];
-		if ( !head )
-			head = this.getDocumentElement().append( new CKEDITOR.dom.element( 'head' ), true );
-		else
-			head = new CKEDITOR.dom.element( head );
+		head = new CKEDITOR.dom.element( head );
 
 		return ( this.getHead = function() {
 			return head;
@@ -187,28 +184,5 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return ( this.getWindow = function() {
 			return win;
 		})();
-	},
-
-	/**
-	 * Defines the document contents through document.write. Note that the
-	 * previous document contents will be lost (cleaned).
-	 * @since 3.5
-	 * @param {String} html The HTML defining the document contents.
-	 * @example
-	 * document.write(
-	 *     '&lt;html&gt;' +
-	 *         '&lt;head&gt;&lt;title&gt;Sample Doc&lt;/title&gt;&lt;/head&gt;' +
-	 *         '&lt;body&gt;Document contents created by code&lt;/body&gt;' +
-	 *      '&lt;/html&gt;' );
-	 */
-	write: function( html ) {
-		// Don't leave any history log in IE. (#5657)
-		this.$.open( 'text/html', 'replace' );
-
-		// Support for custom document.domain in IE.
-		CKEDITOR.env.isCustomDomain() && ( this.$.domain = document.domain );
-
-		this.$.write( html );
-		this.$.close();
 	}
 });
