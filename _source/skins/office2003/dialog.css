@@ -499,6 +499,11 @@ body .cke_dialog
 	margin: 7px 0;
 }
 
+.cke_skin_office2003 .cke_browser_ie7 .cke_dialog_footer_buttons
+{
+	position: static;
+}
+
 .cke_skin_office2003 strong
 {
 	font-weight: bold;
