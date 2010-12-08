@@ -293,8 +293,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				CKEDITOR.tools.setTimeout( exec, 100, this );
 			else
 				exec.call( this );
-		}
-	}() ),
+		};
+	})(),
 
 	/**
 	 * Gets the inner HTML of this element.

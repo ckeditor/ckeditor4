@@ -188,7 +188,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 	tags = CKEDITOR.plugins.scayt.uiTabs;
 
-	for ( var i in tags ) {
+	for ( i in tags ) {
 		if ( tags[ i ] == 1 )
 			contents[ contents.length ] = tags_contents[ i ];
 	}
@@ -265,7 +265,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 			var langList = [];
 			if ( tags[ 1 ] == 1 ) {
-				for ( var i in lang_list.rtl )
+				for ( i in lang_list.rtl )
 					langList[ langList.length ] = createOption( i, lang_list.ltr );
 
 				for ( i in lang_list.ltr )

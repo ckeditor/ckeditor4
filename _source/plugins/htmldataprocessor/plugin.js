@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function blockNeedsExtension( block, fromSource, extendEmptyBlock ) {
-		if ( !extendEmptyBlock || typeof extendEmptyBlock == 'function' && ( extendEmptyBlock( block ) == false ) )
+		if ( !extendEmptyBlock || typeof extendEmptyBlock == 'function' && ( extendEmptyBlock( block ) === false ) )
 			return false;
 
 		// 1. For IE version >=8,  empty blocks are displayed correctly themself in wysiwiyg;
@@ -63,7 +63,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				else
 					node.add( new CKEDITOR.htmlParser.element( 'br', {} ) );
 			}
-		}
+		};
 	}
 
 	var dtd = CKEDITOR.dtd;

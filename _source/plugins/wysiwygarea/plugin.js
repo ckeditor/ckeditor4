@@ -51,7 +51,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.fire( 'saveSnapshot' );
 				}, 0, this );
 			}
-		}
+		};
 	}
 
 	function doInsertHtml( data ) {
