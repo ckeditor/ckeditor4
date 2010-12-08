@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'ja' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'リッチテキストエディタ, %1, ヘルプは ALT 0 を押してください',
 
 	// ARIA descriptions.
-	toolbar: 'Toolbar', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbar: 'ツールバー',
+	editor: 'リッチテキストエディタ',
 
 	// Toolbar buttons without dialogs.
 	source: 'ソース',
@@ -90,37 +90,37 @@ CKEDITOR.lang[ 'ja' ] = {
 		cssStyle: 'スタイルシート',
 		ok: 'OK',
 		cancel: 'キャンセル',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: '閉じる',
+		preview: 'プレビュー',
 		generalTab: '全般',
 		advancedTab: '高度な設定',
 		validateNumberFailed: '値が数ではありません',
 		confirmNewPage: '変更内容を保存せず、 新しいページを開いてもよろしいでしょうか？',
 		confirmCancel: 'オプション設定を変更しました。ダイアログを閉じてもよろしいでしょうか？',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		options: 'オプション',
+		target: 'ターゲット',
+		targetNew: '新しいウィンドウ (_空白)',
+		targetTop: '最上部ウィンドウ (_トップ)',
+		targetSelf: '同じウィンドウ (_同一)',
+		targetParent: '親ウィンドウ (_親)',
+		langDirLTR: '左から右 (LTR)',
+		langDirRTL: '右から左 (RTL)',
+		styles: 'スタイル',
+		cssClasses: 'スタイルシートクラス',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'コンテキストメニューオプション'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: '特殊文字挿入',
 		title: '特殊文字選択',
-		options: 'Special Character Options' // MISSING
+		options: '特殊文字オプション'
 	},
 
 	// Link dialog.
@@ -160,7 +160,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		langDirRTL: '右から左 (RTL)',
 		acccessKey: 'アクセスキー',
 		name: 'Name属性',
-		langCode: '文字表記の方向',
+		langCode: '言語コード',
 		tabIndex: 'タブインデックス',
 		advisoryTitle: 'Title属性',
 		advisoryContentType: 'Content Type属性',
@@ -189,25 +189,25 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: '段落番号 プロパティ',
+		bulletedTitle: '箇条書き プロパティ',
+		type: 'タイプ',
+		start: '開始',
+		validateStartNumber: 'リスト開始番号は数値で入力してください。',
+		circle: '白丸',
+		disc: '黒丸',
+		square: '四角',
+		none: 'なし',
+		notset: '<なし>',
+		armenian: 'アルメニア数字',
+		georgian: 'グルジア数字 (an, ban, gan, etc.)',
+		lowerRoman: '小文字ローマ数字 (i, ii, iii, iv, v, etc.)',
+		upperRoman: '大文字ローマ数字 (I, II, III, IV, V, etc.)',
+		lowerAlpha: '小文字アルファベット (a, b, c, d, e, etc.)',
+		upperAlpha: '大文字アルファベット (A, B, C, D, E, etc.)',
+		lowerGreek: '小文字ギリシャ文字 (alpha, beta, gamma, etc.)',
+		decimal: '数字 (1, 2, 3, etc.)',
+		decimalLeadingZero: '上位桁に0をつけた数字 (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -241,7 +241,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		width: '幅',
 		widthPx: 'ピクセル',
 		widthPc: 'パーセント',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'ユニット',
 		height: '高さ',
 		cellSpace: 'セル内余白',
 		cellPad: 'セル内間隔',
@@ -393,7 +393,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		width: '幅',
 		height: '高さ',
 		lockRatio: 'ロック比率',
-		unlockRatio: 'Unlock Ratio', // MISSING
+		unlockRatio: 'アンロック比率',
 		resetSize: 'サイズリセット',
 		border: 'ボーダー',
 		hSpace: '横間隔',
@@ -406,11 +406,11 @@ CKEDITOR.lang[ 'ja' ] = {
 		button2Img: '選択したボタンを画像に置き換えますか？',
 		img2Button: '選択した画像をボタンに置き換えますか？',
 		urlMissing: 'イメージのURLを入力してください。',
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		validateWidth: '幅は数値で入力してください。',
+		validateHeight: '高さは数値で入力してください。',
+		validateBorder: 'ボーダーは数値で入力してください。',
+		validateHSpace: '横間隔は数値で入力してください。',
+		validateVSpace: '縦間隔は数値で入力してください。'
 	},
 
 	// Flash Dialog
@@ -489,11 +489,11 @@ CKEDITOR.lang[ 'ja' ] = {
 	smiley: {
 		toolbar: '絵文字',
 		title: '顔文字挿入',
-		options: 'Smiley Options' // MISSING
+		options: '絵文字オプション'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'エレメントパス',
 		eleTitle: '%1 エレメント'
 	},
 
@@ -517,14 +517,14 @@ CKEDITOR.lang[ 'ja' ] = {
 		copyError: 'ブラウザーのセキュリティ設定によりエディタのコピー操作が自動で実行することができません。実行するには手動でキーボードの(Ctrl/Cmd+C)を使用してください。',
 		pasteMsg: 'キーボード(<STRONG>Ctrl/Cmd+V</STRONG>)を使用して、次の入力エリア内で貼って、<STRONG>OK</STRONG>を押してください。',
 		securityMsg: 'ブラウザのセキュリティ設定により、エディタはクリップボード・データに直接アクセスすることができません。このウィンドウは貼り付け操作を行う度に表示されます。',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: '貼り付け場所'
 	},
 
 	pastefromword: {
 		confirmCleanup: '貼り付けを行うテキストは、ワード文章からコピーされようとしています。貼り付ける前にクリーニングを行いますか？',
 		toolbar: 'ワード文章から貼り付け',
 		title: 'ワード文章から貼り付け',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: '内部エラーにより貼り付けたデータがクリアできませんでした'
 	},
 
 	pasteText: {
@@ -535,7 +535,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	templates: {
 		button: 'テンプレート(雛形)',
 		title: 'テンプレート内容',
-		options: 'Template Options', // MISSING
+		options: 'テンプレートオプション',
 		insertOption: '現在のエディタの内容と置換えをします',
 		selectPromptMsg: 'エディターで使用するテンプレートを選択してください。<br>(現在のエディタの内容は失われます):',
 		emptyListMsg: '(テンプレートが定義されていません)'
@@ -545,7 +545,7 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	stylesCombo: {
 		label: 'スタイル',
-		panelTitle: 'Formatting Styles', // MISSING
+		panelTitle: 'スタイル',
 		panelTitle1: 'ブロックスタイル',
 		panelTitle2: 'インラインスタイル',
 		panelTitle3: 'オブジェクトスタイル'
@@ -568,19 +568,19 @@ CKEDITOR.lang[ 'ja' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
+		title: 'Divコンテナ',
+		toolbar: 'Divコンテナ',
+		cssClassInputLabel: 'スタイルシートクラス',
+		styleSelectLabel: 'スタイル',
 		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		languageCodeInputLabel: ' 言語コード',
+		inlineStyleInputLabel: 'インラインスタイル',
+		advisoryTitleInputLabel: 'Title属性',
+		langDirLabel: '文字表記の方向',
+		langDirLTRLabel: '左から右 (LTR)',
+		langDirRTLLabel: '右から左 (RTL)',
+		edit: 'Divコンテナ 編集',
+		remove: 'Divコンテナ 削除'
 	},
 
 	font: {
@@ -598,7 +598,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	colorButton: {
 		textColorTitle: 'テキスト色',
 		bgColorTitle: '背景色',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: '色',
 		auto: '自動',
 		more: 'その他の色...'
 	},
@@ -648,7 +648,7 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	scayt: {
 		title: 'スペルチェック設定(SCAYT)',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'Operaではサポートされません',
 		enable: 'SCAYT有効',
 		disable: 'SCAYT無効',
 		about: 'SCAYTﾊﾞｰｼﾞｮﾝ',
@@ -662,20 +662,20 @@ CKEDITOR.lang[ 'ja' ] = {
 		emptyDic: '辞書名は必ず入力してください',
 
 		optionsTab: 'オプション',
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		allCaps: '全て大文字の単語を無視',
+		ignoreDomainNames: 'ドメイン名を無視',
+		mixedCase: '大文字小文字混在の単語を無視',
+		mixedWithDigits: '数字付き単語を無視',
 
 		languagesTab: '言語',
 
 		dictionariesTab: '辞書',
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dic_field_name: '辞書名',
+		dic_create: '登録',
+		dic_restore: '元に戻す',
+		dic_delete: '削除',
+		dic_rename: '名前変更',
+		dic_info: '始めユーザーディレクトリは、Cookieに保存されます。但し Cookie はサイズに制限があります。ユーザーディレクトリがCookieに保存できないサイズに到達するとディレクトリはサーバー上に保存されます。個人のディレクトリをサーバー上に保存するには、ディレクトリ名を明示する必要があります。もし既に保存されたディレクトリがある場合、その名前を入力し、元に戻すボタンを押してください。',
 
 		aboutTab: 'バージョン情報'
 	},
@@ -701,7 +701,7 @@ CKEDITOR.lang[ 'ja' ] = {
 
 	colordialog: {
 		title: '色選択',
-		options: 'Color Options', // MISSING
+		options: 'カラーオプション',
 		highlight: 'ハイライト',
 		selected: '選択された色',
 		clear: 'クリア'
@@ -711,7 +711,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	toolbarExpand: 'ツールバーを開く',
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'テキストの向き : 左から右へ',
+		rtl: 'テキストの向き : 右から左へ'
 	}
 };
