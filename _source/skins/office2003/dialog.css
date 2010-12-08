@@ -205,6 +205,10 @@ body .cke_dialog
 	text-align: left;
 }
 
+.cke_skin_office2003 .cke_dialog_footer .cke_resizer {
+	margin-top: 21px;
+}
+
 /* tabs */
 
 .cke_skin_office2003 .cke_dialog_tabs
@@ -652,7 +656,7 @@ body .cke_dialog
 {
 	border : 2px ridge black;
 	overflow : scroll;
-	height : 160px;
+	height : 210px;
 	width : 230px;
 	padding : 2px;
 	background-color : white;
@@ -797,4 +801,26 @@ body .cke_dialog
 .cke_skin_office2003 .cke_rtl.cke_hc a.cke_btn_reset
 {
 	float: right;
+}
+
+/**
+ * Styles specific to "cellProperties" dialog.
+ */
+
+.cke_skin_office2003 .cke_dialog_contents a.colorChooser
+{
+	display:block;
+	margin-top:12px;
+	margin-left: 10px;
+	width: 40px;
+}
+
+.cke_skin_office2003 .cke_dialog_contents a.colorChooser .cke_dialog_ui_button
+{
+	width:100%;
+}
+
+.cke_skin_office2003 .cke_rtl .cke_dialog_contents a.colorChooser
+{
+	margin-right: 10px;
 }

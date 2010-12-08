@@ -569,7 +569,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		addFunction: function( fn, scope ) {
 			return functions.push( function() {
-				fn.apply( scope || this, arguments );
+				return fn.apply( scope || this, arguments );
 			}) - 1;
 		},
 

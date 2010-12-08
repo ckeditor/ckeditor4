@@ -26,7 +26,7 @@ CKEDITOR.plugins.add( 'image', {
 		editor.on( 'doubleclick', function( evt ) {
 			var element = evt.data.element;
 
-			if ( element.is( 'img' ) && !element.getAttribute( '_cke_realelement' ) )
+			if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) )
 				evt.data.dialog = 'image';
 		});
 
@@ -44,7 +44,7 @@ CKEDITOR.plugins.add( 'image', {
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function( element, selection ) {
-				if ( !element || !element.is( 'img' ) || element.getAttribute( '_cke_realelement' ) || element.isReadOnly() )
+				if ( !element || !element.is( 'img' ) || element.data( 'cke-realelement' ) || element.isReadOnly() )
 					return null;
 
 				return { image: CKEDITOR.TRISTATE_OFF };

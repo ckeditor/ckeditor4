@@ -161,6 +161,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Whether to automatically enable the "show borders" command when the editor loads.
+ * (ShowBorders in FCKeditor)
+ * @name CKEDITOR.config.startupShowBorders
  * @type Boolean
  * @default true
  * @example

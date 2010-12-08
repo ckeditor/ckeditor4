@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -39,6 +39,10 @@ CKEDITOR.themes.add( 'default', ( function() {
 
 			// Get the deeper inner <div>.
 			container = mainContainer.getChild( [ 0, 0, 0, 0 ] );
+
+			// Save a reference to the shared space container.
+			!editor.sharedSpaces && ( editor.sharedSpaces = {} );
+			editor.sharedSpaces[ spaceName ] = container;
 
 			// When the editor gets focus, we show the space container, hiding others.
 			editor.on( 'focus', function() {
@@ -110,7 +114,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 					' dir="', editor.lang.dir, '"' +
 					' title="', ( CKEDITOR.env.gecko ? ' ' : '' ), '"' +
 					' lang="', editor.langCode, '"' +
-					( CKEDITOR.env.webkit ? ' tabindex="' + tabIndex + '"' : '' ) +
+						( CKEDITOR.env.webkit ? ' tabindex="' + tabIndex + '"' : '' ) +
 					' role="application"' +
 					' aria-labelledby="cke_', name, '_arialbl"' +
 					( style ? ' style="' + style + '"' : '' ) +

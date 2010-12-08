@@ -101,22 +101,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
-		if ( !cloneId ) {
-			var removeIds = function( node ) {
-					if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
-						return;
+		var removeIds = function( node ) {
+				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
+					return;
 
+				if ( !cloneId )
 					node.removeAttribute( 'id', false );
-					node.removeAttribute( '_cke_expando', false );
+				node.removeAttribute( 'data-cke-expando', false );
 
+				if ( includeChildren ) {
 					var childs = node.childNodes;
 					for ( var i = 0; i < childs.length; i++ )
 						removeIds( childs[ i ] );
-				};
+				}
+			};
 
-			// The "id" attribute should never be cloned to avoid duplication.
-			removeIds( $clone );
-		}
+		// The "id" attribute should never be cloned to avoid duplication.
+		removeIds( $clone );
 
 		return new CKEDITOR.dom.node( $clone );
 	},
@@ -221,11 +222,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * alert( <b>element.getDocument().equals( CKEDITOR.document )</b> );  // "true"
 	 */
 	getDocument: function() {
-		var document = new CKEDITOR.dom.document( this.$.ownerDocument || this.$.parentNode.ownerDocument );
-
-		return ( this.getDocument = function() {
-			return document;
-		})();
+		return new CKEDITOR.dom.document( this.$.ownerDocument || this.$.parentNode.ownerDocument );
 	},
 
 	getIndex: function() {

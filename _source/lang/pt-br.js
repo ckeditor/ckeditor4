@@ -582,6 +582,24 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		remove: 'Remover Div'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		height: 'Height', // MISSING
+		width: 'Width', // MISSING
+		invalidHeight: 'iFrame height must be a number.', // MISSING
+		invalidWidth: 'iFrame width must be a number.', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border', // MISSING
+		align: 'Alignment', // MISSING
+		alignLeft: 'Left', // MISSING
+		alignRight: 'Right', // MISSING
+		alignTop: 'Top', // MISSING
+		alignMiddle: 'Middle', // MISSING
+		alignBottom: 'Bottom' // MISSING
+	},
+
 	font: {
 		label: 'Fonte',
 		voiceLabel: 'Fonte',

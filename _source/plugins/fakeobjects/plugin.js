@@ -8,13 +8,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		elements: {
 			$: function( element ) {
 				var attributes = element.attributes,
-					realHtml = attributes && attributes._cke_realelement,
+					realHtml = attributes && attributes[ 'data-cke-realelement' ],
 					realFragment = realHtml && new CKEDITOR.htmlParser.fragment.fromHtml( decodeURIComponent( realHtml ) ),
 					realElement = realFragment && realFragment.children[ 0 ];
 
 				// If we have width/height in the element, we must move it into
 				// the real element.
-				if ( realElement && element.attributes._cke_resizable ) {
+				if ( realElement && element.attributes[ 'data-cke-resizable' ] ) {
 					var style = element.attributes.style;
 
 					if ( style ) {
@@ -58,17 +58,17 @@ CKEDITOR.editor.prototype.createFakeElement = function( realElement, className, 
 	var attributes = {
 		'class': className,
 		src: CKEDITOR.getUrl( 'images/spacer.gif' ),
-		_cke_realelement: encodeURIComponent( realElement.getOuterHtml() ),
-		_cke_real_node_type: realElement.type,
+		'data-cke-realelement': encodeURIComponent( realElement.getOuterHtml() ),
+		'data-cke-real-node-type': realElement.type,
 		alt: lang[ realElementType ] || lang.unknown,
 		align: realElement.getAttribute( 'align' ) || ''
 	};
 
 	if ( realElementType )
-		attributes._cke_real_element_type = realElementType;
+		attributes[ 'data-cke-real-element-type' ] = realElementType;
 
 	if ( isResizable )
-		attributes._cke_resizable = isResizable;
+		attributes[ 'data-cke-resizable' ] = isResizable;
 
 	return this.document.createElement( 'img', { attributes: attributes } );
 };
@@ -84,24 +84,24 @@ CKEDITOR.editor.prototype.createFakeParserElement = function( realElement, class
 	var attributes = {
 		'class': className,
 		src: CKEDITOR.getUrl( 'images/spacer.gif' ),
-		_cke_realelement: encodeURIComponent( html ),
-		_cke_real_node_type: realElement.type,
+		'data-cke-realelement': encodeURIComponent( html ),
+		'data-cke-real-node-type': realElement.type,
 		alt: lang[ realElementType ] || lang.unknown,
 		align: realElement.attributes.align || ''
 	};
 
 	if ( realElementType )
-		attributes._cke_real_element_type = realElementType;
+		attributes[ 'data-cke-real-element-type' ] = realElementType;
 
 	if ( isResizable )
-		attributes._cke_resizable = isResizable;
+		attributes[ 'data-cke-resizable' ] = isResizable;
 
 	return new CKEDITOR.htmlParser.element( 'img', attributes );
 };
 
 CKEDITOR.editor.prototype.restoreRealElement = function( fakeElement ) {
-	if ( fakeElement.getAttribute( '_cke_real_node_type' ) != CKEDITOR.NODE_ELEMENT )
+	if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
 		return null;
 
-	return CKEDITOR.dom.element.createFromHtml( decodeURIComponent( fakeElement.getAttribute( '_cke_realelement' ) ), this.document );
+	return CKEDITOR.dom.element.createFromHtml( decodeURIComponent( fakeElement.data( 'cke-realelement' ) ), this.document );
 };

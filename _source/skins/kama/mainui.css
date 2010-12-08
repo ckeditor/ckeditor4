@@ -125,6 +125,13 @@ span.cke_skin_kama
 	cursor: se-resize;
 }
 
+/* Adobe AIR doesn't support *-resize cursor shape. */
+.cke_skin_kama .cke_browser_air .cke_resizer,
+.cke_skin_kama .cke_browser_air .cke_rtl .cke_resizer
+{
+	cursor: move;
+}
+
 .cke_skin_kama .cke_rtl .cke_resizer
 {
 	cursor: sw-resize;

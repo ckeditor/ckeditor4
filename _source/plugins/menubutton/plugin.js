@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'menubutton', {
-	requires: [ 'button', 'contextmenu' ],
+	requires: [ 'button', 'menu' ],
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_MENUBUTTON, CKEDITOR.ui.menuButton.handler );
 	}
@@ -30,8 +30,12 @@ CKEDITOR.UI_MENUBUTTON = 5;
 			// Check if we already have a menu for it, otherwise just create it.
 			var menu = _.menu;
 			if ( !menu ) {
-				menu = _.menu = new CKEDITOR.plugins.contextMenu( editor );
-				menu.definition.panel.attributes[ 'aria-label' ] = editor.lang.common.options;
+				menu = _.menu = new CKEDITOR.menu( editor, {
+					panel: {
+						className: editor.skinClass + ' cke_contextmenu',
+						attributes: { 'aria-label': editor.lang.common.options }
+					}
+				});
 
 				menu.onHide = CKEDITOR.tools.bind( function() {
 					this.setState( this.modes && this.modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );

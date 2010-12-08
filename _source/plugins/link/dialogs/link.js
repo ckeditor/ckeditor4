@@ -67,6 +67,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				else
 					element.hide();
 			}
+
+			dialog.layout();
 		};
 
 	// Loads the parameters in a selected link to the link dialog fields.
@@ -84,7 +86,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 	var popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi;
 
 	var parseLink = function( editor, element ) {
-			var href = ( element && ( element.getAttribute( '_cke_saved_href' ) || element.getAttribute( 'href' ) ) ) || '',
+			var href = ( element && ( element.data( 'cke-saved-href' ) || element.getAttribute( 'href' ) ) ) || '',
 				javascriptMatch, emailMatch, anchorMatch, urlMatch,
 				retval = {};
 
@@ -155,7 +157,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				// IE BUG: target attribute is an empty string instead of null in IE if it's not set.
 				if ( !target ) {
-					var onclick = element.getAttribute( '_cke_pa_onclick' ) || element.getAttribute( 'onclick' ),
+					var onclick = element.data( 'cke-pa-onclick' ) || element.getAttribute( 'onclick' ),
 						onclickMatch = onclick && onclick.match( popupRegex );
 					if ( onclickMatch ) {
 						retval.target.type = 'popup';
@@ -206,7 +208,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			for ( var i = 0; i < elements.count(); i++ ) {
 				var item = elements.getItem( i );
-				if ( item.getAttribute( '_cke_realelement' ) && item.getAttribute( '_cke_real_element_type' ) == 'anchor' )
+				if ( item.data( 'cke-realelement' ) && item.data( 'cke-real-element-type' ) == 'anchor' )
 					anchors.push( editor.restoreRealElement( item ) );
 			}
 
@@ -683,7 +685,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			},
 				{
 				type: 'vbox',
-				width: 260,
+				width: '100%',
 				align: 'center',
 				padding: 2,
 				id: 'popupFeatures',
@@ -780,7 +782,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						children: [
 							{
 							type: 'text',
-							widths: [ '30%', '70%' ],
+							widths: [ '50%', '50%' ],
 							labelLayout: 'horizontal',
 							label: linkLang.popupWidth,
 							id: 'width',
@@ -791,7 +793,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							{
 							type: 'text',
 							labelLayout: 'horizontal',
-							widths: [ '55%', '45%' ],
+							widths: [ '50%', '50%' ],
 							label: linkLang.popupLeft,
 							id: 'left',
 							setup: setupPopupParams,
@@ -806,7 +808,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							{
 							type: 'text',
 							labelLayout: 'horizontal',
-							widths: [ '30%', '70%' ],
+							widths: [ '50%', '50%' ],
 							label: linkLang.popupHeight,
 							id: 'height',
 							setup: setupPopupParams,
@@ -817,7 +819,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							type: 'text',
 							labelLayout: 'horizontal',
 							label: linkLang.popupTop,
-							widths: [ '55%', '45%' ],
+							widths: [ '50%', '50%' ],
 							id: 'top',
 							setup: setupPopupParams,
 							commit: commitPopupParams
@@ -1017,7 +1019,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			// Fill in all the relevant fields if there's already one link selected.
 			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) )
 				selection.selectElement( element );
-			else if ( ( element = selection.getSelectedElement() ) && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) && element.getAttribute( '_cke_real_element_type' ) == 'anchor' ) {
+			else if ( ( element = selection.getSelectedElement() ) && element.is( 'img' ) && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'anchor' ) {
 				this.fakeObj = element;
 				element = editor.restoreRealElement( this.fakeObj );
 				selection.selectElement( this.fakeObj );
@@ -1040,12 +1042,12 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				case 'url':
 					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
 						url = ( data.url && data.url.url ) || '';
-					attributes._cke_saved_href = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
+					attributes[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
 					break;
 				case 'anchor':
 					var name = ( data.anchor && data.anchor.name ),
 						id = ( data.anchor && data.anchor.id );
-					attributes._cke_saved_href = '#' + ( name || id || '' );
+					attributes[ 'data-cke-saved-href' ] = '#' + ( name || id || '' );
 					break;
 				case 'email':
 
@@ -1089,7 +1091,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							}
 					}
 
-					attributes._cke_saved_href = linkHref.join( '' );
+					attributes[ 'data-cke-saved-href' ] = linkHref.join( '' );
 					break;
 			}
 
@@ -1114,7 +1116,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					addFeature( 'top' );
 
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
-					attributes[ '_cke_pa_onclick' ] = onclickList.join( '' );
+					attributes[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
 
 					// Add the "target" attribute. (#5074)
 					removeAttributes.push( 'target' );
@@ -1124,7 +1126,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					else
 						removeAttributes.push( 'target' );
 
-					removeAttributes.push( '_cke_pa_onclick', 'onclick' );
+					removeAttributes.push( 'data-cke-pa-onclick', 'onclick' );
 				}
 			}
 
@@ -1158,7 +1160,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					ranges = selection.getRanges( true );
 				if ( ranges.length == 1 && ranges[ 0 ].collapsed ) {
 					// Short mailto link text view (#5736).
-					var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes._cke_saved_href, editor.document );
+					var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ], editor.document );
 					ranges[ 0 ].insertNode( text );
 					ranges[ 0 ].selectNodeContents( text );
 					selection.selectRanges( ranges );
@@ -1182,7 +1184,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			} else {
 				// We're only editing an existing link, so just overwrite the attributes.
 				var element = this._.selectedElement,
-					href = element.getAttribute( '_cke_saved_href' ),
+					href = element.data( 'cke-saved-href' ),
 					textView = element.getHtml();
 
 				// IE BUG: Setting the name attribute to an existing link doesn't work.
@@ -1205,7 +1207,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				// Update text view when user changes protocol (#4612).
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
 					// Short mailto link text view (#5736).
-					element.setHtml( data.type == 'email' ? data.email.address : attributes._cke_saved_href );
+					element.setHtml( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ] );
 				}
 				// Make the element display as an anchor if a name has been set.
 				if ( element.getAttribute( 'name' ) )

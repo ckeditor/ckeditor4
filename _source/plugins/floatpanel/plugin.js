@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -274,7 +274,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
 					}, 0, this );
-				}, 0, this );
+				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
 
 				if ( this.onShow )

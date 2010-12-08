@@ -110,7 +110,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			// body (if fixForBody).
 			if ( fixForBody && !target.type ) {
 				var elementName, realElementName;
-				if ( element.attributes && ( realElementName = element.attributes[ '_cke_real_element_type' ] ) )
+				if ( element.attributes && ( realElementName = element.attributes[ 'data-cke-real-element-type' ] ) )
 					elementName = realElementName;
 				else
 					elementName = element.name;

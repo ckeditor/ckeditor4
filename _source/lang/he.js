@@ -583,6 +583,24 @@ CKEDITOR.lang[ 'he' ] = {
 		remove: 'הסרת מיכל (Div)'
 	},
 
+	iframe: {
+		title: 'מאפייני חלון פנימי (iFrame)',
+		toolbar: 'חלון פנימי (iFrame)',
+		height: 'גובה',
+		width: 'רוחב',
+		invalidHeight: 'גובה החלון חייב להיות מספרי.',
+		invalidWidth: 'רוחב החלון חייב להיות מספרי.',
+		noUrl: 'יש להכניס כתובת לחלון.',
+		scrolling: 'אפשר פסי גלילה',
+		border: 'הראה מסגרת לחלון',
+		align: 'יישור',
+		alignLeft: 'שמאל',
+		alignRight: 'ימין',
+		alignTop: 'למעלה',
+		alignMiddle: 'מרכז',
+		alignBottom: 'למטה'
+	},
+
 	font: {
 		label: 'גופן',
 		voiceLabel: 'גופן',

@@ -309,7 +309,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 */
 	CKEDITOR.dom.walker.bookmark = function( contentOnly, isReject ) {
 		function isBookmarkNode( node ) {
-			return ( node && node.getName && node.getName() == 'span' && node.hasAttribute( '_cke_bookmark' ) );
+			return ( node && node.getName && node.getName() == 'span' && node.data( 'cke-bookmark' ) );
 		}
 
 		return function( node ) {

@@ -145,7 +145,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
 							var th = theRow.getChild( i );
 							// Skip bookmark nodes. (#6155)
-							if ( th.type == CKEDITOR.NODE_ELEMENT && !th.hasAttribute( '_cke_bookmark' ) ) {
+							if ( th.type == CKEDITOR.NODE_ELEMENT && !th.data( 'cke-bookmark' ) ) {
 								th.renameNode( 'th' );
 								th.setAttribute( 'scope', 'col' );
 							}

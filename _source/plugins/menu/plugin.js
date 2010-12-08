@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -43,6 +43,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 			this.editor = editor;
 			this.items = [];
+			this._.listeners = [];
 
 			this._.level = definition.level || 1;
 
@@ -59,6 +60,72 @@ CKEDITOR.plugins.add( 'menu', {
 		},
 
 		_: {
+			onShow: function() {
+				var selection = this.editor.getSelection();
+
+				// Selection will be unavailable after menu shows up
+				// in IE, lock it now.
+				if ( CKEDITOR.env.ie )
+					selection && selection.lock();
+
+				var element = selection && selection.getStartElement(),
+					listeners = this._.listeners,
+					includedItems = [];
+
+				this.removeAll();
+				// Call all listeners, filling the list of items to be displayed.
+				for ( var i = 0; i < listeners.length; i++ ) {
+					var listenerItems = listeners[ i ]( element, selection );
+
+					if ( listenerItems ) {
+						for ( var itemName in listenerItems ) {
+							var item = this.editor.getMenuItem( itemName );
+
+							if ( item ) {
+								item.state = listenerItems[ itemName ];
+								this.add( item );
+							}
+						}
+					}
+				}
+			},
+
+			onClick: function( item ) {
+				this.hide();
+
+				if ( item.onClick )
+					item.onClick();
+				else if ( item.command )
+					this.editor.execCommand( item.command );
+			},
+
+			onEscape: function( keystroke ) {
+				var parent = this.parent;
+				// 1. If it's sub-menu, restore the last focused item
+				// of upper level menu.
+				// 2. In case of a top-menu, close it.
+				if ( parent ) {
+					parent._.panel.hideChild();
+					// Restore parent block item focus.
+					var parentBlock = parent._.panel._.panel._.currentBlock,
+						parentFocusIndex = parentBlock._.focusIndex;
+					parentBlock._.markItem( parentFocusIndex );
+				} else if ( keystroke == 27 ) {
+					this.hide();
+					this.editor.focus();
+				}
+				return false;
+			},
+
+			onHide: function() {
+				if ( CKEDITOR.env.ie ) {
+					var selection = this.editor.getSelection();
+					selection && selection.unlock();
+				}
+
+				this.onHide && this.onHide();
+			},
+
 			showSubMenu: function( index ) {
 				var menu = this._.subMenu,
 					item = this.items[ index ],
@@ -82,9 +149,7 @@ CKEDITOR.plugins.add( 'menu', {
 				else {
 					menu = this._.subMenu = new CKEDITOR.menu( this.editor, CKEDITOR.tools.extend( {}, this._.definition, { level: this._.level + 1 }, true ) );
 					menu.parent = this;
-					menu.onClick = CKEDITOR.tools.bind( this.onClick, this );
-					// Sub menu use their own scope for binding onEscape.
-					menu.onEscape = this.onEscape;
+					menu._.onClick = CKEDITOR.tools.bind( this._.onClick, this );
 				}
 
 				// Add all submenu items to the menu.
@@ -120,6 +185,16 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			show: function( offsetParent, corner, offsetX, offsetY ) {
+				// Not for sub menu.
+				if ( !this.parent ) {
+					this._.onShow();
+					// Don't menu with zero items.
+					if ( !this.items.length )
+						return;
+				}
+
+				corner = corner || ( this.editor.lang.dir == 'rtl' ? 2 : 1 );
+
 				var items = this.items,
 					editor = this.editor,
 					panel = this._.panel,
@@ -130,12 +205,12 @@ CKEDITOR.plugins.add( 'menu', {
 					panel = this._.panel = new CKEDITOR.ui.floatPanel( this.editor, CKEDITOR.document.getBody(), this._.panelDefinition, this._.level );
 
 					panel.onEscape = CKEDITOR.tools.bind( function( keystroke ) {
-						if ( this.onEscape && this.onEscape( keystroke ) === false )
+						if ( this._.onEscape( keystroke ) === false )
 							return false;
 					}, this );
 
 					panel.onHide = CKEDITOR.tools.bind( function() {
-						this.onHide && this.onHide();
+						this._.onHide && this._.onHide();
 					}, this );
 
 					// Create an autosize block inside the panel.
@@ -177,7 +252,7 @@ CKEDITOR.plugins.add( 'menu', {
 						if ( item.getItems )
 							this._.showSubMenu( index );
 						else
-							this.onClick && this.onClick( item );
+							this._.onClick( item );
 					}, this );
 				}
 
@@ -208,6 +283,8 @@ CKEDITOR.plugins.add( 'menu', {
 				// Inject the HTML inside the panel.
 				element.setHtml( output.join( '' ) );
 
+				CKEDITOR.ui.fire( 'ready', this );
+
 				// Show the panel.
 				if ( this.parent )
 					this.parent._.panel.showAsChild( panel, this.id, offsetParent, corner, offsetX, offsetY );
@@ -217,7 +294,12 @@ CKEDITOR.plugins.add( 'menu', {
 				editor.fire( 'menuShow', [ panel ] );
 			},
 
+			addListener: function( listenerFn ) {
+				this._.listeners.push( listenerFn );
+			},
+
 			hide: function() {
+				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide();
 			}
 		}
@@ -233,88 +315,89 @@ CKEDITOR.plugins.add( 'menu', {
 			return itemA.order < itemB.order ? -1 : itemA.order > itemB.order ? 1 : 0;
 		});
 	}
+	CKEDITOR.menuItem = CKEDITOR.tools.createClass({
+		$: function( editor, name, definition ) {
+			CKEDITOR.tools.extend( this, definition,
+			// Defaults
+			{
+				order: 0,
+				className: 'cke_button_' + name
+			});
+
+			// Transform the group name into its order number.
+			this.group = editor._.menuGroups[ this.group ];
+
+			this.editor = editor;
+			this.name = name;
+		},
+
+		proto: {
+			render: function( menu, index, output ) {
+				var id = menu.id + String( index ),
+					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state;
+
+				var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
+
+				var htmlLabel = this.label;
+
+				if ( this.className )
+					classes += ' ' + this.className;
+
+				var hasSubMenu = this.getItems;
+
+				output.push( '<span class="cke_menuitem">' +
+					'<a id="', id, '"' +
+						' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+						' title="', this.label, '"' +
+						' tabindex="-1"' +
+						'_cke_focus=1' +
+						' hidefocus="true"' +
+						' role="menuitem"' +
+						( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
+						( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
+						( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
+
+				// Some browsers don't cancel key events in the keydown but in the
+				// keypress.
+				// TODO: Check if really needed for Gecko+Mac.
+				if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) ) {
+					output.push( ' onkeypress="return false;"' );
+				}
+
+				// With Firefox, we need to force the button to redraw, otherwise it
+				// will remain in the focus state.
+				if ( CKEDITOR.env.gecko ) {
+					output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
+				}
+
+				var offset = ( this.iconOffset || 0 ) * -16;
+				output.push(
+				//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
+				' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
+					' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');"' +
+					' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
+					'>' +
+						'<span class="cke_icon_wrapper"><span class="cke_icon"' +
+							( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
+												: '' ) +
+							'></span></span>' +
+						'<span class="cke_label">' );
+
+				if ( hasSubMenu ) {
+					output.push( '<span class="cke_menuarrow">', '<span>&#', ( this.editor.lang.dir == 'rtl' ? '9668' : // BLACK LEFT-POINTING POINTER
+					'9658' ), // BLACK RIGHT-POINTING POINTER
+					';</span>', '</span>' );
+				}
+
+				output.push( htmlLabel, '</span>' +
+					'</a>' +
+					'</span>' );
+			}
+		}
+	});
+
 })();
 
-CKEDITOR.menuItem = CKEDITOR.tools.createClass({
-	$: function( editor, name, definition ) {
-		CKEDITOR.tools.extend( this, definition,
-		// Defaults
-		{
-			order: 0,
-			className: 'cke_button_' + name
-		});
-
-		// Transform the group name into its order number.
-		this.group = editor._.menuGroups[ this.group ];
-
-		this.editor = editor;
-		this.name = name;
-	},
-
-	proto: {
-		render: function( menu, index, output ) {
-			var id = menu.id + String( index ),
-				state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state;
-
-			var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
-
-			var htmlLabel = this.label;
-
-			if ( this.className )
-				classes += ' ' + this.className;
-
-			var hasSubMenu = this.getItems;
-
-			output.push( '<span class="cke_menuitem">' +
-				'<a id="', id, '"' +
-					' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
-					' title="', this.label, '"' +
-					' tabindex="-1"' +
-					'_cke_focus=1' +
-					' hidefocus="true"' +
-					' role="menuitem"' +
-					( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
-					( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
-					( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
-
-			// Some browsers don't cancel key events in the keydown but in the
-			// keypress.
-			// TODO: Check if really needed for Gecko+Mac.
-			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) ) {
-				output.push( ' onkeypress="return false;"' );
-			}
-
-			// With Firefox, we need to force the button to redraw, otherwise it
-			// will remain in the focus state.
-			if ( CKEDITOR.env.gecko ) {
-				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
-			}
-
-			var offset = ( this.iconOffset || 0 ) * -16;
-			output.push(
-			//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
-			' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
-				' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');"' +
-				' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
-				'>' +
-					'<span class="cke_icon_wrapper"><span class="cke_icon"' +
-						( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
-											: '' ) +
-						'></span></span>' +
-					'<span class="cke_label">' );
-
-			if ( hasSubMenu ) {
-				output.push( '<span class="cke_menuarrow">', '<span>&#', ( this.editor.lang.dir == 'rtl' ? '9668' : // BLACK LEFT-POINTING POINTER
-				'9658' ), // BLACK RIGHT-POINTING POINTER
-				';</span>', '</span>' );
-			}
-
-			output.push( htmlLabel, '</span>' +
-				'</a>' +
-				'</span>' );
-		}
-	}
-});
 
 /**
  * The amount of time, in milliseconds, the editor waits before showing submenu
