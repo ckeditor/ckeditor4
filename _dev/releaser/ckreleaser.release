@@ -12,7 +12,8 @@ ignore :
 	'_dev',
 	'.svn',
 	'.settings',
-	'.project'
+	'.project',
+	'.idea'
 ],
 
 copy :
