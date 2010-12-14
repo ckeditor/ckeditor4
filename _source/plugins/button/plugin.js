@@ -88,9 +88,18 @@ CKEDITOR.ui.button.prototype = {
 
 		instance.index = index = CKEDITOR.ui.button._.instances.push( instance ) - 1;
 
+		// Indicate a mode sensitive button.
 		if ( this.modes ) {
+			var modeStates = {};
+			editor.on( 'beforeModeUnload', function() {
+				modeStates[ editor.mode ] = this._.state;
+			}, this );
+
 			editor.on( 'mode', function() {
 				this.setState( this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+				var mode = editor.mode;
+				// Restore saved button state.
+				this.setState( this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 			}, this );
 		} else if ( command ) {
 			// Get the command instance.

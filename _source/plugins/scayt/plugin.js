@@ -508,6 +508,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				label: lang.title,
 				title: CKEDITOR.env.opera ? lang.opera_title : lang.title,
 				className: 'cke_button_scayt',
+				modes: { wysiwyg:1 },
 				onRender: function() {
 					command.on( 'state', function() {
 						this.setState( command.state );
