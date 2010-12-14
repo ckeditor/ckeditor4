@@ -22,7 +22,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 					' style="display:none;color:red;font-size:16px;font-weight:bold;padding-top:160px;text-align:center;z-index:11;">' +
 				'</div><iframe' +
 					' src=""' +
-					' style="width:485px;background-color:#f1f1e3;height:380px"' +
+					' style="width:100%;background-color:#f1f1e3;"' +
 					' frameborder="0"' +
 					' name="' + iframeId + '"' +
 					' id="' + iframeId + '"' +
@@ -118,6 +118,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		onShow: function() {
 			var contentArea = this.getContentElement( 'general', 'content' ).getElement();
 			contentArea.setHtml( pasteArea );
+			contentArea.getChild( 2 ).setStyle( 'height', this._.contentSize.height + 'px' );
 
 			if ( typeof( window.doSpell ) != 'function' ) {
 				// Load script.
@@ -149,11 +150,20 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 				{
 				type: 'html',
 				id: 'content',
-				style: 'width:485;height:380px',
-				html: '<div></div>'
+				html: ''
 			}
 			]
 		}
 		]
 	};
+});
+
+// Expand the spell-check frame when dialog resized. (#6829)
+CKEDITOR.dialog.on( 'resize', function( evt ) {
+	var data = evt.data,
+		dialog = data.dialog,
+		height = data.height;
+	var content = dialog.getContentElement( 'general', 'content' ).getElement(),
+		iframe = content && content.getChild( 2 );
+	iframe && iframe.setStyle( 'height', height + 'px' );
 });
