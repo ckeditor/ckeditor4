@@ -509,6 +509,12 @@ body .cke_dialog
 	position: relative;
 }
 
+/* IE7 needs position static #6806 */
+.cke_skin_kama .cke_browser_ie7 .cke_dialog_footer_buttons
+{
+	position: static;
+}
+
 /* Gecko 1.8 does not support for display: inline-table */
 .cke_skin_kama .cke_browser_gecko18 .cke_dialog_footer_buttons
 {
