@@ -171,21 +171,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var viewPaneSize = mainWindow.getViewPaneSize();
 						var styles = {
 							overflow: 'hidden',
-							width: ( CKEDITOR.env.opera ? viewPaneSize.width : 0 ) + 'px',
-							height: ( CKEDITOR.env.opera ? viewPaneSize.height - 16 : 0 ) + 'px'
+							width: 0,
+							height: 0
 						};
 
-						if ( CKEDITOR.env.ie ) {
-							mainDocument.$.documentElement.style.overflow = mainDocument.getBody().$.style.overflow = 'hidden';
-						} else {
-							// Prevent window scrolling, e.g. focus moving outside the editor. (#6747)
-							mainDocument.getDocumentElement().setStyle( 'overflow', 'hidden' );
-							mainDocument.getBody().setStyles( styles );
-						}
-
-						// #4023: [Opera] Maximize plugin
-						if ( CKEDITOR.env.opera )
-							mainDocument.getBody().getParent().setStyles( styles );
+						mainDocument.getDocumentElement().setStyles( styles );
+						!CKEDITOR.env.gecko && mainDocument.getDocumentElement().setStyle( 'position', 'fixed' );
+						mainDocument.getBody().setStyles( styles );
 
 						// Scroll to the top left (IE needs some time for it - #4923).
 						CKEDITOR.env.ie ? setTimeout( function() {
