@@ -145,7 +145,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
 							var th = theRow.getChild( i );
 							// Skip bookmark nodes. (#6155)
-							if ( th.type == CKEDITOR.NODE_ELEMENT && !th.hasAttribute( '_cke_bookmark' ) ) {
+							if ( th.type == CKEDITOR.NODE_ELEMENT && !th.data( 'cke-bookmark' ) ) {
 								th.renameNode( 'th' );
 								th.setAttribute( 'scope', 'col' );
 							}
@@ -336,12 +336,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							id: 'cmbAlign',
 							type: 'select',
 							'default': '',
-							label: editor.lang.table.align,
+							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
-								[ editor.lang.table.alignLeft, 'left' ],
-								[ editor.lang.table.alignCenter, 'center' ],
-								[ editor.lang.table.alignRight, 'right' ]
+								[ editor.lang.common.alignLeft, 'left' ],
+								[ editor.lang.common.alignCenter, 'center' ],
+								[ editor.lang.common.alignRight, 'right' ]
 								],
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
@@ -367,7 +367,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								type: 'text',
 								id: 'txtWidth',
 								style: 'width:5em',
-								label: editor.lang.table.width,
+								label: editor.lang.common.width,
 								'default': 500,
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidWidth ),
 
@@ -433,7 +433,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								type: 'text',
 								id: 'txtHeight',
 								style: 'width:5em',
-								label: editor.lang.table.height,
+								label: editor.lang.common.height,
 								'default': '',
 								validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidHeight ),
 

@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'fo' ] = {
 	superscript: 'Hækkað skrift',
 	horizontalrule: 'Ger vatnrætta linju',
 	pagebreak: 'Ger síðuskift',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Strika tilknýti',
 	undo: 'Angra',
 	redo: 'Vend aftur',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'fo' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Breidd',
+		height: 'Hædd',
+		align: 'Justering',
+		alignLeft: 'Vinstra',
+		alignRight: 'Høgra',
+		alignCenter: 'Miðsett',
+		alignTop: 'Ovast',
+		alignMiddle: 'Miðja',
+		alignBottom: 'Botnur',
+		invalidHeight: 'Hædd má vera eitt tal.',
+		invalidWidth: 'Breidd má vera eitt tal.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ikki tøkt</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		popupFullScreen: 'Fullur skermur (IE)',
 		popupScrollBars: 'Rullibjálki',
 		popupDependent: 'Bundið (Netscape)',
-		popupWidth: 'Breidd',
 		popupLeft: 'Frástøða frá vinstru',
-		popupHeight: 'Hædd',
 		popupTop: 'Frástøða frá íerva',
 		id: 'Id', // MISSING
 		langDir: 'Tekstkós',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'fo' ] = {
 		rows: 'Røðir',
 		columns: 'Kolonnur',
 		border: 'Bordabreidd',
-		align: 'Justering',
-		alignLeft: 'Vinstrasett',
-		alignCenter: 'Miðsett',
-		alignRight: 'Høgrasett',
-		width: 'Breidd',
 		widthPx: 'pixels',
 		widthPc: 'prosent',
 		widthUnit: 'breiddar unit',
-		height: 'Hædd',
 		cellSpace: 'Fjarstøða millum meskar',
 		cellPad: 'Meskubreddi',
 		caption: 'Tabellfrágreiðing',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'fo' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horisontal plasering',
 			vAlign: 'Loddrøtt plasering',
-			alignTop: 'Top',
-			alignMiddle: 'Miðja',
-			alignBottom: 'Botnur',
 			alignBaseline: 'Basislinja',
 			bgColor: 'Bakgrundslitur',
 			borderColor: 'Bordalitur',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'fo' ] = {
 		btnUpload: 'Send til ambætaran',
 		upload: 'Send',
 		alt: 'Alternativur tekstur',
-		width: 'Breidd',
-		height: 'Hædd',
 		lockRatio: 'Læs lutfallið',
 		unlockRatio: 'Lutfallið ikki læst',
 		resetSize: 'Upprunastødd',
 		border: 'Bordi',
 		hSpace: 'Høgri breddi',
 		vSpace: 'Vinstri breddi',
-		align: 'Justering',
-		alignLeft: 'Vinstra',
-		alignRight: 'Høgra',
 		alertUrl: 'Rita slóðina til myndina',
 		linkTab: 'Tilknýti',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'URL til mynd manglar.',
-		validateWidth: 'Breidd má vera eitt heiltal.',
-		validateHeight: 'Hædd má vera eitt heiltal.',
 		validateBorder: 'Bordi má vera eitt heiltal.',
 		validateHSpace: 'HSpace má vera eitt heiltal.',
 		validateVSpace: 'VSpace má vera eitt heiltal.'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'fo' ] = {
 		accessAlways: 'Altíð',
 		accessSameDomain: 'Sama navnaøki',
 		accessNever: 'Ongantíð',
-		align: 'Justering',
-		alignLeft: 'Vinstra',
 		alignAbsBottom: 'Abs botnur',
 		alignAbsMiddle: 'Abs miðja',
 		alignBaseline: 'Basislinja',
-		alignBottom: 'Botnur',
-		alignMiddle: 'Miðja',
-		alignRight: 'Høgra',
 		alignTextTop: 'Tekst toppur',
-		alignTop: 'Ovast',
 		quality: 'Góðska',
 		qualityBest: 'Besta',
 		qualityHigh: 'Høg',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'fo' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variablar fyri Flash',
 		bgcolor: 'Bakgrundslitur',
-		width: 'Breidd',
-		height: 'Hædd',
 		hSpace: 'Høgri breddi',
 		vSpace: 'Vinstri breddi',
 		validateSrc: 'Vinarliga skriva tilknýti (URL)',
-		validateWidth: 'Breidd má vera eitt tal.',
-		validateHeight: 'Hædd má vera eitt tal.',
 		validateHSpace: 'HSpace má vera eitt tal.',
 		validateVSpace: 'VSpace má vera eitt tal.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'fo' ] = {
 		remove: 'Strika Div'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Skrift',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'fo' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Síðuskift',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Ókent Object'
 	},
 

@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	superscript: 'Felső index',
 	horizontalrule: 'Elválasztóvonal beillesztése',
 	pagebreak: 'Oldaltörés beillesztése',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Hivatkozás törlése',
 	undo: 'Visszavonás',
 	redo: 'Ismétlés',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'hu' ] = {
 		langDirRTL: 'Jobbról balra (RTL)',
 		styles: 'Stílus',
 		cssClasses: 'Stíluslap osztály',
+		width: 'Szélesség',
+		height: 'Magasság',
+		align: 'Igazítás',
+		alignLeft: 'Bal',
+		alignRight: 'Jobbra',
+		alignCenter: 'Középre',
+		alignTop: 'Tetejére',
+		alignMiddle: 'Középre',
+		alignBottom: 'Aljára',
+		invalidHeight: 'A magasság mezőbe csak számokat írhat.',
+		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		popupFullScreen: 'Teljes képernyő (csak IE)',
 		popupScrollBars: 'Gördítősáv',
 		popupDependent: 'Szülőhöz kapcsolt (csak Netscape)',
-		popupWidth: 'Szélesség',
 		popupLeft: 'Bal pozíció',
-		popupHeight: 'Magasság',
 		popupTop: 'Felső pozíció',
 		id: 'Id',
 		langDir: 'Írás iránya',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'hu' ] = {
 		rows: 'Sorok',
 		columns: 'Oszlopok',
 		border: 'Szegélyméret',
-		align: 'Igazítás',
-		alignLeft: 'Balra',
-		alignCenter: 'Középre',
-		alignRight: 'Jobbra',
-		width: 'Szélesség',
 		widthPx: 'képpont',
 		widthPc: 'százalék',
 		widthUnit: 'Szélesség egység',
-		height: 'Magasság',
 		cellSpace: 'Cella térköz',
 		cellPad: 'Cella belső margó',
 		caption: 'Felirat',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'hu' ] = {
 			wordWrap: 'Hosszú sorok törése',
 			hAlign: 'Vízszintes igazítás',
 			vAlign: 'Függőleges igazítás',
-			alignTop: 'Fel',
-			alignMiddle: 'Középre',
-			alignBottom: 'Le',
 			alignBaseline: 'Alapvonalra',
 			bgColor: 'Háttér színe',
 			borderColor: 'Keret színe',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'hu' ] = {
 		btnUpload: 'Küldés a szerverre',
 		upload: 'Feltöltés',
 		alt: 'Buborék szöveg',
-		width: 'Szélesség',
-		height: 'Magasság',
 		lockRatio: 'Arány megtartása',
 		unlockRatio: 'Arány figyelmen kívül hagyása',
 		resetSize: 'Eredeti méret',
 		border: 'Keret',
 		hSpace: 'Vízsz. táv',
 		vSpace: 'Függ. táv',
-		align: 'Igazítás',
-		alignLeft: 'Bal',
-		alignRight: 'Jobbra',
 		alertUrl: 'Töltse ki a kép webcímét',
 		linkTab: 'Hivatkozás',
 		button2Img: 'A kiválasztott képgombból sima képet szeretne csinálni?',
 		img2Button: 'A kiválasztott képből képgombot szeretne csinálni?',
 		urlMissing: 'Hiányzik a kép URL-je',
-		validateWidth: 'A szélességnek egész számot kell beírni!',
-		validateHeight: 'A magasságnak egész számot kell beírni!',
 		validateBorder: 'A keret méretének egész számot kell beírni!',
 		validateHSpace: 'Vízszintes távolságnak egész számot kell beírni!',
 		validateVSpace: 'Függőleges távolságnak egész számot kell beírni!'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'hu' ] = {
 		accessAlways: 'Mindig',
 		accessSameDomain: 'Azonos domainről',
 		accessNever: 'Soha',
-		align: 'Igazítás',
-		alignLeft: 'Bal',
 		alignAbsBottom: 'Legaljára',
 		alignAbsMiddle: 'Közepére',
 		alignBaseline: 'Alapvonalhoz',
-		alignBottom: 'Aljára',
-		alignMiddle: 'Középre',
-		alignRight: 'Jobbra',
 		alignTextTop: 'Szöveg tetejére',
-		alignTop: 'Tetejére',
 		quality: 'Minőség',
 		qualityBest: 'Legjobb',
 		qualityHigh: 'Jó',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'hu' ] = {
 		windowMode: 'Ablak mód',
 		flashvars: 'Flash változók',
 		bgcolor: 'Háttérszín',
-		width: 'Szélesség',
-		height: 'Magasság',
 		hSpace: 'Vízsz. táv',
 		vSpace: 'Függ. táv',
 		validateSrc: 'Adja meg a hivatkozás webcímét',
-		validateWidth: 'A szélesség mezőbe csak számokat írhat.',
-		validateHeight: 'A magasság mezőbe csak számokat írhat.',
 		validateHSpace: 'A vízszintes távolsűág mezőbe csak számokat írhat.',
 		validateVSpace: 'A függőleges távolsűág mezőbe csak számokat írhat.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'hu' ] = {
 		remove: 'DIV eltávolítása'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Betűtípus',
 		voiceLabel: 'Betűtípus',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'hu' ] = {
 	fakeobjects: {
 		anchor: 'Horgony',
 		flash: 'Flash animáció',
-		div: 'Oldaltörés',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Ismeretlen objektum'
 	},
 

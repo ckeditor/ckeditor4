@@ -114,12 +114,6 @@ CKEDITOR.ui.panel.prototype = {
 					className = parentDiv.getParent().getAttribute( 'class' ),
 					langCode = parentDiv.getParent().getAttribute( 'lang' ),
 					doc = iframe.getFrameDocument();
-				// Initialize the IFRAME document body.
-				doc.$.open();
-
-				// Support for custom document.domain in IE.
-				if ( CKEDITOR.env.isCustomDomain() )
-					doc.$.domain = document.domain;
 
 				var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function( ev ) {
 					this.isLoaded = true;
@@ -127,7 +121,7 @@ CKEDITOR.ui.panel.prototype = {
 						this.onLoad();
 				}, this ) );
 
-				doc.$.write( '<!DOCTYPE html>' +
+				var data = '<!DOCTYPE html>' +
 					'<html dir="' + dir + '" class="' + className + '_container" lang="' + langCode + '">' +
 						'<head>' +
 							'<style>.' + className + '_container{visibility:hidden}</style>' +
@@ -138,8 +132,9 @@ CKEDITOR.ui.panel.prototype = {
 				// after <body>, so it (body) becames immediatelly
 				// available. (#3031)
 										CKEDITOR.tools.buildStyleHtml( this.css ) +
-					'<\/html>' );
-				doc.$.close();
+					'<\/html>';
+
+				doc.write( data );
 
 				var win = doc.getWindow();
 
@@ -166,6 +161,7 @@ CKEDITOR.ui.panel.prototype = {
 
 				holder = doc.getBody();
 				holder.unselectable();
+				CKEDITOR.env.air && CKEDITOR.tools.callFunction( onLoad );
 			} else
 				holder = this.document.getById( this.id );
 

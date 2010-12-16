@@ -33,7 +33,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	 */
 	this.children = [];
 
-	var tagName = attributes._cke_real_element_type || name;
+	var tagName = attributes[ 'data-cke-real-element-type' ] || name;
 
 	var dtd = CKEDITOR.dtd,
 		isBlockLike = !!( dtd.$nonBodyContent[ tagName ] || dtd.$block[ tagName ] || dtd.$listItem[ tagName ] || dtd.$tableContent[ tagName ] || dtd.$nonEditable[ tagName ] || tagName == 'br' ),

@@ -290,6 +290,7 @@ CKEDITOR.config = {
 		'forms,' +
 		'horizontalrule,' +
 		'htmldataprocessor,' +
+		'iframe,' +
 		'image,' +
 		'indent,' +
 		'justify,' +

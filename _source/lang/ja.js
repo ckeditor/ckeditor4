@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	superscript: '上付き文字',
 	horizontalrule: '横罫線',
 	pagebreak: '改ページ挿入',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'リンク削除',
 	undo: '元に戻す',
 	redo: 'やり直し',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'ja' ] = {
 		langDirRTL: '右から左 (RTL)',
 		styles: 'スタイル',
 		cssClasses: 'スタイルシートクラス',
+		width: '幅',
+		height: '高さ',
+		align: '行揃え',
+		alignLeft: '左',
+		alignRight: '右',
+		alignCenter: '中央',
+		alignTop: '上',
+		alignMiddle: '中央',
+		alignBottom: '下',
+		invalidHeight: '高さは数値で入力してください。',
+		invalidWidth: '幅は数値で入力してください。',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		popupFullScreen: '全画面モード(IE)',
 		popupScrollBars: 'スクロールバー',
 		popupDependent: '開いたウィンドウに連動して閉じる (Netscape)',
-		popupWidth: '幅',
 		popupLeft: '左端からの座標で指定',
-		popupHeight: '高さ',
 		popupTop: '上端からの座標で指定',
 		id: 'Id',
 		langDir: '文字表記の方向',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'ja' ] = {
 		rows: '行',
 		columns: '列',
 		border: 'ボーダーサイズ',
-		align: 'テーブルの整列',
-		alignLeft: '左',
-		alignCenter: '中央',
-		alignRight: '右',
-		width: '幅',
 		widthPx: 'ピクセル',
 		widthPc: 'パーセント',
 		widthUnit: 'ユニット',
-		height: '高さ',
 		cellSpace: 'セル内余白',
 		cellPad: 'セル内間隔',
 		caption: 'キャプション',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'ja' ] = {
 			wordWrap: '折り返し',
 			hAlign: 'セル横の整列',
 			vAlign: 'セル縦の整列',
-			alignTop: '上',
-			alignMiddle: '中央',
-			alignBottom: '下',
 			alignBaseline: 'ベースライン',
 			bgColor: '背景色',
 			borderColor: 'ボーダーカラー',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'ja' ] = {
 		btnUpload: 'サーバーに送信',
 		upload: 'アップロード',
 		alt: '代替テキスト',
-		width: '幅',
-		height: '高さ',
 		lockRatio: 'ロック比率',
 		unlockRatio: 'アンロック比率',
 		resetSize: 'サイズリセット',
 		border: 'ボーダー',
 		hSpace: '横間隔',
 		vSpace: '縦間隔',
-		align: '行揃え',
-		alignLeft: '左',
-		alignRight: '右',
 		alertUrl: 'イメージのURLを入力してください。',
 		linkTab: 'リンク',
 		button2Img: '選択したボタンを画像に置き換えますか？',
 		img2Button: '選択した画像をボタンに置き換えますか？',
 		urlMissing: 'イメージのURLを入力してください。',
-		validateWidth: '幅は数値で入力してください。',
-		validateHeight: '高さは数値で入力してください。',
 		validateBorder: 'ボーダーは数値で入力してください。',
 		validateHSpace: '横間隔は数値で入力してください。',
 		validateVSpace: '縦間隔は数値で入力してください。'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'ja' ] = {
 		accessAlways: 'すべての場合に通信可能(Always)',
 		accessSameDomain: '同一ドメインのみに通信可能(Same domain)',
 		accessNever: 'すべての場合に通信不可能(Never)',
-		align: '行揃え',
-		alignLeft: '左',
 		alignAbsBottom: '下部(絶対的)',
 		alignAbsMiddle: '中央(絶対的)',
 		alignBaseline: 'ベースライン',
-		alignBottom: '下',
-		alignMiddle: '中央',
-		alignRight: '右',
 		alignTextTop: 'テキスト上部',
-		alignTop: '上',
 		quality: '画質',
 		qualityBest: '品質優先',
 		qualityHigh: '高',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'ja' ] = {
 		windowMode: 'ウィンドウモード',
 		flashvars: 'フラッシュに渡す変数(FlashVars)',
 		bgcolor: '背景色',
-		width: '幅',
-		height: '高さ',
 		hSpace: '横間隔',
 		vSpace: '縦間隔',
 		validateSrc: 'リンクURLを入力してください。',
-		validateWidth: '幅は数値で入力してください。',
-		validateHeight: '高さは数値で入力してください。',
 		validateHSpace: '横間隔は数値で入力してください。',
 		validateVSpace: '縦間隔は数値で入力してください。'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'ja' ] = {
 		remove: 'Divコンテナ 削除'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'フォント',
 		voiceLabel: 'フォント',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'ja' ] = {
 	fakeobjects: {
 		anchor: 'アンカー',
 		flash: 'Flash Animation',
-		div: 'Page Break',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object'
 	},
 

@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'uk' ] = {
 	superscript: 'Верхній індекс',
 	horizontalrule: 'Горизонтальна лінія',
 	pagebreak: 'Вставити розрив сторінки',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Видалити посилання',
 	undo: 'Повернути',
 	redo: 'Повторити',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'uk' ] = {
 		langDirRTL: 'Справа наліво (RTL)',
 		styles: 'Стиль CSS',
 		cssClasses: 'Клас CSS',
+		width: 'Ширина',
+		height: 'Висота',
+		align: 'Вирівнювання',
+		alignLeft: 'По лівому краю',
+		alignRight: 'По правому краю',
+		alignCenter: 'По центру',
+		alignTop: 'По верхньому краю',
+		alignMiddle: 'По середині',
+		alignBottom: 'По нижньому краю',
+		invalidHeight: 'Висота повинна бути цілим числом.',
+		invalidWidth: 'Ширина повинна бути цілим числом.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, не доступне</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		popupFullScreen: 'Повний екран (IE)',
 		popupScrollBars: 'Стрічки прокрутки',
 		popupDependent: 'Залежний (Netscape)',
-		popupWidth: 'Ширина',
 		popupLeft: 'Позиція зліва',
-		popupHeight: 'Висота',
 		popupTop: 'Позиція зверху',
 		id: 'Ідентифікатор',
 		langDir: 'Напрямок мови',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'uk' ] = {
 		rows: 'Рядки',
 		columns: 'Стовбці',
 		border: 'Розмір рамки',
-		align: 'Вирівнювання',
-		alignLeft: 'По лівому краю',
-		alignCenter: 'По центру',
-		alignRight: 'По правому краю',
-		width: 'Ширина',
 		widthPx: 'пікселів',
 		widthPc: 'відсотків',
 		widthUnit: 'Одиниці вимір.',
-		height: 'Висота',
 		cellSpace: 'Проміжок',
 		cellPad: 'Внутр. відступ',
 		caption: 'Заголовок таблиці',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'uk' ] = {
 			wordWrap: 'Автоперенесення тексту',
 			hAlign: 'Гориз. вирівнювання',
 			vAlign: 'Верт. вирівнювання',
-			alignTop: 'По верхньому краю',
-			alignMiddle: 'По середині',
-			alignBottom: 'По нижньому краю',
 			alignBaseline: 'По базовій лінії',
 			bgColor: 'Колір фону',
 			borderColor: 'Колір рамки',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'uk' ] = {
 		btnUpload: 'Надіслати на сервер',
 		upload: 'Надіслати',
 		alt: 'Альтернативний текст',
-		width: 'Ширина',
-		height: 'Висота',
 		lockRatio: 'Зберегти пропорції',
 		unlockRatio: 'Не зберігати пропорції',
 		resetSize: 'Очистити поля розмірів',
 		border: 'Рамка',
 		hSpace: 'Гориз. відступ',
 		vSpace: 'Верт. відступ',
-		align: 'Вирівн.',
-		alignLeft: 'По лівому краю',
-		alignRight: 'По правому краю',
 		alertUrl: 'Будь ласка, вкажіть URL зображення',
 		linkTab: 'Посилання',
 		button2Img: 'Бажаєте перетворити обрану кнопку-зображення на просте зображення?',
 		img2Button: 'Бажаєте перетворити обране зображення на кнопку-зображення?',
 		urlMissing: 'Вкажіть URL зображення.',
-		validateWidth: 'Ширина повинна бути цілим числом.',
-		validateHeight: 'Висота повинна бути цілим числом.',
 		validateBorder: 'Ширина рамки повинна бути цілим числом.',
 		validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
 		validateVSpace: 'Верт. відступ повинен бути цілим числом.'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'uk' ] = {
 		accessAlways: 'Завжди',
 		accessSameDomain: 'З того ж домена',
 		accessNever: 'Ніколи',
-		align: 'Вирівнювання',
-		alignLeft: 'По лівому краю',
 		alignAbsBottom: 'По нижньому краю (abs)',
 		alignAbsMiddle: 'По середині (abs)',
 		alignBaseline: 'По базовій лінії',
-		alignBottom: 'По нижньому краю',
-		alignMiddle: 'По середині',
-		alignRight: 'По правому краю',
 		alignTextTop: 'Текст по верхньому краю',
-		alignTop: 'По верхньому краю',
 		quality: 'Якість',
 		qualityBest: 'Відмінна',
 		qualityHigh: 'Висока',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'uk' ] = {
 		windowMode: 'Віконний режим',
 		flashvars: 'Змінні Flash',
 		bgcolor: 'Колір фону',
-		width: 'Ширина',
-		height: 'Висота',
 		hSpace: 'Гориз. відступ',
 		vSpace: 'Верт. відступ',
 		validateSrc: 'Будь ласка, вкажіть URL посилання',
-		validateWidth: 'Ширина повинна бути цілим числом.',
-		validateHeight: 'Висота повинна бути цілим числом.',
 		validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
 		validateVSpace: 'Верт. відступ повинен бути цілим числом.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'uk' ] = {
 		remove: 'Видалити блок'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Шрифт',
 		voiceLabel: 'Шрифт',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'uk' ] = {
 	fakeobjects: {
 		anchor: 'Якір',
 		flash: 'Flash-анімація',
-		div: 'Розрив сторінки',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Невідомий об\'єкт'
 	},
 

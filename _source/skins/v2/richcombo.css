@@ -148,6 +148,16 @@
 	height: 20px;
 }
 
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_skin_v2 .cke_browser_ie .cke_rcombo .cke_openbutton
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_skin_v2 .cke_browser_ie6 .cke_rcombo .cke_openbutton
+{
+	filter: ;
+}
+
 .cke_skin_v2 .cke_rcombo .cke_openbutton span
 {
 	display: none;
@@ -237,6 +247,16 @@
 {
 	filter: alpha(opacity=50); /* IE */
 	opacity: 0.5; /* Safari, Opera and Mozilla */
+}
+
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_skin_v2 .cke_browser_ie .cke_rcombo .cke_disabled .cke_openbutton
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale'), alpha(opacity=50);
+}
+.cke_skin_v2 .cke_browser_ie6 .cke_rcombo .cke_disabled .cke_openbutton
+{
+	filter: alpha(opacity=50);
 }
 
 .cke_skin_v2 .cke_hc .cke_rcombo .cke_disabled .cke_text,

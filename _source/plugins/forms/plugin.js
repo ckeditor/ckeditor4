@@ -145,7 +145,7 @@ CKEDITOR.plugins.add( 'forms', {
 							return { imagebutton: CKEDITOR.TRISTATE_OFF };
 					}
 
-					if ( name == 'img' && element.getAttribute( '_cke_real_element_type' ) == 'hiddenfield' )
+					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 						return { hiddenfield: CKEDITOR.TRISTATE_OFF };
 				}
 			});
@@ -160,7 +160,7 @@ CKEDITOR.plugins.add( 'forms', {
 				evt.data.dialog = 'select';
 			else if ( element.is( 'textarea' ) )
 				evt.data.dialog = 'textarea';
-			else if ( element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'hiddenfield' )
+			else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 				evt.data.dialog = 'hiddenfield';
 			else if ( element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );

@@ -259,7 +259,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element.hidden = false;
 				}
 			} else if ( element.filebrowser.action == 'QuickUpload' && element[ 'for' ] ) {
-				var url = element.filebrowser.url;
+				url = element.filebrowser.url;
 				if ( url === undefined ) {
 					url = editor.config[ 'filebrowser' + ucFirst( dialogName ) + 'UploadUrl' ];
 					if ( url === undefined )

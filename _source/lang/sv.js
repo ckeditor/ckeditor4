@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'sv' ] = {
 	superscript: 'Upphöjda tecken',
 	horizontalrule: 'Infoga horisontal linje',
 	pagebreak: 'Infoga sidbrytning',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Radera länk',
 	undo: 'Ångra',
 	redo: 'Gör om',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'sv' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Bredd',
+		height: 'Höjd',
+		align: 'Justering',
+		alignLeft: 'Vänster',
+		alignRight: 'Höger',
+		alignCenter: 'Centrerad',
+		alignTop: 'Överkant',
+		alignMiddle: 'Mitten',
+		alignBottom: 'Nederkant',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		popupFullScreen: 'Helskärm (endast IE)',
 		popupScrollBars: 'Scrolllista',
 		popupDependent: 'Beroende (endest Netscape)',
-		popupWidth: 'Bredd',
 		popupLeft: 'Position från vänster',
-		popupHeight: 'Höjd',
 		popupTop: 'Position från sidans topp',
 		id: 'Id', // MISSING
 		langDir: 'Språkriktning',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'sv' ] = {
 		rows: 'Rader',
 		columns: 'Kolumner',
 		border: 'Kantstorlek',
-		align: 'Justering',
-		alignLeft: 'Vänster',
-		alignCenter: 'Centrerad',
-		alignRight: 'Höger',
-		width: 'Bredd',
 		widthPx: 'pixlar',
 		widthPc: 'procent',
 		widthUnit: 'width unit', // MISSING
-		height: 'Höjd',
 		cellSpace: 'Cellavstånd',
 		cellPad: 'Cellutfyllnad',
 		caption: 'Rubrik',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'sv' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'sv' ] = {
 		btnUpload: 'Skicka till server',
 		upload: 'Ladda upp',
 		alt: 'Alternativ text',
-		width: 'Bredd',
-		height: 'Höjd',
 		lockRatio: 'Lås höjd/bredd förhållanden',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Återställ storlek',
 		border: 'Kant',
 		hSpace: 'Horis. marginal',
 		vSpace: 'Vert. marginal',
-		align: 'Justering',
-		alignLeft: 'Vänster',
-		alignRight: 'Höger',
 		alertUrl: 'Var god och ange bildens URL',
 		linkTab: 'Länk',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'sv' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Justering',
-		alignLeft: 'Vänster',
 		alignAbsBottom: 'Absolut nederkant',
 		alignAbsMiddle: 'Absolut centrering',
 		alignBaseline: 'Baslinje',
-		alignBottom: 'Nederkant',
-		alignMiddle: 'Mitten',
-		alignRight: 'Höger',
 		alignTextTop: 'Text överkant',
-		alignTop: 'Överkant',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'sv' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Bakgrundsfärg',
-		width: 'Bredd',
-		height: 'Höjd',
 		hSpace: 'Horis. marginal',
 		vSpace: 'Vert. marginal',
 		validateSrc: 'Var god ange länkens URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'sv' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Typsnitt',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'sv' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

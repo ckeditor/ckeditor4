@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	superscript: 'بالانویس',
 	horizontalrule: 'گنجاندن خط ِافقی',
 	pagebreak: 'گنجاندن شکستگی ِپایان ِبرگه',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'برداشتن پیوند',
 	undo: 'واچیدن',
 	redo: 'بازچیدن',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'fa' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'پهنا',
+		height: 'درازا',
+		align: 'چینش',
+		alignLeft: 'چپ',
+		alignRight: 'راست',
+		alignCenter: 'وسط',
+		alignTop: 'بالا',
+		alignMiddle: 'وسط',
+		alignBottom: 'پائین',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		popupFullScreen: 'تمامصفحه (IE)',
 		popupScrollBars: 'میلههای پیمایش',
 		popupDependent: 'وابسته (Netscape)',
-		popupWidth: 'پهنا',
 		popupLeft: 'موقعیت ِچپ',
-		popupHeight: 'درازا',
 		popupTop: 'موقعیت ِبالا',
 		id: 'Id', // MISSING
 		langDir: 'جهتنمای زبان',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'fa' ] = {
 		rows: 'سطرها',
 		columns: 'ستونها',
 		border: 'اندازهٴ لبه',
-		align: 'چینش',
-		alignLeft: 'چپ',
-		alignCenter: 'وسط',
-		alignRight: 'راست',
-		width: 'پهنا',
 		widthPx: 'پیکسل',
 		widthPc: 'درصد',
 		widthUnit: 'width unit', // MISSING
-		height: 'درازا',
 		cellSpace: 'فاصلهٴ میان سلولها',
 		cellPad: 'فاصلهٴ پرشده در سلول',
 		caption: 'عنوان',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'fa' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'fa' ] = {
 		btnUpload: 'به سرور بفرست',
 		upload: 'انتقال به سرور',
 		alt: 'متن جایگزین',
-		width: 'پهنا',
-		height: 'درازا',
 		lockRatio: 'قفلکردن ِنسبت',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'بازنشانی اندازه',
 		border: 'لبه',
 		hSpace: 'فاصلهٴ افقی',
 		vSpace: 'فاصلهٴ عمودی',
-		align: 'چینش',
-		alignLeft: 'چپ',
-		alignRight: 'راست',
 		alertUrl: 'لطفا URL تصویر را بنویسید',
 		linkTab: 'پیوند',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'fa' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'چینش',
-		alignLeft: 'چپ',
 		alignAbsBottom: 'پائین مطلق',
 		alignAbsMiddle: 'وسط مطلق',
 		alignBaseline: 'خطپایه',
-		alignBottom: 'پائین',
-		alignMiddle: 'وسط',
-		alignRight: 'راست',
 		alignTextTop: 'متن بالا',
-		alignTop: 'بالا',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'fa' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'رنگ پسزمینه',
-		width: 'پهنا',
-		height: 'درازا',
 		hSpace: 'فاصلهٴ افقی',
 		vSpace: 'فاصلهٴ عمودی',
 		validateSrc: 'لطفا URL پیوند را بنویسید',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'fa' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'قلم',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'fa' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'ms' ] = {
 	superscript: 'Superscript',
 	horizontalrule: 'Masukkan Garisan Membujur',
 	pagebreak: 'Insert Page Break for Printing', // MISSING
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Buang Sambungan',
 	undo: 'Batalkan',
 	redo: 'Ulangkan',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'ms' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Lebar',
+		height: 'Tinggi',
+		align: 'Jajaran',
+		alignLeft: 'Kiri',
+		alignRight: 'Kanan',
+		alignCenter: 'Tengah',
+		alignTop: 'Atas',
+		alignMiddle: 'Pertengahan',
+		alignBottom: 'Bawah',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		popupFullScreen: 'Skrin Penuh (IE)',
 		popupScrollBars: 'Bar-bar skrol',
 		popupDependent: 'Bergantungan (Netscape)',
-		popupWidth: 'Lebar',
 		popupLeft: 'Posisi Kiri',
-		popupHeight: 'Tinggi',
 		popupTop: 'Posisi Atas',
 		id: 'Id', // MISSING
 		langDir: 'Arah Tulisan',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'ms' ] = {
 		rows: 'Barisan',
 		columns: 'Jaluran',
 		border: 'Saiz Border',
-		align: 'Penjajaran',
-		alignLeft: 'Kiri',
-		alignCenter: 'Tengah',
-		alignRight: 'Kanan',
-		width: 'Lebar',
 		widthPx: 'piksel-piksel',
 		widthPc: 'peratus',
 		widthUnit: 'width unit', // MISSING
-		height: 'Tinggi',
 		cellSpace: 'Ruangan Antara Sel',
 		cellPad: 'Tambahan Ruang Sel',
 		caption: 'Keterangan',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'ms' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'ms' ] = {
 		btnUpload: 'Hantar ke Server',
 		upload: 'Muat Naik',
 		alt: 'Text Alternatif',
-		width: 'Lebar',
-		height: 'Tinggi',
 		lockRatio: 'Tetapkan Nisbah',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Saiz Set Semula',
 		border: 'Border',
 		hSpace: 'Ruang Melintang',
 		vSpace: 'Ruang Menegak',
-		align: 'Jajaran',
-		alignLeft: 'Kiri',
-		alignRight: 'Kanan',
 		alertUrl: 'Sila taip URL untuk fail gambar',
 		linkTab: 'Sambungan',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'ms' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Jajaran',
-		alignLeft: 'Kiri',
 		alignAbsBottom: 'Bawah Mutlak',
 		alignAbsMiddle: 'Pertengahan Mutlak',
 		alignBaseline: 'Garis Dasar',
-		alignBottom: 'Bawah',
-		alignMiddle: 'Pertengahan',
-		alignRight: 'Kanan',
 		alignTextTop: 'Atas Text',
-		alignTop: 'Atas',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'ms' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Warna Latarbelakang',
-		width: 'Lebar',
-		height: 'Tinggi',
 		hSpace: 'Ruang Melintang',
 		vSpace: 'Ruang Menegak',
 		validateSrc: 'Sila taip sambungan URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'ms' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'ms' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

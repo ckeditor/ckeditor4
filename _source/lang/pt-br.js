@@ -54,6 +54,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 	superscript: 'Sobrescrito',
 	horizontalrule: 'Inserir Linha Horizontal',
 	pagebreak: 'Inserir Quebra de Página',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Remover Link',
 	undo: 'Desfazer',
 	redo: 'Refazer',
@@ -106,6 +107,17 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Largura',
+		height: 'Altura',
+		align: 'Alinhamento',
+		alignLeft: 'Esquerda',
+		alignRight: 'Direita',
+		alignCenter: 'Centralizado',
+		alignTop: 'Superior',
+		alignMiddle: 'Centralizado',
+		alignBottom: 'Inferior',
+		invalidHeight: 'A altura tem que ser um número',
+		invalidWidth: 'A largura tem que ser um número.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, indisponível</span>'
@@ -149,9 +161,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		popupFullScreen: 'Modo Tela Cheia (IE)',
 		popupScrollBars: 'Barras de Rolagem',
 		popupDependent: 'Dependente (Netscape)',
-		popupWidth: 'Largura',
 		popupLeft: 'Esquerda',
-		popupHeight: 'Altura',
 		popupTop: 'Topo',
 		id: 'Id',
 		langDir: 'Direção do idioma',
@@ -233,15 +243,9 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		rows: 'Linhas',
 		columns: 'Colunas',
 		border: 'Borda',
-		align: 'Alinhamento',
-		alignLeft: 'Esquerda',
-		alignCenter: 'Centralizado',
-		alignRight: 'Direita',
-		width: 'Largura',
 		widthPx: 'pixels',
 		widthPc: '%',
 		widthUnit: 'unidade largura',
-		height: 'Altura',
 		cellSpace: 'Espaçamento',
 		cellPad: 'Margem interna',
 		caption: 'Legenda',
@@ -276,9 +280,6 @@ CKEDITOR.lang[ 'pt-br' ] = {
 			wordWrap: 'Quebra de palavra',
 			hAlign: 'Alinhamento horizontal',
 			vAlign: 'Alinhamento vertical',
-			alignTop: 'Alinhar no topo',
-			alignMiddle: 'Centralizado verticalmente',
-			alignBottom: 'Alinhar na base',
 			alignBaseline: 'Patamar de alinhamento',
 			bgColor: 'Cor de fundo',
 			borderColor: 'Cor das bordas',
@@ -389,24 +390,17 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		btnUpload: 'Enviar para o Servidor',
 		upload: 'Enviar',
 		alt: 'Texto Alternativo',
-		width: 'Largura',
-		height: 'Altura',
 		lockRatio: 'Travar Proporções',
 		unlockRatio: 'Destravar Proporções',
 		resetSize: 'Redefinir para o Tamanho Original',
 		border: 'Borda',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
-		align: 'Alinhamento',
-		alignLeft: 'Esquerda',
-		alignRight: 'Direita',
 		alertUrl: 'Por favor, digite a URL da imagem.',
 		linkTab: 'Link',
 		button2Img: 'Deseja transformar o botão de imagem em uma imagem comum?',
 		img2Button: 'Deseja transformar a imagem em um botão de imagem?',
 		urlMissing: 'URL da imagem está faltando.',
-		validateWidth: 'A largura deve ser um número inteiro.',
-		validateHeight: 'A altura deve ser um número inteiro.',
 		validateBorder: 'A borda deve ser um número inteiro.',
 		validateHSpace: 'O HSpace deve ser um número inteiro.',
 		validateVSpace: 'O VSpace deve ser um número inteiro.'
@@ -429,16 +423,10 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		accessAlways: 'Sempre',
 		accessSameDomain: 'Acessar Mesmo Domínio',
 		accessNever: 'Nunca',
-		align: 'Alinhamento',
-		alignLeft: 'Esquerda',
 		alignAbsBottom: 'Inferior Absoluto',
 		alignAbsMiddle: 'Centralizado Absoluto',
 		alignBaseline: 'Baseline',
-		alignBottom: 'Inferior',
-		alignMiddle: 'Centralizado',
-		alignRight: 'Direita',
 		alignTextTop: 'Superior Absoluto',
-		alignTop: 'Superior',
 		quality: 'Qualidade',
 		qualityBest: 'Qualidade Melhor',
 		qualityHigh: 'Qualidade Alta',
@@ -452,13 +440,9 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		windowMode: 'Modo da janela',
 		flashvars: 'Variáveis do Flash',
 		bgcolor: 'Cor do Plano de Fundo',
-		width: 'Largura',
-		height: 'Altura',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Por favor, digite o endereço do link',
-		validateWidth: 'A largura tem que ser um número.',
-		validateHeight: 'A altura tem que ser um número',
 		validateHSpace: 'O HSpace tem que ser um número',
 		validateVSpace: 'O VSpace tem que ser um número.'
 	},
@@ -582,6 +566,14 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		remove: 'Remover Div'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Fonte',
 		voiceLabel: 'Fonte',
@@ -692,7 +684,8 @@ CKEDITOR.lang[ 'pt-br' ] = {
 	fakeobjects: {
 		anchor: 'Âncora',
 		flash: 'Animação em Flash',
-		div: 'Quebra de página',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Objeto desconhecido'
 	},
 

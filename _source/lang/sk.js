@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'sk' ] = {
 	superscript: 'Horný index',
 	horizontalrule: 'Vložiť vodorovnú čiaru',
 	pagebreak: 'Vložiť oddeľovač stránky',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Odstrániť odkaz',
 	undo: 'Späť',
 	redo: 'Znovu',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'sk' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Šírka',
+		height: 'Výška',
+		align: 'Zarovnanie',
+		alignLeft: 'Vľavo',
+		alignRight: 'Vpravo',
+		alignCenter: 'Na stred',
+		alignTop: 'Nahor',
+		alignMiddle: 'Na stred',
+		alignBottom: 'Dole',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		popupFullScreen: 'Celá obrazovka (IE)',
 		popupScrollBars: 'Posuvníky',
 		popupDependent: 'Závislosť (Netscape)',
-		popupWidth: 'Šírka',
 		popupLeft: 'Ľavý okraj',
-		popupHeight: 'Výška',
 		popupTop: 'Horný okraj',
 		id: 'Id', // MISSING
 		langDir: 'Orientácia jazyka',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'sk' ] = {
 		rows: 'Riadky',
 		columns: 'Stĺpce',
 		border: 'Ohraničenie',
-		align: 'Zarovnanie',
-		alignLeft: 'Vľavo',
-		alignCenter: 'Na stred',
-		alignRight: 'Vpravo',
-		width: 'Šírka',
 		widthPx: 'pixelov',
 		widthPc: 'percent',
 		widthUnit: 'width unit', // MISSING
-		height: 'Výška',
 		cellSpace: 'Vzdialenosť buniek',
 		cellPad: 'Odsadenie obsahu',
 		caption: 'Popis',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'sk' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'sk' ] = {
 		btnUpload: 'Odoslať na server',
 		upload: 'Odoslať',
 		alt: 'Alternatívny text',
-		width: 'Šírka',
-		height: 'Výška',
 		lockRatio: 'Zámok',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Pôvodná veľkosť',
 		border: 'Okraje',
 		hSpace: 'H-medzera',
 		vSpace: 'V-medzera',
-		align: 'Zarovnanie',
-		alignLeft: 'Vľavo',
-		alignRight: 'Vpravo',
 		alertUrl: 'Zadajte prosím URL obrázku',
 		linkTab: 'Odkaz',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'sk' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Zarovnanie',
-		alignLeft: 'Vľavo',
 		alignAbsBottom: 'Úplne dole',
 		alignAbsMiddle: 'Do stredu',
 		alignBaseline: 'Na základňu',
-		alignBottom: 'Dole',
-		alignMiddle: 'Na stred',
-		alignRight: 'Vpravo',
 		alignTextTop: 'Na horný okraj textu',
-		alignTop: 'Nahor',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'sk' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Farba pozadia',
-		width: 'Šírka',
-		height: 'Výška',
 		hSpace: 'H-medzera',
 		vSpace: 'V-medzera',
 		validateSrc: 'Zadajte prosím URL odkazu',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'sk' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Písmo',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'sk' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

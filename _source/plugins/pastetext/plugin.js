@@ -31,17 +31,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	function doInsertText( doc, text ) {
-		// Native text insertion.
-		if ( CKEDITOR.env.ie ) {
-			var selection = doc.selection;
-			if ( selection.type == 'Control' )
-				selection.clear();
-			selection.createRange().pasteHTML( text );
-		} else
-			doc.execCommand( 'inserthtml', false, text );
-	}
-
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'pastetext', {
 		init: function( editor ) {
@@ -69,48 +58,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		requires: [ 'clipboard' ]
 	});
 
-	function doEnter( editor, mode, times, forceMode ) {
-		while ( times-- ) {
-			CKEDITOR.plugins.enterkey[ mode == CKEDITOR.ENTER_BR ? 'enterBr' : 'enterBlock' ]
-			( editor, mode, null, forceMode );
-		}
-	}
-
-	CKEDITOR.editor.prototype.insertText = function( text ) {
-		this.focus();
-		this.fire( 'saveSnapshot' );
-
-		var mode = this.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : this.config.enterMode,
-			isEnterBrMode = mode == CKEDITOR.ENTER_BR,
-			doc = this.document.$,
-			self = this,
-			line;
-
-		text = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
-
-		var startIndex = 0;
-		text.replace( /\n+/g, function( match, lastIndex ) {
-			line = text.substring( startIndex, lastIndex );
-			startIndex = lastIndex + match.length;
-			line.length && doInsertText( doc, line );
-
-			var lineBreakNums = match.length,
-				// Duo consequence line-break as a enter block.
-				enterBlockTimes = isEnterBrMode ? 0 : Math.floor( lineBreakNums / 2 ),
-				// Per link-break as a enter br.
-				enterBrTimes = isEnterBrMode ? lineBreakNums : lineBreakNums % 2;
-
-			// Line-breaks are converted to editor enter key strokes.
-			doEnter( self, mode, enterBlockTimes );
-			doEnter( self, CKEDITOR.ENTER_BR, enterBrTimes, isEnterBrMode ? false : true );
-		});
-
-		// Insert the last text line of text.
-		line = text.substring( startIndex, text.length );
-		line.length && doInsertText( doc, line );
-
-		this.fire( 'saveSnapshot' );
-	};
 })();
 
 

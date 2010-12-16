@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'da' ] = {
 	superscript: 'Hævet skrift',
 	horizontalrule: 'Indsæt vandret streg',
 	pagebreak: 'Indsæt sideskift',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Fjern hyperlink',
 	undo: 'Fortryd',
 	redo: 'Annullér fortryd',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'da' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Bredde',
+		height: 'Højde',
+		align: 'Justering',
+		alignLeft: 'Venstre',
+		alignRight: 'Højre',
+		alignCenter: 'Centreret',
+		alignTop: 'Øverst',
+		alignMiddle: 'Centreret',
+		alignBottom: 'Nederst',
+		invalidHeight: 'Højde skal være et tal.',
+		invalidWidth: 'Bredde skal være et tal.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ikke tilgængelig</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'da' ] = {
 		popupFullScreen: 'Fuld skærm (IE)',
 		popupScrollBars: 'Scrollbar',
 		popupDependent: 'Koblet/dependent (Netscape)',
-		popupWidth: 'Bredde',
 		popupLeft: 'Position fra venstre',
-		popupHeight: 'Højde',
 		popupTop: 'Position fra toppen',
 		id: 'Id',
 		langDir: 'Tekstretning',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'da' ] = {
 		rows: 'Rækker',
 		columns: 'Kolonner',
 		border: 'Rammebredde',
-		align: 'Justering',
-		alignLeft: 'Venstrestillet',
-		alignCenter: 'Centreret',
-		alignRight: 'Højrestillet',
-		width: 'Bredde',
 		widthPx: 'pixels',
 		widthPc: 'procent',
 		widthUnit: 'width unit', // MISSING
-		height: 'Højde',
 		cellSpace: 'Celleafstand',
 		cellPad: 'Cellemargen',
 		caption: 'Titel',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'da' ] = {
 			wordWrap: 'Tekstombrydning',
 			hAlign: 'Vandret justering',
 			vAlign: 'Lodret justering',
-			alignTop: 'Top',
-			alignMiddle: 'Midt',
-			alignBottom: 'Bund',
 			alignBaseline: 'Grundlinje',
 			bgColor: 'Baggrundsfarve',
 			borderColor: 'Rammefarve',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'da' ] = {
 		btnUpload: 'Upload',
 		upload: 'Upload',
 		alt: 'Alternativ tekst',
-		width: 'Bredde',
-		height: 'Højde',
 		lockRatio: 'Lås størrelsesforhold',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Nulstil størrelse',
 		border: 'Ramme',
 		hSpace: 'Vandret margen',
 		vSpace: 'Lodret margen',
-		align: 'Justering',
-		alignLeft: 'Venstre',
-		alignRight: 'Højre',
 		alertUrl: 'Indtast stien til billedet',
 		linkTab: 'Hyperlink',
 		button2Img: 'Vil du lave billedknappen om til et almindeligt billede?',
 		img2Button: 'Vil du lave billedet om til en billedknap?',
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'da' ] = {
 		accessAlways: 'Altid',
 		accessSameDomain: 'Samme domæne',
 		accessNever: 'Aldrig',
-		align: 'Justering',
-		alignLeft: 'Venstre',
 		alignAbsBottom: 'Absolut nederst',
 		alignAbsMiddle: 'Absolut centreret',
 		alignBaseline: 'Grundlinje',
-		alignBottom: 'Nederst',
-		alignMiddle: 'Centreret',
-		alignRight: 'Højre',
 		alignTextTop: 'Toppen af teksten',
-		alignTop: 'Øverst',
 		quality: 'Kvalitet',
 		qualityBest: 'Bedste',
 		qualityHigh: 'Høj',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'da' ] = {
 		windowMode: 'Vinduestilstand',
 		flashvars: 'Variabler for Flash',
 		bgcolor: 'Baggrundsfarve',
-		width: 'Bredde',
-		height: 'Højde',
 		hSpace: 'Vandret margen',
 		vSpace: 'Lodret margen',
 		validateSrc: 'Indtast hyperlink URL!',
-		validateWidth: 'Bredde skal være et tal.',
-		validateHeight: 'Højde skal være et tal.',
 		validateHSpace: 'Vandret margen skal være et tal.',
 		validateVSpace: 'Lodret margen skal være et tal.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'da' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Skrifttype',
 		voiceLabel: 'Skrifttype',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'da' ] = {
 	fakeobjects: {
 		anchor: 'Anker',
 		flash: 'Flashanimation',
-		div: 'Sideskift',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Ukendt objekt'
 	},
 

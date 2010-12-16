@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'lt' ] = {
 	superscript: 'Viršutinis indeksas',
 	horizontalrule: 'Įterpti horizontalią liniją',
 	pagebreak: 'Įterpti puslapių skirtuką',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Panaikinti nuorodą',
 	undo: 'Atšaukti',
 	redo: 'Atstatyti',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'lt' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Plotis',
+		height: 'Aukštis',
+		align: 'Lygiuoti',
+		alignLeft: 'Kairę',
+		alignRight: 'Dešinę',
+		alignCenter: 'Centrą',
+		alignTop: 'Viršūnę',
+		alignMiddle: 'Vidurį',
+		alignBottom: 'Apačią',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		popupFullScreen: 'Visas ekranas (IE)',
 		popupScrollBars: 'Slinkties juostos',
 		popupDependent: 'Priklausomas (Netscape)',
-		popupWidth: 'Plotis',
 		popupLeft: 'Kairė pozicija',
-		popupHeight: 'Aukštis',
 		popupTop: 'Viršutinė pozicija',
 		id: 'Id', // MISSING
 		langDir: 'Teksto kryptis',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'lt' ] = {
 		rows: 'Eilutės',
 		columns: 'Stulpeliai',
 		border: 'Rėmelio dydis',
-		align: 'Lygiuoti',
-		alignLeft: 'Kairę',
-		alignCenter: 'Centrą',
-		alignRight: 'Dešinę',
-		width: 'Plotis',
 		widthPx: 'taškais',
 		widthPc: 'procentais',
 		widthUnit: 'width unit', // MISSING
-		height: 'Aukštis',
 		cellSpace: 'Tarpas tarp langelių',
 		cellPad: 'Trapas nuo langelio rėmo iki teksto',
 		caption: 'Antraštė',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'lt' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'lt' ] = {
 		btnUpload: 'Siųsti į serverį',
 		upload: 'Nusiųsti',
 		alt: 'Alternatyvus Tekstas',
-		width: 'Plotis',
-		height: 'Aukštis',
 		lockRatio: 'Išlaikyti proporciją',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Atstatyti dydį',
 		border: 'Rėmelis',
 		hSpace: 'Hor.Erdvė',
 		vSpace: 'Vert.Erdvė',
-		align: 'Lygiuoti',
-		alignLeft: 'Kairę',
-		alignRight: 'Dešinę',
 		alertUrl: 'Prašome įvesti vaizdo URL',
 		linkTab: 'Nuoroda',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'lt' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Lygiuoti',
-		alignLeft: 'Kairę',
 		alignAbsBottom: 'Absoliučią apačią',
 		alignAbsMiddle: 'Absoliutų vidurį',
 		alignBaseline: 'Apatinę liniją',
-		alignBottom: 'Apačią',
-		alignMiddle: 'Vidurį',
-		alignRight: 'Dešinę',
 		alignTextTop: 'Teksto viršūnę',
-		alignTop: 'Viršūnę',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'lt' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Fono spalva',
-		width: 'Plotis',
-		height: 'Aukštis',
 		hSpace: 'Hor.Erdvė',
 		vSpace: 'Vert.Erdvė',
 		validateSrc: 'Prašome įvesti nuorodos URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'lt' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Šriftas',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'lt' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

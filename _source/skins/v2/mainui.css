@@ -102,6 +102,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: se-resize;
 }
 
+/* Adobe AIR doesn't support *-resize cursor shape. */
+.cke_skin_v2 .cke_browser_air .cke_resizer,
+.cke_skin_v2 .cke_browser_air .cke_rtl .cke_resizer
+{
+	cursor: move;
+}
+
 .cke_skin_v2 .cke_rtl .cke_resizer
 {
 	cursor: sw-resize;

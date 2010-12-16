@@ -274,16 +274,27 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 	/**
 	 * Moves the selection focus to this element.
+	 * @param  {Boolean} defer Whether to asynchronously defer the
+	 * 		execution by 100 ms.
 	 * @example
 	 * var element = CKEDITOR.document.getById( 'myTextarea' );
 	 * <b>element.focus()</b>;
 	 */
-	focus: function() {
-		// IE throws error if the element is not visible.
-		try {
-			this.$.focus();
-		} catch ( e ) {}
-	},
+	focus: (function() {
+		function exec() {
+			// IE throws error if the element is not visible.
+			try {
+				this.$.focus();
+			} catch ( e ) {}
+		}
+
+		return function( defer ) {
+			if ( defer )
+				CKEDITOR.tools.setTimeout( exec, 100, this );
+			else
+				exec.call( this );
+		};
+	})(),
 
 	/**
 	 * Gets the inner HTML of this element.
@@ -640,7 +651,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		for ( var i = 0; i < thisLength; i++ ) {
 			var attribute = thisAttribs[ i ];
 
-			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != '_cke_expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
+			if ( attribute.nodeName == '_moz_dirty' )
+				continue;
+
+			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
 				return false;
 		}
 
@@ -649,7 +663,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		if ( CKEDITOR.env.ie ) {
 			for ( i = 0; i < otherLength; i++ ) {
 				attribute = otherAttribs[ i ];
-				if ( attribute.specified && attribute.nodeName != '_cke_expando' && attribute.nodeValue != this.getAttribute( attribute.nodeName ) )
+				if ( attribute.specified && attribute.nodeName != 'data-cke-expando' && attribute.nodeValue != this.getAttribute( attribute.nodeName ) )
 					return false;
 			}
 		}
@@ -691,7 +705,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		for ( var i = 0, count = children.count(); i < count; i++ ) {
 			var child = children.getItem( i );
 
-			if ( child.type == CKEDITOR.NODE_ELEMENT && child.getAttribute( '_cke_bookmark' ) )
+			if ( child.type == CKEDITOR.NODE_ELEMENT && child.data( 'cke-bookmark' ) )
 				continue;
 
 			if ( child.type == CKEDITOR.NODE_ELEMENT && !child.isEmptyInlineRemoveable() || child.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( child.getText() ) ) {
@@ -730,7 +744,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 						return true;
 
 					// Attributes to be ignored.
-				case '_cke_expando':
+				case 'data-cke-expando':
 					continue;
 
 					/*jsl:fallthru*/
@@ -747,7 +761,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			attrsNum = attrs.length;
 
 		// The _moz_dirty attribute might get into the element after pasting (#5455)
-		var execludeAttrs = { _cke_expando:1,_moz_dirty:1 };
+		var execludeAttrs = { 'data-cke-expando':1,_moz_dirty:1 };
 
 		return attrsNum > 0 && ( attrsNum > 2 || !execludeAttrs[ attrs[ 0 ].nodeName ] || ( attrsNum == 2 && !execludeAttrs[ attrs[ 1 ].nodeName ] ) );
 	},
@@ -798,7 +812,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				// queuing them to be moved later. (#5567)
 				var pendingNodes = [];
 
-				while ( sibling.getAttribute( '_cke_bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
+				while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 					pendingNodes.push( sibling );
 					sibling = isNext ? sibling.getNext() : sibling.getPrevious();
 					if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT )
@@ -1302,7 +1316,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 		// Replace the node.
 		this.getParent() && this.$.parentNode.replaceChild( newNode.$, this.$ );
-		newNode.$._cke_expando = this.$._cke_expando;
+		newNode.$[ 'data-cke-expando' ] = this.$[ 'data-cke-expando' ];
 		this.$ = newNode.$;
 	},
 
@@ -1339,35 +1353,70 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 *  Update the element's size with box model awareness.
+	 * Gets element's direction. Supports both CSS 'direction' prop and 'dir' attr.
+	 */
+	getDirection: function( useComputed ) {
+		return useComputed ? this.getComputedStyle( 'direction' ) : this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
+	},
+
+	/**
+	 * Gets, sets and removes custom data to be stored as HTML5 data-* attributes.
+	 * @name CKEDITOR.dom.element.data
+	 * @param {String} name The name of the attribute, execluding the 'data-' part.
+	 * @param {String} [value] The value to set. If set to false, the attribute will be removed.
+	 */
+	data: function( name, value ) {
+		name = 'data-' + name;
+		if ( value === undefined )
+			return this.getAttribute( name );
+		else if ( value === false )
+			this.removeAttribute( name );
+		else
+			this.setAttribute( name, value );
+	}
+});
+
+(function() {
+	var sides = {
+		width: [ "border-left-width", "border-right-width", "padding-left", "padding-right" ],
+		height: [ "border-top-width", "border-bottom-width", "padding-top", "padding-bottom" ]
+	};
+
+	function marginAndPaddingSize( type ) {
+		var adjustment = 0;
+		for ( var i = 0, len = sides[ type ].length; i < len; i++ )
+			adjustment += parseInt( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
+		return adjustment;
+	}
+
+	/**
+	 * Update the element's size with box model awareness.
 	 * @name CKEDITOR.dom.element.setSize
 	 * @param {String} type [width|height]
 	 * @param {Number} size The length unit in px.
 	 * @param isBorderBox Apply the {@param width} and {@param height} based on border box model.
 	 */
-	setSize: (function() {
-		var sides = {
-			width: [ "border-left-width", "border-right-width", "padding-left", "padding-right" ],
-			height: [ "border-top-width", "border-bottom-width", "padding-top", "padding-bottom" ]
-		};
+	CKEDITOR.dom.element.prototype.setSize = function( type, size, isBorderBox ) {
+		if ( typeof size == 'number' ) {
+			if ( isBorderBox && !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) )
+				size -= marginAndPaddingSize.call( this, type );
 
-		return function( type, size, isBorderBox ) {
-			if ( typeof size == 'number' ) {
-				if ( isBorderBox && !( CKEDITOR.env.ie && CKEDITOR.env.quirks ) ) {
-					var adjustment = 0;
-					for ( var i = 0, len = sides[ type ].length; i < len; i++ )
-						adjustment += parseInt( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
-					size -= adjustment;
-				}
-				this.setStyle( type, size + 'px' );
-			}
-		};
-	})(),
+			this.setStyle( type, size + 'px' );
+		}
+	};
 
 	/**
-	 * Gets element's direction. Supports both CSS 'direction' prop and 'dir' attr.
+	 * Get the element's size, possibly with box model awareness.
+	 * @name CKEDITOR.dom.element.getSize
+	 * @param {String} type [width|height]
+	 * @param {Boolean} contentSize Get the {@param width} or {@param height} based on border box model.
 	 */
-	getDirection: function( useComputed ) {
-		return useComputed ? this.getComputedStyle( 'direction' ) : this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
-	}
-});
+	CKEDITOR.dom.element.prototype.getSize = function( type, contentSize ) {
+		var size = Math.max( this.$[ 'offset' + CKEDITOR.tools.capitalize( type ) ], this.$[ 'client' + CKEDITOR.tools.capitalize( type ) ] ) || 0;
+
+		if ( contentSize )
+			size -= marginAndPaddingSize.call( this, type );
+
+		return size;
+	};
+})();

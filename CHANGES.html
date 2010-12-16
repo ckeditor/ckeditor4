@@ -35,12 +35,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEditor Changelog
 	</h1>
 	<h3>
-			CKEditor 3.4.3 (SVN)</h3>
+			CKEditor 3.5</h3>
 	<p>
 			New features:</p>
 	<ul>
-		<li></li>
+		<li><a href="http://dev.ckeditor.com/ticket/4090">#4090</a> : Full Adobe AIR support.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5084">#5084</a> : Dialog windows are now resizable with a grip located in the footer.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5755">#5755</a> : Introduced the <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.dialog_buttonsOrder">dialog_buttonsOrder</a> setting, making it possible to control the buttons order.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/4648">#4648</a> : Added the new iFrame plugin.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6010">#6010</a> : The Automatic option of the font/background color panel now represents the real color.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5654">#5654</a> : New "placeholder" plugin.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6334">#6334</a> : CKEditor now uses <a href="http://www.w3.org/TR/2010/WD-html5-20101019/elements.html#embedding-custom-non-visible-data-with-the-data-attributes">HTML5's data-* attributes</a> for its internal attributes.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6103">#6103</a> : It's now possible to control the styling of inline read-only elements with the <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.disableReadonlyStyling">disableReadonlyStyling</a> setting. It's also possible to avoid inline-styling any element by setting its "data-cke-nostyle" attribute to "1".</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5404">#5404</a> : <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.fillEmptyBlocks">fillEmptyBlocks</a> configuration option of v2 is now available.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5367">#5367</a> : New <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertText">CKEDITOR.editor#insertText</a> method (check api.html sample page for usages) is now provided to insert plain text into editor.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5367">#5915</a> : New <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.removeDialogTabs">removeDialogTabs</a> configuration option to hide certain dialog tabs.</li>
 	</ul>
+	<p>
+			Fixed issues:</p>
+	<ul>
+		<li><a href="http://dev.ckeditor.com/ticket/4821">#4821</a> : Icons in the toolbar were distorted with IE and zoom != 100%.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5587">#5587</a> : Visual improvements in dialogs, reinforce field label on separate line.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/4652">#4652</a> : Now it's able to disable editor context menu by simply removing the "contextmenu" plugin.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5599">#5599</a> : Labels of "specialchar" dialog are now translated.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6419">#6419</a> : [IE] List creation by merging problem.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6502">#6502</a> : Removed IE6 image preloading, which was used to defect the duplicate request of background images.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6822">#6822</a> : Added labels to fake objects.</li>
+		<li>Updated the following language files:<ul>
+			<li>Hebrew</li>
+		</ul></li>
+	</ul>
+	<h3>
+			CKEditor 3.4.3</h3>
 	<p>
 			Fixed issues:</p>
 	<ul>

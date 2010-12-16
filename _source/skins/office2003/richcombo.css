@@ -144,13 +144,23 @@
 
 	background-position: 5px -1002px;
 	background-image: url(images/sprites.png);
-	background-image: url(images/sprites_ie6.png);
+	_background-image: url(images/sprites_ie6.png);
 	background-repeat: no-repeat;
 
 	border-top: 1px solid #8f8f73;
 	border-bottom: 1px solid #8f8f73;
 	width: 14px;
 	height: 22px;
+}
+
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_skin_office2003 .cke_browser_ie .cke_rcombo .cke_openbutton
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_skin_office2003 .cke_browser_ie6 .cke_rcombo .cke_openbutton
+{
+	filter: ;
 }
 
 .cke_skin_office2003 .cke_rcombo .cke_openbutton span
@@ -244,12 +254,23 @@
 	opacity: 0.5; /* Safari, Opera and Mozilla */
 }
 
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_skin_office2003 .cke_browser_ie .cke_rcombo .cke_disabled .cke_openbutton
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale'), alpha(opacity=50);
+}
+.cke_skin_office2003 .cke_browser_ie6 .cke_rcombo .cke_disabled .cke_openbutton
+{
+	filter: alpha(opacity=50);
+}
+
 .cke_skin_office2003 .cke_hc .cke_rcombo .cke_disabled .cke_text,
 .cke_skin_office2003 .cke_hc .cke_rcombo .cke_disabled .cke_openbutton
 {
 	filter: alpha(opacity=80);
 	opacity: 0.8;
 }
+
 
 .cke_skin_office2003 .cke_rcombo .cke_disabled .cke_text
 {

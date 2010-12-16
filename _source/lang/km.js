@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'km' ] = {
 	superscript: 'អក្សរតូចលើ',
 	horizontalrule: 'បន្ថែមបន្ទាត់ផ្តេក',
 	pagebreak: 'បន្ថែម ការផ្តាច់ទំព័រ',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'លប់ឈ្នាប់',
 	undo: 'សារឡើងវិញ',
 	redo: 'ធ្វើឡើងវិញ',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'km' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'ទទឹង',
+		height: 'កំពស់',
+		align: 'កំណត់ទីតាំង',
+		alignLeft: 'ខាងឆ្វង',
+		alignRight: 'ខាងស្តាំ',
+		alignCenter: 'កណ្តាល',
+		alignTop: 'ខាងលើ',
+		alignMiddle: 'កណ្តាល',
+		alignBottom: 'ខាងក្រោម',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'km' ] = {
 		popupFullScreen: 'អេក្រុងពេញ(IE)',
 		popupScrollBars: 'របា ទាញ',
 		popupDependent: 'អាស្រ័យលើ (Netscape)',
-		popupWidth: 'ទទឹង',
 		popupLeft: 'ទីតាំងខាងឆ្វេង',
-		popupHeight: 'កំពស់',
 		popupTop: 'ទីតាំងខាងលើ',
 		id: 'Id', // MISSING
 		langDir: 'ទិសដៅភាសា',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'km' ] = {
 		rows: 'ជួរផ្តេក',
 		columns: 'ជួរឈរ',
 		border: 'ទំហំស៊ុម',
-		align: 'ការកំណត់ទីតាំង',
-		alignLeft: 'ខាងឆ្វេង',
-		alignCenter: 'កណ្តាល',
-		alignRight: 'ខាងស្តាំ',
-		width: 'ទទឹង',
 		widthPx: 'ភីកសែល',
 		widthPc: 'ភាគរយ',
 		widthUnit: 'width unit', // MISSING
-		height: 'កំពស់',
 		cellSpace: 'គំលាតសែល',
 		cellPad: 'គែមសែល',
 		caption: 'ចំណងជើង',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'km' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'km' ] = {
 		btnUpload: 'បញ្ជូនទៅកាន់ម៉ាស៊ីនផ្តល់សេវា',
 		upload: 'ទាញយក',
 		alt: 'អត្ថបទជំនួស',
-		width: 'ទទឹង',
-		height: 'កំពស់',
 		lockRatio: 'អត្រាឡុក',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'កំណត់ទំហំឡើងវិញ',
 		border: 'ស៊ុម',
 		hSpace: 'គំលាតទទឹង',
 		vSpace: 'គំលាតបណ្តោយ',
-		align: 'កំណត់ទីតាំង',
-		alignLeft: 'ខាងឆ្វង',
-		alignRight: 'ខាងស្តាំ',
 		alertUrl: 'សូមសរសេរងាស័យដ្ឋានរបស់រូបភាព',
 		linkTab: 'ឈ្នាប់',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'km' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'កំណត់ទីតាំង',
-		alignLeft: 'ខាងឆ្វង',
 		alignAbsBottom: 'Abs Bottom', // MISSING
 		alignAbsMiddle: 'Abs Middle', // MISSING
 		alignBaseline: 'បន្ទាត់ជាមូលដ្ឋាន',
-		alignBottom: 'ខាងក្រោម',
-		alignMiddle: 'កណ្តាល',
-		alignRight: 'ខាងស្តាំ',
 		alignTextTop: 'លើអត្ថបទ',
-		alignTop: 'ខាងលើ',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'km' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'ពណ៌ផ្ទៃខាងក្រោយ',
-		width: 'ទទឹង',
-		height: 'កំពស់',
 		hSpace: 'គំលាតទទឹង',
 		vSpace: 'គំលាតបណ្តោយ',
 		validateSrc: 'សូមសរសេរ អាស័យដ្ឋាន URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'km' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'ហ្វុង',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'km' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

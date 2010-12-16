@@ -4,16 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.skins.add( 'v2', ( function() {
-	var preload = [];
-
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
-		// For IE6, we need to preload some images, otherwhise they will be
-		// downloaded several times (CSS background bug).
-		preload.push( 'icons.png', 'images/sprites_ie6.png', 'images/dialog_sides.gif' );
-	}
-
 	return {
-		preload: preload,
 		editor: { css: [ 'editor.css' ] },
 		dialog: { css: [ 'dialog.css' ] },
 		templates: { css: [ 'templates.css' ] },

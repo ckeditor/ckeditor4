@@ -197,7 +197,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !forceMode && isEndOfBlock && headerTagRegex.test( startBlockTag ) ) {
 				var newBlock, newBlockDir;
 
-				if ( newBlockDir = startBlock.getDirection() ) {
+				if ( ( newBlockDir = startBlock.getDirection() ) ) {
 					newBlock = doc.createElement( 'div' );
 					newBlock.setAttribute( 'dir', newBlockDir );
 					newBlock.insertAfter( startBlock );

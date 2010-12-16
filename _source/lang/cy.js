@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	superscript: 'Uwchsgript',
 	horizontalrule: 'Mewnosod Llinell Lorweddol',
 	pagebreak: 'Mewnosod Toriad Tudalen i Argraffu',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Datgysylltu',
 	undo: 'Dadwneud',
 	redo: 'Ailadrodd',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'cy' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Lled',
+		height: 'Uchder',
+		align: 'Alinio',
+		alignLeft: 'Chwith',
+		alignRight: 'Dde',
+		alignCenter: 'Canol',
+		alignTop: 'Top', // MISSING
+		alignMiddle: 'Canol',
+		alignBottom: 'Gwaelod',
+		invalidHeight: 'Rhaid i\'r Uchder fod yn rhif.',
+		invalidWidth: 'Rhaid i\'r Lled fod yn rhif.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		popupFullScreen: 'Sgrin Llawn (IE)',
 		popupScrollBars: 'Barrau Sgrolio',
 		popupDependent: 'Dibynnol (Netscape)',
-		popupWidth: 'Lled',
 		popupLeft: 'Safle Chwith',
-		popupHeight: 'Uchder',
 		popupTop: 'Safle Top',
 		id: 'Id',
 		langDir: 'Cyfeiriad Iaith',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'cy' ] = {
 		rows: 'Rhesi',
 		columns: 'Colofnau',
 		border: 'Maint yr Ymyl',
-		align: 'Aliniad',
-		alignLeft: 'Chwith',
-		alignCenter: 'Canol',
-		alignRight: 'Dde',
-		width: 'Lled',
 		widthPx: 'picsel',
 		widthPc: 'y cant',
 		widthUnit: 'width unit', // MISSING
-		height: 'Uchder',
 		cellSpace: 'Bylchu\'r gell',
 		cellPad: 'Padio\'r gell',
 		caption: 'Pennawd',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'cy' ] = {
 			wordWrap: 'Lapio Geiriau',
 			hAlign: 'Aliniad Llorweddol',
 			vAlign: 'Aliniad Fertigol',
-			alignTop: 'Top',
-			alignMiddle: 'Canol',
-			alignBottom: 'Gwaelod',
 			alignBaseline: 'Baslinell',
 			bgColor: 'Lliw Cefndir',
 			borderColor: 'Lliw Ymyl',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'cy' ] = {
 		btnUpload: 'Anfon i\'r Gweinydd',
 		upload: 'lanlwytho',
 		alt: 'Testun Amgen',
-		width: 'Lled',
-		height: 'Uchder',
 		lockRatio: 'Cloi Cymhareb',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Ailosod Maint',
 		border: 'Ymyl',
 		hSpace: 'BwlchLl',
 		vSpace: 'BwlchF',
-		align: 'Alinio',
-		alignLeft: 'Chwith',
-		alignRight: 'Dde',
 		alertUrl: 'Rhowch URL y ddelwedd',
 		linkTab: 'Dolen',
 		button2Img: 'Ydych am drawsffurfio\'r botwm ddelwedd hwn ar ddelwedd syml?',
 		img2Button: 'Ydych am drawsffurfio\'r ddelwedd hon ar fotwm delwedd?',
 		urlMissing: 'URL tarddle\'r ddelwedd ar goll.',
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'cy' ] = {
 		accessAlways: 'Pob amser',
 		accessSameDomain: 'R\'un parth',
 		accessNever: 'Byth',
-		align: 'Alinio',
-		alignLeft: 'Chwith',
 		alignAbsBottom: 'Gwaelod Abs',
 		alignAbsMiddle: 'Canol Abs',
 		alignBaseline: 'Baslinell',
-		alignBottom: 'Gwaelod',
-		alignMiddle: 'Canol',
-		alignRight: 'Dde',
 		alignTextTop: 'Testun Top',
-		alignTop: 'Top',
 		quality: 'Ansawdd',
 		qualityBest: 'Gorau',
 		qualityHigh: 'Uchel',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'cy' ] = {
 		windowMode: 'Modd ffenestr',
 		flashvars: 'Newidynnau ar gyfer Flash',
 		bgcolor: 'Lliw cefndir',
-		width: 'Lled',
-		height: 'Uchder',
 		hSpace: 'BwlchLl',
 		vSpace: 'BwlchF',
 		validateSrc: 'Ni all yr URL fod yn wag.',
-		validateWidth: 'Rhaid i\'r Lled fod yn rhif.',
-		validateHeight: 'Rhaid i\'r Uchder fod yn rhif.',
 		validateHSpace: 'Rhaid i\'r BwlchLl fod yn rhif.',
 		validateVSpace: 'Rhaid i\'r BwlchF fod yn rhif.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'cy' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Ffont',
 		voiceLabel: 'Ffont',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'cy' ] = {
 	fakeobjects: {
 		anchor: 'Angor',
 		flash: 'Animeiddiant Flash',
-		div: 'Toriad Tudalen',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Gwrthrych Anhysbys'
 	},
 

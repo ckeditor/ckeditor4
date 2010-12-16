@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	superscript: 'Exposant',
 	horizontalrule: 'Insérer un séparateur',
 	pagebreak: 'Insérer un saut de page',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Supprimer le lien',
 	undo: 'Annuler',
 	redo: 'Refaire',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Largeur',
+		height: 'Hauteur',
+		align: 'Alignement',
+		alignLeft: 'Gauche',
+		alignRight: 'Droite',
+		alignCenter: 'Centré',
+		alignTop: 'Haut',
+		alignMiddle: 'Milieu',
+		alignBottom: 'Bas',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		popupFullScreen: 'Plein écran (IE)',
 		popupScrollBars: 'Barres de défilement',
 		popupDependent: 'Dépendante (Netscape)',
-		popupWidth: 'Largeur',
 		popupLeft: 'Position à partir de la gauche',
-		popupHeight: 'Hauteur',
 		popupTop: 'Position à partir du haut',
 		id: 'Id', // MISSING
 		langDir: 'Sens d\'écriture',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		rows: 'Lignes',
 		columns: 'Colonnes',
 		border: 'Taille de la bordure',
-		align: 'Alignement',
-		alignLeft: 'Gauche',
-		alignCenter: 'Centré',
-		alignRight: 'Droite',
-		width: 'Largeur',
 		widthPx: 'pixels',
 		widthPc: 'pourcentage',
 		widthUnit: 'width unit', // MISSING
-		height: 'Hauteur',
 		cellSpace: 'Espacement',
 		cellPad: 'Contour',
 		caption: 'Titre',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		btnUpload: 'Envoyer sur le serveur',
 		upload: 'Télécharger',
 		alt: 'Texte de remplacement',
-		width: 'Largeur',
-		height: 'Hauteur',
 		lockRatio: 'Garder les proportions',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Taille originale',
 		border: 'Bordure',
 		hSpace: 'Espacement horizontal',
 		vSpace: 'Espacement vertical',
-		align: 'Alignement',
-		alignLeft: 'Gauche',
-		alignRight: 'Droite',
 		alertUrl: 'Veuillez saisir l\'URL de l\'image',
 		linkTab: 'Lien',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Alignement',
-		alignLeft: 'Gauche',
 		alignAbsBottom: 'Abs Bas',
 		alignAbsMiddle: 'Abs Milieu',
 		alignBaseline: 'Bas du texte',
-		alignBottom: 'Bas',
-		alignMiddle: 'Milieu',
-		alignRight: 'Droite',
 		alignTextTop: 'Haut du texte',
-		alignTop: 'Haut',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Couleur de fond',
-		width: 'Largeur',
-		height: 'Hauteur',
 		hSpace: 'Espacement horizontal',
 		vSpace: 'Espacement vertical',
 		validateSrc: 'Veuillez saisir l\'URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Police',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

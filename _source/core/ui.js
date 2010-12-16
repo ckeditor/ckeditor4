@@ -84,6 +84,8 @@ CKEDITOR.ui.prototype = {
 	}
 };
 
+CKEDITOR.event.implementOn( CKEDITOR.ui );
+
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part
  *		of the API. It just illustrates the features of hanlder objects to be

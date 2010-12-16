@@ -41,7 +41,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function( editor, type ) {
 		try {
 			// Other browsers throw an error if the command is disabled.
-			return editor.document.$.execCommand( type );
+			return editor.document.$.execCommand( type, false, null );
 		} catch ( e ) {
 			return false;
 		}

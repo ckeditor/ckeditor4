@@ -75,15 +75,15 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					'default': '',
 					accessKey: 'N',
 					setup: function( element ) {
-						this.setValue( element.getAttribute( '_cke_saved_name' ) || element.getAttribute( 'name' ) || '' );
+						this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
 					},
 					commit: function( data ) {
 						var element = data.element;
 
 						if ( this.getValue() )
-							element.setAttribute( '_cke_saved_name', this.getValue() );
+							element.data( 'cke-saved-name', this.getValue() );
 						else {
-							element.removeAttribute( '_cke_saved_name' );
+							element.data( 'cke-saved-name', false );
 							element.removeAttribute( 'name' );
 						}
 					}

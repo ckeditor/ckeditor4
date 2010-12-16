@@ -1301,7 +1301,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 		},
 
 		getValue: function() {
-			return this.getInputElement().$.value;
+			return this.getInputElement().$.value || '';
 		},
 
 		/***

@@ -161,9 +161,12 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 // Expand the spell-check frame when dialog resized. (#6829)
 CKEDITOR.dialog.on( 'resize', function( evt ) {
 	var data = evt.data,
-		dialog = data.dialog,
-		height = data.height;
-	var content = dialog.getContentElement( 'general', 'content' ).getElement(),
-		iframe = content && content.getChild( 2 );
-	iframe && iframe.setStyle( 'height', height + 'px' );
+		dialog = data.dialog;
+
+	if ( dialog._.name == 'checkspell' ) {
+		var content = dialog.getContentElement( 'general', 'content' ).getElement(),
+			iframe = content && content.getChild( 2 );
+
+		iframe && iframe.setStyle( 'height', data.height + 'px' );
+	}
 });

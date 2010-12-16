@@ -48,10 +48,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-image: url(icons_rtl.png);
 }
 
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_browser_ie .cke_skin_v2 .cke_menuitem .cke_icon
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_browser_ie.cke_rtl .cke_skin_v2 .cke_menuitem .cke_icon
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_browser_ie6 .cke_skin_v2 .cke_menuitem .cke_icon
+{
+	filter: ;
+}
+
 .cke_skin_v2 .cke_menuitem .cke_disabled .cke_icon
 {
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
+}
+
+
+/* IE with zoom != 100% will distort the icons otherwise #4821 */
+.cke_browser_ie .cke_skin_v2 .cke_menuitem .cke_disabled .cke_icon
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_browser_ie.cke_rtl .cke_skin_v2 .cke_menuitem .cke_disabled .cke_icon
+{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+}
+.cke_browser_ie6 .cke_skin_v2 .cke_menuitem .cke_disabled .cke_icon
+{
+	filter: ;
 }
 
 .cke_skin_v2 .cke_menuitem .cke_icon_wrapper

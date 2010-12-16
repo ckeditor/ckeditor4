@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'gl' ] = {
 	superscript: 'Superíndice',
 	horizontalrule: 'Inserir Liña Horizontal',
 	pagebreak: 'Inserir Salto de Páxina',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Eliminar Ligazón',
 	undo: 'Desfacer',
 	redo: 'Refacer',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'gl' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Largura',
+		height: 'Altura',
+		align: 'Aliñamento',
+		alignLeft: 'Esquerda',
+		alignRight: 'Dereita',
+		alignCenter: 'Centro',
+		alignTop: 'Tope',
+		alignMiddle: 'Centro',
+		alignBottom: 'Pé',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'gl' ] = {
 		popupFullScreen: 'A Toda Pantalla (IE)',
 		popupScrollBars: 'Barras de Desplazamento',
 		popupDependent: 'Dependente (Netscape)',
-		popupWidth: 'Largura',
 		popupLeft: 'Posición Esquerda',
-		popupHeight: 'Altura',
 		popupTop: 'Posición dende Arriba',
 		id: 'Id', // MISSING
 		langDir: 'Orientación do Idioma',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'gl' ] = {
 		rows: 'Filas',
 		columns: 'Columnas',
 		border: 'Tamaño do Borde',
-		align: 'Aliñamento',
-		alignLeft: 'Esquerda',
-		alignCenter: 'Centro',
-		alignRight: 'Ereita',
-		width: 'Largura',
 		widthPx: 'pixels',
 		widthPc: 'percent',
 		widthUnit: 'width unit', // MISSING
-		height: 'Altura',
 		cellSpace: 'Marxe entre Celas',
 		cellPad: 'Marxe interior',
 		caption: 'Título',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'gl' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'gl' ] = {
 		btnUpload: 'Enviar ó Servidor',
 		upload: 'Carregar',
 		alt: 'Texto Alternativo',
-		width: 'Largura',
-		height: 'Altura',
 		lockRatio: 'Proporcional',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Tamaño Orixinal',
 		border: 'Límite',
 		hSpace: 'Esp. Horiz.',
 		vSpace: 'Esp. Vert.',
-		align: 'Aliñamento',
-		alignLeft: 'Esquerda',
-		alignRight: 'Dereita',
 		alertUrl: 'Por favor, escriba a URL da imaxe',
 		linkTab: 'Ligazón',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'gl' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'Aliñamento',
-		alignLeft: 'Esquerda',
 		alignAbsBottom: 'Abs Inferior',
 		alignAbsMiddle: 'Abs Centro',
 		alignBaseline: 'Liña Base',
-		alignBottom: 'Pé',
-		alignMiddle: 'Centro',
-		alignRight: 'Dereita',
 		alignTextTop: 'Tope do Texto',
-		alignTop: 'Tope',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'gl' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'Cor do Fondo',
-		width: 'Largura',
-		height: 'Altura',
 		hSpace: 'Esp. Horiz.',
 		vSpace: 'Esp. Vert.',
 		validateSrc: 'Por favor, escriba a ligazón URL',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'gl' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Tipo',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'gl' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

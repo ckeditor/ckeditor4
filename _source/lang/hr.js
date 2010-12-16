@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'hr' ] = {
 	superscript: 'Superscript',
 	horizontalrule: 'Ubaci vodoravnu liniju',
 	pagebreak: 'Ubaci prijelom stranice',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Ukloni link',
 	undo: 'Poništi',
 	redo: 'Ponovi',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'hr' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Širina',
+		height: 'Visina',
+		align: 'Poravnaj',
+		alignLeft: 'Lijevo',
+		alignRight: 'Desno',
+		alignCenter: 'Središnje',
+		alignTop: 'Vrh',
+		alignMiddle: 'Sredina',
+		alignBottom: 'Dolje',
+		invalidHeight: 'Visina mora biti broj.',
+		invalidWidth: 'Širina mora biti broj.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		popupFullScreen: 'Cijeli ekran (IE)',
 		popupScrollBars: 'Scroll traka',
 		popupDependent: 'Ovisno (Netscape)',
-		popupWidth: 'Širina',
 		popupLeft: 'Lijeva pozicija',
-		popupHeight: 'Visina',
 		popupTop: 'Gornja pozicija',
 		id: 'Id',
 		langDir: 'Smjer jezika',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'hr' ] = {
 		rows: 'Redova',
 		columns: 'Kolona',
 		border: 'Veličina okvira',
-		align: 'Poravnanje',
-		alignLeft: 'Lijevo',
-		alignCenter: 'Središnje',
-		alignRight: 'Desno',
-		width: 'Širina',
 		widthPx: 'piksela',
 		widthPc: 'postotaka',
 		widthUnit: 'width unit', // MISSING
-		height: 'Visina',
 		cellSpace: 'Prostornost ćelija',
 		cellPad: 'Razmak ćelija',
 		caption: 'Naslov',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'hr' ] = {
 			wordWrap: 'Prelazak u novi red',
 			hAlign: 'Vodoravno poravnanje',
 			vAlign: 'Okomito poravnanje',
-			alignTop: 'Vrh',
-			alignMiddle: 'Sredina',
-			alignBottom: 'Dolje',
 			alignBaseline: 'Osnovna linija',
 			bgColor: 'Boja pozadine',
 			borderColor: 'Boja ruba',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'hr' ] = {
 		btnUpload: 'Pošalji na server',
 		upload: 'Pošalji',
 		alt: 'Alternativni tekst',
-		width: 'Širina',
-		height: 'Visina',
 		lockRatio: 'Zaključaj odnos',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Obriši veličinu',
 		border: 'Okvir',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
-		align: 'Poravnaj',
-		alignLeft: 'Lijevo',
-		alignRight: 'Desno',
 		alertUrl: 'Unesite URL slike',
 		linkTab: 'Link',
 		button2Img: 'Želite li promijeniti odabrani gumb u jednostavnu sliku?',
 		img2Button: 'Želite li promijeniti odabranu sliku u gumb?',
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'hr' ] = {
 		accessAlways: 'Uvijek',
 		accessSameDomain: 'Ista domena',
 		accessNever: 'Nikad',
-		align: 'Poravnaj',
-		alignLeft: 'Lijevo',
 		alignAbsBottom: 'Abs dolje',
 		alignAbsMiddle: 'Abs sredina',
 		alignBaseline: 'Bazno',
-		alignBottom: 'Dolje',
-		alignMiddle: 'Sredina',
-		alignRight: 'Desno',
 		alignTextTop: 'Vrh teksta',
-		alignTop: 'Vrh',
 		quality: 'Kvaliteta',
 		qualityBest: 'Best',
 		qualityHigh: 'High',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'hr' ] = {
 		windowMode: 'Vrsta prozora',
 		flashvars: 'Varijable za Flash',
 		bgcolor: 'Boja pozadine',
-		width: 'Širina',
-		height: 'Visina',
 		hSpace: 'HSpace',
 		vSpace: 'VSpace',
 		validateSrc: 'Molimo upišite URL link',
-		validateWidth: 'Širina mora biti broj.',
-		validateHeight: 'Visina mora biti broj.',
 		validateHSpace: 'HSpace mora biti broj.',
 		validateVSpace: 'VSpace mora biti broj.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'hr' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'hr' ] = {
 	fakeobjects: {
 		anchor: 'Sidro',
 		flash: 'Flash animacija',
-		div: 'Prijelom stranice',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Nepoznati objekt'
 	},
 

@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	superscript: 'એક ચિહ્ન ઉપર કરેલું બીજું ચિહ્ન.',
 	horizontalrule: 'સમસ્તરીય રેખા ઇન્સર્ટ/દાખલ કરવી',
 	pagebreak: 'ઇન્સર્ટ પેજબ્રેક/પાનાને અલગ કરવું/દાખલ કરવું',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'લિંક કાઢવી',
 	undo: 'રદ કરવું; પહેલાં હતી એવી સ્થિતિ પાછી લાવવી',
 	redo: 'રિડૂ; પછી હતી એવી સ્થિતિ પાછી લાવવી',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'gu' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'પહોળાઈ',
+		height: 'ઊંચાઈ',
+		align: 'લાઇનદોરીમાં ગોઠવવું',
+		alignLeft: 'ડાબી બાજુ ગોઠવવું',
+		alignRight: 'જમણી',
+		alignCenter: 'મધ્ય સેન્ટર',
+		alignTop: 'ઉપર',
+		alignMiddle: 'વચ્ચે',
+		alignBottom: 'નીચે',
+		invalidHeight: 'Height must be a number.', // MISSING
+		invalidWidth: 'Width must be a number.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		popupFullScreen: 'ફુલ સ્ક્રીન (IE)',
 		popupScrollBars: 'સ્ક્રોલ બાર',
 		popupDependent: 'ડિપેન્ડન્ટ (Netscape)',
-		popupWidth: 'પહોળાઈ',
 		popupLeft: 'ડાબી બાજુ',
-		popupHeight: 'ઊંચાઈ',
 		popupTop: 'જમણી બાજુ',
 		id: 'Id', // MISSING
 		langDir: 'ભાષા લેખવાની પદ્ધતિ',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'gu' ] = {
 		rows: 'પંક્તિના ખાના',
 		columns: 'કૉલમ/ઊભી કટાર',
 		border: 'કોઠાની બાજુ(બોર્ડર) સાઇઝ',
-		align: 'અલાઇનમન્ટ/ગોઠવાયેલું ',
-		alignLeft: 'ડાબી બાજુ',
-		alignCenter: 'મધ્ય સેન્ટર',
-		alignRight: 'જમણી બાજુ',
-		width: 'પહોળાઈ',
 		widthPx: 'પિકસલ',
 		widthPc: 'પ્રતિશત',
 		widthUnit: 'width unit', // MISSING
-		height: 'ઊંચાઈ',
 		cellSpace: 'સેલ અંતર',
 		cellPad: 'સેલ પૅડિંગ',
 		caption: 'મથાળું/કૅપ્શન ',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'gu' ] = {
 			wordWrap: 'Word Wrap', // MISSING
 			hAlign: 'Horizontal Alignment', // MISSING
 			vAlign: 'Vertical Alignment', // MISSING
-			alignTop: 'Top', // MISSING
-			alignMiddle: 'Middle', // MISSING
-			alignBottom: 'Bottom', // MISSING
 			alignBaseline: 'Baseline', // MISSING
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'gu' ] = {
 		btnUpload: 'આ સર્વરને મોકલવું',
 		upload: 'અપલોડ',
 		alt: 'ઑલ્ટર્નટ ટેક્સ્ટ',
-		width: 'પહોળાઈ',
-		height: 'ઊંચાઈ',
 		lockRatio: 'લૉક ગુણોત્તર',
 		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'રીસેટ સાઇઝ',
 		border: 'બોર્ડર',
 		hSpace: 'સમસ્તરીય જગ્યા',
 		vSpace: 'લંબરૂપ જગ્યા',
-		align: 'લાઇનદોરીમાં ગોઠવવું',
-		alignLeft: 'ડાબી બાજુ ગોઠવવું',
-		alignRight: 'જમણી',
 		alertUrl: 'ચિત્રની URL ટાઇપ કરો',
 		linkTab: 'લિંક',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
-		validateWidth: 'Width must be a whole number.', // MISSING
-		validateHeight: 'Height must be a whole number.', // MISSING
 		validateBorder: 'Border must be a whole number.', // MISSING
 		validateHSpace: 'HSpace must be a whole number.', // MISSING
 		validateVSpace: 'VSpace must be a whole number.' // MISSING
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'gu' ] = {
 		accessAlways: 'Always', // MISSING
 		accessSameDomain: 'Same domain', // MISSING
 		accessNever: 'Never', // MISSING
-		align: 'લાઇનદોરીમાં ગોઠવવું',
-		alignLeft: 'ડાબી બાજુ ગોઠવવું',
 		alignAbsBottom: 'Abs નીચે',
 		alignAbsMiddle: 'Abs ઉપર',
 		alignBaseline: 'આધાર લીટી',
-		alignBottom: 'નીચે',
-		alignMiddle: 'વચ્ચે',
-		alignRight: 'જમણી',
 		alignTextTop: 'ટેક્સ્ટ ઉપર',
-		alignTop: 'ઉપર',
 		quality: 'Quality', // MISSING
 		qualityBest: 'Best', // MISSING
 		qualityHigh: 'High', // MISSING
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'gu' ] = {
 		windowMode: 'Window mode', // MISSING
 		flashvars: 'Variables for Flash', // MISSING
 		bgcolor: 'બૅકગ્રાઉન્ડ રંગ,',
-		width: 'પહોળાઈ',
-		height: 'ઊંચાઈ',
 		hSpace: 'સમસ્તરીય જગ્યા',
 		vSpace: 'લંબરૂપ જગ્યા',
 		validateSrc: 'લિંક  URL ટાઇપ કરો',
-		validateWidth: 'Width must be a number.', // MISSING
-		validateHeight: 'Height must be a number.', // MISSING
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'gu' ] = {
 		remove: 'Remove Div' // MISSING
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'ફૉન્ટ',
 		voiceLabel: 'Font', // MISSING
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'gu' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		div: 'Page Break', // MISSING
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},
 

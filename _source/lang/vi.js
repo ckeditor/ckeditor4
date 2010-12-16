@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	superscript: 'Chỉ số trên',
 	horizontalrule: 'Chèn đường phân cách ngang',
 	pagebreak: 'Chèn ngắt trang',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Xoá liên kết',
 	undo: 'Khôi phục thao tác',
 	redo: 'Làm lại thao tác',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'vi' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Chiều rộng',
+		height: 'chiều cao',
+		align: 'Vị trí',
+		alignLeft: 'Trái',
+		alignRight: 'Phải',
+		alignCenter: 'Giữa',
+		alignTop: 'Trên',
+		alignMiddle: 'Giữa',
+		alignBottom: 'Dưới',
+		invalidHeight: 'Chiều cao phải là số nguyên.',
+		invalidWidth: 'Chiều rộng phải là số nguyên.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, không có</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		popupFullScreen: 'Toàn màn hình (IE)',
 		popupScrollBars: 'Thanh cuộn',
 		popupDependent: 'Phụ thuộc (Netscape)',
-		popupWidth: 'Rộng',
 		popupLeft: 'Vị trí bên trái',
-		popupHeight: 'Cao',
 		popupTop: 'Vị trí phía trên',
 		id: 'Định danh',
 		langDir: 'Hướng ngôn ngữ',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'vi' ] = {
 		rows: 'Số hàng',
 		columns: 'Số cột',
 		border: 'Kích thước đường viền',
-		align: 'Canh lề',
-		alignLeft: 'Trái',
-		alignCenter: 'Giữa',
-		alignRight: 'Phải',
-		width: 'Rộng',
 		widthPx: 'Điểm ảnh (px)',
 		widthPc: 'Phần trăm (%)',
 		widthUnit: 'Đơn vị',
-		height: 'Chiều cao',
 		cellSpace: 'Khoảng cách giữa các ô',
 		cellPad: 'Khoảng đệm giữ ô và nội dung',
 		caption: 'Đầu đề',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'vi' ] = {
 			wordWrap: 'Chữ liền hàng',
 			hAlign: 'Canh lề ngang',
 			vAlign: 'Canh lề dọc',
-			alignTop: 'Trên cùng',
-			alignMiddle: 'Chính giữa',
-			alignBottom: 'Dưới cùng',
 			alignBaseline: 'Đường cơ sở',
 			bgColor: 'Màu nền',
 			borderColor: 'Màu viền',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'vi' ] = {
 		btnUpload: 'Tải lên máy chủ',
 		upload: 'Tải lên',
 		alt: 'Chú thích ảnh',
-		width: 'Chiều rộng',
-		height: 'chiều cao',
 		lockRatio: 'Giữ nguyên tỷ lệ',
 		unlockRatio: 'Phá bỏ tỷ lệ',
 		resetSize: 'Kích thước gốc',
 		border: 'Đường viền',
 		hSpace: 'Khoảng đệm ngang',
 		vSpace: 'Khoảng đệm dọc',
-		align: 'Vị trí',
-		alignLeft: 'Bên trái',
-		alignRight: 'Bên phải',
 		alertUrl: 'Hãy đưa vào đường dẫn của ảnh',
 		linkTab: 'Tab liên kết',
 		button2Img: 'Bạn có muốn chuyển nút bấm bằng ảnh được chọn thành ảnh?',
 		img2Button: 'Bạn có muốn chuyển đổi ảnh được chọn thành nút bấm bằng ảnh?',
 		urlMissing: 'Thiếu đường dẫn hình ảnh',
-		validateWidth: 'Chiều rộng của ảnh phải là một số nguyên dương',
-		validateHeight: 'Chiều cao của ảnh phải là một số nguyên dương',
 		validateBorder: 'Chiều rộng của đường viền phải là một số nguyên dương',
 		validateHSpace: 'Khoảng đệm ngang phải là một số nguyên dương',
 		validateVSpace: 'Khoảng đệm dọc phải là một số nguyên dương'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'vi' ] = {
 		accessAlways: 'Luôn luôn',
 		accessSameDomain: 'Cùng tên miền',
 		accessNever: 'Không bao giờ',
-		align: 'Vị trí',
-		alignLeft: 'Trái',
 		alignAbsBottom: 'Dưới tuyệt đối',
 		alignAbsMiddle: 'Giữa tuyệt đối',
 		alignBaseline: 'Đường cơ sở',
-		alignBottom: 'Dưới',
-		alignMiddle: 'Giữa',
-		alignRight: 'Phải',
 		alignTextTop: 'Phía trên chữ',
-		alignTop: 'Trên',
 		quality: 'Chất lượng',
 		qualityBest: 'Tốt nhất',
 		qualityHigh: 'Cao',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'vi' ] = {
 		windowMode: 'Chế độ cửa sổ',
 		flashvars: 'Các biến số dành cho Flash',
 		bgcolor: 'Màu nền',
-		width: 'Rộng',
-		height: 'Cao',
 		hSpace: 'Khoảng đệm ngang',
 		vSpace: 'Khoảng đệm dọc',
 		validateSrc: 'Hãy đưa vào đường dẫn liên kết',
-		validateWidth: 'Chiều rộng phải là số nguyên.',
-		validateHeight: 'Chiều cao phải là số nguyên.',
 		validateHSpace: 'Khoảng đệm ngang phải là số nguyên.',
 		validateVSpace: 'Khoảng đệm dọc phải là số nguyên.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'vi' ] = {
 		remove: 'Xóa bỏ'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Phông',
 		voiceLabel: 'Phông',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'vi' ] = {
 	fakeobjects: {
 		anchor: 'Điểm neo',
 		flash: 'Flash',
-		div: 'Ngắt trang',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Đối tượng không rõ ràng'
 	},
 

@@ -220,7 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Try to detect any embed or object tag that has Flash parameters.
 				var fakeImage = this.getSelectedElement();
-				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'flash' ) {
+				if ( fakeImage && fakeImage.data( 'cke-real-element-type' ) && fakeImage.data( 'cke-real-element-type' ) == 'flash' ) {
 					this.fakeImage = fakeImage;
 
 					var realElement = editor.restoreRealElement( fakeImage ),
@@ -377,8 +377,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						type: 'text',
 						id: 'width',
 						style: 'width:95px',
-						label: editor.lang.flash.width,
-						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateWidth ),
+						label: editor.lang.common.width,
+						validate: CKEDITOR.dialog.validate.integer( editor.lang.common.invalidWidth ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
 							loadValue.apply( this, arguments );
 							if ( fakeImage ) {
@@ -397,8 +397,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						type: 'text',
 						id: 'height',
 						style: 'width:95px',
-						label: editor.lang.flash.height,
-						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateHeight ),
+						label: editor.lang.common.height,
+						validate: CKEDITOR.dialog.validate.integer( editor.lang.common.invalidHeight ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
 							loadValue.apply( this, arguments );
 							if ( fakeImage ) {
@@ -554,20 +554,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						{
 						id: 'align',
 						type: 'select',
-						label: editor.lang.flash.align,
+						label: editor.lang.common.align,
 						'default': '',
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ editor.lang.flash.alignLeft, 'left' ],
+							[ editor.lang.common.alignLeft, 'left' ],
 							[ editor.lang.flash.alignAbsBottom, 'absBottom' ],
 							[ editor.lang.flash.alignAbsMiddle, 'absMiddle' ],
 							[ editor.lang.flash.alignBaseline, 'baseline' ],
-							[ editor.lang.flash.alignBottom, 'bottom' ],
-							[ editor.lang.flash.alignMiddle, 'middle' ],
-							[ editor.lang.flash.alignRight, 'right' ],
+							[ editor.lang.common.alignBottom, 'bottom' ],
+							[ editor.lang.common.alignMiddle, 'middle' ],
+							[ editor.lang.common.alignRight, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
-							[ editor.lang.flash.alignTop, 'top' ]
+							[ editor.lang.common.alignTop, 'top' ]
 							],
 						setup: loadValue,
 						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {

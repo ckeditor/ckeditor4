@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'nb' ] = {
 	superscript: 'Hevet skrift',
 	horizontalrule: 'Sett inn horisontal linje',
 	pagebreak: 'Sett inn sideskift',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Fjern lenke',
 	undo: 'Angre',
 	redo: 'Gjør om',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'nb' ] = {
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
 		cssClasses: 'Stylesheet Classes', // MISSING
+		width: 'Bredde',
+		height: 'Høyde',
+		align: 'Juster',
+		alignLeft: 'Venstre',
+		alignRight: 'Høyre',
+		alignCenter: 'Midtjuster',
+		alignTop: 'Topp',
+		alignMiddle: 'Midten',
+		alignBottom: 'Bunn',
+		invalidHeight: 'Høyde må være ett nummer',
+		invalidWidth: 'Bredde må være ett nummer.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		popupFullScreen: 'Full skjerm (IE)',
 		popupScrollBars: 'Scrollbar',
 		popupDependent: 'Avhenging (Netscape)',
-		popupWidth: 'Bredde',
 		popupLeft: 'Venstre posisjon',
-		popupHeight: 'Høyde',
 		popupTop: 'Topp-posisjon',
 		id: 'Id',
 		langDir: 'Språkretning',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'nb' ] = {
 		rows: 'Rader',
 		columns: 'Kolonner',
 		border: 'Rammestørrelse',
-		align: 'Justering',
-		alignLeft: 'Venstre',
-		alignCenter: 'Midtjuster',
-		alignRight: 'Høyre',
-		width: 'Bredde',
 		widthPx: 'piksler',
 		widthPc: 'prosent',
 		widthUnit: 'Bredde-enhet',
-		height: 'Høyde',
 		cellSpace: 'Cellemarg',
 		cellPad: 'Cellepolstring',
 		caption: 'Tittel',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'nb' ] = {
 			wordWrap: 'Tekstbrytning',
 			hAlign: 'Horisontal justering',
 			vAlign: 'Vertikal justering',
-			alignTop: 'Topp',
-			alignMiddle: 'Midten',
-			alignBottom: 'Bunnen',
 			alignBaseline: 'Grunnlinje',
 			bgColor: 'Bakgrunnsfarge',
 			borderColor: 'Rammefarge',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'nb' ] = {
 		btnUpload: 'Send det til serveren',
 		upload: 'Last opp',
 		alt: 'Alternativ tekst',
-		width: 'Bredde',
-		height: 'Høyde',
 		lockRatio: 'Lås forhold',
 		unlockRatio: 'Ikke lås forhold',
 		resetSize: 'Tilbakestill størrelse',
 		border: 'Ramme',
 		hSpace: 'HMarg',
 		vSpace: 'VMarg',
-		align: 'Juster',
-		alignLeft: 'Venstre',
-		alignRight: 'Høyre',
 		alertUrl: 'Vennligst skriv bilde-urlen',
 		linkTab: 'Lenke',
 		button2Img: 'Vil du endre den valgte bildeknappen til ett vanlig bilde?',
 		img2Button: 'Vil du endre det valgte bildet til en bildeknapp?',
 		urlMissing: 'Bildets adresse mangler.',
-		validateWidth: 'Bredde må være ett nummer.',
-		validateHeight: 'Høyde må være ett nummer.',
 		validateBorder: 'Ramme må være ett nummer.',
 		validateHSpace: 'HSpace må være ett nummer.',
 		validateVSpace: 'VSpace må være ett nummer.'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'nb' ] = {
 		accessAlways: 'Alltid',
 		accessSameDomain: 'Samme domene',
 		accessNever: 'Aldri',
-		align: 'Juster',
-		alignLeft: 'Venstre',
 		alignAbsBottom: 'Abs bunn',
 		alignAbsMiddle: 'Abs midten',
 		alignBaseline: 'Bunnlinje',
-		alignBottom: 'Bunn',
-		alignMiddle: 'Midten',
-		alignRight: 'Høyre',
 		alignTextTop: 'Tekst topp',
-		alignTop: 'Topp',
 		quality: 'Kvalitet',
 		qualityBest: 'Best',
 		qualityHigh: 'Høy',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'nb' ] = {
 		windowMode: 'Vindu modus',
 		flashvars: 'Variabler for flash',
 		bgcolor: 'Bakgrunnsfarge',
-		width: 'Bredde',
-		height: 'Høyde',
 		hSpace: 'HMarg',
 		vSpace: 'VMarg',
 		validateSrc: 'Vennligst skriv inn lenkens url',
-		validateWidth: 'Bredde må være ett nummer.',
-		validateHeight: 'Høyde må være ett nummer',
 		validateHSpace: 'HSpace må være ett nummer.',
 		validateVSpace: 'VSpace må være ett nummer.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'nb' ] = {
 		remove: 'Fjern Div'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Skrift',
 		voiceLabel: 'Font',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'nb' ] = {
 	fakeobjects: {
 		anchor: 'Anker',
 		flash: 'Flash Animasjon',
-		div: 'Sideskift',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Ukjent objekt'
 	},
 

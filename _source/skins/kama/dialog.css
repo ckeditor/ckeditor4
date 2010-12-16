@@ -102,6 +102,16 @@ body .cke_dialog
 	text-align: left;
 }
 
+.cke_skin_kama .cke_dialog_footer .cke_resizer
+{
+	margin-top: 20px;
+}
+.cke_skin_kama .cke_browser_iequirks .cke_dialog_footer .cke_resizer,
+.cke_skin_kama .cke_browser_ie6 .cke_dialog_footer .cke_resizer
+{
+	margin-top: 27px;
+}
+
 /* tabs */
 
 .cke_skin_kama .cke_dialog_tabs
@@ -718,8 +728,8 @@ body .cke_dialog
 {
 	border : 2px ridge black;
 	overflow : scroll;
-	height : 160px;
-	width : 230px;
+	height : 200px;
+	width : 300px;
 	padding : 2px;
 	background-color : white;
 }
@@ -885,4 +895,21 @@ body .cke_dialog
 	opacity: 1.0;
 	filter: alpha(opacity=100);
 	border: 1px solid white;
+}
+
+/**
+ * Styles specific to "cellProperties" dialog.
+ */
+
+.cke_skin_kama .cke_dialog_contents a.colorChooser
+{
+	display:block;
+	margin-top:6px;
+	margin-left: 10px;
+	width: 80px;
+}
+
+.cke_skin_kama .cke_rtl .cke_dialog_contents a.colorChooser
+{
+	margin-right: 10px;
 }

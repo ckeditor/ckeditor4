@@ -221,7 +221,7 @@ if ( !CKEDITOR.env ) {
 		 * @example
 		 * myDiv.className = CKEDITOR.env.cssClass;
 		 */
-		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.opera ? 'opera' : env.air ? 'air' : env.webkit ? 'webkit' : 'unknown' );
+		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.opera ? 'opera' : env.webkit ? 'webkit' : 'unknown' );
 
 		if ( env.quirks )
 			env.cssClass += ' cke_browser_quirks';
@@ -235,6 +235,9 @@ if ( !CKEDITOR.env ) {
 
 		if ( env.gecko && version < 10900 )
 			env.cssClass += ' cke_browser_gecko18';
+
+		if ( env.air )
+			env.cssClass += ' cke_browser_air';
 
 		return env;
 	})();

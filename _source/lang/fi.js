@@ -55,6 +55,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	superscript: 'Yläindeksi',
 	horizontalrule: 'Lisää murtoviiva',
 	pagebreak: 'Lisää sivun vaihto',
+	pagebreakAlt: 'Page Break', // MISSING
 	unlink: 'Poista linkki',
 	undo: 'Kumoa',
 	redo: 'Toista',
@@ -107,6 +108,17 @@ CKEDITOR.lang[ 'fi' ] = {
 		langDirRTL: 'Oikealta vasemmalle (RTL)',
 		styles: 'Tyyli',
 		cssClasses: 'Tyylitiedoston luokat',
+		width: 'Leveys',
+		height: 'Korkeus',
+		align: 'Kohdistus',
+		alignLeft: 'Vasemmalle',
+		alignRight: 'Oikealle',
+		alignCenter: 'Keskelle',
+		alignTop: 'Ylös',
+		alignMiddle: 'Keskelle',
+		alignBottom: 'Alas',
+		invalidHeight: 'Korkeuden täytyy olla numero.',
+		invalidWidth: 'Leveyden täytyy olla numero.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
@@ -150,9 +162,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		popupFullScreen: 'Täysi ikkuna (IE)',
 		popupScrollBars: 'Vierityspalkit',
 		popupDependent: 'Riippuva (Netscape)',
-		popupWidth: 'Leveys',
 		popupLeft: 'Vasemmalta (px)',
-		popupHeight: 'Korkeus',
 		popupTop: 'Ylhäältä (px)',
 		id: 'Tunniste',
 		langDir: 'Kielen suunta',
@@ -234,15 +244,9 @@ CKEDITOR.lang[ 'fi' ] = {
 		rows: 'Rivit',
 		columns: 'Sarakkeet',
 		border: 'Rajan paksuus',
-		align: 'Kohdistus',
-		alignLeft: 'Vasemmalle',
-		alignCenter: 'Keskelle',
-		alignRight: 'Oikealle',
-		width: 'Leveys',
 		widthPx: 'pikseliä',
 		widthPc: 'prosenttia',
 		widthUnit: 'leveysyksikkö',
-		height: 'Korkeus',
 		cellSpace: 'Solujen väli',
 		cellPad: 'Solujen sisennys',
 		caption: 'Otsikko',
@@ -277,9 +281,6 @@ CKEDITOR.lang[ 'fi' ] = {
 			wordWrap: 'Rivitys',
 			hAlign: 'Horisontaali kohdistus',
 			vAlign: 'Vertikaali kohdistus',
-			alignTop: 'Ylös',
-			alignMiddle: 'Keskelle',
-			alignBottom: 'Alas',
 			alignBaseline: 'Alas (teksti)',
 			bgColor: 'Taustan väri',
 			borderColor: 'Reunan väri',
@@ -390,24 +391,17 @@ CKEDITOR.lang[ 'fi' ] = {
 		btnUpload: 'Lähetä palvelimelle',
 		upload: 'Lisää kuva',
 		alt: 'Vaihtoehtoinen teksti',
-		width: 'Leveys',
-		height: 'Korkeus',
 		lockRatio: 'Lukitse suhteet',
 		unlockRatio: 'Vapauta suhteet',
 		resetSize: 'Alkuperäinen koko',
 		border: 'Kehys',
 		hSpace: 'Vaakatila',
 		vSpace: 'Pystytila',
-		align: 'Kohdistus',
-		alignLeft: 'Vasemmalle',
-		alignRight: 'Oikealle',
 		alertUrl: 'Kirjoita kuvan osoite (URL)',
 		linkTab: 'Linkki',
 		button2Img: 'Haluatko muuntaa valitun kuvanäppäimen kuvaksi?',
 		img2Button: 'Haluatko muuntaa valitun kuvan kuvanäppäimeksi?',
 		urlMissing: 'Kuvan lähdeosoite puuttuu.',
-		validateWidth: 'Leveyden täytyy olla kokonaisluku.',
-		validateHeight: 'Korkeuden täytyy olla kokonaisluku.',
 		validateBorder: 'Kehyksen täytyy olla kokonaisluku.',
 		validateHSpace: 'HSpace-määrityksen täytyy olla kokonaisluku.',
 		validateVSpace: 'VSpace-määrityksen täytyy olla kokonaisluku.'
@@ -430,16 +424,10 @@ CKEDITOR.lang[ 'fi' ] = {
 		accessAlways: 'Aina',
 		accessSameDomain: 'Sama verkkotunnus',
 		accessNever: 'Ei koskaan',
-		align: 'Kohdistus',
-		alignLeft: 'Vasemmalle',
 		alignAbsBottom: 'Aivan alas',
 		alignAbsMiddle: 'Aivan keskelle',
 		alignBaseline: 'Alas (teksti)',
-		alignBottom: 'Alas',
-		alignMiddle: 'Keskelle',
-		alignRight: 'Oikealle',
 		alignTextTop: 'Ylös (teksti)',
-		alignTop: 'Ylös',
 		quality: 'Laatu',
 		qualityBest: 'Paras',
 		qualityHigh: 'Korkea',
@@ -453,13 +441,9 @@ CKEDITOR.lang[ 'fi' ] = {
 		windowMode: 'Ikkuna tila',
 		flashvars: 'Muuttujat Flash:lle',
 		bgcolor: 'Taustaväri',
-		width: 'Leveys',
-		height: 'Korkeus',
 		hSpace: 'Vaakatila',
 		vSpace: 'Pystytila',
 		validateSrc: 'Linkille on kirjoitettava URL',
-		validateWidth: 'Leveyden täytyy olla numero.',
-		validateHeight: 'Korkeuden täytyy olla numero.',
 		validateHSpace: 'Vaakatilan täytyy olla numero.',
 		validateVSpace: 'Pystytilan täytyy olla numero.'
 	},
@@ -583,6 +567,14 @@ CKEDITOR.lang[ 'fi' ] = {
 		remove: 'Poista Div'
 	},
 
+	iframe: {
+		title: 'iFrame Properties', // MISSING
+		toolbar: 'iFrame', // MISSING
+		noUrl: 'Please type the iFrame URL', // MISSING
+		scrolling: 'Enable scrollbars', // MISSING
+		border: 'Show frame border' // MISSING
+	},
+
 	font: {
 		label: 'Kirjaisinlaji',
 		voiceLabel: 'Kirjaisinlaji',
@@ -693,7 +685,8 @@ CKEDITOR.lang[ 'fi' ] = {
 	fakeobjects: {
 		anchor: 'Ankkuri',
 		flash: 'Flash animaatio',
-		div: 'Sivun vaihto',
+		iframe: 'iFrame', // MISSING
+		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Tuntematon objekti'
 	},
 
