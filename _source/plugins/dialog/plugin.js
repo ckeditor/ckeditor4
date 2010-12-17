@@ -2738,7 +2738,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * The dialog contents to removed. It's a string composed by dialog name and tab name with a colon between them.
  * Separate each pair with semicolon (see example).
  * <b>Note: All names are case-sensitive.</b>
- * <b>Note: Be cautious when specifying dialog tabs that are mandatory, like "info", dialog functionality might be broken because of this!<b>
+ * <b>Note: Be cautious when specifying dialog tabs that are mandatory, like "info", dialog functionality might be broken because of this!</b>
  * @name CKEDITOR.config.removeDialogTabs
  * @type String
  * @since 3.5
