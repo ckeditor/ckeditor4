@@ -124,3 +124,10 @@ CKEDITOR.TRISTATE_DISABLED = 0;
  *         editor = CKEDITOR.currentInstance;
  *     });
  */
+
+/**
+ * Fired when the last instance has been destroyed. This event is used to perform
+ * global memory clean up.
+ * @name CKEDITOR#reset
+ * @event
+ */

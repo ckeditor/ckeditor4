@@ -203,3 +203,9 @@ CKEDITOR.config.editingBlock = true;
  * @event
  * @param {CKEDITOR.editor} editor The editor instance that has been created.
  */
+
+/**
+ * Fired before changing the editing mode
+ * @name CKEDITOR.editor#beforeModeUnload
+ * @event
+ */

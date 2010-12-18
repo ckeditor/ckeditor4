@@ -173,3 +173,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	});
 })();
+
+/**
+ * Fired when the contents of the elementsPath are changed
+ * @name CKEDITOR.editor#elementsPathUpdate
+ * @event
+ * @param {Object} eventData.space The elementsPath container
+ */

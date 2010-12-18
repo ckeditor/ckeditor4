@@ -181,7 +181,7 @@ CKEDITOR.command.prototype = {
 CKEDITOR.event.implementOn( CKEDITOR.command.prototype, true );
 
 /**
- * Indicates the preivous command state.
+ * Indicates the previous command state.
  * @name CKEDITOR.command.prototype.previousState
  * @type Number
  * @see #state

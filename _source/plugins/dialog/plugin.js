@@ -2720,7 +2720,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * The guildeline to follow when generating the dialog buttons. There are 3 possible options:
+ * The guideline to follow when generating the dialog buttons. There are 3 possible options:
  * <ul>
  *     <li>'OS' - the buttons will be displayed in the default order of the user's OS;</li>
  *     <li>'ltr' - for Left-To-Right order;</li>
@@ -2764,8 +2764,58 @@ CKEDITOR.plugins.add( 'dialog', {
 
 /**
  * Fired when a tab is going to be selected in a dialog
- * @name dialog#selectPage
+ * @name CKEDITOR.dialog#selectPage
  * @event
- * @param String page The id of the page that it's gonna be selected.
- * @param String currentPage The id of the current page.
+ * @param {String} page The id of the page that it's gonna be selected.
+ * @param {String} currentPage The id of the current page.
+ */
+
+/**
+ * Fired when the user tries to dismiss a dialog
+ * @name CKEDITOR.dialog#cancel
+ * @event
+ * @param {Boolean} hide Whether the event should proceed or not.
+ */
+
+/**
+ * Fired when the user tries to confirm a dialog
+ * @name CKEDITOR.dialog#ok
+ * @event
+ * @param {Boolean} hide Whether the event should proceed or not.
+ */
+
+/**
+ * Fired when a dialog is shown
+ * @name CKEDITOR.dialog#show
+ * @event
+ */
+
+/**
+ * Fired when a dialog is shown
+ * @name CKEDITOR.editor#dialogShow
+ * @event
+ */
+
+/**
+ * Fired when a dialog is hidden
+ * @name CKEDITOR.dialog#hide
+ * @event
+ */
+
+/**
+ * Fired when a dialog is hidden
+ * @name CKEDITOR.editor#dialogHide
+ * @event
+ */
+
+/**
+ * Fired when a dialog is being resized. The event is fired on
+ * the 'CKEDITOR.dialog' object, not a dialog instance.
+ * @name CKEDITOR.dialog#resize
+ * @since 3.5
+ * @event
+ * @param {CKEDITOR.dialog} dialog The dialog being resized.
+ * @param {String} skin The skin name.
+ * @param {Number} width The new width.
+ * @param {Number} height The new height.
  */

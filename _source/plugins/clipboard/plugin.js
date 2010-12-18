@@ -348,3 +348,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @param {String} [data.html] The HTML data to be pasted. If not available, e.data.text will be defined.
  * @param {String} [data.text] The plain text data to be pasted, available when plain text operations are to used. If not available, e.data.html will be defined.
  */
+
+/**
+ * Internal event to open the Paste dialog
+ * @name CKEDITOR.editor#pasteDialog
+ * @event
+ */

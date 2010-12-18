@@ -867,3 +867,79 @@ CKEDITOR.on( 'loaded', function() {
  * if( editor.config.fullPage )
  *     alert( 'This is a full page editor' );
  */
+
+/**
+ * Fired when this editor instance is destroyed. The editor at this
+ * point isn't usable and this event should be used to perform clean up
+ * in any plugin.
+ * @name CKEDITOR.editor#destroy
+ * @event
+ */
+
+/**
+ * Internal event to get the current data.
+ * @name CKEDITOR.editor#beforeGetData
+ * @event
+ */
+
+/**
+ * Internal event to perform the #getSnapshot call.
+ * @name CKEDITOR.editor#getSnapshot
+ * @event
+ */
+
+/**
+ * Internal event to perform the #loadSnapshot call.
+ * @name CKEDITOR.editor#loadSnapshot
+ * @event
+ */
+
+
+/**
+ * Event fired before the #getData call returns allowing additional manipulation.
+ * @name CKEDITOR.editor#getData
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.dataValue The data that will be returned.
+ */
+
+/**
+ * Event fired before the #setData call is executed allowing additional manipulation.
+ * @name CKEDITOR.editor#setData
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.dataValue The data that will be used.
+ */
+
+/**
+ * Event fired at the end of the #setData call is executed. Usually it's better to use the
+ * {@link CKEDITOR.editor.prototype.dataReady} event.
+ * @name CKEDITOR.editor#afterSetData
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.dataValue The data that has been set.
+ */
+
+/**
+ * Internal event to perform the #insertHtml call
+ * @name CKEDITOR.editor#insertHtml
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data The HTML to insert.
+ */
+
+/**
+ * Internal event to perform the #insertText call
+ * @name CKEDITOR.editor#insertText
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} text The text to insert.
+ */
+
+/**
+ * Internal event to perform the #insertElement call
+ * @name CKEDITOR.editor#insertElement
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Object} element The element to insert.
+ */

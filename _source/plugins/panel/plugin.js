@@ -338,3 +338,10 @@ CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
 		}
 	}
 });
+
+/**
+ * Fired when a panel is added to the document
+ * @name CKEDITOR#ariaWidget
+ * @event
+ * @param {Object} holder The element wrapping the panel
+ */

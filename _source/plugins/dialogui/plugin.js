@@ -1359,3 +1359,17 @@ CKEDITOR.plugins.add( 'dialogui' );
 	CKEDITOR.dialog.addUIElement( 'html', commonBuilder );
 	CKEDITOR.dialog.addUIElement( 'fieldset', containerBuilder );
 })();
+
+/**
+ * Fired when the value of the uiElement is changed
+ * @name CKEDITOR.ui.dialog.uiElement#change
+ * @event
+ */
+
+/**
+ * Fired when the inner frame created by the element is ready.
+ * Each time the button is used or the dialog is loaded a new
+ * form might be created.
+ * @name CKEDITOR.ui.dialog.fileButton#formLoaded
+ * @event
+ */

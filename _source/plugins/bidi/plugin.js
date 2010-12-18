@@ -221,3 +221,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 })();
+
+/**
+ * Fired when the language direction of an element is changed
+ * @name CKEDITOR.editor#dirChanged
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Object} eventData.node The element that is being changed.
+ * @param {String} eventData.dir The new direction.
+ */
