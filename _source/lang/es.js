@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'es' ] = {
 	superscript: 'Superíndice',
 	horizontalrule: 'Insertar Línea Horizontal',
 	pagebreak: 'Insertar Salto de Página',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: 'Salto de página',
 	unlink: 'Eliminar Vínculo',
 	undo: 'Deshacer',
 	redo: 'Rehacer',
@@ -568,11 +568,11 @@ CKEDITOR.lang[ 'es' ] = {
 	},
 
 	iframe: {
-		title: 'iFrame Properties', // MISSING
-		toolbar: 'iFrame', // MISSING
-		noUrl: 'Please type the iFrame URL', // MISSING
-		scrolling: 'Enable scrollbars', // MISSING
-		border: 'Show frame border' // MISSING
+		title: 'Propiedades de iframe',
+		toolbar: 'Iframe',
+		noUrl: 'Por favor, escriba la dirección del iframe',
+		scrolling: 'Activar barras de desplazamiento',
+		border: 'Mostrar borde del marco'
 	},
 
 	font: {
@@ -685,8 +685,8 @@ CKEDITOR.lang[ 'es' ] = {
 	fakeobjects: {
 		anchor: 'Ancla',
 		flash: 'Animación flash',
-		iframe: 'iFrame', // MISSING
-		hiddenfield: 'Hidden Field', // MISSING
+		iframe: 'Iframe',
+		hiddenfield: 'Campo oculto',
 		unknown: 'Objeto desconocido'
 	},
 
