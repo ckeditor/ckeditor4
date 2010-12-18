@@ -382,8 +382,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							this.allowOnChange = false;
 							var protocolCmb = this.getDialog().getContentElement( 'info', 'protocol' ),
 								url = this.getValue(),
-								urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/gi,
-								urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/gi;
+								urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/i,
+								urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/i;
 
 							var protocol = urlOnChangeProtocol.exec( url );
 							if ( protocol ) {
