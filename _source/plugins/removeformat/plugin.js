@@ -158,7 +158,7 @@ CKEDITOR.config.removeFormatAttributes = 'class,style,lang,width,height,align,hs
 
 /**
  * Fired after an element was cleaned by the removeFormat plugin.
- * @name CKEDITOR#removeFormatCleanup
+ * @name CKEDITOR.editor#removeFormatCleanup
  * @event
  * @param {Object} data.element The element that was cleaned up.
  */

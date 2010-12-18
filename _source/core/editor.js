@@ -818,9 +818,9 @@ CKEDITOR.on( 'loaded', function() {
 
 /**
  * Fired when all plugins are loaded and initialized into the editor instance.
- * @name CKEDITOR#pluginsLoaded
+ * @name CKEDITOR.editor#pluginsLoaded
  * @event
- * @param {CKEDITOR.editor} editor The editor instance that has been destroyed.
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**

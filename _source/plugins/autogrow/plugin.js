@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Fired when the AutoGrow plugin is about to change the size of the editor.
- * @name CKEDITOR#autogrow
+ * @name CKEDITOR.editor#autogrow
  * @event
  * @param {Number} data.currentHeight The current height of the editor (before the resizing).
  * @param {Number} data.newHeight The new height of the editor (after the resizing). It can be changed

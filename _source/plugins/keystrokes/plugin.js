@@ -200,7 +200,7 @@ CKEDITOR.config.keystrokes = [
 
 /**
  * Fired when any keyboard key (or combination) is pressed into the editing area.
- * @name CKEDITOR#key
+ * @name CKEDITOR.editor#key
  * @event
  * @param {Number} data.keyCode A number representing the key code (or
  *		combination). It is the sum of the current key code and the

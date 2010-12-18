@@ -54,9 +54,10 @@ CKEDITOR.add = function( editor ) {
 };
 
 /**
- * Removes and editor instance from the global {@link CKEDITOR} object. his function
- * is available for internal use mainly.
- * @param {CKEDITOR.editor} editor The editor instance to be added.
+ * Removes and editor instance from the global {@link CKEDITOR} object. This function
+ * is available for internal use only. External code must use {@link CKEDITOR.editor.prototype.remove}
+ * to avoid memory leaks.
+ * @param {CKEDITOR.editor} editor The editor instance to be removed.
  * @example
  */
 CKEDITOR.remove = function( editor ) {
