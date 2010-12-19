@@ -250,11 +250,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Toggle button label.
 					var button = this.uiItems[ 0 ];
-					var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize : lang.minimize;
-					var buttonNode = editor.element.getDocument().getById( button._.id );
-					buttonNode.getChild( 1 ).setHtml( label );
-					buttonNode.setAttribute( 'title', label );
-					buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
+					// Only try to change the button if it exists (#6166)
+					if ( button ) {
+						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize : lang.minimize;
+						var buttonNode = editor.element.getDocument().getById( button._.id );
+						buttonNode.getChild( 1 ).setHtml( label );
+						buttonNode.setAttribute( 'title', label );
+						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
+					}
 
 					// Restore selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
