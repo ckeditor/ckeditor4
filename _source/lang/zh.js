@@ -568,9 +568,9 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	iframe: {
-		title: 'iFrame Properties', // MISSING
-		toolbar: 'iFrame', // MISSING
-		noUrl: 'Please type the iFrame URL', // MISSING
+		title: 'IFrame Properties', // MISSING
+		toolbar: 'IFrame', // MISSING
+		noUrl: 'Please type the iframe URL', // MISSING
 		scrolling: 'Enable scrollbars', // MISSING
 		border: 'Show frame border' // MISSING
 	},
@@ -685,7 +685,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	fakeobjects: {
 		anchor: '錨點',
 		flash: 'Flash 動畫',
-		iframe: 'iFrame', // MISSING
+		iframe: 'IFrame', // MISSING
 		hiddenfield: 'Hidden Field', // MISSING
 		unknown: '不明物件'
 	},

@@ -568,9 +568,9 @@ CKEDITOR.lang[ 'eo' ] = {
 	},
 
 	iframe: {
-		title: 'iFrame Properties', // MISSING
-		toolbar: 'iFrame', // MISSING
-		noUrl: 'Please type the iFrame URL', // MISSING
+		title: 'IFrame Properties', // MISSING
+		toolbar: 'IFrame', // MISSING
+		noUrl: 'Please type the iframe URL', // MISSING
 		scrolling: 'Enable scrollbars', // MISSING
 		border: 'Show frame border' // MISSING
 	},
@@ -685,7 +685,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
 		flash: 'Flash Animation', // MISSING
-		iframe: 'iFrame', // MISSING
+		iframe: 'IFrame', // MISSING
 		hiddenfield: 'Hidden Field', // MISSING
 		unknown: 'Unknown Object' // MISSING
 	},

@@ -569,7 +569,7 @@ CKEDITOR.lang[ 'es' ] = {
 
 	iframe: {
 		title: 'Propiedades de iframe',
-		toolbar: 'Iframe',
+		toolbar: 'IFrame',
 		noUrl: 'Por favor, escriba la dirección del iframe',
 		scrolling: 'Activar barras de desplazamiento',
 		border: 'Mostrar borde del marco'
@@ -685,7 +685,7 @@ CKEDITOR.lang[ 'es' ] = {
 	fakeobjects: {
 		anchor: 'Ancla',
 		flash: 'Animación flash',
-		iframe: 'Iframe',
+		iframe: 'IFrame',
 		hiddenfield: 'Campo oculto',
 		unknown: 'Objeto desconocido'
 	},
