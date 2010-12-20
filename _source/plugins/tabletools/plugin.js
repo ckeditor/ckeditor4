@@ -398,10 +398,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( mergeDirection ) {
 			var targetCell;
 			try {
-				targetCell = map[ mergeDirection == 'up' ? ( startRow - 1 ) : mergeDirection == 'down' ? ( startRow + 1 ) : startRow ][
+				var rowspan = parseInt( firstCell.getAttribute( 'rowspan' ), 10 ) || 1;
+				var colspan = parseInt( firstCell.getAttribute( 'colspan' ), 10 ) || 1;
+
+				targetCell = map[ mergeDirection == 'up' ? ( startRow - rowspan ) : mergeDirection == 'down' ? ( startRow + rowspan ) : startRow ][
 					mergeDirection == 'left' ?
-						( startColumn - 1 ) :
-					mergeDirection == 'right' ? ( startColumn + 1 ) : startColumn ];
+						( startColumn - colspan ) :
+					mergeDirection == 'right' ? ( startColumn + colspan ) : startColumn ];
 
 			} catch ( er ) {
 				return false;
