@@ -338,7 +338,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
-.cke_skin_office2003 .cke_browser_ie6 .cke_button .cke_icon
+.cke_skin_office2003 .cke_browser_ie6 .cke_button .cke_icon,
+.cke_skin_office2003 .cke_browser_ie6 .cke_rtl .cke_button .cke_icon
 {
 	filter: ;
 }
