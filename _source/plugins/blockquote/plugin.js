@@ -78,6 +78,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var iterator = range.createIterator(),
 				block;
+			iterator.enlargeBr = editor.config.enterMode != CKEDITOR.ENTER_BR;
 
 			if ( state == CKEDITOR.TRISTATE_OFF ) {
 				var paragraphs = [];
