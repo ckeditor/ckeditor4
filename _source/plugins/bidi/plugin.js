@@ -30,7 +30,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		selectedElement = selectedElement || path.block || path.blockLimit;
 
-		if ( !selectedElement || selectedElement.getName() == 'body' )
+		// If we're having BODY here, user probably done CTRL+A, let's try to get the enclosed node, if any.
+		selectedElement.is( 'body' ) && ( selectedElement = editor.getSelection().getRanges()[ 0 ].getEnclosedNode() );
+
+		if ( !selectedElement )
 			return;
 
 		var selectionDir = useComputedState ? selectedElement.getComputedStyle( 'direction' ) : selectedElement.getStyle( 'direction' ) || selectedElement.getAttribute( 'dir' );
