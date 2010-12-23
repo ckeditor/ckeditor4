@@ -138,7 +138,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iterator = ranges[ i ].createIterator();
 				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-				while ( ( block = iterator.getNextParagraph() ) ) {
+				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
 					block.removeAttribute( 'align' );
 					block.removeStyle( 'text-align' );
 

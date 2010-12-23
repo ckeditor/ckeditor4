@@ -191,7 +191,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iterator.enforceRealBlocks = true;
 				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 				var block;
-				while ( ( block = iterator.getNextParagraph() ) )
+				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
 					indentElement( block );
 			}
 
