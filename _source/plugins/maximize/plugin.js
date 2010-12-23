@@ -236,6 +236,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Remove cke_maximized class.
 						container.removeClass( 'cke_maximized' );
 
+						// Webkit requires a re-layout on editor chrome. (#6695)
+						if ( CKEDITOR.env.webkit ) {
+							container.setStyle( 'display', 'inline' );
+							setTimeout( function() {
+								container.setStyle( 'display', 'block' );
+							}, 0 );
+						}
+
 						if ( shim ) {
 							shim.remove();
 							shim = null;
