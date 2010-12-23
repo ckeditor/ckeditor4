@@ -93,6 +93,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					currentIndex++;
 				} else if ( item.indent == Math.max( indentLevel, 0 ) + 1 ) {
 					var listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode );
+
+					// If the next block is an <li> with another list tree as the first
+					// child, we'll need to append a filler (<br>/NBSP) or the list item
+					// wouldn't be editable. (#6724)
+					if ( !currentListItem.getChildCount() && CKEDITOR.env.ie && !( doc.$.documentMode > 7 ) )
+						currentListItem.append( doc.createText( '\xa0' ) );
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
 				} else if ( item.indent == -1 && !baseIndex && item.grandparent ) {
