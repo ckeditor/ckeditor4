@@ -908,6 +908,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var temp = block.getDocument().createElement( 'div' );
 			temp.append( newBlock );
 			newBlock.$.outerHTML = '<pre>' + preHtml + '</pre>';
+			newBlock.copyAttributes( temp.getFirst() );
 			newBlock = temp.getFirst().remove();
 		} else
 			newBlock.setHtml( preHtml );
