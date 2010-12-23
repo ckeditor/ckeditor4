@@ -16,6 +16,12 @@ body
 	background-color: #fff;
 }
 
+/* preserved spaces for rtl list item bullets. (#6249)*/
+ol,ul,dl
+{
+    padding-right:40px;
+}
+
 html
 {
 	/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
