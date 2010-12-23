@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -82,6 +82,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	var objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1 };
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/;
+
+	var notBookmark = CKEDITOR.dom.walker.bookmark( 0, 1 );
 
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
 		if ( variablesValues ) {
@@ -431,18 +433,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// This node is about to be included completelly, but,
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
-							// to the range.
-							while ( !includedNode.$.nextSibling && ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) && ( parentNode.getPosition( firstNode ) | CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_FOLLOWING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( parentNode ) ) ) {
+							// to the range, otherwise apply the style immediately.
+							while ( applyStyle = !includedNode.getNext( notBookmark ) && ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) && ( parentNode.getPosition( firstNode ) | CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_FOLLOWING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( parentNode ) ) ) {
 								includedNode = parentNode;
 							}
 
 							styleRange.setEndAfter( includedNode );
 
-							// If the included node still is the last node in its
-							// parent, it means that the parent can't be included
-							// in this style DTD, so apply the style immediately.
-							if ( !includedNode.$.nextSibling )
-								applyStyle = true;
 						}
 					} else
 						applyStyle = true;
