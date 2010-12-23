@@ -107,7 +107,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentListItem = item.element.clone( false, true );
 					else {
 						// Create completely new blocks here.
-						if ( dir || item.element.hasAttributes() || ( paragraphMode != CKEDITOR.ENTER_BR && item.grandparent.getName() != 'td' ) ) {
+						if ( dir || item.element.hasAttributes() || paragraphMode != CKEDITOR.ENTER_BR ) {
 							currentListItem = doc.createElement( paragraphName );
 							item.element.copyAttributes( currentListItem, { type:1,value:1 } );
 							var itemDir = item.element.getDirection() || dir;
