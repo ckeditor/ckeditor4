@@ -960,7 +960,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// introduced by table cells selection.
 						if ( !between.collapsed ) {
 							between.shrink( CKEDITOR.NODE_ELEMENT, true );
-							if ( between.getCommonAncestor().isReadOnly() ) {
+							var ancestor = between.getCommonAncestor(),
+								enclosed = between.getEnclosedNode();
+
+							// The following cases has to be considered:
+							// 1. <span contenteditable="false">[placeholder]</span>
+							// 2. <input contenteditable="false"  type="radio"/> (#6621)
+							if ( ancestor.isReadOnly() || enclosed && enclosed.isReadOnly() ) {
 								right.setStart( left.startContainer, left.startOffset );
 								ranges.splice( i--, 1 );
 								continue;

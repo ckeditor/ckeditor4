@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -1227,21 +1227,16 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyle( document, remove ) {
 		var selection = document.getSelection(),
-			// Bookmark the range so we can re-select it after processing.
-			bookmarks = selection.createBookmarks( 1 ),
-			ranges = selection.getRanges(),
+			ranges = selection.getRanges( true ),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
 
 		var iterator = ranges.createIterator();
-		while ( ( range = iterator.getNextRange() ) )
+		while ( ( range = iterator.getNextRange() ) ) {
 			func.call( this, range );
+		}
 
-		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
-			selection.selectRanges( ranges );
-			document.getById( bookmarks[ 0 ].startNode ).remove();
-		} else
-			selection.selectBookmarks( bookmarks );
+		selection.selectRanges( ranges );
 	}
 })();
 
