@@ -309,7 +309,7 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, res
  * @example
  */
 CKEDITOR.editor.prototype.getResizable = function() {
-	return this.container.getChild( 1 );
+	return this.container;
 };
 
 /**
