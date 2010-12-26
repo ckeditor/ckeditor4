@@ -586,13 +586,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * @since 3.5
 	 * @example
 	 * // For the following HTML:
-	 * // <div contenteditable="false">Some <b>text</b></div>
+	 * // &lt;div contenteditable="false"&gt;Some &lt;b&gt;text&lt;/b&gt;&lt;/div&gt;
 	 *
-	 * // If "ele" is the above <div>
-	 * ele.getReadOnlyRoot();  // the <div> element
+	 * // If "ele" is the above &lt;div&gt;
+	 * ele.isReadOnly();  // the &lt;div&gt; element
 	 *
-	 * // If "ele" is the above <b>
-	 * ele.getReadOnlyRoot();  // the <div> element
+	 * // If "ele" is the above &lt;b&gt;
+	 * ele.isReadOnly();  // the &lt;div&gt; element
 	 */
 	isReadOnly: function() {
 		var current = this;
