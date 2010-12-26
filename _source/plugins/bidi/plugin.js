@@ -126,7 +126,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getFullySelected( range, elements, enterMode ) {
 		var ancestor = range.getCommonAncestor( false, true );
 
-		enterMode != 2 && range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+		enterMode != CKEDITOR.ENTER_BR && range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
 		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
 			var parent;
