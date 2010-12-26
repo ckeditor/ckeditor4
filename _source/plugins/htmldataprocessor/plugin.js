@@ -105,8 +105,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Attributes saved for changes and protected attributes.
 					[ ( /^data-cke-(saved|pa)-/ ), '' ],
 
-			// All "data-cke" attributes are to be ignored.
-					[ ( /^data-cke.*/ ), '' ],
+			// All "data-cke-" attributes are to be ignored.
+					[ ( /^data-cke-.*/ ), '' ],
 
 			[ 'hidefocus', '' ]
 			],
