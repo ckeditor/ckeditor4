@@ -655,7 +655,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					onChange: targetChanged,
 					setup: function( data ) {
 						if ( data.target )
-							this.setValue( data.target.type );
+							this.setValue( data.target.type || 'notSet' );
 						targetChanged.call( this );
 					},
 					commit: function( data ) {
