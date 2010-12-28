@@ -560,6 +560,9 @@ class CKEditor
 				array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
 
 				$val = str_replace($jsonReplaces[0], $jsonReplaces[1], $val);
+				if (strtoupper(substr($val, 0, 9)) == 'CKEDITOR.') {
+					return $val;
+				}
 
 				return '"' . $val . '"';
 			}
