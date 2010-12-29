@@ -39,7 +39,7 @@ CKEDITOR.plugins.add( 'menu', {
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
 		$: function( editor, definition ) {
 			definition = this._.definition = definition || {};
-			this.id = 'cke_' + CKEDITOR.tools.getNextNumber();
+			this.id = CKEDITOR.tools.getNextId();
 
 			this.editor = editor;
 			this.items = [];
