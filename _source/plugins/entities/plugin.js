@@ -5,11 +5,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	// Base HTML entities.
-	var htmlbase = 'nbsp,gt,lt,quot';
+	var htmlbase = 'nbsp,gt,lt';
 
 	var entities =
 	// Latin-1 Entities
-	'iexcl,cent,pound,curren,yen,brvbar,sect,uml,copy,ordf,laquo,' +
+	'quot,iexcl,cent,pound,curren,yen,brvbar,sect,uml,copy,ordf,laquo,' +
 		'not,shy,reg,macr,deg,plusmn,sup2,sup3,acute,micro,para,middot,' +
 		'cedil,sup1,ordm,raquo,frac14,frac12,frac34,iquest,times,divide,' +
 
@@ -68,7 +68,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return '';
 		});
 
-		if ( !reverse ) {
+		if ( !reverse && entities ) {
 			// Transforms the entities string into an array.
 			entities = entities.split( ',' );
 
