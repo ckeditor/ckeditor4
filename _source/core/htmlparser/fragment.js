@@ -338,6 +338,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		};
 
 		parser.onComment = function( comment ) {
+			sendPendingBRs();
 			checkPending();
 			currentNode.add( new CKEDITOR.htmlParser.comment( comment ) );
 		};
