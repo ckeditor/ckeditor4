@@ -525,6 +525,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						data.dialog && editor.openDialog( data.dialog );
 					});
 
+					// Prevent automatic submission in IE #6336
+					CKEDITOR.env.ie && domDocument.on( 'click', function( evt ) {
+						var element = evt.data.getTarget();
+						if ( element.is( 'input' ) ) {
+							var type = element.getAttribute( 'type' );
+							if ( type == 'submit' || type == 'reset' )
+								evt.data.preventDefault()
+						}
+					});
+
 					// Gecko/Webkit need some help when selecting control type elements. (#3448)
 					if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
 						domDocument.on( 'mousedown', function( ev ) {
