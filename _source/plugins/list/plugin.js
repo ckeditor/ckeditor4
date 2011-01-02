@@ -173,24 +173,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	function setState( editor, state ) {
-		editor.getCommand( this.name ).setState( state );
-	}
-
 	function onSelectionChange( evt ) {
 		var path = evt.data.path,
 			blockLimit = path.blockLimit,
 			elements = path.elements,
-			element;
+			element, i;
 
 		// Grouping should only happen under blockLimit.(#3940).
-		for ( var i = 0; i < elements.length && ( element = elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
-			if ( listNodeNames[ elements[ i ].getName() ] ) {
-				return setState.call( this, evt.editor, this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-			}
+		for ( i = 0; i < elements.length && ( element = elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
+			if ( listNodeNames[ elements[ i ].getName() ] )
+				return this.setState( this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		}
 
-		return setState.call( this, evt.editor, CKEDITOR.TRISTATE_OFF );
+		return this.setState( CKEDITOR.TRISTATE_OFF );
 	}
 
 	function changeListType( editor, groupObj, database, listsCreated ) {
@@ -426,7 +421,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var range = ranges.length == 1 && ranges[ 0 ],
 						enclosedNode = range && range.getEnclosedNode();
 					if ( enclosedNode && enclosedNode.is && this.type == enclosedNode.getName() )
-						setState.call( this, editor, CKEDITOR.TRISTATE_ON );
+						this.setState( CKEDITOR.TRISTATE_ON );
 				}
 			}
 
@@ -606,10 +601,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'list', {
 		init: function( editor ) {
 			// Register commands.
-			var numberedListCommand = new listCommand( 'numberedlist', 'ol' ),
-				bulletedListCommand = new listCommand( 'bulletedlist', 'ul' );
-			editor.addCommand( 'numberedlist', numberedListCommand );
-			editor.addCommand( 'bulletedlist', bulletedListCommand );
+			var numberedListCommand = editor.addCommand( 'numberedlist', new listCommand( 'numberedlist', 'ol' ) ),
+				bulletedListCommand = editor.addCommand( 'bulletedlist', new listCommand( 'bulletedlist', 'ul' ) );
 
 			// Register the toolbar button.
 			editor.ui.addButton( 'NumberedList', {

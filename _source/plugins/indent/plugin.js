@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -8,14 +8,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var listNodeNames = { ol:1,ul:1 };
-
-	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+	var listNodeNames = { ol:1,ul:1 },
+		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
-
-	function setState( editor, state ) {
-		editor.getCommand( this.name ).setState( state );
-	}
 
 	function onSelectionChange( evt ) {
 		var editor = evt.editor;
@@ -24,15 +19,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			list = elementPath && elementPath.contains( listNodeNames );
 
 		if ( list )
-			return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
+			return this.setState( CKEDITOR.TRISTATE_OFF );
 
 		if ( !this.useIndentClasses && this.name == 'indent' )
-			return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
+			return this.setState( CKEDITOR.TRISTATE_OFF );
 
 		var path = evt.data.path,
 			firstBlock = path.block || path.blockLimit;
 		if ( !firstBlock )
-			return setState.call( this, editor, CKEDITOR.TRISTATE_DISABLED );
+			return this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 		if ( this.useIndentClasses ) {
 			var indentClass = firstBlock.$.className.match( this.classNameRegex ),
@@ -42,15 +37,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				indentStep = this.indentClassMap[ indentClass ];
 			}
 			if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
-				return setState.call( this, editor, CKEDITOR.TRISTATE_DISABLED );
-			return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
+				return this.setState( CKEDITOR.TRISTATE_DISABLED );
+			return this.setState( CKEDITOR.TRISTATE_OFF );
 		} else {
 			var indent = parseInt( firstBlock.getStyle( getIndentCssProperty( firstBlock ) ), 10 );
 			if ( isNaN( indent ) )
 				indent = 0;
 			if ( indent <= 0 )
-				return setState.call( this, editor, CKEDITOR.TRISTATE_DISABLED );
-			return setState.call( this, editor, CKEDITOR.TRISTATE_OFF );
+				return this.setState( CKEDITOR.TRISTATE_DISABLED );
+			return this.setState( CKEDITOR.TRISTATE_OFF );
 		}
 	}
 
@@ -309,10 +304,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'indent', {
 		init: function( editor ) {
 			// Register commands.
-			var indent = new indentCommand( editor, 'indent' ),
-				outdent = new indentCommand( editor, 'outdent' );
-			editor.addCommand( 'indent', indent );
-			editor.addCommand( 'outdent', outdent );
+			var indent = editor.addCommand( 'indent', new indentCommand( editor, 'indent' ) ),
+				outdent = editor.addCommand( 'outdent', new indentCommand( editor, 'outdent' ) );
 
 			// Register the toolbar buttons.
 			editor.ui.addButton( 'Indent', {
