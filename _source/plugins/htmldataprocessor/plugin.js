@@ -220,11 +220,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function protectReadOnly( element ) {
-		element.attributes.contenteditable = "false";
+		var attrs = element.attributes;
+
+		// We should flag that the element was locked by our code so
+		// it'll be editable by the editor functions (#6046).
+		if ( attrs.contenteditable != "false" )
+			attrs[ 'data-cke-editable' ] = attrs.contenteditable ? 'true' : 1;
+
+		attrs.contenteditable = "false";
 	}
 
 	function unprotectReadyOnly( element ) {
-		delete element.attributes.contenteditable;
+		var attrs = element.attributes;
+		switch ( attrs[ 'data-cke-editable' ] ) {
+			case 'true':
+				attrs.contenteditable = 'true';
+				break;
+			case '1':
+				delete attrs.contenteditable;
+				break;
+		}
 	}
 	// Disable form elements editing mode provided by some browers. (#5746)
 	for ( i in { input:1,textarea:1 } ) {

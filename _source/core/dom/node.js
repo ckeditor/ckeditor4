@@ -598,7 +598,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		var current = this;
 		while ( current ) {
 			if ( current.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( current.is( 'body' ) || current.getCustomData( '_cke_notReadOnly' ) )
+				if ( current.is( 'body' ) || !!current.data( 'cke-editable' ) )
 					break;
 
 				if ( current.getAttribute( 'contentEditable' ) == 'false' )

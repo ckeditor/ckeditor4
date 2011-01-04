@@ -976,12 +976,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'insertElement', function( evt ) {
 				var element = evt.data;
 				if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
-					if ( !element.isReadOnly() ) {
-						element.setAttribute( 'contentEditable', false );
-						// We should flag that the element was locked by our code so
-						// it'll be editable by the editor functions (#6046).
-						element.setCustomData( '_cke_notReadOnly', 1 );
-					}
+					// We should flag that the element was locked by our code so
+					// it'll be editable by the editor functions (#6046).
+					if ( !element.isReadOnly() )
+						element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
+					element.setAttribute( 'contentEditable', false );
 				}
 			});
 
