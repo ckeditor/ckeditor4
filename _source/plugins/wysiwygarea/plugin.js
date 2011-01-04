@@ -695,11 +695,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// IE, Opera and Safari may not support it and throw errors.
 						try {
-							editor.document.$.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
-						} catch ( e ) {}
-						try {
 							editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
 						} catch ( e ) {}
+						if ( editor.config.disableObjectResizing ) {
+							try {
+								editor.document.$.execCommand( 'enableObjectResizing', false, false );
+							} catch ( e ) {
+								// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
+								editor.document.getBody().on( CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
+									evt.data.preventDefault();
+								});
+							}
+						}
 
 						/*
 						 * IE BUG: IE might have rendered the iframe with invisible contents.
