@@ -17,7 +17,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 			if ( config.fullPage ) {
-				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, editor.lang.preview );
+				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview );
 			} else {
 				var bodyHtml = '<body ',
 					body = editor.document && editor.document.getBody();
