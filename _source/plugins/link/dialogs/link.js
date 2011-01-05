@@ -1186,8 +1186,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 					selection = editor.getSelection();
 
-					element.moveChildren( newElement );
 					element.copyAttributes( newElement, { name:1 } );
+					element.moveChildren( newElement );
 					newElement.replace( element );
 					element = newElement;
 
