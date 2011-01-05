@@ -213,9 +213,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	if ( CKEDITOR.env.ie ) {
 		// IE outputs style attribute in capital letters. We should convert
-		// them back to lower case.
+		// them back to lower case, while not hurting the values (#5930)
 		defaultHtmlFilterRules.attributes.style = function( value, element ) {
-			return value.toLowerCase();
+			return value.replace( /(^|;)([^\:]+)/g, function( match ) {
+				return match.toLowerCase();
+			});
 		};
 	}
 
