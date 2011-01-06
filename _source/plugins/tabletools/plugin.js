@@ -451,7 +451,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( rowIndex != lastRowIndex && cellFirstChild && !( cellFirstChild.isBlockBoundary && cellFirstChild.isBlockBoundary( { br:1 } ) ) ) {
 						var last = frag.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
 						if ( last && !( last.is && last.is( 'br' ) ) )
-							frag.append( new CKEDITOR.dom.element( 'br' ) );
+							frag.append( 'br' );
 					}
 
 					cell.moveChildren( frag );
