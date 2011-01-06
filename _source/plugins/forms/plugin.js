@@ -127,22 +127,24 @@ CKEDITOR.plugins.add( 'forms', {
 						return { textarea: CKEDITOR.TRISTATE_OFF };
 
 					if ( name == 'input' ) {
-						var type = element.getAttribute( 'type' );
+						switch ( element.getAttribute( 'type' ) ) {
+							case 'button':
+							case 'submit':
+							case 'reset':
+								return { button: CKEDITOR.TRISTATE_OFF };
 
-						if ( type == 'text' || type == 'password' )
-							return { textfield: CKEDITOR.TRISTATE_OFF };
+							case 'checkbox':
+								return { checkbox: CKEDITOR.TRISTATE_OFF };
 
-						if ( type == 'button' || type == 'submit' || type == 'reset' )
-							return { button: CKEDITOR.TRISTATE_OFF };
+							case 'radio':
+								return { radio: CKEDITOR.TRISTATE_OFF };
 
-						if ( type == 'checkbox' )
-							return { checkbox: CKEDITOR.TRISTATE_OFF };
+							case 'image':
+								return { imagebutton: CKEDITOR.TRISTATE_OFF };
 
-						if ( type == 'radio' )
-							return { radio: CKEDITOR.TRISTATE_OFF };
-
-						if ( type == 'image' )
-							return { imagebutton: CKEDITOR.TRISTATE_OFF };
+							default:
+								return { textfield: CKEDITOR.TRISTATE_OFF };
+						}
 					}
 
 					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
@@ -163,13 +165,7 @@ CKEDITOR.plugins.add( 'forms', {
 			else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 				evt.data.dialog = 'hiddenfield';
 			else if ( element.is( 'input' ) ) {
-				var type = element.getAttribute( 'type' );
-
-				switch ( type ) {
-					case 'text':
-					case 'password':
-						evt.data.dialog = 'textfield';
-						break;
+				switch ( element.getAttribute( 'type' ) ) {
 					case 'button':
 					case 'submit':
 					case 'reset':
@@ -183,6 +179,9 @@ CKEDITOR.plugins.add( 'forms', {
 						break;
 					case 'image':
 						evt.data.dialog = 'imagebutton';
+						break;
+					default:
+						evt.data.dialog = 'textfield';
 						break;
 				}
 			}
@@ -201,6 +200,9 @@ CKEDITOR.plugins.add( 'forms', {
 					input: function( input ) {
 						var attrs = input.attributes,
 							type = attrs.type;
+						// Old IEs don't provide type for Text inputs #5522
+						if ( !type )
+							attrs.type = 'text';
 						if ( type == 'checkbox' || type == 'radio' )
 							attrs.value == 'on' && delete attrs.value;
 					}
