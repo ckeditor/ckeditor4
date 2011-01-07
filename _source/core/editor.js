@@ -331,7 +331,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Setup the submit function because it doesn't fire the
 					// "submit" event.
-					if ( !form.$.submit.nodeName ) {
+					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
 							return function() {
 								editor.updateElement();
