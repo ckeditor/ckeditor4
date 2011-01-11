@@ -598,13 +598,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 					}
 
-					domWindow.on( 'blur', function() {
+					var focusTarget = CKEDITOR.env.ie ? iframe : domWindow;
+					focusTarget.on( 'blur', function() {
 						editor.focusManager.blur();
 					});
 
 					var wasFocused;
 
-					domWindow.on( 'focus', function() {
+					focusTarget.on( 'focus', function() {
 						var doc = editor.document;
 
 						if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
