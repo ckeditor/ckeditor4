@@ -168,9 +168,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						container.setCustomData( 'maximize_saved_styles', saveStyles( container, true ) );
 
 						// Hide scroll bars.
-						var viewPaneSize = mainWindow.getViewPaneSize();
 						var styles = {
-							overflow: 'hidden',
+							overflow: CKEDITOR.env.webkit ? '' : 'hidden', // #6896
 							width: 0,
 							height: 0
 						};
