@@ -167,6 +167,7 @@ CKEDITOR.dialog.on( 'resize', function( evt ) {
 		var content = dialog.getContentElement( 'general', 'content' ).getElement(),
 			iframe = content && content.getChild( 2 );
 
-		iframe && iframe.setStyle( 'height', data.height + 'px' );
+		iframe && iframe.setSize( 'height', data.height );
+		iframe && iframe.setSize( 'width', data.width );
 	}
 });
