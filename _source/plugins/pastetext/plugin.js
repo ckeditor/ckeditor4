@@ -53,6 +53,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}, null, null, 0 );
 			}
+
+			editor.on( 'pasteState', function( evt ) {
+				editor.getCommand( 'pastetext' ).setState( evt.data );
+			});
 		},
 
 		requires: [ 'clipboard' ]
