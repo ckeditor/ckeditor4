@@ -5,11 +5,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_editor
 {
-/*
-	border: solid 1px #dcdcdc;
-*/
 	display: inline-table;
 	width: 100%;
+}
+.cke_skin_v2 .cke_browser_webkit .cke_editor
+{
+	display: table;	/* #6684 */
 }
 
 .cke_skin_v2
