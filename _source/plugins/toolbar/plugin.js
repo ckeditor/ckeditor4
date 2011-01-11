@@ -299,6 +299,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			editor.on( 'destroy', function() {
+				var toolbars,
+					index = 0,
+					i, items, instance;
+				toolbars = this.toolbox.toolbars;
+				for ( ; index < toolbars.length; index++ ) {
+					items = toolbars[ index ].items;
+					for ( i = 0; i < items.length; i++ ) {
+						instance = items[ i ];
+						if ( instance.clickFn )
+							CKEDITOR.tools.removeFunction( instance.clickFn );
+						if ( instance.keyDownFn )
+							CKEDITOR.tools.removeFunction( instance.keyDownFn );
+
+						if ( instance.index )
+							CKEDITOR.ui.button._.instances[ instance.index ] = null;
+					}
+				}
+			});
+
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
 		}
 	});

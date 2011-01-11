@@ -357,6 +357,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'filebrowser', {
 		init: function( editor, pluginPath ) {
 			editor._.filebrowserFn = CKEDITOR.tools.addFunction( setUrl, editor );
+			editor.on( 'destroy', function() {
+				CKEDITOR.tools.removeFunction( this._.filebrowserFn );
+			});
 		}
 	});
 
