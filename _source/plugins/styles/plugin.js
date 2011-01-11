@@ -305,7 +305,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	// Gets the parent element which blocks the styling for an element. This
 	// can be done through read-only elements (contenteditable=false) or
-	// elements with the "data-cke-nostyle" attribute.
+	// elements with the "data-nostyle" attribute.
 	function getUnstylableParent( element ) {
 		var unstylable, editable;
 
@@ -313,7 +313,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( element.getName() == 'body' )
 				break;
 
-			if ( element.getAttribute( 'data-cke-nostyle' ) )
+			if ( element.getAttribute( 'data-nostyle' ) )
 				unstylable = element;
 			else if ( !editable ) {
 				var contentEditable = element.getAttribute( 'contentEditable' );
@@ -401,7 +401,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var nodeType = currentNode.type;
 				var nodeName = nodeType == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null;
 				var nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' );
-				var nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-cke-nostyle' );
+				var nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
 				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
 					currentNode = currentNode.getNextSourceNode( true );
