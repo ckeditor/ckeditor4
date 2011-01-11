@@ -25,6 +25,7 @@ CKEDITOR.plugins.add( 'link', {
 		CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
 		// Add the CSS styles for anchor placeholders.
+		var side = editor.lang.dir == 'rtl' ? 'right' : 'left';
 		editor.addCss( 'img.cke_anchor' +
 			'{' +
 				'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ');' +
@@ -37,10 +38,10 @@ CKEDITOR.plugins.add( 'link', {
 			'a.cke_anchor' +
 			'{' +
 				'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ');' +
-				'background-position: 0 center;' +
+				'background-position: ' + side + ' center;' +
 				'background-repeat: no-repeat;' +
 				'border: 1px solid #a9a9a9;' +
-				'padding-left: 18px;' +
+				'padding-' + side + ': 18px;' +
 			'}'
 				);
 
