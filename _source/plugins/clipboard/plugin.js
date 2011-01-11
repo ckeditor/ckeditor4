@@ -179,19 +179,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				ieRange.moveToElementText( pastebin.$ );
 				ieRange.execCommand( 'Paste' );
 				evt.data.preventDefault();
-			} else {
-				doc.$.designMode = 'off';
+			} else
 				pastebin.$.focus();
-			}
 		} else {
 			range.setStartAt( pastebin, CKEDITOR.POSITION_AFTER_START );
 			range.setEndAt( pastebin, CKEDITOR.POSITION_BEFORE_END );
 			range.select( true );
 		}
 
+		var editor = this;
 		// Wait a while and grab the pasted contents
 		window.setTimeout( function() {
-			mode == 'text' && !CKEDITOR.env.ie && ( doc.$.designMode = 'on' );
+			mode == 'text' && CKEDITOR.env.gecko && editor.focusGrabber.focus();
 			pastebin.remove();
 
 			// Grab the HTML contents.

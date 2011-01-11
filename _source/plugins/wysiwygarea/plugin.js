@@ -972,10 +972,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					focusGrabber.on( 'focus', function() {
 						editor.focus();
 					});
+
+					editor.focusGrabber = focusGrabber;
 				});
 				editor.on( 'destroy', function() {
 					CKEDITOR.tools.removeFunction( contentDomReadyHandler );
 					focusGrabber.clearCustomData();
+					delete editor.focusGrabber;
 				});
 			}
 
