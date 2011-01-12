@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -34,6 +35,10 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	this.children = [];
 
 	var tagName = attributes[ 'data-cke-real-element-type' ] || name;
+
+	// Reveal the real semantic of our internal custom tag name (#6639).
+	var internalTag = tagName.match( /^cke:(.*)/ );
+	internalTag && ( tagName = internalTag[ 1 ] );
 
 	var dtd = CKEDITOR.dtd,
 		isBlockLike = !!( dtd.$nonBodyContent[ tagName ] || dtd.$block[ tagName ] || dtd.$listItem[ tagName ] || dtd.$tableContent[ tagName ] || dtd.$nonEditable[ tagName ] || tagName == 'br' ),
