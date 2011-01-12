@@ -400,7 +400,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 						}
 
 					case 'hspace':
-						return this.$.hspace;
+					case 'value':
+						return this.$[ name ];
 
 					case 'style':
 						// IE does not return inline styles via getAttribute(). See #2947.
