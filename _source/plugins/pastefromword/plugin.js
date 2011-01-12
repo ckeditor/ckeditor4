@@ -74,7 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var filterFilePath = CKEDITOR.getUrl( CKEDITOR.config.pasteFromWordCleanupFile || ( this.path + 'filter/default.js' ) );
 
 				// Load with busy indicator.
-				CKEDITOR.scriptLoader.load( filterFilePath, callback, null, false, true );
+				CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
 			}
 
 			return !isLoaded;

@@ -32,8 +32,6 @@ CKEDITOR.scriptLoader = (function() {
 		 *		ones.
 		 * @param {Object} [scope] The scope ("this" reference) to be used for
 		 *		the callback call. Default to {@link CKEDITOR}.
-		 * @param {Boolean} [noCheck] Indicates that the script must be loaded
-		 *		anyway, not checking if it has already loaded.
 		 * @param {Boolean} [showBusy] Changes the cursor of the document while
 +		 *		the script is loaded.
 		 * @example
@@ -52,7 +50,7 @@ CKEDITOR.scriptLoader = (function() {
 		 *         alert( 'Number of failures: ' + failed.length );
 		 *     });
 		 */
-		load: function( scriptUrl, callback, scope, noCheck, showBusy ) {
+		load: function( scriptUrl, callback, scope, showBusy ) {
 			var isString = ( typeof scriptUrl == 'string' );
 
 			if ( isString )
@@ -102,7 +100,7 @@ CKEDITOR.scriptLoader = (function() {
 				};
 
 			var loadScript = function( url ) {
-					if ( noCheck !== true && uniqueScripts[ url ] ) {
+					if ( uniqueScripts[ url ] ) {
 						checkLoaded( url, true );
 						return;
 					}
@@ -158,23 +156,6 @@ CKEDITOR.scriptLoader = (function() {
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
 			}
-		},
-
-		/**
-		 * Executes a JavaScript code into the current document.
-		 * @param {String} code The code to be executed.
-		 * @example
-		 * CKEDITOR.scriptLoader.loadCode( 'var x = 10;' );
-		 * alert( x );  // "10"
-		 */
-		loadCode: function( code ) {
-			// Create the <script> element.
-			var script = new CKEDITOR.dom.element( 'script' );
-			script.setAttribute( 'type', 'text/javascript' );
-			script.appendText( code );
-
-			// Append it to <head>.
-			script.appendTo( CKEDITOR.document.getHead() );
 		}
 	};
 })();
