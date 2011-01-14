@@ -170,6 +170,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					delete element.name;
 			},
 
+			// Empty <pre> in IE is reported with filler node (&nbsp;).
+			pre: function( element ) {
+				CKEDITOR.env.ie && trimFillers( element );
+			},
+
 			html: function( element ) {
 				delete element.attributes.contenteditable;
 				delete element.attributes[ 'class' ];
