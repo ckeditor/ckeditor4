@@ -40,14 +40,8 @@
 			}
 			],
 			onShow: function() {
-				if ( isEdit ) {
-					var range = editor.getSelection().getRanges()[ 0 ];
-					range.shrink( CKEDITOR.SHRINK_TEXT );
-					var node = range.startContainer;
-					while ( node && !( node.type == CKEDITOR.NODE_ELEMENT && node.data( 'cke-placeholder' ) ) )
-						node = node.getParent();
-					this._element = node;
-				}
+				if ( isEdit )
+					this._element = CKEDITOR.plugins.placeholder.getSelectedPlaceHoder( editor );
 
 				this.setupContent( this._element );
 			},
