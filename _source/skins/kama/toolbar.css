@@ -197,7 +197,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale'), alpha(opacity=30);
 }
 .cke_skin_kama .cke_browser_ie6 .cke_button a.cke_disabled *,
-.cke_skin_kama .cke_browser_ie6 a:hover.cke_button .cke_disabled *
+.cke_skin_kama .cke_browser_ie6 a:hover.cke_button .cke_disabled *,
+.cke_skin_kama .cke_browser_ie .cke_button.cke_noalphafix a.cke_disabled *
 {
 	filter: alpha(opacity=30);
 }
@@ -270,7 +271,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
 .cke_skin_kama .cke_browser_ie6 .cke_button .cke_icon,
-.cke_skin_kama .cke_browser_ie6 .cke_rtl .cke_button .cke_icon
+.cke_skin_kama .cke_browser_ie6 .cke_rtl .cke_button .cke_icon,
+.cke_skin_kama .cke_browser_ie .cke_button.cke_noalphafix .cke_icon,
+.cke_skin_kama .cke_browser_ie .cke_rtl .cke_button.cke_noalphafix .cke_icon
 {
 	filter: ;
 }

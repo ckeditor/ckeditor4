@@ -153,13 +153,13 @@ CKEDITOR.ui.button._ = {
 			if ( this.className )
 				classes += ' ' + this.className;
 
-			output.push( '<span class="cke_button">', '<a id="', id, '"' +
-				' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
-				' tabindex="-1"' +
-				' hidefocus="true"' +
-				' role="button"' +
-				' aria-labelledby="' + id + '_label"' +
-				( this.hasArrow ? ' aria-haspopup="true"' : '' ) );
+			output.push( '<span class="cke_button' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">', '<a id="', id, '"' +
+								' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
+								' tabindex="-1"' +
+								' hidefocus="true"' +
+								' role="button"' +
+								' aria-labelledby="' + id + '_label"' +
+								( this.hasArrow ? ' aria-haspopup="true"' : '' ) );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.

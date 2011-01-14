@@ -345,17 +345,17 @@ CKEDITOR.plugins.add( 'menu', {
 
 				var hasSubMenu = this.getItems;
 
-				output.push( '<span class="cke_menuitem">' +
-					'<a id="', id, '"' +
-						' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
-						' title="', this.label, '"' +
-						' tabindex="-1"' +
-						'_cke_focus=1' +
-						' hidefocus="true"' +
-						' role="menuitem"' +
-						( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
-						( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
-						( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
+				output.push( '<span class="cke_menuitem' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">' +
+									'<a id="', id, '"' +
+										' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
+										' title="', this.label, '"' +
+										' tabindex="-1"' +
+										'_cke_focus=1' +
+										' hidefocus="true"' +
+										' role="menuitem"' +
+										( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
+										( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
+										( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
 
 				// Some browsers don't cancel key events in the keydown but in the
 				// keypress.
