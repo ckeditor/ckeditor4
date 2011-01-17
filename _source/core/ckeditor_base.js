@@ -76,11 +76,11 @@ if ( !window.CKEDITOR ) {
 			 *			<li><b>basic_loaded</b>: the basic API features are available.</li>
 			 *			<li><b>basic_ready</b>: the basic API is ready to load the full core code.</li>
 			 *			<li><b>loading</b>: the full API is being loaded.</li>
-			 *			<li><b>ready</b>: the API can be fully used.</li>
+			 *			<li><b>loaded</b>: the API can be fully used.</li>
 			 *		</ul>
 			 * @type String
 			 * @example
-			 * if ( <b>CKEDITOR.status</b> == 'ready' )
+			 * if ( <b>CKEDITOR.status</b> == 'loaded' )
 			 * {
 			 *     // The API can now be fully used.
 			 * }
