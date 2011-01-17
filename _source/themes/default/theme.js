@@ -21,7 +21,9 @@ CKEDITOR.themes.add( 'default', ( function() {
 		// the space.
 		if ( element ) {
 			// Creates an HTML structure that reproduces the editor class hierarchy.
-			var html = '<span class="cke_shared">' +
+			var html = '<span class="cke_shared "' +
+				' dir="' + editor.lang.dir + '"' +
+				'>' +
 				'<span class="' + editor.skinClass + ' ' + editor.id + ' cke_editor_' + editor.name + '">' +
 				'<span class="' + CKEDITOR.env.cssClass + '">' +
 				'<span class="cke_wrapper cke_' + editor.lang.dir + '">' +
