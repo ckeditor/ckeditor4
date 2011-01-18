@@ -344,13 +344,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
 			editor.on( 'selectionChange', function( evt ) {
-				inReadOnly = evt.data.selection.getCommonAncestor().isReadOnly();
+				inReadOnly = evt.data.selection.getRanges()[ 0 ].checkReadOnly();
 			});
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
-					var readOnly = selection.getCommonAncestor().isReadOnly();
+					var readOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
 						cut: !readOnly && stateFromNamedCommand( 'Cut', editor ),
 						copy: stateFromNamedCommand( 'Copy', editor ),

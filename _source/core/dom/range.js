@@ -1546,6 +1546,37 @@ CKEDITOR.dom.range = function( document ) {
 		},
 
 		/**
+		 * Check if elements at which the range boundaries anchor are read-only,
+		 * with respect to "contenteditable" attribute.
+		 */
+		checkReadOnly: (function() {
+			function checkNodesEditable( node, anotherEnd ) {
+				while ( node ) {
+					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+						if ( node.getAttribute( 'contentEditable' ) == 'false' && !node.data( 'cke-editable' ) ) {
+							return 0;
+						}
+						// Range enclosed entirely in an editable element.
+						else if ( node.is( 'body' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) ) {
+							break;
+						}
+					}
+					node = node.getParent();
+				}
+
+				return 1;
+			}
+
+			return function() {
+				var startNode = this.startContainer,
+					endNode = this.endContainer;
+
+				// Check if elements path at both boundaries are editable.
+				return !( checkNodesEditable( startNode, endNode ) && checkNodesEditable( endNode, startNode ) )
+			};
+		})(),
+
+		/**
 		 * Moves the range boundaries to the first/end editing point inside an
 		 * element. For example, in an element tree like
 		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;", the start editing point is
