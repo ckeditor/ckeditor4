@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var guardElements = { table:1,tbody:1,ul:1,ol:1,blockquote:1,div:1,tr:1 },
+	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
 		directSelectionGuardElements = {},
 		// All guard elements which can have a direction applied on them.
 		allGuardElements = {};
@@ -130,7 +130,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
 			var parent;
-			while ( ancestor && ancestor.type == CKEDITOR.NODE_ELEMENT && ( parent = ancestor.getParent() ) && parent.getChildCount() == 1 && ( !( ancestor.getName() in elements ) || ( parent.getName() in elements ) ) )
+			while ( ancestor && ancestor.type == CKEDITOR.NODE_ELEMENT && ( parent = ancestor.getParent() ) && parent.getChildCount() == 1 && !( ancestor.getName() in elements ) )
 				ancestor = parent;
 
 			return ancestor.type == CKEDITOR.NODE_ELEMENT && ( ancestor.getName() in elements ) && ancestor;
@@ -173,7 +173,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						end = bookmarks[ i++ ].endNode;
 
 					walker.evaluator = function( node ) {
-						return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ) ? 'p' : 'div' && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
+						return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
 						// Element must be fully included in the range as well. (#6485).
 						&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING && ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 					};

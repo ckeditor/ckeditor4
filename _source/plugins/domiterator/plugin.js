@@ -28,7 +28,16 @@ CKEDITOR.plugins.add( 'domiterator' );
 	}
 
 	var beginWhitespaceRegex = /^[\r\n\t ]+$/,
-		isBookmark = CKEDITOR.dom.walker.bookmark();
+		// Ignore bookmark nodes.(#3783)
+		bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true );
+
+	// Get a reference for the next element, bookmark nodes are skipped.
+	function getNextSourceNode( node, startFromSibling, lastNode ) {
+		var next = node.getNextSourceNode( startFromSibling, null, lastNode );
+		while ( !bookmarkGuard( next ) )
+			next = next.getNextSourceNode( startFromSibling, null, lastNode );
+		return next;
+	}
 
 	iterator.prototype = {
 		getNextParagraph: function( blockTag ) {
@@ -191,7 +200,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 				if ( includeNode )
 					range.setEndAt( currentNode, CKEDITOR.POSITION_AFTER_END );
 
-				currentNode = currentNode.getNextSourceNode( continueFromSibling, null, lastNode );
+				currentNode = getNextSourceNode( currentNode, continueFromSibling, lastNode );
 				isLast = !currentNode;
 
 				// We have found a block boundary. Let's close the range and move out of the
@@ -256,12 +265,9 @@ CKEDITOR.plugins.add( 'domiterator' );
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : range.getBoundaryNodes().endNode.getNextSourceNode( true, null, lastNode ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode ) );
 				}
 			}
-
-			// Ignore bookmark nodes.(#3783)
-			var bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true );
 
 			if ( removePreviousBr ) {
 				var previousSibling = block.getPrevious();
@@ -286,13 +292,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
 			if ( !this._.nextNode ) {
-				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : block.getNextSourceNode( true, null, lastNode );
-			}
-
-			if ( !bookmarkGuard( this._.nextNode ) ) {
-				this._.nextNode = this._.nextNode.getNextSourceNode( true, null, function( node ) {
-					return !node.equals( lastNode ) && bookmarkGuard( node );
-				});
+				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : getNextSourceNode( block, 1, lastNode );
 			}
 
 			return block;
