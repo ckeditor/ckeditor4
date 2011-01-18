@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>User Interface Globalization - CKEditor Sample</title>
+	<title>User Interface Globalization &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -19,8 +19,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; User Interface Languages
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to automatically replace <code>&lt;textarea&gt;</code> elements
+		with a CKEditor instance with an option to change the language of its user interface.
+	</p>
+	<p>
+		It pulls the language list from CKEditor <code>_languages.js</code> file that contains the list of supported languages and creates
+		a drop-down list that lets the user change the UI language.
+	</p>
+	<p>
+	By default, CKEditor automatically localizes the editor to the language of the user.
+	The UI language can be controlled with two configuration options:
+	<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.language">
+	<code>language</code></a> and <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.defaultLanguage">
+	<code>defaultLanguage</code></a>. The <code>defaultLanguage</code> setting specifies the
+	default CKEditor language to be used when a localization suitable for user's settings is not available.
+	</p>
+	<p>
+	To specify the user interface language that will be used no matter what language is 
+	specified in user's browser or operating system, set the <code>language</code> property:  
+	</p>
+	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	{
+		// Load the German interface.
+		<strong>language: 'de'</strong>
+	});</pre>
+	<p>
+		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+		the <code>&lt;textarea&gt;</code> element to be replaced.
+	</p>
+	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -49,7 +80,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			//]]>
 			</script>
 			<br />
-			<span style="color: #888888">(You may see strange characters if your system doesn't
+			<span style="color: #888888">(You may see strange characters if your system does not
 				support the selected language)</span>
 		</p>
 		<p>
@@ -97,7 +128,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

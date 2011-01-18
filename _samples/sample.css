@@ -3,10 +3,98 @@ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+html, body, h1, h2, h3, h4, h5, h6, div, span, blockquote, p, address, form, fieldset, img, ul, ol, dl, dt, dd, li, hr, table, td, th, strong, em, sup, sub, dfn, ins, del, q, cite, var, samp, code, kbd, tt, pre {
+	border: 0 none;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	padding:10px 30px;	
+}
+
+input, textarea, select, option, optgroup, button, td, th {
+	font-size: 100%;
+}
+
+pre,
+code,
+kbd,
+samp,
+tt{
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+b, strong {
+	font-weight:bold;
+}
+
+i, cite, em, var, dfn, blockquote {
+	font-style:italic;
+}
+
+p, ul, ol, blockquote, address, form, table, pre, dl, h1, h2, h3, h4, h5, h6 {
+	margin-bottom:15px;
+}
+
+ul ul, ul ol, ol ul, ol ol {
+	margin-bottom:0;
+}
+
+ul {
+	list-style-type:disc;
+}
+
+ol {
+	list-style-type:decimal;
+}
+
+li {
+	margin-left:40px;
+}
+
+a {
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+.clear {
+	clear:both;
+}
+
 fieldset
 {
 	margin: 0;
 	padding: 10px;
+}
+
+body, input, textarea {
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	font-size: 75%;
+}
+
+a {
+	color:#189DE1;
+}
+
+h1 {
+	color:#0782C1;
+	font-size:200%;
+	font-weight:normal;
+}
+
+h2 {
+	color:#000000;
+	font-size:130%;
 }
 
 form
@@ -20,7 +108,6 @@ pre
 	background-color: #F7F7F7;
 	border: 1px solid #D7D7D7;
 	overflow: auto;
-	margin: 0;
 	padding: 0.25em;
 }
 
@@ -79,3 +166,15 @@ pre
 	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
 	word-wrap: break-word; /* IE */
 }
+
+.description {
+	border: 1px dotted #B7B7B7;
+	margin-bottom: 10px;
+	padding: 10px 10px 0;
+}
+
+label {
+	display: block;
+	margin-bottom:6px;
+}
+

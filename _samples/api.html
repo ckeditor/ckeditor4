@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>API usage - CKEditor Sample</title>
+	<title>API Usage &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -17,12 +17,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script type="text/javascript">
 	//<![CDATA[
 
-// The instanceReady event is fired when an instance of CKEditor has finished
+// The instanceReady event is fired, when an instance of CKEditor has finished
 // its initialization.
 CKEDITOR.on( 'instanceReady', function( ev )
 {
 	// Show the editor name and description in the browser status bar.
-	document.getElementById( 'eMessage' ).innerHTML = '<p>Instance "' + ev.editor.name + '" loaded.<\/p>';
+	document.getElementById( 'eMessage' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
 
 	// Show this sample buttons.
 	document.getElementById( 'eButtons' ).style.visibility = '';
@@ -37,11 +37,12 @@ function InsertHTML()
 	// Check the active editing mode.
 	if ( oEditor.mode == 'wysiwyg' )
 	{
-		// Insert the desired HTML.
+		// Insert HTML code.
+		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertHtml
 		oEditor.insertHtml( value );
 	}
 	else
-		alert( 'You must be on WYSIWYG mode!' );
+		alert( 'You must be in WYSIWYG mode!' );
 }
 
 function InsertText()
@@ -54,10 +55,11 @@ function InsertText()
 	if ( oEditor.mode == 'wysiwyg' )
 	{
 		// Insert as plain text.
+		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertText
 		oEditor.insertText( value );
 	}
 	else
-		alert( 'You must be on WYSIWYG mode!' );
+		alert( 'You must be in WYSIWYG mode!' );
 }
 
 function SetContents()
@@ -66,16 +68,18 @@ function SetContents()
 	var oEditor = CKEDITOR.instances.editor1;
 	var value = document.getElementById( 'htmlArea' ).value;
 
-	// Set the editor contents (replace the actual one).
+	// Set editor contents (replace current contents).
+	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setData
 	oEditor.setData( value );
 }
 
 function GetContents()
 {
-	// Get the editor instance that we want to interact with.
+	// Get the editor instance that you want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
 
-	// Get the editor contents
+	// Get editor contents
+	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#getData
 	alert( oEditor.getData() );
 }
 
@@ -88,16 +92,20 @@ function ExecuteCommand( commandName )
 	if ( oEditor.mode == 'wysiwyg' )
 	{
 		// Execute the command.
+		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#execCommand
 		oEditor.execCommand( commandName );
 	}
 	else
-		alert( 'You must be on WYSIWYG mode!' );
+		alert( 'You must be in WYSIWYG mode!' );
 }
 
 function CheckDirty()
 {
 	// Get the editor instance that we want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
+	// Checks whether the current editor contents present changes when compared 
+	// to the contents loaded into the editor at startup
+	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#checkDirty
 	alert( oEditor.checkDirty() );
 }
 
@@ -105,6 +113,8 @@ function ResetDirty()
 {
 	// Get the editor instance that we want to interact with.
 	var oEditor = CKEDITOR.instances.editor1;
+	// Resets the "dirty state" of the editor (see CheckDirty())
+	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#resetDirty
 	oEditor.resetDirty();
 	alert( 'The "IsDirty" status has been reset' );
 }
@@ -115,8 +125,19 @@ function ResetDirty()
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Using CKEditor JavaScript API
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to use the 
+		<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html">CKEditor JavaScript API</a>
+		to interact with the editor at runtime.
+	</p>
+	<p>
+		For details on how to create this setup check the source code of this sample page.
+	</p>
+	</div>
+
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -128,10 +149,7 @@ function ResetDirty()
 		</noscript>
 	</div>
 	<form action="sample_posteddata.php" method="post">
-		<p>
-			This sample shows how to use the CKEditor JavaScript API to interact with the editor
-			at runtime.</p>
-		<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<textarea cols="100" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 
 		<script type="text/javascript">
 		//<![CDATA[
@@ -147,14 +165,14 @@ function ResetDirty()
 			<input onclick="SetContents();" type="button" value="Set Editor Contents" />
 			<input onclick="GetContents();" type="button" value="Get Editor Contents (XHTML)" />
 			<br />
-			<textarea cols="80" id="htmlArea" rows="3">&lt;h2&gt;Test&lt;/h2&gt;&lt;p&gt;This is some &lt;a href="/Test1.html"&gt;sample&lt;/a&gt; HTML&lt;/p&gt;</textarea>
+			<textarea cols="100" id="htmlArea" rows="3">&lt;h2&gt;Test&lt;/h2&gt;&lt;p&gt;This is some &lt;a href="/Test1.html"&gt;sample&lt;/a&gt; HTML code.&lt;/p&gt;</textarea>
 			<br />
 			<br />
 			<input onclick="InsertText();" type="button" value="Insert Text" />
 			<br />
-			<textarea cols="80" id="txtArea" rows="3">   First line with some leading whitespaces.
+			<textarea cols="100" id="txtArea" rows="3">   First line with some leading whitespaces.
 
-Second line of text preceding by two line-breaks.</textarea>
+Second line of text preceded by two line breaks.</textarea>
 			<br />
 			<input onclick="ExecuteCommand('bold');" type="button" value="Execute &quot;bold&quot; Command" />
 			<input onclick="ExecuteCommand('link');" type="button" value="Execute &quot;link&quot; Command" />
@@ -167,7 +185,7 @@ Second line of text preceding by two line-breaks.</textarea>
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

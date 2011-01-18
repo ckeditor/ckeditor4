@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Replace Textareas by Class Name - CKEditor Sample</title>
+	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -17,8 +17,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Replace Textarea Elements by Class Name
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to automatically replace all <code>&lt;textarea&gt;</code> elements
+		of a given class with a CKEditor instance.
+	</p>
+	<p>
+		To replace a <code>&lt;textarea&gt;</code> element, simply assign it the <code>ckeditor</code>
+		class, as in the code below: 
+	</p>
+	<pre>&lt;textarea <strong>class="ckeditor</strong>" name="editor1"&gt;&lt;/textarea&gt;</pre>
+	<p>
+		Note that other <code>&lt;textarea&gt;</code> attributes (like <code>id</code> or <code>name</code>) need to be adjusted to your document.
+	</p>
+	</div>
+	
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -32,7 +47,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<form action="sample_posteddata.php" method="post">
 		<p>
 			<label for="editor1">
-				Editor 1:</label><br />
+				Editor 1:</label>
 			<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
@@ -42,7 +57,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

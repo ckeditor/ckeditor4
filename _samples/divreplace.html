@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Replace DIV - CKEditor Sample</title>
+	<title>Replace DIV &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -75,8 +75,19 @@ function replaceDiv( div )
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Replace DIV with CKEditor on the Fly 
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to automatically replace <code>&lt;div&gt;</code> elements
+		with a CKEditor instance on the fly, following user's doubleclick. The content
+		that was previously placed inside the <code>&lt;div&gt;</code> element will now
+		be moved into CKEditor editing area.
+	</p>
+	<p>
+		For details on how to create this setup check the source code of this sample page.
+	</p>
+	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -88,7 +99,8 @@ function replaceDiv( div )
 		</noscript>
 	</div>
 	<p>
-		Double-click on any of the following DIVs to transform them into editor instances.</p>
+		Double-click any of the following <code>&lt;div&gt;</code> elements to transform them into
+		editor instances.</p>
 	<div class="editable">
 		<h3>
 			Part 1</h3>
@@ -130,7 +142,7 @@ function replaceDiv( div )
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

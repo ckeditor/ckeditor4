@@ -5,15 +5,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Sample - CKEditor</title>
+	<title>Replace All Textarea Elements &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Replace All Textarea Elements Using PHP Code
 	</h1>
-	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div class="description">
+	<p>
+		This sample shows how to replace all <code>&lt;textarea&gt;</code> elements
+		with CKEditor by using PHP code.
+	</p>
+	<p>
+		To replace all <code>&lt;textarea&gt;</code> elements, place the following call at any point
+		after the last <code>&lt;textarea&gt;</code> element: 
+	</p>
+	<pre>
+&lt;?php
+// Include the CKEditor class.
+include("ckeditor/ckeditor.php");
+
+// Create a class instance.
+$CKEditor = new CKEditor();
+
+// Path to the CKEditor directory.
+$CKEditor->basePath = '/ckeditor/';
+
+// Replace all textarea elements with CKEditor.
+$CKEditor->replaceAll();
+?&gt;</pre>
+	</div>
+	<!-- This <div> holds alert messages to be displayed in the sample page. -->
 	<div id="alerts">
 		<noscript>
 			<p>
@@ -23,29 +47,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</p>
 		</noscript>
 	</div>
-	<!-- This <fieldset> holds the HTML that you will usually find in your pages. -->
-	<fieldset title="Output">
-		<legend>Output</legend>
-		<form action="../sample_posteddata.php" method="post">
-			<p>
-				<label for="editor1">
-					Editor 1:</label><br/>
-				<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			</p>
-			<p>
-				<label for="editor2">
-					Editor 2:</label><br/>
-				<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			</p>
-			<p>
-				<input type="submit" value="Submit"/>
-			</p>
-		</form>
-	</fieldset>
+	<form action="../sample_posteddata.php" method="post">
+		<p>
+			<label for="editor1">
+				Editor 1:</label>
+			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		</p>
+		<p>
+			<label for="editor2">
+				Editor 2:</label>
+			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		</p>
+		<p>
+			<input type="submit" value="Submit"/>
+		</p>
+	</form>
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico
@@ -53,15 +73,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</p>
 	</div>
 	<?php
-	// Include CKEditor class.
+	// Include the CKEditor class.
 	include("../../ckeditor.php");
-	// Create class instance.
+	// Create a class instance.
 	$CKEditor = new CKEditor();
-	// Path to CKEditor directory, ideally instead of relative dir, use an absolute path:
+	// Path to the CKEditor directory, ideally use an absolute path instead of a relative dir.
 	//   $CKEditor->basePath = '/ckeditor/'
 	// If not set, CKEditor will try to detect the correct path.
 	$CKEditor->basePath = '../../';
-	// Replace all textareas with CKEditor.
+	// Replace all textarea elements with CKEditor.
 	$CKEditor->replaceAll();
 	?>
 </body>

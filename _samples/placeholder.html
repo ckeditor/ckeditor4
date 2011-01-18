@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Placeholder Plugin - CKEditor Sample</title>
+	<title>Placeholder Plugin &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -17,8 +17,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Using the Placeholder Plugin
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to configure CKEditor instances to use the 
+		<strong>placeholder</strong> plugin that lets you insert read-only elements
+		into your content. To enter and modify read-only text, use the
+		<strong>Create Placeholder</strong> button and its matching dialog window.
+	</p>
+	<p>
+		To add a CKEditor instance that uses the <strong>placeholder</strong> plugin and a related
+		<strong>Create Placeholder</strong> toolbar button, insert the following JavaScript
+		call to your code: 
+	</p>
+	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	{
+		<strong>extraPlugins : 'placeholder',</strong>
+		toolbar : [ [ 'Source', 'Bold' ], [<strong>'CreatePlaceholder'</strong>] ]
+	});</pre>
+	<p>
+		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+		the <code>&lt;textarea&gt;</code> element to be replaced with CKEditor.
+	</p>
+	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -31,11 +53,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</div>
 	<form action="sample_posteddata.php" method="post">
 		<p>
-			In this sample the Placeholder plugin is available.<br />
-			It replaces text in the format of <code>[[text]]</code> to uneditable sections, and lets the user edit them and create new ones using a dialog.</p>
-		<p>
 			<label for="editor1">
-				With default configuration:</label><br />
+				CKEditor using the <strong>placeholder</strong> plugin with its default configuration:</label>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is a [[sample placeholder]]. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;. &lt;/p&gt;</textarea>
 			<script type="text/javascript">
 			//<![CDATA[
@@ -55,7 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

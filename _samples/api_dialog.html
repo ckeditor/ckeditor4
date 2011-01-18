@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Using API to customize dialogs - CKEditor Sample</title>
+	<title>Using API to Customize Dialog Windows &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -107,8 +107,31 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Using CKEditor Dialog API
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to use the 
+		<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.dialog.html">CKEditor Dialog API</a>
+		to customize CKEditor dialog windows without changing the original editor code.
+		The following customizations are being done in the example below:
+	</p>
+	<ol>
+		<li><strong>Adding dialog window tabs</strong> &ndash; "My Tab" in the "Link" dialog window.</li>
+		<li><strong>Removing a dialog window tab</strong> &ndash; "Target" tab from the "Link" dialog window.</li>
+		<li><strong>Adding dialog window fields</strong> &ndash; "My Custom Field" in the "Link" dialog window.</li>
+		<li><strong>Removing dialog window fields</strong> &ndash; "Link Type" and "Browse Server" in the "Link"
+			dialog window.</li>
+		<li><strong>Setting default values for dialog window fields</strong> &ndash; "URL" field in the
+			"Link" dialog window. </li>
+		<li><strong>Creating a custom dialog window</strong> &ndash; "My Dialog" dialog window opened with the "My Dialog" toolbar button.</li>
+	</ol>
+	<p>
+For details on how to create this setup check the source code of this sample page.
+	</p>
+	</div>
+	
+	
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -121,19 +144,6 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 	</div>
 	<!-- This <fieldset> holds the HTML that you will usually find in your
 	     pages. -->
-	<p>
-		This sample shows how to use the dialog API to customize dialogs whithout changing
-		the original editor code. The following customizations are being done::</p>
-	<ol>
-		<li><strong>Add dialog pages</strong> ("My Tab" in the Link dialog).</li>
-		<li><strong>Remove a dialog tab</strong> ("Target" tab from the Link dialog).</li>
-		<li><strong>Add dialog fields</strong> ("My Custom Field" into the Link dialog).</li>
-		<li><strong>Remove dialog fields</strong> ("Link Type" and "Browser Server" the Link
-			dialog).</li>
-		<li><strong>Set default values for dialog fields</strong> (for the "URL" field in the
-			Link dialog). </li>
-		<li><strong>Create a custom dialog</strong> ("My Dialog" button).</li>
-	</ol>
 	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -181,7 +191,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

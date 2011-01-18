@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Output for Flash</title>
+	<title>Output for Flash &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -33,8 +33,31 @@ function init()
 	</head>
 <body onload="init()">
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Producing Flash Compliant HTML Output
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to configure CKEditor to output 
+		HTML code that can be used with
+		<a href="http://www.adobe.com/livedocs/flash/9.0/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&amp;file=00000922.html">
+		Adobe Flash</a>.
+		The code will contain a subset of standard HTML elements like <code>&lt;b&gt;</code>,
+		<code>&lt;i&gt;</code>, and <code>&lt;p&gt;</code> as well as HTML attributes.
+	</p>
+	<p>
+		To add a CKEditor instance outputting Flash compliant HTML code, load the editor using a standard
+		JavaScript call, and define CKEditor features to use HTML elements and attributes.
+	</p>
+	<p>
+		For details on how to create this setup check the source code of this sample page.
+	</p>
+	</div>
+	<p>
+		To see how it works, create some content in the editing area of CKEditor on the left
+		and send it to the Flash object on the right side of the page by using the
+		<strong>Send to Flash</strong> button.
+	</p>
+
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -44,12 +67,6 @@ function init()
 				be able to edit it normally, without a rich editor interface.
 			</p>
 		</noscript>
-	</div>
-
-	<div>
-		This sample shows CKEditor configured to produce HTML code that can be used with
-		<a href="http://www.adobe.com/livedocs/flash/9.0/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&amp;file=00000922.html">
-			Flash</a>.
 	</div>
 	<hr />
 	<table width="100%" cellpadding="0" cellspacing="0">
@@ -250,7 +267,7 @@ function configureFlashOutput( ev )
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

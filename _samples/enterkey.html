@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>ENTER Key Configuration - CKEditor Sample</title>
+	<title>ENTER Key Configuration &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -40,8 +40,35 @@ window.onload = changeEnter;
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; ENTER Key Configuration
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to configure the <em>Enter</em> and <em>Shift+Enter</em> keys 
+		to perform actions specified in the 
+		<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.enterMode"><code>enterMode</code></a> 
+		and <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.shiftEnterMode"><code>shiftEnterMode</code></a>
+		parameters, respectively.
+ 		You can choose from the following options:
+	</p>
+	<ul>
+		<li><strong><code>ENTER_P</code></strong> &ndash; new <code>&lt;p&gt;</code> paragraphs are created;</li>
+		<li><strong><code>ENTER_BR</code></strong> &ndash; lines are broken with <code>&lt;br&gt;</code> elements;</li>
+		<li><strong><code>ENTER_DIV</code></strong> &ndash; new <code>&lt;div&gt;</code> blocks are created.</li>
+	</ul>
+	<p>
+		The sample code below shows how to configure CKEditor to create a <code>&lt;div&gt;</code> block when <em>Enter</em> key is pressed.
+	</p>
+	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	{
+		<strong>enterMode : CKEDITOR.ENTER_DIV</strong>
+	});</pre>
+	<p>
+		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+		the <code>&lt;textarea&gt;</code> element to be replaced.
+	</p>
+	</div>
+
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -53,18 +80,18 @@ window.onload = changeEnter;
 		</noscript>
 	</div>
 	<div style="float: left; margin-right: 20px">
-		When ENTER is pressed:<br />
+		When <em>Enter</em> is pressed:<br />
 		<select id="xEnter" onchange="changeEnter();">
-			<option selected="selected" value="1">Create new &lt;P&gt; (recommended)</option>
-			<option value="3">Create new &lt;DIV&gt;</option>
+			<option selected="selected" value="1">Create a new &lt;P&gt; (recommended)</option>
+			<option value="3">Create a new &lt;DIV&gt;</option>
 			<option value="2">Break the line with a &lt;BR&gt;</option>
 		</select>
 	</div>
 	<div style="float: left">
-		When SHIFT + ENTER is pressed:<br />
+		When <em>Shift+Enter</em> is pressed:<br />
 		<select id="xShiftEnter" onchange="changeEnter();">
-			<option value="1">Create new &lt;P&gt;</option>
-			<option value="3">Create new &lt;DIV&gt;</option>
+			<option value="1">Create a new &lt;P&gt;</option>
+			<option value="3">Create a new &lt;DIV&gt;</option>
 			<option selected="selected" value="2">Break the line with a &lt;BR&gt; (recommended)</option>
 		</select>
 	</div>
@@ -81,7 +108,7 @@ window.onload = changeEnter;
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

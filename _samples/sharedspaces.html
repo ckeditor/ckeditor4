@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Shared toolbars - CKEditor Sample</title>
+	<title>Shared Toolbars &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -29,8 +29,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Shared Toolbars
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to configure multiple CKEditor instances to share some parts of the interface.
+		You can choose to share the toolbar (<code>topSpace</code>), the elements path
+		(<code>bottomSpace</code>), or both.
+	</p>
+	<p>
+		CKEditor instances with shared spaces can be inserted with a JavaScript call using the following code: 
+	</p>
+	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	{
+		<strong>sharedSpaces :
+		{
+			top : 'topSpace',
+			bottom : 'bottomSpace'
+		}</strong>
+	});</pre>
+	<p>
+		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+		the <code>&lt;textarea&gt;</code> element to be replaced with CKEditor.
+	</p>
+	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -46,22 +68,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<form action="sample_posteddata.php" id="editorsForm" method="post">
 		<p>
 			<label for="editor1">
-				Editor 1 (uses the shared toolbar and element path):</label><br />
+				Editor 1 (uses the shared toolbar and elements path):</label>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
 			<label for="editor2">
-				Editor 2 (uses the shared toolbar and element path):</label><br />
+				Editor 2 (uses the shared toolbar and elements path):</label>
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
 			<label for="editor3">
-				Editor 3 (uses the shared toolbar only):</label><br />
+				Editor 3 (uses the shared toolbar only):</label>
 			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
 			<label for="editor4">
-				Editor 4 (no shared spaces):</label><br />
+				Editor 4 (no shared spaces):</label>
 			<textarea cols="80" id="editor4" name="editor4" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
@@ -73,7 +95,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

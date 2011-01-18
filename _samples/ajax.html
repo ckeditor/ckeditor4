@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Ajax - CKEditor Sample</title>
+	<title>Ajax &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -51,8 +51,19 @@ function removeEditor()
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Create and Destroy Editor Instances for Ajax Applications
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to create and destroy CKEditor instances on the fly. After the removal of CKEditor the content created inside the editing
+		area will be displayed in a <code>&lt;div&gt;</code> element.
+	</p>
+	<p>
+		For details of how to create this setup check the source code of this sample page
+		for JavaScript code responsible for the creation and destruction of a CKEditor instance.
+	</p>
+	</div>
+	
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -63,6 +74,7 @@ function removeEditor()
 			</p>
 		</noscript>
 	</div>
+	<p>Click the buttons to create and remove a CKEditor instance.</p>
 	<p>
 		<input onclick="createEditor();" type="button" value="Create Editor" />
 		<input onclick="removeEditor();" type="button" value="Remove Editor" />
@@ -80,7 +92,7 @@ function removeEditor()
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico

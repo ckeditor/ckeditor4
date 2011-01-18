@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>XHTML compliant output - CKEditor Sample</title>
+	<title>XHTML Compliant Output &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -17,8 +17,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample
+		CKEditor Sample &mdash; Producing XHTML Compliant Output
 	</h1>
+	<div class="description">
+	<p>
+		This sample shows how to configure CKEditor to output valid
+		<a href="http://www.w3.org/TR/xhtml11/">XHTML 1.1</a> code.
+		Deprecated elements (<code>&lt;font&gt;</code>, <code>&lt;u&gt;</code>) or attributes
+		(<code>size</code>, <code>face</code>) will be replaced with XHTML compliant code.
+	</p>
+	<p>
+		To add a CKEditor instance outputting valid XHTML code, load the editor using a standard
+		JavaScript call and define CKEditor features to use the XHTML compliant elements and styles.
+	</p>
+	<p>
+		A snippet of the configuration code can be seen below; check the source of this page for 
+		full definition:
+	</p>
+	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	{
+		contentsCss : 'assets/output_xhtml.css',
+
+		coreStyles_bold	: { element : 'span', attributes : {'class': 'Bold'} },
+		coreStyles_italic : { element : 'span', attributes : {'class': 'Italic'} },
+
+		// More definitions follow.
+	});</pre>
+	</div>
+
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
 		<noscript>
@@ -31,12 +57,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</div>
 	<form action="sample_posteddata.php" method="post">
 		<p>
-			This sample shows CKEditor configured to produce <strong>XHTML 1.1</strong> compliant
-			HTML. Deprecated elements or attributes, like the &lt;font&gt; and &lt;u&gt; elements
-			or the "style" attribute, are avoided.</p>
-		<p>
 			<label for="editor1">
-				Editor 1:</label><br />
+				Editor 1:</label>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;span class="Bold"&gt;sample text&lt;/span&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 			<script type="text/javascript">
 			//<![CDATA[
@@ -152,7 +174,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
 			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico
