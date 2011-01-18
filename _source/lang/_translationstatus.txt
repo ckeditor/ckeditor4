@@ -14,7 +14,7 @@ de.js      Found: 510 Missing: 11
 el.js      Found: 274 Missing: 247
 en-au.js   Found: 345 Missing: 176
 en-ca.js   Found: 345 Missing: 176
-en-gb.js   Found: 346 Missing: 175
+en-gb.js   Found: 520 Missing: 1
 eo.js      Found: 247 Missing: 274
 es.js      Found: 521 Missing: 0
 et.js      Found: 289 Missing: 232
