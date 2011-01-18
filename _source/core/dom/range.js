@@ -324,6 +324,7 @@ CKEDITOR.dom.range = function( document ) {
 			if ( this.collapsed )
 				return;
 
+			this.fixListRange();
 			execContentsAction( this, 0 );
 		},
 
@@ -1673,7 +1674,25 @@ CKEDITOR.dom.range = function( document ) {
 				return container;
 
 			return container.getChild( this.endOffset - 1 ) || container;
-		}
+		},
+
+		// Fix list selection range where entire range is selected from the inner side.
+		// <ul><li>[...]</li></ul> =>	[<ul><li>...</li></ul>]
+		fixListRange: (function() {
+			function moveListBoundary( fixEnd ) {
+				var listItem, listRoot;
+				if ( ( listItem = this[ fixEnd ? 'endContainer' : 'startContainer' ].getAscendant( 'li', 1 ) ) && this.checkBoundaryOfElement( listItem, fixEnd ? CKEDITOR.END : CKEDITOR.START ) && ( listRoot = listItem.getParent() ) && ( listItem.equals( listRoot[ fixEnd ? 'getLast' : 'getFirst' ]( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) ) ) )
+					// Make the fix only when both sides are in same situation.
+					&& ( fixEnd || moveListBoundary.call( this, 1 ) ) ) {
+					this[ fixEnd ? 'setEndAt' : 'setStartAt' ]( listRoot, fixEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
+					return true;
+				}
+			}
+
+			return function() {
+				moveListBoundary.call( this );
+			};
+		})()
 	};
 })();
 

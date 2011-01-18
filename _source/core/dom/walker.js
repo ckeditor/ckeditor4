@@ -350,6 +350,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	};
 
+	CKEDITOR.dom.walker.nodeType = function( type, isReject ) {
+		return function( node ) {
+			return !!( isReject ^ ( node.type == type ) );
+		};
+	};
+
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
 		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( 0, 1 ),
