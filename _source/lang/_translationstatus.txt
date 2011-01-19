@@ -20,7 +20,7 @@ es.js      Found: 521 Missing: 0
 et.js      Found: 289 Missing: 232
 eu.js      Found: 387 Missing: 134
 fa.js      Found: 290 Missing: 231
-fi.js      Found: 513 Missing: 8
+fi.js      Found: 521 Missing: 0
 fo.js      Found: 402 Missing: 119
 fr-ca.js   Found: 289 Missing: 232
 fr.js      Found: 387 Missing: 134
