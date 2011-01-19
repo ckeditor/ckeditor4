@@ -46,7 +46,10 @@ CKEDITOR.plugins.add( 'format', {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				styles[ value ].apply( editor.document );
+				var style = styles[ value ],
+					elementPath = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() );
+
+				style[ style.checkActive( elementPath ) ? 'remove' : 'apply' ]( editor.document );
 
 				// Save the undo snapshot after all changes are affected. (#4899)
 				setTimeout( function() {

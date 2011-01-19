@@ -116,7 +116,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		removeFromRange: function( range ) {
-			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle : null ).call( this, range );
+			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle : this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle : null ).call( this, range );
 		},
 
 		applyToObject: function( element ) {
@@ -757,6 +757,22 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.moveToBookmark( bookmark );
 	}
 
+	function removeBlockStyle( range ) {
+		// Serializible bookmarks is needed here since
+		// elements may be merged.
+		var bookmark = range.createBookmark( 1 );
+
+		var iterator = range.createIterator();
+		iterator.enforceRealBlocks = true;
+		iterator.enlargeBr = this._.enterMode != CKEDITOR.ENTER_BR;
+
+		var block;
+		while ( ( block = iterator.getNextParagraph() ) )
+			this.checkElementRemovable( block ) && removeFromElement( this, block, 1 );
+
+		range.moveToBookmark( bookmark );
+	}
+
 	// Replace the original block with new one, with special treatment
 	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
 	// when necessary.(#3188)
@@ -942,7 +958,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			element.removeStyle( styleName );
 		}
 
-		removeEmpty && removeNoAttribsElement( element );
+		if ( removeEmpty ) {
+			!CKEDITOR.dtd.$block[ element.getName() ] || style._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( style._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+		}
 	}
 
 	// Removes a style from inside an element.
@@ -1003,24 +1021,38 @@ CKEDITOR.STYLE_OBJECT = 3;
 		removeNoAttribsElement( element );
 	}
 
+	var nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
 	// If the element has no more attributes, remove it.
 	function removeNoAttribsElement( element ) {
 		// If no more attributes remained in the element, remove it,
 		// leaving its children.
 		if ( !element.hasAttributes() ) {
-			// Removing elements may open points where merging is possible,
-			// so let's cache the first and last nodes for later checking.
-			var firstChild = element.getFirst();
-			var lastChild = element.getLast();
+			if ( CKEDITOR.dtd.$block[ element.getName() ] ) {
+				var previous = element.getPrevious( nonWhitespaces ),
+					next = element.getNext( nonWhitespaces );
 
-			element.remove( true );
+				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br:1 } ) ) )
+					element.append( 'br', 1 );
+				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br:1 } ) ) )
+					element.append( 'br' );
 
-			if ( firstChild ) {
-				// Check the cached nodes for merging.
-				firstChild.type == CKEDITOR.NODE_ELEMENT && firstChild.mergeSiblings();
+				element.remove( true );
+			} else {
+				// Removing elements may open points where merging is possible,
+				// so let's cache the first and last nodes for later checking.
+				var firstChild = element.getFirst();
+				var lastChild = element.getLast();
 
-				if ( lastChild && !firstChild.equals( lastChild ) && lastChild.type == CKEDITOR.NODE_ELEMENT )
-					lastChild.mergeSiblings();
+				element.remove( true );
+
+				if ( firstChild ) {
+					// Check the cached nodes for merging.
+					firstChild.type == CKEDITOR.NODE_ELEMENT && firstChild.mergeSiblings();
+
+					if ( lastChild && !firstChild.equals( lastChild ) && lastChild.type == CKEDITOR.NODE_ELEMENT )
+						lastChild.mergeSiblings();
+				}
+
 			}
 		}
 	}
@@ -1240,9 +1272,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			range;
 
 		var iterator = ranges.createIterator();
-		while ( ( range = iterator.getNextRange() ) ) {
+		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range );
-		}
 
 		selection.selectRanges( ranges );
 
