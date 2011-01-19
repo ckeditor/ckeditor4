@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -504,8 +505,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								return { container: parent, offset: getNodeIndex( child ) };
 						}
 
-						// All childs are text nodes.
-						if ( index == -1 ) {
+						// All childs are text nodes,
+						// or to the right hand of test range are all text nodes. (#6992)
+						if ( index == -1 || index == siblings.length - 1 && position < 0 ) {
 							// Adapt test range to embrace the entire parent contents.
 							testRange.moveToElementText( parent );
 							testRange.setEndPoint( 'StartToStart', range );
@@ -517,10 +519,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							siblings = parent.childNodes;
 
-							// Actual range anchor right beside test range at the inner boundary of text node.
+							// Actual range anchor right beside test range at the boundary of text node.
 							if ( !distance ) {
 								child = siblings[ siblings.length - 1 ];
-								return { container: child, offset: child.nodeValue.length };
+
+								if ( child.nodeType == CKEDITOR.NODE_ELEMENT )
+									return { container: parent, offset: siblings.length };
+								else
+									return { container: child, offset: child.nodeValue.length };
 							}
 
 							// Start the measuring until distance overflows, meanwhile count the text nodes.
