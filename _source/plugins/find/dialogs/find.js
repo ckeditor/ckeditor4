@@ -514,7 +514,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				title: lang.title,
 				resizable: CKEDITOR.DIALOG_RESIZE_NONE,
 				minWidth: 350,
-				minHeight: 165,
+				minHeight: 170,
 				buttons: [ CKEDITOR.dialog.cancelButton ], // Cancel button only.
 				contents: [
 					{

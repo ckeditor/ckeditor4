@@ -238,9 +238,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				previewImageId = numbering( 'previewImage' );
 
 			return {
-				title: ( dialogType == 'image' ) ? editor.lang.image.title : editor.lang.image.titleButton,
+				title: editor.lang.image[ dialogType == 'image' ? 'title' : 'titleButton' ],
 				minWidth: 420,
-				minHeight: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 360 : 310,
+				minHeight: 360,
 				onShow: function() {
 					this.imageElement = false;
 					this.linkElement = false;
