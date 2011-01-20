@@ -1,4 +1,4 @@
-ï»¿<%@  codepage="65001" language="VBScript" %>
+ï»?%@  codepage="65001" language="VBScript" %>
 <% Option Explicit %>
 <!-- #INCLUDE file="../../ckeditor.asp" -->
 <%
@@ -10,7 +10,7 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -64,7 +64,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2010, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>
