@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1>
-		CKEditor Sample &mdash;  Replace Selected Textarea Elements Using PHP Code 
+		CKEditor Sample &mdash;  Replace Selected Textarea Elements Using PHP Code
 	</h1>
 	<div class="description">
 	<p>
@@ -20,7 +20,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</p>
 	<p>
 		To replace a <code>&lt;textarea&gt;</code> element, place the following call at any point
-		after the <code>&lt;textarea&gt;</code> element: 
+		after the <code>&lt;textarea&gt;</code> element:
 	</p>
 	<pre>
 &lt;?php

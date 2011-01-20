@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		This sample shows how to add event handlers to CKEditor with PHP.
 	</p>
 	<p>
-		A snippet of the configuration code can be seen below; check the source code of this page for 
+		A snippet of the configuration code can be seen below; check the source code of this page for
 		the full definition:
 	</p>
 	<pre>&lt;?php

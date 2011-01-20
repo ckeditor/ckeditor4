@@ -20,7 +20,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</p>
 	<p>
 		To replace all <code>&lt;textarea&gt;</code> elements, place the following call at any point
-		after the last <code>&lt;textarea&gt;</code> element: 
+		after the last <code>&lt;textarea&gt;</code> element:
 	</p>
 	<pre>
 &lt;?php

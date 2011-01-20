@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		This sample shows how to create a CKEditor instance with PHP.
 	</p>
 	<pre>
-&lt;?php 
+&lt;?php
 include_once "ckeditor/ckeditor.php";
 
 // Create a class instance.
