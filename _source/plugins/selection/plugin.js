@@ -549,7 +549,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							// Actual range anchor right beside test range at the inner boundary of text node.
 							if ( !distance )
-								return { container: parent, offset: getNodeIndex( child ) + ( position > 0 ? -1 : 1 ) };
+								return { container: parent, offset: getNodeIndex( child ) + ( position > 0 ? 0 : 1 ) };
 
 							// Start the measuring until distance overflows, meanwhile count the text nodes.
 							while ( distance > 0 ) {
