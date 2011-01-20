@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
+�� ? * Copyright( c ) 2003 - 2011, CKSource - Frederico Knabben.All rights reserved.
+For licensing, see LICENSE.html or http : //ckeditor.com/license
+* /
 
-// This file is not required by CKEditor and may be safely ignored.
+/ / This file is not required by CKEditor and may be safely ignored.
 // It is just a helper file that displays a red message about browser compatibility
 // at the top of the samples (if incompatible browser is detected).
 

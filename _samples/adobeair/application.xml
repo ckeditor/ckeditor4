@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <application xmlns="http://ns.adobe.com/air/application/1.0">
@@ -9,7 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<version>1.0</version>
 	<filename>CKEditor AIR Samples</filename>
 	<description>This is a sample AIR application of CKEditor.</description>
-	<copyright>Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.</copyright>
+	<copyright>Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.</copyright>
 	<initialWindow>
 		<content>_samples/adobeair/sample.html</content>
 		<title>CKEditor - Adobe AIR Sample</title>
