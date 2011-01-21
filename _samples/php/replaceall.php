@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; Replace All Textarea Elements Using PHP Code
 	</h1>
 	<div class="description">
@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		To replace all <code>&lt;textarea&gt;</code> elements, place the following call at any point
 		after the last <code>&lt;textarea&gt;</code> element:
 	</p>
-	<pre>
+	<pre class="samples">
 &lt;?php
 // Include the CKEditor class.
 include("ckeditor/ckeditor.php");
@@ -65,10 +65,10 @@ $CKEditor->replaceAll();
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

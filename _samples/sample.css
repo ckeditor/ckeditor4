@@ -4,10 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 html, body, h1, h2, h3, h4, h5, h6, div, span, blockquote, p, address, form, fieldset, img, ul, ol, dl, dt, dd, li, hr, table, td, th, strong, em, sup, sub, dfn, ins, del, q, cite, var, samp, code, kbd, tt, pre {
-	border: 0 none;
 	line-height: 1.5em;
-	margin: 0;
-	padding: 0;
 }
 
 body {
@@ -27,40 +24,27 @@ tt{
   font-size: 1em;
 }
 
-b, strong {
-	font-weight:bold;
+h1.samples {
+  color:#0782C1;
+  font-size:200%;
+  font-weight:normal;
+  margin: 0;
+  padding: 0;
 }
 
-i, cite, em, var, dfn, blockquote {
-	font-style:italic;
+h2.samples {
+  color:#000000;
+  font-size:130%;
+  margin: 0;
+  padding: 0;
 }
 
-p, ul, ol, blockquote, address, form, table, pre, dl, h1, h2, h3, h4, h5, h6 {
+p, blockquote, address, form, pre, dl, h1.samples, h2.samples {
 	margin-bottom:15px;
 }
 
-ul ul, ul ol, ol ul, ol ol {
-	margin-bottom:0;
-}
-
-ul {
-	list-style-type:disc;
-}
-
-ol {
-	list-style-type:decimal;
-}
-
-li {
-	margin-left:40px;
-}
-
-a {
-	text-decoration:none;
-}
-
-a:hover {
-	text-decoration:underline;
+ul.samples {
+	margin-bottom:15px;
 }
 
 .clear {
@@ -82,19 +66,13 @@ body {
 	font-size: 75%;
 }
 
-a {
+a.samples {
 	color:#189DE1;
+	text-decoration:none;
 }
 
-h1 {
-	color:#0782C1;
-	font-size:200%;
-	font-weight:normal;
-}
-
-h2 {
-	color:#000000;
-	font-size:130%;
+a.samples:hover {
+  text-decoration:underline;
 }
 
 form
@@ -103,7 +81,7 @@ form
 	padding: 0;
 }
 
-pre
+pre.samples
 {
 	background-color: #F7F7F7;
 	border: 1px solid #D7D7D7;

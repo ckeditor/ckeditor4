@@ -16,13 +16,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; Producing HTML Compliant Output
 	</h1>
 	<div class="description">
 	<p>
 		This sample shows how to configure CKEditor to output valid
-		<a href="http://www.w3.org/TR/html401/">HTML 4.01</a> code.
+		<a class="samples" href="http://www.w3.org/TR/html401/">HTML 4.01</a> code.
 		Traditional HTML elements like <code>&lt;b&gt;</code>,
 		<code>&lt;i&gt;</code>, and <code>&lt;font&gt;</code> are used in place of
 		<code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, and CSS styles.
@@ -35,7 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		A snippet of the configuration code can be seen below; check the source of this page for
 		full definition:
 	</p>
-	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
 		coreStyles_bold	: { element : 'b' },
 		coreStyles_italic : { element : 'i' },
@@ -279,10 +279,10 @@ function convertRGBToHex( cssStyle )
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

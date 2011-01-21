@@ -10,16 +10,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; Setting Configuration Options
 	</h1>
 	<p>
 		This sample shows how to insert a CKEditor instance with custom configuration options.
 	</p>
 	<p>
-		To set configuration options, use the <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html"><code>config</code></a> property. To set the attributes of a <code>&lt;textarea&gt;</code> element (which is displayed instead of CKEditor in unsupported browsers), use the <code>textareaAttributes</code> property.
+		To set configuration options, use the <a class="samples" href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html"><code>config</code></a> property. To set the attributes of a <code>&lt;textarea&gt;</code> element (which is displayed instead of CKEditor in unsupported browsers), use the <code>textareaAttributes</code> property.
 	</p>
-	<pre>
+	<pre class="samples">
 &lt;?php
 // Include the CKEditor class.
 include_once "ckeditor/ckeditor.php";
@@ -109,10 +109,10 @@ echo $CKEditor->editor("editor2", $initialValue, $config);
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

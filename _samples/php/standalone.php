@@ -10,14 +10,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; Creating CKEditor Instances
 	</h1>
 	<div class="description">
 	<p>
 		This sample shows how to create a CKEditor instance with PHP.
 	</p>
-	<pre>
+	<pre class="samples">
 &lt;?php
 include_once "ckeditor/ckeditor.php";
 
@@ -72,10 +72,10 @@ $CKEditor->editor("textarea_id", "This is some sample text");
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; UI Color Picker
 	</h1>
 	<div class="description">
@@ -24,11 +24,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		This sample shows how to automatically replace <code>&lt;textarea&gt;</code> elements
 		with a CKEditor instance with an option to change the color of its user interface.
 	</p>
-	<h2>Setting the User Interface Color</h2>
+	<h2 class="samples">Setting the User Interface Color</h2>
 	<p>
 	To specify the color of the user interface, set the <code>uiColor</code> property:
 	</p>
-	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
 		<strong>uiColor: '#EE0000'</strong>
 	});</pre>
@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
 		the <code>&lt;textarea&gt;</code> element to be replaced.
 	</p>
-	<h2>Enabling the Color Picker</h2>
+	<h2 class="samples">Enabling the Color Picker</h2>
 	<p>
 		If the <strong>uicolor</strong> plugin along with the dedicated <strong>UIColor</strong>
 		toolbar button is added to CKEditor, the user will also be able to pick the color of the
@@ -46,7 +46,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		To insert a CKEditor instance with the <strong>uicolor</strong> plugin enabled,
 		use the following JavaScript call:
 	</p>
-	<pre>CKEDITOR.replace( '<em>textarea_id</em>',
+	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
 		<strong>extraPlugins : 'uicolor',</strong>
 		toolbar : [ [ 'Bold', 'Italic' ], [ <strong>'UIColor'</strong> ] ]
@@ -122,10 +122,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

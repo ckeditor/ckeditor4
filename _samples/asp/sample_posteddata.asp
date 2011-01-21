@@ -12,7 +12,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link type="text/css" rel="stylesheet" href="../sample.css" />
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor - Posted Data
 	</h1>
 	<table border="1" cellspacing="0" id="outputSample">
@@ -29,17 +29,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			%>
 			<tr>
 				<th><%=Server.HTMLEncode( sForm )%></th>
-				<td><pre><%=Server.HTMLEncode( Request.Form(sForm) )%></pre></td>
+				<td><pre class="samples"><%=Server.HTMLEncode( Request.Form(sForm) )%></pre></td>
 			</tr>
 			<% Next %>
 	</table>
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
 		</p>
 	</div>
 </body>

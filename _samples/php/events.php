@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample &mdash; Adding Event Handlers
 	</h1>
 	<div class="description">
@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		A snippet of the configuration code can be seen below; check the source code of this page for
 		the full definition:
 	</p>
-	<pre>&lt;?php
+	<pre class="samples">&lt;?php
 // Include the CKEditor class.
 include("ckeditor/ckeditor.php");
 
@@ -142,10 +142,10 @@ $CKEditor->editor("editor2", $initialValue, $config, $events);
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

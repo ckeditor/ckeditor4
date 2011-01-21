@@ -20,7 +20,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="../sample.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor Sample
 	</h1>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
@@ -50,10 +50,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

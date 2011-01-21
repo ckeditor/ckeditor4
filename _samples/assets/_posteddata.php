@@ -12,7 +12,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link type="text/css" rel="stylesheet" href="sample.css" />
 </head>
 <body>
-	<h1>
+	<h1 class="samples">
 		CKEditor &mdash; Posted Data
 	</h1>
 	<table border="1" cellspacing="0" id="outputSample">
@@ -40,7 +40,7 @@ foreach ( $postArray as $sForm => $value )
 ?>
 		<tr>
 			<th style="vertical-align: top"><?php echo $sForm?></th>
-			<td><pre><?php echo $postedValue?></pre></td>
+			<td><pre class="samples"><?php echo $postedValue?></pre></td>
 		</tr>
 	<?php
 }
@@ -49,10 +49,10 @@ foreach ( $postArray as $sForm => $value )
 	<div id="footer">
 		<hr />
 		<p>
-			CKEditor - The text editor for the Internet - <a href="http://ckeditor.com/">http://ckeditor.com</a>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2011, <a href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2011, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
 		</p>
 	</div>
 </body>
