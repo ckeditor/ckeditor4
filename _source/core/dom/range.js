@@ -1573,7 +1573,7 @@ CKEDITOR.dom.range = function( document ) {
 					endNode = this.endContainer;
 
 				// Check if elements path at both boundaries are editable.
-				return !( checkNodesEditable( startNode, endNode ) && checkNodesEditable( endNode, startNode ) )
+				return !( checkNodesEditable( startNode, endNode ) && checkNodesEditable( endNode, startNode ) );
 			};
 		})(),
 

@@ -199,6 +199,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			else
 				selectionOrRow.remove();
 		}
+
+		return null;
 	}
 
 	function getCellColIndex( cell, isStart ) {

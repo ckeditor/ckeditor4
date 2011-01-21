@@ -233,7 +233,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 */
 	getBogus: function() {
 		if ( !this.isBlockBoundary() )
-			return;
+			return null;
 
 		var lastChild = this.getLast();
 
@@ -244,6 +244,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		if ( lastChild && ( CKEDITOR.env.ie && lastChild.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( lastChild.getText() ).match( /^(?:&nbsp;|\xa0)$/ ) || CKEDITOR.env.gecko && CKEDITOR.env.webkit && lastChild.is( 'br' ) ) ) {
 			return lastChild;
 		}
+
+		return null;
 	},
 
 	/**
@@ -1392,6 +1394,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			this.removeAttribute( name );
 		else
 			this.setAttribute( name, value );
+
+		return null;
 	}
 });
 

@@ -70,7 +70,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// (#6005), we need to make some checks and eventually
 				// delete the selection first.
 
-				range = selection.getRanges()[ 0 ], endContainer = range && range.endContainer;
+				range = selection.getRanges()[ 0 ];
+				var endContainer = range && range.endContainer;
 
 				if ( endContainer && endContainer.type == CKEDITOR.NODE_ELEMENT && endContainer.getAttribute( 'contenteditable' ) == 'false' && range.checkBoundaryOfElement( endContainer, CKEDITOR.END ) ) {
 					range.setEndAfter( range.endContainer );
@@ -532,7 +533,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( element.is( 'input' ) ) {
 							var type = element.getAttribute( 'type' );
 							if ( type == 'submit' || type == 'reset' )
-								evt.data.preventDefault()
+								evt.data.preventDefault();
 						}
 					});
 

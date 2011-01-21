@@ -124,6 +124,8 @@ CKEDITOR.plugins.placeholder = {
 				element.replace( oldElement );
 		} else
 			editor.insertElement( element );
+
+		return null;
 	},
 
 	getSelectedPlaceHoder: function( editor ) {
