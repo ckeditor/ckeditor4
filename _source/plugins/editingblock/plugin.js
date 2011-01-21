@@ -210,6 +210,12 @@ CKEDITOR.config.editingBlock = true;
  */
 
 /**
+ * Fired when the CKEDITOR instance is created, fully initialized and ready for interaction.
+ * @name CKEDITOR.editor#instanceReady
+ * @event
+ */
+
+/**
  * Fired before changing the editing mode
  * @name CKEDITOR.editor#beforeModeUnload
  * @event
