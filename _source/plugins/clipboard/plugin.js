@@ -338,13 +338,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					!depressBeforeEvent && fixCut( editor );
 				});
 
-				body.on( 'mouseup', setToolbarStates, editor );
+				body.on( 'mouseup', function() {
+					setTimeout( function() {
+						setToolbarStates.call( editor );
+					}, 0 );
+				}, editor );
 				body.on( 'keyup', setToolbarStates, editor );
 			});
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
 			editor.on( 'selectionChange', function( evt ) {
 				inReadOnly = evt.data.selection.getRanges()[ 0 ].checkReadOnly();
+				setToolbarStates.call( editor );
 			});
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
