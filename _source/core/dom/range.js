@@ -25,7 +25,7 @@ CKEDITOR.dom.range = function( document ) {
 	// This is a shared function used to delete, extract and clone the range
 	// contents.
 	// V2
-	var execContentsAction = function( range, action, docFrag ) {
+	var execContentsAction = function( range, action, docFrag, mergeThen ) {
 			range.optimizeBookmark();
 
 			var startNode = range.startContainer;
@@ -216,7 +216,15 @@ CKEDITOR.dom.range = function( document ) {
 					if ( removeStartNode && topEnd.$.parentNode == startNode.$.parentNode )
 						endIndex--;
 
-					range.setStart( topEnd.getParent(), endIndex );
+					// Merge splitted parents.
+					if ( mergeThen ) {
+						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
+							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
+						span.insertAfter( topStart );
+						topStart.mergeSiblings( false );
+						range.moveToBookmark({ startNode: span } );
+					} else
+						range.setStart( topEnd.getParent(), endIndex );
 				}
 
 				// Collapse it to the start.
@@ -319,24 +327,25 @@ CKEDITOR.dom.range = function( document ) {
 
 		/**
 		 * Deletes the content nodes of the range permanently from the DOM tree.
+		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
 		 */
-		deleteContents: function() {
+		deleteContents: function( mergeThen ) {
 			if ( this.collapsed )
 				return;
 
-			this.fixListRange();
-			execContentsAction( this, 0 );
+			execContentsAction( this, 0, null, mergeThen );
 		},
 
 		/**
 		 *  The content nodes of the range are cloned and added to a document fragment,
 		 * meanwhile they're removed permanently from the DOM tree.
+		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
 		 */
-		extractContents: function() {
+		extractContents: function( mergeThen ) {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
 
 			if ( !this.collapsed )
-				execContentsAction( this, 1, docFrag );
+				execContentsAction( this, 1, docFrag, mergeThen );
 
 			return docFrag;
 		},
@@ -1674,25 +1683,7 @@ CKEDITOR.dom.range = function( document ) {
 				return container;
 
 			return container.getChild( this.endOffset - 1 ) || container;
-		},
-
-		// Fix list selection range where entire range is selected from the inner side.
-		// <ul><li>[...]</li></ul> =>	[<ul><li>...</li></ul>]
-		fixListRange: (function() {
-			function moveListBoundary( fixEnd ) {
-				var listItem, listRoot;
-				if ( ( listItem = this[ fixEnd ? 'endContainer' : 'startContainer' ].getAscendant( 'li', 1 ) ) && this.checkBoundaryOfElement( listItem, fixEnd ? CKEDITOR.END : CKEDITOR.START ) && ( listRoot = listItem.getParent() ) && ( listItem.equals( listRoot[ fixEnd ? 'getLast' : 'getFirst' ]( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) ) ) )
-					// Make the fix only when both sides are in same situation.
-					&& ( fixEnd || moveListBoundary.call( this, 1 ) ) ) {
-					this[ fixEnd ? 'setEndAt' : 'setStartAt' ]( listRoot, fixEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
-					return true;
-				}
-			}
-
-			return function() {
-				moveListBoundary.call( this );
-			};
-		})()
+		}
 	};
 })();
 
