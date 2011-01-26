@@ -767,8 +767,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 		iterator.enlargeBr = this._.enterMode != CKEDITOR.ENTER_BR;
 
 		var block;
-		while ( ( block = iterator.getNextParagraph() ) )
-			this.checkElementRemovable( block ) && removeFromElement( this, block, 1 );
+		while ( ( block = iterator.getNextParagraph() ) ) {
+			if ( this.checkElementRemovable( block ) ) {
+				// <pre> get special treatment.
+				if ( block.is( 'pre' ) ) {
+					var newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null : range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+
+					newBlock && block.copyAttributes( newBlock );
+					replaceBlock( block, newBlock );
+				} else
+					removeFromElement( this, block, 1 );
+			}
+		}
 
 		range.moveToBookmark( bookmark );
 	}
@@ -777,7 +787,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
 	// when necessary.(#3188)
 	function replaceBlock( block, newBlock ) {
-		var newBlockIsPre = newBlock.is( 'pre' );
+		// Block is to be removed, create a temp element to
+		// save contents.
+		var removeBlock = !newBlock;
+		if ( removeBlock ) {
+			newBlock = block.getDocument().createElement( 'div' );
+			block.copyAttributes( newBlock );
+		}
+
+		var newBlockIsPre = newBlock && newBlock.is( 'pre' );
 		var blockIsPre = block.is( 'pre' );
 
 		var isToPre = newBlockIsPre && !blockIsPre;
@@ -787,7 +805,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			newBlock = toPre( block, newBlock );
 		else if ( isFromPre )
 			// Split big <pre> into pieces before start to convert.
-			newBlock = fromPres( splitIntoPres( block ), newBlock );
+			newBlock = fromPres( removeBlock ? [ block.getHtml() ] : splitIntoPres( block ), newBlock );
 		else
 			block.moveChildren( newBlock );
 
@@ -796,7 +814,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( newBlockIsPre ) {
 			// Merge previous <pre> blocks.
 			mergePre( newBlock );
-		}
+		} else if ( removeBlock )
+			removeNoAttribsElement( newBlock );
 	}
 
 	var nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
@@ -863,7 +882,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * Converting a list of <pre> into blocks with format well preserved.
 	 */
 	function fromPres( preHtmls, newBlock ) {
-		var docFrag = new CKEDITOR.dom.documentFragment( newBlock.getDocument() );
+		var docFrag;
+		if ( preHtmls.length > 1 )
+			docFrag = new CKEDITOR.dom.documentFragment( newBlock.getDocument() );
+
 		for ( var i = 0; i < preHtmls.length; i++ ) {
 			var blockHtml = preHtmls[ i ];
 
@@ -889,11 +911,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 			});
 
-			var newBlockClone = newBlock.clone();
-			newBlockClone.setHtml( blockHtml );
-			docFrag.append( newBlockClone );
+			if ( docFrag ) {
+				var newBlockClone = newBlock.clone();
+				newBlockClone.setHtml( blockHtml );
+				docFrag.append( newBlockClone );
+			} else
+				newBlock.setHtml( blockHtml );
 		}
-		return docFrag;
+
+		return docFrag || newBlock;
 	}
 
 	/**
