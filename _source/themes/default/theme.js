@@ -226,17 +226,19 @@ CKEDITOR.themes.add( 'default', ( function() {
 		},
 
 		destroy: function( editor ) {
-			var container = editor.container;
-			container.clearCustomData();
-			editor.element.clearCustomData();
+			var container = editor.container,
+				element = editor.element;
 
-			if ( container )
+			if ( container ) {
+				container.clearCustomData();
 				container.remove();
+			}
 
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
-				editor.element.show();
-
-			delete editor.element;
+			if ( element ) {
+				element.clearCustomData();
+				editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.show();
+				delete editor.element;
+			}
 		}
 	};
 })() );

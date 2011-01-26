@@ -97,7 +97,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'destroy', function() {
 				// ->		currentMode.unload( holderElement );
-				this._.modes[ this.mode ].unload( this.getThemeSpace( 'contents' ) );
+				if ( this.mode )
+					this._.modes[ this.mode ].unload( this.getThemeSpace( 'contents' ) );
 			});
 		}
 	});

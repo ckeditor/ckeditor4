@@ -498,7 +498,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		if ( !noUpdate )
 			this.updateElement();
 
-		this.theme.destroy( this );
+		this.theme && this.theme.destroy( this );
 
 		this.fire( 'destroy' );
 		CKEDITOR.remove( this );
