@@ -1266,7 +1266,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyle( document, remove ) {
 		var selection = document.getSelection(),
-			ranges = selection.getRanges( true ),
+			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
 

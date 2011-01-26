@@ -707,7 +707,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Looking for non-editable element inside the range.
 						var walker = new CKEDITOR.dom.walker( walkerRange );
 						walker.evaluator = function( node ) {
-							if ( node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'false' ) {
+							if ( node.type == CKEDITOR.NODE_ELEMENT && node.isReadOnly() ) {
 								var newRange = range.clone();
 								range.setEndBefore( node );
 
