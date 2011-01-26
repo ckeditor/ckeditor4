@@ -180,7 +180,7 @@ CKEDITOR.plugins.add( 'domiterator' );
 				// If we are in an element boundary, let's check if it is time
 				// to close the range, otherwise we include the parent within it.
 				if ( range && !closeRange ) {
-					while ( !currentNode.getNext() && !isLast ) {
+					while ( !currentNode.getNext( bookmarkGuard ) && !isLast ) {
 						var parentNode = currentNode.getParent();
 
 						if ( parentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
