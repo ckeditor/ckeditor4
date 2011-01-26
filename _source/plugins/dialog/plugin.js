@@ -1745,7 +1745,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		resizeCover = resizeFunc;
 		win.on( 'resize', resizeFunc );
 		resizeFunc();
-		coverElement.focus();
+		// Using Safari/Mac, focus must be kept where it is (#7027)
+		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
+			coverElement.focus();
+
 		if ( CKEDITOR.env.ie6Compat ) {
 			// IE BUG: win.$.onscroll assignment doesn't work.. it must be window.onscroll.
 			// So we need to invent a really funny way to make it work.
