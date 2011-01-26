@@ -126,7 +126,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getFullySelected( range, elements, enterMode ) {
 		var ancestor = range.getCommonAncestor( false, true );
 
-		enterMode != CKEDITOR.ENTER_BR && range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+		range.enlarge( enterMode == CKEDITOR.ENTER_BR ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
 		if ( range.checkBoundaryOfElement( ancestor, CKEDITOR.START ) && range.checkBoundaryOfElement( ancestor, CKEDITOR.END ) ) {
 			var parent;
@@ -184,7 +184,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					iterator = range.createIterator();
 					iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-					while ( ( block = iterator.getNextParagraph() ) )
+					while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
 						!block.isReadOnly() && switchDir( block, dir, editor, database );
 				}
 
