@@ -434,7 +434,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
 							// to the range, otherwise apply the style immediately.
-							while ( applyStyle = !includedNode.getNext( notBookmark ) && ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) && ( parentNode.getPosition( firstNode ) | CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_FOLLOWING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( parentNode ) ) ) {
+							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) && ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) && ( parentNode.getPosition( firstNode ) | CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_FOLLOWING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( parentNode ) ) ) {
 								includedNode = parentNode;
 							}
 
