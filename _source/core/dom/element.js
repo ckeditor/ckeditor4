@@ -230,26 +230,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * Retrieve block element's filler node if existed.
-	 */
-	getBogus: function() {
-		if ( !this.isBlockBoundary() )
-			return null;
-
-		var lastChild = this.getLast();
-
-		// Ignore empty/spaces text.
-		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
-			lastChild = lastChild.getPrevious();
-
-		if ( lastChild && ( CKEDITOR.env.ie && lastChild.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( lastChild.getText() ).match( /^(?:&nbsp;|\xa0)$/ ) || CKEDITOR.env.gecko && CKEDITOR.env.webkit && lastChild.is( 'br' ) ) ) {
-			return lastChild;
-		}
-
-		return null;
-	},
-
-	/**
 	 * Breaks one of the ancestor element in the element position, moving
 	 * this element between the broken parts.
 	 * @param {CKEDITOR.dom.element} parent The anscestor element to get broken.

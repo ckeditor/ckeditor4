@@ -942,8 +942,15 @@ CKEDITOR.dom.range = function( document ) {
 
 								if ( commonReached )
 									endTop = enlargeable;
-								else if ( enlargeable )
-									this.setEndAfter( enlargeable );
+								else if ( enlargeable ) {
+									var bogus = enlargeable.isBlockBoundary() && enlargeable.getBogus();
+
+									// Exclude bogus <br /> at the end of block.
+									if ( bogus )
+										this.setEndBefore( bogus );
+									else
+										this.setEndAfter( enlargeable );
+								}
 							}
 
 							sibling = enlargeable.getNext();
