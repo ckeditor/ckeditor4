@@ -1,4 +1,4 @@
-﻿/** Called automatically by JsDoc Toolkit. */
+/** Called automatically by JsDoc Toolkit. */
 
 function publish( symbolSet ) {
 	publish.conf = { // trailing slash expected for dirs
