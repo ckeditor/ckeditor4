@@ -314,8 +314,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
 			var pathBlock = path.block || path.blockLimit;
-			if ( pathBlock && !pathBlock.getBogus() )
+			if ( pathBlock && !pathBlock.getBogus() ) {
+				editor.fire( 'updateSnapshot' );
+				restoreDirty( editor );
 				pathBlock.appendBogus();
+			}
 		}
 
 		// When enterMode set to block, we'll establing new paragraph only if we're
