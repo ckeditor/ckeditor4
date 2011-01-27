@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -357,15 +358,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
-		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( 0, 1 ),
-		fillerEvaluator = function( element ) {
-			return isNotBookmark( element ) && isNotWhitespaces( element );
+		isWhitespaces = CKEDITOR.dom.walker.whitespaces(),
+		isBookmark = CKEDITOR.dom.walker.bookmark(),
+		toSkip = function( node ) {
+			return isBookmark( node ) || isWhitespaces( node ) || node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$removeEmpty;
 		};
 
 	// Check if there's a filler node at the end of an element, and return it.
 	CKEDITOR.dom.element.prototype.getBogus = function() {
-		var tail = this.getLast( fillerEvaluator );
+		// Bogus are not always at the end, e.g. <p><strong>text<br /></strong></p> (#7070).
+		var tail = this;
+		do {
+			tail = tail.getPreviousSourceNode();
+		}
+		while ( toSkip( tail ) )
+
 		if ( tail && ( !CKEDITOR.env.ie ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
 			return tail;
 		}
