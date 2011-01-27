@@ -668,6 +668,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		dic_delete: 'Usuń',
 		dic_rename: 'Zmień nazwę',
 		dic_info: 'Początkowo słownik użytkownika przechowywany jest w cookie. Pliki cookie mają jednak ograniczoną pojemność. Jeśli słownik użytkownika przekroczy wielkość dopuszczalną dla pliku cookie, możliwe jest przechowanie go na naszym serwerze. W celu zapisania słownika na serwerze niezbędne jest nadanie mu nazwy. Jeśli słownik został już zapisany na serwerze, wystarczy podać jego nazwę i nacisnąć przycisk Przywróć.',
+
 		aboutTab: 'Informacje o SCAYT'
 	},
 
