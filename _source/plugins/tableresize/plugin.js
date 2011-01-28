@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -143,7 +144,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			resizer.removeListener( 'mousedown', onMouseDown );
 			resizer.removeListener( 'mousemove', onMouseMove );
 
-			needsIEHacks && ( document.getBody().$.contentEditable = true );
 			document.getBody().setStyle( 'cursor', 'auto' );
 
 			// Hide the resizer (remove it on IE7 - #5890).
@@ -289,8 +289,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			// In IE6/7, it's not possible to have custom cursors for floating
-			// elements in an editable document.
-			needsIEHacks && ( document.getBody().$.contentEditable = false );
+			// elements in an editable document. Show the resizer in that case,
+			// to give the user a visual clue.
+			needsIEHacks && resizer.setOpacity( 0.25 );
 
 			resizer.on( 'mousedown', onMouseDown, this );
 
