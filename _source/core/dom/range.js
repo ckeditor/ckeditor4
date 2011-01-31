@@ -217,7 +217,7 @@ CKEDITOR.dom.range = function( document ) {
 						endIndex--;
 
 					// Merge splitted parents.
-					if ( mergeThen ) {
+					if ( mergeThen && topStart.type == CKEDITOR.NODE_ELEMENT ) {
 						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
 							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
 						span.insertAfter( topStart );
