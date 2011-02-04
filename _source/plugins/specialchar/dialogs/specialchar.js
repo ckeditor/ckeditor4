@@ -22,7 +22,10 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				target.removeClass( "cke_light_background" );
 				dialog.hide();
 
-				editor.insertHtml( value );
+				// We must use "insertText" here to keep text styled.
+				var span = editor.document.createElement( 'span' );
+				span.setHtml( value );
+				editor.insertText( span.getText() );
 			}
 		};
 
