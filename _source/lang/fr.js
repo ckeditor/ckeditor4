@@ -639,7 +639,7 @@ CKEDITOR.lang[ 'fr' ] = {
 	},
 
 	scayt: {
-		title: 'Vérification de l\'Orthographe en Cours de Frappe (SCAYT: Spell Check As You Type)',
+		title: 'Vérification de l\'Orthographe en Cours de Frappe (SCAYT)',
 		opera_title: 'Non supporté par Opera',
 		enable: 'Activer SCAYT',
 		disable: 'Désactiver SCAYT',
