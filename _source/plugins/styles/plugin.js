@@ -595,8 +595,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 						 * them before removal.
 						 */
 						element.mergeSiblings();
-						removeFromElement( this, element );
-
+						if ( element.getName() == this.element )
+							removeFromElement( this, element );
+						else
+							removeOverrides( element, getOverrides( this )[ element.getName() ] );
 					}
 				}
 			}
