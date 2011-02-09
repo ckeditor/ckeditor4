@@ -24,7 +24,7 @@ CKEDITOR.plugins.add( 'specialchar', {
 				langCode = plugin.availableLangs[ langCode ] ? langCode : 'en';
 
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lang/' + langCode + '.js' ), function() {
-					CKEDITOR.tools.extend( editor.lang.specialChar, plugin.lang[ langCode ] );
+					CKEDITOR.tools.extend( editor.lang.specialChar, plugin.langEntries[ langCode ] );
 					editor.openDialog( pluginName );
 				});
 			},

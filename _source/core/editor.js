@@ -250,12 +250,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// is not available, get the first one (default one).
 						lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
 
-						if ( !plugin.lang[ lang ] ) {
+						if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
 							// Put the language file URL into the list of files to
 							// get downloaded.
 							languageFiles.push( CKEDITOR.getUrl( pluginPath + 'lang/' + lang + '.js' ) );
 						} else {
-							CKEDITOR.tools.extend( editor.lang, plugin.lang[ lang ] );
+							CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ lang ] );
 							lang = null;
 						}
 					}
@@ -277,7 +277,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							// Uses the first loop to update the language entries also.
 							if ( m === 0 && languageCodes[ i ] && plugin.lang )
-								CKEDITOR.tools.extend( editor.lang, plugin.lang[ languageCodes[ i ] ] );
+								CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ languageCodes[ i ] ] );
 
 							// Call the plugin method (beforeInit and init).
 							if ( plugin[ methods[ m ] ] )
