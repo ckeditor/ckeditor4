@@ -52,10 +52,15 @@ function onDoubleClick( ev )
 	var element = ev.target || ev.srcElement;
 
 	// Find out the div that holds this element.
-	element = element.parentNode;
+	var name;
+	do
+	{
+		element = element.parentNode;
+	}
+	while ( element && ( name = element.nodeName.toLowerCase() ) && ( name != 'div' || element.className.indexOf( 'editable' ) == -1 ) && name != 'body' )
+	
 
-	if ( element.nodeName.toLowerCase() == 'div'
-		 && ( element.className.indexOf( 'editable' ) != -1 ) )
+	if ( name == 'div' && element.className.indexOf( 'editable' ) != -1 )
 		replaceDiv( element );
 }
 
