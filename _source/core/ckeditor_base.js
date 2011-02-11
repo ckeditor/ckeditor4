@@ -183,4 +183,26 @@ if ( !window.CKEDITOR ) {
 	})();
 }
 
+/**
+ * Function called once a custom configuration file is loaded so it can
+ * manipulate the editor instance configuration ({@link CKEDITOR.editor#config }).
+ * It is usually defined inside the custom configuration files so they can
+ * include developer defined settings.
+ * @name CKEDITOR.editorConfig
+ * @function
+ * @param {CKEDITOR.config} config A configuration object containing the
+ *		settings defined to a {@link CKEDITOR.editor} instance up to this
+ *		function call. Note that not all setting may be still available. See
+ *		<a href="http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Setting_Configurations#Configuration_Loading_Order">Configuration Loading Order</a>
+ *		for details.
+ * @example
+ * // This is supposed to be in the config.js file.
+ * CKEDITOR.editorConfig = function( config )
+ * {
+ *     // Define changes to default configuration here. For example:
+ *     config.language = 'fr';
+ *     config.uiColor = '#AADC6E';
+ * };
+ */
+
 // PACKAGER_RENAME( CKEDITOR )
