@@ -4,15 +4,86 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @class
+ * Creates a CKEDITOR.dom.range instance that can be used inside a specific
+ * DOM Document.
+ * @class Represents a delimited piece of content in a DOM Document.
+ * It is contiguous in the sense that it can be characterized as selecting all
+ * of the content between a pair of boundary-points.<br>
+ * <br>
+ * This class shares much of the W3C
+ * <a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html">Document Object Model Range</a>
+ * ideas and features, adding several range manipulation tools to it, but it's
+ * not intended to be compatible with it.
+ * @param {CKEDITOR.dom.document} document The document into which the range
+ *		features will be available.
+ * @example
+ * // Create a range for the entire contents of the editor document body.
+ * var range = new CKEDITOR.dom.range( editor.document );
+ * range.selectNodeContents( editor.document.getBody() );
+ * // Delete the contents.
+ * range.deleteContents();
  */
 CKEDITOR.dom.range = function( document ) {
+	/**
+	 * Node within which the range begins.
+	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
+	 * @example
+	 * var range = new CKEDITOR.dom.range( editor.document );
+	 * range.selectNodeContents( editor.document.getBody() );
+	 * alert( range.startContainer.getName() );  // "body"
+	 */
 	this.startContainer = null;
+
+	/**
+	 * Offset within the starting node of the range.
+	 * @type {Number}
+	 * @example
+	 * var range = new CKEDITOR.dom.range( editor.document );
+	 * range.selectNodeContents( editor.document.getBody() );
+	 * alert( range.startOffset );  // "0"
+	 */
 	this.startOffset = null;
+
+	/**
+	 * Node within which the range ends.
+	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
+	 * @example
+	 * var range = new CKEDITOR.dom.range( editor.document );
+	 * range.selectNodeContents( editor.document.getBody() );
+	 * alert( range.endContainer.getName() );  // "body"
+	 */
 	this.endContainer = null;
+
+	/**
+	 * Offset within the ending node of the range.
+	 * @type {Number}
+	 * @example
+	 * var range = new CKEDITOR.dom.range( editor.document );
+	 * range.selectNodeContents( editor.document.getBody() );
+	 * alert( range.endOffset );  // == editor.document.getBody().getChildCount()
+	 */
 	this.endOffset = null;
+
+	/**
+	 * Indicates that this is a collapsed range. A collapsed range has it's
+	 * start and end boudaries at the very same point so nothing is contained
+	 * in it.
+	 * @example
+	 * var range = new CKEDITOR.dom.range( editor.document );
+	 * range.selectNodeContents( editor.document.getBody() );
+	 * alert( range.collapsed );  // "false"
+	 * range.collapse();
+	 * alert( range.collapsed );  // "true"
+	 */
 	this.collapsed = true;
 
+	/**
+	 * The document within which the range can be used.
+	 * @type {CKEDITOR.dom.document}
+	 * @example
+	 * // Selects the body contents of the range document.
+	 * range.selectNodeContents( range.document.getBody() );
+	 */
 	this.document = document;
 };
 
