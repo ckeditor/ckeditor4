@@ -1366,7 +1366,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 	/**
 	 * Gets, sets and removes custom data to be stored as HTML5 data-* attributes.
-	 * @name CKEDITOR.dom.element.data
 	 * @param {String} name The name of the attribute, excluding the 'data-' part.
 	 * @param {String} [value] The value to set. If set to false, the attribute will be removed.
 	 * @example
