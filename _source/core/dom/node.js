@@ -446,11 +446,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
-	 * Gets the closes ancestor node of a specified node name.
-	 * @param {String} name Node name of ancestor node.
-	 * @param {Boolean} includeSelf (Optional) Whether to include the current
-	 * node in the calculation or not.
-	 * @returns {CKEDITOR.dom.node} Ancestor node.
+	 * Gets the closest ancestor node of this node, specified by its node name.
+	 * @param {String} name The node name of the ancestor node to search.
+	 * @param {Boolean} [includeSelf] Whether to include the current
+	 * node in the search.
+	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
+	 * @example
+	 * // Suppose we have the following HTML:
+	 * // &lt;div id="outer"&gt;&lt;div id="inner"&gt;&lt;p&gt;&lt;b&gt;Some text&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+	 * // If node == &lt;b&gt;
+	 * ascendant = node.getAscendant( 'div' );      // ascendant == &lt;div id="inner"&gt
+	 * ascendant = node.getAscendant( 'b' );        // ascendant == null
+	 * ascendant = node.getAscendant( 'b', true );  // ascendant == &lt;b&gt;
 	 */
 	getAscendant: function( name, includeSelf ) {
 		var $ = this.$;
