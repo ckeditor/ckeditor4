@@ -7,6 +7,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @file AutoGrow plugin
  */ ( function() {
 	var resizeEditor = function( editor ) {
+			if ( !editor.window )
+				return;
 			var doc = editor.document,
 				currentHeight = editor.window.getViewPaneSize().height,
 				newHeight;
