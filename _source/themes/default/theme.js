@@ -156,6 +156,17 @@ CKEDITOR.themes.add( 'default', ( function() {
 			// Disable browser context menu for editor's chrome.
 			container.disableContextMenu();
 
+			// Use a class to indicate that the current selection is in different direction than the UI.
+			editor.on( 'contentDirChanged', function( evt ) {
+				var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
+
+				container.getChild( 1 )[ func ]( 'cke_mixed_dir_content' );
+
+				// Put the mixed direction class on the respective element also for shared spaces.
+				var toolbarSpace = this.sharedSpaces && this.sharedSpaces[ this.config.toolbarLocation ];
+				toolbarSpace && toolbarSpace.getParent().getParent()[ func ]( 'cke_mixed_dir_content' );
+			});
+
 			editor.fireOnce( 'themeLoaded' );
 			editor.fireOnce( 'uiReady' );
 		},
