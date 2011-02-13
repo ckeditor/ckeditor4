@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		cssClasses: 'Клас от стиловите таблици',
 		charset: 'Тип на свързания ресурс',
 		styles: 'Стил',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Изберете котва',
 		anchorName: 'По име на котвата',
 		anchorId: 'По идентификатор на елемент',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'th' ] = {
 		cssClasses: 'คลาสของไฟล์กำหนดลักษณะการแสดงผล',
 		charset: 'ลิงค์เชื่อมโยงไปยังชุดตัวอักษร',
 		styles: 'ลักษณะการแสดงผล',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'ระบุข้อมูลของจุดเชื่อมโยง (Anchor)',
 		anchorName: 'ชื่อ',
 		anchorId: 'ไอดี',

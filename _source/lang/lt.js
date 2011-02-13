@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		cssClasses: 'Stilių lentelės klasės',
 		charset: 'Susietų išteklių simbolių lentelė',
 		styles: 'Stilius',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Pasirinkite žymę',
 		anchorName: 'Pagal žymės vardą',
 		anchorId: 'Pagal žymės Id',

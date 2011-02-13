@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		cssClasses: 'Dosbarthiadau Dalen Arddull',
 		charset: 'Set nodau\'r Adnodd Cysylltiedig',
 		styles: 'Arddull',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Dewiswch Angor',
 		anchorName: 'Gan Enw\'r Angor',
 		anchorId: 'Gan Id yr Elfen',

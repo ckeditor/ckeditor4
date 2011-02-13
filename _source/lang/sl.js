@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'sl' ] = {
 		cssClasses: 'Razred stilne predloge',
 		charset: 'Kodna tabela povezanega vira',
 		styles: 'Slog',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Izberi zaznamek',
 		anchorName: 'Po imenu zaznamka',
 		anchorId: 'Po ID-ju elementa',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'et' ] = {
 		cssClasses: 'Stiilistiku klassid',
 		charset: 'Lingitud ressurssi märgistik',
 		styles: 'Laad',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Vali ankur',
 		anchorName: 'Ankru nime järgi',
 		anchorId: 'Elemendi id järgi',

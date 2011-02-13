@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		cssClasses: 'Stylesheet-klassen',
 		charset: 'Karakterset van gelinkte bron',
 		styles: 'Stijl',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Kies een interne link',
 		anchorName: 'Op naam interne link',
 		anchorId: 'Op kenmerk interne link',

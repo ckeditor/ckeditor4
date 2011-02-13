@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		cssClasses: 'Typografi klassar',
 		charset: 'Atknýtt teknsett',
 		styles: 'Typografi',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Vel ein marknastein',
 		anchorName: 'Eftir navni á marknasteini',
 		anchorId: 'Eftir element Id',

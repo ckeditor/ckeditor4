@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		cssClasses: 'Stylesheet klase',
 		charset: 'Kodna stranica povezanih resursa',
 		styles: 'Stil',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Odaberi sidro',
 		anchorName: 'Po nazivu sidra',
 		anchorId: 'Po Id elementa',

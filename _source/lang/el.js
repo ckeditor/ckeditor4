@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'el' ] = {
 		cssClasses: 'Stylesheet Classes',
 		charset: 'Linked Resource Charset',
 		styles: 'Στύλ',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Επιλέξτε μια άγκυρα',
 		anchorName: 'Βάσει του Ονόματος (Name) της άγκυρας',
 		anchorId: 'Βάσει του Element Id',

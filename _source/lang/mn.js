@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'mn' ] = {
 		cssClasses: 'Stylesheet классууд',
 		charset: 'Тэмдэгт оноох нөөцөд холбогдсон',
 		styles: 'Загвар',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Холбоос сонгох',
 		anchorName: 'Холбоосын нэрээр',
 		anchorId: 'Элемэнт Id-гаар',

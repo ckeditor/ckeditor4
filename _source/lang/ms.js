@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		cssClasses: 'Kelas-kelas Stylesheet',
 		charset: 'Linked Resource Charset',
 		styles: 'Stail',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Sila pilih pautan',
 		anchorName: 'dengan menggunakan nama pautan',
 		anchorId: 'dengan menggunakan ID elemen',

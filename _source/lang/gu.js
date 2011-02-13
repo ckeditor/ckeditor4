@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
 		charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 		styles: 'સ્ટાઇલ',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'ઍંકર પસંદ કરો',
 		anchorName: 'ઍંકર નામથી પસંદ કરો',
 		anchorId: 'ઍંકર એલિમન્ટ Id થી પસંદ કરો',

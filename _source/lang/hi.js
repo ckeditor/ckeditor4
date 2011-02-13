@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'hi' ] = {
 		cssClasses: 'स्टाइल-शीट क्लास',
 		charset: 'लिंक रिसोर्स करॅक्टर सॅट',
 		styles: 'स्टाइल',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'ऐंकर चुनें',
 		anchorName: 'ऐंकर नाम से',
 		anchorId: 'ऍलीमॅन्ट Id से',

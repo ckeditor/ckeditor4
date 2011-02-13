@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		cssClasses: 'スタイルシートクラス',
 		charset: 'リンクcharset属性',
 		styles: 'スタイルシート',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'アンカーを選択',
 		anchorName: 'アンカー名',
 		anchorId: 'エレメントID',

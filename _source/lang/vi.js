@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		cssClasses: 'Lớp Stylesheet',
 		charset: 'Bảng mã của tài nguyên được liên kết đến',
 		styles: 'Kiểu (style)',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Chọn một điểm neo',
 		anchorName: 'Theo tên điểm neo',
 		anchorId: 'Theo định danh thành phần',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'da' ] = {
 		cssClasses: 'Typografiark',
 		charset: 'Tegnsæt',
 		styles: 'Typografi',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Vælg et anker',
 		anchorName: 'Efter anker navn',
 		anchorId: 'Efter element Id',

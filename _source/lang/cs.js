@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		cssClasses: 'Třída stylu',
 		charset: 'Přiřazená znaková sada',
 		styles: 'Styl',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Vybrat kotvu',
 		anchorName: 'Podle jména kotvy',
 		anchorId: 'Podle Id objektu',

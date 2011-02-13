@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		cssClasses: 'Stylesheet class',
 		charset: 'Teckenuppställning',
 		styles: 'Style',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Välj ett ankare',
 		anchorName: 'efter ankarnamn',
 		anchorId: 'efter objektid',

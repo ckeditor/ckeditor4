@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'it' ] = {
 		cssClasses: 'Nome classe CSS',
 		charset: 'Set di caretteri della risorsa collegata',
 		styles: 'Stile',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Scegli Ancora',
 		anchorName: 'Per Nome',
 		anchorId: 'Per id elemento',

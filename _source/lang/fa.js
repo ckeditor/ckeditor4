@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		cssClasses: 'کلاسهای شیوهنامه(Stylesheet)',
 		charset: 'نویسهگان منبع ِپیوندشده',
 		styles: 'شیوه(style)',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'یک لنگر برگزینید',
 		anchorName: 'با نام لنگر',
 		anchorId: 'با شناسهٴ المان',

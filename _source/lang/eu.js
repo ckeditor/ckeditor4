@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		cssClasses: 'Estilo-orriko Klaseak',
 		charset: 'Estekatutako Karaktere Multzoa',
 		styles: 'Estiloa',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Aingura bat hautatu',
 		anchorName: 'Aingura izenagatik',
 		anchorId: 'Elementuaren ID-gatik',

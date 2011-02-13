@@ -176,6 +176,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		cssClasses: 'Classe de CSS',
 		charset: 'Charset do Link',
 		styles: 'Estilos',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Selecione uma âncora',
 		anchorName: 'Nome da âncora',
 		anchorId: 'Id da âncora',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'he' ] = {
 		cssClasses: 'גיליונות עיצוב קבוצות',
 		charset: 'קידוד המשאב המקושר',
 		styles: 'סגנון',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'בחירת עוגן',
 		anchorName: 'עפ"י שם העוגן',
 		anchorId: 'עפ"י זיהוי (ID) האלמנט',

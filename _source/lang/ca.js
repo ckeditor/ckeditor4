@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ca' ] = {
 		cssClasses: 'Classes del full d\'estil',
 		charset: 'Conjunt de caràcters font enllaçat',
 		styles: 'Estil',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Selecciona una àncora',
 		anchorName: 'Per nom d\'àncora',
 		anchorId: 'Per Id d\'element',

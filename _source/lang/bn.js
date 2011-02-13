@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'bn' ] = {
 		cssClasses: 'স্টাইল-শীট ক্লাস',
 		charset: 'লিংক রিসোর্স ক্যারেক্টর সেট',
 		styles: 'স্টাইল',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'নোঙর বাছাই',
 		anchorName: 'নোঙরের নাম দিয়ে',
 		anchorId: 'নোঙরের আইডি দিয়ে',

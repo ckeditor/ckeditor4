@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		cssClasses: 'Clasele cu stilul paginii (CSS)',
 		charset: 'Setul de caractere al resursei legate',
 		styles: 'Stil',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Selectaţi o ancoră',
 		anchorName: 'după numele ancorei',
 		anchorId: 'după Id-ul elementului',

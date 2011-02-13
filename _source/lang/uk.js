@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		cssClasses: 'Клас CSS',
 		charset: 'Кодування',
 		styles: 'Стиль CSS',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Оберіть якір',
 		anchorName: 'За ім\'ям елементу',
 		anchorId: 'За ідентифікатором елементу',

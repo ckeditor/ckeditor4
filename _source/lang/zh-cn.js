@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cssClasses: '样式类名称',
 		charset: '字符编码',
 		styles: '行内样式',
+		rel: 'Relationship', // MISSING
 		selectAnchor: '选择一个锚点',
 		anchorName: '按锚点名称',
 		anchorId: '按锚点 ID',

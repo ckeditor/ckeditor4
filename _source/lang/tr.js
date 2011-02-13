@@ -176,6 +176,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		cssClasses: 'Biçem Sayfası Sınıfları',
 		charset: 'Bağlı Kaynak Karakter Gurubu',
 		styles: 'Biçem',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Bağlantı Seç',
 		anchorName: 'Bağlantı Adı ile',
 		anchorId: 'Eleman Kimlik Numarası ile',

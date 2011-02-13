@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		cssClasses: 'Classes de feuilles de style',
 		charset: 'Encodage de caractère',
 		styles: 'Style',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Sélectionner une ancre',
 		anchorName: 'Par nom',
 		anchorId: 'Par id',

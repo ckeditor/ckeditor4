@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		cssClasses: 'Stylesheet Classes',
 		charset: 'Linked Resource Charset',
 		styles: 'Style',
+		rel: 'Relationship', // MISSING
 		selectAnchor: '책갈피 선택',
 		anchorName: '책갈피 이름',
 		anchorId: '책갈피 ID',

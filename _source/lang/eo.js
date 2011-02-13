@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		cssClasses: 'Klasoj de Stilfolioj',
 		charset: 'Signaro de la Ligita Rimedo',
 		styles: 'Stilo',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Elekti Ankron',
 		anchorName: 'Per Ankronomo',
 		anchorId: 'Per Elementidentigilo',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		cssClasses: 'Stíluskészlet',
 		charset: 'Hivatkozott tartalom kódlapja',
 		styles: 'Stílus',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Horgony választása',
 		anchorName: 'Horgony név szerint',
 		anchorId: 'Azonosító szerint',

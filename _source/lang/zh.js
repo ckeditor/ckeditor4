@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		cssClasses: '樣式表類別',
 		charset: '連結資源之編碼',
 		styles: '樣式',
+		rel: 'Relationship', // MISSING
 		selectAnchor: '請選擇錨點',
 		anchorName: '依錨點名稱',
 		anchorId: '依元件 ID',

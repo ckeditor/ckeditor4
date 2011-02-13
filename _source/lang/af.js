@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'af' ] = {
 		cssClasses: 'Skakel Tiepe',
 		charset: 'Geskakelde voorbeeld karakterstel',
 		styles: 'Styl',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Kies \'n plekhouer',
 		anchorName: 'Volgens plekhouer naam',
 		anchorId: 'Volgens element Id',

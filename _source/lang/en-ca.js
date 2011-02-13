@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		cssClasses: 'Stylesheet Classes',
 		charset: 'Linked Resource Charset',
 		styles: 'Style',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Select an Anchor',
 		anchorName: 'By Anchor Name',
 		anchorId: 'By Element Id',

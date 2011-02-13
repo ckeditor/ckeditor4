@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'km' ] = {
 		cssClasses: 'Stylesheet Classes',
 		charset: 'លេខកូតអក្សររបស់ឈ្នាប់',
 		styles: 'ម៉ូត',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'ជ្រើសរើសយុថ្កា',
 		anchorName: 'តាមឈ្មោះរបស់យុថ្កា',
 		anchorId: 'តាម Id',

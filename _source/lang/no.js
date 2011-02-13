@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'no' ] = {
 		cssClasses: 'Stilarkklasser',
 		charset: 'Lenket språkkart',
 		styles: 'Stil',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Velg et anker',
 		anchorName: 'Anker etter navn',
 		anchorId: 'Element etter ID',

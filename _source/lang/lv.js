@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		cssClasses: 'Stilu saraksta klases',
 		charset: 'Pievienotā resursa kodu tabula',
 		styles: 'Stils',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Izvēlēties iezīmi',
 		anchorName: 'Pēc iezīmes nosaukuma',
 		anchorId: 'Pēc elementa ID',

@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'is' ] = {
 		cssClasses: 'Stílsniðsflokkur',
 		charset: 'Táknróf',
 		styles: 'Stíll',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Veldu akkeri',
 		anchorName: 'Eftir akkerisnafni',
 		anchorId: 'Eftir auðkenni einingar',

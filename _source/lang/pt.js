@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		cssClasses: 'Classes de Estilo de Folhas Classes',
 		charset: 'Fonte de caracteres vinculado',
 		styles: 'Estilo',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'Seleccionar una referência',
 		anchorName: 'Por Nome de Referência',
 		anchorId: 'Por ID de elemento',

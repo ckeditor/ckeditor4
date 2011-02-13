@@ -177,6 +177,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		cssClasses: 'فئات التنسيق',
 		charset: 'ترميز المادة المطلوبة',
 		styles: 'نمط',
+		rel: 'Relationship', // MISSING
 		selectAnchor: 'اختر علامة مرجعية',
 		anchorName: 'حسب الاسم',
 		anchorId: 'حسب رقم العنصر',
