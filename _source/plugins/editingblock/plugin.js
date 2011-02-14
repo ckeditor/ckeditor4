@@ -57,7 +57,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'beforeGetData', function() {
 				if ( !isHandlingData && editor.mode ) {
 					isHandlingData = true;
-					editor.setData( getMode( editor ).getData() );
+					editor.setData( getMode( editor ).getData(), null, 1 );
 					isHandlingData = false;
 				}
 			});

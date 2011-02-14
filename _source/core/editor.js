@@ -498,9 +498,9 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		if ( !noUpdate )
 			this.updateElement();
 
+		this.fire( 'destroy' );
 		this.theme && this.theme.destroy( this );
 
-		this.fire( 'destroy' );
 		CKEDITOR.remove( this );
 		CKEDITOR.fire( 'instanceDestroyed', null, this );
 	},
@@ -625,6 +625,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *		editor.
 	 * @param {Function} callback Function to be called after the setData
 	 *		is completed.
+	 *@param {Boolean} internal Whether suppress  any event firing when copying data internally inside editor.
 	 * @example
 	 * CKEDITOR.instances.editor1.<b>setData</b>( '&lt;p&gt;This is the editor data.&lt;/p&gt;' );
 	 * @example
@@ -633,7 +634,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 *         this.checkDirty();    // true
 	 *     });
 	 */
-	setData: function( data, callback ) {
+	setData: function( data, callback, internal ) {
 		if ( callback ) {
 			this.on( 'dataReady', function( evt ) {
 				evt.removeListener();
@@ -643,11 +644,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 
 		// Fire "setData" so data manipulation may happen.
 		var eventData = { dataValue: data };
-		this.fire( 'setData', eventData );
+		!internal && this.fire( 'setData', eventData );
 
 		this._.data = eventData.dataValue;
 
-		this.fire( 'afterSetData', eventData );
+		!internal && this.fire( 'afterSetData', eventData );
 	},
 
 	/**
