@@ -54,16 +54,9 @@ CKEDITOR.editor.prototype.attachStyleStateChange = function( style, callback ) {
 				// callback.
 				var currentState = callback.style.checkActive( ev.data.path ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 
-				// If the state changed since the last check.
-				if ( callback.state !== currentState ) {
-					// Call the callback function, passing the current
-					// state to it.
-					callback.fn.call( this, currentState );
-
-					// Save the current state, so it can be compared next
-					// time.
-					callback.state = currentState;
-				}
+				// Call the callback function, passing the current
+				// state to it.
+				callback.fn.call( this, currentState );
 			}
 		});
 	}
