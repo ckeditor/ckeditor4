@@ -68,6 +68,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var dtd = CKEDITOR.dtd;
 
+	// Define orders of table elements.
+	var tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
+
 	// Find out the list of block-like tags that can contain <br>.
 	var blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$block, dtd.$listItem, dtd.$tableContent );
 	for ( var i in blockLikeTags ) {
@@ -136,6 +139,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 
 				return element;
+			},
+
+			// The contents of table should be in correct order (#4809).
+			table: function( element ) {
+				var children = element.children;
+				children.sort( function( node1, node2 ) {
+					return node1.type == CKEDITOR.NODE_ELEMENT && node2.type == node1.type ? tableOrder.indexOf( node1.name ) > tableOrder.indexOf( node2.name ) ? 1 : -1 : 0;
+				});
 			},
 
 			embed: function( element ) {
