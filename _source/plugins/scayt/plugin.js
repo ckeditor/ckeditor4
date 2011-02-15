@@ -428,6 +428,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		init: function( editor ) {
+			// Delete span[data-scaytid] when text pasting in editor (#6921) 
+			var dataFilter = editor.dataProcessor && editor.dataProcessor.dataFilter;
+			var dataFilterRules = {
+				elements: {
+					span: function( element ) {
+						var attrs = element.attributes;
+						if ( attrs && attrs[ 'data-scaytid' ] )
+							delete element.name;
+					}
+				}
+			};
+			dataFilter && dataFilter.addRules( dataFilterRules );
+
 			var moreSuggestions = {},
 				mainSuggestions = {};
 
