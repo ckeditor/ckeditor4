@@ -195,6 +195,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	#float: none;
 }
 
+/*#7181*/
+.cke_skin_v2 .cke_browser_ie9 .cke_rtl .cke_separator,
+.cke_skin_v2 .cke_browser_ie9 .cke_rtl .cke_toolbar_start,
+.cke_skin_v2 .cke_browser_ie9 .cke_rtl .cke_toolbar_end
+{
+	vertical-align:middle;
+}
+
 .cke_skin_v2 .cke_button a,
 .cke_skin_v2 .cke_button a:hover,
 .cke_skin_v2 .cke_button a:focus,
