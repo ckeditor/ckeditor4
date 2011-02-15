@@ -809,7 +809,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * @param {Boolean} [inlineOnly=true] Allow only inline elements to be merged.
+	 * Merges sibling elements that are identical to this one.<br>
+	 * <br>
+	 * Identical child elements are also merged. For example:<br>
+	 * &lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt; =&gt; &lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt;
+	 * @function
+	 * @param {Boolean} [inlineOnly] Allow only inline elements to be merged. Defaults to "true".
 	 */
 	mergeSiblings: (function() {
 		function mergeElements( element, sibling, isNext ) {
