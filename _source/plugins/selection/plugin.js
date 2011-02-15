@@ -270,6 +270,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			// Clear the cached range path before unload. (#7174)
+			editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
+
 			editor.addCommand( 'selectAll', selectAllCmd );
 			editor.ui.addButton( 'SelectAll', {
 				label: editor.lang.selectAll,
