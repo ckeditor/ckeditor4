@@ -110,7 +110,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * be updated. Just like in the third example, a custom 'onSelect' function may be
  * defined.
  */ ( function() {
-	/**
+	/*
 	 * Adds (additional) arguments to given url.
 	 *
 	 * @param {String}
@@ -131,7 +131,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return url + ( ( url.indexOf( "?" ) != -1 ) ? "&" : "?" ) + queryString.join( "&" );
 	}
 
-	/**
+	/*
 	 * Make a string's first character uppercase.
 	 *
 	 * @param {String}
@@ -143,7 +143,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return f + str.substr( 1 );
 	}
 
-	/**
+	/*
 	 * The onlick function assigned to the 'Browse Server' button. Opens the
 	 * file browser and updates target field when file is selected.
 	 *
@@ -169,7 +169,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.popup( url, width, height, editor.config.fileBrowserWindowFeatures );
 	}
 
-	/**
+	/*
 	 * The onlick function assigned to the 'Upload' button. Makes the final
 	 * decision whether form is really submitted and updates target field when
 	 * file is uploaded.
@@ -193,7 +193,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return true;
 	}
 
-	/**
+	/*
 	 * Setups the file element.
 	 *
 	 * @param {CKEDITOR.ui.dialog.file}
@@ -213,7 +213,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		fileInput.filebrowser = filebrowser;
 	}
 
-	/**
+	/*
 	 * Traverse through the content definition and attach filebrowser to
 	 * elements with 'filebrowser' attribute.
 	 *
@@ -286,7 +286,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	/**
+	/*
 	 * Updates the target element with the url of uploaded/selected file.
 	 *
 	 * @param {String}
@@ -308,7 +308,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	/**
+	/*
 	 * Returns true if filebrowser is configured in one of the elements.
 	 *
 	 * @param {CKEDITOR.dialog.dialogDefinitionObject}
@@ -466,4 +466,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @default 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
  * @example
  * config.filebrowserWindowFeatures = 'resizable=yes,scrollbars=no';
+ */
+
+/**
+ * The width of the file browser popup window. It can be a number or a percent string.
+ * @name CKEDITOR.config.filebrowserWindowWidth
+ * @type Number|String
+ * @default '80%'
+ * @example
+ * config.filebrowserWindowWidth = 750;
+ * @example
+ * config.filebrowserWindowWidth = '50%';
+ */
+
+/**
+ * The height of the file browser popup window. It can be a number or a percent string.
+ * @name CKEDITOR.config.filebrowserWindowHeight
+ * @type Number|String
+ * @default '70%'
+ * @example
+ * config.filebrowserWindowHeight = 580;
+ * @example
+ * config.filebrowserWindowHeight = '50%';
  */
