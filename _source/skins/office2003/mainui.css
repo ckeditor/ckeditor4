@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: move;
 }
 
-.cke_skin_office2003 .cke_rtl .cke_resizer
+.cke_skin_office2003 .cke_resizer_rtl
 {
 	cursor: sw-resize;
 	/* resizer_rtl.gif*/

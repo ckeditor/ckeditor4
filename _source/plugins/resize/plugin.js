@@ -7,6 +7,10 @@ CKEDITOR.plugins.add( 'resize', {
 	init: function( editor ) {
 		var config = editor.config;
 
+		// Resize in the same direction of chrome,
+		// which is identical to dir of editor element. (#6614)
+		var resizeDir = editor.element.getDirection( 1 );
+
 		!config.resize_dir && ( config.resize_dir = 'both' );
 		( config.resize_maxWidth == undefined ) && ( config.resize_maxWidth = 3000 );
 		( config.resize_maxHeight == undefined ) && ( config.resize_maxHeight = 3000 );
@@ -24,7 +28,7 @@ CKEDITOR.plugins.add( 'resize', {
 					dy = evt.data.$.screenY - origin.y,
 					width = startSize.width,
 					height = startSize.height,
-					internalWidth = width + dx * ( editor.lang.dir == 'rtl' ? -1 : 1 ),
+					internalWidth = width + dx * ( resizeDir == 'rtl' ? -1 : 1 ),
 					internalHeight = height + dy;
 
 				if ( resizeHorizontal )
@@ -77,10 +81,14 @@ CKEDITOR.plugins.add( 'resize', {
 					if ( !resizeHorizontal && resizeVertical )
 						direction = ' cke_resizer_vertical';
 
-					event.data.html += '<div class="cke_resizer' + direction + '"' +
-													' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
-													' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
-													'></div>';
+					var resizerHtml = '<div' +
+						' class="cke_resizer' + direction + ' cke_resizer_' + resizeDir + '"' +
+						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
+						' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
+						'></div>';
+
+					// Always sticks the corner of botttom space.
+					resizeDir == 'ltr' && direction == 'ltr' ? event.data.html += resizerHtml : event.data.html = resizerHtml + event.data.html;
 				}
 			}, editor, null, 100 );
 		}

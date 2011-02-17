@@ -133,7 +133,7 @@ span.cke_skin_kama
 	cursor: move;
 }
 
-.cke_skin_kama .cke_rtl .cke_resizer
+.cke_skin_kama .cke_resizer_rtl
 {
 	cursor: sw-resize;
 	/* resizer_rtl.gif*/
