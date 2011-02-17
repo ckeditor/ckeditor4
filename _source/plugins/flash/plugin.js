@@ -88,7 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var attributes = element.attributes,
 								classId = attributes.classid && String( attributes.classid ).toLowerCase();
 
-							if ( !classId ) {
+							if ( !classId && !isFlashEmbed( element ) ) {
 								// Look for the inner <embed>
 								for ( var i = 0; i < element.children.length; i++ ) {
 									if ( element.children[ i ].name == 'cke:embed' ) {

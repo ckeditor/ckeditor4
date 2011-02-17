@@ -38,6 +38,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			type: ATTRTYPE_PARAM, name: 'movie'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'src'
+		}, {
+			type: ATTRTYPE_OBJECT, name: 'data'
 		}],
 		name: [ {
 			type: ATTRTYPE_EMBED, name: 'name'
