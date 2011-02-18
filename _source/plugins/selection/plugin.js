@@ -112,14 +112,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// If we have saved a range, restore it at this
 						// point.
 						if ( savedRange ) {
-							// Range restored here might invalidate the DOM structure thus break up
-							// the locked selection, give it up. (#6083)
-							var lockedSelection = doc.getCustomData( 'cke_locked_selection' );
-							if ( restoreEnabled && !lockedSelection ) {
+							if ( restoreEnabled ) {
 								// Well not break because of this.
 								try {
 									savedRange.select();
 								} catch ( e ) {}
+
+								// Update locked selection because of the normalized text nodes. (#6083, #6987)
+								var lockedSelection = doc.getCustomData( 'cke_locked_selection' );
+								if ( lockedSelection ) {
+									lockedSelection.unlock();
+									lockedSelection.lock();
+								}
 							}
 
 							savedRange = null;
