@@ -762,6 +762,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					loadData: function( data ) {
 						isLoadingData = true;
+						editor._.dataStore = { id:1 };
 
 						var config = editor.config,
 							fullPage = config.fullPage,

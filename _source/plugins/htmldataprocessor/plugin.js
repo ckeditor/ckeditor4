@@ -215,21 +215,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Remove all class names starting with "cke_".
 				return CKEDITOR.tools.ltrim( value.replace( /(?:^|\s+)cke_[^\s]*/g, '' ) ) || false;
 			}
-		},
-
-		comment: function( contents ) {
-			// If this is a comment for protected source.
-			if ( contents.substr( 0, protectedSourceMarker.length ) == protectedSourceMarker ) {
-				// Remove the extra marker for real comments from it.
-				if ( contents.substr( protectedSourceMarker.length, 3 ) == '{C}' )
-					contents = contents.substr( protectedSourceMarker.length + 3 );
-				else
-					contents = contents.substr( protectedSourceMarker.length );
-
-				return new CKEDITOR.htmlParser.cdata( decodeURIComponent( contents ) );
-			}
-
-			return contents;
 		}
 	};
 
@@ -337,8 +322,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		});
 	}
 
-	function protectSource( data, protectRegexes ) {
+	function unprotectSource( html, editor ) {
+		var store = editor._.dataStore;
+
+		return html.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
+			return decodeURIComponent( data );
+		}).replace( /\{cke_protected_(\d+)\}/g, function( match, id ) {
+			return store && store[ id ] || '';
+		});
+	}
+
+	function protectSource( data, editor ) {
 		var protectedHtml = [],
+			protectRegexes = editor.config.protectedSource,
+			store = editor._.dataStore || ( editor._.dataStore = { id:1 } ),
 			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
 
 		var regexes = [
@@ -364,7 +361,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				function( $, isComment, id ) {
 					return protectedHtml[ id ];
 				});
-				return '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
+
+				// Avoid protecting over protected, e.g. /\{.*?\}/
+				return /cke_temp(comment)?/.test( match ) ? match : '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
 			});
 		}
 		data = data.replace( tempRegex, function( $, isComment, id ) {
@@ -373,7 +372,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										encodeURIComponent( protectedHtml[ id ] ).replace( /--/g, '%2D%2D' ) +
 										'-->';
 		});
-		return data;
+
+		// Different protection pattern is used for those that
+		// live in attributes to avoid from being HTML encoded.
+		return data.replace( /(['"]).*?\1/g, function( match ) {
+			return match.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
+				store[ store.id ] = decodeURIComponent( data );
+				return '{cke_protected_' + store.id+++'}';
+			})
+		});
 	}
 
 	CKEDITOR.plugins.add( 'htmldataprocessor', {
@@ -414,7 +421,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 
-			data = protectSource( data, this.editor.config.protectedSource );
+			data = protectSource( data, this.editor );
 
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in
@@ -475,7 +482,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			fragment.writeHtml( writer, this.htmlFilter );
 
-			return writer.getHtml( true );
+			var data = writer.getHtml( true );
+
+			// Restore those non-HTML protected source. (#4475,#4880)
+			data = unprotectRealComments( data );
+			data = unprotectSource( data, this.editor );
+
+			return data;
 		}
 	};
 })();
