@@ -268,9 +268,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var win = editor.window,
 			doc = editor.document,
 			body = editor.document.getBody(),
+			bodyFirstChild = body.getFirst(),
 			bodyChildsNum = body.getChildren().count();
 
-		if ( !bodyChildsNum || ( bodyChildsNum == 1 && body.getFirst().hasAttribute( '_moz_editor_bogus_node' ) ) ) {
+		if ( !bodyChildsNum || bodyChildsNum == 1 && bodyFirstChild.type == CKEDITOR.NODE_ELEMENT && bodyFirstChild.hasAttribute( '_moz_editor_bogus_node' ) ) {
 			restoreDirty( editor );
 
 			// Memorize scroll position to restore it later (#4472).
@@ -832,6 +833,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																		'</html>';
 						}
 
+						// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
+						if ( CKEDITOR.env.gecko )
+							data = data.replace( /<br \/>(?=\s*<\/(:?html|body)>)/, '$&<br type="_moz" />' );
+
 						data += activationScript;
 
 
@@ -847,6 +852,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							doc = iframe.getFrameDocument();
 
 						var data = fullPage ? doc.getDocumentElement().getOuterHtml() : doc.getBody().getHtml();
+
+						// BR at the end of document is bogus node for Mozilla. (#5293).
+						if ( CKEDITOR.env.gecko )
+							data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
 						if ( editor.dataProcessor )
 							data = editor.dataProcessor.toDataFormat( data, fixForBody );
