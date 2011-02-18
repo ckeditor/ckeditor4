@@ -25,7 +25,7 @@ CKEDITOR.on( 'instanceReady', function( ev )
 	document.getElementById( 'eMessage' ).innerHTML = '<p>Instance <code>' + ev.editor.name + '<\/code> loaded.<\/p>';
 
 	// Show this sample buttons.
-	document.getElementById( 'eButtons' ).style.visibility = '';
+	 document.getElementById( 'eButtons' ).style.display = 'block';
 });
 
 function InsertHTML()
@@ -160,7 +160,7 @@ function ResetDirty()
 
 		<div id="eMessage">
 		</div>
-		<div id="eButtons" style="visibility: hidden">
+		<div id="eButtons" style="display: none">
 			<input onclick="InsertHTML();" type="button" value="Insert HTML" />
 			<input onclick="SetContents();" type="button" value="Set Editor Contents" />
 			<input onclick="GetContents();" type="button" value="Get Editor Contents (XHTML)" />
