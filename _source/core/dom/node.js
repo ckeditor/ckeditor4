@@ -189,23 +189,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 		while ( node && node != $documentElement ) {
 			var parentNode = node.parentNode;
-			var currentIndex = -1;
 
 			if ( parentNode ) {
-				for ( var i = 0; i < parentNode.childNodes.length; i++ ) {
-					var candidate = parentNode.childNodes[ i ];
-
-					if ( normalized && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
-						continue;
-					}
-
-					currentIndex++;
-
-					if ( candidate == node )
-						break;
-				}
-
-				address.unshift( currentIndex );
+				// Get the node index. For performance, call getIndex
+				// directly, instead of creating a new node object.
+				address.unshift( this.getIndex.call({ $: node }, normalized ) );
 			}
 
 			node = parentNode;
@@ -225,22 +213,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return new CKEDITOR.dom.document( this.$.ownerDocument || this.$.parentNode.ownerDocument );
 	},
 
-	getIndex: function() {
-		var $ = this.$;
+	getIndex: function( normalized ) {
+		// Attention: getAddress depends on this.$
 
-		var currentNode = $.parentNode && $.parentNode.firstChild;
-		var currentIndex = -1;
+		var current = this.$,
+			index = 0;
 
-		while ( currentNode ) {
-			currentIndex++;
+		while ( ( current = current.previousSibling ) ) {
+			// When normalizing, do not count it if this is an
+			// empty text node or if it's a text node following another one.
+			if ( normalized && current.nodeType == 3 && ( !current.nodeValue.length || ( current.previousSibling && current.previousSibling.nodeType == 3 ) ) ) {
+				continue;
+			}
 
-			if ( currentNode == $ )
-				return currentIndex;
-
-			currentNode = currentNode.nextSibling;
+			index++;
 		}
 
-		return -1;
+		return index;
 	},
 
 	getNextSourceNode: function( startFromSibling, nodeType, guard ) {
