@@ -190,6 +190,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
 
 /**
  * Sets whether the editor should have the focus when the page loads.
+ * @name CKEDITOR.config.startupFocus
  * @type Boolean
  * @default false
  * @example
