@@ -177,7 +177,7 @@ CKEDITOR.lang[ 'es' ] = {
 		cssClasses: 'Clases de hojas de estilo',
 		charset: 'Fuente de caracteres vinculado',
 		styles: 'Estilo',
-		rel: 'Relationship', // MISSING
+		rel: 'Relación',
 		selectAnchor: 'Seleccionar una referencia',
 		anchorName: 'Por Nombre de Referencia',
 		anchorId: 'Por ID de elemento',
@@ -185,8 +185,8 @@ CKEDITOR.lang[ 'es' ] = {
 		emailSubject: 'Título del Mensaje',
 		emailBody: 'Cuerpo del Mensaje',
 		noAnchors: '(No hay referencias disponibles en el documento)',
-		noUrl: 'Por favor tipee el vínculo URL',
-		noEmail: 'Por favor tipee la dirección de e-mail'
+		noUrl: 'Por favor escriba el vínculo URL',
+		noEmail: 'Por favor escriba la dirección de e-mail'
 	},
 
 	// Anchor dialog
