@@ -177,7 +177,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		cssClasses: 'Tyyliluokat',
 		charset: 'Linkitetty kirjaimisto',
 		styles: 'Tyyli',
-		rel: 'Relationship', // MISSING
+		rel: 'Suhde',
 		selectAnchor: 'Valitse ankkuri',
 		anchorName: 'Ankkurin nimen mukaan',
 		anchorId: 'Ankkurin ID:n mukaan',
