@@ -21,7 +21,7 @@ et.js      Found: 289 Missing: 233
 eu.js      Found: 387 Missing: 135
 fa.js      Found: 290 Missing: 232
 fi.js      Found: 521 Missing: 1
-fo.js      Found: 402 Missing: 120
+fo.js      Found: 521 Missing: 1
 fr-ca.js   Found: 289 Missing: 233
 fr.js      Found: 521 Missing: 1
 gl.js      Found: 271 Missing: 251
