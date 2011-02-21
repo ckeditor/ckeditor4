@@ -51,7 +51,7 @@ sk.js      Found: 290 Missing: 232
 sl.js      Found: 394 Missing: 128
 sr-latn.js Found: 264 Missing: 258
 sr.js      Found: 263 Missing: 259
-sv.js      Found: 287 Missing: 235
+sv.js      Found: 521 Missing: 1
 th.js      Found: 275 Missing: 247
 tr.js      Found: 506 Missing: 16
 uk.js      Found: 513 Missing: 9
