@@ -172,6 +172,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * Moves the selection focus to the editing are space in the editor.
 	 */
 	CKEDITOR.editor.prototype.focus = function() {
+		this.forceNextSelectionCheck();
 		var mode = getMode( this );
 		if ( mode )
 			mode.focus();
