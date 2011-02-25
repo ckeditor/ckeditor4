@@ -48,7 +48,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 			 * @constructor
 			 * @param {CKEDITOR.dialog} dialog
 			 * Parent dialog object.
-			 * @param {CKEDITOR.dialog.uiElementDefinition} elementDefinition
+			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 * <ul>
 			 * 	<li><strong>src</strong> (Required) The src field of the iframe. </li>

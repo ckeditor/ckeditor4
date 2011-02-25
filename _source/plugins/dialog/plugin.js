@@ -1131,9 +1131,77 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @param {Function|String} dialogDefinition
 		 * A function returning the dialog's definition, or the URL to the .js file holding the function.
 		 * The function should accept an argument "editor" which is the current editor instance, and
-		 * return an object conforming to {@link CKEDITOR.dialog.dialogDefinition}.
+		 * return an object conforming to {@link CKEDITOR.dialog.definition}.
+		 * @see CKEDITOR.dialog.definition
 		 * @example
-		 * @see CKEDITOR.dialog.dialogDefinition
+		 * // Full sample plugin, which does not only register a dialog window but also adds an item to the context menu.
+		 * // To open the dialog window, choose "Open dialog" in the context menu.
+		 * CKEDITOR.plugins.add( 'myplugin',
+		 * {
+		 * 	init: function( editor )
+		 * 	{
+		 * 		editor.addCommand( 'mydialog',new CKEDITOR.dialogCommand( 'mydialog' ) );
+		 *  
+		 * 		if ( editor.contextMenu )
+		 * 		{
+		 * 			editor.addMenuGroup( 'mygroup', 10 );
+		 * 			editor.addMenuItem( 'My Dialog',
+		 * 			{
+		 * 				label : 'Open dialog',
+		 * 				command : 'mydialog',
+		 * 				group : 'mygroup'
+		 * 			});
+		 * 			editor.contextMenu.addListener( function( element )
+		 * 			{
+		 *  				return { 'My Dialog' : CKEDITOR.TRISTATE_OFF };
+		 * 			});
+		 * 		}
+		 *  
+		 * 		<strong>CKEDITOR.dialog.add</strong>( 'mydialog', function( api )
+		 * 		{
+		 * 			// CKEDITOR.dialog.definition
+		 * 			var <strong>dialogDefinition</strong> =
+		 * 			{
+		 * 				title : 'Sample dialog',
+		 * 				minWidth : 390,
+		 * 				minHeight : 130,
+		 * 				contents : [
+		 * 					{
+		 * 						id : 'tab1',
+		 * 						label : 'Label',
+		 * 						title : 'Title',
+		 * 						expand : true,
+		 * 						padding : 0,
+		 * 						elements :
+		 * 						[
+		 * 							{
+		 * 								type : 'html',
+		 * 								html : '&lt;p&gt;This is some sample HTML content.&lt;/p&gt;'
+		 * 							},
+		 * 							{
+		 * 								type : 'textarea',
+		 * 								id : 'textareaId',
+		 * 								rows : 4,
+		 * 								cols : 40
+		 * 							}
+		 * 						]
+		 * 					}
+		 * 				],
+		 * 				buttons : [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ],
+		 * 				onOk : function() {
+		 * 					// "this" is now a CKEDITOR.dialog object.
+		 * 					// Accessing dialog elements:
+		 * 					var textareaObj = this.<strong>getContentElement</strong>( 'tab1', 'textareaId' );
+		 * 					alert( "You have entered: " + textareaObj.getValue() );
+		 * 				}
+		 * 			};
+		 * 
+		 * 			return dialogDefinition;
+		 * 		} );
+		 * 	}
+		 * } );
+		 * 
+		 * CKEDITOR.replace( 'editor1', { extraPlugins : 'myplugin' } );
 		 */
 		add: function( name, dialogDefinition ) {
 			// Avoid path registration from multiple instances override definition.
@@ -1303,8 +1371,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 * This class is not really part of the API. It is the "definition" property value
 	 * passed to "dialogDefinition" event handlers.
 	 * @constructor
-	 * @name CKEDITOR.dialog.dialogDefinitionObject
-	 * @extends CKEDITOR.dialog.dialogDefinition
+	 * @name CKEDITOR.dialog.definitionObject
+	 * @extends CKEDITOR.dialog.definition
 	 * @example
 	 * CKEDITOR.on( 'dialogDefinition', function( evt )
 	 * 	{
@@ -1327,11 +1395,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	definitionObject.prototype =
-	/** @lends CKEDITOR.dialog.dialogDefinitionObject.prototype */ {
+	/** @lends CKEDITOR.dialog.definitionObject.prototype */ {
 		/**
 		 * Gets a content definition.
 		 * @param {String} id The id of the content definition.
-		 * @returns {CKEDITOR.dialog.contentDefinition} The content definition
+		 * @returns {CKEDITOR.dialog.definition.content} The content definition
 		 *		matching id.
 		 */
 		getContents: function( id ) {
@@ -1341,7 +1409,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/**
 		 * Gets a button definition.
 		 * @param {String} id The id of the button definition.
-		 * @returns {CKEDITOR.dialog.buttonDefinition} The button definition
+		 * @returns {CKEDITOR.dialog.definition.button} The button definition
 		 *		matching id.
 		 */
 		getButton: function( id ) {
@@ -1350,13 +1418,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		/**
 		 * Adds a content definition object under this dialog definition.
-		 * @param {CKEDITOR.dialog.contentDefinition} contentDefinition The
+		 * @param {CKEDITOR.dialog.definition.content} contentDefinition The
 		 *		content definition.
 		 * @param {String} [nextSiblingId] The id of an existing content
 		 *		definition which the new content definition will be inserted
 		 *		before. Omit if the new content definition is to be inserted as
 		 *		the last item.
-		 * @returns {CKEDITOR.dialog.contentDefinition} The inserted content
+		 * @returns {CKEDITOR.dialog.definition.content} The inserted content
 		 *		definition.
 		 */
 		addContents: function( contentDefinition, nextSiblingId ) {
@@ -1365,13 +1433,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		/**
 		 * Adds a button definition object under this dialog definition.
-		 * @param {CKEDITOR.dialog.buttonDefinition} buttonDefinition The
+		 * @param {CKEDITOR.dialog.definition.button} buttonDefinition The
 		 *		button definition.
 		 * @param {String} [nextSiblingId] The id of an existing button
 		 *		definition which the new button definition will be inserted
 		 *		before. Omit if the new button definition is to be inserted as
 		 *		the last item.
-		 * @returns {CKEDITOR.dialog.buttonDefinition} The inserted button
+		 * @returns {CKEDITOR.dialog.definition.button} The inserted button
 		 *		definition.
 		 */
 		addButton: function( buttonDefinition, nextSiblingId ) {
@@ -1381,7 +1449,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/**
 		 * Removes a content definition from this dialog definition.
 		 * @param {String} id The id of the content definition to be removed.
-		 * @returns {CKEDITOR.dialog.contentDefinition} The removed content
+		 * @returns {CKEDITOR.dialog.definition.content} The removed content
 		 *		definition.
 		 */
 		removeContents: function( id ) {
@@ -1391,7 +1459,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/**
 		 * Removes a button definition from the dialog definition.
 		 * @param {String} id The id of the button definition to be removed.
-		 * @returns {CKEDITOR.dialog.buttonDefinition} The removed button
+		 * @returns {CKEDITOR.dialog.definition.button} The removed button
 		 *		definition.
 		 */
 		removeButton: function( id ) {
@@ -1402,9 +1470,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	/**
 	 * This class is not really part of the API. It is the template of the
 	 * objects representing content pages inside the
-	 * CKEDITOR.dialog.dialogDefinitionObject.
+	 * CKEDITOR.dialog.definitionObject.
 	 * @constructor
-	 * @name CKEDITOR.dialog.contentDefinitionObject
+	 * @name CKEDITOR.dialog.definition.contentObject
 	 * @example
 	 * CKEDITOR.on( 'dialogDefinition', function( evt )
 	 * 	{
@@ -1423,11 +1491,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	contentObject.prototype =
-	/** @lends CKEDITOR.dialog.contentDefinitionObject.prototype */ {
+	/** @lends CKEDITOR.dialog.definition.contentObject.prototype */ {
 		/**
 		 * Gets a UI element definition under the content definition.
 		 * @param {String} id The id of the UI element definition.
-		 * @returns {CKEDITOR.dialog.uiElementDefinition}
+		 * @returns {CKEDITOR.dialog.definition.uiElement}
 		 */
 		get: function( id ) {
 			return getById( this.elements, id, 'children' );
@@ -1435,13 +1503,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		/**
 		 * Adds a UI element definition to the content definition.
-		 * @param {CKEDITOR.dialog.uiElementDefinition} elementDefinition The
+		 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition The
 		 *		UI elemnet definition to be added.
 		 * @param {String} nextSiblingId The id of an existing UI element
 		 *		definition which the new UI element definition will be inserted
 		 *		before. Omit if the new button definition is to be inserted as
 		 *		the last item.
-		 * @returns {CKEDITOR.dialog.uiElementDefinition} The element
+		 * @returns {CKEDITOR.dialog.definition.uiElement} The element
 		 *		definition inserted.
 		 */
 		add: function( elementDefinition, nextSiblingId ) {
@@ -1452,7 +1520,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * Removes a UI element definition from the content definition.
 		 * @param {String} id The id of the UI element definition to be
 		 *		removed.
-		 * @returns {CKEDITOR.dialog.uiElementDefinition} The element
+		 * @returns {CKEDITOR.dialog.definition.uiElement} The element
 		 *		definition removed.
 		 * @example
 		 */
@@ -1852,7 +1920,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			 * The base class of all dialog UI elements.
 			 * @constructor
 			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
-			 * @param {CKEDITOR.dialog.uiElementDefinition} elementDefinition Element
+			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition Element
 			 * definition. Accepted fields:
 			 * <ul>
 			 * 	<li><strong>id</strong> (Required) The id of the UI element. See {@link
@@ -2011,7 +2079,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			 * objects in childObjList.
 			 * @param {Array} htmlList
 			 * Array of HTML code that this element will output to.
-			 * @param {CKEDITOR.dialog.uiElementDefinition} elementDefinition
+			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 * <ul>
 			 * 	<li><strong>widths</strong> (Optional) The widths of child cells.</li>
@@ -2082,7 +2150,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			 * objects in childObjList.
 			 * @param {Array} htmlList
 			 * Array of HTML code that this element will output to.
-			 * @param {CKEDITOR.dialog.uiElementDefinition} elementDefinition
+			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 * <ul>
 			 * 	<li><strong>width</strong> (Optional) The width of the layout.</li>
@@ -2268,7 +2336,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * </ol>
 		 * This function is only called at UI element instantiation, but can
 		 * be overridded in child classes if they require more flexibility.
-		 * @param {CKEDITOR.dialog.uiElementDefinition} definition The UI element
+		 * @param {CKEDITOR.dialog.definition.uiElement} definition The UI element
 		 * definition.
 		 * @returns {CKEDITOR.dialog.uiElement} The current UI element.
 		 * @example
@@ -2761,7 +2829,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * not get fired.</p>
  * @name CKEDITOR#dialogDefinition
  * @event
- * @param {CKEDITOR.dialog.dialogDefinition} data The dialog defination that
+ * @param {CKEDITOR.dialog.definition} data The dialog defination that
  *		is being loaded.
  * @param {CKEDITOR.editor} editor The editor instance that will use the
  *		dialog.

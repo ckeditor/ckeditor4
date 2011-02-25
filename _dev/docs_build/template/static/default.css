@@ -37,16 +37,16 @@ pre.code
 {
 	margin-top: 14px;
 	float: left;
-	width: 220px;
+	width: 240px;
 	position: absolute;
-	left: 8px;
+	left: 2px;
 	background-color: #F3F3F3;
 	padding: 8px;
 }
 
 #content
 {
-	margin-left: 250px;
+	margin-left: 260px;
 }
 
 .classList
@@ -157,4 +157,11 @@ ul.inheritsList
 {
 	text-align: right;
 	font-size: 10px;
+}
+
+.notapi {
+	padding:10px;
+	margin:10px;
+	border:1px #000 solid;
+	background:#E0E0E0;
 }
