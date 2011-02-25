@@ -162,8 +162,7 @@ if ( CKEDITOR.status == 'unloaded' ) {
 
 			for ( var i = 0; i < textareas.length; i++ ) {
 				var config = null,
-					textarea = textareas[ i ],
-					name = textarea.name;
+					textarea = textareas[ i ];
 
 				// The "name" and/or "id" attribute must exist.
 				if ( !textarea.name && !textarea.id )
