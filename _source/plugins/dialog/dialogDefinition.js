@@ -605,7 +605,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * (Optional) The action attribute of the form element associated with this file upload input.
- * If empty, CKFinder will use path to server connector for currently opened folder.
+ * If empty, CKEditor will use path to server connector for currently opened folder.
  * @name CKEDITOR.dialog.definition.file.prototype.action
  * @type String
  * @field
@@ -673,7 +673,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * The instruction for CKFinder how to deal with file upload.
+ * The instruction for CKEditor how to deal with file upload.
  * By default, the file and fileButton elements will not work "as expected" if this attribute is not set.
  * @name CKEDITOR.dialog.definition.fileButton.prototype.filebrowser
  * @type String|Object
@@ -730,9 +730,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 	minWidth : 300,
  * 	minHeight : 200,
  * 	onOk : function() {
- * 		// "this" is now a CKFinder.dialog object.
+ * 		// "this" is now a CKEDITOR.dialog object.
  * 		var document = this.getElement().getDocument();
- * 		// document = CKFinder.dom.document
+ * 		// document = CKEDITOR.dom.document
  * 		var element = <b>document.getById( 'myDiv' );</b>
  * 		if ( element )
  * 			alert( element.getHtml() );
@@ -751,7 +751,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 			]
  * 		}
  * 	],
- * 	buttons : [ CKFinder.dialog.cancelButton, CKFinder.dialog.okButton ]
+ * 	buttons : [ CKEDITOR.dialog.cancelButton, CKEDITOR.dialog.okButton ]
  * };
  */
 
