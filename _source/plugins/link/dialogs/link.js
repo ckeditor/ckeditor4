@@ -165,7 +165,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 						var featureMatch;
 						while ( ( featureMatch = popupFeaturesRegex.exec( onclickMatch[ 2 ] ) ) ) {
-							if ( featureMatch[ 2 ] == 'yes' || featureMatch[ 2 ] == '1' )
+							// Some values should remain numbers (#7300)
+							if ( ( featureMatch[ 2 ] == 'yes' || featureMatch[ 2 ] == '1' ) && !( featureMatch[ 1 ] in { height:1,width:1,top:1,left:1 } ) )
 								retval.target[ featureMatch[ 1 ] ] = true;
 							else if ( isFinite( featureMatch[ 2 ] ) )
 								retval.target[ featureMatch[ 1 ] ] = featureMatch[ 2 ];
