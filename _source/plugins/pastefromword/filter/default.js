@@ -686,8 +686,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'dl': flattenList,
 
 					'font': function( element ) {
-						// IE/Safari: drop the font tag if it comes from list bullet text.
-						if ( !CKEDITOR.env.gecko && isListBulletIndicator( element.parent ) ) {
+						// Drop the font tag if it comes from list bullet text.
+						if ( isListBulletIndicator( element.parent ) ) {
 							delete element.name;
 							return;
 						}
@@ -730,8 +730,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					},
 
 					'span': function( element ) {
-						// IE/Safari: remove the span if it comes from list bullet text.
-						if ( !CKEDITOR.env.gecko && isListBulletIndicator( element.parent ) )
+						// Remove the span if it comes from list bullet text.
+						if ( isListBulletIndicator( element.parent ) )
 							return false;
 
 						element.filterChildren();
@@ -740,9 +740,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							return null;
 						}
 
-						// For IE/Safari: List item bullet type is supposed to be indicated by
+						// List item bullet type is supposed to be indicated by
 						// the text of a span with style 'mso-list : Ignore' or an image.
-						if ( !CKEDITOR.env.gecko && isListBulletIndicator( element ) ) {
+						if ( isListBulletIndicator( element ) ) {
 							var listSymbolNode = element.firstChild( function( node ) {
 								return node.value || node.name == 'img';
 							});
