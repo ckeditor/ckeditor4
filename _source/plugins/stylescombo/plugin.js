@@ -54,16 +54,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var combo = this;
 
 					loadStylesSet( function() {
-						var style, styleName;
+						var style, styleName, lastType, type, i;
 
 						// Loop over the Array, adding all items to the
 						// combo.
-						var lastType;
-						for ( var i = 0, count = stylesList.length; i < count; i++ ) {
+						for ( i = 0, count = stylesList.length; i < count; i++ ) {
 							style = stylesList[ i ];
 							styleName = style._name;
-
-							var type = style.type;
+							type = style.type;
 
 							if ( type != lastType ) {
 								combo.startGroup( lang[ 'panelTitle' + String( type ) ] );
@@ -84,9 +82,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.fire( 'saveSnapshot' );
 
 					var style = styles[ value ],
-						selection = editor.getSelection();
-
-					var elementPath = new CKEDITOR.dom.elementPath( selection.getStartElement() );
+						selection = editor.getSelection(),
+						elementPath = new CKEDITOR.dom.elementPath( selection.getStartElement() );
 
 					style[ style.checkActive( elementPath ) ? 'remove' : 'apply' ]( editor.document );
 
@@ -95,9 +92,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				onRender: function() {
 					editor.on( 'selectionChange', function( ev ) {
-						var currentValue = this.getValue();
-
-						var elementPath = ev.data.path,
+						var currentValue = this.getValue(),
+							elementPath = ev.data.path,
 							elements = elementPath.elements;
 
 						// For each element into the elements path.
@@ -126,9 +122,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var selection = editor.getSelection(),
 						element = selection.getSelectedElement(),
-						elementPath = new CKEDITOR.dom.elementPath( element || selection.getStartElement() );
+						elementPath = new CKEDITOR.dom.elementPath( element || selection.getStartElement() ),
+						counter = [ 0, 0, 0, 0 ];
 
-					var counter = [ 0, 0, 0, 0 ];
 					this.showAll();
 					this.unmarkAll();
 					for ( var name in styles ) {
@@ -139,7 +135,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this.mark( name );
 						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( elementPath ) ) {
 							this.hideItem( name );
-							counter[ type ]--;
+							continue;
 						}
 
 						counter[ type ]++;
