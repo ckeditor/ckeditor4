@@ -220,6 +220,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// If the element direction changed, we need to switch the margins of
 	// the element and all its children, so it will get really reflected
 	// like a mirror. (#5910)
+	function isOffline( el ) {
+		var html = el.getDocument().getBody().getParent();
+		while ( el ) {
+			if ( el.equals( html ) )
+				return false;
+			el = el.getParent();
+		}
+		return true;
+	}
+
 	function dirChangeNotifier( org ) {
 		var isAttribute = org == elementProto.setAttribute,
 			isRemoveAttribute = org == elementProto.removeAttribute,
@@ -227,8 +237,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		return function( name, val ) {
 			if ( !this.getDocument().equals( CKEDITOR.document ) ) {
-				var orgDir, dir;
-				if ( name == ( isAttribute || isRemoveAttribute ? 'dir' : 'direction' ) || name == 'style' && ( isRemoveAttribute || dirStyleRegexp.test( val ) ) ) {
+				var orgDir;
+				if ( ( name == ( isAttribute || isRemoveAttribute ? 'dir' : 'direction' ) || name == 'style' && ( isRemoveAttribute || dirStyleRegexp.test( val ) ) ) && !isOffline( this ) ) {
 					orgDir = this.getDirection( 1 );
 					var retval = org.apply( this, arguments );
 					if ( orgDir != this.getDirection( 1 ) ) {
