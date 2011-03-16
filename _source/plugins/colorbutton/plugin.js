@@ -58,7 +58,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						color;
 
 					// Find the closest block element.
-					block = path.block || path.blockLimit;
+					block = path.block || path.blockLimit || editor.document.getBody();
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
