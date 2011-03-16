@@ -91,6 +91,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( previousBlock.is( 'li' ) || !headerTagRegex.test( previousBlock.getName() ) ) {
 						// Otherwise, duplicate the previous block.
 						newBlock = previousBlock.clone();
+						// Value attribute of list item should not be duplicated (#7330).
+						newBlock.is( 'li' ) && newBlock.removeAttribute( 'value' );
 					}
 				} else if ( nextBlock )
 					newBlock = nextBlock.clone();
