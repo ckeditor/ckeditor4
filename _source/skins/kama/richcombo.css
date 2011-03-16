@@ -123,25 +123,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_rcombo .cke_openbutton
 {
+	display: inline-block;
+}
+
+.cke_skin_kama .cke_rcombo .cke_openbutton .cke_icon
+{
+	display: inline-block;
 	background-image: url(images/sprites.png);
 	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -68px;
 	background-repeat: no-repeat;
-	display: inline-block;
 	width: 17px;
 	height: 19px;
 	margin: 1px 2px;
-	background-repeat: no-repeat;
 }
 
-.cke_skin_kama .cke_rcombo .cke_openbutton span
+.cke_skin_kama .cke_hc .cke_rcombo .cke_openbutton .cke_icon
 {
-	display: none;
-}
-
-.cke_skin_kama .cke_hc .cke_rcombo .cke_openbutton span
-{
-	display	: inline;
+	background: none;
 }
 
 .cke_skin_kama .cke_browser_iequirks .cke_rcombo .cke_openbutton

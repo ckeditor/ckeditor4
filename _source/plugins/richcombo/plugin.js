@@ -162,7 +162,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 					'<span>' +
 						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
 					'</span>' +
-					'<span class=cke_openbutton>' + ( CKEDITOR.env.hc ? '<span>&#9660;</span>' : CKEDITOR.env.air ? '&nbsp;' : '' ) + '</span>' + // BLACK DOWN-POINTING TRIANGLE
+					'<span class=cke_openbutton><span class=cke_icon>' + ( CKEDITOR.env.hc ? '&#9660;' : CKEDITOR.env.air ? '&nbsp;' : '' ) + '</span></span>' + // BLACK DOWN-POINTING TRIANGLE
 							'</a>' +
 				'</span>' +
 				'</span>' );

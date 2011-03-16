@@ -136,36 +136,35 @@
 .cke_skin_v2 .cke_rcombo .cke_openbutton
 {
 	display: inline-block;
+	border-top: 1px solid #8f8f73;
+	border-bottom: 1px solid #8f8f73;
+}
 
+.cke_skin_v2 .cke_rcombo .cke_openbutton .cke_icon
+{
+	display: inline-block;
 	background-position: 5px -715px;
 	background-image: url(images/sprites.png);
 	_background-image: url(images/sprites_ie6.png);
 	background-repeat: no-repeat;
 
-	border-top: 1px solid #8f8f73;
-	border-bottom: 1px solid #8f8f73;
 	width: 14px;
 	height: 20px;
 }
 
 /* IE with zoom != 100% will distort the icons otherwise #4821 */
-.cke_skin_v2 .cke_browser_ie .cke_rcombo .cke_openbutton
+.cke_skin_v2 .cke_browser_ie .cke_rcombo .cke_openbutton .cke_icon
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
-.cke_skin_v2 .cke_browser_ie6 .cke_rcombo .cke_openbutton
+.cke_skin_v2 .cke_browser_ie6 .cke_rcombo .cke_openbutton .cke_icon
 {
 	filter: ;
 }
-
-.cke_skin_v2 .cke_rcombo .cke_openbutton span
+.cke_skin_v2 .cke_hc .cke_rcombo .cke_openbutton .cke_icon
 {
-	display: none;
-}
-
-.cke_skin_v2 .cke_hc .cke_rcombo .cke_openbutton span
-{
-	display	: inline;
+	background: none;
+	filter: ;
 }
 
 .cke_skin_v2 .cke_ltr .cke_rcombo .cke_openbutton
