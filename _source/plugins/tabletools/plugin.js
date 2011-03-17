@@ -683,18 +683,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !table )
 						return;
 
-					// Maintain the selection point at where the table was deleted.
-					selection.selectElement( table );
-					var range = selection.getRanges()[ 0 ];
-					range.collapse();
-					selection.selectRanges( [ range ] );
-
 					// If the table's parent has only one child remove it as well (unless it's the body or a table cell) (#5416, #6289)
 					var parent = table.getParent();
 					if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
-						parent.remove();
-					else
-						table.remove();
+						table = parent;
+
+					var range = new CKEDITOR.dom.range( editor.document );
+					range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
+					table.remove();
+					range.select();
 				}
 			});
 

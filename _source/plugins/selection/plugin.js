@@ -998,36 +998,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return;
 			}
 
-			if ( CKEDITOR.env.ie ) {
-				this.getNative().empty();
+			var range = new CKEDITOR.dom.range( element.getDocument() );
+			range.setStartBefore( element );
+			range.setEndAfter( element );
+			range.select();
 
-				try {
-					// Try to select the node as a control.
-					range = this.document.$.body.createControlRange();
-					range.addElement( element.$ );
-					range.select();
-				} catch ( e ) {
-					// If failed, select it as a text range.
-					range = this.document.$.body.createTextRange();
-					range.moveToElementText( element.$ );
-					range.select();
-				} finally {
-					this.document.fire( 'selectionchange' );
-				}
+			this.document.fire( 'selectionchange' );
+			this.reset();
 
-				this.reset();
-			} else {
-				// Create the range for the element.
-				range = this.document.$.createRange();
-				range.selectNode( element.$ );
-
-				// Select the range.
-				var sel = this.getNative();
-				sel.removeAllRanges();
-				sel.addRange( range );
-
-				this.reset();
-			}
 		},
 
 		/**
@@ -1217,9 +1195,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.dom.range.prototype.select = CKEDITOR.env.ie ?
 	// V2
 	function( forceExpand ) {
-		var collapsed = this.collapsed;
-		var isStartMarkerAlone;
-		var dummySpan;
+		var collapsed = this.collapsed,
+			isStartMarkerAlone, dummySpan, ieRange;
+
+		// Try to make a object selection.
+		var selected = this.getEnclosedNode();
+		if ( selected ) {
+			try {
+				ieRange = this.document.$.body.createControlRange();
+				ieRange.addElement( selected.$ );
+				ieRange.select();
+				return;
+			} catch ( er ) {}
+		}
 
 		// IE doesn't support selecting the entire table row/cell, move the selection into cells, e.g.
 		// <table><tbody><tr>[<td>cell</b></td>... => <table><tbody><tr><td>[cell</td>...
@@ -1237,7 +1225,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			endNode = bookmark.endNode;
 
 		// Create the main range which will be used for the selection.
-		var ieRange = this.document.$.body.createTextRange();
+		ieRange = this.document.$.body.createTextRange();
 
 		// Position the range at the start boundary.
 		ieRange.moveToElementText( startNode.$ );
