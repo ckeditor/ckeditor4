@@ -127,6 +127,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		};
 
+	function cancel( evt ) {
+		evt.cancel();
+	}
+
 	// Allow to peek clipboard content by redirecting the
 	// pasting content into a temporary bin and grab the content of it.
 	function getClipboardData( evt, mode, callback ) {
@@ -173,6 +177,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var bms = sel.createBookmarks();
 
+		this.on( 'selectionChange', cancel, null, null, 0 );
+
 		// Turn off design mode temporarily before give focus to the paste bin.
 		if ( mode == 'text' ) {
 			if ( CKEDITOR.env.ie ) {
@@ -193,6 +199,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		window.setTimeout( function() {
 			mode == 'text' && CKEDITOR.env.gecko && editor.focusGrabber.focus();
 			pastebin.remove();
+			editor.removeListener( 'selectionChange', cancel );
 
 			// Grab the HTML contents.
 			// We need to look for a apple style wrapper on webkit it also adds
