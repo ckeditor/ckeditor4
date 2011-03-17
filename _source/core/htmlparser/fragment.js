@@ -48,16 +48,16 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
 	 * @param {Number} [fixForBody=false] Wrap body with specified element if needed.
+	 * @param {CKEDITOR.htmlParser.element} contextNode Parse the html as the content of this element.
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 * @example
 	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
 	 * alert( fragment.children[0].name );  "b"
 	 * alert( fragment.children[1].value );  " Text"
 	 */
-	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, fixForBody ) {
+	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, fixForBody, contextNode ) {
 		var parser = new CKEDITOR.htmlParser(),
-			html = [],
-			fragment = new CKEDITOR.htmlParser.fragment(),
+			fragment = contextNode || new CKEDITOR.htmlParser.fragment(),
 			pendingInline = [],
 			pendingBRs = [],
 			currentNode = fragment,
@@ -265,7 +265,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				newPendingInline = [],
 				candidate = currentNode;
 
-			while ( candidate.type && candidate.name != tagName ) {
+			while ( candidate != fragment && candidate.name != tagName ) {
 				// If this is an inline element, add it to the pending list, if we're
 				// really closing one of the parents element later, they will continue
 				// after it.
@@ -280,7 +280,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				candidate = candidate.parent;
 			}
 
-			if ( candidate.type ) {
+			if ( candidate != fragment ) {
 				// Add all elements that have been found in the above loop.
 				for ( i = 0; i < pendingAdd.length; i++ ) {
 					var node = pendingAdd[ i ];
@@ -350,7 +350,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		sendPendingBRs( !CKEDITOR.env.ie && 1 );
 
 		// Close all pending nodes.
-		while ( currentNode.type ) {
+		while ( currentNode != fragment ) {
 			var parent = currentNode.parent,
 				node = currentNode;
 

@@ -113,7 +113,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 				if ( !isChildrenFiltered ) {
 					var writer = new CKEDITOR.htmlParser.basicWriter();
 					CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.call( element, writer, filter );
-					element.children = new CKEDITOR.htmlParser.fragment.fromHtml( writer.getHtml() ).children;
+					element.children = new CKEDITOR.htmlParser.fragment.fromHtml( writer.getHtml(), 0, element.clone() ).children;
 					isChildrenFiltered = 1;
 				}
 			};
