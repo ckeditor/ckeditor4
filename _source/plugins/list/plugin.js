@@ -82,6 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				currentIndex = baseIndex,
 				indentLevel = Math.max( listArray[ baseIndex ].indent, 0 ),
 				currentListItem = null,
+				itemDir,
 				paragraphName = ( paragraphMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			while ( 1 ) {
 				var item = listArray[ currentIndex ];
@@ -109,15 +110,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
 				} else if ( item.indent == -1 && !baseIndex && item.grandparent ) {
-					currentListItem;
-					if ( listNodeNames[ item.grandparent.getName() ] )
+					if ( listNodeNames[ item.grandparent.getName() ] ) {
 						currentListItem = item.element.clone( false, true );
-					else {
+						itemDir = item.element.getDirection( 1 );
+						item.grandparent.getDirection( 1 ) != itemDir && currentListItem.setAttribute( 'dir', itemDir );
+					} else {
 						// Create completely new blocks here.
 						if ( dir || item.element.hasAttributes() || paragraphMode != CKEDITOR.ENTER_BR ) {
 							currentListItem = doc.createElement( paragraphName );
 							item.element.copyAttributes( currentListItem, { type:1,value:1 } );
-							var itemDir = item.element.getDirection() || dir;
+							itemDir = item.element.getDirection() || dir;
 							itemDir && currentListItem.setAttribute( 'dir', itemDir );
 
 							// There might be a case where there are no attributes in the element after all
