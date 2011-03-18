@@ -107,11 +107,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !oImageOriginal )
 						return null;
 
-					var ratioButton = CKEDITOR.document.getById( btnLockSizesId );
-
-					if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
-						if ( value == 'check' ) // Check image ratio and original image ratio.
-						{
+					// Check image ratio and original image ratio, but respecting user's preference.
+					if ( value == 'check' ) {
+						if ( !dialog.userlockRatio && oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
 							var width = dialog.getValueOf( 'info', 'txtWidth' ),
 								height = dialog.getValueOf( 'info', 'txtHeight' ),
 								originalRatio = oImageOriginal.$.width * 1000 / oImageOriginal.$.height,
@@ -124,13 +122,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								if ( Math.round( originalRatio ) == Math.round( thisRatio ) )
 									dialog.lockRatio = true;
 							}
-						} else if ( value != undefined )
-							dialog.lockRatio = value;
-						else
-							dialog.lockRatio = !dialog.lockRatio;
-					} else if ( value != 'check' ) // I can't lock ratio if ratio is unknown.
-					dialog.lockRatio = false;
+						}
+					} else if ( value != undefined )
+						dialog.lockRatio = value;
+					else {
+						dialog.userlockRatio = 1;
+						dialog.lockRatio = !dialog.lockRatio;
+					}
 
+					var ratioButton = CKEDITOR.document.getById( btnLockSizesId );
 					if ( dialog.lockRatio )
 						ratioButton.removeClass( 'cke_btn_unlocked' );
 					else
@@ -250,6 +250,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.linkEditMode = false;
 
 					this.lockRatio = true;
+					this.userlockRatio = 0;
 					this.dontResetSize = false;
 					this.firstLoad = true;
 					this.addLink = false;
@@ -305,11 +306,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Fill out all fields.
 						this.setupContent( IMAGE, this.imageElement );
-
-						// Refresh LockRatio button
-						switchLockRatio( this, true );
 					} else
 						this.imageElement = editor.document.createElement( 'img' );
+
+					// Refresh LockRatio button
+					switchLockRatio( this, true );
 
 					// Dont show preview if no URL given.
 					if ( !CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtUrl' ) ) ) {
