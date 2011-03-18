@@ -23,7 +23,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		onOk: function() {
 			// Always create a new anchor, because of IE BUG.
 			var name = this.getValueOf( 'info', 'txtName' ),
-				element = CKEDITOR.env.ie ? editor.document.createElement( '<a name="' + CKEDITOR.tools.htmlEncode( name ) + '">' ) : editor.document.createElement( 'a' );
+				element = CKEDITOR.env.ie && !( CKEDITOR.document.$.documentMode >= 8 ) ? editor.document.createElement( '<a name="' + CKEDITOR.tools.htmlEncode( name ) + '">' ) : editor.document.createElement( 'a' );
 
 			// Move contents and attributes of old anchor to new anchor.
 			if ( this.editMode ) {
