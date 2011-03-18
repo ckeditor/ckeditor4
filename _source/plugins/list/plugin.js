@@ -96,7 +96,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
 					currentIndex++;
 				} else if ( item.indent == Math.max( indentLevel, 0 ) + 1 ) {
-					var listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode );
+					// Maintain original direction (#6861).
+					var orgDir = item.element.getDirection( 1 ),
+						currDir = listArray[ currentIndex - 1 ].element.getDirection( 1 ),
+						listData = CKEDITOR.plugins.list.arrayToList( listArray, null, currentIndex, paragraphMode, currDir != orgDir ? orgDir : null );
 
 					// If the next block is an <li> with another list tree as the first
 					// child, we'll need to append a filler (<br>/NBSP) or the list item
