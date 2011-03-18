@@ -582,6 +582,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Webkit: avoid from editing form control elements content.
 					if ( CKEDITOR.env.webkit ) {
+						// Mark that cursor will right blinking (#7113).
+						domDocument.on( 'mousedown', function() {
+							wasFocused = 1;
+						});
 						// Prevent from tick checkbox/radiobox/select
 						domDocument.on( 'click', function( ev ) {
 							if ( ev.data.getTarget().is( 'input', 'select' ) )
