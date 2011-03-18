@@ -64,7 +64,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			} else if ( previousBlock && ( node = previousBlock.getParent() ) && node.is( 'li' ) ) {
 				previousBlock.breakParent( node );
-				range.moveToElementEditStart( previousBlock.getNext() );
+				node = previousBlock.getNext();
+				range.moveToElementEditStart( node );
 				previousBlock.move( previousBlock.getPrevious() );
 			}
 
@@ -98,9 +99,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					newBlock = nextBlock.clone();
 
 				if ( !newBlock ) {
-					newBlock = doc.createElement( blockTag );
-					if ( previousBlock && ( newBlockDir = previousBlock.getDirection() ) )
-						newBlock.setAttribute( 'dir', newBlockDir );
+					// We have already created a new list item. (#6849)
+					if ( node && node.is( 'li' ) )
+						newBlock = node;
+					else {
+						newBlock = doc.createElement( blockTag );
+						if ( previousBlock && ( newBlockDir = previousBlock.getDirection() ) )
+							newBlock.setAttribute( 'dir', newBlockDir );
+					}
 				}
 				// Force the enter block unless we're talking of a list item.
 				else if ( forceMode && !newBlock.is( 'li' ) )
@@ -128,7 +134,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( !CKEDITOR.env.ie )
 					newBlock.appendBogus();
 
-				range.insertNode( newBlock );
+				if ( !newBlock.getParent() )
+					range.insertNode( newBlock );
 
 				// This is tricky, but to make the new block visible correctly
 				// we must select it.
