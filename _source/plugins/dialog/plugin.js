@@ -551,6 +551,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					height: height
 				}, this._.editor );
 
+				this.fire( 'resize', {
+					skin: this._.editor.skinName,
+					width: width,
+					height: height
+				}, this._.editor );
+
 				// Update dialog position when dimension get changed in RTL.
 				if ( this._.editor.lang.dir == 'rtl' && this._.position )
 					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ) );
@@ -1141,7 +1147,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * 	init: function( editor )
 		 * 	{
 		 * 		editor.addCommand( 'mydialog',new CKEDITOR.dialogCommand( 'mydialog' ) );
-		 *  
+		 *
 		 * 		if ( editor.contextMenu )
 		 * 		{
 		 * 			editor.addMenuGroup( 'mygroup', 10 );
@@ -1156,7 +1162,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 *  				return { 'My Dialog' : CKEDITOR.TRISTATE_OFF };
 		 * 			});
 		 * 		}
-		 *  
+		 *
 		 * 		<strong>CKEDITOR.dialog.add</strong>( 'mydialog', function( api )
 		 * 		{
 		 * 			// CKEDITOR.dialog.definition
@@ -1195,12 +1201,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * 					alert( "You have entered: " + textareaObj.getValue() );
 		 * 				}
 		 * 			};
-		 * 
+		 *
 		 * 			return dialogDefinition;
 		 * 		} );
 		 * 	}
 		 * } );
-		 * 
+		 *
 		 * CKEDITOR.replace( 'editor1', { extraPlugins : 'myplugin' } );
 		 */
 		add: function( name, dialogDefinition ) {
@@ -2883,11 +2889,13 @@ CKEDITOR.plugins.add( 'dialog', {
 
 /**
  * Fired when a dialog is being resized. The event is fired on
- * the 'CKEDITOR.dialog' object, not a dialog instance.
+ * both the 'CKEDITOR.dialog' object and the dialog instance
+ * since 3.5.3, previously it's available only in the global object.
  * @name CKEDITOR.dialog#resize
  * @since 3.5
  * @event
- * @param {CKEDITOR.dialog} dialog The dialog being resized.
+ * @param {CKEDITOR.dialog} dialog The dialog being resized (if
+ * it's fired on the dialog itself, this parameter isn't sent).
  * @param {String} skin The skin name.
  * @param {Number} width The new width.
  * @param {Number} height The new height.
