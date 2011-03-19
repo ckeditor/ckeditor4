@@ -87,6 +87,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 
+
+/**
+ * The initial width of the dialog, in pixels.
+ * @name CKEDITOR.dialog.definition.prototype.width
+ * @field
+ * @type Number
+ * @default @CKEDITOR.dialog.definition.prototype.minWidth
+ * @since 3.5.3
+ * @example
+ */
+
+/**
+ * The initial height of the dialog, in pixels.
+ * @name CKEDITOR.dialog.definition.prototype.height
+ * @field
+ * @type Number
+ * @default @CKEDITOR.dialog.definition.prototype.minHeight
+ * @since 3.5.3
+ * @example
+ */
+
 /**
  * The buttons in the dialog, defined as an array of
  * {@link CKEDITOR.dialog.definition.button} objects.

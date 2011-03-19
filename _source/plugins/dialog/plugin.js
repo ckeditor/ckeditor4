@@ -660,7 +660,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 
 			// First, set the dialog to an appropriate size.
-			this.resize( this._.contentSize && this._.contentSize.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.minHeight );
+			this.resize( this._.contentSize && this._.contentSize.width || definition.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight );
 
 			// Reset all inputs back to their default value.
 			this.reset();
