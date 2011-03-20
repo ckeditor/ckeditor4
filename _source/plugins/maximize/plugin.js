@@ -176,7 +176,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						mainDocument.getDocumentElement().setStyles( styles );
 						!CKEDITOR.env.gecko && mainDocument.getDocumentElement().setStyle( 'position', 'fixed' );
-						mainDocument.getBody().setStyles( styles );
+						!( CKEDITOR.env.gecko && CKEDITOR.env.quirks ) && mainDocument.getBody().setStyles( styles );
 
 						// Scroll to the top left (IE needs some time for it - #4923).
 						CKEDITOR.env.ie ? setTimeout( function() {
@@ -184,7 +184,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}, 0 ) : mainWindow.$.scrollTo( 0, 0 );
 
 						// Resize and move to top left.
-						container.setStyle( 'position', 'absolute' );
+						// Special treatment for FF Quirks (#7284)
+						container.setStyle( 'position', CKEDITOR.env.gecko && CKEDITOR.env.quirks ? 'fixed' : 'absolute' );
 						container.$.offsetLeft; // SAFARI BUG: See #2066.
 						container.setStyles({
 							'z-index': editor.config.baseFloatZIndex - 1,
