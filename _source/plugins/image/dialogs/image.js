@@ -559,7 +559,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										},
 										validate: function() {
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
-												isValid = !!( aMatch && aMatch[ 1 ] != 0 );
+												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) != 0 );
 											if ( !isValid )
 												alert( editor.lang.common.invalidWidth );
 											return isValid;
@@ -598,10 +598,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											commitInternally.call( this, 'advanced:txtdlgGenStyle' );
 										},
 										validate: function() {
-											var aMatch = this.getValue().match( regexGetSizeOrEmpty );
-											if ( !aMatch || aMatch[ 1 ] == 0 )
+											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
+												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) != 0 );
+											if ( !isValid )
 												alert( editor.lang.common.invalidHeight );
-											return !!aMatch;
+											return isValid;
 										},
 										setup: setupDimension,
 										commit: function( type, element, internalCommit ) {
