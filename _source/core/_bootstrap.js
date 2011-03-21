@@ -14,24 +14,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return;
 	}
 
-	// Check is High Contrast is active by creating a temporary element with a
-	// background image.
-
-	var useSpacer = CKEDITOR.env.ie && CKEDITOR.env.version < 7,
-		useBlank = CKEDITOR.env.ie && CKEDITOR.env.version == 7;
-
-	var backgroundImageUrl = useSpacer ? ( CKEDITOR.basePath + 'images/spacer.gif' ) : useBlank ? 'about:blank' : 'data:image/png;base64,';
-
-	var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0px;height:0px;' +
-		'position:absolute;left:-10000px;' +
-		'background-image:url(' + backgroundImageUrl + ')"></div>', CKEDITOR.document );
+	// Check whether high contrast is active by creating a colored border.
+	var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0px;height:0px;position:absolute;left:-10000px;' +
+		'border: 1px solid;border-color: red blue;"></div>', CKEDITOR.document );
 
 	hcDetect.appendTo( CKEDITOR.document.getHead() );
 
 	// Update CKEDITOR.env.
 	// Catch exception needed sometimes for FF. (#4230)
 	try {
-		CKEDITOR.env.hc = ( hcDetect.getComputedStyle( 'background-image' ) == 'none' );
+		CKEDITOR.env.hc = hcDetect.getComputedStyle( 'border-top-color' ) == hcDetect.getComputedStyle( 'border-right-color' );
 	} catch ( e ) {
 		CKEDITOR.env.hc = false;
 	}
