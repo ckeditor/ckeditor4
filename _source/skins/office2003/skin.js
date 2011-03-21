@@ -31,7 +31,7 @@ CKEDITOR.skins.add( 'office2003', ( function() {
 				height: height + 'px'
 			});
 
-			if ( !CKEDITOR.env.ie )
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.ie9Compat )
 				return;
 
 			// Fix the size of the elements which have flexible lengths.
