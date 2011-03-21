@@ -140,6 +140,16 @@ if ( !CKEDITOR.env ) {
 			env.ie8Compat = document.documentMode == 8;
 
 			/**
+			 * Indicates that CKEditor is running on Internet Explorer 9's standards mode.
+			 * @name CKEDITOR.env.ie9Compat
+			 * @type Boolean
+			 * @example
+			 * if ( CKEDITOR.env.ie9Compat )
+			 *     alert( "IE9, the beauty of the web!" );
+			 */
+			env.ie9Compat = document.documentMode == 9;
+
+			/**
 			 * Indicates that CKEditor is running on an IE7-like environment, which
 			 * includes IE7 itself and IE8's IE7 document mode.
 			 * @name CKEDITOR.env.ie7Compat
