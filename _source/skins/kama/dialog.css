@@ -562,6 +562,11 @@ body .cke_dialog
 }
 /* END Firefox2 buttons */
 
+.cke_skin_kama .cke_browser_ie9.cke_rtl .cke_dialog_footer_buttons td
+{
+	padding-left: 2px;
+}
+
 .cke_skin_kama strong
 {
 	font-weight: bold;
