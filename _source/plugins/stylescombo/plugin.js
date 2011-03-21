@@ -135,7 +135,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							this.mark( name );
 						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( elementPath ) ) {
 							this.hideItem( name );
-							continue;
+							counter[ type ]--;
 						}
 
 						counter[ type ]++;
