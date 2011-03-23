@@ -16,11 +16,11 @@ CKEDITOR.plugins.add( 'styles', {
 });
 
 /**
- * Registers a function to be called whenever a style changes its state in the
+ * Registers a function to be called whenever the selection position changes in the
  * editing area. The current state is passed to the function. The possible
  * states are {@link CKEDITOR.TRISTATE_ON} and {@link CKEDITOR.TRISTATE_OFF}.
  * @param {CKEDITOR.style} style The style to be watched.
- * @param {Function} callback The function to be called when the style state changes.
+ * @param {Function} callback The function to be called.
  * @example
  * // Create a style object for the &lt;b&gt; element.
  * var style = new CKEDITOR.style( { element : 'b' } );
@@ -71,12 +71,14 @@ CKEDITOR.STYLE_INLINE = 2;
 CKEDITOR.STYLE_OBJECT = 3;
 
 (function() {
-	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1 };
-	var objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1 };
+	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1 },
+		objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1 };
 
-	var semicolonFixRegex = /\s*(?:;\s*|$)/;
+	var semicolonFixRegex = /\s*(?:;\s*|$)/,
+		varRegex = /#\((.+?)\)/g;
 
-	var notBookmark = CKEDITOR.dom.walker.bookmark( 0, 1 );
+	var notBookmark = CKEDITOR.dom.walker.bookmark( 0, 1 ),
+		nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
 
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
 		if ( variablesValues ) {
@@ -88,7 +90,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var element = this.element = ( styleDefinition.element || '*' ).toLowerCase();
 
-		this.type = ( element == '#' || blockElements[ element ] ) ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE;
+		this.type = blockElements[ element ] ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE;
 
 		this._ = {
 			definition: styleDefinition
@@ -704,9 +706,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( !element )
 			return;
 
-		var style = this;
-		var def = style._.definition;
-		var attributes = def.attributes;
+		var style = this,
+			def = style._.definition,
+			attributes = def.attributes;
 		var styles = CKEDITOR.style.getStyleText( def );
 
 		// Remove all defined attributes.
@@ -778,9 +780,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.moveToBookmark( bookmark );
 	}
 
-	// Replace the original block with new one, with special treatment
-	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
-	// when necessary.(#3188)
+	/**
+	 * Replace the original block with new one, with special treatment
+	 * for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
+	 * when necessary.(#3188)
+	 */
 	function replaceBlock( block, newBlock ) {
 		// Block is to be removed, create a temp element to
 		// save contents.
@@ -813,7 +817,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			removeNoAttribsElement( newBlock );
 	}
 
-	var nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
 	/**
 	 * Merge a <pre> block with a previous sibling if available.
 	 */
@@ -873,6 +876,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		});
 		return headBookmark + str.replace( regexp, replacement ) + tailBookmark;
 	}
+
 	/**
 	 * Converting a list of <pre> into blocks with format well preserved.
 	 */
@@ -989,9 +993,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var def = style._.definition,
 			attribs = def.attributes,
 			styles = def.styles,
-			overrides = getOverrides( style );
-
-		var innerElements = element.getElementsByTag( style.element );
+			overrides = getOverrides( style )
+			innerElements = element.getElementsByTag( style.element );
 
 		for ( var i = innerElements.count(); --i >= 0; )
 			removeFromElement( style, innerElements.getItem( i ) );
@@ -1007,7 +1010,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1078,11 +1080,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function getElement( style, targetDocument, element ) {
-		var el;
-
-		var def = style._.definition;
-
-		var elementName = style.element;
+		var el,
+			def = style._.definition,
+			elementName = style.element;
 
 		// The "*" element name will always be a span for this function.
 		if ( elementName == '*' )
@@ -1107,9 +1107,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function setupElement( el, style ) {
-		var def = style._.definition;
-		var attributes = def.attributes;
-		var styles = CKEDITOR.style.getStyleText( def );
+		var def = style._.definition,
+			attributes = def.attributes,
+			styles = CKEDITOR.style.getStyleText( def );
 
 		// Assign all defined attributes.
 		if ( attributes ) {
@@ -1125,8 +1125,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return el;
 	}
 
-	var varRegex = /#\((.+?)\)/g;
-
 	function replaceVariables( list, variablesValues ) {
 		for ( var item in list ) {
 			list[ item ] = list[ item ].replace( varRegex, function( match, varName ) {
@@ -1134,7 +1132,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			});
 		}
 	}
-
 
 	// Returns an object that can be used for style matching comparison.
 	// Attributes names and values are all lowercased, and the styles get
@@ -1333,11 +1330,11 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  * 	// Block Styles
  * 	{ name : 'Blue Title'		, element : 'h3', styles : { 'color' : 'Blue' } },
  * 	{ name : 'Red Title'		, element : 'h3', styles : { 'color' : 'Red' } },
- * 
+ *
  * 	// Inline Styles
  * 	{ name : 'Marker: Yellow'	, element : 'span', styles : { 'background-color' : 'Yellow' } },
  * 	{ name : 'Marker: Green'	, element : 'span', styles : { 'background-color' : 'Lime' } },
- * 
+ *
  * 	// Object Styles
  * 	{
  * 		name : 'Image on Left',
