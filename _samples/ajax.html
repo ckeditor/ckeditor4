@@ -17,14 +17,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script type="text/javascript">
 	//<![CDATA[
 
-var editor;
+var editor, html = '';
 
 function createEditor()
 {
 	if ( editor )
 		return;
 
-	var html = document.getElementById( 'editorcontents' ).innerHTML;
 
 	// Create a new editor inside the <div id="editor">, setting its value to html
 	var config = {};
@@ -38,7 +37,7 @@ function removeEditor()
 
 	// Retrieve the editor contents. In an Ajax application, this data would be
 	// sent to the server or used in any other way.
-	document.getElementById( 'editorcontents' ).innerHTML = editor.getData();
+	document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
 	document.getElementById( 'contents' ).style.display = '';
 
 	// Destroy the editor.
