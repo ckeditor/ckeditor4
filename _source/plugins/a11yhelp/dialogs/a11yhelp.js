@@ -158,6 +158,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 				{
 				type: 'html',
 				id: 'legends',
+				style: 'white-space:normal;',
 				focus: function() {},
 				html: buildHelpContents() + '<style type="text/css">' +
 					'.cke_accessibility_legend' +
@@ -167,6 +168,17 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 						'padding-right:5px;' +
 						'overflow-y:auto;' +
 						'overflow-x:hidden;' +
+					'}' +
+					// Some adjustments are to be done for IE6 and Quirks to work "properly" (#5757)
+									'.cke_browser_quirks .cke_accessibility_legend,' +
+					'.cke_browser_ie6 .cke_accessibility_legend' +
+					'{' +
+						'height:390px' +
+					'}' +
+					// Override non-wrapping white-space rule in reset css.
+									'.cke_accessibility_legend *' +
+					'{' +
+						'white-space:normal;' +
 					'}' +
 					'.cke_accessibility_legend h1' +
 					'{' +
@@ -185,7 +197,6 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 					'}' +
 					'.cke_accessibility_legend dd' +
 					'{' +
-						'white-space:normal;' +
 						'margin:10px' +
 					'}' +
 					'</style>'
