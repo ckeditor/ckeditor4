@@ -780,11 +780,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.moveToBookmark( bookmark );
 	}
 
-	/**
-	 * Replace the original block with new one, with special treatment
-	 * for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
-	 * when necessary.(#3188)
-	 */
+	// Replace the original block with new one, with special treatment
+	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
+	// when necessary.(#3188)
 	function replaceBlock( block, newBlock ) {
 		// Block is to be removed, create a temp element to
 		// save contents.
