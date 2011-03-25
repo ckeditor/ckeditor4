@@ -35,28 +35,43 @@ CKEDITOR.document = new CKEDITOR.dom.document( document );
  * @param {CKEDITOR.editor} editor The editor instance to be added.
  * @example
  */
-CKEDITOR.add = function( editor ) {
-	CKEDITOR.instances[ editor.name ] = editor;
+CKEDITOR.add = (function() {
+	var nameCounter = 0;
 
-	editor.on( 'focus', function() {
-		if ( CKEDITOR.currentInstance != editor ) {
-			CKEDITOR.currentInstance = editor;
-			CKEDITOR.fire( 'currentInstance' );
+	function getNewName() {
+		do {
+			var name = 'editor' + ( ++nameCounter );
 		}
-	});
+		while ( CKEDITOR.instances[ name ] )
 
-	editor.on( 'blur', function() {
-		if ( CKEDITOR.currentInstance == editor ) {
-			CKEDITOR.currentInstance = null;
-			CKEDITOR.fire( 'currentInstance' );
-		}
-	});
-};
+		return name;
+	}
+
+	return function( editor ) {
+		editor.name = editor.name || getNewName();
+		CKEDITOR.instances[ editor.name ] = editor;
+
+		editor.on( 'focus', function() {
+			if ( CKEDITOR.currentInstance != editor ) {
+				CKEDITOR.currentInstance = editor;
+				CKEDITOR.fire( 'currentInstance' );
+			}
+		});
+
+		editor.on( 'blur', function() {
+			if ( CKEDITOR.currentInstance == editor ) {
+				CKEDITOR.currentInstance = null;
+				CKEDITOR.fire( 'currentInstance' );
+			}
+		});
+
+		CKEDITOR.fire( 'instance', null, editor );
+	};
+})();
 
 /**
  * Removes an editor instance from the global {@link CKEDITOR} object. This function
- * is available for internal use only. External code must use {@link CKEDITOR.editor.prototype.destroy}
- * to avoid memory leaks.
+ * is available for internal use only. External code must use {@link CKEDITOR.editor.prototype.destroy}.
  * @param {CKEDITOR.editor} editor The editor instance to be removed.
  * @example
  */
@@ -74,7 +89,7 @@ CKEDITOR.on( 'instanceDestroyed', function() {
 });
 
 // Load the bootstrap script.
-CKEDITOR.loader.load( 'core/_bootstrap' ); // @Packager.RemoveLine
+CKEDITOR.loader.load( '_bootstrap' ); // @Packager.RemoveLine
 
 // Tri-state constants.
 /**

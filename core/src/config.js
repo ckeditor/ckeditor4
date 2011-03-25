@@ -70,53 +70,6 @@ CKEDITOR.config = {
 	autoUpdateElement: true,
 
 	/**
-	 * The base href URL used to resolve relative and absolute URLs in the
-	 * editor content.
-	 * @type String
-	 * @default <code>''</code> (empty)
-	 * @example
-	 * config.baseHref = 'http://www.example.com/path/';
-	 */
-	baseHref: '',
-
-	/**
-	 * The CSS file(s) to be used to apply style to editor contents. It should
-	 * reflect the CSS used in the final pages where the contents are to be
-	 * used.
-	 * @type String|Array
-	 * @default <code>'<em>&lt;CKEditor folder&gt;</em>/contents.css'</code>
-	 * @example
-	 * config.contentsCss = '/css/mysitestyles.css';
-	 * config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
-	 */
-	contentsCss: CKEDITOR.basePath + 'contents.css',
-
-	/**
-	 * The writing direction of the language used to create the editor
-	 * contents. Allowed values are:
-	 * <ul>
-	 *     <li><code>'ui'</code> &ndash; indicates that content direction will be the same as the user interface language direction;</li>
-	 *     <li><code>'ltr'</code> &ndash; for Left-To-Right language (like English);</li>
-	 *     <li><code>'rtl'</code> &ndash; for Right-To-Left languages (like Arabic).</li>
-	 * </ul>
-	 * @default <code>'ui'</code>
-	 * @type String
-	 * @example
-	 * config.contentsLangDirection = 'rtl';
-	 */
-	contentsLangDirection: 'ui',
-
-	/**
-	 * Language code of  the writing language which is used to create the editor
-	 * contents.
-	 * @default Same value as editor UI language.
-	 * @type String
-	 * @example
-	 * config.contentsLanguage = 'fr';
-	 */
-	contentsLanguage: '',
-
-	/**
 	 * The user interface language localization to use. If left empty, the editor
 	 * will automatically be localized to the user language. If the user language is not supported,
 	 * the language specified in the <code>{@link CKEDITOR.config.defaultLanguage}</code>
@@ -205,12 +158,12 @@ CKEDITOR.config = {
 	/**
 	 * Sets the <code>DOCTYPE</code> to be used when loading the editor content as HTML.
 	 * @type String
-	 * @default <code>'&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;'</code>
+	 * @default <code>'&lt;!DOCTYPE html&gt;'</code>
 	 * @example
 	 * // Set the DOCTYPE to the HTML 4 (Quirks) mode.
 	 * config.docType = '&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;';
 	 */
-	docType: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+	docType: '<!DOCTYPE html>',
 
 	/**
 	 * Sets the <code>id</code> attribute to be used on the <code>body</code> element
@@ -275,63 +228,7 @@ CKEDITOR.config = {
 	 * @type String
 	 * @example
 	 */
-	plugins: 'about,' +
-		'a11yhelp,' +
-		'basicstyles,' +
-		'bidi,' +
-		'blockquote,' +
-		'button,' +
-		'clipboard,' +
-		'colorbutton,' +
-		'colordialog,' +
-		'contextmenu,' +
-		'dialogadvtab,' +
-		'div,' +
-		'elementspath,' +
-		'enterkey,' +
-		'entities,' +
-		'filebrowser,' +
-		'find,' +
-		'flash,' +
-		'font,' +
-		'format,' +
-		'forms,' +
-		'horizontalrule,' +
-		'htmldataprocessor,' +
-		'iframe,' +
-		'image,' +
-		'indent,' +
-		'justify,' +
-		'keystrokes,' +
-		'link,' +
-		'list,' +
-		'liststyle,' +
-		'maximize,' +
-		'newpage,' +
-		'pagebreak,' +
-		'pastefromword,' +
-		'pastetext,' +
-		'popup,' +
-		'preview,' +
-		'print,' +
-		'removeformat,' +
-		'resize,' +
-		'save,' +
-		'scayt,' +
-		'smiley,' +
-		'showblocks,' +
-		'showborders,' +
-		'sourcearea,' +
-		'stylescombo,' +
-		'table,' +
-		'tabletools,' +
-		'specialchar,' +
-		'tab,' +
-		'templates,' +
-		'toolbar,' +
-		'undo,' +
-		'wysiwygarea,' +
-		'wsc',
+	plugins: '',
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
@@ -376,26 +273,16 @@ CKEDITOR.config = {
 	tabIndex: 0,
 
 	/**
-	 * The theme to be used to build the user interface.
-	 * @type String
-	 * @default <code>'default'</code>
-	 * @see CKEDITOR.config.skin
-	 * @example
-	 * config.theme = 'default';
-	 */
-	theme: 'default',
-
-	/**
 	 * The skin to load. It may be the name of the skin folder inside the
 	 * editor installation path, or the name and the path separated by a comma.
 	 * @type String
-	 * @default <code>'default'</code>
+	 * @default ''
 	 * @example
-	 * config.skin = 'v2';
+	 * config.skin = 'kama';
 	 * @example
 	 * config.skin = 'myskin,/customstuff/myskin/';
 	 */
-	skin: 'kama',
+	skin: '',
 
 	/**
 	 * The editor width in CSS-defined units or an integer denoting a value in pixels.

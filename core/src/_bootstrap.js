@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	// Disable HC detaction in WebKit. (#5429)
+	// Disable HC detection in WebKit. (#5429)
 	if ( CKEDITOR.env.webkit ) {
 		CKEDITOR.env.hc = false;
 		return;
@@ -32,22 +32,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.env.cssClass += ' cke_hc';
 
 	hcDetect.remove();
-})();
 
-// Load core plugins.
-CKEDITOR.plugins.load( CKEDITOR.config.corePlugins.split( ',' ), function() {
+	// Mark the editor as fully loaded.
 	CKEDITOR.status = 'loaded';
-	CKEDITOR.fire( 'loaded' );
+	CKEDITOR.fireOnce( 'loaded' );
 
 	// Process all instances created by the "basic" implementation.
 	var pending = CKEDITOR._.pending;
 	if ( pending ) {
 		delete CKEDITOR._.pending;
 
-		for ( var i = 0; i < pending.length; i++ )
-			CKEDITOR.add( pending[ i ] );
+		for ( var i = 0; i < pending.length; i++ ) {
+			CKEDITOR.editor.prototype.constructor.apply( pending[ i ][ 0 ], pending[ i ][ 1 ] );
+			CKEDITOR.add( pending[ i ][ 0 ] );
+		}
 	}
-});
+})();
 
 // Needed for IE6 to not request image (HTTP 200 or 304) for every CSS background. (#6187)
 if ( CKEDITOR.env.ie ) {

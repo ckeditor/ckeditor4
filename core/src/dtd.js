@@ -90,6 +90,9 @@ CKEDITOR.dtd = (function() {
 
 		$cdata: { script:1,style:1 },
 
+		// TODO: Enlarge the list of editable elements.
+		$editable: { div:1,p:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1 },
+
 		/**
 		 * List of empty (self-closing) elements, like "br" or "img".
 		 * @type Object

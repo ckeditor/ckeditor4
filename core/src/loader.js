@@ -20,54 +20,56 @@ if ( !CKEDITOR.loader ) {
 	CKEDITOR.loader = (function() {
 		// Table of script names and their dependencies.
 		var scripts = {
-			'core/_bootstrap': [ 'core/config', 'core/ckeditor', 'core/plugins', 'core/scriptloader', 'core/tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'core/dom/comment', 'core/dom/elementpath', 'core/dom/text', 'core/dom/rangelist' ],
-			'core/ckeditor': [ 'core/ckeditor_basic', 'core/dom', 'core/dtd', 'core/dom/document', 'core/dom/element', 'core/editor', 'core/event', 'core/htmlparser', 'core/htmlparser/element', 'core/htmlparser/fragment', 'core/htmlparser/filter', 'core/htmlparser/basicwriter', 'core/tools' ],
-			'core/ckeditor_base': [],
-			'core/ckeditor_basic': [ 'core/editor_basic', 'core/env', 'core/event' ],
-			'core/command': [],
-			'core/config': [ 'core/ckeditor_base' ],
-			'core/dom': [],
-			'core/dom/comment': [ 'core/dom/node' ],
-			'core/dom/document': [ 'core/dom', 'core/dom/domobject', 'core/dom/window' ],
-			'core/dom/documentfragment': [ 'core/dom/element' ],
-			'core/dom/element': [ 'core/dom', 'core/dom/document', 'core/dom/domobject', 'core/dom/node', 'core/dom/nodelist', 'core/tools' ],
-			'core/dom/elementpath': [ 'core/dom/element' ],
-			'core/dom/event': [],
-			'core/dom/node': [ 'core/dom/domobject', 'core/tools' ],
-			'core/dom/nodelist': [ 'core/dom/node' ],
-			'core/dom/domobject': [ 'core/dom/event' ],
-			'core/dom/range': [ 'core/dom/document', 'core/dom/documentfragment', 'core/dom/element', 'core/dom/walker' ],
-			'core/dom/rangelist': [ 'core/dom/range' ],
-			'core/dom/text': [ 'core/dom/node', 'core/dom/domobject' ],
-			'core/dom/walker': [ 'core/dom/node' ],
-			'core/dom/window': [ 'core/dom/domobject' ],
-			'core/dtd': [ 'core/tools' ],
-			'core/editor': [ 'core/command', 'core/config', 'core/editor_basic', 'core/focusmanager', 'core/lang', 'core/plugins', 'core/skins', 'core/themes', 'core/tools', 'core/ui' ],
-			'core/editor_basic': [ 'core/event' ],
-			'core/env': [],
-			'core/event': [],
-			'core/focusmanager': [],
-			'core/htmlparser': [],
-			'core/htmlparser/comment': [ 'core/htmlparser' ],
-			'core/htmlparser/element': [ 'core/htmlparser', 'core/htmlparser/fragment' ],
-			'core/htmlparser/fragment': [ 'core/htmlparser', 'core/htmlparser/comment', 'core/htmlparser/text', 'core/htmlparser/cdata' ],
-			'core/htmlparser/text': [ 'core/htmlparser' ],
-			'core/htmlparser/cdata': [ 'core/htmlparser' ],
-			'core/htmlparser/filter': [ 'core/htmlparser' ],
-			'core/htmlparser/basicwriter': [ 'core/htmlparser' ],
-			'core/lang': [],
-			'core/plugins': [ 'core/resourcemanager' ],
-			'core/resourcemanager': [ 'core/scriptloader', 'core/tools' ],
-			'core/scriptloader': [ 'core/dom/element', 'core/env' ],
-			'core/skins': [ 'core/scriptloader' ],
-			'core/themes': [ 'core/resourcemanager' ],
-			'core/tools': [ 'core/env' ],
-			'core/ui': []
+			'_bootstrap': [ 'config', 'editable', 'ckeditor', 'plugins', 'scriptloader', 'style', 'tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist' ],
+			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'editor', 'event', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'tools' ],
+			'ckeditor_base': [],
+			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
+			'command': [],
+			'config': [ 'ckeditor_base' ],
+			'dom': [],
+			'dom/comment': [ 'dom/node' ],
+			'dom/document': [ 'dom', 'dom/domobject', 'dom/window' ],
+			'dom/documentfragment': [ 'dom/element' ],
+			'dom/element': [ 'dom', 'dom/document', 'dom/domobject', 'dom/node', 'dom/nodelist', 'tools' ],
+			'dom/elementpath': [ 'dom/element' ],
+			'dom/event': [],
+			'dom/node': [ 'dom/domobject', 'tools' ],
+			'dom/nodelist': [ 'dom/node' ],
+			'dom/domobject': [ 'dom/event' ],
+			'dom/range': [ 'dom/document', 'dom/documentfragment', 'dom/element', 'dom/walker' ],
+			'dom/rangelist': [ 'dom/range' ],
+			'dom/text': [ 'dom/node', 'dom/domobject' ],
+			'dom/walker': [ 'dom/node' ],
+			'dom/window': [ 'dom/domobject' ],
+			'dtd': [ 'tools' ],
+			'editable': [ 'editor', 'tools' ],
+			'editor': [ 'command', 'config', 'editor_basic', 'focusmanager', 'lang', 'plugins', 'skins', 'tools', 'ui' ],
+			'editor_basic': [ 'event' ],
+			'env': [],
+			'event': [],
+			'focusmanager': [],
+			'htmlparser': [],
+			'htmlparser/comment': [ 'htmlparser' ],
+			'htmlparser/element': [ 'htmlparser', 'htmlparser/fragment' ],
+			'htmlparser/fragment': [ 'htmlparser', 'htmlparser/comment', 'htmlparser/text', 'htmlparser/cdata' ],
+			'htmlparser/text': [ 'htmlparser' ],
+			'htmlparser/cdata': [ 'htmlparser' ],
+			'htmlparser/filter': [ 'htmlparser' ],
+			'htmlparser/basicwriter': [ 'htmlparser' ],
+			'lang': [],
+			'plugins': [ 'resourcemanager' ],
+			'resourcemanager': [ 'scriptloader', 'tools' ],
+			'scriptloader': [ 'dom/element', 'env' ],
+			'selection': [ 'dom/range', 'dom/walker' ],
+			'skins': [ 'scriptloader' ],
+			'style': [ 'selection' ],
+			'tools': [ 'env' ],
+			'ui': []
 		};
 
 		var basePath = (function() {
 			// This is a copy of CKEDITOR.basePath, but requires the script having
-			// "_source/core/loader.js".
+			// "_source/loader.js".
 			if ( CKEDITOR && CKEDITOR.basePath )
 				return CKEDITOR.basePath;
 
@@ -131,7 +133,7 @@ if ( !CKEDITOR.loader ) {
 				if ( !scriptName )
 					return;
 
-				var scriptSrc = getUrl( '_source/' + scriptName + '.js' );
+				var scriptSrc = getUrl( 'src/' + scriptName + '.js' );
 
 				var script = document.createElement( 'script' );
 				script.type = 'text/javascript';
@@ -175,7 +177,7 @@ if ( !CKEDITOR.loader ) {
 			 * synchronous loading, which means that the code to be loaded will
 			 * not necessarily be available after this call.
 			 * @example
-			 * CKEDITOR.loader.load( 'core/dom/element' );
+			 * CKEDITOR.loader.load( 'dom/element' );
 			 */
 			load: function( scriptName, defer ) {
 				// Check if the script has already been loaded.
@@ -195,7 +197,7 @@ if ( !CKEDITOR.loader ) {
 				for ( var i = 0; i < dependencies.length; i++ )
 					this.load( dependencies[ i ], true );
 
-				var scriptSrc = getUrl( '_source/' + scriptName + '.js' );
+				var scriptSrc = getUrl( 'src/' + scriptName + '.js' );
 
 				// Append the <script> element to the DOM.
 				// If the page is fully loaded, we can't use document.write

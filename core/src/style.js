@@ -3,18 +3,6 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.plugins.add( 'styles', {
-	requires: [ 'selection' ],
-	init: function( editor ) {
-		// This doesn't look like correct, but it's the safest way to proper
-		// pass the disableReadonlyStyling configuration to the style system
-		// without having to change any method signature in the API. (#6103)
-		editor.on( 'contentDom', function() {
-			editor.document.setCustomData( 'cke_includeReadonly', !editor.config.disableReadonlyStyling );
-		});
-	}
-});
-
 /**
  * Registers a function to be called whenever the selection position changes in the
  * editing area. The current state is passed to the function. The possible

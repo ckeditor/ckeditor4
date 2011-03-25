@@ -12,7 +12,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 // Must be updated on changes in the script as well as updated in the
 // ckeditor_source.js and ckeditor_basic_source.js files.
 
-// if(!window.CKEDITOR)window.CKEDITOR=(function(){var a={timestamp:'',version:'%VERSION%',rev:'%REV%',_:{},status:'unloaded',basePath:(function(){var d=window.CKEDITOR_BASEPATH||'';if(!d){var e=document.getElementsByTagName('script');for(var f=0;f<e.length;f++){var g=e[f].src.match(/(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i);if(g){d=g[1];break;}}}if(d.indexOf(':/')==-1)if(d.indexOf('/')===0)d=location.href.match(/^.*?:\/\/[^\/]*/)[0]+d;else d=location.href.match(/^[^\?]*\/(?:)/)[0]+d;return d;})(),getUrl:function(d){if(d.indexOf(':/')==-1&&d.indexOf('/')!==0)d=this.basePath+d;if(this.timestamp&&d.charAt(d.length-1)!='/')d+=(d.indexOf('?')>=0?'&':'?')+('t=')+this.timestamp;return d;}},b=window.CKEDITOR_GETURL;if(b){var c=a.getUrl;a.getUrl=function(d){return b.call(a,d)||c.call(a,d);};}return a;})();
+// if(!window.CKEDITOR)window.CKEDITOR=function(){var b={timestamp:"",version:"%VERSION%",revision:"%REV%",_:{pending:[]},status:"unloaded",basePath:function(){var a=window.CKEDITOR_BASEPATH||"";if(!a)for(var d=document.getElementsByTagName("script"),c=0;c<d.length;c++){var e=d[c].src.match(/(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i);if(e){a=e[1];break}}if(a.indexOf(":/")==-1)a=a.indexOf("/")===0?location.href.match(/^.*?:\/\/[^\/]*/)[0]+a:location.href.match(/^[^\?]*\/(?:)/)[0]+a;if(!a)throw'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
+// return a}(),getUrl:function(a){if(a.indexOf(":/")==-1&&a.indexOf("/")!==0)a=this.basePath+a;if(this.timestamp&&a.charAt(a.length-1)!="/"&&!/[&?]t=/.test(a))a+=(a.indexOf("?")>=0?"&":"?")+"t="+this.timestamp;return a}},f=window.CKEDITOR_GETURL;if(f){var g=b.url;b.url=function(a){return f.call(b,a)||g.call(b,a)}}return b}();
 
 // #### Raw code
 // ATTENTION: read the above "Compressed Code" notes when changing this code.
@@ -75,7 +76,9 @@ if ( !window.CKEDITOR ) {
 			 * without notice.
 			 * @private
 			 */
-			_: {},
+			_: {
+				pending: []
+			},
 
 			/**
 			 * Indicates the API loading status. The following statuses are available:
@@ -83,7 +86,6 @@ if ( !window.CKEDITOR ) {
 			 *			<li><b>unloaded</b>: the API is not yet loaded.</li>
 			 *			<li><b>basic_loaded</b>: the basic API features are available.</li>
 			 *			<li><b>basic_ready</b>: the basic API is ready to load the full core code.</li>
-			 *			<li><b>loading</b>: the full API is being loaded.</li>
 			 *			<li><b>loaded</b>: the API can be fully used.</li>
 			 *		</ul>
 			 * @type String
@@ -91,12 +93,19 @@ if ( !window.CKEDITOR ) {
 			 * if ( <b>CKEDITOR.status</b> == 'loaded' )
 			 * {
 			 *     // The API can now be fully used.
+			 *     doSomething();
+			 * }
+			 * else
+			 * {
+			 *     // Wait for the full core to be loaded and fire its loading.
+			 *     CKEDITOR.on( 'load', doSomething );
+			 *     CKEDITOR.loadFullCore && CKEDITOR.loadFullCore();
 			 * }
 			 */
 			status: 'unloaded',
 
 			/**
-			 * Contains the full URL for the CKEditor installation directory.
+			 * The full URL for the CKEditor installation directory.
 			 * It is possible to manually provide the base path by setting a
 			 * global variable named CKEDITOR_BASEPATH. This global variable
 			 * must be set <strong>before</strong> the editor script loading.
@@ -177,12 +186,12 @@ if ( !window.CKEDITOR ) {
 			}
 		};
 
-		// Make it possible to override the getUrl function with a custom
+		// Make it possible to override the "url" function with a custom
 		// implementation pointing to a global named CKEDITOR_GETURL.
 		var newGetUrl = window.CKEDITOR_GETURL;
 		if ( newGetUrl ) {
-			var originalGetUrl = CKEDITOR.getUrl;
-			CKEDITOR.getUrl = function( resource ) {
+			var originalGetUrl = CKEDITOR.url;
+			CKEDITOR.url = function( resource ) {
 				return newGetUrl.call( CKEDITOR, resource ) || originalGetUrl.call( CKEDITOR, resource );
 			};
 		}

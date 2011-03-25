@@ -9,420 +9,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	// The counter for automatic instance names.
-	var nameCounter = 0;
-
-	var getNewName = function() {
-			var name = 'editor' + ( ++nameCounter );
-			return ( CKEDITOR.instances && CKEDITOR.instances[ name ] ) ? getNewName() : name;
-		};
-
-	// ##### START: Config Privates
-
-	// These function loads custom configuration files and cache the
-	// CKEDITOR.editorConfig functions defined on them, so there is no need to
-	// download them more than once for several instances.
-	var loadConfigLoaded = {};
-	var loadConfig = function( editor ) {
-			var customConfig = editor.config.customConfig;
-
-			// Check if there is a custom config to load.
-			if ( !customConfig )
-				return false;
-
-			customConfig = CKEDITOR.getUrl( customConfig );
-
-			var loadedConfig = loadConfigLoaded[ customConfig ] || ( loadConfigLoaded[ customConfig ] = {} );
-
-			// If the custom config has already been downloaded, reuse it.
-			if ( loadedConfig.fn ) {
-				// Call the cached CKEDITOR.editorConfig defined in the custom
-				// config file for the editor instance depending on it.
-				loadedConfig.fn.call( editor, editor.config );
-
-				// If there is no other customConfig in the chain, fire the
-				// "configLoaded" event.
-				if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) )
-					editor.fireOnce( 'customConfigLoaded' );
-			} else {
-				// Load the custom configuration file.
-				CKEDITOR.scriptLoader.load( customConfig, function() {
-					// If the CKEDITOR.editorConfig function has been properly
-					// defined in the custom configuration file, cache it.
-					if ( CKEDITOR.editorConfig )
-						loadedConfig.fn = CKEDITOR.editorConfig;
-					else
-						loadedConfig.fn = function() {};
-
-					// Call the load config again. This time the custom
-					// config is already cached and so it will get loaded.
-					loadConfig( editor );
-				});
-			}
-
-			return true;
-		};
-
-	var initConfig = function( editor, instanceConfig ) {
-			// Setup the lister for the "customConfigLoaded" event.
-			editor.on( 'customConfigLoaded', function() {
-				if ( instanceConfig ) {
-					// Register the events that may have been set at the instance
-					// configuration object.
-					if ( instanceConfig.on ) {
-						for ( var eventName in instanceConfig.on ) {
-							editor.on( eventName, instanceConfig.on[ eventName ] );
-						}
-					}
-
-					// Overwrite the settings from the in-page config.
-					CKEDITOR.tools.extend( editor.config, instanceConfig, true );
-
-					delete editor.config.on;
-				}
-
-				onConfigLoaded( editor );
-			});
-
-			// The instance config may override the customConfig setting to avoid
-			// loading the default ~/config.js file.
-			if ( instanceConfig && instanceConfig.customConfig != undefined )
-				editor.config.customConfig = instanceConfig.customConfig;
-
-			// Load configs from the custom configuration files.
-			if ( !loadConfig( editor ) )
-				editor.fireOnce( 'customConfigLoaded' );
-		};
-
-	// ##### END: Config Privates
-
-	var onConfigLoaded = function( editor ) {
-			// Set config related properties.
-
-			var skin = editor.config.skin.split( ',' ),
-				skinName = skin[ 0 ],
-				skinPath = CKEDITOR.getUrl( skin[ 1 ] || ( '_source/' + // @Packager.RemoveLine
-												'skins/' + skinName + '/' ) );
-
-			/**
-			 * The name of the skin used by this editor instance. The skin name can
-			 * be set through the <code>{@link CKEDITOR.config.skin}</code> setting.
-			 * @name CKEDITOR.editor.prototype.skinName
-			 * @type String
-			 * @example
-			 * alert( editor.skinName );  // E.g. "kama"
-			 */
-			editor.skinName = skinName;
-
-			/**
-			 * The full URL of the skin directory.
-			 * @name CKEDITOR.editor.prototype.skinPath
-			 * @type String
-			 * @example
-			 * alert( editor.skinPath );  // E.g. "http://example.com/ckeditor/skins/kama/"
-			 */
-			editor.skinPath = skinPath;
-
-			/**
-			 * The CSS class name used for skin identification purposes.
-			 * @name CKEDITOR.editor.prototype.skinClass
-			 * @type String
-			 * @example
-			 * alert( editor.skinClass );  // E.g. "cke_skin_kama"
-			 */
-			editor.skinClass = 'cke_skin_' + skinName;
-
-			/**
-			 * The <a href="http://en.wikipedia.org/wiki/Tabbing_navigation">tabbing
-			 * navigation</a> order that has been calculated for this editor
-			 * instance. This can be set by the <code>{@link CKEDITOR.config.tabIndex}</code>
-			 * setting or taken from the <code>tabindex</code> attribute of the
-			 * <code>{@link #element}</code> associated with the editor.
-			 * @name CKEDITOR.editor.prototype.tabIndex
-			 * @type Number
-			 * @default 0 (zero)
-			 * @example
-			 * alert( editor.tabIndex );  // E.g. "0"
-			 */
-			editor.tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
-
-			/**
-			 * Indicates the read-only state of this editor. This is a read-only property.
-			 * @name CKEDITOR.editor.prototype.readOnly
-			 * @type Boolean
-			 * @since 3.6
-			 * @see CKEDITOR.editor#setReadOnly
-			 */
-			editor.readOnly = !!( editor.config.readOnly || editor.element.getAttribute( 'disabled' ) );
-
-			// Fire the "configLoaded" event.
-			editor.fireOnce( 'configLoaded' );
-
-			// Load language file.
-			loadSkin( editor );
-		};
-
-	var loadLang = function( editor ) {
-			CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {
-				/**
-				 * The code for the language resources that have been loaded
-				 * for the user interface elements of this editor instance.
-				 * @name CKEDITOR.editor.prototype.langCode
-				 * @type String
-				 * @example
-				 * alert( editor.langCode );  // E.g. "en"
-				 */
-				editor.langCode = languageCode;
-
-				/**
-				 * An object that contains all language strings used by the editor
-				 * interface.
-				 * @name CKEDITOR.editor.prototype.lang
-				 * @type CKEDITOR.lang
-				 * @example
-				 * alert( editor.lang.bold );  // E.g. "Negrito" (if the language is set to Portuguese)
-				 */
-				// As we'll be adding plugin specific entries that could come
-				// from different language code files, we need a copy of lang,
-				// not a direct reference to it.
-				editor.lang = CKEDITOR.tools.prototypedCopy( lang );
-
-				// We're not able to support RTL in Firefox 2 at this time.
-				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
-					editor.lang.dir = 'ltr';
-
-				editor.fire( 'langLoaded' );
-
-				var config = editor.config;
-				config.contentsLangDirection == 'ui' && ( config.contentsLangDirection = editor.lang.dir );
-
-				loadPlugins( editor );
-			});
-		};
-
-	var loadPlugins = function( editor ) {
-			var config = editor.config,
-				plugins = config.plugins,
-				extraPlugins = config.extraPlugins,
-				removePlugins = config.removePlugins;
-
-			if ( extraPlugins ) {
-				// Remove them first to avoid duplications.
-				var removeRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
-				plugins = plugins.replace( removeRegex, '' );
-
-				plugins += ',' + extraPlugins;
-			}
-
-			if ( removePlugins ) {
-				removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
-				plugins = plugins.replace( removeRegex, '' );
-			}
-
-			// Load the Adobe AIR plugin conditionally.
-			CKEDITOR.env.air && ( plugins += ',adobeair' );
-
-			// Load all plugins defined in the "plugins" setting.
-			CKEDITOR.plugins.load( plugins.split( ',' ), function( plugins ) {
-				// The list of plugins.
-				var pluginsArray = [];
-
-				// The language code to get loaded for each plugin. Null
-				// entries will be appended for plugins with no language files.
-				var languageCodes = [];
-
-				// The list of URLs to language files.
-				var languageFiles = [];
-
-				/**
-				 * An object that contains references to all plugins used by this
-				 * editor instance.
-				 * @name CKEDITOR.editor.prototype.plugins
-				 * @type Object
-				 * @example
-				 * alert( editor.plugins.dialog.path );  // E.g. "http://example.com/ckeditor/plugins/dialog/"
-				 */
-				editor.plugins = plugins;
-
-				// Loop through all plugins, to build the list of language
-				// files to get loaded.
-				for ( var pluginName in plugins ) {
-					var plugin = plugins[ pluginName ],
-						pluginLangs = plugin.lang,
-						pluginPath = CKEDITOR.plugins.getPath( pluginName ),
-						lang = null;
-
-					// Set the plugin path in the plugin.
-					plugin.path = pluginPath;
-
-					// If the plugin has "lang".
-					if ( pluginLangs ) {
-						// Resolve the plugin language. If the current language
-						// is not available, get the first one (default one).
-						lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
-
-						if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
-							// Put the language file URL into the list of files to
-							// get downloaded.
-							languageFiles.push( CKEDITOR.getUrl( pluginPath + 'lang/' + lang + '.js' ) );
-						} else {
-							CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ lang ] );
-							lang = null;
-						}
-					}
-
-					// Save the language code, so we know later which
-					// language has been resolved to this plugin.
-					languageCodes.push( lang );
-
-					pluginsArray.push( plugin );
-				}
-
-				// Load all plugin specific language files in a row.
-				CKEDITOR.scriptLoader.load( languageFiles, function() {
-					// Initialize all plugins that have the "beforeInit" and "init" methods defined.
-					var methods = [ 'beforeInit', 'init', 'afterInit' ];
-					for ( var m = 0; m < methods.length; m++ ) {
-						for ( var i = 0; i < pluginsArray.length; i++ ) {
-							var plugin = pluginsArray[ i ];
-
-							// Uses the first loop to update the language entries also.
-							if ( m === 0 && languageCodes[ i ] && plugin.lang )
-								CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ languageCodes[ i ] ] );
-
-							// Call the plugin method (beforeInit and init).
-							if ( plugin[ methods[ m ] ] )
-								plugin[ methods[ m ] ]( editor );
-						}
-					}
-
-					// Load the editor skin.
-					editor.fire( 'pluginsLoaded' );
-					loadTheme( editor );
-				});
-			});
-		};
-
-	var loadSkin = function( editor ) {
-			CKEDITOR.skins.load( editor, 'editor', function() {
-				loadLang( editor );
-			});
-		};
-
-	var loadTheme = function( editor ) {
-			var theme = editor.config.theme;
-			CKEDITOR.themes.load( theme, function() {
-				/**
-				 * The theme used by this editor instance.
-				 * @name CKEDITOR.editor.prototype.theme
-				 * @type CKEDITOR.theme
-				 * @example
-				 * alert( editor.theme );  // E.g. "http://example.com/ckeditor/themes/default/"
-				 */
-				var editorTheme = editor.theme = CKEDITOR.themes.get( theme );
-				editorTheme.path = CKEDITOR.themes.getPath( theme );
-				editorTheme.build( editor );
-
-				if ( editor.config.autoUpdateElement )
-					attachToForm( editor );
-			});
-		};
-
-	var attachToForm = function( editor ) {
-			var element = editor.element;
-
-			// If are replacing a textarea, we must
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
-				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
-				if ( form ) {
-					function onSubmit() {
-						editor.updateElement();
-					}
-					form.on( 'submit', onSubmit );
-
-					// Setup the submit function because it doesn't fire the
-					// "submit" event.
-					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
-						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-							return function() {
-								editor.updateElement();
-
-								// For IE, the DOM submit function is not a
-								// function, so we need thid check.
-								if ( originalSubmit.apply )
-									originalSubmit.apply( this, arguments );
-								else
-									originalSubmit();
-							};
-						});
-					}
-
-					// Remove 'submit' events registered on form element before destroying.(#3988)
-					editor.on( 'destroy', function() {
-						form.removeListener( 'submit', onSubmit );
-					});
-				}
-			}
-		};
-
-	function updateCommands() {
-		var command,
-			commands = this._.commands,
-			mode = this.mode;
-
-		if ( !mode )
-			return;
-
-		for ( var name in commands ) {
-			command = commands[ name ];
-			command[ command.startDisabled ? 'disable' : this.readOnly && !command.readOnly ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
-		}
-	}
+	// Override the basic constructor defined at editor_basic.js.
+	Editor.prototype = CKEDITOR.editor.prototype;
+	CKEDITOR.editor = Editor;
 
 	/**
-	 * Initializes the editor instance. This function is called by the editor
-	 * contructor (<code>editor_basic.js</code>).
-	 * @private
+	 * Creates an editor class instance. This constructor should be rarely
+	 * used, in favor of the {@link CKEDITOR} editor creation functions.
+	 * @name CKEDITOR.editor
+	 * @class Represents an editor instance.
+	 * @param {Object} instanceConfig Configuration values for this specific
+	 *		instance.
+	 * @param {String} [data] Since 3.3. Initial value for the instance.
+	 * @augments CKEDITOR.event
+	 * @example
 	 */
-	CKEDITOR.editor.prototype._init = function() {
-		// Get the properties that have been saved in the editor_base
-		// implementation.
-		var element = CKEDITOR.dom.element.get( this._.element ),
-			instanceConfig = this._.instanceConfig;
-		delete this._.element;
-		delete this._.instanceConfig;
+	function Editor( instanceConfig ) {
+		// Call the CKEDITOR.event constructor to initialize this instance.
+		CKEDITOR.event.call( this );
 
-		this._.commands = {};
-		this._.styles = [];
+		// Declare the private namespace.
+		this._ = {
+			commands: {} };
 
 		/**
-		 * The DOM element that was replaced by this editor instance. This
-		 * element stores the editor data on load and post.
-		 * @name CKEDITOR.editor.prototype.element
-		 * @type CKEDITOR.dom.element
-		 * @example
-		 * var editor = CKEDITOR.instances.editor1;
-		 * alert( <strong>editor.element</strong>.getName() );  // E.g. "textarea"
-		 */
-		this.element = element;
-
-		/**
-		 * The editor instance name. It may be the replaced element ID, name, or
-		 * a default name using the progressive counter (<code>editor1</code>,
-		 * <code>editor2</code>, ...).
-		 * @name CKEDITOR.editor.prototype.name
-		 * @type String
-		 * @example
-		 * var editor = CKEDITOR.instances.editor1;
-		 * alert( <strong>editor.name</strong> );  // "editor1"
-		 */
-		this.name = ( element && ( this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) && ( element.getId() || element.getNameAtt() ) ) || getNewName();
-
-		if ( this.name in CKEDITOR.instances )
-			throw '[CKEDITOR.editor] The instance "' + this.name + '" already exists.';
-
-		/**
-		 * A unique random string assigned to each editor instance on the page.
+		 * A unique random string assigned to each editor instance in the page.
 		 * @name CKEDITOR.editor.prototype.id
 		 * @type String
 		 */
@@ -430,19 +41,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/**
 		 * The configurations for this editor instance. It inherits all
-		 * settings defined in <code>(@link CKEDITOR.config}</code>, combined with settings
+		 * settings defined in (@link CKEDITOR.config}, combined with settings
 		 * loaded from custom configuration files and those defined inline in
 		 * the page when creating the editor.
 		 * @name CKEDITOR.editor.prototype.config
 		 * @type Object
 		 * @example
 		 * var editor = CKEDITOR.instances.editor1;
-		 * alert( <strong>editor.config.theme</strong> );  // E.g. "default"
+		 * alert( <b>editor.config.theme</b> );  "default" e.g.
 		 */
 		this.config = CKEDITOR.tools.prototypedCopy( CKEDITOR.config );
 
 		/**
-		 * The namespace containing UI features related to this editor instance.
+		 * Namespace containing UI features related to this editor instance.
 		 * @name CKEDITOR.editor.prototype.ui
 		 * @type CKEDITOR.ui
 		 * @example
@@ -452,7 +63,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		/**
 		 * Controls the focus state of this editor instance. This property
 		 * is rarely used for normal API operations. It is mainly
-		 * intended for developers adding UI elements to the editor interface.
+		 * destinated to developer adding UI elements to the editor interface.
 		 * @name CKEDITOR.editor.prototype.focusManager
 		 * @type CKEDITOR.focusManager
 		 * @example
@@ -461,11 +72,284 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
-		this.on( 'mode', updateCommands, null, null, 1 );
-		this.on( 'readOnly', updateCommands, null, null, 1 );
-
 		initConfig( this, instanceConfig );
-	};
+	}
+
+	// ##### START: Config Privates
+
+	// These function loads custom configuration files and cache the
+	// CKEDITOR.editorConfig functions defined on them, so there is no need to
+	// download them more than once for several instances.
+	var loadConfigLoaded = {};
+
+	function loadConfig( editor ) {
+		var customConfig = editor.config.customConfig;
+
+		// Check if there is a custom config to load.
+		if ( !customConfig )
+			return false;
+
+		customConfig = CKEDITOR.getUrl( customConfig );
+
+		var loadedConfig = loadConfigLoaded[ customConfig ] || ( loadConfigLoaded[ customConfig ] = {} );
+
+		// If the custom config has already been downloaded, reuse it.
+		if ( loadedConfig.fn ) {
+			// Call the cached CKEDITOR.editorConfig defined in the custom
+			// config file for the editor instance depending on it.
+			loadedConfig.fn.call( editor, editor.config );
+
+			// If there is no other customConfig in the chain, fire the
+			// "configLoaded" event.
+			if ( CKEDITOR.getUrl( editor.config.customConfig ) == customConfig || !loadConfig( editor ) )
+				editor.fireOnce( 'customConfigLoaded' );
+		} else {
+			// Load the custom configuration file.
+			CKEDITOR.scriptLoader.load( customConfig, function() {
+				// If the CKEDITOR.editorConfig function has been properly
+				// defined in the custom configuration file, cache it.
+				if ( CKEDITOR.editorConfig )
+					loadedConfig.fn = CKEDITOR.editorConfig;
+				else
+					loadedConfig.fn = function() {};
+
+				// Call the load config again. This time the custom
+				// config is already cached and so it will get loaded.
+				loadConfig( editor );
+			});
+		}
+
+		return true;
+	}
+
+	function initConfig( editor, instanceConfig ) {
+		// Setup the lister for the "customConfigLoaded" event.
+		editor.on( 'customConfigLoaded', function() {
+			if ( instanceConfig ) {
+				// Register the events that may have been set at the instance
+				// configuration object.
+				if ( instanceConfig.on ) {
+					for ( var eventName in instanceConfig.on ) {
+						editor.on( eventName, instanceConfig.on[ eventName ] );
+					}
+				}
+
+				// Overwrite the settings from the in-page config.
+				CKEDITOR.tools.extend( editor.config, instanceConfig, true );
+
+				delete editor.config.on;
+			}
+
+			onConfigLoaded( editor );
+		});
+
+		// The instance config may override the customConfig setting to avoid
+		// loading the default ~/config.js file.
+		if ( instanceConfig && instanceConfig.customConfig != undefined )
+			editor.config.customConfig = instanceConfig.customConfig;
+
+		// Load configs from the custom configuration files.
+		if ( !loadConfig( editor ) )
+			editor.fireOnce( 'customConfigLoaded' );
+	}
+
+	// ##### END: Config Privates
+
+	function onConfigLoaded( editor ) {
+		// Set config related properties.
+
+		var skin = editor.config.skin && editor.config.skin.split( ',' ),
+			skinName = ( skin && skin[ 0 ] ) || '',
+			skinPath = ( skinName && CKEDITOR.getUrl( skin[ 1 ] || ( '../skins/' + skinName + '/' ) ) ) || '';
+
+		/**
+		 * The name of the skin used by this editor instance. The skin name can
+		 * be set through the {@link CKEDITOR.config.skin} setting.
+		 * @name CKEDITOR.editor.prototype.skinName
+		 * @type String
+		 * @example
+		 * alert( editor.skinName );  // E.g. "kama"
+		 */
+		editor.skinName = skinName;
+
+		/**
+		 * The full URL of the skin directory.
+		 * @name CKEDITOR.editor.prototype.skinPath
+		 * @type String
+		 * @example
+		 * alert( editor.skinPath );  // E.g. "http://example.com/ckeditor/skins/kama/"
+		 */
+		editor.skinPath = skinPath;
+
+		/**
+		 * The CSS class name used for skin identification purposes.
+		 * @name CKEDITOR.editor.prototype.skinClass
+		 * @type String
+		 * @example
+		 * alert( editor.skinClass );  // E.g. "cke_skin_kama"
+		 */
+		editor.skinClass = skinName && ( 'cke_skin_' + skinName );
+
+		/**
+		 * Indicates the read-only state of this editor. This is a read-only property.
+		 * @name CKEDITOR.editor.prototype.readOnly
+		 * @type Boolean
+		 * @since 3.6
+		 * @see CKEDITOR.editor#setReadOnly
+		 */
+		editor.readOnly = !!( editor.config.readOnly || editor.element.getAttribute( 'disabled' ) );
+
+		// Fire the "configLoaded" event.
+		editor.fireOnce( 'configLoaded' );
+
+		skin ? loadSkin( editor ) : loadLang( editor );
+	}
+
+	function loadSkin( editor ) {
+		CKEDITOR.skins.load( editor, 'editor', function() {
+			loadLang( editor );
+		});
+	}
+
+	function loadLang( editor ) {
+		CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {
+			/**
+			 * The code for the language resources that have been loaded
+			 * for the user interface elements of this editor instance.
+			 * @name CKEDITOR.editor.prototype.langCode
+			 * @type String
+			 * @example
+			 * alert( editor.langCode );  // E.g. "en"
+			 */
+			editor.langCode = languageCode;
+
+			/**
+			 * An object that contains all language strings used by the editor
+			 * interface.
+			 * @name CKEDITOR.editor.prototype.lang
+			 * @type CKEDITOR.lang
+			 * @example
+			 * alert( editor.lang.bold );  // E.g. "Negrito" (if the language is set to Portuguese)
+			 */
+			// As we'll be adding plugin specific entries that could come
+			// from different language code files, we need a copy of lang,
+			// not a direct reference to it.
+			editor.lang = CKEDITOR.tools.prototypedCopy( lang );
+
+			// We're not able to support RTL in Firefox 2 at this time.
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
+				editor.lang.dir = 'ltr';
+
+			editor.fire( 'langLoaded' );
+
+			var config = editor.config;
+			config.contentsLangDirection == 'ui' && ( config.contentsLangDirection = editor.lang.dir );
+
+			loadPlugins( editor );
+		});
+	}
+
+	function loadPlugins( editor ) {
+		var config = editor.config,
+			plugins = config.plugins,
+			extraPlugins = config.extraPlugins,
+			removePlugins = config.removePlugins;
+
+		if ( extraPlugins ) {
+			// Remove them first to avoid duplications.
+			var removeRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			plugins = plugins.replace( removeRegex, '' );
+
+			plugins += ',' + extraPlugins;
+		}
+
+		if ( removePlugins ) {
+			removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			plugins = plugins.replace( removeRegex, '' );
+		}
+
+		// Load the Adobe AIR plugin conditionally.
+		CKEDITOR.env.air && ( plugins += ',adobeair' );
+
+		// Load all plugins defined in the "plugins" setting.
+		CKEDITOR.plugins.load( plugins.split( ',' ), function( plugins ) {
+			// The list of plugins.
+			var pluginsArray = [];
+
+			// The language code to get loaded for each plugin. Null
+			// entries will be appended for plugins with no language files.
+			var languageCodes = [];
+
+			// The list of URLs to language files.
+			var languageFiles = [];
+
+			/**
+			 * An object that contains references to all plugins used by this
+			 * editor instance.
+			 * @name CKEDITOR.editor.prototype.plugins
+			 * @type Object
+			 * @example
+			 * alert( editor.plugins.dialog.path );  // E.g. "http://example.com/ckeditor/plugins/dialog/"
+			 */
+			editor.plugins = plugins;
+
+			// Loop through all plugins, to build the list of language
+			// files to get loaded.
+			for ( var pluginName in plugins ) {
+				var plugin = plugins[ pluginName ],
+					pluginLangs = plugin.lang,
+					pluginPath = CKEDITOR.plugins.getPath( pluginName ),
+					lang = null;
+
+				// Set the plugin path in the plugin.
+				plugin.path = pluginPath;
+
+				// If the plugin has "lang".
+				if ( pluginLangs ) {
+					// Resolve the plugin language. If the current language
+					// is not available, get the first one (default one).
+					lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
+
+					if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
+						// Put the language file URL into the list of files to
+						// get downloaded.
+						languageFiles.push( CKEDITOR.getUrl( pluginPath + 'lang/' + lang + '.js' ) );
+					} else {
+						CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ lang ] );
+						lang = null;
+					}
+				}
+
+				// Save the language code, so we know later which
+				// language has been resolved to this plugin.
+				languageCodes.push( lang );
+
+				pluginsArray.push( plugin );
+			}
+
+			// Load all plugin specific language files in a row.
+			CKEDITOR.scriptLoader.load( languageFiles, function() {
+				// Initialize all plugins that have the "beforeInit" and "init" methods defined.
+				var methods = [ 'beforeInit', 'init', 'afterInit' ];
+				for ( var m = 0; m < methods.length; m++ ) {
+					for ( var i = 0; i < pluginsArray.length; i++ ) {
+						var plugin = pluginsArray[ i ];
+
+						// Uses the first loop to update the language entries also.
+						if ( m === 0 && languageCodes[ i ] && plugin.lang )
+							CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ languageCodes[ i ] ] );
+
+						// Call the plugin method (beforeInit and init).
+						if ( plugin[ methods[ m ] ] )
+							plugin[ methods[ m ] ]( editor );
+					}
+				}
+
+				editor.fireOnce( 'pluginsLoaded' );
+				editor.fireOnce( 'loaded' );
+			});
+		});
+	}
 })();
 
 CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
@@ -489,18 +373,6 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
-	 * Adds a piece of CSS code to the editor which will be applied to the WYSIWYG editing document.
-	 * This CSS would not be added to the output, and is there mainly for editor-specific editing requirements.
-	 * Note: This function should be called before the editor is loaded to take effect.
-	 * @param css {String} CSS text.
-	 * @example
-	 * editorInstance.addCss( 'body { background-color: grey; }' );
-	 */
-	addCss: function( css ) {
-		this._.styles.push( css );
-	},
-
-	/**
 	 * Destroys the editor instance, releasing all resources used by it.
 	 * If the editor replaced an element, the element will be recovered.
 	 * @param {Boolean} [noUpdate] If the instance is replacing a DOM
@@ -517,6 +389,8 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 
 		this.fire( 'destroy' );
 		this.theme && this.theme.destroy( this );
+
+		this.editable( null );
 
 		CKEDITOR.remove( this );
 		CKEDITOR.fire( 'instanceDestroyed', null, this );
@@ -737,7 +611,19 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
-	 * Checks whether the current editor contents contain changes when
+	 * Moves the selection focus to the editing area space in the editor.
+	 */
+	focus: function() {
+		// Listeners may cancel the default focus code (having their custom
+		// implementation).
+		if ( this.fire( 'focus' ) ) {
+			var editable = this.editable();
+			editable && editable.focus();
+		}
+	},
+
+	/**
+	 * Checks whether the current editor contents present changes when
 	 * compared to the contents loaded into the editor at startup, or to
 	 * the contents available in the editor when <code>{@link #resetDirty}</code>
 	 * was called.
@@ -793,17 +679,6 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			else
 				element.setHtml( data );
 		}
-	}
-});
-
-CKEDITOR.on( 'loaded', function() {
-	// Run the full initialization for pending editors.
-	var pending = CKEDITOR.editor._pending;
-	if ( pending ) {
-		delete CKEDITOR.editor._pending;
-
-		for ( var i = 0; i < pending.length; i++ )
-			pending[ i ]._init();
 	}
 });
 
