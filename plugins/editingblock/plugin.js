@@ -70,6 +70,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.getMode().loadSnapshotData( event.data );
 			});
 
+			editor.on( 'focus', function( event ) {
+				var mode = editor.getMode( editor );
+				if ( mode && mode.focus ) {
+					mode.focus();
+					return false;
+				}
+			});
+
 			// For the first "mode" call, we'll also fire the "instanceReady"
 			// event.
 			editor.on( 'mode', function( event ) {
