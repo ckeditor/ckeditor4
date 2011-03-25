@@ -1,0 +1,35 @@
+﻿Changes described in this file are supposed to be definitive. For these we need
+to either provide a compatibility plugin or clearly document them.
+
+Changes not included here are instead pending analysis and v3 porting.
+
+The documentation (including API docs) needed to be checked to be sure it
+reflects the changes.
+
+===============================================================================
+
+CKEDITOR.event.fire now returns the boolean "false" if the event has been
+cancelled (in v3 it returns "true").
+
+---
+
+The listener function sent to CKEDITOR.event.on can now return the boolean
+"false" to cancel the event. I'm not sure this will bring any impact, but it's
+better to have it documented, at least.
+
+---
+
+Throught the "replacecreator" plugin, the CKEDITOR.replaceByClassEnabled option
+is not anymore available. Now it's enough to set CKEDITOR.replaceClass to
+empty/null to disable the auto-replace.
+
+---
+
+The default value for config.docType is "<!DOCTYPE html>" (the HTML5 doctype).
+
+---
+
+CKEDITOR.config.corePlugins is not any more available. Core plugins must be
+simply loaded after core.
+
+---
