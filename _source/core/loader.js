@@ -21,7 +21,6 @@ if ( !CKEDITOR.loader ) {
 		// Table of script names and their dependencies.
 		var scripts = {
 			'core/_bootstrap': [ 'core/config', 'core/ckeditor', 'core/plugins', 'core/scriptloader', 'core/tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'core/dom/comment', 'core/dom/elementpath', 'core/dom/text', 'core/dom/rangelist' ],
-			'core/ajax': [ 'core/xml' ],
 			'core/ckeditor': [ 'core/ckeditor_basic', 'core/dom', 'core/dtd', 'core/dom/document', 'core/dom/element', 'core/editor', 'core/event', 'core/htmlparser', 'core/htmlparser/element', 'core/htmlparser/fragment', 'core/htmlparser/filter', 'core/htmlparser/basicwriter', 'core/tools' ],
 			'core/ckeditor_base': [],
 			'core/ckeditor_basic': [ 'core/editor_basic', 'core/env', 'core/event' ],
@@ -63,8 +62,7 @@ if ( !CKEDITOR.loader ) {
 			'core/skins': [ 'core/scriptloader' ],
 			'core/themes': [ 'core/resourcemanager' ],
 			'core/tools': [ 'core/env' ],
-			'core/ui': [],
-			'core/xml': [ 'core/env' ]
+			'core/ui': []
 		};
 
 		var basePath = (function() {
