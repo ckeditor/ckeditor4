@@ -139,9 +139,9 @@ if ( !CKEDITOR.event ) {
 								}
 							};
 
-							listenerFunction.call( scopeObj, ev );
+							var ret = listenerFunction.call( scopeObj, ev );
 
-							return ev.data;
+							return ret === false ? false : ev.data;
 						};
 					listenerFirer.fn = listenerFunction;
 					listenerFirer.priority = priority;
@@ -189,15 +189,15 @@ if ( !CKEDITOR.event ) {
 			 */
 			fire: (function() {
 				// Create the function that marks the event as stopped.
-				var stopped = false;
+				var stopped = 0;
 				var stopEvent = function() {
-						stopped = true;
+						stopped = 1;
 					};
 
 				// Create the function that marks the event as canceled.
-				var canceled = false;
+				var canceled = 0;
 				var cancelEvent = function() {
-						canceled = true;
+						canceled = 1;
 					};
 
 				return function( eventName, data, editor ) {
@@ -210,7 +210,7 @@ if ( !CKEDITOR.event ) {
 						previousCancelled = canceled;
 
 					// Reset the stopped and canceled flags.
-					stopped = canceled = false;
+					stopped = canceled = 0;
 
 					if ( event ) {
 						var listeners = event.listeners;
@@ -227,7 +227,9 @@ if ( !CKEDITOR.event ) {
 								// Call the listener, passing the event data.
 								var retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 
-								if ( typeof retData != 'undefined' )
+								if ( retData === false )
+									canceled = 1;
+								else if ( typeof retData != 'undefined' )
 									data = retData;
 
 								// No further calls is stopped or canceled.
@@ -237,7 +239,7 @@ if ( !CKEDITOR.event ) {
 						}
 					}
 
-					var ret = canceled || ( typeof data == 'undefined' ? false : data );
+					var ret = canceled ? false : ( typeof data == 'undefined' ? true : data );
 
 					// Restore the previous stopped and canceled states.
 					stopped = previousStopped;
