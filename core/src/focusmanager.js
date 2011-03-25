@@ -62,15 +62,11 @@ CKEDITOR.focusManager.prototype = {
 			//		"focus 1" > "blur 1" > "focus 2"
 			// ... instead of:
 			//		"focus 1" > "focus 2" > "blur 1"
-			if ( CKEDITOR.currentInstance )
-				CKEDITOR.currentInstance.focusManager.forceBlur();
-
-			var editor = this._.editor;
-
-			editor.container.getChild( 1 ).addClass( 'cke_focus' );
+			var current = CKEDITOR.currentInstance;
+			current && current.focusManager.forceBlur();
 
 			this.hasFocus = true;
-			editor.fire( 'focus' );
+			this._.editor.fire( 'focus' );
 		}
 	},
 
@@ -107,8 +103,6 @@ CKEDITOR.focusManager.prototype = {
 	forceBlur: function() {
 		if ( this.hasFocus ) {
 			var editor = this._.editor;
-
-			editor.container.getChild( 1 ).removeClass( 'cke_focus' );
 
 			this.hasFocus = false;
 			editor.fire( 'blur' );
