@@ -1199,7 +1199,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				// IE BUG: Setting the name attribute to an existing link doesn't work.
 				// Must re-create the link from weired syntax to workaround.
-				if ( CKEDITOR.env.ie && attributes.name != element.getAttribute( 'name' ) ) {
+				if ( CKEDITOR.env.ie && !( CKEDITOR.document.$.documentMode >= 8 ) && attributes.name != element.getAttribute( 'name' ) ) {
 					var newElement = new CKEDITOR.dom.element( '<a name="' + CKEDITOR.tools.htmlEncode( attributes.name ) + '">', editor.document );
 
 					selection = editor.getSelection();
