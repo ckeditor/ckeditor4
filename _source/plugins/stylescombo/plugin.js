@@ -54,7 +54,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var combo = this;
 
 					loadStylesSet( function() {
-						var style, styleName, lastType, type, i;
+						var style, styleName, lastType, type, i, count;
 
 						// Loop over the Array, adding all items to the
 						// combo.
