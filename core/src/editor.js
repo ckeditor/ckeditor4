@@ -347,6 +347,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				editor.fireOnce( 'pluginsLoaded' );
 				editor.fireOnce( 'loaded' );
+				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
 		});
 	}
