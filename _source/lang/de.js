@@ -177,7 +177,7 @@ CKEDITOR.lang[ 'de' ] = {
 		cssClasses: 'Stylesheet Klasse',
 		charset: 'Ziel-Zeichensatz',
 		styles: 'Style',
-		rel: 'Relationship', // MISSING
+		rel: 'Beziehung',
 		selectAnchor: 'Anker auswählen',
 		anchorName: 'nach Anker Name',
 		anchorId: 'nach Element Id',
