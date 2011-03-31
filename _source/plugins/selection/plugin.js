@@ -577,7 +577,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						range.collapse( start );
 
 						// Gets the element that encloses the range entirely.
-						var parent = range.parentElement();
+						var parent = range.parentElement(),
+							doc = parent.ownerDocument;
 
 						// Empty parent element, e.g. <i>^</i>
 						if ( !parent.hasChildNodes() )
@@ -603,8 +604,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								endIndex = index - 1;
 							else if ( position < 0 )
 								startIndex = index + 1;
-							else
-								return { container: parent, offset: getNodeIndex( child ) };
+							else {
+								// IE9 report wrong measurement with compareEndPoints when range anchors between two BRs.
+								// e.g. <p>text<br />^<br /></p> (#7433)
+								if ( CKEDITOR.env.ie9Compat && child.tagName == 'BR' ) {
+									var bmId = 'cke_range_marker';
+									range.execCommand( 'CreateBookmark', false, bmId );
+									child = doc.getElementsByName( bmId )[ 0 ];
+									var offset = getNodeIndex( child );
+									parent.removeChild( child );
+									return { container: parent, offset: offset };
+								} else
+									return { container: parent, offset: getNodeIndex( child ) };
+							}
 						}
 
 						// All childs are text nodes,
