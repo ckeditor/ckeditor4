@@ -52,6 +52,52 @@ CKEDITOR.ui.button.handler = {
 
 (function() {
 	CKEDITOR.ui.button.prototype = {
+		attach: function( editor ) {
+			var command = this.command;
+
+			// Indicate a mode sensitive button.
+			if ( this.modes ) {
+				var modeStates = {};
+
+				function updateState() {
+					// "this" is a CKEDITOR.ui.button instance.
+
+					var mode = editor.mode;
+
+					if ( mode ) {
+						// Restore saved button state.
+						var state = this.editor.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+						this.setState( editor.readOnly && !this.editor.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
+					}
+				}
+
+				editor.on( 'beforeModeUnload', function() {
+					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
+						modeStates[ editor.mode ] = this._.state;
+				}, this );
+
+				editor.on( 'mode', updateState, this );
+
+				// If this button is sensitive to readOnly state, update it accordingly.
+				!this.readOnly && editor.on( 'readOnly', updateState, this );
+			} else if ( command ) {
+				// Get the command instance.
+				command = editor.getCommand( command );
+
+				if ( command ) {
+					command.on( 'state', function() {
+						if ( this.editor == editor )
+							this.setState( command.state );
+					}, this );
+				}
+			}
+
+			editor.on( 'focus', function() {
+				this.editor = editor;
+			}, this );
+		},
+
 		/**
 		 * Renders the button.
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
@@ -112,118 +158,117 @@ CKEDITOR.ui.button.handler = {
 
 
 			// Indicate a mode sensitive button.
-			if ( this.modes ) {
-				var modeStates = {};
+			if ( this.modes )
+				this.attach( editor );
 
-				function updateState() {
-					// "this" is a CKEDITOR.ui.button instance.
+			function updateState() {
+				// "this" is a CKEDITOR.ui.button instance.
 
-					var mode = editor.mode;
+				var mode = editor.mode;
 
-					if ( mode ) {
-						// Restore saved button state.
-						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+				if ( mode ) {
+					// Restore saved button state.
+					var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
-						this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
-					}
+					this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
 				}
+			}
 
-				editor.on( 'beforeModeUnload', function() {
-					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
-						modeStates[ editor.mode ] = this._.state;
+			editor.on( 'beforeModeUnload', function() {
+				if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
+					modeStates[ editor.mode ] = this._.state;
+			}, this );
+
+			editor.on( 'mode', updateState, this );
+
+			// If this button is sensitive to readOnly state, update it accordingly.
+			!this.readOnly && editor.on( 'readOnly', updateState, this );
+		} else if ( command ) {
+			// Get the command instance.
+			command = editor.getCommand( command );
+
+			if ( command ) {
+				command.on( 'state', function() {
+					this.setState( command.state );
 				}, this );
 
-				editor.on( 'mode', updateState, this );
-
-				// If this button is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && editor.on( 'readOnly', updateState, this );
-			} else if ( command ) {
-				// Get the command instance.
-				command = editor.getCommand( command );
-
-				if ( command ) {
-					command.on( 'state', function() {
-						this.setState( command.state );
-					}, this );
-
-					classes += 'cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
-				}
+				classes += 'cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 			}
-
-			if ( !command )
-				classes += 'cke_off';
-
-			if ( this.className )
-				classes += ' ' + this.className;
-
-			output.push( '<span class="cke_button' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">', '<a id="', id, '"' +
-								' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
-								' tabindex="-1"' +
-								' hidefocus="true"' +
-								' role="button"' +
-								' aria-labelledby="' + id + '_label"' +
-								( this.hasArrow ? ' aria-haspopup="true"' : '' ) );
-
-			// Some browsers don't cancel key events in the keydown but in the
-			// keypress.
-			// TODO: Check if really needed for Gecko+Mac.
-			if ( env.opera || ( env.gecko && env.mac ) ) {
-				output.push( ' onkeypress="return false;"' );
-			}
-
-			// With Firefox, we need to force the button to redraw, otherwise it
-			// will remain in the focus state.
-			if ( env.gecko ) {
-				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
-			}
-
-			output.push( ' onkeydown="return CKEDITOR.tools.callFunction(', keydownFn, ', event);"' +
-				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
-				( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
-								'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
-				'<span class="cke_icon"' );
-
-			if ( this.icon ) {
-				var offset = ( this.iconOffset || 0 ) * -16;
-				output.push( ' style="background-image:url(', CKEDITOR.getUrl( this.icon ), ');background-position:0 ' + offset + 'px;"' );
-			}
-
-			output.push( '>&nbsp;</span>' +
-				'<span id="', id, '_label" class="cke_label">', this.label, '</span>' );
-
-			if ( this.hasArrow ) {
-				output.push( '<span class="cke_buttonarrow">'
-				// BLACK DOWN-POINTING TRIANGLE
-				+ ( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) + '</span>' );
-			}
-
-			output.push( '</a>', '</span>' );
-
-			if ( this.onRender )
-				this.onRender();
-
-			return instance;
-		},
-
-		setState: function( state ) {
-			if ( this._.state == state )
-				return false;
-
-			this._.state = state;
-
-			var element = CKEDITOR.document.getById( this._.id );
-
-			if ( element ) {
-				element.setState( state );
-				state == CKEDITOR.TRISTATE_DISABLED ? element.setAttribute( 'aria-disabled', true ) : element.removeAttribute( 'aria-disabled' );
-
-				state == CKEDITOR.TRISTATE_ON ? element.setAttribute( 'aria-pressed', true ) : element.removeAttribute( 'aria-pressed' );
-
-				return true;
-			} else
-				return false;
 		}
-	};
+
+		if ( !command ) classes += 'cke_off';
+
+		if ( this.className )
+			classes += ' ' + this.className;
+
+		output.push( '<span class="cke_button' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">', '<a id="', id, '"' +
+							' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
+							' tabindex="-1"' +
+							' hidefocus="true"' +
+							' role="button"' +
+							' aria-labelledby="' + id + '_label"' +
+							( this.hasArrow ? ' aria-haspopup="true"' : '' ) );
+
+		// Some browsers don't cancel key events in the keydown but in the
+		// keypress.
+		// TODO: Check if really needed for Gecko+Mac.
+		if ( env.opera || ( env.gecko && env.mac ) ) {
+			output.push( ' onkeypress="return false;"' );
+		}
+
+		// With Firefox, we need to force the button to redraw, otherwise it
+		// will remain in the focus state.
+		if ( env.gecko ) {
+			output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
+		}
+
+		output.push( ' onkeydown="return CKEDITOR.tools.callFunction(', keydownFn, ', event);"' +
+			' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
+			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+						'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
+			'<span class="cke_icon"' );
+
+		if ( this.icon ) {
+			var offset = ( this.iconOffset || 0 ) * -16;
+			output.push( ' style="background-image:url(', CKEDITOR.getUrl( this.icon ), ');background-position:0 ' + offset + 'px;"' );
+		}
+
+		output.push( '>&nbsp;</span>' +
+			'<span id="', id, '_label" class="cke_label">', this.label, '</span>' );
+
+		if ( this.hasArrow ) {
+			output.push( '<span class="cke_buttonarrow">'
+			// BLACK DOWN-POINTING TRIANGLE
+			+ ( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) + '</span>' );
+		}
+
+		output.push( '</a>', '</span>' );
+
+		if ( this.onRender )
+			this.onRender();
+
+		return instance;
+	},
+
+	setState: function( state ) {
+		if ( this._.state == state )
+			return false;
+
+		this._.state = state;
+
+		var element = CKEDITOR.document.getById( this._.id );
+
+		if ( element ) {
+			element.setState( state );
+			state == CKEDITOR.TRISTATE_DISABLED ? element.setAttribute( 'aria-disabled', true ) : element.removeAttribute( 'aria-disabled' );
+
+			state == CKEDITOR.TRISTATE_ON ? element.setAttribute( 'aria-pressed', true ) : element.removeAttribute( 'aria-pressed' );
+
+			return true;
+		} else
+			return false;
+	}
+};
 
 })();
 
