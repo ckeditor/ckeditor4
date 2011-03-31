@@ -177,7 +177,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		cssClasses: 'Nazwa klasy CSS',
 		charset: 'Kodowanie znaków obiektu docelowego',
 		styles: 'Styl',
-		rel: 'Relationship', // MISSING
+		rel: 'Relacja',
 		selectAnchor: 'Wybierz kotwicę',
 		anchorName: 'Wg nazwy',
 		anchorId: 'Wg identyfikatora',
