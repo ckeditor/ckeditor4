@@ -45,8 +45,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// v3 wywiwygarea plugin code).
 		// For now, we have just a small part of it, to check if things work.
 
-		element.on( 'focus', editorFocus, editor );
-		element.on( 'blur', editorBlur, editor );
+		var focusElement = element;
+		if ( focusElement.is( 'body' ) )
+			focusElement = element.getDocument().getWindow();
+
+		focusElement.on( 'focus', editorFocus, editor );
+		focusElement.on( 'blur', editorBlur, editor );
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 

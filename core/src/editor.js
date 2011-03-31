@@ -616,7 +616,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	focus: function() {
 		// Listeners may cancel the default focus code (having their custom
 		// implementation).
-		if ( this.fire( 'focus' ) ) {
+		if ( this.fire( 'beforeFocus' ) ) {
 			var editable = this.editable();
 			editable && editable.focus();
 		}
