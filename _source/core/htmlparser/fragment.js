@@ -102,14 +102,16 @@ CKEDITOR.htmlParser.fragment = function() {
 		}
 
 		/*
-		 * Beside of simply append specified element to target, it also takes
+		 * Beside of simply append specified element to target, this function also takes
 		 * care of other dirty lifts like forcing block in body, trimming spaces at
 		 * the block boundaries etc.
 		 *
-		 * Note: This function should NOT change the "currentNode" global unless
-		 * there's a return point node specified on the element.
+		 * @param {Element} element  The element to be added as the last child of {@link target}.
+		 * @param {Element} target The parent element to relieve the new node.
+		 * @param {Boolean} [moveCurrent=false] Don't change the "currentNode" global unless
+		 * there's a return point node specified on the element, otherwise move current onto {@link target} node.
 		 */
-		function addElement( element, target ) {
+		function addElement( element, target, moveCurrent ) {
 			// Ignore any element that has already been added.
 			if ( element.previous !== undefined )
 				return;
@@ -135,7 +137,7 @@ CKEDITOR.htmlParser.fragment = function() {
 					parser.onTagOpen( fixForBody, {} );
 
 					// The new target now is the <p>.
-					target = currentNode;
+					element.returnPoint = target = currentNode;
 				}
 			}
 
@@ -159,7 +161,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				currentNode = element.returnPoint;
 				delete element.returnPoint;
 			} else
-				currentNode = savedCurrent;
+				currentNode = moveCurrent ? target : savedCurrent;
 		}
 
 		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
@@ -223,10 +225,8 @@ CKEDITOR.htmlParser.fragment = function() {
 
 						// The most common case where we just need to close the
 						// current one and append the new one to the parent.
-						if ( currentNode.parent ) {
-							addElement( currentNode, currentNode.parent );
-							currentNode = currentNode.parent;
-						}
+						if ( currentNode.parent )
+							addElement( currentNode, currentNode.parent, 1 );
 						// We've tried our best to fix the embarrassment here, while
 						// this element still doesn't find it's parent, mark it as
 						// orphan and show our tolerance to it.
@@ -349,13 +349,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		// Send all pending BRs except one, which we consider a unwanted bogus. (#5293)
 		sendPendingBRs( !CKEDITOR.env.ie && 1 );
 
-		// Close all pending nodes.
-		while ( currentNode != fragment ) {
-			// Make sure return point is properly restored.
-			var returnPoint = currentNode.returnPoint;
-			addElement( currentNode, currentNode.parent );
-			currentNode = returnPoint || currentNode.parent;
-		}
+		// Close all pending nodes, make sure return point is properly restored.
+		while ( currentNode != fragment )
+			addElement( currentNode, currentNode.parent, 1 );
 
 		return fragment;
 	};
