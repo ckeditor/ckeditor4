@@ -161,17 +161,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}, null, null, 10 );
 
-				var fillingCharBefore;
+				var fillingCharBefore, resetSelection;
 
 				function beforeData() {
-					var fillingChar = getFillingChar( editor.document );
-					fillingCharBefore = fillingChar && fillingChar.getText();
-					fillingCharBefore && fillingChar.setText( fillingCharBefore.replace( /\u200B/g, '' ) );
+					var doc = editor.document,
+						fillingChar = getFillingChar( doc );
+
+					if ( fillingChar ) {
+						// If cursor is right blinking by side of the filler node, save it for restoring,
+						// as the following text substitution will blind it. (#7437)
+						var sel = doc.$.defaultView.getSelection();
+						if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
+							resetSelection = 1;
+
+						fillingCharBefore = fillingChar.getText();
+						fillingChar.setText( fillingCharBefore.replace( /\u200B/g, '' ) );
+					}
 				}
 
 				function afterData() {
-					var fillingChar = getFillingChar( editor.document );
-					fillingChar && fillingChar.setText( fillingCharBefore );
+					var doc = editor.document,
+						fillingChar = getFillingChar( doc );
+
+					if ( fillingChar ) {
+						fillingChar.setText( fillingCharBefore );
+
+						if ( resetSelection ) {
+							doc.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
+							resetSelection = 0;
+						}
+					}
 				}
 				editor.on( 'beforeUndoImage', beforeData );
 				editor.on( 'afterUndoImage', afterData );
