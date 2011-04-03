@@ -570,7 +570,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											if ( type == IMAGE ) {
 												if ( value )
 													element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
-												else if ( !value && this.isChanged() )
+												else
 													element.removeStyle( 'width' );
 
 												!internalCommit && element.removeAttribute( 'width' );
@@ -610,11 +610,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											if ( type == IMAGE ) {
 												if ( value )
 													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
-												else if ( !value && this.isChanged() )
+												else
 													element.removeStyle( 'height' );
 
-												if ( !internalCommit && type == IMAGE )
-													element.removeAttribute( 'height' );
+												!internalCommit && element.removeAttribute( 'height' );
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
@@ -641,7 +640,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( resetButton ) {
 											resetButton.on( 'click', function( evt ) {
 												resetSize( this );
-												evt.data.preventDefault();
+												evt.data && evt.data.preventDefault();
 											}, this.getDialog() );
 											resetButton.on( 'mouseover', function() {
 												this.addClass( 'cke_btn_over' );
