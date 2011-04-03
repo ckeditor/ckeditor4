@@ -991,7 +991,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var def = style._.definition,
 			attribs = def.attributes,
 			styles = def.styles,
-			overrides = getOverrides( style )
+			overrides = getOverrides( style ),
 			innerElements = element.getElementsByTag( style.element );
 
 		for ( var i = innerElements.count(); --i >= 0; )
