@@ -314,8 +314,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			activateEditing( editor );
 
 			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
-			var pathBlock = path.block || path.blockLimit;
-			if ( pathBlock && !pathBlock.getBogus() ) {
+			var pathBlock = path.block || path.blockLimit,
+				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
+
+			// In case it's not ended with block element and doesn't have bogus yet. (#7467)
+			if ( pathBlock && !( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) && !pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
 				editor.fire( 'updateSnapshot' );
 				restoreDirty( editor );
 				pathBlock.appendBogus();
