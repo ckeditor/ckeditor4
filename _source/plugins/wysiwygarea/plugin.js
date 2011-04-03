@@ -1088,14 +1088,12 @@ CKEDITOR.config.disableObjectResizing = false;
 CKEDITOR.config.disableNativeTableHandles = true;
 
 /**
- * Disables the built-in spell checker while typing natively available in the
- * browser (currently Firefox and Safari only).<br /><br />
+ * Disables the built-in words spell checker if browser provides one.<br /><br />
  *
- * Even if word suggestions will not appear in the CKEditor context menu, this
- * feature is useful to help quickly identifying misspelled words.<br /><br />
+ * <strong>Note:</strong> Although word suggestions provided by browsers (natively) will not appear in CKEditor's default context menu,
+ * users can always reach the native context menu by holding the <em>Ctrl</em> key when right-clicking if {@link CKEDITOR.config.browserContextMenuOnCtrl}
+ * is enabled or you're simply not using the context menu plugin.
  *
- * This setting is currently compatible with Firefox only due to limitations in
- * other browsers.
  * @type Boolean
  * @default true
  * @example
