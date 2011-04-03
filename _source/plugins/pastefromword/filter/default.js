@@ -433,7 +433,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// List type and item style are already resolved.
 						if ( !bullet ) {
 							listType = listItemAttrs[ 'cke:listtype' ] || 'ol';
-							listStyleType = listItemAttrs[ 'cke:list-style-type' ] || 'decimal';
+							listStyleType = listItemAttrs[ 'cke:list-style-type' ];
 						} else {
 							// Probably share the same list style type with previous list item,
 							// give it priority to avoid ambiguous between C(Alpha) and C.(Roman).
