@@ -21,6 +21,7 @@ CKEDITOR.plugins.add( 'newpage', {
 							name: command.name,
 							command: command
 						});
+						editor.selectionChange();
 
 					}, 200 );
 				});
