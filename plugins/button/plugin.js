@@ -158,8 +158,10 @@ CKEDITOR.ui.button.handler = {
 
 
 			// Indicate a mode sensitive button.
-			if ( this.modes )
+			if ( this.modes ) {
 				this.attach( editor );
+				this.editor = editor;
+			}
 
 			function updateState() {
 				// "this" is a CKEDITOR.ui.button instance.
