@@ -11,8 +11,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'selectall', {
-		requires: [ 'wysiwygarea' ],
-
 		init: function( editor ) {
 			editor.addCommand( 'selectAll', { modes:{wysiwyg:1,source:1 },
 				exec: function( editor ) {
@@ -42,7 +40,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				label: editor.lang.selectAll,
 				command: 'selectAll'
 			});
-
 		}
 	});
 })();
