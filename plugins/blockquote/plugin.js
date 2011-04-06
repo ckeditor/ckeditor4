@@ -254,8 +254,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			editor.on( 'selectionChange', onSelectionChange );
-		},
-
-		requires: [ 'domiterator' ]
+		}
 	});
 })();
