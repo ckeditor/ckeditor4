@@ -29,8 +29,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.event.call( this );
 
 		// Declare the private namespace.
-		this._ = {
-			commands: {} };
+		this._ = {};
+
+		this.commands = {};
 
 		/**
 		 * A unique random string assigned to each editor instance in the page.
@@ -370,7 +371,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * });
 	 */
 	addCommand: function( commandName, commandDefinition ) {
-		return this._.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
+		return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
 	},
 
 	/**
@@ -443,7 +444,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * provided name.
 	 */
 	getCommand: function( commandName ) {
-		return this._.commands[ commandName ];
+		return this.commands[ commandName ];
 	},
 
 	/**
