@@ -164,13 +164,15 @@ CKEDITOR.htmlParser.fragment = function() {
 				currentNode = moveCurrent ? target : savedCurrent;
 		}
 
-		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+		parser.onTagOpen = function( tagName, attributes, selfClosing, optionalClose ) {
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// "isEmpty" will be always "false" for unknown elements, so we
 			// must force it if the parser has identified it as a selfClosing tag.
 			if ( element.isUnknown && selfClosing )
 				element.isEmpty = true;
+
+			element.isOptionalClose = optionalClose;
 
 			// This is a tag to be removed if empty, so do not add it immediately.
 			if ( CKEDITOR.dtd.$removeEmpty[ tagName ] ) {
@@ -195,8 +197,12 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				// If the element cannot be child of the current element.
 				if ( !element.isUnknown && !currentNode.isUnknown && !currentDtd[ tagName ] ) {
+					// Current node doesn't have a close tag, time for a close
+					// as this element isn't fit in. (#7497)
+					if ( currentNode.isOptionalClose )
+						parser.onTagClose( currentName );
 					// Fixing malformed nested lists by moving it into a previous list item. (#3828)
-					if ( tagName in listBlocks && currentName in listBlocks ) {
+					else if ( tagName in listBlocks && currentName in listBlocks ) {
 						var children = currentNode.children,
 							lastChild = children[ children.length - 1 ];
 
@@ -204,11 +210,12 @@ CKEDITOR.htmlParser.fragment = function() {
 						if ( !( lastChild && lastChild.name == 'li' ) )
 							addElement( ( lastChild = new CKEDITOR.htmlParser.element( 'li' ) ), currentNode );
 
+						!element.returnPoint && ( element.returnPoint = currentNode );
 						currentNode = lastChild;
 					}
 					// Establish new list root for orphan list items.
 					else if ( tagName in CKEDITOR.dtd.$listItem && currentName != tagName )
-						parser.onTagOpen( tagName == 'li' ? 'ul' : 'dl', {} );
+						parser.onTagOpen( tagName == 'li' ? 'ul' : 'dl', {}, 0, 1 );
 					// We're inside a structural block like table and list, AND the incoming element
 					// is not of the same type (e.g. <td>td1<td>td2</td>), we simply add this new one before it,
 					// and most importantly, return back to here once this element is added,
@@ -322,7 +329,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			checkPending();
 
 			if ( fixForBody && ( !currentNode.type || currentNode.name == 'body' ) && CKEDITOR.tools.trim( text ) ) {
-				this.onTagOpen( fixForBody, {} );
+				this.onTagOpen( fixForBody, {}, 0, 1 );
 			}
 
 			// Shrinking consequential spaces into one single for all elements
