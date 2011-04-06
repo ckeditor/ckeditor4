@@ -101,6 +101,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}, 0 );
 			});
 
+			editor.on( 'mode', updateCommandsMode, null, null, 1 );
+
 			editor.on( 'destroy', function() {
 				// ->		currentMode.unload( holderElement );
 				if ( this.mode )
@@ -196,6 +198,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( mode )
 			mode.focus();
 	};
+
+	function updateCommandsMode() {
+		var command,
+			commands = this.commands,
+			mode = this.mode;
+
+		for ( var name in commands ) {
+			command = commands[ name ];
+			command[ command.startDisabled ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
+		}
+	}
 })();
 
 /**
