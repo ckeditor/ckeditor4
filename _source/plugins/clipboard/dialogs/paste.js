@@ -143,11 +143,14 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				iframe = container.getElementsByTag( 'iframe' ).getItem( 0 ),
 				editor = this.getParentEditor(),
 				body = iframe.getFrameDocument().getBody(),
-				bogus = body.getBogus();
+				bogus = body.getBogus(),
+				html;
 			bogus && bogus.remove();
+			// Saving the contents in variable so changes until paste is complete will not take place (#7500)
+			html = body.getHtml();
 
 			setTimeout( function() {
-				editor.fire( 'paste', { 'html': body.getHtml() } );
+				editor.fire( 'paste', { 'html': html } );
 			}, 0 );
 
 		},
