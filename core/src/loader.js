@@ -21,7 +21,7 @@ if ( !CKEDITOR.loader ) {
 		// Table of script names and their dependencies.
 		var scripts = {
 			'_bootstrap': [ 'config', 'editable', 'ckeditor', 'plugins', 'scriptloader', 'style', 'tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist' ],
-			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'editor', 'event', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'tools' ],
+			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'tools' ],
 			'ckeditor_base': [],
 			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
 			'command': [],
@@ -33,6 +33,7 @@ if ( !CKEDITOR.loader ) {
 			'dom/element': [ 'dom', 'dom/document', 'dom/domobject', 'dom/node', 'dom/nodelist', 'tools' ],
 			'dom/elementpath': [ 'dom/element' ],
 			'dom/event': [],
+			'dom/iterator': [ 'dom/range' ],
 			'dom/node': [ 'dom/domobject', 'tools' ],
 			'dom/nodelist': [ 'dom/node' ],
 			'dom/domobject': [ 'dom/event' ],

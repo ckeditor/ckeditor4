@@ -7,8 +7,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @file DOM iterator, which iterates over list items, lines and paragraphs.
  */
 
-CKEDITOR.plugins.add( 'domiterator' );
-
 (function() {
 	/**
 	 * @name CKEDITOR.dom.iterator
