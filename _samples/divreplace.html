@@ -58,7 +58,7 @@ function onDoubleClick( ev )
 		element = element.parentNode;
 	}
 	while ( element && ( name = element.nodeName.toLowerCase() ) && ( name != 'div' || element.className.indexOf( 'editable' ) == -1 ) && name != 'body' )
-	
+
 
 	if ( name == 'div' && element.className.indexOf( 'editable' ) != -1 )
 		replaceDiv( element );

@@ -45,7 +45,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * &lt;script src="/ckeditor/adapters/jquery.js"&gt;&lt;/script&gt;
 	 * @example
 	 * // ... then later in the code ...
-	 * 
+	 *
 	 * $( 'textarea' ).ckeditor();
 	 * // ...
 	 * $( 'textarea' ).val( 'New content' );
