@@ -1283,6 +1283,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Don't miss selection change event for non-IEs.
 				this.document.fire( 'selectionchange' );
 				this.reset();
+				this.document.fire( 'selectionchange' );
 			}
 		},
 
