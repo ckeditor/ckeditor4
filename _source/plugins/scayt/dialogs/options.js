@@ -191,7 +191,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 
 	var scayt_control = CKEDITOR.plugins.scayt.getScayt( editor );
 
-	for ( var i = 0; i < tags.length; i++ ) {
+	for ( i = 0; i < tags.length; i++ ) {
 		if ( tags[ i ] == 1 )
 			contents[ contents.length ] = tags_contents[ i ];
 	}

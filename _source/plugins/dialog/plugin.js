@@ -559,7 +559,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				// Update dialog position when dimension get changed in RTL.
 				if ( this._.editor.lang.dir == 'rtl' && this._.position )
-					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ) );
+					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
 
 				this._.contentSize = { width: width, height: height };
 			};

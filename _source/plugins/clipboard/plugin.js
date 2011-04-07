@@ -278,7 +278,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.insertText( data[ 'text' ] );
 
 				setTimeout( function() {
-					editor.fire( 'afterPaste' )
+					editor.fire( 'afterPaste' );
 				}, 0 );
 
 			}, null, null, 1000 );

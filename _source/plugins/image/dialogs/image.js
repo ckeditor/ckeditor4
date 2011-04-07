@@ -559,7 +559,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										},
 										validate: function() {
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
-												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) != 0 );
+												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
 												alert( editor.lang.common.invalidWidth );
 											return isValid;
@@ -599,7 +599,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										},
 										validate: function() {
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
-												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) != 0 );
+												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
 												alert( editor.lang.common.invalidHeight );
 											return isValid;

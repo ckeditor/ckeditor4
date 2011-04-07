@@ -363,7 +363,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 
 				// Avoid protecting over protected, e.g. /\{.*?\}/
-				return /cke_temp(comment)?/.test( match ) ? match : '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
+				return ( /cke_temp(comment)?/ ).test( match ) ? match : '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
 			});
 		}
 		data = data.replace( tempRegex, function( $, isComment, id ) {
@@ -378,8 +378,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return data.replace( /(['"]).*?\1/g, function( match ) {
 			return match.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
 				store[ store.id ] = decodeURIComponent( data );
-				return '{cke_protected_' + store.id+++'}';
-			})
+				return '{cke_protected_' + ( store.id++ ) + '}';
+			});
 		});
 	}
 
