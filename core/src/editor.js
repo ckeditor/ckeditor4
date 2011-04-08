@@ -581,7 +581,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 	 */
 	insertHtml: function( data ) {
-		this.fire( 'insertHtml', data );
+		data = this.fire( 'insertHtml', data );
+		if ( data ) {
+			var editable = this.editable();
+			editable && editable.insertHtml( data );
+		}
 	},
 
 	/**
@@ -596,7 +600,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 	 */
 	insertText: function( text ) {
-		this.fire( 'insertText', text );
+		text = this.fire( 'insertText', text );
+		if ( text ) {
+			var editable = this.editable();
+			editable && editable.insertText( text );
+		}
 	},
 
 	/**
@@ -609,7 +617,11 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertElement( element )</strong>;
 	 */
 	insertElement: function( element ) {
-		this.fire( 'insertElement', element );
+		element = this.fire( 'insertElement', element );
+		if ( element ) {
+			var editable = this.editable();
+			editable && editable.insertElement( element );
+		}
 	},
 
 	/**
