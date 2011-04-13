@@ -1721,6 +1721,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	var covers = {},
 		currentCover;
 
+	function cancelEvent( ev ) {
+		ev.data.preventDefault( 1 );
+	}
+
 	function showCover( editor ) {
 		var win = CKEDITOR.document.getWindow();
 		var config = editor.config,
@@ -1772,6 +1776,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			coverElement = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
 			coverElement.setOpacity( backgroundCoverOpacity != undefined ? backgroundCoverOpacity : 0.5 );
+
+			coverElement.on( 'keydown', cancelEvent );
+			coverElement.on( 'keypress', cancelEvent );
+			coverElement.on( 'keyup', cancelEvent );
 
 			coverElement.appendTo( CKEDITOR.document.getBody() );
 			covers[ coverKey ] = coverElement;
