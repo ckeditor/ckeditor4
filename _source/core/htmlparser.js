@@ -16,12 +16,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 CKEDITOR.htmlParser = function() {
 	this._ = {
-		htmlPartsRegex: new RegExp( '<(?:(?:\\/([^>]+)>)|(?:!--([\\S|\\s]*?)-->)|(?:([^\\s>]+)\\s*((?:(?:[^"\'>]+)|(?:"[^"]*")|(?:\'[^\']*\'))*)\\/?>))', 'g' )
+		htmlPartsRegex: new RegExp( '<(?:(?:\\/([^>]+)>)|(?:!--([\\S|\\s]*?)-->)|(?:([^\\s>]+)\\s+((?:(?:[^"\'>]+)|(?:".*?")|(?:\'.*?\'))*)\\/?>))', 'g' )
 	};
 };
 
 (function() {
-	var attribsRegex = /([\w\-:.]+)(?:(?:\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^\s>]+)))|(?=\s|$))/g,
+	var attribsRegex = /([\w\-:.]+)(?:(?:\s*=\s*(?:(?:"(.*?)")|(?:'(.*?)')|([^\s>]+)))|(?=\s|$))/g,
 		emptyAttribs = { checked:1,compact:1,declare:1,defer:1,disabled:1,ismap:1,multiple:1,nohref:1,noresize:1,noshade:1,nowrap:1,readonly:1,selected:1 };
 
 	CKEDITOR.htmlParser.prototype = {
