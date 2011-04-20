@@ -9,6 +9,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.themes.add( 'default', ( function() {
+	var hiddenSkins = {};
+
 	function checkSharedSpace( editor, spaceName ) {
 		var container, element;
 
@@ -109,6 +111,12 @@ CKEDITOR.themes.add( 'default', ( function() {
 			sharedTop && ( sharedTop.setHtml( topHtml ), topHtml = '' );
 			sharedBottoms && ( sharedBottoms.setHtml( bottomHtml ), bottomHtml = '' );
 
+			var hideSkin = '<style>.' + editor.skinClass + '{visibility:hidden;}</style>';
+			if ( hiddenSkins[ editor.skinClass ] )
+				hideSkin = '';
+			else
+				hiddenSkins[ editor.skinClass ] = 1;
+
 			var container = CKEDITOR.dom.element.createFromHtml( [
 				'<span' +
 					' id="cke_', name, '"' +
@@ -130,7 +138,7 @@ CKEDITOR.themes.add( 'default', ( function() {
 								'<tr', bottomHtml ? '' : ' style="display:none"', ' role="presentation"><td id="cke_bottom_', name, '" class="cke_bottom" role="presentation">', bottomHtml, '</td></tr>' +
 							'</tbody></table>' +
 							//Hide the container when loading skins, later restored by skin css.
-										'<style>.', editor.skinClass, '{visibility:hidden;}</style>' +
+										hideSkin +
 						'</span>' +
 					'</span>' +
 				'</span>' ].join( '' ) );
