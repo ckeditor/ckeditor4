@@ -317,8 +317,8 @@ CKEDITOR.htmlParser.fragment = function() {
 		};
 
 		parser.onText = function( text ) {
-			// Trim empty spaces at beginning of element contents except <pre>.
-			if ( !currentNode._.hasInlineStarted && !inPre ) {
+			// Trim empty spaces at beginning of text contents except <pre>.
+			if ( ( !currentNode._.hasInlineStarted || pendingBRs.length ) && !inPre ) {
 				text = CKEDITOR.tools.ltrim( text );
 
 				if ( text.length === 0 )
