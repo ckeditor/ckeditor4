@@ -43,7 +43,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function attach( editor, element ) {
-		editor.document = element.getDocument();
+		var doc = editor.document = element.getDocument();
 
 		// TODO: A lot of things are supposed to happen her (good part of the
 		// v3 wywiwygarea plugin code).
@@ -51,10 +51,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var focusElement = element;
 		if ( focusElement.is( 'body' ) )
-			focusElement = element.getDocument().getWindow();
+			focusElement = doc.getWindow();
 
 		focusElement.on( 'focus', editorFocus, editor );
 		focusElement.on( 'blur', editorBlur, editor );
+
+		// IE standard compliant in editing frame doesn't focus the editor when
+		// clicking outside actual content, manually apply the focus. (#1659)
+		if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' || CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
+			var htmlElement = doc.getDocumentElement();
+			htmlElement.on( 'mousedown', function( evt ) {
+				// Setting focus directly on editor doesn't work, we
+				// have to use here a temporary element to 'redirect'
+				// the focus.
+				if ( evt.data.getTarget().equals( htmlElement ) ) {
+					if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
+						blinkCursor();
+					editor.focus();
+				}
+			});
+		}
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
