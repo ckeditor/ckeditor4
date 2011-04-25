@@ -74,10 +74,20 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Add this new editor to the CKEDITOR.instances collections.
 		CKEDITOR.add( editor );
 
-		// Once the editor is loaded, start the UI.
-		editor.on( 'loaded', function() {
+		function initElement() {
 			editor.element = element = CKEDITOR.dom.element.get( element );
 			editor.elementMode = CKEDITOR.ELEMENT_MODE_REPLACE;
+		}
+
+		// Initialize the "element" property only if CKEDITOR is fully loaded
+		// (so CKEDITOR.dom.element is available).
+		if ( CKEDITOR.status == 'loaded' )
+			initElement();
+		else
+			CKEDITOR.on( 'loaded', initElement );
+
+		// Once the editor is loaded, start the UI.
+		editor.on( 'loaded', function() {
 			loadTheme( editor );
 		});
 
