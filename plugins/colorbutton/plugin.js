@@ -9,7 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *
  */
 CKEDITOR.plugins.add( 'colorbutton', {
-	requires: [ 'panelbutton', 'floatpanel', 'styles' ],
+	requires: [ 'panelbutton', 'floatpanel' ],
 
 	init: function( editor ) {
 		var config = editor.config,
