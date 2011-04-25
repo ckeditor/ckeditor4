@@ -191,6 +191,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		editor.skinClass = skinName && ( 'cke_skin_' + skinName );
 
+		// Initialize the key handler, based on the configurations.
+		initKeystrokeHandler( editor );
+
 		/**
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 * @name CKEDITOR.editor.prototype.readOnly
@@ -351,6 +354,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
 		});
+	}
+
+	function initKeystrokeHandler( editor ) {
+		/**
+		 * Controls keystrokes typing in this editor instance.
+		 * @name CKEDITOR.editor.prototype.keystrokeHandler
+		 * @type CKEDITOR.keystrokeHandler
+		 * @example
+		 */
+		editor.keystrokeHandler = new CKEDITOR.keystrokeHandler( editor );
+
+		editor.specialKeys = {};
+
+		// Move the relative keystroke settings to the keystrokeHandler object.
+
+		var keystrokesConfig = editor.config.keystrokes,
+			blockedConfig = editor.config.blockedKeystrokes;
+
+		var keystrokes = editor.keystrokeHandler.keystrokes,
+			blockedKeystrokes = editor.keystrokeHandler.blockedKeystrokes;
+
+		for ( var i = 0; i < keystrokesConfig.length; i++ )
+			keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
+
+		for ( i = 0; i < blockedConfig.length; i++ )
+			blockedKeystrokes[ blockedConfig[ i ] ] = 1;
 	}
 })();
 

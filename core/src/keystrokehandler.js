@@ -3,35 +3,6 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-// Register a plugin named "sample".
-CKEDITOR.plugins.add( 'keystrokes', {
-	beforeInit: function( editor ) {
-		/**
-		 * Controls keystrokes typing in this editor instance.
-		 * @name CKEDITOR.editor.prototype.keystrokeHandler
-		 * @type CKEDITOR.keystrokeHandler
-		 * @example
-		 */
-		editor.keystrokeHandler = new CKEDITOR.keystrokeHandler( editor );
-
-		editor.specialKeys = {};
-	},
-
-	init: function( editor ) {
-		var keystrokesConfig = editor.config.keystrokes,
-			blockedConfig = editor.config.blockedKeystrokes;
-
-		var keystrokes = editor.keystrokeHandler.keystrokes,
-			blockedKeystrokes = editor.keystrokeHandler.blockedKeystrokes;
-
-		for ( var i = 0; i < keystrokesConfig.length; i++ )
-			keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
-
-		for ( i = 0; i < blockedConfig.length; i++ )
-			blockedKeystrokes[ blockedConfig[ i ] ] = 1;
-	}
-});
-
 /**
  * Controls keystrokes typing in an editor instance.
  * @constructor
