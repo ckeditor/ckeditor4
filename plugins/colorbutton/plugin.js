@@ -178,7 +178,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			// Render the "More Colors" button.
-			if ( config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
+			if ( editor.plugins.colordialog && config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan=8 align=center>' +
