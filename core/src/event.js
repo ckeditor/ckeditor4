@@ -83,6 +83,8 @@ if ( !CKEDITOR.event ) {
 			 * @param {Number} [priority] The listener priority. Lower priority
 			 *		listeners are called first. Listeners with the same priority
 			 *		value are called in registration order. Defaults to 10.
+			 * @returns {Object} An object containing the "removeListener"
+			 *		function, which can be used to remove the listener at any time.
 			 * @example
 			 * someObject.on( 'someEvent', function()
 			 *     {
@@ -124,6 +126,10 @@ if ( !CKEDITOR.event ) {
 
 					var me = this;
 
+					function removeListener() {
+						me.removeListener( eventName, listenerFunction );
+					}
+
 					// Create the function to be fired for this listener.
 					var listenerFirer = function( editor, publisherData, stopFn, cancelFn ) {
 							var ev = {
@@ -134,9 +140,7 @@ if ( !CKEDITOR.event ) {
 								listenerData: listenerData,
 								stop: stopFn,
 								cancel: cancelFn,
-								removeListener: function() {
-									me.removeListener( eventName, listenerFunction );
-								}
+								removeListener: removeListener
 							};
 
 							var ret = listenerFunction.call( scopeObj, ev );
@@ -153,7 +157,7 @@ if ( !CKEDITOR.event ) {
 						if ( listeners[ i ].priority <= priority ) {
 							// Insert the listener in the array.
 							listeners.splice( i + 1, 0, listenerFirer );
-							return;
+							return { removeListener: removeListener };
 						}
 					}
 
@@ -161,6 +165,8 @@ if ( !CKEDITOR.event ) {
 					// the front of list.
 					listeners.unshift( listenerFirer );
 				}
+
+				return { removeListener: removeListener };
 			},
 
 			/**
