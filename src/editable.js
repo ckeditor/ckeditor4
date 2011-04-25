@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		$: function( editor, element ) {
 			// Transform the element into a CKEDITOR.dom.element instance.
 			element = CKEDITOR.dom.element.get( element );
-			element._ = { editor: editor };
+			element._ = { editor: editor, listeners: [] };
 
 			element.addClass( 'ckeditor-editable' );
 
@@ -42,6 +42,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return editable;
 	}
 
+	// Registers an event that needs to be dettached (on dettach()).
+	function attachListener( editable, obj, event, fn, scope ) {
+		// Register the listerner.
+		editable._.listeners.push( obj.on( event, fn, scope ) );
+	}
+
 	function attach( editor, element ) {
 		var doc = editor.document = element.getDocument();
 
@@ -53,14 +59,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( focusElement.is( 'body' ) )
 			focusElement = doc.getWindow();
 
-		focusElement.on( 'focus', editorFocus, editor );
-		focusElement.on( 'blur', editorBlur, editor );
+		attachListener( element, focusElement, 'focus', editorFocus, editor );
+		attachListener( element, focusElement, 'blur', editorBlur, editor );
 
 		// IE standard compliant in editing frame doesn't focus the editor when
 		// clicking outside actual content, manually apply the focus. (#1659)
 		if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' || CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
 			var htmlElement = doc.getDocumentElement();
-			htmlElement.on( 'mousedown', function( evt ) {
+			attachListener( element, htmlElement, 'mousedown', function( evt ) {
 				// Setting focus directly on editor doesn't work, we
 				// have to use here a temporary element to 'redirect'
 				// the focus.
@@ -87,7 +93,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				element.getDocument().$.execCommand( 'enableObjectResizing', false, false );
 			} catch ( e ) {
 				// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
-				element.on( CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
+				attachListener( element, element, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
 					evt.data.preventDefault();
 				});
 			}
@@ -100,7 +106,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, element, editor );
 
 		// Fire doubleclick event for double-clicks.
-		element.on( 'dblclick', function( evt ) {
+		attachListener( element, element, 'dblclick', function( evt ) {
 			var data = { element: evt.data.getTarget() };
 			editor.fire( 'doubleclick', data );
 
@@ -110,11 +116,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// TODO: check if this is effective.
 		// Prevent automatic submission in IE #6336
-		CKEDITOR.env.ie && element.on( 'click', blockInputClick );
+		CKEDITOR.env.ie && attachListener( element, element, 'click', blockInputClick );
 
 		// Gecko/Webkit need some help when selecting control type elements. (#3448)
 		if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
-			element.on( 'mousedown', function( ev ) {
+			attachListener( element, element, 'mousedown', function( ev ) {
 				var control = ev.data.getTarget();
 				if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
 					editor.getSelection().selectElement( control );
@@ -123,7 +129,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		if ( CKEDITOR.env.gecko ) {
 			// TODO: check if this is effective.
-			element.on( 'mouseup', function( ev ) {
+			attachListener( element, element, 'mouseup', function( ev ) {
 				if ( ev.data.$.button == 2 ) {
 					var target = ev.data.getTarget();
 
@@ -140,7 +146,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// TODO: check if this is effective.
 		// Prevent the browser opening links in read-only blocks. (#6032)
-		element.on( 'click', function( ev ) {
+		attachListener( element, element, 'click', function( ev ) {
 			ev = ev.data;
 			if ( ev.getTarget().is( 'a' ) && ev.$.button != 2 )
 				ev.preventDefault();
@@ -149,18 +155,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Webkit: avoid from editing form control elements content.
 		if ( CKEDITOR.env.webkit ) {
 			// Mark that cursor will right blinking (#7113).
-			element.on( 'mousedown', function() {
+			attachListener( element, element, 'mousedown', function() {
 				editor._.wasFocused = 1;
 			});
 
 			// Prevent from tick checkbox/radiobox/select
-			element.on( 'click', function( ev ) {
+			attachListener( element, element, 'click', function( ev ) {
 				if ( ev.data.getTarget().is( 'input', 'select' ) )
-					ev.data.preventDefault();
+					ev.data.preventDefasult();
 			});
 
 			// Prevent from editig textfield/textarea value.
-			element.on( 'mouseup', function( ev ) {
+			attachListener( element, element, 'mouseup', function( ev ) {
 				if ( ev.data.getTarget().is( 'input', 'textarea' ) )
 					ev.data.preventDefault();
 			});
@@ -171,7 +177,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Override keystrokes which should have deletion behavior
 			// on control types in IE . (#4047)
-			element.on( 'keydown', function( evt ) {
+			attachListener( element, element, 'keydown', function( evt ) {
 				var keyCode = evt.data.getKeystroke();
 
 				// Backspace OR Delete.
@@ -200,7 +206,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// PageUp/PageDown scrolling is broken in document
 			// with standard doctype, manually fix it. (#4736)
 			if ( editor.document.$.compatMode == 'CSS1Compat' ) {
-				element.on( 'keydown', function( evt ) {
+				attachListener( element, element, 'keydown', function( evt ) {
 					if ( evt.data.getKeystroke() in { 33:1,34:1 } ) {
 						setTimeout( function() {
 							editor.getSelection().scrollIntoView();
@@ -211,10 +217,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		editor.on( 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
+		attachListener( element, editor, 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
 
 		// Disable form elements editing mode provided by some browers. (#5746)
-		editor.on( 'insertElement', function( evt ) {
+		attachListener( element, editor, 'insertElement', function( evt ) {
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// We should flag that the element was locked by our code so
@@ -227,9 +233,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function detach( editable ) {
-		editable.removeClass( 'ckeditor-editable' );
-		editable.removeListener( 'focus', editorFocus );
+		// Remove all event listeners.
+		var listeners = editable._.listeners;
 
+		while ( listeners.length )
+			listeners.pop().removeListener();
+
+		// Cleanup the element.
+		editable.removeClass( 'ckeditor-editable' );
+
+		// Free up the editor reference.
 		delete editable._.editor;
 	}
 
