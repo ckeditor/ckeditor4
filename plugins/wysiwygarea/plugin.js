@@ -606,6 +606,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					keystrokeHandler.blockedKeystrokes[ 8 ] = !editable;
 					keystrokeHandler.attach( domDocument );
 
+					if ( CKEDITOR.env.ie ) {
+						domDocument.getDocumentElement().addClass( domDocument.$.compatMode );
+
+						// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
+						editor.config.enterMode != CKEDITOR.ENTER_P && domDocument.on( 'selectionchange', function() {
+							var body = domDocument.getBody(),
+								range = editor.getSelection().getRanges()[ 0 ];
+
+							if ( body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+								// Avoid the ambiguity from a real user cursor position.
+								setTimeout( function() {
+									range = editor.getSelection().getRanges()[ 0 ];
+									if ( !range.startContainer.equals( 'body' ) ) {
+										body.getFirst().remove( 1 );
+										range.moveToElementEditEnd( body );
+										range.select( 1 );
+									}
+								}, 0 );
+							}
+						});
+					}
+
+					editor.editable( domDocument.getBody() );
+
 					var wasFocused;
 
 					focusTarget.on( 'focus', function() {
@@ -938,16 +962,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						iframe.blur(), iframe.focus();
 						editor.document.getBody().focus();
 
-						// TODO: Re-enable this.
-						// editor.selectionChange();
+						editor.selectionChange();
 					} else if ( !CKEDITOR.env.opera && win ) {
 						// AIR needs a while to focus when moving from a link.
 						CKEDITOR.env.air ? setTimeout( function() {
 							win.focus();
 						}, 0 ) : win.focus();
-
-						// TODO: Re-enable this.
-						// editor.selectionChange();
+						editor.selectionChange();
 					}
 				}
 			});
