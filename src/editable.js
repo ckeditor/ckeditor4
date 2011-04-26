@@ -49,22 +49,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function attach( editor, element ) {
-		var doc = editor.document = element.getDocument();
+		var doc = editor.document = element.getDocument(),
+			isWindow = element.is( 'body' );
 
-		// TODO: A lot of things are supposed to happen her (good part of the
-		// v3 wywiwygarea plugin code).
-		// For now, we have just a small part of it, to check if things work.
-
-		var focusElement = element;
-		if ( focusElement.is( 'body' ) )
-			focusElement = doc.getWindow();
-
+		// Setup focus/blur.
+		var focusElement = isWindow ? doc.getWindow() : element;
 		attachListener( element, focusElement, 'focus', editorFocus, editor );
 		attachListener( element, focusElement, 'blur', editorBlur, editor );
 
+		editor.keystrokeHandler.attach( element );
+
 		// IE standard compliant in editing frame doesn't focus the editor when
 		// clicking outside actual content, manually apply the focus. (#1659)
-		if ( CKEDITOR.env.ie && domDocument.$.compatMode == 'CSS1Compat' || CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
+		if ( isWindow && (
+		( CKEDITOR.env.ie && doc.$.compatMode == 'CSS1Compat' ) || CKEDITOR.env.gecko || CKEDITOR.env.opera ) ) {
 			var htmlElement = doc.getDocumentElement();
 			attachListener( element, htmlElement, 'mousedown', function( evt ) {
 				// Setting focus directly on editor doesn't work, we
@@ -103,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Gecko needs a key event to 'wake up' editing when the document is
 		// empty. (#3864, #5781)
-		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, element, editor );
+		CKEDITOR.env.gecko && isWindow && CKEDITOR.tools.setTimeout( activateEditing, 0, element, editor );
 
 		// Fire doubleclick event for double-clicks.
 		attachListener( element, element, 'dblclick', function( evt ) {
@@ -173,7 +171,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		if ( CKEDITOR.env.ie ) {
-			editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
+			// v3: check if this is needed.
+			// editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
 
 			// Override keystrokes which should have deletion behavior
 			// on control types in IE . (#4047)
