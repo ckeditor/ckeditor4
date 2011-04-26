@@ -601,11 +601,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.focusManager.blur();
 					});
 
-					var keystrokeHandler = editor.keystrokeHandler;
-					// Prevent backspace from navigating off the page.
-					keystrokeHandler.blockedKeystrokes[ 8 ] = !editable;
-					keystrokeHandler.attach( domDocument );
-
 					if ( CKEDITOR.env.ie ) {
 						domDocument.getDocumentElement().addClass( domDocument.$.compatMode );
 
