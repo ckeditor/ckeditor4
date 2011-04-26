@@ -1393,10 +1393,9 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
 
 		var partsStylesSet = configStyleSet.split( ':' ),
 			styleSetName = partsStylesSet[ 0 ],
-			externalPath = partsStylesSet[ 1 ],
-			pluginPath = CKEDITOR.plugins.registered.styles.path;
+			externalPath = partsStylesSet[ 1 ];
 
-		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : pluginPath + 'styles/' + styleSetName + '.js', '' );
+		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : CKEDITOR.getUrl( 'styles.js' ), '' );
 
 		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
 			editor._.stylesDefinitions = stylesSet[ styleSetName ];
