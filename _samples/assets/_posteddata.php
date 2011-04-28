@@ -39,7 +39,7 @@ foreach ( $postArray as $sForm => $value )
 
 ?>
 		<tr>
-			<th style="vertical-align: top"><?php echo $sForm?></th>
+			<th style="vertical-align: top"><?php echo htmlspecialchars($sForm); ?></th>
 			<td><pre class="samples"><?php echo $postedValue?></pre></td>
 		</tr>
 	<?php
