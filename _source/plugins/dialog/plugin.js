@@ -761,6 +761,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			};
 		})(),
 
+
+		/**
+		 * Calls the {@link CKEDITOR.dialog.definition.uiElement#setup} method of each of the UI elements, with the arguments passed through it.
+		 * It is usually being called when the dialog is opened, to put the initial value inside the field.
+		 * @example
+		 * dialogObj.setupContent();
+		 * @example
+		 * var timestamp = ( new Date() ).valueOf();
+		 * dialogObj.setupContent( timestamp );
+		 */
 		setupContent: function() {
 			var args = arguments;
 			this.foreach( function( widget ) {
@@ -769,6 +779,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			});
 		},
 
+		/**
+		 * Calls the {@link CKEDITOR.dialog.definition.uiElement#commit} method of each of the UI elements, with the arguments passed through it.
+		 * It is usually being called when the user confirms the dialog, to process the values.
+		 * @example
+		 * dialogObj.commitContent();
+		 * @example
+		 * var timestamp = ( new Date() ).valueOf();
+		 * dialogObj.commitContent( timestamp );
+		 */
 		commitContent: function() {
 			var args = arguments;
 			this.foreach( function( widget ) {
