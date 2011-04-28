@@ -153,6 +153,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Whether to use HTML entities in the output.
+ * @name CKEDITOR.config.entities
  * @type Boolean
  * @default true
  * @example
@@ -164,6 +165,7 @@ CKEDITOR.config.entities = true;
  * Whether to convert some Latin characters (Latin alphabet No&#46; 1, ISO 8859-1)
  * to HTML entities. The list of entities can be found at the
  * <a href="http://www.w3.org/TR/html4/sgml/entities.html#h-24.2.1">W3C HTML 4.01 Specification, section 24.2.1</a>.
+ * @name CKEDITOR.config.entities_latin
  * @type Boolean
  * @default true
  * @example
@@ -176,6 +178,7 @@ CKEDITOR.config.entities_latin = true;
  * HTML entities. This may be more relevant for users typing text written in Greek.
  * The list of entities can be found at the
  * <a href="http://www.w3.org/TR/html4/sgml/entities.html#h-24.3.1">W3C HTML 4.01 Specification, section 24.3.1</a>.
+ * @name CKEDITOR.config.entities_greek
  * @type Boolean
  * @default true
  * @example
@@ -189,7 +192,7 @@ CKEDITOR.config.entities_greek = true;
  * When specified as the value 'force', it will simply convert all entities into the above form.
  * For example, the phrase "This is Chinese: &#27721;&#35821;." is outputted
  * as "This is Chinese: &amp;#27721;&amp;#35821;."
- * @type Boolean
+ * @name CKEDITOR.config.entities_processNumerical
  * @type Boolean|String
  * @default false
  * @example
@@ -201,6 +204,7 @@ CKEDITOR.config.entities_greek = true;
  * An additional list of entities to be used. It's a string containing each
  * entry separated by a comma. Entities names or number must be used, exclusing
  * the "&amp;" preffix and the ";" termination.
+ * @name CKEDITOR.config.entities_additional
  * @default '#39'  // The single quote (') character.
  * @type String
  * @example
