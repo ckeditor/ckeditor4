@@ -333,7 +333,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					getClipboardData.call( editor, evt, eventData.mode, function( data ) {
 						// The very last guard to make sure the
 						// paste has successfully happened.
-						if ( !CKEDITOR.tools.trim( data.toLowerCase().replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/g, '' ) ) )
+						if ( !( data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) ) ) )
 							return;
 
 						var dataTransfer = {};
