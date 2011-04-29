@@ -183,7 +183,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						html;
 					bogus && bogus.remove();
 
-					// Saving the contents so changes until paste is complete will not take place (#7500) 
+					// Saving the contents so changes until paste is complete will not take place (#7500)
 					html = body.getHtml();
 
 					setTimeout( function() {
