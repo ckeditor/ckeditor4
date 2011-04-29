@@ -1245,6 +1245,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 		} else
 			styleText = unparsedCssText;
 
+		// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
+		// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
+		styleText = styleText.replace( /(font-family:)(.*?)(?=;|$)/, function( match, prop, val ) {
+			var names = val.split( ',' );
+			for ( var i = 0; i < names.length; i++ )
+				names[ i ] = CKEDITOR.tools.trim( names[ i ].replace( /["']/g, '' ) );
+			return prop + names.join( ',' );
+		});
+
 		// Shrinking white-spaces around colon and semi-colon (#4147).
 		// Compensate tail semi-colon.
 		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' )
