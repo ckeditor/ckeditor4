@@ -225,8 +225,8 @@ CKEDITOR.ui.button._ = {
 
 /**
  * Adds a button definition to the UI elements list.
- * @param {String} The button name.
- * @param {Object} The button definition.
+ * @param {String} name The button name.
+ * @param {Object} definition The button definition.
  * @example
  * editorInstance.ui.addButton( 'MyBold',
  *     {

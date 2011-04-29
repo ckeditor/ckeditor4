@@ -64,6 +64,20 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 	};
 });
 
+/**
+ * Loads a specific language file, or auto detect it. A callback is
+ * then called when the file gets loaded.
+ * @param {String} pluginName The name of the plugin to which the provided translation
+ * 		should be attached.
+ * @param {String} languageCode The code of the language translation provided.
+ * @param {Object} languageEntries An object that contains pairs of label and
+ *		the respective translation.
+ * @example
+ * CKEDITOR.plugins.setLang( 'myPlugin', 'en', {
+ * 	title : 'My plugin',
+ * 	selectOption : 'Please select an option'
+ * } );
+ */
 CKEDITOR.plugins.setLang = function( pluginName, languageCode, languageEntries ) {
 	var plugin = this.get( pluginName ),
 		pluginLangEntries = plugin.langEntries || ( plugin.langEntries = {} ),
