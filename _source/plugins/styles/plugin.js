@@ -696,7 +696,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	function applyObjectStyle( range ) {
 		var root = range.getCommonAncestor( true, true ),
 			element = root.getAscendant( this.element, true );
-		element && setupElement( element, this );
+		element && !element.isReadOnly() && setupElement( element, this );
 	}
 
 	function removeObjectStyle( range ) {
@@ -747,8 +747,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
 		{
-			var newBlock = getElement( this, doc, block );
-			replaceBlock( block, newBlock );
+			if ( !block.isReadOnly() ) {
+				var newBlock = getElement( this, doc, block );
+				replaceBlock( block, newBlock );
+			}
 		}
 
 		range.moveToBookmark( bookmark );
