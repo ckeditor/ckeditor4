@@ -16,6 +16,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 // #### Raw code
 // ATTENTION: read the above "Compressed Code" notes when changing this code.
+/* @Packager.RemoveLine
+// Avoid having the editor code initialized twice. (#7588)
+// Use CKEDITOR.dom to check whether the full ckeditor.js code has been loaded
+// or just ckeditor_basic.js.
+// Remove these lines when compressing manually.
+if ( window.CKEDITOR && window.CKEDITOR.dom )
+	return;
+@Packager.RemoveLine */
 
 if ( !window.CKEDITOR ) {
 	/**
