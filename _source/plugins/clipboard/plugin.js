@@ -321,7 +321,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// user paste behaviors. (e.g. Ctrl-V)
 			editor.on( 'contentDom', function() {
 				var body = editor.document.getBody();
-				body.on( 'beforepaste', function( evt ) {
+				body.on( CKEDITOR.env.webkit ? 'paste' : 'beforepaste', function( evt ) {
 					if ( depressBeforeEvent )
 						return;
 
