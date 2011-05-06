@@ -564,13 +564,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !items_suggestion || !items_suggestion.length )
 						return null;
 					// Remove unused commands and menuitems
-					for ( i in moreSuggestions ) {
-						delete editor._.menuItems[ i ];
-						delete editor._.commands[ i ];
+					for ( var m in moreSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor._.commands[ m ];
 					}
-					for ( i in mainSuggestions ) {
-						delete editor._.menuItems[ i ];
-						delete editor._.commands[ i ];
+					for ( m in mainSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor._.commands[ m ];
 					}
 					moreSuggestions = {}; // Reset items.
 					mainSuggestions = {};
