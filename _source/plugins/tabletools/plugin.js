@@ -185,7 +185,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// 1. Into next sibling row if any;
 			// 2. Into previous sibling row if any;
 			// 3. Into table's parent element if it's the very last row.
-			var cursorPosition = new CKEDITOR.dom.element( rows[ endRowIndex + 1 ] || ( startRowIndex > 0 ? rows[ startRowIndex - 1 ] : null ) || table.$.parentNode );
+			var cursorPosition = new CKEDITOR.dom.element( rows[ startRowIndex ] || rows[ startRowIndex - 1 ] || table.$.parentNode );
 
 			for ( i = rowsToDelete.length; i >= 0; i-- )
 				deleteRows( rowsToDelete[ i ] );
