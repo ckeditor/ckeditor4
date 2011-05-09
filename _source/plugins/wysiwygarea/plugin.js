@@ -374,7 +374,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var paddingBlock;
 			if ( enterMode != CKEDITOR.ENTER_BR )
-				paddingBlock = body.append( new CKEDITOR.dom.element( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
+				paddingBlock = body.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
 			else
 				paddingBlock = body;
 
