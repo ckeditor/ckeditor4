@@ -54,6 +54,9 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 						'<a href="http://ckeditor.com/">http://ckeditor.com</a>' +
 					'</p>' +
 					'<p>' +
+						lang.help.replace( '$1', '<a href="http://docs.cksource.com/CKEditor_3.x/Users_Guide/Quick_Reference">' + lang.userGuide + '</a>' ) +
+					'</p>' +
+					'<p>' +
 						lang.moreInfo + '<br>' +
 						'<a href="http://ckeditor.com/license">http://ckeditor.com/license</a>' +
 					'</p>' +

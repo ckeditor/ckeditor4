@@ -29,6 +29,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					});
 				},
 				modes: { wysiwyg:1,source:1 },
+				readOnly: 1,
 				canUndo: false
 			});
 

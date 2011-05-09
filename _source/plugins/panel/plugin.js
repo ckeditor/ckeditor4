@@ -14,7 +14,7 @@ CKEDITOR.plugins.add( 'panel', {
  * @constant
  * @example
  */
-CKEDITOR.UI_PANEL = 2;
+CKEDITOR.UI_PANEL = 'panel';
 
 CKEDITOR.ui.panel = function( document, definition ) {
 	// Copy all definition properties to this object.

@@ -241,7 +241,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// keyboard paste or execCommand ) (#4874).
 		CKEDITOR.env.ie && ( depressBeforeEvent = 1 );
 
-		var retval = editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+		var retval = CKEDITOR.TRISTATE_OFF;
+		try {
+			retval = editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+		} catch ( er ) {}
+
 		depressBeforeEvent = 0;
 		return retval;
 	}

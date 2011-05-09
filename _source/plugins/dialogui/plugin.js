@@ -547,7 +547,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 
 					cleanInnerDefinition( myDefinition );
 					for ( var i = 0, item; i < elementDefinition.items.length && ( item = elementDefinition.items[ i ] ); i++ ) {
-						innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
+						innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ).replace( /"/g, '&quot;' ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
 					}
 
 					if ( typeof myDefinition.controlStyle != 'undefined' )

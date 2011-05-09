@@ -7,23 +7,11 @@
 	margin-right: 2px;
 	margin-top: 2px;
 	vertical-align: top;
-	float: left;
 }
 
 .cke_skin_office2003 .cke_browser_ie .cke_rcombo
 {
-	#float: none;
 	#display: inline;
-}
-
-.cke_skin_office2003 .cke_rtl .cke_rcombo
-{
-	float: right;
-}
-
-.cke_skin_office2003 .cke_browser_ie .cke_rcombo
-{
-	#float: none;
 }
 
 .cke_skin_office2003 .cke_rcombopanel
@@ -154,6 +142,11 @@
 	background-repeat: no-repeat;
 	width: 14px;
 	height: 22px;
+}
+
+.cke_skin_office2003 .cke_browser_iequirks .cke_rcombo .cke_openbutton .cke_icon
+{
+	height: 20px;
 }
 
 /* IE with zoom != 100% will distort the icons otherwise #4821 */

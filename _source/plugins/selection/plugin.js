@@ -77,6 +77,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	var selectAllCmd = { modes:{wysiwyg:1,source:1 },
+		readOnly: CKEDITOR.env.ie || CKEDITOR.env.webkit,
 		exec: function( editor ) {
 			switch ( editor.mode ) {
 				case 'wysiwyg':

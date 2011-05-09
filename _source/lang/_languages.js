@@ -38,6 +38,7 @@ var CKEDITOR_LANGS = (function() {
 		is: 'Icelandic',
 		it: 'Italian',
 		ja: 'Japanese',
+		ka: 'Georgian',
 		km: 'Khmer',
 		ko: 'Korean',
 		lt: 'Lithuanian',

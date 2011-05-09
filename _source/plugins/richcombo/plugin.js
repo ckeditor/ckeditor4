@@ -16,7 +16,7 @@ CKEDITOR.plugins.add( 'richcombo', {
  * @constant
  * @example
  */
-CKEDITOR.UI_RICHCOMBO = 3;
+CKEDITOR.UI_RICHCOMBO = 'richcombo';
 
 CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 	$: function( definition ) {
@@ -109,10 +109,15 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				clickFn: clickFn
 			};
 
-			editor.on( 'mode', function() {
-				this.setState( this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			function updateState() {
+				var state = this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+				this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
 				this.setValue( '' );
-			}, this );
+			}
+
+			editor.on( 'mode', updateState, this );
+			// If this combo is sensitive to readOnly state, update it accordingly.
+			!this.readOnly && editor.on( 'readOnly', updateState, this );
 
 			var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 				ev = new CKEDITOR.dom.event( ev );
@@ -137,12 +142,12 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			// For clean up
 			instance.keyDownFn = keyDownFn;
 
-			output.push( '<span class="cke_rcombo">', '<span id=', id );
+			output.push( '<span class="cke_rcombo" role="presentation">', '<span id=', id );
 
 			if ( this.className )
 				output.push( ' class="', this.className, ' cke_off"' );
 
-			output.push( '>', '<span id="' + id + '_label" class=cke_label>', this.label, '</span>', '<a hidefocus=true title="', this.title, '" tabindex="-1"', env.gecko && env.version >= 10900 && !env.hc ? '' : ' href="javascript:void(\'' + this.label + '\')"', ' role="button" aria-labelledby="', id, '_label" aria-describedby="', id, '_text" aria-haspopup="true"' );
+			output.push( ' role="presentation">', '<span id="' + id + '_label" class=cke_label>', this.label, '</span>', '<a hidefocus=true title="', this.title, '" tabindex="-1"', env.gecko && env.version >= 10900 && !env.hc ? '' : ' href="javascript:void(\'' + this.label + '\')"', ' role="button" aria-labelledby="', id, '_label" aria-describedby="', id, '_text" aria-haspopup="true"' );
 
 			// Some browsers don't cancel key events in the keydown but in the
 			// keypress.

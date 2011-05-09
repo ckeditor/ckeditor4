@@ -7,6 +7,7 @@ CKEDITOR.skins.add( 'office2003', ( function() {
 	return {
 		editor: { css: [ 'editor.css' ] },
 		dialog: { css: [ 'dialog.css' ] },
+		separator: { canGroup: false },
 		templates: { css: [ 'templates.css' ] },
 		margins: [ 0, 14, 18, 14 ]
 	};

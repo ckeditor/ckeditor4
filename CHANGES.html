@@ -35,12 +35,42 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEditor Changelog
 	</h1>
 	<h3>
-			CKEditor 3.5.4 (SVN)</h3>
+			CKEditor 3.6 (SVN)</h3>
 	<p>
 			New features:</p>
 	<ul>
-		<li></li>
+		<li><a href="http://dev.ckeditor.com/ticket/7044">#7044</a> : New BBCode sample plugin that makes the editor output (one dialect of) BBCode format.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5647">#5647</a> : Accessibility enhancements to the structure of the toolbar.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5647">#5647</a> : The Kama skin now presents separators for the toolbar items, making it easier to group buttons and have a cleaner layout.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5647">#5647</a> : Usability enhancements to keyboard navigation on the toolbar. The <em>Tab</em> key is now used to jump between toolbar groups, while the <em>Arrow</em> keys can be used to cycle within the group. The new <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.toolbarGroupCycling">toolbarGroupCycling</a></code> setting can be used to change the <em>Arrow</em> keys behavior.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/1376">#1376</a> : It is now possible to put the editor in the "read-only" state, so that the users would not be able to introduce changes to the contents. Check out the new <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly">CKEDITOR.editor::setReadOnly</a></code> method, the <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#readOnly">CKEDITOR.editor::readOnly</a></code> property, the <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#event:readOnly">CKEDITOR.editor::readOnly</a></code> event, and the <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.readOnly">readOnly</a></code> setting.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/3582">#3582</a> : New presentation of anchor elements in the WYSIWYG mode.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6737">#6737</a> : The Format drop-down list will now display the preview of its contents exactly as defined in their style configurations.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6654">#6654</a> : A new <code><a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.autoParagraph">autoParagraph</a></code> configuration setting is added to disable the auto paragraphing feature.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/901">#901</a> : New Stylesheet Parser (<code>stylesheetparser</code>) plugin that fills the Styles drop-down list based on the CSS classes available for the content. Check the new sample to learn how to use it.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/2988">#2988</a> : New Document Properties (<code>docprops</code>) plugin that sets the metadata of the page in the Full Page mode.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/7240">#7240</a> : New Developer Tools (<code>devtools</code>) plugin that shows information about dialog window UI elements to allow for easier customization.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6841">#6841</a> : Pressing the <em>Enter</em> key at the end of a pre-formatted block will now exit from it.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6850">#6850</a> : The About CKEditor dialog window now contains a link to CKEditor User's Guide.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/5745">#5745</a> : Extra configuration options for the <code>iframeDialog</code> can now be passed.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6589">#6589</a> : The <code>onDialogEvent</code> function will now be used automatically in the <code>iframeDialog</code> contents if no callback is used on creation.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/7757">#7757</a> : Georgian localization added.</li>
 	</ul>
+	<p>
+			Fixed issues:</p>
+	<ul>
+		<li><a href="http://dev.ckeditor.com/ticket/6774">#6774</a> : Internal styles are not included in the <code>contents.css</code> sample.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6521">#6521</a> : Added sample for the TableResize plugin.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6664">#6664</a> : Page break is sometimes merged into block-level elements.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/7594">#7594</a> : Toolbar keyboard navigation is not possible after recreating the editor.</li>
+		<li><a href="http://dev.ckeditor.com/ticket/6657">#6657</a> : Allow to style the entire dialog window field when the input element is disabled.</li>
+		<li>Updated the following language files:<ul>
+			<li>Hebrew;</li>
+			<li>Polish;</li>
+		</ul></li>
+	</ul>
+	<h3>
+			CKEditor 3.5.4</h3>
 	<p>
 			Fixed issues:</p>
 	<ul>

@@ -7,23 +7,11 @@
 	margin-right: 2px;
 	margin-top: 2px;
 	vertical-align: top;
-	float: left;
 }
 
 .cke_skin_v2 .cke_browser_ie .cke_rcombo
 {
-	#float: none;
 	#display: inline;
-}
-
-.cke_skin_v2 .cke_rtl .cke_rcombo
-{
-	float: right;
-}
-
-.cke_skin_v2 .cke_browser_ie .cke_rcombo
-{
-	#float: none;
 }
 
 .cke_skin_v2 .cke_rcombopanel
@@ -58,12 +46,10 @@
 
 .cke_skin_v2 .cke_rcombo .cke_label
 {
-	display: inline-block;
 	float: left;
-
-	line-height: 24px;
+	line-height: 20px;
+	line-height: 22px\9;
 	height: 22px;
-	vertical-align: top;
 	padding-left: 4px;
 	padding-right: 5px;
 	filter: alpha(opacity=70); /* IE */

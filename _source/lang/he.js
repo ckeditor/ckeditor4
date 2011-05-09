@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'he' ] = {
 	editorTitle: 'עורך טקסט עשיר, %1, לחץ אלט (ALT) + 0 לעזרה.',
 
 	// ARIA descriptions.
-	toolbar: 'סרגל הכלים',
+	toolbars: 'סרגלי כלים של העורך',
 	editor: 'עורך טקסט עשיר',
 
 	// Toolbar buttons without dialogs.
@@ -676,6 +676,8 @@ CKEDITOR.lang[ 'he' ] = {
 	about: {
 		title: 'אודות CKEditor',
 		dlgTitle: 'אודות CKEditor',
+		help: 'היכנסו ל$1 לעזרה.',
+		userGuide: 'מדריך המשתמש של CKEditor',
 		moreInfo: 'למידע נוסף בקרו באתרנו:',
 		copy: 'Copyright &copy; $1. כל הזכויות שמורות.'
 	},
@@ -704,8 +706,61 @@ CKEDITOR.lang[ 'he' ] = {
 	toolbarCollapse: 'מזעור סרגל כלים',
 	toolbarExpand: 'הרחבת סרגל כלים',
 
+	toolbarGroups: {
+		document: 'מסמך',
+		clipboard: 'לוח הגזירים (Clipboard)/צעד אחרון',
+		editing: 'עריכה',
+		forms: 'טפסים',
+		basicstyles: 'עיצוב בסיסי',
+		paragraph: 'פסקה',
+		links: 'קישורים',
+		insert: 'הכנסה',
+		styles: 'עיצוב',
+		colors: 'צבעים',
+		tools: 'כלים'
+	},
+
 	bidi: {
 		ltr: 'כיוון טקסט משמאל לימין (LTR)',
 		rtl: 'כיוון טקסט מימין לשמאל (RTL)'
+	},
+
+	docprops: {
+		label: 'מאפייני מסמך',
+		title: 'מאפייני מסמך',
+		design: 'עיצוב',
+		meta: 'תגי Meta',
+		chooseColor: 'בחירה',
+		other: 'אחר...',
+		docTitle: 'כותרת עמוד',
+		charset: 'קידוד תווים',
+		charsetOther: 'קידוד תווים אחר',
+		charsetASCII: 'ASCII',
+		charsetCE: 'מרכז אירופאי',
+		charsetCT: 'סיני מסורתי (Big5)',
+		charsetCR: 'קירילי',
+		charsetGR: 'יווני',
+		charsetJP: 'יפני',
+		charsetKR: 'קוריאני',
+		charsetTR: 'טורקי',
+		charsetUN: 'יוניקוד (UTF-8)',
+		charsetWE: 'מערב אירופאי',
+		docType: 'כותר סוג מסמך',
+		docTypeOther: 'כותר סוג מסמך אחר',
+		xhtmlDec: 'כלול הכרזות XHTML',
+		bgColor: 'צבע רקע',
+		bgImage: 'כתובת של תמונת רקע',
+		bgFixed: 'רקע לא נגלל (צמוד)',
+		txtColor: 'צבע טקסט',
+		margin: 'מרווחי עמוד',
+		marginTop: 'עליון',
+		marginLeft: 'שמאלי',
+		marginRight: 'ימני',
+		marginBottom: 'תחתון',
+		metaKeywords: 'מילות מפתח של המסמך (מופרדות בפסיק)',
+		metaDescription: 'תיאור המסמך',
+		metaAuthor: 'מחבר/ת',
+		metaCopyright: 'זכויות יוצרים',
+		previewHtml: '<p>זהו <strong>טקסט הדגמה</strong>. את/ה משתמש/ת ב<a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };

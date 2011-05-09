@@ -32,5 +32,6 @@ CKEDITOR.plugins.print = {
 			editor.document.$.execCommand( "Print" );
 	},
 	canUndo: false,
+	readOnly: 1,
 	modes: { wysiwyg: !( CKEDITOR.env.opera ) } // It is imposible to print the inner document in Opera.
 };

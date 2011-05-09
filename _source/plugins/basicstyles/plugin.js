@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				var style = new CKEDITOR.style( styleDefiniton );
 
 				editor.attachStyleStateChange( style, function( state ) {
-					editor.getCommand( commandName ).setState( state );
+					!editor.readOnly && editor.getCommand( commandName ).setState( state );
 				});
 
 				editor.addCommand( commandName, new CKEDITOR.styleCommand( style ) );

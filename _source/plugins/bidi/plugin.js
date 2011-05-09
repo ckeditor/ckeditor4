@@ -19,6 +19,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function setToolbarStates( evt ) {
 		var editor = evt.editor,
 			path = evt.data.path;
+
+		if ( editor.readOnly )
+			return;
+
 		var useComputedState = editor.config.useComputedState,
 			selectedElement;
 

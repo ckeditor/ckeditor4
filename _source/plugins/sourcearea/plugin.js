@@ -34,6 +34,8 @@ CKEDITOR.plugins.add( 'sourcearea', {
 					textarea.addClass( 'cke_source' );
 					textarea.addClass( 'cke_enable_context_menu' );
 
+					editor.readOnly && textarea.setAttribute( 'readOnly', 'readonly' );
+
 					var styles = {
 						// IE7 has overflow the <textarea> from wrapping table cell.
 						width: CKEDITOR.env.ie7Compat ? '99%' : '100%',
@@ -127,6 +129,15 @@ CKEDITOR.plugins.add( 'sourcearea', {
 			});
 		});
 
+		editor.on( 'readOnly', function() {
+			if ( editor.mode == 'source' ) {
+				if ( editor.readOnly )
+					editor.textarea.setAttribute( 'readOnly', 'readonly' );
+				else
+					editor.textarea.removeAttribute( 'readOnly' );
+			}
+		});
+
 		editor.addCommand( 'source', sourcearea.commands.source );
 
 		if ( editor.ui.addButton ) {
@@ -151,7 +162,7 @@ CKEDITOR.plugins.sourcearea = {
 	commands: {
 		source: { modes:{wysiwyg:1,source:1 },
 			editorFocus: false,
-
+			readOnly: 1,
 			exec: function( editor ) {
 				if ( editor.mode == 'wysiwyg' )
 					editor.fire( 'saveSnapshot' );

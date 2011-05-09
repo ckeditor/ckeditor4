@@ -8,6 +8,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 0;
 }
 
+.cke_skin_office2003 .cke_button_docProps .cke_icon
+{
+	background-position: 0 -16px;
+}
+
 .cke_skin_office2003 .cke_button_newpage .cke_icon
 {
 	background-position: 0 -48px;

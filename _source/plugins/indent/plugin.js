@@ -13,6 +13,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	function onSelectionChange( evt ) {
+		if ( evt.editor.readOnly )
+			return null;
+
 		var editor = evt.editor,
 			elementPath = evt.data.path,
 			list = elementPath && elementPath.contains( listNodeNames ),

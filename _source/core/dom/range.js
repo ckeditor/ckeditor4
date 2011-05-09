@@ -324,7 +324,7 @@ CKEDITOR.dom.range = function( document ) {
 
 			if ( node.type == CKEDITOR.NODE_TEXT ) {
 				// If there's any visible text, then we're not at the start.
-				if ( CKEDITOR.tools.trim( node.getText() ).length )
+				if ( node.hasAscendant( 'pre' ) || CKEDITOR.tools.trim( node.getText() ).length )
 					return false;
 			} else if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 				// If there are non-empty inline elements (e.g. <img />), then we're not
@@ -1653,7 +1653,7 @@ CKEDITOR.dom.range = function( document ) {
 							return 0;
 						}
 						// Range enclosed entirely in an editable element.
-						else if ( node.is( 'body' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) ) {
+						else if ( node.is( 'html' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) ) {
 							break;
 						}
 					}

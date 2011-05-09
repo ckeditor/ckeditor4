@@ -148,6 +148,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					padding: 5,
 					children: [
 						{
+						id: 'selectTplText',
 						type: 'html',
 						html: '<span>' +
 							lang.selectPromptMsg +

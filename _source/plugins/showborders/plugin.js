@@ -36,6 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var commandDefinition = {
 		preserveState: true,
 		editorFocus: false,
+		readOnly: 1,
 
 		exec: function( editor ) {
 			this.toggleState();
@@ -43,8 +44,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		refresh: function( editor ) {
-			var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'addClass' : 'removeClass';
-			editor.document.getBody()[ funcName ]( 'cke_show_borders' );
+			if ( editor.document ) {
+				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'addClass' : 'removeClass';
+				editor.document.getBody()[ funcName ]( 'cke_show_borders' );
+			}
 		}
 	};
 

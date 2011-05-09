@@ -41,6 +41,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function onSelectionChange( evt ) {
+		if ( evt.editor.readOnly )
+			return;
+
 		var command = evt.editor.getCommand( this.name );
 		command.state = getState.call( this, evt.editor, evt.data.path );
 		command.fire( 'state' );

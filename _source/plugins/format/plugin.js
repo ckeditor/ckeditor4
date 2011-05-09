@@ -38,7 +38,7 @@ CKEDITOR.plugins.add( 'format', {
 					var label = lang[ 'tag_' + tag ];
 
 					// Add the tag entry to the panel list.
-					this.add( tag, '<' + tag + '>' + label + '</' + tag + '>', label );
+					this.add( tag, styles[ tag ].buildPreview( label ), label );
 				}
 			},
 

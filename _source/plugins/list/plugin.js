@@ -183,6 +183,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	function onSelectionChange( evt ) {
+		if ( evt.editor.readOnly )
+			return null;
+
 		var path = evt.data.path,
 			blockLimit = path.blockLimit,
 			elements = path.elements,

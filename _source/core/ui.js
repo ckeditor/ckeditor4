@@ -65,6 +65,9 @@ CKEDITOR.ui.prototype = {
 
 		var result = handler && handler.create.apply( this, item.args );
 
+		// Allow overrides from skin ui definitions..
+		item && ( result = CKEDITOR.tools.extend( result, this._.editor.skin[ item.type ], true ) );
+
 		// Add reference inside command object.
 		if ( command )
 			command.uiItems.push( result );

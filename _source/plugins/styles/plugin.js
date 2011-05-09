@@ -168,7 +168,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Checks if an element, or any of its attributes, is removable by the
 		// current style definition.
 		checkElementRemovable: function( element, fullMatch ) {
-			if ( !element )
+			if ( !element || element.isReadOnly() )
 				return false;
 
 			var def = this._.definition,
@@ -230,7 +230,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		// Builds the preview HTML based on the styles definition.
-		buildPreview: function() {
+		buildPreview: function( label ) {
 			var styleDefinition = this._.definition,
 				html = [],
 				elementName = styleDefinition.element;
@@ -254,7 +254,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( cssStyle )
 				html.push( ' style="', cssStyle, '"' );
 
-			html.push( '>', styleDefinition.name, '</', elementName, '>' );
+			html.push( '>', ( label || styleDefinition.name ), '</', elementName, '>' );
 
 			return html.join( '' );
 		}

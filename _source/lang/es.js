@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'es' ] = {
 	editorTitle: 'Editor de texto, %1, pulse ALT 0 para ayuda.',
 
 	// ARIA descriptions.
-	toolbar: 'Barra de herramientas',
+	toolbars: 'Barras de herramientas del editor',
 	editor: 'Editor de texto enriquecido',
 
 	// Toolbar buttons without dialogs.
@@ -168,7 +168,7 @@ CKEDITOR.lang[ 'es' ] = {
 		langDir: 'Orientación',
 		langDirLTR: 'Izquierda a Derecha (LTR)',
 		langDirRTL: 'Derecha a Izquierda (RTL)',
-		acccessKey: 'Clave de Acceso',
+		acccessKey: 'Tecla de Acceso',
 		name: 'Nombre',
 		langCode: 'Código idioma',
 		tabIndex: 'Indice de tabulación',
@@ -676,6 +676,8 @@ CKEDITOR.lang[ 'es' ] = {
 	about: {
 		title: 'Acerca de CKEditor',
 		dlgTitle: 'Acerca de CKEditor',
+		help: 'Lea la  $1 para resolver sus dudas.',
+		userGuide: 'Guía de usuario de CKEditor',
 		moreInfo: 'Para información de licencia, por favor visite nuestro sitio web:',
 		copy: 'Copyright &copy; $1. Todos los derechos reservados.'
 	},
@@ -704,8 +706,61 @@ CKEDITOR.lang[ 'es' ] = {
 	toolbarCollapse: 'Contraer barra de herramientas',
 	toolbarExpand: 'Expandir barra de herramientas',
 
+	toolbarGroups: {
+		document: 'Documento',
+		clipboard: 'Portapapeles/Deshacer',
+		editing: 'Edición',
+		forms: 'Formularios',
+		basicstyles: 'Estilos básicos',
+		paragraph: 'Párrafo',
+		links: 'Enlaces',
+		insert: 'Insertar',
+		styles: 'Estilos',
+		colors: 'Colores',
+		tools: 'Herramientas'
+	},
+
 	bidi: {
 		ltr: 'Dirección del texto de izquierda a derecha',
 		rtl: 'Dirección del texto de derecha a izquierda'
+	},
+
+	docprops: {
+		label: 'Propiedades del documento',
+		title: 'Propiedades del documento',
+		design: 'Diseño',
+		meta: 'Meta Tags',
+		chooseColor: 'Elegir',
+		other: 'Otro...',
+		docTitle: 'Título de página',
+		charset: 'Codificación de caracteres',
+		charsetOther: 'Otra codificación de caracteres',
+		charsetASCII: 'ASCII',
+		charsetCE: 'Centro Europeo',
+		charsetCT: 'Chino Tradicional (Big5)',
+		charsetCR: 'Ruso',
+		charsetGR: 'Griego',
+		charsetJP: 'Japonés',
+		charsetKR: 'Koreano',
+		charsetTR: 'Turco',
+		charsetUN: 'Unicode (UTF-8)',
+		charsetWE: 'Europeo occidental',
+		docType: 'Tipo de documento',
+		docTypeOther: 'Otro tipo de documento',
+		xhtmlDec: 'Incluir declaración XHTML',
+		bgColor: 'Color de fondo',
+		bgImage: 'Imagen de fondo',
+		bgFixed: 'Fondo fijo (no se desplaza)',
+		txtColor: 'Color del texto',
+		margin: 'Márgenes',
+		marginTop: 'Superior',
+		marginLeft: 'Izquierdo',
+		marginRight: 'Derecho',
+		marginBottom: 'Inferior',
+		metaKeywords: 'Palabras claves del documento separadas por coma (meta keywords)',
+		metaDescription: 'Descripción del documento',
+		metaAuthor: 'Autor',
+		metaCopyright: 'Copyright',
+		previewHtml: '<p>Este es un <strong>texto de ejemplo</strong>. Usted está usando <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };

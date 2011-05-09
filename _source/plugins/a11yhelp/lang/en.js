@@ -14,8 +14,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 				{
 				name: 'Editor Toolbar',
 				legend: 'Press ${toolbarFocus} to navigate to the toolbar. ' +
-					'Move to next toolbar button with TAB or RIGHT ARROW. ' +
-					'Move to previous button with SHIFT+TAB or LEFT ARROW. ' +
+					'Move to the next and previous toolbar group with TAB and SHIFT-TAB. ' +
+					'Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. ' +
 					'Press SPACE or ENTER to activate the toolbar button.'
 			},
 

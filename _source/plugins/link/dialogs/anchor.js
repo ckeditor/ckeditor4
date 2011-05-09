@@ -5,60 +5,92 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	// Function called in onShow to load selected element.
-	var loadElements = function( editor, selection, element ) {
-			this.editMode = true;
-			this.editObj = element;
+	var loadElements = function( element ) {
+			this._.selectedElement = element;
 
-			var attributeValue = this.editObj.getAttribute( 'name' );
-			if ( attributeValue )
-				this.setValueOf( 'info', 'txtName', attributeValue );
-			else
-				this.setValueOf( 'info', 'txtName', "" );
+			var attributeValue = element.data( 'cke-saved-name' );
+			this.setValueOf( 'info', 'txtName', attributeValue || '' );
 		};
+
+	function createFakeAnchor( editor, anchor ) {
+		return editor.createFakeElement( anchor, 'cke_anchor', 'anchor' );
+	}
 
 	return {
 		title: editor.lang.anchor.title,
 		minWidth: 300,
 		minHeight: 60,
 		onOk: function() {
-			// Always create a new anchor, because of IE BUG.
-			var name = this.getValueOf( 'info', 'txtName' ),
-				element = CKEDITOR.env.ie && !( CKEDITOR.document.$.documentMode >= 8 ) ? editor.document.createElement( '<a name="' + CKEDITOR.tools.htmlEncode( name ) + '">' ) : editor.document.createElement( 'a' );
+			var name = this.getValueOf( 'info', 'txtName' );
+			var attributes = {
+				name: name,
+				'data-cke-saved-name': name
+			};
 
-			// Move contents and attributes of old anchor to new anchor.
-			if ( this.editMode ) {
-				this.editObj.copyAttributes( element, { name:1 } );
-				this.editObj.moveChildren( element );
+			if ( this._.selectedElement ) {
+				if ( this._.selectedElement.data( 'cke-realelement' ) ) {
+					var newFake = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
+					newFake.replace( this._.selectedElement );
+				} else
+					this._.selectedElement.setAttributes( attributes );
+			} else {
+				var sel = editor.getSelection(),
+					range = sel && sel.getRanges()[ 0 ];
+
+				// Empty anchor
+				if ( range.collapsed ) {
+					if ( CKEDITOR.plugins.link.synAnchorSelector )
+						attributes[ 'class' ] = 'cke_anchor_empty';
+
+					if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
+						attributes[ 'contenteditable' ] = 'false';
+						attributes[ 'data-cke-editable' ] = 1;
+					}
+
+					var anchor = editor.document.createElement( 'a', { attributes: attributes } );
+
+					// Transform the anchor into a fake element for browsers that need it.
+					if ( CKEDITOR.plugins.link.fakeAnchor )
+						anchor = createFakeAnchor( editor, anchor );
+
+					range.insertNode( anchor );
+				} else {
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+						attributes[ 'class' ] = 'cke_anchor';
+
+					// Apply style.
+					var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
+					style.type = CKEDITOR.STYLE_INLINE;
+					style.apply( editor.document );
+				}
 			}
-
-			// Set name.
-			element.data( 'cke-saved-name', false );
-			element.setAttribute( 'name', name );
-
-			// Insert a new anchor.
-			var fakeElement = editor.createFakeElement( element, 'cke_anchor', 'anchor' );
-			if ( !this.editMode )
-				editor.insertElement( fakeElement );
-			else {
-				fakeElement.replace( this.fakeObj );
-				editor.getSelection().selectElement( fakeElement );
-			}
-
-			return true;
 		},
-		onShow: function() {
-			this.editObj = false;
-			this.fakeObj = false;
-			this.editMode = false;
 
-			var selection = editor.getSelection();
-			var element = selection.getSelectedElement();
-			if ( element && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'anchor' ) {
-				this.fakeObj = element;
-				element = editor.restoreRealElement( this.fakeObj );
-				loadElements.apply( this, [ editor, selection, element ] );
-				selection.selectElement( this.fakeObj );
+		onHide: function() {
+			delete this._.selectedElement;
+		},
+
+		onShow: function() {
+			var selection = editor.getSelection(),
+				fullySelected = selection.getSelectedElement(),
+				partialSelected;
+
+			// Detect the anchor under selection.
+			if ( fullySelected ) {
+				if ( CKEDITOR.plugins.link.fakeAnchor ) {
+					var realElement = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected );
+					realElement && loadElements.call( this, realElement );
+					this._.selectedElement = fullySelected;
+				} else if ( fullySelected.is( 'a' ) && fullySelected.hasAttribute( 'name' ) )
+					loadElements.call( this, fullySelected );
+			} else {
+				partialSelected = CKEDITOR.plugins.link.getSelectedLink( editor );
+				if ( partialSelected ) {
+					loadElements.call( this, partialSelected );
+					selection.selectElement( partialSelected );
+				}
 			}
+
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
 		contents: [

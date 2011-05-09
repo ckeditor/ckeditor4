@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Full Page Editing &mdash; CKEditor Sample</title>
+	<title>Full Page Editing with Document Properties Plugin &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<!-- CKReleaser %REMOVE_LINE%
 	<script type="text/javascript" src="../ckeditor.js"></script>
@@ -17,7 +17,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; Full Page Editing
+		CKEditor Sample &mdash; Full Page Editing with Document Properties Plugin
 	</h1>
 	<div class="description">
 	<p>
@@ -25,11 +25,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<code>&lt;html&gt;</code> tag to the <code>&lt;/html&gt;</code> tag.
 	</p>
 	<p>
-		CKEditor is inserted with a JavaScript call using the following code:
+		The <strong>Document Properties</strong> (<code>docprops</code>) plugin is also turned on.
+		This plugin allows you to set the metadata of the page, including the page encoding, margins,
+		meta tags, or background.
+	</p>
+	<p>
+		The CKEditor instance below is inserted with a JavaScript call using the following code:
 	</p>
 	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
-		<strong>fullPage : true</strong>
+		<strong>fullPage : true,
+		extraPlugins : 'docprops'</strong>
 	});</pre>
 	<p>
 		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
@@ -49,14 +55,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</div>
 	<form action="sample_posteddata.php" method="post">
 			<label for="editor1">
-				Editor 1:</label>
+				CKEditor using the <code>docprops</code> plugin and working in the Full Page mode:</label>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;html&gt;&lt;head&gt;&lt;title&gt;CKEditor Sample&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</textarea>
 			<script type="text/javascript">
 			//<![CDATA[
 
 				CKEDITOR.replace( 'editor1',
 					{
-						fullPage : true
+						fullPage : true,
+						extraPlugins : 'docprops'
 					});
 
 			//]]>

@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'fr' ] = {
 	editorTitle: 'Éditeur de Texte Enrichi, %1, appuyez sur ALT-0 pour l\'aide.',
 
 	// ARIA descriptions.
-	toolbar: 'Barre d\'outils',
+	toolbars: 'Editor toolbars', // MISSING
 	editor: 'Éditeur de Texte Enrichi',
 
 	// Toolbar buttons without dialogs.
@@ -676,6 +676,8 @@ CKEDITOR.lang[ 'fr' ] = {
 	about: {
 		title: 'A propos de CKEditor',
 		dlgTitle: 'A propos de CKEditor',
+		help: 'Check $1 for help.', // MISSING
+		userGuide: 'CKEditor User\'s Guide', // MISSING
 		moreInfo: 'Pour les informations de licence, veuillez visiter notre site web:',
 		copy: 'Copyright &copy; $1. Tous droits réservés.'
 	},
@@ -704,8 +706,61 @@ CKEDITOR.lang[ 'fr' ] = {
 	toolbarCollapse: 'Enrouler la barre d\'outils',
 	toolbarExpand: 'Dérouler la barre d\'outils',
 
+	toolbarGroups: {
+		document: 'Document', // MISSING
+		clipboard: 'Clipboard/Undo', // MISSING
+		editing: 'Editing', // MISSING
+		forms: 'Forms', // MISSING
+		basicstyles: 'Basic Styles', // MISSING
+		paragraph: 'Paragraph', // MISSING
+		links: 'Links', // MISSING
+		insert: 'Insert', // MISSING
+		styles: 'Styles', // MISSING
+		colors: 'Colors', // MISSING
+		tools: 'Tools' // MISSING
+	},
+
 	bidi: {
 		ltr: 'Direction du texte de la gauche vers la droite',
 		rtl: 'Direction du texte de la droite vers la gauche'
+	},
+
+	docprops: {
+		label: 'Document Properties', // MISSING
+		title: 'Document Properties', // MISSING
+		design: 'Design', // MISSING
+		meta: 'Meta Tags', // MISSING
+		chooseColor: 'Choose', // MISSING
+		other: 'Other...', // MISSING
+		docTitle: 'Page Title', // MISSING
+		charset: 'Character Set Encoding', // MISSING
+		charsetOther: 'Other Character Set Encoding', // MISSING
+		charsetASCII: 'ASCII', // MISSING
+		charsetCE: 'Central European', // MISSING
+		charsetCT: 'Chinese Traditional (Big5)', // MISSING
+		charsetCR: 'Cyrillic', // MISSING
+		charsetGR: 'Greek', // MISSING
+		charsetJP: 'Japanese', // MISSING
+		charsetKR: 'Korean', // MISSING
+		charsetTR: 'Turkish', // MISSING
+		charsetUN: 'Unicode (UTF-8)', // MISSING
+		charsetWE: 'Western European', // MISSING
+		docType: 'Document Type Heading', // MISSING
+		docTypeOther: 'Other Document Type Heading', // MISSING
+		xhtmlDec: 'Include XHTML Declarations', // MISSING
+		bgColor: 'Background Color', // MISSING
+		bgImage: 'Background Image URL', // MISSING
+		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
+		txtColor: 'Text Color', // MISSING
+		margin: 'Page Margins', // MISSING
+		marginTop: 'Top', // MISSING
+		marginLeft: 'Left', // MISSING
+		marginRight: 'Right', // MISSING
+		marginBottom: 'Bottom', // MISSING
+		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
+		metaDescription: 'Document Description', // MISSING
+		metaAuthor: 'Author', // MISSING
+		metaCopyright: 'Copyright', // MISSING
+		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

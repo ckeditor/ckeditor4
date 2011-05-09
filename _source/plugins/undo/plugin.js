@@ -74,7 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function() {
-				undoManager.enabled = editor.mode == 'wysiwyg';
+				undoManager.enabled = editor.readOnly ? false : editor.mode == 'wysiwyg';
 				undoManager.onChange();
 			});
 

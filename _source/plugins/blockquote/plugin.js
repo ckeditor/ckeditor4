@@ -22,8 +22,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function onSelectionChange( evt ) {
-		var editor = evt.editor,
-			command = editor.getCommand( 'blockquote' );
+		var editor = evt.editor;
+		if ( editor.readOnly )
+			return;
+
+		var command = editor.getCommand( 'blockquote' );
 		command.state = getState( editor, evt.data.path );
 		command.fire( 'state' );
 	}

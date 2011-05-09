@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'pl' ] = {
 	editorTitle: 'Edytor tekstu sformatowanego, %1, w celu uzyskania pomocy naciśnij ALT 0.',
 
 	// ARIA descriptions.
-	toolbar: 'Pasek narzędzi',
+	toolbars: 'Paski narzędzi edytora',
 	editor: 'Edytor tekstu sformatowanego',
 
 	// Toolbar buttons without dialogs.
@@ -676,6 +676,8 @@ CKEDITOR.lang[ 'pl' ] = {
 	about: {
 		title: 'Informacje o programie CKEditor',
 		dlgTitle: 'Informacje o programie CKEditor',
+		help: 'Pomoc znajdziesz w $1.',
+		userGuide: 'podręczniku użytkownika programu CKEditor',
 		moreInfo: 'Informacje na temat licencji można znaleźć na naszej stronie:',
 		copy: 'Copyright &copy; $1. Wszelkie prawa zastrzeżone.'
 	},
@@ -704,8 +706,61 @@ CKEDITOR.lang[ 'pl' ] = {
 	toolbarCollapse: 'Zwiń pasek narzędzi',
 	toolbarExpand: 'Rozwiń pasek narzędzi',
 
+	toolbarGroups: {
+		document: 'Dokument',
+		clipboard: 'Schowek/Wstecz',
+		editing: 'Edycja',
+		forms: 'Formularze',
+		basicstyles: 'Style podstawowe',
+		paragraph: 'Akapit',
+		links: 'Hiperłącza',
+		insert: 'Wstawianie',
+		styles: 'Style',
+		colors: 'Kolory',
+		tools: 'Narzędzia'
+	},
+
 	bidi: {
 		ltr: 'Kierunek tekstu od lewej strony do prawej',
 		rtl: 'Kierunek tekstu od prawej strony do lewej'
+	},
+
+	docprops: {
+		label: 'Właściwości dokumentu',
+		title: 'Właściwości dokumentu',
+		design: 'Projekt strony',
+		meta: 'Znaczniki meta',
+		chooseColor: 'Wybierz',
+		other: 'Inne',
+		docTitle: 'Tytuł strony',
+		charset: 'Kodowanie znaków',
+		charsetOther: 'Inne kodowanie znaków',
+		charsetASCII: 'ASCII',
+		charsetCE: 'Środkowoeuropejskie',
+		charsetCT: 'Chińskie tradycyjne (Big5)',
+		charsetCR: 'Cyrylica',
+		charsetGR: 'Greckie',
+		charsetJP: 'Japońskie',
+		charsetKR: 'Koreańskie',
+		charsetTR: 'Tureckie',
+		charsetUN: 'Unicode (UTF-8)',
+		charsetWE: 'Zachodnioeuropejskie',
+		docType: 'Definicja typu dokumentu',
+		docTypeOther: 'Inna definicja typu dokumentu',
+		xhtmlDec: 'Uwzględnij deklaracje XHTML',
+		bgColor: 'Kolor tła',
+		bgImage: 'Adres URL obrazka tła',
+		bgFixed: 'Tło nieruchome (nieprzewijające się)',
+		txtColor: 'Kolor tekstu',
+		margin: 'Marginesy strony',
+		marginTop: 'Górny',
+		marginLeft: 'Lewy',
+		marginRight: 'Prawy',
+		marginBottom: 'Dolny',
+		metaKeywords: 'Słowa kluczowe dokumentu (oddzielone przecinkami)',
+		metaDescription: 'Opis dokumentu',
+		metaAuthor: 'Autor',
+		metaCopyright: 'Prawa autorskie',
+		previewHtml: '<p>To jest <strong>przykładowy tekst</strong>. Korzystasz z programu <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };
