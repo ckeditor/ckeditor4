@@ -122,7 +122,8 @@
 								value && this.setValue( value );
 							},
 							commit: function( element ) {
-								element.setAttribute( 'start', this.getValue() );
+								var val = parseInt( this.getValue(), 10 );
+								element.setAttribute( 'start', isNaN( val ) ? 1 : val );
 							}
 						},
 							{
