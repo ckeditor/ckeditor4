@@ -217,7 +217,6 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 
 			panel.onEscape = function() {
 				panel.hide();
-				me.document.getById( 'cke_' + me.id ).getFirst().getNext().focus();
 			};
 
 			list.onClick = function( value, marked ) {

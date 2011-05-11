@@ -42,6 +42,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			this.element = element;
 
 			this._ = {
+				editor: editor,
 				// The panel that will be floating.
 				panel: panel,
 				parentElement: parentElement,
@@ -89,6 +90,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				this.allowBlur( false );
 				isShowing = 1;
+
+				// Record from where the focus is when open panel.
+				this._.returnFocus = this._.editor.focusManager.hasFocus ? this._.editor : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
+
 
 				var element = this.element,
 					iframe = this._.iframe,
@@ -146,8 +151,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						if ( CKEDITOR.env.ie && !this.allowBlur() || ( target = ev.data.getTarget() ) && target.getName && target.getName() != 'iframe' )
 							return;
 
-						if ( this.visible && !this._.activeChild && !isShowing )
+						if ( this.visible && !this._.activeChild && !isShowing ) {
+							// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
+							// DO NOT restore focus in this case.
+							delete this._.returnFocus;
 							this.hide();
+						}
 					}, this );
 
 					focused.on( 'focus', function() {
@@ -289,6 +298,16 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.element.setStyle( 'display', 'none' );
 					this.visible = 0;
 					this.element.getFirst().removeCustomData( 'activePanel' );
+
+					// Return focus properly. (#6247)
+					var focusReturn = this._.returnFocus;
+					if ( focusReturn ) {
+						// Webkit requires focus moved out panel iframe first.
+						if ( CKEDITOR.env.webkit && focusReturn.type )
+							focusReturn.getWindow().$.focus();
+
+						focusReturn.focus();
+					}
 				}
 			},
 
