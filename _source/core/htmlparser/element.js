@@ -145,6 +145,10 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 					// This indicate that the element has been dropped by
 					// filter but not the children.
 					if ( !writeName ) {
+						// Fix broken parent refs.
+						for ( i = 0; i < this.children.length; i++ )
+							this.children[ i ].parent = element.parent;
+
 						this.writeChildrenHtml.call( element, writer, isChildrenFiltered ? null : filter );
 						return;
 					}
