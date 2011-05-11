@@ -985,7 +985,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/**
 		 * Retrieves the text contained within the range, empty string is returned for non-text selection.
-		 * @returns {String} string of text of the current selection.
+		 * @returns {String} string of text within the current selection.
+		 * @since 3.6.1
 		 * @example
 		 * var text = editor.getSelectedText();
 		 * alert( text );
