@@ -113,23 +113,25 @@ CKEDITOR.dom.event.prototype = {
 	}
 };
 
+// For the followind constants, we need to go over the Unicode boundaries
+// (0x10FFFF) to avoid collision.
 /**
- * CTRL key (1000).
+ * CTRL key (0x110000).
  * @constant
  * @example
  */
-CKEDITOR.CTRL = 1000;
+CKEDITOR.CTRL = 0x110000;
 
 /**
- * SHIFT key (2000).
+ * SHIFT key (0x220000).
  * @constant
  * @example
  */
-CKEDITOR.SHIFT = 2000;
+CKEDITOR.SHIFT = 0x220000;
 
 /**
- * ALT key (4000).
+ * ALT key (0x440000).
  * @constant
  * @example
  */
-CKEDITOR.ALT = 4000;
+CKEDITOR.ALT = 0x440000;
