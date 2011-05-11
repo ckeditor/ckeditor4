@@ -50,8 +50,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// So we have to take care to include a td we've entered only when we've
 					// walked into its children.
 
-					var parent = node.getParent();
-					if ( parent && cellNodeRegex.test( parent.getName() ) && !parent.getCustomData( 'selected_cell' ) ) {
+					var parent = node.getAscendant( 'td' ) || node.getAscendant( 'th' );
+					if ( parent && !parent.getCustomData( 'selected_cell' ) ) {
 						CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
 						retval.push( parent );
 					}
