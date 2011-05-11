@@ -1293,6 +1293,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyle( document, remove ) {
 		var selection = document.getSelection(),
+			// Bookmark the range so we can re-select it after processing.
+			bookmarks = selection.createBookmarks( 1 ),
 			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
@@ -1301,7 +1303,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range );
 
-		selection.selectRanges( ranges );
+		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
+			selection.selectRanges( ranges );
+			document.getById( bookmarks[ 0 ].startNode ).remove();
+		} else
+			selection.selectBookmarks( bookmarks );
 
 		document.removeCustomData( 'doc_processing_style' );
 	}
