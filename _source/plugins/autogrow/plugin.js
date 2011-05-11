@@ -6,36 +6,48 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * @file AutoGrow plugin
  */ ( function() {
-	var resizeEditor = function( editor ) {
-			if ( !editor.window )
-				return;
-			var doc = editor.document,
-				currentHeight = editor.window.getViewPaneSize().height,
-				newHeight;
 
-			// We can not use documentElement to calculate the height for IE (#6061).
-			// It is not good for IE Quirks, yet using offsetHeight would also not work as expected (#6408).
-			// We do the same for FF because of the html height workaround (#6341).
-			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko )
-				newHeight = doc.getBody().$.scrollHeight + ( CKEDITOR.env.ie && CKEDITOR.env.quirks ? 0 : 24 );
-			else
-				newHeight = doc.getDocumentElement().$.offsetHeight;
-
-			var min = editor.config.autoGrow_minHeight,
-				max = editor.config.autoGrow_maxHeight;
-			( min == undefined ) && ( editor.config.autoGrow_minHeight = min = 200 );
-			if ( min )
-				newHeight = Math.max( newHeight, min );
-			if ( max )
-				newHeight = Math.min( newHeight, max );
-
-			if ( newHeight != currentHeight ) {
-				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
-				editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
-			}
-		};
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
+			var lastContentHeight;
+			var resizeEditor = function( editor ) {
+					if ( !editor.window )
+						return;
+
+					var doc = editor.document,
+						resizeable = editor.getResizable( 1 ),
+						body = doc.getBody().$,
+						htmlElement = doc.getDocumentElement().$,
+						currentHeight = resizeable.$.offsetHeight,
+						newHeight;
+
+					var delta =
+					// Delta height by checking scrollHeight.
+					( CKEDITOR.env.ie && CKEDITOR.env.quirks ? body.scrollHeight - body.clientHeight : htmlElement.scrollHeight - ( htmlElement.clientHeight || htmlElement.offsetHeight ) )
+					// Negative scrollHeight (content reduced) is not supported in some browsers, figure it out by watching over the content size.
+					|| ( body.clientHeight < lastContentHeight ? body.clientHeight - lastContentHeight : 0 );
+
+					if ( delta ) {
+						newHeight = currentHeight + delta;
+						var min = editor.config.autoGrow_minHeight,
+							max = editor.config.autoGrow_maxHeight;
+
+						( min == undefined ) && ( editor.config.autoGrow_minHeight = min = 200 );
+						if ( min )
+							newHeight = Math.max( newHeight, min );
+						if ( max )
+							newHeight = Math.min( newHeight, max );
+
+						if ( newHeight != currentHeight ) {
+							newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
+							resizeable.setStyle( 'height', newHeight + 'px' );
+							editor.fire( 'resize' );
+						}
+					}
+
+					lastContentHeight = body.clientHeight;
+				};
+
 			for ( var eventName in { contentDom:1,key:1,selectionChange:1,insertElement:1 } ) {
 				editor.on( eventName, function( evt ) {
 					var maximize = editor.getCommand( 'maximize' );
