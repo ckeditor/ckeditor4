@@ -983,11 +983,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return cache.selectedElement = ( node ? new CKEDITOR.dom.element( node ) : null );
 		},
 
+		/**
+		 * Retrieves the text contained within the range, empty string is returned for non-text selection.
+		 * @returns {String} string of text of the current selection.
+		 * @example
+		 * var text = editor.getSelectedText();
+		 * alert( text );
+		 */
+		getSelectedText: function() {
+			var cache = this._.cache;
+			if ( cache.selectedText !== undefined )
+				return cache.selectedText;
+
+			var text = '',
+				native = this.getNative();
+			if ( this.getType() == CKEDITOR.SELECTION_TEXT )
+				text = CKEDITOR.env.ie ? native.createRange().text : native.toString();
+
+			return ( cache.selectedText = text );
+		},
+
 		lock: function() {
 			// Call all cacheable function.
 			this.getRanges();
 			this.getStartElement();
 			this.getSelectedElement();
+			this.getSelectedText();
 
 			// The native selection is not available when locked.
 			this._.cache.nativeSel = {};
