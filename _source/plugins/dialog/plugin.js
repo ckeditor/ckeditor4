@@ -2488,7 +2488,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		isEnabled: function() {
-			return !this.getInputElement().getAttribute( 'disabled' );
+			return !this.getElement().getAttribute( 'disabled' );
 		},
 
 		/**
