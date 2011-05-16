@@ -110,10 +110,9 @@ CKEDITOR.plugins.add( 'menu', {
 					var parentBlock = parent._.panel._.panel._.currentBlock,
 						parentFocusIndex = parentBlock._.focusIndex;
 					parentBlock._.markItem( parentFocusIndex );
-				} else if ( keystroke == 27 ) {
+				} else if ( keystroke == 27 )
 					this.hide();
-					this.editor.focus();
-				}
+
 				return false;
 			},
 
