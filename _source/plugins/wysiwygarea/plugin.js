@@ -447,27 +447,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( document.location.protocol == 'chrome:' )
 							CKEDITOR.event.useCapture = false;
 
-						// The container must be visible when creating the iframe in FF (#5956)
-						var element = editor.element,
-							isHidden = CKEDITOR.env.gecko && !element.isVisible(),
-							previousStyles = {};
-						if ( isHidden ) {
-							element.show();
-							previousStyles = {
-								position: element.getStyle( 'position' ),
-								top: element.getStyle( 'top' )
-							};
-							element.setStyles({ position: 'absolute', top: '-3000px' } );
-						}
-
 						mainElement.append( iframe );
-
-						if ( isHidden ) {
-							setTimeout( function() {
-								element.hide();
-								element.setStyles( previousStyles );
-							}, 1000 );
-						}
 					};
 
 				// The script that launches the bootstrap logic on 'domReady', so the document
