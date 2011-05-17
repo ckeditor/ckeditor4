@@ -112,7 +112,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 			'aria-label="' + label + '" ' +
 			'data-cke-display-name="pagebreak" ' +
 			'class="cke_pagebreak">' +
-			'</div>' );
+			'</div>', editor.document );
 
 		var ranges = editor.getSelection().getRanges( true );
 
