@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			pillarIndex += td.$.colSpan || 1;
 
 			// Calculate the pillar boundary positions.
-			var pillarLeft, pillarRight, pillarWidth, pillarPadding;
+			var pillarLeft, pillarRight, pillarWidth;
 
 			var x = td.getDocumentPosition().x;
 
@@ -94,9 +94,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
 
-			// Make the pillar touch area at least 14 pixels wide, for easy to use.
-			pillarPadding = Math.max( Math.round( 7 - ( pillarWidth / 2 ) ), 0 );
-
 			// The pillar should reflects exactly the shape of the hovered
 			// column border line.
 			pillars.push({
@@ -106,7 +103,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				y: tbodyPosition.y,
 				width: pillarWidth,
 				height: tbody.$.offsetHeight,
-				padding: pillarPadding,
 				rtl: rtl } );
 		}
 
@@ -115,10 +111,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function getPillarAtPosition( pillars, positionX ) {
 		for ( var i = 0, len = pillars.length; i < len; i++ ) {
-			var pillar = pillars[ i ],
-				pad = pillar.padding;
+			var pillar = pillars[ i ];
 
-			if ( positionX >= pillar.x - pad && positionX <= ( pillar.x + pillar.width + pad ) )
+			if ( positionX >= pillar.x && positionX <= ( pillar.x + pillar.width ) )
 				return pillar;
 		}
 
@@ -305,9 +300,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( !pillar )
 					return 0;
 
-				var pad = pillar.padding;
-
-				if ( !isResizing && ( posX < pillar.x - pad || posX > ( pillar.x + pillar.width + pad ) ) ) {
+				if ( !isResizing && ( posX < pillar.x || posX > ( pillar.x + pillar.width ) ) ) {
 					detach();
 					return 0;
 				}
