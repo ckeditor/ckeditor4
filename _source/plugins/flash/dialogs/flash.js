@@ -162,7 +162,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var attrDef = attributes[ i ];
 			switch ( attrDef.type ) {
 				case ATTRTYPE_OBJECT:
-					if ( !objectNode )
+					// Avoid applying the data attribute when not needed (#7733)
+					if ( !objectNode || ( attrDef.name == 'data' && embedNode && !objectNode.hasAttribute( 'data' ) ) )
 						continue;
 					var value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
