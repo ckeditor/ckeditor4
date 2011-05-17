@@ -424,7 +424,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					{
 						type: 'hbox',
 						widths: [ '60%', '40%' ],
-						padding: 0,
+						padding: 1,
 						children: [
 							{
 							type: 'text',
@@ -456,7 +456,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 							label: langCommon.browseServer,
 							style: 'display:inline-block;margin-top:10px;',
 							hidden: true,
-							filebrowser: 'bg:bgImage'
+							filebrowser: 'design:bgImage'
 						}
 						]
 					},
