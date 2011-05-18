@@ -371,6 +371,8 @@ body .cke_dialog
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
+	/* IE6/Quirks - make sure the content does not overflow (#7321) */
+	_width: 99.9%;
 }
 
 .cke_skin_v2 .cke_browser_ie.cke_rtl div.cke_dialog_ui_input_text {

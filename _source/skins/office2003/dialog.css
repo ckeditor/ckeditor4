@@ -334,6 +334,8 @@ body .cke_dialog
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
+	/* IE6/Quirks - make sure the content does not overflow (#7321) */
+	_width: 99.9%;
 }
 
 /* Opera/IE doesn't leave enough padding in text input for cursor to blink in RTL. (#6087) */
