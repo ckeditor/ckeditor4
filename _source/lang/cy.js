@@ -591,7 +591,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	colorButton: {
 		textColorTitle: 'Lliw Testun',
 		bgColorTitle: 'Lliw Cefndir',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'Lliwiau',
 		auto: 'Awtomatig',
 		more: 'Mwy o Liwiau...'
 	},
