@@ -197,7 +197,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (#3426)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
-								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 );
+								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
 							// A little extra at the end.
 							// If not present, IE6 might break into the next line, but also it looks better this way
 							width += 4;
@@ -213,7 +213,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (#3426)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && height > 0 )
-								height += ( target.$.offsetHeight || 0 ) - ( target.$.clientHeight || 0 );
+								height += ( target.$.offsetHeight || 0 ) - ( target.$.clientHeight || 0 ) + 3;
 
 							target.setStyle( 'height', height + 'px' );
 
