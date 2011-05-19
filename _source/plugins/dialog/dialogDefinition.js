@@ -264,6 +264,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
+ * Horizontal alignment (in container) of the UI element.
+ * @name CKEDITOR.dialog.definition.uiElement.prototype.align
+ * @field
+ * @type String
+ * @example
+ */
+
+/**
  * Function to execute the first time the UI element is displayed.
  * @name CKEDITOR.dialog.definition.uiElement.prototype.onLoad
  * @field

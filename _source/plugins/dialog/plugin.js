@@ -2040,6 +2040,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				// Write the inline CSS styles.
 				var styleStr = ( elementDefinition.style || '' ).split( ';' );
+
+				// Element alignment support.
+				if ( elementDefinition.align ) {
+					var align = elementDefinition.align;
+					styles[ 'margin-left' ] = align == 'left' ? 0 : 'auto';
+					styles[ 'margin-right' ] = align == 'right' ? 0 : 'auto';
+				}
+
 				for ( i in styles )
 					styleStr.push( i + ':' + styles[ i ] );
 				if ( elementDefinition.hidden )
@@ -2161,6 +2169,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 								styles.push( 'height:' + cssLength( height ) );
 							if ( elementDefinition && elementDefinition.padding != undefined )
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
+							// In IE Quirks alignment has to be done on table cells. (#7324)
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
+								styles.push( 'text-align:' + children[ i ].align );
 							if ( styles.length > 0 )
 								html.push( 'style="' + styles.join( '; ' ) + '" ' );
 							html.push( '>', childHtmlList[ i ], '</td>' );
@@ -2235,6 +2246,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 								styles.push( 'height:' + Math.floor( 100 / childHtmlList.length ) + '%' );
 							if ( elementDefinition && elementDefinition.padding != undefined )
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
+							// In IE Quirks alignment has to be done on table cells. (#7324)
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
+								styles.push( 'text-align:' + children[ i ].align );
 							if ( styles.length > 0 )
 								html.push( 'style="', styles.join( '; ' ), '" ' );
 							html.push( ' class="cke_dialog_ui_vbox_child">', childHtmlList[ i ], '</td></tr>' );
