@@ -8,7 +8,7 @@ bn.js      Found: 269 Missing: 302
 bs.js      Found: 175 Missing: 396
 ca.js      Found: 520 Missing: 51
 cs.js      Found: 519 Missing: 52
-cy.js      Found: 435 Missing: 136
+cy.js      Found: 570 Missing: 1
 da.js      Found: 388 Missing: 183
 de.js      Found: 521 Missing: 50
 el.js      Found: 274 Missing: 297
