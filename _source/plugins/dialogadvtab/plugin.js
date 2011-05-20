@@ -112,6 +112,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						label: lang.styles,
 						'default': '',
 
+						onChange: function() {},
+
 						getStyle: function( name, defaultValue ) {
 							var match = this.getValue().match( new RegExp( name + '\\s*:\s*([^;]*)', 'i' ) );
 							return match ? match[ 1 ] : defaultValue;
