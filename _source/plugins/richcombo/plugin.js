@@ -139,6 +139,10 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				ev.preventDefault();
 			});
 
+			var focusFn = CKEDITOR.tools.addFunction( function() {
+				instance.onfocus && instance.onfocus();
+			});
+
 			// For clean up
 			instance.keyDownFn = keyDownFn;
 
@@ -163,6 +167,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			}
 
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
+				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span>' +
 						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
