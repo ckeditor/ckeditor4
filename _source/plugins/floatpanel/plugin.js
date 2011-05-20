@@ -295,6 +295,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			hide: function() {
 				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
+					// Blur previously focused element. (#6671)
+					CKEDITOR.env.gecko && this._.iframe.getFrameDocument().$.activeElement.blur();
 					this.element.setStyle( 'display', 'none' );
 					this.visible = 0;
 					this.element.getFirst().removeCustomData( 'activePanel' );
