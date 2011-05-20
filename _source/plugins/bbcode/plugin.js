@@ -746,7 +746,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.dataProcessor.writer = BBCodeWriter;
 
-			editor.on( 'editingBlockReady', function() {
+			editor.on( 'beforeSetMode', function( evt ) {
+				evt.removeListener();
 				var wysiwyg = editor._.modes[ 'wysiwyg' ];
 				wysiwyg.loadData = CKEDITOR.tools.override( wysiwyg.loadData, function( org ) {
 					return function( data ) {
