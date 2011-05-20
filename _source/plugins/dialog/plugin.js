@@ -2481,8 +2481,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		disable: function() {
-			var element = this.getElement();
-			element.setAttribute( 'disabled', 'true' );
+			var element = this.getElement(),
+				input = this.getInputElement();
+			input.setAttribute( 'disabled', 'true' );
 			element.addClass( 'cke_disabled' );
 		},
 
@@ -2491,8 +2492,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		enable: function() {
-			var element = this.getElement();
-			element.removeAttribute( 'disabled' );
+			var element = this.getElement(),
+				input = this.getInputElement();
+			input.removeAttribute( 'disabled' );
 			element.removeClass( 'cke_disabled' );
 		},
 
@@ -2502,7 +2504,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @example
 		 */
 		isEnabled: function() {
-			return !this.getElement().getAttribute( 'disabled' );
+			return !this.getElement().hasClass( 'cke_disabled' );
 		},
 
 		/**
