@@ -124,7 +124,10 @@
 							},
 							commit: function( element ) {
 								var val = parseInt( this.getValue(), 10 );
-								element.setAttribute( 'start', isNaN( val ) ? 1 : val );
+								if ( isNaN( val ) )
+									element.removeAttribute( 'start' );
+								else
+									element.setAttribute( 'start', val );
 							}
 						},
 							{
