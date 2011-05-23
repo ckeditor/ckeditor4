@@ -111,8 +111,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( previousBlock.is( 'li' ) || !( headerTagRegex.test( previousBlock.getName() ) || previousBlock.is( 'pre' ) ) ) {
 						// Otherwise, duplicate the previous block.
 						newBlock = previousBlock.clone();
-						// Value attribute of list item should not be duplicated (#7330).
-						newBlock.is( 'li' ) && newBlock.removeAttribute( 'value' );
 					}
 				} else if ( nextBlock )
 					newBlock = nextBlock.clone();
@@ -155,6 +153,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( !newBlock.getParent() )
 					range.insertNode( newBlock );
+
+				// list item start number should not be duplicated (#7330), but we need
+				// to remove the attribute after it's onto the DOM tree because of old IEs (#7581).
+				newBlock.is( 'li' ) && newBlock.removeAttribute( 'value' );
 
 				// This is tricky, but to make the new block visible correctly
 				// we must select it.
