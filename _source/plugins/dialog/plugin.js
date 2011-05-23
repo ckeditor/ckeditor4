@@ -94,7 +94,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	function resetField() {
 		var input = this.getInputElement();
-		input.removeAttribute( 'aria-invalid' );
+		input && input.removeAttribute( 'aria-invalid' );
 	}
 
 
