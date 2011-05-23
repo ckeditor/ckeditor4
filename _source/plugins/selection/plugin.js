@@ -65,6 +65,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return node && node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$removeEmpty;
 		}
 
+		function singletonBlock( node ) {
+			var body = range.document.getBody();
+			return !node.is( 'body' ) && body.getChildCount() == 1;
+		}
+
 		var start = range.startContainer,
 			offset = range.startOffset;
 
@@ -73,7 +78,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// 1. Empty inline element. <span>^</span>
 		// 2. Adjoin to inline element. <p><strong>text</strong>^</p>
-		return !CKEDITOR.tools.trim( start.getHtml() ) ? isInlineCt( start ) : isInlineCt( start.getChild( offset - 1 ) ) || isInlineCt( start.getChild( offset ) );
+		// 3. The only empty block in document. <body><p>^</p></body> (#7222)
+		return !CKEDITOR.tools.trim( start.getHtml() ) ? isInlineCt( start ) || singletonBlock( start ) : isInlineCt( start.getChild( offset - 1 ) ) || isInlineCt( start.getChild( offset ) );
 	}
 
 	var selectAllCmd = { modes:{wysiwyg:1,source:1 },
