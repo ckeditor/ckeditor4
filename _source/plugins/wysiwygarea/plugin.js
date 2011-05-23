@@ -51,6 +51,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( range.checkReadOnly() )
 			return;
 
+		// Opera: force block splitting when pasted content contains block. (#7801)
+		if ( CKEDITOR.env.opera ) {
+			var path = new CKEDITOR.dom.elementPath( range.startContainer );
+			if ( path.block ) {
+				var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
+				for ( var i = 0, count = nodes.length; i < count; i++ ) {
+					if ( nodes[ i ]._.isBlockLike ) {
+						range.splitBlock( this.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+						range.insertNode( range.document.createText( '' ) );
+						range.select();
+						break;
+					}
+				}
+			}
+		}
+
 		if ( CKEDITOR.env.ie ) {
 			var selIsLocked = selection.isLocked;
 
