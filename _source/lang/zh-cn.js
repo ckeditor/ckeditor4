@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		upload: '上传',
 		alt: '替换文本',
 		lockRatio: '锁定比例',
-		unlockRatio: '不锁定比例',
 		resetSize: '原始尺寸',
 		border: '边框大小',
 		hSpace: '水平间距',

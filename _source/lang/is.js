@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'is' ] = {
 		upload: 'Hlaða upp',
 		alt: 'Baklægur texti',
 		lockRatio: 'Festa stærðarhlutfall',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Reikna stærð',
 		border: 'Rammi',
 		hSpace: 'Vinstri bil',

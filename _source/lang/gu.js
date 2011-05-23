@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'gu' ] = {
 		upload: 'અપલોડ',
 		alt: 'ઑલ્ટર્નટ ટેક્સ્ટ',
 		lockRatio: 'લૉક ગુણોત્તર',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'રીસેટ સાઇઝ',
 		border: 'બોર્ડર',
 		hSpace: 'સમસ્તરીય જગ્યા',

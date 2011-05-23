@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'el' ] = {
 		upload: 'Αποστολή',
 		alt: 'Εναλλακτικό Κείμενο (ALT)',
 		lockRatio: 'Κλείδωμα Αναλογίας',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Επαναφορά Αρχικού Μεγέθους',
 		border: 'Περιθώριο',
 		hSpace: 'Οριζόντιος Χώρος (HSpace)',

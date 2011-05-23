@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'es' ] = {
 		upload: 'Cargar',
 		alt: 'Texto Alternativo',
 		lockRatio: 'Proporcional',
-		unlockRatio: 'Desbloquear el proporcional',
 		resetSize: 'Tamaño Original',
 		border: 'Borde',
 		hSpace: 'Esp.Horiz',

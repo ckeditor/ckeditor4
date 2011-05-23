@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'hr' ] = {
 		upload: 'Pošalji',
 		alt: 'Alternativni tekst',
 		lockRatio: 'Zaključaj odnos',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Obriši veličinu',
 		border: 'Okvir',
 		hSpace: 'HSpace',

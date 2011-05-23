@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'he' ] = {
 		upload: 'העלאה',
 		alt: 'טקסט חלופי',
 		lockRatio: 'נעילת היחס',
-		unlockRatio: 'ביטול נעילת היחס',
 		resetSize: 'איפוס הגודל',
 		border: 'מסגרת',
 		hSpace: 'מרווח אופקי',

@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'vi' ] = {
 		upload: 'Tải lên',
 		alt: 'Chú thích ảnh',
 		lockRatio: 'Giữ nguyên tỷ lệ',
-		unlockRatio: 'Phá bỏ tỷ lệ',
 		resetSize: 'Kích thước gốc',
 		border: 'Đường viền',
 		hSpace: 'Khoảng đệm ngang',

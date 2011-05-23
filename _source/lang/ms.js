@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'ms' ] = {
 		upload: 'Muat Naik',
 		alt: 'Text Alternatif',
 		lockRatio: 'Tetapkan Nisbah',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Saiz Set Semula',
 		border: 'Border',
 		hSpace: 'Ruang Melintang',

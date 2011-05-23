@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'de' ] = {
 		upload: 'Hochladen',
 		alt: 'Alternativer Text',
 		lockRatio: 'Größenverhältnis beibehalten',
-		unlockRatio: 'Ratio freischalten',
 		resetSize: 'Größe zurücksetzen',
 		border: 'Rahmen',
 		hSpace: 'Horizontal-Abstand',

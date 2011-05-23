@@ -392,7 +392,6 @@ CKEDITOR.lang[ 'sv' ] = {
 		upload: 'Ladda upp',
 		alt: 'Alternativ text',
 		lockRatio: 'Lås höjd/bredd förhållanden',
-		unlockRatio: 'Lås upp förhållanden',
 		resetSize: 'Återställ storlek',
 		border: 'Kant',
 		hSpace: 'Horis. marginal',

@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'eo' ] = {
 		upload: 'Alŝuti',
 		alt: 'Anstataŭiga Teksto',
 		lockRatio: 'Konservi Proporcion',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Origina Grando',
 		border: 'Bordero',
 		hSpace: 'HSpaco',

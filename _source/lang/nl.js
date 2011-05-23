@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'nl' ] = {
 		upload: 'Upload',
 		alt: 'Alternatieve tekst',
 		lockRatio: 'Afmetingen vergrendelen',
-		unlockRatio: 'Afmetingen ontgrendelen',
 		resetSize: 'Afmetingen resetten',
 		border: 'Rand',
 		hSpace: 'HSpace',

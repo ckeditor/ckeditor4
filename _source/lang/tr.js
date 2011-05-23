@@ -392,7 +392,6 @@ CKEDITOR.lang[ 'tr' ] = {
 		upload: 'Karşıya Yükle',
 		alt: 'Alternatif Yazı',
 		lockRatio: 'Oranı Kilitle',
-		unlockRatio: 'Kilitli Oran',
 		resetSize: 'Boyutu Başa Döndür',
 		border: 'Kenar',
 		hSpace: 'Yatay Boşluk',

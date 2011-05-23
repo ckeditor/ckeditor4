@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'hu' ] = {
 		upload: 'Feltöltés',
 		alt: 'Buborék szöveg',
 		lockRatio: 'Arány megtartása',
-		unlockRatio: 'Arány figyelmen kívül hagyása',
 		resetSize: 'Eredeti méret',
 		border: 'Keret',
 		hSpace: 'Vízsz. táv',

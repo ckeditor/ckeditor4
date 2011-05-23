@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'zh' ] = {
 		upload: '上傳',
 		alt: '替代文字',
 		lockRatio: '等比例',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: '重設為原大小',
 		border: '邊框',
 		hSpace: '水平距離',

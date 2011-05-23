@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'en-au' ] = {
 		upload: 'Upload',
 		alt: 'Alternative Text',
 		lockRatio: 'Lock Ratio',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Reset Size',
 		border: 'Border',
 		hSpace: 'HSpace',

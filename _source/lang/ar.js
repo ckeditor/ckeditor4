@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'ar' ] = {
 		upload: 'رفع',
 		alt: 'عنوان الصورة',
 		lockRatio: 'تناسق الحجم',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'إستعادة الحجم الأصلي',
 		border: 'سمك الحدود',
 		hSpace: 'تباعد أفقي',

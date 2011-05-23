@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'th' ] = {
 		upload: 'อัพโหลดไฟล์',
 		alt: 'คำประกอบรูปภาพ',
 		lockRatio: 'กำหนดอัตราส่วน กว้าง-สูง แบบคงที่',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'กำหนดรูปเท่าขนาดจริง',
 		border: 'ขนาดขอบรูป',
 		hSpace: 'ระยะแนวนอน',

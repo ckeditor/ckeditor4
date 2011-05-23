@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'et' ] = {
 		upload: 'Lae üles',
 		alt: 'Alternatiivne tekst',
 		lockRatio: 'Lukusta kuvasuhe',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Lähtesta suurus',
 		border: 'Joon',
 		hSpace: 'H. vaheruum',

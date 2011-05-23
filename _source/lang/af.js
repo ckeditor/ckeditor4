@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'af' ] = {
 		upload: 'Oplaai',
 		alt: 'Alternatiewe teks',
 		lockRatio: 'Vaste proporsie',
-		unlockRatio: 'Vrye proporsie',
 		resetSize: 'Herstel grootte',
 		border: 'Rand',
 		hSpace: 'HSpasie',

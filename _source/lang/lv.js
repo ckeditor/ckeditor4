@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'lv' ] = {
 		upload: 'Augšupielādēt',
 		alt: 'Alternatīvais teksts',
 		lockRatio: 'Nemainīga Augstuma/Platuma attiecība',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Atjaunot sākotnējo izmēru',
 		border: 'Rāmis',
 		hSpace: 'Horizontālā telpa',

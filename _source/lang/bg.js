@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'bg' ] = {
 		upload: 'Качи',
 		alt: 'Алтернативен текст',
 		lockRatio: 'Запази пропорцията',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Възстанови размера',
 		border: 'Рамка',
 		hSpace: 'Хоризонтален отстъп',

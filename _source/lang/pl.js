@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'pl' ] = {
 		upload: 'Wyślij',
 		alt: 'Tekst zastępczy',
 		lockRatio: 'Zablokuj proporcje',
-		unlockRatio: 'Odblokuj proporcje',
 		resetSize: 'Przywróć rozmiar',
 		border: 'Obramowanie',
 		hSpace: 'Odstęp poziomy',

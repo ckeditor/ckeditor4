@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'cs' ] = {
 		upload: 'Odeslat',
 		alt: 'Alternativní text',
 		lockRatio: 'Zámek',
-		unlockRatio: 'Odemknout poměr',
 		resetSize: 'Původní velikost',
 		border: 'Okraje',
 		hSpace: 'H-mezera',

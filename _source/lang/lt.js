@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'lt' ] = {
 		upload: 'Nusiųsti',
 		alt: 'Alternatyvus Tekstas',
 		lockRatio: 'Išlaikyti proporciją',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Atstatyti dydį',
 		border: 'Rėmelis',
 		hSpace: 'Hor.Erdvė',

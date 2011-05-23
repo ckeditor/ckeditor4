@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		upload: 'Lisää kuva',
 		alt: 'Vaihtoehtoinen teksti',
 		lockRatio: 'Lukitse suhteet',
-		unlockRatio: 'Vapauta suhteet',
 		resetSize: 'Alkuperäinen koko',
 		border: 'Kehys',
 		hSpace: 'Vaakatila',

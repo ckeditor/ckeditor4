@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'fr' ] = {
 		upload: 'Envoyer',
 		alt: 'Texte de remplacement',
 		lockRatio: 'Conserver les proportions',
-		unlockRatio: 'Ne pas conserver les proportions',
 		resetSize: 'Taille d\'origine',
 		border: 'Bordure',
 		hSpace: 'Espacement horizontal',

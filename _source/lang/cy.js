@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		upload: 'lanlwytho',
 		alt: 'Testun Amgen',
 		lockRatio: 'Cloi Cymhareb',
-		unlockRatio: 'Datgloi Cymhareb',
 		resetSize: 'Ailosod Maint',
 		border: 'Ymyl',
 		hSpace: 'BwlchLl',

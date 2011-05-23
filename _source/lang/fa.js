@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'fa' ] = {
 		upload: 'انتقال به سرور',
 		alt: 'متن جایگزین',
 		lockRatio: 'قفلکردن ِنسبت',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'بازنشانی اندازه',
 		border: 'لبه',
 		hSpace: 'فاصلهٴ افقی',

@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'hi' ] = {
 		upload: 'अपलोड',
 		alt: 'वैकल्पिक टेक्स्ट',
 		lockRatio: 'लॉक अनुपात',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'रीसॅट साइज़',
 		border: 'बॉर्डर',
 		hSpace: 'हॉरिज़ॉन्टल स्पेस',

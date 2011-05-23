@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'ko' ] = {
 		upload: '업로드',
 		alt: '이미지 설명',
 		lockRatio: '비율 유지',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: '원래 크기로',
 		border: '테두리',
 		hSpace: '수평여백',

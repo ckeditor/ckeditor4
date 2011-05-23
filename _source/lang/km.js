@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'km' ] = {
 		upload: 'ទាញយក',
 		alt: 'អត្ថបទជំនួស',
 		lockRatio: 'អត្រាឡុក',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'កំណត់ទំហំឡើងវិញ',
 		border: 'ស៊ុម',
 		hSpace: 'គំលាតទទឹង',

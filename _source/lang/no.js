@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'no' ] = {
 		upload: 'Last opp',
 		alt: 'Alternativ tekst',
 		lockRatio: 'Lås forhold',
-		unlockRatio: 'Ikke lås forhold',
 		resetSize: 'Tilbakestill størrelse',
 		border: 'Ramme',
 		hSpace: 'HMarg',

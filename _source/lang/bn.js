@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'bn' ] = {
 		upload: 'আপলোড',
 		alt: 'বিকল্প টেক্সট',
 		lockRatio: 'অনুপাত লক কর',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'সাইজ পূর্বাবস্থায় ফিরিয়ে দাও',
 		border: 'বর্ডার',
 		hSpace: 'হরাইজন্টাল স্পেস',

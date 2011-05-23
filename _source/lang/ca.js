@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'ca' ] = {
 		upload: 'Puja',
 		alt: 'Text alternatiu',
 		lockRatio: 'Bloqueja les proporcions',
-		unlockRatio: 'Desbloqueja el ràtio',
 		resetSize: 'Restaura la mida',
 		border: 'Vora',
 		hSpace: 'Espaiat horit.',

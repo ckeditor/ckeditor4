@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'sk' ] = {
 		upload: 'Odoslať',
 		alt: 'Alternatívny text',
 		lockRatio: 'Zámok',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Pôvodná veľkosť',
 		border: 'Okraje',
 		hSpace: 'H-medzera',

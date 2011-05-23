@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'ja' ] = {
 		upload: 'アップロード',
 		alt: '代替テキスト',
 		lockRatio: 'ロック比率',
-		unlockRatio: 'アンロック比率',
 		resetSize: 'サイズリセット',
 		border: 'ボーダー',
 		hSpace: '横間隔',

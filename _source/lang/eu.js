@@ -393,7 +393,6 @@ CKEDITOR.lang[ 'eu' ] = {
 		upload: 'Gora Kargatu',
 		alt: 'Ordezko Testua',
 		lockRatio: 'Erlazioa Blokeatu',
-		unlockRatio: 'Unlock Ratio', // MISSING
 		resetSize: 'Tamaina Berrezarri',
 		border: 'Ertza',
 		hSpace: 'HSpace',
