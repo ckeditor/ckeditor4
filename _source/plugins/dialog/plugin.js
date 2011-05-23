@@ -82,6 +82,22 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}
 	}
 
+	// Handle dialog element validation state UI changes.
+	function handleFieldValidated( isValid, msg ) {
+		var input = this.getInputElement();
+		if ( input ) {
+			isValid ? input.removeAttribute( 'aria-invalid' ) : input.setAttribute( 'aria-invalid', true );
+		}
+
+		this.fire( 'validated', { valid: isValid, msg: msg } );
+	}
+
+	function resetField() {
+		var input = this.getInputElement();
+		input.removeAttribute( 'aria-invalid' );
+	}
+
+
 	/**
 	 * This is the base class for runtime dialog objects. An instance of this
 	 * class represents a single named dialog for a single editor instance.
@@ -243,14 +259,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.on( 'ok', function( evt ) {
 			iterContents( function( item ) {
 				if ( item.validate ) {
-					var isValid = item.validate( this );
+					var retval = item.validate( this ),
+						isValid = retval === true;
 
-					if ( typeof isValid == 'string' ) {
-						alert( isValid );
-						isValid = false;
-					}
-
-					if ( isValid === false ) {
+					if ( !isValid ) {
 						if ( item.select )
 							item.select();
 						else
@@ -258,8 +270,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 						evt.data.hide = false;
 						evt.stop();
-						return true;
 					}
+
+					handleFieldValidated.call( item, isValid, typeof retval == 'string' ? retval : undefined );
+					return !isValid;
 				}
 			});
 		}, this, null, 0 );
@@ -397,6 +411,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			dialogElement.removeListener( 'keydown', focusKeydownHandler );
 			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
 				dialogElement.removeListener( 'keypress', focusKeyPressHandler );
+
+			// Reset fields state when closing dialog.
+			iterContents( function( item ) {
+				resetField.apply( item );
+			});
 		});
 		this.on( 'iframeAdded', function( evt ) {
 			var doc = new CKEDITOR.dom.document( evt.data.iframe.$.contentWindow.document );
