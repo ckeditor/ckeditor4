@@ -356,6 +356,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( activeChild ) {
 					delete activeChild.onHide;
+					// Sub panels don't manage focus. (#7881)
+					delete activeChild._.returnFocus;
 					delete this._.activeChild;
 					activeChild.hide();
 				}
