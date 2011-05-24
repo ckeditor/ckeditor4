@@ -101,10 +101,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				heightInput && heightInput.onChange();
 			},
 			onOk: function() {
-				if ( this._.selectedElement ) {
-					var selection = editor.getSelection(),
-						bms = selection.createBookmarks();
-				}
+				var selection = editor.getSelection(),
+					bms = selection.createBookmarks();
 
 				var table = this._.selectedElement || makeElement( 'table' ),
 					me = this,
@@ -214,9 +212,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement )
 					editor.insertElement( table );
-				// Properly restore the selection inside table. (#4822)
-				else
+
+				// Properly restore the selection, (#4822) but don't break
+				// because of this, e.g. updated table caption.
+				try {
 					selection.selectBookmarks( bms );
+				} catch ( er ) {}
 
 				return true;
 			},
@@ -526,14 +527,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						id: 'txtCaption',
 						label: editor.lang.table.caption,
 						setup: function( selectedTable ) {
+							this.enable();
+
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
 							if ( nodeList.count() > 0 ) {
 								var caption = nodeList.getItem( 0 );
+
+								var innerHtml = caption.getHtml().replace( /<br>\s*$/i, '' ),
+									innerText = caption.getText();
+
+								if ( innerHtml != innerText ) {
+									this.disable();
+									this.setValue( innerText );
+									return;
+								}
+
 								caption = CKEDITOR.tools.trim( caption.getText() );
 								this.setValue( caption );
 							}
 						},
 						commit: function( data, table ) {
+							if ( !this.isEnabled() )
+								return;
+
 							var caption = this.getValue(),
 								captionElement = table.getElementsByTag( 'caption' );
 							if ( caption ) {
