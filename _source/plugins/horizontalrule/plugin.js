@@ -11,7 +11,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var horizontalruleCmd = {
 		canUndo: false, // The undo snapshot will be handled by 'insertElement'.
 		exec: function( editor ) {
-			editor.insertElement( editor.document.createElement( 'hr' ) );
+			var hr = editor.document.createElement( 'hr' ),
+				range = new CKEDITOR.dom.range( editor.document );
+
+			editor.insertElement( hr );
+
+			// If there's nothing or a non-editable block followed by, establish a new paragraph
+			// to make sure cursor is not trapped.
+			range.moveToPosition( hr, CKEDITOR.POSITION_AFTER_END );
+			var next = hr.getNext();
+			if ( !next || next.type == CKEDITOR.NODE_ELEMENT && !next.isEditable() )
+				range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+
+			range.select();
 		}
 	};
 
