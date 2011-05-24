@@ -213,6 +213,15 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				anchors[ i ] = { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) };
 			}
 
+			if ( CKEDITOR.plugins.link.fakeAnchor ) {
+				var imgs = editor.document.getElementsByTag( 'img' ),
+					anchor;
+				for ( i = 0, count = imgs.count(); i < count; i++ ) {
+					if ( ( anchor = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
+						anchors.push({ name: anchor.getAttribute( 'name' ), id: anchor.getAttribute( 'id' ) } );
+				}
+			}
+
 			// Record down the selected element in the dialog.
 			this._.selectedElement = element;
 			return retval;
