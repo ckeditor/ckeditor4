@@ -42,6 +42,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			title: iframeLang.title,
 			minWidth: 350,
 			minHeight: 260,
+			onLoad: function() {
+				var dialog = this,
+					styles = dialog.getContentElement( 'advanced', 'advStyles' );
+
+				styles && styles.on( 'change', function() {
+					// Synchronize width value.
+					var width = parseInt( this.getStyle( 'width', '' ) || '', 10 ),
+						txtWidth = dialog.getContentElement( 'info', 'width' );
+
+					txtWidth && txtWidth.setValue( width, true );
+
+					// Synchronize height value.
+					var height = parseInt( this.getStyle( 'height', '' ) || '', 10 ),
+						txtHeight = dialog.getContentElement( 'info', 'height' );
+
+					txtHeight && txtHeight.setValue( height, true );
+				});
+			},
 			onShow: function() {
 				// Clear previously saved elements.
 				this.fakeImage = this.iframeNode = null;
@@ -55,6 +73,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					this.setupContent( iframeNode, fakeImage );
 				}
+
+				// Call the onChange method for the widht and height fields so
+				// they get reflected into the Advanced tab.
+				var widthInput = this.getContentElement( 'info', 'width' ),
+					heightInput = this.getContentElement( 'info', 'height' );
+				widthInput && widthInput.onChange();
+				heightInput && heightInput.onChange();
 			},
 			onOk: function() {
 				var iframeNode;
@@ -123,6 +148,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							commitValue.apply( this, arguments );
 							if ( this.getValue() )
 								extraStyles.width = this.getValue() + 'px';
+						},
+						onChange: function() {
+							var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' ),
+								value = this.getValue();
+							styles && styles.updateStyle( 'width', value && ( value + 'px' ) );
 						}
 					},
 						{
@@ -144,6 +174,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							commitValue.apply( this, arguments );
 							if ( this.getValue() )
 								extraStyles.height = this.getValue() + 'px';
+						},
+						onChange: function() {
+							var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' ),
+								value = this.getValue();
+							styles && styles.updateStyle( 'height', value && ( value + 'px' ) );
 						}
 					},
 						{
