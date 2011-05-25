@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignBottom: 'Dưới',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, không có</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'vi' ] = {
 		invalidBorder: 'Kích cỡ của đường biên phải là một số nguyên.',
 		invalidWidth: 'Chiều rộng của bảng phải là một số nguyên.',
 		invalidHeight: 'Chiều cao của bảng phải là một số nguyên.',
-		invalidCellSpacing: 'Khoảng cách giữa các ô phải là một số nguyên.',
-		invalidCellPadding: 'Khoảng đệm giữa ô và nội dung phải là một số nguyên.',
 
 		cell: {
 			menu: 'Ô',

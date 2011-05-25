@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'da' ] = {
 		alignBottom: 'Nederst',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ikke tilgængelig</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'da' ] = {
 		invalidBorder: 'Rammetykkelse skal være et tal.',
 		invalidWidth: 'Tabelbredde skal være et tal.',
 		invalidHeight: 'Tabelhøjde skal være et tal.',
-		invalidCellSpacing: 'Celleafstand skal være et tal.',
-		invalidCellPadding: 'Cellemargen skal være et tal.',
 
 		cell: {
 			menu: 'Celle',

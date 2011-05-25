@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'fo' ] = {
 		alignBottom: 'Botnur',
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ikki tøkt</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'fo' ] = {
 		invalidBorder: 'Borda-stødd má vera eitt tal.',
 		invalidWidth: 'Tabell-breidd má vera eitt tal.',
 		invalidHeight: 'Tabell-hædd má vera eitt tal.',
-		invalidCellSpacing: 'Cell spacing má vera eitt tal.',
-		invalidCellPadding: 'Cell padding má vera eitt tal.',
 
 		cell: {
 			menu: 'Meski',

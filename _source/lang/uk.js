@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'uk' ] = {
 		alignBottom: 'По нижньому краю',
 		invalidHeight: 'Висота повинна бути цілим числом.',
 		invalidWidth: 'Ширина повинна бути цілим числом.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, не доступне</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'uk' ] = {
 		invalidBorder: 'Розмір рамки повинен бути цілим числом.',
 		invalidWidth: 'Ширина таблиці повинна бути цілим числом.',
 		invalidHeight: 'Висота таблиці повинна бути цілим числом.',
-		invalidCellSpacing: 'Проміжок між комірками повинен бути цілим числом.',
-		invalidCellPadding: 'Внутр. відступ комірки повинен бути цілим числом.',
 
 		cell: {
 			menu: 'Комірки',

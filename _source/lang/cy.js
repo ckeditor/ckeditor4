@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'cy' ] = {
 		alignBottom: 'Gwaelod',
 		invalidHeight: 'Rhaid i\'r Uchder fod yn rhif.',
 		invalidWidth: 'Rhaid i\'r Lled fod yn rhif.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidBorder: 'Mae\'n rhaid i faint yr ymyl fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i led y tabl fod yn rhif.',
 		invalidHeight: 'Mae\'n rhaid i uchder y tabl fod yn rhif.',
-		invalidCellSpacing: 'Mae\'n rhaid i fylchiad y gell fod yn rhif.',
-		invalidCellPadding: 'Mae\'n rhaid i badiad y gell fod yn rhif.',
 
 		cell: {
 			menu: 'Cell',

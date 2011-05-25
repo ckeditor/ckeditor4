@@ -2098,6 +2098,23 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( typeof( elementDefinition.isChanged ) == 'function' )
 					this.isChanged = elementDefinition.isChanged;
 
+				// Overload 'get(set)Value' on definition.
+				if ( typeof( elementDefinition.setValue ) == 'function' ) {
+					this.setValue = CKEDITOR.tools.override( this.setValue, function( org ) {
+						return function( val ) {
+							org.call( this, elementDefinition.setValue.call( this, val ) );
+						};
+					});
+				}
+
+				if ( typeof( elementDefinition.getValue ) == 'function' ) {
+					this.getValue = CKEDITOR.tools.override( this.getValue, function( org ) {
+						return function() {
+							return elementDefinition.getValue.call( this, org.call( this ) );
+						};
+					});
+				}
+
 				// Add events.
 				CKEDITOR.event.implementOn( this );
 
@@ -2634,13 +2651,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	(function() {
 		var notEmptyRegex = /^([a]|[^a])+$/,
 			integerRegex = /^\d*$/,
-			numberRegex = /^\d*(?:\.\d+)?$/;
+			numberRegex = /^\d*(?:\.\d+)?$/,
+			htmlLengthRegex = /^([+-]?((\d*(\.\d+))|(\d*))(px|\%)?)?$/,
+			cssLengthRegex = /^([+-]?((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i;
 
 		CKEDITOR.VALIDATE_OR = 1;
 		CKEDITOR.VALIDATE_AND = 2;
 
 		CKEDITOR.dialog.validate = {
 			functions: function() {
+				var args = arguments;
 				return function() {
 					/**
 					 * It's important for validate functions to be able to accept the value
@@ -2648,27 +2668,27 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					 * combine validate functions together to make more sophisticated
 					 * validators.
 					 */
-					var value = this && this.getValue ? this.getValue() : arguments[ 0 ];
+					var value = this && this.getValue ? this.getValue() : args[ 0 ];
 
 					var msg = undefined,
 						relation = CKEDITOR.VALIDATE_AND,
 						functions = [],
 						i;
 
-					for ( i = 0; i < arguments.length; i++ ) {
-						if ( typeof( arguments[ i ] ) == 'function' )
-							functions.push( arguments[ i ] );
+					for ( i = 0; i < args.length; i++ ) {
+						if ( typeof( args[ i ] ) == 'function' )
+							functions.push( args[ i ] );
 						else
 							break;
 					}
 
-					if ( i < arguments.length && typeof( arguments[ i ] ) == 'string' ) {
-						msg = arguments[ i ];
+					if ( i < args.length && typeof( args[ i ] ) == 'string' ) {
+						msg = args[ i ];
 						i++;
 					}
 
-					if ( i < arguments.length && typeof( arguments[ i ] ) == 'number' )
-						relation = arguments[ i ];
+					if ( i < args.length && typeof( args[ i ] ) == 'number' )
+						relation = args[ i ];
 
 					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false );
 					for ( i = 0; i < functions.length; i++ ) {
@@ -2681,8 +2701,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					if ( !passed ) {
 						if ( msg !== undefined )
 							alert( msg );
-						if ( this && ( this.select || this.focus ) )
-						( this.select || this.focus )();
+						if ( this.select || this.focus ) {
+							if ( this.select )
+								this.select();
+							else
+								this.focus();
+						}
+
 						return false;
 					}
 
@@ -2722,6 +2747,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			'number': function( msg ) {
 				return this.regex( numberRegex, msg );
+			},
+
+			'cssLength': function( msg ) {
+				return this.functions( function( val ) {
+					return cssLengthRegex.test( CKEDITOR.tools.trim( val ) );
+				}, msg );
+			},
+
+			'htmlLength': function( msg ) {
+				return this.functions( function( val ) {
+					return htmlLengthRegex.test( CKEDITOR.tools.trim( val ) );
+				}, msg );
 			},
 
 			equals: function( value, msg ) {

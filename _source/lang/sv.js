@@ -118,6 +118,8 @@ CKEDITOR.lang[ 'sv' ] = {
 		alignBottom: 'Nederkant',
 		invalidHeight: 'Höjd måste vara ett nummer.',
 		invalidWidth: 'Bredd måste vara ett nummer.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, Ej tillgänglig</span>'
@@ -261,8 +263,6 @@ CKEDITOR.lang[ 'sv' ] = {
 		invalidBorder: 'Ram måste vara ett nummer.',
 		invalidWidth: 'Tabell måste vara ett nummer.',
 		invalidHeight: 'Tabellens höjd måste vara ett nummer.',
-		invalidCellSpacing: 'Luft i cell måste vara ett nummer.',
-		invalidCellPadding: 'Luft i cell måste vara ett nummer.',
 
 		cell: {
 			menu: 'Cell',

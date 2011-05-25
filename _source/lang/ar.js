@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'ar' ] = {
 		alignBottom: 'أسفل',
 		invalidHeight: 'الارتفاع يجب أن يكون عدداً.',
 		invalidWidth: 'العرض يجب أن يكون عدداً.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, غير متاح</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'ar' ] = {
 		invalidBorder: 'حجم الحد يجب أن يكون عدداً.',
 		invalidWidth: 'عرض الجدول يجب أن يكون عدداً.',
 		invalidHeight: 'ارتفاع الجدول يجب أن يكون عدداً.',
-		invalidCellSpacing: 'المسافة بين الخلايا يجب أن تكون عدداً.',
-		invalidCellPadding: 'المسافة البادئة يجب أن تكون عدداً',
 
 		cell: {
 			menu: 'خلية',

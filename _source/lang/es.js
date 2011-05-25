@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'es' ] = {
 		alignBottom: 'Pie',
 		invalidHeight: 'Altura debe ser un número.',
 		invalidWidth: 'Anchura debe ser un número.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'es' ] = {
 		invalidBorder: 'El tamaño del borde debe ser un número.',
 		invalidWidth: 'La anchura de tabla debe ser un número.',
 		invalidHeight: 'La altura de tabla debe ser un número.',
-		invalidCellSpacing: 'El espaciado entre celdas debe ser un número.',
-		invalidCellPadding: 'El espaciado interior debe ser un número.',
 
 		cell: {
 			menu: 'Celda',

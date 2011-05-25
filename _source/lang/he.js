@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'he' ] = {
 		alignBottom: 'לתחתית',
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidBorder: 'שדה גודל המסגרת חייב להיות מספר.',
 		invalidWidth: 'שדה רוחב הטבלה חייב להיות מספר.',
 		invalidHeight: 'שדה גובה הטבלה חייב להיות מספר.',
-		invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר.',
-		invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר.',
 
 		cell: {
 			menu: 'מאפייני תא',

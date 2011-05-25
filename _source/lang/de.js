@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'de' ] = {
 		alignBottom: 'Unten',
 		invalidHeight: 'Höhe muss eine Zahl sein.',
 		invalidWidth: 'Breite muss eine Zahl sein.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'de' ] = {
 		invalidBorder: 'Die Rahmenbreite muß eine Zahl sein.',
 		invalidWidth: 'Die Tabellenbreite muss eine Zahl sein.',
 		invalidHeight: 'Die Tabellenbreite muß eine Zahl sein.',
-		invalidCellSpacing: 'Der Zellenabstand außen muß eine Zahl sein.',
-		invalidCellPadding: 'Der Zellenabstand innen muß eine Zahl sein.',
 
 		cell: {
 			menu: 'Zelle',

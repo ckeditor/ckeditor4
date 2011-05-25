@@ -608,9 +608,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @param length
 		 */
 		cssLength: (function() {
-			var decimalRegex = /^\d+(?:\.\d+)?$/;
 			return function( length ) {
-				return length + ( decimalRegex.test( length ) ? 'px' : '' );
+				return length + ( !length || isNaN( Number( length ) ) ? '' : 'px' );
 			};
 		})(),
 

@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'hr' ] = {
 		alignBottom: 'Dolje',
 		invalidHeight: 'Visina mora biti broj.',
 		invalidWidth: 'Širina mora biti broj.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'hr' ] = {
 		invalidBorder: 'Debljina ruba mora biti broj.',
 		invalidWidth: 'Širina tablice mora biti broj.',
 		invalidHeight: 'Visina tablice mora biti broj.',
-		invalidCellSpacing: 'Prostornost ćelija mora biti broj.',
-		invalidCellPadding: 'Razmak ćelija mora biti broj.',
 
 		cell: {
 			menu: 'Ćelija',

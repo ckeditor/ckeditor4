@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignBottom: '下',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidBorder: 'ボーダーサイズは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
 		invalidHeight: '高さは数値で入力してください。',
-		invalidCellSpacing: 'セル内余白は数値で入力してください。',
-		invalidCellPadding: 'セル内間隔は数値で入力してください。',
 
 		cell: {
 			menu: 'セル',

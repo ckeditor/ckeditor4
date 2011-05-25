@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'cs' ] = {
 		alignBottom: 'Dolů',
 		invalidHeight: 'Zadaná výška musí být číslo.',
 		invalidWidth: 'Zadaná šířka musí být číslo.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedostupné</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'cs' ] = {
 		invalidBorder: 'Zdaná velikost okraje musí být číselná.',
 		invalidWidth: 'Zadaná šířka tabulky musí být číselná.',
 		invalidHeight: 'zadaná výška tabulky musí být číselná.',
-		invalidCellSpacing: 'Zadaná vzdálenost buněk musí být číselná.',
-		invalidCellPadding: 'Zadané odsazení obsahu v buňce musí být číselné.',
 
 		cell: {
 			menu: 'Buňka',

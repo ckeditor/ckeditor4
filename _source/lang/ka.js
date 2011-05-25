@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'ka' ] = {
 		alignBottom: 'ქვემოთა',
 		invalidHeight: 'სიმაღლე რიცხვით უნდა იყოს წარმოდგენილი.',
 		invalidWidth: 'სიგანე რიცხვით უნდა იყოს წარმოდგენილი.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, მიუწვდომელია</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'ka' ] = {
 		invalidBorder: 'ჩარჩოს ზომა რიცხვით უდნა იყოს წარმოდგენილი.',
 		invalidWidth: 'ცხრილის სიგანე რიცხვით უნდა იყოს წარმოდგენილი.',
 		invalidHeight: 'ცხრილის სიმაღლე რიცხვით უნდა იყოს წარმოდგენილი.',
-		invalidCellSpacing: 'უჯრის სივრცე (spacing) რიცხვით უნდა იყოს წარმოდგენილი.',
-		invalidCellPadding: 'უჯრის კიდე (padding) რიცხვით უნდა იყოს წარმოდგენილი.',
 
 		cell: {
 			menu: 'უჯრა',

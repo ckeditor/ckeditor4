@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignBottom: 'Behean',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'eu' ] = {
 		invalidBorder: 'Ertzaren tamaina zenbaki bat izan behar da.',
 		invalidWidth: 'Taularen zabalera zenbaki bat izan behar da.',
 		invalidHeight: 'Taularen altuera zenbaki bat izan behar da.',
-		invalidCellSpacing: 'Gelaxka arteko tartea zenbaki bat izan behar da.',
-		invalidCellPadding: 'Gelaxken betegarria zenbaki bat izan behar da.',
 
 		cell: {
 			menu: 'Gelaxka',

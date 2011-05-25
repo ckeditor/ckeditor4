@@ -11,6 +11,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		frameborder: { 'true': '1', 'false': '0' }
 	};
 
+	var defaultToPixel = CKEDITOR.tools.cssLength;
+
 	function loadValue( iframeNode ) {
 		var isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox;
 		if ( iframeNode.hasAttribute( this.id ) ) {
@@ -48,13 +50,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				styles && styles.on( 'change', function() {
 					// Synchronize width value.
-					var width = parseInt( this.getStyle( 'width', '' ) || '', 10 ),
+					var width = this.getStyle( 'width', '' ),
 						txtWidth = dialog.getContentElement( 'info', 'width' );
 
 					txtWidth && txtWidth.setValue( width, true );
 
 					// Synchronize height value.
-					var height = parseInt( this.getStyle( 'height', '' ) || '', 10 ),
+					var height = this.getStyle( 'height', '' ),
 						txtHeight = dialog.getContentElement( 'info', 'height' );
 
 					txtHeight && txtHeight.setValue( height, true );
@@ -135,24 +137,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.width,
-						validate: CKEDITOR.dialog.validate.integer( commonLang.invalidWidth ),
+						validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+						getValue: defaultToPixel,
 						setup: function( iframeNode, fakeImage ) {
 							loadValue.apply( this, arguments );
-							if ( fakeImage ) {
-								var fakeImageWidth = parseInt( fakeImage.$.style.width, 10 );
-								if ( !isNaN( fakeImageWidth ) )
-									this.setValue( fakeImageWidth );
-							}
+							fakeImage && this.setValue( fakeImage.getStyle( 'width' ) );
 						},
 						commit: function( iframeNode, extraStyles ) {
 							commitValue.apply( this, arguments );
-							if ( this.getValue() )
-								extraStyles.width = this.getValue() + 'px';
+							var val = this.getValue();
+							val && ( extraStyles.width = val );
 						},
 						onChange: function() {
 							var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' ),
 								value = this.getValue();
-							styles && styles.updateStyle( 'width', value && ( value + 'px' ) );
+							styles && styles.updateStyle( 'width', value );
 						}
 					},
 						{
@@ -161,24 +160,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.height,
-						validate: CKEDITOR.dialog.validate.integer( commonLang.invalidHeight ),
+						validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+						getValue: defaultToPixel,
 						setup: function( iframeNode, fakeImage ) {
 							loadValue.apply( this, arguments );
-							if ( fakeImage ) {
-								var fakeImageHeight = parseInt( fakeImage.$.style.height, 10 );
-								if ( !isNaN( fakeImageHeight ) )
-									this.setValue( fakeImageHeight );
-							}
+							fakeImage && this.setValue( fakeImage.getStyle( 'height' ) );
 						},
 						commit: function( iframeNode, extraStyles ) {
 							commitValue.apply( this, arguments );
-							if ( this.getValue() )
-								extraStyles.height = this.getValue() + 'px';
+							var val = this.getValue();
+							val && ( extraStyles.height = val );
 						},
 						onChange: function() {
 							var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' ),
 								value = this.getValue();
-							styles && styles.updateStyle( 'height', value && ( value + 'px' ) );
+							styles && styles.updateStyle( 'height', value );
 						}
 					},
 						{

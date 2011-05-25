@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		alignBottom: '靠下對齊',
 		invalidHeight: '高度必須為數字格式',
 		invalidWidth: '寬度必須為數字格式',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 已關閉</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'zh' ] = {
 		invalidBorder: '邊框大小必須為數字格式',
 		invalidWidth: '表格寬度必須為數字格式',
 		invalidHeight: '表格高度必須為數字格式',
-		invalidCellSpacing: '儲存格間距必須為數字格式',
-		invalidCellPadding: '儲存格內距必須為數字格式',
 
 		cell: {
 			menu: '儲存格',

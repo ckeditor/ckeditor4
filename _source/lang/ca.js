@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'ca' ] = {
 		alignBottom: 'Inferior',
 		invalidHeight: 'L\'alçada ha de ser un nombre.',
 		invalidWidth: 'L\'amplada ha de ser un nombre.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'ca' ] = {
 		invalidBorder: 'El gruix de la vora ha de ser un nombre.',
 		invalidWidth: 'L\'amplada de la taula  ha de ser un nombre.',
 		invalidHeight: 'L\'alçada de la taula  ha de ser un nombre.',
-		invalidCellSpacing: 'L\'espaiat de cel·la  ha de ser un nombre.',
-		invalidCellPadding: 'L\'encoixinament de cel·la  ha de ser un nombre.',
 
 		cell: {
 			menu: 'Cel·la',

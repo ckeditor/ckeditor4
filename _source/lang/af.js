@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'af' ] = {
 		alignBottom: 'Onder',
 		invalidHeight: 'Hoogte moet \'n getal wees',
 		invalidWidth: 'Breedte moet \'n getal wees.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nie beskikbaar nie</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'af' ] = {
 		invalidBorder: 'Randbreedte moet \'n getal wees.',
 		invalidWidth: 'Tabelbreedte moet \'n getal wees.',
 		invalidHeight: 'Tabelhoogte moet \'n getal wees.',
-		invalidCellSpacing: 'Sel-afstand moet \'n getal wees.',
-		invalidCellPadding: 'Sel-spasie moet \'n getal wees.',
 
 		cell: {
 			menu: 'Sel',

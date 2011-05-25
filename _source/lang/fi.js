@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'fi' ] = {
 		alignBottom: 'Alas',
 		invalidHeight: 'Korkeuden täytyy olla numero.',
 		invalidWidth: 'Leveyden täytyy olla numero.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ei saatavissa</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'fi' ] = {
 		invalidBorder: 'Reunan koon täytyy olla numero.',
 		invalidWidth: 'Taulun leveyden täytyy olla numero.',
 		invalidHeight: 'Taulun korkeuden täytyy olla numero.',
-		invalidCellSpacing: 'Solujen välin täytyy olla numero.',
-		invalidCellPadding: 'Solujen sisennyksen täytyy olla numero.',
 
 		cell: {
 			menu: 'Solu',

@@ -119,6 +119,8 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignBottom: 'Понизу',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',
+		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, недоступно</span>'
@@ -262,8 +264,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		invalidBorder: 'Ширина бордюра должна быть числом.',
 		invalidWidth: 'Ширина таблицы должна быть числом.',
 		invalidHeight: 'Высота таблицы должна быть числом.',
-		invalidCellSpacing: 'Размер промежутков (cellspacing) между ячейками должны быть числом.',
-		invalidCellPadding: 'Отступы внутри ячеек (cellpadding) должны быть числом.',
 
 		cell: {
 			menu: 'Ячейка',
