@@ -79,8 +79,9 @@ CKEDITOR.plugins.add( 'listblock', {
 					pendingHtml.push( '<li id=', id, ' class=cke_panel_listItem role=presentation>' +
 						'<a id="', id, '_option" _cke_focus=1 hidefocus=true' +
 							' title="', title || value, '"' +
-							' href="javascript:void(\'', value, '\')"' +
-							' onclick="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\'); return false;"', ' role="option"' +
+							' href="javascript:void(\'', value, '\')" ' +
+							( CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ) + // #188
+													'="CKEDITOR.tools.callFunction(', this._.getClick(), ',\'', value, '\'); return false;"', ' role="option"' +
 							' aria-posinset="' + ++this._.size + '">', html || value, '</a>' +
 						'</li>' );
 				},

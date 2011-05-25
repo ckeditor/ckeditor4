@@ -377,8 +377,9 @@ CKEDITOR.plugins.add( 'menu', {
 				output.push(
 				//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
 				' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
-					' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');"' +
-					' onclick="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
+					' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');" ' +
+					( CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ) + // #188
+										'="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
 					'>' +
 						'<span class="cke_icon_wrapper"><span class="cke_icon"' +
 							( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
