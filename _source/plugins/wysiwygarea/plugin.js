@@ -44,6 +44,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( this.dataProcessor )
 			data = this.dataProcessor.toHtml( data );
 
+		if ( !data )
+			return;
+
 		// HTML insertion only considers the first range.
 		var selection = this.getSelection(),
 			range = selection.getRanges()[ 0 ];
