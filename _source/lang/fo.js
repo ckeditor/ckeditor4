@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'fo' ] = {
 		menu: 'Eginleikar fyri marknastein',
 		title: 'Eginleikar fyri marknastein',
 		name: 'Heiti marknasteinsins',
-		errorName: 'Vinarliga rita marknasteinsins heiti'
+		errorName: 'Vinarliga rita marknasteinsins heiti',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

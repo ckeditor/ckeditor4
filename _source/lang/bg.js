@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'bg' ] = {
 		menu: 'Параметри на котвата',
 		title: 'Параметри на котвата',
 		name: 'Име на котвата',
-		errorName: 'Моля, въведете име на котвата'
+		errorName: 'Моля, въведете име на котвата',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

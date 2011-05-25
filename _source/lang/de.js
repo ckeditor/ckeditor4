@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'de' ] = {
 		menu: 'Anker-Eigenschaften',
 		title: 'Anker-Eigenschaften',
 		name: 'Anker Name',
-		errorName: 'Bitte geben Sie den Namen des Ankers ein'
+		errorName: 'Bitte geben Sie den Namen des Ankers ein',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

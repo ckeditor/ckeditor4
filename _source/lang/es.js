@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'es' ] = {
 		menu: 'Propiedades de Referencia',
 		title: 'Propiedades de Referencia',
 		name: 'Nombre de la Referencia',
-		errorName: 'Por favor, complete el nombre de la Referencia'
+		errorName: 'Por favor, complete el nombre de la Referencia',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

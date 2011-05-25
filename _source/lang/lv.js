@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'lv' ] = {
 		menu: 'Iezīmes īpašības',
 		title: 'Iezīmes īpašības',
 		name: 'Iezīmes nosaukums',
-		errorName: 'Lūdzu norādiet iezīmes nosaukumu'
+		errorName: 'Lūdzu norādiet iezīmes nosaukumu',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

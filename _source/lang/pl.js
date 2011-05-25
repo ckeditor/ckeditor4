@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		menu: 'Właściwości kotwicy',
 		title: 'Właściwości kotwicy',
 		name: 'Nazwa kotwicy',
-		errorName: 'Wpisz nazwę kotwicy'
+		errorName: 'Wpisz nazwę kotwicy',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

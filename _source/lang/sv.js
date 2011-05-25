@@ -196,7 +196,8 @@ CKEDITOR.lang[ 'sv' ] = {
 		menu: 'Egenskaper för ankarlänk',
 		title: 'Egenskaper för ankarlänk',
 		name: 'Ankarnamn',
-		errorName: 'Var god ange ett ankarnamn'
+		errorName: 'Var god ange ett ankarnamn',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

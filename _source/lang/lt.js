@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'lt' ] = {
 		menu: 'Žymės savybės',
 		title: 'Žymės savybės',
 		name: 'Žymės vardas',
-		errorName: 'Prašome įvesti žymės vardą'
+		errorName: 'Prašome įvesti žymės vardą',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

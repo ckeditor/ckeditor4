@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'hi' ] = {
 		menu: 'ऐंकर प्रॉपर्टीज़',
 		title: 'ऐंकर प्रॉपर्टीज़',
 		name: 'ऐंकर का नाम',
-		errorName: 'ऐंकर का नाम टाइप करें'
+		errorName: 'ऐंकर का नाम टाइप करें',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

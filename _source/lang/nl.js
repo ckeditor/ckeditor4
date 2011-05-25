@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'nl' ] = {
 		menu: 'Eigenschappen interne link',
 		title: 'Eigenschappen interne link',
 		name: 'Naam interne link',
-		errorName: 'Geef de naam van de interne link op'
+		errorName: 'Geef de naam van de interne link op',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

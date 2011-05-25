@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'bn' ] = {
 		menu: 'নোঙর প্রোপার্টি',
 		title: 'নোঙর প্রোপার্টি',
 		name: 'নোঙরের নাম',
-		errorName: 'নোঙরের নাম টাইপ করুন'
+		errorName: 'নোঙরের নাম টাইপ করুন',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

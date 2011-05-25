@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ca' ] = {
 		menu: 'Propietats de l\'àncora',
 		title: 'Propietats de l\'àncora',
 		name: 'Nom de l\'àncora',
-		errorName: 'Si us plau, escriviu el nom de l\'ancora'
+		errorName: 'Si us plau, escriviu el nom de l\'ancora',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

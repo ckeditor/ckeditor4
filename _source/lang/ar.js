@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ar' ] = {
 		menu: 'تحرير الإشارة المرجعية',
 		title: 'خصائص الإشارة المرجعية',
 		name: 'اسم الإشارة المرجعية',
-		errorName: 'الرجاء كتابة اسم الإشارة المرجعية'
+		errorName: 'الرجاء كتابة اسم الإشارة المرجعية',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

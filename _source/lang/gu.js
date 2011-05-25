@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		menu: 'ઍંકરના ગુણ',
 		title: 'ઍંકરના ગુણ',
 		name: 'ઍંકરનું નામ',
-		errorName: 'ઍંકરનું નામ ટાઈપ કરો'
+		errorName: 'ઍંકરનું નામ ટાઈપ કરો',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

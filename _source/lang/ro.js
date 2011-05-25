@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ro' ] = {
 		menu: 'Proprietăţi ancoră',
 		title: 'Proprietăţi ancoră',
 		name: 'Numele ancorei',
-		errorName: 'Vă rugăm scrieţi numele ancorei'
+		errorName: 'Vă rugăm scrieţi numele ancorei',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

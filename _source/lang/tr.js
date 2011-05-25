@@ -196,7 +196,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		menu: 'Bağlantı Özellikleri',
 		title: 'Bağlantı Özellikleri',
 		name: 'Bağlantı Adı',
-		errorName: 'Lütfen bağlantı için ad giriniz'
+		errorName: 'Lütfen bağlantı için ad giriniz',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

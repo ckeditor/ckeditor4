@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'af' ] = {
 		menu: 'Anker-eienskappe',
 		title: 'Anker-eienskappe',
 		name: 'Ankernaam',
-		errorName: 'Voltooi die ankernaam asseblief'
+		errorName: 'Voltooi die ankernaam asseblief',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

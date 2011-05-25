@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		menu: 'Ainguraren Ezaugarriak',
 		title: 'Ainguraren Ezaugarriak',
 		name: 'Ainguraren Izena',
-		errorName: 'Idatzi ainguraren izena'
+		errorName: 'Idatzi ainguraren izena',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

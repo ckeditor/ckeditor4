@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'mn' ] = {
 		menu: 'Холбоос шинж чанар',
 		title: 'Холбоос шинж чанар',
 		name: 'Холбоос нэр',
-		errorName: 'Холбоос төрөл оруулна уу'
+		errorName: 'Холбоос төрөл оруулна уу',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

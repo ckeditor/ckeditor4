@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'en' ] = {
 		menu: 'Edit Anchor',
 		title: 'Anchor Properties',
 		name: 'Anchor Name',
-		errorName: 'Please type the anchor name'
+		errorName: 'Please type the anchor name',
+		remove: 'Remove Anchor'
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'no' ] = {
 		menu: 'Egenskaper for anker',
 		title: 'Egenskaper for anker',
 		name: 'Ankernavn',
-		errorName: 'Vennligst skriv inn ankernavnet'
+		errorName: 'Vennligst skriv inn ankernavnet',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

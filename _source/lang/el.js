@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'el' ] = {
 		menu: 'Ιδιότητες άγκυρας',
 		title: 'Ιδιότητες άγκυρας',
 		name: 'Όνομα άγκυρας',
-		errorName: 'Παρακαλούμε εισάγετε όνομα άγκυρας'
+		errorName: 'Παρακαλούμε εισάγετε όνομα άγκυρας',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

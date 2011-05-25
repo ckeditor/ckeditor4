@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'th' ] = {
 		menu: 'รายละเอียด Anchor',
 		title: 'รายละเอียด Anchor',
 		name: 'ชื่อ Anchor',
-		errorName: 'กรุณาระบุชื่อของ Anchor'
+		errorName: 'กรุณาระบุชื่อของ Anchor',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

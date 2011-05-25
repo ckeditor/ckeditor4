@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ko' ] = {
 		menu: '책갈피 속성',
 		title: '책갈피 속성',
 		name: '책갈피 이름',
-		errorName: '책갈피 이름을 입력하십시요.'
+		errorName: '책갈피 이름을 입력하십시요.',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

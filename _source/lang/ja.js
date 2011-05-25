@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		menu: 'アンカー プロパティ',
 		title: 'アンカー プロパティ',
 		name: 'アンカー名',
-		errorName: 'アンカー名を必ず入力してください。'
+		errorName: 'アンカー名を必ず入力してください。',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

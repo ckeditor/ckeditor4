@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'cs' ] = {
 		menu: 'Vlastnosti záložky',
 		title: 'Vlastnosti záložky',
 		name: 'Název záložky',
-		errorName: 'Zadejte prosím název záložky'
+		errorName: 'Zadejte prosím název záložky',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

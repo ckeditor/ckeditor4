@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'sk' ] = {
 		menu: 'Vlastnosti kotvy',
 		title: 'Vlastnosti kotvy',
 		name: 'Meno kotvy',
-		errorName: 'Zadajte prosím meno kotvy'
+		errorName: 'Zadajte prosím meno kotvy',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

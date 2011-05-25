@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'sl' ] = {
 		menu: 'Lastnosti zaznamka',
 		title: 'Lastnosti zaznamka',
 		name: 'Ime zaznamka',
-		errorName: 'Prosim vnesite ime zaznamka'
+		errorName: 'Prosim vnesite ime zaznamka',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

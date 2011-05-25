@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'is' ] = {
 		menu: 'Eigindi kaflamerkis',
 		title: 'Eigindi kaflamerkis',
 		name: 'Nafn bókamerkis',
-		errorName: 'Sláðu inn nafn bókamerkis!'
+		errorName: 'Sláðu inn nafn bókamerkis!',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

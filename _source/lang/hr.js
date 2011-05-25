@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'hr' ] = {
 		menu: 'Svojstva sidra',
 		title: 'Svojstva sidra',
 		name: 'Ime sidra',
-		errorName: 'Molimo unesite ime sidra'
+		errorName: 'Molimo unesite ime sidra',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		menu: 'Propriétés de l\'ancre',
 		title: 'Propriétés de l\'ancre',
 		name: 'Nom de l\'ancre',
-		errorName: 'Veuillez saisir le nom de l\'ancre'
+		errorName: 'Veuillez saisir le nom de l\'ancre',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

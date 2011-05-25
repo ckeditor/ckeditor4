@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'ms' ] = {
 		menu: 'Ciri-ciri Pautan',
 		title: 'Ciri-ciri Pautan',
 		name: 'Nama Pautan',
-		errorName: 'Sila taip nama pautan'
+		errorName: 'Sila taip nama pautan',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

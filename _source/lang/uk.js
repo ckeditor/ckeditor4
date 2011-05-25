@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'uk' ] = {
 		menu: 'Властивості якоря',
 		title: 'Властивості якоря',
 		name: 'Ім\'я якоря',
-		errorName: 'Будь ласка, вкажіть ім\'я якоря'
+		errorName: 'Будь ласка, вкажіть ім\'я якоря',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'eo' ] = {
 		menu: 'Ankraj Atributoj',
 		title: 'Ankraj Atributoj',
 		name: 'Ankra Nomo',
-		errorName: 'Bv tajpi la ankran nomon'
+		errorName: 'Bv tajpi la ankran nomon',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

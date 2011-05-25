@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'it' ] = {
 		menu: 'Proprietà ancora',
 		title: 'Proprietà ancora',
 		name: 'Nome ancora',
-		errorName: 'Inserici il nome dell\'ancora'
+		errorName: 'Inserici il nome dell\'ancora',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		menu: '錨點屬性',
 		title: '錨點屬性',
 		name: '錨點名稱',
-		errorName: '請輸入錨點名稱'
+		errorName: '請輸入錨點名稱',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'vi' ] = {
 		menu: 'Thuộc tính điểm neo',
 		title: 'Thuộc tính điểm neo',
 		name: 'Tên của điểm neo',
-		errorName: 'Hãy nhập vào tên của điểm neo'
+		errorName: 'Hãy nhập vào tên của điểm neo',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

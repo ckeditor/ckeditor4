@@ -196,7 +196,8 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		menu: 'Formatar Âncora',
 		title: 'Formatar Âncora',
 		name: 'Nome da Âncora',
-		errorName: 'Por favor, digite o nome da âncora'
+		errorName: 'Por favor, digite o nome da âncora',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

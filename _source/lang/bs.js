@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'bs' ] = {
 		menu: 'Edit Anchor', // MISSING
 		title: 'Anchor Properties', // MISSING
 		name: 'Anchor Name', // MISSING
-		errorName: 'Please type the anchor name' // MISSING
+		errorName: 'Please type the anchor name', // MISSING
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'cy' ] = {
 		menu: 'Golygwch yr Angor',
 		title: 'Priodweddau\'r Angor',
 		name: 'Enw\'r Angor',
-		errorName: 'Teipiwch enw\'r angor'
+		errorName: 'Teipiwch enw\'r angor',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

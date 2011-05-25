@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'km' ] = {
 		menu: 'ការកំណត់យុថ្កា',
 		title: 'ការកំណត់យុថ្កា',
 		name: 'ឈ្មោះយុទ្ធថ្កា',
-		errorName: 'សូមសរសេរ ឈ្មោះយុទ្ធថ្កា'
+		errorName: 'សូមសរសេរ ឈ្មោះយុទ្ធថ្កា',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

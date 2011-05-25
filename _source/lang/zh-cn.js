@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		menu: '锚点链接属性',
 		title: '锚点链接属性',
 		name: '锚点名称',
-		errorName: '请输入锚点名称'
+		errorName: '请输入锚点名称',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

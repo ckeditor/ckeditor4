@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'he' ] = {
 		menu: 'מאפייני נקודת עיגון',
 		title: 'מאפייני נקודת עיגון',
 		name: 'שם לנקודת עיגון',
-		errorName: 'יש להקליד שם לנקודת עיגון'
+		errorName: 'יש להקליד שם לנקודת עיגון',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

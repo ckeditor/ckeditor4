@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'fi' ] = {
 		menu: 'Ankkurin ominaisuudet',
 		title: 'Ankkurin ominaisuudet',
 		name: 'Nimi',
-		errorName: 'Ankkurille on kirjoitettava nimi'
+		errorName: 'Ankkurille on kirjoitettava nimi',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

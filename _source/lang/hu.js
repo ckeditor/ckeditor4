@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'hu' ] = {
 		menu: 'Horgony tulajdonságai',
 		title: 'Horgony tulajdonságai',
 		name: 'Horgony neve',
-		errorName: 'Kérem adja meg a horgony nevét'
+		errorName: 'Kérem adja meg a horgony nevét',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'fa' ] = {
 		menu: 'ویژگیهای لنگر',
 		title: 'ویژگیهای لنگر',
 		name: 'نام لنگر',
-		errorName: 'لطفا نام لنگر را بنویسید'
+		errorName: 'لطفا نام لنگر را بنویسید',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog

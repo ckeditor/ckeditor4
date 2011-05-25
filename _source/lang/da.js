@@ -197,7 +197,8 @@ CKEDITOR.lang[ 'da' ] = {
 		menu: 'Egenskaber for bogmærke',
 		title: 'Egenskaber for bogmærke',
 		name: 'Bogmærke navn',
-		errorName: 'Indtast bogmærke navn'
+		errorName: 'Indtast bogmærke navn',
+		remove: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog
