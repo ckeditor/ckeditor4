@@ -141,6 +141,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					ratioButton.setAttribute( 'aria-checked', dialog.lockRatio );
 
+					// Ratio button hc presentation - WHITE SQUARE / BLACK SQUARE
+					if ( CKEDITOR.env.hc ) {
+						var icon = ratioButton.getChild( 0 );
+						icon.setHtml( dialog.lockRatio ? CKEDITOR.env.ie ? '\u25A0' : '\u25A3' : CKEDITOR.env.ie ? '\u25A1' : '\u25A2' );
+					}
+
 					return dialog.lockRatio;
 				};
 
@@ -681,7 +687,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									},
 									html: '<div>' +
 										'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.lockRatio +
-										'" class="cke_btn_locked" id="' + btnLockSizesId + '" role="checkbox"><span class="cke_label">' + editor.lang.image.lockRatio + '</span></a>' +
+										'" class="cke_btn_locked" id="' + btnLockSizesId + '" role="checkbox"><span class="cke_icon"></span><span class="cke_label">' + editor.lang.image.lockRatio + '</span></a>' +
 										'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.resetSize +
 										'" class="cke_btn_reset" id="' + btnResetSizeId + '" role="button"><span class="cke_label">' + editor.lang.image.resetSize + '</span></a>' +
 										'</div>'

@@ -637,6 +637,11 @@ body .cke_dialog
 	border: none 1px;
 	font-size: 1px;
 }
+.cke_skin_v2 .cke_dialog a.cke_btn_locked .cke_icon
+{
+	display:none;
+}
+
 
 .cke_skin_v2 .cke_rtl .cke_dialog a.cke_btn_locked,
 .cke_skin_v2 .cke_rtl .cke_dialog a.cke_btn_unlocked
@@ -800,6 +805,10 @@ body .cke_dialog
 	width:auto;
 	height:auto;
 	padding: 0 2px;
+}
+.cke_skin_v2 .cke_hc a.cke_btn_locked .cke_icon
+{
+	display:inline;
 }
 
 .cke_skin_v2 .cke_rtl.cke_hc a.cke_btn_locked,
