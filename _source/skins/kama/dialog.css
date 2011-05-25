@@ -864,6 +864,7 @@ body .cke_dialog
 .cke_skin_kama .cke_hc .cke_dialog_body .cke_label
 {
 	display: inline;
+	cursor: inherit;
 }
 
 .cke_skin_kama .cke_hc a.cke_btn_locked,
@@ -874,6 +875,7 @@ body .cke_dialog
 	float: left;
 	width: auto;
 	height: auto;
+	padding: 0 2px;
 }
 
 .cke_skin_kama .cke_rtl.cke_hc a.cke_btn_locked,
@@ -902,6 +904,11 @@ body .cke_dialog
 	opacity: 1.0;
 	filter: alpha(opacity=100);
 	border: 1px solid white;
+}
+
+.cke_skin_kama .cke_hc .ImagePreviewBox
+{
+	width: 260px;
 }
 
 /**

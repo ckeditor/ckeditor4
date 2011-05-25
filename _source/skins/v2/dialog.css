@@ -788,6 +788,7 @@ body .cke_dialog
 .cke_skin_v2 .cke_hc .cke_dialog_body .cke_label
 {
 	display: inline;
+	cursor: inherit;
 }
 
 .cke_skin_v2 .cke_hc a.cke_btn_locked,
@@ -798,6 +799,7 @@ body .cke_dialog
 	float:left;
 	width:auto;
 	height:auto;
+	padding: 0 2px;
 }
 
 .cke_skin_v2 .cke_rtl.cke_hc a.cke_btn_locked,
