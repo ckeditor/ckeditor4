@@ -38,6 +38,9 @@ CKEDITOR.htmlParser.fragment = function() {
 	// parser fixing.
 	var nonBreakingBlocks = CKEDITOR.tools.extend( { table:1,ul:1,ol:1,dl:1 }, CKEDITOR.dtd.table, CKEDITOR.dtd.ul, CKEDITOR.dtd.ol, CKEDITOR.dtd.dl );
 
+	// IE < 8 don't output the close tag on definition list items. (#6975)
+	var optionalCloseTags = CKEDITOR.env.ie && CKEDITOR.env.version < 8 ? { dd:1,dt:1 } : {};
+
 	var listBlocks = { ol:1,ul:1 };
 
 	// Dtd of the fragment element, basically it accept anything except for intermediate structure, e.g. orphan <li>.
@@ -172,7 +175,8 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( element.isUnknown && selfClosing )
 				element.isEmpty = true;
 
-			element.isOptionalClose = optionalClose;
+			// Check for optional closed elements, including browser quirks and manually opened blocks.
+			element.isOptionalClose = tagName in optionalCloseTags || optionalClose;
 
 			// This is a tag to be removed if empty, so do not add it immediately.
 			if ( CKEDITOR.dtd.$removeEmpty[ tagName ] ) {
