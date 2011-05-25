@@ -16,6 +16,10 @@
 		return range.getCommonAncestor().getAscendant( listTag, 1 );
 	}
 
+	var listItem = function( node ) {
+			return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
+		};
+
 	var mapListStyle = {
 		'a': 'lower-alpha',
 		'A': 'upper-alpha',
@@ -119,15 +123,30 @@
 							id: 'start',
 							validate: CKEDITOR.dialog.validate.integer( lang.validateStartNumber ),
 							setup: function( element ) {
-								var value = element.getAttribute( 'start' ) || 1;
+								// List item start number dominates.
+								var value = element.getFirst( listItem ).getAttribute( 'value' ) || element.getAttribute( 'start' ) || 1;
 								value && this.setValue( value );
 							},
 							commit: function( element ) {
+								var firstItem = element.getFirst( listItem );
+								var oldStart = firstItem.getAttribute( 'value' ) || element.getAttribute( 'start' ) || 1;
+
+								// Force start number on list root.
+								element.getFirst( listItem ).removeAttribute( 'value' );
 								var val = parseInt( this.getValue(), 10 );
 								if ( isNaN( val ) )
 									element.removeAttribute( 'start' );
 								else
 									element.setAttribute( 'start', val );
+
+								// Update consequent list item numbering.
+								var nextItem = firstItem,
+									conseq = oldStart,
+									startNumber = isNaN( val ) ? 1 : val;
+								while ( ( nextItem = nextItem.getNext( listItem ) ) && conseq++ ) {
+									if ( nextItem.getAttribute( 'value' ) == conseq )
+										nextItem.setAttribute( 'value', startNumber + conseq - oldStart );
+								}
 							}
 						},
 							{
