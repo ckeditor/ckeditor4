@@ -960,6 +960,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var attrs = element.attributes;
 						if ( attrs && !attrs.href && attrs.name )
 							delete element.name;
+						else if ( CKEDITOR.env.webkit && attrs.href && attrs.href.match( /file:\/\/\/[\S]+#/i ) )
+							attrs.href = attrs.href.replace( /file:\/\/\/[^#]+/i, '' );
 					},
 					'cke:listbullet': function( element ) {
 						if ( element.getAncestor( /h\d/ ) && !config.pasteFromWordNumberedHeadingToList )
