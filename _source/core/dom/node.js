@@ -436,7 +436,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the closest ancestor node of this node, specified by its node name.
-	 * @param {String} name The node name of the ancestor node to search.
+	 * @param {String} reference The node name of the ancestor node to search, or
+	 * an object with the names to search for (since 3.6.1)
 	 * @param {Boolean} [includeSelf] Whether to include the current
 	 * node in the search.
 	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
@@ -447,15 +448,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * ascendant = node.getAscendant( 'div' );      // ascendant == &lt;div id="inner"&gt
 	 * ascendant = node.getAscendant( 'b' );        // ascendant == null
 	 * ascendant = node.getAscendant( 'b', true );  // ascendant == &lt;b&gt;
+	 * ascendant = node.getAscendant( { div:1,p:1 } );      // Searchs for the first 'div' or 'p': ascendant == &lt;div id="inner"&gt
 	 */
-	getAscendant: function( name, includeSelf ) {
-		var $ = this.$;
+	getAscendant: function( reference, includeSelf ) {
+		var $ = this.$,
+			name;
 
 		if ( !includeSelf )
 			$ = $.parentNode;
 
 		while ( $ ) {
-			if ( $.nodeName && $.nodeName.toLowerCase() == name )
+			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference : name in reference ) ) )
 				return new CKEDITOR.dom.node( $ );
 
 			$ = $.parentNode;

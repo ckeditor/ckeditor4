@@ -88,9 +88,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 			replaceVariables( styleDefinition.styles, variablesValues );
 		}
 
-		var element = this.element = ( styleDefinition.element || '*' ).toLowerCase();
+		var element = this.element = styleDefinition.element ? ( typeof styleDefinition.element == 'string' ? styleDefinition.element.toLowerCase() : styleDefinition.element ) : '*';
 
 		this.type = blockElements[ element ] ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE;
+
+		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
+		if ( typeof this.element == 'object' )
+			this.type = CKEDITOR.STYLE_OBJECT;
 
 		this._ = {
 			definition: styleDefinition
@@ -138,8 +142,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 						if ( this.type == CKEDITOR.STYLE_INLINE && ( element == elementPath.block || element == elementPath.blockLimit ) )
 							continue;
 
-						if ( this.type == CKEDITOR.STYLE_OBJECT && !( element.getName() in objectElements ) )
-							continue;
+						if ( this.type == CKEDITOR.STYLE_OBJECT ) {
+							var name = element.getName();
+							if ( !( typeof this.element == 'string' ? name == this.element : name in this.element ) )
+								continue;
+						}
 
 						if ( this.checkElementRemovable( element, true ) )
 							return true;
@@ -172,10 +179,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return false;
 
 			var def = this._.definition,
-				attribs;
+				attribs,
+				name = element.getName();
 
 			// If the element name is the same as the style name.
-			if ( element.getName() == this.element ) {
+			if ( typeof this.element == 'string' ? name == this.element : name in this.element ) {
 				// If no attributes are defined in the element.
 				if ( !fullMatch && !element.hasAttributes() )
 					return true;
