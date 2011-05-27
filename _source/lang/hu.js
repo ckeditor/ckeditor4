@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'hu' ] = {
 		alignBottom: 'Aljára',
 		invalidHeight: 'A magasság mezőbe csak számokat írhat.',
 		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',
-		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
-		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
+		invalidCssLength: 'Specified value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Specified value must be either a number in pixels or a percentage value.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING

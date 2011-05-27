@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		alignBottom: '靠下對齊',
 		invalidHeight: '高度必須為數字格式',
 		invalidWidth: '寬度必須為數字格式',
-		invalidCssLength: 'Value must be a valid CSS length unit.', // MISSING
-		invalidHtmlLength: 'Value must be either a number in unit of pixel, or a percentage value', // MISSING
+		invalidCssLength: 'Specified value must be a valid CSS length unit.', // MISSING
+		invalidHtmlLength: 'Specified value must be either a number in pixels or a percentage value.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 已關閉</span>'
