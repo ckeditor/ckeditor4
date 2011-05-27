@@ -56,7 +56,7 @@ CKEDITOR.lang[ 'pl' ] = {
 	horizontalrule: 'Wstaw poziomą linię',
 	pagebreak: 'Wstaw pdodział strony',
 	pagebreakAlt: 'Wstaw podział strony',
-	unlink: 'Usuń hiperłącze',
+	unlink: 'Usuń odnośnik',
 	undo: 'Cofnij',
 	redo: 'Ponów',
 
@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		alignBottom: 'Do dołu',
 		invalidHeight: 'Wysokość musi być liczbą.',
 		invalidWidth: 'Szerokość musi być liczbą.',
-		invalidCssLength: 'Specified value must be a valid CSS length unit.', // MISSING
-		invalidHtmlLength: 'Specified value must be either a number in pixels or a percentage value.', // MISSING
+		invalidCssLength: 'Podana wartość musi być poprawną jednostką długości zgodną z CSS.',
+		invalidHtmlLength: 'Podana wartość musi być wyrażona w pikselach lub wartościach procentowych.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niedostępne</span>'
@@ -139,15 +139,15 @@ CKEDITOR.lang[ 'pl' ] = {
 
 	// Link dialog.
 	link: {
-		toolbar: 'Wstaw/edytuj hiperłącze',
+		toolbar: 'Wstaw/edytuj odnośnik',
 		other: '<inny>',
-		menu: 'Edytuj hiperłącze',
-		title: 'Hiperłącze',
+		menu: 'Edytuj odnośnik',
+		title: 'Odnośnik',
 		info: 'Informacje ',
 		target: 'Obiekt docelowy',
 		upload: 'Wyślij',
 		advanced: 'Zaawansowane',
-		type: 'Typ hiperłącza',
+		type: 'Typ odnośnika',
 		toUrl: 'Adres URL',
 		toAnchor: 'Odnośnik wewnątrz strony (kotwica)',
 		toEmail: 'Adres e-mail',
@@ -198,7 +198,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		title: 'Właściwości kotwicy',
 		name: 'Nazwa kotwicy',
 		errorName: 'Wpisz nazwę kotwicy',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Usuń kotwicę'
 	},
 
 	// List style dialog
@@ -399,7 +399,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		hSpace: 'Odstęp poziomy',
 		vSpace: 'Odstęp pionowy',
 		alertUrl: 'Podaj adres obrazka.',
-		linkTab: 'Hiperłącze',
+		linkTab: 'Odnośnik',
 		button2Img: 'Czy chcesz przekonwertować zaznaczony przycisk graficzny do zwykłego obrazka?',
 		img2Button: 'Czy chcesz przekonwertować zaznaczony obrazek do przycisku graficznego?',
 		urlMissing: 'Podaj adres URL obrazka.',
@@ -713,7 +713,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		forms: 'Formularze',
 		basicstyles: 'Style podstawowe',
 		paragraph: 'Akapit',
-		links: 'Hiperłącza',
+		links: 'Odnośniki',
 		insert: 'Wstawianie',
 		styles: 'Style',
 		colors: 'Kolory',
