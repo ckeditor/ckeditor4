@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'he' ] = {
 		alignBottom: 'לתחתית',
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',
-		invalidCssLength: 'Specified value must be a valid CSS length unit.', // MISSING
-		invalidHtmlLength: 'Specified value must be either a number in pixels or a percentage value.', // MISSING
+		invalidCssLength: 'הערך המצויין חייב להיות אורך CSS תקין.',
+		invalidHtmlLength: 'הערך המצויין חייב להיות מספר בפיקסלים או באחוזים.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -198,7 +198,7 @@ CKEDITOR.lang[ 'he' ] = {
 		title: 'מאפייני נקודת עיגון',
 		name: 'שם לנקודת עיגון',
 		errorName: 'יש להקליד שם לנקודת עיגון',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'מחיקת נקודת עיגון'
 	},
 
 	// List style dialog
