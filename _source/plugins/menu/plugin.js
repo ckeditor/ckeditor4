@@ -95,7 +95,7 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			onClick: function( item ) {
-				this.hide();
+				this.hide( false );
 
 				if ( item.onClick )
 					item.onClick();
@@ -301,9 +301,9 @@ CKEDITOR.plugins.add( 'menu', {
 				this._.listeners.push( listenerFn );
 			},
 
-			hide: function() {
+			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
-				this._.panel && this._.panel.hide();
+				this._.panel && this._.panel.hide( returnFocus );
 			}
 		}
 	});

@@ -239,7 +239,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				else
 					me.setValue( '' );
 
-				panel.hide();
+				panel.hide( false );
 			};
 
 			this._.panel = panel;
