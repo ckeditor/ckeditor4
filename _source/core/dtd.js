@@ -36,13 +36,13 @@ CKEDITOR.dtd = (function() {
 		B = { input:1,button:1,select:1,textarea:1,label:1 },
 		C = X( { a:1 }, B ),
 		D = X( { iframe:1 }, C ),
-		E = { hr:1,ul:1,menu:1,div:1,blockquote:1,noscript:1,table:1,center:1,address:1,dir:1,pre:1,h5:1,dl:1,h4:1,noframes:1,h6:1,ol:1,h1:1,h3:1,h2:1 },
+		E = { hr:1,ul:1,menu:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,mark:1,time:1,meter:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,blockquote:1,noscript:1,table:1,center:1,address:1,dir:1,pre:1,h5:1,dl:1,h4:1,noframes:1,h6:1,ol:1,h1:1,h3:1,h2:1 },
 		F = { ins:1,del:1,script:1,style:1 },
 		G = X( { b:1,acronym:1,bdo:1,'var':1,'#':1,abbr:1,code:1,br:1,i:1,cite:1,kbd:1,u:1,strike:1,s:1,tt:1,strong:1,q:1,samp:1,em:1,dfn:1,span:1,wbr:1 }, F ),
-		H = X( { sub:1,img:1,object:1,sup:1,basefont:1,map:1,applet:1,font:1,big:1,small:1 }, G ),
+		H = X( { sub:1,img:1,object:1,sup:1,basefont:1,map:1,applet:1,font:1,big:1,small:1,mark:1 }, G ),
 		I = X( { p:1 }, H ),
 		J = X( { iframe:1 }, H, B ),
-		K = { img:1,noscript:1,br:1,kbd:1,center:1,button:1,basefont:1,h5:1,h4:1,samp:1,h6:1,ol:1,h1:1,h3:1,h2:1,form:1,font:1,'#':1,select:1,menu:1,ins:1,abbr:1,label:1,code:1,table:1,script:1,cite:1,input:1,iframe:1,strong:1,textarea:1,noframes:1,big:1,small:1,span:1,hr:1,sub:1,bdo:1,'var':1,div:1,object:1,sup:1,strike:1,dir:1,map:1,dl:1,applet:1,del:1,isindex:1,fieldset:1,ul:1,b:1,acronym:1,a:1,blockquote:1,i:1,u:1,s:1,tt:1,address:1,q:1,pre:1,p:1,em:1,dfn:1 },
+		K = { img:1,noscript:1,br:1,kbd:1,center:1,button:1,basefont:1,h5:1,h4:1,samp:1,h6:1,ol:1,h1:1,h3:1,h2:1,form:1,font:1,'#':1,select:1,menu:1,ins:1,abbr:1,label:1,code:1,table:1,script:1,cite:1,input:1,iframe:1,strong:1,textarea:1,noframes:1,big:1,small:1,span:1,hr:1,sub:1,bdo:1,'var':1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,mark:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,object:1,sup:1,strike:1,dir:1,map:1,dl:1,applet:1,del:1,isindex:1,fieldset:1,ul:1,b:1,acronym:1,a:1,blockquote:1,i:1,u:1,s:1,tt:1,address:1,q:1,pre:1,p:1,em:1,dfn:1 },
 
 		L = X( { a:1 }, J ),
 		M = { tr:1 },
@@ -56,7 +56,7 @@ CKEDITOR.dtd = (function() {
 		U = { head:1,body:1 },
 		V = { html:1 };
 
-	var block = { address:1,blockquote:1,center:1,dir:1,div:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,menu:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 };
+	var block = { address:1,blockquote:1,center:1,dir:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 };
 
 	return /** @lends CKEDITOR.dtd */ {
 
@@ -77,7 +77,7 @@ CKEDITOR.dtd = (function() {
 		 * @type Object
 		 * @example
 		 */
-		$blockLimit: { body:1,div:1,td:1,th:1,caption:1,form:1 },
+		$blockLimit: { body:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,td:1,th:1,caption:1,form:1 },
 
 		/**
 		 * List of inline (&lt;span&gt; like) elements.
@@ -117,14 +117,14 @@ CKEDITOR.dtd = (function() {
 		 * @type Object
 		 * @example
 		 */
-		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1,param:1 },
+		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1,param:1,audio:1,video:1 },
 
 		/**
 		 * List of elements that can be ignored if empty, like "b" or "span".
 		 * @type Object
 		 * @example
 		 */
-		$removeEmpty: { abbr:1,acronym:1,address:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 },
+		$removeEmpty: { abbr:1,acronym:1,address:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1,mark:1 },
 
 		/**
 		 * List of elements that have tabindex set to zero by default.
@@ -229,7 +229,30 @@ CKEDITOR.dtd = (function() {
 		pre: X( G, C ),
 		p: L,
 		em: L,
-		dfn: L
+		dfn: L,
+		//HTML5
+		section: P,
+		header: P,
+		footer: P,
+		nav: P,
+		article: P,
+		aside: P,
+		figure: P,
+		dialog: P,
+		hgroup: P,
+		mark: L,
+		time: L,
+		meter: L,
+		menu: L,
+		command: L,
+		keygen: L,
+		output: L,
+		progress: O,
+		audio: O,
+		video: O,
+		details: O,
+		datagrid: O,
+		datalist: O
 	};
 })();
 
