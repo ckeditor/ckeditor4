@@ -191,6 +191,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
 					editor.lang.dir = 'ltr';
 
+				editor.fire( 'langLoaded' );
+
 				var config = editor.config;
 				config.contentsLangDirection == 'ui' && ( config.contentsLangDirection = editor.lang.dir );
 
@@ -830,6 +832,14 @@ CKEDITOR.on( 'loaded', function() {
  * @name CKEDITOR#instanceDestroyed
  * @event
  * @param {CKEDITOR.editor} editor The editor instance that has been destroyed.
+ */
+
+/**
+ * Fired when the language is loaded
+ * @name CKEDITOR.editor#langLoaded
+ * @event
+ * @since 3.6.1
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
