@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'cs' ] = {
 		invalidBorder: 'Zdaná velikost okraje musí být číselná.',
 		invalidWidth: 'Zadaná šířka tabulky musí být číselná.',
 		invalidHeight: 'zadaná výška tabulky musí být číselná.',
+		invalidCellSpacing: 'Zadaná vzdálenost buněk musí být číselná.',
+		invalidCellPadding: 'Zadané odsazení obsahu v buňce musí být číselné.',
 
 		cell: {
 			menu: 'Buňka',

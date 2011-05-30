@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		invalidBorder: 'Ertzaren tamaina zenbaki bat izan behar da.',
 		invalidWidth: 'Taularen zabalera zenbaki bat izan behar da.',
 		invalidHeight: 'Taularen altuera zenbaki bat izan behar da.',
+		invalidCellSpacing: 'Gelaxka arteko tartea zenbaki bat izan behar da.',
+		invalidCellPadding: 'Gelaxken betegarria zenbaki bat izan behar da.',
 
 		cell: {
 			menu: 'Gelaxka',

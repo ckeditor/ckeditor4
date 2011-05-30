@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'no' ] = {
 		invalidBorder: 'Rammestørrelse må være et tall.',
 		invalidWidth: 'Tabellbredde må være et tall.',
 		invalidHeight: 'Tabellhøyde må være et tall.',
+		invalidCellSpacing: 'Cellemarg må være et tall.',
+		invalidCellPadding: 'Cellepolstring må være et tall.',
 
 		cell: {
 			menu: 'Celle',

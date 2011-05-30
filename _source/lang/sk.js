@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'sk' ] = {
 		invalidBorder: 'Širka rámu musí byť celé číslo.',
 		invalidWidth: 'Širka tabuľky musí byť číslo.',
 		invalidHeight: 'Výška tabuľky musí byť číslo.',
+		invalidCellSpacing: 'Medzera mädzi bunkami (spacing) musí byť číslo.',
+		invalidCellPadding: 'Odsadenie v bunkách (padding) musí byť číslo.',
 
 		cell: {
 			menu: 'Bunka',

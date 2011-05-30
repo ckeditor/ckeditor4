@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'ko' ] = {
 		invalidBorder: 'Border size must be a number.', // MISSING
 		invalidWidth: 'Table width must be a number.', // MISSING
 		invalidHeight: 'Table height must be a number.', // MISSING
+		invalidCellSpacing: 'Cell spacing must be a number.', // MISSING
+		invalidCellPadding: 'Cell padding must be a number.', // MISSING
 
 		cell: {
 			menu: '셀/칸(Cell)',

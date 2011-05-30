@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		invalidBorder: '边框粗细必须为数字格式',
 		invalidWidth: '表格宽度必须为数字格式',
 		invalidHeight: '表格高度必须为数字格式',
+		invalidCellSpacing: '单元格间距必须为数字格式',
+		invalidCellPadding: '单元格填充必须为数字格式',
 
 		cell: {
 			menu: '单元格',

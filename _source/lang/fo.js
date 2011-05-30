@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'fo' ] = {
 		invalidBorder: 'Borda-stødd má vera eitt tal.',
 		invalidWidth: 'Tabell-breidd má vera eitt tal.',
 		invalidHeight: 'Tabell-hædd má vera eitt tal.',
+		invalidCellSpacing: 'Cell spacing má vera eitt tal.',
+		invalidCellPadding: 'Cell padding má vera eitt tal.',
 
 		cell: {
 			menu: 'Meski',

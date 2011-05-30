@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'af' ] = {
 		invalidBorder: 'Randbreedte moet \'n getal wees.',
 		invalidWidth: 'Tabelbreedte moet \'n getal wees.',
 		invalidHeight: 'Tabelhoogte moet \'n getal wees.',
+		invalidCellSpacing: 'Sel-afstand moet \'n getal wees.',
+		invalidCellPadding: 'Sel-spasie moet \'n getal wees.',
 
 		cell: {
 			menu: 'Sel',

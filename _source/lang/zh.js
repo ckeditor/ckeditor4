@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		invalidBorder: '邊框大小必須為數字格式',
 		invalidWidth: '表格寬度必須為數字格式',
 		invalidHeight: '表格高度必須為數字格式',
+		invalidCellSpacing: '儲存格間距必須為數字格式',
+		invalidCellPadding: '儲存格內距必須為數字格式',
 
 		cell: {
 			menu: '儲存格',

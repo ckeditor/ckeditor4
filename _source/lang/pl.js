@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		invalidBorder: 'Wartość obramowania musi być liczbą.',
 		invalidWidth: 'Szerokość tabeli musi być liczbą.',
 		invalidHeight: 'Wysokość tabeli musi być liczbą.',
+		invalidCellSpacing: 'Odstęp komórek musi być liczbą.',
+		invalidCellPadding: 'Dopełnienie komórek musi być liczbą.',
 
 		cell: {
 			menu: 'Komórka',
@@ -399,7 +401,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		hSpace: 'Odstęp poziomy',
 		vSpace: 'Odstęp pionowy',
 		alertUrl: 'Podaj adres obrazka.',
-		linkTab: 'Odnośnik',
+		linkTab: 'Hiperłącze',
 		button2Img: 'Czy chcesz przekonwertować zaznaczony przycisk graficzny do zwykłego obrazka?',
 		img2Button: 'Czy chcesz przekonwertować zaznaczony obrazek do przycisku graficznego?',
 		urlMissing: 'Podaj adres URL obrazka.',
@@ -713,7 +715,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		forms: 'Formularze',
 		basicstyles: 'Style podstawowe',
 		paragraph: 'Akapit',
-		links: 'Odnośniki',
+		links: 'Hiperłącza',
 		insert: 'Wstawianie',
 		styles: 'Style',
 		colors: 'Kolory',

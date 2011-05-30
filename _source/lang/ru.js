@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'ru' ] = {
 		invalidBorder: 'Ширина бордюра должна быть числом.',
 		invalidWidth: 'Ширина таблицы должна быть числом.',
 		invalidHeight: 'Высота таблицы должна быть числом.',
+		invalidCellSpacing: 'Размер промежутков (cellspacing) между ячейками должны быть числом.',
+		invalidCellPadding: 'Отступы внутри ячеек (cellpadding) должны быть числом.',
 
 		cell: {
 			menu: 'Ячейка',

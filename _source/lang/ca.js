@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'ca' ] = {
 		invalidBorder: 'El gruix de la vora ha de ser un nombre.',
 		invalidWidth: 'L\'amplada de la taula  ha de ser un nombre.',
 		invalidHeight: 'L\'alçada de la taula  ha de ser un nombre.',
+		invalidCellSpacing: 'L\'espaiat de cel·la  ha de ser un nombre.',
+		invalidCellPadding: 'L\'encoixinament de cel·la  ha de ser un nombre.',
 
 		cell: {
 			menu: 'Cel·la',

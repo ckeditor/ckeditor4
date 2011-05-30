@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidBorder: 'Mae\'n rhaid i faint yr ymyl fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i led y tabl fod yn rhif.',
 		invalidHeight: 'Mae\'n rhaid i uchder y tabl fod yn rhif.',
+		invalidCellSpacing: 'Mae\'n rhaid i fylchiad y gell fod yn rhif.',
+		invalidCellPadding: 'Mae\'n rhaid i badiad y gell fod yn rhif.',
 
 		cell: {
 			menu: 'Cell',

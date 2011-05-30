@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidBorder: 'ボーダーサイズは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
 		invalidHeight: '高さは数値で入力してください。',
+		invalidCellSpacing: 'セル内余白は数値で入力してください。',
+		invalidCellPadding: 'セル内間隔は数値で入力してください。',
 
 		cell: {
 			menu: 'セル',

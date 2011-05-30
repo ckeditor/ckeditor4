@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'sl' ] = {
 		invalidBorder: 'Širina obrobe mora biti število.',
 		invalidWidth: 'Širina tabele mora biti število.',
 		invalidHeight: 'Višina tabele mora biti število.',
+		invalidCellSpacing: 'Razmik med celicami mora biti število.',
+		invalidCellPadding: 'Zamik celic mora biti število',
 
 		cell: {
 			menu: 'Celica',

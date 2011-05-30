@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'vi' ] = {
 		invalidBorder: 'Kích cỡ của đường biên phải là một số nguyên.',
 		invalidWidth: 'Chiều rộng của bảng phải là một số nguyên.',
 		invalidHeight: 'Chiều cao của bảng phải là một số nguyên.',
+		invalidCellSpacing: 'Khoảng cách giữa các ô phải là một số nguyên.',
+		invalidCellPadding: 'Khoảng đệm giữa ô và nội dung phải là một số nguyên.',
 
 		cell: {
 			menu: 'Ô',

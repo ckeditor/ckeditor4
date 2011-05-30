@@ -264,6 +264,8 @@ CKEDITOR.lang[ 'sv' ] = {
 		invalidBorder: 'Ram måste vara ett nummer.',
 		invalidWidth: 'Tabell måste vara ett nummer.',
 		invalidHeight: 'Tabellens höjd måste vara ett nummer.',
+		invalidCellSpacing: 'Luft i cell måste vara ett nummer.',
+		invalidCellPadding: 'Luft i cell måste vara ett nummer.',
 
 		cell: {
 			menu: 'Cell',

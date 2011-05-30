@@ -264,6 +264,8 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		invalidBorder: 'O tamanho da borda tem que ser um número.',
 		invalidWidth: 'A largura da tabela tem que ser um número.',
 		invalidHeight: 'A altura da tabela tem que ser um número.',
+		invalidCellSpacing: 'O espaçamento das células tem que ser um número.',
+		invalidCellPadding: 'A margem interna das células tem que ser um número.',
 
 		cell: {
 			menu: 'Célula',

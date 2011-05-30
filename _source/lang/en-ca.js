@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		invalidBorder: 'Border size must be a number.',
 		invalidWidth: 'Table width must be a number.',
 		invalidHeight: 'Table height must be a number.',
+		invalidCellSpacing: 'Cell spacing must be a number.',
+		invalidCellPadding: 'Cell padding must be a number.',
 
 		cell: {
 			menu: 'Cell',

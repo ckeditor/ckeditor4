@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'ar' ] = {
 		invalidBorder: 'حجم الحد يجب أن يكون عدداً.',
 		invalidWidth: 'عرض الجدول يجب أن يكون عدداً.',
 		invalidHeight: 'ارتفاع الجدول يجب أن يكون عدداً.',
+		invalidCellSpacing: 'المسافة بين الخلايا يجب أن تكون عدداً.',
+		invalidCellPadding: 'المسافة البادئة يجب أن تكون عدداً',
 
 		cell: {
 			menu: 'خلية',

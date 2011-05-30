@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'hr' ] = {
 		invalidBorder: 'Debljina ruba mora biti broj.',
 		invalidWidth: 'Širina tablice mora biti broj.',
 		invalidHeight: 'Visina tablice mora biti broj.',
+		invalidCellSpacing: 'Prostornost ćelija mora biti broj.',
+		invalidCellPadding: 'Razmak ćelija mora biti broj.',
 
 		cell: {
 			menu: 'Ćelija',

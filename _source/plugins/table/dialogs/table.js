@@ -400,7 +400,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							style: 'width:3em',
 							label: editor.lang.table.cellSpace,
 							'default': 1,
-							validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength ),
+							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
 							},
@@ -417,7 +417,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							style: 'width:3em',
 							label: editor.lang.table.cellPad,
 							'default': 1,
-							validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength ),
+							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
 							},

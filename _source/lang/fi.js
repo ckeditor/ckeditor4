@@ -265,6 +265,8 @@ CKEDITOR.lang[ 'fi' ] = {
 		invalidBorder: 'Reunan koon täytyy olla numero.',
 		invalidWidth: 'Taulun leveyden täytyy olla numero.',
 		invalidHeight: 'Taulun korkeuden täytyy olla numero.',
+		invalidCellSpacing: 'Solujen välin täytyy olla numero.',
+		invalidCellPadding: 'Solujen sisennyksen täytyy olla numero.',
 
 		cell: {
 			menu: 'Solu',
