@@ -5,10 +5,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	// Elements that may be considered the "Block boundary" in an element path.
-	var pathBlockElements = { address:1,blockquote:1,dl:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,li:1,dt:1,dd:1,legend:1 };
+	var pathBlockElements = { address:1,blockquote:1,dl:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,li:1,dt:1,dd:1,legend:1,caption:1 };
 
 	// Elements that may be considered the "Block limit" in an element path.
-	var pathBlockLimitElements = { body:1,div:1,table:1,tbody:1,tr:1,td:1,th:1,caption:1,form:1,fieldset:1 };
+	var pathBlockLimitElements = { body:1,div:1,table:1,tbody:1,tr:1,td:1,th:1,form:1,fieldset:1 };
 
 	// Check if an element contains any block element.
 	var checkHasBlock = function( element ) {
