@@ -403,6 +403,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			editor.selectionChange = checkSelectionChangeTimeout;
+
+			// IE9 might cease to work if there's an object selection inside the iframe (#7639).
+			CKEDITOR.env.ie9Compat && editor.on( 'destroy', function() {
+				var sel = editor.getSelection();
+				sel && sel.getNative().clear();
+			}, null, null, 9 );
 		}
 	});
 
