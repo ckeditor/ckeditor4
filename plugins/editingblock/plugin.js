@@ -188,17 +188,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return this._.modes && this._.modes[ mode || this.mode ];
 	};
 
-	/**
-	 * Moves the selection focus to the editing are space in the editor.
-	 */
-	CKEDITOR.editor.prototype.focus = function() {
-		// TODO: Uncomment this.
-		// this.forceNextSelectionCheck();
-		var mode = this.getMode();
-		if ( mode )
-			mode.focus();
-	};
-
 	function updateCommandsMode() {
 		var command,
 			commands = this.commands,
