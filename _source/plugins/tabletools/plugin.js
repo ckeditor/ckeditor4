@@ -291,16 +291,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					row = new CKEDITOR.dom.element( table.$.rows[ j ] ),
 					cell = new CKEDITOR.dom.element( mapRow[ i ] );
 
-				if ( cell.$.colSpan == 1 )
-					cell.remove();
-				// Reduce the col spans.
-				else
-					cell.$.colSpan -= 1;
+				if ( cell.$ ) {
+					if ( cell.$.colSpan == 1 )
+						cell.remove();
+					// Reduce the col spans.
+					else
+						cell.$.colSpan -= 1;
 
-				j += cell.$.rowSpan - 1;
+					j += cell.$.rowSpan - 1;
 
-				if ( !row.$.cells.length )
-					rowsToDelete.push( row );
+					if ( !row.$.cells.length )
+						rowsToDelete.push( row );
+				}
 			}
 		}
 
