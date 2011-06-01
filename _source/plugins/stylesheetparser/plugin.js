@@ -107,25 +107,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 
 /**
- * Regular Expression to check if a css rule must be skipped by
- * the stylesheet parser plugin (so it's ignored and not available)
+ * A regular expression that defines whether a CSS rule will be
+ * skipped by the Stylesheet Parser plugin. A CSS rule matching
+ * the regular expression will be ignored and will not be available
+ * in the Styles drop-down list.
  * @name CKEDITOR.config.stylesheetParser_skipSelectors
  * @type RegExp
  * @default /(^body\.|^\.)/i
  * @since 3.6
+ * @see CKEDITOR.config.stylesheetParser_validSelectors
  * @example
- * // Ignore rules for body, caption, only a class or classes starting with "high".
+ * // Ignore rules for body and caption elements, classes starting with "high", and any class defined for no specific element.
  * config.stylesheetParser_skipSelectors = /(^body\.|^caption\.|\.high|^\.)/i;
  */
 
 /**
- * Regular Expression to check if a css rule must be allowed by
- * the stylesheet parser plugin
+ * A regular expression that defines which CSS rules will be used
+ * by the Stylesheet Parser plugin. A CSS rule matching the regular
+ * expression will be available in the Styles drop-down list.
  * @name CKEDITOR.config.stylesheetParser_validSelectors
  * @type RegExp
  * @default /\w+\.\w+/
  * @since 3.6
+ * @see CKEDITOR.config.stylesheetParser_skipSelectors
  * @example
- * // Add only rules for p and span elements.
+ * // Only add rules for p and span elements.
  * config.stylesheetParser_validSelectors = /\^(p|span)\.\w+/;
  */
