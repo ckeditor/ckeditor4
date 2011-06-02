@@ -927,6 +927,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 					standard.apply( this, arguments );
 				return this;
 			};
+		} else if ( CKEDITOR.env.ie8Compat && CKEDITOR.env.secure ) {
+			return function( name, value ) {
+				// IE8 throws error when setting src attribute to non-ssl value. (#7847)
+				if ( name == 'src' && value.match( /^http:\/\// ) )
+					try {
+					standard.apply( this, arguments );
+				} catch ( e ) {} else
+					standard.apply( this, arguments );
+				return this;
+			};
 		} else
 			return standard;
 	})(),
