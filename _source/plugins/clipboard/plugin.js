@@ -346,6 +346,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					});
 				});
 
+				// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
+				body.on( 'contextmenu', function() {
+					depressBeforeEvent = 1;
+					setTimeout( function() {
+						depressBeforeEvent = 0;
+					}, 0 );
+				})
+
 				body.on( 'beforecut', function() {
 					!depressBeforeEvent && fixCut( editor );
 				});
