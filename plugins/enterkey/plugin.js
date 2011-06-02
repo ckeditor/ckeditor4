@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
-		requires: [ 'keystrokes', 'indent' ],
+		requires: [ 'indent' ],
 
 		init: function( editor ) {
 			editor.addCommand( 'enter', { modes:{wysiwyg:1 },
