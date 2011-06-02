@@ -92,7 +92,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 			onOk: function() {
 				var selection = editor.getSelection(),
-					bms = selection.createBookmarks();
+					bms = this._.selectedElement && selection.createBookmarks();
 
 				var table = this._.selectedElement || makeElement( 'table' ),
 					me = this,
@@ -191,16 +191,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 
 				// Insert the table element if we're creating one.
-				if ( !this._.selectedElement )
+				if ( !this._.selectedElement ) {
 					editor.insertElement( table );
-
+					// Override the default cursor position after insertElement to place
+					// cursor inside the first cell (#7959), IE needs a while.
+					setTimeout( function() {
+						var firstCell = new CKEDITOR.dom.element( table.$.rows[ 0 ].cells[ 0 ] );
+						var range = new CKEDITOR.dom.range( editor.document );
+						range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
+						range.select( 1 );
+					}, 0 );
+				}
 				// Properly restore the selection, (#4822) but don't break
 				// because of this, e.g. updated table caption.
-				try {
+				else
+					try {
 					selection.selectBookmarks( bms );
 				} catch ( er ) {}
-
-				return true;
 			},
 			contents: [
 				{
