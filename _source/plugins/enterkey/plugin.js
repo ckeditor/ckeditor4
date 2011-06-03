@@ -59,8 +59,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return;
 				}
 			}
-			// Don't split caption block, like <caption> and <legend>. (#7944)
-			else if ( block && !CKEDITOR.dtd[ block.getName() ][ 'p' ] ) {
+			// Don't split caption blocks. (#7944)
+			else if ( block && CKEDITOR.dtd.$captionBlock[ block.getName() ] ) {
 				enterBr( editor, mode, range, forceMode );
 				return;
 			}
