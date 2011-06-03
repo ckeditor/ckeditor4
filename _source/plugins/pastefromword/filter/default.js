@@ -333,55 +333,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				for ( var i = 0; i < children.length; i++ ) {
 					child = children[ i ];
-					if ( child.name == 'li' ) {
-						var attributes = child.attributes;
 
-						if ( child.name in CKEDITOR.dtd.$listItem ) {
-							var listItemChildren = child.children,
-								count = listItemChildren.length,
-								last = listItemChildren[ count - 1 ];
+					if ( child.name in CKEDITOR.dtd.$listItem ) {
+						var attributes = child.attributes,
+							listItemChildren = child.children,
+							count = listItemChildren.length,
+							last = listItemChildren[ count - 1 ];
 
-							// Move out nested list.
-							if ( last.name in CKEDITOR.dtd.$list ) {
-								children.splice( i + 1, 0, last );
-								last.parent = element;
+						// Move out nested list.
+						if ( last.name in CKEDITOR.dtd.$list ) {
+							element.add( last, i + 1 );
 
-								// Remove the parent list item if it's just a holder.
-								if ( !--listItemChildren.length )
-									children.splice( i, 1 );
-
-								// Flatten sub list.
-								arguments.callee.apply( this, [ last, level + 1 ] );
-								var index = CKEDITOR.tools.indexOf( children, last );
-								// Absorb sub list children.
-								children = children.splice( 0, index ).concat( last.children ).concat( children.splice( index + 1 ) );
-								element.children = children;
-							}
-
-							child.name = 'cke:li';
-
-							// Inherit numbering from list root on the first list item.
-							attrs.start && !i && ( attributes.value = attrs.start );
-
-							plugin.filters.stylesFilter( [
-								[ 'tab-stops', null, function( val )
-																		{
-								var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
-								margin && ( previousListItemMargin = parseInt( plugin.utils.convertToPx( margin[ 0 ] ), 10 ) );
-							}],
-								( level == 1 ? [ 'mso-list', null, function( val )
-																		{
-								val = val.split( ' ' );
-								var listId = Number( val[ 0 ].match( /\d+/ ) );
-								listId !== previousListId && ( attributes[ 'cke:reset' ] = 1 );
-								previousListId = listId;
-							}] : null )
-								] )( attributes.style );
-
-							attributes[ 'cke:indent' ] = level;
-							attributes[ 'cke:listtype' ] = element.name;
-							attributes[ 'cke:list-style-type' ] = listStyleType;
+							// Remove the parent list item if it's just a holder.
+							if ( !--listItemChildren.length )
+								children.splice( i--, 1 );
 						}
+
+						child.name = 'cke:li';
+
+						// Inherit numbering from list root on the first list item.
+						attrs.start && !i && ( attributes.value = attrs.start );
+
+						plugin.filters.stylesFilter( [
+							[ 'tab-stops', null, function( val )
+																{
+							var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
+							margin && ( previousListItemMargin = parseInt( plugin.utils.convertToPx( margin[ 0 ] ), 10 ) );
+						}],
+							( level == 1 ? [ 'mso-list', null, function( val )
+																{
+							val = val.split( ' ' );
+							var listId = Number( val[ 0 ].match( /\d+/ ) );
+							listId !== previousListId && ( attributes[ 'cke:reset' ] = 1 );
+							previousListId = listId;
+						}] : null )
+							] )( attributes.style );
+
+						attributes[ 'cke:indent' ] = level;
+						attributes[ 'cke:listtype' ] = element.name;
+						attributes[ 'cke:list-style-type' ] = listStyleType;
+					}
+					// Flatten sub list.
+					else if ( child.name in CKEDITOR.dtd.$list ) {
+						// Absorb sub list children.
+						arguments.callee.apply( this, [ child, level + 1 ] );
+						children = children.slice( 0, i ).concat( child.children ).concat( children.slice( i + 1 ) );
+						element.children = [];
+						for ( var j = 0, num = children.length; j < num; j++ )
+							element.add( children[ j ] );
 					}
 				}
 

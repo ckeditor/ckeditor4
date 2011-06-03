@@ -374,12 +374,13 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *		following types: {@link CKEDITOR.htmlParser.element},
 		 *		{@link CKEDITOR.htmlParser.text} and
 		 *		{@link CKEDITOR.htmlParser.comment}.
+		 *	@param {Number} [index] From where the insertion happens.
 		 * @example
 		 */
-		add: function( node ) {
-			var len = this.children.length,
-				previous = len > 0 && this.children[ len - 1 ] || null;
+		add: function( node, index ) {
+			isNaN( index ) && ( index = this.children.length );
 
+			var previous = index > 0 ? this.children[ index - 1 ] : null;
 			if ( previous ) {
 				// If the block to be appended is following text, trim spaces at
 				// the right of it.
@@ -401,7 +402,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			node.previous = previous;
 			node.parent = this;
 
-			this.children.push( node );
+			this.children.splice( index, 0, node );
 
 			this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
