@@ -352,7 +352,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					setTimeout( function() {
 						depressBeforeEvent = 0;
 					}, 10 );
-				})
+				});
 
 				body.on( 'beforecut', function() {
 					!depressBeforeEvent && fixCut( editor );
