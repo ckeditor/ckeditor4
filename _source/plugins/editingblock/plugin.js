@@ -229,15 +229,21 @@ CKEDITOR.config.editingBlock = true;
  */
 
 /**
- * Fired before changing the editing mode.
+ * Fired before changing the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#mode
  * @name CKEDITOR.editor#beforeModeUnload
  * @event
  */
 
 /**
- * Fired before the editor mode is set.
+ * Fired before the editor mode is set. See also CKEDITOR.editor#mode and CKEDITOR.editor#beforeModeUnload
  * @name CKEDITOR.editor#beforeSetMode
  * @event
  * @since 3.5.3
  * @param {String} newMode The name of the mode which is about to be set.
+ */
+
+/**
+ * Fired after setting the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#beforeModeUnload
+ * @name CKEDITOR.editor#mode
+ * @event
  */
