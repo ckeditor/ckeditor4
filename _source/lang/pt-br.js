@@ -118,8 +118,8 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		alignBottom: 'Inferior',
 		invalidHeight: 'A altura tem que ser um número',
 		invalidWidth: 'A largura tem que ser um número.',
-		invalidCssLength: 'Specified value must be a valid CSS length unit.', // MISSING
-		invalidHtmlLength: 'Specified value must be either a number in pixels or a percentage value.', // MISSING
+		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, indisponível</span>'

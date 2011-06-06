@@ -137,7 +137,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.width,
-						validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+						validate: CKEDITOR.dialog.validate.htmlLength( commonLang.invalidHtmlLength.replace( '%1', commonLang.width ) ),
 						getValue: defaultToPixel,
 						setup: function( iframeNode, fakeImage ) {
 							loadValue.apply( this, arguments );
@@ -160,7 +160,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.height,
-						validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+						validate: CKEDITOR.dialog.validate.htmlLength( commonLang.invalidHtmlLength.replace( '%1', commonLang.height ) ),
 						getValue: defaultToPixel,
 						setup: function( iframeNode, fakeImage ) {
 							loadValue.apply( this, arguments );

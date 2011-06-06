@@ -383,7 +383,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						id: 'width',
 						style: 'width:95px',
 						label: editor.lang.common.width,
-						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength ),
+						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.width ) ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
 							loadValue.apply( this, arguments );
 							fakeImage && this.setValue( fakeImage.getStyle( 'width' ) );
@@ -399,7 +399,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						id: 'height',
 						style: 'width:95px',
 						label: editor.lang.common.height,
-						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength ),
+						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.height ) ),
 						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
 							loadValue.apply( this, arguments );
 							fakeImage && this.setValue( fakeImage.getStyle( 'height' ) );

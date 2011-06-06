@@ -359,7 +359,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								label: editor.lang.common.width,
 								'default': 500,
 								getValue: defaultToPixel,
-								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {
 									var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
 									styles && styles.updateStyle( 'width', this.getValue() );
@@ -383,7 +383,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								label: editor.lang.common.height,
 								'default': '',
 								getValue: defaultToPixel,
-								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength ),
+								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.height ) ),
 								onChange: function() {
 									var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
 									styles && styles.updateStyle( 'height', this.getValue() );
