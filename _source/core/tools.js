@@ -629,7 +629,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					CKEDITOR.document.getBody().append( calculator );
 				}
 
-				if ( !/%$/.test( cssLength ) ) {
+				if ( !( /%$/ ).test( cssLength ) ) {
 					calculator.setStyle( 'width', cssLength );
 					return calculator.$.clientWidth;
 				}
