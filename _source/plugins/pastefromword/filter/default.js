@@ -223,8 +223,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																{
 							// Deal with component/short-hand form.
 							var values = margin.split( ' ' );
-							margin = plugin.utils.convertToPx( values[ 3 ] || values[ 1 ] || values[ 0 ] );
-							margin = parseInt( margin, 10 );
+							margin = CKEDITOR.tools.convertToPx( values[ 3 ] || values[ 1 ] || values[ 0 ] );
 
 							// Figure out the indent unit by checking the first time of incrementation.
 							if ( !listBaseIndent && previousListItemMargin !== null && margin > previousListItemMargin )
@@ -269,23 +268,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				return false;
 			},
-
-			// Convert various length units to 'px' in ignorance of DPI.
-			convertToPx: (function() {
-				var calculator = CKEDITOR.dom.element.createFromHtml( '<div style="position:absolute;left:-9999px;' +
-					'top:-9999px;margin:0px;padding:0px;border:0px;"' +
-					'></div>', CKEDITOR.document );
-				CKEDITOR.document.getBody().append( calculator );
-
-				return function( cssLength ) {
-					if ( cssLengthRelativeUnit.test( cssLength ) ) {
-						calculator.setStyle( 'width', cssLength );
-						return calculator.$.clientWidth + 'px';
-					}
-
-					return cssLength;
-				};
-			})(),
 
 			// Providing a shorthand style then retrieve one or more style component values.
 			getStyleComponents: (function() {
@@ -358,7 +340,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							[ 'tab-stops', null, function( val )
 																{
 							var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
-							margin && ( previousListItemMargin = parseInt( plugin.utils.convertToPx( margin[ 0 ] ), 10 ) );
+							margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
 						}],
 							( level == 1 ? [ 'mso-list', null, function( val )
 																{
@@ -665,7 +647,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				isListBulletIndicator = this.utils.isListBulletIndicator,
 				containsNothingButSpaces = this.utils.isContainingOnlySpaces,
 				resolveListItem = this.utils.resolveList,
-				convertToPx = this.utils.convertToPx,
+				convertToPx = function( value ) {
+					value = CKEDITOR.tools.convertToPx( value );
+					return isNaN( value ) ? value : value + 'px';
+				},
 				getStyleComponents = this.utils.getStyleComponents,
 				listDtdParents = this.utils.listDtdParents,
 				removeFontStyles = config.pasteFromWordRemoveFontStyles !== false,

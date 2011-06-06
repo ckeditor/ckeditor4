@@ -27,10 +27,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var height = match && match[ 1 ];
 
 						if ( width )
-							realElement.attributes.width = width;
+							realElement.attributes.width = CKEDITOR.tools.convertToPx( width );
 
 						if ( height )
-							realElement.attributes.height = height;
+							realElement.attributes.height = CKEDITOR.tools.convertToPx( height );
 					}
 				}
 

@@ -614,6 +614,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		})(),
 
 		/**
+		 * Convert the specified CSS length value to the calculated pixel length inside this page.
+		 * <strong>Note:</strong> Percentage based value is left intact.
+		 * @param {String} cssLength CSS length value.
+		 */
+		convertToPx: (function() {
+			var calculator;
+
+			return function( cssLength ) {
+				if ( !calculator ) {
+					calculator = CKEDITOR.dom.element.createFromHtml( '<div style="position:absolute;left:-9999px;' +
+						'top:-9999px;margin:0px;padding:0px;border:0px;"' +
+						'></div>', CKEDITOR.document );
+					CKEDITOR.document.getBody().append( calculator );
+				}
+
+				if ( !/%$/.test( cssLength ) ) {
+					calculator.setStyle( 'width', cssLength );
+					return calculator.$.clientWidth;
+				}
+
+				return cssLength;
+			};
+		})(),
+
+		/**
 		 * String specified by {@param str} repeats {@param times} times.
 		 * @param str
 		 * @param times
