@@ -66,7 +66,7 @@ CKEDITOR.ui.button.handler = {
 
 					if ( mode ) {
 						// Restore saved button state.
-						var state = this.editor.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+						var state = this.editor.getMode( mode ) ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 						this.setState( editor.readOnly && !this.editor.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
 					}
