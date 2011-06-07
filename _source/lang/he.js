@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'he' ] = {
 		alignBottom: 'לתחתית',
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',
-		invalidCssLength: 'הערך המצויין חייב להיות אורך CSS תקין.',
-		invalidHtmlLength: 'הערך המצויין חייב להיות מספר בפיקסלים או באחוזים.',
+		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',
+		invalidHtmlLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של HTML (px או %).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
