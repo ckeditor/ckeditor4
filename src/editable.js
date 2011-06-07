@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// the focus.
 				if ( evt.data.getTarget().equals( htmlElement ) ) {
 					if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
-						blinkCursor();
+						blinkCursor( editor );
 					editor.focus();
 				}
 			});
@@ -426,7 +426,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Switch on design mode for a short while and close it after then.
 	function blinkCursor( editor, retry ) {
-		if ( editor.readOnly )
+		if ( editor.readOnly || !editor.editable().is( 'body' ) )
 			return;
 
 		CKEDITOR.tools.tryThese( function() {
