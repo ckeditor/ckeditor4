@@ -119,8 +119,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		alignBottom: 'Do dołu',
 		invalidHeight: 'Wysokość musi być liczbą.',
 		invalidWidth: 'Szerokość musi być liczbą.',
-		invalidCssLength: 'Podana wartość musi być poprawną jednostką długości zgodną z CSS.',
-		invalidHtmlLength: 'Podana wartość musi być wyrażona w pikselach lub wartościach procentowych.',
+		invalidCssLength: 'Wartość podana dla pola "%1" musi być liczbą dodatnią bez jednostki lub z poprawną jednostką długości zgodną z CSS (px, %, in, cm, mm, em, ex, pt lub pc).',
+		invalidHtmlLength: 'Wartość podana dla pola "%1" musi być liczbą dodatnią bez jednostki lub z poprawną jednostką długości zgodną z HTML (px lub %).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niedostępne</span>'
