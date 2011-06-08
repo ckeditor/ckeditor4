@@ -12,25 +12,53 @@ CKEDITOR.plugins.add( 'menu', {
 		for ( var i = 0; i < groups.length; i++ )
 			groupsOrder[ groups[ i ] ] = i + 1;
 
+		/**
+		 * Register to the editor's context menu an item group for later association with menu items.
+		 * @name CKEDITOR.editor.prototype.addMenuGroup
+		 * @param {String} name Specify a group name.
+		 * @param {Number} [order=100]  Define the display sequence of this group inside menu, smaller value get displayed ahead.
+		 */
 		editor.addMenuGroup = function( name, order ) {
 			groupsOrder[ name ] = order || 100;
 		};
 
+		/**
+		 * Add to the editor's context menu an item from the specified definition.
+		 * @name CKEDITOR.editor.prototype.addMenuItem
+		 * @param {String} name The menu item name.
+		 * @param {CKEDITOR.menu.definition} definition  The menu item definition.
+		 */
 		editor.addMenuItem = function( name, definition ) {
 			if ( groupsOrder[ definition.group ] )
 				menuItems[ name ] = new CKEDITOR.menuItem( this, name, definition );
 		};
 
+		/**
+		 * Add to the editor's context menu one or more items from the specified definition array.
+		 * @name CKEDITOR.editor.prototype.addMenuItems
+		 * @param {Array} definitions List of definitions for each of them as if {@link CKEDITOR.editor.addMenuItem} is called.
+		 */
 		editor.addMenuItems = function( definitions ) {
 			for ( var itemName in definitions ) {
 				this.addMenuItem( itemName, definitions[ itemName ] );
 			}
 		};
 
+		/**
+		 * Retrieve from the editor's context menu a particular menu item definition.
+		 * @name CKEDITOR.editor.prototype.getMenuItem
+		 * @param {String} name The name of the wanted menu item.
+		 * @return {CKEDITOR.menu.definition}
+		 */
 		editor.getMenuItem = function( name ) {
 			return menuItems[ name ];
 		};
 
+		/**
+		 * Remove from the editor's context menu a particular menu item which was added before.
+		 * @name CKEDITOR.editor.prototype.removeMenuItem
+		 * @param {String} name The name of the wanted menu item.
+		 */
 		editor.removeMenuItem = function( name ) {
 			delete menuItems[ name ];
 		};
