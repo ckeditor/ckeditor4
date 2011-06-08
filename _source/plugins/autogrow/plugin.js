@@ -9,7 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
-			var lastContentHeight;
+			var contentMargin = 0;
 			var resizeEditor = function( editor ) {
 					if ( !editor.window )
 						return;
@@ -21,13 +21,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						currentHeight = resizeable.$.offsetHeight,
 						newHeight;
 
-					var delta =
-					// Delta height by checking scrollHeight.
-					( CKEDITOR.env.ie && CKEDITOR.env.quirks ? body.scrollHeight - body.clientHeight : htmlElement.scrollHeight - ( htmlElement.clientHeight || htmlElement.offsetHeight ) )
-					// Negative scrollHeight (content reduced) is not supported in some browsers, figure it out by watching over the content size.
-					|| ( body.clientHeight < lastContentHeight ? body.clientHeight - lastContentHeight : 0 );
+					// Quirks mode overflows body, standards oveflows document element.
+					var delta,
+						scrollable = doc.$.compatMode == 'BackCompat' ? body : htmlElement,
+						increase = scrollable.scrollHeight - scrollable.clientHeight,
+						decrease = body.offsetHeight - scrollable.scrollHeight + contentMargin;
 
-					if ( delta ) {
+					// Delta height from either increasing or decreasing.
+					if ( delta = increase || decrease || 0 ) {
 						newHeight = currentHeight + delta;
 						var min = editor.config.autoGrow_minHeight,
 							max = editor.config.autoGrow_maxHeight;
@@ -42,10 +43,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
 							resizeable.setStyle( 'height', newHeight + 'px' );
 							editor.fire( 'resize' );
+							// Calculate and record now the margin between the actual content size and page size.
+							setTimeout( function() {
+								contentMargin = scrollable.scrollHeight - body.offsetHeight;
+							}, 0 );
+
 						}
 					}
-
-					lastContentHeight = body.clientHeight;
 				};
 
 			for ( var eventName in { contentDom:1,key:1,selectionChange:1,insertElement:1 } ) {
