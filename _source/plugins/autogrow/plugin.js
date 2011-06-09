@@ -7,6 +7,40 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @file AutoGrow plugin
  */ ( function() {
 
+	var parts = [ "margin-top", "margin-bottom", "border-top-width", "border-bottom-width", "padding-top", "padding-bottom" ];
+
+	function nonContentHeight( element ) {
+		var adjustment = 0;
+		for ( var i = 0, len = parts.length; i < len; i++ )
+			adjustment += parseInt( element.getComputedStyle( parts[ i ] ) || 0, 10 ) || 0;
+		return adjustment;
+	}
+
+	// Count for spaces outside of  the actual content.
+	function extra( element ) {
+		var margin = 0;
+		margin += nonContentHeight( element );
+		if ( element.is( 'html' ) )
+			margin += nonContentHeight( element.getDocument().getBody() );
+		return margin;
+	}
+
+	// Actual content height, figured out by simply check the last element's document position.
+	function docContentHeight( doc ) {
+		var last = doc.getBody().getLast();
+
+		// Last node is not measurable,  create a temporary marker element.
+		if ( !last || last.type != CKEDITOR.NODE_ELEMENT || last.is( 'br' ) ) {
+			last = CKEDITOR.dom.element.createFromHtml( '<span>' + ( CKEDITOR.env.webkit ? '&nbsp;' : '' ) + '</span>', doc );
+			doc.getBody().append( last );
+			last.isMarker = 1;
+		}
+
+		var height = last.getDocumentPosition( doc ).y + last.$.offsetHeight;
+		last.isMarker && last.remove();
+		return height;
+	}
+
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
 			var contentMargin = 0;
@@ -16,19 +50,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var doc = editor.document,
 						resizeable = editor.getResizable( 1 ),
-						body = doc.getBody().$,
-						htmlElement = doc.getDocumentElement().$,
+						body = doc.getBody(),
+						htmlElement = doc.getDocumentElement(),
 						currentHeight = resizeable.$.offsetHeight,
 						newHeight;
 
-					// Quirks mode overflows body, standards oveflows document element.
-					var delta,
-						scrollable = doc.$.compatMode == 'BackCompat' ? body : htmlElement,
-						increase = scrollable.scrollHeight - scrollable.clientHeight,
-						decrease = body.offsetHeight - scrollable.scrollHeight + contentMargin;
+					// Quirks mode overflows body except for IE9, standards overflows document element.
+					var scrollable = !CKEDITOR.env.ie9Compat && doc.$.compatMode == 'BackCompat' ? body : htmlElement,
+						contentHeight = docContentHeight( doc ),
+						delta = contentHeight - scrollable.$.clientHeight + extra( scrollable );
 
 					// Delta height from either increasing or decreasing.
-					if ( delta = increase || decrease || 0 ) {
+					if ( delta ) {
 						newHeight = currentHeight + delta;
 						var min = editor.config.autoGrow_minHeight,
 							max = editor.config.autoGrow_maxHeight;
