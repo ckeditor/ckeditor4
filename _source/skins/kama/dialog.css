@@ -321,6 +321,12 @@ body .cke_dialog
 	cursor : default;
 }
 
+/* RTL + IE6: Input overflows dialog element. (#7321) */
+.cke_skin_kama .cke_rtl .cke_dialog_ui_labeled_content
+{
+	_width: 95%;
+}
+
 .cke_skin_kama .cke_dialog_ui_hbox
 {
 	width: 100%;

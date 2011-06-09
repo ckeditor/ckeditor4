@@ -402,6 +402,12 @@ body .cke_dialog
 	padding: 1px 0px;
 }
 
+/* RTL + IE6: Input overflows dialog element. (#7321) */
+.cke_skin_office2003 .cke_rtl .cke_dialog_ui_labeled_content
+{
+	_width: 95%;
+}
+
 .cke_skin_office2003 div.cke_disabled .cke_dialog_ui_labeled_content *
 {
 	background-color : #a0a0a0;
