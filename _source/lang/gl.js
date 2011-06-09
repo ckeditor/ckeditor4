@@ -728,15 +728,15 @@ CKEDITOR.lang[ 'gl' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Propriedades do Documento',
+		title: 'Propriedades do Documento',
 		design: 'Design', // MISSING
 		meta: 'Meta Tags', // MISSING
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<outro>',
+		docTitle: 'Título da Páxina',
+		charset: 'Codificación do Xogo de Caracteres',
+		charsetOther: 'Outra Codificación do Xogo de Caracteres',
 		charsetASCII: 'ASCII', // MISSING
 		charsetCE: 'Central European', // MISSING
 		charsetCT: 'Chinese Traditional (Big5)', // MISSING
@@ -747,21 +747,21 @@ CKEDITOR.lang[ 'gl' ] = {
 		charsetTR: 'Turkish', // MISSING
 		charsetUN: 'Unicode (UTF-8)', // MISSING
 		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
+		docType: 'Encabezado do Tipo de Documento',
+		docTypeOther: 'Outro Encabezado do Tipo de Documento',
+		xhtmlDec: 'Incluir Declaracións XHTML',
+		bgColor: 'Cor de Fondo',
+		bgImage: 'URL da Imaxe de Fondo',
+		bgFixed: 'Fondo Fixo',
+		txtColor: 'Cor do Texto',
+		margin: 'Marxes da Páxina',
+		marginTop: 'Arriba',
+		marginLeft: 'Esquerda',
+		marginRight: 'Dereita',
+		marginBottom: 'Abaixo',
+		metaKeywords: 'Palabras Chave de Indexación do Documento (separadas por comas)',
+		metaDescription: 'Descripción do Documento',
+		metaAuthor: 'Autor',
 		metaCopyright: 'Copyright', // MISSING
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}

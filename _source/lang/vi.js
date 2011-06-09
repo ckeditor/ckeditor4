@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Thuộc tính Tài liệu',
+		title: 'Thuộc tính Tài liệu',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Siêu dữ liệu',
+		chooseColor: 'Chọn màu',
+		other: '<khác>',
+		docTitle: 'Tiêu đề Trang',
+		charset: 'Bảng mã ký tự',
+		charsetOther: 'Bảng mã ký tự khác',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Trung Âu',
+		charsetCT: 'Tiếng Trung Quốc (Big5)',
+		charsetCR: 'Tiếng Kirin',
+		charsetGR: 'Tiếng Hy Lạp',
+		charsetJP: 'Tiếng Nhật',
+		charsetKR: 'Tiếng Hàn',
+		charsetTR: 'Tiếng Thổ Nhĩ Kỳ',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Tây Âu',
+		docType: 'Kiểu Đề mục Tài liệu',
+		docTypeOther: 'Kiểu Đề mục Tài liệu khác',
+		xhtmlDec: 'Bao gồm cả định nghĩa XHTML',
+		bgColor: 'Màu nền',
+		bgImage: 'URL của Hình ảnh nền',
+		bgFixed: 'Không cuộn nền',
+		txtColor: 'Màu chữ',
+		margin: 'Đường biên của Trang',
+		marginTop: 'Trên',
+		marginLeft: 'Trái',
+		marginRight: 'Phải',
+		marginBottom: 'Dưới',
+		metaKeywords: 'Các từ khóa chỉ mục tài liệu (phân cách bởi dấu phẩy)',
+		metaDescription: 'Mô tả tài liệu',
+		metaAuthor: 'Tác giả',
+		metaCopyright: 'Bản quyền',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

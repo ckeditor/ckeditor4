@@ -728,15 +728,15 @@ CKEDITOR.lang[ 'ko' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: '문서 속성',
+		title: '문서 속성',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: '메타데이터',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<기타>',
+		docTitle: '페이지명',
+		charset: '캐릭터셋 인코딩',
+		charsetOther: '다른 캐릭터셋 인코딩',
 		charsetASCII: 'ASCII', // MISSING
 		charsetCE: 'Central European', // MISSING
 		charsetCT: 'Chinese Traditional (Big5)', // MISSING
@@ -747,22 +747,22 @@ CKEDITOR.lang[ 'ko' ] = {
 		charsetTR: 'Turkish', // MISSING
 		charsetUN: 'Unicode (UTF-8)', // MISSING
 		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		docType: '문서 헤드',
+		docTypeOther: '다른 문서헤드',
+		xhtmlDec: 'XHTML 문서정의 포함',
+		bgColor: '배경색상',
+		bgImage: '배경이미지 URL',
+		bgFixed: '스크롤되지않는 배경',
+		txtColor: '글자 색상',
+		margin: '페이지 여백',
+		marginTop: '위',
+		marginLeft: '왼쪽',
+		marginRight: '오른쪽',
+		marginBottom: '아래',
+		metaKeywords: '문서 키워드 (콤마로 구분)',
+		metaDescription: '문서 설명',
+		metaAuthor: '작성자',
+		metaCopyright: '저작권',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

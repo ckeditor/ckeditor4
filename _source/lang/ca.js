@@ -728,40 +728,40 @@ CKEDITOR.lang[ 'ca' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Propietats del document',
+		title: 'Propietats del document',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Metadades',
+		chooseColor: 'Trieu',
+		other: '<altre>',
+		docTitle: 'Títol de la pàgina',
+		charset: 'Codificació de conjunt de caràcters',
+		charsetOther: 'Una altra codificació de caràcters',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Centreeuropeu',
+		charsetCT: 'Xinès tradicional (Big5)',
+		charsetCR: 'Ciríl·lic',
+		charsetGR: 'Grec',
+		charsetJP: 'Japonès',
+		charsetKR: 'Coreà',
+		charsetTR: 'Turc',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
+		charsetWE: 'Europeu occidental',
+		docType: 'Capçalera de tipus de document',
+		docTypeOther: 'Un altra capçalera de tipus de document',
+		xhtmlDec: 'Incloure declaracions XHTML',
+		bgColor: 'Color de fons',
+		bgImage: 'URL de la imatge de fons',
+		bgFixed: 'Fons fixe',
+		txtColor: 'Color de Text',
+		margin: 'Marges de pàgina',
+		marginTop: 'Cap',
+		marginLeft: 'Esquerra',
+		marginRight: 'Dreta',
+		marginBottom: 'Peu',
+		metaKeywords: 'Mots clau per a indexació (separats per coma)',
+		metaDescription: 'Descripció del document',
+		metaAuthor: 'Autor',
 		metaCopyright: 'Copyright', // MISSING
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}

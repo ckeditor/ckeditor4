@@ -728,40 +728,40 @@ CKEDITOR.lang[ 'fr' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Propriétés du document',
+		title: 'Propriétés du document',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Métadonnées',
+		chooseColor: 'Choisissez',
+		other: '<autre>',
+		docTitle: 'Titre de la page',
+		charset: 'Encodage de caractère',
+		charsetOther: 'Autre encodage de caractère',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Europe Centrale',
+		charsetCT: 'Chinois Traditionnel (Big5)',
+		charsetCR: 'Cyrillique',
+		charsetGR: 'Grec',
+		charsetJP: 'Japonais',
+		charsetKR: 'Coréen',
+		charsetTR: 'Turc',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
+		charsetWE: 'Occidental',
+		docType: 'Type de document',
+		docTypeOther: 'Autre type de document',
+		xhtmlDec: 'Inclure les déclarations XHTML',
+		bgColor: 'Couleur de fond',
+		bgImage: 'Image de fond',
+		bgFixed: 'Image fixe sans défilement',
+		txtColor: 'Couleur de texte',
+		margin: 'Marges',
+		marginTop: 'Haut',
+		marginLeft: 'Gauche',
+		marginRight: 'Droite',
+		marginBottom: 'Bas',
+		metaKeywords: 'Mots-clés (séparés par des virgules)',
+		metaDescription: 'Description',
+		metaAuthor: 'Auteur',
 		metaCopyright: 'Copyright', // MISSING
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}

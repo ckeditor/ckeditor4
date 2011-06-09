@@ -727,41 +727,41 @@ CKEDITOR.lang[ 'tr' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Belge Özellikleri',
+		title: 'Belge Özellikleri',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Tanım Bilgisi (Meta)',
+		chooseColor: 'Seçiniz',
+		other: '<diğer>',
+		docTitle: 'Sayfa Başlığı',
+		charset: 'Karakter Kümesi Kodlaması',
+		charsetOther: 'Diğer Karakter Kümesi Kodlaması',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Orta Avrupa',
+		charsetCT: 'Geleneksel Çince (Big5)',
+		charsetCR: 'Kiril',
+		charsetGR: 'Yunanca',
+		charsetJP: 'Japonca',
+		charsetKR: 'Korece',
+		charsetTR: 'Türkçe',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Batı Avrupa',
+		docType: 'Belge Türü Başlığı',
+		docTypeOther: 'Diğer Belge Türü Başlığı',
+		xhtmlDec: 'XHTML Bildirimlerini Dahil Et',
+		bgColor: 'Arka Plan Rengi',
+		bgImage: 'Arka Plan Resim URLsi',
+		bgFixed: 'Sabit Arka Plan',
+		txtColor: 'Yazı Rengi',
+		margin: 'Kenar Boşlukları',
+		marginTop: 'Tepe',
+		marginLeft: 'Sol',
+		marginRight: 'Sağ',
+		marginBottom: 'Alt',
+		metaKeywords: 'Belge Dizinleme Anahtar Kelimeleri (virgülle ayrılmış)',
+		metaDescription: 'Belge Tanımı',
+		metaAuthor: 'Yazar',
+		metaCopyright: 'Telif',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

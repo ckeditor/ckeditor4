@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'el' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Ιδιότητες εγγράφου',
+		title: 'Ιδιότητες εγγράφου',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Δεδομένα Meta',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<άλλος>',
+		docTitle: 'Τίτλος σελίδας',
+		charset: 'Κωδικοποίηση χαρακτήρων',
+		charsetOther: 'Άλλη κωδικοποίηση χαρακτήρων',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
-		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetCE: 'Κεντρικής Ευρώπης',
+		charsetCT: 'Παραδοσιακά κινέζικα (Big5)',
+		charsetCR: 'Κυριλλική',
+		charsetGR: 'Ελληνική',
+		charsetJP: 'Ιαπωνική',
+		charsetKR: 'Κορεάτικη',
+		charsetTR: 'Τουρκική',
+		charsetUN: 'Διεθνής (UTF-8)',
+		charsetWE: 'Δυτικής Ευρώπης',
+		docType: 'Επικεφαλίδα τύπου εγγράφου',
+		docTypeOther: 'Άλλη επικεφαλίδα τύπου εγγράφου',
+		xhtmlDec: 'Να συμπεριληφθούν οι δηλώσεις XHTML',
+		bgColor: 'Χρώμα φόντου',
+		bgImage: 'Διεύθυνση εικόνας φόντου',
+		bgFixed: 'Φόντο χωρίς κύλιση',
+		txtColor: 'Χρώμα Γραμμάτων',
+		margin: 'Περιθώρια σελίδας',
+		marginTop: 'Κορυφή',
+		marginLeft: 'Αριστερά',
+		marginRight: 'Δεξιά',
+		marginBottom: 'Κάτω',
+		metaKeywords: 'Λέξεις κλειδιά δείκτες εγγράφου (διαχωρισμός με κόμμα)',
+		metaDescription: 'Περιγραφή εγγράφου',
+		metaAuthor: 'Συγγραφέας',
+		metaCopyright: 'Πνευματικά δικαιώματα',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

@@ -728,15 +728,15 @@ CKEDITOR.lang[ 'bn' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'ডক্যুমেন্ট প্রোপার্টি',
+		title: 'ডক্যুমেন্ট প্রোপার্টি',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'মেটাডেটা',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<other>',
+		docTitle: 'পেজ শীর্ষক',
+		charset: 'ক্যারেক্টার সেট এনকোডিং',
+		charsetOther: 'অন্য ক্যারেক্টার সেট এনকোডিং',
 		charsetASCII: 'ASCII', // MISSING
 		charsetCE: 'Central European', // MISSING
 		charsetCT: 'Chinese Traditional (Big5)', // MISSING
@@ -747,22 +747,22 @@ CKEDITOR.lang[ 'bn' ] = {
 		charsetTR: 'Turkish', // MISSING
 		charsetUN: 'Unicode (UTF-8)', // MISSING
 		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		docType: 'ডক্যুমেন্ট টাইপ হেডিং',
+		docTypeOther: 'অন্য ডক্যুমেন্ট টাইপ হেডিং',
+		xhtmlDec: 'XHTML ডেক্লারেশন যুক্ত কর',
+		bgColor: 'ব্যাকগ্রাউন্ড রং',
+		bgImage: 'ব্যাকগ্রাউন্ড ছবির URL',
+		bgFixed: 'স্ক্রলহীন ব্যাকগ্রাউন্ড',
+		txtColor: 'টেক্স্ট রং',
+		margin: 'পেজ মার্জিন',
+		marginTop: 'উপর',
+		marginLeft: 'বামে',
+		marginRight: 'ডানে',
+		marginBottom: 'নীচে',
+		metaKeywords: 'ডক্যুমেন্ট ইন্ডেক্স কিওয়ার্ড (কমা দ্বারা বিচ্ছিন্ন)',
+		metaDescription: 'ডক্যূমেন্ট বর্ণনা',
+		metaAuthor: 'লেখক',
+		metaCopyright: 'কপীরাইট',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

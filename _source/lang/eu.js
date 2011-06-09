@@ -728,40 +728,40 @@ CKEDITOR.lang[ 'eu' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumentuaren Ezarpenak',
+		title: 'Dokumentuaren Ezarpenak',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Meta Informazioa',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<other>',
+		docTitle: 'Orriaren Izenburua',
+		charset: 'Karaktere Multzoaren Kodeketa',
+		charsetOther: 'Beste Karaktere Multzoko Kodeketa',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Erdialdeko Europakoa',
+		charsetCT: 'Txinatar Tradizionala (Big5)',
+		charsetCR: 'Zirilikoa',
+		charsetGR: 'Grekoa',
+		charsetJP: 'Japoniarra',
+		charsetKR: 'Korearra',
+		charsetTR: 'Turkiarra',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
+		charsetWE: 'Mendebaldeko Europakoa',
+		docType: 'Document Type Goiburua',
+		docTypeOther: 'Beste Document Type Goiburua',
+		xhtmlDec: 'XHTML Ezarpenak',
+		bgColor: 'Atzeko Kolorea',
+		bgImage: 'Atzeko Irudiaren URL-a',
+		bgFixed: 'Korritze gabeko Atzealdea',
+		txtColor: 'Testu Kolorea',
+		margin: 'Orrialdearen marjinak',
+		marginTop: 'Goian',
+		marginLeft: 'Ezkerrean',
+		marginRight: 'Eskuman',
+		marginBottom: 'Behean',
+		metaKeywords: 'Dokumentuaren Gako-hitzak (komarekin bananduta)',
+		metaDescription: 'Dokumentuaren Deskribapena',
+		metaAuthor: 'Egilea',
 		metaCopyright: 'Copyright', // MISSING
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}

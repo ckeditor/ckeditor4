@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'hu' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumentum tulajdonságai',
+		title: 'Dokumentum tulajdonságai',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta adatok',
+		chooseColor: 'Válasszon',
+		other: '<más>',
+		docTitle: 'Oldalcím',
+		charset: 'Karakterkódolás',
+		charsetOther: 'Más karakterkódolás',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Közép-Európai',
+		charsetCT: 'Kínai Tradicionális (Big5)',
+		charsetCR: 'Cyrill',
+		charsetGR: 'Görög',
+		charsetJP: 'Japán',
+		charsetKR: 'Koreai',
+		charsetTR: 'Török',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Nyugat-Európai',
+		docType: 'Dokumentum típus fejléc',
+		docTypeOther: 'Más dokumentum típus fejléc',
+		xhtmlDec: 'XHTML deklarációk beillesztése',
+		bgColor: 'Háttérszín',
+		bgImage: 'Háttérkép cím',
+		bgFixed: 'Nem gördíthető háttér',
+		txtColor: 'Betűszín',
+		margin: 'Oldal margók',
+		marginTop: 'Felső',
+		marginLeft: 'Bal',
+		marginRight: 'Jobb',
+		marginBottom: 'Alsó',
+		metaKeywords: 'Dokumentum keresőszavak (vesszővel elválasztva)',
+		metaDescription: 'Dokumentum leírás',
+		metaAuthor: 'Szerző',
+		metaCopyright: 'Szerzői jog',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

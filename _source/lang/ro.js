@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'ro' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Proprietăţile documentului',
+		title: 'Proprietăţile documentului',
 		design: 'Design', // MISSING
 		meta: 'Meta Tags', // MISSING
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<alt>',
+		docTitle: 'Titlul paginii',
+		charset: 'Encoding setului de caractere',
+		charsetOther: 'Alt encoding al setului de caractere',
 		charsetASCII: 'ASCII', // MISSING
 		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCT: 'Chinezesc tradiţional (Big5)',
+		charsetCR: 'Chirilic',
+		charsetGR: 'Grecesc',
+		charsetJP: 'Japonez',
+		charsetKR: 'Corean',
+		charsetTR: 'Turcesc',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
+		charsetWE: 'Vest european',
 		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		docTypeOther: 'Alt Document Type Heading',
+		xhtmlDec: 'Include declaraţii XHTML',
+		bgColor: 'Culoarea fundalului (Background Color)',
+		bgImage: 'URL-ul imaginii din fundal (Background Image URL)',
+		bgFixed: 'Fundal neflotant, fix (Non-scrolling Background)',
+		txtColor: 'Culoarea textului',
+		margin: 'Marginile paginii',
+		marginTop: 'Sus',
+		marginLeft: 'Stânga',
+		marginRight: 'Dreapta',
+		marginBottom: 'Jos',
+		metaKeywords: 'Cuvinte cheie după care se va indexa documentul (separate prin virgulă)',
+		metaDescription: 'Descrierea documentului',
+		metaAuthor: 'Autor',
+		metaCopyright: 'Drepturi de autor',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

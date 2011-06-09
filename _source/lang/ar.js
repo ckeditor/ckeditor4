@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'ar' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'خصائص الصفحة',
+		title: 'خصائص الصفحة',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'المعرّفات الرأسية',
+		chooseColor: 'اختر',
+		other: '<أخرى>',
+		docTitle: 'عنوان الصفحة',
+		charset: 'ترميز الحروف',
+		charsetOther: 'ترميز آخر',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'أوروبا الوسطى',
+		charsetCT: 'الصينية التقليدية (Big5)',
+		charsetCR: 'السيريلية',
+		charsetGR: 'اليونانية',
+		charsetJP: 'اليابانية',
+		charsetKR: 'الكورية',
+		charsetTR: 'التركية',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'أوروبا الغربية',
+		docType: 'ترويسة نوع  الصفحة',
+		docTypeOther: 'ترويسة نوع  صفحة أخرى',
+		xhtmlDec: 'تضمين   إعلانات لغة XHTMLَ',
+		bgColor: 'لون الخلفية',
+		bgImage: 'رابط الصورة الخلفية',
+		bgFixed: 'جعلها علامة مائية',
+		txtColor: 'لون النص',
+		margin: 'هوامش الصفحة',
+		marginTop: 'علوي',
+		marginLeft: 'أيسر',
+		marginRight: 'أيمن',
+		marginBottom: 'سفلي',
+		metaKeywords: 'الكلمات الأساسية (مفصولة بفواصل)َ',
+		metaDescription: 'وصف الصفحة',
+		metaAuthor: 'الكاتب',
+		metaCopyright: 'المالك',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

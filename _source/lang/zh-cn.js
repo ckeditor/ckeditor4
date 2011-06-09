@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: '页面属性',
+		title: '页面属性',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta 数据',
+		chooseColor: '选择',
+		other: '<其他>',
+		docTitle: '页面标题',
+		charset: '字符编码',
+		charsetOther: '其它字符编码',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: '中欧',
+		charsetCT: '繁体中文 (Big5)',
+		charsetCR: '西里尔文',
+		charsetGR: '希腊文',
+		charsetJP: '日文',
+		charsetKR: '韩文',
+		charsetTR: '土耳其文',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: '西欧',
+		docType: '文档类型',
+		docTypeOther: '其它文档类型',
+		xhtmlDec: '包含 XHTML 声明',
+		bgColor: '背景颜色',
+		bgImage: '背景图像',
+		bgFixed: '不滚动背景图像',
+		txtColor: '文本颜色',
+		margin: '页面边距',
+		marginTop: '上',
+		marginLeft: '左',
+		marginRight: '右',
+		marginBottom: '下',
+		metaKeywords: '页面索引关键字 (用半角逗号[,]分隔)',
+		metaDescription: '页面说明',
+		metaAuthor: '作者',
+		metaCopyright: '版权',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

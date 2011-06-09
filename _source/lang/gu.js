@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'gu' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
+		title: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'મેટાડૅટા',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<other>',
+		docTitle: 'પેજ મથાળું/ટાઇટલ',
+		charset: 'કેરેક્ટર સેટ એન્કોડિંગ',
+		charsetOther: 'અન્ય કેરેક્ટર સેટ એન્કોડિંગ',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
-		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetCE: 'મધ્ય યુરોપિઅન (Central European)',
+		charsetCT: 'ચાઇનીઝ (Chinese Traditional Big5)',
+		charsetCR: 'સિરીલિક (Cyrillic)',
+		charsetGR: 'ગ્રીક (Greek)',
+		charsetJP: 'જાપાનિઝ (Japanese)',
+		charsetKR: 'કોરીયન (Korean)',
+		charsetTR: 'ટર્કિ (Turkish)',
+		charsetUN: 'યૂનિકોડ (UTF-8)',
+		charsetWE: 'પશ્ચિમ યુરોપિઅન (Western European)',
+		docType: 'ડૉક્યુમન્ટ પ્રકાર શીર્ષક',
+		docTypeOther: 'અન્ય ડૉક્યુમન્ટ પ્રકાર શીર્ષક',
+		xhtmlDec: 'XHTML સૂચના સમાવિષ્ટ કરવી',
+		bgColor: 'બૅકગ્રાઉન્ડ રંગ',
+		bgImage: 'બૅકગ્રાઉન્ડ ચિત્ર URL',
+		bgFixed: 'સ્ક્રોલ ન થાય તેવું બૅકગ્રાઉન્ડ',
+		txtColor: 'શબ્દનો રંગ',
+		margin: 'પેજ માર્જિન',
+		marginTop: 'ઉપર',
+		marginLeft: 'ડાબી',
+		marginRight: 'જમણી',
+		marginBottom: 'નીચે',
+		metaKeywords: 'ડૉક્યુમન્ટ ઇન્ડેક્સ સંકેતશબ્દ (અલ્પવિરામ (,) થી અલગ કરો)',
+		metaDescription: 'ડૉક્યુમન્ટ વર્ણન',
+		metaAuthor: 'લેખક',
+		metaCopyright: 'કૉપિરાઇટ',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

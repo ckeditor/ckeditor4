@@ -727,41 +727,41 @@ CKEDITOR.lang[ 'pt-br' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Propriedades Documento',
+		title: 'Propriedades Documento',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta Dados',
+		chooseColor: 'Escolher',
+		other: '<outro>',
+		docTitle: 'Título da Página',
+		charset: 'Codificação de Caracteres',
+		charsetOther: 'Outra Codificação de Caracteres',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Europa Central',
+		charsetCT: 'Chinês Tradicional (Big5)',
+		charsetCR: 'Cirílico',
+		charsetGR: 'Grego',
+		charsetJP: 'Japonês',
+		charsetKR: 'Coreano',
+		charsetTR: 'Turco',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
+		charsetWE: 'Europa Ocidental',
+		docType: 'Cabeçalho Tipo de Documento',
 		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		xhtmlDec: 'Incluir Declarações XHTML',
+		bgColor: 'Cor do Plano de Fundo',
+		bgImage: 'URL da Imagem de Plano de Fundo',
+		bgFixed: 'Plano de Fundo Fixo',
+		txtColor: 'Cor do Texto',
+		margin: 'Margens da Página',
+		marginTop: 'Superior',
+		marginLeft: 'Inferior',
+		marginRight: 'Direita',
+		marginBottom: 'Inferior',
+		metaKeywords: 'Palavras-chave de Indexação do Documento (separadas por vírgula)',
+		metaDescription: 'Descrição do Documento',
+		metaAuthor: 'Autor',
+		metaCopyright: 'Direitos Autorais',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

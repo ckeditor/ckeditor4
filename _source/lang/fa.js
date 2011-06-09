@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'fa' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'ویژگیهای سند',
+		title: 'ویژگیهای سند',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'فراداده',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<سایر>',
+		docTitle: 'عنوان صفحه',
+		charset: 'رمزگذاری نویسهگان',
+		charsetOther: 'رمزگذاری نویسهگان دیگر',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
-		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetCE: 'اروپای مرکزی',
+		charsetCT: 'چینی رسمی (Big5)',
+		charsetCR: 'سیریلیک',
+		charsetGR: 'یونانی',
+		charsetJP: 'ژاپنی',
+		charsetKR: 'کرهای',
+		charsetTR: 'ترکی',
+		charsetUN: 'یونیکُد (UTF-8)',
+		charsetWE: 'اروپای غربی',
+		docType: 'عنوان نوع سند',
+		docTypeOther: 'عنوان نوع سند دیگر',
+		xhtmlDec: 'شامل تعاریف XHTML',
+		bgColor: 'رنگ پسزمینه',
+		bgImage: 'URL تصویر پسزمینه',
+		bgFixed: 'پسزمینهٴ پیمایشناپذیر',
+		txtColor: 'رنگ متن',
+		margin: 'حاشیههای صفحه',
+		marginTop: 'بالا',
+		marginLeft: 'چپ',
+		marginRight: 'راست',
+		marginBottom: 'پایین',
+		metaKeywords: 'کلیدواژگان نمایهگذاری سند (با کاما جدا شوند)',
+		metaDescription: 'توصیف سند',
+		metaAuthor: 'نویسنده',
+		metaCopyright: 'کپیرایت',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

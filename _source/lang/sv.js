@@ -727,41 +727,41 @@ CKEDITOR.lang[ 'sv' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumentegenskaper',
+		title: 'Dokumentegenskaper',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Metadata',
+		chooseColor: 'Välj',
+		other: '<annan>',
+		docTitle: 'Sidtitel',
+		charset: 'Teckenuppsättningar',
+		charsetOther: 'Övriga teckenuppsättningar',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Central Europa',
+		charsetCT: 'Traditionell Kinesisk (Big5)',
+		charsetCR: 'Kyrillisk',
+		charsetGR: 'Grekiska',
+		charsetJP: 'Japanska',
+		charsetKR: 'Koreanska',
+		charsetTR: 'Turkiska',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Väst Europa',
+		docType: 'Sidhuvud',
+		docTypeOther: 'Övriga sidhuvuden',
+		xhtmlDec: 'Inkludera XHTML deklaration',
+		bgColor: 'Bakgrundsfärg',
+		bgImage: 'Bakgrundsbildens URL',
+		bgFixed: 'Fast bakgrund',
+		txtColor: 'Textfärg',
+		margin: 'Sidmarginal',
+		marginTop: 'Topp',
+		marginLeft: 'Vänster',
+		marginRight: 'Höger',
+		marginBottom: 'Botten',
+		metaKeywords: 'Sidans nyckelord',
+		metaDescription: 'Sidans beskrivning',
+		metaAuthor: 'Författare',
+		metaCopyright: 'Upphovsrätt',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

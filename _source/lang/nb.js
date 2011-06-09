@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'nb' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumentegenskaper',
+		title: 'Dokumentegenskaper',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta-data',
+		chooseColor: 'Velg',
+		other: '<annen>',
+		docTitle: 'Sidetittel',
+		charset: 'Tegnsett',
+		charsetOther: 'Annet tegnsett',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
+		charsetCE: 'Sentraleuropeisk',
+		charsetCT: 'Tradisonell kinesisk(Big5)',
 		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetGR: 'Gresk',
+		charsetJP: 'Japansk',
+		charsetKR: 'Koreansk',
+		charsetTR: 'Tyrkisk',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Vesteuropeisk',
+		docType: 'Dokumenttype header',
+		docTypeOther: 'Annet dokumenttype header',
+		xhtmlDec: 'Inkluder XHTML-deklarasjon',
+		bgColor: 'Bakgrunnsfarge',
+		bgImage: 'URL for bakgrunnsbilde',
+		bgFixed: 'Lås bakgrunnsbilde',
+		txtColor: 'Tekstfarge',
+		margin: 'Sidemargin',
+		marginTop: 'Topp',
+		marginLeft: 'Venstre',
+		marginRight: 'Høyre',
+		marginBottom: 'Bunn',
+		metaKeywords: 'Dokument nøkkelord (kommaseparert)',
+		metaDescription: 'Dokumentbeskrivelse',
+		metaAuthor: 'Forfatter',
+		metaCopyright: 'Kopirett',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

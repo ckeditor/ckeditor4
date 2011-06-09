@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'is' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Eigindi skjals',
+		title: 'Eigindi skjals',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Lýsigögn',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<annar>',
+		docTitle: 'Titill síðu',
+		charset: 'Letursett',
+		charsetOther: 'Annað letursett',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Mið-evrópskt',
+		charsetCT: 'Kínverskt, hefðbundið (Big5)',
+		charsetCR: 'Kýrilskt',
+		charsetGR: 'Grískt',
+		charsetJP: 'Japanskt',
+		charsetKR: 'Kóreskt',
+		charsetTR: 'Tyrkneskt',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Vestur-evrópst',
+		docType: 'Flokkur skjalategunda',
+		docTypeOther: 'Annar flokkur skjalategunda',
+		xhtmlDec: 'Fella inn XHTML lýsingu',
+		bgColor: 'Bakgrunnslitur',
+		bgImage: 'Slóð bakgrunnsmyndar',
+		bgFixed: 'Læstur bakgrunnur',
+		txtColor: 'Litur texta',
+		margin: 'Hliðarspássía',
+		marginTop: 'Efst',
+		marginLeft: 'Vinstri',
+		marginRight: 'Hægri',
+		marginBottom: 'Neðst',
+		metaKeywords: 'Lykilorð efnisorðaskrár (aðgreind með kommum)',
+		metaDescription: 'Lýsing skjals',
+		metaAuthor: 'Höfundur',
+		metaCopyright: 'Höfundarréttur',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

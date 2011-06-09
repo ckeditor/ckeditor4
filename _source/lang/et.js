@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'et' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumendi omadused',
+		title: 'Dokumendi omadused',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Meta andmed',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<muu>',
+		docTitle: 'Lehekülje tiitel',
+		charset: 'Märgistiku kodeering',
+		charsetOther: 'Ülejäänud märgistike kodeeringud',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Kesk-Euroopa',
+		charsetCT: 'Hiina traditsiooniline (Big5)',
+		charsetCR: 'Kirillisa',
+		charsetGR: 'Kreeka',
+		charsetJP: 'Jaapani',
+		charsetKR: 'Korea',
+		charsetTR: 'Türgi',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Lääne-Euroopa',
+		docType: 'Dokumendi tüüppäis',
+		docTypeOther: 'Teised dokumendi tüüppäised',
+		xhtmlDec: 'Arva kaasa XHTML deklaratsioonid',
+		bgColor: 'Taustavärv',
+		bgImage: 'Taustapildi URL',
+		bgFixed: 'Mittekeritav tagataust',
+		txtColor: 'Teksti värv',
+		margin: 'Lehekülje äärised',
+		marginTop: 'Ülaserv',
+		marginLeft: 'Vasakserv',
+		marginRight: 'Paremserv',
+		marginBottom: 'Alaserv',
+		metaKeywords: 'Dokumendi võtmesõnad (eraldatud komadega)',
+		metaDescription: 'Dokumendi kirjeldus',
+		metaAuthor: 'Autor',
+		metaCopyright: 'Autoriõigus',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

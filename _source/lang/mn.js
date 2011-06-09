@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'mn' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Баримт бичиг шинж чанар',
+		title: 'Баримт бичиг шинж чанар',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Meta өгөгдөл',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<other>',
+		docTitle: 'Хуудасны гарчиг',
+		charset: 'Encoding тэмдэгт',
+		charsetOther: 'Encoding-д өөр тэмдэгт оноох',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
-		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetCE: 'Төв европ',
+		charsetCT: 'Хятадын уламжлалт (Big5)',
+		charsetCR: 'Крил',
+		charsetGR: 'Гред',
+		charsetJP: 'Япон',
+		charsetKR: 'Солонгос',
+		charsetTR: 'Tурк',
+		charsetUN: 'Юникод (UTF-8)',
+		charsetWE: 'Баруун европ',
+		docType: 'Баримт бичгийн төрөл Heading',
+		docTypeOther: 'Бусад баримт бичгийн төрөл Heading',
+		xhtmlDec: 'XHTML агуулж зарлах',
+		bgColor: 'Фоно өнгө',
+		bgImage: 'Фоно зурагны URL',
+		bgFixed: 'Гүйдэггүй фоно',
+		txtColor: 'Фонтны өнгө',
+		margin: 'Хуудасны захын зай',
+		marginTop: 'Дээд тал',
+		marginLeft: 'Зүүн тал',
+		marginRight: 'Баруун тал',
+		marginBottom: 'Доод тал',
+		metaKeywords: 'Баримт бичгийн индекс түлхүүр үг (таслалаар тусгаарлагдана)',
+		metaDescription: 'Баримт бичгийн тайлбар',
+		metaAuthor: 'Зохиогч',
+		metaCopyright: 'Зохиогчийн эрх',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

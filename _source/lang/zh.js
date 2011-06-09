@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: '文件屬性',
+		title: '文件屬性',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
+		meta: 'Meta 資料',
 		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		other: '<其他>',
+		docTitle: '頁面標題',
+		charset: '字元編碼',
+		charsetOther: '其他字元編碼',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: '中歐語系',
+		charsetCT: '正體中文 (Big5)',
+		charsetCR: '斯拉夫文',
+		charsetGR: '希臘文',
+		charsetJP: '日文',
+		charsetKR: '韓文',
+		charsetTR: '土耳其文',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: '西歐語系',
+		docType: '文件類型',
+		docTypeOther: '其他文件類型',
+		xhtmlDec: '包含 XHTML 定義',
+		bgColor: '背景顏色',
+		bgImage: '背景影像',
+		bgFixed: '浮水印',
+		txtColor: '文字顏色',
+		margin: '頁面邊界',
+		marginTop: '上',
+		marginLeft: '左',
+		marginRight: '右',
+		marginBottom: '下',
+		metaKeywords: '文件索引關鍵字 (用半形逗號[,]分隔)',
+		metaDescription: '文件說明',
+		metaAuthor: '作者',
+		metaCopyright: '版權所有',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

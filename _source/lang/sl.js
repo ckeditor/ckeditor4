@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'sl' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Lastnosti dokumenta',
+		title: 'Lastnosti dokumenta',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta podatki',
+		chooseColor: 'Izberi',
+		other: '<drug>',
+		docTitle: 'Naslov strani',
+		charset: 'Kodna tabela',
+		charsetOther: 'Druga kodna tabela',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Srednjeevropsko',
+		charsetCT: 'Tradicionalno Kitajsko (Big5)',
+		charsetCR: 'Cirilica',
+		charsetGR: 'Grško',
+		charsetJP: 'Japonsko',
+		charsetKR: 'Korejsko',
+		charsetTR: 'Turško',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Zahodnoevropsko',
+		docType: 'Glava tipa dokumenta',
+		docTypeOther: 'Druga glava tipa dokumenta',
+		xhtmlDec: 'Vstavi XHTML deklaracije',
+		bgColor: 'Barva ozadja',
+		bgImage: 'URL slike za ozadje',
+		bgFixed: 'Nepremično ozadje',
+		txtColor: 'Barva besedila',
+		margin: 'Zamiki strani',
+		marginTop: 'Na vrhu',
+		marginLeft: 'Levo',
+		marginRight: 'Desno',
+		marginBottom: 'Spodaj',
+		metaKeywords: 'Ključne besede (ločene z vejicami)',
+		metaDescription: 'Opis strani',
+		metaAuthor: 'Avtor',
+		metaCopyright: 'Avtorske pravice',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

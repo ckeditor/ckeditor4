@@ -728,41 +728,41 @@ CKEDITOR.lang[ 'fi' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
+		label: 'Dokumentin ominaisuudet',
+		title: 'Dokumentin ominaisuudet',
 		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
+		meta: 'Meta-tieto',
+		chooseColor: 'Valitse',
+		other: '<muu>',
+		docTitle: 'Sivun nimi',
+		charset: 'Merkistökoodaus',
+		charsetOther: 'Muu merkistökoodaus',
 		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
+		charsetCE: 'Keskieurooppalainen',
+		charsetCT: 'Kiina, perinteinen (Big5)',
+		charsetCR: 'Kyrillinen',
+		charsetGR: 'Kreikka',
+		charsetJP: 'Japani',
+		charsetKR: 'Korealainen',
+		charsetTR: 'Turkkilainen',
 		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
-		docType: 'Document Type Heading', // MISSING
-		docTypeOther: 'Other Document Type Heading', // MISSING
-		xhtmlDec: 'Include XHTML Declarations', // MISSING
-		bgColor: 'Background Color', // MISSING
-		bgImage: 'Background Image URL', // MISSING
-		bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
-		txtColor: 'Text Color', // MISSING
-		margin: 'Page Margins', // MISSING
-		marginTop: 'Top', // MISSING
-		marginLeft: 'Left', // MISSING
-		marginRight: 'Right', // MISSING
-		marginBottom: 'Bottom', // MISSING
-		metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-		metaDescription: 'Document Description', // MISSING
-		metaAuthor: 'Author', // MISSING
-		metaCopyright: 'Copyright', // MISSING
+		charsetWE: 'Länsieurooppalainen',
+		docType: 'Dokumentin tyyppi',
+		docTypeOther: 'Muu dokumentin tyyppi',
+		xhtmlDec: 'Lisää XHTML julistukset',
+		bgColor: 'Taustaväri',
+		bgImage: 'Taustakuva',
+		bgFixed: 'Paikallaanpysyvä tausta',
+		txtColor: 'Tekstiväri',
+		margin: 'Sivun marginaalit',
+		marginTop: 'Ylä',
+		marginLeft: 'Vasen',
+		marginRight: 'Oikea',
+		marginBottom: 'Ala',
+		metaKeywords: 'Hakusanat (pilkulla erotettuna)',
+		metaDescription: 'Kuvaus',
+		metaAuthor: 'Tekijä',
+		metaCopyright: 'Tekijänoikeudet',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };
