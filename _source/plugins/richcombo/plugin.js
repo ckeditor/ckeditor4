@@ -167,9 +167,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 			}
 
 			output.push( ' onkeydown="CKEDITOR.tools.callFunction( ', keyDownFn, ', event, this );"' +
-				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
-				( CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ) + // #188
-								'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
+				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);"' +
+				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 					'<span>' +
 						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
 					'</span>' +
