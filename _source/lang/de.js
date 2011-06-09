@@ -265,8 +265,8 @@ CKEDITOR.lang[ 'de' ] = {
 		invalidBorder: 'Die Rahmenbreite muß eine Zahl sein.',
 		invalidWidth: 'Die Tabellenbreite muss eine Zahl sein.',
 		invalidHeight: 'Die Tabellenbreite muß eine Zahl sein.',
-		invalidCellSpacing: 'Der Zellenabstand außen muß eine Zahl sein.',
-		invalidCellPadding: 'Der Zellenabstand innen muß eine Zahl sein.',
+		invalidCellSpacing: 'Der Zellenabstand außen muß eine positive Zahl sein.',
+		invalidCellPadding: 'Der Zellenabstand innen muß eine positive Zahl sein.',
 
 		cell: {
 			menu: 'Zelle',

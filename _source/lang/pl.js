@@ -265,8 +265,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		invalidBorder: 'Wartość obramowania musi być liczbą.',
 		invalidWidth: 'Szerokość tabeli musi być liczbą.',
 		invalidHeight: 'Wysokość tabeli musi być liczbą.',
-		invalidCellSpacing: 'Odstęp komórek musi być liczbą.',
-		invalidCellPadding: 'Dopełnienie komórek musi być liczbą.',
+		invalidCellSpacing: 'Odstęp pomiędzy komórkami musi być liczbą dodatnią.',
+		invalidCellPadding: 'Dopełnienie komórek musi być liczbą dodatnią.',
 
 		cell: {
 			menu: 'Komórka',
