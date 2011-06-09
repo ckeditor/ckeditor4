@@ -265,8 +265,8 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidBorder: 'שדה גודל המסגרת חייב להיות מספר.',
 		invalidWidth: 'שדה רוחב הטבלה חייב להיות מספר.',
 		invalidHeight: 'שדה גובה הטבלה חייב להיות מספר.',
-		invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר.',
-		invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר.',
+		invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר חיובי.',
+		invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר חיובי.',
 
 		cell: {
 			menu: 'מאפייני תא',
