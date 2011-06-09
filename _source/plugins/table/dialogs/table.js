@@ -229,7 +229,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'default': 3,
 							label: editor.lang.table.rows,
 							required: true,
-							style: 'width:5em',
+							controlStyle: 'width:5em',
 							validate: function() {
 								var pass = true,
 									value = this.getValue();
@@ -251,7 +251,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'default': 2,
 							label: editor.lang.table.columns,
 							required: true,
-							style: 'width:5em',
+							controlStyle: 'width:5em',
 							validate: function() {
 								var pass = true,
 									value = this.getValue();
@@ -309,7 +309,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							id: 'txtBorder',
 							'default': 1,
 							label: editor.lang.table.border,
-							style: 'width:3em',
+							controlStyle: 'width:3em',
 							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidBorder ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
@@ -355,7 +355,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 								type: 'text',
 								id: 'txtWidth',
-								style: 'width:5em',
+								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								'default': 500,
 								getValue: defaultToPixel,
@@ -379,7 +379,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 								type: 'text',
 								id: 'txtHeight',
-								style: 'width:5em',
+								controlStyle: 'width:5em',
 								label: editor.lang.common.height,
 								'default': '',
 								getValue: defaultToPixel,
@@ -404,7 +404,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtCellSpace',
-							style: 'width:3em',
+							controlStyle: 'width:3em',
 							label: editor.lang.table.cellSpace,
 							'default': 1,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
@@ -421,7 +421,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							{
 							type: 'text',
 							id: 'txtCellPad',
-							style: 'width:3em',
+							controlStyle: 'width:3em',
 							label: editor.lang.table.cellPad,
 							'default': 1,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),

@@ -131,7 +131,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 					var html = [],
 						requiredClass = elementDefinition.required ? ' cke_required' : '';
 					if ( elementDefinition.labelLayout != 'horizontal' )
-						html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ' for="' + _.inputId + '"', ' style="' + elementDefinition.labelStyle + '">', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content" role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
+						html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ' for="' + _.inputId + '"', ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + ' role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
 					else {
 						var hboxDefinition = {
 							type: 'hbox',
@@ -143,15 +143,15 @@ CKEDITOR.plugins.add( 'dialogui' );
 								html: '<label class="cke_dialog_ui_labeled_label' + requiredClass + '"' +
 																			' id="' + _.labelId + '"' +
 																			' for="' + _.inputId + '"' +
-																			' style="' + elementDefinition.labelStyle + '">' +
+																			( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>' +
 																				CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
 																			'</span>'
 							},
 								{
 								type: 'html',
-								html: '<span class="cke_dialog_ui_labeled_content">' +
-									contentHtml.call( this, dialog, elementDefinition ) +
-									'</span>'
+								html: '<span class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + '>' +
+																			contentHtml.call( this, dialog, elementDefinition ) +
+																			'</span>'
 							}
 							]
 						};
@@ -202,8 +202,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 			if ( elementDefinition.size )
 				attributes.size = elementDefinition.size;
 
-			if ( elementDefinition.controlStyle )
-				attributes.style = elementDefinition.controlStyle;
+			if ( elementDefinition.inputStyle )
+				attributes.style = elementDefinition.inputStyle;
 
 			// If user presses Enter in a text box, it implies clicking OK for the dialog.
 			var me = this,
@@ -282,6 +282,10 @@ CKEDITOR.plugins.add( 'dialogui' );
 			attributes.rows = elementDefinition.rows || 5;
 			attributes.cols = elementDefinition.cols || 20;
 
+			if ( typeof elementDefinition.inputStyle != 'undefined' )
+				attributes.style = elementDefinition.inputStyle;
+
+
 			/** @ignore */
 			var innerHTML = function() {
 					attributes[ 'aria-labelledby' ] = this._.labelId;
@@ -335,11 +339,11 @@ CKEDITOR.plugins.add( 'dialogui' );
 					if ( elementDefinition[ 'default' ] )
 						attributes.checked = 'checked';
 
-					if ( typeof myDefinition.controlStyle != 'undefined' )
-						myDefinition.style = myDefinition.controlStyle;
+					if ( typeof myDefinition.inputStyle != 'undefined' )
+						myDefinition.style = myDefinition.inputStyle;
 
 					_.checkbox = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'input', null, attributes );
-					html.push( ' <label id="', labelId, '" for="', attributes.id, '">', CKEDITOR.tools.htmlEncode( elementDefinition.label ), '</label>' );
+					html.push( ' <label id="', labelId, '" for="', attributes.id, '"' + ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', CKEDITOR.tools.htmlEncode( elementDefinition.label ), '</label>' );
 					return html.join( '' );
 				};
 
@@ -411,8 +415,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 						cleanInnerDefinition( inputDefinition );
 						cleanInnerDefinition( labelDefinition );
 
-						if ( typeof inputDefinition.controlStyle != 'undefined' )
-							inputDefinition.style = inputDefinition.controlStyle;
+						if ( typeof inputDefinition.inputStyle != 'undefined' )
+							inputDefinition.style = inputDefinition.inputStyle;
 
 						children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
 						inputHtml.push( ' ' );
@@ -550,8 +554,8 @@ CKEDITOR.plugins.add( 'dialogui' );
 						innerHTML.push( '<option value="', CKEDITOR.tools.htmlEncode( item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ] ).replace( /"/g, '&quot;' ), '" /> ', CKEDITOR.tools.htmlEncode( item[ 0 ] ) );
 					}
 
-					if ( typeof myDefinition.controlStyle != 'undefined' )
-						myDefinition.style = myDefinition.controlStyle;
+					if ( typeof myDefinition.inputStyle != 'undefined' )
+						myDefinition.style = myDefinition.inputStyle;
 
 					_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
 					return html.join( '' );
