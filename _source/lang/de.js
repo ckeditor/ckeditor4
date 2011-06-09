@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'de' ] = {
 	editorTitle: 'WYSIWYG-Editor, %1, drücken Sie ALT 0 für Hilfe.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
+	toolbars: 'Editor Symbolleisten',
 	editor: 'WYSIWYG-Editor',
 
 	// Toolbar buttons without dialogs.
@@ -159,7 +159,7 @@ CKEDITOR.lang[ 'de' ] = {
 		popupResizable: 'Größe änderbar',
 		popupStatusBar: 'Statusleiste',
 		popupLocationBar: 'Adress-Leiste',
-		popupToolbar: 'Werkzeugleiste',
+		popupToolbar: 'Symbolleiste',
 		popupMenuBar: 'Menü-Leiste',
 		popupFullScreen: 'Vollbild (IE)',
 		popupScrollBars: 'Rollbalken',
@@ -198,7 +198,7 @@ CKEDITOR.lang[ 'de' ] = {
 		title: 'Anker-Eigenschaften',
 		name: 'Anker Name',
 		errorName: 'Bitte geben Sie den Namen des Ankers ein',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Anker entfernen'
 	},
 
 	// List style dialog
@@ -278,7 +278,7 @@ CKEDITOR.lang[ 'de' ] = {
 			mergeDown: 'Nach unten verbinden',
 			splitHorizontal: 'Zelle horizontal teilen',
 			splitVertical: 'Zelle vertikal teilen',
-			title: 'Zellen Eigenschaften',
+			title: 'Zellen-Eigenschaften',
 			cellType: 'Zellart',
 			rowSpan: 'Anzahl Zeilen verbinden',
 			colSpan: 'Anzahl Spalten verbinden',
@@ -709,17 +709,17 @@ CKEDITOR.lang[ 'de' ] = {
 	toolbarExpand: 'Symbolleiste ausklappen',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'Dokument',
+		clipboard: 'Zwischenablage/Rückgängig',
+		editing: 'Editieren',
+		forms: 'Formularen',
+		basicstyles: 'Grundstile',
+		paragraph: 'Absatz',
+		links: 'Links',
+		insert: 'Einfügen',
+		styles: 'Stile',
+		colors: 'Farben',
+		tools: 'Werkzeuge'
 	},
 
 	bidi: {
@@ -730,14 +730,14 @@ CKEDITOR.lang[ 'de' ] = {
 	docprops: {
 		label: 'Dokument-Eigenschaften',
 		title: 'Dokument-Eigenschaften',
-		design: 'Design', // MISSING
+		design: 'Design',
 		meta: 'Metadaten',
 		chooseColor: 'Wählen',
 		other: '<andere>',
 		docTitle: 'Seitentitel',
 		charset: 'Zeichenkodierung',
 		charsetOther: 'Andere Zeichenkodierung',
-		charsetASCII: 'ASCII', // MISSING
+		charsetASCII: 'ASCII',
 		charsetCE: 'Zentraleuropäisch',
 		charsetCT: 'traditionell Chinesisch (Big5)',
 		charsetCR: 'Kyrillisch',
@@ -745,7 +745,7 @@ CKEDITOR.lang[ 'de' ] = {
 		charsetJP: 'Japanisch',
 		charsetKR: 'Koreanisch',
 		charsetTR: 'Türkisch',
-		charsetUN: 'Unicode (UTF-8)', // MISSING
+		charsetUN: 'Unicode (UTF-8)',
 		charsetWE: 'Westeuropäisch',
 		docType: 'Dokumententyp',
 		docTypeOther: 'Anderer Dokumententyp',
@@ -762,7 +762,7 @@ CKEDITOR.lang[ 'de' ] = {
 		metaKeywords: 'Schlüsselwörter (durch Komma getrennt)',
 		metaDescription: 'Dokument-Beschreibung',
 		metaAuthor: 'Autor',
-		metaCopyright: 'Copyright', // MISSING
+		metaCopyright: 'Copyright',
 		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };
