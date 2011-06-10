@@ -178,8 +178,9 @@ CKEDITOR.ui.button.handler = {
 			}
 
 			output.push( ' onkeydown="return CKEDITOR.tools.callFunction(', keydownFn, ', event);"' +
-				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);"' +
-				' onclick="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
+				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
+				( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+								'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
 				'<span class="cke_icon"' );
 
 			if ( this.icon ) {
