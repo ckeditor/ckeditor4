@@ -147,8 +147,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						var target;
-						if ( CKEDITOR.env.ie && !this.allowBlur() || ( target = ev.data.getTarget() ) && target.getName && target.getName() != 'iframe' )
+						var target = ev.data.getTarget();
+						if ( target.getName && target.getName() != 'iframe' )
 							return;
 
 						if ( this.visible && !this._.activeChild && !isShowing ) {
