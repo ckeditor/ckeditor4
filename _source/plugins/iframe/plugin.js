@@ -4,24 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	function createFakeElement( editor, realElement ) {
-		var fakeElement = editor.createFakeParserElement( realElement, 'cke_iframe', 'iframe', true ),
-			fakeStyle = fakeElement.attributes.style || '';
-
-		var width = realElement.attributes.width,
-			height = realElement.attributes.height;
-
-		if ( typeof width != 'undefined' )
-			fakeStyle += 'width:' + CKEDITOR.tools.cssLength( width ) + ';';
-
-		if ( typeof height != 'undefined' )
-			fakeStyle += 'height:' + CKEDITOR.tools.cssLength( height ) + ';';
-
-		fakeElement.attributes.style = fakeStyle;
-
-		return fakeElement;
-	}
-
 	CKEDITOR.plugins.add( 'iframe', {
 		requires: [ 'dialog', 'fakeobjects' ],
 		init: function( editor ) {
@@ -79,7 +61,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				dataFilter.addRules({
 					elements: {
 						iframe: function( element ) {
-							return createFakeElement( editor, element );
+							return editor.createFakeParserElement( element, 'cke_iframe', 'iframe', true );
 						}
 					}
 				});

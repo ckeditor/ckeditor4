@@ -11,8 +11,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		frameborder: { 'true': '1', 'false': '0' }
 	};
 
-	var defaultToPixel = CKEDITOR.tools.cssLength;
-
 	function loadValue( iframeNode ) {
 		var isCheckbox = this instanceof CKEDITOR.ui.dialog.checkbox;
 		if ( iframeNode.hasAttribute( this.id ) ) {
@@ -113,16 +111,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						labelLayout: 'vertical',
 						label: commonLang.width,
 						validate: CKEDITOR.dialog.validate.htmlLength( commonLang.invalidHtmlLength.replace( '%1', commonLang.width ) ),
-						getValue: defaultToPixel,
-						setup: function( iframeNode, fakeImage ) {
-							loadValue.apply( this, arguments );
-							fakeImage && this.setValue( fakeImage.getStyle( 'width' ) );
-						},
-						commit: function( iframeNode, extraStyles ) {
-							commitValue.apply( this, arguments );
-							var val = this.getValue();
-							val && ( extraStyles.width = val );
-						}
+						setup: loadValue,
+						commit: commitValue
 					},
 						{
 						id: 'height',
@@ -131,16 +121,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						labelLayout: 'vertical',
 						label: commonLang.height,
 						validate: CKEDITOR.dialog.validate.htmlLength( commonLang.invalidHtmlLength.replace( '%1', commonLang.height ) ),
-						getValue: defaultToPixel,
-						setup: function( iframeNode, fakeImage ) {
-							loadValue.apply( this, arguments );
-							fakeImage && this.setValue( fakeImage.getStyle( 'height' ) );
-						},
-						commit: function( iframeNode, extraStyles ) {
-							commitValue.apply( this, arguments );
-							var val = this.getValue();
-							val && ( extraStyles.height = val );
-						}
+						setup: loadValue,
+						commit: commitValue
 					},
 						{
 						id: 'align',

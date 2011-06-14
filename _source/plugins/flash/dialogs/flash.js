@@ -384,15 +384,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:95px',
 						label: editor.lang.common.width,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.width ) ),
-						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
-							loadValue.apply( this, arguments );
-							fakeImage && this.setValue( fakeImage.getStyle( 'width' ) );
-						},
-						commit: function( objectNode, embedNode, paramMap, extraStyles ) {
-							commitValue.apply( this, arguments );
-							var val = this.getValue();
-							val && ( extraStyles.width = defaultToPixel( val ) );
-						}
+						setup: loadValue,
+						commit: commitValue
 					},
 						{
 						type: 'text',
@@ -400,15 +393,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						style: 'width:95px',
 						label: editor.lang.common.height,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.height ) ),
-						setup: function( objectNode, embedNode, paramMap, fakeImage ) {
-							loadValue.apply( this, arguments );
-							fakeImage && this.setValue( fakeImage.getStyle( 'height' ) );
-						},
-						commit: function( objectNode, embedNode, paramMap, extraStyles ) {
-							commitValue.apply( this, arguments );
-							var val = this.getValue();
-							val && ( extraStyles.height = defaultToPixel( val ) );
-						}
+						setup: loadValue,
+						commit: commitValue
 					},
 						{
 						type: 'text',

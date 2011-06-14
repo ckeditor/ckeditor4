@@ -53,6 +53,45 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	};
 };
 
+/**
+ *  Object presentation of  CSS style declaration text.
+ *  @param {CKEDITOR.htmlParser.element|String} elementOrStyleText A html parser element or the inline style text.
+ */
+CKEDITOR.htmlParser.cssStyle = function() {
+	var styleText,
+		arg = arguments[ 0 ],
+		rules = {};
+	styleText = arg instanceof CKEDITOR.htmlParser.element ? arg.attributes.style : arg;
+
+	// html-encoded quote might be introduced by 'font-family'
+	// from MS-Word which confused the following regexp. e.g.
+	//'font-family: &quot;Lucida, Console&quot;'
+	( styleText || '' ).replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
+		name == 'font-family' && ( value = value.replace( /["']/g, '' ) );
+		rules[ name.toLowerCase() ] = value;
+	});
+
+	return {
+		rules: rules,
+		/**
+		 *  Apply the styles onto the specified element or object.
+		 * @param {CKEDITOR.htmlParser.element|CKEDITOR.dom.element|Object} obj
+		 */
+		populate: function( obj ) {
+			var style = this.toString();
+			if ( style ) {
+				obj instanceof CKEDITOR.dom.element ? obj.setAttribute( 'style', style ) : obj instanceof CKEDITOR.htmlParser.element ? obj.attributes.style = style : obj.style = style;
+			}
+		},
+		toString: function() {
+			var output = [];
+			for ( var i in rules )
+				rules[ i ] && output.push( i, ':', rules[ i ], ';' );
+			return output.join( '' );
+		}
+	};
+};
+
 (function() {
 	// Used to sort attribute entries in an array, where the first element of
 	// each object is the attribute name.
