@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			last.isMarker = 1;
 		}
 
-		var height = last.getDocumentPosition( doc ).y + last.$.offsetHeight;
+		var height = last.getDocumentPosition( doc ).y + last.$.offsetHeight + parseInt( last.getComputedStyle( 'margin-bottom' ) || 0, 10 );
 		last.isMarker && last.remove();
 		return height;
 	}
