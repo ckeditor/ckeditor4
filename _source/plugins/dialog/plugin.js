@@ -260,7 +260,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			iterContents( function( item ) {
 				if ( item.validate ) {
 					var retval = item.validate( this ),
-						isValid = retval !== false;
+						isValid = retval === true;
 
 					if ( !isValid ) {
 						if ( item.select )
