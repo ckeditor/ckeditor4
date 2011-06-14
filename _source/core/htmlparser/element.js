@@ -61,6 +61,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 	var styleText,
 		arg = arguments[ 0 ],
 		rules = {};
+
 	styleText = arg instanceof CKEDITOR.htmlParser.element ? arg.attributes.style : arg;
 
 	// html-encoded quote might be introduced by 'font-family'
@@ -72,7 +73,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 	});
 
 	return {
+
 		rules: rules,
+
 		/**
 		 *  Apply the styles onto the specified element or object.
 		 * @param {CKEDITOR.htmlParser.element|CKEDITOR.dom.element|Object} obj
@@ -83,6 +86,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				obj instanceof CKEDITOR.dom.element ? obj.setAttribute( 'style', style ) : obj instanceof CKEDITOR.htmlParser.element ? obj.attributes.style = style : obj.style = style;
 			}
 		},
+
 		toString: function() {
 			var output = [];
 			for ( var i in rules )
