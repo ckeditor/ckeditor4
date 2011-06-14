@@ -41,7 +41,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
 		<strong>extraPlugins : 'autogrow',</strong>
-		autoGrow_maxHeight : 800
+		autoGrow_maxHeight : 800,
+		// Remove the resize plugin, as it doesn't make sense to use it in conjunction with the AutoGrow plugin.
+		removePlugins : 'resize'
 	});</pre>
 	<p>
 		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
@@ -68,7 +70,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			//<![CDATA[
 
 				CKEDITOR.replace( 'editor1', {
-					extraPlugins : 'autogrow'
+					extraPlugins : 'autogrow',
+					removePlugins : 'resize'
 				});
 
 			//]]>
@@ -83,7 +86,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				CKEDITOR.replace( 'editor2', {
 					extraPlugins : 'autogrow',
-					autoGrow_maxHeight : 400
+					autoGrow_maxHeight : 400,
+					removePlugins : 'resize'
 				});
 
 			//]]>
