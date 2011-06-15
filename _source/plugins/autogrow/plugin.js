@@ -6,85 +6,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * @file AutoGrow plugin
  */ ( function() {
+	var resizeEditor = function( editor ) {
+			if ( !editor.window )
+				return;
+			var doc = editor.document,
+				currentHeight = editor.window.getViewPaneSize().height,
+				newHeight;
 
-	var parts = [ "margin-top", "margin-bottom", "border-top-width", "border-bottom-width", "padding-top", "padding-bottom" ];
+			// We can not use documentElement to calculate the height for IE (#6061).
+			// It is not good for IE Quirks, yet using offsetHeight would also not work as expected (#6408).
+			// We do the same for FF because of the html height workaround (#6341).
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko )
+				newHeight = doc.getBody().$.scrollHeight + ( CKEDITOR.env.ie && CKEDITOR.env.quirks ? 0 : 24 );
+			else
+				newHeight = doc.getDocumentElement().$.offsetHeight;
 
-	function nonContentHeight( element ) {
-		var adjustment = 0;
-		for ( var i = 0, len = parts.length; i < len; i++ )
-			adjustment += parseInt( element.getComputedStyle( parts[ i ] ) || 0, 10 ) || 0;
-		return adjustment;
-	}
+			var min = editor.config.autoGrow_minHeight,
+				max = editor.config.autoGrow_maxHeight;
+			( min == undefined ) && ( editor.config.autoGrow_minHeight = min = 200 );
+			if ( min )
+				newHeight = Math.max( newHeight, min );
+			if ( max )
+				newHeight = Math.min( newHeight, max );
 
-	// Count for spaces outside of  the actual content.
-	function extra( element ) {
-		var margin = 0;
-		margin += nonContentHeight( element );
-		if ( element.is( 'html' ) )
-			margin += nonContentHeight( element.getDocument().getBody() );
-		return margin;
-	}
-
-	// Actual content height, figured out by simply check the last element's document position.
-	function docContentHeight( doc ) {
-		var last = doc.getBody().getLast();
-
-		// Last node is not measurable,  create a temporary marker element.
-		if ( !last || last.type != CKEDITOR.NODE_ELEMENT || last.is( 'br' ) ) {
-			last = CKEDITOR.dom.element.createFromHtml( '<span>' + ( CKEDITOR.env.webkit ? '&nbsp;' : '' ) + '</span>', doc );
-			doc.getBody().append( last );
-			last.isMarker = 1;
-		}
-
-		var height = last.getDocumentPosition( doc ).y + last.$.offsetHeight + parseInt( last.getComputedStyle( 'margin-bottom' ) || 0, 10 );
-		last.isMarker && last.remove();
-		return height;
-	}
-
+			if ( newHeight != currentHeight ) {
+				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
+				editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
+			}
+		};
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
-			var contentMargin = 0;
-			var resizeEditor = function( editor ) {
-					if ( !editor.window )
-						return;
-
-					var doc = editor.document,
-						resizeable = editor.getResizable( 1 ),
-						body = doc.getBody(),
-						htmlElement = doc.getDocumentElement(),
-						currentHeight = resizeable.$.offsetHeight,
-						newHeight;
-
-					// Quirks mode overflows body except for IE9, standards overflows document element.
-					var scrollable = !CKEDITOR.env.ie9Compat && doc.$.compatMode == 'BackCompat' ? body : htmlElement,
-						contentHeight = docContentHeight( doc ),
-						delta = contentHeight - scrollable.$.clientHeight + extra( scrollable );
-
-					// Delta height from either increasing or decreasing.
-					if ( delta ) {
-						newHeight = currentHeight + delta;
-						var min = editor.config.autoGrow_minHeight,
-							max = editor.config.autoGrow_maxHeight;
-
-						( min == undefined ) && ( editor.config.autoGrow_minHeight = min = 200 );
-						if ( min )
-							newHeight = Math.max( newHeight, min );
-						if ( max )
-							newHeight = Math.min( newHeight, max );
-
-						if ( newHeight != currentHeight ) {
-							newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
-							resizeable.setStyle( 'height', newHeight + 'px' );
-							editor.fire( 'resize' );
-							// Calculate and record now the margin between the actual content size and page size.
-							setTimeout( function() {
-								contentMargin = scrollable.scrollHeight - body.offsetHeight;
-							}, 0 );
-
-						}
-					}
-				};
-
 			for ( var eventName in { contentDom:1,key:1,selectionChange:1,insertElement:1 } ) {
 				editor.on( eventName, function( evt ) {
 					var maximize = editor.getCommand( 'maximize' );
