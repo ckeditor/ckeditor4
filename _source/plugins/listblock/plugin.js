@@ -30,7 +30,8 @@ CKEDITOR.plugins.add( 'listblock', {
 				keys[ 9 ] = 'next'; // TAB
 				keys[ 38 ] = 'prev'; // ARROW-UP
 				keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
-				keys[ 32 ] = 'click'; // SPACE
+				keys[ 32 ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // SPACE
+				CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (#8041).
 
 				this._.pendingHtml = [];
 				this._.items = {};
