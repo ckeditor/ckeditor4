@@ -459,12 +459,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( nodeList.count() > 0 ) {
 								var caption = nodeList.getItem( 0 );
 
-								var innerHtml = caption.getHtml().replace( /<br>\s*$/i, '' ),
-									innerText = caption.getText();
-
-								if ( innerHtml != innerText ) {
+								var firstElementChild = caption.getFirst( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) )
+								if ( firstElementChild && !firstElementChild.equals( caption.getBogus() ) ) {
 									this.disable();
-									this.setValue( innerText );
+									this.setValue( caption.getText() );
 									return;
 								}
 
