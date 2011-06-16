@@ -571,6 +571,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *  Specify the inline style of the input element.
  * @name CKEDITOR.dialog.definition.labeledElement.prototype.inputStyle
  * @type String
+ * @since 3.6.1
  * @field
  * @example
  * {
@@ -584,6 +585,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *  Specify the inline style of the input element container .
  * @name CKEDITOR.dialog.definition.labeledElement.prototype.controlStyle
  * @type String
+ * @since 3.6.1
  * @field
  * @example
  * {
