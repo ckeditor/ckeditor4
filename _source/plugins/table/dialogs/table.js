@@ -458,8 +458,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
 							if ( nodeList.count() > 0 ) {
 								var caption = nodeList.getItem( 0 );
+								var firstElementChild = caption.getFirst( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) );
 
-								var firstElementChild = caption.getFirst( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) )
 								if ( firstElementChild && !firstElementChild.equals( caption.getBogus() ) ) {
 									this.disable();
 									this.setValue( caption.getText() );
