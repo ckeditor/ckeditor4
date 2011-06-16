@@ -136,10 +136,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							currentListItem = new CKEDITOR.dom.documentFragment( doc );
 					}
 
-					if ( item.grandparent.getDirection( 1 ) != orgDir && currentListItem.type == CKEDITOR.NODE_ELEMENT )
-						currentListItem.setAttribute( 'dir', orgDir );
-					else
-						currentListItem.removeAttribute( 'dir' );
+					if ( currentListItem.type == CKEDITOR.NODE_ELEMENT ) {
+						if ( item.grandparent.getDirection( 1 ) != orgDir )
+							currentListItem.setAttribute( 'dir', orgDir );
+						else
+							currentListItem.removeAttribute( 'dir' );
+					}
 
 					for ( i = 0; i < item.contents.length; i++ )
 						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
