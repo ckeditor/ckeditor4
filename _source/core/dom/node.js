@@ -579,7 +579,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Checks if this node is read-only (should not be changed). Additionally
-	 * it returns the element that defines the read-only state of this node 
+	 * it returns the element that defines the read-only state of this node
 	 * (if present). It may be the node itself or any of its parent
 	 * nodes.
 	 * @returns {CKEDITOR.dom.element|Boolean} An element containing
