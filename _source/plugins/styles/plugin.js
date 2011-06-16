@@ -968,9 +968,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// Removes a style from an element itself, don't care about its subtree.
 	function removeFromElement( style, element ) {
 		var def = style._.definition,
-			attributes = def.attributes,
+			attributes = CKEDITOR.tools.extend( {}, def.attributes, getOverrides( style )[ element.getName() ] ),
 			styles = def.styles,
-			overrides = getOverrides( style )[ element.getName() ],
 			// If the style is only about the element itself, we have to remove the element.
 			removeEmpty = CKEDITOR.tools.isEmpty( attributes ) && CKEDITOR.tools.isEmpty( styles );
 
@@ -991,8 +990,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			removeEmpty = removeEmpty || !!element.getStyle( styleName );
 			element.removeStyle( styleName );
 		}
-
-		removeOverrides( element, overrides );
 
 		if ( removeEmpty ) {
 			!CKEDITOR.dtd.$block[ element.getName() ] || style._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( style._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
