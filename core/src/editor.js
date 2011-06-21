@@ -201,7 +201,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @since 3.6
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || editor.element.getAttribute( 'disabled' ) );
+		editor.readOnly = !!( editor.config.readOnly || ( editor.element && editor.element.getAttribute( 'disabled' ) ) );
 
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
