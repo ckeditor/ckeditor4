@@ -14,23 +14,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		init: function( editor ) {
 			editor.addCommand( 'selectAll', { modes:{wysiwyg:1,source:1 },
 				exec: function( editor ) {
-					switch ( editor.mode ) {
-						case 'wysiwyg':
+					var editable = editor.editable();
+
+					if ( editable ) {
+						if ( editable.is( 'body' ) )
 							editor.document.$.execCommand( 'SelectAll', false, null );
-							// Force triggering selectionChange (#7008)
-							editor.forceNextSelectionCheck();
-							editor.selectionChange();
-							break;
-						case 'source':
-							// Select the contents of the textarea
-							var textarea = editor.textarea.$;
-							if ( CKEDITOR.env.ie )
-								textarea.createTextRange().execCommand( 'SelectAll' );
-							else {
-								textarea.selectionStart = 0;
-								textarea.selectionEnd = textarea.value.length;
-							}
-							textarea.focus();
+						else {
+							var range = new CKEDITOR.dom.range( editable.getDocument() );
+							range.selectNodeContents( editable );
+							range.select();
+						}
+
+						// Force triggering selectionChange (#7008)
+						editor.forceNextSelectionCheck();
+						editor.selectionChange();
+					} else if ( editor.textarea ) {
+						var textarea = editor.textarea.$;
+						if ( CKEDITOR.env.ie )
+							textarea.createTextRange().execCommand( 'SelectAll' );
+						else {
+							textarea.selectionStart = 0;
+							textarea.selectionEnd = textarea.value.length;
+						}
+						textarea.focus();
 					}
 				},
 				canUndo: false
