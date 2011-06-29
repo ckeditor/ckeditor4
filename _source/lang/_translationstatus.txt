@@ -1,4 +1,4 @@
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 
 af.js      Found: 549 Missing: 24
@@ -31,7 +31,7 @@ hi.js      Found: 322 Missing: 251
 hr.js      Found: 419 Missing: 154
 hu.js      Found: 542 Missing: 31
 is.js      Found: 326 Missing: 247
-it.js      Found: 418 Missing: 155
+it.js      Found: 573 Missing: 0
 ja.js      Found: 494 Missing: 79
 ka.js      Found: 569 Missing: 4
 km.js      Found: 286 Missing: 287
@@ -40,9 +40,9 @@ lt.js      Found: 326 Missing: 247
 lv.js      Found: 294 Missing: 279
 mn.js      Found: 320 Missing: 253
 ms.js      Found: 276 Missing: 297
-nb.js      Found: 550 Missing: 23
+nb.js      Found: 573 Missing: 0
 nl.js      Found: 570 Missing: 3
-no.js      Found: 550 Missing: 23
+no.js      Found: 573 Missing: 0
 pl.js      Found: 573 Missing: 0
 pt-br.js   Found: 535 Missing: 38
 pt.js      Found: 293 Missing: 280
