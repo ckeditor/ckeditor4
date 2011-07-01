@@ -9,4 +9,4 @@
 CLS
 ECHO.
 
-java -jar langtool/langtool.jar ../../_source/lang
+java -jar langtool/langtool.jar update ../../_source/lang
