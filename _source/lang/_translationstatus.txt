@@ -47,7 +47,7 @@ pl.js      Found: 573 Missing: 0
 pt-br.js   Found: 535 Missing: 38
 pt.js      Found: 293 Missing: 280
 ro.js      Found: 317 Missing: 256
-ru.js      Found: 484 Missing: 89
+ru.js      Found: 573 Missing: 0
 sk.js      Found: 365 Missing: 208
 sl.js      Found: 426 Missing: 147
 sr-latn.js Found: 287 Missing: 286
