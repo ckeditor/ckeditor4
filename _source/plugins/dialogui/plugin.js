@@ -423,7 +423,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 						new CKEDITOR.ui.dialog.uiElement( dialog, labelDefinition, inputHtml, 'label', null, { id: labelId, 'for': inputAttributes.id }, item[ 0 ] );
 						inputHtmlList.push( inputHtml.join( '' ) );
 					}
-					new CKEDITOR.ui.dialog.hbox( dialog, [], inputHtmlList, html );
+					new CKEDITOR.ui.dialog.hbox( dialog, children, inputHtmlList, html );
 					return html.join( '' );
 				};
 
