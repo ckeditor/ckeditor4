@@ -99,7 +99,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Remove scripts.
 				var scripts = CKEDITOR.document.getElementsByTag( 'script' ),
 					scaytIdRegex = /^dojoIoScript(\d+)$/i,
-					scaytSrcRegex = /^https?:\/\/svc\.spellchecker\.net\/spellcheck\/script\/ssrv\.cgi/i;
+					scaytSrcRegex = /^https?:\/\/svc\.webspellchecker\.net\/spellcheck\/script\/ssrv\.cgi/i;
 
 				for ( var i = 0; i < scripts.count(); i++ ) {
 					var script = scripts.getItem( i ),
@@ -335,7 +335,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var protocol = document.location.protocol;
 			// Default to 'http' for unknown.
 			protocol = protocol.search( /https?:/ ) != -1 ? protocol : 'http:';
-			var baseUrl = 'svc.spellchecker.net/scayt26/loader__base.js';
+			var baseUrl = 'svc.webspellchecker.net/scayt26/loader__base.js';
 
 			var scaytUrl = editor.config.scayt_srcUrl || ( protocol + '//' + baseUrl );
 			var scaytConfigBaseUrl = plugin.parseUrl( scaytUrl ).path + '/';
@@ -795,7 +795,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Set the URL to SCAYT core. Required to switch to licensed version of SCAYT application.
- * Further details at http://wiki.spellchecker.net/doku.php?id=3rd:wysiwyg:fckeditor:wscckf3l .
+ * Further details at http://wiki.webspellchecker.net/doku.php?id=3rd:wysiwyg:fckeditor:wscckf3l .
  * @name CKEDITOR.config.scayt_srcUrl
  * @type String
  * @default ''
@@ -806,7 +806,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Links SCAYT to custom dictionaries. It's a string containing dictionary ids
  * separared by commas (","). Available only for licensed version.
- * Further details at http://wiki.spellchecker.net/doku.php?id=custom_dictionary_support .
+ * Further details at http://wiki.webspellchecker.net/doku.php?id=custom_dictionary_support .
  * @name CKEDITOR.config.scayt_customDictionaryIds
  * @type String
  * @default ''

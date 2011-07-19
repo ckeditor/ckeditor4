@@ -29,7 +29,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 					' allowtransparency="1">' +
 				'</iframe>';
 
-	var wscCoreUrl = editor.config.wsc_customLoaderScript || ( protocol + '//loader.spellchecker.net/sproxy_fck/sproxy.php' + '?plugin=fck2'
+	var wscCoreUrl = editor.config.wsc_customLoaderScript || ( protocol + '//loader.webspellchecker.net/sproxy_fck/sproxy.php' + '?plugin=fck2'
 					+ '&customerid=' + editor.config.wsc_customerId
 					+ '&cmd=script&doc=wsc&schema=22'
 				);
