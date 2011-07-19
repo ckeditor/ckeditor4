@@ -22,8 +22,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div class="description">
 	<p>
 		This sample shows how to configure CKEditor instances to use the
-		<strong>autogrow</strong> plugin that lets the editor window expand and shrink
-		depending on the amount and size of content entered in the editing area.
+		<strong>AutoGrow</strong> (<code>autogrow</code>) plugin that lets the editor window expand
+		and shrink depending on the amount and size of content entered in the editing area.
 	</p>
 	<p>
 		In its default implementation the <strong>AutoGrow feature</strong> can expand the
@@ -31,18 +31,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</p>
 	<p>
 		It is also possible to set a maximum height for the editor window. Once CKEditor
-		editing area reaches the value in pixels specified in the <code>autoGrow_maxHeight</code>
-		attribute, scrollbars will be added and the editor window will no longer expand.
+		editing area reaches the value in pixels specified in the <code>
+		<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.autoGrow_maxHeight">autoGrow_maxHeight</a>
+		</code> configuration setting, scrollbars will be added and the editor window will no longer expand.
 	</p>
 	<p>
-		To add a CKEditor instance using the <strong>autogrow</strong> plugin and its
+		To add a CKEditor instance using the <code>autogrow</code> plugin and its
 		<code>autoGrow_maxHeight</code> attribute, insert the following JavaScript call to your code:
 	</p>
 	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
 	{
 		<strong>extraPlugins : 'autogrow',</strong>
 		autoGrow_maxHeight : 800,
-		// Remove the resize plugin, as it doesn't make sense to use it in conjunction with the AutoGrow plugin.
+		// Remove the Resize plugin as it does not make sense to use it in conjunction with the AutoGrow plugin.
 		removePlugins : 'resize'
 	});</pre>
 	<p>
@@ -64,7 +65,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<form action="sample_posteddata.php" method="post">
 		<p>
 			<label for="editor1">
-				CKEditor using the <strong>autogrow</strong> plugin with its default configuration:</label>
+				CKEditor using the <code>autogrow</code> plugin with its default configuration:</label>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 			<script type="text/javascript">
 			//<![CDATA[
@@ -79,7 +80,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</p>
 		<p>
 			<label for="editor2">
-				CKEditor using the <strong>autogrow</strong> plugin with maximum height set to 400:</label>
+				CKEditor using the <code>autogrow</code> plugin with maximum height set to 400 pixels:</label>
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 			<script type="text/javascript">
 			//<![CDATA[
