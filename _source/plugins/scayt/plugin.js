@@ -699,27 +699,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
- * If enabled (true), turns on SCAYT automatically after loading the editor.
+ * If enabled (set to <code>true</code>), turns on SCAYT automatically
+ * after loading the editor.
  * @name CKEDITOR.config.scayt_autoStartup
  * @type Boolean
- * @default false
+ * @default <code>false</code>
  * @example
  * config.scayt_autoStartup = true;
  */
 
 /**
  * Defines the number of SCAYT suggestions to show in the main context menu.
- * The possible values are:
+ * Possible values are:
  * <ul>
- *	<li>0 (zero): All suggestions are displayed in the main context menu.</li>
- *	<li>Positive number: The maximum number of suggestions to shown in context
- *		menu. Other entries will be shown in "More Suggestions" sub-menu.</li>
- *	<li>Negative number: No suggestions are shown in the main context menu. All
- *		entries will be listed in the "Suggestions" sub-menu.</li>
+ *	<li><code>0</code> (zero) &ndash; All suggestions are displayed in the main context menu.</li>
+ *	<li>Positive number &ndash; The maximum number of suggestions to show in the context
+ *		menu. Other entries will be shown in the "More Suggestions" sub-menu.</li>
+ *	<li>Negative number &ndash; No suggestions are shown in the main context menu. All
+ *		entries will be listed in the the "Suggestions" sub-menu.</li>
  * </ul>
  * @name CKEDITOR.config.scayt_maxSuggestions
  * @type Number
- * @default 5
+ * @default <code>5</code>
  * @example
  * // Display only three suggestions in the main context menu.
  * config.scayt_maxSuggestions = 3;
@@ -729,11 +730,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Sets the customer ID for SCAYT. Required for migration from free version
- * with banner to paid version.
+ * Sets the customer ID for SCAYT. Required for migration from free, 
+ * ad-supported version to paid, ad-free version.
  * @name CKEDITOR.config.scayt_customerid
  * @type String
- * @default ''
+ * @default <code>''</code>
  * @example
  * // Load SCAYT using my customer ID.
  * config.scayt_customerid  = 'your-encrypted-customer-id';
@@ -741,10 +742,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Enables/disables the "More Suggestions" sub-menu in the context menu.
- * The possible values are "on" or "off".
+ * Possible values are <code>on</code> and <code>off</code>.
  * @name CKEDITOR.config.scayt_moreSuggestions
  * @type String
- * @default 'on'
+ * @default <code>'on'</code>
  * @example
  * // Disables the "More Suggestions" sub-menu.
  * config.scayt_moreSuggestions = 'off';
@@ -752,91 +753,99 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * Customizes the display of SCAYT context menu commands ("Add Word", "Ignore"
- * and "Ignore All"). It must be a string with one or more of the following
- * words separated by a pipe ("|"):
+ * and "Ignore All"). This must be a string with one or more of the following
+ * words separated by a pipe character ("|"):
  * <ul>
- *	<li>"off": disables all options.</li>
- *	<li>"all": enables all options.</li>
- *	<li>"ignore": enables the "Ignore" option.</li>
- *	<li>"ignoreall": enables the "Ignore All" option.</li>
- *	<li>"add": enables the "Add Word" option.</li>
+ *	<li><code>off</code> &ndash; disables all options.</li>
+ *	<li><code>all</code> &ndash; enables all options.</li>
+ *	<li><code>ignore</code> &ndash; enables the "Ignore" option.</li>
+ *	<li><code>ignoreall</code> &ndash; enables the "Ignore All" option.</li>
+ *	<li><code>add</code> &ndash; enables the "Add Word" option.</li>
  * </ul>
  * @name CKEDITOR.config.scayt_contextCommands
  * @type String
- * @default 'all'
+ * @default <code>'all'</code>
  * @example
  * // Show only "Add Word" and "Ignore All" in the context menu.
  * config.scayt_contextCommands = 'add|ignoreall';
  */
 
 /**
- * Sets the default spellchecking language for SCAYT.
+ * Sets the default spell checking language for SCAYT. Possible values are:
+ * <code>en_US</code>, <code>en_GB</code>, <code>pt_BR</code>, <code>da_DK</code>,
+ * <code>nl_NL</code>, <code>en_CA</code>, <code>fi_FI</code>, <code>fr_FR</code>,
+ * <code>fr_CA</code>, <code>de_DE</code>, <code>el_GR</code>, <code>it_IT</code>,
+ * <code>nb_NO</code>, <code>pt_PT</code>, <code>es_ES</code>, <code>sv_SE</code>.
  * @name CKEDITOR.config.scayt_sLang
  * @type String
- * @default 'en_US'
+ * @default <code>'en_US'</code>
  * @example
  * // Sets SCAYT to German.
  * config.scayt_sLang = 'de_DE';
  */
 
 /**
- * Sets the visibility of the SCAYT tabs in the settings dialog and toolbar
- * button. The value must contain a "1" (enabled) or "0" (disabled) number for
- * each of the following entries, in this precise order, separated by a
- * comma (","): "Options", "Languages" and "Dictionary".
+ * Sets the visibility of particular tabs in the SCAYT dialog window and toolbar
+ * button. This setting must contain a <code>1</code> (enabled) or <code>0</code>
+ * (disabled) value for each of the following entries, in this precise order, 
+ * separated by a comma (","): "Options", "Languages", and "Dictionary".
  * @name CKEDITOR.config.scayt_uiTabs
  * @type String
- * @default '1,1,1'
+ * @default <code>'1,1,1'</code>
  * @example
- * // Hide the "Languages" tab.
+ * // Hides the "Languages" tab.
  * config.scayt_uiTabs = '1,0,1';
  */
 
 
 /**
- * Set the URL to SCAYT core. Required to switch to licensed version of SCAYT application.
- * Further details at http://wiki.webspellchecker.net/doku.php?id=3rd:wysiwyg:fckeditor:wscckf3l .
+ * Sets the URL to SCAYT core. Required to switch to the licensed version of SCAYT application.
+ * Further details available at
+ * <a href="http://wiki.webspellchecker.net/doku.php?id=3rd:wysiwyg:fckeditor:wscckf3l">
+ * http://wiki.webspellchecker.net/doku.php?id=3rd:wysiwyg:fckeditor:wscckf3l</a>.
  * @name CKEDITOR.config.scayt_srcUrl
  * @type String
- * @default ''
+ * @default <code>''</code>
  * @example
  * config.scayt_srcUrl = "http://my-host/spellcheck/lf/scayt/scayt.js";
  */
 
 /**
- * Links SCAYT to custom dictionaries. It's a string containing dictionary ids
- * separared by commas (","). Available only for licensed version.
- * Further details at http://wiki.webspellchecker.net/doku.php?id=custom_dictionary_support .
+ * Links SCAYT to custom dictionaries. This is a string containing dictionary IDs
+ * separared by commas (","). Available only for the licensed version.
+ * Further details at
+ * <a href="http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed">
+ * http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed</a>.
  * @name CKEDITOR.config.scayt_customDictionaryIds
  * @type String
- * @default ''
+ * @default <code>''</code>
  * @example
  * config.scayt_customDictionaryIds = '3021,3456,3478"';
  */
 
 /**
- * Makes it possible to activate a custom dictionary on SCAYT. The user
- * dictionary name must be used. Available only for licensed version.
+ * Makes it possible to activate a custom dictionary in SCAYT. The user
+ * dictionary name must be used. Available only for the licensed version.
  * @name CKEDITOR.config.scayt_userDictionaryName
  * @type String
- * @default ''
+ * @default <code>''</code>
  * @example
  * config.scayt_userDictionaryName = 'MyDictionary';
  */
 
 /**
- * Define order of placing of SCAYT context menu items by groups.
- * It must be a string with one or more of the following
- * words separated by a pipe ("|"):
+ * Defines the order SCAYT context menu items by groups.
+ * This must be a string with one or more of the following
+ * words separated by a pipe character ("|"):
  * <ul>
- *     <li>'suggest'     - main suggestion word list,</li>
- *     <li>'moresuggest' - more suggestions word list,</li>
- *     <li>'control'     - SCAYT commands, such as 'Ignore' and 'Add Word'</li>
+ *     <li><code>suggest</code> &ndash; main suggestion word list,</li>
+ *     <li><code>moresuggest</code> &ndash; more suggestions word list,</li>
+ *     <li><code>control</code> &ndash; SCAYT commands, such as "Ignore" and "Add Word".</li>
  * </ul>
  *
  * @name CKEDITOR.config.scayt_contextMenuItemsOrder
  * @type String
- * @default 'suggest|moresuggest|control'
+ * @default <code>'suggest|moresuggest|control'</code>
  * @example
  * config.scayt_contextMenuItemsOrder = 'moresuggest|control|suggest';
  */
