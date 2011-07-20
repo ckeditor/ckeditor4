@@ -22,7 +22,7 @@ CKEDITOR.plugins.add( 'smiley', {
  * a slash.
  * @name CKEDITOR.config.smiley_path
  * @type String
- * @default {@link CKEDITOR.basePath} + 'plugins/smiley/images/'
+ * @default <code><em>CKEDITOR.basePath</em> + 'plugins/smiley/images/'</code>
  * @example
  * config.smiley_path = 'http://www.example.com/images/smileys/';
  * @example
