@@ -43,8 +43,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		'upsih,piv';
 
 	/**
-	 * Create a mapping table between one character and it's entity form from a list of entity names.
-	 * @param reverse {Boolean} Whether create a reverse map from the entity string form to actual character.
+	 * Create a mapping table between one character and its entity form from a list of entity names.
+	 * @param reverse {Boolean} Whether to create a reverse map from the entity string form to an actual character.
 	 */
 	function buildTable( entities, reverse ) {
 		var table = {},
@@ -156,16 +156,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
- * Whether to escape HTML preserved entities in text, including:
+ * Whether to escape basic HTML entities in the document, including:
  * <ul>
- * <li>nbsp</li>
- * <li>gt</li>
- * <li>lt</li>
- * <li>amp</li>
+ * <li><code>nbsp</code></li>
+ * <li><code>gt</code></li>
+ * <li><code>lt</code></li>
+ * <li><code>amp</code></li>
  * </ul>
- * <strong>Note:</strong> It should not be subjected to change unless you're outputting non-HTML data format like BBCode.
+ * <strong>Note:</strong> It should not be subject to change unless when outputting a non-HTML data format like BBCode.
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.basicEntities = false;
  */
@@ -175,7 +175,7 @@ CKEDITOR.config.basicEntities = true;
  * Whether to use HTML entities in the output.
  * @name CKEDITOR.config.entities
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.entities = false;
  */
@@ -183,11 +183,11 @@ CKEDITOR.config.entities = true;
 
 /**
  * Whether to convert some Latin characters (Latin alphabet No&#46; 1, ISO 8859-1)
- * to HTML entities. The list of entities can be found at the
+ * to HTML entities. The list of entities can be found in the
  * <a href="http://www.w3.org/TR/html4/sgml/entities.html#h-24.2.1">W3C HTML 4.01 Specification, section 24.2.1</a>.
  * @name CKEDITOR.config.entities_latin
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.entities_latin = false;
  */
@@ -196,37 +196,37 @@ CKEDITOR.config.entities_latin = true;
 /**
  * Whether to convert some symbols, mathematical symbols, and Greek letters to
  * HTML entities. This may be more relevant for users typing text written in Greek.
- * The list of entities can be found at the
+ * The list of entities can be found in the
  * <a href="http://www.w3.org/TR/html4/sgml/entities.html#h-24.3.1">W3C HTML 4.01 Specification, section 24.3.1</a>.
  * @name CKEDITOR.config.entities_greek
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.entities_greek = false;
  */
 CKEDITOR.config.entities_greek = true;
 
 /**
- * Whether to convert all remaining characters, not comprised in the ASCII
- * character table, to their relative decimal numeric representation of HTML entity.
- * When specified as the value 'force', it will simply convert all entities into the above form.
- * For example, the phrase "This is Chinese: &#27721;&#35821;." is outputted
+ * Whether to convert all remaining characters not included in the ASCII
+ * character table to their relative decimal numeric representation of HTML entity.
+ * When set to <code>force</code>, it will convert all entities into this format.
+ * For example the phrase "This is Chinese: &#27721;&#35821;." is output
  * as "This is Chinese: &amp;#27721;&amp;#35821;."
  * @name CKEDITOR.config.entities_processNumerical
  * @type Boolean|String
- * @default false
+ * @default <code>false</code>
  * @example
  * config.entities_processNumerical = true;
- * config.entities_processNumerical = 'force';		//Convert from "&nbsp;" into "&#160;";
+ * config.entities_processNumerical = 'force';		//Converts from "&nbsp;" into "&#160;";
  */
 
 /**
- * An additional list of entities to be used. It's a string containing each
- * entry separated by a comma. Entities names or number must be used, exclusing
- * the "&amp;" preffix and the ";" termination.
+ * A comma separated list of  additional entities to be used. Entity names
+ * or numbers must be used in a form that excludes the "&amp;" prefix and the ";" ending.
  * @name CKEDITOR.config.entities_additional
- * @default '#39'  // The single quote (') character.
+ * @default <code>'#39'</code>  (The single quote (') character.)
  * @type String
  * @example
+ * config.entities_additional = '#1049';		// Adds Cyrillic capital letter Short I (&#1049;).
  */
 CKEDITOR.config.entities_additional = '#39';

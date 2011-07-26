@@ -38,58 +38,86 @@ CKEDITOR.plugins.add( 'basicstyles', {
 
 // Basic Inline Styles.
 /**
- * The style definition to be used to apply the bold style in the text.
+ * The style definition that applies the <strong>bold</strong> style to the text.
  * @type Object
+ * @default <code>{ element : 'strong', overrides : 'b' }</code>
  * @example
  * config.coreStyles_bold = { element : 'b', overrides : 'strong' };
  * @example
- * config.coreStyles_bold = { element : 'span', attributes : {'class': 'Bold'} };
+ * config.coreStyles_bold =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'Bold' }
+ *     };
  */
 CKEDITOR.config.coreStyles_bold = { element: 'strong', overrides: 'b' };
 
 /**
- * The style definition to be used to apply the italic style in the text.
+ * The style definition that applies the <em>italics</em> style to the text.
  * @type Object
- * @default { element : 'em', overrides : 'i' }
+ * @default <code>{ element : 'em', overrides : 'i' }</code>
  * @example
  * config.coreStyles_italic = { element : 'i', overrides : 'em' };
  * @example
- * CKEDITOR.config.coreStyles_italic = { element : 'span', attributes : {'class': 'Italic'} };
+ * CKEDITOR.config.coreStyles_italic =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'Italic' }
+ *     };
  */
 CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
 
 /**
- * The style definition to be used to apply the underline style in the text.
+ * The style definition that applies the <u>underline</u> style to the text.
  * @type Object
- * @default { element : 'u' }
+ * @default <code>{ element : 'u' }</code>
  * @example
- * CKEDITOR.config.coreStyles_underline = { element : 'span', attributes : {'class': 'Underline'}};
+ * CKEDITOR.config.coreStyles_underline =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'Underline' }
+ *     };
  */
 CKEDITOR.config.coreStyles_underline = { element: 'u' };
 
 /**
- * The style definition to be used to apply the strike style in the text.
+ * The style definition that applies the <strike>strike-through</strike> style to the text.
  * @type Object
- * @default { element : 'strike' }
+ * @default <code>{ element : 'strike' }</code>
  * @example
- * CKEDITOR.config.coreStyles_strike = { element : 'span', attributes : {'class': 'StrikeThrough'}, overrides : 'strike' };
+ * CKEDITOR.config.coreStyles_strike =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'StrikeThrough' },
+ *         overrides : 'strike'
+ *     };
  */
 CKEDITOR.config.coreStyles_strike = { element: 'strike' };
 
 /**
- * The style definition to be used to apply the subscript style in the text.
+ * The style definition that applies the subscript style to the text.
  * @type Object
- * @default { element : 'sub' }
+ * @default <code>{ element : 'sub' }</code>
  * @example
- * CKEDITOR.config.coreStyles_subscript = { element : 'span', attributes : {'class': 'Subscript'}, overrides : 'sub' };
+ * CKEDITOR.config.coreStyles_subscript =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'Subscript' },
+ *         overrides : 'sub'
+ *     };
  */
 CKEDITOR.config.coreStyles_subscript = { element: 'sub' };
 
 /**
- * The style definition to be used to apply the superscript style in the text.
+ * The style definition that applies the superscript style to the text.
  * @type Object
- * @default { element : 'sup' }
+ * @default <code>{ element : 'sup' }</code>
  * @example
- * CKEDITOR.config.coreStyles_superscript = { element : 'span', attributes : {'class': 'Superscript'}, overrides : 'sup' };
+ * CKEDITOR.config.coreStyles_superscript =
+ *     {
+ *         element : 'span',
+ *         attributes : { 'class' : 'Superscript' },
+ *         overrides : 'sup'
+ *     };
  */
 CKEDITOR.config.coreStyles_superscript = { element: 'sup' };

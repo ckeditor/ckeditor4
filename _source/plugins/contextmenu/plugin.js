@@ -137,12 +137,13 @@ CKEDITOR.plugins.add( 'contextmenu', {
 });
 
 /**
- * Whether to show the browser native context menu when the CTRL or the
- * META (Mac) key is pressed while opening the context menu.
+ * Whether to show the browser native context menu when the <em>Ctrl</em> or 
+ * <em>Meta</em> (Mac) key is pressed on opening the context menu with the
+ * right mouse button click or the <em>Menu</em> key.
  * @name CKEDITOR.config.browserContextMenuOnCtrl
  * @since 3.0.2
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.browserContextMenuOnCtrl = false;
  */
