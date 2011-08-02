@@ -201,7 +201,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							charDesc = character[ 1 ];
 							character = character[ 0 ];
 						} else {
-							var _tmpName = character.toLowerCase().replace( '&', '' ).replace( ';', '' ).replace( '#', '' );
+							var _tmpName = character.replace( '&', '' ).replace( ';', '' ).replace( '#', '' );
 
 							// Use character in case description unavailable.
 							charDesc = lang[ _tmpName ] || character;
