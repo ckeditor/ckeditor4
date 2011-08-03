@@ -166,7 +166,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			params.langCode = editor.langCode;
 
 		var url = addQueryString( this.filebrowser.url, params );
-		editor.popup( url, width, height, editor.config.fileBrowserWindowFeatures );
+		// TODO: V4: Remove backward compatibility (#8163).
+		editor.popup( url, width, height, editor.config.filebrowserWindowFeatures || editor.config.fileBrowserWindowFeatures );
 	}
 
 	/*
