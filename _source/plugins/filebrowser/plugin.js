@@ -4,15 +4,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview The "filebrowser" plugin, it adds support for file uploads and
+ * @fileOverview The "filebrowser" plugin that adds support for file uploads and
  *               browsing.
  *
- * When file is selected inside of the file browser or uploaded, its url is
- * inserted automatically to a field, which is described in the 'filebrowser'
- * attribute. To specify field that should be updated, pass the tab id and
- * element id, separated with a colon.
+ * When a file is uploaded or selected inside the file browser, its URL is
+ * inserted automatically into a field defined in the <code>filebrowser</code>
+ * attribute. In order to specify a field that should be updated, pass the tab ID and
+ * the element ID, separated with a colon.<br /><br />
  *
- * Example 1: (Browse)
+ * <strong>Example 1: (Browse)</strong>
  *
  * <pre>
  * {
@@ -23,10 +23,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * }
  * </pre>
  *
- * If you set the 'filebrowser' attribute on any element other than
- * 'fileButton', the 'Browse' action will be triggered.
+ * If you set the <code>filebrowser</code> attribute for an element other than
+ * the <code>fileButton</code>, the <code>Browse</code> action will be triggered.<br /><br />
  *
- * Example 2: (Quick Upload)
+ * <strong>Example 2: (Quick Upload)</strong>
  *
  * <pre>
  * {
@@ -38,23 +38,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * }
  * </pre>
  *
- * If you set the 'filebrowser' attribute on a fileButton element, the
- * 'QuickUpload' action will be executed.
+ * If you set the <code>filebrowser</code> attribute for a <code>fileButton</code>
+ * element, the <code>QuickUpload</code> action will be executed.<br /><br />
  *
- * Filebrowser plugin also supports more advanced configuration (through
- * javascript object).
+ * The filebrowser plugin also supports more advanced configuration performed through
+ * a JavaScript object.
  *
  * The following settings are supported:
  *
- * <pre>
- *  [action] - Browse or QuickUpload
- *  [target] - field to update, tabId:elementId
- *  [params] - additional arguments to be passed to the server connector (optional)
- *  [onSelect] - function to execute when file is selected/uploaded (optional)
- *  [url] - the URL to be called (optional)
- * </pre>
+ * <ul>
+ * <li><code>action</code> &ndash; <code>Browse</code> or <code>QuickUpload</code>.</li>
+ * <li><code>target</code> &ndash; the field to update in the <code><em>tabId:elementId</em></code> format.</li>
+ * <li><code>params</code> &ndash; additional arguments to be passed to the server connector (optional).</li>
+ * <li><code>onSelect</code> &ndash; a function to execute when the file is selected/uploaded (optional).</li>
+ * <li><code>url</code> &ndash; the URL to be called (optional).</li>
+ * </ul>
  *
- * Example 3: (Quick Upload)
+ * <strong>Example 3: (Quick Upload)</strong>
  *
  * <pre>
  * {
@@ -63,16 +63,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 	id : 'buttonId',
  * 	filebrowser :
  * 	{
- * 		action : 'QuickUpload', //required
- * 		target : 'tab1:elementId', //required
- * 		params : //optional
+ * 		action : 'QuickUpload', // required
+ * 		target : 'tab1:elementId', // required
+ * 		params : // optional
  * 		{
  * 			type : 'Files',
  * 			currentFolder : '/folder/'
  * 		},
- * 		onSelect : function( fileUrl, errorMessage ) //optional
+ * 		onSelect : function( fileUrl, errorMessage ) // optional
  * 		{
- * 			// Do not call the built-in selectFuntion
+ * 			// Do not call the built-in selectFuntion.
  * 			// return false;
  * 		}
  * 	},
@@ -80,14 +80,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * }
  * </pre>
  *
- * Suppose we have a file element with id 'myFile', text field with id
- * 'elementId' and a fileButton. If filebowser.url is not specified explicitly,
- * form action will be set to 'filebrowser[DialogName]UploadUrl' or, if not
- * specified, to 'filebrowserUploadUrl'. Additional parameters from 'params'
- * object will be added to the query string. It is possible to create your own
- * uploadHandler and cancel the built-in updateTargetElement command.
+ * Suppose you have a file element with an ID of <code>myFile</code>, a text
+ * field with an ID of <code>elementId</code> and a <code>fileButton</code>.
+ * If the <code>filebowser.url</code> attribute is not specified explicitly,
+ * the form action will be set to <code>filebrowser[<em>DialogWindowName</em>]UploadUrl</code>
+ * or, if not specified, to <code>filebrowserUploadUrl</code>. Additional parameters
+ * from the <code>params</code> object will be added to the query string. It is
+ * possible to create your own <code>uploadHandler</code> and cancel the built-in
+ * <code>updateTargetElement</code> command.<br /><br />
  *
- * Example 4: (Browse)
+ * <strong>Example 4: (Browse)</strong>
  *
  * <pre>
  * {
@@ -103,12 +105,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * }
  * </pre>
  *
- * In this example, after pressing a button, file browser will be opened in a
- * popup. If we don't specify filebrowser.url attribute,
- * 'filebrowser[DialogName]BrowseUrl' or 'filebrowserBrowseUrl' will be used.
- * After selecting a file in a file browser, an element with id 'elementId' will
- * be updated. Just like in the third example, a custom 'onSelect' function may be
- * defined.
+ * In this example, when the button is pressed, the file browser will be opened in a
+ * popup window. If you do not specify the <code>filebrowser.url</code> attribute,
+ * <code>filebrowser[<em>DialogName</em>]BrowseUrl</code> or
+ * <code>filebrowserBrowseUrl</code> will be used. After selecting a file in the file
+ * browser, an element with an ID of <code>elementId</code> will be updated. Just
+ * like in the third example, a custom <code>onSelect</code> function may be defined.
  */ ( function() {
 	/*
 	 * Adds (additional) arguments to given url.
@@ -381,99 +383,105 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
- * The location of an external file browser, that should be launched when "Browse Server" button is pressed.
- * If configured, the "Browse Server" button will appear in Link, Image and Flash dialogs.
+ * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
+ * button is pressed. If configured, the <strong>Browse Server</strong> button will appear in the
+ * <strong>Link</strong>, <strong>Image</strong>, and <strong>Flash</strong> dialog windows.
  * @see The <a href="http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)">File Browser/Uploader</a> documentation.
  * @name CKEDITOR.config.filebrowserBrowseUrl
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserBrowseUrl = '/browser/browse.php';
  */
 
 /**
- * The location of a script that handles file uploads.
- * If set, the "Upload" tab will appear in "Link", "Image" and "Flash" dialogs.
+ * The location of the script that handles file uploads.
+ * If set, the <strong>Upload</strong> tab will appear in the <strong>Link</strong>, <strong>Image</strong>,
+ * and <strong>Flash</strong> dialog windows.
  * @name CKEDITOR.config.filebrowserUploadUrl
  * @see The <a href="http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)">File Browser/Uploader</a> documentation.
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserUploadUrl = '/uploader/upload.php';
  */
 
 /**
- * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Image dialog.
- * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
+ * button is pressed in the <strong>Image</strong> dialog window.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageBrowseUrl
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
  */
 
 /**
- * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Flash dialog.
- * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
+ * button is pressed in the <strong>Flash</strong> dialog window.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserFlashBrowseUrl
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  */
 
 /**
- * The location of a script that handles file uploads in the Image dialog.
- * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserUploadUrl}.
+ * The location of the script that handles file uploads in the <strong>Image</strong> dialog window.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserUploadUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageUploadUrl
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
  */
 
 /**
- * The location of a script that handles file uploads in the Flash dialog.
- * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserUploadUrl}.
+ * The location of the script that handles file uploads in the <strong>Flash</strong> dialog window.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserUploadUrl}</code>.
  * @name CKEDITOR.config.filebrowserFlashUploadUrl
  * @since 3.0
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  */
 
 /**
- * The location of an external file browser, that should be launched when "Browse Server" button is pressed in the Link tab of Image dialog.
- * If not set, CKEditor will use {@link CKEDITOR.config.filebrowserBrowseUrl}.
+ * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
+ * button is pressed in the <strong>Link</strong> tab of the <strong>Image</strong> dialog window.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageBrowseLinkUrl
  * @since 3.2
  * @type String
- * @default '' (empty string = disabled)
+ * @default <code>''</code> (empty string = disabled)
  * @example
  * config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
  */
 
 /**
- * The "features" to use in the file browser popup window.
+ * The features to use in the file browser popup window.
  * @name CKEDITOR.config.filebrowserWindowFeatures
  * @since 3.4.1
  * @type String
- * @default 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
+ * @default <code>'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'</code>
  * @example
  * config.filebrowserWindowFeatures = 'resizable=yes,scrollbars=no';
  */
 
 /**
- * The width of the file browser popup window. It can be a number or a percent string.
+ * The width of the file browser popup window. It can be a number denoting a value in
+ * pixels or a percent string.
  * @name CKEDITOR.config.filebrowserWindowWidth
  * @type Number|String
- * @default '80%'
+ * @default <code>'80%'</code>
  * @example
  * config.filebrowserWindowWidth = 750;
  * @example
@@ -481,10 +489,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * The height of the file browser popup window. It can be a number or a percent string.
+ * The height of the file browser popup window. It can be a number denoting a value in
+ * pixels or a percent string.
  * @name CKEDITOR.config.filebrowserWindowHeight
  * @type Number|String
- * @default '70%'
+ * @default <code>'70%'</code>
  * @example
  * config.filebrowserWindowHeight = 580;
  * @example
