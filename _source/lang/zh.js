@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		invalidWidth: '寬度必須為數字格式',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 已關閉</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		findWhat: '尋找:',
 		replaceWith: '取代:',
 		notFoundMsg: '未找到指定的文字。',
+		findOptions: 'Find Options', // MISSING
 		matchCase: '大小寫須相符',
 		matchWord: '全字相符',
 		matchCyclic: '循環搜索',

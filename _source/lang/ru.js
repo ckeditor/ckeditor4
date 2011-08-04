@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		invalidWidth: 'Ширина задается числом.',
 		invalidCssLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры CSS (px, %, in, cm, mm, em, ex, pt, или pc).',
 		invalidHtmlLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры HTML (px или %).',
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, недоступно</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		findWhat: 'Найти:',
 		replaceWith: 'Заменить на:',
 		notFoundMsg: 'Искомый текст не найден.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Учитывать регистр',
 		matchWord: 'Только слово целиком',
 		matchCyclic: 'По всему тексту',

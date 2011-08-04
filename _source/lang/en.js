@@ -233,6 +233,7 @@ CKEDITOR.lang[ 'en' ] = {
 		findWhat: 'Find what:',
 		replaceWith: 'Replace with:',
 		notFoundMsg: 'The specified text was not found.',
+		findOptions: 'Find Options',
 		matchCase: 'Match case',
 		matchWord: 'Match whole word',
 		matchCyclic: 'Match cyclic',

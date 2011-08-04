@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		invalidWidth: 'De breedte moet een getal zijn.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		findWhat: 'Zoeken naar:',
 		replaceWith: 'Vervangen met:',
 		notFoundMsg: 'De opgegeven tekst is niet gevonden.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Hoofdlettergevoelig',
 		matchWord: 'Hele woord moet voorkomen',
 		matchCyclic: 'Doorlopend zoeken',

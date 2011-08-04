@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		invalidWidth: 'Bredde må være et tall.',
 		invalidCssLength: 'Den angitte verdien for feltet "%1" må være et positivt tall med eller uten en gyldig CSS-målingsenhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
 		invalidHtmlLength: 'Den angitte verdien for feltet "%1" må være et positivt tall med eller uten en gyldig HTML-målingsenhet (px eller %).',
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		findWhat: 'Søk etter:',
 		replaceWith: 'Erstatt med:',
 		notFoundMsg: 'Fant ikke søketeksten.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Skill mellom store og små bokstaver',
 		matchWord: 'Bare hele ord',
 		matchCyclic: 'Søk i hele dokumentet',

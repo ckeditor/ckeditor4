@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidWidth: 'הרוחב חייב להיות מספר.',
 		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',
 		invalidHtmlLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של HTML (px או %).',
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'he' ] = {
 		findWhat: 'חיפוש מחרוזת:',
 		replaceWith: 'החלפה במחרוזת:',
 		notFoundMsg: 'הטקסט המבוקש לא נמצא.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'הבחנה בין אותיות רשיות לקטנות (Case)',
 		matchWord: 'התאמה למילה המלאה',
 		matchCyclic: 'התאמה מחזורית',

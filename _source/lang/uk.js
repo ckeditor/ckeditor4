@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		invalidWidth: 'Ширина повинна бути цілим числом.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, не доступне</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		findWhat: 'Шукати:',
 		replaceWith: 'Замінити на:',
 		notFoundMsg: 'Вказаний текст не знайдено.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Враховувати регістр',
 		matchWord: 'Збіг цілих слів',
 		matchCyclic: 'Циклічна заміна',

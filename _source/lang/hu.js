@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',
 		invalidCssLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes CSS egységgel megjelölve(px, %, in, cm, mm, em, ex, pt vagy pc).',
 		invalidHtmlLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes HTML egységgel megjelölve(px vagy %).',
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nem elérhető</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		findWhat: 'Keresett szöveg:',
 		replaceWith: 'Csere erre:',
 		notFoundMsg: 'A keresett szöveg nem található.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'kis- és nagybetű megkülönböztetése',
 		matchWord: 'csak ha ez a teljes szó',
 		matchCyclic: 'Ciklikus keresés',

@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		invalidWidth: 'Szerokość musi być liczbą.',
 		invalidCssLength: 'Wartość podana dla pola "%1" musi być liczbą dodatnią bez jednostki lub z poprawną jednostką długości zgodną z CSS (px, %, in, cm, mm, em, ex, pt lub pc).',
 		invalidHtmlLength: 'Wartość podana dla pola "%1" musi być liczbą dodatnią bez jednostki lub z poprawną jednostką długości zgodną z HTML (px lub %).',
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niedostępne</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		findWhat: 'Znajdź:',
 		replaceWith: 'Zastąp przez:',
 		notFoundMsg: 'Nie znaleziono szukanego hasła.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Uwzględnij wielkość liter',
 		matchWord: 'Całe słowa',
 		matchCyclic: 'Cykliczne dopasowanie',

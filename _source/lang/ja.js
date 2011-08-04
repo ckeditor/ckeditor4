@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidWidth: '幅は数値で入力してください。',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		findWhat: '検索する文字列:',
 		replaceWith: '置換えする文字列:',
 		notFoundMsg: '指定された文字列は見つかりませんでした。',
+		findOptions: 'Find Options', // MISSING
 		matchCase: '大文字と小文字を区別する',
 		matchWord: '単語単位で探す',
 		matchCyclic: '一周する',

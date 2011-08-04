@@ -550,28 +550,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						]
 					},
 						{
-						type: 'vbox',
-						padding: 0,
+						type: 'fieldset',
+						label: CKEDITOR.tools.htmlEncode( lang.findOptions ),
+						style: 'margin-top:29px',
 						children: [
 							{
-							type: 'checkbox',
-							id: 'txtFindCaseChk',
-							isChanged: false,
-							style: 'margin-top:28px',
-							label: lang.matchCase
-						},
-							{
-							type: 'checkbox',
-							id: 'txtFindWordChk',
-							isChanged: false,
-							label: lang.matchWord
-						},
-							{
-							type: 'checkbox',
-							id: 'txtFindCyclic',
-							isChanged: false,
-							'default': true,
-							label: lang.matchCyclic
+							type: 'vbox',
+							padding: 0,
+							children: [
+								{
+								type: 'checkbox',
+								id: 'txtFindCaseChk',
+								isChanged: false,
+								label: lang.matchCase
+							},
+								{
+								type: 'checkbox',
+								id: 'txtFindWordChk',
+								isChanged: false,
+								label: lang.matchWord
+							},
+								{
+								type: 'checkbox',
+								id: 'txtFindCyclic',
+								isChanged: false,
+								'default': true,
+								label: lang.matchCyclic
+							}
+							]
 						}
 						]
 					}
@@ -654,27 +660,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						]
 					},
 						{
-						type: 'vbox',
-						padding: 0,
+						type: 'fieldset',
+						label: CKEDITOR.tools.htmlEncode( lang.findOptions ),
 						children: [
 							{
-							type: 'checkbox',
-							id: 'txtReplaceCaseChk',
-							isChanged: false,
-							label: lang.matchCase
-						},
-							{
-							type: 'checkbox',
-							id: 'txtReplaceWordChk',
-							isChanged: false,
-							label: lang.matchWord
-						},
-							{
-							type: 'checkbox',
-							id: 'txtReplaceCyclic',
-							isChanged: false,
-							'default': true,
-							label: lang.matchCyclic
+							type: 'vbox',
+							padding: 0,
+							children: [
+								{
+								type: 'checkbox',
+								id: 'txtReplaceCaseChk',
+								isChanged: false,
+								label: lang.matchCase
+							},
+								{
+								type: 'checkbox',
+								id: 'txtReplaceWordChk',
+								isChanged: false,
+								label: lang.matchWord
+							},
+								{
+								type: 'checkbox',
+								id: 'txtReplaceCyclic',
+								isChanged: false,
+								'default': true,
+								label: lang.matchCyclic
+							}
+							]
 						}
 						]
 					}

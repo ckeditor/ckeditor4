@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'ca' ] = {
 		invalidWidth: 'L\'amplada ha de ser un nombre.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'ca' ] = {
 		findWhat: 'Cerca:',
 		replaceWith: 'Remplaça amb:',
 		notFoundMsg: 'El text especificat no s\'ha trobat.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Distingeix majúscules/minúscules',
 		matchWord: 'Només paraules completes',
 		matchCyclic: 'Match cyclic',

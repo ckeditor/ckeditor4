@@ -121,6 +121,7 @@ CKEDITOR.lang[ 'sl' ] = {
 		invalidWidth: 'Širina mora biti število.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedosegljiv</span>'
@@ -232,6 +233,7 @@ CKEDITOR.lang[ 'sl' ] = {
 		findWhat: 'Najdi:',
 		replaceWith: 'Zamenjaj z:',
 		notFoundMsg: 'Navedeno besedilo ni bilo najdeno.',
+		findOptions: 'Find Options', // MISSING
 		matchCase: 'Razlikuj velike in male črke',
 		matchWord: 'Samo cele besede',
 		matchCyclic: 'Primerjaj znake v cirilici',
