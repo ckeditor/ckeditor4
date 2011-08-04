@@ -658,6 +658,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					{
 					type: 'text',
 					id: 'style',
+					validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 					label: editor.lang.common.cssStyle,
 					setup: loadValue,
 					commit: commitValue

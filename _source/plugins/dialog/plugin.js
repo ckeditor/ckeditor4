@@ -2661,7 +2661,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			integerRegex = /^\d*$/,
 			numberRegex = /^\d*(?:\.\d+)?$/,
 			htmlLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|\%)?)?$/,
-			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i;
+			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i,
+			inlineStyleRegex = /^(\s*[\w-]+\s*:\s*[^:;]+(?:;|$))*$/;
 
 		CKEDITOR.VALIDATE_OR = 1;
 		CKEDITOR.VALIDATE_AND = 2;
@@ -2742,6 +2743,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			'htmlLength': function( msg ) {
 				return this.functions( function( val ) {
 					return htmlLengthRegex.test( CKEDITOR.tools.trim( val ) );
+				}, msg );
+			},
+
+			'inlineStyle': function( msg ) {
+				return this.functions( function( val ) {
+					return inlineStyleRegex.test( CKEDITOR.tools.trim( val ) );
 				}, msg );
 			},
 

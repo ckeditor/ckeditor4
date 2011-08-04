@@ -112,6 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						label: lang.styles,
 						'default': '',
 
+						validate: CKEDITOR.dialog.validate.inlineStyle( lang.invalidInlineStyle ),
 						onChange: function() {},
 
 						getStyle: function( name, defaultValue ) {
