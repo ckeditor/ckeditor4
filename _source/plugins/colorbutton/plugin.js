@@ -3,6 +3,11 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/**
+ * @fileOverview The "colorbutton" plugin that makes it possible to assign
+ *               text and background colors to editor contents.
+ *
+ */
 CKEDITOR.plugins.add( 'colorbutton', {
 	requires: [ 'panelbutton', 'floatpanel', 'styles' ],
 
@@ -196,24 +201,24 @@ CKEDITOR.plugins.add( 'colorbutton', {
 });
 
 /**
- * Whether to enable the "More Colors..." button in the color selectors.
+ * Whether to enable the <strong>More Colors</strong> button in the color selectors.
  * @name CKEDITOR.config.colorButton_enableMore
- * @default true
+ * @default <code>true</code>
  * @type Boolean
  * @example
  * config.colorButton_enableMore = false;
  */
 
 /**
- * Defines the colors to be displayed in the color selectors. It's a string
- * containing the hexadecimal notation for HTML colors, without the "#" prefix.
- *
- * Since 3.3: A name may be optionally defined by prefixing the entries with the
- * name and the slash character. For example, "FontColor1/FF9900" will be
- * displayed as the color #FF9900 in the selector, but will be outputted as "FontColor1".
+ * Defines the colors to be displayed in the color selectors. This is a string
+ * containing hexadecimal notation for HTML colors, without the "#" prefix.
+ * <br /><br />
+ * Since 3.3: A color name may optionally be defined by prefixing the entries with
+ * a name and the slash character. For example, "FontColor1/FF9900" will be
+ * displayed as the color #FF9900 in the selector, but will be output as "FontColor1".
  * @name CKEDITOR.config.colorButton_colors
  * @type String
- * @default '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF'
+ * @default <code>'000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF'</code>
  * @example
  * // Brazil colors only.
  * config.colorButton_colors = '00923E,F8C100,28166F';
@@ -227,11 +232,12 @@ CKEDITOR.config.colorButton_colors = '000,800000,8B4513,2F4F4F,008080,000080,4B0
 	'FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF';
 
 /**
- * Holds the style definition to be used to apply the text foreground color.
+ * Stores the style definition that applies the text foreground color.
  * @name CKEDITOR.config.colorButton_foreStyle
  * @type Object
+ * @default (see example)
  * @example
- * // This is basically the default setting value.
+ * // This is actually the default value.
  * config.colorButton_foreStyle =
  *     {
  *         element : 'span',
@@ -247,11 +253,12 @@ CKEDITOR.config.colorButton_foreStyle = {
 };
 
 /**
- * Holds the style definition to be used to apply the text background color.
+ * Stores the style definition that applies the text background color.
  * @name CKEDITOR.config.colorButton_backStyle
  * @type Object
+ * @default (see example)
  * @example
- * // This is basically the default setting value.
+ * // This is actually the default value.
  * config.colorButton_backStyle =
  *     {
  *         element : 'span',
