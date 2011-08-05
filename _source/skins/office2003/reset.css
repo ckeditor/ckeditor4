@@ -26,6 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: nowrap;
 	cursor: auto;
 	color: #000;
+	float: none;
 
     font-size: 11px;
     font-family: 'Microsoft Sans Serif' , Tahoma, Arial, Verdana, Sans-Serif;
