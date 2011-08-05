@@ -121,7 +121,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',
 		invalidCssLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes CSS egységgel megjelölve(px, %, in, cm, mm, em, ex, pt vagy pc).',
 		invalidHtmlLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes HTML egységgel megjelölve(px vagy %).',
-		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nem elérhető</span>'

@@ -121,7 +121,7 @@ CKEDITOR.lang[ 'it' ] = {
 		invalidWidth: 'La Larghezza dev\'essere un numero',
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le pagine HTML (px o %).',
-		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>'

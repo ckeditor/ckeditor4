@@ -121,7 +121,7 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidWidth: 'הרוחב חייב להיות מספר.',
 		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',
 		invalidHtmlLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של HTML (px או %).',
-		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'

@@ -121,7 +121,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidWidth: 'Rhaid i\'r Lled fod yn rhif.',
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',
 		invalidHtmlLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad HTML dilys (px neu %).',
-		invalidInlineStyle: 'Value specified for the inline style must be one or multiple tuples with the form "name : value" which are separated by semi-colon.', // MISSING
+		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
