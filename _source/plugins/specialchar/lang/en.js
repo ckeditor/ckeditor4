@@ -30,6 +30,7 @@
 	cedil: "Cedilla",
 	sup1: "Superscript one",
 	ordm: "Masculine ordinal indicator",
+	raquo: "Right-pointing double angle quotation mark",
 	frac14: "Vulgar fraction one quarter",
 	frac12: "Vulgar fraction one half",
 	frac34: "Vulgar fraction three quarters",
