@@ -709,7 +709,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						if ( fireMode ) {
 							editor.mode = 'wysiwyg';
-							editor.fire( 'mode' );
+							editor.fire( 'mode', { previousMode: editor._.previousMode } );
 							fireMode = false;
 						}
 
