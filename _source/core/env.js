@@ -83,11 +83,11 @@ if ( !CKEDITOR.env ) {
 			mobile: ( agent.indexOf( 'mobile' ) > -1 ),
 
 			/**
-			 * Indicates that CKEditor is running on Apple iPhone/iPad/iPod mobile devices.
+			 * Indicates that CKEditor is running on Apple iPhone/iPad/iPod devices.
 			 * @type Boolean
 			 * @example
-			 * if ( CKEDITOR.env.iMobile )
-			 *     alert( "I like apples!" );
+			 * if ( CKEDITOR.env.iOS )
+			 *     alert( "I like little apples!" );
 			 */
 			iOS: /(ipad|iphone|ipod)/.test( agent ),
 
