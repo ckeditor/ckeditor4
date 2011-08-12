@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview The "wysiwygarea" plugin. It registers the "wysiwyg" editing
+ * @fileOverview The <code>wysiwygarea</code> plugin. It registers the <code>wysiwyg</code> editing
  *		mode, which handles the main editing area space.
  */
 
@@ -1092,71 +1092,73 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
- * Disables the ability of resize objects (image and tables) in the editing
+ * Disables the ability to resize objects (images and tables) in the editing
  * area.
  * @type Boolean
- * @default false
+ * @default <code>false</code>
  * @example
  * config.disableObjectResizing = true;
  */
 CKEDITOR.config.disableObjectResizing = false;
 
 /**
- * Disables the "table tools" offered natively by the browser (currently
- * Firefox only) to make quick table editing operations, like adding or
+ * Disables table tools offered natively by the browser (currently
+ * Firefox only) to enable quick table editing operations, like adding or
  * deleting rows and columns.
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.disableNativeTableHandles = false;
  */
 CKEDITOR.config.disableNativeTableHandles = true;
 
 /**
- * Disables the built-in words spell checker if browser provides one.<br /><br />
+ * Disables the built-in spell checker if the browser provides one.<br /><br />
  *
- * <strong>Note:</strong> Although word suggestions provided by browsers (natively) will not appear in CKEditor's default context menu,
- * users can always reach the native context menu by holding the <em>Ctrl</em> key when right-clicking if {@link CKEDITOR.config.browserContextMenuOnCtrl}
- * is enabled or you're simply not using the context menu plugin.
+ * <strong>Note:</strong> Although word suggestions provided natively
+ * by browsers will not appear in CKEditor's default context menu,
+ * users can always reach the browser's native context menu by holding the <em>Ctrl</em>
+ * key when right-clicking if <code>{@link CKEDITOR.config.browserContextMenuOnCtrl}</code>
+ * is enabled or if the context menu plugin is not being used.
  *
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.disableNativeSpellChecker = false;
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * Whether the editor must output an empty value ("") if it's contents is made
- * by an empty paragraph only.
+ * Whether the editor must output an empty value (<code>""</code>) if its contents
+ * is made of an empty paragraph only.
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.ignoreEmptyParagraph = false;
  */
 CKEDITOR.config.ignoreEmptyParagraph = true;
 
 /**
- * Fired when data is loaded and ready for retrieval in an editor instance.
+ * Fired when the data is loaded and ready for retrieval in an editor instance.
  * @name CKEDITOR.editor#dataReady
  * @event
  */
 
 /**
- * Whether automatically create wrapping blocks around inline contents inside document body,
- * this helps to ensure the integrality of the block enter mode.
+ * Whether to automatically create wrapping blocks around inline contents inside
+ * the document body. This helps ensure the integrity of the block Enter mode.<br /><br />
  * <strong>Note:</strong> Changing the default value might introduce unpredictable usability issues.
  * @name CKEDITOR.config.autoParagraph
  * @since 3.6
  * @type Boolean
- * @default true
+ * @default <code>true</code>
  * @example
  * config.autoParagraph = false;
  */
 
 /**
- * Fired when some elements are added to the document
+ * Fired when some elements are added to the document.
  * @name CKEDITOR.editor#ariaWidget
  * @event
- * @param {Object} element The element being added
+ * @param {Object} element The element being added.
  */

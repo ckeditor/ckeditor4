@@ -14,19 +14,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.DIALOG_RESIZE_NONE = 0;
 
 /**
- * Only allow horizontal resizing for this dialog, disable vertical resizing.
+ * Only allow horizontal resizing of this dialog window. Disable vertical resizing.
  * @constant
  */
 CKEDITOR.DIALOG_RESIZE_WIDTH = 1;
 
 /**
- * Only allow vertical resizing for this dialog, disable horizontal resizing.
+ * Only allow vertical resizing for this dialog window. Disable horizontal resizing.
  * @constant
  */
 CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
 
-/*
- * Allow the dialog to be resized in both directions.
+/**
+ * Allow the dialog window to be resized in both directions.
  * @constant
  */
 CKEDITOR.DIALOG_RESIZE_BOTH = 3;
@@ -2854,70 +2854,73 @@ CKEDITOR.plugins.add( 'dialog', {
 	requires: [ 'dialogui' ]
 });
 
-// Dialog related configurations.
+// Configuration settings related to dialog windows.
 /**
- * The color of the dialog background cover. It should be a valid CSS color
+ * The color of the dialog window background cover. It should be a valid CSS color
  * string.
  * @name CKEDITOR.config.dialog_backgroundCoverColor
  * @type String
- * @default 'white'
+ * @default <code>'white'</code>
  * @example
  * config.dialog_backgroundCoverColor = 'rgb(255, 254, 253)';
  */
 
 /**
- * The opacity of the dialog background cover. It should be a number within the
- * range [0.0, 1.0].
+ * The opacity of the dialog window background cover. It should be a number within the
+ * range from 0.0 to 1.0.
  * @name CKEDITOR.config.dialog_backgroundCoverOpacity
  * @type Number
- * @default 0.5
+ * @default <code>0.5</code>
  * @example
  * config.dialog_backgroundCoverOpacity = 0.7;
  */
 
 /**
- * If the dialog has more than one tab, put focus into the first tab as soon as dialog is opened.
+ * If the dialog window has more than one tab, put focus into the first tab as soon
+ * as the dialog window is opened.
  * @name CKEDITOR.config.dialog_startupFocusTab
  * @type Boolean
- * @default false
+ * @default <code>false</code>
  * @example
  * config.dialog_startupFocusTab = true;
  */
 
 /**
- * The distance of magnetic borders used in moving and resizing dialogs,
- * measured in pixels.
+ * The distance of magnetic borders used in moving and resizing dialog windows,
+ * in pixels.
  * @name CKEDITOR.config.dialog_magnetDistance
  * @type Number
- * @default 20
+ * @default <code>20</code>
  * @example
  * config.dialog_magnetDistance = 30;
  */
 
 /**
- * The guideline to follow when generating the dialog buttons. There are 3 possible options:
+ * The guideline to follow when generating the dialog window buttons. There are 3 possible options:
  * <ul>
- *     <li>'OS' - the buttons will be displayed in the default order of the user's OS;</li>
- *     <li>'ltr' - for Left-To-Right order;</li>
- *     <li>'rtl' - for Right-To-Left order.</li>
+ *     <li><code>'OS'</code> &ndash; the buttons will be displayed in the default order of the user's OS;</li>
+ *     <li><code>'ltr'</code> &ndash; for Left-To-Right order;</li>
+ *     <li><code>'rtl'</code> &ndash; for Right-To-Left order.</li>
  * </ul>
  * @name CKEDITOR.config.dialog_buttonsOrder
  * @type String
- * @default 'OS'
+ * @default <code>'OS'</code>
  * @since 3.5
  * @example
  * config.dialog_buttonsOrder = 'rtl';
  */
 
 /**
- * The dialog contents to removed. It's a string composed by dialog name and tab name with a colon between them.
- * Separate each pair with semicolon (see example).
- * <b>Note: All names are case-sensitive.</b>
- * <b>Note: Be cautious when specifying dialog tabs that are mandatory, like "info", dialog functionality might be broken because of this!</b>
+ * The dialog window tabs to be removed. This is a string composed from the dialog window name
+ * and the tab name with a colon between them.
+ * Separate each pair with a semicolon (see example).<br /><br />
+ * <strong>Note:</strong> All names are case-sensitive.<br /><br />
+ * <strong>Note:</strong> Be cautious when specifying dialog window tabs that are
+ * mandatory, like <code>info</code>. Dialog window functionality might be broken because of this!
  * @name CKEDITOR.config.removeDialogTabs
  * @type String
  * @since 3.5
- * @default ''
+ * @default <code>''</code>
  * @example
  * config.removeDialogTabs = 'flash:advanced;image:Link';
  */

@@ -208,18 +208,18 @@ CKEDITOR.plugins.add( 'link', {
 
 CKEDITOR.plugins.link = {
 	/**
-	 *  Get the surrounding link element of current selection.
+	 *  Gets the surrounding link element of the current selection.
 	 * @param editor
-	 * @example CKEDITOR.plugins.link.getSelectedLink( editor );
+	 * @example CKEDITOR.plugins.link.<strong>getSelectedLink( editor )</strong>;
 	 * @since 3.2.1
-	 * The following selection will all return the link element.
+	 * The following selections will all return the link element.
 	 *	 <pre>
 	 *  <a href="#">li^nk</a>
 	 *  <a href="#">[link]</a>
 	 *  text[<a href="#">link]</a>
 	 *  <a href="#">li[nk</a>]
-	 *  [<b><a href="#">li]nk</a></b>]
-	 *  [<a href="#"><b>li]nk</b></a>
+	 *  [<strong><a href="#">li]nk</a></strong>]
+	 *  [<a href="#"><strong>li]nk</strong></a>
 	 * </pre>
 	 */
 	getSelectedLink: function( editor ) {
