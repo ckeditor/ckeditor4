@@ -1023,7 +1023,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		/**
 		 * Locks the selection made in the editor in order to make it possible to
 		 * manipulate it without browser interference. A locked selection is
-		 * cached and remains unchanged until it is released with the <code>{@link #unlock}</code>
+		 * cached and remains unchanged until it is released with the <code>#unlock</code>
 		 * method.
 		 * @example
 		 * editor.getSelection().<strong>lock()</strong>;
@@ -1045,9 +1045,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
-		 * Unlocks the selection made in the editor and locked with the <code>{@link #lock}</code> method.
+		 * Unlocks the selection made in the editor and locked with the <code>#lock</code> method.
 		 * An unlocked selection is no longer cached and can be changed.
-		 * @param {Boolean} [restore] If set to <code>true</code>, the selection is restored back to the selection saved earlier by using the <code>{@link #lock}</code> method.
+		 * @param {Boolean} [restore] If set to <code>true</code>, the selection is restored back to the selection saved earlier by using the <code>#lock</code> method.
 		 * @example
 		 * editor.getSelection().<strong>unlock()</strong>;
 		 */
@@ -1246,7 +1246,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
-		 *  Creates a bookmark for each range of this selection (from <code>{@link #getRanges}</code>)
+		 *  Creates a bookmark for each range of this selection (from <code>#getRanges</code>)
 		 * by calling the <code>{@link CKEDITOR.dom.range.prototype.createBookmark}</code> method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
 		 * received are the same as with the underlying range method.
@@ -1259,7 +1259,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
-		 *  Creates a bookmark for each range of this selection (from <code>{@link #getRanges}</code>)
+		 *  Creates a bookmark for each range of this selection (from <code>#getRanges</code>)
 		 * by calling the <code>{@link CKEDITOR.dom.range.prototype.createBookmark2}</code> method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
 		 * received are the same as with the underlying range method.
@@ -1272,7 +1272,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
-		 * Selects the virtual ranges denoted by the bookmarks by calling <code>{@link #selectRanges}</code>.
+		 * Selects the virtual ranges denoted by the bookmarks by calling <code>#selectRanges</code>.
 		 * @param {Array} bookmarks The bookmarks representing ranges to be selected.
 		 * @returns {CKEDITOR.dom.selection} This selection object, after the ranges were selected.
 		 * @example

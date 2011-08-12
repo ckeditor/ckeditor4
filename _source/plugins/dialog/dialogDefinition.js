@@ -12,18 +12,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * The definition of a dialog window.
  * <div class="notapi">
  * This class is not really part of the API. It just illustrates the properties
- * that developers can use to define and create dialog windows.
+ * that developers can use to define and create dialogs.
  * </div>
  * @name CKEDITOR.dialog.definition
  * @constructor
  * @example
  * // There is no constructor for this class, the user just has to define an
- * // object with appropriate properties.
+ * // object with the appropriate properties.
  *
  * CKEDITOR.dialog.add( 'testOnly', function( editor )
  *       {
  *           return {
- *               title : 'Test Dialog Window',
+ *               title : 'Test Dialog',
  *               resizable : CKEDITOR.DIALOG_RESIZE_BOTH,
  *               minWidth : 500,
  *               minHeight : 400,
@@ -48,7 +48,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * The dialog window title displayed in the its header. Required.
+ * The dialog title, displayed in the dialog's header. Required.
  * @name CKEDITOR.dialog.definition.prototype.title
  * @field
  * @type String
@@ -56,73 +56,71 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Value that defines how the dialog window can be resized. It must be one of
- * the four constants defined below.
- * <ul>
- * <li><code>{@link CKEDITOR.DIALOG_RESIZE_NONE}</code></li>
- * <li><code>{@link CKEDITOR.DIALOG_RESIZE_WIDTH}</code></li>
- * <li><code>{@link CKEDITOR.DIALOG_RESIZE_HEIGHT}</code></li>
- * <li><code>{@link CKEDITOR.DIALOG_RESIZE_BOTH}</code></li>
- * </ul>
+ * How the dialog can be resized, must be one of the four contents defined below.
+ * <br /><br />
+ * <strong>CKEDITOR.DIALOG_RESIZE_NONE</strong><br />
+ * <strong>CKEDITOR.DIALOG_RESIZE_WIDTH</strong><br />
+ * <strong>CKEDITOR.DIALOG_RESIZE_HEIGHT</strong><br />
+ * <strong>CKEDITOR.DIALOG_RESIZE_BOTH</strong><br />
  * @name CKEDITOR.dialog.definition.prototype.resizable
  * @field
  * @type Number
- * @default <code>CKEDITOR.DIALOG_RESIZE_NONE</code>
+ * @default CKEDITOR.DIALOG_RESIZE_NONE
  * @example
  */
 
 /**
- * The minimum width of the dialog window, in pixels.
+ * The minimum width of the dialog, in pixels.
  * @name CKEDITOR.dialog.definition.prototype.minWidth
  * @field
  * @type Number
- * @default <code>600</code>
+ * @default 600
  * @example
  */
 
 /**
- * The minimum height of the dialog window, in pixels.
+ * The minimum height of the dialog, in pixels.
  * @name CKEDITOR.dialog.definition.prototype.minHeight
  * @field
  * @type Number
- * @default <code>400</code>
+ * @default 400
  * @example
  */
 
 
 /**
- * The initial width of the dialog window, in pixels.
+ * The initial width of the dialog, in pixels.
  * @name CKEDITOR.dialog.definition.prototype.width
  * @field
  * @type Number
- * @default <code>{@link CKEDITOR.dialog.definition.prototype.minWidth}</code>
+ * @default @CKEDITOR.dialog.definition.prototype.minWidth
  * @since 3.5.3
  * @example
  */
 
 /**
- * The initial height of the dialog window, in pixels.
+ * The initial height of the dialog, in pixels.
  * @name CKEDITOR.dialog.definition.prototype.height
  * @field
  * @type Number
- * @default <code>{@link CKEDITOR.dialog.definition.prototype.minHeight}</code>
+ * @default @CKEDITOR.dialog.definition.prototype.minHeight
  * @since 3.5.3
  * @example
  */
 
 /**
- * The buttons in the dialog window, defined as an array of
+ * The buttons in the dialog, defined as an array of
  * {@link CKEDITOR.dialog.definition.button} objects.
  * @name CKEDITOR.dialog.definition.prototype.buttons
  * @field
  * @type Array
- * @default <code>[ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]</code>
+ * @default [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
  * @example
  */
 
 /**
  * The contents in the dialog, defined as an array of
- * <code>{@link CKEDITOR.dialog.definition.content}</code> objects. Required.
+ * {@link CKEDITOR.dialog.definition.content} objects. Required.
  * @name CKEDITOR.dialog.definition.prototype.contents
  * @field
  * @type Array
@@ -201,7 +199,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @field
  * @type String
  * @example
- * contentDefinition.accessKey = 'Q';	// Switch to this page when Ctrl+Q is pressed.
+ * contentDefinition.accessKey = 'Q';	// Switch to this page when CTRL-Q is pressed.
  */
 
 /**

@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview The default editing block plugin that contains the editing area
- *		and the source view.
+ * @fileOverview The default editing block plugin, which holds the editing area
+ *		and source view.
  */
 
 (function() {
@@ -104,15 +104,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	/**
 	 * The current editing mode. An editing mode is basically a viewport for
 	 * editing or content viewing. By default the possible values for this
-	 * property are <code>wysiwyg</code> and <code>source</code>.
+	 * property are "wysiwyg" and "source".
 	 * @type String
 	 * @example
-	 * alert( CKEDITOR.instances.editor1.<strong>mode</strong> );  // E.g. "wysiwyg"
+	 * alert( CKEDITOR.instances.editor1.mode );  // "wysiwyg" (e.g.)
 	 */
 	CKEDITOR.editor.prototype.mode = '';
 
 	/**
-	 * Registers an editing mode. This function is to be mainly used by plugins.
+	 * Registers an editing mode. This function is to be used mainly by plugins.
 	 * @param {String} mode The mode name.
 	 * @param {Object} modeEditor The mode editor definition.
 	 * @example
@@ -127,7 +127,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * @param {String} mode A registered mode name.
 	 * @example
 	 * // Switch to "source" view.
-	 * CKEDITOR.instances.editor1.<strong>setMode( 'source' )</strong>;
+	 * CKEDITOR.instances.editor1.setMode( 'source' );
 	 */
 	CKEDITOR.editor.prototype.setMode = function( mode ) {
 		this.fire( 'beforeSetMode', { newMode: mode } );
@@ -170,8 +170,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/**
 	 * Gets the current or any of the objects that represent the editing
-	 * area modes. The two most common editing modes are <code>wysiwyg</code>
-	 * and <code>source</code>.
+	 * area modes. The two most common editing modes are "wysiwyg" and "source".
 	 * @param {String} [mode] The mode to be retrieved. If not specified, the
 	 *		current one is returned.
 	 */
@@ -180,7 +179,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	/**
-	 * Moves the selection focus to the editing area space in the editor.
+	 * Moves the selection focus to the editing are space in the editor.
 	 */
 	CKEDITOR.editor.prototype.focus = function() {
 		this.forceNextSelectionCheck();
@@ -192,58 +191,53 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * The mode to load at the editor startup. It depends on the plugins
- * loaded. By default the <code>wysiwyg</code> and <code>source</code>
- * modes are available.
+ * loaded. By default, the "wysiwyg" and "source" modes are available.
  * @type String
- * @default <code>'wysiwyg'</code>
+ * @default 'wysiwyg'
  * @example
  * config.startupMode = 'source';
  */
 CKEDITOR.config.startupMode = 'wysiwyg';
 
 /**
- * Whether the editor should have the focus when the page loads.
+ * Sets whether the editor should have the focus when the page loads.
  * @name CKEDITOR.config.startupFocus
  * @type Boolean
- * @default <code>false</code>
+ * @default false
  * @example
  * config.startupFocus = true;
  */
 
 /**
- * Whether to render the editing block area in the editor interface.
+ * Whether to render or not the editing block area in the editor interface.
  * @type Boolean
- * @default <code>true</code>
+ * @default true
  * @example
  * config.editingBlock = false;
  */
 CKEDITOR.config.editingBlock = true;
 
 /**
- * Fired when a CKEDITOR instance is created, fully initialized, and ready for interaction.
+ * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
  * @name CKEDITOR#instanceReady
  * @event
  * @param {CKEDITOR.editor} editor The editor instance that has been created.
  */
 
 /**
- * Fired when the CKEDITOR instance is created, fully initialized, and ready for interaction.
+ * Fired when the CKEDITOR instance is created, fully initialized and ready for interaction.
  * @name CKEDITOR.editor#instanceReady
  * @event
  */
 
 /**
- * Fired before changing the editing mode. See <code>{@link CKEDITOR.editor#event:beforeSetMode}</code> and <code>{@link CKEDITOR.editor#event:mode}</code> for more information.
- * @see CKEDITOR.editor#event:beforeSetMode
- * @see CKEDITOR.editor#event:mode
+ * Fired before changing the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#mode
  * @name CKEDITOR.editor#beforeModeUnload
  * @event
  */
 
 /**
- * Fired before the editor mode is set. See <code>{@link CKEDITOR.editor#event:mode}</code> and <code>{@link CKEDITOR.editor#event:beforeModeUnload}</code> for more information.
- * @see CKEDITOR.editor#event:mode
- * @see CKEDITOR.editor#event:beforeModeUnload
+ * Fired before the editor mode is set. See also CKEDITOR.editor#mode and CKEDITOR.editor#beforeModeUnload
  * @name CKEDITOR.editor#beforeSetMode
  * @event
  * @since 3.5.3
@@ -251,9 +245,7 @@ CKEDITOR.config.editingBlock = true;
  */
 
 /**
- * Fired after setting the editing mode. See <code>{@link CKEDITOR.editor#event:beforeSetMode}</code> and <code>{@link CKEDITOR.editor#event:beforeModeUnload}</code> for more information.
- * @see CKEDITOR.editor#event:beforeSetMode
- * @see CKEDITOR.editor#event:beforeModeUnload
+ * Fired after setting the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#beforeModeUnload
  * @name CKEDITOR.editor#mode
  * @event
  * @param {String} previousMode The previous mode of the editor.

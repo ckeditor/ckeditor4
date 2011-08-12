@@ -3,11 +3,11 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-// Register a plugin named "keystrokes".
+// Register a plugin named "sample".
 CKEDITOR.plugins.add( 'keystrokes', {
 	beforeInit: function( editor ) {
 		/**
-		 * Controls keystroke typing in this editor instance.
+		 * Controls keystrokes typing in this editor instance.
 		 * @name CKEDITOR.editor.prototype.keystrokeHandler
 		 * @type CKEDITOR.keystrokeHandler
 		 * @example
@@ -33,7 +33,7 @@ CKEDITOR.plugins.add( 'keystrokes', {
 });
 
 /**
- * Controls keystroke typing in an editor instance.
+ * Controls keystrokes typing in an editor instance.
  * @constructor
  * @param {CKEDITOR.editor} editor The editor instance.
  * @example
@@ -43,7 +43,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 		return editor.keystrokeHandler;
 
 	/**
-	 * List of keystrokes associated with commands. Each entry points to a
+	 * List of keystrokes associated to commands. Each entry points to the
 	 * command to be executed.
 	 * @type Object
 	 * @example
@@ -51,9 +51,9 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	this.keystrokes = {};
 
 	/**
-	 * List of keystrokes that should be blocked if not defined by
-	 * the <code>{@link #keystrokes}</code> setting.
-	 * In this way it is possible to block default browser behavior for those keystrokes.
+	 * List of keystrokes that should be blocked if not defined at
+	 * {@link keystrokes}. In this way it is possible to block the default
+	 * browser behavior for those keystrokes.
 	 * @type Object
 	 * @example
 	 */
@@ -110,7 +110,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	CKEDITOR.keystrokeHandler.prototype = {
 		/**
 		 * Attaches this keystroke handle to a DOM object. Keystrokes typed
-		 * over this object will be handled by this keystroke handler.
+		 ** over this object will get handled by this keystrokeHandler.
 		 * @param {CKEDITOR.dom.domObject} domObject The DOM object to attach
 		 *		to.
 		 * @example
@@ -129,8 +129,8 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 })();
 
 /**
- * A list of keystrokes to be blocked if not defined in the <code>{@link CKEDITOR.config.keystrokes}</code>
- * setting. In this way it is possible to block default browser behavior
+ * A list of keystrokes to be blocked if not defined in the {@link CKEDITOR.config.keystrokes}
+ * setting. In this way it is possible to block the default browser behavior
  * for those keystrokes.
  * @type Array
  * @default (see example)
@@ -150,7 +150,7 @@ CKEDITOR.config.blockedKeystrokes = [
 	];
 
 /**
- * A list associating keystrokes with editor commands. Each element in the list
+ * A list associating keystrokes to editor commands. Each element in the list
  * is an array where the first item is the keystroke, and the second is the
  * name of the command to be executed.
  * @type Array
@@ -199,11 +199,11 @@ CKEDITOR.config.keystrokes = [
 	];
 
 /**
- * Fired when any keyboard key (or a combination of keys) is pressed in the editing area.
+ * Fired when any keyboard key (or combination) is pressed into the editing area.
  * @name CKEDITOR.editor#key
  * @event
  * @param {Number} data.keyCode A number representing the key code (or
- *		key combination code). It is the sum of the current key code and the
- *		<code>{@link CKEDITOR.CTRL}</code>, <code>{@link CKEDITOR.SHIFT}</code>,
- *		and <code>{@link CKEDITOR.ALT}</code> constants, if those are pressed.
+ *		combination). It is the sum of the current key code and the
+ *		{@link CKEDITOR.CTRL}, {@link CKEDITOR.SHIFT} and {@link CKEDITOR.ALT}
+ *		constants, if those are pressed.
  */

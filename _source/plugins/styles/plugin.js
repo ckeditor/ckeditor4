@@ -1424,10 +1424,10 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  */
 
 /**
- * Disables inline styling for read-only elements.
+ * Disables inline styling on read-only elements.
  * @name CKEDITOR.config.disableReadonlyStyling
  * @type Boolean
- * @default <code>false</code>
+ * @default false
  * @since 3.5
  */
 
