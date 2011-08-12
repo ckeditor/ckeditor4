@@ -123,8 +123,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						// Except for "unstylable elements". (#6103)
 						return isUnstylable( element );
 					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it.
-						return element.getName() != 'a' || isUnstylable( element );
+						// Fore color style must be applied inside links instead of around it. (#4772,#6908)
+						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
 					new CKEDITOR.style( colorStyle, { color: color } ).apply( editor.document );
