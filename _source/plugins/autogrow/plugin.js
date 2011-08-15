@@ -36,7 +36,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
-			for ( var eventName in { contentDom:1,key:1,selectionChange:1,insertElement:1 } ) {
+			var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1 };
+			editor.config.autoGrow_onStartup && ( eventsList[ 'instanceReady' ] = 1 );
+			for ( var eventName in eventsList ) {
 				editor.on( eventName, function( evt ) {
 					var maximize = editor.getCommand( 'maximize' );
 					// Some time is required for insertHtml, and it gives other events better performance as well.
@@ -70,6 +72,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @since 3.4
  * @example
  * config.autoGrow_maxHeight = 400;
+ */
+
+/**
+ * Whether to have the auto grow happen on editor creation.
+ * @name CKEDITOR.config.autoGrow_onStartup
+ * @type Boolean
+ * @default false
+ * @since 3.6.2
+ * @example
+ * config.autoGrow_onStartup = true;
  */
 
 /**
