@@ -119,9 +119,9 @@ CKEDITOR.lang[ 'nl' ] = {
 		alignBottom: 'Beneden',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		invalidCssLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige CSS meeteenheid (px, %, in, cm, mm, em, ex, pt of pc).',
+		invalidHtmlLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige HTML meeteenheid (px of %).',
+		invalidInlineStyle: 'Waarde voor de online stijl moet bestaan uit een of meerdere tupels met het formaat "naam : waarde", gescheiden door puntkomma\'s.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -199,7 +199,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		title: 'Eigenschappen interne link',
 		name: 'Naam interne link',
 		errorName: 'Geef de naam van de interne link op',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Interne link verwijderen'
 	},
 
 	// List style dialog
@@ -233,7 +233,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		findWhat: 'Zoeken naar:',
 		replaceWith: 'Vervangen met:',
 		notFoundMsg: 'De opgegeven tekst is niet gevonden.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Zoekopties',
 		matchCase: 'Hoofdlettergevoelig',
 		matchWord: 'Hele woord moet voorkomen',
 		matchCyclic: 'Doorlopend zoeken',
