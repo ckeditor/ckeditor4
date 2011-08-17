@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		rows: 'Lerroak',
 		columns: 'Zutabeak',
 		border: 'Ertzaren Zabalera',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixel',
 		widthPc: 'ehuneko',
 		widthUnit: 'width unit', // MISSING
