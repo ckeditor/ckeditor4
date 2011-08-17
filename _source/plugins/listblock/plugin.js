@@ -166,8 +166,6 @@ CKEDITOR.plugins.add( 'listblock', {
 					item.addClass( 'cke_selected' );
 
 					this.element.getDocument().getById( itemId + '_option' ).setAttribute( 'aria-selected', true );
-					this.element.setAttribute( 'aria-activedescendant', itemId + '_option' );
-
 					this.onMark && this.onMark( item );
 				},
 
