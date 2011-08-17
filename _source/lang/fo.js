@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'fo' ] = {
 		rows: 'Røðir',
 		columns: 'Kolonnur',
 		border: 'Bordabreidd',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixels',
 		widthPc: 'prosent',
 		widthUnit: 'breiddar unit',

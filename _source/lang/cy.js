@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		rows: 'Rhesi',
 		columns: 'Colofnau',
 		border: 'Maint yr Ymyl',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'picsel',
 		widthPc: 'y cant',
 		widthUnit: 'uned lled',

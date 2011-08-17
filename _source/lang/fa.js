@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'fa' ] = {
 		rows: 'سطرها',
 		columns: 'ستونها',
 		border: 'اندازهٴ لبه',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'پیکسل',
 		widthPc: 'درصد',
 		widthUnit: 'width unit', // MISSING

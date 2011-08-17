@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'bn' ] = {
 		rows: 'রো',
 		columns: 'কলাম',
 		border: 'বর্ডার সাইজ',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'পিক্সেল',
 		widthPc: 'শতকরা',
 		widthUnit: 'width unit', // MISSING

@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'af' ] = {
 		rows: 'Rye',
 		columns: 'Kolomme',
 		border: 'Randbreedte',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'piksels',
 		widthPc: 'persent',
 		widthUnit: 'breedte-eenheid',

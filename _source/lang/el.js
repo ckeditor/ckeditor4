@@ -250,8 +250,6 @@ CKEDITOR.lang[ 'el' ] = {
 		rows: 'Γραμμές',
 		columns: 'Κολώνες',
 		border: 'Μέγεθος Περιθωρίου',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixels',
 		widthPc: '%',
 		widthUnit: 'width unit', // MISSING
