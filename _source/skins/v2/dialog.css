@@ -859,3 +859,15 @@ body .cke_dialog
 {
 	margin-right: 10px;
 }
+
+.cke_skin_v2 .cke_iframe_shim
+{
+	display:block;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:alpha(opacity=0);
+	width:100%;
+	height:100%;
+}

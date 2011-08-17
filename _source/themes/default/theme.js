@@ -213,6 +213,8 @@ CKEDITOR.themes.add( 'default', ( function() {
 						'<div id="%bl#" class="%bl"></div>' +
 						'<div id="%bc#" class="%bc"></div>' +
 						'<div id="%br#" class="%br"></div>' +
+						// IFrame shim for dialog that masks activeX in IE. (#7619)
+			( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ? '<iframe class="cke_iframe_shim" frameborder="0" tabindex="-1" src="javascript:void(0)"></iframe>' : '' ),
 						'</td></tr>' +
 					'</table>',
 
