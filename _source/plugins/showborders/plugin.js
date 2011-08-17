@@ -97,7 +97,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								cssClass = attributes[ 'class' ],
 								border = parseInt( attributes.border, 10 );
 
-							if ( !border || border <= 0 )
+							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) )
 								attributes[ 'class' ] = ( cssClass || '' ) + ' ' + showBorderClassName;
 						}
 					}
