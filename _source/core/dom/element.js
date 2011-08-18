@@ -1126,10 +1126,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	getDocumentPosition: function( refDocument ) {
 		var x = 0,
 			y = 0,
-			body = this.getDocument().getBody(),
-			quirks = this.getDocument().$.compatMode == 'BackCompat';
-
-		var doc = this.getDocument();
+			doc = this.getDocument(),
+			body = doc.getBody(),
+			quirks = doc.$.compatMode == 'BackCompat';
 
 		if ( document.documentElement[ "getBoundingClientRect" ] ) {
 			var box = this.$.getBoundingClientRect(),
