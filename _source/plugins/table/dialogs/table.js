@@ -17,7 +17,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var cols = 0,
 			maxCols = 0;
 		for ( var i = 0, row, rows = table.$.rows.length; i < rows; i++ ) {
-			row = table.$.rows[ i ];
+			row = table.$.rows[ i ], cols = 0;
 			for ( var j = 0, cell, cells = row.cells.length; j < cells; j++ ) {
 				cell = row.cells[ j ];
 				cols += cell.colSpan;
