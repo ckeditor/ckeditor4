@@ -251,7 +251,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	var protectElementRegex = /<(a|area|img|input)\b([^>]*)>/gi,
-		protectAttributeRegex = /\b(href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
+		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
@@ -264,8 +264,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function protectAttributes( html ) {
 		return html.replace( protectElementRegex, function( element, tag, attributes ) {
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
+				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
-				if ( attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
+				if ( !/^on/.test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
 					return ' data-cke-saved-' + fullAttr + ' ' + fullAttr;
 
 				return fullAttr;
