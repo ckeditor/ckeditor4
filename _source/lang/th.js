@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'th' ] = {
 		rows: 'แถว',
 		columns: 'สดมน์',
 		border: 'ขนาดเส้นขอบ',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'จุดสี',
 		widthPc: 'เปอร์เซ็น',
 		widthUnit: 'width unit', // MISSING

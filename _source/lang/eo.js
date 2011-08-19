@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'eo' ] = {
 		rows: 'Linioj',
 		columns: 'Kolumnoj',
 		border: 'Bordero',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'Bitbilderoj',
 		widthPc: 'elcentoj',
 		widthUnit: 'width unit', // MISSING

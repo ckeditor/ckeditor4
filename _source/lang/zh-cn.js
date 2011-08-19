@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		rows: '行数',
 		columns: '列数',
 		border: '边框',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: '像素',
 		widthPc: '百分比',
 		widthUnit: '宽度单位',

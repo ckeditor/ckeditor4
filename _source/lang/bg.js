@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'bg' ] = {
 		rows: 'Редове',
 		columns: 'Колони',
 		border: 'Размер на рамката',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'пиксели',
 		widthPc: 'проценти',
 		widthUnit: 'width unit', // MISSING

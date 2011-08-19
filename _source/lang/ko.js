@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'ko' ] = {
 		rows: '가로줄',
 		columns: '세로줄',
 		border: '테두리 크기',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: '픽셀',
 		widthPc: '퍼센트',
 		widthUnit: 'width unit', // MISSING

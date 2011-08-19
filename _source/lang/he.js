@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'he' ] = {
 		rows: 'שורות',
 		columns: 'עמודות',
 		border: 'גודל מסגרת',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'פיקסלים',
 		widthPc: 'אחוז',
 		widthUnit: 'יחידת רוחב',

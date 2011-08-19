@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'lt' ] = {
 		rows: 'Eilutės',
 		columns: 'Stulpeliai',
 		border: 'Rėmelio dydis',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'taškais',
 		widthPc: 'procentais',
 		widthUnit: 'width unit', // MISSING

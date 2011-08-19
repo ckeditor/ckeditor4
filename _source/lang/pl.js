@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'pl' ] = {
 		rows: 'Liczba wierszy',
 		columns: 'Liczba kolumn',
 		border: 'Grubość obramowania',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'piksele',
 		widthPc: '%',
 		widthUnit: 'jednostka szerokości',

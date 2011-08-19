@@ -249,6 +249,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		rows: 'Satırlar',
 		columns: 'Sütunlar',
 		border: 'Kenar Kalınlığı',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'piksel',
 		widthPc: 'yüzde',
 		widthUnit: 'genişlik birimi',

@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'hu' ] = {
 		rows: 'Sorok',
 		columns: 'Oszlopok',
 		border: 'Szegélyméret',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'képpont',
 		widthPc: 'százalék',
 		widthUnit: 'Szélesség egység',

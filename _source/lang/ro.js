@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'ro' ] = {
 		rows: 'Linii',
 		columns: 'Coloane',
 		border: 'Mărimea marginii',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixeli',
 		widthPc: 'procente',
 		widthUnit: 'width unit', // MISSING

@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'it' ] = {
 		rows: 'Righe',
 		columns: 'Colonne',
 		border: 'Dimensione bordo',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixel',
 		widthPc: 'percento',
 		widthUnit: 'unità larghezza',

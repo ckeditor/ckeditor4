@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'km' ] = {
 		rows: 'ជួរផ្តេក',
 		columns: 'ជួរឈរ',
 		border: 'ទំហំស៊ុម',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'ភីកសែល',
 		widthPc: 'ភាគរយ',
 		widthUnit: 'width unit', // MISSING

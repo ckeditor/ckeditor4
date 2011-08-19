@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'ca' ] = {
 		rows: 'Files',
 		columns: 'Columnes',
 		border: 'Mida vora',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'píxels',
 		widthPc: 'percentatge',
 		widthUnit: 'unitat d\'amplada',

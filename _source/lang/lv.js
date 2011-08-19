@@ -250,6 +250,8 @@ CKEDITOR.lang[ 'lv' ] = {
 		rows: 'Rindas',
 		columns: 'Kolonnas',
 		border: 'Rāmja izmērs',
+		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pikseļos',
 		widthPc: 'procentuāli',
 		widthUnit: 'width unit', // MISSING
