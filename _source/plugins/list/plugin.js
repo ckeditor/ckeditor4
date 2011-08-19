@@ -407,6 +407,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.type = type;
 	}
 
+	// Move direction attribute from root to list items.
+	function dirToListItems( list ) {
+		var dir = list.getDirection();
+		if ( dir ) {
+			for ( var i = 0, children = list.getChildren(), child; child = children.getItem( i ), i < children.count(); i++ ) {
+				if ( child.type == CKEDITOR.NODE_ELEMENT && child.is( 'li' ) && !child.getDirection() )
+					child.setAttribute( 'dir', dir );
+			}
+
+			list.removeAttribute( 'dir' );
+		}
+	}
+
 	listCommand.prototype = {
 		exec: function( editor ) {
 			var doc = editor.document,
@@ -541,6 +554,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( CKEDITOR.dom.walker.whitespaces( true ) );
 					if ( sibling && sibling.getName && sibling.getName() == listCommand.type ) {
+
+						// In case to be merged lists have difference directions. (#7448)
+						if ( sibling.getDirection( 1 ) != listNode.getDirection( 1 ) )
+							dirToListItems( listNode.getDirection() ? listNode : sibling );
+
 						sibling.remove();
 						// Move children order by merge direction.(#3820)
 						sibling.moveChildren( listNode, rtl );
