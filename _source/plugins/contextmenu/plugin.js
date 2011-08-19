@@ -87,7 +87,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 						CKEDITOR.tools.setTimeout( function() {
 							this.open( offsetParent, null, offsetX, offsetY );
-						}, 0, this );
+
+							// IE needs a short while to allow selection change before opening menu. (#7908)
+						}, CKEDITOR.env.ie ? 200 : 0, this );
 					}, this );
 
 					if ( CKEDITOR.env.opera ) {
