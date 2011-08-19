@@ -175,11 +175,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Checks if an element, or any of its attributes, is removable by the
 		// current style definition.
 		checkElementRemovable: function( element, fullMatch ) {
-			if ( !element || element.isReadOnly() )
+			var def = this._.definition;
+
+			if ( !element || !def.ignoreReadonly && element.isReadOnly() )
 				return false;
 
-			var def = this._.definition,
-				attribs,
+			var attribs,
 				name = element.getName();
 
 			// If the element name is the same as the style name.
@@ -352,7 +353,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var isUnknownElement;
 
 		// Indicates that fully selected read-only elements are to be included in the styling range.
-		var includeReadonly = def.includeReadonly;
+		var ignoreReadonly = def.ignoreReadonly,
+			includeReadonly = ignoreReadonly || def.includeReadonly;
 
 		// If the read-only inclusion is not available in the definition, try
 		// to get it from the document data.
@@ -376,19 +378,21 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var styleRange;
 
-		// Check if the boundaries are inside non stylable elements.
-		var firstUnstylable = getUnstylableParent( firstNode ),
-			lastUnstylable = getUnstylableParent( lastNode );
+		if ( !ignoreReadonly ) {
+			// Check if the boundaries are inside non stylable elements.
+			var firstUnstylable = getUnstylableParent( firstNode ),
+				lastUnstylable = getUnstylableParent( lastNode );
 
-		// If the first element can't be styled, we'll start processing right
-		// after its unstylable root.
-		if ( firstUnstylable )
-			currentNode = firstUnstylable.getNextSourceNode( true );
+			// If the first element can't be styled, we'll start processing right
+			// after its unstylable root.
+			if ( firstUnstylable )
+				currentNode = firstUnstylable.getNextSourceNode( true );
 
-		// If the last element can't be styled, we'll stop processing on its
-		// unstylable root.
-		if ( lastUnstylable )
-			lastNode = lastUnstylable;
+			// If the last element can't be styled, we'll stop processing on its
+			// unstylable root.
+			if ( lastUnstylable )
+				lastNode = lastUnstylable;
+		}
 
 		// Do nothing if the current node now follows the last node to be processed.
 		if ( currentNode.getPosition( lastNode ) == CKEDITOR.POSITION_FOLLOWING )

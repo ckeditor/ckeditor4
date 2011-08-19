@@ -61,9 +61,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// 1. Defined as full match style to avoid compromising ordinary text color styles.
 			// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 			var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend({
-				fullMatch: true, childRule: function() {
+				attributes: { 'data-cke-highlight':1 },
+				fullMatch: 1, ignoreReadonly: 1, childRule: function() {
 					return 0;
-				} }, editor.config.find_highlight ) );
+				} }, editor.config.find_highlight, true ) );
 
 			/**
 			 * Iterator which walk through the specified range char by char. By
