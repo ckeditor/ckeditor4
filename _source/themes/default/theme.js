@@ -306,16 +306,8 @@ CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, res
 		contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
 		outer = resizeInner ? container.getChild( 1 ) : container;
 
-	// Resize the width first.
-	// WEBKIT BUG: Webkit requires that we put the editor off from display when we
-	// resize it. If we don't, the browser crashes!
-	CKEDITOR.env.webkit && outer.setStyle( 'display', 'none' );
 	// Set as border box width. (#5353)
 	outer.setSize( 'width', width, true );
-	if ( CKEDITOR.env.webkit ) {
-		outer.$.offsetWidth;
-		outer.setStyle( 'display', '' );
-	}
 
 	// Get the height delta between the outer table and the content area.
 	// If we're setting the content area's height, then we don't need the delta.
