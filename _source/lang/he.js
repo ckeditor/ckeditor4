@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * Constains the dictionary of language entries.
+ * Contains the dictionary of language entries.
  * @namespace
  */
 CKEDITOR.lang[ 'he' ] = {
@@ -122,6 +122,7 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',
 		invalidHtmlLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של HTML (px או %).',
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, לא זמין</span>'
@@ -250,8 +251,6 @@ CKEDITOR.lang[ 'he' ] = {
 		rows: 'שורות',
 		columns: 'עמודות',
 		border: 'גודל מסגרת',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'פיקסלים',
 		widthPc: 'אחוז',
 		widthUnit: 'יחידת רוחב',

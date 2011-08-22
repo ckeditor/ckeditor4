@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * Constains the dictionary of language entries.
+ * Contains the dictionary of language entries.
  * @namespace
  */
 CKEDITOR.lang[ 'cy' ] = {
@@ -122,6 +122,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',
 		invalidHtmlLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad HTML dilys (px neu %).',
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
@@ -250,8 +251,6 @@ CKEDITOR.lang[ 'cy' ] = {
 		rows: 'Rhesi',
 		columns: 'Colofnau',
 		border: 'Maint yr Ymyl',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'picsel',
 		widthPc: 'y cant',
 		widthUnit: 'uned lled',

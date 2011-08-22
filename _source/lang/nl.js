@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
+ * @fileOverview Defines the {@link CKEDITOR.lang} object for the
  * Dutch language.
  */
 
@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * Constains the dictionary of language entries.
+ * Contains the dictionary of language entries.
  * @namespace
  */
 CKEDITOR.lang[ 'nl' ] = {
@@ -122,6 +122,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		invalidCssLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige CSS meeteenheid (px, %, in, cm, mm, em, ex, pt of pc).',
 		invalidHtmlLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige HTML meeteenheid (px of %).',
 		invalidInlineStyle: 'Waarde voor de online stijl moet bestaan uit een of meerdere tupels met het formaat "naam : waarde", gescheiden door puntkomma\'s.',
+		cssLengthTooltip: 'Geef een nummer in voor een waarde in pixels of geef een nummer in met een geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
@@ -250,8 +251,6 @@ CKEDITOR.lang[ 'nl' ] = {
 		rows: 'Rijen',
 		columns: 'Kolommen',
 		border: 'Breedte rand',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixels',
 		widthPc: 'procent',
 		widthUnit: 'eenheid breedte',

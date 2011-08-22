@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * Constains the dictionary of language entries.
+ * Contains the dictionary of language entries.
  * @namespace
  */
 CKEDITOR.lang[ 'lt' ] = {
@@ -122,6 +122,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
@@ -250,8 +251,6 @@ CKEDITOR.lang[ 'lt' ] = {
 		rows: 'Eilutės',
 		columns: 'Stulpeliai',
 		border: 'Rėmelio dydis',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'taškais',
 		widthPc: 'procentais',
 		widthUnit: 'width unit', // MISSING

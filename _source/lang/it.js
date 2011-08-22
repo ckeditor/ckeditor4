@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * Constains the dictionary of language entries.
+ * Contains the dictionary of language entries.
  * @namespace
  */
 CKEDITOR.lang[ 'it' ] = {
@@ -122,6 +122,7 @@ CKEDITOR.lang[ 'it' ] = {
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le pagine HTML (px o %).',
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>'
@@ -250,8 +251,6 @@ CKEDITOR.lang[ 'it' ] = {
 		rows: 'Righe',
 		columns: 'Colonne',
 		border: 'Dimensione bordo',
-		widthTitle: 'Table width specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		heightTitle: 'Table height specified with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		widthPx: 'pixel',
 		widthPc: 'percento',
 		widthUnit: 'unità larghezza',
