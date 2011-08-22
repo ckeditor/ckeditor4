@@ -62,7 +62,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		detect: function( defaultLanguage, probeLanguage ) {
 			var languages = this.languages;
-			probeLanguage = probeLanguage || navigator.userLanguage || navigator.language;
+			probeLanguage = probeLanguage || navigator.userLanguage || navigator.language || defaultLanguage;
 
 			var parts = probeLanguage.toLowerCase().match( /([a-z]+)(?:-([a-z]+))?/ ),
 				lang = parts[ 1 ],
