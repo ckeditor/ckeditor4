@@ -69,7 +69,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function isListItem( node ) {
-		return node.type = CKEDITOR.NODE_ELEMENT && node.is( 'li' );
+		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 
 	indentCommand.prototype = {
