@@ -673,7 +673,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			breakNodes();
 
 			// Now, do the DFS walk.
-			var currentNode = startNode.getNext();
+			var currentNode = startNode;
 			while ( !currentNode.equals( endNode ) ) {
 				/*
 				 * Need to get the next node first because removeFromElement() can remove
