@@ -46,6 +46,11 @@ CKEDITOR.htmlParser.fragment = function() {
 	// Dtd of the fragment element, basically it accept anything except for intermediate structure, e.g. orphan <li>.
 	var rootDtd = CKEDITOR.tools.extend( {}, { html:1 }, CKEDITOR.dtd.html, CKEDITOR.dtd.body, CKEDITOR.dtd.head, { style:1,script:1 } );
 
+	function isRemoveEmpty( node ) {
+		// Empty link is to be removed when empty but not anchor. (#7894)
+		return node.name == 'a' && node.attributes.href || CKEDITOR.dtd.$removeEmpty[ node.name ];
+	}
+
 	/**
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
@@ -94,6 +99,11 @@ CKEDITOR.htmlParser.fragment = function() {
 						// to properly process the next entry).
 						pendingInline.splice( i, 1 );
 						i--;
+					} else {
+						// Some element of the same type cannot be nested, flat them,
+						// e.g. <a href="#">foo<a href="#">bar</a></a>. (#7894)
+						if ( pendingName == currentNode.name )
+							addElement( currentNode, currentNode.parent, 1 ), i--;
 					}
 				}
 			}
@@ -179,7 +189,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			element.isOptionalClose = tagName in optionalCloseTags || optionalClose;
 
 			// This is a tag to be removed if empty, so do not add it immediately.
-			if ( CKEDITOR.dtd.$removeEmpty[ tagName ] ) {
+			if ( isRemoveEmpty( element ) ) {
 				pendingInline.push( element );
 				return;
 			} else if ( tagName == 'pre' )
