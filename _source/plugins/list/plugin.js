@@ -17,18 +17,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return !( whitespaces( node ) || bookmarks( node ) );
 		};
 
-	function inheritedDirection( element ) {
-		var dir;
-		while ( element && !( dir = element.getDirection() ) ) {
-			element = element.getParent();
-		}
-		return dir;
-	}
-
-	function cleanUpDirection( element, rootDir ) {
-		var dir;
+	function cleanUpDirection( element ) {
+		var dir, parent, parentDir;
 		if ( dir = element.getDirection() ) {
-			if ( dir == ( inheritedDirection( element.getParent() ) || rootDir ) )
+			parent = element.getParent();
+			while ( parent && !( parentDir = parent.getDirection() ) )
+				parent = parent.getParent();
+
+			if ( dir == parentDir )
 				element.removeAttribute( 'dir' );
 		}
 	}
@@ -202,7 +198,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Clear redundant direction attribute specified on list items.
 						if ( currentNode.getName() in CKEDITOR.dtd.$listItem )
-							cleanUpDirection( currentNode, listRoot.getDirection( 1 ) );
+							cleanUpDirection( currentNode );
 					}
 
 					currentNode = currentNode.getNextSourceNode();
