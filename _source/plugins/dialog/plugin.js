@@ -2132,12 +2132,21 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				var me = this;
 				dialog.on( 'load', function() {
-					if ( me.getInputElement() ) {
-						me.getInputElement().on( 'focus', function() {
+					var input = me.getInputElement();
+					if ( input ) {
+						var focusClass = me.type in { 'checkbox':1,'ratio':1 } && CKEDITOR.env.ie && CKEDITOR.env.version < 8 ? 'cke_dialog_ui_focused' : '';
+						input.on( 'focus', function() {
 							dialog._.tabBarMode = false;
 							dialog._.hasFocus = true;
 							me.fire( 'focus' );
-						}, me );
+							focusClass && this.addClass( focusClass );
+
+						});
+
+						input.on( 'blur', function() {
+							me.fire( 'blur' );
+							focusClass && this.removeClass( focusClass );
+						});
 					}
 				});
 

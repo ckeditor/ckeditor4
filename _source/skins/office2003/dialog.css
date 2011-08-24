@@ -843,6 +843,39 @@ body .cke_dialog
 	margin-right: 10px;
 }
 
+/* Compensate focus outline for some input elements. (#6200) */
+.cke_skin_office2003 .cke_browser_gecko .cke_dialog_ui_checkbox_input:focus,
+.cke_skin_office2003 .cke_browser_gecko .cke_dialog_ui_radio_input:focus,
+.cke_skin_office2003 .cke_browser_opera .cke_dialog_ui_checkbox_input:focus,
+.cke_skin_office2003 .cke_browser_opera .cke_dialog_ui_radio_input:focus,
+.cke_skin_office2003 .cke_browser_gecko .cke_dialog_ui_input_select:focus,
+.cke_skin_office2003 .cke_browser_gecko .cke_btn_over,
+.cke_skin_office2003 .cke_browser_opera .cke_btn_over,
+.cke_skin_office2003 .cke_browser_ie .cke_btn_over
+{
+	outline: 1px dotted #696969;
+}
+
+/* IE<8 instead doesn't support CSS outline property, emulated with dotted border. */
+
+/* Predefined border to avoid visual size change impact. */
+.cke_skin_office2003 .cke_browser_ie .cke_dialog_ui_checkbox_input,
+.cke_skin_office2003 .cke_browser_ie .cke_dialog_ui_ratio_input,
+.cke_skin_office2003 .cke_browser_ie .cke_btn_reset,
+.cke_skin_office2003 .cke_browser_ie .cke_btn_locked,
+.cke_skin_office2003 .cke_browser_ie .cke_btn_unlocked
+{
+	*border: 1px solid transparent !important;
+	/* Emulating border-color: transparent in IE6.*/
+	-filter: chroma(color=black);
+}
+
+.cke_skin_office2003 .cke_browser_ie .cke_dialog_ui_focused,
+.cke_skin_office2003 .cke_browser_ie .cke_btn_over
+{
+	*border: 1px dotted #696969 !important;
+}
+
 .cke_skin_office2003 .cke_iframe_shim
 {
 	display:block;
