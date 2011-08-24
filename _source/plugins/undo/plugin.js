@@ -97,25 +97,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			};
 
 			/**
-			 * Update the undo stacks with any subsequent DOM changes after this call.
+			 * Amend the top of undo stack (last undo image) with the current DOM changes.
 			 * @name CKEDITOR.editor#updateUndo
 			 * @example
 			 * function()
 			 * {
-			 * editor.fire( 'updateSnapshot' );
-			 * ...
-			 *  // Ask to include subsequent (in this call stack) DOM changes to be
-			 * // considered as part of the first snapshot.
-			 * 	editor.fire( 'updateSnapshot' );
+			 *  editor.fire( 'saveSnapshot' );
 			 * 	editor.document.body.append(...);
+			 *  // Make new changes following the last undo snapshot part of it.
+			 * 	editor.fire( 'updateSnapshot' );
 			 * ...
 			 * }
 			 */
 			editor.on( 'updateSnapshot', function() {
-				if ( undoManager.currentImage && new Image( editor ).equals( undoManager.currentImage ) )
-					setTimeout( function() {
+				if ( undoManager.currentImage )
 					undoManager.update();
-				}, 0 );
 			});
 		}
 	});

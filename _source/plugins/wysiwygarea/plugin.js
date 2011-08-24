@@ -338,8 +338,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// 2. It doesn't end with one inner block; (#7467)
 			// 3. It doesn't have bogus br yet.
 			if ( pathBlock && pathBlock.isBlockBoundary() && !( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) && !pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
-				editor.fire( 'updateSnapshot' );
-				restoreDirty( editor );
 				pathBlock.appendBogus();
 			}
 		}
@@ -347,10 +345,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// When we're in block enter mode, a new paragraph will be established
 		// to encapsulate inline contents right under body. (#3657)
 		if ( editor.config.autoParagraph !== false && enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
-			editor.fire( 'updateSnapshot' );
-			restoreDirty( editor );
-			CKEDITOR.env.ie && restoreSelection( selection );
-
 			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we should remove any filler node which was introduced before.
@@ -387,10 +381,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		testRange.moveToElementEditEnd( editor.document.getBody() );
 		var testPath = new CKEDITOR.dom.elementPath( testRange.startContainer );
 		if ( !testPath.blockLimit.is( 'body' ) ) {
-			editor.fire( 'updateSnapshot' );
-			restoreDirty( editor );
-			CKEDITOR.env.ie && restoreSelection( selection );
-
 			var paddingBlock;
 			if ( enterMode != CKEDITOR.ENTER_BR )
 				paddingBlock = body.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
@@ -958,7 +948,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.on( 'insertElement', onInsert( doInsertElement ), null, null, 20 );
 				editor.on( 'insertText', onInsert( doInsertText ), null, null, 20 );
 				// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-				editor.on( 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
+				editor.on( 'selectionChange', function() {
+					var sel = editor.getSelection();
+					// Do it only when selection is not locked. (#8222)
+					if ( sel && !sel.isLocked ) {
+						var isDirty = editor.checkDirty();
+						onSelectionChangeFixBody.apply( this, arguments );
+						editor.fire( 'updateSnapshot' );
+						!isDirty && editor.resetDirty();
+					}
+				}, null, null, 1 );
 			});
 
 			var titleBackup;
