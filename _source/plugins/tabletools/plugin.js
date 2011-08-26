@@ -119,7 +119,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			width = map[ 0 ].length;
 
 		var newRow = doc.createElement( 'tr' );
-		for ( var i = 0; i < width; i++ ) {
+		for ( var i = 0; cloneRow[ i ] && i < width; i++ ) {
 			var cell;
 			// Check whether there's a spanning row here, do not break it.
 			if ( cloneRow[ i ].rowSpan > 1 && nextRow && cloneRow[ i ] == nextRow[ i ] ) {
