@@ -4,8 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var spacesRegex = /[\t\r\n ]{2,}|[\t\r\n]/g;
-
 	/**
 	 * A lightweight representation of HTML text.
 	 * @constructor
