@@ -213,8 +213,6 @@ CKEDITOR.themes.add( 'default', ( function() {
 						'<div id="%bl#" class="%bl"></div>' +
 						'<div id="%bc#" class="%bc"></div>' +
 						'<div id="%br#" class="%br"></div>' +
-						// IFrame shim for dialog that masks activeX in IE. (#7619)
-			( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ? '<iframe class="cke_iframe_shim" frameborder="0" tabindex="-1" src="javascript:void(0)"></iframe>' : '' ),
 						'</td></tr>' +
 					'</table>',
 
@@ -227,6 +225,19 @@ CKEDITOR.themes.add( 'default', ( function() {
 			var body = element.getChild( [ 0, 0, 0, 0, 0 ] ),
 				title = body.getChild( 0 ),
 				close = body.getChild( 1 );
+
+			// IFrame shim for dialog that masks activeX in IE. (#7619)
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ) {
+				var isCustomDomain = CKEDITOR.env.isCustomDomain(),
+					src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();' + ( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) + 'document.close();' ) + '}())',
+					iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
+						' frameBorder="0"' +
+						' class="cke_iframe_shim"' +
+						' src="' + src + '"' +
+						' tabIndex="-1"' +
+						'></iframe>' );
+				iframe.appendTo( body.getParent() );
+			}
 
 			// Make the Title and Close Button unselectable.
 			title.unselectable();
