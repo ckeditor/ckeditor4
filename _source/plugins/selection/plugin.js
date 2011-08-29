@@ -827,17 +827,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( range.collapsed )
 							continue;
 
+						// Range may start inside a non-editable element,
+						// replace the range start after it.
+						if ( range.startContainer.isReadOnly() ) {
+							var current = range.startContainer;
+							while ( current ) {
+								if ( current.is( 'body' ) || !current.isReadOnly() )
+									break;
+
+								if ( current.type == CKEDITOR.NODE_ELEMENT && current.getAttribute( 'contentEditable' ) == 'false' )
+									range.setStartAfter( current );
+
+								current = current.getParent();
+							}
+						}
+
 						var startContainer = range.startContainer,
 							endContainer = range.endContainer,
 							startOffset = range.startOffset,
 							endOffset = range.endOffset,
 							walkerRange = range.clone();
-
-						// Range may start inside a non-editable element, restart range
-						// by the end of it.
-						var readOnly;
-						if ( ( readOnly = startContainer.isReadOnly() ) )
-							range.setStartAfter( readOnly );
 
 						// Enlarge range start/end with text node to avoid walker
 						// being DOM destructive, it doesn't interfere our checking
