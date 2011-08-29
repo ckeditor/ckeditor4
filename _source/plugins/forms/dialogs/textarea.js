@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 	return {
 		title: editor.lang.textarea.title,
 		minWidth: 350,
-		minHeight: 150,
+		minHeight: 220,
 		onShow: function() {
 			delete this.textarea;
 
@@ -55,43 +55,62 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				}
 			},
 				{
-				id: 'cols',
-				type: 'text',
-				label: editor.lang.textarea.cols,
-				'default': '',
-				accessKey: 'C',
-				style: 'width:50px',
-				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
-				setup: function( element ) {
-					var value = element.hasAttribute( 'cols' ) && element.getAttribute( 'cols' );
-					this.setValue( value || '' );
+				type: 'hbox',
+				widths: [ '50%', '50%' ],
+				children: [
+					{
+					id: 'cols',
+					type: 'text',
+					label: editor.lang.textarea.cols,
+					'default': '',
+					accessKey: 'C',
+					style: 'width:50px',
+					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
+					setup: function( element ) {
+						var value = element.hasAttribute( 'cols' ) && element.getAttribute( 'cols' );
+						this.setValue( value || '' );
+					},
+					commit: function( element ) {
+						if ( this.getValue() )
+							element.setAttribute( 'cols', this.getValue() );
+						else
+							element.removeAttribute( 'cols' );
+					}
 				},
-				commit: function( element ) {
-					if ( this.getValue() )
-						element.setAttribute( 'cols', this.getValue() );
-					else
-						element.removeAttribute( 'cols' );
+					{
+					id: 'rows',
+					type: 'text',
+					label: editor.lang.textarea.rows,
+					'default': '',
+					accessKey: 'R',
+					style: 'width:50px',
+					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
+					setup: function( element ) {
+						var value = element.hasAttribute( 'rows' ) && element.getAttribute( 'rows' );
+						this.setValue( value || '' );
+					},
+					commit: function( element ) {
+						if ( this.getValue() )
+							element.setAttribute( 'rows', this.getValue() );
+						else
+							element.removeAttribute( 'rows' );
+					}
 				}
+				]
 			},
 				{
-				id: 'rows',
-				type: 'text',
-				label: editor.lang.textarea.rows,
+				id: 'value',
+				type: 'textarea',
+				label: editor.lang.textfield.value,
 				'default': '',
-				accessKey: 'R',
-				style: 'width:50px',
-				validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed ),
 				setup: function( element ) {
-					var value = element.hasAttribute( 'rows' ) && element.getAttribute( 'rows' );
-					this.setValue( value || '' );
+					this.setValue( element.$.defaultValue );
 				},
 				commit: function( element ) {
-					if ( this.getValue() )
-						element.setAttribute( 'rows', this.getValue() );
-					else
-						element.removeAttribute( 'rows' );
+					element.$.value = element.$.defaultValue = this.getValue();
 				}
 			}
+
 			]
 		}
 		]
