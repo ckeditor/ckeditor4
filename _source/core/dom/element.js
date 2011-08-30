@@ -637,7 +637,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	isEditable: function() {
-		if ( this.isReadOnly() )
+		if ( this.isReadOnly() || !this.isVisible() )
 			return false;
 
 		// Get the element name.
@@ -690,7 +690,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * @return {Boolean} True if the element is visible.
 	 */
 	isVisible: function() {
-		var isVisible = !!this.$.offsetHeight && this.getComputedStyle( 'visibility' ) != 'hidden',
+		var isVisible = ( this.$.offsetHeight || this.$.offsetWidth ) && this.getComputedStyle( 'visibility' ) != 'hidden',
 			elementWindow, elementWindowFrame;
 
 		// Webkit and Opera report non-zero offsetHeight despite that
@@ -703,7 +703,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			}
 		}
 
-		return isVisible;
+		return !!isVisible;
 	},
 
 	/**
