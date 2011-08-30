@@ -266,7 +266,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
-				if ( !/^on/.test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
+				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
 					return ' data-cke-saved-' + fullAttr + ' ' + fullAttr;
 
 				return fullAttr;

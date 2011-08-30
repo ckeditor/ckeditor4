@@ -19,7 +19,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function cleanUpDirection( element ) {
 		var dir, parent, parentDir;
-		if ( dir = element.getDirection() ) {
+		if ( ( dir = element.getDirection() ) ) {
 			parent = element.getParent();
 			while ( parent && !( parentDir = parent.getDirection() ) )
 				parent = parent.getParent();
