@@ -2655,7 +2655,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	CKEDITOR.dialogCommand.prototype = {
 		/** @ignore */
 		exec: function( editor ) {
-			editor.openDialog( this.dialogName );
+			// Special treatment for Opera. (#8031)
+			CKEDITOR.tools.setTimeout( function() {
+				editor.openDialog( this.dialogName );
+			}, 0, this );
 		},
 
 		// Dialog commands just open a dialog ui, thus require no undo logic,
