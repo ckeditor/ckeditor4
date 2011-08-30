@@ -390,6 +390,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					doc.on( 'mouseup', checkSelectionChangeTimeout, editor );
 					doc.on( 'keyup', checkSelectionChangeTimeout, editor );
+					doc.on( 'selectionchange', checkSelectionChangeTimeout, editor );
 				}
 			});
 
@@ -990,6 +991,66 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			function() {
 				return self.getNative().createRange().item( 0 );
 			},
+			// If a table or list is fully selected.
+			function() {
+				var root, retval,
+					range = self.getRanges()[ 0 ],
+					ancestor = range.getCommonAncestor( 1, 1 ),
+					tags = { table:1,ul:1,ol:1,dl:1 };
+
+				for ( var t in tags ) {
+					if ( root = ancestor.getAscendant( t, 1 ) )
+						break;
+				}
+
+				if ( root ) {
+					// Enlarging the start boundary.
+					var testRange = new CKEDITOR.dom.range( this.document );
+					testRange.setStartAt( root, CKEDITOR.POSITION_AFTER_START );
+					testRange.setEnd( range.startContainer, range.startOffset );
+
+					var enlargeables = CKEDITOR.tools.extend( tags, CKEDITOR.dtd.$listItem, CKEDITOR.dtd.$tableContent ),
+						walker = new CKEDITOR.dom.walker( testRange ),
+						// Check the range is at the inner boundary of the structural element.
+						guard = function( walker, isEnd ) {
+							return function( node, isWalkOut ) {
+								if ( node.type == CKEDITOR.NODE_TEXT && ( !CKEDITOR.tools.trim( node.getText() ) || node.getParent().data( 'cke-bookmark' ) ) )
+									return true;
+
+								var tag;
+								if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+									tag = node.getName();
+
+									// Bypass bogus br at the end of block.
+									if ( tag == 'br' && isEnd && node.equals( node.getParent().getBogus() ) )
+										return true;
+
+									if ( isWalkOut && tag in enlargeables || tag in CKEDITOR.dtd.$removeEmpty )
+										return true;
+								}
+
+								walker.halted = 1;
+								return false;
+							};
+						};
+
+					walker.guard = guard( walker );
+
+					if ( walker.checkBackward() && !walker.halted ) {
+						walker = new CKEDITOR.dom.walker( testRange );
+						testRange.setStart( range.endContainer, range.endOffset );
+						testRange.setEndAt( root, CKEDITOR.POSITION_BEFORE_END );
+						walker.guard = guard( walker, 1 );
+						if ( walker.checkForward() && !walker.halted )
+							retval = root.$;
+					}
+				}
+
+				if ( !retval )
+					throw 0;
+
+				return retval;
+			},
 			// Figure it out by checking if there's a single enclosed
 			// node of the range.
 			function() {
@@ -1250,6 +1311,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					sel.addRange( nativeRange );
 				}
 
+				// Don't miss selection change event for non-IEs.
+				this.document.fire( 'selectionchange' );
 				this.reset();
 			}
 		},
