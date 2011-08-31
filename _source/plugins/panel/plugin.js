@@ -115,6 +115,12 @@ CKEDITOR.ui.panel.prototype = {
 					langCode = parentDiv.getParent().getAttribute( 'lang' ),
 					doc = iframe.getFrameDocument();
 
+				// Make it scrollable on iOS. (#8308)
+				CKEDITOR.env.iOS && parentDiv.setStyles({
+					'overflow': 'scroll',
+					'-webkit-overflow-scrolling': 'touch'
+				});
+
 				var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function( ev ) {
 					this.isLoaded = true;
 					if ( this.onLoad )
