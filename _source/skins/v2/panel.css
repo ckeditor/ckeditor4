@@ -16,6 +16,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+
+	overflow:scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* Ideally we would use "inherit here"... but you know... IE :( */
