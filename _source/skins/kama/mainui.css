@@ -28,6 +28,7 @@ span.cke_skin_kama
 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	-webkit-touch-callout: none;
 	border-radius: 5px;
 	background-color: #d3d3d3;
 	background-image: url(images/sprites.png);
