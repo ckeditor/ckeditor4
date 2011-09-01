@@ -636,18 +636,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		return false;
 	},
 
-	isEditable: function() {
-		if ( this.isReadOnly() || !this.isVisible() )
-			return false;
-
-		// Get the element name.
+	/**
+	 * Decide whether one element is able to receive cursor.
+	 * @param {Boolean} [textCursor=true] Only consider element that could receive text child.
+	 */
+	isEditable: function( textCursor ) {
 		var name = this.getName();
 
-		// Get the element DTD (defaults to span for unknown elements).
-		var dtd = !CKEDITOR.dtd.$nonEditable[ name ] && ( CKEDITOR.dtd[ name ] || CKEDITOR.dtd.span );
+		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' || this.getComputedStyle( 'visibility' ) == 'hidden' || CKEDITOR.dtd.$nonEditable[ name ] ) {
+			return false;
+		}
 
-		// In the DTD # == text node.
-		return ( dtd && dtd[ '#' ] );
+		if ( textCursor !== false ) {
+			// Get the element DTD (defaults to span for unknown elements).
+			var dtd = CKEDITOR.dtd[ name ] || CKEDITOR.dtd.span;
+			// In the DTD # == text node.
+			return ( dtd && dtd[ '#' ] );
+		}
+
+		return true;
 	},
 
 	isIdentical: function( otherElement ) {

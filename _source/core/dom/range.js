@@ -1702,7 +1702,7 @@ CKEDITOR.dom.range = function( document ) {
 			function nextDFS( node, childOnly ) {
 				var next;
 
-				if ( node.type == CKEDITOR.NODE_ELEMENT && !node.isReadOnly() && node.isVisible() && !CKEDITOR.dtd.$nonEditable[ node.getName() ] ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isEditable( false ) && !CKEDITOR.dtd.$nonEditable[ node.getName() ] ) {
 					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonWhitespaceOrBookmarkEval );
 				}
 
