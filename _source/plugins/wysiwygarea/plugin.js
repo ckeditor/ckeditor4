@@ -926,16 +926,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						if ( isLoadingData )
 							isPendingFocus = true;
-						// Temporary solution caused by #6025, supposed be unified by #6154.
-						else if ( CKEDITOR.env.opera && editor.document ) {
-							// Required for Opera when switching focus
-							// from another iframe, e.g. panels. (#6444)
-							var iframe = editor.window.$.frameElement;
-							iframe.blur(), iframe.focus();
-							editor.document.getBody().focus();
-
-							editor.selectionChange();
-						} else if ( !CKEDITOR.env.opera && win ) {
+						else if ( win ) {
 							// AIR needs a while to focus when moving from a link.
 							CKEDITOR.env.air ? setTimeout( function() {
 								win.focus();
