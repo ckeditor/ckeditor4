@@ -940,15 +940,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.on( 'insertElement', onInsert( doInsertElement ), null, null, 20 );
 				editor.on( 'insertText', onInsert( doInsertText ), null, null, 20 );
 				// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-				editor.on( 'selectionChange', function() {
-					var sel = editor.getSelection();
-					// Do it only when selection is not locked. (#8222)
-					if ( sel && !sel.isLocked ) {
-						var isDirty = editor.checkDirty();
-						onSelectionChangeFixBody.apply( this, arguments );
-						editor.fire( 'updateSnapshot' );
-						!isDirty && editor.resetDirty();
-					}
+				editor.on( 'selectionChange', function( evt ) {
+					CKEDITOR.tools.setTimeout( function() {
+						var sel = editor.getSelection();
+						// Do it only when selection is not locked. (#8222)
+						if ( sel && !sel.isLocked ) {
+							var isDirty = editor.checkDirty();
+							onSelectionChangeFixBody.call( this, evt );
+							editor.fire( 'updateSnapshot' );
+							!isDirty && editor.resetDirty();
+						}
+					}, 0, this );
+
 				}, null, null, 1 );
 			});
 
