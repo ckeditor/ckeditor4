@@ -946,6 +946,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Do it only when selection is not locked. (#8222)
 						if ( sel && !sel.isLocked ) {
 							var isDirty = editor.checkDirty();
+							editor.fire( 'saveSnapshot', { contentOnly:1 } );
 							onSelectionChangeFixBody.call( this, evt );
 							editor.fire( 'updateSnapshot' );
 							!isDirty && editor.resetDirty();

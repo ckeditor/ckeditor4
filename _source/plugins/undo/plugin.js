@@ -53,8 +53,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'afterCommandExec', recordCommand );
 
 			// Save snapshots before doing custom changes.
-			editor.on( 'saveSnapshot', function() {
-				undoManager.save();
+			editor.on( 'saveSnapshot', function( evt ) {
+				undoManager.save( evt.data && evt.data.contentOnly );
 			});
 
 			// Registering keydown on every document recreation.(#3844)
