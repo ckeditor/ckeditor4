@@ -966,7 +966,8 @@ body .cke_dialog
 {
 	*border: 1px solid transparent !important;
 	/* Emulating border-color: transparent in IE6.*/
-	-filter: chroma(color=black);
+	-border: 1px solid red !important;
+	-filter: chroma(color=red);
 }
 
 .cke_skin_kama .cke_browser_ie .cke_dialog_ui_focused,
