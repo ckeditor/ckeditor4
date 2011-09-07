@@ -315,15 +315,22 @@ CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
 CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
 	var container = this.container,
 		contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
+		contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
 		outer = resizeInner ? container.getChild( 1 ) : container;
 
 	// Set as border box width. (#5353)
 	outer.setSize( 'width', width, true );
 
+	// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (#8348)
+	contentsFrame && ( contentsFrame.style.width = '1%' );
+
 	// Get the height delta between the outer table and the content area.
 	// If we're setting the content area's height, then we don't need the delta.
 	var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
 	contents.setStyle( 'height', Math.max( height - delta, 0 ) + 'px' );
+
+	// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (#8348)
+	contentsFrame && ( contentsFrame.style.width = '100%' );
 
 	// Emit a resize event.
 	this.fire( 'resize' );
