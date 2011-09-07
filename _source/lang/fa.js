@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.lang} object, for the
+ * @fileOverview Defines the {@link CKEDITOR.lang} object for the
  * Persian language.
  */
 
@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'fa' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'ویرایشگر متن غنی, %1, کلید Alt+0 را برای راهنمایی بفشارید.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: 'نوار ابزار',
+	editor: 'ویرایشگر متن غنی',
 
 	// Toolbar buttons without dialogs.
 	source: 'منبع',
@@ -45,7 +45,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	copy: 'کپی',
 	paste: 'چسباندن',
 	print: 'چاپ',
-	underline: 'خطزیردار',
+	underline: 'زیرخطدار',
 	bold: 'درشت',
 	italic: 'خمیده',
 	selectAll: 'گزینش همه',
@@ -53,9 +53,9 @@ CKEDITOR.lang[ 'fa' ] = {
 	strike: 'میانخط',
 	subscript: 'زیرنویس',
 	superscript: 'بالانویس',
-	horizontalrule: 'گنجاندن خط ِافقی',
-	pagebreak: 'گنجاندن شکستگی ِپایان ِبرگه',
-	pagebreakAlt: 'Page Break', // MISSING
+	horizontalrule: 'گنجاندن خط افقی',
+	pagebreak: 'گنجاندن شکستگی پایان برگه',
+	pagebreakAlt: 'شکستن صفحه',
 	unlink: 'برداشتن پیوند',
 	undo: 'واچیدن',
 	redo: 'بازچیدن',
@@ -68,7 +68,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		upload: 'انتقال به سرور',
 		uploadSubmit: 'به سرور بفرست',
 		image: 'تصویر',
-		flash: 'Flash',
+		flash: 'فلش',
 		form: 'فرم',
 		checkbox: 'خانهٴ گزینهای',
 		radio: 'دکمهٴ رادیویی',
@@ -78,7 +78,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		button: 'دکمه',
 		select: 'فیلد چندگزینهای',
 		imageButton: 'دکمهٴ تصویری',
-		notSet: '<تعیننشده>',
+		notSet: '<تعین نشده>',
 		id: 'شناسه',
 		name: 'نام',
 		langDir: 'جهتنمای زبان',
@@ -91,23 +91,23 @@ CKEDITOR.lang[ 'fa' ] = {
 		cssStyle: 'شیوه(style)',
 		ok: 'پذیرش',
 		cancel: 'انصراف',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'بستن',
+		preview: 'پیشنمایش',
+		generalTab: 'عمومی',
 		advancedTab: 'پیشرفته',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		validateNumberFailed: 'این مقدار یک عدد نیست.',
+		confirmNewPage: 'هر تغییر ایجاد شدهی ذخیره نشده از بین خواهد رفت. آیا اطمینان دارید که قصد بارگیری صفحه جدیدی را دارید؟',
+		confirmCancel: 'برخی از گزینهها تغییر کردهاند. آیا واقعا قصد بستن این پنجره را دارید؟',
+		options: 'گزینهها',
+		target: 'مسیر',
+		targetNew: 'پنجره جدید (_blank)',
+		targetTop: 'بالاترین پنجره (_top)',
+		targetSelf: 'همان پنجره (_self)',
+		targetParent: 'پنجره والد (_parent)',
+		langDirLTR: 'چپ به راست (LTR)',
+		langDirRTL: 'راست به چپ (RTL)',
+		styles: 'سبک',
+		cssClasses: 'کلاسهای شیوهنامه',
 		width: 'پهنا',
 		height: 'درازا',
 		align: 'چینش',
@@ -117,31 +117,31 @@ CKEDITOR.lang[ 'fa' ] = {
 		alignTop: 'بالا',
 		alignMiddle: 'وسط',
 		alignBottom: 'پائین',
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHeight: 'ارتفاع باید یک عدد باشد.',
+		invalidWidth: 'پهنا باید یک عدد باشد.',
+		invalidCssLength: 'عدد تعیین شده برای فیلد "%1" باید یک عدد مثبت با یا بدون یک واحد اندازه گیری CSS معتبر باشد (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'عدد تعیین شده برای فیلد "%1" باید یک عدد مثبت با یا بدون یک واحد اندازه گیری HTML معتبر باشد (px or %).',
+		invalidInlineStyle: 'عدد تعیین شده برای سبک درونخطی(Inline Style) باید دارای یک یا چند چندتایی با شکلی شبیه "name : value" که باید با یک ","(semi-colons) از هم جدا شوند.',
+		cssLengthTooltip: 'یک عدد برای یک مقدار بر حسب پیکسل و یا یک عدد با یک واحد CSS معتبر وارد کنید (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">، غیر قابل دسترس</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'گزینههای منوی زمینه'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'گنجاندن نویسهٴ ویژه',
-		title: 'گزینش نویسهٴویژه',
-		options: 'Special Character Options' // MISSING
+		title: 'گزینش نویسهٴ ویژه',
+		options: 'گزینههای نویسههای ویژه'
 	},
 
 	// Link dialog.
 	link: {
-		toolbar: 'گنجاندن/ویرایش ِپیوند',
+		toolbar: 'گنجاندن/ویرایش پیوند',
 		other: '<سایر>',
 		menu: 'ویرایش پیوند',
 		title: 'پیوند',
@@ -150,7 +150,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		upload: 'انتقال به سرور',
 		advanced: 'پیشرفته',
 		type: 'نوع پیوند',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'لنگر در همین صفحه',
 		toEmail: 'پست الکترونیکی',
 		targetFrame: '<فریم>',
@@ -158,7 +158,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		targetFrameName: 'نام فریم مقصد',
 		targetPopupName: 'نام پنجرهٴ پاپاپ',
 		popupFeatures: 'ویژگیهای پنجرهٴ پاپاپ',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'قابل تغییر اندازه',
 		popupStatusBar: 'نوار وضعیت',
 		popupLocationBar: 'نوار موقعیت',
 		popupToolbar: 'نوارابزار',
@@ -166,22 +166,22 @@ CKEDITOR.lang[ 'fa' ] = {
 		popupFullScreen: 'تمامصفحه (IE)',
 		popupScrollBars: 'میلههای پیمایش',
 		popupDependent: 'وابسته (Netscape)',
-		popupLeft: 'موقعیت ِچپ',
-		popupTop: 'موقعیت ِبالا',
-		id: 'Id', // MISSING
+		popupLeft: 'موقعیت چپ',
+		popupTop: 'موقعیت بالا',
+		id: 'شناسه',
 		langDir: 'جهتنمای زبان',
 		langDirLTR: 'چپ به راست (LTR)',
 		langDirRTL: 'راست به چپ (RTL)',
 		acccessKey: 'کلید دستیابی',
 		name: 'نام',
 		langCode: 'جهتنمای زبان',
-		tabIndex: 'نمایهٴ دسترسی با Tab',
+		tabIndex: 'نمایهٴ دسترسی با برگه',
 		advisoryTitle: 'عنوان کمکی',
 		advisoryContentType: 'نوع محتوای کمکی',
 		cssClasses: 'کلاسهای شیوهنامه(Stylesheet)',
-		charset: 'نویسهگان منبع ِپیوندشده',
+		charset: 'نویسهگان منبع پیوند شده',
 		styles: 'شیوه(style)',
-		rel: 'Relationship', // MISSING
+		rel: 'وابستگی',
 		selectAnchor: 'یک لنگر برگزینید',
 		anchorName: 'با نام لنگر',
 		anchorId: 'با شناسهٴ المان',
@@ -195,35 +195,35 @@ CKEDITOR.lang[ 'fa' ] = {
 
 	// Anchor dialog
 	anchor: {
-		toolbar: 'گنجاندن/ویرایش ِلنگر',
+		toolbar: 'گنجاندن/ویرایش لنگر',
 		menu: 'ویژگیهای لنگر',
 		title: 'ویژگیهای لنگر',
 		name: 'نام لنگر',
 		errorName: 'لطفا نام لنگر را بنویسید',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'حذف لنگر'
 	},
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'ویژگیهای فهرست شمارهدار',
+		bulletedTitle: 'ویژگیهای فهرست گلولهدار',
+		type: 'نوع',
+		start: 'شروع',
+		validateStartNumber: 'فهرست شماره شروع باید یک عدد صحیح باشد.',
+		circle: 'دایره',
+		disc: 'صفحه گرد',
+		square: 'چهارگوش',
+		none: 'هیچ',
+		notset: '<تنظیم نشده>',
+		armenian: 'شمارهگذاری ارمنی',
+		georgian: 'شمارهگذاری گریگورین (an, ban, gan, etc.)',
+		lowerRoman: 'پانویس رومی (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'بالانویس رومی (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'پانویس الفبایی (a, b, c, d, e, etc.)',
+		upperAlpha: 'بالانویس الفبایی (A, B, C, D, E, etc.)',
+		lowerGreek: 'پانویس یونانی (alpha, beta, gamma, etc.)',
+		decimal: 'دهدهی (1, 2, 3, etc.)',
+		decimalLeadingZero: 'دهدهی همراه با صفر (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -231,15 +231,15 @@ CKEDITOR.lang[ 'fa' ] = {
 		title: 'جستجو و جایگزینی',
 		find: 'جستجو',
 		replace: 'جایگزینی',
-		findWhat: 'چهچیز را مییابید:',
+		findWhat: 'چه چیز را مییابید:',
 		replaceWith: 'جایگزینی با:',
 		notFoundMsg: 'متن موردنظر یافت نشد.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'گزینههای جستجو',
 		matchCase: 'همسانی در بزرگی و کوچکی نویسهها',
 		matchWord: 'همسانی با واژهٴ کامل',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'همسانی با چرخه',
 		replaceAll: 'جایگزینی همهٴ یافتهها',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 رخداد جایگزین شد.'
 	},
 
 	// Table Dialog
@@ -247,29 +247,29 @@ CKEDITOR.lang[ 'fa' ] = {
 		toolbar: 'جدول',
 		title: 'ویژگیهای جدول',
 		menu: 'ویژگیهای جدول',
-		deleteTable: 'پاککردن جدول',
+		deleteTable: 'پاک کردن جدول',
 		rows: 'سطرها',
 		columns: 'ستونها',
 		border: 'اندازهٴ لبه',
 		widthPx: 'پیکسل',
 		widthPc: 'درصد',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'واحد پهنا',
 		cellSpace: 'فاصلهٴ میان سلولها',
 		cellPad: 'فاصلهٴ پرشده در سلول',
 		caption: 'عنوان',
 		summary: 'خلاصه',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
+		headers: 'سرنویسها',
+		headersNone: 'هیچ',
+		headersColumn: 'اولین ستون',
+		headersRow: 'اولین ردیف',
+		headersBoth: 'هردو',
+		invalidRows: 'تعداد ردیفها باید یک عدد بزرگتر از 0 باشد.',
+		invalidCols: 'تعداد ستونها باید یک عدد بزرگتر از 0 باشد.',
+		invalidBorder: 'مقدار اندازه خطوط باید یک عدد باشد.',
+		invalidWidth: 'مقدار پهنای جدول باید یک عدد باشد.',
+		invalidHeight: 'مقدار ارتفاع  جدول باید یک عدد باشد.',
+		invalidCellSpacing: 'مقدار فاصلهگذاری سلول باید یک عدد باشد.',
+		invalidCellPadding: 'بالشتک سلول باید یک عدد باشد.',
 
 		cell: {
 			menu: 'سلول',
@@ -282,24 +282,24 @@ CKEDITOR.lang[ 'fa' ] = {
 			splitHorizontal: 'جدا کردن افقی سلول',
 			splitVertical: 'جدا کردن عمودی سلول',
 			title: 'ویژگیهای سلول',
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			cellType: 'نوع سلول',
+			rowSpan: 'محدوده ردیفها',
+			colSpan: 'محدوده ستونها',
+			wordWrap: 'شکستن کلمه',
+			hAlign: 'چینش افقی',
+			vAlign: 'چینش عمودی',
+			alignBaseline: 'خط مبنا',
+			bgColor: 'رنگ زمینه',
+			borderColor: 'رنگ خطوط',
+			data: 'اطلاعات',
+			header: 'سرنویس',
+			yes: 'بله',
+			no: 'خیر',
+			invalidWidth: 'عرض سلول باید یک عدد باشد.',
+			invalidHeight: 'ارتفاع سلول باید عدد باشد.',
+			invalidRowSpan: 'مقدار محدوده ردیفها باید یک عدد باشد.',
+			invalidColSpan: 'مقدار محدوده ستونها باید یک عدد باشد.',
+			chooseColor: 'انتخاب'
 		},
 
 		row: {
@@ -323,7 +323,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		text: 'متن (مقدار)',
 		type: 'نوع',
 		typeBtn: 'دکمه',
-		typeSbm: 'Submit',
+		typeSbm: 'ثبت',
 		typeRst: 'بازنشانی (Reset)'
 	},
 
@@ -341,7 +341,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		menu: 'ویژگیهای فرم',
 		action: 'رویداد',
 		method: 'متد',
-		encoding: 'Encoding' // MISSING
+		encoding: 'رمزنگاری'
 	},
 
 	// Select Field Dialog.
@@ -359,7 +359,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		btnModify: 'ویرایش',
 		btnUp: 'بالا',
 		btnDown: 'پائین',
-		btnSetValue: 'تنظیم به عنوان مقدار ِبرگزیده',
+		btnSetValue: 'تنظیم به عنوان مقدار برگزیده',
 		btnDelete: 'پاککردن'
 	},
 
@@ -398,69 +398,69 @@ CKEDITOR.lang[ 'fa' ] = {
 		btnUpload: 'به سرور بفرست',
 		upload: 'انتقال به سرور',
 		alt: 'متن جایگزین',
-		lockRatio: 'قفلکردن ِنسبت',
+		lockRatio: 'قفل کردن نسبت',
 		resetSize: 'بازنشانی اندازه',
 		border: 'لبه',
 		hSpace: 'فاصلهٴ افقی',
 		vSpace: 'فاصلهٴ عمودی',
 		alertUrl: 'لطفا URL تصویر را بنویسید',
 		linkTab: 'پیوند',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		button2Img: 'آیا مایلید از یک تصویر ساده روی دکمه تصویری انتخاب شده استفاده کنید؟',
+		img2Button: 'آیا مایلید از یک دکمه تصویری روی تصویر انتخاب شده استفاده کنید؟',
+		urlMissing: 'آدرس URL اصلی تصویر یافت نشد.',
+		validateBorder: 'مقدار خطوط باید یک عدد باشد.',
+		validateHSpace: 'مقدار فاصلهگذاری افقی باید یک عدد باشد.',
+		validateVSpace: 'مقدار فاصلهگذاری عمودی باید یک عدد باشد.'
 	},
 
 	// Flash Dialog
 	flash: {
-		properties: 'ویژگیهای Flash',
-		propertiesTab: 'Properties', // MISSING
-		title: 'ویژگیهای Flash',
-		chkPlay: 'آغاز ِخودکار',
+		properties: 'ویژگیهای فلش',
+		propertiesTab: 'ویژگیها',
+		title: 'ویژگیهای فلش',
+		chkPlay: 'آغاز خودکار',
 		chkLoop: 'اجرای پیاپی',
-		chkMenu: 'دردسترسبودن منوی Flash',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkMenu: 'در دسترس بودن منوی فلش',
+		chkFull: 'اجازه تمام صفحه',
 		scale: 'مقیاس',
 		scaleAll: 'نمایش همه',
 		scaleNoBorder: 'بدون کران',
 		scaleFit: 'جایگیری کامل',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'دسترسی به اسکریپت',
+		accessAlways: 'همیشه',
+		accessSameDomain: 'همان دامنه',
+		accessNever: 'هرگز',
 		alignAbsBottom: 'پائین مطلق',
 		alignAbsMiddle: 'وسط مطلق',
-		alignBaseline: 'خطپایه',
+		alignBaseline: 'خط پایه',
 		alignTextTop: 'متن بالا',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'کیفیت',
+		qualityBest: 'بهترین',
+		qualityHigh: 'بالا',
+		qualityAutoHigh: 'بالا - خودکار',
+		qualityMedium: 'متوسط',
+		qualityAutoLow: 'پایین - خودکار',
+		qualityLow: 'پایین',
+		windowModeWindow: 'پنجره',
+		windowModeOpaque: 'مات',
+		windowModeTransparent: 'شفاف',
+		windowMode: 'حالت پنجره',
+		flashvars: 'مقادیر برای فلش',
 		bgcolor: 'رنگ پسزمینه',
 		hSpace: 'فاصلهٴ افقی',
 		vSpace: 'فاصلهٴ عمودی',
 		validateSrc: 'لطفا URL پیوند را بنویسید',
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateHSpace: 'مقدار فاصلهگذاری افقی باید یک عدد باشد.',
+		validateVSpace: 'مقدار فاصلهگذاری عمودی باید یک عدد باشد.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'بررسی املا',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
-		notInDic: 'در واژهنامه یافت نشد',
+		title: 'بررسی املا',
+		notAvailable: 'با عرض پوزش خدمات الان در دسترس نیستند.',
+		errorLoading: 'خطا در بارگیری برنامه خدمات میزبان: %s.',
+		notInDic: 'در واژه~نامه یافت نشد',
 		changeTo: 'تغییر به',
 		btnIgnore: 'چشمپوشی',
 		btnIgnoreAll: 'چشمپوشی همه',
@@ -469,22 +469,22 @@ CKEDITOR.lang[ 'fa' ] = {
 		btnUndo: 'واچینش',
 		noSuggestions: '- پیشنهادی نیست -',
 		progress: 'بررسی املا در حال انجام...',
-		noMispell: 'بررسی املا انجام شد. هیچ غلطاملائی یافت نشد',
+		noMispell: 'بررسی املا انجام شد. هیچ غلط املائی یافت نشد',
 		noChanges: 'بررسی املا انجام شد. هیچ واژهای تغییر نیافت',
 		oneChange: 'بررسی املا انجام شد. یک واژه تغییر یافت',
 		manyChanges: 'بررسی املا انجام شد. %1 واژه تغییر یافت',
-		ieSpellDownload: 'بررسیکنندهٴ املا نصب نشده است. آیا میخواهید آن را هماکنون دریافت کنید؟'
+		ieSpellDownload: 'بررسی کنندهٴ املا نصب نشده است. آیا میخواهید آن را هماکنون دریافت کنید؟'
 	},
 
 	smiley: {
 		toolbar: 'خندانک',
 		title: 'گنجاندن خندانک',
-		options: 'Smiley Options' // MISSING
+		options: 'گزینههای خندانک'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
-		eleTitle: '%1 element' // MISSING
+		eleLabel: 'مسیر عناصر',
+		eleTitle: '%1 عنصر'
 	},
 
 	numberedlist: 'فهرست شمارهدار',
@@ -503,18 +503,18 @@ CKEDITOR.lang[ 'fa' ] = {
 
 	clipboard: {
 		title: 'چسباندن',
-		cutError: 'تنظیمات امنیتی مرورگر شما اجازه نمیدهد که ویرایشگر به طور خودکار عملکردهای برش را انجام دهد. لطفا با دکمههای صفحهکلید این کار را انجام دهید (Ctrl/Cmd+X).',
-		copyError: 'تنظیمات امنیتی مرورگر شما اجازه نمیدهد که ویرایشگر به طور خودکار عملکردهای کپیکردن را انجام دهد. لطفا با دکمههای صفحهکلید این کار را انجام دهید (Ctrl/Cmd+C).',
+		cutError: 'تنظیمات امنیتی مرورگر شما اجازه نمیدهد که ویرایشگر به طور خودکار عملکردهای برش را انجام دهد. لطفا با دکمههای صفحه کلید این کار را انجام دهید (Ctrl/Cmd+X).',
+		copyError: 'تنظیمات امنیتی مرورگر شما اجازه نمیدهد که ویرایشگر به طور خودکار عملکردهای کپی کردن را انجام دهد. لطفا با دکمههای صفحه کلید این کار را انجام دهید (Ctrl/Cmd+C).',
 		pasteMsg: 'لطفا متن را با کلیدهای (<STRONG>Ctrl/Cmd+V</STRONG>) در این جعبهٴ متنی بچسبانید و <STRONG>پذیرش</STRONG> را بزنید.',
 		securityMsg: 'به خاطر تنظیمات امنیتی مرورگر شما، ویرایشگر نمیتواند دسترسی مستقیم به دادههای clipboard داشته باشد. شما باید دوباره آنرا در این پنجره بچسبانید.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'محل چسباندن'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
+		confirmCleanup: 'متنی که میخواهید بچسبانید به نظر میرسد که از Word کپی شده است. آیا میخواهید قبل از چسباندن آن را پاکسازی کنید؟',
 		toolbar: 'چسباندن از Word',
 		title: 'چسباندن از Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'به دلیل بروز خطای داخلی امکان پاکسازی اطلاعات بازنشانی شده وجود ندارد.'
 	},
 
 	pasteText: {
@@ -525,7 +525,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	templates: {
 		button: 'الگوها',
 		title: 'الگوهای محتویات',
-		options: 'Template Options', // MISSING
+		options: 'گزینههای الگو',
 		insertOption: 'محتویات کنونی جایگزین شوند',
 		selectPromptMsg: 'لطفا الگوی موردنظر را برای بازکردن در ویرایشگر برگزینید<br>(محتویات کنونی از دست خواهند رفت):',
 		emptyListMsg: '(الگوئی تعریف نشده است)'
@@ -535,10 +535,10 @@ CKEDITOR.lang[ 'fa' ] = {
 
 	stylesCombo: {
 		label: 'سبک',
-		panelTitle: 'Formatting Styles', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		panelTitle: 'سبکهای قالببندی',
+		panelTitle1: 'سبکهای بلوک',
+		panelTitle2: 'سبکهای درونخطی',
+		panelTitle3: 'سبکهای شیء'
 	},
 
 	format: {
@@ -546,7 +546,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		panelTitle: 'فرمت',
 
 		tag_p: 'نرمال',
-		tag_pre: 'فرمتشده',
+		tag_pre: 'فرمت شده',
 		tag_address: 'آدرس',
 		tag_h1: 'سرنویس 1',
 		tag_h2: 'سرنویس 2',
@@ -558,189 +558,189 @@ CKEDITOR.lang[ 'fa' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'ایجاد یک محل DIV',
+		toolbar: 'ایجاد یک محل DIV',
+		cssClassInputLabel: 'کلاسهای شیوهنامه',
+		styleSelectLabel: 'سبک',
+		IdInputLabel: 'شناسه',
+		languageCodeInputLabel: ' کد زبان',
+		inlineStyleInputLabel: 'سبک درونخطی(Inline Style)',
+		advisoryTitleInputLabel: 'عنوان مشاوره',
+		langDirLabel: 'جهت نوشتاری زبان',
+		langDirLTRLabel: 'چپ به راست (LTR)',
+		langDirRTLLabel: 'راست به چپ (RTL)',
+		edit: 'ویرایش Div',
+		remove: 'حذف Div'
 	},
 
 	iframe: {
-		title: 'IFrame Properties', // MISSING
-		toolbar: 'IFrame', // MISSING
-		noUrl: 'Please type the iframe URL', // MISSING
-		scrolling: 'Enable scrollbars', // MISSING
-		border: 'Show frame border' // MISSING
+		title: 'ویژگیهای IFrame',
+		toolbar: 'IFrame',
+		noUrl: 'لطفا مسیر URL iframe را درج کنید',
+		scrolling: 'نمایش خطکشها',
+		border: 'نمایش خطوط frame'
 	},
 
 	font: {
 		label: 'قلم',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'قلم',
 		panelTitle: 'قلم'
 	},
 
 	fontSize: {
 		label: 'اندازه',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'اندازه قلم',
 		panelTitle: 'اندازه'
 	},
 
 	colorButton: {
 		textColorTitle: 'رنگ متن',
 		bgColorTitle: 'رنگ پسزمینه',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'رنگها',
 		auto: 'خودکار',
 		more: 'رنگهای بیشتر...'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dim Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'سیاه',
+		'800000': 'خرمایی',
+		'8B4513': 'قهوهای شکلاتی',
+		'2F4F4F': 'ارغوانی مایل به خاکستری',
+		'008080': 'آبی مایل به خاکستری',
+		'000080': 'آبی سیر',
+		'4B0082': 'نیلی',
+		'696969': 'خاکستری تیره',
+		'B22222': 'آتش آجری',
+		'A52A2A': 'قهوهای',
+		'DAA520': 'میلهی طلایی',
+		'006400': 'سبز تیره',
+		'40E0D0': 'فیروزهای',
+		'0000CD': 'آبی روشن',
+		'800080': 'ارغوانی',
+		'808080': 'خاکستری',
+		'F00': 'قرمز',
+		'FF8C00': 'نارنجی پررنگ',
+		'FFD700': 'طلایی',
+		'008000': 'سبز',
+		'0FF': 'آبی مایل به سبز',
+		'00F': 'آبی',
+		'EE82EE': 'بنفش',
+		'A9A9A9': 'خاکستری مات',
+		'FFA07A': 'صورتی کدر روشن',
+		'FFA500': 'نارنجی',
+		'FFFF00': 'زرد',
+		'00FF00': 'فسفری',
+		'AFEEEE': 'فیروزهای رنگ پریده',
+		'ADD8E6': 'آبی کمرنگ',
+		'DDA0DD': 'آلویی',
+		'D3D3D3': 'خاکستری روشن',
+		'FFF0F5': 'بنفش کمرنگ',
+		'FAEBD7': 'عتیقه سفید',
+		'FFFFE0': 'زرد روشن',
+		'F0FFF0': 'عسلی',
+		'F0FFFF': 'لاجوردی',
+		'F0F8FF': 'آبی براق',
+		'E6E6FA': 'بنفش کمرنگ',
+		'FFF': 'سفید'
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		opera_title: 'Not supported by Opera', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		title: 'بررسی املای تایپ شما',
+		opera_title: 'توسط اپرا پشتیبانی نمیشود',
+		enable: 'فعالسازی SCAYT',
+		disable: 'غیرفعالسازی SCAYT',
+		about: 'درباره SCAYT',
+		toggle: 'ضامن SCAYT',
+		options: 'گزینهها',
+		langs: 'زبانها',
+		moreSuggestions: 'پیشنهادهای بیشتر',
+		ignore: 'عبور کردن',
+		ignoreAll: 'عبور کردن از همه',
+		addWord: 'افزودن Word',
+		emptyDic: 'نام دیکشنری نباید خالی باشد.',
 
-		optionsTab: 'Options', // MISSING
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		optionsTab: 'گزینهها',
+		allCaps: 'نادیده گرفتن همه کلاه-واژهها',
+		ignoreDomainNames: 'عبور از نامهای دامنه',
+		mixedCase: 'عبور از کلماتی مرکب از حروف بزرگ و کوچک',
+		mixedWithDigits: 'عبور از کلمات به همراه عدد',
 
-		languagesTab: 'Languages', // MISSING
+		languagesTab: 'زبانها',
 
-		dictionariesTab: 'Dictionaries', // MISSING
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dictionariesTab: 'دیکشنریها',
+		dic_field_name: 'نام دیکشنری',
+		dic_create: 'ایجاد',
+		dic_restore: 'بازیافت',
+		dic_delete: 'حذف',
+		dic_rename: 'تغییر نام',
+		dic_info: 'در ابتدا دیکشنری کاربر در کوکی ذخیره میشود. با این حال، کوکیها در اندازه محدود شدهاند. وقتی که دیکشنری کاربری بزرگ میشود و به نقطهای که نمیتواند در کوکی ذخیره شود، پس از آن دیکشنری ممکن است بر روی سرور ما ذخیره شود. برای ذخیره دیکشنری شخصی شما بر روی سرور ما، باید یک نام برای دیکشنری خود مشخص نمایید. اگر شما قبلا یک دیکشنری روی سرور ما ذخیره کردهاید، لطفا نام آنرا درج و روی دکمه بازیافت کلیک نمایید.',
 
-		aboutTab: 'About' // MISSING
+		aboutTab: 'درباره'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		help: 'Check $1 for help.', // MISSING
-		userGuide: 'CKEditor User\'s Guide', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'درباره CKEditor',
+		dlgTitle: 'درباره CKEditor',
+		help: 'بررسی $1 برای راهنمایی.',
+		userGuide: 'راهنمای کاربران CKEditor',
+		moreInfo: 'برای کسب اطلاعات مجوز لطفا به وب سایت ما مراجعه کنید:',
+		copy: 'حق نشر &copy; $1. کلیه حقوق محفوظ است.'
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'حداکثر کردن',
+	minimize: 'حداقل کردن',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		iframe: 'IFrame', // MISSING
-		hiddenfield: 'Hidden Field', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'لنگر',
+		flash: 'انیمشن فلش',
+		iframe: 'IFrame',
+		hiddenfield: 'فیلد پنهان',
+		unknown: 'شیء ناشناخته'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'کشیدن برای تغییر اندازه',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		options: 'Color Options', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected Color', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'انتخاب رنگ',
+		options: 'گزینههای رنگ',
+		highlight: 'متمایز',
+		selected: 'رنگ انتخاب شده',
+		clear: 'پاک کردن'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'بستن نوار ابزار',
+	toolbarExpand: 'بازکردن نوار ابزار',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'سند',
+		clipboard: 'حافظه موقت/برگشت',
+		editing: 'در حال ویرایش',
+		forms: 'فرمها',
+		basicstyles: 'شیوههای پایه',
+		paragraph: 'بند',
+		links: 'پیوندها',
+		insert: 'ورود',
+		styles: 'شیوهها',
+		colors: 'رنگها',
+		tools: 'ابزارها'
 	},
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'نوشتار متن از چپ به راست',
+		rtl: 'نوشتار متن از راست به چپ'
 	},
 
 	docprops: {
 		label: 'ویژگیهای سند',
 		title: 'ویژگیهای سند',
-		design: 'Design', // MISSING
+		design: 'طراحی',
 		meta: 'فراداده',
-		chooseColor: 'Choose', // MISSING
+		chooseColor: 'انتخاب',
 		other: '<سایر>',
 		docTitle: 'عنوان صفحه',
 		charset: 'رمزگذاری نویسهگان',
 		charsetOther: 'رمزگذاری نویسهگان دیگر',
-		charsetASCII: 'ASCII', // MISSING
+		charsetASCII: 'ASCII',
 		charsetCE: 'اروپای مرکزی',
 		charsetCT: 'چینی رسمی (Big5)',
 		charsetCR: 'سیریلیک',
@@ -755,7 +755,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		xhtmlDec: 'شامل تعاریف XHTML',
 		bgColor: 'رنگ پسزمینه',
 		bgImage: 'URL تصویر پسزمینه',
-		bgFixed: 'پسزمینهٴ پیمایشناپذیر',
+		bgFixed: 'پسزمینهٴ پیمایش ناپذیر',
 		txtColor: 'رنگ متن',
 		margin: 'حاشیههای صفحه',
 		marginTop: 'بالا',
@@ -765,7 +765,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		metaKeywords: 'کلیدواژگان نمایهگذاری سند (با کاما جدا شوند)',
 		metaDescription: 'توصیف سند',
 		metaAuthor: 'نویسنده',
-		metaCopyright: 'کپیرایت',
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		metaCopyright: 'حق انتشار',
+		previewHtml: '<p>این یک <strong>متن نمونه</strong> است. شما در حال استفاده از <a href="javascript:void(0)">CKEditor</a> هستید.</p>'
 	}
 };
