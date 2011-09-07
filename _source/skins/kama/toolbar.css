@@ -279,6 +279,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: none;
 	padding-left: 3px;
 	line-height: 18px;
+	vertical-align: middle;
 }
 
 .cke_skin_kama .cke_hc .cke_button .cke_label
