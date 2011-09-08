@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -2656,9 +2657,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/** @ignore */
 		exec: function( editor ) {
 			// Special treatment for Opera. (#8031)
-			CKEDITOR.tools.setTimeout( function() {
-				editor.openDialog( this.dialogName );
-			}, 0, this );
+			CKEDITOR.env.opera ? CKEDITOR.tools.setTimeout( function() {
+				editor.openDialog( this.dialogName )
+			}, 0, this ) : editor.openDialog( this.dialogName );
 		},
 
 		// Dialog commands just open a dialog ui, thus require no undo logic,
