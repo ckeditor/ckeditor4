@@ -231,7 +231,7 @@ CKEDITOR.config = {
 	 * of the editing area. This can be useful when you intend to reuse the original CSS
 	 * file you are using on your live website and want to assign the editor the same class
 	 * as the section that will include the contents. In this way class-specific CSS rules will
-	 * be enabled. 
+	 * be enabled.
 	 * @since 3.1
 	 * @type String
 	 * @default <code>''</code> (empty)

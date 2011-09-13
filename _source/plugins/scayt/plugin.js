@@ -730,7 +730,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * Sets the customer ID for SCAYT. Required for migration from free, 
+ * Sets the customer ID for SCAYT. Required for migration from free,
  * ad-supported version to paid, ad-free version.
  * @name CKEDITOR.config.scayt_customerid
  * @type String
@@ -787,7 +787,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Sets the visibility of particular tabs in the SCAYT dialog window and toolbar
  * button. This setting must contain a <code>1</code> (enabled) or <code>0</code>
- * (disabled) value for each of the following entries, in this precise order, 
+ * (disabled) value for each of the following entries, in this precise order,
  * separated by a comma (","): "Options", "Languages", and "Dictionary".
  * @name CKEDITOR.config.scayt_uiTabs
  * @type String
