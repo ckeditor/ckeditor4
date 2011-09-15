@@ -108,6 +108,28 @@ if ( !CKEDITOR.event ) {
 			 * someObject.on( 'someEvent', function() { ... }, null, null, 1 );    // 1st called
 			 */
 			on: function( eventName, listenerFunction, scopeObj, listenerData, priority ) {
+				// Create the function to be fired for this listener.
+				function listenerFirer( editor, publisherData, stopFn, cancelFn ) {
+					var ev = {
+						name: eventName,
+						sender: this,
+						editor: editor,
+						data: publisherData,
+						listenerData: listenerData,
+						stop: stopFn,
+						cancel: cancelFn,
+						removeListener: removeListener
+					};
+
+					var ret = listenerFunction.call( scopeObj, ev );
+
+					return ret === false ? false : ev.data;
+				}
+
+				function removeListener() {
+					me.removeListener( eventName, listenerFunction );
+				}
+
 				// Get the event entry (create it if needed).
 				var events = getPrivate( this ),
 					event = events[ eventName ] || ( events[ eventName ] = new eventEntry( eventName ) );
@@ -126,27 +148,6 @@ if ( !CKEDITOR.event ) {
 
 					var me = this;
 
-					function removeListener() {
-						me.removeListener( eventName, listenerFunction );
-					}
-
-					// Create the function to be fired for this listener.
-					var listenerFirer = function( editor, publisherData, stopFn, cancelFn ) {
-							var ev = {
-								name: eventName,
-								sender: this,
-								editor: editor,
-								data: publisherData,
-								listenerData: listenerData,
-								stop: stopFn,
-								cancel: cancelFn,
-								removeListener: removeListener
-							};
-
-							var ret = listenerFunction.call( scopeObj, ev );
-
-							return ret === false ? false : ev.data;
-						};
 					listenerFirer.fn = listenerFunction;
 					listenerFirer.priority = priority;
 
@@ -167,6 +168,16 @@ if ( !CKEDITOR.event ) {
 				}
 
 				return { removeListener: removeListener };
+			},
+
+			/**
+			 * Register event handler under the capturing stage on supported target.
+			 */
+			capture: function() {
+				CKEDITOR.event.useCapture = 1;
+				var retval = this.on.apply( this, arguments );
+				CKEDITOR.event.useCapture = 0;
+				return retval;
 			},
 
 			/**
