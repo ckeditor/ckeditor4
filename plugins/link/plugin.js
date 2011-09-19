@@ -4,24 +4,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'link', {
+	requires: [ 'dialog', 'fakeobjects' ],
+
 	init: function( editor ) {
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor' ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
-		editor.ui.addButton( 'Link', {
-			label: editor.lang.link.toolbar,
-			command: 'link'
-		});
-		editor.ui.addButton( 'Unlink', {
-			label: editor.lang.unlink,
-			command: 'unlink'
-		});
-		editor.ui.addButton( 'Anchor', {
-			label: editor.lang.anchor.toolbar,
-			command: 'anchor'
-		});
+
+		if ( editor.ui.addButton ) {
+			editor.ui.addButton( 'Link', {
+				label: editor.lang.link.toolbar,
+				command: 'link'
+			});
+			editor.ui.addButton( 'Unlink', {
+				label: editor.lang.unlink,
+				command: 'unlink'
+			});
+			editor.ui.addButton( 'Anchor', {
+				label: editor.lang.anchor.toolbar,
+				command: 'anchor'
+			});
+		}
+
 		CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
 		CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
@@ -201,9 +207,7 @@ CKEDITOR.plugins.add( 'link', {
 				}
 			});
 		}
-	},
-
-	requires: [ 'fakeobjects' ]
+	}
 });
 
 CKEDITOR.plugins.link = {

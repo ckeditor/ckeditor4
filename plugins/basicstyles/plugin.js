@@ -4,24 +4,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'basicstyles', {
-	requires: [ 'button' ],
-
 	init: function( editor ) {
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, buttonLabel, commandName, styleDefiniton ) {
 				var style = new CKEDITOR.style( styleDefiniton );
 
+				// Listen to contextual style activation.
 				editor.attachStyleStateChange( style, function( state ) {
 					!editor.readOnly && editor.getCommand( commandName ).setState( state );
 				});
 
+				// Create the command that can be used to apply the style.
 				editor.addCommand( commandName, new CKEDITOR.styleCommand( style ) );
 
-				editor.ui.addButton( buttonName, {
-					label: buttonLabel,
-					command: commandName
-				});
+				// Register the button, if the button plugin is loaded.
+				if ( editor.ui.addButton ) {
+					editor.ui.addButton( buttonName, {
+						label: buttonLabel,
+						command: commandName
+					});
+				}
 			};
 
 		var config = editor.config,

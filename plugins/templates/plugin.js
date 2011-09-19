@@ -73,8 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *
  */
 CKEDITOR.config.templates_files = [
-	CKEDITOR.getUrl( '_source/' + // @Packager.RemoveLine
-				'plugins/templates/templates/default.js' )
+	CKEDITOR.getUrl( '../plugins/templates/templates/default.js' )
 	];
 
 /**

@@ -33,10 +33,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( this.useIndentClasses ) {
 			var indentClass = firstBlock.$.className.match( this.classNameRegex ),
 				indentStep = 0;
+
 			if ( indentClass ) {
 				indentClass = indentClass[ 1 ];
 				indentStep = this.indentClassMap[ indentClass ];
 			}
+
 			if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
 				return this.setState( CKEDITOR.TRISTATE_DISABLED );
 			return this.setState( CKEDITOR.TRISTATE_OFF );

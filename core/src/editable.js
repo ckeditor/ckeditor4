@@ -172,37 +172,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 
+		!editor.readOnly && attachListener( element, element, 'keydown', function( evt ) {
+			var keyCode = evt.data.getKeystroke();
+
+			// Backspace OR Delete.
+			if ( keyCode in { 8:1,46:1 } ) {
+				var sel = editor.getSelection(),
+					selected = sel.getSelectedElement(),
+					range = sel.getRanges()[ 0 ];
+
+				// Override keystrokes which should have deletion behavior
+				//  on fully selected element . (#4047) (#7645)
+				if ( selected ) {
+					// Make undo snapshot.
+					editor.fire( 'saveSnapshot' );
+
+					// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
+					// break up the selection, safely manage it here. (#4795)
+					range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
+					// Remove the control manually.
+					selected.remove();
+					range.select();
+
+					editor.fire( 'saveSnapshot' );
+
+					evt.data.preventDefault();
+					return;
+				}
+			}
+		});
+
 		if ( CKEDITOR.env.ie ) {
 			// v3: check if this is needed.
 			// editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
-
-			// Override keystrokes which should have deletion behavior
-			// on control types in IE . (#4047)
-			!editor.readOnly && attachListener( element, element, 'keydown', function( evt ) {
-				var keyCode = evt.data.getKeystroke();
-
-				// Backspace OR Delete.
-				if ( keyCode in { 8:1,46:1 } ) {
-					var sel = editor.getSelection(),
-						control = sel.getSelectedElement();
-
-					if ( control ) {
-						// Make undo snapshot.
-						editor.fire( 'saveSnapshot' );
-
-						// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
-						// break up the selection, safely manage it here. (#4795)
-						var bookmark = sel.getRanges()[ 0 ].createBookmark();
-						// Remove the control manually.
-						control.remove();
-						sel.selectBookmarks( [ bookmark ] );
-
-						editor.fire( 'saveSnapshot' );
-
-						evt.data.preventDefault();
-					}
-				}
-			});
 
 			// PageUp/PageDown scrolling is broken in document
 			// with standard doctype, manually fix it. (#4736)
@@ -218,7 +220,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		attachListener( element, editor, 'selectionChange', onSelectionChangeFixBody, null, null, 1 );
+		attachListener( element, editor, 'selectionChange', function( evt ) {
+			if ( editor.readOnly )
+				return;
+
+			var sel = editor.getSelection();
+			// Do it only when selection is not locked. (#8222)
+			if ( sel && !sel.isLocked ) {
+				var isDirty = editor.checkDirty();
+				editor.fire( 'saveSnapshot', { contentOnly:1 } );
+				onSelectionChangeFixBody.call( this, evt );
+				editor.fire( 'updateSnapshot' );
+				!isDirty && editor.resetDirty();
+			}
+		});
 
 		// Disable form elements editing mode provided by some browers. (#5746)
 		attachListener( element, editor, 'insertElement', function( evt ) {
@@ -334,8 +349,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// 2. It doesn't end with one inner block; (#7467)
 			// 3. It doesn't have bogus br yet.
 			if ( pathBlock && pathBlock.isBlockBoundary() && !( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) && !pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
-				editor.fire( 'updateSnapshot' );
-				restoreDirty( editor );
 				pathBlock.appendBogus();
 			}
 		}
@@ -343,10 +356,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// When we're in block enter mode, a new paragraph will be established
 		// to encapsulate inline contents right under body. (#3657)
 		if ( editor.config.autoParagraph !== false && enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
-			editor.fire( 'updateSnapshot' );
-			restoreDirty( editor );
-			CKEDITOR.env.ie && restoreSelection( selection );
-
 			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we should remove any filler node which was introduced before.
@@ -383,10 +392,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		testRange.moveToElementEditEnd( editor.document.getBody() );
 		var testPath = new CKEDITOR.dom.elementPath( testRange.startContainer );
 		if ( !testPath.blockLimit.is( 'body' ) ) {
-			editor.fire( 'updateSnapshot' );
-			restoreDirty( editor );
-			CKEDITOR.env.ie && restoreSelection( selection );
-
 			var paddingBlock;
 			if ( enterMode != CKEDITOR.ENTER_BR )
 				paddingBlock = body.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
@@ -526,9 +531,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 
-			try {
-				$sel.createRange().pasteHTML( data );
-			} catch ( e ) {}
+			$sel.createRange().pasteHTML( data );
 
 			if ( selIsLocked )
 				this.getSelection().lock();

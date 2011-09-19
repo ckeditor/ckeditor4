@@ -45,6 +45,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				path = new CKEDITOR.dom.elementPath( range.startContainer ),
 				block = path.block;
 
+			// Exit the list when we're inside an empty list item block. (#5376)
 			if ( atBlockStart && atBlockEnd ) {
 				// Exit the list when we're inside an empty list item block. (#5376)
 				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {

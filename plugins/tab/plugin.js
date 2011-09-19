@@ -81,8 +81,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'tab', {
-		requires: [ 'keystrokes' ],
-
 		init: function( editor ) {
 			var tabTools = editor.config.enableTabKeyTools !== false,
 				tabSpaces = editor.config.tabSpaces || 0,
