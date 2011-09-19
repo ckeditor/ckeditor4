@@ -202,9 +202,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, center ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, justify ) );
 			editor.on( 'dirChanged', onDirChanged );
-		},
-
-		requires: [ 'domiterator' ]
+		}
 	});
 })();
 

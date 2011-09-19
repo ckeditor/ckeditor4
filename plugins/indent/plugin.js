@@ -372,7 +372,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		},
 
-		requires: [ 'domiterator', 'list' ]
+		requires: [ 'list' ]
 	});
 })();
 

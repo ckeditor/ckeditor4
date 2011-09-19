@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'div', {
-		requires: [ 'editingblock', 'domiterator', 'styles' ],
+		requires: [ 'editingblock', 'styles' ],
 
 		init: function( editor ) {
 			var lang = editor.lang.div;

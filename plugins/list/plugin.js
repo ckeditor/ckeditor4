@@ -672,8 +672,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				dataProcessor.dataFilter.addRules( defaultListDataFilterRules );
 				dataProcessor.htmlFilter.addRules( defaultListHtmlFilterRules );
 			}
-		},
-
-		requires: [ 'domiterator' ]
+		}
 	});
 })();
