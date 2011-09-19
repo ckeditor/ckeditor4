@@ -193,7 +193,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'bidi', {
-		requires: [ 'styles', 'button' ],
+		requires: [ 'button' ],
 
 		init: function( editor ) {
 			// All buttons use the same code to register. So, to avoid

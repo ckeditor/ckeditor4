@@ -84,7 +84,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Register a plugin named "stylesheetparser".
 	CKEDITOR.plugins.add( 'stylesheetparser', {
-		requires: [ 'styles' ],
 		onLoad: function() {
 			var obj = CKEDITOR.editor.prototype;
 			obj.getStylesSet = CKEDITOR.tools.override( obj.getStylesSet, function( org ) {

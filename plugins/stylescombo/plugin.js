@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'stylescombo', {
-		requires: [ 'richcombo', 'styles' ],
+		requires: [ 'richcombo' ],
 
 		init: function( editor ) {
 			var config = editor.config,

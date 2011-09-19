@@ -23,9 +23,7 @@ CKEDITOR.plugins.add( 'find', {
 
 		CKEDITOR.dialog.add( 'find', this.path + 'dialogs/find.js' );
 		CKEDITOR.dialog.add( 'replace', this.path + 'dialogs/find.js' );
-	},
-
-	requires: [ 'styles' ]
+	}
 });
 
 /**
