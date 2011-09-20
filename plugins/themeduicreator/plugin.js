@@ -162,6 +162,23 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
+	 * Returns the DOM element that represents a theme space. The default theme defines
+	 * three spaces, namely "top", "contents" and "bottom", representing the main
+	 * blocks that compose the editor interface.
+	 * @param {String} spaceName The space name.
+	 * @returns {CKEDITOR.dom.element} The element that represents the space.
+	 * @example
+	 * // Hide the bottom space in the UI.
+	 * var bottom = editor.getThemeSpace( 'bottom' );
+	 * bottom.setStyle( 'display', 'none' );
+	 */
+	CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
+		var spacePrefix = 'cke_' + spaceName;
+		var space = this._[ spacePrefix ] || ( this._[ spacePrefix ] = CKEDITOR.document.getById( spacePrefix + '_' + this.name ) );
+		return space;
+	};
+
+	/**
 	 * Manages themes registration and loading.
 	 * @namespace
 	 * @augments CKEDITOR.resourceManager
@@ -177,7 +194,125 @@ CKEDITOR.replaceClass = 'ckeditor';
 		return editor;
 	}
 
+	var hiddenSkins = {};
+
 	function loadTheme( editor ) {
+		var name = editor.name,
+			element = editor.element,
+			elementMode = editor.elementMode;
+
+		// Get the HTML for the predefined spaces.
+		var topHtml = editor.fire( 'themeSpace', { space: 'top', html: '' } ).html;
+		var contentsHtml = editor.fire( 'themeSpace', { space: 'contents', html: '' } ).html;
+		var bottomHtml = editor.fireOnce( 'themeSpace', { space: 'bottom', html: '' } ).html;
+
+		var height = contentsHtml && editor.config.height;
+
+		var tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
+
+		// The editor height is considered only if the contents space got filled.
+		if ( !contentsHtml )
+			height = 'auto';
+		else if ( !isNaN( height ) )
+			height += 'px';
+
+		var style = '';
+		var width = editor.config.width;
+
+		if ( width ) {
+			if ( !isNaN( width ) )
+				width += 'px';
+
+			style += 'width:{width};';
+		}
+
+		var hideSkin = '<style>.' + editor.skinClass + '{visibility:hidden;}</style>';
+		if ( hiddenSkins[ editor.skinClass ] )
+			hideSkin = '';
+		else
+			hiddenSkins[ editor.skinClass ] = 1;
+
+		var template = editor.addTemplate( 'maincontainer', '<span' +
+			' id="cke_{name}"' +
+			' class="{skinClass} {id} cke_editor_{name}"' +
+			' dir="{langDir}"' +
+			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
+			' lang="{langCode}"' +
+			( CKEDITOR.env.webkit ? ' tabindex="{tabIndex}"' : '' ) +
+			' role="application"' +
+			' aria-labelledby="cke_{name}_arialbl"' +
+			( style ? ' style="' + style + '"' : '' ) +
+			'>' +
+			'<span id="cke_{name}_arialbl" class="cke_voice_label">' + editor.lang.editor + '</span>' +
+			'<span class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+				'<span class="cke_wrapper cke_{langDir}" role="presentation">' +
+					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody>' +
+						'<tr' + ( topHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_top_{name}" class="cke_top" role="presentation">{topHtml}</td></tr>' +
+						'<tr' + ( contentsHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_contents_{name}" class="cke_contents" style="height:{height}" role="presentation">{contentsHtml}</td></tr>' +
+						'<tr' + ( bottomHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</td></tr>' +
+					'</tbody></table>' +
+					//Hide the container when loading skins, later restored by skin css.
+							hideSkin +
+				'</span>' +
+			'</span>' +
+			'</span>' );
+
+		var container = CKEDITOR.dom.element.createFromHtml( template.output({
+			id: editor.id,
+			name: name,
+			skinClass: editor.skinClass,
+			langDir: editor.lang.dir,
+			langCode: editor.langCode,
+			tabIndex: tabIndex,
+			topHtml: topHtml,
+			contentsHtml: contentsHtml,
+			bottomHtml: bottomHtml,
+			height: height,
+			width: width
+		}));
+
+		// TODO: Replace the following with direct element ID selector.
+		//container.getChild( [1, 0, 0, 0, 0] ).unselectable();
+		//container.getChild( [1, 0, 0, 0, 2] ).unselectable();
+
+		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+			element.hide();
+			container.insertAfter( element );
+		} else
+			element.append( container );
+
+		/**
+		 * The DOM element that holds the main editor interface.
+		 * @name CKEDITOR.editor.prototype.container
+		 * @type CKEDITOR.dom.element
+		 * @example
+		 * var editor = CKEDITOR.instances.editor1;
+		 * alert( <b>editor.container</b>.getName() );  "span"
+		 */
+		editor.container = container;
+
+		// Disable browser context menu for editor's chrome.
+		container.disableContextMenu();
+
+		// Use a class to indicate that the current selection is in different direction than the UI.
+		editor.on( 'contentDirChanged', function( evt ) {
+			var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
+
+			container.getChild( 1 )[ func ]( 'cke_mixed_dir_content' );
+
+			// Put the mixed direction class on the respective element also for shared spaces.
+			var toolbarSpace = this.sharedSpaces && this.sharedSpaces[ this.config.toolbarLocation ];
+			toolbarSpace && toolbarSpace.getParent().getParent()[ func ]( 'cke_mixed_dir_content' );
+		});
+
+		editor.fireOnce( 'themeLoaded' );
+		editor.fireOnce( 'uiReady' );
+
+		if ( editor.config.autoUpdateElement )
+			attachToForm( editor );
+	}
+
+	function loadTheme_OLD( editor ) {
 		var theme = editor.config.theme || 'default';
 		CKEDITOR.themes.load( theme, function() {
 			/**
