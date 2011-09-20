@@ -33,6 +33,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		this.commands = {};
 
+		this.templates = {};
+
 		/**
 		 * A unique random string assigned to each editor instance in the page.
 		 * @name CKEDITOR.editor.prototype.id
@@ -401,6 +403,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 */
 	addCommand: function( commandName, commandDefinition ) {
 		return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
+	},
+
+	addTemplate: function( name, source ) {
+		// Make it possible to customize the template through the "template" event.
+		var params = { name: name, source: source };
+		this.on( 'template', params );
+
+		return ( this.templates[ name ] = new CKEDITOR.template( this, params.source ) );
 	},
 
 	/**
