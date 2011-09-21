@@ -106,6 +106,89 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
+	var templateSource = '<div class="{editorId}_dialog {editorDialogClass} cke_skin_{skinName}' +
+		'" dir="{langDir}"' +
+		' lang="{langCode}"' +
+		' role="dialog"' +
+		' aria-labelledby="cke_dialog_title_{id}"' +
+		'>' +
+		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
+			' style="position:absolute" role="presentation">' +
+			'<tr><td role="presentation">' +
+			'<div class="cke_dialog_body" role="presentation">' +
+				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
+				'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
+				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
+				'<table class="cke_dialog_contents" role="presentation">' +
+				'<tr>' +
+					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents" role="presentation"></td>' +
+				'</tr>' +
+				'<tr>' +
+					'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
+				'</tr>' +
+				'</table>' +
+			'</div>' +
+			'<div id="cke_dialog_tl_{id}" class="cke_dialog_tl"></div>' +
+			'<div id="cke_dialog_tc_{id}" class="cke_dialog_tc"></div>' +
+			'<div id="cke_dialog_tr_{id}" class="cke_dialog_tr"></div>' +
+			'<div id="cke_dialog_ml_{id}" class="cke_dialog_ml"></div>' +
+			'<div id="cke_dialog_mr_{id}" class="cke_dialog_mr"></div>' +
+			'<div id="cke_dialog_bl_{id}" class="cke_dialog_bl"></div>' +
+			'<div id="cke_dialog_bc_{id}" class="cke_dialog_bc"></div>' +
+			'<div id="cke_dialog_br_{id}" class="cke_dialog_br"></div>' +
+			'</td></tr>' +
+		'</table>' +
+
+		//Hide the container when loading skins, later restored by skin css.
+	( CKEDITOR.env.ie ? '' : '<style>.cke_dialog{visibility:hidden;}</style>' ) +
+
+		'</div>';
+
+	function buildDialog( editor ) {
+		var element = CKEDITOR.dom.element.createFromHtml( editor.addTemplate( 'dialog', templateSource ).output({
+			id: CKEDITOR.tools.getNextNumber(),
+			editorId: editor.id,
+			langDir: editor.lang.dir,
+			langCode: editor.langCode,
+			skinName: editor.skinName,
+			editorDialogClass: 'cke_editor_' + editor.name.replace( /\./g, '\\.' ) + '_dialog',
+			closeTitle: editor.lang.common.close
+		}));
+
+		// TODO: Change this to getById(), so it'll support custom templates.
+		var body = element.getChild( [ 0, 0, 0, 0, 0 ] ),
+			title = body.getChild( 0 ),
+			close = body.getChild( 1 );
+
+		// IFrame shim for dialog that masks activeX in IE. (#7619)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ) {
+			var isCustomDomain = CKEDITOR.env.isCustomDomain(),
+				src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();' + ( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) + 'document.close();' ) + '}())',
+				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
+					' frameBorder="0"' +
+					' class="cke_iframe_shim"' +
+					' src="' + src + '"' +
+					' tabIndex="-1"' +
+					'></iframe>' );
+			iframe.appendTo( body.getParent() );
+		}
+
+		// Make the Title and Close Button unselectable.
+		title.unselectable();
+		close.unselectable();
+
+		return {
+			element: element,
+			parts: {
+				dialog: element.getChild( 0 ),
+				title: title,
+				close: close,
+				tabs: body.getChild( 2 ),
+				contents: body.getChild( [ 3, 0, 0, 0 ] ),
+				footer: body.getChild( [ 3, 0, 1, 0 ] )
+			}
+		};
+	}
 
 	/**
 	 * This is the base class for runtime dialog objects. An instance of this
@@ -140,7 +223,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		var doc = CKEDITOR.document;
 
-		var themeBuilt = editor.theme.buildDialog( editor );
+		var themeBuilt = buildDialog( editor );
 
 		// Initialize some basic parameters.
 		this._ = {
