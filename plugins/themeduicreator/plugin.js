@@ -89,6 +89,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			loadTheme( editor );
+
+			if ( editor.config.autoUpdateElement )
+				attachToForm( editor );
 		});
 
 		return init( editor );
@@ -375,9 +378,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		editor.fireOnce( 'themeLoaded' );
 		editor.fireOnce( 'uiReady' );
-
-		if ( editor.config.autoUpdateElement )
-			attachToForm( editor );
 	}
 
 	function attachToForm( editor ) {
