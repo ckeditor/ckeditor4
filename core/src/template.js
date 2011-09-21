@@ -3,8 +3,20 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/**
+ * @fileOverview Defines the {@link CKEDITOR.template} class, which represents
+ * an UI template for an editor instance.
+ */
+
 (function() {
 	var cache = {};
+
+	/**
+	 * Creates a CKEDITOR.template class instance.
+	 * @class Represents an UI template for an editor instance.
+	 * @param {CKEDITOR.editor} editor The editor instance related to this template.
+	 * @param {String} source The template source.
+	 */
 	CKEDITOR.template = function( editor, source ) {
 		// Builds an optimized function body for the output() method, focused on performance.
 		// For example, if we have this "source":
@@ -29,3 +41,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 })();
+
+/**
+ * Processes the template, filling its variables with the provided data.
+ * @name CKEDITOR.template.prototype.output
+ * @param {Object} data An object containing properties which values will be
+ *		used to fill the template variables. The property names must match the
+ *		template variables names. Variables without matching properties will be
+ *		kept untouched.
+ * @param {Array} [buffer] An array into which the output data will be pushed into.
+ *		The number of entries appended to the array is unknown.
+ * @function
+ * @returns {String|Integer} If "buffer" has not been provided, the processed
+ *		template output data, otherwise the new length of "buffer".
+ */

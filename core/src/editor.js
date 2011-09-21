@@ -33,6 +33,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		this.commands = {};
 
+		/**
+		 * Contains all UI templates created for this editor instance.
+		 * @name CKEDITOR.editor.prototype.templates
+		 * @type Object
+		 */
 		this.templates = {};
 
 		/**
@@ -405,6 +410,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
 	},
 
+	/**
+	 * Adds an UI template to this editor instance.
+	 * @param {String} name The template name.
+	 * @param {String} source The source data for this template.
+	 * @see CKEDITOR.editor.templates
+	 * @see CKEDITOR.editor#template
+	 */
 	addTemplate: function( name, source ) {
 		// Make it possible to customize the template through the "template" event.
 		var params = { name: name, source: source };
@@ -909,4 +921,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
  * @event
  * @since 3.6
  * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Event fired when an UI template is added to the editor instance. It makes
+ * it possible to bring customizations to the template source.
+ * @name CKEDITOR.editor#template
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} name The template name.
+ * @param {String} source The source data for this template.
  */

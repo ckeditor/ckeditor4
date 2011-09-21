@@ -165,7 +165,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Returns the DOM element that represents a theme space. The default theme defines
+	 * Returns the DOM element that represents an UI space. The default implementation defines
 	 * three spaces, namely "top", "contents" and "bottom", representing the main
 	 * blocks that compose the editor interface.
 	 * @param {String} spaceName The space name.
