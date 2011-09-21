@@ -312,25 +312,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			attachToForm( editor );
 	}
 
-	function loadTheme_OLD( editor ) {
-		var theme = editor.config.theme || 'default';
-		CKEDITOR.themes.load( theme, function() {
-			/**
-			 * The theme used by this editor instance.
-			 * @name CKEDITOR.editor.prototype.theme
-			 * @type CKEDITOR.theme
-			 * @example
-			 * alert( editor.theme );  "http://example.com/ckeditor/themes/default/" (e.g.)
-			 */
-			var editorTheme = editor.theme = CKEDITOR.themes.get( theme );
-			editorTheme.path = CKEDITOR.themes.getPath( theme );
-			editorTheme.build( editor );
-
-			if ( editor.config.autoUpdateElement )
-				attachToForm( editor );
-		});
-	}
-
 	function attachToForm( editor ) {
 		var element = editor.element;
 
