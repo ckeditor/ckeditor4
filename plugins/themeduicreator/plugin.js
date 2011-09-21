@@ -179,6 +179,62 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
+	 * Resizes the editor interface.
+	 * @param {Number|String} width The new width. It can be an pixels integer or a
+	 *		CSS size value.
+	 * @param {Number|String} height The new height. It can be an pixels integer or
+	 *		a CSS size value.
+	 * @param {Boolean} [isContentHeight] Indicates that the provided height is to
+	 *		be applied to the editor contents space, not to the entire editor
+	 *		interface. Defaults to false.
+	 * @param {Boolean} [resizeInner] Indicates that the first inner interface
+	 *		element must receive the size, not the outer element. The default theme
+	 *		defines the interface inside a pair of span elements
+	 *		(&lt;span&gt;&lt;span&gt;...&lt;/span&gt;&lt;/span&gt;). By default the
+	 *		first span element receives the sizes. If this parameter is set to
+	 *		true, the second span is sized instead.
+	 * @example
+	 * editor.resize( 900, 300 );
+	 * @example
+	 * editor.resize( '100%', 450, true );
+	 */
+	CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
+		var container = this.container,
+			contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
+			contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
+			outer = resizeInner ? container.getChild( 1 ) : container;
+
+		// Set as border box width. (#5353)
+		outer.setSize( 'width', width, true );
+
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (#8348)
+		contentsFrame && ( contentsFrame.style.width = '1%' );
+
+		// Get the height delta between the outer table and the content area.
+		// If we're setting the content area's height, then we don't need the delta.
+		var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
+		contents.setStyle( 'height', Math.max( height - delta, 0 ) + 'px' );
+
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (#8348)
+		contentsFrame && ( contentsFrame.style.width = '100%' );
+
+		// Emit a resize event.
+		this.fire( 'resize' );
+	};
+
+	/**
+	 * Gets the element that can be freely used to check the editor size. This method
+	 * is mainly used by the resize plugin, which adds a UI handle that can be used
+	 * to resize the editor.
+	 * @param {Boolean} forContents Whether to return the "contents" part of the theme instead of the container.
+	 * @returns {CKEDITOR.dom.element} The resizable element.
+	 * @example
+	 */
+	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
+		return forContents ? CKEDITOR.document.getById( 'cke_contents_' + this.name ) : this.container;
+	};
+
+	/**
 	 * Manages themes registration and loading.
 	 * @namespace
 	 * @augments CKEDITOR.resourceManager
@@ -191,7 +247,27 @@ CKEDITOR.replaceClass = 'ckeditor';
 			CKEDITOR.loadFullCore && CKEDITOR.loadFullCore();
 			return false;
 		}
+
+		editor.on( 'destroy', destroy );
+
 		return editor;
+	}
+
+	function destroy() {
+		var editor = this,
+			container = editor.container,
+			element = editor.element;
+
+		if ( container ) {
+			container.clearCustomData();
+			container.remove();
+		}
+
+		if ( element ) {
+			element.clearCustomData();
+			editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.show();
+			delete editor.element;
+		}
 	}
 
 	var hiddenSkins = {};
@@ -271,9 +347,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			width: width
 		}));
 
-		// TODO: Replace the following with direct element ID selector.
-		//container.getChild( [1, 0, 0, 0, 0] ).unselectable();
-		//container.getChild( [1, 0, 0, 0, 2] ).unselectable();
+		// TODO: Replace the following with direct element ID selector to support user customizations.
+		container.getChild( [ 1, 0, 0, 0, 0 ] ).unselectable();
+		container.getChild( [ 1, 0, 0, 0, 2 ] ).unselectable();
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
@@ -389,4 +465,11 @@ CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
  * @default 'default'
  * @example
  * config.theme = 'default';
+ */
+
+/**
+ * Fired after the editor instance is resized through
+ * the {@link CKEDITOR.editor.prototype.resize} method.
+ * @name CKEDITOR.editor#resize
+ * @event
  */

@@ -429,7 +429,6 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			this.updateElement();
 
 		this.fire( 'destroy' );
-		this.theme && this.theme.destroy( this );
 
 		this.editable( null );
 
