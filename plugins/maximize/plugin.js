@@ -140,7 +140,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editorFocus: false,
 				exec: function() {
 					var container = editor.container.getChild( 1 );
-					var contents = editor.getThemeSpace( 'contents' );
+					var contents = editor.getUISpace( 'contents' );
 
 					// Save current selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {

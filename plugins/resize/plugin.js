@@ -73,7 +73,7 @@ CKEDITOR.plugins.add( 'resize', {
 				CKEDITOR.tools.removeFunction( mouseDownFn );
 			});
 
-			editor.on( 'themeSpace', function( event ) {
+			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
 					var direction = '';
 					if ( resizeHorizontal && !resizeVertical )

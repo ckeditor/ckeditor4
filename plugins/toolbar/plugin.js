@@ -88,7 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		init: function( editor ) {
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
 
-			editor.on( 'themeSpace', function( event ) {
+			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == editor.config.toolbarLocation ) {
 					var toolbox = new CKEDITOR.toolbox();
 					event.data.html += toolbox.html( editor );
@@ -249,7 +249,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				exec: function( editor ) {
 					var collapser = CKEDITOR.document.getById( collapserId ),
 						toolbox = collapser.getPrevious(),
-						contents = editor.getThemeSpace && editor.getThemeSpace( 'contents' ),
+						contents = editor.getUISpace && editor.getUISpace( 'contents' ),
 						toolboxContainer = toolbox.getParent(),
 						contentHeight = contents && parseInt( contents.$.style.height, 10 ),
 						previousHeight = toolboxContainer.$.offsetHeight,
@@ -423,11 +423,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.UI_SEPARATOR = 'separator';
 
 /**
- * The "theme space" to which rendering the toolbar. For the default theme,
+ * The "UI space" to which rendering the toolbar. For the default editor implementation,
  * the recommended options are "top" and "bottom".
  * @type String
  * @default 'top'
- * @see CKEDITOR.config.theme
  * @example
  * config.toolbarLocation = 'bottom';
  */

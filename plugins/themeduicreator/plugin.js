@@ -169,10 +169,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @returns {CKEDITOR.dom.element} The element that represents the space.
 	 * @example
 	 * // Hide the bottom space in the UI.
-	 * var bottom = editor.getThemeSpace( 'bottom' );
+	 * var bottom = editor.getUISpace( 'bottom' );
 	 * bottom.setStyle( 'display', 'none' );
 	 */
-	CKEDITOR.editor.prototype.getThemeSpace = function( spaceName ) {
+	CKEDITOR.editor.prototype.getUISpace = function( spaceName ) {
 		var spacePrefix = 'cke_' + spaceName;
 		var space = this._[ spacePrefix ] || ( this._[ spacePrefix ] = CKEDITOR.document.getById( spacePrefix + '_' + this.name ) );
 		return space;
@@ -270,9 +270,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			elementMode = editor.elementMode;
 
 		// Get the HTML for the predefined spaces.
-		var topHtml = editor.fire( 'themeSpace', { space: 'top', html: '' } ).html;
-		var contentsHtml = editor.fire( 'themeSpace', { space: 'contents', html: '' } ).html;
-		var bottomHtml = editor.fireOnce( 'themeSpace', { space: 'bottom', html: '' } ).html;
+		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
+		var contentsHtml = editor.fire( 'uiSpace', { space: 'contents', html: '' } ).html;
+		var bottomHtml = editor.fireOnce( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
 		var height = contentsHtml && editor.config.height;
 
@@ -449,15 +449,6 @@ CKEDITOR.ELEMENT_MODE_REPLACE = 1;
  * @example
  */
 CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
-
-/**
- * The theme to be used to build the UI.
- * @CKEDITOR.config.theme
- * @type String
- * @default 'default'
- * @example
- * config.theme = 'default';
- */
 
 /**
  * Fired after the editor instance is resized through
