@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		else {
 			var fn = source
 			// Escape all quotation marks (").
-			.replace( /"/g, '\\"' )
+			.replace( /'/g, "\\'" )
 			// Inject the template keys replacement.
 			.replace( /{([^}]+)}/g, function( m, key ) {
 				return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
