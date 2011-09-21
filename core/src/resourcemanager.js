@@ -5,11 +5,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.resourceManager} class, which is
- *		the base for resource managers, like plugins and themes.
+ *		the base for resource managers, like plugins.
  */
 
 /**
- * Base class for resource managers, like plugins and themes. This class is not
+ * Base class for resource managers, like plugins. This class is not
  * intended to be used out of the CKEditor core code.
  * @param {String} basePath The path for the resources folder.
  * @param {String} fileName The name used for resource files.

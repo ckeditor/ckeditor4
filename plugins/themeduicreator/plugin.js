@@ -234,14 +234,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		return forContents ? CKEDITOR.document.getById( 'cke_contents_' + this.name ) : this.container;
 	};
 
-	/**
-	 * Manages themes registration and loading.
-	 * @namespace
-	 * @augments CKEDITOR.resourceManager
-	 * @example
-	 */
-	CKEDITOR.themes = new CKEDITOR.resourceManager( '../themes/', 'theme' );
-
 	function init( editor ) {
 		if ( CKEDITOR.env.isCompatible ) {
 			CKEDITOR.loadFullCore && CKEDITOR.loadFullCore();

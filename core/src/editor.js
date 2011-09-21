@@ -51,7 +51,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @type Object
 		 * @example
 		 * var editor = CKEDITOR.instances.editor1;
-		 * alert( <b>editor.config.theme</b> );  "default" e.g.
+		 * alert( <b>editor.config.skin</b> );  "kama" e.g.
 		 */
 		this.config = CKEDITOR.tools.prototypedCopy( CKEDITOR.config );
 
