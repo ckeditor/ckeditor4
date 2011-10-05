@@ -263,8 +263,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.addLink = false;
 
 					var editor = this.getParentEditor(),
-						sel = this.getParentEditor().getSelection(),
-						element = sel.getSelectedElement(),
+						sel = editor.getSelection(),
+						element = sel && sel.getSelectedElement(),
 						link = element && element.getAscendant( 'a' );
 
 					//Hide loader.
