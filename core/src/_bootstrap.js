@@ -9,29 +9,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	// Disable HC detection in WebKit. (#5429)
-	if ( CKEDITOR.env.webkit ) {
+	if ( CKEDITOR.env.webkit )
 		CKEDITOR.env.hc = false;
-		return;
-	}
+	else {
+		// Check whether high contrast is active by creating a colored border.
+		var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0px;height:0px;position:absolute;left:-10000px;' +
+			'border: 1px solid;border-color: red blue;"></div>', CKEDITOR.document );
 
-	// Check whether high contrast is active by creating a colored border.
-	var hcDetect = CKEDITOR.dom.element.createFromHtml( '<div style="width:0px;height:0px;position:absolute;left:-10000px;' +
-		'border: 1px solid;border-color: red blue;"></div>', CKEDITOR.document );
+		hcDetect.appendTo( CKEDITOR.document.getHead() );
 
-	hcDetect.appendTo( CKEDITOR.document.getHead() );
+		// Update CKEDITOR.env.
+		// Catch exception needed sometimes for FF. (#4230)
+		try {
+			CKEDITOR.env.hc = hcDetect.getComputedStyle( 'border-top-color' ) == hcDetect.getComputedStyle( 'border-right-color' );
+		} catch ( e ) {
+			CKEDITOR.env.hc = false;
+		}
 
-	// Update CKEDITOR.env.
-	// Catch exception needed sometimes for FF. (#4230)
-	try {
-		CKEDITOR.env.hc = hcDetect.getComputedStyle( 'border-top-color' ) == hcDetect.getComputedStyle( 'border-right-color' );
-	} catch ( e ) {
-		CKEDITOR.env.hc = false;
+		hcDetect.remove();
 	}
 
 	if ( CKEDITOR.env.hc )
 		CKEDITOR.env.cssClass += ' cke_hc';
-
-	hcDetect.remove();
 
 	// Mark the editor as fully loaded.
 	CKEDITOR.status = 'loaded';
