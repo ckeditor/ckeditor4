@@ -189,7 +189,7 @@ CKEDITOR.plugins.add( 'dialogui' );
 
 			initPrivateObject.call( this, elementDefinition );
 			var domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textInput',
-				attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: 'text' },
+				attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: elementDefinition.type },
 				i;
 
 			// Set the validator, if any.
