@@ -234,7 +234,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		for ( var i in elements ) {
 			element = elements[ i ];
 
-			if ( element.type == 'hbox' || element.type == 'vbox' )
+			if ( element.type == 'hbox' || element.type == 'vbox' || element.type == 'fieldset' )
 				attachFileBrowser( editor, dialogName, definition, element.children );
 
 			if ( !element.filebrowser )
