@@ -60,22 +60,23 @@ CKEDITOR.replaceClass = 'ckeditor';
 				throw '[CKEDITOR.editor.replace] The element with id or name "' + elementOrIdOrName + '" was not found.';
 		}
 
+		element = CKEDITOR.dom.element.get( element );
 		// Do not replace the textarea right now, just hide it. The effective
 		// replacement will be done later in the editor creation lifecycle.
-		element.style.visibility = 'hidden';
+		element.setStyle( 'visibility', 'hidden' );
 
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config );
 
 		// Set the editor instance name. It'll be set at CKEDITOR.add if it
 		// remain null here.
-		editor.name = element.id || element.name;
+		editor.name = element.getId() || element.getAttribute( 'name' );
 
 		// Add this new editor to the CKEDITOR.instances collections.
 		CKEDITOR.add( editor );
 
 		function initElement() {
-			editor.element = element = CKEDITOR.dom.element.get( element );
+			editor.element = element;
 			editor.elementMode = CKEDITOR.ELEMENT_MODE_REPLACE;
 		}
 
