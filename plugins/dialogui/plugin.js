@@ -765,7 +765,9 @@ CKEDITOR.plugins.add( 'dialogui' );
 			/** @ignore */
 			var innerHTML = function() {
 					var html = [];
-					legendLabel && html.push( '<legend>' + legendLabel + '</legend>' );
+					legendLabel && html.push( '<legend' +
+						( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) +
+						'>' + legendLabel + '</legend>' );
 					for ( var i = 0; i < childHtmlList.length; i++ )
 						html.push( childHtmlList[ i ] );
 					return html.join( '' );
