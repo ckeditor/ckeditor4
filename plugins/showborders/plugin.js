@@ -52,7 +52,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.plugins.add( 'showborders', {
-		requires: [ 'wysiwygarea' ],
 		modes: { 'wysiwyg':1 },
 
 		init: function( editor ) {

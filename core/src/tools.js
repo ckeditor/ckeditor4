@@ -514,6 +514,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				proto = definition.proto,
 				statics = definition.statics;
 
+			// Create the constructor, if not present in the definition.
+			!$ && ( $ = function() {
+				baseClass && this.base.apply( this, arguments );
+			});
+
 			if ( privates ) {
 				var originalConstructor = $;
 				$ = function() {
@@ -542,8 +547,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				};
 			}
 
-			if ( proto )
+			if ( proto ) {
+				for ( var prop in proto ) {
+					if ( proto.hasOwnProperty( prop ) && typeof proto[ prop ] == 'function' && typeof $.prototype[ prop ] == 'function' ) {
+						(function( prop ) {
+							var org = proto[ prop ],
+								superFn = $.prototype[ prop ];
+							proto[ prop ] = function() {
+								// Provide a convenient way to  call the overridden method on super-class.
+								this._super = superFn;
+								var retval = org.apply( this, arguments );
+								delete this._super;
+								return retval;
+							};
+						})( prop );
+					}
+				}
+
 				this.extend( $.prototype, proto, true );
+			}
 
 			if ( statics )
 				this.extend( $, statics, true );

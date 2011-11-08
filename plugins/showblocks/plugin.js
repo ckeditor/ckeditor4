@@ -107,8 +107,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.plugins.add( 'showblocks', {
-		requires: [ 'wysiwygarea' ],
-
 		init: function( editor ) {
 			var command = editor.addCommand( 'showblocks', commandDefinition );
 			command.canUndo = false;

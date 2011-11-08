@@ -10,7 +10,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'undo', {
-		requires: [ 'selection', 'wysiwygarea' ],
+		requires: [ 'selection' ],
 
 		init: function( editor ) {
 			var undoManager = new UndoManager( editor );

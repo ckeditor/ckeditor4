@@ -78,9 +78,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		this.focusManager = new CKEDITOR.focusManager( this );
 
+		// Make the editor update its command states on mode change.
+		this.on( 'mode', updateCommands );
+
+		// Handle startup focus.
+		this.on( 'instanceReady', function() {
+			this.config.startupFocus && this.focus();
+		});
+
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
 		initConfig( this, instanceConfig );
+	}
+
+	function updateCommands() {
+		var command,
+			commands = this.commands;
+
+		for ( var name in commands ) {
+			command = commands[ name ];
+			command[ command.startDisabled ? 'disable' : command.modes[ this.mode ] ? 'enable' : 'disable' ]();
+		}
 	}
 
 	// ##### START: Config Privates
@@ -411,6 +429,18 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
+	 * Add a trunk of css text to the editor which will be applied to the wysiwyg editing document.
+	 * Note: This function should be called before editor is loaded to take effect.
+	 * @param css {String} CSS text.
+	 * @example
+	 * editorInstance.addCss( 'body { background-color: grey; }' );
+	 */
+	addCss: function( css ) {
+		var styles = this._.styles || ( this._.styles = [] );
+		styles.push( css );
+	},
+
+	/**
 	 * Adds an UI template to this editor instance.
 	 * @param {String} name The template name.
 	 * @param {String} source The source data for this template.
@@ -440,9 +470,9 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		if ( !noUpdate )
 			this.updateElement();
 
-		this.fire( 'destroy' );
-
 		this.editable( null );
+
+		this.fire( 'destroy' );
 
 		CKEDITOR.remove( this );
 		CKEDITOR.fire( 'instanceDestroyed', null, this );
@@ -506,8 +536,8 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * if ( CKEDITOR.instances.editor1.<strong>getData()</strong> == '' )
 	 *     alert( 'There is no data available' );
 	 */
-	getData: function() {
-		this.fire( 'beforeGetData' );
+	getData: function( noEvents ) {
+		!noEvents && this.fire( 'beforeGetData' );
 
 		var eventData = this._.data;
 
@@ -522,7 +552,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 		eventData = { dataValue: eventData };
 
 		// Fire "getData" so data manipulation may happen.
-		this.fire( 'getData', eventData );
+		!noEvents && this.fire( 'getData', eventData );
 
 		return eventData.dataValue;
 	},
@@ -631,11 +661,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 	 */
 	insertHtml: function( data ) {
-		data = this.fire( 'insertHtml', data );
-		if ( data ) {
-			var editable = this.editable();
-			editable && editable.insertHtml( data );
-		}
+		this.fire( 'insertHtml', data );
 	},
 
 	/**
@@ -650,11 +676,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 	 */
 	insertText: function( text ) {
-		text = this.fire( 'insertText', text );
-		if ( text ) {
-			var editable = this.editable();
-			editable && editable.insertText( text );
-		}
+		this.fire( 'insertText', text );
 	},
 
 	/**
@@ -667,23 +689,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 * CKEDITOR.instances.editor1.<strong>insertElement( element )</strong>;
 	 */
 	insertElement: function( element ) {
-		element = this.fire( 'insertElement', element );
-		if ( element ) {
-			var editable = this.editable();
-			editable && editable.insertElement( element );
-		}
+		this.fire( 'insertElement', element );
 	},
 
 	/**
 	 * Moves the selection focus to the editing area space in the editor.
 	 */
 	focus: function() {
-		// Listeners may cancel the default focus code (having their custom
-		// implementation).
-		if ( this.fire( 'beforeFocus' ) ) {
-			var editable = this.editable();
-			editable && editable.focus();
-		}
+		this.fire( 'beforeFocus' );
 	},
 
 	/**
@@ -732,7 +745,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	 */
 	updateElement: function() {
 		var element = this.element;
-		if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+		if ( element && ( this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE || this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) ) {
 			var data = this.getData();
 
 			if ( this.config.htmlEncodeOutput )
@@ -884,11 +897,34 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 
 /**
  * Event fired at the end of the <code>#setData</code> call execution. Usually it is better to use the
- * <code>{@link CKEDITOR.editor.prototype.dataReady}</code> event.
+ * <code>{@link CKEDITOR.editor#dataReady}</code> event.
  * @name CKEDITOR.editor#afterSetData
  * @event
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {String} data.dataValue The data that has been set.
+ */
+
+/**
+ * Fired as an indicator of the editor data loading. It may be the result of
+ * calling {@link CKEDITOR.editor.prototype.setData} explicitly or an internal
+ * editor function, like the editor editing mode switching (move to Source and back).
+ * @name CKEDITOR.editor#dataReady
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
+ * @name CKEDITOR#instanceReady
+ * @event
+ * @param {CKEDITOR.editor} editor The editor instance that has been created.
+ */
+
+/**
+ * Fired when the CKEDITOR instance is completely created, fully initialized
+ * and ready for interaction.
+ * @name CKEDITOR.editor#instanceReady
+ * @event
  */
 
 /**
@@ -931,4 +967,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {String} name The template name.
  * @param {String} source The source data for this template.
+ */
+
+/**
+ * Sets whether the editable should have the focus when editor is loading for the first time.
+ * @name CKEDITOR.config.startupFocus
+ * @type Boolean
+ * @default false
+ * @example
+ * config.startupFocus = true;
  */

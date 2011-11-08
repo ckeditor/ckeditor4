@@ -84,6 +84,13 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			if ( editor.config.autoUpdateElement )
 				attachToForm( editor );
+
+			editor.setMode( editor.config.startupMode, function() {
+				// Editor is completely loaded for interaction.
+				editor.fireOnce( 'instanceReady' );
+				CKEDITOR.fire( 'instanceReady', null, editor );
+			});
+
 		});
 
 		editor.on( 'destroy', destroy );
@@ -154,6 +161,66 @@ CKEDITOR.replaceClass = 'ckeditor';
 			}
 
 			this.replace( textarea, config );
+		}
+	};
+
+	/**
+	 * Registers an editing mode. This function is to be used mainly by plugins.
+	 * @param {String} mode The mode name.
+	 * @param {Function} exec Function that perform the actual mode change.
+	 * @example
+	 */
+	CKEDITOR.editor.prototype.addMode = function( mode, exec ) {
+		( this._.modes || ( this._.modes = {} ) )[ mode ] = exec;
+	};
+
+	/**
+	 * Change the editing mode of this editor instance.
+	 * <strong>Note:</strong> The mode switch could be asynchronous depending on the mode provider,
+	 * use the {@param callback} to hook subsequent code.
+	 * @param {String} [newMode] If not specified the {@link CKEDITOR.config.startupMode} will be used.
+	 * @param {Function} [callback] Optional callback function which invoked once the mode switch has succeeded.
+	 * @example
+	 * // Switch to "source" view.
+	 * CKEDITOR.instances.editor1.setMode( 'source' );
+	 * // Switch to "wysiwyg" and be noticed on completed.
+	 * CKEDITOR.instances.editor1.setMode( 'wysiwyg', function(){ alert( 'wysiwyg mode loaded!' );} );
+	 */
+	CKEDITOR.editor.prototype.setMode = function( newMode, callback ) {
+		var editor = this;
+
+		if ( newMode == editor.mode || !this._.modes[ newMode ] )
+			return;
+
+		editor.fire( 'beforeSetMode', newMode );
+
+		if ( editor.mode ) {
+			var isDirty = editor.checkDirty();
+
+			editor._.previousMode = editor.mode;
+
+			editor.fire( 'beforeModeUnload' );
+
+			// Detach the current editable.
+			editor.editable( 0 );
+
+			editor.mode = '';
+		}
+
+		// Fire the mode handler.
+		this._.modes[ newMode ]( function() {
+			// Set the current mode.
+			editor.mode = newMode;
+			editor.fire( 'mode' );
+
+			callback && callback.call( editor );
+		});
+
+		if ( isDirty !== undefined ) {
+			// The editor data "may be dirty" after this point.
+			editor.mayBeDirty = true;
+
+			!isDirty && editor.resetDirty();
 		}
 	};
 
@@ -256,17 +323,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Get the HTML for the predefined spaces.
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
-		var contentsHtml = editor.fire( 'uiSpace', { space: 'contents', html: '' } ).html;
 		var bottomHtml = editor.fireOnce( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
-		var height = contentsHtml && editor.config.height;
+		var height = editor.config.height;
 
 		var tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
 
 		// The editor height is considered only if the contents space got filled.
-		if ( !contentsHtml )
-			height = 'auto';
-		else if ( !isNaN( height ) )
+		if ( !isNaN( height ) )
 			height += 'px';
 
 		var style = '';
@@ -301,7 +365,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 				'<span class="cke_wrapper cke_{langDir}" role="presentation">' +
 					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody>' +
 						'<tr' + ( topHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_top_{name}" class="cke_top" role="presentation">{topHtml}</td></tr>' +
-						'<tr' + ( contentsHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_contents_{name}" class="cke_contents" style="height:{height}" role="presentation">{contentsHtml}</td></tr>' +
+						'<tr role="presentation"><td id="cke_contents_{name}" class="cke_contents" style="height:{height}" role="presentation"></td></tr>' +
 						'<tr' + ( bottomHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</td></tr>' +
 					'</tbody></table>' +
 					//Hide the container when loading skins, later restored by skin css.
@@ -318,7 +382,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			langCode: editor.langCode,
 			tabIndex: tabIndex,
 			topHtml: topHtml,
-			contentsHtml: contentsHtml,
 			bottomHtml: bottomHtml,
 			height: height,
 			width: width
@@ -347,6 +410,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();
 
+		// Redirect the focus into editor for webkit. (#5713)
+		CKEDITOR.env.webkit && container.on( 'focus', function() {
+			editor.focus();
+		});
+
 		// Use a class to indicate that the current selection is in different direction than the UI.
 		editor.on( 'contentDirChanged', function( evt ) {
 			var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
@@ -358,7 +426,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			toolbarSpace && toolbarSpace.getParent().getParent()[ func ]( 'cke_mixed_dir_content' );
 		});
 
-		editor.fireOnce( 'themeLoaded' );
 		editor.fireOnce( 'uiReady' );
 	}
 
@@ -433,8 +500,49 @@ CKEDITOR.ELEMENT_MODE_REPLACE = 1;
 CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
 
 /**
+ * The current editing mode. An editing mode basically provides
+ * different ways of editing or viewing the contents.
+ * @nameCKEDITOR.editor.prototype.mode
+ * @type String
+ * @example
+ * alert( CKEDITOR.instances.editor1.mode );  // "wysiwyg" (e.g.)
+ */
+
+/**
+ * The mode to load at the editor startup. It depends on the plugins
+ * loaded. By default, the "wysiwyg" and "source" modes are available.
+ * @name CKEDITOR.config.startupMode
+ * @type String
+ * @default 'wysiwyg'
+ * @example
+ * config.startupMode = 'source';
+ */
+CKEDITOR.config.startupMode = 'wysiwyg';
+
+/**
  * Fired after the editor instance is resized through
  * the {@link CKEDITOR.editor.prototype.resize} method.
  * @name CKEDITOR.editor#resize
  * @event
+ */
+
+/**
+ * Event fired before changing the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#mode
+ * @name CKEDITOR.editor#beforeModeUnload
+ * @event
+ */
+
+/**
+ * Event fired before the editor mode is set. See also CKEDITOR.editor#mode and CKEDITOR.editor#beforeModeUnload
+ * @name CKEDITOR.editor#beforeSetMode
+ * @event
+ * @since 3.5.3
+ * @param {String} newMode The name of the mode which is about to be set.
+ */
+
+/**
+ * Fired after setting the editing mode. See also CKEDITOR.editor#beforeSetMode and CKEDITOR.editor#beforeModeUnload
+ * @name CKEDITOR.editor#mode
+ * @event
+ * @param {String} previousMode The previous mode of the editor.
  */

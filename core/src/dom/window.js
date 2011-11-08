@@ -84,5 +84,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
 				y: doc.documentElement.scrollTop || doc.body.scrollTop || 0
 			};
 		}
+	},
+
+	getFrame: function() {
+		var iframe = this.$.frameElement;
+		return iframe ? new CKEDITOR.dom.element.get( iframe ) : null;
 	}
 });
