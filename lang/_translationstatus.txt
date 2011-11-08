@@ -12,7 +12,7 @@ cy.js      Found: 573 Missing: 3
 da.js      Found: 417 Missing: 159
 de.js      Found: 576 Missing: 0
 el.js      Found: 306 Missing: 270
-en-au.js   Found: 345 Missing: 231
+en-au.js   Found: 348 Missing: 228
 en-ca.js   Found: 345 Missing: 231
 en-gb.js   Found: 518 Missing: 58
 eo.js      Found: 270 Missing: 306
