@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -223,11 +223,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Webkit: avoid from editing form control elements content.
 				if ( CKEDITOR.env.webkit ) {
-					// Mark that cursor will right blinking (#7113).
-					this.attachListener( this, 'mousedown', function() {
-						editor._.wasFocused = 1;
-					});
-
 					// Prevent from tick checkbox/radiobox/select
 					this.attachListener( this, 'click', function( ev ) {
 						if ( ev.data.getTarget().is( 'input', 'select' ) )
@@ -322,8 +317,256 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Always fire the selection change, even on focus re-enter.
 				this.editor.forceNextSelectionCheck();
 				this.editor.selectionChange();
+			},
+
+			/**
+			 * @see CKEDITOR.editor.prototype.insertHtml
+			 */
+			insertHtml: function( data ) {
+				var editor = this.editor;
+
+				if ( editor.dataProcessor )
+					data = editor.dataProcessor.toHtml( data );
+
+				if ( !data )
+					return;
+
+				// HTML insertion only considers the first range.
+				var selection = editor.getSelection(),
+					range = selection.getRanges()[ 0 ];
+
+				if ( range.checkReadOnly() )
+					return;
+
+				// Opera: force block splitting when pasted content contains block. (#7801)
+				if ( CKEDITOR.env.opera ) {
+					var path = new CKEDITOR.dom.elementPath( range.startContainer );
+					if ( path.block ) {
+						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
+						for ( var i = 0, count = nodes.length; i < count; i++ ) {
+							if ( nodes[ i ]._.isBlockLike ) {
+								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+								range.insertNode( range.document.createText( '' ) );
+								range.select();
+								break;
+							}
+						}
+					}
+				}
+
+				if ( CKEDITOR.env.ie ) {
+					var selIsLocked = selection.isLocked;
+
+					if ( selIsLocked )
+						selection.unlock();
+
+					var $sel = selection.getNative();
+
+					// Delete control selections to avoid IE bugs on pasteHTML.
+					if ( $sel.type == 'Control' )
+						$sel.clear();
+					else if ( selection.getType() == CKEDITOR.SELECTION_TEXT ) {
+						// Due to IE bugs on handling contenteditable=false blocks
+						// (#6005), we need to make some checks and eventually
+						// delete the selection first.
+
+						range = selection.getRanges()[ 0 ];
+						var endContainer = range && range.endContainer;
+
+						if ( endContainer && endContainer.type == CKEDITOR.NODE_ELEMENT && endContainer.getAttribute( 'contenteditable' ) == 'false' && range.checkBoundaryOfElement( endContainer, CKEDITOR.END ) ) {
+							range.setEndAfter( range.endContainer );
+							range.deleteContents();
+						}
+					}
+
+					$sel.createRange().pasteHTML( data );
+
+					if ( selIsLocked )
+						editor.getSelection().lock();
+				} else
+					editor.document.$.execCommand( 'inserthtml', false, data );
+
+				// Webkit does not scroll to the cursor position after pasting (#5558)
+				if ( CKEDITOR.env.webkit ) {
+					selection = editor.getSelection();
+					selection.scrollIntoView();
+				}
+			},
+
+			/**
+			 * @see CKEDITOR.editor.prototype.insertText
+			 */
+			insertText: function( text ) {
+				var editor = this.editor,
+					selection = editor.getSelection(),
+					mode = selection.getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
+					isEnterBrMode = mode == CKEDITOR.ENTER_BR;
+
+				var html = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
+
+				// Convert leading and trailing whitespaces into &nbsp;
+				html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
+					if ( match.length == 1 ) // one space, preserve it
+					return '&nbsp;';
+					else if ( !offset ) // beginning of block
+					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+					else // end of block
+					return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
+				});
+
+				// Convert subsequent whitespaces into &nbsp;
+				html = html.replace( /[ \t]{2,}/g, function( match ) {
+					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+				});
+
+				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
+				// Two line-breaks create one paragraph.
+				if ( !isEnterBrMode ) {
+					html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
+						return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
+					});
+				}
+
+				// One <br> per line-break.
+				html = html.replace( /\n/g, '<br>' );
+
+				// Compensate padding <br> for non-IE.
+				if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
+					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
+						return CKEDITOR.tools.repeat( match, 2 );
+					});
+				}
+
+				// Inline styles have to be inherited in Firefox.
+				if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) {
+					var path = new CKEDITOR.dom.elementPath( selection.getStartElement() ),
+						context = [];
+
+					for ( var i = 0; i < path.elements.length; i++ ) {
+						var tag = path.elements[ i ].getName();
+						if ( tag in CKEDITOR.dtd.$inline )
+							context.unshift( path.elements[ i ].getOuterHtml().match( /^<.*?>/ ) );
+						else if ( tag in CKEDITOR.dtd.$block )
+							break;
+					}
+
+					// Reproduce the context  by preceding the pasted HTML with opening inline tags.
+					html = context.join( '' ) + html;
+				}
+
+				this.insertHtml( html );
+			},
+
+			/**
+			 * @see CKEDITOR.editor.prototype.insertElement
+			 */
+			insertElement: function( element ) {
+				var editor = this.editor,
+					selection = editor.getSelection(),
+					ranges = selection.getRanges(),
+					elementName = element.getName(),
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
+
+				var selIsLocked = selection.isLocked;
+
+				if ( selIsLocked )
+					selection.unlock();
+
+				var range, clone, lastElement, bookmark;
+
+				for ( var i = ranges.length - 1; i >= 0; i-- ) {
+					range = ranges[ i ];
+
+					if ( !range.checkReadOnly() ) {
+						// Remove the original contents, merge splitted nodes.
+						range.deleteContents( 1 );
+
+						clone = !i && element || element.clone( 1 );
+
+						// If we're inserting a block at dtd-violated position, split
+						// the parent blocks until we reach blockLimit.
+						var current, dtd;
+						if ( isBlock ) {
+							while ( ( current = range.getCommonAncestor( 0, 1 ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+								// Split up inline elements.
+								if ( current.getName() in CKEDITOR.dtd.span )
+									range.splitElement( current );
+								// If we're in an empty block which indicate a new paragraph,
+								// simply replace it with the inserting block.(#3664)
+								else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+									range.setStartBefore( current );
+									range.collapse( true );
+									current.remove();
+								} else
+									range.splitBlock();
+							}
+						}
+
+						// Insert the new node.
+						range.insertNode( clone );
+
+						// Save the last element reference so we can make the
+						// selection later.
+						if ( !lastElement )
+							lastElement = clone;
+					}
+				}
+
+				if ( lastElement ) {
+					range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
+
+					// If we're inserting a block element immediatelly followed by
+					// another block element, the selection must move there. (#3100,#5436)
+					if ( isBlock ) {
+						var next = lastElement.getNext( isNotWhitespace ),
+							nextName = next && next.type == CKEDITOR.NODE_ELEMENT && next.getName();
+
+						// Check if it's a block element that accepts text.
+						if ( nextName && CKEDITOR.dtd.$block[ nextName ] && CKEDITOR.dtd[ nextName ][ '#' ] )
+							range.moveToElementEditStart( next );
+					}
+				}
+
+				selection.selectRanges( [ range ] );
+
+				if ( selIsLocked )
+					editor.getSelection().lock();
+			},
+
+			/**
+			 * @see CKEDITOR.editor.prototype.setData
+			 */
+			setData: function( data, isSnapshot ) {
+				this.setHtml( data );
+				this.editor.fire( 'dataReady' );
+			},
+
+			/**
+			 * @see CKEDITOR.editor.prototype.getData
+			 */
+			getData: function( isSnapshot ) {
+				return this.getHtml();
+			},
+
+			detach: function() {
+				// Cleanup the element.
+				this.removeClass( 'ckeditor-editable' );
+
+				// Save the editor reference which will be lost after
+				// calling detach from super class.
+				var editor = this.editor;
+
+				this._super();
+
+				// Memory leak proof.
+				this.clearCustomData();
+
+				delete editor.document;
+				delete editor.window;
 			}
-		});
+		}
+	});
 
 	// Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	// non-exitable-block by padding extra br.(#3189)
@@ -432,255 +675,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	}
 
-	CKEDITOR.tools.extend( CKEDITOR.wysiwyg.prototype, {
-		/**
-		 * @see CKEDITOR.editor.prototype.insertHtml
-		 */
-		insertHtml: function( data ) {
-			var editor = this.editor;
-
-			if ( editor.dataProcessor )
-				data = editor.dataProcessor.toHtml( data );
-
-			if ( !data )
-				return;
-
-			// HTML insertion only considers the first range.
-			var selection = editor.getSelection(),
-				range = selection.getRanges()[ 0 ];
-
-			if ( range.checkReadOnly() )
-				return;
-
-			// Opera: force block splitting when pasted content contains block. (#7801)
-			if ( CKEDITOR.env.opera ) {
-				var path = new CKEDITOR.dom.elementPath( range.startContainer );
-				if ( path.block ) {
-					var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
-					for ( var i = 0, count = nodes.length; i < count; i++ ) {
-						if ( nodes[ i ]._.isBlockLike ) {
-							range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
-							range.insertNode( range.document.createText( '' ) );
-							range.select();
-							break;
-						}
-					}
-				}
-			}
-
-			if ( CKEDITOR.env.ie ) {
-				var selIsLocked = selection.isLocked;
-
-				if ( selIsLocked )
-					selection.unlock();
-
-				var $sel = selection.getNative();
-
-				// Delete control selections to avoid IE bugs on pasteHTML.
-				if ( $sel.type == 'Control' )
-					$sel.clear();
-				else if ( selection.getType() == CKEDITOR.SELECTION_TEXT ) {
-					// Due to IE bugs on handling contenteditable=false blocks
-					// (#6005), we need to make some checks and eventually
-					// delete the selection first.
-
-					range = selection.getRanges()[ 0 ];
-					var endContainer = range && range.endContainer;
-
-					if ( endContainer && endContainer.type == CKEDITOR.NODE_ELEMENT && endContainer.getAttribute( 'contenteditable' ) == 'false' && range.checkBoundaryOfElement( endContainer, CKEDITOR.END ) ) {
-						range.setEndAfter( range.endContainer );
-						range.deleteContents();
-					}
-				}
-
-				$sel.createRange().pasteHTML( data );
-
-				if ( selIsLocked )
-					editor.getSelection().lock();
-			} else
-				editor.document.$.execCommand( 'inserthtml', false, data );
-
-			// Webkit does not scroll to the cursor position after pasting (#5558)
-			if ( CKEDITOR.env.webkit ) {
-				selection = editor.getSelection();
-				selection.scrollIntoView();
-			}
-		},
-
-		/**
-		 * @see CKEDITOR.editor.prototype.insertText
-		 */
-		insertText: function( text ) {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				mode = selection.getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
-				isEnterBrMode = mode == CKEDITOR.ENTER_BR;
-
-			var html = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
-
-			// Convert leading and trailing whitespaces into &nbsp;
-			html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
-				if ( match.length == 1 ) // one space, preserve it
-				return '&nbsp;';
-				else if ( !offset ) // beginning of block
-				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-				else // end of block
-				return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
-			});
-
-			// Convert subsequent whitespaces into &nbsp;
-			html = html.replace( /[ \t]{2,}/g, function( match ) {
-				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-			});
-
-			var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
-
-			// Two line-breaks create one paragraph.
-			if ( !isEnterBrMode ) {
-				html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
-					return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
-				});
-			}
-
-			// One <br> per line-break.
-			html = html.replace( /\n/g, '<br>' );
-
-			// Compensate padding <br> for non-IE.
-			if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
-				html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
-					return CKEDITOR.tools.repeat( match, 2 );
-				});
-			}
-
-			// Inline styles have to be inherited in Firefox.
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) {
-				var path = new CKEDITOR.dom.elementPath( selection.getStartElement() ),
-					context = [];
-
-				for ( var i = 0; i < path.elements.length; i++ ) {
-					var tag = path.elements[ i ].getName();
-					if ( tag in CKEDITOR.dtd.$inline )
-						context.unshift( path.elements[ i ].getOuterHtml().match( /^<.*?>/ ) );
-					else if ( tag in CKEDITOR.dtd.$block )
-						break;
-				}
-
-				// Reproduce the context  by preceding the pasted HTML with opening inline tags.
-				html = context.join( '' ) + html;
-			}
-
-			this.insertHtml( html );
-		},
-
-		/**
-		 * @see CKEDITOR.editor.prototype.insertElement
-		 */
-		insertElement: function( element ) {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				ranges = selection.getRanges(),
-				elementName = element.getName(),
-				isBlock = CKEDITOR.dtd.$block[ elementName ];
-
-			var selIsLocked = selection.isLocked;
-
-			if ( selIsLocked )
-				selection.unlock();
-
-			var range, clone, lastElement, bookmark;
-
-			for ( var i = ranges.length - 1; i >= 0; i-- ) {
-				range = ranges[ i ];
-
-				if ( !range.checkReadOnly() ) {
-					// Remove the original contents, merge splitted nodes.
-					range.deleteContents( 1 );
-
-					clone = !i && element || element.clone( 1 );
-
-					// If we're inserting a block at dtd-violated position, split
-					// the parent blocks until we reach blockLimit.
-					var current, dtd;
-					if ( isBlock ) {
-						while ( ( current = range.getCommonAncestor( 0, 1 ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
-							// Split up inline elements.
-							if ( current.getName() in CKEDITOR.dtd.span )
-								range.splitElement( current );
-							// If we're in an empty block which indicate a new paragraph,
-							// simply replace it with the inserting block.(#3664)
-							else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
-								range.setStartBefore( current );
-								range.collapse( true );
-								current.remove();
-							} else
-								range.splitBlock();
-						}
-					}
-
-					// Insert the new node.
-					range.insertNode( clone );
-
-					// Save the last element reference so we can make the
-					// selection later.
-					if ( !lastElement )
-						lastElement = clone;
-				}
-			}
-
-			if ( lastElement ) {
-				range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
-
-				// If we're inserting a block element immediatelly followed by
-				// another block element, the selection must move there. (#3100,#5436)
-				if ( isBlock ) {
-					var next = lastElement.getNext( isNotWhitespace ),
-						nextName = next && next.type == CKEDITOR.NODE_ELEMENT && next.getName();
-
-					// Check if it's a block element that accepts text.
-					if ( nextName && CKEDITOR.dtd.$block[ nextName ] && CKEDITOR.dtd[ nextName ][ '#' ] )
-						range.moveToElementEditStart( next );
-				}
-			}
-
-			selection.selectRanges( [ range ] );
-
-			if ( selIsLocked )
-				editor.getSelection().lock();
-		},
-
-		/**
-		 * @see CKEDITOR.editor.prototype.setData
-		 */
-		setData: function( data, isSnapshot ) {
-			this.setHtml( data );
-			this.editor.fire( 'dataReady' );
-		},
-
-		/**
-		 * @see CKEDITOR.editor.prototype.getData
-		 */
-		getData: function( isSnapshot ) {
-			return this.getHtml();
-		},
-
-		detach: function() {
-			// Cleanup the element.
-			this.removeClass( 'ckeditor-editable' );
-
-			// Save the editor reference which will be lost after
-			// calling detach from super class.
-			var editor = this.editor;
-
-			this._super();
-
-			// Memory leak proof.
-			this.clearCustomData();
-
-			delete editor.document;
-			delete editor.window;
-		}
-	});
-
 	function isBlankParagraph( block ) {
 		return block.getOuterHtml().match( emptyParagraphRegexp );
 	}
@@ -704,4 +698,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
-	})();
+})();
