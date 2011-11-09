@@ -88,7 +88,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
-		initConfig( this, instanceConfig );
+		// Return the editor instance immediately to enable early stage event registrations.
+		CKEDITOR.tools.setTimeout( function() {
+			initConfig( this, instanceConfig );
+		}, 0, this )
 	}
 
 	function updateCommands() {
