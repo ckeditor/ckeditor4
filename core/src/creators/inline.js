@@ -39,7 +39,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	// Initialize all elements with contenteditable=true.
-	function inlineAll() {
+	CKEDITOR.inlineAll = function() {
 		var elements = CKEDITOR.dtd.$editable,
 			el, data;
 
@@ -61,11 +61,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 		}
-	}
+	};
 
 	function fireInlineAll() {
 		if ( !CKEDITOR.disableAutoInline )
-			inlineAll();
+			CKEDITOR.inlineAll();
 	}
 
 	if ( document.readyState == 'complete' )
