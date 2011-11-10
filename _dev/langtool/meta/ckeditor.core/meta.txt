@@ -1,7 +1,7 @@
 # Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.html or http://ckeditor.com/license
 
-dir =
+dir = The language reading direction. Possible values are "rtl" for Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right languages (like English).
 editorTitle = Editor description for screenreader users with information on how to get help.
 toolbars = ARIA description for editor toolbars.
 editor = ARIA description for the editor.
