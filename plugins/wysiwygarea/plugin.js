@@ -76,13 +76,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				doc = new CKEDITOR.dom.document( doc );
 				this._super();
 
-				// from v3: check if still needed, which is causing issue for breaking iframe 
-				// activation script because of turning design mode on.
-				/*
-				if ( !CKEDITOR.env.ie )
-					this.attachListener( this, 'focus', onFocus, this );
-*/
-
 				if ( CKEDITOR.env.ie ) {
 					doc.getDocumentElement().addClass( doc.$.compatMode );
 
@@ -349,20 +342,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	});
 
-	function onFocus() {
-		if ( !this.editor.readOnly && CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
-			blinkCursor( this.editor );
-		else if ( CKEDITOR.env.opera )
-			this.editor.document.getBody().focus();
-		// Webkit needs focus for the first time on the HTML element. (#6153)
-		else if ( CKEDITOR.env.webkit ) {
-			if ( !this._.wasFocused ) {
-				this.editor.document.getDocumentElement().focus();
-				this._.wasFocused = 1;
-			}
-		}
-	}
-
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			editor.addMode( 'wysiwyg', function( callback ) {
@@ -532,31 +511,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
 			nativeRange.select();
 		}
-	}
-
-	// Switch on design mode for a short while and close it after then.
-	function blinkCursor( editor, retry ) {
-		if ( editor.readOnly || !editor.editable().is( 'body' ) )
-			return;
-
-		CKEDITOR.tools.tryThese( function() {
-			editor.document.$.designMode = 'on';
-			setTimeout( function() {
-				editor.document.$.designMode = 'off';
-				if ( CKEDITOR.currentInstance == editor )
-					editor.document.getBody().focus();
-			}, 50 );
-		}, function() {
-			// The above call is known to fail when parent DOM
-			// tree layout changes may break design mode. (#5782)
-			// Refresh the 'contentEditable' is a cue to this.
-			editor.document.$.designMode = 'off';
-			var body = editor.document.getBody();
-			body.setAttribute( 'contentEditable', false );
-			body.setAttribute( 'contentEditable', true );
-			// Try it again once..
-			!retry && blinkCursor( editor, 1 );
-		});
 	}
 
 })();
