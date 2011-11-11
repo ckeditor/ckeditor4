@@ -5,6 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.inline = function( element, instanceConfig ) {
+		element = CKEDITOR.dom.element.get( element );
+
 		var editor = new CKEDITOR.editor( instanceConfig );
 
 		// Set the editor instance name. It'll be set at CKEDITOR.add if it
