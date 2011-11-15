@@ -4,3 +4,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 bg.js      Found: 4 Missing: 0
 he.js      Found: 4 Missing: 0
 it.js      Found: 4 Missing: 0
+pl.js      Found: 4 Missing: 0
