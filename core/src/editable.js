@@ -5,14 +5,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	/**
-	 *  Abstract class which presents all editing related activities provided by an element, dynamically attached to the editor,
-	 *  subclass of it should provide concrete implementation of all defined interfaces.
+	 *  Editable class which provides all editing related activities by
+	 *  the "contenteditable" element, dynamically get attached to editor instance.
 	 * @class
 	 */
 	CKEDITOR.editable = CKEDITOR.tools.createClass({
 		base: CKEDITOR.dom.element,
-		_: {},
-
 		/**
 		 * The constructor hold only generic editable creation logic that are commonly shared among all different editable elements.
 		 * @param editor The editor instance on which the editable operates.
@@ -47,59 +45,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.attachListener( editor, 'insertHtml', onInsert( this.insertHtml ), this, null, 20 );
 			this.attachListener( editor, 'insertElement', onInsert( this.insertElement ), this, null, 20 );
 			this.attachListener( editor, 'insertText', onInsert( this.insertText ), this, null, 20 );
+
+			// The bootstrapping logic.
+			this._.setup();
 		},
 		proto: {
-			/**
-			 * @name insertHtml
-			 * @function
-			 * @see CKEDITOR.editor.prototype.insertHtml
-			 */
-
-			/**
-			 * @name insertElement
-			 * @function
-			 * @see CKEDITOR.editor.prototype.insertElement
-			 */
-
-			/**
-			 *@name insertText
-			 * @function
-			 * @see CKEDITOR.editor.prototype.insertText
-			 */
-
-			/**
-			 * @name setData
-			 * @function
-			 * @see CKEDITOR.editor.prototype.setData
-			 */
-
-			/**
-			 * @name getData
-			 * @function
-			 * @see CKEDITOR.editor.prototype.getData
-			 */
-
-			/**
-			 *  How the editable is detached from the
-			 *  editor instance and eventually get destroyed.
-			 */
-			detach: function() {
-				// Update the editor cached data with current data.
-				this.editor.setData( this.editor.getData(), 0, 1 );
-
-				// Remove all event listeners.
-				var listeners = this._.listeners;
-
-				// dont get broken by this.
-				try {
-					while ( listeners.length )
-						listeners.pop().removeListener();
-				} catch ( e ) {}
-
-				// Free up the editor reference.
-				delete this.editor;
-			},
-
 			/**
 			 * Registers an event listener that needs to be removed on detaching.
 			 * @param obj
@@ -111,209 +61,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				!this._.listeners && ( this._.listeners = [] );
 				// Register the listener..
 				this._.listeners.push( obj.on( event, fn, scope ) );
-			}
-		}
-	});
-
-	/**
-	 * Create, retrieve or detach an editable element of the editor,
-	 * this method should always be used instead of calling directly {@link CKEDITOR.editable}.
-	 * @param {CKEDITOR.dom.element|CKEDITOR.editable} elementOrEditable The
-	 *		DOM element to become the editable or a {@link CKEDITOR.editable} object.
-	 */
-	CKEDITOR.editor.prototype.editable = function( element, type ) {
-		var editable = this._.editable;
-
-		// This editor has already associated with
-		// an editable element, sliently fails.
-		if ( editable && element )
-			return;
-
-		if ( arguments.length ) {
-			editable = this._.editable = element ? ( element instanceof CKEDITOR.editable ? element : new CKEDITOR.wysiwyg( this, element ) ) :
-			// Detach the editable from editor.
-			( editable && editable.detach(), null );
-		}
-
-		// Just retrieve the editable.
-		return editable;
-	};
-
-	/**
-	 * Editable class which provides DOM based "contenteditable" editing host.
-	 * @class
-	 */
-	CKEDITOR.wysiwyg = CKEDITOR.tools.createClass({
-		$: function() {
-			this.base.apply( this, arguments );
-			this.setup();
-		},
-		_: {},
-		base: CKEDITOR.editable,
-		proto: {
-			// Editable element bootstrapping.
-			setup: function() {
-				// The editable class.
-				this.addClass( 'ckeditor-editable' );
-
-				var editor = this.editor;
-				// The DOM document which the editing acts upon.
-				editor.document = this.getDocument();
-				editor.window = this.getWindow();
-
-				// Setup editor keystroke handlers on this element.
-				var keystrokeHandler = editor.keystrokeHandler;
-				keystrokeHandler.blockedKeystrokes[ 8 ] = !editor.readOnly;
-				editor.keystrokeHandler.attach( this );
-
-				this.attachListener( this, 'focus', function() {
-					editor.focusManager.focus();
-				});
-				this.attachListener( this, 'blur', function() {
-					editor.focusManager.blur();
-				});
-
-				var doc = editor.document;
-				// Fire doubleclick event for double-clicks.
-				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
-					var data = { element: evt.data.getTarget() };
-					editor.fire( 'doubleclick', data );
-
-					// TODO: Make the following work at the proper place (from v3).
-					// data.dialog && editor.openDialog( data.dialog );
-				});
-
-				// TODO: check if this is effective.
-				// Prevent automatic submission in IE #6336
-				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
-
-				// Gecko/Webkit need some help when selecting control type elements. (#3448)
-				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
-					this.attachListener( this, 'mousedown', function( ev ) {
-						var control = ev.data.getTarget();
-						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
-							editor.getSelection().selectElement( control );
-					});
-				}
-
-				if ( CKEDITOR.env.gecko ) {
-					// TODO: check if this is effective.
-					this.attachListener( this, 'mouseup', function( ev ) {
-						if ( ev.data.$.button == 2 ) {
-							var target = ev.data.getTarget();
-
-							// Prevent right click from selecting an empty block even
-							// when selection is anchored inside it. (#5845)
-							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
-								var range = new CKEDITOR.dom.range( doc );
-								range.moveToElementEditStart( target );
-								range.select( true );
-							}
-						}
-					});
-				}
-
-				// TODO: check if this is effective.
-				// Prevent the browser opening links in read-only blocks. (#6032)
-				this.attachListener( this, 'click', function( ev ) {
-					ev = ev.data;
-					if ( ev.getTarget().is( 'a' ) && ev.$.button != 2 )
-						ev.preventDefault();
-				});
-
-				// Webkit: avoid from editing form control elements content.
-				if ( CKEDITOR.env.webkit ) {
-					// Prevent from tick checkbox/radiobox/select
-					this.attachListener( this, 'click', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'select' ) )
-							ev.data.preventDefasult();
-					});
-
-					// Prevent from editig textfield/textarea value.
-					this.attachListener( this, 'mouseup', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
-							ev.data.preventDefault();
-					});
-				}
-
-				!editor.readOnly && this.attachListener( this, 'keydown', function( evt ) {
-					var keyCode = evt.data.getKeystroke();
-
-					// Backspace OR Delete.
-					if ( keyCode in { 8:1,46:1 } ) {
-						var sel = editor.getSelection(),
-							selected = sel.getSelectedElement(),
-							range = sel.getRanges()[ 0 ];
-
-						// Override keystrokes which should have deletion behavior
-						//  on fully selected element . (#4047) (#7645)
-						if ( selected ) {
-							// Make undo snapshot.
-							editor.fire( 'saveSnapshot' );
-
-							// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
-							// break up the selection, safely manage it here. (#4795)
-							range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
-							// Remove the control manually.
-							selected.remove();
-							range.select();
-
-							editor.fire( 'saveSnapshot' );
-
-							evt.data.preventDefault();
-							return;
-						}
-					}
-				});
-
-				if ( CKEDITOR.env.ie ) {
-					// v3: check if this is needed.
-					// editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
-
-					// PageUp/PageDown scrolling is broken in document
-					// with standard doctype, manually fix it. (#4736)
-					if ( editor.document.$.compatMode == 'CSS1Compat' ) {
-						this.attachListener( this, 'keydown', function( evt ) {
-							if ( evt.data.getKeystroke() in { 33:1,34:1 } ) {
-								setTimeout( function() {
-									editor.getSelection().scrollIntoView();
-								}, 0 );
-							}
-						});
-					}
-				}
-
-				// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-				this.attachListener( editor, 'selectionChange', function( evt ) {
-					if ( editor.readOnly )
-						return;
-
-					var sel = editor.getSelection();
-					// Do it only when selection is not locked. (#8222)
-					if ( sel && !sel.isLocked ) {
-						var isDirty = editor.checkDirty();
-						editor.fire( 'saveSnapshot', { contentOnly:1 } );
-						onSelectionChangeFixBody.call( this, evt );
-						editor.fire( 'updateSnapshot' );
-						!isDirty && editor.resetDirty();
-					}
-				});
-
-				// Disable form elements editing mode provided by some browers, (#5746)
-				// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
-				this.attachListener( editor, 'insertElement', function( evt ) {
-					var element = evt.data;
-					if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
-						// // The element is still not inserted yet, force attribute-based check.
-						if ( !element.isReadOnly( 1 ) )
-							element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
-						element.setAttribute( 'contentEditable', false );
-					}
-				});
 			},
 
 			focus: function() {
-				this._super.call( this );
+				CKEDITOR.editable.baseProto.focus.call( this );
 				// Always fire the selection change, even on focus re-enter.
 				this.editor.forceNextSelectionCheck();
 				this.editor.selectionChange();
@@ -557,7 +308,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// calling detach from super class.
 				var editor = this.editor;
 
-				this._super();
+				this._.detach();
 
 				// Memory leak proof.
 				this.clearCustomData();
@@ -565,8 +316,183 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				delete editor.document;
 				delete editor.window;
 			}
+		},
+		_: {
+			detach: function() {
+				// Update the editor cached data with current data.
+				this.editor.setData( this.editor.getData(), 0, 1 );
+
+				// Remove all event listeners.
+				var listeners = this._.listeners;
+
+				// dont get broken by this.
+				try {
+					while ( listeners.length )
+						listeners.pop().removeListener();
+				} catch ( e ) {}
+
+				// Free up the editor reference.
+				delete this.editor;
+			},
+
+			// Editable element bootstrapping.
+			setup: function() {
+				// The editable class.
+				this.addClass( 'ckeditor-editable' );
+
+				var editor = this.editor;
+				// The DOM document which the editing acts upon.
+				editor.document = this.getDocument();
+				editor.window = this.getWindow();
+
+				// Setup editor keystroke handlers on this element.
+				var keystrokeHandler = editor.keystrokeHandler;
+				keystrokeHandler.blockedKeystrokes[ 8 ] = !editor.readOnly;
+				editor.keystrokeHandler.attach( this );
+
+				this.attachListener( this, 'focus', function() {
+					editor.focusManager.focus();
+				});
+				this.attachListener( this, 'blur', function() {
+					editor.focusManager.blur();
+				});
+
+				var doc = editor.document;
+				// Fire doubleclick event for double-clicks.
+				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
+					var data = { element: evt.data.getTarget() };
+					editor.fire( 'doubleclick', data );
+
+					// TODO: Make the following work at the proper place (from v3).
+					// data.dialog && editor.openDialog( data.dialog );
+				});
+
+				// TODO: check if this is effective.
+				// Prevent automatic submission in IE #6336
+				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
+
+				// Gecko/Webkit need some help when selecting control type elements. (#3448)
+				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
+					this.attachListener( this, 'mousedown', function( ev ) {
+						var control = ev.data.getTarget();
+						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
+							editor.getSelection().selectElement( control );
+					});
+				}
+
+				if ( CKEDITOR.env.gecko ) {
+					// TODO: check if this is effective.
+					this.attachListener( this, 'mouseup', function( ev ) {
+						if ( ev.data.$.button == 2 ) {
+							var target = ev.data.getTarget();
+
+							// Prevent right click from selecting an empty block even
+							// when selection is anchored inside it. (#5845)
+							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
+								var range = new CKEDITOR.dom.range( doc );
+								range.moveToElementEditStart( target );
+								range.select( true );
+							}
+						}
+					});
+				}
+
+				// TODO: check if this is effective.
+				// Prevent the browser opening links in read-only blocks. (#6032)
+				this.attachListener( this, 'click', function( ev ) {
+					ev = ev.data;
+					if ( ev.getTarget().is( 'a' ) && ev.$.button != 2 )
+						ev.preventDefault();
+				});
+
+				// Webkit: avoid from editing form control elements content.
+				if ( CKEDITOR.env.webkit ) {
+					// Prevent from tick checkbox/radiobox/select
+					this.attachListener( this, 'click', function( ev ) {
+						if ( ev.data.getTarget().is( 'input', 'select' ) )
+							ev.data.preventDefasult();
+					});
+
+					// Prevent from editig textfield/textarea value.
+					this.attachListener( this, 'mouseup', function( ev ) {
+						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
+							ev.data.preventDefault();
+					});
+				}
+
+				!editor.readOnly && this.attachListener( this, 'keydown', function( evt ) {
+					var keyCode = evt.data.getKeystroke();
+
+					// Backspace OR Delete.
+					if ( keyCode in { 8:1,46:1 } ) {
+						var sel = editor.getSelection(),
+							selected = sel.getSelectedElement(),
+							range = sel.getRanges()[ 0 ];
+
+						// Override keystrokes which should have deletion behavior
+						//  on fully selected element . (#4047) (#7645)
+						if ( selected ) {
+							// Make undo snapshot.
+							editor.fire( 'saveSnapshot' );
+
+							// Delete any element that 'hasLayout' (e.g. hr,table) in IE8 will
+							// break up the selection, safely manage it here. (#4795)
+							range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
+							// Remove the control manually.
+							selected.remove();
+							range.select();
+
+							editor.fire( 'saveSnapshot' );
+
+							evt.data.preventDefault();
+							return;
+						}
+					}
+				});
+
+				if ( CKEDITOR.env.ie ) {
+					// v3: check if this is needed.
+					// editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
+
+					// PageUp/PageDown scrolling is broken in document
+					// with standard doctype, manually fix it. (#4736)
+					if ( editor.document.$.compatMode == 'CSS1Compat' ) {
+						this.attachListener( this, 'keydown', function( evt ) {
+							if ( evt.data.getKeystroke() in { 33:1,34:1 } ) {
+								setTimeout( function() {
+									editor.getSelection().scrollIntoView();
+								}, 0 );
+							}
+						});
+					}
+				}
+			}
 		}
 	});
+
+	/**
+	 * Create, retrieve or detach an editable element of the editor,
+	 * this method should always be used instead of calling directly {@link CKEDITOR.editable}.
+	 * @param {CKEDITOR.dom.element|CKEDITOR.editable} elementOrEditable The
+	 *		DOM element to become the editable or a {@link CKEDITOR.editable} object.
+	 */
+	CKEDITOR.editor.prototype.editable = function( element, type ) {
+		var editable = this._.editable;
+
+		// This editor has already associated with
+		// an editable element, sliently fails.
+		if ( editable && element )
+			return;
+
+		if ( arguments.length ) {
+			editable = this._.editable = element ? ( element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element ) ) :
+			// Detach the editable from editor.
+			( editable && editable.detach(), null );
+		}
+
+		// Just retrieve the editable.
+		return editable;
+	};
 
 	// Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	// non-exitable-block by padding extra br.(#3189)
@@ -697,5 +623,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
+		var editor = evt.editor;
+
+		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
+		editor.on( 'selectionChange', function( evt ) {
+			if ( editor.readOnly )
+				return;
+
+			var sel = editor.getSelection();
+			// Do it only when selection is not locked. (#8222)
+			if ( sel && !sel.isLocked ) {
+				var isDirty = editor.checkDirty();
+				editor.fire( 'saveSnapshot', { contentOnly:1 } );
+				onSelectionChangeFixBody.call( this, evt );
+				editor.fire( 'updateSnapshot' );
+				!isDirty && editor.resetDirty();
+			}
+		});
+
+		// Disable form elements editing mode provided by some browers, (#5746)
+		// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
+		editor.on( 'insertElement', function( evt ) {
+			var element = evt.data;
+			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
+				// // The element is still not inserted yet, force attribute-based check.
+				if ( !element.isReadOnly( 1 ) )
+					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
+				element.setAttribute( 'contentEditable', false );
+			}
+		});
+	});
 
 })();

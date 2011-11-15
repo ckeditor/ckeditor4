@@ -15,6 +15,149 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Support for custom document.domain in IE.
 	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
+	function onDomReady( win ) {
+		var editor = this.editor,
+			doc = win.document,
+			body = doc.body;
+
+		// Remove this script from the DOM.
+		var script = doc.getElementById( "cke_actscrpt" );
+		script && script.parentNode.removeChild( script );
+
+		body.spellcheck = !editor.config.disableNativeSpellChecker;
+
+		var editable = !editor.readOnly;
+
+		if ( CKEDITOR.env.ie ) {
+			// Don't display the focus border.
+			body.hideFocus = true;
+
+			// Disable and re-enable the body to avoid IE from
+			// taking the editing focus at startup. (#141 / #523)
+			body.disabled = true;
+			body.contentEditable = editable;
+			body.removeAttribute( 'disabled' );
+		} else {
+			// Avoid opening design mode in a frame window thread,
+			// which will cause host page scrolling.(#4397)
+			setTimeout( function() {
+				// Prefer 'contentEditable' instead of 'designMode'. (#3593)
+				if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
+					doc.$.body.contentEditable = editable;
+				else if ( CKEDITOR.env.webkit )
+					doc.$.body.parentNode.contentEditable = editable;
+				else
+					doc.$.designMode = editable ? 'off' : 'on';
+			}, 0 );
+		}
+
+		delete this._.isLoadingData;
+
+		// Play the magic to alter element reference to the reloaded one.
+		this.$ = body;
+
+		doc = new CKEDITOR.dom.document( doc );
+		this._.setup.call( this );
+
+		if ( CKEDITOR.env.ie ) {
+			doc.getDocumentElement().addClass( doc.$.compatMode );
+
+			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
+			editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
+				var body = doc.getBody(),
+					range = editor.getSelection().getRanges()[ 0 ];
+
+				if ( body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+					// Avoid the ambiguity from a real user cursor position.
+					setTimeout( function() {
+						range = editor.getSelection().getRanges()[ 0 ];
+						if ( !range.startContainer.equals( 'body' ) ) {
+							body.getFirst().remove( 1 );
+							range.moveToElementEditEnd( body );
+							range.select( 1 );
+						}
+					}, 0 );
+				}
+			});
+		}
+
+		// Gecko needs a key event to 'wake up' editing when the document is
+		// empty. (#3864, #5781)
+		!editor.readOnly && CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
+
+		// ## START : disableNativeTableHandles and disableObjectResizing settings.
+
+		// IE, Opera and Safari may not support it and throw errors.
+		try {
+			editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
+		} catch ( e ) {}
+
+		if ( editor.config.disableObjectResizing ) {
+			try {
+				this.getDocument().$.execCommand( 'enableObjectResizing', false, false );
+			} catch ( e ) {
+				// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
+				this.attachListener( this, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
+					evt.data.preventDefault();
+				});
+			}
+		}
+
+		// ## END
+
+		// IE standard compliant in editing frame doesn't focus the editor when
+		// clicking outside actual content, manually apply the focus. (#1659)
+		if ( !editor.readOnly && (
+		( CKEDITOR.env.ie && doc.$.compatMode == 'CSS1Compat' ) || CKEDITOR.env.gecko || CKEDITOR.env.opera ) ) {
+			var htmlElement = doc.getDocumentElement();
+			this.attachListener( htmlElement, 'mousedown', function( evt ) {
+				// Setting focus directly on editor doesn't work, we
+				// have to use here a temporary element to 'redirect'
+				// the focus.
+				if ( evt.data.getTarget().equals( htmlElement ) ) {
+					editor.focus();
+				}
+			});
+		}
+
+		// Setting voice label as window title, backup the original one
+		// and restore it before running into use.
+		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
+		title.data( 'cke-title', editor.document.$.title );
+		editor.document.$.title = this._.docTitle;
+
+		CKEDITOR.tools.setTimeout( function() {
+			editor.fire( 'contentDom' );
+
+			if ( this._.isPendingFocus ) {
+				editor.focus();
+				this._.isPendingFocus = false;
+			}
+
+			setTimeout( function() {
+				editor.fire( 'dataReady' );
+			}, 0 );
+
+			/*
+			 * IE BUG: IE might have rendered the iframe with invisible contents.
+			 * (#3623). Push some inconsequential CSS style changes to force IE to
+			 * refresh it.
+			 *
+			 * Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
+			 * fix the problem. :(
+			 */
+			if ( CKEDITOR.env.ie ) {
+				setTimeout( function() {
+					if ( editor.document ) {
+						var $body = editor.document.$.body;
+						$body.runtimeStyle.marginBottom = '0px';
+						$body.runtimeStyle.marginBottom = '';
+					}
+				}, 1000 );
+			}
+		}, 0, this );
+	}
+
 	var framedWysiwyg = CKEDITOR.tools.createClass({
 		$: function( editor ) {
 			this.base.apply( this, arguments );
@@ -22,159 +165,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var config = editor.config;
 
 			this._.fixForBody = ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
-			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( this.setup, this );
+			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( onDomReady, this );
 			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' );
 		},
 
-		base: CKEDITOR.wysiwyg,
+		base: CKEDITOR.editable,
 
 		proto: {
-			setup: function( win ) {
-				if ( !this._.isLoadingData )
-					return;
-
-				delete this._.isLoadingData;
-
-				var editor = this.editor,
-					doc = win.document,
-					body = doc.body;
-
-				// Remove this script from the DOM.
-				var script = doc.getElementById( "cke_actscrpt" );
-				script && script.parentNode.removeChild( script );
-
-				body.spellcheck = !editor.config.disableNativeSpellChecker;
-
-				var editable = !editor.readOnly;
-
-				if ( CKEDITOR.env.ie ) {
-					// Don't display the focus border.
-					body.hideFocus = true;
-
-					// Disable and re-enable the body to avoid IE from
-					// taking the editing focus at startup. (#141 / #523)
-					body.disabled = true;
-					body.contentEditable = editable;
-					body.removeAttribute( 'disabled' );
-				} else {
-					// Avoid opening design mode in a frame window thread,
-					// which will cause host page scrolling.(#4397)
-					setTimeout( function() {
-						// Prefer 'contentEditable' instead of 'designMode'. (#3593)
-						if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
-							doc.$.body.contentEditable = editable;
-						else if ( CKEDITOR.env.webkit )
-							doc.$.body.parentNode.contentEditable = editable;
-						else
-							doc.$.designMode = editable ? 'off' : 'on';
-					}, 0 );
-				}
-
-				// Play the magic to alter element reference to the reloaded one.
-				this.$ = body;
-
-				doc = new CKEDITOR.dom.document( doc );
-				this._super();
-
-				if ( CKEDITOR.env.ie ) {
-					doc.getDocumentElement().addClass( doc.$.compatMode );
-
-					// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-					editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
-						var body = doc.getBody(),
-							range = editor.getSelection().getRanges()[ 0 ];
-
-						if ( body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
-							// Avoid the ambiguity from a real user cursor position.
-							setTimeout( function() {
-								range = editor.getSelection().getRanges()[ 0 ];
-								if ( !range.startContainer.equals( 'body' ) ) {
-									body.getFirst().remove( 1 );
-									range.moveToElementEditEnd( body );
-									range.select( 1 );
-								}
-							}, 0 );
-						}
-					});
-				}
-
-				// Gecko needs a key event to 'wake up' editing when the document is
-				// empty. (#3864, #5781)
-				!editor.readOnly && CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
-
-				// ## START : disableNativeTableHandles and disableObjectResizing settings.
-
-				// IE, Opera and Safari may not support it and throw errors.
-				try {
-					editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-				} catch ( e ) {}
-
-				if ( editor.config.disableObjectResizing ) {
-					try {
-						this.getDocument().$.execCommand( 'enableObjectResizing', false, false );
-					} catch ( e ) {
-						// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
-						this.attachListener( this, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
-							evt.data.preventDefault();
-						});
-					}
-				}
-
-				// ## END
-
-				// IE standard compliant in editing frame doesn't focus the editor when
-				// clicking outside actual content, manually apply the focus. (#1659)
-				if ( !editor.readOnly && (
-				( CKEDITOR.env.ie && doc.$.compatMode == 'CSS1Compat' ) || CKEDITOR.env.gecko || CKEDITOR.env.opera ) ) {
-					var htmlElement = doc.getDocumentElement();
-					this.attachListener( htmlElement, 'mousedown', function( evt ) {
-						// Setting focus directly on editor doesn't work, we
-						// have to use here a temporary element to 'redirect'
-						// the focus.
-						if ( evt.data.getTarget().equals( htmlElement ) ) {
-							editor.focus();
-						}
-					});
-				}
-
-				// Setting voice label as window title, backup the original one
-				// and restore it before running into use.
-				var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
-				title.data( 'cke-title', editor.document.$.title );
-				editor.document.$.title = this._.docTitle;
-
-				CKEDITOR.tools.setTimeout( function() {
-					editor.fire( 'contentDom' );
-
-					if ( this._.isPendingFocus ) {
-						editor.focus();
-						this._.isPendingFocus = false;
-					}
-
-					setTimeout( function() {
-						editor.fire( 'dataReady' );
-					}, 0 );
-
-					/*
-					 * IE BUG: IE might have rendered the iframe with invisible contents.
-					 * (#3623). Push some inconsequential CSS style changes to force IE to
-					 * refresh it.
-					 *
-					 * Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
-					 * fix the problem. :(
-					 */
-					if ( CKEDITOR.env.ie ) {
-						setTimeout( function() {
-							if ( editor.document ) {
-								var $body = editor.document.$.body;
-								$body.runtimeStyle.marginBottom = '0px';
-								$body.runtimeStyle.marginBottom = '';
-							}
-						}, 1000 );
-					}
-				}, 0, this );
-			},
-
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 				if ( isSnapshot )
@@ -315,7 +312,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( this._.isLoadingData )
 					this._.isPendingFocus = true;
 				else
-					this._super.call( this );
+					framedWysiwyg.baseProto.focus.call( this );
 			},
 
 			detach: function() {
@@ -323,7 +320,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					doc = editor.document,
 					iframe = editor.window.getFrame();
 
-				this._super();
+				framedWysiwyg.baseProto.detach.call( this );
 
 				// Memory leak proof.
 				doc.getDocumentElement().clearCustomData();

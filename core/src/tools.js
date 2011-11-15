@@ -530,7 +530,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					for ( var privateName in privates ) {
 						var priv = privates[ privateName ];
 
-						_[ privateName ] = ( typeof priv == 'function' ) ? CKEDITOR.tools.bind( priv, this ) : priv;
+						// Allows for subclass to override privates.
+						if ( !( privateName in _ ) )
+							_[ privateName ] = ( typeof priv == 'function' ) ? CKEDITOR.tools.bind( priv, this ) : priv;
 					}
 
 					originalConstructor.apply( this, arguments );
@@ -540,6 +542,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( baseClass ) {
 				$.prototype = this.prototypedCopy( baseClass.prototype );
 				$.prototype.constructor = $;
+				// Super references.
+				$.base = baseClass;
+				$.baseProto = baseClass.prototype;
+				// Super constructor.
 				$.prototype.base = function() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );
@@ -547,25 +553,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				};
 			}
 
-			if ( proto ) {
-				for ( var prop in proto ) {
-					if ( proto.hasOwnProperty( prop ) && typeof proto[ prop ] == 'function' && typeof $.prototype[ prop ] == 'function' ) {
-						(function( prop ) {
-							var org = proto[ prop ],
-								superFn = $.prototype[ prop ];
-							proto[ prop ] = function() {
-								// Provide a convenient way to  call the overridden method on super-class.
-								this._super = superFn;
-								var retval = org.apply( this, arguments );
-								delete this._super;
-								return retval;
-							};
-						})( prop );
-					}
-				}
-
+			if ( proto )
 				this.extend( $.prototype, proto, true );
-			}
 
 			if ( statics )
 				this.extend( $, statics, true );
