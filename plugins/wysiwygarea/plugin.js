@@ -57,7 +57,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.$ = body;
 
 		doc = new CKEDITOR.dom.document( doc );
-		this._.setup.call( this );
+
+		this.setup();
 
 		if ( CKEDITOR.env.ie ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );

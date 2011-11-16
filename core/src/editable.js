@@ -47,7 +47,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.attachListener( editor, 'insertText', onInsert( this.insertText ), this, null, 20 );
 
 			// The bootstrapping logic.
-			this._.setup();
+			this.setup();
 		},
 		proto: {
 			/**
@@ -315,24 +315,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				delete editor.document;
 				delete editor.window;
-			}
-		},
-		_: {
-			detach: function() {
-				// Update the editor cached data with current data.
-				this.editor.setData( this.editor.getData(), 0, 1 );
-
-				// Remove all event listeners.
-				var listeners = this._.listeners;
-
-				// dont get broken by this.
-				try {
-					while ( listeners.length )
-						listeners.pop().removeListener();
-				} catch ( e ) {}
-
-				// Free up the editor reference.
-				delete this.editor;
 			},
 
 			// Editable element bootstrapping.
@@ -471,6 +453,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 					}
 				}
+			}
+		},
+		_: {
+			detach: function() {
+				// Update the editor cached data with current data.
+				this.editor.setData( this.editor.getData(), 0, 1 );
+
+				// Remove all event listeners.
+				var listeners = this._.listeners;
+
+				// dont get broken by this.
+				try {
+					while ( listeners.length )
+						listeners.pop().removeListener();
+				} catch ( e ) {}
+
+				// Free up the editor reference.
+				delete this.editor;
 			}
 		}
 	});
