@@ -530,9 +530,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					for ( var privateName in privates ) {
 						var priv = privates[ privateName ];
 
-						// Allows for subclass to override privates.
-						if ( !( privateName in _ ) )
-							_[ privateName ] = ( typeof priv == 'function' ) ? CKEDITOR.tools.bind( priv, this ) : priv;
+						_[ privateName ] = ( typeof priv == 'function' ) ? CKEDITOR.tools.bind( priv, this ) : priv;
 					}
 
 					originalConstructor.apply( this, arguments );
