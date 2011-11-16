@@ -31,31 +31,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.clearCustomData();
 				this.remove();
 			}
-		},
-		_: {
-			setup: function() {
-				var editor = this.editor;
-				// Setup editor keystroke handlers on this element.
-				editor.keystrokeHandler.attach( this );
-
-				// Focus/blur handling.
-				this.attachListener( this, 'focus', function() {
-					editor.focusManager.focus();
-				});
-				this.attachListener( this, 'blur', function() {
-					editor.focusManager.blur();
-				});
-
-				// Having to make <textarea> fixed sized to conquer the following bugs:
-				// 1. The textarea height/width='100%' doesn't constraint to the 'td' in IE6/7.
-				// 2. Unexpected vertical-scrolling behavior happens whenever focus is moving out of editor
-				// if text content within it has overflowed. (#4762)
-				if ( CKEDITOR.env.ie ) {
-					this.attachListener( this.editor, 'resize', onResize, this );
-					this.attachListener( CKEDITOR.document.getWindow(), 'resize', onResize, this );
-					CKEDITOR.tools.setTimeout( onResize, 0, this );
-				}
-			}
 		}
 	});
 
@@ -104,6 +79,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Fill the textarea with the current editor data.
 				editable.setData( editor.getData( 1 ) );
+
+				// Having to make <textarea> fixed sized to conquer the following bugs:
+				// 1. The textarea height/width='100%' doesn't constraint to the 'td' in IE6/7.
+				// 2. Unexpected vertical-scrolling behavior happens whenever focus is moving out of editor
+				// if text content within it has overflowed. (#4762)
+				if ( CKEDITOR.env.ie ) {
+					editable.attachListener( editor, 'resize', onResize, editable );
+					editable.attachListener( CKEDITOR.document.getWindow(), 'resize', onResize, editable );
+					CKEDITOR.tools.setTimeout( onResize, 0, editable );
+				}
 
 				editor.fire( 'ariaWidget', this );
 

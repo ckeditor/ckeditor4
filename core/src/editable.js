@@ -337,13 +337,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Editable element bootstrapping.
 			setup: function() {
+				var editor = this.editor;
+
 				// The editable class.
 				this.addClass( 'ckeditor-editable' );
-
-				var editor = this.editor;
-				// The DOM document which the editing acts upon.
-				editor.document = this.getDocument();
-				editor.window = this.getWindow();
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
@@ -356,6 +353,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.attachListener( this, 'blur', function() {
 					editor.focusManager.blur();
 				});
+
+				// The above is all we'll be doing for a <textarea> editable.
+				if ( this.is( 'textarea' ) )
+					return;
+
+				// The DOM document which the editing acts upon.
+				editor.document = this.getDocument();
+				editor.window = this.getWindow();
 
 				var doc = editor.document;
 				// Fire doubleclick event for double-clicks.
