@@ -9,41 +9,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var sourceEditable = CKEDITOR.tools.createClass({
-		base: CKEDITOR.editable,
-		proto: {
-			setData: function( data ) {
-				this.setValue( data );
-				this.editor.fire( 'dataReady' );
-			},
-
-			getData: function() {
-				return this.getValue();
-			},
-
-			// Insertions are not supported in source editable.
-			insertHtml: function() {},
-			insertElement: function() {},
-			insertText: function() {},
-
-			detach: function() {
-				sourceEditable.baseProto.detach.call( this );
-				this.clearCustomData();
-				this.remove();
-			}
-		}
-	});
-
-	function onResize() {
-		// Holder rectange size is stretched by textarea,
-		// so hide it just for a moment.
-		this.hide();
-		this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
-		this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
-		// When we have proper holder size, show textarea again.
-		this.show();
-	}
-
 	CKEDITOR.plugins.add( 'sourcearea', {
 		init: function( editor ) {
 			var sourcearea = CKEDITOR.plugins.sourcearea;
@@ -114,6 +79,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 	});
+
+	var sourceEditable = CKEDITOR.tools.createClass({
+		base: CKEDITOR.editable,
+		proto: {
+			setData: function( data ) {
+				this.setValue( data );
+				this.editor.fire( 'dataReady' );
+			},
+
+			getData: function() {
+				return this.getValue();
+			},
+
+			// Insertions are not supported in source editable.
+			insertHtml: function() {},
+			insertElement: function() {},
+			insertText: function() {},
+
+			detach: function() {
+				sourceEditable.baseProto.detach.call( this );
+				this.clearCustomData();
+				this.remove();
+			}
+		}
+	});
+
+	function onResize() {
+		// Holder rectange size is stretched by textarea,
+		// so hide it just for a moment.
+		this.hide();
+		this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
+		this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
+		// When we have proper holder size, show textarea again.
+		this.show();
+	}
 })();
 
 /**

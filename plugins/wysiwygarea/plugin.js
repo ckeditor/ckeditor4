@@ -9,6 +9,104 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
+	CKEDITOR.plugins.add( 'wysiwygarea', {
+		init: function( editor ) {
+			editor.addMode( 'wysiwyg', function( callback ) {
+				var iframe = CKEDITOR.document.createElement( 'iframe' );
+				iframe.setStyles({ width: '100%', height: '100%' } );
+				editor.getUISpace( 'contents' ).append( iframe );
+
+				var src = 'document.open();' +
+					// The document domain must be set any time we
+				// call document.open().
+				( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+					'document.close();';
+
+				// With IE, the custom domain has to be taken care at first,
+				// for other browers, the 'src' attribute should be left empty to
+				// trigger iframe's 'load' event.
+				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
+					:
+					'';
+
+				// Asynchronous iframe loading is only required in IE>8, but
+				// it's not a problem to use it for other browsers as well.
+				iframe.on( 'load', function( evt ) {
+					evt.removeListener();
+					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					editor.setData( editor.getData( 1 ), callback );
+				});
+
+				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
+				iframe.setAttributes({
+					frameBorder: 0,
+					title: frameLabel,
+					src: src,
+					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
+					allowTransparency: 'true'
+				});
+
+				editor.fire( 'ariaWidget', iframe );
+			});
+
+			editor.on( 'readOnly', function() {
+				if ( editor.mode == 'wysiwyg' ) {
+					// Simply reload the wysiwyg area. It'll take care of read-only.
+					editor.loadData( editor.getData() );
+				}
+			});
+
+			// IE>=8 stricts mode doesn't have 'contentEditable' in effect
+			// on element unless it has layout. (#5562)
+			if ( CKEDITOR.document.$.documentMode >= 8 ) {
+				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
+
+				var selectors = [];
+
+				for ( var tag in CKEDITOR.dtd.$removeEmpty )
+					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+
+				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
+			}
+			// Set the HTML style to 100% to have the text cursor in affect (#6341)
+			else if ( CKEDITOR.env.gecko ) {
+				editor.addCss( 'html { height: 100% !important; }' );
+				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
+			}
+
+			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
+			To prevent this misbehavior, we show the scrollbar always */
+			/* #6341: The text cursor must be set on the editor area. */
+			/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
+			editor.addCss( 'html {	_overflow-y: scroll; cursor: text;	*cursor:auto;}' );
+			// Use correct cursor for these elements
+			editor.addCss( 'img, input, textarea { cursor: default;}' );
+
+			// Create an invisible element to grab focus.
+			if ( CKEDITOR.env.gecko || CKEDITOR.env.ie || CKEDITOR.env.opera ) {
+				var focusGrabber;
+				editor.on( 'uiReady', function() {
+					focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
+					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
+					'<span tabindex="-1" style="position:absolute;" role="presentation"></span>' ) );
+
+					focusGrabber.on( 'focus', function() {
+						editor.focus();
+					});
+
+					editor.focusGrabber = focusGrabber;
+				});
+
+				editor.on( 'destroy', function() {
+					if ( focusGrabber ) {
+						focusGrabber.clearCustomData();
+						delete editor.focusGrabber;
+					}
+				});
+			}
+		}
+	});
+
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
@@ -175,6 +273,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		proto: {
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
+
 				if ( isSnapshot )
 					this.setHtml( data );
 				else {
@@ -239,17 +338,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						data = docType + data;
 					} else {
 						data = config.docType + '<html dir="' + config.contentsLangDirection + '"' +
-																	' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
-																	'<head>' +
-																	'<title>' + this._.docTitle + '</title>' +
-																	baseTag +
-																	headExtra +
-																	'</head>' +
-																	'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
-																	( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
-																	'>' +
-																	data +
-																	'</html>';
+															' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
+														'<head>' +
+															'<title>' + this._.docTitle + '</title>' +
+															baseTag +
+															headExtra +
+														'</head>' +
+														'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
+															( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
+														'>' +
+															data +
+														'</html>';
 					}
 
 					// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
@@ -340,102 +439,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	});
 
-	CKEDITOR.plugins.add( 'wysiwygarea', {
-		init: function( editor ) {
-			editor.addMode( 'wysiwyg', function( callback ) {
-				var iframe = CKEDITOR.document.createElement( 'iframe' );
-				iframe.setStyles({ width: '100%', height: '100%' } );
-				editor.getUISpace( 'contents' ).append( iframe );
-
-				var src = 'document.open();' +
-					// The document domain must be set any time we
-				// call document.open().
-				( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
-						'document.close();';
-
-				// With IE, the custom domain has to be taken care at first,
-				// for other browers, the 'src' attribute should be left empty to
-				// trigger iframe's 'load' event.
-				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
-						:
-					'';
-
-				// Asynchronous iframe loading is only required in IE>8, but
-				// it's not a problem to use it for other browsers as well.
-				iframe.on( 'load', function( evt ) {
-					evt.removeListener();
-					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					editor.setData( editor.getData( 1 ), callback );
-				});
-
-				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
-				iframe.setAttributes({
-					frameBorder: 0,
-					title: frameLabel,
-					src: src,
-					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
-					allowTransparency: 'true'
-				});
-
-				editor.fire( 'ariaWidget', iframe );
-			});
-
-			editor.on( 'readOnly', function() {
-				if ( editor.mode == 'wysiwyg' ) {
-					// Simply reload the wysiwyg area. It'll take care of read-only.
-					editor.loadData( editor.getData() );
-				}
-			});
-
-			// IE>=8 stricts mode doesn't have 'contentEditable' in effect
-			// on element unless it has layout. (#5562)
-			if ( CKEDITOR.document.$.documentMode >= 8 ) {
-				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
-
-				var selectors = [];
-				for ( var tag in CKEDITOR.dtd.$removeEmpty )
-					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
-				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
-			}
-			// Set the HTML style to 100% to have the text cursor in affect (#6341)
-			else if ( CKEDITOR.env.gecko ) {
-				editor.addCss( 'html { height: 100% !important; }' );
-				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
-			}
-
-			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
-			   To prevent this misbehavior, we show the scrollbar always */
-			/* #6341: The text cursor must be set on the editor area. */
-			/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
-			editor.addCss( 'html {	_overflow-y: scroll; cursor: text;	*cursor:auto;}' );
-			// Use correct cursor for these elements
-			editor.addCss( 'img, input, textarea { cursor: default;}' );
-
-			// Create an invisible element to grab focus.
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.ie || CKEDITOR.env.opera ) {
-				var focusGrabber;
-				editor.on( 'uiReady', function() {
-					focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
-					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
-					'<span tabindex="-1" style="position:absolute;" role="presentation"></span>' ) );
-
-					focusGrabber.on( 'focus', function() {
-						editor.focus();
-					});
-
-					editor.focusGrabber = focusGrabber;
-				});
-
-				editor.on( 'destroy', function() {
-					if ( focusGrabber ) {
-						focusGrabber.clearCustomData();
-						delete editor.focusGrabber;
-					}
-				});
-			}
-		}
-	});
-
 	// Fixing Firefox 'Back-Forward Cache' breaks design mode. (#4514)
 	if ( CKEDITOR.env.gecko ) {
 		(function() {
@@ -449,13 +452,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'var allInstances = CKEDITOR.instances, editor, doc;' +
 					'for ( var i in allInstances )' +
 					'{' +
-					'	editor = allInstances[ i ];' +
-					'	doc = editor.document;' +
-					'	if ( doc )' +
-					'	{' +
-					'		doc.$.designMode = "off";' +
-					'		doc.$.designMode = "on";' +
-					'	}' +
+						'editor = allInstances[ i ];' +
+						'doc = editor.document;' +
+						'if ( doc )' +
+						'{' +
+							'doc.$.designMode = "off";' +
+							'doc.$.designMode = "on";' +
+						'}' +
 					'}' +
 					'})();' );
 			}
