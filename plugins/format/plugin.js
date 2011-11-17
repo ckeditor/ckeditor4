@@ -47,7 +47,7 @@ CKEDITOR.plugins.add( 'format', {
 				editor.fire( 'saveSnapshot' );
 
 				var style = styles[ value ],
-					elementPath = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() );
+					elementPath = editor.elementPath();
 
 				editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
 

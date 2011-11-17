@@ -499,6 +499,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
+		 * @see {CKEDITOR.dom.elementPath}
+		 * @param {CKEDITOR.dom.node} [startNode] From which the path should start, if not specified default to editor selection's
+		 * start element yield by {@link CKEDITOR.dom.selection.prototype.getStartElement}.
+		 * @return {CKEDITOR.dom.elementPath}
+		 */
+		elementPath: function( startNode ) {
+			startNode = startNode || this.getSelection().getStartElement();
+			return new CKEDITOR.dom.elementPath( startNode, this.editable() );
+		},
+
+		/**
 		 * Executes a command associated with the editor.
 		 * @param {String} commandName The indentifier name of the command.
 		 * @param {Object} [data] Data to be passed to the command.

@@ -119,7 +119,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
 						for ( var i = 0, count = nodes.length; i < count; i++ ) {
 							if ( nodes[ i ]._.isBlockLike ) {
-								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
 								range.insertNode( range.document.createText( '' ) );
 								range.select();
 								break;
@@ -273,7 +273,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									range.collapse( true );
 									current.remove();
 								} else
-									range.splitBlock();
+									range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
 							}
 						}
 
@@ -663,11 +663,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
-	CKEDITOR.on( 'instanceLoaded', function( evt ) {
-		var editor = evt.editor;
-
+	CKEDITOR.on( 'instanceReady', function( evt ) {
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		editor.on( 'selectionChange', function( evt ) {
+		editor.editable().is( 'body' ) && editor.on( 'selectionChange', function( evt ) {
 			if ( editor.readOnly )
 				return;
 
@@ -681,10 +679,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				!isDirty && editor.resetDirty();
 			}
 		});
+	});
 
-		// Disable form elements editing mode provided by some browers, (#5746)
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
-		editor.on( 'insertElement', function( evt ) {
+		evt.editor.on( 'insertElement', function( evt ) {
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.

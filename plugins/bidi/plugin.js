@@ -30,12 +30,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// We can use computedState provided by the browser or traverse parents manually.
 		if ( !useComputedState )
-			selectedElement = getElementForDirection( path.lastElement );
+			selectedElement = getElementForDirection( path.lastElement, editor.editable() );
 
 		selectedElement = selectedElement || path.block || path.blockLimit;
 
 		// If we're having BODY here, user probably done CTRL+A, let's try to get the enclosed node, if any.
-		if ( selectedElement.is( 'body' ) ) {
+		if ( selectedElement.equals( editor.editable() ) ) {
 			var enclosedNode = editor.getSelection().getRanges()[ 0 ].getEnclosedNode();
 			enclosedNode && enclosedNode.type == CKEDITOR.NODE_ELEMENT && ( selectedElement = enclosedNode );
 		}
@@ -60,8 +60,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * Returns element with possibility of applying the direction.
 	 * @param node
 	 */
-	function getElementForDirection( node ) {
-		while ( node && !( node.getName() in allGuardElements || node.is( 'body' ) ) ) {
+	function getElementForDirection( node, root ) {
+		while ( node && !( node.getName() in allGuardElements || node.equals( root ) ) ) {
 			var parent = node.getParent();
 			if ( !parent )
 				break;
@@ -80,8 +80,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.dom.element.setMarker( database, element, 'bidi_processed', 1 );
 
 		// Check whether one of the ancestors has already been styled.
-		var parent = element;
-		while ( ( parent = parent.getParent() ) && !parent.is( 'body' ) ) {
+		var parent = element,
+			editable = editor.editable();
+		while ( ( parent = parent.getParent() ) && !parent.equals( editable ) ) {
 			if ( parent.getCustomData( 'bidi_processed' ) ) {
 				// Ancestor style must dominate.
 				element.removeStyle( 'direction' );

@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getState( editor, path ) {
 		var firstBlock = path.block || path.blockLimit;
 
-		if ( !firstBlock || firstBlock.getName() == 'body' )
+		if ( !firstBlock || firstBlock.equals( editor.editable() ) )
 			return CKEDITOR.TRISTATE_OFF;
 
 		return ( getAlignment( firstBlock, editor.config.useComputedState ) == this.value ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;

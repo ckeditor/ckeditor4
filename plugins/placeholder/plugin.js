@@ -60,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				);
 
 			editor.on( 'contentDom', function() {
-				editor.document.getBody().on( 'resizestart', function( evt ) {
+				editor.editable().on( 'resizestart', function( evt ) {
 					if ( editor.getSelection().getSelectedElement().data( 'cke-placeholder' ) )
 						evt.data.preventDefault();
 				});

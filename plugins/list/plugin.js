@@ -432,9 +432,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// But DOM iterator wouldn't run if the document is really empty.
 			// So create a paragraph if the document is empty and we're going to create a list.
 			if ( this.state == CKEDITOR.TRISTATE_OFF ) {
-				var body = doc.getBody();
-				if ( !body.getFirst( nonEmpty ) ) {
-					config.enterMode == CKEDITOR.ENTER_BR ? body.appendBogus() : ranges[ 0 ].fixBlock( 1, config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+				var editable = editor.editable();
+				if ( !editable.getFirst( nonEmpty ) ) {
+					config.enterMode == CKEDITOR.ENTER_BR ? editable.appendBogus() : ranges[ 0 ].fixBlock( 1, config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 					selection.selectRanges( ranges );
 				}
@@ -480,7 +480,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					else
 						CKEDITOR.dom.element.setMarker( database, block, 'list_block', 1 );
 
-					var path = new CKEDITOR.dom.elementPath( block ),
+					var path = editor.elementPath( block ),
 						pathElements = path.elements,
 						pathElementsCount = pathElements.length,
 						listNode = null,

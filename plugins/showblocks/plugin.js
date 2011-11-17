@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		refresh: function( editor ) {
 			if ( editor.document ) {
 				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'addClass' : 'removeClass';
-				editor.document.getBody()[ funcName ]( 'cke_show_blocks' );
+				editor.editable()[ funcName ]( 'cke_show_blocks' );
 			}
 		}
 	};

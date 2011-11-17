@@ -25,14 +25,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 
 	/**
+	 * 	Retrieve the list of nodes walked from the start node up to the editable element of the editor.
+	 * @name CKEDITOR.dom.elementPath
+	 * @param {CKEDITOR.dom.element} startNode From which the path should start.
+	 * @param {CKEDITOR.dom.element} root To which element the path should stop, default to the body element.
 	 * @class
 	 */
-	CKEDITOR.dom.elementPath = function( lastNode ) {
+	CKEDITOR.dom.elementPath = function( startNode, root ) {
 		var block = null;
 		var blockLimit = null;
 		var elements = [];
 
-		var e = lastNode;
+		// Backward compact.
+		root = root || startNode.getDocument().getBody();
+
+		var e = startNode;
 
 		while ( e ) {
 			if ( e.type == CKEDITOR.NODE_ELEMENT ) {
@@ -44,13 +51,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					elementName = e.$.scopeName.toLowerCase() + ':' + elementName;
 
 				if ( !blockLimit ) {
-					if ( !block && pathBlockElements[ elementName ] )
+					if ( !block && pathBlockElements[ elementName ] && !e.equals( root ) )
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
 						// DIV is considered the Block, if no block is available (#525)
 						// and if it doesn't contain other blocks.
-						if ( !block && elementName == 'div' && !checkHasBlock( e ) )
+						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) )
 							block = e;
 						else
 							blockLimit = e;
@@ -59,7 +66,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				elements.push( e );
 
-				if ( elementName == 'body' )
+				if ( e.equals( root ) )
 					break;
 			}
 			e = e.getParent();
@@ -69,6 +76,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.blockLimit = blockLimit;
 		this.elements = elements;
 	};
+
 })();
 
 CKEDITOR.dom.elementPath.prototype = {

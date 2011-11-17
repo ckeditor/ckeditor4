@@ -568,8 +568,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			startNode = bookmark.startNode;
 
 		if ( range.collapsed ) {
-
-			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent(), range.root ),
 				// The topmost element in elementspatch which we should jump out of.
 				boundaryElement;
 

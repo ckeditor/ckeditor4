@@ -59,7 +59,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				onOpen: function() {
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
-						path = new CKEDITOR.dom.elementPath( block ),
+						path = editor.elementPath( block ),
 						color;
 
 					// Find the closest block element.
