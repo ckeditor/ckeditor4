@@ -13,12 +13,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			items: [
 				{
 				name: 'Barra degli strumenti Editor',
-				legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+				legend: 'Premi ${toolbarFocus} per navigare fino alla barra degli strumenti. Muoviti tra i gruppi della barra degli strumenti con i tasti Tab e Maiusc-Tab. Spostati tra il successivo ed il precedente pulsante della barra degli strumenti usando le frecce direzionali Destra e Sinistra. Premi Spazio o Invio per attivare il pulsante della barra degli strumenti.'
 			},
 
 				{
 				name: 'Finestra Editor',
-				legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+				legend: 'All\'interno di una finestra di dialogo, premi Tab per navigare fino al campo successivo della finestra di dialogo, premi Maiusc-Tab per tornare al campo precedente, premi Invio per inviare la finestra di dialogo, premi Esc per uscire. Per le finestre che hanno schede multiple, premi Alt+F10 per navigare nella lista delle schede. Quindi spostati alla scheda successiva con il tasto Tab oppure con la Freccia Destra. Torna alla scheda precedente con Maiusc+Tab oppure con la Freccia Sinistra. Premi Spazio o Invio per scegliere la scheda.'
 			},
 
 				{
@@ -45,32 +45,32 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 				legend: 'Premi ${undo}'
 			},
 				{
-				name: ' Redo command', // MISSING
-				legend: 'Press ${redo}' // MISSING
+				name: ' Ripeti comando',
+				legend: 'Premi ${redo}'
 			},
 				{
-				name: ' Bold command', // MISSING
-				legend: 'Press ${bold}' // MISSING
+				name: ' Comando Grassetto',
+				legend: 'Premi ${bold}'
 			},
 				{
-				name: ' Italic command', // MISSING
-				legend: 'Press ${italic}' // MISSING
+				name: ' Comando Corsivo',
+				legend: 'Premi ${italic}'
 			},
 				{
-				name: ' Underline command', // MISSING
-				legend: 'Press ${underline}' // MISSING
+				name: ' Comando Sottolineato',
+				legend: 'Premi ${underline}'
 			},
 				{
-				name: ' Link command', // MISSING
-				legend: 'Press ${link}' // MISSING
+				name: ' Comando Link',
+				legend: 'Premi ${link}'
 			},
 				{
-				name: ' Toolbar Collapse command', // MISSING
-				legend: 'Press ${toolbarCollapse}' // MISSING
+				name: ' Comando riduci barra degli strumenti',
+				legend: 'Premi ${toolbarCollapse}'
 			},
 				{
-				name: ' Accessibility Help', // MISSING
-				legend: 'Press ${a11yHelp}' // MISSING
+				name: ' Aiuto Accessibilità',
+				legend: 'Premi ${a11yHelp}'
 			}
 			]
 		}
