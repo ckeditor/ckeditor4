@@ -664,6 +664,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
+		var editor = evt.editor;
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
 		editor.editable().is( 'body' ) && editor.on( 'selectionChange', function( evt ) {
 			if ( editor.readOnly )
