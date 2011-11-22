@@ -358,7 +358,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
-				keystrokeHandler.blockedKeystrokes[ 8 ] = !editor.readOnly;
+				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
 				editor.keystrokeHandler.attach( this );
 
 				this.attachListener( this, 'focus', function() {
@@ -467,7 +467,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							editor.fire( 'saveSnapshot' );
 
 							evt.data.preventDefault();
-							return;
 						}
 					}
 				});
