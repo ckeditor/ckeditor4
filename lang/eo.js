@@ -30,16 +30,16 @@ CKEDITOR.lang[ 'eo' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Redaktilo por Riĉiga Teksto, %1, premu ALT 0 por helpo.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: 'Ilobretoj de la redaktilo',
+	editor: 'Redaktilo por Riĉiga Teksto',
 
 	// Toolbar buttons without dialogs.
 	source: 'Fonto',
 	newPage: 'Nova Paĝo',
-	save: 'Sekurigi',
+	save: 'Konservi',
 	preview: 'Vidigi Aspekton',
 	cut: 'Eltondi',
 	copy: 'Kopii',
@@ -51,11 +51,11 @@ CKEDITOR.lang[ 'eo' ] = {
 	selectAll: 'Elekti ĉion',
 	removeFormat: 'Forigi Formaton',
 	strike: 'Trastreko',
-	subscript: 'Subskribo',
-	superscript: 'Superskribo',
-	horizontalrule: 'Enmeti Horizonta Linio',
-	pagebreak: 'Insert Page Break for Printing', // MISSING
-	pagebreakAlt: 'Page Break', // MISSING
+	subscript: 'Suba indico',
+	superscript: 'Supra indico',
+	horizontalrule: 'Enmeti Horizontalan Linion',
+	pagebreak: 'Enmeti Paĝavancon por Presado',
+	pagebreakAlt: 'Paĝavanco',
 	unlink: 'Forigi Ligilon',
 	undo: 'Malfari',
 	redo: 'Refari',
@@ -68,7 +68,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		upload: 'Alŝuti',
 		uploadSubmit: 'Sendu al Servilo',
 		image: 'Bildo',
-		flash: 'Flash', // MISSING
+		flash: 'Flaŝo',
 		form: 'Formularo',
 		checkbox: 'Markobutono',
 		radio: 'Radiobutono',
@@ -87,27 +87,27 @@ CKEDITOR.lang[ 'eo' ] = {
 		langCode: 'Lingva Kodo',
 		longDescr: 'URL de Longa Priskribo',
 		cssClass: 'Klasoj de Stilfolioj',
-		advisoryTitle: 'Indika Titolo',
+		advisoryTitle: 'Priskriba Titolo',
 		cssStyle: 'Stilo',
 		ok: 'Akcepti',
 		cancel: 'Rezigni',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'Fermi',
+		preview: 'Vidigi Aspekton',
+		generalTab: 'Ĝenerala',
 		advancedTab: 'Speciala',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		validateNumberFailed: 'Tiu valoro ne estas nombro.',
+		confirmNewPage: 'La neregistritaj ŝanĝoj estas perdotaj. Ĉu vi certas, ke vi volas ŝargi novan paĝon?',
+		confirmCancel: 'Iuj opcioj esta ŝanĝitaj. Ĉu vi certas, ke vi volas fermi la dialogon?',
+		options: 'Opcioj',
+		target: 'Celo',
+		targetNew: 'Nova Fenestro (_blank)',
+		targetTop: 'Supra Fenestro (_top)',
+		targetSelf: 'Sama Fenestro (_self)',
+		targetParent: 'Patra Fenestro (_parent)',
+		langDirLTR: 'De maldekstro dekstren (LTR)',
+		langDirRTL: 'De dekstro maldekstren (RTL)',
+		styles: 'Stilo',
+		cssClasses: 'Stilfoliaj Klasoj',
 		width: 'Larĝo',
 		height: 'Alto',
 		align: 'Ĝisrandigo',
@@ -117,129 +117,129 @@ CKEDITOR.lang[ 'eo' ] = {
 		alignTop: 'Supre',
 		alignMiddle: 'Centre',
 		alignBottom: 'Malsupre',
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHeight: 'Alto devas esti nombro.',
+		invalidWidth: 'Larĝo devas esti nombro.',
+		invalidCssLength: 'La valoro indikita por la "%1" kampo devas esti pozitiva nombro kun aŭ sen valida CSSmezurunuo (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'La valoro indikita por la "%1" kampo devas esti pozitiva nombro kun aŭ sen valida HTMLmezurunuo (px or %).',
+		invalidInlineStyle: 'La valoro indikita por la enlinia stilo devas konsisti el unu aŭ pluraj elementoj kun la formato de "nomo : valoro", apartigitaj per punktokomoj.',
+		cssLengthTooltip: 'Entajpu nombron por rastrumera valoro aŭ nombron kun valida CSSunuo (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, nehavebla</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Opcioj de Kunteksta Menuo'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'Enmeti Specialan Signon',
-		title: 'Enmeti Specialan Signon',
-		options: 'Special Character Options' // MISSING
+		title: 'Selekti Specialan Signon',
+		options: 'Opcioj pri Specialaj Signoj'
 	},
 
 	// Link dialog.
 	link: {
 		toolbar: 'Enmeti/Ŝanĝi Ligilon',
-		other: '<other>', // MISSING
-		menu: 'Modifier Ligilon',
+		other: '<alia>',
+		menu: 'Ŝanĝi Ligilon',
 		title: 'Ligilo',
 		info: 'Informoj pri la Ligilo',
 		target: 'Celo',
 		upload: 'Alŝuti',
 		advanced: 'Speciala',
 		type: 'Tipo de Ligilo',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'Ankri en tiu ĉi paĝo',
 		toEmail: 'Retpoŝto',
 		targetFrame: '<kadro>',
 		targetPopup: '<ŝprucfenestro>',
-		targetFrameName: 'Nomo de Kadro',
+		targetFrameName: 'Nomo de CelKadro',
 		targetPopupName: 'Nomo de Ŝprucfenestro',
 		popupFeatures: 'Atributoj de la Ŝprucfenestro',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Dimensiŝanĝebla',
 		popupStatusBar: 'Statobreto',
 		popupLocationBar: 'Adresobreto',
 		popupToolbar: 'Ilobreto',
 		popupMenuBar: 'Menubreto',
 		popupFullScreen: 'Tutekrane (IE)',
-		popupScrollBars: 'Rulumlisteloj',
+		popupScrollBars: 'Rulumskaloj',
 		popupDependent: 'Dependa (Netscape)',
-		popupLeft: 'Pozicio de Maldekstro',
-		popupTop: 'Pozicio de Supro',
-		id: 'Id', // MISSING
+		popupLeft: 'Maldekstra Pozicio',
+		popupTop: 'Supra Pozicio',
+		id: 'Id',
 		langDir: 'Skribdirekto',
 		langDirLTR: 'De maldekstro dekstren (LTR)',
 		langDirRTL: 'De dekstro maldekstren (RTL)',
 		acccessKey: 'Fulmoklavo',
 		name: 'Nomo',
-		langCode: 'Skribdirekto',
-		tabIndex: 'Taba Ordo',
-		advisoryTitle: 'Indika Titolo',
-		advisoryContentType: 'Indika Enhavotipo',
+		langCode: 'Lingva Kodo',
+		tabIndex: 'Taba Indekso',
+		advisoryTitle: 'Priskriba Titolo',
+		advisoryContentType: 'Enhavotipo',
 		cssClasses: 'Klasoj de Stilfolioj',
 		charset: 'Signaro de la Ligita Rimedo',
 		styles: 'Stilo',
-		rel: 'Relationship', // MISSING
+		rel: 'Rilato',
 		selectAnchor: 'Elekti Ankron',
 		anchorName: 'Per Ankronomo',
 		anchorId: 'Per Elementidentigilo',
-		emailAddress: 'Retadreso',
-		emailSubject: 'Temlinio',
+		emailAddress: 'Retpoŝto',
+		emailSubject: 'Mesaĝa Temo',
 		emailBody: 'Mesaĝa korpo',
 		noAnchors: '<Ne disponeblas ankroj en la dokumento>',
 		noUrl: 'Bonvolu entajpi la URL-on',
-		noEmail: 'Bonvolu entajpi la retadreson'
+		noEmail: 'Bonvolu entajpi la retpoŝtadreson'
 	},
 
 	// Anchor dialog
 	anchor: {
-		toolbar: 'Enmeti/Ŝanĝi Ankron',
-		menu: 'Ankraj Atributoj',
+		toolbar: 'Ankro',
+		menu: 'Enmeti/Ŝanĝi Ankron',
 		title: 'Ankraj Atributoj',
 		name: 'Ankra Nomo',
-		errorName: 'Bv tajpi la ankran nomon',
-		remove: 'Remove Anchor' // MISSING
+		errorName: 'Bv entajpi la ankran nomon',
+		remove: 'Forigi Ankron'
 	},
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'Atributoj de Numera Listo',
+		bulletedTitle: 'Atributoj de Bula Listo',
+		type: 'Tipo',
+		start: 'Komenco',
+		validateStartNumber: 'La unua listero devas esti entjera nombro.',
+		circle: 'Cirklo',
+		disc: 'Disko',
+		square: 'kvadrato',
+		none: 'Neniu',
+		notset: '<Defaŭlta>',
+		armenian: 'Armena nombrado',
+		georgian: 'Gruza nombrado (an, ban, gan, ktp.)',
+		lowerRoman: 'Minusklaj Romanaj Nombroj (i, ii, iii, iv, v, ktp.)',
+		upperRoman: 'Majusklaj Romanaj Nombroj (I, II, III, IV, V, ktp.)',
+		lowerAlpha: 'Minusklaj Literoj (a, b, c, d, e, ktp.)',
+		upperAlpha: 'Majusklaj Literoj (A, B, C, D, E, ktp.)',
+		lowerGreek: 'Grekaj Minusklaj Literoj (alpha, beta, gamma, ktp.)',
+		decimal: 'Dekumaj Nombroj (1, 2, 3, ktp.)',
+		decimalLeadingZero: 'Dekumaj Nombroj malantaŭ nulo (01, 02, 03, ktp.)'
 	},
 
 	// Find And Replace Dialog
 	findAndReplace: {
-		title: 'Find and Replace', // MISSING
+		title: 'Serĉi kaj Anstataŭigi',
 		find: 'Serĉi',
 		replace: 'Anstataŭigi',
 		findWhat: 'Serĉi:',
 		replaceWith: 'Anstataŭigi per:',
 		notFoundMsg: 'La celteksto ne estas trovita.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Opcioj pri Serĉado',
 		matchCase: 'Kongruigi Usklecon',
 		matchWord: 'Tuta Vorto',
-		matchCyclic: 'Match cyclic', // MISSING
-		replaceAll: 'Anstataŭigi Ĉiun',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		matchCyclic: 'Cikla Serĉado',
+		replaceAll: 'Anstataŭigi Ĉion',
+		replaceSuccessMsg: '%1 anstataŭigita(j) apero(j).'
 	},
 
 	// Table Dialog
@@ -247,84 +247,84 @@ CKEDITOR.lang[ 'eo' ] = {
 		toolbar: 'Tabelo',
 		title: 'Atributoj de Tabelo',
 		menu: 'Atributoj de Tabelo',
-		deleteTable: 'Delete Table', // MISSING
+		deleteTable: 'Forigi Tabelon',
 		rows: 'Linioj',
 		columns: 'Kolumnoj',
 		border: 'Bordero',
-		widthPx: 'Bitbilderoj',
+		widthPx: 'Rastrumeroj',
 		widthPc: 'elcentoj',
-		widthUnit: 'width unit', // MISSING
-		cellSpace: 'Interspacigo de Ĉeloj',
-		cellPad: 'Ĉirkaŭenhava Plenigado',
-		caption: 'Titolo',
-		summary: 'Summary', // MISSING
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
+		widthUnit: 'unuo de larĝo',
+		cellSpace: 'Spaco inter la Ĉeloj',
+		cellPad: 'Interna Marĝeno de la ĉeloj',
+		caption: 'Tabeltitolo',
+		summary: 'Resumo',
+		headers: 'Supraj Paĝotitoloj',
+		headersNone: 'Neniu',
+		headersColumn: 'Unua kolumno',
+		headersRow: 'Unua linio',
+		headersBoth: 'Ambaŭ',
+		invalidRows: 'La nombro de la linioj devas superi 0.',
+		invalidCols: 'La nombro de la kolumnoj devas superi 0.',
+		invalidBorder: 'La bordergrando devas esti nombro.',
+		invalidWidth: 'La tabellarĝo devas esti nombro.',
+		invalidHeight: 'La tabelalto devas esti nombro.',
+		invalidCellSpacing: 'La spaco inter la ĉeloj devas esti pozitiva nombro.',
+		invalidCellPadding: 'La interna marĝeno en la ĉeloj devas esti pozitiva nombro.',
 
 		cell: {
-			menu: 'Cell', // MISSING
-			insertBefore: 'Insert Cell Before', // MISSING
-			insertAfter: 'Insert Cell After', // MISSING
-			deleteCell: 'Forigi Ĉelojn',
-			merge: 'Kunfandi Ĉelojn',
-			mergeRight: 'Merge Right', // MISSING
-			mergeDown: 'Merge Down', // MISSING
-			splitHorizontal: 'Split Cell Horizontally', // MISSING
-			splitVertical: 'Split Cell Vertically', // MISSING
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			menu: 'Ĉelo',
+			insertBefore: 'Enmeti Ĉelon Antaŭ',
+			insertAfter: 'Enmeti Ĉelon Post',
+			deleteCell: 'Forigi la Ĉelojn',
+			merge: 'Kunfandi la Ĉelojn',
+			mergeRight: 'Kunfandi dekstren',
+			mergeDown: 'Kunfandi malsupren ',
+			splitHorizontal: 'Horizontale dividi',
+			splitVertical: 'Vertikale dividi',
+			title: 'Ĉelatributoj',
+			cellType: 'Ĉeltipo',
+			rowSpan: 'Kunfando de linioj',
+			colSpan: 'Kunfando de kolumnoj',
+			wordWrap: 'Cezuro',
+			hAlign: 'Horizontala ĝisrandigo',
+			vAlign: 'Vertikala ĝisrandigo',
+			alignBaseline: 'Malsupro de la teksto',
+			bgColor: 'Fonkoloro',
+			borderColor: 'Borderkoloro',
+			data: 'Datenoj',
+			header: 'Supra paĝotitolo',
+			yes: 'Jes',
+			no: 'No',
+			invalidWidth: 'Ĉellarĝo devas esti nombro.',
+			invalidHeight: 'Ĉelalto devas esti nombro.',
+			invalidRowSpan: 'Kunfando de linioj devas esti entjera nombro.',
+			invalidColSpan: 'Kunfando de kolumnoj devas esti entjera nombro.',
+			chooseColor: 'Elektu'
 		},
 
 		row: {
-			menu: 'Row', // MISSING
-			insertBefore: 'Insert Row Before', // MISSING
-			insertAfter: 'Insert Row After', // MISSING
+			menu: 'Linio',
+			insertBefore: 'Enmeti linion antaŭ',
+			insertAfter: 'Enmeti linion post',
 			deleteRow: 'Forigi Liniojn'
 		},
 
 		column: {
-			menu: 'Column', // MISSING
-			insertBefore: 'Insert Column Before', // MISSING
-			insertAfter: 'Insert Column After', // MISSING
+			menu: 'Kolumno',
+			insertBefore: 'Enmeti kolumnon antaŭ',
+			insertAfter: 'Enmeti kolumnon post',
 			deleteColumn: 'Forigi Kolumnojn'
 		}
 	},
 
 	// Button Dialog.
 	button: {
-		title: 'Butonaj Atributoj',
+		title: 'Butonaj atributoj',
 		text: 'Teksto (Valoro)',
 		type: 'Tipo',
-		typeBtn: 'Button', // MISSING
-		typeSbm: 'Submit', // MISSING
-		typeRst: 'Reset' // MISSING
+		typeBtn: 'Butono',
+		typeSbm: 'Validigi (submit)',
+		typeRst: 'Remeti en la originstaton (Reset)'
 	},
 
 	// Checkbox and Radio Button Dialogs.
@@ -332,7 +332,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		checkboxTitle: 'Markobutonaj Atributoj',
 		radioTitle: 'Radiobutonaj Atributoj',
 		value: 'Valoro',
-		selected: 'Elektita'
+		selected: 'Selektita'
 	},
 
 	// Form Dialog.
@@ -341,13 +341,13 @@ CKEDITOR.lang[ 'eo' ] = {
 		menu: 'Formularaj Atributoj',
 		action: 'Ago',
 		method: 'Metodo',
-		encoding: 'Encoding' // MISSING
+		encoding: 'Kodoprezento'
 	},
 
 	// Select Field Dialog.
 	select: {
 		title: 'Atributoj de Elekta Kampo',
-		selectInfo: 'Select Info', // MISSING
+		selectInfo: 'Informoj pri la rulummenuo',
 		opAvail: 'Elektoj Disponeblaj',
 		value: 'Valoro',
 		size: 'Grando',
@@ -367,7 +367,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	textarea: {
 		title: 'Atributoj de Teksta Areo',
 		cols: 'Kolumnoj',
-		rows: 'Vicoj'
+		rows: 'Linioj'
 	},
 
 	// Text Field Dialog.
@@ -401,90 +401,90 @@ CKEDITOR.lang[ 'eo' ] = {
 		lockRatio: 'Konservi Proporcion',
 		resetSize: 'Origina Grando',
 		border: 'Bordero',
-		hSpace: 'HSpaco',
-		vSpace: 'VSpaco',
-		alertUrl: 'Bonvolu tajpi la URL de la bildo',
-		linkTab: 'Link', // MISSING
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		hSpace: 'Horizontala Spaco',
+		vSpace: 'Vertikala Spaco',
+		alertUrl: 'Bonvolu tajpi la retadreson de la bildo',
+		linkTab: 'Ligilo',
+		button2Img: 'Ĉu vi volas transformi la selektitan bildbutonon en simplan bildon?',
+		img2Button: 'Ĉu vi volas transformi la selektitan bildon en bildbutonon?',
+		urlMissing: 'La fontretadreso de la bildo mankas.',
+		validateBorder: 'La bordero devas esti entjera nombro.',
+		validateHSpace: 'La horizontala spaco devas esti entjera nombro.',
+		validateVSpace: 'La vertikala spaco devas esti entjera nombro.'
 	},
 
 	// Flash Dialog
 	flash: {
-		properties: 'Flash Properties', // MISSING
-		propertiesTab: 'Properties', // MISSING
-		title: 'Flash Properties', // MISSING
-		chkPlay: 'Auto Play', // MISSING
-		chkLoop: 'Loop', // MISSING
-		chkMenu: 'Enable Flash Menu', // MISSING
-		chkFull: 'Allow Fullscreen', // MISSING
-		scale: 'Scale', // MISSING
-		scaleAll: 'Show all', // MISSING
-		scaleNoBorder: 'No Border', // MISSING
-		scaleFit: 'Exact Fit', // MISSING
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
-		alignAbsBottom: 'Abs Malsupre',
-		alignAbsMiddle: 'Abs Centre',
-		alignBaseline: 'Je Malsupro de Teksto',
-		alignTextTop: 'Je Supro de Teksto',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		properties: 'Flaŝatributoj',
+		propertiesTab: 'Atributoj',
+		title: 'Flaŝatributoj',
+		chkPlay: 'Aŭtomata legado',
+		chkLoop: 'Iteracio',
+		chkMenu: 'Ebligi flaŝmenuon',
+		chkFull: 'Permesi tutekranon',
+		scale: 'Skalo',
+		scaleAll: 'Montri ĉion',
+		scaleNoBorder: 'Neniu bordero',
+		scaleFit: 'Origina grando',
+		access: 'Atingi skriptojn',
+		accessAlways: 'Ĉiam',
+		accessSameDomain: 'Sama domajno',
+		accessNever: 'Neniam',
+		alignAbsBottom: 'Absoluta Malsupro',
+		alignAbsMiddle: 'Absoluta Centro',
+		alignBaseline: 'TekstoMalsupro',
+		alignTextTop: 'TekstoSupro',
+		quality: 'Kvalito',
+		qualityBest: 'Plej bona',
+		qualityHigh: 'Alta',
+		qualityAutoHigh: 'Aŭtomate alta',
+		qualityMedium: 'Meza',
+		qualityAutoLow: 'Aŭtomate malalta',
+		qualityLow: 'Malalta',
+		windowModeWindow: 'Fenestro',
+		windowModeOpaque: 'Opaka',
+		windowModeTransparent: 'Travidebla',
+		windowMode: 'Fenestra reĝimo',
+		flashvars: 'Variabloj por Flaŝo',
 		bgcolor: 'Fona Koloro',
-		hSpace: 'HSpaco',
-		vSpace: 'VSpaco',
-		validateSrc: 'Bonvolu entajpi la URL-on',
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		hSpace: 'Horizontala Spaco',
+		vSpace: 'Vertikala Spaco',
+		validateSrc: 'Bonvolu entajpi la retadreson (URL)',
+		validateHSpace: 'Horizontala Spaco devas esti nombro.',
+		validateVSpace: 'Vertikala Spaco devas esti nombro.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
-		toolbar: 'Literumada Kontrolilo',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		toolbar: 'Kontroli la ortografion',
+		title: 'Kontroli la ortografion',
+		notAvailable: 'Bedaŭrinde la servo ne funkcias nuntempe.',
+		errorLoading: 'Eraro en la servoelŝuto el la gastiga komputiko: %s.',
 		notInDic: 'Ne trovita en la vortaro',
 		changeTo: 'Ŝanĝi al',
-		btnIgnore: 'Malatenti',
-		btnIgnoreAll: 'Malatenti Ĉiun',
+		btnIgnore: 'Ignori',
+		btnIgnoreAll: 'Ignori Ĉion',
 		btnReplace: 'Anstataŭigi',
-		btnReplaceAll: 'Anstataŭigi Ĉiun',
+		btnReplaceAll: 'Anstataŭigi Ĉion',
 		btnUndo: 'Malfari',
 		noSuggestions: '- Neniu propono -',
-		progress: 'Literumkontrolado daŭras...',
-		noMispell: 'Literumkontrolado finita: neniu fuŝo trovita',
-		noChanges: 'Literumkontrolado finita: neniu vorto ŝanĝita',
-		oneChange: 'Literumkontrolado finita: unu vorto ŝanĝita',
-		manyChanges: 'Literumkontrolado finita: %1 vortoj ŝanĝitaj',
-		ieSpellDownload: 'Literumada Kontrolilo ne instalita. Ĉu vi volas elŝuti ĝin nun?'
+		progress: 'La ortografio estas kontrolata...',
+		noMispell: 'Ortografikontrolado finita: neniu eraro trovita',
+		noChanges: 'Ortografikontrolado finita: neniu vorto korektita',
+		oneChange: 'Ortografikontrolado finita: unu vorto korektita',
+		manyChanges: 'Ortografikontrolado finita: %1 vortoj korektitaj',
+		ieSpellDownload: 'Ortografikontrolilo ne instalita. Ĉu vi volas elŝuti ĝin nun?'
 	},
 
 	smiley: {
 		toolbar: 'Mienvinjeto',
 		title: 'Enmeti Mienvinjeton',
-		options: 'Smiley Options' // MISSING
+		options: 'Opcioj pri mienvinjetoj'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
-		eleTitle: '%1 element' // MISSING
+		eleLabel: 'Vojo al Elementoj',
+		eleTitle: '%1 elementoj'
 	},
 
 	numberedlist: 'Numera Listo',
@@ -493,57 +493,57 @@ CKEDITOR.lang[ 'eo' ] = {
 	outdent: 'Malpligrandigi Krommarĝenon',
 
 	justify: {
-		left: 'Maldekstrigi',
+		left: 'Ĝisrandigi maldekstren',
 		center: 'Centrigi',
-		right: 'Dekstrigi',
+		right: 'Ĝisrandigi dekstren',
 		block: 'Ĝisrandigi Ambaŭflanke'
 	},
 
-	blockquote: 'Block Quote', // MISSING
+	blockquote: 'Citaĵo',
 
 	clipboard: {
 		title: 'Interglui',
 		cutError: 'La sekurecagordo de via TTT-legilo ne permesas, ke la redaktilo faras eltondajn operaciojn. Bonvolu uzi la klavaron por tio (Ctrl/Cmd-X).',
 		copyError: 'La sekurecagordo de via TTT-legilo ne permesas, ke la redaktilo faras kopiajn operaciojn. Bonvolu uzi la klavaron por tio (Ctrl/Cmd-C).',
-		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
-		pasteArea: 'Paste Area' // MISSING
+		pasteMsg: 'Bonvolu glui la tekston en la jenan areon per uzado de la klavaro (<strong>Ctrl/Cmd+V</strong>) kaj premu OK',
+		securityMsg: 'Pro la sekurecagordo de via TTT-legilo, la redaktilo ne povas rekte atingi viajn datenojn en la poŝo. Bonvolu denove interglui la datenojn en tiun fenestron.',
+		pasteArea: 'Intergluoareo'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
+		confirmCleanup: 'La teksto, kiun vi volas interglui, ŝajnas esti kopiita el Word. Ĉu vi deziras purigi ĝin antaŭ intergluo?',
 		toolbar: 'Interglui el Word',
 		title: 'Interglui el Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'Ne eblis purigi la intergluitajn datenojn pro interna eraro'
 	},
 
 	pasteText: {
-		button: 'Interglui kiel Tekston',
-		title: 'Interglui kiel Tekston'
+		button: 'Interglui kiel platan tekston',
+		title: 'Interglui kiel platan tekston'
 	},
 
 	templates: {
-		button: 'Templates', // MISSING
-		title: 'Content Templates', // MISSING
-		options: 'Template Options', // MISSING
-		insertOption: 'Replace actual contents', // MISSING
-		selectPromptMsg: 'Please select the template to open in the editor', // MISSING
-		emptyListMsg: '(No templates defined)' // MISSING
+		button: 'Ŝablonoj',
+		title: 'Enhavo de ŝablonoj',
+		options: 'Opcioj pri ŝablonoj',
+		insertOption: 'Anstataŭigi la nunan enhavon',
+		selectPromptMsg: 'Bonvolu selekti la ŝablonon por malfermi ĝin en la redaktilo',
+		emptyListMsg: '(Neniu ŝablono difinita)'
 	},
 
-	showBlocks: 'Show Blocks', // MISSING
+	showBlocks: 'Montri la blokojn',
 
 	stylesCombo: {
-		label: 'Stilo',
-		panelTitle: 'Formatting Styles', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		label: 'Stiloj',
+		panelTitle: 'Stiloj pri enpaĝigo',
+		panelTitle1: 'Stiloj de blokoj',
+		panelTitle2: 'Enliniaj Stiloj',
+		panelTitle3: 'Stiloj de objektoj'
 	},
 
 	format: {
 		label: 'Formato',
-		panelTitle: 'Formato',
+		panelTitle: 'ParagrafFormato',
 
 		tag_p: 'Normala',
 		tag_pre: 'Formatita',
@@ -554,205 +554,205 @@ CKEDITOR.lang[ 'eo' ] = {
 		tag_h4: 'Titolo 4',
 		tag_h5: 'Titolo 5',
 		tag_h6: 'Titolo 6',
-		tag_div: 'Paragrafo (DIV)'
+		tag_div: 'Normala (DIV)'
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Krei DIV ujon',
+		toolbar: 'Krei DIV ujon',
+		cssClassInputLabel: 'Stilfolioklasoj',
+		styleSelectLabel: 'Stilo',
+		IdInputLabel: 'Id',
+		languageCodeInputLabel: ' Lingvokodo',
+		inlineStyleInputLabel: 'Enlinia stilo',
+		advisoryTitleInputLabel: 'Priskriba Titolo',
+		langDirLabel: 'Skribdirekto',
+		langDirLTRLabel: 'Maldekstre dekstren (angle LTR)',
+		langDirRTLLabel: 'Dekstre maldekstren (angle RTL)',
+		edit: 'Redakti Div',
+		remove: 'Forigi Div'
 	},
 
 	iframe: {
-		title: 'IFrame Properties', // MISSING
-		toolbar: 'IFrame', // MISSING
-		noUrl: 'Please type the iframe URL', // MISSING
-		scrolling: 'Enable scrollbars', // MISSING
-		border: 'Show frame border' // MISSING
+		title: 'Atributoj de la enlinia kadro (IFrame)',
+		toolbar: 'Enlinia kadro (IFrame)',
+		noUrl: 'Bonvolu entajpi la retadreson de la ligilo al la enlinia kadro (IFrame)',
+		scrolling: 'Ebligi rulumskalon',
+		border: 'Montri borderon de kadro (frame)'
 	},
 
 	font: {
 		label: 'Tiparo',
-		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Tiparo'
+		voiceLabel: 'Tiparo',
+		panelTitle: 'Tipara nomo'
 	},
 
 	fontSize: {
-		label: 'Grando',
-		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Grando'
+		label: 'Grado',
+		voiceLabel: 'Tipara grado',
+		panelTitle: 'Tipara grado'
 	},
 
 	colorButton: {
 		textColorTitle: 'Teksta Koloro',
 		bgColorTitle: 'Fona Koloro',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'Koloroj',
 		auto: 'Aŭtomata',
 		more: 'Pli da Koloroj...'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dim Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'Nigra',
+		'800000': 'Kaŝtankolora',
+		'8B4513': 'Mezbruna',
+		'2F4F4F': 'Ardezgriza',
+		'008080': 'Marĉanaskolora',
+		'000080': 'Maristblua',
+		'4B0082': 'Indigokolora',
+		'696969': 'Malhelgriza',
+		'B22222': 'Brikruĝa',
+		'A52A2A': 'Bruna',
+		'DAA520': 'Senbrilorkolora',
+		'006400': 'Malhelverda',
+		'40E0D0': 'Turkisblua',
+		'0000CD': 'Reĝblua',
+		'800080': 'Purpura',
+		'808080': 'Griza',
+		'F00': 'Ruĝa',
+		'FF8C00': 'Malheloranĝkolora',
+		'FFD700': 'Orkolora',
+		'008000': 'Verda',
+		'0FF': 'Verdblua',
+		'00F': 'Blua',
+		'EE82EE': 'Viola',
+		'A9A9A9': 'Mezgriza',
+		'FFA07A': 'Salmokolora',
+		'FFA500': 'Oranĝkolora',
+		'FFFF00': 'Flava',
+		'00FF00': 'Limetkolora',
+		'AFEEEE': 'Helturkiskolora',
+		'ADD8E6': 'Helblua',
+		'DDA0DD': 'Prunkolora',
+		'D3D3D3': 'Helgriza',
+		'FFF0F5': 'Lavendkolora vangoŝminko',
+		'FAEBD7': 'Antikvablanka',
+		'FFFFE0': 'Helflava',
+		'F0FFF0': 'Vintromelonkolora',
+		'F0FFFF': 'Lazura',
+		'F0F8FF': 'Aliceblua',
+		'E6E6FA': 'Lavendkolora',
+		'FFF': 'Blanka'
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		opera_title: 'Not supported by Opera', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		title: 'OrtografiKontrolado Dum Vi Tajpas (OKDVT)',
+		opera_title: 'Ne subportata de Opera',
+		enable: 'Ebligi OKDVT',
+		disable: 'Malebligi OKDVT',
+		about: 'Pri OKDVT',
+		toggle: 'Baskuligi OKDVT',
+		options: 'Opcioj',
+		langs: 'Lingvoj',
+		moreSuggestions: 'Pli da sugestoj',
+		ignore: 'Ignori',
+		ignoreAll: 'Ignori ĉion',
+		addWord: 'Almeti la vorton',
+		emptyDic: 'La vortaronomo ne devus esti malplena.',
 
-		optionsTab: 'Options', // MISSING
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		optionsTab: 'Opcioj',
+		allCaps: 'Ignori la vortojn skribitajn nur per ĉefliteroj',
+		ignoreDomainNames: 'Ignori domajnajn nomojn',
+		mixedCase: 'Ignori vortojn kun miksa uskleco',
+		mixedWithDigits: 'Ignori vortojn kun nombroj',
 
-		languagesTab: 'Languages', // MISSING
+		languagesTab: 'Lingvoj',
 
-		dictionariesTab: 'Dictionaries', // MISSING
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dictionariesTab: 'Vortaroj',
+		dic_field_name: 'Vortaronomo',
+		dic_create: 'Krei',
+		dic_restore: 'Restaŭri',
+		dic_delete: 'Forigi',
+		dic_rename: 'Renomi',
+		dic_info: 'Komence la vortaro de la uzanto estas konservita en kuketo. Tamen la kuketgrando estas limigita. Kiam la vortaro de la uzanto atingas grandon, kiu ne plu ebligas konservi ĝin en kuketo, tiam la vortaro povas esti konservata en niaj serviloj. Por konservi vian personan vortaron en nian servilon, vi devas indiki nomon por tiu vortaro. Se vi jam havas konservitan vortaron, bonvolu entajpi ties nomon kaj alklaki la restaŭrbutonon.',
 
-		aboutTab: 'About' // MISSING
+		aboutTab: 'Pri'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		help: 'Check $1 for help.', // MISSING
-		userGuide: 'CKEditor User\'s Guide', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'Pri CKEditor',
+		dlgTitle: 'Pri CKEditor',
+		help: 'Kontroli $1 por helpo.',
+		userGuide: 'CKEditor Uzindikoj',
+		moreInfo: 'Por informoj pri licenco, bonvolu viziti nian retpaĝaron:',
+		copy: 'Copyright &copy; $1. Ĉiuj rajtoj rezervitaj.'
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'Pligrandigi',
+	minimize: 'Malgrandigi',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		iframe: 'IFrame', // MISSING
-		hiddenfield: 'Hidden Field', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Ankro',
+		flash: 'FlaŝAnimacio',
+		iframe: 'Enlinia Kadro (IFrame)',
+		hiddenfield: 'Kaŝita kampo',
+		unknown: 'Nekonata objekto'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'Movigi por ŝanĝi la grandon',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		options: 'Color Options', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected Color', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Selekti koloron',
+		options: 'Opcioj pri koloroj',
+		highlight: 'Detaloj',
+		selected: 'Selektita koloro',
+		clear: 'Forigi'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Faldi la ilbreton',
+	toolbarExpand: 'Malfaldi la ilbreton',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'Dokumento',
+		clipboard: 'Poŝo/Malfari',
+		editing: 'Redaktado',
+		forms: 'Formularoj',
+		basicstyles: 'Bazaj stiloj',
+		paragraph: 'Paragrafo',
+		links: 'Ligiloj',
+		insert: 'Enmeti',
+		styles: 'Stiloj',
+		colors: 'Koloroj',
+		tools: 'Iloj'
 	},
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'Tekstdirekto de maldekstre dekstren',
+		rtl: 'Tekstdirekto de dekstre maldekstren'
 	},
 
 	docprops: {
 		label: 'Dokumentaj Atributoj',
 		title: 'Dokumentaj Atributoj',
-		design: 'Design', // MISSING
-		meta: 'Metadatumoj',
-		chooseColor: 'Choose', // MISSING
-		other: '<other>',
+		design: 'Dizajno',
+		meta: 'Metadatenoj',
+		chooseColor: 'Elektu',
+		other: '<alia>',
 		docTitle: 'Paĝotitolo',
 		charset: 'Signara Kodo',
 		charsetOther: 'Alia Signara Kodo',
-		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
-		charsetCR: 'Cyrillic', // MISSING
-		charsetGR: 'Greek', // MISSING
-		charsetJP: 'Japanese', // MISSING
-		charsetKR: 'Korean', // MISSING
-		charsetTR: 'Turkish', // MISSING
-		charsetUN: 'Unicode (UTF-8)', // MISSING
-		charsetWE: 'Western European', // MISSING
+		charsetASCII: 'ASCII',
+		charsetCE: 'Centra Eŭropa',
+		charsetCT: 'Tradicia Ĉina (Big5)',
+		charsetCR: 'Cirila',
+		charsetGR: 'Greka',
+		charsetJP: 'Japana',
+		charsetKR: 'Korea',
+		charsetTR: 'Turka',
+		charsetUN: 'Unikodo (UTF-8)',
+		charsetWE: 'Okcidenta Eŭropa',
 		docType: 'Dokumenta Tipo',
 		docTypeOther: 'Alia Dokumenta Tipo',
-		xhtmlDec: 'Inkluzivi XHTML Deklaroj',
+		xhtmlDec: 'Inkluzivi XHTML Deklarojn',
 		bgColor: 'Fona Koloro',
 		bgImage: 'URL de Fona Bildo',
 		bgFixed: 'Neruluma Fono',
@@ -762,10 +762,10 @@ CKEDITOR.lang[ 'eo' ] = {
 		marginLeft: 'Maldekstra',
 		marginRight: 'Dekstra',
 		marginBottom: 'Malsupra',
-		metaKeywords: 'Ŝlosilvortoj de la Dokumento (apartigita de komoj)',
+		metaKeywords: 'Ŝlosilvortoj de la Dokumento (apartigitaj de komoj)',
 		metaDescription: 'Dokumenta Priskribo',
 		metaAuthor: 'Verkinto',
 		metaCopyright: 'Kopirajto',
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		previewHtml: '<p>Tio estas <strong>sampla teksto</strong>. Vi estas uzanta <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };

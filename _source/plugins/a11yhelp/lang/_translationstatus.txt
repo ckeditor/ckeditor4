@@ -1,5 +1,8 @@
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 
+cy.js      Found: 27 Missing: 3
+fi.js      Found: 25 Missing: 5
+fr.js      Found: 30 Missing: 0
 he.js      Found: 30 Missing: 0
-it.js      Found: 25 Missing: 5
+it.js      Found: 30 Missing: 0

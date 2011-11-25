@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'fr' ] = {
 	editorTitle: 'Éditeur de Texte Enrichi, %1, appuyez sur ALT-0 pour l\'aide.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
+	toolbars: 'Barre d\'outils de l\'éditeur',
 	editor: 'Éditeur de Texte Enrichi',
 
 	// Toolbar buttons without dialogs.
@@ -119,10 +119,10 @@ CKEDITOR.lang[ 'fr' ] = {
 		alignBottom: 'Bas',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure HTML valide (px or %).',
+		invalidInlineStyle: 'La valeur spécifiée pour le style inline doit être composée d\'un ou plusieurs couples de valeur au format "nom : valeur", separés par des points-virgules.',
+		cssLengthTooltip: 'Entrer un nombre pour une valeur en pixels ou un nombre avec une unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, Indisponible</span>'
@@ -200,7 +200,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		title: 'Propriétés de l\'ancre',
 		name: 'Nom de l\'ancre',
 		errorName: 'Veuillez entrer le nom de l\'ancre.',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Supprimer l\'ancre'
 	},
 
 	// List style dialog
@@ -234,7 +234,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		findWhat: 'Expression à trouver: ',
 		replaceWith: 'Remplacer par: ',
 		notFoundMsg: 'Le texte spécifié ne peut être trouvé.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Options de recherche',
 		matchCase: 'Respecter la casse',
 		matchWord: 'Mot entier uniquement',
 		matchCyclic: 'Boucler',
@@ -660,7 +660,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		emptyDic: 'Le nom du dictionnaire ne devrait pas être vide.',
 
 		optionsTab: 'Options',
-		allCaps: 'Ignorer les mots entierement en majuscules',
+		allCaps: 'Ignorer les mots entièrement en majuscules',
 		ignoreDomainNames: 'Ignorer les noms de domaines',
 		mixedCase: 'Ignorer les mots à casse multiple',
 		mixedWithDigits: 'Ignorer les mots contenant des chiffres',
@@ -673,16 +673,16 @@ CKEDITOR.lang[ 'fr' ] = {
 		dic_restore: 'Restaurer',
 		dic_delete: 'Effacer',
 		dic_rename: 'Renommer',
-		dic_info: 'Initiallement, le dictionnaire de l\'utilisateur est stocké dans un cookie. Cependant, les cookies sont limités en taille. Quand le dictionnaire atteint une taille qu\'il n\'est plus possible de stocker dans un cookie, il peut alors être stocké sur nos serveurs. Afin de stocker votre dictionnaire personnel sur nos serveurs, vous devez spécifier un nom pour ce dictionnaire. Si vous avez déjà un dictionnaire stocké, merci de taper son nom puis cliquer sur Restaurer pour le récupérer.',
+		dic_info: 'Initialement, le dictionnaire de l\'utilisateur est stocké dans un cookie. Cependant, les cookies sont limités en taille. Quand le dictionnaire atteint une taille qu\'il n\'est plus possible de stocker dans un cookie, il peut alors être stocké sur nos serveurs. Afin de stocker votre dictionnaire personnel sur nos serveurs, vous devez spécifier un nom pour ce dictionnaire. Si vous avez déjà un dictionnaire stocké, merci de taper son nom puis cliquer sur Restaurer pour le récupérer.',
 
 		aboutTab: 'À propos de'
 	},
 
 	about: {
-		title: 'A propos de CKEditor',
-		dlgTitle: 'A propos de CKEditor',
-		help: 'Check $1 for help.', // MISSING
-		userGuide: 'CKEditor User\'s Guide', // MISSING
+		title: 'À propos de CKEditor',
+		dlgTitle: 'À propos de CKEditor',
+		help: 'Consulter $1 pour l\'aide.',
+		userGuide: 'Guide de l\'utilisateur CKEditor en anglais',
 		moreInfo: 'Pour les informations de licence, veuillez visiter notre site web:',
 		copy: 'Copyright &copy; $1. Tous droits réservés.'
 	},
@@ -712,17 +712,17 @@ CKEDITOR.lang[ 'fr' ] = {
 	toolbarExpand: 'Dérouler la barre d\'outils',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'Document',
+		clipboard: 'Presse-papier/Défaire',
+		editing: 'Editer',
+		forms: 'Formulaires',
+		basicstyles: 'Styles de base',
+		paragraph: 'Paragraphe',
+		links: 'Liens',
+		insert: 'Insérer',
+		styles: 'Styles',
+		colors: 'Couleurs',
+		tools: 'Outils'
 	},
 
 	bidi: {
@@ -733,14 +733,14 @@ CKEDITOR.lang[ 'fr' ] = {
 	docprops: {
 		label: 'Propriétés du document',
 		title: 'Propriétés du document',
-		design: 'Design', // MISSING
+		design: 'Design',
 		meta: 'Métadonnées',
 		chooseColor: 'Choisissez',
 		other: '<autre>',
 		docTitle: 'Titre de la page',
 		charset: 'Encodage de caractère',
 		charsetOther: 'Autre encodage de caractère',
-		charsetASCII: 'ASCII', // MISSING
+		charsetASCII: 'ASCII',
 		charsetCE: 'Europe Centrale',
 		charsetCT: 'Chinois Traditionnel (Big5)',
 		charsetCR: 'Cyrillique',
@@ -748,7 +748,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		charsetJP: 'Japonais',
 		charsetKR: 'Coréen',
 		charsetTR: 'Turc',
-		charsetUN: 'Unicode (UTF-8)', // MISSING
+		charsetUN: 'Unicode (UTF-8)',
 		charsetWE: 'Occidental',
 		docType: 'Type de document',
 		docTypeOther: 'Autre type de document',
@@ -765,7 +765,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		metaKeywords: 'Mots-clés (séparés par des virgules)',
 		metaDescription: 'Description',
 		metaAuthor: 'Auteur',
-		metaCopyright: 'Copyright', // MISSING
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		metaCopyright: 'Copyright',
+		previewHtml: '<p>Ceci est un <strong>texte d\'exemple</strong>. Vous utilisez <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };

@@ -33,8 +33,8 @@ CKEDITOR.lang[ 'gu' ] = {
 	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: 'એડીટર ટૂલ બાર',
+	editor: 'રીચ ટેક્ષ્ત્ એડીટર',
 
 	// Toolbar buttons without dialogs.
 	source: 'મૂળ કે પ્રાથમિક દસ્તાવેજ',
@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	superscript: 'એક ચિહ્ન ઉપર કરેલું બીજું ચિહ્ન.',
 	horizontalrule: 'સમસ્તરીય રેખા ઇન્સર્ટ/દાખલ કરવી',
 	pagebreak: 'ઇન્સર્ટ પેજબ્રેક/પાનાને અલગ કરવું/દાખલ કરવું',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: 'નવું પાનું',
 	unlink: 'લિંક કાઢવી',
 	undo: 'રદ કરવું; પહેલાં હતી એવી સ્થિતિ પાછી લાવવી',
 	redo: 'રિડૂ; પછી હતી એવી સ્થિતિ પાછી લાવવી',
@@ -91,23 +91,23 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssStyle: 'સ્ટાઇલ',
 		ok: 'ઠીક છે',
 		cancel: 'રદ કરવું',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'બંધ કરવું',
+		preview: 'જોવું',
+		generalTab: 'જનરલ',
 		advancedTab: 'અડ્વાન્સડ',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		validateNumberFailed: 'આ રકમ આકડો નથી.',
+		confirmNewPage: 'સવે કાર્ય વગરનું ફકરો ખોવાઈ જશે. તમને ખાતરી છે કે તમને નવું પાનું ખોલવું છે?',
+		confirmCancel: 'ઘણા વિકલ્પો બદલાયા છે. તમારે આ બોક્ષ્ બંધ કરવું છે?',
+		options: 'વિકલ્પો',
+		target: 'લક્ષ્ય',
+		targetNew: 'નવી વિન્ડો (_blank)',
+		targetTop: 'ઉપરની વિન્ડો (_top)',
+		targetSelf: 'એજ વિન્ડો (_self)',
+		targetParent: 'પેરનટ વિન્ડો (_parent)',
+		langDirLTR: 'ડાબે થી જમણે (LTR)',
+		langDirRTL: 'જમણે થી ડાબે (RTL)',
+		styles: 'શૈલી',
+		cssClasses: 'શૈલી કલાસીસ',
 		width: 'પહોળાઈ',
 		height: 'ઊંચાઈ',
 		align: 'લાઇનદોરીમાં ગોઠવવું',
@@ -117,8 +117,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		alignTop: 'ઉપર',
 		alignMiddle: 'વચ્ચે',
 		alignBottom: 'નીચે',
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		invalidHeight: 'ઉંચાઈ એક આંકડો હોવો જોઈએ.',
+		invalidWidth: 'પોહળ ઈ એક આંકડો હોવો જોઈએ.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
@@ -150,7 +150,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		upload: 'અપલોડ',
 		advanced: 'અડ્વાન્સડ',
 		type: 'લિંક પ્રકાર',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'આ પેજનો ઍંકર',
 		toEmail: 'ઈ-મેલ',
 		targetFrame: '<ફ્રેમ>',
@@ -168,7 +168,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		popupDependent: 'ડિપેન્ડન્ટ (Netscape)',
 		popupLeft: 'ડાબી બાજુ',
 		popupTop: 'જમણી બાજુ',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'ભાષા લેખવાની પદ્ધતિ',
 		langDirLTR: 'ડાબે થી જમણે (LTR)',
 		langDirRTL: 'જમણે થી ડાબે (RTL)',
@@ -210,10 +210,10 @@ CKEDITOR.lang[ 'gu' ] = {
 		type: 'Type', // MISSING
 		start: 'Start', // MISSING
 		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
+		circle: 'વર્તુળ',
+		disc: 'ડિસ્ક',
+		square: 'ચોરસ',
+		none: 'કસુ ',
 		notset: '<not set>', // MISSING
 		armenian: 'Armenian numbering', // MISSING
 		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
@@ -262,10 +262,10 @@ CKEDITOR.lang[ 'gu' ] = {
 		headersNone: 'None', // MISSING
 		headersColumn: 'First column', // MISSING
 		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
+		headersBoth: 'બેવું',
 		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
 		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
+		invalidBorder: 'બોર્ડર એક આંકડો હોવો જોઈએ',
 		invalidWidth: 'Table width must be a number.', // MISSING
 		invalidHeight: 'Table height must be a number.', // MISSING
 		invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
@@ -285,10 +285,10 @@ CKEDITOR.lang[ 'gu' ] = {
 			cellType: 'Cell Type', // MISSING
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignBaseline: 'Baseline', // MISSING
+			wordWrap: 'વર્ડ રેપ',
+			hAlign: 'સપાટ લાઈનદોરી',
+			vAlign: 'ઊભી લાઈનદોરી',
+			alignBaseline: 'બસે લાઈન',
 			bgColor: 'Background Color', // MISSING
 			borderColor: 'Border Color', // MISSING
 			data: 'Data', // MISSING
@@ -687,8 +687,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'મોટું કરવું',
+	minimize: 'નાનું કરવું',
 
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
@@ -698,7 +698,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		unknown: 'Unknown Object' // MISSING
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'ખેંચી ને યોગ્ય કરવું',
 
 	colordialog: {
 		title: 'Select color', // MISSING
@@ -708,8 +708,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		clear: 'Clear' // MISSING
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'ટૂલબાર નાનું કરવું',
+	toolbarExpand: 'ટૂલબાર મોટું કરવું',
 
 	toolbarGroups: {
 		document: 'Document', // MISSING
