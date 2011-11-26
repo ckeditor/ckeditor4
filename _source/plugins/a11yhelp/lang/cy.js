@@ -23,17 +23,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 
 				{
 				name: 'Dewislen Cyd-destun y Golygydd',
-				legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with  SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option wtih SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+				legend: 'Pwyswch $ {contextMenu} neu\'r ALLWEDD \'APPLICATION\' i agor y ddewislen cyd-destun. Yna symudwch i\'r opsiwn ddewislen nesaf gyda\'r TAB neu\'r SAETH I LAWR. Symudwch i\'r opsiwn blaenorol gyda SHIFT + TAB neu\'r SAETH I FYNY. Pwyswch SPACE neu ENTER i ddewis yr opsiwn ddewislen. Agorwch is-dewislen yr opsiwn cyfredol gyda SPACE neu ENTER neu SAETH DDE. Ewch yn ôl i\'r eitem ar y ddewislen uwch gydag ESC neu SAETH CHWITH. Ceuwch y ddewislen cyd-destun gydag ESC.'
 			},
 
 				{
 				name: 'Blwch Rhestr y Golygydd',
-				legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+				legend: 'Tu mewn rhestr-bocs, ewch i\'r eitem rhestr nesaf gyda TAB neu\'r SAETH I LAWR. Symudwch i restr eitem flaenorol gyda SHIFT + TAB neu SAETH I FYNY. Pwyswch SPACE neu ENTER i ddewis yr opsiwn o\'r rhestr. Pwyswch ESC i gau\'r rhestr.'
 			},
 
 				{
 				name: 'Bar Llwybr Elfen y Golygydd',
-				legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+				legend: 'Pwyswch $ {elementsPathFocus} i fynd i\'r elfennau llwybr bar. Symudwch i fotwm yr elfen nesaf gyda TAB neu SAETH DDE. Symudwch i fotwm blaenorol gyda SHIFT + TAB neu SAETH CHWITH. Pwyswch SPACE neu ENTER i ddewis yr elfen yn y golygydd.'
 			}
 			]
 		},

@@ -125,24 +125,24 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, નથી મળતું</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'કોન્તેક્ષ્ત્ મેનુના વિકલ્પો'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'વિશિષ્ટ અક્ષર ઇન્સર્ટ/દાખલ કરવું',
 		title: 'સ્પેશિઅલ વિશિષ્ટ અક્ષર પસંદ કરો',
-		options: 'Special Character Options' // MISSING
+		options: 'સ્પેશિઅલ કરેક્ટરના વિકલ્પો'
 	},
 
 	// Link dialog.
 	link: {
 		toolbar: 'લિંક ઇન્સર્ટ/દાખલ કરવી',
-		other: '<other>', // MISSING
+		other: '<other> <અન્ય>',
 		menu: ' લિંક એડિટ/માં ફેરફાર કરવો',
 		title: 'લિંક',
 		info: 'લિંક ઇન્ફૉ ટૅબ',
@@ -158,7 +158,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		targetFrameName: 'ટાર્ગેટ ફ્રેમ નું નામ',
 		targetPopupName: 'પૉપ-અપ વિન્ડો નું નામ',
 		popupFeatures: 'પૉપ-અપ વિન્ડો ફીચરસૅ',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'રીસાઈઝએબલ',
 		popupStatusBar: 'સ્ટૅટસ બાર',
 		popupLocationBar: 'લોકેશન બાર',
 		popupToolbar: 'ટૂલ બાર',
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
 		charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 		styles: 'સ્ટાઇલ',
-		rel: 'Relationship', // MISSING
+		rel: 'સંબંધની સ્થિતિ',
 		selectAnchor: 'ઍંકર પસંદ કરો',
 		anchorName: 'ઍંકર નામથી પસંદ કરો',
 		anchorId: 'ઍંકર એલિમન્ટ Id થી પસંદ કરો',
@@ -200,30 +200,30 @@ CKEDITOR.lang[ 'gu' ] = {
 		title: 'ઍંકરના ગુણ',
 		name: 'ઍંકરનું નામ',
 		errorName: 'ઍંકરનું નામ ટાઈપ કરો',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'સ્થિર નકરવું'
 	},
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
+		numberedTitle: 'આંકડાના લીસ્ટના ગુણ',
+		bulletedTitle: 'બુલેટેડ લીસ્ટના ગુણ',
+		type: 'પ્રકાર',
+		start: 'શરુ કરવું',
+		validateStartNumber: 'લીસ્ટના સરુઆતનો આંકડો પુરો હોવો જોઈએ.',
 		circle: 'વર્તુળ',
 		disc: 'ડિસ્ક',
 		square: 'ચોરસ',
 		none: 'કસુ ',
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		notset: '<સેટ નથી>',
+		armenian: 'અરમેનિયન આંકડા પદ્ધતિ',
+		georgian: 'ગેઓર્ગિયન આંકડા પદ્ધતિ (an, ban, gan, etc.)',
+		lowerRoman: 'રોમન નાના (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'રોમન મોટા (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'આલ્ફા નાના (a, b, c, d, e, etc.)',
+		upperAlpha: 'આલ્ફા મોટા (A, B, C, D, E, etc.)',
+		lowerGreek: 'ગ્રીક નાના (alpha, beta, gamma, etc.)',
+		decimal: 'આંકડા (1, 2, 3, etc.)',
+		decimalLeadingZero: 'સુન્ય આગળ આંકડા (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -237,9 +237,9 @@ CKEDITOR.lang[ 'gu' ] = {
 		findOptions: 'Find Options', // MISSING
 		matchCase: 'કેસ સરખા રાખો',
 		matchWord: 'બઘા શબ્દ સરખા રાખો',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'સરખાવવા બધા',
 		replaceAll: 'બઘા બદલી ',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 ફેરફારો બાદલાયા છે.'
 	},
 
 	// Table Dialog
@@ -253,23 +253,23 @@ CKEDITOR.lang[ 'gu' ] = {
 		border: 'કોઠાની બાજુ(બોર્ડર) સાઇઝ',
 		widthPx: 'પિકસલ',
 		widthPc: 'પ્રતિશત',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'પોહાલાઈ એકમ',
 		cellSpace: 'સેલ અંતર',
 		cellPad: 'સેલ પૅડિંગ',
 		caption: 'મથાળું/કૅપ્શન ',
 		summary: 'ટૂંકો એહેવાલ',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
+		headers: 'મથાળા',
+		headersNone: 'નથી ',
+		headersColumn: 'પહેલી ઊભી કટાર',
+		headersRow: 'પહેલી  કટાર',
 		headersBoth: 'બેવું',
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
+		invalidRows: 'આડી કટાર, 0 કરતા વધારે હોવી જોઈએ.',
+		invalidCols: 'ઉભી કટાર, 0 કરતા વધારે હોવી જોઈએ.',
 		invalidBorder: 'બોર્ડર એક આંકડો હોવો જોઈએ',
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
+		invalidWidth: 'ટેબલની પોહલાઈ આંકડો હોવો જોઈએ.',
+		invalidHeight: 'ટેબલની ઊંચાઈ આંકડો હોવો જોઈએ.',
+		invalidCellSpacing: 'સેલ વચ્ચેની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',
+		invalidCellPadding: 'સેલની અંદરની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',
 
 		cell: {
 			menu: 'કોષના ખાના',
@@ -281,24 +281,24 @@ CKEDITOR.lang[ 'gu' ] = {
 			mergeDown: 'નીચે ભેગા કરવા',
 			splitHorizontal: 'કોષને સમસ્તરીય વિભાજન કરવું',
 			splitVertical: 'કોષને સીધું ને ઊભું વિભાજન કરવું',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
+			title: 'સેલના ગુણ',
+			cellType: 'સેલનો પ્રકાર',
+			rowSpan: 'આડી કટારની જગ્યા',
+			colSpan: 'ઊભી કતારની જગ્યા',
 			wordWrap: 'વર્ડ રેપ',
 			hAlign: 'સપાટ લાઈનદોરી',
 			vAlign: 'ઊભી લાઈનદોરી',
 			alignBaseline: 'બસે લાઈન',
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
+			bgColor: 'પાછાળનો રંગ',
+			borderColor: 'બોર્ડેર રંગ',
+			data: 'સ્વીકૃત માહિતી',
+			header: 'મથાળું',
+			yes: 'હા',
 			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
+			invalidWidth: 'સેલની પોહલાઈ આંકડો હોવો જોઈએ.',
+			invalidHeight: 'સેલની ઊંચાઈ આંકડો હોવો જોઈએ.',
+			invalidRowSpan: 'રો સ્પાન આંકડો હોવો જોઈએ.',
+			invalidColSpan: 'કોલમ સ્પાન આંકડો હોવો જોઈએ.',
 			chooseColor: 'Choose' // MISSING
 		},
 
@@ -341,7 +341,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		menu: 'ફૉર્મ/પત્રકના ગુણ',
 		action: 'ક્રિયા',
 		method: 'પદ્ધતિ',
-		encoding: 'Encoding' // MISSING
+		encoding: 'અન્કોડીન્ગ'
 	},
 
 	// Select Field Dialog.
@@ -405,18 +405,18 @@ CKEDITOR.lang[ 'gu' ] = {
 		vSpace: 'લંબરૂપ જગ્યા',
 		alertUrl: 'ચિત્રની URL ટાઇપ કરો',
 		linkTab: 'લિંક',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		button2Img: 'તમારે ઈમેજ બટનને સાદી ઈમેજમાં બદલવું છે.',
+		img2Button: 'તમારે સાદી ઈમેજને ઈમેજ બટનમાં બદલવું છે.',
+		urlMissing: 'ઈમેજની મૂળ URL છે નહી.',
+		validateBorder: 'બોર્ડેર આંકડો હોવો જોઈએ.',
+		validateHSpace: 'HSpaceઆંકડો હોવો જોઈએ.',
+		validateVSpace: 'VSpace આંકડો હોવો જોઈએ. '
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'ફ્લૅશના ગુણ',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'ગુણ',
 		title: 'ફ્લૅશ ગુણ',
 		chkPlay: 'ઑટો/સ્વયં પ્લે',
 		chkLoop: 'લૂપ',
@@ -435,8 +435,8 @@ CKEDITOR.lang[ 'gu' ] = {
 		alignBaseline: 'આધાર લીટી',
 		alignTextTop: 'ટેક્સ્ટ ઉપર',
 		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
+		qualityBest: 'શ્રેષ્ઠ',
+		qualityHigh: 'ઊંચું',
 		qualityAutoHigh: 'Auto High', // MISSING
 		qualityMedium: 'Medium', // MISSING
 		qualityAutoLow: 'Auto Low', // MISSING

@@ -37,7 +37,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	editor: 'Golygydd Testun Cyfoethog',
 
 	// Toolbar buttons without dialogs.
-	source: 'Tarddle',
+	source: 'HTML',
 	newPage: 'Tudalen newydd',
 	save: 'Cadw',
 	preview: 'Rhagolwg',
@@ -407,7 +407,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		linkTab: 'Dolen',
 		button2Img: 'Ydych am drawsffurfio\'r botwm ddelwedd hwn ar ddelwedd syml?',
 		img2Button: 'Ydych am drawsffurfio\'r ddelwedd hon ar fotwm delwedd?',
-		urlMissing: 'URL tarddle\'r ddelwedd ar goll.',
+		urlMissing: 'URL gwreiddiol y ddelwedd ar goll.',
 		validateBorder: 'Rhaid i\'r ymyl fod yn gyfanrif.',
 		validateHSpace: 'Rhaid i\'r HSpace fod yn gyfanrif.',
 		validateVSpace: 'Rhaid i\'r VSpace fod yn gyfanrif.'
