@@ -13,17 +13,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			items: [
 				{
 				name: 'نوار ابزار ویرایشگر',
-				legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+				legend: '${toolbarFocus} را برای باز کردن نوار ابزار بفشارید. با کلید Tab و Shif-Tab در مجموعه نوار ابزار بعدی و قبلی حرکت کنید. برای حرکت در کلید نوار ابزار قبلی و بعدی با کلید جهت‌نمای راست و چپ جابجا شوید. کلید Space یا Enter را برای فعال کردن کلید نوار ابزار بفشارید.'
 			},
 
 				{
 				name: 'پنجره محاوره‌ای ویرایشگر',
-				legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+				legend: 'در داخل یک پنجره محاوره‌ای، کلید Tab را بفشارید تا به پنجره‌ی بعدی بروید، Shift+Tab برای حرکت به فیلد قبلی، فشردن Enter برای ثبت اطلاعات پنجره‌، فشردن Esc برای لغو پنجره محاوره‌ای و برای پنجره‌هایی که چندین برگه دارند، فشردن Alt+F10 جهت رفتن به Tab-List. در نهایت حرکت به برگه بعدی با Tab یا کلید جهت‌نمای راست. حرکت به برگه قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک برگه.'
 			},
 
 				{
 				name: 'منوی متنی ویرایشگر',
-				legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with  SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option wtih SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+				legend: '${contextMenu} یا کلید برنامه‌های کاربردی را برای باز کردن منوی متن را بفشارید. سپس می‌توانید برای حرکت به گزینه بعدی منو با کلید Tab و یا کلید جهت‌نمای پایین جابجا شوید. حرکت به گزینه قبلی با Shift+Tab یا کلید جهت‌نمای بالا. فشردن Space یا Enter برای انتخاب یک گزینه از منو. باز کردن زیر شاخه گزینه منو جاری با کلید Space یا Enter و یا کلید جهت‌نمای راست و چپ. بازگشت به منوی والد با کلید Esc یا کلید جهت‌نمای چپ. بستن منوی متن با Esc.'
 			},
 
 				{
@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 
 				{
 				name: 'ویرایشگر عنصر نوار راه',
-				legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+				legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا  کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
 			}
 			]
 		},

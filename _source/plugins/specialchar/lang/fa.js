@@ -25,7 +25,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	not: 'علامت ثبت نشده',
 	reg: 'علامت ثبت شده',
 	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
+	deg: 'نشان درجه',
 	sup2: 'بالانویس دو',
 	sup3: 'بالانویس سه',
 	acute: 'لهجه غلیظ',
