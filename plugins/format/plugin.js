@@ -49,7 +49,7 @@ CKEDITOR.plugins.add( 'format', {
 				var style = styles[ value ],
 					elementPath = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() );
 
-				style[ style.checkActive( elementPath ) ? 'remove' : 'apply' ]( editor.document );
+				editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
 
 				// Save the undo snapshot after all changes are affected. (#4899)
 				setTimeout( function() {

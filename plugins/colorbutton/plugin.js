@@ -112,7 +112,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 
 				// Clean up any conflicting style within the range.
-				new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ).remove( editor.document );
+				editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
 
 				if ( color ) {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
@@ -127,7 +127,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
-					new CKEDITOR.style( colorStyle, { color: color } ).apply( editor.document );
+					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 				}
 
 				editor.fire( 'saveSnapshot' );

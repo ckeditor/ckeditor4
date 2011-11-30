@@ -1196,7 +1196,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				// Apply style.
 				var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
 				style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
-				style.apply( editor.document );
+				editor.applyStyle( style );
 			} else {
 				// We're only editing an existing link, so just overwrite the attributes.
 				var element = this._.selectedElement,
