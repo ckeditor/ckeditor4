@@ -312,6 +312,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @see CKEDITOR.editor.prototype.setData
 			 */
 			setData: function( data, isSnapshot ) {
+				if ( !isSnapshot && this.editor.dataProcessor )
+					data = this.editor.dataProcessor.toHtml( data );
+
 				this.setHtml( data );
 				this.editor.fire( 'dataReady' );
 			},
@@ -320,7 +323,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @see CKEDITOR.editor.prototype.getData
 			 */
 			getData: function( isSnapshot ) {
-				return this.getHtml();
+				var data = this.getHtml();
+
+				if ( !isSnapshot && this.editor.dataProcessor )
+					data = this.editor.dataProcessor.toDataFormat( data );
+
+				return data;
 			},
 
 			detach: function() {
