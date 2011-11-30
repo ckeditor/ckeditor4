@@ -96,14 +96,8 @@ CKEDITOR.plugins.add( 'menu', {
 
 		_: {
 			onShow: function() {
-				var selection = this.editor.getSelection();
-
-				// Selection will be unavailable after menu shows up
-				// in IE, lock it now.
-				if ( CKEDITOR.env.ie )
-					selection && selection.lock();
-
-				var element = selection && selection.getStartElement(),
+				var selection = this.editor.getSelection(),
+					element = selection && selection.getStartElement(),
 					listeners = this._.listeners,
 					includedItems = [];
 
@@ -152,11 +146,6 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			onHide: function() {
-				if ( CKEDITOR.env.ie ) {
-					var selection = this.editor.getSelection();
-					selection && selection.unlock();
-				}
-
 				this.onHide && this.onHide();
 			},
 

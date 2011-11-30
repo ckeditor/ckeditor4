@@ -51,16 +51,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 		proto: {
 			/**
+			 * Override {@link CKEDITOR.dom.element.prototype.on} to have special focus/blur handling.
+			 * The "focusin/focusout" events are used in IE to replace regular "focus/blur" events
+			 * because we want to avoid the asynchronous nature of later ones.
+			 */
+			on: function( name, fn ) {
+				var args = Array.prototype.slice.call( arguments, 0 );
+
+				if ( CKEDITOR.env.ie && /^focus|blur$/.exec( name ) ) {
+					name = name == 'focus' ? 'focusin' : 'focusout';
+
+					// The "focusin/focusout" events bubbled, e.g. If there are elements with layout
+					// they fire this event when clicking in to edit them but it must be ignored
+					// to allow edit their contents. (#4682)
+					fn = isNotBubbling( fn );
+					args[ 0 ] = name;
+					args[ 1 ] = fn;
+				}
+
+				return CKEDITOR.dom.element.prototype.on.apply( this, args );
+			},
+
+			/**
 			 * Registers an event listener that needs to be removed on detaching.
 			 * @param obj
 			 * @param event
 			 * @param fn
 			 * @param scope
 			 */
-			attachListener: function( obj, event, fn, scope ) {
+			attachListener: function( obj, event, fn, scope, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
-				// Register the listener..
-				this._.listeners.push( obj.on( event, fn, scope ) );
+				// Register the listener.
+				var args = Array.prototype.slice.call( arguments, 1 );
+				this._.listeners.push( obj.on.apply( obj, args ) );
 			},
 
 			focus: function() {
@@ -622,6 +645,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function nonEditable( element ) {
 		return element.isBlockBoundary() && CKEDITOR.dtd.$empty[ element.getName() ];
 	}
+
+	function isNotBubbling( fn ) {
+		return function( evt ) {
+			var target = evt.data.getTarget(),
+				other = evt.data.$.toElement || evt.data.$.fromElement;
+			other = other ? CKEDITOR.dom.element.get( other ) : null;
+			if ( target.equals( this ) && !( other && this.contains( other ) ) )
+				fn.call( this, evt );
+		}
+	}
+
 
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
