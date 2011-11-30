@@ -35,7 +35,8 @@ CKEDITOR.focusManager = function( editor ) {
 	 * @private
 	 */
 	this._ = {
-		editor: editor
+		editor: editor,
+		isForced: 0
 	};
 
 	return this;
@@ -71,6 +72,14 @@ CKEDITOR.focusManager.prototype = {
 	},
 
 	/**
+	 *  Stick focus manager to the focused state until one of {@link #forceBlur} or {@link #cancelForced} get called.
+	 */
+	forceFocus: function() {
+		this.focus();
+		this._.isForced = 1;
+	},
+
+	/**
 	 * Used to indicate that the editor instance has lost the focus.<br />
 	 * <br />
 	 * Note that this functions acts asynchronously with a delay of 100ms to
@@ -81,15 +90,18 @@ CKEDITOR.focusManager.prototype = {
 	 * <b>editor.focusManager.blur()</b>;
 	 */
 	blur: function() {
-		var focusManager = this;
+		if ( !this._.isForced ) {
+			var focusManager = this;
 
-		if ( focusManager._.timer )
-			clearTimeout( focusManager._.timer );
+			if ( focusManager._.timer )
+				clearTimeout( focusManager._.timer );
 
-		focusManager._.timer = setTimeout( function() {
-			delete focusManager._.timer;
-			focusManager.forceBlur();
-		}, 100 );
+			focusManager._.timer = setTimeout( function() {
+				delete focusManager._.timer;
+				focusManager.forceBlur();
+			}, 200 );
+
+		}
 	},
 
 	/**
@@ -105,8 +117,17 @@ CKEDITOR.focusManager.prototype = {
 			var editor = this._.editor;
 
 			this.hasFocus = false;
+			this.cancelForced();
+
 			editor.fire( 'blur' );
 		}
+	},
+
+	/**
+	 * Clear the locked state of the focus manager because of the {@link #forceFocus} call.
+	 */
+	cancelForced: function() {
+		delete this._.isForced;
 	}
 };
 
@@ -124,6 +145,8 @@ CKEDITOR.focusManager.prototype = {
 
 /**
  * Fired when the editor instance loses the input focus.
+ * <strong>Note:</strong> This event will NOT be triggered when focus is moved internally, e.g. from the editable to other part of the editor UI like dialog.
+ * If you're interested on only the editable focus state listen to the {@link CKEDITOR.editable#focus} and {@link CKEDITOR.editable#blur} events instead.
  * @name CKEDITOR.editor#blur
  * @event
  * @param {CKEDITOR.editor} editor The editor instance.

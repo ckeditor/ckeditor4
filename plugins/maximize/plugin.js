@@ -82,7 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		if ( editor.focusManager.hasFocus ) {
+		if ( editor.editable().hasFocus ) {
 			editor.toolbox.focus();
 			editor.focus();
 		}

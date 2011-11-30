@@ -41,6 +41,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Delegate editor focus/blur to editable.
 			this.attachListener( editor, 'beforeFocus', this.focus, this );
 
+			/**
+			 * Indicate whether the editable element has gained focus.
+			 * @name CKEDITOR.editable.prototype.hasFocus
+			 */
+			this.hasFocus = false;
+
 			// Handle editor's html/element/text insertion.
 			this.attachListener( editor, 'insertHtml', onInsert( this.insertHtml ), this, null, 20 );
 			this.attachListener( editor, 'insertElement', onInsert( this.insertElement ), this, null, 20 );
@@ -84,13 +90,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Register the listener.
 				var args = Array.prototype.slice.call( arguments, 1 );
 				this._.listeners.push( obj.on.apply( obj, args ) );
-			},
-
-			focus: function() {
-				CKEDITOR.editable.baseProto.focus.call( this );
-				// Always fire the selection change, even on focus re-enter.
-				this.editor.forceNextSelectionCheck();
-				this.editor.selectionChange();
 			},
 
 			/**
@@ -361,9 +360,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.keystrokeHandler.attach( this );
 
 				this.attachListener( this, 'focus', function() {
+					this.hasFocus = true;
+					console.log( 'editable focused' );
 					editor.focusManager.focus();
 				});
+
 				this.attachListener( this, 'blur', function() {
+					this.hasFocus = false;
 					editor.focusManager.blur();
 				});
 

@@ -27,7 +27,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			canUndo: false,
 			modes: { wysiwyg:1 },
 			exec: function( editor ) {
-				if ( editor.focusManager.hasFocus ) {
+				if ( editor.editable().hasFocus ) {
 					var sel = editor.getSelection(),
 						ancestor = sel.getCommonAncestor(),
 						cell;
