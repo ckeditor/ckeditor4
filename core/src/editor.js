@@ -488,6 +488,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * alert( CKEDITOR.instances.editor1 );  // "undefined"
 		 */
 		destroy: function( noUpdate ) {
+			this.fire( 'beforeDestroy' );
+
 			!noUpdate && updateEditorElement.call( this );
 
 			this.editable( null );
