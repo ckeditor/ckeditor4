@@ -39,7 +39,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, this );
 
 			// Delegate editor focus/blur to editable.
-			this.attachListener( editor, 'beforeFocus', this.focus, this );
+			this.attachListener( editor, 'beforeFocus', function() {
+				this.focus();
+			}, this );
 
 			/**
 			 * Indicate whether the editable element has gained focus.
@@ -361,7 +363,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				this.attachListener( this, 'focus', function() {
 					this.hasFocus = true;
-					console.log( 'editable focused' );
 					editor.focusManager.focus();
 				});
 
