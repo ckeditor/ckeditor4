@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 	accessibilityHelp: {
-		title: 'Accessibility Instructions', // MISSING
+		title: 'Instrukce pro přístupnost',
 		contents: 'Obsah nápovědy. Pro uzavření tohoto dialogu stiskněte klávesu ESC.',
 		legend: [
 			{
@@ -13,12 +13,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			items: [
 				{
 				name: 'Panel nástrojů editoru',
-				legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+				legend: 'Stiskněte${toolbarFocus} k procházení panelu nástrojů. Přejděte na další a předchozí skupiny pomocí TAB a SHIFT-TAB. Přechod na další a předchozí tlačítko panelu nástrojů je pomocí ŠIPKA VPRAVO nebo ŠIPKA VLEVO. Stisknutím mezerníku nebo klávesy ENTER tlačítko aktivujete.'
 			},
 
 				{
 				name: 'Dialogové okno editoru',
-				legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+				legend: 'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další pole, stiskněte SHIFT + TAB pro přesun na předchozí pole, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT + F10 pr oprocházení seznamu karet. Pak se přesuňte na další kartu pomocí TAB nebo ŠIPKA VPRAVO. Pro přesun na předchozí stiskněte SHIFT + TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání stránky karet.'
 			},
 
 				{
@@ -32,7 +32,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			},
 
 				{
-				name: 'Editor Element Path Bar', // MISSING
+				name: 'Lišta cesty prvku v editoru',
 				legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 			}
 			]
@@ -69,7 +69,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 				legend: 'Stiskněte ${toolbarCollapse}'
 			},
 				{
-				name: ' Accessibility Help', // MISSING
+				name: ' Nápověda přístupnosti',
 				legend: 'Stiskněte ${a11yHelp}'
 			}
 			]
