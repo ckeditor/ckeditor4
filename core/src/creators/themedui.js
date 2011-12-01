@@ -68,6 +68,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config );
 
+		// Fill in the mandatory plugins for this creator.
+		editor.config.plugins = 'wysiwygarea';
+
 		// Set the editor instance name. It'll be set at CKEDITOR.add if it
 		// remain null here.
 		editor.name = element.getId() || element.getAttribute( 'name' );
