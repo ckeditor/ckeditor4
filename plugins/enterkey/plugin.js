@@ -323,7 +323,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// This collapse guarantees the cursor will be blinking.
 			range.collapse( true );
 
-			range.select( isPre );
+			range.select();
 		}
 	};
 

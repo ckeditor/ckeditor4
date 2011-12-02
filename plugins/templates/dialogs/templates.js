@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Place the cursor at the first editable place.
 					var range = new CKEDITOR.dom.range( editor.document );
 					range.moveToElementEditStart( editor.editable() );
-					range.select( 1 );
+					range.select();
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' );
 					}, 0 );

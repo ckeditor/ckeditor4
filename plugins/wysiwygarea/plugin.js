@@ -173,7 +173,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( !range.startContainer.equals( 'body' ) ) {
 							body.getFirst().remove( 1 );
 							range.moveToElementEditEnd( body );
-							range.select( 1 );
+							range.select();
 						}
 					}, 0 );
 				}
