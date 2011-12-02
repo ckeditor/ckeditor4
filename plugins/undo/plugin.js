@@ -59,7 +59,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
-				editor.document.on( 'keydown', function( event ) {
+				editor.editable().on( 'keydown', function( event ) {
 					// Do not capture CTRL hotkeys.
 					if ( !event.data.$.ctrlKey && !event.data.$.metaKey )
 						undoManager.type( event );
