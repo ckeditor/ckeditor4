@@ -286,31 +286,31 @@ CKEDITOR.lang[ 'bg' ] = {
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING
 			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
+			hAlign: 'Хоризонтално подравняване',
+			vAlign: 'Вертикално подравняване',
+			alignBaseline: 'Базова линия',
+			bgColor: 'Фон',
+			borderColor: 'Цвят на рамката',
+			data: 'Данни',
+			header: 'Хедър',
+			yes: 'Да',
+			no: 'Не',
 			invalidWidth: 'Cell width must be a number.', // MISSING
 			invalidHeight: 'Cell height must be a number.', // MISSING
 			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
 			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			chooseColor: 'Изберете'
 		},
 
 		row: {
-			menu: 'Row', // MISSING
+			menu: 'Ред',
 			insertBefore: 'Insert Row Before', // MISSING
 			insertAfter: 'Insert Row After', // MISSING
-			deleteRow: 'Delete Rows' // MISSING
+			deleteRow: 'Изтриване на редове'
 		},
 
 		column: {
-			menu: 'Column', // MISSING
+			menu: 'Колона',
 			insertBefore: 'Insert Column Before', // MISSING
 			insertAfter: 'Insert Column After', // MISSING
 			deleteColumn: 'Delete Columns' // MISSING
@@ -321,90 +321,90 @@ CKEDITOR.lang[ 'bg' ] = {
 	button: {
 		title: 'Button Properties', // MISSING
 		text: 'Text (Value)', // MISSING
-		type: 'Type', // MISSING
-		typeBtn: 'Button', // MISSING
-		typeSbm: 'Submit', // MISSING
-		typeRst: 'Reset' // MISSING
+		type: 'Тип',
+		typeBtn: 'Бутон',
+		typeSbm: 'Добави',
+		typeRst: 'Нулиране'
 	},
 
 	// Checkbox and Radio Button Dialogs.
 	checkboxAndRadio: {
 		checkboxTitle: 'Checkbox Properties', // MISSING
 		radioTitle: 'Radio Button Properties', // MISSING
-		value: 'Value', // MISSING
-		selected: 'Selected' // MISSING
+		value: 'Стойност',
+		selected: 'Избрано'
 	},
 
 	// Form Dialog.
 	form: {
-		title: 'Form Properties', // MISSING
-		menu: 'Form Properties', // MISSING
-		action: 'Action', // MISSING
-		method: 'Method', // MISSING
-		encoding: 'Encoding' // MISSING
+		title: 'Настройки на формата',
+		menu: 'Настройки на формата',
+		action: 'Действие',
+		method: 'Метод',
+		encoding: 'Кодиране'
 	},
 
 	// Select Field Dialog.
 	select: {
 		title: 'Selection Field Properties', // MISSING
 		selectInfo: 'Select Info', // MISSING
-		opAvail: 'Available Options', // MISSING
-		value: 'Value', // MISSING
-		size: 'Size', // MISSING
-		lines: 'lines', // MISSING
+		opAvail: 'Налични опции',
+		value: 'Стойност',
+		size: 'Размер',
+		lines: 'линии',
 		chkMulti: 'Allow multiple selections', // MISSING
-		opText: 'Text', // MISSING
-		opValue: 'Value', // MISSING
-		btnAdd: 'Add', // MISSING
-		btnModify: 'Modify', // MISSING
-		btnUp: 'Up', // MISSING
-		btnDown: 'Down', // MISSING
+		opText: 'Текст',
+		opValue: 'Стойност',
+		btnAdd: 'Добави',
+		btnModify: 'Промени',
+		btnUp: 'На горе',
+		btnDown: 'На долу',
 		btnSetValue: 'Set as selected value', // MISSING
-		btnDelete: 'Delete' // MISSING
+		btnDelete: 'Изтриване'
 	},
 
 	// Textarea Dialog.
 	textarea: {
-		title: 'Textarea Properties', // MISSING
-		cols: 'Columns', // MISSING
-		rows: 'Rows' // MISSING
+		title: 'Опции за текстовата зона',
+		cols: 'Колони',
+		rows: 'Редове'
 	},
 
 	// Text Field Dialog.
 	textfield: {
-		title: 'Text Field Properties', // MISSING
-		name: 'Name', // MISSING
-		value: 'Value', // MISSING
-		charWidth: 'Character Width', // MISSING
-		maxChars: 'Maximum Characters', // MISSING
-		type: 'Type', // MISSING
-		typeText: 'Text', // MISSING
-		typePass: 'Password' // MISSING
+		title: 'Настройки за текстово поле',
+		name: 'Име',
+		value: 'Стойност',
+		charWidth: 'Ширина на знаците',
+		maxChars: 'Макс. знаци',
+		type: 'Тип',
+		typeText: 'Текст',
+		typePass: 'Парола'
 	},
 
 	// Hidden Field Dialog.
 	hidden: {
-		title: 'Hidden Field Properties', // MISSING
-		name: 'Name', // MISSING
-		value: 'Value' // MISSING
+		title: 'Настройки за скрито поле',
+		name: 'Име',
+		value: 'Стойност'
 	},
 
 	// Image Dialog.
 	image: {
-		title: 'Image Properties', // MISSING
-		titleButton: 'Image Button Properties', // MISSING
-		menu: 'Image Properties', // MISSING
-		infoTab: 'Image Info', // MISSING
-		btnUpload: 'Send it to the Server', // MISSING
-		upload: 'Upload', // MISSING
-		alt: 'Alternative Text', // MISSING
+		title: 'Настройки за снимка',
+		titleButton: 'Настойки за бутон за снимка',
+		menu: 'Настройки за снимка',
+		infoTab: 'Инфо за снимка',
+		btnUpload: 'Изпрати я на сървъра',
+		upload: 'Качване',
+		alt: 'Алтернативен текст',
 		lockRatio: 'Lock Ratio', // MISSING
 		resetSize: 'Reset Size', // MISSING
 		border: 'Border', // MISSING
 		hSpace: 'HSpace', // MISSING
 		vSpace: 'VSpace', // MISSING
 		alertUrl: 'Please type the image URL', // MISSING
-		linkTab: 'Link', // MISSING
+		linkTab: 'Връзка',
 		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
 		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 		urlMissing: 'Image source URL is missing.', // MISSING
@@ -415,21 +415,21 @@ CKEDITOR.lang[ 'bg' ] = {
 
 	// Flash Dialog
 	flash: {
-		properties: 'Flash Properties', // MISSING
-		propertiesTab: 'Properties', // MISSING
-		title: 'Flash Properties', // MISSING
-		chkPlay: 'Auto Play', // MISSING
-		chkLoop: 'Loop', // MISSING
+		properties: 'Настройки за флаш',
+		propertiesTab: 'Настройки',
+		title: 'Настройки за флаш',
+		chkPlay: 'Авто. пускане',
+		chkLoop: 'Цикъл',
 		chkMenu: 'Enable Flash Menu', // MISSING
 		chkFull: 'Allow Fullscreen', // MISSING
 		scale: 'Scale', // MISSING
-		scaleAll: 'Show all', // MISSING
-		scaleNoBorder: 'No Border', // MISSING
+		scaleAll: 'Показва всичко',
+		scaleNoBorder: 'Без рамка',
 		scaleFit: 'Exact Fit', // MISSING
 		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
+		accessAlways: 'Винаги',
 		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		accessNever: 'Никога',
 		alignAbsBottom: 'Abs Bottom', // MISSING
 		alignAbsMiddle: 'Abs Middle', // MISSING
 		alignBaseline: 'Baseline', // MISSING

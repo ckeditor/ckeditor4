@@ -3,7 +3,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 af.js      Found: 549 Missing: 27
 ar.js      Found: 467 Missing: 109
-bg.js      Found: 199 Missing: 377
+bg.js      Found: 265 Missing: 311
 bn.js      Found: 292 Missing: 284
 bs.js      Found: 175 Missing: 401
 ca.js      Found: 550 Missing: 26
