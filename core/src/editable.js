@@ -676,22 +676,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor;
+		var editor = evt.editor,
+			editable = editor.editable();
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		editor.editable().is( 'body' ) && editor.on( 'selectionChange', function( evt ) {
-			if ( editor.readOnly )
-				return;
+		if ( editable && editable.is( 'body' ) ) {
+			editor.on( 'selectionChange', function( evt ) {
+				if ( editor.readOnly )
+					return;
 
-			var sel = editor.getSelection();
-			// Do it only when selection is not locked. (#8222)
-			if ( sel && !sel.isLocked ) {
-				var isDirty = editor.checkDirty();
-				editor.fire( 'saveSnapshot', { contentOnly:1 } );
-				onSelectionChangeFixBody.call( this, evt );
-				editor.fire( 'updateSnapshot' );
-				!isDirty && editor.resetDirty();
-			}
-		});
+				var sel = editor.getSelection();
+				// Do it only when selection is not locked. (#8222)
+				if ( sel && !sel.isLocked ) {
+					var isDirty = editor.checkDirty();
+					editor.fire( 'saveSnapshot', { contentOnly:1 } );
+					onSelectionChangeFixBody.call( this, evt );
+					editor.fire( 'updateSnapshot' );
+					!isDirty && editor.resetDirty();
+				}
+			});
+		}
 	});
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
