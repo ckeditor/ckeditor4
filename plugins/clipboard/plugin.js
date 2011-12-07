@@ -76,13 +76,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Prevent IE from pasting at the begining of the document.
 			editor.focus();
 
-			if ( !editor.document.getBody().fire( 'beforepaste' ) && !execIECommand( editor, 'paste' ) ) {
+			if ( !editor.editable().fire( 'beforepaste' ) && !execIECommand( editor, 'paste' ) ) {
 				editor.fire( 'pasteDialog' );
 				return false;
 			}
 		} : function( editor ) {
 			try {
-				if ( !editor.document.getBody().fire( 'beforepaste' ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
+				if ( !editor.editable().fire( 'beforepaste' ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
 					throw 0;
 				}
 			} catch ( e ) {
@@ -104,14 +104,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case CKEDITOR.CTRL + 86: // CTRL+V
 				case CKEDITOR.SHIFT + 45: // SHIFT+INS
 
-					var body = this.document.getBody();
+					var editable = this.editable();
 
 					// Simulate 'beforepaste' event for all none-IEs.
-					if ( !CKEDITOR.env.ie && body.fire( 'beforepaste' ) )
+					if ( !CKEDITOR.env.ie && editable.fire( 'beforepaste' ) )
 						event.cancel();
 					// Simulate 'paste' event for Opera/Firefox2.
 					else if ( CKEDITOR.env.opera || CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
-						body.fire( 'paste' );
+						editable.fire( 'paste' );
 					return;
 
 					// Cut
@@ -155,11 +155,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			range = new CKEDITOR.dom.range( doc );
 
 		// Create container to paste into
-		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : CKEDITOR.env.webkit ? 'body' : 'div', doc );
+		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : this.editable().getName(), doc );
 		pastebin.setAttribute( 'id', 'cke_pastebin' );
 		// Safari requires a filler node inside the div to have the content pasted into it. (#4882)
 		CKEDITOR.env.webkit && pastebin.append( doc.createText( '\xa0' ) );
-		doc.getBody().append( pastebin );
+		this.editable().append( pastebin );
 
 		pastebin.setStyles({
 			position: 'absolute',
@@ -171,9 +171,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			overflow: 'hidden'
 		});
 
-		// It's definitely a better user experience if we make the paste-bin pretty unnoticed
-		// by pulling it off the screen.
-		pastebin.setStyle( this.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
+		// Pull the paste bin off screen (when possible) since a small resize handler will be displayed around it.
+		if ( this.editable().is( 'body' ) )
+			pastebin.setStyle( this.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
 
 		var bms = sel.createBookmarks();
 
@@ -324,8 +324,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors. (e.g. Ctrl-V)
 			editor.on( 'contentDom', function() {
-				var body = editor.document.getBody();
-				body.on( CKEDITOR.env.webkit ? 'paste' : 'beforepaste', function( evt ) {
+				var editable = editor.editable();
+				editable.on( CKEDITOR.env.webkit ? 'paste' : 'beforepaste', function( evt ) {
 					if ( depressBeforeEvent )
 						return;
 
@@ -347,23 +347,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 
 				// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
-				body.on( 'contextmenu', function() {
+				editable.on( 'contextmenu', function() {
 					depressBeforeEvent = 1;
 					setTimeout( function() {
 						depressBeforeEvent = 0;
 					}, 10 );
 				});
 
-				body.on( 'beforecut', function() {
+				editable.on( 'beforecut', function() {
 					!depressBeforeEvent && fixCut( editor );
 				});
 
-				body.on( 'mouseup', function() {
+				editable.on( 'mouseup', function() {
 					setTimeout( function() {
 						setToolbarStates.call( editor );
 					}, 0 );
 				}, editor );
-				body.on( 'keyup', setToolbarStates, editor );
+				editable.on( 'keyup', setToolbarStates, editor );
 			});
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
