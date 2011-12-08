@@ -13,3 +13,4 @@ he.js      Found: 4 Missing: 0
 it.js      Found: 4 Missing: 0
 pl.js      Found: 4 Missing: 0
 vi.js      Found: 4 Missing: 0
+zh-cn.js   Found: 4 Missing: 0

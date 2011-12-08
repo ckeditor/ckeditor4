@@ -8,3 +8,4 @@ eo.js      Found: 118 Missing: 0
 fa.js      Found: 24 Missing: 94
 fr.js      Found: 118 Missing: 0
 it.js      Found: 118 Missing: 0
+zh-cn.js   Found: 118 Missing: 0

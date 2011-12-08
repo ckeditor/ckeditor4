@@ -12,3 +12,4 @@ fr.js      Found: 5 Missing: 0
 he.js      Found: 5 Missing: 0
 it.js      Found: 5 Missing: 0
 pl.js      Found: 5 Missing: 0
+zh-cn.js   Found: 5 Missing: 0

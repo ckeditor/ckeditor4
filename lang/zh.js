@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'zh' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: '富文本編輯器，%1，按 ALT+0 以獲得幫助。',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: '編輯器工具欄',
+	editor: '富文本編輯器',
 
 	// Toolbar buttons without dialogs.
 	source: '原始碼',
@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	superscript: '上標',
 	horizontalrule: '插入水平線',
 	pagebreak: '插入分頁符號',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: '分頁符號',
 	unlink: '移除超連結',
 	undo: '復原',
 	redo: '重複',
@@ -91,19 +91,19 @@ CKEDITOR.lang[ 'zh' ] = {
 		cssStyle: '樣式',
 		ok: '確定',
 		cancel: '取消',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: '关闭',
+		preview: '预览',
 		generalTab: '一般',
 		advancedTab: '進階',
 		validateNumberFailed: '需要輸入數字格式',
 		confirmNewPage: '現存的修改尚未儲存，要開新檔案？',
 		confirmCancel: '部份選項尚未儲存，要關閉對話盒？',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		options: '选项',
+		target: '目标',
+		targetNew: '新窗口(_blank)',
+		targetTop: '整页(_top)',
+		targetSelf: '本窗口(_self)',
+		targetParent: '父窗口(_parent)',
 		langDirLTR: 'Left to Right (LTR)', // MISSING
 		langDirRTL: 'Right to Left (RTL)', // MISSING
 		styles: 'Style', // MISSING
@@ -688,7 +688,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	},
 
 	maximize: '最大化',
-	minimize: 'Minimize', // MISSING
+	minimize: '最小化',
 
 	fakeobjects: {
 		anchor: '錨點',
@@ -708,8 +708,8 @@ CKEDITOR.lang[ 'zh' ] = {
 		clear: 'Clear' // MISSING
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: '折叠工具栏',
+	toolbarExpand: '展开工具栏',
 
 	toolbarGroups: {
 		document: 'Document', // MISSING
