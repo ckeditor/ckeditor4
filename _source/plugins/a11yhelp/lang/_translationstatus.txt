@@ -8,7 +8,7 @@ eo.js      Found: 30 Missing: 0
 fa.js      Found: 30 Missing: 0
 fi.js      Found: 25 Missing: 5
 fr.js      Found: 30 Missing: 0
-gu.js      Found: 5 Missing: 25
+gu.js      Found: 12 Missing: 18
 he.js      Found: 30 Missing: 0
 it.js      Found: 30 Missing: 0
 zh-cn.js   Found: 27 Missing: 3

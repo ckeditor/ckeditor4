@@ -38,19 +38,19 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gu', {
 			]
 		},
 			{
-			name: 'Commands', // MISSING
+			name: 'કમાંડસ',
 			items: [
 				{
-				name: ' Undo command', // MISSING
-				legend: 'Press ${undo}' // MISSING
+				name: 'અન્ડું કમાંડ',
+				legend: '$ દબાવો {undo}'
 			},
 				{
-				name: ' Redo command', // MISSING
-				legend: 'Press ${redo}' // MISSING
+				name: 'ફરી કરો કમાંડ',
+				legend: '$ દબાવો {redo}'
 			},
 				{
-				name: ' Bold command', // MISSING
-				legend: 'Press ${bold}' // MISSING
+				name: 'બોલ્દનો કમાંડ',
+				legend: '$ દબાવો {bold}'
 			},
 				{
 				name: ' Italic command', // MISSING
