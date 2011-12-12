@@ -5,8 +5,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var floatingElement, innerElement, toolbox;
-
 	CKEDITOR.plugins.add( 'floatingspace', {
 		requires: [],
 
@@ -18,47 +16,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 	function attach( editor ) {
-		// Create the div that will hold the toolbar.
-		if ( !floatingElement ) {
-			var name = editor.name;
+		var body = CKEDITOR.document.getBody();
 
-			// Replicate the structure found at theme.js, so the skin will work properly for it.
-			floatingElement = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( '<div' +
-				' id="cke_floating_toolbar"' +
-				' class="' + editor.skinClass + '"' +
-				' dir="' + editor.lang.dir + '"' +
-				' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
-				' lang="' + editor.langCode + '"' +
-				//						( CKEDITOR.env.webkit ? ' tabindex="' + tabIndex + '"' : '' ) +
-			//					' role="application"' +
-			//					' aria-labelledby="cke_' + name + '_arialbl"' +
-			//					( style ? ' style="' + style + '"' : '' ) +
-							' style="display:none;position:absolute;top:0;left:0"' +
-				'>' +
-				//					'<span id="cke_', name, '_arialbl" class="cke_voice_label">' + editor.lang.editor + '</span>' +
-							'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-					'<div class="cke_wrapper cke_' + editor.lang.dir + '" role="presentation">' +
-						'<div class="cke_editor">' +
-							'<div class="cke_top" role="presentation">' +
-							'</div>' +
-						'</div>' +
-					'</div>' +
+		var floatSpace,
+			template = editor.addTemplate( 'floatcontainer', '<div' +
+			' id="{id}"' +
+			' class="{skinClass} {id} cke_editor_{name}"' +
+			' dir="{langDir}"' +
+			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
+			' lang="{langCode}"' +
+			' role="presentation"' +
+			' style="{style}"' +
+			'>' +
+				'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+				'<div class="cke_wrapper cke_' + editor.lang.dir + '" role="presentation">' +
+				'<div class="cke_editor">' +
+				'<div role="presentation">' +
+					'{content}' +
 				'</div>' +
-				'</div>' ) );
+				'</div>' +
+				'</div>' +
+					'</div>' +
+				'</div>' );
 
-			toolbox = new CKEDITOR.toolbox();
-			floatingElement.getChild( [ 0, 0, 0, 0 ] ).setHtml( toolbox.html( editor ) );
+
+		var vars = {
+			skinClass: editor.skinClass,
+			langDir: editor.lang.dir,
+			langCode: editor.langCode,
+			'z-index': editor.config.baseFloatZIndex - 1
+		};
+
+		// Get the HTML for the predefined spaces.
+		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
+		if ( topHtml ) {
+			floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( template.output( CKEDITOR.tools.extend({
+				id: 'cke_top_' + editor.name,
+				content: topHtml,
+				style: 'display:none;position:absolute;top:0;left:0;'
+			}, vars ) ) ) );
+
+			editor.on( 'focus', function() {
+				floatSpace.show();
+			});
+
+			editor.on( 'blur', function() {
+				floatSpace.hide();
+			});
 		}
-
-		editor.on( 'focus', function() {
-			floatingElement.setStyle( 'display', '' );
-		});
-
-		editor.on( 'blur', function() {
-			floatingElement.setStyle( 'display', 'none' );
-		});
-
-		toolbox.attach( editor );
 	}
 
 })();

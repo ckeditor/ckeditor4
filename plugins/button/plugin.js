@@ -4,7 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-
 	var template = '<span class="cke_button {alphaFixClass}">' +
 		'<a id="{id}"' +
 			' class="{classes}"' +
@@ -80,7 +79,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			className: definition.className || ( definition.command && 'cke_button_' + definition.command ) || '',
 			click: definition.click ||
 			function( editor ) {
-				this.editor && this.editor.execCommand( definition.command );
+				editor.execCommand( definition.command );
 			}
 		});
 
@@ -99,52 +98,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.ui.button.prototype = {
-		attach: function( editor ) {
-			var command = this.command;
-
-			// Indicate a mode sensitive button.
-			if ( this.modes ) {
-				var modeStates = {};
-
-				function updateState() {
-					// "this" is a CKEDITOR.ui.button instance.
-
-					var mode = editor.mode;
-
-					if ( mode ) {
-						// Restore saved button state.
-						var state = modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF;
-
-						this.setState( editor.readOnly && !this.editor.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
-					}
-				}
-
-				editor.on( 'beforeModeUnload', function() {
-					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
-						modeStates[ editor.mode ] = this._.state;
-				}, this );
-
-				editor.on( 'mode', updateState, this );
-
-				// If this button is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && editor.on( 'readOnly', updateState, this );
-			} else if ( command ) {
-				// Get the command instance.
-				command = editor.getCommand( command );
-
-				if ( command ) {
-					command.on( 'state', function() {
-						if ( this.editor == editor )
-							this.setState( command.state );
-					}, this );
-				}
-			}
-
-			editor.on( 'focus', function() {
-				this.editor = editor;
-			}, this );
-		},
-
 		/**
 		 * Renders the button.
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
@@ -207,16 +160,46 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			instance.clickFn = clickFn = CKEDITOR.tools.addFunction( instance.execute, instance );
 
 
-			if ( editor ) {
-				this.attach( editor );
-				this.editor = editor;
-			}
+			// Indicate a mode sensitive button.
+			if ( this.modes ) {
+				var modeStates = {};
 
-			if ( command ) {
+				function updateState() {
+					// "this" is a CKEDITOR.ui.button instance.
+
+					var mode = editor.mode;
+
+					if ( mode ) {
+						// Restore saved button state.
+						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+						this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
+					}
+				}
+
+				editor.on( 'beforeModeUnload', function() {
+					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
+						modeStates[ editor.mode ] = this._.state;
+				}, this );
+
+				editor.on( 'mode', updateState, this );
+
+				// If this button is sensitive to readOnly state, update it accordingly.
+				!this.readOnly && editor.on( 'readOnly', updateState, this );
+			} else if ( command ) {
+				// Get the command instance.
 				command = editor.getCommand( command );
 
-				classes += 'cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
-			} else
+				if ( command ) {
+					command.on( 'state', function() {
+						this.setState( command.state );
+					}, this );
+
+					classes += 'cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
+				}
+			}
+
+			if ( !command )
 				classes += 'cke_off';
 
 			if ( this.className )
@@ -265,19 +248,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-})();
+	/**
+	 * Adds a button definition to the UI elements list.
+	 * @param {String} name The button name.
+	 * @param {Object} definition The button definition.
+	 * @example
+	 * editorInstance.ui.addButton( 'MyBold',
+	 *     {
+	 *         label : 'My Bold',
+	 *         command : 'bold'
+	 *     });
+	 */
+	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
+		this.add( name, CKEDITOR.UI_BUTTON, definition );
+	};
 
-/**
- * Adds a button definition to the UI elements list.
- * @param {String} name The button name.
- * @param {Object} definition The button definition.
- * @example
- * editorInstance.ui.addButton( 'MyBold',
- *     {
- *         label : 'My Bold',
- *         command : 'bold'
- *     });
- */
-CKEDITOR.ui.prototype.addButton = function( name, definition ) {
-	this.add( name, CKEDITOR.UI_BUTTON, definition );
-};
+})();
