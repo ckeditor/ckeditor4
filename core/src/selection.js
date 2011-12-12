@@ -201,7 +201,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			}
 
-			// We check the selection change on the accomplish of keyboard and mouse events.
+			// We check the selection change:
+			// 1. Upon "selectionchange" event from the editable element. (which might be faked event fired by our code)
+			// 2. After the accomplish of keyboard and mouse events.
+			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
 			editable.attachListener( editable, 'mouseup', checkSelectionChangeTimeout, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
 			// Always fire the selection change on focus gain.
@@ -1321,8 +1324,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 
-			// Don't miss selection change event for non-IEs.
-			this.document.fire( 'selectionchange' );
+			// Fakes the IE DOM event "selectionchange" on editable.
+			this.root.fire( 'selectionchange' );
 			this.reset();
 
 			if ( focused ) {

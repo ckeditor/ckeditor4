@@ -625,7 +625,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function onInsert( insertFunc ) {
 		return function( evt ) {
 			// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
-			this.focus();
+			this.editor.focus();
 
 			this.editor.fire( 'saveSnapshot' );
 
