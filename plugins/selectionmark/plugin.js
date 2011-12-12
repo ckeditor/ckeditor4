@@ -178,7 +178,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Update shadow on locked selection update.
 				editable.on( 'selectionchange', function( evt ) {
-					if ( evt.data.isLocked && editable._.shadow )
+					if ( editable._.shadow )
 						update( editor );
 				});
 
