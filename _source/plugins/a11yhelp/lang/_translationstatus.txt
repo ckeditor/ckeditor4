@@ -11,4 +11,5 @@ fr.js      Found: 30 Missing: 0
 gu.js      Found: 12 Missing: 18
 he.js      Found: 30 Missing: 0
 it.js      Found: 30 Missing: 0
+vi.js      Found: 6 Missing: 24
 zh-cn.js   Found: 27 Missing: 3
