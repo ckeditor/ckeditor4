@@ -537,7 +537,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var sel = this.getNative();
 
-			if ( !sel )
+			if ( !( sel && sel.rangeCount ) )
 				type = CKEDITOR.SELECTION_NONE;
 			else if ( sel.rangeCount == 1 ) {
 				// Check if the actual selection is a control (IMG,
