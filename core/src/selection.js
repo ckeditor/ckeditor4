@@ -1409,6 +1409,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		removeAllRanges: function() {
 			var native = this.getNative();
 			( native.removeAllRanges || native.empty ).call( native );
+
+			this.reset();
 		}
 	};
 
