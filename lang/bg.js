@@ -281,11 +281,11 @@ CKEDITOR.lang[ 'bg' ] = {
 			mergeDown: 'Merge Down', // MISSING
 			splitHorizontal: 'Split Cell Horizontally', // MISSING
 			splitVertical: 'Split Cell Vertically', // MISSING
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
+			title: 'Настройки на клетката',
+			cellType: 'Тип на клетката',
 			rowSpan: 'Rows Span', // MISSING
 			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
+			wordWrap: 'Авто. пренос',
 			hAlign: 'Хоризонтално подравняване',
 			vAlign: 'Вертикално подравняване',
 			alignBaseline: 'Базова линия',
@@ -305,22 +305,22 @@ CKEDITOR.lang[ 'bg' ] = {
 		row: {
 			menu: 'Ред',
 			insertBefore: 'Insert Row Before', // MISSING
-			insertAfter: 'Insert Row After', // MISSING
+			insertAfter: 'Вмъкване на ред след',
 			deleteRow: 'Изтриване на редове'
 		},
 
 		column: {
 			menu: 'Колона',
-			insertBefore: 'Insert Column Before', // MISSING
-			insertAfter: 'Insert Column After', // MISSING
-			deleteColumn: 'Delete Columns' // MISSING
+			insertBefore: 'Вмъкване на колона преди',
+			insertAfter: 'Вмъкване на колона след',
+			deleteColumn: 'Изтриване на колони'
 		}
 	},
 
 	// Button Dialog.
 	button: {
-		title: 'Button Properties', // MISSING
-		text: 'Text (Value)', // MISSING
+		title: 'Настройки на бутона',
+		text: 'Текст (стойност)',
 		type: 'Тип',
 		typeBtn: 'Бутон',
 		typeSbm: 'Добави',
@@ -330,7 +330,7 @@ CKEDITOR.lang[ 'bg' ] = {
 	// Checkbox and Radio Button Dialogs.
 	checkboxAndRadio: {
 		checkboxTitle: 'Checkbox Properties', // MISSING
-		radioTitle: 'Radio Button Properties', // MISSING
+		radioTitle: 'Настройки на радиобутон',
 		value: 'Стойност',
 		selected: 'Избрано'
 	},
@@ -398,9 +398,9 @@ CKEDITOR.lang[ 'bg' ] = {
 		btnUpload: 'Изпрати я на сървъра',
 		upload: 'Качване',
 		alt: 'Алтернативен текст',
-		lockRatio: 'Lock Ratio', // MISSING
-		resetSize: 'Reset Size', // MISSING
-		border: 'Border', // MISSING
+		lockRatio: 'Заключване на съотношението',
+		resetSize: 'Нулиране на размер',
+		border: 'Рамка',
 		hSpace: 'HSpace', // MISSING
 		vSpace: 'VSpace', // MISSING
 		alertUrl: 'Please type the image URL', // MISSING
@@ -428,47 +428,47 @@ CKEDITOR.lang[ 'bg' ] = {
 		scaleFit: 'Exact Fit', // MISSING
 		access: 'Script Access', // MISSING
 		accessAlways: 'Винаги',
-		accessSameDomain: 'Same domain', // MISSING
+		accessSameDomain: 'Същият домейн',
 		accessNever: 'Никога',
 		alignAbsBottom: 'Abs Bottom', // MISSING
 		alignAbsMiddle: 'Abs Middle', // MISSING
 		alignBaseline: 'Baseline', // MISSING
 		alignTextTop: 'Text Top', // MISSING
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'Качество',
+		qualityBest: 'Отлично',
+		qualityHigh: 'Високо',
+		qualityAutoHigh: 'Авто. високо',
+		qualityMedium: 'Средно',
+		qualityAutoLow: 'Авто. ниско',
+		qualityLow: 'Ниско',
+		windowModeWindow: 'Прозорец',
+		windowModeOpaque: 'Плътност',
+		windowModeTransparent: 'Прозрачност',
+		windowMode: 'Режим на прозореца',
+		flashvars: 'Променливи за Флаш',
 		bgcolor: 'Background color', // MISSING
 		hSpace: 'HSpace', // MISSING
 		vSpace: 'VSpace', // MISSING
-		validateSrc: 'URL must not be empty.', // MISSING
+		validateSrc: 'Уеб адреса не трябва да е празен.',
 		validateHSpace: 'HSpace must be a number.', // MISSING
 		validateVSpace: 'VSpace must be a number.' // MISSING
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
-		toolbar: 'Check Spelling', // MISSING
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
+		toolbar: 'Проверка на правопис',
+		title: 'Проверка на правопис',
+		notAvailable: 'Съжаляваме, но услугата не е достъпна за момента',
 		errorLoading: 'Error loading application service host: %s.', // MISSING
-		notInDic: 'Not in dictionary', // MISSING
-		changeTo: 'Change to', // MISSING
-		btnIgnore: 'Ignore', // MISSING
-		btnIgnoreAll: 'Ignore All', // MISSING
-		btnReplace: 'Replace', // MISSING
-		btnReplaceAll: 'Replace All', // MISSING
-		btnUndo: 'Undo', // MISSING
-		noSuggestions: '- No suggestions -', // MISSING
-		progress: 'Spell check in progress...', // MISSING
+		notInDic: 'Не е в речника',
+		changeTo: 'Промени на',
+		btnIgnore: 'Игнорирай',
+		btnIgnoreAll: 'Игнорирай всичко',
+		btnReplace: 'Препокриване',
+		btnReplaceAll: 'Препокрий всичко',
+		btnUndo: 'Възтанови',
+		noSuggestions: '- Няма препоръчани -',
+		progress: 'Проверява се правописа...',
 		noMispell: 'Spell check complete: No misspellings found', // MISSING
 		noChanges: 'Spell check complete: No words changed', // MISSING
 		oneChange: 'Spell check complete: One word changed', // MISSING
@@ -477,14 +477,14 @@ CKEDITOR.lang[ 'bg' ] = {
 	},
 
 	smiley: {
-		toolbar: 'Smiley', // MISSING
-		title: 'Insert a Smiley', // MISSING
-		options: 'Smiley Options' // MISSING
+		toolbar: 'Усмивка',
+		title: 'Вмъкване на усмивка',
+		options: 'Опции за усмивката'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
-		eleTitle: '%1 element' // MISSING
+		eleLabel: 'Път за елементите',
+		eleTitle: '%1 елемент'
 	},
 
 	numberedlist: 'Вмъкване/Премахване на номериран списък',
@@ -493,9 +493,9 @@ CKEDITOR.lang[ 'bg' ] = {
 	outdent: 'Намаляване на отстъпа',
 
 	justify: {
-		left: 'Align Left', // MISSING
-		center: 'Center', // MISSING
-		right: 'Align Right', // MISSING
+		left: 'Подравни в ляво',
+		center: 'Център',
+		right: 'Подравни в дясно',
 		block: 'Justify' // MISSING
 	},
 
@@ -561,68 +561,68 @@ CKEDITOR.lang[ 'bg' ] = {
 		title: 'Create Div Container', // MISSING
 		toolbar: 'Create Div Container', // MISSING
 		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
+		styleSelectLabel: 'Стил',
+		IdInputLabel: 'ID',
+		languageCodeInputLabel: ' Код на езика',
 		inlineStyleInputLabel: 'Inline Style', // MISSING
 		advisoryTitleInputLabel: 'Advisory Title', // MISSING
 		langDirLabel: 'Language Direction', // MISSING
 		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
 		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		edit: 'Промяна на Div',
+		remove: 'Премахване на Div'
 	},
 
 	iframe: {
-		title: 'IFrame Properties', // MISSING
-		toolbar: 'IFrame', // MISSING
+		title: 'IFrame настройки',
+		toolbar: 'IFrame',
 		noUrl: 'Please type the iframe URL', // MISSING
 		scrolling: 'Enable scrollbars', // MISSING
 		border: 'Show frame border' // MISSING
 	},
 
 	font: {
-		label: 'Font', // MISSING
-		voiceLabel: 'Font', // MISSING
-		panelTitle: 'Font Name' // MISSING
+		label: 'Шрифт',
+		voiceLabel: 'Шрифт',
+		panelTitle: 'Име на шрифт'
 	},
 
 	fontSize: {
-		label: 'Size', // MISSING
-		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Font Size' // MISSING
+		label: 'Размер',
+		voiceLabel: 'Размер на шрифт',
+		panelTitle: 'Размер на шрифт'
 	},
 
 	colorButton: {
-		textColorTitle: 'Text Color', // MISSING
-		bgColorTitle: 'Background Color', // MISSING
-		panelTitle: 'Colors', // MISSING
-		auto: 'Automatic', // MISSING
-		more: 'More Colors...' // MISSING
+		textColorTitle: 'Цвят на шрифт',
+		bgColorTitle: 'Фонов цвят',
+		panelTitle: 'Цветове',
+		auto: 'Автоматично',
+		more: 'Още цветове'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
+		'000': 'Черно',
+		'800000': 'Кестеняво',
+		'8B4513': 'Светлокафяво',
 		'2F4F4F': 'Dark Slate Gray', // MISSING
 		'008080': 'Teal', // MISSING
 		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
+		'4B0082': 'Индиго',
+		'696969': 'Тъмно сиво',
+		'B22222': 'Огнено червено',
+		'A52A2A': 'Кафяво',
+		'DAA520': 'Златисто',
+		'006400': 'Тъмно зелено',
+		'40E0D0': 'Тюркуазено',
+		'0000CD': 'Средно синьо',
+		'800080': 'Пурпурно',
+		'808080': 'Сиво',
+		'F00': 'Червено',
+		'FF8C00': 'Тъмно оранжево',
+		'FFD700': 'Златно',
+		'008000': 'Зелено',
+		'0FF': 'Светло синьо',
 		'00F': 'Blue', // MISSING
 		'EE82EE': 'Violet', // MISSING
 		'A9A9A9': 'Dim Gray', // MISSING
@@ -663,66 +663,66 @@ CKEDITOR.lang[ 'bg' ] = {
 		allCaps: 'Ignore All-Caps Words', // MISSING
 		ignoreDomainNames: 'Ignore Domain Names', // MISSING
 		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		mixedWithDigits: 'Игнорирани думи и цифри',
 
-		languagesTab: 'Languages', // MISSING
+		languagesTab: 'Езици',
 
-		dictionariesTab: 'Dictionaries', // MISSING
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
+		dictionariesTab: 'Речници',
+		dic_field_name: 'Име на речнк',
+		dic_create: 'Нов',
+		dic_restore: 'Възтановяване',
+		dic_delete: 'Изтриване',
+		dic_rename: 'Преименуване',
 		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
 
-		aboutTab: 'About' // MISSING
+		aboutTab: 'Относно'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		help: 'Check $1 for help.', // MISSING
+		title: 'Относно CKEditor',
+		dlgTitle: 'Относно CKEditor',
+		help: 'Проверете $1 за помощ.',
 		userGuide: 'CKEditor User\'s Guide', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		moreInfo: 'За лицензионна информация моля посетете сайта ни:',
+		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
 	maximize: 'Максимизиране',
 	minimize: 'Минимизиране',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		iframe: 'IFrame', // MISSING
-		hiddenfield: 'Hidden Field', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'Кука',
+		flash: 'Флаш анимация',
+		iframe: 'IFrame',
+		hiddenfield: 'Скрито поле',
+		unknown: 'Неизвестен обект'
 	},
 
 	resize: 'Влачете за да оразмерите',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		options: 'Color Options', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected Color', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'Изберете цвят',
+		options: 'Цветови опции',
+		highlight: 'Осветяване',
+		selected: 'Изберете цвят',
+		clear: 'Изчистване'
 	},
 
 	toolbarCollapse: 'Свиване на лентата с инструменти',
 	toolbarExpand: 'Разширяване на лентата с инструменти',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
+		document: 'Документ',
 		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		editing: 'Промяна',
+		forms: 'Форми',
+		basicstyles: 'Базови стилове',
+		paragraph: 'Параграф',
+		links: 'Връзки',
+		insert: 'Вмъкване',
+		styles: 'Стилове',
+		colors: 'Цветове',
+		tools: 'Инструменти'
 	},
 
 	bidi: {
@@ -731,18 +731,18 @@ CKEDITOR.lang[ 'bg' ] = {
 	},
 
 	docprops: {
-		label: 'Document Properties', // MISSING
-		title: 'Document Properties', // MISSING
-		design: 'Design', // MISSING
-		meta: 'Meta Tags', // MISSING
-		chooseColor: 'Choose', // MISSING
-		other: 'Other...', // MISSING
-		docTitle: 'Page Title', // MISSING
-		charset: 'Character Set Encoding', // MISSING
-		charsetOther: 'Other Character Set Encoding', // MISSING
-		charsetASCII: 'ASCII', // MISSING
-		charsetCE: 'Central European', // MISSING
-		charsetCT: 'Chinese Traditional (Big5)', // MISSING
+		label: 'Настройки на документа',
+		title: 'Настройки на документа',
+		design: 'Дизайн',
+		meta: 'Мета етикети',
+		chooseColor: 'Изберете',
+		other: 'Други...',
+		docTitle: 'Заглавие на страницата',
+		charset: 'Кодова таблица',
+		charsetOther: 'Друга кодова таблица',
+		charsetASCII: 'ASCII',
+		charsetCE: 'Централна европейска',
+		charsetCT: 'Китайски традиционен',
 		charsetCR: 'Cyrillic', // MISSING
 		charsetGR: 'Greek', // MISSING
 		charsetJP: 'Japanese', // MISSING
