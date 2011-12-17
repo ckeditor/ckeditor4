@@ -68,7 +68,25 @@ if ( !CKEDITOR.event ) {
 			}
 		};
 
+		// Retrieve the event entry on the event host (create it if needed).
+		function getEntry( name ) {
+			// Get the event entry (create it if needed).
+			var events = getPrivate( this );
+			return events[ name ] || ( events[ name ] = new eventEntry( name ) );
+		}
+
 		return /** @lends CKEDITOR.event.prototype */ {
+
+			/**
+			 *  Predefine some intrinsic properties on a specific event name.
+			 *  @param {String} name The event name
+			 *  @param [meta.errorProof=false} Whether the event firing should catch error thrown from a per listener call.
+			 */
+			define: function( name, meta ) {
+				var entry = getEntry.call( this, name );
+				CKEDITOR.tools.extend( entry, meta, 1 );
+			},
+
 			/**
 			 * Registers a listener to a specific event in the current object.
 			 * @param {String} eventName The event name to which listen.
@@ -130,9 +148,7 @@ if ( !CKEDITOR.event ) {
 					me.removeListener( eventName, listenerFunction );
 				}
 
-				// Get the event entry (create it if needed).
-				var events = getPrivate( this ),
-					event = events[ eventName ] || ( events[ eventName ] = new eventEntry( eventName ) );
+				var event = getEntry.call( this, eventName );
 
 				if ( event.getListenerIndex( listenerFunction ) < 0 ) {
 					// Get the listeners.
@@ -239,10 +255,16 @@ if ( !CKEDITOR.event ) {
 							// sure we'll call all of them.
 							listeners = listeners.slice( 0 );
 
+							var retData;
 							// Loop through all listeners.
 							for ( var i = 0; i < listeners.length; i++ ) {
 								// Call the listener, passing the event data.
-								var retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+								if ( event.errorProof ) {
+									try {
+										retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+									} catch ( er ) {}
+								} else
+									retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 
 								if ( retData === false )
 									canceled = 1;

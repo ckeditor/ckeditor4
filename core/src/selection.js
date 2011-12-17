@@ -11,24 +11,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// the current node and check it on successive requests. If there is any
 	// change on the tree, then the selectionChange event gets fired.
 	function checkSelectionChange() {
-		try {
-			// Editor may have no selection at all.
-			var sel = this.getSelection( 1 );
-			if ( sel.getType() == CKEDITOR.SELECTION_NONE )
-				return;
+		// Editor may have no selection at all.
+		var sel = this.getSelection( 1 );
+		if ( sel.getType() == CKEDITOR.SELECTION_NONE )
+			return;
 
-			// Before doing anything, save a locked copy to be used for later recovery.
-			sel.lock();
-			this._.lastSelection = sel;
+		// Before doing anything, save a locked copy to be used for later recovery.
+		sel.lock();
+		this._.lastSelection = sel;
 
-			var firstElement = sel.getStartElement();
-			var currentPath = new CKEDITOR.dom.elementPath( firstElement );
+		var firstElement = sel.getStartElement();
+		var currentPath = new CKEDITOR.dom.elementPath( firstElement );
 
-			if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
-				this._.selectionPreviousPath = currentPath;
-				this.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
-			}
-		} catch ( e ) {}
+		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
+			this._.selectionPreviousPath = currentPath;
+			this.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
+		}
 	}
 
 	var checkSelectionChangeTimer, checkSelectionChangeTimeoutPending;
@@ -126,6 +124,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
+
+		editor.define( 'selectionChange', { errorProof:1 } );
+
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
 				editable = editor.editable(),
