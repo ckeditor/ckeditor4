@@ -28,7 +28,7 @@ gl.js      Found: 292 Missing: 284
 gu.js      Found: 576 Missing: 0
 he.js      Found: 576 Missing: 0
 hi.js      Found: 328 Missing: 248
-hr.js      Found: 419 Missing: 157
+hr.js      Found: 576 Missing: 0
 hu.js      Found: 573 Missing: 3
 is.js      Found: 326 Missing: 250
 it.js      Found: 576 Missing: 0
