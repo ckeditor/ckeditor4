@@ -224,8 +224,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
 		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', function() {
-			var sel = editor.getSelection();
-			sel && sel.getNative().clear();
+			var domSel = editor.getSelection().getNative();
+			domSel && domSel.clear();
 		}, null, null, 9 );
 
 	});
@@ -477,11 +477,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @example
 		 * var selection = editor.getSelection().<strong>getNative()</strong>;
 		 */
-		getNative: CKEDITOR.env.ie ?
-		function() {
-			return this._.cache.nativeSel || ( this._.cache.nativeSel = this.document.$.selection );
-		} : function() {
-			return this._.cache.nativeSel || ( this._.cache.nativeSel = this.document.getWindow().$.getSelection() );
+		getNative: function() {
+			if ( this._.cache.nativeSel !== undefined )
+				return this._.cache.nativeSel;
+
+			return ( this._.cache.nativeSel = this.document.$.selection || this.document.getWindow().$.getSelection() );
 		},
 
 		/**
@@ -1060,7 +1060,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.getSelectedText();
 
 			// The native selection is not available when locked.
-			this._.cache.nativeSel = {};
+			this._.cache.nativeSel = null;
 
 			this.isLocked = 1;
 		},
