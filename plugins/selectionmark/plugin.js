@@ -205,7 +205,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'blur', function() {
 				remove( editor );
 			});
-			editor.on( 'destroy', function() {
+			editor.on( 'beforeDestroy', function() {
 				remove( editor );
 			});
 		}
