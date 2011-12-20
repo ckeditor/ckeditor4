@@ -16,9 +16,9 @@ CKEDITOR.plugins.setLang( 'specialchar', 'et', {
 	pound: 'Naela märk',
 	curren: 'Valuutamärk',
 	yen: 'Jeeni märk',
-	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
+	brvbar: 'Katkestatud kriips',
+	sect: 'Lõigu märk',
+	uml: 'Täpid',
 	copy: 'Autoriõiguse märk',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Left-pointing double angle quotation mark', // MISSING
@@ -26,14 +26,14 @@ CKEDITOR.plugins.setLang( 'specialchar', 'et', {
 	reg: 'Registered sign', // MISSING
 	macr: 'Macron', // MISSING
 	deg: 'Kraadimärk',
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
+	sup2: 'Ülaindeks kaks',
+	sup3: 'Ülaindeks kolm',
 	acute: 'Acute accent', // MISSING
 	micro: 'Mikro-märk',
 	para: 'Pilcrow sign', // MISSING
 	middot: 'Keskpunkt',
 	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
+	sup1: 'Ülaindeks üks',
 	ordm: 'Masculine ordinal indicator', // MISSING
 	raquo: 'Right-pointing double angle quotation mark', // MISSING
 	frac14: 'Vulgar fraction one quarter', // MISSING
@@ -43,7 +43,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'et', {
 	Agrave: 'Latin capital letter A with grave accent', // MISSING
 	Aacute: 'Latin capital letter A with acute accent', // MISSING
 	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
+	Atilde: 'Ladina suur A tildega',
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
 	Aring: 'Latin capital letter A with ring above', // MISSING
 	AElig: 'Latin Capital letter Æ', // MISSING
@@ -62,21 +62,21 @@ CKEDITOR.plugins.setLang( 'specialchar', 'et', {
 	Oacute: 'Latin capital letter O with acute accent', // MISSING
 	Ocirc: 'Latin capital letter O with circumflex', // MISSING
 	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
+	Ouml: 'Täppidega ladina suur O',
 	times: 'Multiplication sign', // MISSING
 	Oslash: 'Latin capital letter O with stroke', // MISSING
 	Ugrave: 'Latin capital letter U with grave accent', // MISSING
 	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
+	Ucirc: 'Kandilise katusega suur ladina U',
+	Uuml: 'Täppidega ladina suur U',
 	Yacute: 'Latin capital letter Y with acute accent', // MISSING
 	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
+	szlig: 'Ladina väike terav s',
 	agrave: 'Latin small letter a with grave accent', // MISSING
 	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
+	acirc: 'Kandilise katusega ladina väike a',
+	atilde: 'Tildega ladina väike a',
+	auml: 'Täppidega ladina väike a',
 	aring: 'Latin small letter a with ring above', // MISSING
 	aelig: 'Latin small letter æ', // MISSING
 	ccedil: 'Latin small letter c with cedilla', // MISSING
