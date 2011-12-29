@@ -3,7 +3,7 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-// Compressed version of src/ckeditor_base.js. See original for instructions.
+// Compressed version of core/ckeditor_base.js. See original for instructions.
 /*jsl:ignore*/
 if ( !window.CKEDITOR )
 	window.CKEDITOR = function() {
@@ -50,9 +50,9 @@ else {
 	if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
 		var script = document.createElement( 'script' );
 		script.type = 'text/javascript';
-		script.src = CKEDITOR.getUrl( 'src/loader.js' );
+		script.src = CKEDITOR.getUrl( 'core/loader.js' );
 		document.body.appendChild( script );
 	} else {
-		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'src/loader.js' ) + '"></script>' );
+		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
 	}
 }
