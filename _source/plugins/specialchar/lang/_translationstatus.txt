@@ -11,5 +11,6 @@ fi.js      Found: 23 Missing: 95
 fr.js      Found: 118 Missing: 0
 hr.js      Found: 23 Missing: 95
 it.js      Found: 118 Missing: 0
+nl.js      Found: 118 Missing: 0
 tr.js      Found: 118 Missing: 0
 zh-cn.js   Found: 118 Missing: 0
