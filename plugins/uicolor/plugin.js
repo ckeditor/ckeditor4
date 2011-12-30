@@ -20,13 +20,9 @@ CKEDITOR.plugins.add( 'uicolor', {
 		CKEDITOR.dialog.add( 'uicolor', this.path + 'dialogs/uicolor.js' );
 
 		// Load YUI js files.
-		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '_source/' + // @Packager.RemoveLine
-								'plugins/uicolor/yui/yui.js'
-					));
+		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/uicolor/yui/yui.js' ) );
 
 		// Load YUI css files.
-		editor.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( '_source/' + // @Packager.RemoveLine
-									'plugins/uicolor/yui/assets/yui.css'
-					));
+		editor.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( 'plugins/uicolor/yui/assets/yui.css' ) );
 	}
 });
