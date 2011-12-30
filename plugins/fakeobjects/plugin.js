@@ -53,7 +53,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	CKEDITOR.plugins.add( 'fakeobjects', {
+	var plugin = CKEDITOR.plugins.add( 'fakeobjects', {
 		requires: [ 'htmlwriter' ],
 
 		afterInit: function( editor ) {
@@ -71,7 +71,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var attributes = {
 			'class': className,
-			src: CKEDITOR.getUrl( 'images/spacer.gif' ),
+			src: CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' ),
 			'data-cke-realelement': encodeURIComponent( realElement.getOuterHtml() ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,
