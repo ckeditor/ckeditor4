@@ -65,14 +65,14 @@ CKEDITOR.ui.panel.prototype = {
 	render: function( editor, output ) {
 		var id = this.id;
 
-		output.push( '<div class="', editor.skinClass, '"' +
+		output.push( '<div' +
 			' lang="', editor.langCode, '"' +
 			' role="presentation"' +
 			// iframe loading need sometime, keep the panel hidden(#4186).
 					' style="display:none;z-index:' + ( editor.config.baseFloatZIndex + 1 ) + '">' +
 			'<div' +
 				' id=', id, ' dir=', editor.lang.dir, ' role="presentation"' +
-				' class="cke_panel cke_', editor.lang.dir );
+				' class="cke cke_panel cke_', editor.lang.dir );
 
 		if ( this.className )
 			output.push( ' ', this.className );
@@ -128,9 +128,9 @@ CKEDITOR.ui.panel.prototype = {
 				}, this ) );
 
 				var data = '<!DOCTYPE html>' +
-					'<html dir="' + dir + '" class="' + className + '_container" lang="' + langCode + '">' +
+					'<html dir="' + dir + '" class=".cke_panel_container" lang="' + langCode + '">' +
 						'<head>' +
-							'<style>.' + className + '_container{visibility:hidden}</style>' +
+							'<style>.cke_panel_container{visibility:hidden}</style>' +
 						'</head>' +
 						'<body class="cke_' + dir + ' cke_panel_frame ' + CKEDITOR.env.cssClass + '" style="margin:0;padding:0"' +
 						' onload="( window.CKEDITOR || window.parent.CKEDITOR ).tools.callFunction(' + onLoad + ');"></body>' +

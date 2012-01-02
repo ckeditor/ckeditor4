@@ -3,7 +3,7 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-.cke_skin_kama .cke_panel
+.cke_panel
 {
 	border: 1px solid #8f8f73;
 	background-color: #fff;
@@ -18,33 +18,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-radius: 3px;
 }
 
-.cke_skin_kama .cke_contextmenu
+.cke_contextmenu
 {
 	margin: 0;
 }
 
 /* Ideally we would use "inherit here"... but you know... IE :( */
-.cke_skin_kama .cke_panel iframe
+.cke_panel iframe
 {
 	width: 100%;
 	height: 100%;
 }
 
-/*
- * All the following styles are to be used inside the iframe that holds panel
- * contents. We don't use the cke_skin_default there to avoid the reset to be
- * active.
- * This is not an issue as we'll never have two skins running inside the same
- * panel iframe.
- */
-
-html.cke_skin_kama_container
+.cke_panel_container
 {
+	visibility: visible;
 	overflow: auto;
 	overflow-x: hidden;
 }
 
-body.cke_panel_frame
+.cke_panel_frame
 {
 	overflow: auto;
 }
@@ -54,7 +47,7 @@ body.cke_panel_frame
 	display: none;
 }
 
-ul.cke_panel_list
+.cke_panel_list
 {
 	list-style-type: none;
 	margin: 3px;
@@ -62,7 +55,7 @@ ul.cke_panel_list
 	white-space: nowrap;
 }
 
-li.cke_panel_listItem
+.cke_panel_listItem
 {
 	margin: 0px;
 }
@@ -142,8 +135,8 @@ li.cke_panel_listItem
 	margin-bottom: 3px;
 }
 
-.cke_skin_kama .cke_button_textcolor_panel,
-.cke_skin_kama .cke_button_bgcolor_panel
+.cke_button_textcolor_panel,
+.cke_button_bgcolor_panel
 {
 	width: 150px;
 	height: 135px;

@@ -19,56 +19,56 @@ CKEDITOR.skins.add( 'kama', ( function() {
 			var uiColorMenus = [];
 			var uiColorRegex = /\$color/g;
 			var uiColorMenuCss = "/* UI Color Support */\
-.cke_skin_kama .cke_menuitem .cke_icon_wrapper\
+.cke_menuitem .cke_icon_wrapper\
 {\
 	background-color: $color !important;\
 	border-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a:hover .cke_icon_wrapper,\
-.cke_skin_kama .cke_menuitem a:focus .cke_icon_wrapper,\
-.cke_skin_kama .cke_menuitem a:active .cke_icon_wrapper\
+.cke_menuitem a:hover .cke_icon_wrapper,\
+.cke_menuitem a:focus .cke_icon_wrapper,\
+.cke_menuitem a:active .cke_icon_wrapper\
 {\
 	background-color: $color !important;\
 	border-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a:hover .cke_label,\
-.cke_skin_kama .cke_menuitem a:focus .cke_label,\
-.cke_skin_kama .cke_menuitem a:active .cke_label\
+.cke_menuitem a:hover .cke_label,\
+.cke_menuitem a:focus .cke_label,\
+.cke_menuitem a:active .cke_label\
 {\
 	background-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a.cke_disabled:hover .cke_label,\
-.cke_skin_kama .cke_menuitem a.cke_disabled:focus .cke_label,\
-.cke_skin_kama .cke_menuitem a.cke_disabled:active .cke_label\
+.cke_menuitem a.cke_disabled:hover .cke_label,\
+.cke_menuitem a.cke_disabled:focus .cke_label,\
+.cke_menuitem a.cke_disabled:active .cke_label\
 {\
 	background-color: transparent !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a.cke_disabled:hover .cke_icon_wrapper,\
-.cke_skin_kama .cke_menuitem a.cke_disabled:focus .cke_icon_wrapper,\
-.cke_skin_kama .cke_menuitem a.cke_disabled:active .cke_icon_wrapper\
+.cke_menuitem a.cke_disabled:hover .cke_icon_wrapper,\
+.cke_menuitem a.cke_disabled:focus .cke_icon_wrapper,\
+.cke_menuitem a.cke_disabled:active .cke_icon_wrapper\
 {\
 	background-color: $color !important;\
 	border-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a.cke_disabled .cke_icon_wrapper\
+.cke_menuitem a.cke_disabled .cke_icon_wrapper\
 {\
 	background-color: $color !important;\
 	border-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuseparator\
+.cke_menuseparator\
 {\
 	background-color: $color !important;\
 }\
 \
-.cke_skin_kama .cke_menuitem a:hover,\
-.cke_skin_kama .cke_menuitem a:focus,\
-.cke_skin_kama .cke_menuitem a:active\
+.cke_menuitem a:hover,\
+.cke_menuitem a:focus,\
+.cke_menuitem a:active\
 {\
 	background-color: $color !important;\
 }";
@@ -186,9 +186,6 @@ CKEDITOR.skins.add( 'kama', ( function() {
 				height = data.height,
 				dialog = data.dialog,
 				contents = dialog.parts.contents;
-
-			if ( data.skin != 'kama' )
-				return;
 
 			contents.setStyles({
 				width: width + 'px',

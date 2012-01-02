@@ -317,8 +317,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
-	var hiddenSkins = {};
-
 	function loadTheme( editor ) {
 		var name = editor.name,
 			element = editor.element,
@@ -346,15 +344,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 			style += 'width:{width};';
 		}
 
-		var hideSkin = '<style>.' + editor.skinClass + '{visibility:hidden;}</style>';
-		if ( hiddenSkins[ editor.skinClass ] )
-			hideSkin = '';
-		else
-			hiddenSkins[ editor.skinClass ] = 1;
 
 		var template = editor.addTemplate( 'maincontainer', '<span' +
 			' id="cke_{name}"' +
-			' class="{skinClass} {id} cke_editor_{name}"' +
+			' class="{id} cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +
 			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 			' lang="{langCode}"' +
@@ -372,7 +365,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 						'<tr' + ( bottomHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</td></tr>' +
 					'</tbody></table>' +
 					//Hide the container when loading skins, later restored by skin css.
-							hideSkin +
+							'<style>.cke_chrome{visibility:hidden;}</style>' +
 				'</span>' +
 			'</span>' +
 			'</span>' );

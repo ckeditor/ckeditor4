@@ -14,7 +14,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			$: function( editor ) {
 				this.base.call( this, editor, {
 					panel: {
-						className: editor.skinClass + ' cke_contextmenu',
+						className: 'cke_contextmenu',
 						attributes: {
 							'aria-label': editor.lang.contextmenu.options
 						}

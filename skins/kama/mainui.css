@@ -3,14 +3,11 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-.cke_skin_kama
-{
-	display: block;
-}
-
 /* Main editor only settings. */
-span.cke_skin_kama
+.cke_chrome
 {
+	visibility: inherit;
+	display:block;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -18,13 +15,13 @@ span.cke_skin_kama
 	padding: 5px;
 }
 
-.cke_skin_kama span.cke_browser_webkit,
-.cke_skin_kama span.cke_browser_gecko18
+.cke_browser_webkit,
+.cke_browser_gecko18
 {
 	display: block;
 }
 
-.cke_skin_kama .cke_wrapper
+.cke_wrapper
 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -42,65 +39,65 @@ span.cke_skin_kama
 	/*background-color: Red;*/
 }
 
-.cke_shared .cke_skin_kama .cke_wrapper
+.cke_shared .cke_wrapper
 {
 	padding-bottom: 0;
 }
 
-.cke_skin_kama .cke_browser_ie6 .cke_wrapper,
-.cke_skin_kama .cke_browser_iequirks .cke_wrapper
+.cke_browser_ie6 .cke_wrapper,
+.cke_browser_iequirks .cke_wrapper
 {
 	background-image: none;
 }
 
-.cke_skin_kama .cke_editor
+.cke_editor
 {
 	display: inline-table;
 	width: 100%;
 }
 
-.cke_skin_kama .cke_browser_ie .cke_editor,
-.cke_skin_kama .cke_browser_webkit .cke_editor
+.cke_browser_ie .cke_editor,
+.cke_browser_webkit .cke_editor
 {
 	display: table;	/* #6684, #8342 */
 }
 
-.cke_skin_kama .ltr .cke_browser_ie iframe
+.ltr .cke_browser_ie iframe
 {
 	margin-right: -10px;
 }
 
-.cke_skin_kama .rtl .cke_browser_ie iframe
+.rtl .cke_browser_ie iframe
 {
 	margin-left: -10px;
 }
 
-.cke_skin_kama .cke_browser_opera .cke_editor.cke_skin_kama .cke_resizer
+.cke_browser_opera .cke_editor.cke_resizer
 {
 	display: table;
 }
 
-.cke_skin_kama .cke_contents
+.cke_contents
 {
 	margin: 5px;
 }
 
-.cke_skin_kama .cke_hc .cke_contents
+.cke_hc .cke_contents
 {
 	border: 1px solid black;
 }
 
-.cke_skin_kama .cke_contents iframe
+.cke_contents iframe
 {
 	background-color: #fff;
 }
 
-.cke_skin_kama .cke_focus
+.cke_focus
 {
 	outline: auto 5px -webkit-focus-ring-color;
 }
 
-.cke_skin_kama textarea.cke_source
+.cke_source
 {
 	font-family: 'Courier New' , Monospace;
 	font-size: small;
@@ -108,13 +105,13 @@ span.cke_skin_kama
 	white-space: pre;
 }
 
-.cke_skin_kama .cke_browser_iequirks textarea.cke_source
+.cke_browser_iequirks textarea.cke_source
 {
 	/* For IE6+Quirks only */
 	_white-space: normal;
 }
 
-.cke_skin_kama .cke_resizer
+.cke_resizer
 {
 	width: 12px;
 	height: 12px;
@@ -130,13 +127,13 @@ span.cke_skin_kama
 }
 
 /* Adobe AIR doesn't support *-resize cursor shape. */
-.cke_skin_kama .cke_browser_air .cke_resizer,
-.cke_skin_kama .cke_browser_air .cke_rtl .cke_resizer
+.cke_browser_air .cke_resizer,
+.cke_browser_air .cke_rtl .cke_resizer
 {
 	cursor: move;
 }
 
-.cke_skin_kama .cke_resizer_rtl
+.cke_resizer_rtl
 {
 	cursor: sw-resize;
 	/* resizer_rtl.gif*/
@@ -144,59 +141,59 @@ span.cke_skin_kama
 	float: left;
 }
 
-.cke_skin_kama .cke_resizer_horizontal,
-.cke_skin_kama .cke_rtl .cke_resizer_horizontal
+.cke_resizer_horizontal,
+.cke_rtl .cke_resizer_horizontal
 {
 	cursor: e-resize;
 }
 
-.cke_skin_kama .cke_resizer_vertical,
-.cke_skin_kama .cke_rtl .cke_resizer_vertical
+.cke_resizer_vertical,
+.cke_rtl .cke_resizer_vertical
 {
 	cursor: n-resize;
 }
 
-.cke_skin_kama .cke_maximized .cke_resizer
+.cke_maximized .cke_resizer
 {
 	display: none;
 }
 
-.cke_skin_kama .cke_browser_ie6 .cke_contents textarea,
-.cke_skin_kama .cke_browser_ie7 .cke_contents textarea
+.cke_browser_ie6 .cke_contents textarea,
+.cke_browser_ie7 .cke_contents textarea
 {
 	position: absolute;
 }
 
-.cke_skin_kama .cke_browser_ie.cke_browser_quirks .cke_contents iframe
+.cke_browser_ie.cke_browser_quirks .cke_contents iframe
 {
 	position: absolute;
 	top: 0;
 }
 
-.cke_skin_kama .cke_browser_ie6 .cke_editor,
-.cke_skin_kama .cke_browser_ie7 .cke_editor
+.cke_browser_ie6 .cke_editor,
+.cke_browser_ie7 .cke_editor
 {
 	display: inline-block;
 }
 
-.cke_skin_kama .cke_browser_ie6 .cke_editor,
-.cke_shared .cke_skin_kama .cke_browser_ie7 .cke_wrapper
+.cke_browser_ie6 .cke_editor,
+.cke_shared .cke_browser_ie7 .cke_wrapper
 {
 	padding-bottom: 5px;
 }
 
 /* All voice labels are not displayed. */
-.cke_skin_kama .cke_voice_label
+.cke_voice_label
 {
 	display: none;
 }
 
-.cke_skin_kama legend.cke_voice_label
+legend.cke_voice_label
 {
 	display: none;
 }
 
-.cke_skin_kama .cke_browser_ie legend.cke_voice_label
+.cke_browser_ie legend.cke_voice_label
 {
 	position: absolute;
 	display: block;

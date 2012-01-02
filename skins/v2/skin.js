@@ -24,9 +24,6 @@ CKEDITOR.skins.add( 'v2', ( function() {
 				dialog = data.dialog,
 				contents = dialog.parts.contents;
 
-			if ( data.skin != 'v2' )
-				return;
-
 			contents.setStyles({
 				width: width + 'px',
 				height: height + 'px'

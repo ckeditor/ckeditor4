@@ -210,15 +210,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		editor.skinPath = skinPath;
 
-		/**
-		 * The CSS class name used for skin identification purposes.
-		 * @name CKEDITOR.editor.prototype.skinClass
-		 * @type String
-		 * @example
-		 * alert( editor.skinClass );  // E.g. "cke_skin_kama"
-		 */
-		editor.skinClass = skinName && ( 'cke_skin_' + skinName );
-
 		// Initialize the key handler, based on the configurations.
 		initKeystrokeHandler( editor );
 

@@ -24,9 +24,6 @@ CKEDITOR.skins.add( 'office2003', ( function() {
 				dialog = data.dialog,
 				contents = dialog.parts.contents;
 
-			if ( data.skin != 'office2003' )
-				return;
-
 			contents.setStyles({
 				width: width + 'px',
 				height: height + 'px'

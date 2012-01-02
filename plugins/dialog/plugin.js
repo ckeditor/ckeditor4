@@ -106,7 +106,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="{editorId}_dialog {editorDialogClass} cke_skin_{skinName}' +
+	var templateSource = '<div class="cke {editorId}_dialog {editorDialogClass}' +
 		'" dir="{langDir}"' +
 		' lang="{langCode}"' +
 		' role="dialog"' +
@@ -150,7 +150,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			editorId: editor.id,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
-			skinName: editor.skinName,
 			editorDialogClass: 'cke_editor_' + editor.name.replace( /\./g, '\\.' ) + '_dialog',
 			closeTitle: editor.lang.common.close
 		}));
@@ -652,13 +651,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				CKEDITOR.dialog.fire( 'resize', {
 					dialog: this,
-					skin: this._.editor.skinName,
 					width: width,
 					height: height
 				}, this._.editor );
 
 				this.fire( 'resize', {
-					skin: this._.editor.skinName,
 					width: width,
 					height: height
 				}, this._.editor );

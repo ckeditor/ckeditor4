@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var floatSpace,
 			template = editor.addTemplate( 'floatcontainer', '<div' +
 			' id="{id}"' +
-			' class="{skinClass} {id} cke_editor_{name}"' +
+			' class="{id} cke cke_editor_{name}"' +
 			' dir="{langDir}"' +
 			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 			' lang="{langCode}"' +

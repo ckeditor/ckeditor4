@@ -256,7 +256,6 @@ CKEDITOR.plugins.add( 'menu', {
 					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (#8041).
 
 					element = this._.element = block.element;
-					element.addClass( editor.skinClass );
 
 					var elementDoc = element.getDocument();
 					elementDoc.getBody().setStyle( 'overflow', 'hidden' );

@@ -6,11 +6,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Reset and Default Values
  */
-.cke_skin_kama *,
-.cke_skin_kama a:hover,
-.cke_skin_kama a:link,
-.cke_skin_kama a:visited,
-.cke_skin_kama a:active
+.cke *,
+.cke a:hover,
+.cke a:link,
+.cke a:visited,
+.cke a:active
 {
 	margin: 0;
 	padding: 0;
@@ -32,53 +32,53 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     font-family: Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
 }
 
-.cke_skin_kama .cke_rtl *,
-.cke_skin_kama .cke_rtl a:hover,
-.cke_skin_kama .cke_rtl a:link,
-.cke_skin_kama .cke_rtl a:visited,
-.cke_skin_kama .cke_rtl a:active,
-.cke_rtl .cke_skin_kama *,
-.cke_rtl .cke_skin_kama a:hover,
-.cke_rtl .cke_skin_kama a:link,
-.cke_rtl .cke_skin_kama a:visited,
-.cke_rtl .cke_skin_kama a:active
+.cke .cke_rtl *,
+.cke .cke_rtl a:hover,
+.cke .cke_rtl a:link,
+.cke .cke_rtl a:visited,
+.cke .cke_rtl a:active,
+.cke_rtl .cke *,
+.cke_rtl .cke a:hover,
+.cke_rtl .cke a:link,
+.cke_rtl .cke a:visited,
+.cke_rtl .cke a:active
 {
 	text-align: right;
 }
 
-.cke_skin_kama iframe
+.cke iframe
 {
 	vertical-align: inherit;	/** For IE */
 }
 
-.cke_skin_kama textarea
+.cke textarea
 {
 	white-space: pre;
 }
 
-.cke_skin_kama .cke_browser_gecko textarea
+.cke .cke_browser_gecko textarea
 {
 	cursor: text;
 }
 
-.cke_skin_kama .cke_browser_gecko textarea[disabled]
+.cke .cke_browser_gecko textarea[disabled]
 {
 	cursor: default;
 }
 
-.cke_skin_kama input[type="text"],
-.cke_skin_kama input[type="password"]
+.cke input[type="text"],
+.cke input[type="password"]
 {
 	cursor: text;
 }
 
-.cke_skin_kama input[type="text"][disabled],
-.cke_skin_kama input[type="password"][disabled]
+.cke input[type="text"][disabled],
+.cke input[type="password"][disabled]
 {
 	cursor: default;
 }
 
-.cke_skin_kama fieldset
+.cke fieldset
 {
 	padding: 10px;
 	border: 2px groove #E0DFE3;
