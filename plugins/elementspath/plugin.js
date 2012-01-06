@@ -58,7 +58,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		requires: [ 'selection' ],
 
 		init: function( editor ) {
-			var spaceId = 'cke_path_' + editor.name;
+			var spaceId = editor.ui.spaceId( 'path' );
 			var spaceElement;
 			var getSpaceElement = function() {
 					if ( !spaceElement )
@@ -76,6 +76,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													'<div id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</div>';
 				}
 			});
+
+			// Register the ui element to the focus manager.
+			editor.on( 'uiReady', function() {
+				var element = editor.ui.space( 'path' );
+				element && editor.focusManager.addFocusable( element, 1 );
+			});
+
 
 			function onClick( elementIndex ) {
 				editor.focus();

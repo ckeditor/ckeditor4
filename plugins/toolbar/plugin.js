@@ -149,7 +149,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ '<div class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
+					var output = [ '<div id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
 						expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted;
 
@@ -283,7 +283,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							exec: function( editor ) {
 								var collapser = editor.ui.space( 'toolbar_collapser' ),
 									toolbox = collapser.getPrevious(),
-									contents = editor.getUISpace && editor.getUISpace( 'contents' ),
+									contents = editor.ui.space( 'contents' ),
 									toolboxContainer = toolbox.getParent(),
 									contentHeight = parseInt( contents.$.style.height, 10 ),
 									previousHeight = toolboxContainer.$.offsetHeight,
@@ -343,6 +343,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							CKEDITOR.tools.removeFunction( instance.keyDownFn );
 					}
 				}
+			});
+
+			// Manage editor focus  when navigating the toolbar.
+			editor.on( 'uiReady', function() {
+				var toolbox = editor.ui.space( 'toolbox' )
+				toolbox && editor.focusManager.addFocusable( toolbox, 1 );
 			});
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );

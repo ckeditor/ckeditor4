@@ -361,21 +361,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
 				editor.keystrokeHandler.attach( this );
 
+				editor.focusManager.addFocusable( this );
+
 				// Inherit the initial focus on editable element.
 				if ( this.equals( CKEDITOR.document.getActive() ) ) {
 					this.hasFocus = true;
 					editor.focusManager.focus();
 				}
-
-				this.attachListener( this, 'focus', function() {
-					this.hasFocus = true;
-					editor.focusManager.focus();
-				});
-
-				this.attachListener( this, 'blur', function() {
-					this.hasFocus = false;
-					editor.focusManager.blur();
-				});
 
 				// The above is all we'll be doing for a <textarea> editable.
 				if ( this.is( 'textarea' ) )
