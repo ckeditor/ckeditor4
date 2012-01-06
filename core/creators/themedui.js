@@ -228,23 +228,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Returns the DOM element that represents an UI space. The default implementation defines
-	 * three spaces, namely "top", "contents" and "bottom", representing the main
-	 * blocks that compose the editor interface.
-	 * @param {String} spaceName The space name.
-	 * @returns {CKEDITOR.dom.element} The element that represents the space.
-	 * @example
-	 * // Hide the bottom space in the UI.
-	 * var bottom = editor.getUISpace( 'bottom' );
-	 * bottom.setStyle( 'display', 'none' );
-	 */
-	CKEDITOR.editor.prototype.getUISpace = function( spaceName ) {
-		var spacePrefix = 'cke_' + spaceName;
-		var space = this._[ spacePrefix ] || ( this._[ spacePrefix ] = CKEDITOR.document.getById( spacePrefix + '_' + this.name ) );
-		return space;
-	};
-
-	/**
 	 * Resizes the editor interface.
 	 * @param {Number|String} width The new width. It can be an pixels integer or a
 	 *		CSS size value.
@@ -359,11 +342,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 			'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
 				'<div class="cke_{langDir}" role="presentation">' +
 					'<div class="cke_inner" role="presentation">' +
-						'<div id="cke_top_{name}" class="cke_top"' +
+						'<div id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top"' +
 						' role="presentation" style="height:auto">{topHtml}</div>' +
-						'<div id="cke_contents_{name}" class="cke_contents"' +
+						'<div id="' + editor.ui.spaceId( 'contents' ) + '" class="cke_contents"' +
 						' role="presentation" style="height:{height}"></div>' +
-						'<div id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
+						'<div id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
 					'</div>' +
 				'</div>' +
 			'</div>' +
@@ -381,8 +364,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			bottomHtml: bottomHtml || ''
 		}));
 
-		var topSpace = CKEDITOR.document.getById( 'cke_top_' + name ),
-			bottomSpace = CKEDITOR.document.getById( 'cke_bottom_' + name );
+		var topSpace = editor.ui.space( 'top' ),
+			bottomSpace = editor.ui.space( 'bottom' );
 
 		topSpace && topSpace.unselectable();
 		bottomSpace && bottomSpace.unselectable();

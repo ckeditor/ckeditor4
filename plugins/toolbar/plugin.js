@@ -278,13 +278,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							CKEDITOR.tools.removeFunction( collapserFn );
 						});
 
-						var collapserId = CKEDITOR.tools.getNextId();
-
 						editor.addCommand( 'toolbarCollapse', {
 							readOnly: 1,
 							exec: function( editor ) {
-								var collapser = CKEDITOR.document.getById( collapserId ),
-									// TODO: Prefer UI space id over assuming structure.
+								var collapser = editor.ui.space( 'toolbar_collapser' ),
 									toolbox = collapser.getPrevious(),
 									contents = editor.getUISpace && editor.getUISpace( 'contents' ),
 									toolboxContainer = toolbox.getParent(),
@@ -316,7 +313,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 
 						output.push( '<a title="' + ( expanded ? editor.lang.toolbarCollapse : editor.lang.toolbarExpand )
-																					+ '" id="' + collapserId + '" tabIndex="-1" class="cke_toolbox_collapser' );
+																	+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
+																	+ '" tabIndex="-1" class="cke_toolbox_collapser' );
 
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );

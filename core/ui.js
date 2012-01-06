@@ -20,7 +20,8 @@ CKEDITOR.ui = function( editor ) {
 	this._ = {
 		handlers: {},
 		items: {},
-		editor: editor
+		editor: editor,
+		elements: {}
 	};
 
 	return this;
@@ -84,6 +85,29 @@ CKEDITOR.ui.prototype = {
 	 */
 	addHandler: function( type, handler ) {
 		this._.handlers[ type ] = handler;
+	},
+
+	/**
+	 * Returns the unique DOM element that represents one editor's UI part, as
+	 * the editor UI is made completely decoupled from DOM (no DOM reference hold),
+	 * this method is mainly used to retrieve the rendered DOM part by name.
+	 *
+	 * @param {String} name The space name.
+	 * @returns {CKEDITOR.dom.element} The element that represents the space.
+	 * @example
+	 * // Hide the bottom space in the UI.
+	 * var bottom = editor.ui.getSpace( 'bottom' );
+	 * bottom.setStyle( 'display', 'none' );
+	 */
+	space: function( name ) {
+		return this._.elements[ name ] || ( this._.elements[ name ] = CKEDITOR.document.getById( this.spaceId( name ) ) );
+	},
+
+	/**
+	 * Generate the HTML ID from a specific UI space name.
+	 */
+	spaceId: function( name ) {
+		return [ 'cke', name, this._.editor.id.match( /\d+/ )[ 0 ] ].join( '_' );
 	}
 };
 

@@ -20,8 +20,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var floatSpace,
 			template = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
-			' id="{id}"' +
-			' class="{id} cke cke_chrome cke_editor_{name}"' +
+			' id="' + editor.ui.spaceId( 'top' ) + '"' +
+			' class="cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +
 			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 			' lang="{langCode}"' +
@@ -47,7 +47,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
 		if ( topHtml ) {
 			floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( template.output( CKEDITOR.tools.extend({
-				id: 'cke_top_' + editor.name,
 				content: topHtml,
 				style: 'display:none;position:absolute;top:0;left:0;'
 			}, vars ) ) ) );
