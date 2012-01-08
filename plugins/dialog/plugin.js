@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -199,7 +199,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
 			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
 			buttonsOrder = editor.config.dialog_buttonsOrder || 'OS',
-			dir = editor.lang.dir;
+			dir = editor.lang.dir,
+			tabsToRemove = {},
+			i, processed;
 
 		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (#4750)
 		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
@@ -274,7 +276,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			definition: definition
 		}, editor ).definition;
 
-		var tabsToRemove = {};
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
 			var removeContents = editor.config.removeDialogTabs.split( ';' );
@@ -424,7 +425,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		this.changeFocus = changeFocus;
 
-		var processed;
 
 		function focusKeydownHandler( evt ) {
 			// If I'm not the top dialog, ignore.
@@ -564,7 +564,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
 
 		// Insert the tabs and contents.
-		for ( var i = 0; i < definition.contents.length; i++ ) {
+		for ( i = 0; i < definition.contents.length; i++ ) {
 			var page = definition.contents[ i ];
 			page && this.addPage( page );
 		}
