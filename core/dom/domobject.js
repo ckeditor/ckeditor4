@@ -182,12 +182,13 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * @example
 	 * var element = new CKEDITOR.dom.element( 'span' );
 	 * alert( element.getCustomData( 'hasCustomData' ) );  // e.g. 'true'
+	 * alert( element.getCustomData( 'nonExistingKey' ) ); // null
 	 */
 	domObjectProto.getCustomData = function( key ) {
 		var expandoNumber = this.$[ 'data-cke-expando' ],
 			dataSlot = expandoNumber && customData[ expandoNumber ];
 
-		return dataSlot && dataSlot[ key ];
+		return ( dataSlot && key in dataSlot ) ? dataSlot[ key ] : null;
 	};
 
 	/**
