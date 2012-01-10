@@ -47,6 +47,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// give priority to plugins that relay on editor#loaded for bootstrapping.
 		}, null, null, 10000 );
 
+		// Handle editor destroying.
+		editor.on( 'destroy', function() {
+			editor.element.clearCustomData();
+			delete editor.element;
+		});
+
 		return editor;
 	};
 

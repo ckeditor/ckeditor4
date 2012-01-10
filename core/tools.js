@@ -682,6 +682,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		genKey: function() {
 			return Array.prototype.slice.call( arguments ).join( '-' );
+		},
+
+		/**
+		 * Create A "deferred" function which will not run immediately,
+		 * rather runs as soon as the interpreter’s call stack is empty.
+		 * Behaves much like window.setTimeout with a delay.
+		 * <strong>Note:</strong> The return value of the original function will loose.
+		 * @param {Function} fn The callee function.
+		 * @param {Function} The new deferred function.
+		 */
+		defer: function( fn ) {
+			return function() {
+				var args = arguments,
+					self = this;
+				window.setTimeout( function() {
+					fn.apply( self, args );
+				}, 0 );
+			};
 		}
 	};
 })();
