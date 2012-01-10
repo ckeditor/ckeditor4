@@ -31,6 +31,9 @@ CKEDITOR.dom.node = function( domNode ) {
 
 			case CKEDITOR.NODE_TEXT:
 				return new CKEDITOR.dom.text( domNode );
+
+			case CKEDITOR.NODE_COMMENT:
+				return new CKEDITOR.dom.comment( domNode );
 		}
 
 		// Call the base constructor.
