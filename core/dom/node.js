@@ -221,17 +221,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		// Attention: getAddress depends on this.$
 
 		var current = this.$,
-			index = 0;
+			index = -1,
+			isNormalizing;
 
-		while ( ( current = current.previousSibling ) ) {
-			// When normalizing, do not count it if this is an
-			// empty text node or if it's a text node following another one.
-			if ( normalized && current.nodeType == 3 && ( !current.nodeValue.length || ( current.previousSibling && current.previousSibling.nodeType == 3 ) ) ) {
+		if ( !this.$.parentNode )
+			return index;
+
+		do {
+			// Bypass blank node and adjacent text nodes.
+			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) ) {
 				continue;
 			}
 
 			index++;
+			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
 		}
+		while ( current = current.previousSibling )
 
 		return index;
 	},
