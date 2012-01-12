@@ -269,7 +269,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// End of toolbox buttons.
 					output.push( '</div>' );
 
-					if ( editor.config.toolbarCanCollapse ) {
+					// Not toolbar collapser for inline mode.
+					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 						var collapserFn = CKEDITOR.tools.addFunction( function() {
 							editor.execCommand( 'toolbarCollapse' );
 						});
@@ -347,7 +348,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Manage editor focus  when navigating the toolbar.
 			editor.on( 'uiReady', function() {
-				var toolbox = editor.ui.space( 'toolbox' )
+				var toolbox = editor.ui.space( 'toolbox' );
 				toolbox && editor.focusManager.addFocusable( toolbox, 1 );
 			});
 
