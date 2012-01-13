@@ -43,7 +43,7 @@ CKEDITOR.plugins.add( 'forms', {
 			};
 
 		var dialogPath = this.path + 'dialogs/';
-		addButtonCommand( 'Form', 'form', dialogPath + 'form.js' );
+		!editor.blockless && addButtonCommand( 'Form', 'form', dialogPath + 'form.js' );
 		addButtonCommand( 'Checkbox', 'checkbox', dialogPath + 'checkbox.js' );
 		addButtonCommand( 'Radio', 'radio', dialogPath + 'radio.js' );
 		addButtonCommand( 'TextField', 'textfield', dialogPath + 'textfield.js' );
@@ -58,13 +58,7 @@ CKEDITOR.plugins.add( 'forms', {
 
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {
-			editor.addMenuItems({
-				form: {
-					label: lang.form.menu,
-					command: 'form',
-					group: 'form'
-				},
-
+			var items = {
 				checkbox: {
 					label: lang.checkboxAndRadio.checkboxTitle,
 					command: 'checkbox',
@@ -112,12 +106,21 @@ CKEDITOR.plugins.add( 'forms', {
 					command: 'textarea',
 					group: 'textarea'
 				}
+			};
+
+			!editor.blockless && ( items.form = {
+				label: lang.form.menu,
+				command: 'form',
+				group: 'form'
 			});
+
+			editor.addMenuItems( items );
+
 		}
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
-			editor.contextMenu.addListener( function( element ) {
+			!editor.blockless && editor.contextMenu.addListener( function( element ) {
 				if ( element && element.hasAscendant( 'form', true ) && !element.isReadOnly() )
 					return { form: CKEDITOR.TRISTATE_OFF };
 			});
@@ -162,7 +165,7 @@ CKEDITOR.plugins.add( 'forms', {
 		editor.on( 'doubleclick', function( evt ) {
 			var element = evt.data.element;
 
-			if ( element.is( 'form' ) )
+			if ( !editor.blockless && element.is( 'form' ) )
 				evt.data.dialog = 'form';
 			else if ( element.is( 'select' ) )
 				evt.data.dialog = 'select';

@@ -23,6 +23,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
 							var styleDefinition = stylesDefinitions[ i ];
 
+							if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+								continue;
+
 							styleName = styleDefinition.name;
 
 							style = styles[ styleName ] = new CKEDITOR.style( styleDefinition );

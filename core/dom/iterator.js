@@ -43,6 +43,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	iterator.prototype = {
 		getNextParagraph: function( blockTag ) {
+			blockTag = blockTag || 'p';
+
+			// Block-less range should be checked first.
+			if ( !CKEDITOR.dtd[ this.range.root.getName() ][ blockTag ] )
+				return null;
+
 			// The block element to be returned.
 			var block;
 
@@ -88,7 +94,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var testRange = this.range.clone();
 						testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
 						if ( testRange.checkEndOfBlock() ) {
-							var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
+							var path = new CKEDITOR.dom.elementPath( testRange.endContainer, testRange.root );
 							var lastBlock = path.block || path.blockLimit;
 							this._.lastNode = lastBlock.getNextSourceNode( true );
 						}
@@ -227,16 +233,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return null;
 				}
 
-				var startPath = new CKEDITOR.dom.elementPath( range.startContainer );
+				var startPath = new CKEDITOR.dom.elementPath( range.startContainer, range.root );
 				var startBlockLimit = startPath.blockLimit,
 					checkLimits = { div:1,th:1,td:1 };
 				block = startPath.block;
 
-				if ( !block && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
+				if ( !block && startBlockLimit && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
 					block = startBlockLimit;
 				else if ( !block || ( this.enforceRealBlocks && block.getName() == 'li' ) ) {
 					// Create the fixed block.
-					block = this.range.document.createElement( blockTag || 'p' );
+					block = this.range.document.createElement( blockTag );
 
 					// Move the contents of the temporary range to the fixed block.
 					range.extractContents().appendTo( block );

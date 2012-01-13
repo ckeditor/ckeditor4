@@ -246,6 +246,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'blockquote', {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			editor.addCommand( 'blockquote', commandObject );
 
 			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {

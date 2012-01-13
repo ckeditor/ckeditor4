@@ -13,6 +13,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'div', {
 		requires: [ 'dialog' ],
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv' ) );

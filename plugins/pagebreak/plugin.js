@@ -27,6 +27,9 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		CKEDITOR.addCss( 'div.cke_pagebreak' + cssStyles );
 	},
 	init: function( editor ) {
+		if ( editor.blockless )
+			return;
+
 		// Register the command.
 		editor.addCommand( 'pagebreak', CKEDITOR.plugins.pagebreakCmd );
 

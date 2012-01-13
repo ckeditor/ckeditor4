@@ -319,6 +319,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		},
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			// Register commands.
 			var indent = editor.addCommand( 'indent', new indentCommand( editor, 'indent' ) ),
 				outdent = editor.addCommand( 'outdent', new indentCommand( editor, 'outdent' ) );

@@ -32,6 +32,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Register a plugin named "horizontalrule".
 	CKEDITOR.plugins.add( pluginName, {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			editor.addCommand( pluginName, horizontalruleCmd );
 			editor.ui.addButton && editor.ui.addButton( 'HorizontalRule', {
 				label: editor.lang.horizontalrule,

@@ -167,6 +167,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'justify', {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			var left = new justifyCommand( editor, 'justifyleft', 'left' ),
 				center = new justifyCommand( editor, 'justifycenter', 'center' ),
 				right = new justifyCommand( editor, 'justifyright', 'right' ),

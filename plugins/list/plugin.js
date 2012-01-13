@@ -731,6 +731,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'list', {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			// Register commands.
 			var numberedListCommand = editor.addCommand( 'numberedlist', new listCommand( 'numberedlist', 'ol' ) ),
 				bulletedListCommand = editor.addCommand( 'bulletedlist', new listCommand( 'bulletedlist', 'ul' ) );

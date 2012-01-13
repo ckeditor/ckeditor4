@@ -7,6 +7,9 @@ CKEDITOR.plugins.add( 'format', {
 	requires: [ 'richcombo' ],
 
 	init: function( editor ) {
+		if ( editor.blockless )
+			return;
+
 		var config = editor.config,
 			lang = editor.lang.format;
 
