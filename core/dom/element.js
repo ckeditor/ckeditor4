@@ -617,8 +617,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * Checks if the element name matches one or more names.
-	 * @param {String} name[,name[,...]] One or more names to be checked.
+	 * Checks if the element name matches the specified criteria.
+	 * @param {String|Object} name[,name[,...]] One or more names to be checked, or an {@link CKEDITOR.dtd} object.
 	 * @returns {Boolean} true if the element name matches any of the names.
 	 * @example
 	 * var element = new CKEDITOR.element( 'span' );
@@ -629,6 +629,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 */
 	is: function() {
 		var name = this.getName();
+
+		// Check against the specified DTD liternal.
+		if ( typeof arguments[ 0 ] == 'object' )
+			return name in arguments[ 0 ];
+
+		// Check for tag names
 		for ( var i = 0; i < arguments.length; i++ ) {
 			if ( arguments[ i ] == name )
 				return true;

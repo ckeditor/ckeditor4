@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -76,11 +77,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					enterBr( editor, mode, range, forceMode );
 					return;
 				}
-			}
-			// Don't split caption blocks. (#7944)
-			else if ( block && CKEDITOR.dtd.$captionBlock[ block.getName() ] ) {
-				enterBr( editor, mode, range, forceMode );
-				return;
 			}
 
 			// Determine the block element to be used.
@@ -354,18 +350,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( !mode )
 			mode = editor.config.enterMode;
 
-		// Use setTimout so the keys get cancelled immediatelly.
-		setTimeout( function() {
-			editor.fire( 'saveSnapshot' ); // Save undo step.
+		// Check path block specialities:
+		// 1. Cannot be a un-splittable element, e.g. table caption;
+		// 2. Must not be the editable element itself. (blockless)
+		var path = editor.elementPath();
+		if ( path.block && ( path.block.is( CKEDITOR.dtd.$captionBlock ) || path.block.equals( editor.editable() ) ) ) {
+			mode = CKEDITOR.ENTER_BR;
+			forceMode = 1;
+		}
 
-			if ( mode == CKEDITOR.ENTER_BR )
-				enterBr( editor, mode, null, forceMode );
-			else
-				enterBlock( editor, mode, null, forceMode );
+		editor.fire( 'saveSnapshot' ); // Save undo step.
 
-			editor.fire( 'saveSnapshot' );
+		if ( mode == CKEDITOR.ENTER_BR )
+			enterBr( editor, mode, null, forceMode );
+		else
+			enterBlock( editor, mode, null, forceMode );
 
-		}, 0 );
+		editor.fire( 'saveSnapshot' );
 
 		return true;
 	}
