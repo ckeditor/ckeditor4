@@ -9,39 +9,43 @@ CKEDITOR.plugins.add( 'link', {
 
 	onLoad: function() {
 		// Add the CSS styles for anchor placeholders.
-		var basicCss = 'background:url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ') no-repeat ' + side + ' center;' +
+		var baseStyle = 'background:url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ') no-repeat %1 center;' +
 						'border:1px dotted #00f;';
 
-		// TODO: styling with content direction awareness.
-		//		var side = ( editor.lang.dir == 'rtl' ? 'right' : 'left' );
-		var side = 'left';
-
-		CKEDITOR.addCss( 'a.cke_anchor,a.cke_anchor_empty' +
-			// IE6 breaks with the following selectors.
-		( ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? '' : ',.cke-editable a[name]' +
-			',.cke-editable a[data-cke-saved-name]' ) +
-			'{' +
-				basicCss +
-				'padding-' + side + ':18px;' +
-				// Show the arrow cursor for the anchor image (FF at least).
-						'cursor:auto;' +
-			'}' +
-			( CKEDITOR.env.ie ? ( 'a.cke_anchor_empty' +
+		var template = '.%2 a.cke_anchor,' +
+						'.%2 a.cke_anchor_empty' +
+						// IE6 breaks with the following selectors.
+		( ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? '' : ',.cke_editable.%2 a[name]' +
+			',.cke_editable.%2 a[data-cke-saved-name]' ) +
+						'{' +
+							baseStyle +
+							'padding-%1:18px;' +
+							// Show the arrow cursor for the anchor image (FF at least).
+									'cursor:auto;' +
+						'}' +
+						( CKEDITOR.env.ie ? ( 'a.cke_anchor_empty' +
 			'{' +
 				// Make empty anchor selectable on IE.
 						'display:inline-block;' +
 			'}'
 			) : '' ) +
-			'img.cke_anchor' +
-			'{' +
-				basicCss +
-				'width:16px;' +
-				'min-height:15px;' +
-				// The default line-height on IE.
-						'height:1.15em;' +
-				// Opera works better with "middle" (even if not perfect)
-						'vertical-align:' + ( CKEDITOR.env.opera ? 'middle' : 'text-bottom' ) + ';' +
-			'}' );
+						'.%2 img.cke_anchor' +
+						'{' +
+							baseStyle +
+							'width:16px;' +
+							'min-height:15px;' +
+							// The default line-height on IE.
+									'height:1.15em;' +
+							// Opera works better with "middle" (even if not perfect)
+									'vertical-align:' + ( CKEDITOR.env.opera ? 'middle' : 'text-bottom' ) + ';' +
+						'}';
+
+		// Styles with contents direction awareness.
+		function cssWithDir( dir ) {
+			return template.replace( /%1/g, dir == 'rtl' ? 'right' : 'left' ).replace( /%2/g, 'cke_contents_' + dir );
+		}
+
+		CKEDITOR.addCss( cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
 	},
 
 	init: function( editor ) {

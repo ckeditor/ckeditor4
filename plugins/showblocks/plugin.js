@@ -44,10 +44,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				'.%2 h6' +
 				'{' +
 					'background-repeat: no-repeat;' +
-					'background-position: top %3;' +
 					'border: 1px dotted gray;' +
 					'padding-top: 8px;' +
-					'padding-%3: 8px;' +
 				'}' +
 
 				'.%2 p' +
@@ -105,14 +103,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'%1h6.png);' +
 				'}';
 
-			var cssTemplateRegex = /%1/g,
-				cssClassRegex = /%2/g,
-				backgroundPositionRegex = /%3/g;
+			// Styles with contents direction awareness.
+			function cssWithDir( dir ) {
+				var template = '.%1.%2 p,' +
+					'.%1.%2 div,' +
+					'.%1.%2 pre,' +
+					'.%1.%2 address,' +
+					'.%1.%2 blockquote,' +
+					'.%1.%2 h1,' +
+					'.%1.%2 h2,' +
+					'.%1.%2 h3,' +
+					'.%1.%2 h4,' +
+					'.%1.%2 h5,' +
+					'.%1.%2 h6' +
+					'{' +
+						'background-position: top %3;' +
+						'padding-%3: 8px;' +
+					'}';
 
-			// TODO: styling with content direction awareness.
-			//			var dir = editor.lang.dir == 'rtl' ? 'right' : 'left'
-			var dir = 'left';
-			CKEDITOR.addCss( cssTemplate.replace( cssTemplateRegex, 'background-image: url(' + CKEDITOR.getUrl( this.path ) + 'images/block_' ).replace( cssClassRegex, 'cke_show_blocks ' ).replace( backgroundPositionRegex, dir ) );
+				return template.replace( /%1/g, 'cke_show_blocks' ).replace( /%2/g, 'cke_contents_' + dir ).replace( /%3/g, dir == 'rtl' ? 'right' : 'left' );
+			}
+
+			CKEDITOR.addCss( cssTemplate.replace( /%1/g, 'background-image: url(' + CKEDITOR.getUrl( this.path ) + 'images/block_' ).replace( /%2/g, 'cke_show_blocks ' ) + cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
 		},
 		init: function( editor ) {
 			var command = editor.addCommand( 'showblocks', commandDefinition );

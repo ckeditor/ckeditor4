@@ -365,12 +365,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 															baseTag +
 															headExtra +
 														'</head>' +
-														'<body' +
-															( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
-															' class="' +
-																( config.bodyClass || '' ) +
-																' cke_contents_' + config.contentsLangDirection +
-														'">' +
+														'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
+															( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
+														'>' +
 															data +
 														'</html>';
 					}

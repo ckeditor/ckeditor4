@@ -95,6 +95,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 
 			/**
+			 * Adds a CSS class name to this editable that needs to be removed on detaching.
+			 * @param {String} className The class name to be added.
+			 * @see CKEDITOR.dom.element.prototype.addClass
+			 */
+			attachClass: function( cls ) {
+				var classes = this.getCustomData( 'classes' );
+				if ( !this.hasClass( cls ) ) {
+					!classes && ( classes = [] ), classes.push( cls );
+					this.setCustomData( 'classes', classes );
+					this.addClass( cls );
+				}
+			},
+
+			/**
 			 * @see CKEDITOR.editor.prototype.insertHtml
 			 */
 			insertHtml: function( data ) {
@@ -354,7 +368,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var editor = this.editor;
 
 				// The editable class.
-				this.addClass( 'cke_editable' );
+				this.attachClass( 'cke_editable' );
+				this.attachClass( 'cke_contents_' + editor.config.contentsLangDirection );
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
@@ -389,7 +404,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Update the stylesheet sharing count.
 				var ref = doc.getCustomData( 'stylesheet_ref' ) || 0;
 				doc.setCustomData( 'stylesheet_ref', ref + 1 );
-
 
 				// Fire doubleclick event for double-clicks.
 				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
@@ -514,11 +528,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						listeners.pop().removeListener();
 				} catch ( e ) {}
 
+				// Cleanup our custom classes.
+				var classes;
+				if ( classes = this.removeCustomData( 'classes' ) ) {
+					while ( classes.length )
+						this.removeClass( classes.pop() );
+				}
+
 				// Remove contents stylesheet from document if it's the last usage.
 				var doc = this.getDocument();
 				if ( doc.getCustomData( 'stylesheet' ) ) {
 					var refs = doc.getCustomData( 'stylesheet_ref' );
-					if ( !--refs ) {
+					if ( !( --refs ) ) {
 						doc.removeCustomData( 'stylesheet_ref' );
 						var sheet = doc.removeCustomData( 'stylesheet' );
 						( sheet.ownerNode || sheet.ownerElement ).remove();
