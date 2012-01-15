@@ -13,6 +13,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'placeholder', {
 		requires: [ 'dialog' ],
 		lang: [ 'en', 'he' ],
+		onLoad: function() {
+			CKEDITOR.addCss( '.cke_placeholder' +
+				'{' +
+					'background-color: #ffff00;' +
+					( CKEDITOR.env.gecko ? 'cursor: default;' : '' ) +
+				'}'
+				);
+		},
 		init: function( editor ) {
 			var lang = editor.lang.placeholder;
 
@@ -51,13 +59,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( CKEDITOR.plugins.placeholder.getSelectedPlaceHoder( editor ) )
 					evt.data.dialog = 'editplaceholder';
 			});
-
-			editor.addCss( '.cke_placeholder' +
-				'{' +
-					'background-color: #ffff00;' +
-					( CKEDITOR.env.gecko ? 'cursor: default;' : '' ) +
-				'}'
-				);
 
 			editor.on( 'contentDom', function() {
 				editor.editable().on( 'resizestart', function( evt ) {

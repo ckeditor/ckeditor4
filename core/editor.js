@@ -297,11 +297,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			for ( var pluginName in plugins ) {
 				var plugin = plugins[ pluginName ],
 					pluginLangs = plugin.lang,
-					pluginPath = CKEDITOR.plugins.getPath( pluginName ),
 					lang = null;
-
-				// Set the plugin path in the plugin.
-				plugin.path = pluginPath;
 
 				// If the plugin has "lang".
 				if ( pluginLangs ) {
@@ -312,7 +308,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
 						// Put the language file URL into the list of files to
 						// get downloaded.
-						languageFiles.push( CKEDITOR.getUrl( pluginPath + 'lang/' + lang + '.js' ) );
+						languageFiles.push( CKEDITOR.getUrl( plugin.path + 'lang/' + lang + '.js' ) );
 					} else {
 						CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ lang ] );
 						lang = null;
@@ -414,18 +410,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		addCommand: function( commandName, commandDefinition ) {
 			return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
-		},
-
-		/**
-		 * Add a trunk of css text to the editor which will be applied to the wysiwyg editing document.
-		 * Note: This function should be called before editor is loaded to take effect.
-		 * @param css {String} CSS text.
-		 * @example
-		 * editorInstance.addCss( 'body { background-color: grey; }' );
-		 */
-		addCss: function( css ) {
-			var styles = this._.styles || ( this._.styles = [] );
-			styles.push( css );
 		},
 
 		/**

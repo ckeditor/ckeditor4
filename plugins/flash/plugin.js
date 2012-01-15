@@ -17,15 +17,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'flash', {
-		init: function( editor ) {
-			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash' ) );
-			editor.ui.addButton( 'Flash', {
-				label: editor.lang.common.flash,
-				command: 'flash'
-			});
-			CKEDITOR.dialog.add( 'flash', this.path + 'dialogs/flash.js' );
-
-			editor.addCss( 'img.cke_flash' +
+		onLoad: function() {
+			CKEDITOR.addCss( 'img.cke_flash' +
 				'{' +
 					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/placeholder.png' ) + ');' +
 					'background-position: center center;' +
@@ -35,6 +28,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'height: 80px;' +
 				'}'
 				);
+
+		},
+		init: function( editor ) {
+			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash' ) );
+			editor.ui.addButton( 'Flash', {
+				label: editor.lang.common.flash,
+				command: 'flash'
+			});
+			CKEDITOR.dialog.add( 'flash', this.path + 'dialogs/flash.js' );
 
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {

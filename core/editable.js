@@ -378,6 +378,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.window = this.getWindow();
 
 				var doc = editor.document;
+
+				// Create the content stylesheet for this document.
+				var styles = CKEDITOR.getCss();
+				if ( styles ) {
+					if ( !doc.getCustomData( 'stylesheet' ) && this.isEditable() )
+						doc.setCustomData( 'stylesheet', doc.appendStyleText( styles ) );
+				}
+
+				// Update the stylesheet sharing count.
+				var ref = doc.getCustomData( 'stylesheet_ref' ) || 0;
+				doc.setCustomData( 'stylesheet_ref', ref + 1 );
+
+
 				// Fire doubleclick event for double-clicks.
 				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
 					var data = { element: evt.data.getTarget() };
@@ -500,6 +513,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					while ( listeners.length )
 						listeners.pop().removeListener();
 				} catch ( e ) {}
+
+				// Remove contents stylesheet from document if it's the last usage.
+				var doc = this.getDocument();
+				if ( doc.getCustomData( 'stylesheet' ) ) {
+					var refs = doc.getCustomData( 'stylesheet_ref' );
+					if ( !--refs ) {
+						doc.removeCustomData( 'stylesheet_ref' );
+						var sheet = doc.removeCustomData( 'stylesheet' );
+						( sheet.ownerNode || sheet.ownerElement ).remove();
+					} else
+						doc.setCustomData( 'stylesheet_ref', refs );
+				}
 
 				// Free up the editor reference.
 				delete this.editor;

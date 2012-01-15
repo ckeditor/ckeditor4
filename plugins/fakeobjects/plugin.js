@@ -109,7 +109,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var attributes = {
 			'class': className,
-			src: CKEDITOR.getUrl( 'images/spacer.gif' ),
+			src: CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' ),
 			'data-cke-realelement': encodeURIComponent( html ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,

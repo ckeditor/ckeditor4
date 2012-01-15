@@ -9,30 +9,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	var showBorderClassName = 'cke_show_border',
-		cssStyleText,
-		cssTemplate =
-		// TODO: For IE6, we don't have child selector support,
-		// where nested table cells could be incorrect.
-		( CKEDITOR.env.ie6Compat ? [
-			'.%1 table.%2,',
-				'.%1 table.%2 td, .%1 table.%2 th',
-				'{',
-				'border : #d3d3d3 1px dotted',
-				'}'
-			] : [
-			'.%1 table.%2,',
-			'.%1 table.%2 > tr > td, .%1 table.%2 > tr > th,',
-			'.%1 table.%2 > tbody > tr > td, .%1 table.%2 > tbody > tr > th,',
-			'.%1 table.%2 > thead > tr > td, .%1 table.%2 > thead > tr > th,',
-			'.%1 table.%2 > tfoot > tr > td, .%1 table.%2 > tfoot > tr > th',
-			'{',
-				'border : #d3d3d3 1px dotted',
-			'}'
-			] ).join( '' );
-
-	cssStyleText = cssTemplate.replace( /%2/g, showBorderClassName ).replace( /%1/g, 'cke_show_borders ' );
-
 	var commandDefinition = {
 		preserveState: true,
 		editorFocus: false,
@@ -51,8 +27,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
+	var showBorderClassName = 'cke_show_border';
+
 	CKEDITOR.plugins.add( 'showborders', {
 		modes: { 'wysiwyg':1 },
+
+		onLoad: function() {
+			var cssStyleText,
+				cssTemplate =
+			// TODO: For IE6, we don't have child selector support,
+			// where nested table cells could be incorrect.
+			( CKEDITOR.env.ie6Compat ? [
+				'.%1 table.%2,',
+					'.%1 table.%2 td, .%1 table.%2 th',
+					'{',
+					'border : #d3d3d3 1px dotted',
+					'}'
+				] : [
+				'.%1 table.%2,',
+				'.%1 table.%2 > tr > td, .%1 table.%2 > tr > th,',
+				'.%1 table.%2 > tbody > tr > td, .%1 table.%2 > tbody > tr > th,',
+				'.%1 table.%2 > thead > tr > td, .%1 table.%2 > thead > tr > th,',
+				'.%1 table.%2 > tfoot > tr > td, .%1 table.%2 > tfoot > tr > th',
+				'{',
+					'border : #d3d3d3 1px dotted',
+				'}'
+				] ).join( '' );
+
+			cssStyleText = cssTemplate.replace( /%2/g, showBorderClassName ).replace( /%1/g, 'cke_show_borders ' );
+
+			CKEDITOR.addCss( cssStyleText );
+		},
 
 		init: function( editor ) {
 
@@ -61,8 +66,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( editor.config.startupShowBorders !== false )
 				command.setState( CKEDITOR.TRISTATE_ON );
-
-			editor.addCss( cssStyleText );
 
 			// Refresh the command on setData.
 			editor.on( 'mode', function() {

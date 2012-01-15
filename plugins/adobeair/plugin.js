@@ -81,12 +81,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'adobeair', {
+		onLoad: function() {
+			// Body doesn't get default margin on AIR.
+			CKEDITOR.addCss( 'body.cke_editable { padding: 8px }' );
+		},
 		init: function( editor ) {
 			if ( !CKEDITOR.env.air )
 				return;
-
-			// Body doesn't get default margin on AIR.
-			editor.addCss( 'body { padding: 8px }' );
 
 			editor.on( 'uiReady', function() {
 				convertInlineHandlers( editor.container );

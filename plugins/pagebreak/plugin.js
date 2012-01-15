@@ -9,16 +9,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 // Register a plugin named "pagebreak".
 CKEDITOR.plugins.add( 'pagebreak', {
-	init: function( editor ) {
-		// Register the command.
-		editor.addCommand( 'pagebreak', CKEDITOR.plugins.pagebreakCmd );
-
-		// Register the toolbar button.
-		editor.ui.addButton( 'PageBreak', {
-			label: editor.lang.pagebreak,
-			command: 'pagebreak'
-		});
-
+	onLoad: function() {
 		var cssStyles = [
 			'{',
 				'background: url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;',
@@ -33,7 +24,17 @@ CKEDITOR.plugins.add( 'pagebreak', {
 			].join( '' ).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
 
 		// Add the style that renders our placeholder.
-		editor.addCss( 'div.cke_pagebreak' + cssStyles );
+		CKEDITOR.addCss( 'div.cke_pagebreak' + cssStyles );
+	},
+	init: function( editor ) {
+		// Register the command.
+		editor.addCommand( 'pagebreak', CKEDITOR.plugins.pagebreakCmd );
+
+		// Register the toolbar button.
+		editor.ui.addButton( 'PageBreak', {
+			label: editor.lang.pagebreak,
+			command: 'pagebreak'
+		});
 
 		// Opera needs help to select the page-break.
 		CKEDITOR.env.opera && editor.on( 'contentDom', function() {
