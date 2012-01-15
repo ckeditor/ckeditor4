@@ -334,7 +334,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			detach: function() {
 				// Cleanup the element.
-				this.removeClass( 'ckeditor-editable' );
+				this.removeClass( 'cke_editable' );
 
 				// Save the editor reference which will be lost after
 				// calling detach from super class.
@@ -354,7 +354,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var editor = this.editor;
 
 				// The editable class.
-				this.addClass( 'ckeditor-editable' );
+				this.addClass( 'cke_editable' );
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
