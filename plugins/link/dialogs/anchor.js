@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					// Apply style.
 					var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
-					style.apply( editor.document );
+					editor.applyStyle( style );
 				}
 			}
 		},
