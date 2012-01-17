@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'da' ] = {
 	superscript: 'Hævet skrift',
 	horizontalrule: 'Indsæt vandret streg',
 	pagebreak: 'Indsæt sideskift',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: 'Sideskift',
 	unlink: 'Fjern hyperlink',
 	undo: 'Fortryd',
 	redo: 'Annullér fortryd',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'da' ] = {
 		ok: 'OK',
 		cancel: 'Annullér',
 		close: 'Luk',
-		preview: 'Preview', // MISSING
+		preview: 'Smugkig',
 		generalTab: 'Generelt',
 		advancedTab: 'Avanceret',
 		validateNumberFailed: 'Værdien er ikke et tal.',
@@ -106,8 +106,8 @@ CKEDITOR.lang[ 'da' ] = {
 		targetParent: 'Parent Window (_parent)', // MISSING
 		langDirLTR: 'Venstre til højre (LTR)',
 		langDirRTL: 'Højre til venstre (RTL)',
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		styles: 'Style',
+		cssClasses: 'Stylesheet klasser',
 		width: 'Bredde',
 		height: 'Højde',
 		align: 'Justering',
@@ -136,7 +136,7 @@ CKEDITOR.lang[ 'da' ] = {
 	specialChar: {
 		toolbar: 'Indsæt symbol',
 		title: 'Vælg symbol',
-		options: 'Special Character Options' // MISSING
+		options: 'Muligheder for specialkarakterer'
 	},
 
 	// Link dialog.
@@ -200,14 +200,14 @@ CKEDITOR.lang[ 'da' ] = {
 		title: 'Egenskaber for bogmærke',
 		name: 'Bogmærke navn',
 		errorName: 'Indtast bogmærke navn',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Fjern bogmærke'
 	},
 
 	// List style dialog
 	list: {
 		numberedTitle: 'Numbered List Properties', // MISSING
 		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
+		type: 'Type',
 		start: 'Start',
 		validateStartNumber: 'List start number must be a whole number.', // MISSING
 		circle: 'Cirkel',
@@ -215,14 +215,14 @@ CKEDITOR.lang[ 'da' ] = {
 		square: 'Firkant',
 		none: 'Ingen',
 		notset: '<ikke defineret>',
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
+		armenian: 'Armensk nummering',
+		georgian: 'Georgiansk nummering (an, ban, gan, etc.)',
 		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
 		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
 		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
 		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
 		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
+		decimal: 'Decimal (1, 2, 3, osv.)',
 		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
 	},
 
@@ -253,7 +253,7 @@ CKEDITOR.lang[ 'da' ] = {
 		border: 'Rammebredde',
 		widthPx: 'pixels',
 		widthPc: 'procent',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'Bredde på enhed',
 		cellSpace: 'Celleafstand',
 		cellPad: 'Cellemargen',
 		caption: 'Titel',
@@ -407,10 +407,10 @@ CKEDITOR.lang[ 'da' ] = {
 		linkTab: 'Hyperlink',
 		button2Img: 'Vil du lave billedknappen om til et almindeligt billede?',
 		img2Button: 'Vil du lave billedet om til en billedknap?',
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		urlMissing: 'Kilde på billedurl mangler',
+		validateBorder: 'Kant skal være et helt nummer.',
+		validateHSpace: 'HSpace skal være et helt nummer.',
+		validateVSpace: 'VSpace skal være et helt nummer.'
 	},
 
 	// Flash Dialog
@@ -525,7 +525,7 @@ CKEDITOR.lang[ 'da' ] = {
 	templates: {
 		button: 'Skabeloner',
 		title: 'Indholdsskabeloner',
-		options: 'Template Options', // MISSING
+		options: 'Skabelon muligheder',
 		insertOption: 'Erstat det faktiske indhold',
 		selectPromptMsg: 'Vælg den skabelon, som skal åbnes i editoren (nuværende indhold vil blive overskrevet):',
 		emptyListMsg: '(Der er ikke defineret nogen skabelon)'
@@ -561,12 +561,12 @@ CKEDITOR.lang[ 'da' ] = {
 		title: 'Create Div Container', // MISSING
 		toolbar: 'Create Div Container', // MISSING
 		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
+		styleSelectLabel: 'Style',
 		IdInputLabel: 'Id',
 		languageCodeInputLabel: ' Sprogkode',
-		inlineStyleInputLabel: 'Inline Style', // MISSING
+		inlineStyleInputLabel: 'Inline Style',
 		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
+		langDirLabel: 'Sprogretning',
 		langDirLTRLabel: 'Venstre til højre (LTR)',
 		langDirRTLLabel: 'Højre til venstre (RTL)',
 		edit: 'Rediger Div',
@@ -576,8 +576,8 @@ CKEDITOR.lang[ 'da' ] = {
 	iframe: {
 		title: 'Iframe egenskaber',
 		toolbar: 'Iframe',
-		noUrl: 'Please type the iframe URL', // MISSING
-		scrolling: 'Enable scrollbars', // MISSING
+		noUrl: 'Venligst indsæt URL på iframen',
+		scrolling: 'Aktiver scrollbars',
 		border: 'Show frame border' // MISSING
 	},
 
@@ -607,46 +607,46 @@ CKEDITOR.lang[ 'da' ] = {
 		'8B4513': 'Saddle Brown', // MISSING
 		'2F4F4F': 'Dark Slate Gray', // MISSING
 		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
+		'000080': 'Navy',
+		'4B0082': 'Indigo',
+		'696969': 'Mørkegrå',
 		'B22222': 'Fire Brick', // MISSING
 		'A52A2A': 'Brun',
 		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
+		'006400': 'Mørkegrøn',
+		'40E0D0': 'Tyrkis',
+		'0000CD': 'Mellemblå',
+		'800080': 'Lilla',
 		'808080': 'Grå',
 		'F00': 'Rød',
 		'FF8C00': 'Mørk orange',
 		'FFD700': 'Guld',
 		'008000': 'Grøn',
-		'0FF': 'Cyan', // MISSING
+		'0FF': 'Cyan',
 		'00F': 'Blå',
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dim Gray', // MISSING
+		'EE82EE': 'Violet',
+		'A9A9A9': 'Matgrå',
 		'FFA07A': 'Light Salmon', // MISSING
 		'FFA500': 'Orange',
 		'FFFF00': 'Gul',
 		'00FF00': 'Lime', // MISSING
 		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
+		'ADD8E6': 'Lyseblå',
 		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
+		'D3D3D3': 'Lysegrå',
 		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
+		'FAEBD7': 'Antikhvid',
+		'FFFFE0': 'Lysegul',
 		'F0FFF0': 'Honeydew', // MISSING
 		'F0FFFF': 'Azure', // MISSING
 		'F0F8FF': 'Alice Blue', // MISSING
 		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'FFF': 'Hvid'
 	},
 
 	scayt: {
 		title: 'Stavekontrol mens du skriver',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'Ikke supporteret af Opera',
 		enable: 'Aktivér SCAYT',
 		disable: 'Deaktivér SCAYT',
 		about: 'Om SCAYT',
@@ -661,7 +661,7 @@ CKEDITOR.lang[ 'da' ] = {
 
 		optionsTab: 'Indstillinger',
 		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
+		ignoreDomainNames: 'Ignorér domænenavne',
 		mixedCase: 'Ignore Words with Mixed Case', // MISSING
 		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
 
@@ -702,22 +702,22 @@ CKEDITOR.lang[ 'da' ] = {
 
 	colordialog: {
 		title: 'Vælg farve',
-		options: 'Color Options', // MISSING
+		options: 'Farvemuligheder',
 		highlight: 'Markér',
 		selected: 'Valgt farve',
 		clear: 'Nulstil'
 	},
 
 	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarExpand: 'Udvid værktøjslinje',
 
 	toolbarGroups: {
 		document: 'Dokument',
-		clipboard: 'Clipboard/Undo', // MISSING
+		clipboard: 'Udklipsholder/Fortryd',
 		editing: 'Redigering',
 		forms: 'Formularer',
 		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
+		paragraph: 'Paragraf',
 		links: 'Links',
 		insert: 'Indsæt',
 		styles: 'Styles', // MISSING
@@ -766,6 +766,6 @@ CKEDITOR.lang[ 'da' ] = {
 		metaDescription: 'Dokument beskrivelse',
 		metaAuthor: 'Forfatter',
 		metaCopyright: 'Copyright',
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		previewHtml: '<p>Dette er et <strong>eksmepel på noget tekst</strong>. Du benytter <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };
