@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'da' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'Rich Text Editor, %1, tryk ALT 0 for hjælp.',
 
 	// ARIA descriptions.
 	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Rich Text Editor',
 
 	// Toolbar buttons without dialogs.
 	source: 'Kilde',
@@ -183,7 +183,7 @@ CKEDITOR.lang[ 'da' ] = {
 		styles: 'Typografi',
 		rel: 'Relationship', // MISSING
 		selectAnchor: 'Vælg et anker',
-		anchorName: 'Efter anker navn',
+		anchorName: 'Efter ankernavn',
 		anchorId: 'Efter element Id',
 		emailAddress: 'E-mail adresse',
 		emailSubject: 'Emne',
@@ -205,7 +205,7 @@ CKEDITOR.lang[ 'da' ] = {
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
+		numberedTitle: 'Egenskaber for nummereret liste',
 		bulletedTitle: 'Bulleted List Properties', // MISSING
 		type: 'Type',
 		start: 'Start',
@@ -395,7 +395,7 @@ CKEDITOR.lang[ 'da' ] = {
 		titleButton: 'Egenskaber for billedknap',
 		menu: 'Egenskaber for billede',
 		infoTab: 'Generelt',
-		btnUpload: 'Upload',
+		btnUpload: 'Upload fil til serveren',
 		upload: 'Upload',
 		alt: 'Alternativ tekst',
 		lockRatio: 'Lås størrelsesforhold',
@@ -578,7 +578,7 @@ CKEDITOR.lang[ 'da' ] = {
 		toolbar: 'Iframe',
 		noUrl: 'Venligst indsæt URL på iframen',
 		scrolling: 'Aktiver scrollbars',
-		border: 'Show frame border' // MISSING
+		border: 'Vis kant på rammen'
 	},
 
 	font: {
@@ -603,8 +603,8 @@ CKEDITOR.lang[ 'da' ] = {
 
 	colors: {
 		'000': 'Sort',
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
+		'800000': 'Mørkerød',
+		'8B4513': 'Mørk orange',
 		'2F4F4F': 'Dark Slate Gray', // MISSING
 		'008080': 'Teal', // MISSING
 		'000080': 'Navy',
@@ -612,7 +612,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'696969': 'Mørkegrå',
 		'B22222': 'Fire Brick', // MISSING
 		'A52A2A': 'Brun',
-		'DAA520': 'Golden Rod', // MISSING
+		'DAA520': 'Guld',
 		'006400': 'Mørkegrøn',
 		'40E0D0': 'Tyrkis',
 		'0000CD': 'Mellemblå',
@@ -626,7 +626,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'00F': 'Blå',
 		'EE82EE': 'Violet',
 		'A9A9A9': 'Matgrå',
-		'FFA07A': 'Light Salmon', // MISSING
+		'FFA07A': 'Laksefarve',
 		'FFA500': 'Orange',
 		'FFFF00': 'Gul',
 		'00FF00': 'Lime', // MISSING
@@ -640,7 +640,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'F0FFF0': 'Honeydew', // MISSING
 		'F0FFFF': 'Azure', // MISSING
 		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
+		'E6E6FA': 'Lavendel',
 		'FFF': 'Hvid'
 	},
 
@@ -663,12 +663,12 @@ CKEDITOR.lang[ 'da' ] = {
 		allCaps: 'Ignore All-Caps Words', // MISSING
 		ignoreDomainNames: 'Ignorér domænenavne',
 		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		mixedWithDigits: 'Ignorér ord med numre',
 
 		languagesTab: 'Sprog',
 
 		dictionariesTab: 'Ordbøger',
-		dic_field_name: 'Dictionary name', // MISSING
+		dic_field_name: 'Navn på ordbog',
 		dic_create: 'Opret',
 		dic_restore: 'Gendan',
 		dic_delete: 'Slet',
@@ -708,7 +708,7 @@ CKEDITOR.lang[ 'da' ] = {
 		clear: 'Nulstil'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
+	toolbarCollapse: 'Sammenklap værktøjslinje',
 	toolbarExpand: 'Udvid værktøjslinje',
 
 	toolbarGroups: {
