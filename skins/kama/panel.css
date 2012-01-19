@@ -5,6 +5,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_panel
 {
+	/* Restore the dialog visibility */
+	visibility: visible;
+
 	border: 1px solid #8f8f73;
 	background-color: #fff;
 
@@ -32,7 +35,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_panel_container
 {
-	visibility: visible;
 	overflow: auto;
 	overflow-x: hidden;
 }

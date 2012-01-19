@@ -364,8 +364,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 						'<tr role="presentation"><td id="cke_contents_{name}" class="cke_contents" style="height:{height}" role="presentation"></td></tr>' +
 						'<tr' + ( bottomHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</td></tr>' +
 					'</tbody></table>' +
-					//Hide the container when loading skins, later restored by skin css.
-							'<style>.cke_chrome{visibility:hidden;}</style>' +
 				'</span>' +
 			'</span>' +
 			'</span>' );

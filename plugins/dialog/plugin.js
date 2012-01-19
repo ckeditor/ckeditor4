@@ -138,10 +138,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			'<div id="cke_dialog_br_{id}" class="cke_dialog_br"></div>' +
 			'</td></tr>' +
 		'</table>' +
-
-		//Hide the container when loading skins, later restored by skin css.
-	( CKEDITOR.env.ie ? '' : '<style>.cke_dialog{visibility:hidden;}</style>' ) +
-
 		'</div>';
 
 	function buildDialog( editor ) {
@@ -153,6 +149,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			editorDialogClass: 'cke_editor_' + editor.name.replace( /\./g, '\\.' ) + '_dialog',
 			closeTitle: editor.lang.common.close
 		}));
+
+		element.addClass( 'hide_until_loaded' );
 
 		// TODO: Change this to getById(), so it'll support custom templates.
 		var body = element.getChild( [ 0, 0, 0, 0, 0 ] ),

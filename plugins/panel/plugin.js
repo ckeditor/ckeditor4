@@ -129,9 +129,6 @@ CKEDITOR.ui.panel.prototype = {
 
 				var data = '<!DOCTYPE html>' +
 					'<html dir="' + dir + '" class=".cke_panel_container" lang="' + langCode + '">' +
-						'<head>' +
-							'<style>.cke_panel_container{visibility:hidden}</style>' +
-						'</head>' +
 						'<body class="cke_' + dir + ' cke_panel_frame ' + CKEDITOR.env.cssClass + '" style="margin:0;padding:0"' +
 						' onload="( window.CKEDITOR || window.parent.CKEDITOR ).tools.callFunction(' + onLoad + ');"></body>' +
 						// It looks strange, but for FF2, the styles must go

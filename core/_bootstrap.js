@@ -32,6 +32,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	if ( CKEDITOR.env.hc )
 		CKEDITOR.env.cssClass += ' cke_hc';
 
+	/* Initially hide UI spaces when relevant skins are loading, later restored by skin css. */
+	CKEDITOR.document.appendStyleText( '.cke{ visibility: hidden; }' );
+
 	// Mark the editor as fully loaded.
 	CKEDITOR.status = 'loaded';
 	CKEDITOR.fireOnce( 'loaded' );
