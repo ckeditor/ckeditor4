@@ -146,3 +146,31 @@ CKEDITOR.TRISTATE_DISABLED = 0;
  * @name CKEDITOR#reset
  * @event
  */
+
+/**
+ * The skin to load for all created instances, it may be the name of the skin
+ * folder inside the editor installation path, or the name and the path separated
+ * by a comma.
+ * <strong>Note: </strong> This is a global configuration that applies to all instances.
+ * @name CKEDITOR.editorSkin
+ * @type String
+ * @default 'kama'
+ * @example
+ * CKEDITOR.editorSkin = 'v2';
+ * @example
+ * CKEDITOR.editorSkin = 'myskin,/customstuff/myskin/';
+ */
+CKEDITOR.skinName = 'kama';
+
+/**
+ * List of file names, with each one matches a browser agent string cited from
+ * {@link CKEDITOR.env}, the corresponding skin part file will be loaded in addition
+ * to the "main" skin file for a particular browser.
+ *
+ * <strong>Note:</strong> For each of the defined skin parts must have
+ * the corresponding CSS file with the same name as UA inside of
+ * the skin directory.
+ *
+ * @name CKEDITOR.skin.uaParts
+ */
+CKEDITOR.skinUAParts = [ 'ie', 'ie6', 'ie7', 'ie8', 'gecko', 'opera', 'webkit' ];

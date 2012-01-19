@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				modes: { wysiwyg:1 },
 
 				panel: {
-					css: editor.skin.editor.css,
+					css: CKEDITOR.skin.getPath( 'editor' ),
 					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 				},
 

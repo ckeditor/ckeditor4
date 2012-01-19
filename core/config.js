@@ -273,18 +273,6 @@ CKEDITOR.config = {
 	tabIndex: 0,
 
 	/**
-	 * The skin to load. It may be the name of the skin folder inside the
-	 * editor installation path, or the name and the path separated by a comma.
-	 * @type String
-	 * @default ''
-	 * @example
-	 * config.skin = 'kama';
-	 * @example
-	 * config.skin = 'myskin,/customstuff/myskin/';
-	 */
-	skin: '',
-
-	/**
 	 * The editor width in CSS-defined units or an integer denoting a value in pixels.
 	 * @type String|Number
 	 * @default <code>''</code> (empty)

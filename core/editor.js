@@ -68,6 +68,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		this.ui = new CKEDITOR.ui( this );
 
+
 		/**
 		 * Controls the focus state of this editor instance. This property
 		 * is rarely used for normal API operations. It is mainly
@@ -187,29 +188,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function onConfigLoaded( editor ) {
 		// Set config related properties.
 
-		var skin = editor.config.skin && editor.config.skin.split( ',' ),
-			skinName = ( skin && skin[ 0 ] ) || '',
-			skinPath = ( skinName && CKEDITOR.getUrl( skin[ 1 ] || ( 'skins/' + skinName + '/' ) ) ) || '';
-
-		/**
-		 * The name of the skin used by this editor instance. The skin name can
-		 * be set through the {@link CKEDITOR.config.skin} setting.
-		 * @name CKEDITOR.editor.prototype.skinName
-		 * @type String
-		 * @example
-		 * alert( editor.skinName );  // E.g. "kama"
-		 */
-		editor.skinName = skinName;
-
-		/**
-		 * The full URL of the skin directory.
-		 * @name CKEDITOR.editor.prototype.skinPath
-		 * @type String
-		 * @example
-		 * alert( editor.skinPath );  // E.g. "http://example.com/ckeditor/skins/kama/"
-		 */
-		editor.skinPath = skinPath;
-
 		// Initialize the key handler, based on the configurations.
 		initKeystrokeHandler( editor );
 
@@ -225,14 +203,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
-		skin ? loadSkin( editor ) : loadLang( editor );
+		CKEDITOR.skin.loadPart( 'editor' );
+
+		loadLang( editor );
 	}
 
-	function loadSkin( editor ) {
-		CKEDITOR.skins.load( editor, 'editor', function() {
-			loadLang( editor );
-		});
-	}
 
 	function loadLang( editor ) {
 		CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {

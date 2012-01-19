@@ -658,6 +658,36 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					height: height
 				}, this._.editor );
 
+				var contents = this.parts.contents;
+				contents.setStyles({
+					width: width + 'px',
+					height: height + 'px'
+				});
+
+				// Fix the size of the elements which have flexible lengths.
+				CKEDITOR.env.ie && !CKEDITOR.env.ie9Compat && CKEDITOR.tools.setTimeout( function() {
+					var innerDialog = this.parts.dialog.getChild( [ 0, 0, 0 ] ),
+						body = innerDialog.getChild( 0 ),
+						bodyWidth = body.getSize( 'width' );
+					height += body.getChild( 0 ).getSize( 'height' ) + 1;
+
+					// tc
+					var el = innerDialog.getChild( 2 );
+					el.setSize( 'width', bodyWidth );
+
+					// bc
+					el = innerDialog.getChild( 7 );
+					el.setSize( 'width', bodyWidth - 28 );
+
+					// ml
+					el = innerDialog.getChild( 4 );
+					el.setSize( 'height', height );
+
+					// mr
+					el = innerDialog.getChild( 5 );
+					el.setSize( 'height', height );
+				}, 100, this );
+
 				// Update dialog position when dimension get changed in RTL.
 				if ( this._.editor.lang.dir == 'rtl' && this._.position )
 					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
@@ -1664,7 +1694,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			element = dialog.getElement().getFirst(),
 			editor = dialog.getParentEditor(),
 			magnetDistance = editor.config.dialog_magnetDistance,
-			margins = editor.skin.margins || [ 0, 0, 0, 0 ];
+			margins = CKEDITOR.skin.margins || [ 0, 0, 0, 0 ];
 
 		if ( typeof magnetDistance == 'undefined' )
 			magnetDistance = 20;
@@ -2884,14 +2914,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Persist editor focus as dialog open will blur the focus manager.
 			this.focusManager.forceFocus();
 
-			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
-				dialogSkin = this.skin.dialog;
+			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
 				showCover( this );
 
 			// If the dialogDefinition is already loaded, open it immediately.
-			if ( typeof dialogDefinitions == 'function' && dialogSkin._isLoaded ) {
+			if ( typeof dialogDefinitions == 'function' ) {
 				var storedDialogs = this._.storedDialogs || ( this._.storedDialogs = {} );
 
 				var dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
@@ -2908,11 +2937,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var me = this;
 
 			function onDialogFileLoaded( success ) {
-				var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
-					skin = me.skin.dialog;
+				var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
-				// Check if both skin part and definition is loaded.
-				if ( !skin._isLoaded || loadDefinition && typeof success == 'undefined' )
+				// Check if definition is loaded.
+				if ( loadDefinition && typeof success == 'undefined' )
 					return;
 
 				// In case of plugin error, mark it as loading failed.
@@ -2927,7 +2955,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ), onDialogFileLoaded, null, 0, 1 );
 			}
 
-			CKEDITOR.skins.load( this, 'dialog', onDialogFileLoaded );
+			CKEDITOR.skin.loadPart( 'dialog' );
 
 			return null;
 		}

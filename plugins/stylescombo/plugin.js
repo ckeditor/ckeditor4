@@ -46,7 +46,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				className: 'cke_styles',
 
 				panel: {
-					css: editor.skin.editor.css.concat( config.contentsCss ),
+					css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 					multiSelect: true,
 					attributes: { 'aria-label': lang.panelTitle }
 				},

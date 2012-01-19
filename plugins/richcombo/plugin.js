@@ -24,6 +24,8 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
+			// The combo won't participate in toolbar grouping.
+			canGroup: false,
 			title: definition.label,
 			modes: { wysiwyg:1 }
 		});
@@ -170,9 +172,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
 				( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 								'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
-					'<span>' +
 						'<span id="' + id + '_text" class="cke_text cke_inline_label">' + this.label + '</span>' +
-					'</span>' +
 					'<span class=cke_openbutton><span class=cke_icon>' + ( CKEDITOR.env.hc ? '&#9660;' : CKEDITOR.env.air ? '&nbsp;' : '' ) + '</span></span>' + // BLACK DOWN-POINTING TRIANGLE
 							'</a>' +
 				'</span>' +
@@ -262,7 +262,7 @@ CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 				} else
 					textElement.removeClass( 'cke_inline_label' );
 
-				textElement.setHtml( typeof text != 'undefined' ? text : value );
+				textElement.setText( typeof text != 'undefined' ? text : value );
 			}
 		},
 
