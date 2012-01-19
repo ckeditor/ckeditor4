@@ -141,7 +141,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		'</div>';
 
 	function buildDialog( editor ) {
-		var element = CKEDITOR.dom.element.createFromHtml( editor.addTemplate( 'dialog', templateSource ).output({
+		var element = CKEDITOR.dom.element.createFromHtml( CKEDITOR.ui.template( 'dialog', templateSource ).output({
 			id: CKEDITOR.tools.getNextNumber(),
 			editorId: editor.id,
 			langDir: editor.lang.dir,

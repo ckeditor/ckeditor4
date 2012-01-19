@@ -12,12 +12,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var cache = {};
 
 	/**
-	 * Creates a CKEDITOR.template class instance.
-	 * @class Represents an UI template for an editor instance.
-	 * @param {CKEDITOR.editor} editor The editor instance related to this template.
+	 * Lightweight template used to build the output string from variables.
+	 * @class Represents an string template class.
 	 * @param {String} source The template source.
+	 * @example
+	 * <code>
+	 *	// Html template for presenting a label UI.
+	 *	var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>');
+	 *	alert(tpl.output({ cls: 'cke-label', label: 'foo'})); => '<div class="cke-label">foo</div>'
+	 * </code>
 	 */
-	CKEDITOR.template = function( editor, source ) {
+	CKEDITOR.template = function( source ) {
 		// Builds an optimized function body for the output() method, focused on performance.
 		// For example, if we have this "source":
 		//	'<div style="{style}">{editorName}</div>'

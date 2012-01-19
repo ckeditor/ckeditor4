@@ -345,7 +345,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 
 
-		var template = editor.addTemplate( 'maincontainer', '<span' +
+		var template = CKEDITOR.ui.template( 'maincontainer', '<span' +
 			' id="cke_{name}"' +
 			' class="{id} cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +
@@ -367,6 +367,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 				'</span>' +
 			'</span>' +
 			'</span>' );
+
+		var spaceTpl = CKEDITOR.ui.template( 'spaceContainer', '<div id="cke_{space}_{name}" class="cke_{space}" role="presentation" style="height:{height}">{content}</div>' );
 
 		var container = CKEDITOR.dom.element.createFromHtml( template.output({
 			id: editor.id,

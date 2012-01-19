@@ -44,14 +44,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) +
 		'</span>';
 
+	var btnArrowTpl = CKEDITOR.ui.template( 'buttonArrow', templateArrow ),
+		btnTpl = CKEDITOR.ui.template( 'button', template );
+
 	CKEDITOR.plugins.add( 'button', {
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
-		},
-
-		init: function( editor ) {
-			editor.addTemplate( 'buttonArrow', templateArrow );
-			editor.addTemplate( 'button', template );
 		}
 	});
 
@@ -216,10 +214,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				focusFn: focusFn,
 				clickFn: clickFn,
 				style: this.icon ? ( 'background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + ( ( this.iconOffset || 0 ) * -16 ) + 'px;' ) : '',
-				arrowHtml: this.hasArrow ? editor.templates[ 'buttonArrow' ].output() : ''
+				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
 			};
 
-			editor.templates[ 'button' ].output( params, output );
+			btnTpl.output( params, output );
 
 			if ( this.onRender )
 				this.onRender();

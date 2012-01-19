@@ -425,21 +425,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
-		 * Adds an UI template to this editor instance.
-		 * @param {String} name The template name.
-		 * @param {String} source The source data for this template.
-		 * @see CKEDITOR.editor.templates
-		 * @see CKEDITOR.editor#template
-		 */
-		addTemplate: function( name, source ) {
-			// Make it possible to customize the template through the "template" event.
-			var params = { name: name, source: source };
-			this.on( 'template', params );
-
-			return ( this.templates[ name ] = new CKEDITOR.template( this, params.source ) );
-		},
-
-		/**
 		 * Destroys the editor instance, releasing all resources used by it.
 		 * If the editor replaced an element, the element will be recovered.
 		 * @param {Boolean} [noUpdate] If the instance is replacing a DOM
