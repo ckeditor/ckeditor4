@@ -44,10 +44,6 @@
 			// Customzie from specialize blockLimit elements
 			var definition = CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$blockLimit );
 
-			// Exclude 'div' itself.
-			delete definition.div;
-
-			// Exclude 'td' and 'th' when 'wrapping table'
 			if ( editor.config.div_wrapTable ) {
 				delete definition.td;
 				delete definition.th;
@@ -62,16 +58,16 @@
 		 * Get the first div limit element on the element's path.
 		 * @param {Object} element
 		 */
-		function getDivLimitElement( element ) {
-			var pathElements = editor.elementPath( element ).elements;
-			var divLimit;
-			for ( var i = 0; i < pathElements.length; i++ ) {
-				if ( pathElements[ i ].getName() in divLimitDefinition ) {
-					divLimit = pathElements[ i ];
-					break;
-				}
+		function getDivContainer( element ) {
+			var container = editor.elementPath( element ).blockLimit;
+
+			// Dont stop at 'td' and 'th' when div should wrap entire table.
+			if ( editor.config.div_wrapTable && container.is( [ 'td', 'th' ] ) ) {
+				var parentPath = editor.elementPath( container.getParent() );
+				container = parentPath.blockLimit;
 			}
-			return divLimit;
+
+			return container;
 		}
 
 		/**
@@ -199,12 +195,6 @@
 			return containers;
 		}
 
-		function getDiv( editor ) {
-			var path = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() ),
-				blockLimit = path.blockLimit,
-				div = blockLimit && blockLimit.getAscendant( 'div', true );
-			return div;
-		}
 		/**
 		 * Divide a set of nodes to different groups by their path's blocklimit element.
 		 * Note: the specified nodes should be in source order naturally, which mean they are supposed to producea by following class:
@@ -218,7 +208,7 @@
 				path, block;
 			for ( var i = 0; i < nodes.length; i++ ) {
 				block = nodes[ i ];
-				var limit = getDivLimitElement( block );
+				var limit = getDivContainer( block );
 				if ( !limit.equals( lastDivLimit ) ) {
 					lastDivLimit = limit;
 					groups.push( [] );
@@ -429,9 +419,8 @@
 				if ( command == 'editdiv' ) {
 					// Try to discover the containers that already existed in
 					// ranges
-					var div = getDiv( editor );
 					// update dialog field values
-					div && this.setupContent( this._element = div );
+					this.setupContent( this._element = CKEDITOR.plugins.div.getSurroundDiv( editor ) );
 				}
 			},
 			onOk: function() {
