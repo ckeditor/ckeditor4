@@ -20,7 +20,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( editable.is( 'body' ) )
 							editor.document.$.execCommand( 'SelectAll', false, null );
 						else {
-							var range = new CKEDITOR.dom.range( editable.getDocument() );
+							var range = editor.createRange();
 							range.selectNodeContents( editable );
 							range.select();
 						}

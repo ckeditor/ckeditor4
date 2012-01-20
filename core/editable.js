@@ -444,7 +444,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Prevent right click from selecting an empty block even
 							// when selection is anchored inside it. (#5845)
 							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
-								var range = new CKEDITOR.dom.range( doc );
+								var range = new CKEDITOR.dom.range( this );
 								range.moveToElementEditStart( target );
 								range.select( true );
 							}
@@ -654,8 +654,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Browsers are incapable of moving cursor out of certain block elements (e.g. table, div, pre)
 		// at the end of document, makes it unable to continue adding content, we have to make this
 		// easier by opening an new empty paragraph.
-		var testRange = new CKEDITOR.dom.range( editor.document );
-		testRange.moveToElementEditEnd( editor.document.getBody() );
+		var testRange = editor.createRange();
+		testRange.moveToElementEditEnd( body );
 		var testPath = new CKEDITOR.dom.elementPath( testRange.startContainer );
 		if ( !testPath.blockLimit.is( 'body' ) ) {
 			var paddingBlock;

@@ -455,7 +455,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			var sel = editor.getSelection(),
-				range = new CKEDITOR.dom.range( doc );
+				range = editor.createRange();
 
 			// Create container to paste into, there's no doubt to use "textarea" for
 			// pure text, for rich content we prefer to use "body" since it holds

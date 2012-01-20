@@ -33,7 +33,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						cell;
 
 					if ( ( cell = ( ancestor.getAscendant( 'td', true ) || ancestor.getAscendant( 'th', true ) ) ) ) {
-						var resultRange = new CKEDITOR.dom.range( editor.document ),
+						var resultRange = editor.createRange(),
 							next = CKEDITOR.tools.tryThese( function() {
 								var row = cell.getParent(),
 									next = row.$.cells[ cell.$.cellIndex + ( backward ? -1 : 1 ) ];

@@ -161,7 +161,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				 * Translate this range to {@link CKEDITOR.dom.range}
 				 */
 				toDomRange: function() {
-					var range = new CKEDITOR.dom.range( editor.document );
+					var range = editor.createRange();
 					var cursors = this._.cursors;
 					if ( cursors.length < 1 ) {
 						var textNode = this._.walker.textNode;
@@ -314,7 +314,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// The remaining document range after the character cursor.
 			function getRangeAfterCursor( cursor, inclusive ) {
-				var range = new CKEDITOR.dom.range();
+				var range = editor.createRange();
 				range.setStart( cursor.textNode, ( inclusive ? cursor.offset : cursor.offset + 1 ) );
 				range.setEndAt( editor.editable(), CKEDITOR.POSITION_BEFORE_END );
 				return range;
@@ -322,7 +322,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// The document range before the character cursor.
 			function getRangeBeforeCursor( cursor ) {
-				var range = new CKEDITOR.dom.range();
+				var range = editor.createRange();
 				range.setStartAt( editor.editable(), CKEDITOR.POSITION_AFTER_START );
 				range.setEnd( cursor.textNode, cursor.offset );
 				return range;
@@ -503,7 +503,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					searchRange = sel.getRanges()[ 0 ].clone();
 					searchRange.collapse( true );
 				} else {
-					searchRange = new CKEDITOR.dom.range();
+					searchRange = editor.createRange();
 					searchRange.setStartAt( editor.editable(), CKEDITOR.POSITION_AFTER_START );
 				}
 				searchRange.setEndAt( editor.editable(), CKEDITOR.POSITION_BEFORE_END );

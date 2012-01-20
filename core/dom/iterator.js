@@ -85,7 +85,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// If that node is the lastNode, it would cause our logic to leak to the
 					// next block.(#3887)
 					if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
-						var testRange = new CKEDITOR.dom.range( range.document );
+						var testRange = this.range.clone();
 						testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
 						if ( testRange.checkEndOfBlock() ) {
 							var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
@@ -176,7 +176,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// The current node is good to be part of the range and we are
 				// starting a new range, initialize it first.
 				if ( includeNode && !range ) {
-					range = new CKEDITOR.dom.range( this.range.document );
+					range = this.range.clone();
 					range.setStartAt( currentNode, CKEDITOR.POSITION_BEFORE_START );
 				}
 

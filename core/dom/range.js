@@ -14,11 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * <a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html">Document Object Model Range</a>
  * ideas and features, adding several range manipulation tools to it, but it's
  * not intended to be compatible with it.
- * @param {CKEDITOR.dom.document} document The document into which the range
- *		features will be available.
- * @param {CKEDITOR.dom.element} [root=body element] Specify the {@link CKEDITOR.dom.range.prototype.root} element of this range,
- * 		set to the body element of the document if not specified.
- *		features will be available.
+ * @param {CKEDITOR.dom.document|CKEDITOR.dom.element} root The document or element within which the range will be scoped.
  * @example
  * // Create a range for the entire contents of the editor document body.
  * var range = new CKEDITOR.dom.range( editor.document );
@@ -26,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * // Delete the contents.
  * range.deleteContents();
  */
-CKEDITOR.dom.range = function( document, root ) {
+CKEDITOR.dom.range = function( root ) {
 	/**
 	 * Node within which the range begins.
 	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
@@ -80,6 +76,7 @@ CKEDITOR.dom.range = function( document, root ) {
 	 */
 	this.collapsed = true;
 
+	var isDocRoot = root instanceof CKEDITOR.dom.document;
 	/**
 	 * The document within which the range can be used.
 	 * @type {CKEDITOR.dom.document}
@@ -87,13 +84,13 @@ CKEDITOR.dom.range = function( document, root ) {
 	 * // Selects the body contents of the range document.
 	 * range.selectNodeContents( range.document.getBody() );
 	 */
-	this.document = document;
+	this.document = isDocRoot ? root : root.getDocument();
 
 	/**
 	 * The ancestor DOM element within which the range manipulation are limited.
 	 * @type {CKEDITOR.dom.element}
 	 */
-	this.root = root || document && document.getBody();
+	this.root = isDocRoot ? root.getBody() : root;
 };
 
 (function() {
@@ -375,7 +372,7 @@ CKEDITOR.dom.range = function( document, root ) {
 
 	CKEDITOR.dom.range.prototype = {
 		clone: function() {
-			var clone = new CKEDITOR.dom.range( this.document );
+			var clone = new CKEDITOR.dom.range( this.root );
 
 			clone.startContainer = this.startContainer;
 			clone.startOffset = this.startOffset;
@@ -1139,7 +1136,7 @@ CKEDITOR.dom.range = function( document, root ) {
 				case CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS:
 
 					// Enlarging the start boundary.
-					var walkerRange = new CKEDITOR.dom.range( this.document );
+					var walkerRange = new CKEDITOR.dom.range( this.root );
 
 					boundary = this.root;
 

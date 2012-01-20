@@ -456,6 +456,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		/**
+		 * Shortcut to create {@link CKEDITOR.dom.range} instance from the editable element.
+		 * @see {CKEDITOR.dom.range}
+		 * @return {CKEDITOR.dom.range} The dom range created if the editable has presented.
+		 */
+		createRange: function() {
+			var editable = this.editable();
+			return editable ? new CKEDITOR.dom.range( editable ) : null;
+		},
+
+
+		/**
 		 * Executes a command associated with the editor.
 		 * @param {String} commandName The indentifier name of the command.
 		 * @param {Object} [data] Data to be passed to the command.

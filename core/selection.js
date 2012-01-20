@@ -528,7 +528,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( CKEDITOR.env.webkit ) {
 			var sel = this.document.getWindow().$.getSelection();
 			if ( sel.type == 'None' && this.document.getActive().equals( this.root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
-				var range = new CKEDITOR.dom.range( this.document, this.root );
+				var range = new CKEDITOR.dom.range( this.root );
 				range.moveToPosition( this.root, CKEDITOR.POSITION_AFTER_START );
 				var nativeRange = this.document.$.createRange();
 				nativeRange.setStart( range.startContainer.$, range.startOffset );
@@ -799,7 +799,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						return [];
 
 					if ( type == CKEDITOR.SELECTION_TEXT ) {
-						range = new CKEDITOR.dom.range( this.document, this.root );
+						range = new CKEDITOR.dom.range( this.root );
 
 						var boundaryInfo = getBoundaryInformation( nativeRange, true );
 						range.setStart( new CKEDITOR.dom.node( boundaryInfo.container ), boundaryInfo.offset );
@@ -821,7 +821,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								parentElement = element.parentNode,
 								j = 0;
 
-							range = new CKEDITOR.dom.range( this.document, this.root );
+							range = new CKEDITOR.dom.range( this.root );
 
 							for ( ; j < parentElement.childNodes.length && parentElement.childNodes[ j ] != element; j++ ) {
 	/*jsl:pass*/
@@ -845,7 +845,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var ranges = [],
 						range,
-						doc = this.document,
 						sel = this.getNative();
 
 					if ( !sel )
@@ -854,7 +853,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					for ( var i = 0; i < sel.rangeCount; i++ ) {
 						var nativeRange = sel.getRangeAt( i );
 
-						range = new CKEDITOR.dom.range( doc, this.root );
+						range = new CKEDITOR.dom.range( this.root );
 
 						range.setStart( new CKEDITOR.dom.node( nativeRange.startContainer ), nativeRange.startOffset );
 						range.setEnd( new CKEDITOR.dom.node( nativeRange.endContainer ), nativeRange.endOffset );
@@ -1060,7 +1059,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( root ) {
 					// Enlarging the start boundary.
-					var testRange = new CKEDITOR.dom.range( self.document, self.root );
+					var testRange = new CKEDITOR.dom.range( self.root );
 					testRange.setStartAt( root, CKEDITOR.POSITION_AFTER_START );
 					testRange.setEnd( range.startContainer, range.startOffset );
 
@@ -1201,7 +1200,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * editor.getSelection.<strong>selectElement( element )</strong>;
 		 */
 		selectElement: function( element ) {
-			var range = new CKEDITOR.dom.range( this.document, this.root );
+			var range = new CKEDITOR.dom.range( this.root );
 			range.setStartBefore( element );
 			range.setEndAfter( element );
 			this.selectRanges( [ range ] );
@@ -1470,7 +1469,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		selectBookmarks: function( bookmarks ) {
 			var ranges = [];
 			for ( var i = 0; i < bookmarks.length; i++ ) {
-				var range = new CKEDITOR.dom.range( this.document, this.root );
+				var range = new CKEDITOR.dom.range( this.root );
 				range.moveToBookmark( bookmarks[ i ] );
 				ranges.push( range );
 			}

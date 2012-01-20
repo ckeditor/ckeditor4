@@ -70,7 +70,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					dialog.hide();
 
 					// Place the cursor at the first editable place.
-					var range = new CKEDITOR.dom.range( editor.document );
+					var range = editor.createRange();
 					range.moveToElementEditStart( editor.editable() );
 					range.select();
 					setTimeout( function() {

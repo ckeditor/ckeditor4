@@ -530,7 +530,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Restore the original document status by placing the cursor before a bogus br created (#5021).
 			bodyChildsNum && body.getFirst().remove();
 			doc.getBody().appendBogus();
-			var nativeRange = new CKEDITOR.dom.range( doc );
+			var nativeRange = editor.createRange();
 			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
 			nativeRange.select();
 		}

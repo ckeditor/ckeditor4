@@ -229,7 +229,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// cursor inside the first cell (#7959), IE needs a while.
 					setTimeout( function() {
 						var firstCell = new CKEDITOR.dom.element( table.$.rows[ 0 ].cells[ 0 ] );
-						var range = new CKEDITOR.dom.range( editor.document );
+						var range = editor.createRange();
 						range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
 						range.select();
 					}, 0 );

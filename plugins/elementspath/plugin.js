@@ -88,7 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.focus();
 				var element = editor._.elementsPath.list[ elementIndex ];
 				if ( element.equals( editor.editable() ) ) {
-					var range = new CKEDITOR.dom.range( editor.document );
+					var range = editor.createRange();
 					range.selectNodeContents( element );
 					range.select();
 				} else
