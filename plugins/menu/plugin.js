@@ -232,6 +232,12 @@ CKEDITOR.plugins.add( 'menu', {
 							return false;
 					}, this );
 
+					panel.onShow = function() {
+						// Menu need CSS resets, compensate class name.
+						var holder = panel._.panel.getHolderElement();
+						holder.getParent().addClass( 'cke' );
+					};
+
 					panel.onHide = CKEDITOR.tools.bind( function() {
 						this._.onHide && this._.onHide();
 					}, this );
@@ -283,8 +289,8 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
-				var chromeRoot = editor.container.getChild( 1 ),
-					mixedContentClass = chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+				var chromeRoot = editor.container && editor.container.getChild( 1 ),
+					mixedContentClass = chromeRoot && chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
 				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];

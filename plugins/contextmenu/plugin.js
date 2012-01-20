@@ -128,7 +128,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 	},
 
 	beforeInit: function( editor ) {
-		editor.contextMenu = new CKEDITOR.plugins.contextMenu( editor );
+		var contextMenu = editor.contextMenu = new CKEDITOR.plugins.contextMenu( editor );
+
+		editor.on( 'contentDom', function() {
+			contextMenu.addTarget( editor.editable(), editor.config.browserContextMenuOnCtrl !== false );
+		});
 
 		editor.addCommand( 'contextMenu', {
 			exec: function() {
