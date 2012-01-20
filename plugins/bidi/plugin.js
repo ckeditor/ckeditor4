@@ -73,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function switchDir( element, dir, editor, database ) {
-		if ( element.isReadOnly() )
+		if ( element.isReadOnly() || element.equals( editor.editable() ) )
 			return;
 
 		// Mark this element as processed by switchDir.
