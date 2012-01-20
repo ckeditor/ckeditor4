@@ -535,7 +535,7 @@ CKEDITOR.lang[ 'da' ] = {
 
 	stylesCombo: {
 		label: 'Typografi',
-		panelTitle: 'Formatting Styles', // MISSING
+		panelTitle: 'Formattering på stylesheet',
 		panelTitle1: 'Block typografi',
 		panelTitle2: 'Inline typografi',
 		panelTitle3: 'Object typografi'
