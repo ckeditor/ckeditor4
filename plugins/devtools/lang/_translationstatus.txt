@@ -17,5 +17,6 @@ it.js      Found: 5 Missing: 0
 nl.js      Found: 5 Missing: 0
 pl.js      Found: 5 Missing: 0
 tr.js      Found: 5 Missing: 0
+ug.js      Found: 5 Missing: 0
 vi.js      Found: 5 Missing: 0
 zh-cn.js   Found: 5 Missing: 0
