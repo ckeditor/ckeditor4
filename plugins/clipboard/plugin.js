@@ -499,7 +499,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			setTimeout( function() {
 				// Restore properly the document focus. (#5684, #8849)
 				editable.focus();
-				editor.removeListener( 'selectionChange', cancel );
 
 				// Grab the HTML contents.
 				// We need to look for a apple style wrapper on webkit it also adds
@@ -511,6 +510,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// IE7: selection must go before removing pastebin. (#8691)
 				sel.selectBookmarks( bms );
+
+				editor.removeListener( 'selectionChange', cancel );
+
 				pastebin.remove();
 				callback( pastebin[ 'get' + ( mode == 'text' ? 'Value' : 'Html' ) ]() );
 			}, 0 );

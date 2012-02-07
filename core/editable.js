@@ -593,13 +593,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	// non-exitable-block by padding extra br.(#3189)
-	function onSelectionChangeFixBody( evt ) {
+	function fixDom( evt ) {
 		var editor = evt.editor,
+			editable = editor.editable(),
 			path = evt.data.path,
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			body = editor.document.getBody(),
 			enterMode = editor.config.enterMode;
 
 		if ( CKEDITOR.env.gecko ) {
@@ -607,7 +607,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// activateEditing( editor );
 
 			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
-			var pathBlock = path.block || path.blockLimit,
+			var pathBlock = path.block || path.blockLimit || path.root,
 				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
 
 			// Check some specialities of the current path block:
@@ -620,8 +620,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		// When we're in block enter mode, a new paragraph will be established
-		// to encapsulate inline contents right under body. (#3657)
-		if ( editor.config.autoParagraph !== false && enterMode != CKEDITOR.ENTER_BR && range.collapsed && blockLimit.getName() == 'body' && !path.block ) {
+		// to encapsulate inline contents inside editable. (#3657)
+		if ( editor.config.autoParagraph !== false && enterMode != CKEDITOR.ENTER_BR && range.collapsed && editable.equals( blockLimit ) && !path.block ) {
 			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// For IE, we should remove any filler node which was introduced before.
@@ -655,14 +655,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// at the end of document, makes it unable to continue adding content, we have to make this
 		// easier by opening an new empty paragraph.
 		var testRange = editor.createRange();
-		testRange.moveToElementEditEnd( body );
-		var testPath = new CKEDITOR.dom.elementPath( testRange.startContainer );
-		if ( !testPath.blockLimit.is( 'body' ) ) {
+		testRange.moveToElementEditEnd( editable );
+		var testPath = editor.elementPath( testRange.startContainer );
+		if ( testPath.blockLimit && !testPath.blockLimit.equals( editable ) ) {
 			var paddingBlock;
 			if ( enterMode != CKEDITOR.ENTER_BR )
-				paddingBlock = body.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
+				paddingBlock = editable.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
 			else
-				paddingBlock = body;
+				paddingBlock = editable;
 
 			if ( !CKEDITOR.env.ie )
 				paddingBlock.appendBogus();
@@ -732,31 +732,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
-	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor,
-			editable = editor.editable();
-		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		if ( editable && editable.is( 'body' ) ) {
-			editor.on( 'selectionChange', function( evt ) {
-				if ( editor.readOnly )
-					return;
-
-				var sel = editor.getSelection();
-				// Do it only when selection is not locked. (#8222)
-				if ( sel && !sel.isLocked ) {
-					var isDirty = editor.checkDirty();
-					editor.fire( 'saveSnapshot', { contentOnly:1 } );
-					onSelectionChangeFixBody.call( this, evt );
-					editor.fire( 'updateSnapshot' );
-					!isDirty && editor.resetDirty();
-				}
-			});
-		}
-	});
-
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
+		var editor = evt.editor;
+
 		// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
-		evt.editor.on( 'insertElement', function( evt ) {
+		editor.on( 'insertElement', function( evt ) {
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.
@@ -765,6 +745,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				element.setAttribute( 'contentEditable', false );
 			}
 		});
+
+		editor.on( 'selectionChange', function( evt ) {
+			if ( editor.readOnly )
+				return;
+
+			// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
+			var sel = editor.getSelection();
+			// Do it only when selection is not locked. (#8222)
+			if ( sel && !sel.isLocked ) {
+				var isDirty = editor.checkDirty();
+				editor.fire( 'saveSnapshot', { contentOnly:1 } );
+				fixDom.call( this, evt );
+				editor.fire( 'updateSnapshot' );
+				!isDirty && editor.resetDirty();
+			}
+		});
+
 	});
 
 })();
