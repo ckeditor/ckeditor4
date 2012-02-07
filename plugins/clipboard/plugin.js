@@ -107,10 +107,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var editable = this.editable();
 
 					// Simulate 'beforepaste' event for all none-IEs.
-					if ( !CKEDITOR.env.ie && editable.fire( 'beforepaste' ) )
-						event.cancel();
+					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
+
 					// Simulate 'paste' event for Opera/Firefox2.
-					else if ( CKEDITOR.env.opera || CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
+					if ( CKEDITOR.env.opera || CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
 						editable.fire( 'paste' );
 					return;
 

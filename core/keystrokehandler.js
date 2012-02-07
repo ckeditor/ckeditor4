@@ -48,7 +48,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 			var command = this.keystrokes[ keyCombination ];
 			var editor = this._.editor;
 
-			cancel = ( editor.fire( 'key', { keyCode: keyCombination } ) === true );
+			cancel = ( editor.fire( 'key', { keyCode: keyCombination } ) === false );
 
 			if ( !cancel ) {
 				if ( command ) {
