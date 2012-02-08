@@ -13,5 +13,5 @@ hr.js      Found: 23 Missing: 95
 it.js      Found: 118 Missing: 0
 nl.js      Found: 118 Missing: 0
 tr.js      Found: 118 Missing: 0
-ug.js      Found: 9 Missing: 109
+ug.js      Found: 11 Missing: 107
 zh-cn.js   Found: 118 Missing: 0

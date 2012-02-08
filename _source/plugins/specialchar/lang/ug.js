@@ -5,12 +5,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	euro: 'ياۋرو بەلگىسى',
-	lsquo: 'سول تاق پەش',
-	rsquo: 'ئوڭ تاق پەش',
-	ldquo: 'سول جۈپ پەش',
-	rdquo: 'ئوڭ جۈپ پەش',
-	ndash: 'En dash', // MISSING
-	mdash: 'Em dash', // MISSING
+	lsquo: 'يالاڭ پەش ئېچىلغان',
+	rsquo: 'يالاڭ پەش يېپيىلغان',
+	ldquo: 'قوش پەش ئېچىلغان',
+	rdquo: 'قوش پەش يېپىلغان',
+	ndash: 'سىزىقچە',
+	mdash: 'سىزىق',
 	iexcl: 'Inverted exclamation mark', // MISSING
 	cent: 'Cent sign', // MISSING
 	pound: 'Pound sign', // MISSING
