@@ -134,7 +134,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Allow to peek clipboard content by redirecting the
 	// pasting content into a temporary bin and grab the content of it.
 	function getClipboardData( evt, mode, callback ) {
-		var doc = this.document;
+		var doc = this.document,
+			editable = this.editable();
 
 		// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 		if ( doc.getById( 'cke_pastebin' ) )
@@ -154,12 +155,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var sel = this.getSelection(),
 			range = new CKEDITOR.dom.range( doc );
 
-		// Create container to paste into
-		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : this.editable().getName(), doc );
+		// Create container to paste into, there's no doubt to use "textarea" for
+		// pure text, for rich content we prefer to use "body" since it holds
+		// the least possibility to be splitted by pasted content, while this may
+		// breaks the text selection on a frame-less editable, "div" would be
+		// the best one in that case.
+		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : editable.is( 'body' ) ? 'body' : 'div', doc );
+
 		pastebin.setAttribute( 'id', 'cke_pastebin' );
 		// Safari requires a filler node inside the div to have the content pasted into it. (#4882)
 		CKEDITOR.env.webkit && pastebin.append( doc.createText( '\xa0' ) );
-		this.editable().append( pastebin );
+		editable.append( pastebin );
 
 		pastebin.setStyles({
 			position: 'absolute',
