@@ -5,6 +5,7 @@ bg.js      Found: 5 Missing: 0
 cs.js      Found: 5 Missing: 0
 cy.js      Found: 5 Missing: 0
 de.js      Found: 5 Missing: 0
+el.js      Found: 5 Missing: 0
 eo.js      Found: 5 Missing: 0
 et.js      Found: 5 Missing: 0
 fa.js      Found: 5 Missing: 0
