@@ -84,7 +84,7 @@ if ( !CKEDITOR.event ) {
 			 */
 			define: function( name, meta ) {
 				var entry = getEntry.call( this, name );
-				CKEDITOR.tools.extend( entry, meta, 1 );
+				CKEDITOR.tools.extend( entry, meta, true );
 			},
 
 			/**
