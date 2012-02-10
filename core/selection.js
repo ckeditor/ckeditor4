@@ -20,12 +20,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		sel.lock();
 		this._.lastSelection = sel;
 
-		var firstElement = sel.getStartElement();
-		var currentPath = new CKEDITOR.dom.elementPath( firstElement );
-
+		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
 			this._.selectionPreviousPath = currentPath;
-			this.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
+			this.fire( 'selectionChange', { selection: sel, path: currentPath } );
 		}
 	}
 
