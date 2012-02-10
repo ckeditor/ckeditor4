@@ -7,7 +7,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var template = '<span class="cke_button {alphaFixClass}">' +
 		'<a id="{id}"' +
 			' class="{classes}"' +
-			' style="{style}"' +
 			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 			' title="{title}"' +
 			' tabindex="-1"' +
@@ -31,7 +30,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 					'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
-			'<span class="cke_icon"';
+			'<span class="cke_icon" style="{style}"';
 
 
 	template += '>&nbsp;</span>' +
