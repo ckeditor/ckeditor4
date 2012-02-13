@@ -1253,22 +1253,53 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			win.$.scrollTo( 0, offset );
 	},
 
-	setState: function( state ) {
+	/**
+	 * Switch the "class" attribute to reflect one of the triple states of an
+	 * element in one of {@link CKEDITOR.TRISTATE_ON}, {@link CKEDITOR.TRISTATE_OFF}
+	 * or {@link CKEDITOR.TRISTATE_DISABLED}.
+	 * @param state {CKEDITOR.TRISTATE_ON|CKEDITOR.TRISTATE_OFF|CKEDITOR.TRISTATE_DISABLED}
+	 * Indicate the element state
+	 * @param [base="cke"] The prefix apply to each of the state class name.
+	 * @param [useAria=true] Whether toggle the ARIA state attributes besides of class name change.
+	 * @example
+	 * <code>
+	 * link.setState(CKEDITOR.TRISTATE_ON);
+	 * // <a class="cke_on" aria-pressed="true">...</a>
+	 * link.setState(CKEDITOR.TRISTATE_OFF);
+	 * // <a class="cke_off">...</a>
+	 * link.setState(CKEDITOR.TRISTATE_DISABLED);
+	 * // <a class="cke_disabled" aria-disabled="true">...</a>
+	 *
+	 * span.setState(CKEDITOR.TRISTATE_ON, 'cke_button');
+	 * // <span class="cke_button_on">...</span>
+	 * </code>
+	 */
+	setState: function( state, base, useAria ) {
+		base = base || 'cke';
+
 		switch ( state ) {
 			case CKEDITOR.TRISTATE_ON:
-				this.addClass( 'cke_on' );
-				this.removeClass( 'cke_off' );
-				this.removeClass( 'cke_disabled' );
+				this.addClass( base + '_on' );
+				this.removeClass( base + '_off' );
+				this.removeClass( base + '_disabled' );
+				useAria && this.setAttribute( 'aria-pressed', true );
+				useAria && this.removeAttribute( 'aria-disabled' );
 				break;
+
 			case CKEDITOR.TRISTATE_DISABLED:
-				this.addClass( 'cke_disabled' );
-				this.removeClass( 'cke_off' );
-				this.removeClass( 'cke_on' );
+				this.addClass( base + '_disabled' );
+				this.removeClass( base + '_off' );
+				this.removeClass( base + '_on' );
+				useAria && this.setAttribute( 'aria-disabled', true );
+				useAria && this.removeAttribute( 'aria-pressed' );
 				break;
+
 			default:
-				this.addClass( 'cke_off' );
-				this.removeClass( 'cke_on' );
-				this.removeClass( 'cke_disabled' );
+				this.addClass( base + '_off' );
+				this.removeClass( base + '_on' );
+				this.removeClass( base + '_disabled' );
+				useAria && this.removeAttribute( 'aria-pressed' );
+				useAria && this.removeAttribute( 'aria-disabled' );
 				break;
 		}
 	},
