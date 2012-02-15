@@ -156,7 +156,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				if ( !isChildrenFiltered ) {
 					var writer = new CKEDITOR.htmlParser.basicWriter();
 					CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.call( element, writer, filter );
-					element.children = new CKEDITOR.htmlParser.fragment.fromHtml( writer.getHtml(), 0, element.clone() ).children;
+					element.children = new CKEDITOR.htmlParser.fragment.fromHtml( writer.getHtml(), element.clone(), 0 ).children;
 					isChildrenFiltered = 1;
 				}
 			};
