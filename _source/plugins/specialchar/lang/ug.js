@@ -5,10 +5,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	euro: 'ياۋرو بەلگىسى',
-	lsquo: 'يالاڭ پەش ئېچىلغان',
-	rsquo: 'يالاڭ پەش يېپيىلغان',
-	ldquo: 'قوش پەش ئېچىلغان',
-	rdquo: 'قوش پەش يېپىلغان',
+	lsquo: 'يالاڭ پەش سول',
+	rsquo: 'يالاڭ پەش ئوڭ',
+	ldquo: 'قوش پەش سول',
+	rdquo: 'قوش پەش ئوڭ',
 	ndash: 'سىزىقچە',
 	mdash: 'سىزىق',
 	iexcl: 'Inverted exclamation mark', // MISSING
@@ -58,7 +58,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	Iuml: 'Latin capital letter I with diaeresis', // MISSING
 	ETH: 'Latin capital letter Eth', // MISSING
 	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
+	Ograve: 'قوش پەش ئوڭ',
 	Oacute: 'Latin capital letter O with acute accent', // MISSING
 	Ocirc: 'Latin capital letter O with circumflex', // MISSING
 	Otilde: 'Latin capital letter O with tilde', // MISSING
