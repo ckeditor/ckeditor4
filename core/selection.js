@@ -222,8 +222,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
 		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', function() {
-			var domSel = editor.getSelection().getNative();
-			domSel && domSel.clear();
+			var sel = editor.getSelection();
+			sel && sel.removeAllRanges();
 		}, null, null, 9 );
 
 	});
