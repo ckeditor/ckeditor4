@@ -870,7 +870,12 @@ CKEDITOR.plugins.add( 'dialogui' );
 		eventProcessors: CKEDITOR.tools.extend( {}, CKEDITOR.ui.dialog.uiElement.prototype.eventProcessors, {
 			/** @ignore */
 			onClick: function( dialog, func ) {
-				this.on( 'click', func );
+				this.on( 'click', function() {
+					// Some browsers (Chrome, IE8, IE7 compat mode) don't move
+					// focus to clicked button. Force this.
+					this.getElement().focus();
+					func.apply( this, arguments );
+				});
 			}
 		}, true ),
 

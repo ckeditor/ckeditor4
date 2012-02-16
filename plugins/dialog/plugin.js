@@ -395,9 +395,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				focusList[ i ].focusIndex = i;
 		}
 
-		function changeFocus( forward ) {
-			var focusList = me._.focusList,
-				offset = forward ? 1 : -1;
+		function changeFocus( offset ) {
+			var focusList = me._.focusList;
+			offset = offset || 0;
+
 			if ( focusList.length < 1 )
 				return;
 
@@ -411,11 +412,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var startIndex = ( current + offset + focusList.length ) % focusList.length,
 				currentIndex = startIndex;
-			while ( !focusList[ currentIndex ].isFocusable() ) {
+			while ( offset && !focusList[ currentIndex ].isFocusable() ) {
 				currentIndex = ( currentIndex + offset + focusList.length ) % focusList.length;
 				if ( currentIndex == startIndex )
 					break;
 			}
+
 			focusList[ currentIndex ].focus();
 
 			// Select whole field content.
@@ -446,7 +448,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					me._.tabs[ nextId ][ 0 ].focus();
 				} else {
 					// Change the focus of inputs.
-					changeFocus( !shiftPressed );
+					changeFocus( shiftPressed ? -1 : 1 );
 				}
 
 				processed = 1;
@@ -465,7 +467,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this.selectPage( this._.currentTabId );
 				this._.tabBarMode = false;
 				this._.currentFocusIndex = -1;
-				changeFocus( true );
+				changeFocus( 1 );
 				processed = 1;
 			}
 
@@ -524,7 +526,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}
 				// Focus the first field in layout order.
 				else
-					changeFocus( true );
+					changeFocus( 1 );
 
 				/*
 				 * IE BUG: If the initial focus went into a non-text element (e.g. button),
@@ -580,7 +582,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( this._.tabBarMode ) {
 					this._.tabBarMode = false;
 					this._.currentFocusIndex = -1;
-					changeFocus( true );
+					changeFocus( 1 );
 				}
 				evt.data.preventDefault();
 			}
