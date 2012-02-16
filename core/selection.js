@@ -1037,7 +1037,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return cache.selectedText;
 
 			var nativeSel = this.getNative(),
-				text = CKEDITOR.env.ie ? nativeSel.createRange().text : nativeSel.toString();
+				text = CKEDITOR.env.ie ? nativeSel.type == 'Control' ? '' : nativeSel.createRange().text : nativeSel.toString();
 
 			return ( cache.selectedText = text );
 		},
