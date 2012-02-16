@@ -1121,6 +1121,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// we have to save the currently focused element for later recovery.
 				var focused = CKEDITOR.document.getActive();
 				this.unlock();
+				this.selectRanges( ranges );
+				this.lock();
+				// Return to the previously focused element.
+				!focused.equals( this.root ) && focused.focus();
+				return;
 			}
 
 			if ( CKEDITOR.env.ie ) {
@@ -1325,11 +1330,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this.root.fire( 'selectionchange' );
 			this.reset();
 
-			if ( focused ) {
-				this.lock();
-				// Return to the previously focused element.
-				!focused.equals( this.root ) && focused.focus();
-			}
 		},
 
 		/**
