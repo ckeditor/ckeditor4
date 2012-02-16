@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_panel
 {
-	/* Restore the dialog visibility */
+	/* Restore the loading hide */
 	visibility: visible;
 
 	border: 1px solid #8f8f73;
@@ -26,27 +26,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin: 0;
 }
 
-/* Ideally we would use "inherit here"... but you know... IE :( */
-.cke_panel iframe
+.cke_panel_frame
 {
 	width: 100%;
 	height: 100%;
-}
 
-.cke_panel_container
-{
+	/* Font */
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 12px;
+
 	overflow: auto;
 	overflow-x: hidden;
-}
-
-.cke_panel_frame
-{
-	overflow: auto;
 }
 
 .cke_panel_frame .cke_label
 {
 	display: none;
+}
+
+.cke_panel_container
+{
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .cke_panel_list

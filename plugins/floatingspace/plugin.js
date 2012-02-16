@@ -29,19 +29,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			' style="{style}"' +
 			'>' +
 				'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-				'<div class="cke_wrapper cke_' + editor.lang.dir + '" role="presentation">' +
-				'<div class="cke_editor">' +
-				'<div role="presentation">' +
-					'{content}' +
-				'</div>' +
-				'</div>' +
-				'</div>' +
+					'<div class="cke_' + editor.lang.dir + '" role="presentation">' +
+						'<div class="cke_inner">' +
+							'<div class="cke_contents" role="presentation">{content}</div>' +
+						'</div>' +
 					'</div>' +
-				'</div>' );
-
+				'</div>' +
+			'</div>' );
 
 		var vars = {
-			skinClass: editor.skinClass,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			'z-index': editor.config.baseFloatZIndex - 1

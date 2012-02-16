@@ -4,16 +4,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
-	var template = '<span class="cke_button {alphaFixClass}">' +
-		'<a id="{id}"' +
-			' class="{classes}"' +
-			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
-			' title="{title}"' +
-			' tabindex="-1"' +
-			' hidefocus="true"' +
-			' role="button"' +
-			' aria-labelledby="{id}_label"' +
-			' aria-haspopup="{hasArrow}"';
+	var template = '<a id="{id}"' +
+		' class="{btnCls} {alphaFixClass} {btnCls}__{name} {btnCls}_{state}"' +
+		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+		' title="{title}"' +
+		' tabindex="-1"' +
+		' hidefocus="true"' +
+		' role="button"' +
+		' aria-labelledby="{id}_label"' +
+		' aria-haspopup="{hasArrow}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -27,20 +26,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
 	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
-			' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
-					'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
-			'<span class="cke_icon" style="{style}"';
+		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
+		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+		'<span class="{btnCls}_icon {btnCls}__{name}_icon" style="{style}"';
 
 
 	template += '>&nbsp;</span>' +
-			'<span id="{id}_label" class="cke_label">{label}</span>' +
-			'{arrowHtml}' +
-		'</a>' +
-		'</span>';
+		'<span id="{id}_label" class="{btnCls}_label {btnCls}__{name}_label">{label}</span>' +
+		'{arrowHtml}' +
+		'</a>';
 
-	var templateArrow = '<span class="cke_buttonarrow">' +
-			// BLACK DOWN-POINTING TRIANGLE
+	var templateArrow = '<span class="cke_button_arrow">' +
+		// BLACK DOWN-POINTING TRIANGLE
 	( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) +
 		'</span>';
 
@@ -68,12 +66,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	 * @example
 	 */
 	CKEDITOR.ui.button = function( definition ) {
-		// Copy all definition properties to this object.
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
 			title: definition.label,
-			className: definition.className || ( definition.command && 'cke_button_' + definition.command ) || '',
 			click: definition.click ||
 			function( editor ) {
 				editor.execCommand( definition.command );
@@ -106,7 +102,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		render: function( editor, output ) {
 			var env = CKEDITOR.env,
 				id = this._.id = CKEDITOR.tools.getNextId(),
-				classes = '',
+				stateName = '',
 				command = this.command,
 				// Get the command name.
 				clickFn;
@@ -192,20 +188,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						this.setState( command.state );
 					}, this );
 
-					classes += 'cke_' + ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
+					stateName += ( command.state == CKEDITOR.TRISTATE_ON ? 'on' : command.state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
 				}
 			}
 
 			if ( !command )
-				classes += 'cke_off';
-
-			if ( this.className )
-				classes += ' ' + this.className;
+				stateName += 'off';
 
 			var params = {
 				id: id,
+				btnCls: 'cke_button',
+				name: this.name || this.command,
 				label: this.label,
-				classes: classes,
+				state: stateName,
 				title: this.title,
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' ),
@@ -234,11 +229,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var element = CKEDITOR.document.getById( this._.id );
 
 			if ( element ) {
-				element.setState( state );
-				state == CKEDITOR.TRISTATE_DISABLED ? element.setAttribute( 'aria-disabled', true ) : element.removeAttribute( 'aria-disabled' );
-
-				state == CKEDITOR.TRISTATE_ON ? element.setAttribute( 'aria-pressed', true ) : element.removeAttribute( 'aria-pressed' );
-
+				element.setState( state, 'cke_button' );
 				return true;
 			} else
 				return false;

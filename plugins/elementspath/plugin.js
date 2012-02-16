@@ -24,7 +24,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	var emptyHtml = '<span class="cke_empty">&nbsp;</span>';
+	var emptyHtml = '<span class="cke_path_empty">&nbsp;</span>';
+
+	var extra = '';
+
+	// Some browsers don't cancel key events in the keydown but in the
+	// keypress.
+	// TODO: Check if really needed for Gecko+Mac.
+	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+		extra += ' onkeypress="return false;"';
+
+	// With Firefox, we need to force the button to redraw, otherwise it
+	// will remain in the focus state.
+	if ( CKEDITOR.env.gecko )
+		extra += ' onblur="this.style.cssText = this.style.cssText;"';
+
+	var pathItemTpl = CKEDITOR.ui.template( 'pathItem', '<a' +
+		' id="{id}"' +
+		' href="{jsTitle}"' +
+		' tabindex="-1"' +
+		' class="cke_path_item"' +
+		' title="{label}"' +
+		( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
+		extra +
+		' hidefocus="true" ' +
+		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
+		' onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
+		' role="button" aria-label="{label}">' +
+		'{text}' +
+		'</a>' );
 
 	CKEDITOR.plugins.add( 'elementspath', {
 		requires: [ 'selection' ],
@@ -130,33 +158,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					if ( !ignore ) {
-						var index = elementsList.push( element ) - 1;
+						var index = elementsList.push( element ) - 1,
+							label = editor.lang.elementsPath.eleTitle.replace( /%1/, name );
 
-						// Use this variable to add conditional stuff to the
-						// HTML (because we are doing it in reverse order... unshift).
-						var extra = '';
-
-						// Some browsers don't cancel key events in the keydown but in the
-						// keypress.
-						// TODO: Check if really needed for Gecko+Mac.
-						if ( env.opera || ( env.gecko && env.mac ) )
-							extra += ' onkeypress="return false;"';
-
-						// With Firefox, we need to force the button to redraw, otherwise it
-						// will remain in the focus state.
-						if ( env.gecko )
-							extra += ' onblur="this.style.cssText = this.style.cssText;"';
-
-						var label = editor.lang.elementsPath.eleTitle.replace( /%1/, name );
-						html.unshift( '<a' +
-							' id="', idBase, index, '"' +
-							' href="javascript:void(\'', name, '\')"' +
-							' tabindex="-1"' +
-							' title="', label, '"' +
-							( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
-							' hidefocus="true" ' +
-							' onkeydown="return CKEDITOR.tools.callFunction(', onKeyDownHandler, ',', index, ', event );"' +
-							extra, ' onclick="CKEDITOR.tools.callFunction(' + onClickHanlder, ',', index, '); return false;"', ' role="button" aria-labelledby="' + idBase + index + '_label">', name, '<span id="', idBase, index, '_label" class="cke_label">' + label + '</span>', '</a>' );
+						var item = pathItemTpl.output({
+							id: idBase + index,
+							label: label,
+							text: name,
+							jsTitle: 'javascript:void(\'' + name + '\')',
+							index: index,
+							keyDownFn: onKeyDownHandler,
+							clickFn: onClickHanlder
+						});
+						html.unshift( item );
 
 					}
 

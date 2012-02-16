@@ -14,6 +14,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
 				iframe.setStyles({ width: '100%', height: '100%' } );
+				iframe.addClass( 'cke_wysiwyg_frame' );
+
 				editor.getUISpace( 'contents' ).append( iframe );
 
 				var src = 'document.open();' +

@@ -1,0 +1,72 @@
+/*
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+.cke_rtl .cke_toolgroup,
+.cke_rtl .cke_toolbar_separator,
+.cke_rtl .cke_button,
+.cke_rtl .cke_button *,
+.cke_rtl .cke_combo,
+.cke_rtl .cke_combo *,
+.cke_rtl .cke_path_item,
+.cke_rtl .cke_path_item *
+{
+	float: none;
+}
+
+.cke_rtl .cke_toolgroup,
+.cke_rtl .cke_toolbar_separator,
+.cke_rtl .cke_combo_button,
+.cke_rtl .cke_combo_button *,
+.cke_rtl .cke_button,
+.cke_rtl .cke_button_icon,
+{
+	display: inline-block;
+}
+
+.cke_toolbox
+{
+	padding-bottom: 3px;
+	height: 100%;
+}
+.cke_rtl .cke_toolbox
+{
+	padding-bottom: 0;
+}
+
+.cke_toolbar
+{
+	margin-bottom: 3px;
+}
+.cke_rtl .cke_toolbar
+{
+	margin-bottom: 0;
+}
+
+.cke_toolbar_separator
+{
+	vertical-align: top;
+}
+
+.cke_toolbox_collapser .cke_arrow
+{
+	border-width:4px;
+}
+.cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow
+{
+	border-width:3px;
+}
+
+.cke_rtl .cke_button_arrow
+{
+	padding-top: 8px;
+	margin-right: 2px;
+}
+
+.cke_rtl .cke_combo_inlinelabel
+{
+	display: table-cell;
+	vertical-align: middle;
+	padding-bottom: 8px;
+}

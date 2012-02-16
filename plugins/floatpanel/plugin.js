@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 		if ( !panel ) {
 			panel = panels[ key ] = new CKEDITOR.ui.panel( doc, definition );
-			panel.element = parentElement.append( CKEDITOR.dom.element.createFromHtml( panel.renderHtml( editor ), doc ) );
+			panel.element = parentElement.append( CKEDITOR.dom.element.createFromHtml( panel.render( editor ), doc ) );
 
 			panel.element.setStyles({
 				display: 'none',
@@ -37,7 +37,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
 				element = panel.element,
-				iframe = element.getFirst().getFirst();
+				iframe = element.getFirst();
 
 			this.element = element;
 
@@ -100,7 +100,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
-					definition = this._.definition,
 					position = offsetParent.getDocumentPosition( element.getDocument() ),
 					rtl = this._.dir == 'rtl';
 
@@ -183,7 +182,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						left -= element.$.offsetWidth;
 
 					var panelLoad = CKEDITOR.tools.bind( function() {
-						var target = element.getFirst();
+						var target = element;
 
 						if ( block.autoSize ) {
 							// We must adjust first the width or IE6 could include extra lines in the height computation
@@ -206,9 +205,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							width += 4;
 
 							target.setStyle( 'width', width + 'px' );
-
-							// IE doesn't compute the scrollWidth if a filter is applied previously
-							block.element.addClass( 'cke_frameLoaded' );
 
 							var height = block.element.$.scrollHeight;
 

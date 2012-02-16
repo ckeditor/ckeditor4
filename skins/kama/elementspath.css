@@ -3,86 +3,36 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-@media print
-{
-	.cke_path
-	{
-		display: none;
-	}
-}
-
 .cke_path
 {
-	display: inline-block;
-	float: left;
 	margin-top: 5px;
+	float: left;
 }
 
-.cke_rtl .cke_path
-{
-	float: right;
-}
-
-.cke_shared .cke_path
-{
-	_width: 100%;
-	margin: 0 0 5px;
-}
-
-.cke_path a,
-.cke_path a:link,
-.cke_path a:visited,
-.cke_path a:hover,
-.cke_path a:focus,
-.cke_path a:active,
-.cke_path .cke_empty
+.cke_path_item,
+.cke_path_empty
 {
 	display: inline-block;
 	float: left;
 	padding: 1px 4px 0;
 	color: #60676a;
 	cursor: default;
+	text-decoration: none;
+	outline: 0;
+	border: 0;
 }
-
-.cke_path .cke_empty
-{
-	visibility: hidden;
-}
-
-.cke_rtl .cke_path a,
-.cke_rtl .cke_path a:link,
-.cke_rtl .cke_path a:visited,
-.cke_rtl .cke_path a:hover,
-.cke_rtl .cke_path a:focus,
-.cke_rtl .cke_path a:active,
-.cke_rtl .cke_path cke_empty
+.cke_rtl .cke_path,
+.cke_rtl .cke_path_item,
+.cke_rtl .cke_path_empty
 {
 	float: right;
 }
 
-.cke_path a:hover,
-.cke_path a:focus,
-.cke_path a:active	/* IE */
+a.cke_path_item:hover,
+a.cke_path_item:focus,
+a.cke_path_item:active
 {
-	background-color: #dff1ff;
-	padding: 1px 4px 0;
-	outline: none;
-	color : #000;
-}
-
-/* IE double float-right workaround */
-.cke_browser_ie .cke_rtl .cke_path a,
-.cke_browser_ie .cke_rtl .cke_path a:link,
-.cke_browser_ie .cke_rtl .cke_path a:visited,
-.cke_browser_ie .cke_rtl .cke_path a:hover,
-.cke_browser_ie .cke_rtl .cke_path a:focus,
-.cke_browser_ie .cke_rtl .cke_path a:active,
-.cke_browser_ie .cke_rtl .cke_path .cke_empty
-{
-	float: none;
-}
-
-.cke_path .cke_label
-{
-	display: none;
+	background-color: #efefef;
+	opacity: 0.7;
+	color: #000;
 }

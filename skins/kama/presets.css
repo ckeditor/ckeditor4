@@ -4,9 +4,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /* "Source" button label */
-.cke_button_source .cke_label
+.cke_button__source_label
 {
 	display: inline;
+}
+
+.cke_combo__styles .cke_combo_text,
+.cke_combo__format .cke_combo_text
+{
+	width: 60px;
+}
+
+.cke_combo__font .cke_combo_text,
+.cke_combo__fontsize .cke_combo_text
+{
+	width: 30px;
 }
 
 /* "Styles" panel size */
@@ -36,14 +48,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 170px;
 }
 
-/* "Font Size" combo width */
-.cke_fontSize .cke_text
+/* Editable regions */
+.cke_source
 {
-	width: 25px;
+	font-family: 'Courier New' , Monospace;
+	font-size: small;
+	background-color: #fff;
+	white-space: pre;
 }
 
-/* "Font Size" combo width (IE Quirks) */
-.cke_browser_iequirks .cke_fontSize .cke_text
+.cke_wysiwyg_frame
 {
-	width: 32px;
+	background-color: #fff;
 }

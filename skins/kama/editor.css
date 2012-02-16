@@ -13,3 +13,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 @import url("icons.css");
 @import url("presets.css");
 
+/* Restore the chrome visibility */
+.cke_chrome { visibility: inherit; }

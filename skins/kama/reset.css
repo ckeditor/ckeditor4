@@ -6,11 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Reset and Default Values
  */
-.cke *,
-.cke a:hover,
-.cke a:link,
-.cke a:visited,
-.cke a:active
+.cke *
 {
 	margin: 0;
 	padding: 0;
@@ -26,24 +22,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: nowrap;
 	cursor: auto;
 	color: #000;
-	float: none;
 
     font-size: 12px;
     font-family: Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
-}
-
-.cke .cke_rtl *,
-.cke .cke_rtl a:hover,
-.cke .cke_rtl a:link,
-.cke .cke_rtl a:visited,
-.cke .cke_rtl a:active,
-.cke_rtl .cke *,
-.cke_rtl .cke a:hover,
-.cke_rtl .cke a:link,
-.cke_rtl .cke a:visited,
-.cke_rtl .cke a:active
-{
-	text-align: right;
 }
 
 .cke iframe
@@ -56,22 +37,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: pre;
 }
 
-.cke .cke_browser_gecko textarea
-{
-	cursor: text;
-}
-
-.cke .cke_browser_gecko textarea[disabled]
-{
-	cursor: default;
-}
-
+.cke textarea,
 .cke input[type="text"],
 .cke input[type="password"]
 {
 	cursor: text;
 }
 
+
+.cke textarea[disabled],
 .cke input[type="text"][disabled],
 .cke input[type="password"][disabled]
 {

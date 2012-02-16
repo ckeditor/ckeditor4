@@ -69,6 +69,9 @@ CKEDITOR.ui.prototype = {
 	 *     });
 	 */
 	add: function( name, type, definition ) {
+		// Compensate the unique name of this ui item to definition.
+		definition.name = name.toLowerCase();
+
 		this._.items[ name ] = {
 			type: type,
 			// The name of {@link CKEDITOR.command} which associate with this UI.

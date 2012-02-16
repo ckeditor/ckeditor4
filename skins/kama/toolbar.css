@@ -3,408 +3,289 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-@media print
-{
-	/* For printing, we simply hide the toolbar */
-
-	.cke_toolbox
-	{
-		display: none;
-	}
-}
-
-.cke_browser_webkit .cke_toolbox,
-.cke_browser_webkit .cke_toolbox > span
-{
-	white-space: normal;
-}
-
-.cke_toolbox
-{
-	clear: both;
-	/* Define the padding-bottom otherwise the collapser button will not be clickable #4932*/
-	padding-bottom: 1px;
-}
-
-a.cke_toolbox_collapser,
-a:hover.cke_toolbox_collapser
-{
-	/* arrowtop.gif */
-	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
-	background-position: 3px -1366px; /* +3px +4px */
-	background-repeat: no-repeat;
-	width: 11px;
-	height: 11px;
-	float: right;
-	border: 1px outset #D3D3D3;
-	margin: 11px 0 2px;
-	cursor: pointer;
-}
-
-.cke_rtl a.cke_toolbox_collapser,
-.cke_rtl a:hover.cke_toolbox_collapser
+.cke_toolbar
 {
 	float: left;
 }
 
-a.cke_toolbox_collapser span
+.cke_rtl .cke_toolbar
 {
-	display: none;
-}
-
-.cke_hc a.cke_toolbox_collapser span
-{
-	font-size: 10px;
-	font-weight: bold;
-	font-family: Arial;
-	display: inline;
-}
-
-a.cke_toolbox_collapser_min,
-a:hover.cke_toolbox_collapser_min
-{
-	/* arrowleft.gif*/
-	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
-	background-position: 4px -1387px; /* +4px +3px */
-	background-repeat: no-repeat;
-	margin: 2px 4px;
-}
-
-.cke_rtl a.cke_toolbox_collapser_min,
-.cke_rtl a:hover.cke_toolbox_collapser_min
-{
-	/* arrowright.gif*/
-	background-position: 4px -1408px; /* +2px +3px */
-}
-
-.cke_separator
-{
-	display: inline-block;
-	border-left: solid 1px #D3D3D3;
-	margin: 3px 2px 0;
-	height: 16px;
-
-	/* These are for IE < 8, but it's ok for the others */
-	vertical-align: top;
-}
-
-.cke_break
-{
-	font-size: 0;
-	clear: left;
-}
-
-.cke_rtl .cke_break
-{
-	clear: right;
-}
-
-.cke_toolbar_start
-{
-	display: none;
+	float: right;
 }
 
 .cke_toolgroup
 {
-	-moz-border-radius:5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
-	background-repeat: repeat-x;
-	background-position: 0 -500px;
 	float: left;
 	margin-right: 6px;
 	margin-bottom: 5px;
 	padding: 2px;
-	display: inline;
+	background: url(images/sprites.png) repeat-x 0 -500px;
+
+	background: -moz-linear-gradient(top, #fff, #d3d3d3 100px);
+	background: -webkit-gradient(linear, 0 0, 0 100, from(#fff), to(#d3d3d3));
+}
+
+.cke_hc .cke_toolgroup
+{
+	padding-right: 0;
+	margin-right: 4px;
 }
 
 .cke_rtl .cke_toolgroup
 {
 	float: right;
-	margin-right: 0;
 	margin-left: 6px;
+	margin-right: 0;
 }
 
-.cke_button a,
-.cke_button a:link,
-.cke_button a:visited,
-.cke_button a:hover,
-.cke_button a:focus,
-.cke_button a:active,
-.cke_button a.cke_off
+.cke_hc .cke_rtl .cke_toolgroup
 {
+	padding-left: 0;
+	margin-left: 4px;
+}
+
+a.cke_button
+{
+	display: inline-block;
+	height: 18px;
+	padding: 2px 4px;
 	border-radius: 3px;
 	outline: none;
-	padding: 2px 4px;
-	height: 18px;
-	display: inline-block;
 	cursor: default;
+	float: left;
+	border: 0;
 }
 
-.cke_button a,
-.cke_button a.cke_off
+.cke_rtl .cke_button
 {
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	float: right;
 }
 
-.cke_hc .cke_button a,
-.cke_hc .cke_button a.cke_off
+.cke_hc .cke_button
 {
-	opacity: 1.0;
-	filter: alpha(opacity=100);
-	border: 1px solid white;
+	border: 1px solid black;
+
+	/* Compensate the added border */
+	padding: 3px 5px;
+	margin: -2px 4px 0 -2px;
 }
 
-.cke_button a.cke_on
+.cke_hc .cke_rtl .cke_button
+{
+	margin: -2px -2px 0 4px;
+}
+
+.cke_button_on
 {
 	background-color: #a3d7ff;
-	filter: alpha(opacity=100); /* IE */
-	opacity: 1; /* Safari, Opera and Mozilla */
-	padding: 2px 4px;
 }
 
-.cke_hc .cke_button a.cke_on
+.cke_hc .cke_button_on
 {
-	padding: 0 2px !important;
 	border-width: 3px;
+
+	/* Compensate the border change */
+	padding: 1px 3px;
 }
 
-.cke_button a.cke_disabled *
+.cke_button_off
 {
-	filter: alpha(opacity=30); /* IE */
-	opacity: 0.3; /* Safari, Opera and Mozilla */
+	opacity: 0.70;
 }
 
-/* IE with zoom != 100% will distort the icons otherwise #4821 */
-.cke_browser_ie .cke_button a.cke_disabled *,
-.cke_browser_ie a:hover.cke_button .cke_disabled *
+.cke_button_disabled
 {
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale'), alpha(opacity=30);
-}
-.cke_browser_ie .cke_rtl .cke_button a.cke_disabled *,
-.cke_browser_ie .cke_rtl a:hover.cke_button .cke_disabled *
-{
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale'), alpha(opacity=30);
-}
-.cke_browser_ie6 .cke_button a.cke_disabled *,
-.cke_browser_ie6 a:hover.cke_button .cke_disabled *,
-.cke_browser_ie .cke_button.cke_noalphafix a.cke_disabled *
-{
-	filter: alpha(opacity=30);
+	opacity: 0.3;
 }
 
-.cke_hc .cke_button a.cke_disabled *,
-.cke_browser_ie.cke_hc a:hover.cke_button .cke_disabled *
-{
-	filter: alpha(opacity=60);
-	opacity: 0.6;
-}
-
-.cke_button a:hover.cke_on,
-.cke_button a:focus.cke_on,
-.cke_button a:active.cke_on,	/* IE */
-.cke_button a:hover.cke_off,
-.cke_button a:focus.cke_off,
-.cke_button a:active.cke_off	/* IE */
-{
-	filter: alpha(opacity=100); /* IE */
-	opacity: 1; /* Safari, Opera and Mozilla */
-	padding: 2px 4px;
-}
-
-.cke_button a:hover,
-.cke_button a:focus,
-.cke_button a:active	/* IE */
-{
-	background-color: #dff1ff;
-}
-
-.cke_button a:hover.cke_on,
-.cke_button a:focus.cke_on,
-.cke_button a:active.cke_on	/* IE */
+a.cke_button_on:hover,
+a.cke_button_on:focus,
+a.cke_button_on:active
 {
 	background-color: #86caff;
 }
 
-.cke_hc .cke_button a:hover,
-.cke_hc .cke_button a:focus,
-.cke_hc .cke_button a:active	/* IE */
+.cke_hc a.cke_button:hover
 {
-	padding: 0 2px !important;
-	border-width: 3px;
+	background: black;
 }
 
-.cke_button .cke_icon
+a.cke_button_off:hover,
+a.cke_button_off:focus,
+a.cke_button_off:active
 {
-	background-image: url(icons.png);
-	background-position: 100px;
-	background-repeat: no-repeat;
+	background-color: #dff1ff;
+	opacity: 1;
+}
+
+.cke_button_icon
+{
+	background: url(icons.png) 100px no-repeat;
 	margin-top: 1px;
 	width: 16px;
 	height: 16px;
+	float: left;
 	display: inline-block;
-	cursor: default;
 }
 
-.cke_rtl .cke_button .cke_icon
+.cke_rtl .cke_button_icon
 {
+	float: right;
 	background-image: url(icons_rtl.png);
 }
-/* IE with zoom != 100% will distort the icons otherwise #4821 */
-.cke_browser_ie .cke_button .cke_icon
+
+.cke_hc .cke_button_icon
 {
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
-}
-.cke_browser_ie .cke_rtl .cke_button .cke_icon
-{
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
-}
-.cke_browser_ie6 .cke_button .cke_icon,
-.cke_browser_ie6 .cke_rtl .cke_button .cke_icon,
-.cke_browser_ie .cke_button.cke_noalphafix .cke_icon,
-.cke_browser_ie .cke_rtl .cke_button.cke_noalphafix .cke_icon
-{
-	filter: ;
+	display: none;
 }
 
-
-.cke_button .cke_label
+.cke_button_label
 {
-	cursor: default;
 	display: none;
 	padding-left: 3px;
-	line-height: 18px;
+	margin-top: 1px;
+	line-height: 16px;
 	vertical-align: middle;
+	float: left;
+	cursor: default;
 }
 
-.cke_hc .cke_button .cke_label
+.cke_hc .cke_button_label
 {
 	padding: 0;
 	display: inline-block;
 }
 
-.cke_hc .cke_button .cke_icon
+.cke_rtl .cke_button_label
 {
-	display: none;
+	padding-right: 3px;
+	padding-left: 0;
+	float: right;
 }
 
-.cke_accessibility
+.cke_button_arrow
 {
-	position: absolute;
-	display: block;
+	/* Arrow in CSS */
+	display: inline-block;
+	margin: 7px 0 0 1px;
 	width: 0;
 	height: 0;
-	overflow: hidden;
-}
-
-.cke_button .cke_buttonarrow
-{
-	display: inline-block;
-	height: 17px;
-	width: 8px;
-	background-position: 2px -1469px; /* (+2, -5) */
-	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
-	background-repeat: no-repeat;
+	border-width: 3px;
+	border-color: #2f2f2f transparent transparent transparent;
+	border-style: solid dashed dashed dashed;
 	cursor: default;
+	vertical-align: middle;
 }
 
-/* IE with zoom != 100% will distort the icons otherwise #4821 */
-.cke_browser_ie .cke_button .cke_buttonarrow
+.cke_rtl .cke_button_arrow
 {
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
+	margin-right: 5px;
+	margin-left: 0;
 }
-.cke_browser_ie6 .cke_button .cke_buttonarrow
+
+.cke_hc .cke_button_arrow
 {
-	filter: ;
+	font-size: 10px;
+	margin: 0 -2px 0 3px;
+	width: auto;
+	border: 0;
 }
 
-/*** Firefox 2 ***/
+.cke_hc .cke_rtl .cke_button_arrow
+{
+	margin: 0 3px 0 -2px;
+}
 
-.cke_browser_gecko .cke_toolbar,
-.cke_browser_gecko .cke_button a,
-.cke_browser_gecko .cke_button a.cke_off,
-.cke_browser_gecko .cke_button .cke_icon,
-.cke_browser_gecko .cke_button .cke_buttonarrow,
-.cke_browser_gecko .cke_separator,
-.cke_browser_gecko .cke_toolbar_start
+.cke_toolbar_separator
+{
+	float: left;
+	border-left: solid 1px #D3D3D3;
+	margin: 3px 2px 0;
+	height: 16px;
+}
+
+.cke_rtl .cke_toolbar_separator
+{
+	border-right: solid 1px #D3D3D3;
+	border-left: 0;
+	float: right;
+}
+
+.cke_hc .cke_toolbar_separator
+{
+	margin-left: 0;
+	width: 3px;
+}
+
+.cke_hc .cke_rtl .cke_toolbar_separator
+{
+	margin:3px 0 0 2px;
+}
+
+
+.cke_toolbar_break
 {
 	display: block;
-	float: left;
+	clear: left;
 }
 
-.cke_browser_gecko.cke_hc .cke_button .cke_icon
+.cke_rtl .cke_toolbar_break
 {
-	display: none;
+	clear: right;
 }
 
-.cke_browser_gecko .cke_rtl .cke_toolbar,
-.cke_browser_gecko .cke_rtl .cke_button a,
-.cke_browser_gecko .cke_rtl.cke_button a.cke_off,
-.cke_browser_gecko .cke_rtl .cke_button .cke_icon,
-.cke_browser_gecko .cke_rtl .cke_button .cke_buttonarrow,
-.cke_browser_gecko .cke_rtl .cke_separator,
-.cke_browser_gecko .cke_rtl .cke_toolbar_start
+.cke_toolbox_collapser
 {
+	width: 12px;
+	height: 11px;
 	float: right;
-}
-
-.cke_browser_gecko .cke_button .cke_label,
-.cke_browser_gecko .cke_break
-{
-	float: left;
-}
-
-.cke_browser_gecko .cke_rtl .cke_button .cke_label,
-.cke_browser_gecko .cke_rtl .cke_break
-{
-	float: right;
-}
-
-/*** WebKit ***/
-
-/* We have originally used display:inline-block+float for cke_toolbar and it
-   worked well in all browsers, except IE+RTL. We had to change it to inline
-   and remove the float. This change didn't play well with Safari. */
-
-.cke_browser_webkit .cke_toolbar
-{
-	float: left;
-}
-
-.cke_browser_webkit .cke_rtl .cke_toolbar
-{
-	float: right;
-}
-
-/*** Mixed Fixes ***/
-
-.cke_browser_ie .cke_button .cke_label
-{
-	line-height: 16px;
-}
-
-/* Fix cursor shape consistency on toolbar combos (#4031) */
-.cke_browser_ie .cke_rcombo,
-.cke_browser_ie .cke_rcombo *
-{
+	border: 1px outset #d3d3d3;
+	margin: 11px 0 0;
+	font-size: 0;
 	cursor: default;
+	text-align: center;
 }
 
-.cke_browser_ie .cke_toolbox
+.cke_toolbox_collapser.cke_toolbox_collapser_min
 {
-	padding-bottom: 5px;
-	_padding-bottom: 6px;
+	margin: 0 2px 4px;
 }
 
-.cke_shared .cke_browser_ie .cke_toolbox
+.cke_rtl .cke_toolbox_collapser
 {
-	padding-bottom: 0;
+	float: left;
+}
+
+.cke_hc .cke_toolbox_collapser
+{
+	border-width: 1px;
+}
+
+.cke_toolbox_collapser .cke_arrow
+{
+	display: inline-block;
+
+	/* Pure CSS Arrow */
+	height: 0;
+	width: 0;
+	font-size: 0;
+	border-width: 3px;
+	border-style: solid;
+	border-color: transparent transparent #2f2f2f;
+}
+.cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow
+{
+	margin: 4px 2px 0 0;
+	border-color: #2f2f2f transparent transparent;
+}
+
+
+.cke_hc .cke_toolbox_collapser .cke_arrow
+{
+	font-size: 8px;
+	width: auto;
+	border: 0;
+	margin-top: 0;
+	margin-right: 2px;
 }

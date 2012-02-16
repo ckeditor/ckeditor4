@@ -6,9 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /* Main editor only settings. */
 .cke_chrome
 {
-	/* Restore the chrome visibility */
-	visibility: inherit;
-	display:block;
+	display: block;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -16,71 +14,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding: 5px;
 }
 
-.cke_browser_webkit,
-.cke_browser_gecko18
+.cke_hc.cke_chrome
 {
-	display: block;
+	padding: 2px;
 }
 
-.cke_wrapper
+.cke_inner
 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-webkit-touch-callout: none;
 	border-radius: 5px;
-	background-color: #d3d3d3;
-	background-image: url(images/sprites.png);
-	background-repeat: repeat-x;
-	background-position: 0 -1950px;
-	display: block;
-	/* IE Quirks: editor chrome overflow horizontally without an explicit width. */
-	_display: inline-block;
-	padding: 5px;
 
-	/*background-color: Red;*/
+	background: #d3d3d3 url(images/sprites.png) repeat-x 0 -1950px;
+	background: -moz-linear-gradient(top, #eeeeee 0%, #d3d3d3 10%, #c3c3c3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(10%, #d3d3d3), color-stop(100%, #c3c3c3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #eeeeee 0%, #d3d3d3 10%, #c3c3c3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #eeeeee 0%, #d3d3d3 10%, #c3c3c3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #eeeeee 0%, #d3d3d3 10%, #c3c3c3 100%); /* IE10+ */
+	background: linear-gradient(top, #eeeeee 0%, #d3d3d3 10%, #c3c3c3 100%); /* W3C */
+
+	padding: 5px;
 }
 
-.cke_shared .cke_wrapper
+.cke_shared .cke_inner
 {
 	padding-bottom: 0;
-}
-
-.cke_browser_ie6 .cke_wrapper,
-.cke_browser_iequirks .cke_wrapper
-{
-	background-image: none;
-}
-
-.cke_editor
-{
-	display: inline-table;
-	width: 100%;
-}
-
-.cke_browser_ie .cke_editor,
-.cke_browser_webkit .cke_editor
-{
-	display: table;	/* #6684, #8342 */
-}
-
-.ltr .cke_browser_ie iframe
-{
-	margin-right: -10px;
-}
-
-.rtl .cke_browser_ie iframe
-{
-	margin-left: -10px;
-}
-
-.cke_browser_opera .cke_editor.cke_resizer
-{
-	display: table;
-}
-
-.cke_contents
-{
-	margin: 5px;
 }
 
 .cke_hc .cke_contents
@@ -88,99 +47,53 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border: 1px solid black;
 }
 
-.cke_contents iframe
+/* Stretch the space to contain potentially floated content. */
+.cke_top,
+.cke_contents,
+.cke_bottom
 {
-	background-color: #fff;
-}
-
-.cke_focus
-{
-	outline: auto 5px -webkit-focus-ring-color;
-}
-
-.cke_source
-{
-	font-family: 'Courier New' , Monospace;
-	font-size: small;
-	background-color: #fff;
-	white-space: pre;
-}
-
-.cke_browser_iequirks textarea.cke_source
-{
-	/* For IE6+Quirks only */
-	_white-space: normal;
+	/* Ideally this should be "auto", but it shows scrollbars in IE7 */
+	overflow: hidden;
 }
 
 .cke_resizer
 {
-	width: 12px;
-	height: 12px;
-	margin-top: 9px;
-	display: block;
-	float: right;
-	/* resizer.gif*/
-	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
-	background-position: 0 -1428px;
-	background-repeat: no-repeat;
-	cursor: se-resize;
-}
+	/* Arrow in CSS */
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 12px;
+	border-color: transparent transparent #efefef transparent;
+	border-style: dashed dashed solid dashed;
+	margin: -4px -12px 0 0;
 
-/* Adobe AIR doesn't support *-resize cursor shape. */
-.cke_browser_air .cke_resizer,
-.cke_browser_air .cke_rtl .cke_resizer
-{
-	cursor: move;
+	float: right;
+	cursor: se-resize;
+	font-size: 0;
+	vertical-align: bottom;
+	opacity: 0.8;
 }
 
 .cke_resizer_rtl
 {
-	cursor: sw-resize;
-	/* resizer_rtl.gif*/
-	background-position: 0 -1455px;
 	float: left;
+	cursor: sw-resize;
+	margin-left: -12px;
+	margin-right: 0px;
 }
 
-.cke_resizer_horizontal,
-.cke_rtl .cke_resizer_horizontal
+.cke_hc .cke_resizer
 {
-	cursor: e-resize;
+	font-size: 18px;
+	margin-right: -1px;
+	width: auto;
+	border: 0;
 }
 
-.cke_resizer_vertical,
-.cke_rtl .cke_resizer_vertical
+.cke_hc .cke_resizer_rtl
 {
-	cursor: n-resize;
-}
-
-.cke_maximized .cke_resizer
-{
-	display: none;
-}
-
-.cke_browser_ie6 .cke_contents textarea,
-.cke_browser_ie7 .cke_contents textarea
-{
-	position: absolute;
-}
-
-.cke_browser_ie.cke_browser_quirks .cke_contents iframe
-{
-	position: absolute;
-	top: 0;
-}
-
-.cke_browser_ie6 .cke_editor,
-.cke_browser_ie7 .cke_editor
-{
-	display: inline-block;
-}
-
-.cke_browser_ie6 .cke_editor,
-.cke_shared .cke_browser_ie7 .cke_wrapper
-{
-	padding-bottom: 5px;
+	margin-right: 0;
+	margin-left: -1px;
 }
 
 /* All voice labels are not displayed. */
@@ -192,13 +105,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 legend.cke_voice_label
 {
 	display: none;
-}
-
-.cke_browser_ie legend.cke_voice_label
-{
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	overflow: hidden;
 }

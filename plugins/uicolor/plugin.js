@@ -59,7 +59,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				cssId = '.' + this.id;
 
 			var cssSelectors = [
-				cssId + " .cke_wrapper",
+				cssId + " .cke_inner",
 				cssId + "_dialog .cke_dialog_contents",
 				cssId + "_dialog a.cke_dialog_tab",
 				cssId + "_dialog .cke_dialog_footer"

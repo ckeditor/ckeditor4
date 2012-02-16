@@ -54,7 +54,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
-.cke_browser_ie.cke_rtl .cke_menuitem .cke_icon
+.cke_browser_ie .cke_rtl .cke_menuitem .cke_icon
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
@@ -75,7 +75,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
-.cke_browser_ie.cke_rtl .cke_menuitem .cke_disabled .cke_icon
+.cke_browser_ie .cke_rtl .cke_menuitem .cke_disabled .cke_icon
 {
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
 }
@@ -92,8 +92,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: 16px;
 	height: 16px;
 	float: left;
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
 	clear: both;
 }
 
@@ -129,12 +127,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height:19px;
 	margin-left: 24px;
 	background-color: #fff;
-}
-/* Set these after the document has been loaded and we know the dimensions*/
-.cke_frameLoaded .cke_menuitem .cke_label
-{
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
 .cke_rtl .cke_menuitem .cke_label
@@ -218,13 +210,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 /* #3766 In the context menu, long labels with second level menu get wrapped */
-.cke_browser_ie.cke_ltr .cke_menuarrow
+.cke_browser_ie .cke_ltr .cke_menuarrow
 {
 	position: absolute;
 	right: 2px;
 }
 
-.cke_browser_ie.cke_rtl .cke_menuarrow
+.cke_browser_ie .cke_rtl .cke_menuarrow
 {
 	position: absolute;
 	left: 2px;

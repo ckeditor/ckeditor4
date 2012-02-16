@@ -71,7 +71,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 					panel.onShow = function() {
 						if ( me.className )
-							this.element.getFirst().addClass( me.className + '_panel' );
+							this.element.addClass( me.className + '_panel' );
 
 						me.setState( CKEDITOR.TRISTATE_ON );
 

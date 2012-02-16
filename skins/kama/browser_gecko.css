@@ -1,0 +1,39 @@
+/*
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+.cke
+{
+	-moz-border-radius: 5px;
+}
+
+.cke_inner
+{
+	-moz-border-radius: 5px;
+}
+
+.cke_toolgroup
+{
+	-moz-border-radius: 5px;
+}
+
+.cke_button_label
+{
+	margin-top: 0;
+}
+
+.cke_combo_button
+{
+	-moz-border-radius: 5px;
+}
+
+.cke_combo_text
+{
+	line-height: 20px;
+}
+
+.cke_button_arrow
+{
+	line-height: 18px;
+}
