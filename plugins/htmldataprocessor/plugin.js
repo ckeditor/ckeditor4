@@ -443,7 +443,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			data = protectPreFormatted( data );
 
 			var editable = this.editor.editable(),
-				fixBin = editable.getName();
+				fixBin = editable.getName(),
+				isPre;
+
+			// Old IEs loose formats when load html into <pre>.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
+				fixBin = 'div';
+				data = '<pre>' + data + '</pre>';
+				isPre = 1;
+			}
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
@@ -451,6 +459,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );
+
+			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
+
 
 			// Unprotect "some" of the protected elements at this point.
 			data = unprotectElementNames( data );
