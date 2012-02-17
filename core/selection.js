@@ -220,12 +220,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.selectionChange( 1 );
 		});
 
-		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
-		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', function() {
+		function clearSelection() {
 			var sel = editor.getSelection();
 			sel && sel.removeAllRanges();
-		}, null, null, 9 );
+		}
 
+		// Clear dom selection before editable destroying to fix some browser
+		// craziness.
+
+		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
+		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', clearSelection, null, null, 9 );
+		// Webkit's selection will mess up after the data loading.
+		CKEDITOR.env.webkit && editor.on( 'setData', clearSelection );
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
@@ -433,7 +439,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// behavior of other browsers.
 		if ( CKEDITOR.env.webkit ) {
 			var sel = this.document.getWindow().$.getSelection();
-			if ( sel.type == 'None' && this.document.getActive().equals( this.root ) ) {
+			if ( sel.type == 'None' && this.document.getActive().equals( this.root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
 				var range = new CKEDITOR.dom.range( this.document, this.root );
 				range.moveToPosition( this.root, CKEDITOR.POSITION_AFTER_START );
 				var nativeRange = this.document.$.createRange();
