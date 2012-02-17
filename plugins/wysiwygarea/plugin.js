@@ -355,11 +355,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 
-					var deferedSupport = CKEDITOR.env.ie || CKEDITOR.env.opera;
-					var bootstrapCode = '<script id="cke_actscrpt" type="text/javascript"' + ( deferedSupport ? ' defer="defer" ' : '' ) + '>' +
+					var bootstrapCode = '<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
 						( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 						'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
-						( deferedSupport ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload );' ) +
+						( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload );' ) +
 						'</script>';
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
