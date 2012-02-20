@@ -77,7 +77,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function initClipboard( editor ) {
 		var depressBeforeEvent = 0,
-			inReadOnly = 0;
+			inReadOnly = 0,
+			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
+			// properly handles ctrl+c. Probably some race-condition between events.
+			// Chrome and Firefox works well with both events, so better to use 'paste'
+			// which will handle pasting from e.g. browsers' menu bars.
+			// IE7/8 doesn't like 'paste' event for which it's throwing random errors.
+			mainPasteEvent = CKEDITOR.env.ie ? 'beforepaste' : 'paste';
 
 		addListeners();
 		addButtonsCommands();
@@ -140,7 +146,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors. (e.g. Ctrl-V)
-			editable.on( CKEDITOR.env.webkit ? 'paste' : 'beforepaste', function( evt ) {
+			editable.on( mainPasteEvent, function( evt ) {
 				if ( depressBeforeEvent )
 					return;
 
@@ -227,13 +233,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Prevent IE from pasting at the begining of the document.
 					editor.focus();
 
-					if ( editor.editable().fire( 'beforepaste' ) && !execIECommand( 'paste' ) ) {
+					if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
 						editor.fire( 'pasteDialog' );
 						return false;
 					}
 				} : function( editor ) {
 					try {
-						if ( editor.editable().fire( 'beforepaste' ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
+						if ( editor.editable().fire( mainPasteEvent ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
 							throw 0;
 						}
 					} catch ( e ) {
