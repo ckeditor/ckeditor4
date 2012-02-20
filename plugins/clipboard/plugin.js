@@ -123,9 +123,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.contextMenu.addListener( function( element, selection ) {
 					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
-						cut: !inReadOnly && stateFromNamedCommand( 'Cut' ),
+						cut: stateFromNamedCommand( 'Cut' ),
 						copy: stateFromNamedCommand( 'Copy' ),
-						paste: !inReadOnly && ( CKEDITOR.env.webkit ? CKEDITOR.TRISTATE_OFF : stateFromNamedCommand( 'Paste' ) )
+						paste: stateFromNamedCommand( 'Paste' )
 					};
 				});
 			}
@@ -426,27 +426,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( editor.mode != 'wysiwyg' )
 				return;
 
-			var pasteState = inReadOnly ? CKEDITOR.TRISTATE_DISABLED : ( CKEDITOR.env.webkit ? CKEDITOR.TRISTATE_OFF : stateFromNamedCommand( 'Paste' ) );
+			var pasteState = stateFromNamedCommand( 'Paste' );
 
-			editor.getCommand( 'cut' ).setState( inReadOnly ? CKEDITOR.TRISTATE_DISABLED : stateFromNamedCommand( 'Cut' ) );
+			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'Cut' ) );
 			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'Copy' ) );
 			editor.getCommand( 'paste' ).setState( pasteState );
 			editor.fire( 'pasteState', pasteState );
 		}
 
 		function stateFromNamedCommand( command ) {
-			// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
-			// guard to distinguish from the ordinary sources( either
-			// keyboard paste or execCommand ) (#4874).
-			CKEDITOR.env.ie && ( depressBeforeEvent = 1 );
+			var retval;
 
-			var retval = CKEDITOR.TRISTATE_OFF;
-			try {
-				retval = editor.document.$.queryCommandEnabled( command ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-			} catch ( er ) {}
+			if ( inReadOnly && command in { Paste:1,Cut:1 } )
+				return CKEDITOR.TRISTATE_DISABLED;
 
-			depressBeforeEvent = 0;
-			return retval;
+			if ( command == 'Paste' ) {
+				// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
+				// guard to distinguish from the ordinary sources (either
+				// keyboard paste or execCommand) (#4874).
+				CKEDITOR.env.ie && ( depressBeforeEvent = 1 );
+				try {
+					// Always return true for Webkit (which always returns false)
+					retval = editor.document.$.queryCommandEnabled( command ) || CKEDITOR.env.webkit;
+				} catch ( er ) {}
+				depressBeforeEvent = 0;
+			}
+			// Cut, Copy - check if the selection is not empty
+			else {
+				var ranges = editor.getSelection().getRanges();
+				retval = !( ranges.length == 1 && ranges[ 0 ].collapsed );
+			}
+
+			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 		}
 	};
 })();
