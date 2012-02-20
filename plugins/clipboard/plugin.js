@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -159,8 +160,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// pure text, for rich content we prefer to use "body" since it holds
 		// the least possibility to be splitted by pasted content, while this may
 		// breaks the text selection on a frame-less editable, "div" would be
-		// the best one in that case.
-		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : editable.is( 'body' ) ? 'body' : 'div', doc );
+		// the best one in that case, also in another case on old IEs moving the
+		// selection into a "body" paste bin causes error panic.
+		var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : editable.is( 'body' ) && !CKEDITOR.env.ie ? 'body' : 'div', doc );
 
 		pastebin.setAttribute( 'id', 'cke_pastebin' );
 		// Safari requires a filler node inside the div to have the content pasted into it. (#4882)
