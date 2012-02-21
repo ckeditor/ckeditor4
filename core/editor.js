@@ -274,9 +274,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.fire( 'langLoaded' );
 
-			var config = editor.config;
-			config.contentsLangDirection == 'ui' && ( config.contentsLangDirection = editor.lang.dir );
-
 			loadPlugins( editor );
 		});
 	}

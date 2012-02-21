@@ -104,6 +104,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				});
 			}
+
+			editor.config.contentsLangDirection == 'ui' && ( editor.config.contentsLangDirection = editor.lang.dir );
 		}
 	});
 
