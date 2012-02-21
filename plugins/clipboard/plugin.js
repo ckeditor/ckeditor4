@@ -13,7 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *		* simulate 'paste' for Fx2/Opera on editable
  *		* listen 'on(before)paste' on editable
  *		* fire 'beforePaste' on editor
- *		* getClipboardData
+ *		* !canceled && getClipboardData
  *		* fire 'paste' on editor
  *		* !canceled && fire 'afterPaste' on editor
  * -- CTRL+X
@@ -153,7 +153,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Default mode is 'html', but can be changed by beforePaste listeners.
 				var eventData = { mode: 'html' };
 				// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
-				editor.fire( 'beforePaste', eventData );
+				if ( !editor.fire( 'beforePaste', eventData ) )
+					return; // Event canceled
 
 				getClipboardData( evt, eventData.mode, function( data ) {
 					// The very last guard to make sure the paste has successfully happened.
