@@ -77,13 +77,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Prevent IE from pasting at the begining of the document.
 			editor.focus();
 
-			if ( !editor.editable().fire( 'beforepaste' ) && !execIECommand( editor, 'paste' ) ) {
+			if ( editor.editable().fire( 'beforepaste' ) && !execIECommand( editor, 'paste' ) ) {
 				editor.fire( 'pasteDialog' );
 				return false;
 			}
 		} : function( editor ) {
 			try {
-				if ( !editor.editable().fire( 'beforepaste' ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
+				if ( editor.editable().fire( 'beforepaste' ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
 					throw 0;
 				}
 			} catch ( e ) {
