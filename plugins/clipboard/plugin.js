@@ -345,8 +345,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var pastebin = new CKEDITOR.dom.element( mode == 'text' ? 'textarea' : editable.is( 'body' ) && !CKEDITOR.env.ie ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
-			// Safari requires a filler node inside the div to have the content pasted into it. (#4882)
-			CKEDITOR.env.webkit && pastebin.append( doc.createText( '\xa0' ) );
 			editable.append( pastebin );
 
 			pastebin.setStyles({
