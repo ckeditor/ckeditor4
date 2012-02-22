@@ -125,7 +125,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		// Load skin at first.
-		editor.skin.loadPart( 'templates' );
+		var plugin = CKEDITOR.plugins.get( 'templates' );
+		CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( plugin.path + 'dialogs/templates.css' ) );
+
 
 		var listContainer;
 
