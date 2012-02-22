@@ -88,6 +88,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		addListeners();
 		addButtonsCommands();
 
+		/**
+		 * Fire paste events (beforePaste, paste, afterPaste). By default editor will
+		 * insert given HTML.
+		 * @name CKEDITOR.editor.paste
+		 * @param {String} html HTML code to be pasted.
+		 */
+		editor.paste = function( html ) {
+			return firePasteEvents( 'html', html, true );
+		};
+
 		function addButtonsCommands() {
 			addButtonCommand( 'Cut', 'cut', createCutCopyCmd( 'cut' ), 1 );
 			addButtonCommand( 'Copy', 'copy', createCutCopyCmd( 'copy' ), 4 );
@@ -161,9 +171,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !( data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) ) ) )
 						return;
 
-					// Reuse eventData.mode because the default one could be changed by beforePaste listeners.
-					eventData[ eventData.mode ] = data;
-					editor.fire( 'paste', eventData );
+					// Fire remaining events (without beforePaste)
+					firePasteEvents( eventData.mode, data );
 				});
 			});
 
@@ -277,6 +286,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			body.removeListener( command, onExec );
 
 			return enabled;
+		}
+
+		function firePasteEvents( mode, data, withBeforePaste ) {
+			var eventData = { mode: mode };
+
+			if ( withBeforePaste ) {
+				// Fire 'beforePaste' event so clipboard flavor get customized
+				// by other plugins.
+				if ( !editor.fire( 'beforePaste', eventData ) )
+					return false; // Event canceled
+			}
+
+			// Reuse eventData.mode because the default one could be changed by beforePaste listeners.
+			eventData[ eventData.mode ] = data;
+
+			return editor.fire( 'paste', eventData );
 		}
 
 		/**
