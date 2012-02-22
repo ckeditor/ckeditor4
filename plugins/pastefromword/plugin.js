@@ -7,6 +7,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'pastefromword', {
+		requires: [ 'clipboard' ],
+
 		init: function( editor ) {
 
 			// Flag indicate this command is actually been asked instead of a generic
@@ -31,7 +33,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					forceFromWord = 1;
 					editor.on( 'beforePaste', forceHtmlMode );
 
-					if ( editor.execCommand( 'paste', 'html' ) === false ) {
+					if ( editor.execCommand( 'paste' ) === false ) {
 						editor.on( 'dialogShow', function( evt ) {
 							evt.removeListener();
 							evt.data.on( 'cancel', resetFromWord );
@@ -61,13 +63,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					mswordHtml;
 
 				// MS-WORD format sniffing.
-				if ( ( mswordHtml = data[ 'html' ] ) && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
+				if ( ( mswordHtml = data.html ) && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
 					var isLazyLoad = this.loadFilterRules( function() {
 						// Event continuation with the original data.
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
 						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
-							data[ 'html' ] = CKEDITOR.cleanWord( mswordHtml, editor );
+							data.html = CKEDITOR.cleanWord( mswordHtml, editor );
 						}
 					});
 
@@ -79,7 +81,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		loadFilterRules: function( callback ) {
-
 			var isLoaded = CKEDITOR.cleanWord;
 
 			if ( isLoaded )
@@ -92,9 +93,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			return !isLoaded;
-		},
-
-		requires: [ 'clipboard' ]
+		}
 	});
 })();
 
