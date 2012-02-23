@@ -161,9 +161,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						return;
 
 					// Reuse eventData.mode because the default one could be changed by beforePaste listeners.
-					var dataTransfer = { mode: eventData.mode };
-					dataTransfer[ eventData.mode ] = data;
-					editor.fire( 'paste', dataTransfer );
+					eventData[ eventData.mode ] = data;
+					editor.fire( 'paste', eventData );
 				});
 			});
 
