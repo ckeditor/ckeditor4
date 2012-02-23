@@ -615,12 +615,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								// IE9 report wrong measurement with compareEndPoints when range anchors between two BRs.
 								// e.g. <p>text<br />^<br /></p> (#7433)
 								if ( CKEDITOR.env.ie9Compat && child.tagName == 'BR' ) {
-									var bmId = 'cke_range_marker';
-									range.execCommand( 'CreateBookmark', false, bmId );
-									child = doc.getElementsByName( bmId )[ 0 ];
-									var offset = getNodeIndex( child );
-									parent.removeChild( child );
-									return { container: parent, offset: offset };
+									// "Fall back" to w3c selection.
+									var sel = doc.defaultView.getSelection();
+									return {
+										container: sel[ start ? 'anchorNode' : 'focusNode' ],
+										offset: sel[ start ? 'anchorOffset' : 'focusOffset' ] };
 								} else
 									return { container: parent, offset: getNodeIndex( child ) };
 							}
