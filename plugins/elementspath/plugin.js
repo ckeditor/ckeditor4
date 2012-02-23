@@ -39,7 +39,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	if ( CKEDITOR.env.gecko )
 		extra += ' onblur="this.style.cssText = this.style.cssText;"';
 
-	var pathItemTpl = CKEDITOR.ui.template( 'pathItem', '<a' +
+	var pathItemTpl = CKEDITOR.addTemplate( 'pathItem', '<a' +
 		' id="{id}"' +
 		' href="{jsTitle}"' +
 		' tabindex="-1"' +

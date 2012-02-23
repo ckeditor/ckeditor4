@@ -345,7 +345,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 
 
-		var template = CKEDITOR.ui.template( 'maincontainer', '<div' +
+		var template = CKEDITOR.addTemplate( 'maincontainer', '<div' +
 			' id="cke_{name}"' +
 			' class="{id} cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +

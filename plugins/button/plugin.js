@@ -42,8 +42,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) +
 		'</span>';
 
-	var btnArrowTpl = CKEDITOR.ui.template( 'buttonArrow', templateArrow ),
-		btnTpl = CKEDITOR.ui.template( 'button', template );
+	var btnArrowTpl = CKEDITOR.addTemplate( 'buttonArrow', templateArrow ),
+		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
 		beforeInit: function( editor ) {

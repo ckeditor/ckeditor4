@@ -49,15 +49,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	var panelTpl = CKEDITOR.ui.template( 'panel', '<div lang="{langCode}" id="{id}" dir={dir}' +
+	var panelTpl = CKEDITOR.addTemplate( 'panel', '<div lang="{langCode}" id="{id}" dir={dir}' +
 		' class="cke cke_panel cke_panel {cls} cke_{dir}"' +
 		' style="z-index:{z-index}" role="presentation">' +
 		'{frame}' +
 		'</div>' );
 
-	var frameTpl = CKEDITOR.ui.template( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="application" frameborder="0" src="{src}"></iframe>' );
+	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="application" frameborder="0" src="{src}"></iframe>' );
 
-	var frameDocTpl = CKEDITOR.ui.template( 'panel-frame-inner', '<!DOCTYPE html>' +
+	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
 			'<head>{css}</head>' +
 			'<body class="cke_{dir}"' +

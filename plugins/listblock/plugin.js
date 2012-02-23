@@ -7,8 +7,8 @@ CKEDITOR.plugins.add( 'listblock', {
 	requires: [ 'panel' ],
 
 	onLoad: function() {
-		var list = CKEDITOR.ui.template( 'panel-list', '<ul role="presentation" class="cke_panel_list">{items}</ul>' ),
-			listItem = CKEDITOR.ui.template( 'panel-list-item', '<li id="{id}" class="cke_panel_listItem" role=presentation>' +
+		var list = CKEDITOR.addTemplate( 'panel-list', '<ul role="presentation" class="cke_panel_list">{items}</ul>' ),
+			listItem = CKEDITOR.addTemplate( 'panel-list-item', '<li id="{id}" class="cke_panel_listItem" role=presentation>' +
 				'<a id="{id}_option" _cke_focus=1 hidefocus=true' +
 					' title="{title}"' +
 					' href="javascript:void(\'{val}\')" ' +
@@ -18,7 +18,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					'{text}' +
 				'</a>' +
 				'</li>' ),
-			listGroup = CKEDITOR.ui.template( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' );
+			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' );
 
 		CKEDITOR.ui.panel.prototype.addListBlock = function( name, definition ) {
 			return this.addBlock( name, new CKEDITOR.ui.listBlock( this.getHolderElement(), definition ) );

@@ -48,7 +48,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		'</a>' +
 		'</span>';
 
-	var rcomboTpl = CKEDITOR.ui.template( 'combo', template );
+	var rcomboTpl = CKEDITOR.addTemplate( 'combo', template );
 
 	/**
 	 * Button UI element.

@@ -110,8 +110,8 @@ CKEDITOR.plugins.add( 'menu', {
 				'<span>{label}</span>' +
 			'</span>';
 
-	var menuItemTpl = CKEDITOR.ui.template( 'menuItem', menuItemSource ),
-		menuArrowTpl = CKEDITOR.ui.template( 'menuArrow', menuArrowSource );
+	var menuItemTpl = CKEDITOR.addTemplate( 'menuItem', menuItemSource ),
+		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource );
 
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
 		$: function( editor, definition ) {

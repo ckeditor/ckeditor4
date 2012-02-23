@@ -19,7 +19,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var body = CKEDITOR.document.getBody();
 
 		var floatSpace,
-			template = CKEDITOR.ui.template( 'floatcontainer', '<div' +
+			template = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
 			' id="{id}"' +
 			' class="{id} cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +

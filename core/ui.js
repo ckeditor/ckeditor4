@@ -26,30 +26,6 @@ CKEDITOR.ui = function( editor ) {
 	return this;
 };
 
-(function() {
-	var tpls = {};
-
-	/**
-	 * Add an UI template definition or retrieve an existing one.
-	 * @param {String} name The name which identify one UI template.
-	 * @param {String} source The source string for constructing this template.
-	 * @see CKEDITOR.template
-	 */
-	CKEDITOR.ui.template = function( name, source ) {
-		var tpl = tpls[ name ];
-		if ( tpl )
-			return tpl;
-
-		// Make it possible to customize the template through event.
-		var params = { name: name, source: source };
-		CKEDITOR.fire( 'uiTemplate', params );
-
-		return ( tpls[ name ] = new CKEDITOR.template( params.source ) );
-	};
-
-})();
-
-
 // PACKAGER_RENAME( CKEDITOR.ui )
 
 CKEDITOR.ui.prototype = {
