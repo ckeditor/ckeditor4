@@ -8,16 +8,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * -- CTRL+C
  *		* browser's default behaviour
  * -- CTRL+V
- *		* listen onKey (onkeypress)
+ *		* listen onKey (onkeydown)
  *		* simulate 'beforepaste' for non-IEs on editable
  *		* simulate 'paste' for Fx2/Opera on editable
- *		* listen 'on(before)paste' on editable
+ *		* listen 'onpaste' on editable ('onbeforepaste' for IE)
  *		* fire 'beforePaste' on editor
  *		* !canceled && getClipboardData
  *		* fire 'paste' on editor
  *		* !canceled && fire 'afterPaste' on editor
  * -- CTRL+X
- *		* listen onKey (onkeypress)
+ *		* listen onKey (onkeydown)
  *		* fire 'saveSnapshot' on editor
  *		* browser's default behaviour
  *		* deferred second 'saveSnapshot' event
@@ -31,7 +31,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *			* execCommand
  *		* !success && alert
  * -- Paste command
- *		* fire 'beforepaste' on editable
+ *		* fire 'paste' on editable ('beforepaste' for IE)
  *		* !canceled && execCommand 'paste'
  *		* !success && fire 'pasteDialog' on editor
  */
