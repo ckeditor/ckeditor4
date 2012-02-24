@@ -161,16 +161,3 @@ CKEDITOR.TRISTATE_DISABLED = 0;
  * CKEDITOR.editorSkin = 'myskin,/customstuff/myskin/';
  */
 CKEDITOR.skinName = 'kama';
-
-/**
- * List of file names, with each one matches a browser agent string cited from
- * {@link CKEDITOR.env}, the corresponding skin part file will be loaded in addition
- * to the "main" skin file for a particular browser.
- *
- * <strong>Note:</strong> For each of the defined skin parts must have
- * the corresponding CSS file with the same name as UA inside of
- * the skin directory.
- *
- * @name CKEDITOR.skin.uaParts
- */
-CKEDITOR.skinUAParts = [ 'ie', 'ie6', 'ie7', 'ie8', 'gecko', 'opera', 'webkit' ];

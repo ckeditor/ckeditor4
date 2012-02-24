@@ -2,6 +2,8 @@
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */ ( function() {
+	var getSkinColors = CKEDITOR.skin.chameleon;
+
 	CKEDITOR.plugins.add( 'uicolor', {
 		requires: [ 'dialog' ],
 		lang: [ 'en', 'he' ],
@@ -34,9 +36,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					uiColorMenus.push( node );
 
 					var color = editor.getUiColor();
-					// Set uiColor for new menu.
+					// Set uiColor for new panel.
 					if ( color )
-						updateStylesheets( [ node ], uiColorMenuCss, [ [ uiColorRegexp, color ] ] );
+						updateStylesheets( [ node ], getSkinColors( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
 				}
 			});
 
@@ -54,100 +56,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		setUiColor: function( color ) {
-			var cssContent,
-				uiStyle = getStylesheet( CKEDITOR.document ),
-				cssId = '.' + this.id;
-
-			var cssSelectors = [
-				cssId + " .cke_inner",
-				cssId + "_dialog .cke_dialog_contents",
-				cssId + "_dialog a.cke_dialog_tab",
-				cssId + "_dialog .cke_dialog_footer"
-				].join( ',' );
-			var cssProperties = "background-color: $color !important;";
-
-			if ( CKEDITOR.env.webkit )
-				cssContent = [ [ cssSelectors, cssProperties ] ];
-			else
-				cssContent = cssSelectors + '{' + cssProperties + '}';
+			var uiStyle = getStylesheet( CKEDITOR.document );
 
 			return ( this.setUiColor = function( color ) {
 				var replace = [ [ uiColorRegexp, color ] ];
 				this.uiColor = color;
 
 				// Update general style.
-				updateStylesheets( [ uiStyle ], cssContent, replace );
+				updateStylesheets( [ uiStyle ], getSkinColors( this, 'editor' ), replace );
 
-				// Update menu styles.
-				updateStylesheets( uiColorMenus, uiColorMenuCss, replace );
-			})( color );
+				// Update panel styles.
+				updateStylesheets( uiColorMenus, getSkinColors( this, 'panel' ), replace );
+			}).call( this, color );
 		}
 	});
 
 	var uiColorStylesheetId = 'cke_ui_color',
 		uiColorMenus = [],
 		uiColorRegexp = /\$color/g;
-
-	var uiColorMenuCss = ".cke_menuitem .cke_icon_wrapper\
-	{\
-	background-color: $color !important;\
-	border-color: $color !important;\
-	}\
-	\
-	.cke_menuitem a:hover .cke_icon_wrapper,\
-	.cke_menuitem a:focus .cke_icon_wrapper,\
-	.cke_menuitem a:active .cke_icon_wrapper\
-	{\
-	background-color: $color !important;\
-	border-color: $color !important;\
-	}\
-	\
-	.cke_menuitem a:hover .cke_label,\
-	.cke_menuitem a:focus .cke_label,\
-	.cke_menuitem a:active .cke_label\
-	{\
-	background-color: $color !important;\
-	}\
-	\
-	.cke_menuitem a.cke_disabled:hover .cke_label,\
-	.cke_menuitem a.cke_disabled:focus .cke_label,\
-	.cke_menuitem a.cke_disabled:active .cke_label\
-	{\
-	background-color: transparent !important;\
-	}\
-	\
-	.cke_menuitem a.cke_disabled:hover .cke_icon_wrapper,\
-	.cke_menuitem a.cke_disabled:focus .cke_icon_wrapper,\
-	.cke_menuitem a.cke_disabled:active .cke_icon_wrapper\
-	{\
-	background-color: $color !important;\
-	border-color: $color !important;\
-	}\
-	\
-	.cke_menuitem a.cke_disabled .cke_icon_wrapper\
-	{\
-	background-color: $color !important;\
-	border-color: $color !important;\
-	}\
-	\
-	.cke_menuseparator\
-	{\
-	background-color: $color !important;\
-	}\
-	\
-	.cke_menuitem a:hover,\
-	.cke_menuitem a:focus,\
-	.cke_menuitem a:active\
-	{\
-	background-color: $color !important;\
-	}";
-
-	// We have to split CSS declarations for webkit.
-	if ( CKEDITOR.env.webkit ) {
-		uiColorMenuCss = uiColorMenuCss.split( '}' ).slice( 0, -1 );
-		for ( var i = 0; i < uiColorMenuCss.length; i++ )
-			uiColorMenuCss[ i ] = uiColorMenuCss[ i ].split( '{' );
-	}
 
 	function getStylesheet( document ) {
 		var node = document.getById( uiColorStylesheetId );
@@ -160,6 +86,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function updateStylesheets( styleNodes, styleContent, replace ) {
+		// We have to split CSS declarations for webkit.
+		if ( CKEDITOR.env.webkit ) {
+			styleContent = styleContent.split( '}' ).slice( 0, -1 );
+			for ( var i = 0; i < styleContent.length; i++ )
+				styleContent[ i ] = styleContent[ i ].split( '{' );
+		}
+
 		var r, i, content;
 		for ( var id = 0; id < styleNodes.length; id++ ) {
 			if ( CKEDITOR.env.webkit ) {
