@@ -34,6 +34,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *		* fire 'paste' on editable ('beforepaste' for IE)
  *		* !canceled && execCommand 'paste'
  *		* !success && fire 'pasteDialog' on editor
+ * -- Paste from native context menu & menubar
+ *		(Fx & Webkits are handled in 'paste' default listner.
+ *		Opera cannot be handled at all because it doesn't fire any events
+ *		Special treatment is needed for IE, for which is this part of doc)
+ *		* listen 'onpaste'
+ *		* cancel native event
+ *		* fire 'beforePaste' on editor
+ *		* !canceled && getClipboardData
+ *		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
+ *		* fire 'paste' on editor
+ *		* !canceled && fire 'afterPaste' on editor
  */
 
 /**
@@ -76,7 +87,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 	function initClipboard( editor ) {
-		var depressBeforeEvent = 0,
+		var preventBeforePasteEvent = 0,
+			preventPasteEvent = 0,
 			inReadOnly = 0,
 			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
 			// properly handles ctrl+c. Probably some race-condition between events.
@@ -155,37 +167,83 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
-			// user paste behaviors. (e.g. Ctrl-V)
+			// user paste behaviors (e.g. CTRL+V).
 			editable.on( mainPasteEvent, function( evt ) {
-				if ( depressBeforeEvent )
+				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
 					return;
 
-				// Default mode is 'html', but can be changed by beforePaste listeners.
-				var eventData = { mode: 'html' };
-				// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
-				if ( !editor.fire( 'beforePaste', eventData ) )
-					return; // Event canceled
+				// If you've just asked yourself why preventPasteEventNow() is not here, but
+				// in listener for CTRL+V and exec method of 'paste' command
+				// you've asked the same question we did.
+				//
+				// THE ANSWER:
+				//
+				// First thing to notice - this answer makes sense only for IE,
+				// because other browsers don't listen for 'paste' event.
+				//
+				// What would happen if we move preventPasteEventNow() here?
+				// For:
+				// * CTRL+V - IE fires 'beforepaste', so we prevent 'paste' and pasteDataFromClipboard(). OK.
+				// * editor.execCommand( 'paste' ) - we fire 'beforepaste', so we prevent
+				//		'paste' and pasteDataFromClipboard() and doc.execCommand( 'Paste' ). OK.
+				// * native context menu - IE fires 'beforepaste', so we prevent 'paste', but unfortunately
+				//		on IE we fail with pasteDataFromClipboard() here, because of... we don't know why, but
+				//		we just fail, so... we paste nothing. FAIL.
+				// * native menu bar - the same as for native context menu.
+				//
+				// But don't you know any way to distinguish first two cases from last two?
+				// Only one - special flag set in CTRL+V handler and exec method of 'paste'
+				// command. And that's what we did using preventPasteEventNow().
 
-				getClipboardData( evt, eventData.mode, function( data ) {
-					// The very last guard to make sure the paste has successfully happened.
-					if ( !( data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) ) ) )
-						return;
+				pasteDataFromClipboard( evt );
+			});
 
-					// Fire remaining events (without beforePaste)
-					firePasteEvents( eventData.mode, data );
-				});
+			// It's not possible to clearly handle all four paste methods (ctrl+v, native menu bar
+			// native context menu, editor's command) in one 'paste/beforepaste' event in IE.
+			//
+			// For ctrl+v & editor's command it's easy to handle pasting in 'beforepaste' listener,
+			// so we do this. For another two methods it's better to use 'paste' event.
+			//
+			// 'paste' is always being fired after 'beforepaste' (except of weird one on opening native
+			// context menu), so for two methods handled in 'beforepaste' we're canceling 'paste'
+			// using preventPasteEvent state.
+			//
+			// 'paste' event in IE is being fired before getClipboardData executes its callback.
+			//
+			// QUESTION: Why didn't you handle all 4 paste methods in handler for 'paste'?
+			//		Wouldn't this just be simpler?
+			// ANSWER: Then we would have to evt.data.preventDefault() only for native
+			//		context menu and menu bar pastes. The same with execIECommand().
+			//		That would force us to mark CTRL+V and editor's paste command with
+			//		special flag, other than preventPasteEvent. But we still would have to
+			//		have preventPasteEvent for the second event fired by execIECommand.
+			//		Code would be longer and not cleaner.
+			CKEDITOR.env.ie && editable.on( 'paste', function( evt ) {
+				if ( preventPasteEvent )
+					return;
+				// Cancel next 'paste' event fired by execIECommand( 'paste' )
+				// at the end of this callback.
+				preventPasteEventNow();
+
+				// Prevent native paste.
+				evt.data.preventDefault();
+
+				pasteDataFromClipboard( evt );
+
+				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
+				execIECommand( 'paste' );
 			});
 
 			// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
 			editable.on( 'contextmenu', function() {
-				depressBeforeEvent = 1;
+				preventBeforePasteEvent = 1;
 				setTimeout( function() {
-					depressBeforeEvent = 0;
+					preventBeforePasteEvent = 0;
 				}, 10 );
 			});
 
 			editable.on( 'beforecut', function() {
-				!depressBeforeEvent && fixCut( editor );
+				!preventBeforePasteEvent && fixCut( editor );
 			});
 
 			editable.on( 'mouseup', function() {
@@ -242,6 +300,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Prevent IE from pasting at the begining of the document.
 					editor.focus();
 
+					// Command will be handled by 'beforepaste', but as
+					// execIECommand( 'paste' ) will fire also 'paste' event
+					// we're canceling it.
+					preventPasteEventNow();
+
 					if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
 						editor.fire( 'pasteDialog' );
 						return false;
@@ -259,6 +322,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}
 			};
+		}
+
+		function preventPasteEventNow() {
+			preventPasteEvent = 1;
+			// For safety reason we should wait longer than 0/1ms.
+			// We don't know how long execution of quite complex getClipboardData will take
+			// and in for example 'paste' listner execCommand() (which fires 'paste') is called
+			// after getClipboardData finishes.
+			// Luckily, it's impossible to immediately fire another 'paste' event we want to handle,
+			// because we only handle there native context menu and menu bar.
+			setTimeout( function() {
+				preventPasteEvent = 0;
+			}, 100 );
 		}
 
 		/**
@@ -432,6 +508,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				case CKEDITOR.SHIFT + 45: // SHIFT+INS
 					var editable = editor.editable();
 
+					// Cancel 'paste' event because ctrl+v is for IE handled
+					// by 'beforepaste'.
+					preventPasteEventNow();
+
 					// Simulate 'beforepaste' event for all none-IEs.
 					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
 
@@ -449,6 +529,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.fire( 'saveSnapshot' ); // Save after cut
 					}, 0 );
 			}
+		}
+
+		function pasteDataFromClipboard( evt ) {
+			// Default mode is 'html', but can be changed by beforePaste listeners.
+			var eventData = { mode: 'html' };
+			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
+			if ( !editor.fire( 'beforePaste', eventData ) )
+				return; // Event canceled
+
+			getClipboardData( evt, eventData.mode, function( data ) {
+				// The very last guard to make sure the paste has successfully happened.
+				if ( !( data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) ) ) )
+					return;
+
+				// Fire remaining events (without beforePaste)
+				firePasteEvents( eventData.mode, data );
+			});
 		}
 
 		function setToolbarStates() {
@@ -473,12 +570,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
 				// guard to distinguish from the ordinary sources (either
 				// keyboard paste or execCommand) (#4874).
-				CKEDITOR.env.ie && ( depressBeforeEvent = 1 );
+				CKEDITOR.env.ie && ( preventBeforePasteEvent = 1 );
 				try {
 					// Always return true for Webkit (which always returns false)
 					retval = editor.document.$.queryCommandEnabled( command ) || CKEDITOR.env.webkit;
 				} catch ( er ) {}
-				depressBeforeEvent = 0;
+				preventBeforePasteEvent = 0;
 			}
 			// Cut, Copy - check if the selection is not empty
 			else {
