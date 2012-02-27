@@ -535,8 +535,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Default mode is 'html', but can be changed by beforePaste listeners.
 			var eventData = { mode: 'html' };
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
-			if ( !editor.fire( 'beforePaste', eventData ) )
-				return; // Event canceled
+			// If 'beforePaste' is canceled continue executing getClipboardData and then do nothing
+			// (do not fire 'paste', 'afterPaste' events). This way we can grab all - synthetically
+			// and natively pasted content and prevent its insertion into editor
+			// after canceling 'beforePaste' event.
+			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData );
 
 			getClipboardData( evt, eventData.mode, function( data ) {
 				// The very last guard to make sure the paste has successfully happened.
@@ -544,7 +547,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return;
 
 				// Fire remaining events (without beforePaste)
-				firePasteEvents( eventData.mode, data );
+				beforePasteNotCanceled && firePasteEvents( eventData.mode, data );
 			});
 		}
 
