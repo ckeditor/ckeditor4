@@ -195,9 +195,9 @@ if ( !window.CKEDITOR ) {
 					try {
 						// Cleanup functions for the document ready method
 						if ( document.addEventListener )
-							document.removeEventListener( "DOMContentLoaded", onReady, false );
+							document.removeEventListener( 'DOMContentLoaded', onReady, false );
 						else if ( document.attachEvent )
-							document.detachEvent( "onreadystatechange", onReady );
+							document.detachEvent( 'onreadystatechange', onReady );
 					} catch ( er ) {}
 
 					var i;
@@ -210,7 +210,7 @@ if ( !window.CKEDITOR ) {
 
 					// Catch cases where this is called after the
 					// browser event has already occurred.
-					if ( document.readyState === "complete" )
+					if ( document.readyState === 'complete' )
 						// Handle it asynchronously to allow scripts the opportunity to delay ready
 						setTimeout( onReady, 1 );
 
@@ -221,20 +221,20 @@ if ( !window.CKEDITOR ) {
 					// For IE>8, Firefox, Opera and Webkit.
 					if ( document.addEventListener ) {
 						// Use the handy event callback
-						document.addEventListener( "DOMContentLoaded", onReady, false );
+						document.addEventListener( 'DOMContentLoaded', onReady, false );
 
 						// A fallback to window.onload, that will always work
-						window.addEventListener( "load", onReady, false );
+						window.addEventListener( 'load', onReady, false );
 
 					}
 					// If old IE event model is used
 					else if ( document.attachEvent ) {
 						// ensure firing before onload,
 						// maybe late but safe also for iframes
-						document.attachEvent( "onreadystatechange", onReady );
+						document.attachEvent( 'onreadystatechange', onReady );
 
 						// A fallback to window.onload, that will always work
-						window.attachEvent( "onload", onReady );
+						window.attachEvent( 'onload', onReady );
 
 						// If IE and not a frame
 						// continually check to see if the document is ready
@@ -249,7 +249,7 @@ if ( !window.CKEDITOR ) {
 						if ( document.documentElement.doScroll && toplevel ) {
 							(function scrollCheck() {
 								try {
-									document.documentElement.doScroll( "left" );
+									document.documentElement.doScroll( 'left' );
 								} catch ( e ) {
 									setTimeout( scrollCheck, 1 );
 									return;
