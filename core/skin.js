@@ -20,7 +20,7 @@ CKEDITOR.skin = (function() {
 
 	var skinName = config[ 0 ],
 		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
-		props;
+		isLoaded;
 
 	function appendPath( fileNames ) {
 		for ( var n = 0; n < fileNames.length; n++ ) {
@@ -36,20 +36,26 @@ CKEDITOR.skin = (function() {
 			var parts = [ part ];
 
 			if ( part == 'editor' ) {
-				var uaParts = props.uaParts;
+				// TODO: Make it load properly once packaged.
 
-				// TODO: Load the combination in production mode.
-				for ( var i = 0, ua; i < uaParts.length; i++ ) {
-					ua = uaParts[ i ];
-					if ( /^ie\d+$/.exec( ua ) )
-						ua += 'Compat';
+				var uaParts = CKEDITOR.skin.uaParts;
+				if ( uaParts ) {
+					for ( var i = 0, ua; i < uaParts.length; i++ ) {
+						ua = uaParts[ i ];
 
-					if ( CKEDITOR.env[ ua ] )
-						parts.push( 'browser_' + uaParts[ i ] );
+						// We gonna accept ie6, ie7 and the such as part names,
+						// so we need to fix them to match CKEDITOR.env.
+						if ( /^ie\d+$/.exec( ua ) )
+							ua += 'Compat';
+
+						if ( CKEDITOR.env[ ua ] )
+							parts.push( 'browser_' + uaParts[ i ] );
+					}
 				}
 			}
 
 			appendPath( parts );
+
 			for ( var c = 0; c < parts.length; c++ )
 				CKEDITOR.document.appendStyleSheet( parts[ c ] + '.css' );
 
@@ -70,17 +76,6 @@ CKEDITOR.skin = (function() {
 		path: skinPath,
 
 		/**
-		 * Define the skin properties with the specified name.
-		 * @param {String} name
-		 * @param {Object} def
-		 */
-		addSkin: function( name, def ) {
-			// Bypass other skin definitions. (For production)
-			if ( name == skinName )
-				CKEDITOR.tools.extend( this, props = def );
-		},
-
-		/**
 		 * Load a skin part onto the page, do nothing if the part is already loaded.
 		 * <storng>Note:</strong> The "editor" part is always auto loaded upon instance creation,
 		 * thus this function is mainly used to <strong>lazy load</strong> other part of the skin
@@ -92,9 +87,14 @@ CKEDITOR.skin = (function() {
 		 * editor.skin.loadPart( "dialog" );
 		 */
 		loadPart: function( part ) {
-			!props ? CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
+			if ( !isLoaded ) {
+				isLoaded = 1;
+
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
+					loadCss( part );
+				});
+			} else
 				loadCss( part );
-			}) : loadCss( part );
 		},
 
 		/**
