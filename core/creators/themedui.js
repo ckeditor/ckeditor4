@@ -462,16 +462,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
-	function onload() {
-		// Replace all textareas with the default class name.
-		if ( CKEDITOR.replaceClass )
-			CKEDITOR.replaceAll( CKEDITOR.replaceClass );
-	}
-
-	if ( window.addEventListener )
-		window.addEventListener( 'load', onload, false );
-	else if ( window.attachEvent )
-		window.attachEvent( 'onload', onload );
+	// Replace all textareas with the default class name.
+	CKEDITOR.domReady( function() {
+		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass )
+	});
 })();
 
 /**

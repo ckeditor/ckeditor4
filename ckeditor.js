@@ -5,39 +5,102 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 // Compressed version of core/ckeditor_base.js. See original for instructions.
 /*jsl:ignore*/
-if ( !window.CKEDITOR )
-	window.CKEDITOR = function() {
-	var b = {
-		timestamp: "", version: "%VERSION%", revision: "%REV%", _: { pending: [] },
-		status: "unloaded", basePath: function() {
-			var a = window.CKEDITOR_BASEPATH || ""; if ( !a )
-				for ( var d = document.getElementsByTagName( "script" ), c = 0; c < d.length; c++ ) {
-				var e = d[ c ].src.match( /(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i );
-				if ( e ) {
-					a = e[ 1 ];
-					break
+if ( !window.CKEDITOR ) {
+	window.CKEDITOR = (function() {
+		var b = {
+			timestamp: "", version: "%VERSION%", revision: "%REV%", _: { pending: [] },
+			status: "unloaded", basePath: (function() {
+				var g = window.CKEDITOR_BASEPATH || "";
+				if ( !g ) {
+					var d = document.getElementsByTagName( "script" );
+					for ( var f = 0; f < d.length; f++ ) {
+						var e = d[ f ].src.match( /(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i );
+						if ( e ) {
+							g = e[ 1 ];
+							break
+						}
+					}
 				}
+				if ( g.indexOf( ":/" ) == -1 ) {
+					if ( g.indexOf( "/" ) === 0 ) {
+						g = location.href.match( /^.*?:\/\/[^\/]*/ )[ 0 ] + g
+					} else {
+						g = location.href.match( /^[^\?]*\/(?:)/ )[ 0 ] + g
+					}
+				}
+				if ( !g ) {
+					throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.'
+				}
+				return g
+			})(), getUrl: function( d ) {
+				if ( d.indexOf( ":/" ) == -1 && d.indexOf( "/" ) !== 0 ) {
+					d = this.basePath + d
+				}
+				if ( this.timestamp && d.charAt( d.length - 1 ) != "/" && !( /[&?]t=/ ).test( d ) ) {
+					d += ( d.indexOf( "?" ) >= 0 ? "&" : "?" ) + "t=" + this.timestamp
+				}
+				return d
+			},
+			domReady: (function() {
+				var d = [];
+
+				function e() {
+					try {
+						if ( document.addEventListener ) {
+							document.removeEventListener( "DOMContentLoaded", e, false )
+						} else {
+							if ( document.attachEvent ) {
+								document.detachEvent( "onreadystatechange", e )
+							}
+						}
+					} catch ( g ) {}
+					var f;
+					while ( f = d.shift() ) {
+						f()
+					}
+				}
+				return function( g ) {
+					d.push( g );
+					if ( document.readyState === "complete" ) {
+						setTimeout( e, 1 )
+					}
+					if ( d.length != 1 ) {
+						return
+					}
+					if ( document.addEventListener ) {
+						document.addEventListener( "DOMContentLoaded", e, false );
+						window.addEventListener( "load", e, false )
+					} else {
+						if ( document.attachEvent ) {
+							document.attachEvent( "onreadystatechange", e );
+							window.attachEvent( "onload", e );
+							var f = false;
+							try {
+								f = window.frameElement == null
+							} catch ( h ) {}
+							if ( document.documentElement.doScroll && f ) {
+								(function i() {
+									try {
+										document.documentElement.doScroll( "left" )
+									} catch ( j ) {
+										setTimeout( i, 1 );
+										return
+									}
+									e()
+								})()
+							}
+						}
+					}
+				}
+			})() }; var a = window.CKEDITOR_GETURL; if ( a ) {
+			var c = b.url;
+			b.url = function( d ) {
+				return a.call( b, d ) || c.call( b, d )
 			}
-			if ( a.indexOf( ":/" ) == -1 )
-				a = a.indexOf( "/" ) === 0 ? location.href.match( /^.*?:\/\/[^\/]*/ )[ 0 ] + a : location.href.match( /^[^\?]*\/(?:)/ )[ 0 ] + a;
-			if ( !a )
-				throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
-			return a
-		}(), getUrl: function( a ) {
-			if ( a.indexOf( ":/" ) == -1 && a.indexOf( "/" ) !== 0 )
-				a = this.basePath + a;
-			if ( this.timestamp && a.charAt( a.length - 1 ) != "/" && !/[&?]t=/.test( a ) )
-				a += ( a.indexOf( "?" ) >= 0 ? "&" : "?" ) + "t=" + this.timestamp;
-			return a
-		} },
-		f = window.CKEDITOR_GETURL; if ( f ) {
-		var g = b.url;
-		b.url = function( a ) {
-			return f.call( b, a ) || g.call( b, a )
 		}
-	}
-	return b
-}();
+		return b
+	})()
+};
 /*jsl:end*/
 
 if ( CKEDITOR.loader )

@@ -71,15 +71,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	function fireInlineAll() {
-		if ( !CKEDITOR.disableAutoInline )
-			CKEDITOR.inlineAll();
-	}
-
-	if ( document.readyState == 'complete' )
-		fireInlineAll();
-	else
-		CKEDITOR.document.getWindow().on( 'load', fireInlineAll );
+	CKEDITOR.domReady( function() {
+		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
+	});
 })();
 
 

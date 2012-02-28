@@ -183,7 +183,84 @@ if ( !window.CKEDITOR ) {
 					resource += ( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) + 't=' + this.timestamp;
 
 				return resource;
-			}
+			},
+
+			/**
+			 * DOM content ready - the jQuery version, credits to jQuery team.
+			 */
+			domReady: (function() {
+				var callbacks = [];
+
+				function onReady() {
+					try {
+						// Cleanup functions for the document ready method
+						if ( document.addEventListener )
+							document.removeEventListener( "DOMContentLoaded", onReady, false );
+						else if ( document.attachEvent )
+							document.detachEvent( "onreadystatechange", onReady );
+					} catch ( er ) {}
+
+					var i;
+					while ( i = callbacks.shift() )
+						i();
+				}
+
+				return function( fn ) {
+					callbacks.push( fn );
+
+					// Catch cases where this is called after the
+					// browser event has already occurred.
+					if ( document.readyState === "complete" )
+						// Handle it asynchronously to allow scripts the opportunity to delay ready
+						setTimeout( onReady, 1 );
+
+					// Run below once on demand only.
+					if ( callbacks.length != 1 )
+						return;
+
+					// For IE>8, Firefox, Opera and Webkit.
+					if ( document.addEventListener ) {
+						// Use the handy event callback
+						document.addEventListener( "DOMContentLoaded", onReady, false );
+
+						// A fallback to window.onload, that will always work
+						window.addEventListener( "load", onReady, false );
+
+					}
+					// If old IE event model is used
+					else if ( document.attachEvent ) {
+						// ensure firing before onload,
+						// maybe late but safe also for iframes
+						document.attachEvent( "onreadystatechange", onReady );
+
+						// A fallback to window.onload, that will always work
+						window.attachEvent( "onload", onReady );
+
+						// If IE and not a frame
+						// continually check to see if the document is ready
+						// use the trick by Diego Perini
+						// http://javascript.nwbox.com/IEContentLoaded/
+						var toplevel = false;
+
+						try {
+							toplevel = window.frameElement == null;
+						} catch ( e ) {}
+
+						if ( document.documentElement.doScroll && toplevel ) {
+							(function scrollCheck() {
+								try {
+									document.documentElement.doScroll( "left" );
+								} catch ( e ) {
+									setTimeout( scrollCheck, 1 );
+									return;
+								}
+								onReady();
+							})();
+						}
+					}
+				};
+
+			})()
 		};
 
 		// Make it possible to override the "url" function with a custom
