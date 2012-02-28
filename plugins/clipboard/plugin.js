@@ -374,6 +374,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return false; // Event canceled
 			}
 
+			// The very last guard to make sure the paste has successfully happened.
+			// Moved here from editable#paste event listener to unify editor.paste() and
+			// user paste behavior.
+			// This guard should be after firing 'beforePaste' because for native pasting
+			// 'beforePaste' is by default fired even for empty clipboard.
+			if ( !data )
+				return;
+
 			// Reuse eventData.mode because the default one could be changed by beforePaste listeners.
 			eventData[ eventData.mode ] = data;
 
@@ -544,9 +552,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData );
 
 			getClipboardData( evt, eventData.mode, function( data ) {
-				// The very last guard to make sure the paste has successfully happened.
-				if ( !( data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) ) ) )
-					return;
+				// Clean up.
+				// Content can be trimmed because pasting space produces '&nbsp;'.
+				data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) );
 
 				// Fire remaining events (without beforePaste)
 				beforePasteNotCanceled && firePasteEvents( eventData.mode, data );
