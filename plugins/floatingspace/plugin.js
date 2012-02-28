@@ -63,6 +63,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'blur', function() {
 				floatSpace.hide();
 			});
+
+			// Handle initial focus.
+			if ( editor.focusManager.hasFocus )
+				floatSpace.show();
 		}
 	}
 

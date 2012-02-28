@@ -361,6 +361,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
 				editor.keystrokeHandler.attach( this );
 
+				// Inherit the initial focus on editable element.
+				if ( this.equals( CKEDITOR.document.getActive() ) ) {
+					this.hasFocus = true;
+					editor.focusManager.focus();
+				}
+
 				this.attachListener( this, 'focus', function() {
 					this.hasFocus = true;
 					editor.focusManager.focus();
