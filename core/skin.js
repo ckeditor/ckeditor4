@@ -13,10 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @example
  */
 CKEDITOR.skin = (function() {
-	var config = CKEDITOR.skinName && CKEDITOR.skinName.split( ',' );
-
-	if ( !config )
-		throw '[CKEDITOR.skin] No skin configured at "CKEDITOR.skinName".';
+	var config = CKEDITOR.skinName.split( ',' );
 
 	var skinName = config[ 0 ],
 		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
