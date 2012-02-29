@@ -33,3 +33,9 @@ CKEDITOR.config.corePlugins is not any more available. Core plugins must be
 simply loaded after core.
 
 ---
+
+The following skin related properties have been deleted:
+
+	- CKEDITOR.editor::skinName => now CKEDITOR.skin.name
+	- CKEDITOR.editor::skinPath => now CKEDITOR.skin.getPath( 'editor' )
+	- CKEDITOR.editor::skinClass => deprecated
