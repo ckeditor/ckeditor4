@@ -68,7 +68,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		this.ui = new CKEDITOR.ui( this );
 
-
 		/**
 		 * Controls the focus state of this editor instance. This property
 		 * is rarely used for normal API operations. It is mainly
@@ -207,7 +206,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		loadLang( editor );
 	}
-
 
 	function loadLang( editor ) {
 		CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {
