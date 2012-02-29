@@ -71,9 +71,9 @@ CKEDITOR.plugins.add( 'menu', {
 });
 
 (function() {
-	var menuItemSource = '<span class="{itemCls} {alphaFixClass}">' +
+	var menuItemSource = '<span class="cke_menuitem {alphaFixClass}">' +
 		'<a id="{id}"' +
-		' class="{btnCls}__{name} {btnCls}_{state}" href="{href}"' +
+		' class="cke_button__{name} cke_button_{state}" href="{href}"' +
 		' title="{title}"' +
 		' tabindex="-1"' +
 		'_cke_focus=1' +
@@ -101,7 +101,7 @@ CKEDITOR.plugins.add( 'menu', {
 				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
-	menuItemSource += '<span class="{iconCls}_wrapper"><span class="{btnCls}_icon {btnCls}__{name}_icon"' +
+	menuItemSource += '<span class="{iconCls}_wrapper"><span class="cke_button_icon cke_button__{name}_icon"' +
 				' style="{iconStyle}"></span></span>' +
 				'<span class="cke_label">{arrowHtml}{label}</span>' +
 				'</a></span>';
@@ -417,8 +417,6 @@ CKEDITOR.plugins.add( 'menu', {
 				var params = {
 					id: id,
 					name: this.name,
-					itemCls: 'cke_menuitem',
-					btnCls: 'cke_button',
 					label: this.label,
 					state: stateName,
 					hasPopup: hasSubMenu ? 'true' : 'false',

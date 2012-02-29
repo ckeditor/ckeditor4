@@ -15,8 +15,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 	var template = '<span id="{id}"' +
 		' class="cke_combo cke_combo__{name}"' +
 		' role="presentation">' +
-			'<span id="{id}_label" class="{cmbCls}_label">{label}</span>' +
-			'<a class="{cmbCls}_button" hidefocus=true title="{title}" tabindex="-1"' +
+			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
+			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
 			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
@@ -189,7 +189,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				var params = {
 					id: id,
-					cmbCls: 'cke_combo',
 					name: this.name || this.command,
 					label: this.label,
 					title: this.title,
