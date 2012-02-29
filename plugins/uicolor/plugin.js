@@ -49,8 +49,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
-		uiColor: null,
-
 		getUiColor: function() {
 			return this.uiColor;
 		},
