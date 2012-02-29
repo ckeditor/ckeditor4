@@ -7,61 +7,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @fileOverview Defines the {@link CKEDITOR.skin} class, which is used to manage skin parts.
  */
 
-/**
- * The singleton that manages the loading of skin parts among all editor instances.
- * @class
- * @example
- */
-CKEDITOR.skin = (function() {
-	var config = CKEDITOR.skinName.split( ',' );
-
-	var skinName = config[ 0 ],
+(function() {
+	var config = CKEDITOR.skinName.split( ',' ),
+		skinName = config[ 0 ],
 		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
+		cssLoaded = {},
 		isLoaded;
 
-	function appendPath( fileNames ) {
-		for ( var n = 0; n < fileNames.length; n++ ) {
-			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] );
-		}
-	}
-
-	var cssLoaded = {};
-
-	function loadCss( part ) {
-		// Avoid reload.
-		if ( !cssLoaded[ part ] ) {
-			var parts = [ part ];
-
-			if ( part == 'editor' ) {
-				// TODO: Make it load properly once packaged.
-
-				var uaParts = CKEDITOR.skin.uaParts;
-				if ( uaParts ) {
-					for ( var i = 0, ua; i < uaParts.length; i++ ) {
-						ua = uaParts[ i ];
-
-						// We gonna accept ie6, ie7 and the such as part names,
-						// so we need to fix them to match CKEDITOR.env.
-						if ( /^ie\d+$/.exec( ua ) )
-							ua += 'Compat';
-
-						if ( CKEDITOR.env[ ua ] )
-							parts.push( 'browser_' + uaParts[ i ] );
-					}
-				}
-			}
-
-			appendPath( parts );
-
-			for ( var c = 0; c < parts.length; c++ )
-				CKEDITOR.document.appendStyleSheet( parts[ c ] + '.css' );
-
-			cssLoaded[ part ] = 1;
-		}
-	}
-
-	/** @lends CKEDITOR.skin */
-	return {
+	/**
+	 * Manages the loading of skin parts among all editor instances.
+	 */
+	CKEDITOR.skin = {
 		/**
 		 * The skin name.
 		 */
@@ -101,8 +57,46 @@ CKEDITOR.skin = (function() {
 		getPath: function( part ) {
 			return CKEDITOR.getUrl( skinPath + part + '.css' );
 		}
-
 	};
+
+	function loadCss( part ) {
+		// Avoid reload.
+		if ( !cssLoaded[ part ] ) {
+			var parts = [ part ];
+
+			if ( part == 'editor' ) {
+				// TODO: Make it load properly once packaged.
+
+				var uaParts = CKEDITOR.skin.uaParts;
+				if ( uaParts ) {
+					for ( var i = 0, ua; i < uaParts.length; i++ ) {
+						ua = uaParts[ i ];
+
+						// We gonna accept ie6, ie7 and the such as part names,
+						// so we need to fix them to match CKEDITOR.env.
+						if ( /^ie\d+$/.exec( ua ) )
+							ua += 'Compat';
+
+						if ( CKEDITOR.env[ ua ] )
+							parts.push( 'browser_' + uaParts[ i ] );
+					}
+				}
+			}
+
+			appendPath( parts );
+
+			for ( var c = 0; c < parts.length; c++ )
+				CKEDITOR.document.appendStyleSheet( parts[ c ] + '.css' );
+
+			cssLoaded[ part ] = 1;
+		}
+	}
+
+	function appendPath( fileNames ) {
+		for ( var n = 0; n < fileNames.length; n++ ) {
+			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] );
+		}
+	}
 })();
 
 /**
