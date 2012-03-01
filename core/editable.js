@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// The "focusin/focusout" events bubbled, e.g. If there are elements with layout
 					// they fire this event when clicking in to edit them but it must be ignored
 					// to allow edit their contents. (#4682)
-					fn = isNotBubbling( fn );
+					fn = CKEDITOR.tools.bind( isNotBubbling( fn ), this );
 					args[ 0 ] = name;
 					args[ 1 ] = fn;
 				}
