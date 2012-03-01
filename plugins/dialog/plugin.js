@@ -664,30 +664,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					height: height + 'px'
 				});
 
-				// Fix the size of the elements which have flexible lengths.
-				CKEDITOR.env.ie && !CKEDITOR.env.ie9Compat && CKEDITOR.tools.setTimeout( function() {
-					var innerDialog = this.parts.dialog.getChild( [ 0, 0, 0 ] ),
-						body = innerDialog.getChild( 0 ),
-						bodyWidth = body.getSize( 'width' );
-					height += body.getChild( 0 ).getSize( 'height' ) + 1;
-
-					// tc
-					var el = innerDialog.getChild( 2 );
-					el.setSize( 'width', bodyWidth );
-
-					// bc
-					el = innerDialog.getChild( 7 );
-					el.setSize( 'width', bodyWidth - 28 );
-
-					// ml
-					el = innerDialog.getChild( 4 );
-					el.setSize( 'height', height );
-
-					// mr
-					el = innerDialog.getChild( 5 );
-					el.setSize( 'height', height );
-				}, 100, this );
-
 				// Update dialog position when dimension get changed in RTL.
 				if ( this._.editor.lang.dir == 'rtl' && this._.position )
 					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
