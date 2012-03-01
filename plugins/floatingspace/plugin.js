@@ -147,6 +147,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'</div>' );
 
 		var vars = {
+			name: editor.name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			'z-index': editor.config.baseFloatZIndex - 1
