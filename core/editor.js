@@ -202,9 +202,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
-		CKEDITOR.skin.loadPart( 'editor' );
+		loadSkin( editor );
+	}
 
-		loadLang( editor );
+	function loadSkin( editor ) {
+		CKEDITOR.skin.loadPart( 'editor', function() {
+			loadLang( editor );
+		});
 	}
 
 	function loadLang( editor ) {

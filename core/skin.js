@@ -35,19 +35,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * which don't have to present until been requested.
 		 *
 		 * @param {String} part Name of skin part CSS file resides in the skin directory.
+		 * @param {Function} fn The provided callback function which is invoked after part is loaded.
 		 * @example
 		 * // Load the dialog part.
 		 * editor.skin.loadPart( "dialog" );
 		 */
-		loadPart: function( part ) {
+		loadPart: function( part, fn ) {
 			if ( !isLoaded ) {
 				isLoaded = 1;
 
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
-					loadCss( part );
+					loadCss( part, fn );
 				});
 			} else
-				loadCss( part );
+				loadCss( part, fn );
 		},
 
 		/**
@@ -59,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	function loadCss( part ) {
+	function loadCss( part, callback ) {
 		// Avoid reload.
 		if ( !cssLoaded[ part ] ) {
 			var parts = [ part ];
@@ -90,6 +91,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			cssLoaded[ part ] = 1;
 		}
+
+		// css loading should not be blocking.
+		callback && callback();
 	}
 
 	function appendPath( fileNames ) {
@@ -97,6 +101,99 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] );
 		}
 	}
+
+	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+		getUiColor: function() {
+			return this.uiColor;
+		},
+
+		setUiColor: function( color ) {
+			var uiStyle = getStylesheet( CKEDITOR.document );
+
+			return ( this.setUiColor = function( color ) {
+				var chameleon = CKEDITOR.skin.chameleon;
+
+				var replace = [ [ uiColorRegexp, color ] ];
+				this.uiColor = color;
+
+				// Update general style.
+				updateStylesheets( [ uiStyle ], chameleon( this, 'editor' ), replace );
+
+				// Update panel styles.
+				updateStylesheets( uiColorMenus, chameleon( this, 'panel' ), replace );
+			}).call( this, color );
+		}
+	});
+
+	var uiColorStylesheetId = 'cke_ui_color',
+		uiColorMenus = [],
+		uiColorRegexp = /\$color/g;
+
+	function getStylesheet( document ) {
+		var node = document.getById( uiColorStylesheetId );
+		if ( !node ) {
+			node = document.getHead().append( 'style' );
+			node.setAttribute( "id", uiColorStylesheetId );
+			node.setAttribute( "type", "text/css" );
+		}
+		return node;
+	}
+
+	function updateStylesheets( styleNodes, styleContent, replace ) {
+		// We have to split CSS declarations for webkit.
+		if ( CKEDITOR.env.webkit ) {
+			styleContent = styleContent.split( '}' ).slice( 0, -1 );
+			for ( var i = 0; i < styleContent.length; i++ )
+				styleContent[ i ] = styleContent[ i ].split( '{' );
+		}
+
+		var r, i, content;
+		for ( var id = 0; id < styleNodes.length; id++ ) {
+			if ( CKEDITOR.env.webkit ) {
+				for ( i = 0; i < styleContent.length; i++ ) {
+					content = styleContent[ i ][ 1 ];
+					for ( r = 0; r < replace.length; r++ )
+						content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
+
+					styleNodes[ id ].$.sheet.addRule( styleContent[ i ][ 0 ], content );
+				}
+			} else {
+				content = styleContent;
+				for ( r = 0; r < replace.length; r++ )
+					content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
+
+				if ( CKEDITOR.env.ie )
+					styleNodes[ id ].$.styleSheet.cssText += content;
+				else
+					styleNodes[ id ].$.innerHTML += content;
+			}
+		}
+	}
+
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
+		var editor = evt.editor;
+
+		editor.on( 'menuShow', function( event ) {
+			var panel = event.data[ 0 ];
+			var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
+
+			// Add stylesheet if missing.
+			if ( !iframe.getById( 'cke_ui_color' ) ) {
+				var node = getStylesheet( iframe );
+				uiColorMenus.push( node );
+
+				var color = editor.getUiColor();
+				// Set uiColor for new panel.
+				if ( color ) {
+					updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+				}
+			}
+		});
+
+		// Apply UI color if specified in config.
+		if ( editor.config.uiColor )
+			editor.setUiColor( editor.config.uiColor );
+	});
 })();
 
 /**
