@@ -150,8 +150,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			closeTitle: editor.lang.common.close
 		}));
 
-		element.addClass( 'hide_until_loaded' );
-
 		// TODO: Change this to getById(), so it'll support custom templates.
 		var body = element.getChild( [ 0, 0, 0, 0, 0 ] ),
 			title = body.getChild( 0 ),
