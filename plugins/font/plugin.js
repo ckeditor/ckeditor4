@@ -33,7 +33,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
-			className: 'cke_' + ( styleType == 'size' ? 'fontSize' : 'font' ),
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,

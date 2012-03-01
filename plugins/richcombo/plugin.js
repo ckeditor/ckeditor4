@@ -77,7 +77,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
 
-			panelDefinition.className = ( panelDefinition.className || '' ) + ' cke_combopanel';
+			panelDefinition.className = 'cke_combopanel';
 			panelDefinition.block = {
 				multiSelect: panelDefinition.multiSelect,
 				attributes: panelDefinition.attributes
@@ -213,13 +213,13 @@ CKEDITOR.plugins.add( 'richcombo', {
 				var panelDefinition = this._.panelDefinition,
 					panelBlockDefinition = this._.panelDefinition.block,
 					panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
+					namedPanelCls = 'cke_combopanel__' + this.name,
 					panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
 					list = panel.addListBlock( this.id, panelBlockDefinition ),
 					me = this;
 
 				panel.onShow = function() {
-					if ( me.className )
-						this.element.addClass( me.className + '_panel' );
+					this.element.addClass( namedPanelCls );
 
 					me.setState( CKEDITOR.TRISTATE_ON );
 
@@ -232,8 +232,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				panel.onHide = function( preventOnClose ) {
-					if ( me.className )
-						this.element.getFirst().removeClass( me.className + '_panel' );
+					this.element.removeClass( namedPanelCls );
 
 					me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 

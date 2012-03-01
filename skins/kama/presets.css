@@ -22,28 +22,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 /* "Styles" panel size */
-.cke_styles_panel
+.cke_combopanel__styles
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Format" panel size */
-.cke_format_panel
+.cke_combopanel__format
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Font" panel size */
-.cke_font_panel
+.cke_combopanel__font
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Font Size" panel size */
-.cke_fontSize_panel
+.cke_combopanel__fontsize
 {
 	height: 170px;
 }

@@ -43,7 +43,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
 				title: lang.panelTitle,
-				className: 'cke_styles',
 
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
