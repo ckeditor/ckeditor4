@@ -79,6 +79,39 @@ CKEDITOR.remove = function( editor ) {
 	delete CKEDITOR.instances[ editor.name ];
 };
 
+(function() {
+	var tpls = {};
+
+	/**
+	 * Add a named {@link CKEDITOR.template} instance to be reused among all editors,
+	 * it will returns the existed one if template with same name is already
+	 * defined, additionally fires the "template" event to allow template source customization.
+	 *
+	 * @param {String} name The name which identify one UI template.
+	 * @param {String} source The source string for constructing this template.
+	 * @return {CKEDITOR.template} The created template instance.
+	 */
+	CKEDITOR.addTemplate = function( name, source ) {
+		var tpl = tpls[ name ];
+		if ( tpl )
+			return tpl;
+
+		// Make it possible to customize the template through event.
+		var params = { name: name, source: source };
+		CKEDITOR.fire( 'template', params );
+
+		return ( tpls[ name ] = new CKEDITOR.template( params.source ) );
+	};
+
+	/**
+	 * Retrieve a defined template created with {@link CKEDITOR.addTemplate}.
+	 * @param {String} name The template name.
+	 */
+	CKEDITOR.getTemplate = function( name ) {
+		return tpls[ name ];
+	};
+})();
+
 /**
  * Perform global clean up to free as much memory as possible
  * when there are no instances left

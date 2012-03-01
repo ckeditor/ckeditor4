@@ -21,7 +21,7 @@ if ( !CKEDITOR.loader ) {
 		// Table of script names and their dependencies.
 		var scripts = {
 			'_bootstrap': [ 'config', 'creators/inline', 'creators/themedui', 'editable', 'ckeditor', 'plugins', 'scriptloader', 'style', 'tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin' ],
-			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'tools' ],
+			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'template', 'tools' ],
 			'ckeditor_base': [],
 			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
 			'command': [],
@@ -44,7 +44,7 @@ if ( !CKEDITOR.loader ) {
 			'dom/window': [ 'dom/domobject' ],
 			'dtd': [ 'tools' ],
 			'editable': [ 'editor', 'tools' ],
-			'editor': [ 'command', 'config', 'editor_basic', 'focusmanager', 'keystrokehandler', 'lang', 'plugins', 'template', 'tools', 'ui' ],
+			'editor': [ 'command', 'config', 'editor_basic', 'focusmanager', 'keystrokehandler', 'lang', 'plugins', 'tools', 'ui' ],
 			'editor_basic': [ 'event' ],
 			'env': [],
 			'event': [],
