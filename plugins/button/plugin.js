@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	var template = '<a id="{id}"' +
-		' class="{btnCls} {alphaFixClass} {btnCls}__{name} {btnCls}_{state}"' +
+		' class="cke_button {alphaFixClass} cke_button__{name} cke_button_{state}"' +
 		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
@@ -29,11 +29,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
-		'<span class="{btnCls}_icon {btnCls}__{name}_icon" style="{style}"';
+		'<span class="cke_button_icon cke_button__{name}_icon" style="{style}"';
 
 
 	template += '>&nbsp;</span>' +
-		'<span id="{id}_label" class="{btnCls}_label {btnCls}__{name}_label">{label}</span>' +
+		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label">{label}</span>' +
 		'{arrowHtml}' +
 		'</a>';
 
@@ -197,7 +197,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var params = {
 				id: id,
-				btnCls: 'cke_button',
 				name: this.name || this.command,
 				label: this.label,
 				state: stateName,
