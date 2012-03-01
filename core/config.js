@@ -309,4 +309,17 @@ CKEDITOR.config = {
  * config.useComputedState = false;
  */
 
+/**
+ * The base user interface color to be used by the editor. Not all skins are
+ * compatible with this setting.
+ * @name CKEDITOR.config.uiColor
+ * @type String
+ * @example
+ * // Using a color code.
+ * config.uiColor = '#AADC6E';
+ * @example
+ * // Using an HTML color name.
+ * config.uiColor = 'Gold';
+ */
+
 // PACKAGER_RENAME( CKEDITOR.config )
