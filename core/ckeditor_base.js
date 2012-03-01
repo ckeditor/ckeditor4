@@ -186,9 +186,14 @@ if ( !window.CKEDITOR ) {
 			},
 
 			/**
-			 * DOM content ready - the jQuery version, credits to jQuery team.
+			 * Specify a function to execute when the DOM is fully loaded.<br>
+			 * <br>
+			 * If called after the DOM has been initialized, the function passed in will
+			 * be executed immediately.
 			 */
 			domReady: (function() {
+				// Based on the original jQuery code.
+
 				var callbacks = [];
 
 				function onReady() {
