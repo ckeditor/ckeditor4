@@ -3,6 +3,9 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+// This is the only mandatory property to be defined in this file.
+CKEDITOR.skin.name = 'kama';
+
 CKEDITOR.skin.uaParts = [ 'ie', 'ie6', 'ie7', 'ie8', 'gecko', 'opera', 'webkit' ];
 
 CKEDITOR.skin.chameleon = function( editor, part ) {

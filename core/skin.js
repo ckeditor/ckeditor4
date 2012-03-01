@@ -11,18 +11,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var config = CKEDITOR.skinName.split( ',' ),
 		skinName = config[ 0 ],
 		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
-		cssLoaded = {},
-		isLoaded;
+		cssLoaded = {};
 
 	/**
 	 * Manages the loading of skin parts among all editor instances.
 	 */
 	CKEDITOR.skin = {
-		/**
-		 * The skin name.
-		 */
-		name: skinName,
-
 		/**
 		 * Root path of the skin directory.
 		 */
@@ -41,9 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * editor.skin.loadPart( "dialog" );
 		 */
 		loadPart: function( part, fn ) {
-			if ( !isLoaded ) {
-				isLoaded = 1;
-
+			if ( CKEDITOR.skin.name != skinName ) {
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
 					loadCss( part, fn );
 				});
