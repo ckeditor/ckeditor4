@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -8,7 +8,58 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<script type="text/javascript" src="../ckeditor.js"></script>
+	<script type="text/javascript">
 
+CKEDITOR.config.extraPlugins =
+	'about,' +
+	'basicstyles,' +
+	'bidi,' +
+	'blockquote,' +
+	'selectionmark,' +
+	'button,' +
+	'clipboard,' +
+	'contextmenu,' +
+	'colorbutton,' +
+	'colordialog,' +
+	'div,' +
+//	'elementspath,' +
+	'enterkey,' +
+	'entities,' +
+	'find,' +
+	'flash,' +
+	'floatingspace,' +
+	'font,' +
+	'format,' +
+	'forms,' +
+	'horizontalrule,' +
+	'image,' +
+	'iframe,' +
+	'indent,' +
+	'justify,' +
+	'link,' +
+	'list,' +
+//	'maximize,' +
+	'pagebreak,' +
+	'pastefromword,' +
+	'pastetext,' +
+//	'preview,' +
+//	'print,' +
+	'removeformat,' +
+	'scayt,' +
+	'toolbar,' +
+	'selectall,' +
+	'showblocks,' +
+	'showborders,' +
+	'smiley,' +
+	'specialchar,' +
+	'stylescombo,' +
+	'table,' +
+	'tabletools,' +
+	'templates,' +
+	'undo,' +
+	'wsc';
+
+	</script>
 	<link href="sample.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		/* CKEditor editables are automatically set with the "ckeditor-editable" class. */
@@ -23,14 +74,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			padding: 10px;
 			float: left;
 		}
-
-		#tools
-		{
-			width: 45%;
-			padding-left: 20px;
-			float: left;
-		}
-
+		
 		table, td, caption
 		{
 			border: 1px solid gray;
@@ -53,7 +97,7 @@ CKEDITOR.disableAutoInline = true;
 var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
 		<p>
 			Note that <code><em>editable</em></code> in the code above is the <code>id</code>
-			attribute of the <code>&lt;textarea&gt;</code> element to be replaced.</p>
+			attribute of the <code>&lt;div&gt;</code> element to attache to.</p>
 	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
@@ -139,21 +183,12 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
 	</div>
 	<script type="text/javascript">
 
+		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
 		var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 
 	</script>
-	<div id="tools">
-		<p>
-			<input type="button" value="Get Data" onclick="document.getElementById('output').value=editor.getData();" />
-			<input type="button" value="Set Data" onclick="editor.setData(document.getElementById('output').value);" />
-			<input type="button" value="Focus" onclick="editor.focus(	);" />
-		</p>
-		<p>
-			<textarea id="output" style="width: 100%; height: 450px;"></textarea>
-		</p>
-	</div>
 	<div id="footer">
 		<hr />
 		<p contenteditable="true">
