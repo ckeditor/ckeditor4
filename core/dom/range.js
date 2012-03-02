@@ -461,7 +461,7 @@ CKEDITOR.dom.range = function( document, root ) {
 
 			if ( serializable ) {
 				baseId = 'cke_bm_' + CKEDITOR.tools.getNextNumber();
-				startNode.setAttribute( 'id', baseId + 'S' );
+				startNode.setAttribute( 'id', baseId + ( collapsed ? 'C' : 'S' ) );
 			}
 
 			// If collapsed, the endNode will not be created.
@@ -489,7 +489,7 @@ CKEDITOR.dom.range = function( document, root ) {
 				this.moveToPosition( startNode, CKEDITOR.POSITION_AFTER_END );
 
 			return {
-				startNode: serializable ? baseId + 'S' : startNode,
+				startNode: serializable ? baseId + ( collapsed ? 'C' : 'S' ) : startNode,
 				endNode: serializable ? baseId + 'E' : endNode,
 				serializable: serializable,
 				collapsed: collapsed
