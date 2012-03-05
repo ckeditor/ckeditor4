@@ -20,8 +20,7 @@ CKEDITOR.ui = function( editor ) {
 	this._ = {
 		handlers: {},
 		items: {},
-		editor: editor,
-		elements: {}
+		editor: editor
 	};
 
 	return this;
@@ -100,7 +99,7 @@ CKEDITOR.ui.prototype = {
 	 * bottom.setStyle( 'display', 'none' );
 	 */
 	space: function( name ) {
-		return this._.elements[ name ] || ( this._.elements[ name ] = CKEDITOR.document.getById( this.spaceId( name ) ) );
+		return CKEDITOR.document.getById( this.spaceId( name ) );
 	},
 
 	/**
