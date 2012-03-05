@@ -20,6 +20,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var defaultHtmlBlockFilterRules = {
 			elements: {} };
+
+		// The Root fragment is to be considered for BR cleanup when outputting.
+		defaultHtmlBlockFilterRules.root = getBlockExtension( true, false );
+
 		for ( i in blockLikeTags )
 			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
 
@@ -27,7 +31,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.htmlDataProcessor.prototype = {
-		toHtml: function( data, fixForBody ) {
+		/**
+		 * Process the input (potentially malformed) HTML to a purified form which
+		 * is suitable to be used in the wysiwyg editable.
+		 * @param data The raw data
+		 * @param {String} [context] The tag name of a context element within which
+		 * the input is to be processed, default to be the editable element.
+		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
+		 */
+		toHtml: function( data, context, fixForBody ) {
+			// param position shift when context is not specified.
+			if ( typeof context != 'string' ) {
+				fixForBody = context;
+				context = '';
+			}
+
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 
@@ -55,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			data = protectPreFormatted( data );
 
 			var editable = this.editor.editable(),
-				fixBin = editable.getName(),
+				fixBin = context || editable.getName(),
 				isPre;
 
 			// Old IEs loose formats when load html into <pre>.
@@ -134,12 +152,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var protectedSourceMarker = '{cke_protected}';
 
 	// Return the last non-space child node of the block (#4344).
-	function lastNoneSpaceChild( block ) {
-		var lastIndex = block.children.length,
-			last = block.children[ lastIndex - 1 ];
-		while ( last && last.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( last.value ) )
+	function lastNormalChildIndex( block ) {
+		var lastIndex = block.children.length - 1,
+			last = block.children[ lastIndex ];
+
+		while ( last && ( last.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( last.value ) || last.type == CKEDITOR.NODE_ELEMENT && last.attributes[ 'data-cke-bookmark' ] ) )
 			last = block.children[ --lastIndex ];
-		return last;
+
+		return lastIndex;
 	}
 
 	function trimFillers( block, fromSource ) {
@@ -149,12 +169,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Also, any &nbsp; at the end of blocks are fillers, remove them as well.
 		// (#2886)
 		var children = block.children,
-			lastChild = lastNoneSpaceChild( block );
-		if ( lastChild ) {
-			if ( ( fromSource || !CKEDITOR.env.ie ) && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br' )
-				children.pop();
-			if ( lastChild.type == CKEDITOR.NODE_TEXT && tailNbspRegex.test( lastChild.value ) )
-				children.pop();
+			lastIndex = lastNormalChildIndex( block ),
+			last = children[ lastIndex ];
+
+		if ( last ) {
+			if ( ( fromSource || !CKEDITOR.env.ie ) && last.type == CKEDITOR.NODE_ELEMENT && last.name == 'br' )
+				children.splice( lastIndex, 1 );
+			else if ( last.type == CKEDITOR.NODE_TEXT && tailNbspRegex.test( last.value ) )
+				children.splice( lastIndex, 1 );
 		}
 	}
 
@@ -168,7 +190,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( fromSource && CKEDITOR.env.ie && ( document.documentMode > 7 || block.name in CKEDITOR.dtd.tr || block.name in CKEDITOR.dtd.$listItem ) )
 			return false;
 
-		var lastChild = lastNoneSpaceChild( block );
+		var lastIndex = lastNormalChildIndex( block ),
+			lastChild = block.children[ lastIndex ];
 
 		return !lastChild || lastChild && ( lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br'
 		// Some of the controls in form needs extension too,

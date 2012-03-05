@@ -49,11 +49,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 */
 			this.hasFocus = false;
 
-			// Handle editor's html/element/text insertion.
-			this.attachListener( editor, 'insertHtml', onInsert( this.insertHtml ), this, null, 20 );
-			this.attachListener( editor, 'insertElement', onInsert( this.insertElement ), this, null, 20 );
-			this.attachListener( editor, 'insertText', onInsert( this.insertText ), this, null, 20 );
-
 			// The bootstrapping logic.
 			this.setup();
 		},
@@ -112,152 +107,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @see CKEDITOR.editor.prototype.insertHtml
 			 */
 			insertHtml: function( data ) {
-				var editor = this.editor;
-
-				if ( editor.dataProcessor )
-					data = editor.dataProcessor.toHtml( data, false );
-
-				if ( !data )
-					return;
-
-				// HTML insertion only considers the first range.
-				var selection = editor.getSelection(),
-					range = selection.getRanges()[ 0 ];
-
-				if ( range.checkReadOnly() )
-					return;
-
-				// Opera: force block splitting when pasted content contains block. (#7801)
-				if ( CKEDITOR.env.opera ) {
-					var path = new CKEDITOR.dom.elementPath( range.startContainer );
-					if ( path.block ) {
-						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data ).children;
-						for ( var i = 0, count = nodes.length; i < count; i++ ) {
-							if ( nodes[ i ]._.isBlockLike ) {
-								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
-								range.insertNode( range.document.createText( '' ) );
-								range.select();
-								break;
-							}
-						}
-					}
-				}
-
-				if ( CKEDITOR.env.ie ) {
-					var selIsLocked = selection.isLocked;
-
-					if ( selIsLocked )
-						selection.unlock();
-
-					var $sel = selection.getNative();
-
-					// Delete control selections to avoid IE bugs on pasteHTML.
-					if ( $sel.type == 'Control' )
-						$sel.clear();
-					else if ( selection.getType() == CKEDITOR.SELECTION_TEXT ) {
-						// Due to IE bugs on handling contenteditable=false blocks
-						// (#6005), we need to make some checks and eventually
-						// delete the selection first.
-
-						range = selection.getRanges()[ 0 ];
-						var endContainer = range && range.endContainer;
-
-						if ( endContainer && endContainer.type == CKEDITOR.NODE_ELEMENT && endContainer.getAttribute( 'contenteditable' ) == 'false' && range.checkBoundaryOfElement( endContainer, CKEDITOR.END ) ) {
-							range.setEndAfter( range.endContainer );
-							range.deleteContents();
-						}
-					}
-
-					$sel.createRange().pasteHTML( data );
-
-					if ( selIsLocked )
-						editor.getSelection().lock();
-				} else
-					editor.document.$.execCommand( 'inserthtml', false, data );
-
-				// Webkit does not scroll to the cursor position after pasting (#5558)
-				if ( CKEDITOR.env.webkit ) {
-					selection = editor.getSelection();
-					selection.scrollIntoView();
-				}
+				insert( this, 'html', data );
 			},
 
 			/**
 			 * @see CKEDITOR.editor.prototype.insertText
 			 */
-			insertText: function( text ) {
-				var editor = this.editor,
-					selection = editor.getSelection(),
-					mode = selection.getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
-					isEnterBrMode = mode == CKEDITOR.ENTER_BR;
-
-				var html = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
-
-				// Convert leading and trailing whitespaces into &nbsp;
-				html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
-					if ( match.length == 1 ) // one space, preserve it
-					return '&nbsp;';
-					else if ( !offset ) // beginning of block
-					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-					else // end of block
-					return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
-				});
-
-				// Convert subsequent whitespaces into &nbsp;
-				html = html.replace( /[ \t]{2,}/g, function( match ) {
-					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-				});
-
-				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
-
-				// Two line-breaks create one paragraph.
-				if ( !isEnterBrMode ) {
-					html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
-						return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
-					});
-				}
-
-				// One <br> per line-break.
-				html = html.replace( /\n/g, '<br>' );
-
-				// Compensate padding <br> for non-IE.
-				if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
-					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
-						return CKEDITOR.tools.repeat( match, 2 );
-					});
-				}
-
-				// Inline styles have to be inherited in Firefox.
-				if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) {
-					var path = new CKEDITOR.dom.elementPath( selection.getStartElement() ),
-						context = [];
-
-					for ( var i = 0; i < path.elements.length; i++ ) {
-						var tag = path.elements[ i ].getName();
-						if ( tag in CKEDITOR.dtd.$inline )
-							context.unshift( path.elements[ i ].getOuterHtml().match( /^<.*?>/ ) );
-						else if ( tag in CKEDITOR.dtd.$block )
-							break;
-					}
-
-					// Reproduce the context  by preceding the pasted HTML with opening inline tags.
-					html = context.join( '' ) + html;
-				}
-
-				this.insertHtml( html );
+			insertText: function( text, dontEncodeHtml ) {
+				insert( this, 'text', dontEncodeHtml ? text : CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) ) );
 			},
 
 			/**
 			 * @see CKEDITOR.editor.prototype.insertElement
 			 */
 			insertElement: function( element ) {
+				// TODO this should be gone after refactoring insertElement.
+				// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
+				this.editor.focus();
+				this.editor.fire( 'saveSnapshot' );
+
 				var editor = this.editor,
 					selection = editor.getSelection(),
 					ranges = selection.getRanges(),
 					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ];
-
-				var selIsLocked = selection.isLocked;
+					isBlock = CKEDITOR.dtd.$block[ elementName ],
+					selIsLocked = selection.isLocked;
 
 				if ( selIsLocked )
 					selection.unlock();
@@ -321,6 +195,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				if ( selIsLocked )
 					editor.getSelection().lock();
+
+				// TODO this should be gone after refactoring insertElement.
+				// Save snaps after the whole execution completed.
+				// This's a workaround for make DOM modification's happened after
+				// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
+				// call.
+				setTimeout( function() {
+					editable.editor.fire( 'saveSnapshot' );
+				}, 0 );
 			},
 
 			/**
@@ -689,26 +572,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	// Common routine for all insertion.
-	function onInsert( insertFunc ) {
-		return function( evt ) {
-			// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
-			this.editor.focus();
-
-			this.editor.fire( 'saveSnapshot' );
-
-			insertFunc.call( this, evt.data );
-
-			// Save snaps after the whole execution completed.
-			// This's a workaround for make DOM modification's happened after
-			// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
-			// call.
-			CKEDITOR.tools.setTimeout( function() {
-				this.editor.fire( 'saveSnapshot' );
-			}, 0, this );
-		};
-	}
-
 	function isBlankParagraph( block ) {
 		return block.getOuterHtml().match( emptyParagraphRegexp );
 	}
@@ -774,5 +637,367 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		});
 
 	});
+
+
+	//
+	// Functions related to insertXXX methods
+	//
+	var insert = (function() {
+		'use strict';
+
+		/**
+		 * Inserts the given (valid) HTML into the range position (with range content deleted),
+		 * guarantee it's result to be a valid DOM tree.
+		 *
+		 * @param data The HTML to be inserted into this range.
+		 *
+		 * TODOs & Qs:
+		 * 		* #cked_paste_end not allowed in selection place or concatenated at the end of
+		 *			invalid html.
+		 *		* {cke_paste_marker} not allowed in selection place.
+		 * 		* Can we lost bookmarks while processing the data?
+		 */
+		function insert( editable, type, data ) {
+			'use strict';
+
+			beforeInsert( editable );
+
+			var editor = editable.editor,
+				doc = editable.document,
+				selection = editor.getSelection(),
+				// HTML insertion only considers the first range.
+				// Note: getRanges will be overwritten for tests since we want to test
+				// 		custom ranges and bypass native selections.
+				// TODO what should we do with others? Remove?
+				range = selection.getRanges()[ 0 ];
+
+			// Check range spans in non-editable.
+			if ( range.checkReadOnly() )
+				return;
+
+			// RANGE PREPARATIONS
+
+			var path = new CKEDITOR.dom.elementPath( range.startContainer, range.root ),
+				// Let root be the nearest block that's impossible to be splitted
+				// during html processing.
+				blockLimit = path.blockLimit || range.root,
+				affectedRange = new CKEDITOR.dom.range( doc ),
+				node;
+
+			prepareRangeToDataInsertion( type, range, affectedRange, blockLimit );
+
+			// DATA PROCESSING
+
+			// Select range and stop execution.
+			if ( !data ) {
+				//bookmark = range.createBookmark();
+				//mergeAdjacentInlineElements( range );
+				//range.moveToBookmark( bookmark );
+				return selection.selectRanges( [ range ] );
+			}
+
+			data = processDataForInsertion( editor, range, data, blockLimit );
+
+			// DATA INSERTION
+
+			insertDataIntoRange( range, data );
+
+			// FINAL CLEANUP
+			// Set final range position and clean up.
+
+			cleanupAfterInsertion( type, selection, range, affectedRange );
+
+			afterInsert( editable );
+		}
+
+		function beforeInsert( editable ) {
+			// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
+			editable.editor.focus();
+
+			editable.editor.fire( 'saveSnapshot' );
+		}
+
+		function afterInsert( editable ) {
+			// Save snaps after the whole execution completed.
+			// This's a workaround for make DOM modification's happened after
+			// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
+			// call.
+			setTimeout( function() {
+				editable.editor.fire( 'saveSnapshot' );
+			}, 0 );
+		}
+
+		// Range cannot starts/ends inside text node. Ends have to be elements.
+		// Will merge only nodes that are children of range ends containers.
+		// range.startContainer === range.endContainer
+		function mergeAdjacentInlineElements( range ) {
+			var doc = range.document,
+				node, previousNode, nextNode,
+				dtd = CKEDITOR.dtd;
+
+			// TODO remove
+			if ( !range.startContainer.equals( range.endContainer ) || range.startContainer.type != CKEDITOR.NODE_ELEMENT )
+				throw new Error( 'U do sth wrong! Papa don\'t like you any more!' );
+
+			//console.log( type, range.startContainer.$, range.startOffset, range.endOffset );
+			//console.log( type, CKTESTER.tools.getHtmlWithRanges( blockLimit, new CKEDITOR.dom.rangeList([ range ]) ) );
+			//return;
+
+			node = range.startContainer.getChild( range.startOffset );
+
+			// No nodes after range start ('aa[</b>cc').
+			if ( !node )
+				return;
+
+			// Skip bookmark.
+			if ( isBookmark( node ) )
+				node = node.getNext();
+
+			// Iterate to the end of range + one node further.
+			while ( node && node.getIndex() < range.endOffset + 1 ) {
+				// Find previous node (not bookmark).
+				previousNode = node.getPrevious();
+				if ( previousNode && isBookmark( previousNode ) )
+					previousNode = previousNode.getPrevious();
+
+				//console.log( type, node.$, previousNode && previousNode.$ );
+
+				// Get next node here, because merging will move node.
+				nextNode = getNext( node );
+
+				if ( previousNode && previousNode.type == CKEDITOR.NODE_ELEMENT && node.type == CKEDITOR.NODE_ELEMENT // both are elements
+				&& dtd.$inline[ previousNode.getName() ] // inline
+				&& !dtd.$empty[ previousNode.getName() ] // not-empty
+				&& previousNode.isIdentical( node ) ) // and are identical
+				{
+					merge( previousNode, node );
+				}
+
+				node = nextNode;
+			}
+
+			// Move nodeR contents into nodeL.
+			function merge( nodeL, nodeR ) {
+				// <b>a</b>[<b>c</b> -> <b>a[</b><b>c</b>
+				var prev = nodeR.getPrevious();
+				if ( prev && isBookmark( prev ) )
+					nodeL.append( prev );
+
+				nodeR.moveChildren( nodeL );
+				nodeR.remove();
+
+				// <b><u>a</u></b><b><u>c</u></b> was merged to: <b><u>a</u><u>c</u></b>
+				// so now merge with range: <b>[<u>a</u><u>c</u>]</b>
+				var range = new CKEDITOR.dom.range( doc );
+				range.selectNodeContents( nodeL );
+				mergeAdjacentInlineElements( range );
+			}
+
+			function isBookmark( node ) {
+				return !!( node.type == CKEDITOR.NODE_ELEMENT && node.data( 'cke-bookmark' ) );
+			}
+
+			function getNext( node ) {
+				var node = node.getNext();
+				return ( node && isBookmark( node ) ) ? node.getNext() : node;
+			}
+
+			function getPrevious( node ) {
+				var node = node.getPrevious();
+				return ( node && isBookmark( node ) ) ? node.getPrevious() : node;
+			}
+		}
+
+		// TODO for many reasons:
+		// * maybe we can use one of exsisting range method?
+		// * maybe we can use walkers?
+		// * maybe we should think of some white spaces?
+		// * maybe we should think of block elements?
+		function shrinkRange( range, end ) {
+			var node;
+
+			if ( end == 'left' || end == 'both' ) {
+				while ( !range.collapsed && range.startContainer.type == CKEDITOR.NODE_ELEMENT // If range starts in element
+				&& ( node = range.startContainer.getChild( range.startOffset ) ) // and just before ('aa[<b>')
+				&& node.type == CKEDITOR.NODE_ELEMENT // an element
+				&& !CKEDITOR.dtd.$empty[ node.getName() ] ) // which is not an empty one
+				{
+					range.setStart( node, 0 ); // move start point into this element.
+				}
+			}
+
+			// TODO probably not needed any more.
+			if ( end == 'right' || end == 'both' ) {
+				while ( !range.collapsed && range.endContainer.type == CKEDITOR.NODE_ELEMENT // If range ends in element
+				&& ( node = range.endContainer.getChild( range.endOffset - 1 ) ) // and just after ('</b>]aa')
+				&& node.type == CKEDITOR.NODE_ELEMENT // an element
+				&& !CKEDITOR.dtd.$empty[ node.getName() ] ) // which is not an empty one
+				{
+					range.setEnd( node, node.getChildCount() ); // move end point into this element.
+				}
+			}
+		}
+
+		// Prepare range to its data deletion.
+		// Delete its contents.
+		// Prepare it to insertion.
+		function prepareRangeToDataInsertion( type, range, affectedRange, blockLimit ) {
+			var marker, node, parentNode,
+				inlineNames = CKEDITOR.dtd.$inline;
+
+			// Optimize range so ends are not located in text nodes if it's possible.
+			range.optimize();
+
+			if ( type == 'text' ) {
+				// Shrink range.
+				shrinkRange( range, 'left' );
+
+				// TODO maybe we can try with bookmark?
+
+				// If range starts in element then insert a marker, so empty
+				// inline elements won't be removed while range.deleteContents
+				// and we will be able to return with range back inside to elements
+				// which boundaries where moved while deleting content.
+				// E.g. 'aa<b>[bb</b>]cc' -> (after deleting) 'aa<b><span/></b>cc'
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					marker = CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>' );
+					range.insertNode( marker );
+					range.setStartAfter( marker );
+				}
+			} else // type == 'html'
+			{
+				// TODO could this be replaced by enlarge()?
+
+				// Enlarge range if starts just after element opening tag ('aa<b>[aa' -> 'aa[<b>aa').
+				while ( range.startOffset == 0 // If offset is 0 then startContainer is
+				// an element (because range is optimized).
+				&& inlineNames[ range.startContainer.getName() ] // StartContainer is an inline element.
+				&& !range.startContainer.equals( blockLimit ) ) {
+					range.setStartBefore( range.startContainer );
+				}
+				// The same but for the end.
+				while ( range.endOffset == range.endContainer.getChildCount() && inlineNames[ range.endContainer.getName() ] && !range.endContainer.equals( blockLimit ) ) {
+					range.setEndAfter( range.endContainer );
+				}
+			}
+
+			// Delete contents of this range.
+			if ( !range.collapsed )
+				range.deleteContents();
+
+			if ( type == 'text' ) {
+				node = range.startContainer.getChild( range.startOffset - 1 );
+				if ( node )
+					affectedRange.setStartBefore( node ); // <b><br/>[<br/>^<br/></b>
+				else
+					affectedRange.setStart( range.startContainer, 0 ); // <b>[^<br/></b>
+			}
+
+			// If marker was created then move collapsed range into its place.
+			if ( marker ) {
+				range.setEndBefore( marker );
+				range.collapse();
+				marker.remove();
+			}
+
+			if ( type == 'html' ) {
+				// Split inline elements so HTML will be inserted with its own styles.
+
+				node = range.startContainer;
+				if ( inlineNames[ node.getName() ] && !node.equals( blockLimit ) ) {
+					// Find the oldest element that can be splitted.
+					while ( ( parentNode = node.getParent() ) && inlineNames[ parentNode.getName() ] // Split only inline elements.
+					&& !parentNode.equals( blockLimit ) )
+						node = parentNode;
+
+					range.splitElement( node );
+				}
+			}
+		}
+
+		function processDataForInsertion( editor, range, data, blockLimit ) {
+			// Mark both ends of inserted content.
+			var bmTpl = '<span id="cke_paste_%" data-cke-bookmark="1">\ufeff</span>';
+			data = bmTpl.replace( '%', 'S' ) + data + bmTpl.replace( '%', 'E' );
+
+			// Process the inserted html, in context of the insertion root.
+			var args = [ data, blockLimit.getName() ],
+				processor = editor.dataProcessor;
+			// Don't fix for body if insertion not directly into body.
+			// Otherwise let htmlDataProcessor decide.
+			range.startContainer.getName() != 'body' && args.push( false );
+
+			data = processor.toHtml.apply( processor, args );
+
+			return data;
+		}
+
+		function insertDataIntoRange( range, data ) {
+			// Insert processed data into the safest place in the world - body.
+			var dataWrapper = new CKEDITOR.dom.element( 'body' ),
+				node;
+
+			dataWrapper.setHtml( data );
+
+			// Move all nodes from data to range.
+			while ( node = dataWrapper.getLast() )
+				range.insertNode( node );
+		}
+
+		function cleanupAfterInsertion( type, selection, range, affectedRange ) {
+			var node, previousNode, walker;
+
+			if ( type == 'text' ) {
+				node = range.endContainer;
+				while ( !node.equals( affectedRange.startContainer ) )
+					node = node.getParent();
+
+				// TODO Improve this!
+				affectedRange.setEnd( node, node.getChildCount() );
+			}
+			mergeAdjacentInlineElements( type == 'text' ? affectedRange : range );
+
+			range.moveToBookmark({
+				startNode: 'cke_paste_S',
+				endNode: 'cke_paste_E',
+				serializable: 1
+			});
+
+			// Rule 3.
+			// Shrink range to the BEFOREEND of previous innermost editable node in source order.
+
+			// Rule 3. applies only when HTML is being pasted because only then inline
+			// elements like b, i, span are being inserted.
+			if ( type == 'html' ) {
+				// We can safely use walker because range is created from bookmark,
+				// so boundary text nodes are already splitted.
+				walker = new CKEDITOR.dom.walker( range );
+				walker.guard = function( node ) {
+					// Non-empty element.
+					return node.type == CKEDITOR.NODE_ELEMENT && !CKEDITOR.dtd.$empty[ node.getName() ];
+				};
+
+				// Reset and walk up to the first text node.
+				node = null;
+				while ( previousNode = walker.previous() )
+					node = previousNode;
+
+				// Check if found element (which ends with a text node)
+				// doesn't contain white-space at its end.
+				// If not - move range's end to the end of this element.
+				if ( node && !node.getHtml().match( /(\s|&nbsp;)$/g ) )
+					range.setEndAt( node, CKEDITOR.POSITION_BEFORE_END );
+			}
+
+			range.collapse();
+
+			// Move selection to proper place.
+			// Note: selectRanges method is overwritten in tests because it creates special text nodes \u200B
+			// 		what breaks assertions.
+			selection.selectRanges( [ range ] );
+		}
+
+		return insert;
+	})();
 
 })();

@@ -673,27 +673,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/**
 		 * Inserts HTML code into the currently selected position in the editor in WYSIWYG mode.
-		 * @param {String} data HTML code to be inserted into the editor.
+		 * @param {String} html HTML code to be inserted into the editor.
 		 * @example
 		 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 		 */
-		insertHtml: function( data ) {
-			this.fire( 'insertHtml', data );
+		insertHtml: function( html ) {
+			this.editable().insertHtml( html );
 		},
 
 		/**
 		 * Insert text content into the currently selected position in the
 		 * editor in WYSIWYG mode. The styles of the selected element will be applied to the inserted text.
 		 * Spaces around the text will be leaving untouched.
-		 * <strong>Note:</strong> two subsequent line-breaks will introduce one paragraph. This depends on <code>{@link CKEDITOR.config.enterMode}</code>;
-		 * A single line-break will be instead translated into one &lt;br /&gt;.
 		 * @since 3.5
 		 * @param {String} text Text to be inserted into the editor.
+		 * @param {Boolean} [dontEncodeHtml] Do not encode HTML in text to be inserted.
 		 * @example
 		 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 		 */
-		insertText: function( text ) {
-			this.fire( 'insertText', text );
+		insertText: function( text, dontEncodeHtml ) {
+			this.editable().insertText( text, dontEncodeHtml );
 		},
 
 		/**
@@ -706,7 +705,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * CKEDITOR.instances.editor1.<strong>insertElement( element )</strong>;
 		 */
 		insertElement: function( element ) {
-			this.fire( 'insertElement', element );
+			this.editable().insertElement( element );
 		},
 
 		/**
@@ -956,30 +955,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * and ready for interaction.
  * @name CKEDITOR.editor#instanceReady
  * @event
- */
-
-/**
- * Internal event to perform the <code>#insertHtml</code> call
- * @name CKEDITOR.editor#insertHtml
- * @event
- * @param {CKEDITOR.editor} editor This editor instance.
- * @param {String} data The HTML to insert.
- */
-
-/**
- * Internal event to perform the <code>#insertText</code> call
- * @name CKEDITOR.editor#insertText
- * @event
- * @param {CKEDITOR.editor} editor This editor instance.
- * @param {String} text The text to insert.
- */
-
-/**
- * Internal event to perform the <code>#insertElement</code> call
- * @name CKEDITOR.editor#insertElement
- * @event
- * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} element The element to insert.
  */
 
 /**
