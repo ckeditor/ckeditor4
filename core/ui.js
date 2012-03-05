@@ -107,7 +107,7 @@ CKEDITOR.ui.prototype = {
 	 * Generate the HTML ID from a specific UI space name.
 	 */
 	spaceId: function( name ) {
-		return [ 'cke', name, this._.editor.id.match( /\d+/ )[ 0 ] ].join( '_' );
+		return this._.editor.id + '_' + name;
 	}
 };
 
