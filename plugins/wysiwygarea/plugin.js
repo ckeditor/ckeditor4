@@ -207,19 +207,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		// ## END
+		if ( CKEDITOR.env.gecko ) {
+			this.attachListener( this, 'keydown', function( evt ) {
+				var keyCode = evt.data.getKeystroke();
 
-		// IE standard compliant in editing frame doesn't focus the editor when
-		// clicking outside actual content, manually apply the focus. (#1659)
-		if ( !editor.readOnly && (
-		( CKEDITOR.env.ie && doc.$.compatMode == 'CSS1Compat' ) || CKEDITOR.env.gecko || CKEDITOR.env.opera ) ) {
-			var htmlElement = doc.getDocumentElement();
-			this.attachListener( htmlElement, 'mousedown', function( evt ) {
-				// Setting focus directly on editor doesn't work, we
-				// have to use here a temporary element to 'redirect'
-				// the focus.
-				if ( evt.data.getTarget().equals( htmlElement ) ) {
-					editor.focus();
+				// PageUp OR PageDown
+				if ( keyCode == 33 || keyCode == 34 ) {
+					// Page up/down cause editor selection to leak
+					// outside of editable thus we try to intercept
+					// the behavior, while it affects only happen
+					// when editor contents are not overflowed. (#7955)
+					if ( editor.window.$.innerHeight > this.$.offsetHeight ) {
+						var range = new CKEDITOR.dom.range( doc );
+						range[ keyCode == 33 ? 'moveToElementEditStart' : 'moveToElementEditEnd' ]( this );
+						range.select();
+						evt.data.preventDefault();
+					}
 				}
 			});
 		}
