@@ -21,23 +21,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {
-		switch ( domNode.nodeType ) {
-			// Safari don't consider document as element node type. (#3389)
-			case CKEDITOR.NODE_DOCUMENT:
-				return new CKEDITOR.dom.document( domNode );
+		var constructor = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : 'domObject'; // Call the base constructor otherwise.
 
-			case CKEDITOR.NODE_ELEMENT:
-				return new CKEDITOR.dom.element( domNode );
-
-			case CKEDITOR.NODE_TEXT:
-				return new CKEDITOR.dom.text( domNode );
-
-			case CKEDITOR.NODE_COMMENT:
-				return new CKEDITOR.dom.comment( domNode );
-		}
-
-		// Call the base constructor.
-		CKEDITOR.dom.domObject.call( this, domNode );
+		return new CKEDITOR.dom[ constructor ]( domNode );
 	}
 
 	return this;
