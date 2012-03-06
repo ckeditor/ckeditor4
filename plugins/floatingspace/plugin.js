@@ -130,7 +130,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var floatSpace,
 			template = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
 			' id="' + editor.ui.spaceId( 'top' ) + '"' +
-			' class="cke cke_chrome cke_editor_{name}"' +
+			' class="cke cke_chrome cke_editor_{name} cke_float"' +
 			' dir="{langDir}"' +
 			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 			' lang="{langCode}"' +
