@@ -448,6 +448,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			this.fire( 'destroy' );
 
+			// Plug off all listeners to prevent any further events firing.
+			this.removeAllListeners();
+
 			CKEDITOR.remove( this );
 			CKEDITOR.fire( 'instanceDestroyed', null, this );
 		},
