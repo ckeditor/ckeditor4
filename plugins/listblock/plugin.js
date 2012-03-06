@@ -13,8 +13,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					' title="{title}"' +
 					' href="javascript:void(\'{val}\')" ' +
 					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // #188
-								' role="option"' +
-					' aria-posinset="{size}">' +
+								' role="option">' +
 					'{text}' +
 				'</a>' +
 				'</li>' ),
@@ -97,9 +96,7 @@ CKEDITOR.plugins.add( 'listblock', {
 						onclick: CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick',
 						clickFn: this._.getClick(),
 						title: title || value,
-						text: html || value,
-						size: ++this._.size
-
+						text: html || value
 					};
 
 					this._.pendingList.push( listItem.output( data ) );
@@ -118,11 +115,6 @@ CKEDITOR.plugins.add( 'listblock', {
 				commit: function() {
 					this._.close();
 					this.element.appendHtml( this._.pendingHtml.join( '' ) );
-
-					var items = this._.items,
-						doc = this.element.getDocument();
-					for ( var value in items )
-						doc.getById( items[ value ] + '_option' ).setAttribute( 'aria-setsize', this._.size );
 					delete this._.size;
 
 					this._.pendingHtml = [];
