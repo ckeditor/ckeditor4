@@ -781,7 +781,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this._.element.getFirst().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
 
 			// Maintain the dialog ordering and dialog cover.
-			// Also register key handlers if first dialog.
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
