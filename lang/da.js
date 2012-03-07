@@ -122,7 +122,7 @@ CKEDITOR.lang[ 'da' ] = {
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		cssLengthTooltip: 'Indsæt en numerisk værdi i pixel eller nummer med en gyldig CSS værdi (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ikke tilgængelig</span>'
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'da' ] = {
 		cssClasses: 'Typografiark',
 		charset: 'Tegnsæt',
 		styles: 'Typografi',
-		rel: 'Relationship', // MISSING
+		rel: 'Relation',
 		selectAnchor: 'Vælg et anker',
 		anchorName: 'Efter ankernavn',
 		anchorId: 'Efter element Id',
@@ -209,7 +209,7 @@ CKEDITOR.lang[ 'da' ] = {
 		bulletedTitle: 'Bulleted List Properties', // MISSING
 		type: 'Type',
 		start: 'Start',
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
+		validateStartNumber: 'Den nummererede liste skal starte med et rundt nummer',
 		circle: 'Cirkel',
 		disc: 'Disc', // MISSING
 		square: 'Firkant',
@@ -514,7 +514,7 @@ CKEDITOR.lang[ 'da' ] = {
 		confirmCleanup: 'Den tekst du forsøger at indsætte ser ud til at komme fra Word. Vil du rense teksten før den indsættes?',
 		toolbar: 'Indsæt fra Word',
 		title: 'Indsæt fra Word',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'Det var ikke muligt at fjerne formatteringen på den indsatte tekst grundet en intern fejl'
 	},
 
 	pasteText: {
@@ -558,8 +558,8 @@ CKEDITOR.lang[ 'da' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
+		title: 'Opret Div Container',
+		toolbar: 'Opret Div Container',
 		cssClassInputLabel: 'Typografiark',
 		styleSelectLabel: 'Style',
 		IdInputLabel: 'Id',
@@ -610,7 +610,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'000080': 'Navy',
 		'4B0082': 'Indigo',
 		'696969': 'Mørkegrå',
-		'B22222': 'Fire Brick', // MISSING
+		'B22222': 'Scarlet / Rød',
 		'A52A2A': 'Brun',
 		'DAA520': 'Guld',
 		'006400': 'Mørkegrøn',
@@ -629,15 +629,15 @@ CKEDITOR.lang[ 'da' ] = {
 		'FFA07A': 'Laksefarve',
 		'FFA500': 'Orange',
 		'FFFF00': 'Gul',
-		'00FF00': 'Lime', // MISSING
+		'00FF00': 'Lime',
 		'AFEEEE': 'Mat tyrkis',
 		'ADD8E6': 'Lyseblå',
-		'DDA0DD': 'Plum', // MISSING
+		'DDA0DD': 'Plum',
 		'D3D3D3': 'Lysegrå',
-		'FFF0F5': 'Lavender Blush', // MISSING
+		'FFF0F5': 'Lavender Blush',
 		'FAEBD7': 'Antikhvid',
 		'FFFFE0': 'Lysegul',
-		'F0FFF0': 'Honeydew', // MISSING
+		'F0FFF0': 'Gul / Beige',
 		'F0FFFF': 'Himmeblå',
 		'F0F8FF': 'Alice blue',
 		'E6E6FA': 'Lavendel',
@@ -681,7 +681,7 @@ CKEDITOR.lang[ 'da' ] = {
 	about: {
 		title: 'Om CKEditor',
 		dlgTitle: 'Om CKEditor',
-		help: 'Check $1 for help.', // MISSING
+		help: 'Se $1 for at få hjælp.',
 		userGuide: 'CKEditor brugermanual',
 		moreInfo: 'For informationer omkring licens, se venligst vores hjemmeside (på engelsk):',
 		copy: 'Copyright &copy; $1. Alle rettigheder forbeholdes.'

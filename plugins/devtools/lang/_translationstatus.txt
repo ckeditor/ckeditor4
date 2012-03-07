@@ -4,6 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 bg.js      Found: 5 Missing: 0
 cs.js      Found: 5 Missing: 0
 cy.js      Found: 5 Missing: 0
+da.js      Found: 5 Missing: 0
 de.js      Found: 5 Missing: 0
 el.js      Found: 5 Missing: 0
 eo.js      Found: 5 Missing: 0
