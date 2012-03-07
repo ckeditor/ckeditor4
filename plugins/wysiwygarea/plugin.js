@@ -84,29 +84,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Use correct cursor for these elements
 			editor.addCss( 'img, input, textarea { cursor: default;}' );
 
-			// Create an invisible element to grab focus.
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.ie || CKEDITOR.env.opera ) {
-				var focusGrabber;
-				editor.on( 'uiReady', function() {
-					focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
-					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
-					'<span tabindex="-1" style="position:absolute;" role="presentation"></span>' ) );
-
-					focusGrabber.on( 'focus', function() {
-						editor.focus();
-					});
-
-					editor.focusGrabber = focusGrabber;
-				});
-
-				editor.on( 'destroy', function() {
-					if ( focusGrabber ) {
-						focusGrabber.clearCustomData();
-						delete editor.focusGrabber;
-					}
-				});
-			}
-
 			editor.config.contentsLangDirection == 'ui' && ( editor.config.contentsLangDirection = editor.lang.dir );
 		}
 	});
