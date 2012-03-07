@@ -21,9 +21,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {
-		var constructor = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : 'domObject'; // Call the base constructor otherwise.
+		var type = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : 'domObject'; // Call the base constructor otherwise.
 
-		return new CKEDITOR.dom[ constructor ]( domNode );
+		return new CKEDITOR.dom[ type ]( domNode );
 	}
 
 	return this;
