@@ -453,12 +453,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				isPre = 1;
 			}
 
+			// Prevent execution of event handlers in the div (#8630)
+			var prefix = 'data-cke' + CKEDITOR.tools.getNextNumber() + '-';
+			data = data.replace( /(\s)(on)/ig, '$1' + prefix + '$2' );
+
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
 			var el = this.editor.document.createElement( fixBin );
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );
+
+			// Restore shortly protected attribute names.
+			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rnd + '-', 'ig' ), ' ' );
 
 			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
 
