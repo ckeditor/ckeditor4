@@ -346,9 +346,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function execIECommand( command ) {
 			var doc = editor.document,
 				body = doc.getBody(),
-				enabled = 0,
+				enabled = false,
 				onExec = function() {
-					enabled = 1;
+					enabled = true;
 				};
 
 			// The following seems to be the only reliable way to detect that
