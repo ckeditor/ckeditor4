@@ -16,7 +16,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iframe.setStyles({ width: '100%', height: '100%' } );
 				iframe.addClass( 'cke_wysiwyg_frame' );
 
-				editor.getUISpace( 'contents' ).append( iframe );
+				var contentSpace = editor.getUISpace( 'contents' );
+				contentSpace.append( iframe );
 
 				var src = 'document.open();' +
 					// The document domain must be set any time we
@@ -47,6 +48,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
 					allowTransparency: 'true'
 				});
+
+				// Webkit: iframe size doesn't auto fit well. (#7360)
+				if ( CKEDITOR.env.webkit ) {
+					var onResize = function() {
+							iframe.hide();
+							iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
+							iframe.show();
+						};
+
+					iframe.setCustomData( 'onResize', onResize );
+
+					CKEDITOR.document.getWindow().on( 'resize', onResize );
+				}
 
 				editor.fire( 'ariaWidget', iframe );
 			});
@@ -407,6 +421,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				doc.getDocumentElement().clearCustomData();
 				iframe.clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
+
+				var onResize = iframe.removeCustomData( 'onResize' );
+				if ( onResize )
+					win.removeListener( 'resize', onResize );
 
 				editor.fire( 'contentDomUnload' );
 
