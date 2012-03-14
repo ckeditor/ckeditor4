@@ -37,7 +37,8 @@ CKEDITOR.plugins.add( 'resize', {
 				if ( resizeVertical )
 					height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
 
-				editor.resize( width, height );
+				// DO NOT impose fixed size with single direction resize. (#6308)
+				editor.resize( resizeHorizontal ? width : null, height );
 			}
 
 			function dragEndHandler( evt ) {
