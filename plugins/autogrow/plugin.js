@@ -62,7 +62,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( 'autogrow', { exec:resizeEditor,modes:{wysiwyg:1 },
 				readOnly: 1, canUndo: false, editorFocus: false } );
 
-			var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1 };
+			var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1,mode:1 };
 			editor.config.autoGrow_onStartup && ( eventsList[ 'instanceReady' ] = 1 );
 			for ( var eventName in eventsList ) {
 				editor.on( eventName, function( evt ) {
