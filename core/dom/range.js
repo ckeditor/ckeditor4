@@ -355,8 +355,9 @@ CKEDITOR.dom.range = function( document, root ) {
 	// text node and non-empty elements unless it's being bookmark text.
 	function elementBoundaryEval( node ) {
 		// Reject any text node unless it's being bookmark
-		// OR it's spaces. (#3883)
-		return node.type != CKEDITOR.NODE_TEXT && node.getName() in CKEDITOR.dtd.$removeEmpty || !CKEDITOR.tools.trim( node.getText() ) || !!node.getParent().data( 'cke-bookmark' );
+		// OR it's spaces.
+		// Reject any element unless it's being invisible empty. (#3883)
+		return node.type == CKEDITOR.NODE_TEXT ? !CKEDITOR.tools.trim( node.getText() ) || !!node.getParent().data( 'cke-bookmark' ) : node.getName() in CKEDITOR.dtd.$removeEmpty;
 	}
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),

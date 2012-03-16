@@ -372,6 +372,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}
 			});
+
+			editor.on( 'key', function( evt ) {
+				// Backspace at the beginning of  list item should outdent it.
+				if ( editor.mode == 'wysiwyg' && evt.data.keyCode == 8 ) {
+					var sel = editor.getSelection(),
+						range = sel.getRanges()[ 0 ],
+						li;
+
+					if ( range.collapsed && ( li = range.startContainer.getAscendant( 'li', 1 ) ) && range.checkBoundaryOfElement( li, CKEDITOR.START ) ) {
+						editor.execCommand( 'outdent' );
+						evt.cancel();
+					}
+				}
+			});
 		},
 
 		requires: [ 'list' ]
