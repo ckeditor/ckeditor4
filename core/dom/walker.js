@@ -6,20 +6,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	// This function is to be called under a "walker" instance scope.
 	function iterate( rtl, breakOnFalse ) {
+		var range = this.range;
+
 		// Return null if we have reached the end.
 		if ( this._.end )
 			return null;
-
-		var node,
-			range = this.range,
-			startCt = range.startContainer,
-			endCt = range.endContainer,
-			startOffset = range.startOffset,
-			endOffset = range.endOffset,
-			guard,
-			userGuard = this.guard,
-			type = this.type,
-			getSourceNodeFn = ( rtl ? 'getPreviousSourceNode' : 'getNextSourceNode' );
 
 		// This is the first call. Initialize it.
 		if ( !this._.start ) {
@@ -30,7 +21,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.end();
 				return null;
 			}
+
+			// Move outside of text node edges.
+			range.optimize();
 		}
+
+		var node,
+			startCt = range.startContainer,
+			endCt = range.endContainer,
+			startOffset = range.startOffset,
+			endOffset = range.endOffset,
+			guard,
+			userGuard = this.guard,
+			type = this.type,
+			getSourceNodeFn = ( rtl ? 'getPreviousSourceNode' : 'getNextSourceNode' );
 
 		// Create the LTR guard function, if necessary.
 		if ( !rtl && !this._.guardLTR ) {
