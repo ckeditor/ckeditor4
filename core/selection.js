@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿
 /*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -185,15 +185,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}, null, null, -1 );
 
 				editable.attachListener( editable, 'blur', function() {
-					// Opera & IE < 8 will leave cursor blinking inside the editable even after
-					// it has blurred unless we clean up the selection. (#4716)
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 || CKEDITOR.env.opera ) {
-						// Try/Catch to avoid errors if the editor is hidden. (#6375)
-						try {
-							editor.getSelection().removeAllRanges();
-						} catch ( er ) {}
-					}
-
 					editor.lockSelection();
 					restoreSel = 1;
 				}, null, null, -1 );

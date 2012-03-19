@@ -218,6 +218,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 
+		if ( CKEDITOR.env.ie ) {
+			// [IE] Iframe will still keep the selection when blurred, if
+			// focus is moved onto a non-editing host, e.g. link or button, but
+			// it becomes a problem for the object type selection, since the resizer
+			// handler attached on it will mark other part of the UI, especially
+			// for the dialog. (#8157)
+			// [IE<8 & Opera] Even worse For old IEs, the cursor will not vanish even if
+			// the selection has been moved to another text input in some cases. (#4716)
+			//
+			// Now the range restore is disabled, so we simply force IE to clean
+			// up the selection before blur.
+			this.on( 'blur', function() {
+				// Error proof when the editor is not visible. (#6375)
+				try {
+					doc.$.selection.empty();
+				} catch ( er ) {}
+			});
+		}
+
+		// ## END
+
 		// Setting voice label as window title, backup the original one
 		// and restore it before running into use.
 		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
