@@ -2743,7 +2743,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		exec: function( editor ) {
 			// Special treatment for Opera. (#8031)
 			CKEDITOR.env.opera ? CKEDITOR.tools.setTimeout( function() {
-				editor.openDialog( this.dialogName )
+				editor.openDialog( this.dialogName );
 			}, 0, this ) : editor.openDialog( this.dialogName );
 		},
 

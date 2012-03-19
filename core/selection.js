@@ -1,4 +1,4 @@
-﻿﻿﻿﻿
+﻿﻿﻿﻿﻿
 /*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -1056,7 +1056,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					tags = { table:1,ul:1,ol:1,dl:1 };
 
 				for ( var t in tags ) {
-					if ( root = ancestor.getAscendant( t, 1 ) )
+					if ( ( root = ancestor.getAscendant( t, 1 ) ) )
 						break;
 				}
 

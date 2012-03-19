@@ -1246,7 +1246,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 				} catch ( er ) {}
 			}
 		}
-		while ( parent = parent.getParent() );
+		while ( ( parent = parent.getParent() ) );
 	},
 
 	/**
