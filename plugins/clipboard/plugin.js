@@ -231,7 +231,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				pasteDataFromClipboard( evt );
 
 				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-				execIECommand( 'paste' );
+				if ( !execIECommand( 'paste' ) )
+					editor.openDialog( 'paste' );
 			});
 
 			// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
