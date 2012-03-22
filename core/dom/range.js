@@ -1057,7 +1057,7 @@ CKEDITOR.dom.range = function( document, root ) {
 									sibling = null;
 
 								isWhiteSpace = /^[\s\ufeff]/.test( siblingText );
-							} else {
+							} else if ( sibling.type == CKEDITOR.NODE_ELEMENT ) {
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
 								// rendering the display:none nodes we use for bookmarks. (#3363)
@@ -1088,7 +1088,8 @@ CKEDITOR.dom.range = function( document, root ) {
 									} else
 										sibling = null;
 								}
-							}
+							} else
+								isWhiteSpace = 1;
 
 							if ( isWhiteSpace ) {
 								if ( needsWhiteSpace ) {
