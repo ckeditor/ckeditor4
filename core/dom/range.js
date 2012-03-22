@@ -938,7 +938,7 @@ CKEDITOR.dom.range = function( document, root ) {
 										if ( ( /[^\s\ufeff]/ ).test( siblingText ) ) // Spaces + Zero Width No-Break Space (U+FEFF)
 										sibling = null;
 										else {
-											var allChildren = sibling.$.all || sibling.$.getElementsByTagName( '*' );
+											var allChildren = sibling.$.getElementsByTagName( '*' );
 											for ( var i = 0, child; child = allChildren[ i++ ]; ) {
 												if ( !CKEDITOR.dtd.$removeEmpty[ child.nodeName.toLowerCase() ] ) {
 													sibling = null;
@@ -1074,7 +1074,7 @@ CKEDITOR.dom.range = function( document, root ) {
 										if ( ( /[^\s\ufeff]/ ).test( siblingText ) )
 											sibling = null;
 										else {
-											allChildren = sibling.$.all || sibling.$.getElementsByTagName( '*' );
+											allChildren = sibling.$.getElementsByTagName( '*' );
 											for ( i = 0; child = allChildren[ i++ ]; ) {
 												if ( !CKEDITOR.dtd.$removeEmpty[ child.nodeName.toLowerCase() ] ) {
 													sibling = null;
