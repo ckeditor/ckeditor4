@@ -355,6 +355,16 @@ CKEDITOR.htmlParser.fragment = function() {
 					return;
 			}
 
+			var currentName = currentNode.name,
+				currentDtd = currentName ? ( CKEDITOR.dtd[ currentName ] || ( currentNode._.isBlockLike ? CKEDITOR.dtd.div : CKEDITOR.dtd.span ) ) : rootDtd;
+
+			// Fix orphan text in list/table. (#8540)
+			if ( !currentDtd[ '#' ] && currentName in nonBreakingBlocks ) {
+				parser.onTagOpen( currentName in listBlocks ? 'li' : currentName == 'dl' ? 'dd' : currentName == 'table' ? 'tr' : currentName == 'tr' ? 'td' : '' );
+				parser.onText( text );
+				return;
+			}
+
 			sendPendingBRs();
 			checkPending();
 
