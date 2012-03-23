@@ -1,5 +1,4 @@
-﻿﻿﻿﻿﻿﻿
-/*
+﻿/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -686,7 +685,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							startIndex = 0,
 							endIndex = siblings.length - 1,
 							index = -1,
-							position, distance;
+							position, distance, container;
 
 						// Binary search over all element childs to test the range to see whether
 						// range is right on the boundary of one element.
@@ -732,7 +731,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( !distance ) {
 								child = siblings[ siblings.length - 1 ];
 
-								if ( child.nodeType == CKEDITOR.NODE_ELEMENT )
+								if ( child.nodeType != CKEDITOR.NODE_TEXT )
 									return { container: parent, offset: siblings.length };
 								else
 									return { container: child, offset: child.nodeValue.length };
@@ -740,10 +739,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							// Start the measuring until distance overflows, meanwhile count the text nodes.
 							var i = siblings.length;
-							while ( distance > 0 )
-								distance -= siblings[ --i ].nodeValue.length;
+							while ( distance > 0 && i > 0 ) {
+								sibling = siblings[ --i ];
+								if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
+									container = sibling;
+									distance -= sibling.nodeValue.length;
+								}
+							}
 
-							return { container: siblings[ i ], offset: -distance };
+							return { container: container, offset: -distance };
 						}
 						// Test range was one offset beyond OR behind the anchored text node.
 						else {
@@ -765,7 +769,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							while ( distance > 0 ) {
 								try {
 									sibling = child[ position > 0 ? 'previousSibling' : 'nextSibling' ];
-									distance -= sibling.nodeValue.length;
+									if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
+										distance -= sibling.nodeValue.length;
+										container = sibling;
+									}
 									child = sibling;
 								}
 								// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
@@ -774,7 +781,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								}
 							}
 
-							return { container: child, offset: position > 0 ? -distance : child.nodeValue.length + distance };
+							return { container: container, offset: position > 0 ? -distance : container.nodeValue.length + distance };
 						}
 					};
 
