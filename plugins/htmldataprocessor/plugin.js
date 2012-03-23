@@ -267,7 +267,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
 				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
-					return ' data-cke-saved-' + fullAttr + ' ' + fullAttr;
+					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rdn + '-' + fullAttr;
 
 				return fullAttr;
 			}) + '>';
@@ -453,10 +453,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				isPre = 1;
 			}
 
-			// Prevent execution of event handlers in the div (#8630)
-			var prefix = 'data-cke' + CKEDITOR.tools.getNextNumber() + '-';
-			data = data.replace( /(\s)(on)/ig, '$1' + prefix + '$2' );
-
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
 			var el = this.editor.document.createElement( fixBin );
@@ -465,7 +461,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			data = el.getHtml().substr( 1 );
 
 			// Restore shortly protected attribute names.
-			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rnd + '-', 'ig' ), ' ' );
+			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rdn + '-', 'ig' ), ' ' );
 
 			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
 

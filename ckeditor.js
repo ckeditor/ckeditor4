@@ -7,7 +7,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /*jsl:ignore*/
 window.CKEDITOR || ( window.CKEDITOR = function() {
 	var e = {
-		timestamp: "", version: "%VERSION%", revision: "%REV%", _: { pending: [] },
+		timestamp: "", version: "%VERSION%", revision: "%REV%", rdn: Math.floor( 900 * Math.random() ) + 100, _: { pending: [] },
 		status: "unloaded", basePath: function() {
 			var a = window.CKEDITOR_BASEPATH || ""; if ( !a )
 				for ( var c = document.getElementsByTagName( "script" ), b = 0; b < c.length; b++ ) {
