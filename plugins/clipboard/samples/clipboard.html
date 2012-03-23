@@ -129,8 +129,13 @@ body {
 				Editor 2:</label>
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is more &lt;strong class="MsoNormal"&gt;sample text&lt;/strong&gt;.&lt;/p&gt;</textarea>
 		</p>
+		<p>
+			<label for="editor3">
+				Editor 3:</label>
+			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting&lt;/strong&gt; in text mode by listening for "beforePaste" event.&lt;/p&gt;</textarea>
+		</p>
 		<div id="editable" contenteditable="true">
-			<h1>Header</h1>
+			<h1>Editor 4</h1>
 			<p>Content content content.</p>
 		</div>
 	</div>
@@ -148,7 +153,7 @@ body {
 			time = new Date().toString().match( /\d\d:\d\d:\d\d/ )[ 0 ],
 			format = function( tpl )
 			{
-				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' );
+				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' ); 
 			};
 
 		window.console && console.log( format( '[{time}] {title}: {msg}' ) );
@@ -166,19 +171,23 @@ body {
 
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste', event.data.mode + ' - ' + event.data[ event.data.mode ] );
+				log( p + 'paste(prior:-1)', event.data.type + ' - ' + event.data.data );
+			}, null, null, -1 );
+		editor.on( 'paste', function( event )
+			{
+				log( p + 'paste(prior:10)', event.data.type + ' - ' + event.data.data );
 			});
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:999)', event.data.mode + ' - ' + event.data[ event.data.mode ] );
+				log( p + 'paste(prior:999)', event.data.type + ' - ' + event.data.data );
 			}, null, null, 999 );
 		editor.on( 'beforePaste', function( event )
 			{
-				log( p + 'beforePaste', event.data.mode );
+				log( p + 'beforePaste', event.data.type );
 			});
 		editor.on( 'beforePaste', function( event )
 			{
-				log( p + 'beforePaste(prior:999)', event.data.mode );
+				log( p + 'beforePaste(prior:999)', event.data.type );
 			}, null, null, 999 );
 		editor.on( 'afterPaste', function( event )
 			{
@@ -199,14 +208,30 @@ body {
 	};
 
 	CKEDITOR.disableAutoInline = true;
-	var editor1 = CKEDITOR.replace( 'editor1' ),
-		editor2 = CKEDITOR.replace( 'editor2' ),
-		editor3 = CKEDITOR.inline( document.getElementById( 'editable' ) );
+	var config =
+		{
+			height : 100,
+			toolbar : 'Custom',
+			toolbar_Custom :
+			[
+				{ name: 'custom', items : [ 'Source','Bold','Italic','Underline','-','Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] }
+			]
+		},
+		editor1 = CKEDITOR.replace( 'editor1', config ),
+		editor2 = CKEDITOR.replace( 'editor2', config ),
+		editor3 = CKEDITOR.replace( 'editor3', config ),
+		editor4 = CKEDITOR.inline( document.getElementById( 'editable' ), config );
 
+	editor3.on( 'beforePaste', function( evt )
+		{
+			evt.data.type = 'text';
+		});
+	
 	observe( editor1, 1 );
 	observe( editor2, 2 );
 	observe( editor3, 3 );
-
+	observe( editor4, 4 );
+	
 })();
 	</script>
 </body>

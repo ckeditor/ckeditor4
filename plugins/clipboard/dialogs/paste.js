@@ -47,6 +47,13 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		editor.fire( 'ariaWidget', new CKEDITOR.dom.element( win.frameElement ) );
 	}
 
+	// If pasteDialogCommit wasn't canceled by e.g. editor.getClipboardData
+	// then fire paste event.
+	editor.on( 'pasteDialogCommit', function( evt ) {
+		if ( evt.data )
+			editor.fire( 'paste', { type: 'auto', data: evt.data } );
+	}, null, null, 1000 );
+
 	return {
 		title: lang.title,
 
@@ -58,6 +65,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			this.parts.dialog.$.offsetHeight;
 
 			this.setupContent();
+
+			// Set dialog title to the custom value (set e.g. in editor.openDialog callback) and reset this value.
+			// If custom title not set, use default one.
+			this.parts.title.setHtml( this.customTitle || lang.title );
+			this.customTitle = null;
 		},
 
 		onHide: function() {
@@ -176,8 +188,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					}
 				},
 				commit: function( data ) {
-					var container = this.getElement(),
-						editor = this.getDialog().getParentEditor(),
+					var editor = this.getDialog().getParentEditor(),
 						body = this.getInputElement().getFrameDocument().getBody(),
 						bogus = body.getBogus(),
 						html;
@@ -186,8 +197,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					// Saving the contents so changes until paste is complete will not take place (#7500)
 					html = body.getHtml();
 
+					// Opera needs some time to think about what has happened and what it should do now.
 					setTimeout( function() {
-						editor.fire( 'paste', { 'html': html } );
+						editor.fire( 'pasteDialogCommit', html );
 					}, 0 );
 				}
 			}
@@ -196,3 +208,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		]
 	};
 });
+
+/**
+ * Internal event to pass dialog's data to the listeners.
+ * @name CKEDITOR.editor#pasteDialogCommit
+ * @event
+ */
