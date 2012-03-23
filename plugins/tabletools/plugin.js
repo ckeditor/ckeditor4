@@ -423,19 +423,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return cell.is ? -1 : null;
 	}
 
-	function cellInCol( tableMap, colIndex, cell ) {
+	function cellInCol( tableMap, colIndex ) {
 		var oCol = [];
 		for ( var r = 0; r < tableMap.length; r++ ) {
 			var row = tableMap[ r ];
-			if ( typeof cell == 'undefined' )
-				oCol.push( row[ colIndex ] );
-			else if ( cell.is && row[ colIndex ] == cell.$ )
-				return r;
-			else if ( r == cell )
-				return new CKEDITOR.dom.element( row[ colIndex ] );
-		}
+			oCol.push( row[ colIndex ] );
 
-		return ( typeof cell == 'undefined' ) ? oCol : cell.is ? -1 : null;
+			// Avoid adding duplicate cells.
+			if ( row[ colIndex ].rowSpan > 1 )
+				r += row[ colIndex ].rowSpan - 1;
+		}
+		return oCol;
 	}
 
 	function mergeCells( selection, mergeDirection, isDetect ) {
