@@ -967,8 +967,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// Removes a style from an element itself, don't care about its subtree.
 	function removeFromElement( element ) {
 		var def = this._.definition,
-			attributes = CKEDITOR.tools.extend( {}, def.attributes, getOverrides( this )[ element.getName() ] ),
+			attributes = def.attributes,
 			styles = def.styles,
+			overrides = getOverrides( this )[ element.getName() ],
 			// If the style is only about the element itself, we have to remove the element.
 			removeEmpty = CKEDITOR.tools.isEmpty( attributes ) && CKEDITOR.tools.isEmpty( styles );
 
@@ -989,6 +990,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			removeEmpty = removeEmpty || !!element.getStyle( styleName );
 			element.removeStyle( styleName );
 		}
+
+		// Remove overrides, but don't remove the element if it's a block element
+		removeOverrides( element, overrides, blockElements[ element.getName() ] );
 
 		if ( removeEmpty ) {
 			!CKEDITOR.dtd.$block[ element.getName() ] || style._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
@@ -1024,8 +1028,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *  Note: Remove the element if no attributes remain.
 	 * @param {Object} element
 	 * @param {Object} overrides
+	 * @param {Boolean} Don't remove the element
 	 */
-	function removeOverrides( element, overrides ) {
+	function removeOverrides( element, overrides, dontRemove ) {
 		var attributes = overrides && overrides.attributes;
 
 		if ( attributes ) {
@@ -1048,7 +1053,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			}
 		}
 
-		removeNoAttribsElement( element );
+		if ( !dontRemove )
+			removeNoAttribsElement( element );
 	}
 
 	// If the element has no more attributes, remove it.
