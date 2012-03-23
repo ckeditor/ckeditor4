@@ -361,12 +361,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		restoreImage: function( image ) {
-			this.editor.loadSnapshot( image.contents );
+			// Bring editor focused to restore selection.
+			var editor = this.editor,
+				sel;
 
 			if ( image.bookmarks ) {
-				this.editor.focus();
-				this.editor.getSelection().selectBookmarks( image.bookmarks );
-			} else if ( CKEDITOR.env.ie ) {
+				editor.focus();
+				// Retrieve the selection beforehand. (#8324)
+				sel = editor.getSelection();
+			}
+
+			this.editor.loadSnapshot( image.contents );
+
+			if ( image.bookmarks )
+				sel.selectBookmarks( image.bookmarks );
+			else if ( CKEDITOR.env.ie ) {
 				// IE BUG: If I don't set the selection to *somewhere* after setting
 				// document contents, then IE would create an empty paragraph at the bottom
 				// the next time the document is modified.
