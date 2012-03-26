@@ -94,7 +94,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				currentIndex = baseIndex,
 				indentLevel = Math.max( listArray[ baseIndex ].indent, 0 ),
 				currentListItem = null,
-				orgDir,
+				orgDir, block,
 				paragraphName = ( paragraphMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			while ( 1 ) {
 				var item = listArray[ currentIndex ];
@@ -130,28 +130,44 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				} else if ( item.indent == -1 && !baseIndex && item.grandparent ) {
 					if ( listNodeNames[ item.grandparent.getName() ] )
 						currentListItem = item.element.clone( false, true );
-					else {
-						// Create completely new blocks here.
-						if ( dir || item.element.hasAttributes() || paragraphMode != CKEDITOR.ENTER_BR ) {
-							currentListItem = doc.createElement( paragraphName );
-							item.element.copyAttributes( currentListItem, { type:1,value:1 } );
+					else
+						currentListItem = new CKEDITOR.dom.documentFragment( doc );
 
-							// There might be a case where there are no attributes in the element after all
-							// (i.e. when "type" or "value" are the only attributes set). In this case, if enterMode = BR,
-							// the current item should be a fragment.
-							if ( !dir && paragraphMode == CKEDITOR.ENTER_BR && !currentListItem.hasAttributes() )
-								currentListItem = new CKEDITOR.dom.documentFragment( doc );
-						} else
-							currentListItem = new CKEDITOR.dom.documentFragment( doc );
+					// Migrate all children to the new container,
+					// apply the proper text direction.
+					var dirLoose = item.grandparent.getDirection( 1 ) != orgDir,
+						enterBr = paragraphMode == CKEDITOR.ENTER_BR,
+						li = item.element,
+						className = li.getAttribute( 'class' ),
+						style = li.getAttribute( 'style' );
+
+					for ( var i = 0, child, count = item.contents.length; i < count; i++ ) {
+						child = item.contents[ i ];
+
+						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
+							// Apply direction on content blocks.
+							if ( dirLoose && !child.getDirection() )
+								child.setAttribute( 'dir', orgDir );
+
+							// Merge into child styles.
+							style && child.setAttribute( 'style', style + child.getAttribute( 'style' ) || '' );
+							className && child.addClass( className );
+						} else if ( dirLoose || !enterBr || style || className ) {
+							// Establish new block to hold text direction and styles.
+							if ( !block ) {
+								block = doc.createElement( paragraphName );
+								dirLoose && block.setAttribute( 'dir', orgDir );
+							}
+
+							// Copy over styles to new block;
+							style && block.setAttribute( 'style', style );
+							className && block.setAttribute( 'class', className );
+
+							block.append( child.clone( 1, 1 ) );
+						}
+
+						currentListItem.append( block || child.clone( 1, 1 ) );
 					}
-
-					if ( currentListItem.type == CKEDITOR.NODE_ELEMENT ) {
-						if ( item.grandparent.getDirection( 1 ) != orgDir )
-							currentListItem.setAttribute( 'dir', orgDir );
-					}
-
-					for ( i = 0; i < item.contents.length; i++ )
-						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
 						var last = currentListItem.getLast();
@@ -164,16 +180,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					}
 
-					if ( currentListItem.type == CKEDITOR.NODE_ELEMENT && currentListItem.getName() == paragraphName && currentListItem.$.firstChild ) {
-						currentListItem.trim();
-						var firstChild = currentListItem.getFirst();
-						if ( firstChild.type == CKEDITOR.NODE_ELEMENT && firstChild.isBlockBoundary() ) {
-							var tmp = new CKEDITOR.dom.documentFragment( doc );
-							currentListItem.moveChildren( tmp );
-							currentListItem = tmp;
-						}
-					}
-
 					var currentListItemName = currentListItem.$.nodeName.toLowerCase();
 					if ( !CKEDITOR.env.ie && ( currentListItemName == 'div' || currentListItemName == 'p' ) )
 						currentListItem.appendBogus();
@@ -182,6 +188,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					currentIndex++;
 				} else
 					return null;
+
+				block = null;
 
 				if ( listArray.length <= currentIndex || Math.max( listArray[ currentIndex ].indent, 0 ) < indentLevel )
 					break;
