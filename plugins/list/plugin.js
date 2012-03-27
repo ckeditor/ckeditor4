@@ -150,9 +150,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								child.setAttribute( 'dir', orgDir );
 
 							// Merge into child styles.
-							style && child.setAttribute( 'style', style + child.getAttribute( 'style' ) || '' );
+							style && child.setAttribute( 'style', style.replace( /([^;])$/, '$1;' ) + ( child.getAttribute( 'style' ) || '' ) );
+
 							className && child.addClass( className );
-						} else if ( dirLoose || needsBlock || style || className ) {
+						} else if ( dirLoose || !enterBr || style || className ) {
 							// Establish new block to hold text direction and styles.
 							if ( !block ) {
 								block = doc.createElement( paragraphName );
