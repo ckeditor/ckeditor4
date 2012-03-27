@@ -57,10 +57,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			shy: '\u00AD', // IE
 			gt: '\u003E', // IE | FF |   --   | Opera
 			lt: '\u003C', // IE | FF | Safari | Opera
-			amp: '\u0026' // ALL
+			amp: '\u0026', // ALL
+			apos: '\u0027', // IE
+			quot: '\u0022' // IE
 		};
 
-		entities = entities.replace( /\b(nbsp|shy|gt|lt|amp)(?:,|$)/g, function( match, entity ) {
+		entities = entities.replace( /\b(nbsp|shy|gt|lt|amp|apos|quot)(?:,|$)/g, function( match, entity ) {
 			var org = reverse ? '&' + entity + ';' : specialTable[ entity ],
 				result = reverse ? specialTable[ entity ] : '&' + entity + ';';
 
