@@ -136,7 +136,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// Migrate all children to the new container,
 					// apply the proper text direction.
 					var dirLoose = item.grandparent.getDirection( 1 ) != orgDir,
-						enterBr = paragraphMode == CKEDITOR.ENTER_BR,
+						needsBlock = currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && paragraphMode != CKEDITOR.ENTER_BR,
 						li = item.element,
 						className = li.getAttribute( 'class' ),
 						style = li.getAttribute( 'style' );
@@ -152,7 +152,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Merge into child styles.
 							style && child.setAttribute( 'style', style + child.getAttribute( 'style' ) || '' );
 							className && child.addClass( className );
-						} else if ( dirLoose || !enterBr || style || className ) {
+						} else if ( dirLoose || needsBlock || style || className ) {
 							// Establish new block to hold text direction and styles.
 							if ( !block ) {
 								block = doc.createElement( paragraphName );
