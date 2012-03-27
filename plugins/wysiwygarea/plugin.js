@@ -89,6 +89,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.addCss( 'html { height: 100% !important; }' );
 				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
 			}
+			// Remove the margin to avoid mouse confusion. (#8835)
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 && editor.config.contentsLangDirection == 'ltr' )
+				editor.addCss( 'body{margin-right:0;}' );
 
 			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
 			To prevent this misbehavior, we show the scrollbar always */
