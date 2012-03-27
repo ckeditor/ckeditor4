@@ -47,7 +47,22 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		if ( this.editorFocus ) // Give editor focus if necessary (#4355).
 		editor.focus();
 
+		if ( this.fire( 'exec' ) === false )
+			return true;
+
 		return ( commandDefinition.exec.call( this, editor, data ) !== false );
+	};
+
+	/**
+	 * Explicitly update the status of the command, by firing the {@link CKEDITOR.command#event:refresh} event,
+	 * as well as invoke the {@link CKEDITOR.commandDefinition.prototype.refresh} method if defined, this method
+	 * is to allow different parts of the editor code to contribute in command status resolution.
+	 */
+	this.refresh = function() {
+		if ( this.fire( 'refresh' ) === false )
+			return true;
+
+		return ( commandDefinition.refresh && commandDefinition.refresh.apply( this, arguments ) !== false );
 	};
 
 	CKEDITOR.tools.extend( this, commandDefinition,
