@@ -7,7 +7,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	// Define some shorthands.
 	var $el = CKEDITOR.dom.element,
 		$doc = CKEDITOR.document,
-		$tools = CKEDITOR.tools,
 		lang = editor.lang.colordialog;
 
 	// Reference the dialog.
@@ -18,96 +17,143 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		html: '&nbsp;'
 	};
 
+	var selected;
+
 	function clearSelected() {
 		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
 		dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
+		selected && selected.removeAttribute( 'aria-selected' );
+		selected = null;
 	}
 
 	function updateSelected( evt ) {
-		if ( !( evt instanceof CKEDITOR.dom.event ) )
-			evt = new CKEDITOR.dom.event( evt );
-
-		var target = evt.getTarget(),
+		var target = evt.data.getTarget(),
 			color;
 
-		if ( target.getName() == 'a' && ( color = target.getChild( 0 ).getHtml() ) )
+		if ( target.getName() == 'td' && ( color = target.getChild( 0 ).getHtml() ) ) {
+			selected = target;
+			selected.setAttribute( 'aria-selected', true );
 			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( color );
+		}
 	}
 
-	function updateHighlight( event ) {
-		if ( !( event instanceof CKEDITOR.dom.event ) )
-			event = event.data;
+	// Basing black-white decision off of luma scheme using the Rec. 709 version
+	function whiteOrBlack( color ) {
+		color = color.replace( /^#/, '' );
+		for ( var i = 0, rgb = []; i <= 2; i++ )
+			rgb[ i ] = parseInt( color.substr( i * 2, 2 ), 16 );
+		var luma = ( 0.2126 * rgb[ 0 ] ) + ( 0.7152 * rgb[ 1 ] ) + ( 0.0722 * rgb[ 2 ] );
+		return '#' + ( luma >= 165 ? '000' : 'fff' );
+	}
 
-		var target = event.getTarget(),
+	// Distinguish focused and hover states.
+	var focused, hovered;
+
+	// Apply highlight style.
+	function updateHighlight( event ) {
+		// Convert to event.
+		!event.name && ( event = new CKEDITOR.event( event ) );
+
+		var isFocus = !/mouse/.test( event.name ),
+			target = event.data.getTarget(),
 			color;
 
-		if ( target.getName() == 'a' && ( color = target.getChild( 0 ).getHtml() ) ) {
+		if ( target.getName() == 'td' && ( color = target.getChild( 0 ).getHtml() ) ) {
+			removeHighlight( event );
+
+			isFocus ? focused = target : hovered = target;
+
+			// Apply outline style to show focus.
+			if ( isFocus ) {
+				target.setStyle( 'border-color', whiteOrBlack( color ) );
+				target.setStyle( 'border-style', 'dotted' );
+			}
+
 			$doc.getById( hicolorId ).setStyle( 'background-color', color );
 			$doc.getById( hicolorTextId ).setHtml( color );
 		}
 	}
 
-	function clearHighlight() {
-		$doc.getById( hicolorId ).removeStyle( 'background-color' );
-		$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
+	// Remove previously focused style.
+	function removeHighlight( event ) {
+		var isFocus = !/mouse/.test( event.name ),
+			target = isFocus && focused;
+
+		if ( target ) {
+			var color = target.getChild( 0 ).getHtml();
+			target.setStyle( 'border-color', color );
+			target.setStyle( 'border-style', 'solid' );
+		}
+
+		if ( !( focused || hovered ) ) {
+			$doc.getById( hicolorId ).removeStyle( 'background-color' );
+			$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
+		}
 	}
 
-	var onMouseout = $tools.addFunction( clearHighlight ),
-		onClick = updateSelected,
-		onClickHandler = CKEDITOR.tools.addFunction( onClick );
+	function onKeyStrokes( evt ) {
+		var domEvt = evt.data;
 
-	var onKeydownHandler = CKEDITOR.tools.addFunction( function( ev ) {
-		ev = new CKEDITOR.dom.event( ev );
-		var element = ev.getTarget();
+		var element = domEvt.getTarget();
 		var relative, nodeToMove;
-		var keystroke = ev.getKeystroke(),
+		var keystroke = domEvt.getKeystroke(),
 			rtl = editor.lang.dir == 'rtl';
+
+		// Initial focus is on table.
+		// always having the first cell highlighted on first arrow key-press.
+		if ( element.is( 'table' ) && ( keystroke < 41 && keystroke > 36 ) ) {
+			element = element.$.rows[ 0 ].cells[ 0 ];
+			element.focus();
+			domEvt.preventDefault();
+			return;
+		}
 
 		switch ( keystroke ) {
 			// UP-ARROW
 			case 38:
 				// relative is TR
-				if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
-					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+				if ( ( relative = element.getParent().getPrevious() ) ) {
+					nodeToMove = relative.getChild( [ element.getIndex() ] );
 					nodeToMove.focus();
 				}
-				ev.preventDefault();
+				domEvt.preventDefault();
 				break;
 				// DOWN-ARROW
 			case 40:
 				// relative is TR
-				if ( ( relative = element.getParent().getParent().getNext() ) ) {
-					nodeToMove = relative.getChild( [ element.getParent().getIndex(), 0 ] );
+				if ( ( relative = element.getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ element.getIndex() ] );
 					if ( nodeToMove && nodeToMove.type == 1 ) {
 						nodeToMove.focus();
 					}
 				}
-				ev.preventDefault();
+				domEvt.preventDefault();
 				break;
+
 				// SPACE
-				// ENTER is already handled as onClick
+				// ENTER
 			case 32:
-				onClick( ev );
-				ev.preventDefault();
+			case 13:
+				updateSelected( evt );
+				domEvt.preventDefault();
 				break;
 
 				// RIGHT-ARROW
 			case rtl ? 37:
 				39 :
 				// relative is TD
-				if ( ( relative = element.getParent().getNext() ) ) {
-					nodeToMove = relative.getChild( 0 );
+				if ( ( nodeToMove = element.getNext() ) ) {
 					if ( nodeToMove.type == 1 ) {
 						nodeToMove.focus();
-						ev.preventDefault( true );
+						domEvt.preventDefault( true );
 					}
 				}
 				// relative is TR
-				else if ( ( relative = element.getParent().getParent().getNext() ) ) {
-					nodeToMove = relative.getChild( [ 0, 0 ] );
+				else if ( ( relative = element.getParent().getNext() ) ) {
+					nodeToMove = relative.getChild( [ 0 ] );
 					if ( nodeToMove && nodeToMove.type == 1 ) {
 						nodeToMove.focus();
-						ev.preventDefault( true );
+						domEvt.preventDefault( true );
 					}
 				}
 				break;
@@ -116,36 +162,46 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			case rtl ? 39:
 				37 :
 				// relative is TD
-				if ( ( relative = element.getParent().getPrevious() ) ) {
-					nodeToMove = relative.getChild( 0 );
+				if ( ( nodeToMove = element.getPrevious() ) ) {
 					nodeToMove.focus();
-					ev.preventDefault( true );
+					domEvt.preventDefault( true );
 				}
 				// relative is TR
-				else if ( ( relative = element.getParent().getParent().getPrevious() ) ) {
-					nodeToMove = relative.getLast().getChild( 0 );
+				else if ( ( relative = element.getParent().getPrevious() ) ) {
+					nodeToMove = relative.getLast();
 					nodeToMove.focus();
-					ev.preventDefault( true );
+					domEvt.preventDefault( true );
 				}
 				break;
 			default:
 				// Do not stop not handled events.
 				return;
 		}
-	});
+	}
 
 	function createColorTable() {
+		table = CKEDITOR.dom.element.createFromHtml( '<table tabIndex="-1" aria-label="' + lang.options + '"' +
+							' role="grid" style="border-collapse:separate;" cellspacing="0">' +
+							'<caption class="cke_voice_label">' + lang.options + '</caption>' +
+							'<tbody role="presentation"></tbody></table>'
+						);
+
+		table.on( 'mouseover', updateHighlight );
+		table.on( 'mouseout', removeHighlight );
+		table.on( 'keydown', onKeyStrokes );
+
 		// Create the base colors array.
 		var aColors = [ '00', '33', '66', '99', 'cc', 'ff' ];
 
 		// This function combines two ranges of three values from the color array into a row.
 		function appendColorRow( rangeA, rangeB ) {
 			for ( var i = rangeA; i < rangeA + 3; i++ ) {
-				var row = table.$.insertRow( -1 );
+				var row = new $el( table.$.insertRow( -1 ) );
+				row.setAttribute( 'role', 'row' );
 
 				for ( var j = rangeB; j < rangeB + 3; j++ ) {
 					for ( var n = 0; n < 6; n++ ) {
-						appendColorCell( row, '#' + aColors[ j ] + aColors[ n ] + aColors[ i ] );
+						appendColorCell( row.$, '#' + aColors[ j ] + aColors[ n ] + aColors[ i ] );
 					}
 				}
 			}
@@ -155,19 +211,23 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		function appendColorCell( targetRow, color ) {
 			var cell = new $el( targetRow.insertCell( -1 ) );
 			cell.setAttribute( 'class', 'ColorCell' );
+			cell.setAttribute( 'tabIndex', -1 );
+			cell.setAttribute( 'role', 'gridcell' );
+
+			cell.on( 'keydown', onKeyStrokes );
+			cell.on( 'click', updateSelected );
+			cell.on( 'focus', updateHighlight );
+			cell.on( 'blur', removeHighlight );
+
 			cell.setStyle( 'background-color', color );
+			cell.setStyle( 'border', '1px solid ' + color );
 
-			cell.setStyle( 'width', '15px' );
-			cell.setStyle( 'height', '15px' );
+			cell.setStyle( 'width', '14px' );
+			cell.setStyle( 'height', '14px' );
 
-			var index = cell.$.cellIndex + 1 + 18 * targetRow.rowIndex;
-			cell.append( CKEDITOR.dom.element.createFromHtml( '<a href="javascript: void(0);" role="option"' +
-				' aria-posinset="' + index + '"' +
-				' aria-setsize="' + 13 * 18 + '"' +
-				' style="cursor: pointer;display:block;width:100%;height:100% " title="' + CKEDITOR.tools.htmlEncode( color ) + '"' +
-				' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydownHandler + ', event, this )"' +
-				' onclick="CKEDITOR.tools.callFunction(' + onClickHandler + ', event, this ); return false;"' +
-				' tabindex="-1"><span class="cke_voice_label">' + color + '</span>&nbsp;</a>', CKEDITOR.document ) );
+			var colorLabel = numbering( 'color_table_cell' );
+			cell.setAttribute( 'aria-labelledby', colorLabel );
+			cell.append( CKEDITOR.dom.element.createFromHtml( '<span id="' + colorLabel + '" class="cke_voice_label">' + color + '</span>', CKEDITOR.document ) );
 		}
 
 		appendColorRow( 0, 0 );
@@ -189,17 +249,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		}
 	}
 
-	var table = new $el( 'table' );
-	createColorTable();
-	var html = table.getHtml();
-
 	var numbering = function( id ) {
 			return CKEDITOR.tools.getNextId() + '_' + id;
 		},
 		hicolorId = numbering( 'hicolor' ),
 		hicolorTextId = numbering( 'hicolortext' ),
 		selHiColorId = numbering( 'selhicolor' ),
-		tableLabelId = numbering( 'color_table_label' );
+		table;
+
+	createColorTable();
 
 	return {
 		title: lang.title,
@@ -208,6 +266,9 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		onLoad: function() {
 			// Update reference.
 			dialog = this;
+		},
+		onHide: function() {
+			focused = selected = null;
 		},
 		contents: [
 			{
@@ -222,22 +283,14 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				children: [
 					{
 					type: 'html',
-					html: '<table role="listbox" aria-labelledby="' + tableLabelId + '" onmouseout="CKEDITOR.tools.callFunction( ' + onMouseout + ' );">' +
-																	( !CKEDITOR.env.webkit ? html : '' ) +
-																'</table><span id="' + tableLabelId + '" class="cke_voice_label">' + lang.options + '</span>',
+					html: '<div></div>',
 					onLoad: function() {
-						var table = CKEDITOR.document.getById( this.domId );
-						table.on( 'mouseover', updateHighlight );
-						CKEDITOR.event.useCapture = true;
-						table.on( 'focus', updateHighlight );
-						CKEDITOR.event.useCapture = false;
-
-						// In WebKit, the table content must be inserted after this event call (#6150)
-						CKEDITOR.env.webkit && table.setHtml( html );
+						CKEDITOR.document.getById( this.domId ).append( table );
 					},
 					focus: function() {
-						var firstColor = this.getElement().getElementsByTag( 'a' ).getItem( 0 );
-						firstColor.focus();
+						// Restore the previously focused cell,
+						// otherwise put the initial focus on table.
+						( focused || this.getElement().getFirst() ).focus();
 					}
 				},
 					spacer,
