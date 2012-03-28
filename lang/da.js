@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'da' ] = {
 	editorTitle: 'Rich Text Editor, %1, tryk ALT 0 for hjælp.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
+	toolbars: 'Editors værktøjslinjer',
 	editor: 'Rich Text Editor',
 
 	// Toolbar buttons without dialogs.
@@ -234,7 +234,7 @@ CKEDITOR.lang[ 'da' ] = {
 		findWhat: 'Søg efter:',
 		replaceWith: 'Erstat med:',
 		notFoundMsg: 'Søgeteksten blev ikke fundet',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Find muligheder',
 		matchCase: 'Forskel på store og små bogstaver',
 		matchWord: 'Kun hele ord',
 		matchCyclic: 'Match cyklisk',
@@ -483,7 +483,7 @@ CKEDITOR.lang[ 'da' ] = {
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
+		eleLabel: 'Sti på element',
 		eleTitle: '%1 element'
 	},
 
@@ -507,7 +507,7 @@ CKEDITOR.lang[ 'da' ] = {
 		copyError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at kopiere teksten (Ctrl/Cmd+C).',
 		pasteMsg: 'Indsæt i feltet herunder (<STRONG>Ctrl/Cmd+V</STRONG>) og klik på <STRONG>OK</STRONG>.',
 		securityMsg: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Du skal indsætte udklipsholderens indhold i dette vindue igen.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'Indsæt område'
 	},
 
 	pastefromword: {
@@ -606,7 +606,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'800000': 'Mørkerød',
 		'8B4513': 'Mørk orange',
 		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
+		'008080': 'Teal',
 		'000080': 'Navy',
 		'4B0082': 'Indigo',
 		'696969': 'Mørkegrå',

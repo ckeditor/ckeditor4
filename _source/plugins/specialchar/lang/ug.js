@@ -11,34 +11,34 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	rdquo: 'قوش پەش ئوڭ',
 	ndash: 'سىزىقچە',
 	mdash: 'سىزىق',
-	iexcl: 'Inverted exclamation mark', // MISSING
-	cent: 'Cent sign', // MISSING
-	pound: 'Pound sign', // MISSING
+	iexcl: 'ئۈندەش',
+	cent: 'تىيىن بەلگىسى',
+	pound: 'فوند ستېرلىڭ',
 	curren: 'پۇل بەلگىسى',
 	yen: 'ياپونىيە يىنى',
-	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
+	brvbar: 'ئۈزۈك بالداق',
+	sect: 'پاراگراف بەلگىسى',
+	uml: 'تاۋۇش ئايرىش بەلگىسى',
 	copy: 'نەشر ھوقۇقى بەلگىسى',
 	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
-	not: 'Not sign', // MISSING
+	laquo: 'قوش تىرناق سول',
+	not: 'غەيرى بەلگە',
 	reg: 'خەتلەتكەن تاۋار ماركىسى',
-	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
+	macr: 'سوزۇش بەلگىسى',
+	deg: 'گىرادۇس بەلگىسى',
+	sup2: 'يۇقىرى ئىندېكىس 2',
+	sup3: 'يۇقىرى ئىندېكىس 3',
+	acute: 'ئۇرغۇ بەلگىسى',
 	micro: 'Micro sign', // MISSING
-	para: 'Pilcrow sign', // MISSING
-	middot: 'Middle dot', // MISSING
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
+	para: 'ئابزاس بەلگىسى',
+	middot: 'ئوتتۇرا چېكىت',
+	cedil: 'ئاستىغا قوشۇلىدىغان بەلگە',
+	sup1: 'يۇقىرى ئىندېكىس 1',
 	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'Right-pointing double angle quotation mark', // MISSING
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
+	raquo: 'قوش تىرناق ئوڭ',
+	frac14: 'ئاددىي كەسىر تۆتتىن بىر',
+	frac12: 'ئاددىي كەسىر ئىككىدىن بىر',
+	frac34: 'ئاددىي كەسىر ئۈچتىن تۆرت',
 	iquest: 'Inverted question mark', // MISSING
 	Agrave: 'Latin capital letter A with grave accent', // MISSING
 	Aacute: 'Latin capital letter A with acute accent', // MISSING
@@ -89,7 +89,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	icirc: 'Latin small letter i with circumflex', // MISSING
 	iuml: 'Latin small letter i with diaeresis', // MISSING
 	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
+	ntilde: 'تىك موللاق سوئال بەلگىسى',
 	ograve: 'Latin small letter o with grave accent', // MISSING
 	oacute: 'Latin small letter o with acute accent', // MISSING
 	ocirc: 'Latin small letter o with circumflex', // MISSING
@@ -117,9 +117,9 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	trade: 'Trade mark sign', // MISSING
 	'9658': 'Black right-pointing pointer', // MISSING
 	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
+	rarr: 'ئوڭ يا ئوق',
+	rArr: 'ئوڭ قوش سىزىق يا ئوق',
+	hArr: 'ئوڭ سول قوش سىزىق يا ئوق',
+	diams: 'ئۇيۇل غىچ',
+	asymp: 'تەخمىنەن تەڭ'
 });
