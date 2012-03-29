@@ -452,14 +452,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			for ( var i = 0; i < cells.length; i++ )
 				this.commitContent( cells[ i ] );
 
+			this._.editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
-
-			// Force selectionChange event because of alignment style.
-			var firstElement = selection.getStartElement();
-			var currentPath = new CKEDITOR.dom.elementPath( firstElement );
-
-			this._.editor._.selectionPreviousPath = currentPath;
-			this._.editor.fire( 'selectionChange', { selection: selection, path: currentPath, element: firstElement } );
+			this._.editor.selectionChange();
 		}
 	};
 });

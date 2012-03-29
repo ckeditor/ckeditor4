@@ -7,10 +7,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var cellNodeRegex = /^(?:td|th)$/;
 
 	function getSelectedCells( selection ) {
-		// Walker will try to split text nodes, which will make the current selection
-		// invalid. So save bookmarks before doing anything.
-		var bookmarks = selection.createBookmarks();
-
 		var ranges = selection.getRanges();
 		var retval = [];
 		var database = {};
@@ -60,9 +56,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		CKEDITOR.dom.element.clearAllMarkers( database );
-
-		// Restore selection position.
-		selection.selectBookmarks( bookmarks );
 
 		return retval;
 	}
