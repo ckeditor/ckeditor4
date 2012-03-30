@@ -364,6 +364,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		};
 	};
 
+	CKEDITOR.dom.walker.bogus = function( type, isReject ) {
+		function nonEmpty( node ) {
+			return !isWhitespaces( node ) && !isBookmark( node );
+		}
+
+		return function( node ) {
+			var parent = node.getParent(),
+				isBogus = !CKEDITOR.env.ie ? node.is && node.is( 'br' ) : node.getText && tailNbspRegex.test( node.getText() );
+
+			isBogus = isBogus && parent.isBlockBoundary() && !!parent.getLast( nonEmpty );
+
+			return !!( isReject ^ isBogus );
+		};
+	};
+
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
 		isWhitespaces = CKEDITOR.dom.walker.whitespaces(),
 		isBookmark = CKEDITOR.dom.walker.bookmark(),
