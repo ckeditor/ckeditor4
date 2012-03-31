@@ -3,6 +3,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 cs.js      Found: 30 Missing: 0
 cy.js      Found: 30 Missing: 0
+da.js      Found: 3 Missing: 27
 de.js      Found: 30 Missing: 0
 el.js      Found: 23 Missing: 7
 eo.js      Found: 30 Missing: 0
@@ -13,7 +14,9 @@ gu.js      Found: 12 Missing: 18
 he.js      Found: 30 Missing: 0
 it.js      Found: 30 Missing: 0
 mk.js      Found: 5 Missing: 25
+nb.js      Found: 30 Missing: 0
 nl.js      Found: 30 Missing: 0
+no.js      Found: 30 Missing: 0
 tr.js      Found: 30 Missing: 0
 ug.js      Found: 27 Missing: 3
 vi.js      Found: 6 Missing: 24

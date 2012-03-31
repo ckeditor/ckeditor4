@@ -101,9 +101,9 @@ CKEDITOR.lang[ 'da' ] = {
 		options: 'Vis muligheder',
 		target: 'Mål',
 		targetNew: 'Nyt vindue (_blank)',
-		targetTop: 'Topmost Window (_top)', // MISSING
+		targetTop: 'Øverste Vindue (_top)',
 		targetSelf: 'Samme vindue (_self)',
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetParent: 'Samme vindue (_parent)',
 		langDirLTR: 'Venstre til højre (LTR)',
 		langDirRTL: 'Højre til venstre (RTL)',
 		styles: 'Style',
@@ -119,9 +119,9 @@ CKEDITOR.lang[ 'da' ] = {
 		alignBottom: 'Nederst',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		invalidCssLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px, %, in, cm, mm, em, ex, pt, eller pc).',
+		invalidHtmlLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px eller %).',
+		invalidInlineStyle: 'Værdien specificeret for inline style skal indeholde en eller flere elementer med et format som "name:value", separeret af semikoloner',
 		cssLengthTooltip: 'Indsæt en numerisk værdi i pixel eller nummer med en gyldig CSS værdi (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
@@ -129,7 +129,7 @@ CKEDITOR.lang[ 'da' ] = {
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Muligheder for hjælpemenu'
 	},
 
 	// Special char dialog.
@@ -206,24 +206,24 @@ CKEDITOR.lang[ 'da' ] = {
 	// List style dialog
 	list: {
 		numberedTitle: 'Egenskaber for nummereret liste',
-		bulletedTitle: 'Bulleted List Properties', // MISSING
+		bulletedTitle: 'Værdier for cirkelpunktopstilling',
 		type: 'Type',
 		start: 'Start',
 		validateStartNumber: 'Den nummererede liste skal starte med et rundt nummer',
 		circle: 'Cirkel',
-		disc: 'Disc', // MISSING
+		disc: 'Værdier for diskpunktopstilling',
 		square: 'Firkant',
 		none: 'Ingen',
 		notset: '<ikke defineret>',
 		armenian: 'Armensk nummering',
 		georgian: 'Georgiansk nummering (an, ban, gan, etc.)',
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
+		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
+		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
+		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
 		decimal: 'Decimal (1, 2, 3, osv.)',
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		decimalLeadingZero: 'Decimaler med 0 først (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -479,7 +479,7 @@ CKEDITOR.lang[ 'da' ] = {
 	smiley: {
 		toolbar: 'Smiley',
 		title: 'Vælg smiley',
-		options: 'Smiley Options' // MISSING
+		options: 'Smiley muligheder'
 	},
 
 	elementsPath: {
@@ -565,7 +565,7 @@ CKEDITOR.lang[ 'da' ] = {
 		IdInputLabel: 'Id',
 		languageCodeInputLabel: ' Sprogkode',
 		inlineStyleInputLabel: 'Inline Style',
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
+		advisoryTitleInputLabel: 'Vejledende titel',
 		langDirLabel: 'Sprogretning',
 		langDirLTRLabel: 'Venstre til højre (LTR)',
 		langDirRTLLabel: 'Højre til venstre (RTL)',
@@ -605,7 +605,7 @@ CKEDITOR.lang[ 'da' ] = {
 		'000': 'Sort',
 		'800000': 'Mørkerød',
 		'8B4513': 'Mørk orange',
-		'2F4F4F': 'Dark Slate Gray', // MISSING
+		'2F4F4F': 'Dark Slate Grå',
 		'008080': 'Teal',
 		'000080': 'Navy',
 		'4B0082': 'Indigo',
@@ -660,9 +660,9 @@ CKEDITOR.lang[ 'da' ] = {
 		emptyDic: 'Ordbogsnavn må ikke være tom.',
 
 		optionsTab: 'Indstillinger',
-		allCaps: 'Ignore All-Caps Words', // MISSING
+		allCaps: 'Ignorer alle store bogstaver',
 		ignoreDomainNames: 'Ignorér domænenavne',
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
+		mixedCase: 'Ignorer ord med store og små bogstaver',
 		mixedWithDigits: 'Ignorér ord med numre',
 
 		languagesTab: 'Sprog',
@@ -673,7 +673,7 @@ CKEDITOR.lang[ 'da' ] = {
 		dic_restore: 'Gendan',
 		dic_delete: 'Slet',
 		dic_rename: 'Omdøb',
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dic_info: 'Til start er brugerordbogen gemt i en Cookie. Dog har Cookies en begrænsning på størrelse. Når ordbogen når en bestemt størrelse kan den blive gemt på vores server. For at gemme din personlige ordbog på vores server skal du angive et navn for denne. Såfremt du allerede har gemt en ordbog, skriv navnet på denne og klik på Gendan knappen.',
 
 		aboutTab: 'Om'
 	},
@@ -716,7 +716,7 @@ CKEDITOR.lang[ 'da' ] = {
 		clipboard: 'Udklipsholder/Fortryd',
 		editing: 'Redigering',
 		forms: 'Formularer',
-		basicstyles: 'Basic Styles', // MISSING
+		basicstyles: 'Basis styles',
 		paragraph: 'Paragraf',
 		links: 'Links',
 		insert: 'Indsæt',

@@ -503,8 +503,8 @@ CKEDITOR.lang[ 'nb' ] = {
 
 	clipboard: {
 		title: 'Lim inn',
-		cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk klipping av tekst. Vennligst bruk snareveien (Ctrl/Cmd+X).',
-		copyError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk kopiering av tekst. Vennligst bruk snareveien (Ctrl/Cmd+C).',
+		cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk utklipping av tekst. Vennligst bruk snarveien (Ctrl/Cmd+X).',
+		copyError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk kopiering av tekst. Vennligst bruk snarveien (Ctrl/Cmd+C).',
 		pasteMsg: 'Vennligst lim inn i følgende boks med tastaturet (<STRONG>Ctrl/Cmd+V</STRONG>) og trykk <STRONG>OK</STRONG>.',
 		securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må derfor lime det inn på nytt i dette vinduet.',
 		pasteArea: 'Innlimingsområde'

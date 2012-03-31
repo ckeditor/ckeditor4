@@ -16,7 +16,9 @@ he.js      Found: 4 Missing: 0
 hr.js      Found: 4 Missing: 0
 it.js      Found: 4 Missing: 0
 mk.js      Found: 4 Missing: 0
+nb.js      Found: 4 Missing: 0
 nl.js      Found: 4 Missing: 0
+no.js      Found: 4 Missing: 0
 pl.js      Found: 4 Missing: 0
 tr.js      Found: 4 Missing: 0
 ug.js      Found: 4 Missing: 0
