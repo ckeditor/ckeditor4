@@ -20,4 +20,4 @@ no.js      Found: 30 Missing: 0
 tr.js      Found: 30 Missing: 0
 ug.js      Found: 27 Missing: 3
 vi.js      Found: 6 Missing: 24
-zh-cn.js   Found: 27 Missing: 3
+zh-cn.js   Found: 30 Missing: 0
