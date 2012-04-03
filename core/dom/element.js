@@ -1221,7 +1221,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * Make any page element visible inside of the browser viewport.
+	 * Make any page element visible inside the browser viewport.
 	 * @param {Boolean} [alignToTop]
 	 */
 	scrollIntoView: function( alignToTop ) {
@@ -1251,11 +1251,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
-	 * Make any page element visible inside one of the ancestor by scrolling the parent.
+	 * Make any page element visible inside one of the ancestors by scrolling the parent.
 	 * @param {CKEDITOR.dom.element|CKEDITOR.dom.window} parent The container to scroll into.
 	 * @param {Boolean} [alignToTop] Align the element's top side with the container's
-	 * when "true" is specified, align the bottom with viewport bottom when "false" is specified,
-	 * other wise scroll on either side with the minimum amount to show the element.
+	 * when <code>true</code> is specified; align the bottom with viewport bottom when
+	 * <code>false</code> is specified. Otherwise scroll on either side with the minimum
+	 * amount to show the element.
 	 * @param {Boolean} [hscroll] Whether horizontal overflow should be considered.
 	 */
 	scrollIntoParent: function( parent, alignToTop, hscroll ) {
