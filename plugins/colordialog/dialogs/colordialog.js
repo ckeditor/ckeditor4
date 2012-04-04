@@ -99,15 +99,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		var keystroke = domEvt.getKeystroke(),
 			rtl = editor.lang.dir == 'rtl';
 
-		// Initial focus is on table.
-		// always having the first cell highlighted on first arrow key-press.
-		if ( element.is( 'table' ) && ( keystroke < 41 && keystroke > 36 ) ) {
-			element = element.$.rows[ 0 ].cells[ 0 ];
-			element.focus();
-			domEvt.preventDefault();
-			return;
-		}
-
 		switch ( keystroke ) {
 			// UP-ARROW
 			case 38:
@@ -188,7 +179,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 		table.on( 'mouseover', updateHighlight );
 		table.on( 'mouseout', removeHighlight );
-		table.on( 'keydown', onKeyStrokes );
 
 		// Create the base colors array.
 		var aColors = [ '00', '33', '66', '99', 'cc', 'ff' ];
@@ -289,8 +279,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 					},
 					focus: function() {
 						// Restore the previously focused cell,
-						// otherwise put the initial focus on table.
-						( focused || this.getElement().getFirst() ).focus();
+						// otherwise put the initial focus on the first table cell.
+						( focused || this.getElement().getElementsByTag( 'td' ).getItem( 0 ) ).focus();
 					}
 				},
 					spacer,
