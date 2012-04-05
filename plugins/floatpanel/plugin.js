@@ -39,6 +39,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				element = panel.element,
 				iframe = element.getFirst();
 
+			// Disable native browser menu. (#4825)
+			element.disableContextMenu();
+
 			this.element = element;
 
 			this._ = {
