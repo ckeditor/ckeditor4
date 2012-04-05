@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Magicbox muddy trenches &ndash; CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<style>
+		body {
+			margin: 0;
+		}
+		#dev {
+			position: fixed;
+			right: 0px;
+			top: 0px;
+			bottom: 0px;
+			width: 350px;
+			padding: 30px;
+			background: #ddd;
+			font-size: 15px;
+		}
+		#dev .hl {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<h1 class="samples">
+		CKEditor Sample &mdash; magicbox muddy trenches
+	</h1>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">
+		<hr>
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<hr>
+		<hr>
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<table border="1">
+			<tbody><tr>
+				<td>
+					Table Cell 1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Table Cell 2<br>
+					Table Cell 2<br>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<table border="1" style="margin: 15px">
+			<tbody>
+			<tr>
+				<td>Table Cell 1</td>
+				<td>Table Cell 1</td>
+			</tr>
+			<tr>
+				<td>
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>Table Cell 1</td>
+							</tr>
+							<tr>
+								<td>Table Cell 2<br> Table Cell 2<br></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			</tbody>			
+		</table>
+		<table border="1" style="margin: 15px">
+			<tbody><tr>
+				<td>
+					Table Cell 1
+				</td>
+				<td>
+					Table Cell 1
+				</td>
+				<td>
+					Table Cell 1
+				</td>
+				<td>
+					Table Cell 1
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Table Cell 2
+				</td>
+			</tr>
+			</tbody>			
+		</table>	
+		<ul>
+			<li>List item</li>
+			<li>
+				<ul>
+					<li>Nested item</li>
+					<li>Nested item</li>
+					<li>Nested item</li>
+				</ul>
+			</li>
+			<li>List item</li>
+		</ul>		
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<div><strong>I'm a div. Let me stay here.</strong></div><dl>
+			<dt>Key</dt>
+			<dd>pendisse a pellentesque dui, non felis</dd>
+			<dt>Key</dt>
+			<dd>pendisse a pellentesque dui, non felis</dd>			
+		</dl>		
+	</textarea>
+	<div id="dev">
+		<h2>Debug &#9829</h2>
+		<p>
+			DOM list gather time: <span id="gather"></span>
+			<span style="float: right">Mouse Y-pos.: <span id="my"></span></span>
+		</p>
+		<hr>
+		<dl>
+			<dt>Closest trigger pair:</dt>
+			<dd>
+				<p>[<span id="p1"></span>, <span id="p2"></span>], mid: <span id="mi"></span>, zone: <span id="ga"></span></p>
+			</dd>
+		</dl>
+		<hr>
+		<dl>
+			<dt>Filtered dom elements:</dt>
+			<dd id="list"></dd>
+		</dl>		
+		<hr>
+		<dl>
+			<dt>Trigger pairs:</dt>
+			<dd id="pairs"></dd>
+		</dl>
+		<hr>
+		<p>Hidden state: <span id="hid"></span></p>		
+	</div>
+	<script>
+		( function()
+		{
+			'use strict';
+
+			CKEDITOR.config.extraPlugins =
+				'button,' +
+				'toolbar,' +
+				'horizontalrule,' +
+				'sourcearea,' +
+				'magicbox,' +
+				'wysiwygarea';
+
+			CKEDITOR.config.height = 600;
+			CKEDITOR.config.width = 800;
+
+			var ed = CKEDITOR.replace( 'editor1' );			
+		})();
+	</script>
+</body>
+</html>
