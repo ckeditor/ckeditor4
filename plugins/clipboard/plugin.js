@@ -487,7 +487,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Wait a while and grab the pasted contents
 			setTimeout( function() {
-				mode == 'text' && CKEDITOR.env.gecko && editor.focus();
+				// Restore properly the document focus. (#5684, #8849)
+				editable.focus();
 				editor.removeListener( 'selectionChange', cancel );
 
 				// Grab the HTML contents.
