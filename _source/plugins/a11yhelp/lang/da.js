@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			name: 'Generelt',
 			items: [
 				{
-				name: 'Editor Toolbar', // MISSING
+				name: 'Editor værktøjslinje',
 				legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 			},
 
@@ -41,16 +41,16 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			name: 'Kommandoer',
 			items: [
 				{
-				name: ' Undo command', // MISSING
+				name: 'Fortryd kommando',
 				legend: 'Klik på ${undo}'
 			},
 				{
-				name: ' Redo command', // MISSING
-				legend: 'Press ${redo}' // MISSING
+				name: 'Gentag kommando',
+				legend: 'Klik ${redo}'
 			},
 				{
 				name: ' Bold command', // MISSING
-				legend: 'Press ${bold}' // MISSING
+				legend: 'Klik ${bold}'
 			},
 				{
 				name: ' Italic command', // MISSING
@@ -58,11 +58,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			},
 				{
 				name: ' Underline command', // MISSING
-				legend: 'Press ${underline}' // MISSING
+				legend: 'Klik ${underline}'
 			},
 				{
 				name: ' Link command', // MISSING
-				legend: 'Press ${link}' // MISSING
+				legend: 'Klik ${link}'
 			},
 				{
 				name: ' Toolbar Collapse command', // MISSING
@@ -70,7 +70,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			},
 				{
 				name: ' Accessibility Help', // MISSING
-				legend: 'Press ${a11yHelp}' // MISSING
+				legend: 'Kilk ${a11yHelp}'
 			}
 			]
 		}
