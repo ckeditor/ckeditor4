@@ -235,13 +235,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.openDialog( 'paste' );
 			});
 
-			// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
-			editable.on( 'contextmenu', function() {
-				preventBeforePasteEvent = 1;
-				setTimeout( function() {
-					preventBeforePasteEvent = 0;
-				}, 10 );
-			});
+			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
+			if ( CKEDITOR.env.ie ) {
+				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
+
+				editable.on( 'beforepaste', function( evt ) {
+					if ( evt.data && !evt.data.$.ctrlKey )
+						preventBeforePasteEventNow();
+				}, null, null, 0 );
+
+			}
 
 			editable.on( 'beforecut', function() {
 				!preventBeforePasteEvent && fixCut( editor );
@@ -336,6 +339,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			setTimeout( function() {
 				preventPasteEvent = 0;
 			}, 100 );
+		}
+
+		function preventBeforePasteEventNow() {
+			preventBeforePasteEvent = 1;
+			setTimeout( function() {
+				preventBeforePasteEvent = 0;
+			}, 10 );
 		}
 
 		/**
