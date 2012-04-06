@@ -327,7 +327,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 			retval;
 		do {
 			previous = previous.previousSibling;
-			retval = previous && new CKEDITOR.dom.node( previous );
+
+			// Avoid returning the doc type node.
+			// http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-412266927
+			retval = previous && previous.nodeType != 10 && new CKEDITOR.dom.node( previous );
 		}
 		while ( retval && evaluator && !evaluator( retval ) )
 		return retval;
