@@ -62,10 +62,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'<head>{css}</head>' +
 			'<body class="cke_{dir}"' +
 				' style="margin:0;padding:0" onload="{onload}"></body>' +
-			// It looks strange, but for FF2, the styles must go
-	// after <body>, so it (body) becames immediatelly
-	// available. (#3031)
-			'<\/html>' );
+		'<\/html>' );
 
 	CKEDITOR.ui.panel.prototype = {
 		/**
