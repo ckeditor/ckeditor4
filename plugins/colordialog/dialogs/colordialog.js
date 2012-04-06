@@ -235,16 +235,17 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		appendColorRow( 3, 3 );
 
 		// Create the last row.
-		var oRow = table.$.insertRow( -1 );
+		var oRow = new $el( table.$.insertRow( -1 ) );
+		oRow.setAttribute( 'role', 'row' );
 
 		// Create the gray scale colors cells.
 		for ( var n = 0; n < 6; n++ ) {
-			appendColorCell( oRow, '#' + aColors[ n ] + aColors[ n ] + aColors[ n ] );
+			appendColorCell( oRow.$, '#' + aColors[ n ] + aColors[ n ] + aColors[ n ] );
 		}
 
 		// Fill the row with black cells.
 		for ( var i = 0; i < 12; i++ ) {
-			appendColorCell( oRow, '#000000' );
+			appendColorCell( oRow.$, '#000000' );
 		}
 	}
 
