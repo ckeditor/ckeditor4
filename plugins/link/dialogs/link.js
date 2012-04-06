@@ -553,7 +553,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					type: 'html',
 					id: 'noAnchors',
 					style: 'text-align: center;',
-					html: '<div role="label" tabIndex="-1">' + CKEDITOR.tools.htmlEncode( linkLang.noAnchors ) + '</div>',
+					html: '<div role="note" tabIndex="-1">' + CKEDITOR.tools.htmlEncode( linkLang.noAnchors ) + '</div>',
 					// Focus the first element defined in above html.
 					focus: true,
 					setup: function( data ) {
