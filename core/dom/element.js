@@ -668,32 +668,41 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			return false;
 
 		var thisAttribs = this.$.attributes,
-			otherAttribs = otherElement.$.attributes;
+			otherAttribs = otherElement.$.attributes,
 
-		var thisLength = thisAttribs.length,
-			otherLength = otherAttribs.length;
+			thisLength = thisAttribs.length,
+			otherLength = otherAttribs.length,
+
+			doneAttribs = [];
 
 		for ( var i = 0; i < thisLength; i++ ) {
-			var attribute = thisAttribs[ i ];
+			var attribute = thisAttribs[ i ],
+				attributeName = attribute.nodeName;
 
-			if ( attribute.nodeName == '_moz_dirty' )
-				continue;
+			doneAttribs.push( attributeName );
 
-			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
+			if ( differ( otherElement ) )
 				return false;
 		}
 
-		// For IE, we have to for both elements, because it's difficult to
-		// know how the atttibutes collection is organized in its DOM.
-		if ( CKEDITOR.env.ie ) {
-			for ( i = 0; i < otherLength; i++ ) {
-				attribute = otherAttribs[ i ];
-				if ( attribute.specified && attribute.nodeName != 'data-cke-expando' && attribute.nodeValue != this.getAttribute( attribute.nodeName ) )
-					return false;
-			}
+
+		for ( i = 0; i < otherLength; i++ ) {
+			attribute = otherAttribs[ i ];
+			attributeName = attribute.nodeName;
+
+			if ( doneAttribs.indexOf( attributeName ) == -1 && differ( this ) )
+				return false;
 		}
 
 		return true;
+
+		// For convenience returns true if attributes' values are different.
+		function differ( otherElement ) {
+			if ( attributeName == '_moz_dirty' )
+				return false;
+
+			return ( ( !CKEDITOR.env.ie || ( attribute.specified && attributeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attributeName ) );
+		}
 	},
 
 	/**
