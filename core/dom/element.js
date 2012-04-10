@@ -696,10 +696,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 		return true;
 
-		// For convenience returns true if attributes' values are different.
 		function differ( otherElement ) {
+			var normalizeCss = CKEDITOR.tools.normalizeCssText;
+
 			if ( attributeName == '_moz_dirty' )
 				return false;
+
+			if ( attributeName == 'style' )
+				return normalizeCss( attribute.nodeValue ) != normalizeCss( otherElement.getAttribute( attributeName ) );
 
 			return ( ( !CKEDITOR.env.ie || ( attribute.specified && attributeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attributeName ) );
 		}

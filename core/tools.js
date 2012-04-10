@@ -700,6 +700,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					fn.apply( self, args );
 				}, 0 );
 			};
+		},
+
+		/**
+		 * Try to avoid differences in the style attribute.
+		 * @param {String} unparsedCssText The style data to be normalized.
+		 * @param {Boolean} nativeNormalize Parse the data using the browser.
+		 * @returns {String} The normalized value.
+		 */
+		normalizeCssText: function( unparsedCssText, nativeNormalize ) {
+			var styleText;
+			if ( nativeNormalize !== false ) {
+				// Injects the style in a temporary span object, so the browser parses it,
+				// retrieving its final format.
+				var temp = new CKEDITOR.dom.element( 'span' );
+				temp.setAttribute( 'style', unparsedCssText );
+				styleText = temp.getAttribute( 'style' ) || '';
+			} else
+				styleText = unparsedCssText;
+
+			// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
+			// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
+			styleText = styleText.replace( /(font-family:)(.*?)(?=;|$)/, function( match, prop, val ) {
+				var names = val.split( ',' );
+				for ( var i = 0; i < names.length; i++ )
+					names[ i ] = CKEDITOR.tools.trim( names[ i ].replace( /["']/g, '' ) );
+				return prop + names.join( ',' );
+			});
+
+			// Shrinking white-spaces around colon and semi-colon (#4147).
+			// Compensate tail semi-colon.
+			return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' )
+			// Trimming spaces after comma(#4107),
+			// remove quotations(#6403),
+			// mostly for differences on "font-family".
+			.replace( /,\s+/g, ',' ).replace( /\"/g, '' ).toLowerCase();
 		}
 	};
 })();
