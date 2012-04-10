@@ -1248,15 +1248,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return temp[ isStyle ? 'getStyle' : 'getAttribute' ]( name );
 	}
 
-	// Turn inline style text properties into one hash.
-	function parseStyleText( styleText ) {
-		var retval = {};
-		styleText.replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
-			retval[ name ] = value;
-		});
-		return retval;
-	}
-
 	/**
 	 * Compare two bunch of styles, with the speciality that value 'inherit'
 	 * is treated as a wildcard which will match any value.
@@ -1264,8 +1255,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {Object|String} target
 	 */
 	function compareCssText( source, target ) {
-		typeof source == 'string' && ( source = parseStyleText( source ) );
-		typeof target == 'string' && ( target = parseStyleText( target ) );
+		typeof source == 'string' && ( source = CKEDITOR.tools.parseCssText( source ) );
+		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target ) );
 		for ( var name in source ) {
 			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
 				return false;

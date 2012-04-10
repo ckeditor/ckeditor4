@@ -704,37 +704,68 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/**
 		 * Try to avoid differences in the style attribute.
-		 * @param {String} unparsedCssText The style data to be normalized.
-		 * @param {Boolean} nativeNormalize Parse the data using the browser.
+		 * @param {String} styleText The style data to be normalized.
 		 * @returns {String} The normalized value.
 		 */
-		normalizeCssText: function( unparsedCssText, nativeNormalize ) {
-			var styleText;
-			if ( nativeNormalize !== false ) {
+		normalizeCssText: function( styleText ) {
+			var trim = CKEDITOR.tools.trim,
+				props = [],
+				doneProps = {},
 				// Injects the style in a temporary span object, so the browser parses it,
 				// retrieving its final format.
-				var temp = new CKEDITOR.dom.element( 'span' );
-				temp.setAttribute( 'style', unparsedCssText );
-				styleText = temp.getAttribute( 'style' ) || '';
-			} else
-				styleText = unparsedCssText;
+				tempEl = new CKEDITOR.dom.element( 'span' );
 
-			// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
-			// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
-			styleText = styleText.replace( /(font-family:)(.*?)(?=;|$)/, function( match, prop, val ) {
-				var names = val.split( ',' );
-				for ( var i = 0; i < names.length; i++ )
-					names[ i ] = CKEDITOR.tools.trim( names[ i ].replace( /["']/g, '' ) );
-				return prop + names.join( ',' );
+			tempEl.setAttribute( 'style', styleText );
+			styleText = trim( tempEl.getAttribute( 'style' ) );
+
+			// IE will leave a single semicolon when failed to parse the style text. (#3891)
+			if ( !styleText || styleText == ';' )
+				return '';
+
+			styleText.replace( /&quot;/g, '"' ).replace( /(?:^|;)\s*([^:;\s]+)\s*:/g, function( match, name ) {
+				var value;
+				name = name.toLowerCase();
+
+				// left:1px;left:2px -> left:2px;
+				if ( doneProps[ name ] )
+					return;
+				doneProps[ name ] = 1;
+
+				// Try to find value in styles parsed by browser.
+				// If property or its value were incorrect then browser won't return value.
+				if ( value = tempEl.getStyle( name ) ) {
+					// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
+					// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
+					if ( name == 'font-family' ) {
+						value = value.toLowerCase().replace( /["']/g, '' ).replace( /\s*,\s*/g, ',' );
+					}
+
+					props.push( name + ':' + CKEDITOR.tools.convertRgbToHex( trim( value ) ) );
+				}
 			});
 
-			// Shrinking white-spaces around colon and semi-colon (#4147).
-			// Compensate tail semi-colon.
-			return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' )
-			// Trimming spaces after comma(#4107),
-			// remove quotations(#6403),
-			// mostly for differences on "font-family".
-			.replace( /,\s+/g, ',' ).replace( /\"/g, '' ).toLowerCase();
+			props.sort();
+
+			return props.length ? ( props.join( ';' ) + ';' ) : '';
+		},
+
+		convertRgbToHex: function( styleText ) {
+			return styleText.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
+				var color = [ red, green, blue ];
+				// Add padding zeros if the hex value is less than 0x10.
+				for ( var i = 0; i < 3; i++ )
+					color[ i ] = String( '0' + parseInt( color[ i ], 10 ).toString( 16 ) ).slice( -2 );
+				return '#' + color.join( '' );
+			});
+		},
+
+		// Turn inline style text properties into one hash.
+		parseCssText: function( styleText ) {
+			var retval = {};
+			styleText.replace( /&quot;/g, '"' ).replace( /\s*([^:;\s]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
+				retval[ name ] = value;
+			});
+			return retval;
 		}
 	};
 })();
