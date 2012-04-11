@@ -805,7 +805,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	/**
 	 * Hides this element (display:none).
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.hide()</b>;
 	 */
 	hide: function() {
@@ -885,7 +885,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	/**
 	 * Shows this element (display it).
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.show()</b>;
 	 */
 	show: function() {
@@ -902,7 +902,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * @function
 	 * @returns {CKEDITOR.dom.element} This element instance.
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.setAttribute( 'class', 'myClass' )</b>;
 	 * <b>element.setAttribute( 'title', 'This is an example' )</b>;
 	 */
@@ -946,7 +946,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 *		values of the attributes.
 	 * @returns {CKEDITOR.dom.element} This element instance.
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.setAttributes({
 	 *     'class' : 'myClass',
 	 *     'title' : 'This is an example' })</b>;
@@ -1027,7 +1027,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * @param {String} value The value to be set to the style.
 	 * @returns {CKEDITOR.dom.element} This element instance.
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.setStyle( 'background-color', '#ff0000' )</b>;
 	 * <b>element.setStyle( 'margin-top', '10px' )</b>;
 	 * <b>element.setStyle( 'float', 'right' )</b>;
@@ -1043,7 +1043,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 *		values of the styles.
 	 * @returns {CKEDITOR.dom.element} This element instance.
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.setStyles({
 	 *     'position' : 'absolute',
 	 *     'float' : 'right' })</b>;
@@ -1058,7 +1058,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * Sets the opacity of an element.
 	 * @param {Number} opacity A number within the range [0.0, 1.0].
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * <b>element.setOpacity( 0.75 )</b>;
 	 */
 	setOpacity: function( opacity ) {
@@ -1073,7 +1073,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * Makes the element and its children unselectable.
 	 * @function
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'myElement' );
+	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * element.unselectable();
 	 */
 	unselectable: CKEDITOR.env.gecko ?

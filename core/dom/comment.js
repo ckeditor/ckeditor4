@@ -18,9 +18,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  *		the node in case of new node creation. Defaults to the current document.
  * @example
  * var nativeNode = document.createComment( 'Example' );
- * var comment = CKEDITOR.dom.comment( nativeNode );
+ * var comment = new CKEDITOR.dom.comment( nativeNode );
  * @example
- * var comment = CKEDITOR.dom.comment( 'Example' );
+ * var comment = new CKEDITOR.dom.comment( 'Example' );
  */
 CKEDITOR.dom.comment = function( comment, ownerDocument ) {
 	if ( typeof comment == 'string' )

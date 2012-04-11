@@ -504,7 +504,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 *		elements must remain in the document, removing only the outer
 	 *		tags.
 	 * @example
-	 * var element = CKEDITOR.dom.element.getById( 'MyElement' );
+	 * var element = CKEDITOR.document.getById( 'MyElement' );
 	 * <strong>element.remove()</strong>;
 	 */
 	remove: function( preserveChildren ) {
