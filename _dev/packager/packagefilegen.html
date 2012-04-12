@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Package File Generator - CKEditor</title>
+	<script type="text/javascript">
+	//<![CDATA[
+
+// Firebug has been presented some bugs with console. It must be "initialized"
+// before the page load to work.
+// FIXME: Remove the following in the future, if Firebug gets fixed.
+if ( typeof console != 'undefined' )
+	console.log();
+
+function generate()
+{
+	document.getElementById( 'basic' ).contentWindow.generate();
+	document.getElementById( 'full' ).contentWindow.generate();
+
+	var CKEDITOR = document.getElementById( 'full' ).contentWindow.CKEDITOR;
+
+	var output = document.getElementById( 'output' );
+	output.value = document.getElementById( 'header' ).value + '\r\n\r\n';
+
+	var output2 = document.getElementById( 'output_ckpackager' );
+	output2.value = document.getElementById( 'header_ckpackager' ).value + '\r\n\r\n';
+
+	output.value += '\t<Constants removeDeclaration="false">\r\n';
+	output2.value +=
+		''		+	'constants :'	+ '\r\n' +
+		'\t'	+		'{'			+ '\r\n';
+
+	var hasConst = false;
+
+	for ( var prop in CKEDITOR )
+	{
+		var typeOfProp = typeof CKEDITOR[ prop ];
+		if ( /^[A-Z\d$_]+$/.test( prop ) && typeOfProp != 'object' && typeOfProp != 'function' && typeOfProp != 'undefined' )
+		{
+			if ( hasConst )
+				output2.value += ',\r\n';
+			else
+				hasConst = true;
+			output.value += '\t\t<Constant name="CKEDITOR.' + prop + '" value="' + CKEDITOR[ prop ] + '" />\r\n';
+			output2.value += '\t\t\'CKEDITOR.' + prop + '\' : ' + CKEDITOR[ prop ];
+		}
+	}
+
+	output2.value += '\r\n';
+
+	output.value += '\t</Constants>\r\n\r\n';
+	output2.value +=
+		'\t'	+		'},'		+ '\r\n\r\n';
+
+	output.value += document.getElementById( 'basic' ).contentDocument.getElementById( 'output' ).value + '\r\n';
+	output.value += document.getElementById( 'full' ).contentDocument.getElementById( 'output' ).value + '\r\n';
+
+	output.value += '</Package>\r\n';
+
+	output2.value +=
+		''		+	'packages :'	+ '\r\n' +
+		'\t'	+		'['			+ '\r\n';
+
+	output2.value += document.getElementById( 'basic' ).contentDocument.getElementById( 'output_ckpackager' ).value + '\r\n';
+	output2.value += document.getElementById( 'full' ).contentDocument.getElementById( 'output_ckpackager' ).value + '\r\n';
+
+	output2.value +=
+		'\t'	+		']'			+ '\r\n';
+
+	// Ignore the old FCKpackager stuff now. We should clean up everything later.
+	// output.style.display = '';
+	output2.style.display = '';
+}
+
+	//]]>
+	</script>
+</head>
+<body>
+	<form action="">
+		<p>
+			<input type="button" value="Generate" onclick="generate();" />
+		</p>
+		<p>
+			<textarea id="output" cols="80" rows="15" style="width: 100%; display: none"></textarea>
+		</p>
+		<p>
+			<textarea id="output_ckpackager" cols="80" rows="15" style="width: 100%; display: none"></textarea>
+		</p>
+		<iframe id="basic" src="packagefilegen_basic.html" style="position: absolute; left: -1000px">
+		</iframe>
+		<iframe id="full" src="packagefilegen_full.html" style="position: absolute; left: -1000px">
+		</iframe>
+		<textarea id="header" cols="80" rows="10" style="display: none">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;!--
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+--&gt;
+&lt;Package&gt;
+
+	&lt;Header&gt;&lt;![CDATA[/*
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+]]&gt;&lt;/Header&gt;</textarea>
+		<textarea id="header_ckpackager" cols="80" rows="10" style="display: none">/*
+ * CKPackager - Sample Package file
+ */
+
+header :
+	'/*'																			+ '\n' +
+	'Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.'	+ '\n' +
+	'For licensing, see LICENSE.html or http://ckeditor.com/license'				+ '\n' +
+	'*/'																			+ '\n' +
+	'\n',
+
+noCheck : false,</textarea>
+	</form>
+</body>
+</html>

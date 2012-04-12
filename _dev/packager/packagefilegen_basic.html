@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Package File Generator - CKEditor</title>
+	<script type="text/javascript" src="../../ckeditor_basic_source.js"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+
+// Firebug has been presented some bugs with console. It must be "initialized"
+// before the page load to work.
+// FIXME: Remove the following in the future, if Firebug gets fixed.
+if ( typeof console != 'undefined' )
+	console.log();
+
+var downloaded = [];
+
+CKEDITOR.on( 'download', function( event )
+	{
+		downloaded.push( event.data );
+	});
+
+function generate()
+{
+	var output = document.getElementById( 'output' );
+	var output2 = document.getElementById( 'output_ckpackager' );
+
+	output.value = '\t<PackageFile path="ckeditor_basic.js">\r\n';
+	output2.value =
+		'\t\t'		+	'{'										+ '\r\n' +
+		'\t\t\t'	+		'output : \'ckeditor_basic.js\','	+ '\r\n' +
+		'\t\t\t'	+		'wrap : true,'						+ '\r\n' +
+		'\t\t\t'	+		'files :'							+ '\r\n' +
+		'\t\t\t\t'	+			'['								+ '\r\n';
+
+	var appendedFiles = {},
+		hasFile = false;
+	var appendFile = function( filePath )
+	{
+		if ( appendedFiles[ filePath ] )
+			return;
+
+		appendedFiles[ filePath ] = true;
+
+		if ( hasFile )
+			output2.value += ',\r\n';
+		else
+			hasFile = true;
+
+		output.value += '\t\t<File path="' + filePath + '" />\r\n';
+		output2.value += '\t\t\t\t\t\'' + filePath + '\'';
+	};
+
+	appendFile( '_source/core/ckeditor_base.js' );
+
+	for ( var i = 0 ; i < CKEDITOR.loader.loadedScripts.length ; i++ )
+	{
+		var path = CKEDITOR.loader.loadedScripts[i].replace( CKEDITOR.basePath, '' );
+		appendFile( '_source/' + path + '.js' );
+	}
+
+	for ( var i = 0 ; i < downloaded.length ; i++ )
+	{
+		var path = downloaded[i].replace( CKEDITOR.basePath, '' );
+
+		if ( path == 'config.js' )
+			continue;
+
+		appendFile( path );
+	}
+
+	output2.value += '\r\n';
+
+	output.value += '\t</PackageFile>\r\n';
+	output2.value +=
+		'\t\t\t\t'	+			']'								+ '\r\n' +
+		'\t\t'		+	'},'									+ '\r\n';
+
+	// Ignore the old FCKpackager stuff now. We should clean up everything later.
+	// output.style.display = '';
+	output2.style.display = '';
+}
+
+	//]]>
+	</script>
+</head>
+<body>
+	<p>
+		<input type="button" value="Generate" onclick="generate();" />
+	</p>
+	<p>
+		<textarea id="output" rows="10" cols="80" style="width: 100%; display: none"></textarea>
+	</p>
+	<p>
+		<textarea id="output_ckpackager" rows="10" cols="80" style="width: 100%; display: none"></textarea>
+	</p>
+</body>
+</html>
