@@ -51,20 +51,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * -- Possible data types: auto, text, html.
  * -- Possible data contents:
  *		* text (possible \n\r)
- *		* htmled text (text + br,div,p - no presentional markup & attrs - depends on browser)
+ *		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
  *		* html
+ * -- Possible flags:
+ *		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
+ *			for content from editable pastebins, because they 'htmlify' pasted content.
  *
  * -- Type: auto:
- *		* content: text ->				filter, htmlise, set type: text
- *		* content: htmled text ->		filter, unify text markup (brs, ps, divs), set type: text
+ *		* content: text ->				filter, htmlify, set type: text
+ *		* content: htmlified text ->	filter, unify text markup (brs, ps, divs), set type: text
  *		* content: html ->				filter, set type: html
  * -- Type: text:
- *		* content: text ->				filter, htmlise
- *		* content: htmled text ->		filter, unify text markup
+ *		* content: text ->				filter, htmlify
+ *		* content: htmlified text ->	filter, unify text markup
  *		* content: html ->				filter, strip presentional markup, unify text markup
  * -- Type: html:
  *		* content: text ->				filter
- *		* content: htmled text ->		filter
+ *		* content: htmlified text ->	filter
  *		* content: html ->				filter
  *
  * -- Phases:
@@ -84,31 +87,84 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: [ 'dialog' ],
 		init: function( editor ) {
+			var textificationFilter;
+
 			initClipboard( editor );
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
+
+			// Filter webkit garbage.
+			editor.on( 'paste', function( evt ) {
+				var data = evt.data.data,
+					blockElements = CKEDITOR.dtd.$block;
+
+				if ( data.indexOf( 'Apple-' ) > -1 ) {
+					// Replace special webkit's &nbsp; with simple space, because webkit
+					// produces them even for normal spaces.
+					data = data.replace( /<span class="Apple-converted-space">&nbsp;<\/span>/gi, ' ' );
+
+					// Strip <span> around white-spaces when not in forced 'html' content type.
+					// This spans are created only when pasting plain text into Webkit,
+					// but for safety resons remove them always.
+					if ( evt.data.type != 'html' )
+						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, '$1' );
+
+					// This br is produced only when copying & pasting HTML content.
+					// Mark with special class - prevent recognising as htmlified text.
+					data = data.replace( /<br class="Apple-interchange-newline">/g, '<br class="cke-pasted">' );
+
+					// Remove all other classes.
+					data = data.replace( /(<[^>]+) class="Apple-[^"]*"/gi, '$1' );
+				}
+
+				if ( CKEDITOR.env.gecko ) {
+					// Last <br></p> -> </p><br>
+					// Helps handling copied line breaks.
+					data = data.replace( /<br><\/(\w+)>$/, function( match, elementName ) {
+						return ( elementName in blockElements ) ? '</' + elementName + '><br class="cke-pasted">' : match;
+					});
+				} else if ( CKEDITOR.env.ie ) {
+					// &nbsp; <p> -> <br><p>
+					data = data.replace( /^&nbsp; <(\w+)/, function( match, elementName ) {
+						return ( elementName in blockElements ) ? '<br class="cke-pasted"><' + elementName : match;
+					});
+				} else if ( CKEDITOR.env.webkit ) {
+					data = data.replace( /<div><br><\/div>$/, '<br>' );
+				}
+
+				evt.data.data = data;
+			}, null, null, 3 );
 
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
 					type = dataObj.type,
 					data = dataObj.data,
+					isHtmlified = dataObj.htmlified,
 					trueType;
 
 				// If forced type is 'html' we don't need to know true data type.
-				if ( type == 'auto' || type == 'text' )
-					trueType = recogniseContentType( data );
+				if ( type != 'html' )
+					trueType = recogniseContentType( data, isHtmlified );
 
-				// Htmlise.
+				// Htmlify.
 				if ( trueType == 'text' )
-					data = text2Html( editor, data );
+					data = textHtmlification( editor, data );
+				// Unify text markup.
+				else if ( trueType == 'htmlifiedtext' )
+					data = htmlifiedTextHtmlification( data );
 				// Strip presentional markup & unify text markup.
-				else if ( trueType == 'htmledtext' || ( type == 'text' && trueType == 'html' ) )
-					data = htmledText2Html( trueType, data );
+				else if ( type == 'text' && trueType == 'html' ) {
+					// Init filter only if needed and cache it.
+					data = htmlTextification( data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
+				}
+
+				// Remove class="cke-pasted" which helped us accurately recognise content type.
+				data = data.replace( /(<[^>]+) class="cke-pasted"/g, '$1' );
 
 				if ( type == 'auto' )
 					type = ( trueType == 'html' ? 'html' : 'text' );
-				if ( type == 'text' )
-					dataObj.dontEncodeHtml = true;
+
+				dataObj.htmlified = true;
 
 				dataObj.type = type;
 				dataObj.data = data;
@@ -121,7 +177,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( data.type == 'html' )
 					editor.insertHtml( data.data );
 				else if ( data.type == 'text' )
-					editor.insertText( data.data, data.dontEncodeHtml );
+					editor.insertText( data.data, data.htmlified );
 
 				// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
 				setTimeout( function() {
@@ -136,7 +192,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// fired after a while (not like 'showDialog').
 				setTimeout( function() {
 					// Open default paste dialog.
-					editor.openDialog( 'paste' );
+					editor.openDialog( 'paste', evt.data );
 				}, 0 );
 			});
 		}
@@ -161,18 +217,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * Editor will:
 		 * 		* Fire paste events (beforePaste, paste, afterPaste).
 		 *		* Recognise data type (html or text).
-		 * 		* If text is pasted then it will be "htmlisated".
+		 * 		* If text is pasted then it will be "htmlificated".
 		 *			* <strong>Note:</strong> two subsequent line-breaks will introduce one paragraph. This depends on <code>{@link CKEDITOR.config.enterMode}</code>;
 		 * 			* A single line-break will be instead translated into one &lt;br /&gt;.
 		 * @name CKEDITOR.editor.paste
 		 * @param {String} data Data (text or html) to be pasted.
 		 */
 		editor.paste = function( data ) {
-			return firePasteEvents( 'auto', data, true );
+			return firePasteEvents( 'auto', data, 1 );
 		};
 
 		/**
-		 * Get clipboard data by direct access to the clipboard (IE only) or opening paste dialog.
+		 * Get clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
+		 * @param {Object} [options.title] Title of paste dialog.
 		 * @param {Function} callback Function that will be executed with data.type and data.data or null if none
 		 * 		of the capturing method succeeded.
 		 * @example
@@ -180,12 +237,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * {
 		 *		if ( data )
 		 *			alert( data.type + ' ' + data.data );
-		 * });
+		 * }, { title : 'Get my data' } );
 		 */
-		editor.getClipboardData = function( callback ) {
+		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
 				dataType = 'auto',
 				dialogCommited = false;
+
+			// Options are optional - args shift.
+			if ( !callback ) {
+				callback = options;
+				options = null;
+			}
 
 			// Listen with maximum priority to handle content before everyone else.
 			// This callback will handle paste event that will be fired if direct
@@ -207,7 +270,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// If beforePaste was canceled do not open dialog.
 				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
-				if ( beforePasteNotCanceled && editor.fire( 'pasteDialog' ) ) {
+				if ( beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
 					editor.on( 'pasteDialogCommit', onDialogCommit );
 
 					// 'dialogHide' will be fired after 'pasteDialogCommit'.
@@ -244,7 +307,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback({ type: dataType, data: evt.data } );
+				callback({ type: dataType, data: evt.data, htmlified: true } );
+			}
+
+			function onDialogOpen() {
+				this.customTitle = ( options && options.title );
 			}
 		};
 
@@ -444,7 +511,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var cmd = this;
 
 					editor.getClipboardData( function( data ) {
-						data && firePasteEvents( data.type, data.data );
+						data && firePasteEvents( data.type, data.data, 0, 1 );
 
 						editor.fire( 'afterCommandExec', {
 							name: 'paste',
@@ -503,7 +570,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return enabled;
 		}
 
-		function firePasteEvents( type, data, withBeforePaste ) {
+		function firePasteEvents( type, data, withBeforePaste, isHtmlified ) {
 			var eventData = { type: type };
 
 			if ( withBeforePaste ) {
@@ -523,6 +590,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
 			eventData.data = data;
+			eventData.htmlified = !!isHtmlified;
 
 			return editor.fire( 'paste', eventData );
 		}
@@ -710,7 +778,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) );
 
 				// Fire remaining events (without beforePaste)
-				beforePasteNotCanceled && firePasteEvents( eventData.type, data );
+				beforePasteNotCanceled && firePasteEvents( eventData.type, data, 0, 1 );
 			});
 		}
 
@@ -753,25 +821,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	// TODO dooooooo!
 	// Returns:
-	// * 'text' if no html markup at all.
-	// * 'htmledtext' if content looks like transformed by browser from plain text.
+	// * 'text' if no html markup at all && !isHtmlified.
+	// * 'htmlifiedtext' if content looks like transformed by browser from plain text.
 	//		See clipboard/paste.html TCs for more info.
-	// * 'html' if it's neither 'text' nor 'htmledtext'.
-	// Data passed to this function should be already filtered from
-	// msword's stuff and things like <span class="Apple-tab-span" style="white-space:pre">
-	function recogniseContentType( data ) {
+	// * 'html' if it's neither 'text' nor 'htmlifiedtext'.
+	function recogniseContentType( data, isHtmlified ) {
 		var parser = new CKEDITOR.htmlParser(),
-			isHtmledText = false,
-			acceptableTextTags = { p:1,br:1,div:1 },
-			isEmpty = CKEDITOR.tools.isEmpty;
+			isHtmlifiedText = false,
+			acceptableTextTags = { br:1,div:1,p:1 },
+			isEmpty = CKEDITOR.tools.isEmpty,
+			nestingLevel = 0;
 
-		parser.onTagOpen = parser.onTagClose = function( tagName, attributes ) {
+		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
 			if ( acceptableTextTags[ tagName ] && isEmpty( attributes ) )
-				isHtmledText = true;
+				isHtmlifiedText = true;
 			else
 				throw 0;
+
+			if ( tagName == 'br' )
+				return;
+
+			// For plain text browsers generate only ps|divs containing brs.
+			// Deep nesting means real HTML.
+			if ( nestingLevel )
+				throw 0;
+
+			!selfClosing && nestingLevel++;
+		};
+		parser.onTagClose = function( tagName ) {
+			if ( acceptableTextTags[ tagName ] )
+				isHtmlifiedText = true;
+			else
+				throw 0;
+
+			nestingLevel--;
 		};
 		parser.onComment = parser.onCDATA = function() {
 			throw 0;
@@ -787,17 +871,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return 'html';
 		}
 
-		return isHtmledText ? 'htmledtext' : 'text';
+		// If tags or html entities found or isHtmlified then it's htmlifiedtext.
+		return isHtmlified || isHtmlifiedText || data.match( /&[a-z]+;/i ) ? 'htmlifiedtext' : 'text';
 	}
 
 	// TODO Function shouldn't check selection - context will be fixed later.
-	function text2Html( editor, text ) {
+	function textHtmlification( editor, text ) {
 		var selection = editor.getSelection(),
 			mode = selection.getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
 			isEnterBrMode = mode == CKEDITOR.ENTER_BR,
 			tools = CKEDITOR.tools;
 
-		var html = tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
+		var html = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
 
 		// Convert leading and trailing whitespaces into &nbsp;
 		html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
@@ -836,19 +921,188 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return html;
 	}
 
-	// TODO dooooo!
-	// This function should transform what browsers produce when
+	// This function transforms what browsers produce when
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
-	function htmledText2Html( trueType, data ) {
-		// If trueType == 'html' this function should strip presentional markup
-		// and all attributes.
+	function htmlifiedTextHtmlification( data ) {
+		// Replace adjacent white-spaces with one space and unify all to spaces.
+		data = data.replace( /(&nbsp;|\s)+/ig, ' ' );
+		// Remove spaces before/after opening/closing tag.
+		data = data.replace( /> /g, '>' ).replace( / </g, '<' );
 
-		// Then it should unify HTML between browsers. Resulted should be similar
-		// to that produced by text2Html. In fact in laziest impl it can use
-		// text2Html, but that may bring more performance issues.
+		// IE.
+		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
+			return match.toLowerCase();
+		});
 
-		return data;
+		// Webkit.
+		if ( data.indexOf( '<div>' ) > -1 ) {
+			// Two line breaks create one paragraph in Webkit.
+			if ( data.match( /<div>(<br>| |)<\/div>/ ) )
+				data = '<p>' + data.replace( /<div>(<br>| |)<\/div>/g, '</p><p>' ) + '</p>';
+			// One line break create br.
+			data = data.replace( /<\/div><div>/g, '<br>' );
+
+			// Remove div tags that remained - they should be inside <p> tags.
+			// See TCs for "incorrect recognition" to see why we cannot remove all divs.
+			data = data.replace( /<\/div>(<br>)*<\/p>/g, '$1</p>' ).replace( /<p><div>/g, '<p>' );
+		}
+
+		// Opera and Firefox.
+		if ( data.indexOf( '<br><br>' ) > -1 ) {
+			// Two line breaks create one paragraph, three - 2, four - 3, etc.
+			data = '<p>' + data.replace( /(<br>){2,}/g, function( match ) {
+				return CKEDITOR.tools.repeat( '</p><p>', match.length / 4 - 1 );
+			}) + '</p>';
+		}
+
+		// Fix odd number of brs (IE, Opera, Firefox).
+		data = data.replace( /<p><br>/g, '<p></p><p>' ).replace( /<br><\/p>/g, '</p><p></p>' );
+
+		return data.replace( /<p><\/p>/g, '<p>&nbsp;</p>' );
+	}
+
+	// Filter can be editor dependent.
+	function getTextificationFilter( editor ) {
+		var filter = new CKEDITOR.htmlParser.filter();
+
+		// Elements which creates vertical breaks (have vert margins) - took from HTML5 spec.
+		// http://dev.w3.org/html5/markup/Overview.html#toc
+		var replaceWithParaIf = { blockquote:1,dl:1,fieldset:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,ol:1,p:1,table:1,ul:1 },
+
+			// All names except of <br>.
+			stripInlineIf = CKEDITOR.tools.extend({ br: 0 }, CKEDITOR.dtd.$inline ),
+
+			// What's finally allowed (cke:br will be removed later).
+			allowedIf = { p:1,br:1,'cke:br':1 },
+
+			knownIf = CKEDITOR.dtd,
+
+			// All names that will be removed (with content).
+			removeIf = CKEDITOR.tools.extend( { area:1,basefont:1,embed:1,iframe:1,map:1,object:1,param:1 }, CKEDITOR.dtd.$nonBodyContent, CKEDITOR.dtd.$cdata );
+
+		var flattenTableCell = function( element ) {
+				delete element.name;
+				element.add( new CKEDITOR.htmlParser.text( ' ' ) );
+			},
+			// Squash adjacent headers into one. <h1>A</h1><h2>B</h2> -> <h1>A<br>B</h1><h2></h2>
+			// Empty ones will be removed later.
+			squashHeader = function( element ) {
+				var next = element,
+					br, el;
+
+				while ( ( next = next.next ) && next.name && next.name.match( /^h\d$/ ) ) {
+					// TODO shitty code - waitin' for htmlParse.element fix.
+					br = new CKEDITOR.htmlParser.element( 'cke:br' );
+					br.isEmpty = true;
+					element.add( br );
+					while ( el = next.children.shift() )
+						element.add( el );
+				}
+			};
+
+		filter.addRules({
+			elements: {
+				h1: squashHeader,
+				h2: squashHeader,
+				h3: squashHeader,
+				h4: squashHeader,
+				h5: squashHeader,
+				h6: squashHeader,
+
+				img: function( element ) {
+					var alt = CKEDITOR.tools.trim( element.attributes.alt || '' ),
+						txt = ' ';
+
+					// Replace image with its alt if it doesn't look like an url or is empty.
+					if ( alt && !alt.match( /(^http|\.(jpe?g|gif|png))/i ) )
+						txt = ' [' + alt + '] ';
+
+					return new CKEDITOR.htmlParser.text( txt );
+				},
+
+				td: flattenTableCell,
+				th: flattenTableCell,
+
+				$: function( element ) {
+					var initialName = element.name,
+						br;
+
+					// Remove entirely.
+					if ( removeIf[ initialName ] )
+						return false;
+
+					// Remove all attributes.
+					delete element.attributes;
+
+					// Pass brs.
+					if ( initialName == 'br' )
+						return element;
+
+					// Elements that we want to replace with paragraphs.
+					if ( replaceWithParaIf[ initialName ] )
+						element.name = 'p';
+
+					// Elements that we want to strip (tags only, without the content).
+					else if ( stripInlineIf[ initialName ] )
+						delete element.name;
+
+					// Surround other known element with <brs> and strip tags.
+					else if ( knownIf[ initialName ] ) {
+						// TODO shitty code - waitin' for htmlParse.element fix.
+						br = new CKEDITOR.htmlParser.element( 'cke:br' );
+						br.isEmpty = true;
+
+						// Replace hrs (maybe sth else too?) with only one br.
+						if ( CKEDITOR.dtd.$empty[ initialName ] )
+							return br;
+
+						element.add( br, 0 );
+						br = br.clone();
+						br.isEmpty = true;
+						element.add( br );
+						delete element.name;
+					}
+
+					// Final cleanup - if we can still find some not allowed elements then strip their names.
+					if ( !allowedIf[ element.name ] )
+						delete element.name;
+				}
+			}
+		});
+
+		return filter;
+	}
+
+	function htmlTextification( data, filter ) {
+		var fragment = new CKEDITOR.htmlParser.fragment.fromHtml( data ),
+			writer = new CKEDITOR.htmlParser.basicWriter();
+
+		fragment.writeHtml( writer, filter );
+		data = writer.getHtml();
+
+		// Cleanup cke:brs.
+		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' ) // Remove spaces around tags.
+		.replace( /(<cke:br \/>){2,}/g, '<cke:br />' ) // Join multiple adjacent cke:brs
+		.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' ) // Strip cke:brs adjacent to original brs or ps.
+		.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' ).replace( /<(cke:)?br( \/)?>/g, '<br>' ) // Finally - rename cke:brs to brs and fix <br /> to <br>.
+		.replace( /<p><\/p>/g, '' ); // Remove empty paragraphs.
+
+		// Fix nested ps. E.g.:
+		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
+		// <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p>G
+		var nested = 0;
+		return data.replace( /<\/?p>/g, function( match ) {
+			if ( match == '<p>' ) {
+				if ( ++nested > 1 )
+					return '</p><p>';
+			} else {
+				if ( --nested > 0 )
+					return '</p><p>';
+			}
+
+			return match;
+		}).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
 	}
 })();
 
@@ -863,10 +1117,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 		with priority less than 6 it can be also 'auto', what means that content type has to be recognised
  * 		(this will be done by content type sniffer that listens with priority 6).
  * @param {String} data.data Data to be pasted - html or text.
+ * @param {Boolean} [data.htmlified] If true then data are htmlified what means that they probably
+ *		come frome editable pastebin or were transformed to HTML. They won't be encoded and should be treat
+ *		as HTML even if they don't contain any markup.
  */
 
 /**
  * Internal event to open the Paste dialog
  * @name CKEDITOR.editor#pasteDialog
  * @event
+ * @param {Function} [data] Callback that will be passed to editor.openDialog.
  */

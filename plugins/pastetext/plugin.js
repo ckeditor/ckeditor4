@@ -15,7 +15,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		async: true,
 
 		exec: function( editor ) {
-			editor.getClipboardData( function( data ) {
+			editor.getClipboardData({ title: editor.lang.pasteText.title }, function( data ) {
 				data && editor.fire( 'paste', { type: 'text', data: data.data, htmlified: true } );
 
 				editor.fire( 'afterCommandExec', {

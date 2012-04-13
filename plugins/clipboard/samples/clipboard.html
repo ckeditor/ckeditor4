@@ -112,6 +112,17 @@ body {
 	background: rgba(0, 0, 0, 0.1 );
 	min-width: 200px;
 }
+.someClass {
+	color: blue;
+}
+.specChar {
+	color: #777;
+	background-color: #EEE;
+	background-color: rgba(0, 0, 0, 0.1);
+	font-size: 0.8em;
+	border-radius: 2px;
+	padding: 1px;
+}
 	</style>
 </head>
 <body>
@@ -134,9 +145,15 @@ body {
 				Editor 3:</label>
 			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting&lt;/strong&gt; in text mode by listening for "beforePaste" event.&lt;/p&gt;</textarea>
 		</p>
-		<div id="editable" contenteditable="true">
+		<p>
+			<label for="editor4">
+				Editor 4:</label>
+			<textarea cols="80" id="editor4" name="editor4" rows="10">Editor with autoParagraphing set to off.</textarea>
+		</p>
+		<div id="editable" contenteditable="true" style="font-family: Georgia; font-size: 14px">
 			<h1>Editor 4</h1>
 			<p>Content content content.</p>
+			<p class="someClass">Styled by <code>.someClass</code>.</p>
 		</div>
 	</div>
 	<div id="console">
@@ -153,12 +170,15 @@ body {
 			time = new Date().toString().match( /\d\d:\d\d:\d\d/ )[ 0 ],
 			format = function( tpl )
 			{
-				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' ); 
+				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' );
 			};
 
 		window.console && console.log( format( '[{time}] {title}: {msg}' ) );
 
-		msg = CKEDITOR.tools.htmlEncode( msg || '' );
+		msg = ( msg || '' ).replace( /\r/g, '{\\r}' ).replace( /\n/g, '{\\n}' ).replace( /\t/g, '{\\t}' );
+		msg = CKEDITOR.tools.htmlEncode( msg );
+		msg = msg.replace( /\{(\\\w)\}/g, '<code class="specChar">$1</code>' );
+
 		msgEl.setHtml( format( '<time datetime="{time}">{time}</time><span class="prompt">{title}</span> {msg}' ) );
 		consoleEl.append( msgEl );
 		consoleEl.$.scrollTop = consoleEl.$.scrollHeight;
@@ -210,7 +230,7 @@ body {
 	CKEDITOR.disableAutoInline = true;
 	var config =
 		{
-			height : 100,
+			height : 120,
 			toolbar : 'Custom',
 			toolbar_Custom :
 			[
@@ -220,18 +240,20 @@ body {
 		editor1 = CKEDITOR.replace( 'editor1', config ),
 		editor2 = CKEDITOR.replace( 'editor2', config ),
 		editor3 = CKEDITOR.replace( 'editor3', config ),
-		editor4 = CKEDITOR.inline( document.getElementById( 'editable' ), config );
+		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { autoParagraph : false }, config ) ),
+		editor5 = CKEDITOR.inline( document.getElementById( 'editable' ), config );
 
 	editor3.on( 'beforePaste', function( evt )
 		{
 			evt.data.type = 'text';
 		});
-	
+
 	observe( editor1, 1 );
 	observe( editor2, 2 );
 	observe( editor3, 3 );
 	observe( editor4, 4 );
-	
+	observe( editor5, 5 );
+
 })();
 	</script>
 </body>

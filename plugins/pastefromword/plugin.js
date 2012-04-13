@@ -22,8 +22,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					forceFromWord = 1;
 					editor.on( 'beforePaste', forceHtmlMode );
 
-					editor.getClipboardData( function( data ) {
-						data && editor.fire( 'paste', { type: 'html', data: data.data } );
+					editor.getClipboardData({ title: editor.lang.pastefromword.title }, function( data ) {
+						data && editor.fire( 'paste', { type: 'html', data: data.data, htmlified: true } );
 
 						editor.fire( 'afterCommandExec', {
 							name: commandName,

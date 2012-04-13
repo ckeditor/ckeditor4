@@ -9,12 +9,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
-			docElement = doc.$;
+			docElement = doc.$,
+			script = doc.getById( 'cke_actscrpt' );
 
-		var script = doc.getById( 'cke_actscrpt' );
 		script && script.remove();
 
-		CKEDITOR.env.ie ? docElement.body.contentEditable = "true" : docElement.designMode = "on";
+		CKEDITOR.env.ie ? docElement.body.contentEditable = 'true' : docElement.designMode = 'on';
 
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
@@ -24,7 +24,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			});
 		}
 
-		doc.on( "keydown", function( e ) {
+		doc.on( 'keydown', function( e ) {
 			var domEvent = e.data,
 				key = domEvent.getKeystroke(),
 				processed;
@@ -51,7 +51,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	// then fire paste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
 		if ( evt.data )
-			editor.fire( 'paste', { type: 'auto', data: evt.data } );
+			editor.fire( 'paste', { type: 'auto', data: evt.data, htmlified: true } );
 	}, null, null, 1000 );
 
 	return {
