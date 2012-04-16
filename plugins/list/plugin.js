@@ -89,7 +89,8 @@
 				baseIndex = 0;
 			if ( !listArray || listArray.length < baseIndex + 1 )
 				return null;
-			var doc = listArray[ baseIndex ].parent.getDocument(),
+			var i,
+				doc = listArray[ baseIndex ].parent.getDocument(),
 				retval = new CKEDITOR.dom.documentFragment( doc ),
 				rootNode = null,
 				currentIndex = baseIndex,
@@ -113,7 +114,7 @@
 					if ( orgDir != rootNode.getDirection( 1 ) )
 						currentListItem.setAttribute( 'dir', orgDir );
 
-					for ( var i = 0; i < item.contents.length; i++ )
+					for ( i = 0; i < item.contents.length; i++ )
 						currentListItem.append( item.contents[ i ].clone( 1, 1 ) );
 					currentIndex++;
 				} else if ( item.indent == Math.max( indentLevel, 0 ) + 1 ) {
@@ -142,7 +143,9 @@
 						className = li.getAttribute( 'class' ),
 						style = li.getAttribute( 'style' );
 
-					for ( var i = 0, child, count = item.contents.length; i < count; i++ ) {
+					var child,
+						count = item.contents.length;
+					for ( i = 0; i < count; i++ ) {
 						child = item.contents[ i ];
 
 						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
@@ -420,7 +423,7 @@
 	// Merge list items with direction preserved. (#7448)
 	function mergeListItems( from, into, refNode, toHead ) {
 		var child, itemDir;
-		while ( child = from.getFirst( elementType ) ) {
+		while ( ( child = from.getFirst( elementType ) ) ) {
 			if ( ( itemDir = child.getDirection( 1 ) ) !== into.getDirection( 1 ) )
 				child.setAttribute( 'dir', itemDir );
 
