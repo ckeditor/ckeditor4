@@ -76,7 +76,7 @@
 									if ( value == getImageAlignment( img ) )
 										img.removeAttribute( 'align' );
 								} else
-									img.setStyle( 'float', value )
+									img.setStyle( 'float', value );
 
 								evt.cancel();
 							}
