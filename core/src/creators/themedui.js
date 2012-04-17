@@ -189,7 +189,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.editor.prototype.setMode = function( newMode, callback ) {
 		var editor = this;
 
-		if ( newMode == editor.mode || !this._.modes[ newMode ] )
+		var modes = this._.modes;
+
+		// Mode loading quickly fails.
+		if ( newMode == editor.mode || !modes || !modes[ newMode ] )
 			return;
 
 		editor.fire( 'beforeSetMode', newMode );

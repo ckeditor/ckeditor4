@@ -488,6 +488,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * alert( CKEDITOR.instances.editor1 );  // "undefined"
 		 */
 		destroy: function( noUpdate ) {
+			this.fire( 'beforeDestroy' );
+
 			!noUpdate && updateEditorElement.call( this );
 
 			this.editable( null );
@@ -496,6 +498,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			CKEDITOR.remove( this );
 			CKEDITOR.fire( 'instanceDestroyed', null, this );
+		},
+
+		/**
+		 * @see {CKEDITOR.dom.elementPath}
+		 * @param {CKEDITOR.dom.node} [startNode] From which the path should start, if not specified default to editor selection's
+		 * start element yield by {@link CKEDITOR.dom.selection.prototype.getStartElement}.
+		 * @return {CKEDITOR.dom.elementPath}
+		 */
+		elementPath: function( startNode ) {
+			startNode = startNode || this.getSelection().getStartElement();
+			return new CKEDITOR.dom.elementPath( startNode, this.editable() );
 		},
 
 		/**

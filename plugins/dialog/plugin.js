@@ -949,12 +949,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					element.removeListener( event, preventKeyBubbling );
 
 				var editor = this._.editor;
+				editor.focusManager.cancelForced();
 				editor.focus();
-
-				if ( editor.mode == 'wysiwyg' && CKEDITOR.env.ie ) {
-					var selection = editor.getSelection();
-					selection && selection.unlock( true );
-				}
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
 
@@ -2890,10 +2886,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed. null if the dialog name is not registered.
 		 */
 		openDialog: function( dialogName, callback ) {
-			if ( this.mode == 'wysiwyg' && CKEDITOR.env.ie ) {
-				var selection = this.getSelection();
-				selection && selection.lock();
-			}
+			// Persist editor focus as dialog open will blur the focus manager.
+			this.focusManager.forceFocus();
 
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
 				dialogSkin = this.skin.dialog;

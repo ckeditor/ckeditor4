@@ -42,7 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			var atBlockStart = range.checkStartOfBlock(),
 				atBlockEnd = range.checkEndOfBlock(),
-				path = new CKEDITOR.dom.elementPath( range.startContainer ),
+				path = editor.elementPath( range.startContainer ),
 				block = path.block;
 
 			// Exit the list when we're inside an empty list item block. (#5376)
@@ -323,7 +323,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// This collapse guarantees the cursor will be blinking.
 			range.collapse( true );
 
-			range.select( isPre );
+			range.select();
 		}
 	};
 

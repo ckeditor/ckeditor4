@@ -87,7 +87,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var testRange = new CKEDITOR.dom.range( range.document );
 					testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
 					if ( testRange.checkEndOfBlock() ) {
-						var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
+						var path = new CKEDITOR.dom.elementPath( testRange.endContainer, testRange.root );
 						var lastBlock = path.block || path.blockLimit;
 						this._.lastNode = lastBlock.getNextSourceNode( true );
 					}
@@ -228,7 +228,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					checkLimits = { div:1,th:1,td:1 };
 				block = startPath.block;
 
-				if ( !block && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() )
+				if ( !block && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
 					block = startBlockLimit;
 				else if ( !block || ( this.enforceRealBlocks && block.getName() == 'li' ) ) {
 					// Create the fixed block.

@@ -316,14 +316,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			function getRangeAfterCursor( cursor, inclusive ) {
 				var range = new CKEDITOR.dom.range();
 				range.setStart( cursor.textNode, ( inclusive ? cursor.offset : cursor.offset + 1 ) );
-				range.setEndAt( editor.document.getBody(), CKEDITOR.POSITION_BEFORE_END );
+				range.setEndAt( editor.editable(), CKEDITOR.POSITION_BEFORE_END );
 				return range;
 			}
 
 			// The document range before the character cursor.
 			function getRangeBeforeCursor( cursor ) {
 				var range = new CKEDITOR.dom.range();
-				range.setStartAt( editor.document.getBody(), CKEDITOR.POSITION_AFTER_START );
+				range.setStartAt( editor.editable(), CKEDITOR.POSITION_AFTER_START );
 				range.setEnd( cursor.textNode, cursor.offset );
 				return range;
 			}
@@ -504,9 +504,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					searchRange.collapse( true );
 				} else {
 					searchRange = new CKEDITOR.dom.range();
-					searchRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
+					searchRange.setStartAt( editor.editable(), CKEDITOR.POSITION_AFTER_START );
 				}
-				searchRange.setEndAt( body, CKEDITOR.POSITION_BEFORE_END );
+				searchRange.setEndAt( editor.editable(), CKEDITOR.POSITION_BEFORE_END );
 				return searchRange;
 			}
 

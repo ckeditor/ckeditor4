@@ -53,7 +53,7 @@ CKEDITOR.plugins.removeformat = {
 
 					var breakParent = function( node ) {
 							// Let's start checking the start boundary.
-							var path = new CKEDITOR.dom.elementPath( node ),
+							var path = editor.elementPath( node ),
 								pathElements = path.elements;
 
 							for ( var i = 1, pathElement; pathElement = pathElements[ i ]; i++ ) {

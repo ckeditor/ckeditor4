@@ -16,6 +16,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * not intended to be compatible with it.
  * @param {CKEDITOR.dom.document} document The document into which the range
  *		features will be available.
+ * @param {CKEDITOR.dom.element} [root=body element] Specify the {@link CKEDITOR.dom.range.prototype.root} element of this range,
+ * 		set to the body element of the document if not specified.
+ *		features will be available.
  * @example
  * // Create a range for the entire contents of the editor document body.
  * var range = new CKEDITOR.dom.range( editor.document );
@@ -23,7 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * // Delete the contents.
  * range.deleteContents();
  */
-CKEDITOR.dom.range = function( document ) {
+CKEDITOR.dom.range = function( document, root ) {
 	/**
 	 * Node within which the range begins.
 	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
@@ -85,6 +88,12 @@ CKEDITOR.dom.range = function( document ) {
 	 * range.selectNodeContents( range.document.getBody() );
 	 */
 	this.document = document;
+
+	/**
+	 * The ancestor DOM element within which the range manipulation are limited.
+	 * @type {CKEDITOR.dom.element}
+	 */
+	this.root = root || document && document.getBody();
 };
 
 (function() {
@@ -815,7 +824,7 @@ CKEDITOR.dom.range = function( document ) {
 					// Get the common ancestor.
 					var commonAncestor = this.getCommonAncestor();
 
-					var body = this.document.getBody();
+					var boundary = this.root;
 
 					// For each boundary
 					//		a. Depending on its position, find out the first node to be checked (a sibling) or, if not available, to be enlarge.
@@ -872,7 +881,7 @@ CKEDITOR.dom.range = function( document ) {
 							if ( !commonReached && enlargeable.equals( commonAncestor ) )
 								commonReached = true;
 
-							if ( !body.contains( enlargeable ) )
+							if ( !boundary.contains( enlargeable ) )
 								break;
 
 							// If we don't need space or this element breaks
@@ -1019,7 +1028,7 @@ CKEDITOR.dom.range = function( document ) {
 							if ( !commonReached && enlargeable.equals( commonAncestor ) )
 								commonReached = true;
 
-							if ( !body.contains( enlargeable ) )
+							if ( !boundary.contains( enlargeable ) )
 								break;
 
 							if ( !needsWhiteSpace || enlargeable.getComputedStyle( 'display' ) != 'inline' ) {
@@ -1122,9 +1131,9 @@ CKEDITOR.dom.range = function( document ) {
 					// Enlarging the start boundary.
 					var walkerRange = new CKEDITOR.dom.range( this.document );
 
-					body = this.document.getBody();
+					boundary = this.root;
 
-					walkerRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
+					walkerRange.setStartAt( boundary, CKEDITOR.POSITION_AFTER_START );
 					walkerRange.setEnd( this.startContainer, this.startOffset );
 
 					var walker = new CKEDITOR.dom.walker( walkerRange ),
@@ -1152,7 +1161,7 @@ CKEDITOR.dom.range = function( document ) {
 					enlargeable = walker.lastBackward();
 
 					// It's the body which stop the enlarging if no block boundary found.
-					blockBoundary = blockBoundary || body;
+					blockBoundary = blockBoundary || boundary;
 
 					// Start the range either after the end of found block (<p>...</p>[text)
 					// or at the start of block (<p>[text...), by comparing the document position
@@ -1179,7 +1188,7 @@ CKEDITOR.dom.range = function( document ) {
 					// Enlarging the end boundary.
 					walkerRange = this.clone();
 					walkerRange.collapse();
-					walkerRange.setEndAt( body, CKEDITOR.POSITION_BEFORE_END );
+					walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
 					walker = new CKEDITOR.dom.walker( walkerRange );
 
 					// tailBrGuard only used for on range end.
@@ -1190,7 +1199,7 @@ CKEDITOR.dom.range = function( document ) {
 					enlargeable = walker.lastForward();
 
 					// It's the body which stop the enlarging if no block boundary found.
-					blockBoundary = blockBoundary || body;
+					blockBoundary = blockBoundary || boundary;
 
 					// Close the range either before the found block start (text]<p>...</p>) or at the block end (...text]</p>)
 					// by comparing the document position with 'enlargeable' node.
@@ -1474,8 +1483,8 @@ CKEDITOR.dom.range = function( document ) {
 		},
 
 		splitBlock: function( blockTag ) {
-			var startPath = new CKEDITOR.dom.elementPath( this.startContainer ),
-				endPath = new CKEDITOR.dom.elementPath( this.endContainer );
+			var startPath = new CKEDITOR.dom.elementPath( this.startContainer, this.root ),
+				endPath = new CKEDITOR.dom.elementPath( this.endContainer, this.root );
 
 			var startBlockLimit = startPath.blockLimit,
 				endBlockLimit = endPath.blockLimit;
@@ -1492,7 +1501,7 @@ CKEDITOR.dom.range = function( document ) {
 			if ( blockTag != 'br' ) {
 				if ( !startBlock ) {
 					startBlock = this.fixBlock( true, blockTag );
-					endBlock = new CKEDITOR.dom.elementPath( this.endContainer ).block;
+					endBlock = new CKEDITOR.dom.elementPath( this.endContainer, this.root ).block;
 				}
 
 				if ( !endBlock )
@@ -1509,11 +1518,11 @@ CKEDITOR.dom.range = function( document ) {
 
 			if ( startBlock && startBlock.equals( endBlock ) ) {
 				if ( isEndOfBlock ) {
-					elementPath = new CKEDITOR.dom.elementPath( this.startContainer );
+					elementPath = new CKEDITOR.dom.elementPath( this.startContainer, this.root );
 					this.moveToPosition( endBlock, CKEDITOR.POSITION_AFTER_END );
 					endBlock = null;
 				} else if ( isStartOfBlock ) {
-					elementPath = new CKEDITOR.dom.elementPath( this.startContainer );
+					elementPath = new CKEDITOR.dom.elementPath( this.startContainer, this.root );
 					this.moveToPosition( startBlock, CKEDITOR.POSITION_BEFORE_START );
 					startBlock = null;
 				} else {
@@ -1613,7 +1622,7 @@ CKEDITOR.dom.range = function( document ) {
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.
-			var path = new CKEDITOR.dom.elementPath( this.startContainer );
+			var path = new CKEDITOR.dom.elementPath( this.startContainer, this.root );
 
 			// Creates a range starting at the block start until the range start.
 			var walkerRange = this.clone();
@@ -1645,7 +1654,7 @@ CKEDITOR.dom.range = function( document ) {
 
 			// We need to grab the block element holding the start boundary, so
 			// let's use an element path for it.
-			var path = new CKEDITOR.dom.elementPath( this.endContainer );
+			var path = new CKEDITOR.dom.elementPath( this.endContainer, this.root );
 
 			// Creates a range starting at the block start until the range start.
 			var walkerRange = this.clone();

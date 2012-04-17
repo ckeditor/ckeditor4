@@ -25,7 +25,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						toRemove = [];
 
 					function findDiv( node ) {
-						var path = new CKEDITOR.dom.elementPath( node ),
+						var path = editor.elementPath( node ),
 							blockLimit = path.blockLimit,
 							div = blockLimit.is( 'div' ) && blockLimit;
 
@@ -76,11 +76,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 
 				if ( editor.contextMenu ) {
-					editor.contextMenu.addListener( function( element, selection ) {
+					editor.contextMenu.addListener( function( element ) {
 						if ( !element || element.isReadOnly() )
 							return null;
 
-						var elementPath = new CKEDITOR.dom.elementPath( element ),
+						var elementPath = editor.elementPath( element ),
 							blockLimit = elementPath.blockLimit;
 
 						if ( blockLimit && blockLimit.getAscendant( 'div', true ) ) {

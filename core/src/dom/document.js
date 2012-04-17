@@ -81,6 +81,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	},
 
 	/**
+	 * Returns the element that is currently designated as the active element in the document.
+	 * <strong>Note:</strong>Only one element can be active at a time in a document. An active element does not necessarily have focus,
+	 * but an element with focus is always the active element in a document.
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	getActive: function() {
+		return new CKEDITOR.dom.element( this.$.activeElement );
+	},
+
+	/**
 	 * Gets and element based on its id.
 	 * @param {String} elementId The element id.
 	 * @returns {CKEDITOR.dom.element} The element instance, or null if not found.

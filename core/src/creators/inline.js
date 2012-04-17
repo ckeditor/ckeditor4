@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -19,7 +20,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Add this new editor to the CKEDITOR.instances collections.
 		CKEDITOR.add( editor );
 
-		// Initial editor data.
+		// Initial editor data is simply loaded from the page element content to make
+		// data retrieval possible immediately after the editor creation.
 		editor.setData( element.getHtml(), null, true );
 
 		// Once the editor is loaded, start the UI.
@@ -27,6 +29,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Enable editing on the element.
 			editor.editable( element );
 
+			// Load and process editor data.
+			editor.setData( editor.getData( 1 ) );
+
+			editor.fire( 'contentDom' );
 			// Inline editing defaults to "wysiwyg" mode, so plugins don't
 			// need to make special handling for this "mode-less" environment.
 			editor.mode = 'wysiwyg';

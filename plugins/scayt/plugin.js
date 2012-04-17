@@ -50,7 +50,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// Call scayt_control.focus when SCAYT loaded
 						// and only if editor has focus and scayt control creates at first time (#5720)
-						if ( editor.focusManager.hasFocus && !plugin.isControlRestored( editor ) )
+						if ( editor.editable().hasFocus && !plugin.isControlRestored( editor ) )
 							this.focus();
 
 					};

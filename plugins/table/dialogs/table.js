@@ -215,7 +215,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var firstCell = new CKEDITOR.dom.element( table.$.rows[ 0 ].cells[ 0 ] );
 						var range = new CKEDITOR.dom.range( editor.document );
 						range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
-						range.select( 1 );
+						range.select();
 					}, 0 );
 				}
 				// Properly restore the selection, (#4822) but don't break

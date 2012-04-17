@@ -78,15 +78,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 
 				onClick: function( value ) {
-					editor.focus();
 					editor.fire( 'saveSnapshot' );
 
 					var style = styles[ value ],
 						selection = editor.getSelection(),
-						elementPath = new CKEDITOR.dom.elementPath( selection.getStartElement() );
+						elementPath = editor.elementPath();
 
-					style[ style.checkActive( elementPath ) ? 'remove' : 'apply' ]( editor.document );
-
+					editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
 					editor.fire( 'saveSnapshot' );
 				},
 
@@ -117,12 +115,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 
 				onOpen: function() {
-					if ( CKEDITOR.env.ie || CKEDITOR.env.webkit )
-						editor.focus();
-
 					var selection = editor.getSelection(),
 						element = selection.getSelectedElement(),
-						elementPath = new CKEDITOR.dom.elementPath( element || selection.getStartElement() ),
+						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 
 					this.showAll();

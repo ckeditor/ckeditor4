@@ -39,7 +39,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, this );
 
 			// Delegate editor focus/blur to editable.
-			this.attachListener( editor, 'beforeFocus', this.focus, this );
+			this.attachListener( editor, 'beforeFocus', function() {
+				this.focus();
+			}, this );
+
+			/**
+			 * Indicate whether the editable element has gained focus.
+			 * @name CKEDITOR.editable.prototype.hasFocus
+			 */
+			this.hasFocus = false;
 
 			// Handle editor's html/element/text insertion.
 			this.attachListener( editor, 'insertHtml', onInsert( this.insertHtml ), this, null, 20 );
@@ -51,23 +59,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 		proto: {
 			/**
+			 * Override {@link CKEDITOR.dom.element.prototype.on} to have special focus/blur handling.
+			 * The "focusin/focusout" events are used in IE to replace regular "focus/blur" events
+			 * because we want to avoid the asynchronous nature of later ones.
+			 */
+			on: function( name, fn ) {
+				var args = Array.prototype.slice.call( arguments, 0 );
+
+				if ( CKEDITOR.env.ie && /^focus|blur$/.exec( name ) ) {
+					name = name == 'focus' ? 'focusin' : 'focusout';
+
+					// The "focusin/focusout" events bubbled, e.g. If there are elements with layout
+					// they fire this event when clicking in to edit them but it must be ignored
+					// to allow edit their contents. (#4682)
+					fn = isNotBubbling( fn );
+					args[ 0 ] = name;
+					args[ 1 ] = fn;
+				}
+
+				return CKEDITOR.dom.element.prototype.on.apply( this, args );
+			},
+
+			/**
 			 * Registers an event listener that needs to be removed on detaching.
 			 * @param obj
 			 * @param event
 			 * @param fn
 			 * @param scope
 			 */
-			attachListener: function( obj, event, fn, scope ) {
+			attachListener: function( obj, event, fn, scope, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
-				// Register the listener..
-				this._.listeners.push( obj.on( event, fn, scope ) );
-			},
-
-			focus: function() {
-				CKEDITOR.editable.baseProto.focus.call( this );
-				// Always fire the selection change, even on focus re-enter.
-				this.editor.forceNextSelectionCheck();
-				this.editor.selectionChange();
+				// Register the listener.
+				var args = Array.prototype.slice.call( arguments, 1 );
+				this._.listeners.push( obj.on.apply( obj, args ) );
 			},
 
 			/**
@@ -96,7 +120,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
 						for ( var i = 0, count = nodes.length; i < count; i++ ) {
 							if ( nodes[ i ]._.isBlockLike ) {
-								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
 								range.insertNode( range.document.createText( '' ) );
 								range.select();
 								break;
@@ -250,7 +274,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									range.collapse( true );
 									current.remove();
 								} else
-									range.splitBlock();
+									range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
 							}
 						}
 
@@ -289,6 +313,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @see CKEDITOR.editor.prototype.setData
 			 */
 			setData: function( data, isSnapshot ) {
+				if ( !isSnapshot && this.editor.dataProcessor )
+					data = this.editor.dataProcessor.toHtml( data );
+
 				this.setHtml( data );
 				this.editor.fire( 'dataReady' );
 			},
@@ -297,7 +324,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @see CKEDITOR.editor.prototype.getData
 			 */
 			getData: function( isSnapshot ) {
-				return this.getHtml();
+				var data = this.getHtml();
+
+				if ( !isSnapshot && this.editor.dataProcessor )
+					data = this.editor.dataProcessor.toDataFormat( data );
+
+				return data;
 			},
 
 			detach: function() {
@@ -330,9 +362,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.keystrokeHandler.attach( this );
 
 				this.attachListener( this, 'focus', function() {
+					this.hasFocus = true;
 					editor.focusManager.focus();
 				});
+
 				this.attachListener( this, 'blur', function() {
+					this.hasFocus = false;
 					editor.focusManager.blur();
 				});
 
@@ -623,34 +658,48 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return element.isBlockBoundary() && CKEDITOR.dtd.$empty[ element.getName() ];
 	}
 
+	function isNotBubbling( fn ) {
+		return function( evt ) {
+			var target = evt.data.getTarget(),
+				other = evt.data.$.toElement || evt.data.$.fromElement;
+			other = other ? CKEDITOR.dom.element.get( other ) : null;
+			if ( target.equals( this ) && !( other && this.contains( other ) ) )
+				fn.call( this, evt );
+		}
+	}
+
+
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
-	CKEDITOR.on( 'instanceLoaded', function( evt ) {
-		var editor = evt.editor;
-
+	CKEDITOR.on( 'instanceReady', function( evt ) {
+		var editor = evt.editor,
+			editable = editor.editable();
 		// Auto fixing on some document structure weakness to enhance usabilities. (#3190 and #3189)
-		editor.on( 'selectionChange', function( evt ) {
-			if ( editor.readOnly )
-				return;
+		if ( editable && editable.is( 'body' ) ) {
+			editor.on( 'selectionChange', function( evt ) {
+				if ( editor.readOnly )
+					return;
 
-			var sel = editor.getSelection();
-			// Do it only when selection is not locked. (#8222)
-			if ( sel && !sel.isLocked ) {
-				var isDirty = editor.checkDirty();
-				editor.fire( 'saveSnapshot', { contentOnly:1 } );
-				onSelectionChangeFixBody.call( this, evt );
-				editor.fire( 'updateSnapshot' );
-				!isDirty && editor.resetDirty();
-			}
-		});
+				var sel = editor.getSelection();
+				// Do it only when selection is not locked. (#8222)
+				if ( sel && !sel.isLocked ) {
+					var isDirty = editor.checkDirty();
+					editor.fire( 'saveSnapshot', { contentOnly:1 } );
+					onSelectionChangeFixBody.call( this, evt );
+					editor.fire( 'updateSnapshot' );
+					!isDirty && editor.resetDirty();
+				}
+			});
+		}
+	});
 
-		// Disable form elements editing mode provided by some browers, (#5746)
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
-		editor.on( 'insertElement', function( evt ) {
+		evt.editor.on( 'insertElement', function( evt ) {
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.

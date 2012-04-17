@@ -63,7 +63,7 @@
 		 * @param {Object} element
 		 */
 		function getDivLimitElement( element ) {
-			var pathElements = new CKEDITOR.dom.elementPath( element ).elements;
+			var pathElements = editor.elementPath( element ).elements;
 			var divLimit;
 			for ( var i = 0; i < pathElements.length; i++ ) {
 				if ( pathElements[ i ].getName() in divLimitDefinition ) {
@@ -122,7 +122,7 @@
 				block;
 
 			// Get all ranges from the selection.
-			var selection = editor.document.getSelection(),
+			var selection = editor.getSelection(),
 				ranges = selection.getRanges();
 			var bookmarks = selection.createBookmarks();
 			var i, iterator;
@@ -141,8 +141,7 @@
 						for ( j = 0; j < childNodes.count(); j++ )
 							addSafely( containedBlocks, childNodes.getItem( j ), database );
 					} else {
-						// Bypass dtd disallowed elements.
-						while ( !dtd[ block.getName() ] && block.getName() != 'body' )
+						while ( !dtd[ block.getName() ] && !block.equals( ranges[ i ].root ) )
 							block = block.getParent();
 						addSafely( containedBlocks, block, database );
 					}

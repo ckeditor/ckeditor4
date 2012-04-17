@@ -52,16 +52,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 
 			onClick: function( value ) {
-				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
 				var style = styles[ value ];
 
-				if ( this.getValue() == value )
-					style.remove( editor.document );
-				else
-					style.apply( editor.document );
-
+				editor[ this.getValue() == value ? 'removeStyle' : 'applyStyle' ]( style );
 				editor.fire( 'saveSnapshot' );
 			},
 

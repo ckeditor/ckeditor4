@@ -52,7 +52,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			function onClick( elementIndex ) {
 				editor.focus();
 				var element = editor._.elementsPath.list[ elementIndex ];
-				if ( element.is( 'body' ) ) {
+				if ( element.equals( editor.editable() ) ) {
 					var range = new CKEDITOR.dom.range( editor.document );
 					range.selectNodeContents( element );
 					range.select();
@@ -102,10 +102,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.on( 'selectionChange', function( ev ) {
 				var env = CKEDITOR.env,
+					editable = editor.editable(),
 					selection = ev.data.selection,
 					element = selection.getStartElement(),
 					html = [],
-					editor = ev.editor,
 					elementsList = editor._.elementsPath.list = [],
 					filters = editor._.elementsPath.filters;
 
@@ -160,7 +160,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					}
 
-					if ( name == 'body' )
+					if ( element.equals( editable ) )
 						break;
 
 					element = element.getParent();
