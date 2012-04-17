@@ -30,11 +30,11 @@ CKEDITOR.lang[ 'gu' ] = {
 	 * Screenreader titles. Please note that screenreaders are not always capable
 	 * of reading non-English words. So be careful while translating it.
 	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
+	editorTitle: 'રીચ ટેક્ષ્ત્ એડિટર, %1, પ્રેસ ALT 0 મદદ માટે.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: 'એડીટર ટૂલ બાર',
+	editor: 'રીચ ટેક્ષ્ત્ એડીટર',
 
 	// Toolbar buttons without dialogs.
 	source: 'મૂળ કે પ્રાથમિક દસ્તાવેજ',
@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	superscript: 'એક ચિહ્ન ઉપર કરેલું બીજું ચિહ્ન.',
 	horizontalrule: 'સમસ્તરીય રેખા ઇન્સર્ટ/દાખલ કરવી',
 	pagebreak: 'ઇન્સર્ટ પેજબ્રેક/પાનાને અલગ કરવું/દાખલ કરવું',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: 'નવું પાનું',
 	unlink: 'લિંક કાઢવી',
 	undo: 'રદ કરવું; પહેલાં હતી એવી સ્થિતિ પાછી લાવવી',
 	redo: 'રિડૂ; પછી હતી એવી સ્થિતિ પાછી લાવવી',
@@ -91,23 +91,23 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssStyle: 'સ્ટાઇલ',
 		ok: 'ઠીક છે',
 		cancel: 'રદ કરવું',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'બંધ કરવું',
+		preview: 'જોવું',
+		generalTab: 'જનરલ',
 		advancedTab: 'અડ્વાન્સડ',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		validateNumberFailed: 'આ રકમ આકડો નથી.',
+		confirmNewPage: 'સવે કાર્ય વગરનું ફકરો ખોવાઈ જશે. તમને ખાતરી છે કે તમને નવું પાનું ખોલવું છે?',
+		confirmCancel: 'ઘણા વિકલ્પો બદલાયા છે. તમારે આ બોક્ષ્ બંધ કરવું છે?',
+		options: 'વિકલ્પો',
+		target: 'લક્ષ્ય',
+		targetNew: 'નવી વિન્ડો (_blank)',
+		targetTop: 'ઉપરની વિન્ડો (_top)',
+		targetSelf: 'એજ વિન્ડો (_self)',
+		targetParent: 'પેરનટ વિન્ડો (_parent)',
+		langDirLTR: 'ડાબે થી જમણે (LTR)',
+		langDirRTL: 'જમણે થી ડાબે (RTL)',
+		styles: 'શૈલી',
+		cssClasses: 'શૈલી કલાસીસ',
 		width: 'પહોળાઈ',
 		height: 'ઊંચાઈ',
 		align: 'લાઇનદોરીમાં ગોઠવવું',
@@ -117,32 +117,32 @@ CKEDITOR.lang[ 'gu' ] = {
 		alignTop: 'ઉપર',
 		alignMiddle: 'વચ્ચે',
 		alignBottom: 'નીચે',
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHeight: 'ઉંચાઈ એક આંકડો હોવો જોઈએ.',
+		invalidWidth: 'પોહળ ઈ એક આંકડો હોવો જોઈએ.',
+		invalidCssLength: '"%1" ની વેલ્યુ એક પોસીટીવ આંકડો હોવો જોઈએ અથવા CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc) વગર.',
+		invalidHtmlLength: '"%1" ની વેલ્યુ એક પોસીટીવ આંકડો હોવો જોઈએ અથવા HTML measurement unit (px or %) વગર.',
+		invalidInlineStyle: 'ઈનલાઈન  સ્ટાઈલ ની વેલ્યુ  "name : value" ના ફોર્મેટ માં હોવી જોઈએ, વચ્ચે સેમી-કોલોન જોઈએ.',
+		cssLengthTooltip: 'પિક્ષ્લ્ નો આંકડો CSS unit (px, %, in, cm, mm, em, ex, pt, or pc) માં નાખો.',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, નથી મળતું</span>'
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'કોન્તેક્ષ્ત્ મેનુના વિકલ્પો'
 	},
 
 	// Special char dialog.
 	specialChar: {
 		toolbar: 'વિશિષ્ટ અક્ષર ઇન્સર્ટ/દાખલ કરવું',
 		title: 'સ્પેશિઅલ વિશિષ્ટ અક્ષર પસંદ કરો',
-		options: 'Special Character Options' // MISSING
+		options: 'સ્પેશિઅલ કરેક્ટરના વિકલ્પો'
 	},
 
 	// Link dialog.
 	link: {
 		toolbar: 'લિંક ઇન્સર્ટ/દાખલ કરવી',
-		other: '<other>', // MISSING
+		other: '<other> <અન્ય>',
 		menu: ' લિંક એડિટ/માં ફેરફાર કરવો',
 		title: 'લિંક',
 		info: 'લિંક ઇન્ફૉ ટૅબ',
@@ -150,7 +150,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		upload: 'અપલોડ',
 		advanced: 'અડ્વાન્સડ',
 		type: 'લિંક પ્રકાર',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'આ પેજનો ઍંકર',
 		toEmail: 'ઈ-મેલ',
 		targetFrame: '<ફ્રેમ>',
@@ -158,7 +158,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		targetFrameName: 'ટાર્ગેટ ફ્રેમ નું નામ',
 		targetPopupName: 'પૉપ-અપ વિન્ડો નું નામ',
 		popupFeatures: 'પૉપ-અપ વિન્ડો ફીચરસૅ',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'રીસાઈઝએબલ',
 		popupStatusBar: 'સ્ટૅટસ બાર',
 		popupLocationBar: 'લોકેશન બાર',
 		popupToolbar: 'ટૂલ બાર',
@@ -168,7 +168,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		popupDependent: 'ડિપેન્ડન્ટ (Netscape)',
 		popupLeft: 'ડાબી બાજુ',
 		popupTop: 'જમણી બાજુ',
-		id: 'Id', // MISSING
+		id: 'Id',
 		langDir: 'ભાષા લેખવાની પદ્ધતિ',
 		langDirLTR: 'ડાબે થી જમણે (LTR)',
 		langDirRTL: 'જમણે થી ડાબે (RTL)',
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
 		charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 		styles: 'સ્ટાઇલ',
-		rel: 'Relationship', // MISSING
+		rel: 'સંબંધની સ્થિતિ',
 		selectAnchor: 'ઍંકર પસંદ કરો',
 		anchorName: 'ઍંકર નામથી પસંદ કરો',
 		anchorId: 'ઍંકર એલિમન્ટ Id થી પસંદ કરો',
@@ -200,30 +200,30 @@ CKEDITOR.lang[ 'gu' ] = {
 		title: 'ઍંકરના ગુણ',
 		name: 'ઍંકરનું નામ',
 		errorName: 'ઍંકરનું નામ ટાઈપ કરો',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'સ્થિર નકરવું'
 	},
 
 	// List style dialog
 	list: {
-		numberedTitle: 'Numbered List Properties', // MISSING
-		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
-		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
-		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
-		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
-		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
-		lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-		upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)', // MISSING
-		lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
-		decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-		decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)' // MISSING
+		numberedTitle: 'આંકડાના લીસ્ટના ગુણ',
+		bulletedTitle: 'બુલેટેડ લીસ્ટના ગુણ',
+		type: 'પ્રકાર',
+		start: 'શરુ કરવું',
+		validateStartNumber: 'લીસ્ટના સરુઆતનો આંકડો પુરો હોવો જોઈએ.',
+		circle: 'વર્તુળ',
+		disc: 'ડિસ્ક',
+		square: 'ચોરસ',
+		none: 'કસુ ',
+		notset: '<સેટ નથી>',
+		armenian: 'અરમેનિયન આંકડા પદ્ધતિ',
+		georgian: 'ગેઓર્ગિયન આંકડા પદ્ધતિ (an, ban, gan, etc.)',
+		lowerRoman: 'રોમન નાના (i, ii, iii, iv, v, etc.)',
+		upperRoman: 'રોમન મોટા (I, II, III, IV, V, etc.)',
+		lowerAlpha: 'આલ્ફા નાના (a, b, c, d, e, etc.)',
+		upperAlpha: 'આલ્ફા મોટા (A, B, C, D, E, etc.)',
+		lowerGreek: 'ગ્રીક નાના (alpha, beta, gamma, etc.)',
+		decimal: 'આંકડા (1, 2, 3, etc.)',
+		decimalLeadingZero: 'સુન્ય આગળ આંકડા (01, 02, 03, etc.)'
 	},
 
 	// Find And Replace Dialog
@@ -234,12 +234,12 @@ CKEDITOR.lang[ 'gu' ] = {
 		findWhat: 'આ શોધો',
 		replaceWith: 'આનાથી બદલો',
 		notFoundMsg: 'તમે શોધેલી ટેક્સ્ટ નથી મળી',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'વીકલ્પ શોધો',
 		matchCase: 'કેસ સરખા રાખો',
 		matchWord: 'બઘા શબ્દ સરખા રાખો',
-		matchCyclic: 'Match cyclic', // MISSING
+		matchCyclic: 'સરખાવવા બધા',
 		replaceAll: 'બઘા બદલી ',
-		replaceSuccessMsg: '%1 occurrence(s) replaced.' // MISSING
+		replaceSuccessMsg: '%1 ફેરફારો બાદલાયા છે.'
 	},
 
 	// Table Dialog
@@ -253,23 +253,23 @@ CKEDITOR.lang[ 'gu' ] = {
 		border: 'કોઠાની બાજુ(બોર્ડર) સાઇઝ',
 		widthPx: 'પિકસલ',
 		widthPc: 'પ્રતિશત',
-		widthUnit: 'width unit', // MISSING
+		widthUnit: 'પોહાલાઈ એકમ',
 		cellSpace: 'સેલ અંતર',
 		cellPad: 'સેલ પૅડિંગ',
 		caption: 'મથાળું/કૅપ્શન ',
 		summary: 'ટૂંકો એહેવાલ',
-		headers: 'Headers', // MISSING
-		headersNone: 'None', // MISSING
-		headersColumn: 'First column', // MISSING
-		headersRow: 'First Row', // MISSING
-		headersBoth: 'Both', // MISSING
-		invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-		invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-		invalidBorder: 'Border size must be a number.', // MISSING
-		invalidWidth: 'Table width must be a number.', // MISSING
-		invalidHeight: 'Table height must be a number.', // MISSING
-		invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-		invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
+		headers: 'મથાળા',
+		headersNone: 'નથી ',
+		headersColumn: 'પહેલી ઊભી કટાર',
+		headersRow: 'પહેલી  કટાર',
+		headersBoth: 'બેવું',
+		invalidRows: 'આડી કટાર, 0 કરતા વધારે હોવી જોઈએ.',
+		invalidCols: 'ઉભી કટાર, 0 કરતા વધારે હોવી જોઈએ.',
+		invalidBorder: 'બોર્ડર એક આંકડો હોવો જોઈએ',
+		invalidWidth: 'ટેબલની પોહલાઈ આંકડો હોવો જોઈએ.',
+		invalidHeight: 'ટેબલની ઊંચાઈ આંકડો હોવો જોઈએ.',
+		invalidCellSpacing: 'સેલ વચ્ચેની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',
+		invalidCellPadding: 'સેલની અંદરની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',
 
 		cell: {
 			menu: 'કોષના ખાના',
@@ -281,25 +281,25 @@ CKEDITOR.lang[ 'gu' ] = {
 			mergeDown: 'નીચે ભેગા કરવા',
 			splitHorizontal: 'કોષને સમસ્તરીય વિભાજન કરવું',
 			splitVertical: 'કોષને સીધું ને ઊભું વિભાજન કરવું',
-			title: 'Cell Properties', // MISSING
-			cellType: 'Cell Type', // MISSING
-			rowSpan: 'Rows Span', // MISSING
-			colSpan: 'Columns Span', // MISSING
-			wordWrap: 'Word Wrap', // MISSING
-			hAlign: 'Horizontal Alignment', // MISSING
-			vAlign: 'Vertical Alignment', // MISSING
-			alignBaseline: 'Baseline', // MISSING
-			bgColor: 'Background Color', // MISSING
-			borderColor: 'Border Color', // MISSING
-			data: 'Data', // MISSING
-			header: 'Header', // MISSING
-			yes: 'Yes', // MISSING
-			no: 'No', // MISSING
-			invalidWidth: 'Cell width must be a number.', // MISSING
-			invalidHeight: 'Cell height must be a number.', // MISSING
-			invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-			invalidColSpan: 'Columns span must be a whole number.', // MISSING
-			chooseColor: 'Choose' // MISSING
+			title: 'સેલના ગુણ',
+			cellType: 'સેલનો પ્રકાર',
+			rowSpan: 'આડી કટારની જગ્યા',
+			colSpan: 'ઊભી કતારની જગ્યા',
+			wordWrap: 'વર્ડ રેપ',
+			hAlign: 'સપાટ લાઈનદોરી',
+			vAlign: 'ઊભી લાઈનદોરી',
+			alignBaseline: 'બસે લાઈન',
+			bgColor: 'પાછાળનો રંગ',
+			borderColor: 'બોર્ડેર રંગ',
+			data: 'સ્વીકૃત માહિતી',
+			header: 'મથાળું',
+			yes: 'હા',
+			no: 'ના',
+			invalidWidth: 'સેલની પોહલાઈ આંકડો હોવો જોઈએ.',
+			invalidHeight: 'સેલની ઊંચાઈ આંકડો હોવો જોઈએ.',
+			invalidRowSpan: 'રો સ્પાન આંકડો હોવો જોઈએ.',
+			invalidColSpan: 'કોલમ સ્પાન આંકડો હોવો જોઈએ.',
+			chooseColor: 'પસંદ કરવું'
 		},
 
 		row: {
@@ -341,7 +341,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		menu: 'ફૉર્મ/પત્રકના ગુણ',
 		action: 'ક્રિયા',
 		method: 'પદ્ધતિ',
-		encoding: 'Encoding' // MISSING
+		encoding: 'અન્કોડીન્ગ'
 	},
 
 	// Select Field Dialog.
@@ -405,61 +405,61 @@ CKEDITOR.lang[ 'gu' ] = {
 		vSpace: 'લંબરૂપ જગ્યા',
 		alertUrl: 'ચિત્રની URL ટાઇપ કરો',
 		linkTab: 'લિંક',
-		button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-		img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-		urlMissing: 'Image source URL is missing.', // MISSING
-		validateBorder: 'Border must be a whole number.', // MISSING
-		validateHSpace: 'HSpace must be a whole number.', // MISSING
-		validateVSpace: 'VSpace must be a whole number.' // MISSING
+		button2Img: 'તમારે ઈમેજ બટનને સાદી ઈમેજમાં બદલવું છે.',
+		img2Button: 'તમારે સાદી ઈમેજને ઈમેજ બટનમાં બદલવું છે.',
+		urlMissing: 'ઈમેજની મૂળ URL છે નહી.',
+		validateBorder: 'બોર્ડેર આંકડો હોવો જોઈએ.',
+		validateHSpace: 'HSpaceઆંકડો હોવો જોઈએ.',
+		validateVSpace: 'VSpace આંકડો હોવો જોઈએ. '
 	},
 
 	// Flash Dialog
 	flash: {
 		properties: 'ફ્લૅશના ગુણ',
-		propertiesTab: 'Properties', // MISSING
+		propertiesTab: 'ગુણ',
 		title: 'ફ્લૅશ ગુણ',
 		chkPlay: 'ઑટો/સ્વયં પ્લે',
 		chkLoop: 'લૂપ',
 		chkMenu: 'ફ્લૅશ મેન્યૂ નો પ્રયોગ કરો',
-		chkFull: 'Allow Fullscreen', // MISSING
+		chkFull: 'ફૂલ સ્ક્રીન કરવું',
 		scale: 'સ્કેલ',
 		scaleAll: 'સ્કેલ ઓલ/બધુ બતાવો',
 		scaleNoBorder: 'સ્કેલ બોર્ડર વગર',
 		scaleFit: 'સ્કેલ એકદમ ફીટ',
-		access: 'Script Access', // MISSING
-		accessAlways: 'Always', // MISSING
-		accessSameDomain: 'Same domain', // MISSING
-		accessNever: 'Never', // MISSING
+		access: 'સ્ક્રીપ્ટ એક્સેસ',
+		accessAlways: 'હમેશાં',
+		accessSameDomain: 'એજ ડોમેન',
+		accessNever: 'નહી',
 		alignAbsBottom: 'Abs નીચે',
 		alignAbsMiddle: 'Abs ઉપર',
 		alignBaseline: 'આધાર લીટી',
 		alignTextTop: 'ટેક્સ્ટ ઉપર',
-		quality: 'Quality', // MISSING
-		qualityBest: 'Best', // MISSING
-		qualityHigh: 'High', // MISSING
-		qualityAutoHigh: 'Auto High', // MISSING
-		qualityMedium: 'Medium', // MISSING
-		qualityAutoLow: 'Auto Low', // MISSING
-		qualityLow: 'Low', // MISSING
-		windowModeWindow: 'Window', // MISSING
-		windowModeOpaque: 'Opaque', // MISSING
-		windowModeTransparent: 'Transparent', // MISSING
-		windowMode: 'Window mode', // MISSING
-		flashvars: 'Variables for Flash', // MISSING
+		quality: 'ગુણધર્મ',
+		qualityBest: 'શ્રેષ્ઠ',
+		qualityHigh: 'ઊંચું',
+		qualityAutoHigh: 'ઓટો ઊંચું',
+		qualityMedium: 'મધ્યમ',
+		qualityAutoLow: 'ઓટો નીચું',
+		qualityLow: 'નીચું',
+		windowModeWindow: 'વિન્ડો',
+		windowModeOpaque: 'અપારદર્શક',
+		windowModeTransparent: 'પારદર્શક',
+		windowMode: 'વિન્ડો મોડ',
+		flashvars: 'ફલેશ ના વિકલ્પો',
 		bgcolor: 'બૅકગ્રાઉન્ડ રંગ,',
 		hSpace: 'સમસ્તરીય જગ્યા',
 		vSpace: 'લંબરૂપ જગ્યા',
 		validateSrc: 'લિંક  URL ટાઇપ કરો',
-		validateHSpace: 'HSpace must be a number.', // MISSING
-		validateVSpace: 'VSpace must be a number.' // MISSING
+		validateHSpace: 'HSpace આંકડો હોવો જોઈએ.',
+		validateVSpace: 'VSpace આંકડો હોવો જોઈએ.'
 	},
 
 	// Speller Pages Dialog
 	spellCheck: {
 		toolbar: 'જોડણી (સ્પેલિંગ) તપાસવી',
-		title: 'Spell Check', // MISSING
-		notAvailable: 'Sorry, but service is unavailable now.', // MISSING
-		errorLoading: 'Error loading application service host: %s.', // MISSING
+		title: 'સ્પેલ ',
+		notAvailable: 'માફ કરશો, આ સુવિધા ઉપલબ્ધ નથી',
+		errorLoading: 'સર્વિસ એપ્લીકેશન લોડ નથી થ: %s.',
 		notInDic: 'શબ્દકોશમાં નથી',
 		changeTo: 'આનાથી બદલવું',
 		btnIgnore: 'ઇગ્નોર/અવગણના કરવી',
@@ -479,12 +479,12 @@ CKEDITOR.lang[ 'gu' ] = {
 	smiley: {
 		toolbar: 'સ્માઇલી',
 		title: 'સ્માઇલી  પસંદ કરો',
-		options: 'Smiley Options' // MISSING
+		options: 'સમ્ય્લી વિકલ્પો'
 	},
 
 	elementsPath: {
-		eleLabel: 'Elements path', // MISSING
-		eleTitle: '%1 element' // MISSING
+		eleLabel: 'એલીમેન્ટ્સ નો ',
+		eleTitle: 'એલીમેન્ટ %1'
 	},
 
 	numberedlist: 'સંખ્યાંકન સૂચિ',
@@ -507,14 +507,14 @@ CKEDITOR.lang[ 'gu' ] = {
 		copyError: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસ કોપી કરવાની પરવાનગી નથી આપતી.  (Ctrl/Cmd+C) का प्रयोग करें।',
 		pasteMsg: 'Ctrl/Cmd+V નો પ્રયોગ કરી પેસ્ટ કરો',
 		securityMsg: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસના કારણે,એડિટર તમારા કિલ્પબોર્ડ ડેટા ને કોપી નથી કરી શકતો. તમારે આ વિન્ડોમાં ફરીથી પેસ્ટ કરવું પડશે.',
-		pasteArea: 'Paste Area' // MISSING
+		pasteArea: 'પેસ્ટ કરવાની જગ્યા'
 	},
 
 	pastefromword: {
-		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
+		confirmCleanup: 'તમે જે ટેક્ષ્ત્ કોપી કરી રહ્યા છો ટે વર્ડ ની છે. કોપી કરતા પેહલા સાફ કરવી છે?',
 		toolbar: 'પેસ્ટ (વડૅ ટેક્સ્ટ)',
 		title: 'પેસ્ટ (વડૅ ટેક્સ્ટ)',
-		error: 'It was not possible to clean up the pasted data due to an internal error' // MISSING
+		error: 'પેસ્ટ કરેલો ડેટા ઇન્ટરનલ એરર ના લીથે સાફ કરી શકાયો નથી.'
 	},
 
 	pasteText: {
@@ -525,7 +525,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	templates: {
 		button: 'ટેમ્પ્લેટ',
 		title: 'કન્ટેન્ટ ટેમ્પ્લેટ',
-		options: 'Template Options', // MISSING
+		options: 'ટેમ્પ્લેટના વિકલ્પો',
 		insertOption: 'મૂળ શબ્દને બદલો',
 		selectPromptMsg: 'એડિટરમાં ઓપન કરવા ટેમ્પ્લેટ પસંદ કરો (વર્તમાન કન્ટેન્ટ સેવ નહીં થાય):',
 		emptyListMsg: '(કોઈ ટેમ્પ્લેટ ડિફાઇન નથી)'
@@ -535,10 +535,10 @@ CKEDITOR.lang[ 'gu' ] = {
 
 	stylesCombo: {
 		label: 'શૈલી/રીત',
-		panelTitle: 'Formatting Styles', // MISSING
-		panelTitle1: 'Block Styles', // MISSING
-		panelTitle2: 'Inline Styles', // MISSING
-		panelTitle3: 'Object Styles' // MISSING
+		panelTitle: 'ફોર્મેટ ',
+		panelTitle1: 'બ્લોક ',
+		panelTitle2: 'ઈનલાઈન ',
+		panelTitle3: 'ઓબ્જેક્ટ પદ્ધતિ'
 	},
 
 	format: {
@@ -558,189 +558,189 @@ CKEDITOR.lang[ 'gu' ] = {
 	},
 
 	div: {
-		title: 'Create Div Container', // MISSING
-		toolbar: 'Create Div Container', // MISSING
-		cssClassInputLabel: 'Stylesheet Classes', // MISSING
-		styleSelectLabel: 'Style', // MISSING
-		IdInputLabel: 'Id', // MISSING
-		languageCodeInputLabel: ' Language Code', // MISSING
-		inlineStyleInputLabel: 'Inline Style', // MISSING
-		advisoryTitleInputLabel: 'Advisory Title', // MISSING
-		langDirLabel: 'Language Direction', // MISSING
-		langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-		langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-		edit: 'Edit Div', // MISSING
-		remove: 'Remove Div' // MISSING
+		title: 'Div કન્ટેનર બનાવુંવું',
+		toolbar: 'Div કન્ટેનર બનાવુંવું',
+		cssClassInputLabel: 'સ્ટાઈલશીટ કલાસીસ',
+		styleSelectLabel: 'સ્ટાઈલ',
+		IdInputLabel: 'Id',
+		languageCodeInputLabel: 'ભાષાનો કોડ',
+		inlineStyleInputLabel: 'ઈનલાઈન પદ્ધતિ',
+		advisoryTitleInputLabel: 'એડવાઈઝર શીર્ષક',
+		langDirLabel: 'ભાષાની દિશા',
+		langDirLTRLabel: 'ડાબે થી જમણે (LTR)',
+		langDirRTLLabel: 'જમણે થી ડાબે (RTL)',
+		edit: 'ડીવીમાં ફેરફાર કરવો',
+		remove: 'ડીવી કાઢી કાઢવું'
 	},
 
 	iframe: {
-		title: 'IFrame Properties', // MISSING
-		toolbar: 'IFrame', // MISSING
-		noUrl: 'Please type the iframe URL', // MISSING
-		scrolling: 'Enable scrollbars', // MISSING
-		border: 'Show frame border' // MISSING
+		title: 'IFrame વિકલ્પો',
+		toolbar: 'IFrame',
+		noUrl: 'iframe URL ટાઈપ્ કરો',
+		scrolling: 'સ્ક્રોલબાર ચાલુ કરવા',
+		border: 'ફ્રેમ બોર્ડેર બતાવવી'
 	},
 
 	font: {
 		label: 'ફૉન્ટ',
-		voiceLabel: 'Font', // MISSING
+		voiceLabel: 'ફોન્ટ',
 		panelTitle: 'ફૉન્ટ'
 	},
 
 	fontSize: {
 		label: 'ફૉન્ટ સાઇઝ/કદ',
-		voiceLabel: 'Font Size', // MISSING
+		voiceLabel: 'ફોન્ટ સાઈઝ',
 		panelTitle: 'ફૉન્ટ સાઇઝ/કદ'
 	},
 
 	colorButton: {
 		textColorTitle: 'શબ્દનો રંગ',
 		bgColorTitle: 'બૅકગ્રાઉન્ડ રંગ,',
-		panelTitle: 'Colors', // MISSING
+		panelTitle: 'રંગ',
 		auto: 'સ્વચાલિત',
 		more: 'ઔર રંગ...'
 	},
 
 	colors: {
-		'000': 'Black', // MISSING
-		'800000': 'Maroon', // MISSING
-		'8B4513': 'Saddle Brown', // MISSING
-		'2F4F4F': 'Dark Slate Gray', // MISSING
-		'008080': 'Teal', // MISSING
-		'000080': 'Navy', // MISSING
-		'4B0082': 'Indigo', // MISSING
-		'696969': 'Dark Gray', // MISSING
-		'B22222': 'Fire Brick', // MISSING
-		'A52A2A': 'Brown', // MISSING
-		'DAA520': 'Golden Rod', // MISSING
-		'006400': 'Dark Green', // MISSING
-		'40E0D0': 'Turquoise', // MISSING
-		'0000CD': 'Medium Blue', // MISSING
-		'800080': 'Purple', // MISSING
-		'808080': 'Gray', // MISSING
-		'F00': 'Red', // MISSING
-		'FF8C00': 'Dark Orange', // MISSING
-		'FFD700': 'Gold', // MISSING
-		'008000': 'Green', // MISSING
-		'0FF': 'Cyan', // MISSING
-		'00F': 'Blue', // MISSING
-		'EE82EE': 'Violet', // MISSING
-		'A9A9A9': 'Dim Gray', // MISSING
-		'FFA07A': 'Light Salmon', // MISSING
-		'FFA500': 'Orange', // MISSING
-		'FFFF00': 'Yellow', // MISSING
-		'00FF00': 'Lime', // MISSING
-		'AFEEEE': 'Pale Turquoise', // MISSING
-		'ADD8E6': 'Light Blue', // MISSING
-		'DDA0DD': 'Plum', // MISSING
-		'D3D3D3': 'Light Grey', // MISSING
-		'FFF0F5': 'Lavender Blush', // MISSING
-		'FAEBD7': 'Antique White', // MISSING
-		'FFFFE0': 'Light Yellow', // MISSING
-		'F0FFF0': 'Honeydew', // MISSING
-		'F0FFFF': 'Azure', // MISSING
-		'F0F8FF': 'Alice Blue', // MISSING
-		'E6E6FA': 'Lavender', // MISSING
-		'FFF': 'White' // MISSING
+		'000': 'કાળો',
+		'800000': 'મરુન',
+		'8B4513': 'છીક',
+		'2F4F4F': 'ડાર્ક સ્લેટ ગ્રે ',
+		'008080': 'ટીલ',
+		'000080': 'નેવી',
+		'4B0082': 'જામલી',
+		'696969': 'ડાર્ક ગ્રે',
+		'B22222': 'ઈટ',
+		'A52A2A': 'બ્રાઉન',
+		'DAA520': 'ગોલ્ડન રોડ',
+		'006400': 'ડાર્ક લીલો',
+		'40E0D0': 'ટ્રકોઈસ',
+		'0000CD': 'મધ્યમ વાદળી',
+		'800080': 'પર્પલ',
+		'808080': 'ગ્રે',
+		'F00': 'લાલ',
+		'FF8C00': 'ડાર્ક ઓરંજ',
+		'FFD700': 'ગોલ્ડ',
+		'008000': 'ગ્રીન',
+		'0FF': 'સાયન',
+		'00F': 'વાદળી',
+		'EE82EE': 'વાયોલેટ',
+		'A9A9A9': 'ડીમ ',
+		'FFA07A': 'લાઈટ સાલમન',
+		'FFA500': 'ઓરંજ',
+		'FFFF00': 'પીળો',
+		'00FF00': 'લાઈમ',
+		'AFEEEE': 'પેલ કોઈસ',
+		'ADD8E6': 'લાઈટ બ્લુ',
+		'DDA0DD': 'પલ્મ',
+		'D3D3D3': 'લાઈટ ગ્રે',
+		'FFF0F5': 'લવંડર ',
+		'FAEBD7': 'એન્ટીક સફેદ',
+		'FFFFE0': 'લાઈટ પીળો',
+		'F0FFF0': 'હનીડઉય',
+		'F0FFFF': 'અઝુરે',
+		'F0F8FF': 'એલીસ બ્લુ',
+		'E6E6FA': 'લવંડર',
+		'FFF': 'સફેદ'
 	},
 
 	scayt: {
-		title: 'Spell Check As You Type', // MISSING
-		opera_title: 'Not supported by Opera', // MISSING
-		enable: 'Enable SCAYT', // MISSING
-		disable: 'Disable SCAYT', // MISSING
-		about: 'About SCAYT', // MISSING
-		toggle: 'Toggle SCAYT', // MISSING
-		options: 'Options', // MISSING
-		langs: 'Languages', // MISSING
-		moreSuggestions: 'More suggestions', // MISSING
-		ignore: 'Ignore', // MISSING
-		ignoreAll: 'Ignore All', // MISSING
-		addWord: 'Add Word', // MISSING
-		emptyDic: 'Dictionary name should not be empty.', // MISSING
+		title: 'ટાઈપ કરતા સ્પેલ તપાસો',
+		opera_title: 'ઓપેરામાં સપોર્ટ નથી',
+		enable: 'SCAYT એનેબલ કરવું',
+		disable: 'SCAYT ડિસેબલ કરવું',
+		about: 'SCAYT વિષે',
+		toggle: 'SCAYT ટોગલ',
+		options: 'વિકલ્પો',
+		langs: 'ભાષાઓ',
+		moreSuggestions: 'વધારે વિકલ્પો',
+		ignore: 'ઇગ્નોર',
+		ignoreAll: 'બધા ઇગ્નોર ',
+		addWord: 'શબ્દ ઉમેરવો',
+		emptyDic: 'ડિક્સનરીનું નામ ખાલી ના હોય.',
 
-		optionsTab: 'Options', // MISSING
-		allCaps: 'Ignore All-Caps Words', // MISSING
-		ignoreDomainNames: 'Ignore Domain Names', // MISSING
-		mixedCase: 'Ignore Words with Mixed Case', // MISSING
-		mixedWithDigits: 'Ignore Words with Numbers', // MISSING
+		optionsTab: 'વિકલ્પો',
+		allCaps: 'ઓલ-કેપ્સ વર્ડ છોડી દો.',
+		ignoreDomainNames: 'ડોમેન નામ છોડી દો.',
+		mixedCase: 'મિક્સ કેસ વર્ડ છોડી દો.',
+		mixedWithDigits: 'આંકડા વાળા શબ્દ છોડી દો.',
 
-		languagesTab: 'Languages', // MISSING
+		languagesTab: 'ભાષા',
 
-		dictionariesTab: 'Dictionaries', // MISSING
-		dic_field_name: 'Dictionary name', // MISSING
-		dic_create: 'Create', // MISSING
-		dic_restore: 'Restore', // MISSING
-		dic_delete: 'Delete', // MISSING
-		dic_rename: 'Rename', // MISSING
-		dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
+		dictionariesTab: 'શબ્દકોશ',
+		dic_field_name: 'શબ્દકોશ નામ',
+		dic_create: 'બનાવવું',
+		dic_restore: 'પાછું ',
+		dic_delete: 'કાઢી નાખવું',
+		dic_rename: 'નવું નામ આપવું',
+		dic_info: 'પેહલા User Dictionary, Cookie તરીકે સ્ટોર થાય છે. પણ Cookie ની સમતા ઓછી છે. જયારે User Dictionary, Cookie તરીકે સ્ટોર ના કરી શકાય, ત્યારે તે અમારા સર્વર પર સ્ટોર થાય છે. તમારી વ્યતિગત ડીકસ્નરી ને સર્વર પર સ્ટોર કરવા માટે તમારે તેનું નામ આપવું પડશે. જો તમે તમારી ડીકસ્નરી નું નામ આપેલું હોય તો તમે રિસ્ટોર બટન ક્લીક કરી શકો.',
 
-		aboutTab: 'About' // MISSING
+		aboutTab: 'વિષે'
 	},
 
 	about: {
-		title: 'About CKEditor', // MISSING
-		dlgTitle: 'About CKEditor', // MISSING
-		help: 'Check $1 for help.', // MISSING
-		userGuide: 'CKEditor User\'s Guide', // MISSING
-		moreInfo: 'For licensing information please visit our web site:', // MISSING
-		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
+		title: 'CKEditor વિષે',
+		dlgTitle: 'CKEditor વિષે',
+		help: 'મદદ માટે $1 તપાસો',
+		userGuide: 'CKEditor યુઝર્સ ગાઈડ',
+		moreInfo: 'લાયસનસની માહિતી માટે અમારી વેબ સાઈટ',
+		copy: 'કોપીરાઈટ &copy; $1. ઓલ રાઈટ્સ '
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'મોટું કરવું',
+	minimize: 'નાનું કરવું',
 
 	fakeobjects: {
-		anchor: 'Anchor', // MISSING
-		flash: 'Flash Animation', // MISSING
-		iframe: 'IFrame', // MISSING
-		hiddenfield: 'Hidden Field', // MISSING
-		unknown: 'Unknown Object' // MISSING
+		anchor: 'અનકર',
+		flash: 'ફ્લેશ ',
+		iframe: 'IFrame',
+		hiddenfield: 'હિડન ',
+		unknown: 'અનનોન ઓબ્જેક્ટ'
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'ખેંચી ને યોગ્ય કરવું',
 
 	colordialog: {
-		title: 'Select color', // MISSING
-		options: 'Color Options', // MISSING
-		highlight: 'Highlight', // MISSING
-		selected: 'Selected Color', // MISSING
-		clear: 'Clear' // MISSING
+		title: 'રંગ પસંદ કરો',
+		options: 'રંગના વિકલ્પ',
+		highlight: 'હાઈઈટ',
+		selected: 'પસંદ કરેલો રંગ',
+		clear: 'સાફ કરવું'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'ટૂલબાર નાનું કરવું',
+	toolbarExpand: 'ટૂલબાર મોટું કરવું',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'દસ્તાવેજ',
+		clipboard: 'ક્લિપબોર્ડ/અન',
+		editing: 'એડીટ કરવું',
+		forms: 'ફોર્મ',
+		basicstyles: 'બેસિક્ સ્ટાઇલ',
+		paragraph: 'ફકરો',
+		links: 'લીંક',
+		insert: 'ઉમેરવું',
+		styles: 'સ્ટાઇલ',
+		colors: 'રંગ',
+		tools: 'ટૂલ્સ'
 	},
 
 	bidi: {
-		ltr: 'Text direction from left to right', // MISSING
-		rtl: 'Text direction from right to left' // MISSING
+		ltr: 'ટેક્ષ્ત્ ની દિશા ડાબે થી જમણે',
+		rtl: 'ટેક્ષ્ત્ ની દિશા જમણે થી ડાબે'
 	},
 
 	docprops: {
 		label: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
 		title: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
-		design: 'Design', // MISSING
+		design: 'ડીસા',
 		meta: 'મેટાડૅટા',
-		chooseColor: 'Choose', // MISSING
+		chooseColor: 'વિકલ્પ',
 		other: '<other>',
 		docTitle: 'પેજ મથાળું/ટાઇટલ',
 		charset: 'કેરેક્ટર સેટ એન્કોડિંગ',
 		charsetOther: 'અન્ય કેરેક્ટર સેટ એન્કોડિંગ',
-		charsetASCII: 'ASCII', // MISSING
+		charsetASCII: 'ASCII',
 		charsetCE: 'મધ્ય યુરોપિઅન (Central European)',
 		charsetCT: 'ચાઇનીઝ (Chinese Traditional Big5)',
 		charsetCR: 'સિરીલિક (Cyrillic)',
@@ -766,6 +766,6 @@ CKEDITOR.lang[ 'gu' ] = {
 		metaDescription: 'ડૉક્યુમન્ટ વર્ણન',
 		metaAuthor: 'લેખક',
 		metaCopyright: 'કૉપિરાઇટ',
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		previewHtml: '<p>આ એક <strong>સેમ્પલ ટેક્ષ્ત્</strong> છે. તમે <a href="javascript:void(0)">CKEditor</a> વાપરો છો.</p>'
 	}
 };

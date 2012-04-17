@@ -800,7 +800,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Register the Esc hotkeys.
 			registerAccessKey( this, this, '\x1b', null, function() {
-				this.getButton( 'cancel' ) && this.getButton( 'cancel' ).click();
+				var button = this.getButton( 'cancel' );
+				// If there's a Cancel button, click it, else just fire the cancel event and hide the dialog
+				if ( button )
+					button.click();
+				else {
+					if ( this.fire( 'cancel', { hide: true } ).hide !== false )
+						this.hide();
+				}
 			});
 
 			// Reset the hasFocus state.

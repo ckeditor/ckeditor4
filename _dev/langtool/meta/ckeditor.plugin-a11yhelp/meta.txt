@@ -1,0 +1,33 @@
+# Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+accessibilityHelp.title =
+accessibilityHelp.contents =
+accessibilityHelp.legend.0.name =
+accessibilityHelp.legend.0.items.0.name =
+accessibilityHelp.legend.0.items.0.legend =
+accessibilityHelp.legend.0.items.1.name =
+accessibilityHelp.legend.0.items.1.legend =
+accessibilityHelp.legend.0.items.2.name =
+accessibilityHelp.legend.0.items.2.legend =
+accessibilityHelp.legend.0.items.3.name =
+accessibilityHelp.legend.0.items.3.legend =
+accessibilityHelp.legend.0.items.4.name =
+accessibilityHelp.legend.0.items.4.legend =
+accessibilityHelp.legend.1.name =
+accessibilityHelp.legend.1.items.0.name =
+accessibilityHelp.legend.1.items.0.legend =
+accessibilityHelp.legend.1.items.1.name =
+accessibilityHelp.legend.1.items.1.legend =
+accessibilityHelp.legend.1.items.2.name =
+accessibilityHelp.legend.1.items.2.legend =
+accessibilityHelp.legend.1.items.3.name =
+accessibilityHelp.legend.1.items.3.legend =
+accessibilityHelp.legend.1.items.4.name =
+accessibilityHelp.legend.1.items.4.legend =
+accessibilityHelp.legend.1.items.5.name =
+accessibilityHelp.legend.1.items.5.legend =
+accessibilityHelp.legend.1.items.6.name =
+accessibilityHelp.legend.1.items.6.legend =
+accessibilityHelp.legend.1.items.7.name =
+accessibilityHelp.legend.1.items.7.legend =

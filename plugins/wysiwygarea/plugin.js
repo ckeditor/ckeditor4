@@ -168,9 +168,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
 			editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
 				var body = doc.getBody(),
-					range = editor.getSelection().getRanges()[ 0 ];
+					sel = editor.getSelection(),
+					range = sel && sel.getRanges()[ 0 ];
 
-				if ( body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+				if ( range && body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
 					// Avoid the ambiguity from a real user cursor position.
 					setTimeout( function() {
 						range = editor.getSelection().getRanges()[ 0 ];

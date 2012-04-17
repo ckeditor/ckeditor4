@@ -511,7 +511,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * in the future.
 	 * @returns {String} The text value.
 	 * @example
-	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;Same &lt;i&gt;text&lt;/i&gt;.&lt;/div&gt;' );
+	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;Sample &lt;i&gt;text&lt;/i&gt;.&lt;/div&gt;' );
 	 * alert( <b>element.getText()</b> );  // "Sample text."
 	 */
 	getText: function() {

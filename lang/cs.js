@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'cs' ] = {
 	editorTitle: 'Textový editor, %1, nápovědu zobrazíte stiskem ALT 0.',
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
+	toolbars: 'Panely nástrojů editoru',
 	editor: 'Textový editor',
 
 	// Toolbar buttons without dialogs.
@@ -119,10 +119,10 @@ CKEDITOR.lang[ 'cs' ] = {
 		alignBottom: 'Dolů',
 		invalidHeight: 'Zadaná výška musí být číslo.',
 		invalidWidth: 'Zadaná šířka musí být číslo.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Hodnota určená pro pole "%1" musí být kladné číslo bez nebo s platnou jednotkou míry CSS (px, %, in, cm, mm, em, ex, pt, nebo pc).',
+		invalidHtmlLength: 'Hodnota určená pro pole "%1" musí být kladné číslo bez nebo s platnou jednotkou míry HTML (px nebo %).',
+		invalidInlineStyle: 'Hodnota určená pro řádkový styl se musí skládat z jedné nebo více n-tic ve formátu "název : hodnota", oddělené středníky',
+		cssLengthTooltip: 'Zadejte číslo jako hodnotu v pixelech nebo číslo s platnou jednotkou CSS (px, %, v cm, mm, em, ex, pt, nebo pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedostupné</span>'
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		cssClasses: 'Třída stylu',
 		charset: 'Přiřazená znaková sada',
 		styles: 'Styl',
-		rel: 'Relationship', // MISSING
+		rel: 'Vztah',
 		selectAnchor: 'Vybrat kotvu',
 		anchorName: 'Podle jména kotvy',
 		anchorId: 'Podle Id objektu',
@@ -200,7 +200,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		title: 'Vlastnosti záložky',
 		name: 'Název záložky',
 		errorName: 'Zadejte prosím název záložky',
-		remove: 'Remove Anchor' // MISSING
+		remove: 'Odstranit záložku'
 	},
 
 	// List style dialog
@@ -234,7 +234,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		findWhat: 'Co hledat:',
 		replaceWith: 'Čím nahradit:',
 		notFoundMsg: 'Hledaný text nebyl nalezen.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Možnosti hledání',
 		matchCase: 'Rozlišovat velikost písma',
 		matchWord: 'Pouze celá slova',
 		matchCyclic: 'Procházet opakovaně',
@@ -477,7 +477,7 @@ CKEDITOR.lang[ 'cs' ] = {
 	},
 
 	smiley: {
-		toolbar: 'Smajlíky',
+		toolbar: 'Smajlíci',
 		title: 'Vkládání smajlíků',
 		options: 'Nastavení smajlíků'
 	},
@@ -646,7 +646,7 @@ CKEDITOR.lang[ 'cs' ] = {
 
 	scayt: {
 		title: 'Kontrola pravopisu během psaní (SCAYT)',
-		opera_title: 'Not supported by Opera', // MISSING
+		opera_title: 'Toto Opera nepodporuje',
 		enable: 'Zapnout SCAYT',
 		disable: 'Vypnout SCAYT',
 		about: 'O aplikaci SCAYT',
@@ -681,8 +681,8 @@ CKEDITOR.lang[ 'cs' ] = {
 	about: {
 		title: 'O aplikaci CKEditor',
 		dlgTitle: 'O aplikaci CKEditor',
-		help: 'Check $1 for help.', // MISSING
-		userGuide: 'CKEditor User\'s Guide', // MISSING
+		help: 'Prohlédněte si $1 pro nápovědu.',
+		userGuide: 'Uživatelská příručka CKEditor',
 		moreInfo: 'Pro informace o lincenci navštivte naši webovou stránku:',
 		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
@@ -712,17 +712,17 @@ CKEDITOR.lang[ 'cs' ] = {
 	toolbarExpand: 'Zobrazit panel nástrojů',
 
 	toolbarGroups: {
-		document: 'Document', // MISSING
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
-		forms: 'Forms', // MISSING
-		basicstyles: 'Basic Styles', // MISSING
-		paragraph: 'Paragraph', // MISSING
-		links: 'Links', // MISSING
-		insert: 'Insert', // MISSING
-		styles: 'Styles', // MISSING
-		colors: 'Colors', // MISSING
-		tools: 'Tools' // MISSING
+		document: 'Dokument',
+		clipboard: 'Schránka/Zpět',
+		editing: 'Úpravy',
+		forms: 'Formuláře',
+		basicstyles: 'Základní styly',
+		paragraph: 'Odstavec',
+		links: 'Odkazy',
+		insert: 'Vložit',
+		styles: 'Styly',
+		colors: 'Barvy',
+		tools: 'Nástroje'
 	},
 
 	bidi: {
@@ -733,14 +733,14 @@ CKEDITOR.lang[ 'cs' ] = {
 	docprops: {
 		label: 'Vlastnosti dokumentu',
 		title: 'Vlastnosti dokumentu',
-		design: 'Design', // MISSING
+		design: 'Vzhled',
 		meta: 'Metadata',
 		chooseColor: 'Výběr',
 		other: '<jiný>',
 		docTitle: 'Titulek stránky',
 		charset: 'Znaková sada',
 		charsetOther: 'Další znaková sada',
-		charsetASCII: 'ASCII', // MISSING
+		charsetASCII: 'ASCII',
 		charsetCE: 'Středoevropské jazyky',
 		charsetCT: 'Tradiční čínština (Big5)',
 		charsetCR: 'Cyrilice',
@@ -748,7 +748,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		charsetJP: 'Japonština',
 		charsetKR: 'Korejština',
 		charsetTR: 'Turečtina',
-		charsetUN: 'Unicode (UTF-8)', // MISSING
+		charsetUN: 'Unicode (UTF-8)',
 		charsetWE: 'Západoevropské jazyky',
 		docType: 'Typ dokumentu',
 		docTypeOther: 'Jiný typ dokumetu',
@@ -766,6 +766,6 @@ CKEDITOR.lang[ 'cs' ] = {
 		metaDescription: 'Popis dokumentu',
 		metaAuthor: 'Autor',
 		metaCopyright: 'Autorská práva',
-		previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
+		previewHtml: '<p>Toto je <strong>ukázkový text</strong>. Používáte <a href="javascript:void(0)">CKEditor</a>.</p>'
 	}
 };

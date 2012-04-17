@@ -185,7 +185,7 @@ CKEDITOR.lang[ 'de' ] = {
 		selectAnchor: 'Anker auswählen',
 		anchorName: 'nach Anker Name',
 		anchorId: 'nach Element Id',
-		emailAddress: 'E-Mail Addresse',
+		emailAddress: 'E-Mail Adresse',
 		emailSubject: 'Betreffzeile',
 		emailBody: 'Nachrichtentext',
 		noAnchors: '(keine Anker im Dokument vorhanden)',

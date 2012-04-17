@@ -121,8 +121,8 @@ CKEDITOR.lang[ 'it' ] = {
 		invalidWidth: 'La Larghezza dev\'essere un numero',
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le pagine HTML (px o %).',
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidInlineStyle: 'Il valore specificato per lo stile inline deve consistere in una o più tuple con il formato di "name : value", separati da semicolonne.',
+		cssLengthTooltip: 'Inserisci un numero per il valore in pixel oppure un numero con una valida unità CSS (px, %, in, cm, mm, ex, pt, o pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>'
@@ -234,7 +234,7 @@ CKEDITOR.lang[ 'it' ] = {
 		findWhat: 'Trova:',
 		replaceWith: 'Sostituisci con:',
 		notFoundMsg: 'L\'elemento cercato non è stato trovato.',
-		findOptions: 'Find Options', // MISSING
+		findOptions: 'Opzioni di ricerca',
 		matchCase: 'Maiuscole/minuscole',
 		matchWord: 'Solo parole intere',
 		matchCyclic: 'Ricerca ciclica',

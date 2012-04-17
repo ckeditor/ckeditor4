@@ -47,8 +47,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.lastElement = e;
 
 				var elementName = e.getName();
-				if ( CKEDITOR.env.ie && e.$.scopeName != 'HTML' )
-					elementName = e.$.scopeName.toLowerCase() + ':' + elementName;
 
 				if ( !blockLimit ) {
 					if ( !block && pathBlockElements[ elementName ] && !e.equals( root ) )

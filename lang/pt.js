@@ -33,8 +33,8 @@ CKEDITOR.lang[ 'pt' ] = {
 	editorTitle: 'Rich text editor, %1, press ALT 0 for help.', // MISSING
 
 	// ARIA descriptions.
-	toolbars: 'Editor toolbars', // MISSING
-	editor: 'Rich Text Editor', // MISSING
+	toolbars: 'Editor de barras de ferramentas',
+	editor: 'Editor de texto enriquecido',
 
 	// Toolbar buttons without dialogs.
 	source: 'Fonte',
@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'pt' ] = {
 	superscript: 'Inferior à Linha',
 	horizontalrule: 'Inserir Linha Horizontal',
 	pagebreak: 'Inserir Quebra de Página',
-	pagebreakAlt: 'Page Break', // MISSING
+	pagebreakAlt: 'Quebra de página',
 	unlink: 'Eliminar Hiperligação',
 	undo: 'Anular',
 	redo: 'Repetir',
@@ -91,22 +91,22 @@ CKEDITOR.lang[ 'pt' ] = {
 		cssStyle: 'Estilo',
 		ok: 'OK',
 		cancel: 'Cancelar',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'Fechar',
+		preview: 'Pré-visualização',
+		generalTab: 'Geral',
 		advancedTab: 'Avançado',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
+		options: 'Opções',
+		target: 'Alvo',
+		targetNew: 'Nova Janela (_blank)',
+		targetTop: 'Janela superior (_top)',
+		targetSelf: 'Mesma janela (_self)',
 		targetParent: 'Parent Window (_parent)', // MISSING
 		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
+		langDirRTL: 'Direita para Esquerda (RTL)',
+		styles: 'Estilo',
 		cssClasses: 'Stylesheet Classes', // MISSING
 		width: 'Largura',
 		height: 'Altura',
@@ -129,7 +129,7 @@ CKEDITOR.lang[ 'pt' ] = {
 	},
 
 	contextmenu: {
-		options: 'Context Menu Options' // MISSING
+		options: 'Menu de opções de contexto'
 	},
 
 	// Special char dialog.
@@ -150,7 +150,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		upload: 'Carregar',
 		advanced: 'Avançado',
 		type: 'Tipo de Hiperligação',
-		toUrl: 'URL', // MISSING
+		toUrl: 'URL',
 		toAnchor: 'Referência a esta página',
 		toEmail: 'E-Mail',
 		targetFrame: '<Frame>',
@@ -158,7 +158,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		targetFrameName: 'Nome do Frame Destino',
 		targetPopupName: 'Nome da Janela de Popup',
 		popupFeatures: 'Características de Janela de Popup',
-		popupResizable: 'Resizable', // MISSING
+		popupResizable: 'Redimensionável',
 		popupStatusBar: 'Barra de Estado',
 		popupLocationBar: 'Barra de localização',
 		popupToolbar: 'Barra de Ferramentas',
@@ -168,7 +168,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		popupDependent: 'Dependente (Netscape)',
 		popupLeft: 'Posição Esquerda',
 		popupTop: 'Posição Direita',
-		id: 'Id', // MISSING
+		id: 'ID',
 		langDir: 'Orientação de idioma',
 		langDirLTR: 'Esquerda à Direita (LTR)',
 		langDirRTL: 'Direita a Esquerda (RTL)',
@@ -181,7 +181,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		cssClasses: 'Classes de Estilo de Folhas Classes',
 		charset: 'Fonte de caracteres vinculado',
 		styles: 'Estilo',
-		rel: 'Relationship', // MISSING
+		rel: 'Relação',
 		selectAnchor: 'Seleccionar una referência',
 		anchorName: 'Por Nome de Referência',
 		anchorId: 'Por ID de elemento',
@@ -207,15 +207,15 @@ CKEDITOR.lang[ 'pt' ] = {
 	list: {
 		numberedTitle: 'Numbered List Properties', // MISSING
 		bulletedTitle: 'Bulleted List Properties', // MISSING
-		type: 'Type', // MISSING
-		start: 'Start', // MISSING
+		type: 'Tipo',
+		start: 'Iniciar',
 		validateStartNumber: 'List start number must be a whole number.', // MISSING
-		circle: 'Circle', // MISSING
-		disc: 'Disc', // MISSING
-		square: 'Square', // MISSING
-		none: 'None', // MISSING
-		notset: '<not set>', // MISSING
-		armenian: 'Armenian numbering', // MISSING
+		circle: 'Círculo',
+		disc: 'Disco',
+		square: 'Quadrado',
+		none: 'Nenhum',
+		notset: '<not set>',
+		armenian: 'Numeração armênia',
 		georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
 		lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
 		upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
@@ -499,7 +499,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		block: 'Justificado'
 	},
 
-	blockquote: 'Block Quote', // MISSING
+	blockquote: 'Bloco de citação',
 
 	clipboard: {
 		title: 'Colar',
@@ -531,7 +531,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		emptyListMsg: '(Sem modelos definidos)'
 	},
 
-	showBlocks: 'Show Blocks', // MISSING
+	showBlocks: 'Exibir blocos',
 
 	stylesCombo: {
 		label: 'Estilo',
@@ -687,8 +687,8 @@ CKEDITOR.lang[ 'pt' ] = {
 		copy: 'Copyright &copy; $1. All rights reserved.' // MISSING
 	},
 
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize', // MISSING
+	maximize: 'Maximizar',
+	minimize: 'Minimizar',
 
 	fakeobjects: {
 		anchor: 'Anchor', // MISSING
@@ -698,7 +698,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		unknown: 'Unknown Object' // MISSING
 	},
 
-	resize: 'Drag to resize', // MISSING
+	resize: 'Arraste para redimensionar',
 
 	colordialog: {
 		title: 'Select color', // MISSING
@@ -708,8 +708,8 @@ CKEDITOR.lang[ 'pt' ] = {
 		clear: 'Clear' // MISSING
 	},
 
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Colapsar Barra',
+	toolbarExpand: 'Expandir Barra',
 
 	toolbarGroups: {
 		document: 'Document', // MISSING

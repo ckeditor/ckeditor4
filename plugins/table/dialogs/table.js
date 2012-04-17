@@ -247,13 +247,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							required: true,
 							controlStyle: 'width:5em',
 							validate: function() {
-								var pass = true,
-									value = this.getValue();
-								pass = pass && CKEDITOR.dialog.validate.integer()( value ) && value > 0;
+								var value = this.getValue(),
+									pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
+
 								if ( !pass ) {
 									alert( editor.lang.table.invalidRows );
 									this.select();
 								}
+
 								return pass;
 							},
 							setup: function( selectedElement ) {
@@ -409,7 +410,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								},
 
 								setup: function( selectedTable ) {
-									var val = selectedTable.getStyle( 'width' );
+									var val = selectedTable.getStyle( 'height' );
 									val && this.setValue( val );
 								},
 								commit: commitValue

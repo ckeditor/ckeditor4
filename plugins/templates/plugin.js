@@ -56,6 +56,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * comma. It must match definitions loaded with the templates_files setting.
  * @type String
  * @default 'default'
+ * @name CKEDITOR.config.templates
  * @example
  * config.templates = 'my_templates';
  */
