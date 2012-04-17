@@ -578,7 +578,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
-	 * Checks if this node is read-only (should not be changed).
+	 * Checks if this node is read-only (should not be changed),
+	 * <strong>Note:</strong> When {@param attributeCheck} is not used, this method only work for elements
+	 * that are already presented in the document, otherwise the result is not guaranteed, it's mainly for performance
+	 * consideration.
+	 *
+	 * @param {Boolean} attributeCheck Relies on the "contenteditable" attribute value on this element
+	 * and it's ancestors to decide if it's editable.
 	 * @returns {Boolean}
 	 * @since 3.5
 	 * @example
@@ -588,12 +594,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * // If "ele" is the above &lt;div&gt;
 	 * ele.isReadOnly();  // true
 	 */
-	isReadOnly: function() {
+	isReadOnly: function( attributeCheck ) {
 		var element = this;
 		if ( this.type != CKEDITOR.NODE_ELEMENT )
 			element = this.getParent();
 
-		if ( element && typeof element.$.isContentEditable != 'undefined' )
+		if ( !attributeCheck && element && typeof element.$.isContentEditable != 'undefined' )
 			return !( element.$.isContentEditable || element.data( 'cke-editable' ) );
 		else {
 			// Degrade for old browsers which don't support "isContentEditable", e.g. FF3

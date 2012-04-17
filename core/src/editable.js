@@ -235,13 +235,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		});
 
-		// Disable form elements editing mode provided by some browers. (#5746)
+		// Disable form elements editing mode provided by some browers, (#5746)
+		// and flag that the element was locked by our code so it'll be editable by the editor functions (#6046).
 		attachListener( element, editor, 'insertElement', function( evt ) {
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
-				// We should flag that the element was locked by our code so
-				// it'll be editable by the editor functions (#6046).
-				if ( !element.isReadOnly() )
+				// The element is still not inserted yet, force attribute-based check.
+				if ( !element.isReadOnly( 1 ) )
 					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
 				element.setAttribute( 'contentEditable', false );
 			}

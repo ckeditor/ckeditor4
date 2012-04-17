@@ -209,24 +209,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	};
 
-	function onSelectionChange( evt ) {
-		if ( evt.editor.readOnly )
-			return null;
-
-		var path = evt.data.path,
-			blockLimit = path.blockLimit,
-			elements = path.elements,
-			element, i;
-
-		// Grouping should only happen under blockLimit.(#3940).
-		for ( i = 0; i < elements.length && ( element = elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
-			if ( listNodeNames[ elements[ i ].getName() ] )
-				return this.setState( this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-		}
-
-		return this.setState( CKEDITOR.TRISTATE_OFF );
-	}
-
 	function changeListType( editor, groupObj, database, listsCreated ) {
 		// This case is easy...
 		// 1. Convert the whole list into a one-dimensional array.
@@ -438,14 +420,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	listCommand.prototype = {
 		exec: function( editor ) {
+			// Run state check first of all.
+			this.checkState( editor );
+
 			var doc = editor.document,
 				config = editor.config,
 				selection = editor.getSelection(),
 				ranges = selection && selection.getRanges( true );
-
-			// There should be at least one selected range.
-			if ( !ranges || ranges.length < 1 )
-				return;
 
 			// Midas lists rule #1 says we can create a list even in an empty document.
 			// But DOM iterator wouldn't run if the document is really empty.
@@ -587,6 +568,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.dom.element.clearAllMarkers( database );
 			selection.selectBookmarks( bookmarks );
 			editor.focus();
+		},
+
+		checkState: function( editor ) {
+			if ( editor.readOnly )
+				return null;
+
+			var sel = editor.getSelection(),
+				path = new CKEDITOR.dom.elementPath( sel.getStartElement() ),
+				blockLimit = path.blockLimit,
+				elements = path.elements,
+				element, i;
+
+			// Grouping should only happen under blockLimit.(#3940).
+			for ( i = 0; i < elements.length && ( element = elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
+				if ( listNodeNames[ elements[ i ].getName() ] )
+					return this.setState( this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			}
+
+			return this.setState( CKEDITOR.TRISTATE_OFF );
 		}
 	};
 
@@ -662,8 +662,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			// Register the state changing handlers.
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, numberedListCommand ) );
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, bulletedListCommand ) );
+			editor.on( 'selectionChange', function( evt ) {
+				numberedListCommand.checkState( evt.editor );
+				bulletedListCommand.checkState( evt.editor );
+			});
 		},
 
 		afterInit: function( editor ) {
