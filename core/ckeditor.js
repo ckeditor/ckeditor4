@@ -3,56 +3,146 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-// Compressed version of src/ckeditor_base.js. See original for instructions.
-/*jsl:ignore*/
-if ( !window.CKEDITOR )
-	window.CKEDITOR = function() {
-	var b = {
-		timestamp: "", version: "%VERSION%", revision: "%REV%", _: { pending: [] },
-		status: "unloaded", basePath: function() {
-			var a = window.CKEDITOR_BASEPATH || ""; if ( !a )
-				for ( var d = document.getElementsByTagName( "script" ), c = 0; c < d.length; c++ ) {
-				var e = d[ c ].src.match( /(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i );
-				if ( e ) {
-					a = e[ 1 ];
-					break
-				}
-			}
-			if ( a.indexOf( ":/" ) == -1 )
-				a = a.indexOf( "/" ) === 0 ? location.href.match( /^.*?:\/\/[^\/]*/ )[ 0 ] + a : location.href.match( /^[^\?]*\/(?:)/ )[ 0 ] + a;
-			if ( !a )
-				throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
-			return a
-		}(), getUrl: function( a ) {
-			if ( a.indexOf( ":/" ) == -1 && a.indexOf( "/" ) !== 0 )
-				a = this.basePath + a;
-			if ( this.timestamp && a.charAt( a.length - 1 ) != "/" && !/[&?]t=/.test( a ) )
-				a += ( a.indexOf( "?" ) >= 0 ? "&" : "?" ) + "t=" + this.timestamp;
-			return a
-		} },
-		f = window.CKEDITOR_GETURL; if ( f ) {
-		var g = b.url;
-		b.url = function( a ) {
-			return f.call( b, a ) || g.call( b, a )
+/**
+ * @fileOverview Contains the third and last part of the {@link CKEDITOR} object
+ *		definition.
+ */
+
+// Remove the CKEDITOR.loadFullCore reference defined on ckeditor_basic.
+delete CKEDITOR.loadFullCore;
+
+/**
+ * Holds references to all editor instances created. The name of the properties
+ * in this object correspond to instance names, and their values contains the
+ * {@link CKEDITOR.editor} object representing them.
+ * @type {Object}
+ * @example
+ * alert( <b>CKEDITOR.instances</b>.editor1.name );  // "editor1"
+ */
+CKEDITOR.instances = {};
+
+/**
+ * The document of the window holding the CKEDITOR object.
+ * @type {CKEDITOR.dom.document}
+ * @example
+ * alert( <b>CKEDITOR.document</b>.getBody().getName() );  // "body"
+ */
+CKEDITOR.document = new CKEDITOR.dom.document( document );
+
+/**
+ * Adds an editor instance to the global {@link CKEDITOR} object. This function
+ * is available for internal use mainly.
+ * @param {CKEDITOR.editor} editor The editor instance to be added.
+ * @example
+ */
+CKEDITOR.add = (function() {
+	var nameCounter = 0;
+
+	function getNewName() {
+		do {
+			var name = 'editor' + ( ++nameCounter );
 		}
-	}
-	return b
-}();
-/*jsl:end*/
+		while ( CKEDITOR.instances[ name ] )
 
-if ( CKEDITOR.loader )
-	CKEDITOR.loader.load( 'ckeditor' );
-else {
-	// Set the script name to be loaded by the loader.
-	CKEDITOR._autoLoad = 'ckeditor';
-
-	// Include the loader script.
-	if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
-		var script = document.createElement( 'script' );
-		script.type = 'text/javascript';
-		script.src = CKEDITOR.getUrl( 'src/loader.js' );
-		document.body.appendChild( script );
-	} else {
-		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'src/loader.js' ) + '"></script>' );
+		return name;
 	}
-}
+
+	return function( editor ) {
+		editor.name = editor.name || getNewName();
+		CKEDITOR.instances[ editor.name ] = editor;
+
+		editor.on( 'focus', function() {
+			if ( CKEDITOR.currentInstance != editor ) {
+				CKEDITOR.currentInstance = editor;
+				CKEDITOR.fire( 'currentInstance' );
+			}
+		});
+
+		editor.on( 'blur', function() {
+			if ( CKEDITOR.currentInstance == editor ) {
+				CKEDITOR.currentInstance = null;
+				CKEDITOR.fire( 'currentInstance' );
+			}
+		});
+
+		CKEDITOR.fire( 'instance', null, editor );
+	};
+})();
+
+/**
+ * Removes an editor instance from the global {@link CKEDITOR} object. This function
+ * is available for internal use only. External code must use {@link CKEDITOR.editor.prototype.destroy}.
+ * @param {CKEDITOR.editor} editor The editor instance to be removed.
+ * @example
+ */
+CKEDITOR.remove = function( editor ) {
+	delete CKEDITOR.instances[ editor.name ];
+};
+
+/**
+ * Perform global clean up to free as much memory as possible
+ * when there are no instances left
+ */
+CKEDITOR.on( 'instanceDestroyed', function() {
+	if ( CKEDITOR.tools.isEmpty( this.instances ) )
+		CKEDITOR.fire( 'reset' );
+});
+
+// Load the bootstrap script.
+CKEDITOR.loader.load( '_bootstrap' ); // @Packager.RemoveLine
+
+// Tri-state constants.
+/**
+ * Used to indicate the ON or ACTIVE state.
+ * @constant
+ * @example
+ */
+CKEDITOR.TRISTATE_ON = 1;
+
+/**
+ * Used to indicate the OFF or NON ACTIVE state.
+ * @constant
+ * @example
+ */
+CKEDITOR.TRISTATE_OFF = 2;
+
+/**
+ * Used to indicate DISABLED state.
+ * @constant
+ * @example
+ */
+CKEDITOR.TRISTATE_DISABLED = 0;
+
+/**
+ * The editor which is currently active (have user focus).
+ * @name CKEDITOR.currentInstance
+ * @type CKEDITOR.editor
+ * @see CKEDITOR#currentInstance
+ * @example
+ * function showCurrentEditorName()
+ * {
+ *     if ( CKEDITOR.currentInstance )
+ *         alert( CKEDITOR.currentInstance.name );
+ *     else
+ *         alert( 'Please focus an editor first.' );
+ * }
+ */
+
+/**
+ * Fired when the CKEDITOR.currentInstance object reference changes. This may
+ * happen when setting the focus on different editor instances in the page.
+ * @name CKEDITOR#currentInstance
+ * @event
+ * var editor;  // Variable to hold a reference to the current editor.
+ * CKEDITOR.on( 'currentInstance' , function( e )
+ *     {
+ *         editor = CKEDITOR.currentInstance;
+ *     });
+ */
+
+/**
+ * Fired when the last instance has been destroyed. This event is used to perform
+ * global memory clean up.
+ * @name CKEDITOR#reset
+ * @event
+ */

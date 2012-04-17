@@ -138,7 +138,7 @@ if ( !CKEDITOR.loader ) {
 				if ( !scriptName )
 					return;
 
-				var scriptSrc = getUrl( 'src/' + scriptName + '.js' );
+				var scriptSrc = getUrl( 'core/' + scriptName + '.js' );
 
 				var script = document.createElement( 'script' );
 				script.type = 'text/javascript';
@@ -202,7 +202,7 @@ if ( !CKEDITOR.loader ) {
 				for ( var i = 0; i < dependencies.length; i++ )
 					this.load( dependencies[ i ], true );
 
-				var scriptSrc = getUrl( 'src/' + scriptName + '.js' );
+				var scriptSrc = getUrl( 'core/' + scriptName + '.js' );
 
 				// Append the <script> element to the DOM.
 				// If the page is fully loaded, we can't use document.write

@@ -126,7 +126,7 @@ CKEDITOR.skins = (function() {
 		add: function( skinName, skinDefinition ) {
 			loaded[ skinName ] = skinDefinition;
 
-			skinDefinition.skinPath = paths[ skinName ] || ( paths[ skinName ] = CKEDITOR.getUrl( '../skins/' + skinName + '/' ) );
+			skinDefinition.skinPath = paths[ skinName ] || ( paths[ skinName ] = CKEDITOR.getUrl( 'skins/' + skinName + '/' ) );
 		},
 
 		/**

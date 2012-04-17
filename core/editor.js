@@ -189,7 +189,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var skin = editor.config.skin && editor.config.skin.split( ',' ),
 			skinName = ( skin && skin[ 0 ] ) || '',
-			skinPath = ( skinName && CKEDITOR.getUrl( skin[ 1 ] || ( '../skins/' + skinName + '/' ) ) ) || '';
+			skinPath = ( skinName && CKEDITOR.getUrl( skin[ 1 ] || ( 'skins/' + skinName + '/' ) ) ) || '';
 
 		/**
 		 * The name of the skin used by this editor instance. The skin name can
