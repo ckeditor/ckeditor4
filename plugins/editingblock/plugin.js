@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !editor.config.editingBlock )
 				return;
 
-			editor.on( 'themeSpace', function( event ) {
+			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'contents' )
 					event.data.html += '<br>';
 			});
@@ -106,7 +106,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.on( 'destroy', function() {
 				// ->		currentMode.unload( holderElement );
 				if ( this.mode )
-					this._.modes[ this.mode ].unload( this.getThemeSpace( 'contents' ) );
+					this._.modes[ this.mode ].unload( this.getUISpace( 'contents' ) );
 			});
 		}
 	});
@@ -143,7 +143,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.fire( 'beforeSetMode', { newMode: mode } );
 
 		var data,
-			holderElement = this.getThemeSpace( 'contents' ),
+			holderElement = this.getUISpace( 'contents' ),
 			isDirty = this.checkDirty();
 
 		// Unload the previous mode.

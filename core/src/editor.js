@@ -34,6 +34,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		this.commands = {};
 
 		/**
+		 * Contains all UI templates created for this editor instance.
+		 * @name CKEDITOR.editor.prototype.templates
+		 * @type Object
+		 */
+		this.templates = {};
+
+		/**
 		 * A unique random string assigned to each editor instance in the page.
 		 * @name CKEDITOR.editor.prototype.id
 		 * @type String
@@ -49,7 +56,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @type Object
 		 * @example
 		 * var editor = CKEDITOR.instances.editor1;
-		 * alert( <b>editor.config.theme</b> );  "default" e.g.
+		 * alert( <b>editor.config.skin</b> );  "kama" e.g.
 		 */
 		this.config = CKEDITOR.tools.prototypedCopy( CKEDITOR.config );
 
@@ -404,6 +411,21 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 	},
 
 	/**
+	 * Adds an UI template to this editor instance.
+	 * @param {String} name The template name.
+	 * @param {String} source The source data for this template.
+	 * @see CKEDITOR.editor.templates
+	 * @see CKEDITOR.editor#template
+	 */
+	addTemplate: function( name, source ) {
+		// Make it possible to customize the template through the "template" event.
+		var params = { name: name, source: source };
+		this.on( 'template', params );
+
+		return ( this.templates[ name ] = new CKEDITOR.template( this, params.source ) );
+	},
+
+	/**
 	 * Destroys the editor instance, releasing all resources used by it.
 	 * If the editor replaced an element, the element will be recovered.
 	 * @param {Boolean} [noUpdate] If the instance is replacing a DOM
@@ -419,7 +441,6 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
 			this.updateElement();
 
 		this.fire( 'destroy' );
-		this.theme && this.theme.destroy( this );
 
 		this.editable( null );
 
@@ -900,4 +921,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
  * @event
  * @since 3.6
  * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Event fired when an UI template is added to the editor instance. It makes
+ * it possible to bring customizations to the template source.
+ * @name CKEDITOR.editor#template
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} name The template name.
+ * @param {String} source The source data for this template.
  */

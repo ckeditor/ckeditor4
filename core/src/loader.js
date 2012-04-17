@@ -44,7 +44,7 @@ if ( !CKEDITOR.loader ) {
 			'dom/window': [ 'dom/domobject' ],
 			'dtd': [ 'tools' ],
 			'editable': [ 'editor', 'tools' ],
-			'editor': [ 'command', 'config', 'editor_basic', 'focusmanager', 'keystrokehandler', 'lang', 'plugins', 'skins', 'tools', 'ui' ],
+			'editor': [ 'command', 'config', 'editor_basic', 'focusmanager', 'keystrokehandler', 'lang', 'plugins', 'skins', 'template', 'tools', 'ui' ],
 			'editor_basic': [ 'event' ],
 			'env': [],
 			'event': [],
@@ -65,6 +65,7 @@ if ( !CKEDITOR.loader ) {
 			'selection': [ 'dom/range', 'dom/walker' ],
 			'skins': [ 'scriptloader' ],
 			'style': [ 'selection' ],
+			'template': [],
 			'tools': [ 'env' ],
 			'ui': []
 		};

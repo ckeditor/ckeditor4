@@ -3,54 +3,101 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.plugins.add( 'button', {
-	beforeInit: function( editor ) {
-		editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
-	}
-});
+(function() {
 
-/**
- * Button UI element.
- * @constant
- * @example
- */
-CKEDITOR.UI_BUTTON = 'button';
+	var template = '<span class="cke_button {alphaFixClass}">' +
+		'<a id="{id}"' +
+			' class="{classes}"' +
+			' style="{style}"' +
+			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+			' title="{title}"' +
+			' tabindex="-1"' +
+			' hidefocus="true"' +
+			' role="button"' +
+			' aria-labelledby="{id}_label"' +
+			' aria-haspopup="{hasArrow}"';
 
-/**
- * Represents a button UI element. This class should not be called directly. To
- * create new buttons use {@link CKEDITOR.ui.prototype.addButton} instead.
- * @constructor
- * @param {Object} definition The button definition.
- * @example
- */
-CKEDITOR.ui.button = function( definition ) {
-	// Copy all definition properties to this object.
-	CKEDITOR.tools.extend( this, definition,
-	// Set defaults.
-	{
-		title: definition.label,
-		className: definition.className || ( definition.command && 'cke_button_' + definition.command ) || '',
-		click: definition.click ||
-		function( editor ) {
-			this.editor && this.editor.execCommand( definition.command );
+	// Some browsers don't cancel key events in the keydown but in the
+	// keypress.
+	// TODO: Check if really needed for Gecko+Mac.
+	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+		template += ' onkeypress="return false;"';
+
+	// With Firefox, we need to force the button to redraw, otherwise it
+	// will remain in the focus state.
+	if ( CKEDITOR.env.gecko )
+		template += ' onblur="this.style.cssText = this.style.cssText;"';
+
+	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
+			' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
+			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+					'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+			'<span class="cke_icon"';
+
+
+	template += '>&nbsp;</span>' +
+			'<span id="{id}_label" class="cke_label">{label}</span>' +
+			'{arrowHtml}' +
+		'</a>' +
+		'</span>';
+
+	var templateArrow = '<span class="cke_buttonarrow">' +
+			// BLACK DOWN-POINTING TRIANGLE
+	( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) +
+		'</span>';
+
+	CKEDITOR.plugins.add( 'button', {
+		beforeInit: function( editor ) {
+			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
+		},
+
+		init: function( editor ) {
+			editor.addTemplate( 'buttonArrow', templateArrow );
+			editor.addTemplate( 'button', template );
 		}
 	});
 
-	this._ = {};
-};
+	/**
+	 * Button UI element.
+	 * @constant
+	 * @example
+	 */
+	CKEDITOR.UI_BUTTON = 'button';
 
-/**
- * Transforms a button definition in a {@link CKEDITOR.ui.button} instance.
- * @type Object
- * @example
- */
-CKEDITOR.ui.button.handler = {
-	create: function( definition ) {
-		return new CKEDITOR.ui.button( definition );
-	}
-};
+	/**
+	 * Represents a button UI element. This class should not be called directly. To
+	 * create new buttons use {@link CKEDITOR.ui.prototype.addButton} instead.
+	 * @constructor
+	 * @param {Object} definition The button definition.
+	 * @example
+	 */
+	CKEDITOR.ui.button = function( definition ) {
+		// Copy all definition properties to this object.
+		CKEDITOR.tools.extend( this, definition,
+		// Set defaults.
+		{
+			title: definition.label,
+			className: definition.className || ( definition.command && 'cke_button_' + definition.command ) || '',
+			click: definition.click ||
+			function( editor ) {
+				this.editor && this.editor.execCommand( definition.command );
+			}
+		});
 
-(function() {
+		this._ = {};
+	};
+
+	/**
+	 * Transforms a button definition in a {@link CKEDITOR.ui.button} instance.
+	 * @type Object
+	 * @example
+	 */
+	CKEDITOR.ui.button.handler = {
+		create: function( definition ) {
+			return new CKEDITOR.ui.button( definition );
+		}
+	};
+
 	CKEDITOR.ui.button.prototype = {
 		attach: function( editor ) {
 			var command = this.command;
@@ -175,48 +222,22 @@ CKEDITOR.ui.button.handler = {
 			if ( this.className )
 				classes += ' ' + this.className;
 
-			output.push( '<span class="cke_button' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">', '<a id="', id, '"' +
-								' class="', classes, '"', env.gecko && env.version >= 10900 && !env.hc ? '' : '" href="javascript:void(\'' + ( this.title || '' ).replace( "'", '' ) + '\')"', ' title="', this.title, '"' +
-								' tabindex="-1"' +
-								' hidefocus="true"' +
-								' role="button"' +
-								' aria-labelledby="' + id + '_label"' +
-								( this.hasArrow ? ' aria-haspopup="true"' : '' ) );
+			var params = {
+				id: id,
+				label: this.label,
+				classes: classes,
+				title: this.title,
+				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+				alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' ),
+				hasArrow: this.hasArrow ? 'true' : 'false',
+				keydownFn: keydownFn,
+				focusFn: focusFn,
+				clickFn: clickFn,
+				style: this.icon ? ( 'background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + ( ( this.iconOffset || 0 ) * -16 ) + 'px;' ) : '',
+				arrowHtml: this.hasArrow ? editor.templates[ 'buttonArrow' ].output() : ''
+			};
 
-			// Some browsers don't cancel key events in the keydown but in the
-			// keypress.
-			// TODO: Check if really needed for Gecko+Mac.
-			if ( env.opera || ( env.gecko && env.mac ) ) {
-				output.push( ' onkeypress="return false;"' );
-			}
-
-			// With Firefox, we need to force the button to redraw, otherwise it
-			// will remain in the focus state.
-			if ( env.gecko ) {
-				output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
-			}
-
-			output.push( ' onkeydown="return CKEDITOR.tools.callFunction(', keydownFn, ', event);"' +
-				' onfocus="return CKEDITOR.tools.callFunction(', focusFn, ', event);" ' +
-				( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
-								'="CKEDITOR.tools.callFunction(', clickFn, ', this); return false;">' +
-				'<span class="cke_icon"' );
-
-			if ( this.icon ) {
-				var offset = ( this.iconOffset || 0 ) * -16;
-				output.push( ' style="background-image:url(', CKEDITOR.getUrl( this.icon ), ');background-position:0 ' + offset + 'px;"' );
-			}
-
-			output.push( '>&nbsp;</span>' +
-				'<span id="', id, '_label" class="cke_label">', this.label, '</span>' );
-
-			if ( this.hasArrow ) {
-				output.push( '<span class="cke_buttonarrow">'
-				// BLACK DOWN-POINTING TRIANGLE
-				+ ( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) + '</span>' );
-			}
-
-			output.push( '</a>', '</span>' );
+			editor.templates[ 'button' ].output( params, output );
 
 			if ( this.onRender )
 				this.onRender();
