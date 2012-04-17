@@ -235,13 +235,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.openDialog( 'paste' );
 			});
 
-			// Dismiss the (wrong) 'beforepaste' event fired on context menu open. (#7953)
-			editable.on( 'contextmenu', function() {
-				preventBeforePasteEvent = 1;
-				setTimeout( function() {
-					preventBeforePasteEvent = 0;
-				}, 10 );
-			});
+			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
+			if ( CKEDITOR.env.ie ) {
+				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
+
+				editable.on( 'beforepaste', function( evt ) {
+					if ( evt.data && !evt.data.$.ctrlKey )
+						preventBeforePasteEventNow();
+				}, null, null, 0 );
+
+			}
 
 			editable.on( 'beforecut', function() {
 				!preventBeforePasteEvent && fixCut( editor );
@@ -338,6 +341,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, 100 );
 		}
 
+		function preventBeforePasteEventNow() {
+			preventBeforePasteEvent = 1;
+			setTimeout( function() {
+				preventBeforePasteEvent = 0;
+			}, 10 );
+		}
+
 		/**
 		 * Tries to execute any of the paste, cut or copy commands in IE. Returns a
 		 * boolean indicating that the operation succeeded.
@@ -346,9 +356,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function execIECommand( command ) {
 			var doc = editor.document,
 				body = doc.getBody(),
-				enabled = 0,
+				enabled = false,
 				onExec = function() {
-					enabled = 1;
+					enabled = true;
 				};
 
 			// The following seems to be the only reliable way to detect that
@@ -487,7 +497,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Wait a while and grab the pasted contents
 			setTimeout( function() {
-				mode == 'text' && CKEDITOR.env.gecko && editor.focusGrabber.focus();
+				// Restore properly the document focus. (#5684, #8849)
+				editable.focus();
 				editor.removeListener( 'selectionChange', cancel );
 
 				// Grab the HTML contents.

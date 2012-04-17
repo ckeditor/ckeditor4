@@ -240,7 +240,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				btnLockSizesId = numbering( 'btnLockSizes' ),
 				btnResetSizeId = numbering( 'btnResetSize' ),
 				imagePreviewLoaderId = numbering( 'ImagePreviewLoader' ),
-				imagePreviewBoxId = numbering( 'ImagePreviewBox' ),
 				previewLinkId = numbering( 'previewLink' ),
 				previewImageId = numbering( 'previewImage' );
 
@@ -918,7 +917,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								style: 'width:95%;',
 								html: '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
 																				'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-																				'<div id="' + imagePreviewBoxId + '" class="ImagePreviewBox"><table><tr><td>' +
+																				'<div class="ImagePreviewBox"><table><tr><td>' +
 																				'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
 																				'<img id="' + previewImageId + '" alt="" /></a>' +
 																				( editor.config.image_previewText || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ' +

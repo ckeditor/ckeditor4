@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -199,7 +199,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
 			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
 			buttonsOrder = editor.config.dialog_buttonsOrder || 'OS',
-			dir = editor.lang.dir;
+			dir = editor.lang.dir,
+			tabsToRemove = {},
+			i, processed;
 
 		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (#4750)
 		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
@@ -274,7 +276,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			definition: definition
 		}, editor ).definition;
 
-		var tabsToRemove = {};
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
 			var removeContents = editor.config.removeDialogTabs.split( ';' );
@@ -394,9 +395,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				focusList[ i ].focusIndex = i;
 		}
 
-		function changeFocus( forward ) {
-			var focusList = me._.focusList,
-				offset = forward ? 1 : -1;
+		function changeFocus( offset ) {
+			var focusList = me._.focusList;
+			offset = offset || 0;
+
 			if ( focusList.length < 1 )
 				return;
 
@@ -410,11 +412,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var startIndex = ( current + offset + focusList.length ) % focusList.length,
 				currentIndex = startIndex;
-			while ( !focusList[ currentIndex ].isFocusable() ) {
+			while ( offset && !focusList[ currentIndex ].isFocusable() ) {
 				currentIndex = ( currentIndex + offset + focusList.length ) % focusList.length;
 				if ( currentIndex == startIndex )
 					break;
 			}
+
 			focusList[ currentIndex ].focus();
 
 			// Select whole field content.
@@ -424,7 +427,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		this.changeFocus = changeFocus;
 
-		var processed;
 
 		function focusKeydownHandler( evt ) {
 			// If I'm not the top dialog, ignore.
@@ -446,7 +448,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					me._.tabs[ nextId ][ 0 ].focus();
 				} else {
 					// Change the focus of inputs.
-					changeFocus( !shiftPressed );
+					changeFocus( shiftPressed ? -1 : 1 );
 				}
 
 				processed = 1;
@@ -465,7 +467,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this.selectPage( this._.currentTabId );
 				this._.tabBarMode = false;
 				this._.currentFocusIndex = -1;
-				changeFocus( true );
+				changeFocus( 1 );
 				processed = 1;
 			}
 
@@ -524,7 +526,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				}
 				// Focus the first field in layout order.
 				else
-					changeFocus( true );
+					changeFocus( 1 );
 
 				/*
 				 * IE BUG: If the initial focus went into a non-text element (e.g. button),
@@ -564,7 +566,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
 
 		// Insert the tabs and contents.
-		for ( var i = 0; i < definition.contents.length; i++ ) {
+		for ( i = 0; i < definition.contents.length; i++ ) {
 			var page = definition.contents[ i ];
 			page && this.addPage( page );
 		}
@@ -580,7 +582,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( this._.tabBarMode ) {
 					this._.tabBarMode = false;
 					this._.currentFocusIndex = -1;
-					changeFocus( true );
+					changeFocus( 1 );
 				}
 				evt.data.preventDefault();
 			}
@@ -779,24 +781,24 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this._.element.getFirst().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
 
 			// Maintain the dialog ordering and dialog cover.
-			// Also register key handlers if first dialog.
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
 				showCover( this._.editor );
 
-				element.on( 'keydown', accessKeyDownHandler );
-				element.on( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
-
-				// Prevent some keys from bubbling up. (#4269)
-				for ( var event in { keyup:1,keydown:1,keypress:1 } )
-					element.on( event, preventKeyBubbling );
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
 				parentElement.$.style.zIndex -= Math.floor( this._.editor.config.baseFloatZIndex / 2 );
 				CKEDITOR.dialog._.currentTop = this;
 			}
+
+			element.on( 'keydown', accessKeyDownHandler );
+			element.on( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
+
+			// Prevent some keys from bubbling up. (#4269)
+			for ( var event in { keyup:1,keydown:1,keypress:1 } )
+				element.on( event, preventKeyBubbling );
 
 			// Register the Esc hotkeys.
 			registerAccessKey( this, this, '\x1b', null, function() {
@@ -2742,7 +2744,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		exec: function( editor ) {
 			// Special treatment for Opera. (#8031)
 			CKEDITOR.env.opera ? CKEDITOR.tools.setTimeout( function() {
-				editor.openDialog( this.dialogName )
+				editor.openDialog( this.dialogName );
 			}, 0, this ) : editor.openDialog( this.dialogName );
 		},
 

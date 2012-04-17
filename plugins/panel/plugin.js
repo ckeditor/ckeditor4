@@ -62,10 +62,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'<head>{css}</head>' +
 			'<body class="cke_{dir}"' +
 				' style="margin:0;padding:0" onload="{onload}"></body>' +
-			// It looks strange, but for FF2, the styles must go
-	// after <body>, so it (body) becames immediatelly
-	// available. (#3031)
-			'<\/html>' );
+		'<\/html>' );
 
 	CKEDITOR.ui.panel.prototype = {
 		/**
@@ -180,11 +177,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		showBlock: function( name ) {
 			var blocks = this._.blocks,
 				block = blocks[ name ],
-				current = this._.currentBlock,
-				holder = this.forceIFrame ? this.document.getById( this.id + '_frame' ) : this._.holder;
+				current = this._.currentBlock;
 
-			// Disable context menu for block panel.
-			holder.getParent().getParent().disableContextMenu();
+			// ARIA role works better in IE on the body element, while on the iframe
+			// for FF. (#8864)
+			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
 			if ( current ) {
 				// Clean up the current block's effects on holder.

@@ -1,5 +1,4 @@
-﻿﻿﻿﻿
-/*
+﻿/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -111,11 +110,50 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function removeFillingChar( element ) {
 		var fillingChar = element && element.removeCustomData( 'cke-fillingChar' );
 		if ( fillingChar ) {
+			var bm,
+				doc = element.getDocument(),
+				sel = doc.getSelection().getNative(),
+				// Be error proof.
+				range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
+
+			// Text selection position might get mangled by
+			// subsequent dom modification, save it now for restoring. (#8617)
+			if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
+				bm = [ sel.anchorOffset, sel.focusOffset ];
+
+				// Anticipate the offset change brought by the removed char.
+				var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
+					endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
+				startAffected && bm[ 0 ]--;
+				endAffected && bm[ 1 ]--;
+
+				// Revert the bookmark order on reverse selection.
+				isReversedSelection( sel ) && bm.unshift( bm.pop() );
+			}
+
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
 			fillingChar.setText( fillingChar.getText().replace( /\u200B/g, '' ) );
-			fillingChar = 0;
+
+			// Restore the bookmark.
+			if ( bm ) {
+				var rng = sel.getRangeAt( 0 );
+				rng.setStart( rng.startContainer, bm[ 0 ] );
+				rng.setEnd( rng.startContainer, bm[ 1 ] );
+				sel.removeAllRanges();
+				sel.addRange( rng );
+			}
+		}
+	}
+
+	function isReversedSelection( sel ) {
+		if ( !sel.isCollapsed ) {
+			var range = sel.getRangeAt( 0 );
+			// Potentially alter an reversed selection range.
+			range.setStart( sel.anchorNode, sel.anchorOffset );
+			range.setEnd( sel.focusNode, sel.focusOffset );
+			return range.collapsed;
 		}
 	}
 
@@ -128,6 +166,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
 				editable = editor.editable(),
+				body = doc.getBody(),
 				html = doc.getDocumentElement();
 
 			var editableFrame = editable.getDocument().equals( CKEDITOR.document ) ? null : CKEDITOR.dom.element.get( editable.getWindow().$.frameElement );
@@ -145,15 +184,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}, null, null, -1 );
 
 				editable.attachListener( editable, 'blur', function() {
-					// Opera & IE < 8 will leave cursor blinking inside the editable even after
-					// it has blurred unless we clean up the selection. (#4716)
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 || CKEDITOR.env.opera ) {
-						// Try/Catch to avoid errors if the editor is hidden. (#6375)
-						try {
-							editor.getSelection().removeAllRanges();
-						} catch ( er ) {}
-					}
-
 					editor.lockSelection();
 					restoreSel = 1;
 				}, null, null, -1 );
@@ -164,19 +194,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 			}
 
-			if ( CKEDITOR.env.ie ) {
-				// In IE6/7 the blinking cursor appears, but contents are
-				// not editable. (#5634)
-				if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.version < 8 || CKEDITOR.env.quirks ) {
-					// The 'click' event is not fired when clicking the
-					// scrollbars, so we can use it to check whether
-					// the empty space following <body> has been clicked.
-					html.on( 'click', function( evt ) {
-						if ( evt.data.getTarget().getName() == 'html' )
-							editor.getSelection().getRanges()[ 0 ].select();
-					});
-				}
-
+			// The following selection related fixes applies to only framed editable.
+			if ( CKEDITOR.env.ie && editableFrame ) {
 				var scroll;
 				editable.attachListener( editable, 'mousedown', function( evt ) {
 					// IE scrolls document to top on right mousedown
@@ -198,6 +217,65 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					scroll = null;
 				});
 
+				// When content doc is in standards mode, IE doesn't focus the editor when
+				// clicking at the region below body (on html element) content, we emulate
+				// the normal behavior on old IEs. (#1659, #7932)
+				if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && doc.$.compatMode != 'BackCompat' ) {
+					html.on( 'mousedown', function( evt ) {
+						evt = evt.data.$;
+
+						// Expand the text range along with mouse move.
+						function onHover( evt ) {
+							evt = evt.data.$;
+							if ( textRng ) {
+								// Read the current cursor.
+								var rngEnd = body.$.createTextRange();
+								rngEnd.moveToPoint( evt.x, evt.y );
+
+								// Handle drag directions.
+								textRng.setEndPoint( textRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ? 'EndToEnd' : 'StartToStart', rngEnd );
+
+								// Update selection with new range.
+								textRng.select();
+							}
+						}
+
+						// We're sure that the click happens at the region
+						// below body, but not on scrollbar.
+						if ( evt.y < html.$.clientHeight && evt.y > body.$.offsetTop + body.$.clientHeight && evt.x < html.$.clientWidth ) {
+							// Start to build the text range.
+							var textRng = body.$.createTextRange();
+							textRng.moveToPoint( evt.x, evt.y );
+							textRng.select();
+
+							html.on( 'mousemove', onHover );
+
+							html.on( 'mouseup', function( evt ) {
+								html.removeListener( 'mousemove', onHover );
+								evt.removeListener();
+								textRng.select();
+								textRng = null;
+							});
+						}
+					});
+				}
+
+				// It's much simpler for IE8, we just need to reselect the reported range.
+				if ( CKEDITOR.env.ie8 ) {
+					html.on( 'mouseup', function( evt ) {
+						// The event is not fired when clicking on the scrollbars,
+						// so we can safely check the following to understand
+						// whether the empty space following <body> has been clicked.
+						if ( evt.data.getTarget().getName() == 'html' ) {
+							var sel = CKEDITOR.document.$.selection,
+								range = sel.createRange();
+							// The selection range is reported on host, but actually it should applies to the content doc.
+							if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+								range.select();
+						}
+					});
+				}
+
 			}
 
 			// We check the selection change:
@@ -211,6 +289,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.forceNextSelectionCheck();
 				editor.selectionChange( 1 );
 			});
+
+			if ( CKEDITOR.env.webkit ) {
+				doc.on( 'keydown', function( evt ) {
+					var key = evt.data.getKey();
+					// Remove the filling char before some keys get
+					// executed, so they'll not get blocked by it.
+					switch ( key ) {
+						case 13: // ENTER
+						case 33: // PAGEUP
+						case 34: // PAGEDOWN
+						case 35: // HOME
+						case 36: // END
+						case 37: // LEFT-ARROW
+						case 39: // RIGHT-ARROW
+						case 8: // BACKSPACE
+						case 45: // INS
+						case 46: // DEl
+							removeFillingChar( editor.document );
+					}
+
+				}, null, null, 10 );
+			}
 		});
 
 		// Clear the cached range path before unload. (#7174)
@@ -246,18 +346,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}, null, null, -1 );
 			editor.on( 'beforeSetMode', function() {
 				removeFillingChar( editable );
-			}, null, null, -1 );
-			editor.on( 'key', function( e ) {
-				// Remove the filling char before some keys get
-				// executed, so they'll not get blocked by it.
-				switch ( e.data.keyCode ) {
-					case 13: // ENTER
-					case CKEDITOR.SHIFT + 13: // SHIFT-ENTER
-					case 37: // LEFT-ARROW
-					case 39: // RIGHT-ARROW
-					case 8: // BACKSPACE
-						removeFillingChar( editable );
-				}
 			}, null, null, -1 );
 
 			var fillingCharBefore, resetSelection;
@@ -597,7 +685,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							startIndex = 0,
 							endIndex = siblings.length - 1,
 							index = -1,
-							position, distance;
+							position, distance, container;
 
 						// Binary search over all element childs to test the range to see whether
 						// range is right on the boundary of one element.
@@ -615,12 +703,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								// IE9 report wrong measurement with compareEndPoints when range anchors between two BRs.
 								// e.g. <p>text<br />^<br /></p> (#7433)
 								if ( CKEDITOR.env.ie9Compat && child.tagName == 'BR' ) {
-									var bmId = 'cke_range_marker';
-									range.execCommand( 'CreateBookmark', false, bmId );
-									child = doc.getElementsByName( bmId )[ 0 ];
-									var offset = getNodeIndex( child );
-									parent.removeChild( child );
-									return { container: parent, offset: offset };
+									// "Fall back" to w3c selection.
+									var sel = doc.defaultView.getSelection();
+									return {
+										container: sel[ start ? 'anchorNode' : 'focusNode' ],
+										offset: sel[ start ? 'anchorOffset' : 'focusOffset' ] };
 								} else
 									return { container: parent, offset: getNodeIndex( child ) };
 							}
@@ -644,7 +731,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( !distance ) {
 								child = siblings[ siblings.length - 1 ];
 
-								if ( child.nodeType == CKEDITOR.NODE_ELEMENT )
+								if ( child.nodeType != CKEDITOR.NODE_TEXT )
 									return { container: parent, offset: siblings.length };
 								else
 									return { container: child, offset: child.nodeValue.length };
@@ -652,10 +739,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							// Start the measuring until distance overflows, meanwhile count the text nodes.
 							var i = siblings.length;
-							while ( distance > 0 )
-								distance -= siblings[ --i ].nodeValue.length;
+							while ( distance > 0 && i > 0 ) {
+								sibling = siblings[ --i ];
+								if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
+									container = sibling;
+									distance -= sibling.nodeValue.length;
+								}
+							}
 
-							return { container: siblings[ i ], offset: -distance };
+							return { container: container, offset: -distance };
 						}
 						// Test range was one offset beyond OR behind the anchored text node.
 						else {
@@ -677,7 +769,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							while ( distance > 0 ) {
 								try {
 									sibling = child[ position > 0 ? 'previousSibling' : 'nextSibling' ];
-									distance -= sibling.nodeValue.length;
+									if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
+										distance -= sibling.nodeValue.length;
+										container = sibling;
+									}
 									child = sibling;
 								}
 								// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
@@ -686,7 +781,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								}
 							}
 
-							return { container: child, offset: position > 0 ? -distance : child.nodeValue.length + distance };
+							return { container: container, offset: position > 0 ? -distance : container.nodeValue.length + distance };
 						}
 					};
 
@@ -959,7 +1054,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					tags = { table:1,ul:1,ol:1,dl:1 };
 
 				for ( var t in tags ) {
-					if ( root = ancestor.getAscendant( t, 1 ) )
+					if ( ( root = ancestor.getAscendant( t, 1 ) ) )
 						break;
 				}
 

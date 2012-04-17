@@ -239,7 +239,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		matchWord: 'Hele woord moet voorkomen',
 		matchCyclic: 'Doorlopend zoeken',
 		replaceAll: 'Alles vervangen',
-		replaceSuccessMsg: '%1 resulaten vervangen.'
+		replaceSuccessMsg: '%1 resultaten vervangen.'
 	},
 
 	// Table Dialog

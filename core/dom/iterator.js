@@ -59,7 +59,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var removePreviousBr, removeLastBr;
 
 			// This is the first iteration. Let's initialize it.
-			if ( !this._.lastNode ) {
+			if ( !this._.started ) {
 				range = this.range.clone();
 
 				// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
@@ -69,38 +69,42 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				range.enlarge( this.forceBrBreak && !touchPre || !this.enlargeBr ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
-				var walker = new CKEDITOR.dom.walker( range ),
-					ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( true, true );
-				// Avoid anchor inside bookmark inner text.
-				walker.evaluator = ignoreBookmarkTextEvaluator;
-				this._.nextNode = walker.next();
-				// TODO: It's better to have walker.reset() used here.
-				walker = new CKEDITOR.dom.walker( range );
-				walker.evaluator = ignoreBookmarkTextEvaluator;
-				var lastNode = walker.previous();
-				this._.lastNode = lastNode.getNextSourceNode( true );
+				if ( !range.collapsed ) {
+					var walker = new CKEDITOR.dom.walker( range.clone() ),
+						ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( true, true );
+					// Avoid anchor inside bookmark inner text.
+					walker.evaluator = ignoreBookmarkTextEvaluator;
+					this._.nextNode = walker.next();
+					// TODO: It's better to have walker.reset() used here.
+					walker = new CKEDITOR.dom.walker( range.clone() );
+					walker.evaluator = ignoreBookmarkTextEvaluator;
+					var lastNode = walker.previous();
+					this._.lastNode = lastNode.getNextSourceNode( true );
 
-				// We may have an empty text node at the end of block due to [3770].
-				// If that node is the lastNode, it would cause our logic to leak to the
-				// next block.(#3887)
-				if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
-					var testRange = new CKEDITOR.dom.range( range.document );
-					testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
-					if ( testRange.checkEndOfBlock() ) {
-						var path = new CKEDITOR.dom.elementPath( testRange.endContainer, testRange.root );
-						var lastBlock = path.block || path.blockLimit;
-						this._.lastNode = lastBlock.getNextSourceNode( true );
+					// We may have an empty text node at the end of block due to [3770].
+					// If that node is the lastNode, it would cause our logic to leak to the
+					// next block.(#3887)
+					if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
+						var testRange = new CKEDITOR.dom.range( range.document );
+						testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
+						if ( testRange.checkEndOfBlock() ) {
+							var path = new CKEDITOR.dom.elementPath( testRange.endContainer );
+							var lastBlock = path.block || path.blockLimit;
+							this._.lastNode = lastBlock.getNextSourceNode( true );
+						}
 					}
+
+					// Probably the document end is reached, we need a marker node.
+					if ( !this._.lastNode ) {
+						this._.lastNode = this._.docEndMarker = range.document.createText( '' );
+						this._.lastNode.insertAfter( lastNode );
+					}
+
+					// Let's reuse this variable.
+					range = null;
 				}
 
-				// Probably the document end is reached, we need a marker node.
-				if ( !this._.lastNode ) {
-					this._.lastNode = this._.docEndMarker = range.document.createText( '' );
-					this._.lastNode.insertAfter( lastNode );
-				}
-
-				// Let's reuse this variable.
-				range = null;
+				this._.started = 1;
 			}
 
 			var currentNode = this._.nextNode;
@@ -297,7 +301,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
 			if ( !this._.nextNode ) {
-				this._.nextNode = ( isLast || block.equals( lastNode ) ) ? null : getNextSourceNode( block, 1, lastNode );
+				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : getNextSourceNode( block, 1, lastNode );
 			}
 
 			return block;

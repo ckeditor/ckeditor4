@@ -37,7 +37,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 				case 9:
 				case CKEDITOR.SHIFT + 9:
-					this.changeFocus( true );
+					this.changeFocus( 1 );
 					processed = 1;
 			}
 

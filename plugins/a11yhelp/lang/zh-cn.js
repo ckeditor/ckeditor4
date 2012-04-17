@@ -18,17 +18,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 
 				{
 				name: '编辑器对话框',
-				legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+				legend: '在对话框内，TAB键移动到下一个字段，SHIFT + TAB 移动到上一个字段，ENTER键提交对话框，ESC键取消对话框。对于有多标签的对话框，用ALT + F10来移到标签列表。然后用TAB键或者向右箭头来移动到下一个标签；SHIFT + TAB或者向左箭头移动到上一个标签。用SPACE或者ENTER选择标签。'
 			},
 
 				{
 				name: '编辑器上下文菜单',
-				legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+				legend: '用 ${contextMenu}或者 应用程序键 打开上下文菜单。然后用TAB键或者向下箭头来移动到下一个菜单项；SHIFT + TAB或者向上箭头移动到上一个菜单项。用SPACE或者ENTER选择菜单项。用SPACE，ENTER或者向右箭头打开子菜单。返回菜单用ESC键或者向左箭头。用ESC关闭上下文菜单。'
 			},
 
 				{
 				name: '编辑器列表框',
-				legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+				legend: '在列表框中，移到下一列表项用TAB键或者向下箭头。移到上一列表项用SHIFT + TAB或者向上箭头，用SPACE或者ENTER选择列表项。用ESC收起列表框。'
 			},
 
 				{

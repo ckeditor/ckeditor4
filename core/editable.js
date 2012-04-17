@@ -666,7 +666,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function isNotBubbling( fn ) {
 		return function( evt ) {
 			var target = evt.data.getTarget(),
-				other = evt.data.$.toElement || evt.data.$.fromElement;
+				other = evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget;
 			other = other ? CKEDITOR.dom.element.get( other ) : null;
 			if ( target.equals( this ) && !( other && this.contains( other ) ) )
 				fn.call( this, evt );

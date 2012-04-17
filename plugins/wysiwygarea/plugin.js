@@ -16,7 +16,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				iframe.setStyles({ width: '100%', height: '100%' } );
 				iframe.addClass( 'cke_wysiwyg_frame' );
 
-				editor.getUISpace( 'contents' ).append( iframe );
+				var contentSpace = editor.getUISpace( 'contents' );
+				contentSpace.append( iframe );
 
 				var src = 'document.open();' +
 					// The document domain must be set any time we
@@ -48,6 +49,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					allowTransparency: 'true'
 				});
 
+				// Webkit: iframe size doesn't auto fit well. (#7360)
+				if ( CKEDITOR.env.webkit ) {
+					var onResize = function() {
+							iframe.hide();
+							iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
+							iframe.show();
+						};
+
+					iframe.setCustomData( 'onResize', onResize );
+
+					CKEDITOR.document.getWindow().on( 'resize', onResize );
+				}
+
 				editor.fire( 'ariaWidget', iframe );
 			});
 
@@ -75,6 +89,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.addCss( 'html { height: 100% !important; }' );
 				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
 			}
+			// Remove the margin to avoid mouse confusion. (#8835)
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 && editor.config.contentsLangDirection == 'ltr' )
+				editor.addCss( 'body{margin-right:0;}' );
 
 			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
 			To prevent this misbehavior, we show the scrollbar always */
@@ -83,29 +100,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCss( 'html {	_overflow-y: scroll; cursor: text;	*cursor:auto;}' );
 			// Use correct cursor for these elements
 			editor.addCss( 'img, input, textarea { cursor: default;}' );
-
-			// Create an invisible element to grab focus.
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.ie || CKEDITOR.env.opera ) {
-				var focusGrabber;
-				editor.on( 'uiReady', function() {
-					focusGrabber = editor.container.append( CKEDITOR.dom.element.createFromHtml(
-					// Use 'span' instead of anything else to fly under the screen-reader radar. (#5049)
-					'<span tabindex="-1" style="position:absolute;" role="presentation"></span>' ) );
-
-					focusGrabber.on( 'focus', function() {
-						editor.focus();
-					});
-
-					editor.focusGrabber = focusGrabber;
-				});
-
-				editor.on( 'destroy', function() {
-					if ( focusGrabber ) {
-						focusGrabber.clearCustomData();
-						delete editor.focusGrabber;
-					}
-				});
-			}
 
 			editor.config.contentsLangDirection == 'ui' && ( editor.config.contentsLangDirection = editor.lang.dir );
 		}
@@ -207,22 +201,46 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		// ## END
+		if ( CKEDITOR.env.gecko ) {
+			this.attachListener( this, 'keydown', function( evt ) {
+				var keyCode = evt.data.getKeystroke();
 
-		// IE standard compliant in editing frame doesn't focus the editor when
-		// clicking outside actual content, manually apply the focus. (#1659)
-		if ( !editor.readOnly && (
-		( CKEDITOR.env.ie && doc.$.compatMode == 'CSS1Compat' ) || CKEDITOR.env.gecko || CKEDITOR.env.opera ) ) {
-			var htmlElement = doc.getDocumentElement();
-			this.attachListener( htmlElement, 'mousedown', function( evt ) {
-				// Setting focus directly on editor doesn't work, we
-				// have to use here a temporary element to 'redirect'
-				// the focus.
-				if ( evt.data.getTarget().equals( htmlElement ) ) {
-					editor.focus();
+				// PageUp OR PageDown
+				if ( keyCode == 33 || keyCode == 34 ) {
+					// Page up/down cause editor selection to leak
+					// outside of editable thus we try to intercept
+					// the behavior, while it affects only happen
+					// when editor contents are not overflowed. (#7955)
+					if ( editor.window.$.innerHeight > this.$.offsetHeight ) {
+						var range = new CKEDITOR.dom.range( doc );
+						range[ keyCode == 33 ? 'moveToElementEditStart' : 'moveToElementEditEnd' ]( this );
+						range.select();
+						evt.data.preventDefault();
+					}
 				}
 			});
 		}
+
+		if ( CKEDITOR.env.ie ) {
+			// [IE] Iframe will still keep the selection when blurred, if
+			// focus is moved onto a non-editing host, e.g. link or button, but
+			// it becomes a problem for the object type selection, since the resizer
+			// handler attached on it will mark other part of the UI, especially
+			// for the dialog. (#8157)
+			// [IE<8 & Opera] Even worse For old IEs, the cursor will not vanish even if
+			// the selection has been moved to another text input in some cases. (#4716)
+			//
+			// Now the range restore is disabled, so we simply force IE to clean
+			// up the selection before blur.
+			this.on( 'blur', function() {
+				// Error proof when the editor is not visible. (#6375)
+				try {
+					doc.$.selection.empty();
+				} catch ( er ) {}
+			});
+		}
+
+		// ## END
 
 		// Setting voice label as window title, backup the original one
 		// and restore it before running into use.
@@ -427,6 +445,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				doc.getDocumentElement().clearCustomData();
 				iframe.clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
+
+				var onResize = iframe.removeCustomData( 'onResize' );
+				if ( onResize )
+					win.removeListener( 'resize', onResize );
 
 				editor.fire( 'contentDomUnload' );
 

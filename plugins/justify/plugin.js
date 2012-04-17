@@ -8,15 +8,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 (function() {
-	function getState( editor, path ) {
-		var firstBlock = path.block || path.blockLimit;
-
-		if ( !firstBlock || firstBlock.equals( editor.editable() ) )
-			return CKEDITOR.TRISTATE_OFF;
-
-		return ( getAlignment( firstBlock, editor.config.useComputedState ) == this.value ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-	}
-
 	function getAlignment( element, useComputedState ) {
 		useComputedState = useComputedState === undefined || useComputedState;
 
@@ -33,7 +24,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			align = element.getStyle( 'text-align' ) || element.getAttribute( 'align' ) || '';
 		}
 
-		align && ( align = align.replace( /-moz-|-webkit-|start|auto/i, '' ) );
+		// Sometimes computed values doesn't tell.
+		align && ( align = align.replace( /(?:-(?:moz|webkit)-)?(?:start|auto)/i, '' ) );
 
 		!align && useComputedState && ( align = element.getComputedStyle( 'direction' ) == 'rtl' ? 'right' : 'left' );
 
@@ -44,12 +36,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( evt.editor.readOnly )
 			return;
 
-		var command = evt.editor.getCommand( this.name );
-		command.state = getState.call( this, evt.editor, evt.data.path );
-		command.fire( 'state' );
+		evt.editor.getCommand( this.name ).refresh( evt.data.path );
 	}
 
 	function justifyCommand( editor, name, value ) {
+		this.editor = editor;
 		this.name = name;
 		this.value = value;
 
@@ -165,6 +156,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.focus();
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
+		},
+
+		refresh: function( path ) {
+			var firstBlock = path.block || path.blockLimit;
+
+			this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		}
 	};
 
