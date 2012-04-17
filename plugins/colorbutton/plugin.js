@@ -27,11 +27,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
-				className: 'cke_button_' + name.toLowerCase(),
 				modes: { wysiwyg:1 },
 
 				panel: {
-					css: editor.skin.editor.css,
+					css: CKEDITOR.skin.getPath( 'editor' ),
 					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 				},
 

@@ -56,3 +56,18 @@ else {
 		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
 	}
 }
+
+/**
+ * The skin to load for all created instances, it may be the name of the skin
+ * folder inside the editor installation path, or the name and the path separated
+ * by a comma.<br>
+ * <br>
+ * <strong>Note:</strong> This is a global configuration that applies to all instances.
+ * @name CKEDITOR.editorSkin
+ * @type String
+ * @example
+ * CKEDITOR.editorSkin = 'kama';
+ * @example
+ * CKEDITOR.editorSkin = 'myskin,/customstuff/myskin/';
+ */
+CKEDITOR.skinName = 'kama';

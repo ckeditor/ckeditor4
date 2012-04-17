@@ -32,7 +32,7 @@ CKEDITOR.UI_MENUBUTTON = 'menubutton';
 			if ( !menu ) {
 				menu = _.menu = new CKEDITOR.menu( editor, {
 					panel: {
-						className: editor.skinClass + ' cke_contextmenu',
+						className: 'cke_contextmenu',
 						attributes: { 'aria-label': editor.lang.common.options }
 					}
 				});

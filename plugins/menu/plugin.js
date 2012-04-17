@@ -71,6 +71,48 @@ CKEDITOR.plugins.add( 'menu', {
 });
 
 (function() {
+	var menuItemSource = '<span class="cke_menuitem {alphaFixClass}">' +
+		'<a id="{id}"' +
+		' class="cke_button__{name} cke_button_{state}" href="{href}"' +
+		' title="{title}"' +
+		' tabindex="-1"' +
+		'_cke_focus=1' +
+		' hidefocus="true"' +
+		' role="menuitem"' +
+		' aria-haspopup="{hasPopup}"' +
+		' aria-disabled="{disabled}"' +
+		' aria-pressed="{pressed}"';
+
+	// Some browsers don't cancel key events in the keydown but in the
+	// keypress.
+	// TODO: Check if really needed for Gecko+Mac.
+	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+		menuItemSource += ' onkeypress="return false;"';
+
+	// With Firefox, we need to force the button to redraw, otherwise it
+	// will remain in the focus state.
+	if ( CKEDITOR.env.gecko )
+		menuItemSource += ' onblur="this.style.cssText = this.style.cssText;"';
+
+	// #188
+	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
+			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
+			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +
+				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
+			'>';
+
+	menuItemSource += '<span class="{iconCls}_wrapper"><span class="cke_button_icon cke_button__{name}_icon"' +
+				' style="{iconStyle}"></span></span>' +
+				'<span class="cke_label">{arrowHtml}{label}</span>' +
+				'</a></span>';
+
+	var menuArrowSource = '<span class="cke_menuarrow">' +
+				'<span>{label}</span>' +
+			'</span>';
+
+	var menuItemTpl = CKEDITOR.addTemplate( 'menuItem', menuItemSource ),
+		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource );
+
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
 		$: function( editor, definition ) {
 			definition = this._.definition = definition || {};
@@ -83,7 +125,7 @@ CKEDITOR.plugins.add( 'menu', {
 			this._.level = definition.level || 1;
 
 			var panelDefinition = CKEDITOR.tools.extend( {}, definition.panel, {
-				css: editor.skin.editor.css,
+				css: [ CKEDITOR.skin.getPath( 'editor' ) ],
 				level: this._.level - 1,
 				block: {}
 			});
@@ -232,6 +274,12 @@ CKEDITOR.plugins.add( 'menu', {
 							return false;
 					}, this );
 
+					panel.onShow = function() {
+						// Menu need CSS resets, compensate class name.
+						var holder = panel._.panel.getHolderElement();
+						holder.getParent().addClass( 'cke' );
+					};
+
 					panel.onHide = CKEDITOR.tools.bind( function() {
 						this._.onHide && this._.onHide();
 					}, this );
@@ -250,7 +298,6 @@ CKEDITOR.plugins.add( 'menu', {
 					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (#8041).
 
 					element = this._.element = block.element;
-					element.addClass( editor.skinClass );
 
 					var elementDoc = element.getDocument();
 					elementDoc.getBody().setStyle( 'overflow', 'hidden' );
@@ -283,8 +330,8 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
-				var chromeRoot = editor.container.getChild( 1 ),
-					mixedContentClass = chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+				var chromeRoot = editor.container && editor.container.getChild( 1 ),
+					mixedContentClass = chromeRoot && chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
 				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];
@@ -345,7 +392,7 @@ CKEDITOR.plugins.add( 'menu', {
 			// Defaults
 			{
 				order: 0,
-				className: 'cke_button_' + name
+				className: 'cke_button__' + name
 			});
 
 			// Transform the group name into its order number.
@@ -360,63 +407,34 @@ CKEDITOR.plugins.add( 'menu', {
 				var id = menu.id + String( index ),
 					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state;
 
-				var classes = ' cke_' + ( state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off' );
-
-				var htmlLabel = this.label;
-
-				if ( this.className )
-					classes += ' ' + this.className;
+				var stateName = state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off';
 
 				var hasSubMenu = this.getItems;
+				// ltr: BLACK LEFT-POINTING POINTER
+				// rtl: BLACK RIGHT-POINTING POINTER
+				var arrowLabel = '&' + ( this.editor.lang.dir == 'rtl' ? '9668' : '9658' ) + ';';
 
-				output.push( '<span class="cke_menuitem' + ( this.icon && this.icon.indexOf( '.png' ) == -1 ? ' cke_noalphafix' : '' ) + '">' +
-									'<a id="', id, '"' +
-										' class="', classes, '" href="javascript:void(\'', ( this.label || '' ).replace( "'", '' ), '\')"' +
-										' title="', this.label, '"' +
-										' tabindex="-1"' +
-										'_cke_focus=1' +
-										' hidefocus="true"' +
-										' role="menuitem"' +
-										( hasSubMenu ? 'aria-haspopup="true"' : '' ) +
-										( state == CKEDITOR.TRISTATE_DISABLED ? 'aria-disabled="true"' : '' ) +
-										( state == CKEDITOR.TRISTATE_ON ? 'aria-pressed="true"' : '' ) );
+				var params = {
+					id: id,
+					name: this.name,
+					label: this.label,
+					state: stateName,
+					hasPopup: hasSubMenu ? 'true' : 'false',
+					disabled: state == CKEDITOR.TRISTATE_DISABLED,
+					pressed: state == CKEDITOR.TRISTATE_ON,
+					title: this.label,
+					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
+					hoverFn: menu._.itemOverFn,
+					moveOutFn: menu._.itemOverFn,
+					clickFn: menu._.itemClickFn,
+					index: index,
+					iconCls: 'cke_icon',
+					iconStyle: this.icon ? ( 'background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + ( ( this.iconOffset || 0 ) * -16 ) + 'px;' ) : '',
+					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : '',
+					alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' )
+				};
 
-				// Some browsers don't cancel key events in the keydown but in the
-				// keypress.
-				// TODO: Check if really needed for Gecko+Mac.
-				if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) ) {
-					output.push( ' onkeypress="return false;"' );
-				}
-
-				// With Firefox, we need to force the button to redraw, otherwise it
-				// will remain in the focus state.
-				if ( CKEDITOR.env.gecko ) {
-					output.push( ' onblur="this.style.cssText = this.style.cssText;"' );
-				}
-
-				var offset = ( this.iconOffset || 0 ) * -16;
-				output.push(
-				//					' onkeydown="return CKEDITOR.ui.button._.keydown(', index, ', event);"' +
-				' onmouseover="CKEDITOR.tools.callFunction(', menu._.itemOverFn, ',', index, ');"' +
-					' onmouseout="CKEDITOR.tools.callFunction(', menu._.itemOutFn, ',', index, ');" ' +
-					( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
-										'="CKEDITOR.tools.callFunction(', menu._.itemClickFn, ',', index, '); return false;"' +
-					'>' +
-						'<span class="cke_icon_wrapper"><span class="cke_icon"' +
-							( this.icon ? ' style="background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + offset + 'px;"'
-												: '' ) +
-							'></span></span>' +
-						'<span class="cke_label">' );
-
-				if ( hasSubMenu ) {
-					output.push( '<span class="cke_menuarrow">', '<span>&#', ( this.editor.lang.dir == 'rtl' ? '9668' : // BLACK LEFT-POINTING POINTER
-					'9658' ), // BLACK RIGHT-POINTING POINTER
-					';</span>', '</span>' );
-				}
-
-				output.push( htmlLabel, '</span>' +
-					'</a>' +
-					'</span>' );
+				menuItemTpl.output( params, output );
 			}
 		}
 	});

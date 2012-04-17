@@ -45,6 +45,9 @@ CKEDITOR.ui.prototype = {
 	 *     });
 	 */
 	add: function( name, type, definition ) {
+		// Compensate the unique name of this ui item to definition.
+		definition.name = name.toLowerCase();
+
 		this._.items[ name ] = {
 			type: type,
 			// The name of {@link CKEDITOR.command} which associate with this UI.
@@ -64,9 +67,6 @@ CKEDITOR.ui.prototype = {
 			command = item && item.command && this._.editor.getCommand( item.command );
 
 		var result = handler && handler.create.apply( this, item.args );
-
-		// Allow overrides from skin ui definitions..
-		item && ( result = CKEDITOR.tools.extend( result, this._.editor.skin[ item.type ], true ) );
 
 		// Add reference inside command object.
 		if ( command )

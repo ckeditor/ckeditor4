@@ -317,8 +317,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
-	var hiddenSkins = {};
-
 	function loadTheme( editor ) {
 		var name = editor.name,
 			element = editor.element,
@@ -346,17 +344,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 			style += 'width:{width};';
 		}
 
-		var hideSkin = '<style>.' + editor.skinClass + '{visibility:hidden;}</style>';
-		if ( hiddenSkins[ editor.skinClass ] )
-			hideSkin = '';
-		else
-			hiddenSkins[ editor.skinClass ] = 1;
 
-		var template = editor.addTemplate( 'maincontainer', '<span' +
+		var template = CKEDITOR.addTemplate( 'maincontainer', '<div' +
 			' id="cke_{name}"' +
-			' class="{skinClass} {id} cke_editor_{name}"' +
+			' class="{id} cke cke_chrome cke_editor_{name}"' +
 			' dir="{langDir}"' +
-			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 			' lang="{langCode}"' +
 			( CKEDITOR.env.webkit ? ' tabindex="{tabIndex}"' : '' ) +
 			' role="application"' +
@@ -364,35 +356,36 @@ CKEDITOR.replaceClass = 'ckeditor';
 			( style ? ' style="' + style + '"' : '' ) +
 			'>' +
 			'<span id="cke_{name}_arialbl" class="cke_voice_label">' + editor.lang.editor + '</span>' +
-			'<span class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-				'<span class="cke_wrapper cke_{langDir}" role="presentation">' +
-					'<table class="cke_editor" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody>' +
-						'<tr' + ( topHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_top_{name}" class="cke_top" role="presentation">{topHtml}</td></tr>' +
-						'<tr role="presentation"><td id="cke_contents_{name}" class="cke_contents" style="height:{height}" role="presentation"></td></tr>' +
-						'<tr' + ( bottomHtml ? '' : ' style="display:none"' ) + ' role="presentation"><td id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</td></tr>' +
-					'</tbody></table>' +
-					//Hide the container when loading skins, later restored by skin css.
-							hideSkin +
-				'</span>' +
-			'</span>' +
-			'</span>' );
+			'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+				'<div class="cke_{langDir}" role="presentation">' +
+					'<div class="cke_inner" role="presentation">' +
+						'<div id="cke_top_{name}" class="cke_top"' +
+						' role="presentation" style="height:auto">{topHtml}</div>' +
+						'<div id="cke_contents_{name}" class="cke_contents"' +
+						' role="presentation" style="height:{height}"></div>' +
+						'<div id="cke_bottom_{name}" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+			'</div>' );
 
 		var container = CKEDITOR.dom.element.createFromHtml( template.output({
 			id: editor.id,
 			name: name,
-			skinClass: editor.skinClass,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			tabIndex: tabIndex,
-			topHtml: topHtml,
-			bottomHtml: bottomHtml,
 			height: height,
-			width: width
+			width: width,
+			topHtml: topHtml || '',
+			bottomHtml: bottomHtml || ''
 		}));
 
-		// TODO: Replace the following with direct element ID selector to support user customizations.
-		container.getChild( [ 1, 0, 0, 0, 0 ] ).unselectable();
-		container.getChild( [ 1, 0, 0, 0, 2 ] ).unselectable();
+		var topSpace = CKEDITOR.document.getById( 'cke_top_' + name ),
+			bottomSpace = CKEDITOR.document.getById( 'cke_bottom_' + name );
+
+		topSpace && topSpace.unselectable();
+		bottomSpace && bottomSpace.unselectable();
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();

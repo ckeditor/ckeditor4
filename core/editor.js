@@ -187,38 +187,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function onConfigLoaded( editor ) {
 		// Set config related properties.
 
-		var skin = editor.config.skin && editor.config.skin.split( ',' ),
-			skinName = ( skin && skin[ 0 ] ) || '',
-			skinPath = ( skinName && CKEDITOR.getUrl( skin[ 1 ] || ( 'skins/' + skinName + '/' ) ) ) || '';
-
-		/**
-		 * The name of the skin used by this editor instance. The skin name can
-		 * be set through the {@link CKEDITOR.config.skin} setting.
-		 * @name CKEDITOR.editor.prototype.skinName
-		 * @type String
-		 * @example
-		 * alert( editor.skinName );  // E.g. "kama"
-		 */
-		editor.skinName = skinName;
-
-		/**
-		 * The full URL of the skin directory.
-		 * @name CKEDITOR.editor.prototype.skinPath
-		 * @type String
-		 * @example
-		 * alert( editor.skinPath );  // E.g. "http://example.com/ckeditor/skins/kama/"
-		 */
-		editor.skinPath = skinPath;
-
-		/**
-		 * The CSS class name used for skin identification purposes.
-		 * @name CKEDITOR.editor.prototype.skinClass
-		 * @type String
-		 * @example
-		 * alert( editor.skinClass );  // E.g. "cke_skin_kama"
-		 */
-		editor.skinClass = skinName && ( 'cke_skin_' + skinName );
-
 		// Initialize the key handler, based on the configurations.
 		initKeystrokeHandler( editor );
 
@@ -234,11 +202,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
-		skin ? loadSkin( editor ) : loadLang( editor );
+		loadSkin( editor );
 	}
 
 	function loadSkin( editor ) {
-		CKEDITOR.skins.load( editor, 'editor', function() {
+		CKEDITOR.skin.loadPart( 'editor', function() {
 			loadLang( editor );
 		});
 	}
@@ -456,21 +424,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		addCss: function( css ) {
 			var styles = this._.styles || ( this._.styles = [] );
 			styles.push( css );
-		},
-
-		/**
-		 * Adds an UI template to this editor instance.
-		 * @param {String} name The template name.
-		 * @param {String} source The source data for this template.
-		 * @see CKEDITOR.editor.templates
-		 * @see CKEDITOR.editor#template
-		 */
-		addTemplate: function( name, source ) {
-			// Make it possible to customize the template through the "template" event.
-			var params = { name: name, source: source };
-			this.on( 'template', params );
-
-			return ( this.templates[ name ] = new CKEDITOR.template( this, params.source ) );
 		},
 
 		/**

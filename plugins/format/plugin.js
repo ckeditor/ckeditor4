@@ -24,9 +24,8 @@ CKEDITOR.plugins.add( 'format', {
 		editor.ui.addRichCombo( 'Format', {
 			label: lang.label,
 			title: lang.panelTitle,
-			className: 'cke_format',
 			panel: {
-				css: editor.skin.editor.css.concat( config.contentsCss ),
+				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,
 				attributes: { 'aria-label': lang.panelTitle }
 			},

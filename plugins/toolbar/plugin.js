@@ -156,7 +156,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					output.push( expanded ? '>' : ' style="display:none">' );
 
 					// Sends the ARIA label.
-					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbars, '</span>' );
+					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbars, '</span>', '<div class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
@@ -182,7 +182,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 
 						if ( row === '/' ) {
-							output.push( '<div class="cke_break"></div>' );
+							output.push( '<div class="cke_toolbar_break"></div>' );
 							continue;
 						}
 
@@ -266,6 +266,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							output.push( '<span class="cke_toolbar_end"></span></span>' );
 					}
 
+					// End of toolbox buttons.
 					output.push( '</div>' );
 
 					if ( editor.config.toolbarCanCollapse ) {
@@ -283,6 +284,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							readOnly: 1,
 							exec: function( editor ) {
 								var collapser = CKEDITOR.document.getById( collapserId ),
+									// TODO: Prefer UI space id over assuming structure.
 									toolbox = collapser.getPrevious(),
 									contents = editor.getUISpace && editor.getUISpace( 'contents' ),
 									toolboxContainer = toolbox.getParent(),
@@ -319,10 +321,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );
 
-						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span>&#9650;</span>', // BLACK UP-POINTING TRIANGLE
+						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span class="cke_arrow">&#9650;</span>', // BLACK UP-POINTING TRIANGLE
 						'</a>' );
 					}
 
+					output.push( '</div>' );
 					event.data.html += output.join( '' );
 				}
 			});
@@ -351,7 +354,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				create: function() {
 					return {
 						render: function( editor, output ) {
-							output.push( '<span class="cke_separator" role="separator"></span>' );
+							output.push( '<span class="cke_toolbar_separator" role="separator"></span>' );
 							return {};
 						}
 					};

@@ -273,18 +273,6 @@ CKEDITOR.config = {
 	tabIndex: 0,
 
 	/**
-	 * The skin to load. It may be the name of the skin folder inside the
-	 * editor installation path, or the name and the path separated by a comma.
-	 * @type String
-	 * @default ''
-	 * @example
-	 * config.skin = 'kama';
-	 * @example
-	 * config.skin = 'myskin,/customstuff/myskin/';
-	 */
-	skin: '',
-
-	/**
 	 * The editor width in CSS-defined units or an integer denoting a value in pixels.
 	 * @type String|Number
 	 * @default <code>''</code> (empty)
@@ -319,6 +307,19 @@ CKEDITOR.config = {
  * @since 3.4
  * @example
  * config.useComputedState = false;
+ */
+
+/**
+ * The base user interface color to be used by the editor. Not all skins are
+ * compatible with this setting.
+ * @name CKEDITOR.config.uiColor
+ * @type String
+ * @example
+ * // Using a color code.
+ * config.uiColor = '#AADC6E';
+ * @example
+ * // Using an HTML color name.
+ * config.uiColor = 'Gold';
  */
 
 // PACKAGER_RENAME( CKEDITOR.config )

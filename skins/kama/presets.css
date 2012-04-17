@@ -4,46 +4,60 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /* "Source" button label */
-.cke_skin_kama .cke_button_source .cke_label
+.cke_button__source_label
 {
 	display: inline;
 }
 
+.cke_combo__styles .cke_combo_text,
+.cke_combo__format .cke_combo_text
+{
+	width: 60px;
+}
+
+.cke_combo__font .cke_combo_text,
+.cke_combo__fontsize .cke_combo_text
+{
+	width: 30px;
+}
+
 /* "Styles" panel size */
-.cke_skin_kama .cke_styles_panel
+.cke_combopanel__styles
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Format" panel size */
-.cke_skin_kama .cke_format_panel
+.cke_combopanel__format
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Font" panel size */
-.cke_skin_kama .cke_font_panel
+.cke_combopanel__font
 {
 	width: 150px;
 	height: 170px;
 }
 
 /* "Font Size" panel size */
-.cke_skin_kama .cke_fontSize_panel
+.cke_combopanel__fontsize
 {
 	height: 170px;
 }
 
-/* "Font Size" combo width */
-.cke_skin_kama .cke_fontSize .cke_text
+/* Editable regions */
+.cke_source
 {
-	width: 25px;
+	font-family: 'Courier New' , Monospace;
+	font-size: small;
+	background-color: #fff;
+	white-space: pre;
 }
 
-/* "Font Size" combo width (IE Quirks) */
-.cke_skin_kama .cke_browser_iequirks .cke_fontSize .cke_text
+.cke_wysiwyg_frame
 {
-	width: 32px;
+	background-color: #fff;
 }
