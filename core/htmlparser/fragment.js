@@ -54,24 +54,34 @@ CKEDITOR.htmlParser.fragment = function() {
 	/**
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
-	 * @param {Number} [fixForBody=false] Wrap body with specified element if needed.
-	 * @param {CKEDITOR.htmlParser.element} contextNode Parse the html as the content of this element.
+	 * @param {CKEDITOR.htmlParser.element|String} [parent] Optional contextual
+	 * element which makes the content been parsed as the content of this element.
+	 * @param {String|Boolean} [fixForBody] When {@param parent} is the "body" element,
+	 * and the param is a string value other than <code>false</code>, it is to
+	 * avoid having block-less content as the direct children of parent by wrapping
+	 * the content with a specified tag, e.g. when
+	 * fixBodyTag specified as "p", the content
+	 * <code>&lt;body&gt;&lt;i&gt;foo&lt;/i&gt;&lt;/body&gt;</code> will be
+	 * fixed into <code>&lt;body&gt;&lt;p&gt;&lt;i&gt;foo&lt;/i&gt;&lt;/p&gt;&lt;/body&gt;</code>.
+	 *
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 * @example
 	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
 	 * alert( fragment.children[0].name );  "b"
 	 * alert( fragment.children[1].value );  " Text"
 	 */
-	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, fixForBody, contextNode ) {
-		var parser = new CKEDITOR.htmlParser(),
-			fragment = contextNode || new CKEDITOR.htmlParser.fragment(),
-			pendingInline = [],
+	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixForBody ) {
+		var parser = new CKEDITOR.htmlParser();
+
+		var root = parent instanceof CKEDITOR.htmlParser.element ? parent : typeof parent == 'string' ? new CKEDITOR.htmlParser.element( parent ) : new CKEDITOR.htmlParser.fragment();
+
+		var pendingInline = [],
 			pendingBRs = [],
-			currentNode = fragment,
+			currentNode = root,
 			// Indicate we're inside a <textarea> element, spaces should be touched differently.
-			inTextarea = false,
+			inTextarea = root.name == 'textarea',
 			// Indicate we're inside a <pre> element, spaces should be touched differently.
-			inPre = false;
+			inPre = root.name == 'pre';
 
 		function checkPending( newTagName ) {
 			var pendingBRsSent;
@@ -131,7 +141,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( element.previous !== undefined )
 				return;
 
-			target = target || currentNode || fragment;
+			target = target || currentNode || root;
 
 			// Current element might be mangled by fix body below,
 			// save it for restore later.
@@ -139,7 +149,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			// If the target is the fragment and this inline element can't go inside
 			// body (if fixForBody).
-			if ( fixForBody && ( !target.type || target.name == 'body' ) ) {
+			if ( fixForBody && target.name == 'body' ) {
 				var elementName, realElementName;
 				if ( element.attributes && ( realElementName = element.attributes[ 'data-cke-real-element-type' ] ) )
 					elementName = realElementName;
@@ -288,7 +298,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				newPendingInline = [],
 				candidate = currentNode;
 
-			while ( candidate != fragment && candidate.name != tagName ) {
+			while ( candidate != root && candidate.name != tagName ) {
 				// If this is an inline element, add it to the pending list, if we're
 				// really closing one of the parents element later, they will continue
 				// after it.
@@ -304,7 +314,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				candidate = candidate.returnPoint || candidate.parent;
 			}
 
-			if ( candidate != fragment ) {
+			if ( candidate != root ) {
 				// Add all elements that have been found in the above loop.
 				for ( i = 0; i < pendingAdd.length; i++ ) {
 					var node = pendingAdd[ i ];
@@ -377,10 +387,22 @@ CKEDITOR.htmlParser.fragment = function() {
 		sendPendingBRs( !CKEDITOR.env.ie && 1 );
 
 		// Close all pending nodes, make sure return point is properly restored.
-		while ( currentNode != fragment )
+		while ( currentNode != root )
 			addElement( currentNode, currentNode.parent, 1 );
 
-		return fragment;
+		// Return only the contents.
+		if ( !( root instanceof CKEDITOR.htmlParser.fragment ) ) {
+			var frag = new CKEDITOR.htmlParser.fragment(),
+				children = root.children;
+
+			// Move children to fragment.
+			while ( children.length )
+				frag.add( children.shift() );
+
+			root = frag;
+		}
+
+		return root;
 	};
 
 	CKEDITOR.htmlParser.fragment.prototype = {

@@ -1103,7 +1103,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	pasteProcessor.prototype = {
 		toHtml: function( data ) {
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, false ),
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 				writer = new CKEDITOR.htmlParser.basicWriter();
 
 			fragment.writeHtml( writer, this.dataFilter );
@@ -1128,7 +1128,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.fire( 'beforeCleanWord', { filter: dataFilter } );
 
 		try {
-			data = dataProcessor.toHtml( data, false );
+			data = dataProcessor.toHtml( data );
 		} catch ( e ) {
 			alert( editor.lang.pastefromword.error );
 		}

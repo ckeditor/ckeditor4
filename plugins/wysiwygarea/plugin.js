@@ -261,9 +261,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		$: function( editor ) {
 			this.base.apply( this, arguments );
 
-			var config = editor.config;
-
-			this._.fixForBody = ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( onDomReady, this );
 			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' );
 		},
@@ -306,7 +303,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Get the HTML version of the data.
 					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data, this._.fixForBody );
+						data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -391,7 +388,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
 					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data, this._.fixForBody );
+						data = editor.dataProcessor.toDataFormat( data );
 
 					// Reset empty if the document contains only one empty paragraph.
 					if ( config.ignoreEmptyParagraph )

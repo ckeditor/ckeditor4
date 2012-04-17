@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var editor = this.editor;
 
 				if ( editor.dataProcessor )
-					data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data, false );
 
 				if ( !data )
 					return;
@@ -117,7 +117,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( CKEDITOR.env.opera ) {
 					var path = new CKEDITOR.dom.elementPath( range.startContainer );
 					if ( path.block ) {
-						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data, false ).children;
+						var nodes = CKEDITOR.htmlParser.fragment.fromHtml( data ).children;
 						for ( var i = 0, count = nodes.length; i < count; i++ ) {
 							if ( nodes[ i ]._.isBlockLike ) {
 								range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );

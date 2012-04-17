@@ -406,6 +406,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.htmlDataProcessor = function( editor ) {
 		this.editor = editor;
 
+		var config = editor.config;
+		this.fixBodyTag = ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+
 		this.writer = new CKEDITOR.htmlWriter();
 		this.dataFilter = new CKEDITOR.htmlParser.filter();
 		this.htmlFilter = new CKEDITOR.htmlParser.filter();
@@ -439,12 +442,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// eat it up. (#5789)
 			data = protectPreFormatted( data );
 
+			var editable = this.editor.editable(),
+				fixBin = editable.getName();
+
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
-			var div = new CKEDITOR.dom.element( 'div' );
+			var el = this.editor.document.createElement( fixBin );
 			// Add fake character to workaround IE comments bug. (#3801)
-			div.setHtml( 'a' + data );
-			data = div.getHtml().substr( 1 );
+			el.setHtml( 'a' + data );
+			data = el.getHtml().substr( 1 );
 
 			// Unprotect "some" of the protected elements at this point.
 			data = unprotectElementNames( data );
@@ -457,8 +463,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, fixForBody ),
-				writer = new CKEDITOR.htmlParser.basicWriter();
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : this.fixBodyTag );
+
+			var writer = new CKEDITOR.htmlParser.basicWriter();
 
 			fragment.writeHtml( writer, this.dataFilter );
 			data = writer.getHtml( true );
@@ -469,9 +476,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return data;
 		},
 
-		toDataFormat: function( html, fixForBody ) {
-			var writer = this.writer,
-				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, fixForBody );
+		toDataFormat: function( html ) {
+			// The parent element will always be the editable.
+			var editable = this.editor.editable(),
+				writer = this.writer;
+
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), this.fixBodyTag );
 
 			writer.reset();
 
