@@ -75,17 +75,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Add this new editor to the CKEDITOR.instances collections.
 		CKEDITOR.add( editor );
 
-		function initElement() {
-			editor.element = element;
-			editor.elementMode = CKEDITOR.ELEMENT_MODE_REPLACE;
-		}
-
-		// Initialize the "element" property only if CKEDITOR is fully loaded
-		// (so CKEDITOR.dom.element is available).
-		if ( CKEDITOR.status == 'loaded' )
-			initElement();
-		else
-			CKEDITOR.on( 'loaded', initElement );
+		editor.element = element;
+		editor.elementMode = CKEDITOR.ELEMENT_MODE_REPLACE;
 
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
@@ -95,7 +86,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 				attachToForm( editor );
 		});
 
-		return init( editor );
+		editor.on( 'destroy', destroy );
+		return editor;
 	};
 
 	/**
@@ -237,17 +229,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
 		return forContents ? CKEDITOR.document.getById( 'cke_contents_' + this.name ) : this.container;
 	};
-
-	function init( editor ) {
-		if ( CKEDITOR.env.isCompatible ) {
-			CKEDITOR.loadFullCore && CKEDITOR.loadFullCore();
-			return false;
-		}
-
-		editor.on( 'destroy', destroy );
-
-		return editor;
-	}
 
 	function destroy() {
 		var editor = this,
