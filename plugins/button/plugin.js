@@ -113,7 +113,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( mode ) {
 						// Restore saved button state.
-						var state = this.editor.getMode( mode ) ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+						var state = modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF;
 
 						this.setState( editor.readOnly && !this.editor.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
 					}

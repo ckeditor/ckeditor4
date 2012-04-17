@@ -145,9 +145,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		else
 			head = new CKEDITOR.dom.element( head );
 
-		return ( this.getHead = function() {
-			return head;
-		})();
+		return head;
 	},
 
 	/**
@@ -158,11 +156,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	 * alert( element.getName() );  // "body"
 	 */
 	getBody: function() {
-		var body = new CKEDITOR.dom.element( this.$.body );
-
-		return ( this.getBody = function() {
-			return body;
-		})();
+		return new CKEDITOR.dom.element( this.$.body );
 	},
 
 	/**
@@ -170,11 +164,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	 * @returns {CKEDITOR.dom.element} The DOM document element.
 	 */
 	getDocumentElement: function() {
-		var documentElement = new CKEDITOR.dom.element( this.$.documentElement );
-
-		return ( this.getDocumentElement = function() {
-			return documentElement;
-		})();
+		return new CKEDITOR.dom.element( this.$.documentElement );
 	},
 
 	/**

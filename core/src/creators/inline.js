@@ -5,60 +5,43 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.inline = function( element, instanceConfig ) {
-		var editor = new CKEDITOR.editor( instanceConfig );
+		element = CKEDITOR.dom.element.get( element );
 
-		// Activate the editable element.
-		element = editor.editable( element );
+		var editor = new CKEDITOR.editor( instanceConfig );
 
 		// Set the editor instance name. It'll be set at CKEDITOR.add if it
 		// remain null here.
 		editor.name = element.getId() || element.getNameAtt();
 
-		// Set the basic data manipulation functions.
-
-		var isHandlingData;
-
-		editor.on( 'beforeGetData', function() {
-			// TODO : Implement the real code here.
-			if ( !isHandlingData ) {
-				isHandlingData = 1;
-				var editable = this.editable();
-				editor.setData( editable && editable.getHtml() || '' );
-				isHandlingData = 0;
-			}
-		});
-
-		editor.on( 'afterSetData', function() {
-			// TODO : Implement the real code here.
-			if ( !isHandlingData ) {
-				isHandlingData = 1;
-				var editable = this.editable();
-				editable && editable.setHtml( editor.getData() );
-				isHandlingData = 0;
-			}
-		});
-
-		editor.on( 'getSnapshot', function( event ) {
-			var editable = this.editable();
-			event.data = editable && editable.getHtml() || '';
-		});
-
-		editor.on( 'loadSnapshot', function( event ) {
-			var editable = this.editable();
-			editable && editable.setHtml( event.data );
-		});
+		editor.element = element;
+		editor.elementMode = CKEDITOR.ELEMENT_MODE_INLINE;
 
 		// Add this new editor to the CKEDITOR.instances collections.
 		CKEDITOR.add( editor );
 
-		// Tell the world that this instance is ready.
-		editor.fire( 'instanceReady' );
+		// Initial editor data.
+		editor.setData( element.getHtml(), null, true );
+
+		// Once the editor is loaded, start the UI.
+		editor.on( 'loaded', function() {
+			// Enable editing on the element.
+			editor.editable( element );
+
+			// Inline editing defaults to "wysiwyg" mode, so plugins don't
+			// need to make special handling for this "mode-less" environment.
+			editor.mode = 'wysiwyg';
+			editor.fire( 'mode' );
+
+			// The editor is completely loaded for interaction.
+			editor.fireOnce( 'instanceReady' );
+			CKEDITOR.fire( 'instanceReady', null, editor );
+		});
 
 		return editor;
-	}
+	};
 
 	// Initialize all elements with contenteditable=true.
-	function inlineAll() {
+	CKEDITOR.inlineAll = function() {
 		var elements = CKEDITOR.dtd.$editable,
 			el, data;
 
@@ -80,11 +63,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 		}
-	}
+	};
 
 	function fireInlineAll() {
 		if ( !CKEDITOR.disableAutoInline )
-			inlineAll();
+			CKEDITOR.inlineAll();
 	}
 
 	if ( document.readyState == 'complete' )
@@ -92,3 +75,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	else
 		CKEDITOR.document.getWindow().on( 'load', fireInlineAll );
 })();
+
+
+/**
+ * Avoid creating editor automatically on element which has attribute "contenteditable" set to the value "true".
+ * @name CKEDITOR.disableAutoInline
+ * @type Boolean
+ * @default false
+ * @example
+ * <b>CKEDITOR.disableAutoInline</b> = true;
+ */
+
+/**
+ * The editor is to be attached to the element, using it as the editing block.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_INLINE = 3;

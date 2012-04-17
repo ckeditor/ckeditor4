@@ -514,6 +514,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				proto = definition.proto,
 				statics = definition.statics;
 
+			// Create the constructor, if not present in the definition.
+			!$ && ( $ = function() {
+				baseClass && this.base.apply( this, arguments );
+			});
+
 			if ( privates ) {
 				var originalConstructor = $;
 				$ = function() {
@@ -535,6 +540,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( baseClass ) {
 				$.prototype = this.prototypedCopy( baseClass.prototype );
 				$.prototype.constructor = $;
+				// Super references.
+				$.base = baseClass;
+				$.baseProto = baseClass.prototype;
+				// Super constructor.
 				$.prototype.base = function() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );
