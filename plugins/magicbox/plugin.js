@@ -4,13 +4,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */'use strict';
 
 (function() {
-	var triggers = { table:1,hr:1,div:1,ul:1,ol:1,dl:1 },
-		domDepth = 1,
-		boxOffset = 30,
-		boxHeight = 25,
-		hiddenMode = false,
+	var dtdTriggers = { table:1,hr:1,div:1,ul:1,ol:1,dl:1 },
+		dtdLists = CKEDITOR.dtd.$list,
+		dtdListItem = CKEDITOR.dtd.$listItem,
 
-		doc, body, magicBox, domList,
+		EDGE_TOP = 1,
+		EDGE_BOTTOM = 2,
+		TRIGGER_OFFSET = 15,
+		TYPE_EDGE = 1,
+		TYPE_EXPAND = 2,
+		SIGHT_SCROLL = 50,
 
 		// Pure debug. Dev-only.
 		DEBUG = {
@@ -18,8 +21,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				DEBUG.time = new Date().getTime();
 			},
 
-			calcTimer: (function( text ) {
-				var label = CKEDITOR.document.getById( 'gather' );
+			stopTimer: (function( text ) {
+				var label = CKEDITOR.document.getById( 'time' );
 
 				return function( text ) {
 					text = text || new Date().getTime() - DEBUG.time + ' ms';
@@ -28,66 +31,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			})(),
 
-			mousePos: (function( y ) {
-				var my = CKEDITOR.document.getById( 'my' );
+			mousePos: (function( y, element ) {
+				var my = CKEDITOR.document.getById( 'my' ),
+					over = CKEDITOR.document.getById( 'over' );
 
-				return function( y ) {
+				return function( y, element ) {
 					my.setText( y );
+					over.setText( element.getName() + ', class=' + element.getAttribute( 'class' ) );
 				}
 			})(),
 
-			showPair: (function( pair, minKey ) {
-				var p1 = CKEDITOR.document.getById( 'p1' ),
-					p2 = CKEDITOR.document.getById( 'p2' ),
-					mi = CKEDITOR.document.getById( 'mi' ),
-					ga = CKEDITOR.document.getById( 'ga' );
+			showTrigger: (function( trigger ) {
+				var tr_type = CKEDITOR.document.getById( 'tr_type' ),
+					tr_upper = CKEDITOR.document.getById( 'tr_upper' ),
+					tr_lower = CKEDITOR.document.getById( 'tr_lower' ),
+					tr_edge = CKEDITOR.document.getById( 'tr_edge' ),
+					tup, tbo, upper, lower;
 
-				return function( pair, minKey ) {
-					p1.setText( pair.upper ? pair.upper.getName() : 'null' );
-					p2.setText( pair.lower ? pair.lower.getName() : 'null' );
-					mi.setText( pair.middle );
-					ga.setText( '[' + [ pair.zone[ 0 ], pair.zone[ 1 ] ].join( ',' ) + ']' );
-				}
-			})(),
+				return function( trigger ) {
+					upper = trigger.upper, lower = trigger.lower;
 
-			drawList: (function( list ) {
-				var cnt = CKEDITOR.document.getById( 'list' ),
-					str, node;
+					tup && tup.removeAttribute( 'id' ) && ( tup = null );
+					tbo && tbo.removeAttribute( 'id' ) && ( tbo = null );
 
-				return function( list ) {
-					str = '';
+					if ( !trigger )
+						return tr_type.setText( '-' ) && tr_upper.setText( '-' ) && tr_lower.setText( '-' ) && tr_edge.setText( '-' );
 
-					for ( var i = 0; i < list.length; i++ ) {
-						str += '(' + list[ i ].depth + ') ' + Array( list[ i ].depth ).join( '&bull;&ndash;' ) + '[';
-						for ( var j = 0; j < list[ i ].length; j++ ) {
-							node = list[ i ][ j ];
-							str += node.getName() + ( j + 1 in list[ i ] ? ', ' : '' );
-						}
-						str += ']<br>';
-					}
+					tr_type.setText( trigger.type === TYPE_EXPAND ? 'EXPAND' : 'EDGE' );
+					tr_upper.setText( upper ? upper.getName() + ', class=' + upper.getAttribute( 'class' ) : 'NULL' );
+					tr_lower.setText( lower ? lower.getName() + ', class=' + lower.getAttribute( 'class' ) : 'NULL' );
+					tr_edge.setText( trigger.edge ? trigger.edge === EDGE_TOP ? 'EDGE_TOP' : 'EDGE_BOTTOM' : 'NULL' );
 
-					cnt.setHtml( str );
-				}
-			})(),
-
-			drawPairs: (function( pairs ) {
-				var cnt = CKEDITOR.document.getById( 'pairs' ),
-					str, pair;
-
-				return function( pairs ) {
-					str = '';
-
-					for ( var i = 0; i < pairs.length; i++ ) {
-						pair = pairs[ i ];
-						str += '[ ' +
-							[
-							pair.upper ? pair.upper.getName() : 'null',
-							pair.lower ? pair.lower.getName() : 'null',
-							pair.middle
-							].join( ', ' ) + ' ]<br>';
-					}
-
-					cnt.setHtml( str );
+					upper && ( tup = upper ) && tup.setAttribute( 'id', 'tup' );
+					lower && ( tbo = lower ) && tbo.setAttribute( 'id', 'tbo' );
 				}
 			})(),
 
@@ -101,39 +77,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			})()
 		};
 
-	function getDistance( a, b ) {
-		return 0 | Math.abs( a - b );
-	}
-
-	// Determine whether a node is HTML element and NOT magic_box
-	function notMb( node ) {
-		return node.type === CKEDITOR.NODE_ELEMENT && node.getId() !== 'magic_box';
-	}
-
-	function isHtml( node ) {
-		return node.type === CKEDITOR.NODE_ELEMENT;
-	}
-
-	function inRange( val, array ) {
-		return ( 1 in array ) && ( val > array[ 0 ] && val < array[ 1 ] );
-	}
-
 	function initMagicBox( editor ) {
+		var doc, body, win, magicBox, hiddenMode;
+
 		editor.on( 'contentDom', addListeners );
 
 		function initBoxElement() {
-			magicBox = CKEDITOR.dom.element.createFromHtml( '<span id="magic_box" class="magicbox" contenteditable="false">&#9998; Click to type here. Hold SHIFT to hide.</span>', editor.document );
+			magicBox = CKEDITOR.dom.element.createFromHtml( '<p id="magic_box" contenteditable="false" style="\
+					display: block; \
+					color: #000; \
+					padding: 0px 0px 0px 5px;\
+					text-shadow: 0 -1px 0 #fff;\
+					overflow: hidden; \
+					background : #D1EFFF; \
+					border: 1px dashed #B6DBF0;\
+					border-radius : 3px; \
+					cursor: pointer; \
+					text-align: center; \
+					font-size: 12px;">&#9998; Click to type here. Hold SHIFT to hide.</p>', editor.document );
 			magicBox.unselectable();
-
-			function growUp() {
-				magicBox.setStyle( 'height', magicBox.$.clientHeight + 1 + 'px' );
-				magicBox.$.clientHeight < boxHeight && setTimeout( growUp, 7 );
-			}
-
-			magicBox.slide = function() {
-				magicBox.setStyle( 'height', '0px' );
-				growUp();
-			}
 
 			// Replace a mB with dummy paragraph if clicked.
 			// After this, regain caret focus immediately.
@@ -150,176 +112,278 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 
-		// Traverses the DOM tree in search for relevant mB triggers
-		function gatherDom( node, callback, parentNode ) {
-			var children = node.getChildren(),
-				i = -1;
-
-			// Restrict callback function to triggers only
-			if ( node.getName() in triggers )
-				callback( node, domDepth );
-
-			domDepth++;
-
-			// Find a first HTML element among children
-			while ( ( node = children.getItem( ++i ) ) && node.type !== CKEDITOR.NODE_ELEMENT )
-				;
-
-			// Dive deeper into the DOM tree
-			while ( node && node.type === CKEDITOR.NODE_ELEMENT ) {
-				gatherDom( node, callback );
-				node = node.getNext( notMb );
-			}
-
-			domDepth--;
+		function getDistance( a, b ) {
+			return 0 | Math.abs( a - b );
 		}
 
-		// Performs DOM list update periodically.
-		// Gathers all mB triggers in form of list series
-
-		function periodicGatherDom() {
-			DEBUG.startTimer();
-			var prevDepth = -1;
-
-			domList = [];
-
-			editor.mode === 'wysiwyg' && gatherDom( body, function( element, depth ) {
-				var marginTop = parseInt( element.getComputedStyle( 'margin-top' ) ),
-					marginBottom = parseInt( element.getComputedStyle( 'margin-bottom' ) ),
-
-					top = element.getDocumentPosition( doc ).y - editor.window.getScrollPosition().y - marginTop,
-					height = element.$.offsetHeight,
-					bottom = top + height + marginBottom;
-
-				CKEDITOR.tools.extend( element, { top: top, bottom: bottom } );
-
-				// Look for an array of elements of the same parent & level
-				for ( var i = domList.length; i--; ) {
-					if ( element.getParent().equals( domList[ i ][ 0 ].getParent() ) ) {
-						domList[ i ].push( element );
-						break;
-					}
-				}
-
-				// We're at the new level and there'are no elements of the same parent
-				!~i && domList.push( CKEDITOR.tools.extend( [ element ], { depth: depth } ) );
-
-				prevDepth = depth;
-			}, -1 );
-
-			DEBUG.calcTimer();
-			DEBUG.drawList( domList );
-
-			setTimeout( periodicGatherDom, 100 );
+		// Determine whether a node is HTML element and NOT magic_box
+		function notMb( node ) {
+			return node.type === CKEDITOR.NODE_ELEMENT && node.getId() !== 'magic_box';
 		}
 
-		function getPair( array, prev, next ) {
-			var prevEl = prev in array ? array[ prev ] : null,
-				nextEl = next in array ? array[ next ] : null,
-				pair = { upper: prevEl, lower: nextEl },
-				sibling;
-
-			// Both elements exist and one follows another
-			if ( prevEl && nextEl && prevEl.getNext( notMb ).equals( nextEl ) ) {
-				pair.middle = 0 | ( prevEl.bottom + nextEl.top ) / 2;
-				pair.zone = [ prevEl.bottom - boxOffset, nextEl.top + boxOffset ];
-			}
-
-			// First child case
-			else if ( !prevEl && nextEl && !nextEl.getPrevious( notMb ) ) {
-				pair.middle = nextEl.top;
-				pair.zone = [ nextEl.top - boxHeight - boxOffset, nextEl.bottom + boxOffset ];
-			}
-
-			// Last child case
-			else if ( prevEl && !nextEl && !prevEl.getNext( notMb ) ) {
-				pair.middle = prevEl.bottom;
-				pair.zone = [ prevEl.bottom - boxOffset, prevEl.bottom + boxHeight + boxOffset ];
-			}
-
-			return pair.zone ? pair : 0;
+		function isHtml( node ) {
+			return node.type === CKEDITOR.NODE_ELEMENT;
 		}
 
-		function getClosestPair( y ) {
-			var pairs = [],
-				minDist = Number.MAX_VALUE,
-				minKey = 0,
-				curDist, pair;
+		function inRange( val, array ) {
+			if ( array[ 0 ] > array[ 1 ] )
+				throw "Values in reverse order!";
 
-			// Gather all pairs among domList by going into each sub-list
-			for ( var j = domList.length; j--; ) {
-				for ( var i = -2; i++ <= domList[ j ].length; )
-				( pair = getPair( domList[ j ], i, i + 1 ) ) && pairs.push( pair );
-			}
-
-			// Find the pair of the middle closest to cursor y
-			for ( j = pairs.length; j--; ) {
-				if ( ( curDist = getDistance( pairs[ j ].middle, y ) ) < minDist )
-					minDist = curDist, minKey = j;
-			}
-
-			DEBUG.mousePos( y );
-			DEBUG.drawPairs( pairs );
-			DEBUG.showPair( pairs[ minKey ] );
-
-			return pairs[ minKey ];
+			return ( 1 in array ) && ( val > array[ 0 ] && val < array[ 1 ] );
 		}
 
-		function hasBox( pair ) {
-			var upper = pair.upper,
-				lower = pair.lower,
-				sibling;
+		function getDimensions( element ) {
+			if ( !element )
+				return null;
 
-			return ( sibling = !upper ? lower.getPrevious( isHtml ) : upper.getNext( isHtml ) ) && sibling.equals( magicBox );
+			var elementTop = element.getDocumentPosition( doc ).y - editor.window.getScrollPosition().y,
+				elementHeight = element.$.offsetHeight,
+				elementBottom = elementTop + elementHeight;
+
+			return { top: elementTop, height: elementHeight, bottom: elementBottom };
 		}
 
-		function cursorInRange( pair, y ) {
-			return inRange( y, pair.zone );
+		function elementFromMouse( mouse, ignoreBox ) {
+			if ( !mouse )
+				return null;
+
+			var x, y, over, element;
+
+			ignoreBox = ignoreBox || false;
+
+			if ( CKEDITOR.tools.isArray( mouse ) ) {
+				x = mouse[ 0 ];
+				y = mouse[ 1 ];
+			} else {
+				x = mouse.data.$.clientX;
+				y = mouse.data.$.clientY;
+			}
+
+			over = doc.$.elementFromPoint( x, y );
+
+			if ( !over )
+				return null;
+
+			element = new CKEDITOR.dom.element( over );
+
+			return ignoreBox && element.equals( magicBox ) ? element.getParent() : element;
+		}
+
+		function getAscendantTrigger( element ) {
+			return element ? element.getAscendant( dtdTriggers, true ) : null;
+		}
+
+		function isTrigger( element ) {
+			return element ? element.getName() in dtdTriggers : null;
+		}
+
+		function isNextTrigger( element ) {
+			var sibling;
+			return ( sibling = element.getNext( notMb ) ) && isTrigger( sibling );
+		}
+
+		function isPrevTrigger( element ) {
+			var sibling;
+			return ( sibling = element.getPrevious( notMb ) ) && isTrigger( sibling );
+		}
+
+		function isFirstChild( element ) {
+			return !element.getPrevious( notMb );
+		}
+
+		function isLastChild( element ) {
+			return !element.getNext( notMb );
+		}
+
+		function areSiblings( upper, lower ) {
+			var next;
+
+			if ( !upper || !lower )
+				return null;
+
+			return ( next = upper.getNext( notMb ) ) && next.equals( lower );
+		}
+
+		// Checks whether mouseY is around an element by comparing boundaries and considering
+		// an offset
+		function mouseNearOf( element, mouse ) {
+			if ( !element.isVisible() )
+				return false;
+
+			var dimensions = getDimensions( element ),
+				centerY = mouse[ 1 ],
+				startElement = elementFromMouse( mouse ),
+				mouseElement = mouseElement;
+
+			if ( inRange( mouse[ 1 ], [ dimensions.top - 2 * TRIGGER_OFFSET, dimensions.bottom + 2 * TRIGGER_OFFSET ] ) )
+				return true;
+
+			// TODO: to be integrated with expandTrigger procedure
+			while ( mouseElement && mouseElement.equals( startElement ) && --mouse[ 1 ] > 0 ) {
+				mouseElement = elementFromMouse( mouse );
+
+				if ( mouseElement.equals( element ) )
+					return true;
+			}
+
+			mouse[ 1 ] = centerY;
+			mouseElement = startElement;
+
+			// TODO: to be integrated with expandTrigger procedure
+			while ( mouseElement && mouseElement.equals( startElement ) && ++mouse[ 1 ] < win.getViewPaneSize().height ) {
+				mouseElement = elementFromMouse( mouse );
+
+				if ( mouseElement.equals( element ) )
+					return true;
+			}
+
+			return false;
+		}
+
+		// Detects whether an element is below the lower
+		// edge of an editor. If so it may scroll to reveal an element.
+		function outOfSight( element, scroll ) {
+			var dimensions = getDimensions( element ),
+				diffBottom = dimensions.bottom - win.getViewPaneSize().height,
+				diffTop = dimensions.top;
+
+			if ( inRange( diffBottom, [ 1, SIGHT_SCROLL ] ) || inRange( diffTop, [ -SIGHT_SCROLL, -1 ] ) ) {
+				scroll && element.scrollIntoView();
+				return true;
+			}
+
+			return false;
+		}
+
+		// Checks if the pointer is in the upper or the lower area of a trigger.
+		function edgeTrigger( element, mouseY ) {
+			if ( !( element = getAscendantTrigger( element ) ) )
+				return;
+
+			var dimensions = getDimensions( element );
+
+			if ( inRange( mouseY, [ dimensions.top, dimensions.top + TRIGGER_OFFSET ] ) )
+				return { upper: element.getPrevious( notMb ), lower: element, edge: EDGE_TOP, type: TYPE_EDGE };
+
+			else if ( inRange( mouseY, [ dimensions.bottom - TRIGGER_OFFSET, dimensions.bottom ] ) )
+				return { upper: element, lower: element.getNext( notMb ), edge: EDGE_BOTTOM, type: TYPE_EDGE };
+
+			return false;
+		}
+
+		// Checks iteratively up and down in search for elements using elementFromMouse method.
+		// Useful if in between of the triggers.
+		// TODO: rewrite search procedure into single loop
+		function expandTrigger( element, mouse ) {
+			var upper = element,
+				lower = element,
+				centerY = mouse[ 1 ],
+				mouseElement;
+
+			while ( upper && upper.equals( element ) && --mouse[ 1 ] > 0 )
+				upper = getAscendantTrigger( mouseElement = elementFromMouse( mouse, true ) ) || mouseElement; // find an ascendant trigger under mouse; if there's no such trigger,
+			// use an element under mouse
+			// Go back to the middle location
+			mouse[ 1 ] = centerY;
+
+			while ( lower && lower.equals( element ) && ++mouse[ 1 ] < win.getViewPaneSize().height )
+				lower = getAscendantTrigger( mouseElement = elementFromMouse( mouse, true ) ) || mouseElement;
+
+			// Mouse position broken the loop, no trigger then
+			if ( !upper || !lower || upper.equals( element ) || lower.equals( element ) )
+				return false;
+
+			upper = getAscendantTrigger( upper );
+			lower = getAscendantTrigger( lower );
+
+			return { upper: upper, lower: lower, edge: EDGE_BOTTOM, type: TYPE_EXPAND };
+		}
+
+		// A method for trigger filtering. Accepts or rejects trigger pairs
+		// by their location in DOM etc.
+		// TODO: This method is to be rewritten to reduce reduntant conditions.
+		// Until then it is ugly but easy to read.
+		function triggerFilter( trigger ) {
+			var upper = trigger.upper,
+				lower = trigger.lower,
+				edge = trigger.edge;
+
+			// NOT: two trigger elements, one contains another
+			if ( lower && upper && ( lower.contains( upper ) || upper.contains( lower ) ) )
+				return false;
+
+			// NOT: two trigger elements, one equals another
+			if ( lower && upper && ( lower.equals( upper ) || upper.equals( lower ) ) )
+				return false;
+
+			// YES: two trigger elements, pure siblings
+			if ( isTrigger( upper ) && isTrigger( lower ) && areSiblings( upper, lower ) )
+				return true;
+
+			if ( edge === EDGE_TOP && isTrigger( lower ) ) {
+				// NOT: signle trigger element, a child of li/dt/dd
+				if ( lower.getParent().getName() in dtdListItem )
+					return false;
+
+				// YES: single trigger element, first child
+				if ( isFirstChild( lower ) )
+					return true;
+			}
+
+			if ( edge === EDGE_BOTTOM && isTrigger( upper ) ) {
+				// NOT: signle trigger element, a child of li/dt/dd
+				if ( upper.getParent().getName() in dtdListItem )
+					return false;
+
+				// YES: single trigger element, last child
+				if ( isLastChild( upper ) )
+					return true;
+			}
+
+			return false;
 		}
 
 		function addListeners() {
-			var hideTimeout, showTimeout, pair;
+			var hideTimeout, trigger, element, mouseY, mouseX;
 
-			doc = editor.editable().getDocument(), body = doc.getBody();
+			doc = editor.editable().getDocument(), body = doc.getBody(), win = editor.window;
 
 			initBoxElement();
-			periodicGatherDom();
 
 			// Let's handle mousemove event for mB on/off toggle
 			doc.on( 'mousemove', function( event ) {
-				// If DOM is empty, showing mB is pointless
-				if ( editor.mode != 'wysiwyg' || !domList.length )
+				if ( !( element = elementFromMouse( event, true ) ) || editor.mode !== 'wysiwyg' || hiddenMode || !editor.focusManager.hasFocus )
 					return;
 
-				var y = event.data.$.clientY;
+				DEBUG.startTimer();
+				trigger = false;
 
-				if ( cursorInRange( pair = getClosestPair( y ), y ) ) {
-					clearTimeout( hideTimeout );
-					clearTimeout( showTimeout );
+				mouseX = event.data.$.clientX, mouseY = event.data.$.clientY;
 
-					// Show mB if it isn't already visible. Use delay for eye-candy
-					!hiddenMode && !hasBox( pair ) && ( showTimeout = setTimeout( function() {
-						// * One element followed by another: ( pair.upper && pair.lower ) -> true
-						// 		\-> insert mB BEFORE pair.lower
-						//
-						// * First child case: ( !pair.upper && pair.lower ) -> true
-						//		\-> insert mB BEFORE pair.lower
-						//
-						// * Last child case: ( pair.upper && !pair.lower ) -> true
-						//		\-> insert mB AFTER pair.upper
+				// If around magicBox -> don't do anything
+				if ( mouseNearOf( magicBox, [ mouseX, mouseY ] ) )
+					return;
 
-						magicBox[ pair.lower ? 'insertBefore' : 'insertAfter' ]( pair.lower || pair.upper );
-						magicBox.slide();
+				// If trigger, and trigger is correct -> show the box
+				else if ( ( trigger = edgeTrigger( element, mouseY ) || expandTrigger( element, [ mouseX, mouseY ] ) ) && triggerFilter( trigger ) ) {
+					magicBox[ trigger.edge === EDGE_TOP ? 'insertBefore' : 'insertAfter' ]
+					( trigger.edge === EDGE_TOP ? trigger.lower : trigger.upper );
 
-					}, 100 ) );
-				} else
+					outOfSight( magicBox, true );
+				}
+
+				// Otherwise remove the box
+				else
 					magicBox.remove();
+
+				DEBUG.stopTimer();
+				DEBUG.showTrigger( trigger );
+				DEBUG.mousePos( mouseY, element );
 			});
 
 			// Hide mB on mouseout
 			doc.on( 'mouseout', function( event ) {
 				clearTimeout( hideTimeout );
-				clearTimeout( showTimeout );
 
 				hideTimeout = setTimeout( function() {
 					!event.data.$.relatedTarget && magicBox.remove();
@@ -337,20 +401,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 
-		editor.addCss( '#magic_box { \
-			display: block; \
-			padding: 0 8px; \
-			height: 25px; \
-			line-height: 25px; \
-			margin: 0px; \
-			color: #000; \
-			text-shadow: 0 -1px 0 #fff;\
-			overflow: hidden; \
-			background : #D1EFFF; \
-			border: 1px dashed #B6DBF0;\
-			border-radius : 3px; \
-			cursor: pointer; \
-		}' );
+		CKEDITOR.addCss( '\
+			#tup { outline: #FEB2B2 solid thick; } \
+			#tbo { outline: #B2FEB2 solid thick; } \
+		' );
 	};
 
 	CKEDITOR.plugins.add( 'magicbox', {
