@@ -3,7 +3,15 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.plugins.add( 'htmlwriter' );
+CKEDITOR.plugins.add( 'htmlwriter', {
+	init: function( editor ) {
+		var writer = new CKEDITOR.htmlWriter();
+		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
+
+		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
+		editor.dataProcessor.writer = writer;
+	}
+});
 
 /**
  * Class used to write HTML data.

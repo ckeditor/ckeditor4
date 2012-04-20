@@ -4,6 +4,129 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
+	CKEDITOR.htmlDataProcessor = function( editor ) {
+		var config = editor.config,
+			dataFilter, htmlFilter;
+
+		this.editor = editor;
+
+		this.dataFilter = dataFilter = new CKEDITOR.htmlParser.filter();
+		this.htmlFilter = htmlFilter = new CKEDITOR.htmlParser.filter();
+		this.writer = new CKEDITOR.htmlParser.basicWriter();
+
+		dataFilter.addRules( defaultDataFilterRules );
+		dataFilter.addRules( defaultDataBlockFilterRules );
+		htmlFilter.addRules( defaultHtmlFilterRules );
+
+		var defaultHtmlBlockFilterRules = {
+			elements: {} };
+		for ( i in blockLikeTags )
+			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
+
+		htmlFilter.addRules( defaultHtmlBlockFilterRules );
+	};
+
+	CKEDITOR.htmlDataProcessor.prototype = {
+		toHtml: function( data, fixForBody ) {
+			// The source data is already HTML, but we need to clean
+			// it up and apply the filter.
+
+			data = protectSource( data, this.editor );
+
+			// Before anything, we must protect the URL attributes as the
+			// browser may changing them when setting the innerHTML later in
+			// the code.
+			data = protectAttributes( data );
+
+			// Protect elements than can't be set inside a DIV. E.g. IE removes
+			// style tags from innerHTML. (#3710)
+			data = protectElements( data );
+
+			// Certain elements has problem to go through DOM operation, protect
+			// them by prefixing 'cke' namespace. (#3591)
+			data = protectElementsNames( data );
+
+			// All none-IE browsers ignore self-closed custom elements,
+			// protecting them into open-close. (#3591)
+			data = protectSelfClosingElements( data );
+
+			// Compensate one leading line break after <pre> open as browsers
+			// eat it up. (#5789)
+			data = protectPreFormatted( data );
+
+			var editable = this.editor.editable(),
+				fixBin = editable.getName(),
+				isPre;
+
+			// Old IEs loose formats when load html into <pre>.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
+				fixBin = 'div';
+				data = '<pre>' + data + '</pre>';
+				isPre = 1;
+			}
+
+			// Call the browser to help us fixing a possibly invalid HTML
+			// structure.
+			var el = this.editor.document.createElement( fixBin );
+			// Add fake character to workaround IE comments bug. (#3801)
+			el.setHtml( 'a' + data );
+			data = el.getHtml().substr( 1 );
+
+			// Restore shortly protected attribute names.
+			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rnd + '-', 'ig' ), ' ' );
+
+			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
+
+
+			// Unprotect "some" of the protected elements at this point.
+			data = unprotectElementNames( data );
+
+			data = unprotectElements( data );
+
+			// Restore the comments that have been protected, in this way they
+			// can be properly filtered.
+			data = unprotectRealComments( data );
+
+			// Now use our parser to make further fixes to the structure, as
+			// well as apply the filter.
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
+
+			var writer = new CKEDITOR.htmlParser.basicWriter();
+
+			fragment.writeHtml( writer, this.dataFilter );
+			data = writer.getHtml( true );
+
+			// Protect the real comments again.
+			data = protectRealComments( data );
+
+			return data;
+		},
+
+		toDataFormat: function( html ) {
+			// The parent element will always be the editable.
+			var editable = this.editor.editable(),
+				writer = this.writer;
+
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), getFixBodyTag( this.editor.config ) );
+
+			writer.reset();
+
+			fragment.writeHtml( writer, this.htmlFilter );
+
+			var data = writer.getHtml( true );
+
+			// Restore those non-HTML protected source. (#4475,#4880)
+			data = unprotectRealComments( data );
+			data = unprotectSource( data, this.editor );
+
+			return data;
+		}
+	};
+
+	function getFixBodyTag( config ) {
+		return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+	}
+
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
 	// Safari transforms the &nbsp; to \xa0. (#4172)
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
@@ -377,139 +500,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		});
 	}
-
-	CKEDITOR.plugins.add( 'htmldataprocessor', {
-		requires: [ 'htmlwriter' ],
-
-		init: function( editor ) {
-			var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-
-			dataProcessor.writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
-
-			dataProcessor.dataFilter.addRules( defaultDataFilterRules );
-			dataProcessor.dataFilter.addRules( defaultDataBlockFilterRules );
-			dataProcessor.htmlFilter.addRules( defaultHtmlFilterRules );
-
-			var defaultHtmlBlockFilterRules = {
-				elements: {} };
-			for ( i in blockLikeTags )
-				defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
-
-			dataProcessor.htmlFilter.addRules( defaultHtmlBlockFilterRules );
-		},
-
-		onLoad: function() {
-			!( 'fillEmptyBlocks' in CKEDITOR.config ) && ( CKEDITOR.config.fillEmptyBlocks = 1 );
-		}
-	});
-
-	CKEDITOR.htmlDataProcessor = function( editor ) {
-		this.editor = editor;
-
-		var config = editor.config;
-		this.fixBodyTag = ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
-
-		this.writer = new CKEDITOR.htmlWriter();
-		this.dataFilter = new CKEDITOR.htmlParser.filter();
-		this.htmlFilter = new CKEDITOR.htmlParser.filter();
-	};
-
-	CKEDITOR.htmlDataProcessor.prototype = {
-		toHtml: function( data, fixForBody ) {
-			// The source data is already HTML, but we need to clean
-			// it up and apply the filter.
-
-			data = protectSource( data, this.editor );
-
-			// Before anything, we must protect the URL attributes as the
-			// browser may changing them when setting the innerHTML later in
-			// the code.
-			data = protectAttributes( data );
-
-			// Protect elements than can't be set inside a DIV. E.g. IE removes
-			// style tags from innerHTML. (#3710)
-			data = protectElements( data );
-
-			// Certain elements has problem to go through DOM operation, protect
-			// them by prefixing 'cke' namespace. (#3591)
-			data = protectElementsNames( data );
-
-			// All none-IE browsers ignore self-closed custom elements,
-			// protecting them into open-close. (#3591)
-			data = protectSelfClosingElements( data );
-
-			// Compensate one leading line break after <pre> open as browsers
-			// eat it up. (#5789)
-			data = protectPreFormatted( data );
-
-			var editable = this.editor.editable(),
-				fixBin = editable.getName(),
-				isPre;
-
-			// Old IEs loose formats when load html into <pre>.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
-				fixBin = 'div';
-				data = '<pre>' + data + '</pre>';
-				isPre = 1;
-			}
-
-			// Call the browser to help us fixing a possibly invalid HTML
-			// structure.
-			var el = this.editor.document.createElement( fixBin );
-			// Add fake character to workaround IE comments bug. (#3801)
-			el.setHtml( 'a' + data );
-			data = el.getHtml().substr( 1 );
-
-			// Restore shortly protected attribute names.
-			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rnd + '-', 'ig' ), ' ' );
-
-			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
-
-
-			// Unprotect "some" of the protected elements at this point.
-			data = unprotectElementNames( data );
-
-			data = unprotectElements( data );
-
-			// Restore the comments that have been protected, in this way they
-			// can be properly filtered.
-			data = unprotectRealComments( data );
-
-			// Now use our parser to make further fixes to the structure, as
-			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : this.fixBodyTag );
-
-			var writer = new CKEDITOR.htmlParser.basicWriter();
-
-			fragment.writeHtml( writer, this.dataFilter );
-			data = writer.getHtml( true );
-
-			// Protect the real comments again.
-			data = protectRealComments( data );
-
-			return data;
-		},
-
-		toDataFormat: function( html ) {
-			// The parent element will always be the editable.
-			var editable = this.editor.editable(),
-				writer = this.writer;
-
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), this.fixBodyTag );
-
-			writer.reset();
-
-			fragment.writeHtml( writer, this.htmlFilter );
-
-			var data = writer.getHtml( true );
-
-			// Restore those non-HTML protected source. (#4475,#4880)
-			data = unprotectRealComments( data );
-			data = unprotectSource( data, this.editor );
-
-			return data;
-		}
-	};
 })();
 
 /**
@@ -543,3 +533,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 		return false;
  * }
  */
+CKEDITOR.config.fillEmptyBlocks = true;

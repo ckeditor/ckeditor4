@@ -78,6 +78,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		this.focusManager = new CKEDITOR.focusManager( this );
 
+		this.dataProcessor = new CKEDITOR.htmlDataProcessor( this );
+
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
 
