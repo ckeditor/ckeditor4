@@ -378,40 +378,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		});
 	}
 
-	CKEDITOR.plugins.add( 'htmldataprocessor', {
-		requires: [ 'htmlwriter' ],
-
-		init: function( editor ) {
-			var dataProcessor = editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-
-			dataProcessor.writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
-
-			dataProcessor.dataFilter.addRules( defaultDataFilterRules );
-			dataProcessor.dataFilter.addRules( defaultDataBlockFilterRules );
-			dataProcessor.htmlFilter.addRules( defaultHtmlFilterRules );
-
-			var defaultHtmlBlockFilterRules = {
-				elements: {} };
-			for ( i in blockLikeTags )
-				defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
-
-			dataProcessor.htmlFilter.addRules( defaultHtmlBlockFilterRules );
-		},
-
-		onLoad: function() {
-			!( 'fillEmptyBlocks' in CKEDITOR.config ) && ( CKEDITOR.config.fillEmptyBlocks = 1 );
-		}
-	});
-
 	CKEDITOR.htmlDataProcessor = function( editor ) {
+		var config = editor.config,
+			dataFilter, htmlFilter;
+
 		this.editor = editor;
 
-		var config = editor.config;
-		this.fixBodyTag = ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+		this.dataFilter = dataFilter = new CKEDITOR.htmlParser.filter();
+		this.htmlFilter = htmlFilter = new CKEDITOR.htmlParser.filter();
+		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
-		this.writer = new CKEDITOR.htmlWriter();
-		this.dataFilter = new CKEDITOR.htmlParser.filter();
-		this.htmlFilter = new CKEDITOR.htmlParser.filter();
+		dataFilter.addRules( defaultDataFilterRules );
+		dataFilter.addRules( defaultDataBlockFilterRules );
+		htmlFilter.addRules( defaultHtmlFilterRules );
+
+		var defaultHtmlBlockFilterRules = {
+			elements: {} };
+		for ( i in blockLikeTags )
+			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
+
+		htmlFilter.addRules( defaultHtmlBlockFilterRules );
 	};
 
 	CKEDITOR.htmlDataProcessor.prototype = {
@@ -477,7 +463,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : this.fixBodyTag );
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
 
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 
@@ -495,7 +481,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var editable = this.editor.editable(),
 				writer = this.writer;
 
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), this.fixBodyTag );
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), getFixBodyTag( this.editor.config ) );
 
 			writer.reset();
 
@@ -510,6 +496,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return data;
 		}
 	};
+
+	function getFixBodyTag( config ) {
+		return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+	}
 })();
 
 /**
@@ -543,3 +533,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * 		return false;
  * }
  */
+CKEDITOR.config.fillEmptyBlocks = true;

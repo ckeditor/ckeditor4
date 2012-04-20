@@ -56,7 +56,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
-		requires: [ 'dialog', 'htmldataprocessor' ],
+		requires: [ 'dialog' ],
 		init: function( editor ) {
 			initClipboard( editor );
 
