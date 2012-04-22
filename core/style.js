@@ -195,7 +195,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ? compareCssText( attribs[ attName ], CKEDITOR.tools.normalizeCssText( elementAttr, false ) ) : attribs[ attName ] == elementAttr ) {
+						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -295,7 +295,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Browsers make some changes to the style when applying them. So, here
 		// we normalize it to the browser format.
 		if ( stylesText.length )
-			stylesText = CKEDITOR.tools.normalizeCssText( stylesText );
+			stylesText = CKEDITOR.tools.normalizeCssText( stylesText, true );
 
 		stylesText += specialStylesText;
 
@@ -1256,7 +1256,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 */
 	function compareCssText( source, target ) {
 		typeof source == 'string' && ( source = CKEDITOR.tools.parseCssText( source ) );
-		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target ) );
+		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target, true ) );
 		for ( var name in source ) {
 			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
 				return false;

@@ -678,7 +678,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 			normalizeCss = CKEDITOR.tools.normalizeCssText;
 
-		// One of elements can has _moz_dirty attribute, which we ignore.
+		// One of elements may have _moz_dirty attribute, which we ignore.
 		if ( Math.abs( thisLength - otherLength ) > 1 )
 			return false;
 
@@ -686,27 +686,30 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			attrib = thisAttribs[ i++ ];
 			doneAttribs[ attribName = attrib.nodeName ] = 1;
 
-			if ( differ( otherElement ) )
+			if ( differ( this, otherElement ) )
 				return false;
 		}
 
 		for ( i = 0; i < otherLength; ) {
 			attrib = otherAttribs[ i++ ];
 
-			if ( !doneAttribs[ attribName = attrib.nodeName ] && differ( this ) )
+			if ( !doneAttribs[ attribName = attrib.nodeName ] && differ( otherElement, this ) )
 				return false;
 		}
 
 		return true;
 
-		function differ( element ) {
+		function differ( elementA, elementB ) {
 			if ( attribName == '_moz_dirty' )
 				return 0;
 
-			if ( attribName == 'style' )
-				return normalizeCss( attrib.nodeValue ) != normalizeCss( element.getAttribute( attribName ) );
+			var valA = elementA.getAttribute( attribName ),
+				valB = elementB.getAttribute( attribName );
 
-			return ( ( !CKEDITOR.env.ie || ( attrib.specified && attribName != 'data-cke-expando' ) ) && attrib.nodeValue != element.getAttribute( attribName ) );
+			if ( attribName == 'style' )
+				return normalizeCss( valA ) != normalizeCss( valB );
+
+			return ( ( !CKEDITOR.env.ie || ( attrib.specified && attribName != 'data-cke-expando' ) ) && valA != valB );
 		}
 	},
 
