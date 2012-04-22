@@ -673,39 +673,40 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			thisLength = thisAttribs.length,
 			otherLength = otherAttribs.length,
 
-			doneAttribs = [];
+			doneAttribs = {},
+			i, attrib, attribName,
 
-		for ( var i = 0; i < thisLength; i++ ) {
-			var attribute = thisAttribs[ i ],
-				attributeName = attribute.nodeName;
+			normalizeCss = CKEDITOR.tools.normalizeCssText;
 
-			doneAttribs.push( attributeName );
+		// One of elements can has _moz_dirty attribute, which we ignore.
+		if ( Math.abs( thisLength - otherLength ) > 1 )
+			return false;
+
+		for ( i = 0; i < thisLength; ) {
+			attrib = thisAttribs[ i++ ];
+			doneAttribs[ attribName = attrib.nodeName ] = 1;
 
 			if ( differ( otherElement ) )
 				return false;
 		}
 
+		for ( i = 0; i < otherLength; ) {
+			attrib = otherAttribs[ i++ ];
 
-		for ( i = 0; i < otherLength; i++ ) {
-			attribute = otherAttribs[ i ];
-			attributeName = attribute.nodeName;
-
-			if ( doneAttribs.indexOf( attributeName ) == -1 && differ( this ) )
+			if ( !doneAttribs[ attribName = attrib.nodeName ] && differ( this ) )
 				return false;
 		}
 
 		return true;
 
-		function differ( otherElement ) {
-			var normalizeCss = CKEDITOR.tools.normalizeCssText;
+		function differ( element ) {
+			if ( attribName == '_moz_dirty' )
+				return 0;
 
-			if ( attributeName == '_moz_dirty' )
-				return false;
+			if ( attribName == 'style' )
+				return normalizeCss( attrib.nodeValue ) != normalizeCss( element.getAttribute( attribName ) );
 
-			if ( attributeName == 'style' )
-				return normalizeCss( attribute.nodeValue ) != normalizeCss( otherElement.getAttribute( attributeName ) );
-
-			return ( ( !CKEDITOR.env.ie || ( attribute.specified && attributeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attributeName ) );
+			return ( ( !CKEDITOR.env.ie || ( attrib.specified && attribName != 'data-cke-expando' ) ) && attrib.nodeValue != element.getAttribute( attribName ) );
 		}
 	},
 
