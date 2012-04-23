@@ -664,53 +664,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	isIdentical: function( otherElement ) {
-		if ( this.getName() != otherElement.getName() )
-			return false;
+		// do shallow clones, but with IDs
+		var thisEl = this.clone( 0, 1 ),
+			otherEl = otherElement.clone( 0, 1 );
 
-		var thisAttribs = this.$.attributes,
-			otherAttribs = otherElement.$.attributes,
+		// Remove distractions.
+		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
+		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
 
-			thisLength = thisAttribs.length,
-			otherLength = otherAttribs.length,
-
-			doneAttribs = {},
-			i, attrib, attribName,
-
-			normalizeCss = CKEDITOR.tools.normalizeCssText;
-
-		// One of elements may have _moz_dirty attribute, which we ignore.
-		if ( Math.abs( thisLength - otherLength ) > 1 )
-			return false;
-
-		for ( i = 0; i < thisLength; ) {
-			attrib = thisAttribs[ i++ ];
-			doneAttribs[ attribName = attrib.nodeName ] = 1;
-
-			if ( differ( this, otherElement ) )
-				return false;
-		}
-
-		for ( i = 0; i < otherLength; ) {
-			attrib = otherAttribs[ i++ ];
-
-			if ( !doneAttribs[ attribName = attrib.nodeName ] && differ( otherElement, this ) )
-				return false;
-		}
-
-		return true;
-
-		function differ( elementA, elementB ) {
-			if ( attribName == '_moz_dirty' )
-				return 0;
-
-			var valA = elementA.getAttribute( attribName ),
-				valB = elementB.getAttribute( attribName );
-
-			if ( attribName == 'style' )
-				return normalizeCss( valA ) != normalizeCss( valB );
-
-			return ( ( !CKEDITOR.env.ie || ( attrib.specified && attribName != 'data-cke-expando' ) ) && valA != valB );
-		}
+		// Native comparison available.
+		if ( thisEl.$.isEqualNode ) {
+			// Styles order matters.
+			thisEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( thisEl.$.style.cssText );
+			otherEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( otherEl.$.style.cssText );
+			return thisEl.$.isEqualNode( otherEl.$ );
+		} else
+			return thisEl.getOuterHtml() == otherEl.getOuterHtml();
 	},
 
 	/**
