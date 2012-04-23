@@ -37,7 +37,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding: 5px;
 }
 
-.cke_shared .cke_inner
+.cke_float
+{
+	background: #fff;
+}
+
+.cke_float .cke_inner
 {
 	padding-bottom: 0;
 }

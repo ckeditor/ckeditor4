@@ -338,6 +338,15 @@ if ( !CKEDITOR.event ) {
 			},
 
 			/**
+			 * Remove all existing listeners on this object, for cleanup purpose.
+			 */
+			removeAllListeners: function() {
+				var events = getPrivate( this );
+				for ( var i in events )
+					delete events[ i ];
+			},
+
+			/**
 			 * Checks if there is any listener registered to a given event.
 			 * @param {String} eventName The event name.
 			 * @example

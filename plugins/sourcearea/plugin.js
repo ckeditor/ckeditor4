@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var sourcearea = CKEDITOR.plugins.sourcearea;
 
 			editor.addMode( 'source', function( callback ) {
-				var contentsSpace = editor.getUISpace( 'contents' ),
+				var contentsSpace = editor.ui.space( 'contents' ),
 					textarea = contentsSpace.getDocument().createElement( 'textarea' );
 
 				textarea.setStyles({
@@ -38,7 +38,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				editor.readOnly && textarea.setAttribute( 'readOnly', 'readonly' );
 
-				editor.getUISpace( 'contents' ).append( textarea );
+				editor.ui.space( 'contents' ).append( textarea );
 
 				var editable = editor.editable( new sourceEditable( editor, textarea ) );
 

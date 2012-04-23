@@ -72,7 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// The "focusin/focusout" events bubbled, e.g. If there are elements with layout
 					// they fire this event when clicking in to edit them but it must be ignored
 					// to allow edit their contents. (#4682)
-					fn = CKEDITOR.tools.bind( isNotBubbling( fn ), this );
+					fn = isNotBubbling( fn, this );
 					args[ 0 ] = name;
 					args[ 1 ] = fn;
 				}
@@ -361,21 +361,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
 				editor.keystrokeHandler.attach( this );
 
+				editor.focusManager.addFocusable( this );
+
 				// Inherit the initial focus on editable element.
 				if ( this.equals( CKEDITOR.document.getActive() ) ) {
 					this.hasFocus = true;
 					editor.focusManager.focus();
 				}
-
-				this.attachListener( this, 'focus', function() {
-					this.hasFocus = true;
-					editor.focusManager.focus();
-				});
-
-				this.attachListener( this, 'blur', function() {
-					this.hasFocus = false;
-					editor.focusManager.blur();
-				});
 
 				// The above is all we'll be doing for a <textarea> editable.
 				if ( this.is( 'textarea' ) )
@@ -663,12 +655,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return element.isBlockBoundary() && CKEDITOR.dtd.$empty[ element.getName() ];
 	}
 
-	function isNotBubbling( fn ) {
+	function isNotBubbling( fn, src ) {
 		return function( evt ) {
 			var target = evt.data.getTarget(),
 				other = evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget;
 			other = other ? CKEDITOR.dom.element.get( other ) : null;
-			if ( target.equals( this ) && !( other && this.contains( other ) ) )
+			if ( target.equals( src ) && !( other && src.contains( other ) ) )
 				fn.call( this, evt );
 		}
 	}

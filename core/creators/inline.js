@@ -26,6 +26,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
+			editor.fire( 'uiReady' );
+
 			// Enable editing on the element.
 			editor.editable( element );
 
@@ -41,6 +43,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// The editor is completely loaded for interaction.
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
+
+			// give priority to plugins that relay on editor#loaded for bootstrapping.
+		}, null, null, 10000 );
+
+		// Handle editor destroying.
+		editor.on( 'destroy', function() {
+			editor.element.clearCustomData();
+			delete editor.element;
 		});
 
 		return editor;

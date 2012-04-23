@@ -128,6 +128,22 @@ CKEDITOR.focusManager.prototype = {
 	 */
 	cancelForced: function() {
 		delete this._.isForced;
+	},
+
+	/**
+	 * Register an UI DOM element to the manager, making it focus state reflected
+	 * by the manager, it will be mainly used by plugins to expand the
+	 * jurisdiction of the editor focus.
+	 *
+	 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
+	 *@param {Boolean} isCapture If specified {@link CKEDITOR.event.useCapture} will be used when listening to the focus event.
+	 */
+	addFocusable: function( element, isCapture ) {
+		// Bypass the element's internal DOM focus change.
+		isCapture && ( CKEDITOR.event.useCapture = 1 );
+		element.on( 'blur', this.blur, this );
+		element.on( 'focus', this.focus, this );
+		isCapture && ( CKEDITOR.event.useCapture = 0 );
 	}
 };
 

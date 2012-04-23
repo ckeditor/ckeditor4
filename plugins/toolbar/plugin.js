@@ -149,7 +149,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ '<div class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
+					var output = [ '<div id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
 						expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted;
 
@@ -269,7 +269,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// End of toolbox buttons.
 					output.push( '</div>' );
 
-					if ( editor.config.toolbarCanCollapse ) {
+					// Not toolbar collapser for inline mode.
+					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 						var collapserFn = CKEDITOR.tools.addFunction( function() {
 							editor.execCommand( 'toolbarCollapse' );
 						});
@@ -278,15 +279,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							CKEDITOR.tools.removeFunction( collapserFn );
 						});
 
-						var collapserId = CKEDITOR.tools.getNextId();
-
 						editor.addCommand( 'toolbarCollapse', {
 							readOnly: 1,
 							exec: function( editor ) {
-								var collapser = CKEDITOR.document.getById( collapserId ),
-									// TODO: Prefer UI space id over assuming structure.
+								var collapser = editor.ui.space( 'toolbar_collapser' ),
 									toolbox = collapser.getPrevious(),
-									contents = editor.getUISpace && editor.getUISpace( 'contents' ),
+									contents = editor.ui.space( 'contents' ),
 									toolboxContainer = toolbox.getParent(),
 									contentHeight = parseInt( contents.$.style.height, 10 ),
 									previousHeight = toolboxContainer.$.offsetHeight,
@@ -316,7 +314,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						});
 
 						output.push( '<a title="' + ( expanded ? editor.lang.toolbarCollapse : editor.lang.toolbarExpand )
-																					+ '" id="' + collapserId + '" tabIndex="-1" class="cke_toolbox_collapser' );
+																	+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
+																	+ '" tabIndex="-1" class="cke_toolbox_collapser' );
 
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );
@@ -345,6 +344,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							CKEDITOR.tools.removeFunction( instance.keyDownFn );
 					}
 				}
+			});
+
+			// Manage editor focus  when navigating the toolbar.
+			editor.on( 'uiReady', function() {
+				var toolbox = editor.ui.space( 'toolbox' );
+				toolbox && editor.focusManager.addFocusable( toolbox, 1 );
 			});
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
