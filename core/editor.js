@@ -242,6 +242,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
 				editor.lang.dir = 'ltr';
 
+			if ( !editor.config.contentsLangDirection ) {
+				// Fallback to either the editable element direction or editor UI direction depending on creators.
+				editor.config.contentsLangDirection = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.getDirection( 1 ) : editor.lang.dir;
+			}
+
 			editor.fire( 'langLoaded' );
 
 			loadPlugins( editor );

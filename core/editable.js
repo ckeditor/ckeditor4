@@ -394,6 +394,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				var doc = editor.document;
 
+				// Apply contents direction on demand, with original direction saved.
+				var dir = editor.config.contentsLangDirection;
+				if ( this.getDirection( 1 ) != dir ) {
+					var orgDir = this.getAttribute( 'dir' ) || '';
+					this.setCustomData( 'org_dir_saved', orgDir );
+					this.setAttribute( 'dir', dir );
+				}
+
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
@@ -527,6 +535,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					while ( listeners.length )
 						listeners.pop().removeListener();
 				} catch ( e ) {}
+
+				// Restore original text direction.
+				var orgDir = this.removeCustomData( 'org_dir_saved' );
+				if ( orgDir !== null )
+					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
 
 				// Cleanup our custom classes.
 				var classes;
