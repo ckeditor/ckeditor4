@@ -326,6 +326,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
+						this._.editor.fire( 'panelShow', this );
 					}, 0, this );
 				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
@@ -357,6 +358,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						focusReturn.focus();
 					} else
 						this._.editor.focusManager.blur();
+
+					this._.editor.fire( 'panelHide', this );
 				}
 			},
 
