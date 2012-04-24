@@ -112,6 +112,35 @@ CKEDITOR.remove = function( editor ) {
 	};
 })();
 
+(function() {
+	var styles = [];
+
+	/**
+	 * Append a trunk of css to be appended to the editor document.
+	 * This method is mostly used by plugins to add custom styles to the editor
+	 * document. For basic contents styling the contents.css file should be
+	 * used instead.<br><br>
+	 * <strong>Note:</strong> This function should be called before the
+	 * creation of editor instances.
+	 * @see CKEDITOR.config.contentsCss
+	 * @param css {String} The style rules to be appended.
+	 * @example
+	 * // Add styles for all headings inside of editable contents.
+	 * CKEDITOR.addCss( '.cke_editable h1,.cke_editable h2,.cke_editable h3 { border-bottom: 1px dotted red }' );
+	 */
+	CKEDITOR.addCss = function( css ) {
+		styles.push( css );
+	};
+
+	/**
+	 * Returns a string will all CSS rules passes to the {@link CKEDITOR.addCss} method.
+	 * @return {String} A string containing CSS rules.
+	 */
+	CKEDITOR.getCss = function() {
+		return styles.join( '\n' );
+	};
+})();
+
 /**
  * Perform global clean up to free as much memory as possible
  * when there are no instances left

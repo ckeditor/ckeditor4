@@ -305,6 +305,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	};
 
 	CKEDITOR.plugins.add( 'indent', {
+		onLoad: function() {
+			// [IE6/7] Raw lists are using margin instead of padding for visual indentation in wysiwyg mode. (#3893)
+			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
+				CKEDITOR.addCss( ".cke_editable ul," +
+					".cke_editable ol" +
+					"{" +
+					"	margin-left: 0px;" +
+					"	padding-left: 40px;" +
+					"}" );
+			}
+		},
 		init: function( editor ) {
 			// Register commands.
 			var indent = editor.addCommand( 'indent', new indentCommand( editor, 'indent' ) ),
@@ -323,15 +334,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Register the state changing handlers.
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, indent ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, outdent ) );
-
-			// [IE6/7] Raw lists are using margin instead of padding for visual indentation in wysiwyg mode. (#3893)
-			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
-				editor.addCss( "ul,ol" +
-					"{" +
-					"	margin-left: 0px;" +
-					"	padding-left: 40px;" +
-					"}" );
-			}
 
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( e ) {

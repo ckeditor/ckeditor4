@@ -47,6 +47,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		}
 	},
 
+	/**
+	 * Creates a CSS style sheet and inserts it into the document.
+	 * @param cssStyleText {String} CSS style text.
+	 * @return {Object} The created DOM native style sheet object.
+	 */
 	appendStyleText: function( cssStyleText ) {
 		if ( this.$.createStyleSheet ) {
 			var styleSheet = this.$.createStyleSheet( "" );
@@ -56,6 +61,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 			style.append( new CKEDITOR.dom.text( cssStyleText, this ) );
 			this.getHead().append( style );
 		}
+
+		return styleSheet || style.$.sheet;
 	},
 
 	createElement: function( name, attribsAndStyles ) {

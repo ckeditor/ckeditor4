@@ -93,6 +93,26 @@ CKEDITOR.config = {
 	defaultLanguage: 'en',
 
 	/**
+	 * The writting direction of the language used to write the editor
+	 * contents. Allowed values are:
+	 * <ul>
+	 *     <li> (Empty) - indicate content direction will be the same with either the editor UI direction or page
+	 *     element direction depending on the creators:
+	 *     <ul>
+	 *         <li> Themed UI: The same with user interface language direction;</li>
+	 *         <li> Inline: The same with the editable element text direction;</li>
+	 *     </li>
+	 *     <li>'ltr' - for Left-To-Right language (like English);</li>
+	 *     <li>'rtl' - for Right-To-Left languages (like Arabic).</li>
+	 * </ul>
+	 * @default <code>''</code> (empty)
+	 * @type String
+	 * @example
+	 * config.contentsLangDirection = 'rtl';
+	 */
+	contentsLangDirection: '',
+
+	/**
 	 * Sets the behavior of the <em>Enter</em> key. It also determines other behavior
 	 * rules of the editor, like whether the <code>&lt;br&gt;</code> element is to be used
 	 * as a paragraph separator when indenting text.

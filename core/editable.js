@@ -95,6 +95,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			},
 
 			/**
+			 * Adds a CSS class name to this editable that needs to be removed on detaching.
+			 * @param {String} className The class name to be added.
+			 * @see CKEDITOR.dom.element.prototype.addClass
+			 */
+			attachClass: function( cls ) {
+				var classes = this.getCustomData( 'classes' );
+				if ( !this.hasClass( cls ) ) {
+					!classes && ( classes = [] ), classes.push( cls );
+					this.setCustomData( 'classes', classes );
+					this.addClass( cls );
+				}
+			},
+
+			/**
 			 * @see CKEDITOR.editor.prototype.insertHtml
 			 */
 			insertHtml: function( data ) {
@@ -334,7 +348,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			detach: function() {
 				// Cleanup the element.
-				this.removeClass( 'ckeditor-editable' );
+				this.removeClass( 'cke_editable' );
 
 				// Save the editor reference which will be lost after
 				// calling detach from super class.
@@ -354,7 +368,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var editor = this.editor;
 
 				// The editable class.
-				this.addClass( 'ckeditor-editable' );
+				this.attachClass( 'cke_editable' );
+				this.attachClass( 'cke_contents_' + editor.config.contentsLangDirection );
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
@@ -378,6 +393,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.window = this.getWindow();
 
 				var doc = editor.document;
+
+				// Apply contents direction on demand, with original direction saved.
+				var dir = editor.config.contentsLangDirection;
+				if ( this.getDirection( 1 ) != dir ) {
+					var orgDir = this.getAttribute( 'dir' ) || '';
+					this.setCustomData( 'org_dir_saved', orgDir );
+					this.setAttribute( 'dir', dir );
+				}
+
+				// Create the content stylesheet for this document.
+				var styles = CKEDITOR.getCss();
+				if ( styles ) {
+					if ( !doc.getCustomData( 'stylesheet' ) && this.isEditable() )
+						doc.setCustomData( 'stylesheet', doc.appendStyleText( styles ) );
+				}
+
+				// Update the stylesheet sharing count.
+				var ref = doc.getCustomData( 'stylesheet_ref' ) || 0;
+				doc.setCustomData( 'stylesheet_ref', ref + 1 );
+
 				// Fire doubleclick event for double-clicks.
 				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
 					var data = { element: evt.data.getTarget() };
@@ -500,6 +535,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					while ( listeners.length )
 						listeners.pop().removeListener();
 				} catch ( e ) {}
+
+				// Restore original text direction.
+				var orgDir = this.removeCustomData( 'org_dir_saved' );
+				if ( orgDir !== null )
+					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
+
+				// Cleanup our custom classes.
+				var classes;
+				if ( classes = this.removeCustomData( 'classes' ) ) {
+					while ( classes.length )
+						this.removeClass( classes.pop() );
+				}
+
+				// Remove contents stylesheet from document if it's the last usage.
+				var doc = this.getDocument();
+				if ( doc.getCustomData( 'stylesheet' ) ) {
+					var refs = doc.getCustomData( 'stylesheet_ref' );
+					if ( !( --refs ) ) {
+						doc.removeCustomData( 'stylesheet_ref' );
+						var sheet = doc.removeCustomData( 'stylesheet' );
+						( sheet.ownerNode || sheet.ownerElement ).remove();
+					} else
+						doc.setCustomData( 'stylesheet_ref', refs );
+				}
 
 				// Free up the editor reference.
 				delete this.editor;

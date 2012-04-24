@@ -10,6 +10,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
+		onLoad: function() {
+			// IE>=8 stricts mode doesn't have 'contentEditable' in effect
+			// on element unless it has layout. (#5562)
+			if ( CKEDITOR.document.$.documentMode >= 8 ) {
+				CKEDITOR.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
+
+				var selectors = [];
+
+				for ( var tag in CKEDITOR.dtd.$removeEmpty )
+					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+
+				CKEDITOR.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
+			}
+			// Set the HTML style to 100% to have the text cursor in affect (#6341)
+			else if ( CKEDITOR.env.gecko ) {
+				CKEDITOR.addCss( 'html { height: 100% !important; }' );
+				CKEDITOR.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
+			}
+			// Remove the margin to avoid mouse confusion. (#8835)
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+				CKEDITOR.addCss( 'body.cke_contents_ltr{margin-right:0;}' );
+
+			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
+			To prevent this misbehavior, we show the scrollbar always */
+			/* #6341: The text cursor must be set on the editor area. */
+			/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
+			CKEDITOR.addCss( 'html {	_overflow-y: scroll; cursor: text;	*cursor:auto;}' );
+			// Use correct cursor for these elements
+			CKEDITOR.addCss( 'img, input, textarea { cursor: default;}' );
+
+		},
 		init: function( editor ) {
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
@@ -71,37 +102,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					editor.loadData( editor.getData() );
 				}
 			});
-
-			// IE>=8 stricts mode doesn't have 'contentEditable' in effect
-			// on element unless it has layout. (#5562)
-			if ( CKEDITOR.document.$.documentMode >= 8 ) {
-				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
-
-				var selectors = [];
-
-				for ( var tag in CKEDITOR.dtd.$removeEmpty )
-					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
-
-				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
-			}
-			// Set the HTML style to 100% to have the text cursor in affect (#6341)
-			else if ( CKEDITOR.env.gecko ) {
-				editor.addCss( 'html { height: 100% !important; }' );
-				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	width : 24px; height : 24px; }' );
-			}
-			// Remove the margin to avoid mouse confusion. (#8835)
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 && editor.config.contentsLangDirection == 'ltr' )
-				editor.addCss( 'body{margin-right:0;}' );
-
-			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
-			To prevent this misbehavior, we show the scrollbar always */
-			/* #6341: The text cursor must be set on the editor area. */
-			/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
-			editor.addCss( 'html {	_overflow-y: scroll; cursor: text;	*cursor:auto;}' );
-			// Use correct cursor for these elements
-			editor.addCss( 'img, input, textarea { cursor: default;}' );
-
-			editor.config.contentsLangDirection == 'ui' && ( editor.config.contentsLangDirection = editor.lang.dir );
 		}
 	});
 
@@ -134,17 +134,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			body.contentEditable = editable;
 			body.removeAttribute( 'disabled' );
 		} else {
-			// Avoid opening design mode in a frame window thread,
-			// which will cause host page scrolling.(#4397)
-			setTimeout( function() {
-				// Prefer 'contentEditable' instead of 'designMode'. (#3593)
-				if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
-					doc.$.body.contentEditable = editable;
-				else if ( CKEDITOR.env.webkit )
-					doc.$.body.parentNode.contentEditable = editable;
-				else
-					doc.$.designMode = editable ? 'off' : 'on';
-			}, 0 );
+			// Prefer 'contentEditable' instead of 'designMode'. (#3593)
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
+				doc.body.contentEditable = editable;
+			else if ( CKEDITOR.env.webkit )
+				doc.body.parentNode.contentEditable = editable;
+			else
+				doc.designMode = editable ? 'off' : 'on';
 		}
 
 		delete this._.isLoadingData;
@@ -284,7 +280,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		$: function( editor ) {
 			this.base.apply( this, arguments );
 
-			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( onDomReady, this );
+			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( function( win ) {
+				// Avoid opening design mode in a frame window thread,
+				// which will cause host page scrolling.(#4397)
+				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
+			}, this );
+
 			this._.docTitle = this.getWindow().getFrame().getAttribute( 'title' );
 		},
 
@@ -305,9 +306,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						docType = config.docType;
 
 					// Build the additional stuff to be included into <head>.
-					var headExtra = '<style type="text/css" data-cke-temp="1">' +
-						editor._.styles.join( '\n' ) +
-						'</style>';
+					var headExtra = '';
 
 					!fullPage && ( headExtra = CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) + headExtra );
 
@@ -379,10 +378,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 
 					var bootstrapCode = '<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
-						( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
-						'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
-						( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload );' ) +
-						'</script>';
+													( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+													'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
+													( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload );' ) +
+												'</script>';
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
 
@@ -595,21 +594,6 @@ CKEDITOR.config.ignoreEmptyParagraph = true;
  * config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
  */
 CKEDITOR.config.contentsCss = CKEDITOR.basePath + 'contents.css';
-
-/**
- * The writting direction of the language used to write the editor
- * contents. Allowed values are:
- * <ul>
- *     <li>'ui' - which indicate content direction will be the same with the user interface language direction;</li>
- *     <li>'ltr' - for Left-To-Right language (like English);</li>
- *     <li>'rtl' - for Right-To-Left languages (like Arabic).</li>
- * </ul>
- * @default 'ui'
- * @type String
- * @example
- * config.contentsLangDirection = 'rtl';
- */
-CKEDITOR.config.contentsLangDirection = 'ui';
 
 /**
  * Language code of  the writting language which is used to author the editor

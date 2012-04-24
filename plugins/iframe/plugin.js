@@ -6,14 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	CKEDITOR.plugins.add( 'iframe', {
 		requires: [ 'dialog', 'fakeobjects' ],
-		init: function( editor ) {
-			var pluginName = 'iframe',
-				lang = editor.lang.iframe;
-
-			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
-			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
-
-			editor.addCss( 'img.cke_iframe' +
+		onLoad: function() {
+			CKEDITOR.addCss( 'img.cke_iframe' +
 				'{' +
 					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/placeholder.png' ) + ');' +
 					'background-position: center center;' +
@@ -23,6 +17,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					'height: 80px;' +
 				'}'
 				);
+		},
+		init: function( editor ) {
+			var pluginName = 'iframe',
+				lang = editor.lang.iframe;
+
+			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
+			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
 
 			editor.ui.addButton( 'Iframe', {
 				label: lang.toolbar,

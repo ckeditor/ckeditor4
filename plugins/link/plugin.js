@@ -1,10 +1,52 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'link', {
 	requires: [ 'dialog', 'fakeobjects' ],
+
+	onLoad: function() {
+		// Add the CSS styles for anchor placeholders.
+		var baseStyle = 'background:url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ') no-repeat %1 center;' +
+						'border:1px dotted #00f;';
+
+		var template = '.%2 a.cke_anchor,' +
+						'.%2 a.cke_anchor_empty' +
+						// IE6 breaks with the following selectors.
+		( ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? '' : ',.cke_editable.%2 a[name]' +
+			',.cke_editable.%2 a[data-cke-saved-name]' ) +
+						'{' +
+							baseStyle +
+							'padding-%1:18px;' +
+							// Show the arrow cursor for the anchor image (FF at least).
+									'cursor:auto;' +
+						'}' +
+						( CKEDITOR.env.ie ? ( 'a.cke_anchor_empty' +
+			'{' +
+				// Make empty anchor selectable on IE.
+						'display:inline-block;' +
+			'}'
+			) : '' ) +
+						'.%2 img.cke_anchor' +
+						'{' +
+							baseStyle +
+							'width:16px;' +
+							'min-height:15px;' +
+							// The default line-height on IE.
+									'height:1.15em;' +
+							// Opera works better with "middle" (even if not perfect)
+									'vertical-align:' + ( CKEDITOR.env.opera ? 'middle' : 'text-bottom' ) + ';' +
+						'}';
+
+		// Styles with contents direction awareness.
+		function cssWithDir( dir ) {
+			return template.replace( /%1/g, dir == 'rtl' ? 'right' : 'left' ).replace( /%2/g, 'cke_contents_' + dir );
+		}
+
+		CKEDITOR.addCss( cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
+	},
 
 	init: function( editor ) {
 		// Add the link and unlink buttons.
@@ -30,38 +72,6 @@ CKEDITOR.plugins.add( 'link', {
 
 		CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
 		CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
-
-		// Add the CSS styles for anchor placeholders.
-
-		var side = ( editor.lang.dir == 'rtl' ? 'right' : 'left' );
-		var basicCss = 'background:url(' + CKEDITOR.getUrl( this.path + 'images/anchor.gif' ) + ') no-repeat ' + side + ' center;' +
-						'border:1px dotted #00f;';
-
-		editor.addCss( 'a.cke_anchor,a.cke_anchor_empty' +
-			// IE6 breaks with the following selectors.
-		( ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? '' : ',a[name],a[data-cke-saved-name]' ) +
-			'{' +
-				basicCss +
-				'padding-' + side + ':18px;' +
-				// Show the arrow cursor for the anchor image (FF at least).
-						'cursor:auto;' +
-			'}' +
-			( CKEDITOR.env.ie ? ( 'a.cke_anchor_empty' +
-			'{' +
-				// Make empty anchor selectable on IE.
-						'display:inline-block;' +
-			'}'
-			) : '' ) +
-			'img.cke_anchor' +
-			'{' +
-				basicCss +
-				'width:16px;' +
-				'min-height:15px;' +
-				// The default line-height on IE.
-						'height:1.15em;' +
-				// Opera works better with "middle" (even if not perfect)
-						'vertical-align:' + ( CKEDITOR.env.opera ? 'middle' : 'text-bottom' ) + ';' +
-			'}' );
 
 		// Register selection change handler for the unlink button.
 		editor.on( 'selectionChange', function( evt ) {

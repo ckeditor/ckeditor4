@@ -8,16 +8,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'forms', {
-	init: function( editor ) {
-		var lang = editor.lang;
-
-		editor.addCss( 'form' +
+	onLoad: function() {
+		CKEDITOR.addCss( '.cke_editable form' +
 			'{' +
 				'border: 1px dotted #FF0000;' +
 				'padding: 2px;' +
 			'}\n' );
 
-		editor.addCss( 'img.cke_hidden' +
+		CKEDITOR.addCss( 'img.cke_hidden' +
 			'{' +
 				'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/hiddenfield.gif' ) + ');' +
 				'background-position: center center;' +
@@ -26,6 +24,10 @@ CKEDITOR.plugins.add( 'forms', {
 				'width: 16px !important;' +
 				'height: 16px !important;' +
 			'}' );
+
+	},
+	init: function( editor ) {
+		var lang = editor.lang;
 
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.

@@ -206,7 +206,9 @@ CKEDITOR.resourceManager.prototype = {
 				var nameList = urlsNames[ completed[ i ] ];
 				for ( var j = 0; j < nameList.length; j++ ) {
 					var name = nameList[ j ];
-					resources[ name ] = this.get( name );
+
+					// Fill in the resource path.
+					( resources[ name ] = this.get( name ) ).path = this.getPath( name );
 
 					loaded[ name ] = 1;
 				}
