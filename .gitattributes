@@ -1,0 +1,15 @@
+*			text=auto
+
+*.cgi		eol=lf
+*.css		text
+*.htaccess	eol=lf
+*.htm		text
+*.html		text
+*.js		text
+*.php		text
+*.sh		eol=lf
+*.txt		text
+
+*.png		-text
+*.gif		-text
+*.jpg		-text
