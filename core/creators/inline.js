@@ -52,6 +52,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
 
+			// Clean on startup.
+			editor.resetDirty();
+
 			// give priority to plugins that relay on editor#loaded for bootstrapping.
 		}, null, null, 10000 );
 

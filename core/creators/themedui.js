@@ -89,6 +89,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 				// Editor is completely loaded for interaction.
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
+
+				// Clean on startup.
+				editor.resetDirty();
 			});
 
 		});
