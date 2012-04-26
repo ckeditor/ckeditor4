@@ -300,6 +300,29 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
+	var themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<div' +
+		' id="cke_{name}"' +
+		' class="{id} cke cke_chrome cke_editor_{name}"' +
+		' dir="{langDir}"' +
+		' lang="{langCode}"' +
+		( CKEDITOR.env.webkit ? ' tabindex="{tabIndex}"' : '' ) +
+		' role="application"' +
+		' aria-labelledby="cke_{name}_arialbl" {style}>' +
+		'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
+		'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+			'<div class="cke_{langDir}" role="presentation">' +
+				'<div class="cke_inner" role="presentation">' +
+					'<div id="{topId}" class="cke_top"' +
+					' role="presentation" style="height:auto">{topHtml}</div>' +
+					'<div id="{contentId}" class="cke_contents"' +
+					' role="presentation" style="height:{height}"></div>' +
+					'<div id="{bottomId}" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+		'</div>' );
+
+
 	function loadTheme( editor ) {
 		var name = editor.name,
 			element = editor.element,
@@ -327,40 +350,20 @@ CKEDITOR.replaceClass = 'ckeditor';
 			style += 'width:{width};';
 		}
 
-
-		var template = CKEDITOR.addTemplate( 'maincontainer', '<div' +
-			' id="cke_{name}"' +
-			' class="{id} cke cke_chrome cke_editor_{name}"' +
-			' dir="{langDir}"' +
-			' lang="{langCode}"' +
-			( CKEDITOR.env.webkit ? ' tabindex="{tabIndex}"' : '' ) +
-			' role="application"' +
-			' aria-labelledby="cke_{name}_arialbl"' +
-			( style ? ' style="' + style + '"' : '' ) +
-			'>' +
-			'<span id="cke_{name}_arialbl" class="cke_voice_label">' + editor.lang.editor + '</span>' +
-			'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-				'<div class="cke_{langDir}" role="presentation">' +
-					'<div class="cke_inner" role="presentation">' +
-						'<div id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top"' +
-						' role="presentation" style="height:auto">{topHtml}</div>' +
-						'<div id="' + editor.ui.spaceId( 'contents' ) + '" class="cke_contents"' +
-						' role="presentation" style="height:{height}"></div>' +
-						'<div id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
-					'</div>' +
-				'</div>' +
-			'</div>' +
-			'</div>' );
-
-		var container = CKEDITOR.dom.element.createFromHtml( template.output({
+		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
 			id: editor.id,
 			name: name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
+			voiceLabel: editor.lang.editor,
 			tabIndex: tabIndex,
+			style: ( style ? ' style="' + style + '"' : '' ),
 			height: height,
 			width: width,
+			topId: editor.ui.spaceId( 'top' ),
 			topHtml: topHtml || '',
+			contentId: editor.ui.spaceId( 'contents' ),
+			bottomId: editor.ui.spaceId( 'bottom' ),
 			bottomHtml: bottomHtml || ''
 		}));
 

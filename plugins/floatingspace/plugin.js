@@ -4,6 +4,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
+	var floatSpaceTpl = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
+		' id="cke_{name}"' +
+		' class="cke cke_chrome cke_editor_{name} cke_float"' +
+		' dir="{langDir}"' +
+		' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
+		' lang="{langCode}"' +
+		' role="presentation"' +
+		' style="{style}"' +
+		'>' +
+			'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+				'<div class="cke_{langDir}" role="presentation">' +
+					'<div class="cke_inner">' +
+						'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' );
+
 	CKEDITOR.plugins.add( 'floatingspace', {
 		requires: [],
 
@@ -127,24 +145,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var body = CKEDITOR.document.getBody();
 
-		var floatSpace,
-			template = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
-			' id="' + editor.ui.spaceId( 'top' ) + '"' +
-			' class="cke cke_chrome cke_editor_{name} cke_float"' +
-			' dir="{langDir}"' +
-			' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
-			' lang="{langCode}"' +
-			' role="presentation"' +
-			' style="{style}"' +
-			'>' +
-				'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-					'<div class="cke_' + editor.lang.dir + '" role="presentation">' +
-						'<div class="cke_inner">' +
-							'<div class="cke_contents" role="presentation">{content}</div>' +
-						'</div>' +
-					'</div>' +
-				'</div>' +
-			'</div>' );
 
 		var vars = {
 			name: editor.name,
@@ -156,7 +156,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Get the HTML for the predefined spaces.
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
 		if ( topHtml ) {
-			floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( template.output( CKEDITOR.tools.extend({
+			var floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( CKEDITOR.tools.extend({
+				topId: editor.ui.spaceId( 'top' ),
 				content: topHtml,
 				style: 'display:none;'
 			}, vars ) ) ) );
