@@ -555,7 +555,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( !( --refs ) ) {
 						doc.removeCustomData( 'stylesheet_ref' );
 						var sheet = doc.removeCustomData( 'stylesheet' );
-						( sheet.ownerNode || sheet.ownerElement ).remove();
+						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
+						sheet.remove();
 					} else
 						doc.setCustomData( 'stylesheet_ref', refs );
 				}
