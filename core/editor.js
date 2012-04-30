@@ -678,7 +678,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 		 */
 		insertHtml: function( html ) {
-			this.editable().insertHtml( html );
+			// Do nothing when editable is not available (detached).
+			var editable = this.editable();
+			editable && editable.insertHtml( html );
 		},
 
 		/**
@@ -692,7 +694,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 		 */
 		insertText: function( text, dontEncodeHtml ) {
-			this.editable().insertText( text, dontEncodeHtml );
+			var editable = this.editable();
+			editable && editable.insertText( text, dontEncodeHtml );
 		},
 
 		/**
@@ -705,7 +708,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * CKEDITOR.instances.editor1.<strong>insertElement( element )</strong>;
 		 */
 		insertElement: function( element ) {
-			this.editable().insertElement( element );
+			var editable = this.editable();
+			editable && editable.insertElement( element );
 		},
 
 		/**
