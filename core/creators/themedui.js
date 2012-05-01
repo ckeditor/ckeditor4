@@ -431,7 +431,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 							editor.updateElement();
 
 							// For IE, the DOM submit function is not a
-							// function, so we need thid check.
+							// function, so we need third check.
 							if ( originalSubmit.apply )
 								originalSubmit.apply( this, arguments );
 							else

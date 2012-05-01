@@ -103,7 +103,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
 		applyEditorStyle.call( style, this, true );
-	},
+	};
 
 	CKEDITOR.style.prototype = {
 		applyToRange: function( range ) {

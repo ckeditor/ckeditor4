@@ -49,7 +49,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 		getPrivate: function() {
 			var priv;
 
-			// Get the main private function from the custom data. Create it if not
+			// Get the main private object from the custom data. Create it if not
 			// defined.
 			if ( !( priv = this.getCustomData( '_' ) ) )
 				this.setCustomData( '_', ( priv = {} ) );
