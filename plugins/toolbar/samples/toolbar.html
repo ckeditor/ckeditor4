@@ -8,94 +8,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Standalone Toolbar &mdash; CKEditor Sample</title>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
 	<script type="text/javascript" src="../../../ckeditor.js"></script>
-	<script type="text/javascript" src="../plugin.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript">
-
-CKEDITOR.config.plugins = 'basicstyles,button,toolbar';
-
+		CKEDITOR.disableAutoInline = true;
 	</script>
-	<script type="text/javascript">
 
-CKEDITOR.on('inline', function (ev)
-	{
-		ev.data.config.toolbar = [ ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'] ];
-	});
-
-var toolbox;
-
-CKEDITOR.on( 'instanceLoaded', function( ev )
-	{
-		var editor = ev.editor;
-
-		if ( !toolbox )
-		{
-			toolbox = new CKEDITOR.toolbox();
-			document.getElementById( 'instanceTools' ).innerHTML = toolbox.html( editor );
-		}
-
-		toolbox.attach( editor );
-	});
-
-	</script>
 	<style type="text/css">
 		/* CKEditor editables are automatically set with the "cke_editable" class. */
 		.cke_editable
 		{
 			border: 3px dotted orange !important;
 		}
-
-		/* The following styles are just for this demo page purpose. */
-
-		#header, #contents
-		{
-			border: 3px solid transparent;
-			padding: 10px;
-		}
-
-		#sample-doc
-		{
-			width: 45%;
-			clear: both;
-		}
-
-		#tools
-		{
-			margin-bottom: 10px;
-			overflow: auto;
-		}
-
-		table, td, caption
-		{
-			border: 1px solid gray;
-			border-collapse: collapse;
-		}
-
-		hr
-		{
-			border: 1px solid gray;
-			border-style: solid none none;
-			margin: 10px 0 12px;
-		}
-
-		.cke_skin_kama .cke_toolbox
-		{
-			padding-bottom: 0px;
-		}
-
-		.cke_skin_kama .cke_toolbar
-		{
-			margin-bottom: -5px;
-		}
 	</style>
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; Standalone Toolbar
+		CKEditor Sample &mdash; Toolbar configuration
 	</h1>
 	<div class="description">
 		<p>
-			This sample demonstrates the creation of a standalone toolbar that manipulates several editor instances.</p>
+			This sample demonstrates how to customize the toolbar buttons.</p>
 	</div>
 	<!-- This <div> holds alert messages to be display in the sample page. -->
 	<div id="alerts">
@@ -107,97 +40,47 @@ CKEDITOR.on( 'instanceLoaded', function( ev )
 			</p>
 		</noscript>
 	</div>
-	<div id="tools">
-		<span class="cke_skin_kama" style="float:left">
-			<script type="text/javascript">
-			document.write( '<span class="' + CKEDITOR.env.cssClass + '">' );
-			</script>
-				<span class="cke_wrapper cke_ltr">
-					<span class="cke_editor">
-						<div id="instanceTools" class="cke_top" style="width:400px;"></div>
-					</span>
-				</span>
-			</span>
-		</span>
-	</div>
 	<div id="sample-doc">
-		<h2 id="header" contenteditable="true">
-			Little Red Riding Hood</h2>
-		<hr />
-		<div id="contents" contenteditable="true">
-			<p>
-				<img alt="" src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" style="margin-left: 10px;
-					margin-right: 10px; float: left; width: 120px; height: 168px;" />
-				&quot;<b>Little Red Riding Hood</b>&quot; is a famous <a href="http://en.wikipedia.org/wiki/Fairy_tale"
-					title="Fairy tale">fairy tale</a> about a young girl&#39;s encounter with a
-				wolf. The story has been changed considerably in its history and subject to numerous
-				modern adaptations and readings.</p>
-			<table style="width: 200px; float: right;">
-				<caption>
-					<strong>International Names</strong></caption>
-				<tbody>
-					<tr>
-						<td>
-							Chinese
-						</td>
-						<td>
-							<i>小紅帽</i>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Italian
-						</td>
-						<td>
-							<i>Cappuccetto Rosso</i>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Spanish
-						</td>
-						<td>
-							<i>Caperucita Roja</i>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<p>
-				The version most widely known today is based on the <a href="http://en.wikipedia.org/wiki/Brothers_Grimm"
-					title="Brothers Grimm">Brothers Grimm</a> variant. It is about a girl called
-				Little Red Riding Hood, after the red <a href="http://en.wikipedia.org/wiki/Hood_%28headgear%29"
-					title="Hood (headgear)">hooded</a> <a href="http://en.wikipedia.org/wiki/Cape" title="Cape">
-						cape</a> or <a href="http://en.wikipedia.org/wiki/Cloak" title="Cloak">cloak</a>
-				she wears. The girl walks through the woods to deliver food to her sick grandmother.</p>
-			<p>
-				A wolf wants to eat the girl but is afraid to do so in public. He approaches the
-				girl, and she na&iuml;vely tells him where she is going. He suggests the girl pick
-				some flowers, which she does. In the meantime, he goes to the grandmother&#39;s
-				house and gains entry by pretending to be the girl. He swallows the grandmother
-				whole, and waits for the girl, disguised as the grandmother.</p>
-			<p>
-				When the girl arrives, she notices he looks very strange to be her grandma. In most
-				retellings, this eventually culminates with Little Red Riding Hood saying, &quot;My,
-				what big teeth you have!&quot;<br />
-				To which the wolf replies, &quot;The better to eat you with,&quot; and swallows
-				her whole, too.</p>
-			<p>
-				A <a href="http://en.wikipedia.org/wiki/Hunter" title="Hunter">hunter</a>, however,
-				comes to the rescue and cuts the wolf open. Little Red Riding Hood and her grandmother
-				emerge unharmed. They fill the wolf&#39;s body with heavy stones, which drown him
-				when he falls into a well. Other versions of the story have had the grandmother
-				shut in the closet instead of eaten, and some have Little Red Riding Hood saved
-				by the hunter as the wolf advances on her rather than after she is eaten.</p>
-			<p>
-				The tale makes the clearest contrast between the safe world of the village and the
-				dangers of the <a href="http://en.wikipedia.org/wiki/Enchanted_forest" title="Enchanted forest">
-					forest</a>, conventional antitheses that are essentially medieval, though no
-				written versions are as old as that.</p>
-		</div>
+		<p>Inline editable element:</p>
+		<div id="editor1" contenteditable="true"><p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p></div>
+		<script type="text/javascript">
+		//<![CDATA[
+
+			// Create an inline CKEditor instance over the above editable div,
+			// with only the basic style buttons on toolbar.
+			CKEDITOR.inline( CKEDITOR.document.getById( 'editor1' ),
+			{
+				plugins : 'floatingspace,basicstyles,toolbar',
+				toolbar : [ [ 'Bold', 'Italic', 'Underline' ] ]
+			} );
+
+		//]]>
+		</script>
+		<p>
+			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+			//<![CDATA[
+
+				// Create a themed CKEditor instance over the textarea, with only
+				// two rows of compact buttons on toolbar.
+				CKEDITOR.replace( 'editor2',
+				{
+					plugins : 'wysiwygarea,toolbar,basicstyles,list,indent,justify,link',
+					toolbar :
+					[
+						{ name: 'basicstyles',	items : [ 'Bold','Italic','Underline','-','Link','Unlink' ] },
+						'/',
+						{ name: 'paragraph',	items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+					]
+				} );
+
+			//]]>
+			</script>
+		</p>
 	</div>
 	<div id="footer">
 		<hr />
-		<p contenteditable="true">
+		<p>
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">
 				http://ckeditor.com</a>
 		</p>
