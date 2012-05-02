@@ -165,17 +165,6 @@ CKEDITOR.config = {
 	shiftEnterMode: CKEDITOR.ENTER_BR,
 
 	/**
-	 * A comma separated list of plugins that are not related to editor
-	 * instances. Reserved for plugins that extend the core code only.<br /><br />
-	 *
-	 * There are no ways to override this setting except by editing the source
-	 * code of CKEditor (<code>_source/core/config.js</code>).
-	 * @type String
-	 * @example
-	 */
-	corePlugins: '',
-
-	/**
 	 * Sets the <code>DOCTYPE</code> to be used when loading the editor content as HTML.
 	 * @type String
 	 * @default <code>'&lt;!DOCTYPE html&gt;'</code>
@@ -244,10 +233,9 @@ CKEDITOR.config = {
 	height: 200,
 
 	/**
-	 * Comma separated list of plugins to be loaded and initialized for an editor
-	 * instance. This setting should rarely be changed. It is recommended to use the
-	 * <code>{@link CKEDITOR.config.extraPlugins}</code> and
-	 * <code>{@link CKEDITOR.config.removePlugins}</code> for customization purposes instead.
+	 * Comma separated list of plugins to be used for an editor instance,
+	 * besides, the actual plugins that to be loaded could be still affected by two other settings:
+	 * <code>{@link CKEDITOR.config.extraPlugins}</code> and <code>{@link CKEDITOR.config.removePlugins}</code>.
 	 * @type String
 	 * @example
 	 */
@@ -255,8 +243,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
-	 * to add new plugins without having to touch and potentially break the
-	 * <code>{@link CKEDITOR.config.plugins}</code> setting.
+	 * to add new plugins without having to touch <code>{@link CKEDITOR.config.plugins}</code> setting.
 	 * @type String
 	 * @example
 	 * config.extraPlugins = 'myplugin,anotherplugin';
@@ -266,7 +253,7 @@ CKEDITOR.config = {
 	/**
 	 * A list of plugins that must not be loaded. This setting makes it possible
 	 * to avoid loading some plugins defined in the <code>{@link CKEDITOR.config.plugins}</code>
-	 * setting, without having to touch it and potentially break it.
+	 * setting, without having to touch it.
 	 * @type String
 	 * @example
 	 * config.removePlugins = 'elementspath,save,font';
