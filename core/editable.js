@@ -660,21 +660,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			evt.cancel();
 		}
 
-		// Browsers are incapable of moving cursor out of certain block elements (e.g. table, div, pre)
-		// at the end of document, makes it unable to continue adding content, we have to make this
-		// easier by opening an new empty paragraph.
-		var testRange = editor.createRange();
-		testRange.moveToElementEditEnd( editable );
-		var testPath = editor.elementPath( testRange.startContainer );
-		if ( testPath.blockLimit && !testPath.blockLimit.equals( editable ) ) {
-			var paddingBlock;
-			if ( enterMode != CKEDITOR.ENTER_BR )
-				paddingBlock = editable.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
-			else
-				paddingBlock = editable;
+		if ( editor.config.autoPaddingBlock !== false ) {
+			// Browsers are incapable of moving cursor out of certain block elements (e.g. table, div, pre)
+			// at the end of document, makes it unable to continue adding content, we have to make this
+			// easier by opening an new empty paragraph.
+			var testRange = editor.createRange();
+			testRange.moveToElementEditEnd( editable );
+			var testPath = editor.elementPath( testRange.startContainer );
+			if ( testPath.blockLimit && !testPath.blockLimit.equals( editable ) ) {
+				var paddingBlock;
+				if ( enterMode != CKEDITOR.ENTER_BR )
+					paddingBlock = editable.append( editor.document.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) );
+				else
+					paddingBlock = editable;
 
-			if ( !CKEDITOR.env.ie )
-				paddingBlock.appendBogus();
+				if ( !CKEDITOR.env.ie )
+					paddingBlock.appendBogus();
+			}
 		}
 	}
 
