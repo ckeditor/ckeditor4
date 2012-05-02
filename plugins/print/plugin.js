@@ -15,7 +15,7 @@ CKEDITOR.plugins.add( 'print', {
 		var command = editor.addCommand( pluginName, CKEDITOR.plugins.print );
 
 		// Register the toolbar button.
-		editor.ui.addButton( 'Print', {
+		editor.ui.addButton && editor.ui.addButton( 'Print', {
 			label: editor.lang.print,
 			command: pluginName
 		});

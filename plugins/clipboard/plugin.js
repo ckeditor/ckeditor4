@@ -119,7 +119,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var lang = editor.lang[ commandName ];
 
 				editor.addCommand( commandName, command );
-				editor.ui.addButton( buttonName, {
+				editor.ui.addButton && editor.ui.addButton( buttonName, {
 					label: lang,
 					command: commandName
 				});

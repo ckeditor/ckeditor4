@@ -9,7 +9,7 @@ CKEDITOR.plugins.add( 'smiley', {
 	init: function( editor ) {
 		editor.config.smiley_path = editor.config.smiley_path || ( this.path + 'images/' );
 		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley' ) );
-		editor.ui.addButton( 'Smiley', {
+		editor.ui.addButton && editor.ui.addButton( 'Smiley', {
 			label: editor.lang.smiley.toolbar,
 			command: 'smiley'
 		});

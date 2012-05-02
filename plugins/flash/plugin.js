@@ -17,6 +17,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'flash', {
+		requires: [ 'dialog', 'fakeobjects' ],
 		onLoad: function() {
 			CKEDITOR.addCss( 'img.cke_flash' +
 				'{' +
@@ -32,7 +33,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 		init: function( editor ) {
 			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash' ) );
-			editor.ui.addButton( 'Flash', {
+			editor.ui.addButton && editor.ui.addButton( 'Flash', {
 				label: editor.lang.common.flash,
 				command: 'flash'
 			});
@@ -101,9 +102,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}, 5 );
 			}
-		},
-
-		requires: [ 'fakeobjects' ]
+		}
 	});
 })();
 

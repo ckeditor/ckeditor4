@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		editor.addCommand( 'pagebreak', CKEDITOR.plugins.pagebreakCmd );
 
 		// Register the toolbar button.
-		editor.ui.addButton( 'PageBreak', {
+		editor.ui.addButton && editor.ui.addButton( 'PageBreak', {
 			label: editor.lang.pagebreak,
 			command: 'pagebreak'
 		});

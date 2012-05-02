@@ -296,7 +296,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				canUndo: false
 			});
 
-			editor.ui.addButton( 'Maximize', {
+			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
 				label: lang.maximize,
 				command: 'maximize'
 			});

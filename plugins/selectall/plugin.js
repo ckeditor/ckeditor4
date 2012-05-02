@@ -42,7 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				canUndo: false
 			});
 
-			editor.ui.addButton( 'SelectAll', {
+			editor.ui.addButton && editor.ui.addButton( 'SelectAll', {
 				label: editor.lang.selectAll,
 				command: 'selectAll'
 			});

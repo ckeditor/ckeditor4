@@ -11,7 +11,7 @@ CKEDITOR.plugins.add( 'about', {
 		command.canUndo = false;
 		command.readOnly = 1;
 
-		editor.ui.addButton( 'About', {
+		editor.ui.addButton && editor.ui.addButton( 'About', {
 			label: editor.lang.about.title,
 			command: 'about'
 		});

@@ -248,7 +248,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		init: function( editor ) {
 			editor.addCommand( 'blockquote', commandObject );
 
-			editor.ui.addButton( 'Blockquote', {
+			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {
 				label: editor.lang.blockquote,
 				command: 'blockquote'
 			});

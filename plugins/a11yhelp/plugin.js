@@ -13,6 +13,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		commandName = 'a11yHelp';
 
 	CKEDITOR.plugins.add( pluginName, {
+		requires: [ 'dialog' ],
+
 		// List of available localizations.
 		availableLangs: { en:1,he:1 },
 

@@ -133,7 +133,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( editor.config.startupOutlineBlocks )
 				command.setState( CKEDITOR.TRISTATE_ON );
 
-			editor.ui.addButton( 'ShowBlocks', {
+			editor.ui.addButton && editor.ui.addButton( 'ShowBlocks', {
 				label: editor.lang.showBlocks,
 				command: 'showblocks'
 			});

@@ -25,7 +25,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
 
-			editor.ui.addButton( 'Iframe', {
+			editor.ui.addButton && editor.ui.addButton( 'Iframe', {
 				label: lang.toolbar,
 				command: pluginName
 			});
