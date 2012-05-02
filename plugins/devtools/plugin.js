@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'devtools', {
-	lang: [ 'bg', 'cs', 'cy', 'da', 'de', 'el', 'en', 'eo', 'et', 'fa', 'fi', 'fr', 'gu', 'he', 'hr', 'it', 'nb', 'nl', 'no', 'pl', 'tr', 'ug', 'uk', 'vi', 'zh-cn' ],
+	lang: [ 'en', 'bg', 'cs', 'cy', 'da', 'de', 'el', 'eo', 'et', 'fa', 'fi', 'fr', 'gu', 'he', 'hr', 'it', 'nb', 'nl', 'no', 'pl', 'tr', 'ug', 'uk', 'vi', 'zh-cn' ],
 
 	init: function( editor ) {
 		editor._.showDialogDefinitionTooltips = 1;
