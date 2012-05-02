@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -10,6 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'div', {
+		requires: [ 'dialog' ],
 		init: function( editor ) {
 			var lang = editor.lang.div;
 
@@ -53,7 +55,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
-			editor.ui.addButton( 'CreateDiv', {
+			editor.ui.addButton && editor.ui.addButton( 'CreateDiv', {
 				label: lang.toolbar,
 				command: 'creatediv'
 			});

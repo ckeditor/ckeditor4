@@ -10,8 +10,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'undo', {
-		requires: [ 'selection' ],
-
 		init: function( editor ) {
 			var undoManager = new UndoManager( editor );
 
@@ -78,15 +76,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				undoManager.onChange();
 			});
 
-			editor.ui.addButton( 'Undo', {
-				label: editor.lang.undo,
-				command: 'undo'
-			});
+			if ( editor.ui.addButton ) {
+				editor.ui.addButton( 'Undo', {
+					label: editor.lang.undo,
+					command: 'undo'
+				});
 
-			editor.ui.addButton( 'Redo', {
-				label: editor.lang.redo,
-				command: 'redo'
-			});
+				editor.ui.addButton( 'Redo', {
+					label: editor.lang.redo,
+					command: 'redo'
+				});
+			}
 
 			editor.resetUndo = function() {
 				// Reset the undo stack.

@@ -343,7 +343,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'tableresize', {
-		requires: [ 'tabletools' ],
 		init: function( editor ) {
 			editor.on( 'contentDom', function() {
 				var resizer;

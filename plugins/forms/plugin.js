@@ -8,6 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'forms', {
+	requires: [ 'dialog', 'fakeobjects' ],
 	onLoad: function() {
 		CKEDITOR.addCss( '.cke_editable form' +
 			'{' +
@@ -34,7 +35,7 @@ CKEDITOR.plugins.add( 'forms', {
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
 				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName ) );
 
-				editor.ui.addButton( buttonName, {
+				editor.ui.addButton && editor.ui.addButton( buttonName, {
 					label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],
 					command: commandName
 				});
@@ -49,8 +50,11 @@ CKEDITOR.plugins.add( 'forms', {
 		addButtonCommand( 'Textarea', 'textarea', dialogPath + 'textarea.js' );
 		addButtonCommand( 'Select', 'select', dialogPath + 'select.js' );
 		addButtonCommand( 'Button', 'button', dialogPath + 'button.js' );
-		addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
+
+		// If the "image" plugin is loaded.
+		var imagePlugin = CKEDITOR.plugins.get( 'image' );
+		imagePlugin && addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {
@@ -142,7 +146,7 @@ CKEDITOR.plugins.add( 'forms', {
 								return { radio: CKEDITOR.TRISTATE_OFF };
 
 							case 'image':
-								return { imagebutton: CKEDITOR.TRISTATE_OFF };
+								return imagePlugin ? { imagebutton: CKEDITOR.TRISTATE_OFF } : null;
 
 							default:
 								return { textfield: CKEDITOR.TRISTATE_OFF };
@@ -222,8 +226,7 @@ CKEDITOR.plugins.add( 'forms', {
 				}
 			});
 		}
-	},
-	requires: [ 'image', 'fakeobjects' ]
+	}
 });
 
 if ( CKEDITOR.env.ie ) {

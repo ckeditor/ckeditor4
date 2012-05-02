@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'uicolor', {
 			return;
 
 		editor.addCommand( 'uicolor', new CKEDITOR.dialogCommand( 'uicolor' ) );
-		editor.ui.addButton( 'UIColor', {
+		editor.ui.addButton && editor.ui.addButton( 'UIColor', {
 			label: editor.lang.uicolor.title,
 			command: 'uicolor',
 			icon: this.path + 'uicolor.gif'

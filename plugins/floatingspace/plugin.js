@@ -23,8 +23,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		'</div>' );
 
 	CKEDITOR.plugins.add( 'floatingspace', {
-		requires: [],
-
 		init: function( editor ) {
 			editor.on( 'loaded', function() {
 				attach( editor );

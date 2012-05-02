@@ -194,15 +194,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	CKEDITOR.plugins.add( 'bidi', {
-		requires: [ 'button' ],
-
 		init: function( editor ) {
 			// All buttons use the same code to register. So, to avoid
 			// duplications, let's use this tool function.
 			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandExec ) {
 					editor.addCommand( commandName, new CKEDITOR.command( editor, { exec: commandExec } ) );
 
-					editor.ui.addButton( buttonName, {
+					editor.ui.addButton && editor.ui.addButton( buttonName, {
 						label: buttonLabel,
 						command: commandName
 					});

@@ -5,6 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
+		// TODO: should not depend on a particular format plugin.
 		requires: [ 'indent' ],
 
 		init: function( editor ) {

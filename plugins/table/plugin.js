@@ -4,6 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'table', {
+	requires: [ 'dialog' ],
 	init: function( editor ) {
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
@@ -11,7 +12,7 @@ CKEDITOR.plugins.add( 'table', {
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table' ) );
 		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
 
-		editor.ui.addButton( 'Table', {
+		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,
 			command: 'table'
 		});

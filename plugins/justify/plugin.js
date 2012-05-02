@@ -177,22 +177,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( 'justifyright', right );
 			editor.addCommand( 'justifyblock', justify );
 
-			editor.ui.addButton( 'JustifyLeft', {
-				label: editor.lang.justify.left,
-				command: 'justifyleft'
-			});
-			editor.ui.addButton( 'JustifyCenter', {
-				label: editor.lang.justify.center,
-				command: 'justifycenter'
-			});
-			editor.ui.addButton( 'JustifyRight', {
-				label: editor.lang.justify.right,
-				command: 'justifyright'
-			});
-			editor.ui.addButton( 'JustifyBlock', {
-				label: editor.lang.justify.block,
-				command: 'justifyblock'
-			});
+			if ( editor.ui.addButton ) {
+				editor.ui.addButton( 'JustifyLeft', {
+					label: editor.lang.justify.left,
+					command: 'justifyleft'
+				});
+				editor.ui.addButton( 'JustifyCenter', {
+					label: editor.lang.justify.center,
+					command: 'justifycenter'
+				});
+				editor.ui.addButton( 'JustifyRight', {
+					label: editor.lang.justify.right,
+					command: 'justifyright'
+				});
+				editor.ui.addButton( 'JustifyBlock', {
+					label: editor.lang.justify.block,
+					command: 'justifyblock'
+				});
+			}
 
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, left ) );
 			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, right ) );

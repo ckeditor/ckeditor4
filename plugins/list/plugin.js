@@ -736,14 +736,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				bulletedListCommand = editor.addCommand( 'bulletedlist', new listCommand( 'bulletedlist', 'ul' ) );
 
 			// Register the toolbar button.
-			editor.ui.addButton( 'NumberedList', {
-				label: editor.lang.numberedlist,
-				command: 'numberedlist'
-			});
-			editor.ui.addButton( 'BulletedList', {
-				label: editor.lang.bulletedlist,
-				command: 'bulletedlist'
-			});
+			if ( editor.ui.addButton ) {
+				editor.ui.addButton( 'NumberedList', {
+					label: editor.lang.numberedlist,
+					command: 'numberedlist'
+				});
+				editor.ui.addButton( 'BulletedList', {
+					label: editor.lang.bulletedlist,
+					command: 'bulletedlist'
+				});
+			}
 
 			// Register the state changing handlers.
 			editor.on( 'selectionChange', function( evt ) {

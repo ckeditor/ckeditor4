@@ -36,7 +36,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var command = editor.addCommand( pluginName, saveCmd );
 			command.modes = { wysiwyg: !!( editor.element.$.form ) };
 
-			editor.ui.addButton( 'Save', {
+			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save,
 				command: pluginName
 			});

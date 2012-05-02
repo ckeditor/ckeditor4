@@ -89,7 +89,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( pluginName, {
 		init: function( editor ) {
 			editor.addCommand( pluginName, previewCmd );
-			editor.ui.addButton( 'Preview', {
+			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview,
 				command: pluginName
 			});

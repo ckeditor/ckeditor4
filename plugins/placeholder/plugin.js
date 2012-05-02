@@ -27,7 +27,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( 'createplaceholder', new CKEDITOR.dialogCommand( 'createplaceholder' ) );
 			editor.addCommand( 'editplaceholder', new CKEDITOR.dialogCommand( 'editplaceholder' ) );
 
-			editor.ui.addButton( 'CreatePlaceholder', {
+			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
 				label: lang.toolbar,
 				command: 'createplaceholder',
 				icon: this.path + 'placeholder.gif'

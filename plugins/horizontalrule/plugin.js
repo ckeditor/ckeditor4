@@ -33,7 +33,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( pluginName, {
 		init: function( editor ) {
 			editor.addCommand( pluginName, horizontalruleCmd );
-			editor.ui.addButton( 'HorizontalRule', {
+			editor.ui.addButton && editor.ui.addButton( 'HorizontalRule', {
 				label: editor.lang.horizontalrule,
 				command: pluginName
 			});

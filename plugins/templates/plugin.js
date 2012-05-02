@@ -12,7 +12,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			editor.addCommand( 'templates', new CKEDITOR.dialogCommand( 'templates' ) );
 
-			editor.ui.addButton( 'Templates', {
+			editor.ui.addButton && editor.ui.addButton( 'Templates', {
 				label: editor.lang.templates.button,
 				command: 'templates'
 			});

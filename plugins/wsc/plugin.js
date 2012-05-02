@@ -18,7 +18,7 @@ CKEDITOR.plugins.add( 'wsc', {
 		// SpellChecker doesn't work in Opera and with custom domain
 		command.modes = { wysiwyg: ( !CKEDITOR.env.opera && !CKEDITOR.env.air && document.domain == window.location.hostname ) };
 
-		editor.ui.addButton( 'SpellChecker', {
+		editor.ui.addButton && editor.ui.addButton( 'SpellChecker', {
 			label: editor.lang.spellCheck.toolbar,
 			command: commandName
 		});

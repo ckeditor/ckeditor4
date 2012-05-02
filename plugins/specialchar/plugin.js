@@ -11,6 +11,7 @@ CKEDITOR.plugins.add( 'specialchar', {
 	// List of available localizations.
 	availableLangs: { en:1 },
 
+	requires: [ 'dialog' ],
 	init: function( editor ) {
 		var pluginName = 'specialchar',
 			plugin = this;
@@ -33,7 +34,7 @@ CKEDITOR.plugins.add( 'specialchar', {
 		});
 
 		// Register the toolbar button.
-		editor.ui.addButton( 'SpecialChar', {
+		editor.ui.addButton && editor.ui.addButton( 'SpecialChar', {
 			label: editor.lang.specialChar.toolbar,
 			command: pluginName
 		});
