@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
 
 			// Register the toolbar button.
-			editor.ui.addButton( 'Image', {
+			editor.ui.addButton && editor.ui.addButton( 'Image', {
 				label: editor.lang.common.image,
 				command: pluginName
 			});
