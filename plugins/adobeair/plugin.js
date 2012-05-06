@@ -82,8 +82,87 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'adobeair', {
 		onLoad: function() {
+			if ( !CKEDITOR.env.air )
+				return;
+
+			CKEDITOR.dom.document.prototype.write = CKEDITOR.tools.override( CKEDITOR.dom.document.prototype.write, function( original_write ) {
+				function appendElement( parent, tagName, fullTag, text ) {
+					var node = parent.append( tagName ),
+						attrs = CKEDITOR.htmlParser.fragment.fromHtml( fullTag ).children[ 0 ].attributes;
+					attrs && node.setAttributes( attrs );
+					text && node.append( parent.getDocument().createText( text ) );
+				}
+
+				return function( html, mode ) {
+					// document.write() or document.writeln() fail silently after
+					// the page load event in Adobe AIR.
+					// DOM manipulation could be used instead.
+					if ( this.getBody() ) {
+						// We're taking the below extra work only because innerHTML
+						// on <html> element doesn't work as expected.
+						var doc = this,
+							head = this.getHead();
+
+						// Create style nodes for inline css. ( <style> content doesn't applied when setting via innerHTML )
+						html = html.replace( /(<style[^>]*>)([\s\S]*?)<\/style>/gi, function( match, startTag, styleText ) {
+							appendElement( head, 'style', startTag, styleText );
+							return '';
+						});
+
+						html = html.replace( /<base\b[^>]*\/>/i, function( match ) {
+							appendElement( head, 'base', match );
+							return '';
+						});
+
+						html = html.replace( /<title>([\s\S]*)<\/title>/i, function( match, title ) {
+							doc.$.title = title;
+							return '';
+						});
+
+						// Move the rest of head stuff.
+						html = html.replace( /<head>([\s\S]*)<\/head>/i, function( headHtml ) {
+							// Inject the <head> HTML inside a <div>.
+							// Do that before getDocumentHead because WebKit moves
+							// <link css> elements to the <head> at this point.
+							var div = new CKEDITOR.dom.element( 'div', doc );
+							div.setHtml( headHtml );
+							// Move the <div> nodes to <head>.
+							div.moveChildren( head );
+							return '';
+						});
+
+						html.replace( /(<body[^>]*>)([\s\S]*)(?=$|<\/body>)/i, function( match, startTag, innerHTML ) {
+							doc.getBody().setHtml( innerHTML );
+							var attrs = CKEDITOR.htmlParser.fragment.fromHtml( startTag ).children[ 0 ].attributes;
+							attrs && doc.getBody().setAttributes( attrs );
+						});
+					} else
+						original_write.apply( this, arguments );
+				};
+			});
+
 			// Body doesn't get default margin on AIR.
 			CKEDITOR.addCss( 'body.cke_editable { padding: 8px }' );
+			CKEDITOR.ui.on( 'ready', function( evt ) {
+				var ui = evt.data;
+				// richcombo, panelbutton and menu
+				if ( ui._.panel ) {
+					var panel = ui._.panel._.panel,
+						holder;
+
+					(function() {
+						// Adding dom event listeners off-line are not supported in AIR,
+						// waiting for panel iframe loaded.
+						if ( !panel.isLoaded ) {
+							setTimeout( arguments.callee, 30 );
+							return;
+						}
+						holder = panel._.holder;
+						convertInlineHandlers( holder );
+					})();
+				} else if ( ui instanceof CKEDITOR.dialog )
+					convertInlineHandlers( ui._.element );
+			});
 		},
 		init: function( editor ) {
 			if ( !CKEDITOR.env.air )
@@ -111,81 +190,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 		}
 	});
-
-	CKEDITOR.ui.on( 'ready', function( evt ) {
-		var ui = evt.data;
-		// richcombo, panelbutton and menu
-		if ( ui._.panel ) {
-			var panel = ui._.panel._.panel,
-				holder;
-
-			(function() {
-				// Adding dom event listeners off-line are not supported in AIR,
-				// waiting for panel iframe loaded.
-				if ( !panel.isLoaded ) {
-					setTimeout( arguments.callee, 30 );
-					return;
-				}
-				holder = panel._.holder;
-				convertInlineHandlers( holder );
-			})();
-		} else if ( ui instanceof CKEDITOR.dialog )
-			convertInlineHandlers( ui._.element );
-	});
 })();
-
-CKEDITOR.dom.document.prototype.write = CKEDITOR.tools.override( CKEDITOR.dom.document.prototype.write, function( original_write ) {
-	function appendElement( parent, tagName, fullTag, text ) {
-		var node = parent.append( tagName ),
-			attrs = CKEDITOR.htmlParser.fragment.fromHtml( fullTag ).children[ 0 ].attributes;
-		attrs && node.setAttributes( attrs );
-		text && node.append( parent.getDocument().createText( text ) );
-	}
-
-	return function( html, mode ) {
-		// document.write() or document.writeln() fail silently after
-		// the page load event in Adobe AIR.
-		// DOM manipulation could be used instead.
-		if ( this.getBody() ) {
-			// We're taking the below extra work only because innerHTML
-			// on <html> element doesn't work as expected.
-			var doc = this,
-				head = this.getHead();
-
-			// Create style nodes for inline css. ( <style> content doesn't applied when setting via innerHTML )
-			html = html.replace( /(<style[^>]*>)([\s\S]*?)<\/style>/gi, function( match, startTag, styleText ) {
-				appendElement( head, 'style', startTag, styleText );
-				return '';
-			});
-
-			html = html.replace( /<base\b[^>]*\/>/i, function( match ) {
-				appendElement( head, 'base', match );
-				return '';
-			});
-
-			html = html.replace( /<title>([\s\S]*)<\/title>/i, function( match, title ) {
-				doc.$.title = title;
-				return '';
-			});
-
-			// Move the rest of head stuff.
-			html = html.replace( /<head>([\s\S]*)<\/head>/i, function( headHtml ) {
-				// Inject the <head> HTML inside a <div>.
-				// Do that before getDocumentHead because WebKit moves
-				// <link css> elements to the <head> at this point.
-				var div = new CKEDITOR.dom.element( 'div', doc );
-				div.setHtml( headHtml );
-				// Move the <div> nodes to <head>.
-				div.moveChildren( head );
-				return '';
-			});
-
-			html.replace( /(<body[^>]*>)([\s\S]*)(?=$|<\/body>)/i, function( match, startTag, innerHTML ) {
-				doc.getBody().setHtml( innerHTML );
-				var attrs = CKEDITOR.htmlParser.fragment.fromHtml( startTag ).children[ 0 ].attributes;
-				attrs && doc.getBody().setAttributes( attrs );
-			});
-		} else
-			original_write.apply( this, arguments );
-	};
-});
