@@ -59,9 +59,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( sheet.href && sheet.href.substr( 0, 9 ) == 'chrome://' )
 				continue;
 
-			var sheetRules = sheet.cssRules || sheet.rules;
-			for ( var j = 0; j < sheetRules.length; j++ )
-				aRules.push( sheetRules[ j ].selectorText );
+			// Bulletproof with x-domain content stylesheet.
+			try {
+				var sheetRules = sheet.cssRules || sheet.rules;
+				for ( var j = 0; j < sheetRules.length; j++ )
+					aRules.push( sheetRules[ j ].selectorText );
+			} catch ( e ) {}
 		}
 
 		var aClasses = parseClasses( aRules, skipSelectors, validSelectors );
