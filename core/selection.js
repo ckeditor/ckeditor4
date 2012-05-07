@@ -1506,8 +1506,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * Remove all the selection ranges from the document.
 		 */
 		removeAllRanges: function() {
-			var native = this.getNative();
-			( native.removeAllRanges || native.empty ).call( native );
+			var nativ = this.getNative();
+			( nativ.removeAllRanges || nativ.empty ).call( nativ );
 
 			this.reset();
 		}
