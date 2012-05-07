@@ -132,6 +132,11 @@ if ( !CKEDITOR.loader ) {
 			 * alert( <b>CKEDITOR.loader.loadedScripts</b> );
 			 */
 			loadedScripts: [],
+			/**
+			 * Table of script names and their dependencies
+			 * @type Array
+			 */
+			scripts: scripts,
 
 			loadPending: function() {
 				var scriptName = pendingLoad.shift();
