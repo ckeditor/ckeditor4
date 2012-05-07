@@ -55,8 +55,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		'</a>' );
 
 	CKEDITOR.plugins.add( 'elementspath', {
-		requires: [ 'selection' ],
-
 		init: function( editor ) {
 			var spaceId = editor.ui.spaceId( 'path' );
 			var spaceElement;
