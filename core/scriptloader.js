@@ -149,7 +149,7 @@ CKEDITOR.scriptLoader = (function() {
 					// Append it to <head>.
 					script.appendTo( CKEDITOR.document.getHead() );
 
-					CKEDITOR.fire( 'download', url ); // @Packager.RemoveLine
+					CKEDITOR.fire( 'download', url ); // %REMOVE_LINE%
 				};
 
 			showBusy && CKEDITOR.document.getDocumentElement().setStyle( 'cursor', 'wait' );

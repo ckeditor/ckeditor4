@@ -151,7 +151,7 @@ CKEDITOR.on( 'instanceDestroyed', function() {
 });
 
 // Load the bootstrap script.
-CKEDITOR.loader.load( '_bootstrap' ); // @Packager.RemoveLine
+CKEDITOR.loader.load( '_bootstrap' ); // %REMOVE_LINE%
 
 // Tri-state constants.
 /**
