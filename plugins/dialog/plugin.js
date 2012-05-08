@@ -25,7 +25,7 @@ CKEDITOR.DIALOG_RESIZE_WIDTH = 1;
  */
 CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
 
-/*
+/**
  * Allow the dialog to be resized in both directions.
  * @constant
  */
