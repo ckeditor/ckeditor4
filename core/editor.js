@@ -345,7 +345,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						var plugin = pluginsArray[ i ];
 
 						// Uses the first loop to update the language entries also.
-						if ( m === 0 && languageCodes[ i ] && plugin.lang )
+						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
 							CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ languageCodes[ i ] ] );
 
 						// Call the plugin method (beforeInit and init).
