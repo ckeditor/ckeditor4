@@ -682,7 +682,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
 						table = parent;
 
-					var range = new CKEDITOR.dom.range( editor.document );
+					var range = editor.createRange();
 					range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
 					table.remove();
 					range.select();

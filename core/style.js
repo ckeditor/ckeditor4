@@ -424,7 +424,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						// In the case of an element node, it will be included
 						// only if it is entirely inside the range.
 						if ( !styleRange && ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] || ( currentNode.getPosition( lastNode ) | CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
-							styleRange = new CKEDITOR.dom.range( document );
+							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
 

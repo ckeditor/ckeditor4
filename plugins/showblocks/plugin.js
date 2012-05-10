@@ -127,6 +127,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.addCss( cssTemplate.replace( /%1/g, 'background-image: url(' + CKEDITOR.getUrl( this.path ) + 'images/block_' ).replace( /%2/g, 'cke_show_blocks ' ) + cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
 		},
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			var command = editor.addCommand( 'showblocks', commandDefinition );
 			command.canUndo = false;
 

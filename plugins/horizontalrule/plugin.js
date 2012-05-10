@@ -12,7 +12,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		canUndo: false, // The undo snapshot will be handled by 'insertElement'.
 		exec: function( editor ) {
 			var hr = editor.document.createElement( 'hr' ),
-				range = new CKEDITOR.dom.range( editor.document );
+				range = editor.createRange();
 
 			editor.insertElement( hr );
 
@@ -32,6 +32,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Register a plugin named "horizontalrule".
 	CKEDITOR.plugins.add( pluginName, {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			editor.addCommand( pluginName, horizontalruleCmd );
 			editor.ui.addButton && editor.ui.addButton( 'HorizontalRule', {
 				label: editor.lang.horizontalrule,

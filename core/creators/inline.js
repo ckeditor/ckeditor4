@@ -5,8 +5,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 (function() {
+	var tags = CKEDITOR.dtd.$editable;
+
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.dom.element.get( element );
+
+		if ( !( element.getName() in tags ) )
+			throw '[CKEDITOR.inline] Inline editing not supported on "' + element.getName() + '" elements.';
 
 		var editor = new CKEDITOR.editor( instanceConfig );
 
@@ -58,10 +63,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Initialize all elements with contenteditable=true.
 	CKEDITOR.inlineAll = function() {
-		var elements = CKEDITOR.dtd.$editable,
-			el, data;
+		var el, data;
 
-		for ( var name in elements ) {
+		for ( var name in tags ) {
 			var elements = CKEDITOR.document.getElementsByTag( name );
 
 			for ( var i = 0, len = elements.count(); i < len; i++ ) {

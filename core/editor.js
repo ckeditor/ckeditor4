@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -200,6 +201,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
 		editor.readOnly = !!( editor.config.readOnly || ( editor.element && editor.element.getAttribute( 'disabled' ) ) );
+
+		/**
+		 * Indicates that the editor is running into an environment where
+		 * no block elements are accepted inside the content.
+		 * @name CKEDITOR.editor.prototype.blockless
+		 * @type Boolean
+		 */
+		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
 
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
@@ -453,6 +462,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		elementPath: function( startNode ) {
 			startNode = startNode || this.getSelection().getStartElement();
 			return new CKEDITOR.dom.elementPath( startNode, this.editable() );
+		},
+
+		/**
+		 * Shortcut to create a {@link CKEDITOR.dom.range} instance from the editable element.
+		 * @see {CKEDITOR.dom.range}
+		 * @return {CKEDITOR.dom.range} The dom range created if the editable has presented.
+		 */
+		createRange: function() {
+			var editable = this.editable();
+			return editable ? new CKEDITOR.dom.range( editable ) : null;
 		},
 
 		/**

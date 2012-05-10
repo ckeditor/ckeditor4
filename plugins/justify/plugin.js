@@ -68,7 +68,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function onDirChanged( e ) {
 		var editor = e.editor;
 
-		var range = new CKEDITOR.dom.range( editor.document );
+		var range = editor.createRange();
 		range.setStartBefore( e.data.node );
 		range.setEndAfter( e.data.node );
 
@@ -167,6 +167,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'justify', {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			var left = new justifyCommand( editor, 'justifyleft', 'left' ),
 				center = new justifyCommand( editor, 'justifycenter', 'center' ),
 				right = new justifyCommand( editor, 'justifyright', 'right' ),

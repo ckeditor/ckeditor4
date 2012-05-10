@@ -73,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function switchDir( element, dir, editor, database ) {
-		if ( element.isReadOnly() )
+		if ( element.isReadOnly() || element.equals( editor.editable() ) )
 			return;
 
 		// Mark this element as processed by switchDir.
@@ -195,6 +195,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.add( 'bidi', {
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			// All buttons use the same code to register. So, to avoid
 			// duplications, let's use this tool function.
 			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandExec ) {

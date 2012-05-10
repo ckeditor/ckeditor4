@@ -13,6 +13,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	CKEDITOR.plugins.add( 'div', {
 		requires: [ 'dialog' ],
 		init: function( editor ) {
+			if ( editor.blockless )
+				return;
+
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv' ) );
@@ -27,10 +30,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						toRemove = [];
 
 					function findDiv( node ) {
-						var path = editor.elementPath( node ),
-							blockLimit = path.blockLimit,
-							div = blockLimit.is( 'div' ) && blockLimit;
-
+						var div = CKEDITOR.plugins.div.getSurroundDiv( editor, node )
 						if ( div && !div.data( 'cke-div-added' ) ) {
 							toRemove.push( div );
 							div.data( 'cke-div-added' );
@@ -82,10 +82,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( !element || element.isReadOnly() )
 							return null;
 
-						var elementPath = editor.elementPath( element ),
-							blockLimit = elementPath.blockLimit;
 
-						if ( blockLimit && blockLimit.getAscendant( 'div', true ) ) {
+						if ( CKEDITOR.plugins.div.getSurroundDiv( editor ) ) {
 							return {
 								editdiv: CKEDITOR.TRISTATE_OFF,
 								removediv: CKEDITOR.TRISTATE_OFF
@@ -101,4 +99,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.dialog.add( 'editdiv', this.path + 'dialogs/div.js' );
 		}
 	});
+
+	CKEDITOR.plugins.div = {
+		getSurroundDiv: function( editor, start ) {
+			var path = editor.elementPath( start ),
+				editable = editor.editable(),
+				div = path.blockLimit.getAscendant( 'div', true );
+
+			return editable.contains( div ) ? div : null;
+		}
+	};
 })();

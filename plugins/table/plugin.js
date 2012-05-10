@@ -6,6 +6,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.add( 'table', {
 	requires: [ 'dialog' ],
 	init: function( editor ) {
+		if ( editor.blockless )
+			return;
+
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
 

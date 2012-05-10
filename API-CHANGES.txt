@@ -39,3 +39,7 @@ The following skin related properties have been deleted:
 	- CKEDITOR.editor::skinName => now CKEDITOR.skin.name
 	- CKEDITOR.editor::skinPath => now CKEDITOR.skin.getPath( 'editor' )
 	- CKEDITOR.editor::skinClass => deprecated
+
+---
+
+"new CKEDITOR.dom.range( document, root )" changed to "new CKEDITOR.dom.range( root )".

@@ -49,15 +49,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var elementName = e.getName();
 
 				if ( !blockLimit ) {
-					if ( !block && pathBlockElements[ elementName ] && !e.equals( root ) )
+					if ( !block && pathBlockElements[ elementName ] )
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
-						// DIV is considered the Block, if no block is available (#525)
-						// and if it doesn't contain other blocks.
-						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) )
+						// End level DIV is considered as the block, if no block is available. (#525)
+						// But it must NOT be as the root element.
+						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) ) {
 							block = e;
-						else
+						} else
 							blockLimit = e;
 					}
 				}
