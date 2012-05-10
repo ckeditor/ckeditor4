@@ -110,6 +110,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			this._.editor = editor;
 
 			var instance = {
+				type: CKEDITOR.UI_BUTTON,
 				id: id,
 				button: this,
 				editor: editor,
