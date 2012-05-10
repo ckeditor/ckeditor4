@@ -451,7 +451,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					applyStyle = true;
 
 				// Get the next node to be processed.
-				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly );
+				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly && !includeReadonly );
 			}
 
 			// Apply the style if we have something to which apply it.
