@@ -18,8 +18,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		EDGE_TOP = 1,
 		EDGE_BOTTOM = 2,
+		EDGE_MIDDLE = 3,
 		TYPE_EDGE = 1,
 		TYPE_EXPAND = 2,
+		LOOK_TOP = 1,
+		LOOK_NORMAL = 2,
+		LOOK_BOTTOM = 3,
 		SIGHT_SCROLL = 50,
 
 		// Pure debug. Dev-only.
@@ -67,7 +71,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					tr_type.setText( trigger.type === TYPE_EXPAND ? 'EXPAND' : 'EDGE' );
 					tr_upper.setText( upper ? upper.getName() + ', class=' + upper.getAttribute( 'class' ) : 'NULL' );
 					tr_lower.setText( lower ? lower.getName() + ', class=' + lower.getAttribute( 'class' ) : 'NULL' );
-					tr_edge.setText( trigger.edge ? trigger.edge === EDGE_TOP ? 'EDGE_TOP' : 'EDGE_BOTTOM' : 'NULL' );
+					tr_edge.setText( trigger.edge ? [ 'EDGE_TOP', 'EDGE_BOTTOM', 'EDGE_MIDDLE' ][ trigger.edge - 1 ] : 'NULL' );
 
 					upper && ( tup = upper ) && tup.setAttribute( 'id', 'tup' );
 					lower && ( tbo = lower ) && tbo.setAttribute( 'id', 'tbo' );
@@ -97,10 +101,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		};
 
-	CKEDITOR.addCss( '\
-		#tup { outline: #FEB2B2 solid 2px; box-shadow: 3px 3px 0 #FEB2B2; } \
-		#tbo { outline: #B2FEB2 solid 2px; box-shadow: 3px 3px 0 #B2FEB2; } \
-	' );
+	// CKEDITOR.addCss('\
+	// 	#tup { outline: #FEB2B2 solid 2px; box-shadow: 3px 3px 0 #FEB2B2; } \
+	// 	#tbo { outline: #B2FEB2 solid 2px; box-shadow: 3px 3px 0 #B2FEB2; } \
+	// ');
 
 	// Generic, independent methods shared between editors
 	function getDistance( a, b ) {
@@ -173,39 +177,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		editor.on( 'contentDom', addListeners );
 
 		function initBoxElement() {
-			var triangleCommon = " \
-					width: 0px;  \
-					height: 0px;  \
-					display: block;\
-					border-top: 5px solid transparent;  \
-					border-bottom: 5px solid transparent;\
-					position: absolute;\
-					top: -5px;",
-				elementsCommon = "\
-					padding: 0px;\
-					margin: 0px;\
-					cursor: pointer;\
-					display: block;\
-					z-index: 9999;\
-					color: #fff;\
-				",
-				frontColor = '#FF0000';
+			var frontColor = '#FF0000',
+				elementsCommon = 'padding: 0px; margin: 0px; cursor: pointer; display: block; z-index: 9999; color: #fff;',
+				triangleCommon = 'width: 0px; height: 0px; border-color: transparent; display: block; border-style: solid; border-top-width: 8px; border-bottom-width: 8px; position: absolute; top: -8px;',
+				trigger;
 
-			magicBox = CKEDITOR.dom.element.createFromHtml( '<p id="magic_box" contenteditable="false" style="' + elementsCommon + 'height: 0px; position: relative;" > \
-					<span style="' + elementsCommon + 'height: 0px; position: relative; top: 0px; border-top: 1px dashed ' + frontColor + '; margin: 0 10px;"></span>\
+			magicBox = CKEDITOR.dom.element.createFromHtml( '<p id="magic_box" contenteditable="false" style="' + elementsCommon + 'height: 0px; position: relative; position: absolute" > \
+					<span style="' + elementsCommon + 'height: 0px; position: relative; top: 0px; border-top: 1px dashed ' + frontColor + ';"></span>\
 					<span style="' + elementsCommon + 'background: ' + frontColor + '; height: 15px; width: 15px; position: absolute; right: 15px; top: -7px; font-size: 12px; border-radius: 2px; text-align: center;">&crarr;</span>\
-					<span style="' + triangleCommon + 'border-left: 5px solid ' + frontColor + '; left: 0px; "></span>\
-					<span style="' + triangleCommon + 'border-right: 5px solid ' + frontColor + '; right: 0px;"></span>\
+					<span style="' + elementsCommon + 'position: absolute; left: 0px; right: 0px; top: -10px; height: 20px;"></span>\
+					<span style="' + triangleCommon + 'left: 0px; border-left-width: 8px; border-left-color: ' + frontColor + ' "></span>\
+					<span style="' + triangleCommon + 'right: 0px; border-right-width: 8px; border-right-color: ' + frontColor + ' "></span>\
 				</p>', doc );
-
-			magicBox.fillSpace = CKEDITOR.dom.element.createFromHtml( '<span style="' + elementsCommon + 'position: absolute; left: 0px; right: 0px; top: -5px; height: 10px;"></span>' );
-			magicBox.fillSpace.appendTo( magicBox );
 			magicBox.unselectable();
 
 			magicBox.on( 'mouseup', function( event ) {
 				insertParagraph( function( paragraph ) {
-					paragraph.replace( magicBox );
+					paragraph[ trigger.edge === EDGE_TOP ? 'insertBefore' : 'insertAfter' ]
+					( trigger.edge === EDGE_TOP ? trigger.lower : trigger.upper );
+					//paragraph.replace( magicBox );
 				});
+
+				magicBox.remove();
 
 				event.data.preventDefault( true );
 			});
@@ -216,8 +209,75 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				event.data.preventDefault( true );
 			});
 
-			magicBox.positionBox = function( trigger ) {
+			magicBox.changeLook = function( newLook ) {
+				switch ( newLook ) {
+					case LOOK_TOP:
+						break;
+					case LOOK_BOTTOM:
+						break;
+					case LOOK_NORMAL:
+						break;
+				}
+			}
 
+			magicBox.positionBox = function( newTrigger ) {
+				trigger = newTrigger;
+
+				var newStyle = {},
+
+					upper = trigger.upper,
+					lower = trigger.lower,
+					parent = ( upper || lower ).getParent(),
+					viewPaneSize = win.getViewPaneSize();
+
+				upper && ( upper.dimensions = getDimensions( upper, true, false, true, false ) );
+				lower && ( lower.dimensions = getDimensions( lower, true, false, true, false ) );
+				parent.dimensions = getDimensions( parent, false, false, true, true );
+
+				// Set X coordinate (left, right, width)
+				if ( parent.equals( editable ) ) {
+					newStyle.left = newStyle.right = 0;
+					newStyle.width = 'auto';
+				} else {
+					newStyle.left = ( upper || lower ).dimensions.left - ( upper || lower ).dimensions.marginLeft;
+					newStyle.width = ( upper || lower ).dimensions.width;
+					newStyle.right = 'auto';
+				}
+
+				// Set Y coordinate (top) for trigger consisting of two elements
+				if ( upper && lower ) {
+					// No margins at all or they're equal. Place box right between.
+					if ( upper.dimensions.marginBottom === lower.dimensions.marginTop )
+						newStyle.top = 0 | ( upper.dimensions.bottom + upper.dimensions.marginBottom / 2 );
+
+					else {
+						// Upper margin < lower margin. Place at lower margin.
+						if ( upper.dimensions.marginBottom < lower.dimensions.marginTop )
+							newStyle.top = upper.dimensions.bottom + upper.dimensions.marginBottom;
+						// Upper margin > lower margin. Place at upper margin - lower margin.
+						else
+							newStyle.top = upper.dimensions.bottom + upper.dimensions.marginBottom - lower.dimensions.marginTop;
+					}
+				}
+
+				// Set Y coordinate (top) for single-edge trigger
+				else if ( !upper )
+					newStyle.top = lower.dimensions.top - lower.dimensions.marginTop;
+				else if ( !lower )
+					newStyle.top = upper.dimensions.bottom + upper.dimensions.marginBottom;
+
+				if ( inRange( newStyle.top, [ 0, 5 ] ) ) {
+					newStyle.top = 0;
+					magicBox.changeLook( LOOK_TOP );
+				}
+
+				magicBox.changeLook( LOOK_NORMAL );
+
+				// Append `px` prefix
+				for ( var s in newStyle )
+					newStyle[ s ] = newStyle[ s ] + ( typeof newStyle[ s ] === 'number' ? 'px' : '' );
+
+				magicBox.setStyles( newStyle );
 			}
 		}
 
@@ -235,9 +295,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.getSelection().selectRanges( [ range ] );
 		}
 
-		function getMidpoint( upper, lower ) {
-			var upperDims = getDimensions( upper ),
-				lowerDims = getDimensions( lower ),
+		function getMidpoint( upper, lower, ignoreScroll ) {
+			var upperDims = getDimensions( upper, false, false, ignoreScroll ),
+				lowerDims = getDimensions( lower, false, false, ignoreScroll ),
 
 				bottom = upperDims ? upperDims.bottom : null,
 				top = lowerDims ? lowerDims.top : null;
@@ -258,26 +318,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			&& !isFloated( node ); // 	-> Ignore floated elements
 		}
 
-		function getDimensions( element ) {
+		// Collects dimensions of an element.
+		// @param {element} an element to be measured
+		// @param {withMargins} include element's margins in returned object
+		// @param {withPaddings} include element's paddings in returned object
+		// @param {ignoreScroll} ignore scroll offsets in left/top coordinates
+		// @param {ignorePadding} use getComputedStyle() instead of offsetWidth|Height
+		function getDimensions( element, withMargins, withPaddings, ignoreScroll, ignorePadding ) {
 			if ( !isHtml( element ) )
 				return null;
 
-			var elementTop = element.getDocumentPosition( doc ).y - editor.window.getScrollPosition().y,
-				elementHeight = element.$.offsetHeight,
-				elementBottom = elementTop + elementHeight,
+			var dimensions = {},
+				prefixes = { margin: withMargins, padding: withPaddings },
+				prefixesValues = {},
+				sides = [ 'Top', 'Right', 'Bottom', 'Left' ];
 
-				elementLeft = element.getDocumentPosition( doc ).x - editor.window.getScrollPosition().x,
-				elementWidth = element.$.offsetWidth,
-				elementRight = elementLeft + elementWidth;
+			var top = element.getDocumentPosition( doc ).y - ( ignoreScroll ? 0 : editor.window.getScrollPosition().y ),
+				height = ignorePadding ? element.getComputedStyle( 'height' ) : element.$.offsetHeight,
+				bottom = top + height,
 
-			return {
-				bottom: elementBottom,
-				height: elementHeight,
-				left: elementLeft,
-				right: elementRight,
-				top: elementTop,
-				width: elementWidth
-			};
+				left = element.getDocumentPosition( doc ).x - ( ignoreScroll ? 0 : editor.window.getScrollPosition().x ),
+				width = ignorePadding ? element.getComputedStyle( 'width' ) : element.$.offsetWidth,
+				right = left + width;
+
+			CKEDITOR.tools.extend( dimensions, { bottom: bottom, height: height, left: left, right: right, top: top, width: width } );
+
+			for ( var prefix in prefixes )
+				if ( prefixes[ prefix ] )
+				for ( var i = sides.length; i--; )
+				prefixesValues[ prefix + sides[ i ] ] = parseInt( element.getComputedStyle( prefix + '-' + sides[ i ].toLowerCase() ).replace( /\D+/g, '' ), 10 ) || 0;
+
+			return CKEDITOR.tools.extend( dimensions, prefixesValues );
 		}
 
 		function elementFromMouse( mouse, ignoreBox ) {
@@ -461,7 +532,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Success: two siblings have been found
 				if ( areSiblings( upper, lower ) )
 					return CKEDITOR.tools.extend( trigger, {
-					edge: EDGE_BOTTOM,
+					edge: EDGE_MIDDLE,
 					type: TYPE_EXPAND
 				});
 
@@ -490,7 +561,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			//		2.3. Gather dimensions of an upper element
 			//		2.4. Abort if lower edge of upper is already under the mouse pointer. Why?:
 			//			a) 	We expect upper to be above and lower below the mouse pointer.
+			//	3. Perform iterative search while upper != lower
+			//		3.1. Find the upper-next element. If there's no such element, break current search. Why?:
+			//			a)	There's no point in further search if there are only text nodes ahead.
+			//		3.2. Calculate the distance between the middle point of ( upper, upperNext ) and mouse-y
+			//		3.3. If the distance is shorter than the previous best, save it (save upper, upperNext as well).
+			//		3.4. If the optimal pair is found, assign it back to the trigger.
 
+			// 1.1., 1.2.
 			if ( !upper || startElement.contains( upper ) )
 				while ( !upper.getParent().equals( startElement ) )
 				upper = upper.getParent();
@@ -503,33 +581,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			else
 				lower = startElement.getLast();
 
-			// Just in case startElement has no children
+			// 1.3.
 			if ( !upper || !lower )
 				return null;
 
-			// Just in case upper was a text node.
-			// We need HTML node because dimensions are required.
+			// 2.1.
 			if ( !isHtml( upper ) ) {
+				// 2.2.
 				if ( !( upper = upper.getNext( omitIrrelevant ) ) )
 					return null;
 			}
 
-			// Do post-processing.
+			// 2.3.
 			var upperDimensions = getDimensions( upper ),
 				minDistance = Number.MAX_VALUE,
 				currentDistance, upperNext, minElement, minElementNext;
 
-			// Failure: In that case post-processing is pointless since we don't
-			// need to search below the pointer.
+			// 2.4.
 			if ( upperDimensions.bottom > mouse[ 1 ] )
 				return null;
 
 			while ( !trigger.lower.equals( upper ) ) {
+				// 3.1.
 				if ( !( upperNext = upper.getNext( omitIrrelevant ) ) )
 					break;
 
+				// 3.2.
 				currentDistance = getDistance( getMidpoint( upper, upperNext ), mouse[ 1 ] );
 
+				// 3.3.
 				if ( currentDistance < minDistance ) {
 					minDistance = currentDistance;
 					minElement = upper;
@@ -540,21 +620,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				upperDimensions = getDimensions( upper );
 			}
 
-			// DEBUG.logElements( [ startElement, upper, lower ], [ 'start', 'upper', 'lower' ] );
-			// DEBUG.logElements( [ minElement, minElementNext ], [ 'min', 'minNext' ] );
+			// DEBUG.logElements( [ startElement, upper, lower ], [ 'start,upper,lower' ] );
+			// DEBUG.logElements( [ minElement, minElementNext ], [ 'min,minNext' ] );
 
-			// Failure: This trigger must return two elements
+			// 3.4.
 			if ( !minElement || !minElementNext )
 				return null;
 
-			// An element of minimal distance has been found.
-			// Assign it to the trigger.
+			// An element of minimal distance has been found. Assign it to the trigger.
 			trigger.upper = minElement;
 			trigger.lower = minElementNext;
 
 			// Success: post-processing revealed a pair of elements
 			return CKEDITOR.tools.extend( trigger, {
-				edge: EDGE_BOTTOM,
+				edge: EDGE_MIDDLE,
 				type: TYPE_EXPAND
 			});
 		}
@@ -641,18 +720,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// If trigger exists, and trigger is correct -> show the box
 				if ( ( trigger = edgeTrigger( event ) || expandTrigger( event ) ) && triggerFilter( trigger ) ) {
-					if ( trigger.edge === EDGE_TOP )
-						magicBox.insertBefore( trigger.lower );
-					else
-						magicBox.insertAfter( trigger.upper );
+					//if ( trigger.edge === EDGE_TOP )
+					//	magicBox.insertBefore( trigger.lower );
+					//else
+					//	magicBox.insertAfter( trigger.upper );
+					magicBox.appendTo( editable );
+					magicBox.positionBox( trigger );
 
 					// If box insertion made the upper edge of trigger.lower to
 					// disappear below the viewport area, revert it immediately.
-					if ( trigger.lower && outOfViewport( trigger.lower ) )
-						return magicBox.remove();
+					//if ( trigger.lower && outOfViewport( trigger.lower ) )
+					//	return magicBox.remove();
 
 					// Scroll if the box is slightly out of the viewport.
-					croppedByViewport( magicBox.fillSpace, true );
+					// croppedByViewport( magicBox.fillSpace, true );
 				}
 
 				// Otherwise remove the box
