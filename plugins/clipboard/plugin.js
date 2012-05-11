@@ -110,26 +110,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, '$1' );
 
 					// This br is produced only when copying & pasting HTML content.
-					// Mark with special class - prevent recognising as htmlified text.
-					data = data.replace( /<br class="Apple-interchange-newline">/g, '<br class="cke-pasted">' );
+					if ( data.indexOf( '<br class="Apple-interchange-newline">' ) > -1 ) {
+						evt.data.startsWithEOL = 1;
+						evt.data.preSniffing = 'html'; // Mark as not text.
+						data = data.replace( /<br class="Apple-interchange-newline">/, '' );
+					}
 
 					// Remove all other classes.
 					data = data.replace( /(<[^>]+) class="Apple-[^"]*"/gi, '$1' );
 				}
 
-				if ( CKEDITOR.env.gecko ) {
-					// Last <br></p> -> </p><br>
-					// Helps handling copied line breaks.
-					data = data.replace( /<br><\/(\w+)>$/, function( match, elementName ) {
-						return ( elementName in blockElements ) ? '</' + elementName + '><br class="cke-pasted">' : match;
-					});
-				} else if ( CKEDITOR.env.ie ) {
-					// &nbsp; <p> -> <br><p>
-					data = data.replace( /^&nbsp; <(\w+)/, function( match, elementName ) {
-						return ( elementName in blockElements ) ? '<br class="cke-pasted"><' + elementName : match;
+				if ( CKEDITOR.env.ie ) {
+					// &nbsp; <p> -> <p> (br.cke-pasted-remove will be removed later)
+					data = data.replace( /^&nbsp;(?: |\r\n)?<(\w+)/g, function( match, elementName ) {
+						if ( elementName.toLowerCase() in blockElements ) {
+							evt.data.preSniffing = 'html'; // Mark as not a text.
+							return '<' + elementName;
+						}
+						return match;
 					});
 				} else if ( CKEDITOR.env.webkit ) {
-					data = data.replace( /<div><br><\/div>$/, '<br>' );
+					// </p><div><br></div> -> </p><br>
+					// We don't mark br, because this situation can happen for htmlified text too.
+					data = data.replace( /<\/(\w+)><div><br><\/div>$/, function( match, elementName ) {
+						if ( elementName in blockElements ) {
+							evt.data.endsWithEOL = 1;
+							return '</' + elementName + '>';
+						}
+						return match;
+					});
 				}
 
 				evt.data.data = data;
@@ -143,7 +152,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					trueType;
 
 				// If forced type is 'html' we don't need to know true data type.
-				if ( type != 'html' )
+				if ( type == 'html' || dataObj.preSniffing == 'html' )
+					trueType = 'html';
+				else
 					trueType = recogniseContentType( data, isHtmlified );
 
 				// Htmlify.
@@ -158,16 +169,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					data = htmlTextification( data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
 				}
 
-				// Remove class="cke-pasted" which helped us accurately recognise content type.
-				data = data.replace( /(<[^>]+) class="cke-pasted"/g, '$1' );
+				if ( dataObj.startsWithEOL )
+					data = '<br data-cke-eol="1">' + data;
+				if ( dataObj.endsWithEOL )
+					data += '<br data-cke-eol="1">';
 
 				if ( type == 'auto' )
 					type = ( trueType == 'html' ? 'html' : 'text' );
 
 				dataObj.htmlified = true;
-
 				dataObj.type = type;
 				dataObj.data = data;
+				delete dataObj.preSniffing;
+				delete dataObj.startsWithEOL;
+				delete dataObj.endsWithEOL;
 			}, null, null, 6 );
 
 			// Inserts processed data into the editor at the end of the
@@ -233,11 +248,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @param {Function} callback Function that will be executed with data.type and data.data or null if none
 		 * 		of the capturing method succeeded.
 		 * @example
-		 * editor.getClipboardData( function( data )
+		 * editor.getClipboardData( { title : 'Get my data' }, function( data )
 		 * {
 		 *		if ( data )
 		 *			alert( data.type + ' ' + data.data );
-		 * }, { title : 'Get my data' } );
+		 * });
 		 */
 		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
@@ -827,52 +842,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	//		See clipboard/paste.html TCs for more info.
 	// * 'html' if it's neither 'text' nor 'htmlifiedtext'.
 	function recogniseContentType( data, isHtmlified ) {
-		var parser = new CKEDITOR.htmlParser(),
-			isHtmlifiedText = false,
-			acceptableTextTags = { br:1,div:1,p:1 },
-			isEmpty = CKEDITOR.tools.isEmpty,
-			nestingLevel = 0;
+		if ( !isHtmlified && !data.match( /<[^>]+>/g ) && !data.match( /&([a-z0-9]+|#[0-9]+);/gi ) )
+			return 'text';
 
-		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
-			if ( acceptableTextTags[ tagName ] && isEmpty( attributes ) )
-				isHtmlifiedText = true;
-			else
-				throw 0;
-
-			if ( tagName == 'br' )
-				return;
-
-			// For plain text browsers generate only ps|divs containing brs.
-			// Deep nesting means real HTML.
-			if ( nestingLevel )
-				throw 0;
-
-			!selfClosing && nestingLevel++;
-		};
-		parser.onTagClose = function( tagName ) {
-			if ( acceptableTextTags[ tagName ] )
-				isHtmlifiedText = true;
-			else
-				throw 0;
-
-			nestingLevel--;
-		};
-		parser.onComment = parser.onCDATA = function() {
-			throw 0;
-		};
-
-		try {
-			parser.parse( data );
-		} catch ( e ) {
-			// Make sure we caught a right exception.
-			if ( e !== 0 )
-				throw e;
-			// For performance reason stop parsing if HTML found.
+		if ( CKEDITOR.env.webkit ) {
+			// Plain text or ( <div><br></div> and text inside <div> ).
+			if ( !data.match( /^[^<]*$/g ) && !data.match( /^(<div><br( ?\/)?><\/div>|<div>[^<]*<\/div>)*$/gi ) )
+				return 'html';
+		} else if ( CKEDITOR.env.ie ) {
+			// Text or <br> or text and <br> in <p>.
+			if ( !data.match( /^([^<]|<br( ?\/)?>|<p>([^<]|<br( ?\/)?>)*<\/p>)*$/gi ) )
+				return 'html';
+		} else if ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
+			// Text or <br>.
+			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) )
+				return 'html';
+		} else
 			return 'html';
-		}
 
-		// If tags or html entities found or isHtmlified then it's htmlifiedtext.
-		return isHtmlified || isHtmlifiedText || data.match( /&[a-z]+;/i ) ? 'htmlifiedtext' : 'text';
+		return 'htmlifiedtext';
 	}
 
 	// TODO Function shouldn't check selection - context will be fixed later.
@@ -926,17 +914,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// for more info) into correct HTML (similar to that produced by text2Html).
 	function htmlifiedTextHtmlification( data ) {
 		// Replace adjacent white-spaces with one space and unify all to spaces.
-		data = data.replace( /(&nbsp;|\s)+/ig, ' ' );
+		data = data.replace( /(&nbsp;|\s)+/ig, ' ' )
 		// Remove spaces before/after opening/closing tag.
-		data = data.replace( /> /g, '>' ).replace( / </g, '<' );
+		.replace( /> /g, '>' ).replace( / </g, '<' )
+		// Normalize XHTML syntax.
+		.replace( /<br ?\/>/gi, '<br>' );
 
-		// IE.
+		// IE - lower cased tags.
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
 			return match.toLowerCase();
 		});
 
 		// Webkit.
-		if ( data.indexOf( '<div>' ) > -1 ) {
+		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
 			// Two line breaks create one paragraph in Webkit.
 			if ( data.match( /<div>(<br>| |)<\/div>/ ) )
 				data = '<p>' + data.replace( /<div>(<br>| |)<\/div>/g, '</p><p>' ) + '</p>';
@@ -946,20 +936,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Remove div tags that remained - they should be inside <p> tags.
 			// See TCs for "incorrect recognition" to see why we cannot remove all divs.
 			data = data.replace( /<\/div>(<br>)*<\/p>/g, '$1</p>' ).replace( /<p><div>/g, '<p>' );
+
+			// Remove remaining divs.
+			data = data.replace( /<\/?div>/g, '' );
 		}
 
 		// Opera and Firefox.
-		if ( data.indexOf( '<br><br>' ) > -1 ) {
+		if ( ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) && data.indexOf( '<br><br>' ) > -1 ) {
 			// Two line breaks create one paragraph, three - 2, four - 3, etc.
 			data = '<p>' + data.replace( /(<br>){2,}/g, function( match ) {
 				return CKEDITOR.tools.repeat( '</p><p>', match.length / 4 - 1 );
 			}) + '</p>';
 		}
 
-		// Fix odd number of brs (IE, Opera, Firefox).
-		data = data.replace( /<p><br>/g, '<p></p><p>' ).replace( /<br><\/p>/g, '</p><p></p>' );
-
-		return data.replace( /<p><\/p>/g, '<p>&nbsp;</p>' );
+		// Fix <brs>, but only at the beginning of the block, so we wont't break bogus <br>.
+		return data.replace( /<p><br>/g, '<p></p><p>' );
 	}
 
 	// Filter can be editor dependent.
