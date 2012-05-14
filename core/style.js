@@ -195,7 +195,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ? compareCssText( attribs[ attName ], normalizeCssText( elementAttr, false ) ) : attribs[ attName ] == elementAttr ) {
+						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -295,7 +295,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Browsers make some changes to the style when applying them. So, here
 		// we normalize it to the browser format.
 		if ( stylesText.length )
-			stylesText = normalizeCssText( stylesText );
+			stylesText = CKEDITOR.tools.normalizeCssText( stylesText, true );
 
 		stylesText += specialStylesText;
 
@@ -1248,45 +1248,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return temp[ isStyle ? 'getStyle' : 'getAttribute' ]( name );
 	}
 
-	// Make the comparison of style text easier by standardizing it.
-	function normalizeCssText( unparsedCssText, nativeNormalize ) {
-		var styleText;
-		if ( nativeNormalize !== false ) {
-			// Injects the style in a temporary span object, so the browser parses it,
-			// retrieving its final format.
-			var temp = new CKEDITOR.dom.element( 'span' );
-			temp.setAttribute( 'style', unparsedCssText );
-			styleText = temp.getAttribute( 'style' ) || '';
-		} else
-			styleText = unparsedCssText;
-
-		// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
-		// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
-		styleText = styleText.replace( /(font-family:)(.*?)(?=;|$)/, function( match, prop, val ) {
-			var names = val.split( ',' );
-			for ( var i = 0; i < names.length; i++ )
-				names[ i ] = CKEDITOR.tools.trim( names[ i ].replace( /["']/g, '' ) );
-			return prop + names.join( ',' );
-		});
-
-		// Shrinking white-spaces around colon and semi-colon (#4147).
-		// Compensate tail semi-colon.
-		return styleText.replace( /\s*([;:])\s*/, '$1' ).replace( /([^\s;])$/, '$1;' )
-		// Trimming spaces after comma(#4107),
-		// remove quotations(#6403),
-		// mostly for differences on "font-family".
-		.replace( /,\s+/g, ',' ).replace( /\"/g, '' ).toLowerCase();
-	}
-
-	// Turn inline style text properties into one hash.
-	function parseStyleText( styleText ) {
-		var retval = {};
-		styleText.replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
-			retval[ name ] = value;
-		});
-		return retval;
-	}
-
 	/**
 	 * Compare two bunch of styles, with the speciality that value 'inherit'
 	 * is treated as a wildcard which will match any value.
@@ -1294,8 +1255,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {Object|String} target
 	 */
 	function compareCssText( source, target ) {
-		typeof source == 'string' && ( source = parseStyleText( source ) );
-		typeof target == 'string' && ( target = parseStyleText( target ) );
+		typeof source == 'string' && ( source = CKEDITOR.tools.parseCssText( source ) );
+		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target, true ) );
 		for ( var name in source ) {
 			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
 				return false;

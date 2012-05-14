@@ -664,36 +664,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	isIdentical: function( otherElement ) {
-		if ( this.getName() != otherElement.getName() )
-			return false;
+		// do shallow clones, but with IDs
+		var thisEl = this.clone( 0, 1 ),
+			otherEl = otherElement.clone( 0, 1 );
 
-		var thisAttribs = this.$.attributes,
-			otherAttribs = otherElement.$.attributes;
+		// Remove distractions.
+		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
+		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
 
-		var thisLength = thisAttribs.length,
-			otherLength = otherAttribs.length;
-
-		for ( var i = 0; i < thisLength; i++ ) {
-			var attribute = thisAttribs[ i ];
-
-			if ( attribute.nodeName == '_moz_dirty' )
-				continue;
-
-			if ( ( !CKEDITOR.env.ie || ( attribute.specified && attribute.nodeName != 'data-cke-expando' ) ) && attribute.nodeValue != otherElement.getAttribute( attribute.nodeName ) )
-				return false;
-		}
-
-		// For IE, we have to for both elements, because it's difficult to
-		// know how the atttibutes collection is organized in its DOM.
-		if ( CKEDITOR.env.ie ) {
-			for ( i = 0; i < otherLength; i++ ) {
-				attribute = otherAttribs[ i ];
-				if ( attribute.specified && attribute.nodeName != 'data-cke-expando' && attribute.nodeValue != this.getAttribute( attribute.nodeName ) )
-					return false;
-			}
-		}
-
-		return true;
+		// Native comparison available.
+		if ( thisEl.$.isEqualNode ) {
+			// Styles order matters.
+			thisEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( thisEl.$.style.cssText );
+			otherEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( otherEl.$.style.cssText );
+			return thisEl.$.isEqualNode( otherEl.$ );
+		} else
+			return thisEl.getOuterHtml() == otherEl.getOuterHtml();
 	},
 
 	/**
