@@ -402,6 +402,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					this.setAttribute( 'dir', dir );
 				}
 
+				// Apply tab index on demand, with original direction saved.
+				if ( editor.document.equals( CKEDITOR.document ) && this.getAttribute( 'tabIndex' ) != editor.tabIndex ) {
+					var orgTabIndex = this.getAttribute( 'dir' ) || this.getAttribute( 'tabIndex' );
+					this.setCustomData( 'org_tabindex_saved', orgTabIndex );
+					this.setAttribute( 'tabIndex', editor.tabIndex );
+				}
+
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
@@ -540,6 +547,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var orgDir = this.removeCustomData( 'org_dir_saved' );
 				if ( orgDir !== null )
 					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
+
+				// Restore original tab index.
+				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
+				if ( orgTabIndex !== null )
+					orgTabIndex ? this.setAttribute( 'tabIndex', orgTabIndex ) : this.removeAttribute( 'tabIndex' );
 
 				// Cleanup our custom classes.
 				var classes;
