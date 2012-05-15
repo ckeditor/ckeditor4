@@ -10,15 +10,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function() {
 	function getState( editor, path ) {
 		var firstBlock = path.block || path.blockLimit;
-
-		if ( !firstBlock || firstBlock.equals( editor.editable() ) )
-			return CKEDITOR.TRISTATE_OFF;
-
 		// See if the first block has a blockquote parent.
-		if ( firstBlock.getAscendant( 'blockquote', true ) )
-			return CKEDITOR.TRISTATE_ON;
-
-		return CKEDITOR.TRISTATE_OFF;
+		return editor.elementPath( firstBlock ).contains( 'blockquote' ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 	}
 
 	function onSelectionChange( evt ) {

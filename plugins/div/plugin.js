@@ -102,11 +102,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	CKEDITOR.plugins.div = {
 		getSurroundDiv: function( editor, start ) {
-			var path = editor.elementPath( start ),
-				editable = editor.editable(),
-				div = path.blockLimit.getAscendant( 'div', true );
-
-			return editable.contains( div ) ? div : null;
+			var path = editor.elementPath( start );
+			return editor.elementPath( path.blockLimit ).contains( 'div' );
 		}
 	};
 })();

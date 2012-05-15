@@ -162,7 +162,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					break;
 
 				case CKEDITOR.STYLE_OBJECT:
-					return elementPath.lastElement.getAscendant( this.element, true );
+					return elementPath.contains( this.element );
 			}
 
 			return true;
@@ -702,14 +702,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyObjectStyle( range ) {
-		var root = range.getCommonAncestor( true, true ),
-			element = root.getAscendant( this.element, true );
+		var parent = range.getCommonAncestor( true, true ),
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
+
 		element && !element.isReadOnly() && setupElement( element, this );
 	}
 
 	function removeObjectStyle( range ) {
-		var root = range.getCommonAncestor( true, true ),
-			element = root.getAscendant( this.element, true );
+		var parent = range.getCommonAncestor( true, true ),
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
 
 		if ( !element )
 			return;

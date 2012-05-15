@@ -237,21 +237,14 @@ CKEDITOR.plugins.link = {
 	 * </pre>
 	 */
 	getSelectedLink: function( editor ) {
-		try {
-			var selection = editor.getSelection();
-			if ( selection.getType() == CKEDITOR.SELECTION_ELEMENT ) {
-				var selectedElement = selection.getSelectedElement();
-				if ( selectedElement.is( 'a' ) )
-					return selectedElement;
-			}
+		var selection = editor.getSelection();
+		var selectedElement = selection.getSelectedElement();
+		if ( selectedElement && selectedElement.is( 'a' ) )
+			return selectedElement;
 
-			var range = selection.getRanges( true )[ 0 ];
-			range.shrink( CKEDITOR.SHRINK_TEXT );
-			var root = range.getCommonAncestor();
-			return root.getAscendant( 'a', true );
-		} catch ( e ) {
-			return null;
-		}
+		var range = selection.getRanges( true )[ 0 ];
+		range.shrink( CKEDITOR.SHRINK_TEXT );
+		return editor.elementPath( range.getCommonAncestor() ).contains( 'a' );
 	},
 
 	// Opera and WebKit don't make it possible to select empty anchors. Fake
