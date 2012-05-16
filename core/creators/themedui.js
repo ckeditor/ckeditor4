@@ -249,7 +249,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 */
 	CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
 		var container = this.container,
-			contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
+			contents = this.ui.space( 'contents' ),
 			contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
 			outer = resizeInner ? container.getChild( 1 ) : container;
 
