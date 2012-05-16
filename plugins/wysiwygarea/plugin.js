@@ -95,13 +95,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				editor.fire( 'ariaWidget', iframe );
 			});
-
-			editor.on( 'readOnly', function() {
-				if ( editor.mode == 'wysiwyg' ) {
-					// Simply reload the wysiwyg area. It'll take care of read-only.
-					editor.loadData( editor.getData() );
-				}
-			});
 		}
 	});
 
@@ -122,7 +115,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		body.spellcheck = !editor.config.disableNativeSpellChecker;
 
-		body.contentEditable = !editor.readOnly;
+		body.contentEditable = true;
 
 		if ( CKEDITOR.env.ie ) {
 			// Don't display the focus border.

@@ -36,8 +36,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				textarea.addClass( 'cke_source' );
 				textarea.addClass( 'cke_enable_context_menu' );
 
-				editor.readOnly && textarea.setAttribute( 'readOnly', 'readonly' );
-
 				editor.ui.space( 'contents' ).append( textarea );
 
 				var editable = editor.editable( new sourceEditable( editor, textarea ) );
@@ -58,11 +56,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.fire( 'ariaWidget', this );
 
 				callback();
-			});
-
-			editor.on( 'readOnly', function() {
-				if ( editor.mode == 'source' )
-					editor.editable()[ ( editor.readOnly ? 'set' : 'remove' ) + 'Attribute' ]( 'readOnly', 'readonly' );
 			});
 
 			editor.addCommand( 'source', sourcearea.commands.source );
@@ -96,6 +89,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			insertHtml: function() {},
 			insertElement: function() {},
 			insertText: function() {},
+
+			// Read-only support for textarea.
+			setReadOnly: function( isReadOnly ) {
+				this[ ( isReadOnly ? 'set' : 'remove' ) + 'Attribute' ]( 'readOnly', 'readonly' )
+			},
 
 			detach: function() {
 				sourceEditable.baseProto.detach.call( this );

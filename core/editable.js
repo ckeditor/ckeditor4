@@ -346,6 +346,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				return data;
 			},
 
+			/**
+			 * Change the read-only state on this editable.
+			 * @param {Boolean} isReadOnly
+			 */
+			setReadOnly: function( isReadOnly ) {
+				this.setAttribute( 'contenteditable', !isReadOnly );
+			},
+
 			detach: function() {
 				// Cleanup the element.
 				this.removeClass( 'cke_editable' );
@@ -366,6 +374,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Editable element bootstrapping.
 			setup: function() {
 				var editor = this.editor;
+
+				// Update editable state.
+				this.setReadOnly( editor.readOnly );
 
 				// The editable class.
 				this.attachClass( 'cke_editable' );
@@ -420,8 +431,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
-					if ( !doc.getCustomData( 'stylesheet' ) && this.isEditable() )
-						doc.setCustomData( 'stylesheet', doc.appendStyleText( styles ) );
+					var head = doc.getHead();
+					if ( !head.getCustomData( 'stylesheet' ) )
+						head.setCustomData( 'stylesheet', doc.appendStyleText( styles ) );
 				}
 
 				// Update the stylesheet sharing count.
@@ -545,12 +557,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 
 				// Remove contents stylesheet from document if it's the last usage.
-				var doc = this.getDocument();
-				if ( doc.getCustomData( 'stylesheet' ) ) {
+				var doc = this.getDocument(),
+					head = doc.getHead();
+				if ( head.getCustomData( 'stylesheet' ) ) {
 					var refs = doc.getCustomData( 'stylesheet_ref' );
 					if ( !( --refs ) ) {
 						doc.removeCustomData( 'stylesheet_ref' );
-						var sheet = doc.removeCustomData( 'stylesheet' );
+						var sheet = head.removeCustomData( 'stylesheet' );
 						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
 						sheet.remove();
 					} else
