@@ -165,7 +165,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					for ( var r = 0; r < toolbar.length; r++ ) {
 						var toolbarId,
 							toolbarObj = 0,
-							toolbarOutput = [],
 							toolbarName,
 							row = toolbar[ r ],
 							items;
@@ -209,12 +208,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									toolbarName = row.name && ( editor.lang.toolbarGroups[ row.name ] || row.name );
 
 									// Output the toolbar opener.
-									toolbarOutput.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+									output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
 
 									// If a toolbar name is available, send the voice label.
-									toolbarName && toolbarOutput.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
+									toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
 
-									toolbarOutput.push( '<span class="cke_toolbar_start"></span>' );
+									output.push( '<span class="cke_toolbar_start"></span>' );
 
 									// Add the toolbar to the "editor.toolbox.toolbars"
 									// array.
@@ -229,27 +228,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 								if ( canGroup ) {
 									if ( !groupStarted ) {
-										toolbarOutput.push( '<span class="cke_toolgroup" role="presentation">' );
+										output.push( '<span class="cke_toolgroup" role="presentation">' );
 										groupStarted = 1;
 									}
 								} else if ( groupStarted ) {
-									toolbarOutput.push( '</span>' );
+									output.push( '</span>' );
 									groupStarted = 0;
 								}
 
-								// Previous toolbar item.
-								var previousItemObj = toolbarObj.items[ toolbarObj.items.length - 1 ];
-
-								// Dismiss dangling separator.
-								if ( itemName == '-' && ( !previousItemObj || previousItemObj.type == CKEDITOR.UI_SEPARATOR ) ) {
-									continue;
-								}
-
-								var itemObj = item.render( editor, toolbarOutput );
+								var itemObj = item.render( editor, output );
 								index = toolbarObj.items.push( itemObj ) - 1;
 
 								if ( index > 0 ) {
-									itemObj.previous = previousItemObj;
+									itemObj.previous = toolbarObj.items[ index - 1 ];
 									itemObj.previous.next = itemObj;
 								}
 
@@ -268,19 +259,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 
 						if ( groupStarted ) {
-							toolbarOutput.push( '</span>' );
+							output.push( '</span>' );
 							groupStarted = 0;
 						}
 
-						if ( toolbarObj ) {
-							toolbarOutput.push( '<span class="cke_toolbar_end"></span></span>' );
-
-							// Dismiss empty toolbar (contains nothing but separators).
-							if ( !toolbarObj.items.length )
-								toolbarOutput = '';
-						}
-
-						output = output.concat( toolbarOutput );
+						if ( toolbarObj )
+							output.push( '<span class="cke_toolbar_end"></span></span>' );
 					}
 
 					// End of toolbox buttons.
@@ -377,7 +361,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return {
 						render: function( editor, output ) {
 							output.push( '<span class="cke_toolbar_separator" role="separator"></span>' );
-							return { type: CKEDITOR.UI_SEPARATOR };
+							return {};
 						}
 					};
 				}

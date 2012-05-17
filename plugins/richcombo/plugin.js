@@ -141,7 +141,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}, this );
 
 				var instance = {
-					type: CKEDITOR.UI_RICHCOMBO,
 					id: id,
 					combo: this,
 					focus: function() {
