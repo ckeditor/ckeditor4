@@ -152,7 +152,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					var output = [ '<div id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
 						expanded = editor.config.toolbarStartupExpanded !== false,
-						groupStarted;
+						groupStarted, pendingSeparator;
 
 					output.push( expanded ? '>' : ' style="display:none">' );
 
@@ -180,6 +180,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( groupStarted ) {
 							output.push( '</div>' );
 							groupStarted = 0;
+							pendingSeparator = 0;
 						}
 
 						if ( row === '/' ) {
@@ -198,6 +199,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							item = editor.ui.create( itemName );
 
 							if ( item ) {
+								if ( item.type == CKEDITOR.UI_SEPARATOR ) {
+									// Do not add the separator immediately. Just save
+									// it be included if we already have something in
+									// the toolbar and if a new item is to be added (later).
+									pendingSeparator = groupStarted && item;
+									continue;
+								}
+
 								canGroup = item.canGroup !== false;
 
 								// Initialize the toolbar first, if needed.
@@ -236,31 +245,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									groupStarted = 0;
 								}
 
-								var itemObj = item.render( editor, output );
-								index = toolbarObj.items.push( itemObj ) - 1;
+								function addItem( item ) {
+									var itemObj = item.render( editor, output );
+									index = toolbarObj.items.push( itemObj ) - 1;
 
-								if ( index > 0 ) {
-									itemObj.previous = toolbarObj.items[ index - 1 ];
-									itemObj.previous.next = itemObj;
+									if ( index > 0 ) {
+										itemObj.previous = toolbarObj.items[ index - 1 ];
+										itemObj.previous.next = itemObj;
+									}
+
+									itemObj.toolbar = toolbarObj;
+									itemObj.onkey = itemKeystroke;
+
+									/*
+									 * Fix for #3052:
+									 * Prevent JAWS from focusing the toolbar after document load.
+									 */
+									itemObj.onfocus = function() {
+										if ( !editor.toolbox.focusCommandExecuted )
+											editor.focus();
+									};
 								}
 
-								itemObj.toolbar = toolbarObj;
-								itemObj.onkey = itemKeystroke;
+								if ( pendingSeparator ) {
+									addItem( pendingSeparator );
+									pendingSeparator = 0;
+								}
 
-								/*
-								 * Fix for #3052:
-								 * Prevent JAWS from focusing the toolbar after document load.
-								 */
-								itemObj.onfocus = function() {
-									if ( !editor.toolbox.focusCommandExecuted )
-										editor.focus();
-								};
+								addItem( item );
 							}
 						}
 
 						if ( groupStarted ) {
 							output.push( '</span>' );
 							groupStarted = 0;
+							pendingSeparator = 0;
 						}
 
 						if ( toolbarObj )

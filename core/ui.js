@@ -72,6 +72,9 @@ CKEDITOR.ui.prototype = {
 		if ( command )
 			command.uiItems.push( result );
 
+		if ( result && result.type == null )
+			result.type = item.type;
+
 		return result;
 	},
 
