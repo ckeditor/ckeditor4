@@ -1215,6 +1215,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * editor.getSelection().<strong>selectRanges( [ ranges ] )</strong>;
 		 */
 		selectRanges: function( ranges ) {
+			if ( !ranges.length )
+				return;
+
 			// Refresh the locked selection.
 			if ( this.isLocked ) {
 				// making a new DOM selection will force the focus on editable in certain situation,
@@ -1507,7 +1510,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		removeAllRanges: function() {
 			var nativ = this.getNative();
-			( nativ.removeAllRanges || nativ.empty ).call( nativ );
+			nativ && ( nativ.removeAllRanges || nativ.empty ).call( nativ );
 
 			this.reset();
 		}
