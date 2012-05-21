@@ -33,19 +33,25 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 			}
 		},
 		onOk: function() {
-			var editor,
+			var editor = this.getParentEditor(),
 				element = this.textField,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {
-				editor = this.getParentEditor();
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'text' );
 			}
 
+			var data = { element: element };
+
 			if ( isInsertMode )
-				editor.insertElement( element );
-			this.commitContent({ element: element } );
+				editor.insertElement( data.element );
+
+			this.commitContent( data );
+
+			// Element might be replaced by commitment.
+			if ( !isInsertMode )
+				editor.getSelection().selectElement( data.element );
 		},
 		onLoad: function() {
 			this.foreach( function( contentObj ) {
@@ -159,7 +165,6 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="' + myType + '"></input>', editor.document );
 							element.copyAttributes( replace, { type:1 } );
 							replace.replace( element );
-							editor.getSelection().selectElement( replace );
 							data.element = replace;
 						}
 					} else
