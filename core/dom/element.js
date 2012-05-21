@@ -1012,10 +1012,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * element.removeStyle( 'display' );
 	 */
 	removeStyle: function( name ) {
-		this.setStyle( name, '' );
-		if ( this.$.style.removeAttribute )
-			this.$.style.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
+		// Removes the specified property from the current style object.
+		var $ = this.$.style;
+		( $.removeProperty || $.removeAttribute ).call( $, name );
 
+		// Eventually remove empty style attribute.
 		if ( !this.$.style.cssText )
 			this.removeAttribute( 'style' );
 	},
