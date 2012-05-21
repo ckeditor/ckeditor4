@@ -1014,7 +1014,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	removeStyle: function( name ) {
 		// Removes the specified property from the current style object.
 		var $ = this.$.style;
-		( $.removeProperty || $.removeAttribute ).call( $, name );
+		$.removeProperty ? $.removeProperty( name ) : $.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
 
 		// Eventually remove empty style attribute.
 		if ( !this.$.style.cssText )
