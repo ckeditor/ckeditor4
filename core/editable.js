@@ -404,8 +404,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Apply tab index on demand, with original direction saved.
 				if ( editor.document.equals( CKEDITOR.document ) && this.getAttribute( 'tabIndex' ) != editor.tabIndex ) {
-					var orgTabIndex = this.getAttribute( 'dir' ) || this.getAttribute( 'tabIndex' );
-					this.setCustomData( 'org_tabindex_saved', orgTabIndex );
+					this.setCustomData( 'org_tabindex_saved', this.getAttribute( 'tabIndex' ) );
 					this.setAttribute( 'tabIndex', editor.tabIndex );
 				}
 
