@@ -401,7 +401,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		function compensateBrs( isStart ) {
 			if ( ( boundaryNode = docFragment[ isStart ? 'getFirst' : 'getLast' ]() ) && !( boundaryNode.is && boundaryNode.isBlockBoundary() ) && ( siblingNode = groupObj.root[ isStart ? 'getPrevious' : 'getNext' ]
-			( CKEDITOR.dom.walker.whitespaces( true ) ) ) && !( siblingNode.is && siblingNode.isBlockBoundary( { br:1 } ) ) )
+			( CKEDITOR.dom.walker.invisible( true ) ) ) && !( siblingNode.is && siblingNode.isBlockBoundary( { br:1 } ) ) )
 				editor.document.createElement( 'br' )[ isStart ? 'insertBefore' : 'insertAfter' ]( boundaryNode );
 		}
 		compensateBrs( true );
