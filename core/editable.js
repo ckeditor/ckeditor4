@@ -604,7 +604,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
+		isNotEmpty = function( node ) {
+			return isNotWhitespace( node ) && isNotBookmark( node );
+		};
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		var editor = evt.editor;
@@ -686,10 +689,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// <div><b>A</b>^B</div> + <b>C</b> => <div><b>A</b><b>C</b>B</div> - affected container is <div>.
 				// <p><b>A[B</b></p><p><b>C]D</b></p> + E => <p><b>AE</b></p><p><b>D</b></p> =>
 				//		<p><b>AE</b><b>D</b></p> - affected container is <p> (in text mode).
-				affectedRanges = [ new CKEDITOR.dom.range( doc ) ],
+				inlineMergeCandidates = [],
 				rangeEndsPaths, dontMoveCaret, dataWrapper;
 
-			rangeEndsPaths = prepareRangeToDataInsertion( type, range, affectedRanges, blockLimit );
+			rangeEndsPaths = prepareRangeToDataInsertion( type, range, inlineMergeCandidates, blockLimit );
 
 			// DATA PROCESSING
 
@@ -705,12 +708,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// DATA INSERTION
 
-			dontMoveCaret = insertDataIntoRange( range, dataWrapper, rangeEndsPaths, affectedRanges, blockLimit );
+			dontMoveCaret = insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit );
 
 			// FINAL CLEANUP
 			// Set final range position and clean up.
 
-			cleanupAfterInsertion( type, selection, range, affectedRanges, dontMoveCaret );
+			cleanupAfterInsertion( type, selection, range, inlineMergeCandidates, dontMoveCaret );
 
 			afterInsert( editable );
 		}
@@ -725,45 +728,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Prepare range to its data deletion.
 		// Delete its contents.
 		// Prepare it to insertion.
-		function prepareRangeToDataInsertion( type, range, affectedRanges, blockLimit ) {
-			var marker, node, parentNode, previousNode,
-				inlineNames = dtd.$inline,
-				emptyNames = dtd.$empty,
-				startPath, endPath;
+		function prepareRangeToDataInsertion( type, range, mergeCandidates, blockLimit ) {
+			var node, marker, path, startPath, endPath;
 
-			// Optimize range so ends are not located in text nodes if it's possible.
-			range.optimize();
-
-			if ( type == 'text' ) {
-				// Shrink range.
-				shrinkRangeLeft( range );
-
-				// TODO maybe we can try with bookmark?
-
-				// If range starts in inline element then insert a marker, so empty
-				// inline elements won't be removed while range.deleteContents
-				// and we will be able to move range back into this element.
-				// E.g. 'aa<b>[bb</b>]cc' -> (after deleting) 'aa<b><span/></b>cc'
-				if ( checkIfElement( range.startContainer ) && inlineNames[ range.startContainer.getName() ] ) {
-					marker = CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>' );
-					range.insertNode( marker );
-					range.setStartAfter( marker );
-				}
-			} else // type == 'html'
-			{
-				// TODO could this be replaced by enlarge()?
-
-				// Enlarge range if starts just after element opening tag ('aa<b>[aa' -> 'aa[<b>aa').
-				while ( range.startOffset == 0 // If offset is 0 then startContainer is
-				// an element (because range is optimized).
-				&& inlineNames[ range.startContainer.getName() ] // StartContainer is an inline element.
-				&& !range.startContainer.equals( blockLimit ) ) {
-					range.setStartBefore( range.startContainer );
-				}
-				// The same but for the end.
-				while ( range.endOffset == range.endContainer.getChildCount() && inlineNames[ range.endContainer.getName() ] && !range.endContainer.equals( blockLimit ) ) {
-					range.setEndAfter( range.endContainer );
-				}
+			// If range starts in inline element then insert a marker, so empty
+			// inline elements won't be removed while range.deleteContents
+			// and we will be able to move range back into this element.
+			// E.g. 'aa<b>[bb</b>]cc' -> (after deleting) 'aa<b><span/></b>cc'
+			if ( type == 'text' && range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false ) ) {
+				marker = CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>' );
+				range.insertNode( marker );
+				range.setStartAfter( marker );
 			}
 
 			// By using path we can recover in which element was startContainer
@@ -773,59 +748,59 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			startPath = new CKEDITOR.dom.elementPath( range.startContainer );
 			endPath = new CKEDITOR.dom.elementPath( range.endContainer );
 
+			// Place caret between text nodes - in container which is an element.
+			if ( range.collapsed )
+				range.trim();
 			// Delete contents of this range.
-			if ( !range.collapsed )
+			else
 				range.deleteContents();
 
-			// TODO split text node if it's range's startContainer.
-			// This may be possible if caret was placed inside text: 'aa^aa'.
-			// Check that. Note: it wasn't tested by TCs, because of bookmarks.
 
-			// Choose place where affectedRange starts. It will be used to process (e.g. merge elements)
-			// only inside affected range.
-			if ( node = range.startContainer.getChild( range.startOffset - 1 ) )
-				affectedRanges[ 0 ].setStartBefore( node ); // <b><br/>[<br/>^<br/></b>
-			else
-				affectedRanges[ 0 ].setStart( range.startContainer, 0 ); // <b>[^<br/></b>
-
-			// If marker was created then move collapsed range into its place. See rule 1.
-			if ( marker ) {
-				range.setEndBefore( marker );
-				range.collapse();
-				marker.remove();
-			}
 			// Rule 4.
-			else {
-				while (
-				// Get element that ends just before this range.
-				( previousNode = range.startContainer.getChild( range.startOffset - 1 ) ) && checkIfElement( previousNode ) && !inlineNames[ previousNode.getName() ] // Inline or...
-				&& !emptyNames[ previousNode.getName() ] // empty elements doesn't match.
-				// Check if previousNode was parent of range's startContainer before deleteContents.
-				&& checkIfPathContainsElement( startPath, previousNode ) ) {
-					// If yes - move range at the end of previousNode.
-					range.setEndAt( previousNode, CKEDITOR.POSITION_BEFORE_END );
-					range.collapse();
-				}
+			var previous;
+			while (
+			// Get element that ends just before this range.
+			// TODO: Use walker to navigate.
+			( previous = range.startContainer.getChild( range.startOffset - 1 ) ) && checkIfElement( previous ) && !previous.is( CKEDITOR.dtd.$removeEmpty )
+			// Check if previousNode was parent of range's startContainer before deleteContents.
+			&& checkIfPathContainsElement( startPath, previous ) ) {
+				// If yes - move range at the end of previousNode.
+				range.setEndAt( previous, CKEDITOR.POSITION_BEFORE_END );
+				range.collapse();
 			}
 
 			// Rule 5.
-			mergeAncestorElementsOfSelectionEnds( range, blockLimit, affectedRanges, startPath, endPath );
+			mergeAncestorElementsOfSelectionEnds( range, blockLimit, startPath, endPath );
 
 			// Rule 1.
-			if ( type == 'html' ) {
+			if ( marker ) {
+				// If marker was created then move collapsed range into its place.
+				range.setEndBefore( marker );
+				range.collapse();
+				marker.remove();
+			} else if ( type == 'html' ) {
 				// Split inline elements so HTML will be inserted with its own styles.
-
-				node = range.startContainer;
-				if ( inlineNames[ node.getName() ] && !node.equals( blockLimit ) ) {
-					// Find the oldest element that can be split.
-					while ( ( parentNode = node.getParent() ) && inlineNames[ parentNode.getName() ] // Split only inline elements.
-					&& !parentNode.equals( blockLimit ) )
-						node = parentNode;
-
-					affectedRanges[ 0 ].setStart( node.getParent(), 0 );
-					range.splitElement( node );
-				}
+				path = range.startPath();
+				path.elements.reverse();
+				node = path.contains( CKEDITOR.dtd.$removeEmpty );
+				node && range.splitElement( node );
 			}
+
+			// Record inline merging candidates for later cleanup in place.
+			var bm = range.createBookmark();
+
+			// 1. Inline siblings.
+			node = bm.startNode.getPrevious( isNotEmpty );
+			node && node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$removeEmpty ) && mergeCandidates.push( node );
+			node = bm.startNode.getNext( isNotEmpty );
+			node && node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$removeEmpty ) && mergeCandidates.push( node );
+
+			// 2. Inline parents.
+			node = bm.startNode;
+			while ( ( node = node.getParent() ) && node.is( CKEDITOR.dtd.$removeEmpty ) )
+				mergeCandidates.push( node );
+
+			range.moveToBookmark( bm );
 
 			return { start: startPath, end: endPath };
 		}
@@ -852,7 +827,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return dataWrapper;
 		}
 
-		function insertDataIntoRange( range, dataWrapper, rangeEndsPaths, affectedRanges, blockLimit ) {
+		function insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit ) {
 			var nodesData, nodeData, node,
 				nodeIndex = 0,
 				splittingContainer = 0,
@@ -905,7 +880,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// If split has to be done - do it and mark both ends as a possible zombies.
 					if ( previousContainer )
-						newContainer = splitContainer( previousContainer, range, zombies, affectedRanges );
+						newContainer = splitContainer( previousContainer, range, zombies );
 
 					// We've split the oldest container, but content is still not allowed in this content...
 					// Filter it from not allowed elements.
@@ -950,14 +925,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return dontMoveCaret;
 		}
 
-		function cleanupAfterInsertion( type, selection, range, affectedRanges, dontMoveCaret ) {
-			var node, previousNode, previousGuard, walker, affectedRange;
+		function cleanupAfterInsertion( type, selection, range, mergeCandidates, dontMoveCaret ) {
+			var node, previousNode, previousGuard, walker;
 
-			// TODO possible place for optimization - we don't have to select entire affected container.
-			// We can point start and end more accurately.
-			while ( affectedRange = affectedRanges.pop() ) {
-				affectedRange.selectNodeContents( affectedRange.startContainer );
-				mergeAdjacentInlineElements( affectedRange );
+			// Eventually merge identical inline elements.
+			while ( node = mergeCandidates.pop() ) {
+				node.mergeSiblings();
+				node.mergeChildren();
 			}
 
 			range.moveToBookmark( { startNode:'cke_paste_S',endNode:'cke_paste_E',serializable:1 } );
@@ -1207,63 +1181,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return nodes;
 		}
 
-		function getNextNode( node ) {
-			var node = node.getNext();
-			return ( node && checkIfBookmark( node ) ) ? node.getNext() : node;
-		}
-
-		function getPreviousNode( node ) {
-			var node = node.getPrevious();
-			return ( node && checkIfBookmark( node ) ) ? node.getPrevious() : node;
-		}
-
-		// Range cannot start/end inside text node. Ends have to be elements.
-		// Will merge only nodes that are children of range ends containers.
-		// range.startContainer === range.endContainer
-		function mergeAdjacentInlineElements( range ) {
-			var doc = range.document,
-				node, previousNode, nextNode;
-
-			// TODO remove
-			if ( !range.startContainer.equals( range.endContainer ) || !checkIfElement( range.startContainer ) )
-				throw new Error( 'U do sth wrong! Papa don\'t like you any more!' );
-
-			node = range.startContainer.getChild( range.startOffset );
-
-			// No nodes after range start ('aa[</b>cc').
-			if ( !node )
-				return;
-
-			// Skip bookmark.
-			if ( checkIfBookmark( node ) )
-				node = node.getNext();
-
-			// Iterate to the end of range + one node further.
-			while ( node && node.getIndex() < range.endOffset + 1 ) {
-				// Find previous node (not bookmark).
-				previousNode = getPreviousNode( node );
-
-				// Get next node here, because merging will move node.
-				nextNode = getNextNode( node );
-
-				if ( previousNode && checkIfElement( previousNode ) && checkIfElement( node ) // both are elements
-				&& dtd.$inline[ previousNode.getName() ] // inline
-				&& !dtd.$empty[ previousNode.getName() ] // not-empty
-				&& previousNode.isIdentical( node ) ) // and are identical
-				{
-					mergeTwoElements( doc, previousNode, node );
-				}
-
-				node = nextNode;
-			}
-		}
-
 		// See rule 5. in TCs.
 		// Initial situation:
 		// <ul><li>AA^</li></ul><ul><li>BB</li></ul>
 		// We're looking for 2nd <ul>, comparing with 1st <ul> and merging.
 		// We're not merging if caret is between these elements.
-		function mergeAncestorElementsOfSelectionEnds( range, blockLimit, affectedRanges, startPath, endPath ) {
+		function mergeAncestorElementsOfSelectionEnds( range, blockLimit, startPath, endPath ) {
 			var walkerRange = range.clone(),
 				allowedElementsNames = { p:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,ul:1,ol:1,li:1,pre:1,dl:1,blockquote:1 },
 				walker, nextNode, previousNode, parentNode;
@@ -1285,57 +1208,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Merge blocks and repeat.
 				nextNode.moveChildren( previousNode );
 				nextNode.remove();
-				affectedRanges[ 0 ].setStart( previousNode, 0 );
-				mergeAncestorElementsOfSelectionEnds( range, blockLimit, affectedRanges, startPath, endPath );
+				mergeAncestorElementsOfSelectionEnds( range, blockLimit, startPath, endPath );
 			}
 		}
 
-		// Move elementR contents into elementL.
-		function mergeTwoElements( doc, elementL, elementR ) {
-			// <b>a</b>[<b>c</b> -> <b>a[</b><b>c</b>
-			var prev = elementR.getPrevious();
-			if ( prev && checkIfBookmark( prev ) )
-				elementL.append( prev );
-
-			elementR.moveChildren( elementL );
-			elementR.remove();
-
-			// <b><u>a</u></b><b><u>c</u></b> was merged to: <b><u>a</u><u>c</u></b>
-			// so now merge with range: <b>[<u>a</u><u>c</u>]</b>
-			var range = new CKEDITOR.dom.range( doc );
-			range.selectNodeContents( elementL );
-			mergeAdjacentInlineElements( range );
-		}
-
-		// TODO for many reasons:
-		// * maybe we can use one of exsisting range method?
-		// * maybe we can use walkers?
-		// * maybe we should think of some white spaces?
-		function shrinkRangeLeft( range ) {
-			var node,
-			// TODO possible place for optimization - one getName call and one hash check.
-			notAllowedElementsNames = dtd.$empty,
-				allowedElementsNames = dtd.$inline;
-
-			while ( !range.collapsed && checkIfElement( range.startContainer ) // If range starts in element
-			&& ( node = range.startContainer.getChild( range.startOffset ) ) // and just before ('aa[<b>')
-			&& checkIfElement( node ) // an element
-			&& !notAllowedElementsNames[ node.getName() ] // which is not an empty one
-			&& allowedElementsNames[ node.getName() ] ) // and which is an inline element
-			{
-				range.setStart( node, 0 ); // move start point into this element.
-			}
-		}
-
-		function splitContainer( container, range, zombies, affectedRanges ) {
+		function splitContainer( container, range, zombies ) {
 			var newContainer = range.splitElement( container );
 			zombies.push( newContainer );
 			zombies.push( container );
-
-			// Push new container as one that could be affected and needs inline elements merging.
-			var newAffectedRange = new CKEDITOR.dom.range( range.document );
-			newAffectedRange.startContainer = newContainer;
-			affectedRanges.push( newAffectedRange );
 
 			return newContainer;
 		}

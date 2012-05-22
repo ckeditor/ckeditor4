@@ -902,6 +902,21 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	})(),
 
 	/**
+	 * Merges any identical element within the subtree of this element.
+	 * @param {Boolean} [inlineOnly] Allow only inline elements to be merged. Defaults to "true".
+	 */
+	mergeChildren: function( inlineOnly ) {
+		var candidates = this.getElementsByTag( this.getName() ),
+			node;
+		for ( var i = 0, count = candidates.count(); i < count; i++ ) {
+			node = candidates.getItem( i );
+			if ( this.isIdentical( node ) && ( node.is( CKEDITOR.dtd.$removeEmpty ) || inlineOnly === false ) ) {
+				node.remove( 1 );
+			}
+		}
+	},
+
+	/**
 	 * Shows this element (display it).
 	 * @example
 	 * var element = CKEDITOR.document.getById( 'myElement' );

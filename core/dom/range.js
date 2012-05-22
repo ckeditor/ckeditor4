@@ -150,7 +150,7 @@ CKEDITOR.dom.range = function( root ) {
 				// sibling, so let's use the first one, but mark it for removal.
 				if ( !startOffset ) {
 					// Let's create a temporary node and mark it for removal.
-					startNode = startNode.getFirst().insertBeforeMe( range.document.createText( '' ) );
+					startNode = startNode.append( range.document.createText( '' ), 1 );
 					removeStartNode = true;
 				} else if ( startOffset >= startNode.getChildCount() ) {
 					// Let's create a temporary node and mark it for removal.
@@ -1230,7 +1230,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * </dl>
 		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.
 		 */
-		shrink: function( mode, selectContents ) {
+		shrink: function( mode, selectContents, shrinkOnBlockBoundary ) {
 			// Unable to shrink a collapsed range.
 			if ( !this.collapsed ) {
 				mode = mode || CKEDITOR.SHRINK_TEXT;
@@ -1289,6 +1289,9 @@ CKEDITOR.dom.range = function( root ) {
 
 					// Stop when we've already walked "through" an element.
 					if ( movingOut && node.equals( currentElement ) )
+						return false;
+
+					if ( shrinkOnBlockBoundary == false && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
 						return false;
 
 					if ( !movingOut && node.type == CKEDITOR.NODE_ELEMENT )
@@ -1576,6 +1579,14 @@ CKEDITOR.dom.range = function( root ) {
 			clone.insertAfter( toSplit );
 			this.moveToPosition( toSplit, CKEDITOR.POSITION_AFTER_END );
 			return clone;
+		},
+
+		startPath: function() {
+			return new CKEDITOR.dom.elementPath( this.startContainer, this.root );
+		},
+
+		endPath: function() {
+			return new CKEDITOR.dom.elementPath( this.endContainer, this.root );
 		},
 
 		/**

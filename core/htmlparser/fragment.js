@@ -453,7 +453,8 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			this.children.splice( index, 0, node );
 
-			this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
+			if ( !this._.hasInlineStarted )
+				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
 
 		/**
