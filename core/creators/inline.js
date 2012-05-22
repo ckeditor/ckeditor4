@@ -36,6 +36,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Enable editing on the element.
 			editor.editable( element );
 
+			// Editable itself is the outermost element.
+			editor.container = element;
+
 			// Load and process editor data.
 			editor.setData( editor.getData( 1 ) );
 

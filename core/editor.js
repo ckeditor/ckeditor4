@@ -786,6 +786,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
+ * The outer most element in the DOM tree in which the editable element resides, it's provided
+ * by the concrete editor creator after editor UI is created and is not subjected to
+ * be modified.
+ * @name CKEDITOR.editor.container
+ * @type CKEDITOR.dom.element
+ * @default Depends on creator
+ */
+
+/**
  * If <code>true</code>, makes the editor start in read-only state. Otherwise, it will check
  * if the linked <code>&lt;textarea&gt;</code> element has the <code>disabled</code> attribute.
  * @name CKEDITOR.config.readOnly
