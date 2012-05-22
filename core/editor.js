@@ -777,6 +777,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
+ * The original host page element upon which the editor is created, it's only
+ * supposed to be provided by the concrete editor creator and is not subjected to
+ * be modified.
+ * @name CKEDITOR.editor.element
+ * @type CKEDITOR.dom.element
+ * @default Depends on creator
+ */
+
+/**
  * If <code>true</code>, makes the editor start in read-only state. Otherwise, it will check
  * if the linked <code>&lt;textarea&gt;</code> element has the <code>disabled</code> attribute.
  * @name CKEDITOR.config.readOnly
