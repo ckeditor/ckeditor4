@@ -34,7 +34,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	if ( CKEDITOR.env.gecko )
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
-	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
+	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
@@ -66,7 +66,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				// The combo won't participate in toolbar grouping.
 				canGroup: false,
 				title: definition.label,
-				modes: { wysiwyg:1 }
+				modes: { wysiwyg:1 },
+				editorFocus: 1
 			});
 
 			// We don't want the panel definition in this object.
@@ -226,6 +227,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 					list.focus( !me.multiSelect && me.getValue() );
 
 					me._.on = 1;
+
+					me.editorFocus && editor.focus();
 
 					if ( me.onOpen )
 						me.onOpen();
