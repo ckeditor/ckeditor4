@@ -376,6 +376,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
 				editor.keystrokeHandler.attach( this );
 
+				// Update focus states.
+				this.on( 'blur', function() {
+					this.hasFocus = false;
+				});
+				this.on( 'focus', function() {
+					this.hasFocus = true;
+				});
+
+				// Register to focus manager.
 				editor.focusManager.addFocusable( this );
 
 				// Inherit the initial focus on editable element.
@@ -400,6 +409,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var orgDir = this.getAttribute( 'dir' ) || '';
 					this.setCustomData( 'org_dir_saved', orgDir );
 					this.setAttribute( 'dir', dir );
+				}
+
+				// Apply tab index on demand, with original direction saved.
+				if ( editor.document.equals( CKEDITOR.document ) && this.getAttribute( 'tabIndex' ) != editor.tabIndex ) {
+					this.setCustomData( 'org_tabindex_saved', this.getAttribute( 'tabIndex' ) );
+					this.setAttribute( 'tabIndex', editor.tabIndex );
 				}
 
 				// Create the content stylesheet for this document.
@@ -540,6 +555,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var orgDir = this.removeCustomData( 'org_dir_saved' );
 				if ( orgDir !== null )
 					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
+
+				// Restore original tab index.
+				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
+				if ( orgTabIndex !== null )
+					orgTabIndex ? this.setAttribute( 'tabIndex', orgTabIndex ) : this.removeAttribute( 'tabIndex' );
 
 				// Cleanup our custom classes.
 				var classes;

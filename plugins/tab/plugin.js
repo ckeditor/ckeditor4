@@ -107,24 +107,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 			}
 
-			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) {
-				editor.on( 'key', function( ev ) {
-					var keyCode = ev.data.keyCode;
-
-					if ( keyCode == 9 && !tabText ) // TAB
-					{
-						ev.cancel();
-						editor.execCommand( 'blur' );
-					}
-
-					if ( keyCode == ( CKEDITOR.SHIFT + 9 ) ) // SHIFT+TAB
-					{
-						editor.execCommand( 'blurBack' );
-						ev.cancel();
-					}
-				});
-			}
-
 			editor.addCommand( 'blur', CKEDITOR.tools.extend( blurCommand, meta ) );
 			editor.addCommand( 'blurBack', CKEDITOR.tools.extend( blurBackCommand, meta ) );
 			editor.addCommand( 'selectNextCell', selectNextCellCommand() );

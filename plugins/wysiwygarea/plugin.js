@@ -76,7 +76,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					frameBorder: 0,
 					title: frameLabel,
 					src: src,
-					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
+					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				});
 
@@ -122,7 +122,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		body.spellcheck = !editor.config.disableNativeSpellChecker;
 
-		var editable = !editor.readOnly;
+		body.contentEditable = !editor.readOnly;
 
 		if ( CKEDITOR.env.ie ) {
 			// Don't display the focus border.
@@ -131,16 +131,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Disable and re-enable the body to avoid IE from
 			// taking the editing focus at startup. (#141 / #523)
 			body.disabled = true;
-			body.contentEditable = editable;
 			body.removeAttribute( 'disabled' );
-		} else {
-			// Prefer 'contentEditable' instead of 'designMode'. (#3593)
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 || CKEDITOR.env.opera )
-				doc.body.contentEditable = editable;
-			else if ( CKEDITOR.env.webkit )
-				doc.body.parentNode.contentEditable = editable;
-			else
-				doc.designMode = editable ? 'off' : 'on';
 		}
 
 		delete this._.isLoadingData;

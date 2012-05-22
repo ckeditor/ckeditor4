@@ -210,6 +210,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
 
+		/**
+		 * The <a href="http://en.wikipedia.org/wiki/Tabbing_navigation">tabbing
+		 * navigation</a> order determined for this editor instance.
+		 * This can be set by the <code>{@link CKEDITOR.config.tabIndex}</code>
+		 * setting or taken from the <code>tabindex</code> attribute of the
+		 * <code>{@link #element}</code> associated with the editor.
+		 * @name CKEDITOR.editor.prototype.tabIndex
+		 * @type Number
+		 * @default 0 (zero)
+		 * @example
+		 * alert( editor.tabIndex );  // E.g. "0"
+		 */
+		editor.tabIndex = editor.config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
+
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
@@ -760,6 +774,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @default false
  * @example
  * config.htmlEncodeOutput = true;
+ */
+
+/**
+ * The original host page element upon which the editor is created, it's only
+ * supposed to be provided by the concrete editor creator and is not subjected to
+ * be modified.
+ * @name CKEDITOR.editor.element
+ * @type CKEDITOR.dom.element
+ * @default Depends on creator
+ */
+
+/**
+ * The outer most element in the DOM tree in which the editable element resides, it's provided
+ * by the concrete editor creator after editor UI is created and is not subjected to
+ * be modified.
+ * @name CKEDITOR.editor.container
+ * @type CKEDITOR.dom.element
+ * @default Depends on creator
  */
 
 /**

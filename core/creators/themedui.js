@@ -305,7 +305,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		' class="{id} cke cke_chrome cke_editor_{name}"' +
 		' dir="{langDir}"' +
 		' lang="{langCode}"' +
-		( CKEDITOR.env.webkit ? ' tabindex="{tabIndex}"' : '' ) +
 		' role="application"' +
 		' aria-labelledby="cke_{name}_arialbl" {style}>' +
 		'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
@@ -334,8 +333,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		var height = editor.config.height;
 
-		var tabIndex = editor.config.tabIndex || editor.element.getAttribute( 'tabindex' ) || 0;
-
 		// The editor height is considered only if the contents space got filled.
 		if ( !isNaN( height ) )
 			height += 'px';
@@ -356,7 +353,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			voiceLabel: editor.lang.editor,
-			tabIndex: tabIndex,
 			style: ( style ? ' style="' + style + '"' : '' ),
 			height: height,
 			width: width,
