@@ -301,7 +301,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<p>
 				The tale makes the clearest contrast between the safe world of the village and the dangers of the <a href="http://en.wikipedia.org/wiki/Enchanted_forest" title="Enchanted forest">forest</a>, conventional antitheses that are essentially medieval, though no written versions are as old as that.</p>
 		</div>
-		<div id="interpret" contenteditable="true" style="left: 123px; outline: 1px solid red">
+		<div id="interpret" contenteditable="true" style="left: 123px; outline: 1px solid red; border: 15px solid green;">
 			<div style="padding: 20px; background: gray; width: 300px" class="1">Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim.</div>
 			<div style="background: violet; padding: 30px" class="static">
 				Position static
@@ -343,12 +343,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<p>Exec time: <span id="time"></span></p>
 	</div>
 	<script>
-		( function()
-		{
-			'use strict';
 
-			// Pure debug. Dev-only.
-			var DEBUG = {
+		'use strict';
+
+		var DEBUG = {
 				log: function()
 				{
 					var args = [];
@@ -450,20 +448,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				})(),
 
-				logElements : function( elements, labels )
+				logElements : function( elements, labels, info )
 				{
 					var log = {};
 
 					for ( var i = 0 ; i < elements.length; i++ )
 						log[ labels ? labels [ i ] : i ] = {
-							'name' : elements[ i ].type == CKEDITOR.NODE_ELEMENT ? elements[ i ].getName() : 'null',
-							'class' : elements[ i ].type == CKEDITOR.NODE_ELEMENT ? elements[ i ].getAttribute( 'class' ) : 'null'
+							'name' :  isHtml( elements[ i ] ) ? elements[ i ].getName() : 'null',
+							'class' : isHtml( elements[ i ] ) ? elements[ i ].getAttribute( 'class' ) : 'null'
 						}
 
-					typeof JSON != 'undefined' && console.log( JSON.stringify( log ) );
+					typeof JSON != 'undefined' && console.log( ( info ? info.toUpperCase() + ' ' : '' ) + JSON.stringify( log ) );
 				},
 
-				markElement : function ( element )
+				markElement : function( element )
 				{
 					if( !isHtml( element ))
 						return;
@@ -477,87 +475,105 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					element.setStyles( {
 						'outline': 'red solid 2px'
 					} );
-				}
+				},
 
+				groupStart : function( label )
+				{
+					console.group( label );
+				},
+
+				groupEnd : function()
+				{
+					console.groupEnd();
+				},
+
+				logEnd : function()
+				{
+					DEBUG.log.apply( null, arguments );
+					DEBUG.groupEnd();
+				},
+
+				logElementsEnd : function()
+				{
+					DEBUG.logElements.apply( null, arguments );
+					DEBUG.groupEnd();
+				}
 			};
 
-			// CKEDITOR.addCss('\
+		// CKEDITOR.addCss('\
 			// 	#tup { outline: #FEB2B2 solid 2px; box-shadow: 3px 3px 0 #FEB2B2; } \
 			// 	#tbo { outline: #B2FEB2 solid 2px; box-shadow: 3px 3px 0 #B2FEB2; } \
 			// 	p { background: pink }\
-			// ');
+		// ');
 
-			CKEDITOR.config.plugins =
-				// 'button,' +
-				// 'toolbar,' +
-				// 'horizontalrule,' +
-				// 'justify,' +
-				// 'showblocks,' +
-				// 'sourcearea,' +
-				// 'magicbox,' +
-				// 'toolbar,' +
-				// 'undo,' +
-				// 'floatingspace,' +
-				// 'wysiwygarea';
-				'about,' +
-				'basicstyles,' +
-				'bidi,' +
-				'blockquote,' +
-				'selectionmark,' +
-				'clipboard,' +
-				'contextmenu,' +
-				'colordialog,' +
-				'div,' +
-				'enterkey,' +
-				'entities,' +
-				'find,' +
-				'flash,' +
-				'floatingspace,' +
-				'font,' +
-				'format,' +
-				'forms,' +
-				'horizontalrule,' +
-				'image,' +
-				'iframe,' +
-				'indent,' +
-				'justify,' +
-				'link,' +
-				'list,' +
-				'magicbox,' +
-				'pagebreak,' +
-				'pastefromword,' +
-				'pastetext,' +
-				'removeformat,' +
-				'scayt,' +
-				'sourcearea,' +
-				'toolbar,' +
-				'selectall,' +
-				'showblocks,' +
-				'showborders,' +
-				'smiley,' +
-				'specialchar,' +
-				'stylescombo,' +
-				'table,' +
-				'tabletools,' +
-				'templates,' +
-				'undo,' +
-				'wysiwygarea,' +
-				'wsc';
+		CKEDITOR.config.plugins =
+			'about,' +
+			'basicstyles,' +
+			'bidi,' +
+			'blockquote,' +
+			'selectionmark,' +
+			'clipboard,' +
+			'contextmenu,' +
+			'colordialog,' +
+			'div,' +
+			'enterkey,' +
+			'entities,' +
+			'find,' +
+			'flash,' +
+			'floatingspace,' +
+			'font,' +
+			'format,' +
+			'forms,' +
+			'horizontalrule,' +
+			'image,' +
+			'iframe,' +
+			'indent,' +
+			'justify,' +
+			'link,' +
+			'list,' +
+			'magicbox,' +
+			'pagebreak,' +
+			'pastefromword,' +
+			'pastetext,' +
+			'removeformat,' +
+			'scayt,' +
+			'sourcearea,' +
+			'toolbar,' +
+			'selectall,' +
+			'showblocks,' +
+			'showborders,' +
+			'smiley,' +
+			'specialchar,' +
+			'stylescombo,' +
+			'table,' +
+			'tabletools,' +
+			'templates,' +
+			'undo,' +
+			'wysiwygarea,' +
+			'wsc';
 
-			CKEDITOR.config.height = 600;
-			CKEDITOR.config.width = 200;
-			CKEDITOR.config.magicbox_debug = DEBUG;
+		CKEDITOR.config.height = 600;
+		CKEDITOR.config.width = 200;
 
-			CKEDITOR.replace( 'editor1' );
-			CKEDITOR.replace( 'editor2', { height: 150 } );
-			CKEDITOR.replace( 'editor3', { magicbox_putEverywhere : 1 } );
-			CKEDITOR.replace( 'editor4' );
-			CKEDITOR.replace( 'hood', {
-				magicbox_boxColor : 'green',
-				magicbox_boxOpacity : .3
-			} );
+		CKEDITOR.replace( 'editor1', {
+			on : {
+				// Gain inner methods of an editor
+				'instanceReady' : function( event ) {
+					CKEDITOR.tools.extend( window, event.editor.plugins.magicbox.backdoor );
+				}
+			}
+		} );
 
-		})();
+		CKEDITOR.replace( 'editor2', { height: 150 } );
+		CKEDITOR.replace( 'editor3', {
+			magicbox_putEverywhere : 1,
+			magicbox_holdDistance : .2
+		} );
+		CKEDITOR.replace( 'editor4' );
+		CKEDITOR.replace( 'hood', {
+			magicbox_boxColor : 'green',
+			magicbox_boxOpacity : .3
+		} );
 	</script>
 </body>
 </html>

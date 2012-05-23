@@ -4,8 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /**
- * @fileOverview Allows accessing difficult focus spaces with either
- *		mouse and keyboard.
+ * @fileOverview Allows accessing difficult focus spaces.
  */
 
 'use strict';
@@ -15,14 +14,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function init( editor ) {
 		// Configurables
 		var TRIGGER_OFFSET = editor.config.magicbox_triggerOffset || 30,
-			DEBUG = editor.config.magicbox_debug || false,
+			HOLD_DISTANCE = editor.config.magicbox_holdDistance || .5,
 			BOX_COLOR = editor.config.magicbox_boxColor || '#FF0000',
 			BOX_OPACITY = editor.config.magicbox_boxOpacity || 1,
 
+			// %REMOVE_START%
 			KEYSTROKE_BEFORE = editor.config.magicbox_keystrokeBefore || CKEDITOR.CTRL + CKEDITOR.SHIFT + 219,
 			// CTRL + SHIFT + [
 			KEYSTROKE_AFTER = editor.config.magicbox_keystrokeAfter || CKEDITOR.CTRL + CKEDITOR.SHIFT + 221,
 			// CTRL + SHIFT + ],
+
+			// Internal DEBUG uses tools located in the topmost window
+			DEBUG = window.top.DEBUG,
+			// %REMOVE_END%
 
 			// Constant values, types and so on.
 			EDGE_TOP = 1,
@@ -58,180 +62,180 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function initBoxElement() {
 			var elementsCommon = 'width:0px;height: 0px;padding: 0px;margin: 0px;display: block;z-index: 9999;color:#fff;position:absolute;font-size: 0px;line-height:0px;',
 				triangleCommon = 'border-color:transparent;display:block;border-style:solid;',
-				boxOpacity = BOX_OPACITY !== 1 ? '-ms-filter: \'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + 100 * BOX_OPACITY + ')\';\
-					filter: alpha(opacity=' + 100 * BOX_OPACITY + ');\
-					opacity: ' + BOX_OPACITY + ';' : '';
+				boxOpacity = BOX_OPACITY !== 1 ? CKEDITOR.env.ie ? '-ms-filter: \'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + 100 * BOX_OPACITY + ')\'; filter: alpha(opacity=' + 100 * BOX_OPACITY + ');' :
+											'opacity: ' + BOX_OPACITY + ';'
+									: '';
 
 			// The box must be a DIV element. Otherwise it causes
 			// flickering in IE7 at the moment of insertion.
 			magicBox = CKEDITOR.dom.element.createFromHtml( '<span contenteditable="false" style="' + elementsCommon + 'position:absolute;border-top:1px dashed ' + BOX_COLOR + ';' + boxOpacity + '" ></span>' );
 
-			function vendorPrefix( property, value ) {
-				var prefixes = [ '-moz-', '-webkit-', '-o-', '-ms-', '' ],
-					styles = {};
+			CKEDITOR.tools.extend( magicBox, {
 
-				for ( var i = prefixes.length; i--; )
-					styles[ prefixes[ i ] + property ] = value;
+				attach: function() {
+					// Only if not already attached
+					if ( !this.wrap.getParent() )
+						this.wrap.appendTo( editable );
 
-				return styles;
-			}
+					return this;
+				},
 
-			// Changes look of the box according to current needs.
-			// Three different styles are available: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ]
-			magicBox.updateLook = function( newLook ) {
-				if ( magicBox.look === newLook )
-					return;
-
-				for ( var i = magicBox.boxChildren.length; i--; )
-					magicBox.boxChildren[ i ].setStyles( magicBox.boxChildren[ i ].looks[ newLook - 1 ] );
-
-				magicBox.look = newLook;
-			}
-
-			// Adjusts position of the box according to the trigger properties.
-			// If also affects look of the box depending on the type of the trigger.
-			magicBox.positionBox = function( newTrigger ) {
-				magicBox.trigger = newTrigger;
-
-				var styleSet = {},
-					upper = magicBox.trigger.upper,
-					lower = magicBox.trigger.lower,
-					any = upper || lower,
-					parent = any.getParent();
-
-				upper && updateSize( upper, true, false, true, false );
-				lower && updateSize( lower, true, false, true, false );
-				updateSize( parent, false, false, true, true );
-
-				// Yeah, that's gonna be useful in inline-mode case.
-				if ( inInlineMode() )
-					updateSize( editable, false, false, true );
-
-				// Set X coordinate (left, right, width)
-				if ( parent.equals( editable ) ) {
-					styleSet.left = view.scroll.x;
-					styleSet.right = -view.scroll.x;
-					styleSet.width = '';
-				} else {
-					styleSet.left = any.size.left - any.size.marginLeft + view.scroll.x - ( inInlineMode() ? editable.size.left : 0 );
-					styleSet.width = any.size.width + any.size.marginLeft + any.size.marginRight + view.scroll.x;
-					styleSet.right = '';
-				}
-
-				// Set Y coordinate (top) for trigger consisting of two elements
-				if ( upper && lower ) {
-					// No margins at all or they're equal. Place box right between.
-					if ( upper.size.marginBottom === lower.size.marginTop )
-						styleSet.top = 0 | ( upper.size.bottom + upper.size.marginBottom / 2 );
-
-					else {
-						// Upper margin < lower margin. Place at lower margin.
-						if ( upper.size.marginBottom < lower.size.marginTop )
-							styleSet.top = upper.size.bottom + upper.size.marginBottom;
-						// Upper margin > lower margin. Place at upper margin - lower margin.
-						else
-							styleSet.top = upper.size.bottom + upper.size.marginBottom - lower.size.marginTop;
+				// Looks are as follows: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
+				boxChildren: [
+					CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span title="' + editor.lang.magicbox.title + '" contenteditable="false" style="' + elementsCommon + 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + BOX_COLOR
+												+ ( CKEDITOR.env.opera ? ';' : ';cursor:pointer;' ) // cursor pointer causes mouse flickering in opera
+				+ 'height:17px;width:17px;right:17px;font-size:12px;text-align:center;">' + WHITE_SPACE + '</span>' ), {
+					looks: [
+						CKEDITOR.tools.extend({ 'top': '-1px' }, vendorPrefix( 'border-radius', '0px 0px 2px 2px' ) ),
+						CKEDITOR.tools.extend({ 'top': '-17px' }, vendorPrefix( 'border-radius', '2px 2px 0px 0px' ) ),
+						CKEDITOR.tools.extend({ 'top': '-8px' }, vendorPrefix( 'border-radius', '2px' ) )
+						]
+				}),
+					CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span style="' + elementsCommon + triangleCommon + 'left:0px;border-left-color:' + BOX_COLOR + '">' + WHITE_SPACE + '</span>' ), {
+					looks: [
+						{
+						'border-width': '0 0 8px 8px', 'top': '0px'
+					},
+						{
+						'border-width': '8px 0 0 8px', 'top': '-8px'
+					},
+						{
+						'border-width': '8px 0 8px 8px', 'top': '-8px'
 					}
-				}
-
-				// Set Y coordinate (top) for single-edge trigger
-				else if ( !upper )
-					styleSet.top = lower.size.top - lower.size.marginTop;
-				else if ( !lower )
-					styleSet.top = upper.size.bottom + upper.size.marginBottom;
-
-				// Set box button modes if close to the viewport horizontal edge
-				// or look forced by the trigger
-				if ( magicBox.trigger.isLookTop() || inBetween( styleSet.top, [ view.scroll.y - 15, view.scroll.y + 5 ] ) ) {
-					styleSet.top = inInlineMode() ? 0 : view.scroll.y;
-					magicBox.updateLook( LOOK_TOP );
-				} else if ( magicBox.trigger.isLookBottom() || inBetween( styleSet.top, [ view.pane.bottom - 5, view.pane.bottom + 15 ] ) ) {
-					styleSet.top = inInlineMode() ? editable.size.height : view.pane.bottom - 1;
-					magicBox.updateLook( LOOK_BOTTOM );
-				} else {
-					if ( inInlineMode() )
-						styleSet.top -= editable.size.top;
-					magicBox.updateLook( LOOK_NORMAL );
-				}
-
-				if ( inInlineMode() )
-					styleSet.top--;
-
-				// Append `px` prefixes
-				for ( var s in styleSet )
-					styleSet[ s ] = styleSet[ s ] + ( typeof styleSet[ s ] === 'number' ? 'px' : '' );
-
-				magicBox.setStyles( styleSet );
-			}
-
-			// Looks are as follows: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
-			magicBox.boxChildren = [
-				CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span title="Insert paragraph here" contenteditable="false" style="' + elementsCommon + 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + BOX_COLOR
-										+ ( CKEDITOR.env.opera ? ';' : ';cursor:pointer;' ) // cursor pointer causes mouse flickering in opera
-			+ 'height:17px;width:17px;right:17px;font-size:12px;text-align:center;">' + WHITE_SPACE + '</span>' ), {
-				looks: [
-					CKEDITOR.tools.extend({ 'top': '-1px' }, vendorPrefix( 'border-radius', '0px 0px 2px 2px' ) ),
-					CKEDITOR.tools.extend({ 'top': '-17px' }, vendorPrefix( 'border-radius', '2px 2px 0px 0px' ) ),
-					CKEDITOR.tools.extend({ 'top': '-8px' }, vendorPrefix( 'border-radius', '2px' ) )
 					]
-			}),
-				CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span style="' + elementsCommon + triangleCommon + 'left:0px;border-left-color:' + BOX_COLOR + '">' + WHITE_SPACE + '</span>' ), {
-				looks: [
-					{
-					'border-width': '0 0 8px 8px', 'top': '0px'
+				}),
+					CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span style="' + elementsCommon + triangleCommon + 'right:0px;border-right-color:' + BOX_COLOR + '">' + WHITE_SPACE + '</span>' ), {
+					looks: [
+						{
+						'border-width': '0 8px 8px 0', 'top': '0px'
+					},
+						{
+						'border-width': '8px 8px 0 0', 'top': '-8px'
+					},
+						{
+						'border-width': '8px 8px 8px 0', 'top': '-8px'
+					}
+					]
+				})
+					],
+
+				detach: function() {
+					// Only if already attached
+					if ( this.wrap.getParent() )
+						this.wrap.remove();
+
+					return this;
 				},
-					{
-					'border-width': '8px 0 0 8px', 'top': '-8px'
+
+				// Adjusts position of the box according to the trigger properties.
+				// If also affects look of the box depending on the type of the trigger.
+				positionBox: function( newTrigger ) {
+					this.trigger = newTrigger;
+
+					var styleSet = {},
+						upper = this.trigger.upper,
+						lower = this.trigger.lower,
+						any = upper || lower,
+						parent = any.getParent();
+
+					upper && updateSize( upper, true, false, true, false );
+					lower && updateSize( lower, true, false, true, false );
+					updateSize( parent, false, false, true, true );
+
+					// Yeah, that's gonna be useful in inline-mode case.
+					if ( inInlineMode() )
+						updateSize( editable, false, false, true );
+
+					// Set X coordinate (left, right, width)
+					if ( parent.equals( editable ) ) {
+						styleSet.left = view.scroll.x;
+						styleSet.right = -view.scroll.x;
+						styleSet.width = '';
+					} else {
+						styleSet.left = any.size.left - any.size.marginLeft + view.scroll.x - ( inInlineMode() ? editable.size.left : 0 );
+						styleSet.width = any.size.width + any.size.marginLeft + any.size.marginRight + view.scroll.x;
+						styleSet.right = '';
+					}
+
+					// Set Y coordinate (top) for trigger consisting of two elements
+					if ( upper && lower ) {
+						// No margins at all or they're equal. Place box right between.
+						if ( upper.size.marginBottom === lower.size.marginTop )
+							styleSet.top = 0 | ( upper.size.bottom + upper.size.marginBottom / 2 );
+
+						else {
+							// Upper margin < lower margin. Place at lower margin.
+							if ( upper.size.marginBottom < lower.size.marginTop )
+								styleSet.top = upper.size.bottom + upper.size.marginBottom;
+							// Upper margin > lower margin. Place at upper margin - lower margin.
+							else
+								styleSet.top = upper.size.bottom + upper.size.marginBottom - lower.size.marginTop;
+						}
+					}
+
+					// Set Y coordinate (top) for single-edge trigger
+					else if ( !upper )
+						styleSet.top = lower.size.top - lower.size.marginTop;
+					else if ( !lower )
+						styleSet.top = upper.size.bottom + upper.size.marginBottom;
+
+					// Set box button modes if close to the viewport horizontal edge
+					// or look forced by the trigger
+					if ( this.trigger.isLookTop() || inBetween( styleSet.top, [ view.scroll.y - 15, view.scroll.y + 5 ] ) ) {
+						styleSet.top = inInlineMode() ? 0 : view.scroll.y;
+						this.updateLook( LOOK_TOP );
+					} else if ( this.trigger.isLookBottom() || inBetween( styleSet.top, [ view.pane.bottom - 5, view.pane.bottom + 15 ] ) ) {
+						styleSet.top = inInlineMode() ? editable.size.height : view.pane.bottom - 1;
+						this.updateLook( LOOK_BOTTOM );
+					} else {
+						if ( inInlineMode() )
+							styleSet.top -= editable.size.top;
+						this.updateLook( LOOK_NORMAL );
+					}
+
+					if ( inInlineMode() )
+						styleSet.top--;
+
+					// Append `px` prefixes
+					for ( var s in styleSet )
+						styleSet[ s ] = styleSet[ s ] + ( typeof styleSet[ s ] === 'number' ? 'px' : '' );
+
+					this.setStyles( styleSet );
 				},
-					{
-					'border-width': '8px 0 8px 8px', 'top': '-8px'
-				}
-				]
-			}),
-				CKEDITOR.tools.extend( CKEDITOR.dom.element.createFromHtml( '<span style="' + elementsCommon + triangleCommon + 'right:0px;border-right-color:' + BOX_COLOR + '">' + WHITE_SPACE + '</span>' ), {
-				looks: [
-					{
-					'border-width': '0 8px 8px 0', 'top': '0px'
+
+				// Changes look of the box according to current needs.
+				// Three different styles are available: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ]
+				updateLook: function( newLook ) {
+					if ( this.look === newLook )
+						return;
+
+					for ( var i = this.boxChildren.length; i--; )
+						this.boxChildren[ i ].setStyles( this.boxChildren[ i ].looks[ newLook - 1 ] );
+
+					this.look = newLook;
 				},
-					{
-					'border-width': '8px 8px 0 0', 'top': '-8px'
-				},
-					{
-					'border-width': '8px 8px 8px 0', 'top': '-8px'
-				}
-				]
-			})
-				];
+
+				wrap: new CKEDITOR.dom.element( 'span' )
+
+			});
 
 			// Insert children into the box
 			for ( var i = magicBox.boxChildren.length; i--; )
 				magicBox.boxChildren[ i ].appendTo( magicBox );
 
+			// Set default look of the box
 			magicBox.updateLook( LOOK_NORMAL );
 
 			// Using that wrapper prevents IE (8,9) from resizing editable area at the moment
 			// of box insertion. This works thanks to the fact, that positioned box is wrapped by
 			// an inline element. So much tricky.
-			magicBox.wrap = new CKEDITOR.dom.element( 'span' );
 			magicBox.appendTo( magicBox.wrap );
-
-			magicBox.detach = function() {
-				// Only if already attached
-				if ( magicBox.wrap.getParent() )
-					magicBox.wrap.remove();
-			}
-
-			magicBox.attach = function() {
-				// Only if not already attached
-				if ( !magicBox.wrap.getParent() )
-					magicBox.wrap.appendTo( editable );
-			}
 
 			// Make the box unselectable.
 			magicBox.unselectable();
 
 			// Handle paragraph inserting
-			magicBox.boxChildren[ 0 ].on( 'mouseup', function( mouse ) {
+			magicBox.boxChildren[ 0 ].on( 'mouseup', function( event ) {
 				magicBox.detach();
 
 				insertParagraph( function( paragraph ) {
@@ -240,12 +244,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				});
 
 				outOfViewport( hotParagraph, true );
-				mouse.data.preventDefault( true );
+				event.data.preventDefault( true );
 			});
 
 			// Prevents IE9 from displaying the resize box and disables drag'n'drop functionality.
-			magicBox.on( 'mousedown', function( mouse ) {
-				mouse.data.preventDefault( true );
+			magicBox.on( 'mousedown', function( event ) {
+				event.data.preventDefault( true );
 			});
 		}
 
@@ -383,6 +387,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return isPositioned( element ) || isFloated( element );
 		}
 
+		function vendorPrefix( property, value ) {
+			var prefixes = [ '-moz-', '-webkit-', '-o-', '-ms-', '' ],
+				styles = {};
+
+			for ( var i = prefixes.length; i--; )
+				styles[ prefixes[ i ] + property ] = value;
+
+			return styles;
+		}
+
 		// Is visible HTML node?
 		var isHtml = (function( node ) {
 			var htmlNode = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
@@ -498,10 +512,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var prefixes = { margin: withMargins, padding: withPaddings },
 				prefixesValues = {},
 				docPosition = element.getDocumentPosition(),
+				borderTop = parseInt( element.getComputedStyle( 'border-top-width' ), 10 ) || 0,
+				borderBottom = parseInt( element.getComputedStyle( 'border-bottom-width' ), 10 ) || 0,
 				sides = [ 'Top', 'Right', 'Bottom', 'Left' ],
 
-				top = docPosition.y - ( ignoreScroll ? 0 : view.scroll.y ),
-				height = ignorePadding ? element.getComputedStyle( 'height' ) : element.$.offsetHeight,
+				top = docPosition.y - ( ignoreScroll ? 0 : view.scroll.y ) + borderTop,
+				height = ( ignorePadding ? element.getComputedStyle( 'height' ) : element.$.offsetHeight ) - borderTop - borderBottom,
 				bottom = top + height,
 
 				left = docPosition.x - ( ignoreScroll ? 0 : view.scroll.x ),
@@ -511,7 +527,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			for ( var prefix in prefixes )
 				if ( prefixes[ prefix ] )
 				for ( var i = sides.length; i--; )
-				prefixesValues[ prefix + sides[ i ] ] = parseInt( element.getComputedStyle( prefix + '-' + sides[ i ].toLowerCase() ).replace( /\D+/g, '' ), 10 ) || 0;
+				prefixesValues[ prefix + sides[ i ] ] = parseInt( element.getComputedStyle( prefix + '-' + sides[ i ].toLowerCase() ), 10 ) || 0;
 
 			element.size = CKEDITOR.tools.extend({ bottom: bottom, height: height, left: left, right: right, top: top, width: width }, prefixesValues, true );
 		}
@@ -623,12 +639,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Then the procedure analyses if the there's HTML node before/after that element.
 		// It also considers cases of an element being the first/last child of its parent.
 		function edgeTrigger( mouse ) {
+			DEBUG && DEBUG.groupStart( 'EdgeTrigger' ); // %REMOVE_LINE%
+
 			var element = getAscendantTrigger( elementFromMouse( mouse, true, true ) );
+			DEBUG && DEBUG.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
 
-			//DEBUG && DEBUG.logElements( [ element ], [ 'ascTr' ] )
-
-			if ( !element || editable.equals( element ) )
+			if ( !element || editable.equals( element ) ) {
+				DEBUG && DEBUG.logEnd( 'ABORT. No element or element is editable.' ); // %REMOVE_LINE%
 				return;
+			}
 
 			// If TRIGGER_OFFSET is larger than a half of element's height, reduce the offset.
 			// If the offset wasn't reduced, top area search would cover most (all) cases.
@@ -645,19 +664,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Real HTML element before
 				if ( isHtml( elementPrevious ) ) {
-					//DEBUG && DEBUG.log( 'Made edge trigger. EDGE_MIDDLE' );
+					DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
 					return new boxTrigger( elementPrevious, element, EDGE_MIDDLE, TYPE_EDGE );
 				}
 
 				// It's a text node
 				if ( elementPrevious ) {
-					//DEBUG && DEBUG.log( 'Previous is non-empty text node.', elementPrevious );
+					DEBUG && DEBUG.logEnd( 'ABORT. Previous is non-empty text node', elementPrevious ); // %REMOVE_LINE%
 					return false;
 				}
 
 				// No previous element
 				if ( !elementPrevious ) {
-					//DEBUG && DEBUG.log( 'Made edge trigger. EDGE_TOP' );
+					DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_TOP' ); // %REMOVE_LINE%
 					return new boxTrigger( null, element, EDGE_TOP, TYPE_EDGE, element.equals( editable.getFirst( isRelevant ) ) ? LOOK_TOP : LOOK_NORMAL );
 				}
 			}
@@ -669,23 +688,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Real HTML element before
 				if ( isHtml( elementNext ) ) {
-					//DEBUG && DEBUG.log( 'Made edge trigger. EDGE_MIDDLE' );
+					DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
 					return new boxTrigger( element, elementNext, EDGE_MIDDLE, TYPE_EDGE );
 				}
 
 				// It's a text node
 				if ( elementNext ) {
-					//DEBUG && DEBUG.log( 'Next is non-empty text node.', elementPrevious );
+					DEBUG && DEBUG.logEnd( 'ABORT. Next is non-empty text node.', elementPrevious ); // %REMOVE_LINE%
 					return false;
 				}
 
 				// No next element
 				if ( !elementNext ) {
-					//DEBUG && DEBUG.log( 'Made edge trigger. EDGE_BOTTOM' );
+					DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_BOTTOM' ); // %REMOVE_LINE%
 					return new boxTrigger( element, null, EDGE_BOTTOM, TYPE_EDGE, element.equals( editable.getLast( isRelevant ) ) && inBetween( element.size.bottom, [ view.pane.height - TRIGGER_OFFSET, view.pane.height ] ) ? LOOK_BOTTOM : LOOK_NORMAL );
 				}
 			}
 
+			DEBUG && DEBUG.groupEnd(); // %REMOVE_LINE%
 			return false;
 		}
 
@@ -722,6 +742,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Checks iteratively up and down in search for elements using elementFromMouse method.
 		// Useful if between two triggers.
 		function expandTrigger( mouse ) {
+			DEBUG && DEBUG.groupStart( 'ExpandTrigger' ); // %REMOVE_LINE%
+
 			var startElement = elementFromMouse( mouse, true ),
 				upper, lower, trigger;
 
@@ -738,14 +760,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			upper = trigger.upper, lower = trigger.lower;
 
-			// Success: two siblings have been found
-			if ( upper && lower && areSiblings( upper, lower ) )
-				return CKEDITOR.tools.extend( trigger, {
-				edge: EDGE_MIDDLE,
-				type: TYPE_EXPAND
-			}, true );
+			DEBUG && DEBUG.logElements( [ upper, lower ], [ 'Upper', 'Lower' ], 'Pair found' ); // %REMOVE_LINE%
 
-			//DEBUG && DEBUG.logElements( [ startElement, upper, lower ], [ 'start', 'upper', 'lower' ] );
+			// Success: two siblings have been found
+			if ( upper && lower && areSiblings( upper, lower ) ) {
+				DEBUG && DEBUG.logEnd( 'SUCCESS. Expand trigger created.' ); // %REMOVE_LINE%
+				return CKEDITOR.tools.extend( trigger, {
+					edge: EDGE_MIDDLE,
+					type: TYPE_EXPAND
+				}, true );
+			}
+
+			DEBUG && DEBUG.logElements( [ startElement, upper, lower ], [ 'Start', 'Upper', 'Lower' ], 'Post-processing' ); // %REMOVE_LINE%
 
 			// Danger. Dragons ahead.
 			// No siblings have been found during previous phase, post-processing may be necessary.
@@ -791,7 +817,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// 1.3.
 			if ( !upper || !lower ) {
-				//DEBUG && DEBUG.log( 'There's no upper or no lower element.' );
+				DEBUG && DEBUG.logEnd( 'ABORT. There is no upper or no lower element.' ); // %REMOVE_LINE%
 				return null;
 			}
 
@@ -799,7 +825,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !isHtml( upper ) || isBox( upper ) ) {
 				// 2.2.
 				if ( !( upper = upper.getNext( isRelevant ) ) ) {
-					//DEBUG && DEBUG.log( 'There's no upper next.' );
+					DEBUG && DEBUG.logEnd( 'ABORT There is no upper next.' ); // %REMOVE_LINE%
 					return null;
 				}
 			}
@@ -812,9 +838,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// 2.4.
 			if ( upper.size.bottom > mouse.y ) {
-				//DEBUG && DEBUG.log( 'We're already below the pointer.' );
-				//DEBUG && DEBUG.logElements( [ startElement, upper, lower ], [ 'start', 'upper', 'lower' ] );
-				//DEBUG && DEBUG.markElement( upper );
+				DEBUG && DEBUG.logElementsEnd( [ startElement, upper, lower ], [ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below the pointer.' ); // %REMOVE_LINE%
 				return null;
 			}
 
@@ -822,8 +846,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// 3.1.
 				if ( !( upperNext = upper.getNext( isRelevant ) ) )
 					break;
-
-				//DEBUG.logElements( [ upper, upperNext ], [ 'upper', 'upperNext' ] )
 
 				// 3.2.
 				currentDistance = Math.abs( getMidpoint( upper, upperNext ) - mouse.y );
@@ -839,12 +861,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				updateSize( upper );
 			}
 
-			// DEBUG && DEBUG.logElements( [ startElement, upper, lower ], [ 'start', 'upper', 'lower' ] );
-			// DEBUG && DEBUG.logElements( [ minElement, minElementNext ], [ 'min', 'minNext' ] );
+			DEBUG && DEBUG.logElements( [ minElement, minElementNext ], [ 'Min', 'MinNext' ], 'Post-processing results' ); // %REMOVE_LINE%
 
 			// 3.4.
 			if ( !minElement || !minElementNext ) {
-				// DEBUG && DEBUG.log( 'no minElement or minNext' );
+				DEBUG && DEBUG.logEnd( 'ABORT. No Min or MinNext' ); // %REMOVE_LINE%
 				return null;
 			}
 
@@ -853,6 +874,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			trigger.lower = minElementNext;
 
 			// Success: post-processing revealed a pair of elements
+			DEBUG && DEBUG.logEnd( 'SUCCESSFUL post-processing. Trigger created.' ); // %REMOVE_LINE%
 			return CKEDITOR.tools.extend( trigger, {
 				edge: EDGE_MIDDLE,
 				type: TYPE_EXPAND
@@ -886,14 +908,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// TODO: This method is to be rewritten to reduce redundant conditions.
 		// Until then it is ugly but easy to read.
 		function triggerFilter( trigger, mouse ) {
+			DEBUG && DEBUG.groupStart( 'TriggerFilter' ); // %REMOVE_LINE%
+
 			var upper = trigger.upper,
 				lower = trigger.lower;
 
-			// DEBUG && DEBUG.logElements( [ upper, lower ], [ 'upper', 'lower' ] );
-
 			// NOT: one of the elements is floated/positioned
 			if ( flowBreaker( lower ) || flowBreaker( upper ) ) {
-				//DEBUG && DEBUG.log( 'REJECTED. Lower or upper are flowbreakers.' );
+				DEBUG && DEBUG.logEnd( 'REJECTED. Lower or upper are flowbreakers.' ); // %REMOVE_LINE%
 				return false;
 			}
 
@@ -903,25 +925,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				|| lower.equals( upper ) || upper.equals( lower ) // NOT: two trigger elements, one equals another
 				|| lower.contains( upper ) || upper.contains( lower ) ) // NOT: two trigger elements, one contains another
 				{
-					//DEBUG && DEBUG.log( 'REJECTED.' );
+					DEBUG && DEBUG.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
 					return false;
 				}
 
 				// YES: two trigger elements, pure siblings
 				if ( isTrigger( upper ) && isTrigger( lower ) && areSiblings( upper, lower ) ) {
 					if ( trigger.isExpand() ) {
-						//DEBUG && DEBUG.log( 'APPROVED EDGE_MIDDLE.', upper, lower );
-						//DEBUG && DEBUG.logElements( [ upper, lower ], [ 'upper', 'lower' ] )
+						DEBUG && DEBUG.logElementsEnd( [ upper, lower ], [ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
 						return true;
 					}
 
 					// Check if there's an element that is between the edge and mouse pointer
 					if ( trigger.isEdge() && !isChildBetweenPointerAndEdge( upper, mouse, true ) && !isChildBetweenPointerAndEdge( lower, mouse, false ) ) {
-						//DEBUG && DEBUG.log( 'APPROVED EDGE_MIDDLE.', upper, lower );
-						//DEBUG && DEBUG.logElements( [ upper, lower ], [ 'upper', 'lower' ] )
+						DEBUG && DEBUG.logElementsEnd( [ upper, lower ], [ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE.' ); // %REMOVE_LINE%
 						return true;
 					} else {
-						//DEBUG && DEBUG.log( 'REJECTED EDGE_MIDDLE. Edge child above/below.', upper, lower );
+						DEBUG && DEBUG.logElementsEnd( [ upper, lower ], [ 'upper', 'lower' ], 'REJECTED EDGE_MIDDLE' ); // %REMOVE_LINE%
 						return false;
 					}
 				}
@@ -930,7 +950,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( trigger.isTop() ) {
 				// NOT: there's a child above the pointer
 				if ( isChildBetweenPointerAndEdge( lower, mouse, false ) ) {
-					//DEBUG && DEBUG.log( 'REJECT EDGE_TOP. Edge child above', lower );
+					DEBUG && DEBUG.logElementsEnd( [ lower ], [ 'lower' ], 'REJECT EDGE_TOP. Edge child above' ); // %REMOVE_LINE%
 					return false;
 				}
 
@@ -938,13 +958,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( isTrigger( lower ) ) {
 					// NOT: signle trigger element, a child of li/dt/dd
 					if ( !!DTD_LISTITEM[ lower.getParent().getName() ] ) {
-						//DEBUG && DEBUG.log( 'REJECT EDGE_TOP. Parent is list' );
+						DEBUG && DEBUG.logEnd( 'REJECT EDGE_TOP. Parent is list' ); // %REMOVE_LINE%
 						return false;
 					}
 
 					// YES: single trigger element, first child
-					//DEBUG && DEBUG.log( 'APPROVED EDGE_TOP.' );
-					//DEBUG && DEBUG.logElements( [ lower ], [ 'lower' ] )
+					DEBUG && DEBUG.logElementsEnd( [ lower ], [ 'lower' ], 'APPROVED EDGE_TOP' ); // %REMOVE_LINE%
 					return true;
 				}
 			}
@@ -952,7 +971,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( trigger.isBottom() ) {
 				// NOT: there's a child below the pointer
 				if ( isChildBetweenPointerAndEdge( upper, mouse, true ) ) {
-					//DEBUG && DEBUG.log( 'REJECT EDGE_BOTTOM. Edge child below', upper );
+					DEBUG && DEBUG.logElementsEnd( [ upper ], [ 'upper' ], 'REJECT EDGE_BOTTOM. Edge child below' ); // %REMOVE_LINE%
 					return false;
 				}
 
@@ -960,19 +979,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( isTrigger( upper ) ) {
 					// NOT: signle trigger element, a child of li/dt/dd
 					if ( !!DTD_LISTITEM[ upper.getParent().getName() ] ) {
-						//DEBUG && DEBUG.log( 'REJECT EDGE_BOTTOM. Parent is list' );
+						DEBUG && DEBUG.logEnd( 'REJECT EDGE_BOTTOM. Parent is list' ); // %REMOVE_LINE%
 						return false;
 					}
 
-					//DEBUG && DEBUG.log( 'APPROVED EDGE_BOTTOM.' );
-					//DEBUG && DEBUG.logElements( [ upper ], [ 'upper' ] )
-
 					// YES: single trigger element, last child
+					DEBUG && DEBUG.logElementsEnd( [ upper ], [ 'upper' ], 'APPROVED EDGE_BOTTOM' ); // %REMOVE_LINE%
 					return true;
 				}
 			}
 
-			//DEBUG && DEBUG.log( 'REJECT others.' );
+			DEBUG && DEBUG.logElementsEnd( [ upper, lower ], [ 'upper', 'lower' ], 'Rejected unknown pair' ); // %REMOVE_LINE%
 			return false;
 		}
 
@@ -1009,7 +1026,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// it tries to use different trigger type in order to place the box
 			// in correct place. The following procedure is executed periodically.
 			function checkMouse( mouse ) {
-				DEBUG && DEBUG.startTimer();
+				DEBUG && DEBUG.groupStart( 'CheckMouse' ); // %REMOVE_LINE%
+				DEBUG && DEBUG.startTimer(); // %REMOVE_LINE%
 
 				var trigger = null,
 					editableLast;
@@ -1018,16 +1036,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				updateViewSize();
 
 				if ( checkMouseTimeoutPending //	-> There must be an event pending
-				&& !mouseNearOf( magicBox, mouse, .5 * TRIGGER_OFFSET ) // 	-> Mouse pointer can't be close to the box
+				&& !mouseNearOf( magicBox, mouse, HOLD_DISTANCE * TRIGGER_OFFSET ) // 	-> Mouse pointer can't be close to the box
 				&& ( element = elementFromMouse( mouse, true, true ) ) // 	-> There must be valid element under mouse pointer
 				&& !hiddenMode // 	-> Can't be in hidden mode (e.g. shift is pressed or scrolling)
 				&& editor.focusManager.hasFocus ) // 	-> Editor must have focus
 				{
 					// If trigger exists, and trigger is correct -> show the box
-					if ( ( trigger = editableTrigger( mouse ) || edgeTrigger( mouse ) || expandTrigger( mouse ) ) && triggerFilter( trigger, mouse ) ) {
-						magicBox.attach( editable );
-						magicBox.positionBox( trigger );
-					}
+					if ( ( trigger = editableTrigger( mouse ) || edgeTrigger( mouse ) || expandTrigger( mouse ) ) && triggerFilter( trigger, mouse ) )
+						magicBox.attach( editable ).positionBox( trigger );
 
 					// Otherwise remove the box
 					else {
@@ -1035,13 +1051,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						magicBox.detach();
 					}
 
-					//DEBUG && DEBUG.showTrigger( trigger );
-					DEBUG && DEBUG.mousePos( mouse.y, element );
+					DEBUG && DEBUG.showTrigger( trigger ); // %REMOVE_LINE%
+					DEBUG && DEBUG.mousePos( mouse.y, element ); // %REMOVE_LINE%
 
 					checkMouseTimeoutPending = false;
 				}
 
-				DEBUG && DEBUG.stopTimer();
+				DEBUG && DEBUG.stopTimer(); // %REMOVE_LINE%
+				DEBUG && DEBUG.groupEnd(); // %REMOVE_LINE%
 			}
 
 			// This method ensures that checkMouse aren't executed
@@ -1050,10 +1067,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
-				if ( !editor.mode == 'wysiwyg' )
-					return;
-
-				if ( checkMouseTimer )
+				if ( !editor.mode == 'wysiwyg' || checkMouseTimer )
 					return;
 
 				(function( mouse ) {
@@ -1087,6 +1101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					updateViewSize();
 					updateSize( editable, false, false, true );
 
+					// If outside of an editor...
 					if ( !inBetween( mouse.x, [
 						editable.size.left - view.scroll.x,
 						editable.size.right - view.scroll.x
@@ -1105,15 +1120,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( !dest.$ || dest.getName() === 'html' ) {
 					clearTimeout( checkMouseTimer );
 					checkMouseTimer = null;
-					hideTimeout = CKEDITOR.tools.setTimeout( magicBox.detach, 150, magicBox.wrap );
+					hideTimeout = CKEDITOR.tools.setTimeout( magicBox.detach, 150, magicBox );
 				}
 			});
 
-			// This one activates hidden mode of an editor which
+			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
 			editable.on( 'keyup', function( event ) {
 				hiddenMode = false;
-				//DEBUG && DEBUG.showHidden( hiddenMode );
+				DEBUG && DEBUG.showHidden( hiddenMode ); // %REMOVE_LINE%
 			});
 
 			editable.on( 'keydown', function( event ) {
@@ -1124,8 +1139,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					selection = editor.getSelection(),
 					selected = selection.getStartElement();
 
-				// DEBUG && DEBUG.log( event, event.data.getKey(), event.data.getKeystroke() );
-
 				switch ( keyStroke ) {
 					// Shift pressed
 					case 2228240: // IE
@@ -1134,6 +1147,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						magicBox.detach();
 						break;
 
+						// %REMOVE_START%
 						// Command keystrokes
 					case KEYSTROKE_BEFORE:
 						editor.execCommand( 'accessSpaceBefore' );
@@ -1144,9 +1158,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editor.execCommand( 'accessSpaceAfter' );
 						event.data.preventDefault();
 						break;
+						// %REMOVE_END%
 				}
 
-				//DEBUG && DEBUG.showHidden( hiddenMode );
+				DEBUG && DEBUG.showHidden( hiddenMode ); // %REMOVE_LINE%
 			});
 
 			// Remove the box before an undo image is created.
@@ -1188,34 +1203,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				magicBox.detach();
 				hiddenMode = true;
+
+				DEBUG && DEBUG.showHidden( hiddenMode ); // %REMOVE_LINE%
 			});
 
 			win.on( 'mouseup', function( event ) {
 				hiddenMode = false;
+
+				DEBUG && DEBUG.showHidden( hiddenMode ); // %REMOVE_LINE%
 			});
 
-			// Pure dev, for testing purposes
-			this.test = {
+			// This one allows testing and debugging. It reveals some
+			// inner methods to the world.
+			this.backdoor = {
+				isHtml: isHtml,
 				triggerFilter: triggerFilter,
 				updateSize: updateSize,
-
-				isHtml: isHtml,
 				boxTrigger: boxTrigger,
-				magicBox: magicBox,
-
-				EDGE_TOP: EDGE_TOP,
-				EDGE_BOTTOM: EDGE_BOTTOM,
-				EDGE_MIDDLE: EDGE_MIDDLE,
-				TYPE_EDGE: TYPE_EDGE,
-				TYPE_EXPAND: TYPE_EXPAND,
-				LOOK_TOP: LOOK_TOP,
-				LOOK_NORMAL: LOOK_NORMAL,
-				LOOK_BOTTOM: LOOK_BOTTOM
+				magicBox: magicBox
 			};
 		}
 	};
 
-	CKEDITOR.plugins.add( 'magicbox', { init: init } );
+	CKEDITOR.plugins.add( 'magicbox', {
+		lang: [ 'en', 'pl' ],
+		init: init
+	});
 })();
 
 /**
@@ -1224,11 +1237,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @name CKEDITOR.config.magicbox_triggerOffset
  * @type Number
  * @default <code>30</code>
+ * @see CKEDITOR.config.magicbox_holdDistance
  * @example
  * // Increases the offset to 15px.
  * config.magicbox_triggerOffset = 15;
  */
 
+/**
+ * Defines the distance between mouse pointer and the box, within
+ * which the box stays revealed and no other focus space is offered to be accessed.
+ * The value is relative to {@link CKEDITOR.config.magicbox_triggerOffset}.
+ * @name CKEDITOR.config.magicbox_holdDistance
+ * @type Number
+ * @default <code>.5</code>
+ * @see CKEDITOR.config.magicbox_triggerOffset
+ * @example
+ * // Increases the distance to 80% of {@link CKEDITOR.config.magicbox_triggerOffset}.
+ * config.magicbox_holdDistance = .8;
+ */
+
+// %REMOVE_START%
 /**
  * Defines default keystroke that inserts new paragraph before an element that
  * holds start of the current selection or just simply holds the caret.
@@ -1250,7 +1278,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * // Changes keystroke to CTRL + SHIFT + .
  * config.magicbox_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
  */
-
+// %REMOVE_END%
 /**
  * Defines box color. The color may be adjusted to enhance readability.
  * @name CKEDITOR.config.magicbox_boxColor
