@@ -164,11 +164,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					data = textHtmlification( editor, data );
 				// Unify text markup.
 				else if ( trueType == 'htmlifiedtext' )
-					data = htmlifiedTextHtmlification( data );
+					data = htmlifiedTextHtmlification( editor.config, data );
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
+					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
 				}
 
 				if ( dataObj.startsWithEOL )
@@ -852,8 +852,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			if ( !data.match( /^[^<]*$/g ) && !data.match( /^(<div><br( ?\/)?><\/div>|<div>[^<]*<\/div>)*$/gi ) )
 				return 'html';
 		} else if ( CKEDITOR.env.ie ) {
-			// Text or <br> or text and <br> in <p>.
-			if ( !data.match( /^([^<]|<br( ?\/)?>|<p>([^<]|<br( ?\/)?>)*<\/p>)*$/gi ) )
+			// Text and <br> or ( text and <br> in <p> - paragraphs can be separated by new \r\n ).
+			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) && !data.match( /^(<p>([^<]|<br( ?\/)?>)*<\/p>|(\r\n))*$/gi ) )
 				return 'html';
 		} else if ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
 			// Text or <br>.
@@ -914,12 +914,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// This function transforms what browsers produce when
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
-	function htmlifiedTextHtmlification( data ) {
+	function htmlifiedTextHtmlification( config, data ) {
 		// Replace adjacent white-spaces with one space and unify all to spaces.
 		data = data.replace( /(&nbsp;|\s)+/ig, ' ' )
 		// Remove spaces before/after opening/closing tag.
 		.replace( /> /g, '>' ).replace( / </g, '<' )
-		// Normalize XHTML syntax.
+		// Normalize XHTML syntax and upper cased <br> tags.
 		.replace( /<br ?\/>/gi, '<br>' );
 
 		// IE - lower cased tags.
@@ -929,30 +929,50 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
+			// One line break at the beginning - insert <br>
+			data = data.replace( /^(<div>(<br>|)<\/div>)(?!$|(<div>(<br>|)<\/div>))/g, '<br>' )
+			// Two or more - reduce number of new lines by one.
+			.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
+
 			// Two line breaks create one paragraph in Webkit.
-			if ( data.match( /<div>(<br>| |)<\/div>/ ) )
-				data = '<p>' + data.replace( /<div>(<br>| |)<\/div>/g, '</p><p>' ) + '</p>';
+			if ( data.match( /<div>(<br>|)<\/div>/ ) ) {
+				data = '<p>' + data.replace( /(<div>(<br>|)<\/div>)+/g, function( match ) {
+					return repeatParagraphs( match.split( '</div><div>' ).length + 1 );
+				}) + '</p>';
+			}
+
 			// One line break create br.
 			data = data.replace( /<\/div><div>/g, '<br>' );
-
-			// Remove div tags that remained - they should be inside <p> tags.
-			// See TCs for "incorrect recognition" to see why we cannot remove all divs.
-			data = data.replace( /<\/div>(<br>)*<\/p>/g, '$1</p>' ).replace( /<p><div>/g, '<p>' );
 
 			// Remove remaining divs.
 			data = data.replace( /<\/?div>/g, '' );
 		}
 
-		// Opera and Firefox.
-		if ( ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) && data.indexOf( '<br><br>' ) > -1 ) {
-			// Two line breaks create one paragraph, three - 2, four - 3, etc.
-			data = '<p>' + data.replace( /(<br>){2,}/g, function( match ) {
-				return CKEDITOR.tools.repeat( '</p><p>', match.length / 4 - 1 );
-			}) + '</p>';
+		// Opera and Firefox and enterMode != BR.
+		if ( ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) && config.enterMode != CKEDITOR.ENTER_BR ) {
+			// Remove bogus <br> - Fx generates two <brs> for one line break.
+			// For two line breaks it still produces two <brs>, but it's better to ignore this case than the first one.
+			if ( CKEDITOR.env.gecko )
+				data = data.replace( /^<br><br>$/, '<br>' );
+
+			// This line satisfy edge case when for Opera we have two line breaks
+			//data = data.replace( /)
+
+			if ( data.indexOf( '<br><br>' ) > -1 ) {
+				// Two line breaks create one paragraph, three - 2, four - 3, etc.
+				data = '<p>' + data.replace( /(<br>){2,}/g, function( match ) {
+					return repeatParagraphs( match.length / 4 );
+				}) + '</p>';
+			}
 		}
 
-		// Fix <brs>, but only at the beginning of the block, so we wont't break bogus <br>.
-		return data.replace( /<p><br>/g, '<p></p><p>' );
+		return switchEnterMode( config, data );
+
+		function repeatParagraphs( repeats ) {
+			// Repeat blocks floor((n+1)/2) times.
+			// Even number of repeats - add <br> at the beginning of last <p>.
+			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
+		}
 	}
 
 	// Filter can be editor dependent.
@@ -1067,7 +1087,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return filter;
 	}
 
-	function htmlTextification( data, filter ) {
+	function htmlTextification( config, data, filter ) {
 		var fragment = new CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 
@@ -1085,7 +1105,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
 		// <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p>G
 		var nested = 0;
-		return data.replace( /<\/?p>/g, function( match ) {
+		data = data.replace( /<\/?p>/g, function( match ) {
 			if ( match == '<p>' ) {
 				if ( ++nested > 1 )
 					return '</p><p>';
@@ -1096,6 +1116,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			return match;
 		}).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
+
+		return switchEnterMode( config, data );
+	}
+
+	function switchEnterMode( config, data ) {
+		if ( config.enterMode == CKEDITOR.ENTER_BR ) {
+			data = data.replace( /(<\/p><p>)+/g, function( match ) {
+				return CKEDITOR.tools.repeat( '<br>', match.length / 7 * 2 );
+			}).replace( /<\/?p>/g, '' );
+		} else if ( config.enterMode == CKEDITOR.ENTER_DIV ) {
+			data = data.replace( /<(\/)?p>/g, '<$1div>' );
+		}
+
+		return data;
 	}
 })();
 
