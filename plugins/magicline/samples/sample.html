@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Magicbox muddy trenches &ndash; CKEditor Sample</title>
+	<title>Magicline muddy trenches &ndash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 	<style>
@@ -42,7 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; magicbox muddy trenches
+		CKEditor Sample &mdash; magicline muddy trenches
 	</h1>
 	<div id="editors">
 		<textarea cols="80" id="editor1" name="editor1" rows="10">
@@ -79,7 +79,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</table>
 			<div style="border: 1px solid red; padding: 50px">
 				Parent
-				<div style="border: 1px solid green; padding: 10px">Child</div>
+				<div style="border: 10px solid green; padding: 10px">Child</div>
 			</div>
 			I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body.
 			I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body. I'm in a body.
@@ -92,7 +92,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				</tr>
 				<tr>
 					<td>
-						<table border="1" class="inner">
+						<table border="10" class="inner">
 							<tbody>
 								<tr>
 									<td>Table Cell 1</td>
@@ -301,11 +301,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<p>
 				The tale makes the clearest contrast between the safe world of the village and the dangers of the <a href="http://en.wikipedia.org/wiki/Enchanted_forest" title="Enchanted forest">forest</a>, conventional antitheses that are essentially medieval, though no written versions are as old as that.</p>
 		</div>
-		<div id="interpret" contenteditable="true" style="left: 123px; outline: 1px solid red; border: 15px solid green;">
+		<div id="interpret" contenteditable="true" style="left: 123px; outline: 1px solid red; border: 15px solid green; position: relative; top: 30; left: 55px;">
 			<div style="padding: 20px; background: gray; width: 300px" class="1">Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim.</div>
-			<div style="background: violet; padding: 30px" class="static">
+			<div style="background: violet; padding: 30px;" class="static">
 				Position static
-				<div style="background: green; padding: 30px">foo</div>
+				<div style="background: green; padding: 30px;  border: 14px solid orange">foo</div>
 			</div>
 			<dl class="2">
 				<dt>Key</dt><dd>Value</dd>
@@ -346,7 +346,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		'use strict';
 
-		var DEBUG = {
+		var _DEBUG = {
 				log: function()
 				{
 					var args = [];
@@ -458,7 +458,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'class' : isHtml( elements[ i ] ) ? elements[ i ].getAttribute( 'class' ) : 'null'
 						}
 
-					typeof JSON != 'undefined' && console.log( ( info ? info.toUpperCase() + ' ' : '' ) + JSON.stringify( log ) );
+					typeof JSON != 'undefined' && DEBUG.log( ( info ? info.toUpperCase() + ' ' : '' ) + JSON.stringify( log ) );
 				},
 
 				markElement : function( element )
@@ -531,7 +531,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'justify,' +
 			'link,' +
 			'list,' +
-			'magicbox,' +
+			'magicline,' +
 			'pagebreak,' +
 			'pastefromword,' +
 			'pastetext,' +
@@ -559,20 +559,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			on : {
 				// Gain inner methods of an editor
 				'instanceReady' : function( event ) {
-					CKEDITOR.tools.extend( window, event.editor.plugins.magicbox.backdoor );
+					CKEDITOR.tools.extend( window, event.editor.plugins.magicline.backdoor );
 				}
 			}
 		} );
 
 		CKEDITOR.replace( 'editor2', { height: 150 } );
 		CKEDITOR.replace( 'editor3', {
-			magicbox_putEverywhere : 1,
-			magicbox_holdDistance : .2
+			magicline_putEverywhere : 1,
+			magicline_holdDistance : .2,
+			language : 'pl'
 		} );
 		CKEDITOR.replace( 'editor4' );
 		CKEDITOR.replace( 'hood', {
-			magicbox_boxColor : 'green',
-			magicbox_boxOpacity : .3
+			magicline_boxColor : 'green',
+			magicline_boxOpacity : .3
 		} );
 	</script>
 </body>
