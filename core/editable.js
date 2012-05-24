@@ -737,6 +737,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
+				dtdRemoveEmpty = DTD.$removeEmpty,
 				node, marker, path, startPath, endPath, previous, bm;
 
 			// If range starts in inline element then insert a marker, so empty
@@ -782,12 +783,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				range.setEndBefore( marker );
 				range.collapse();
 				marker.remove();
-			} else if ( that.type == 'html' ) {
-				// Split inline elements so HTML will be inserted with its own styles.
-				path = range.startPath();
-				path.elements.reverse();
-				node = path.contains( DTD.$removeEmpty );
-				node && range.splitElement( node );
+			}
+
+			// Split inline elements so HTML will be inserted with its own styles.
+			path = range.startPath();
+			path.elements.reverse();
+			if ( node = path.contains( DTD.$removeEmpty ) ) {
+				range.splitElement( node );
+				that.inlineStylesRoot = node;
+				that.inlineStylesPeak = path.elements.pop();
 			}
 
 			// Record inline merging candidates for later cleanup in place.
@@ -795,13 +799,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
-			node && checkIfElement( node ) && node.is( DTD.$removeEmpty ) && mergeCandidates.push( node );
+			node && checkIfElement( node ) && node.is( dtdRemoveEmpty ) && mergeCandidates.push( node );
 			node = bm.startNode.getNext( isNotEmpty );
-			node && checkIfElement( node ) && node.is( DTD.$removeEmpty ) && mergeCandidates.push( node );
+			node && checkIfElement( node ) && node.is( dtdRemoveEmpty ) && mergeCandidates.push( node );
 
 			// 2. Inline parents.
 			node = bm.startNode;
-			while ( ( node = node.getParent() ) && node.is( DTD.$removeEmpty ) )
+			while ( ( node = node.getParent() ) && node.is( dtdRemoveEmpty ) )
 				mergeCandidates.push( node );
 
 			range.moveToBookmark( bm );
@@ -810,6 +814,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function processDataForInsertion( that, data ) {
 			var range = that.range,
 				dataWrapper;
+
+			// Rule 8. - wrap entire data in inline styles.
+			// (e.g. <p><b>x^z</b></p> + <p>a</p><p>b</p> -> <b><p>a</p><p>b</p></b>)
+			// Incorrect tags order will be fixed by htmlDataProcessor.
+			if ( that.type == 'text' && that.inlineStylesRoot )
+				data = wrapDataWithInlineStyles( data, that.inlineStylesRoot, that.inlineStylesPeak );
 
 			// Process the inserted html, in context of the insertion root.
 			var args = [ data, that.blockLimit.getName() ],
@@ -1153,6 +1163,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return nodes;
 		}
 
+		function getRangePrevious( range ) {
+			return checkIfElement( range.startContainer ) && range.startContainer.getChild( range.startOffset - 1 );
+		}
+
 		// See rule 5. in TCs.
 		// Initial situation:
 		// <ul><li>AA^</li></ul><ul><li>BB</li></ul>
@@ -1245,8 +1259,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			element.remove();
 		}
 
-		function getRangePrevious( range ) {
-			return checkIfElement( range.startContainer ) && range.startContainer.getChild( range.startOffset - 1 );
+		function wrapDataWithInlineStyles( data, stylesRoot, stylesPeak ) {
+			var wrapper = new CKEDITOR.dom.text( '{cke-peak}' ),
+				element = stylesPeak,
+				limit = stylesRoot.getParent(),
+				i = 0;
+
+			while ( !element.equals( limit ) ) {
+				wrapper = wrapper.appendTo( element.clone() );
+				element = element.getParent();
+			}
+
+			wrapper = wrapper.getOuterHtml().split( '>{cke-peak}<' );
+			return wrapper[ 0 ] + '>' + data + '<' + wrapper[ 1 ];
 		}
 
 		return insert;
