@@ -1346,6 +1346,11 @@ CKEDITOR.dom.range = function( root ) {
 			this.collapse( true );
 		},
 
+		moveToRange: function( range ) {
+			this.setStart( range.startContainer, range.startOffset );
+			this.setEnd( range.endContainer, range.endOffset );
+		},
+
 		selectNodeContents: function( node ) {
 			this.setStart( node, 0 );
 			this.setEnd( node, node.type == CKEDITOR.NODE_TEXT ? node.getLength() : node.getChildCount() );

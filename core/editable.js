@@ -690,30 +690,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// <p><b>A[B</b></p><p><b>C]D</b></p> + E => <p><b>AE</b></p><p><b>D</b></p> =>
 				//		<p><b>AE</b><b>D</b></p> - affected container is <p> (in text mode).
 				inlineMergeCandidates = [],
+				zombies = [],
 				rangeEndsPaths, dontMoveCaret, dataWrapper;
 
-			rangeEndsPaths = prepareRangeToDataInsertion( type, range, inlineMergeCandidates, blockLimit );
+			rangeEndsPaths = prepareRangeToDataInsertion( type, range, blockLimit, inlineMergeCandidates, zombies );
 
 			// DATA PROCESSING
 
 			// Select range and stop execution.
-			if ( !data ) {
-				//bookmark = range.createBookmark();
-				//mergeAdjacentInlineElements( range );
-				//range.moveToBookmark( bookmark );
-				return selection.selectRanges( [ range ] );
+			if ( data ) {
+				dataWrapper = processDataForInsertion( editor, editable, range, data, blockLimit );
+
+				// DATA INSERTION
+				dontMoveCaret = insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit, zombies );
 			}
-
-			dataWrapper = processDataForInsertion( editor, editable, range, data, blockLimit );
-
-			// DATA INSERTION
-
-			dontMoveCaret = insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit );
 
 			// FINAL CLEANUP
 			// Set final range position and clean up.
 
-			cleanupAfterInsertion( type, selection, range, inlineMergeCandidates, dontMoveCaret );
+			cleanupAfterInsertion( type, selection, range, inlineMergeCandidates, dontMoveCaret, zombies );
+
+			// Make the final range selection.
+			range.select();
+			selection.scrollIntoView();
 
 			afterInsert( editable );
 		}
@@ -728,7 +727,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Prepare range to its data deletion.
 		// Delete its contents.
 		// Prepare it to insertion.
-		function prepareRangeToDataInsertion( type, range, mergeCandidates, blockLimit ) {
+		function prepareRangeToDataInsertion( type, range, blockLimit, mergeCandidates, zombies ) {
 			var node, marker, path, startPath, endPath;
 
 			// If range starts in inline element then insert a marker, so empty
@@ -748,25 +747,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			startPath = new CKEDITOR.dom.elementPath( range.startContainer );
 			endPath = new CKEDITOR.dom.elementPath( range.endContainer );
 
-			// Place caret between text nodes - in container which is an element.
-			if ( range.collapsed )
-				range.trim();
-			// Delete contents of this range.
-			else
-				range.deleteContents();
+			if ( !range.collapsed ) {
+				// Anticipate the possibly empty block at the end of range after deletion.
+				node = endPath.block;
+				if ( node && !node.equals( startPath.block ) && range.checkEndOfBlock() )
+					zombies.push( node );
 
+				range.deleteContents();
+			}
 
 			// Rule 4.
+			// Move range into the previous block.
 			var previous;
-			while (
-			// Get element that ends just before this range.
-			// TODO: Use walker to navigate.
-			( previous = range.startContainer.getChild( range.startOffset - 1 ) ) && checkIfElement( previous ) && !previous.is( CKEDITOR.dtd.$removeEmpty )
+			while ( ( previous = getRangePrevious( range ) ) && checkIfElement( previous ) && previous.isBlockBoundary() &&
 			// Check if previousNode was parent of range's startContainer before deleteContents.
-			&& checkIfPathContainsElement( startPath, previous ) ) {
-				// If yes - move range at the end of previousNode.
-				range.setEndAt( previous, CKEDITOR.POSITION_BEFORE_END );
-				range.collapse();
+			checkIfPathContainsElement( startPath, previous ) ) {
+				range.moveToPosition( previous, CKEDITOR.POSITION_BEFORE_END );
 			}
 
 			// Rule 5.
@@ -827,21 +823,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return dataWrapper;
 		}
 
-		function insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit ) {
+		function insertDataIntoRange( range, dataWrapper, rangeEndsPaths, blockLimit, zombies ) {
 			var nodesData, nodeData, node,
 				nodeIndex = 0,
+				bogusNeededBlocks = [],
+				pathBlock,
 				splittingContainer = 0,
 				dontMoveCaret = 0,
 				insertionContainer, previousContainer, newContainer,
 				startContainer = range.startContainer,
 				endContainer = rangeEndsPaths.end.elements[ 0 ],
-				bmTpl = '<span id="cke_paste_%" data-cke-bookmark="1">\ufeff</span>',
-				pendingBookmarks = {
-					start: CKEDITOR.dom.element.createFromHtml( bmTpl.replace( '%', 'S' ) ),
-					end: CKEDITOR.dom.element.createFromHtml( bmTpl.replace( '%', 'E' ) )
-				},
 				filteredNodes,
-				zombies = [],
 				// If endContainer was merged into startContainer: <p>a[b</p><p>c]d</p>
 				// or it's equal to startContainer: <p>a^b</p>
 				// or different situation happened :P
@@ -891,10 +883,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				}
 
-				if ( pendingBookmarks.start ) {
-					range.insertNode( pendingBookmarks.start );
-					range.collapse();
-					pendingBookmarks.start = 0;
+
+				node = range.startPath().block;
+
+				// Remove any bogus element on the current path block for now, and mark
+				// it for later compensation.
+				if ( node && !node.equals( pathBlock ) ) {
+					var bogus = node.getBogus();
+					if ( bogus ) {
+						bogus.remove();
+						bogusNeededBlocks.push( node );
+					}
+
+					pathBlock = node;
 				}
 
 				if ( filteredNodes ) {
@@ -917,16 +918,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				range.collapse();
 			}
 
-			range.insertNode( pendingBookmarks.end );
-
-			// Remove empty elements (but leave bookmarks) generated by range.splitNode.
-			cleanupZombies( zombies );
+			// Bring back all block bogus nodes.
+			while ( node = bogusNeededBlocks.pop() )
+				node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
 
 			return dontMoveCaret;
 		}
 
-		function cleanupAfterInsertion( type, selection, range, mergeCandidates, dontMoveCaret ) {
-			var node, previousNode, previousGuard, walker;
+		function cleanupAfterInsertion( type, selection, range, mergeCandidates, dontMoveCaret, zombies ) {
+			var node;
+
+			// Create a bookmark to defend against the following range deconstructing operations.
+			var bm = range.createBookmark();
+
+			// Remove all elements that could be created while splitting nodes
+			// with ranges at its start|end.
+			// E.g. remove <div><p></p></div>
+			// But not <div><p> </p></div>
+			// And replace <div><p><span data="cke-bookmark"/></p></div> with found bookmark.
+			while ( node = zombies.pop() ) {
+				// Detached element.
+				if ( !node.getParent() )
+					continue;
+
+				var testRange = range.clone();
+				testRange.moveToPosition( node, CKEDITOR.POSITION_AFTER_START );
+				if ( testRange.checkStartOfBlock() && testRange.checkEndOfBlock() ) {
+					var parent = node.getParent();
+					node.remove( 1 );
+					if ( parent.is( CKEDITOR.dtd.$list ) )
+						parent.remove( 1 );
+				}
+			}
 
 			// Eventually merge identical inline elements.
 			while ( node = mergeCandidates.pop() ) {
@@ -934,59 +957,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				node.mergeChildren();
 			}
 
-			range.moveToBookmark( { startNode:'cke_paste_S',endNode:'cke_paste_E',serializable:1 } );
+			range.moveToBookmark( bm );
 
 			// Rule 3.
 			// Shrink range to the BEFOREEND of previous innermost editable node in source order.
-			// TODO update Rule 3.
 
 			if ( !dontMoveCaret ) {
-				// We can safely use walker because range is created from bookmark,
-				// so boundary text nodes are already split.
-				walker = new CKEDITOR.dom.walker( range );
-				walker.guard = function( node ) {
-					var ret = !previousGuard // previousGuard was reset - trick - see in iterator.
-					&& checkIfElement( node ) // Non-empty element.
-					&& !dtd.$empty[ node.getName() ];
+				var movedIntoInline;
 
-					previousGuard = node;
-					return ret;
-				};
+				node = getRangePrevious( range );
 
-				// Reset and walk up to the first text node.
-				node = null;
-				while ( previousNode = walker.previous() ) {
-					node = previousNode;
+				while ( node && checkIfElement( node ) && !node.is( CKEDITOR.dtd.$empty ) ) {
+					if ( node.isBlockBoundary() )
+						range.moveToPosition( node, CKEDITOR.POSITION_BEFORE_END );
+					else {
+						// Don't move into inline element (which ends with a text node)
+						// found which contains white-space at its end.
+						// If not - move range's end to the end of this element.
+						if ( node.is( CKEDITOR.dtd.$removeEmpty ) && node.getHtml().match( /(\s|&nbsp;)$/g ) ) {
+							movedIntoInline = null;
+							break;
+						}
 
-					// Reset guard if equals to entered node - this means
-					// that we only allow to enter elements, not to leave them.
-					if ( previousGuard.equals( node ) )
-						previousGuard = 0;
+						movedIntoInline = range.clone();
+						movedIntoInline.moveToPosition( node, CKEDITOR.POSITION_BEFORE_END );
+					}
+
+					node = node.getLast( isNotEmpty );
 				}
 
-				// Check if found element (which ends with a text node)
-				// doesn't contain white-space at its end.
-				// If not - move range's end to the end of this element.
-				if ( node && !node.getHtml().match( /(\s|&nbsp;)$/g ) )
-					range.setEndAt( node, CKEDITOR.POSITION_BEFORE_END );
+				movedIntoInline && range.moveToRange( movedIntoInline );
 			}
 
-			range.collapse();
-
-			// Move selection to proper place.
-			// Note: selectRanges method is overwritten in tests because it creates special text nodes \u200B
-			// 		what breaks assertions.
-			selection.selectRanges( [ range ] );
-
-			// Give Fx a while, because otherwise it will perform some weird lags.
-			// E.g. place caret in first line, scroll viewport, so caret disappears, paste.
-			// Without timeout Fx will fail.
-			setTimeout( function() {
-				var scrollTo = new CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>' );
-				range.insertNode( scrollTo );
-				scrollTo.scrollIntoView();
-				scrollTo.remove();
-			}, 1 );
 		}
 
 		function afterInsert( editable ) {
@@ -1003,31 +1005,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// HELPERS ------------------------------------------------------------
 		//
 
-		// Remove all elements that could be created while splitting nodes
-		// with ranges at its start|end.
-		// E.g. remove <div><p></p></div>
-		// But not <div><p> </p></div>
-		// And replace <div><p><span data="cke-bookmark"/></p></div> with found bookmark.
-		function cleanupZombies( zombies ) {
-			var element, zombie;
-
-			while ( element = zombies.pop() ) {
-				// Detached element.
-				if ( !element.getParent() )
-					continue;
-
-				zombie = checkIfZombie( element );
-
-				if ( checkIfElement( zombie ) )
-					zombie.insertAfter( element );
-				zombie && element.remove();
-			}
-		}
-
-		function checkIfBookmark( node ) {
-			return checkIfElement( node ) && !!node.data( 'cke-bookmark' );
-		}
-
 		function checkIfElement( node ) {
 			return node.type == CKEDITOR.NODE_ELEMENT;
 		}
@@ -1040,19 +1017,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( pathElements[ --pathElementsIndex ].equals( element ) )
 					return 1;
 			}
-		}
-
-		function checkIfZombie( element ) {
-			var child;
-
-			if ( !checkIfElement( element ) || element.getChildCount() > 1 || dtd.$empty[ element.getName() ] )
-				return 0;
-
-			if ( element.getChildCount() == 0 )
-				return 1;
-
-			child = element.getChild( 0 );
-			return checkIfBookmark( child ) ? child : checkIfZombie( child );
 		}
 
 		function extractNodesData( dataWrapper, startContainer, endContainer ) {
@@ -1273,6 +1237,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function stripTag( element ) {
 			element.moveChildren( element.getParent() );
 			element.remove();
+		}
+
+		function getRangePrevious( range ) {
+			return checkIfElement( range.startContainer ) && range.startContainer.getChild( range.startOffset - 1 );
 		}
 
 		return insert;
