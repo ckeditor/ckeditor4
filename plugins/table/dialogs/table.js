@@ -83,7 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// Detect if there's a selected table.
 				var selection = editor.getSelection(),
 					ranges = selection.getRanges(),
-					selectedTable = null;
+					table;
 
 				var rowsInput = this.getContentElement( 'info', 'txtRows' ),
 					colsInput = this.getContentElement( 'info', 'txtCols' ),
@@ -91,25 +91,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					heightInput = this.getContentElement( 'info', 'txtHeight' );
 
 				if ( command == 'tableProperties' ) {
-					if ( ( selectedTable = selection.getSelectedElement() ) )
-						selectedTable = selectedTable.getAscendant( 'table', true );
+					var selected = selection.getSelectedElement();
+					if ( selected && selected.is( 'table' ) )
+						table = selected;
 					else if ( ranges.length > 0 ) {
 						// Webkit could report the following range on cell selection (#4948):
 						// <table><tr><td>[&nbsp;</td></tr></table>]
 						if ( CKEDITOR.env.webkit )
 							ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
 
-						var rangeRoot = ranges[ 0 ].getCommonAncestor( true );
-						selectedTable = rangeRoot.getAscendant( 'table', true );
+						table = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table' );
 					}
 
 					// Save a reference to the selected table, and push a new set of default values.
-					this._.selectedElement = selectedTable;
+					this._.selectedElement = table;
 				}
 
 				// Enable or disable the row, cols, width fields.
-				if ( selectedTable ) {
-					this.setupContent( selectedTable );
+				if ( table ) {
+					this.setupContent( table );
 					rowsInput && rowsInput.disable();
 					colsInput && colsInput.disable();
 				} else {

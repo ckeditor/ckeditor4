@@ -735,7 +735,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 *     window.attachEvent( 'onbeforeunload', beforeUnload );
 		 */
 		checkDirty: function() {
-			return ( this.mayBeDirty && this._.previousValue !== this.getSnapshot() );
+			return this._.previousValue !== this.getSnapshot();
 		},
 
 		/**
@@ -748,8 +748,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * alert( editor.checkDirty() );  // "false"
 		 */
 		resetDirty: function() {
-			if ( this.mayBeDirty )
-				this._.previousValue = this.getSnapshot();
+			this._.previousValue = this.getSnapshot();
 		},
 
 		/**

@@ -89,6 +89,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 				// Editor is completely loaded for interaction.
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
+
+				// Clean on startup.
+				editor.resetDirty();
 			});
 
 		});
@@ -216,15 +219,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.mode = newMode;
 			editor.fire( 'mode' );
 
+			if ( isDirty !== undefined ) {
+				// The editor data "may be dirty" after this point.
+				editor.mayBeDirty = true;
+				!isDirty && editor.resetDirty();
+			}
+
 			callback && callback.call( editor );
 		});
-
-		if ( isDirty !== undefined ) {
-			// The editor data "may be dirty" after this point.
-			editor.mayBeDirty = true;
-
-			!isDirty && editor.resetDirty();
-		}
 	};
 
 	/**
@@ -249,7 +251,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 */
 	CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
 		var container = this.container,
-			contents = CKEDITOR.document.getById( 'cke_contents_' + this.name ),
+			contents = this.ui.space( 'contents' ),
 			contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
 			outer = resizeInner ? container.getChild( 1 ) : container;
 

@@ -12,8 +12,9 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 		onShow: function() {
 			delete this.form;
 
-			var element = this.getParentEditor().getSelection().getStartElement();
-			var form = element && element.getAscendant( 'form', true );
+			var path = this.getParentEditor().elementPath(),
+				form = path.contains( 'form' );
+
 			if ( form ) {
 				this.form = form;
 				this.setupContent( form );

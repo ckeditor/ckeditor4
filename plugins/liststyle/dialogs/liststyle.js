@@ -13,7 +13,7 @@
 		}
 
 		range.shrink( CKEDITOR.SHRINK_TEXT );
-		return range.getCommonAncestor().getAscendant( listTag, 1 );
+		return editor.elementPath( range.getCommonAncestor() ).contains( listTag );
 	}
 
 	var listItem = function( node ) {

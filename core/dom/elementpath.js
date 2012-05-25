@@ -1,4 +1,5 @@
-﻿/*
+﻿﻿
+/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -100,11 +101,32 @@ CKEDITOR.dom.elementPath.prototype = {
 		return true;
 	},
 
-	contains: function( tagNames ) {
-		var elements = this.elements;
-		for ( var i = 0; i < elements.length; i++ ) {
-			if ( elements[ i ].getName() in tagNames )
-				return elements[ i ];
+	/**
+	 * Walks up this element path to retrieve the matched element.
+	 *
+	 * @param {Object} query One or more element tag names to be checked.
+	 * @param {Boolean} includeRoot Take path root element into consideration.
+	 * @return {*} The first matched element if found.
+	 */
+	contains: function( query, includeRoot ) {
+		// Normalize query param.
+		var tags = {};
+		if ( typeof query == 'string' )
+			tags[ query ] = 1;
+		else if ( CKEDITOR.tools.isArray( query ) )
+			for ( var t = 0, l = query.length; t < l; t++ )
+			tags[ query[ t ] ] = 1;
+		else
+			tags = query;
+
+		var elements = this.elements,
+			length = elements.length - 1;
+		includeRoot && length++;
+		for ( var i = 0; i < length; i++ ) {
+			if ( elements[ i ].getName() in tags ) {
+				if ( !( includeRoot && elements[ i ].equals( this.root ) ) )
+					return elements[ i ];
+			}
 		}
 
 		return null;

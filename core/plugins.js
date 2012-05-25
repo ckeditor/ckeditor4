@@ -50,7 +50,10 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 						for ( pluginName in allPlugins ) {
 							plugin = allPlugins[ pluginName ];
 							if ( plugin.onLoad && !plugin.onLoad._called ) {
-								plugin.onLoad();
+								// Make it possible to return false from plugin::onLoad to disable it.
+								if ( plugin.onLoad() === false )
+									delete allPlugins[ pluginName ];
+
 								plugin.onLoad._called = 1;
 							}
 						}

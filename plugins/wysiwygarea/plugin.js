@@ -361,9 +361,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 														'</html>';
 					}
 
-					// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
-					if ( CKEDITOR.env.gecko )
+					if ( CKEDITOR.env.gecko ) {
+						// Hack to make Fx put cursor at the start of doc on fresh focus.
+						data = data.replace( /<body/, '<body contenteditable="true" ' );
+
+						// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
 						data = data.replace( /<br \/>(?=\s*<\/(:?html|body)>)/, '$&<br type="_moz" />' );
+					}
 
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (#4455).

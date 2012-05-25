@@ -162,7 +162,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					break;
 
 				case CKEDITOR.STYLE_OBJECT:
-					return elementPath.lastElement.getAscendant( this.element, true );
+					return elementPath.contains( this.element );
 			}
 
 			return true;
@@ -451,7 +451,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					applyStyle = true;
 
 				// Get the next node to be processed.
-				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly );
+				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly && !includeReadonly );
 			}
 
 			// Apply the style if we have something to which apply it.
@@ -702,14 +702,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyObjectStyle( range ) {
-		var root = range.getCommonAncestor( true, true ),
-			element = root.getAscendant( this.element, true );
+		var parent = range.getCommonAncestor( true, true ),
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
+
 		element && !element.isReadOnly() && setupElement( element, this );
 	}
 
 	function removeObjectStyle( range ) {
-		var root = range.getCommonAncestor( true, true ),
-			element = root.getAscendant( this.element, true );
+		var parent = range.getCommonAncestor( true, true ),
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
 
 		if ( !element )
 			return;
@@ -995,7 +996,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		removeOverrides( element, overrides, blockElements[ element.getName() ] );
 
 		if ( removeEmpty ) {
-			!CKEDITOR.dtd.$block[ element.getName() ] || style._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+			!CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 		}
 	}
 

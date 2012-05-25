@@ -144,7 +144,12 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * alert( doc == CKEDITOR.document );         // "false"
 	 */
 	domObjectProto.equals = function( object ) {
-		return ( object && object.$ === this.$ );
+		// Try/Catch to avoid IE permission error when object is from different document.
+		try {
+			return ( object && object.$ === this.$ );
+		} catch ( er ) {
+			return false;
+		}
 	};
 
 	/**

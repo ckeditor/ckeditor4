@@ -30,6 +30,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	});
 
+	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
+		bookmark = CKEDITOR.dom.walker.bookmark();
+
 	CKEDITOR.plugins.enterkey = {
 		enterBlock: function( editor, mode, range, forceMode ) {
 			// Get the range for the current selection.
@@ -118,8 +121,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// If the next block is an <li> with another list tree as the first
 				// child, we'll need to append a filler (<br>/NBSP) or the list item
 				// wouldn't be editable. (#1420)
-				if ( nextBlock.is( 'li' ) && ( node = nextBlock.getFirst( CKEDITOR.dom.walker.invisible( true ) ) ) && node.is && node.is( 'ul', 'ol' ) )
-				( CKEDITOR.env.ie ? doc.createText( '\xa0' ) : doc.createElement( 'br' ) ).insertBefore( node );
+				if ( nextBlock.is( 'li' ) ) {
+					var walkerRange = range.clone();
+					walkerRange.selectNodeContents( nextBlock );
+					var walker = new CKEDITOR.dom.walker( walkerRange );
+					walker.evaluator = function( node ) {
+						return !( bookmark( node ) || whitespaces( node ) || node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$inline && !( node.getName() in CKEDITOR.dtd.$empty ) );
+					};
+
+					node = walker.next();
+					if ( node && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'ul', 'ol' ) ) {
+						( CKEDITOR.env.ie ? doc.createText( '\xa0' ) : doc.createElement( 'br' ) ).insertBefore( node );
+					}
+				}
 
 				// Move the selection to the end block.
 				if ( nextBlock )

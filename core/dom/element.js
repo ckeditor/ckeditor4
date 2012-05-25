@@ -649,7 +649,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	isEditable: function( textCursor ) {
 		var name = this.getName();
 
-		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' || this.getComputedStyle( 'visibility' ) == 'hidden' || this.is( 'a' ) && this.data( 'cke-saved-name' ) && !this.getChildCount() || CKEDITOR.dtd.$nonEditable[ name ] ) {
+		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' || this.getComputedStyle( 'visibility' ) == 'hidden' || CKEDITOR.dtd.$nonEditable[ name ] || this.is( 'a' ) && ( this.data( 'cke-saved-name' ) || this.hasAttribute( 'name' ) ) && !this.getChildCount() ) {
 			return false;
 		}
 
@@ -657,7 +657,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			// Get the element DTD (defaults to span for unknown elements).
 			var dtd = CKEDITOR.dtd[ name ] || CKEDITOR.dtd.span;
 			// In the DTD # == text node.
-			return ( dtd && dtd[ '#' ] );
+			return !!( dtd && dtd[ '#' ] );
 		}
 
 		return true;
@@ -1014,7 +1014,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	removeStyle: function( name ) {
 		// Removes the specified property from the current style object.
 		var $ = this.$.style;
-		( $.removeProperty || $.removeAttribute ).call( $, name );
+		$.removeProperty ? $.removeProperty( name ) : $.removeAttribute( CKEDITOR.tools.cssStyleToDomStyle( name ) );
 
 		// Eventually remove empty style attribute.
 		if ( !this.$.style.cssText )

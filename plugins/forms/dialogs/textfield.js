@@ -7,6 +7,18 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 
 	var acceptedTypes = { text:1,password:1 };
 
+	function autoCommit( data ) {
+		var element = data.element;
+		var value = this.getValue();
+
+		value ? element.setAttribute( this.id, value ) : element.removeAttribute( this.id );
+	}
+
+	function autoSetup( element ) {
+		var value = element.hasAttribute( this.id ) && element.getAttribute( this.id );
+		this.setValue( value || '' );
+	}
+
 	return {
 		title: editor.lang.textfield.title,
 		minWidth: 350,
@@ -21,40 +33,33 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 			}
 		},
 		onOk: function() {
-			var editor,
+			var editor = this.getParentEditor(),
 				element = this.textField,
 				isInsertMode = !element;
 
 			if ( isInsertMode ) {
-				editor = this.getParentEditor();
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'text' );
 			}
 
+			var data = { element: element };
+
 			if ( isInsertMode )
-				editor.insertElement( element );
-			this.commitContent({ element: element } );
+				editor.insertElement( data.element );
+
+			this.commitContent( data );
+
+			// Element might be replaced by commitment.
+			if ( !isInsertMode )
+				editor.getSelection().selectElement( data.element );
 		},
 		onLoad: function() {
-			var autoSetup = function( element ) {
-					var value = element.hasAttribute( this.id ) && element.getAttribute( this.id );
-					this.setValue( value || '' );
-				};
-
-			var autoCommit = function( data ) {
-					var element = data.element;
-					var value = this.getValue();
-
-					if ( value )
-						element.setAttribute( this.id, value );
-					else
-						element.removeAttribute( this.id );
-				};
-
 			this.foreach( function( contentObj ) {
-				if ( autoAttributes[ contentObj.id ] ) {
-					contentObj.setup = autoSetup;
-					contentObj.commit = autoCommit;
+				if ( contentObj.getValue ) {
+					if ( !contentObj.setup )
+						contentObj.setup = autoSetup;
+					if ( !contentObj.commit )
+						contentObj.commit = autoCommit;
 				}
 			});
 		},
@@ -93,7 +98,17 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					type: 'text',
 					label: editor.lang.textfield.value,
 					'default': '',
-					accessKey: 'V'
+					accessKey: 'V',
+					commit: function( data ) {
+						if ( CKEDITOR.env.ie && !this.getValue() ) {
+							var element = data.element,
+								fresh = new CKEDITOR.dom.element( 'input', editor.document );
+							element.copyAttributes( fresh, { value:1 } );
+							fresh.replace( element );
+							data.element = fresh;
+						} else
+							autoCommit.call( this, data );
+					}
 				}
 				]
 			},
@@ -150,7 +165,6 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="' + myType + '"></input>', editor.document );
 							element.copyAttributes( replace, { type:1 } );
 							replace.replace( element );
-							editor.getSelection().selectElement( replace );
 							data.element = replace;
 						}
 					} else
