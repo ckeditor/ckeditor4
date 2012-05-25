@@ -83,6 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
+		this.on( 'readOnly', updateCommands );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
@@ -99,11 +100,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	function updateCommands() {
 		var command,
-			commands = this.commands;
+			commands = this.commands,
+			mode = this.mode;
+
+		if ( !mode )
+			return;
 
 		for ( var name in commands ) {
 			command = commands[ name ];
-			command[ command.startDisabled ? 'disable' : command.modes[ this.mode ] ? 'enable' : 'disable' ]();
+			command[ command.startDisabled ? 'disable' : this.readOnly && !command.readOnly ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
 		}
 	}
 
@@ -200,7 +205,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @since 3.6
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || ( editor.element && editor.element.getAttribute( 'disabled' ) ) );
+		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? !editor.element.$.isContentEditable : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
 
 		/**
 		 * Indicates that the editor is running into an environment where
@@ -475,7 +480,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		elementPath: function( startNode ) {
 			startNode = startNode || this.getSelection().getStartElement();
-			return new CKEDITOR.dom.elementPath( startNode, this.editable() );
+			return startNode ? new CKEDITOR.dom.elementPath( startNode, this.editable() ) : null;
 		},
 
 		/**
@@ -657,6 +662,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( this.readOnly != isReadOnly ) {
 				this.readOnly = isReadOnly;
+
+				this.editable().setReadOnly( isReadOnly );
 
 				// Fire the readOnly event so the editor features can update
 				// their state accordingly.
