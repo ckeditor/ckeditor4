@@ -2946,7 +2946,21 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 })();
 
 CKEDITOR.plugins.add( 'dialog', {
-	requires: [ 'dialogui' ]
+	requires: [ 'dialogui' ],
+	init: function( editor ) {
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+			// Open dialog on double-clicks.
+			editable.attachListener( editable, 'dblclick', function( evt ) {
+				if ( editor.readOnly )
+					return false;
+
+				var data = { element: evt.data.getTarget() };
+				editor.fire( 'doubleclick', data );
+				data.dialog && editor.openDialog( data.dialog );
+			});
+		});
+	}
 });
 
 // Dialog related configurations.

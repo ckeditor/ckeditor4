@@ -168,7 +168,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		// Gecko needs a key event to 'wake up' editing when the document is
 		// empty. (#3864, #5781)
-		!editor.readOnly && CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
+		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
@@ -188,18 +188,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		if ( CKEDITOR.env.gecko ) {
+		if ( CKEDITOR.env.gecko || CKEDITOR.env.ie && editor.document.$.compatMode == 'CSS1Compat' ) {
 			this.attachListener( this, 'keydown', function( evt ) {
 				var keyCode = evt.data.getKeystroke();
 
 				// PageUp OR PageDown
 				if ( keyCode == 33 || keyCode == 34 ) {
+					// PageUp/PageDown scrolling is broken in document
+					// with standard doctype, manually fix it. (#4736)
+					if ( CKEDITOR.env.ie ) {
+						setTimeout( function() {
+							editor.getSelection().scrollIntoView();
+						}, 0 );
+					}
 					// Page up/down cause editor selection to leak
 					// outside of editable thus we try to intercept
 					// the behavior, while it affects only happen
 					// when editor contents are not overflowed. (#7955)
-					if ( editor.window.$.innerHeight > this.$.offsetHeight ) {
-						var range = new CKEDITOR.dom.range( doc );
+					else if ( editor.window.$.innerHeight > this.$.offsetHeight ) {
+						var range = editor.createRange();
 						range[ keyCode == 33 ? 'moveToElementEditStart' : 'moveToElementEditEnd' ]( this );
 						range.select();
 						evt.data.preventDefault();
@@ -488,11 +495,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	}
 
 	function activateEditing( editor ) {
-		var editable = editor.editable();
-
-		// TODO: Check whether this is needed on inline mode.
-		// Needed for full page only.
-		if ( !editable.is( 'body' ) )
+		if ( editor.readOnly )
 			return;
 
 		var win = editor.window,

@@ -428,69 +428,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				var ref = doc.getCustomData( 'stylesheet_ref' ) || 0;
 				doc.setCustomData( 'stylesheet_ref', ref + 1 );
 
-				// Fire doubleclick event for double-clicks.
-				!editor.readOnly && this.attachListener( this, 'dblclick', function( evt ) {
-					var data = { element: evt.data.getTarget() };
-					editor.fire( 'doubleclick', data );
-
-					// TODO: Make the following work at the proper place (from v3).
-					// data.dialog && editor.openDialog( data.dialog );
-				});
-
-				// TODO: check if this is effective.
-				// Prevent automatic submission in IE #6336
-				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
-
-				// Gecko/Webkit need some help when selecting control type elements. (#3448)
-				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
-					this.attachListener( this, 'mousedown', function( ev ) {
-						var control = ev.data.getTarget();
-						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
-							editor.getSelection().selectElement( control );
-					});
-				}
-
-				if ( CKEDITOR.env.gecko ) {
-					// TODO: check if this is effective.
-					this.attachListener( this, 'mouseup', function( ev ) {
-						if ( ev.data.$.button == 2 ) {
-							var target = ev.data.getTarget();
-
-							// Prevent right click from selecting an empty block even
-							// when selection is anchored inside it. (#5845)
-							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
-								var range = new CKEDITOR.dom.range( this );
-								range.moveToElementEditStart( target );
-								range.select( true );
-							}
-						}
-					});
-				}
-
-				// TODO: check if this is effective.
-				// Prevent the browser opening links in read-only blocks. (#6032)
+				// Prevent the browser opening read-only links. (#6032)
 				this.attachListener( this, 'click', function( ev ) {
 					ev = ev.data;
-					if ( ev.getTarget().is( 'a' ) && ev.$.button != 2 )
+					var target = ev.getTarget();
+					if ( target.is( 'a' ) && ev.$.button != 2 && target.isReadOnly() )
 						ev.preventDefault();
 				});
 
-				// Webkit: avoid from editing form control elements content.
-				if ( CKEDITOR.env.webkit ) {
-					// Prevent from tick checkbox/radiobox/select
-					this.attachListener( this, 'click', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'select' ) )
-							ev.data.preventDefasult();
-					});
+				// Override keystrokes which should have deletion behavior
+				//  on fully selected element . (#4047) (#7645)
+				this.attachListener( this, 'keydown', function( evt ) {
+					if ( editor.readOnly )
+						return false;
 
-					// Prevent from editig textfield/textarea value.
-					this.attachListener( this, 'mouseup', function( ev ) {
-						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
-							ev.data.preventDefault();
-					});
-				}
-
-				!editor.readOnly && this.attachListener( this, 'keydown', function( evt ) {
 					var keyCode = evt.data.getKeystroke();
 
 					// Backspace OR Delete.
@@ -499,8 +450,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							selected = sel.getSelectedElement(),
 							range = sel.getRanges()[ 0 ];
 
-						// Override keystrokes which should have deletion behavior
-						//  on fully selected element . (#4047) (#7645)
 						if ( selected ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
@@ -519,22 +468,49 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 				});
 
-				if ( CKEDITOR.env.ie ) {
-					// v3: check if this is needed.
-					// editor.document.getDocumentElement().addClass( domDocument.$.compatMode );
+				// Prevent automatic submission in IE #6336
+				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
-					// PageUp/PageDown scrolling is broken in document
-					// with standard doctype, manually fix it. (#4736)
-					if ( editor.document.$.compatMode == 'CSS1Compat' ) {
-						this.attachListener( this, 'keydown', function( evt ) {
-							if ( evt.data.getKeystroke() in { 33:1,34:1 } ) {
-								setTimeout( function() {
-									editor.getSelection().scrollIntoView();
-								}, 0 );
-							}
-						});
-					}
+				// Gecko/Webkit need some help when selecting control type elements. (#3448)
+				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
+					this.attachListener( this, 'mousedown', function( ev ) {
+						var control = ev.data.getTarget();
+						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
+							editor.getSelection().selectElement( control );
+					});
 				}
+
+				// Prevent right click from selecting an empty block even
+				// when selection is anchored inside it. (#5845)
+				if ( CKEDITOR.env.gecko ) {
+					this.attachListener( this, 'mouseup', function( ev ) {
+						if ( ev.data.$.button == 2 ) {
+							var target = ev.data.getTarget();
+
+							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
+								var range = editor.createRange();
+								range.moveToElementEditStart( target );
+								range.select( true );
+							}
+						}
+					});
+				}
+
+				// Webkit: avoid from editing form control elements content.
+				if ( CKEDITOR.env.webkit ) {
+					// Prevent from tick checkbox/radiobox/select
+					this.attachListener( this, 'click', function( ev ) {
+						if ( ev.data.getTarget().is( 'input', 'select' ) )
+							ev.data.preventDefasult();
+					});
+
+					// Prevent from editig textfield/textarea value.
+					this.attachListener( this, 'mouseup', function( ev ) {
+						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
+							ev.data.preventDefault();
+					});
+				}
+
 			}
 		},
 		_: {
