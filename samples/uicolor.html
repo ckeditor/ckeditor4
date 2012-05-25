@@ -1,14 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
+	<meta charset="utf-8">
 	<title>UI Color Picker &mdash; CKEditor Sample</title>
-	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
-	<script type="text/javascript" src="../ckeditor.js"></script>
-	<script type="text/javascript">
+	<script src="../ckeditor.js"></script>
+	<script>
 		CKEDITOR.config.plugins =
 			'contextmenu,' +
 			'basicstyles,' +
@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'uicolor,' +
 			'wysiwygarea';
 	</script>
-	<link href="sample.css" rel="stylesheet" type="text/css" />
+	<link href="sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
@@ -31,7 +31,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div class="description">
 	<p>
 		This sample shows how to automatically replace <code>&lt;textarea&gt;</code> elements
-		with a CKEditor instance with an option to change the color of its user interface.<br />
+		with a CKEditor instance with an option to change the color of its user interface.<br>
 		<strong>Note:</strong>The UI skin color is a feature dedicated to the "kama" skin.
 	</p>
 	<h2 class="samples">Setting the User Interface Color</h2>
@@ -82,8 +82,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<form action="sample_posteddata.php" method="post">
 	<p>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-		<script type="text/javascript">
-		//<![CDATA[
+		<script>
 
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
@@ -97,7 +96,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					]
 				});
 
-		//]]>
 		</script>
 	</p>
 		<p>
@@ -106,8 +104,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</p>
 	<p>
 		<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-		<script type="text/javascript">
-		//<![CDATA[
+		<script>
 
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
@@ -122,15 +119,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					]
 				} );
 
-		//]]>
 		</script>
 	</p>
 	<p>
-		<input type="submit" value="Submit" />
+		<input type="submit" value="Submit">
 		</p>
 	</form>
 	<div id="footer">
-		<hr />
+		<hr>
 		<p>
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>

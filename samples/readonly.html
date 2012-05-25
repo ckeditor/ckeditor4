@@ -1,15 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
+	<meta charset="utf-8">
 	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
-	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
-	<script type="text/javascript" src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript">
+	<script src="../ckeditor.js"></script>
+	<link href="sample.css" rel="stylesheet">
+	<script>
 
 CKEDITOR.config.plugins =
 	'about,' +
@@ -124,12 +124,12 @@ function toggleReadOnly( isReadOnly )
 			<textarea class="ckeditor" id="editor1" name="editor1" cols="100" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 		</p>
 		<p>
-			<input id="readOnlyOn" onclick="toggleReadOnly();" type="button" value="Make it read-only" style="display:none" />
-			<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none" />
+			<input id="readOnlyOn" onclick="toggleReadOnly();" type="button" value="Make it read-only" style="display:none">
+			<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none">
 		</p>
 	</form>
 	<div id="footer">
-		<hr />
+		<hr>
 		<p>
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>

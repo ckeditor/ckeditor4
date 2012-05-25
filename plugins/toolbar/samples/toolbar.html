@@ -6,14 +6,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <html>
 <head>
 	<title>Standalone Toolbar &mdash; CKEditor Sample</title>
-	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
-	<script type="text/javascript" src="../../../ckeditor.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet" type="text/css" />
-
-	<script type="text/javascript">
-		CKEDITOR.disableAutoInline = true;
-	</script>
-
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
 	<style type="text/css">
 		/* CKEditor editables are automatically set with the "cke_editable" class. */
 		.cke_editable
@@ -43,8 +38,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="sample-doc">
 		<p>Inline editable element:</p>
 		<div id="editor1" contenteditable="true"><p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p></div>
-		<script type="text/javascript">
-		//<![CDATA[
+		<script>
+
+			CKEDITOR.disableAutoInline = true;
 
 			// Create an inline CKEditor instance over the above editable div,
 			// with only the basic style buttons on toolbar.
@@ -54,12 +50,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				toolbar : [ [ 'Bold', 'Italic', 'Underline' ] ]
 			} );
 
-		//]]>
 		</script>
 		<p>
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-			<script type="text/javascript">
-			//<![CDATA[
+			<script>
 
 				// Create a themed CKEditor instance over the textarea, with only
 				// two rows of compact buttons on toolbar.
@@ -79,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</p>
 	</div>
 	<div id="footer">
-		<hr />
+		<hr>
 		<p>
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">
 				http://ckeditor.com</a>
