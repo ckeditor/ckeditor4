@@ -143,15 +143,20 @@ body {
 		<p>
 			<label for="editor3">
 				Editor 3:</label>
-			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting&lt;/strong&gt; in text mode by listening for "beforePaste" event.&lt;/p&gt;</textarea>
+			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting in text mode&lt;/strong&gt; by listening for "beforePaste" event.&lt;/p&gt;</textarea>
 		</p>
 		<p>
 			<label for="editor4">
 				Editor 4:</label>
-			<textarea cols="80" id="editor4" name="editor4" rows="10">Editor with autoParagraphing set to off.</textarea>
+			<textarea cols="80" id="editor4" name="editor4" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting in text mode&lt;/strong&gt; by "forcePasteAsPlainText" config option.&lt;/p&gt;</textarea>
 		</p>
-		<div id="editable" contenteditable="true" style="font-family: Georgia; font-size: 14px">
-			<h1>Editor 4</h1>
+		<p>
+			<label for="editor5">
+				Editor 5:</label>
+			<textarea cols="80" id="editor5" name="editor5" rows="10">Editor with autoParagraphing set to off.</textarea>
+		</p>
+		<div id="editor6" contenteditable="true" style="font-family: Georgia; font-size: 14px">
+			<h1>Editor 6</h1>
 			<p>Content content content.</p>
 			<p class="someClass">Styled by <code>.someClass</code>.</p>
 		</div>
@@ -240,8 +245,9 @@ body {
 		editor1 = CKEDITOR.replace( 'editor1', config ),
 		editor2 = CKEDITOR.replace( 'editor2', config ),
 		editor3 = CKEDITOR.replace( 'editor3', config ),
-		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { autoParagraph : false }, config ) ),
-		editor5 = CKEDITOR.inline( document.getElementById( 'editable' ), config );
+		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { forcePasteAsPlainText : true }, config ) ),
+		editor5 = CKEDITOR.replace( 'editor5', CKEDITOR.tools.extend( { autoParagraph : false }, config ) ),
+		editor6 = CKEDITOR.inline( document.getElementById( 'editor6' ), config );
 
 	editor3.on( 'beforePaste', function( evt )
 		{

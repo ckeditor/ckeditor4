@@ -149,7 +149,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					type = dataObj.type,
 					data = dataObj.data,
 					isHtmlified = dataObj.htmlified,
-					trueType;
+					trueType,
+					// Default is 'html'.
+					defaultType = editor.config.clipboard_defaultContentType || 'html';
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' )
@@ -175,7 +177,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					data += '<br data-cke-eol="1">';
 
 				if ( type == 'auto' )
-					type = ( trueType == 'html' ? 'html' : 'text' );
+					type = ( trueType == 'html' || defaultType == 'html' ) ? 'html' : 'text';
 
 				dataObj.htmlified = true;
 				dataObj.type = type;
@@ -1098,6 +1100,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 })();
 
 /**
+ * The default content type is used when pasted data cannot be clearly recognized as HTML or text.
+ * For example: 'foo' may come from a plain text editor or a website. It isn't possible to recognize content
+ * type in this case, so default will be used.
+ * <strong>Note:</strong> If content type is text, then styles of context of paste are preserved.
+ * Allowed values are: 'html' and 'text'.
+ * @name CKEDITOR.config.clipboard_defaultContentType
+ * @since 4.0
+ * @type String
+ * @default 'html'
+ * @example
+ * CKEDITOR.config.clipboard_defaultContentType = 'text';
+ */
+
+/**
  * Fired when a clipboard operation is about to be taken into the editor.
  * Listeners can manipulate the data to be pasted before having it effectively
  * inserted into the document.
@@ -1105,16 +1121,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * @since 3.1
  * @event
  * @param {String} data.type Type of data in data.data. Usually 'html' or 'text', but for listeners
- * 		with priority less than 6 it can be also 'auto', what means that content type has to be recognised
+ * 		with priority less than 6 it can be also 'auto', what means that content type hasn't been recognised yet
  * 		(this will be done by content type sniffer that listens with priority 6).
- * @param {String} data.data Data to be pasted - html or text.
+ * @param {String} data.data Data to be pasted - HTML or text.
  * @param {Boolean} [data.htmlified] If true then data are htmlified what means that they probably
  *		come frome editable pastebin or were transformed to HTML. They won't be encoded and should be treat
  *		as HTML even if they don't contain any markup.
  */
 
 /**
- * Internal event to open the Paste dialog
+ * Internal event to open the Paste dialog.
  * @name CKEDITOR.editor#pasteDialog
  * @event
  * @param {Function} [data] Callback that will be passed to editor.openDialog.
