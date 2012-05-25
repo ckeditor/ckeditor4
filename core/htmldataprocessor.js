@@ -73,19 +73,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			data = protectPreFormatted( data );
 
 			var editable = this.editor.editable(),
-				fixBin = context || editable.getName(),
 				isPre;
 
+			// Context fall back to the editable.
+			context = context || editable.getName();
+
 			// Old IEs loose formats when load html into <pre>.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
-				fixBin = 'div';
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && context == 'pre' ) {
+				context = 'div';
 				data = '<pre>' + data + '</pre>';
 				isPre = 1;
 			}
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
-			var el = this.editor.document.createElement( fixBin );
+			var el = this.editor.document.createElement( context );
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );
@@ -107,7 +109,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, editable.getName(), fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, context, fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
 
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 

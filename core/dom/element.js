@@ -688,8 +688,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			otherEl = otherElement.clone( 0, 1 );
 
 		// Remove distractions.
-		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
-		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
+		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando', 'data-cke-saved-href', 'data-cke-saved-name' ] );
+		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando', 'data-cke-saved-href', 'data-cke-saved-name' ] );
 
 		// Native comparison available.
 		if ( thisEl.$.isEqualNode ) {
@@ -697,8 +697,19 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			thisEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( thisEl.$.style.cssText );
 			otherEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( otherEl.$.style.cssText );
 			return thisEl.$.isEqualNode( otherEl.$ );
-		} else
-			return thisEl.getOuterHtml() == otherEl.getOuterHtml();
+		} else {
+			thisEl = thisEl.getOuterHtml();
+			otherEl = otherEl.getOuterHtml();
+
+			// Fix tiny difference produced.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				var el = this.getParent().clone();
+				el.setHtml( thisEl ), thisEl = el.getHtml();
+				el.setHtml( otherEl ), otherEl = el.getHtml();
+			}
+
+			return thisEl == otherEl;
+		}
 	},
 
 	/**
@@ -900,21 +911,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			mergeElements( this, this.getPrevious() );
 		};
 	})(),
-
-	/**
-	 * Merges any identical element within the subtree of this element.
-	 * @param {Boolean} [inlineOnly] Allow only inline elements to be merged. Defaults to "true".
-	 */
-	mergeChildren: function( inlineOnly ) {
-		var candidates = this.getElementsByTag( this.getName() ),
-			node;
-		for ( var i = 0, count = candidates.count(); i < count; i++ ) {
-			node = candidates.getItem( i );
-			if ( this.isIdentical( node ) && ( node.is( CKEDITOR.dtd.$removeEmpty ) || inlineOnly === false ) ) {
-				node.remove( 1 );
-			}
-		}
-	},
 
 	/**
 	 * Shows this element (display it).

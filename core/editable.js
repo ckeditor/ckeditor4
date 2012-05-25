@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -697,7 +697,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// <p><b>A[B</b></p><p><b>C]D</b></p> + E => <p><b>AE</b></p><p><b>D</b></p> =>
 					//		<p><b>AE</b><b>D</b></p> - affected container is <p> (in text mode).
 					mergeCandidates: [],
-					zombies: [],
+					zombies: []
 				};
 
 			prepareRangeToDataInsertion( that );
@@ -737,7 +737,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
-				dtdRemoveEmpty = DTD.$removeEmpty,
 				node, marker, path, startPath, endPath, previous, bm;
 
 			// If range starts in inline element then insert a marker, so empty
@@ -770,7 +769,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Move range into the previous block.
 			while ( ( previous = getRangePrevious( range ) ) && checkIfElement( previous ) && previous.isBlockBoundary() &&
 			// Check if previousNode was parent of range's startContainer before deleteContents.
-			checkIfPathContainsElement( startPath, previous ) ) {
+			startPath.contains( previous ) ) {
 				range.moveToPosition( previous, CKEDITOR.POSITION_BEFORE_END );
 			}
 
@@ -787,11 +786,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
-			path.elements.reverse();
-			if ( node = path.contains( DTD.$removeEmpty ) ) {
+			if ( node = path.contains( isInline, 1 ) ) {
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
-				that.inlineStylesPeak = path.elements.pop();
+				that.inlineStylesPeak = path.lastElement;
 			}
 
 			// Record inline merging candidates for later cleanup in place.
@@ -799,13 +797,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
-			node && checkIfElement( node ) && node.is( dtdRemoveEmpty ) && mergeCandidates.push( node );
+			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
 			node = bm.startNode.getNext( isNotEmpty );
-			node && checkIfElement( node ) && node.is( dtdRemoveEmpty ) && mergeCandidates.push( node );
+			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
 
 			// 2. Inline parents.
 			node = bm.startNode;
-			while ( ( node = node.getParent() ) && node.is( dtdRemoveEmpty ) )
+			while ( ( node = node.getParent() ) && isInline( node ) )
 				mergeCandidates.push( node );
 
 			range.moveToBookmark( bm );
@@ -973,10 +971,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// Eventually merge identical inline elements.
-			while ( node = that.mergeCandidates.pop() ) {
+			while ( node = that.mergeCandidates.pop() )
 				node.mergeSiblings();
-				node.mergeChildren();
-			}
 
 			range.moveToBookmark( bm );
 
@@ -993,7 +989,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Don't move into inline element (which ends with a text node)
 						// found which contains white-space at its end.
 						// If not - move range's end to the end of this element.
-						if ( node.is( DTD.$removeEmpty ) && node.getHtml().match( /(\s|&nbsp;)$/g ) ) {
+						if ( isInline( node ) && node.getHtml().match( /(\s|&nbsp;)$/g ) ) {
 							movedIntoInline = null;
 							break;
 						}
@@ -1028,14 +1024,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return node.type == CKEDITOR.NODE_ELEMENT;
 		}
 
-		function checkIfPathContainsElement( path, element ) {
-			var pathElements = path.elements,
-				pathElementsIndex = pathElements.length;
-
-			for ( ; pathElementsIndex; ) {
-				if ( pathElements[ --pathElementsIndex ].equals( element ) )
-					return 1;
-			}
+		function isInline( node ) {
+			return node && checkIfElement( node ) && ( node.is( DTD.$removeEmpty ) || node.is( 'a' ) && !node.isBlockBoundary() );
 		}
 
 		function extractNodesData( dataWrapper, startContainer, endContainer ) {
@@ -1187,8 +1177,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			&& checkIfElement( previousNode ) // which also has to be an element.
 			&& !previousNode.getParent().equals( range.startContainer ) // Fail if caret is on the same level.
 			// This means that caret is between these nodes.
-			&& checkIfPathContainsElement( startPath, previousNode ) // Elements path of start of selection has
-			&& checkIfPathContainsElement( endPath, nextNode ) // to contain prevNode and vice versa.
+			&& startPath.contains( previousNode ) // Elements path of start of selection has
+			&& endPath.contains( nextNode ) // to contain prevNode and vice versa.
 			&& nextNode.isIdentical( previousNode ) ) // Check if elements are identical.
 			{
 				// Merge blocks and repeat.

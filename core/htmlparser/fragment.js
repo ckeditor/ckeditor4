@@ -180,7 +180,9 @@ CKEDITOR.htmlParser.fragment = function() {
 				}
 			}
 
-			target.add( element );
+			// Avoid adding empty inline.
+			if ( !( isRemoveEmpty( element ) && !element.children.length ) )
+				target.add( element );
 
 			if ( element.name == 'pre' )
 				inPre = false;
