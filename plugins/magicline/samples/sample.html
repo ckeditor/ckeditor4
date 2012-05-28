@@ -346,9 +346,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		'use strict';
 
-		var _DEBUG = {
+		var DEBUG = {
 				log: function()
 				{
+					return;
 					var args = [];
 					for( var i = 0; i < arguments.length ; i++ )
 						args.push( arguments[ i ] );
@@ -415,6 +416,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					return function( trigger )
 					{
+						return;
+
 						tup && tup.removeAttribute('id') && ( tup = null );
 						tbo && tbo.removeAttribute('id') && ( tbo = null );
 
@@ -450,6 +453,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				logElements : function( elements, labels, info )
 				{
+					return;
 					var log = {};
 
 					for ( var i = 0 ; i < elements.length; i++ )
@@ -479,11 +483,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				groupStart : function( label )
 				{
+					return;
 					console.group( label );
 				},
 
 				groupEnd : function()
 				{
+					return;
 					console.groupEnd();
 				},
 
