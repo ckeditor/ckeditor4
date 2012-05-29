@@ -701,11 +701,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			thisEl = thisEl.getOuterHtml();
 			otherEl = otherEl.getOuterHtml();
 
-			// Fix tiny difference produced.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var el = this.getParent().clone();
-				el.setHtml( thisEl ), thisEl = el.getHtml();
-				el.setHtml( otherEl ), otherEl = el.getHtml();
+			// Fix tiny difference between link href in older IEs.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.is( 'a' ) ) {
+				var parent = this.getParent();
+				if ( parent.type == CKEDITOR.NODE_ELEMENT ) {
+					var el = parent.clone();
+					el.setHtml( thisEl ), thisEl = el.getHtml();
+					el.setHtml( otherEl ), otherEl = el.getHtml();
+				}
 			}
 
 			return thisEl == otherEl;

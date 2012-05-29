@@ -78,16 +78,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Context fall back to the editable.
 			context = context || editable.getName();
 
+			var fixBin = context;
+
 			// Old IEs loose formats when load html into <pre>.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && context == 'pre' ) {
-				context = 'div';
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
+				fixBin = 'div';
 				data = '<pre>' + data + '</pre>';
 				isPre = 1;
 			}
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
-			var el = this.editor.document.createElement( context );
+			var el = this.editor.document.createElement( fixBin );
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );

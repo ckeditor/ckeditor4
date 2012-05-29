@@ -1334,7 +1334,7 @@ CKEDITOR.dom.range = function( root ) {
 				startContainer.append( node );
 
 			// Check if we need to update the end boundary.
-			if ( node.getParent().equals( this.endContainer ) )
+			if ( node.getParent() && node.getParent().equals( this.endContainer ) )
 				this.endOffset++;
 
 			// Expand the range to embrace the new node.

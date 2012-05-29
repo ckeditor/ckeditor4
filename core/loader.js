@@ -28,7 +28,7 @@ if ( !CKEDITOR.loader ) {
 			'config': [ 'ckeditor_base' ],
 			'dom': [],
 			'dom/comment': [ 'dom/node' ],
-			'dom/document': [ 'dom', 'dom/domobject', 'dom/window' ],
+			'dom/document': [ 'dom/node', 'dom/window' ],
 			'dom/documentfragment': [ 'dom/element' ],
 			'dom/element': [ 'dom', 'dom/document', 'dom/domobject', 'dom/node', 'dom/nodelist', 'tools' ],
 			'dom/elementpath': [ 'dom/element' ],

@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {
-		var type = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : 'domObject'; // Call the base constructor otherwise.
+		var type = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : domNode.nodeType == CKEDITOR.NODE_DOCUMENT_FRAGMENT ? 'documentFragment' : 'domObject'; // Call the base constructor otherwise.
 
 		return new CKEDITOR.dom[ type ]( domNode );
 	}
@@ -358,15 +358,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the parent element for this node.
+	 * @param {Boolean} [allowFragmentParent=false] Consider also parent node that is of fragment type {@link CKEDITOR.NODE_DOCUMENT_FRAGMENT}.
 	 * @returns {CKEDITOR.dom.element} The parent element.
 	 * @example
 	 * var node = editor.document.getBody().getFirst();
 	 * var parent = node.<strong>getParent()</strong>;
 	 * alert( node.getName() );  // "body"
 	 */
-	getParent: function() {
+	getParent: function( allowFragmentParent ) {
 		var parent = this.$.parentNode;
-		return ( parent && parent.nodeType == 1 ) ? new CKEDITOR.dom.node( parent ) : null;
+		return ( parent && ( parent.nodeType == CKEDITOR.NODE_ELEMENT || allowFragmentParent && parent.nodeType == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) ) ? new CKEDITOR.dom.node( parent ) : null;
 	},
 
 	getParents: function( closerFirst ) {
