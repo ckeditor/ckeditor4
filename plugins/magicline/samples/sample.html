@@ -14,7 +14,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			margin: 0;
 		}
 		#editors {
-			width: 1000px;
+			width: 800px;
 		}
 		#dev {
 			position: fixed;
@@ -24,6 +24,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			width: 350px;
 			padding: 30px;
 			background: #ddd;
+			background: rgba(220, 220, 220, 0.8);
 			font-size: 15px;
 		}
 		#dev .hl {
@@ -393,14 +394,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				mousePos : (function( y, element )
 				{
 					var	my = CKEDITOR.document.getById( 'my' ),
-						over = CKEDITOR.document.getById( 'over' );
+						over = CKEDITOR.document.getById( 'over' ),
+						name;
 
 					return function( y, element )
 					{
+						if( !( name = element.getName() ) )
+							return;
+
 						my.setText( y );
 
 						if( element.type == CKEDITOR.NODE_ELEMENT )
-							over.setText( element.getName() + '.' + element.getAttribute( 'class' ) );
+							over.setText( name + '.' + element.getAttribute( 'class' ) );
 						else
 							over.setText( '-' );
 					}
@@ -416,8 +421,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					return function( trigger )
 					{
-						return;
-
 						tup && tup.removeAttribute('id') && ( tup = null );
 						tbo && tbo.removeAttribute('id') && ( tbo = null );
 
@@ -453,7 +456,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				logElements : function( elements, labels, info )
 				{
-					return;
 					var log = {};
 
 					for ( var i = 0 ; i < elements.length; i++ )
@@ -495,12 +497,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				logEnd : function()
 				{
+					return;
 					DEBUG.log.apply( null, arguments );
 					DEBUG.groupEnd();
 				},
 
 				logElementsEnd : function()
 				{
+					return;
 					DEBUG.logElements.apply( null, arguments );
 					DEBUG.groupEnd();
 				}
@@ -559,7 +563,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'wsc';
 
 		CKEDITOR.config.height = 600;
-		CKEDITOR.config.width = 200;
+		CKEDITOR.config.width = 800;
 
 		CKEDITOR.replace( 'editor1', {
 			on : {

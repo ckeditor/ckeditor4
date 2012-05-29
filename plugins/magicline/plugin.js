@@ -33,13 +33,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// Simple irrelevant elements filter.
 		that.isRelevant = function( node ) {
 			return isHtml( node ) // 	-> Node must be an existing HTML element.
-			&& !isBox( that, node ) // 	-> Node can be neither the box nor its child.
+			&& !isLine( that, node ) // 	-> Node can be neither the box nor its child.
 			&& !isFlowBreaker( node ); // 	-> Node can be neither floated nor positioned nor aligned.
-		}
+		};
 
+		// %REMOVE_START%
 		// Editor commands for accessing difficult focus spaces.
 		editor.addCommand( 'accessSpaceBefore', accessSpaceCommand( that ) );
 		editor.addCommand( 'accessSpaceAfter', accessSpaceCommand( that, true ) );
+		// %REMOVE_END%
 		editor.on( 'contentDom', addListeners, this );
 
 		function addListeners() {
@@ -96,12 +98,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
-			// Attach event handlers
-			( inInlineMode( that ) ? that.editable : that.doc ).on( 'mousemove', checkMouseTimeout );
-
 			// Hide the box on mouseout if mouse leaves document.
 			that.doc.on( 'mouseout', function( event ) {
-				if ( !editor.mode == 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' )
 					return;
 
 				clearTimeout( hideTimeout );
@@ -115,10 +114,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					};
 
 					updateWindowSize( that );
-					updateSize( that, that.editable, true );
+					updateEditableSize( that, true )
+
+					var size = that.view.editable,
+						scroll = that.view.scroll;
 
 					// If outside of an editor...
-					if ( !inBetween( mouse.x, that.editable.size.left - that.view.scroll.x, that.editable.size.right - that.view.scroll.x ) || !inBetween( mouse.y, that.editable.size.top - that.view.scroll.y, that.editable.size.bottom - that.view.scroll.y ) ) {
+					if ( !inBetween( mouse.x, size.left - scroll.x, size.right - scroll.x ) || !inBetween( mouse.y, size.top - scroll.y, size.bottom - scroll.y ) ) {
 						clearTimeout( checkMouseTimer );
 						checkMouseTimer = null;
 						return that.line.detach();
@@ -142,7 +144,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			});
 
 			that.editable.on( 'keydown', function( event ) {
-				if ( !editor.mode == 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' )
 					return;
 
 				var keyStroke = event.data.getKeystroke(),
@@ -160,10 +162,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
+			// This method ensures that checkMouse aren't executed
+			// in parallel and no more frequently than specified in timeout function.
+			// In framed editor, document is used as a trigger, to provide magicline
+			// functionality when mouse is below the body (short content, short body).
+			( inInlineMode( that ) ? that.editable : that.doc ).on( 'mousemove', function( event ) {
+				clearTimeout( hideTimeout );
+				checkMouseTimeoutPending = true;
+
+				if ( editor.mode != 'wysiwyg' || checkMouseTimer )
+					return;
+
+				// IE<9 requires this event-driven object to be created
+				// outside of the setTimeout statement.
+				// Otherwise it loses the event object with its properties.
+				var mouse = {
+					x: event.data.$.clientX,
+					y: event.data.$.clientY
+				};
+
+				checkMouseTimer = setTimeout( function() {
+					checkMouse( mouse );
+				}, 30 ); // balances performance and accessibility
+			});
+
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
 			that.win.on( 'scroll', function( event ) {
-				if ( !editor.mode == 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' )
 					return;
 
 				that.line.detach();
@@ -188,7 +214,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
 			that.win.on( 'mousedown', function( event ) {
-				if ( !editor.mode == 'wysiwyg' )
+				if ( editor.mode != 'wysiwyg' )
 					return;
 
 				that.line.detach();
@@ -220,10 +246,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				updateWindowSize( that );
 
 				if ( checkMouseTimeoutPending //	-> There must be an event pending.
-				&& !that.line.mouseNear() // 	-> Mouse pointer can't be close to the box.
-				&& ( that.element = elementFromMouse( that, true, true ) ) // 	-> There must be valid element.
 				&& !that.hiddenMode // 	-> Can't be in hidden mode.
-				&& editor.focusManager.hasFocus ) // 	-> Editor must have focus.
+				&& editor.focusManager.hasFocus // 	-> Editor must have focus.
+				&& !that.line.mouseNear() // 	-> Mouse pointer can't be close to the box.
+				&& ( that.element = elementFromMouse( that, true ) ) ) // 	-> There must be valid element.
 				{
 					// If trigger exists, and trigger is correct -> show the box
 					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) )
@@ -236,7 +262,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					DEBUG && DEBUG.showTrigger( that.trigger ); // %REMOVE_LINE%
-					DEBUG && DEBUG.mousePos( that.mouse.y, that.element ); // %REMOVE_LINE%
+					DEBUG && DEBUG.mousePos( mouse.y, that.element ); // %REMOVE_LINE%
 
 					checkMouseTimeoutPending = false;
 				}
@@ -245,34 +271,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				DEBUG && DEBUG.groupEnd(); // %REMOVE_LINE%
 			}
 
-			// This method ensures that checkMouse aren't executed
-			// in parallel and no more frequently than specified in timeout function.
-			function checkMouseTimeout( event ) {
-				clearTimeout( hideTimeout );
-				checkMouseTimeoutPending = true;
-
-				if ( editor.mode != 'wysiwyg' || checkMouseTimer )
-					return;
-
-				(function( mouse ) {
-					checkMouseTimer = setTimeout( function() {
-						checkMouse( mouse );
-					}, 30 ); // balances performance and accessibility
-				})({
-					x: event.data.$.clientX,
-					y: event.data.$.clientY
-				});
-			}
-
-			// This one allows testing and DEBUGging. It reveals some
+			// This one allows testing and debugging. It reveals some
 			// inner methods to the world.
 			this.backdoor = {
-				isHtml: isHtml,
-				triggerFilter: triggerFilter,
-				updateSize: updateSize,
-				updateWindowSize: updateWindowSize,
 				boxTrigger: boxTrigger,
-				that: that
+				isHtml: isHtml,
+				isLine: isLine,
+				getAscendantTrigger: getAscendantTrigger,
+				getNonEmptyNeighbour: getNonEmptyNeighbour,
+				getSize: getSize,
+				triggerFilter: triggerFilter,
+				that: that,
+				updateSize: updateSize,
+				updateWindowSize: updateWindowSize
 			};
 		}
 	}
@@ -309,6 +320,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		newElementFromHtml = newElement.createFromHtml,
 		env = CKEDITOR.env;
 
+	// %REMOVE_START%
 	// Inserts new paragraph on demand by looking for closest parent trigger
 	// or using current element under the caret as reference.
 	function accessSpaceCommand( that, insertAfter ) {
@@ -316,9 +328,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			canUndo: true,
 			modes: { wysiwyg:1 },
 			exec: function( editor ) {
-				if ( !editor.focusManager.hasFocus )
-					return;
-
 				var selection = editor.getSelection(),
 					selected = selection.getStartElement(),
 					range = selection.getRanges()[ 0 ],
@@ -338,12 +347,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 	}
+	// %REMOVE_END%
 
 	function areSiblings( that, upper, lower ) {
-		if ( !isHtml( upper ) || !isHtml( upper ) )
-			return false;
-
-		return lower.equals( upper.getNext( that.isRelevant ) );
+		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( that.isRelevant ) );
 	}
 
 	// boxTrigger is an abstract type which describes
@@ -366,41 +373,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		},
 
 		is: function( property ) {
-			return !!( ( this.properties & property ) == property );
+			return ( this.properties & property ) == property;
 		}
-	}
+	};
 
-	function elementFromMouse( that, ignoreBox, acceptText ) {
+	function elementFromMouse( that, ignoreBox ) {
 		if ( !that.mouse )
 			return null;
 
 		var doc = that.doc,
 			lineWrap = that.line.wrap,
 			mouse = that.mouse,
-			node = new CKEDITOR.dom.node( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+			element = new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
 
-		// If ignoreBox is set and node is the box, it means that we
+		// If ignoreBox is set and element is the box, it means that we
 		// need to hide the box for a while, repeat elementFromPoint
 		// and show it again.
-		if ( ignoreBox && isBox( that, node ) ) {
+		if ( ignoreBox && isLine( that, element ) ) {
 			lineWrap.hide()
-			node = new CKEDITOR.dom.node( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+			element = new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
 			lineWrap.show();
 		}
 
-		if ( !acceptText && !isHtml( node ) )
+		if ( !isHtml( element ) )
 			return null;
 
-		return node;
+		return element;
 	}
 
 	// Gets the closest parent node that belongs to triggers group.
 	function getAscendantTrigger( that, node ) {
 		if ( !node )
 			return null;
-
-		if ( isTextNode( node ) )
-			node = node.getParent();
 
 		var trigger;
 
@@ -414,7 +418,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		updateSize( that, upper );
 		updateSize( that, lower );
 
-		return upper.size.bottom && lower.size.top ? 0 | ( upper.size.bottom + lower.size.top ) / 2 : upper.size.bottom || lower.size.top;
+		var upperSizeBottom = upper.size.bottom,
+			lowerSizeTop = lower.size.top;
+
+		return upperSizeBottom && lowerSizeTop ? 0 | ( upperSizeBottom + lowerSizeTop ) / 2 : upperSizeBottom || lowerSizeTop;
 	}
 
 	// Get nearest node (either text or HTML), but omit all empty
@@ -515,14 +522,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Checks whether mouseY is around an element by comparing boundaries and considering
 			// an offset distance.
 			mouseNear: function() {
+				DEBUG && DEBUG.groupStart( 'mouseNear' ); // %REMOVE_LINE%
+
 				updateSize( that, this );
 				var offset = that.holdDistance,
 					size = this.size;
 
 				// Determine neighborhood by element dimensions and offsets.
-				if ( size && inBetween( that.mouse.y, size.top - offset, size.bottom + offset ) && inBetween( that.mouse.x, size.left - offset, size.right + offset ) )
+				if ( size && inBetween( that.mouse.y, size.top - offset, size.bottom + offset ) && inBetween( that.mouse.x, size.left - offset, size.right + offset ) ) {
+					DEBUG && DEBUG.logEnd( 'Mouse is near.' ); // %REMOVE_LINE%
 					return true;
+				}
 
+				DEBUG && DEBUG.logEnd( 'Mouse isn\'t near.' ); // %REMOVE_LINE%
 				return false;
 			},
 
@@ -550,7 +562,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Yeah, that's gonna be useful in inline-mode case.
 				if ( inInlineMode( that ) )
-					updateSize( that, editable, true );
+					updateEditableSize( that, true );
 
 				// Set X coordinate (left, right, width).
 				if ( parent.equals( editable ) ) {
@@ -558,7 +570,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					styleSet.right = -view.scroll.x;
 					styleSet.width = '';
 				} else {
-					styleSet.left = any.size.left - any.size.margin.left + view.scroll.x - ( inInlineMode( that ) ? editable.size.left + editable.size.border.left : 0 );
+					styleSet.left = any.size.left - any.size.margin.left + view.scroll.x - ( inInlineMode( that ) ? view.editable.left + view.editable.border.left : 0 );
 					styleSet.width = any.size.outerWidth + any.size.margin.left + any.size.margin.right + view.scroll.x;
 					styleSet.right = '';
 				}
@@ -589,11 +601,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					styleSet.top = inInlineMode( that ) ? 0 : view.scroll.y;
 					this.look( LOOK_TOP );
 				} else if ( trigger.is( LOOK_BOTTOM ) || inBetween( styleSet.top, view.pane.bottom - 5, view.pane.bottom + 15 ) ) {
-					styleSet.top = inInlineMode( that ) ? editable.size.height : view.pane.bottom - 1;
+					styleSet.top = inInlineMode( that ) ? view.editable.height : view.pane.bottom - 1;
 					this.look( LOOK_BOTTOM );
 				} else {
 					if ( inInlineMode( that ) )
-						styleSet.top -= editable.size.top + editable.size.border.top;
+						styleSet.top -= view.editable.top + view.editable.border.top;
 
 					this.look( LOOK_NORMAL );
 				}
@@ -604,7 +616,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Append `px` prefixes.
 				for ( var s in styleSet )
-					styleSet[ s ] += typeof styleSet[ s ] == 'number' ? 'px' : '';
+					if ( typeof styleSet[ s ] == 'number' )
+					styleSet[ s ] += 'px';
 
 				this.setStyles( styleSet );
 			},
@@ -679,14 +692,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		insertFunction( paragraph );
 		dummy.appendTo( paragraph );
-		range.moveToPosition( dummy, CKEDITOR.POSITION_AFTER_START );
+		range.moveToPosition( paragraph, CKEDITOR.POSITION_AFTER_START );
 		editor.getSelection().selectRanges( [ range ] );
 		that.hotParagraph = paragraph;
 
 		editor.fire( 'saveSnapshot' );
 	}
 
-	function isBox( that, node ) {
+	function isLine( that, node ) {
 		if ( !isHtml( node ) )
 			return false;
 
@@ -700,7 +713,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// Is fully visible HTML node?
 	function isHtml( node ) {
-		return node && node.type == CKEDITOR.NODE_ELEMENT && node.$.offsetHeight && node.$.offsetWidth;
+		return node && node.type == CKEDITOR.NODE_ELEMENT && node.$ // IE requires that
+		&& node.$.offsetHeight && node.$.offsetWidth;
 	}
 
 	function isFloated( element ) {
@@ -763,7 +777,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		updateSize( that, editableFirst );
 		updateSize( that, editableLast );
-		updateSize( that, editable );
+		updateEditableSize( that );
 
 		if ( editableFirst.size.top > 0 && inBetween( mouse.y, 0, editableFirst.size.top + triggerOffset ) ) {
 			return new boxTrigger( null, editableFirst, EDGE_TOP, TYPE_EDGE, inInlineMode( that ) || view.scroll.y == 0 ? LOOK_TOP : LOOK_NORMAL );
@@ -778,7 +792,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function triggerEdge( that ) {
 		DEBUG && DEBUG.groupStart( 'triggerEdge' ); // %REMOVE_LINE%
 
-		var element = getAscendantTrigger( that, elementFromMouse( that, true, true ) );
+		var element = getAscendantTrigger( that, elementFromMouse( that, true ) );
 		DEBUG && DEBUG.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
 
 		if ( !element || that.editable.equals( element ) ) {
@@ -812,10 +826,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// No previous element
-			if ( !elementPrevious ) {
-				DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_TOP' ); // %REMOVE_LINE%
-				return new boxTrigger( null, element, EDGE_TOP, TYPE_EDGE, element.equals( that.editable.getFirst( that.isRelevant ) ) ? LOOK_TOP : LOOK_NORMAL );
-			}
+			DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_TOP' ); // %REMOVE_LINE%
+			return new boxTrigger( null, element, EDGE_TOP, TYPE_EDGE, element.equals( that.editable.getFirst( that.isRelevant ) ) ? LOOK_TOP : LOOK_NORMAL );
 		}
 
 		// Around the lower edge of an element.
@@ -836,10 +848,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// No next element.
-			if ( !elementNext ) {
-				DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_BOTTOM' ); // %REMOVE_LINE%
-				return new boxTrigger( element, null, EDGE_BOTTOM, TYPE_EDGE, element.equals( that.editable.getLast( that.isRelevant ) ) && inBetween( element.size.bottom, that.view.pane.height - that.triggerOffset, that.view.pane.height ) ? LOOK_BOTTOM : LOOK_NORMAL );
-			}
+			DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_BOTTOM' ); // %REMOVE_LINE%
+			return new boxTrigger( element, null, EDGE_BOTTOM, TYPE_EDGE, element.equals( that.editable.getLast( that.isRelevant ) ) && inBetween( element.size.bottom, that.view.pane.height - that.triggerOffset, that.view.pane.height ) ? LOOK_BOTTOM : LOOK_NORMAL );
 		}
 
 		DEBUG && DEBUG.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
@@ -870,7 +880,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		DEBUG && DEBUG.logElements( [ upper, lower ], [ 'Upper', 'Lower' ], 'Pair found' ); // %REMOVE_LINE%
 
 		// Success: two siblings have been found
-		if ( upper && lower && areSiblings( that, upper, lower ) ) {
+		if ( areSiblings( that, upper, lower ) ) {
 			DEBUG && DEBUG.logEnd( 'SUCCESS. Expand trigger created.' ); // %REMOVE_LINE%
 			return trigger.set( EDGE_MIDDLE, TYPE_EXPAND );
 		}
@@ -908,10 +918,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		//		3.4. If the optimal pair is found, assign it back to the trigger.
 
 		// 1.1., 1.2.
-		if ( upper && startElement.contains( upper ) )
+		if ( upper && startElement.contains( upper ) ) {
 			while ( !upper.getParent().equals( startElement ) )
-			upper = upper.getParent();
-		else
+				upper = upper.getParent();
+		} else
 			upper = startElement.getFirst();
 
 		if ( lower && startElement.contains( lower ) )
@@ -927,7 +937,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 		// 2.1.
-		if ( !isHtml( upper ) || isBox( that, upper ) ) {
+		if ( !isHtml( upper ) || isLine( that, upper ) ) {
 			// 2.2.
 			if ( !( upper = upper.getNext( that.isRelevant ) ) ) {
 				DEBUG && DEBUG.logEnd( 'ABORT There is no upper next.' ); // %REMOVE_LINE%
@@ -998,9 +1008,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		if ( isFlowBreaker( lower ) || isFlowBreaker( upper ) ) {
 			DEBUG && DEBUG.logEnd( 'REJECTED. Lower or upper are isFlowBreakers.' ); // %REMOVE_LINE%
 			return false;
-		}
-
-		if ( trigger.is( EDGE_MIDDLE ) ) {
+		} else if ( trigger.is( EDGE_MIDDLE ) ) {
 			if ( !upper || !lower // NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
 			|| lower.equals( upper ) || upper.equals( lower ) // NOT: two trigger elements, one equals another.
 			|| lower.contains( upper ) || upper.contains( lower ) ) // NOT: two trigger elements, one contains another.
@@ -1010,7 +1018,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// YES: two trigger elements, pure siblings.
-			if ( isTrigger( that, upper ) && isTrigger( that, lower ) && areSiblings( that, upper, lower ) ) {
+			else if ( isTrigger( that, upper ) && isTrigger( that, lower ) && areSiblings( that, upper, lower ) ) {
 				if ( trigger.is( TYPE_EXPAND ) ) {
 					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
 					[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
@@ -1028,9 +1036,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return false;
 				}
 			}
-		}
-
-		if ( trigger.is( EDGE_TOP ) ) {
+		} else if ( trigger.is( EDGE_TOP ) ) {
 			// NOT: there's a child above the pointer.
 			if ( isChildBetweenPointerAndEdge( that, lower, false ) ) {
 				DEBUG && DEBUG.logElementsEnd( [ lower ], // %REMOVE_LINE%
@@ -1039,7 +1045,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// First child cases.
-			if ( isTrigger( that, lower ) ) {
+			else if ( isTrigger( that, lower ) ) {
 				// NOT: signle trigger element, a child of li/dt/dd.
 				if ( lower.getParent().is( DTD_LISTITEM ) ) {
 					DEBUG && DEBUG.logEnd( 'REJECT EDGE_TOP. Parent is list' ); // %REMOVE_LINE%
@@ -1050,9 +1056,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				DEBUG && DEBUG.logElementsEnd( [ lower ], [ 'lower' ], 'APPROVED EDGE_TOP' ); // %REMOVE_LINE%
 				return true;
 			}
-		}
-
-		if ( trigger.is( EDGE_BOTTOM ) ) {
+		} else if ( trigger.is( EDGE_BOTTOM ) ) {
 			// NOT: there's a child below the pointer.
 			if ( isChildBetweenPointerAndEdge( that, upper, true ) ) {
 				DEBUG && DEBUG.logElementsEnd( [ upper ], // %REMOVE_LINE%
@@ -1061,7 +1065,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 
 			// Last child cases.
-			if ( isTrigger( that, upper ) ) {
+			else if ( isTrigger( that, upper ) ) {
 				// NOT: signle trigger element, a child of li/dt/dd.
 				if ( upper.getParent().is( DTD_LISTITEM ) ) {
 					DEBUG && DEBUG.logEnd( 'REJECT EDGE_BOTTOM. Parent is list' ); // %REMOVE_LINE%
@@ -1083,23 +1087,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	// Collects dimensions of an element.
 	var sizePrefixes = [ 'top', 'left', 'right', 'bottom' ];
 
-	function updateSize( that, element, ignoreScroll ) {
-		if ( !isHtml( element ) )
-			return null;
-
-		if ( !element.size )
-			element.size = {};
-
-		// Abort if there was a similar query performed recently.
-		// This kind of caching provides great performance improvement.
-		else if ( element.size.ignoreScroll == ignoreScroll && element.size.date > new Date() - CACHE_TIME ) {
-			DEBUG && DEBUG.log( 'ELEMENT.size: get from cache' ); // %REMOVE_LINE%
-			return;
-		}
-
-		DEBUG && DEBUG.log( 'ELEMENT.size: capture' ); // %REMOVE_LINE%
-
-		var getStyle = (function( propertyName ) {
+	function getSize( that, element, ignoreScroll, force ) {
+		var getStyle = (function() {
 			// Better "cache and reuse" than "call again and again".
 			var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
 
@@ -1123,8 +1112,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			margin[ sizePrefixes[ i ] ] = parseInt( getStyle( 'margin-' + sizePrefixes[ i ] ), 10 ) || 0;
 		}
 
-		if ( !ignoreScroll )
-			updateWindowSize( that );
+		// updateWindowSize if forced to do so OR NOT ignoring scroll.
+		if ( !ignoreScroll || force )
+			updateWindowSize( that, force );
 
 		box.top = docPosition.y - ( ignoreScroll ? 0 : that.view.scroll.y ), box.left = docPosition.x - ( ignoreScroll ? 0 : that.view.scroll.x ),
 
@@ -1136,43 +1126,73 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		box.bottom = box.top + box.outerHeight, box.right = box.left + box.outerWidth;
 
-		return extend( element.size, {
+		return extend({
 			border: border,
 			padding: padding,
 			margin: margin,
-			ignoreScroll: ignoreScroll,
-			date: +new Date()
+			ignoreScroll: ignoreScroll
 		}, box, true );
 	}
 
-	function updateWindowSize( that ) {
+	function updateSize( that, element, ignoreScroll ) {
+		if ( !isHtml( element ) ) // i.e. an element is hidden
+		return ( element.size = null ); //	-> reset size to make it useless for other methods
+
+		if ( !element.size )
+			element.size = {};
+
+		// Abort if there was a similar query performed recently.
+		// This kind of caching provides great performance improvement.
+		else if ( element.size.ignoreScroll == ignoreScroll && element.size.date > new Date() - CACHE_TIME ) {
+			DEBUG && DEBUG.log( 'ELEMENT.size: get from cache' ); // %REMOVE_LINE%
+			return;
+		}
+
+		DEBUG && DEBUG.log( 'ELEMENT.size: capture' ); // %REMOVE_LINE%
+
+		extend( element.size, getSize( that, element, ignoreScroll ), {
+			date: +new Date()
+		}, true );
+	}
+
+	// Updates that.view.editable object.
+	// This one must be called separately outside of updateWindowSize
+	// to prevent cyclic dependency getSize<->updateWindowSize.
+	// It calls getSize with force flag to avoid getWindowSize cache (look: getSize).
+	function updateEditableSize( that, ignoreScroll ) {
+		that.view.editable = getSize( that, that.editable, ignoreScroll, true );
+	}
+
+	function updateWindowSize( that, force ) {
+		if ( !that.view )
+			that.view = {};
+
 		var view = that.view;
 
-		if ( view && view.date > new Date() - CACHE_TIME ) {
+		if ( !force && view && view.date > new Date() - CACHE_TIME ) {
 			DEBUG && DEBUG.log( 'win.size: get from cache' ); // %REMOVE_LINE%
 			return;
 		}
+
 		DEBUG && DEBUG.log( 'win.size: capturing' ); // %REMOVE_LINE%
 
 		var win = that.win,
 			scroll = win.getScrollPosition(),
 			paneSize = win.getViewPaneSize();
 
-		extend( that, {
-			view: {
-				scroll: {
-					x: scroll.x,
-					y: scroll.y,
-					width: that.editable.$.scrollWidth - paneSize.width,
-					height: that.editable.$.scrollHeight - paneSize.height
-				},
-				pane: {
-					width: paneSize.width,
-					height: paneSize.height,
-					bottom: paneSize.height + scroll.y
-				},
-				date: +new Date()
-			}
+		extend( that.view, {
+			scroll: {
+				x: scroll.x,
+				y: scroll.y,
+				width: that.doc.$.documentElement.scrollWidth - paneSize.width,
+				height: that.doc.$.documentElement.scrollHeight - paneSize.height
+			},
+			pane: {
+				width: paneSize.width,
+				height: paneSize.height,
+				bottom: paneSize.height + scroll.y
+			},
+			date: +new Date()
 		}, true );
 	}
 
@@ -1211,19 +1231,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return new boxTrigger( upper, lower, null, null );
 	}
 
+	var vendor = env.ie ? '-ms-' : env.opera ? '-o-' : env.webkit ? '-webkit-' : env.gecko ? '-moz-' : '';
+
 	function vendorPrefix( property, value ) {
-		var prefix;
-
-		if ( env.ie )
-			prefix = '-ms-';
-		else if ( env.opera )
-			prefix = '-o-';
-		else if ( env.webkit )
-			prefix = '-webkit-';
-		else if ( env.gecko )
-			prefix = '-moz-';
-
-		return prefix + property + ':' + value + ';' + property + ':' + value + ';';
+		return vendor + property + ':' + value + ';' + property + ':' + value + ';';
 	}
 })();
 
