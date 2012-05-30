@@ -323,6 +323,21 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	},
 
 	/**
+	 * Retrieve the bounding rectangle of the current element, in pixels,
+	 * relative to the upper-left corner of the browser's client area.
+	 * @return {Object} The dimensions of the dom element including "left", "top", "right", "bottom", "width" and "height".
+	 */
+	getClientRect: function() {
+		// http://help.dottoro.com/ljvmcrrn.php
+		var rect = CKEDITOR.tools.extend( {}, this.$.getBoundingClientRect() );
+
+		!rect.width && ( rect.width = rect.right - rect.left );
+		!rect.height && ( rect.height = rect.bottom - rect.top );
+
+		return rect;
+	},
+
+	/**
 	 * Sets the inner HTML of this element.
 	 * @param {String} html The HTML to be set for this element.
 	 * @returns {String} The inserted HTML.

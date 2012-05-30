@@ -92,10 +92,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// http://help.dottoro.com/ljgupwlp.php
 				var editable = editor.editable(),
-					rect = floatSpace.$.getBoundingClientRect(),
-					editorRect = editable.$.getBoundingClientRect(),
-					spaceWidth = rect.width || rect.right - rect.left,
-					spaceHeight = rect.height || rect.bottom - rect.top,
+					spaceRect = floatSpace.getClientRect(),
+					editorRect = editable.getClientRect(),
+					spaceHeight = spaceRect.height,
 					pageScrollX = scrollOffset( 'left' );
 
 				// Small amount of extra to avoid the "indecision moment".
@@ -110,7 +109,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					return;
 				}
 				// Pin the space element while page scrolls down to pull it off the view port.
-				else if ( mode == 'top' && rect.top < pinnedOffsetY - buffer )
+				else if ( mode == 'top' && spaceRect.top < pinnedOffsetY - buffer )
 					changeMode( 'pin' );
 				else if ( mode == 'pin' ) {
 					// Restore into docked top from pin.
@@ -118,7 +117,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						changeMode( 'top' );
 					// Docked the space below editable when page scrolls down and the space masks
 					// the final few lines of the content.
-					else if ( editorRect.bottom - rect.bottom < spaceHeight )
+					else if ( editorRect.bottom - spaceRect.bottom < spaceHeight )
 						changeMode( 'bottom' );
 				} else if ( mode == 'bottom' ) {
 					// Jump to top mode. ( with pin mode skipped)
@@ -132,7 +131,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( resize ) {
 					var viewRect = win.getViewPaneSize();
 					var mid = viewRect.width / 2;
-					var alignSide = ( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceWidth ) ? ( editor.lang.dir == 'rtl' ? 'right' : 'left' ) : ( mid - editorRect.left > editorRect.right - mid ? 'left' : 'right' );
+					var alignSide = ( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) ? ( editor.lang.dir == 'rtl' ? 'right' : 'left' ) : ( mid - editorRect.left > editorRect.right - mid ? 'left' : 'right' );
 
 					// Horizontally aligned with editable or view port left otherwise right boundary.
 					var newLeft = alignSide == 'left' ? ( editorRect.left > 0 ? editorRect.left : 0 ) : ( editorRect.right < viewRect.width ? viewRect.width - editorRect.right : 0 );
