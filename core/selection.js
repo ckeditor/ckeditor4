@@ -537,15 +537,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		}
 
-		// Check whether browser focus is really inside of the editable element.
-		var nativeSel = this.getNative();
-		var rangeParent = CKEDITOR.tools.tryThese( function() {
-			var range = nativeSel.createRange();
-			return range && CKEDITOR.dom.element.get( range.item && range.item( 0 ) || range.parentElement() );
-		}, function() {
-			var range = nativeSel.getRangeAt( 0 );
-			return new CKEDITOR.dom.node( range.commonAncestorContainer );
-		});
+		/* Check whether browser focus is really inside of the editable element. */
+
+
+		var nativeSel = this.getNative(),
+			rangeParent, range;
+
+		if ( nativeSel.getRangeAt ) {
+			range = nativeSel.getRangeAt( 0 );
+			rangeParent = CKEDITOR.dom.element.get( range.commonAncestorContainer );
+		}
+		// For old IEs.
+		else {
+			range = nativeSel.createRange();
+			rangeParent = range && CKEDITOR.dom.element.get( range.item && range.item( 0 ) || range.parentElement() );
+		}
 
 		// Selection out of concerned range, empty the selection.
 		if ( !( rangeParent && ( this.root.equals( rangeParent ) || this.root.contains( rangeParent ) ) ) ) {
