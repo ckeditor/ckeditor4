@@ -342,12 +342,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var style = '';
 		var width = editor.config.width;
 
-		if ( width ) {
-			if ( !isNaN( width ) )
-				width += 'px';
-
-			style += 'width:{width};';
-		}
+		if ( !isNaN( width ) )
+			style += 'width:' + width + 'px;';
 
 		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
 			id: editor.id,
@@ -357,7 +353,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			voiceLabel: editor.lang.editor,
 			style: ( style ? ' style="' + style + '"' : '' ),
 			height: height,
-			width: width,
 			topId: editor.ui.spaceId( 'top' ),
 			topHtml: topHtml || '',
 			contentId: editor.ui.spaceId( 'contents' ),
