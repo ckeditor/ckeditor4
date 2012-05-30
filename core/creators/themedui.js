@@ -282,7 +282,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @example
 	 */
 	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
-		return forContents ? CKEDITOR.document.getById( 'cke_contents_' + this.name ) : this.container;
+		return forContents ? this.ui.space( 'contents' ) : this.container;
 	};
 
 	function destroy() {
