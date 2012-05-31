@@ -178,7 +178,7 @@ body {
 				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' );
 			};
 
-		window.console && console.log( format( '[{time}] {title}: {msg}' ) );
+		window.console && console.log && console.log( format( '[{time}] {title}: {msg}' ) );
 
 		msg = ( msg || '' ).replace( /\r/g, '{\\r}' ).replace( /\n/g, '{\\n}' ).replace( /\t/g, '{\\t}' );
 		msg = CKEDITOR.tools.htmlEncode( msg );
