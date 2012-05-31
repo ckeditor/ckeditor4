@@ -2,74 +2,70 @@
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */ ( function() {
-	function forceHtmlMode( evt ) {
-		evt.data.mode = 'html';
-	}
-
 	CKEDITOR.plugins.add( 'pastefromword', {
 		requires: [ 'clipboard' ],
 
 		init: function( editor ) {
+			var commandName = 'pastefromword',
+				// Flag indicate this command is actually been asked instead of a generic pasting.
+				forceFromWord = 0,
+				path = this.path;
 
-			// Flag indicate this command is actually been asked instead of a generic
-			// pasting.
-			var forceFromWord = 0;
-			var resetFromWord = function( evt ) {
-					evt && evt.removeListener();
-					editor.removeListener( 'beforePaste', forceHtmlMode );
-					forceFromWord && setTimeout( function() {
-						forceFromWord = 0;
-					}, 0 );
-				};
-
-			// Features bring by this command beside the normal process:
-			// 1. No more bothering of user about the clean-up.
-			// 2. Perform the clean-up even if content is not from MS-Word.
-			// (e.g. from a MS-Word similar application.)
-			editor.addCommand( 'pastefromword', {
+			editor.addCommand( commandName, {
+				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
-				exec: function() {
-					// Ensure the received data format is HTML and apply content filtering. (#6718)
+				async: true,
+
+				exec: function( editor ) {
+					var cmd = this;
+
 					forceFromWord = 1;
 					editor.on( 'beforePaste', forceHtmlMode );
 
-					if ( editor.execCommand( 'paste' ) === false ) {
-						editor.on( 'dialogShow', function( evt ) {
-							evt.removeListener();
-							evt.data.on( 'cancel', resetFromWord );
-						});
+					editor.getClipboardData({ title: editor.lang.pastefromword.title }, function( data ) {
+						data && editor.fire( 'paste', { type: 'html', data: data.data, htmlified: true } );
 
-						editor.on( 'dialogHide', function( evt ) {
-							evt.data.removeListener( 'cancel', resetFromWord );
+						editor.fire( 'afterCommandExec', {
+							name: commandName,
+							command: cmd,
+							returnValue: !!data
 						});
-					}
-
-					editor.on( 'afterPaste', resetFromWord );
+					});
 				}
 			});
 
 			// Register the toolbar button.
 			editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: 'pastefromword'
+				command: commandName
 			});
 
 			editor.on( 'pasteState', function( evt ) {
-				editor.getCommand( 'pastefromword' ).setState( evt.data );
+				editor.getCommand( commandName ).setState( evt.data );
 			});
 
+			// Features bring by this command beside the normal process:
+			// 1. No more bothering of user about the clean-up.
+			// 2. Perform the clean-up even if content is not from MS-Word.
+			// (e.g. from a MS-Word similar application.)
+			// 3. Listen with high priority (3), so clean up is done before content
+			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml;
+					mswordHtml = data.data;
 
 				// MS-WORD format sniffing.
-				if ( ( mswordHtml = data.html ) && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
-					var isLazyLoad = this.loadFilterRules( function() {
+				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
+					// If filter rules aren't loaded then cancel 'paste' event,
+					// load them and when they'll get loaded fire new paste event
+					// for which data will be filtered in second execution of
+					// this listener.
+					var isLazyLoad = loadFilterRules( path, function() {
 						// Event continuation with the original data.
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
 						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
-							data.html = CKEDITOR.cleanWord( mswordHtml, editor );
+							data.data = CKEDITOR.cleanWord( mswordHtml, editor );
 						}
 					});
 
@@ -77,25 +73,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					// this event.
 					isLazyLoad && evt.cancel();
 				}
-			}, this );
-		},
+			}, null, null, 3 );
 
-		loadFilterRules: function( callback ) {
-			var isLoaded = CKEDITOR.cleanWord;
-
-			if ( isLoaded )
-				callback();
-			else {
-				var filterFilePath = CKEDITOR.getUrl( CKEDITOR.config.pasteFromWordCleanupFile || ( this.path + 'filter/default.js' ) );
-
-				// Load with busy indicator.
-				CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
-			}
-
-			return !isLoaded;
+			function resetFromWord( evt ) {
+				evt && evt.removeListener();
+				editor.removeListener( 'beforePaste', forceHtmlMode );
+				forceFromWord && setTimeout( function() {
+					forceFromWord = 0;
+				}, 0 );
+			};
 		}
+
 	});
+
+	function loadFilterRules( path, callback ) {
+		var isLoaded = CKEDITOR.cleanWord;
+
+		if ( isLoaded )
+			callback();
+		else {
+			var filterFilePath = CKEDITOR.getUrl( CKEDITOR.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) );
+
+			// Load with busy indicator.
+			CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
+		}
+
+		return !isLoaded;
+	}
+
+	function forceHtmlMode( evt ) {
+		evt.data.type = 'html';
+	}
 })();
+
 
 /**
  * Whether to prompt the user about the clean up of content being pasted from

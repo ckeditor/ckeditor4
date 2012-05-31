@@ -180,7 +180,9 @@ CKEDITOR.htmlParser.fragment = function() {
 				}
 			}
 
-			target.add( element );
+			// Avoid adding empty inline.
+			if ( !( isRemoveEmpty( element ) && !element.children.length ) )
+				target.add( element );
 
 			if ( element.name == 'pre' )
 				inPre = false;
@@ -453,7 +455,8 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			this.children.splice( index, 0, node );
 
-			this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
+			if ( !this._.hasInlineStarted )
+				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
 
 		/**

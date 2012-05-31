@@ -1,5 +1,4 @@
-﻿﻿
-/*
+﻿/*
 Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -102,31 +101,42 @@ CKEDITOR.dom.elementPath.prototype = {
 	},
 
 	/**
-	 * Walks up this element path to retrieve the matched element.
-	 *
-	 * @param {Object} query One or more element tag names to be checked.
-	 * @param {Boolean} includeRoot Take path root element into consideration.
-	 * @return {*} The first matched element if found.
+	 * Search the path elements that meets the specified criteria.
+	 * @param {*} query The criteria that can be either a tag name, list of tag names, or an node evaluator function.
+	 * @param {Boolean} fromTop Search start from the topmost element instead of bottom.
+	 * @return {CKEDITOR.dom.element} The first matched dom element.
 	 */
-	contains: function( query, includeRoot ) {
-		// Normalize query param.
-		var tags = {};
+	contains: function( query, fromTop ) {
+		var evaluator;
 		if ( typeof query == 'string' )
-			tags[ query ] = 1;
+			evaluator = function( node ) {
+			return node.getName() == query;
+		};
+		if ( query instanceof CKEDITOR.dom.element )
+			evaluator = function( node ) {
+			return node.equals( query );
+		};
 		else if ( CKEDITOR.tools.isArray( query ) )
-			for ( var t = 0, l = query.length; t < l; t++ )
-			tags[ query[ t ] ] = 1;
-		else
-			tags = query;
+			evaluator = function( node ) {
+			query.indexOf( node.getName() ) > -1;
+		};
+		else if ( typeof query == 'function' )
+			evaluator = query;
+		else if ( typeof query == 'object' )
+			evaluator = function( node ) {
+			return node.getName() in query;
+		};
 
-		var elements = this.elements,
-			length = elements.length - 1;
-		includeRoot && length++;
-		for ( var i = 0; i < length; i++ ) {
-			if ( elements[ i ].getName() in tags ) {
-				if ( !( includeRoot && elements[ i ].equals( this.root ) ) )
-					return elements[ i ];
-			}
+		var elements = this.elements;
+
+		if ( fromTop ) {
+			elements = Array.prototype.slice.call( elements, 0 );
+			elements.reverse();
+		}
+
+		for ( var i = 0, length = elements.length; i < length; i++ ) {
+			if ( evaluator( elements[ i ] ) )
+				return elements[ i ];
 		}
 
 		return null;

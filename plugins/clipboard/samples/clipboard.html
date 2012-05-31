@@ -112,6 +112,17 @@ body {
 	background: rgba(0, 0, 0, 0.1 );
 	min-width: 200px;
 }
+.someClass {
+	color: blue;
+}
+.specChar {
+	color: #777;
+	background-color: #EEE;
+	background-color: rgba(0, 0, 0, 0.1);
+	font-size: 0.8em;
+	border-radius: 2px;
+	padding: 1px;
+}
 	</style>
 </head>
 <body>
@@ -129,9 +140,25 @@ body {
 				Editor 2:</label>
 			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is more &lt;strong class="MsoNormal"&gt;sample text&lt;/strong&gt;.&lt;/p&gt;</textarea>
 		</p>
-		<div id="editable" contenteditable="true">
-			<h1>Header</h1>
+		<p>
+			<label for="editor3">
+				Editor 3:</label>
+			<textarea cols="80" id="editor3" name="editor3" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting in text mode&lt;/strong&gt; by listening for "beforePaste" event.&lt;/p&gt;</textarea>
+		</p>
+		<p>
+			<label for="editor4">
+				Editor 4:</label>
+			<textarea cols="80" id="editor4" name="editor4" rows="10">&lt;p&gt;This editor &lt;strong&gt;forces pasting in text mode&lt;/strong&gt; by "forcePasteAsPlainText" config option.&lt;/p&gt;</textarea>
+		</p>
+		<p>
+			<label for="editor5">
+				Editor 5:</label>
+			<textarea cols="80" id="editor5" name="editor5" rows="10">Editor with autoParagraphing set to off.</textarea>
+		</p>
+		<div id="editor6" contenteditable="true" style="font-family: Georgia; font-size: 14px">
+			<h1>Editor 6</h1>
 			<p>Content content content.</p>
+			<p class="someClass">Styled by <code>.someClass</code>.</p>
 		</div>
 	</div>
 	<div id="console">
@@ -153,7 +180,10 @@ body {
 
 		window.console && console.log( format( '[{time}] {title}: {msg}' ) );
 
-		msg = CKEDITOR.tools.htmlEncode( msg || '' );
+		msg = ( msg || '' ).replace( /\r/g, '{\\r}' ).replace( /\n/g, '{\\n}' ).replace( /\t/g, '{\\t}' );
+		msg = CKEDITOR.tools.htmlEncode( msg );
+		msg = msg.replace( /\{(\\\w)\}/g, '<code class="specChar">$1</code>' );
+
 		msgEl.setHtml( format( '<time datetime="{time}">{time}</time><span class="prompt">{title}</span> {msg}' ) );
 		consoleEl.append( msgEl );
 		consoleEl.$.scrollTop = consoleEl.$.scrollHeight;
@@ -166,19 +196,23 @@ body {
 
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste', event.data.mode + ' - ' + event.data[ event.data.mode ] );
+				log( p + 'paste(prior:-1)', event.data.type + ' - ' + event.data.data );
+			}, null, null, -1 );
+		editor.on( 'paste', function( event )
+			{
+				log( p + 'paste(prior:10)', event.data.type + ' - ' + event.data.data );
 			});
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:999)', event.data.mode + ' - ' + event.data[ event.data.mode ] );
+				log( p + 'paste(prior:999)', event.data.type + ' - ' + event.data.data );
 			}, null, null, 999 );
 		editor.on( 'beforePaste', function( event )
 			{
-				log( p + 'beforePaste', event.data.mode );
+				log( p + 'beforePaste', event.data.type );
 			});
 		editor.on( 'beforePaste', function( event )
 			{
-				log( p + 'beforePaste(prior:999)', event.data.mode );
+				log( p + 'beforePaste(prior:999)', event.data.type );
 			}, null, null, 999 );
 		editor.on( 'afterPaste', function( event )
 			{
@@ -199,13 +233,32 @@ body {
 	};
 
 	CKEDITOR.disableAutoInline = true;
-	var editor1 = CKEDITOR.replace( 'editor1' ),
-		editor2 = CKEDITOR.replace( 'editor2' ),
-		editor3 = CKEDITOR.inline( document.getElementById( 'editable' ) );
+	var config =
+		{
+			height : 120,
+			toolbar : 'Custom',
+			toolbar_Custom :
+			[
+				{ name: 'custom', items : [ 'Source','Bold','Italic','Underline','-','Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] }
+			]
+		},
+		editor1 = CKEDITOR.replace( 'editor1', config ),
+		editor2 = CKEDITOR.replace( 'editor2', config ),
+		editor3 = CKEDITOR.replace( 'editor3', config ),
+		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { forcePasteAsPlainText : true }, config ) ),
+		editor5 = CKEDITOR.replace( 'editor5', CKEDITOR.tools.extend( { autoParagraph : false }, config ) ),
+		editor6 = CKEDITOR.inline( document.getElementById( 'editor6' ), config );
+
+	editor3.on( 'beforePaste', function( evt )
+		{
+			evt.data.type = 'text';
+		});
 
 	observe( editor1, 1 );
 	observe( editor2, 2 );
 	observe( editor3, 3 );
+	observe( editor4, 4 );
+	observe( editor5, 5 );
 
 })();
 	</script>

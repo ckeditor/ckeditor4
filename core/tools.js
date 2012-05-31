@@ -265,7 +265,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var standard = function( text ) {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( text );
-					return span.getHtml();
+					// Chrome, Fx and Opera leave \t while IEs replace them with spaces.
+					return span.getHtml().replace( /\t/g, ' ' );
 				};
 
 			var fix1 = ( standard( '\n' ).toLowerCase() == '<br>' ) ?

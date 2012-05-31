@@ -688,8 +688,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			otherEl = otherElement.clone( 0, 1 );
 
 		// Remove distractions.
-		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
-		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando' ] );
+		thisEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando', 'data-cke-saved-href', 'data-cke-saved-name' ] );
+		otherEl.removeAttributes( [ '_moz_dirty', 'data-cke-expando', 'data-cke-saved-href', 'data-cke-saved-name' ] );
 
 		// Native comparison available.
 		if ( thisEl.$.isEqualNode ) {
@@ -697,8 +697,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			thisEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( thisEl.$.style.cssText );
 			otherEl.$.style.cssText = CKEDITOR.tools.normalizeCssText( otherEl.$.style.cssText );
 			return thisEl.$.isEqualNode( otherEl.$ );
-		} else
-			return thisEl.getOuterHtml() == otherEl.getOuterHtml();
+		} else {
+			thisEl = thisEl.getOuterHtml();
+			otherEl = otherEl.getOuterHtml();
+
+			// Fix tiny difference between link href in older IEs.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.is( 'a' ) ) {
+				var parent = this.getParent();
+				if ( parent.type == CKEDITOR.NODE_ELEMENT ) {
+					var el = parent.clone();
+					el.setHtml( thisEl ), thisEl = el.getHtml();
+					el.setHtml( otherEl ), otherEl = el.getHtml();
+				}
+			}
+
+			return thisEl == otherEl;
+		}
 	},
 
 	/**
