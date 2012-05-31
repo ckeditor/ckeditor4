@@ -544,7 +544,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			rangeParent, range;
 
 		if ( nativeSel.getRangeAt ) {
-			range = nativeSel.getRangeAt( 0 );
+			range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
 			rangeParent = CKEDITOR.dom.element.get( range.commonAncestorContainer );
 		}
 		// For old IEs.
