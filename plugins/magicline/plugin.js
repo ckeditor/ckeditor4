@@ -26,6 +26,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				triggerOffset: triggerOffset,
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || .5 ),
 				boxColor: config.magicline_boxColor || '#ff0000',
+				rtl: config.contentsLangDirection == 'rtl',
 				triggers: config.magicline_putEverywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
 			},
 			scrollTimeout, hideTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
@@ -484,7 +485,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			lineChildren: [
 				extend( newElementFromHtml( '<span title="' + that.editor.lang.magicline.title
 										+ '" contenteditable="false">' + WHITE_SPACE + '</span>' ), {
-				base: CSS_COMMON + 'height:17px;width:17px;right:17px;' + 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
+				base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
+												+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
 												+ ';cursor:'
 												+ ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
 				looks: [
