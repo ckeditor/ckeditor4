@@ -21,6 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_inner
 {
+	display: block;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-webkit-touch-callout: none;
@@ -57,6 +58,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_contents,
 .cke_bottom
 {
+	display: block;
 	/* Ideally this should be "auto", but it shows scrollbars in IE7 */
 	overflow: hidden;
 }
