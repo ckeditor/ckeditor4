@@ -121,3 +121,5 @@ CKEDITOR.stylesSet.add( 'default', [
 	name: 'Square Bulleted List', element: 'ul', styles: { 'list-style-type': 'square' }
 }
 ] );
+
+// %LEAVE_UNMINIFIED% %REMOVE_LINE%
