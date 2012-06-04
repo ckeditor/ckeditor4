@@ -11,7 +11,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet">
 	<link href="assets/2-col-grid.css" rel="stylesheet">
 	<script>
-
+/* %REMOVE_LINE%
+CKEDITOR.config.removePlugins = 'elementspath,maximize,preview,print,sourcearea,wysiwygarea';
+ %REMOVE_LINE% */ 
+/* %REMOVE_START% */ 
 CKEDITOR.config.plugins =
 	'about,' +
 	'basicstyles,' +
@@ -59,8 +62,8 @@ CKEDITOR.config.plugins =
 	'templates,' +
 	'undo,' +
 	'wsc';
-
-	</script>
+/* %REMOVE_END% */
+ 	</script>
 	<style>
 		/* CKEditor editables are automatically set with the "cke_editable" class. */
 		.cke_editable

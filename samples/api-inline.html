@@ -51,7 +51,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	</style>
 	<script>
-
+/* %REMOVE_LINE%
+		CKEDITOR.config.removePlugins = 'elementspath,maximize,preview,print,sourcearea,wysiwygarea';
+%REMOVE_LINE% */
+/* %REMOVE_START% */ 
 		CKEDITOR.config.extraPlugins =
 			'about,' +
 			'basicstyles,' +
@@ -95,8 +98,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'templates,' +
 			'undo,' +
 			'wsc';
-
-	</script>
+/* %REMOVE_END% */
+ 	</script>
 	<script>
 
 		function Log( text )

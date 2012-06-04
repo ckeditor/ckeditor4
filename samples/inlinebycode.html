@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
-	<script>
+	<script>/* %REMOVE_START% */ 
 
 CKEDITOR.config.extraPlugins =
 	'about,' +
@@ -59,7 +59,7 @@ CKEDITOR.config.extraPlugins =
 	'undo,' +
 	'wsc';
 
-	</script>
+/* %REMOVE_END% */ 	</script>
 	<link href="sample.css" rel="stylesheet">
 	<style>
 		/* CKEditor editables are automatically set with the "cke_editable" class. */
@@ -180,8 +180,12 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
 		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
-		var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
-
+		var editor = CKEDITOR.inline( document.getElementById( 'editable' ) ); // %REMOVE_LINE%
+/* %REMOVE_LINE%
+		var editor = CKEDITOR.inline( document.getElementById( 'editable' ), {
+			removePlugins : 'elementspath,maximize,preview,print,sourcearea,wysiwygarea'
+		});
+ %REMOVE_LINE% */ 
 	</script>
 	<div id="footer">
 		<hr>

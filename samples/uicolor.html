@@ -8,7 +8,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<title>UI Color Picker &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
-	<script>
+	<script>/* %REMOVE_START% */ 
 		CKEDITOR.config.plugins =
 			'contextmenu,' +
 			'basicstyles,' +
@@ -21,7 +21,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'button,' +
 			'uicolor,' +
 			'wysiwygarea';
-	</script>
+	/* %REMOVE_END% */ </script>
 	<link href="sample.css" rel="stylesheet">
 </head>
 <body>
@@ -88,6 +88,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// instance, using default configurations.
 			CKEDITOR.replace( 'editor1',
 				{
+/* %REMOVE_LINE%
+					extraPlugins : 'uicolor',
+%REMOVE_LINE% */ 
 					toolbar :
 					[
 						[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
@@ -110,6 +113,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// instance, using default configurations.
 			CKEDITOR.replace( 'editor2',
 				{
+/* %REMOVE_LINE%
+					extraPlugins : 'uicolor',
+%REMOVE_LINE% */ 
 					uiColor: '#14B8C4',
 					toolbar :
 					[
