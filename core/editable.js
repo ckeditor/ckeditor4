@@ -202,7 +202,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
 				// call.
 				setTimeout( function() {
-					editable.editor.fire( 'saveSnapshot' );
+					editor.fire( 'saveSnapshot' );
 				}, 0 );
 			},
 
