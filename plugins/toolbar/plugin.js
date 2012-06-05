@@ -371,7 +371,7 @@
 			// Manage editor focus  when navigating the toolbar.
 			editor.on( 'uiReady', function() {
 				var toolbox = editor.ui.space( 'toolbox' );
-				toolbox && editor.focusManager.addFocusable( toolbox, 1 );
+				toolbox && editor.focusManager.add( toolbox, 1 );
 			});
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );

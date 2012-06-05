@@ -88,9 +88,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					4 = bottom-right
 			 */
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
-				// Persist editor focus as panel open will blur the focus manager.
-				this._.editor.focusManager.forceFocus();
-
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
@@ -322,6 +319,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
+						this._.editor.focusManager.add( iframe.getFrameDocument().getWindow() );
+
 						iframe.$.contentWindow.focus();
 
 						// We need this get fired manually because of unfired focus() function.
@@ -338,8 +337,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			hide: function( returnFocus ) {
-				this._.editor.focusManager.cancelForced();
-
 				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
 					// Blur previously focused element. (#6671)
@@ -356,8 +353,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							focusReturn.getWindow().$.focus();
 
 						focusReturn.focus();
-					} else
-						this._.editor.focusManager.blur();
+					}
 
 					this._.editor.fire( 'panelHide', this );
 				}

@@ -79,7 +79,7 @@
 			// Register the ui element to the focus manager.
 			editor.on( 'uiReady', function() {
 				var element = editor.ui.space( 'path' );
-				element && editor.focusManager.addFocusable( element, 1 );
+				element && editor.focusManager.add( element, 1 );
 			});
 
 
