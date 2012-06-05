@@ -25,8 +25,8 @@ if ( !CKEDITOR.env ) {
 			 * if ( CKEDITOR.env.ie )
 			 *     alert( "I'm on IE!" );
 			 */
-			ie: /*@cc_on!@*/false,
-
+			ie: eval( '/*@cc_on!@*/false' ),
+			// Use eval to preserve conditional comment when compiling with Google Closure Compiler (#93).
 			/**
 			 * Indicates that CKEditor is running on Opera.
 			 * @type Boolean
