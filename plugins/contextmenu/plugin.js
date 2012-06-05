@@ -81,9 +81,12 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
 
-						var offsetParent = domEvent.getTarget().getDocument().getDocumentElement(),
-							offsetX = domEvent.$.clientX,
-							offsetY = domEvent.$.clientY;
+						var doc = domEvent.getTarget().getDocument(),
+							offsetParent = domEvent.getTarget().getDocument().getDocumentElement(),
+							fromFrame = !doc.equals( CKEDITOR.document ),
+							scroll = doc.getWindow().getScrollPosition(),
+							offsetX = fromFrame ? domEvent.$.clientX : domEvent.$.pageX || scroll.x + domEvent.$.clientX,
+							offsetY = fromFrame ? domEvent.$.clientY : domEvent.$.pageY || scroll.y + domEvent.$.clientY;
 
 						CKEDITOR.tools.setTimeout( function() {
 							this.open( offsetParent, null, offsetX, offsetY );
