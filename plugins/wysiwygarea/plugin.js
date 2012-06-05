@@ -63,13 +63,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					:
 					'';
 
-				// Asynchronous iframe loading is only required in IE>8, but
-				// it's not a problem to use it for other browsers as well.
-				iframe.on( 'load', function( evt ) {
-					evt.removeListener();
-					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
-					editor.setData( editor.getData( 1 ), callback );
-				});
+				// Asynchronous iframe loading is only required in IE>8.
+				// Do not use it on WebKit as it'll break the browser-back navigation.
+				CKEDITOR.env.ie && iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
 				iframe.setAttributes({
@@ -80,8 +76,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					allowTransparency: 'true'
 				});
 
-				// Webkit: iframe size doesn't auto fit well. (#7360)
+				// Execute onLoad manually for all non IE browsers.
+				!CKEDITOR.env.ie && onLoad();
+
 				if ( CKEDITOR.env.webkit ) {
+					// Webkit: iframe size doesn't auto fit well. (#7360)
 					var onResize = function() {
 							iframe.hide();
 							iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
@@ -94,6 +93,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 
 				editor.fire( 'ariaWidget', iframe );
+
+				function onLoad( evt ) {
+					evt && evt.removeListener();
+					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
+					editor.setData( editor.getData( 1 ), callback );
+				}
 			});
 		}
 	});
