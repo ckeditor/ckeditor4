@@ -668,27 +668,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.addCommand( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties' ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
-			editor.addCommand( 'tableDelete', {
-				exec: function( editor ) {
-					var selection = editor.getSelection(),
-						startElement = selection && selection.getStartElement(),
-						table = startElement && startElement.getAscendant( 'table', 1 );
-
-					if ( !table )
-						return;
-
-					// If the table's parent has only one child remove it as well (unless it's the body or a table cell) (#5416, #6289)
-					var parent = table.getParent();
-					if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
-						table = parent;
-
-					var range = editor.createRange();
-					range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
-					table.remove();
-					range.select();
-				}
-			});
-
 			editor.addCommand( 'rowDelete', {
 				exec: function( editor ) {
 					var selection = editor.getSelection();

@@ -14,6 +14,27 @@ CKEDITOR.plugins.add( 'table', {
 
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table' ) );
 		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
+		editor.addCommand( 'tableDelete', {
+			exec: function( editor ) {
+				var selection = editor.getSelection(),
+					startElement = selection && selection.getStartElement(),
+					table = startElement && startElement.getAscendant( 'table', 1 );
+
+				if ( !table )
+					return;
+
+				// If the table's parent has only one child remove it as well (unless it's the body or a table cell) (#5416, #6289)
+				var parent = table.getParent();
+				if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
+					table = parent;
+
+				var range = editor.createRange();
+				range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
+				table.remove();
+				range.select();
+			}
+		});
+
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,
