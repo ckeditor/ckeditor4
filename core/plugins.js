@@ -18,10 +18,6 @@ CKEDITOR.plugins = new CKEDITOR.resourceManager( 'plugins/', 'plugin' );
 
 // PACKAGER_RENAME( CKEDITOR.plugins )
 
-// For v3 backwards compatibility, let's register empty "styles" and "selection" plugins.
-CKEDITOR.plugins.add( 'styles', {} );
-CKEDITOR.plugins.add( 'selection', {} );
-
 CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function( originalLoad ) {
 	return function( name, callback, scope ) {
 		var allPlugins = {};

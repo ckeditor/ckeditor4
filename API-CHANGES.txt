@@ -43,3 +43,7 @@ The following skin related properties have been deleted:
 ---
 
 "new CKEDITOR.dom.range( document, root )" changed to "new CKEDITOR.dom.range( root )".
+
+---
+
+The legacy "selection" and "styles" plugin have been moved to the core API and are not any more available as plugins.
