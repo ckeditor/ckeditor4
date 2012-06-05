@@ -63,11 +63,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					:
 					'';
 
-				// Asynchronous iframe loading is only required in IE>8, but
-				// it's not a problem to use it for other browsers as well.
-				// Don't listen on 'load' in Webkits, but call onLoad manually
-				// Weird, but it fixes (#34).
-				!CKEDITOR.env.webkit && iframe.on( 'load', onLoad );
+				// Asynchronous iframe loading is only required in IE>8.
+				// Do not use it on WebKit as it'll break the browser-back navigation.
+				CKEDITOR.env.ie && iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
 				iframe.setAttributes({
@@ -78,10 +76,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					allowTransparency: 'true'
 				});
 
-				if ( CKEDITOR.env.webkit ) {
-					// Execute onLoad manually, because on Webkit we don't listen on this event (#34).
-					onLoad();
+				// Execute onLoad manually for all non IE browsers.
+				!CKEDITOR.env.ie && onLoad();
 
+				if ( CKEDITOR.env.webkit ) {
 					// Webkit: iframe size doesn't auto fit well. (#7360)
 					var onResize = function() {
 							iframe.hide();
