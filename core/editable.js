@@ -780,7 +780,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
-			if ( node = path.contains( isInline, 1 ) ) {
+			if ( node = path.contains( isInline, false, 1 ) ) {
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;

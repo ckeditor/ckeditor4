@@ -703,14 +703,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyObjectStyle( range ) {
 		var parent = range.getCommonAncestor( true, true ),
-			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element, 1 );
 
 		element && !element.isReadOnly() && setupElement( element, this );
 	}
 
 	function removeObjectStyle( range ) {
 		var parent = range.getCommonAncestor( true, true ),
-			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element );
+			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element, 1 );
 
 		if ( !element )
 			return;

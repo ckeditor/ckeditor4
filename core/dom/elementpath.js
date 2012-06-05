@@ -103,10 +103,11 @@ CKEDITOR.dom.elementPath.prototype = {
 	/**
 	 * Search the path elements that meets the specified criteria.
 	 * @param {*} query The criteria that can be either a tag name, list of tag names, or an node evaluator function.
+	 * @param {Boolean} excludeRoot Not taking path root element into consideration.
 	 * @param {Boolean} fromTop Search start from the topmost element instead of bottom.
 	 * @return {CKEDITOR.dom.element} The first matched dom element.
 	 */
-	contains: function( query, fromTop ) {
+	contains: function( query, excludeRoot, fromTop ) {
 		var evaluator;
 		if ( typeof query == 'string' )
 			evaluator = function( node ) {
@@ -127,14 +128,16 @@ CKEDITOR.dom.elementPath.prototype = {
 			return node.getName() in query;
 		};
 
-		var elements = this.elements;
+		var elements = this.elements,
+			length = elements.length;
+		excludeRoot && length--;
 
 		if ( fromTop ) {
 			elements = Array.prototype.slice.call( elements, 0 );
 			elements.reverse();
 		}
 
-		for ( var i = 0, length = elements.length; i < length; i++ ) {
+		for ( var i = 0; i < length; i++ ) {
 			if ( evaluator( elements[ i ] ) )
 				return elements[ i ];
 		}

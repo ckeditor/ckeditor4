@@ -264,7 +264,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var editor = this.getParentEditor(),
 						sel = editor.getSelection(),
 						element = sel && sel.getSelectedElement(),
-						link = element && editor.elementPath( element ).contains( 'a' );
+						link = element && editor.elementPath( element ).contains( 'a', 1 );
 
 					//Hide loader.
 					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );

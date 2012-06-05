@@ -11,7 +11,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	function getState( editor, path ) {
 		var firstBlock = path.block || path.blockLimit;
 		// See if the first block has a blockquote parent.
-		return editor.elementPath( firstBlock ).contains( 'blockquote' ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+		return editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 	}
 
 	function onSelectionChange( evt ) {

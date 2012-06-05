@@ -100,7 +100,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( CKEDITOR.env.webkit )
 							ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
 
-						table = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table' );
+						table = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
 					}
 
 					// Save a reference to the selected table, and push a new set of default values.

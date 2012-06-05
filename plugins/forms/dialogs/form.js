@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 			delete this.form;
 
 			var path = this.getParentEditor().elementPath(),
-				form = path.contains( 'form' );
+				form = path.contains( 'form', 1 );
 
 			if ( form ) {
 				this.form = form;
