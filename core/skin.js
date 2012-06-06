@@ -79,7 +79,7 @@
 			appendPath( parts );
 
 			for ( var c = 0; c < parts.length; c++ )
-				CKEDITOR.document.appendStyleSheet( parts[ c ] + '.css' );
+				CKEDITOR.document.appendStyleSheet( parts[ c ] );
 
 			cssLoaded[ part ] = 1;
 		}
@@ -90,7 +90,7 @@
 
 	function appendPath( fileNames ) {
 		for ( var n = 0; n < fileNames.length; n++ ) {
-			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] );
+			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] + '.css' );
 		}
 	}
 
