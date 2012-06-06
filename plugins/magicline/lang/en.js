@@ -4,7 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'en', {
-	magicline: {
-		title: 'Insert paragraph here'
-	}
+	title: 'Insert paragraph here'
 });

@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'ro' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Inserează caracter special',
 		title: 'Selectează caracter special',
 		options: 'Special Character Options' // MISSING

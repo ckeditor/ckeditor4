@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'fo' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Set inn sertekn',
 		title: 'Vel sertekn',
 		options: 'Møguleikar við serteknum'

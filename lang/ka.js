@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'ka' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'სპეციალური სიმბოლოს ჩასმა',
 		title: 'სპეციალური სიმბოლოს არჩევა',
 		options: 'სპეციალური სიმბოლოს პარამეტრები'

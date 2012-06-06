@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Unesi specijalni karakter',
 		title: 'Odaberite specijalni karakter',
 		options: 'Special Character Options' // MISSING

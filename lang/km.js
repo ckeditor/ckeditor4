@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'km' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'បន្ថែមអក្សរពិសេស',
 		title: 'តូអក្សរពិសេស',
 		options: 'Special Character Options' // MISSING

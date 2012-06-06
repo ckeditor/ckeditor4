@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'lv' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Ievietot speciālo simbolu',
 		title: 'Ievietot īpašu simbolu',
 		options: 'Special Character Options' // MISSING

@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'mn' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Онцгой тэмдэгт оруулах',
 		title: 'Онцгой тэмдэгт сонгох',
 		options: 'Special Character Options' // MISSING

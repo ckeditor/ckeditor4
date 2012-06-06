@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'lt' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Įterpti specialų simbolį',
 		title: 'Pasirinkite specialų simbolį',
 		options: 'Specialaus simbolio nustatymai'

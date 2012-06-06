@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'ms' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Masukkan Huruf Istimewa',
 		title: 'Sila pilih huruf istimewa',
 		options: 'Special Character Options' // MISSING

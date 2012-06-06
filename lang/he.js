@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'he' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'הוספת תו מיוחד',
 		title: 'בחירת תו מיוחד',
 		options: 'אפשרויות תווים מיוחדים'

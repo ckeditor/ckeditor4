@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'વિશિષ્ટ અક્ષર ઇન્સર્ટ/દાખલ કરવું',
 		title: 'સ્પેશિઅલ વિશિષ્ટ અક્ષર પસંદ કરો',
 		options: 'સ્પેશિઅલ કરેક્ટરના વિકલ્પો'

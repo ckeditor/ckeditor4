@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'bg' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Вмъкване на специален знак',
 		title: 'Избор на специален знак',
 		options: 'Опции за специален знак'

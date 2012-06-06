@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Enmeti Specialan Signon',
 		title: 'Selekti Specialan Signon',
 		options: 'Opcioj pri Specialaj Signoj'

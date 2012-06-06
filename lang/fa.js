@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'گنجاندن نویسهٴ ویژه',
 		title: 'گزینش نویسهٴ ویژه',
 		options: 'گزینههای نویسههای ویژه'

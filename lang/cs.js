@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'cs' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Vložit speciální znaky',
 		title: 'Výběr speciálního znaku',
 		options: 'Nastavení speciálních znaků'

@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Lisää erikoismerkki',
 		title: 'Valitse erikoismerkki',
 		options: 'Erikoismerkin ominaisuudet'

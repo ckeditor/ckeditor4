@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add( 'uicolor', {
 	requires: [ 'dialog' ],
-	lang: [ 'en', 'he' ],
+	lang: [ 'bg', 'cs', 'cy', 'da', 'de', 'el', 'en', 'eo', 'et', 'fa', 'fi', 'fr', 'he', 'hr', 'it', 'mk', 'nb', 'nl', 'no', 'pl', 'tr', 'ug', 'uk', 'vi', 'zh-cn' ],
 
 	init: function( editor ) {
 		if ( CKEDITOR.env.ie6Compat )

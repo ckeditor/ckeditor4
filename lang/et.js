@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'et' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Erimärgi sisestamine',
 		title: 'Erimärgi valimine',
 		options: 'Erimärkide valikud'

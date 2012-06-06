@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: '插入特殊符号',
 		title: '选择特殊符号',
 		options: '特殊符号选项'
