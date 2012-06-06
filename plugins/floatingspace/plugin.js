@@ -62,13 +62,13 @@
 					var editorPos = editable.getDocumentPosition();
 					switch ( newMode ) {
 						case 'top':
-							updatePos( 'absolute', 'top', editorPos.y - spaceHeight - dockedOffsetY, 'top' );
+							updatePos( 'absolute', 'top', editorPos.y - spaceHeight - dockedOffsetY );
 							break;
 						case 'pin':
-							updatePos( 'fixed', 'top', pinnedOffsetY, 'pin' );
+							updatePos( 'fixed', 'top', pinnedOffsetY );
 							break;
 						case 'bottom':
-							updatePos( 'absolute', 'top', editorPos.y + ( editorRect.height || editorRect.bottom - editorRect.top ) + dockedOffsetY, 'bottom' );
+							updatePos( 'absolute', 'top', editorPos.y + ( editorRect.height || editorRect.bottom - editorRect.top ) + dockedOffsetY );
 							break;
 					}
 
@@ -97,9 +97,6 @@
 					spaceHeight = spaceRect.height,
 					pageScrollX = scrollOffset( 'left' );
 
-				// Small amount of extra to avoid the "indecision moment".
-				var buffer = 10;
-
 				// We initialize it as pin mode.
 				if ( !mode ) {
 					mode = 'pin';
@@ -109,7 +106,7 @@
 					return;
 				}
 				// Pin the space element while page scrolls down to pull it off the view port.
-				else if ( mode == 'top' && spaceRect.top < pinnedOffsetY - buffer )
+				else if ( mode == 'top' && spaceRect.top < pinnedOffsetY )
 					changeMode( 'pin' );
 				else if ( mode == 'pin' ) {
 					// Restore into docked top from pin.
@@ -124,7 +121,7 @@
 					if ( editorRect.top > dockedOffsetY + spaceHeight )
 						changeMode( 'top' );
 					// Restore into pin mode from docked bottom.
-					else if ( editorRect.bottom > 2 * spaceHeight + pinnedOffsetY + buffer )
+					else if ( editorRect.bottom > 2 * spaceHeight + pinnedOffsetY )
 						changeMode( 'pin' );
 				}
 
