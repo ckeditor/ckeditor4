@@ -72,6 +72,7 @@
 
 		this.block = block;
 		this.blockLimit = blockLimit;
+		this.root = root;
 		this.elements = elements;
 	};
 
@@ -143,5 +144,17 @@ CKEDITOR.dom.elementPath.prototype = {
 		}
 
 		return null;
+	},
+
+	/**
+	 * Check whether the elements path is the proper context for the specified tag name in DTD.
+	 * @param {String} tag
+	 */
+	isContextOf: function( tag ) {
+		var block = this.block;
+		if ( tag in CKEDITOR.dtd.$block && block && ( block.equals( this.root ) || block.is( CKEDITOR.dtd.$captionBlock ) ) )
+			return false;
+
+		return true;
 	}
 };

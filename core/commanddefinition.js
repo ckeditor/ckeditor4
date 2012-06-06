@@ -111,6 +111,27 @@
  */
 
 /**
+ * Indicates that this command is sensible to the selection context.
+ * If "true", the {@link CKEDITOR.command.refresh} method will be
+ * called for this command on selection changes, with a single parameter
+ * representing the current elements path.
+ * @name  CKEDITOR.commandDefinition.prototype.contextSensitive
+ * @type Boolean
+ * @default true
+ */
+
+/**
+ * Sets the element name used to reflect the command state on selection changes.
+ * If the selection is in a place where the element is not allowed, the command
+ * will be disabled.
+ * Setting this property overrides
+ * {@link CKEDITOR.commandDefinition.prototype.contextSensitive} to "true".
+ * @name  CKEDITOR.commandDefinition.prototype.context
+ * @type Boolean
+ * @default true
+ */
+
+/**
  * The editor modes within which the command can be executed. The execution
  * will have no action if the current mode is not listed in this property.
  * @name  CKEDITOR.commandDefinition.prototype.modes

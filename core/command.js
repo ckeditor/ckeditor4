@@ -58,8 +58,8 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * as well as invoke the {@link CKEDITOR.commandDefinition.prototype.refresh} method if defined, this method
 	 * is to allow different parts of the editor code to contribute in command status resolution.
 	 */
-	this.refresh = function() {
-		if ( this.fire( 'refresh' ) === false )
+	this.refresh = function( editor, path ) {
+		if ( this.fire( 'refresh', { editor: editor, path: path } ) === false )
 			return true;
 
 		return ( commandDefinition.refresh && commandDefinition.refresh.apply( this, arguments ) !== false );
@@ -95,6 +95,15 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 * command.<b>editorFocus</b> = false;
 		 */
 		editorFocus: 1,
+
+		/**
+		 * Indicates that this command is sensible to the selection context.
+		 * If "true", the {@link CKEDITOR.command.refresh} method will be
+		 * called for this command on the {@link CKEDITOR.editor#selectionChange} event.
+		 * @type Boolean
+		 * @default false
+		 */
+		contextSensitive: !!( commandDefinition.refresh || commandDefinition.context ),
 
 		/**
 		 * Indicates the editor state. Possible values are:
