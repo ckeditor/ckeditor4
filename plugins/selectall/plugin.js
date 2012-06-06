@@ -16,7 +16,18 @@
 				exec: function( editor ) {
 					var editable = editor.editable();
 
-					if ( editable ) {
+					if ( editable.is( 'textarea' ) ) {
+						var textarea = editable.$;
+
+						if ( CKEDITOR.env.ie )
+							textarea.createTextRange().execCommand( 'SelectAll' );
+						else {
+							textarea.selectionStart = 0;
+							textarea.selectionEnd = textarea.value.length;
+						}
+
+						textarea.focus();
+					} else {
 						if ( editable.is( 'body' ) )
 							editor.document.$.execCommand( 'SelectAll', false, null );
 						else {
@@ -28,16 +39,8 @@
 						// Force triggering selectionChange (#7008)
 						editor.forceNextSelectionCheck();
 						editor.selectionChange();
-					} else if ( editor.textarea ) {
-						var textarea = editor.textarea.$;
-						if ( CKEDITOR.env.ie )
-							textarea.createTextRange().execCommand( 'SelectAll' );
-						else {
-							textarea.selectionStart = 0;
-							textarea.selectionEnd = textarea.value.length;
-						}
-						textarea.focus();
 					}
+
 				},
 				canUndo: false
 			});
