@@ -82,7 +82,10 @@ CKEDITOR.resourceManager.prototype = {
 		if ( this.registered[ name ] )
 			throw '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.';
 
-		CKEDITOR.fire( name + CKEDITOR.tools.capitalize( this.fileName ) + 'Ready', this.registered[ name ] = definition || {} );
+		var resource = this.registered[ name ] = definition || {};
+		resource.path = this.getPath( name );
+
+		CKEDITOR.fire( name + CKEDITOR.tools.capitalize( this.fileName ) + 'Ready', resource );
 
 		return this.get( name );
 	},
@@ -206,9 +209,7 @@ CKEDITOR.resourceManager.prototype = {
 				var nameList = urlsNames[ completed[ i ] ];
 				for ( var j = 0; j < nameList.length; j++ ) {
 					var name = nameList[ j ];
-
-					// Fill in the resource path.
-					( resources[ name ] = this.get( name ) ).path = this.getPath( name );
+					resources[ name ] = this.get( name );
 
 					loaded[ name ] = 1;
 				}
