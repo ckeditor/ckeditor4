@@ -413,6 +413,7 @@
 	function listCommand( name, type ) {
 		this.name = name;
 		this.type = type;
+		this.context = type;
 	}
 
 	var elementType = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
@@ -432,7 +433,7 @@
 	listCommand.prototype = {
 		exec: function( editor ) {
 			// Run state check first of all.
-			this.checkState( editor );
+			this.refresh( editor, editor.elementPath() );
 
 			var doc = editor.document,
 				config = editor.config,
@@ -578,13 +579,8 @@
 			editor.focus();
 		},
 
-		checkState: function( editor ) {
-			if ( editor.readOnly )
-				return null;
-
-			var sel = editor.getSelection(),
-				path = new CKEDITOR.dom.elementPath( sel.getStartElement() ),
-				blockLimit = path.blockLimit,
+		refresh: function( editor, path ) {
+			var blockLimit = path.blockLimit,
 				elements = path.elements,
 				element, i;
 
@@ -735,8 +731,8 @@
 				return;
 
 			// Register commands.
-			var numberedListCommand = editor.addCommand( 'numberedlist', new listCommand( 'numberedlist', 'ol' ) ),
-				bulletedListCommand = editor.addCommand( 'bulletedlist', new listCommand( 'bulletedlist', 'ul' ) );
+			editor.addCommand( 'numberedlist', new listCommand( 'numberedlist', 'ol' ) );
+			editor.addCommand( 'bulletedlist', new listCommand( 'bulletedlist', 'ul' ) );
 
 			// Register the toolbar button.
 			if ( editor.ui.addButton ) {
@@ -749,12 +745,6 @@
 					command: 'bulletedlist'
 				});
 			}
-
-			// Register the state changing handlers.
-			editor.on( 'selectionChange', function( evt ) {
-				numberedListCommand.checkState( evt.editor );
-				bulletedListCommand.checkState( evt.editor );
-			});
 
 			// [IE8] Fix "backspace" after list and "del" at the end of list item. (#8248)
 			if ( CKEDITOR.env.ie8Compat ) {

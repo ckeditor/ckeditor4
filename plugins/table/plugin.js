@@ -1,7 +1,7 @@
-﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
- */
+﻿/*
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
 
 CKEDITOR.plugins.add( 'table', {
 	requires: [ 'dialog' ],
@@ -12,29 +12,8 @@ CKEDITOR.plugins.add( 'table', {
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
 
-		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table' ) );
-		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
-		editor.addCommand( 'tableDelete', {
-			exec: function( editor ) {
-				var selection = editor.getSelection(),
-					startElement = selection && selection.getStartElement(),
-					table = startElement && startElement.getAscendant( 'table', 1 );
-
-				if ( !table )
-					return;
-
-				// If the table's parent has only one child remove it as well (unless it's the body or a table cell) (#5416, #6289)
-				var parent = table.getParent();
-				if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) )
-					table = parent;
-
-				var range = editor.createRange();
-				range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
-				table.remove();
-				range.select();
-			}
-		});
-
+		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
+		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties', { context: 'table' } ) );
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,

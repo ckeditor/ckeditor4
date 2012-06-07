@@ -33,7 +33,11 @@ CKEDITOR.plugins.add( 'forms', {
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
-				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName ) );
+				var def = { dialogName: commandName };
+
+				commandName == 'form' && ( def.context = 'form' );
+
+				editor.addCommand( commandName, def );
 
 				editor.ui.addButton && editor.ui.addButton( buttonName, {
 					label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],

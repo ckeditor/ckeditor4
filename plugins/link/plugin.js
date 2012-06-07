@@ -73,23 +73,6 @@ CKEDITOR.plugins.add( 'link', {
 		CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
 		CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
-		// Register selection change handler for the unlink button.
-		editor.on( 'selectionChange', function( evt ) {
-			if ( editor.readOnly )
-				return;
-
-			/*
-			 * Despite our initial hope, document.queryCommandEnabled() does not work
-			 * for this in Firefox. So we must detect the state by element paths.
-			 */
-			var command = editor.getCommand( 'unlink' ),
-				element = evt.data.path.lastElement && evt.data.path.lastElement.getAscendant( 'a', true );
-			if ( element && element.getName() == 'a' && element.getAttribute( 'href' ) && element.getChildCount() )
-				command.setState( CKEDITOR.TRISTATE_OFF );
-			else
-				command.setState( CKEDITOR.TRISTATE_DISABLED );
-		});
-
 		editor.on( 'doubleclick', function( evt ) {
 			var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element;
 
@@ -295,7 +278,19 @@ CKEDITOR.unlinkCommand.prototype = {
 		selection.selectBookmarks( bookmarks );
 	},
 
-	startDisabled: true
+	refresh: function( editor, path ) {
+		// Despite our initial hope, document.queryCommandEnabled() does not work
+		// for this in Firefox. So we must detect the state by element paths.
+
+		var element = path.lastElement && path.lastElement.getAscendant( 'a', true );
+
+		if ( element && element.getName() == 'a' && element.getAttribute( 'href' ) && element.getChildCount() )
+			this.setState( CKEDITOR.TRISTATE_OFF );
+		else
+			this.setState( CKEDITOR.TRISTATE_DISABLED );
+	},
+
+	startDisabled: 1
 };
 
 CKEDITOR.removeAnchorCommand = function() {};

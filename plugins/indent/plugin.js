@@ -12,46 +12,6 @@
 		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
-	function onSelectionChange( evt ) {
-		if ( evt.editor.readOnly )
-			return null;
-
-		var editor = evt.editor,
-			elementPath = evt.data.path,
-			list = elementPath && elementPath.contains( listNodeNames ),
-			firstBlock = elementPath.block || elementPath.blockLimit;
-
-		if ( list )
-			return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
-
-		if ( !this.useIndentClasses && this.name == 'indent' )
-			return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
-
-		if ( !firstBlock )
-			return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
-
-		if ( this.useIndentClasses ) {
-			var indentClass = firstBlock.$.className.match( this.classNameRegex ),
-				indentStep = 0;
-
-			if ( indentClass ) {
-				indentClass = indentClass[ 1 ];
-				indentStep = this.indentClassMap[ indentClass ];
-			}
-
-			if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
-				return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
-			return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
-		} else {
-			var indent = parseInt( firstBlock.getStyle( getIndentCssProperty( firstBlock ) ), 10 );
-			if ( isNaN( indent ) )
-				indent = 0;
-			if ( indent <= 0 )
-				return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
-			return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
-		}
-	}
-
 	function indentCommand( editor, name ) {
 		this.name = name;
 		this.useIndentClasses = editor.config.indentClasses && editor.config.indentClasses.length > 0;
@@ -75,6 +35,42 @@
 	}
 
 	indentCommand.prototype = {
+		// It applies to a "block-like" context.
+		context: 'p',
+		refresh: function( editor, path ) {
+			var list = path && path.contains( listNodeNames ),
+				firstBlock = path.block || path.blockLimit;
+
+			if ( list )
+				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+
+			if ( !this.useIndentClasses && this.name == 'indent' )
+				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+
+			if ( !firstBlock )
+				return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
+
+			if ( this.useIndentClasses ) {
+				var indentClass = firstBlock.$.className.match( this.classNameRegex ),
+					indentStep = 0;
+
+				if ( indentClass ) {
+					indentClass = indentClass[ 1 ];
+					indentStep = this.indentClassMap[ indentClass ];
+				}
+
+				if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
+					return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
+				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+			} else {
+				var indent = parseInt( firstBlock.getStyle( getIndentCssProperty( firstBlock ) ), 10 );
+				if ( isNaN( indent ) )
+					indent = 0;
+				if ( indent <= 0 )
+					return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
+				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+			}
+		},
 		exec: function( editor ) {
 			var self = this,
 				database = {};
@@ -337,10 +333,6 @@
 					command: 'outdent'
 				});
 			}
-
-			// Register the state changing handlers.
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, indent ) );
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, outdent ) );
 
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( e ) {

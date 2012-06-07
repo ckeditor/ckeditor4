@@ -68,9 +68,12 @@ CKEDITOR.plugins.add( 'format', {
 						if ( styles[ tag ].checkActive( elementPath ) ) {
 							if ( tag != currentTag )
 								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
-							return;
+							break;
 						}
 					}
+
+					// Disable the command when selection path is "blockless".
+					this.setState( !elementPath.isContextOf( tag ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
 
 					// If no styles match, just empty it.
 					this.setValue( '' );

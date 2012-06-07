@@ -18,8 +18,8 @@
 
 			var lang = editor.lang.div;
 
-			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv' ) );
-			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ) );
+			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', { context: 'div' } ) );
+			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ), { context: 'div' } );
 			editor.addCommand( 'removediv', {
 				exec: function( editor ) {
 					var selection = editor.getSelection(),
@@ -52,7 +52,9 @@
 						toRemove[ i ].remove( true );
 
 					selection.selectBookmarks( bookmarks );
-				}
+				},
+
+				context: 'div'
 			});
 
 			editor.ui.addButton && editor.ui.addButton( 'CreateDiv', {

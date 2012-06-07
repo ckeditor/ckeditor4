@@ -11,18 +11,7 @@
 	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
 	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td:1 } );
 
-	function onSelectionChange( e ) {
-		setToolbarStates( e );
-		handleMixedDirContent( e );
-	}
-
-	function setToolbarStates( evt ) {
-		var editor = evt.editor,
-			path = evt.data.path;
-
-		if ( editor.readOnly )
-			return;
-
+	function setToolbarStates( editor, path ) {
 		var useComputedState = editor.config.useComputedState,
 			selectedElement;
 
@@ -49,10 +38,8 @@
 		editor.getCommand( 'bidiltr' ).setState( selectionDir == 'ltr' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 	}
 
-	function handleMixedDirContent( evt ) {
-		var editor = evt.editor,
-			directionNode = evt.data.path.block || evt.data.path.blockLimit;
-
+	function handleMixedDirContent( editor, path ) {
+		var directionNode = path.block || path.blockLimit;
 		editor.fire( 'contentDirChanged', directionNode ? directionNode.getComputedStyle( 'direction' ) : editor.lang.dir );
 	}
 
@@ -133,62 +120,70 @@
 	}
 
 	function bidiCommand( dir ) {
-		return function( editor ) {
-			var selection = editor.getSelection(),
-				enterMode = editor.config.enterMode,
-				ranges = selection.getRanges();
+		return {
+			// It applies to a "block-like" context.
+			context: 'p',
+			refresh: function( editor, path ) {
+				setToolbarStates( editor, path );
+				handleMixedDirContent( editor, path );
+			},
+			exec: function( editor ) {
+				var selection = editor.getSelection(),
+					enterMode = editor.config.enterMode,
+					ranges = selection.getRanges();
 
-			if ( ranges && ranges.length ) {
-				var database = {};
+				if ( ranges && ranges.length ) {
+					var database = {};
 
-				// Creates bookmarks for selection, as we may split some blocks.
-				var bookmarks = selection.createBookmarks();
+					// Creates bookmarks for selection, as we may split some blocks.
+					var bookmarks = selection.createBookmarks();
 
-				var rangeIterator = ranges.createIterator(),
-					range,
-					i = 0;
+					var rangeIterator = ranges.createIterator(),
+						range,
+						i = 0;
 
-				while ( ( range = rangeIterator.getNextRange( 1 ) ) ) {
-					// Apply do directly selected elements from guardElements.
-					var selectedElement = range.getEnclosedNode();
+					while ( ( range = rangeIterator.getNextRange( 1 ) ) ) {
+						// Apply do directly selected elements from guardElements.
+						var selectedElement = range.getEnclosedNode();
 
-					// If this is not our element of interest, apply to fully selected elements from guardElements.
-					if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
-						selectedElement = getFullySelected( range, guardElements, enterMode );
+						// If this is not our element of interest, apply to fully selected elements from guardElements.
+						if ( !selectedElement || selectedElement && !( selectedElement.type == CKEDITOR.NODE_ELEMENT && selectedElement.getName() in directSelectionGuardElements ) )
+							selectedElement = getFullySelected( range, guardElements, enterMode );
 
-					selectedElement && switchDir( selectedElement, dir, editor, database );
+						selectedElement && switchDir( selectedElement, dir, editor, database );
 
-					var iterator, block;
+						var iterator, block;
 
-					// Walker searching for guardElements.
-					var walker = new CKEDITOR.dom.walker( range );
+						// Walker searching for guardElements.
+						var walker = new CKEDITOR.dom.walker( range );
 
-					var start = bookmarks[ i ].startNode,
-						end = bookmarks[ i++ ].endNode;
+						var start = bookmarks[ i ].startNode,
+							end = bookmarks[ i++ ].endNode;
 
-					walker.evaluator = function( node ) {
-						return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
-						// Element must be fully included in the range as well. (#6485).
-						&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING && ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
-					};
+						walker.evaluator = function( node ) {
+							return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
+							// Element must be fully included in the range as well. (#6485).
+							&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING && ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
+						};
 
-					while ( ( block = walker.next() ) )
-						switchDir( block, dir, editor, database );
+						while ( ( block = walker.next() ) )
+							switchDir( block, dir, editor, database );
 
-					iterator = range.createIterator();
-					iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
+						iterator = range.createIterator();
+						iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-					while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
-						switchDir( block, dir, editor, database );
+						while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
+							switchDir( block, dir, editor, database );
+					}
+
+					CKEDITOR.dom.element.clearAllMarkers( database );
+
+					editor.forceNextSelectionCheck();
+					// Restore selection position.
+					selection.selectBookmarks( bookmarks );
+
+					editor.focus();
 				}
-
-				CKEDITOR.dom.element.clearAllMarkers( database );
-
-				editor.forceNextSelectionCheck();
-				// Restore selection position.
-				selection.selectBookmarks( bookmarks );
-
-				editor.focus();
 			}
 		};
 	}
@@ -200,8 +195,8 @@
 
 			// All buttons use the same code to register. So, to avoid
 			// duplications, let's use this tool function.
-			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandExec ) {
-					editor.addCommand( commandName, new CKEDITOR.command( editor, { exec: commandExec } ) );
+			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandDef ) {
+					editor.addCommand( commandName, new CKEDITOR.command( editor, commandDef ) );
 
 					editor.ui.addButton && editor.ui.addButton( buttonName, {
 						label: buttonLabel,
@@ -214,7 +209,6 @@
 			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ) );
 			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ) );
 
-			editor.on( 'selectionChange', onSelectionChange );
 			editor.on( 'contentDom', function() {
 				editor.document.on( 'dirChanged', function( evt ) {
 					editor.fire( 'dirChanged', {
