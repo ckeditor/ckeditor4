@@ -37,11 +37,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_toolbar
 {
-	margin-bottom: 3px;
+	margin-bottom: 5px;
 }
 .cke_rtl .cke_toolbar
 {
 	margin-bottom: 0;
+}
+
+.cke_toolbox_main
+{
+	padding-bottom: 2px;
 }
 
 .cke_toolbar_separator

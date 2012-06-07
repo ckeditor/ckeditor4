@@ -302,7 +302,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
-	var themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<div' +
+	var themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<span' +
 		' id="cke_{name}"' +
 		' class="{id} cke cke_chrome cke_editor_{name}"' +
 		' dir="{langDir}"' +
@@ -310,18 +310,18 @@ CKEDITOR.replaceClass = 'ckeditor';
 		' role="application"' +
 		' aria-labelledby="cke_{name}_arialbl" {style}>' +
 		'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-		'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-			'<div class="cke_{langDir}" role="presentation">' +
-				'<div class="cke_inner" role="presentation">' +
-					'<div id="{topId}" class="cke_top"' +
-					' role="presentation" style="height:auto">{topHtml}</div>' +
-					'<div id="{contentId}" class="cke_contents"' +
-					' role="presentation" style="height:{height}"></div>' +
-					'<div id="{bottomId}" class="cke_bottom" role="presentation">{bottomHtml}</div>' +
-				'</div>' +
-			'</div>' +
-		'</div>' +
-		'</div>' );
+		'<span class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
+			'<span class="cke_{langDir}" role="presentation">' +
+				'<span class="cke_inner" role="presentation">' +
+					'<span id="{topId}" class="cke_top"' +
+					' role="presentation" style="height:auto">{topHtml}</span>' +
+					'<span id="{contentId}" class="cke_contents"' +
+					' role="presentation" style="height:{height}"></span>' +
+					'<span id="{bottomId}" class="cke_bottom" role="presentation">{bottomHtml}</span>' +
+				'</span>' +
+			'</span>' +
+		'</span>' +
+		'</span>' );
 
 
 	function loadTheme( editor ) {

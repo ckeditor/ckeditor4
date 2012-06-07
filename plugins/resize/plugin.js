@@ -82,11 +82,11 @@ CKEDITOR.plugins.add( 'resize', {
 					if ( !resizeHorizontal && resizeVertical )
 						direction = ' cke_resizer_vertical';
 
-					var resizerHtml = '<div' +
+					var resizerHtml = '<span' +
 						' class="cke_resizer' + direction + ' cke_resizer_' + resizeDir + '"' +
 						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
 						' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
-						'></div>';
+						'></span>';
 
 					// Always sticks the corner of botttom space.
 					resizeDir == 'ltr' && direction == 'ltr' ? event.data.html += resizerHtml : event.data.html = resizerHtml + event.data.html;

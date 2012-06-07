@@ -150,14 +150,14 @@
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ '<div id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
+					var output = [ '<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
 						expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted, pendingSeparator;
 
 					output.push( expanded ? '>' : ' style="display:none">' );
 
 					// Sends the ARIA label.
-					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbars, '</span>', '<div class="cke_toolbox_main">' );
+					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbars, '</span>', '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
@@ -178,7 +178,7 @@
 							continue;
 
 						if ( groupStarted ) {
-							output.push( '</div>' );
+							output.push( '</span>' );
 							groupStarted = 0;
 							pendingSeparator = 0;
 						}
@@ -287,7 +287,7 @@
 					}
 
 					// End of toolbox buttons.
-					output.push( '</div>' );
+					output.push( '</span>' );
 
 					// Not toolbar collapser for inline mode.
 					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -344,7 +344,7 @@
 						'</a>' );
 					}
 
-					output.push( '</div>' );
+					output.push( '</span>' );
 					event.data.html += output.join( '' );
 				}
 			});
