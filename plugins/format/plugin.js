@@ -64,16 +64,19 @@ CKEDITOR.plugins.add( 'format', {
 
 					var elementPath = ev.data.path;
 
-					for ( var tag in styles ) {
-						if ( styles[ tag ].checkActive( elementPath ) ) {
-							if ( tag != currentTag )
-								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
-							break;
-						}
-					}
-
 					// Disable the command when selection path is "blockless".
-					this.setState( !elementPath.isContextFor( tag ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
+					if ( elementPath.isContextFor( 'p' ) ) {
+						this.setState( CKEDITOR.TRISTATE_OFF );
+
+						for ( var tag in styles ) {
+							if ( styles[ tag ].checkActive( elementPath ) ) {
+								if ( tag != currentTag )
+									this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
+								return;
+							}
+						}
+					} else
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 					// If no styles match, just empty it.
 					this.setValue( '' );
