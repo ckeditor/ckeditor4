@@ -135,7 +135,6 @@
 							counter[ type ]--;
 						}
 
-
 						counter[ type ]++;
 					}
 
