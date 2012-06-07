@@ -147,10 +147,11 @@ CKEDITOR.dom.elementPath.prototype = {
 	},
 
 	/**
-	 * Check whether the elements path is the proper context for the specified tag name in DTD.
-	 * @param {String} tag
+	 * Check whether the elements path is the proper context for the specified
+	 * tag name in the DTD.
+	 * @param {String} tag The tag name.
 	 */
-	isContextOf: function( tag ) {
+	isContextFor: function( tag ) {
 		var block = this.block;
 		if ( tag in CKEDITOR.dtd.$block && block && ( block.equals( this.root ) || block.is( CKEDITOR.dtd.$captionBlock ) ) )
 			return false;

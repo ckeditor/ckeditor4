@@ -130,7 +130,7 @@
 
 						if ( style.checkActive( path ) )
 							this.mark( name );
-						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( path ) || !path.isContextOf( style.element ) ) {
+						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( path ) || !path.isContextFor( style.element ) ) {
 							this.hideItem( name );
 							counter[ type ]--;
 						}

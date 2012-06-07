@@ -73,7 +73,7 @@ CKEDITOR.plugins.add( 'format', {
 					}
 
 					// Disable the command when selection path is "blockless".
-					this.setState( !elementPath.isContextOf( tag ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
+					this.setState( !elementPath.isContextFor( tag ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
 
 					// If no styles match, just empty it.
 					this.setValue( '' );

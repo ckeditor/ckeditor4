@@ -368,7 +368,7 @@
 		// 1. Cannot be a un-splittable element, e.g. table caption;
 		// 2. Must not be the editable element itself. (blockless)
 		var path = editor.elementPath();
-		if ( path.isContextOf( 'p' ) ) {
+		if ( path.isContextFor( 'p' ) ) {
 			mode = CKEDITOR.ENTER_BR;
 			forceMode = 1;
 		}
