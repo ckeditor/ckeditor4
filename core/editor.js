@@ -122,25 +122,8 @@
 		for ( var name in commands ) {
 			command = commands[ name ];
 
-			if ( command.contextSensitive ) {
-				// Do nothing if we're on read-only and this command doesn't support it.
-				// We don't need to disabled the command explicitely here, because this
-				// is already done by the "readOnly" event listener.
-				if ( !command.readOnly && editor.readOnly )
-					continue;
-
-				// Check to disable commands which has different context than the selection path.
-				if ( command.context && !path.isContextOf( command.context ) ) {
-					command.disable();
-					continue;
-				}
-
-				// Make the "enabled" state as basis.
-				command.enable();
-
-				// Proceed further check with command itself if all above global checks didn't disable it.
+			if ( command.contextSensitive )
 				command.refresh( editor, path );
-			}
 		}
 	}
 

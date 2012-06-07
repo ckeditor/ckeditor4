@@ -59,6 +59,21 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * is to allow different parts of the editor code to contribute in command status resolution.
 	 */
 	this.refresh = function( editor, path ) {
+		// Do nothing is we're on read-only and this command doesn't support it.
+		// We don't need to disabled the command explicitely here, because this
+		// is already done by the "readOnly" event listener.
+		if ( !this.readOnly && editor.readOnly )
+			return;
+
+		// Disable commands that are not allowed in the current selection path context.
+		if ( this.context && !path.isContextOf( this.context ) ) {
+			this.disable();
+			return;
+		}
+
+		// Make the "enabled" state as basis.
+		this.enable();
+
 		if ( this.fire( 'refresh', { editor: editor, path: path } ) === false )
 			return true;
 
