@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'table', {
 			lang = editor.lang.table;
 
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
-		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties', { context: 'table' } ) );
+		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
 		editor.addCommand( 'tableDelete', {
 			exec: function( editor ) {
 				var selection = editor.getSelection(),
