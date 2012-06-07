@@ -119,7 +119,7 @@
 				onOpen: function() {
 					var selection = editor.getSelection(),
 						element = selection.getSelectedElement(),
-						path = editor.elementPath( element ),
+						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 
 					this.showAll();
@@ -128,9 +128,9 @@
 						var style = styles[ name ],
 							type = style.type;
 
-						if ( style.checkActive( path ) )
+						if ( style.checkActive( elementPath ) )
 							this.mark( name );
-						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( path ) || !path.isContextFor( style.element ) ) {
+						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( elementPath ) ) {
 							this.hideItem( name );
 							counter[ type ]--;
 						}
