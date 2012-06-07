@@ -118,7 +118,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 * @type Boolean
 		 * @default false
 		 */
-		contextSensitive: !!( commandDefinition.refresh || commandDefinition.context ),
+		contextSensitive: !!commandDefinition.context,
 
 		/**
 		 * Indicates the editor state. Possible values are:
