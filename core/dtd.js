@@ -84,6 +84,11 @@ CKEDITOR.dtd = (function() {
 		 */
 		$inline: L, // Just like span.
 		/**
+		 * Elements that are considered objects, therefore selected as a whole in the editor.
+		 */
+		$object: { img:1,table:1,hr:1,iframe:1,input:1,textarea:1,select:1,applet:1,button:1,object:1,audio:1,video:1 },
+
+		/**
 		 * list of elements that can be children at &lt;body&gt;.
 		 */
 		$body: X( { script:1,style:1 }, block ),

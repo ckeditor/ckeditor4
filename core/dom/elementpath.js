@@ -152,13 +152,13 @@ CKEDITOR.dom.elementPath.prototype = {
 	 * @param {String} tag The tag name.
 	 */
 	isContextFor: function( tag ) {
-		if ( tag in CKEDITOR.dtd.$block ) {
-			var parentBlock = ( this.block && this.block.equals( this.root ) && this.block ) || this.blockLimit;
+		var holder = this.lastElement;
 
-			if ( !parentBlock.getDtd()[ tag ] )
-				return false;
-		}
+		if ( tag in CKEDITOR.dtd.$object )
+			holder = holder.getParent();
+		else if ( tag in CKEDITOR.dtd.$block )
+			holder = ( this.block && this.block.equals( this.root ) && this.block ) || this.blockLimit;
 
-		return true;
+		return !!holder.getDtd()[ tag ];
 	}
 };
