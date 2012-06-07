@@ -154,7 +154,7 @@ CKEDITOR.dom.elementPath.prototype = {
 	isContextFor: function( tag ) {
 		var holder = this.lastElement;
 
-		if ( tag in CKEDITOR.dtd.$object )
+		if ( holder.getName() in CKEDITOR.dtd.$object && tag in CKEDITOR.dtd.$object )
 			holder = holder.getParent();
 		else if ( tag in CKEDITOR.dtd.$block )
 			holder = ( this.block && this.block.equals( this.root ) && this.block ) || this.blockLimit;
