@@ -290,6 +290,7 @@ CKEDITOR.unlinkCommand.prototype = {
 			this.setState( CKEDITOR.TRISTATE_DISABLED );
 	},
 
+	contextSensitive: 1,
 	startDisabled: 1
 };
 
