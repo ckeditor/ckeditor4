@@ -148,7 +148,7 @@
 						savedSelection = selection && selection.getRanges();
 						savedScroll = mainWindow.getScrollPosition();
 					} else {
-						var $textarea = editor.textarea.$;
+						var $textarea = editor.editable().$;
 						savedSelection = !CKEDITOR.env.ie && [ $textarea.selectionStart, $textarea.selectionEnd ];
 						savedScroll = [ $textarea.scrollLeft, $textarea.scrollTop ];
 					}
