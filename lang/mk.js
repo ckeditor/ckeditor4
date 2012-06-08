@@ -131,7 +131,7 @@ CKEDITOR.lang[ 'mk' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Insert Special Character', // MISSING
 		title: 'Select Special Character', // MISSING
 		options: 'Special Character Options' // MISSING

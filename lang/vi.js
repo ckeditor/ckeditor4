@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Chèn ký tự đặc biệt',
 		title: 'Hãy chọn ký tự đặc biệt',
 		options: 'Tùy chọn các ký tự đặc biệt'

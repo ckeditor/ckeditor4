@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Mewnosod Nodau Arbennig',
 		title: 'Dewis Nod Arbennig',
 		options: 'Opsiynau Nodau Arbennig'

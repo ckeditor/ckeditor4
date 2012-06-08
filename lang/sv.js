@@ -132,7 +132,7 @@ CKEDITOR.lang[ 'sv' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Klistra in utökat tecken',
 		title: 'Välj utökat tecken',
 		options: 'Special Character Options'

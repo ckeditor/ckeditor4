@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Speciális karakter beillesztése',
 		title: 'Speciális karakter választása',
 		options: 'Speciális karakter opciók'

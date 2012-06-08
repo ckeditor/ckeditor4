@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Speciaal teken invoegen',
 		title: 'Selecteer speciaal teken',
 		options: 'Speciale tekens opties'

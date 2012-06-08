@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'bn' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'বিশেষ অক্ষর যুক্ত কর',
 		title: 'বিশেষ ক্যারেক্টার বাছাই কর',
 		options: 'Special Character Options' // MISSING

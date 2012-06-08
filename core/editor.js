@@ -343,7 +343,7 @@
 						// get downloaded.
 						languageFiles.push( CKEDITOR.getUrl( plugin.path + 'lang/' + lang + '.js' ) );
 					} else {
-						CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ lang ] );
+						editor.lang[ pluginName ] = plugin.langEntries[ lang ];
 						lang = null;
 					}
 				}
@@ -365,7 +365,7 @@
 
 						// Uses the first loop to update the language entries also.
 						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
-							CKEDITOR.tools.extend( editor.lang, plugin.langEntries[ languageCodes[ i ] ] );
+							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
 
 						// Call the plugin method (beforeInit and init).
 						if ( plugin[ methods[ m ] ] )

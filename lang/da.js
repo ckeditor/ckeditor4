@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'da' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Indsæt symbol',
 		title: 'Vælg symbol',
 		options: 'Muligheder for specialkarakterer'

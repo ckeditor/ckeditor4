@@ -9,7 +9,7 @@
 
 CKEDITOR.plugins.add( 'specialchar', {
 	// List of available localizations.
-	availableLangs: { en:1 },
+	availableLangs: { cs:1,cy:1,de:1,en:1,eo:1,et:1,fa:1,fi:1,fr:1,hr:1,it:1,nb:1,nl:1,no:1,tr:1,ug:1,'zh-cn':1 },
 
 	requires: [ 'dialog' ],
 	init: function( editor ) {
@@ -25,7 +25,7 @@ CKEDITOR.plugins.add( 'specialchar', {
 				langCode = plugin.availableLangs[ langCode ] ? langCode : 'en';
 
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lang/' + langCode + '.js' ), function() {
-					CKEDITOR.tools.extend( editor.lang.specialChar, plugin.langEntries[ langCode ] );
+					CKEDITOR.tools.extend( editor.lang.specialchar, plugin.langEntries[ langCode ] );
 					editor.openDialog( pluginName );
 				});
 			},
@@ -35,7 +35,7 @@ CKEDITOR.plugins.add( 'specialchar', {
 
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'SpecialChar', {
-			label: editor.lang.specialChar.toolbar,
+			label: editor.lang.specialchar.toolbar,
 			command: pluginName
 		});
 	}

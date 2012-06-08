@@ -132,7 +132,7 @@ CKEDITOR.lang[ 'ug' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'ئالاھىدە ھەرپ قىستۇر',
 		title: 'ئالاھىدە ھەرپ تاللاڭ',
 		options: 'ئالاھىدە ھەرپ تاللانمىسى'

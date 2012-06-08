@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'ar' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'إدراج  خاص.ِ',
 		title: 'اختر الخواص',
 		options: 'Special Character Options' // MISSING

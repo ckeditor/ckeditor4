@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
-	var lang = editor.lang.accessibilityHelp,
+	var lang = editor.lang.a11yhelp,
 		id = CKEDITOR.tools.getNextId();
 
 	// CharCode <-> KeyChar.

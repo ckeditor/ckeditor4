@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'eu' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Txertatu Karaktere Berezia',
 		title: 'Karaktere Berezia Aukeratu',
 		options: 'Special Character Options' // MISSING

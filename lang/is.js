@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'is' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Setja inn merki',
 		title: 'Velja tákn',
 		options: 'Special Character Options' // MISSING

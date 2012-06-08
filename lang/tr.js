@@ -132,7 +132,7 @@ CKEDITOR.lang[ 'tr' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Özel Karakter Ekle',
 		title: 'Özel Karakter Seç',
 		options: 'Özel Karakter Seçenekleri'

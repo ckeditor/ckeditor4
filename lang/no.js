@@ -133,7 +133,7 @@ CKEDITOR.lang[ 'no' ] = {
 	},
 
 	// Special char dialog.
-	specialChar: {
+	specialchar: {
 		toolbar: 'Sett inn spesialtegn',
 		title: 'Velg spesialtegn',
 		options: 'Alternativer for spesialtegn'
