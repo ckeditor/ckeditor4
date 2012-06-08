@@ -338,7 +338,7 @@
 			addButtonCommand( 'Paste', 'paste', createPasteCmd(), 8 );
 
 			function addButtonCommand( buttonName, commandName, command, ctxMenuOrder ) {
-				var lang = editor.lang[ commandName ];
+				var lang = editor.lang.clipboard[ commandName ];
 
 				editor.addCommand( commandName, command );
 				editor.ui.addButton && editor.ui.addButton( buttonName, {

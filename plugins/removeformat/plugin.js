@@ -7,7 +7,7 @@ CKEDITOR.plugins.add( 'removeformat', {
 	init: function( editor ) {
 		editor.addCommand( 'removeFormat', CKEDITOR.plugins.removeformat.commands.removeformat );
 		editor.ui.addButton && editor.ui.addButton( 'RemoveFormat', {
-			label: editor.lang.removeFormat,
+			label: editor.lang.removeformat,
 			command: 'removeFormat'
 		});
 

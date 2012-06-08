@@ -78,12 +78,12 @@
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Undo', {
-					label: editor.lang.undo,
+					label: editor.lang.undo.undo,
 					command: 'undo'
 				});
 
 				editor.ui.addButton( 'Redo', {
-					label: editor.lang.redo,
+					label: editor.lang.undo.redo,
 					command: 'redo'
 				});
 			}

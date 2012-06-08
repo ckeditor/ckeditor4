@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'wsc', {
 		command.modes = { wysiwyg: ( !CKEDITOR.env.opera && !CKEDITOR.env.air && document.domain == window.location.hostname ) };
 
 		editor.ui.addButton && editor.ui.addButton( 'SpellChecker', {
-			label: editor.lang.spellCheck.toolbar,
+			label: editor.lang.wsc.toolbar,
 			command: commandName
 		});
 		CKEDITOR.dialog.add( commandName, this.path + 'dialogs/wsc.js' );

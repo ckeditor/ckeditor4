@@ -274,7 +274,7 @@
 			 * @name CKEDITOR.editor.prototype.lang
 			 * @type CKEDITOR.lang
 			 * @example
-			 * alert( editor.lang.bold );  // E.g. "Negrito" (if the language is set to Portuguese)
+			 * alert( editor.lang.basicstyles.bold );  // E.g. "Negrito" (if the language is set to Portuguese)
 			 */
 			// As we'll be adding plugin specific entries that could come
 			// from different language code files, we need a copy of lang,

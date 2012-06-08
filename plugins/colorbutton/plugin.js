@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 	init: function( editor ) {
 		var config = editor.config,
-			lang = editor.lang.colorButton;
+			lang = editor.lang.colorbutton;
 
 		var clickFn;
 
@@ -163,7 +163,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( !parts[ 1 ] )
 					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
 
-				var colorLabel = editor.lang.colors[ colorCode ] || colorCode;
+				var colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="', colorLabel, '"' +

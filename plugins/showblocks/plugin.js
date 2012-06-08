@@ -137,7 +137,7 @@
 				command.setState( CKEDITOR.TRISTATE_ON );
 
 			editor.ui.addButton && editor.ui.addButton( 'ShowBlocks', {
-				label: editor.lang.showBlocks,
+				label: editor.lang.showblocks,
 				command: 'showblocks'
 			});
 

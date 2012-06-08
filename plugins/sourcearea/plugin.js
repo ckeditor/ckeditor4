@@ -30,7 +30,7 @@
 					dir: 'ltr',
 					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
 					'role': 'textbox',
-					'aria-label': editor.lang.editorTitle.replace( '%1', editor.name )
+					'aria-label': editor.lang.common.editorTitle.replace( '%1', editor.name )
 				});
 
 				textarea.addClass( 'cke_source' );
@@ -62,7 +62,7 @@
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Source', {
-					label: editor.lang.source,
+					label: editor.lang.sourcearea.toolbar,
 					command: 'source'
 				});
 			}

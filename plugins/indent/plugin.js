@@ -325,11 +325,11 @@
 			if ( editor.ui.addButton ) {
 				// Register the toolbar buttons.
 				editor.ui.addButton( 'Indent', {
-					label: editor.lang.indent,
+					label: editor.lang.indent.indent,
 					command: 'indent'
 				});
 				editor.ui.addButton( 'Outdent', {
-					label: editor.lang.outdent,
+					label: editor.lang.indent.outdent,
 					command: 'outdent'
 				});
 			}

@@ -10,7 +10,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		errorBoxId = 'cke_error_' + number,
 		interval,
 		protocol = document.location.protocol || 'http:',
-		errorMsg = editor.lang.spellCheck.notAvailable;
+		errorMsg = editor.lang.wsc.notAvailable;
 
 	var pasteArea = '<textarea' +
 					' style="display: none"' +
@@ -36,7 +36,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 
 	if ( editor.config.wsc_customLoaderScript )
 		errorMsg += '<p style="color:#000;font-size:11px;font-weight: normal;text-align:center;padding-top:10px">' +
-					editor.lang.spellCheck.errorLoading.replace( /%s/g, editor.config.wsc_customLoaderScript ) + '</p>';
+					editor.lang.wsc.errorLoading.replace( /%s/g, editor.config.wsc_customLoaderScript ) + '</p>';
 
 	function burnSpelling( dialog, errorMsg ) {
 		var i = 0;
@@ -57,7 +57,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 			CKEDITOR.document.getById( iframeId ).setStyle( 'display', 'none' );
 			var errorBox = CKEDITOR.document.getById( errorBoxId );
 			errorBox.setStyle( 'display', 'block' );
-			errorBox.setHtml( m || editor.lang.spellCheck.notAvailable );
+			errorBox.setHtml( m || editor.lang.wsc.notAvailable );
 		}
 	};
 
@@ -111,7 +111,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 	}
 
 	return {
-		title: editor.config.wsc_dialogTitle || editor.lang.spellCheck.title,
+		title: editor.config.wsc_dialogTitle || editor.lang.wsc.title,
 		minWidth: 485,
 		minHeight: 380,
 		buttons: [ CKEDITOR.dialog.cancelButton ],
@@ -144,7 +144,7 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		contents: [
 			{
 			id: 'general',
-			label: editor.config.wsc_dialogTitle || editor.lang.spellCheck.title,
+			label: editor.config.wsc_dialogTitle || editor.lang.wsc.title,
 			padding: 0,
 			elements: [
 				{

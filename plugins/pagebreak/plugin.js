@@ -35,7 +35,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'PageBreak', {
-			label: editor.lang.pagebreak,
+			label: editor.lang.pagebreak.toolbar,
 			command: 'pagebreak'
 		});
 
@@ -50,7 +50,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 	},
 
 	afterInit: function( editor ) {
-		var label = editor.lang.pagebreakAlt;
+		var label = editor.lang.pagebreak.alt;
 
 		// Register a filter to displaying placeholders after mode change.
 		var dataProcessor = editor.dataProcessor,
@@ -106,7 +106,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 
 CKEDITOR.plugins.pagebreakCmd = {
 	exec: function( editor ) {
-		var label = editor.lang.pagebreakAlt;
+		var label = editor.lang.pagebreak.alt;
 
 		// Create read-only element that represents a print break.
 		var pagebreak = CKEDITOR.dom.element.createFromHtml( '<div style="' +

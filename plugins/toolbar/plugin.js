@@ -157,7 +157,7 @@
 					output.push( expanded ? '>' : ' style="display:none">' );
 
 					// Sends the ARIA label.
-					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbars, '</span>', '<span class="cke_toolbox_main">' );
+					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
@@ -214,7 +214,7 @@
 									// Create the basic toolbar object.
 									toolbarId = CKEDITOR.tools.getNextId();
 									toolbarObj = { id: toolbarId, items: [] };
-									toolbarName = row.name && ( editor.lang.toolbarGroups[ row.name ] || row.name );
+									toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
 									// Output the toolbar opener.
 									output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
@@ -313,11 +313,11 @@
 								if ( !collapsed ) {
 									toolbox.hide();
 									collapser.addClass( 'cke_toolbox_collapser_min' );
-									collapser.setAttribute( 'title', editor.lang.toolbarExpand );
+									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarExpand );
 								} else {
 									toolbox.show();
 									collapser.removeClass( 'cke_toolbox_collapser_min' );
-									collapser.setAttribute( 'title', editor.lang.toolbarCollapse );
+									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarCollapse );
 								}
 
 								// Update collapser symbol.
@@ -333,7 +333,7 @@
 							modes: { wysiwyg:1,source:1 }
 						});
 
-						output.push( '<a title="' + ( expanded ? editor.lang.toolbarCollapse : editor.lang.toolbarExpand )
+						output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
 																	+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
 																	+ '" tabIndex="-1" class="cke_toolbox_collapser' );
 

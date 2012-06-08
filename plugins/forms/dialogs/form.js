@@ -6,7 +6,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 	var autoAttributes = { action:1,id:1,method:1,enctype:1,target:1 };
 
 	return {
-		title: editor.lang.form.title,
+		title: editor.lang.forms.form.title,
 		minWidth: 350,
 		minHeight: 200,
 		onShow: function() {
@@ -57,8 +57,8 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.form.title,
-			title: editor.lang.form.title,
+			label: editor.lang.forms.form.title,
+			title: editor.lang.forms.form.title,
 			elements: [
 				{
 				id: 'txtName',
@@ -81,7 +81,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 				{
 				id: 'action',
 				type: 'text',
-				label: editor.lang.form.action,
+				label: editor.lang.forms.form.action,
 				'default': '',
 				accessKey: 'T'
 			},
@@ -99,7 +99,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					{
 					id: 'enctype',
 					type: 'select',
-					label: editor.lang.form.encoding,
+					label: editor.lang.forms.form.encoding,
 					style: 'width:100%',
 					accessKey: 'E',
 					'default': '',
@@ -134,7 +134,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					{
 					id: 'method',
 					type: 'select',
-					label: editor.lang.form.method,
+					label: editor.lang.forms.form.method,
 					accessKey: 'M',
 					'default': 'GET',
 					items: [

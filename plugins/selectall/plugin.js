@@ -46,7 +46,7 @@
 			});
 
 			editor.ui.addButton && editor.ui.addButton( 'SelectAll', {
-				label: editor.lang.selectAll,
+				label: editor.lang.selectall,
 				command: 'selectAll'
 			});
 		}

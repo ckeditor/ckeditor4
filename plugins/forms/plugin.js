@@ -63,25 +63,25 @@ CKEDITOR.plugins.add( 'forms', {
 		if ( editor.addMenuItems ) {
 			var items = {
 				checkbox: {
-					label: lang.checkboxAndRadio.checkboxTitle,
+					label: lang.forms.checkboxAndRadio.checkboxTitle,
 					command: 'checkbox',
 					group: 'checkbox'
 				},
 
 				radio: {
-					label: lang.checkboxAndRadio.radioTitle,
+					label: lang.forms.checkboxAndRadio.radioTitle,
 					command: 'radio',
 					group: 'radio'
 				},
 
 				textfield: {
-					label: lang.textfield.title,
+					label: lang.forms.textfield.title,
 					command: 'textfield',
 					group: 'textfield'
 				},
 
 				hiddenfield: {
-					label: lang.hidden.title,
+					label: lang.forms.hidden.title,
 					command: 'hiddenfield',
 					group: 'hiddenfield'
 				},
@@ -93,26 +93,26 @@ CKEDITOR.plugins.add( 'forms', {
 				},
 
 				button: {
-					label: lang.button.title,
+					label: lang.forms.button.title,
 					command: 'button',
 					group: 'button'
 				},
 
 				select: {
-					label: lang.select.title,
+					label: lang.forms.select.title,
 					command: 'select',
 					group: 'select'
 				},
 
 				textarea: {
-					label: lang.textarea.title,
+					label: lang.forms.textarea.title,
 					command: 'textarea',
 					group: 'textarea'
 				}
 			};
 
 			!editor.blockless && ( items.form = {
-				label: lang.form.menu,
+				label: lang.forms.form.menu,
 				command: 'form',
 				group: 'form'
 			});

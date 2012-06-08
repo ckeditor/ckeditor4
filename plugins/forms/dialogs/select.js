@@ -121,7 +121,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 	}
 
 	return {
-		title: editor.lang.select.title,
+		title: editor.lang.forms.select.title,
 		minWidth: CKEDITOR.env.ie ? 460 : 395,
 		minHeight: CKEDITOR.env.ie ? 320 : 300,
 		onShow: function() {
@@ -161,8 +161,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.select.selectInfo,
-			title: editor.lang.select.selectInfo,
+			label: editor.lang.forms.select.selectInfo,
+			title: editor.lang.forms.select.selectInfo,
 			accessKey: '',
 			elements: [
 				{
@@ -195,7 +195,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				type: 'text',
 				widths: [ '25%', '75%' ],
 				labelLayout: 'horizontal',
-				label: editor.lang.select.value,
+				label: editor.lang.forms.select.value,
 				style: 'width:350px',
 				'default': '',
 				className: 'cke_disabled',
@@ -217,7 +217,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					id: 'txtSize',
 					type: 'text',
 					labelLayout: 'horizontal',
-					label: editor.lang.select.size,
+					label: editor.lang.forms.select.size,
 					'default': '',
 					accessKey: 'S',
 					style: 'width:175px',
@@ -240,13 +240,13 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				},
 					{
 					type: 'html',
-					html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.select.lines ) + '</span>'
+					html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.forms.select.lines ) + '</span>'
 				}
 				]
 			},
 				{
 				type: 'html',
-				html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.select.opAvail ) + '</span>'
+				html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.forms.select.opAvail ) + '</span>'
 			},
 				{
 				type: 'hbox',
@@ -258,7 +258,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						{
 						id: 'txtOptName',
 						type: 'text',
-						label: editor.lang.select.opText,
+						label: editor.lang.forms.select.opText,
 						style: 'width:115px',
 						setup: function( name, element ) {
 							if ( name == 'clear' )
@@ -315,7 +315,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						{
 						id: 'txtOptValue',
 						type: 'text',
-						label: editor.lang.select.opValue,
+						label: editor.lang.forms.select.opValue,
 						style: 'width:115px',
 						setup: function( name, element ) {
 							if ( name == 'clear' )
@@ -361,8 +361,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						type: 'button',
 						id: 'btnAdd',
 						style: '',
-						label: editor.lang.select.btnAdd,
-						title: editor.lang.select.btnAdd,
+						label: editor.lang.forms.select.btnAdd,
+						title: editor.lang.forms.select.btnAdd,
 						style: 'width:100%;',
 						onClick: function() {
 							//Add new option.
@@ -383,8 +383,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						{
 						type: 'button',
 						id: 'btnModify',
-						label: editor.lang.select.btnModify,
-						title: editor.lang.select.btnModify,
+						label: editor.lang.forms.select.btnModify,
+						title: editor.lang.forms.select.btnModify,
 						style: 'width:100%;',
 						onClick: function() {
 							//Modify selected option.
@@ -405,8 +405,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						type: 'button',
 						id: 'btnUp',
 						style: 'width:100%;',
-						label: editor.lang.select.btnUp,
-						title: editor.lang.select.btnUp,
+						label: editor.lang.forms.select.btnUp,
+						title: editor.lang.forms.select.btnUp,
 						onClick: function() {
 							//Move up.
 							var dialog = this.getDialog(),
@@ -421,8 +421,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						type: 'button',
 						id: 'btnDown',
 						style: 'width:100%;',
-						label: editor.lang.select.btnDown,
-						title: editor.lang.select.btnDown,
+						label: editor.lang.forms.select.btnDown,
+						title: editor.lang.forms.select.btnDown,
 						onClick: function() {
 							//Move down.
 							var dialog = this.getDialog(),
@@ -444,8 +444,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					{
 					type: 'button',
 					id: 'btnSetValue',
-					label: editor.lang.select.btnSetValue,
-					title: editor.lang.select.btnSetValue,
+					label: editor.lang.forms.select.btnSetValue,
+					title: editor.lang.forms.select.btnSetValue,
 					onClick: function() {
 						//Set as default value.
 						var dialog = this.getDialog(),
@@ -457,8 +457,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					{
 					type: 'button',
 					id: 'btnDelete',
-					label: editor.lang.select.btnDelete,
-					title: editor.lang.select.btnDelete,
+					label: editor.lang.forms.select.btnDelete,
+					title: editor.lang.forms.select.btnDelete,
 					onClick: function() {
 						// Delete option.
 						var dialog = this.getDialog(),
@@ -477,7 +477,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					{
 					id: 'chkMulti',
 					type: 'checkbox',
-					label: editor.lang.select.chkMulti,
+					label: editor.lang.forms.select.chkMulti,
 					'default': '',
 					accessKey: 'M',
 					value: "checked",

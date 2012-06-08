@@ -263,7 +263,7 @@
 					var button = this.uiItems[ 0 ];
 					// Only try to change the button if it exists (#6166)
 					if ( button ) {
-						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize : lang.minimize;
+						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize.maximize : lang.maximize.minimize;
 						var buttonNode = editor.element.getDocument().getById( button._.id );
 						buttonNode.getChild( 1 ).setHtml( label );
 						buttonNode.setAttribute( 'title', label );
@@ -297,7 +297,7 @@
 			});
 
 			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
-				label: lang.maximize,
+				label: lang.maximize.maximize,
 				command: 'maximize'
 			});
 

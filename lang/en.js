@@ -26,42 +26,15 @@ CKEDITOR.lang[ 'en' ] = {
 	 */
 	dir: 'ltr',
 
-	/*
-	 * Screenreader titles. Please note that screenreaders are not always capable
-	 * of reading non-English words. So be careful while translating it.
-	 */
-	editorTitle: 'Rich text editor, %1, press ALT 0 for help.',
-
-	// ARIA descriptions.
-	toolbars: 'Editor toolbars',
+	// ARIA description.
 	editor: 'Rich Text Editor',
-
-	// Toolbar buttons without dialogs.
-	source: 'Source',
-	newPage: 'New Page',
-	save: 'Save',
-	preview: 'Preview',
-	cut: 'Cut',
-	copy: 'Copy',
-	paste: 'Paste',
-	print: 'Print',
-	underline: 'Underline',
-	bold: 'Bold',
-	italic: 'Italic',
-	selectAll: 'Select All',
-	removeFormat: 'Remove Format',
-	strike: 'Strike Through',
-	subscript: 'Subscript',
-	superscript: 'Superscript',
-	horizontalrule: 'Insert Horizontal Line',
-	pagebreak: 'Insert Page Break for Printing',
-	pagebreakAlt: 'Page Break',
-	unlink: 'Unlink',
-	undo: 'Undo',
-	redo: 'Redo',
 
 	// Common messages and labels.
 	common: {
+		// Screenreader titles. Please note that screenreaders are not always capable
+		// of reading non-English words. So be careful while translating it.
+		editorTitle: 'Rich text editor, %1, press ALT 0 for help.',
+
 		browseServer: 'Browse Server',
 		url: 'URL',
 		protocol: 'Protocol',
@@ -128,6 +101,52 @@ CKEDITOR.lang[ 'en' ] = {
 		unavailable: '%1<span class="cke_accessibility">, unavailable</span>'
 	},
 
+	// ### Plugin entries.
+
+	newpage: 'New Page',
+	save: 'Save',
+	preview: 'Preview',
+	print: 'Print',
+	selectall: 'Select All',
+	removeformat: 'Remove Format',
+	horizontalrule: 'Insert Horizontal Line',
+
+	undo: {
+		undo: 'Undo',
+		redo: 'Redo'
+	},
+
+	pagebreak: {
+		toolbar: 'Insert Page Break for Printing',
+		alt: 'Page Break'
+	},
+
+	basicstyles: {
+		bold: 'Bold',
+		italic: 'Italic',
+		underline: 'Underline',
+		strike: 'Strike Through',
+		subscript: 'Subscript',
+		superscript: 'Superscript'
+	},
+
+	clipboard: {
+		cut: 'Cut',
+		copy: 'Copy',
+		paste: 'Paste',
+
+		title: 'Paste',
+		cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).',
+		copyError: 'Your browser security settings don\'t permit the editor to automatically execute copying operations. Please use the keyboard for that (Ctrl/Cmd+C).',
+		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK',
+		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.',
+		pasteArea: 'Paste Area'
+	},
+
+	sourcearea: {
+		toolbar: 'Source'
+	},
+
 	contextmenu: {
 		options: 'Context Menu Options'
 	},
@@ -142,6 +161,7 @@ CKEDITOR.lang[ 'en' ] = {
 	// Link dialog.
 	link: {
 		toolbar: 'Link',
+		unlink: 'Unlink',
 		other: '<other>',
 		menu: 'Edit Link',
 		title: 'Link',
@@ -190,21 +210,21 @@ CKEDITOR.lang[ 'en' ] = {
 		emailBody: 'Message Body',
 		noAnchors: '(No anchors available in the document)',
 		noUrl: 'Please type the link URL',
-		noEmail: 'Please type the e-mail address'
-	},
+		noEmail: 'Please type the e-mail address',
 
-	// Anchor dialog
-	anchor: {
-		toolbar: 'Anchor',
-		menu: 'Edit Anchor',
-		title: 'Anchor Properties',
-		name: 'Anchor Name',
-		errorName: 'Please type the anchor name',
-		remove: 'Remove Anchor'
+		// Anchor dialog
+		anchor: {
+			toolbar: 'Anchor',
+			menu: 'Edit Anchor',
+			title: 'Anchor Properties',
+			name: 'Anchor Name',
+			errorName: 'Please type the anchor name',
+			remove: 'Remove Anchor'
+		}
 	},
 
 	// List style dialog
-	list: {
+	liststyle: {
 		numberedTitle: 'Numbered List Properties',
 		bulletedTitle: 'Bulleted List Properties',
 		type: 'Type',
@@ -227,7 +247,7 @@ CKEDITOR.lang[ 'en' ] = {
 	},
 
 	// Find And Replace Dialog
-	findAndReplace: {
+	find: {
 		title: 'Find and Replace',
 		find: 'Find',
 		replace: 'Replace',
@@ -317,76 +337,78 @@ CKEDITOR.lang[ 'en' ] = {
 		}
 	},
 
-	// Button Dialog.
-	button: {
-		title: 'Button Properties',
-		text: 'Text (Value)',
-		type: 'Type',
-		typeBtn: 'Button',
-		typeSbm: 'Submit',
-		typeRst: 'Reset'
-	},
+	forms: {
+		// Button Dialog.
+		button: {
+			title: 'Button Properties',
+			text: 'Text (Value)',
+			type: 'Type',
+			typeBtn: 'Button',
+			typeSbm: 'Submit',
+			typeRst: 'Reset'
+		},
 
-	// Checkbox and Radio Button Dialogs.
-	checkboxAndRadio: {
-		checkboxTitle: 'Checkbox Properties',
-		radioTitle: 'Radio Button Properties',
-		value: 'Value',
-		selected: 'Selected'
-	},
+		// Checkbox and Radio Button Dialogs.
+		checkboxAndRadio: {
+			checkboxTitle: 'Checkbox Properties',
+			radioTitle: 'Radio Button Properties',
+			value: 'Value',
+			selected: 'Selected'
+		},
 
-	// Form Dialog.
-	form: {
-		title: 'Form Properties',
-		menu: 'Form Properties',
-		action: 'Action',
-		method: 'Method',
-		encoding: 'Encoding'
-	},
+		// Form Dialog.
+		form: {
+			title: 'Form Properties',
+			menu: 'Form Properties',
+			action: 'Action',
+			method: 'Method',
+			encoding: 'Encoding'
+		},
 
-	// Select Field Dialog.
-	select: {
-		title: 'Selection Field Properties',
-		selectInfo: 'Select Info',
-		opAvail: 'Available Options',
-		value: 'Value',
-		size: 'Size',
-		lines: 'lines',
-		chkMulti: 'Allow multiple selections',
-		opText: 'Text',
-		opValue: 'Value',
-		btnAdd: 'Add',
-		btnModify: 'Modify',
-		btnUp: 'Up',
-		btnDown: 'Down',
-		btnSetValue: 'Set as selected value',
-		btnDelete: 'Delete'
-	},
+		// Select Field Dialog.
+		select: {
+			title: 'Selection Field Properties',
+			selectInfo: 'Select Info',
+			opAvail: 'Available Options',
+			value: 'Value',
+			size: 'Size',
+			lines: 'lines',
+			chkMulti: 'Allow multiple selections',
+			opText: 'Text',
+			opValue: 'Value',
+			btnAdd: 'Add',
+			btnModify: 'Modify',
+			btnUp: 'Up',
+			btnDown: 'Down',
+			btnSetValue: 'Set as selected value',
+			btnDelete: 'Delete'
+		},
 
-	// Textarea Dialog.
-	textarea: {
-		title: 'Textarea Properties',
-		cols: 'Columns',
-		rows: 'Rows'
-	},
+		// Textarea Dialog.
+		textarea: {
+			title: 'Textarea Properties',
+			cols: 'Columns',
+			rows: 'Rows'
+		},
 
-	// Text Field Dialog.
-	textfield: {
-		title: 'Text Field Properties',
-		name: 'Name',
-		value: 'Value',
-		charWidth: 'Character Width',
-		maxChars: 'Maximum Characters',
-		type: 'Type',
-		typeText: 'Text',
-		typePass: 'Password'
-	},
+		// Text Field Dialog.
+		textfield: {
+			title: 'Text Field Properties',
+			name: 'Name',
+			value: 'Value',
+			charWidth: 'Character Width',
+			maxChars: 'Maximum Characters',
+			type: 'Type',
+			typeText: 'Text',
+			typePass: 'Password'
+		},
 
-	// Hidden Field Dialog.
-	hidden: {
-		title: 'Hidden Field Properties',
-		name: 'Name',
-		value: 'Value'
+		// Hidden Field Dialog.
+		hidden: {
+			title: 'Hidden Field Properties',
+			name: 'Name',
+			value: 'Value'
+		}
 	},
 
 	// Image Dialog.
@@ -455,7 +477,7 @@ CKEDITOR.lang[ 'en' ] = {
 	},
 
 	// Speller Pages Dialog
-	spellCheck: {
+	wsc: {
 		toolbar: 'Check Spelling',
 		title: 'Spell Check',
 		notAvailable: 'Sorry, but service is unavailable now.',
@@ -482,15 +504,20 @@ CKEDITOR.lang[ 'en' ] = {
 		options: 'Smiley Options'
 	},
 
-	elementsPath: {
+	elementspath: {
 		eleLabel: 'Elements path',
 		eleTitle: '%1 element'
 	},
 
-	numberedlist: 'Insert/Remove Numbered List',
-	bulletedlist: 'Insert/Remove Bulleted List',
-	indent: 'Increase Indent',
-	outdent: 'Decrease Indent',
+	list: {
+		numberedlist: 'Insert/Remove Numbered List',
+		bulletedlist: 'Insert/Remove Bulleted List'
+	},
+
+	indent: {
+		indent: 'Increase Indent',
+		outdent: 'Decrease Indent'
+	},
 
 	justify: {
 		left: 'Align Left',
@@ -501,15 +528,6 @@ CKEDITOR.lang[ 'en' ] = {
 
 	blockquote: 'Block Quote',
 
-	clipboard: {
-		title: 'Paste',
-		cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).',
-		copyError: 'Your browser security settings don\'t permit the editor to automatically execute copying operations. Please use the keyboard for that (Ctrl/Cmd+C).',
-		pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK',
-		securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.',
-		pasteArea: 'Paste Area'
-	},
-
 	pastefromword: {
 		confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?',
 		toolbar: 'Paste from Word',
@@ -517,7 +535,7 @@ CKEDITOR.lang[ 'en' ] = {
 		error: 'It was not possible to clean up the pasted data due to an internal error'
 	},
 
-	pasteText: {
+	pastetext: {
 		button: 'Paste as plain text',
 		title: 'Paste as Plain Text'
 	},
@@ -531,9 +549,9 @@ CKEDITOR.lang[ 'en' ] = {
 		emptyListMsg: '(No templates defined)'
 	},
 
-	showBlocks: 'Show Blocks',
+	showblocks: 'Show Blocks',
 
-	stylesCombo: {
+	stylescombo: {
 		label: 'Styles',
 		panelTitle: 'Formatting Styles',
 		panelTitle1: 'Block Styles',
@@ -584,64 +602,62 @@ CKEDITOR.lang[ 'en' ] = {
 	font: {
 		label: 'Font',
 		voiceLabel: 'Font',
-		panelTitle: 'Font Name'
+		panelTitle: 'Font Name',
+		fontSize: {
+			label: 'Size',
+			voiceLabel: 'Font Size',
+			panelTitle: 'Font Size'
+		}
 	},
 
-	fontSize: {
-		label: 'Size',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Font Size'
-	},
-
-	colorButton: {
+	colorbutton: {
 		textColorTitle: 'Text Color',
 		bgColorTitle: 'Background Color',
 		panelTitle: 'Colors',
 		auto: 'Automatic',
-		more: 'More Colors...'
-	},
-
-	colors: {
-		'000': 'Black',
-		'800000': 'Maroon',
-		'8B4513': 'Saddle Brown',
-		'2F4F4F': 'Dark Slate Gray',
-		'008080': 'Teal',
-		'000080': 'Navy',
-		'4B0082': 'Indigo',
-		'696969': 'Dark Gray',
-		'B22222': 'Fire Brick',
-		'A52A2A': 'Brown',
-		'DAA520': 'Golden Rod',
-		'006400': 'Dark Green',
-		'40E0D0': 'Turquoise',
-		'0000CD': 'Medium Blue',
-		'800080': 'Purple',
-		'808080': 'Gray',
-		'F00': 'Red',
-		'FF8C00': 'Dark Orange',
-		'FFD700': 'Gold',
-		'008000': 'Green',
-		'0FF': 'Cyan',
-		'00F': 'Blue',
-		'EE82EE': 'Violet',
-		'A9A9A9': 'Dim Gray',
-		'FFA07A': 'Light Salmon',
-		'FFA500': 'Orange',
-		'FFFF00': 'Yellow',
-		'00FF00': 'Lime',
-		'AFEEEE': 'Pale Turquoise',
-		'ADD8E6': 'Light Blue',
-		'DDA0DD': 'Plum',
-		'D3D3D3': 'Light Grey',
-		'FFF0F5': 'Lavender Blush',
-		'FAEBD7': 'Antique White',
-		'FFFFE0': 'Light Yellow',
-		'F0FFF0': 'Honeydew',
-		'F0FFFF': 'Azure',
-		'F0F8FF': 'Alice Blue',
-		'E6E6FA': 'Lavender',
-		'FFF': 'White'
+		more: 'More Colors...',
+		colors: {
+			'000': 'Black',
+			'800000': 'Maroon',
+			'8B4513': 'Saddle Brown',
+			'2F4F4F': 'Dark Slate Gray',
+			'008080': 'Teal',
+			'000080': 'Navy',
+			'4B0082': 'Indigo',
+			'696969': 'Dark Gray',
+			'B22222': 'Fire Brick',
+			'A52A2A': 'Brown',
+			'DAA520': 'Golden Rod',
+			'006400': 'Dark Green',
+			'40E0D0': 'Turquoise',
+			'0000CD': 'Medium Blue',
+			'800080': 'Purple',
+			'808080': 'Gray',
+			'F00': 'Red',
+			'FF8C00': 'Dark Orange',
+			'FFD700': 'Gold',
+			'008000': 'Green',
+			'0FF': 'Cyan',
+			'00F': 'Blue',
+			'EE82EE': 'Violet',
+			'A9A9A9': 'Dim Gray',
+			'FFA07A': 'Light Salmon',
+			'FFA500': 'Orange',
+			'FFFF00': 'Yellow',
+			'00FF00': 'Lime',
+			'AFEEEE': 'Pale Turquoise',
+			'ADD8E6': 'Light Blue',
+			'DDA0DD': 'Plum',
+			'D3D3D3': 'Light Grey',
+			'FFF0F5': 'Lavender Blush',
+			'FAEBD7': 'Antique White',
+			'FFFFE0': 'Light Yellow',
+			'F0FFF0': 'Honeydew',
+			'F0FFFF': 'Azure',
+			'F0F8FF': 'Alice Blue',
+			'E6E6FA': 'Lavender',
+			'FFF': 'White'
+		}
 	},
 
 	scayt: {
@@ -687,8 +703,10 @@ CKEDITOR.lang[ 'en' ] = {
 		copy: 'Copyright &copy; $1. All rights reserved.'
 	},
 
-	maximize: 'Maximize',
-	minimize: 'Minimize',
+	maximize: {
+		maximize: 'Maximize',
+		minimize: 'Minimize'
+	},
 
 	fakeobjects: {
 		anchor: 'Anchor',
@@ -708,21 +726,24 @@ CKEDITOR.lang[ 'en' ] = {
 		clear: 'Clear'
 	},
 
-	toolbarCollapse: 'Collapse Toolbar',
-	toolbarExpand: 'Expand Toolbar',
+	toolbar: {
+		toolbars: 'Editor toolbars',
+		toolbarCollapse: 'Collapse Toolbar',
+		toolbarExpand: 'Expand Toolbar',
 
-	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		toolbarGroups: {
+			document: 'Document',
+			clipboard: 'Clipboard/Undo',
+			editing: 'Editing',
+			forms: 'Forms',
+			basicstyles: 'Basic Styles',
+			paragraph: 'Paragraph',
+			links: 'Links',
+			insert: 'Insert',
+			styles: 'Styles',
+			colors: 'Colors',
+			tools: 'Tools'
+		}
 	},
 
 	bidi: {

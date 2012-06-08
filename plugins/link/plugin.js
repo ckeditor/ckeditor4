@@ -61,11 +61,11 @@ CKEDITOR.plugins.add( 'link', {
 				command: 'link'
 			});
 			editor.ui.addButton( 'Unlink', {
-				label: editor.lang.unlink,
+				label: editor.lang.link.unlink,
 				command: 'unlink'
 			});
 			editor.ui.addButton( 'Anchor', {
-				label: editor.lang.anchor.toolbar,
+				label: editor.lang.link.anchor.toolbar,
 				command: 'anchor'
 			});
 		}
@@ -89,14 +89,14 @@ CKEDITOR.plugins.add( 'link', {
 		if ( editor.addMenuItems ) {
 			editor.addMenuItems({
 				anchor: {
-					label: editor.lang.anchor.menu,
+					label: editor.lang.link.anchor.menu,
 					command: 'anchor',
 					group: 'anchor',
 					order: 1
 				},
 
 				removeAnchor: {
-					label: editor.lang.anchor.remove,
+					label: editor.lang.link.anchor.remove,
 					command: 'removeAnchor',
 					group: 'anchor',
 					order: 5

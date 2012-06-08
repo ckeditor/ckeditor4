@@ -10,7 +10,7 @@
 
 		init: function( editor ) {
 			var config = editor.config,
-				lang = editor.lang.stylesCombo,
+				lang = editor.lang.stylescombo,
 				styles = {},
 				stylesList = [],
 				combo;

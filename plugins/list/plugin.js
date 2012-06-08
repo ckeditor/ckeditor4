@@ -737,11 +737,11 @@
 			// Register the toolbar button.
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'NumberedList', {
-					label: editor.lang.numberedlist,
+					label: editor.lang.list.numberedlist,
 					command: 'numberedlist'
 				});
 				editor.ui.addButton( 'BulletedList', {
-					label: editor.lang.bulletedlist,
+					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist'
 				});
 			}

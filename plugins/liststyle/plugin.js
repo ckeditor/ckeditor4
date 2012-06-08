@@ -17,12 +17,12 @@
 
 			editor.addMenuItems({
 				numberedlist: {
-					label: editor.lang.list.numberedTitle,
+					label: editor.lang.liststyle.numberedTitle,
 					group: 'list',
 					command: 'numberedListStyle'
 				},
 				bulletedlist: {
-					label: editor.lang.list.bulletedTitle,
+					label: editor.lang.liststyle.bulletedTitle,
 					group: 'list',
 					command: 'bulletedListStyle'
 				}

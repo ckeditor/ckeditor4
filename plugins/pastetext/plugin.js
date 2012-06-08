@@ -15,7 +15,7 @@
 		async: true,
 
 		exec: function( editor ) {
-			editor.getClipboardData({ title: editor.lang.pasteText.title }, function( data ) {
+			editor.getClipboardData({ title: editor.lang.pastetext.title }, function( data ) {
 				data && editor.fire( 'paste', { type: 'text', data: data.data, htmlified: true } );
 
 				editor.fire( 'afterCommandExec', {
@@ -37,7 +37,7 @@
 			editor.addCommand( commandName, pasteTextCmd );
 
 			editor.ui.addButton( 'PasteText', {
-				label: editor.lang.pasteText.button,
+				label: editor.lang.pastetext.button,
 				command: commandName
 			});
 

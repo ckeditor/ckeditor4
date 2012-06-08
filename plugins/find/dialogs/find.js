@@ -510,7 +510,7 @@
 				return searchRange;
 			}
 
-			var lang = editor.lang.findAndReplace;
+			var lang = editor.lang.find;
 			return {
 				title: lang.title,
 				resizable: CKEDITOR.DIALOG_RESIZE_NONE,
