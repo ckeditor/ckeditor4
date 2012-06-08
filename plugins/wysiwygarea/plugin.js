@@ -63,9 +63,11 @@
 					:
 					'';
 
-				// Asynchronous iframe loading is only required in IE>8.
+				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				CKEDITOR.env.ie && iframe.on( 'load', onLoad );
+				var useOnloadEvent = CKEDITOR.env.ie || CKEDITOR.env.gecko;
+				if ( useOnloadEvent )
+					iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
 				iframe.setAttributes({
@@ -76,8 +78,8 @@
 					allowTransparency: 'true'
 				});
 
-				// Execute onLoad manually for all non IE browsers.
-				!CKEDITOR.env.ie && onLoad();
+				// Execute onLoad manually for all non IE||Gecko browsers.
+				!useOnloadEvent && onLoad();
 
 				if ( CKEDITOR.env.webkit ) {
 					// Webkit: iframe size doesn't auto fit well. (#7360)
