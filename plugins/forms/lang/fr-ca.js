@@ -1,0 +1,64 @@
+﻿/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
+	button: {
+		title: 'Propriétés du bouton',
+		text: 'Texte (Valeur)',
+		type: 'Type',
+		typeBtn: 'Bouton',
+		typeSbm: 'Soumettre',
+		typeRst: 'Réinitialiser'
+	},
+	checkboxAndRadio: {
+		checkboxTitle: 'Propriétés de la case à cocher',
+		radioTitle: 'Propriétés du bouton radio',
+		value: 'Valeur',
+		selected: 'Sélectionné'
+	},
+	form: {
+		title: 'Propriétés du formulaire',
+		menu: 'Propriétés du formulaire',
+		action: 'Action',
+		method: 'Méthode',
+		encoding: 'Encoding'
+	},
+	hidden: {
+		title: 'Propriétés du champ caché',
+		name: 'Nom',
+		value: 'Valeur'
+	},
+	select: {
+		title: 'Propriétés de la liste/du menu',
+		selectInfo: 'Info',
+		opAvail: 'Options disponibles',
+		value: 'Valeur',
+		size: 'Taille',
+		lines: 'lignes',
+		chkMulti: 'Sélection multiple',
+		opText: 'Texte',
+		opValue: 'Valeur',
+		btnAdd: 'Ajouter',
+		btnModify: 'Modifier',
+		btnUp: 'Monter',
+		btnDown: 'Descendre',
+		btnSetValue: 'Valeur sélectionnée',
+		btnDelete: 'Supprimer'
+	},
+	textarea: {
+		title: 'Propriétés de la zone de texte',
+		cols: 'Colonnes',
+		rows: 'Lignes'
+	},
+	textfield: {
+		title: 'Propriétés du champ texte',
+		name: 'Nom',
+		value: 'Valeur',
+		charWidth: 'Largeur en caractères',
+		maxChars: 'Nombre maximum de caractères',
+		type: 'Type',
+		typeText: 'Texte',
+		typePass: 'Mot de passe'
+	}
+});

@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
+	toolbar: 'ئالاھىدە ھەرپ قىستۇر',
+	title: 'ئالاھىدە ھەرپ تاللاڭ',
+	options: 'ئالاھىدە ھەرپ تاللانمىسى',
 	euro: 'ياۋرو بەلگىسى',
 	lsquo: 'يالاڭ پەش سول',
 	rsquo: 'يالاڭ پەش ئوڭ',

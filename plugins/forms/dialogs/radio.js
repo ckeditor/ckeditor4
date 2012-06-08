@@ -4,7 +4,7 @@
  */
 CKEDITOR.dialog.add( 'radio', function( editor ) {
 	return {
-		title: editor.lang.checkboxAndRadio.radioTitle,
+		title: editor.lang.forms.checkboxAndRadio.radioTitle,
 		minWidth: 350,
 		minHeight: 140,
 		onShow: function() {
@@ -34,8 +34,8 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.checkboxAndRadio.radioTitle,
-			title: editor.lang.checkboxAndRadio.radioTitle,
+			label: editor.lang.forms.checkboxAndRadio.radioTitle,
+			title: editor.lang.forms.checkboxAndRadio.radioTitle,
 			elements: [
 				{
 				id: 'name',
@@ -60,7 +60,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				{
 				id: 'value',
 				type: 'text',
-				label: editor.lang.checkboxAndRadio.value,
+				label: editor.lang.forms.checkboxAndRadio.value,
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
@@ -78,7 +78,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				{
 				id: 'checked',
 				type: 'checkbox',
-				label: editor.lang.checkboxAndRadio.selected,
+				label: editor.lang.forms.checkboxAndRadio.selected,
 				'default': '',
 				accessKey: 'S',
 				value: "checked",

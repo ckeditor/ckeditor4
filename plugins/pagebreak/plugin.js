@@ -9,6 +9,7 @@
 
 // Register a plugin named "pagebreak".
 CKEDITOR.plugins.add( 'pagebreak', {
+	lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 	onLoad: function() {
 		var cssStyles = [
 			'{',
@@ -35,7 +36,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'PageBreak', {
-			label: editor.lang.pagebreak,
+			label: editor.lang.pagebreak.toolbar,
 			command: 'pagebreak'
 		});
 
@@ -50,7 +51,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 	},
 
 	afterInit: function( editor ) {
-		var label = editor.lang.pagebreakAlt;
+		var label = editor.lang.pagebreak.alt;
 
 		// Register a filter to displaying placeholders after mode change.
 		var dataProcessor = editor.dataProcessor,
@@ -106,7 +107,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 
 CKEDITOR.plugins.pagebreakCmd = {
 	exec: function( editor ) {
-		var label = editor.lang.pagebreakAlt;
+		var label = editor.lang.pagebreak.alt;
 
 		// Create read-only element that represents a print break.
 		var pagebreak = CKEDITOR.dom.element.createFromHtml( '<div style="' +

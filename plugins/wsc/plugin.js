@@ -10,6 +10,7 @@
 // Register a plugin named "wsc".
 CKEDITOR.plugins.add( 'wsc', {
 	requires: [ 'dialog' ],
+	lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 	init: function( editor ) {
 		var commandName = 'checkspell';
 
@@ -19,7 +20,7 @@ CKEDITOR.plugins.add( 'wsc', {
 		command.modes = { wysiwyg: ( !CKEDITOR.env.opera && !CKEDITOR.env.air && document.domain == window.location.hostname ) };
 
 		editor.ui.addButton && editor.ui.addButton( 'SpellChecker', {
-			label: editor.lang.spellCheck.toolbar,
+			label: editor.lang.wsc.toolbar,
 			command: commandName
 		});
 		CKEDITOR.dialog.add( commandName, this.path + 'dialogs/wsc.js' );

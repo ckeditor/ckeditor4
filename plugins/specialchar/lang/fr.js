@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
+	toolbar: 'Insérer un caractère spécial',
+	title: 'Sélectionnez un caractère',
+	options: 'Options des caractères spéciaux',
 	euro: 'Symbole Euro',
 	lsquo: 'Guillemet simple ouvrant',
 	rsquo: 'Guillemet simple fermant',

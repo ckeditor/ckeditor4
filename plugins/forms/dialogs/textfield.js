@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 	}
 
 	return {
-		title: editor.lang.textfield.title,
+		title: editor.lang.forms.textfield.title,
 		minWidth: 350,
 		minHeight: 150,
 		onShow: function() {
@@ -66,8 +66,8 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.textfield.title,
-			title: editor.lang.textfield.title,
+			label: editor.lang.forms.textfield.title,
+			title: editor.lang.forms.textfield.title,
 			elements: [
 				{
 				type: 'hbox',
@@ -76,7 +76,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					{
 					id: '_cke_saved_name',
 					type: 'text',
-					label: editor.lang.textfield.name,
+					label: editor.lang.forms.textfield.name,
 					'default': '',
 					accessKey: 'N',
 					setup: function( element ) {
@@ -96,7 +96,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					{
 					id: 'value',
 					type: 'text',
-					label: editor.lang.textfield.value,
+					label: editor.lang.forms.textfield.value,
 					'default': '',
 					accessKey: 'V',
 					commit: function( data ) {
@@ -119,7 +119,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					{
 					id: 'size',
 					type: 'text',
-					label: editor.lang.textfield.charWidth,
+					label: editor.lang.forms.textfield.charWidth,
 					'default': '',
 					accessKey: 'C',
 					style: 'width:50px',
@@ -128,7 +128,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					{
 					id: 'maxLength',
 					type: 'text',
-					label: editor.lang.textfield.maxChars,
+					label: editor.lang.forms.textfield.maxChars,
 					'default': '',
 					accessKey: 'M',
 					style: 'width:50px',
@@ -144,12 +144,12 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				{
 				id: 'type',
 				type: 'select',
-				label: editor.lang.textfield.type,
+				label: editor.lang.forms.textfield.type,
 				'default': 'text',
 				accessKey: 'M',
 				items: [
-					[ editor.lang.textfield.typeText, 'text' ],
-					[ editor.lang.textfield.typePass, 'password' ]
+					[ editor.lang.forms.textfield.typeText, 'text' ],
+					[ editor.lang.forms.textfield.typePass, 'password' ]
 					],
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'type' ) );

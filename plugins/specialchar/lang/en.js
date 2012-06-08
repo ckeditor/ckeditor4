@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'en', {
+	options: 'Special Character Options',
+	title: 'Select Special Character',
+	toolbar: 'Insert Special Character',
 	euro: 'Euro sign',
 	lsquo: 'Left single quotation mark',
 	rsquo: 'Right single quotation mark',

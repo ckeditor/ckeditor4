@@ -726,6 +726,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'list', {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
 			if ( editor.blockless )
 				return;
@@ -737,11 +738,11 @@
 			// Register the toolbar button.
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'NumberedList', {
-					label: editor.lang.numberedlist,
+					label: editor.lang.list.numberedlist,
 					command: 'numberedlist'
 				});
 				editor.ui.addButton( 'BulletedList', {
-					label: editor.lang.bulletedlist,
+					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist'
 				});
 			}

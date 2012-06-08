@@ -110,6 +110,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'maximize', {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
 			var lang = editor.lang;
 			var mainDocument = CKEDITOR.document,
@@ -263,7 +264,7 @@
 					var button = this.uiItems[ 0 ];
 					// Only try to change the button if it exists (#6166)
 					if ( button ) {
-						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize : lang.minimize;
+						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize.maximize : lang.maximize.minimize;
 						var buttonNode = editor.element.getDocument().getById( button._.id );
 						buttonNode.getChild( 1 ).setHtml( label );
 						buttonNode.setAttribute( 'title', label );
@@ -297,7 +298,7 @@
 			});
 
 			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
-				label: lang.maximize,
+				label: lang.maximize.maximize,
 				command: 'maximize'
 			});
 

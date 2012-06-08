@@ -69,7 +69,7 @@
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = editor.lang.editorTitle.replace( '%1', editor.name );
+				var frameLabel = editor.lang.common.editorTitle.replace( '%1', editor.name );
 				iframe.setAttributes({
 					frameBorder: 0,
 					title: frameLabel,

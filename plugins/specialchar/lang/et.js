@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'et', {
+	toolbar: 'Erimärgi sisestamine',
+	title: 'Erimärgi valimine',
+	options: 'Erimärkide valikud',
 	euro: 'Euromärk',
 	lsquo: 'Alustav ühekordne jutumärk',
 	rsquo: 'Lõpetav ühekordne jutumärk',

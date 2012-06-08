@@ -303,6 +303,7 @@
 	CKEDITOR.plugins.add( 'indent', {
 		// TODO: Remove this dependency.
 		requires: [ 'list' ],
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		onLoad: function() {
 			// [IE6/7] Raw lists are using margin instead of padding for visual indentation in wysiwyg mode. (#3893)
 			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
@@ -325,11 +326,11 @@
 			if ( editor.ui.addButton ) {
 				// Register the toolbar buttons.
 				editor.ui.addButton( 'Indent', {
-					label: editor.lang.indent,
+					label: editor.lang.indent.indent,
 					command: 'indent'
 				});
 				editor.ui.addButton( 'Outdent', {
-					label: editor.lang.outdent,
+					label: editor.lang.indent.outdent,
 					command: 'outdent'
 				});
 			}

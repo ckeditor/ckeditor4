@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
+	toolbar: 'Ubaci posebne znakove',
+	title: 'Odaberite posebni karakter',
+	options: 'Opcije specijalnih znakova',
 	euro: 'Euro znak',
 	lsquo: 'Lijevi jednostruki navodnik',
 	rsquo: 'Desni jednostruki navodnik',

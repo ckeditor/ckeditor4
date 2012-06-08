@@ -4,6 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'basicstyles', {
+	lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 	init: function( editor ) {
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
@@ -28,7 +29,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			};
 
 		var config = editor.config,
-			lang = editor.lang;
+			lang = editor.lang.basicstyles;
 
 		addButtonCommand( 'Bold', lang.bold, 'bold', config.coreStyles_bold );
 		addButtonCommand( 'Italic', lang.italic, 'italic', config.coreStyles_italic );

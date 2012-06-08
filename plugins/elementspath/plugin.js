@@ -55,6 +55,7 @@
 		'</a>' );
 
 	CKEDITOR.plugins.add( 'elementspath', {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
 			var spaceId = editor.ui.spaceId( 'path' );
 			var spaceElement;
@@ -70,7 +71,7 @@
 
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
-					event.data.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementsPath.eleLabel + '</span>' +
+					event.data.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementspath.eleLabel + '</span>' +
 													'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
 				}
 			});
@@ -164,7 +165,7 @@
 
 					if ( !ignore ) {
 						var index = elementsList.push( element ) - 1,
-							label = editor.lang.elementsPath.eleTitle.replace( /%1/, name );
+							label = editor.lang.elementspath.eleTitle.replace( /%1/, name );
 
 						var item = pathItemTpl.output({
 							id: idBase + index,

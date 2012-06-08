@@ -18,7 +18,7 @@
 				isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 			if ( config.fullPage ) {
-				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview );
+				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
 			} else {
 				var bodyHtml = '<body ',
 					body = editor.document && editor.document.getBody();
@@ -35,7 +35,7 @@
 				sHTML = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
 										'<head>' +
 										baseTag +
-										'<title>' + editor.lang.preview + '</title>' +
+										'<title>' + editor.lang.preview.preview + '</title>' +
 										CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
 										'</head>' + bodyHtml +
 										editor.getData() +
@@ -87,10 +87,11 @@
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
-				label: editor.lang.preview,
+				label: editor.lang.preview.preview,
 				command: pluginName
 			});
 		}

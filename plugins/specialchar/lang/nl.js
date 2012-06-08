@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'nl', {
+	toolbar: 'Speciaal teken invoegen',
+	title: 'Selecteer speciaal teken',
+	options: 'Speciale tekens opties',
 	euro: 'Euro-teken',
 	lsquo: 'Linker enkel aanhalingsteken',
 	rsquo: 'Rechter enkel aanhalingsteken',

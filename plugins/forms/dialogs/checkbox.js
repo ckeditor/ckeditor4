@@ -4,7 +4,7 @@
  */
 CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 	return {
-		title: editor.lang.checkboxAndRadio.checkboxTitle,
+		title: editor.lang.forms.checkboxAndRadio.checkboxTitle,
 		minWidth: 350,
 		minHeight: 140,
 		onShow: function() {
@@ -33,8 +33,8 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.checkboxAndRadio.checkboxTitle,
-			title: editor.lang.checkboxAndRadio.checkboxTitle,
+			label: editor.lang.forms.checkboxAndRadio.checkboxTitle,
+			title: editor.lang.forms.checkboxAndRadio.checkboxTitle,
 			startupFocus: 'txtName',
 			elements: [
 				{
@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				{
 				id: 'txtValue',
 				type: 'text',
-				label: editor.lang.checkboxAndRadio.value,
+				label: editor.lang.forms.checkboxAndRadio.value,
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {
@@ -91,7 +91,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				{
 				id: 'cmbSelected',
 				type: 'checkbox',
-				label: editor.lang.checkboxAndRadio.selected,
+				label: editor.lang.forms.checkboxAndRadio.selected,
 				'default': '',
 				accessKey: 'S',
 				value: "checked",

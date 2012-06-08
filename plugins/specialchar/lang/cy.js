@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'cy', {
+	toolbar: 'Mewnosod Nodau Arbennig',
+	title: 'Dewis Nod Arbennig',
+	options: 'Opsiynau Nodau Arbennig',
 	euro: 'Arwydd yr Ewro',
 	lsquo: 'Dyfynnod chwith unigol',
 	rsquo: 'Dyfynnod dde unigol',

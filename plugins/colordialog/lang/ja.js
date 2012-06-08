@@ -1,0 +1,11 @@
+﻿/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'colordialog', 'ja', {
+	clear: 'クリア',
+	highlight: 'ハイライト',
+	options: 'カラーオプション',
+	selected: '選択された色',
+	title: '色選択'
+});

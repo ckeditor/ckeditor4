@@ -1,0 +1,65 @@
+﻿/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'link', 'sk', {
+	acccessKey: 'Prístupový kľúč',
+	advanced: 'Rozšírené',
+	advisoryContentType: 'Pomocný typ obsahu',
+	advisoryTitle: 'Pomocný titulok',
+	anchor: {
+		toolbar: 'Vložiť/zmeniť kotvu',
+		menu: 'Vlastnosti kotvy',
+		title: 'Vlastnosti kotvy',
+		name: 'Meno kotvy',
+		errorName: 'Zadajte prosím meno kotvy',
+		remove: 'Remove Anchor'
+	},
+	anchorId: 'Podľa Id objektu',
+	anchorName: 'Podľa mena kotvy',
+	charset: 'Priradená znaková sada',
+	cssClasses: 'Trieda štýlu',
+	emailAddress: 'E-Mailová adresa',
+	emailBody: 'Telo správy',
+	emailSubject: 'Predmet správy',
+	id: 'Id', // MISSING
+	info: 'Informácie o odkaze',
+	langCode: 'Orientácia jazyka',
+	langDir: 'Orientácia jazyka',
+	langDirLTR: 'Zľava doprava (LTR)',
+	langDirRTL: 'Sprava doľava (RTL)',
+	menu: 'Zmeniť odkaz',
+	name: 'Meno',
+	noAnchors: '(V stránke nie je definovaná žiadna kotva)',
+	noEmail: 'Zadajte prosím e-mailovú adresu',
+	noUrl: 'Zadajte prosím URL odkazu',
+	other: '<iný>',
+	popupDependent: 'Závislosť (Netscape)',
+	popupFeatures: 'Vlastnosti vyskakovacieho okna',
+	popupFullScreen: 'Celá obrazovka (IE)',
+	popupLeft: 'Ľavý okraj',
+	popupLocationBar: 'Panel umiestnenia',
+	popupMenuBar: 'Panel ponuky',
+	popupResizable: 'Meniteľná veľkosť',
+	popupScrollBars: 'Posuvníky',
+	popupStatusBar: 'Stavový riadok',
+	popupToolbar: 'Panel nástrojov',
+	popupTop: 'Horný okraj',
+	rel: 'Relationship', // MISSING
+	selectAnchor: 'Vybrať kotvu',
+	styles: 'Štýl',
+	tabIndex: 'Poradie prvku',
+	target: 'Cieľ',
+	targetFrame: '<rámec>',
+	targetFrameName: 'Meno rámu cieľa',
+	targetPopup: '<vyskakovacie okno>',
+	targetPopupName: 'Názov vyskakovacieho okna',
+	title: 'Odkaz',
+	toAnchor: 'Kotva v tejto stránke',
+	toEmail: 'E-Mail',
+	toUrl: 'URL', // MISSING
+	toolbar: 'Vložiť/zmeniť odkaz',
+	type: 'Typ odkazu',
+	unlink: 'Odstrániť odkaz',
+	upload: 'Odoslať'
+});

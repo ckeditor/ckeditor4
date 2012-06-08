@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'eo', {
+	toolbar: 'Enmeti Specialan Signon',
+	title: 'Selekti Specialan Signon',
+	options: 'Opcioj pri Specialaj Signoj',
 	euro: 'Eŭrosigno',
 	lsquo: 'Supra 6-citilo',
 	rsquo: 'Supra 9-citilo',

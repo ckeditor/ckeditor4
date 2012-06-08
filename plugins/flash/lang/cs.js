@@ -1,0 +1,43 @@
+﻿/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'flash', 'cs', {
+	access: 'Přístup ke skriptu',
+	accessAlways: 'Vždy',
+	accessNever: 'Nikdy',
+	accessSameDomain: 'Ve stejné doméně',
+	alignAbsBottom: 'Zcela dolů',
+	alignAbsMiddle: 'Doprostřed',
+	alignBaseline: 'Na účaří',
+	alignTextTop: 'Na horní okraj textu',
+	bgcolor: 'Barva pozadí',
+	chkFull: 'Povolit celoobrazovkový režim',
+	chkLoop: 'Opakování',
+	chkMenu: 'Nabídka Flash',
+	chkPlay: 'Automatické spuštění',
+	flashvars: 'Proměnné pro Flash',
+	hSpace: 'H-mezera',
+	properties: 'Vlastnosti Flashe',
+	propertiesTab: 'Vlastnosti',
+	quality: 'Kvalita',
+	qualityAutoHigh: 'Vysoká - auto',
+	qualityAutoLow: 'Nízká - auto',
+	qualityBest: 'Nejlepší',
+	qualityHigh: 'Vysoká',
+	qualityLow: 'Nejnižší',
+	qualityMedium: 'Střední',
+	scale: 'Zobrazit',
+	scaleAll: 'Zobrazit vše',
+	scaleFit: 'Přizpůsobit',
+	scaleNoBorder: 'Bez okraje',
+	title: 'Vlastnosti Flashe',
+	vSpace: 'V-mezera',
+	validateHSpace: 'Zadaná H-mezera musí být číslo.',
+	validateSrc: 'Zadejte prosím URL odkazu',
+	validateVSpace: 'Zadaná V-mezera musí být číslo.',
+	windowMode: 'Režim okna',
+	windowModeOpaque: 'Neprůhledné',
+	windowModeTransparent: 'Průhledné',
+	windowModeWindow: 'Okno'
+});

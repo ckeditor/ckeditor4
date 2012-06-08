@@ -4,7 +4,7 @@
  */
 CKEDITOR.dialog.add( 'textarea', function( editor ) {
 	return {
-		title: editor.lang.textarea.title,
+		title: editor.lang.forms.textarea.title,
 		minWidth: 350,
 		minHeight: 220,
 		onShow: function() {
@@ -33,8 +33,8 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.textarea.title,
-			title: editor.lang.textarea.title,
+			label: editor.lang.forms.textarea.title,
+			title: editor.lang.forms.textarea.title,
 			elements: [
 				{
 				id: '_cke_saved_name',
@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					{
 					id: 'cols',
 					type: 'text',
-					label: editor.lang.textarea.cols,
+					label: editor.lang.forms.textarea.cols,
 					'default': '',
 					accessKey: 'C',
 					style: 'width:50px',
@@ -80,7 +80,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					{
 					id: 'rows',
 					type: 'text',
-					label: editor.lang.textarea.rows,
+					label: editor.lang.forms.textarea.rows,
 					'default': '',
 					accessKey: 'R',
 					style: 'width:50px',
@@ -101,7 +101,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				{
 				id: 'value',
 				type: 'textarea',
-				label: editor.lang.textfield.value,
+				label: editor.lang.forms.textfield.value,
 				'default': '',
 				setup: function( element ) {
 					this.setValue( element.$.defaultValue );

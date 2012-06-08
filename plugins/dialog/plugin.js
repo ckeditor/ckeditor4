@@ -1793,7 +1793,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				direction = ' cke_resizer_vertical';
 			var resizer = CKEDITOR.dom.element.createFromHtml( '<div' +
 				' class="cke_resizer' + direction + ' cke_resizer_' + editor.lang.dir + '"' +
-				' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
+				' title="' + CKEDITOR.tools.htmlEncode( editor.lang.common.resize ) + '"' +
 				' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )"></div>' );
 			dialog.parts.footer.append( resizer, 1 );
 		});

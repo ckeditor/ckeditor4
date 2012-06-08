@@ -10,6 +10,7 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'sourcearea', {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
 			var sourcearea = CKEDITOR.plugins.sourcearea;
 
@@ -30,7 +31,7 @@
 					dir: 'ltr',
 					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
 					'role': 'textbox',
-					'aria-label': editor.lang.editorTitle.replace( '%1', editor.name )
+					'aria-label': editor.lang.common.editorTitle.replace( '%1', editor.name )
 				});
 
 				textarea.addClass( 'cke_source' );
@@ -62,7 +63,7 @@
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Source', {
-					label: editor.lang.source,
+					label: editor.lang.sourcearea.toolbar,
 					command: 'source'
 				});
 			}

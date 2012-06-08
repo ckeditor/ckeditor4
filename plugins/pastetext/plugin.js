@@ -15,7 +15,7 @@
 		async: true,
 
 		exec: function( editor ) {
-			editor.getClipboardData({ title: editor.lang.pasteText.title }, function( data ) {
+			editor.getClipboardData({ title: editor.lang.pastetext.title }, function( data ) {
 				data && editor.fire( 'paste', { type: 'text', data: data.data, htmlified: true } );
 
 				editor.fire( 'afterCommandExec', {
@@ -30,6 +30,7 @@
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'pastetext', {
 		requires: [ 'clipboard' ],
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 
 		init: function( editor ) {
 			var commandName = 'pastetext';
@@ -37,7 +38,7 @@
 			editor.addCommand( commandName, pasteTextCmd );
 
 			editor.ui.addButton( 'PasteText', {
-				label: editor.lang.pasteText.button,
+				label: editor.lang.pastetext.button,
 				command: commandName
 			});
 

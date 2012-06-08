@@ -32,7 +32,7 @@
 	};
 
 	function listStyle( editor, startupPage ) {
-		var lang = editor.lang.list;
+		var lang = editor.lang.liststyle;
 		if ( startupPage == 'bulletedListStyle' ) {
 			return {
 				title: lang.bulletedTitle,

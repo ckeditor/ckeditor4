@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 	}
 
 	return {
-		title: editor.lang.button.title,
+		title: editor.lang.forms.button.title,
 		minWidth: 350,
 		minHeight: 150,
 		onShow: function() {
@@ -53,8 +53,8 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.button.title,
-			title: editor.lang.button.title,
+			label: editor.lang.forms.button.title,
+			title: editor.lang.forms.button.title,
 			elements: [
 				{
 				id: 'name',
@@ -69,7 +69,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				{
 				id: 'value',
 				type: 'text',
-				label: editor.lang.button.text,
+				label: editor.lang.forms.button.text,
 				accessKey: 'V',
 				'default': '',
 				setup: function( element ) {
@@ -80,13 +80,13 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				{
 				id: 'type',
 				type: 'select',
-				label: editor.lang.button.type,
+				label: editor.lang.forms.button.type,
 				'default': 'button',
 				accessKey: 'T',
 				items: [
-					[ editor.lang.button.typeBtn, 'button' ],
-					[ editor.lang.button.typeSbm, 'submit' ],
-					[ editor.lang.button.typeRst, 'reset' ]
+					[ editor.lang.forms.button.typeBtn, 'button' ],
+					[ editor.lang.forms.button.typeSbm, 'submit' ],
+					[ editor.lang.forms.button.typeRst, 'reset' ]
 					],
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'type' ) || '' );

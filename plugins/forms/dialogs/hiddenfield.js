@@ -4,7 +4,7 @@
  */
 CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 	return {
-		title: editor.lang.hidden.title,
+		title: editor.lang.forms.hidden.title,
 		hiddenField: null,
 		minWidth: 350,
 		minHeight: 110,
@@ -42,13 +42,13 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.hidden.title,
-			title: editor.lang.hidden.title,
+			label: editor.lang.forms.hidden.title,
+			title: editor.lang.forms.hidden.title,
 			elements: [
 				{
 				id: '_cke_saved_name',
 				type: 'text',
-				label: editor.lang.hidden.name,
+				label: editor.lang.forms.hidden.name,
 				'default': '',
 				accessKey: 'N',
 				setup: function( element ) {
@@ -65,7 +65,7 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				{
 				id: 'value',
 				type: 'text',
-				label: editor.lang.hidden.value,
+				label: editor.lang.forms.hidden.value,
 				'default': '',
 				accessKey: 'V',
 				setup: function( element ) {

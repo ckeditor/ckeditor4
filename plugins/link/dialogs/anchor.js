@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	}
 
 	return {
-		title: editor.lang.anchor.title,
+		title: editor.lang.link.anchor.title,
 		minWidth: 300,
 		minHeight: 60,
 		onOk: function() {
@@ -96,17 +96,17 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		contents: [
 			{
 			id: 'info',
-			label: editor.lang.anchor.title,
+			label: editor.lang.link.anchor.title,
 			accessKey: 'I',
 			elements: [
 				{
 				type: 'text',
 				id: 'txtName',
-				label: editor.lang.anchor.name,
+				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
 					if ( !this.getValue() ) {
-						alert( editor.lang.anchor.errorName );
+						alert( editor.lang.link.anchor.errorName );
 						return false;
 					}
 					return true;

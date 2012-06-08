@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'it', {
+	toolbar: 'Inserisci carattere speciale',
+	title: 'Seleziona carattere speciale',
+	options: 'Opzioni carattere speciale',
 	euro: 'Simbolo Euro',
 	lsquo: 'Virgoletta singola sinistra',
 	rsquo: 'Virgoletta singola destra',

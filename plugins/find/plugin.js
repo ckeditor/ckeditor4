@@ -5,6 +5,7 @@
 
 CKEDITOR.plugins.add( 'find', {
 	requires: [ 'dialog' ],
+	lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 	init: function( editor ) {
 		var findCommand = editor.addCommand( 'find', new CKEDITOR.dialogCommand( 'find' ) );
 		findCommand.canUndo = false;
@@ -15,12 +16,12 @@ CKEDITOR.plugins.add( 'find', {
 
 		if ( editor.ui.addButton ) {
 			editor.ui.addButton( 'Find', {
-				label: editor.lang.findAndReplace.find,
+				label: editor.lang.find.find,
 				command: 'find'
 			});
 
 			editor.ui.addButton( 'Replace', {
-				label: editor.lang.findAndReplace.replace,
+				label: editor.lang.find.replace,
 				command: 'replace'
 			});
 		}
