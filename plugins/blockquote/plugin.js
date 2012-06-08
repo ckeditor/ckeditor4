@@ -8,22 +8,6 @@
  */
 
 (function() {
-	function getState( editor, path ) {
-		var firstBlock = path.block || path.blockLimit;
-		// See if the first block has a blockquote parent.
-		return editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-	}
-
-	function onSelectionChange( evt ) {
-		var editor = evt.editor;
-		if ( editor.readOnly )
-			return;
-
-		var command = editor.getCommand( 'blockquote' );
-		command.state = getState( editor, evt.data.path );
-		command.fire( 'state' );
-	}
-
 	function noBlockLeft( bqBlock ) {
 		for ( var i = 0, length = bqBlock.getChildCount(), child; i < length && ( child = bqBlock.getChild( i ) ); i++ ) {
 			if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() )
@@ -234,7 +218,15 @@
 
 			selection.selectBookmarks( bookmarks );
 			editor.focus();
-		}
+		},
+
+		refresh: function( editor, path ) {
+			// Check if inside of blockquote.
+			var firstBlock = path.block || path.blockLimit;
+			this.setState( editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+		},
+
+		context: 'blockquote'
 	};
 
 	CKEDITOR.plugins.add( 'blockquote', {
@@ -248,8 +240,6 @@
 				label: editor.lang.blockquote,
 				command: 'blockquote'
 			});
-
-			editor.on( 'selectionChange', onSelectionChange );
 		}
 	});
 })();

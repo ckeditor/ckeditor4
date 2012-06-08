@@ -84,6 +84,7 @@
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
+		this.on( 'selectionChange', updateCommandsContext );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
@@ -109,6 +110,20 @@
 		for ( var name in commands ) {
 			command = commands[ name ];
 			command[ command.startDisabled ? 'disable' : this.readOnly && !command.readOnly ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
+		}
+	}
+
+	function updateCommandsContext( ev ) {
+		var command,
+			commands = this.commands,
+			editor = ev.editor,
+			path = ev.data.path;
+
+		for ( var name in commands ) {
+			command = commands[ name ];
+
+			if ( command.contextSensitive )
+				command.refresh( editor, path );
 		}
 	}
 

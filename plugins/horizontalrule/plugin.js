@@ -24,7 +24,8 @@
 				range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			range.select();
-		}
+		},
+		context: 'hr'
 	};
 
 	var pluginName = 'horizontalrule';

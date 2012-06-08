@@ -144,5 +144,6 @@ CKEDITOR.plugins.pagebreakCmd = {
 		}
 
 		editor.fire( 'saveSnapshot' );
-	}
+	},
+	context: 'div'
 };

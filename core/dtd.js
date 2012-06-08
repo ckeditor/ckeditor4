@@ -56,7 +56,7 @@ CKEDITOR.dtd = (function() {
 		U = { head:1,body:1 },
 		V = { html:1 };
 
-	var block = { address:1,blockquote:1,center:1,dir:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1 };
+	var block = { address:1,blockquote:1,center:1,dir:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,dl:1,fieldset:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,hr:1,isindex:1,noframes:1,ol:1,p:1,pre:1,table:1,ul:1,li:1,dt:1,dd:1 };
 
 	return /** @lends CKEDITOR.dtd */ {
 
@@ -77,12 +77,17 @@ CKEDITOR.dtd = (function() {
 		 * @type Object
 		 * @example
 		 */
-		$blockLimit: { body:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,td:1,th:1,caption:1,form:1 },
+		$blockLimit: { body:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,td:1,th:1,caption:1,form:1,table:1,ul:1,dl:1,ol:1,tr:1,dir:1,fieldset:1 },
 
 		/**
 		 * List of inline (&lt;span&gt; like) elements.
 		 */
 		$inline: L, // Just like span.
+		/**
+		 * Elements that are considered objects, therefore selected as a whole in the editor.
+		 */
+		$object: { img:1,table:1,hr:1,iframe:1,input:1,textarea:1,select:1,applet:1,button:1,object:1,audio:1,video:1 },
+
 		/**
 		 * list of elements that can be children at &lt;body&gt;.
 		 */
@@ -123,11 +128,6 @@ CKEDITOR.dtd = (function() {
 		 * @example
 		 */
 		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1,param:1,audio:1,video:1 },
-
-		/**
-		 *  List of block tags with each one a singleton element lives in the corresponding structure for description.
-		 */
-		$captionBlock: { caption:1,legend:1 },
 
 		/**
 		 * List of elements that can be ignored if empty, like "b" or "span".

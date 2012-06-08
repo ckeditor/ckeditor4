@@ -32,17 +32,11 @@
 		return align;
 	}
 
-	function onSelectionChange( evt ) {
-		if ( evt.editor.readOnly )
-			return;
-
-		evt.editor.getCommand( this.name ).refresh( evt.data.path );
-	}
-
 	function justifyCommand( editor, name, value ) {
 		this.editor = editor;
 		this.name = name;
 		this.value = value;
+		this.context = 'p';
 
 		var classes = editor.config.justifyClasses;
 		if ( classes ) {
@@ -158,7 +152,7 @@
 			selection.selectBookmarks( bookmarks );
 		},
 
-		refresh: function( path ) {
+		refresh: function( editor, path ) {
 			var firstBlock = path.block || path.blockLimit;
 
 			this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
@@ -199,10 +193,6 @@
 				});
 			}
 
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, left ) );
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, right ) );
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, center ) );
-			editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, justify ) );
 			editor.on( 'dirChanged', onDirChanged );
 		}
 	});

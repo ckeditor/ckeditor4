@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'table', {
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
 
-		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table' ) );
+		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
 		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
 		editor.addCommand( 'tableDelete', {
 			exec: function( editor ) {
@@ -34,7 +34,6 @@ CKEDITOR.plugins.add( 'table', {
 				range.select();
 			}
 		});
-
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,

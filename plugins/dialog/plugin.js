@@ -2735,8 +2735,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 * // Register the "link" command, which opens the "link" dialog.
 	 * editor.addCommand( 'link', <b>new CKEDITOR.dialogCommand( 'link' )</b> );
 	 */
-	CKEDITOR.dialogCommand = function( dialogName ) {
+	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;
+		CKEDITOR.tools.extend( this, ext, true );
 	};
 
 	CKEDITOR.dialogCommand.prototype = {
