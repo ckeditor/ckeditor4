@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'nb', {
+	toolbar: 'Sett inn spesialtegn',
+	title: 'Velg spesialtegn',
+	options: 'Alternativer for spesialtegn',
 	euro: 'Eurosymbol',
 	lsquo: 'Venstre enkelt anførselstegn',
 	rsquo: 'Høyre enkelt anførselstegn',

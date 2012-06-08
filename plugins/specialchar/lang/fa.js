@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
+	toolbar: 'گنجاندن نویسهٴ ویژه',
+	title: 'گزینش نویسهٴ ویژه',
+	options: 'گزینههای نویسههای ویژه',
 	euro: 'نشان یورو',
 	lsquo: 'علامت نقل قول تکی چپ',
 	rsquo: 'علامت نقل قول تکی راست',
@@ -35,7 +38,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	cedil: 'Cedilla', // MISSING
 	sup1: 'Superscript one', // MISSING
 	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'نشان زاویه‌دار دوتایی نقل قول راست چین',
+	raquo: 'نشان زاویهدار دوتایی نقل قول راست چین',
 	frac14: 'Vulgar fraction one quarter', // MISSING
 	frac12: 'Vulgar fraction one half', // MISSING
 	frac34: 'Vulgar fraction three quarters', // MISSING
@@ -119,7 +122,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	bull: 'Bullet', // MISSING
 	rarr: 'Rightwards arrow', // MISSING
 	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'جهت‌نمای دوتایی چپ به راست',
+	hArr: 'جهتنمای دوتایی چپ به راست',
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'تقریبا برابر با'
 });

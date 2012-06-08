@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'de', {
+	toolbar: 'Sonderzeichen einfügen/editieren',
+	title: 'Sonderzeichen auswählen',
+	options: 'Sonderzeichen Optionen',
 	euro: 'Euro Zeichen',
 	lsquo: 'Hochkomma links',
 	rsquo: 'Hochkomma rechts',

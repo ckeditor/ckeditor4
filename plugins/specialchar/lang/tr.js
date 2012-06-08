@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'tr', {
+	toolbar: 'Özel Karakter Ekle',
+	title: 'Özel Karakter Seç',
+	options: 'Özel Karakter Seçenekleri',
 	euro: 'Euro işareti',
 	lsquo: 'Sol tek tırnak işareti',
 	rsquo: 'Sağ tek tırnak işareti',

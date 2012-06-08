@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
+	toolbar: '插入特殊符号',
+	title: '选择特殊符号',
+	options: '特殊符号选项',
 	euro: '欧元符号',
 	lsquo: '左单引号',
 	rsquo: '右单引号',

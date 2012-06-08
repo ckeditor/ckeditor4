@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'fi', {
+	toolbar: 'Lisää erikoismerkki',
+	title: 'Valitse erikoismerkki',
+	options: 'Erikoismerkin ominaisuudet',
 	euro: 'Euron merkki',
 	lsquo: 'Vasen yksittäinen lainausmerkki',
 	rsquo: 'Oikea yksittäinen lainausmerkki',

@@ -30,6 +30,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'showblocks', {
+		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		onLoad: function() {
 			var cssTemplate = '.%2 p,' +
 				'.%2 div,' +
@@ -137,7 +138,7 @@
 				command.setState( CKEDITOR.TRISTATE_ON );
 
 			editor.ui.addButton && editor.ui.addButton( 'ShowBlocks', {
-				label: editor.lang.showblocks,
+				label: editor.lang.showblocks.toolbar,
 				command: 'showblocks'
 			});
 

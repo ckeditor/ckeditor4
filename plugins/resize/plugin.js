@@ -84,7 +84,7 @@ CKEDITOR.plugins.add( 'resize', {
 
 					var resizerHtml = '<span' +
 						' class="cke_resizer' + direction + ' cke_resizer_' + resizeDir + '"' +
-						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.resize ) + '"' +
+						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.common.resize ) + '"' +
 						' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
 						'></span>';
 

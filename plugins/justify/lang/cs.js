@@ -1,0 +1,10 @@
+﻿/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'justify', 'cs', {
+	block: 'Zarovnat do bloku',
+	center: 'Zarovnat na střed',
+	left: 'Zarovnat vlevo',
+	right: 'Zarovnat vpravo'
+});

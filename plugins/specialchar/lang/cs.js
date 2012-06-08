@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'cs', {
+	toolbar: 'Vložit speciální znaky',
+	title: 'Výběr speciálního znaku',
+	options: 'Nastavení speciálních znaků',
 	euro: 'Znak eura',
 	lsquo: 'Počáteční uvozovka jednoduchá',
 	rsquo: 'Koncová uvozovka jednoduchá',
