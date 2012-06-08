@@ -19,9 +19,8 @@ better to have it documented, at least.
 
 ---
 
-Throught the "replacecreator" plugin, the CKEDITOR.replaceByClassEnabled option
-is not anymore available. Now it's enough to set CKEDITOR.replaceClass to
-empty/null to disable the auto-replace.
+The CKEDITOR.replaceByClassEnabled option is not anymore available. Now it's
+enough to set CKEDITOR.replaceClass to empty/null to disable the auto-replace.
 
 ---
 
@@ -34,7 +33,10 @@ simply loaded after core.
 
 ---
 
-The following skin related properties have been deleted:
+The editor will now support only one skin in a single page (all editor will use
+the same skin).
+
+Because of the above, the following skin related properties have been deleted:
 
 	- CKEDITOR.editor::skinName => now CKEDITOR.skin.name
 	- CKEDITOR.editor::skinPath => now CKEDITOR.skin.getPath( 'editor' )
