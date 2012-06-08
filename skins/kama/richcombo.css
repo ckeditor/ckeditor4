@@ -54,8 +54,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background: -webkit-gradient(linear, left bottom, left -100, from(#fff), to(#d3d3d3));
 }
 
-.cke_combo_button:focus,
-.cke_combo_button:active
+a.cke_combo_button:focus,
+a.cke_combo_button:active
 {
 	background: #DFF1FF;
 	outline: none;
