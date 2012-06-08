@@ -4,11 +4,23 @@
  */
 
 (function() {
-	// Elements that may be considered the "Block boundary" in an element path.
-	var pathBlockElements = { address:1,blockquote:1,dl:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,li:1,dt:1,dd:1 };
+	// Elements that are considered the "Block limit" in an element path.
+	var pathBlockLimitElements = {};
+	for ( var tag in CKEDITOR.dtd.$blockLimit ) {
+		// Exclude from list roots.
+		if ( !( tag in CKEDITOR.dtd.$list ) )
+			pathBlockLimitElements[ tag ] = 1;
+	}
 
-	// Elements that may be considered the "Block limit" in an element path.
-	var pathBlockLimitElements = { body:1,div:1,table:1,tbody:1,tr:1,td:1,th:1,form:1,fieldset:1,legend:1,caption:1 };
+
+	// Elements that are considered the "End level Block" in an element path.
+	var pathBlockElements = {};
+
+	for ( var tag in CKEDITOR.dtd.$block ) {
+		// Exclude block limits, and empty block element, e.g. hr.
+		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
+			pathBlockElements[ tag ] = 1;
+	}
 
 	// Check if an element contains any block element.
 	var checkHasBlock = function( element ) {
@@ -41,10 +53,18 @@
 
 		var e = startNode;
 
-		while ( e ) {
+		do {
 			if ( e.type == CKEDITOR.NODE_ELEMENT ) {
-				if ( !this.lastElement )
+				elements.push( e );
+
+				if ( !this.lastElement ) {
 					this.lastElement = e;
+
+					// If a table is fully selected at the end of the element path,
+					// it must not become the block limit.
+					if ( e.is( CKEDITOR.dtd.$object ) )
+						continue;
+				}
 
 				var elementName = e.getName();
 
@@ -62,13 +82,11 @@
 					}
 				}
 
-				elements.push( e );
-
 				if ( e.equals( root ) )
 					break;
 			}
-			e = e.getParent();
 		}
+		while ( e = e.getParent() );
 
 		this.block = block;
 		this.blockLimit = blockLimit;
@@ -152,13 +170,15 @@ CKEDITOR.dom.elementPath.prototype = {
 	 * @param {String} tag The tag name.
 	 */
 	isContextFor: function( tag ) {
-		var holder = this.lastElement;
+		var holder;
 
-		if ( holder.getName() in CKEDITOR.dtd.$object && tag in CKEDITOR.dtd.$object )
-			holder = holder.getParent();
-		else if ( tag in CKEDITOR.dtd.$block )
-			holder = ( this.block && this.block.equals( this.root ) && this.block ) || this.blockLimit;
+		// Check for block context.
+		if ( tag in CKEDITOR.dtd.$block ) {
+			holder = ( this.root.equals( this.block ) && this.block ) || this.blockLimit;
+			return holder.getDtd()[ tag ];
+		}
 
-		return !!holder.getDtd()[ tag ];
+		return true;
+
 	}
 };
