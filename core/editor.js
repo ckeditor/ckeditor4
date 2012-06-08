@@ -348,7 +348,7 @@
 					lang = null;
 
 				// If the plugin has "lang".
-				if ( pluginLangs ) {
+				if ( pluginLangs && !editor.lang[ pluginName ] ) {
 					// Resolve the plugin language. If the current language
 					// is not available, get the first one (default one).
 					lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
