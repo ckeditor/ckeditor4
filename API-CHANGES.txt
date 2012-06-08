@@ -48,4 +48,31 @@ Because of the above, the following skin related properties have been deleted:
 
 ---
 
-The legacy "selection" and "styles" plugin have been moved to the core API and are not any more available as plugins.
+The legacy "selection" and "styles" plugin have been moved to the core API and
+are not any more available as plugins.
+
+---
+
+On plugin language files, the usual CKEDITOR.plugins.setLang call now enforces
+a namespace in the format editor.lang.pluginName, which contains the provided
+language entries.
+
+So, in CKEditor 3 we had:
+
+	CKEDITOR.plugins.setLang( 'myplugin', 'en',
+	{
+		myplugin :
+		{
+			title : 'My Plugin'
+		}
+	});
+
+In CKEditor 4, the above will make the entry accessible at
+editor.lang.myplugin.myplugin.title, so it must be changed to:
+
+	CKEDITOR.plugins.setLang( 'myplugin', 'en',
+	{
+		title : 'My Plugin'
+	});
+
+In this way the entry will be available at editor.lang.myplugin.title.
