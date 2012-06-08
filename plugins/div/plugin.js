@@ -18,7 +18,14 @@
 
 			var lang = editor.lang.div;
 
-			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', { context: 'div' } ) );
+			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
+				contextSensitive: true,
+				refresh: function( editor, path ) {
+					var context = editor.config.div_wrapTable ? path.root : path.blockLimit;
+					this.setState( 'div' in context.getDtd() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+				}
+			}));
+
 			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ) );
 			editor.addCommand( 'removediv', {
 				exec: function( editor ) {
