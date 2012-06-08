@@ -1,4 +1,5 @@
-﻿/**
+﻿﻿
+/**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
@@ -127,6 +128,12 @@
 					for ( var name in styles ) {
 						var style = styles[ name ],
 							type = style.type;
+
+						// Check if block styles are applicable.
+						if ( type == CKEDITOR.STYLE_BLOCK && !elementPath.isContextFor( style.element ) ) {
+							this.hideItem( name );
+							continue;
+						}
 
 						if ( style.checkActive( elementPath ) )
 							this.mark( name );
