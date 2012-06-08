@@ -25,9 +25,9 @@
 				editor: editor,
 				triggerOffset: triggerOffset,
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || .5 ),
-				boxColor: config.magicline_boxColor || '#ff0000',
+				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
-				triggers: config.magicline_putEverywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
+				triggers: config.magicline_everywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
 			},
 			scrollTimeout, hideTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
 
@@ -655,7 +655,7 @@
 		// Make the box unselectable.
 		line.unselectable();
 
-		line.setOpacity( that.editor.config.magicline_boxOpacity || 1 );
+		line.setOpacity( that.editor.config.magicline_opacity || 1 );
 
 		// Handle paragraph inserting.
 		line.lineChildren[ 0 ].on( 'mouseup', function( event ) {
