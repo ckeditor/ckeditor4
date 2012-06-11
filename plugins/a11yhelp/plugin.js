@@ -25,7 +25,7 @@
 					var langCode = editor.langCode;
 					langCode = plugin.availableLangs[ langCode ] ? langCode : 'en';
 
-					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'lang/' + langCode + '.js' ), function() {
+					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 						editor.lang.a11yhelp = plugin.langEntries[ langCode ];
 						editor.openDialog( commandName );
 					});
