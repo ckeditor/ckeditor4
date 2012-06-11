@@ -328,12 +328,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			bottomHtml: bottomHtml || ''
 		}));
 
-		var topSpace = editor.ui.space( 'top' ),
-			bottomSpace = editor.ui.space( 'bottom' );
-
-		topSpace && topSpace.unselectable();
-		bottomSpace && bottomSpace.unselectable();
-
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
 			container.insertAfter( element );
@@ -349,6 +343,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 		 * alert( <b>editor.container</b>.getName() );  "span"
 		 */
 		editor.container = container;
+
+		// Make top and bottom spaces unelectable, but not content space,
+		// otherwise the editable area would be affected.
+		editor.ui.space( 'top' ).unselectable();
+		editor.ui.space( 'bottom' ).unselectable();
 
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();
