@@ -933,7 +933,7 @@
 				},
 					{
 					id: 'Link',
-					label: editor.lang.link.title,
+					label: editor.lang.image.linkTab,
 					padding: 0,
 					elements: [
 						{

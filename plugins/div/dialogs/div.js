@@ -320,7 +320,7 @@
 							{
 							type: 'text',
 							id: 'lang',
-							label: editor.lang.link.langCode,
+							label: editor.lang.common.langCode,
 							'default': ''
 						}
 						]
