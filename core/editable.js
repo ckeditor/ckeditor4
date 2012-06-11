@@ -130,11 +130,7 @@
 					selection = editor.getSelection(),
 					ranges = selection.getRanges(),
 					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ],
-					selIsLocked = selection.isLocked;
-
-				if ( selIsLocked )
-					selection.unlock();
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
 				var range, clone, lastElement, bookmark;
 
@@ -192,9 +188,6 @@
 				}
 
 				selection.selectRanges( [ range ] );
-
-				if ( selIsLocked )
-					editor.getSelection().lock();
 
 				// TODO this should be gone after refactoring insertElement.
 				// Save snaps after the whole execution completed.
