@@ -846,28 +846,32 @@
 		 * With this method it is possible to assign, reassign and
 		 * remove keystrokes, however, by default, the entries
 		 * are not overwritten unless <code>override</code> option is used.
-		 * @param {Number} key Key combination to be used.
-		 * @param {String} command Editor command to be assigned.
-		 * @param {Boolean} [override] Forces keystroke assignment.
 		 * @see CKEDITOR.keystrokeHandler
 		 * @example
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C1' );	// Assigned C1 command to ALT+F11.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C2' );	// C1 on ALT+F11 remains unchanged.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C2', true );	// Forced C2 assignment.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, null );	// Unassigned C2 from ALT+F11.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'undo' );	// assigned 'undo' command to ALT+F11.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, null );	// 'undo' remains unchanged.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, null, true );	// 'undo' force-unassigned.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo' );	// still no command at CKEDITOR.ALT + 122.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo', true );	// 'redo' force-assigned.
+		 * editor.setKeystroke( [
+		 * 	[ CKEDITOR.ALT + 122, null, true ], // Unassigned 'redo' command.
+		 * 	[ CKEDITOR.CTRL + 121, 'link' ]	// Assigned 'link' command to another keystroke.
+		 * 	[ CKEDITOR.SHIFT + 120, 'bold', true ]	// Force-assigned 'bold' command to another keystroke.
+		 * ] );
 		 */
-		setKeystroke: function( key, command, override ) {
-			if ( typeof key == 'undefined' )
-				return;
+		setKeystroke: function() {
+			var oldKeystrokes = this.keystrokeHandler.keystrokes,
+				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ arguments ],
+				key;
 
-			var keystrokes = this.keystrokeHandler.keystrokes,
-				isSet = !!keystrokes[ key ];
+			for ( var i = newKeystrokes.length; i--; ) {
+				if ( typeof( key = newKeystrokes[ i ][ 0 ] ) == 'undefined' )
+					continue;
 
-			if ( isSet && !command )
-				delete keystrokes[ key ];
-
-			else if ( !isSet || override )
-				keystrokes[ key ] = command;
+				// Update entry if: an override is set OR there's nothing set yet.
+				if ( newKeystrokes[ i ][ 2 ] || typeof oldKeystrokes[ key ] == 'undefined' )
+					oldKeystrokes[ key ] = newKeystrokes[ i ][ 1 ];
+			}
 		}
 	});
 })();
