@@ -102,16 +102,14 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var variablesPattern = /\$\{(.*?)\}/g;
 
 	function replaceVariables( match, name ) {
-		var keystrokes = editor.config.keystrokes,
-			definition,
-			length = keystrokes.length;
+		var keystrokes = editor.keystrokeHandler.keystrokes;
 
-		for ( var i = 0; i < length; i++ ) {
-			definition = keystrokes[ i ];
-			if ( definition[ 1 ] == name )
+		for ( key in keystrokes ) {
+			if ( keystrokes[ key ] == name )
 				break;
 		}
-		return representKeyStroke( definition[ 0 ] );
+
+		return representKeyStroke( key );
 	}
 
 	// Create the help list directly from lang file entries.
