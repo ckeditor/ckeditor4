@@ -200,6 +200,7 @@
 			editor.on( 'contentDomUnload', empty );
 
 			editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );
+			editor.setKeystroke( CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' );
 		}
 	});
 })();

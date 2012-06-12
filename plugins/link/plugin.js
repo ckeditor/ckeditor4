@@ -56,6 +56,8 @@ CKEDITOR.plugins.add( 'link', {
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 
+		editor.setKeystroke( CKEDITOR.CTRL + 76 /*L*/, 'link' );
+
 		if ( editor.ui.addButton ) {
 			editor.ui.addButton( 'Link', {
 				label: editor.lang.link.toolbar,

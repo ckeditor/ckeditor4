@@ -143,6 +143,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				editor.contextMenu.open( editor.document.getBody() );
 			}
 		});
+
+		editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' );
 	}
 });
 

@@ -464,8 +464,10 @@
 		var keystrokes = editor.keystrokeHandler.keystrokes,
 			blockedKeystrokes = editor.keystrokeHandler.blockedKeystrokes;
 
-		for ( var i = 0; i < keystrokesConfig.length; i++ )
-			keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
+		if ( keystrokesConfig ) {
+			for ( var i = 0; i < keystrokesConfig.length; i++ )
+				keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
+		}
 
 		for ( i = 0; i < blockedConfig.length; i++ )
 			blockedKeystrokes[ blockedConfig[ i ] ] = 1;
@@ -836,6 +838,36 @@
 			}
 
 			return false;
+		},
+
+		/**
+		 * Assigns keystrokes associated to editor commands by modifying
+		 * <code>{@link CKEDITOR.keystrokeHandler.keystrokes}</code>.
+		 * With this method it is possible to assign, reassign and
+		 * remove keystrokes, however, by default, the entries
+		 * are not overwritten unless <code>override</code> option is used.
+		 * @param {Number} key Key combination to be used.
+		 * @param {String} command Editor command to be assigned.
+		 * @param {Boolean} [override] Forces keystroke assignment.
+		 * @see CKEDITOR.keystrokeHandler
+		 * @example
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C1' );	// Assigned C1 command to ALT+F11.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C2' );	// C1 on ALT+F11 remains unchanged.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'C2', true );	// Forced C2 assignment.
+		 * editor.setKeystroke( CKEDITOR.ALT + 122, null );	// Unassigned C2 from ALT+F11.
+		 */
+		setKeystroke: function( key, command, override ) {
+			if ( typeof key == 'undefined' )
+				return;
+
+			var keystrokes = this.keystrokeHandler.keystrokes,
+				isSet = !!keystrokes[ key ];
+
+			if ( isSet && !command )
+				delete keystrokes[ key ];
+
+			else if ( !isSet || override )
+				keystrokes[ key ] = command;
 		}
 	});
 })();

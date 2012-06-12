@@ -35,7 +35,7 @@
 				canUndo: false
 			});
 
-			editor.keystrokeHandler.keystrokes[ CKEDITOR.ALT + 48 /*0*/ ] = 'a11yHelp';
+			editor.setKeystroke( CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' );
 			CKEDITOR.dialog.add( commandName, this.path + 'dialogs/a11yhelp.js' );
 		}
 	});

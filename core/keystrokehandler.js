@@ -97,6 +97,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				domObject.on( 'keypress', onKeyPress, this );
 		}
 	};
+
 })();
 
 /**
@@ -148,25 +149,6 @@ CKEDITOR.config.blockedKeystrokes = [
  *     [ CKEDITOR.ALT + 109 &#47;*-*&#47;, 'toolbarCollapse' ]
  * ];
  */
-CKEDITOR.config.keystrokes = [
-	[ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
-	[ CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' ],
-
-	[ CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
-
-	[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
-	[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ],
-
-	[ CKEDITOR.CTRL + 76 /*L*/, 'link' ],
-
-	[ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
-	[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
-	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
-
-	[ CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' ]
-	];
 
 /**
  * Fired when any keyboard key (or combination) is pressed into the editing area.
