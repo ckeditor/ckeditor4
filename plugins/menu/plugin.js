@@ -162,7 +162,7 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			onClick: function( item ) {
-				this.hide( false );
+				this.hide();
 
 				if ( item.onClick )
 					item.onClick();
@@ -172,17 +172,12 @@ CKEDITOR.plugins.add( 'menu', {
 
 			onEscape: function( keystroke ) {
 				var parent = this.parent;
-				// 1. If it's sub-menu, restore the last focused item
-				// of upper level menu.
-				// 2. In case of a top-menu, close it.
-				if ( parent ) {
-					parent._.panel.hideChild();
-					// Restore parent block item focus.
-					var parentBlock = parent._.panel._.panel._.currentBlock,
-						parentFocusIndex = parentBlock._.focusIndex;
-					parentBlock._.markItem( parentFocusIndex );
-				} else if ( keystroke == 27 )
-					this.hide();
+				// 1. If it's sub-menu, close it, with focus restored on this.
+				// 2. In case of a top-menu, close it, with focus returned to page.
+				if ( parent )
+					parent._.panel.hideChild( 1 );
+				else if ( keystroke == 27 )
+					this.hide( 1 );
 
 				return false;
 			},
@@ -199,13 +194,10 @@ CKEDITOR.plugins.add( 'menu', {
 				// If this item has no subitems, we just hide the submenu, if
 				// available, and return back.
 				if ( !subItemDefs ) {
-					this._.panel.hideChild();
+					// Hide sub menu with focus returned.
+					this._.panel.hideChild( 1 );
 					return;
 				}
-
-				// Record parent menu focused item first (#3389).
-				var block = this._.panel.getBlock( this.id );
-				block._.focusIndex = index;
 
 				// Create the submenu, if not available, or clean the existing
 				// one.
@@ -316,7 +308,7 @@ CKEDITOR.plugins.add( 'menu', {
 						var item = this.items[ index ];
 
 						if ( item.state == CKEDITOR.TRISTATE_DISABLED ) {
-							this.hide();
+							this.hide( 1 );
 							return;
 						}
 

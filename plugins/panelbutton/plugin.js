@@ -94,7 +94,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 					};
 
 					panel.onEscape = function() {
-						panel.hide();
+						panel.hide( 1 );
 						me.document.getById( _.id ).focus();
 					};
 

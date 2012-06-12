@@ -95,7 +95,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				isShowing = 1;
 
 				// Record from where the focus is when open panel.
-				this._.returnFocus = this._.editor.editable().hasFocus ? this._.editor : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
+				var editable = this._.editor.editable();
+				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 
 
 				var element = this.element,
@@ -150,7 +151,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// inside the window itself, so we must ensure the
 						// target is out of it.
 						var target = ev.data.getTarget();
-						if ( target.getName && target.getName() != 'iframe' )
+						if ( target.$ != focused.$ )
 							return;
 
 						if ( this.visible && !this._.activeChild && !isShowing ) {
@@ -319,9 +320,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
+						// Report to focus manager before each open.
 						this._.editor.focusManager.add( iframe.getFrameDocument().getWindow() );
 
-						iframe.$.contentWindow.focus();
+						this.focus();
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -336,6 +338,22 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				isShowing = 0;
 			},
 
+			focus: function() {
+				// Webkit requires to blur the previous host page element at first.
+				CKEDITOR.env.webkit && CKEDITOR.document.getActive().$.blur();
+
+				// Restore last focused element or simply focus panel window.
+				var focus = this._.lastFocused || this._.iframe.getFrameDocument().getWindow();
+				focus.focus();
+			},
+
+			blur: function() {
+				var doc = this._.iframe.getFrameDocument(),
+					active = doc.getActive();
+
+				active.is( 'a' ) && ( this._.lastFocused = active );
+			},
+
 			hide: function( returnFocus ) {
 				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
@@ -346,7 +364,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.element.getFirst().removeCustomData( 'activePanel' );
 
 					// Return focus properly. (#6247)
-					var focusReturn = returnFocus !== false && this._.returnFocus;
+					var focusReturn = returnFocus && this._.returnFocus;
 					if ( focusReturn ) {
 						// Webkit requires focus moved out panel iframe first.
 						if ( CKEDITOR.env.webkit && focusReturn.type )
@@ -354,6 +372,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						focusReturn.focus();
 					}
+
+					delete this._.lastFocused;
 
 					this._.editor.fire( 'panelHide', this );
 				}
@@ -388,6 +408,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				this._.focused = false;
 
 				panel.showBlock( blockName, offsetParent, corner, offsetX, offsetY );
+				this.blur();
 
 				/* #3767 IE: Second level menu may not have borders */
 				if ( CKEDITOR.env.ie7Compat || ( CKEDITOR.env.ie8 && CKEDITOR.env.ie6Compat ) ) {
@@ -397,15 +418,16 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}
 			},
 
-			hideChild: function() {
+			hideChild: function( restoreFocus ) {
 				var activeChild = this._.activeChild;
 
 				if ( activeChild ) {
 					delete activeChild.onHide;
-					// Sub panels don't manage focus. (#7881)
-					delete activeChild._.returnFocus;
 					delete this._.activeChild;
 					activeChild.hide();
+
+					// At this point focus should be moved back to parent panel.
+					restoreFocus && this.focus();
 				}
 			}
 		}

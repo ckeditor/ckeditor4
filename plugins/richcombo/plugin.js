@@ -246,7 +246,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				panel.onEscape = function() {
-					panel.hide();
+					// Hide drop-down with focus returned.
+					panel.hide( 1 );
 				};
 
 				list.onClick = function( value, marked ) {
@@ -258,7 +259,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					else
 						me.setValue( '' );
 
-					panel.hide( false );
+					panel.hide();
 
 					editor.focus();
 				};
