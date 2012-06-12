@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>CKEDITOR.dtd Contents</title>
+	<script>
+
+// Define the CKEDITOR namespace.
+var CKEDITOR = { on : function(){} };
+
+	</script>
+	<script src="../../core/tools.js"></script>
+	<script src="../../core/dtd.js"></script>
+</head>
+<body>
+	<h1>
+		CKEDITOR.dtd Contents
+	</h1>
+	<table border="1">
+		<script>
+
+var entries = [];
+
+// Get all entries.
+for ( var p in CKEDITOR.dtd )
+{
+	var children = [];
+	for ( var c in CKEDITOR.dtd[p] )
+	{
+		children.push( c );
+	}
+	children.sort();
+	entries.push( [ p, children.join(', ') ] );
+}
+
+// Sort them alphabetically.
+entries.sort( function( a, b )
+	{
+		a = a[0];
+		b = b[0];
+
+		return a < b ? -1 :
+			a > b ? 1 : 0;
+	});
+
+// Writes the list.
+for ( var i = 0 ; i < entries.length ; i++ )
+{
+	document.write(
+		'<tr><td><b>' + entries[i][0] + '</b></td><td>' +
+		entries[i][1] +
+		'</td></tr>' );
+}
+
+		</script>
+	</table>
+</body>
+</html>
