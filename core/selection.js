@@ -539,9 +539,8 @@
 
 		/* Check whether browser focus is really inside of the editable element. */
 
-
 		var nativeSel = this.getNative(),
-			rangeParent, range;
+			rangeParent;
 
 		if ( nativeSel.getRangeAt ) {
 			range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
@@ -1384,7 +1383,8 @@
 						}
 					}
 
-					var range = ranges[ i ];
+					range = ranges[ i ];
+
 					var nativeRange = this.document.$.createRange();
 					var startContainer = range.startContainer;
 
@@ -1403,7 +1403,7 @@
 						var fillingChar = createFillingChar( this.root );
 						range.insertNode( fillingChar );
 
-						var next = fillingChar.getNext();
+						next = fillingChar.getNext();
 
 						// If the filling char is followed by a <br>, whithout
 						// having something before it, it'll not blink.

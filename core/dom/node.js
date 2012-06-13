@@ -236,7 +236,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 			index++;
 			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
 		}
-		while ( current = current.previousSibling )
+		while ( ( current = current.previousSibling ) )
 
 		return index;
 	},

@@ -208,7 +208,7 @@ if ( !window.CKEDITOR ) {
 					} catch ( er ) {}
 
 					var i;
-					while ( i = callbacks.shift() )
+					while ( ( i = callbacks.shift() ) )
 						i();
 				}
 
@@ -250,11 +250,11 @@ if ( !window.CKEDITOR ) {
 						var toplevel = false;
 
 						try {
-							toplevel = window.frameElement == null;
+							toplevel = !window.frameElement;
 						} catch ( e ) {}
 
 						if ( document.documentElement.doScroll && toplevel ) {
-							(function scrollCheck() {
+							function scrollCheck() {
 								try {
 									document.documentElement.doScroll( 'left' );
 								} catch ( e ) {
@@ -262,7 +262,8 @@ if ( !window.CKEDITOR ) {
 									return;
 								}
 								onReady();
-							})();
+							}
+							scrollCheck();
 						}
 					}
 				};

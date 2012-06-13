@@ -61,7 +61,7 @@
 			on: function( name, fn ) {
 				var args = Array.prototype.slice.call( arguments, 0 );
 
-				if ( CKEDITOR.env.ie && /^focus|blur$/.exec( name ) ) {
+				if ( CKEDITOR.env.ie && ( /^focus|blur$/ ).exec( name ) ) {
 					name = name == 'focus' ? 'focusin' : 'focusout';
 
 					// The "focusin/focusout" events bubbled, e.g. If there are elements with layout
@@ -354,6 +354,8 @@
 							evt.data.preventDefault();
 						}
 					}
+
+					return true;
 				});
 
 				// Prevent automatic submission in IE #6336
@@ -427,7 +429,7 @@
 
 				// Cleanup our custom classes.
 				var classes;
-				if ( classes = this.removeCustomData( 'classes' ) ) {
+				if ( ( classes = this.removeCustomData( 'classes' ) ) ) {
 					while ( classes.length )
 						this.removeClass( classes.pop() );
 				}
@@ -462,9 +464,9 @@
 		var editable = this._.editable;
 
 		// This editor has already associated with
-		// an editable element, sliently fails.
+		// an editable element, silently fails.
 		if ( editable && element )
-			return;
+			return 0;
 
 		if ( arguments.length ) {
 			editable = this._.editable = element ? ( element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element ) ) :
@@ -570,7 +572,7 @@
 			other = other ? CKEDITOR.dom.element.get( other ) : null;
 			if ( target.equals( src ) && !( other && src.contains( other ) ) )
 				fn.call( this, evt );
-		}
+		};
 	}
 
 
@@ -578,10 +580,7 @@
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isNotEmpty = function( node ) {
-			return isNotWhitespace( node ) && isNotBookmark( node );
-		};
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		var editor = evt.editor;
@@ -754,7 +753,7 @@
 
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
-			if ( node = path.contains( isInline, false, 1 ) ) {
+			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
@@ -901,12 +900,12 @@
 					// Unable to make the insertion happen in place, resort to the content filter.
 					else {
 						// If everything worked fine insertionContainer == blockLimit here.
-						filteredNodes = filterElement( nodeData.node, blockLimit.getName(), nodeIndex == 0, nodeIndex == nodesData.length - 1 );
+						filteredNodes = filterElement( nodeData.node, blockLimit.getName(), !nodeIndex, nodeIndex == nodesData.length - 1 );
 					}
 				}
 
 				if ( filteredNodes ) {
-					while ( node = filteredNodes.pop() )
+					while ( ( node = filteredNodes.pop() ) )
 						range.insertNode( node );
 					filteredNodes = 0;
 				} else
@@ -928,7 +927,7 @@
 			}
 
 			// Bring back all block bogus nodes.
-			while ( node = bogusNeededBlocks.pop() )
+			while ( ( node = bogusNeededBlocks.pop() ) )
 				node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
 
 			that.dontMoveCaret = dontMoveCaret;
@@ -945,7 +944,7 @@
 			// E.g. remove <div><p></p></div>
 			// But not <div><p> </p></div>
 			// And replace <div><p><span data="cke-bookmark"/></p></div> with found bookmark.
-			while ( node = that.zombies.pop() ) {
+			while ( ( node = that.zombies.pop() ) ) {
 				// Detached element.
 				if ( !node.getParent() )
 					continue;
@@ -961,7 +960,7 @@
 			}
 
 			// Eventually merge identical inline elements.
-			while ( node = that.mergeCandidates.pop() )
+			while ( ( node = that.mergeCandidates.pop() ) )
 				node.mergeSiblings();
 
 			range.moveToBookmark( bm );
@@ -1038,7 +1037,7 @@
 					allowed = !!allowedNames[ nodeName ];
 
 					// Mark <brs data-cke-eol="1"> at the beginning and at the end.
-					if ( nodeName == 'br' && node.data( 'cke-eol' ) && ( nodeIndex == 0 || nodeIndex == nodesCount - 1 ) ) {
+					if ( nodeName == 'br' && node.data( 'cke-eol' ) && ( !nodeIndex || nodeIndex == nodesCount - 1 ) ) {
 						sibling = nodeIndex ? nodesData[ nodeIndex - 1 ].node : nodesList.getItem( nodeIndex + 1 );
 
 						// Line break has to have sibling which is not an <br>.
@@ -1096,7 +1095,7 @@
 
 				if ( node == ' ' ) {
 					// Don't push doubled space and if it's leading space for insertion.
-					if ( !afterSpace && !( isFirst && nodeIndex == 0 ) ) {
+					if ( !afterSpace && !( isFirst && !nodeIndex ) ) {
 						nodes2.push( new CKEDITOR.dom.text( ' ' ) );
 						lastSpaceIndex = nodes2.length;
 					}

@@ -12,11 +12,10 @@
 			pathBlockLimitElements[ tag ] = 1;
 	}
 
-
 	// Elements that are considered the "End level Block" in an element path.
 	var pathBlockElements = {};
 
-	for ( var tag in CKEDITOR.dtd.$block ) {
+	for ( tag in CKEDITOR.dtd.$block ) {
 		// Exclude block limits, and empty block element, e.g. hr.
 		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
 			pathBlockElements[ tag ] = 1;
@@ -86,7 +85,7 @@
 					break;
 			}
 		}
-		while ( e = e.getParent() );
+		while ( ( e = e.getParent() ) );
 
 		this.block = block;
 		this.blockLimit = blockLimit;

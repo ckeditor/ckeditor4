@@ -132,14 +132,15 @@
 	}
 
 	function updateStylesheets( styleNodes, styleContent, replace ) {
+		var r, i, content;
+
 		// We have to split CSS declarations for webkit.
 		if ( CKEDITOR.env.webkit ) {
 			styleContent = styleContent.split( '}' ).slice( 0, -1 );
-			for ( var i = 0; i < styleContent.length; i++ )
+			for ( i = 0; i < styleContent.length; i++ )
 				styleContent[ i ] = styleContent[ i ].split( '{' );
 		}
 
-		var r, i, content;
 		for ( var id = 0; id < styleNodes.length; id++ ) {
 			if ( CKEDITOR.env.webkit ) {
 				for ( i = 0; i < styleContent.length; i++ ) {

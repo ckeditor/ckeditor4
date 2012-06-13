@@ -1,5 +1,4 @@
-﻿﻿
-/**
+﻿/**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
@@ -96,7 +95,7 @@
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
 			initConfig( this, instanceConfig );
-		}, 0, this )
+		}, 0, this );
 	}
 
 	function updateCommands() {

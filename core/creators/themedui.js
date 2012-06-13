@@ -443,7 +443,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	// Replace all textareas with the default class name.
 	CKEDITOR.domReady( function() {
-		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass )
+		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass );
 	});
 })();
 

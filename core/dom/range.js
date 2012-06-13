@@ -1291,7 +1291,7 @@ CKEDITOR.dom.range = function( root ) {
 					if ( movingOut && node.equals( currentElement ) )
 						return false;
 
-					if ( shrinkOnBlockBoundary == false && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
+					if ( shrinkOnBlockBoundary === false && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
 						return false;
 
 					if ( !movingOut && node.type == CKEDITOR.NODE_ELEMENT )

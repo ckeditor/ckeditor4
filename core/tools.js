@@ -242,7 +242,7 @@
 			var item,
 				retval = [];
 			for ( var i = 0; i < css.length; i++ ) {
-				if ( item = css[ i ] ) {
+				if ( ( item = css[ i ] ) ) {
 					// Is CSS style text ?
 					if ( /@import|[{}]/.test( item ) )
 						retval.push( '<style>' + item + '</style>' );

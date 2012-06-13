@@ -63,12 +63,12 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		// We don't need to disabled the command explicitely here, because this
 		// is already done by the "readOnly" event listener.
 		if ( !this.readOnly && editor.readOnly )
-			return;
+			return true;
 
 		// Disable commands that are not allowed in the current selection path context.
 		if ( this.context && !path.isContextFor( this.context ) ) {
 			this.disable();
-			return;
+			return true;
 		}
 
 		// Make the "enabled" state as basis.
