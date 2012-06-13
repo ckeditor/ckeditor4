@@ -617,9 +617,8 @@
 					styleSet.top--;
 
 				// Append `px` prefixes.
-				for ( var s in styleSet )
-					if ( typeof styleSet[ s ] == 'number' )
-					styleSet[ s ] += 'px';
+				for ( var style in styleSet )
+					styleSet[ style ] = CKEDITOR.tools.cssLength( styleSet[ style ] );
 
 				this.setStyles( styleSet );
 			},
