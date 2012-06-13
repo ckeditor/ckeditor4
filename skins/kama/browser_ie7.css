@@ -27,7 +27,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_toolbox
 {
-	padding-bottom: 3px;
+	display:inline-block;
+	padding-bottom: 5px;
 	height: 100%;
 }
 .cke_rtl .cke_toolbox
@@ -42,11 +43,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_rtl .cke_toolbar
 {
 	margin-bottom: 0;
-}
-
-.cke_toolbox_main
-{
-	padding-bottom: 2px;
 }
 
 .cke_toolbar_separator
