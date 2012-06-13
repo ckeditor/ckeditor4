@@ -45,6 +45,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-bottom: 0;
 }
 
+/* IE7: toolgroup must be adapted to toolbar items height. */
+.cke_toolgroup
+{
+	height: 22px;
+}
+
+/* IE7: buttons must not float to wrap the toolbar in a whole. */
+a.cke_button
+{
+	float:none;
+}
+
 .cke_toolbar_separator
 {
 	vertical-align: top;
