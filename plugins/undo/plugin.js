@@ -193,7 +193,6 @@
 		this.reset();
 	}
 
-
 	var editingKeyCodes = { /*Backspace*/8:1,/*Delete*/46:1 },
 		modifierKeyCodes = { /*Shift*/16:1,/*Ctrl*/17:1,/*Alt*/18:1 },
 		navigationKeyCodes = { 37:1,38:1,39:1,40:1 }; // Arrows: L, T, R, B
@@ -283,8 +282,8 @@
 
 		},
 
-		reset: function() // Reset the undo stack.
-		{
+		// Reset the undo stack.
+		reset: function() {
 			/**
 			 * Remember last pressed key.
 			 */
@@ -308,6 +307,9 @@
 			this.hasUndo = false;
 			this.hasRedo = false;
 
+			// Finish transaction.
+			this.isLocked = false;
+
 			this.resetType();
 		},
 
@@ -321,6 +323,7 @@
 			this.typesCount = 0;
 			this.modifiersCount = 0;
 		},
+
 		fireChange: function() {
 			this.hasUndo = !!this.getNextImage( true );
 			this.hasRedo = !!this.getNextImage( false );
@@ -333,6 +336,10 @@
 		 * Save a snapshot of document image for later retrieve.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
+			// Do not change snapshots stack when locked.
+			if ( this.isLocked )
+				return false;
+
 			var snapshots = this.snapshots;
 
 			// Get a content image.
@@ -377,6 +384,11 @@
 
 			this.editor.loadSnapshot( image.contents );
 
+			// Start transaction - do not allow any mutations to the
+			// snapshots stack done when selecting bookmarks (much probably
+			// by selectionChange listener).
+			this.isLocked = true;
+
 			if ( image.bookmarks )
 				sel.selectBookmarks( image.bookmarks );
 			else if ( CKEDITOR.env.ie ) {
@@ -387,6 +399,8 @@
 				$range.collapse( true );
 				$range.select();
 			}
+
+			this.isLocked = false;
 
 			this.index = image.index;
 
@@ -482,7 +496,9 @@
 		 * Update the last snapshot of the undo stack with the current editor content.
 		 */
 		update: function() {
-			this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
+			// Do not change snapshots stack when locked.
+			if ( !this.isLocked )
+				this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
 		}
 	};
 })();
