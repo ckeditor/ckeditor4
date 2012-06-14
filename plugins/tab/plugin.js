@@ -284,7 +284,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 
 // If the TAB key is not supposed to be enabled for navigation, the following
 // settings could be used alternatively:
-// config.keystrokes.push(
+// editor.setKeystroke(
 //	[ CKEDITOR.ALT + 38 /*Arrow Up*/, 'selectPreviousCell' ],
 //	[ CKEDITOR.ALT + 40 /*Arrow Down*/, 'selectNextCell' ]
 // );
