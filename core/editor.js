@@ -847,13 +847,18 @@
 		 * remove keystrokes, however, by default, the entries
 		 * are not overwritten unless <code>override</code> option is used.
 		 * @see CKEDITOR.keystrokeHandler
+		 * @param {Integer|Array} keystroke Keystroke or an array of arguments
+		 * <code>[ [ key, command, override ], [ key2, command2, override2 ], ... [ keyN, commandN, overrideN ] ]</code>
+		 * @param {String} [command] A command to be assigned
+		 * @param {Boolean} [overwrite] Force assignment if already exists
 		 * @example
 		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'undo' );	// assigned 'undo' command to ALT+F11.
 		 * editor.setKeystroke( CKEDITOR.ALT + 122, null );	// 'undo' remains unchanged.
 		 * editor.setKeystroke( CKEDITOR.ALT + 122, null, true );	// 'undo' force-unassigned.
 		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo' );	// still no command at CKEDITOR.ALT + 122.
 		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo', true );	// 'redo' force-assigned.
-		 * editor.setKeystroke( [
+		 * editor.setKeystroke(
+		 * [
 		 * 	[ CKEDITOR.ALT + 122, null, true ], // Unassigned 'redo' command.
 		 * 	[ CKEDITOR.CTRL + 121, 'link' ]	// Assigned 'link' command to another keystroke.
 		 * 	[ CKEDITOR.SHIFT + 120, 'bold', true ]	// Force-assigned 'bold' command to another keystroke.
