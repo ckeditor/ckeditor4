@@ -254,29 +254,8 @@ CKEDITOR.unlinkCommand = function() {};
 CKEDITOR.unlinkCommand.prototype = {
 	/** @ignore */
 	exec: function( editor ) {
-		/*
-		 * execCommand( 'unlink', ... ) in Firefox leaves behind <span> tags at where
-		 * the <a> was, so again we have to remove the link ourselves. (See #430)
-		 *
-		 * TODO: Use the style system when it's complete. Let's use execCommand()
-		 * as a stopgap solution for now.
-		 */
-		var selection = editor.getSelection(),
-			bookmarks = selection.createBookmarks(),
-			ranges = selection.getRanges(),
-			rangeRoot, element;
-
-		for ( var i = 0; i < ranges.length; i++ ) {
-			rangeRoot = ranges[ i ].getCommonAncestor( true );
-			element = rangeRoot.getAscendant( 'a', true );
-			if ( !element )
-				continue;
-			ranges[ i ].selectNodeContents( element );
-		}
-
-		selection.selectRanges( ranges );
-		editor.document.$.execCommand( 'unlink', false, null );
-		selection.selectBookmarks( bookmarks );
+		var style = new CKEDITOR.style( { element:'a',type:CKEDITOR.STYLE_INLINE,alwaysRemoveElement:1 } );
+		editor.removeStyle( style );
 	},
 
 	refresh: function( editor, path ) {

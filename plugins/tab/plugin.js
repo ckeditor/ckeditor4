@@ -29,10 +29,10 @@
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
 					var sel = editor.getSelection(),
-						ancestor = sel.getCommonAncestor(),
+						path = new CKEDITOR.dom.elementPath( sel.getCommonAncestor(), sel.root ),
 						cell;
 
-					if ( ( cell = ( ancestor.getAscendant( 'td', true ) || ancestor.getAscendant( 'th', true ) ) ) ) {
+					if ( ( cell = path.contains( { td:1,th:1 }, 1 ) ) ) {
 						var resultRange = editor.createRange(),
 							next = CKEDITOR.tools.tryThese( function() {
 								var row = cell.getParent(),
@@ -75,6 +75,7 @@
 						return true;
 					}
 				}
+
 				return false;
 			}
 		};
