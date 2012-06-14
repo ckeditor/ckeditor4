@@ -117,6 +117,15 @@
 
 		this.dataProcessor = new CKEDITOR.htmlDataProcessor( this );
 
+		/**
+		 * Controls keystrokes typing in this editor instance.
+		 * @name CKEDITOR.editor.prototype.keystrokeHandler
+		 * @type CKEDITOR.keystrokeHandler
+		 * @example
+		 */
+		this.keystrokeHandler = new CKEDITOR.keystrokeHandler( this );
+
+
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
@@ -259,10 +268,6 @@
 
 	function onConfigLoaded( editor ) {
 		// Set config related properties.
-
-		// Initialize the key handler, based on the configurations.
-		initKeystrokeHandler( editor );
-
 		/**
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 * @name CKEDITOR.editor.prototype.readOnly
@@ -443,34 +448,6 @@
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
 		});
-	}
-
-	function initKeystrokeHandler( editor ) {
-		/**
-		 * Controls keystrokes typing in this editor instance.
-		 * @name CKEDITOR.editor.prototype.keystrokeHandler
-		 * @type CKEDITOR.keystrokeHandler
-		 * @example
-		 */
-		editor.keystrokeHandler = new CKEDITOR.keystrokeHandler( editor );
-
-		editor.specialKeys = {};
-
-		// Move the relative keystroke settings to the keystrokeHandler object.
-
-		var keystrokesConfig = editor.config.keystrokes,
-			blockedConfig = editor.config.blockedKeystrokes;
-
-		var keystrokes = editor.keystrokeHandler.keystrokes,
-			blockedKeystrokes = editor.keystrokeHandler.blockedKeystrokes;
-
-		if ( keystrokesConfig ) {
-			for ( var i = 0; i < keystrokesConfig.length; i++ )
-				keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
-		}
-
-		for ( i = 0; i < blockedConfig.length; i++ )
-			blockedKeystrokes[ blockedConfig[ i ] ] = 1;
 	}
 
 	// Send to data output back to editor's associated element.
@@ -841,40 +818,49 @@
 		},
 
 		/**
-		 * Assigns keystrokes associated to editor commands by modifying
-		 * <code>{@link CKEDITOR.keystrokeHandler.keystrokes}</code>.
-		 * With this method it is possible to assign, reassign and
-		 * remove keystrokes, however, by default, the entries
-		 * are not overwritten unless <code>override</code> option is used.
-		 * @see CKEDITOR.keystrokeHandler
-		 * @param {Integer|Array} keystroke Keystroke or an array of arguments
-		 * <code>[ [ key, command, override ], [ key2, command2, override2 ], ... [ keyN, commandN, overrideN ] ]</code>
-		 * @param {String} [command] A command to be assigned
-		 * @param {Boolean} [overwrite] Force assignment if already exists
+		 * Assigns keystrokes associated to editor commands, or simply to block
+		 * native keystroke behavior, as well as to remove previously assigned keystrokes.
+		 * @since 4.0
+		 * @param {Integer|Array} keystroke Keystroke or an array of keystroke definition.
+		 * <code>[ [ key, behavior, override ], [ key2, behavior2, override2 ], ... [ keyN, behaviorN, overrideN ] ]</code>
+		 * @param {*} [behavior] The following behaviors are accepted:
+		 * <ul>
+		 *     <li>A command to be executed on the keystroke;</li>
+		 *     <li>Value "false" to remove the keystroke;</li>
+		 *     <li>Value Null to simply block the keystroke;</li>
+		 * </ul>
 		 * @example
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'undo' );	// assigned 'undo' command to ALT+F11.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, null );	// 'undo' remains unchanged.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, null, true );	// 'undo' force-unassigned.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo' );	// still no command at CKEDITOR.ALT + 122.
-		 * editor.setKeystroke( CKEDITOR.ALT + 122, 'redo', true );	// 'redo' force-assigned.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, 'save' );	// Assigned CTRL+S to "save" command.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, null );	// Assigned CTRL+S to no command will simply block native browser behavior.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Removed any assigned CTRL+S keystroke.
 		 * editor.setKeystroke(
 		 * [
-		 * 	[ CKEDITOR.ALT + 122, null, true ], // Unassigned 'redo' command.
-		 * 	[ CKEDITOR.CTRL + 121, 'link' ]	// Assigned 'link' command to another keystroke.
-		 * 	[ CKEDITOR.SHIFT + 120, 'bold', true ]	// Force-assigned 'bold' command to another keystroke.
+		 * 	// Come in form of an array.
+		 * 	[ CKEDITOR.ALT + 122, false ],
+		 * 	[ CKEDITOR.CTRL + 121, 'link' ]
+		 * 	[ CKEDITOR.SHIFT + 120, 'bold', true ]
 		 * ] );
 		 */
 		setKeystroke: function() {
 			var oldKeystrokes = this.keystrokeHandler.keystrokes,
-				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ arguments ],
-				key;
+				blockedStrokes = this.keystrokeHandler.blockedKeystrokes,
+				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ arguments ];
 
+			var key, behavior;
 			for ( var i = newKeystrokes.length; i--; ) {
-				if ( typeof( key = newKeystrokes[ i ][ 0 ] ) == 'undefined' )
-					continue;
+				key = newKeystrokes[ i ][ 0 ];
+				behavior = newKeystrokes[ i ][ 1 ];
 
-				// Update entry if: an override is set OR there's nothing set yet.
-				if ( newKeystrokes[ i ][ 2 ] || typeof oldKeystrokes[ key ] == 'undefined' )
+				// Stop handling the keystroke at all.
+				if ( behavior === false ) {
+					delete oldKeystrokes[ key ];
+					delete blockedStrokes[ key ];
+				}
+				// Block the keystroke, while do nothing on it.
+				else if ( behavior === null ) {
+					delete oldKeystrokes[ key ];
+					blockedStrokes[ key ] = 1;
+				} else
 					oldKeystrokes[ key ] = newKeystrokes[ i ][ 1 ];
 			}
 		}

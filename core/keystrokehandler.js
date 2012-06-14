@@ -54,15 +54,8 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				if ( command ) {
 					var data = { from: 'keystrokeHandler' };
 					cancel = ( editor.execCommand( command, data ) !== false );
-				}
-
-				if ( !cancel ) {
-					var handler = editor.specialKeys[ keyCombination ];
-					cancel = ( handler && handler( editor ) === true );
-
-					if ( !cancel )
-						cancel = !!this.blockedKeystrokes[ keyCombination ];
-				}
+				} else
+					cancel = !!this.blockedKeystrokes[ keyCombination ];
 			}
 
 			if ( cancel )
@@ -98,28 +91,14 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 		}
 	};
 
-})();
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
+		var editor = evt.editor;
 
-/**
- * A list of keystrokes to be blocked if not defined in the {@link CKEDITOR.config.keystrokes}
- * setting. In this way it is possible to block the default browser behavior
- * for those keystrokes.
- * @type Array
- * @default (see example)
- * @example
- * // This is actually the default value.
- * config.blockedKeystrokes =
- * [
- *     CKEDITOR.CTRL + 66 &#47;*B*&#47;,
- *     CKEDITOR.CTRL + 73 &#47;*I*&#47;,
- *     CKEDITOR.CTRL + 85 &#47;*U*&#47;
- * ];
- */
-CKEDITOR.config.blockedKeystrokes = [
-	CKEDITOR.CTRL + 66 /*B*/,
-	CKEDITOR.CTRL + 73 /*I*/,
-	CKEDITOR.CTRL + 85 /*U*/
-	];
+		// User specified keystroke configurations come at last.
+		editor.setKeystroke( editor.config.keystrokes );
+	});
+
+})();
 
 /**
  * A list associating keystrokes to editor commands. Each element in the list
