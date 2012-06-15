@@ -309,15 +309,16 @@
 									toolboxContainer = toolbox.getParent(),
 									contentHeight = parseInt( contents.$.style.height, 10 ),
 									previousHeight = toolboxContainer.$.offsetHeight,
-									collapsed = !toolbox.isVisible();
+									minClass = 'cke_toolbox_collapser_min',
+									collapsed = collapser.hasClass( minClass );
 
 								if ( !collapsed ) {
 									toolbox.hide();
-									collapser.addClass( 'cke_toolbox_collapser_min' );
+									collapser.addClass( minClass );
 									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarExpand );
 								} else {
 									toolbox.show();
-									collapser.removeClass( 'cke_toolbox_collapser_min' );
+									collapser.removeClass( minClass );
 									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarCollapse );
 								}
 
