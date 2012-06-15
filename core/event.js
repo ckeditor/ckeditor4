@@ -187,6 +187,21 @@ if ( !CKEDITOR.event ) {
 			},
 
 			/**
+			 * Similiar with {@link #on} but the listener will be called only once upon the next event firing.
+			 * @see CKEDITOR.event.prototype.on
+			 */
+			once: function() {
+				var fn = arguments[ 1 ];
+
+				arguments[ 1 ] = function( evt ) {
+					evt.removeListener();
+					return fn.apply( this, arguments );
+				};
+
+				return this.on.apply( this, arguments );
+			},
+
+			/**
 			 * Register event handler under the capturing stage on supported target.
 			 */
 			capture: function() {
