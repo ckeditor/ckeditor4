@@ -277,7 +277,10 @@
 				// Inherit the initial focus on editable element.
 				if ( this.equals( CKEDITOR.document.getActive() ) ) {
 					this.hasFocus = true;
-					editor.focusManager.focus();
+					// Pending until this editable has attached.
+					editor.once( 'contentDom', function() {
+						editor.focusManager.focus();
+					});
 				}
 
 				// The above is all we'll be doing for a <textarea> editable.
