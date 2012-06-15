@@ -95,7 +95,7 @@ a.cke_combo_button:active
 	opacity: 0.70;
 }
 
-.cke_rtl .cke_combo_text,
+.cke_rtl .cke_combo_text
 {
 	float: right;
 	text-align: right;
