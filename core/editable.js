@@ -480,6 +480,7 @@
 
 	// Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	// non-exitable-block by padding extra br.(#3189)
+	// Returns truly value when dom was changed, falsy otherwise.
 	function fixDom( evt ) {
 		var editor = evt.editor,
 			editable = editor.editable(),
@@ -487,7 +488,8 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.config.enterMode;
+			enterMode = editor.config.enterMode,
+			domChanged = 0;
 
 		if ( CKEDITOR.env.gecko ) {
 			// v3: check if this is needed.
@@ -503,6 +505,7 @@
 			// 3. It doesn't have bogus br yet.
 			if ( pathBlock && pathBlock.isBlockBoundary() && !( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) && !pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
 				pathBlock.appendBogus();
+				domChanged = 1;
 			}
 		}
 
@@ -514,7 +517,10 @@
 			// For IE, we should remove any filler node which was introduced before.
 			if ( CKEDITOR.env.ie ) {
 				var first = fixedBlock.getFirst( isNotEmpty );
-				first && isNbsp( first ) && first.remove();
+				if ( first && isNbsp( first ) ) {
+					first.remove();
+					domChanged = 1;
+				}
 			}
 
 			// If the fixed block is actually blank and is already followed by an exitable blank
@@ -524,11 +530,13 @@
 				if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonEditable( element ) ) {
 					range.moveToElementEditStart( element );
 					fixedBlock.remove();
+					domChanged = 1;
 				} else {
 					element = fixedBlock.getPrevious( isNotWhitespace );
 					if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonEditable( element ) ) {
 						range.moveToElementEditEnd( element );
 						fixedBlock.remove();
+						domChanged = 1;
 					}
 				}
 			}
@@ -537,6 +545,8 @@
 			// Cancel this selection change in favor of the next (correct).  (#6811)
 			evt.cancel();
 		}
+
+		return domChanged;
 	}
 
 	function blockInputClick( evt ) {
@@ -606,8 +616,9 @@
 			if ( sel && !sel.isLocked ) {
 				var isDirty = editor.checkDirty();
 				editor.fire( 'saveSnapshot', { contentOnly:1 } );
-				fixDom.call( this, evt );
-				editor.fire( 'updateSnapshot' );
+				// Notify undoManager that dom was fixed, so it can update the latest snapshot.
+				if ( fixDom( evt ) )
+					editor.fire( 'updateSnapshot' );
 				!isDirty && editor.resetDirty();
 			}
 		});
