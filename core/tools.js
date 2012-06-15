@@ -616,11 +616,28 @@
 
 		/**
 		 * Append the 'px' length unit to the size if it's missing.
-		 * @param length
+		 * @param {Number|String|Boolean} length
+		 * @example
+		 * var cssLength = CKEDITOR.tools.cssLength;
+		 * cssLength( 42 )	// '42px'
+		 * cssLength( '42' )	// '42px'
+		 * cssLength( '42px' )	// '42px'
+		 * cssLength( '42%' )	// '42%'
+		 * cssLength( 'bold' )	// 'bold'
+		 * cssLength( false )	// ''
+		 * cssLength( NaN )	// ''
 		 */
 		cssLength: (function() {
+			var pixelRegex = /^\d+\.?\d*px$/,
+				lengthTrimmed;
+
 			return function( length ) {
-				return length + ( !length || isNaN( Number( length ) ) ? '' : 'px' );
+				lengthTrimmed = CKEDITOR.tools.trim( length + '' ) + 'px';
+
+				if ( pixelRegex.test( lengthTrimmed ) )
+					return lengthTrimmed;
+				else
+					return length || '';
 			};
 		})(),
 
