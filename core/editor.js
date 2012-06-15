@@ -219,7 +219,7 @@
 		 * @since 3.6
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? !editor.element.$.isContentEditable : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
+		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.isReadOnly() : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
 
 		/**
 		 * Indicates that the editor is running into an environment where

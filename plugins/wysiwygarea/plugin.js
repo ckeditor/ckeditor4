@@ -382,7 +382,7 @@
 					var bootstrapCode = '<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
 													( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 													'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
-													( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload );' ) +
+													( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
 												'</script>';
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
