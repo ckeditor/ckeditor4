@@ -16,6 +16,9 @@ CKEDITOR.dom.nodeList.prototype = {
 	},
 
 	getItem: function( index ) {
+		if ( index < 0 || index >= this.$.length )
+			return null;
+
 		var $node = this.$[ index ];
 		return $node ? new CKEDITOR.dom.node( $node ) : null;
 	}
