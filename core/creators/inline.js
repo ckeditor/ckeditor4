@@ -4,25 +4,23 @@
  */
 
 (function() {
-	var tags = CKEDITOR.dtd.$editable;
-
+	/**
+	 * Turn a DOM element with "contenteditable" attribute set to "true" into a
+	 * CKEditor instance, check {@link CKEDITOR.dtd.$editable } for the list of
+	 * allowed element names.
+	 *
+	 * @param {Object|String} element The DOM element (textarea), its ID or name.
+	 * @param {Object} [config] The specific configurations to apply to this editor instance.
+	 * @returns {CKEDITOR.editor} The editor instance created.
+	 * @example
+	 * &lt;div contenteditable="true" id="content"&gt;&lt:/textarea&gt;
+	 * ...
+	 * <b>CKEDITOR.inline( 'content' )</b>;
+	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.dom.element.get( element );
 
-		if ( !( element.getName() in tags ) )
-			throw '[CKEDITOR.inline] Inline editing not supported on "' + element.getName() + '" elements.';
-
-		var editor = new CKEDITOR.editor( instanceConfig );
-
-		// Set the editor instance name. It'll be set at CKEDITOR.add if it
-		// remain null here.
-		editor.name = element.getId() || element.getNameAtt();
-
-		editor.element = element;
-		editor.elementMode = CKEDITOR.ELEMENT_MODE_INLINE;
-
-		// Add this new editor to the CKEDITOR.instances collections.
-		CKEDITOR.add( editor );
+		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
 
 		// Initial editor data is simply loaded from the page element content to make
 		// data retrieval possible immediately after the editor creation.
@@ -66,11 +64,13 @@
 		return editor;
 	};
 
-	// Initialize all elements with contenteditable=true.
+	/**
+	 * Call {@link CKEDITOR.inline} with all page elements with "contenteditable" attribute set to "true".
+	 */
 	CKEDITOR.inlineAll = function() {
 		var el, data;
 
-		for ( var name in tags ) {
+		for ( var name in CKEDITOR.dtd.$editable ) {
 			var elements = CKEDITOR.document.getElementsByTag( name );
 
 			for ( var i = 0, len = elements.count(); i < len; i++ ) {
@@ -104,10 +104,3 @@
  * @example
  * <b>CKEDITOR.disableAutoInline</b> = true;
  */
-
-/**
- * The editor is to be attached to the element, using it as the editing block.
- * @constant
- * @example
- */
-CKEDITOR.ELEMENT_MODE_INLINE = 3;

@@ -45,7 +45,9 @@ CKEDITOR.dom.element = function( element, ownerDocument ) {
  * alert( <b>CKEDITOR.dom.element.get( element )</b>.getName() );  e.g. "p"
  */
 CKEDITOR.dom.element.get = function( element ) {
-	return element && ( element.$ ? element : new CKEDITOR.dom.element( element ) );
+	var el = typeof element == 'string' ? document.getElementById( element ) || document.getElementsByName( element )[ 0 ] : element;
+
+	return el && ( el.$ ? el : new CKEDITOR.dom.element( el ) );
 };
 
 CKEDITOR.dom.element.prototype = new CKEDITOR.dom.node();

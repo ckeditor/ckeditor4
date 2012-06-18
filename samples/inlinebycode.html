@@ -181,9 +181,9 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
 		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
-		var editor = CKEDITOR.inline( document.getElementById( 'editable' ) ); // %REMOVE_LINE%
+		var editor = CKEDITOR.inline( 'editable' ); // %REMOVE_LINE%
 /* %REMOVE_LINE%
-		var editor = CKEDITOR.inline( document.getElementById( 'editable' ), {
+		var editor = CKEDITOR.inline( 'editable', {
 			removePlugins : 'elementspath,maximize,preview,print,sourcearea,wysiwygarea'
 		});
  %REMOVE_LINE% */ 
