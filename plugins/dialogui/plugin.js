@@ -604,6 +604,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								' frameborder="0"' +
 								' allowtransparency="0"' +
 								' class="cke_dialog_ui_input_file"' +
+								' role="presentation"' +
 								' id="', _.frameId, '"' +
 								' title="', elementDefinition.label, '"' +
 								' src="javascript:void(' ];
