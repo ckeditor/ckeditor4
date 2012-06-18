@@ -132,7 +132,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						var html = [],
 							requiredClass = elementDefinition.required ? ' cke_required' : '';
 						if ( elementDefinition.labelLayout != 'horizontal' )
-							html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ' for="' + _.inputId + '"', ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + ' role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
+						html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ( _.inputId ? ' for="' + _.inputId + '"' : '' ), ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + ' role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
 						else {
 							var hboxDefinition = {
 								type: 'hbox',
@@ -1293,11 +1293,17 @@ CKEDITOR.plugins.add( 'dialogui', {
 					if ( elementDefinition.size )
 						size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 ); // "Browse" button is bigger in IE.
 
+				var inputId = _.frameId + '_input';
+
 					frameDocument.$.write( [ '<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
 														'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
 														CKEDITOR.tools.htmlEncode( elementDefinition.action ),
 														'">',
-														'<input type="file" name="',
+													// Replicate the field label inside of iframe.
+																	'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
+													CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+													'</label>',
+													'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
 														CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
 														'" size="',
 														CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
