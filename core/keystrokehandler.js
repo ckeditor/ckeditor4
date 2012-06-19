@@ -90,14 +90,6 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				domObject.on( 'keypress', onKeyPress, this );
 		}
 	};
-
-	CKEDITOR.on( 'instanceLoaded', function( evt ) {
-		var editor = evt.editor;
-
-		// User specified keystroke configurations come at last.
-		editor.setKeystroke( editor.config.keystrokes );
-	});
-
 })();
 
 /**

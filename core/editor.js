@@ -444,6 +444,12 @@
 				}
 
 				editor.fireOnce( 'pluginsLoaded' );
+
+				// Now, load user-defined keystrokes as the plugin-ones
+				// have just been added.
+				editor.setKeystroke( editor.config.keystrokes );
+				editor.setKeystroke( editor.config.blockedKeystrokes );
+
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
@@ -821,47 +827,56 @@
 		 * Assigns keystrokes associated to editor commands, or simply to block
 		 * native keystroke behavior, as well as to remove previously assigned keystrokes.
 		 * @since 4.0
-		 * @param {Integer|Array} keystroke Keystroke or an array of keystroke definition.
-		 * <code>[ [ key, behavior, override ], [ key2, behavior2, override2 ], ... [ keyN, behaviorN, overrideN ] ]</code>
-		 * @param {*} [behavior] The following behaviors are accepted:
+		 * @param {Integer|Array} keystroke Keystroke or an array of keystroke definitions.
+		 * @param {String|Boolean} [behavior] The following behaviors are accepted:
 		 * <ul>
 		 *     <li>A command to be executed on the keystroke;</li>
-		 *     <li>Value "false" to remove the keystroke;</li>
-		 *     <li>Value Null to simply block the keystroke;</li>
+		 *     <li>False, to block the keystroke;</li>
 		 * </ul>
 		 * @example
 		 * editor.setKeystroke( CKEDITOR.CTRL + 115, 'save' );	// Assigned CTRL+S to "save" command.
-		 * editor.setKeystroke( CKEDITOR.CTRL + 115, null );	// Assigned CTRL+S to no command will simply block native browser behavior.
-		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Removed any assigned CTRL+S keystroke.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Blocked CTRL+S keystroke.
+		 * editor.setKeystroke( // Blocked multiple keystrokes.
+		 * [
+		 * 	CKEDITOR.CTRL + 115,
+		 * 	CKEDITOR.CTRL + 116
+		 * ] );
 		 * editor.setKeystroke(
 		 * [
-		 * 	// Come in form of an array.
 		 * 	[ CKEDITOR.ALT + 122, false ],
 		 * 	[ CKEDITOR.CTRL + 121, 'link' ]
-		 * 	[ CKEDITOR.SHIFT + 120, 'bold', true ]
+		 * 	[ CKEDITOR.SHIFT + 120, 'bold' ]
 		 * ] );
 		 */
 		setKeystroke: function() {
 			var oldKeystrokes = this.keystrokeHandler.keystrokes,
 				blockedStrokes = this.keystrokeHandler.blockedKeystrokes,
-				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ arguments ];
+				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ [].slice.call( arguments, 0 ) ],
 
-			var key, behavior;
+				key, behavior, keystroke;
+
 			for ( var i = newKeystrokes.length; i--; ) {
-				key = newKeystrokes[ i ][ 0 ];
-				behavior = newKeystrokes[ i ][ 1 ];
-
-				// Stop handling the keystroke at all.
-				if ( behavior === false ) {
-					delete oldKeystrokes[ key ];
-					delete blockedStrokes[ key ];
+				// A pair of: [ key, command ]
+				if ( CKEDITOR.tools.isArray( keystroke = newKeystrokes[ i ] ) ) {
+					key = keystroke[ 0 ];
+					behavior = keystroke[ 1 ];
 				}
+				// A single key (i.e. config.blockedKeystrokes instance)
+				else {
+					key = keystroke;
+					behavior = false;
+				}
+
 				// Block the keystroke, while do nothing on it.
-				else if ( behavior === null ) {
-					delete oldKeystrokes[ key ];
-					blockedStrokes[ key ] = 1;
-				} else
-					oldKeystrokes[ key ] = newKeystrokes[ i ][ 1 ];
+				if ( !behavior ) {
+					delete oldKeystrokes[ key ]; // Remove from the active ones
+					blockedStrokes[ key ] = true; // Block it
+				}
+				// Assign the new keystroke
+				else {
+					delete blockedStrokes[ key ]; // Remove from the blocked ones
+					oldKeystrokes[ key ] = behavior; // Assign the new command
+				}
 			}
 		}
 	});

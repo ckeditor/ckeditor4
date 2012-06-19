@@ -305,7 +305,23 @@ CKEDITOR.config = {
 	 * @example
 	 * config.baseFloatZIndex = 2000
 	 */
-	baseFloatZIndex: 10000
+	baseFloatZIndex: 10000,
+
+	/**
+	 * The keystrokes that are blocked by default as the browser implementation
+	 * is buggy. These default keystrokes are handled by the editor.
+	 * @type Array
+	 * @default <code>[
+	 * 	CKEDITOR.CTRL + 66, // CTRL+B
+	 * 	CKEDITOR.CTRL + 73, // CTRL+I
+	 * 	CKEDITOR.CTRL + 85 // CTRL+U
+	 * ]</code>
+	 */
+	blockedKeystrokes: [
+		CKEDITOR.CTRL + 66, // CTRL+B
+			CKEDITOR.CTRL + 73, // CTRL+I
+			CKEDITOR.CTRL + 85 // CTRL+U
+			]
 };
 
 /**
