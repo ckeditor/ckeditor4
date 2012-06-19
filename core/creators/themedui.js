@@ -19,7 +19,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * instance. For textareas, the initial value in the editor will be the
 	 * textarea value. For DOM elements, their innerHTML will be used
 	 * instead. We recommend using TEXTAREA and DIV elements only.
-	 * @param {Object|String} elementOrIdOrName The DOM element (textarea), its
+	 * @param {Object|String} element The DOM element (textarea), its
 	 *		ID or name.
 	 * @param {Object} [config] The specific configurations to apply to this
 	 *		editor instance. Configurations set here will override global CKEditor
@@ -33,50 +33,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * var textarea = document.body.appendChild( document.createElement( 'textarea' ) );
 	 * <b>CKEDITOR.replace( textarea )</b>;
 	 */
-	CKEDITOR.replace = function( elementOrIdOrName, config ) {
-		var element = elementOrIdOrName;
-
-		// If the DOM element hasn't been provided, look for it based on its id or name.
-		if ( typeof element != 'object' ) {
-			// Look for the element by id. We accept any kind of element here.
-			element = document.getElementById( elementOrIdOrName );
-
-			// Elements that should go into head are unacceptable (#6791).
-			if ( element && element.tagName.toLowerCase() in { style:1,script:1,base:1,link:1,meta:1,title:1 } )
-				element = null;
-
-			// If not found, look for elements by name. In this case we accept only
-			// textareas.
-			if ( !element ) {
-				var i = 0,
-					textareasByName = document.getElementsByName( elementOrIdOrName );
-
-				while ( ( element = textareasByName[ i++ ] ) && element.tagName.toLowerCase() != 'textarea' ) {
-	/*jsl:pass*/
-				}
-			}
-
-			if ( !element )
-				throw '[CKEDITOR.editor.replace] The element with id or name "' + elementOrIdOrName + '" was not found.';
-		}
-
+	CKEDITOR.replace = function( element, config ) {
 		element = CKEDITOR.dom.element.get( element );
+
+		// Create the editor instance.
+		var editor = new CKEDITOR.editor( config, element, CKEDITOR.ELEMENT_MODE_REPLACE );
+
 		// Do not replace the textarea right now, just hide it. The effective
 		// replacement will be done later in the editor creation lifecycle.
 		element.setStyle( 'visibility', 'hidden' );
-
-		// Create the editor instance.
-		var editor = new CKEDITOR.editor( config );
-
-		// Set the editor instance name. It'll be set at CKEDITOR.add if it
-		// remain null here.
-		editor.name = element.getId() || element.getAttribute( 'name' );
-
-		// Add this new editor to the CKEDITOR.instances collections.
-		CKEDITOR.add( editor );
-
-		editor.element = element;
-		editor.elementMode = CKEDITOR.ELEMENT_MODE_REPLACE;
 
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
@@ -113,9 +78,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * ...
 	 * <b>CKEDITOR.appendTo( 'editorSpace' )</b>;
 	 */
-	CKEDITOR.appendTo = function( elementOrId, config, data ) {
+	/*
+	CKEDITOR.appendTo = function( elementOrId, config, data )
+	{
 		// TODO
 	};
+*/
 
 	/**
 	 * Replace all &lt;textarea&gt; elements available in the document with
@@ -446,27 +414,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass );
 	});
 })();
-
-/**
- * No element is linked to the editor instance.
- * @constant
- * @example
- */
-CKEDITOR.ELEMENT_MODE_NONE = 0;
-
-/**
- * The element is to be replaced by the editor instance.
- * @constant
- * @example
- */
-CKEDITOR.ELEMENT_MODE_REPLACE = 1;
-
-/**
- * The editor is to be created inside the element.
- * @constant
- * @example
- */
-CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
 
 /**
  * The current editing mode. An editing mode basically provides

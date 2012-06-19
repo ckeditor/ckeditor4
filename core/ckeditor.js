@@ -35,39 +35,25 @@ CKEDITOR.document = new CKEDITOR.dom.document( document );
  * @param {CKEDITOR.editor} editor The editor instance to be added.
  * @example
  */
-CKEDITOR.add = (function() {
-	var nameCounter = 0;
+CKEDITOR.add = function( editor ) {
+	CKEDITOR.instances[ editor.name ] = editor;
 
-	function getNewName() {
-		do {
-			var name = 'editor' + ( ++nameCounter );
+	editor.on( 'focus', function() {
+		if ( CKEDITOR.currentInstance != editor ) {
+			CKEDITOR.currentInstance = editor;
+			CKEDITOR.fire( 'currentInstance' );
 		}
-		while ( CKEDITOR.instances[ name ] )
+	});
 
-		return name;
-	}
+	editor.on( 'blur', function() {
+		if ( CKEDITOR.currentInstance == editor ) {
+			CKEDITOR.currentInstance = null;
+			CKEDITOR.fire( 'currentInstance' );
+		}
+	});
 
-	return function( editor ) {
-		editor.name = editor.name || getNewName();
-		CKEDITOR.instances[ editor.name ] = editor;
-
-		editor.on( 'focus', function() {
-			if ( CKEDITOR.currentInstance != editor ) {
-				CKEDITOR.currentInstance = editor;
-				CKEDITOR.fire( 'currentInstance' );
-			}
-		});
-
-		editor.on( 'blur', function() {
-			if ( CKEDITOR.currentInstance == editor ) {
-				CKEDITOR.currentInstance = null;
-				CKEDITOR.fire( 'currentInstance' );
-			}
-		});
-
-		CKEDITOR.fire( 'instance', null, editor );
-	};
-})();
+	CKEDITOR.fire( 'instance', null, editor );
+};
 
 /**
  * Removes an editor instance from the global {@link CKEDITOR} object. This function

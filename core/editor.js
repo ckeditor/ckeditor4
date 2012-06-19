@@ -18,15 +18,41 @@
 	 * used, in favor of the {@link CKEDITOR} editor creation functions.
 	 * @name CKEDITOR.editor
 	 * @class Represents an editor instance.
-	 * @param {Object} instanceConfig Configuration values for this specific
-	 *		instance.
-	 * @param {String} [data] Since 3.3. Initial value for the instance.
+	 * @param {Object} [instanceConfig] Configuration values for this specific instance.
+	 * @param {CKEDITOR.dom.element} [element] The DOM element upon which this editor
+	 * will be created.
+	 * @param {Number} [mode] The element creation mode to be used by this editor.
+	 * will be created.
 	 * @augments CKEDITOR.event
 	 * @example
 	 */
-	function Editor( instanceConfig ) {
+	function Editor( instanceConfig, element, mode ) {
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
+
+		if ( element !== undefined ) {
+			// Asserting element and mode not null.
+			if ( !( element instanceof CKEDITOR.dom.element ) )
+				throw new Error( 'Expect element of type CKEDITOR.dom.element.' );
+			else if ( !mode )
+				throw new Error( 'One of the element mode must be specified.' );
+
+			// Asserting element DTD depending on mode.
+			if ( mode == CKEDITOR.ELEMENT_MODE_INLINE && !element.is( CKEDITOR.dtd.$editable ) || mode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( CKEDITOR.dtd.$nonBodyContent ) )
+				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
+
+			this.element = element;
+
+			/**
+			 * This property indicate the way how this instance is associated with the {@link #element}.
+			 * @type {Number}
+			 * @see CKEDITOR.ELEMENT_MODE_INLINE
+			 * @see CKEDITOR.ELEMENT_MODE_REPLACE
+			 */
+			this.elementMode = mode;
+
+			this.name = element.getId() || element.getNameAtt();
+		}
 
 		// Declare the private namespace.
 		this._ = {};
@@ -41,6 +67,17 @@
 		this.templates = {};
 
 		/**
+		 * A unique identifier of this editor instance.
+		 * <strong>Note:</strong> It will be originated from the ID or name
+		 * attribute of the {@link #element}, otherwise a name pattern of
+		 * "editor{n}" will be used.
+		 *
+		 * @name CKEDITOR.editor.prototype.name
+		 * @type {String}
+		 */
+		this.name = this.name || genEditorName();
+
+		/**
 		 * A unique random string assigned to each editor instance in the page.
 		 * @name CKEDITOR.editor.prototype.id
 		 * @type String
@@ -49,7 +86,7 @@
 
 		/**
 		 * The configurations for this editor instance. It inherits all
-		 * settings defined in (@link CKEDITOR.config}, combined with settings
+		 * settings defined in {@link CKEDITOR.config}, combined with settings
 		 * loaded from custom configuration files and those defined inline in
 		 * the page when creating the editor.
 		 * @name CKEDITOR.editor.prototype.config
@@ -92,10 +129,24 @@
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
+		// Add this new editor to the CKEDITOR.instances collections.
+		CKEDITOR.add( this );
+
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
 			initConfig( this, instanceConfig );
 		}, 0, this );
+	}
+
+	var nameCounter = 0;
+
+	function genEditorName() {
+		do {
+			var name = 'editor' + ( ++nameCounter );
+		}
+		while ( CKEDITOR.instances[ name ] )
+
+		return name;
 	}
 
 	function updateCommands() {
@@ -788,6 +839,27 @@
 		}
 	});
 })();
+
+/**
+ * The editor is to be attached to the element, using it as the editing block.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_INLINE = 3;
+
+/**
+ * The element is to be replaced by the editor instance.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_REPLACE = 1;
+
+/**
+ * The editor is to be created inside the element.
+ * @constant
+ * @example
+ */
+//CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
 
 /**
  * Whether to escape HTML when the editor updates the original input element.
