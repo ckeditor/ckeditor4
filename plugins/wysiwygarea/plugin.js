@@ -122,6 +122,13 @@
 
 		body.spellcheck = !editor.config.disableNativeSpellChecker;
 
+		// Force Gecko to change contentEditable from false to true on domReady
+		// (because it's previously set to true on iframe's body creation).
+		// Otherwise del/backspace and some other editable features will be broken in Fx <4
+		// See: #107 and https://bugzilla.mozilla.org/show_bug.cgi?id=440916
+		if ( CKEDITOR.env.gecko )
+			body.contentEditable = false;
+
 		body.contentEditable = true;
 
 		if ( CKEDITOR.env.ie ) {
