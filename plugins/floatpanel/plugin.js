@@ -339,8 +339,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			focus: function() {
-				// Webkit requires to blur the previous host page element at first.
-				CKEDITOR.env.webkit && CKEDITOR.document.getActive().$.blur();
+				// Webkit requires to blur any previous focused page element, in
+				// order to properly fire the "focus" event.
+				if ( CKEDITOR.env.webkit ) {
+					var active = CKEDITOR.document.getActive();
+					!active.equals( this._.iframe ) && active.$.blur();
+				}
 
 				// Restore last focused element or simply focus panel window.
 				var focus = this._.lastFocused || this._.iframe.getFrameDocument().getWindow();
