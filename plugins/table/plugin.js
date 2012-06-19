@@ -14,12 +14,21 @@ CKEDITOR.plugins.add( 'table', {
 			lang = editor.lang.table;
 
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
-		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties' ) );
-		editor.addCommand( 'tableDelete', {
+
+		function createDef( def ) {
+			return CKEDITOR.tools.extend( def || {}, {
+				contextSensitive: 1,
+				refresh: function( editor, path ) {
+					this.setState( path.contains( 'table', 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+				}
+			});
+		}
+
+		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties', createDef() ) );
+		editor.addCommand( 'tableDelete', createDef({
 			exec: function( editor ) {
-				var selection = editor.getSelection(),
-					startElement = selection && selection.getStartElement(),
-					table = startElement && startElement.getAscendant( 'table', 1 );
+				var path = editor.elementPath(),
+					table = path.contains( 'table', 1 );
 
 				if ( !table )
 					return;
@@ -34,7 +43,7 @@ CKEDITOR.plugins.add( 'table', {
 				table.remove();
 				range.select();
 			}
-		});
+		}));
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,
@@ -72,20 +81,12 @@ CKEDITOR.plugins.add( 'table', {
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
-			editor.contextMenu.addListener( function( element, selection ) {
-				if ( !element || element.isReadOnly() )
-					return null;
-
-				var isTable = element.hasAscendant( 'table', 1 );
-
-				if ( isTable ) {
-					return {
-						tabledelete: CKEDITOR.TRISTATE_OFF,
-						table: CKEDITOR.TRISTATE_OFF
-					};
-				}
-
-				return null;
+			editor.contextMenu.addListener( function() {
+				// menu item state is resolved on commands.
+				return {
+					tabledelete: CKEDITOR.TRISTATE_OFF,
+					table: CKEDITOR.TRISTATE_OFF
+				};
 			});
 		}
 	}

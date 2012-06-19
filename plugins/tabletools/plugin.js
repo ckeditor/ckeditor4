@@ -665,102 +665,111 @@
 		init: function( editor ) {
 			var lang = editor.lang.table;
 
-			editor.addCommand( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties' ) );
+			function createDef( def ) {
+				return CKEDITOR.tools.extend( def || {}, {
+					contextSensitive: 1,
+					refresh: function( editor, path ) {
+						this.setState( path.contains( { td:1,th:1 }, 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+					}
+				});
+			}
+
+			editor.addCommand( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef() ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
-			editor.addCommand( 'rowDelete', {
+			editor.addCommand( 'rowDelete', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					placeCursorInCell( deleteRows( selection ) );
 				}
-			});
+			}));
 
-			editor.addCommand( 'rowInsertBefore', {
+			editor.addCommand( 'rowInsertBefore', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection, true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'rowInsertAfter', {
+			editor.addCommand( 'rowInsertAfter', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection );
 				}
-			});
+			}));
 
-			editor.addCommand( 'columnDelete', {
+			editor.addCommand( 'columnDelete', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					var element = deleteColumns( selection );
 					element && placeCursorInCell( element, true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'columnInsertBefore', {
+			editor.addCommand( 'columnInsertBefore', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection, true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'columnInsertAfter', {
+			editor.addCommand( 'columnInsertAfter', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellDelete', {
+			editor.addCommand( 'cellDelete', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					deleteCells( selection );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellMerge', {
+			editor.addCommand( 'cellMerge', createDef({
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection() ), true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellMergeRight', {
+			editor.addCommand( 'cellMergeRight', createDef({
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellMergeDown', {
+			editor.addCommand( 'cellMergeDown', createDef({
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellVerticalSplit', {
+			editor.addCommand( 'cellVerticalSplit', createDef({
 				exec: function( editor ) {
 					placeCursorInCell( verticalSplitCell( editor.getSelection() ) );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellHorizontalSplit', {
+			editor.addCommand( 'cellHorizontalSplit', createDef({
 				exec: function( editor ) {
 					placeCursorInCell( horizontalSplitCell( editor.getSelection() ) );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellInsertBefore', {
+			editor.addCommand( 'cellInsertBefore', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection, true );
 				}
-			});
+			}));
 
-			editor.addCommand( 'cellInsertAfter', {
+			editor.addCommand( 'cellInsertAfter', createDef({
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection );
 				}
-			});
+			}));
 
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {
@@ -921,19 +930,14 @@
 
 			// If the "contextmenu" plugin is laoded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
-					if ( !element || element.isReadOnly() )
-						return null;
-
-					while ( element ) {
-						if ( element.getName() in contextMenuTags ) {
-							return {
-								tablecell: CKEDITOR.TRISTATE_OFF,
-								tablerow: CKEDITOR.TRISTATE_OFF,
-								tablecolumn: CKEDITOR.TRISTATE_OFF
-							};
-						}
-						element = element.getParent();
+				editor.contextMenu.addListener( function( element, selection, path ) {
+					var cell = path.contains( { 'td':1,'th':1 }, 1 );
+					if ( cell && !cell.isReadOnly() ) {
+						return {
+							tablecell: CKEDITOR.TRISTATE_OFF,
+							tablerow: CKEDITOR.TRISTATE_OFF,
+							tablecolumn: CKEDITOR.TRISTATE_OFF
+						};
 					}
 
 					return null;

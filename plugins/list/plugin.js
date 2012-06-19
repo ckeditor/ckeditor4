@@ -580,17 +580,9 @@
 		},
 
 		refresh: function( editor, path ) {
-			var blockLimit = path.blockLimit,
-				elements = path.elements,
-				element, i;
-
-			// Grouping should only happen under blockLimit.(#3940).
-			for ( i = 0; i < elements.length && ( element = elements[ i ] ) && !element.equals( blockLimit ); i++ ) {
-				if ( listNodeNames[ elements[ i ].getName() ] )
-					return this.setState( this.type == elements[ i ].getName() ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-			}
-
-			return this.setState( CKEDITOR.TRISTATE_OFF );
+			var limit = path.blockLimit || path.root;
+			var list = path.contains( this.type, 1 );
+			list && limit.contains( list ) ? this.setState( CKEDITOR.TRISTATE_ON ) : this.setState( CKEDITOR.TRISTATE_OFF );
 		}
 	};
 

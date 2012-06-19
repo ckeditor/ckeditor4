@@ -78,7 +78,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var element = this.element = styleDefinition.element ? ( typeof styleDefinition.element == 'string' ? styleDefinition.element.toLowerCase() : styleDefinition.element ) : '*';
 
-		this.type = blockElements[ element ] ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE;
+		this.type = styleDefinition.type || ( blockElements[ element ] ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE );
 
 		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
 		if ( typeof this.element == 'object' )
@@ -996,7 +996,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		removeOverrides( element, overrides, blockElements[ element.getName() ] );
 
 		if ( removeEmpty ) {
-			!CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+			if ( this._.definition.alwaysRemoveElement )
+				removeNoAttribsElement( element, 1 );
+			else {
+				!CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+			}
 		}
 	}
 
@@ -1059,10 +1063,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	// If the element has no more attributes, remove it.
-	function removeNoAttribsElement( element ) {
+	function removeNoAttribsElement( element, forceRemove ) {
 		// If no more attributes remained in the element, remove it,
 		// leaving its children.
-		if ( !element.hasAttributes() ) {
+		if ( !element.hasAttributes() || forceRemove ) {
 			if ( CKEDITOR.dtd.$block[ element.getName() ] ) {
 				var previous = element.getPrevious( nonWhitespaces ),
 					next = element.getNext( nonWhitespaces );
@@ -1383,6 +1387,15 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * @type Boolean
  * @default false
  * @since 3.5
+ */
+
+/**
+ * Indicates that any matches element of this style will be eventually removed
+ * when calling {@link CKEDITOR.editor.prototype.removeStyle}.
+ * @name CKEDITOR.style.alwaysRemoveElement
+ * @type Boolean
+ * @default false
+ * @since 4.0
  */
 
 /**

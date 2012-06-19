@@ -139,14 +139,14 @@ CKEDITOR.plugins.add( 'menu', {
 		_: {
 			onShow: function() {
 				var selection = this.editor.getSelection(),
-					element = selection && selection.getStartElement(),
-					listeners = this._.listeners,
-					includedItems = [];
+					start = selection && selection.getStartElement(),
+					path = this.editor.elementPath(),
+					listeners = this._.listeners;
 
 				this.removeAll();
 				// Call all listeners, filling the list of items to be displayed.
 				for ( var i = 0; i < listeners.length; i++ ) {
-					var listenerItems = listeners[ i ]( element, selection );
+					var listenerItems = listeners[ i ]( start, selection, path );
 
 					if ( listenerItems ) {
 						for ( var itemName in listenerItems ) {

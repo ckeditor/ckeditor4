@@ -382,7 +382,7 @@
 						range = sel.getRanges()[ 0 ],
 						li;
 
-					if ( range.collapsed && ( li = range.startContainer.getAscendant( 'li', 1 ) ) && range.checkBoundaryOfElement( li, CKEDITOR.START ) ) {
+					if ( range.collapsed && ( li = range.startPath().contains( 'li', 1 ) ) && range.checkBoundaryOfElement( li, CKEDITOR.START ) ) {
 						editor.execCommand( 'outdent' );
 						evt.cancel();
 					}
