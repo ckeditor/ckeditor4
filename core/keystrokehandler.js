@@ -54,7 +54,9 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				if ( command ) {
 					var data = { from: 'keystrokeHandler' };
 					cancel = ( editor.execCommand( command, data ) !== false );
-				} else
+				}
+
+				if ( !cancel )
 					cancel = !!this.blockedKeystrokes[ keyCombination ];
 			}
 
