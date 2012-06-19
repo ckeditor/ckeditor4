@@ -125,7 +125,6 @@
 		 */
 		this.keystrokeHandler = new CKEDITOR.keystrokeHandler( this );
 
-
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
@@ -445,10 +444,12 @@
 
 				editor.fireOnce( 'pluginsLoaded' );
 
-				// Now, load user-defined keystrokes as the plugin-ones
-				// have just been added.
-				editor.setKeystroke( editor.config.keystrokes );
-				editor.setKeystroke( editor.config.blockedKeystrokes );
+				// Setup the configured keystrokes.
+				config.keystrokes && editor.setKeystroke( editor.config.keystrokes );
+
+				// Setup the configured blocked keystrokes.
+				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ )
+					editor.keystrokeHandler.blockedKeystrokes[ editor.config.blockedKeystrokes[ i ] ] = 1;
 
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
@@ -849,34 +850,24 @@
 		 * ] );
 		 */
 		setKeystroke: function() {
-			var oldKeystrokes = this.keystrokeHandler.keystrokes,
-				blockedStrokes = this.keystrokeHandler.blockedKeystrokes,
+			var keystrokes = this.keystrokeHandler.keystrokes,
 				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ [].slice.call( arguments, 0 ) ],
-
-				key, behavior, keystroke;
+				keystroke, behavior;
 
 			for ( var i = newKeystrokes.length; i--; ) {
-				// A pair of: [ key, command ]
-				if ( CKEDITOR.tools.isArray( keystroke = newKeystrokes[ i ] ) ) {
-					key = keystroke[ 0 ];
+				keystroke = newKeystrokes[ i ];
+				behavior = 0;
+
+				// It may be a pair of: [ key, command ]
+				if ( CKEDITOR.tools.isArray( keystroke ) ) {
 					behavior = keystroke[ 1 ];
-				}
-				// A single key (i.e. config.blockedKeystrokes instance)
-				else {
-					key = keystroke;
-					behavior = false;
+					keystroke = keystroke[ 0 ];
 				}
 
-				// Block the keystroke, while do nothing on it.
-				if ( !behavior ) {
-					delete oldKeystrokes[ key ]; // Remove from the active ones
-					blockedStrokes[ key ] = true; // Block it
-				}
-				// Assign the new keystroke
-				else {
-					delete blockedStrokes[ key ]; // Remove from the blocked ones
-					oldKeystrokes[ key ] = behavior; // Assign the new command
-				}
+				if ( behavior )
+					keystrokes[ keystroke ] = behavior;
+				else
+					delete keystrokes[ keystroke ];
 			}
 		}
 	});
