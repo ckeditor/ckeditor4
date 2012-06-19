@@ -417,7 +417,7 @@ CKEDITOR.plugins.add( 'menu', {
 					title: this.label,
 					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
 					hoverFn: menu._.itemOverFn,
-					moveOutFn: menu._.itemOverFn,
+					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconCls: 'cke_icon',
