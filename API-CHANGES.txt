@@ -76,3 +76,8 @@ editor.lang.myplugin.myplugin.title, so it must be changed to:
 	});
 
 In this way the entry will be available at editor.lang.myplugin.title.
+---
+
+Constructor CKEDITOR.editor now receives two additional params: element and elementMode,
+in order to simplify creator implementation, now in form of CKEDITOR.editor( config, element, elementMode ),
+all params are optional though.
