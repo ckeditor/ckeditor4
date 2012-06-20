@@ -196,15 +196,15 @@ body {
 
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:-1)', event.data.type + ' - ' + event.data.data );
+				log( p + 'paste(prior:-1)', event.data.type + ' - "' + event.data.data + '"' );
 			}, null, null, -1 );
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:10)', event.data.type + ' - ' + event.data.data );
+				log( p + 'paste(prior:10)', event.data.type + ' - "' + event.data.data + '"' );
 			});
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:999)', event.data.type + ' - ' + event.data.data );
+				log( p + 'paste(prior:999)', event.data.type + ' - "' + event.data.data + '"' );
 			}, null, null, 999 );
 		editor.on( 'beforePaste', function( event )
 			{
@@ -218,10 +218,6 @@ body {
 			{
 				log( p + 'afterPaste' );
 			});
-		editor.on( 'afterPaste', function( event )
-			{
-				log( p + 'afterPaste(prior:999)' );
-			}, null, null, 999);
 		editor.on( 'copy', function( event )
 			{
 				log( p + 'copy' );
