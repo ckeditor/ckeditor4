@@ -837,11 +837,6 @@
 		 * @example
 		 * editor.setKeystroke( CKEDITOR.CTRL + 115, 'save' );	// Assigned CTRL+S to "save" command.
 		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Blocked CTRL+S keystroke.
-		 * editor.setKeystroke( // Blocked multiple keystrokes.
-		 * [
-		 * 	CKEDITOR.CTRL + 115,
-		 * 	CKEDITOR.CTRL + 116
-		 * ] );
 		 * editor.setKeystroke(
 		 * [
 		 * 	[ CKEDITOR.ALT + 122, false ],
