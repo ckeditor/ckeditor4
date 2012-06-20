@@ -106,9 +106,12 @@
 
 					// Strip <span> around white-spaces when not in forced 'html' content type.
 					// This spans are created only when pasting plain text into Webkit,
-					// but for safety resons remove them always.
+					// but for safety reasons remove them always.
 					if ( evt.data.type != 'html' )
-						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, '$1' );
+						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, function( all, spaces ) {
+						// Replace tabs with 4 spaces like Fx does.
+						return spaces.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+					});
 
 					// This br is produced only when copying & pasting HTML content.
 					if ( data.indexOf( '<br class="Apple-interchange-newline">' ) > -1 ) {
