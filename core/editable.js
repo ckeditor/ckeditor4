@@ -267,6 +267,15 @@
 
 				// Delegate editor focus/blur to editable.
 				this.attachListener( editor, 'beforeFocus', function() {
+					var sel = editor.getSelection(),
+						ieSel = sel && sel.getNative();
+
+					// IE considers control-type element as separate
+					// focus host when selected, avoid destroying the
+					// selection in such case. (#5812) (#8949)
+					if ( ieSel && ieSel.type == 'Control' )
+						return;
+
 					this.focus();
 				}, this );
 
