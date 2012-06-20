@@ -798,8 +798,7 @@
 
 			getClipboardDataByPastebin( evt, function( data ) {
 				// Clean up.
-				// Content can be trimmed because pasting space produces '&nbsp;'.
-				data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) );
+				data = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
 
 				// Fire remaining events (without beforePaste)
 				beforePasteNotCanceled && firePasteEvents( eventData.type, data, 0, 1 );
