@@ -48,8 +48,8 @@
 		return this;
 	};
 
-	var SLOT_NAME = 'focusmanager';
-	var SLOT_NAME_LISTENERS = 'focusmanager_handlers';
+	var SLOT_NAME = 'focusmanager',
+		SLOT_NAME_LISTENERS = 'focusmanager_handlers';
 
 	CKEDITOR.focusManager.prototype = {
 		/**
@@ -128,7 +128,7 @@
 		 * once input focus is relieved on the element, it's to be used by plugins to expand the jurisdiction of the editor focus.
 		 *
 		 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
-		 *@param {Boolean} isCapture If specified {@link CKEDITOR.event.useCapture} will be used when listening to the focus event.
+		 * @param {Boolean} isCapture If specified {@link CKEDITOR.event.useCapture} will be used when listening to the focus event.
 		 */
 		add: function( element, isCapture ) {
 			var fm = element.getCustomData( SLOT_NAME );
@@ -165,7 +165,8 @@
 				element.on( focusEvent, listeners.focus, this );
 				element.on( blurEvent, listeners.blur, this );
 
-				isCapture && ( CKEDITOR.event.useCapture = 0 );
+				if ( isCapture )
+					CKEDITOR.event.useCapture = 0;
 
 				element.setCustomData( SLOT_NAME, this );
 				element.setCustomData( SLOT_NAME_LISTENERS, listeners );
@@ -178,7 +179,7 @@
 		 */
 		remove: function( element ) {
 			element.removeCustomData( SLOT_NAME );
-			var listeners = element.removeCustomData( SLOT_NAME_LISTENERS )
+			var listeners = element.removeCustomData( SLOT_NAME_LISTENERS );
 			element.removeListener( 'blur', listeners.blur );
 			element.removeListener( 'focus', listeners.focus );
 		}
