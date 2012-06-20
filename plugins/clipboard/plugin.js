@@ -916,10 +916,10 @@
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
 	function htmlifiedTextHtmlification( config, data ) {
-		// Replace adjacent white-spaces with one space and unify all to spaces.
-		data = data.replace( /(&nbsp;|\s)+/ig, ' ' )
-		// Remove spaces before/after opening/closing tag.
-		.replace( /> /g, '>' ).replace( / </g, '<' )
+		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
+		data = data.replace( /\s+/g, ' ' )
+		// Remove spaces from between tags.
+		.replace( /> +</g, '><' )
 		// Normalize XHTML syntax and upper cased <br> tags.
 		.replace( /<br ?\/>/gi, '<br>' );
 
@@ -927,6 +927,10 @@
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
 			return match.toLowerCase();
 		});
+
+		// Don't touch single lines (no <br|p|div>) - nothing to do here.
+		if ( data.match( /^[^<]$/ ) )
+			return data;
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
