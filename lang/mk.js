@@ -32,7 +32,7 @@ CKEDITOR.lang[ 'mk' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Богат уредувач на текст, %1, притисни ALТ 0 за помош.',
+		editorHelp: 'притисни ALТ 0 за помош.',
 
 		browseServer: 'Browse Server', // MISSING
 		url: 'URL', // MISSING

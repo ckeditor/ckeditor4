@@ -69,9 +69,26 @@
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = editor.lang.common.editorTitle.replace( '%1', editor.name );
+				var frameLabel = [ editor.lang.editor, editor.name ].join( ',' ),
+					frameDesc = editor.lang.common.editorHelp;
+
+				if ( CKEDITOR.env.ie )
+					frameLabel += ', ' + frameDesc;
+
+				var labelId = CKEDITOR.tools.getNextId(),
+					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
+
+				contentSpace.append( desc, 1 );
+
+				// Remove the ARIA description.
+				editor.on( 'beforeModeUnload', function( evt ) {
+					evt.removeListener();
+					desc.remove();
+				});
+
 				iframe.setAttributes({
 					frameBorder: 0,
+					'aria-describedby' : labelId,
 					title: frameLabel,
 					src: src,
 					tabIndex: editor.tabIndex,
@@ -260,11 +277,16 @@
 
 		// ## END
 
-		// Setting voice label as window title, backup the original one
-		// and restore it before running into use.
-		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
-		title.data( 'cke-title', editor.document.$.title );
-		editor.document.$.title = this._.docTitle;
+
+		// [IE] JAWS will not recognize the aria label we used on the iframe
+		// unless the frame window title string is used as the voice label,
+		// backup the original one and restore it on output.
+		if ( CKEDITOR.env.ie )
+		{
+			var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
+			title.data( 'cke-title', editor.document.$.title );
+			editor.document.$.title = this._.docTitle;
+		}
 
 		CKEDITOR.tools.setTimeout( function() {
 			editor.fire( 'contentDom' );

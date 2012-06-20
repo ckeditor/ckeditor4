@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Bộ soạn thảo, %1, nhấn ALT + 0 để xem hướng dẫn.',
+		editorHelp: 'nhấn ALT + 0 để xem hướng dẫn.',
 
 		browseServer: 'Duyệt trên máy chủ',
 		url: 'URL',
