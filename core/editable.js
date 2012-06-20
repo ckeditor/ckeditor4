@@ -272,7 +272,7 @@
 				});
 
 				// Register to focus manager.
-				editor.focusManager.addFocusable( this );
+				editor.focusManager.add( this );
 
 				// Inherit the initial focus on editable element.
 				if ( this.equals( CKEDITOR.document.getActive() ) ) {

@@ -105,7 +105,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				editor.focus();
 
-				panel.hide( false );
+				panel.hide();
 
 				editor.fire( 'saveSnapshot' );
 

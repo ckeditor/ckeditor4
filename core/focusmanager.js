@@ -8,89 +8,94 @@
  *		to handle the focus on editor instances..
  */
 
-/**
- * Creates a focusManager class instance.
- * @class Manages the focus activity in an editor instance. This class is to be
- * used mainly by UI elements coders when adding interface elements that need
- * to set the focus state of the editor.
- * @param {CKEDITOR.editor} editor The editor instance.
- * @example
- * var focusManager = <b>new CKEDITOR.focusManager( editor )</b>;
- * focusManager.focus();
- */
-CKEDITOR.focusManager = function( editor ) {
-	if ( editor.focusManager )
-		return editor.focusManager;
-
+(function() {
 	/**
-	 * Indicates that the editor instance has focus.
-	 * @type Boolean
+	 * Creates a focusManager class instance.
+	 * @class Manages the focus activity in an editor instance. This class is to be
+	 * used mainly by UI elements coders when adding interface elements that need
+	 * to set the focus state of the editor.
+	 * @param {CKEDITOR.editor} editor The editor instance.
 	 * @example
-	 * alert( CKEDITOR.instances.editor1.focusManager.hasFocus );  // e.g "true"
+	 * var focusManager = <b>new CKEDITOR.focusManager( editor )</b>;
+	 * focusManager.focus();
 	 */
-	this.hasFocus = false;
+	CKEDITOR.focusManager = function( editor ) {
+		if ( editor.focusManager )
+			return editor.focusManager;
 
-	/**
-	 * Object used to hold private stuff.
-	 * @private
-	 */
-	this._ = {
-		editor: editor,
-		isForced: 0
+		/**
+		 * Indicates that the editor instance has focus.
+		 * @type Boolean
+		 * @example
+		 * alert( CKEDITOR.instances.editor1.focusManager.hasFocus );  // e.g "true"
+		 */
+		this.hasFocus = false;
+
+		/**
+		 * Indicate the currently focused DOM element that makes the editor activated.
+		 * @type {CKEDITOR.dom.domObject}
+		 */
+		this.currentActive = null;
+
+		/**
+		 * Object used to hold private stuff.
+		 * @private
+		 */
+		this._ = {
+			editor: editor
+		};
+
+		return this;
 	};
 
-	return this;
-};
+	var SLOT_NAME = 'focusmanager',
+		SLOT_NAME_LISTENERS = 'focusmanager_handlers';
 
-CKEDITOR.focusManager.prototype = {
-	/**
-	 * Used to indicate that the editor instance has the focus.<br />
-	 * <br />
-	 * Note that this function will not explicitelly set the focus in the
-	 * editor (for example, making the caret blinking on it). Use
-	 * {@link CKEDITOR.editor#focus} for it instead.
-	 * @example
-	 * var editor = CKEDITOR.instances.editor1;
-	 * <b>editor.focusManager.focus()</b>;
-	 */
-	focus: function() {
-		if ( this._.timer )
-			clearTimeout( this._.timer );
+	CKEDITOR.focusManager.prototype = {
+		/**
+		 * Indicate this editor instance is activated (due to DOM focus change),
+		 * the "activated" state is a symbolic indicator of an active user
+		 * interaction session.
+		 *
+		 * <strong>Note:</strong> This method will not introduce UI focus
+		 * impact on DOM, it's here to record editor UI focus state internally.
+		 * If you want to make the cursor blink inside of the editable, use
+		 * {@link CKEDITOR.editor#focus} instead.
+		 *
+		 * @example
+		 * var editor = CKEDITOR.instances.editor1;
+		 * <b>editor.focusManage.setActive( editor.editable() )</b>;
+		 */
+		focus: function() {
+			if ( this._.timer )
+				clearTimeout( this._.timer );
 
-		if ( !this.hasFocus ) {
-			// If another editor has the current focus, we first "blur" it. In
-			// this way the events happen in a more logical sequence, like:
-			//		"focus 1" > "blur 1" > "focus 2"
-			// ... instead of:
-			//		"focus 1" > "focus 2" > "blur 1"
-			var current = CKEDITOR.currentInstance;
-			current && current.focusManager.forceBlur();
+			if ( !this.hasFocus ) {
+				// If another editor has the current focus, we first "blur" it. In
+				// this way the events happen in a more logical sequence, like:
+				//		"focus 1" > "blur 1" > "focus 2"
+				// ... instead of:
+				//		"focus 1" > "focus 2" > "blur 1"
+				var current = CKEDITOR.currentInstance;
+				current && current.focusManager.forceBlur();
 
-			this.hasFocus = true;
-			this._.editor.fire( 'focus' );
-		}
-	},
+				this.hasFocus = true;
+				this._.editor.fire( 'focus' );
+			}
+		},
 
-	/**
-	 *  Stick focus manager to the focused state until one of {@link #forceBlur} or {@link #cancelForced} get called.
-	 */
-	forceFocus: function() {
-		this.focus();
-		this._.isForced = 1;
-	},
-
-	/**
-	 * Used to indicate that the editor instance has lost the focus.<br />
-	 * <br />
-	 * Note that this functions acts asynchronously with a delay of 100ms to
-	 * avoid subsequent blur/focus effects. If you want the "blur" to happen
-	 * immediately, use the {@link #forceBlur} function instead.
-	 * @example
-	 * var editor = CKEDITOR.instances.editor1;
-	 * <b>editor.focusManager.blur()</b>;
-	 */
-	blur: function() {
-		if ( !this._.isForced ) {
+		/**
+		 * Used to indicate that the editor instance has been deactivated by the specified
+		 * element which has just lost focus.
+		 *
+		 * <strong>Note:</strong> that this functions acts asynchronously with a delay of 100ms to
+		 * avoid temporary deactivation. Use instead the {@link #forceBlur} function instead
+		 * to deactivate immediately.
+		 * @example
+		 * var editor = CKEDITOR.instances.editor1;
+		 * <b>editor.focusManager.blur()</b>;
+		 */
+		blur: function() {
 			var focusManager = this;
 
 			if ( focusManager._.timer )
@@ -100,52 +105,88 @@ CKEDITOR.focusManager.prototype = {
 				delete focusManager._.timer;
 				focusManager.forceBlur();
 			}, 200 );
+		},
 
+		/**
+		 * Deactivate immediately the editor instance, unlike {@link #blur},
+		 * this function is synchronous, marking the instance as "deactivated" immediately.
+		 * @example
+		 * var editor = CKEDITOR.instances.editor1;
+		 * <b>editor.focusManager.forceBlur()</b>;
+		 */
+		forceBlur: function() {
+			if ( this.hasFocus ) {
+				var editor = this._.editor;
+
+				this.hasFocus = false;
+				editor.fire( 'blur' );
+			}
+		},
+
+		/**
+		 * Register an UI DOM element to the focus manager, which will make the focus manager "hasFocus"
+		 * once input focus is relieved on the element, it's to be used by plugins to expand the jurisdiction of the editor focus.
+		 *
+		 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
+		 * @param {Boolean} isCapture If specified {@link CKEDITOR.event.useCapture} will be used when listening to the focus event.
+		 */
+		add: function( element, isCapture ) {
+			var fm = element.getCustomData( SLOT_NAME );
+			if ( !fm || fm != this ) {
+				// If this element is already taken by another instance, dismiss it first.
+				fm && fm.remove( element );
+
+				var focusEvent = 'focus',
+					blurEvent = 'blur';
+
+				// Bypass the element's internal DOM focus change.
+				if ( isCapture ) {
+					// No capture support for focus/blur in old IEs, resort to
+					// focusin/out instead.
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+						focusEvent = 'focusin';
+						blurEvent = 'focusout';
+					} else
+						CKEDITOR.event.useCapture = 1;
+				}
+
+				var listeners = {
+					blur: function() {
+						if ( element.equals( this.currentActive ) )
+							this.blur();
+					},
+					focus: function() {
+						this.currentActive = element;
+						this.focus();
+					}
+				};
+
+
+				element.on( focusEvent, listeners.focus, this );
+				element.on( blurEvent, listeners.blur, this );
+
+				if ( isCapture )
+					CKEDITOR.event.useCapture = 0;
+
+				element.setCustomData( SLOT_NAME, this );
+				element.setCustomData( SLOT_NAME_LISTENERS, listeners );
+			}
+		},
+
+		/**
+		 * Dismiss an element from the the focus manager delegations added by {@link #add}
+		 * @param {CKEDITOR.dom.element} element The element to be removed from the focusmanager.
+		 */
+		remove: function( element ) {
+			element.removeCustomData( SLOT_NAME );
+			var listeners = element.removeCustomData( SLOT_NAME_LISTENERS );
+			element.removeListener( 'blur', listeners.blur );
+			element.removeListener( 'focus', listeners.focus );
 		}
-	},
 
-	/**
-	 * Used to indicate that the editor instance has lost the focus. Unlike
-	 * {@link #blur}, this function is synchronous, marking the instance as
-	 * "blured" immediately.
-	 * @example
-	 * var editor = CKEDITOR.instances.editor1;
-	 * <b>editor.focusManager.forceBlur()</b>;
-	 */
-	forceBlur: function() {
-		if ( this.hasFocus ) {
-			var editor = this._.editor;
+	};
 
-			this.hasFocus = false;
-			this.cancelForced();
-
-			editor.fire( 'blur' );
-		}
-	},
-
-	/**
-	 * Clear the locked state of the focus manager because of the {@link #forceFocus} call.
-	 */
-	cancelForced: function() {
-		delete this._.isForced;
-	},
-
-	/**
-	 * Register an UI DOM element to the manager, making it focus state reflected
-	 * by the manager, it will be mainly used by plugins to expand the
-	 * jurisdiction of the editor focus.
-	 *
-	 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
-	 *@param {Boolean} isCapture If specified {@link CKEDITOR.event.useCapture} will be used when listening to the focus event.
-	 */
-	addFocusable: function( element, isCapture ) {
-		// Bypass the element's internal DOM focus change.
-		isCapture && ( CKEDITOR.event.useCapture = 1 );
-		element.on( 'blur', this.blur, this );
-		element.on( 'focus', this.focus, this );
-		isCapture && ( CKEDITOR.event.useCapture = 0 );
-	}
-};
+})();
 
 /**
  * Fired when the editor instance receives the input focus.
