@@ -143,6 +143,9 @@
 						}
 						return match;
 					});
+				} else if ( CKEDITOR.env.gecko ) {
+					// Firefox adds bogus <br> when user pasted text followed by space(s).
+					data = data.replace( /(\s)<br>$/, '$1' );
 				}
 
 				evt.data.data = data;
