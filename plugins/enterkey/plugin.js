@@ -24,9 +24,10 @@
 				}
 			});
 
-			var keystrokes = editor.keystrokeHandler.keystrokes;
-			keystrokes[ 13 ] = 'enter';
-			keystrokes[ CKEDITOR.SHIFT + 13 ] = 'shiftEnter';
+			editor.setKeystroke( [
+				[ 13, 'enter' ],
+				[ CKEDITOR.SHIFT + 13, 'shiftEnter' ]
+				] );
 		}
 	});
 

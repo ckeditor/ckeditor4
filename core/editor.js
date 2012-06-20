@@ -117,6 +117,14 @@
 
 		this.dataProcessor = new CKEDITOR.htmlDataProcessor( this );
 
+		/**
+		 * Controls keystrokes typing in this editor instance.
+		 * @name CKEDITOR.editor.prototype.keystrokeHandler
+		 * @type CKEDITOR.keystrokeHandler
+		 * @example
+		 */
+		this.keystrokeHandler = new CKEDITOR.keystrokeHandler( this );
+
 		// Make the editor update its command states on mode change.
 		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
@@ -259,10 +267,6 @@
 
 	function onConfigLoaded( editor ) {
 		// Set config related properties.
-
-		// Initialize the key handler, based on the configurations.
-		initKeystrokeHandler( editor );
-
 		/**
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 * @name CKEDITOR.editor.prototype.readOnly
@@ -439,36 +443,18 @@
 				}
 
 				editor.fireOnce( 'pluginsLoaded' );
+
+				// Setup the configured keystrokes.
+				config.keystrokes && editor.setKeystroke( editor.config.keystrokes );
+
+				// Setup the configured blocked keystrokes.
+				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ )
+					editor.keystrokeHandler.blockedKeystrokes[ editor.config.blockedKeystrokes[ i ] ] = 1;
+
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
 		});
-	}
-
-	function initKeystrokeHandler( editor ) {
-		/**
-		 * Controls keystrokes typing in this editor instance.
-		 * @name CKEDITOR.editor.prototype.keystrokeHandler
-		 * @type CKEDITOR.keystrokeHandler
-		 * @example
-		 */
-		editor.keystrokeHandler = new CKEDITOR.keystrokeHandler( editor );
-
-		editor.specialKeys = {};
-
-		// Move the relative keystroke settings to the keystrokeHandler object.
-
-		var keystrokesConfig = editor.config.keystrokes,
-			blockedConfig = editor.config.blockedKeystrokes;
-
-		var keystrokes = editor.keystrokeHandler.keystrokes,
-			blockedKeystrokes = editor.keystrokeHandler.blockedKeystrokes;
-
-		for ( var i = 0; i < keystrokesConfig.length; i++ )
-			keystrokes[ keystrokesConfig[ i ][ 0 ] ] = keystrokesConfig[ i ][ 1 ];
-
-		for ( i = 0; i < blockedConfig.length; i++ )
-			blockedKeystrokes[ blockedConfig[ i ] ] = 1;
 	}
 
 	// Send to data output back to editor's associated element.
@@ -836,6 +822,48 @@
 			}
 
 			return false;
+		},
+
+		/**
+		 * Assigns keystrokes associated to editor commands, or simply to block
+		 * native keystroke behavior, as well as to remove previously assigned keystrokes.
+		 * @since 4.0
+		 * @param {Integer|Array} keystroke Keystroke or an array of keystroke definitions.
+		 * @param {String|Boolean} [behavior] The following behaviors are accepted:
+		 * <ul>
+		 *     <li>A command to be executed on the keystroke;</li>
+		 *     <li>False, to block the keystroke;</li>
+		 * </ul>
+		 * @example
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, 'save' );	// Assigned CTRL+S to "save" command.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Blocked CTRL+S keystroke.
+		 * editor.setKeystroke(
+		 * [
+		 * 	[ CKEDITOR.ALT + 122, false ],
+		 * 	[ CKEDITOR.CTRL + 121, 'link' ]
+		 * 	[ CKEDITOR.SHIFT + 120, 'bold' ]
+		 * ] );
+		 */
+		setKeystroke: function() {
+			var keystrokes = this.keystrokeHandler.keystrokes,
+				newKeystrokes = CKEDITOR.tools.isArray( arguments[ 0 ] ) ? arguments[ 0 ] : [ [].slice.call( arguments, 0 ) ],
+				keystroke, behavior;
+
+			for ( var i = newKeystrokes.length; i--; ) {
+				keystroke = newKeystrokes[ i ];
+				behavior = 0;
+
+				// It may be a pair of: [ key, command ]
+				if ( CKEDITOR.tools.isArray( keystroke ) ) {
+					behavior = keystroke[ 1 ];
+					keystroke = keystroke[ 0 ];
+				}
+
+				if ( behavior )
+					keystrokes[ keystroke ] = behavior;
+				else
+					delete keystrokes[ keystroke ];
+			}
 		}
 	});
 })();

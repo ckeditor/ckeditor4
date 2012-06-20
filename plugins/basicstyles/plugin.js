@@ -37,6 +37,12 @@ CKEDITOR.plugins.add( 'basicstyles', {
 		addButtonCommand( 'Strike', lang.strike, 'strike', config.coreStyles_strike );
 		addButtonCommand( 'Subscript', lang.subscript, 'subscript', config.coreStyles_subscript );
 		addButtonCommand( 'Superscript', lang.superscript, 'superscript', config.coreStyles_superscript );
+
+		editor.setKeystroke( [
+			[ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
+			[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
+			[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
+			] );
 	}
 });
 

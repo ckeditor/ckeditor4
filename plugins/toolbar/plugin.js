@@ -335,6 +335,8 @@
 							modes: { wysiwyg:1,source:1 }
 						});
 
+						editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
+
 						output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
 																	+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
 																	+ '" tabIndex="-1" class="cke_toolbox_collapser' );
@@ -375,6 +377,7 @@
 			});
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
+			editor.setKeystroke( CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' );
 
 			editor.ui.add( '-', CKEDITOR.UI_SEPARATOR, {} );
 			editor.ui.addHandler( CKEDITOR.UI_SEPARATOR, {

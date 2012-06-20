@@ -56,13 +56,8 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 					cancel = ( editor.execCommand( command, data ) !== false );
 				}
 
-				if ( !cancel ) {
-					var handler = editor.specialKeys[ keyCombination ];
-					cancel = ( handler && handler( editor ) === true );
-
-					if ( !cancel )
-						cancel = !!this.blockedKeystrokes[ keyCombination ];
-				}
+				if ( !cancel )
+					cancel = !!this.blockedKeystrokes[ keyCombination ];
 			}
 
 			if ( cancel )
@@ -100,27 +95,6 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 })();
 
 /**
- * A list of keystrokes to be blocked if not defined in the {@link CKEDITOR.config.keystrokes}
- * setting. In this way it is possible to block the default browser behavior
- * for those keystrokes.
- * @type Array
- * @default (see example)
- * @example
- * // This is actually the default value.
- * config.blockedKeystrokes =
- * [
- *     CKEDITOR.CTRL + 66 &#47;*B*&#47;,
- *     CKEDITOR.CTRL + 73 &#47;*I*&#47;,
- *     CKEDITOR.CTRL + 85 &#47;*U*&#47;
- * ];
- */
-CKEDITOR.config.blockedKeystrokes = [
-	CKEDITOR.CTRL + 66 /*B*/,
-	CKEDITOR.CTRL + 73 /*I*/,
-	CKEDITOR.CTRL + 85 /*U*/
-	];
-
-/**
  * A list associating keystrokes to editor commands. Each element in the list
  * is an array where the first item is the keystroke, and the second is the
  * name of the command to be executed.
@@ -148,26 +122,6 @@ CKEDITOR.config.blockedKeystrokes = [
  *     [ CKEDITOR.ALT + 109 &#47;*-*&#47;, 'toolbarCollapse' ]
  * ];
  */
-CKEDITOR.config.keystrokes = [
-	[ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
-	[ CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' ],
-
-	[ CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
-
-	[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
-	[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
-	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ],
-
-	[ CKEDITOR.CTRL + 76 /*L*/, 'link' ],
-
-	[ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
-	[ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
-	[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
-
-	[ CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' ],
-	[ CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' ]
-	];
 
 /**
  * Fired when any keyboard key (or combination) is pressed into the editing area.
