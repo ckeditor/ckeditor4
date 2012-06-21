@@ -49,14 +49,6 @@
 		return styleText;
 	}
 
-	function parseStyleText( styleText ) {
-		var retval = {};
-		( styleText || '' ).replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
-			retval[ name.toLowerCase() ] = value;
-		});
-		return retval;
-	}
-
 	// Maintain the map of smiley-to-description.
 	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
 		smileyReverseMap = {},
@@ -642,7 +634,7 @@
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
-							style = parseStyleText( attributes.style ),
+							style = CKEDITOR.tools.parseCssText( attributes.style ),
 							value;
 
 						var tagName = element.name;
