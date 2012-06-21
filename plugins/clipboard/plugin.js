@@ -106,9 +106,12 @@
 
 					// Strip <span> around white-spaces when not in forced 'html' content type.
 					// This spans are created only when pasting plain text into Webkit,
-					// but for safety resons remove them always.
+					// but for safety reasons remove them always.
 					if ( evt.data.type != 'html' )
-						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, '$1' );
+						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, function( all, spaces ) {
+						// Replace tabs with 4 spaces like Fx does.
+						return spaces.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+					});
 
 					// This br is produced only when copying & pasting HTML content.
 					if ( data.indexOf( '<br class="Apple-interchange-newline">' ) > -1 ) {
@@ -140,6 +143,9 @@
 						}
 						return match;
 					});
+				} else if ( CKEDITOR.env.gecko ) {
+					// Firefox adds bogus <br> when user pasted text followed by space(s).
+					data = data.replace( /(\s)<br>$/, '$1' );
 				}
 
 				evt.data.data = data;
@@ -792,8 +798,7 @@
 
 			getClipboardDataByPastebin( evt, function( data ) {
 				// Clean up.
-				// Content can be trimmed because pasting space produces '&nbsp;'.
-				data = CKEDITOR.tools.trim( data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' ) );
+				data = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
 
 				// Fire remaining events (without beforePaste)
 				beforePasteNotCanceled && firePasteEvents( eventData.type, data, 0, 1 );
@@ -916,10 +921,10 @@
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
 	function htmlifiedTextHtmlification( config, data ) {
-		// Replace adjacent white-spaces with one space and unify all to spaces.
-		data = data.replace( /(&nbsp;|\s)+/ig, ' ' )
-		// Remove spaces before/after opening/closing tag.
-		.replace( /> /g, '>' ).replace( / </g, '<' )
+		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
+		data = data.replace( /\s+/g, ' ' )
+		// Remove spaces from between tags.
+		.replace( /> +</g, '><' )
 		// Normalize XHTML syntax and upper cased <br> tags.
 		.replace( /<br ?\/>/gi, '<br>' );
 
@@ -927,6 +932,10 @@
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
 			return match.toLowerCase();
 		});
+
+		// Don't touch single lines (no <br|p|div>) - nothing to do here.
+		if ( data.match( /^[^<]$/ ) )
+			return data;
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {

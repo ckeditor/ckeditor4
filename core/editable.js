@@ -114,7 +114,7 @@
 			 * @see CKEDITOR.editor.prototype.insertText
 			 */
 			insertText: function( text, dontEncodeHtml ) {
-				insert( this, 'text', dontEncodeHtml ? text : CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) ) );
+				insert( this, 'text', dontEncodeHtml ? text : CKEDITOR.tools.htmlEncode( text ) );
 			},
 
 			/**
