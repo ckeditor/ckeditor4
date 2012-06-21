@@ -241,16 +241,24 @@
 		}
 
 		var root = groupObj.root,
-			fakeParent = root.getDocument().createElement( this.type );
-		// Copy all attributes, except from 'start' and 'type'.
-		root.copyAttributes( fakeParent, { start:1,type:1 } );
-		// The list-style-type property should be ignored.
-		fakeParent.removeStyle( 'list-style-type' );
+			doc = root.getDocument(),
+			listNode, newListNode;
 
 		for ( i = 0; i < selectedListItems.length; i++ ) {
 			var listIndex = selectedListItems[ i ].getCustomData( 'listarray_index' );
-			listArray[ listIndex ].parent = fakeParent;
+			listNode = listArray[ listIndex ].parent;
+
+			// Switch to new list node for this particular item.
+			if ( !listNode.is( this.type ) ) {
+				newListNode = doc.createElement( this.type );
+				// Copy all attributes, except from 'start' and 'type'.
+				listNode.copyAttributes( newListNode, { start:1,type:1 } );
+				// The list-style-type property should be ignored.
+				newListNode.removeStyle( 'list-style-type' );
+				listArray[ listIndex ].parent = newListNode;
+			}
 		}
+
 		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
 		var child,
 			length = newList.listNode.getChildCount();
