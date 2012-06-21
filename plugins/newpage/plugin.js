@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'newpage', {
 					// Save the undo snapshot after all document changes are affected. (#4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
-							name: command.name,
+							name: 'newpage',
 							command: command
 						});
 						editor.selectionChange();
