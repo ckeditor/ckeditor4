@@ -865,7 +865,8 @@
 					fixBlock = doc.createElement( fixBlock );
 					!CKEDITOR.env.ie && fixBlock.appendBogus();
 					range.insertNode( fixBlock );
-					!CKEDITOR.env.ie && fixBlock.getBogus().remove();
+					if ( !CKEDITOR.env.ie && ( bogus = fixBlock.getBogus() ) )
+						bogus.remove();
 					range.moveToPosition( fixBlock, CKEDITOR.POSITION_BEFORE_END );
 				}
 
