@@ -828,8 +828,9 @@
 				blockLimit = that.blockLimit,
 				nodesData, nodeData, node,
 				nodeIndex = 0,
+				bogus,
 				bogusNeededBlocks = [],
-				pathBlock,
+				pathBlock, fixBlock,
 				splittingContainer = 0,
 				dontMoveCaret = 0,
 				insertionContainer, toSplit, newContainer,
@@ -859,7 +860,6 @@
 
 				path = range.startPath();
 
-				var fixBlock;
 				// Auto paragraphing.
 				if ( !nodeData.isBlock && ( fixBlock = autoParagraphTag( that.editor.config ) ) && !path.block && path.blockLimit && path.blockLimit.equals( range.root ) ) {
 					fixBlock = doc.createElement( fixBlock );
@@ -874,7 +874,7 @@
 				// Remove any bogus element on the current path block for now, and mark
 				// it for later compensation.
 				if ( node && !node.equals( pathBlock ) ) {
-					var bogus = node.getBogus();
+					bogus = node.getBogus();
 					if ( bogus ) {
 						bogus.remove();
 						bogusNeededBlocks.push( node );
@@ -940,16 +940,14 @@
 				range.collapse();
 			}
 
-			// Bring back all block bogus nodes.
-			while ( ( node = bogusNeededBlocks.pop() ) )
-				node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
-
 			that.dontMoveCaret = dontMoveCaret;
+			that.bogusNeededBlocks = bogusNeededBlocks;
 		}
 
 		function cleanupAfterInsertion( that ) {
 			var range = that.range,
 				node, testRange, parent, movedIntoInline,
+				bogusNeededBlocks = that.bogusNeededBlocks,
 				// Create a bookmark to defend against the following range deconstructing operations.
 				bm = range.createBookmark();
 
@@ -970,6 +968,13 @@
 					node.remove( 1 );
 					if ( parent.is( DTD.$list ) )
 						parent.remove( 1 );
+				}
+			}
+
+			if ( bogusNeededBlocks ) {
+				// Bring back all block bogus nodes.
+				while ( ( node = bogusNeededBlocks.pop() ) ) {
+					node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
 				}
 			}
 
