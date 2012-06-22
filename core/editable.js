@@ -800,11 +800,9 @@
 				data = wrapDataWithInlineStyles( data, that );
 
 			// Process the inserted html, in context of the insertion root.
-			var processor = that.editor.dataProcessor;
-
 			// Don't use the "fix for body" feature as auto paragraphing must
 			// be handled during insertion.
-			data = processor.toHtml( data, that.blockLimit.getName(), false );
+			data = that.editor.dataProcessor.toHtml( data, that.blockLimit.getName(), false );
 
 			// Build the node list for insertion.
 			var doc = range.document,
@@ -816,7 +814,7 @@
 
 			// Rule 7. - apply when there exists path block after deleting selection's content.
 			if ( range.startPath().block )
-				stripBlockTagIfSingleLine( frag, data );
+				stripBlockTagIfSingleLine( frag );
 
 			that.dataWrapper = frag;
 		}
@@ -1029,12 +1027,12 @@
 		// HELPERS ------------------------------------------------------------
 		//
 
-		function checkIfElement( node ) {
-			return node.type == CKEDITOR.NODE_ELEMENT;
+		function autoParagraphTag( config ) {
+			return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 		}
 
-		function isInline( node ) {
-			return node && checkIfElement( node ) && ( node.is( DTD.$removeEmpty ) || node.is( 'a' ) && !node.isBlockBoundary() );
+		function checkIfElement( node ) {
+			return node.type == CKEDITOR.NODE_ELEMENT;
 		}
 
 		function extractNodesData( dataWrapper, startContainer ) {
@@ -1124,7 +1122,6 @@
 					nodes2.push( node );
 					afterSpace = 0;
 				}
-
 			}
 
 			// Remove trailing space.
@@ -1165,6 +1162,10 @@
 			return checkIfElement( range.startContainer ) && range.startContainer.getChild( range.startOffset - 1 );
 		}
 
+		function isInline( node ) {
+			return node && checkIfElement( node ) && ( node.is( DTD.$removeEmpty ) || node.is( 'a' ) && !node.isBlockBoundary() );
+		}
+
 		var blockMergedTags = { p:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,ul:1,ol:1,li:1,pre:1,dl:1,blockquote:1 };
 
 		// See rule 5. in TCs.
@@ -1197,10 +1198,6 @@
 			}
 		}
 
-		function autoParagraphTag( config ) {
-			return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
-		}
-
 		// Return 1 if <br> should be skipped when inserting, 0 otherwise.
 		function splitOnLineBreak( range, blockLimit, nodeData ) {
 			var firstBlockAscendant, pos;
@@ -1209,7 +1206,7 @@
 				return 1;
 
 			firstBlockAscendant = range.startContainer.getAscendant( DTD.$block, 1 );
-			if ( !firstBlockAscendant || !( firstBlockAscendant.getName() in { div:1,p:1 } ) )
+			if ( !firstBlockAscendant || !firstBlockAscendant.is( { div:1,p:1 } ) )
 				return 0;
 
 			pos = firstBlockAscendant.getPosition( blockLimit );
