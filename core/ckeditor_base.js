@@ -28,8 +28,7 @@ if ( !window.CKEDITOR ) {
 	 */
 	window.CKEDITOR = (function() {
 		var CKEDITOR =
-		/** @lends CKEDITOR */
-		{
+		/** @lends CKEDITOR */ {
 
 			/**
 			 * A constant string unique for each release of CKEditor. Its value
@@ -202,12 +201,19 @@ if ( !window.CKEDITOR ) {
 				function onReady() {
 					try {
 						// Cleanup functions for the document ready method
-						if ( document.addEventListener )
+						if ( document.addEventListener ) {
 							document.removeEventListener( 'DOMContentLoaded', onReady, false );
-						else if ( document.attachEvent )
+							executeCallbacks();
+						}
+						// Make sure body exists, at least, in case IE gets a little overzealous.
+						else if ( document.attachEvent && document.readyState === 'complete' ) {
 							document.detachEvent( 'onreadystatechange', onReady );
+							executeCallbacks();
+						}
 					} catch ( er ) {}
+				}
 
+				function executeCallbacks() {
 					var i;
 					while ( ( i = callbacks.shift() ) )
 						i();
