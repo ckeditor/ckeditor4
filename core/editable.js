@@ -812,9 +812,12 @@
 			tmp.setHtml( data );
 			tmp.moveChildren( frag );
 
-			// Rule 7. - apply when there exists path block after deleting selection's content.
-			if ( range.startPath().block )
+			// Rule 7.
+			var block = range.startPath().block;
+			if ( block &&													// Apply when there exists path block after deleting selection's content...
+				!( block.getChildCount() == 1 && block.getBogus() ) ) {		// ... and the only content of this block isn't a bogus.
 				stripBlockTagIfSingleLine( frag );
+			}
 
 			that.dataWrapper = frag;
 		}
