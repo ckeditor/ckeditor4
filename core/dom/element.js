@@ -98,8 +98,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
-/** @lends CKEDITOR.dom.element.prototype */
-{
+	/** @lends CKEDITOR.dom.element.prototype */ {
 	/**
 	 * The node type. This is a constant value set to
 	 * {@link CKEDITOR.NODE_ELEMENT}.
@@ -654,7 +653,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 
 		// Check against the specified DTD liternal.
 		if ( typeof arguments[ 0 ] == 'object' )
-			return name in arguments[ 0 ];
+			return !!arguments[ 0 ][ name ];
 
 		// Check for tag names
 		for ( var i = 0; i < arguments.length; i++ ) {
