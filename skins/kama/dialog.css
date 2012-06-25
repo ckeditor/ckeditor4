@@ -27,7 +27,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
 		need it to be positioned to hold e.g. close button. */
-	position: relative;
 	_position: static;
 }
 
