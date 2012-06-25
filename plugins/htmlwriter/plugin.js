@@ -8,6 +8,18 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 		var writer = new CKEDITOR.htmlWriter();
 		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
 
+		/**
+		 * The characters to be used for each indentation step.
+		 * Using non-white characters as an indentation step isn't recommended
+		 * as they might remain in the edited content.
+		 * @type String
+		 * @default "\t" (tab)
+		 * @example
+		 * // Use two spaces for indentation.
+		 * editor.config.indentationChars = '  ';
+		 */
+		writer.indentationChars = editor.config.indentationChars || '\t';
+
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
 	}
@@ -31,16 +43,6 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 	$: function() {
 		// Call the base contructor.
 		this.base();
-
-		/**
-		 * The characters to be used for each identation step.
-		 * @type String
-		 * @default "\t" (tab)
-		 * @example
-		 * // Use two spaces for indentation.
-		 * editorInstance.dataProcessor.writer.indentationChars = '  ';
-		 */
-		this.indentationChars = '\t';
 
 		/**
 		 * The characters to be used to close "self-closing" elements, like "br" or
@@ -73,14 +75,17 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this._.inPre = 0;
 		this._.rules = {};
 
-		var dtd = CKEDITOR.dtd;
+		var dtd = CKEDITOR.dtd,
+			isTextHolder;
 
 		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
+			isTextHolder = dtd[ e ][ '#' ];
+
 			this.setRules( e, {
 				indent: 1,
 				breakBeforeOpen: 1,
-				breakAfterOpen: 1,
-				breakBeforeClose: !dtd[ e ][ '#' ],
+				breakAfterOpen: !isTextHolder,
+				breakBeforeClose: !isTextHolder,
 				breakAfterClose: 1
 			});
 		}
