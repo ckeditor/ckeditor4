@@ -100,9 +100,9 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			breakBeforeClose: 1
 		});
 
-		// Disable indentation on <pre>.
 		this.setRules( 'pre', {
-			indent: 0
+			breakAfterOpen: 1, // Keep line break after the opening tag
+			indent: 0 // Disable indentation on <pre>.
 		});
 	},
 
