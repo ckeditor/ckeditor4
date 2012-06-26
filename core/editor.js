@@ -826,18 +826,13 @@
 		},
 
 		/**
-		 * Assigns keystrokes associated to editor commands, or simply to block
-		 * native keystroke behavior, as well as to remove previously assigned keystrokes.
+		 * Assigns keystrokes associated to editor commands.
 		 * @since 4.0
 		 * @param {Integer|Array} keystroke Keystroke or an array of keystroke definitions.
-		 * @param {String|Boolean} [behavior] The following behaviors are accepted:
-		 * <ul>
-		 *     <li>A command to be executed on the keystroke;</li>
-		 *     <li>False, to block the keystroke;</li>
-		 * </ul>
+		 * @param {String|Boolean} [behavior] A command to be executed on the keystroke.
 		 * @example
 		 * editor.setKeystroke( CKEDITOR.CTRL + 115, 'save' );	// Assigned CTRL+S to "save" command.
-		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Blocked CTRL+S keystroke.
+		 * editor.setKeystroke( CKEDITOR.CTRL + 115, false );	// Disabled CTRL+S keystroke assignment.
 		 * editor.setKeystroke(
 		 * [
 		 * 	[ CKEDITOR.ALT + 122, false ],
