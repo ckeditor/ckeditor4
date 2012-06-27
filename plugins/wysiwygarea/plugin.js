@@ -26,7 +26,7 @@
 			// Set the HTML style to 100% to have the text cursor in affect (#6341)
 			else if ( CKEDITOR.env.gecko ) {
 				CKEDITOR.addCss( 'html{height:100% !important}' );
-				CKEDITOR.addCss( 'img:-moz-broken{-moz-force-broken-image-icon:1;width:24px;height:24px}' );
+				CKEDITOR.addCss( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
 			}
 			// Remove the margin to avoid mouse confusion. (#8835)
 			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
