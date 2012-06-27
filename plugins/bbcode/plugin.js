@@ -211,9 +211,9 @@
 		function checkPendingBrs( tagName, closing ) {
 			var len = currentNode.children.length,
 				previous = len > 0 && currentNode.children[ len - 1 ],
-				lineBreakParent = !previous && BBCodeWriter.getRule( tagnameMap[ currentNode.name ], 'breakAfterOpen' ),
-				lineBreakPrevious = previous && previous.type == CKEDITOR.NODE_ELEMENT && BBCodeWriter.getRule( tagnameMap[ previous.name ], 'breakAfterClose' ),
-				lineBreakCurrent = tagName && BBCodeWriter.getRule( tagnameMap[ tagName ], closing ? 'breakBeforeClose' : 'breakBeforeOpen' );
+				lineBreakParent = !previous && writer.getRule( tagnameMap[ currentNode.name ], 'breakAfterOpen' ),
+				lineBreakPrevious = previous && previous.type == CKEDITOR.NODE_ELEMENT && writer.getRule( tagnameMap[ previous.name ], 'breakAfterClose' ),
+				lineBreakCurrent = tagName && writer.getRule( tagnameMap[ tagName ], closing ? 'breakBeforeClose' : 'breakBeforeOpen' );
 
 			if ( pendingBrs && ( lineBreakParent || lineBreakPrevious || lineBreakCurrent ) )
 				pendingBrs--;
@@ -402,7 +402,7 @@
 		return fragment;
 	};
 
-	CKEDITOR.htmlParser.BBCodeWriter = CKEDITOR.tools.createClass({
+	var BBCodeWriter = CKEDITOR.tools.createClass({
 		$: function() {
 			this._ = {
 				output: [],
@@ -542,7 +542,7 @@
 		}
 	});
 
-	var BBCodeWriter = new CKEDITOR.htmlParser.BBCodeWriter();
+	var writer = new BBCodeWriter();
 
 	CKEDITOR.plugins.add( 'bbcode', {
 		requires: [ 'entities' ],
@@ -566,12 +566,12 @@
 				var fragment = CKEDITOR.htmlParser.fragment.fromBBCode( code ),
 					writer = new CKEDITOR.htmlParser.basicWriter();
 
-				fragment.writeHtml( writer, dataFilter );
+				fragment.writeHtml( writer, bbcodeFilter );
 				return writer.getHtml( true );
 			}
 
-			var dataFilter = new CKEDITOR.htmlParser.filter();
-			dataFilter.addRules({
+			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
+			bbcodeFilter.addRules({
 				elements: {
 					blockquote: function( element ) {
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
@@ -721,16 +721,11 @@
 				}
 			}, 1 );
 
-			editor.dataProcessor.writer = BBCodeWriter;
+			editor.dataProcessor.writer = writer;
 
-			editor.on( 'beforeSetMode', function( evt ) {
-				evt.removeListener();
-				var wysiwyg = editor._.modes.wysiwyg;
-				wysiwyg.loadData = CKEDITOR.tools.override( wysiwyg.loadData, function( org ) {
-					return function( data ) {
-						return org.call( this, BBCodeToHtml( data ) );
-					};
-				});
+			editor.on( 'setData', function( evt ) {
+				var bbcode = evt.data.dataValue;
+				evt.data.dataValue = BBCodeToHtml( bbcode );
 			});
 		},
 
