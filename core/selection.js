@@ -246,7 +246,6 @@
 							// Start to build the text range.
 							var textRng = body.$.createTextRange();
 							textRng.moveToPoint( evt.x, evt.y );
-							textRng.select();
 
 							html.on( 'mousemove', onHover );
 
@@ -254,7 +253,6 @@
 								html.removeListener( 'mousemove', onHover );
 								evt.removeListener();
 								textRng.select();
-								textRng = null;
 							});
 						}
 					});
