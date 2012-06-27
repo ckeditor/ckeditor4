@@ -30,6 +30,14 @@
 		}
 	}
 
+	// Inheirt inline styles from another element.
+	function inheirtInlineStyles( parent, el ) {
+		var style = parent.getAttribute( 'style' );
+
+		// Put parent styles before child styles.
+		style && el.setAttribute( 'style', style.replace( /([^;])$/, '$1;' ) + ( el.getAttribute( 'style' ) || '' ) );
+	}
+
 	CKEDITOR.plugins.list = {
 		/*
 		 * Convert a DOM list tree into a data structure that is easier to
@@ -100,6 +108,7 @@
 				paragraphName = ( paragraphMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			while ( 1 ) {
 				var item = listArray[ currentIndex ],
+					itemParent = item.parent,
 					itemGrandParent = item.grandparent;
 
 				orgDir = item.element.getDirection( 1 );
@@ -131,6 +140,13 @@
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
 				} else if ( item.indent == -1 && !baseIndex && itemGrandParent ) {
+					// We're leaving this parent list, inherit it's inline styles.
+					var listNode = itemParent.clone();
+					if ( listNode.hasAttribute( 'style' ) ) {
+						listNode.removeStyle( 'list-style-type' );
+						inheirtInlineStyles( listNode, item.element );
+					}
+
 					if ( listNodeNames[ itemGrandParent.getName() ] )
 						currentListItem = item.element.clone( false, true );
 					else
@@ -155,8 +171,7 @@
 							if ( dirLoose && !child.getDirection() )
 								child.setAttribute( 'dir', orgDir );
 
-							// Merge into child styles.
-							style && child.setAttribute( 'style', style.replace( /([^;])$/, '$1;' ) + ( child.getAttribute( 'style' ) || '' ) );
+							inheirtInlineStyles( li, child );
 
 							className && child.addClass( className );
 						} else if ( needsBlock ) {
