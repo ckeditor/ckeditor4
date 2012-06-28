@@ -74,32 +74,25 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this._.rules = {};
 
 		var dtd = CKEDITOR.dtd,
+			indenters = { ul:1,ol:1,tr:1 },
 			isTextHolder;
 
 		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
 			isTextHolder = dtd[ e ][ '#' ];
 
 			this.setRules( e, {
-				indent: 1,
+				indent: ( e in indenters ),
 				breakBeforeOpen: 1,
 				breakAfterOpen: !isTextHolder,
 				breakBeforeClose: !isTextHolder,
 				breakAfterClose: 1,
-				needsSpace: ( e in dtd.$block )
+				needsSpace: ( e in dtd.$block ) && !( e in { li:1,dt:1,dd:1 } )
 			});
 		}
 
 		this.setRules( 'br', { breakAfterOpen:1 } );
 
-		this.setRules( 'title', {
-			indent: 0,
-			breakAfterOpen: 0
-		});
-
-		this.setRules( 'style', {
-			indent: 0,
-			breakBeforeClose: 1
-		});
+		this.setRules( 'style', { breakBeforeClose:1 });
 
 		this.setRules( 'pre', {
 			breakAfterOpen: 1, // Keep line break after the opening tag
