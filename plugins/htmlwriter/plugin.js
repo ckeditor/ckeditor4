@@ -271,6 +271,20 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		},
 
 		/**
+		 * Empties the current output buffer. It also brings back the default
+		 * values of the writer flags.
+		 * @example
+		 * writer.reset();
+		 */
+		reset: function() {
+			this._.output = [];
+			this._.indent = 0;
+			this._.indentation = '';
+			this._.afterCloser = 0;
+			this._.inPre = 0;
+		},
+
+		/**
 		 * Sets formatting rules for a give element. The possible rules are:
 		 * <ul>
 		 *	<li><b>indent</b>: indent the element contents.</li>
