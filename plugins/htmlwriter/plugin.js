@@ -37,12 +37,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		/**
 		 * The characters to be used for each identation step.
 		 * @type String
-		 * @default "\t" (tab)
+		 * @default "" (no indentation)
 		 * @example
-		 * // Use two spaces for indentation.
-		 * editorInstance.dataProcessor.writer.indentationChars = '  ';
+		 * // Use tab for indentation.
+		 * editorInstance.dataProcessor.writer.indentationChars = '\t';
 		 */
-		this.indentationChars = '\t';
+		this.indentationChars = '';
 
 		/**
 		 * The characters to be used to close "self-closing" elements, like "br" or
@@ -74,14 +74,13 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this._.rules = {};
 
 		var dtd = CKEDITOR.dtd,
-			indenters = { ul:1,ol:1,tr:1 },
 			isTextHolder;
 
 		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
 			isTextHolder = dtd[ e ][ '#' ];
 
 			this.setRules( e, {
-				indent: ( e in indenters ),
+				indent: !isTextHolder,
 				breakBeforeOpen: 1,
 				breakAfterOpen: !isTextHolder,
 				breakBeforeClose: !isTextHolder,
@@ -91,6 +90,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		}
 
 		this.setRules( 'br', { breakAfterOpen:1 } );
+
+		this.setRules( 'tr', { needsSpace:1 });
 
 		this.setRules( 'style', { breakBeforeClose:1 });
 
@@ -264,7 +265,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * writer.indentation();
 		 */
 		indentation: function() {
-			if ( !this._.inPre )
+			if ( !this._.inPre && this._.indentation )
 				this._.output.push( this._.indentation );
 			this._.indent = 0;
 		},
