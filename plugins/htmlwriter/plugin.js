@@ -84,7 +84,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				breakBeforeOpen: 1,
 				breakAfterOpen: !isTextHolder,
 				breakBeforeClose: !isTextHolder,
-				breakAfterClose: 1
+				breakAfterClose: 1,
+				needsSpace: ( e in dtd.$block )
 			});
 		}
 
@@ -119,6 +120,9 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		openTag: function( tagName, attributes ) {
 			var rules = this._.rules[ tagName ];
 
+			if ( this._.afterCloser && rules && rules.needsSpace && this._.needsSpace )
+				this._.output.push( '\n' );
+
 			if ( this._.indent )
 				this.indentation();
 			// Do not break if indenting.
@@ -128,6 +132,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			}
 
 			this._.output.push( '<', tagName );
+
+			this._.afterCloser = 0;
 		},
 
 		/**
@@ -145,9 +151,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		openTagClose: function( tagName, isSelfClose ) {
 			var rules = this._.rules[ tagName ];
 
-			if ( isSelfClose )
+			if ( isSelfClose ) {
 				this._.output.push( this.selfClosingEnd );
-			else {
+
+				if ( rules && rules.breakAfterClose )
+					this._.needsSpace = rules.needsSpace;
+			} else {
 				this._.output.push( '>' );
 
 				if ( rules && rules.indent )
@@ -203,8 +212,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			this._.output.push( '</', tagName, '>' );
 			tagName == 'pre' && ( this._.inPre = 0 );
 
-			if ( rules && rules.breakAfterClose )
+			if ( rules && rules.breakAfterClose ) {
 				this.lineBreak();
+				this._.needsSpace = rules.needsSpace;
+			}
+
+			this._.afterCloser = 1;
 		},
 
 		/**
