@@ -38,6 +38,11 @@
 		var highlightRange = sel.getRanges()[ 0 ].clone(),
 			bm = highlightRange.createBookmark2();
 
+		// Check if there's an existing shadow instance.
+		// If so, prevent duplication of the shadows.
+		if ( editable._.shadow )
+			return;
+
 		// The shadow is a copy of the editable element, including
 		// id as well to make sure this element is been styled exactly
 		// as the original element.
@@ -178,8 +183,7 @@
 
 				// Update shadow on locked selection update.
 				editable.on( 'selectionchange', function( evt ) {
-					if ( editable._.shadow )
-						update( editor );
+					update( editor );
 				});
 
 				// Make sure selection is still visible when editor focus
