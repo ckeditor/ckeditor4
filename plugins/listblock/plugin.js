@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					' title="{title}"' +
 					' href="javascript:void(\'{val}\')" ' +
 					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // #188
-								' role="option">' +
+						' role="option">' +
 					'{text}' +
 				'</a>' +
 				'</li>' ),

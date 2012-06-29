@@ -115,7 +115,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
 		var pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
-							'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
+				'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
 			sectionTpl = '<h1>%1</h1><dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
@@ -168,13 +168,13 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 						'overflow-x:hidden;' +
 					'}' +
 					// Some adjustments are to be done for IE6 and Quirks to work "properly" (#5757)
-									'.cke_browser_quirks .cke_accessibility_legend,' +
+					'.cke_browser_quirks .cke_accessibility_legend,' +
 					'.cke_browser_ie6 .cke_accessibility_legend' +
 					'{' +
 						'height:390px' +
 					'}' +
 					// Override non-wrapping white-space rule in reset css.
-									'.cke_accessibility_legend *' +
+					'.cke_accessibility_legend *' +
 					'{' +
 						'white-space:normal;' +
 					'}' +

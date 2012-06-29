@@ -45,7 +45,8 @@ CKEDITOR.dom.text = function( text, ownerDocument ) {
 CKEDITOR.dom.text.prototype = new CKEDITOR.dom.node();
 
 CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
-/** @lends CKEDITOR.dom.text.prototype */ {
+/** @lends CKEDITOR.dom.text.prototype */
+{
 	/**
 	 * The node type. This is a constant value set to
 	 * {@link CKEDITOR.NODE_TEXT}.

@@ -361,18 +361,19 @@
 						// Add the DOCTYPE back to it.
 						data = docType + data;
 					} else {
-						data = config.docType + '<html dir="' + config.contentsLangDirection + '"' +
-															' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
-														'<head>' +
-															'<title>' + this._.docTitle + '</title>' +
-															baseTag +
-															headExtra +
-														'</head>' +
-														'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
-															( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
-														'>' +
-															data +
-														'</html>';
+						data = config.docType +
+							'<html dir="' + config.contentsLangDirection + '"' +
+								' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
+							'<head>' +
+								'<title>' + this._.docTitle + '</title>' +
+								baseTag +
+								headExtra +
+							'</head>' +
+							'<body' + ( config.bodyId ? ' id="' + config.bodyId + '"' : '' ) +
+								( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
+							'>' +
+								data +
+							'</html>';
 					}
 
 					if ( CKEDITOR.env.gecko ) {
@@ -386,11 +387,12 @@
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 
-					var bootstrapCode = '<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
-													( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
-													'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
-													( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
-												'</script>';
+					var bootstrapCode =
+						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
+							( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+							'function onload(){window.parent.CKEDITOR.tools.callFunction( ' + this._.frameLoadedHandler + ', window );}' +
+							( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
+						'</script>';
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
 

@@ -111,7 +111,9 @@
  * <code>filebrowserBrowseUrl</code> will be used. After selecting a file in the file
  * browser, an element with an ID of <code>elementId</code> will be updated. Just
  * like in the third example, a custom <code>onSelect</code> function may be defined.
- */ ( function() {
+ */
+
+(function() {
 	/*
 	 * Adds (additional) arguments to given url.
 	 *

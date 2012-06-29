@@ -54,8 +54,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							}
 
 							contextMenuOverrideButton.setAttribute( 'style', 'position:absolute;top:' + ( evt.$.clientY - 2 ) +
-																'px;left:' + ( evt.$.clientX - 2 ) +
-																'px;width:5px;height:5px;opacity:0.01' );
+								'px;left:' + ( evt.$.clientX - 2 ) +
+								'px;width:5px;height:5px;opacity:0.01' );
 
 						});
 

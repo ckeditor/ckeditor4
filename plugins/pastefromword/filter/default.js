@@ -216,37 +216,35 @@
 					if ( attrs.style ) {
 						attrs.style = plugin.filters.stylesFilter( [
 							// Text-indent is not representing list item level any more.
-													[ 'text-indent' ],
+							[ 'text-indent' ],
 							[ 'line-height' ],
 							// First attempt is to resolve indent level from on a constant margin increment.
-													[ ( /^margin(:?-left)?$/ ), null, function( margin )
-																{
-							// Deal with component/short-hand form.
-							var values = margin.split( ' ' );
-							margin = CKEDITOR.tools.convertToPx( values[ 3 ] || values[ 1 ] || values[ 0 ] );
+							[ ( /^margin(:?-left)?$/ ), null, function( margin ) {
+								// Deal with component/short-hand form.
+								var values = margin.split( ' ' );
+								margin = CKEDITOR.tools.convertToPx( values[ 3 ] || values[ 1 ] || values[ 0 ] );
 
-							// Figure out the indent unit by checking the first time of incrementation.
-							if ( !listBaseIndent && previousListItemMargin !== null && margin > previousListItemMargin )
-								listBaseIndent = margin - previousListItemMargin;
+								// Figure out the indent unit by checking the first time of incrementation.
+								if ( !listBaseIndent && previousListItemMargin !== null && margin > previousListItemMargin )
+									listBaseIndent = margin - previousListItemMargin;
 
-							previousListItemMargin = margin;
+								previousListItemMargin = margin;
 
-							attrs[ 'cke:indent' ] = listBaseIndent && ( Math.ceil( margin / listBaseIndent ) + 1 ) || 1;
-						}],
+								attrs[ 'cke:indent' ] = listBaseIndent && ( Math.ceil( margin / listBaseIndent ) + 1 ) || 1;
+							}],
 							// The best situation: "mso-list:l0 level1 lfo2" tells the belonged list root, list item indentation, etc.
-													[ ( /^mso-list$/ ), null, function( val )
-																{
-							val = val.split( ' ' );
-							var listId = Number( val[ 0 ].match( /\d+/ ) ),
-								indent = Number( val[ 1 ].match( /\d+/ ) );
+							[ ( /^mso-list$/ ), null, function( val ) {
+								val = val.split( ' ' );
+								var listId = Number( val[ 0 ].match( /\d+/ ) ),
+									indent = Number( val[ 1 ].match( /\d+/ ) );
 
-							if ( indent == 1 ) {
-								listId !== previousListId && ( attrs[ 'cke:reset' ] = 1 );
-								previousListId = listId;
-							}
-							attrs[ 'cke:indent' ] = indent;
-						}]
-							] )( attrs.style, element ) || '';
+								if ( indent == 1 ) {
+									listId !== previousListId && ( attrs[ 'cke:reset' ] = 1 );
+									previousListId = listId;
+								}
+								attrs[ 'cke:indent' ] = indent;
+							}]
+						] )( attrs.style, element ) || '';
 					}
 
 					// First level list item might be presented without a margin.
@@ -337,19 +335,17 @@
 						attrs.start && !i && ( attributes.value = attrs.start );
 
 						plugin.filters.stylesFilter( [
-							[ 'tab-stops', null, function( val )
-																{
-							var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
-							margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
-						}],
-							( level == 1 ? [ 'mso-list', null, function( val )
-																{
-							val = val.split( ' ' );
-							var listId = Number( val[ 0 ].match( /\d+/ ) );
-							listId !== previousListId && ( attributes[ 'cke:reset' ] = 1 );
-							previousListId = listId;
-						}] : null )
-							] )( attributes.style );
+							[ 'tab-stops', null, function( val ) {
+								var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
+								margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
+							}],
+							( level == 1 ? [ 'mso-list', null, function( val ) {
+								val = val.split( ' ' );
+								var listId = Number( val[ 0 ].match( /\d+/ ) );
+								listId !== previousListId && ( attributes[ 'cke:reset' ] = 1 );
+								previousListId = listId;
+							}] : null )
+						] )( attributes.style );
 
 						attributes[ 'cke:indent' ] = level;
 						attributes[ 'cke:listtype' ] = element.name;
@@ -660,8 +656,8 @@
 
 				elementNames: [
 					// Remove script, meta and link elements.
-									[ ( /meta|link|script/ ), '' ]
-					],
+					[ ( /meta|link|script/ ), '' ]
+				],
 
 				root: function( element ) {
 					element.filterChildren();
@@ -927,7 +923,7 @@
 						if ( styleText ) {
 							attrs.style = stylesFilter( [
 								// Drop 'inline-height' style which make lines overlapping.
-															[ 'line-height' ],
+								[ 'line-height' ],
 								[ ( /^font-family$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'font_style' ], 'family' ) : null ],
 								[ ( /^font-size$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'fontSize_style' ], 'size' ) : null ],
 								[ ( /^color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_foreStyle' ], 'color' ) : null ],
@@ -962,14 +958,14 @@
 
 				attributeNames: [
 					// Remove onmouseover and onmouseout events (from MS Word comments effect)
-									[ ( /^onmouse(:?out|over)/ ), '' ],
+					[ ( /^onmouse(:?out|over)/ ), '' ],
 					// Onload on image element.
-									[ ( /^onload$/ ), '' ],
+					[ ( /^onload$/ ), '' ],
 					// Remove office and vml attribute from elements.
-									[ ( /(?:v|o):\w+/ ), '' ],
+					[ ( /(?:v|o):\w+/ ), '' ],
 					// Remove lang/language attributes.
-									[ ( /^lang/ ), '' ]
-					],
+					[ ( /^lang/ ), '' ]
+				],
 
 				attributes: {
 					'style': stylesFilter( removeStyles ?
@@ -977,63 +973,57 @@
 					// be the ones that could later be altered with editor tools.
 					[
 						// Leave list-style-type
-											[ ( /^list-style-type$/ ), null ],
+						[ ( /^list-style-type$/ ), null ],
 
 						// Preserve margin-left/right which used as default indent style in the editor.
-											[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element, name )
-													{
-						if ( element.name in { p:1,div:1 } ) {
-							var indentStyleName = config.contentsLangDirection == 'ltr' ? 'margin-left' : 'margin-right';
+						[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element, name ) {
+							if ( element.name in { p:1,div:1 } ) {
+								var indentStyleName = config.contentsLangDirection == 'ltr' ? 'margin-left' : 'margin-right';
 
-							// Extract component value from 'margin' shorthand.
-							if ( name == 'margin' ) {
-								value = getStyleComponents( name, value, [ indentStyleName ] )[ indentStyleName ];
-							} else if ( name != indentStyleName )
-								return null;
+								// Extract component value from 'margin' shorthand.
+								if ( name == 'margin' ) {
+									value = getStyleComponents( name, value, [ indentStyleName ] )[ indentStyleName ];
+								} else if ( name != indentStyleName )
+									return null;
 
-							if ( value && !emptyMarginRegex.test( value ) )
-								return [ indentStyleName, value ];
-						}
+								if ( value && !emptyMarginRegex.test( value ) )
+									return [ indentStyleName, value ];
+							}
 
-						return null;
-					}],
+							return null;
+						}],
 
 						// Preserve clear float style.
-											[ ( /^clear$/ ) ],
+						[ ( /^clear$/ ) ],
 
-						[ ( /^border.*|margin.*|vertical-align|float$/ ), null,
-													function( value, element )
-													{
-						if ( element.name == 'img' )
-							return value;
-					}],
+						[ ( /^border.*|margin.*|vertical-align|float$/ ), null, function( value, element ) {
+							if ( element.name == 'img' )
+								return value;
+						}],
 
-						[ ( /^width|height$/ ), null,
-													function( value, element )
-													{
-						if ( element.name in { table:1,td:1,th:1,img:1 } )
-							return value;
-					}]
-						] :
+						[ ( /^width|height$/ ), null, function( value, element ) {
+							if ( element.name in { table:1,td:1,th:1,img:1 } )
+								return value;
+						}]
+					] :
 					// Otherwise provide a black-list of styles that we remove.
 					[
 						[ ( /^mso-/ ) ],
 						// Fixing color values.
-											[ ( /-color$/ ), null, function( value )
-												{
-						if ( value == 'transparent' )
-							return false;
-						if ( CKEDITOR.env.gecko )
-							return value.replace( /-moz-use-text-color/g, 'transparent' );
-					}],
+						[ ( /-color$/ ), null, function( value ) {
+							if ( value == 'transparent' )
+								return false;
+							if ( CKEDITOR.env.gecko )
+								return value.replace( /-moz-use-text-color/g, 'transparent' );
+						}],
 						// Remove empty margin values, e.g. 0.00001pt 0em 0pt
-											[ ( /^margin$/ ), emptyMarginRegex ],
+						[ ( /^margin$/ ), emptyMarginRegex ],
 						[ 'text-indent', '0cm' ],
 						[ 'page-break-before' ],
 						[ 'tab-stops' ],
 						[ 'display', 'none' ],
 						removeFontStyles ? [ ( /font-?/ ) ] : null
-						], removeStyles ),
+					], removeStyles ),
 
 					// Prefer width styles over 'width' attributes.
 					'width': function( value, element ) {

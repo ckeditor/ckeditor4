@@ -36,7 +36,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 			'}' +
 
 			// TODO: This is not working because the panel doesn't go under the main UI element (cssID).
-					cssId + ' .cke_combopanel' +
+			cssId + ' .cke_combopanel' +
 			'{' +
 				'border: 1px solid $color;' +
 			'}';
@@ -100,9 +100,9 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 
 	function getLinearBackground( definition ) {
 		return 'background:-moz-linear-gradient(' + definition + ');' + // FF3.6+
-									'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
-									'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
-									'background:-ms-linear-gradient(' + definition + ');' + // IE10+
-									'background:linear-gradient(' + definition + ');'; + W3C
+			'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
+			'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
+			'background:-ms-linear-gradient(' + definition + ');' + // IE10+
+			'background:linear-gradient(' + definition + ');'; // W3C
 	}
 };

@@ -98,7 +98,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
-/** @lends CKEDITOR.dom.element.prototype */ {
+/** @lends CKEDITOR.dom.element.prototype */
+{
 	/**
 	 * The node type. This is a constant value set to
 	 * {@link CKEDITOR.NODE_ELEMENT}.
@@ -1545,7 +1546,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			}
 
 			return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
-		}
+		};
 	})(),
 
 	getChildCount: function() {

@@ -14,10 +14,10 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 		userDicActive = 0,
 		dic_buttons = [
 			// [0] contains buttons for creating
-					"dic_create_" + editorName + ",dic_restore_" + editorName,
+			"dic_create_" + editorName + ",dic_restore_" + editorName,
 			// [1] contains buton for manipulation
-					"dic_rename_" + editorName + ",dic_delete_" + editorName
-			],
+			"dic_rename_" + editorName + ",dic_delete_" + editorName
+		],
 		optionsIds = [ 'mixedCase', 'mixedWithDigits', 'allCaps', 'ignoreDomainNames' ];
 
 	// common operations
@@ -59,25 +59,25 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			type: 'html',
 			id: 'options',
 			html: '<form name="optionsbar_' + editorName + '"><div class="inner_options">' +
-													'	<div class="messagebox"></div>' +
-													'	<div style="display:none;">' +
-													'		<input type="checkbox" name="options"  id="allCaps_' + editorName + '" />' +
-													'		<label for="allCaps" id="label_allCaps_' + editorName + '"></label>' +
-													'	</div>' +
-													'	<div style="display:none;">' +
-													'		<input name="options" type="checkbox"  id="ignoreDomainNames_' + editorName + '" />' +
-													'		<label for="ignoreDomainNames" id="label_ignoreDomainNames_' + editorName + '"></label>' +
-													'	</div>' +
-													'	<div style="display:none;">' +
-													'	<input name="options" type="checkbox"  id="mixedCase_' + editorName + '" />' +
-													'		<label for="mixedCase" id="label_mixedCase_' + editorName + '"></label>' +
-													'	</div>' +
-													'	<div style="display:none;">' +
-													'		<input name="options" type="checkbox"  id="mixedWithDigits_' + editorName + '" />' +
-													'		<label for="mixedWithDigits" id="label_mixedWithDigits_' + editorName + '"></label>' +
-													'	</div>' +
-													'</div></form>'
-		}
+				'	<div class="messagebox"></div>' +
+				'	<div style="display:none;">' +
+				'		<input type="checkbox" name="options"  id="allCaps_' + editorName + '" />' +
+				'		<label for="allCaps" id="label_allCaps_' + editorName + '"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'		<input name="options" type="checkbox"  id="ignoreDomainNames_' + editorName + '" />' +
+				'		<label for="ignoreDomainNames" id="label_ignoreDomainNames_' + editorName + '"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'	<input name="options" type="checkbox"  id="mixedCase_' + editorName + '" />' +
+				'		<label for="mixedCase" id="label_mixedCase_' + editorName + '"></label>' +
+				'	</div>' +
+				'	<div style="display:none;">' +
+				'		<input name="options" type="checkbox"  id="mixedWithDigits_' + editorName + '" />' +
+				'		<label for="mixedWithDigits" id="label_mixedWithDigits_' + editorName + '"></label>' +
+				'	</div>' +
+				'</div></form>'
+			}
 		]
 	},
 		{
@@ -88,11 +88,11 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			type: 'html',
 			id: 'langs',
 			html: '<form name="languagesbar_' + editorName + '"><div class="inner_langs">' +
-													'	<div class="messagebox"></div>	' +
-													'   <div style="float:left;width:45%;margin-left:5px;" id="scayt_lcol_' + editorName + '" ></div>' +
-													'   <div style="float:left;width:45%;margin-left:15px;" id="scayt_rcol_' + editorName + '"></div>' +
-													'</div></form>'
-		}
+				'	<div class="messagebox"></div>	' +
+				'   <div style="float:left;width:45%;margin-left:5px;" id="scayt_lcol_' + editorName + '" ></div>' +
+				'   <div style="float:left;width:45%;margin-left:15px;" id="scayt_rcol_' + editorName + '"></div>' +
+				'</div></form>'
+			}
 		]
 	},
 		{
@@ -104,26 +104,26 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			style: '',
 			id: 'dictionaries',
 			html: '<form name="dictionarybar_' + editorName + '"><div class="inner_dictionary" style="text-align:left; white-space:normal; width:320px; overflow: hidden;">' +
-													'	<div style="margin:5px auto; width:80%;white-space:normal; overflow:hidden;" id="dic_message_' + editorName + '"> </div>' +
-													'	<div style="margin:5px auto; width:80%;white-space:normal;"> ' +
-													'       <span class="cke_dialog_ui_labeled_label" >Dictionary name</span><br>' +
-													'		<span class="cke_dialog_ui_labeled_content" >' +
-													'			<div class="cke_dialog_ui_input_text">' +
-													'				<input id="dic_name_' + editorName + '" type="text" class="cke_dialog_ui_input_text"/>' +
-													'		</div></span></div>' +
-													'		<div style="margin:5px auto; width:80%;white-space:normal;">' +
-													'			<a style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_create_' + editorName + '">' +
-													'				</a>' +
-													'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_delete_' + editorName + '">' +
-													'				</a>' +
-													'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_rename_' + editorName + '">' +
-													'				</a>' +
-													'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_restore_' + editorName + '">' +
-													'				</a>' +
-													'		</div>' +
-													'	<div style="margin:5px auto; width:95%;white-space:normal;" id="dic_info_' + editorName + '"></div>' +
-													'</div></form>'
-		}
+				'	<div style="margin:5px auto; width:80%;white-space:normal; overflow:hidden;" id="dic_message_' + editorName + '"> </div>' +
+				'	<div style="margin:5px auto; width:80%;white-space:normal;"> ' +
+				'       <span class="cke_dialog_ui_labeled_label" >Dictionary name</span><br>' +
+				'		<span class="cke_dialog_ui_labeled_content" >' +
+				'			<div class="cke_dialog_ui_input_text">' +
+				'				<input id="dic_name_' + editorName + '" type="text" class="cke_dialog_ui_input_text"/>' +
+				'		</div></span></div>' +
+				'		<div style="margin:5px auto; width:80%;white-space:normal;">' +
+				'			<a style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_create_' + editorName + '">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_delete_' + editorName + '">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_rename_' + editorName + '">' +
+				'				</a>' +
+				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_restore_' + editorName + '">' +
+				'				</a>' +
+				'		</div>' +
+				'	<div style="margin:5px auto; width:95%;white-space:normal;" id="dic_info_' + editorName + '"></div>' +
+				'</div></form>'
+			}
 		]
 	},
 		{
@@ -232,8 +232,8 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			}
 
 			var about = '<p><img src="' + window.scayt.getAboutInfo().logoURL + '" /></p>' +
-								'<p>' + captions[ 'version' ] + window.scayt.getAboutInfo().version.toString() + '</p>' +
-								'<p>' + captions[ 'about_throwt_copy' ] + '</p>';
+				'<p>' + captions[ 'version' ] + window.scayt.getAboutInfo().version.toString() + '</p>' +
+				'<p>' + captions[ 'about_throwt_copy' ] + '</p>';
 
 			doc.getById( 'scayt_about_' + editorName ).setHtml( about );
 

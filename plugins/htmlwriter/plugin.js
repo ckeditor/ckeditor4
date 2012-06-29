@@ -85,7 +85,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			});
 		}
 
-		this.setRules( 'br', { breakAfterOpen:1 });
+		this.setRules( 'br', { breakAfterOpen:1 } );
 
 		this.setRules( 'title', {
 			indent: 0,

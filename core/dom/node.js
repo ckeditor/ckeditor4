@@ -69,7 +69,8 @@ CKEDITOR.POSITION_IS_CONTAINED = 8;
 CKEDITOR.POSITION_CONTAINS = 16;
 
 CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
-/** @lends CKEDITOR.dom.node.prototype */ {
+/** @lends CKEDITOR.dom.node.prototype */
+{
 	/**
 	 * Makes this node a child of another element.
 	 * @param {CKEDITOR.dom.element} element The target element to which

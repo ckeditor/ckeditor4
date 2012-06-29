@@ -25,7 +25,8 @@
 	};
 
 	var mixins =
-	/** @lends CKEDITOR.dom.rangeList.prototype */ {
+	/** @lends CKEDITOR.dom.rangeList.prototype */
+	{
 		/**
 		 * Creates an instance of the rangeList iterator, it should be used
 		 * only when the ranges processing could be DOM intrusive, which

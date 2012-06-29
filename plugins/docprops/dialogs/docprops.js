@@ -585,7 +585,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				type: 'html',
 				id: 'previewHtml',
 				html: '<iframe src="' + previewSrc + '" style="width: 100%; height: 310px" hidefocus="true" frameborder="0" ' +
-													'id="cke_docProps_preview_iframe"></iframe>',
+					'id="cke_docProps_preview_iframe"></iframe>',
 				onLoad: function() {
 					this.getDialog().on( 'selectPage', function( ev ) {
 						if ( ev.data.page == 'preview' ) {

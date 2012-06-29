@@ -1268,7 +1268,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	CKEDITOR.tools.extend( CKEDITOR.dialog,
 	/**
 	 * @lends CKEDITOR.dialog
-	 */ {
+	 */
+	{
 		/**
 		 * Registers a dialog.
 		 * @param {String} name The dialog's name.
@@ -1539,7 +1540,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		};
 
 	definitionObject.prototype =
-	/** @lends CKEDITOR.dialog.definitionObject.prototype */ {
+	/** @lends CKEDITOR.dialog.definitionObject.prototype */
+	{
 		/**
 		 * Gets a content definition.
 		 * @param {String} id The id of the content definition.
@@ -1635,7 +1637,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	contentObject.prototype =
-	/** @lends CKEDITOR.dialog.definition.contentObject.prototype */ {
+	/** @lends CKEDITOR.dialog.definition.contentObject.prototype */
+	{
 		/**
 		 * Gets a UI element definition under the content definition.
 		 * @param {String} id The id of the UI element definition.
@@ -2488,7 +2491,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				cursor = element,
 				tabId;
 			while ( ( cursor = cursor.getParent() ) && cursor.$.className.search( 'cke_dialog_page_contents' ) == -1 ) {
-	/*jsl:pass*/
+				/*jsl:pass*/
 			}
 
 			// Some widgets don't have parent tabs (e.g. OK and Cancel buttons).
@@ -2674,7 +2677,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	CKEDITOR.ui.dialog.hbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement,
 	/**
 	 * @lends CKEDITOR.ui.dialog.hbox.prototype
-	 */ {
+	 */
+	{
 		/**
 		 * Gets a child UI element inside this container.
 		 * @param {Array|Number} indices An array or a single number to indicate the child's
@@ -2886,7 +2890,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	// Extend the CKEDITOR.editor class with dialog specific functions.
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
-	/** @lends CKEDITOR.editor.prototype */ {
+	/** @lends CKEDITOR.editor.prototype */
+	{
 		/**
 		 * Loads and opens a registered dialog.
 		 * @param {String} dialogName The registered name of the dialog.

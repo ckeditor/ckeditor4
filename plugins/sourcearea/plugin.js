@@ -122,7 +122,8 @@
  */
 CKEDITOR.plugins.sourcearea = {
 	commands: {
-		source: { modes:{wysiwyg:1,source:1 },
+		source: {
+			modes: { wysiwyg:1,source:1 },
 			editorFocus: false,
 			readOnly: 1,
 			exec: function( editor ) {

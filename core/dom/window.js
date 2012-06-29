@@ -23,7 +23,8 @@ CKEDITOR.dom.window = function( domWindow ) {
 CKEDITOR.dom.window.prototype = new CKEDITOR.dom.domObject();
 
 CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
-/** @lends CKEDITOR.dom.window.prototype */ {
+/** @lends CKEDITOR.dom.window.prototype */
+{
 	/**
 	 * Moves the selection focus to this window.
 	 * @function

@@ -319,9 +319,9 @@ CKEDITOR.config = {
 	 */
 	blockedKeystrokes: [
 		CKEDITOR.CTRL + 66, // CTRL+B
-			CKEDITOR.CTRL + 73, // CTRL+I
-			CKEDITOR.CTRL + 85 // CTRL+U
-			]
+		CKEDITOR.CTRL + 73, // CTRL+I
+		CKEDITOR.CTRL + 85 // CTRL+U
+	]
 };
 
 /**

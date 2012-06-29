@@ -99,7 +99,6 @@
 
 			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
 
-
 			// Unprotect "some" of the protected elements at this point.
 			data = unprotectElementNames( data );
 
@@ -198,9 +197,9 @@
 			lastChild = block.children[ lastIndex ];
 
 		return !lastChild || lastChild && ( lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br'
-		// Some of the controls in form needs extension too,
-		// to move cursor at the end of the form. (#4791)
-		|| block.name == 'form' && lastChild.name == 'input' );
+			// Some of the controls in form needs extension too,
+			// to move cursor at the end of the form. (#4791)
+			|| block.name == 'form' && lastChild.name == 'input' );
 	}
 
 	function getBlockExtension( isOutput, emptyBlockFiller ) {
@@ -234,9 +233,9 @@
 		elements: {},
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
-					// active in the editing area (IE|WebKit).
-					[ ( /^on/ ), 'data-cke-pa-on' ]
-			]
+			// active in the editing area (IE|WebKit).
+			[ ( /^on/ ), 'data-cke-pa-on' ]
+		]
 	};
 
 	var defaultDataBlockFilterRules = {
@@ -248,21 +247,21 @@
 	var defaultHtmlFilterRules = {
 		elementNames: [
 			// Remove the "cke:" namespace prefix.
-					[ ( /^cke:/ ), '' ],
+			[ ( /^cke:/ ), '' ],
 
 			// Ignore <?xml:namespace> tags.
-					[ ( /^\?xml:namespace$/ ), '' ]
-			],
+			[ ( /^\?xml:namespace$/ ), '' ]
+		],
 
 		attributeNames: [
 			// Attributes saved for changes and protected attributes.
-					[ ( /^data-cke-(saved|pa)-/ ), '' ],
+			[ ( /^data-cke-(saved|pa)-/ ), '' ],
 
 			// All "data-cke-" attributes are to be ignored.
-					[ ( /^data-cke-.*/ ), '' ],
+			[ ( /^data-cke-.*/ ), '' ],
 
 			[ 'hidefocus', '' ]
-			],
+		],
 
 		elements: {
 			$: function( element ) {
@@ -455,9 +454,9 @@
 	function protectRealComments( html ) {
 		return html.replace( /<!--(?!{cke_protected})[\s\S]+?-->/g, function( match ) {
 			return '<!--' + protectedSourceMarker +
-										'{C}' +
-										encodeURIComponent( match ).replace( /--/g, '%2D%2D' ) +
-										'-->';
+				'{C}' +
+				encodeURIComponent( match ).replace( /--/g, '%2D%2D' ) +
+				'-->';
 		});
 	}
 
@@ -485,12 +484,12 @@
 
 		var regexes = [
 			// Script tags will also be forced to be protected, otherwise
-					// IE will execute them.
-		( /<script[\s\S]*?<\/script>/gi ),
+			// IE will execute them.
+			( /<script[\s\S]*?<\/script>/gi ),
 
 			// <noscript> tags (get lost in IE and messed up in FF).
-					/<noscript[\s\S]*?<\/noscript>/gi
-			].concat( protectRegexes );
+			/<noscript[\s\S]*?<\/noscript>/gi
+		].concat( protectRegexes );
 
 		// First of any other protection, we must protect all comments
 		// to avoid loosing them (of course, IE related).
@@ -513,9 +512,9 @@
 		}
 		data = data.replace( tempRegex, function( $, isComment, id ) {
 			return '<!--' + protectedSourceMarker +
-										( isComment ? '{C}' : '' ) +
-										encodeURIComponent( protectedHtml[ id ] ).replace( /--/g, '%2D%2D' ) +
-										'-->';
+				( isComment ? '{C}' : '' ) +
+				encodeURIComponent( protectedHtml[ id ] ).replace( /--/g, '%2D%2D' ) +
+				'-->';
 		});
 
 		// Different protection pattern is used for those that

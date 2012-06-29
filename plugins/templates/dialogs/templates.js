@@ -161,9 +161,9 @@
 						type: 'html',
 						focus: true,
 						html: '<div class="cke_tpl_list" tabIndex="-1" role="listbox" aria-labelledby="' + templateListLabelId + '">' +
-																			'<div class="cke_tpl_loading"><span></span></div>' +
-																		'</div>' +
-																		'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options + '</span>'
+								'<div class="cke_tpl_loading"><span></span></div>' +
+							'</div>' +
+							'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options + '</span>'
 					},
 						{
 						id: 'chkInsertOpt',

@@ -149,7 +149,7 @@
 				data.frame = frameTpl.output({
 					id: this.id + '_frame',
 					src: 'javascript:void(document.open(),' + ( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\',' : '' )
-													+ 'document.close())">'
+						+ 'document.close())">'
 				});
 			}
 

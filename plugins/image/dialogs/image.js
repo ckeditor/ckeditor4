@@ -853,15 +853,15 @@
 										[ editor.lang.common.alignLeft, 'left' ],
 										[ editor.lang.common.alignRight, 'right' ]
 										// Backward compatible with v2 on setup when specified as attribute value,
-																			// while these values are no more available as select options.
-																			//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
-																			//	[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
-																			//  [ editor.lang.image.alignBaseline , 'baseline'],
-																			//  [ editor.lang.image.alignTextTop , 'text-top'],
-																			//  [ editor.lang.image.alignBottom , 'bottom'],
-																			//  [ editor.lang.image.alignMiddle , 'middle'],
-																			//  [ editor.lang.image.alignTop , 'top']
-																			],
+										// while these values are no more available as select options.
+										//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
+										//	[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
+										//  [ editor.lang.image.alignBaseline , 'baseline'],
+										//  [ editor.lang.image.alignTextTop , 'text-top'],
+										//  [ editor.lang.image.alignBottom , 'bottom'],
+										//  [ editor.lang.image.alignMiddle , 'middle'],
+										//  [ editor.lang.image.alignTop , 'top']
+									],
 									onChange: function() {
 										updatePreview( this.getDialog() );
 										commitInternally.call( this, 'advanced:txtdlgGenStyle' );
@@ -916,15 +916,15 @@
 								id: 'htmlPreview',
 								style: 'width:95%;',
 								html: '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
-																				'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-																				'<div class="ImagePreviewBox"><table><tr><td>' +
-																				'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
-																				'<img id="' + previewImageId + '" alt="" /></a>' +
-																				( editor.config.image_previewText || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ' +
-									'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, ' +
-									'nulla. Aenean dictum lacinia tortor. Nunc iaculis, nibh non iaculis aliquam, orci felis euismod neque, sed ornare massa mauris sed velit. Nulla pretium mi et risus. Fusce mi pede, tempor id, cursus ac, ullamcorper nec, enim. Sed tortor. Curabitur molestie. Duis velit augue, condimentum at, ultrices a, luctus ut, orci. Donec pellentesque egestas eros. Integer cursus, augue in cursus faucibus, eros pede bibendum sem, in tempus tellus justo quis ligula. Etiam eget tortor. Vestibulum rutrum, est ut placerat elementum, lectus nisl aliquam velit, tempor aliquam eros nunc nonummy metus. In eros metus, gravida a, gravida sed, lobortis id, turpis. Ut ultrices, ipsum at venenatis fringilla, sem nulla lacinia tellus, eget aliquet turpis mauris non enim. Nam turpis. Suspendisse lacinia. Curabitur ac tortor ut ipsum egestas elementum. Nunc imperdiet gravida mauris.' ) +
-																				'</td></tr></table></div></div>'
-							}
+									'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
+									'<div class="ImagePreviewBox"><table><tr><td>' +
+										'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
+										'<img id="' + previewImageId + '" alt="" /></a>' +
+										( editor.config.image_previewText || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ' +
+											'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, ' +
+											'nulla. Aenean dictum lacinia tortor. Nunc iaculis, nibh non iaculis aliquam, orci felis euismod neque, sed ornare massa mauris sed velit. Nulla pretium mi et risus. Fusce mi pede, tempor id, cursus ac, ullamcorper nec, enim. Sed tortor. Curabitur molestie. Duis velit augue, condimentum at, ultrices a, luctus ut, orci. Donec pellentesque egestas eros. Integer cursus, augue in cursus faucibus, eros pede bibendum sem, in tempus tellus justo quis ligula. Etiam eget tortor. Vestibulum rutrum, est ut placerat elementum, lectus nisl aliquam velit, tempor aliquam eros nunc nonummy metus. In eros metus, gravida a, gravida sed, lobortis id, turpis. Ut ultrices, ipsum at venenatis fringilla, sem nulla lacinia tellus, eget aliquet turpis mauris non enim. Nam turpis. Suspendisse lacinia. Curabitur ac tortor ut ipsum egestas elementum. Nunc imperdiet gravida mauris.' ) +
+									'</td></tr></table></div></div>'
+								}
 							]
 						}
 						]
@@ -1171,9 +1171,9 @@
 						},
 						onChange: function() {
 							commitInternally.call( this, [ 'info:cmbFloat', 'info:cmbAlign',
-																		'info:txtVSpace', 'info:txtHSpace',
-																		'info:txtBorder',
-																		'info:txtWidth', 'info:txtHeight' ] );
+								'info:txtVSpace', 'info:txtHSpace',
+								'info:txtBorder',
+								'info:txtWidth', 'info:txtHeight' ] );
 							updatePreview( this );
 						},
 						commit: function( type, element ) {

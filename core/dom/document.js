@@ -25,7 +25,8 @@ CKEDITOR.dom.document = function( domDocument ) {
 CKEDITOR.dom.document.prototype = new CKEDITOR.dom.domObject();
 
 CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
-/** @lends CKEDITOR.dom.document.prototype */ {
+/** @lends CKEDITOR.dom.document.prototype */
+{
 	type: CKEDITOR.NODE_DOCUMENT,
 
 	/**

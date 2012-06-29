@@ -33,9 +33,9 @@
 
 		// Simple irrelevant elements filter.
 		that.isRelevant = function( node ) {
-			return isHtml( node ) // 	-> Node must be an existing HTML element.
-			&& !isLine( that, node ) // 	-> Node can be neither the box nor its child.
-			&& !isFlowBreaker( node ); // 	-> Node can be neither floated nor positioned nor aligned.
+			return isHtml( node ) 			// 	-> Node must be an existing HTML element.
+				&& !isLine( that, node ) 	// 	-> Node can be neither the box nor its child.
+				&& !isFlowBreaker( node ); 	// 	-> Node can be neither floated nor positioned nor aligned.
 		};
 
 		// %REMOVE_START%
@@ -246,11 +246,11 @@
 				checkMouseTimer = null;
 				updateWindowSize( that );
 
-				if ( checkMouseTimeoutPending //	-> There must be an event pending.
-				&& !that.hiddenMode // 	-> Can't be in hidden mode.
-				&& editor.focusManager.hasFocus // 	-> Editor must have focus.
-				&& !that.line.mouseNear() // 	-> Mouse pointer can't be close to the box.
-				&& ( that.element = elementFromMouse( that, true ) ) ) // 	-> There must be valid element.
+				if ( checkMouseTimeoutPending 								//	-> There must be an event pending.
+					&& !that.hiddenMode 									// 	-> Can't be in hidden mode.
+					&& editor.focusManager.hasFocus 						// 	-> Editor must have focus.
+					&& !that.line.mouseNear() 								// 	-> Mouse pointer can't be close to the box.
+					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
 					// If trigger exists, and trigger is correct -> show the box
 					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) )
@@ -483,35 +483,35 @@
 
 			// Looks are as follows: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
 			lineChildren: [
-				extend( newElementFromHtml( '<span title="' + that.editor.lang.magicline.title
-										+ '" contenteditable="false">' + WHITE_SPACE + '</span>' ), {
-				base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-												+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
-												+ ';cursor:'
-												+ ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
-				looks: [
-					'top:-8px;' + vendorPrefix( 'border-radius', '2px' ),
-					'top:-17px;' + vendorPrefix( 'border-radius', '2px 2px 0px 0px' ),
-					'top:-1px;' + vendorPrefix( 'border-radius', '0px 0px 2px 2px' )
+				extend(
+					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
+						'" contenteditable="false">' + WHITE_SPACE + '</span>' ), {
+					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
+						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
+						+ ';cursor:' + ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
+					looks: [
+						'top:-8px;' + vendorPrefix( 'border-radius', '2px' ),
+						'top:-17px;' + vendorPrefix( 'border-radius', '2px 2px 0px 0px' ),
+						'top:-1px;' + vendorPrefix( 'border-radius', '0px 0px 2px 2px' )
 					]
-			}),
+				}),
 				extend( newElementFromHtml( TRIANGLE_HTML ), {
-				base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
-				looks: [
-					'border-width:8px 0 8px 8px;top:-8px',
-					'border-width:8px 0 0 8px;top:-8px',
-					'border-width:0 0 8px 8px;top:0px'
+					base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
+					looks: [
+						'border-width:8px 0 8px 8px;top:-8px',
+						'border-width:8px 0 0 8px;top:-8px',
+						'border-width:0 0 8px 8px;top:0px'
 					]
-			}),
+				}),
 				extend( newElementFromHtml( TRIANGLE_HTML ), {
-				base: CSS_TRIANGLE + 'right:0px;border-right-color:' + that.boxColor + ';',
-				looks: [
-					'border-width:8px 8px 8px 0;top:-8px',
-					'border-width:8px 8px 0 0;top:-8px',
-					'border-width:0 8px 8px 0;top:0px'
+					base: CSS_TRIANGLE + 'right:0px;border-right-color:' + that.boxColor + ';',
+					looks: [
+						'border-width:8px 8px 8px 0;top:-8px',
+						'border-width:8px 8px 0 0;top:-8px',
+						'border-width:0 8px 8px 0;top:0px'
 					]
-			})
-				],
+				})
+			],
 
 			detach: function() {
 				// Detach only if already attached.
@@ -630,7 +630,7 @@
 					return;
 
 				for ( var i = this.lineChildren.length, child; i--; )
-				( child = this.lineChildren[ i ] ).setAttribute( 'style', child.base + child.looks[ 0 | look / 2 ] );
+					( child = this.lineChildren[ i ] ).setAttribute( 'style', child.base + child.looks[ 0 | look / 2 ] );
 
 				this.oldLook = look;
 			},
@@ -665,7 +665,7 @@
 				var trigger = that.line.trigger;
 
 				paragraph[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ]
-				( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
+					( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
 			});
 
 			that.hotParagraph.scrollIntoView();
@@ -714,8 +714,11 @@
 
 	// Is fully visible HTML node?
 	function isHtml( node ) {
-		return node && node.type == CKEDITOR.NODE_ELEMENT && node.$ // IE requires that
-		&& node.$.offsetHeight && node.$.offsetWidth;
+		return node &&
+			node.type == CKEDITOR.NODE_ELEMENT &&
+			node.$ && // IE requires that
+			node.$.offsetHeight &&
+			node.$.offsetWidth;
 	}
 
 	function isFloated( element ) {
@@ -869,14 +872,14 @@
 			return null;
 
 		trigger = verticalSearch( that,
+			function( current, startElement ) {
+				return startElement.equals( current );
+			}, function( that ) {
+				return elementFromMouse( that, true );
+			}, startElement ),
 
-		function( current, startElement ) {
-			return startElement.equals( current );
-		}, function( that ) {
-			return elementFromMouse( that, true );
-		}, startElement ),
-
-		upper = trigger.upper, lower = trigger.lower;
+		upper = trigger.upper,
+		lower = trigger.lower;
 
 		DEBUG && DEBUG.logElements( [ upper, lower ], [ 'Upper', 'Lower' ], 'Pair found' ); // %REMOVE_LINE%
 
@@ -887,7 +890,7 @@
 		}
 
 		DEBUG && DEBUG.logElements( [ startElement, upper, lower ], // %REMOVE_LINE%
-		[ 'Start', 'Upper', 'Lower' ], 'Post-processing' ); // %REMOVE_LINE%
+			[ 'Start', 'Upper', 'Lower' ], 'Post-processing' ); // %REMOVE_LINE%
 
 		// Danger. Dragons ahead.
 		// No siblings have been found during previous phase, post-processing may be necessary.
@@ -955,7 +958,8 @@
 		// 2.4.
 		if ( upper.size.bottom > that.mouse.y ) {
 			DEBUG && DEBUG.logElementsEnd( [ startElement, upper, lower ], // %REMOVE_LINE%
-			[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below the pointer.' ); // %REMOVE_LINE%
+				[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below the pointer.' ); // %REMOVE_LINE%
+
 			return null;
 		}
 
@@ -979,7 +983,7 @@
 		}
 
 		DEBUG && DEBUG.logElements( [ minElement, minElementNext ], // %REMOVE_LINE%
-		[ 'Min', 'MinNext' ], 'Post-processing results' ); // %REMOVE_LINE%
+			[ 'Min', 'MinNext' ], 'Post-processing results' ); // %REMOVE_LINE%
 
 		// 3.4.
 		if ( !minElement || !minElementNext ) {
@@ -1015,6 +1019,7 @@
 			|| lower.contains( upper ) || upper.contains( lower ) ) // NOT: two trigger elements, one contains another.
 			{
 				DEBUG && DEBUG.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
+
 				return false;
 			}
 
@@ -1022,18 +1027,21 @@
 			else if ( isTrigger( that, upper ) && isTrigger( that, lower ) && areSiblings( that, upper, lower ) ) {
 				if ( trigger.is( TYPE_EXPAND ) ) {
 					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-					[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
+						[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
+
 					return true;
 				}
 
 				// Check if there's an element that is between the edge and mouse pointer.
 				if ( trigger.is( TYPE_EDGE ) && !isChildBetweenPointerAndEdge( that, upper, true ) && !isChildBetweenPointerAndEdge( that, lower, false ) ) {
 					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-					[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE.' ); // %REMOVE_LINE%
+						[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE.' ); // %REMOVE_LINE%
+
 					return true;
 				} else {
 					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-					[ 'upper', 'lower' ], 'REJECTED EDGE_MIDDLE' ); // %REMOVE_LINE%
+						[ 'upper', 'lower' ], 'REJECTED EDGE_MIDDLE' ); // %REMOVE_LINE%
+
 					return false;
 				}
 			}
@@ -1041,7 +1049,8 @@
 			// NOT: there's a child above the pointer.
 			if ( isChildBetweenPointerAndEdge( that, lower, false ) ) {
 				DEBUG && DEBUG.logElementsEnd( [ lower ], // %REMOVE_LINE%
-				[ 'lower' ], 'REJECT EDGE_TOP. Edge child above' ); // %REMOVE_LINE%
+					[ 'lower' ], 'REJECT EDGE_TOP. Edge child above' ); // %REMOVE_LINE%
+
 				return false;
 			}
 
@@ -1061,7 +1070,8 @@
 			// NOT: there's a child below the pointer.
 			if ( isChildBetweenPointerAndEdge( that, upper, true ) ) {
 				DEBUG && DEBUG.logElementsEnd( [ upper ], // %REMOVE_LINE%
-				[ 'upper' ], 'REJECT EDGE_BOTTOM. Edge child below' ); // %REMOVE_LINE%
+					[ 'upper' ], 'REJECT EDGE_BOTTOM. Edge child below' ); // %REMOVE_LINE%
+
 				return false;
 			}
 
@@ -1075,13 +1085,15 @@
 
 				// YES: single trigger element, last child.
 				DEBUG && DEBUG.logElementsEnd( [ upper ], // %REMOVE_LINE%
-				[ 'upper' ], 'APPROVED EDGE_BOTTOM' ); // %REMOVE_LINE%
+					[ 'upper' ], 'APPROVED EDGE_BOTTOM' ); // %REMOVE_LINE%
+
 				return true;
 			}
 		}
 
 		DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-		[ 'upper', 'lower' ], 'Rejected unknown pair' ); // %REMOVE_LINE%
+			[ 'upper', 'lower' ], 'Rejected unknown pair' ); // %REMOVE_LINE%
+
 		return false;
 	}
 
@@ -1093,14 +1105,13 @@
 			// Better "cache and reuse" than "call again and again".
 			var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
 
-			return env.ie ?
-			function( propertyName ) {
-				return computed[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
-			} : function( propertyName ) {
-				return computed.getPropertyValue( propertyName );
-			};
-		})(),
-
+				return env.ie ?
+					function( propertyName ) {
+						return computed[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
+					} : function( propertyName ) {
+						return computed.getPropertyValue( propertyName );
+					};
+			})(),
 			docPosition = element.getDocumentPosition(),
 			border = {},
 			margin = {},
@@ -1137,7 +1148,7 @@
 
 	function updateSize( that, element, ignoreScroll ) {
 		if ( !isHtml( element ) ) // i.e. an element is hidden
-		return ( element.size = null ); //	-> reset size to make it useless for other methods
+			return ( element.size = null ); //	-> reset size to make it useless for other methods
 
 		if ( !element.size )
 			element.size = {};

@@ -33,13 +33,13 @@
 				bodyHtml += '>';
 
 				sHTML = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
-										'<head>' +
-										baseTag +
-										'<title>' + editor.lang.preview.preview + '</title>' +
-										CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
-										'</head>' + bodyHtml +
-										editor.getData() +
-										'</body></html>';
+					'<head>' +
+						baseTag +
+						'<title>' + editor.lang.preview.preview + '</title>' +
+						CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
+					'</head>' + bodyHtml +
+						editor.getData() +
+					'</body></html>';
 			}
 
 			var iWidth = 640,

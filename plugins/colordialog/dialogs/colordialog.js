@@ -181,10 +181,9 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 	function createColorTable() {
 		table = CKEDITOR.dom.element.createFromHtml( '<table tabIndex="-1" aria-label="' + lang.options + '"' +
-							' role="grid" style="border-collapse:separate;" cellspacing="0">' +
-							'<caption class="cke_voice_label">' + lang.options + '</caption>' +
-							'<tbody role="presentation"></tbody></table>'
-						);
+			' role="grid" style="border-collapse:separate;" cellspacing="0">' +
+			'<caption class="cke_voice_label">' + lang.options + '</caption>' +
+			'<tbody role="presentation"></tbody></table>' );
 
 		table.on( 'mouseover', updateHighlight );
 		table.on( 'mouseout', removeHighlight );

@@ -14,7 +14,7 @@
 		'cedil,sup1,ordm,raquo,frac14,frac12,frac34,iquest,times,divide,' +
 
 		// Symbols
-			'fnof,bull,hellip,prime,Prime,oline,frasl,weierp,image,real,trade,' +
+		'fnof,bull,hellip,prime,Prime,oline,frasl,weierp,image,real,trade,' +
 		'alefsym,larr,uarr,rarr,darr,harr,crarr,lArr,uArr,rArr,dArr,hArr,' +
 		'forall,part,exist,empty,nabla,isin,notin,ni,prod,sum,minus,lowast,' +
 		'radic,prop,infin,ang,and,or,cap,cup,int,there4,sim,cong,asymp,ne,' +
@@ -22,7 +22,7 @@
 		'rceil,lfloor,rfloor,lang,rang,loz,spades,clubs,hearts,diams,' +
 
 		// Other Special Characters
-			'circ,tilde,ensp,emsp,thinsp,zwnj,zwj,lrm,rlm,ndash,mdash,lsquo,' +
+		'circ,tilde,ensp,emsp,thinsp,zwnj,zwj,lrm,rlm,ndash,mdash,lsquo,' +
 		'rsquo,sbquo,ldquo,rdquo,bdquo,dagger,Dagger,permil,lsaquo,rsaquo,' +
 		'euro';
 
@@ -137,7 +137,7 @@
 
 				function getEntity( character ) {
 					return config.entities_processNumerical == 'force' || !entitiesTable[ character ] ? '&#' + character.charCodeAt( 0 ) + ';'
-													: entitiesTable[ character ];
+						: entitiesTable[ character ];
 				}
 
 				// Decode entities that the browsers has transformed

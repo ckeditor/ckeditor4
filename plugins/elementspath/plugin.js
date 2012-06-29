@@ -72,7 +72,7 @@
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
 					event.data.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementspath.eleLabel + '</span>' +
-													'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
+						'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
 				}
 			});
 

@@ -22,8 +22,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		if ( force || dialog._.contents.tab1.livePeview.getValue() )
 			editor.setUiColor( color );
 		// Write new config string into textbox.
-		dialog._.contents.tab1.configBox.setValue( 'config.uiColor = "#' + picker.get( "hex" ) + '"'
-					);
+		dialog._.contents.tab1.configBox.setValue( 'config.uiColor = "#' + picker.get( "hex" ) + '"' );
 	}
 
 	pickerContents = {
@@ -167,8 +166,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 					onShow: function() {
 						var color = editor.getUiColor();
 						if ( color )
-							this.setValue( 'config.uiColor = "' + color + '"'
-																		);
+							this.setValue( 'config.uiColor = "' + color + '"' );
 					}
 				}
 				]

@@ -12,31 +12,33 @@ CKEDITOR.dialog.add( 'checkspell', function( editor ) {
 		protocol = document.location.protocol || 'http:',
 		errorMsg = editor.lang.wsc.notAvailable;
 
-	var pasteArea = '<textarea' +
-					' style="display: none"' +
-					' id="' + textareaId + '"' +
-					' rows="10"' +
-					' cols="40">' +
-				' </textarea><div' +
-					' id="' + errorBoxId + '"' +
-					' style="display:none;color:red;font-size:16px;font-weight:bold;padding-top:160px;text-align:center;z-index:11;">' +
-				'</div><iframe' +
-					' src=""' +
-					' style="width:100%;background-color:#f1f1e3;"' +
-					' frameborder="0"' +
-					' name="' + iframeId + '"' +
-					' id="' + iframeId + '"' +
-					' allowtransparency="1">' +
-				'</iframe>';
+	var pasteArea =
+		'<textarea' +
+			' style="display: none"' +
+			' id="' + textareaId + '"' +
+			' rows="10"' +
+			' cols="40">' +
+		' </textarea><div' +
+			' id="' + errorBoxId + '"' +
+			' style="display:none;color:red;font-size:16px;font-weight:bold;padding-top:160px;text-align:center;z-index:11;">' +
+		'</div><iframe' +
+			' src=""' +
+			' style="width:100%;background-color:#f1f1e3;"' +
+			' frameborder="0"' +
+			' name="' + iframeId + '"' +
+			' id="' + iframeId + '"' +
+			' allowtransparency="1">' +
+		'</iframe>';
 
 	var wscCoreUrl = editor.config.wsc_customLoaderScript || ( protocol + '//loader.webspellchecker.net/sproxy_fck/sproxy.php' + '?plugin=fck2'
-					+ '&customerid=' + editor.config.wsc_customerId
-					+ '&cmd=script&doc=wsc&schema=22'
-				);
+		+ '&customerid=' + editor.config.wsc_customerId
+		+ '&cmd=script&doc=wsc&schema=22'
+	);
 
-	if ( editor.config.wsc_customLoaderScript )
+	if ( editor.config.wsc_customLoaderScript ) {
 		errorMsg += '<p style="color:#000;font-size:11px;font-weight: normal;text-align:center;padding-top:10px">' +
-					editor.lang.wsc.errorLoading.replace( /%s/g, editor.config.wsc_customLoaderScript ) + '</p>';
+			editor.lang.wsc.errorLoading.replace( /%s/g, editor.config.wsc_customLoaderScript ) + '</p>';
+	}
 
 	function burnSpelling( dialog, errorMsg ) {
 		var i = 0;

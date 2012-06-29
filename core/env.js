@@ -17,7 +17,8 @@ if ( !CKEDITOR.env ) {
 		var opera = window.opera;
 
 		var env =
-		/** @lends CKEDITOR.env */ {
+		/** @lends CKEDITOR.env */
+		{
 			/**
 			 * Indicates that CKEditor is running on Internet Explorer.
 			 * @type Boolean
@@ -240,12 +241,17 @@ if ( !CKEDITOR.env ) {
 		 */
 		env.isCompatible =
 
-		// White list of mobile devices that supports.
-		env.iOS && version >= 534 ||
+			// White list of mobile devices that supports.
+			env.iOS && version >= 534 ||
 
-		!env.mobile && (
+			!env.mobile && (
 
-		( env.ie && version >= 6 ) || ( env.gecko && version >= 10801 ) || ( env.opera && version >= 9.5 ) || ( env.air && version >= 1 ) || ( env.webkit && version >= 522 ) || false );
+			( env.ie && version >= 6 ) ||
+			( env.gecko && version >= 10801 ) ||
+			( env.opera && version >= 9.5 ) ||
+			( env.air && version >= 1 ) ||
+			( env.webkit && version >= 522 ) ||
+			false );
 
 		/**
 		 * The CSS class to be appended on the main UI containers, making it

@@ -5,7 +5,9 @@
 
 /**
  * @file AutoGrow plugin
- */ ( function() {
+ */
+
+(function() {
 
 	// Actual content height, figured out by appending check the last element's document position.
 	function contentHeight( scrollable ) {

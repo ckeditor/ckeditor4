@@ -119,20 +119,23 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				setup: function() {
 					var dialog = this.getDialog();
 					var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
-														' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-														'<head><style>body { margin: 3px; height: 95%; } </style></head><body>' +
-														'<script id="cke_actscrpt" type="text/javascript">' +
-														'window.parent.CKEDITOR.tools.callFunction( ' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ', this );' +
-														'</script></body>' +
-														'</html>';
+						' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
+						'<head><style>body { margin: 3px; height: 95%; } </style></head><body>' +
+						'<script id="cke_actscrpt" type="text/javascript">' +
+						'window.parent.CKEDITOR.tools.callFunction( ' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ', this );' +
+						'</script></body>' +
+						'</html>';
 
-					var src = CKEDITOR.env.air ? 'javascript:void(0)' : isCustomDomain ? 'javascript:void((function(){' +
-																'document.open();' +
-																'document.domain=\'' + document.domain + '\';' +
-																'document.close();' +
-															'})())"'
-														:
-															'';
+					var src =
+							CKEDITOR.env.air ?
+								'javascript:void(0)' :
+							isCustomDomain ?
+								'javascript:void((function(){' +
+									'document.open();' +
+									'document.domain=\'' + document.domain + '\';' +
+									'document.close();' +
+								'})())"'
+							: '';
 
 					var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 						' class="cke_pasteframe"' +

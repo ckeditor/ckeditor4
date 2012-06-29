@@ -87,8 +87,7 @@
 		}]
 	};
 
-	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'flashvars', 'allowScriptAccess',
-				'allowFullScreen' ];
+	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'flashvars', 'allowScriptAccess', 'allowFullScreen' ];
 	for ( var i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ] = [ {
 		type: ATTRTYPE_EMBED, name: names[ i ]
@@ -211,8 +210,8 @@
 
 		var previewPreloader,
 			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
-						'<div id="cke_FlashPreviewLoader' + CKEDITOR.tools.getNextNumber() + '" style="display:none"><div class="loading">&nbsp;</div></div>' +
-						'<div id="cke_FlashPreviewBox' + CKEDITOR.tools.getNextNumber() + '" class="FlashPreviewBox"></div></div>';
+			'<div id="cke_FlashPreviewLoader' + CKEDITOR.tools.getNextNumber() + '" style="display:none"><div class="loading">&nbsp;</div></div>' +
+			'<div id="cke_FlashPreviewBox' + CKEDITOR.tools.getNextNumber() + '" class="FlashPreviewBox"></div></div>';
 
 		return {
 			title: editor.lang.flash.title,
@@ -342,7 +341,7 @@
 										// Query the preloader to figure out the url impacted by based href.
 										previewPreloader.setAttribute( 'src', src );
 										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) )
-																									+ '" type="application/x-shockwave-flash"></embed>' );
+											+ '" type="application/x-shockwave-flash"></embed>' );
 									};
 								// Preview element
 								dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );

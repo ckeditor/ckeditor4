@@ -94,7 +94,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			};
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog,
-		/** @lends CKEDITOR.ui.dialog */ {
+		/** @lends CKEDITOR.ui.dialog */
+		{
 			/**
 			 * Base class for all dialog elements with a textual label on the left.
 			 * @constructor
@@ -782,7 +783,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		CKEDITOR.ui.dialog.html.prototype = new CKEDITOR.ui.dialog.uiElement;
 
 		CKEDITOR.ui.dialog.labeledElement.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement,
-		/** @lends CKEDITOR.ui.dialog.labeledElement.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.labeledElement.prototype */
+		{
 			/**
 			 * Sets the label text of the element.
 			 * @param {String} label The new label text.
@@ -821,7 +823,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, true );
 
 		CKEDITOR.ui.dialog.button.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement,
-		/** @lends CKEDITOR.ui.dialog.button.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.button.prototype */
+		{
 			/**
 			 * Simulates a click to the button.
 			 * @example
@@ -901,7 +904,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, true );
 
 		CKEDITOR.ui.dialog.textInput.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement,
-		/** @lends CKEDITOR.ui.dialog.textInput.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.textInput.prototype */
+		{
 			/**
 			 * Gets the text input DOM element under this UI object.
 			 * @example
@@ -969,7 +973,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		CKEDITOR.ui.dialog.textarea.prototype = new CKEDITOR.ui.dialog.textInput();
 
 		CKEDITOR.ui.dialog.select.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement,
-		/** @lends CKEDITOR.ui.dialog.select.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.select.prototype */
+		{
 			/**
 			 * Gets the DOM element of the select box.
 			 * @returns {CKEDITOR.dom.element} The &lt;select&gt; element of this UI
@@ -1032,7 +1037,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		CKEDITOR.ui.dialog.checkbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement,
-		/** @lends CKEDITOR.ui.dialog.checkbox.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.checkbox.prototype */
+		{
 			/**
 			 * Gets the checkbox DOM element.
 			 * @example
@@ -1099,7 +1105,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement,
-		/** @lends CKEDITOR.ui.dialog.radio.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.radio.prototype */
+		{
 			/**
 			 * Checks one of the radio buttons in this button group.
 			 * @example
@@ -1180,7 +1187,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		CKEDITOR.ui.dialog.file.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement, commonPrototype,
-		/** @lends CKEDITOR.ui.dialog.file.prototype */ {
+		/** @lends CKEDITOR.ui.dialog.file.prototype */
+		{
 			/**
 			 * Gets the &lt;input&gt; element of this file input.
 			 * @returns {CKEDITOR.dom.element} The file input element.

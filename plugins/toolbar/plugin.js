@@ -26,7 +26,8 @@
 	};
 
 	var commands = {
-		toolbarFocus: { modes:{wysiwyg:1,source:1 },
+		toolbarFocus: {
+			modes: { wysiwyg:1,source:1 },
 			readOnly: 1,
 
 			exec: function( editor ) {
@@ -338,14 +339,14 @@
 						editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
 
 						output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
-																	+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
-																	+ '" tabIndex="-1" class="cke_toolbox_collapser' );
+							+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
+							+ '" tabIndex="-1" class="cke_toolbox_collapser' );
 
 						if ( !expanded )
 							output.push( ' cke_toolbox_collapser_min' );
 
 						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span class="cke_arrow">&#9650;</span>', // BLACK UP-POINTING TRIANGLE
-						'</a>' );
+							'</a>' );
 					}
 
 					output.push( '</span>' );

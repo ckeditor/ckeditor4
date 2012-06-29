@@ -435,7 +435,7 @@
 			};
 
 			// List and list item.
-			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 });
+			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 } );
 
 			this.setRules( '*', {
 				breakBeforeOpen: 1,

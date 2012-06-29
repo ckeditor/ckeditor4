@@ -477,7 +477,8 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
-	/** @lends CKEDITOR.editor.prototype */ {
+	/** @lends CKEDITOR.editor.prototype */
+	{
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
 		 * this function can be executed later with the <code>{@link #execCommand}</code> method.

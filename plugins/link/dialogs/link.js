@@ -368,7 +368,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						'default': 'http://',
 						items: [
 							// Force 'ltr' for protocol names in BIDI. (#5433)
-													[ 'http://\u200E', 'http://' ],
+							[ 'http://\u200E', 'http://' ],
 							[ 'https://\u200E', 'https://' ],
 							[ 'ftp://\u200E', 'ftp://' ],
 							[ 'news://\u200E', 'news://' ],
@@ -1088,7 +1088,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 								if ( emailProtection == 'encode' ) {
 									linkHref = [ 'javascript:void(location.href=\'mailto:\'+',
-																					protectEmailAddressAsEncodedString( address ) ];
+																															protectEmailAddressAsEncodedString( address ) ];
 									// parameters are optional.
 									argList && linkHref.push( '+\'', escapeSingleQuote( argList ), '\'' );
 
@@ -1117,9 +1117,9 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			if ( data.target ) {
 				if ( data.target.type == 'popup' ) {
 					var onclickList = [ 'window.open(this.href, \'',
-													data.target.name || '', '\', \'' ];
+																			data.target.name || '', '\', \'' ];
 					var featureList = [ 'resizable', 'status', 'location', 'toolbar', 'menubar', 'fullscreen',
-													'scrollbars', 'dependent' ];
+																			'scrollbars', 'dependent' ];
 					var featureLength = featureList.length;
 					var addFeature = function( featureName ) {
 							if ( data.target[ featureName ] )

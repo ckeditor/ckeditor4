@@ -32,7 +32,8 @@ CKEDITOR.dom.comment = function( comment, ownerDocument ) {
 CKEDITOR.dom.comment.prototype = new CKEDITOR.dom.node();
 
 CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype,
-/** @lends CKEDITOR.dom.comment.prototype */ {
+/** @lends CKEDITOR.dom.comment.prototype */
+{
 	type: CKEDITOR.NODE_COMMENT,
 
 	getOuterHtml: function() {
