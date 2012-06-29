@@ -544,7 +544,7 @@
 
 		if ( nativeSel.getRangeAt ) {
 			range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
-			rangeParent = CKEDITOR.dom.element.get( range.commonAncestorContainer );
+			rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
 		}
 		// For old IEs.
 		else {
