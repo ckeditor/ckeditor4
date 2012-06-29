@@ -698,9 +698,11 @@
 							element.isEmpty = 0;
 
 							// Translate smiley (image) to text emotion.
-							var src = attributes[ 'data-cke-saved-src' ];
-							if ( src && src.indexOf( editor.config.smiley_path ) != -1 )
-								return new CKEDITOR.htmlParser.text( smileyMap[ attributes.alt ] );
+							var src = attributes[ 'data-cke-saved-src' ] || attributes.src,
+								alt = attributes.alt;
+
+							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt )
+								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
 						}
@@ -758,7 +760,7 @@
 							else if ( element.getStyle( 'color' ) )
 								name = 'color';
 						} else if ( name == 'img' ) {
-							var src = element.data( 'cke-saved-src' );
+							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
 							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
 								name = 'smiley';
 						}
