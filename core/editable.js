@@ -848,6 +848,16 @@
 
 			nodesData = extractNodesData( that.dataWrapper, startContainer );
 
+			// If last node that will be inserted is a block (but not a <br>)
+			// and it will be inserted right before <br>
+			// remove this <br>.
+			nodeData = nodesData[ nodesData.length - 1 ];
+			if ( nodeData.isBlock && nodeData.isElement && !nodeData.node.is( 'br' ) &&
+				( node = range.endContainer.getChild( range.endOffset ) ) &&
+				checkIfElement( node ) && node.is( 'br' ) ) {
+				node.remove();
+			}
+
 			for ( ; nodeIndex < nodesData.length; nodeIndex++ ) {
 				nodeData = nodesData[ nodeIndex ];
 
