@@ -171,11 +171,6 @@
 			editor.on( 'uiReady', function() {
 				convertInlineHandlers( editor.container );
 
-				if ( editor.sharedSpaces ) {
-					for ( var space in editor.sharedSpaces )
-						convertInlineHandlers( editor.sharedSpaces[ space ] );
-				}
-
 				editor.on( 'elementsPathUpdate', function( evt ) {
 					convertInlineHandlers( evt.data.space );
 				});

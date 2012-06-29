@@ -364,9 +364,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			container.getChild( 1 )[ func ]( 'cke_mixed_dir_content' );
 
-			// Put the mixed direction class on the respective element also for shared spaces.
-			var toolbarSpace = this.sharedSpaces && this.sharedSpaces[ this.config.toolbarLocation ];
-			toolbarSpace && toolbarSpace.getParent().getParent()[ func ]( 'cke_mixed_dir_content' );
 		});
 
 		editor.fireOnce( 'uiReady' );
