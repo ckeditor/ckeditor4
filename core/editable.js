@@ -778,6 +778,12 @@
 					zombies: []
 				};
 
+			// Temporary hack to handle list and table cases by native impl.
+			if ( checkToUseNativeImpl( that, data ) ) {
+				afterInsert( editable );
+				return;
+			}
+
 			prepareRangeToDataInsertion( that );
 
 			// DATA PROCESSING
@@ -807,6 +813,35 @@
 			editable.editor.focus();
 
 			editable.editor.fire( 'saveSnapshot' );
+		}
+
+		// Check if use browser's native html insertion API based on
+		// selection context and data to be inserted.
+		function checkToUseNativeImpl( that, data ) {
+
+			// Check if a complete list presents in the data.
+			var dataMatched = /<(ol|ul|dl)\b/i.test( data ),
+				path = that.range.startPath();
+
+			// Selection start within a list, but not including the case
+			// where there exists a block inside of the list item.
+			if ( dataMatched &&
+			     ( path.block && path.block.is( DTD.$listItem ) ||
+			       path.lastElement.is( DTD.$list ) ) ) {
+				return nativeInsert();
+			}
+
+			function nativeInsert() {
+				var doc = that.range.document;
+				return CKEDITOR.tools.tryThese( function() {
+					doc.$.execCommand( 'inserthtml', false, data );
+					return true;
+				},
+				function() {
+					doc.$.selection.createRange().pasteHTML( data );
+					return true;
+				} );
+			}
 		}
 
 		// Prepare range to its data deletion.
@@ -1065,8 +1100,7 @@
 				if ( testRange.checkStartOfBlock() && testRange.checkEndOfBlock() ) {
 					parent = node.getParent();
 					node.remove( 1 );
-					if ( parent.is( DTD.$list ) )
-						parent.remove( 1 );
+					removeOrphan( parent );
 				}
 			}
 
@@ -1322,6 +1356,29 @@
 				}
 			}
 		}
+
+		// Remove any childless structural element, e.g. list and table.
+		var removeOrphan = (function() {
+			var $structual = { ul:1,ol:1,dl:1,table:1,tbody:1,tr:1 };
+
+			function childEval( parent ) {
+				return function( node ) {
+					return isNotBookmark( node ) && isNotWhitespace( node ) &&
+					       !( parent.is( 'table' ) && node.is( 'caption' ) )
+				};
+			}
+
+			return function me( el ) {
+				if ( el.is( $structual ) ) {
+					if ( !el.getFirst( childEval( el ) ) )
+					{
+						var parent = el.getParent();
+						el.remove();
+						me( parent );
+					}
+				}
+			};
+		})();
 
 		// Return 1 if <br> should be skipped when inserting, 0 otherwise.
 		function splitOnLineBreak( range, blockLimit, nodeData ) {
