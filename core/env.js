@@ -131,6 +131,30 @@ if ( !CKEDITOR.env ) {
 		 */
 		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.opera );
 
+		/**
+		 * Indicates that CKEditor is running on Chrome.
+		 * @name CKEDITOR.env.chrome
+		 * @type Boolean
+		 * @example
+		 * if ( CKEDITOR.env.chrome )
+		 *     alert( "I'm riding Chrome!" );
+		 */
+
+		 /**
+		 * Indicates that CKEditor is running on Safari (including mobile version).
+		 * @name CKEDITOR.env.safari
+		 * @type Boolean
+		 * @example
+		 * if ( CKEDITOR.env.safari )
+		 *     alert( "I'm riding Safari!" );
+		 */
+		if ( env.webkit ) {
+			if ( agent.indexOf( 'chrome' ) > -1 )
+				env.chrome = true;
+			else
+				env.safari = true;
+		}
+
 		var version = 0;
 
 		// Internet Explorer 6.0+
