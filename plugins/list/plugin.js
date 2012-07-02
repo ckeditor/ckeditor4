@@ -140,13 +140,6 @@
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
 				} else if ( item.indent == -1 && !baseIndex && itemGrandParent ) {
-					// We're leaving this parent list, inherit it's inline styles.
-					var listNode = itemParent.clone();
-					if ( listNode.hasAttribute( 'style' ) ) {
-						listNode.removeStyle( 'list-style-type' );
-						inheirtInlineStyles( listNode, item.element );
-					}
-
 					if ( listNodeNames[ itemGrandParent.getName() ] )
 						currentListItem = item.element.clone( false, true );
 					else
