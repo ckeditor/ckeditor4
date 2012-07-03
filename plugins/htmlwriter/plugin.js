@@ -6,19 +6,9 @@
 CKEDITOR.plugins.add( 'htmlwriter', {
 	init: function( editor ) {
 		var writer = new CKEDITOR.htmlWriter();
-		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
 
-		/**
-		 * The characters to be used for each indentation step.
-		 * Using non-white characters as an indentation step isn't recommended
-		 * as they might remain in the edited content.
-		 * @type String
-		 * @default "\t" (tab)
-		 * @example
-		 * // Use two spaces for indentation.
-		 * editor.config.indentationChars = '  ';
-		 */
-		writer.indentationChars = editor.config.indentationChars || '\t';
+		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
+		writer.indentationChars = editor.config.dataIndentationChars || '';
 
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
@@ -45,6 +35,16 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this.base();
 
 		/**
+		 * The characters to be used for each identation step.
+		 * @type String
+		 * @default "\t" (tab)
+		 * @example
+		 * // Use two spaces for indentation.
+		 * editorInstance.dataProcessor.writer.indentationChars = '  ';
+		 */
+		this.indentationChars = '\t';
+
+		/**
 		 * The characters to be used to close "self-closing" elements, like "br" or
 		 * "img".
 		 * @type String
@@ -64,8 +64,6 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * editorInstance.dataProcessor.writer.lineBreakChars = '\r\n';
 		 */
 		this.lineBreakChars = '\n';
-
-		this.forceSimpleAmpersand = 0;
 
 		this.sortAttributes = 1;
 
@@ -305,3 +303,30 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		}
 	}
 });
+
+/**
+ * Whether to force using "&" instead of "&amp;amp;" in elements attributes
+ * values, it's not recommended to change this setting for compliance with the
+ * W3C XHTML 1.0 standards (<a href="http://www.w3.org/TR/xhtml1/#C_12">C.12, XHTML 1.0</a>).
+ * @name CKEDITOR.config.forceSimpleAmpersand
+ * @type Boolean
+ * @default false
+ * @example
+ * // Use "&" instead of "&amp;amp;"
+ * CKEDITOR.config.forceSimpleAmpersand = true;
+ */
+
+/**
+ * The characters to be used for indenting the HTML produced by the editor.
+ * Using characters different than " " (space) and "\t" (tab) is definitely
+ * a bad idea as it'll mess the code.
+ * @name CKEDITOR.config.dataIndentationChars
+ * @type String
+ * @default "" (no indentation)
+ * @example
+ * // Use tab for indentation.
+ * CKEDITOR.config.dataIndentationChars = '\t';
+ * @example
+ * // Use two spaces for indentation.
+ * CKEDITOR.config.dataIndentationChars = '  ';
+ */
