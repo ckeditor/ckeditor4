@@ -529,18 +529,6 @@
 })();
 
 /**
- * Whether to force using "&" instead of "&amp;amp;" in elements attributes
- * values, it's not recommended to change this setting for compliance with the
- * W3C XHTML 1.0 standards (<a href="http://www.w3.org/TR/xhtml1/#C_12">C.12, XHTML 1.0</a>).
- * @name CKEDITOR.config.forceSimpleAmpersand
- * @name CKEDITOR.config.forceSimpleAmpersand
- * @type Boolean
- * @default false
- * @example
- * config.forceSimpleAmpersand = false;
- */
-
-/**
  * Whether a filler text (non-breaking space entity - &nbsp;) will be inserted into empty block elements in HTML output,
  * this is used to render block elements properly with line-height; When a function is instead specified,
  * it'll be passed a {@link CKEDITOR.htmlParser.element} to decide whether adding the filler text

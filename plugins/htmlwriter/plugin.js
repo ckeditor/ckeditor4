@@ -6,7 +6,9 @@
 CKEDITOR.plugins.add( 'htmlwriter', {
 	init: function( editor ) {
 		var writer = new CKEDITOR.htmlWriter();
+
 		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
+		writer.indentationChars = editor.config.dataIndentationChars || '';
 
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
@@ -35,12 +37,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		/**
 		 * The characters to be used for each identation step.
 		 * @type String
-		 * @default "\t" (tab)
+		 * @default "" (no indentation)
 		 * @example
-		 * // Use two spaces for indentation.
-		 * editorInstance.dataProcessor.writer.indentationChars = '  ';
+		 * // Use tab for indentation.
+		 * editorInstance.dataProcessor.writer.indentationChars = '\t';
 		 */
-		this.indentationChars = '\t';
+		this.indentationChars = '';
 
 		/**
 		 * The characters to be used to close "self-closing" elements, like "br" or
@@ -63,8 +65,6 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 */
 		this.lineBreakChars = '\n';
 
-		this.forceSimpleAmpersand = 0;
-
 		this.sortAttributes = 1;
 
 		this._.indent = 0;
@@ -73,33 +73,31 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this._.inPre = 0;
 		this._.rules = {};
 
-		var dtd = CKEDITOR.dtd;
+		var dtd = CKEDITOR.dtd,
+			isTextHolder;
 
 		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
+			isTextHolder = dtd[ e ][ '#' ];
+
 			this.setRules( e, {
-				indent: 1,
+				indent: !isTextHolder,
 				breakBeforeOpen: 1,
-				breakAfterOpen: 1,
-				breakBeforeClose: !dtd[ e ][ '#' ],
-				breakAfterClose: 1
+				breakAfterOpen: !isTextHolder,
+				breakBeforeClose: !isTextHolder,
+				breakAfterClose: 1,
+				needsSpace: ( e in dtd.$block ) && !( e in { li:1,dt:1,dd:1 } )
 			});
 		}
 
 		this.setRules( 'br', { breakAfterOpen:1 } );
 
-		this.setRules( 'title', {
-			indent: 0,
-			breakAfterOpen: 0
-		});
+		this.setRules( 'tr', { needsSpace:1 });
 
-		this.setRules( 'style', {
-			indent: 0,
-			breakBeforeClose: 1
-		});
+		this.setRules( 'style', { breakBeforeClose:1 });
 
-		// Disable indentation on <pre>.
 		this.setRules( 'pre', {
-			indent: 0
+			breakAfterOpen: 1, // Keep line break after the opening tag
+			indent: 0 // Disable indentation on <pre>.
 		});
 	},
 
@@ -116,6 +114,9 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		openTag: function( tagName, attributes ) {
 			var rules = this._.rules[ tagName ];
 
+			if ( this._.afterCloser && rules && rules.needsSpace && this._.needsSpace )
+				this._.output.push( '\n' );
+
 			if ( this._.indent )
 				this.indentation();
 			// Do not break if indenting.
@@ -125,6 +126,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			}
 
 			this._.output.push( '<', tagName );
+
+			this._.afterCloser = 0;
 		},
 
 		/**
@@ -142,9 +145,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		openTagClose: function( tagName, isSelfClose ) {
 			var rules = this._.rules[ tagName ];
 
-			if ( isSelfClose )
+			if ( isSelfClose ) {
 				this._.output.push( this.selfClosingEnd );
-			else {
+
+				if ( rules && rules.breakAfterClose )
+					this._.needsSpace = rules.needsSpace;
+			} else {
 				this._.output.push( '>' );
 
 				if ( rules && rules.indent )
@@ -200,8 +206,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			this._.output.push( '</', tagName, '>' );
 			tagName == 'pre' && ( this._.inPre = 0 );
 
-			if ( rules && rules.breakAfterClose )
+			if ( rules && rules.breakAfterClose ) {
 				this.lineBreak();
+				this._.needsSpace = rules.needsSpace;
+			}
+
+			this._.afterCloser = 1;
 		},
 
 		/**
@@ -255,9 +265,23 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * writer.indentation();
 		 */
 		indentation: function() {
-			if ( !this._.inPre )
+			if ( !this._.inPre && this._.indentation )
 				this._.output.push( this._.indentation );
 			this._.indent = 0;
+		},
+
+		/**
+		 * Empties the current output buffer. It also brings back the default
+		 * values of the writer flags.
+		 * @example
+		 * writer.reset();
+		 */
+		reset: function() {
+			this._.output = [];
+			this._.indent = 0;
+			this._.indentation = '';
+			this._.afterCloser = 0;
+			this._.inPre = 0;
 		},
 
 		/**
@@ -300,3 +324,30 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		}
 	}
 });
+
+/**
+ * Whether to force using "&" instead of "&amp;amp;" in elements attributes
+ * values, it's not recommended to change this setting for compliance with the
+ * W3C XHTML 1.0 standards (<a href="http://www.w3.org/TR/xhtml1/#C_12">C.12, XHTML 1.0</a>).
+ * @name CKEDITOR.config.forceSimpleAmpersand
+ * @type Boolean
+ * @default false
+ * @example
+ * // Use "&" instead of "&amp;amp;"
+ * CKEDITOR.config.forceSimpleAmpersand = true;
+ */
+
+/**
+ * The characters to be used for indenting the HTML produced by the editor.
+ * Using characters different than " " (space) and "\t" (tab) is definitely
+ * a bad idea as it'll mess the code.
+ * @name CKEDITOR.config.dataIndentationChars
+ * @type String
+ * @default "" (no indentation)
+ * @example
+ * // Use tab for indentation.
+ * CKEDITOR.config.dataIndentationChars = '\t';
+ * @example
+ * // Use two spaces for indentation.
+ * CKEDITOR.config.dataIndentationChars = '  ';
+ */
