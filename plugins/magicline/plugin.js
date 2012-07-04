@@ -490,9 +490,9 @@
 						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
 						+ ';cursor:' + ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
 					looks: [
-						'top:-8px;' + vendorPrefix( 'border-radius', '2px' ),
-						'top:-17px;' + vendorPrefix( 'border-radius', '2px 2px 0px 0px' ),
-						'top:-1px;' + vendorPrefix( 'border-radius', '0px 0px 2px 2px' )
+						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
+						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
+						'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
 					]
 				}),
 				extend( newElementFromHtml( TRIANGLE_HTML ), {
@@ -1243,11 +1243,6 @@
 		return new boxTrigger( upper, lower, null, null );
 	}
 
-	var vendor = env.ie ? '-ms-' : env.opera ? '-o-' : env.webkit ? '-webkit-' : env.gecko ? '-moz-' : '';
-
-	function vendorPrefix( property, value ) {
-		return vendor + property + ':' + value + ';' + property + ':' + value + ';';
-	}
 })();
 
 /**

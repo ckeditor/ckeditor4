@@ -9,7 +9,13 @@
  */
 
 (function() {
-	var functions = [];
+	var functions = [],
+		cssVendorPrefix =
+			CKEDITOR.env.gecko ? '-moz-' :
+			CKEDITOR.env.webkit ? '-webkit-' :
+			CKEDITOR.env.opera ? '-o-' :
+			CKEDITOR.env.ie ? '-ms-' :
+			'';
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -206,6 +212,28 @@
 					return false;
 			}
 			return true;
+		},
+
+		/**
+		 * Generate object or string containing vendor specific and vendor free CSS properties.
+		 * @param {String} property CSS property name.
+		 * @param {String} value CSS value.
+		 * @param {Boolean} [asString] If true, then returned value will be CSS string.
+		 * @return {Object|String}
+		 * @example
+		 * CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0', true );
+		 * // On Firefox: "-moz-border-radius:0;border-radius:0"
+		 * // On Chrome: "-webkit-border-radius:0;border-radius:0"
+		 */
+		cssVendorPrefix: function( property, value, asString ) {
+			if ( asString )
+				return cssVendorPrefix + property + ':' + value + ';' + property + ':' + value;
+
+			var ret = {};
+			ret[ property ] = value;
+			ret[ cssVendorPrefix + property ] = value;
+
+			return ret;
 		},
 
 		/**

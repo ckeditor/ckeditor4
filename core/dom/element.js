@@ -1116,38 +1116,22 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * var element = CKEDITOR.document.getById( 'myElement' );
 	 * element.unselectable();
 	 */
-	unselectable: CKEDITOR.env.gecko ?
-	function() {
-		this.$.style.MozUserSelect = 'none';
-		this.on( 'dragstart', function( evt ) {
-			evt.data.preventDefault();
-		});
-	} : CKEDITOR.env.webkit ?
-	function() {
-		this.$.style.KhtmlUserSelect = 'none';
-		this.on( 'dragstart', function( evt ) {
-			evt.data.preventDefault();
-		});
-	} : function() {
+	unselectable: function() {
+		// CSS unselectable.
+		this.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'none' ) );
+
+		// For IE/Opera which doesn't support for the above CSS style,
+		// the unselectable="on" attribute only specifies the selection
+		// process cannot start in the element itself, and it doesn't inherit.
 		if ( CKEDITOR.env.ie || CKEDITOR.env.opera ) {
-			var element = this.$,
-				elements = element.getElementsByTagName( "*" ),
-				e,
-				i = 0;
+			this.setAttribute( 'unselectable', 'on' );
 
-			element.unselectable = 'on';
+			var element,
+				elements = this.getElementsByTag( "*" );
 
-			while ( ( e = elements[ i++ ] ) ) {
-				switch ( e.tagName.toLowerCase() ) {
-					case 'iframe':
-					case 'textarea':
-					case 'input':
-					case 'select':
-						/* Ignore the above tags */
-						break;
-					default:
-						e.unselectable = 'on';
-				}
+			for ( var i = 0, count = elements.count() ; i < count ; i++ ) {
+				element = elements.getItem( i );
+				element.setAttribute( 'unselectable', 'on' );
 			}
 		}
 	},

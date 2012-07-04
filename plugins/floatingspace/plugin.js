@@ -156,6 +156,9 @@
 				style: 'display:none;'
 			}, vars ) ) ) );
 
+			// There's no need for the floatSpace to be selectable.
+			floatSpace.unselectable();
+
 			editor.on( 'focus', function( evt ) {
 				layout( evt );
 				win.on( 'scroll', layout );
