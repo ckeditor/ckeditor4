@@ -127,12 +127,13 @@
 				this.editor.fire( 'saveSnapshot' );
 
 				var editor = this.editor,
+					enterMode = editor.config.enterMode,
 					selection = editor.getSelection(),
 					ranges = selection.getRanges(),
 					elementName = element.getName(),
 					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
-				var range, clone, lastElement, bookmark;
+				var range, clone, lastElement;
 
 				for ( var i = ranges.length - 1; i >= 0; i-- ) {
 					range = ranges[ i ];
@@ -147,7 +148,9 @@
 						// the parent blocks until we reach blockLimit.
 						var current, dtd;
 						if ( isBlock ) {
-							while ( ( current = range.getCommonAncestor( 0, 1 ) ) && ( dtd = CKEDITOR.dtd[ current.getName() ] ) && !( dtd && dtd[ elementName ] ) ) {
+							while ( ( current = range.getCommonAncestor( 0, 1 ) ) &&
+							        ( dtd = CKEDITOR.dtd[ current.getName() ] ) &&
+							        !( dtd && dtd[ elementName ] ) ) {
 								// Split up inline elements.
 								if ( current.getName() in CKEDITOR.dtd.span )
 									range.splitElement( current );
@@ -158,7 +161,7 @@
 									range.collapse( true );
 									current.remove();
 								} else
-									range.splitBlock( editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
+									range.splitBlock( enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p', editor.editable() );
 							}
 						}
 
@@ -175,15 +178,27 @@
 				if ( lastElement ) {
 					range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
 
-					// If we're inserting a block element immediatelly followed by
-					// another block element, the selection must move there. (#3100,#5436)
+					// If we're inserting a block element, the new cursor position must be
+					// optimized. (#3100,#5436,#8950)
 					if ( isBlock ) {
-						var next = lastElement.getNext( isNotWhitespace ),
-							nextName = next && next.type == CKEDITOR.NODE_ELEMENT && next.getName();
 
-						// Check if it's a block element that accepts text.
-						if ( nextName && CKEDITOR.dtd.$block[ nextName ] && CKEDITOR.dtd[ nextName ][ '#' ] )
+						var next = lastElement.getNext( isNotEmpty );
+
+						if ( next && next.type == CKEDITOR.NODE_ELEMENT &&
+						     next.is( CKEDITOR.dtd.$block ) ) {
+
+							// If the next one is a text block, move cursor to the start of it's content.
+							if ( next.getDtd()[ '#' ] )
+								range.moveToElementEditStart( next );
+							// Otherwise move cursor to the before end of the last element.
+							else
+								range.moveToElementEditEnd( lastElement );
+						}
+						// Open a new line if the block is inserted at the end of parent.
+						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
+							next = range.fixBlock( true, enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 							range.moveToElementEditStart( next );
+						}
 					}
 				}
 
@@ -674,7 +689,8 @@
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
+		isNotEmpty = function( node ) { return isNotWhitespace( node ) && isNotBookmark( node ); };
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		var editor = evt.editor;

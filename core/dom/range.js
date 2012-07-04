@@ -1741,14 +1741,19 @@ CKEDITOR.dom.range = function( root ) {
 			function nextDFS( node, childOnly ) {
 				var next;
 
-				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isEditable( false ) && !CKEDITOR.dtd.$nonEditable[ node.getName() ] ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isEditable( false ) )
 					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonWhitespaceOrBookmarkEval );
-				}
 
 				if ( !childOnly && !next )
 					next = node[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonWhitespaceOrBookmarkEval );
 
 				return next;
+			}
+
+			// Handle non-editable element e.g. HR.
+			if ( el.type == CKEDITOR.NODE_ELEMENT && !el.isEditable( false ) ) {
+				this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
+				return true;
 			}
 
 			var found = 0;

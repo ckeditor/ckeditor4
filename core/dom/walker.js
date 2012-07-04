@@ -364,7 +364,7 @@
 		};
 	};
 
-	CKEDITOR.dom.walker.bogus = function( type, isReject ) {
+	CKEDITOR.dom.walker.bogus = function( isReject ) {
 		function nonEmpty( node ) {
 			return !isWhitespaces( node ) && !isBookmark( node );
 		}

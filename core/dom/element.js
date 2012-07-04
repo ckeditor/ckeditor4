@@ -694,7 +694,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	isEditable: function( textCursor ) {
 		var name = this.getName();
 
-		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' || this.getComputedStyle( 'visibility' ) == 'hidden' || CKEDITOR.dtd.$nonEditable[ name ] || this.is( 'a' ) && ( this.data( 'cke-saved-name' ) || this.hasAttribute( 'name' ) ) && !this.getChildCount() ) {
+		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' ||
+		     this.getComputedStyle( 'visibility' ) == 'hidden' ||
+		     CKEDITOR.dtd.$nonEditable[ name ] ||
+		     CKEDITOR.dtd.$empty[ name ] ||
+		     ( this.is( 'a' ) &&
+		       ( this.data( 'cke-saved-name' ) || this.hasAttribute( 'name' ) ) &&
+		       !this.getChildCount()
+			   ) )
+		{
 			return false;
 		}
 
