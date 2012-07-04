@@ -548,7 +548,11 @@
 		}
 		// For old IEs.
 		else {
-			range = nativeSel.createRange();
+			// Sometimes, mostly when selection is close to the table or hr,
+			// IE throws "Unspecified error".
+			try {
+				range = nativeSel.createRange();
+			} catch ( err ) {}
 			rangeParent = range && CKEDITOR.dom.element.get( range.item && range.item( 0 ) || range.parentElement() );
 		}
 
