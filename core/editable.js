@@ -372,7 +372,12 @@
 					if ( keyCode in { 8:1,46:1 } ) {
 						var sel = editor.getSelection(),
 							selected = sel.getSelectedElement(),
-							range = sel.getRanges()[ 0 ];
+							range = sel.getRanges()[ 0 ],
+							path = range.startPath(),
+							block,
+							parent,
+							next,
+							rtl = keyCode == 8;
 
 						if ( selected ) {
 							// Make undo snapshot.
@@ -389,6 +394,53 @@
 
 							evt.data.preventDefault();
 						}
+						else
+						{
+							// Handle the following special cases: (#6217)
+							// 1. Del/Backspace key before/after table;
+							// 2. Backspace Key after start of table.
+							if ( ( block = path.block ) &&
+								 range[ rtl ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() &&
+								 ( next = block[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) &&
+								 next.is( 'table' ) )
+							{
+								editor.fire( 'saveSnapshot' );
+
+								// Remove the current empty block.
+								if ( range[ rtl ? 'checkEndOfBlock' : 'checkStartOfBlock' ]() )
+									block.remove();
+
+								// Move cursor to the beginning/end of table cell.
+								range[ 'moveToElementEdit' + ( rtl ? 'End' : 'Start' ) ]( next );
+								range.select();
+
+								editor.fire( 'saveSnapshot' );
+
+								evt.data.preventDefault();
+							}
+							else if ( path.blockLimit.is( 'td' ) &&
+									  ( parent = path.blockLimit.getAscendant( 'table' ) ) &&
+									  range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) &&
+									  ( next = parent[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) )
+							{
+								editor.fire( 'saveSnapshot' );
+
+								// Move cursor to the end of previous block.
+								range[ 'moveToElementEdit' + ( rtl ? 'End' : 'Start' ) ]( next );
+
+								// Remove any previous empty block.
+								if ( range.checkStartOfBlock() && range.checkEndOfBlock() )
+									next.remove();
+								else
+									range.select();
+
+								editor.fire( 'saveSnapshot' );
+
+								evt.data.preventDefault();
+							}
+
+						}
+
 					}
 
 					return true;
