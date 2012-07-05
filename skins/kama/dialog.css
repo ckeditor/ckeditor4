@@ -877,6 +877,13 @@ strong
 	display: none;
 }
 
+.cke_dialog_body label
+{
+	display: inline;
+	margin-bottom: auto;
+	cursor: default;
+}
+
 .cke_dialog_body label.cke_required
 {
 	font-weight: bold;
