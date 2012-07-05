@@ -122,12 +122,20 @@
 
 		body.spellcheck = !editor.config.disableNativeSpellChecker;
 
-		// Force Gecko to change contentEditable from false to true on domReady
-		// (because it's previously set to true on iframe's body creation).
-		// Otherwise del/backspace and some other editable features will be broken in Fx <4
-		// See: #107 and https://bugzilla.mozilla.org/show_bug.cgi?id=440916
 		if ( CKEDITOR.env.gecko )
+		{
+			// Force Gecko to change contentEditable from false to true on domReady
+			// (because it's previously set to true on iframe's body creation).
+			// Otherwise del/backspace and some other editable features will be broken in Fx <4
+			// See: #107 and https://bugzilla.mozilla.org/show_bug.cgi?id=440916
 			body.contentEditable = false;
+
+			// Remove any leading <br> which is between the <body> and the comment.
+			// This one fixes Firefox 3.6 bug: the browser inserts a leading <br>
+			// on document.write if the body has contenteditable="true".
+			if ( CKEDITOR.env.version < 20000 )
+				body.innerHTML = body.innerHTML.replace( /^.*<!-- cke-content-start -->/, '' );
+		}
 
 		body.contentEditable = true;
 
@@ -382,6 +390,12 @@
 
 						// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
 						data = data.replace( /<br \/>(?=\s*<\/(:?html|body)>)/, '$&<br type="_moz" />' );
+
+						// Another hack which is used by onDomReady to remove a leading
+						// <br> which is inserted by Firefox 3.6 when document.write is called.
+						// This additional <br> is present because of contenteditable="true"
+						if ( CKEDITOR.env.version < 20000 )
+							data = data.replace( /<body[^>]*>/, '$&<!-- cke-content-start -->'  );
 					}
 
 					// The script that launches the bootstrap logic on 'domReady', so the document
