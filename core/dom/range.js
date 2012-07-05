@@ -1591,6 +1591,52 @@ CKEDITOR.dom.range = function( root ) {
 			return clone;
 		},
 
+		/**
+		 * Recursively remove any empty path blocks at the range boundary.
+		 * @param {Boolean} atEnd Removal to perform at the end boundary,
+		 * otherwise to perform at the start.
+		 */
+		removeEmptyBlocksAtEnd : ( function() {
+
+			var whitespace = CKEDITOR.dom.walker.whitespaces(),
+					bookmark = CKEDITOR.dom.walker.bookmark( false );
+
+			function childEval( parent ) {
+				return function( node ) {
+
+					// whitespace, bookmarks, empty inlines.
+					if ( whitespace( node ) || bookmark( node ) ||
+					     node.type == CKEDITOR.NODE_ELEMENT &&
+					     node.isEmptyInlineRemoveable() )
+						return false;
+					else if ( parent.is( 'table' ) && node.is( 'caption' ) )
+						return false;
+
+					return true;
+				};
+			}
+
+			return function( atEnd ) {
+
+				var bm = this.createBookmark();
+				var path = this[ atEnd ? 'endPath' : 'startPath' ]();
+				var block = path.block || path.blockLimit, parent;
+
+				// Remove any childless block, including list and table.
+				while ( block && !block.equals( path.root ) &&
+				        !block.getFirst( childEval( block ) ) )
+				{
+					parent = block.getParent();
+					this[ atEnd ? 'setEndAt' : 'setStartAt' ]( block, CKEDITOR.POSITION_AFTER_END );
+					block.remove( 1 );
+					block = parent;
+				}
+
+				this.moveToBookmark( bm );
+			};
+
+		} )(),
+
 		startPath: function() {
 			return new CKEDITOR.dom.elementPath( this.startContainer, this.root );
 		},

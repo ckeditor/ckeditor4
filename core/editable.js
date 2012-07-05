@@ -871,9 +871,12 @@
 
 			if ( !range.collapsed ) {
 				// Anticipate the possibly empty block at the end of range after deletion.
-				node = endPath.block;
-				if ( node && !node.equals( startPath.block ) && range.checkEndOfBlock() )
+				node = endPath.block || endPath.blockLimit;
+				var ancestor = range.getCommonAncestor();
+				if ( node && !( node.equals( ancestor ) || node.contains( ancestor ) ) &&
+				     range.checkEndOfBlock() ) {
 					that.zombies.push( node );
+				}
 
 				range.deleteContents();
 			}
@@ -1097,11 +1100,7 @@
 
 				testRange = range.clone();
 				testRange.moveToPosition( node, CKEDITOR.POSITION_AFTER_START );
-				if ( testRange.checkStartOfBlock() && testRange.checkEndOfBlock() ) {
-					parent = node.getParent();
-					node.remove( 1 );
-					removeOrphan( parent );
-				}
+				testRange.removeEmptyBlocksAtEnd();
 			}
 
 			if ( bogusNeededBlocks ) {
@@ -1356,29 +1355,6 @@
 				}
 			}
 		}
-
-		// Remove any childless structural element, e.g. list and table.
-		var removeOrphan = (function() {
-			var $structual = { ul:1,ol:1,dl:1,table:1,tbody:1,tr:1 };
-
-			function childEval( parent ) {
-				return function( node ) {
-					return isNotBookmark( node ) && isNotWhitespace( node ) &&
-					       !( parent.is( 'table' ) && node.is( 'caption' ) )
-				};
-			}
-
-			return function me( el ) {
-				if ( el.is( $structual ) ) {
-					if ( !el.getFirst( childEval( el ) ) )
-					{
-						var parent = el.getParent();
-						el.remove();
-						me( parent );
-					}
-				}
-			};
-		})();
 
 		// Return 1 if <br> should be skipped when inserting, 0 otherwise.
 		function splitOnLineBreak( range, blockLimit, nodeData ) {
