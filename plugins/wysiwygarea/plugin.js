@@ -217,6 +217,11 @@
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
+		// Enable dragging of position:absolute elements in IE.
+		try {
+			editor.document.$.execCommand( '2D-position', false, true );
+		} catch ( e ) {}
+
 		// IE, Opera and Safari may not support it and throw errors.
 		try {
 			editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
