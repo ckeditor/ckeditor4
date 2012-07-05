@@ -41,10 +41,10 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 
 	var dtd = CKEDITOR.dtd,
 		isBlockLike = !!( dtd.$nonBodyContent[ tagName ] || dtd.$block[ tagName ] || dtd.$listItem[ tagName ] || dtd.$tableContent[ tagName ] || dtd.$nonEditable[ tagName ] || tagName == 'br' ),
-		isEmpty = !!dtd.$empty[ name ];
+		isEmpty = !!dtd.$empty[ tagName ];
 
 	this.isEmpty = isEmpty;
-	this.isUnknown = !dtd[ name ];
+	this.isUnknown = !dtd[ tagName ];
 
 	/** @private */
 	this._ = {
