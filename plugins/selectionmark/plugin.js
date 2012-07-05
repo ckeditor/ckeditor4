@@ -32,12 +32,12 @@
 	// Emulate browser text selection by shadowing the
 	// editable with a fake selection highlight.
 	function create( editor ) {
+		var editable = editor.editable();
 		// Check if there's an existing shadow instance.
 		// If so, prevent duplication of the shadows.
 		if ( editable._.shadow )
 			return;
 
-		var editable = editor.editable();
 		var sel = editor.getSelection();
 
 		var highlightRange = sel.getRanges()[ 0 ].clone(),
