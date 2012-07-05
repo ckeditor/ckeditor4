@@ -47,11 +47,6 @@
 		align: [ {
 			type: ATTRTYPE_OBJECT, name: 'align'
 		}],
-		title: [ {
-			type: ATTRTYPE_OBJECT, name: 'title'
-		}, {
-			type: ATTRTYPE_EMBED, name: 'title'
-		}],
 		'class': [ {
 			type: ATTRTYPE_OBJECT, name: 'class'
 		}, {
@@ -616,19 +611,11 @@
 				elements: [
 					{
 					type: 'hbox',
-					widths: [ '45%', '55%' ],
 					children: [
 						{
 						type: 'text',
 						id: 'id',
 						label: editor.lang.common.id,
-						setup: loadValue,
-						commit: commitValue
-					},
-						{
-						type: 'text',
-						id: 'title',
-						label: editor.lang.common.advisoryTitle,
 						setup: loadValue,
 						commit: commitValue
 					}
