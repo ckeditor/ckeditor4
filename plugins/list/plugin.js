@@ -577,22 +577,8 @@
 			}
 
 			// For all new lists created, merge into adjacent, same type lists.
-			for ( i = 0; i < listsCreated.length; i++ ) {
-				listNode = listsCreated[ i ];
-				var mergeSibling,
-					listCommand = this;
-				( mergeSibling = function( rtl ) {
-					var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( nonEmpty );
-					if ( sibling && sibling.getName && sibling.getName() == listCommand.type ) {
-						// Move children order by merge direction.(#3820)
-						mergeChildren( listNode, sibling, null, !rtl );
-
-						listNode.remove();
-						listNode = sibling;
-					}
-				})();
-				mergeSibling( 1 );
-			}
+			for ( i = 0; i < listsCreated.length; i++ )
+				mergeListSiblings( listsCreated[ i ] );
 
 			// Clean up, restore selection and update toolbar button states.
 			CKEDITOR.dom.element.clearAllMarkers( database );
@@ -609,6 +595,25 @@
 
 	var dtd = CKEDITOR.dtd;
 	var tailNbspRegex = /[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+
+		// Merge list adjacent, of same type lists.
+	function mergeListSiblings( listNode )
+	{
+		var mergeSibling;
+		( mergeSibling = function( rtl )
+		{
+			var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( nonEmpty );
+			if ( sibling && sibling.is( listNode.getName() ) )
+			{
+				// Move children order by merge direction.(#3820)
+				mergeChildren( listNode, sibling, null, !rtl );
+
+				listNode.remove();
+				listNode = sibling;
+			}
+		} )();
+		mergeSibling( 1 );
+	}
 
 	function indexOfFirstChildElement( element, tagNameList ) {
 		var child,
@@ -676,6 +681,7 @@
 		var frag = nextCursor.extractContents();
 
 		cursor.trim( false, true );
+		var bm = cursor.createBookmark();
 
 		// Kill original bogus;
 		var currentPath = editor.elementPath( cursor.startContainer );
@@ -696,8 +702,8 @@
 		else
 			cursor.startContainer.append( frag );
 
-		var nextPath = editor.elementPath( nextCursor.startContainer );
-		var nextLi = nextCursor.startContainer.getAscendant( 'li', 1 );
+		var nextPath = nextCursor.startPath();
+		var nextLi = nextPath.contains( 'li' );
 
 		// Move the sub list nested in the next list item.
 		if ( nextLi ) {
@@ -716,16 +722,21 @@
 
 
 		if ( nextCursor.checkStartOfBlock() && nextCursor.checkEndOfBlock() ) {
-			var nextBlock = nextPath.block,
-				parentBlock = nextBlock.getParent();
-
+			var nextBlock = nextPath.block;
+			nextCursor.moveToPosition( nextBlock, CKEDITOR.POSITION_BEFORE_START );
 			nextBlock.remove();
-
-			// Remove if the path block container is now empty, e.g. li.
-			if ( parentBlock && !parentBlock.getFirst( nonEmpty ) && !parentBlock.equals( nextPath.blockLimit ) ) {
-				parentBlock.remove();
-			}
 		}
+
+		// Check if need to further merge with the list resides after the merged block. (#9080)
+		var walkerRng = nextCursor.clone(), editable = editor.editable();
+		walkerRng.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
+		var walker = new CKEDITOR.dom.walker( walkerRng );
+		walker.evaluator = function( node ) { return nonEmpty( node ) && !blockBogus( node ); };
+		var next = walker.next();
+		if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getName() in CKEDITOR.dtd.$list )
+			mergeListSiblings( next );
+
+		cursor.moveToBookmark( bm );
 
 		// Make fresh selection.
 		cursor.select();
@@ -760,83 +771,115 @@
 				});
 			}
 
-			// [IE8] Fix "backspace" after list and "del" at the end of list item. (#8248)
-			if ( CKEDITOR.env.ie8Compat ) {
-				editor.on( 'key', function( evt ) {
-					var key = evt.data.keyCode;
+			// Handled backspace/del key to join list items. (#8248,#9080)
+			editor.on( 'key', function( evt ) {
+				var key = evt.data.keyCode;
 
-					// DEl/BACKSPACE
-					if ( editor.mode == 'wysiwyg' && key in { 8:1,46:1 } ) {
-						var sel = editor.getSelection(),
-							range = sel.getRanges()[ 0 ];
+				// DEl/BACKSPACE
+				if ( editor.mode == 'wysiwyg' && key in { 8:1,46:1 } ) {
+					var sel = editor.getSelection(),
+						range = sel.getRanges()[ 0 ],
+						path = range.startPath();
 
-						if ( !range.collapsed )
-							return;
+					if ( !range.collapsed )
+						return;
 
-						var isBackspace = key == 8;
-						var editable = editor.editable();
-						var walker = new CKEDITOR.dom.walker( range.clone() );
-						walker.evaluator = function( node ) {
-							return nonEmpty( node ) && !blockBogus( node );
-						};
+					var isBackspace = key == 8;
+					var editable = editor.editable();
+					var walker = new CKEDITOR.dom.walker( range.clone() );
+					walker.evaluator = function( node ) {
+						return nonEmpty( node ) && !blockBogus( node );
+					};
 
-						var cursor = range.clone();
+					var cursor = range.clone();
 
-						if ( isBackspace ) {
+					if ( isBackspace ) {
+						var previous, joinWith;
+
+						// Join a sub list's first line, with the previous visual line in parent.
+						if ( ( previous = path.contains( listNodeNames ) ) &&
+						     range.checkBoundaryOfElement( previous, CKEDITOR.START ) &&
+						     ( previous = previous.getParent() ) && previous.is( 'li' ) &&
+						     ( previous = getSubList( previous ) ) ) {
+							joinWith = previous;
+							previous = previous.getPrevious( nonEmpty );
+							// Place cursor before the nested list.
+							cursor.moveToPosition(
+								previous && blockBogus( previous ) ? previous : joinWith,
+								CKEDITOR.POSITION_BEFORE_START );
+						}
+						// Join any line following a list, with the last visual line of the list.
+						else {
 							walker.range.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
 							walker.range.setEnd( range.startContainer, range.startOffset );
 
-							var previous = walker.previous();
+							previous = walker.previous();
 
-							// Check if cursor collapsed right behind of a list.
-							if ( previous && previous.type == CKEDITOR.NODE_ELEMENT && previous.getName() in listNodeNames ) {
-								walker.range.selectNodeContents( previous );
-								walker.reset();
-								walker.evaluator = isTextBlock;
+							if ( previous && previous.type == CKEDITOR.NODE_ELEMENT &&
+							     ( previous.getName() in listNodeNames ||
+							       previous.is( 'li' ) ) )
+							{
+								if ( !previous.is( 'li' ) ) {
+									walker.range.selectNodeContents( previous );
+									walker.reset();
+									walker.evaluator = isTextBlock;
+									previous = walker.previous();
+								}
 
+								joinWith = previous;
 								// Place cursor at the end of previous block.
-								cursor.moveToElementEditEnd( walker.lastForward() );
-								joinNextLineToCursor( editor, cursor, range );
-								evt.cancel();
+								cursor.moveToElementEditEnd( joinWith );
 							}
-						} else {
-							var li = range.startContainer.getAscendant( 'li', 1 );
-							if ( li ) {
-								walker.range.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
+						}
 
-								var last = li.getLast( nonEmpty );
-								var block = last && isTextBlock( last ) ? last : li;
+						if ( joinWith ) {
+							joinNextLineToCursor( editor, cursor, range );
+							evt.cancel();
+						}
+					} else {
+						var li = path.contains( 'li' );
+						if ( li ) {
+							walker.range.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
 
-								// Indicate cursor at the visual end of an list item.
-								var isAtEnd = 0;
+							var last = li.getLast( nonEmpty );
+							var block = last && isTextBlock( last ) ? last : li;
 
-								var next = walker.next();
+							// Indicate cursor at the visual end of an list item.
+							var isAtEnd = 0;
 
-								// When list item contains a sub list.
-								if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getName() in listNodeNames && next.equals( last ) ) {
-									isAtEnd = 1;
+							var next = walker.next();
 
-									// Move to the first item in sub list.
-									next = walker.next();
-								}
-								// Right at the end of list item.
-								else if ( range.checkBoundaryOfElement( block, CKEDITOR.END ) )
-									isAtEnd = 1;
+							// When list item contains a sub list.
+							if ( next && next.type == CKEDITOR.NODE_ELEMENT &&
+								 next.getName() in listNodeNames &&
+								 next.equals( last ) )
+							{
+								isAtEnd = 1;
+
+								// Move to the first item in sub list.
+								next = walker.next();
+							}
+							// Right at the end of list item.
+							else if ( range.checkBoundaryOfElement( block, CKEDITOR.END ) )
+								isAtEnd = 1;
 
 
-								if ( isAtEnd && next ) {
-									// Put cursor range there.
-									var nextLine = range.clone();
-									nextLine.moveToElementEditStart( next );
+							if ( isAtEnd && next ) {
+								// Put cursor range there.
+								var nextLine = range.clone();
+								nextLine.moveToElementEditStart( next );
 
-									joinNextLineToCursor( editor, cursor, nextLine );
-									evt.cancel();
-								}
+								joinNextLineToCursor( editor, cursor, nextLine );
+								evt.cancel();
 							}
 						}
 					}
-				});
-			}
+
+					// The backspace/del could potentially put cursor at a bad position,
+					// being it handled or not, check immediately the selection to have it fixed.
+					setTimeout( function() { editor.selectionChange( 1 ); } );
+				}
+			});
 		},
 
 		afterInit: function( editor ) {
