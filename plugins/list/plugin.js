@@ -108,7 +108,6 @@
 				paragraphName = ( paragraphMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			while ( 1 ) {
 				var item = listArray[ currentIndex ],
-					itemParent = item.parent,
 					itemGrandParent = item.grandparent;
 
 				orgDir = item.element.getDirection( 1 );
@@ -140,9 +139,11 @@
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
 				} else if ( item.indent == -1 && !baseIndex && itemGrandParent ) {
-					if ( listNodeNames[ itemGrandParent.getName() ] )
+					if ( listNodeNames[ itemGrandParent.getName() ] ) {
 						currentListItem = item.element.clone( false, true );
-					else
+						if ( orgDir != itemGrandParent.getDirection( 1 ) )
+							currentListItem.setAttribute( 'dir', orgDir );
+					} else
 						currentListItem = new CKEDITOR.dom.documentFragment( doc );
 
 					// Migrate all children to the new container,
