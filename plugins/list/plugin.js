@@ -721,9 +721,19 @@
 			}
 		}
 
+		var nextBlock, parent;
+		// Remove any remaining zombies path blocks at the end after line merged.
+		while ( nextCursor.checkStartOfBlock() && nextCursor.checkEndOfBlock() ) {
+			nextPath = nextCursor.startPath();
+			nextBlock = nextPath.block;
 
-		if ( nextCursor.checkStartOfBlock() && nextCursor.checkEndOfBlock() ) {
-			var nextBlock = nextPath.block;
+			// Check if also to remove empty list.
+			if ( nextBlock.is( 'li' ) ) {
+				parent = nextBlock.getParent();
+				if ( nextBlock.equals( parent.getLast( nonEmpty ) ) && nextBlock.equals( parent.getFirst( nonEmpty ) ) )
+					nextBlock = parent;
+			}
+
 			nextCursor.moveToPosition( nextBlock, CKEDITOR.POSITION_BEFORE_START );
 			nextBlock.remove();
 		}
