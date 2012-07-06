@@ -806,20 +806,18 @@
 
 			// Build the node list for insertion.
 			var doc = range.document,
-				tmp = doc.createElement( 'body' ),
-				frag = new CKEDITOR.dom.documentFragment( range.document );
+				tmp = doc.createElement( 'body' );
 
 			tmp.setHtml( data );
-			tmp.moveChildren( frag );
 
 			// Rule 7.
 			var block = range.startPath().block;
 			if ( block &&													// Apply when there exists path block after deleting selection's content...
 				!( block.getChildCount() == 1 && block.getBogus() ) ) {		// ... and the only content of this block isn't a bogus.
-				stripBlockTagIfSingleLine( frag );
+				stripBlockTagIfSingleLine( tmp );
 			}
 
-			that.dataWrapper = frag;
+			that.dataWrapper = tmp;
 		}
 
 		function insertDataIntoRange( that ) {
