@@ -8,19 +8,24 @@
  */
 
 (function() {
-	var config = CKEDITOR.skinName.split( ',' ),
-		skinName = config[ 0 ],
-		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
-		cssLoaded = {};
+	var cssLoaded = {};
+
+	function getName() {
+		return CKEDITOR.skinName.split( ',' )[ 0 ];
+	}
+
+	function getConfigPath() {
+		return CKEDITOR.getUrl( CKEDITOR.skinName.split( ',' )[ 1 ] || ( 'skins/' + getName() + '/' ) );
+	}
 
 	/**
 	 * Manages the loading of skin parts among all editor instances.
 	 */
 	CKEDITOR.skin = {
 		/**
-		 * Root path of the skin directory.
+		 * Returns the root path of the skin directory.
 		 */
-		path: skinPath,
+		path: getConfigPath,
 
 		/**
 		 * Load a skin part onto the page, do nothing if the part is already loaded.
@@ -35,8 +40,8 @@
 		 * editor.skin.loadPart( "dialog" );
 		 */
 		loadPart: function( part, fn ) {
-			if ( CKEDITOR.skin.name != skinName ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
+			if ( CKEDITOR.skin.name != getName() ) {
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( getConfigPath() + 'skin.js' ), function() {
 					loadCss( part, fn );
 				});
 			} else
@@ -48,7 +53,7 @@
 		 * @param {String} part
 		 */
 		getPath: function( part ) {
-			return CKEDITOR.getUrl( skinPath + part + '.css' );
+			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
 		}
 	};
 
@@ -90,7 +95,7 @@
 
 	function appendPath( fileNames ) {
 		for ( var n = 0; n < fileNames.length; n++ ) {
-			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] + '.css' );
+			fileNames[ n ] = CKEDITOR.getUrl( getConfigPath() + fileNames[ n ] + '.css' );
 		}
 	}
 
