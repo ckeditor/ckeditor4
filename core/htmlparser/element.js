@@ -24,7 +24,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	 * @type Object
 	 * @example
 	 */
-	this.attributes = attributes || ( attributes = {} );
+	this.attributes = attributes || {};
 
 	/**
 	 * The nodes that are direct children of this element.
@@ -33,23 +33,21 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	 */
 	this.children = [];
 
-	var tagName = attributes[ 'data-cke-real-element-type' ] || name || '';
+	// Reveal the real semantic of our internal custom tag name (#6639),
+	// when resolving whether it's block like.
+	var realName = name || '',
+		prefixed = realName.match( /^cke:(.*)/ );
+	prefixed && ( realName = prefixed[ 1 ] );
 
-	// Reveal the real semantic of our internal custom tag name (#6639).
-	var internalTag = tagName.match( /^cke:(.*)/ );
-	internalTag && ( tagName = internalTag[ 1 ] );
+	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] || CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] || CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
 
-	var dtd = CKEDITOR.dtd,
-		isBlockLike = !!( dtd.$nonBodyContent[ tagName ] || dtd.$block[ tagName ] || dtd.$listItem[ tagName ] || dtd.$tableContent[ tagName ] || dtd.$nonEditable[ tagName ] || tagName == 'br' ),
-		isEmpty = !!dtd.$empty[ tagName ];
-
-	this.isEmpty = isEmpty;
-	this.isUnknown = !dtd[ tagName ];
+	this.isEmpty = !!CKEDITOR.dtd.$empty[ name ];
+	this.isUnknown = !CKEDITOR.dtd[ name ];
 
 	/** @private */
 	this._ = {
 		isBlockLike: isBlockLike,
-		hasInlineStarted: isEmpty || !isBlockLike
+		hasInlineStarted: this.isEmpty || !isBlockLike
 	};
 };
 
