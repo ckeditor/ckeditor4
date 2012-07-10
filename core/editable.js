@@ -846,15 +846,7 @@
 
 			nodesData = extractNodesData( that.dataWrapper, startContainer );
 
-			// If last node that will be inserted is a block (but not a <br>)
-			// and it will be inserted right before <br>
-			// remove this <br>.
-			nodeData = nodesData[ nodesData.length - 1 ];
-			if ( nodeData.isBlock && nodeData.isElement && !nodeData.node.is( 'br' ) &&
-				( node = range.endContainer.getChild( range.endOffset ) ) &&
-				checkIfElement( node ) && node.is( 'br' ) ) {
-				node.remove();
-			}
+			removeBrsAdjacentToPastedBlocks( nodesData, range );
 
 			for ( ; nodeIndex < nodesData.length; nodeIndex++ ) {
 				nodeData = nodesData[ nodeIndex ];
@@ -1206,6 +1198,31 @@
 				nextNode.moveChildren( previousNode );
 				nextNode.remove();
 				mergeAncestorElementsOfSelectionEnds( range, blockLimit, startPath, endPath );
+			}
+		}
+
+		// If last node that will be inserted is a block (but not a <br>)
+		// and it will be inserted right before <br> remove this <br>.
+		// Do the same for the first element that will be inserted and preceding <br>.
+		function removeBrsAdjacentToPastedBlocks( nodesData, range ) {
+			var succeedingNode = range.endContainer.getChild( range.endOffset ),
+				precedingNode = range.endContainer.getChild( range.endOffset - 1 );
+
+			if ( succeedingNode ) {
+				remove( succeedingNode, nodesData[ nodesData.length - 1 ] );
+			}
+			if ( precedingNode && remove( precedingNode, nodesData[ 0 ] ) ) {
+				// If preceding <br> was removed - move range left.
+				range.setEnd( range.endContainer, range.endOffset - 1 );
+				range.collapse();
+			}
+
+			function remove( maybeBr, maybeBlockData ) {
+				if ( maybeBlockData.isBlock && maybeBlockData.isElement && !maybeBlockData.node.is( 'br' ) &&
+					checkIfElement( maybeBr ) && maybeBr.is( 'br' ) ) {
+					maybeBr.remove();
+					return 1;
+				}
 			}
 		}
 
