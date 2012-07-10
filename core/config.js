@@ -239,7 +239,7 @@ CKEDITOR.config = {
 	 * @type String
 	 * @example
 	 */
-	plugins: '',
+	plugins: '', // %REMOVE_LINE%
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
