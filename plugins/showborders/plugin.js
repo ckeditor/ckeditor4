@@ -21,7 +21,7 @@
 
 		refresh: function( editor ) {
 			if ( editor.document ) {
-				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'addClass' : 'removeClass';
+				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'attachClass' : 'removeClass';
 				editor.editable()[ funcName ]( 'cke_show_borders' );
 			}
 		}
