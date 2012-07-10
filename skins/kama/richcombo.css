@@ -37,6 +37,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_combo_button
 {
 	display: inline-block;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background-image: url(images/sprites.png);
 	background-repeat: repeat-x;
