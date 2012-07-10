@@ -8,19 +8,24 @@
  */
 
 (function() {
-	var config = CKEDITOR.skinName.split( ',' ),
-		skinName = config[ 0 ],
-		skinPath = CKEDITOR.getUrl( config[ 1 ] || ( 'skins/' + skinName + '/' ) ),
-		cssLoaded = {};
+	var cssLoaded = {};
+
+	function getName() {
+		return CKEDITOR.skinName.split( ',' )[ 0 ];
+	}
+
+	function getConfigPath() {
+		return CKEDITOR.getUrl( CKEDITOR.skinName.split( ',' )[ 1 ] || ( 'skins/' + getName() + '/' ) );
+	}
 
 	/**
 	 * Manages the loading of skin parts among all editor instances.
 	 */
 	CKEDITOR.skin = {
 		/**
-		 * Root path of the skin directory.
+		 * Returns the root path of the skin directory.
 		 */
-		path: skinPath,
+		path: getConfigPath,
 
 		/**
 		 * Load a skin part onto the page, do nothing if the part is already loaded.
@@ -35,8 +40,8 @@
 		 * editor.skin.loadPart( "dialog" );
 		 */
 		loadPart: function( part, fn ) {
-			if ( CKEDITOR.skin.name != skinName ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( skinPath + 'skin.js' ), function() {
+			if ( CKEDITOR.skin.name != getName() ) {
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( getConfigPath() + 'skin.js' ), function() {
 					loadCss( part, fn );
 				});
 			} else
@@ -48,7 +53,7 @@
 		 * @param {String} part
 		 */
 		getPath: function( part ) {
-			return CKEDITOR.getUrl( skinPath + part + '.css' );
+			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
 		}
 	};
 
@@ -90,7 +95,7 @@
 
 	function appendPath( fileNames ) {
 		for ( var n = 0; n < fileNames.length; n++ ) {
-			fileNames[ n ] = CKEDITOR.getUrl( skinPath + fileNames[ n ] + '.css' );
+			fileNames[ n ] = CKEDITOR.getUrl( getConfigPath() + fileNames[ n ] + '.css' );
 		}
 	}
 
@@ -199,6 +204,25 @@
  * the skin directory.
  *
  * @name CKEDITOR.skin.uaParts
+ */
+
+/**
+ * The editor skin name. Note that is is not possible to have editors with
+ * different skin settings in the same page. In such case, just one of the
+ * skins will be used for all editors.
+ *
+ * This is a shortcut to {@link CKEDITOR.skinName}.
+ *
+ * It is possible to install skins outside the default "skin" folder in the
+ * editor installation. In that case, the absolute URL path to that folder
+ * should be provided, separated by a comma ('skin_name,skin_path').
+ *
+ * @name CKEDITOR.config.skin
+ * @type String
+ * @example
+ * config.skin = 'kama';
+ * @example
+ * config.skin = 'myskin,/customstuff/myskin/';
  */
 
 /**

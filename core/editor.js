@@ -298,6 +298,11 @@
 		 */
 		editor.tabIndex = editor.config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
 
+		// Set CKEDITOR.skinName. Note that it is not possible to have
+		// different skins on the same page, so the last one to set it "wins".
+		if ( editor.config.skin )
+			CKEDITOR.skinName = editor.config.skin;
+
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
