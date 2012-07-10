@@ -207,6 +207,25 @@
  */
 
 /**
+ * The editor skin name. Note that is is not possible to have editors with
+ * different skin settings in the same page. In such case, just one of the
+ * skins will be used for all editors.
+ *
+ * This is a shortcut to {@link CKEDITOR.skinName}.
+ *
+ * It is possible to install skins outside the default "skin" folder in the
+ * editor installation. In that case, the absolute URL path to that folder
+ * should be provided, separated by a comma ('skin_name,skin_path').
+ *
+ * @name CKEDITOR.config.skin
+ * @type String
+ * @example
+ * config.skin = 'kama';
+ * @example
+ * config.skin = 'myskin,/customstuff/myskin/';
+ */
+
+/**
  * A function that support the chameleon (skin color switch) feature, providing
  * the skin colors styles update to be apply in runtime.
  * <strong>Note:</strong> the embedded "$color" variable is to be substituted by a concrete UI color.

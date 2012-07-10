@@ -31,11 +31,11 @@ else {
  * by a comma.<br>
  * <br>
  * <strong>Note:</strong> This is a global configuration that applies to all instances.
- * @name CKEDITOR.editorSkin
+ * @name CKEDITOR.skinName
  * @type String
  * @example
- * CKEDITOR.editorSkin = 'kama';
+ * CKEDITOR.skinName = 'kama';
  * @example
- * CKEDITOR.editorSkin = 'myskin,/customstuff/myskin/';
+ * CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
  */
 CKEDITOR.skinName = 'kama';
