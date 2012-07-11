@@ -806,20 +806,18 @@
 
 			// Build the node list for insertion.
 			var doc = range.document,
-				tmp = doc.createElement( 'body' ),
-				frag = new CKEDITOR.dom.documentFragment( range.document );
+				tmp = doc.createElement( 'body' );
 
 			tmp.setHtml( data );
-			tmp.moveChildren( frag );
 
 			// Rule 7.
 			var block = range.startPath().block;
 			if ( block &&													// Apply when there exists path block after deleting selection's content...
 				!( block.getChildCount() == 1 && block.getBogus() ) ) {		// ... and the only content of this block isn't a bogus.
-				stripBlockTagIfSingleLine( frag );
+				stripBlockTagIfSingleLine( tmp );
 			}
 
-			that.dataWrapper = frag;
+			that.dataWrapper = tmp;
 		}
 
 		function insertDataIntoRange( that ) {
@@ -847,6 +845,8 @@
 				&& pos != CKEDITOR.POSITION_IDENTICAL && !( pos & CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_IS_CONTAINED ); // endC & endS are in separate branches.
 
 			nodesData = extractNodesData( that.dataWrapper, startContainer );
+
+			removeBrsAdjacentToPastedBlocks( nodesData, range );
 
 			for ( ; nodeIndex < nodesData.length; nodeIndex++ ) {
 				nodeData = nodesData[ nodeIndex ];
@@ -1198,6 +1198,31 @@
 				nextNode.moveChildren( previousNode );
 				nextNode.remove();
 				mergeAncestorElementsOfSelectionEnds( range, blockLimit, startPath, endPath );
+			}
+		}
+
+		// If last node that will be inserted is a block (but not a <br>)
+		// and it will be inserted right before <br> remove this <br>.
+		// Do the same for the first element that will be inserted and preceding <br>.
+		function removeBrsAdjacentToPastedBlocks( nodesData, range ) {
+			var succeedingNode = range.endContainer.getChild( range.endOffset ),
+				precedingNode = range.endContainer.getChild( range.endOffset - 1 );
+
+			if ( succeedingNode ) {
+				remove( succeedingNode, nodesData[ nodesData.length - 1 ] );
+			}
+			if ( precedingNode && remove( precedingNode, nodesData[ 0 ] ) ) {
+				// If preceding <br> was removed - move range left.
+				range.setEnd( range.endContainer, range.endOffset - 1 );
+				range.collapse();
+			}
+
+			function remove( maybeBr, maybeBlockData ) {
+				if ( maybeBlockData.isBlock && maybeBlockData.isElement && !maybeBlockData.node.is( 'br' ) &&
+					checkIfElement( maybeBr ) && maybeBr.is( 'br' ) ) {
+					maybeBr.remove();
+					return 1;
+				}
 			}
 		}
 
