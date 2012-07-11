@@ -725,7 +725,7 @@
 			// and we will be able to move range back into this element.
 			// E.g. 'aa<b>[bb</b>]cc' -> (after deleting) 'aa<b><span/></b>cc'
 			if ( that.type == 'text' && range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false ) ) {
-				marker = CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>' );
+				marker = CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>', range.document );
 				range.insertNode( marker );
 				range.setStartAfter( marker );
 			}
