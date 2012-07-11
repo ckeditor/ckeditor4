@@ -656,7 +656,7 @@
 		 * cssLength( NaN )	// ''
 		 */
 		cssLength: (function() {
-			var pixelRegex = /^\d+\.?\d*px$/,
+			var pixelRegex = /^-?\d+\.?\d*px$/,
 				lengthTrimmed;
 
 			return function( length ) {
