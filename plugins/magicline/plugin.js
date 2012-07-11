@@ -46,24 +46,25 @@
 		editor.on( 'contentDom', addListeners, this );
 
 		function addListeners() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				doc = editor.document;
 
 			// Global stuff is being initialized here.
 			extend( that, {
 				editable: editable,
-				doc: editable.getDocument(),
+				doc: doc,
 				win: editor.window
 			}, true );
 
 			// Enabling the box inside of inline editable is pointless.
 			// There's no need to place paragraphs inside paragraphs, links, spans, etc.
-			if ( that.editable.is( CKEDITOR.dtd.$inline ) )
+			if ( editable.is( CKEDITOR.dtd.$inline ) )
 				return;
 
 			// Handle in-line editing by setting appropriate position.
 			// If current position is static, make it relative and clear top/left coordinates.
-			if ( inInlineMode( that ) && !isPositioned( that.editable ) ) {
-				that.editable.setStyles({
+			if ( inInlineMode( that ) && !isPositioned( editable ) ) {
+				editable.setStyles({
 					position: 'relative',
 					top: null,
 					left: null
@@ -100,7 +101,7 @@
 			});
 
 			// Hide the box on mouseout if mouse leaves document.
-			that.doc.on( 'mouseout', function( event ) {
+			doc.on( 'mouseout', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -128,7 +129,7 @@
 					}
 				}
 
-				var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement );
+				var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
 
 				if ( !dest.$ || dest.is( 'html' ) ) {
 					clearTimeout( checkMouseTimer );
@@ -167,7 +168,7 @@
 			// in parallel and no more frequently than specified in timeout function.
 			// In framed editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
-			( inInlineMode( that ) ? that.editable : that.doc ).on( 'mousemove', function( event ) {
+			( inInlineMode( that ) ? that.editable : doc ).on( 'mousemove', function( event ) {
 				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
@@ -468,8 +469,9 @@
 	}
 
 	function initLine( that ) {
-		// This the main box element that holds triangles and the insertion button
-		var line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>' );
+		var doc = that.doc,
+			// This the main box element that holds triangles and the insertion button
+			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc );
 
 		extend( line, {
 
@@ -485,7 +487,7 @@
 			lineChildren: [
 				extend(
 					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
-						'" contenteditable="false">' + WHITE_SPACE + '</span>' ), {
+						'" contenteditable="false">' + WHITE_SPACE + '</span>', doc ), {
 					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
 						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
 						+ ';cursor:' + ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
@@ -495,7 +497,7 @@
 						'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
 					]
 				}),
-				extend( newElementFromHtml( TRIANGLE_HTML ), {
+				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
 					looks: [
 						'border-width:8px 0 8px 8px;top:-8px',
@@ -503,7 +505,7 @@
 						'border-width:0 0 8px 8px;top:0px'
 					]
 				}),
-				extend( newElementFromHtml( TRIANGLE_HTML ), {
+				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'right:0px;border-right-color:' + that.boxColor + ';',
 					looks: [
 						'border-width:8px 8px 8px 0;top:-8px',
@@ -635,7 +637,7 @@
 				this.oldLook = look;
 			},
 
-			wrap: new newElement( 'span' )
+			wrap: new newElement( 'span', that.doc )
 
 		});
 
@@ -684,7 +686,7 @@
 	// It inserts the paragraph according to insertFunction.
 	// Then the method selects the non-breaking space making the paragraph ready for typing.
 	function insertParagraph( that, insertFunction ) {
-		var paragraph = new newElement( 'p' ),
+		var paragraph = new newElement( 'p', that.doc ),
 			range = new CKEDITOR.dom.range( that.doc ),
 			dummy = that.doc.createText( WHITE_SPACE ),
 			editor = that.editor;
