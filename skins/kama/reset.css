@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Reset and Default Values
  */
-.cke_reset, .cke_reset_all, .cke_reset_all *
+.cke_reset
 {
 	margin: 0;
 	padding: 0;
@@ -20,9 +20,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: auto;
 }
 
-/* Limit reset for some styles that we don't want to be inherited. */
 .cke_reset_all, .cke_reset_all *
 {
+	/* The following must be identical to the above. */
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-decoration: none;
+	width: auto;
+	height: auto;
+	vertical-align: baseline;
+	white-space: nowrap;
+	cursor: auto;
+
+	/* Limit reset for some styles that we don't want to be inherited inside .cke_reset. */
 	border-collapse: collapse;
 	font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
 	color: #000;
