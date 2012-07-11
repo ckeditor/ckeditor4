@@ -465,7 +465,8 @@
 	}
 
 	function inInlineMode( that ) {
-		return that.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE;
+		var editable = that.editor.editable();
+		return editable.getDocument().equals( CKEDITOR.document );
 	}
 
 	function initLine( that ) {
