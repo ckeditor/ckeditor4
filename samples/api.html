@@ -9,11 +9,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>API Usage &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
 	<link href="sample.css" rel="stylesheet">
-	<script>/* %REMOVE_START% */ 
-
-CKEDITOR.config.plugins = 'basicstyles,link,wysiwygarea';
-
-/* %REMOVE_END% */ 	</script>
 	<script>
 
 // The instanceReady event is fired, when an instance of CKEditor has finished
@@ -24,7 +19,7 @@ CKEDITOR.on( 'instanceReady', function( ev )
 	document.getElementById( 'eMessage' ).innerHTML = 'Instance <code>' + ev.editor.name + '<\/code> loaded.';
 
 	// Show this sample buttons.
-	 document.getElementById( 'eButtons' ).style.display = 'block';
+	document.getElementById( 'eButtons' ).style.display = 'block';
 });
 
 function InsertHTML()
