@@ -419,8 +419,15 @@
 									tail = cursors[ cursors.length - 1 ],
 									head = cursors[ 0 ];
 
-								var headWalker = new characterWalker( getRangeBeforeCursor( head ), true ),
-									tailWalker = new characterWalker( getRangeAfterCursor( tail ), true );
+								var rangeBefore = getRangeBeforeCursor( head ),
+									rangeAfter = getRangeAfterCursor( tail );
+
+								// The word boundary checks requires to trim the text nodes. (#9036)
+								rangeBefore.trim();
+								rangeAfter.trim();
+
+								var headWalker = new characterWalker( rangeBefore, true ),
+									tailWalker = new characterWalker( rangeAfter, true );
 
 								if ( !( isWordSeparator( headWalker.back().character ) && isWordSeparator( tailWalker.next().character ) ) )
 									continue;
