@@ -479,7 +479,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( !target.is( 'a', 'button', 'select' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {
 					button = this.getButton( 'ok' );
 					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
-					processed = 1
+					processed = 1;
 				}
 				stopPropagation = 1; // Always block the propagation (#4269)
 			} else if ( keystroke == 27 /*ESC*/ ) {

@@ -219,6 +219,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// Check if the element matches the style overrides.
 			var override = getOverrides( this )[ element.getName() ];
 			if ( override ) {
+				var attribs, attName;
+
 				// If no attributes have been defined, remove the element.
 				if ( !( attribs = override.attributes ) )
 					return true;
