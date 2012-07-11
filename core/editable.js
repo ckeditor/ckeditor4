@@ -309,9 +309,14 @@
 				}
 
 				// Apply tab index on demand, with original direction saved.
-				if ( editor.document.equals( CKEDITOR.document ) && this.getAttribute( 'tabIndex' ) != editor.tabIndex ) {
-					this.setCustomData( 'org_tabindex_saved', this.getAttribute( 'tabIndex' ) );
-					this.setAttribute( 'tabIndex', editor.tabIndex );
+				if ( editor.document.equals( CKEDITOR.document ) ) {
+					var elementTabIndex = this.getAttribute( 'tabindex' );
+					this.setCustomData( 'org_tabindex_saved', elementTabIndex );
+
+					// tabIndex of the editable is different than editor's one.
+					// Update the attribute of the editable.
+					if ( elementTabIndex != editor.tabIndex )
+						this.setAttribute( 'tabIndex', editor.tabIndex );
 				}
 
 				// Create the content stylesheet for this document.
@@ -432,10 +437,13 @@
 				if ( orgDir !== null )
 					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
 
-				// Restore original tab index.
+				// Restore original tab index if saved.
+				// Otherwise, remove the attribute.
 				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
 				if ( orgTabIndex !== null )
-					orgTabIndex ? this.setAttribute( 'tabIndex', orgTabIndex ) : this.removeAttribute( 'tabIndex' );
+					this.setAttribute( 'tabIndex', orgTabIndex );
+				else
+					this.removeAttribute( 'tabIndex' );
 
 				// Cleanup our custom classes.
 				var classes;
