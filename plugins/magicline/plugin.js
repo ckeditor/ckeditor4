@@ -605,7 +605,11 @@
 					styleSet.top = inInlineMode( that ) ? 0 : view.scroll.y;
 					this.look( LOOK_TOP );
 				} else if ( trigger.is( LOOK_BOTTOM ) || inBetween( styleSet.top, view.pane.bottom - 5, view.pane.bottom + 15 ) ) {
-					styleSet.top = inInlineMode( that ) ? view.editable.height : view.pane.bottom - 1;
+					styleSet.top = inInlineMode( that ) ?
+							view.editable.height + view.editable.padding.top + view.editable.padding.bottom
+						:
+							view.pane.bottom - 1;
+
 					this.look( LOOK_BOTTOM );
 				} else {
 					if ( inInlineMode( that ) )
