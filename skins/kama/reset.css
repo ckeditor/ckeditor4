@@ -16,8 +16,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: auto;
 	height: auto;
 	vertical-align: baseline;
-	white-space: nowrap;
-	cursor: auto;
 }
 
 .cke_reset_all, .cke_reset_all *
@@ -31,21 +29,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: auto;
 	height: auto;
 	vertical-align: baseline;
-	white-space: nowrap;
-	cursor: auto;
 
 	/* Limit reset for some styles that we don't want to be inherited inside .cke_reset. */
 	border-collapse: collapse;
 	font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
 	color: #000;
     text-align: left;
-}
-
-/* Inherited styles that we don't want inside div-area. */
-.cke_wysiwyg_div
-{
-    cursor: text;
-    white-space: normal;
+	white-space: nowrap;
+	cursor: auto;
 }
 
 .cke_reset_all iframe
