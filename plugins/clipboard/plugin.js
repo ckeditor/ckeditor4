@@ -836,8 +836,9 @@
 			}
 			// Cut, Copy - check if the selection is not empty
 			else {
-				var ranges = editor.getSelection().getRanges();
-				retval = !( ranges.length == 1 && ranges[ 0 ].collapsed );
+				var sel = editor.getSelection(),
+					ranges = sel.getRanges();
+				retval = sel.type != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
 			}
 
 			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
