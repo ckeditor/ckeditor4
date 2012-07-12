@@ -211,14 +211,6 @@ a:visited.cke_dialog_tab_selected
 	margin-top: 10px;
 }
 
-/* IE7 + IE quirks */
-.cke_browser_ie7.cke_single_page .cke_dialog_contents
-{
-	margin-top: 0px;
-	position: relative;
-	margin-bottom: -22px;
-}
-
 .cke_dialog_ui_vbox table,
 .cke_dialog_ui_hbox table
 {
