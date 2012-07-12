@@ -57,7 +57,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: pre;
 }
 
-.cke_wysiwyg_frame
+.cke_wysiwyg_frame, .cke_wysiwyg_div
 {
 	background-color: #fff;
 }
