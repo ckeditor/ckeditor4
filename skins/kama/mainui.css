@@ -63,6 +63,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	overflow: hidden;
 }
 
+.cke_wysiwyg_div
+{
+	display: block;
+	height: 100%;
+	overflow: auto;
+	padding: 0 8px;
+	outline-style: none;
+}
+
 .cke_resizer
 {
 	/* Arrow in CSS */

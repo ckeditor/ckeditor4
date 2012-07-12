@@ -61,12 +61,12 @@
 		 */
 		function insertTemplate( html ) {
 			var dialog = CKEDITOR.dialog.getCurrent(),
-				isInsert = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
+				isReplace = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
 
-			if ( isInsert ) {
+			if ( isReplace ) {
+				editor.fire( 'saveSnapshot' );
 				// Everything should happen after the document is loaded (#4073).
-				editor.on( 'contentDom', function( evt ) {
-					evt.removeListener();
+				editor.setData( html, function() {
 					dialog.hide();
 
 					// Place the cursor at the first editable place.
@@ -76,10 +76,8 @@
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' );
 					}, 0 );
-				});
 
-				editor.fire( 'saveSnapshot' );
-				editor.setData( html );
+				} );
 			} else {
 				editor.insertHtml( html );
 				dialog.hide();

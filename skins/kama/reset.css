@@ -6,53 +6,65 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * Reset and Default Values
  */
-.cke *
+.cke_reset
 {
 	margin: 0;
 	padding: 0;
 	border: 0;
 	background: transparent;
 	text-decoration: none;
-	font: normal normal normal 100% Sans-Serif;
 	width: auto;
 	height: auto;
-	border-collapse: collapse;
-	text-align: left;
 	vertical-align: baseline;
-	white-space: nowrap;
-	cursor: auto;
-	color: #000;
-
-    font-size: 12px;
-    font-family: Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
 }
 
-.cke iframe
+.cke_reset_all, .cke_reset_all *
+{
+	/* The following must be identical to the above. */
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-decoration: none;
+	width: auto;
+	height: auto;
+	vertical-align: baseline;
+
+	/* Limit reset for some styles that we don't want to be inherited inside .cke_reset. */
+	border-collapse: collapse;
+	font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
+	color: #000;
+    text-align: left;
+	white-space: nowrap;
+	cursor: auto;
+}
+
+.cke_reset_all iframe
 {
 	vertical-align: inherit;	/** For IE */
 }
 
-.cke textarea
+.cke_reset_all textarea
 {
 	white-space: pre;
 }
 
-.cke textarea,
-.cke input[type="text"],
-.cke input[type="password"]
+.cke_reset_all textarea,
+.cke_reset_all input[type="text"],
+.cke_reset_all input[type="password"]
 {
 	cursor: text;
 }
 
 
-.cke textarea[disabled],
-.cke input[type="text"][disabled],
-.cke input[type="password"][disabled]
+.cke_reset_all textarea[disabled],
+.cke_reset_all input[type="text"][disabled],
+.cke_reset_all input[type="password"][disabled]
 {
 	cursor: default;
 }
 
-.cke fieldset
+.cke_reset_all fieldset
 {
 	padding: 10px;
 	border: 2px groove #E0DFE3;

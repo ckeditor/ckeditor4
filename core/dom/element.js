@@ -349,11 +349,35 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 *
 	 * // result: "&lt;p&gt;&lt;b&gt;Inner&lt;/b&gt; HTML&lt;/p&gt;"
 	 */
-	setHtml: function( html ) {
-		return ( this.$.innerHTML = html );
-	},
+	setHtml: (function() {
+		var standard = function( html ) {
+			return ( this.$.innerHTML = html );
+		};
 
-	/**
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			// old IEs throws error on HTML manipulation (through the "innerHTML" property)
+			// on the element which resides in an DTD invalid position,  e.g. <span><div></div></span>
+			// fortunately it can be worked around with DOM manipulation.
+			return function( html ) {
+				try { return standard.call( this, html ); }
+				catch ( e ) {
+					this.$.innerHTML = '';
+
+					var temp = new CKEDITOR.dom.element( 'body', this.getDocument() );
+					temp.$.innerHTML = html;
+
+					var children = temp.getChildren();
+					while( children.count() )
+						this.append( children.getItem( 0 ) );
+
+					return html;
+				}
+			};
+		} else
+			return standard;
+	})(),
+
+		/**
 	 * Sets the element contents as plain text.
 	 * @param {String} text The text to be set.
 	 * @returns {String} The inserted text.

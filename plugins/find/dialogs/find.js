@@ -498,15 +498,16 @@
 			function getSearchRange( isDefault ) {
 				var searchRange,
 					sel = editor.getSelection(),
-					body = editor.document.getBody();
-				if ( sel && !isDefault ) {
+					editable = editor.editable();
+
+				if ( sel && sel.type == CKEDITOR.SELECTION_NONE && !isDefault ) {
 					searchRange = sel.getRanges()[ 0 ].clone();
 					searchRange.collapse( true );
 				} else {
 					searchRange = editor.createRange();
-					searchRange.setStartAt( editor.editable(), CKEDITOR.POSITION_AFTER_START );
+					searchRange.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
 				}
-				searchRange.setEndAt( editor.editable(), CKEDITOR.POSITION_BEFORE_END );
+				searchRange.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
 				return searchRange;
 			}
 

@@ -61,27 +61,50 @@
 
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
-			editor.addCommand( 'autogrow', { exec:resizeEditor,modes:{wysiwyg:1 },
-				readOnly: 1, canUndo: false, editorFocus: false } );
 
-			var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1,mode:1 };
-			editor.config.autoGrow_onStartup && ( eventsList[ 'instanceReady' ] = 1 );
-			for ( var eventName in eventsList ) {
-				editor.on( eventName, function( evt ) {
-					var maximize = editor.getCommand( 'maximize' );
-					// Some time is required for insertHtml, and it gives other events better performance as well.
-					if ( evt.editor.mode == 'wysiwyg' &&
-						// Disable autogrow when the editor is maximized .(#6339)
-						( !maximize || maximize.state != CKEDITOR.TRISTATE_ON ) ) {
-						setTimeout( function() {
-							resizeEditor( evt.editor );
-							// Second pass to make correction upon
-							// the first resize, e.g. scrollbar.
-							resizeEditor( evt.editor );
-						}, 100 );
+			// This feature is available only for themed ui instance.
+			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
+				return;
+
+			editor.on( 'instanceReady', function() {
+
+				var editable = editor.editable();
+
+				// Simply set auto height with div wysiwyg.
+				if ( editable.getDocument().equals( CKEDITOR.document ) )
+					editor.ui.space( 'contents' ).setStyle( 'height', 'auto' );
+				// For framed wysiwyg we need to resize the editor.
+				else
+				{
+					editor.addCommand( 'autogrow', {
+						exec:resizeEditor,
+						modes:{ wysiwyg:1 },
+						readOnly: 1,
+						canUndo: false,
+						editorFocus: false
+					} );
+
+					var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1,mode:1 };
+					for ( var eventName in eventsList ) {
+						editor.on( eventName, function( evt ) {
+							var maximize = editor.getCommand( 'maximize' );
+							// Some time is required for insertHtml, and it gives other events better performance as well.
+							if ( evt.editor.mode == 'wysiwyg' &&
+								// Disable autogrow when the editor is maximized .(#6339)
+								( !maximize || maximize.state != CKEDITOR.TRISTATE_ON ) ) {
+								setTimeout( function() {
+									resizeEditor( evt.editor );
+									// Second pass to make correction upon
+									// the first resize, e.g. scrollbar.
+									resizeEditor( evt.editor );
+								}, 100 );
+							}
+						});
 					}
-				});
-			}
+
+					editor.config.autoGrow_onStartup && editor.execCommand( 'autogrow' );
+				}
+			});
 		}
 	});
 })();

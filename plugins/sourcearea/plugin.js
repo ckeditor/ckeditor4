@@ -38,8 +38,7 @@
 					'aria-label': editor.lang.common.editorTitle.replace( '%1', editor.name )
 				});
 
-				textarea.addClass( 'cke_source' );
-				textarea.addClass( 'cke_enable_context_menu' );
+				textarea.addClass( 'cke_source cke_reset cke_enable_context_menu' );
 
 				editor.ui.space( 'contents' ).append( textarea );
 

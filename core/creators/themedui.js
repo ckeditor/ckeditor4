@@ -272,20 +272,20 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	var themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<span' +
 		' id="cke_{name}"' +
-		' class="{id} cke cke_chrome cke_editor_{name}"' +
+		' class="{id} cke cke_reset cke_chrome cke_editor_{name}"' +
 		' dir="{langDir}"' +
 		' lang="{langCode}"' +
 		' role="application"' +
 		' aria-labelledby="cke_{name}_arialbl" {style}>' +
 		'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-		'<span class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-			'<span class="cke_{langDir}" role="presentation">' +
-				'<span class="cke_inner" role="presentation">' +
-					'<span id="{topId}" class="cke_top"' +
+		'<span class="' + CKEDITOR.env.cssClass + ' cke_reset" role="presentation">' +
+			'<span class="cke_{langDir} cke_reset" role="presentation">' +
+				'<span class="cke_inner cke_reset" role="presentation">' +
+					'<span id="{topId}" class="cke_top cke_reset_all"' +
 					' role="presentation" style="height:auto">{topHtml}</span>' +
-					'<span id="{contentId}" class="cke_contents"' +
+					'<span id="{contentId}" class="cke_contents cke_reset"' +
 					' role="presentation" style="height:{height}"></span>' +
-					'<span id="{bottomId}" class="cke_bottom" role="presentation">{bottomHtml}</span>' +
+					'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
 				'</span>' +
 			'</span>' +
 		'</span>' +

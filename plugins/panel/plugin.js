@@ -50,7 +50,7 @@
 	};
 
 	var panelTpl = CKEDITOR.addTemplate( 'panel', '<div lang="{langCode}" id="{id}" dir={dir}' +
-		' class="cke cke_panel cke_panel {cls} cke_{dir}"' +
+		' class="cke cke_reset_all cke_panel cke_panel {cls} cke_{dir}"' +
 		' style="z-index:{z-index}" role="presentation">' +
 		'{frame}' +
 		'</div>' );
