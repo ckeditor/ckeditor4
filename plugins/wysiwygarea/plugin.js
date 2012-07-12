@@ -390,6 +390,7 @@
 								( config.bodyClass ? ' class="' + config.bodyClass + '"' : '' ) +
 							'>' +
 								data +
+							'</body>' +
 							'</html>';
 					}
 
