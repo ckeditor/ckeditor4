@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'newpage', {
 			async: true
 		});
 
-		editor.ui.addButton( 'NewPage', {
+		editor.ui.addButton && editor.ui.addButton( 'NewPage', {
 			label: editor.lang.newpage.toolbar,
 			command: 'newpage'
 		});

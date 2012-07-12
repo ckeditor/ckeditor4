@@ -37,7 +37,7 @@
 			});
 
 			// Register the toolbar button.
-			editor.ui.addButton( 'PasteFromWord', {
+			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
 				command: commandName
 			});

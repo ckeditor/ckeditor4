@@ -37,7 +37,7 @@
 
 			editor.addCommand( commandName, pasteTextCmd );
 
-			editor.ui.addButton( 'PasteText', {
+			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
 				label: editor.lang.pastetext.button,
 				command: commandName
 			});
