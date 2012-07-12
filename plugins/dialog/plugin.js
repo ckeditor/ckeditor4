@@ -920,6 +920,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			this.fire( 'hide', {} );
 			this._.editor.fire( 'dialogHide', this );
+			// Reset the tab page.
+			this.selectPage( this._.tabIdList[ 0 ] );
 			var element = this._.element;
 			element.setStyle( 'display', 'none' );
 			this.parts.dialog.setStyle( 'visibility', 'hidden' );
