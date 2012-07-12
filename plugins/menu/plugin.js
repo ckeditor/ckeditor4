@@ -269,7 +269,7 @@ CKEDITOR.plugins.add( 'menu', {
 					panel.onShow = function() {
 						// Menu need CSS resets, compensate class name.
 						var holder = panel._.panel.getHolderElement();
-						holder.getParent().addClass( 'cke' );
+						holder.getParent().addClass( 'cke cke_reset_all' );
 					};
 
 					panel.onHide = CKEDITOR.tools.bind( function() {

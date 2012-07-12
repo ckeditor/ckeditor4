@@ -45,7 +45,7 @@
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
 				iframe.setStyles({ width: '100%', height: '100%' } );
-				iframe.addClass( 'cke_wysiwyg_frame' );
+				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
 
 				var contentSpace = editor.ui.space( 'contents' );
 				contentSpace.append( iframe );
