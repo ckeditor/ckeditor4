@@ -287,15 +287,14 @@
 		// ## END
 
 
+		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
+		title.data( 'cke-title', editor.document.$.title );
+
 		// [IE] JAWS will not recognize the aria label we used on the iframe
 		// unless the frame window title string is used as the voice label,
 		// backup the original one and restore it on output.
 		if ( CKEDITOR.env.ie )
-		{
-			var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
-			title.data( 'cke-title', editor.document.$.title );
 			editor.document.$.title = this._.docTitle;
-		}
 
 		CKEDITOR.tools.setTimeout( function() {
 			editor.fire( 'contentDom' );
