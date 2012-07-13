@@ -53,6 +53,13 @@
 			this.setup();
 		},
 		proto: {
+
+			focus : function() {
+				// [IE] Use instead "setActive" method to focus the editable if it belongs to
+				// the host page document, to avoid bringing an unexpected scroll.
+				this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
+			},
+
 			/**
 			 * Override {@link CKEDITOR.dom.element.prototype.on} to have special focus/blur handling.
 			 * The "focusin/focusout" events are used in IE to replace regular "focus/blur" events
