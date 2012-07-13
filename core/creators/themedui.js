@@ -185,7 +185,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		this._.modes[ newMode ]( function() {
 			// Set the current mode.
 			editor.mode = newMode;
-			editor.fire( 'mode' );
 
 			if ( isDirty !== undefined ) {
 				// The editor data "may be dirty" after this point.
@@ -193,7 +192,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 				!isDirty && editor.resetDirty();
 			}
 
-			callback && callback.call( editor );
+			// Delay to avoid race conditions (setMode inside setMode).
+			setTimeout( function() {
+				editor.fire( 'mode' );
+				callback && callback.call( editor );
+			}, 0);
 		});
 	};
 
