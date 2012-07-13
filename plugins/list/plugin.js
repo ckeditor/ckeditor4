@@ -604,7 +604,9 @@
 		( mergeSibling = function( rtl )
 		{
 			var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( nonEmpty );
-			if ( sibling && sibling.is( listNode.getName() ) )
+			if ( sibling &&
+			     sibling.type == CKEDITOR.NODE_ELEMENT &&
+			     sibling.is( listNode.getName() ) )
 			{
 				// Move children order by merge direction.(#3820)
 				mergeChildren( listNode, sibling, null, !rtl );
