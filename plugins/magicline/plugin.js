@@ -89,16 +89,19 @@
 
 			// Removes the box HTML from editor data string if getData is called.
 			// Thanks to that, an editor never yields data polluted by the box.
-			// Based on editable.js:31
+			// Listen with very high priority, so line will be removed before other
+			// listeners will see it.
 			editor.on( 'beforeGetData', function() {
-				// If the box is in editable, remove it, set cleared data to the editor
-				// and finally revert the box to avoid user distraction.
+				// If the box is in editable, remove it.
 				if ( that.line.wrap.getParent() ) {
 					that.line.detach();
-					editor.setData( that.editable.getData(), null, true );
-					that.line.attach();
+
+					// Restore line in the last listener for 'getData'.
+					editor.once( 'getData', function() {
+						that.line.attach();
+					}, null, null, 1000 );
 				}
-			});
+			}, null, null, 0 );
 
 			// Hide the box on mouseout if mouse leaves document.
 			doc.on( 'mouseout', function( event ) {
