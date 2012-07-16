@@ -49,6 +49,7 @@
 		function addListeners() {
 			var editable = editor.editable(),
 				doc = editor.document,
+				win = editor.window,
 				listener;
 
 			// Remove old listeners which could left after previous DOM
@@ -59,7 +60,7 @@
 			extend( that, {
 				editable: editable,
 				doc: doc,
-				win: editor.window
+				win: win
 			}, true );
 
 			// Enabling the box inside of inline editable is pointless.
@@ -76,7 +77,6 @@
 					left: null
 				});
 			}
-
 			// Enable the box. Let it produce children elements, initialize
 			// event handlers and own methods.
 			initLine.call( this, that );
@@ -149,12 +149,12 @@
 
 			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
-			addListener( that, that.editable, 'keyup', function( event ) {
+			addListener( that, editable, 'keyup', function( event ) {
 				that.hiddenMode = 0;
 				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
-			addListener( that, that.editable, 'keydown', function( event ) {
+			addListener( that, editable, 'keydown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -177,7 +177,7 @@
 			// in parallel and no more frequently than specified in timeout function.
 			// In framed editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
-			addListener( that, ( inInlineMode( that ) ? that.editable : doc ), 'mousemove', function( event ) {
+			addListener( that, ( inInlineMode( that ) ? editable : doc ), 'mousemove', function( event ) {
 				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
@@ -199,7 +199,7 @@
 
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
-			addListener( that, that.win, 'scroll', function( event ) {
+			addListener( that, win, 'scroll', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -224,7 +224,7 @@
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			addListener( that, that.win, 'mousedown', function( event ) {
+			addListener( that, win, 'mousedown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -237,7 +237,7 @@
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			addListener( that, that.win, 'mouseup', function( event ) {
+			addListener( that, win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
 				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
