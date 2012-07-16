@@ -1821,6 +1821,55 @@ CKEDITOR.dom.range = function( root ) {
 				return container;
 
 			return container.getChild( this.endOffset - 1 ) || container;
+		},
+
+		/**
+		 * Scrolls the start of current range into view.
+		 * @example
+		 * range.<strong>scrollIntoView()</strong>;
+		 */
+		scrollIntoView: function() {
+
+			// The reference element contains a zero-width space to avoid
+			// a premature removal. The view is to be scrolled with respect
+			// to this element.
+			var reference = new CKEDITOR.dom.element.createFromHtml( '<span>\u200b</span>', this.document ),
+				afterCaretNode, startContainerText, isStartText;
+
+			var range = this.clone();
+
+			// Work with the range to obtain a proper caret position.
+			range.optimize();
+
+			// Currently in a text node, so we need to split it into two
+			// halves and put the reference between.
+			if ( isStartText = range.startContainer.type == CKEDITOR.NODE_TEXT ) {
+				// Keep the original content. It will be restored.
+				startContainerText = range.startContainer.getText();
+
+				// Split the startContainer at the this position.
+				afterCaretNode = range.startContainer.split( range.startOffset );
+
+				// Insert the reference between two text nodes.
+				reference.insertAfter( range.startContainer );
+			}
+
+			// If not in a text node, simply insert the reference into the range.
+			else
+				range.insertNode( reference );
+
+			// Scroll with respect to the reference element.
+			reference.scrollIntoView();
+
+			// Get rid of split parts if "in a text node" case.
+			// Revert the original text of the startContainer.
+			if ( isStartText ) {
+				range.startContainer.setText( startContainerText );
+				afterCaretNode.remove();
+			}
+
+			// Get rid of the reference node. It is no longer necessary.
+			reference.remove();
 		}
 	};
 })();

@@ -1509,10 +1509,10 @@
 		 * editor.getSelection().<strong>scrollIntoView()</strong>;
 		 */
 		scrollIntoView: function() {
-			// If we have split the block, adds a temporary span at the
-			// range position and scroll relatively to it.
-			var start = this.getStartElement();
-			start.scrollIntoView();
+
+			// Scrolls the first range into view.
+			if ( this.type != CKEDITOR.SELECTION_NONE )
+				this.getRanges()[ 0 ].scrollIntoView();
 		},
 
 		/**
