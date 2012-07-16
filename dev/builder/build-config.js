@@ -75,7 +75,6 @@ var CKBUILDER_CONFIG = {
 		save : 1,
 		scayt : 1,
 		selectall : 1,
-		selectionmark : 1,
 		showblocks : 1,
 		showborders : 1,
 		smiley : 1,
