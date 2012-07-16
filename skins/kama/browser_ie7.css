@@ -51,10 +51,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	height: 22px;
 }
 
-/* IE7: buttons must not float to wrap the toolbar in a whole. */
 a.cke_button
 {
+	/* IE7: buttons must not float to wrap the toolbar in a whole. */
 	float:none;
+
+	/* IE7: buttons have to be aligned to top. Otherwise, some buttons like
+	 * source and scayt are displayed a few pixels below the base line.
+	 */
+	vertical-align:top;
 }
 
 .cke_toolbar_separator
