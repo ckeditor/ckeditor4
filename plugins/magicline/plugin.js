@@ -48,6 +48,9 @@
 		// Fixes #173: Remove listeners before detaching old iframe, so IEs won't throw 'Permission denied' errors
 		// when trying to remove them later (on next 'contentDom' event).
 		editor.on( 'contentDomUnload', function() { removeListeners( that ); });
+		// Fixes #177: Remove listeners on editor#destroy, because for inline editor
+		// 'contentDomUnload' isn't fired in this situation.
+		editor.on( 'destroy', function() { removeListeners( that ); });
 
 		function addListeners() {
 			var editable = editor.editable(),
