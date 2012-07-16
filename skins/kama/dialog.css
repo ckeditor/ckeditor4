@@ -356,7 +356,7 @@ a.cke_dialog_ui_button:active
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background: transparent url(images/sprites.png) repeat-x scroll 0 -1068px;
+	background: transparent url(images/sprites.png) repeat-x scroll 0 -1069px;
 	_background: none;
 	padding: 5px 0;
 	text-align: center;
@@ -499,7 +499,7 @@ a:hover.cke_dialog_ui_button,
 a:focus.cke_dialog_ui_button,
 a:active.cke_dialog_ui_button
 {
-	background-position: 0 -1179px;
+	background-position: 0 -1180px;
 }
 
 .cke_hc a:hover.cke_dialog_ui_button,
