@@ -45,6 +45,9 @@
 		editor.addCommand( 'accessSpaceAfter', accessSpaceCommand( that, true ) );
 		// %REMOVE_END%
 		editor.on( 'contentDom', addListeners, this );
+		// Fixes #173: Remove listeners before detaching old iframe, so IEs won't throw 'Permission denied' errors
+		// when trying to remove them later (on next 'contentDom' event).
+		editor.on( 'contentDomUnload', function() { removeListeners( that ); });
 
 		function addListeners() {
 			var editable = editor.editable(),
