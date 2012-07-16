@@ -325,7 +325,8 @@
 						docType = config.docType;
 
 					// Build the additional stuff to be included into <head>.
-					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() );
+					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() )
+						                .replace( /<style>/, '<style data-cke-temp="1">' );
 
 					if ( !fullPage )
 						headExtra += CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss );
