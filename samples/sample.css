@@ -182,5 +182,6 @@ label
 /* CKEditor editables are automatically set with the "cke_editable" class. */
 .cke_editable
 {
-	border: 3px dotted orange !important;
+	outline: 3px dotted orange !important;
+	*border: 3px dotted orange !important;
 }
