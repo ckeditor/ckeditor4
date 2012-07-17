@@ -1596,6 +1596,31 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 			this.setAttribute( name, value );
 
 		return null;
+	},
+
+	/**
+	 * Retrieves an editor instance which is based on this element (if any).
+	 * It basically loops over CKEDITOR.instances in search for an instance
+	 * that uses the element.
+	 * @returns {CKEDITOR.editor} An editor instance or null if nothing has been found.
+	 * @example
+	 * var element = new CKEDITOR.dom.element( 'div' );
+	 * element.appendTo( CKEDITOR.document.getBody() );
+	 * CKEDITOR.replace( element );
+	 * alert( element.getEditor().name );	// editor1
+	 */
+	getEditor: function() {
+		var instances = CKEDITOR.instances,
+			name, instance;
+
+		for ( name in instances ) {
+			instance = instances[ name ];
+
+			if ( instance.element.equals( this ) )
+				return instance;
+		}
+
+		return null;
 	}
 });
 

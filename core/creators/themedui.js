@@ -36,6 +36,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.replace = function( element, config ) {
 		element = CKEDITOR.dom.element.get( element );
 
+		// Avoid multiple inline editor instances on the same element.
+		if ( element.getEditor() )
+			return false;
+
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, CKEDITOR.ELEMENT_MODE_REPLACE );
 

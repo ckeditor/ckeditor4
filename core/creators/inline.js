@@ -20,6 +20,10 @@
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.dom.element.get( element );
 
+		// Avoid multiple inline editor instances on the same element.
+		if ( element.getEditor() )
+			return false;
+
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
 
 		// Initial editor data is simply loaded from the page element content to make
