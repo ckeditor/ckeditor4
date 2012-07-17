@@ -27,8 +27,7 @@
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || .5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
-				triggers: config.magicline_everywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 },
-				listeners: []
+				triggers: config.magicline_everywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
 			},
 			scrollTimeout, hideTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
 
@@ -45,22 +44,12 @@
 		editor.addCommand( 'accessSpaceAfter', accessSpaceCommand( that, true ) );
 		// %REMOVE_END%
 		editor.on( 'contentDom', addListeners, this );
-		// Fixes #169: Remove listeners before detaching old iframe, so IEs won't throw 'Permission denied' errors
-		// when trying to remove them later (on next 'contentDom' event).
-		editor.on( 'contentDomUnload', function() { removeListeners( that ); });
-		// Fixes #177: Remove listeners on editor#destroy, because for inline editor
-		// 'contentDomUnload' isn't fired in this situation.
-		editor.on( 'destroy', function() { removeListeners( that ); });
 
 		function addListeners() {
 			var editable = editor.editable(),
 				doc = editor.document,
 				win = editor.window,
 				listener;
-
-			// Remove old listeners which could left after previous DOM
-			// (contentDom is fired on all setData() when wysiwyg area is used).
-			removeListeners( that );
 
 			// Global stuff is being initialized here.
 			extend( that, {
@@ -95,7 +84,7 @@
 			// Remove the box before an undo image is created.
 			// This is important. If we didn't do that, the *undo thing* would revert the box into an editor.
 			// Thanks to that, undo doesn't even know about the existence of the box.
-			addListener( that, editor, 'beforeUndoImage', function() {
+			editable.attachListener( editor, 'beforeUndoImage', function() {
 				that.line.detach();
 			});
 
@@ -103,7 +92,7 @@
 			// Thanks to that, an editor never yields data polluted by the box.
 			// Listen with very high priority, so line will be removed before other
 			// listeners will see it.
-			addListener( that, editor, 'beforeGetData', function() {
+			editable.attachListener( editor, 'beforeGetData', function() {
 				// If the box is in editable, remove it.
 				if ( that.line.wrap.getParent() ) {
 					that.line.detach();
@@ -113,10 +102,10 @@
 						that.line.attach();
 					}, null, null, 1000 );
 				}
-			}, 0 );
+			}, null, 0 );
 
 			// Hide the box on mouseout if mouse leaves document.
-			addListener( that, doc, 'mouseout', function( event ) {
+			editable.attachListener( doc, 'mouseout', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -155,12 +144,12 @@
 
 			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
-			addListener( that, editable, 'keyup', function( event ) {
+			editable.attachListener( editable, 'keyup', function( event ) {
 				that.hiddenMode = 0;
 				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
-			addListener( that, editable, 'keydown', function( event ) {
+			editable.attachListener( editable, 'keydown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -183,7 +172,7 @@
 			// in parallel and no more frequently than specified in timeout function.
 			// In framed editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
-			addListener( that, ( inInlineMode( that ) ? editable : doc ), 'mousemove', function( event ) {
+			editable.attachListener( inInlineMode( that ) ? editable : doc, 'mousemove', function( event ) {
 				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
@@ -205,7 +194,7 @@
 
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
-			addListener( that, win, 'scroll', function( event ) {
+			editable.attachListener( win, 'scroll', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -230,7 +219,7 @@
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			addListener( that, win, 'mousedown', function( event ) {
+			editable.attachListener( win, 'mousedown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -243,7 +232,7 @@
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			addListener( that, win, 'mouseup', function( event ) {
+			editable.attachListener( win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
 				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
@@ -365,10 +354,6 @@
 		}
 	}
 	// %REMOVE_END%
-
-	function addListener( that, obj, name, listener, priority ) {
-		that.listeners.push( obj.on( name, listener, null, null, priority ) );
-	}
 
 	function areSiblings( that, upper, lower ) {
 		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( that.isRelevant ) );
@@ -1171,13 +1156,6 @@
 			margin: margin,
 			ignoreScroll: ignoreScroll
 		}, box, true );
-	}
-
-	function removeListeners( that ) {
-		var listener;
-		while ( listener = that.listeners.pop() ) {
-			listener.removeListener();
-		}
 	}
 
 	function updateSize( that, element, ignoreScroll ) {
