@@ -38,7 +38,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Avoid multiple inline editor instances on the same element.
 		if ( element.getEditor() )
-			return false;
+			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
 
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, CKEDITOR.ELEMENT_MODE_REPLACE );
