@@ -102,7 +102,7 @@
 						that.line.attach();
 					}, null, null, 1000 );
 				}
-			}, null, 0 );
+			}, null, null, 0 );
 
 			// Hide the box on mouseout if mouse leaves document.
 			editable.attachListener( doc, 'mouseout', function( event ) {
