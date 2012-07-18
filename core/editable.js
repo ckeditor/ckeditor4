@@ -97,6 +97,18 @@
 			},
 
 			/**
+			 * Remove all event listeners registered from {@link #attachListener}.
+			 */
+			clearListeners : function () {
+				var listeners = this._.listeners;
+				// dont get broken by this.
+				try {
+					while ( listeners.length )
+						listeners.pop().removeListener();
+				} catch ( e ) {}
+			},
+
+			/**
 			 * Adds a CSS class name to this editable that needs to be removed on detaching.
 			 * @param {String} className The class name to be added.
 			 * @see CKEDITOR.dom.element.prototype.addClass
@@ -423,14 +435,7 @@
 				// Update the editor cached data with current data.
 				this.editor.setData( this.editor.getData(), 0, 1 );
 
-				// Remove all event listeners.
-				var listeners = this._.listeners;
-
-				// dont get broken by this.
-				try {
-					while ( listeners.length )
-						listeners.pop().removeListener();
-				} catch ( e ) {}
+				this.clearListeners();
 
 				// Restore original text direction.
 				var orgDir = this.removeCustomData( 'org_dir_saved' );

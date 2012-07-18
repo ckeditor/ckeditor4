@@ -425,7 +425,9 @@
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
 
+					// Current DOM will be deconstructed by document.write, cleanup required.
 					this.clearCustomData();
+					this.clearListeners();
 
 					editor.fire( 'contentDomUnload' );
 
