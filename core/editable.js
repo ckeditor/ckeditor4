@@ -24,25 +24,6 @@
 
 			this.editor = editor;
 
-			// Handle the load/read of editor data/snapshot.
-			this.attachListener( editor, 'beforeGetData', function() {
-				editor.setData( this.getData(), null, 1 );
-			}, this );
-			this.attachListener( editor, 'getSnapshot', function( evt ) {
-				evt.data = this.getData( 1 );
-			}, this );
-			this.attachListener( editor, 'afterSetData', function() {
-				this.setData( editor.getData( 1 ) );
-			}, this );
-			this.attachListener( editor, 'loadSnapshot', function( evt ) {
-				this.setData( evt.data, 1 );
-			}, this );
-
-			// Delegate editor focus/blur to editable.
-			this.attachListener( editor, 'beforeFocus', function() {
-				this.focus();
-			}, this );
-
 			/**
 			 * Indicate whether the editable element has gained focus.
 			 * @name CKEDITOR.editable.prototype.hasFocus
@@ -269,6 +250,25 @@
 			// Editable element bootstrapping.
 			setup: function() {
 				var editor = this.editor;
+
+				// Handle the load/read of editor data/snapshot.
+				this.attachListener( editor, 'beforeGetData', function() {
+					editor.setData( this.getData(), null, 1 );
+				}, this );
+				this.attachListener( editor, 'getSnapshot', function( evt ) {
+					evt.data = this.getData( 1 );
+				}, this );
+				this.attachListener( editor, 'afterSetData', function() {
+					this.setData( editor.getData( 1 ) );
+				}, this );
+				this.attachListener( editor, 'loadSnapshot', function( evt ) {
+					this.setData( evt.data, 1 );
+				}, this );
+
+				// Delegate editor focus/blur to editable.
+				this.attachListener( editor, 'beforeFocus', function() {
+					this.focus();
+				}, this );
 
 				// Update editable state.
 				this.setReadOnly( editor.readOnly );
