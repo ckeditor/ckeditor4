@@ -426,6 +426,9 @@
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
 
 					this.clearCustomData();
+
+					editor.fire( 'contentDomUnload' );
+
 					var doc = this.getDocument();
 					doc.write( data );
 				}
@@ -486,8 +489,8 @@
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
 				var onResize = iframe.removeCustomData( 'onResize' );
-				if ( onResize )
-					win.removeListener( 'resize', onResize );
+				onResize && onResize.removeListener();
+
 
 				editor.fire( 'contentDomUnload' );
 
