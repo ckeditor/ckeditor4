@@ -26,11 +26,11 @@
 		}
 	});
 
-	var bbcodeMap = { 'b': 'strong', 'u': 'u', 'i': 'em', 'color': 'span', 'size': 'span', 'quote': 'blockquote', 'code': 'code', 'url': 'a', 'email': 'span', 'img': 'span', '*': 'li', 'list': 'ol' },
-		convertMap = { 'strong': 'b', 'b': 'b', 'u': 'u', 'em': 'i', 'i': 'i', 'code': 'code', 'li': '*' },
-		tagnameMap = { 'strong': 'b', 'em': 'i', 'u': 'u', 'li': '*', 'ul': 'list', 'ol': 'list', 'code': 'code', 'a': 'link', 'img': 'img', 'blockquote': 'quote' },
-		stylesMap = { 'color': 'color', 'size': 'font-size' },
-		attributesMap = { 'url': 'href', 'email': 'mailhref', 'quote': 'cite', 'list': 'listType' };
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
+		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
+		stylesMap = { color: 'color', size: 'font-size' },
+		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
 	// List of block-like tags.
 	var dtd = CKEDITOR.dtd,
@@ -49,31 +49,8 @@
 		return styleText;
 	}
 
-	function parseStyleText( styleText ) {
-		var retval = {};
-		( styleText || '' ).replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
-			retval[ name.toLowerCase() ] = value;
-		});
-		return retval;
-	}
-
-	function RGBToHex( cssStyle ) {
-		return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue ) {
-			red = parseInt( red, 10 ).toString( 16 );
-			green = parseInt( green, 10 ).toString( 16 );
-			blue = parseInt( blue, 10 ).toString( 16 );
-			var color = [ red, green, blue ];
-
-			// Add padding zeros if the hex value is less than 0x10.
-			for ( var i = 0; i < color.length; i++ )
-				color[ i ] = String( '0' + color[ i ] ).slice( -2 );
-
-			return '#' + color.join( '' );
-		});
-	}
-
 	// Maintain the map of smiley-to-description.
-	var smileyMap = { "smiley": ":)", "sad": ":(", "wink": ";)", "laugh": ":D", "cheeky": ":P", "blush": ":*)", "surprise": ":-o", "indecision": ":|", "angry": ">:(", "angel": "o:)", "cool": "8-)", "devil": ">:-)", "crying": ";(", "kiss": ":-*" },
+	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
@@ -128,14 +105,12 @@
 
 				lastIndex = this._.bbcPartsRegex.lastIndex;
 
-				/*
-				 "parts" is an array with the following items:
-				 0 : The entire match for opening/closing tags and line-break;
-				 1 : line-break;
-				 2 : open of tag excludes option;
-				 3 : tag option;
-				 4 : close of tag;
-				 */
+				// "parts" is an array with the following items:
+				// 0 : The entire match for opening/closing tags and line-break;
+				// 1 : line-break;
+				// 2 : open of tag excludes option;
+				// 3 : tag option;
+				// 4 : close of tag;
 
 				part = ( parts[ 1 ] || parts[ 3 ] || '' ).toLowerCase();
 				// Unrecognized tags should be delivered as a simple text (#7860).
@@ -196,8 +171,8 @@
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 * @example
 	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
-	 * alert( fragment.children[0].name );  "b"
-	 * alert( fragment.children[1].value );  " Text"
+	 * alert( fragment.children[0].name );	"b"
+	 * alert( fragment.children[1].value );	" Text"
 	 */
 	CKEDITOR.htmlParser.fragment.fromBBCode = function( source ) {
 		var parser = new CKEDITOR.BBCodeParser(),
@@ -236,9 +211,9 @@
 		function checkPendingBrs( tagName, closing ) {
 			var len = currentNode.children.length,
 				previous = len > 0 && currentNode.children[ len - 1 ],
-				lineBreakParent = !previous && BBCodeWriter.getRule( tagnameMap[ currentNode.name ], 'breakAfterOpen' ),
-				lineBreakPrevious = previous && previous.type == CKEDITOR.NODE_ELEMENT && BBCodeWriter.getRule( tagnameMap[ previous.name ], 'breakAfterClose' ),
-				lineBreakCurrent = tagName && BBCodeWriter.getRule( tagnameMap[ tagName ], closing ? 'breakBeforeClose' : 'breakBeforeOpen' );
+				lineBreakParent = !previous && writer.getRule( tagnameMap[ currentNode.name ], 'breakAfterOpen' ),
+				lineBreakPrevious = previous && previous.type == CKEDITOR.NODE_ELEMENT && writer.getRule( tagnameMap[ previous.name ], 'breakAfterClose' ),
+				lineBreakCurrent = tagName && writer.getRule( tagnameMap[ tagName ], closing ? 'breakBeforeClose' : 'breakBeforeOpen' );
 
 			if ( pendingBrs && ( lineBreakParent || lineBreakPrevious || lineBreakCurrent ) )
 				pendingBrs--;
@@ -401,7 +376,7 @@
 						// Create smiley from text emotion.
 						piece.replace( smileyRegExp, function( match, index ) {
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
-							addElement( new CKEDITOR.htmlParser.element( 'smiley', { 'desc': smileyReverseMap[ match ] } ), currentNode );
+							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
 							lastIndex = index + match.length;
 						});
 
@@ -427,7 +402,7 @@
 		return fragment;
 	};
 
-	CKEDITOR.htmlParser.BBCodeWriter = CKEDITOR.tools.createClass({
+	var BBCodeWriter = CKEDITOR.tools.createClass({
 		$: function() {
 			this._ = {
 				output: [],
@@ -435,7 +410,7 @@
 			};
 
 			// List and list item.
-			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 } );
+			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 });
 
 			this.setRules( '*', {
 				breakBeforeOpen: 1,
@@ -470,10 +445,10 @@
 			 * @example
 			 * // Break line before and after "img" tags.
 			 * writer.setRules( 'list',
-			 *     {
-			 *         breakBeforeOpen : true
-			 *         breakAfterOpen : true
-			 *     });
+			 *		 {
+			 *				 breakBeforeOpen : true
+			 *				 breakAfterOpen : true
+			 *		 });
 			 */
 			setRules: function( tagName, rules ) {
 				var currentRules = this._.rules[ tagName ];
@@ -567,10 +542,11 @@
 		}
 	});
 
-	var BBCodeWriter = new CKEDITOR.htmlParser.BBCodeWriter();
+	var writer = new BBCodeWriter();
 
 	CKEDITOR.plugins.add( 'bbcode', {
 		requires: [ 'entities' ],
+
 		beforeInit: function( editor ) {
 			// Adapt some critical editor configuration for better support
 			// of BBCode environment.
@@ -582,6 +558,7 @@
 				fillEmptyBlocks: false
 			}, true );
 		},
+
 		init: function( editor ) {
 			var config = editor.config;
 
@@ -589,14 +566,14 @@
 				var fragment = CKEDITOR.htmlParser.fragment.fromBBCode( code ),
 					writer = new CKEDITOR.htmlParser.basicWriter();
 
-				fragment.writeHtml( writer, dataFilter );
+				fragment.writeHtml( writer, bbcodeFilter );
 				return writer.getHtml( true );
 			}
 
-			var dataFilter = new CKEDITOR.htmlParser.filter();
-			dataFilter.addRules({
+			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
+			bbcodeFilter.addRules({
 				elements: {
-					'blockquote': function( element ) {
+					blockquote: function( element ) {
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
 						quoted.children = element.children;
 						element.children = [ quoted ];
@@ -608,7 +585,7 @@
 							element.children.unshift( cite );
 						}
 					},
-					'span': function( element ) {
+					span: function( element ) {
 						var bbcode;
 						if ( ( bbcode = element.attributes.bbcode ) ) {
 							if ( bbcode == 'img' ) {
@@ -623,7 +600,7 @@
 							delete element.attributes.bbcode;
 						}
 					},
-					'ol': function( element ) {
+					ol: function( element ) {
 						if ( element.attributes.listType ) {
 							if ( element.attributes.listType != 'decimal' )
 								element.attributes.style = 'list-style-type:' + element.attributes.listType;
@@ -636,7 +613,7 @@
 						if ( !element.attributes.href )
 							element.attributes.href = element.children[ 0 ].value;
 					},
-					'smiley': function( element ) {
+					smiley: function( element ) {
 						element.name = 'img';
 
 						var description = element.attributes.desc,
@@ -657,7 +634,7 @@
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
-							style = parseStyleText( attributes.style ),
+							style = CKEDITOR.tools.parseCssText( attributes.style ),
 							value;
 
 						var tagName = element.name;
@@ -666,7 +643,7 @@
 						else if ( tagName == 'span' ) {
 							if ( ( value = style.color ) ) {
 								tagName = 'color';
-								value = RGBToHex( value );
+								value = CKEDITOR.tools.convertRgbToHex( value );
 							} else if ( ( value = style[ 'font-size' ] ) ) {
 								var percentValue = value.match( /(\d+)%$/ );
 								if ( percentValue ) {
@@ -721,9 +698,11 @@
 							element.isEmpty = 0;
 
 							// Translate smiley (image) to text emotion.
-							var src = attributes[ 'data-cke-saved-src' ];
-							if ( src && src.indexOf( editor.config.smiley_path ) != -1 )
-								return new CKEDITOR.htmlParser.text( smileyMap[ attributes.alt ] );
+							var src = attributes[ 'data-cke-saved-src' ] || attributes.src,
+								alt = attributes.alt;
+
+							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt )
+								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
 						}
@@ -744,45 +723,51 @@
 				}
 			}, 1 );
 
-			editor.dataProcessor.writer = BBCodeWriter;
+			editor.dataProcessor.writer = writer;
 
-			editor.on( 'beforeSetMode', function( evt ) {
-				evt.removeListener();
-				var wysiwyg = editor._.modes[ 'wysiwyg' ];
-				wysiwyg.loadData = CKEDITOR.tools.override( wysiwyg.loadData, function( org ) {
-					return function( data ) {
-						return ( org.call( this, BBCodeToHtml( data ) ) );
-					};
+			function onSetData( evt ) {
+				var bbcode = evt.data.dataValue;
+				evt.data.dataValue = BBCodeToHtml( bbcode );
+			}
+
+			// Skip the first "setData" call from inline creator, to allow content of
+			// HTML to be loaded from the page element.
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				editor.once( 'contentDom', function() {
+					editor.on( 'setData', onSetData );
 				});
-			});
+			else
+				editor.on( 'setData', onSetData );
+
 		},
 
 		afterInit: function( editor ) {
 			var filters;
 			if ( editor._.elementsPath ) {
 				// Eliminate irrelevant elements from displaying, e.g body and p.
-				if ( ( filters = editor._.elementsPath.filters ) )
+				if ( ( filters = editor._.elementsPath.filters ) ) {
 					filters.push( function( element ) {
-					var htmlName = element.getName(),
-						name = tagnameMap[ htmlName ] || false;
+						var htmlName = element.getName(),
+							name = tagnameMap[ htmlName ] || false;
 
-					// Specialized anchor presents as email.
-					if ( name == 'link' && element.getAttribute( 'href' ).indexOf( 'mailto:' ) === 0 )
-						name = 'email';
-					// Styled span could be either size or color.
-					else if ( htmlName == 'span' ) {
-						if ( element.getStyle( 'font-size' ) )
-							name = 'size';
-						else if ( element.getStyle( 'color' ) )
-							name = 'color';
-					} else if ( name == 'img' ) {
-						var src = element.data( 'cke-saved-src' );
-						if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
-							name = 'smiley';
-					}
+						// Specialized anchor presents as email.
+						if ( name == 'link' && element.getAttribute( 'href' ).indexOf( 'mailto:' ) === 0 )
+							name = 'email';
+						// Styled span could be either size or color.
+						else if ( htmlName == 'span' ) {
+							if ( element.getStyle( 'font-size' ) )
+								name = 'size';
+							else if ( element.getStyle( 'color' ) )
+								name = 'color';
+						} else if ( name == 'img' ) {
+							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
+							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
+								name = 'smiley';
+						}
 
-					return name;
-				});
+						return name;
+					});
+				}
 			}
 		}
 	});
