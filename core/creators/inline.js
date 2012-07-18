@@ -22,7 +22,7 @@
 
 		// Avoid multiple inline editor instances on the same element.
 		if ( element.getEditor() )
-			return false;
+			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
 
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
 
