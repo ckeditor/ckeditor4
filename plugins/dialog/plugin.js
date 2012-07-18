@@ -530,24 +530,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Focus the first field in layout order.
 				else
 					changeFocus( 1 );
-
-				/*
-				 * IE BUG: If the initial focus went into a non-text element (e.g. button),
-				 * then IE would still leave the caret inside the editing area.
-				 */
-				if ( this._.editor.mode == 'wysiwyg' && CKEDITOR.env.ie ) {
-					var $selection = editor.document.$.selection,
-						$range = $selection.createRange();
-
-					if ( $range ) {
-						if ( $range.parentElement && $range.parentElement().ownerDocument == editor.document.$ || $range.item && $range.item( 0 ).ownerDocument == editor.document.$ ) {
-							var $myRange = document.body.createTextRange();
-							$myRange.moveToElementText( this.getElement().getFirst().$ );
-							$myRange.collapse( true );
-							$myRange.select();
-						}
-					}
-				}
 			}
 		}, this, null, 0xffffffff );
 
@@ -940,7 +922,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Maintain dialog ordering and remove cover if needed.
 			if ( !this._.parentDialog )
-				hideCover();
+				hideCover( this._.editor );
 			else {
 				var parentElement = this._.parentDialog.getElement().getFirst();
 				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
@@ -1927,6 +1909,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		} else
 			coverElement.show();
 
+		// Makes the dialog cover a focus holder as well.
+		editor.focusManager.add( coverElement );
+
 		currentCover = coverElement;
 		var resizeFunc = function() {
 				var size = win.getViewPaneSize();
@@ -1975,10 +1960,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}
 	}
 
-	function hideCover() {
+	function hideCover( editor ) {
 		if ( !currentCover )
 			return;
 
+		editor.focusManager.remove( currentCover )
 		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
 		win.removeListener( 'resize', resizeCover );
@@ -2918,7 +2904,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				return dialog;
 			} else if ( dialogDefinitions == 'failed' ) {
-				hideCover();
+				hideCover( this );
 				throw new Error( '[CKEDITOR.dialog.openDialog] Dialog "' + dialogName + '" failed when loading definition.' );
 			}
 

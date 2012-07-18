@@ -876,7 +876,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this.on( 'click', function() {
 						// Some browsers (Chrome, IE8, IE7 compat mode) don't move
 						// focus to clicked button. Force this.
-						this.getElement().focus();
+						this.getElement().focus( 1 );
 						func.apply( this, arguments );
 					});
 				}
