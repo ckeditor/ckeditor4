@@ -212,7 +212,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * @example
 	 * Let's assume having childNodes array:
 	 * [ emptyText, element1, text, text, element2 ]
-	 * element1.getIndex(); // 2
+	 * element1.getIndex(); // 1
 	 * element1.getIndex( true ); // 0
 	 * element2.getIndex(); // 4
 	 * element2.getIndex( true ); // 2
