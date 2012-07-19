@@ -1526,7 +1526,8 @@
 		 */
 		removeAllRanges: function() {
 			var nativ = this.getNative();
-			nativ && ( nativ.removeAllRanges || nativ.empty ).call( nativ );
+
+			nativ && nativ[ nativ.removeAllRanges ? 'removeAllRanges' : 'empty' ]();
 
 			this.reset();
 		}
