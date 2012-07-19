@@ -65,12 +65,15 @@
 
 			/**
 			 * Registers an event listener that needs to be removed on detaching.
+			 * @see CKEDITOR.event.prototype.on
 			 * @param obj
 			 * @param event
 			 * @param fn
 			 * @param scope
+			 * @param listenerData
+			 * @param priority
 			 */
-			attachListener: function( obj, event, fn, scope, priority ) {
+			attachListener: function( obj, event, fn, scope, listenerData, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
 				// Register the listener.
 				var args = Array.prototype.slice.call( arguments, 1 );
