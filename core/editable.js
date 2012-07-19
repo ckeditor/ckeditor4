@@ -778,6 +778,12 @@
 					zombies: []
 				};
 
+			// Temporary hack to handle list and table cases by native impl.
+			if ( checkToUseNativeImpl( that, data ) ) {
+				afterInsert( editable );
+				return;
+			}
+
 			prepareRangeToDataInsertion( that );
 
 			// DATA PROCESSING
@@ -809,6 +815,35 @@
 			editable.editor.fire( 'saveSnapshot' );
 		}
 
+		// Check if use browser's native html insertion API based on
+		// selection context and data to be inserted.
+		function checkToUseNativeImpl( that, data ) {
+
+			// Check if a complete list presents in the data.
+			var dataMatched = /<(ol|ul|dl)\b/i.test( data ),
+				path = that.range.startPath();
+
+			// Selection start within a list, but not including the case
+			// where there exists a block inside of the list item.
+			if ( dataMatched &&
+			     ( path.block && path.block.is( DTD.$listItem ) ||
+			       path.lastElement.is( DTD.$list ) ) ) {
+				return nativeInsert();
+			}
+
+			function nativeInsert() {
+				var doc = that.range.document;
+				return CKEDITOR.tools.tryThese( function() {
+					doc.$.execCommand( 'inserthtml', false, data );
+					return true;
+				},
+				function() {
+					doc.$.selection.createRange().pasteHTML( data );
+					return true;
+				} );
+			}
+		}
+
 		// Prepare range to its data deletion.
 		// Delete its contents.
 		// Prepare it to insertion.
@@ -836,9 +871,12 @@
 
 			if ( !range.collapsed ) {
 				// Anticipate the possibly empty block at the end of range after deletion.
-				node = endPath.block;
-				if ( node && !node.equals( startPath.block ) && range.checkEndOfBlock() )
+				node = endPath.block || endPath.blockLimit;
+				var ancestor = range.getCommonAncestor();
+				if ( node && !( node.equals( ancestor ) || node.contains( ancestor ) ) &&
+				     range.checkEndOfBlock() ) {
 					that.zombies.push( node );
+				}
 
 				range.deleteContents();
 			}
@@ -1062,12 +1100,7 @@
 
 				testRange = range.clone();
 				testRange.moveToPosition( node, CKEDITOR.POSITION_AFTER_START );
-				if ( testRange.checkStartOfBlock() && testRange.checkEndOfBlock() ) {
-					parent = node.getParent();
-					node.remove( 1 );
-					if ( parent.is( DTD.$list ) )
-						parent.remove( 1 );
-				}
+				testRange.removeEmptyBlocksAtEnd();
 			}
 
 			if ( bogusNeededBlocks ) {
