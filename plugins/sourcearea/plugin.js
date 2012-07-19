@@ -11,6 +11,7 @@
 (function() {
 	CKEDITOR.plugins.add( 'sourcearea', {
 		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
+		requires : [ 'htmlwriter' ],
 		init: function( editor ) {
 			// Source mode isn't available in inline mode yet.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
@@ -31,13 +32,11 @@
 					'text-align': 'left'
 				});
 
-				var ariaLabel = [ editor.lang.editor, editor.name ].join( ',' );
-
 				textarea.setAttributes({
 					dir: 'ltr',
 					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
 					'role': 'textbox',
-					'aria-label': ariaLabel
+					'aria-label': editor.lang.common.editorTitle.replace( '%1', editor.name )
 				});
 
 				textarea.addClass( 'cke_source cke_reset cke_enable_context_menu' );
