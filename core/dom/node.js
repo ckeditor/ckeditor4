@@ -92,12 +92,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		var $clone = this.$.cloneNode( includeChildren );
 
 		var removeIds = function( node ) {
+				// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
+				if ( node['data-cke-expando'] )
+					node['data-cke-expando'] = false;
+
 				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
 					return;
-
 				if ( !cloneId )
 					node.removeAttribute( 'id', false );
-				node.removeAttribute( 'data-cke-expando', false );
 
 				if ( includeChildren ) {
 					var childs = node.childNodes;
