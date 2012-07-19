@@ -694,6 +694,7 @@
 					( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
 			});
 
+			that.editor.focus();
 			that.hotParagraph.scrollIntoView();
 			event.data.preventDefault( true );
 		});
