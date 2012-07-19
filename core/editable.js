@@ -258,9 +258,6 @@
 
 				this._.detach();
 
-				// Memory leak proof.
-				this.clearCustomData();
-
 				delete editor.document;
 				delete editor.window;
 			},
