@@ -35,7 +35,7 @@
 		},
 		proto: {
 
-			focus : function() {
+			focus: function() {
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
 				// the host page document, to avoid bringing an unexpected scroll.
 				this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
@@ -80,9 +80,9 @@
 			/**
 			 * Remove all event listeners registered from {@link #attachListener}.
 			 */
-			clearListeners : function () {
+			clearListeners: function() {
 				var listeners = this._.listeners;
-				// dont get broken by this.
+				// Don't get broken by this.
 				try {
 					while ( listeners.length )
 						listeners.pop().removeListener();
@@ -506,6 +506,7 @@
 
 			}
 		},
+
 		_: {
 			detach: function() {
 				// Update the editor cached data with current data.
