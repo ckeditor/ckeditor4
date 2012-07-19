@@ -71,13 +71,16 @@
 
 		var attributes = {
 			'class': className,
-			src: CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' ),
 			'data-cke-realelement': encodeURIComponent( realElement.getOuterHtml() ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,
 			title: label,
 			align: realElement.getAttribute( 'align' ) || ''
 		};
+
+		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
+		if ( !CKEDITOR.env.hc )
+			attributes.src = CKEDITOR.getUrl( 'images/spacer.gif' );
 
 		if ( realElementType )
 			attributes[ 'data-cke-real-element-type' ] = realElementType;
@@ -109,13 +112,16 @@
 
 		var attributes = {
 			'class': className,
-			src: CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' ),
 			'data-cke-realelement': encodeURIComponent( html ),
 			'data-cke-real-node-type': realElement.type,
 			alt: label,
 			title: label,
 			align: realElement.attributes.align || ''
 		};
+
+		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
+		if ( !CKEDITOR.env.hc )
+			attributes.src = CKEDITOR.getUrl( 'images/spacer.gif' );
 
 		if ( realElementType )
 			attributes[ 'data-cke-real-element-type' ] = realElementType;

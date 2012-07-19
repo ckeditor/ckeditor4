@@ -364,16 +364,20 @@
 		};
 	};
 
-	CKEDITOR.dom.walker.bogus = function( type, isReject ) {
+	CKEDITOR.dom.walker.bogus = function( isReject ) {
 		function nonEmpty( node ) {
 			return !isWhitespaces( node ) && !isBookmark( node );
 		}
 
 		return function( node ) {
-			var parent = node.getParent(),
-				isBogus = !CKEDITOR.env.ie ? node.is && node.is( 'br' ) : node.getText && tailNbspRegex.test( node.getText() );
+			var isBogus = !CKEDITOR.env.ie ? node.is && node.is( 'br' ) : node.getText && tailNbspRegex.test( node.getText() );
 
-			isBogus = isBogus && parent.isBlockBoundary() && !!parent.getLast( nonEmpty );
+			if ( isBogus ) {
+				var parent = node.getParent(),
+					next = node.getNext( nonEmpty );
+
+				isBogus = parent.isBlockBoundary() && ( !next || next.type == CKEDITOR.NODE_ELEMENT && next.isBlockBoundary() );
+			}
 
 			return !!( isReject ^ isBogus );
 		};

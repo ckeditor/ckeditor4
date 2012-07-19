@@ -27,7 +27,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
 		need it to be positioned to hold e.g. close button. */
-	position: relative;
 	_position: static;
 }
 
@@ -210,14 +209,6 @@ a:visited.cke_dialog_tab_selected
 {
 	padding-top: 5px;
 	margin-top: 10px;
-}
-
-/* IE7 + IE quirks */
-.cke_browser_ie7.cke_single_page .cke_dialog_contents
-{
-	margin-top: 0px;
-	position: relative;
-	margin-bottom: -22px;
 }
 
 .cke_dialog_ui_vbox table,
@@ -508,7 +499,7 @@ a:hover.cke_dialog_ui_button,
 a:focus.cke_dialog_ui_button,
 a:active.cke_dialog_ui_button
 {
-	background-position: 0 -1179px;
+	background-position: 0 -1180px;
 }
 
 .cke_hc a:hover.cke_dialog_ui_button,
@@ -876,6 +867,13 @@ strong
 .cke_dialog_body .cke_label
 {
 	display: none;
+}
+
+.cke_dialog_body label
+{
+	display: inline;
+	margin-bottom: auto;
+	cursor: default;
 }
 
 .cke_dialog_body label.cke_required

@@ -694,7 +694,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	isEditable: function( textCursor ) {
 		var name = this.getName();
 
-		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' || this.getComputedStyle( 'visibility' ) == 'hidden' || CKEDITOR.dtd.$nonEditable[ name ] || this.is( 'a' ) && ( this.data( 'cke-saved-name' ) || this.hasAttribute( 'name' ) ) && !this.getChildCount() ) {
+		if ( this.isReadOnly() || this.getComputedStyle( 'display' ) == 'none' ||
+		     this.getComputedStyle( 'visibility' ) == 'hidden' ||
+		     CKEDITOR.dtd.$nonEditable[ name ] ||
+		     CKEDITOR.dtd.$empty[ name ] ||
+		     ( this.is( 'a' ) &&
+		       ( this.data( 'cke-saved-name' ) || this.hasAttribute( 'name' ) ) &&
+		       !this.getChildCount()
+			   ) )
+		{
 			return false;
 		}
 
@@ -1126,7 +1134,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 	 * <b>element.setOpacity( 0.75 )</b>;
 	 */
 	setOpacity: function( opacity ) {
-		if ( CKEDITOR.env.ie ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			opacity = Math.round( opacity * 100 );
 			this.setStyle( 'filter', opacity >= 100 ? '' : 'progid:DXImageTransform.Microsoft.Alpha(opacity=' + opacity + ')' );
 		} else

@@ -205,7 +205,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			// Find out whether we have any anchors in the editor.
 			var anchors = retval.anchors = [],
-				item;
+				i, count, item;
 
 			// For some browsers we set contenteditable="false" on anchors, making document.anchors not to include them, so we must traverse the links manually (#7893).
 			if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
@@ -217,7 +217,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				}
 			} else {
 				var anchorList = new CKEDITOR.dom.nodeList( editor.document.$.anchors );
-				for ( var i = 0, count = anchorList.count(); i < count; i++ ) {
+				for ( i = 0, count = anchorList.count(); i < count; i++ ) {
 					item = anchorList.getItem( i );
 					anchors[ i ] = { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) };
 				}

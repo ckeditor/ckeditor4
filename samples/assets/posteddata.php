@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEditor &mdash; Posted Data
 	</h1>
 	<table border="1" cellspacing="0" id="outputSample">
-		<colgroup><col width="100"></colgroup>
+		<colgroup><col width="120"></colgroup>
 		<thead>
 			<tr>
 				<th>Field&nbsp;Name</th>

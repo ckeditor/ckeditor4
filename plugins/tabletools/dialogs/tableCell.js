@@ -63,7 +63,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	return {
 		title: langCell.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
-		minHeight: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ? 230 : 200,
+		minHeight: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ? 230 : 220,
 		contents: [
 			{
 			id: 'info',

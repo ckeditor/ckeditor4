@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'ka' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'ტექსტის რედაქტორი, %1, დააჭირეთ ALT 0-ს დახმარების მისაღებად.',
+		editorHelp: 'დააჭირეთ ALT 0-ს დახმარების მისაღებად.',
 
 		browseServer: 'სერვერზე დათვალიერება',
 		url: 'URL',

@@ -8,6 +8,8 @@
  */
 
 (function() {
+	var pluginPath;
+
 	var previewCmd = { modes:{wysiwyg:1,source:1 },
 		canUndo: false,
 		readOnly: 1,
@@ -66,10 +68,17 @@
 					'})() )';
 			}
 
+			// With Firefox only, we need to open a special preview page, so
+			// anchors will work properly on it. (#9047)
+			if ( CKEDITOR.env.gecko ) {
+				window._cke_htmlToLoad = sHTML;
+				sOpenUrl = pluginPath + 'preview.html';
+			}
+
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
-			if ( !isCustomDomain ) {
+			if ( !isCustomDomain && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
 				doc.open();
 				doc.write( sHTML );
@@ -89,6 +98,8 @@
 	CKEDITOR.plugins.add( pluginName, {
 		lang: [ 'af', 'ar', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'ug', 'uk', 'vi', 'zh-cn', 'zh' ],
 		init: function( editor ) {
+			pluginPath = this.path;
+
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,

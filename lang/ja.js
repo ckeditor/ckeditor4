@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'ja' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'リッチテキストエディタ, %1, ヘルプは ALT 0 を押してください',
+		editorHelp: 'ヘルプは ALT 0 を押してください',
 
 		browseServer: 'サーバーブラウザー',
 		url: 'URL',

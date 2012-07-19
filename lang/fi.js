@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'fi' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Rikastekstieditori, %1, paina ALT 0 nähdäksesi ohjeen.',
+		editorHelp: 'paina ALT 0 nähdäksesi ohjeen.',
 
 		browseServer: 'Selaa palvelinta',
 		url: 'Osoite',

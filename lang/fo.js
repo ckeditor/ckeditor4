@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'fo' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Rich text editor, %1, trýst ALT og 0 fyri vegleiðing.',
+		editorHelp: 'trýst ALT og 0 fyri vegleiðing.',
 
 		browseServer: 'Ambætarakagi',
 		url: 'URL',

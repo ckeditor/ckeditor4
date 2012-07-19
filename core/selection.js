@@ -221,6 +221,13 @@
 				// clicking at the region below body (on html element) content, we emulate
 				// the normal behavior on old IEs. (#1659, #7932)
 				if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && doc.$.compatMode != 'BackCompat' ) {
+
+					function moveRangeToPoint( range, x, y )
+					{
+						// Error prune in IE7. (#9034, #9110)
+						try { range.moveToPoint( x, y ); } catch ( e ) {}
+					}
+
 					html.on( 'mousedown', function( evt ) {
 						evt = evt.data.$;
 
@@ -230,7 +237,8 @@
 							if ( textRng ) {
 								// Read the current cursor.
 								var rngEnd = body.$.createTextRange();
-								rngEnd.moveToPoint( evt.x, evt.y );
+
+								moveRangeToPoint( rngEnd, evt.x, evt.y );
 
 								// Handle drag directions.
 								textRng.setEndPoint( textRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ? 'EndToEnd' : 'StartToStart', rngEnd );
@@ -245,8 +253,7 @@
 						if ( evt.y < html.$.clientHeight && evt.y > body.$.offsetTop + body.$.clientHeight && evt.x < html.$.clientWidth ) {
 							// Start to build the text range.
 							var textRng = body.$.createTextRange();
-							textRng.moveToPoint( evt.x, evt.y );
-							textRng.select();
+							moveRangeToPoint( textRng, evt.x, evt.y );
 
 							html.on( 'mousemove', onHover );
 
@@ -254,7 +261,6 @@
 								html.removeListener( 'mousemove', onHover );
 								evt.removeListener();
 								textRng.select();
-								textRng = null;
 							});
 						}
 					});

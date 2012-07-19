@@ -21,7 +21,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		minWidth: 300,
 		minHeight: 60,
 		onOk: function() {
-			var name = this.getValueOf( 'info', 'txtName' );
+			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) );
 			var attributes = {
 				name: name,
 				'data-cke-saved-name': name

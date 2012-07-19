@@ -32,7 +32,7 @@ CKEDITOR.lang[ 'tr' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Zengin metin editörü, %1, yardım için ALT 0 tuşuna basın.',
+		editorHelp: 'yardım için ALT 0 tuşuna basın.',
 
 		browseServer: 'Sunucuyu Gez',
 		url: 'URL',

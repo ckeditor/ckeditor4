@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'nb' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'Rikteksteditor, %1, trykk ALT 0 for hjelp.',
+		editorHelp: 'trykk ALT 0 for hjelp.',
 
 		browseServer: 'Bla igjennom server',
 		url: 'URL',

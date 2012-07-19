@@ -119,32 +119,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 			'class="cke_pagebreak">' +
 			'</div>', editor.document );
 
-		var ranges = editor.getSelection().getRanges( true );
-
-		editor.fire( 'saveSnapshot' );
-
-		for ( var range, i = ranges.length - 1; i >= 0; i-- ) {
-			range = ranges[ i ];
-
-			if ( i < ranges.length - 1 )
-				pagebreak = pagebreak.clone( true );
-
-			range.splitBlock( 'p' );
-			range.insertNode( pagebreak );
-			if ( i == ranges.length - 1 ) {
-				var next = pagebreak.getNext();
-				range.moveToPosition( pagebreak, CKEDITOR.POSITION_AFTER_END );
-
-				// If there's nothing or a non-editable block followed by, establish a new paragraph
-				// to make sure cursor is not trapped.
-				if ( !next || next.type == CKEDITOR.NODE_ELEMENT && !next.isEditable() )
-					range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
-
-				range.select();
-			}
-		}
-
-		editor.fire( 'saveSnapshot' );
+		editor.insertElement( pagebreak );
 	},
 	context: 'div'
 };

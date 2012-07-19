@@ -26,7 +26,7 @@
 			// Set the HTML style to 100% to have the text cursor in affect (#6341)
 			else if ( CKEDITOR.env.gecko ) {
 				CKEDITOR.addCss( 'html{height:100% !important}' );
-				CKEDITOR.addCss( 'img:-moz-broken{-moz-force-broken-image-icon:1;width:24px;height:24px}' );
+				CKEDITOR.addCss( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
 			}
 			// Remove the margin to avoid mouse confusion. (#8835)
 			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
@@ -69,9 +69,26 @@
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = editor.lang.common.editorTitle.replace( '%1', editor.name );
+				var frameLabel = [ editor.lang.editor, editor.name ].join( ',' ),
+					frameDesc = editor.lang.common.editorHelp;
+
+				if ( CKEDITOR.env.ie )
+					frameLabel += ', ' + frameDesc;
+
+				var labelId = CKEDITOR.tools.getNextId(),
+					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
+
+				contentSpace.append( desc, 1 );
+
+				// Remove the ARIA description.
+				editor.on( 'beforeModeUnload', function( evt ) {
+					evt.removeListener();
+					desc.remove();
+				});
+
 				iframe.setAttributes({
 					frameBorder: 0,
+					'aria-describedby' : labelId,
 					title: frameLabel,
 					src: src,
 					tabIndex: editor.tabIndex,
@@ -84,10 +101,14 @@
 				if ( CKEDITOR.env.webkit ) {
 					// Webkit: iframe size doesn't auto fit well. (#7360)
 					var onResize = function() {
-							iframe.hide();
-							iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
-							iframe.show();
-						};
+						// Hide the iframe to get real size of the holder. (#8941)
+						contentSpace.setStyle( 'width', '100%' );
+
+						iframe.hide();
+						iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
+						contentSpace.removeStyle( 'width' );
+						iframe.show();
+					};
 
 					iframe.setCustomData( 'onResize', onResize );
 
@@ -196,6 +217,11 @@
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
+		// Enable dragging of position:absolute elements in IE.
+		try {
+			editor.document.$.execCommand( '2D-position', false, true );
+		} catch ( e ) {}
+
 		// IE, Opera and Safari may not support it and throw errors.
 		try {
 			editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
@@ -260,11 +286,15 @@
 
 		// ## END
 
-		// Setting voice label as window title, backup the original one
-		// and restore it before running into use.
+
 		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
 		title.data( 'cke-title', editor.document.$.title );
-		editor.document.$.title = this._.docTitle;
+
+		// [IE] JAWS will not recognize the aria label we used on the iframe
+		// unless the frame window title string is used as the voice label,
+		// backup the original one and restore it on output.
+		if ( CKEDITOR.env.ie )
+			editor.document.$.title = this._.docTitle;
 
 		CKEDITOR.tools.setTimeout( function() {
 			editor.fire( 'contentDom' );
