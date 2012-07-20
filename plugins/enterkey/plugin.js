@@ -7,7 +7,7 @@
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
 		// TODO: should not depend on a particular format plugin.
-		requires: [ 'indent' ],
+		requires: 'indent',
 
 		init: function( editor ) {
 			editor.addCommand( 'enter', { modes:{wysiwyg:1 },

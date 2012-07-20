@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'menubutton', {
-	requires: [ 'button', 'menu' ],
+	requires: 'button,menu',
 	onLoad: function() {
 		var clickFn = function( editor ) {
 				var _ = this._;

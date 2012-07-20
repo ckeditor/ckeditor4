@@ -67,7 +67,7 @@ CKEDITOR.plugins.add( 'menu', {
 		};
 	},
 
-	requires: [ 'floatpanel' ]
+	requires: 'floatpanel'
 });
 
 (function() {

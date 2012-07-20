@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'panelbutton', {
-	requires: [ 'button' ],
+	requires: 'button',
 	onLoad: function() {
 		function clickFn( editor ) {
 			var _ = this._;

@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		}
 	},
 
-	requires: [ 'fakeobjects' ]
+	requires: 'fakeobjects'
 });
 
 CKEDITOR.plugins.pagebreakCmd = {

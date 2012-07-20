@@ -661,7 +661,7 @@
 	var contextMenuTags = { thead:1,tbody:1,tfoot:1,td:1,tr:1,th:1 };
 
 	CKEDITOR.plugins.tabletools = {
-		requires: [ 'table', 'dialog', 'contextmenu' ],
+		requires: 'table,dialog,contextmenu',
 		init: function( editor ) {
 			var lang = editor.lang.table;
 

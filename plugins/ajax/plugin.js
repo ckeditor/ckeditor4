@@ -10,7 +10,7 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'ajax', {
-		requires: [ 'xml' ]
+		requires: 'xml'
 	});
 
 	/**

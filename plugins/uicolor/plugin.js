@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'uicolor', {
-	requires: [ 'dialog' ],
+	requires: 'dialog',
 	lang: 'bg,cs,cy,da,de,el,en,eo,et,fa,fi,fr,he,hr,it,mk,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 	icons: 'uicolor', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
