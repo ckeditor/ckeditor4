@@ -34,7 +34,8 @@ CKEDITOR.plugins.add( 'newpage', {
 
 		editor.ui.addButton && editor.ui.addButton( 'NewPage', {
 			label: editor.lang.newpage.toolbar,
-			command: 'newpage'
+			command: 'newpage',
+			toolbar: 'document,20'
 		});
 	}
 });

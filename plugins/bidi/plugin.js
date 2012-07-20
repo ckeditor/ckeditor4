@@ -197,19 +197,20 @@
 
 			// All buttons use the same code to register. So, to avoid
 			// duplications, let's use this tool function.
-			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandDef ) {
+			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandDef, order ) {
 					editor.addCommand( commandName, new CKEDITOR.command( editor, commandDef ) );
 
 					editor.ui.addButton && editor.ui.addButton( buttonName, {
 						label: buttonLabel,
-						command: commandName
+						command: commandName,
+						toolbar: 'bidi,' + order
 					});
 				};
 
 			var lang = editor.lang.bidi;
 
-			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ) );
-			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ) );
+			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
+			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 20 );
 
 			editor.on( 'contentDom', function() {
 				editor.document.on( 'dirChanged', function( evt ) {

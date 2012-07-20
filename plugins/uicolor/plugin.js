@@ -14,7 +14,8 @@ CKEDITOR.plugins.add( 'uicolor', {
 		editor.addCommand( 'uicolor', new CKEDITOR.dialogCommand( 'uicolor' ) );
 		editor.ui.addButton && editor.ui.addButton( 'UIColor', {
 			label: editor.lang.uicolor.title,
-			command: 'uicolor'
+			command: 'uicolor',
+			toolbar: 'tools,1'
 		});
 		CKEDITOR.dialog.add( 'uicolor', this.path + 'dialogs/uicolor.js' );
 

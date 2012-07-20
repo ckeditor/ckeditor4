@@ -22,7 +22,8 @@ CKEDITOR.plugins.add( 'wsc', {
 
 		editor.ui.addButton && editor.ui.addButton( 'SpellChecker', {
 			label: editor.lang.wsc.toolbar,
-			command: commandName
+			command: commandName,
+			toolbar: 'spellchecker,10'
 		});
 		CKEDITOR.dialog.add( commandName, this.path + 'dialogs/wsc.js' );
 	}

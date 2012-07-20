@@ -341,17 +341,18 @@
 		};
 
 		function addButtonsCommands() {
-			addButtonCommand( 'Cut', 'cut', createCutCopyCmd( 'cut' ), 1 );
-			addButtonCommand( 'Copy', 'copy', createCutCopyCmd( 'copy' ), 4 );
-			addButtonCommand( 'Paste', 'paste', createPasteCmd(), 8 );
+			addButtonCommand( 'Cut', 'cut', createCutCopyCmd( 'cut' ), 10, 1 );
+			addButtonCommand( 'Copy', 'copy', createCutCopyCmd( 'copy' ), 20, 4 );
+			addButtonCommand( 'Paste', 'paste', createPasteCmd(), 30, 8 );
 
-			function addButtonCommand( buttonName, commandName, command, ctxMenuOrder ) {
+			function addButtonCommand( buttonName, commandName, command, toolbarOrder, ctxMenuOrder ) {
 				var lang = editor.lang.clipboard[ commandName ];
 
 				editor.addCommand( commandName, command );
 				editor.ui.addButton && editor.ui.addButton( buttonName, {
 					label: lang,
-					command: commandName
+					command: commandName,
+					toolbar: 'clipboard,' + toolbarOrder
 				});
 
 				// If the "menu" plugin is loaded, register the menu item.

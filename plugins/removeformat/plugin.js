@@ -10,7 +10,8 @@ CKEDITOR.plugins.add( 'removeformat', {
 		editor.addCommand( 'removeFormat', CKEDITOR.plugins.removeformat.commands.removeformat );
 		editor.ui.addButton && editor.ui.addButton( 'RemoveFormat', {
 			label: editor.lang.removeformat.toolbar,
-			command: 'removeFormat'
+			command: 'removeFormat',
+			toolbar: 'cleanup,10'
 		});
 
 		editor._.removeFormat = { filters: [] };

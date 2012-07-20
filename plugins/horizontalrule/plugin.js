@@ -29,7 +29,8 @@
 			editor.addCommand( pluginName, horizontalruleCmd );
 			editor.ui.addButton && editor.ui.addButton( 'HorizontalRule', {
 				label: editor.lang.horizontalrule.toolbar,
-				command: pluginName
+				command: pluginName,
+				toolbar: 'insert,40'
 			});
 		}
 	});

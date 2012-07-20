@@ -15,7 +15,8 @@ CKEDITOR.plugins.add( 'about', {
 
 		editor.ui.addButton && editor.ui.addButton( 'About', {
 			label: editor.lang.about.title,
-			command: 'about'
+			command: 'about',
+			toolbar: 'about'
 		});
 
 		CKEDITOR.dialog.add( 'about', this.path + 'dialogs/about.js' );

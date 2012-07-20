@@ -12,7 +12,8 @@ CKEDITOR.plugins.add( 'smiley', {
 		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley' ) );
 		editor.ui.addButton && editor.ui.addButton( 'Smiley', {
 			label: editor.lang.smiley.toolbar,
-			command: 'smiley'
+			command: 'smiley',
+			toolbar: 'insert,50'
 		});
 		CKEDITOR.dialog.add( 'smiley', this.path + 'dialogs/smiley.js' );
 	}

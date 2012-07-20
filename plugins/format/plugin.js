@@ -27,6 +27,8 @@ CKEDITOR.plugins.add( 'format', {
 		editor.ui.addRichCombo( 'Format', {
 			label: lang.label,
 			title: lang.panelTitle,
+			toolbar: 'styles,20',
+
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,

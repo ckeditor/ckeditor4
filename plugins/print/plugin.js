@@ -23,7 +23,8 @@ CKEDITOR.plugins.add( 'print', {
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'Print', {
 			label: editor.lang.print.toolbar,
-			command: pluginName
+			command: pluginName,
+			toolbar: 'document,50'
 		});
 	}
 });

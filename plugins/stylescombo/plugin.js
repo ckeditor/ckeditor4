@@ -48,6 +48,7 @@
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
 				title: lang.panelTitle,
+				toolbar: 'styles,10',
 
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),

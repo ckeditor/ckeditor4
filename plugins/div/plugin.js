@@ -66,7 +66,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'CreateDiv', {
 				label: lang.toolbar,
-				command: 'creatediv'
+				command: 'creatediv',
+				toolbar: 'blocks,50'
 			});
 
 			if ( editor.addMenuItems ) {

@@ -30,7 +30,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
 				label: lang.toolbar,
-				command: 'createplaceholder'
+				command: 'createplaceholder',
+				toolbar: 'insert,5'
 			});
 
 			if ( editor.addMenuItems ) {

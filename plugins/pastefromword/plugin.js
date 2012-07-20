@@ -40,7 +40,8 @@
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: commandName
+				command: commandName,
+				toolbar: 'clipboard,50'
 			});
 
 			editor.on( 'pasteState', function( evt ) {

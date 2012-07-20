@@ -140,7 +140,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'ShowBlocks', {
 				label: editor.lang.showblocks.toolbar,
-				command: 'showblocks'
+				command: 'showblocks',
+				toolbar: 'tools,20'
 			});
 
 			// Refresh the command on setData.

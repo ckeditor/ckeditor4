@@ -39,7 +39,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
 				label: editor.lang.pastetext.button,
-				command: commandName
+				command: commandName,
+				toolbar: 'clipboard,40'
 			});
 
 			if ( editor.config.forcePasteAsPlainText ) {
