@@ -60,28 +60,25 @@
 	function loadCss( part, callback ) {
 		// Avoid reload.
 		if ( !cssLoaded[ part ] ) {
-			// In the case of the "editor" part, we may have user-agent
-			// specific versions of it, so we figure it out first.
-			if ( part == 'editor' ) {
-				var uas = CKEDITOR.skin.ua, env = CKEDITOR.env;
-				if ( uas ) {
+			// Check for ua-specific version of skin part.
+			var uas = CKEDITOR.skin[ 'ua_' + part ], env = CKEDITOR.env;
+			if ( uas ) {
 
-					// Having versioned UA checked first.
-					uas = uas.sort( function ( a, b ) { return a > b ? -1 : 1; } );
+				// Having versioned UA checked first.
+				uas = uas.split( ',' ).sort( function ( a, b ) { return a > b ? -1 : 1; } );
 
-					// Loop through all ua entries, checking is any of them match the current ua.
-					for ( var i = 0, ua; i < uas.length; i++ ) {
-						ua = uas[ i ];
-						env.ie && /\d/.exec( ua ) && ( ua += 'Compat' );
+				// Loop through all ua entries, checking is any of them match the current ua.
+				for ( var i = 0, ua; i < uas.length; i++ ) {
+					ua = uas[ i ];
+					env.ie && /\d/.exec( ua ) && ( ua += 'Compat' );
 
-						if ( env[ ua ] ) {
-							part = 'editor_' + uas[ i ];
-							break;
-						}
+					if ( env[ ua ] ) {
+						part += '_' + uas[ i ];
+						break;
 					}
 				}
 			}
-			
+
 			CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( getConfigPath() + part + '.css' ) );
 
 			cssLoaded[ part ] = 1;
