@@ -85,6 +85,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						color = '#ffffff';
 
 					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+
+					return color;
 				}
 			});
 		}
