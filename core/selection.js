@@ -174,7 +174,7 @@
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
-			if ( CKEDITOR.env.ie || !framedEditable ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || !framedEditable ) {
 				var restoreSel;
 
 				// Plays the magic here to restore/save dom selection on editable focus/blur.
