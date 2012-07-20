@@ -650,10 +650,8 @@
 			}
 		}
 
-		/**
-		 * Allow to peek clipboard content by redirecting the
-		 * pasting content into a temporary bin and grab the content of it.
-		 */
+		// Allow to peek clipboard content by redirecting the
+		// pasting content into a temporary bin and grab the content of it.
 		function getClipboardDataByPastebin( evt, callback ) {
 			var doc = editor.document,
 				editable = editor.editable(),
@@ -672,9 +670,13 @@
 			// For rich content we prefer to use "body" since it holds
 			// the least possibility to be splitted by pasted content, while this may
 			// breaks the text selection on a frame-less editable, "div" would be
-			// the best one in that case, also in another case on old IEs moving the
-			// selection into a "body" paste bin causes error panic.
-			var pastebin = new CKEDITOR.dom.element( editable.is( 'body' ) && !CKEDITOR.env.ie ? 'body' : 'div', doc );
+			// the best one in that case.
+			// In another case on old IEs moving the selection into a "body" paste bin causes error panic.
+			// Body can't be also used for Opera which fills it with <br>
+			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
+			// but it can be copied from other browser).
+			var pastebin = new CKEDITOR.dom.element(
+				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
 			editable.append( pastebin );
@@ -727,6 +729,9 @@
 		// Try to get content directly from clipboard, without native event
 		// being fired before. In other words - synthetically get clipboard data
 		// if it's possible.
+		// mainPasteEvent will be fired, so if forced native paste:
+		// * worked, getClipboardDataByPastebin will grab it,
+		// * didn't work, pastebin will be empty and editor#paste won't be fired.
 		function getClipboardDataDirectly() {
 			if ( CKEDITOR.env.ie ) {
 				// Prevent IE from pasting at the begining of the document.
