@@ -6,8 +6,12 @@
 // This is the only mandatory property to be defined in this file.
 CKEDITOR.skin.name = 'kama';
 
-CKEDITOR.skin.uaParts = [ 'ie', 'ie6', 'ie7', 'ie8', 'gecko', 'opera', 'webkit' ];
+// The available user-agent specific skin files (e.g. editor_ie.css).
+CKEDITOR.skin.ua = [ 'ie', 'ie6', 'ie7', 'ie8' ];
 
+// The function that builds the CSS template used to change the skin color.
+// The "$color" placeholder can be used in the string. It'll be replaced with
+// the desired color.
 CKEDITOR.skin.chameleon = function( editor, part ) {
 	var css,
 		cssId = '.' + editor.id;

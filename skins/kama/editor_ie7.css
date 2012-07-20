@@ -3,6 +3,8 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+@import url("editor_ie.css");
+
 .cke_rtl .cke_toolgroup,
 .cke_rtl .cke_toolbar_separator,
 .cke_rtl .cke_button,

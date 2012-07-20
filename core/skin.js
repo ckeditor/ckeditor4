@@ -60,43 +60,35 @@
 	function loadCss( part, callback ) {
 		// Avoid reload.
 		if ( !cssLoaded[ part ] ) {
-			var parts = [ part ];
-
+			// In the case of the "editor" part, we may have user-agent
+			// specific versions of it, so we figure it out first.
 			if ( part == 'editor' ) {
-				// TODO: Make it load properly once packaged.
+				var uas = CKEDITOR.skin.ua, env = CKEDITOR.env;
+				if ( uas ) {
 
-				var uaParts = CKEDITOR.skin.uaParts;
-				if ( uaParts ) {
-					for ( var i = 0, ua; i < uaParts.length; i++ ) {
-						ua = uaParts[ i ];
+					// Having versioned UA checked first.
+					uas = uas.sort( function ( a, b ) { return a > b ? -1 : 1; } );
 
-						// We gonna accept ie6, ie7 and the such as part names,
-						// so we need to fix them to match CKEDITOR.env.
-						if ( /^ie\d+$/.exec( ua ) )
-							ua += 'Compat';
+					// Loop through all ua entries, checking is any of them match the current ua.
+					for ( var i = 0, ua; i < uas.length; i++ ) {
+						ua = uas[ i ];
+						env.ie && /\d/.exec( ua ) && ( ua += 'Compat' );
 
-						if ( CKEDITOR.env[ ua ] )
-							parts.push( 'browser_' + uaParts[ i ] );
+						if ( env[ ua ] ) {
+							part = 'editor_' + uas[ i ];
+							break;
+						}
 					}
 				}
 			}
-
-			appendPath( parts );
-
-			for ( var c = 0; c < parts.length; c++ )
-				CKEDITOR.document.appendStyleSheet( parts[ c ] );
+			
+			CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( getConfigPath() + part + '.css' ) );
 
 			cssLoaded[ part ] = 1;
 		}
 
 		// css loading should not be blocking.
 		callback && callback();
-	}
-
-	function appendPath( fileNames ) {
-		for ( var n = 0; n < fileNames.length; n++ ) {
-			fileNames[ n ] = CKEDITOR.getUrl( getConfigPath() + fileNames[ n ] + '.css' );
-		}
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
@@ -203,7 +195,7 @@
  * the corresponding CSS file with the same name as UA inside of
  * the skin directory.
  *
- * @name CKEDITOR.skin.uaParts
+ * @name CKEDITOR.skin.ua
  */
 
 /**
