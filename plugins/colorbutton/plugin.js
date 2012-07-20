@@ -57,6 +57,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (#6010)
 				onOpen: function() {
+					// Old IEs like 7 & 8 may have no focus in editable if clicked
+					// the button immediately after an instance has been loaded.
+					// For this reason, selection.getStartElement is broken,
+					// there's no block and we cannot figure out any automatic color.
+					// To bypass this issue, focus an editor if it hasn't already
+					// been focused.
+					if ( !editor.focusManager.hasFocus )
+						editor.focus();
+
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
