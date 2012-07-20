@@ -6,8 +6,9 @@
 // This is the only mandatory property to be defined in this file.
 CKEDITOR.skin.name = 'kama';
 
-// The available user-agent specific skin files (e.g. editor_ie.css).
-CKEDITOR.skin.ua = [ 'ie', 'ie6', 'ie7', 'ie8' ];
+// The available user-agent specific skin files (e.g. editor_ie.css, dialog_ie.css).
+CKEDITOR.skin.ua_editor = 'ie,ie6,ie7,ie8';
+CKEDITOR.skin.ua_dialog = 'ie,ie6,ie7,ie8,opera';
 
 // The function that builds the CSS template used to change the skin color.
 // The "$color" placeholder can be used in the string. It'll be replaced with
