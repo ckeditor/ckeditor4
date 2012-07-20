@@ -6,7 +6,7 @@
 CKEDITOR.plugins.add( 'uicolor', {
 	requires: [ 'dialog' ],
 	lang: [ 'bg', 'cs', 'cy', 'da', 'de', 'el', 'en', 'eo', 'et', 'fa', 'fi', 'fr', 'he', 'hr', 'it', 'mk', 'nb', 'nl', 'no', 'pl', 'tr', 'ug', 'uk', 'vi', 'zh-cn' ],
-
+	icons: 'uicolor', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		if ( CKEDITOR.env.ie6Compat )
 			return;
@@ -14,8 +14,7 @@ CKEDITOR.plugins.add( 'uicolor', {
 		editor.addCommand( 'uicolor', new CKEDITOR.dialogCommand( 'uicolor' ) );
 		editor.ui.addButton && editor.ui.addButton( 'UIColor', {
 			label: editor.lang.uicolor.title,
-			command: 'uicolor',
-			icon: this.path + 'uicolor.gif'
+			command: 'uicolor'
 		});
 		CKEDITOR.dialog.add( 'uicolor', this.path + 'dialogs/uicolor.js' );
 

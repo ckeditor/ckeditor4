@@ -129,7 +129,7 @@ a.cke_button_off:active
 
 .cke_button_icon
 {
-	background: url(icons.png) 100px no-repeat;
+	background-repeat:no-repeat;
 	margin-top: 1px;
 	width: 16px;
 	height: 16px;
@@ -140,7 +140,6 @@ a.cke_button_off:active
 .cke_rtl .cke_button_icon
 {
 	float: right;
-	background-image: url(icons_rtl.png);
 }
 
 .cke_hc .cke_button_icon

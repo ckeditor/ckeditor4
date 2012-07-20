@@ -35,18 +35,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_menuitem .cke_icon
 {
-	background-image: url(icons.png);
 	background-position: 100px;
 	background-repeat:no-repeat;
 	background-color: transparent;
 	width: 16px;
 	height: 16px;
 	float: left;
-}
-
-.cke_rtl .cke_menuitem .cke_icon
-{
-	background-image: url(icons_rtl.png);
 }
 
 .cke_menuitem .cke_disabled .cke_icon

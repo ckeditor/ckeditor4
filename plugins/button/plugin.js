@@ -195,9 +195,11 @@
 			if ( !command )
 				stateName += 'off';
 
+			var name = this.name || this.command;
+
 			var params = {
 				id: id,
-				name: this.name || this.command,
+				name: name,
 				label: this.label,
 				state: stateName,
 				title: this.title,
@@ -207,7 +209,7 @@
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
-				style: this.icon ? ( 'background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + ( ( this.iconOffset || 0 ) * -16 ) + 'px;' ) : '',
+				style: CKEDITOR.skin.getIconStyle( name, ( editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
 			};
 

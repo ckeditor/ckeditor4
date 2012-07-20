@@ -81,3 +81,11 @@ In this way the entry will be available at editor.lang.myplugin.title.
 Constructor CKEDITOR.editor now receives two additional params: element and elementMode,
 in order to simplify creator implementation, now in form of CKEDITOR.editor( config, element, elementMode ),
 all params are optional though.
+
+---
+
+The "iconOffset" property, used for button definitions, must now point to the
+exact offset position of the image in the icon file, instead of its logical order.
+
+For example, in CKEditor 3 its value could be set to "2". Now, in that same
+case, it should be set to "-32" (2 x -16).
