@@ -1,0 +1,65 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+@import url("dialog_ie.css");
+
+.cke_dialog_title
+{
+	margin-bottom: 22px;
+}
+.cke_single_page .cke_dialog_title
+{
+	margin-bottom: 10px;
+}
+.cke_single_page .cke_dialog_footer
+{
+	margin-top: 22px;
+}
+.cke_dialog_footer .cke_resizer
+{
+	margin-top: 27px;
+}
+.cke_dialog_tabs
+{
+	top: 33px;
+}
+/* IE7 needs position static #6806 */
+.cke_dialog_footer_buttons
+{
+	position: static;
+}
+
+.cke_rtl .cke_dialog_close_button
+{
+	margin-top: 0;
+	position: absolute;
+	left: 10px;
+	top: 5px;
+}
+
+
+/* Predefined border to avoid visual size change impact. */
+.cke_dialog_ui_checkbox_input,
+.cke_dialog_ui_ratio_input,
+.cke_btn_reset,
+.cke_btn_locked,
+.cke_btn_unlocked
+{
+	border: 1px solid transparent !important;
+}
+
+/* The absolute position is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
+input.cke_dialog_ui_input_text,
+input.cke_dialog_ui_input_password
+{
+	position: absolute;
+}
+
+div.cke_dialog_ui_input_text,
+div.cke_dialog_ui_input_password
+{
+	height:14px;
+	position: relative;
+}

@@ -1,0 +1,95 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+@import url("dialog_ie.css");
+
+.cke_dialog_title
+{
+	margin-bottom: 22px;
+}
+
+/* Fix dialog height doesn't stretch to 100%. (#4863)*/
+.cke_dialog_page_contents
+{
+	position: absolute;
+}
+
+.cke_single_page .cke_dialog_title
+{
+	margin-bottom: 10px;
+}
+
+.cke_dialog_close_button
+{
+	top: 7px;
+}
+
+.cke_dialog_footer .cke_resizer
+{
+	margin-top: 27px;
+}
+
+.cke_dialog_tabs
+{
+	top: 33px;
+}
+
+/* IE6 buttons. */
+a.cke_dialog_ui_button
+{
+	padding: 0;
+}
+a.cke_dialog_ui_button span
+{
+	width: 70px;
+	padding: 5px 15px;
+	text-align: center;
+	color: #3b3b1f;
+	background: #53D9F0 none;
+	display: inline-block;
+	cursor: default;
+}
+
+a.cke_dialog_ui_button_ok span
+{
+	background-image: none;
+	background-color: #B8E834;
+	margin-right: 0;
+}
+a.cke_dialog_ui_button_cancel span
+{
+	background-image: none;
+	background-color: #F65D20;
+	margin-right: 0;
+}
+
+a:hover.cke_dialog_ui_button span,
+a:focus.cke_dialog_ui_button span,
+a:active.cke_dialog_ui_button span
+{
+	background-image: none;
+	background: #F7A922;
+}
+
+/* END IE6 buttons. */
+
+/* Predefined border to avoid visual size change impact. */
+.cke_dialog_ui_checkbox_input,
+.cke_dialog_ui_ratio_input,
+.cke_btn_reset,
+.cke_btn_locked,
+.cke_btn_unlocked
+{
+	/* Emulating border-color: transparent in IE6.*/
+	border: 1px solid red !important;
+	filter: chroma(color=red);
+}
+
+/* Compensate focus outline for some input elements, using borders (#6200) */
+.cke_dialog_ui_focused,
+.cke_btn_over
+{
+	border: 1px dotted #696969 !important;
+}
