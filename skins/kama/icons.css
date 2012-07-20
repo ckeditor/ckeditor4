@@ -3,6 +3,16 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+.cke_button_icon
+{
+	background: url(icons.png) 100px no-repeat;
+}
+
+.cke_rtl .cke_button_icon
+{
+	background-image: url(icons_rtl.png);
+}
+
 .cke_button__source_icon
 {
 	background-position: 0 0;

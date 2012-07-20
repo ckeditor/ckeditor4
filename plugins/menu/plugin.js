@@ -421,7 +421,7 @@ CKEDITOR.plugins.add( 'menu', {
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconCls: 'cke_icon',
-					iconStyle: this.icon ? ( 'background-image:url(' + CKEDITOR.getUrl( this.icon ) + ');background-position:0 ' + ( ( this.iconOffset || 0 ) * -16 ) + 'px;' ) : '',
+					iconStyle: CKEDITOR.skin.getIconStyle( this.name, ( this.editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
 					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : '',
 					alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' )
 				};

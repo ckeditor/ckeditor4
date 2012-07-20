@@ -19,6 +19,8 @@ CKEDITOR.plugins = new CKEDITOR.resourceManager( 'plugins/', 'plugin' );
 // PACKAGER_RENAME( CKEDITOR.plugins )
 
 CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function( originalLoad ) {
+	var initialized = {};
+
 	return function( name, callback, scope ) {
 		var allPlugins = {};
 
@@ -30,6 +32,17 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 					for ( var pluginName in plugins ) {
 						var plugin = plugins[ pluginName ],
 							requires = plugin && plugin.requires;
+
+						if ( !initialized[ pluginName ] ) {
+							// Register all icons eventually defined by this plugin. 
+							if ( plugin.icons ) {
+								var icons = plugin.icons.split( ',' );
+								for ( var ic = 0 ; ic < icons.length ; ic++ ) {
+									CKEDITOR.skin.addIcon( icons[ ic ], plugin.path + 'icons/' + icons[ ic ] + '.png' );
+								}
+							}
+							initialized[ pluginName ] = 1;
+						}
 
 						if ( requires ) {
 							for ( var i = 0; i < requires.length; i++ ) {

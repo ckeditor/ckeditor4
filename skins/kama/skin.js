@@ -111,3 +111,36 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 			'background:linear-gradient(' + definition + ');'; // W3C
 	}
 };
+
+// %REMOVE_START%
+
+// Register the skin icons for development purposes only.
+
+// If a required icon is not available here, the plugin defined icon will be
+// used instead. This means that a skin is not required to provide all icons.
+// Actually, it is not required to provide icons at all.
+
+(function() {
+	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
+		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
+		'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+		'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
+		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
+		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
+		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
+		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
+		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
+		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
+		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
+		'textcolor,textfield,underline,undo-rtl,undo,unlink' ).split( ',' );
+
+	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+
+	for ( var i = 0; i < icons.length; i++ ) {
+		CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
+	}
+})();
+
+// %REMOVE_END%
+

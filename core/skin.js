@@ -54,6 +54,62 @@
 		 */
 		getPath: function( part ) {
 			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
+		},
+
+		/**
+		 * List of registered icons. To add new icons to this list, use
+		 * {@link CKEDITOR.skin.addIcon}.
+		 */
+		icons: {},
+
+		/**
+		 * Registers an icon.
+		 * @param {String} name The icon name.
+		 * @param {String} path The path to reach the icon image file.
+		 * @param {Number} [offset] The vertical offset position of the icon, if
+		 *		available inside a strip image.
+		 */
+		addIcon: function( name, path, offset ) {
+			name = name.toLowerCase();
+			if ( !this.icons[ name ] ) {
+				this.icons[ name ] = {
+					path: path,
+					offset: offset || 0
+				};
+			}
+		},
+
+		/**
+		 * Get the CSS background styles to be used to render an specific icon.
+		 * @param {String} name The icon name, as registered with {@link CKEDITOR.ui.prototype.addIcon}.
+		 * @param {Boolean} [rtl] Indicates that the RTL version of the icon is
+		 *		to be used, if available.
+		 * @param {String} [overridePath] The path to reach the icon image file. It
+		 *		overrides the path defined by the named icon, if available, and is
+		 *		used if the named icon was not registered.
+		 * @param {Number} [overrideOffset] The vertical offset position of the
+		 *		icon. It overrides the offset defined by the named icon, if
+		 *		available, and is used if the named icon was not registered.
+		 */
+		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
+			var icon, path, offset;
+
+			if ( name ) {
+				name = name.toLowerCase();
+				// If we're in RTL, try to get the RTL version of the icon.
+				if ( rtl )
+					icon = this.icons[ name + '-rtl' ];
+
+				// If not in LTR or no RTL version available, get the generic one.
+				if ( !icon )
+					icon = this.icons[ name ];
+			}
+
+			path = overridePath || ( icon && icon.path ) || '';
+			offset = overrideOffset || ( icon && icon.offset );
+
+			return path &&
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
 		}
 	};
 
