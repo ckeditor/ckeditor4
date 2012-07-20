@@ -129,6 +129,7 @@ a.cke_button_off:active
 
 .cke_button_icon
 {
+	cursor: inherit;
 	background-repeat:no-repeat;
 	margin-top: 1px;
 	width: 16px;
