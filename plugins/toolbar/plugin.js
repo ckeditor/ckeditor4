@@ -505,69 +505,6 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  */
 CKEDITOR.config.toolbarLocation = 'top';
 
-/**
- * The toolbar definition. It is an array of toolbars (strips),
- * each one being also an array, containing a list of UI items.
- * Note that this setting is composed by "toolbar_" added by the toolbar name,
- * which in this case is called "Basic". This second part of the setting name
- * can be anything. You must use this name in the
- * {@link CKEDITOR.config.toolbar} setting, so you instruct the editor which
- * toolbar_(name) setting to you.
- * @type Array
- * @example
- * // Defines a toolbar with only one strip containing the "Source" button, a
- * // separator and the "Bold" and "Italic" buttons.
- * <b>config.toolbar_Basic =
- * [
- *     [ 'Source', '-', 'Bold', 'Italic' ]
- * ]</b>;
- * config.toolbar = 'Basic';
- */
-CKEDITOR.config.toolbar_Basic = [
-	[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About' ]
-];
-
-/**
- * This is the default toolbar definition used by the editor. It contains all
- * editor features.
- * @type Array
- * @default (see example)
- * @example
- * // This is actually the default value.
- * config.toolbar_Full =
- * [
- *     { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
- *     { name: 'clipboard',   items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
- *     { name: 'editing',     items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
- *     { name: 'forms',       items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
- *     '/',
- *     { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
- *     { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
- *     { name: 'links',       items : [ 'Link','Unlink','Anchor' ] },
- *     { name: 'insert',      items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
- *     '/',
- *     { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
- *     { name: 'colors',      items : [ 'TextColor','BGColor' ] },
- *     { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] }
- * ];
- */
-CKEDITOR.config.toolbar_Full = [
-	{ name: 'document',	   items: [ 'Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates' ] },
-	{ name: 'clipboard',   items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-	{ name: 'editing',     items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt' ] },
-	{ name: 'forms',       items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-	'/',
-	{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-	{ name: 'paragraph',   items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-	{ name: 'links',       items: [ 'Link', 'Unlink', 'Anchor' ] },
-	{ name: 'insert',      items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-	'/',
-	{ name: 'styles',      items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-	{ name: 'colors',      items: [ 'TextColor', 'BGColor' ] },
-	{ name: 'tools',       items: [ 'Maximize', 'ShowBlocks' ] },
-	{ name: 'about',       items: [ 'About' ] }
-];
-
 CKEDITOR.config.toolbarGroups = [
 	{ name: 'document',	   subGroups: [ 'mode', 'document', 'doctools' ] },
 	{ name: 'clipboard',   subGroups: [ 'clipboard', 'undo' ] },
