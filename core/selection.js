@@ -266,8 +266,8 @@
 					});
 				}
 
-				// It's much simpler for IE8, we just need to reselect the reported range.
-				if ( CKEDITOR.env.ie8 ) {
+				// It's much simpler for IE8+, we just need to reselect the reported range.
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version > 7 ) {
 					html.on( 'mouseup', function( evt ) {
 						// The event is not fired when clicking on the scrollbars,
 						// so we can safely check the following to understand
