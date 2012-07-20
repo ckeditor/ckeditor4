@@ -546,16 +546,13 @@
 				window.addEventListener( 'load', arguments.callee, false );
 			else {
 				var currentHandler = body.getAttribute( 'onpageshow' );
-				body.setAttribute( 'onpageshow', ( currentHandler ? currentHandler + ';' : '' ) + 'event.persisted && (function(){' +
-					'var allInstances = CKEDITOR.instances, editor, doc;' +
-					'for ( var i in allInstances )' +
-					'{' +
-						'editor = allInstances[ i ];' +
-						'doc = editor.document;' +
-						'if ( doc )' +
-						'{' +
-							'doc.$.designMode = "off";' +
-							'doc.$.designMode = "on";' +
+				body.setAttribute( 'onpageshow', ( currentHandler ? currentHandler + ';' : '' ) + 'event.persisted&&(function(){' +
+					'var x=CKEDITOR.instances,d,i;' +
+					'for(i in x){' +
+						'd=x[i].document;' +
+						'if(d){' +
+							'd.$.designMode="off";' +
+							'd.$.designMode="on";' +
 						'}' +
 					'}' +
 					'})();' );
