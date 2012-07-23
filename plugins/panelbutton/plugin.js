@@ -77,6 +77,8 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 						_.on = 1;
 
+						me.editorFocus && editor.focus();
+
 						if ( me.onOpen )
 							me.onOpen();
 					};
