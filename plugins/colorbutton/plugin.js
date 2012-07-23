@@ -29,6 +29,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				label: title,
 				title: title,
 				modes: { wysiwyg:1 },
+				editorFocus: 1,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),
@@ -57,6 +58,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (#6010)
 				onOpen: function() {
+
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
@@ -76,6 +78,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						color = '#ffffff';
 
 					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+
+					return color;
 				}
 			});
 		}
