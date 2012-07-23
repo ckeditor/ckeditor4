@@ -496,6 +496,57 @@
 			}
 		}
 	}
+
+	CKEDITOR.ui.prototype.addToolbarGroup = function( name, previous, subgroupOf ) {
+		var toolbarGroups = this.editor.config.toolbarGroups,
+			atStart = previous === 0,
+			newGroup = { name: name };
+
+		if ( subgroupOf ) {
+			// Transform the subgroupOf name in the real subgroup object.
+			subgroupOf = CKEDITOR.tools.search( toolbarGroups, function( group ) {
+				return group.name == subgroupOf;
+			});
+
+			if ( subgroupOf ) {
+				!subgroupOf.groups && ( subgroupOf.groups = [] ) ;
+
+				if ( previous ) {
+					// Search the "previous" item and add the new one after it.
+					previous = CKEDITOR.tools.indexOf( subgroupOf.groups, previous );
+					if ( previous >= 0 ) {
+						subgroupOf.groups.splice( previous + 1, 0, name );
+						return;
+					}
+				}
+
+				// If no previous found.
+
+				if ( atStart )
+					subgroupOf.groups.splice( 0, 0, name );
+				else
+					subgroupOf.groups.push(  name );
+				return;
+			} else {
+				// Ignore "previous" if subgroupOf has not been found.
+				previous = null;
+			}
+		}
+
+		if ( previous ) {
+			// Transform the "previous" name into its index.
+			previous = CKEDITOR.tools.indexOf( toolbarGroups, function( group ) {
+				return group.name == previous;
+			});
+		}
+
+		if ( atStart )
+			toolbarGroups.splice( 0, 0, name );
+		else if ( typeof previous == 'number' )
+			toolbarGroups.splice( previous + 1, 0, newGroup );
+		else
+			toolbarGroups.push( name );
+	};
 })();
 
 CKEDITOR.UI_SEPARATOR = 'separator';
@@ -517,7 +568,7 @@ CKEDITOR.config.toolbarGroups = [
 	{ name: 'forms' },
 	'/',
 	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-	{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
 	{ name: 'links' },
 	{ name: 'insert' },
 	'/',

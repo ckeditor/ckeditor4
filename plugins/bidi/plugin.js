@@ -200,11 +200,15 @@
 			var addButtonCommand = function( buttonName, buttonLabel, commandName, commandDef, order ) {
 					editor.addCommand( commandName, new CKEDITOR.command( editor, commandDef ) );
 
-					editor.ui.addButton && editor.ui.addButton( buttonName, {
-						label: buttonLabel,
-						command: commandName,
-						toolbar: 'bidi,' + order
-					});
+					if ( editor.ui.addButton ) {
+						editor.ui.addToolbarGroup( 'bidi', 'align', 'paragraph' );
+
+						editor.ui.addButton( buttonName, {
+							label: buttonLabel,
+							command: commandName,
+							toolbar: 'bidi,' + order
+						});
+					}
 				};
 
 			var lang = editor.lang.bidi;

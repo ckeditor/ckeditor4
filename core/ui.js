@@ -14,14 +14,14 @@ CKEDITOR.ui = function( editor ) {
 		return editor.ui;
 
 	this.items = {};
+	this.editor = editor;
 
 	/**
 	 * Object used to hold private stuff.
 	 * @private
 	 */
 	this._ = {
-		handlers: {},
-		editor: editor
+		handlers: {}
 	};
 
 	return this;
@@ -67,7 +67,7 @@ CKEDITOR.ui.prototype = {
 	create: function( name ) {
 		var item = this.items[ name ],
 			handler = item && this._.handlers[ item.type ],
-			command = item && item.command && this._.editor.getCommand( item.command );
+			command = item && item.command && this.editor.getCommand( item.command );
 
 		var result = handler && handler.create.apply( this, item.args );
 
@@ -112,7 +112,7 @@ CKEDITOR.ui.prototype = {
 	 * Generate the HTML ID from a specific UI space name.
 	 */
 	spaceId: function( name ) {
-		return this._.editor.id + '_' + name;
+		return this.editor.id + '_' + name;
 	}
 };
 
