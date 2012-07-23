@@ -545,7 +545,7 @@
 	var writer = new BBCodeWriter();
 
 	CKEDITOR.plugins.add( 'bbcode', {
-		requires: [ 'entities' ],
+		requires: 'entities',
 
 		beforeInit: function( editor ) {
 			// Adapt some critical editor configuration for better support

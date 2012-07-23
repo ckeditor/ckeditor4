@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'listblock', {
-	requires: [ 'panel' ],
+	requires: 'panel',
 
 	onLoad: function() {
 		var list = CKEDITOR.addTemplate( 'panel-list', '<ul role="presentation" class="cke_panel_list">{items}</ul>' ),

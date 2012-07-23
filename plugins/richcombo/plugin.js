@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'richcombo', {
-	requires: [ 'floatpanel', 'listblock', 'button' ],
+	requires: 'floatpanel,listblock,button',
 
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_RICHCOMBO, CKEDITOR.ui.richCombo.handler );

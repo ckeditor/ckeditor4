@@ -2938,7 +2938,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 })();
 
 CKEDITOR.plugins.add( 'dialog', {
-	requires: [ 'dialogui' ],
+	requires: 'dialogui',
 	init: function( editor ) {
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();

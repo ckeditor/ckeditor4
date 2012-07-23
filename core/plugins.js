@@ -45,6 +45,10 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 						}
 
 						if ( requires ) {
+							// Trasnform it into an array, if it's not one.
+							if ( requires.split )
+								requires = requires.split( ',' );
+
 							for ( var i = 0; i < requires.length; i++ ) {
 								if ( !allPlugins[ requires[ i ] ] )
 									requiredPlugins.push( requires[ i ] );

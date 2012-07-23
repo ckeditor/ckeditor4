@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'devtools', {
-	lang: [ 'en', 'bg', 'cs', 'cy', 'da', 'de', 'el', 'eo', 'et', 'fa', 'fi', 'fr', 'gu', 'he', 'hr', 'it', 'nb', 'nl', 'no', 'pl', 'tr', 'ug', 'uk', 'vi', 'zh-cn' ],
+	lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,gu,he,hr,it,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {
 		editor._.showDialogDefinitionTooltips = 1;

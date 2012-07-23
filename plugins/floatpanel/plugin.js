@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'floatpanel', {
-	requires: [ 'panel' ]
+	requires: 'panel'
 });
 
 (function() {

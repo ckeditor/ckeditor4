@@ -13,7 +13,7 @@
 		commandName = 'a11yHelp';
 
 	CKEDITOR.plugins.add( pluginName, {
-		requires: [ 'dialog' ],
+		requires: 'dialog',
 
 		// List of available localizations.
 		availableLangs: { en:1,cs:1,cy:1,da:1,de:1,el:1,eo:1,fa:1,fi:1,fr:1,gu:1,he:1,it:1,mk:1,nb:1,nl:1,no:1,tr:1,ug:1,vi:1,'zh-cn':1 },

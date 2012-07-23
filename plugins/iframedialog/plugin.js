@@ -8,7 +8,7 @@
  */
 
 CKEDITOR.plugins.add( 'iframedialog', {
-	requires: [ 'dialog' ],
+	requires: 'dialog',
 	onLoad: function() {
 		/**
 		 * An iframe base dialog.
