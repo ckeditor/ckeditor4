@@ -162,7 +162,7 @@
 					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
-						toolbar = getConfig( editor );
+						toolbar = getToolbarConfig( editor );
 
 					for ( var r = 0; r < toolbar.length; r++ ) {
 						var toolbarId,
@@ -394,7 +394,7 @@
 		}
 	});
 
-	function getConfig( editor ) {
+	function getToolbarConfig( editor ) {
 		var toolbar = editor.config.toolbar;
 
 		// If it is a string, return the relative "toolbar_name" config.
@@ -405,14 +405,13 @@
 		return toolbar || buildToolbarConfig();
 
 		function buildToolbarConfig() {
-			var toolbar, groups;
 
 			// Object containing all toolbar groups used by ui items.
-			var groups = getItemDefinedGroups();
+			var lookup = getItemDefinedGroups();
 
 			// Take the base for the new toolbar, which is basically a toolbar
 			// definition without items.
-			toolbar = editor.config.toolbarGroups;
+			var toolbar = editor.config.toolbarGroups;
 
 			// Fill the toolbar groups with the available ui items.
 			for ( var i = 0; i < toolbar.length; i++ ) {
@@ -425,24 +424,22 @@
 				else if ( typeof toolbarGroup == 'string' )
 					toolbarGroup = toolbar[ i ] = { name : toolbarGroup };
 
-				var mainGroup = groups[ toolbarGroup.name ],
-					subGroups = toolbarGroup.subGroups;
+				var items, subGroups = toolbarGroup.groups;
 
-				// Look for subgroups that match ui groups.
+				// Look for items that match sub groups.
 				if ( subGroups ) {
 					for ( var j = 0, sub; j < subGroups.length; j++ ) {
 						sub = subGroups[ j ];
 
 						// If any ui item is registered for this subgroup.
-						group = groups[ sub ];
-						if ( group )
-							addGroup( toolbarGroup, group );
+						items = lookup[ sub ];
+						items && fillGroup( toolbarGroup, items );
 					}
 				}
 
-				// An ui group may eventually match the main group as well.
-				if ( mainGroup )
-					addGroup( toolbarGroup, mainGroup );
+				// Add the main group items as well.
+				items = lookup[ toolbarGroup.name ];
+				items && fillGroup( toolbarGroup, items );
 			}
 
 			return toolbar;
@@ -484,7 +481,7 @@
 			return groups;
 		}
 
-		function addGroup( toolbarGroup, uiItems ) {
+		function fillGroup( toolbarGroup, uiItems ) {
 
 			if ( uiItems.length )
 			{
@@ -514,13 +511,13 @@ CKEDITOR.UI_SEPARATOR = 'separator';
 CKEDITOR.config.toolbarLocation = 'top';
 
 CKEDITOR.config.toolbarGroups = [
-	{ name: 'document',	   subGroups: [ 'mode', 'document', 'doctools' ] },
-	{ name: 'clipboard',   subGroups: [ 'clipboard', 'undo' ] },
-	{ name: 'editing',     subGroups: [ 'find', 'selection',  'spellchecker' ] },
+	{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+	{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+	{ name: 'editing',     groups: [ 'find', 'selection',  'spellchecker' ] },
 	{ name: 'forms' },
 	'/',
-	{ name: 'basicstyles', subGroups: [ 'basicstyles', 'cleanup' ] },
-	{ name: 'paragraph',   subGroups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+	{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 	{ name: 'links' },
 	{ name: 'insert' },
 	'/',
