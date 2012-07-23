@@ -10,37 +10,6 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
-		onLoad: function() {
-			// IE>=8 stricts mode doesn't have 'contentEditable' in effect
-			// on element unless it has layout. (#5562)
-			if ( CKEDITOR.document.$.documentMode >= 8 ) {
-				CKEDITOR.addCss( 'html.CSS1Compat [contenteditable=false]{min-height:0 !important}' );
-
-				var selectors = [];
-
-				for ( var tag in CKEDITOR.dtd.$removeEmpty )
-					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
-
-				CKEDITOR.addCss( selectors.join( ',' ) + '{display:inline-block}' );
-			}
-			// Set the HTML style to 100% to have the text cursor in affect (#6341)
-			else if ( CKEDITOR.env.gecko ) {
-				CKEDITOR.addCss( 'html{height:100% !important}' );
-				CKEDITOR.addCss( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
-			}
-			// Remove the margin to avoid mouse confusion. (#8835)
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
-				CKEDITOR.addCss( 'body.cke_contents_ltr{margin-right:0}' );
-
-			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
-			To prevent this misbehavior, we show the scrollbar always */
-			/* #6341: The text cursor must be set on the editor area. */
-			/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
-			CKEDITOR.addCss( 'html{_overflow-y:scroll;cursor:text;*cursor:auto}' );
-			// Use correct cursor for these elements
-			CKEDITOR.addCss( 'img,input,textarea{cursor:default}' );
-
-		},
 		init: function( editor ) {
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
@@ -358,9 +327,10 @@
 						docType = config.docType;
 
 					// Build the additional stuff to be included into <head>.
-					var headExtra = '';
+					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() );
 
-					!fullPage && ( headExtra = CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) + headExtra );
+					if ( !fullPage )
+						headExtra += CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss );
 
 					var baseTag = config.baseHref ? '<base href="' + config.baseHref + '" data-cke-temp="1" />' : '';
 
@@ -605,6 +575,41 @@
 		}
 	}
 
+	function iframeCssFixes() {
+		var css = [];
+
+		// IE>=8 stricts mode doesn't have 'contentEditable' in effect
+		// on element unless it has layout. (#5562)
+		if ( CKEDITOR.document.$.documentMode >= 8 ) {
+			css.push( 'html.CSS1Compat [contenteditable=false]{min-height:0 !important}' );
+
+			var selectors = [];
+
+			for ( var tag in CKEDITOR.dtd.$removeEmpty )
+				selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+
+			css.push( selectors.join( ',' ) + '{display:inline-block}' );
+		}
+		// Set the HTML style to 100% to have the text cursor in affect (#6341)
+		else if ( CKEDITOR.env.gecko ) {
+			css.push( 'html{height:100% !important}' );
+			css.push( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
+		}
+		// Remove the margin to avoid mouse confusion. (#8835)
+		else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+			css.push( 'body.cke_contents_ltr{margin-right:0}' );
+
+		/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
+		To prevent this misbehavior, we show the scrollbar always */
+		/* #6341: The text cursor must be set on the editor area. */
+		/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
+		css.push( 'html{_overflow-y:scroll;cursor:text;*cursor:auto}' );
+
+		// Use correct cursor for these elements
+		css.push( 'img,input,textarea{cursor:default}' );
+
+		return css.join('\n');
+	}
 })();
 
 /**
