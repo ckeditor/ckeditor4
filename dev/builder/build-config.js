@@ -35,7 +35,7 @@ var CKBUILDER_CONFIG = {
 		enterkey : 1,
 		entities : 1,
 //		fakeobjects : 1,
-//		filebrowser : 1,
+		filebrowser : 1,
 		find : 1,
 		flash : 1,
 		floatingspace : 1,

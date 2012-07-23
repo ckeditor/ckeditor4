@@ -359,6 +359,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'filebrowser', {
+		requires: 'popup',
 		init: function( editor, pluginPath ) {
 			editor._.filebrowserFn = CKEDITOR.tools.addFunction( setUrl, editor );
 			editor.on( 'destroy', function() {
