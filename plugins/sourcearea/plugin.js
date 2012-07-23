@@ -70,7 +70,8 @@
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Source', {
 					label: editor.lang.sourcearea.toolbar,
-					command: 'source'
+					command: 'source',
+					toolbar: 'mode,10'
 				});
 			}
 

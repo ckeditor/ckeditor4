@@ -37,7 +37,8 @@ CKEDITOR.plugins.add( 'specialchar', {
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'SpecialChar', {
 			label: editor.lang.specialchar.toolbar,
-			command: pluginName
+			command: pluginName,
+			toolbar: 'insert,50'
 		});
 	}
 });

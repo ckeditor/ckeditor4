@@ -25,7 +25,8 @@
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'Image', {
 				label: editor.lang.common.image,
-				command: pluginName
+				command: pluginName,
+				toolbar: 'insert,10'
 			});
 
 			editor.on( 'doubleclick', function( evt ) {

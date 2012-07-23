@@ -4,7 +4,7 @@
  */
 
 (function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition ) {
+	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
 		var config = editor.config;
 
 		// Gets the list of fonts from the settings.
@@ -33,6 +33,8 @@
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
+			toolbar: 'styles,' + order,
+
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,
@@ -94,8 +96,8 @@
 		init: function( editor ) {
 			var config = editor.config;
 
-			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style );
-			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style );
+			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
+			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
 		}
 	});
 })();

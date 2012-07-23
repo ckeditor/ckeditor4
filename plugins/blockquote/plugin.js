@@ -240,7 +240,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {
 				label: editor.lang.blockquote.toolbar,
-				command: 'blockquote'
+				command: 'blockquote',
+				toolbar: 'blocks,10'
 			});
 		}
 	});

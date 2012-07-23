@@ -19,17 +19,18 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var clickFn;
 
 		if ( !CKEDITOR.env.hc ) {
-			addButton( 'TextColor', 'fore', lang.textColorTitle );
-			addButton( 'BGColor', 'back', lang.bgColorTitle );
+			addButton( 'TextColor', 'fore', lang.textColorTitle, 10 );
+			addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
 		}
 
-		function addButton( name, type, title ) {
+		function addButton( name, type, title, order ) {
 			var colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
 				modes: { wysiwyg:1 },
 				editorFocus: 1,
+				toolbar: 'colors,' + order,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),

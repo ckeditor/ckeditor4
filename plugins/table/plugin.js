@@ -48,7 +48,8 @@ CKEDITOR.plugins.add( 'table', {
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,
-			command: 'table'
+			command: 'table',
+			toolbar: 'insert,30'
 		});
 
 		CKEDITOR.dialog.add( 'table', this.path + 'dialogs/table.js' );

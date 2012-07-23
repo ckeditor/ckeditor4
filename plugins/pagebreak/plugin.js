@@ -38,7 +38,8 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'PageBreak', {
 			label: editor.lang.pagebreak.toolbar,
-			command: 'pagebreak'
+			command: 'pagebreak',
+			toolbar: 'insert,70'
 		});
 
 		// Opera needs help to select the page-break.

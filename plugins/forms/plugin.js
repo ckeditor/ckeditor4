@@ -30,7 +30,8 @@ CKEDITOR.plugins.add( 'forms', {
 
 	},
 	init: function( editor ) {
-		var lang = editor.lang;
+		var lang = editor.lang,
+			order = 0;
 
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
@@ -42,7 +43,8 @@ CKEDITOR.plugins.add( 'forms', {
 
 				editor.ui.addButton && editor.ui.addButton( buttonName, {
 					label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],
-					command: commandName
+					command: commandName,
+					toolbar: 'forms,' + ( order += 10 )
 				});
 				CKEDITOR.dialog.add( commandName, dialogFile );
 			};
@@ -55,11 +57,12 @@ CKEDITOR.plugins.add( 'forms', {
 		addButtonCommand( 'Textarea', 'textarea', dialogPath + 'textarea.js' );
 		addButtonCommand( 'Select', 'select', dialogPath + 'select.js' );
 		addButtonCommand( 'Button', 'button', dialogPath + 'button.js' );
-		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
 
 		// If the "image" plugin is loaded.
 		var imagePlugin = CKEDITOR.plugins.get( 'image' );
 		imagePlugin && addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
+
+		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
 
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {

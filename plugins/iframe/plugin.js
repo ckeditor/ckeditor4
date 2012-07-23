@@ -29,7 +29,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'Iframe', {
 				label: lang.toolbar,
-				command: pluginName
+				command: pluginName,
+				toolbar: 'insert,80'
 			});
 
 			editor.on( 'doubleclick', function( evt ) {

@@ -44,7 +44,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save.toolbar,
-				command: pluginName
+				command: pluginName,
+				toolbar: 'document,10'
 			});
 		}
 	});

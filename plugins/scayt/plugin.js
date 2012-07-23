@@ -520,6 +520,7 @@
 				label: lang.title,
 				title: CKEDITOR.env.opera ? lang.opera_title : lang.title,
 				modes: { wysiwyg:1 },
+				toolbar: 'spellchecker,20',
 				onRender: function() {
 					command.on( 'state', function() {
 						this.setState( command.state );

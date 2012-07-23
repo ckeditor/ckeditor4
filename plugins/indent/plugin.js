@@ -330,11 +330,13 @@
 				// Register the toolbar buttons.
 				editor.ui.addButton( 'Indent', {
 					label: editor.lang.indent.indent,
-					command: 'indent'
+					command: 'indent',
+					toolbar: 'indent,20'
 				});
 				editor.ui.addButton( 'Outdent', {
 					label: editor.lang.indent.outdent,
-					command: 'outdent'
+					command: 'outdent',
+					toolbar: 'indent,10'
 				});
 			}
 

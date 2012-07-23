@@ -50,6 +50,27 @@
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+
+		beforeInit: function( editor ) {
+			editor._.toolbarGroups = [
+				{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+				{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+				{ name: 'editing',     groups: [ 'find', 'selection',  'spellchecker' ] },
+				{ name: 'forms' },
+				'/',
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+				{ name: 'links' },
+				{ name: 'insert' },
+				'/',
+				{ name: 'styles' },
+				{ name: 'colors' },
+				{ name: 'tools' },
+				{ name: 'others' },
+				{ name: 'about' }
+			];	
+		},
+
 		init: function( editor ) {
 			var endFlag;
 
@@ -162,7 +183,7 @@
 					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
-						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
+						toolbar = getToolbarConfig( editor );
 
 					for ( var r = 0; r < toolbar.length; r++ ) {
 						var toolbarId,
@@ -393,6 +414,161 @@
 			});
 		}
 	});
+
+	function getToolbarConfig( editor ) {
+		var toolbar = editor.config.toolbar;
+
+		// If it is a string, return the relative "toolbar_name" config.
+		if ( typeof toolbar == 'string' )
+			toolbar = editor.config[ 'toolbar_' + toolbar ];
+
+		// If not toolbar has been explicitly defined, build it based on the toolbarGroups.
+		return toolbar || buildToolbarConfig();
+
+		function buildToolbarConfig() {
+
+			// Object containing all toolbar groups used by ui items.
+			var lookup = getItemDefinedGroups();
+
+			// Take the base for the new toolbar, which is basically a toolbar
+			// definition without items.
+			var toolbar = editor.config.toolbarGroups || editor._.toolbarGroups;
+
+			// Fill the toolbar groups with the available ui items.
+			for ( var i = 0; i < toolbar.length; i++ ) {
+				var toolbarGroup = toolbar[ i ];
+
+				// Skip toolbar break.
+				if ( toolbarGroup == '/' )
+					continue;
+				// Handle simply group name item.
+				else if ( typeof toolbarGroup == 'string' )
+					toolbarGroup = toolbar[ i ] = { name : toolbarGroup };
+
+				var items, subGroups = toolbarGroup.groups;
+
+				// Look for items that match sub groups.
+				if ( subGroups ) {
+					for ( var j = 0, sub; j < subGroups.length; j++ ) {
+						sub = subGroups[ j ];
+
+						// If any ui item is registered for this subgroup.
+						items = lookup[ sub ];
+						items && fillGroup( toolbarGroup, items );
+					}
+				}
+
+				// Add the main group items as well.
+				items = lookup[ toolbarGroup.name ];
+				items && fillGroup( toolbarGroup, items );
+			}
+
+			return toolbar;
+		}
+
+		// Returns an object containing all toolbar groups used by ui items.
+		function getItemDefinedGroups() {
+			var groups = {},
+				itemName, item, itemToolbar, group, order;
+
+			for ( itemName in editor.ui.items ) {
+				item = editor.ui.items[ itemName ];
+				itemToolbar = item.toolbar || 'others';
+				if ( itemToolbar ) {
+					// Break the toolbar property into its parts: "group_name[,order]".
+					itemToolbar = itemToolbar.split( ',' );
+					group = itemToolbar[ 0 ];
+					order = parseInt( itemToolbar[ 1 ] || -1 );
+
+					// Initialize the group, if necessary.
+					groups[ group ] || ( groups[ group ] = [] );
+
+					// Push the data used to build the toolbar later.
+					groups[ group ].push( { name: itemName, order: order} );
+				}
+			}
+
+			// Put the items in the right order.
+			for ( group in groups ) {
+				groups[ group ] = groups[ group ].sort( function( a, b ) {
+					return a.order == b.order ? 0 :
+						b.order < 0 ? -1 :
+						a.order < 0 ? 1 :
+						a.order < b.order ? -1 :
+						1;
+				});
+			}
+
+			return groups;
+		}
+
+		function fillGroup( toolbarGroup, uiItems ) {
+
+			if ( uiItems.length )
+			{
+				if ( toolbarGroup.items )
+					toolbarGroup.items.push( '-' );
+				else
+					toolbarGroup.items = [];
+
+				var item;
+				while( item = uiItems.shift() )
+					toolbarGroup.items.push( item.name );
+			}
+		}
+	}
+
+	CKEDITOR.ui.prototype.addToolbarGroup = function( name, previous, subgroupOf ) {
+		// The toolbarGroups from the privates is the one we gonna use for automatic toolbar creation.
+		var toolbarGroups = this.editor._.toolbarGroups,
+			atStart = previous === 0,
+			newGroup = { name: name };
+
+		if ( subgroupOf ) {
+			// Transform the subgroupOf name in the real subgroup object.
+			subgroupOf = CKEDITOR.tools.search( toolbarGroups, function( group ) {
+				return group.name == subgroupOf;
+			});
+
+			if ( subgroupOf ) {
+				!subgroupOf.groups && ( subgroupOf.groups = [] ) ;
+
+				if ( previous ) {
+					// Search the "previous" item and add the new one after it.
+					previous = CKEDITOR.tools.indexOf( subgroupOf.groups, previous );
+					if ( previous >= 0 ) {
+						subgroupOf.groups.splice( previous + 1, 0, name );
+						return;
+					}
+				}
+
+				// If no previous found.
+
+				if ( atStart )
+					subgroupOf.groups.splice( 0, 0, name );
+				else
+					subgroupOf.groups.push(  name );
+				return;
+			} else {
+				// Ignore "previous" if subgroupOf has not been found.
+				previous = null;
+			}
+		}
+
+		if ( previous ) {
+			// Transform the "previous" name into its index.
+			previous = CKEDITOR.tools.indexOf( toolbarGroups, function( group ) {
+				return group.name == previous;
+			});
+		}
+
+		if ( atStart )
+			toolbarGroups.splice( 0, 0, name );
+		else if ( typeof previous == 'number' )
+			toolbarGroups.splice( previous + 1, 0, newGroup );
+		else
+			toolbarGroups.push( name );
+	};
 })();
 
 CKEDITOR.UI_SEPARATOR = 'separator';
@@ -406,68 +582,6 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * config.toolbarLocation = 'bottom';
  */
 CKEDITOR.config.toolbarLocation = 'top';
-
-/**
- * The toolbar definition. It is an array of toolbars (strips),
- * each one being also an array, containing a list of UI items.
- * Note that this setting is composed by "toolbar_" added by the toolbar name,
- * which in this case is called "Basic". This second part of the setting name
- * can be anything. You must use this name in the
- * {@link CKEDITOR.config.toolbar} setting, so you instruct the editor which
- * toolbar_(name) setting to you.
- * @type Array
- * @example
- * // Defines a toolbar with only one strip containing the "Source" button, a
- * // separator and the "Bold" and "Italic" buttons.
- * <b>config.toolbar_Basic =
- * [
- *     [ 'Source', '-', 'Bold', 'Italic' ]
- * ]</b>;
- * config.toolbar = 'Basic';
- */
-CKEDITOR.config.toolbar_Basic = [
-	[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About' ]
-];
-
-/**
- * This is the default toolbar definition used by the editor. It contains all
- * editor features.
- * @type Array
- * @default (see example)
- * @example
- * // This is actually the default value.
- * config.toolbar_Full =
- * [
- *     { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
- *     { name: 'clipboard',   items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
- *     { name: 'editing',     items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
- *     { name: 'forms',       items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
- *     '/',
- *     { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
- *     { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
- *     { name: 'links',       items : [ 'Link','Unlink','Anchor' ] },
- *     { name: 'insert',      items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
- *     '/',
- *     { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
- *     { name: 'colors',      items : [ 'TextColor','BGColor' ] },
- *     { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] }
- * ];
- */
-CKEDITOR.config.toolbar_Full = [
-	{ name: 'document',	   items: [ 'Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates' ] },
-	{ name: 'clipboard',   items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-	{ name: 'editing',     items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt' ] },
-	{ name: 'forms',       items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-	'/',
-	{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-	{ name: 'paragraph',   items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-	{ name: 'links',       items: [ 'Link', 'Unlink', 'Anchor' ] },
-	{ name: 'insert',      items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-	'/',
-	{ name: 'styles',      items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-	{ name: 'colors',      items: [ 'TextColor', 'BGColor' ] },
-	{ name: 'tools',       items: [ 'Maximize', 'ShowBlocks', '-', 'About' ] }
-];
 
 /**
  * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
@@ -485,7 +599,6 @@ CKEDITOR.config.toolbar_Full = [
  * // Load toolbar_Name where Name = Basic.
  * config.toolbar = 'Basic';
  */
-CKEDITOR.config.toolbar = 'Full';
 
 /**
  * Whether the toolbar can be collapsed by the user. If disabled, the collapser

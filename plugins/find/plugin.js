@@ -18,12 +18,14 @@ CKEDITOR.plugins.add( 'find', {
 		if ( editor.ui.addButton ) {
 			editor.ui.addButton( 'Find', {
 				label: editor.lang.find.find,
-				command: 'find'
+				command: 'find',
+				toolbar: 'find,10'
 			});
 
 			editor.ui.addButton( 'Replace', {
 				label: editor.lang.find.replace,
-				command: 'replace'
+				command: 'replace',
+				toolbar: 'find,20'
 			});
 		}
 

@@ -104,7 +104,8 @@
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
-				command: pluginName
+				command: pluginName,
+				toolbar: 'document,40'
 			});
 		}
 	});

@@ -49,7 +49,8 @@
 
 			editor.ui.addButton && editor.ui.addButton( 'SelectAll', {
 				label: editor.lang.selectall.toolbar,
-				command: 'selectAll'
+				command: 'selectAll',
+				toolbar: 'selection,10'
 			});
 		}
 	});

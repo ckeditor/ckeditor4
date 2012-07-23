@@ -16,7 +16,8 @@ CKEDITOR.plugins.add( 'docprops', {
 
 		editor.ui.addButton && editor.ui.addButton( 'DocProps', {
 			label: editor.lang.docprops.label,
-			command: 'docProps'
+			command: 'docProps',
+			toolbar: 'document,30'
 		});
 	}
 });

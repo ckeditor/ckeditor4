@@ -480,7 +480,9 @@
 		/**
 		 * Returns the index of an element in an array.
 		 * @param {Array} array The array to be searched.
-		 * @param {Object} entry The element to be found.
+		 * @param {Object|Function} value The element to be found. Can be an
+		 *		evaluation function which receives a single parameter call for
+		 *		each entry in the array, returning "true" if the entry matches.
 		 * @returns {Number} The (zero based) index of the first entry that matches
 		 *		the entry, or -1 if not found.
 		 * @example
@@ -488,17 +490,26 @@
 		 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  "-1" because 0 !== '0'
 		 * alert( CKEDITOR.tools.indexOf( letters, false ) );  "4" because 0 !== false
 		 */
-		indexOf:
-		// #2514: We should try to use Array.indexOf if it does exist.
-		( Array.prototype.indexOf ) ?
-		function( array, entry ) {
-			return array.indexOf( entry );
-		} : function( array, entry ) {
-			for ( var i = 0, len = array.length; i < len; i++ ) {
-				if ( array[ i ] === entry )
-					return i;
+		indexOf: function( array, value ) {
+			if ( typeof value == 'function' ) {
+				for ( var i = 0, len = array.length; i < len; i++ ) {
+					if ( value( array[ i ] ) )
+						return i;
+				}
+			} else if ( array.indexOf ) {
+				return array.indexOf( value );
+			} else {
+				for ( i = 0, len = array.length; i < len; i++ ) {
+					if ( array[ i ] === value )
+						return i;
+				}
 			}
 			return -1;
+		},
+
+		search: function( array, value ) {
+			var index = CKEDITOR.tools.indexOf( array, value );
+			return index >= 0 ? array[ index ] : null;
 		},
 
 		/**

@@ -13,14 +13,15 @@ CKEDITOR.ui = function( editor ) {
 	if ( editor.ui )
 		return editor.ui;
 
+	this.items = {};
+	this.editor = editor;
+
 	/**
 	 * Object used to hold private stuff.
 	 * @private
 	 */
 	this._ = {
-		handlers: {},
-		items: {},
-		editor: editor
+		handlers: {}
 	};
 
 	return this;
@@ -48,12 +49,14 @@ CKEDITOR.ui.prototype = {
 		// Compensate the unique name of this ui item to definition.
 		definition.name = name.toLowerCase();
 
-		this._.items[ name ] = {
+		var item = this.items[ name ] = {
 			type: type,
 			// The name of {@link CKEDITOR.command} which associate with this UI.
 			command: definition.command || null,
 			args: Array.prototype.slice.call( arguments, 2 )
 		};
+
+		CKEDITOR.tools.extend( item, definition );
 	},
 
 	/**
@@ -62,9 +65,9 @@ CKEDITOR.ui.prototype = {
 	 * @example
 	 */
 	create: function( name ) {
-		var item = this._.items[ name ],
+		var item = this.items[ name ],
 			handler = item && this._.handlers[ item.type ],
-			command = item && item.command && this._.editor.getCommand( item.command );
+			command = item && item.command && this.editor.getCommand( item.command );
 
 		var result = handler && handler.create.apply( this, item.args );
 
@@ -109,7 +112,7 @@ CKEDITOR.ui.prototype = {
 	 * Generate the HTML ID from a specific UI space name.
 	 */
 	spaceId: function( name ) {
-		return this._.editor.id + '_' + name;
+		return this.editor.id + '_' + name;
 	}
 };
 

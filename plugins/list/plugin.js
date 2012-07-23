@@ -777,11 +777,13 @@
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'NumberedList', {
 					label: editor.lang.list.numberedlist,
-					command: 'numberedlist'
+					command: 'numberedlist',
+					toolbar: 'list,10'
 				});
 				editor.ui.addButton( 'BulletedList', {
 					label: editor.lang.list.bulletedlist,
-					command: 'bulletedlist'
+					command: 'bulletedlist',
+					toolbar: 'list,20'
 				});
 			}
 

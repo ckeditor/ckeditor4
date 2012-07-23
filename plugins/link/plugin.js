@@ -61,15 +61,18 @@ CKEDITOR.plugins.add( 'link', {
 		if ( editor.ui.addButton ) {
 			editor.ui.addButton( 'Link', {
 				label: editor.lang.link.toolbar,
-				command: 'link'
+				command: 'link',
+				toolbar: 'links,10'
 			});
 			editor.ui.addButton( 'Unlink', {
 				label: editor.lang.link.unlink,
-				command: 'unlink'
+				command: 'unlink',
+				toolbar: 'links,20'
 			});
 			editor.ui.addButton( 'Anchor', {
 				label: editor.lang.link.anchor.toolbar,
-				command: 'anchor'
+				command: 'anchor',
+				toolbar: 'links,30'
 			});
 		}
 
