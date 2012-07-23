@@ -416,8 +416,16 @@
 
 			// Fill the toolbar groups with the available ui items.
 			for ( var i = 0; i < toolbar.length; i++ ) {
-				var toolbarGroup = toolbar[ i ],
-					mainGroup = groups[ toolbarGroup.name ],
+				var toolbarGroup = toolbar[ i ];
+
+				// Skip toolbar break.
+				if ( toolbarGroup == '/' )
+					continue;
+				// Handle simply group name item.
+				else if ( typeof toolbarGroup == 'string' )
+					toolbarGroup = toolbar[ i ] = { name : toolbarGroup };
+
+				var mainGroup = groups[ toolbarGroup.name ],
 					subGroups = toolbarGroup.subGroups;
 
 				// Look for subgroups that match ui groups.
