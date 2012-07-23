@@ -8,7 +8,7 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 		var writer = new CKEDITOR.htmlWriter();
 
 		writer.forceSimpleAmpersand = editor.config.forceSimpleAmpersand;
-		writer.indentationChars = editor.config.dataIndentationChars || '';
+		writer.indentationChars = editor.config.dataIndentationChars || '\t';
 
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
@@ -42,7 +42,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * // Use tab for indentation.
 		 * editorInstance.dataProcessor.writer.indentationChars = '\t';
 		 */
-		this.indentationChars = '';
+		this.indentationChars = '\t';
 
 		/**
 		 * The characters to be used to close "self-closing" elements, like "br" or
@@ -73,17 +73,13 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this._.inPre = 0;
 		this._.rules = {};
 
-		var dtd = CKEDITOR.dtd,
-			isTextHolder;
+		var dtd = CKEDITOR.dtd;
 
 		for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
-			isTextHolder = dtd[ e ][ '#' ];
-
 			this.setRules( e, {
-				indent: !isTextHolder,
+				indent: !dtd[ e ][ '#' ],
 				breakBeforeOpen: 1,
-				breakAfterOpen: !isTextHolder,
-				breakBeforeClose: !isTextHolder,
+				breakBeforeClose: !dtd[ e ][ '#' ],
 				breakAfterClose: 1,
 				needsSpace: ( e in dtd.$block ) && !( e in { li:1,dt:1,dd:1 } )
 			});
@@ -91,9 +87,15 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		this.setRules( 'br', { breakAfterOpen:1 } );
 
-		this.setRules( 'tr', { needsSpace:1 });
+		this.setRules( 'title', {
+			indent: 0,
+			breakAfterOpen: 0
+		});
 
-		this.setRules( 'style', { breakBeforeClose:1 });
+		this.setRules( 'style', {
+			indent: 0,
+			breakBeforeClose: 1
+		});
 
 		this.setRules( 'pre', {
 			breakAfterOpen: 1, // Keep line break after the opening tag
@@ -343,10 +345,10 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
  * a bad idea as it'll mess the code.
  * @name CKEDITOR.config.dataIndentationChars
  * @type String
- * @default "" (no indentation)
+ * @default "\t" (tab)
  * @example
- * // Use tab for indentation.
- * CKEDITOR.config.dataIndentationChars = '\t';
+ * // No indentation.
+ * CKEDITOR.config.dataIndentationChars = '';
  * @example
  * // Use two spaces for indentation.
  * CKEDITOR.config.dataIndentationChars = '  ';
