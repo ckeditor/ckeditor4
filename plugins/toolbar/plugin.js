@@ -162,7 +162,7 @@
 					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
-						toolbar = ( editor.config.toolbar instanceof Array ) ? editor.config.toolbar : editor.config[ 'toolbar_' + editor.config.toolbar ];
+						toolbar = getConfig( editor );
 
 					for ( var r = 0; r < toolbar.length; r++ ) {
 						var toolbarId,
@@ -393,6 +393,104 @@
 			});
 		}
 	});
+
+	function getConfig( editor ) {
+		var toolbar = editor.config.toolbar;
+
+		// If it is a string, return the relative "toolbar_name" config.
+		if ( typeof toolbar == 'string' )
+			toolbar = editor.config[ 'toolbar_' + toolbar ];
+
+		// If not toolbar has been explicitly defined, build it based on the toolbarGroups.
+		return toolbar || buildToolbarConfig();
+
+		function buildToolbarConfig() {
+			var toolbar, groups;
+
+			// Object containing all toolbar groups used by ui items.
+			var groups = getItemDefinedGroups();
+
+			// Take the base for the new toolbar, which is basically a toolbar
+			// definition without items.
+			toolbar = editor.config.toolbarGroups;
+
+			// Fill the toolbar groups with the available ui items.
+			for ( var i = 0; i < toolbar.length; i++ ) {
+				var toolbarGroup = toolbar[ i ],
+					mainGroup = groups[ toolbarGroup.name ],
+					subGroups = toolbarGroup.subGroups;
+
+				// Look for subgroups that match ui groups.
+				if ( subGroups ) {
+					for ( var j = 0, sub; j < subGroups.length; j++ ) {
+						sub = subGroups[ j ];
+
+						// If any ui item is registered for this subgroup.
+						group = groups[ sub ];
+						if ( group )
+							addGroup( toolbarGroup, group );
+					}
+				}
+
+				// An ui group may eventually match the main group as well.
+				if ( mainGroup )
+					addGroup( toolbarGroup, mainGroup );
+			}
+
+			return toolbar;
+		}
+
+		// Returns an object containing all toolbar groups used by ui items.
+		function getItemDefinedGroups() {
+			var groups = {},
+				itemName, item, itemToolbar, group, order;
+
+			for ( itemName in editor.ui.items ) {
+				item = editor.ui.items[ itemName ];
+				itemToolbar = item.toolbar;
+				if ( itemToolbar ) {
+					// Break the toolbar property into its parts: "group_name[,order]".
+					itemToolbar = itemToolbar.split( ',' );
+					group = itemToolbar[ 0 ];
+					order = parseInt( itemToolbar[ 1 ] || -1 );
+
+					// Initialize the group, if necessary.
+					groups[ group ] || ( groups[ group ] = [] );
+
+					// Push the data used to build the toolbar later.
+					groups[ group ].push( { name: itemName, order: order} );
+				}
+			}
+
+			// Put the items in the right order.
+			for ( group in groups ) {
+				groups[ group ] = groups[ group ].sort( function( a, b ) {
+					return a.order == b.order ? 0 :
+						b.order < 0 ? -1 :
+						a.order < 0 ? 1 :
+						a.order < b.order ? -1 :
+						1;
+				});
+			}
+
+			return groups;
+		}
+
+		function addGroup( toolbarGroup, uiItems ) {
+
+			if ( uiItems.length )
+			{
+				if ( toolbarGroup.items )
+					toolbarGroup.items.push( '-' );
+				else
+					toolbarGroup.items = [];
+
+				var item;
+				while( item = uiItems.shift() )
+					toolbarGroup.items.push( item.name );
+			}
+		}
+	}
 })();
 
 CKEDITOR.UI_SEPARATOR = 'separator';
@@ -466,7 +564,25 @@ CKEDITOR.config.toolbar_Full = [
 	'/',
 	{ name: 'styles',      items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
 	{ name: 'colors',      items: [ 'TextColor', 'BGColor' ] },
-	{ name: 'tools',       items: [ 'Maximize', 'ShowBlocks', '-', 'About' ] }
+	{ name: 'tools',       items: [ 'Maximize', 'ShowBlocks' ] },
+	{ name: 'about',       items: [ 'About' ] }
+];
+
+CKEDITOR.config.toolbarGroups = [
+	{ name: 'document',	   subGroups: [ 'mode', 'document', 'doctools' ] },
+	{ name: 'clipboard',   subGroups: [ 'clipboard', 'undo' ] },
+	{ name: 'editing',     subGroups: [ 'find', 'selection',  'spellchecker' ] },
+	{ name: 'forms' },
+	'/',
+	{ name: 'basicstyles', subGroups: [ 'basicstyles', 'cleanup' ] },
+	{ name: 'paragraph',   subGroups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	{ name: 'links' },
+	{ name: 'insert' },
+	'/',
+	{ name: 'styles' },
+	{ name: 'colors' },
+	{ name: 'tools' },
+	{ name: 'about' }
 ];
 
 /**
@@ -485,7 +601,6 @@ CKEDITOR.config.toolbar_Full = [
  * // Load toolbar_Name where Name = Basic.
  * config.toolbar = 'Basic';
  */
-CKEDITOR.config.toolbar = 'Full';
 
 /**
  * Whether the toolbar can be collapsed by the user. If disabled, the collapser
