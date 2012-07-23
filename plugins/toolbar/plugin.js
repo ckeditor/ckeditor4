@@ -452,7 +452,7 @@
 
 			for ( itemName in editor.ui.items ) {
 				item = editor.ui.items[ itemName ];
-				itemToolbar = item.toolbar;
+				itemToolbar = item.toolbar || 'others';
 				if ( itemToolbar ) {
 					// Break the toolbar property into its parts: "group_name[,order]".
 					itemToolbar = itemToolbar.split( ',' );
@@ -524,6 +524,7 @@ CKEDITOR.config.toolbarGroups = [
 	{ name: 'styles' },
 	{ name: 'colors' },
 	{ name: 'tools' },
+	{ name: 'others' },
 	{ name: 'about' }
 ];
 
