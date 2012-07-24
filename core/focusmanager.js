@@ -115,24 +115,24 @@
 			if ( this._.locked )
 				return;
 
-			function blurred() {
-
+			function doBlur() {
 				if ( this.hasFocus ) {
-					var editor = this._.editor;
 					this.hasFocus = false;
-					editor.fire( 'blur' );
+					this._.editor.fire( 'blur' );
 				}
 			}
-
 
 			if ( this._.timer )
 				clearTimeout( this._.timer );
 
-			noDelay ? blurred.call( this ) :
-			this._.timer = CKEDITOR.tools.setTimeout( function() {
-				delete this._.timer;
-				blurred.call( this );
-			}, 200, this );
+			if ( noDelay ) {
+				doBlur.call( this );
+			} else {
+				this._.timer = CKEDITOR.tools.setTimeout( function() {
+					delete this._.timer;
+					doBlur.call( this );
+				}, 200, this );
+			}
 		},
 
 		/**
