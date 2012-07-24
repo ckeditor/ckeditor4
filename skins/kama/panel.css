@@ -177,6 +177,8 @@ a.cke_colorbox
 	border: #fff 1px solid;
 	padding: 2px;
 	float: left;
+	width: 12px;
+	height: 12px;
 }
 
 .cke_rtl a.cke_colorbox
