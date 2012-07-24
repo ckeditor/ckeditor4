@@ -821,6 +821,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
+				if ( !this._.parentDialog )
+					this._.editor.focusManager.lock();
+
 				// Save the initial values of the dialog.
 				this.foreach( function( contentObj ) {
 					contentObj.setInitValue && contentObj.setInitValue();
@@ -951,6 +954,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				var editor = this._.editor;
 				editor.focus();
+
+				// Give a while before unlock, waiting for focus to return to the editable. (#172)
+				setTimeout( function() { editor.focusManager.unlock(); }, 0 );
+
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
 
