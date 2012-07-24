@@ -162,16 +162,6 @@ if ( !CKEDITOR.env ) {
 			version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 
 			/**
-			 * Indicates that CKEditor is running on Internet Explorer 8.
-			 * @name CKEDITOR.env.ie8
-			 * @type Boolean
-			 * @example
-			 * if ( CKEDITOR.env.ie8 )
-			 *     alert( "I'm on IE8!" );
-			 */
-			env.ie8 = !!document.documentMode;
-
-			/**
 			 * Indicates that CKEditor is running on Internet Explorer 8 on
 			 * standards mode.
 			 * @name CKEDITOR.env.ie8Compat
