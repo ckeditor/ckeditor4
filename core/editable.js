@@ -185,7 +185,9 @@
 					// optimized. (#3100,#5436,#8950)
 					if ( isBlock ) {
 
-						var next = lastElement.getNext( isNotEmpty );
+						var next = lastElement.getNext( function( node ) {
+								return isNotBogus( node ) && isNotEmpty( node );
+							} );
 
 						if ( next && next.type == CKEDITOR.NODE_ELEMENT &&
 						     next.is( CKEDITOR.dtd.$block ) ) {
@@ -504,6 +506,24 @@
 					});
 				}
 
+				// Opera: Unwanted BR get added at the start of editable sometimes.
+				if ( CKEDITOR.env.opera  ) {
+
+					function checkBodyBogus( evt ) {
+
+						var target = evt.data.getTarget();
+						// Avoid recursion.
+						if ( target.type == CKEDITOR.NODE_ELEMENT ) {
+							var last = this.getLast();
+							if ( !last || last.type == CKEDITOR.NODE_ELEMENT && isNotBogus( last ) )
+								this.appendBogus();
+						}
+					}
+
+					this.attachListener( this, 'DOMNodeRemoved', checkBodyBogus );
+					this.attachListener( this, 'DOMNodeInserted', checkBodyBogus );
+				}
+
 			}
 		},
 
@@ -691,7 +711,8 @@
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isNotEmpty = function( node ) { return isNotWhitespace( node ) && isNotBookmark( node ); };
+		isNotEmpty = function( node ) { return isNotWhitespace( node ) && isNotBookmark( node );},
+		isNotBogus = CKEDITOR.dom.walker.bogus( true );
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		var editor = evt.editor;
