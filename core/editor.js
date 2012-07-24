@@ -30,6 +30,7 @@
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
 
+		// if editor is created off one page element.
 		if ( element !== undefined ) {
 			// Asserting element and mode not null.
 			if ( !( element instanceof CKEDITOR.dom.element ) )
@@ -53,6 +54,8 @@
 
 			this.name = element.getId() || element.getNameAtt();
 		}
+		else
+			this.elementMode = CKEDITOR.ELEMENT_MODE_NONE;
 
 		// Declare the private namespace.
 		this._ = {};
@@ -874,11 +877,18 @@
 })();
 
 /**
+ * The editor has no associated element.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_NONE = 0;
+
+/**
  * The editor is to be attached to the element, using it as the editing block.
  * @constant
  * @example
  */
-CKEDITOR.ELEMENT_MODE_INLINE = 3;
+CKEDITOR.ELEMENT_MODE_INLINE = 2;
 
 /**
  * The element is to be replaced by the editor instance.
@@ -886,13 +896,6 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @example
  */
 CKEDITOR.ELEMENT_MODE_REPLACE = 1;
-
-/**
- * The editor is to be created inside the element.
- * @constant
- * @example
- */
-//CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
 
 /**
  * Whether to escape HTML when the editor updates the original input element.
