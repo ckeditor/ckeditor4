@@ -260,7 +260,7 @@ if ( !CKEDITOR.env ) {
 
 			!env.mobile && (
 
-			( env.ie && version >= 6 ) ||
+			( env.ie && version > 6 ) ||
 			( env.gecko && version >= 10801 ) ||
 			( env.opera && version >= 9.5 ) ||
 			( env.air && version >= 1 ) ||
