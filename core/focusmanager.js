@@ -64,20 +64,20 @@
 		 *
 		 * @example
 		 * var editor = CKEDITOR.instances.editor1;
-		 * <b>editor.focusManage.setActive( editor.editable() )</b>;
+		 * <b>editor.focusManage.focus( editor.editable() )</b>;
 		 */
 		focus: function() {
 			if ( this._.timer )
 				clearTimeout( this._.timer );
 
-			if ( !this.hasFocus ) {
+			if ( ! ( this.hasFocus || this._.locked ) ) {
 				// If another editor has the current focus, we first "blur" it. In
 				// this way the events happen in a more logical sequence, like:
 				//		"focus 1" > "blur 1" > "focus 2"
 				// ... instead of:
 				//		"focus 1" > "focus 2" > "blur 1"
 				var current = CKEDITOR.currentInstance;
-				current && current.focusManager.forceBlur();
+				current && current.focusManager.blur( 1 );
 
 				this.hasFocus = true;
 				this._.editor.fire( 'focus' );
@@ -85,8 +85,23 @@
 		},
 
 		/**
+		 * Prevent from changing the focus manager state until next {@link #unlock} is called.
+		 */
+		lock: function() {
+			this._.locked = 1;
+		},
+
+		/**
+		 * Restore the automatic focus management, if {@link #lock} is called.
+		 */
+		unlock: function() {
+			delete this._.locked;
+		},
+
+		/**
 		 * Used to indicate that the editor instance has been deactivated by the specified
 		 * element which has just lost focus.
+		 * @param noDelay Deactivate immediately the editor instance synchronously.
 		 *
 		 * <strong>Note:</strong> that this functions acts asynchronously with a delay of 100ms to
 		 * avoid temporary deactivation. Use instead the {@link #forceBlur} function instead
@@ -95,32 +110,29 @@
 		 * var editor = CKEDITOR.instances.editor1;
 		 * <b>editor.focusManager.blur()</b>;
 		 */
-		blur: function() {
-			var focusManager = this;
+		blur: function( noDelay ) {
 
-			if ( focusManager._.timer )
-				clearTimeout( focusManager._.timer );
+			if ( this._.locked )
+				return;
 
-			focusManager._.timer = setTimeout( function() {
-				delete focusManager._.timer;
-				focusManager.forceBlur();
-			}, 200 );
-		},
+			function blurred() {
 
-		/**
-		 * Deactivate immediately the editor instance, unlike {@link #blur},
-		 * this function is synchronous, marking the instance as "deactivated" immediately.
-		 * @example
-		 * var editor = CKEDITOR.instances.editor1;
-		 * <b>editor.focusManager.forceBlur()</b>;
-		 */
-		forceBlur: function() {
-			if ( this.hasFocus ) {
-				var editor = this._.editor;
-
-				this.hasFocus = false;
-				editor.fire( 'blur' );
+				if ( this.hasFocus ) {
+					var editor = this._.editor;
+					this.hasFocus = false;
+					editor.fire( 'blur' );
+				}
 			}
+
+
+			if ( this._.timer )
+				clearTimeout( this._.timer );
+
+			noDelay ? blurred.call( this ) :
+			this._.timer = CKEDITOR.tools.setTimeout( function() {
+				delete this._.timer;
+				blurred.call( this );
+			}, 200, this );
 		},
 
 		/**
