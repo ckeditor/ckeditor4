@@ -18,6 +18,9 @@
 	 * <b>CKEDITOR.inline( 'content' )</b>;
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
+		if ( !CKEDITOR.env.isCompatible )
+			return null;
+
 		element = CKEDITOR.dom.element.get( element );
 
 		// Avoid multiple inline editor instances on the same element.

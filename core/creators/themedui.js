@@ -34,6 +34,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * <b>CKEDITOR.replace( textarea )</b>;
 	 */
 	CKEDITOR.replace = function( element, config ) {
+		if ( !CKEDITOR.env.isCompatible )
+			return null;
+
 		element = CKEDITOR.dom.element.get( element );
 
 		// Avoid multiple inline editor instances on the same element.
