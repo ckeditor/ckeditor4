@@ -198,9 +198,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							// (#3426)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
 								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
-							// A little extra at the end.
-							// If not present, IE6 might break into the next line, but also it looks better this way
-							width += 4;
+
+							// Add some extra pixels to improve the appearance.
+							// Do this once to avoid unnecessary expansion
+							// of the panel. Otherwise, the panel will be expanded
+							// by few pixels every time it appears.
+							if ( !block.extraWidth )
+								width += block.extraWidth = 4;
 
 							target.setStyle( 'width', width + 'px' );
 
