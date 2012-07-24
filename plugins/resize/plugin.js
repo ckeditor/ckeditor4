@@ -9,7 +9,7 @@ CKEDITOR.plugins.add( 'resize', {
 
 		// Resize in the same direction of chrome,
 		// which is identical to dir of editor element. (#6614)
-		var resizeDir = editor.element.getDirection( 1 );
+		var resizeDir = editor.element ? editor.element.getDirection( 1 ) : 'ltr';
 
 		!config.resize_dir && ( config.resize_dir = 'both' );
 		( config.resize_maxWidth == undefined ) && ( config.resize_maxWidth = 3000 );
