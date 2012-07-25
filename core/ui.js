@@ -14,6 +14,7 @@ CKEDITOR.ui = function( editor ) {
 		return editor.ui;
 
 	this.items = {};
+	this.instances = {};
 	this.editor = editor;
 
 	/**
@@ -60,6 +61,14 @@ CKEDITOR.ui.prototype = {
 	},
 
 	/**
+	 * Retrieve the created ui objects by name
+	 * @param {String} name The name of the UI definition.
+	 */
+	get: function( name ) {
+		return this.instances[ name ];
+	},
+
+	/**
 	 * Gets a UI object.
 	 * @param {String} name The UI item hame.
 	 * @example
@@ -70,6 +79,8 @@ CKEDITOR.ui.prototype = {
 			command = item && item.command && this.editor.getCommand( item.command );
 
 		var result = handler && handler.create.apply( this, item.args );
+
+		this.instances[ name ] = result;
 
 		// Add reference inside command object.
 		if ( command )

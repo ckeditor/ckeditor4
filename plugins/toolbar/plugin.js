@@ -51,26 +51,6 @@
 		requires: 'button',
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 
-		beforeInit: function( editor ) {
-			editor._.toolbarGroups = [
-				{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-				{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-				{ name: 'editing',     groups: [ 'find', 'selection',  'spellchecker' ] },
-				{ name: 'forms' },
-				'/',
-				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-				{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
-				{ name: 'links' },
-				{ name: 'insert' },
-				'/',
-				{ name: 'styles' },
-				{ name: 'colors' },
-				{ name: 'tools' },
-				{ name: 'others' },
-				{ name: 'about' }
-			];	
-		},
-
 		init: function( editor ) {
 			var endFlag;
 
@@ -432,7 +412,7 @@
 
 			// Take the base for the new toolbar, which is basically a toolbar
 			// definition without items.
-			var toolbar = editor.config.toolbarGroups || editor._.toolbarGroups;
+			var toolbar = editor.config.toolbarGroups || getPrivateToolbarGroups( editor );
 
 			// Fill the toolbar groups with the available ui items.
 			for ( var i = 0; i < toolbar.length; i++ ) {
@@ -520,7 +500,7 @@
 
 	CKEDITOR.ui.prototype.addToolbarGroup = function( name, previous, subgroupOf ) {
 		// The toolbarGroups from the privates is the one we gonna use for automatic toolbar creation.
-		var toolbarGroups = this.editor._.toolbarGroups,
+		var toolbarGroups = getPrivateToolbarGroups( this.editor ),
 			atStart = previous === 0,
 			newGroup = { name: name };
 
@@ -569,6 +549,26 @@
 		else
 			toolbarGroups.push( name );
 	};
+
+	function getPrivateToolbarGroups( editor ) {
+		return editor._.toolbarGroups || ( editor._.toolbarGroups = [
+			{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+			{ name: 'editing',     groups: [ 'find', 'selection',  'spellchecker' ] },
+			{ name: 'forms' },
+			'/',
+			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+			{ name: 'links' },
+			{ name: 'insert' },
+			'/',
+			{ name: 'styles' },
+			{ name: 'colors' },
+			{ name: 'tools' },
+			{ name: 'others' },
+			{ name: 'about' }
+		]);
+	}
 })();
 
 CKEDITOR.UI_SEPARATOR = 'separator';

@@ -24,7 +24,7 @@
 
 	CKEDITOR.plugins.add( 'floatingspace', {
 		init: function( editor ) {
-			editor.on( 'loaded', function() {
+			editor.on( 'contentDom', function() {
 				attach( editor );
 			});
 		}
