@@ -690,8 +690,7 @@
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isNotEmpty = function( node ) { return isNotWhitespace( node ) && isNotBookmark( node ); };
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		var editor = evt.editor;
@@ -836,13 +835,15 @@
 				var doc = that.range.document;
 				return CKEDITOR.tools.tryThese( function() {
 					doc.$.execCommand( 'inserthtml', false, data );
-					return true;
+					return 1;
 				},
 				function() {
 					doc.$.selection.createRange().pasteHTML( data );
-					return true;
+					return 1;
 				} );
 			}
+
+			return 0;
 		}
 
 		// Prepare range to its data deletion.
