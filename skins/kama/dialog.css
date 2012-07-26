@@ -83,7 +83,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_dialog_footer .cke_resizer
 {
-	margin-top: 20px;
+	margin-top: 24px;
+}
+
+.cke_dialog_footer .cke_resizer_ltr
+{
+	border-right-color: #ccc;
+}
+
+.cke_dialog_footer .cke_resizer_rtl
+{
+	border-left-color: #ccc;
 }
 
 /* tabs */

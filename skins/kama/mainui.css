@@ -78,10 +78,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	border-width: 12px;
-	border-color: transparent transparent #efefef transparent;
-	border-style: dashed dashed solid dashed;
-	margin: -4px -12px 0 0;
+	border-width: 12px 12px 0 12px;
+	border-color: transparent #EFEFEF transparent transparent;
+	border-style: dashed solid dashed dashed;	/* dashed is for HC mode */
+	margin: 10px 0 0;
 
 	float: right;
 	cursor: se-resize;
@@ -90,26 +90,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	opacity: 0.8;
 }
 
+.cke_resizer_ltr
+{
+	margin-left: -12px;
+}
+
 .cke_resizer_rtl
 {
 	float: left;
 	cursor: sw-resize;
-	margin-left: -12px;
-	margin-right: 0px;
+	border-color: transparent transparent transparent #EFEFEF;
+	border-style: dashed dashed dashed solid;	/* dashed is for HC mode */
+	margin-right: -12px;
 }
 
 .cke_hc .cke_resizer
 {
 	font-size: 18px;
-	margin-right: -1px;
-	width: auto;
-	border: 0;
+	margin-right: 1px;
+	margin-bottom: 1px;
 }
 
 .cke_hc .cke_resizer_rtl
 {
-	margin-right: 0;
-	margin-left: -1px;
+	margin-left: 1px;
 }
 
 /* All voice labels are not displayed. */
