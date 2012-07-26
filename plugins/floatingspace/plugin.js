@@ -6,19 +6,15 @@
 (function() {
 	var floatSpaceTpl = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
 		' id="cke_{name}"' +
-		' class="cke cke_reset_all cke_chrome cke_editor_{name} cke_float"' +
+		' class="cke cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
 		' dir="{langDir}"' +
 		' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 		' lang="{langCode}"' +
 		' role="presentation"' +
 		' style="{style}"' +
 		'>' +
-			'<div class="' + CKEDITOR.env.cssClass + '" role="presentation">' +
-				'<div class="cke_{langDir}" role="presentation">' +
-					'<div class="cke_inner">' +
-						'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
-					'</div>' +
-				'</div>' +
+			'<div class="cke_inner">' +
+				'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
 			'</div>' +
 		'</div>' );
 

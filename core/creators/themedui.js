@@ -282,7 +282,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	var themedTpl;
 
-
 	function loadTheme( editor ) {
 		var name = editor.name,
 			element = editor.element,
@@ -304,28 +303,23 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( !isNaN( width ) )
 			style += 'width:' + width + 'px;';
 
-		if ( !themedTpl )
-		{
+		if ( !themedTpl ) {
 			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<span' +
-					' id="cke_{name}"' +
-					' class="{id} cke cke_reset cke_chrome cke_editor_{name}"' +
-					' dir="{langDir}"' +
-					' lang="{langCode}"' +
-					' role="application"' +
-					' aria-labelledby="cke_{name}_arialbl" {style}>' +
-					'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-					'<span class="' + CKEDITOR.env.cssClass + ' cke_reset" role="presentation">' +
-						'<span class="cke_{langDir} cke_reset" role="presentation">' +
-							'<span class="cke_inner cke_reset" role="presentation">' +
-								'<span id="{topId}" class="cke_top cke_reset_all"' +
-								' role="presentation" style="height:auto">{topHtml}</span>' +
-								'<span id="{contentId}" class="cke_contents cke_reset"' +
-								' role="presentation" style="height:{height}"></span>' +
-								'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
-							'</span>' +
-						'</span>' +
+				' id="cke_{name}"' +
+				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} ' + CKEDITOR.env.cssClass + '" ' +
+				' dir="{langDir}"' +
+				' lang="{langCode}"' +
+				' role="application"' +
+				' aria-labelledby="cke_{name}_arialbl" {style}>' +
+				'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
+					'<span class="cke_inner cke_reset" role="presentation">' +
+						'<span id="{topId}" class="cke_top cke_reset_all"' +
+						' role="presentation" style="height:auto">{topHtml}</span>' +
+						'<span id="{contentId}" class="cke_contents cke_reset"' +
+						' role="presentation" style="height:{height}"></span>' +
+						'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
 					'</span>' +
-					'</span>' )
+				'</span>' );
 		}
 
 		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
