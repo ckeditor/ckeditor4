@@ -403,7 +403,6 @@
 							range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
 							// Remove the control manually.
 							selected.remove();
-							range.select();
 
 							editor.fire( 'saveSnapshot' );
 
@@ -803,7 +802,6 @@
 
 			// Make the final range selection.
 			range.select();
-			selection.scrollIntoView();
 
 			afterInsert( editable );
 		}
@@ -1149,12 +1147,17 @@
 		}
 
 		function afterInsert( editable ) {
+			var editor = editable.editor;
+
+			// Scroll using selection, not ranges, to affect native pastes.
+			editor.getSelection().scrollIntoView();
+
 			// Save snaps after the whole execution completed.
 			// This's a workaround for make DOM modification's happened after
 			// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
 			// call.
 			setTimeout( function() {
-				editable.editor.fire( 'saveSnapshot' );
+				editor.fire( 'saveSnapshot' );
 			}, 0 );
 		}
 
