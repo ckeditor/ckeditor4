@@ -370,10 +370,6 @@
 				return { path: match[ 1 ], file: match[ 2 ] };
 			else
 				return data;
-		},
-		// Scayt isn't available in inline mode yet.
-		assertInline: function( editor ) {
-			return editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE;
 		}
 	};
 
@@ -427,8 +423,6 @@
 		icons: 'scayt', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
-			if ( plugin.assertInline( editor ) )
-				return;
 
 			var items_order = editor.config.scayt_contextMenuItemsOrder || 'suggest|moresuggest|control',
 				items_order_str = "";
@@ -445,8 +439,6 @@
 		},
 
 		init: function( editor ) {
-			if ( plugin.assertInline( editor ) )
-				return;
 
 			// Delete span[data-scaytid] when text pasting in editor (#6921)
 			var dataFilter = editor.dataProcessor && editor.dataProcessor.dataFilter;
@@ -668,22 +660,16 @@
 				});
 			}
 
-			var showInitialState = function() {
-					editor.removeListener( 'showScaytState', showInitialState );
-
-					if ( !CKEDITOR.env.opera && !CKEDITOR.env.air )
-						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-					else
+			var showInitialState = function( evt ) {
+					evt.removeListener();
+					if ( CKEDITOR.env.opera || CKEDITOR.env.air || editor.editable().isInline() )
 						command.setState( CKEDITOR.TRISTATE_DISABLED );
+					else
+						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				};
 
 			editor.on( 'showScaytState', showInitialState );
-
-			if ( CKEDITOR.env.opera || CKEDITOR.env.air ) {
-				editor.on( 'instanceReady', function() {
-					showInitialState();
-				});
-			}
+			editor.on( 'instanceReady', showInitialState );
 
 			// Start plugin
 			if ( editor.config.scayt_autoStartup ) {
@@ -694,8 +680,6 @@
 		},
 
 		afterInit: function( editor ) {
-			if ( plugin.assertInline( editor ) )
-				return;
 
 			// Prevent word marker line from displaying in elements path and been removed when cleaning format. (#3570) (#4125)
 			var elementsPathFilters,
