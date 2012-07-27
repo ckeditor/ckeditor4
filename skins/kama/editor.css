@@ -47,3 +47,17 @@ other files.
 {
 	visibility: inherit;
 }
+
+/* For accessibility purposes, several "voice labels" are present in the UI.
+   These are usually <span> elements that show not be visible, but that are
+   used by screen-readers to announce other elements. Here, we hide these
+   <spans>, in fact. */
+.cke_voice_label
+{
+	display: none;
+}
+
+legend.cke_voice_label
+{
+	display: none;
+}
