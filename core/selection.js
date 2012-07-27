@@ -82,7 +82,7 @@
 	}
 
 	function createFillingChar( element ) {
-		removeFillingChar( element );
+		removeFillingChar( element, false );
 
 		var fillingChar = element.getDocument().createText( '\u200B' );
 		element.setCustomData( 'cke-fillingChar', fillingChar );
@@ -107,28 +107,32 @@
 		}
 	}
 
-	function removeFillingChar( element ) {
+	function removeFillingChar( element, keepSelection ) {
 		var fillingChar = element && element.removeCustomData( 'cke-fillingChar' );
 		if ( fillingChar ) {
-			var bm,
-				doc = element.getDocument(),
-				sel = doc.getSelection().getNative(),
-				// Be error proof.
-				range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
 			// Text selection position might get mangled by
 			// subsequent dom modification, save it now for restoring. (#8617)
-			if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
-				bm = [ sel.anchorOffset, sel.focusOffset ];
+			if ( keepSelection !== false )
+			{
+				var bm,
+					doc = element.getDocument(),
+					sel = doc.getSelection().getNative(),
+					// Be error proof.
+					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
-				// Anticipate the offset change brought by the removed char.
-				var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
-					endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
-				startAffected && bm[ 0 ]--;
-				endAffected && bm[ 1 ]--;
+				if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
+					bm = [ sel.anchorOffset, sel.focusOffset ];
 
-				// Revert the bookmark order on reverse selection.
-				isReversedSelection( sel ) && bm.unshift( bm.pop() );
+					// Anticipate the offset change brought by the removed char.
+					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
+						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
+					startAffected && bm[ 0 ]--;
+					endAffected && bm[ 1 ]--;
+
+					// Revert the bookmark order on reverse selection.
+					isReversedSelection( sel ) && bm.unshift( bm.pop() );
+				}
 			}
 
 			// We can't simply remove the filling node because the user
