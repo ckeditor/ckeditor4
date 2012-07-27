@@ -388,7 +388,9 @@
 		 *     });
 		 */
 		override: function( originalFunction, functionBuilder ) {
-			return functionBuilder( originalFunction );
+			var newFn = functionBuilder( originalFunction );
+			newFn.prototype = originalFunction.prototype;
+			return newFn;
 		},
 
 		/**
