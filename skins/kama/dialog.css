@@ -18,10 +18,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-
-	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
-		need it to be positioned to hold e.g. close button. */
-	_position: static;
 }
 
 .cke_dialog_tl,
@@ -121,6 +117,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-left:10px;
 	margin-right:10px;
 	margin-top: 11px;
+	_margin-top: 33px;	/* IE quirks */
 	position: absolute;
 	z-index: 2;
 }
@@ -415,6 +412,7 @@ strong
 	top: 5px;
 	/* IE 6 */
 	_background-image: url(images/sprites_ie6.png);
+	_top: 27px;	/* IE quirks */
 }
 
 .cke_dialog_close_button span
