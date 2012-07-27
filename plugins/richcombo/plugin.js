@@ -260,8 +260,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 						me.setValue( '' );
 
 					panel.hide();
-
-					editor.focus();
 				};
 
 				this._.panel = panel;
