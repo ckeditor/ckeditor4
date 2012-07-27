@@ -409,7 +409,7 @@
 
 							evt.data.preventDefault();
 						}
-						else
+						else if ( range.collapsed )
 						{
 							// Handle the following special cases: (#6217)
 							// 1. Del/Backspace key before/after table;
