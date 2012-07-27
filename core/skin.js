@@ -126,7 +126,11 @@
 				// Loop through all ua entries, checking is any of them match the current ua.
 				for ( var i = 0, ua; i < uas.length; i++ ) {
 					ua = uas[ i ];
-					env.ie && ( /\d/ ).exec( ua ) && ( ua += 'Compat' );
+
+					if ( env.ie ) {
+						if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
+							ua = 'ie';
+					}
 
 					if ( env[ ua ] ) {
 						part += '_' + uas[ i ];
