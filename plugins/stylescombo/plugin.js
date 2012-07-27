@@ -83,10 +83,10 @@
 				},
 
 				onClick: function( value ) {
+					editor.focus();
 					editor.fire( 'saveSnapshot' );
 
 					var style = styles[ value ],
-						selection = editor.getSelection(),
 						elementPath = editor.elementPath();
 
 					editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
