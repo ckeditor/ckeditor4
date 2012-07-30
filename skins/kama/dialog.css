@@ -96,6 +96,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-left-color: #ccc;
 }
 
+.cke_hc .cke_dialog_footer .cke_resizer
+{
+	margin-bottom: 1px;
+}
+
+.cke_hc .cke_dialog_footer .cke_resizer_ltr
+{
+	margin-right: 1px;
+}
+
+.cke_hc .cke_dialog_footer .cke_resizer_rtl
+{
+	margin-left: 1px;
+}
+
 /* tabs */
 
 .cke_dialog_tabs
