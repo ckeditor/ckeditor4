@@ -17,6 +17,7 @@ CKEDITOR.plugins.add( 'newpage', {
 			exec: function( editor ) {
 				var command = this;
 				editor.setData( editor.config.newpage_html || '', function() {
+					editor.focus();
 					// Save the undo snapshot after all document changes are affected. (#4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
@@ -27,7 +28,6 @@ CKEDITOR.plugins.add( 'newpage', {
 
 					}, 200 );
 				});
-				editor.focus();
 			},
 			async: true
 		});
