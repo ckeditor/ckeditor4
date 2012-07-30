@@ -23,6 +23,6 @@ CKEDITOR.plugins.add( 'uicolor', {
 		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'plugins/uicolor/yui/yui.js' ) );
 
 		// Load YUI css files.
-		editor.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( 'plugins/uicolor/yui/assets/yui.css' ) );
+		CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( 'plugins/uicolor/yui/assets/yui.css' ) );
 	}
 });

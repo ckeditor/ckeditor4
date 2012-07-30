@@ -270,7 +270,7 @@
 					// Only try to change the button if it exists (#6166)
 					if ( button ) {
 						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize.maximize : lang.maximize.minimize;
-						var buttonNode = editor.element.getDocument().getById( button._.id );
+						var buttonNode = CKEDITOR.document.getById( button._.id );
 						buttonNode.getChild( 1 ).setHtml( label );
 						buttonNode.setAttribute( 'title', label );
 						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
