@@ -578,11 +578,11 @@
 					// Remove unused commands and menuitems
 					for ( var m in moreSuggestions ) {
 						delete editor._.menuItems[ m ];
-						delete editor._.commands[ m ];
+						delete editor.commands[ m ];
 					}
 					for ( m in mainSuggestions ) {
 						delete editor._.menuItems[ m ];
-						delete editor._.commands[ m ];
+						delete editor.commands[ m ];
 					}
 					moreSuggestions = {}; // Reset items.
 					mainSuggestions = {};
