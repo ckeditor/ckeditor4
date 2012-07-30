@@ -23,14 +23,16 @@
 				var contentsSpace = editor.ui.space( 'contents' ),
 					textarea = contentsSpace.getDocument().createElement( 'textarea' );
 
-				textarea.setStyles({
-					// IE7 has overflow the <textarea> from wrapping table cell.
-					width: CKEDITOR.env.ie7Compat ? '99%' : '100%',
-					height: '100%',
-					resize: 'none',
-					outline: 'none',
-					'text-align': 'left'
-				});
+				textarea.setStyles(
+					CKEDITOR.tools.extend({
+						// IE7 has overflow the <textarea> from wrapping table cell.
+						width: CKEDITOR.env.ie7Compat ? '99%' : '100%',
+						height: '100%',
+						resize: 'none',
+						outline: 'none',
+						'text-align': 'left'
+					},
+					CKEDITOR.tools.cssVendorPrefix( 'tab-size', editor.config.sourceAreaTabSize || 8 ) ) );
 
 				var ariaLabel = [ editor.lang.editor, editor.name ].join( ',' );
 
@@ -144,3 +146,17 @@ CKEDITOR.plugins.sourcearea = {
 		}
 	}
 };
+
+/**
+ * Controls CSS tab-size property of the sourcearea view.
+ * <strong>Note:</strong> Works only with {@link CKEDITOR.config.dataIndentationChars}
+ * set to <code>'\t'</code>. Please consider that not all browsers support
+ * tab-size property yet.
+ * @name CKEDITOR.config.sourceAreaTabSize
+ * @type Integer
+ * @default 8
+ * @see CKEDITOR.config.dataIndentationChars
+ * @example
+ * // Set tab-size to 20 characters.
+ * CKEDITOR.config.sourceAreaTabSize = 20;
+ */
