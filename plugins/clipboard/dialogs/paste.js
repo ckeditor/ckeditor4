@@ -9,12 +9,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
-			docElement = doc.$,
+			body = doc.getBody(),
 			script = doc.getById( 'cke_actscrpt' );
 
 		script && script.remove();
 
-		CKEDITOR.env.ie ? docElement.body.contentEditable = 'true' : docElement.designMode = 'on';
+		body.setAttribute( 'contenteditable', true );
 
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
@@ -70,11 +70,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			// If custom title not set, use default one.
 			this.parts.title.setHtml( this.customTitle || lang.title );
 			this.customTitle = null;
-		},
-
-		onHide: function() {
-			if ( CKEDITOR.env.ie )
-				this.getParentEditor().document.getBody().$.contentEditable = 'true';
 		},
 
 		onLoad: function() {
