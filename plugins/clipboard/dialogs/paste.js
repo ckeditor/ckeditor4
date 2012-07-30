@@ -45,6 +45,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		}, this );
 
 		editor.fire( 'ariaWidget', new CKEDITOR.dom.element( win.frameElement ) );
+
+		// Handle pending focus.
+		var frame = doc.getWindow().getFrame();
+		if ( frame.removeCustomData( 'pendingFocus' ) )
+			body.focus();
 	}
 
 	// If pasteDialogCommit wasn't canceled by e.g. editor.getClipboardData
@@ -102,14 +107,15 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				style: 'width:100%;height:100%',
 				html: '',
 				focus: function() {
-					var win = this.getInputElement().$.contentWindow;
+					var iframe = this.getInputElement(),
+						doc = iframe.getFrameDocument(),
+						body = doc.getBody();
 
-					// #3291 : JAWS needs the 500ms delay to detect that the editor iframe
-					// iframe is no longer editable. So that it will put the focus into the
-					// Paste from Word dialog's editable area instead.
-					setTimeout( function() {
-						win.focus();
-					}, 500 );
+					// Frame content may not loaded at the moment.
+					if ( !body || body.isReadOnly() )
+						iframe.setCustomData( 'pendingFocus', 1 );
+					else
+						body.focus();
 				},
 				setup: function() {
 					var dialog = this.getDialog();
