@@ -699,7 +699,9 @@
 				// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
 				top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
 				width: '1px',
-				height: '1px',
+				// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
+				// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
+				height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
 				overflow: 'hidden'
 			});
 
