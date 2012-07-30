@@ -729,8 +729,9 @@
 
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
-				// Restore properly the document focus. (#5684, #8849)
-				editable.focus();
+				// Restore properly the document focus. (#8849)
+				if ( CKEDITOR.env.ie )
+					editable.focus();
 
 				// Grab the HTML contents.
 				// We need to look for a apple style wrapper on webkit it also adds
