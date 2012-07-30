@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		// editor blurred unless we clean up the selection. (#4716)
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 			doc.getWindow().on( 'blur', function() {
-				docElement.selection.empty();
+				doc.$.selection.empty();
 			});
 		}
 
