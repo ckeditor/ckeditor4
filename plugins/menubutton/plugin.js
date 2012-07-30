@@ -20,7 +20,7 @@ CKEDITOR.plugins.add( 'menubutton', {
 				if ( !menu ) {
 					menu = _.menu = new CKEDITOR.menu( editor, {
 						panel: {
-							className: 'cke_contextmenu',
+							className: 'cke_menu_panel',
 							attributes: { 'aria-label': editor.lang.common.options }
 						}
 					});

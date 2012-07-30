@@ -21,8 +21,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-radius: 3px;
 }
 
-.cke_contextmenu
+.cke_menu_panel
 {
+	padding: 2px;
 	margin: 0;
 }
 
