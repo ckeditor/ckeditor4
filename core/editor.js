@@ -56,7 +56,7 @@
 			 */
 			this.elementMode = mode;
 
-			this.name = element.getId() || element.getNameAtt();
+			this.name = ( this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO ) && ( element.getId() || element.getNameAtt() );
 		}
 		else
 			this.elementMode = CKEDITOR.ELEMENT_MODE_NONE;
@@ -527,7 +527,8 @@
 		destroy: function( noUpdate ) {
 			this.fire( 'beforeDestroy' );
 
-			!noUpdate && updateEditorElement.call( this );
+			if ( !noUpdate && this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO )
+				updateEditorElement.call( this );
 
 			this.editable( null );
 
@@ -833,7 +834,7 @@
 		 * alert( document.getElementById( 'editor1' ).value );  // The current editor data.
 		 */
 		updateElement: function() {
-			if ( this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+			if ( this.element ) {
 				updateEditorElement.call( this );
 				return true;
 			}
@@ -888,18 +889,25 @@
 CKEDITOR.ELEMENT_MODE_NONE = 0;
 
 /**
- * The editor is to be attached to the element, using it as the editing block.
- * @constant
- * @example
- */
-CKEDITOR.ELEMENT_MODE_INLINE = 2;
-
-/**
  * The element is to be replaced by the editor instance.
  * @constant
  * @example
  */
 CKEDITOR.ELEMENT_MODE_REPLACE = 1;
+
+/**
+ * The editor is to be created inside the element.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_APPENDTO = 2;
+
+/**
+ * The editor is to be attached to the element, using it as the editing block.
+ * @constant
+ * @example
+ */
+CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Whether to escape HTML when the editor updates the original input element.

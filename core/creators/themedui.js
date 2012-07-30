@@ -34,47 +34,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * <b>CKEDITOR.replace( textarea )</b>;
 	 */
 	CKEDITOR.replace = function( element, config ) {
-		if ( !CKEDITOR.env.isCompatible )
-			return null;
-
-		element = CKEDITOR.dom.element.get( element );
-
-		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
-			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
-
-		// Create the editor instance.
-		var editor = new CKEDITOR.editor( config, element, CKEDITOR.ELEMENT_MODE_REPLACE );
-
-		// Do not replace the textarea right now, just hide it. The effective
-		// replacement will be done later in the editor creation lifecycle.
-		element.setStyle( 'visibility', 'hidden' );
-
-		// Once the editor is loaded, start the UI.
-		editor.on( 'loaded', function() {
-			loadTheme( editor );
-
-			if ( editor.config.autoUpdateElement )
-				attachToForm( editor );
-
-			editor.setMode( editor.config.startupMode, function() {
-				// Editor is completely loaded for interaction.
-				editor.fireOnce( 'instanceReady' );
-				CKEDITOR.fire( 'instanceReady', null, editor );
-
-				// Clean on startup.
-				editor.resetDirty();
-			});
-
-		});
-
-		editor.on( 'destroy', destroy );
-		return editor;
+		return createInstance( element, config, null, CKEDITOR.ELEMENT_MODE_REPLACE );
 	};
 
 	/**
-	 * Creates a new editor instance inside a specific DOM element.
-	 * @param {Object|String} elementOrId The DOM element or its ID.
+	 * Creates a new editor at the end of a specific DOM element.
+	 * @param {Object|String} element The DOM element, its ID or name.
 	 * @param {Object} [config] The specific configurations to apply to this
 	 *		editor instance. Configurations set here will override global CKEditor
 	 *		settings.
@@ -85,12 +50,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * ...
 	 * <b>CKEDITOR.appendTo( 'editorSpace' )</b>;
 	 */
-	/*
-	CKEDITOR.appendTo = function( elementOrId, config, data )
+	CKEDITOR.appendTo = function( element, config, data )
 	{
-		// TODO
+		return createInstance( element, config, data, CKEDITOR.ELEMENT_MODE_APPENDTO );
 	};
-*/
 
 	/**
 	 * Replace all &lt;textarea&gt; elements available in the document with
@@ -262,6 +225,47 @@ CKEDITOR.replaceClass = 'ckeditor';
 	CKEDITOR.editor.prototype.getResizable = function( forContents ) {
 		return forContents ? this.ui.space( 'contents' ) : this.container;
 	};
+
+	function createInstance( element, config, data, mode ) {
+		if ( !CKEDITOR.env.isCompatible )
+			return null;
+
+		element = CKEDITOR.dom.element.get( element );
+
+		// Avoid multiple inline editor instances on the same element.
+		if ( element.getEditor() )
+			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+
+		// Create the editor instance.
+		var editor = new CKEDITOR.editor( config, element, mode );
+
+		// Do not replace the textarea right now, just hide it. The effective
+		// replacement will be done later in the editor creation lifecycle.
+		if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+			element.setStyle( 'visibility', 'hidden' );
+
+		data && editor.setData( data, null, true );
+
+		// Once the editor is loaded, start the UI.
+		editor.on( 'loaded', function() {
+			loadTheme( editor );
+
+			if (  mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement )
+				attachToForm( editor );
+
+			editor.setMode( editor.config.startupMode, function() {
+				// Editor is completely loaded for interaction.
+				editor.fireOnce( 'instanceReady' );
+				CKEDITOR.fire( 'instanceReady', null, editor );
+
+				// Clean on startup.
+				editor.resetDirty();
+			});
+		});
+
+		editor.on( 'destroy', destroy );
+		return editor;
+	}
 
 	function destroy() {
 		var editor = this,
