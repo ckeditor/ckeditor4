@@ -663,8 +663,7 @@
 			if ( doc.getById( 'cke_pastebin' ) )
 				return;
 
-			var sel = editor.getSelection(),
-				range = editor.createRange();
+			var sel = editor.getSelection();
 
 			// Create container to paste into.
 			// For rich content we prefer to use "body" since it holds
@@ -679,20 +678,42 @@
 				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
-			editable.append( pastebin );
+			pastebin.setAttribute( 'contenteditable', true );
+
+			var containerOffset = 0,
+				win = doc.getWindow();
+
+			if ( CKEDITOR.env.webkit ) {
+				// It's better to paste close to the real paste destination, so inherited styles
+				// (which Webkits will try to compensate by styling span) differs less from the destination's one.
+				editable.append( pastebin );
+				// Compensate position of offsetParent.
+				containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
+			} else {
+				// Opera and IE doesn't allow to append to html element.
+				editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+			}
 
 			pastebin.setStyles({
 				position: 'absolute',
-				// Position the bin exactly at the position of the selected element
-				// to avoid any subsequent document scroll.
-				top: sel.getStartElement().getDocumentPosition().y + 'px',
+				// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
+				top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
 				width: '1px',
-				height: '1px',
+				// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
+				// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
+				height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
 				overflow: 'hidden'
 			});
 
-			// Pull the paste bin off screen (when possible) since a small resize handler will be displayed around it.
-			if ( editor.editable().is( 'body' ) )
+			// Check if the paste bin now establishes new editing host.
+			var isEditingHost = pastebin.getParent().isReadOnly();
+
+			// Hide the paste bin.
+			if ( isEditingHost )
+				pastebin.setOpacity( 0 );
+			// Transparency is not enough since positioned non-editing host always shows
+			// resize handler, pull it off the screen instead.
+			else
 				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
 
 			var bms = sel.createBookmarks();
@@ -700,14 +721,17 @@
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
 			// Temporarily move selection to the pastebin.
+			isEditingHost && pastebin.focus();
+			var range = new CKEDITOR.dom.range( pastebin );
 			range.setStartAt( pastebin, CKEDITOR.POSITION_AFTER_START );
 			range.setEndAt( pastebin, CKEDITOR.POSITION_BEFORE_END );
-			range.select( true );
+			range.select();
 
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
-				// Restore properly the document focus. (#5684, #8849)
-				editable.focus();
+				// Restore properly the document focus. (#8849)
+				if ( CKEDITOR.env.ie )
+					editable.focus();
 
 				// Grab the HTML contents.
 				// We need to look for a apple style wrapper on webkit it also adds
