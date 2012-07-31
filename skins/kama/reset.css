@@ -39,6 +39,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	cursor: auto;
 }
 
+.cke_reset_all .cke_rtl *
+{
+	text-align: right;
+}
+
 .cke_reset_all iframe
 {
 	vertical-align: inherit;	/** For IE */
