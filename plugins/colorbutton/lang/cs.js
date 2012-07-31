@@ -26,7 +26,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		FF8C00: 'Tmavě oranžová',
 		FFD700: 'Zlatá',
 		'008000': 'Zelená',
-		'0FF': 'Kyanidová',
+		'0FF': 'Azurová',
 		'00F': 'Modrá',
 		EE82EE: 'Fialová',
 		A9A9A9: 'Kalně šedá',
@@ -44,7 +44,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		F0FFF0: 'Medová rosa',
 		F0FFFF: 'Azurová',
 		F0F8FF: 'Alenčina modrá',
-		E6E6FA: 'Lavendulová',
+		E6E6FA: 'Levandulová',
 		FFF: 'Bílá'
 	},
 	more: 'Více barev...',

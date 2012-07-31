@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'div', 'cs', {
 	edit: 'Změnit Div',
 	inlineStyleInputLabel: 'Vnitřní styly',
 	langDirLTRLabel: 'Zleva doprava (LTR)',
-	langDirLabel: 'Orientace textu',
+	langDirLabel: 'Směr jazyka',
 	langDirRTLLabel: 'Zprava doleva (RTL)',
 	languageCodeInputLabel: ' Kód jazyka',
 	remove: 'Odstranit Div',

@@ -32,7 +32,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	name: 'Име',
 	noAnchors: '(No anchors available in the document)', // MISSING
 	noEmail: 'Моля въведете e-mail aдрес',
-	noUrl: 'Please type the link URL', // MISSING
+	noUrl: 'Моля въведете URL адреса',
 	other: '<друго>',
 	popupDependent: 'Зависимост (Netscape)',
 	popupFeatures: 'Функции на изкачащ прозорец',

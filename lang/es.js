@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'es' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'pulse ALT 0 para ayuda.',
+		editorHelp: 'Pulse ALT 0 para ayuda',
 
 		browseServer: 'Ver Servidor',
 		url: 'URL',

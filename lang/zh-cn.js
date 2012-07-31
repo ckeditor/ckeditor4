@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: '按 ALT+0 查看帮助。',
+		editorHelp: '按 ALT+0 获得帮助',
 
 		browseServer: '浏览服务器',
 		url: '源文件',

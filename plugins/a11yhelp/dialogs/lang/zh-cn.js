@@ -12,22 +12,22 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		items: [
 			{
 			name: '编辑器工具栏',
-			legend: '按 ${toolbarFocus} 以导航到工具栏，使用 TAB 键或 SHIFT+TAB 组合键以选择工具栏组，使用左右箭头键以选择按钮，按空格键或回车键以应用选中的按钮。'
+			legend: '按 ${toolbarFocus} 导航到工具栏，使用 TAB 键或 SHIFT+TAB 组合键选择工具栏组，使用左右箭头键选择按钮，按空格键或回车键以应用选中的按钮。'
 		},
 
 			{
 			name: '编辑器对话框',
-			legend: '在对话框内，TAB键移动到下一个字段，SHIFT + TAB 移动到上一个字段，ENTER键提交对话框，ESC键取消对话框。对于有多标签的对话框，用ALT + F10来移到标签列表。然后用TAB键或者向右箭头来移动到下一个标签；SHIFT + TAB或者向左箭头移动到上一个标签。用SPACE或者ENTER选择标签。'
+			legend: '在对话框内，TAB 键移动到下一个字段，SHIFT + TAB 组合键移动到上一个字段，ENTER 键提交对话框，ESC 键取消对话框。对于有多标签的对话框，用ALT + F10来移到标签列表。然后用 TAB 键或者向右箭头来移动到下一个标签；SHIFT + TAB 组合键或者向左箭头移动到上一个标签。用 SPACE 键或者 ENTER 键选择标签。'
 		},
 
 			{
 			name: '编辑器上下文菜单',
-			legend: '用 ${contextMenu}或者 应用程序键 打开上下文菜单。然后用TAB键或者向下箭头来移动到下一个菜单项；SHIFT + TAB或者向上箭头移动到上一个菜单项。用SPACE或者ENTER选择菜单项。用SPACE，ENTER或者向右箭头打开子菜单。返回菜单用ESC键或者向左箭头。用ESC关闭上下文菜单。'
+			legend: '用 ${contextMenu}或者 应用程序键 打开上下文菜单。然后用 TAB 键或者下箭头键来移动到下一个菜单项；SHIFT + TAB 组合键或者上箭头键移动到上一个菜单项。用 SPACE 键或者 ENTER 键选择菜单项。用 SPACE 键，ENTER 键或者右箭头键打开子菜单。返回菜单用 ESC 键或者左箭头键。用 ESC 键关闭上下文菜单。'
 		},
 
 			{
 			name: '编辑器列表框',
-			legend: '在列表框中，移到下一列表项用TAB键或者向下箭头。移到上一列表项用SHIFT + TAB或者向上箭头，用SPACE或者ENTER选择列表项。用ESC收起列表框。'
+			legend: '在列表框中，移到下一列表项用 TAB 键或者下箭头键。移到上一列表项用SHIFT + TAB 组合键或者上箭头键，用 SPACE 键或者 ENTER 键选择列表项。用 ESC 键收起列表框。'
 		},
 
 			{

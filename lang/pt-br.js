@@ -4,8 +4,8 @@
  */
 
 /**
- * @fileOverview
- */
+* @fileOverview
+*/
 
 /**#@+
    @type String
@@ -32,7 +32,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'pressione ALT 0 para obter ajuda.',
+		editorHelp: 'Pressione ALT+0 para ajuda',
 
 		browseServer: 'Localizar no Servidor',
 		url: 'URL',

@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'HTML szerkesztő',
+		editorHelp: 'Press ALT 0 for help', // MISSING
 
 		browseServer: 'Böngészés a szerveren',
 		url: 'Hivatkozás',

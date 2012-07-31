@@ -4,8 +4,8 @@
  */
 
 /**
- * @fileOverview
- */
+* @fileOverview 
+*/
 
 /**#@+
    @type String
@@ -32,7 +32,7 @@ CKEDITOR.lang[ 'ug' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: 'كۆرۈنۈشچان تەھرىرلىگۈچ، %1، ALT+0 نى بېسىپ ياردەمنى كۆرۈڭ.',
+		editorHelp: 'ALT+0 نى بېسىپ ياردەمنى كۆرۈڭ',
 
 		browseServer: 'كۆرسىتىش مۇلازىمېتىر',
 		url: 'ئەسلى ھۆججەت',

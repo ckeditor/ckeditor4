@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'cy' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'gwasgwch ALT 0 am gymorth.',
+		editorHelp: 'Gwasgwch ALT 0 am gymorth',
 
 		browseServer: 'Pori\'r Gweinydd',
 		url: 'URL',

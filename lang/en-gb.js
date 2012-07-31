@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'press ALT 0 for help.', // MISSING
+		editorHelp: 'Press ALT 0 for help', // MISSING
 
 		browseServer: 'Browse Server',
 		url: 'URL',
@@ -66,7 +66,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		cancel: 'Cancel',
 		close: 'Close',
 		preview: 'Preview',
-		resize: 'Resize', // MISSING
+		resize: 'Drag to resize',
 		generalTab: 'General',
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.',

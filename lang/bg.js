@@ -33,9 +33,9 @@ CKEDITOR.lang[ 'bg' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'натиснете ALT 0 за помощ.',
+		editorHelp: 'натиснете ALT 0 за помощ',
 
-		browseServer: 'Избор ор сървъра',
+		browseServer: 'Избор от сървъра',
 		url: 'URL',
 		protocol: 'Протокол',
 		upload: 'Качване',

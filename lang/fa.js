@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'fa' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'کلید Alt+0 را برای راهنمایی بفشارید.',
+		editorHelp: 'کلید Alt+0 را برای راهنمایی بفشارید',
 
 		browseServer: 'فهرستنمایی سرور',
 		url: 'URL',

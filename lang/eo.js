@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'eo' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'premu ALT 0 por helpo.',
+		editorHelp: 'Premu ALT 0 por helpilo',
 
 		browseServer: 'Foliumi en la Servilo',
 		url: 'URL',

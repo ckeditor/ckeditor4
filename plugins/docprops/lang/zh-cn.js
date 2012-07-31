@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'zh-cn', {
 	metaDescription: '页面说明',
 	metaKeywords: '页面索引关键字 (用半角逗号[,]分隔)',
 	other: '<其他>',
-	previewHtml: '<p>这是一些<strong>演示用文字</strong>。你当前正在使用<a href="javascript:void(0)">CKEditor</a>。</p>',
+	previewHtml: '<p>这是一些<strong>演示用文字</strong>。您当前正在使用<a href="javascript:void(0)">CKEditor</a>。</p>',
 	title: '页面属性',
 	txtColor: '文本颜色',
 	xhtmlDec: '包含 XHTML 声明'

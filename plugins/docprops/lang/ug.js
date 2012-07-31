@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'ug', {
 	metaDescription: 'بەت يۈزى چۈشەندۈرۈشى',
 	metaKeywords: 'بەت يۈزى ئىندېكىس ھالقىلىق سۆزى (ئىنگلىزچە پەش [,] بىلەن ئايرىلىدۇ)',
 	other: 'باشقا',
-	previewHtml: '<p>بۇ بىر قىسىم <strong>كۆرسەتمىگە ئىشلىتىدىغان تېكىست </strong>سىز نۆۋەتتە <a href=\\"javascript:void(0)\\">CKEditor</a>.نى ئىشلىتىۋاتىسىز.</p>',
+	previewHtml: '<p>بۇ بىر قىسىم <strong>كۆرسەتمىگە ئىشلىتىدىغان تېكىست </strong>سىز نۆۋەتتە <a href="javascript:void(0)">CKEditor</a>.نى ئىشلىتىۋاتىسىز.</p>',
 	title: 'بەت خاسلىقى',
 	txtColor: 'تېكىست رەڭگى',
 	xhtmlDec: 'XHTML ئېنىقلىمىسىنى ئۆز ئىچىگە ئالىدۇ'

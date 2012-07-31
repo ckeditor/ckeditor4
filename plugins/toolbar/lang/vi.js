@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'vi', {
 		colors: 'Màu sắc',
 		tools: 'Công cụ'
 	},
-	toolbars: 'Thanh công cụ soạn thảo'
+	toolbars: 'Thanh công cụ'
 });

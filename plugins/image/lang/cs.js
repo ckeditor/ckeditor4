@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'image', 'cs', {
 	border: 'Okraje',
 	btnUpload: 'Odeslat na server',
 	button2Img: 'Skutečně chcete převést zvolené obrázkové tlačítko na obyčejný obrázek?',
-	hSpace: 'H-mezera',
+	hSpace: 'Horizontální mezera',
 	img2Button: 'Skutečně chcete převést zvolený obrázek na obrázkové tlačítko?',
 	infoTab: 'Informace o obrázku',
 	linkTab: 'Odkaz',
@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'image', 'cs', {
 	titleButton: 'Vlastností obrázkového tlačítka',
 	upload: 'Odeslat',
 	urlMissing: 'Zadané URL zdroje obrázku nebylo nalezeno.',
-	vSpace: 'V-mezera',
+	vSpace: 'Vertikální mezera',
 	validateBorder: 'Okraj musí být nastaven v celých číslech.',
-	validateHSpace: 'H-mezera musí být nastavena v celých číslech.',
-	validateVSpace: 'V-mezera musí být nastavena v celých číslech.'
+	validateHSpace: 'Horizontální mezera musí být nastavena v celých číslech.',
+	validateVSpace: 'Vertikální mezera musí být nastavena v celých číslech.'
 });

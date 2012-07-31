@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'wsc', 'zh-cn', {
 	btnUndo: '撤消',
 	changeTo: '更改为',
 	errorLoading: '加载应该服务主机时出错: %s.',
-	ieSpellDownload: '拼写检查插件还没安装, 你是否想现在就下载?',
+	ieSpellDownload: '拼写检查插件还没安装, 您是否想现在就下载?',
 	manyChanges: '拼写检查完成: 更改了 %1 个单词',
 	noChanges: '拼写检查完成: 没有更改任何单词',
 	noMispell: '拼写检查完成: 没有发现拼写错误',

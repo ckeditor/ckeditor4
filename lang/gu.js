@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'gu' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'પ્રેસ ALT 0 મદદ માટે.',
+		editorHelp: 'પ્રેસ ALT 0 મદદ માટ',
 
 		browseServer: 'સર્વર બ્રાઉઝ કરો',
 		url: 'URL',

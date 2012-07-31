@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'zh' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorTitle: '富文本編輯器，%1，按 ALT+0 以獲得幫助。',
+		editorHelp: '按 ALT+0 以獲得幫助',
 
 		browseServer: '瀏覽伺服器端',
 		url: 'URL',

@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'ru' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'нажмите ALT-0 для открытия справки.',
+		editorHelp: 'нажмите ALT-0 для открытия справки',
 
 		browseServer: 'Выбор на сервере',
 		url: 'Ссылка',

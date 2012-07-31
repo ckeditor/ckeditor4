@@ -17,11 +17,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'el', {
 
 			{
 			name: 'Παράθυρο Διαλόγου Επεξεργαστή',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: 'Μέσα σε ένα παράθυρο διαλόγου, πατήστε TAB για να μεταβείτε στο επόμενο πεδίο ή SHIFT + TAB για να μεταβείτε στο προηγούμενο. Πατήστε ENTER για να υποβάλετε την φόρμα. Πατήστε ESC για να ακυρώσετε την διαδικασία της φόρμας. Για παράθυρα διαλόγων που έχουν πολλές σελίδες σε καρτέλες πατήστε ALT + F10 για να μεταβείτε στην λίστα των καρτέλων. Στην συνέχεια μπορείτε να μεταβείτε στην επόμενη καρτέλα πατώντας TAB ή RIGHT ARROW. Μπορείτε να μεταβείτε στην προηγούμενη καρτέλα πατώντας SHIFT + TAB ή LEFT ARROW. Πατήστε SPACE ή ENTER για να επιλέξετε την καρτέλα για προβολή.'
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'Αναδυόμενο Μενού Επεξεργαστή',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 

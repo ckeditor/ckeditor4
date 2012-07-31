@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'cs', {
 	bgColor: 'Barva pozadí',
-	bgFixed: 'Nerolovatelné pozadí',
+	bgFixed: 'Nerolovatelné (Pevné) pozadí',
 	bgImage: 'URL obrázku na pozadí',
 	charset: 'Znaková sada',
 	charsetASCII: 'ASCII',
@@ -38,5 +38,5 @@ CKEDITOR.plugins.setLang( 'docprops', 'cs', {
 	previewHtml: '<p>Toto je <strong>ukázkový text</strong>. Používáte <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Vlastnosti dokumentu',
 	txtColor: 'Barva textu',
-	xhtmlDec: 'Zahrnou deklarace XHTML'
+	xhtmlDec: 'Zahrnout deklarace XHTML'
 });
