@@ -104,7 +104,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	function replaceVariables( match, name ) {
 		var keystrokes = editor.keystrokeHandler.keystrokes;
 
-		for ( key in keystrokes ) {
+		for ( var key in keystrokes ) {
 			if ( keystrokes[ key ] == name )
 				break;
 		}

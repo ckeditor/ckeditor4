@@ -499,15 +499,6 @@
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
 				exec: function( data ) {
-					this.type == 'cut' && fixCut();
-
-					var success = tryToCutCopy( this.type );
-
-					if ( !success )
-						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // Show cutError or copyError.
-
-					return success;
-
 					/**
 					 * Attempts to execute the Cut and Copy operations.
 					 */
@@ -523,8 +514,17 @@
 							return false;
 						}
 					}
+
+					this.type == 'cut' && fixCut();
+
+					var success = tryToCutCopy( this.type );
+
+					if ( !success )
+						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // Show cutError or copyError.
+
+					return success;
 				}
-			}
+			};
 		}
 
 		function createPasteCmd() {
@@ -612,7 +612,7 @@
 			// This guard should be after firing 'beforePaste' because for native pasting
 			// 'beforePaste' is by default fired even for empty clipboard.
 			if ( !data )
-				return;
+				return false;
 
 			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
 			eventData.data = data;
@@ -953,6 +953,12 @@
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
 	function htmlifiedTextHtmlification( config, data ) {
+		function repeatParagraphs( repeats ) {
+			// Repeat blocks floor((n+1)/2) times.
+			// Even number of repeats - add <br> at the beginning of last <p>.
+			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
+		}
+
 		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
 		data = data.replace( /\s+/g, ' ' )
 		// Remove spaces from between tags.
@@ -1009,12 +1015,6 @@
 		}
 
 		return switchEnterMode( config, data );
-
-		function repeatParagraphs( repeats ) {
-			// Repeat blocks floor((n+1)/2) times.
-			// Even number of repeats - add <br> at the beginning of last <p>.
-			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
-		}
 	}
 
 	// Filter can be editor dependent.
@@ -1051,8 +1051,10 @@
 					br = new CKEDITOR.htmlParser.element( 'cke:br' );
 					br.isEmpty = true;
 					element.add( br );
+					/*jsl:ignore*/
 					while ( el = next.children.shift() )
 						element.add( el );
+					/*jsl:end*/
 				}
 			};
 
@@ -1122,6 +1124,8 @@
 					// Final cleanup - if we can still find some not allowed elements then strip their names.
 					if ( !allowedIf[ element.name ] )
 						delete element.name;
+
+					return element;
 				}
 			}
 		});

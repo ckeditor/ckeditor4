@@ -401,15 +401,6 @@
 	});
 
 	function getToolbarConfig( editor ) {
-		var toolbar = editor.config.toolbar;
-
-		// If it is a string, return the relative "toolbar_name" config.
-		if ( typeof toolbar == 'string' )
-			toolbar = editor.config[ 'toolbar_' + toolbar ];
-
-		// If not toolbar has been explicitly defined, build it based on the toolbarGroups.
-		return toolbar || buildToolbarConfig();
-
 		function buildToolbarConfig() {
 
 			// Object containing all toolbar groups used by ui items.
@@ -463,7 +454,7 @@
 					// Break the toolbar property into its parts: "group_name[,order]".
 					itemToolbar = itemToolbar.split( ',' );
 					group = itemToolbar[ 0 ];
-					order = parseInt( itemToolbar[ 1 ] || -1 );
+					order = parseInt( itemToolbar[ 1 ] || -1, 10 );
 
 					// Initialize the group, if necessary.
 					groups[ group ] || ( groups[ group ] = [] );
@@ -497,10 +488,21 @@
 					toolbarGroup.items = [];
 
 				var item;
+				/*jsl:ignore*/
 				while( item = uiItems.shift() )
 					toolbarGroup.items.push( item.name );
+				/*jsl:end*/
 			}
 		}
+
+		var toolbar = editor.config.toolbar;
+
+		// If it is a string, return the relative "toolbar_name" config.
+		if ( typeof toolbar == 'string' )
+			toolbar = editor.config[ 'toolbar_' + toolbar ];
+
+		// If not toolbar has been explicitly defined, build it based on the toolbarGroups.
+		return toolbar || buildToolbarConfig();
 	}
 
 	CKEDITOR.ui.prototype.addToolbarGroup = function( name, previous, subgroupOf ) {

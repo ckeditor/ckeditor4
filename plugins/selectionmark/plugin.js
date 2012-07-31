@@ -166,11 +166,11 @@
 
 				// We need to prevent margin collapsing effect on the editable element to make selection highlight shadow works.
 				// http://reference.sitepoint.com/css/collapsingmargins
-				if ( !( editable.getComputedStyle( 'position' ) == 'absolute' || /^inline/.exec( editable.getComputedStyle( 'display' ) ) ) ) {
+				if ( !( editable.getComputedStyle( 'position' ) == 'absolute' || ( /^inline/ ).exec( editable.getComputedStyle( 'display' ) ) ) ) {
 					var sides = [ 'top', 'bottom' ];
 					for ( var i = 0, side; side = sides[ i ], i < 2; i++ ) {
-						var borderSize = parseInt( editable.getComputedStyle( 'border-' + side + '-width' ) ),
-							paddingSize = parseInt( editable.getComputedStyle( 'padding-' + side ) ),
+						var borderSize = parseInt( editable.getComputedStyle( 'border-' + side + '-width' ), 10 ),
+							paddingSize = parseInt( editable.getComputedStyle( 'padding-' + side ), 10 ),
 							style;
 
 						if ( !( borderSize || paddingSize ) ) {

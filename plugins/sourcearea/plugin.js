@@ -102,7 +102,7 @@
 
 			// Read-only support for textarea.
 			setReadOnly: function( isReadOnly ) {
-				this[ ( isReadOnly ? 'set' : 'remove' ) + 'Attribute' ]( 'readOnly', 'readonly' )
+				this[ ( isReadOnly ? 'set' : 'remove' ) + 'Attribute' ]( 'readOnly', 'readonly' );
 			},
 
 			detach: function() {

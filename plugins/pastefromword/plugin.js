@@ -85,7 +85,7 @@
 				forceFromWord && setTimeout( function() {
 					forceFromWord = 0;
 				}, 0 );
-			};
+			}
 		}
 
 	});

@@ -42,15 +42,15 @@
 				firstBlock = path.block || path.blockLimit;
 
 			if ( list )
-				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+				this.setState( CKEDITOR.TRISTATE_OFF );
 
-			if ( !this.useIndentClasses && this.name == 'indent' )
-				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+			else if ( !this.useIndentClasses && this.name == 'indent' )
+				this.setState( CKEDITOR.TRISTATE_OFF );
 
-			if ( !firstBlock )
-				return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
+			else if ( !firstBlock )
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
 
-			if ( this.useIndentClasses ) {
+			else if ( this.useIndentClasses ) {
 				var indentClass = firstBlock.$.className.match( this.classNameRegex ),
 					indentStep = 0;
 
@@ -60,15 +60,17 @@
 				}
 
 				if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
-					return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
-				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				else
+					this.setState( CKEDITOR.TRISTATE_OFF );
 			} else {
 				var indent = parseInt( firstBlock.getStyle( getIndentCssProperty( firstBlock ) ), 10 );
 				if ( isNaN( indent ) )
 					indent = 0;
 				if ( indent <= 0 )
-					return void( this.setState( CKEDITOR.TRISTATE_DISABLED ) );
-				return void( this.setState( CKEDITOR.TRISTATE_OFF ) );
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				else
+					this.setState( CKEDITOR.TRISTATE_OFF );
 			}
 		},
 		exec: function( editor ) {
