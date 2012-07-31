@@ -24,7 +24,7 @@
 				// Global stuff is being initialized here.
 				editor: editor,
 				triggerOffset: triggerOffset,
-				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || .5 ),
+				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
 				triggers: config.magicline_everywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
@@ -120,7 +120,7 @@
 					};
 
 					updateWindowSize( that );
-					updateEditableSize( that, true )
+					updateEditableSize( that, true );
 
 					var size = that.view.editable,
 						scroll = that.view.scroll;
@@ -129,16 +129,18 @@
 					if ( !inBetween( mouse.x, size.left - scroll.x, size.right - scroll.x ) || !inBetween( mouse.y, size.top - scroll.y, size.bottom - scroll.y ) ) {
 						clearTimeout( checkMouseTimer );
 						checkMouseTimer = null;
-						return that.line.detach();
+						that.line.detach();
 					}
 				}
 
-				var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
+				else {
+					var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
 
-				if ( !dest.$ || dest.is( 'html' ) ) {
-					clearTimeout( checkMouseTimer );
-					checkMouseTimer = null;
-					hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
+					if ( !dest.$ || dest.is( 'html' ) ) {
+						clearTimeout( checkMouseTimer );
+						checkMouseTimer = null;
+						hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
+					}
 				}
 			});
 
@@ -351,7 +353,7 @@
 
 				that.line.detach();
 			}
-		}
+		};
 	}
 	// %REMOVE_END%
 
@@ -396,7 +398,7 @@
 		// need to hide the box for a while, repeat elementFromPoint
 		// and show it again.
 		if ( ignoreBox && isLine( that, element ) ) {
-			lineWrap.hide()
+			lineWrap.hide();
 			element = new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
 			lineWrap.show();
 		}
@@ -436,7 +438,7 @@
 		var nodeParent = node.getParent();
 
 		if ( !nodeParent )
-			return;
+			return null;
 
 		var range = new CKEDITOR.dom.range( that.doc );
 
@@ -459,7 +461,9 @@
 			}
 		};
 
-		while ( walker[ goBack ? 'previous' : 'next' ]() ) {};
+		while ( walker[ goBack ? 'previous' : 'next' ]() ) {
+			/*jsl:pass*/
+		}
 
 		return edgeNode;
 	}
@@ -789,17 +793,19 @@
 			triggerOffset = that.triggerOffset;
 
 		if ( !editableFirst || !editableLast )
-			return;
+			return null;
 
 		updateSize( that, editableFirst );
 		updateSize( that, editableLast );
 		updateEditableSize( that );
 
 		if ( editableFirst.size.top > 0 && inBetween( mouse.y, 0, editableFirst.size.top + triggerOffset ) ) {
-			return new boxTrigger( null, editableFirst, EDGE_TOP, TYPE_EDGE, inInlineMode( that ) || view.scroll.y == 0 ? LOOK_TOP : LOOK_NORMAL );
+			return new boxTrigger( null, editableFirst, EDGE_TOP, TYPE_EDGE, inInlineMode( that ) || view.scroll.y === 0 ? LOOK_TOP : LOOK_NORMAL );
 		} else if ( editableLast.size.bottom < view.pane.height && inBetween( mouse.y, editableLast.size.bottom - triggerOffset, view.pane.height ) ) {
 			return new boxTrigger( editableLast, null, EDGE_BOTTOM, TYPE_EDGE, inInlineMode( that ) || inBetween( editableLast.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ? LOOK_BOTTOM : LOOK_NORMAL );
 		}
+
+		return null;
 	}
 
 	// Checks if the pointer is in the upper/lower area of an element.
@@ -813,7 +819,7 @@
 
 		if ( !element || that.editable.equals( element ) ) {
 			DEBUG && DEBUG.logEnd( 'ABORT. No element or element is editable.' ); // %REMOVE_LINE%
-			return;
+			return null;
 		}
 
 		// If that.triggerOffset is larger than a half of element's height, reduce the offset.
@@ -940,9 +946,10 @@
 		} else
 			upper = startElement.getFirst();
 
-		if ( lower && startElement.contains( lower ) )
+		if ( lower && startElement.contains( lower ) ) {
 			while ( !lower.getParent().equals( startElement ) )
-			lower = lower.getParent();
+				lower = lower.getParent();
+		}
 		else
 			lower = startElement.getLast();
 
@@ -1169,12 +1176,12 @@
 		// This kind of caching provides great performance improvement.
 		else if ( element.size.ignoreScroll == ignoreScroll && element.size.date > new Date() - CACHE_TIME ) {
 			DEBUG && DEBUG.log( 'ELEMENT.size: get from cache' ); // %REMOVE_LINE%
-			return;
+			return null;
 		}
 
 		DEBUG && DEBUG.log( 'ELEMENT.size: capture' ); // %REMOVE_LINE%
 
-		extend( element.size, getSize( that, element, ignoreScroll ), {
+		return extend( element.size, getSize( that, element, ignoreScroll ), {
 			date: +new Date()
 		}, true );
 	}
