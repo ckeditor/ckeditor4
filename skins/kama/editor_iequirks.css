@@ -80,10 +80,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-bottom: 4px;
 }
 
-.cke_rtl .cke_toolbox_main
+.cke_rtl .cke_toolbox
 {
 	margin-top: 2px;
-	margin-bottom: -5px;
+	margin-bottom: -4px;
 }
 
 .cke_combo
