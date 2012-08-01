@@ -171,7 +171,15 @@ Special outer level classes used in this file:
    properly. */
 .cke_hc .cke_resizer
 {
-	display: none;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #fff;
+	margin-left: 0;
+}
+
+.cke_hc .cke_resizer_rtl
+{
+	margin-right: 0;
 }
 
 /* The editing area (where users type) can be rendered as an editable <div>
