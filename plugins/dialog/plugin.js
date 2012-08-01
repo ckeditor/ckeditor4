@@ -1979,7 +1979,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		if ( !currentCover )
 			return;
 
-		editor.focusManager.remove( currentCover )
+		editor.focusManager.remove( currentCover );
 		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
 		win.removeListener( 'resize', resizeCover );
@@ -2957,6 +2957,8 @@ CKEDITOR.plugins.add( 'dialog', {
 				var data = { element: evt.data.getTarget() };
 				editor.fire( 'doubleclick', data );
 				data.dialog && editor.openDialog( data.dialog );
+
+				return 1;
 			});
 		});
 	}

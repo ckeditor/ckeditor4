@@ -33,7 +33,6 @@ For this skin, the following tasks are achieved in this file:
 // This is the only mandatory property to be defined in this file.
 CKEDITOR.skin.name = 'kama';
 
-
 // 2. Register browser specific skin files
 // -----------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Browser_Hacks)
@@ -83,6 +82,16 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8,opera';
 // The "$color" placeholder can be used in the returned string. It'll be
 // replaced with the desired color.
 CKEDITOR.skin.chameleon = function( editor, part ) {
+	// Use this function just to avoid having to repeat all these rules on
+	// several places of our template.
+	function getLinearBackground( definition ) {
+		return 'background:-moz-linear-gradient(' + definition + ');' + // FF3.6+
+			'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
+			'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
+			'background:-ms-linear-gradient(' + definition + ');' + // IE10+
+			'background:linear-gradient(' + definition + ');'; // W3C
+	}
+
 	var css;
 
 	// The Chameleon feature is available for each CKEditor instance,
@@ -193,16 +202,6 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	}
 
 	return css;
-
-	// Use this function just to avoid having to repeat all these rules on
-	// several places of our template.
-	function getLinearBackground( definition ) {
-		return 'background:-moz-linear-gradient(' + definition + ');' + // FF3.6+
-			'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
-			'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
-			'background:-ms-linear-gradient(' + definition + ');' + // IE10+
-			'background:linear-gradient(' + definition + ');'; // W3C
-	}
 };
 
 // %REMOVE_START%
@@ -249,3 +248,4 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 })();
 
 // %REMOVE_END%
+

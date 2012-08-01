@@ -157,8 +157,8 @@
 
 			if ( output )
 				output.push( html );
-			else
-				return html;
+
+			return html;
 		},
 
 		addBlock: function( name, block ) {

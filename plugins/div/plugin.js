@@ -1,5 +1,4 @@
-﻿﻿
-/**
+﻿/**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
@@ -39,7 +38,7 @@
 						toRemove = [];
 
 					function findDiv( node ) {
-						var div = CKEDITOR.plugins.div.getSurroundDiv( editor, node )
+						var div = CKEDITOR.plugins.div.getSurroundDiv( editor, node );
 						if ( div && !div.data( 'cke-div-added' ) ) {
 							toRemove.push( div );
 							div.data( 'cke-div-added' );
