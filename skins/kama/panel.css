@@ -3,6 +3,45 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/*
+panel.css (part of editor.css)
+================================
+
+Panels are floating elements that can hold different types of contents.
+The following are common uses of it:
+
+	- The element that toolbar combos display when opening them.
+	- The context menu.
+	- The list of items displayed by "menu buttons" (e.g. scayt).
+	- The panel shown when opening "panel buttons" (e.g. color buttons).
+
+Panel contents are wrapped into an iframe, so it is possible to have additional
+CSS loaded inside them (e.g. to have more accurate preview on the styles combo).
+
+The following is a visual representation of the outer elements of a panel:
+
++-- .cke_panel(*) ---------------------+
+| +-- IFRAME.cke_panel_frame --------+ |
+| | +-- HTML.cke_panel_container --+ | |
+| | | +-- .cke_panel_block ------+ | | |
+| | | |                          | | | |
+| | | |     (contents here)      | | | |
+| | | |                          | | | |
+| | | +--------------------------+ | | |
+| | +------------------------------+ | |
+| +----------------------------------+ |
++--------------------------------------+
+
+(*) All kinds of panel share the above structure. Menu panels adds the
+    .cke_menu_panel class to the outer element, while toolbar combos add the
+	.cke_combopanel class.
+
+This file also defines styles for panel lists (used by combos). For menu-like
+panel contents and color panels check menu.css and colorpanel.css.
+*/
+
+/* The box that holds an IFRAME. It's inserted into a host document and positioned
+   absolutely by the application. It floats above the host document/editor. */
 .cke_panel
 {
 	/* Restore the loading hide */
@@ -21,11 +60,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-radius: 3px;
 }
 
-.cke_contextmenu
+/* This class represents panels which are used as context menus. */
+.cke_menu_panel
 {
+	padding: 2px;
 	margin: 0;
 }
 
+/* This class represents panels which are used by rich combos. */
+.cke_combopanel
+{
+	border: 1px solid #8f8f73;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	height: auto;
+}
+
+/* The IFRAME the panel is wrapped into. */
 .cke_panel_frame
 {
 	width: 100%;
@@ -39,17 +91,43 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	overflow-x: hidden;
 }
 
-.cke_panel_frame .cke_label
-{
-	display: none;
-}
-
+/* The HTML document which is a direct descendant of the IFRAME */
 .cke_panel_container
 {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
+/*
+Here we start the definition of panel lists (e.g. combo panels). The following
+is its visual representation:
+
++-- .cke_panel_block -----------------+
+| +-- .cke_panel_grouptitle --------+ |
+| |                                 | |
+| +---------------------------------+ |
+| +-- .cke_panel_list --------------+ |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | |
+| | | +-------------------------+ | | |
+| | +-----------------------------+ | |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | | 
+| | | +-------------------------+ | | | 
+| | +-----------------------------+ | |
+| | ...                             | |
+| +---------------------------------+ |
++-------------------------------------+
+*/
+
+
+/* The list of panel items. */
 .cke_panel_list
 {
 	list-style-type: none;
@@ -58,11 +136,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	white-space: nowrap;
 }
 
+/* The item of .cke_panel_list */
 .cke_panel_listItem
 {
 	margin: 0px;
 }
 
+/* The child of .cke_panel_listItem. These elements contain spans which are
+   to display a real name of the property which is visible for an end-user. */
 .cke_panel_listItem a
 {
 	padding: 2px;
@@ -113,6 +194,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding: 0px;
 }
 
+/* The title of the entire panel which is visible on top of the list. */
 .cke_panel_grouptitle
 {
 	font-size: 11px;
@@ -125,6 +207,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding:3px;
 }
 
+/* The following styles set defaults of the elements used by the Paragraph
+   Format panel. */
 .cke_panel_listItem p,
 .cke_panel_listItem h1,
 .cke_panel_listItem h2,
@@ -136,80 +220,4 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
-}
-
-.cke_button_textcolor_panel,
-.cke_button_bgcolor_panel
-{
-	width: 150px;
-	height: 135px;
-}
-
-.cke_colorblock
-{
-	padding: 3px;
-   font-size: 11px;
-   font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
-}
-
-.cke_colorblock,
-.cke_colorblock a
-{
-	text-decoration: none;
-	color: #000;
-}
-
-span.cke_colorbox
-{
-	width: 10px;
-	height: 10px;
-   border: #808080 1px solid;
-	float: left;
-}
-
-.cke_rtl span.cke_colorbox
-{
-	float: right;
-}
-
-a.cke_colorbox
-{
-	border: #fff 1px solid;
-	padding: 2px;
-	float: left;
-	width: 12px;
-	height: 12px;
-}
-
-.cke_rtl a.cke_colorbox
-{
-	float: right;
-}
-
-a:hover.cke_colorbox,
-a:focus.cke_colorbox,
-a:active.cke_colorbox
-{
-	border: #316ac5 1px solid;
-	background-color: #dff1ff;
-}
-
-a.cke_colorauto,
-a.cke_colormore
-{
-	border: #fff 1px solid;
-	padding: 2px;
-	display: block;
-	cursor: pointer;
-}
-
-a:hover.cke_colorauto,
-a:hover.cke_colormore,
-a:focus.cke_colorauto,
-a:focus.cke_colormore,
-a:active.cke_colorauto,
-a:active.cke_colormore
-{
-	border: #316ac5 1px solid;
-	background-color: #dff1ff;
 }

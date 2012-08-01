@@ -3,6 +3,53 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/*
+toolbar.css (part of editor.css)
+==================================
+
+This files styles the CKEditor toolbar and its buttons. For toolbar combo
+styles, check richcombo.css.
+
+The toolbar is rendered as a big container (called toolbox), which contains
+smaller "toolbars". Each toolbar represents a group of items that cannot be
+separated. The following is the visual representation of the toolbox.
+
++-- .cke_toolbox ----------------------------------------------------------+
+| +-- .cke_toolbar --+ +-- .cke_toolbar --+ ... +-- .cke_toolbar_break --+ |
+| |                  | |                  |     |                        | |
+| +------------------+ +------------------+     +------------------------+ |
+| +-- .cke_toolbar --+ +-- .cke_toolbar --+ ...                            |
+| |                  | |                  |                                |
+| +------------------+ +------------------+                                |
++--------------------------------------------------------------------------+
+
+The following instead is the visual representation of a single toolbar:
+
++-- .cke_toolbar ----------------------------------------------------------------+
+| +-- .cke_toolbar_start --+ +-- .cke_toolgroup (*) --+ +-- .cke_toolbar_end --+ |
+| |                        | |                        | |                      | |
+| +------------------------+ +------------------------+ +----------------------+ |
++--------------------------------------------------------------------------------+
+(*) .cke_toolgroup is available only when the toolbar items can be grouped
+    (buttons). If the items can't be group (combos), this box is not available
+	and the items are rendered straight in that place.
+
+This file also styles toolbar buttons, which are rendered inside the above
+.cke_toolgroup containers. This is the visual representation of a button:
+
++-- .cke_button -------------------------------------+
+| +-- .cke_button_icon --+ +-- .cke_button_label --+ |
+| |                      | |                       | |
+| +----------------------+ +-----------------------+ |
++----------------------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+	.cke_rtl: Available when the editor UI is on RTL.
+*/
+
+/* The box that holds each toolbar. */
 .cke_toolbar
 {
 	float: left;
@@ -13,14 +60,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 }
 
+/* The box that holds buttons. */
 .cke_toolgroup
 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	float: left;
-	margin-right: 6px;
-	margin-bottom: 5px;
+	margin: 0 6px 5px 0;
 	padding: 2px;
 	background: url(images/sprites.png) repeat-x 0 -500px;
 
@@ -45,12 +92,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-right: 0;
 }
 
-.cke_hc .cke_rtl .cke_toolgroup
+.cke_rtl.cke_hc .cke_toolgroup
 {
 	padding-left: 0;
 	margin-left: 4px;
 }
 
+/* A toolbar button . */
 a.cke_button
 {
 	display: inline-block;
@@ -79,11 +127,14 @@ a.cke_button
 	margin: -2px 4px 0 -2px;
 }
 
-.cke_hc .cke_rtl .cke_button
+.cke_rtl.cke_hc .cke_button
 {
 	margin: -2px -2px 0 4px;
 }
 
+/* This class is applied to the button when it is "active" (pushed).
+   This style indicates that the feature associated with the button is active
+   i.e. currently writing in bold or when spell checking is enabled. */
 .cke_button_on
 {
 	background-color: #a3d7ff;
@@ -97,11 +148,17 @@ a.cke_button
 	padding: 1px 3px;
 }
 
+/* This class is applied to the button when the feature associated with the
+   button is available but currently not active.*/
 .cke_button_off
 {
-	opacity: 0.70;
+	opacity: 0.7;
 }
 
+/* This class is applied to the button when the feature associated with the
+   button cannot be used (grayed-out).
+   i.e. paste button remains disabled when there is nothing in the clipboard to
+   be pasted. */
 .cke_button_disabled
 {
 	opacity: 0.3;
@@ -127,10 +184,11 @@ a.cke_button_off:active
 	opacity: 1;
 }
 
+/* The icon which is a visual representation of the button. */
 .cke_button_icon
 {
 	cursor: inherit;
-	background-repeat:no-repeat;
+	background-repeat: no-repeat;
 	margin-top: 1px;
 	width: 16px;
 	height: 16px;
@@ -148,6 +206,8 @@ a.cke_button_off:active
 	display: none;
 }
 
+/* The label of the button that stores the name of the feature. By default,
+   labels are invisible. They can be revealed on demand though. */
 .cke_button_label
 {
 	display: none;
@@ -172,6 +232,8 @@ a.cke_button_off:active
 	float: right;
 }
 
+/* The small arrow available on buttons that can be expanded
+   (e.g. the color buttons). */
 .cke_button_arrow
 {
 	/* Arrow in CSS */
@@ -200,11 +262,13 @@ a.cke_button_off:active
 	border: 0;
 }
 
-.cke_hc .cke_rtl .cke_button_arrow
+.cke_rtl.cke_hc .cke_button_arrow
 {
 	margin: 0 3px 0 -2px;
 }
 
+/* The vertical separator which is used within a single toolbar to split
+   buttons into sub-groups. */
 .cke_toolbar_separator
 {
 	float: left;
@@ -226,12 +290,13 @@ a.cke_button_off:active
 	width: 3px;
 }
 
-.cke_hc .cke_rtl .cke_toolbar_separator
+.cke_rtl.cke_hc .cke_toolbar_separator
 {
 	margin:3px 0 0 2px;
 }
 
-
+/* The dummy element that breaks toolbars.
+   Once it is placed, the very next toolbar is moved to the new row. */
 .cke_toolbar_break
 {
 	display: block;
@@ -243,6 +308,7 @@ a.cke_button_off:active
 	clear: right;
 }
 
+/* The button, which when clicked hides (collapses) all the toolbars. */
 .cke_toolbox_collapser
 {
 	width: 12px;
@@ -270,6 +336,7 @@ a.cke_button_off:active
 	border-width: 1px;
 }
 
+/* The CSS arrow, which belongs to the toolbar collapser. */
 .cke_toolbox_collapser .cke_arrow
 {
 	display: inline-block;
@@ -282,12 +349,12 @@ a.cke_button_off:active
 	border-style: solid;
 	border-color: transparent transparent #2f2f2f;
 }
+
 .cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow
 {
 	margin: 4px 2px 0 0;
 	border-color: #2f2f2f transparent transparent;
 }
-
 
 .cke_hc .cke_toolbox_collapser .cke_arrow
 {

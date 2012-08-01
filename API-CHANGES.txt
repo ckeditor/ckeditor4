@@ -89,3 +89,7 @@ exact offset position of the image in the icon file, instead of its logical orde
 
 For example, in CKEditor 3 its value could be set to "2". Now, in that same
 case, it should be set to "-32" (2 x -16).
+
+---
+
+The default value for config.toolbarCanCollapse has been changed to "false".

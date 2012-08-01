@@ -3,6 +3,15 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+/*
+editor_iequirks.css
+===============
+
+This file contains styles to used by all versions of Internet Explorer
+in Quirks mode only.
+*/
+
+/* Base it on editor_ie.css, overriding it with styles defined in this file. */
 @import url("editor_ie.css");
 
 .cke_top,
@@ -80,10 +89,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	padding-bottom: 4px;
 }
 
-.cke_rtl .cke_toolbox_main
+.cke_rtl .cke_toolbox
 {
 	margin-top: 2px;
-	margin-bottom: -5px;
+	margin-bottom: -4px;
 }
 
 .cke_combo

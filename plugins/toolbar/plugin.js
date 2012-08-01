@@ -153,14 +153,19 @@
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ '<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ],
-						expanded = editor.config.toolbarStartupExpanded !== false,
+					var output = [ 
+						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
+						'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ];
+
+					var expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted, pendingSeparator;
 
 					output.push( expanded ? '>' : ' style="display:none">' );
 
-					// Sends the ARIA label.
-					output.push( '<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', '<span class="cke_toolbox_main">' );
+					// If the toolbar collapser will be available, we'll have
+					// an additional container for all toolbars.
+					if ( editor.config.toolbarCanCollapse )
+						output.push( '<span class="cke_toolbox_main">' );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = getToolbarConfig( editor );
@@ -289,8 +294,8 @@
 							output.push( '<span class="cke_toolbar_end"></span></span>' );
 					}
 
-					// End of toolbox buttons.
-					output.push( '</span>' );
+					if ( editor.config.toolbarCanCollapse )
+						output.push( '</span>' );
 
 					// Not toolbar collapser for inline mode.
 					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -612,12 +617,12 @@ CKEDITOR.config.toolbarLocation = 'top';
 /**
  * Whether the toolbar can be collapsed by the user. If disabled, the collapser
  * button will not be displayed.
+ * @name CKEDITOR.config.toolbarCanCollapse
  * @type Boolean
- * @default true
+ * @default false
  * @example
- * config.toolbarCanCollapse = false;
+ * config.toolbarCanCollapse = true;
  */
-CKEDITOR.config.toolbarCanCollapse = true;
 
 /**
  * Whether the toolbar must start expanded when the editor is loaded.
