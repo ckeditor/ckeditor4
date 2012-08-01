@@ -3,8 +3,28 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-/* Special Combo */
+/*
+richcombo.css (part of editor.css)
+=================================
 
+This file holds the style set of the "Rich Combo" widget which is commonly used
+in the toolbar. It doesn't, however, styles the panel that is displayed when
+clicking on the combo, which is instead styled by panel.css.
+
+The visual representation of a rich combo widget looks as follows:
+
++-- .cke_combo----------------------------------------------------------------------+
+| +-- .cke_combo_label --+ +-- .cke_combo_button ---------------------------------+ |
+| |                      | | +-- .cke_combo_text --+ +-- .cke_combo_open -------+ | |
+| |                      | | |                     | | +-- .cke_combo_arrow --+ | | |
+| |                      | | |                     | | |                      | | | |
+| |                      | | |                     | | +----------------------+ | | |
+| |                      | | +---------------------+ +--------------------------+ | |
+| +----------------------+ +------------------------------------------------------+ |
++-----------------------------------------------------------------------------------+
+*/
+
+/* The box that hold the entire combo widget */
 .cke_combo
 {
 	display: inline-block;
@@ -16,6 +36,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	float: right;
 }
 
+/* The label of the combo widget. It is invisible by default, yet
+   it's important for semantics and accessibility. */
 .cke_combo_label
 {
 	display: none;
@@ -24,7 +46,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	vertical-align: top;
 	margin-right: 5px;
 	filter: alpha(opacity = 70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
+	opacity: 0.7; /* Safari, Opera and Mozilla */
 }
 
 .cke_rtl .cke_combo_label
@@ -34,28 +56,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin-right: 0;
 }
 
+/* The container for combo text and arrow. */
 .cke_combo_button
 {
 	display: inline-block;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-image: url(images/sprites.png);
-	background-repeat: repeat-x;
-	background-position: 0 -100px;
-	border-bottom: 1px solid #DAD9D9;
-	border-right: 1px solid #DAD9D9;
+	background: url(images/sprites.png) 0 -100px repeat-x;	/* For backwards compatibility. */
 	float: left;
 	padding: 2px 4px 2px 6px;
 	height: 22px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	border: 0;
+	margin: 0 5px 5px 0;
 
 	background: -moz-linear-gradient(bottom, #fff, #d3d3d3 100px);
 	background: -webkit-gradient(linear, left bottom, left -100, from(#fff), to(#d3d3d3));
 }
 
+/* Different states of the container. */
 a.cke_combo_button:focus,
 a.cke_combo_button:active
 {
@@ -70,6 +88,7 @@ a.cke_combo_button:active
 	margin-right: 0;
 }
 
+/* A basic support for the high-contrast mode to enhance the readability. */
 .cke_hc .cke_combo_button
 {
 	border: 1px solid black;
@@ -81,6 +100,9 @@ a.cke_combo_button:active
 	border: 1px solid black;
 }
 
+/* The label that shows the current value of the rich combo.
+   By default, it holds the name of the property.
+   See: .cke_combo_inlinelabel */
 .cke_combo_text
 {
 	line-height: 24px;
@@ -91,18 +113,27 @@ a.cke_combo_button:active
 	cursor: default;
 }
 
-.cke_combo_inlinelabel
-{
-	font-style: italic;
-	opacity: 0.70;
-}
-
 .cke_rtl .cke_combo_text
 {
 	float: right;
 	text-align: right;
 }
 
+/* The label of the combo whose value hasn't been changed (it's default).
+   It displays the name of the property the combo is responsible for. */
+.cke_combo_inlinelabel
+{
+	font-style: italic;
+	opacity: 0.70;
+}
+
+a.cke_combo_button:hover .cke_combo_inlinelabel
+{
+	opacity: 1;
+}
+
+/* The handler which opens the panel of rich combo properties.
+   It holds an arrow as a visual indicator. */
 .cke_combo_open
 {
     cursor: default;
@@ -114,6 +145,7 @@ a.cke_combo_button:active
     width: 5px;
 }
 
+/* The arrow which is displayed inside of the .cke_combo_open handler. */
 .cke_combo_arrow
 {
 	margin: 9px 0 0;
@@ -135,18 +167,4 @@ a.cke_combo_button:active
 	width: auto;
 	border: 0;
 	margin-top: 4px;
-}
-
-a.cke_combo_button:hover .cke_combo_inlinelabel
-{
-	opacity: 1;
-}
-
-.cke_combopanel
-{
-	border: 1px solid #8f8f73;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
-	border-top-left-radius: 0;
-	height: auto;
 }

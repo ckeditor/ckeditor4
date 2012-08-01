@@ -214,3 +214,12 @@ a:active.cke_colormore
 	border: #316ac5 1px solid;
 	background-color: #dff1ff;
 }
+
+.cke_combopanel
+{
+	border: 1px solid #8f8f73;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	height: auto;
+}
