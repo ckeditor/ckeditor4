@@ -24,6 +24,9 @@ other files.
    opening toolbar combos, menu buttons, context menus, etc. */ 
 @import url("panel.css");
 
+/* Styles the color panel displayed by the color buttons. */
+@import url("colorpanel.css");
+
 /* Styles to toolbar. */
 @import url("toolbar.css");
 

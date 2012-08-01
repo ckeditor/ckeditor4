@@ -170,6 +170,11 @@ Special outer level classes used in this file:
 	background-color: transparent;
 }
 
+.cke_panel_frame .cke_label
+{
+	display: none;
+}
+
 /* The separator used to separate menu item groups. */
 .cke_menuseparator
 {
