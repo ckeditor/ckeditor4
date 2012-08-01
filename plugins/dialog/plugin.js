@@ -121,7 +121,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
 				'<table class="cke_dialog_contents" role="presentation">' +
 				'<tr>' +
-					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents" role="presentation"></td>' +
+					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
 				'</tr>' +
 				'<tr>' +
 					'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +

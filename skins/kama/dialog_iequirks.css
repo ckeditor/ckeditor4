@@ -45,6 +45,12 @@ in Quirks mode only.
 	top: 33px;
 }
 
+/* RTL + IE6: Input overflows dialog element. (#7321) */
+.cke_rtl .cke_dialog_ui_labeled_content
+{
+	_width: 95%;
+}
+
 /* IE6 buttons. */
 a.cke_dialog_ui_button
 {
