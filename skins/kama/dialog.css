@@ -20,18 +20,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	border-radius: 5px;
 }
 
-.cke_dialog_tl,
-.cke_dialog_tr,
-.cke_dialog_tc,
-.cke_dialog_bl,
-.cke_dialog_br,
-.cke_dialog_bc,
-.cke_dialog_ml,
-.cke_dialog_mr
-{
-	display:none;
-}
-
 .cke_dialog_title
 {
 	font-weight: bold;
