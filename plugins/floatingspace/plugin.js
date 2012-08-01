@@ -181,6 +181,9 @@
 			// Handle initial focus.
 			if ( editor.focusManager.hasFocus )
 				floatSpace.show();
+
+			// Register this UI space to the focus manager.
+			editor.focusManager.add( floatSpace, 1 );
 		}
 	}
 
