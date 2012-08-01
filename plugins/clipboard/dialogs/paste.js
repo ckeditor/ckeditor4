@@ -89,17 +89,17 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 				{
 				type: 'html',
 				id: 'securityMsg',
-				html: '<div style="white-space:normal;width:340px;">' + lang.securityMsg + '</div>'
+				html: '<div style="white-space:normal;width:340px">' + lang.securityMsg + '</div>'
 			},
 				{
 				type: 'html',
 				id: 'pasteMsg',
-				html: '<div style="white-space:normal;width:340px;">' + lang.pasteMsg + '</div>'
+				html: '<div style="white-space:normal;width:340px">' + lang.pasteMsg + '</div>'
 			},
 				{
 				type: 'html',
 				id: 'editing_area',
-				style: 'width: 100%; height: 100%;',
+				style: 'width:100%;height:100%',
 				html: '',
 				focus: function() {
 					var win = this.getInputElement().$.contentWindow;
@@ -115,9 +115,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					var dialog = this.getDialog();
 					var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
 						' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-						'<head><style>body { margin: 3px; height: 95%; } </style></head><body>' +
+						'<head><style>body{margin:3px;height:95%}</style></head><body>' +
 						'<script id="cke_actscrpt" type="text/javascript">' +
-						'window.parent.CKEDITOR.tools.callFunction( ' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ', this );' +
+						'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
 						'</script></body>' +
 						'</html>';
 
@@ -162,7 +162,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					// IE need a redirect on focus to make
 					// the cursor blinking inside iframe. (#5461)
 					if ( CKEDITOR.env.ie ) {
-						var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute;" role="presentation"></span>' );
+						var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 						focusGrabber.on( 'focus', function() {
 							iframe.$.contentWindow.focus();
 						});
