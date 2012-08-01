@@ -47,8 +47,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		editor.fire( 'ariaWidget', new CKEDITOR.dom.element( win.frameElement ) );
 
 		// Handle pending focus.
-		var frame = doc.getWindow().getFrame();
-		if ( frame.removeCustomData( 'pendingFocus' ) )
+		if ( doc.getWindow().getFrame().removeCustomData( 'pendingFocus' ) )
 			body.focus();
 	}
 
@@ -154,6 +153,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						var doc = iframe.getFrameDocument();
 						doc.write( htmlToLoad );
+
+						editor.focusManager.add( doc.getBody() );
 
 						if ( CKEDITOR.env.air )
 							onPasteFrameLoad.call( this, doc.getWindow().$ );
