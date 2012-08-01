@@ -1051,10 +1051,8 @@
 					br = new CKEDITOR.htmlParser.element( 'cke:br' );
 					br.isEmpty = true;
 					element.add( br );
-					/*jsl:ignore*/
-					while ( el = next.children.shift() )
+					while ( ( el = next.children.shift() ) )
 						element.add( el );
-					/*jsl:end*/
 				}
 			};
 

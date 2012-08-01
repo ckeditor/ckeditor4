@@ -488,10 +488,8 @@
 					toolbarGroup.items = [];
 
 				var item;
-				/*jsl:ignore*/
-				while( item = uiItems.shift() )
+				while( ( item = uiItems.shift() ) )
 					toolbarGroup.items.push( item.name );
-				/*jsl:end*/
 			}
 		}
 

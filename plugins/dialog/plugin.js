@@ -2958,7 +2958,7 @@ CKEDITOR.plugins.add( 'dialog', {
 				editor.fire( 'doubleclick', data );
 				data.dialog && editor.openDialog( data.dialog );
 
-				return null;
+				return 1;
 			});
 		});
 	}
