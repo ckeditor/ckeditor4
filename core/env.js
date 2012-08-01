@@ -159,50 +159,17 @@ if ( !CKEDITOR.env ) {
 
 		// Internet Explorer 6.0+
 		if ( env.ie ) {
-			version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
+			// We use env.version for feature detection, so set it properly.
+			if ( env.quirks || !document.documentMode )
+				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
+			else
+				version = document.documentMode;
 
-			/**
-			 * Indicates that CKEditor is running on Internet Explorer 8 on
-			 * standards mode.
-			 * @name CKEDITOR.env.ie8Compat
-			 * @type Boolean
-			 * @example
-			 * if ( CKEDITOR.env.ie8Compat )
-			 *     alert( "Now I'm on IE8, for real!" );
-			 */
-			env.ie8Compat = document.documentMode == 8;
-
-			/**
-			 * Indicates that CKEditor is running on Internet Explorer 9's standards mode.
-			 * @name CKEDITOR.env.ie9Compat
-			 * @type Boolean
-			 * @example
-			 * if ( CKEDITOR.env.ie9Compat )
-			 *     alert( "IE9, the beauty of the web!" );
-			 */
-			env.ie9Compat = document.documentMode == 9;
-
-			/**
-			 * Indicates that CKEditor is running on an IE7-like environment, which
-			 * includes IE7 itself and IE8's IE7 document mode.
-			 * @name CKEDITOR.env.ie7Compat
-			 * @type Boolean
-			 * @example
-			 * if ( CKEDITOR.env.ie8Compat )
-			 *     alert( "I'm on IE7 or on an IE7 like IE8!" );
-			 */
-			env.ie7Compat = ( ( version == 7 && !document.documentMode ) || document.documentMode == 7 );
-
-			/**
-			 * Indicates that CKEditor is running on an IE6-like environment, which
-			 * includes IE6 itself and IE7 and IE8 quirks mode.
-			 * @name CKEDITOR.env.ie6Compat
-			 * @type Boolean
-			 * @example
-			 * if ( CKEDITOR.env.ie6Compat )
-			 *     alert( "I'm on IE6 or quirks mode!" );
-			 */
-			env.ie6Compat = ( version < 7 || env.quirks );
+			// Deprecated features available just for backwards compatibility.
+			env.ie9Compat = version == 9;
+			env.ie8Compat = version == 8;
+			env.ie7Compat = version == 7;
+			env.ie6Compat = version < 7 || env.quirks;
 		}
 
 		// Gecko.
@@ -236,7 +203,9 @@ if ( !CKEDITOR.env ) {
 		 * (e.g. for revision 1.9.0.2 we have 10900).<br />
 		 * <br />
 		 * For webkit based browser (like Safari and Chrome) it contains the
-		 * WebKit build version (e.g. 522).
+		 * WebKit build version (e.g. 522).<br />
+		 * <br />
+		 * For IE browsers, it matches the "document mode".
 		 * @name CKEDITOR.env.version
 		 * @type Boolean
 		 * @example
