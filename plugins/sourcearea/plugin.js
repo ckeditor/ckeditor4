@@ -32,7 +32,7 @@
 						outline: 'none',
 						'text-align': 'left'
 					},
-					CKEDITOR.tools.cssVendorPrefix( 'tab-size', editor.config.sourceAreaTabSize || 8 ) ) );
+					CKEDITOR.tools.cssVendorPrefix( 'tab-size', editor.config.sourceAreaTabSize || 4 ) ) );
 
 				var ariaLabel = [ editor.lang.editor, editor.name ].join( ',' );
 
@@ -154,7 +154,7 @@ CKEDITOR.plugins.sourcearea = {
  * tab-size property yet.
  * @name CKEDITOR.config.sourceAreaTabSize
  * @type Integer
- * @default 8
+ * @default 4
  * @see CKEDITOR.config.dataIndentationChars
  * @example
  * // Set tab-size to 20 characters.
