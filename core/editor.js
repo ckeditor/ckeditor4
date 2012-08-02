@@ -479,7 +479,7 @@
 
 		// Some editor creation mode will not have the
 		// associated element.
-		if ( element ) {
+		if ( element && this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO ) {
 			var data = this.getData();
 
 			if ( this.config.htmlEncodeOutput )
@@ -489,7 +489,10 @@
 				element.setValue( data );
 			else
 				element.setHtml( data );
+			
+			return true;
 		}
+		return false;
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype,
@@ -527,8 +530,7 @@
 		destroy: function( noUpdate ) {
 			this.fire( 'beforeDestroy' );
 
-			if ( !noUpdate && this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO )
-				updateEditorElement.call( this );
+			!noUpdate && updateEditorElement.call( this );
 
 			this.editable( null );
 
@@ -834,12 +836,7 @@
 		 * alert( document.getElementById( 'editor1' ).value );  // The current editor data.
 		 */
 		updateElement: function() {
-			if ( this.element ) {
-				updateEditorElement.call( this );
-				return true;
-			}
-
-			return false;
+			return updateEditorElement.call( this );
 		},
 
 		/**
