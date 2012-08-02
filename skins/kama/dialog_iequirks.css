@@ -32,7 +32,8 @@ in Quirks mode only.
 
 .cke_dialog_close_button
 {
-	top: 7px;
+	top: 27px;
+	background-image: url(images/sprites_ie6.png);
 }
 
 .cke_dialog_footer .cke_resizer
@@ -42,14 +43,24 @@ in Quirks mode only.
 
 .cke_dialog_tabs
 {
+	display: block;
 	top: 33px;
+	margin-top: 33px;
+}
+
+/* RTL + IE6: Input overflows dialog element. (#7321) */
+.cke_rtl .cke_dialog_ui_labeled_content
+{
+	_width: 95%;
 }
 
 /* IE6 buttons. */
 a.cke_dialog_ui_button
 {
+	background: none;
 	padding: 0;
 }
+
 a.cke_dialog_ui_button span
 {
 	width: 70px;
@@ -74,15 +85,23 @@ a.cke_dialog_ui_button_cancel span
 	margin-right: 0;
 }
 
-a:hover.cke_dialog_ui_button span,
-a:focus.cke_dialog_ui_button span,
-a:active.cke_dialog_ui_button span
+a.cke_dialog_ui_button:hover span,
+a.cke_dialog_ui_button:focus span,
+a.cke_dialog_ui_button:active span
 {
 	background-image: none;
 	background: #F7A922;
 }
 
 /* END IE6 buttons. */
+
+
+/* make sure the content does not overflow (#7321) */
+div.cke_dialog_ui_input_password,
+textarea.cke_dialog_ui_input_textarea
+{
+	width: 99%;
+}
 
 /* Predefined border to avoid visual size change impact. */
 .cke_dialog_ui_checkbox_input,

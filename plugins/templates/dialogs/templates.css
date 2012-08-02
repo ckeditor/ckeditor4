@@ -46,17 +46,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	font-weight: bold;
 }
 
-.cke_tpl_list a:active .cke_tpl_item,
 .cke_tpl_list a:hover .cke_tpl_item,
-.cke_tpl_list a:focus .cke_tpl_item
+.cke_tpl_list a:focus .cke_tpl_item,
+.cke_tpl_list a:active .cke_tpl_item
 {
 	border: #ff9933 1px solid;
 	background-color: #fffacd;
 }
 
-.cke_tpl_list a:active *,
 .cke_tpl_list a:hover *,
-.cke_tpl_list a:focus *
+.cke_tpl_list a:focus *,
+.cke_tpl_list a:active *
 {
 	cursor: pointer;
 }
@@ -70,9 +70,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	background-position: 0 0;
 }
 
-.cke_hc .cke_tpl_list a:active .cke_tpl_item,
 .cke_hc .cke_tpl_list a:hover .cke_tpl_item,
-.cke_hc .cke_tpl_list a:focus .cke_tpl_item
+.cke_hc .cke_tpl_list a:focus .cke_tpl_item,
+.cke_hc .cke_tpl_list a:active .cke_tpl_item
 {
 	border-width: 3px;
 }

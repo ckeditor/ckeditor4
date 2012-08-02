@@ -47,6 +47,10 @@ This file contains styles to used by Internet Explorer 7 only.
 	top: 5px;
 }
 
+span.cke_dialog_ui_buttonm
+{
+	margin: 2px 0;
+}
 
 /* Predefined border to avoid visual size change impact. */
 .cke_dialog_ui_checkbox_input,

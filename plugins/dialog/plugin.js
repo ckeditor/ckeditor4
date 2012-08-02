@@ -121,21 +121,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
 				'<table class="cke_dialog_contents" role="presentation">' +
 				'<tr>' +
-					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents" role="presentation"></td>' +
+					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
 				'</tr>' +
 				'<tr>' +
 					'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
 				'</tr>' +
 				'</table>' +
 			'</div>' +
-			'<div id="cke_dialog_tl_{id}" class="cke_dialog_tl"></div>' +
-			'<div id="cke_dialog_tc_{id}" class="cke_dialog_tc"></div>' +
-			'<div id="cke_dialog_tr_{id}" class="cke_dialog_tr"></div>' +
-			'<div id="cke_dialog_ml_{id}" class="cke_dialog_ml"></div>' +
-			'<div id="cke_dialog_mr_{id}" class="cke_dialog_mr"></div>' +
-			'<div id="cke_dialog_bl_{id}" class="cke_dialog_bl"></div>' +
-			'<div id="cke_dialog_bc_{id}" class="cke_dialog_bc"></div>' +
-			'<div id="cke_dialog_br_{id}" class="cke_dialog_br"></div>' +
 			'</td></tr>' +
 		'</table>' +
 		'</div>';

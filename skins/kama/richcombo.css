@@ -74,6 +74,7 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 /* Different states of the container. */
+a.cke_combo_button:hover,
 a.cke_combo_button:focus,
 a.cke_combo_button:active
 {
