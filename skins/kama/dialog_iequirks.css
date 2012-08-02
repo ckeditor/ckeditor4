@@ -80,9 +80,9 @@ a.cke_dialog_ui_button_cancel span
 	margin-right: 0;
 }
 
-a:hover.cke_dialog_ui_button span,
-a:focus.cke_dialog_ui_button span,
-a:active.cke_dialog_ui_button span
+a.cke_dialog_ui_button:hover span,
+a.cke_dialog_ui_button:focus span,
+a.cke_dialog_ui_button:active span
 {
 	background-image: none;
 	background: #F7A922;
