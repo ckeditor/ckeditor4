@@ -39,6 +39,14 @@
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
 				// the host page document, to avoid bringing an unexpected scroll.
 				this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
+
+				// Remedy if Safari doens't applies focus properly. (#279)
+				if ( CKEDITOR.env.safari && !this.isInline() ) {
+					var active = CKEDITOR.document.getActive();
+					if ( !active.equals( this.getWindow().getFrame() ) ) {
+						this.getWindow().focus();
+					}
+				}
 			},
 
 			/**
