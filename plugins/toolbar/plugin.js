@@ -361,18 +361,22 @@
 			});
 
 			editor.on( 'destroy', function() {
-				var toolbars,
-					index = 0,
-					i, items, instance;
-				toolbars = this.toolbox.toolbars;
-				for ( ; index < toolbars.length; index++ ) {
-					items = toolbars[ index ].items;
-					for ( i = 0; i < items.length; i++ ) {
-						instance = items[ i ];
-						if ( instance.clickFn )
-							CKEDITOR.tools.removeFunction( instance.clickFn );
-						if ( instance.keyDownFn )
-							CKEDITOR.tools.removeFunction( instance.keyDownFn );
+
+				if ( this.toolbox )
+				{
+					var toolbars,
+						index = 0,
+						i, items, instance;
+					toolbars = this.toolbox.toolbars;
+					for ( ; index < toolbars.length; index++ ) {
+						items = toolbars[ index ].items;
+						for ( i = 0; i < items.length; i++ ) {
+							instance = items[ i ];
+							if ( instance.clickFn )
+								CKEDITOR.tools.removeFunction( instance.clickFn );
+							if ( instance.keyDownFn )
+								CKEDITOR.tools.removeFunction( instance.keyDownFn );
+						}
 					}
 				}
 			});
