@@ -192,7 +192,7 @@
 						}
 
 						if ( row === '/' ) {
-							output.push( '<div class="cke_toolbar_break"></div>' );
+							output.push( '<span class="cke_toolbar_break"></span>' );
 							continue;
 						}
 
