@@ -586,9 +586,9 @@ Styles for other dialog element types.
 	background-color: #eaead1;
 }
 
-.cke_dialog .cke_hand
+.cke_dialog .cke_light_background
 {
-	cursor: pointer;
+	background-color: #ffffbe;
 }
 
 .cke_dialog .cke_centered
@@ -712,19 +712,6 @@ tendency that these will be moved to the plugins code in the future.
 	height: 130px;
 	background-color: white;
 	border: 1px solid black;
-}
-
-.cke_dialog .cke_dark_background
-{
-	text-align : center;
-	background-color: #eaead1;
-	font-size : 14px;
-}
-
-.cke_dialog .cke_light_background
-{
-	text-align : center;
-	background-color: #ffffbe;
 }
 
 .cke_dialog .cke_hand
