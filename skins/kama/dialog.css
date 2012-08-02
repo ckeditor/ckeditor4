@@ -258,7 +258,7 @@ a:visited.cke_dialog_tab_selected
 
 /* The close button at the top of the dialog. */
 
-.cke_dialog .cke_dialog_body .cke_dialog_close_button
+.cke_dialog_close_button
 {
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
