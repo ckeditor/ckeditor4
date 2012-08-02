@@ -182,8 +182,6 @@ Special outer level classes used in this file:
 	height: 2px;
 	filter: alpha(opacity=70); /* IE */
 	opacity: 0.70; /* Safari, Opera and Mozilla */
-
-	_font-size: 0;
 }
 
 /* The small arrow shown for item with sub-menus. */
@@ -191,7 +189,6 @@ Special outer level classes used in this file:
 {
 	/* arrowright.gif*/
 	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -1411px;
 	background-repeat: no-repeat;
 	height: 5px;
@@ -208,7 +205,6 @@ Special outer level classes used in this file:
 	margin-left: 2px;
 	/* arrowleft.gif*/
 	background-image: url(images/sprites.png);
-	_background-image: url(images/sprites_ie6.png);
 	background-position: 0px -1390px;
 	background-repeat: no-repeat;
 }

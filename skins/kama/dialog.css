@@ -179,11 +179,9 @@ The .cke_dialog_tab_selected class is appended to the active tab.
 {
 	height: 23px;
 	display: inline-block;
-	_display: block;
 	margin-left:10px;
 	margin-right:10px;
 	margin-top: 11px;
-	_margin-top: 33px;	/* IE quirks */
 	position: absolute;
 	z-index: 2;
 }
@@ -257,9 +255,6 @@ a.cke_dialog_tab_selected
 	height: 20px;
 	width: 20px;
 	top: 5px;
-	/* IE 6 */
-	_background-image: url(images/sprites_ie6.png);
-	_top: 27px;	/* IE quirks */
 }
 
 .cke_dialog_close_button span
@@ -397,8 +392,6 @@ div.cke_dialog_ui_input_password
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0px;
-	/* IE6/Quirks - make sure the content does not overflow (#7321) */
-	_width: 99.9%;
 }
 
 /*
@@ -427,11 +420,6 @@ textarea.cke_dialog_ui_input_textarea
 	border: none;
 	padding: 0px;
 	width: 100%;
-	/*
-	 * IE6 BUG: Scrollbars in textareas can overflow even if the outer DIV is set to overflow:hidden.
-	 * So leave 1% width for the scrollbar. In most situations the 1% isn't noticeable by users.
-	 */
-	_width: 99%;
 	overflow: auto;
 	resize: none;
 }
@@ -467,7 +455,6 @@ a.cke_dialog_ui_button
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background: transparent url(images/sprites.png) repeat-x scroll 0 -1069px;
-	_background: none;
 	padding: 5px 0;
 	text-align: center;
 }
@@ -521,7 +508,6 @@ span.cke_dialog_ui_button
 	display: inline-block;
 	cursor: default;
 	min-width: 60px;
-	+margin: 2px 0; /* IE7 */
 }
 
 /* .cke_disabled is appended to disabled buttons */
