@@ -36,7 +36,7 @@
 		icons: 'save', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 
-			// Save plugin is for themedui only.
+			// Save plugin is for replace mode only.
 			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
 				return;
 

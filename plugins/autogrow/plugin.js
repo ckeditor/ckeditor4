@@ -63,7 +63,7 @@
 		init: function( editor ) {
 
 			// This feature is available only for themed ui instance.
-			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				return;
 
 			editor.on( 'instanceReady', function() {

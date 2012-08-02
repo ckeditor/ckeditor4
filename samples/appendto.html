@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CKEDITOR.appendTo &mdash; CKEditor Sample</title>
+	<script src="../ckeditor.js"></script>
+	<link href="sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		CKEditor Sample &mdash; Append To Page Element Using JavaScript Code
+	</h1>
+	<!-- This <div> holds alert messages to be display in the sample page. -->
+	<div id="alerts">
+		<noscript>
+			<p>
+				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
+				support, like yours, you should still see the contents (HTML data) and you should
+				be able to edit it normally, without a rich editor interface.
+			</p>
+		</noscript>
+	</div>
+	<form action="../release/ckeditor/samples/sample_posteddata.php" method="post">
+		<div id="section1">
+			<label>
+				Editor 1:</label>
+			<div class="description">
+				<p>
+					This editor is using an <strong>&lt;iframe&gt; element</strong> based editing area, provided by the "wysiwygarea" plugin.
+				</p>
+				<pre class="samples">CKEDITOR.appendTo( '<em>container_id</em>', { extraPlugins : 'wysiwygarea' } );</pre>
+			</div>
+
+			<script>
+
+				// This call can be placed at any point after the
+				// <textarea>, or inside a <head><script> in a
+				// window.onload event handler.
+
+				// Replace the <textarea id="editor"> with an CKEditor
+				// instance, using default configurations.
+				CKEDITOR.appendTo( 'section1', { extraPlugins: 'wysiwygarea' },
+					'<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>'
+				);
+
+			</script>
+		</div>
+		<div id="section2">
+			<label>
+				Editor 2:</label>
+			<div class="description">
+				<p>
+					This editor is using an <strong>&lt;DIV&gt; element</strong> based editing area, provided by the "divarea" plugin.
+				</p>
+				<pre class="samples">CKEDITOR.appendTo( '<em>container_id</em>', { extraPlugins : 'divarea' } );</pre>
+			</div>
+			<script>
+
+				// This call can be placed at any point after the
+				// <textarea>, or inside a <head><script> in a
+				// window.onload event handler.
+
+				// Replace the <textarea id="editor"> with an CKEditor
+				// instance, using default configurations.
+				CKEDITOR.appendTo( 'section2', { extraPlugins : 'divarea' },
+					'<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>'
+				);
+
+			</script>
+		</div>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</form>
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>

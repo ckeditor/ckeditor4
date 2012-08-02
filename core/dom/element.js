@@ -1624,7 +1624,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype,
 		for ( name in instances ) {
 			instance = instances[ name ];
 
-			if ( instance.element.equals( this ) )
+			if ( instance.element.equals( this ) && instance.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO )
 				return instance;
 		}
 

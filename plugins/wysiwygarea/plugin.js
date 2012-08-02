@@ -553,7 +553,7 @@
 			restoreDirty( editor );
 
 			// Memorize scroll position to restore it later (#4472).
-			var hostDocument = editor.element.getDocument();
+			var hostDocument = CKEDITOR.document;
 			var hostDocumentElement = hostDocument.getDocumentElement();
 			var scrollTop = hostDocumentElement.$.scrollTop;
 			var scrollLeft = hostDocumentElement.$.scrollLeft;
