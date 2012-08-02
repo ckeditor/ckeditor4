@@ -170,6 +170,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					CKEDITOR.event.useCapture = false;
 
+					// Report to focus manager.
+					this._.editor.focusManager.add( focused );
+
 					this._.blurSet = 1;
 				}
 
@@ -324,8 +327,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
-						// Report to focus manager before each open.
-						this._.editor.focusManager.add( iframe.getFrameDocument().getWindow() );
 
 						this.focus();
 
