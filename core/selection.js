@@ -173,12 +173,12 @@
 				body = doc.getBody(),
 				html = doc.getDocumentElement();
 
-			var framedEditable = !editable.getDocument().equals( CKEDITOR.document );
+			var isInline = editable.isInline();
 
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
-			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || !framedEditable ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
 				var restoreSel;
 
 				// Plays the magic here to restore/save dom selection on editable focus/blur.
@@ -199,7 +199,7 @@
 			}
 
 			// The following selection related fixes applies to only framed editable.
-			if ( CKEDITOR.env.ie && framedEditable ) {
+			if ( CKEDITOR.env.ie && !isInline ) {
 				var scroll;
 				editable.attachListener( editable, 'mousedown', function( evt ) {
 					// IE scrolls document to top on right mousedown

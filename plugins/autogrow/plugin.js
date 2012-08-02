@@ -71,7 +71,7 @@
 				var editable = editor.editable();
 
 				// Simply set auto height with div wysiwyg.
-				if ( editable.getDocument().equals( CKEDITOR.document ) )
+				if ( editable.isInline() )
 					editor.ui.space( 'contents' ).setStyle( 'height', 'auto' );
 				// For framed wysiwyg we need to resize the editor.
 				else

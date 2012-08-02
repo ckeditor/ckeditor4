@@ -262,6 +262,15 @@
 				delete editor.window;
 			},
 
+			/**
+			 * Check if the editable is one of the host page element, indicates the
+			 * an inline editing environment.
+			 * @return {Boolean}
+			 */
+			isInline : function () {
+				return this.getDocument().equals( CKEDITOR.document );
+			},
+
 			// Editable element bootstrapping.
 			setup: function() {
 				var editor = this.editor;

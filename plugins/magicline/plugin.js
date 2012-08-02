@@ -474,7 +474,7 @@
 
 	function inInlineMode( that ) {
 		var editable = that.editor.editable();
-		return editable.getDocument().equals( CKEDITOR.document );
+		return editable.isInline();
 	}
 
 	function initLine( that ) {
