@@ -67,12 +67,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			Log( 'Creating CKEditor instance for ' + ev.data.element.getName() + '#' + ev.data.element.getId() );
 		} );
 
-		CKEDITOR.on( 'instance', function ( ev )
+		CKEDITOR.on( 'instanceReady', function ( ev )
 		{
 			Log( 'Created CKEditor instance name "' + ev.editor.name + '"' );
+
+			CheckCurrentInstance();
 		} );
 
-		CKEDITOR.on( 'currentInstance', function ()
+		CKEDITOR.on( 'currentInstance', CheckCurrentInstance );
+
+		function CheckCurrentInstance()
 		{
 			var current = CKEDITOR.currentInstance;
 
@@ -84,7 +88,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			var buttons = document.getElementById( 'buttons' ).getElementsByTagName( 'input' );
 			for ( var i = 0; i < buttons.length; i++ )
 				buttons[i].disabled = !current;
-		} );
+		}
 
 		function InsertHTML()
 		{
