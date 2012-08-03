@@ -466,6 +466,11 @@
 
 			var menuGroup = 'scaytButton';
 			editor.addMenuGroup( menuGroup );
+			// Temporary hack - place scayt's groups at the beginning of the context menu.
+			editor.addMenuGroup( 'scayt_suggest', -10 );
+			editor.addMenuGroup( 'scayt_moresuggest', -9 );
+			editor.addMenuGroup( 'scayt_control', -8 );
+
 			// combine menu items to render
 			var uiMenuItems = {};
 
