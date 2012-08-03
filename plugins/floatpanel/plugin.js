@@ -9,7 +9,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 (function() {
 	var panels = {};
-	var isShowing = false;
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-skinName-langDir[-uiColor][-CSSs][-level]
@@ -92,7 +91,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					block = panel.showBlock( name );
 
 				this.allowBlur( false );
-				isShowing = 1;
 
 				// Record from where the focus is when open panel.
 				var editable = this._.editor.editable();
@@ -154,7 +152,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						if ( target.$ != focused.$ )
 							return;
 
-						if ( this.visible && !this._.activeChild && !isShowing ) {
+						if ( this.visible && !this._.activeChild ) {
 							// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
 							// DO NOT restore focus in this case.
 							delete this._.returnFocus;
@@ -340,7 +338,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				if ( this.onShow )
 					this.onShow.call( this );
 
-				isShowing = 0;
 			},
 
 			focus: function() {
