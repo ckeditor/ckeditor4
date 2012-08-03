@@ -94,7 +94,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		applyEditorStyle.call( style, this, false );
+		applyStyleOnSelection.call( style, this.getSelection() );
 	};
 
 	/**
@@ -102,10 +102,19 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		applyEditorStyle.call( style, this, true );
+		applyStyleOnSelection.call( style, this.getSelection(), 1 );
 	};
 
 	CKEDITOR.style.prototype = {
+
+		apply: function( document ) {
+			applyStyleOnSelection.call( this, document.getSelection() );
+		},
+
+		remove: function( document ) {
+			applyStyleOnSelection.call( this, document.getSelection(), 1 );
+		},
+
 		applyToRange: function( range ) {
 			return ( this.applyToRange = this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle : this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle : null ).call( this, range );
 		},
@@ -1281,9 +1290,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return true;
 	}
 
-	function applyEditorStyle( editor, remove ) {
-		var selection = editor.getSelection(),
-			doc = editor.document,
+	function applyStyleOnSelection( selection, remove ) {
+		var doc = selection.document,
 			// Bookmark the range so we can re-select it after processing.
 			bookmarks = selection.createBookmarks( 1 ),
 			ranges = selection.getRanges(),
@@ -1292,7 +1300,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
-			func.call( this, range, editor );
+			func.call( this, range );
 
 		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
 			selection.selectRanges( ranges );
