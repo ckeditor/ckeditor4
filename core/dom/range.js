@@ -824,6 +824,8 @@ CKEDITOR.dom.range = function( root ) {
 		 */
 		enlarge: function( unit, excludeBrs ) {
 			switch ( unit ) {
+				case CKEDITOR.ENLARGE_INLINE:
+					var enlargeInlineOnly = 1;
 				case CKEDITOR.ENLARGE_ELEMENT:
 
 					if ( this.collapsed )
@@ -889,7 +891,7 @@ CKEDITOR.dom.range = function( root ) {
 							if ( !commonReached && enlargeable.equals( commonAncestor ) )
 								commonReached = true;
 
-							if ( !boundary.contains( enlargeable ) )
+							if ( enlargeInlineOnly ? enlargeable.isBlockBoundary() : !boundary.contains( enlargeable ) )
 								break;
 
 							// If we don't need space or this element breaks
@@ -1039,7 +1041,7 @@ CKEDITOR.dom.range = function( root ) {
 							if ( !commonReached && enlargeable.equals( commonAncestor ) )
 								commonReached = true;
 
-							if ( !boundary.contains( enlargeable ) )
+							if ( enlargeInlineOnly ? enlargeable.isBlockBoundary() : !boundary.contains( enlargeable ) )
 								break;
 
 							if ( !needsWhiteSpace || enlargeable.getComputedStyle( 'display' ) != 'inline' ) {
@@ -1947,6 +1949,7 @@ CKEDITOR.POSITION_AFTER_END = 4; // <element>contents</element>^		"text"
 CKEDITOR.ENLARGE_ELEMENT = 1;
 CKEDITOR.ENLARGE_BLOCK_CONTENTS = 2;
 CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS = 3;
+CKEDITOR.ENLARGE_INLINE = 4;
 
 // Check boundary types.
 // @see CKEDITOR.dom.range.prototype.checkBoundaryOfElement
