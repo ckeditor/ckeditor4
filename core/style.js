@@ -76,9 +76,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 			replaceVariables( styleDefinition.styles, variablesValues );
 		}
 
-		var element = this.element = styleDefinition.element ? ( typeof styleDefinition.element == 'string' ? styleDefinition.element.toLowerCase() : styleDefinition.element ) : '*';
+		var element = this.element = styleDefinition.element ?
+		                             (typeof styleDefinition.element == 'string' ?
+		                              styleDefinition.element.toLowerCase() :
+		                              styleDefinition.element ) : '*';
 
-		this.type = styleDefinition.type || ( blockElements[ element ] ? CKEDITOR.STYLE_BLOCK : objectElements[ element ] ? CKEDITOR.STYLE_OBJECT : CKEDITOR.STYLE_INLINE );
+		this.type = styleDefinition.type ||
+		            (blockElements[ element ] ? CKEDITOR.STYLE_BLOCK :
+		             objectElements[ element ] ? CKEDITOR.STYLE_OBJECT :
+		             CKEDITOR.STYLE_INLINE );
 
 		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
 		if ( typeof this.element == 'object' )
@@ -116,11 +122,19 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		applyToRange: function( range ) {
-			return ( this.applyToRange = this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle : this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle : null ).call( this, range );
+			return ( this.applyToRange =
+			         this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle :
+			         this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle :
+			         this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle :
+			         null ).call( this, range );
 		},
 
 		removeFromRange: function( range ) {
-			return ( this.removeFromRange = this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle : this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle : this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle : null ).call( this, range );
+			return ( this.removeFromRange =
+			         this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle :
+			         this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle :
+			         this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle :
+			         null ).call( this, range );
 		},
 
 		applyToObject: function( element ) {
@@ -203,7 +217,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
+						if ( attName == 'style' ?
+						     compareCssText( attribs[ attName ], elementAttr ) :
+						     attribs[ attName ] == elementAttr )
+						{
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -246,7 +263,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 						//      matches the attribute value exactly.
 						//    - The override definition value is a regex that
 						//      has matches in the attribute value.
-						if ( attValue === null || ( typeof attValue == 'string' && actualAttrValue == attValue ) || attValue.test( actualAttrValue ) )
+						if ( attValue === null ||
+						     ( typeof attValue == 'string' &&
+						       actualAttrValue == attValue ) ||
+						     attValue.test( actualAttrValue ) )
 							return true;
 					}
 				}
@@ -381,7 +401,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var dtd = CKEDITOR.dtd[ elementName ] || ( isUnknownElement = true, CKEDITOR.dtd.span );
 
 		// Expand the range.
-		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
+		range.enlarge( CKEDITOR.ENLARGE_ELEMENT, 1 );
 		range.trim();
 
 		// Get the first node to be processed and the last, which concludes the
@@ -433,24 +453,43 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 
 				// Check if the current node can be a child of the style element.
-				if ( !nodeName || ( dtd[ nodeName ] && !nodeIsNoStyle && ( !nodeIsReadonly || includeReadonly ) && ( currentNode.getPosition( lastNode ) | CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( currentNode ) ) ) ) {
+				if ( !nodeName ||
+				     ( dtd[ nodeName ] && !nodeIsNoStyle &&
+				       ( !nodeIsReadonly || includeReadonly ) &&
+				       ( currentNode.getPosition( lastNode ) |
+				         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
+				         CKEDITOR.POSITION_IS_CONTAINED ) ==
+				       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
+				         CKEDITOR.POSITION_IS_CONTAINED ) &&
+				       ( !def.childRule || def.childRule( currentNode ) ) ) ) {
 					var currentParent = currentNode.getParent();
 
 					// Check if the style element can be a child of the current
 					// node parent or if the element is not defined in the DTD.
-					if ( currentParent && ( ( currentParent.getDtd() || CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) && ( !def.parentRule || def.parentRule( currentParent ) ) ) {
+					if ( currentParent &&
+					     ( ( currentParent.getDtd() ||
+					         CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
+					     ( !def.parentRule || def.parentRule( currentParent ) ) ) {
 						// This node will be part of our range, so if it has not
 						// been started, place its start right before the node.
 						// In the case of an element node, it will be included
 						// only if it is entirely inside the range.
-						if ( !styleRange && ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] || ( currentNode.getPosition( lastNode ) | CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
+						if ( !styleRange &&
+						     ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
+						       ( currentNode.getPosition( lastNode ) |
+						         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
+						         CKEDITOR.POSITION_IS_CONTAINED ) ==
+						       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
+						         CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
 							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
 
 						// Non element nodes, readonly elements, or empty
 						// elements can be added completely to the range.
-						if ( nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() ) ) {
+						if ( nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly ||
+						     ( nodeType == CKEDITOR.NODE_ELEMENT &&
+						       !currentNode.getChildCount() ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
@@ -458,7 +497,16 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
 							// to the range, otherwise apply the style immediately.
-							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) && ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) && ( parentNode.getPosition( firstNode ) | CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED ) == ( CKEDITOR.POSITION_FOLLOWING + CKEDITOR.POSITION_IDENTICAL + CKEDITOR.POSITION_IS_CONTAINED ) && ( !def.childRule || def.childRule( parentNode ) ) ) {
+							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) &&
+							        ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
+							        ( parentNode.getPosition( firstNode ) |
+							          CKEDITOR.POSITION_FOLLOWING |
+							          CKEDITOR.POSITION_IDENTICAL |
+							          CKEDITOR.POSITION_IS_CONTAINED ) ==
+							        ( CKEDITOR.POSITION_FOLLOWING +
+							          CKEDITOR.POSITION_IDENTICAL +
+							          CKEDITOR.POSITION_IS_CONTAINED ) &&
+							        ( !def.childRule || def.childRule( parentNode ) ) ) {
 								includedNode = parentNode;
 							}
 
@@ -582,7 +630,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Make sure our range has included all "collpased" parent inline nodes so
 		 * that our operation logic can be simpler.
 		 */
-		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
+		range.enlarge( CKEDITOR.ENLARGE_ELEMENT, 1 );
 
 		var bookmark = range.createBookmark(),
 			startNode = bookmark.startNode;
@@ -607,7 +655,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( this.checkElementRemovable( element ) ) {
 					var isStart;
 
-					if ( range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
+					if ( range.collapsed &&
+					     ( range.checkBoundaryOfElement( element, CKEDITOR.END ) ||
+					       ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) )
+					{
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
@@ -798,7 +849,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this.checkElementRemovable( block ) ) {
 				// <pre> get special treatment.
 				if ( block.is( 'pre' ) ) {
-					var newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null : range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+					var newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null :
+					               range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 					newBlock && block.copyAttributes( newBlock );
 					replaceBlock( block, newBlock );
@@ -1292,6 +1344,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyleOnSelection( selection, remove ) {
 		var doc = selection.document,
+			// Bookmark the range so we can re-select it after processing.
+			bookmarks = selection.createBookmarks( 1 ),
 			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
@@ -1300,7 +1354,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range );
 
-		selection.selectRanges( ranges );
+		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
+			selection.selectRanges( ranges );
+			doc.getById( bookmarks[ 0 ].startNode ).remove();
+		} else
+			selection.selectBookmarks( bookmarks );
+
 		doc.removeCustomData( 'doc_processing_style' );
 	}
 })();
