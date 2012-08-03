@@ -9,7 +9,7 @@ reflects the changes.
 ===============================================================================
 
 CKEDITOR.event.fire now returns the boolean "false" if the event has been
-cancelled (in v3 it returns "true").
+canceled (in v3 it returns "true").
 
 ---
 
@@ -33,7 +33,7 @@ simply loaded after core.
 
 ---
 
-The editor will now support only one skin in a single page (all editor will use
+The editor will now support only one skin in a single page (all editors will use
 the same skin).
 
 Because of the above, the following skin related properties have been deleted:
@@ -106,5 +106,11 @@ The "themeSpace" event has been replaced with "uiSpace".
 
 The evt.data.html and evt.data.text properties are not any more available with
 the paste event. They have been replaced by a single evt.data.data property and
-additional properties have been added to hel pidentify the data type.
+additional properties (evt.data.type and evt.data.htmlified) have been added to help identify the data type.
 
+---
+
+The editor.insertText() does not any more serve for inserting plain text into the editor
+(it does not "htmlify" it). Instead, editor.paste() and paste event itself took over
+this responsibility. The editor.insertText(), like other methods: editor.insertHtml() and insertElement(),
+handles only the insertion process.
