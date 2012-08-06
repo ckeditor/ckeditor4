@@ -897,12 +897,12 @@
 			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
 		}
 
-		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
+			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
 		data = data.replace( /\s+/g, ' ' )
-		// Remove spaces from between tags.
-		.replace( /> +</g, '><' )
-		// Normalize XHTML syntax and upper cased <br> tags.
-		.replace( /<br ?\/>/gi, '<br>' );
+			// Remove spaces from between tags.
+			.replace( /> +</g, '><' )
+			// Normalize XHTML syntax and upper cased <br> tags.
+			.replace( /<br ?\/>/gi, '<br>' );
 
 		// IE - lower cased tags.
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
@@ -915,10 +915,10 @@
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
-			// One line break at the beginning - insert <br>
+				// One line break at the beginning - insert <br>
 			data = data.replace( /^(<div>(<br>|)<\/div>)(?!$|(<div>(<br>|)<\/div>))/g, '<br>' )
-			// Two or more - reduce number of new lines by one.
-			.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
+				// Two or more - reduce number of new lines by one.
+				.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
 
 			// Two line breaks create one paragraph in Webkit.
 			if ( data.match( /<div>(<br>|)<\/div>/ ) ) {
@@ -1077,11 +1077,12 @@
 		data = writer.getHtml();
 
 		// Cleanup cke:brs.
-		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' ) // Remove spaces around tags.
-		.replace( /(<cke:br \/>){2,}/g, '<cke:br />' ) // Join multiple adjacent cke:brs
-		.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' ) // Strip cke:brs adjacent to original brs or ps.
-		.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' ).replace( /<(cke:)?br( \/)?>/g, '<br>' ) // Finally - rename cke:brs to brs and fix <br /> to <br>.
-		.replace( /<p><\/p>/g, '' ); // Remove empty paragraphs.
+		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' )	// Remove spaces around tags.
+			.replace( /(<cke:br \/>){2,}/g, '<cke:br />' )			// Join multiple adjacent cke:brs
+			.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' )		// Strip cke:brs adjacent to original brs or ps.
+			.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' )
+			.replace( /<(cke:)?br( \/)?>/g, '<br>' )				// Finally - rename cke:brs to brs and fix <br /> to <br>.
+			.replace( /<p><\/p>/g, '' );							// Remove empty paragraphs.
 
 		// Fix nested ps. E.g.:
 		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
