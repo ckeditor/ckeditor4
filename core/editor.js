@@ -489,7 +489,7 @@
 				element.setValue( data );
 			else
 				element.setHtml( data );
-			
+
 			return true;
 		}
 		return false;
@@ -690,7 +690,7 @@
 		 *		editor.
 		 * @param {Function} callback Function to be called after the <code>setData</code>
 		 *		is completed.
-		 *@param {Boolean} internal Whether to suppress any event firing when copying data
+		 * @param {Boolean} internal Whether to suppress any event firing when copying data
 		 *		internally inside the editor.
 		 * @example
 		 * CKEDITOR.instances.editor1.<strong>setData</strong>( '&lt;p&gt;This is the editor data.&lt;/p&gt;' );
@@ -745,13 +745,22 @@
 		/**
 		 * Inserts HTML code into the currently selected position in the editor in WYSIWYG mode.
 		 * @param {String} html HTML code to be inserted into the editor.
+		 * @param {String} [mode="html"] Mode in which HTML will be inserted.
+		 *		<ul>
+		 *			<li><code>"html"</code> - content being inserted will completely override styles
+		 *				of selected position.</li>
+		 *			<li><code>"text"</code> - content being inserted will inherit styles applied in
+		 *				selected position. This mode should be used when inserting "htmlified" plain text
+		 *				(HTML without inline styles and styling elements like
+		 *				<code>&lt;b/&gt;, &lt;strong/&gt;, &lt;span style="..."/&gt;</code>).</li>
+		 * 		</ul>
 		 * @example
 		 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 		 */
-		insertHtml: function( html ) {
+		insertHtml: function( html, mode ) {
 			// Do nothing when editable is not available (detached).
 			var editable = this.editable();
-			editable && editable.insertHtml( html );
+			editable && editable.insertHtml( html, mode );
 		},
 
 		/**
@@ -760,13 +769,12 @@
 		 * Spaces around the text will be leaving untouched.
 		 * @since 3.5
 		 * @param {String} text Text to be inserted into the editor.
-		 * @param {Boolean} [dontEncodeHtml] Do not encode HTML in text to be inserted.
 		 * @example
 		 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 		 */
-		insertText: function( text, dontEncodeHtml ) {
+		insertText: function( text ) {
 			var editable = this.editable();
-			editable && editable.insertText( text, dontEncodeHtml );
+			editable && editable.insertText( text );
 		},
 
 		/**

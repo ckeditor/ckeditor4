@@ -117,15 +117,57 @@
 			/**
 			 * @see CKEDITOR.editor.prototype.insertHtml
 			 */
-			insertHtml: function( data ) {
-				insert( this, 'html', data );
+			insertHtml: function( data, mode ) {
+				// Default mode is 'html'.
+				insert( this, mode == 'text' ? 'text' : 'html', data );
 			},
 
 			/**
 			 * @see CKEDITOR.editor.prototype.insertText
 			 */
-			insertText: function( text, dontEncodeHtml ) {
-				insert( this, 'text', dontEncodeHtml ? text : CKEDITOR.tools.htmlEncode( text ) );
+			insertText: function( text ) {
+				var editor = this.editor,
+					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
+					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
+					tools = CKEDITOR.tools;
+
+				var html = tools.htmlEncode( text.replace( /\r\n/g, '\n' ) );
+
+				// Convert leading and trailing whitespaces into &nbsp;
+				html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
+					if ( match.length == 1 ) // one space, preserve it
+						return '&nbsp;';
+					else if ( !offset ) // beginning of block
+						return tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+					else // end of block
+						return ' ' + tools.repeat( '&nbsp;', match.length - 1 );
+				});
+
+				// Convert subsequent whitespaces into &nbsp;
+				html = html.replace( /[ \t]{2,}/g, function( match ) {
+					return tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+				});
+
+				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
+				// Two line-breaks create one paragraph.
+				if ( !isEnterBrMode ) {
+					html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
+						return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
+					});
+				}
+
+				// One <br> per line-break.
+				html = html.replace( /\n/g, '<br>' );
+
+				// Compensate padding <br> for non-IE.
+				if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
+					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
+						return tools.repeat( match, 2 );
+					});
+				}
+
+				insert( this, 'text', html );
 			},
 
 			/**
