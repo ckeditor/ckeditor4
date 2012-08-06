@@ -48,8 +48,8 @@
  *
  *
  * PASTE EVENT - PREPROCESSING:
- * -- Possible data types: auto, text, html.
- * -- Possible data contents:
+ * -- Possible dataValue types: auto, text, html.
+ * -- Possible dataValue contents:
  *		* text (possible \n\r)
  *		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
  *		* html
@@ -94,7 +94,7 @@
 
 			// Filter webkit garbage.
 			editor.on( 'paste', function( evt ) {
-				var data = evt.data.data,
+				var data = evt.data.dataValue,
 					blockElements = CKEDITOR.dtd.$block;
 
 				if ( data.indexOf( 'Apple-' ) > -1 ) {
@@ -146,13 +146,13 @@
 					data = data.replace( /(\s)<br>$/, '$1' );
 				}
 
-				evt.data.data = data;
+				evt.data.dataValue = data;
 			}, null, null, 3 );
 
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
 					type = dataObj.type,
-					data = dataObj.data,
+					data = dataObj.dataValue,
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html';
@@ -181,7 +181,7 @@
 					type = ( trueType == 'html' || defaultType == 'html' ) ? 'html' : 'text';
 
 				dataObj.type = type;
-				dataObj.data = data;
+				dataObj.dataValue = data;
 				delete dataObj.preSniffing;
 				delete dataObj.startsWithEOL;
 				delete dataObj.endsWithEOL;
@@ -192,7 +192,7 @@
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
 
-				editor.insertHtml( data.data, data.type );
+				editor.insertHtml( data.dataValue, data.type );
 
 				// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
 				setTimeout( function() {
@@ -240,13 +240,13 @@
 		/**
 		 * Get clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
 		 * @param {Object} [options.title] Title of paste dialog.
-		 * @param {Function} callback Function that will be executed with data.type and data.data or null if none
+		 * @param {Function} callback Function that will be executed with data.type and data.dataValue or null if none
 		 * 		of the capturing method succeeded.
 		 * @example
 		 * editor.getClipboardData( { title : 'Get my data' }, function( data )
 		 * {
 		 *		if ( data )
-		 *			alert( data.type + ' ' + data.data );
+		 *			alert( data.type + ' ' + data.dataValue );
 		 * });
 		 */
 		editor.getClipboardData = function( options, callback ) {
@@ -317,7 +317,7 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback({ type: dataType, data: evt.data } );
+				callback( { type: dataType, dataValue: evt.data } );
 			}
 
 			function onDialogOpen() {
@@ -522,7 +522,7 @@
 					var cmd = this;
 
 					editor.getClipboardData( function( data ) {
-						data && firePasteEvents( data.type, data.data, 0 );
+						data && firePasteEvents( data.type, data.dataValue, 0 );
 
 						editor.fire( 'afterCommandExec', {
 							name: 'paste',
@@ -600,7 +600,7 @@
 				return false;
 
 			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
-			eventData.data = data;
+			eventData.dataValue = data;
 
 			return editor.fire( 'paste', eventData );
 		}
@@ -1136,10 +1136,10 @@
  * @name CKEDITOR.editor#paste
  * @since 3.1
  * @event
- * @param {String} data.type Type of data in data.data. Usually 'html' or 'text', but for listeners
- * 		with priority less than 6 it can be also 'auto', what means that content type hasn't been recognised yet
+ * @param {String} data.type Type of data in data.dataValue. Usually 'html' or 'text', but for listeners
+ * 		with priority less than 6 it may be also 'auto', what means that content type hasn't been recognised yet
  * 		(this will be done by content type sniffer that listens with priority 6).
- * @param {String} data.data Data to be pasted - HTML or text.
+ * @param {String} data.dataValue HTML to be pasted.
  */
 
 /**

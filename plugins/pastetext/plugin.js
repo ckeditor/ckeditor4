@@ -16,7 +16,8 @@
 
 		exec: function( editor ) {
 			editor.getClipboardData({ title: editor.lang.pastetext.title }, function( data ) {
-				data && editor.fire( 'paste', { type: 'text', data: data.data, htmlified: true } );
+				// Do not use editor#paste, because it would start from beforePaste event.
+				data && editor.fire( 'paste', { type: 'text', dataValue: data.dataValue } );
 
 				editor.fire( 'afterCommandExec', {
 					name: 'pastetext',

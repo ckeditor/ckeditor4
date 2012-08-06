@@ -53,9 +53,10 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 	// If pasteDialogCommit wasn't canceled by e.g. editor.getClipboardData
 	// then fire paste event.
+	// Do not use editor#paste, because it would start from beforePaste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
 		if ( evt.data )
-			editor.fire( 'paste', { type: 'auto', data: evt.data, htmlified: true } );
+			editor.fire( 'paste', { type: 'auto', dataValue: evt.data } );
 	}, null, null, 1000 );
 
 	return {
