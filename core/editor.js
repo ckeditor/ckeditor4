@@ -758,9 +758,7 @@
 		 * CKEDITOR.instances.editor1.<strong>insertHtml( '&lt;p&gt;This is a new paragraph.&lt;/p&gt;' )</strong>;
 		 */
 		insertHtml: function( html, mode ) {
-			// Do nothing when editable is not available (detached).
-			var editable = this.editable();
-			editable && editable.insertHtml( html, mode );
+			this.fire( 'insertHtml', { dataValue: html, mode: mode } );
 		},
 
 		/**
@@ -773,8 +771,7 @@
 		 * CKEDITOR.instances.editor1.<strong>insertText( ' line1 \n\n line2' )</strong>;
 		 */
 		insertText: function( text ) {
-			var editable = this.editable();
-			editable && editable.insertText( text );
+			this.fire( 'insertText', text );
 		},
 
 		/**
@@ -787,8 +784,7 @@
 		 * CKEDITOR.instances.editor1.<strong>insertElement( element )</strong>;
 		 */
 		insertElement: function( element ) {
-			var editable = this.editable();
-			editable && editable.insertElement( element );
+			this.fire( 'insertElement', element );
 		},
 
 		/**
@@ -1098,6 +1094,31 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * and ready for interaction.
  * @name CKEDITOR.editor#instanceReady
  * @event
+ */
+
+/**
+ * Internal event to perform the <code>#insertHtml</code> call
+ * @name CKEDITOR.editor#insertHtml
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data.mode Mode in which data is inserted (see {@link CKEDITOR.editor#insertHtml}).
+ * @param {String} data.dataValue The HTML to insert.
+ */
+
+/**
+ * Internal event to perform the <code>#insertText</code> call
+ * @name CKEDITOR.editor#insertText
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} text The text to insert.
+ */
+
+/**
+ * Internal event to perform the <code>#insertElement</code> call
+ * @name CKEDITOR.editor#insertElement
+ * @event
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dom.element} element The element to insert.
  */
 
 /**

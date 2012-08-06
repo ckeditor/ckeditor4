@@ -353,6 +353,16 @@
 					this.focus();
 				}, this );
 
+				this.attachListener( editor, 'insertHtml', function( evt ) {
+					this.insertHtml( evt.data.dataValue, evt.data.mode );
+				}, this );
+				this.attachListener( editor, 'insertElement', function( evt ) {
+					this.insertElement( evt.data );
+				}, this );
+				this.attachListener( editor, 'insertText', function( evt ) {
+					this.insertText( evt.data );
+				}, this );
+
 				// Update editable state.
 				this.setReadOnly( editor.readOnly );
 
