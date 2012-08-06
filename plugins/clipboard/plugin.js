@@ -634,13 +634,15 @@
 				editable = editor.editable(),
 				cancel = function( evt ) {
 					evt.cancel();
-				};
+				},
+				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
 				return;
 
 			var sel = editor.getSelection();
+			var bms = sel.createBookmarks();
 
 			// Create container to paste into.
 			// For rich content we prefer to use "body" since it holds
@@ -655,45 +657,57 @@
 				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
-			pastebin.setAttribute( 'contenteditable', true );
 
 			var containerOffset = 0,
 				win = doc.getWindow();
 
-			if ( CKEDITOR.env.webkit ) {
-				// It's better to paste close to the real paste destination, so inherited styles
-				// (which Webkits will try to compensate by styling span) differs less from the destination's one.
-				editable.append( pastebin );
-				// Compensate position of offsetParent.
-				containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
-			} else {
-				// Opera and IE doesn't allow to append to html element.
-				editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+			// Seems to be the only way to avoid page scroll in Fx 3.x.
+			if ( ff3x )
+			{
+				pastebin.insertAfter( bms[ 0 ].startNode );
+				pastebin.setStyle( 'display', 'inline' );
 			}
+			else
+			{
+				if ( CKEDITOR.env.webkit ) {
+					// It's better to paste close to the real paste destination, so inherited styles
+					// (which Webkits will try to compensate by styling span) differs less from the destination's one.
+					editable.append( pastebin );
+					// Compensate position of offsetParent.
+					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
+				} else {
+					// Opera and IE doesn't allow to append to html element.
+					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+				}
 
-			pastebin.setStyles({
-				position: 'absolute',
-				// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
-				top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
-				width: '1px',
-				// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
-				// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
-				height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
-				overflow: 'hidden'
-			});
+				pastebin.setStyles({
+					position: 'absolute',
+					// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
+					top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
+					width: '1px',
+					// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
+					// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
+					height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
+					overflow: 'hidden',
+					// Reset styles that can mess up pastebin position.
+					margin: 0,
+					padding: 0
+				});
+			}
 
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
 
-			// Hide the paste bin.
-			if ( isEditingHost )
+			if ( isEditingHost ) {
+				// Hide the paste bin.
 				pastebin.setOpacity( 0 );
+				// And make it editable.
+				pastebin.setAttribute( 'contenteditable', true );
+			}
 			// Transparency is not enough since positioned non-editing host always shows
 			// resize handler, pull it off the screen instead.
 			else
 				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
-
-			var bms = sel.createBookmarks();
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
