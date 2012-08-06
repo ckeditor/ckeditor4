@@ -729,6 +729,10 @@
 
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
+
+				// Cancel the locked selection.
+				editor.unlockSelection();
+
 				// Restore properly the document focus. (#8849)
 				if ( CKEDITOR.env.ie )
 					editable.focus();
