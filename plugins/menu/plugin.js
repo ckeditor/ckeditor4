@@ -71,7 +71,7 @@ CKEDITOR.plugins.add( 'menu', {
 });
 
 (function() {
-	var menuItemSource = '<span class="cke_menuitem {alphaFixClass}">' +
+	var menuItemSource = '<span class="cke_menuitem">' +
 		'<a id="{id}"' +
 		' class="cke_button__{name} cke_button_{state}" href="{href}"' +
 		' title="{title}"' +
@@ -422,8 +422,7 @@ CKEDITOR.plugins.add( 'menu', {
 					index: index,
 					iconCls: 'cke_icon',
 					iconStyle: CKEDITOR.skin.getIconStyle( this.name, ( this.editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
-					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : '',
-					alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' )
+					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : ''
 				};
 
 				menuItemTpl.output( params, output );
