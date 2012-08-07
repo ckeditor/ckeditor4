@@ -765,7 +765,7 @@
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.
-				if ( !element.isReadOnly( 1 ) )
+				if ( element.getAttribute( 'contentEditable' ) != "false" )
 					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
 				element.setAttribute( 'contentEditable', false );
 			}
