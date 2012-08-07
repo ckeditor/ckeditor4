@@ -18,7 +18,7 @@ The following is a visual representation of the main elements of a menu:
 
 +-- .cke_menu -----------------+
 | +-- .cke_menuitem  --------+ |
-| | +-- .cke_button_off ---+ | |
+| | +-- .cke_menubutton ---+ | |
 | | |                      | | |
 | | +----------------------+ | |
 | +--------------------------+ |
@@ -26,14 +26,11 @@ The following is a visual representation of the main elements of a menu:
 | ...                          |
 +------------------------------+
 
-Note that the menu uses the .cke_button_off class, which is used inside the
-toolbar as well. That's because, in the API point of view, a toolbar button and
-a menu item have exactly the same behavior: they execute commands.
+This is the .cke_menubutton structure:
+(Note that the menu button icon shares with toolbar button the common class .cke_button_icon to achieve the same outlook.)
 
-This is the .cke_button_off structure:
-
-+-- .cke_button_off ------------------------------------------+
-| +-- .cke_icon_wrapper ------+ +-- .cke_label -------------+ |
++-- .cke_menubutton ------------------------------------------+
+| +-- .cke_menubutton_icon ---+ +-- .cke_menubutton_label --+ |
 | | +-- .cke_button_icon ---+ | |                           | |
 | | |                       | | |                           | |
 | | +-----------------------+ | |                           | |
@@ -49,7 +46,7 @@ Special outer level classes used in this file:
 /* .cke_menuitem is the element that holds the entire structure of each of the
    menu items. */
 
-.cke_menuitem a
+.cke_menubutton
 {
 	/* The "button" inside a menu item is a <a> element.
 	   Transforms it into a block. */
@@ -62,76 +59,58 @@ Special outer level classes used in this file:
 	cursor: default;
 }
 
-.cke_menuitem a:hover,
-.cke_menuitem a:focus,
-.cke_menuitem a:active
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active
 {
 	background-color: #D3D3D3;
 	display:block;
 }
 
-.cke_hc .cke_menuitem a:hover,
-.cke_hc .cke_menuitem a:focus,
-.cke_hc .cke_menuitem a:active
+.cke_hc .cke_menubutton:hover,
+.cke_hc .cke_menubutton:focus,
+.cke_hc .cke_menubutton:active
 {
 	border: 2px solid;
 }
 
 /* The menu item icon. */
-.cke_menuitem .cke_icon
-{
-	background-position: 100px;
-	background-repeat:no-repeat;
-	background-color: transparent;
-	width: 16px;
-	height: 16px;
-	float: left;
-}
-
-/* Menu items can have a "disabled" state. */
-.cke_menuitem .cke_disabled .cke_icon
-{
-	/* Less opacity gives a grayed-out effect. */
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Webkit, Opera and Gecko */
-}
-
-/* Icon-wrapper is a box holding the icon image. */
-.cke_menuitem .cke_icon_wrapper
+.cke_menubutton_icon
 {
 	background-color: #D3D3D3;
 	border: solid 4px #D3D3D3;
+	opacity: 0.70; /* Safari, Opera and Mozilla */
+	filter: alpha(opacity=70); /* IE */
 	width: 16px;
 	height: 16px;
 	float: left;
 	clear: both;
 }
 
-.cke_rtl .cke_menuitem .cke_icon_wrapper
+.cke_rtl .cke_menubutton_icon
 {
 	float: right;
 }
 
-.cke_menuitem a:hover .cke_icon_wrapper,
-.cke_menuitem a:focus .cke_icon_wrapper,
-.cke_menuitem a:active .cke_icon_wrapper
+.cke_menubutton:hover .cke_menubutton_icon,
+.cke_menubutton:focus .cke_menubutton_icon,
+.cke_menubutton:active .cke_menubutton_icon
 {
 	background-color: #9d9d9d;
 	border: solid 4px #9d9d9d;
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
 
-.cke_menuitem a:hover.cke_disabled .cke_icon_wrapper,
-.cke_menuitem a:focus.cke_disabled .cke_icon_wrapper,
-.cke_menuitem a:active.cke_disabled .cke_icon_wrapper
+.cke_menubutton_disabled:hover .cke_menubutton_icon,
+.cke_menubutton_disabled:focus .cke_menubutton_icon,
+.cke_menubutton_disabled:active .cke_menubutton_icon
 {
-	background-color: #D3D3D3;
-	border: solid 4px #D3D3D3;
+	/* The icon will get opacity as well when hovered. */
+	opacity: 0.3;
+	filter: alpha(opacity=30);
 }
 
 /* The textual part of each menu item. */
-.cke_menuitem .cke_label
+.cke_menubutton_label
 {
 	display:block;
 	padding-right: 3px;
@@ -142,7 +121,7 @@ Special outer level classes used in this file:
 	background-color: #fff;
 }
 
-.cke_rtl .cke_menuitem .cke_label
+.cke_rtl .cke_menubutton_label
 {
 	padding-right: 0;
 	margin-left: 0;
@@ -150,27 +129,21 @@ Special outer level classes used in this file:
 	margin-right: 28px;
 }
 
-.cke_menuitem a.cke_disabled .cke_label
+.cke_menubutton_disabled .cke_menubutton_label
 {
-	filter: alpha(opacity=30); /* IE */
-	opacity: 0.30; /* Safari, Opera and Mozilla */
+	/* Greyed label text indicates a disabled menu item. */
+	opacity: 0.3;
+	filter: alpha(opacity=30);
 }
 
-.cke_menuitem a:hover .cke_label,
-.cke_menuitem a:focus .cke_label,
-.cke_menuitem a:active .cke_label
+.cke_menubutton:hover .cke_menubutton_label,
+.cke_menubutton:focus .cke_menubutton_label,
+.cke_menubutton:active .cke_menubutton_label
 {
 	background-color: #D3D3D3;
 }
 
-.cke_menuitem a.cke_disabled:hover .cke_label,
-.cke_menuitem a.cke_disabled:focus .cke_label,
-.cke_menuitem a.cke_disabled:active .cke_label
-{
-	background-color: transparent;
-}
-
-.cke_panel_frame .cke_label
+.cke_panel_frame .cke_menubutton_label
 {
 	display: none;
 }

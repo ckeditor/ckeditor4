@@ -73,7 +73,7 @@ CKEDITOR.plugins.add( 'menu', {
 (function() {
 	var menuItemSource = '<span class="cke_menuitem">' +
 		'<a id="{id}"' +
-		' class="cke_button__{name} cke_button_{state}" href="{href}"' +
+		' class="cke_menubutton cke_menubutton__{name} cke_menubutton_{state}" href="{href}"' +
 		' title="{title}"' +
 		' tabindex="-1"' +
 		'_cke_focus=1' +
@@ -101,9 +101,9 @@ CKEDITOR.plugins.add( 'menu', {
 				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
-	menuItemSource += '<span class="{iconCls}_wrapper"><span class="cke_button_icon cke_button__{name}_icon"' +
+	menuItemSource += '<span class="cke_menubutton_icon"><span class="cke_button_icon cke_button__{name}_icon"' +
 				' style="{iconStyle}"></span></span>' +
-				'<span class="cke_label">{arrowHtml}{label}</span>' +
+				'<span class="cke_menubutton_label">{arrowHtml}{label}</span>' +
 				'</a></span>';
 
 	var menuArrowSource = '<span class="cke_menuarrow">' +
@@ -384,7 +384,7 @@ CKEDITOR.plugins.add( 'menu', {
 			// Defaults
 			{
 				order: 0,
-				className: 'cke_button__' + name
+				className: 'cke_menubutton__' + name
 			});
 
 			// Transform the group name into its order number.
@@ -420,7 +420,6 @@ CKEDITOR.plugins.add( 'menu', {
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
-					iconCls: 'cke_icon',
 					iconStyle: CKEDITOR.skin.getIconStyle( this.name, ( this.editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
 					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : ''
 				};
