@@ -152,8 +152,8 @@
 				// One <br> per line-break.
 				html = html.replace( /\n/g, '<br>' );
 
-				// Compensate padding <br> for non-IE.
-				if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
+				// Compensate padding <br> at the end of block, avoid loosing them during insertion.
+				if ( !isEnterBrMode ) {
 					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
 						return tools.repeat( match, 2 );
 					});
