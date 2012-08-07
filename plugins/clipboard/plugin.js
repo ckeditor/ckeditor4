@@ -228,16 +228,6 @@
 		addButtonsCommands();
 
 		/**
-		 * Paste data into the editor. Passed HTML will be filtered and handled
-		 * like it was pasted by the user.
-		 * @name CKEDITOR.editor.paste
-		 * @param {String} html HTML to be pasted.
-		 */
-		editor.paste = function( html ) {
-			return firePasteEvents( 'auto', html, 1 );
-		};
-
-		/**
 		 * Get clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
 		 * @param {Object} [options.title] Title of paste dialog.
 		 * @param {Function} callback Function that will be executed with data.type and data.dataValue or null if none
@@ -518,18 +508,23 @@
 				canUndo: false,
 				async: true,
 
-				exec: function() {
-					var cmd = this;
+				exec: function( editor, data ) {
+					var fire = function( data, withBeforePaste ) {
+							data && firePasteEvents( data.type, data.dataValue, !!withBeforePaste );
 
-					editor.getClipboardData( function( data ) {
-						data && firePasteEvents( data.type, data.dataValue, 0 );
+							editor.fire( 'afterCommandExec', {
+								name: 'paste',
+								command: cmd,
+								returnValue: !!data
+							});
+						},
+						cmd = this;
 
-						editor.fire( 'afterCommandExec', {
-							name: 'paste',
-							command: cmd,
-							returnValue: !!data
-						});
-					});
+					// Check data precisely - don't open dialog on empty string.
+					if ( typeof data == 'string' )
+						fire( { type: 'auto', dataValue: data }, 1 );
+					else
+						editor.getClipboardData( fire );
 				}
 			};
 		}
@@ -592,9 +587,7 @@
 			}
 
 			// The very last guard to make sure the paste has successfully happened.
-			// Moved here from editable#paste event listener to unify editor.paste() and
-			// user paste behavior.
-			// This guard should be after firing 'beforePaste' because for native pasting
+			// This check should be done after firing 'beforePaste' because for native paste
 			// 'beforePaste' is by default fired even for empty clipboard.
 			if ( !data )
 				return false;
