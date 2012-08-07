@@ -150,11 +150,14 @@
 
 				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
 
-				// Two line-breaks create one paragraph.
+				// Two line-breaks create one paragraphing block.
 				if ( !isEnterBrMode ) {
-					html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
-						return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
-					});
+					var duoLF = /\n{2}/g;
+					if ( duoLF.test( html ) )
+					{
+						var openTag = '<' + paragraphTag + '>', endTag = '</' + paragraphTag + '>';
+						html = openTag + html.replace( duoLF, function() { return  endTag + openTag; } ) + endTag;
+					}
 				}
 
 				// One <br> per line-break.
