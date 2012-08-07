@@ -48,8 +48,8 @@
  *
  *
  * PASTE EVENT - PREPROCESSING:
- * -- Possible data types: auto, text, html.
- * -- Possible data contents:
+ * -- Possible dataValue types: auto, text, html.
+ * -- Possible dataValue contents:
  *		* text (possible \n\r)
  *		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
  *		* html
@@ -58,16 +58,13 @@
  *			for content from editable pastebins, because they 'htmlify' pasted content.
  *
  * -- Type: auto:
- *		* content: text ->				filter, htmlify, set type: text
  *		* content: htmlified text ->	filter, unify text markup (brs, ps, divs), set type: text
  *		* content: html ->				filter, set type: html
  * -- Type: text:
- *		* content: text ->				filter, htmlify
  *		* content: htmlified text ->	filter, unify text markup
  *		* content: html ->				filter, strip presentional markup, unify text markup
  * -- Type: html:
- *		* content: text ->				filter
- *		* content: htmlified text ->	filter
+ *		* content: htmlified text ->	filter, unify text markup
  *		* content: html ->				filter
  *
  * -- Phases:
@@ -97,7 +94,7 @@
 
 			// Filter webkit garbage.
 			editor.on( 'paste', function( evt ) {
-				var data = evt.data.data,
+				var data = evt.data.dataValue,
 					blockElements = CKEDITOR.dtd.$block;
 
 				if ( data.indexOf( 'Apple-' ) > -1 ) {
@@ -149,14 +146,13 @@
 					data = data.replace( /(\s)<br>$/, '$1' );
 				}
 
-				evt.data.data = data;
+				evt.data.dataValue = data;
 			}, null, null, 3 );
 
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
 					type = dataObj.type,
-					data = dataObj.data,
-					isHtmlified = dataObj.htmlified,
+					data = dataObj.dataValue,
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html';
@@ -165,13 +161,10 @@
 				if ( type == 'html' || dataObj.preSniffing == 'html' )
 					trueType = 'html';
 				else
-					trueType = recogniseContentType( data, isHtmlified );
+					trueType = recogniseContentType( data );
 
-				// Htmlify.
-				if ( trueType == 'text' )
-					data = textHtmlification( editor, data );
 				// Unify text markup.
-				else if ( trueType == 'htmlifiedtext' )
+				if ( trueType == 'htmlifiedtext' )
 					data = htmlifiedTextHtmlification( editor.config, data );
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
@@ -187,9 +180,8 @@
 				if ( type == 'auto' )
 					type = ( trueType == 'html' || defaultType == 'html' ) ? 'html' : 'text';
 
-				dataObj.htmlified = true;
 				dataObj.type = type;
-				dataObj.data = data;
+				dataObj.dataValue = data;
 				delete dataObj.preSniffing;
 				delete dataObj.startsWithEOL;
 				delete dataObj.endsWithEOL;
@@ -199,10 +191,8 @@
 			// events chain.
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
-				if ( data.type == 'html' )
-					editor.insertHtml( data.data );
-				else if ( data.type == 'text' )
-					editor.insertText( data.data, data.htmlified );
+
+				editor.insertHtml( data.dataValue, data.type );
 
 				// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
 				setTimeout( function() {
@@ -238,30 +228,15 @@
 		addButtonsCommands();
 
 		/**
-		 * Paste data into the editor.
-		 * Editor will:
-		 * 		* Fire paste events (beforePaste, paste, afterPaste).
-		 *		* Recognise data type (html or text).
-		 * 		* If text is pasted then it will be "htmlificated".
-		 *			* <strong>Note:</strong> two subsequent line-breaks will introduce one paragraph. This depends on <code>{@link CKEDITOR.config.enterMode}</code>;
-		 * 			* A single line-break will be instead translated into one &lt;br /&gt;.
-		 * @name CKEDITOR.editor.paste
-		 * @param {String} data Data (text or html) to be pasted.
-		 */
-		editor.paste = function( data ) {
-			return firePasteEvents( 'auto', data, 1 );
-		};
-
-		/**
 		 * Get clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
 		 * @param {Object} [options.title] Title of paste dialog.
-		 * @param {Function} callback Function that will be executed with data.type and data.data or null if none
+		 * @param {Function} callback Function that will be executed with data.type and data.dataValue or null if none
 		 * 		of the capturing method succeeded.
 		 * @example
 		 * editor.getClipboardData( { title : 'Get my data' }, function( data )
 		 * {
 		 *		if ( data )
-		 *			alert( data.type + ' ' + data.data );
+		 *			alert( data.type + ' ' + data.dataValue );
 		 * });
 		 */
 		editor.getClipboardData = function( options, callback ) {
@@ -332,7 +307,7 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback({ type: dataType, data: evt.data, htmlified: true } );
+				callback( { type: dataType, dataValue: evt.data } );
 			}
 
 			function onDialogOpen() {
@@ -533,18 +508,23 @@
 				canUndo: false,
 				async: true,
 
-				exec: function() {
-					var cmd = this;
+				exec: function( editor, data ) {
+					var fire = function( data, withBeforePaste ) {
+							data && firePasteEvents( data.type, data.dataValue, !!withBeforePaste );
 
-					editor.getClipboardData( function( data ) {
-						data && firePasteEvents( data.type, data.data, 0, 1 );
+							editor.fire( 'afterCommandExec', {
+								name: 'paste',
+								command: cmd,
+								returnValue: !!data
+							});
+						},
+						cmd = this;
 
-						editor.fire( 'afterCommandExec', {
-							name: 'paste',
-							command: cmd,
-							returnValue: !!data
-						});
-					});
+					// Check data precisely - don't open dialog on empty string.
+					if ( typeof data == 'string' )
+						fire( { type: 'auto', dataValue: data }, 1 );
+					else
+						editor.getClipboardData( fire );
 				}
 			};
 		}
@@ -596,7 +576,7 @@
 			return enabled;
 		}
 
-		function firePasteEvents( type, data, withBeforePaste, isHtmlified ) {
+		function firePasteEvents( type, data, withBeforePaste ) {
 			var eventData = { type: type };
 
 			if ( withBeforePaste ) {
@@ -607,16 +587,13 @@
 			}
 
 			// The very last guard to make sure the paste has successfully happened.
-			// Moved here from editable#paste event listener to unify editor.paste() and
-			// user paste behavior.
-			// This guard should be after firing 'beforePaste' because for native pasting
+			// This check should be done after firing 'beforePaste' because for native paste
 			// 'beforePaste' is by default fired even for empty clipboard.
 			if ( !data )
 				return false;
 
 			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
-			eventData.data = data;
-			eventData.htmlified = !!isHtmlified;
+			eventData.dataValue = data;
 
 			return editor.fire( 'paste', eventData );
 		}
@@ -881,14 +858,10 @@
 	}
 
 	// Returns:
-	// * 'text' if no html markup at all && !isHtmlified.
 	// * 'htmlifiedtext' if content looks like transformed by browser from plain text.
 	//		See clipboard/paste.html TCs for more info.
-	// * 'html' if it's neither 'text' nor 'htmlifiedtext'.
-	function recogniseContentType( data, isHtmlified ) {
-		if ( !isHtmlified && !data.match( /<[^>]+>/g ) && !data.match( /&([a-z0-9]+|#[0-9]+);/gi ) )
-			return 'text';
-
+	// * 'html' if it is not 'htmlifiedtext'.
+	function recogniseContentType( data ) {
 		if ( CKEDITOR.env.webkit ) {
 			// Plain text or ( <div><br></div> and text inside <div> ).
 			if ( !data.match( /^[^<]*$/g ) && !data.match( /^(<div><br( ?\/)?><\/div>|<div>[^<]*<\/div>)*$/gi ) )
@@ -907,52 +880,6 @@
 		return 'htmlifiedtext';
 	}
 
-	// TODO Function shouldn't check selection - context will be fixed later.
-	function textHtmlification( editor, text ) {
-		var selection = editor.getSelection(),
-			mode = selection.getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
-			isEnterBrMode = mode == CKEDITOR.ENTER_BR,
-			tools = CKEDITOR.tools;
-
-		var html = CKEDITOR.tools.htmlEncode( text.replace( /\r\n|\r/g, '\n' ) );
-
-		// Convert leading and trailing whitespaces into &nbsp;
-		html = html.replace( /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
-			if ( match.length == 1 ) // one space, preserve it
-			return '&nbsp;';
-			else if ( !offset ) // beginning of block
-			return tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-			else // end of block
-			return ' ' + tools.repeat( '&nbsp;', match.length - 1 );
-		});
-
-		// Convert subsequent whitespaces into &nbsp;
-		html = html.replace( /[ \t]{2,}/g, function( match ) {
-			return tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-		});
-
-		var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
-
-		// Two line-breaks create one paragraph.
-		if ( !isEnterBrMode ) {
-			html = html.replace( /(\n{2})([\s\S]*?)(?:$|\1)/g, function( match, group1, text ) {
-				return '<' + paragraphTag + '>' + text + '</' + paragraphTag + '>';
-			});
-		}
-
-		// One <br> per line-break.
-		html = html.replace( /\n/g, '<br>' );
-
-		// Compensate padding <br> for non-IE.
-		if ( !( isEnterBrMode || CKEDITOR.env.ie ) ) {
-			html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
-				return tools.repeat( match, 2 );
-			});
-		}
-
-		return html;
-	}
-
 	// This function transforms what browsers produce when
 	// pasting plain text into editable element (see clipboard/paste.html TCs
 	// for more info) into correct HTML (similar to that produced by text2Html).
@@ -963,12 +890,12 @@
 			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
 		}
 
-		// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
+			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
 		data = data.replace( /\s+/g, ' ' )
-		// Remove spaces from between tags.
-		.replace( /> +</g, '><' )
-		// Normalize XHTML syntax and upper cased <br> tags.
-		.replace( /<br ?\/>/gi, '<br>' );
+			// Remove spaces from between tags.
+			.replace( /> +</g, '><' )
+			// Normalize XHTML syntax and upper cased <br> tags.
+			.replace( /<br ?\/>/gi, '<br>' );
 
 		// IE - lower cased tags.
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
@@ -981,10 +908,10 @@
 
 		// Webkit.
 		if ( CKEDITOR.env.webkit && data.indexOf( '<div>' ) > -1 ) {
-			// One line break at the beginning - insert <br>
+				// One line break at the beginning - insert <br>
 			data = data.replace( /^(<div>(<br>|)<\/div>)(?!$|(<div>(<br>|)<\/div>))/g, '<br>' )
-			// Two or more - reduce number of new lines by one.
-			.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
+				// Two or more - reduce number of new lines by one.
+				.replace( /^(<div>(<br>|)<\/div>){2}(?!$)/g, '<div></div>' );
 
 			// Two line breaks create one paragraph in Webkit.
 			if ( data.match( /<div>(<br>|)<\/div>/ ) ) {
@@ -1143,11 +1070,12 @@
 		data = writer.getHtml();
 
 		// Cleanup cke:brs.
-		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' ) // Remove spaces around tags.
-		.replace( /(<cke:br \/>){2,}/g, '<cke:br />' ) // Join multiple adjacent cke:brs
-		.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' ) // Strip cke:brs adjacent to original brs or ps.
-		.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' ).replace( /<(cke:)?br( \/)?>/g, '<br>' ) // Finally - rename cke:brs to brs and fix <br /> to <br>.
-		.replace( /<p><\/p>/g, '' ); // Remove empty paragraphs.
+		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' )	// Remove spaces around tags.
+			.replace( /(<cke:br \/>){2,}/g, '<cke:br />' )			// Join multiple adjacent cke:brs
+			.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' )		// Strip cke:brs adjacent to original brs or ps.
+			.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' )
+			.replace( /<(cke:)?br( \/)?>/g, '<br>' )				// Finally - rename cke:brs to brs and fix <br /> to <br>.
+			.replace( /<p><\/p>/g, '' );							// Remove empty paragraphs.
 
 		// Fix nested ps. E.g.:
 		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
@@ -1202,13 +1130,10 @@
  * @name CKEDITOR.editor#paste
  * @since 3.1
  * @event
- * @param {String} data.type Type of data in data.data. Usually 'html' or 'text', but for listeners
- * 		with priority less than 6 it can be also 'auto', what means that content type hasn't been recognised yet
+ * @param {String} data.type Type of data in data.dataValue. Usually 'html' or 'text', but for listeners
+ * 		with priority less than 6 it may be also 'auto', what means that content type hasn't been recognised yet
  * 		(this will be done by content type sniffer that listens with priority 6).
- * @param {String} data.data Data to be pasted - HTML or text.
- * @param {Boolean} [data.htmlified] If true then data are htmlified what means that they probably
- *		come frome editable pastebin or were transformed to HTML. They won't be encoded and should be treat
- *		as HTML even if they don't contain any markup.
+ * @param {String} data.dataValue HTML to be pasted.
  */
 
 /**

@@ -105,12 +105,5 @@ The "themeSpace" event has been replaced with "uiSpace".
 ---
 
 The evt.data.html and evt.data.text properties are not any more available with
-the paste event. They have been replaced by a single evt.data.data property and
-additional properties (evt.data.type and evt.data.htmlified) have been added to help identify the data type.
-
----
-
-The editor.insertText() does not any more serve for inserting plain text into the editor
-(it does not "htmlify" it). Instead, editor.paste() and paste event itself took over
-this responsibility. The editor.insertText(), like other methods: editor.insertHtml() and insertElement(),
-handles only the insertion process.
+the paste event. They have been replaced by a single evt.data.dataValue property and
+additional property evt.data.type has been added to help identify the data type.

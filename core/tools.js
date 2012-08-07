@@ -290,35 +290,10 @@
 		 * alert( CKEDITOR.tools.htmlEncode( 'A > B & C < D' ) );  // "A &amp;gt; B &amp;amp; C &amp;lt; D"
 		 */
 		htmlEncode: function( text ) {
-			var standard = function( text ) {
-					var span = new CKEDITOR.dom.element( 'span' );
-					span.setText( text );
-					// Chrome, Fx and Opera leave \t while IEs replace them with spaces.
-					return span.getHtml().replace( /\t/g, ' ' );
-				};
-
-			var fix1 = ( standard( '\n' ).toLowerCase() == '<br>' ) ?
-			function( text ) {
-				// #3874 IE and Safari encode line-break into <br>
-				return standard( text ).replace( /<br>/gi, '\n' );
-			} : standard;
-
-			var fix2 = ( standard( '>' ) == '>' ) ?
-			function( text ) {
-				// WebKit does't encode the ">" character, which makes sense, but
-				// it's different than other browsers.
-				return fix1( text ).replace( />/g, '&gt;' );
-			} : fix1;
-
-			var fix3 = ( standard( '  ' ) == '&nbsp; ' ) ?
-			function( text ) {
-				// #3785 IE8 changes spaces (>= 2) to &nbsp;
-				return fix2( text ).replace( /&nbsp;/g, ' ' );
-			} : fix2;
-
-			this.htmlEncode = fix3;
-
-			return this.htmlEncode( text );
+			return String(text)
+			    .replace(/&/g, '&amp;')
+			    .replace(/>/g, '&gt;')
+			    .replace(/</g, '&lt;');
 		},
 
 		/**

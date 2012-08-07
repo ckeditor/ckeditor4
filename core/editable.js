@@ -117,15 +117,54 @@
 			/**
 			 * @see CKEDITOR.editor.prototype.insertHtml
 			 */
-			insertHtml: function( data ) {
-				insert( this, 'html', data );
+			insertHtml: function( data, mode ) {
+				// Default mode is 'html'.
+				insert( this, mode == 'text' ? 'text' : 'html', data );
 			},
 
 			/**
 			 * @see CKEDITOR.editor.prototype.insertText
 			 */
-			insertText: function( text, dontEncodeHtml ) {
-				insert( this, 'text', dontEncodeHtml ? text : CKEDITOR.tools.htmlEncode( text ) );
+			insertText: function( text ) {
+				var editor = this.editor,
+					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
+					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
+					tools = CKEDITOR.tools;
+
+				// CRLF -> LF
+				var html = tools.htmlEncode( text.replace( /\r\n/g, '\n' ) );
+
+				// Tab -> &nbsp x 4;
+				html = html.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+
+				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
+				// Two line-breaks create one paragraphing block.
+				if ( !isEnterBrMode ) {
+					var duoLF = /\n{2}/g;
+					if ( duoLF.test( html ) )
+					{
+						var openTag = '<' + paragraphTag + '>', endTag = '</' + paragraphTag + '>';
+						html = openTag + html.replace( duoLF, function() { return  endTag + openTag; } ) + endTag;
+					}
+				}
+
+				// One <br> per line-break.
+				html = html.replace( /\n/g, '<br>' );
+
+				// Compensate padding <br> at the end of block, avoid loosing them during insertion.
+				if ( !isEnterBrMode ) {
+					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
+						return tools.repeat( match, 2 );
+					});
+				}
+
+				// Finally, preserve whitespaces that are to be lost.
+				html = html.replace( /(>|\s) /g, function( match, before ) {
+					return before + '&nbsp;';
+				} ).replace( / (?=<)/g, '&nbsp;' );
+
+				insert( this, 'text', html );
 			},
 
 			/**
@@ -309,6 +348,16 @@
 						return;
 
 					this.focus();
+				}, this );
+
+				this.attachListener( editor, 'insertHtml', function( evt ) {
+					this.insertHtml( evt.data.dataValue, evt.data.mode );
+				}, this );
+				this.attachListener( editor, 'insertElement', function( evt ) {
+					this.insertElement( evt.data );
+				}, this );
+				this.attachListener( editor, 'insertText', function( evt ) {
+					this.insertText( evt.data );
 				}, this );
 
 				// Update editable state.
@@ -716,7 +765,7 @@
 			var element = evt.data;
 			if ( element.type == CKEDITOR.NODE_ELEMENT && ( element.is( 'input' ) || element.is( 'textarea' ) ) ) {
 				// // The element is still not inserted yet, force attribute-based check.
-				if ( !element.isReadOnly( 1 ) )
+				if ( element.getAttribute( 'contentEditable' ) != "false" )
 					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
 				element.setAttribute( 'contentEditable', false );
 			}

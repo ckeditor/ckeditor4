@@ -26,7 +26,8 @@
 					editor.on( 'beforePaste', forceHtmlMode );
 
 					editor.getClipboardData({ title: editor.lang.pastefromword.title }, function( data ) {
-						data && editor.fire( 'paste', { type: 'html', data: data.data, htmlified: true } );
+						// Do not use editor#paste, because it would start from beforePaste event.
+						data && editor.fire( 'paste', { type: 'html', dataValue: data.dataValue } );
 
 						editor.fire( 'afterCommandExec', {
 							name: commandName,
@@ -56,7 +57,7 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = data.data;
+					mswordHtml = data.dataValue;
 
 				// MS-WORD format sniffing.
 				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
@@ -69,7 +70,7 @@
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
 						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
-							data.data = CKEDITOR.cleanWord( mswordHtml, editor );
+							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
 						}
 					});
 

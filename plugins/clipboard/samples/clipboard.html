@@ -143,15 +143,15 @@ body {
 
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:-1)', event.data.type + ' - "' + event.data.data + '"' );
+				log( p + 'paste(prior:-1)', event.data.type + ' - "' + event.data.dataValue + '"' );
 			}, null, null, -1 );
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:10)', event.data.type + ' - "' + event.data.data + '"' );
+				log( p + 'paste(prior:10)', event.data.type + ' - "' + event.data.dataValue + '"' );
 			});
 		editor.on( 'paste', function( event )
 			{
-				log( p + 'paste(prior:999)', event.data.type + ' - "' + event.data.data + '"' );
+				log( p + 'paste(prior:999)', event.data.type + ' - "' + event.data.dataValue + '"' );
 			}, null, null, 999 );
 		editor.on( 'beforePaste', function( event )
 			{
