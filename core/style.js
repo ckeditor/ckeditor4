@@ -630,7 +630,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Make sure our range has included all "collpased" parent inline nodes so
 		 * that our operation logic can be simpler.
 		 */
-		range.enlarge( CKEDITOR.ENLARGE_ELEMENT, 1 );
+		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
 		var bookmark = range.createBookmark(),
 			startNode = bookmark.startNode;
@@ -655,10 +655,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( this.checkElementRemovable( element ) ) {
 					var isStart;
 
-					if ( range.collapsed &&
-					     ( range.checkBoundaryOfElement( element, CKEDITOR.END ) ||
-					       ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) )
-					{
+					if ( range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
@@ -1344,8 +1341,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyleOnSelection( selection, remove ) {
 		var doc = selection.document,
-			// Bookmark the range so we can re-select it after processing.
-			bookmarks = selection.createBookmarks( 1 ),
 			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			range;
@@ -1354,12 +1349,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range );
 
-		if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
-			selection.selectRanges( ranges );
-			doc.getById( bookmarks[ 0 ].startNode ).remove();
-		} else
-			selection.selectBookmarks( bookmarks );
-
+		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
 	}
 })();
