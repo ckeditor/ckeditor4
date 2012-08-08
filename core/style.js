@@ -401,7 +401,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var dtd = CKEDITOR.dtd[ elementName ] || ( isUnknownElement = true, CKEDITOR.dtd.span );
 
 		// Expand the range.
-		range.enlarge( CKEDITOR.ENLARGE_ELEMENT, 1 );
+		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 		range.trim();
 
 		// Get the first node to be processed and the last, which concludes the
