@@ -432,7 +432,12 @@
 					editor.fire( 'contentDomUnload' );
 
 					var doc = this.getDocument();
-					doc.write( data );
+
+					// Work around Firefox bug - error prune when called from XUL (#320),
+					// defer it thanks to the async nature of this method.
+					try { doc.write( data ); } catch ( e ) {
+						setTimeout( function () { doc.write( data ); }, 0 );
+					}
 				}
 			},
 
