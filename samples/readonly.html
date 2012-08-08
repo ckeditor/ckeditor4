@@ -5,37 +5,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
+	<title>CKEditor Sample &mdash; Using the CKEditor Read-Only API</title>
 	<meta charset="utf-8">
-	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<link rel="stylesheet" href="sample.css">
 	<script>
 
-var editor;
+		var editor;
 
-// The instanceReady event is fired, when an instance of CKEditor has finished
-// its initialization.
-CKEDITOR.on( 'instanceReady', function( ev )
-	{
-		editor = ev.editor;
+		// The instanceReady event is fired, when an instance of CKEditor has finished
+		// its initialization.
+		CKEDITOR.on( 'instanceReady', function( ev ) {
+			editor = ev.editor;
 
-		// Show this "on" button.
-		document.getElementById( 'readOnlyOn' ).style.display = '';
+			// Show this "on" button.
+			document.getElementById( 'readOnlyOn' ).style.display = '';
 
-		// Event fired when the readOnly property changes.
-		editor.on( 'readOnly', function()
-			{
+			// Event fired when the readOnly property changes.
+			editor.on( 'readOnly', function() {
 				document.getElementById( 'readOnlyOn' ).style.display = this.readOnly ? 'none' : '';
 				document.getElementById( 'readOnlyOff' ).style.display = this.readOnly ? '' : 'none';
 			});
-	});
+		});
 
-function toggleReadOnly( isReadOnly )
-{
-	// Change the read-only state of the editor.
-	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly
-	editor.setReadOnly( isReadOnly );
-}
+		function toggleReadOnly( isReadOnly ) {
+			// Change the read-only state of the editor.
+			// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly
+			editor.setReadOnly( isReadOnly );
+		}
 
 	</script>
 </head>
@@ -44,25 +41,14 @@ function toggleReadOnly( isReadOnly )
 		CKEditor Sample &mdash; Using the CKEditor Read-Only API
 	</h1>
 	<div class="description">
-	<p>
-		This sample shows how to use the
-		<code><a class="samples" href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly">setReadOnly</a></code>
-		API to put editor into the read-only state that makes it impossible for users to change the editor contents.
-	</p>
-	<p>
-		For details on how to create this setup check the source code of this sample page.
-	</p>
-	</div>
-
-	<!-- This <div> holds alert messages to be display in the sample page. -->
-	<div id="alerts">
-		<noscript>
-			<p>
-				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
-				support, like yours, you should still see the contents (HTML data) and you should
-				be able to edit it normally, without a rich editor interface.
-			</p>
-		</noscript>
+		<p>
+			This sample shows how to use the
+			<code><a class="samples" href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly">setReadOnly</a></code>
+			API to put editor into the read-only state that makes it impossible for users to change the editor contents.
+		</p>
+		<p>
+			For details on how to create this setup check the source code of this sample page.
+		</p>
 	</div>
 	<form action="sample_posteddata.php" method="post">
 		<p>
