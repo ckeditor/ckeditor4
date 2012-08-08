@@ -94,24 +94,6 @@ a.cke_path_item:active
 	padding-left: 1px;
 }
 
-/* IE with zoom != 100% will distort the icons otherwise #4821 */
-.cke_button_icon,
-.cke_rtl .cke_menuitem .cke_icon,
-.cke_rtl .cke_button_icon,
-.cke_menuitem .cke_disabled .cke_icon,
-.cke_button_disabled .cke_button_icon,
-.cke_rtl .cke_menuitem .cke_disabled .cke_icon
-{
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale');
-}
-
-.cke_noalphafix .cke_icon,
-.cke_noalphafix .cke_button_icon,
-.cke_noalphafix .cke_disabled .cke_icon
-{
-	filter: ;
-}
-
 /* #3766 In the context menu, long labels with second level menu get wrapped */
 .cke_menuarrow
 {

@@ -53,7 +53,7 @@
 		 * @param {String} part
 		 */
 		getPath: function( part ) {
-			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
+			return CKEDITOR.getUrl( getCssPath( part ) );
 		},
 
 		/**
@@ -113,9 +113,7 @@
 		}
 	};
 
-	function loadCss( part, callback ) {
-		// Avoid reload.
-		if ( !cssLoaded[ part ] ) {
+	function getCssPath( part ) {
 			// Check for ua-specific version of skin part.
 			var uas = CKEDITOR.skin[ 'ua_' + part ], env = CKEDITOR.env;
 			if ( uas ) {
@@ -138,9 +136,13 @@
 					}
 				}
 			}
+			return CKEDITOR.getUrl( getConfigPath() + part + '.css' )
+	}
 
-			CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( getConfigPath() + part + '.css' ) );
-
+	function loadCss( part, callback ) {
+		// Avoid reload.
+		if ( !cssLoaded[ part ] ) {
+			CKEDITOR.document.appendStyleSheet( getCssPath( part ) );
 			cssLoaded[ part ] = 1;
 		}
 

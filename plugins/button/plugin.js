@@ -5,7 +5,7 @@
 
 (function() {
 	var template = '<a id="{id}"' +
-		' class="cke_button {alphaFixClass} cke_button__{name} cke_button_{state}"' +
+		' class="cke_button cke_button__{name} cke_button_{state}"' +
 		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
@@ -204,7 +204,6 @@
 				state: stateName,
 				title: this.title,
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
-				alphaFixClass: ( this.icon && this.icon.indexOf( '.png' ) == -1 ? 'cke_noalphafix' : '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
 				keydownFn: keydownFn,
 				focusFn: focusFn,
