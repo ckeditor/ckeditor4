@@ -220,6 +220,11 @@
 	}
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
+
+		// The chameleon feature is not for IE quirks.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
+			return;
+
 		var editor = evt.editor;
 
 		editor.on( 'menuShow', function( event ) {

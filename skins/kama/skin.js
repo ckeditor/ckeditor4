@@ -110,11 +110,9 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	// also taken in consideration here.
 	if ( part == 'editor' ) {
 		css = cssId + ' .cke_inner,' +
-			cssId + '_dialog .cke_dialog_contents,' +
-			cssId + '_dialog a.cke_dialog_tab,' +
-			cssId + '_dialog .cke_dialog_footer' +
+			cssId + ' .cke_dialog_tab' +
 			'{' +
-				'background-color:$color !important;' +
+		    'background-color:$color;' +
 				'background:-webkit-gradient(linear,0 -15,0 40,from(#fff),to($color));' +
 				getLinearBackground( 'top,#fff -15px,$color 40px' ) +
 			'}' +
@@ -131,11 +129,23 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 				getLinearBackground( 'bottom,#fff,$color 100px' ) +
 			'}' +
 
-			// TODO: This is not working because the panel doesn't go under the main UI element (cssID).
-			cssId + ' .cke_combopanel' +
+			cssId + ' .cke_dialog_contents,' +
+			cssId + ' .cke_dialog_footer' +
 			'{' +
-				'border: 1px solid $color;' +
-			'}';
+			'background-color:$color !important;' +
+			'}' +
+
+			cssId + ' .cke_dialog_tab:hover,' +
+			cssId + ' .cke_dialog_tab:active,' +
+			cssId + ' .cke_dialog_tab:focus,' +
+			cssId + ' .cke_dialog_tab_selected' +
+			'{' +
+			'background-color:$color;' +
+			'background-image:none;' +
+			'}' +
+
+			'';
+
 
 	// The "panel" part is necessary because it represents contents of panels
 	// used in the editor, like context-menus or the toolbar combos panels.
@@ -146,43 +156,43 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	// The menu.css rules are usually the ones to be overriden here, while all
 	// the rest is handled by the above "editor" part.
 	} else if ( part == 'panel' ) {
-		css = '.cke_menuitem .cke_icon_wrapper' +
+		css = '.cke_menubutton_icon' +
 			'{' +
 				'background-color:$color !important;' +
 				'border-color:$color !important;' +
 			'}' +
 
-			'.cke_menuitem a:hover .cke_icon_wrapper,' +
-			'.cke_menuitem a:focus .cke_icon_wrapper,' +
-			'.cke_menuitem a:active .cke_icon_wrapper' +
+			'.cke_menubutton:hover .cke_menubutton_icon,' +
+			'.cke_menubutton:focus .cke_menubutton_icon,' +
+			'.cke_menubutton:active .cke_menubutton_icon' +
 			'{' +
 				'background-color:$color !important;' +
 				'border-color:$color !important;' +
 			'}' +
 
-			'.cke_menuitem a:hover .cke_label,' +
-			'.cke_menuitem a:focus .cke_label,' +
-			'.cke_menuitem a:active .cke_label' +
+			'.cke_menubutton:hover .cke_menubutton_label,' +
+			'.cke_menubutton:focus .cke_menubutton_label,' +
+			'.cke_menubutton:active .cke_menubutton_label' +
 			'{' +
 				'background-color:$color !important;' +
 			'}' +
 
-			'.cke_menuitem a.cke_disabled:hover .cke_label,' +
-			'.cke_menuitem a.cke_disabled:focus .cke_label,' +
-			'.cke_menuitem a.cke_disabled:active .cke_label' +
+			'.cke_menubutton_disabled:hover .cke_menubutton_label,' +
+			'.cke_menubutton_disabled:focus .cke_menubutton_label,' +
+			'.cke_menubutton_disabled:active .cke_menubutton_label' +
 			'{' +
 				'background-color: transparent !important;' +
 			'}' +
 
-			'.cke_menuitem a.cke_disabled:hover .cke_icon_wrapper,' +
-			'.cke_menuitem a.cke_disabled:focus .cke_icon_wrapper,' +
-			'.cke_menuitem a.cke_disabled:active .cke_icon_wrapper' +
+			'.cke_menubutton_disabled:hover .cke_menubutton_icon,' +
+			'.cke_menubutton_disabled:focus .cke_menubutton_icon,' +
+			'.cke_menubutton_disabled:active .cke_menubutton_icon' +
 			'{' +
 				'background-color:$color !important;' +
 				'border-color:$color !important;' +
 			'}' +
 
-			'.cke_menuitem a.cke_disabled .cke_icon_wrapper' +
+			'.cke_menubutton_disabled .cke_menubutton_icon' +
 			'{' +
 				'background-color:$color !important;' +
 				'border-color:$color !important;' +
@@ -193,9 +203,9 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 				'background-color:$color !important;' +
 			'}' +
 
-			'.cke_menuitem a:hover,' +
-			'.cke_menuitem a:focus,' +
-			'.cke_menuitem a:active' +
+			'.cke_menubutton:hover,' +
+			'.cke_menubutton:focus,' +
+			'.cke_menubutton:active' +
 			'{' +
 				'background-color:$color !important;' +
 			'}';
