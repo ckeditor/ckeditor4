@@ -6,7 +6,7 @@
 (function() {
 	var floatSpaceTpl = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
 		' id="cke_{name}"' +
-		' class="cke cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
+		' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
 		' dir="{langDir}"' +
 		' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 		' lang="{langCode}"' +
@@ -137,6 +137,7 @@
 
 
 		var vars = {
+			id : editor.id,
 			name: editor.name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
