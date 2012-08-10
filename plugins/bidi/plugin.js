@@ -244,7 +244,7 @@
 			dirStyleRegexp = /\bdirection\s*:\s*(.*?)\s*(:?$|;)/;
 
 		return function( name, val ) {
-			if ( !this.getDocument().equals( CKEDITOR.document ) ) {
+			if ( !this.isReadOnly() ) {
 				var orgDir;
 				if ( ( name == ( isAttribute || isRemoveAttribute ? 'dir' : 'direction' ) || name == 'style' && ( isRemoveAttribute || dirStyleRegexp.test( val ) ) ) && !isOffline( this ) ) {
 					orgDir = this.getDirection( 1 );
