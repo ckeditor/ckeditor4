@@ -81,6 +81,17 @@ h1.samples
 	padding: 0;
 }
 
+h1.samples a
+{
+	color: #0782C1;
+	text-decoration: none;
+}
+
+.samples a:hover
+{
+	border-bottom: 1px dotted #0782C1;
+}
+
 h2.samples
 {
 	color: #000000;
@@ -125,11 +136,6 @@ a.samples
 {
 	color: #189DE1;
 	text-decoration: none;
-}
-
-a.samples:hover
-{
-	text-decoration: underline;
 }
 
 form

@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>API Usage &mdash; CKEditor Sample</title>
+	<title>Inline API Usage &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
 	<link href="sample.css" rel="stylesheet">
@@ -51,8 +51,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			window.console && console.log( text );
 
 			var logger = document.getElementById( 'log' );
-			logger.value && (logger.value += '\n');
-			logger.value += (new Date().toLocaleTimeString()) + ' > ' + text;
+			logger.value && ( logger.value += '\n' );
+			logger.value += ( new Date().toLocaleTimeString() ) + ' > ' + text;
 			logger.scrollTop = logger.scrollHeight;
 		}
 
@@ -63,7 +63,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// if ( ev.data.element.getId() == 'header' )
 			//	return false;		// or ev.cancel();
 
-			log( 'Creating CKEditor instance for ' + ev.data.element.getName() + '#' + ev.data.element.getId() );
+			log( 'Creating CKEditor instance for ' +
+				ev.data.element.getName() +
+				'#' +
+				ev.data.element.getId() );
 		});
 
 		CKEDITOR.on( 'instanceReady', function ( ev ) {
@@ -126,7 +129,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Set editor contents (replace current contents).
 			// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setData
-			editor.setData( value, function() { editor.focus(); } );
+			editor.setData( value, function() {
+				editor.focus();
+			});
 		}
 
 		function getContents() {
@@ -186,7 +191,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; Using CKEditor JavaScript API
+		<a href="index.html">CKEditor Samples</a> &raquo; Using CKEditor JavaScript Inline API
 	</h1>
 	<div class="description">
 		<p>
