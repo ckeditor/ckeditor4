@@ -13,7 +13,10 @@
  * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;p&gt;</code> tags when
  * using the <em>Enter</em> key.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
  */
 CKEDITOR.ENTER_P = 1;
 
@@ -22,7 +25,10 @@ CKEDITOR.ENTER_P = 1;
  * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;br&gt;</code> tags when
  * using the <em>Enter</em> key.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
  */
 CKEDITOR.ENTER_BR = 2;
 
@@ -31,105 +37,106 @@ CKEDITOR.ENTER_BR = 2;
  * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;div&gt;</code> tags when
  * using the <em>Enter</em> key.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=3]
+ * @member CKEDITOR
  */
 CKEDITOR.ENTER_DIV = 3;
 
 /**
- * @namespace Stores default configuration settings. Changes to this object are
+ * Stores default configuration settings. Changes to this object are
  * reflected in all editor instances, if not specified otherwise for a particular
  * instance.
+ *
+ * @class
+ * @singleton
  */
 CKEDITOR.config = {
 	/**
 	 * The URL path for the custom configuration file to be loaded. If not
-	 * overloaded with inline configuration, it defaults to the <code>config.js</code>
-	 * file present in the root of the CKEditor installation directory.<br /><br />
+	 * overloaded with inline configuration, it defaults to the ```config.js```
+	 * file present in the root of the CKEditor installation directory.
 	 *
 	 * CKEditor will recursively load custom configuration files defined inside
 	 * other custom configuration files.
-	 * @type String
-	 * @default <code>'<em>&lt;CKEditor folder&gt;</em>/config.js'</code>
-	 * @example
-	 * // Load a specific configuration file.
-	 * CKEDITOR.replace( 'myfield', { customConfig : '/myconfig.js' } );
-	 * @example
-	 * // Do not load any custom configuration file.
-	 * CKEDITOR.replace( 'myfield', { customConfig : '' } );
+	 *
+	 *		// Load a specific configuration file.
+	 *		CKEDITOR.replace( 'myfield', { customConfig: '/myconfig.js' } );
+	 *
+	 *		// Do not load any custom configuration file.
+	 *		CKEDITOR.replace( 'myfield', { customConfig: '' } );
+	 *
+	 * @cfg {String} [="<CKEditor folder>/config.js"]
 	 */
 	customConfig: 'config.js',
 
 	/**
-	 * Whether the replaced element (usually a <code>&lt;textarea&gt;</code>)
+	 * Whether the replaced element (usually a ```<textarea>```)
 	 * is to be updated automatically when posting the form containing the editor.
-	 * @type Boolean
-	 * @default <code>true</code>
-	 * @example
-	 * config.autoUpdateElement = true;
+	 *
+	 * @cfg
 	 */
 	autoUpdateElement: true,
 
 	/**
 	 * The user interface language localization to use. If left empty, the editor
 	 * will automatically be localized to the user language. If the user language is not supported,
-	 * the language specified in the <code>{@link CKEDITOR.config.defaultLanguage}</code>
+	 * the language specified in the ```{@link CKEDITOR.config#defaultLanguage}```
 	 * configuration setting is used.
-	 * @default <code>''</code> (empty)
-	 * @type String
-	 * @example
-	 * // Load the German interface.
-	 * config.language = 'de';
+	 *
+	 *		// Load the German interface.
+	 *		config.language = 'de';
+	 *
+	 * @cfg
 	 */
 	language: '',
 
 	/**
-	 * The language to be used if the <code>{@link CKEDITOR.config.language}</code>
+	 * The language to be used if the ```{@link CKEDITOR.config#language}```
 	 * setting is left empty and it is not possible to localize the editor to the user language.
-	 * @default <code>'en'</code>
-	 * @type String
-	 * @example
-	 * config.defaultLanguage = 'it';
+	 *
+	 *		config.defaultLanguage = 'it';
+	 *
+	 * @cfg
 	 */
 	defaultLanguage: 'en',
 
 	/**
 	 * The writting direction of the language used to write the editor
 	 * contents. Allowed values are:
-	 * <ul>
-	 *     <li> (Empty) - indicate content direction will be the same with either the editor UI direction or page
-	 *     element direction depending on the creators:
-	 *     <ul>
-	 *         <li> Themed UI: The same with user interface language direction;</li>
-	 *         <li> Inline: The same with the editable element text direction;</li>
-	 *     </li>
-	 *     <li>'ltr' - for Left-To-Right language (like English);</li>
-	 *     <li>'rtl' - for Right-To-Left languages (like Arabic).</li>
-	 * </ul>
-	 * @default <code>''</code> (empty)
-	 * @type String
-	 * @example
-	 * config.contentsLangDirection = 'rtl';
+	 *
+	 * * ```''``` (empty string) - indicate content direction will be the same with either the editor
+	 *     UI direction or page element direction depending on the creators:
+	 *     * Themed UI: The same with user interface language direction;
+	 *     * Inline: The same with the editable element text direction;
+	 * * 'ltr' - for Left-To-Right language (like English);
+	 * * 'rtl' - for Right-To-Left languages (like Arabic).
+	 *
+	 * Example:
+	 *		config.contentsLangDirection = 'rtl';
+	 *
+	 * @cfg
 	 */
 	contentsLangDirection: '',
 
 	/**
-	 * Sets the behavior of the <em>Enter</em> key. It also determines other behavior
-	 * rules of the editor, like whether the <code>&lt;br&gt;</code> element is to be used
+	 * Sets the behavior of the *Enter* key. It also determines other behavior
+	 * rules of the editor, like whether the ```<br>``` element is to be used
 	 * as a paragraph separator when indenting text.
 	 * The allowed values are the following constants that cause the behavior outlined below:
-	 * <ul>
-	 *     <li><code>{@link CKEDITOR.ENTER_P}</code> (1) &ndash; new <code>&lt;p&gt;</code> paragraphs are created;</li>
-	 *     <li><code>{@link CKEDITOR.ENTER_BR}</code> (2) &ndash; lines are broken with <code>&lt;br&gt;</code> elements;</li>
-	 *     <li><code>{@link CKEDITOR.ENTER_DIV}</code> (3) &ndash; new <code>&lt;div&gt;</code> blocks are created.</li>
-	 * </ul>
-	 * <strong>Note</strong>: It is recommended to use the
-	 * <code>{@link CKEDITOR.ENTER_P}</code> setting because of its semantic value and
-	 * correctness. The editor is optimized for this setting.
-	 * @type Number
-	 * @default <code>{@link CKEDITOR.ENTER_P}</code>
-	 * @example
-	 * // Not recommended.
-	 * config.enterMode = CKEDITOR.ENTER_BR;
+	 *
+	 * * ```{@link CKEDITOR#ENTER_P}``` (1) &ndash; new ```<p>``` paragraphs are created;
+	 * * ```{@link CKEDITOR#ENTER_BR}``` (2) &ndash; lines are broken with ```<br>``` elements;
+	 * * ```{@link CKEDITOR#ENTER_DIV}``` (3) &ndash; new ```<div>``` blocks are created.
+	 *
+	 * **Note**: It is recommended to use the ```{@link CKEDITOR#ENTER_P}``` setting because of
+	 * its semantic value and correctness. The editor is optimized for this setting.
+	 *
+	 *		// Not recommended.
+	 *		config.enterMode = CKEDITOR.ENTER_BR;
+	 *
+	 * @cfg {Number} [=CKEDITOR.ENTER_P]
 	 */
 	enterMode: CKEDITOR.ENTER_P,
 
@@ -145,6 +152,8 @@ CKEDITOR.config = {
 	 * @example
 	 * // Not recommended.
 	 * config.forceEnterMode = true;
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	forceEnterMode: false,
 
@@ -161,6 +170,8 @@ CKEDITOR.config = {
 	 * @default <code>{@link CKEDITOR.ENTER_BR}</code>
 	 * @example
 	 * config.shiftEnterMode = CKEDITOR.ENTER_P;
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	shiftEnterMode: CKEDITOR.ENTER_BR,
 
@@ -171,6 +182,8 @@ CKEDITOR.config = {
 	 * @example
 	 * // Set the DOCTYPE to the HTML 4 (Quirks) mode.
 	 * config.docType = '&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;';
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	docType: '<!DOCTYPE html>',
 
@@ -185,6 +198,8 @@ CKEDITOR.config = {
 	 * @default <code>''</code> (empty)
 	 * @example
 	 * config.bodyId = 'contents_id';
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	bodyId: '',
 
@@ -199,6 +214,8 @@ CKEDITOR.config = {
 	 * @default <code>''</code> (empty)
 	 * @example
 	 * config.bodyClass = 'contents';
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	bodyClass: '',
 
@@ -213,6 +230,8 @@ CKEDITOR.config = {
 	 * @default <code>false</code>
 	 * @example
 	 * config.fullPage = true;
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	fullPage: false,
 
@@ -229,6 +248,8 @@ CKEDITOR.config = {
 	 * config.height = '25em'; // CSS length.
 	 * @example
 	 * config.height = '300px'; // CSS length.
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	height: 200,
 
@@ -238,6 +259,8 @@ CKEDITOR.config = {
 	 * <code>{@link CKEDITOR.config.extraPlugins}</code> and <code>{@link CKEDITOR.config.removePlugins}</code>.
 	 * @type String
 	 * @example
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	plugins: '', // %REMOVE_LINE%
 
@@ -247,6 +270,8 @@ CKEDITOR.config = {
 	 * @type String
 	 * @example
 	 * config.extraPlugins = 'myplugin,anotherplugin';
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	extraPlugins: '',
 
@@ -257,6 +282,8 @@ CKEDITOR.config = {
 	 * @type String
 	 * @example
 	 * config.removePlugins = 'elementspath,save,font';
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	removePlugins: '',
 
@@ -270,6 +297,8 @@ CKEDITOR.config = {
 	 * config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP code
 	 * config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP code
 	 * config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net code
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	protectedSource: [],
 
@@ -279,6 +308,8 @@ CKEDITOR.config = {
 	 * @default <code>0</code> (zero)
 	 * @example
 	 * config.tabIndex = 1;
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	tabIndex: 0,
 
@@ -295,6 +326,8 @@ CKEDITOR.config = {
 	 * config.width = 850; // 850 pixels wide.
 	 * @example
 	 * config.width = '75%'; // CSS unit.
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	width: '',
 
@@ -304,6 +337,8 @@ CKEDITOR.config = {
 	 * @default <code>10000</code>
 	 * @example
 	 * config.baseFloatZIndex = 2000
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	baseFloatZIndex: 10000,
 
@@ -316,6 +351,8 @@ CKEDITOR.config = {
 	 * 	CKEDITOR.CTRL + 73, // CTRL+I
 	 * 	CKEDITOR.CTRL + 85 // CTRL+U
 	 * ]</code>
+	 * @cfg
+	 * @member CKEDITOR.editor
 	 */
 	blockedKeystrokes: [
 		CKEDITOR.CTRL + 66, // CTRL+B

@@ -11,15 +11,18 @@
 if ( !CKEDITOR.event ) {
 	/**
 	 * Creates an event class instance. This constructor is rearely used, being
-	 * the {@link #.implementOn} function used in class prototypes directly
+	 * the {@link #implementOn} function used in class prototypes directly
 	 * instead.
-	 * @class This is a base class for classes and objects that require event
-	 * handling features.<br />
-	 * <br />
+	 *
+	 * This is a base class for classes and objects that require event
+	 * handling features.
+	 *
 	 * Do not confuse this class with {@link CKEDITOR.dom.event} which is
 	 * instead used for DOM events. The CKEDITOR.event class implements the
 	 * internal event system used by the CKEditor to fire API related events.
-	 * @example
+	 *
+	 * @class
+	 * @constructor
 	 */
 	CKEDITOR.event = function() {};
 
