@@ -205,6 +205,12 @@ if ( !CKEDITOR.event ) {
 			},
 
 			/**
+			 * @static
+			 * @property {Boolean} useCapture
+			 * @todo
+			 */
+
+			/**
 			 * Register event handler under the capturing stage on supported target.
 			 */
 			capture: function() {

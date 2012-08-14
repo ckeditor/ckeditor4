@@ -17,6 +17,7 @@
  * using different data processors provided by specific plugins.
  *
  * @property {CKEDITOR.htmlDataProcessor} dataProcessor
+ * @member CKEDITOR.editor
  */
 
 /**
@@ -45,6 +46,7 @@
  * @param {String} [fixForBody] The tag name to be used if the data must be
  * fixed because it is supposed to be loaded direcly into the ```<body>```
  * tag. This is generally not used by non-HTML data processors.
+ * @todo fixForBody type - compare to htmlDataProcessor.
  */
 
 /**

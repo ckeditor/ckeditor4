@@ -4,6 +4,13 @@
  */
 
 (function() {
+	/**
+	 * @class
+	 * @extends CKEDITOR.dataProcessor
+	 * @constructor
+	 * @param {CKEDITOR.editor} editor
+	 * @todo
+	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
 		var config = editor.config,
 			dataFilter, htmlFilter;
@@ -19,7 +26,8 @@
 		htmlFilter.addRules( defaultHtmlFilterRules );
 
 		var defaultHtmlBlockFilterRules = {
-			elements: {} };
+			elements: {}
+		};
 
 		// The Root fragment is to be considered for BR cleanup when outputting.
 		defaultHtmlBlockFilterRules.root = getBlockExtension( true, false );
@@ -34,10 +42,12 @@
 		/**
 		 * Process the input (potentially malformed) HTML to a purified form which
 		 * is suitable to be used in the wysiwyg editable.
-		 * @param data The raw data
+		 *
+		 * @param {String} data The raw data.
 		 * @param {String} [context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
 		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
+		 * @returns {String}
 		 */
 		toHtml: function( data, context, fixForBody ) {
 			// param position shift when context is not specified.
@@ -123,6 +133,12 @@
 			return data;
 		},
 
+		/**
+		 * See {@link CKEDITOR.dataProcessor#toDataFormat}.
+		 *
+		 * @param {String} html
+		 * @returns {String}
+		 */
 		toDataFormat: function( html ) {
 			// The parent element will always be the editable.
 			var editable = this.editor.editable(),
@@ -529,22 +545,22 @@
 })();
 
 /**
- * Whether a filler text (non-breaking space entity - &nbsp;) will be inserted into empty block elements in HTML output,
- * this is used to render block elements properly with line-height; When a function is instead specified,
- * it'll be passed a {@link CKEDITOR.htmlParser.element} to decide whether adding the filler text
- * by expecting a boolean return value.
- * @name CKEDITOR.config.fillEmptyBlocks
- * @since 3.5
- * @type Boolean
- * @default true
- * @example
- * config.fillEmptyBlocks = false;	// Prevent filler nodes in all empty blocks.
+ * Whether a filler text (non-breaking space entity - ```&nbsp;```) will be
+ * inserted into empty block elements in HTML output,
+ * this is used to render block elements properly with ```line-height```
+ * When a function is instead specified, it'll be passed a {@link CKEDITOR.htmlParser.element}
+ * to decide whether adding the filler text by expecting a boolean return value.
  *
- * // Prevent filler node only in float cleaners.
- * config.fillEmptyBlocks = function( element )
- * {
- * 	if ( element.attributes[ 'class' ].indexOf ( 'clear-both' ) != -1 )
- * 		return false;
- * }
+ *		config.fillEmptyBlocks = false; // Prevent filler nodes in all empty blocks.
+ *
+ *		// Prevent filler node only in float cleaners.
+ *		config.fillEmptyBlocks = function( element ) {
+ *			if ( element.attributes[ 'class' ].indexOf( 'clear-both' ) != -1 )
+ *				return false;
+ *		};
+ *
+ * @since 3.5
+ * @cfg {Boolean} [fillEmptyBlocks=true]
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.fillEmptyBlocks = true;

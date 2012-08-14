@@ -4,15 +4,16 @@
  */
 
 /**
- * Creates a {@link CKEDITOR.htmlParser} class instance.
- * @class Provides an "event like" system to parse strings of HTML data.
- * @example
- * var parser = new CKEDITOR.htmlParser();
- * parser.onTagOpen = function( tagName, attributes, selfClosing )
- *     {
- *         alert( tagName );
- *     };
- * parser.parse( '&lt;p&gt;Some &lt;b&gt;text&lt;/b&gt;.&lt;/p&gt;' );
+ * Provides an "event like" system to parse strings of HTML data.
+ *
+ *		var parser = new CKEDITOR.htmlParser();
+ *		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+ *			alert( tagName );
+ *		};
+ *		parser.parse( '<p>Some <b>text</b>.</p>' ); // Alerts 'p', 'b'.
+ *
+ * @class
+ * @constructor
  */
 CKEDITOR.htmlParser = function() {
 	this._ = {
@@ -28,77 +29,73 @@ CKEDITOR.htmlParser = function() {
 		/**
 		 * Function to be fired when a tag opener is found. This function
 		 * should be overriden when using this class.
-		 * @param {String} tagName The tag name. The name is guarantted to be
-		 *		lowercased.
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+		 *			alert( tagName ); // e.g. 'b'
+		 *		} );
+		 *		parser.parse( '<!-- Example --><b>Hello</b>' );
+		 *
+		 * @param {String} tagName The tag name. The name is guarantted to be lowercased.
 		 * @param {Object} attributes An object containing all tag attributes. Each
-		 *		property in this object represent and attribute name and its
-		 *		value is the attribute value.
-		 * @param {Boolean} selfClosing true if the tag closes itself, false if the
-		 * 		tag doesn't.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onTagOpen = function( tagName, attributes, selfClosing )
-		 *     {
-		 *         alert( tagName );  // e.g. 'b'
-		 *     });
-		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
+		 * property in this object represent and attribute name and its value is the attribute value.
+		 * @param {Boolean} selfClosing ```true``` if the tag closes itself, false if the tag doesn't.
 		 */
 		onTagOpen: function() {},
 
 		/**
 		 * Function to be fired when a tag closer is found. This function
 		 * should be overriden when using this class.
-		 * @param {String} tagName The tag name. The name is guarantted to be
-		 *		lowercased.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onTagClose = function( tagName )
-		 *     {
-		 *         alert( tagName );  // e.g. "b"
-		 *     });
-		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		parser.onTagClose = function( tagName ) {
+		 *			alert( tagName ); // 'b'
+		 *		} );
+		 *		parser.parse( '<!-- Example --><b>Hello</b>' );
+		 *
+		 * @param {String} tagName The tag name. The name is guarantted to be lowercased.
 		 */
 		onTagClose: function() {},
 
 		/**
 		 * Function to be fired when text is found. This function
 		 * should be overriden when using this class.
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		parser.onText = function( text ) {
+		 *			alert( text ); // 'Hello'
+		 *		} );
+		 *		parser.parse( '<!-- Example --><b>Hello</b>' );
+		 *
 		 * @param {String} text The text found.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onText = function( text )
-		 *     {
-		 *         alert( text );  // e.g. 'Hello'
-		 *     });
-		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
 		onText: function() {},
 
 		/**
 		 * Function to be fired when CDATA section is found. This function
 		 * should be overriden when using this class.
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		parser.onCDATA = function( cdata ) {
+		 *			alert( cdata ); // 'var hello;'
+		 *		} );
+		 *		parser.parse( '<script>var hello;</script>' );
+		 *
 		 * @param {String} cdata The CDATA been found.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onCDATA = function( cdata )
-		 *     {
-		 *         alert( cdata );  // e.g. 'var hello;'
-		 *     });
-		 * parser.parse( "&lt;script&gt;var hello;&lt;/script&gt;" );
 		 */
 		onCDATA: function() {},
 
 		/**
 		 * Function to be fired when a commend is found. This function
 		 * should be overriden when using this class.
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		parser.onComment = function( comment ) {
+		 *			alert( comment ); // ' Example '
+		 *		} );
+		 *		parser.parse( '<!-- Example --><b>Hello</b>' );
+		 *
 		 * @param {String} comment The comment text.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * parser.onComment = function( comment )
-		 *     {
-		 *         alert( comment );  // e.g. ' Example '
-		 *     });
-		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
 		onComment: function() {},
 
@@ -106,12 +103,13 @@ CKEDITOR.htmlParser = function() {
 		 * Parses text, looking for HTML tokens, like tag openers or closers,
 		 * or comments. This function fires the onTagOpen, onTagClose, onText
 		 * and onComment function during its execution.
+		 *
+		 *		var parser = new CKEDITOR.htmlParser();
+		 *		// The onTagOpen, onTagClose, onText and onComment should be overriden
+		 *		// at this point.
+		 *		parser.parse( '<!-- Example --><b>Hello</b>' );
+		 *
 		 * @param {String} html The HTML to be parsed.
-		 * @example
-		 * var parser = new CKEDITOR.htmlParser();
-		 * // The onTagOpen, onTagClose, onText and onComment should be overriden
-		 * // at this point.
-		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
 		parse: function( html ) {
 			var parts, tagName,
