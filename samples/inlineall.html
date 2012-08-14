@@ -9,59 +9,120 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
 	<link href="sample.css" rel="stylesheet">
-	<link href="assets/2-col-grid.css" rel="stylesheet">
 	<style>
-
-		/* The following styles are just for this demo page purpose. */
-		#header, #main, #ref, #interpret
-		{
-			border: 3px solid transparent;
-			padding: 10px;
-		}
 
 		.cke_editable[contenteditable="true"]
 		{
 			outline: none !important;
 		}
 
-		#sampleTitle
-		{
-			margin: 10px 0 0;
-			border-bottom: 5px solid #05B2D2;
-		}
-
 		#container
 		{
-			margin-top: 30px;
-			background: #f5f5f5;
-			padding: 30px;
-			box-shadow: 1px 1px 3px 1px #ccc;
-			border: 1px solid #ccc;;
+			width: 960px;
+			margin: 30px auto 0;
 		}
 
-		#container .cke_editable[contenteditable="true"]
+		.editable
 		{
-			outline: 1px dotted #ddd !important;
 			padding: 10px;
-			opacity: .8;
+			outline: none !important;
 		}
 
-		#container .cke_editable:hover,
-		#container .cke_editable:focus
+		.editable[contenteditable="true"]
 		{
-			outline: 1px dotted #aaa !important;
-			background: #fff;
-			opacity: 1;
+			cursor: pointer;
+		}
+
+		.editable:hover,
+		.editable:focus
+		{
 
 		}
 
-		#container .cke_editable:focus {
-			box-shadow: inset 0px 0px 6px 3px #ddd;
+		.editable:focus {
+			box-shadow: inset 0px 0px 20px 3px #ddd;
+			outline: 1px solid #ddd !important;
+			cursor: auto;
+			background: #eee;
+		}
+
+		#header
+		{
+			overflow: hidden;
+			padding: 0 0 30px;
+			border-bottom: 5px solid #05B2D2;
+			position: relative;
+		}
+
+		#headerLeft,
+		#headerRight
+		{
+			width: 50%;
+			overflow: hidden;
+		}
+
+		#headerLeft
+		{
+			float: left;
+			padding: 10px 0 0;
+		}
+
+		#headerLeft h2,
+		#headerLeft h3
+		{
+			text-align: right;
+			margin: 0;
+			overflow: hidden;
+			font-weight: normal;
+		}
+
+		#headerLeft h2
+		{
+			font-family: "Arial Black";
+			font-size: 4.6em;
+			line-height: .9em;
+			text-transform: uppercase;
+		}
+
+		#headerLeft h3
+		{
+			font-size: 2.3em;
+			line-height: 1.1em;
+			margin: .5em 0 0;
+			color: #666;
+		}
+
+		#headerRight
+		{
+			float: right;
+		}
+
+		#headerRight p
+		{
+			font-size: 1.4em;
+			text-align: justify;
+			line-height: 1.8em;
+			margin: 0;
+			color: #666;
+		}
+
+		#headerRight p + p
+		{
+			margin-top: 20px;
+		}
+
+		#headerRight div
+		{
+			padding: 20px;
+			margin: 0 0 0 30px;
 		}
 
 		#columns
 		{
+			font-size: 1.15em;
+			color: #333;
 			overflow: hidden;
+			padding: 20px 0;
 		}
 
 		#columns > div
@@ -82,7 +143,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		#columns > div > div
 		{
-			margin: 20px 10px;
+			margin: 0px 10px;
 			padding: 10px 20px;
 		}
 
@@ -118,20 +179,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 <div>
-	<h1 class="samples" contenteditable="true"><a href="index.html">CKEditor Samples</a> &raquo; Massive inline editing</h1>
-	<div class="description"  contenteditable="true">
+	<h1 class="samples"><a href="index.html">CKEditor Samples</a> &raquo; Massive inline editing</h1>
+	<div class="description">
 		<p>This sample page demonstrates the inline editing feature - CKEditor instances will be created automatically from page elements with <strong>contentEditable</strong> attribute set to value <strong>true</strong>:</p>
 		<pre class="samples">&lt;div <strong>contenteditable="true</strong>" &gt; ... &lt;/div&gt;</pre>
-		<p>Click inside on the section surrounded by orange dotted line to start editing.</p>
+		<p>Click inside of any element below to start editing.</p>
 	</div>
 </div>
 <div id="container">
-	<h2 id="sampleTitle" contenteditable="true">
-		Latest news: CKEditor went totally inline!
-	</h2>
+	<div id="header">
+		<div id="headerLeft">
+			<h2 id="sampleTitle" contenteditable="true" class="editable">
+				CKEditor<br> Went Inline!
+			</h2>
+			<h3 contenteditable="true" class="editable">
+				Lorem ipsum dolor sit amet dolor duis blandit vestibulum faucibus a, tortor.
+			</h3>
+		</div>
+		<div id="headerRight">
+			<div contenteditable="true" class="editable">
+				<p>
+					Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies.
+				</p>
+				<p>
+					Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac.
+				</p>
+			</div>
+		</div>
+	</div>
 	<div id="columns">
 		<div id="column1">
-			<div contenteditable="true">
+			<div contenteditable="true" class="editable">
 				<h3>
 					CKEditor went totally inline!
 				</h3>
@@ -156,11 +234,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				</blockquote>
 				<p>Pellentesque nunc. Donec suscipit erat. Pellentesque habitant morbi tristique ullamcorper.</p>
 				<p><strike>Mauris mattis feugiat lectus nec mauris. Nullam vitae ante.</strike></p>
-				<p>Proin imperdiet purus et pede id purus in lacus sagittis libero. Integer a neque vitae erat sed libero adipiscing mauris. Lorem ipsum primis in vestibulum iaculis. Pellentesque tempus leo non nunc. Sed.</p>
 			</div>
 		</div>
 		<div id="column2">
-			<div contenteditable="true">
+			<div contenteditable="true" class="editable">
 				<h3>
 					In hac habitasse platea dictumst
 				</h3>
@@ -170,7 +247,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				<p>Proin id nibh. Sed eu libero posuere sed, lectus. Phasellus dui gravida gravida feugiat mattis ac, felis.</p>
 				<p>Integer condimentum sit amet, tempor elit odio, a dolor non ante at sapien. Sed ac lectus. Nulla ligula quis eleifend mi, id leo velit pede cursus arcu id nulla ac lectus. Phasellus vestibulum. Nunc viverra enim quis diam.</p>
 			</div>
-			<div contenteditable="true">
+			<div contenteditable="true" class="editable">
 				<h3>
 					CKEditor went inline!
 				</h3>
@@ -180,7 +257,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</div>
 		</div>
 		<div id="column3">
-			<div contenteditable="true">
+			<div contenteditable="true" class="editable">
 				<p>
 					<img src="assets/inlineall/logo.png" alt="CKEditor logo" style="float:left">
 				</p>
@@ -201,7 +278,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</div>
 	<div id="tagLine">
 		Tags:
-		<p id="taglist" contenteditable="true">
+		<p id="taglist" contenteditable="true" class="editable">
 			nunc, libero, egestas, consequat, lobortis
 		</p>
 	</div>
@@ -213,26 +290,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		if ( editor.element.getName() in { h1: 1, h2: 2, h3: 1 } ) {
 			editor.config.toolbar = [
-				[ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo', '-', 'Link' ]
+				[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
+				'Undo', 'Redo', '-' ]
 			];
 		}
 	});
 
-	function finishEditing() {
-
-		var editor;
-
-		for ( var instance in CKEDITOR.instances ) {
-			editor = CKEDITOR.instances[ instance ];
-			editor.element.setAttribute( 'contentEditable', null );
-			editor.destroy();
-		}
-	}
-
 </script>
-<p>
-	<input type="button" value="Finish editing" onclick="finishEditing();">
-</p>
 <div id="footer">
 	<hr>
 	<p>
