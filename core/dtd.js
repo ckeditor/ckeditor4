@@ -21,13 +21,13 @@
  * with the ```$``` character.
  *
  *		// Check if <div> can be contained in a <p> element.
- *		alert( !!CKEDITOR.dtd[ 'p' ][ 'div' ] ); // 'false'
+ *		alert( !!CKEDITOR.dtd[ 'p' ][ 'div' ] ); // false
  *
  *		// Check if <p> can be contained in a <div> element.
- *		alert( !!CKEDITOR.dtd[ 'div' ][ 'p' ] ); // 'true'
+ *		alert( !!CKEDITOR.dtd[ 'div' ][ 'p' ] ); // true
  *
  *		// Check if <p> is a block element.
- *		alert( !!CKEDITOR.dtd.$block[ 'p' ] ); // 'true'
+ *		alert( !!CKEDITOR.dtd.$block[ 'p' ] ); // true
  *
  * @class CKEDITOR.dtd
  * @singleton

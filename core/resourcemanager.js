@@ -107,7 +107,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * @param {String} name The resource name.
 	 * @type String
 	 * @example
-	 * alert( <b>CKEDITOR.plugins.getPath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/"
+	 * alert( <b>CKEDITOR.plugins.getPath( 'sample' )</b> );  // '&lt;editor path&gt;/plugins/sample/'
 	 */
 	getPath: function( name ) {
 		var external = this.externals[ name ];
@@ -119,7 +119,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * @param {String} name The resource name.
 	 * @type String
 	 * @example
-	 * alert( <b>CKEDITOR.plugins.getFilePath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/plugin.js"
+	 * alert( <b>CKEDITOR.plugins.getFilePath( 'sample' )</b> );  // '&lt;editor path&gt;/plugins/sample/plugin.js'
 	 */
 	getFilePath: function( name ) {
 		var external = this.externals[ name ];
@@ -168,7 +168,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * @example
 	 * <b>CKEDITOR.plugins.load</b>( 'myplugin', function( plugins )
 	 *     {
-	 *         alert( plugins['myplugin'] );  // "object"
+	 *         alert( plugins['myplugin'] );  // 'object'
 	 *     });
 	 */
 	load: function( names, callback, scope ) {

@@ -108,7 +108,7 @@ if ( !window.CKEDITOR ) {
 			 * global variable named ```CKEDITOR_BASEPATH```. This global variable
 			 * must be set **before** the editor script loading.
 			 *
-			 *		alert( CKEDITOR.basePath ); // 'http://www.example.com/ckeditor/' (e.g.)
+			 *		alert( CKEDITOR.basePath ); // e.g. 'http://www.example.com/ckeditor/'
 			 *
 			 * @property {String}
 			 */
@@ -160,13 +160,13 @@ if ( !window.CKEDITOR ) {
 			 * loading. If the custom implementation returns nothing (```==null```), the
 			 * default implementation is used.
 			 *
-			 *		// e.g. http://www.example.com/ckeditor/skins/default/editor.css?t=87dm
+			 *		// e.g. 'http://www.example.com/ckeditor/skins/default/editor.css?t=87dm'
 			 *		alert( CKEDITOR.getUrl( 'skins/default/editor.css' ) );
 			 *
-			 *		// e.g. http://www.example.com/skins/default/editor.css?t=87dm
+			 *		// e.g. 'http://www.example.com/skins/default/editor.css?t=87dm'
 			 *		alert( CKEDITOR.getUrl( '/skins/default/editor.css' ) );
 			 *
-			 *		// e.g. http://www.somesite.com/skins/default/editor.css?t=87dm
+			 *		// e.g. 'http://www.somesite.com/skins/default/editor.css?t=87dm'
 			 *		alert( CKEDITOR.getUrl( 'http://www.somesite.com/skins/default/editor.css' ) );
 			 *
 			 * @param {String} resource The resource whose full URL we want to get.

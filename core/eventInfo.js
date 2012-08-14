@@ -34,7 +34,7 @@
  * The object that publishes (sends) the event.
  *
  *		someObject.on( 'someEvent', function( event ) {
- *			alert( event.sender == someObject ); // 'true'
+ *			alert( event.sender == someObject ); // true
  *		} );
  *		someObject.fire( 'someEvent' );
  *
@@ -47,7 +47,7 @@
  * running in standalone mode.
  *
  *		myButton.on( 'someEvent', function( event ) {
- *			alert( event.editor == myEditor ); // 'true'
+ *			alert( event.editor == myEditor ); // true
  *		} );
  *		myButton.fire( 'someEvent', null, myEditor );
  *
@@ -69,7 +69,7 @@
  * Any extra data appended during the listener registration.
  *
  *		someObject.on( 'someEvent', function( event ) {
- *			alert( event.listenerData ); // Example
+ *			alert( event.listenerData ); // 'Example'
  *		}, null, 'Example' );
  *
  * @property listenerData
@@ -84,7 +84,7 @@
  *		someObject.on( 'someEvent', function( event ) {
  *			// This one will not be called.
  *		} );
- *		alert( someObject.fire( 'someEvent' ) ); // 'false'
+ *		alert( someObject.fire( 'someEvent' ) ); // false
  *
  * @method stop
  */
@@ -98,7 +98,7 @@
  *		someObject.on( 'someEvent', function( event ) {
  *			// This one will not be called.
  *		} );
- *		alert( someObject.fire( 'someEvent' ) ); // 'true'
+ *		alert( someObject.fire( 'someEvent' ) ); // true
  *
  * @method cancel
  */

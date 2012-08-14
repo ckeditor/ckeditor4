@@ -27,7 +27,7 @@
 		 * Indicates that the editor instance has focus.
 		 * @type Boolean
 		 * @example
-		 * alert( CKEDITOR.instances.editor1.focusManager.hasFocus );  // e.g "true"
+		 * alert( CKEDITOR.instances.editor1.focusManager.hasFocus );  // e.g. true
 		 */
 		this.hasFocus = false;
 

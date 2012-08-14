@@ -76,10 +76,10 @@
 		 * var clone = CKEDITOR.tools.clone( obj );
 		 * clone.name = 'Paul';
 		 * clone.cars.Porsche.color = 'silver';
-		 * alert( obj.name );	// John
-		 * alert( clone.name );	// Paul
-		 * alert( obj.cars.Porsche.color );	// red
-		 * alert( clone.cars.Porsche.color );	// silver
+		 * alert( obj.name );	// 'John'
+		 * alert( clone.name );	// 'Paul'
+		 * alert( obj.cars.Porsche.color );	// 'red'
+		 * alert( clone.cars.Porsche.color );	// 'silver'
 		 */
 		clone: function( obj ) {
 			var clone;
@@ -144,7 +144,7 @@
 		 *         prop3 : true
 		 *     } );
 		 *
-		 * // Alert "prop1", "prop2" and "prop3".
+		 * // Alert 'prop1', 'prop2' and 'prop3'.
 		 * for ( var p in myObject )
 		 *     alert( p );
 		 */
@@ -195,8 +195,8 @@
 		 * @type Boolean
 		 * @returns <i>true</i> if the object is an Array, otherwise <i>false</i>.
 		 * @example
-		 * alert( CKEDITOR.tools.isArray( [] ) );      // "true"
-		 * alert( CKEDITOR.tools.isArray( 'Test' ) );  // "false"
+		 * alert( CKEDITOR.tools.isArray( [] ) );      // true
+		 * alert( CKEDITOR.tools.isArray( 'Test' ) );  // false
 		 */
 		isArray: function( object ) {
 			return ( !!object && object instanceof Array );
@@ -241,8 +241,8 @@
 		 * @param {String} cssName The CSS property name.
 		 * @returns {String} The transformed name.
 		 * @example
-		 * alert( CKEDITOR.tools.cssStyleToDomStyle( 'background-color' ) );  // "backgroundColor"
-		 * alert( CKEDITOR.tools.cssStyleToDomStyle( 'float' ) );             // "cssFloat"
+		 * alert( CKEDITOR.tools.cssStyleToDomStyle( 'background-color' ) );  // 'backgroundColor'
+		 * alert( CKEDITOR.tools.cssStyleToDomStyle( 'float' ) );             // 'cssFloat'
 		 */
 		cssStyleToDomStyle: (function() {
 			var test = document.createElement( 'div' ).style;
@@ -287,7 +287,7 @@
 		 * @param {String} text The string to be encoded.
 		 * @returns {String} The encode string.
 		 * @example
-		 * alert( CKEDITOR.tools.htmlEncode( 'A > B & C < D' ) );  // "A &amp;gt; B &amp;amp; C &amp;lt; D"
+		 * alert( CKEDITOR.tools.htmlEncode( 'A > B & C < D' ) );  // 'A &amp;gt; B &amp;amp; C &amp;lt; D'
 		 */
 		htmlEncode: function( text ) {
 			return String(text)
@@ -302,7 +302,7 @@
 		 * @returns {String} The encode value.
 		 * @example
 		 * element.setAttribute( 'title', '<a " b >' );
-		 * alert( CKEDITOR.tools.htmlEncodeAttr( element.getAttribute( 'title' ) );  // "&gt;a &quot; b &lt;"
+		 * alert( CKEDITOR.tools.htmlEncodeAttr( element.getAttribute( 'title' ) );  // '&gt;a &quot; b &lt;'
 		 */
 		htmlEncodeAttr: function( text ) {
 			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
@@ -314,8 +314,8 @@
 		 * @function
 		 * @returns {Number} A unique number.
 		 * @example
-		 * alert( CKEDITOR.tools.<b>getNextNumber()</b> );  // "1" (e.g.)
-		 * alert( CKEDITOR.tools.<b>getNextNumber()</b> );  // "2"
+		 * alert( CKEDITOR.tools.<b>getNextNumber()</b> );  // 1 (e.g.)
+		 * alert( CKEDITOR.tools.<b>getNextNumber()</b> );  // 2
 		 */
 		getNextNumber: (function() {
 			var last = 0;
@@ -330,8 +330,8 @@
 		 * @function
 		 * @returns {String} A unique ID.
 		 * @example
-		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // "cke_1" (e.g.)
-		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // "cke_2"
+		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // 'cke_1' (e.g.)
+		 * alert( CKEDITOR.tools.<b>getNextId()</b> );  // 'cke_2'
 		 */
 		getNextId: function() {
 			return 'cke_' + this.getNextNumber();
@@ -410,7 +410,7 @@
 		 * @param {String} str The text from which remove the spaces.
 		 * @returns {String} The modified string without the boundary spaces.
 		 * @example
-		 * alert( CKEDITOR.tools.trim( '  example ' );  // "example"
+		 * alert( CKEDITOR.tools.trim( '  example ' );  // 'example'
 		 */
 		trim: (function() {
 			// We are not using \s because we don't want "non-breaking spaces" to be caught.
@@ -427,7 +427,7 @@
 		 * @param {String} str The text from which remove the spaces.
 		 * @returns {String} The modified string excluding the removed spaces.
 		 * @example
-		 * alert( CKEDITOR.tools.ltrim( '  example ' );  // "example "
+		 * alert( CKEDITOR.tools.ltrim( '  example ' );  // 'example '
 		 */
 		ltrim: (function() {
 			// We are not using \s because we don't want "non-breaking spaces" to be caught.
@@ -444,7 +444,7 @@
 		 * @param {String} str The text from which remove the spaces.
 		 * @returns {String} The modified string excluding the removed spaces.
 		 * @example
-		 * alert( CKEDITOR.tools.ltrim( '  example ' );  // "  example"
+		 * alert( CKEDITOR.tools.ltrim( '  example ' );  // '  example'
 		 */
 		rtrim: (function() {
 			// We are not using \s because we don't want "non-breaking spaces" to be caught.
@@ -464,8 +464,8 @@
 		 *		the entry, or -1 if not found.
 		 * @example
 		 * var letters = [ 'a', 'b', 0, 'c', false ];
-		 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  "-1" because 0 !== '0'
-		 * alert( CKEDITOR.tools.indexOf( letters, false ) );  "4" because 0 !== false
+		 * alert( CKEDITOR.tools.indexOf( letters, '0' ) );  // -1 because 0 !== '0'
+		 * alert( CKEDITOR.tools.indexOf( letters, false ) );  // 4 because 0 !== false
 		 */
 		indexOf: function( array, value ) {
 			if ( typeof value == 'function' ) {
@@ -505,7 +505,7 @@
 		 * }
 		 *
 		 * var newFunc = <b>CKEDITOR.tools.bind( alertText, obj )</b>;
-		 * newFunc();  // Alerts "My Object".
+		 * newFunc();  // Alerts 'My Object'.
 		 */
 		bind: function( func, obj ) {
 			return function() {
@@ -592,7 +592,7 @@
 		 *     {
 		 *         alert( 'Hello!');
 		 *     });
-		 * CKEDITOR.tools.callFunction( ref );  // Hello!
+		 * CKEDITOR.tools.callFunction( ref );  // 'Hello!'
 		 */
 		addFunction: function( fn, scope ) {
 			return functions.push( function() {
@@ -712,7 +712,7 @@
 		 * @param {String} subKey One or more string used as sub keys.
 		 * @example
 		 * var key = CKEDITOR.tools.genKey( 'key1', 'key2', 'key3' );
-		 * alert( key );		// "key1-key2-key3".
+		 * alert( key );		// 'key1-key2-key3'.
 		 */
 		genKey: function() {
 			return Array.prototype.slice.call( arguments ).join( '-' );

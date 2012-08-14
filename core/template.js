@@ -18,8 +18,8 @@
 	 * @example
 	 * <code>
 	 *	// Html template for presenting a label UI.
-	 *	var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>');
-	 *	alert(tpl.output({ cls: 'cke-label', label: 'foo'})); => '<div class="cke-label">foo</div>'
+	 *	var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>' );
+	 *	alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 * </code>
 	 */
 	CKEDITOR.template = function( source ) {

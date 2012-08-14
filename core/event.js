@@ -97,11 +97,11 @@ if ( !CKEDITOR.event ) {
 			 * Registers a listener to a specific event in the current object.
 			 *
 			 *		someObject.on( 'someEvent', function() {
-			 *			alert( this == someObject );		// 'true'
+			 *			alert( this == someObject );		// true
 			 *		} );
 			 *
 			 *		someObject.on( 'someEvent', function() {
-			 *			alert( this == anotherObject );		// 'true'
+			 *			alert( this == anotherObject );		// true
 			 *		}, anotherObject );
 			 *
 			 *		someObject.on( 'someEvent', function( event ) {
@@ -366,8 +366,8 @@ if ( !CKEDITOR.event ) {
 			 *
 			 *		var myListener = function() { ... };
 			 *		someObject.on( 'someEvent', myListener );
-			 *		alert( someObject.hasListeners( 'someEvent' ) );	// 'true'
-			 *		alert( someObject.hasListeners( 'noEvent' ) );		// 'false'
+			 *		alert( someObject.hasListeners( 'someEvent' ) );	// true
+			 *		alert( someObject.hasListeners( 'noEvent' ) );		// false
 			 *
 			 * @param {String} eventName The event name.
 			 * @returns {Boolean}

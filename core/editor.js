@@ -107,7 +107,7 @@
 		 * the page when creating the editor.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
-		 *		alert( editor.config.skin ); // 'kama' e.g.
+		 *		alert( editor.config.skin ); // e.g. 'kama'
 		 *
 		 * @property {CKEDITOR.config}
 		 */
@@ -304,7 +304,7 @@
 		 * setting or taken from the ```tabindex``` attribute of the
 		 * ```{@link #element}``` associated with the editor.
 		 *
-		 *		alert( editor.tabIndex ); // E.g. '0'
+		 *		alert( editor.tabIndex ); // e.g. 0
 		 *
 		 * @property {Number} [=0]
 		 */
@@ -333,7 +333,7 @@
 			 * The code for the language resources that have been loaded
 			 * for the user interface elements of this editor instance.
 			 *
-			 *		alert( editor.langCode ); // E.g. 'en'
+			 *		alert( editor.langCode ); // e.g. 'en'
 			 *
 			 * @property {String}
 			 */
@@ -342,7 +342,7 @@
 			/**
 			 * An object that contains all language strings used by the editor interface.
 			 *
-			 *		alert( editor.lang.basicstyles.bold ); // E.g. "Negrito" (if the language is set to Portuguese)
+			 *		alert( editor.lang.basicstyles.bold ); // e.g. 'Negrito' (if the language is set to Portuguese)
 			 *
 			 * @property {CKEDITOR.lang} lang
 			 */
@@ -404,7 +404,7 @@
 			 * An object that contains references to all plugins used by this
 			 * editor instance.
 			 *
-			 *		alert( editor.plugins.dialog.path ); // E.g. 'http://example.com/ckeditor/plugins/dialog/'
+			 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
 			 *
 			 * @property {Object}
 			 */
@@ -521,9 +521,9 @@
 		 * Destroys the editor instance, releasing all resources used by it.
 		 * If the editor replaced an element, the element will be recovered.
 		 *
-		 *		alert( CKEDITOR.instances.editor1 ); // E.g 'object'
+		 *		alert( CKEDITOR.instances.editor1 ); // e.g. object
 		 *		CKEDITOR.instances.editor1.destroy();
-		 *		alert( CKEDITOR.instances.editor1 ); // 'undefined'
+		 *		alert( CKEDITOR.instances.editor1 ); // undefined
 		 *
 		 * @param {Boolean} [noUpdate] If the instance is replacing a DOM
 		 * element, this parameter indicates whether or not to update the
@@ -827,9 +827,9 @@
 		 * ```{@link #checkDirty}``` will return ```false``` if the user will not
 		 * have made further changes to the contents.
 		 *
-		 *		alert( editor.checkDirty() ); // E.g. 'true'
+		 *		alert( editor.checkDirty() ); // e.g. true
 		 *		editor.resetDirty();
-		 *		alert( editor.checkDirty() ); // 'false'
+		 *		alert( editor.checkDirty() ); // false
 		 */
 		resetDirty: function() {
 			this._.previousValue = this.getSnapshot();

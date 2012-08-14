@@ -39,8 +39,8 @@ CKEDITOR.scriptLoader = (function() {
 		 * @example
 		 * CKEDITOR.scriptLoader.load( '/myscript.js', function( success )
 		 *     {
-		 *         // Alerts "true" if the script has been properly loaded.
-		 *         // HTTP error 404 should return "false".
+		 *         // Alerts true if the script has been properly loaded.
+		 *         // HTTP error 404 should return false.
 		 *         alert( success );
 		 *     });
 		 * @example

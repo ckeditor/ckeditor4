@@ -39,7 +39,7 @@ CKEDITOR.htmlParser = function() {
 		 * var parser = new CKEDITOR.htmlParser();
 		 * parser.onTagOpen = function( tagName, attributes, selfClosing )
 		 *     {
-		 *         alert( tagName );  // e.g. "b"
+		 *         alert( tagName );  // e.g. 'b'
 		 *     });
 		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
@@ -68,7 +68,7 @@ CKEDITOR.htmlParser = function() {
 		 * var parser = new CKEDITOR.htmlParser();
 		 * parser.onText = function( text )
 		 *     {
-		 *         alert( text );  // e.g. "Hello"
+		 *         alert( text );  // e.g. 'Hello'
 		 *     });
 		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
@@ -82,7 +82,7 @@ CKEDITOR.htmlParser = function() {
 		 * var parser = new CKEDITOR.htmlParser();
 		 * parser.onCDATA = function( cdata )
 		 *     {
-		 *         alert( cdata );  // e.g. "var hello;"
+		 *         alert( cdata );  // e.g. 'var hello;'
 		 *     });
 		 * parser.parse( "&lt;script&gt;var hello;&lt;/script&gt;" );
 		 */
@@ -96,7 +96,7 @@ CKEDITOR.htmlParser = function() {
 		 * var parser = new CKEDITOR.htmlParser();
 		 * parser.onComment = function( comment )
 		 *     {
-		 *         alert( comment );  // e.g. " Example "
+		 *         alert( comment );  // e.g. ' Example '
 		 *     });
 		 * parser.parse( "&lt;!-- Example --&gt;&lt;b&gt;Hello&lt;/b&gt;" );
 		 */
