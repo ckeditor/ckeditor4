@@ -75,7 +75,9 @@ CKEDITOR.plugins.add( 'menubutton', {
 
 /**
  * Button UI element.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {String} [='menubutton']
+ * @member CKEDITOR
  */
 CKEDITOR.UI_MENUBUTTON = 'menubutton';

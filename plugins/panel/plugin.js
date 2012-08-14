@@ -12,8 +12,10 @@
 
 	/**
 	 * Panel UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='panel']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_PANEL = 'panel';
 

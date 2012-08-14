@@ -52,8 +52,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	/**
 	 * Button UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='richcombo']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_RICHCOMBO = 'richcombo';
 

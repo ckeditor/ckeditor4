@@ -9,25 +9,37 @@
 
 /**
  * No resize for this dialog.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=0]
+ * @member CKEDITOR
  */
 CKEDITOR.DIALOG_RESIZE_NONE = 0;
 
 /**
  * Only allow horizontal resizing for this dialog, disable vertical resizing.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
  */
 CKEDITOR.DIALOG_RESIZE_WIDTH = 1;
 
 /**
  * Only allow vertical resizing for this dialog, disable horizontal resizing.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
  */
 CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
 
 /**
  * Allow the dialog to be resized in both directions.
- * @constant
+ *
+ * @readonly
+ * @property {Number} [=3]
+ * @member CKEDITOR
  */
 CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 

@@ -53,8 +53,10 @@
 
 	/**
 	 * Button UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='button']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_BUTTON = 'button';
 

@@ -33,32 +33,47 @@ CKEDITOR.dom.node.prototype = new CKEDITOR.dom.domObject();
 
 /**
  * Element node type.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
  */
 CKEDITOR.NODE_ELEMENT = 1;
 
 /**
  * Document node type.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=9]
+ * @member CKEDITOR
  */
 CKEDITOR.NODE_DOCUMENT = 9;
 
 /**
  * Text node type.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=3]
+ * @member CKEDITOR
  */
 CKEDITOR.NODE_TEXT = 3;
 
 /**
  * Comment node type.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=8]
+ * @member CKEDITOR
  */
 CKEDITOR.NODE_COMMENT = 8;
 
+/**
+ * Document fragment node type.
+ *
+ * @readonly
+ * @property {Number} [=11]
+ * @member CKEDITOR
+ */
 CKEDITOR.NODE_DOCUMENT_FRAGMENT = 11;
 
 CKEDITOR.POSITION_IDENTICAL = 0;

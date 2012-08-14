@@ -117,21 +117,27 @@ CKEDITOR.dom.event.prototype = {
 // (0x10FFFF) to avoid collision.
 /**
  * CTRL key (0x110000).
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=0x110000]
+ * @member CKEDITOR
  */
 CKEDITOR.CTRL = 0x110000;
 
 /**
  * SHIFT key (0x220000).
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=0x220000]
+ * @member CKEDITOR
  */
 CKEDITOR.SHIFT = 0x220000;
 
 /**
  * ALT key (0x440000).
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {Number} [=0x440000]
+ * @member CKEDITOR
  */
 CKEDITOR.ALT = 0x440000;

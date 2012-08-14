@@ -489,28 +489,37 @@
 
 	/**
 	 * No selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
-	 *     alert( 'Nothing is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
+	 *			alert( 'Nothing is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_NONE = 1;
 
 	/**
 	 * A text or a collapsed selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
-	 *     alert( 'A text is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
+	 *			alert( 'A text is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_TEXT = 2;
 
 	/**
 	 * Element selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
-	 *     alert( 'An element is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
+	 *			alert( 'An element is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=3]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 

@@ -119,7 +119,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 /**
  * Button UI element.
- * @constant
- * @example
+ *
+ * @readonly
+ * @property {String} [='panelbutton']
+ * @member CKEDITOR
  */
 CKEDITOR.UI_PANELBUTTON = 'panelbutton';
