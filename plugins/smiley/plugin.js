@@ -34,7 +34,7 @@ CKEDITOR.plugins.add( 'smiley', {
 /**
  * The file names for the smileys to be displayed. These files must be
  * contained inside the URL path defined with the
- * {@link CKEDITOR.config.smiley_path} setting.
+ * {@link CKEDITOR.config#smiley_path} setting.
  * @type Array
  * @default (see example)
  * @example
@@ -53,8 +53,8 @@ CKEDITOR.config.smiley_images = [
 
 /**
  * The description to be used for each of the smileys defined in the
- * {@link CKEDITOR.config.smiley_images} setting. Each entry in this array list
- * must match its relative pair in the {@link CKEDITOR.config.smiley_images}
+ * {@link CKEDITOR.config#smiley_images} setting. Each entry in this array list
+ * must match its relative pair in the {@link CKEDITOR.config#smiley_images}
  * setting.
  * @type Array
  * @default  The textual descriptions of smiley.

@@ -119,7 +119,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * Change the editing mode of this editor instance.
 	 * <strong>Note:</strong> The mode switch could be asynchronous depending on the mode provider,
 	 * use the {@param callback} to hook subsequent code.
-	 * @param {String} [newMode] If not specified the {@link CKEDITOR.config.startupMode} will be used.
+	 * @param {String} [newMode] If not specified the {@link CKEDITOR.config#startupMode} will be used.
 	 * @param {Function} [callback] Optional callback function which invoked once the mode switch has succeeded.
 	 * @example
 	 * // Switch to "source" view.

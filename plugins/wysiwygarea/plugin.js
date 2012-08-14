@@ -642,7 +642,7 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * Disables the built-in words spell checker if browser provides one.<br /><br />
  *
  * <strong>Note:</strong> Although word suggestions provided by browsers (natively) will not appear in CKEditor's default context menu,
- * users can always reach the native context menu by holding the <em>Ctrl</em> key when right-clicking if {@link CKEDITOR.config.browserContextMenuOnCtrl}
+ * users can always reach the native context menu by holding the <em>Ctrl</em> key when right-clicking if {@link CKEDITOR.config#browserContextMenuOnCtrl}
  * is enabled or you're simply not using the context menu plugin.
  *
  * @type Boolean

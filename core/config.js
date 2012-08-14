@@ -9,8 +9,8 @@
  */
 
 /**
- * Used in conjunction with <code>{@link CKEDITOR.config.enterMode}</code>
- * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
+ * Used in conjunction with <code>{@link CKEDITOR.config#enterMode}</code>
+ * and <code>{@link CKEDITOR.config#shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;p&gt;</code> tags when
  * using the <em>Enter</em> key.
  *
@@ -21,8 +21,8 @@
 CKEDITOR.ENTER_P = 1;
 
 /**
- * Used in conjunction with <code>{@link CKEDITOR.config.enterMode}</code>
- * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
+ * Used in conjunction with <code>{@link CKEDITOR.config#enterMode}</code>
+ * and <code>{@link CKEDITOR.config#shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;br&gt;</code> tags when
  * using the <em>Enter</em> key.
  *
@@ -33,8 +33,8 @@ CKEDITOR.ENTER_P = 1;
 CKEDITOR.ENTER_BR = 2;
 
 /**
- * Used in conjunction with <code>{@link CKEDITOR.config.enterMode}</code>
- * and <code>{@link CKEDITOR.config.shiftEnterMode}</code> configuration
+ * Used in conjunction with <code>{@link CKEDITOR.config#enterMode}</code>
+ * and <code>{@link CKEDITOR.config#shiftEnterMode}</code> configuration
  * settings to make the editor produce <code>&lt;div&gt;</code> tags when
  * using the <em>Enter</em> key.
  *
@@ -141,8 +141,8 @@ CKEDITOR.config = {
 	enterMode: CKEDITOR.ENTER_P,
 
 	/**
-	 * Force the use of <code>{@link CKEDITOR.config.enterMode}</code> as line break regardless
-	 * of the context. If, for example, <code>{@link CKEDITOR.config.enterMode}</code> is set
+	 * Force the use of <code>{@link CKEDITOR.config#enterMode}</code> as line break regardless
+	 * of the context. If, for example, <code>{@link CKEDITOR.config#enterMode}</code> is set
 	 * to <code>{@link CKEDITOR.ENTER_P}</code>, pressing the <em>Enter</em> key inside a
 	 * <code>&lt;div&gt;</code> element will create a new paragraph with <code>&lt;p&gt;</code>
 	 * instead of a <code>&lt;div&gt;</code>.
@@ -158,7 +158,7 @@ CKEDITOR.config = {
 	forceEnterMode: false,
 
 	/**
-	 * Similarly to the <code>{@link CKEDITOR.config.enterMode}</code> setting, it defines the behavior
+	 * Similarly to the <code>{@link CKEDITOR.config#enterMode}</code> setting, it defines the behavior
 	 * of the <em>Shift+Enter</em> key combination.
 	 * The allowed values are the following constants the behavior outlined below:
 	 * <ul>
@@ -256,7 +256,7 @@ CKEDITOR.config = {
 	/**
 	 * Comma separated list of plugins to be used for an editor instance,
 	 * besides, the actual plugins that to be loaded could be still affected by two other settings:
-	 * <code>{@link CKEDITOR.config.extraPlugins}</code> and <code>{@link CKEDITOR.config.removePlugins}</code>.
+	 * <code>{@link CKEDITOR.config#extraPlugins}</code> and <code>{@link CKEDITOR.config#removePlugins}</code>.
 	 * @type String
 	 * @example
 	 * @cfg
@@ -266,7 +266,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
-	 * to add new plugins without having to touch <code>{@link CKEDITOR.config.plugins}</code> setting.
+	 * to add new plugins without having to touch <code>{@link CKEDITOR.config#plugins}</code> setting.
 	 * @type String
 	 * @example
 	 * config.extraPlugins = 'myplugin,anotherplugin';
@@ -277,7 +277,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of plugins that must not be loaded. This setting makes it possible
-	 * to avoid loading some plugins defined in the <code>{@link CKEDITOR.config.plugins}</code>
+	 * to avoid loading some plugins defined in the <code>{@link CKEDITOR.config#plugins}</code>
 	 * setting, without having to touch it.
 	 * @type String
 	 * @example
@@ -317,7 +317,7 @@ CKEDITOR.config = {
 	 * The editor UI outer width. This can be an integer, for pixel sizes, or
 	 * any CSS-defined unit.<br>
 	 * <br>
-	 * Unlike the <code>{@link CKEDITOR.config.height}</code> setting, this
+	 * Unlike the <code>{@link CKEDITOR.config#height}</code> setting, this
 	 * one will set the outer width of the entire editor UI, not for the
 	 * editing area only.
 	 * @type String|Number

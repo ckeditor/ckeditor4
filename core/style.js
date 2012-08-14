@@ -1368,7 +1368,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 };
 
 /**
- * Manages styles registration and loading. See also {@link CKEDITOR.config.stylesSet}.
+ * Manages styles registration and loading. See also {@link CKEDITOR.config#stylesSet}.
  * @namespace
  * @augments CKEDITOR.resourceManager
  * @constructor

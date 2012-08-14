@@ -1267,80 +1267,80 @@
 /**
  * Sets the default vertical distance between element edge and mouse pointer that
  * causes the box to appear. The distance is expressed in pixels (px).
- * @name CKEDITOR.config.magicline_triggerOffset
+ * @name CKEDITOR.config.line_triggerOffset
  * @type Number
  * @default <code>30</code>
- * @see CKEDITOR.config.magicline_holdDistance
+ * @see CKEDITOR.config.line_holdDistance
  * @example
  * // Increases the offset to 15px.
- * CKEDITOR.config.magicline_triggerOffset  = 15;
+ * CKEDITOR.config.line_triggerOffset  = 15;
  */
 
 /**
  * Defines the distance between mouse pointer and the box, within
  * which the box stays revealed and no other focus space is offered to be accessed.
- * The value is relative to {@link CKEDITOR.config.magicline_triggerOffset}.
- * @name CKEDITOR.config.magicline_holdDistance
+ * The value is relative to {@link CKEDITOR.config.line_triggerOffset}.
+ * @name CKEDITOR.config.line_holdDistance
  * @type Number
  * @default <code>.5</code>
- * @see CKEDITOR.config.magicline_triggerOffset
+ * @see CKEDITOR.config.line_triggerOffset
  * @example
- * // Increases the distance to 80% of {@link CKEDITOR.config.magicline_triggerOffset}.
- * CKEDITOR.config.magicline_holdDistance = .8;
+ * // Increases the distance to 80% of {@link CKEDITOR.config.line_triggerOffset}.
+ * CKEDITOR.config.line_holdDistance = .8;
  */
 
 // %REMOVE_START%
 /**
  * Defines default keystroke that inserts new paragraph before an element that
  * holds start of the current selection or just simply holds the caret.
- * @name CKEDITOR.config.magicline_keystrokeBefore
+ * @name CKEDITOR.config.line_keystrokeBefore
  * @type Number
  * @default <code>CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 // CTRL + SHIFT + [</code>
  * @example
  * // Changes keystroke to CTRL + SHIFT + ,
- * CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ * CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
  */
-//CKEDITOR.config.magicmagicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219, // CTRL + SHIFT + [
+//CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219, // CTRL + SHIFT + [
 /**
  * Defines default keystroke that inserts new paragraph after an element that
  * holds start of the current selection or just simply holds the caret.
- * @name CKEDITOR.config.magicline_keystrokeBefore
+ * @name CKEDITOR.config.line_keystrokeBefore
  * @type Number
  * @default <code>CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 // CTRK + SHIFT + ]</code>
  * @example
  * // Changes keystroke to CTRL + SHIFT + .
- * CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ * CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
  */
-//CKEDITOR.config.magicmagicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221, // CTRL + SHIFT + ],
+//CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221, // CTRL + SHIFT + ],
 // %REMOVE_END%
 /**
  * Defines box color. The color may be adjusted to enhance readability.
- * @name CKEDITOR.config.magicline_color
+ * @name CKEDITOR.config.line_boxColor
  * @type String
  * @default <code>'#FF0000'</code>
  * @example
  * // Changes color to blue.
- * CKEDITOR.config.magicline_color = '#0000FF';
+ * CKEDITOR.config.line_boxColor = '#0000FF';
  */
 
 /**
  * Defines box opacity. The opacity may be adjusted to enhance readability
  * by revealing underlying elements.
- * @name CKEDITOR.config.magicline_opacity
+ * @name CKEDITOR.config.line_boxOpacity
  * @type Number
  * @default <code>1</code>
  * @example
  * // Changes opacity to 30%.
- * CKEDITOR.config.magicline_opacity = .3;
+ * CKEDITOR.config.line_boxOpacity = .3;
  */
 
 /**
  * Activates plugin mode that considers all focus spaces between
  * {@link CKEDITOR.dtd.$block} elements as accessible by the box.
- * @name CKEDITOR.config.magicline_everywhere
+ * @name CKEDITOR.config.line_putEverywhere
  * @type Boolean
  * @default <code>false</code>
  * @example
- * // Enables "everywhere" mode.
- * CKEDITOR.config.magicline_everywhere = true;
+ * // Enables "put everywhere" mode.
+ * CKEDITOR.config.line_putEverywhere = true;
  */

@@ -1164,7 +1164,7 @@
 /**
  * Whether to remove element styles that can't be managed with the editor. Note
  * that this doesn't handle the font specific styles, which depends on the
- * {@link CKEDITOR.config.pasteFromWordRemoveFontStyles} setting instead.
+ * {@link CKEDITOR.config#pasteFromWordRemoveFontStyles} setting instead.
  * @name CKEDITOR.config.pasteFromWordRemoveStyles
  * @since 3.1
  * @type Boolean

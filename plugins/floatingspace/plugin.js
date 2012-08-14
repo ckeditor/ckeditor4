@@ -187,7 +187,7 @@
 })();
 
 /**
- * Along with {@link CKEDITOR.config.floatSpaceDockedOffsetY} it defines the
+ * Along with {@link CKEDITOR.config#floatSpaceDockedOffsetY} it defines the
  * amount of offset (in pixels) between float space and the editable left/right
  * boundaries when space element is docked at either side of the editable.
  * @name CKEDITOR.config.floatSpaceDockedOffsetX
@@ -198,7 +198,7 @@
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpaceDockedOffsetX} it defines the
+ * Along with {@link CKEDITOR.config#floatSpaceDockedOffsetX} it defines the
  * amount of offset (in pixels) between float space and the editable top/bottom
  * boundaries when space element is docked at either side of the editable.
  * @name CKEDITOR.config.floatSpaceDockedOffsetY
@@ -209,7 +209,7 @@
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpacePinnedOffsetY} it defines the
+ * Along with {@link CKEDITOR.config#floatSpacePinnedOffsetY} it defines the
  * amount of offset (in pixels) between float space and the view port boundaries
  * when space element is pinned.
  * @name CKEDITOR.config.floatSpacePinnedOffsetX
@@ -220,7 +220,7 @@
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpacePinnedOffsetX} it defines the
+ * Along with {@link CKEDITOR.config#floatSpacePinnedOffsetX} it defines the
  * amount of offset (in pixels) between float space and the view port boundaries
  * when space element is pinned.
  * @name CKEDITOR.config.floatSpacePinnedOffsetY

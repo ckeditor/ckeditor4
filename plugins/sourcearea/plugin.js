@@ -149,7 +149,7 @@ CKEDITOR.plugins.sourcearea = {
 
 /**
  * Controls CSS tab-size property of the sourcearea view.
- * <strong>Note:</strong> Works only with {@link CKEDITOR.config.dataIndentationChars}
+ * <strong>Note:</strong> Works only with {@link CKEDITOR.config#dataIndentationChars}
  * set to <code>'\t'</code>. Please consider that not all browsers support
  * tab-size property yet.
  * @name CKEDITOR.config.sourceAreaTabSize

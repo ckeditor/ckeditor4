@@ -413,7 +413,7 @@
 /**
  * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
  * button is pressed in the <strong>Image</strong> dialog window.
- * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config#filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageBrowseUrl
  * @since 3.0
  * @type String
@@ -425,7 +425,7 @@
 /**
  * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
  * button is pressed in the <strong>Flash</strong> dialog window.
- * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config#filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserFlashBrowseUrl
  * @since 3.0
  * @type String
@@ -436,7 +436,7 @@
 
 /**
  * The location of the script that handles file uploads in the <strong>Image</strong> dialog window.
- * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserUploadUrl}</code>.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config#filebrowserUploadUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageUploadUrl
  * @since 3.0
  * @type String
@@ -447,7 +447,7 @@
 
 /**
  * The location of the script that handles file uploads in the <strong>Flash</strong> dialog window.
- * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserUploadUrl}</code>.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config#filebrowserUploadUrl}</code>.
  * @name CKEDITOR.config.filebrowserFlashUploadUrl
  * @since 3.0
  * @type String
@@ -459,7 +459,7 @@
 /**
  * The location of an external file browser that should be launched when the <strong>Browse Server</strong>
  * button is pressed in the <strong>Link</strong> tab of the <strong>Image</strong> dialog window.
- * If not set, CKEditor will use <code>{@link CKEDITOR.config.filebrowserBrowseUrl}</code>.
+ * If not set, CKEditor will use <code>{@link CKEDITOR.config#filebrowserBrowseUrl}</code>.
  * @name CKEDITOR.config.filebrowserImageBrowseLinkUrl
  * @since 3.2
  * @type String
