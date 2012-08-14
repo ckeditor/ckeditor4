@@ -5,18 +5,22 @@
 
 (function() {
 	/**
-	 *  Editable class which provides all editing related activities by
-	 *  the "contenteditable" element, dynamically get attached to editor instance.
-	 * @class
+	 * Editable class which provides all editing related activities by
+	 * the ```contenteditable``` element, dynamically get attached to editor instance.
+	 *
+	 * @class CKEDITOR.editable
+	 * @extends CKEDITOR.dom.element
 	 */
 	CKEDITOR.editable = CKEDITOR.tools.createClass({
 		base: CKEDITOR.dom.element,
 		/**
 		 * The constructor hold only generic editable creation logic that are commonly shared among all different editable elements.
-		 * @param editor The editor instance on which the editable operates.
-		 * @param element Any DOM element that been used as the editor's editing container, e.g. it could be either
-		 * an HTML element with the "contenteditable" attribute set to the true that handles wysiwyg editing
-		 * or a &lt;textarea&gt; element that handles source editing.
+		 *
+		 * @constructor
+		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
+		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
+		 * editing container, e.g. it could be either an HTML element with the ```contenteditable``` attribute
+		 * set to the true that handles wysiwyg editing or a ```<textarea>``` element that handles source editing.
 		 */
 		$: function( editor, element ) {
 			// Transform the element into a CKEDITOR.dom.element instance.
@@ -26,7 +30,8 @@
 
 			/**
 			 * Indicate whether the editable element has gained focus.
-			 * @name CKEDITOR.editable.prototype.hasFocus
+			 *
+			 * @property {Boolean} hasFocus
 			 */
 			this.hasFocus = false;
 
@@ -50,7 +55,7 @@
 			},
 
 			/**
-			 * Override {@link CKEDITOR.dom.element.prototype.on} to have special focus/blur handling.
+			 * Override {@link CKEDITOR.dom.element#on} to have special focus/blur handling.
 			 * The "focusin/focusout" events are used in IE to replace regular "focus/blur" events
 			 * because we want to avoid the asynchronous nature of later ones.
 			 */
@@ -73,13 +78,8 @@
 
 			/**
 			 * Registers an event listener that needs to be removed on detaching.
-			 * @see CKEDITOR.event.prototype.on
-			 * @param obj
-			 * @param event
-			 * @param fn
-			 * @param scope
-			 * @param listenerData
-			 * @param priority
+			 *
+			 * @see CKEDITOR.event#on
 			 */
 			attachListener: function( obj, event, fn, scope, listenerData, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
@@ -102,8 +102,9 @@
 
 			/**
 			 * Adds a CSS class name to this editable that needs to be removed on detaching.
+			 *
 			 * @param {String} className The class name to be added.
-			 * @see CKEDITOR.dom.element.prototype.addClass
+			 * @see CKEDITOR.dom.element#addClass
 			 */
 			attachClass: function( cls ) {
 				var classes = this.getCustomData( 'classes' );
@@ -115,7 +116,7 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor.prototype.insertHtml
+			 * @see CKEDITOR.editor#insertHtml
 			 */
 			insertHtml: function( data, mode ) {
 				// Default mode is 'html'.
@@ -123,7 +124,7 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor.prototype.insertText
+			 * @see CKEDITOR.editor#insertText
 			 */
 			insertText: function( text ) {
 				var editor = this.editor,
@@ -168,7 +169,7 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor.prototype.insertElement
+			 * @see CKEDITOR.editor#insertElement
 			 */
 			insertElement: function( element ) {
 				// TODO this should be gone after refactoring insertElement.
@@ -265,7 +266,7 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor.prototype.setData
+			 * @see CKEDITOR.editor#setData
 			 */
 			setData: function( data, isSnapshot ) {
 				if ( !isSnapshot && this.editor.dataProcessor )
@@ -276,7 +277,7 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor.prototype.getData
+			 * @see CKEDITOR.editor#getData
 			 */
 			getData: function( isSnapshot ) {
 				var data = this.getHtml();
@@ -289,12 +290,16 @@
 
 			/**
 			 * Change the read-only state on this editable.
+			 *
 			 * @param {Boolean} isReadOnly
 			 */
 			setReadOnly: function( isReadOnly ) {
 				this.setAttribute( 'contenteditable', !isReadOnly );
 			},
 
+			/**
+			 * Detach this editable object from the DOM (remove classes, listeners, etc.)
+			 */
 			detach: function() {
 				// Cleanup the element.
 				this.removeClass( 'cke_editable' );
@@ -312,13 +317,18 @@
 			/**
 			 * Check if the editable is one of the host page element, indicates the
 			 * an inline editing environment.
-			 * @return {Boolean}
+			 *
+			 * @returns {Boolean}
 			 */
 			isInline : function () {
 				return this.getDocument().equals( CKEDITOR.document );
 			},
 
-			// Editable element bootstrapping.
+			/**
+			 * Editable element bootstrapping.
+			 *
+			 * @private
+			 */
 			setup: function() {
 				var editor = this.editor;
 
@@ -622,10 +632,13 @@
 	/**
 	 * Create, retrieve or detach an editable element of the editor,
 	 * this method should always be used instead of calling directly {@link CKEDITOR.editable}.
-	 * @param {CKEDITOR.dom.element|CKEDITOR.editable} elementOrEditable The
-	 *		DOM element to become the editable or a {@link CKEDITOR.editable} object.
+	 *
+	 * @method editable
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} elementOrEditable The
+	 * DOM element to become the editable or a {@link CKEDITOR.editable} object.
 	 */
-	CKEDITOR.editor.prototype.editable = function( element, type ) {
+	CKEDITOR.editor.prototype.editable = function( element ) {
 		var editable = this._.editable;
 
 		// This editor has already associated with
@@ -799,10 +812,8 @@
 
 		var DTD = CKEDITOR.dtd;
 
-		/**
-		 * Inserts the given (valid) HTML into the range position (with range content deleted),
-		 * guarantee it's result to be a valid DOM tree.
-		 */
+		// Inserts the given (valid) HTML into the range position (with range content deleted),
+		// guarantee it's result to be a valid DOM tree.
 		function insert( editable, type, data ) {
 			beforeInsert( editable );
 

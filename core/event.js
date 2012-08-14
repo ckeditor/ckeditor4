@@ -28,15 +28,17 @@ if ( !CKEDITOR.event ) {
 
 	/**
 	 * Implements the {@link CKEDITOR.event} features in an object.
+	 *
+	 *		var myObject = { message: 'Example' };
+	 *		CKEDITOR.event.implementOn( myObject );
+	 *
+	 *		myObject.on( 'testEvent', function() {
+	 *			alert( this.message );
+	 *		} );
+	 *		myObject.fire( 'testEvent' ); // 'Example'
+	 *
+	 * @static
 	 * @param {Object} targetObject The object into which implement the features.
-	 * @example
-	 * var myObject = { message : 'Example' };
-	 * <b>CKEDITOR.event.implementOn( myObject }</b>;
-	 * myObject.on( 'testEvent', function()
-	 *     {
-	 *         alert( this.message );  // "Example"
-	 *     });
-	 * myObject.fire( 'testEvent' );
 	 */
 	CKEDITOR.event.implementOn = function( targetObject ) {
 		var eventProto = CKEDITOR.event.prototype;
@@ -78,12 +80,13 @@ if ( !CKEDITOR.event ) {
 			return events[ name ] || ( events[ name ] = new eventEntry( name ) );
 		}
 
-		return /** @lends CKEDITOR.event.prototype */ {
-
+		return {
 			/**
-			 *  Predefine some intrinsic properties on a specific event name.
-			 *  @param {String} name The event name
-			 *  @param [meta.errorProof=false} Whether the event firing should catch error thrown from a per listener call.
+			 * Predefine some intrinsic properties on a specific event name.
+			 *
+			 * @param {String} name The event name
+			 * @param meta
+			 * @param [meta.errorProof=false] Whether the event firing should catch error thrown from a per listener call.
 			 */
 			define: function( name, meta ) {
 				var entry = getEntry.call( this, name );
@@ -92,41 +95,37 @@ if ( !CKEDITOR.event ) {
 
 			/**
 			 * Registers a listener to a specific event in the current object.
+			 *
+			 *		someObject.on( 'someEvent', function() {
+			 *			alert( this == someObject );		// 'true'
+			 *		} );
+			 *
+			 *		someObject.on( 'someEvent', function() {
+			 *			alert( this == anotherObject );		// 'true'
+			 *		}, anotherObject );
+			 *
+			 *		someObject.on( 'someEvent', function( event ) {
+			 *			alert( event.listenerData );		// 'Example'
+			 *		}, null, 'Example' );
+			 *
+			 *		someObject.on( 'someEvent', function() { ... } );						// 2nd called
+			 *		someObject.on( 'someEvent', function() { ... }, null, null, 100 );		// 3rd called
+			 *		someObject.on( 'someEvent', function() { ... }, null, null, 1 );		// 1st called
+			 *
 			 * @param {String} eventName The event name to which listen.
 			 * @param {Function} listenerFunction The function listening to the
-			 *		event. A single {@link CKEDITOR.eventInfo} object instanced
-			 *		is passed to this function containing all the event data.
+			 * event. A single {@link CKEDITOR.eventInfo} object instanced
+			 * is passed to this function containing all the event data.
 			 * @param {Object} [scopeObj] The object used to scope the listener
-			 *		call (the this object. If omitted, the current object is used.
+			 * call (the ```this``` object). If omitted, the current object is used.
 			 * @param {Object} [listenerData] Data to be sent as the
-			 *		{@link CKEDITOR.eventInfo#listenerData} when calling the
-			 *		listener.
-			 * @param {Number} [priority] The listener priority. Lower priority
-			 *		listeners are called first. Listeners with the same priority
-			 *		value are called in registration order. Defaults to 10.
-			 * @returns {Object} An object containing the "removeListener"
-			 *		function, which can be used to remove the listener at any time.
-			 * @example
-			 * someObject.on( 'someEvent', function()
-			 *     {
-			 *         alert( this == someObject );  // "true"
-			 *     });
-			 * @example
-			 * someObject.on( 'someEvent', function()
-			 *     {
-			 *         alert( this == anotherObject );  // "true"
-			 *     }
-			 *     , anotherObject );
-			 * @example
-			 * someObject.on( 'someEvent', function( event )
-			 *     {
-			 *         alert( event.listenerData );  // "Example"
-			 *     }
-			 *     , null, 'Example' );
-			 * @example
-			 * someObject.on( 'someEvent', function() { ... } );                   // 2nd called
-			 * someObject.on( 'someEvent', function() { ... }, null, null, 100 );  // 3rd called
-			 * someObject.on( 'someEvent', function() { ... }, null, null, 1 );    // 1st called
+			 * {@link CKEDITOR.eventInfo#listenerData} when calling the
+			 * listener.
+			 * @param {Number} [priority=10] The listener priority. Lower priority
+			 * listeners are called first. Listeners with the same priority
+			 * value are called in registration order.
+			 * @returns {Object} An object containing the ```removeListener```
+			 * function, which can be used to remove the listener at any time.
 			 */
 			on: function( eventName, listenerFunction, scopeObj, listenerData, priority ) {
 				// Create the function to be fired for this listener.
@@ -191,7 +190,8 @@ if ( !CKEDITOR.event ) {
 
 			/**
 			 * Similiar with {@link #on} but the listener will be called only once upon the next event firing.
-			 * @see CKEDITOR.event.prototype.on
+			 *
+			 * @see CKEDITOR.event#on
 			 */
 			once: function() {
 				var fn = arguments[ 1 ];
@@ -217,26 +217,24 @@ if ( !CKEDITOR.event ) {
 			/**
 			 * Fires an specific event in the object. All registered listeners are
 			 * called at this point.
-			 * @function
+			 *
+			 *		someObject.on( 'someEvent', function() { ... } );
+			 *		someObject.on( 'someEvent', function() { ... } );
+			 *		someObject.fire( 'someEvent' );				// Both listeners are called.
+			 *
+			 *		someObject.on( 'someEvent', function( event ) {
+			 *			alert( event.data );					// 'Example'
+			 *		} );
+			 *		someObject.fire( 'someEvent', 'Example' );
+			 *
+			 * @method
 			 * @param {String} eventName The event name to fire.
 			 * @param {Object} [data] Data to be sent as the
-			 *		{@link CKEDITOR.eventInfo#data} when calling the
-			 *		listeners.
+			 * {@link CKEDITOR.eventInfo#data} when calling the listeners.
 			 * @param {CKEDITOR.editor} [editor] The editor instance to send as the
-			 *		{@link CKEDITOR.eventInfo#editor} when calling the
-			 *		listener.
-			 * @returns {Boolean|Object} A booloan indicating that the event is to be
-			 *		canceled, or data returned by one of the listeners.
-			 * @example
-			 * someObject.on( 'someEvent', function() { ... } );
-			 * someObject.on( 'someEvent', function() { ... } );
-			 * <b>someObject.fire( 'someEvent' )</b>;  // both listeners are called
-			 * @example
-			 * someObject.on( 'someEvent', function( event )
-			 *     {
-			 *         alert( event.data );  // "Example"
-			 *     });
-			 * <b>someObject.fire( 'someEvent', 'Example' )</b>;
+			 * {@link CKEDITOR.eventInfo#editor} when calling the listener.
+			 * @returns {Boolean/Object} A boolean indicating that the event is to be
+			 * canceled, or data returned by one of the listeners.
 			 */
 			fire: (function() {
 				// Create the function that marks the event as stopped.
@@ -310,20 +308,19 @@ if ( !CKEDITOR.event ) {
 			 * Fires an specific event in the object, releasing all listeners
 			 * registered to that event. The same listeners are not called again on
 			 * successive calls of it or of {@link #fire}.
+			 *
+			 *		someObject.on( 'someEvent', function() { ... } );
+			 *		someObject.fire( 'someEvent' );			// Above listener called.
+			 *		someObject.fireOnce( 'someEvent' );		// Above listener called.
+			 *		someObject.fire( 'someEvent' );			// No listeners called.
+			 *
 			 * @param {String} eventName The event name to fire.
 			 * @param {Object} [data] Data to be sent as the
-			 *		{@link CKEDITOR.eventInfo#data} when calling the
-			 *		listeners.
+			 * {@link CKEDITOR.eventInfo#data} when calling the listeners.
 			 * @param {CKEDITOR.editor} [editor] The editor instance to send as the
-			 *		{@link CKEDITOR.eventInfo#editor} when calling the
-			 *		listener.
-			 * @returns {Boolean|Object} A booloan indicating that the event is to be
-			 *		canceled, or data returned by one of the listeners.
-			 * @example
-			 * someObject.on( 'someEvent', function() { ... } );
-			 * someObject.fire( 'someEvent' );  // above listener called
-			 * <b>someObject.fireOnce( 'someEvent' )</b>;  // above listener called
-			 * someObject.fire( 'someEvent' );  // no listeners called
+			 * {@link CKEDITOR.eventInfo#editor} when calling the listener.
+			 * @returns {Boolean/Object} A booloan indicating that the event is to be
+			 * canceled, or data returned by one of the listeners.
 			 */
 			fireOnce: function( eventName, data, editor ) {
 				var ret = this.fire( eventName, data, editor );
@@ -333,16 +330,16 @@ if ( !CKEDITOR.event ) {
 
 			/**
 			 * Unregisters a listener function from being called at the specified
-			 *		event. No errors are thrown if the listener has not been
-			 *		registered previously.
+			 * event. No errors are thrown if the listener has not been registered previously.
+			 *
+			 *		var myListener = function() { ... };
+			 *		someObject.on( 'someEvent', myListener );
+			 *		someObject.fire( 'someEvent' );					// myListener called.
+			 *		someObject.removeListener( 'someEvent', myListener );
+			 *		someObject.fire( 'someEvent' );					// myListener not called.
+			 *
 			 * @param {String} eventName The event name.
 			 * @param {Function} listenerFunction The listener function to unregister.
-			 * @example
-			 * var myListener = function() { ... };
-			 * someObject.on( 'someEvent', myListener );
-			 * someObject.fire( 'someEvent' );  // myListener called
-			 * <b>someObject.removeListener( 'someEvent', myListener )</b>;
-			 * someObject.fire( 'someEvent' );  // myListener not called
 			 */
 			removeListener: function( eventName, listenerFunction ) {
 				// Get the event entry.
@@ -366,12 +363,14 @@ if ( !CKEDITOR.event ) {
 
 			/**
 			 * Checks if there is any listener registered to a given event.
+			 *
+			 *		var myListener = function() { ... };
+			 *		someObject.on( 'someEvent', myListener );
+			 *		alert( someObject.hasListeners( 'someEvent' ) );	// 'true'
+			 *		alert( someObject.hasListeners( 'noEvent' ) );		// 'false'
+			 *
 			 * @param {String} eventName The event name.
-			 * @example
-			 * var myListener = function() { ... };
-			 * someObject.on( 'someEvent', myListener );
-			 * alert( someObject.<b>hasListeners( 'someEvent' )</b> );  // "true"
-			 * alert( someObject.<b>hasListeners( 'noEvent' )</b> );    // "false"
+			 * @returns {Boolean}
 			 */
 			hasListeners: function( eventName ) {
 				var event = getPrivate( this )[ eventName ];

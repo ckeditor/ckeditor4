@@ -8,12 +8,6 @@
  *		manipulation objects and function.
  */
 
-/**
- * @namespace DOM manipulation objects, classes and functions.
- * @see CKEDITOR.dom.element
- * @see CKEDITOR.dom.node
- * @example
- */
 CKEDITOR.dom = {};
 
 // PACKAGER_RENAME( CKEDITOR.dom )
