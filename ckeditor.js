@@ -28,14 +28,15 @@ else {
 /**
  * The skin to load for all created instances, it may be the name of the skin
  * folder inside the editor installation path, or the name and the path separated
- * by a comma.<br>
- * <br>
- * <strong>Note:</strong> This is a global configuration that applies to all instances.
- * @name CKEDITOR.skinName
- * @type String
- * @example
- * CKEDITOR.skinName = 'kama';
- * @example
- * CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
+ * by a comma.
+ *
+ * **Note:** This is a global configuration that applies to all instances.
+ *
+ *		CKEDITOR.skinName = 'kama';
+ *
+ *		CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
+ *
+ * @cfg {String} [skinName='kama']
+ * @member CKEDITOR
  */
 CKEDITOR.skinName = 'kama';

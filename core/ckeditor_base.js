@@ -64,7 +64,9 @@ if ( !window.CKEDITOR ) {
 			/**
 			 * A 3-digit random integer, valid for the entire life of the CKEDITOR object.
 			 *
-			 *		alert( CKEDITOR.rnd ); // e.g. '319'
+			 *		alert( CKEDITOR.rnd ); // e.g. 319
+			 *
+			 * @property {Number}
 			 */
 			rnd: Math.floor( Math.random() * ( 999 /*Max*/ - 100 /*Min*/ + 1 ) ) + 100 /*Min*/,
 
@@ -72,6 +74,7 @@ if ( !window.CKEDITOR ) {
 			 * Private object used to hold core stuff. It should not be used outside of
 			 * the API code as properties defined here may change at any time
 			 * without notice.
+			 *
 			 * @private
 			 */
 			_: {
@@ -105,7 +108,7 @@ if ( !window.CKEDITOR ) {
 			 * global variable named ```CKEDITOR_BASEPATH```. This global variable
 			 * must be set **before** the editor script loading.
 			 *
-			 *		alert( CKEDITOR.basePath ); // "http://www.example.com/ckeditor/" (e.g.)
+			 *		alert( CKEDITOR.basePath ); // 'http://www.example.com/ckeditor/' (e.g.)
 			 *
 			 * @property {String}
 			 */

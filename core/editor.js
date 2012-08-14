@@ -107,7 +107,7 @@
 		 * the page when creating the editor.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
-		 *		alert( editor.config.skin ); // "kama" e.g.
+		 *		alert( editor.config.skin ); // 'kama' e.g.
 		 *
 		 * @property {CKEDITOR.config}
 		 */
@@ -129,10 +129,7 @@
 		 */
 		this.focusManager = new CKEDITOR.focusManager( this );
 
-		/**
-		 * @property {CKEDITOR.htmlDataProcessor}
-		 * @todo
-		 */
+		// Documented in dataprocessor.js.
 		this.dataProcessor = new CKEDITOR.htmlDataProcessor( this );
 
 		/**
@@ -307,7 +304,7 @@
 		 * setting or taken from the ```tabindex``` attribute of the
 		 * ```{@link #element}``` associated with the editor.
 		 *
-		 *		alert( editor.tabIndex ); // E.g. "0"
+		 *		alert( editor.tabIndex ); // E.g. '0'
 		 *
 		 * @property {Number} [=0]
 		 */
@@ -336,7 +333,7 @@
 			 * The code for the language resources that have been loaded
 			 * for the user interface elements of this editor instance.
 			 *
-			 *		alert( editor.langCode ); // E.g. "en"
+			 *		alert( editor.langCode ); // E.g. 'en'
 			 *
 			 * @property {String}
 			 */
@@ -407,7 +404,7 @@
 			 * An object that contains references to all plugins used by this
 			 * editor instance.
 			 *
-			 *		alert( editor.plugins.dialog.path ); // E.g. "http://example.com/ckeditor/plugins/dialog/"
+			 *		alert( editor.plugins.dialog.path ); // E.g. 'http://example.com/ckeditor/plugins/dialog/'
 			 *
 			 * @property {Object}
 			 */
@@ -524,9 +521,9 @@
 		 * Destroys the editor instance, releasing all resources used by it.
 		 * If the editor replaced an element, the element will be recovered.
 		 *
-		 *		alert( CKEDITOR.instances.editor1 ); // E.g "object"
+		 *		alert( CKEDITOR.instances.editor1 ); // E.g 'object'
 		 *		CKEDITOR.instances.editor1.destroy();
-		 *		alert( CKEDITOR.instances.editor1 ); // "undefined"
+		 *		alert( CKEDITOR.instances.editor1 ); // 'undefined'
 		 *
 		 * @param {Boolean} [noUpdate] If the instance is replacing a DOM
 		 * element, this parameter indicates whether or not to update the
@@ -819,7 +816,7 @@
 		 *		else
 		 *			window.attachEvent( 'onbeforeunload', beforeUnload );
 		 *
-		 * @returns {Boolean} ```"true"``` if the contents contain changes.
+		 * @returns {Boolean} ```true``` if the contents contain changes.
 		 */
 		checkDirty: function() {
 			return this._.previousValue !== this.getSnapshot();
@@ -830,9 +827,9 @@
 		 * ```{@link #checkDirty}``` will return ```false``` if the user will not
 		 * have made further changes to the contents.
 		 *
-		 *		alert( editor.checkDirty() ); // E.g. "true"
+		 *		alert( editor.checkDirty() ); // E.g. 'true'
 		 *		editor.resetDirty();
-		 *		alert( editor.checkDirty() ); // "false"
+		 *		alert( editor.checkDirty() ); // 'false'
 		 */
 		resetDirty: function() {
 			this._.previousValue = this.getSnapshot();
@@ -935,16 +932,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		config.htmlEncodeOutput = true;
  *
  * @since 3.1
- * @property {Boolean} [htmlEncodeOutput=false]
+ * @cfg {Boolean} [htmlEncodeOutput=false]
  * @member CKEDITOR.config
- */
-
-/**
- * The outer most element in the DOM tree in which the editable element resides, it's provided
- * by the concrete editor creator after editor UI is created and is not subjected to
- * be modified.
- *
- * @property {CKEDITOR.dom.element} container
  */
 
 /**
@@ -954,9 +943,26 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		config.readOnly = true;
  *
  * @since 3.6
- * @property {Boolean} [readOnly=false]
+ * @cfg {Boolean} [readOnly=false]
  * @member CKEDITOR.config
  * @see CKEDITOR.editor#setReadOnly
+ */
+
+/**
+ * Sets whether the editable should have the focus when editor is loading for the first time.
+ *
+ *		config.startupFocus = true;
+ *
+ * @cfg {Boolean} [startupFocus=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The outer most element in the DOM tree in which the editable element resides, it's provided
+ * by the concrete editor creator after editor UI is created and is not subjected to
+ * be modified.
+ *
+ * @property {CKEDITOR.dom.element} container
  */
 
 /**
@@ -1154,13 +1160,4 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {String} name The template name.
  * @param {String} source The source data for this template.
- */
-
-/**
- * Sets whether the editable should have the focus when editor is loading for the first time.
- *
- *		config.startupFocus = true;
- *
- * @property {Boolean} [startupFocus=false]
- * @member CKEDITOR.config
  */
