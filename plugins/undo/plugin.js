@@ -399,12 +399,12 @@
 				sel = editor.getSelection();
 			}
 
-			this.editor.loadSnapshot( image.contents );
-
 			// Start transaction - do not allow any mutations to the
 			// snapshots stack done when selecting bookmarks (much probably
 			// by selectionChange listener).
 			this.isLocked = true;
+
+			this.editor.loadSnapshot( image.contents );
 
 			if ( image.bookmarks )
 				sel.selectBookmarks( image.bookmarks );
