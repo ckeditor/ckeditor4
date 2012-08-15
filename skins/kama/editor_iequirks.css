@@ -40,6 +40,7 @@ in Quirks mode only.
 .cke_rtl .cke_button_icon,
 .cke_rtl .cke_button_arrow
 {
+	vertical-align: top;
 	display: inline-block;
 }
 
@@ -95,10 +96,25 @@ in Quirks mode only.
 	margin-bottom: -4px;
 }
 
-.cke_combo
+.cke_combo_button
 {
-	margin-right: 4px;
 	background-color: #fff;
+}
+
+.cke_rtl .cke_combo_button
+{
+	padding-right: 6px;
+	padding-left: 0px;
+}
+
+.cke_combo_text
+{
+	line-height: 21px;
+}
+
+.cke_ltr .cke_combo_open
+{
+	margin-left: -3px;
 }
 
 .cke_combo_arrow
@@ -123,11 +139,6 @@ in Quirks mode only.
 	border: 0;
 }
 
-.cke_combo_button
-{
-	padding-right: 0;
-}
-
 .cke_button_arrow
 {
 	background-position: 2px -1467px;
@@ -137,9 +148,10 @@ in Quirks mode only.
 	height: 15px;
 }
 
-.cke_rtl .cke_button_arrow
+.cke_ltr .cke_button_arrow
 {
-	background-position-x: 0;
+	background-position: 0 -1467px;
+	margin-left: -3px;
 }
 
 .cke_toolbox_collapser
@@ -207,53 +219,9 @@ a.cke_dialog_ui_button_cancel span
 	background-image: none;
 }
 
-.cke_rtl .cke_toolgroup,
-.cke_rtl .cke_button,
-.cke_rtl .cke_button *,
-.cke_rtl .cke_combo,
-.cke_rtl .cke_combo *,
-.cke_rtl .cke_path_item,
-.cke_rtl .cke_path_item *
+.cke_menubutton_label
 {
-	float: none;
-}
-
-.cke_rtl .cke_combo_button,
-.cke_rtl .cke_combo_button *,
-.cke_rtl .cke_button,
-.cke_rtl .cke_button_icon,
-.cke_rtl .cke_button_arrow
-{
-	display: inline-block;
-}
-
-.cke_rtl .cke_button_arrow
-{
-	margin-right: 3px;
-	text-align: right;
-}
-
-.cke_rtl .cke_combo
-{
-	margin-right: 0;
-	margin-left: 4px;
-	padding-bottom: 0px;
-}
-
-.cke_rtl .cke_combo_button
-{
-	padding-right: 6px;
-	padding-left: 0px;
-}
-
-.cke_rtl .cke_combo_button
-{
-	margin-bottom: 0px;
-}
-
-.cke_rtl .cke_combo_inlinelabel
-{
-	vertical-align: top;
+	height:25px;
 }
 
 .cke_menuarrow
