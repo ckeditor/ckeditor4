@@ -3,7 +3,15 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+/**
+ * @class
+ * @todo
+ */
 CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
+	/**
+	 * @constructor
+	 * @todo
+	 */
 	$: function() {
 		this._ = {
 			output: []

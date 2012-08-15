@@ -10,11 +10,13 @@
 
 /**
  * Represents a DOM document.
+ *
+ *		var document = new CKEDITOR.dom.document( document );
+ *
+ * @class
+ * @extends CKEDITOR.dom.domObject
  * @constructor
- * @augments CKEDITOR.dom.domObject
  * @param {Object} domDocument A native DOM document.
- * @example
- * var document = new CKEDITOR.dom.document( document );
  */
 CKEDITOR.dom.document = function( domDocument ) {
 	CKEDITOR.dom.domObject.call( this, domDocument );

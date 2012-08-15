@@ -10,18 +10,20 @@
 
 /**
  * Represents a DOM element.
+ *
+ *		// Create a new <span> element.
+ *		var element = new CKEDITOR.dom.element( 'span' );
+ *
+ *		// Create an element based on a native DOM element.
+ *		var element = new CKEDITOR.dom.element( document.getElementById( 'myId' ) );
+ *
+ * @class
+ * @extends CKEDITOR.dom.node
  * @constructor
- * @augments CKEDITOR.dom.node
- * @param {Object|String} element A native DOM element or the element name for
- *		new elements.
+ * @param {Object/String} element A native DOM element or the element name for
+ * new elements.
  * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
- *		the element in case of element creation.
- * @example
- * // Create a new &lt;span&gt; element.
- * var element = new CKEDITOR.dom.element( 'span' );
- * @example
- * // Create an element based on a native DOM element.
- * var element = new CKEDITOR.dom.element( document.getElementById( 'myId' ) );
+ * the element in case of element creation.
  */
 CKEDITOR.dom.element = function( element, ownerDocument ) {
 	if ( typeof element == 'string' )

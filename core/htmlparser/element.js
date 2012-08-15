@@ -5,11 +5,12 @@
 
 /**
  * A lightweight representation of an HTML element.
+ *
+ * @class
+ * @constructor
  * @param {String} name The element name.
  * @param {Object} attributes And object holding all attributes defined for
- *		this element.
- * @constructor
- * @example
+ * this element.
  */
 CKEDITOR.htmlParser.element = function( name, attributes ) {
 	/**

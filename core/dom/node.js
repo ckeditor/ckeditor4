@@ -12,12 +12,13 @@
  * Base class for classes representing DOM nodes. This constructor may return
  * an instance of a class that inherits from this class, like
  * {@link CKEDITOR.dom.element} or {@link CKEDITOR.dom.text}.
- * @augments CKEDITOR.dom.domObject
- * @param {Object} domNode A native DOM node.
+ *
+ * @class
+ * @extends CKEDITOR.dom.domObject
  * @constructor
+ * @param {Object} domNode A native DOM node.
  * @see CKEDITOR.dom.element
  * @see CKEDITOR.dom.text
- * @example
  */
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {

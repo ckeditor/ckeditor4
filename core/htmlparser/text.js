@@ -6,8 +6,10 @@
 (function() {
 	/**
 	 * A lightweight representation of HTML text.
+	 *
+	 * @class
 	 * @constructor
-	 * @example
+	 * @param {String} value The text node value.
 	 */
 	CKEDITOR.htmlParser.text = function( value ) {
 		/**

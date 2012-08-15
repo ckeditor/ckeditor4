@@ -4,12 +4,13 @@
  */
 
 /**
- * @file DOM iterator, which iterates over list items, lines and paragraphs.
+ * @ignore
+ * File overview: DOM iterator, which iterates over list items, lines and paragraphs.
  */
 
 (function() {
 	/**
-	 * @name CKEDITOR.dom.iterator
+	 * @class CKEDITOR.dom.iterator
 	 */
 	function iterator( range ) {
 		if ( arguments.length < 1 )

@@ -5,8 +5,10 @@
 
 /**
  * A lightweight representation of an HTML comment.
+ *
+ * @class
  * @constructor
- * @example
+ * @param {String} value The comment text value.
  */
 CKEDITOR.htmlParser.comment = function( value ) {
 	/**

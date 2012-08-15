@@ -7,8 +7,10 @@
 
 	/**
 	 * A lightweight representation of HTML text.
+	 *
+	 * @class
 	 * @constructor
-	 * @example
+	 * @param {String} value The CDATA section value.
 	 */
 	CKEDITOR.htmlParser.cdata = function( value ) {
 		/**

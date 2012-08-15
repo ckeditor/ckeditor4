@@ -10,17 +10,19 @@
 
 /**
  * Represents a DOM comment node.
+ *
+ *		var nativeNode = document.createComment( 'Example' );
+ *		var comment = new CKEDITOR.dom.comment( nativeNode );
+ *
+ *		var comment = new CKEDITOR.dom.comment( 'Example' );
+ *
+ * @class
+ * @extends CKEDITOR.dom.node
  * @constructor
- * @augments CKEDITOR.dom.node
- * @param {Object|String} comment A native DOM comment node or a string containing
- *		the text to use to create a new comment node.
+ * @param {Object/String} comment A native DOM comment node or a string containing
+ * the text to use to create a new comment node.
  * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
- *		the node in case of new node creation. Defaults to the current document.
- * @example
- * var nativeNode = document.createComment( 'Example' );
- * var comment = new CKEDITOR.dom.comment( nativeNode );
- * @example
- * var comment = new CKEDITOR.dom.comment( 'Example' );
+ * the node in case of new node creation. Defaults to the current document.
  */
 CKEDITOR.dom.comment = function( comment, ownerDocument ) {
 	if ( typeof comment == 'string' )
@@ -31,9 +33,7 @@ CKEDITOR.dom.comment = function( comment, ownerDocument ) {
 
 CKEDITOR.dom.comment.prototype = new CKEDITOR.dom.node();
 
-CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype,
-/** @lends CKEDITOR.dom.comment.prototype */
-{
+CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype, {
 	type: CKEDITOR.NODE_COMMENT,
 
 	getOuterHtml: function() {

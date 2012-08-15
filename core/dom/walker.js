@@ -129,26 +129,29 @@
 		return last;
 	}
 
+	/**
+	 * Utility class to "walk" the DOM inside a range boundaries. If
+	 * necessary, partially included nodes (text nodes) are broken to
+	 * reflect the boundaries limits, so DOM and range changes may happen.
+	 * Outside changes to the range may break the walker.
+	 *
+	 * The walker may return nodes that are not totaly included into the
+	 * range boundaires. Let's take the following range representation,
+	 * where the square brackets indicate the boundaries:
+	 *
+	 *		[<p>Some <b>sample] text</b>
+	 *
+	 * While walking forward into the above range, the following nodes are
+	 * returned: ```<p>```, ```"Some "```, ```<b>``` and ```"sample"```. Going
+	 * backwards instead we have: ```"sample"``` and ```"Some "```. So note that the
+	 * walker always returns nodes when "entering" them, but not when
+	 * "leaving" them. The guard function is instead called both when
+	 * entering and leaving nodes.
+	 *
+	 * @class
+	 */
 	CKEDITOR.dom.walker = CKEDITOR.tools.createClass({
 		/**
-		 * Utility class to "walk" the DOM inside a range boundaries. If
-		 * necessary, partially included nodes (text nodes) are broken to
-		 * reflect the boundaries limits, so DOM and range changes may happen.
-		 * Outside changes to the range may break the walker.
-		 *
-		 * The walker may return nodes that are not totaly included into the
-		 * range boundaires. Let's take the following range representation,
-		 * where the square brackets indicate the boundaries:
-		 *
-		 * [&lt;p&gt;Some &lt;b&gt;sample] text&lt;/b&gt;
-		 *
-		 * While walking forward into the above range, the following nodes are
-		 * returned: &lt;p&gt;, "Some ", &lt;b&gt; and "sample". Going
-		 * backwards instead we have: "sample" and "Some ". So note that the
-		 * walker always returns nodes when "entering" them, but not when
-		 * "leaving" them. The guard function is instead called both when
-		 * entering and leaving nodes.
-		 *
 		 * @constructor
 		 * @param {CKEDITOR.dom.range} range The range within which walk.
 		 */

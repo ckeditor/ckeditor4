@@ -4,12 +4,16 @@
  */
 
 /**
- * @class DocumentFragment is a "lightweight" or "minimal" Document object. It is
+ * DocumentFragment is a "lightweight" or "minimal" Document object. It is
  * commonly used to extract a portion of a document's tree or to create a new
  * fragment of a document. Various operations may take DocumentFragment objects
  * as arguments and results in all the child nodes of the DocumentFragment being
  * moved to the child list of this node.
+ *
+ * @class
+ * @constructor
  * @param {Object} nodeOrDoc
+ * @todo example and param doc
  */
 CKEDITOR.dom.documentFragment = function( nodeOrDoc ) {
 	nodeOrDoc = nodeOrDoc || CKEDITOR.document;

@@ -10,17 +10,19 @@
 
 /**
  * Represents a DOM text node.
+ *
+ *		var nativeNode = document.createTextNode( 'Example' );
+ *		var text = CKEDITOR.dom.text( nativeNode );
+ *
+ *		var text = CKEDITOR.dom.text( 'Example' );
+ *
+ * @class
+ * @extends CKEDITOR.dom.node
  * @constructor
- * @augments CKEDITOR.dom.node
- * @param {Object|String} text A native DOM text node or a string containing
- *		the text to use to create a new text node.
+ * @param {Object/String} text A native DOM text node or a string containing
+ * the text to use to create a new text node.
  * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
- *		the node in case of new node creation. Defaults to the current document.
- * @example
- * var nativeNode = document.createTextNode( 'Example' );
- * var text = CKEDITOR.dom.text( nativeNode );
- * @example
- * var text = CKEDITOR.dom.text( 'Example' );
+ * the node in case of new node creation. Defaults to the current document.
  */
 CKEDITOR.dom.text = function( text, ownerDocument ) {
 	if ( typeof text == 'string' )

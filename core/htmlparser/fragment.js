@@ -5,8 +5,9 @@
 
 /**
  * A lightweight representation of an HTML DOM structure.
+ *
+ * @class
  * @constructor
- * @example
  */
 CKEDITOR.htmlParser.fragment = function() {
 	/**

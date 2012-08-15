@@ -12,10 +12,11 @@
  * Represents a DOM object. This class is not intended to be used directly. It
  * serves as the base class for other classes representing specific DOM
  * objects.
+ *
+ * @class
+ * @mixins CKEDITOR.event
  * @constructor
  * @param {Object} nativeDomObject A native DOM object.
- * @augments CKEDITOR.event
- * @example
  */
 CKEDITOR.dom.domObject = function( nativeDomObject ) {
 	if ( nativeDomObject ) {
@@ -44,7 +45,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			};
 		};
 
-	return /** @lends CKEDITOR.dom.domObject.prototype */ {
+	return {
 
 		getPrivate: function() {
 			var priv;

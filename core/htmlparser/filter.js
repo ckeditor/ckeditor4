@@ -4,7 +4,15 @@
  */
 
 (function() {
+	/**
+	 * @class
+	 * @todo
+	 */
 	CKEDITOR.htmlParser.filter = CKEDITOR.tools.createClass({
+		/**
+		 * @constructor
+		 * @todo
+		 */
 		$: function( rules ) {
 			this._ = {
 				elementNames: [],

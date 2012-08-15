@@ -4,23 +4,25 @@
  */
 
 /**
- * Creates a CKEDITOR.dom.range instance that can be used inside a specific
- * DOM Document.
- * @class Represents a delimited piece of content in a DOM Document.
+ * Represents a delimited piece of content in a DOM Document.
  * It is contiguous in the sense that it can be characterized as selecting all
- * of the content between a pair of boundary-points.<br>
- * <br>
+ * of the content between a pair of boundary-points.
+ *
  * This class shares much of the W3C
- * <a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html">Document Object Model Range</a>
+ * [Document Object Model Range](http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html)
  * ideas and features, adding several range manipulation tools to it, but it's
  * not intended to be compatible with it.
- * @param {CKEDITOR.dom.document|CKEDITOR.dom.element} root The document or element within which the range will be scoped.
- * @example
- * // Create a range for the entire contents of the editor document body.
- * var range = new CKEDITOR.dom.range( editor.document );
- * range.selectNodeContents( editor.document.getBody() );
- * // Delete the contents.
- * range.deleteContents();
+ *
+ *		// Create a range for the entire contents of the editor document body.
+ *		var range = new CKEDITOR.dom.range( editor.document );
+ *		range.selectNodeContents( editor.document.getBody() );
+ *		// Delete the contents.
+ *		range.deleteContents();
+ *
+ * @class
+ * @constructor Creates a CKEDITOR.dom.range instance that can be used inside a specific DOM Document.
+ * @param {CKEDITOR.dom.document/CKEDITOR.dom.element} root The document or element
+ * within which the range will be scoped.
  */
 CKEDITOR.dom.range = function( root ) {
 	/**

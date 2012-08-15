@@ -10,11 +10,13 @@
 
 /**
  * Represents a DOM window.
+ *
+ *		var document = new CKEDITOR.dom.window( window );
+ *
+ * @class
+ * @extends CKEDITOR.dom.domObject
  * @constructor
- * @augments CKEDITOR.dom.domObject
  * @param {Object} domWindow A native DOM window.
- * @example
- * var document = new CKEDITOR.dom.window( window );
  */
 CKEDITOR.dom.window = function( domWindow ) {
 	CKEDITOR.dom.domObject.call( this, domWindow );

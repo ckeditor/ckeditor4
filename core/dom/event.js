@@ -10,9 +10,10 @@
 
 /**
  * Represents a native DOM event object.
+ *
+ * @class
  * @constructor
  * @param {Object} domEvent A native DOM event object.
- * @example
  */
 CKEDITOR.dom.event = function( domEvent ) {
 	/**

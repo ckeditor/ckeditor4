@@ -36,11 +36,12 @@
 		};
 
 	/**
-	 * 	Retrieve the list of nodes walked from the start node up to the editable element of the editor.
-	 * @name CKEDITOR.dom.elementPath
+	 * Retrieve the list of nodes walked from the start node up to the editable element of the editor.
+	 *
+	 * @class
+	 * @constructor
 	 * @param {CKEDITOR.dom.element} startNode From which the path should start.
 	 * @param {CKEDITOR.dom.element} root To which element the path should stop, default to the body element.
-	 * @class
 	 */
 	CKEDITOR.dom.elementPath = function( startNode, root ) {
 		var block = null;

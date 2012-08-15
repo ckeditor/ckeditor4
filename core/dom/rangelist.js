@@ -7,10 +7,12 @@
 	/**
 	 * Represents a list os CKEDITOR.dom.range objects, which can be easily
 	 * iterated sequentially.
+	 *
+	 * @class
 	 * @constructor
-	 * @param {CKEDITOR.dom.range|Array} [ranges] The ranges contained on this list.
-	 *		Note that, if an array of ranges is specified, the range sequence
-	 *		should match its DOM order. This class will not help to sort them.
+	 * @param {CKEDITOR.dom.range/Array} [ranges] The ranges contained on this list.
+	 * Note that, if an array of ranges is specified, the range sequence
+	 * should match its DOM order. This class will not help to sort them.
 	 */
 	CKEDITOR.dom.rangeList = function( ranges ) {
 		if ( ranges instanceof CKEDITOR.dom.rangeList )
@@ -24,9 +26,7 @@
 		return CKEDITOR.tools.extend( ranges, mixins );
 	};
 
-	var mixins =
-	/** @lends CKEDITOR.dom.rangeList.prototype */
-	{
+	var mixins = {
 		/**
 		 * Creates an instance of the rangeList iterator, it should be used
 		 * only when the ranges processing could be DOM intrusive, which
