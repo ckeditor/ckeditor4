@@ -5,9 +5,11 @@
 
 /**
  * Contains UI features related to an editor instance.
+ *
+ * @class
+ * @mixins CKEDITOR.event
  * @constructor
  * @param {CKEDITOR.editor} editor The editor instance.
- * @example
  */
 CKEDITOR.ui = function( editor ) {
 	if ( editor.ui )
@@ -19,6 +21,7 @@ CKEDITOR.ui = function( editor ) {
 
 	/**
 	 * Object used to hold private stuff.
+	 *
 	 * @private
 	 */
 	this._ = {
@@ -34,17 +37,17 @@ CKEDITOR.ui.prototype = {
 	/**
 	 * Adds a UI item to the items collection. These items can be later used in
 	 * the interface.
+	 *
+	 *		// Add a new button named 'MyBold'.
+	 *		editorInstance.ui.add( 'MyBold', CKEDITOR.UI_BUTTON, {
+	 *			label: 'My Bold',
+	 *			command: 'bold'
+	 *		} );
+	 *
 	 * @param {String} name The UI item name.
 	 * @param {Object} type The item type.
 	 * @param {Object} definition The item definition. The properties of this
-	 *		object depend on the item type.
-	 * @example
-	 * // Add a new button named "MyBold".
-	 * editorInstance.ui.add( 'MyBold', CKEDITOR.UI_BUTTON,
-	 *     {
-	 *         label : 'My Bold',
-	 *         command : 'bold'
-	 *     });
+	 * object depend on the item type.
 	 */
 	add: function( name, type, definition ) {
 		// Compensate the unique name of this ui item to definition.
@@ -61,7 +64,8 @@ CKEDITOR.ui.prototype = {
 	},
 
 	/**
-	 * Retrieve the created ui objects by name
+	 * Retrieve the created ui objects by name.
+	 *
 	 * @param {String} name The name of the UI definition.
 	 */
 	get: function( name ) {
@@ -70,8 +74,8 @@ CKEDITOR.ui.prototype = {
 
 	/**
 	 * Gets a UI object.
+	 *
 	 * @param {String} name The UI item hame.
-	 * @example
 	 */
 	create: function( name ) {
 		var item = this.items[ name ],
@@ -95,9 +99,9 @@ CKEDITOR.ui.prototype = {
 	/**
 	 * Adds a handler for a UI item type. The handler is responsible for
 	 * transforming UI item definitions in UI objects.
+	 *
 	 * @param {Object} type The item type.
 	 * @param {Object} handler The handler definition.
-	 * @example
 	 */
 	addHandler: function( type, handler ) {
 		this._.handlers[ type ] = handler;
@@ -108,12 +112,12 @@ CKEDITOR.ui.prototype = {
 	 * the editor UI is made completely decoupled from DOM (no DOM reference hold),
 	 * this method is mainly used to retrieve the rendered DOM part by name.
 	 *
+	 *		// Hide the bottom space in the UI.
+	 *		var bottom = editor.ui.getSpace( 'bottom' );
+	 *		bottom.setStyle( 'display', 'none' );
+	 *
 	 * @param {String} name The space name.
 	 * @returns {CKEDITOR.dom.element} The element that represents the space.
-	 * @example
-	 * // Hide the bottom space in the UI.
-	 * var bottom = editor.ui.getSpace( 'bottom' );
-	 * bottom.setStyle( 'display', 'none' );
 	 */
 	space: function( name ) {
 		return CKEDITOR.document.getById( this.spaceId( name ) );
@@ -121,6 +125,9 @@ CKEDITOR.ui.prototype = {
 
 	/**
 	 * Generate the HTML ID from a specific UI space name.
+	 *
+	 * @param name
+	 * @todo param and return types?
 	 */
 	spaceId: function( name ) {
 		return this.editor.id + '_' + name;
@@ -130,32 +137,29 @@ CKEDITOR.ui.prototype = {
 CKEDITOR.event.implementOn( CKEDITOR.ui );
 
 /**
- * (Virtual Class) Do not call this constructor. This class is not really part
- *		of the API. It just illustrates the features of hanlder objects to be
- *		passed to the {@link CKEDITOR.ui.prototype.addHandler} function.
- * @name CKEDITOR.ui.handlerDefinition
- * @constructor
- * @example
+ * Internal event fired when a new UI element is ready.
+ *
+ * @event ready
+ * @param {Object} element The new element
+ */
+
+/**
+ * Virtual class which just illustrates the features of hanlder objects to be
+ * passed to the {@link CKEDITOR.ui#addHandler} function.
+ * This class is not really part of the API, so don't call its constructor.
+ *
+ * @class CKEDITOR.ui.handlerDefinition
  */
 
 /**
  * Transforms an item definition into an UI item object.
- * @name CKEDITOR.handlerDefinition.prototype.create
- * @function
+ *
+ *		editorInstance.ui.addHandler( CKEDITOR.UI_BUTTON, {
+ *			create: function( definition ) {
+ *				return new CKEDITOR.ui.button( definition );
+ *			}
+ *		} );
+ *
+ * @method create
  * @param {Object} definition The item definition.
- * @example
- * editorInstance.ui.addHandler( CKEDITOR.UI_BUTTON,
- *     {
- *         create : function( definition )
- *         {
- *             return new CKEDITOR.ui.button( definition );
- *         }
- *     });
- */
-
-/**
- * Internal event fired when a new UI element is ready
- * @name CKEDITOR.ui#ready
- * @event
- * @param {Object} element The new element
  */

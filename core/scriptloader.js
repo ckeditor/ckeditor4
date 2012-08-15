@@ -10,45 +10,44 @@
 
 /**
  * Load scripts asynchronously.
- * @namespace
- * @example
+ *
+ * @class
+ * @singleton
  */
 CKEDITOR.scriptLoader = (function() {
 	var uniqueScripts = {},
 		waitingList = {};
 
-	return /** @lends CKEDITOR.scriptLoader */ {
+	return {
 		/**
 		 * Loads one or more external script checking if not already loaded
 		 * previously by this function.
-		 * @param {String|Array} scriptUrl One or more URLs pointing to the
-		 *		scripts to be loaded.
+		 *
+		 *		CKEDITOR.scriptLoader.load( '/myscript.js' );
+		 *
+		 *		CKEDITOR.scriptLoader.load( '/myscript.js', function( success ) {
+		 *			// Alerts true if the script has been properly loaded.
+		 *			// HTTP error 404 should return false.
+		 *			alert( success );
+		 *		} );
+		 *
+		 *		CKEDITOR.scriptLoader.load( [ '/myscript1.js', '/myscript2.js' ], function( completed, failed ) {
+		 *			alert( 'Number of scripts loaded: ' + completed.length );
+		 *			alert( 'Number of failures: ' + failed.length );
+		 *		} );
+		 *
+		 * @param {String/Array} scriptUrl One or more URLs pointing to the
+		 * scripts to be loaded.
 		 * @param {Function} [callback] A function to be called when the script
-		 *		is loaded and executed. If a string is passed to "scriptUrl", a
-		 *		boolean parameter is passed to the callback, indicating the
-		 *		success of the load. If an array is passed instead, two array
-		 *		parameters are passed to the callback; the first contains the
-		 *		URLs that have been properly loaded, and the second the failed
-		 *		ones.
-		 * @param {Object} [scope] The scope ("this" reference) to be used for
-		 *		the callback call. Default to {@link CKEDITOR}.
+		 * is loaded and executed. If a string is passed to ```scriptUrl```, a
+		 * boolean parameter is passed to the callback, indicating the
+		 * success of the load. If an array is passed instead, two arrays
+		 * parameters are passed to the callback - the first contains the
+		 * URLs that have been properly loaded and the second the failed ones.
+		 * @param {Object} [scope] The scope (```this``` reference) to be used for
+		 * the callback call. Defaults to {@link CKEDITOR}.
 		 * @param {Boolean} [showBusy] Changes the cursor of the document while
-+		 *		the script is loaded.
-		 * @example
-		 * CKEDITOR.scriptLoader.load( '/myscript.js' );
-		 * @example
-		 * CKEDITOR.scriptLoader.load( '/myscript.js', function( success )
-		 *     {
-		 *         // Alerts true if the script has been properly loaded.
-		 *         // HTTP error 404 should return false.
-		 *         alert( success );
-		 *     });
-		 * @example
-		 * CKEDITOR.scriptLoader.load( [ '/myscript1.js', '/myscript2.js' ], function( completed, failed )
-		 *     {
-		 *         alert( 'Number of scripts loaded: ' + completed.length );
-		 *         alert( 'Number of failures: ' + failed.length );
-		 *     });
+		 * the script is loaded.
 		 */
 		load: function( scriptUrl, callback, scope, showBusy ) {
 			var isString = ( typeof scriptUrl == 'string' );
@@ -121,7 +120,6 @@ CKEDITOR.scriptLoader = (function() {
 					if ( callback ) {
 						if ( CKEDITOR.env.ie ) {
 							// FIXME: For IE, we are not able to return false on error (like 404).
-							/** @ignore */
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
 									script.$.onreadystatechange = null;
@@ -129,7 +127,6 @@ CKEDITOR.scriptLoader = (function() {
 								}
 							};
 						} else {
-							/** @ignore */
 							script.$.onload = function() {
 								// Some browsers, such as Safari, may call the onLoad function
 								// immediately. Which will break the loading sequence. (#3661)
@@ -139,7 +136,6 @@ CKEDITOR.scriptLoader = (function() {
 							};
 
 							// FIXME: Opera and Safari will not fire onerror.
-							/** @ignore */
 							script.$.onerror = function() {
 								onLoad( url, false );
 							};

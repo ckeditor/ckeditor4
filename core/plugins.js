@@ -10,9 +10,10 @@
 
 /**
  * Manages plugins registration and loading.
- * @namespace
- * @augments CKEDITOR.resourceManager
- * @example
+ *
+ * @class
+ * @extends CKEDITOR.resourceManager
+ * @singleton
  */
 CKEDITOR.plugins = new CKEDITOR.resourceManager( 'plugins/', 'plugin' );
 
@@ -34,7 +35,7 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 							requires = plugin && plugin.requires;
 
 						if ( !initialized[ pluginName ] ) {
-							// Register all icons eventually defined by this plugin. 
+							// Register all icons eventually defined by this plugin.
 							if ( plugin.icons ) {
 								var icons = plugin.icons.split( ',' );
 								for ( var ic = 0 ; ic < icons.length ; ic++ ) {
@@ -86,16 +87,17 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 /**
  * Loads a specific language file, or auto detect it. A callback is
  * then called when the file gets loaded.
+ *
+ *		CKEDITOR.plugins.setLang( 'myPlugin', 'en', {
+ *			title: 'My plugin',
+ *			selectOption: 'Please select an option'
+ *		} );
+ *
  * @param {String} pluginName The name of the plugin to which the provided translation
- * 		should be attached.
+ * should be attached.
  * @param {String} languageCode The code of the language translation provided.
  * @param {Object} languageEntries An object that contains pairs of label and
- *		the respective translation.
- * @example
- * CKEDITOR.plugins.setLang( 'myPlugin', 'en', {
- * 	title : 'My plugin',
- * 	selectOption : 'Please select an option'
- * } );
+ * the respective translation.
  */
 CKEDITOR.plugins.setLang = function( pluginName, languageCode, languageEntries ) {
 	var plugin = this.get( pluginName ),
