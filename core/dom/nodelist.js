@@ -11,7 +11,7 @@
  *		alert( nodeList.count() ); // number [0;N]
  *
  * @class
- * @constructor
+ * @constructor Creates a document class instance.
  * @param {Object} nativeList
  */
 CKEDITOR.dom.nodeList = function( nativeList ) {

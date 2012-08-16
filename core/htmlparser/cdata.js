@@ -26,6 +26,7 @@
 		 * CDATA has the same type as {@link CKEDITOR.htmlParser.text} This is
 		 * a constant value set to {@link CKEDITOR#NODE_TEXT}.
 		 *
+		 * @readonly
 		 * @property {Number} [=CKEDITOR.NODE_TEXT]
 		 */
 		type: CKEDITOR.NODE_TEXT,

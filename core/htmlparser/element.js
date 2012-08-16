@@ -117,6 +117,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_ELEMENT}.
 		 *
+		 * @readonly
 		 * @property {Number} [=CKEDITOR.NODE_ELEMENT]
 		 */
 		type: CKEDITOR.NODE_ELEMENT,

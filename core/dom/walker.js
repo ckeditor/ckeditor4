@@ -152,6 +152,8 @@
 	 */
 	CKEDITOR.dom.walker = CKEDITOR.tools.createClass({
 		/**
+		 * Creates a walker class instance.
+		 *
 		 * @constructor
 		 * @param {CKEDITOR.dom.range} range The range within which walk.
 		 */
@@ -162,23 +164,25 @@
 			 * A function executed for every matched node, to check whether
 			 * it's to be considered into the walk or not. If not provided, all
 			 * matched nodes are considered good.
-			 * If the function returns "false" the node is ignored.
-			 * @name CKEDITOR.dom.walker.prototype.evaluator
-			 * @property
-			 * @type Function
+			 *
+			 * If the function returns ```false``` the node is ignored.
+			 *
+			 * @property {Function} evaluator
 			 */
 			// this.evaluator = null;
+
 			/**
 			 * A function executed for every node the walk pass by to check
 			 * whether the walk is to be finished. It's called when both
 			 * entering and exiting nodes, as well as for the matched nodes.
-			 * If this function returns "false", the walking ends and no more
+			 *
+			 * If this function returns ```false```, the walking ends and no more
 			 * nodes are evaluated.
-			 * @name CKEDITOR.dom.walker.prototype.guard
-			 * @property
-			 * @type Function
+
+			 * @property {Function} guard
 			 */
 			// this.guard = null;
+
 			/** @private */
 			this._ = {};
 		},
@@ -214,8 +218,7 @@
 		//
 		proto: {
 			/**
-			 * Stop walking. No more nodes are retrieved if this function gets
-			 * called.
+			 * Stops walking. No more nodes are retrieved if this function gets called.
 			 */
 			end: function() {
 				this._.end = 1;
@@ -223,8 +226,9 @@
 
 			/**
 			 * Retrieves the next node (at right).
+			 *
 			 * @returns {CKEDITOR.dom.node} The next node or null if no more
-			 *		nodes are available.
+			 * nodes are available.
 			 */
 			next: function() {
 				return iterate.call( this );
@@ -232,8 +236,9 @@
 
 			/**
 			 * Retrieves the previous node (at left).
+			 *
 			 * @returns {CKEDITOR.dom.node} The previous node or null if no more
-			 *		nodes are available.
+			 * nodes are available.
 			 */
 			previous: function() {
 				return iterate.call( this, 1 );
@@ -241,8 +246,9 @@
 
 			/**
 			 * Check all nodes at right, executing the evaluation fuction.
-			 * @returns {Boolean} "false" if the evaluator function returned
-			 *		"false" for any of the matched nodes. Otherwise "true".
+			 *
+			 * @returns {Boolean} ```false``` if the evaluator function returned
+			 * ```false``` for any of the matched nodes. Otherwise ```true```.
 			 */
 			checkForward: function() {
 				return iterate.call( this, 0, 1 ) !== false;
@@ -250,8 +256,9 @@
 
 			/**
 			 * Check all nodes at left, executing the evaluation fuction.
-			 * @returns {Boolean} "false" if the evaluator function returned
-			 *		"false" for any of the matched nodes. Otherwise "true".
+			 *
+			 * @returns {Boolean} ```false``` if the evaluator function returned
+			 * ```false``` for any of the matched nodes. Otherwise ```true```.
 			 */
 			checkBackward: function() {
 				return iterate.call( this, 1, 1 ) !== false;
@@ -260,8 +267,9 @@
 			/**
 			 * Executes a full walk forward (to the right), until no more nodes
 			 * are available, returning the last valid node.
+			 *
 			 * @returns {CKEDITOR.dom.node} The last node at the right or null
-			 *		if no valid nodes are available.
+			 * if no valid nodes are available.
 			 */
 			lastForward: function() {
 				return iterateToLast.call( this );
@@ -270,13 +278,17 @@
 			/**
 			 * Executes a full walk backwards (to the left), until no more nodes
 			 * are available, returning the last valid node.
+			 *
 			 * @returns {CKEDITOR.dom.node} The last node at the left or null
-			 *		if no valid nodes are available.
+			 * if no valid nodes are available.
 			 */
 			lastBackward: function() {
 				return iterateToLast.call( this, 1 );
 			},
 
+			/**
+			 * Resets walker.
+			 */
 			reset: function() {
 				delete this.current;
 				this._ = {};
@@ -285,14 +297,16 @@
 		}
 	});
 
-	/*
-	 * Anything whose display computed style is block, list-item, table,
-	 * table-row-group, table-header-group, table-footer-group, table-row,
-	 * table-column-group, table-column, table-cell, table-caption, or whose node
-	 * name is hr, br (when enterMode is br only) is a block boundary.
-	 */
+	// Anything whose display computed style is block, list-item, table,
+	// table-row-group, table-header-group, table-footer-group, table-row,
+	// table-column-group, table-column, table-cell, table-caption, or whose node
+	// name is hr, br (when enterMode is br only) is a block boundary.
 	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 };
 
+	/**
+	 * @member CKEDITOR.dom.element
+	 * @todo
+	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
 		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames || {} ) : CKEDITOR.dtd.$block;
 
@@ -300,12 +314,20 @@
 		return this.getComputedStyle( 'float' ) == 'none' && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
 	};
 
+	/**
+	 * @static
+	 * @todo
+	 */
 	CKEDITOR.dom.walker.blockBoundary = function( customNodeNames ) {
 		return function( node, type ) {
 			return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary( customNodeNames ) );
 		};
 	};
 
+	/**
+	 * @static
+	 * @todo
+	 */
 	CKEDITOR.dom.walker.listItemBoundary = function() {
 		return this.blockBoundary( { br:1 } );
 	};
@@ -313,10 +335,13 @@
 	/**
 	 * Whether the to-be-evaluated node is a bookmark node OR bookmark node
 	 * inner contents.
-	 * @param {Boolean} contentOnly Whether only test againt the text content of
-	 * bookmark node instead of the element itself(default).
-	 * @param {Boolean} isReject Whether should return 'false' for the bookmark
-	 * node instead of 'true'(default).
+	 *
+	 * @statick
+	 * @param {Boolean} [contentOnly=false] Whether only test againt the text content of
+	 * bookmark node instead of the element itself (default).
+	 * @param {Boolean} [isReject=false] Whether should return ```false``` for the bookmark
+	 * node instead of ```true``` (default).
+	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.bookmark = function( contentOnly, isReject ) {
 		function isBookmarkNode( node ) {
@@ -335,7 +360,10 @@
 
 	/**
 	 * Whether the node is a text node containing only whitespaces characters.
-	 * @param isReject
+	 *
+	 * @static
+	 * @param {Boolean} [isReject=false]
+	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.whitespaces = function( isReject ) {
 		return function( node ) {
@@ -346,7 +374,10 @@
 
 	/**
 	 * Whether the node is invisible in wysiwyg mode.
-	 * @param isReject
+	 *
+	 * @static
+	 * @param {Boolean} [isReject=false]
+	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.invisible = function( isReject ) {
 		var whitespace = CKEDITOR.dom.walker.whitespaces();
@@ -361,12 +392,25 @@
 		};
 	};
 
+	/**
+	 * @static
+	 * @param {Number} type
+	 * @param {Boolean} [isReject=false]
+	 * @returns {Function}
+	 * @todo
+	 */
 	CKEDITOR.dom.walker.nodeType = function( type, isReject ) {
 		return function( node ) {
 			return !!( isReject ^ ( node.type == type ) );
 		};
 	};
 
+	/**
+	 * @static
+	 * @param {Boolean} [isReject=false]
+	 * @returns {Function}
+	 * @todo
+	 */
 	CKEDITOR.dom.walker.bogus = function( isReject ) {
 		function nonEmpty( node ) {
 			return !isWhitespaces( node ) && !isBookmark( node );
@@ -393,7 +437,12 @@
 			return isBookmark( node ) || isWhitespaces( node ) || node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$inline && !( node.getName() in CKEDITOR.dtd.$empty );
 		};
 
-	// Check if there's a filler node at the end of an element, and return it.
+	/**
+	 * Check if there's a filler node at the end of an element, and return it.
+	 *
+	 * @member CKEDITOR.dom.element
+	 * @returns {Boolean}
+	 */
 	CKEDITOR.dom.element.prototype.getBogus = function() {
 		// Bogus are not always at the end, e.g. <p><a>text<br /></a></p> (#7070).
 		var tail = this;

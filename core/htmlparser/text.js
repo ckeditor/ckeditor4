@@ -29,6 +29,7 @@
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_TEXT}.
 		 *
+		 * @readonly
 		 * @property {Number} [=CKEDITOR.NODE_TEXT]
 		 */
 		type: CKEDITOR.NODE_TEXT,

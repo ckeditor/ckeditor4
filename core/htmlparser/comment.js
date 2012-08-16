@@ -28,6 +28,7 @@ CKEDITOR.htmlParser.comment.prototype = {
 	/**
 	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_COMMENT}.
 	 *
+	 * @readonly
 	 * @property {Number} [=CKEDITOR.NODE_COMMENT]
 	 */
 	type: CKEDITOR.NODE_COMMENT,

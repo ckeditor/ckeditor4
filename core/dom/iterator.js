@@ -10,7 +10,12 @@
 
 (function() {
 	/**
+	 * Represents iterator class.
+	 *
 	 * @class CKEDITOR.dom.iterator
+	 * @constructor Creates an iterator class instance.
+	 * @param {CKEDITOR.dom.range} range
+	 * @todo
 	 */
 	function iterator( range ) {
 		if ( arguments.length < 1 )
@@ -43,6 +48,9 @@
 	}
 
 	iterator.prototype = {
+		/**
+		 * @todo
+		 */
 		getNextParagraph: function( blockTag ) {
 			blockTag = blockTag || 'p';
 
@@ -315,6 +323,12 @@
 		}
 	};
 
+	/**
+	 * Creates {CKEDITOR.dom.iterator} instance for this range.
+	 *
+	 * @member CKEDITOR.dom.range
+	 * @returns {CKEDITOR.dom.iterator}
+	 */
 	CKEDITOR.dom.range.prototype.createIterator = function() {
 		return new iterator( this );
 	};

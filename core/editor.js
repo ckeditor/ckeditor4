@@ -748,7 +748,7 @@
 		 * Inserts HTML code into the currently selected position in the editor in WYSIWYG mode.
 		 *
 		 * @param {String} html HTML code to be inserted into the editor.
-		 * @param {String} [mode="html"] Mode in which HTML will be inserted.
+		 * @param {String} [mode='html'] Mode in which HTML will be inserted.
 		 *
 		 * * ```"html"``` - content being inserted will completely override styles
 		 *    of selected position.

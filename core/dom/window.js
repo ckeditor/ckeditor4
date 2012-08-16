@@ -15,7 +15,7 @@
  *
  * @class
  * @extends CKEDITOR.dom.domObject
- * @constructor
+ * @constructor Creates a window class instance.
  * @param {Object} domWindow A native DOM window.
  */
 CKEDITOR.dom.window = function( domWindow ) {
@@ -24,15 +24,12 @@ CKEDITOR.dom.window = function( domWindow ) {
 
 CKEDITOR.dom.window.prototype = new CKEDITOR.dom.domObject();
 
-CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
-/** @lends CKEDITOR.dom.window.prototype */
-{
+CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	/**
 	 * Moves the selection focus to this window.
-	 * @function
-	 * @example
-	 * var win = new CKEDITOR.dom.window( window );
-	 * <b>win.focus()</b>;
+	 *
+	 *		var win = new CKEDITOR.dom.window( window );
+	 *		win.focus();
 	 */
 	focus: function() {
 		this.$.focus();
@@ -40,14 +37,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
 
 	/**
 	 * Gets the width and height of this window's viewable area.
-	 * @function
-	 * @returns {Object} An object with the "width" and "height"
-	 *		properties containing the size.
-	 * @example
-	 * var win = new CKEDITOR.dom.window( window );
-	 * var size = <b>win.getViewPaneSize()</b>;
-	 * alert( size.width );
-	 * alert( size.height );
+	 *
+	 *		var win = new CKEDITOR.dom.window( window );
+	 *		var size = win.getViewPaneSize();
+	 *		alert( size.width );
+	 *		alert( size.height );
+	 *
+	 * @returns {Object} An object with the ```width``` and ```height```
+	 * properties containing the size.
 	 */
 	getViewPaneSize: function() {
 		var doc = this.$.document,
@@ -60,14 +57,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
 
 	/**
 	 * Gets the current position of the window's scroll.
-	 * @function
-	 * @returns {Object} An object with the "x" and "y" properties
-	 *		containing the scroll position.
-	 * @example
-	 * var win = new CKEDITOR.dom.window( window );
-	 * var pos = <b>win.getScrollPosition()</b>;
-	 * alert( pos.x );
-	 * alert( pos.y );
+	 *
+	 *		var win = new CKEDITOR.dom.window( window );
+	 *		var pos = win.getScrollPosition();
+	 *		alert( pos.x );
+	 *		alert( pos.y );
+	 *
+	 * @returns {Object} An object with the ```x``` and ```y``` properties
+	 * containing the scroll position.
 	 */
 	getScrollPosition: function() {
 		var $ = this.$;
@@ -86,6 +83,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype,
 		}
 	},
 
+	/**
+	 * Gets the frame element containing this window context.
+	 *
+	 * @returns {CKEDITOR.dom.element} The frame element or ```null``` if not in a frame context.
+	 */
 	getFrame: function() {
 		var iframe = this.$.frameElement;
 		return iframe ? new CKEDITOR.dom.element.get( iframe ) : null;

@@ -18,7 +18,7 @@
  *
  * @class
  * @extends CKEDITOR.dom.node
- * @constructor
+ * @constructor Creates a comment class instance.
  * @param {Object/String} comment A native DOM comment node or a string containing
  * the text to use to create a new comment node.
  * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
@@ -34,8 +34,19 @@ CKEDITOR.dom.comment = function( comment, ownerDocument ) {
 CKEDITOR.dom.comment.prototype = new CKEDITOR.dom.node();
 
 CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype, {
+	/**
+	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_COMMENT}.
+	 *
+	 * @readonly
+	 * @property {Number} [=CKEDITOR.NODE_COMMENT]
+	 */
 	type: CKEDITOR.NODE_COMMENT,
 
+	/**
+	 * Gets the outer HTML of this comment.
+	 *
+	 * @returns {String} The HTML ```<!-- comment value -->```.
+	 */
 	getOuterHtml: function() {
 		return '<!--' + this.$.nodeValue + '-->';
 	}

@@ -15,7 +15,7 @@
  *
  * @class
  * @extends CKEDITOR.dom.domObject
- * @constructor
+ * @constructor Creates a node class instance.
  * @param {Object} domNode A native DOM node.
  * @see CKEDITOR.dom.element
  * @see CKEDITOR.dom.text
@@ -84,26 +84,34 @@ CKEDITOR.POSITION_PRECEDING = 4;
 CKEDITOR.POSITION_IS_CONTAINED = 8;
 CKEDITOR.POSITION_CONTAINS = 16;
 
-CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
-/** @lends CKEDITOR.dom.node.prototype */
-{
+CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	/**
 	 * Makes this node a child of another element.
-	 * @param {CKEDITOR.dom.element} element The target element to which
-	 *		this node will be appended.
-	 * @returns {CKEDITOR.dom.element} The target element.
-	 * @example
-	 * var p = new CKEDITOR.dom.element( 'p' );
-	 * var strong = new CKEDITOR.dom.element( 'strong' );
-	 * strong.appendTo( p );
 	 *
-	 * // result: "&lt;p&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;"
+	 *		var p = new CKEDITOR.dom.element( 'p' );
+	 *		var strong = new CKEDITOR.dom.element( 'strong' );
+	 *		strong.appendTo( p );
+	 *
+	 *		// Result: '<p><strong></strong></p>'.
+	 *
+	 * @param {CKEDITOR.dom.element} element The target element to which this node will be appended.
+	 * @returns {CKEDITOR.dom.element} The target element.
 	 */
 	appendTo: function( element, toStart ) {
 		element.append( this, toStart );
 		return element;
 	},
 
+	/**
+	 * Clone this node.
+	 *
+	 * **Note**: Values set by {#setCustomData} won't be available in the clone.
+	 *
+	 * @param {Boolean} [includeChildren=false] If ```true``` then all node's
+	 * children will be cloned recursively.
+	 * @param {Boolean} [cloneId=false] Whether ID attributes should be cloned too.
+	 * @returns {CKEDITOR.dom.node} Clone of this node.
+	 */
 	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
@@ -130,25 +138,35 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return new CKEDITOR.dom.node( $clone );
 	},
 
+	/**
+	 * Check if node is preceded by any sibling.
+	 *
+	 * @returns {Boolean}
+	 */
 	hasPrevious: function() {
 		return !!this.$.previousSibling;
 	},
 
+	/**
+	 * Check if node is succeeded by any sibling.
+	 *
+	 * @returns {Boolean}
+	 */
 	hasNext: function() {
 		return !!this.$.nextSibling;
 	},
 
 	/**
 	 * Inserts this element after a node.
-	 * @param {CKEDITOR.dom.node} node The node that will precede this element.
-	 * @returns {CKEDITOR.dom.node} The node preceding this one after
-	 *		insertion.
-	 * @example
-	 * var em = new CKEDITOR.dom.element( 'em' );
-	 * var strong = new CKEDITOR.dom.element( 'strong' );
-	 * strong.insertAfter( em );
 	 *
-	 * // result: "&lt;em&gt;&lt;/em&gt;&lt;strong&gt;&lt;/strong&gt;"
+	 *		var em = new CKEDITOR.dom.element( 'em' );
+	 *		var strong = new CKEDITOR.dom.element( 'strong' );
+	 *		strong.insertAfter( em );
+	 *
+	 *		// Result: '<em></em><strong></strong>'
+	 *
+	 * @param {CKEDITOR.dom.node} node The node that will precede this element.
+	 * @returns {CKEDITOR.dom.node} The node preceding this one after insertion.
 	 */
 	insertAfter: function( node ) {
 		node.$.parentNode.insertBefore( this.$, node.$.nextSibling );
@@ -157,20 +175,33 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Inserts this element before a node.
+	 *
+	 *		var em = new CKEDITOR.dom.element( 'em' );
+	 *		var strong = new CKEDITOR.dom.element( 'strong' );
+	 *		strong.insertBefore( em );
+	 *
+	 *		// result: '<strong></strong><em></em>'
+	 *
 	 * @param {CKEDITOR.dom.node} node The node that will succeed this element.
 	 * @returns {CKEDITOR.dom.node} The node being inserted.
-	 * @example
-	 * var em = new CKEDITOR.dom.element( 'em' );
-	 * var strong = new CKEDITOR.dom.element( 'strong' );
-	 * strong.insertBefore( em );
-	 *
-	 * // result: "&lt;strong&gt;&lt;/strong&gt;&lt;em&gt;&lt;/em&gt;"
 	 */
 	insertBefore: function( node ) {
 		node.$.parentNode.insertBefore( this.$, node.$ );
 		return node;
 	},
 
+	/**
+	 * Inserts node before this node.
+	 *
+	 *		var em = new CKEDITOR.dom.element( 'em' );
+	 *		var strong = new CKEDITOR.dom.element( 'strong' );
+	 *		strong.insertBeforeMe( em );
+	 *
+	 *		// result: '<em></em><strong></strong>'
+	 *
+	 * @param {CKEDITOR.dom.node} node The node that will preceed this element.
+	 * @returns {CKEDITOR.dom.node} The node being inserted.
+	 */
 	insertBeforeMe: function( node ) {
 		this.$.parentNode.insertBefore( node.$, this.$ );
 		return node;
@@ -180,16 +211,19 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	 * Retrieves a uniquely identifiable tree address for this node.
 	 * The tree address returned is an array of integers, with each integer
 	 * indicating a child index of a DOM node, starting from
-	 * <code>document.documentElement</code>.
+	 * ```document.documentElement```.
 	 *
-	 * For example, assuming <code>&lt;body&gt;</code> is the second child
-	 * of <code>&lt;html&gt;</code> (<code>&lt;head&gt;</code> being the first),
+	 * For example, assuming ```<body>``` is the second child
+	 * of ```<html>``` (```<head>``` being the first),
 	 * and we would like to address the third child under the
-	 * fourth child of <code>&lt;body&gt;</code>, the tree address returned would be:
-	 * [1, 3, 2]
+	 * fourth child of ```<body>```, the tree address returned would be:
+	 * ```[1, 3, 2]```.
 	 *
 	 * The tree address cannot be used for finding back the DOM tree node once
 	 * the DOM tree structure has been modified.
+	 *
+	 * @param {Boolean} [normalized=false] See {@link #getIndex}.
+	 * @returns {Array} The address.
 	 */
 	getAddress: function( normalized ) {
 		var address = [];
@@ -213,10 +247,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the document containing this element.
+	 *
+	 *		var element = CKEDITOR.document.getById( 'example' );
+	 *		alert( element.getDocument().equals( CKEDITOR.document ) ); // true
+	 *
 	 * @returns {CKEDITOR.dom.document} The document.
-	 * @example
-	 * var element = CKEDITOR.document.getById( 'example' );
-	 * alert( <strong>element.getDocument().equals( CKEDITOR.document )</strong> );  // "true"
 	 */
 	getDocument: function() {
 		return new CKEDITOR.dom.document( this.$.ownerDocument || this.$.parentNode.ownerDocument );
@@ -224,16 +259,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Get index of a node in an array of its parent.childNodes.
-	 * @param {Boolean} normalized When true empty text nodes and one followed
+	 *
+	 * Let's assume having childNodes array:
+	 *
+	 *		[ emptyText, element1, text, text, element2 ]
+	 *		element1.getIndex();		// 1
+	 *		element1.getIndex( true );	// 0
+	 *		element2.getIndex();		// 4
+	 *		element2.getIndex( true );	// 2
+	 *
+	 * @param {Boolean} normalized When ```true``` empty text nodes and one followed
 	 * by another one text node are not counted in.
 	 * @returns {Number} Index of a node.
-	 * @example
-	 * Let's assume having childNodes array:
-	 * [ emptyText, element1, text, text, element2 ]
-	 * element1.getIndex(); // 1
-	 * element1.getIndex( true ); // 0
-	 * element2.getIndex(); // 4
-	 * element2.getIndex( true ); // 2
 	 */
 	getIndex: function( normalized ) {
 		// Attention: getAddress depends on this.$
@@ -260,6 +297,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return index;
 	},
 
+	/**
+	 * @todo
+	 */
 	getNextSourceNode: function( startFromSibling, nodeType, guard ) {
 		// If "guard" is a node, transform it in a function.
 		if ( guard && !guard.call ) {
@@ -301,6 +341,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return node;
 	},
 
+	/**
+	 * @todo
+	 */
 	getPreviousSourceNode: function( startFromSibling, nodeType, guard ) {
 		if ( guard && !guard.call ) {
 			var guardNode = guard;
@@ -341,6 +384,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return node;
 	},
 
+	/**
+	 * Gets the node that preceed this element in its parent's child list.
+	 *
+	 *		var element = CKEDITOR.dom.element.createFromHtml( '<div><i>prev</i><b>Example</b></div>' );
+	 *		var first = element.getLast().getPrev();
+	 *		alert( first.getName() ); // 'i'
+	 *
+	 * @param {Function} [evaluator] Filtering the result node.
+	 * @returns {CKEDITOR.dom.node} The previous node or null if not available.
+	 */
 	getPrevious: function( evaluator ) {
 		var previous = this.$,
 			retval;
@@ -357,12 +410,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the node that follows this element in its parent's child list.
-	 * @param {Function} evaluator Filtering the result node.
+	 *
+	 *		var element = CKEDITOR.dom.element.createFromHtml( '<div><b>Example</b><i>next</i></div>' );
+	 *		var last = element.getFirst().getNext();
+	 *		alert( last.getName() ); // 'i'
+	 *
+	 * @param {Function} [evaluator] Filtering the result node.
 	 * @returns {CKEDITOR.dom.node} The next node or null if not available.
-	 * @example
-	 * var element = CKEDITOR.dom.element.createFromHtml( '&lt;div&gt;&lt;b&gt;Example&lt;/b&gt; &lt;i&gt;next&lt;/i&gt;&lt;/div&gt;' );
-	 * var first = <strong>element.getFirst().getNext()</strong>;
-	 * alert( first.getName() );  // "i"
 	 */
 	getNext: function( evaluator ) {
 		var next = this.$,
@@ -377,18 +431,23 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the parent element for this node.
-	 * @param {Boolean} [allowFragmentParent=false] Consider also parent node that is of fragment type {@link CKEDITOR.NODE_DOCUMENT_FRAGMENT}.
+	 *
+	 *		var node = editor.document.getBody().getFirst();
+	 *		var parent = node.getParent();
+	 *		alert( node.getName() ); // 'body'
+	 *
+	 * @param {Boolean} [allowFragmentParent=false] Consider also parent node that is of
+	 * fragment type {@link CKEDITOR#NODE_DOCUMENT_FRAGMENT}.
 	 * @returns {CKEDITOR.dom.element} The parent element.
-	 * @example
-	 * var node = editor.document.getBody().getFirst();
-	 * var parent = node.<strong>getParent()</strong>;
-	 * alert( node.getName() );  // "body"
 	 */
 	getParent: function( allowFragmentParent ) {
 		var parent = this.$.parentNode;
 		return ( parent && ( parent.nodeType == CKEDITOR.NODE_ELEMENT || allowFragmentParent && parent.nodeType == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) ) ? new CKEDITOR.dom.node( parent ) : null;
 	},
 
+	/**
+	 * @todo
+	 */
 	getParents: function( closerFirst ) {
 		var node = this;
 		var parents = [];
@@ -401,6 +460,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return parents;
 	},
 
+	/**
+	 * @todo
+	 */
 	getCommonAncestor: function( node ) {
 		if ( node.equals( this ) )
 			return this;
@@ -418,6 +480,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return null;
 	},
 
+	/**
+	 * @todo
+	 */
 	getPosition: function( otherNode ) {
 		var $ = this.$;
 		var $other = otherNode.$;
@@ -468,20 +533,21 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 
 	/**
 	 * Gets the closest ancestor node of this node, specified by its name.
-	 * @param {String} reference The name of the ancestor node to search or
-	 *		an object with the node names to search for.
-	 * @param {Boolean} [includeSelf] Whether to include the current
-	 *		node in the search.
-	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
+	 *
+	 *		// Suppose we have the following HTML structure:
+	 *		// <div id="outer"><div id="inner"><p><b>Some text</b></p></div></div>
+	 *		// If node == <b>
+	 *		ascendant = node.getAscendant( 'div' );				// ascendant == <div id="inner">
+	 *		ascendant = node.getAscendant( 'b' );				// ascendant == null
+	 *		ascendant = node.getAscendant( 'b', true );			// ascendant == <b>
+	 *		ascendant = node.getAscendant( { div:1,p:1 } );		// Searches for the first 'div' or 'p': ascendant == <div id="inner">
+	 *
 	 * @since 3.6.1
-	 * @example
-	 * // Suppose we have the following HTML structure:
-	 * // &lt;div id="outer"&gt;&lt;div id="inner"&gt;&lt;p&gt;&lt;b&gt;Some text&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
-	 * // If node == &lt;b&gt;
-	 * ascendant = node.getAscendant( 'div' );      // ascendant == &lt;div id="inner"&gt
-	 * ascendant = node.getAscendant( 'b' );        // ascendant == null
-	 * ascendant = node.getAscendant( 'b', true );  // ascendant == &lt;b&gt;
-	 * ascendant = node.getAscendant( { div:1,p:1 } );      // Searches for the first 'div' or 'p': ascendant == &lt;div id="inner"&gt
+	 * @param {String} reference The name of the ancestor node to search or
+	 * an object with the node names to search for.
+	 * @param {Boolean} [includeSelf] Whether to include the current
+	 * node in the search.
+	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
 	 */
 	getAscendant: function( reference, includeSelf ) {
 		var $ = this.$,
@@ -499,6 +565,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return null;
 	},
 
+	/**
+	 * @todo
+	 */
 	hasAscendant: function( name, includeSelf ) {
 		var $ = this.$;
 
@@ -514,18 +583,21 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return false;
 	},
 
+	/**
+	 * @todo
+	 */
 	move: function( target, toStart ) {
 		target.append( this.remove(), toStart );
 	},
 
 	/**
 	 * Removes this node from the document DOM.
-	 * @param {Boolean} [preserveChildren] Indicates that the children
-	 *		elements must remain in the document, removing only the outer
-	 *		tags.
-	 * @example
-	 * var element = CKEDITOR.document.getById( 'MyElement' );
-	 * <strong>element.remove()</strong>;
+	 *
+	 *		var element = CKEDITOR.document.getById( 'MyElement' );
+	 *		element.remove();
+	 *
+	 * @param {Boolean} [preserveChildren=false] Indicates that the children
+	 * elements must remain in the document, removing only the outer tags.
 	 */
 	remove: function( preserveChildren ) {
 		var $ = this.$;
@@ -546,16 +618,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		return this;
 	},
 
+	/**
+	 * @todo
+	 */
 	replace: function( nodeToReplace ) {
 		this.insertBefore( nodeToReplace );
 		nodeToReplace.remove();
 	},
 
+	/**
+	 * @todo
+	 */
 	trim: function() {
 		this.ltrim();
 		this.rtrim();
 	},
 
+	/**
+	 * @todo
+	 */
 	ltrim: function() {
 		var child;
 		while ( this.getFirst && ( child = this.getFirst() ) ) {
@@ -577,6 +658,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 		}
 	},
 
+	/**
+	 * @todo
+	 */
 	rtrim: function() {
 		var child;
 		while ( this.getLast && ( child = this.getLast() ) ) {
@@ -609,19 +693,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 	},
 
 	/**
-	 * Checks if this node is read-only (should not be changed),
-	 * <strong>Note:</strong> When {@param attributeCheck} is not used, this method only work for elements
-	 * that are already presented in the document, otherwise the result is not guaranteed, it's mainly for performance
-	 * consideration.
+	 * Checks if this node is read-only (should not be changed).
 	 *
-	 * @returns {Boolean}
+	 * **Note:** When ```attributeCheck``` is not used, this method only work for elements
+	 * that are already presented in the document, otherwise the result
+	 * is not guaranteed, it's mainly for performance consideration.
+	 *
+	 *		// For the following HTML:
+	 *		// <div contenteditable="false">Some <b>text</b></div>
+	 *
+	 *		// If "ele" is the above <div>
+	 *		element.isReadOnly(); // true
+	 *
 	 * @since 3.5
-	 * @example
-	 * // For the following HTML:
-	 * // &lt;div contenteditable="false"&gt;Some &lt;b&gt;text&lt;/b&gt;&lt;/div&gt;
-	 *
-	 * // If "ele" is the above &lt;div&gt;
-	 * ele.isReadOnly();  // true
+	 * @returns {Boolean}
 	 */
 	isReadOnly: function() {
 		var element = this;

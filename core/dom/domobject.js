@@ -15,17 +15,19 @@
  *
  * @class
  * @mixins CKEDITOR.event
- * @constructor
+ * @constructor Creates a domObject class instance.
  * @param {Object} nativeDomObject A native DOM object.
  */
 CKEDITOR.dom.domObject = function( nativeDomObject ) {
 	if ( nativeDomObject ) {
 		/**
 		 * The native DOM object represented by this class instance.
-		 * @type Object
-		 * @example
-		 * var element = new CKEDITOR.dom.element( 'span' );
-		 * alert( element.$.nodeType );  // "1"
+		 *
+		 *		var element = new CKEDITOR.dom.element( 'span' );
+		 *		alert( element.$.nodeType ); // '1'
+		 *
+		 * @readonly
+		 * @property {Object}
 		 */
 		this.$ = nativeDomObject;
 	}
@@ -47,18 +49,29 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 	return {
 
+		/**
+		 * Get the private ```_``` object which is bound to the native
+		 * DOM object using {@link #getCustomData}.
+		 *
+		 *		var elementA = new CKEDITOR.dom.element( nativeElement );
+		 *		elementA.getPrivate().value = 1;
+		 *		...
+		 *		var elementB = new CKEDITOR.dom.element( nativeElement );
+		 *		elementB.getPrivate().value; // 1
+		 *
+		 * @returns {Object} The private object.
+		 */
 		getPrivate: function() {
 			var priv;
 
-			// Get the main private object from the custom data. Create it if not
-			// defined.
+			// Get the main private object from the custom data. Create it if not defined.
 			if ( !( priv = this.getCustomData( '_' ) ) )
 				this.setCustomData( '_', ( priv = {} ) );
 
 			return priv;
 		},
 
-		/** @ignore */
+		// Docs inherited from event.
 		on: function( eventName ) {
 			// We customize the "on" function here. The basic idea is that we'll have
 			// only one listener for a native event, which will then call all listeners
@@ -86,7 +99,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			return CKEDITOR.event.prototype.on.apply( this, arguments );
 		},
 
-		/** @ignore */
+		// Docs inherited from event.
 		removeListener: function( eventName ) {
 			// Call the original implementation.
 			CKEDITOR.event.prototype.removeListener.apply( this, arguments );
@@ -108,6 +121,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 		/**
 		 * Removes any listener set on this object.
+		 *
 		 * To avoid memory leaks we must assure that there are no
 		 * references left after the object is no longer needed.
 		 */
@@ -135,14 +149,13 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 	/**
 	 * Determines whether the specified object is equal to the current object.
-	 * @name CKEDITOR.dom.domObject.prototype.equals
-	 * @function
+	 *
+	 *		var doc = new CKEDITOR.dom.document( document );
+	 *		alert( doc.equals( CKEDITOR.document ) );	// true
+	 *		alert( doc == CKEDITOR.document );			// false
+	 *
 	 * @param {Object} object The object to compare with the current object.
-	 * @returns {Boolean} "true" if the object is equal.
-	 * @example
-	 * var doc = new CKEDITOR.dom.document( document );
-	 * alert( doc.equals( CKEDITOR.document ) );  // "true"
-	 * alert( doc == CKEDITOR.document );         // "false"
+	 * @returns {Boolean} ```true``` if the object is equal.
 	 */
 	domObjectProto.equals = function( object ) {
 		// Try/Catch to avoid IE permission error when object is from different document.
@@ -156,18 +169,19 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	/**
 	 * Sets a data slot value for this object. These values are shared by all
 	 * instances pointing to that same DOM object.
-	 * <strong>Note:</strong> The created data slot is only guarantied to be available on this unique dom node,
-	 * thus any wish to continue access it from other element clones (either created by clone node or from innerHtml)
-	 * will fail, for such usage, please use {@link CKEDITOR.dom.element::setAttribute} instead.
-	 * @name CKEDITOR.dom.domObject.prototype.setCustomData
-	 * @function
+	 *
+	 * **Note:** The created data slot is only guarantied to be available on this unique dom node,
+	 * thus any wish to continue access it from other element clones (either created by
+	 * clone node or from ```innerHtml```) will fail, for such usage, please use
+	 * {@link CKEDITOR.dom.element#setAttribute} instead.
+	 *
+	 *		var element = new CKEDITOR.dom.element( 'span' );
+	 *		element.setCustomData( 'hasCustomData', true );
+	 *
 	 * @param {String} key A key used to identify the data slot.
 	 * @param {Object} value The value to set to the data slot.
 	 * @returns {CKEDITOR.dom.domObject} This DOM object instance.
-	 * @see CKEDITOR.dom.domObject.prototype.getCustomData
-	 * @example
-	 * var element = new CKEDITOR.dom.element( 'span' );
-	 * element.setCustomData( 'hasCustomData', true );
+	 * @chainable
 	 */
 	domObjectProto.setCustomData = function( key, value ) {
 		var expandoNumber = this.getUniqueId(),
@@ -180,15 +194,13 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 	/**
 	 * Gets the value set to a data slot in this object.
-	 * @name CKEDITOR.dom.domObject.prototype.getCustomData
-	 * @function
+	 *
+	 *		var element = new CKEDITOR.dom.element( 'span' );
+	 *		alert( element.getCustomData( 'hasCustomData' ) );		// e.g. 'true'
+	 *		alert( element.getCustomData( 'nonExistingKey' ) );		// null
+	 *
 	 * @param {String} key The key used to identify the data slot.
 	 * @returns {Object} This value set to the data slot.
-	 * @see CKEDITOR.dom.domObject.prototype.setCustomData
-	 * @example
-	 * var element = new CKEDITOR.dom.element( 'span' );
-	 * alert( element.getCustomData( 'hasCustomData' ) );  // e.g. 'true'
-	 * alert( element.getCustomData( 'nonExistingKey' ) ); // null
 	 */
 	domObjectProto.getCustomData = function( key ) {
 		var expandoNumber = this.$[ 'data-cke-expando' ],
@@ -198,7 +210,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * @name CKEDITOR.dom.domObject.prototype.removeCustomData
+	 * Removes the value in data slot under given ```key```.
+	 *
+	 * @param {String} key
+	 * @returns {Object} Removed value or ```null``` if not found.
 	 */
 	domObjectProto.removeCustomData = function( key ) {
 		var expandoNumber = this.$[ 'data-cke-expando' ],
@@ -218,8 +233,6 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * Removes any data stored on this object.
 	 * To avoid memory leaks we must assure that there are no
 	 * references left after the object is no longer needed.
-	 * @name CKEDITOR.dom.domObject.prototype.clearCustomData
-	 * @function
 	 */
 	domObjectProto.clearCustomData = function() {
 		// Clear all event listeners
@@ -232,8 +245,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	/**
 	 * Gets an ID that can be used to identiquely identify this DOM object in
 	 * the running session.
-	 * @name CKEDITOR.dom.domObject.prototype.getUniqueId
-	 * @function
+	 *
 	 * @returns {Number} A unique ID.
 	 */
 	domObjectProto.getUniqueId = function() {

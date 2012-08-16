@@ -11,7 +11,7 @@
  * moved to the child list of this node.
  *
  * @class
- * @constructor
+ * @constructor Creates a document fragment class instance.
  * @param {Object} nodeOrDoc
  * @todo example and param doc
  */
@@ -25,7 +25,19 @@ CKEDITOR.dom.documentFragment = function( nodeOrDoc ) {
 };
 
 CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.element.prototype, {
+	/**
+	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_DOCUMENT_FRAGMENT}.
+	 *
+	 * @readonly
+	 * @property {Number} [=CKEDITOR.NODE_DOCUMENT_FRAGMENT]
+	 */
 	type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
+
+	/**
+	 * Inserts document fragment's contents after specified node.
+	 *
+	 * @param {CKEDITOR.dom.node} node
+	 */
 	insertAfterNode: function( node ) {
 		node = node.$;
 		node.parentNode.insertBefore( this.$, node.nextSibling );

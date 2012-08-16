@@ -12,14 +12,14 @@
  * Represents a native DOM event object.
  *
  * @class
- * @constructor
+ * @constructor Creates an event class instance.
  * @param {Object} domEvent A native DOM event object.
  */
 CKEDITOR.dom.event = function( domEvent ) {
 	/**
 	 * The native DOM event object represented by this class instance.
-	 * @type Object
-	 * @example
+	 *
+	 * @readonly
 	 */
 	this.$ = domEvent;
 };
@@ -27,9 +27,10 @@ CKEDITOR.dom.event = function( domEvent ) {
 CKEDITOR.dom.event.prototype = {
 	/**
 	 * Gets the key code associated to the event.
+	 *
+	 *		alert( event.getKey() ); // '65' is 'a' has been pressed
+	 *
 	 * @returns {Number} The key code.
-	 * @example
-	 * alert( event.getKey() );  "65" is "a" has been pressed
 	 */
 	getKey: function() {
 		return this.$.keyCode || this.$.which;
@@ -37,13 +38,14 @@ CKEDITOR.dom.event.prototype = {
 
 	/**
 	 * Gets a number represeting the combination of the keys pressed during the
-	 * event. It is the sum with the current key code and the {@link CKEDITOR.CTRL},
-	 * {@link CKEDITOR.SHIFT} and {@link CKEDITOR.ALT} constants.
+	 * event. It is the sum with the current key code and the {@link CKEDITOR#CTRL},
+	 * {@link CKEDITOR#SHIFT} and {@link CKEDITOR#ALT} constants.
+	 *
+	 *		alert( event.getKeystroke() == 65 );									// 'a' key
+	 *		alert( event.getKeystroke() == CKEDITOR.CTRL + 65 );					// CTRL + 'a' key
+	 *		alert( event.getKeystroke() == CKEDITOR.CTRL + CKEDITOR.SHIFT + 65 );	// CTRL + SHIFT + 'a' key
+	 *
 	 * @returns {Number} The number representing the keys combination.
-	 * @example
-	 * alert( event.getKeystroke() == 65 );                                   // "a" key
-	 * alert( event.getKeystroke() == CKEDITOR.CTRL + 65 );                   // CTRL + "a" key
-	 * alert( event.getKeystroke() == CKEDITOR.CTRL + CKEDITOR.SHIFT + 65 );  // CTRL + SHIFT + "a" key
 	 */
 	getKeystroke: function() {
 		var keystroke = this.getKey();
@@ -63,17 +65,17 @@ CKEDITOR.dom.event.prototype = {
 	/**
 	 * Prevents the original behavior of the event to happen. It can optionally
 	 * stop propagating the event in the event chain.
-	 * @param {Boolean} [stopPropagation] Stop propagating this event in the
-	 *		event chain.
-	 * @example
-	 * var element = CKEDITOR.document.getById( 'myElement' );
-	 * element.on( 'click', function( ev )
-	 *     {
-	 *         // The DOM event object is passed by the "data" property.
-	 *         var domEvent = ev.data;
-	 *         // Prevent the click to chave any effect in the element.
-	 *         domEvent.preventDefault();
-	 *     });
+	 *
+	 *		var element = CKEDITOR.document.getById( 'myElement' );
+	 *		element.on( 'click', function( ev ) {
+	 *			// The DOM event object is passed by the 'data' property.
+	 *			var domEvent = ev.data;
+	 *			// Prevent the click to chave any effect in the element.
+	 *			domEvent.preventDefault();
+	 *		} );
+	 *
+	 * @param {Boolean} [stopPropagation=false] Stop propagating this event in the
+	 * event chain.
 	 */
 	preventDefault: function( stopPropagation ) {
 		var $ = this.$;
@@ -86,6 +88,9 @@ CKEDITOR.dom.event.prototype = {
 			this.stopPropagation();
 	},
 
+	/**
+	 * Stops this event propagation in the event chain.
+	 */
 	stopPropagation: function() {
 		var $ = this.$;
 		if ( $.stopPropagation )
@@ -96,18 +101,17 @@ CKEDITOR.dom.event.prototype = {
 
 	/**
 	 * Returns the DOM node where the event was targeted to.
+	 *
+	 *		var element = CKEDITOR.document.getById( 'myElement' );
+	 *		element.on( 'click', function( ev ) {
+	 *			// The DOM event object is passed by the 'data' property.
+	 *			var domEvent = ev.data;
+	 *			// Add a CSS class to the event target.
+	 *			domEvent.getTarget().addClass( 'clicked' );
+	 *		} );
+	 *
 	 * @returns {CKEDITOR.dom.node} The target DOM node.
-	 * @example
-	 * var element = CKEDITOR.document.getById( 'myElement' );
-	 * element.on( 'click', function( ev )
-	 *     {
-	 *         // The DOM event object is passed by the "data" property.
-	 *         var domEvent = ev.data;
-	 *         // Add a CSS class to the event target.
-	 *         domEvent.getTarget().addClass( 'clicked' );
-	 *     });
 	 */
-
 	getTarget: function() {
 		var rawNode = this.$.target || this.$.srcElement;
 		return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
@@ -116,6 +120,7 @@ CKEDITOR.dom.event.prototype = {
 
 // For the followind constants, we need to go over the Unicode boundaries
 // (0x10FFFF) to avoid collision.
+
 /**
  * CTRL key (0x110000).
  *
