@@ -8,7 +8,7 @@
  *
  * @class
  * @mixins CKEDITOR.event
- * @constructor
+ * @constructor Creates an ui class instance.
  * @param {CKEDITOR.editor} editor The editor instance.
  */
 CKEDITOR.ui = function( editor ) {

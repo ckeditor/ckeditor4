@@ -5,11 +5,13 @@
 
 (function() {
 	/**
+	 * Represents an HTML data processor, which is responsible to translate and
+	 * transform the editor data on input and output.
+	 *
 	 * @class
 	 * @extends CKEDITOR.dataProcessor
-	 * @constructor
+	 * @constructor Creates a htmlDataProcessor class instance.
 	 * @param {CKEDITOR.editor} editor
-	 * @todo
 	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
 		var config = editor.config,

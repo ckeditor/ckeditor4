@@ -4,9 +4,7 @@
  */
 
 /**
- * @class CKEDITOR.command Represents a command that can be executed on an editor instance.
- * @mixins CKEDITOR.event
- * @constructor Creates a command class instance.
+ * Represents a command that can be executed on an editor instance.
  *
  *		var command = new CKEDITOR.command( editor, {
  *			exec: function( editor ) {
@@ -14,6 +12,9 @@
  *			}
  *		} );
  *
+ * @class
+ * @mixins CKEDITOR.event
+ * @constructor Creates a command class instance.
  * @param {CKEDITOR.editor} editor The editor instance this command will be
  * related to.
  * @param {CKEDITOR.commandDefinition} commandDefinition The command
@@ -110,7 +111,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		/**
 		 * Indicates that this command is sensible to the selection context.
 		 * If ```true```, the {@link CKEDITOR.command#method-refresh} method will be
-		 * called for this command on the {@link CKEDITOR.editor#selectionChange} event.
+		 * called for this command on the {@link CKEDITOR.editor#event-selectionChange} event.
 		 *
 		 * @property {Boolean} [=false]
 		 */
@@ -143,7 +144,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 CKEDITOR.command.prototype = {
 	/**
 	 * Enables the command for execution. The command state (see
-	 * {@link CKEDITOR.command#state}) available before disabling it is restored.
+	 * {@link CKEDITOR.command#property-state}) available before disabling it is restored.
 	 *
 	 *		command.enable();
 	 *		command.exec(); // Execute the command.
@@ -155,7 +156,7 @@ CKEDITOR.command.prototype = {
 
 	/**
 	 * Disables the command for execution. The command state (see
-	 * {@link CKEDITOR.command#state}) will be set to {@link CKEDITOR#TRISTATE_DISABLED}.
+	 * {@link CKEDITOR.command#property-state}) will be set to {@link CKEDITOR#TRISTATE_DISABLED}.
 	 *
 	 *		command.disable();
 	 *		command.exec(); // "false" - Nothing happens.
@@ -170,11 +171,11 @@ CKEDITOR.command.prototype = {
 	 *		command.setState( CKEDITOR.TRISTATE_ON );
 	 *		command.exec(); // Execute the command.
 	 *		command.setState( CKEDITOR.TRISTATE_DISABLED );
-	 *		command.exec(); // "false" - Nothing happens.
+	 *		command.exec(); // 'false' - Nothing happens.
 	 *		command.setState( CKEDITOR.TRISTATE_OFF );
 	 *		command.exec(); // Execute the command.
 	 *
-	 * @param {Number} newState The new state. See {@link #state}.
+	 * @param {Number} newState The new state. See {@link #property-state}.
 	 * @returns {Boolean} Returns ```true``` if the command state changed.
 	 */
 	setState: function( newState ) {

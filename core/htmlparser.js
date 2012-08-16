@@ -13,7 +13,7 @@
  *		parser.parse( '<p>Some <b>text</b>.</p>' ); // Alerts 'p', 'b'.
  *
  * @class
- * @constructor
+ * @constructor Creates a htmlParser class instance.
  */
 CKEDITOR.htmlParser = function() {
 	this._ = {

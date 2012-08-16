@@ -162,9 +162,9 @@ CKEDITOR.config = {
 	 *
 	 * The allowed values are the following constants the behavior outlined below:
 	 *
-	 * * ```{@link CKEDITOR.ENTER_P}``` (1) &ndash; new ```<p>``` paragraphs are created;
-	 * * ```{@link CKEDITOR.ENTER_BR}``` (2) &ndash; lines are broken with ```<br>``` elements;
-	 * * ```{@link CKEDITOR.ENTER_DIV}``` (3) &ndash; new ```<div>``` blocks are created.
+	 * * ```{@link CKEDITOR#ENTER_P}``` (1) &ndash; new ```<p>``` paragraphs are created;
+	 * * ```{@link CKEDITOR#ENTER_BR}``` (2) &ndash; lines are broken with ```<br>``` elements;
+	 * * ```{@link CKEDITOR#ENTER_DIV}``` (3) &ndash; new ```<div>``` blocks are created.
 	 *
 	 * Example:
 	 *

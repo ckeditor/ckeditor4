@@ -22,7 +22,7 @@ if ( !CKEDITOR.event ) {
 	 * internal event system used by the CKEditor to fire API related events.
 	 *
 	 * @class
-	 * @constructor
+	 * @constructor Creates an event class instance.
 	 */
 	CKEDITOR.event = function() {};
 

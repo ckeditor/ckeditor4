@@ -12,6 +12,7 @@
 /**
  * Virtual class which just illustrates the features of plugin objects to be
  * passed to the {@link CKEDITOR.plugins#add} method.
+ *
  * This class is not really part of the API, so don't call its constructor.
  *
  * @class CKEDITOR.pluginDefinition
@@ -33,7 +34,7 @@
  * A list of language files available for this plugin. These files are stored inside
  * the ```lang``` directory, which is inside the plugin directory, follow the name
  * pattern of ```langCode.js```, and contain a language definition created with
- * {@link CKEDITOR.pluginDefinition#setLang}.
+ * {@link CKEDITOR.plugins#setLang}.
  *
  * While the plugin is being loaded, the editor checks this list to see if
  * a language file of the current editor language ({@link CKEDITOR.editor#langCode})

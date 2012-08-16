@@ -61,7 +61,7 @@ CKEDITOR.add = function( editor ) {
 
 /**
  * Removes an editor instance from the global {@link CKEDITOR} object. This function
- * is available for internal use only. External code must use {@link CKEDITOR.editor#destroy}.
+ * is available for internal use only. External code must use {@link CKEDITOR.editor#method-destroy}.
  *
  * @private
  * @param {CKEDITOR.editor} editor The editor instance to be removed.
@@ -95,7 +95,7 @@ CKEDITOR.remove = function( editor ) {
 	};
 
 	/**
-	 * Retrieve a defined template created with {@link CKEDITOR.addTemplate}.
+	 * Retrieve a defined template created with {@link CKEDITOR#addTemplate}.
 	 *
 	 * @param {String} name The template name.
 	 */

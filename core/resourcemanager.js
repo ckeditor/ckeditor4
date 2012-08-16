@@ -13,7 +13,7 @@
  * intended to be used out of the CKEditor core code.
  *
  * @class
- * @constructor
+ * @constructor Creates a resourceManager class instance.
  * @param {String} basePath The path for the resources folder.
  * @param {String} fileName The name used for resource files.
  */

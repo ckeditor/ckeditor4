@@ -7,7 +7,7 @@
  * Controls keystrokes typing in an editor instance.
  *
  * @class
- * @constructor
+ * @constructor Creates a keystrokeHandler class instance.
  * @param {CKEDITOR.editor} editor The editor instance.
  */
 CKEDITOR.keystrokeHandler = function( editor ) {

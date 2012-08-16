@@ -16,7 +16,7 @@
 		/**
 		 * The constructor hold only generic editable creation logic that are commonly shared among all different editable elements.
 		 *
-		 * @constructor
+		 * @constructor Creates an editable class instance.
 		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
 		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
 		 * editing container, e.g. it could be either an HTML element with the ```contenteditable``` attribute
@@ -55,8 +55,8 @@
 			},
 
 			/**
-			 * Override {@link CKEDITOR.dom.element#on} to have special focus/blur handling.
-			 * The "focusin/focusout" events are used in IE to replace regular "focus/blur" events
+			 * Overrides {@link CKEDITOR.dom.element#on} to have special ```focus/blur``` handling.
+			 * The ```focusin/focusout``` events are used in IE to replace regular ```focus/blur``` events
 			 * because we want to avoid the asynchronous nature of later ones.
 			 */
 			on: function( name, fn ) {
@@ -1503,3 +1503,13 @@
 	})();
 
 })();
+
+/**
+ * @event focus
+ * @todo
+ */
+
+ /**
+ * @event blur
+ * @todo
+ */

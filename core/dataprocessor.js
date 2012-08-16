@@ -16,7 +16,7 @@
  * which handles HTML data. The editor may also handle other data formats by
  * using different data processors provided by specific plugins.
  *
- * @property {CKEDITOR.htmlDataProcessor} dataProcessor
+ * @property {CKEDITOR.dataProcessor} dataProcessor
  * @member CKEDITOR.editor
  */
 

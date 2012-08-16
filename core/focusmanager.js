@@ -18,7 +18,7 @@
 	 *		focusManager.focus();
 	 *
 	 * @class
-	 * @constructor
+	 * @constructor Creates a focusManager class instance.
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 */
 	CKEDITOR.focusManager = function( editor ) {
@@ -63,7 +63,7 @@
 		 * **Note:** This method will not introduce UI focus
 		 * impact on DOM, it's here to record editor UI focus state internally.
 		 * If you want to make the cursor blink inside of the editable, use
-		 * {@link CKEDITOR.editor#focus} instead.
+		 * {@link CKEDITOR.editor#method-focus} instead.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
 		 *		editor.focusManage.focus( editor.editable() );
@@ -108,7 +108,7 @@
 		 * element which has just lost focus.
 		 *
 		 * **Note:** that this functions acts asynchronously with a delay of 100ms to
-		 * avoid temporary deactivation. Use instead the {@link #forceBlur} function instead
+		 * avoid temporary deactivation. Use instead the ```noDelay``` parameter
 		 * to deactivate immediately.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
@@ -217,6 +217,7 @@
  *		} );
  *
  * @event focus
+ * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor The editor instance.
  */
 
@@ -225,7 +226,7 @@
  *
  * **Note:** This event will **NOT** be triggered when focus is moved internally, e.g. from
  * the editable to other part of the editor UI like dialog.
- * If you're interested on only the editable focus state listen to the {@link CKEDITOR.editable#focus}
+ * If you're interested on only the editable focus state listen to the {@link CKEDITOR.editable#event-focus}
  * and {@link CKEDITOR.editable#blur} events instead.
  *
  *		editor.on( 'blur', function( e ) {
@@ -233,5 +234,6 @@
  *		} );
  *
  * @event blur
+ * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor The editor instance.
  */

@@ -73,7 +73,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * TODO...
 	 *
 	 * @class
-	 * @constructor
+	 * @constructor Creates a style class instance.
 	 * @param styleDefinition
 	 * @param variablesValues
 	 * @todo
@@ -127,7 +127,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	CKEDITOR.style.prototype = {
 		/**
-		 * @param {CKEDITOR.document} document
+		 * @param {CKEDITOR.dom.document} document
 		 * @todo
 		 */
 		apply: function( document ) {
@@ -135,7 +135,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * @param {CKEDITOR.document} document
+		 * @param {CKEDITOR.dom.document} document
 		 * @todo
 		 */
 		remove: function( document ) {

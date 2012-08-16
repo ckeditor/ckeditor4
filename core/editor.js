@@ -19,7 +19,7 @@
 	 *
 	 * @class CKEDITOR.editor
 	 * @mixins CKEDITOR.event
-	 * @constructor
+	 * @constructor Creates an editor class instance.
 	 * @param {Object} [instanceConfig] Configuration values for this specific instance.
 	 * @param {CKEDITOR.dom.element} [element] The DOM element upon which this editor
 	 * will be created.
@@ -649,7 +649,7 @@
 		 * Gets the "raw data" currently available in the editor. This is a
 		 * fast method which returns the data as is, without processing, so it is
 		 * not recommended to use it on resulting pages. Instead it can be used
-		 * combined with the ```{@link #loadSnapshot}``` method in order
+		 * combined with the ```{@link #method-loadSnapshot}``` method in order
 		 * to be able to automatically save the editor data from time to time
 		 * while the user is using the editor, to avoid data loss, without risking
 		 * performance issues.
@@ -674,7 +674,7 @@
 		 * Loads "raw data" into the editor. The data is loaded with processing
 		 * straight to the editing area. It should not be used as a way to load
 		 * any kind of data, but instead in combination with
-		 * ```{@link #getSnapshot}``` produced data.
+		 * ```{@link #method-getSnapshot}``` produced data.
 		 *
 		 *		var data = editor.getSnapshot();
 		 *		editor.loadSnapshot( data );
@@ -721,8 +721,8 @@
 		/**
 		 * Puts or restores the editor into read-only state. When in read-only,
 		 * the user is not able to change the editor contents, but can still use
-		 * some editor features. This function sets the ```{@link CKEDITOR.config#readOnly}```
-		 * property of the editor, firing the ```{@link CKEDITOR.editor#readOnly}``` event.
+		 * some editor features. This function sets the ```{@link #property-readOnly}```
+		 * property of the editor, firing the ```{@link #event-readOnly}``` event.
 		 *
 		 * **Note:** the current editing area will be reloaded.
 		 *
@@ -863,7 +863,7 @@
 		 *		] );
 		 *
 		 * @since 4.0
-		 * @param {Integer/Array} keystroke Keystroke or an array of keystroke definitions.
+		 * @param {Number/Array} keystroke Keystroke or an array of keystroke definitions.
 		 * @param {String/Boolean} [behavior] A command to be executed on the keystroke.
 		 */
 		setKeystroke: function() {
@@ -1066,19 +1066,19 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #getSnapshot}``` call.
+ * Internal event to perform the ```{@link #method-getSnapshot}``` call.
  *
  * @event getSnapshot
  */
 
 /**
- * Internal event to perform the ```{@link #loadSnapshot}``` call.
+ * Internal event to perform the ```{@link #method-loadSnapshot}``` call.
  *
  * @event loadSnapshot
  */
 
 /**
- * Event fired before the ```{@link #getData}``` call returns allowing additional manipulation.
+ * Event fired before the ```{@link #method-getData}``` call returns allowing additional manipulation.
  *
  * @event getData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1087,7 +1087,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired before the ```{@link #setData}``` call is executed allowing additional manipulation.
+ * Event fired before the ```{@link #method-setData}``` call is executed allowing additional manipulation.
  *
  * @event setData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1096,7 +1096,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired at the end of the <code>#setData</code> call execution. Usually it is better to use the
+ * Event fired at the end of the ```{@link #method-setData}``` call execution. Usually it is better to use the
  * ```{@link #dataReady}``` event.
  *
  * @event afterSetData
@@ -1107,7 +1107,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Fired as an indicator of the editor data loading. It may be the result of
- * calling {@link #setData} explicitly or an internal
+ * calling {@link #method-setData} explicitly or an internal
  * editor function, like the editor editing mode switching (move to Source and back).
  *
  * @event dataReady
@@ -1122,17 +1122,17 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #insertHtml}``` call.
+ * Internal event to perform the ```{@link #method-insertHtml}``` call.
  *
  * @event insertHtml
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {Object} data
- * @param {String} data.mode Mode in which data is inserted (see {@link #insertHtml}).
+ * @param {String} data.mode Mode in which data is inserted (see {@link #method-insertHtml}).
  * @param {String} data.dataValue The HTML to insert.
  */
 
 /**
- * Internal event to perform the ```{@link #insertText}``` call.
+ * Internal event to perform the ```{@link #method-insertText}``` call.
  *
  * @event insertText
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1140,7 +1140,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #insertElement}``` call.
+ * Internal event to perform the ```{@link #method-insertElement}``` call.
  *
  * @event insertElement
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1148,7 +1148,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired after the ```{@link #readOnly}``` property changes.
+ * Event fired after the ```{@link #property-readOnly}``` property changes.
  *
  * @since 3.6
  * @event readOnly

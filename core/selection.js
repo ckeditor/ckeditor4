@@ -165,6 +165,11 @@
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
 
+		/**
+		 * @event selectionChange
+		 * @member CKEDITOR.editor
+		 * @todo
+		 */
 		editor.define( 'selectionChange', { errorProof:1 } );
 
 		editor.on( 'contentDom', function() {
@@ -562,7 +567,7 @@
 	 *		var sel = new CKEDITOR.dom.selection( CKEDITOR.document );
 	 *
 	 * @class
-	 * @constructor
+	 * @constructor Creates a selection class instance.
 	 * @param {CKEDITOR.dom.document} target The DOM document/element that the DOM selection
 	 * is restrained to, only selection spans within the target element is considered as valid.
 	 */

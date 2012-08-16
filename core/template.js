@@ -19,7 +19,7 @@
 	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 *
 	 * @class
-	 * @constructor
+	 * @constructor Creates a template class instance.
 	 * @param {String} source The template source.
 	 */
 	CKEDITOR.template = function( source ) {
@@ -57,6 +57,6 @@
  * kept untouched.
  * @param {Array} [buffer] An array into which the output data will be pushed into.
  * The number of entries appended to the array is unknown.
- * @returns {String/Integer} If ```buffer``` has not been provided, the processed
+ * @returns {String/Number} If ```buffer``` has not been provided, the processed
  * template output data, otherwise the new length of ```buffer```.
  */

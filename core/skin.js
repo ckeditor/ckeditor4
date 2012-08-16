@@ -65,8 +65,7 @@
 		},
 
 		/**
-		 * List of registered icons. To add new icons to this list, use
-		 * {@link CKEDITOR.skin#addIcon}.
+		 * List of registered icons. To add new icons to this list, use {@link #addIcon}.
 		 */
 		icons: {},
 
@@ -91,7 +90,7 @@
 		/**
 		 * Get the CSS background styles to be used to render an specific icon.
 		 *
-		 * @param {String} name The icon name, as registered with {@link CKEDITOR.ui#addIcon}.
+		 * @param {String} name The icon name, as registered with {@link #addIcon}.
 		 * @param {Boolean} [rtl] Indicates that the RTL version of the icon is
 		 * to be used, if available.
 		 * @param {String} [overridePath] The path to reach the icon image file. It
