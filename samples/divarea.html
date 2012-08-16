@@ -5,23 +5,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+	<title>Replace Textarea with a "DIV-based" editor &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
 	<link href="sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
+		<a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea with a "DIV-based" editor
 	</h1>
 	<form action="sample_posteddata.php" method="post">
 		<div class="description">
 			<p>
-				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
+				This editor is using a <code>&lt;div&gt;</code> element-based editing area, provided by the <strong>Divarea</strong> plugin.
 			</p>
 <pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>' )
-</pre>
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	extraPlugins : 'divarea'
+});</pre>
 		</div>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">
 			&lt;h1&gt;
@@ -72,7 +73,9 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
 
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
-			CKEDITOR.replace( 'editor1' );
+			CKEDITOR.replace( 'editor1', {
+				extraPlugins : 'divarea'
+			});
 
 		</script>
 		<p>
