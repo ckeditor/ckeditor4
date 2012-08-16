@@ -211,7 +211,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						flash.setData( html ) ;
 					}
 
-					document.addEventListener( 'DOMContentLoaded', function() {
+					CKEDITOR.domReady( function() {
 						swfobject.embedSWF(
 							'assets/outputforflash/outputforflash.swf',
 							'ckFlashContainer',
@@ -220,7 +220,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'8',
 							{ wmode: 'transparent' }
 						);
-					}, false );
+					});
 
 				</script>
 				<p>
