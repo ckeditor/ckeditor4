@@ -23,11 +23,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				instance is inserted directly wherever it is desired.
 			</p>
 			<p>
-				This editor is using an <strong>&lt;iframe&gt; element</strong> based editing area, provided by the "wysiwygarea" plugin.
+				This editor is using an <code>&lt;iframe&gt;</code> element based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
 			</p>
-<pre class="samples">CKEDITOR.appendTo( '<em>container_id</em>', {
-	extraPlugins : 'wysiwygarea'
-});</pre>
+<pre class="samples">CKEDITOR.appendTo( '<em>container_id</em>',
+	{ /* Configuration options to be used. */ }
+	'Editor content to be used.'
+);</pre>
 		</div>
 		<label>
 			Editor 1:
@@ -41,7 +42,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
 			CKEDITOR.appendTo( 'section1',
-				{ extraPlugins: 'wysiwygarea' },
+				{},
 				'<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>'
 			);
 
@@ -54,12 +55,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</label>
 		<div class="description">
 			<p>
-				This editor is using an <strong>&lt;DIV&gt; element</strong> based editing area, provided by the "divarea" plugin.
+				This editor is using an <code>&lt;div&gt;</code> element based editing area, provided by the <strong>Divarea</strong> plugin.
 			</p>
 <pre class="samples">
-CKEDITOR.appendTo( '<em>container_id</em>', {
-	extraPlugins: 'divarea'
-});</pre>
+CKEDITOR.appendTo( '<em>container_id</em>',
+	{ extraPlugins: 'divarea' },
+	'Editor content to be used.'
+);</pre>
 		</div>
 		<script>
 

@@ -11,14 +11,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet">
 	<style>
 
-		.cke_editable
-		{
-			border: 3px dotted orange !important;
-		}
-
-		.cke_focused
+		.cke_focused,
+		.cke_editable.cke_focused
 		{
 			outline: 3px dotted blue !important;
+			*border: 3px dotted blue !important;	/* For IE7 */
 		}
 
 	</style>
@@ -50,8 +47,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div class="description">
 		<p>
 			This sample shows how tab key navigation among editor instances is
-			affected by the <code><strong>tabIndex</strong></code> attribute from
-			the original page element.
+			affected by the <code>tabIndex</code> attribute from
+			the original page element. Use TAB key to move between the editors.
 		</p>
 	</div>
 	<form action="sample_posteddata.php" method="post">
