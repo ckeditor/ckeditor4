@@ -286,13 +286,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <script>
 
 	CKEDITOR.on( 'instanceCreated', function( event ) {
-		var editor = event.editor;
+		var editor = event.editor, element = editor.element;
 
-		if ( editor.element.getName() in { h1: 1, h2: 2, h3: 1 } ) {
-			editor.config.toolbar = [
-				[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
-				'Undo', 'Redo', '-' ]
-			];
+		if ( element.is( 'h1', 'h2', 'h3' ) ||
+			 element.getAttribute( 'id' ) == 'taglist' )
+		{
+			// Custom editor configuration right before the creation.
+			editor.on( 'configLoaded', function() {
+
+				// Shorter plugin list for "text only" page sections.
+				editor.config.plugins = 'enterkey,entities,newpage,specialchar,toolbar,clipboard,undo,floatingspace';
+
+				// Shorter toolbar items to better fit the above plugin list.
+				editor.config.toolbarGroups = [ { name: 'editing', groups: [ 'document','clipboard','undo','insert' ] } ];
+			});
 		}
 	});
 
