@@ -962,6 +962,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * by the concrete editor creator after editor UI is created and is not subjected to
  * be modified.
  *
+ *		var editor = CKEDITOR.instances.editor1;
+ *		alert( editor.container.getName() ); // 'span'
+ *
  * @property {CKEDITOR.dom.element} container
  */
 
