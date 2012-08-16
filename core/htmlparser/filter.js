@@ -5,13 +5,15 @@
 
 (function() {
 	/**
+	 * TODO
+	 *
 	 * @class
-	 * @todo
+	 * @todo we need examples...
 	 */
 	CKEDITOR.htmlParser.filter = CKEDITOR.tools.createClass({
 		/**
-		 * @constructor
-		 * @todo
+		 * @constructor Creates a filter class instance.
+		 * @todo param
 		 */
 		$: function( rules ) {
 			this._ = {

@@ -7,7 +7,7 @@
  * A lightweight representation of an HTML element.
  *
  * @class
- * @constructor
+ * @constructor Creates an element class instance.
  * @param {String} name The element name.
  * @param {Object} attributes And object holding all attributes defined for
  * this element.
@@ -15,22 +15,20 @@
 CKEDITOR.htmlParser.element = function( name, attributes ) {
 	/**
 	 * The element name.
-	 * @type String
-	 * @example
+	 *
+	 * @property {String}
 	 */
 	this.name = name;
 
 	/**
 	 * Holds the attributes defined for this element.
-	 * @type Object
-	 * @example
+	 *
+	 * @property {Object}
 	 */
 	this.attributes = attributes || {};
 
 	/**
 	 * The nodes that are direct children of this element.
-	 * @type Array
-	 * @example
 	 */
 	this.children = [];
 
@@ -53,8 +51,12 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 };
 
 /**
- *  Object presentation of  CSS style declaration text.
- *  @param {CKEDITOR.htmlParser.element|String} elementOrStyleText A html parser element or the inline style text.
+ * Object presentation of CSS style declaration text.
+ *
+ * @class
+ * @constructor Creates a cssStyle class instance.
+ * @param {CKEDITOR.htmlParser.element/String} elementOrStyleText
+ * A html parser element or the inline style text.
  */
 CKEDITOR.htmlParser.cssStyle = function() {
 	var styleText,
@@ -66,6 +68,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 	// html-encoded quote might be introduced by 'font-family'
 	// from MS-Word which confused the following regexp. e.g.
 	//'font-family: &quot;Lucida, Console&quot;'
+	// TODO reuse CSS methods from tools.
 	( styleText || '' ).replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
 		name == 'font-family' && ( value = value.replace( /["']/g, '' ) );
 		rules[ name.toLowerCase() ] = value;
@@ -76,8 +79,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		rules: rules,
 
 		/**
-		 *  Apply the styles onto the specified element or object.
-		 * @param {CKEDITOR.htmlParser.element|CKEDITOR.dom.element|Object} obj
+		 * Apply the styles onto the specified element or object.
+		 *
+		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.dom.element/Object} obj
 		 */
 		populate: function( obj ) {
 			var style = this.toString();
@@ -86,6 +90,11 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			}
 		},
 
+		/**
+		 * Serialize CSS style declaration to string.
+		 *
+		 * @returns {String}
+		 */
 		toString: function() {
 			var output = [];
 			for ( var i in rules )
@@ -106,27 +115,25 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 	CKEDITOR.htmlParser.element.prototype = {
 		/**
-		 * The node type. This is a constant value set to {@link CKEDITOR.NODE_ELEMENT}.
-		 * @type Number
-		 * @example
+		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_ELEMENT}.
+		 *
+		 * @property {Number} [=CKEDITOR.NODE_ELEMENT]
 		 */
 		type: CKEDITOR.NODE_ELEMENT,
 
 		/**
 		 * Adds a node to the element children list.
-		 * @param {Object} node The node to be added. It can be any of of the
-		 *		following types: {@link CKEDITOR.htmlParser.element},
-		 *		{@link CKEDITOR.htmlParser.text} and
-		 *		{@link CKEDITOR.htmlParser.comment}.
-		 * @function
-		 * @example
+		 *
+		 * @method
+		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.htmlParser.text/CKEDITOR.htmlParser.comment} node
+		 * The node to be added.
 		 */
 		add: CKEDITOR.htmlParser.fragment.prototype.add,
 
 		/**
 		 * Clone this element.
+		 *
 		 * @returns {CKEDITOR.htmlParser.element} The element clone.
-		 * @example
 		 */
 		clone: function() {
 			return new CKEDITOR.htmlParser.element( this.name, this.attributes );
@@ -134,8 +141,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 		/**
 		 * Writes the element HTML to a CKEDITOR.htmlWriter.
-		 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
-		 * @example
+		 *
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
 		writeHtml: function( writer, filter ) {
 			var attributes = this.attributes;
@@ -148,8 +156,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			var isChildrenFiltered;
 
 			/**
-			 * Providing an option for bottom-up filtering order ( element
-			 * children to be pre-filtered before the element itself ).
+			 * Providing an option for bottom-up filtering order (element
+			 * children to be pre-filtered before the element itself).
 			 */
 			element.filterChildren = function() {
 				if ( !isChildrenFiltered ) {
@@ -256,10 +264,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			}
 		},
 
+		/**
+		 * Send children of this element to the writer.
+		 *
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
 		writeChildrenHtml: function( writer, filter ) {
 			// Send children.
 			CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.apply( this, arguments );
-
 		}
 	};
 })();

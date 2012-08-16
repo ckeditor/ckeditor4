@@ -7,23 +7,21 @@
  * A lightweight representation of an HTML DOM structure.
  *
  * @class
- * @constructor
+ * @constructor Creates a fragment class instance.
  */
 CKEDITOR.htmlParser.fragment = function() {
 	/**
 	 * The nodes contained in the root of this fragment.
-	 * @type Array
-	 * @example
-	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
-	 * alert( fragment.children.length );  "2"
+	 *
+	 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
+	 *		alert( fragment.children.length ); // 2
 	 */
 	this.children = [];
 
 	/**
 	 * Get the fragment parent. Should always be null.
-	 * @type Object
-	 * @default null
-	 * @example
+	 *
+	 * @property {Object} [=null]
 	 */
 	this.parent = null;
 
@@ -54,22 +52,20 @@ CKEDITOR.htmlParser.fragment = function() {
 
 	/**
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
-	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
-	 * @param {CKEDITOR.htmlParser.element|String} [parent] Optional contextual
-	 * element which makes the content been parsed as the content of this element.
-	 * @param {String|Boolean} [fixForBody] When {@param parent} is the "body" element,
-	 * and the param is a string value other than <code>false</code>, it is to
-	 * avoid having block-less content as the direct children of parent by wrapping
-	 * the content with a specified tag, e.g. when
-	 * fixBodyTag specified as "p", the content
-	 * <code>&lt;body&gt;&lt;i&gt;foo&lt;/i&gt;&lt;/body&gt;</code> will be
-	 * fixed into <code>&lt;body&gt;&lt;p&gt;&lt;i&gt;foo&lt;/i&gt;&lt;/p&gt;&lt;/body&gt;</code>.
 	 *
+	 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
+	 *		alert( fragment.children[ 0 ].name );		// 'b'
+	 *		alert( fragment.children[ 1 ].value );	// ' Text'
+	 *
+	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
+	 * @param {CKEDITOR.htmlParser.element/String} [parent] Optional contextual
+	 * element which makes the content been parsed as the content of this element.
+	 * @param {String/Boolean} [fixForBody] When ```parent``` is the ```<body>``` element,
+	 * and the param is a string value other than ```false```, it is to
+	 * avoid having block-less content as the direct children of parent by wrapping
+	 * the content with a specified tag, e.g. when ```fixBodyTag``` specified as ```p```, the content
+	 * ```<body><i>foo</i></body>``` will be fixed into ```<body><p><i>foo</i></p></body>```.
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
-	 * @example
-	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
-	 * alert( fragment.children[0].name );  "b"
-	 * alert( fragment.children[1].value );  " Text"
 	 */
 	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixForBody ) {
 		var parser = new CKEDITOR.htmlParser();
@@ -127,16 +123,15 @@ CKEDITOR.htmlParser.fragment = function() {
 				addElement( pendingBRs.shift(), currentNode );
 		}
 
-		/*
-		 * Beside of simply append specified element to target, this function also takes
-		 * care of other dirty lifts like forcing block in body, trimming spaces at
-		 * the block boundaries etc.
-		 *
-		 * @param {Element} element  The element to be added as the last child of {@link target}.
-		 * @param {Element} target The parent element to relieve the new node.
-		 * @param {Boolean} [moveCurrent=false] Don't change the "currentNode" global unless
-		 * there's a return point node specified on the element, otherwise move current onto {@link target} node.
-		 */
+		// Beside of simply append specified element to target, this function also takes
+		// care of other dirty lifts like forcing block in body, trimming spaces at
+		// the block boundaries etc.
+		//
+		// @param {Element} element  The element to be added as the last child of {@link target}.
+		// @param {Element} target The parent element to relieve the new node.
+		// @param {Boolean} [moveCurrent=false] Don't change the "currentNode" global unless
+		// there's a return point node specified on the element, otherwise move current onto {@link target} node.
+		//
 		function addElement( element, target, moveCurrent ) {
 			// Ignore any element that has already been added.
 			if ( element.previous !== undefined )
@@ -422,12 +417,10 @@ CKEDITOR.htmlParser.fragment = function() {
 	CKEDITOR.htmlParser.fragment.prototype = {
 		/**
 		 * Adds a node to this fragment.
-		 * @param {Object} node The node to be added. It can be any of of the
-		 *		following types: {@link CKEDITOR.htmlParser.element},
-		 *		{@link CKEDITOR.htmlParser.text} and
-		 *		{@link CKEDITOR.htmlParser.comment}.
-		 *	@param {Number} [index] From where the insertion happens.
-		 * @example
+		 *
+		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.htmlParser.text/CKEDITOR.htmlParser.comment} node
+		 * The node to be added.
+		 * @param {Number} [index] From where the insertion happens.
 		 */
 		add: function( node, index ) {
 			isNaN( index ) && ( index = this.children.length );
@@ -461,13 +454,14 @@ CKEDITOR.htmlParser.fragment = function() {
 		},
 
 		/**
-		 * Writes the fragment HTML to a CKEDITOR.htmlWriter.
-		 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
-		 * @example
-		 * var writer = new CKEDITOR.htmlWriter();
-		 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '&lt;P&gt;&lt;B&gt;Example' );
-		 * fragment.writeHtml( writer )
-		 * alert( writer.getHtml() );  "&lt;p&gt;&lt;b&gt;Example&lt;/b&gt;&lt;/p&gt;"
+		 * Writes the fragment HTML to a {@link CKEDITOR.htmlParser.basicWriter}.
+		 *
+		 *		var writer = new CKEDITOR.htmlWriter();
+		 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<P><B>Example' );
+		 *		fragment.writeHtml( writer );
+		 *		alert( writer.getHtml() ); // '<p><b>Example</b></p>'
+		 *
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 */
 		writeHtml: function( writer, filter ) {
 			var isChildrenFiltered;
