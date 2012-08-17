@@ -498,7 +498,7 @@
 
 								evt.data.preventDefault();
 							}
-							else if ( path.blockLimit.is( 'td' ) &&
+							else if ( path.blockLimit && path.blockLimit.is( 'td' ) &&
 									  ( parent = path.blockLimit.getAscendant( 'table' ) ) &&
 									  range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) &&
 									  ( next = parent[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) )
