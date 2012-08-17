@@ -73,6 +73,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		/* The following styles are just to make the page look nice. */
 
+		/* Workaround to show Arial Black in Firefox. */
+		@font-face
+		{
+			font-family: 'arial-black';
+			src: local('Arial Black');
+		}
+
 		#container
 		{
 			width: 960px;
@@ -111,7 +118,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		#headerLeft h2
 		{
-			font-family: "Arial Black";
+			font-family: "Arial Black",arial-black;
 			font-size: 4.6em;
 			line-height: .9em;
 			text-transform: uppercase;
