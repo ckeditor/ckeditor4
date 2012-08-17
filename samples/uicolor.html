@@ -96,6 +96,30 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 		</script>
 	</p>
 	<p>
+		The third editor instance is inline. It also includes the <strong>UI Color Picker</strong> toolbar
+		button.
+	</p>
+	<div id="editor3" contenteditable="true">
+		<p>This is some <strong>sample text</strong>. You are using <a data-cke-saved-href="http://ckeditor.com/" href="http://ckeditor.com/">CKEditor</a>.</p>
+	</div>
+	<script>
+
+		// Disable automatic creation of inline instances.
+		CKEDITOR.disableAutoInline = true;
+
+		// Replace the <div id="editor3"> with an inline CKEditor instance.
+		CKEDITOR.inline( 'editor3', {
+			extraPlugins : 'uicolor',
+			uiColor: '#67C614',
+			toolbar : [
+				[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+				[ 'FontSize', 'TextColor', 'BGColor' ],
+				[ 'UIColor' ]
+			]
+		} );
+
+	</script>
+	<p>
 		<input type="submit" value="Submit">
 	</p>
 	</form>
