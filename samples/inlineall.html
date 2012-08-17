@@ -8,6 +8,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Massive inline editing &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
+	<script>
+
+		// Customize some of the inline editors so they fit for their purpose.
+		CKEDITOR.on( 'instanceCreated', function( event ) {
+			var editor = event.editor,
+				element = editor.element;
+
+			// Customize editors for headers and tag list.
+			// These editors don't need features like smileys, templates, iframes etc.
+			if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
+				// Custom editor configuration right before the creation.
+				editor.on( 'configLoaded', function() {
+
+					// Remove unnecessary plugins to make the editor simpler.
+					editor.config.removePlugins = 'basicstyles,colorbutton,find,flash,font,' +
+						'forms,iframe,image,link,pastefromword,removeformat,scayt,selectall,' +
+						'smiley,specialchar,stylescombo,templates,wsc';
+
+					// Shorter toolbar items to better fit the above plugin list.
+					editor.config.toolbarGroups = [ {
+						name: 'editing',
+						groups: [ 'document', 'clipboard', 'undo', 'insert', 'about' ]
+					} ];
+				});
+			}
+		});
+
+	</script>
 	<link href="sample.css" rel="stylesheet">
 	<style>
 
@@ -273,27 +301,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</p>
 	</div>
 </div>
-<script>
-
-	CKEDITOR.on( 'instanceCreated', function( event ) {
-		var editor = event.editor, element = editor.element;
-
-		if ( element.is( 'h1', 'h2', 'h3' ) ||
-			 element.getAttribute( 'id' ) == 'taglist' )
-		{
-			// Custom editor configuration right before the creation.
-			editor.on( 'configLoaded', function() {
-
-				// Shorter plugin list for "text only" page sections.
-				editor.config.plugins = 'enterkey,entities,newpage,specialchar,toolbar,clipboard,undo,floatingspace';
-
-				// Shorter toolbar items to better fit the above plugin list.
-				editor.config.toolbarGroups = [ { name: 'editing', groups: [ 'document','clipboard','undo','insert' ] } ];
-			});
-		}
-	});
-
-</script>
 <div id="footer">
 	<hr>
 	<p>
