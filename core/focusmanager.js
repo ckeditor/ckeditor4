@@ -80,6 +80,9 @@
 				current && current.focusManager.blur( 1 );
 
 				this.hasFocus = true;
+
+				var ct = this._.editor.container
+				ct && ct.addClass( 'cke_focus' );
 				this._.editor.fire( 'focus' );
 			}
 		},
@@ -118,6 +121,9 @@
 			function doBlur() {
 				if ( this.hasFocus ) {
 					this.hasFocus = false;
+
+					var ct = this._.editor.container;
+					ct && ct.removeClass( 'cke_focus' );
 					this._.editor.fire( 'blur' );
 				}
 			}
