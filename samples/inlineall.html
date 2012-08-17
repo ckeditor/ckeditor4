@@ -14,31 +14,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		.cke_editable[contenteditable="true"]
 		{
 			outline: none !important;
-			*border: none !important;
+			*border: none !important;	/* IE7 */
+
+			padding: 10px;
+			outline: none !important;
+			cursor: pointer;
 		}
+
+		.cke_editable.cke_focus {
+			box-shadow: inset 0px 0px 20px 3px #ddd;
+			outline: 1px solid #ddd !important;
+			*border: 1px solid #ddd !important;	/* IE7 */
+			cursor: auto;
+			background: #eee;
+		}
+
 
 		#container
 		{
 			width: 960px;
 			margin: 30px auto 0;
-		}
-
-		.editable
-		{
-			padding: 10px;
-			outline: none !important;
-		}
-
-		.editable[contenteditable="true"]
-		{
-			cursor: pointer;
-		}
-
-		.editable:focus {
-			box-shadow: inset 0px 0px 20px 3px #ddd;
-			outline: 1px solid #ddd !important;
-			cursor: auto;
-			background: #eee;
 		}
 
 		#header
@@ -185,7 +180,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="header">
 		<div id="headerLeft">
 			<h2 id="sampleTitle" contenteditable="true" class="editable">
-				CKEditor<br> Went Inline!
+				CKEditor<br> Goes Inline!
 			</h2>
 			<h3 contenteditable="true" class="editable">
 				Lorem ipsum dolor sit amet dolor duis blandit vestibulum faucibus a, tortor.
@@ -206,7 +201,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<div id="column1">
 			<div contenteditable="true" class="editable">
 				<h3>
-					CKEditor went totally inline!
+					Fusce vitae porttitor
 				</h3>
 				<p>
 					<strong>
@@ -234,7 +229,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<div id="column2">
 			<div contenteditable="true" class="editable">
 				<h3>
-					In hac habitasse platea dictumst
+					Integer condimentum sit amet
 				</h3>
 				<p>
 					<strong>Aenean nonummy a, mattis varius. Cras aliquet.</strong>
@@ -244,7 +239,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</div>
 			<div contenteditable="true" class="editable">
 				<h3>
-					CKEditor went inline!
+					Praesent wisi accumsan sit amet nibh
 				</h3>
 				<p>Donec ullamcorper, risus tortor, pretium porttitor. Morbi quam quis lectus non leo.</p>
 				<p style="margin-left: 40px; ">Integer faucibus scelerisque. Proin faucibus at, aliquet vulputate, odio at eros. Fusce <a href="http://ckeditor.com/">gravida, erat vitae augue</a>. Fusce urna fringilla gravida.</p>
@@ -258,7 +253,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				</p>
 				<p>Quisque justo neque, mattis sed, fermentum ultrices <strong>posuere cubilia Curae</strong>, Vestibulum elit metus, quis placerat ut, lectus. Ut sagittis, nunc libero, egestas consequat lobortis velit rutrum ut, faucibus turpis. Fusce porttitor, nulla quis turpis. Nullam laoreet vel, consectetuer tellus suscipit ultricies, hendrerit wisi. Donec odio nec velit ac nunc sit amet, accumsan cursus aliquet. Vestibulum ante sit amet sagittis mi.</p>
 				<h3>
-					CKEditor went inline!
+					Nullam laoreet vel consectetuer tellus suscipit
 				</h3>
 				<ul>
 					<li>Ut sagittis, nunc libero, egestas consequat lobortis velit rutrum ut, faucibus turpis.</li>
@@ -272,9 +267,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</div>
 	</div>
 	<div id="tagLine">
-		Tags:
+		Tags of this article:
 		<p id="taglist" contenteditable="true" class="editable">
-			nunc, libero, egestas, consequat, lobortis
+			inline, editing, floating, CKEditor
 		</p>
 	</div>
 </div>
