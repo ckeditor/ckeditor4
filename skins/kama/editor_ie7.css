@@ -33,6 +33,7 @@ This file contains styles to used by Internet Explorer 7 only.
 .cke_rtl .cke_button_icon,
 {
 	display: inline-block;
+	vertical-align: top;
 }
 
 .cke_toolbox
