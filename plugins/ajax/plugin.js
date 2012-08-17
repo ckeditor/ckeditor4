@@ -15,8 +15,9 @@
 
 	/**
 	 * Ajax methods for data loading.
-	 * @namespace
-	 * @example
+	 *
+	 * @class
+	 * @singleton
 	 */
 	CKEDITOR.ajax = (function() {
 		var createXMLHttpRequest = function() {
@@ -73,7 +74,6 @@
 
 				if ( async ) {
 					// TODO: perform leak checks on this closure.
-					/** @ignore */
 					xhr.onreadystatechange = function() {
 						if ( xhr.readyState == 4 ) {
 							callback( getResponseFn( xhr ) );
@@ -87,26 +87,25 @@
 				return async ? '' : getResponseFn( xhr );
 			};
 
-		return /** @lends CKEDITOR.ajax */ {
-
+		return {
 			/**
 			 * Loads data from an URL as plain text.
+			 *
+			 *		// Load data synchronously.
+			 *		var data = CKEDITOR.ajax.load( 'somedata.txt' );
+			 *		alert( data );
+			 *
+			 *		// Load data asynchronously.
+			 *		var data = CKEDITOR.ajax.load( 'somedata.txt', function( data ) {
+			 *			alert( data );
+			 *		} );
+			 *
 			 * @param {String} url The URL from which load data.
 			 * @param {Function} [callback] A callback function to be called on
-			 *		data load. If not provided, the data will be loaded
-			 *		synchronously.
+			 * data load. If not provided, the data will be loaded
+			 * synchronously.
 			 * @returns {String} The loaded data. For asynchronous requests, an
-			 *		empty string. For invalid requests, null.
-			 * @example
-			 * // Load data synchronously.
-			 * var data = CKEDITOR.ajax.load( 'somedata.txt' );
-			 * alert( data );
-			 * @example
-			 * // Load data asynchronously.
-			 * var data = CKEDITOR.ajax.load( 'somedata.txt', function( data )
-			 *     {
-			 *         alert( data );
-			 *     } );
+			 * empty string. For invalid requests, ```null```.
 			 */
 			load: function( url, callback ) {
 				return load( url, callback, getResponseText );
@@ -114,22 +113,21 @@
 
 			/**
 			 * Loads data from an URL as XML.
+			 *
+			 *		// Load XML synchronously.
+			 *		var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
+			 *		alert( xml.getInnerXml( '//' ) );
+			 *
+			 *		// Load XML asynchronously.
+			 *		var data = CKEDITOR.ajax.loadXml( 'somedata.xml', function( xml ) {
+			 *			alert( xml.getInnerXml( '//' ) );
+			 *		} );
+			 *
 			 * @param {String} url The URL from which load data.
 			 * @param {Function} [callback] A callback function to be called on
-			 *		data load. If not provided, the data will be loaded
-			 *		synchronously.
+			 * data load. If not provided, the data will be loaded synchronously.
 			 * @returns {CKEDITOR.xml} An XML object holding the loaded data. For asynchronous requests, an
-			 *		empty string. For invalid requests, null.
-			 * @example
-			 * // Load XML synchronously.
-			 * var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
-			 * alert( xml.getInnerXml( '//' ) );
-			 * @example
-			 * // Load XML asynchronously.
-			 * var data = CKEDITOR.ajax.loadXml( 'somedata.xml', function( xml )
-			 *     {
-			 *         alert( xml.getInnerXml( '//' ) );
-			 *     } );
+			 * empty string. For invalid requests, ```null```.
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, getResponseXml );

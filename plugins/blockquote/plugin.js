@@ -3,10 +3,6 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-/**
- * @file Blockquote.
- */
-
 (function() {
 	function noBlockLeft( bqBlock ) {
 		for ( var i = 0, length = bqBlock.getChildCount(), child; i < length && ( child = bqBlock.getChild( i ) ); i++ ) {

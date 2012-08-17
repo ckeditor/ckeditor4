@@ -166,13 +166,15 @@
 
 	/**
 	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
+	 *
+	 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
+	 *		alert( fragment.children[ 0 ].name );		// 'b'
+	 *		alert( fragment.children[ 1 ].value );	// ' Text'
+	 *
+	 * @static
+	 * @member CKEDITOR.htmlParser.fragment
 	 * @param {String} source The HTML to be parsed, filling the fragment.
-	 * @param {Number} [fixForBody=false] Wrap body with specified element if needed.
-	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
-	 * @example
-	 * var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
-	 * alert( fragment.children[0].name );	"b"
-	 * alert( fragment.children[1].value );	" Text"
+	 * @returns {CKEDITOR.htmlParser.fragment} The fragment created.
 	 */
 	CKEDITOR.htmlParser.fragment.fromBBCode = function( source ) {
 		var parser = new CKEDITOR.BBCodeParser(),
@@ -428,28 +430,27 @@
 		},
 
 		proto: {
-			/**
-			 * Sets formatting rules for a given tag. The possible rules are:
-			 * <ul>
-			 *	<li><b>breakBeforeOpen</b>: break line before the opener tag for this element.</li>
-			 *	<li><b>breakAfterOpen</b>: break line after the opener tag for this element.</li>
-			 *	<li><b>breakBeforeClose</b>: break line before the closer tag for this element.</li>
-			 *	<li><b>breakAfterClose</b>: break line after the closer tag for this element.</li>
-			 * </ul>
-			 *
-			 * All rules default to "false". Each call to the function overrides
-			 * already present rules, leaving the undefined untouched.
-			 *
-			 * @param {String} tagName The tag name to which set the rules.
-			 * @param {Object} rules An object containing the element rules.
-			 * @example
-			 * // Break line before and after "img" tags.
-			 * writer.setRules( 'list',
-			 *		 {
-			 *				 breakBeforeOpen : true
-			 *				 breakAfterOpen : true
-			 *		 });
-			 */
+			//
+			// Sets formatting rules for a given tag. The possible rules are:
+			// <ul>
+			//	<li><b>breakBeforeOpen</b>: break line before the opener tag for this element.</li>
+			//	<li><b>breakAfterOpen</b>: break line after the opener tag for this element.</li>
+			//	<li><b>breakBeforeClose</b>: break line before the closer tag for this element.</li>
+			//	<li><b>breakAfterClose</b>: break line after the closer tag for this element.</li>
+			// </ul>
+			//
+			// All rules default to "false". Each call to the function overrides
+			// already present rules, leaving the undefined untouched.
+			//
+			// @param {String} tagName The tag name to which set the rules.
+			// @param {Object} rules An object containing the element rules.
+			// @example
+			// // Break line before and after "img" tags.
+			// writer.setRules( 'list',
+			//		 {
+			//				 breakBeforeOpen : true
+			//				 breakAfterOpen : true
+			//		 });
 			setRules: function( tagName, rules ) {
 				var currentRules = this._.rules[ tagName ];
 
@@ -498,18 +499,9 @@
 				this.write( text );
 			},
 
-			/**
-			 * Writes a comment.
-			 * @param {String} comment The comment text.
-			 * @example
-			 * // Writes "&lt;!-- My comment --&gt;".
-			 * writer.comment( ' My comment ' );
-			 */
 			comment: function() {},
 
-			/*
-			 * Output line-break for formatting.
-			 */
+			// Output line-break for formatting.
 			lineBreak: function() {
 				// Avoid line break when:
 				// 1) Previous tag already put one.

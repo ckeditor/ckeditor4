@@ -43,10 +43,8 @@
 		editor.fire( 'contentDirChanged', directionNode ? directionNode.getComputedStyle( 'direction' ) : editor.lang.dir );
 	}
 
-	/**
-	 * Returns element with possibility of applying the direction.
-	 * @param node
-	 */
+	// Returns element with possibility of applying the direction.
+	// @param node
 	function getElementForDirection( node, root ) {
 		while ( node && !( node.getName() in allGuardElements || node.equals( root ) ) ) {
 			var parent = node.getParent();
@@ -269,17 +267,20 @@
 })();
 
 /**
- * Fired when the language direction of an element is changed
- * @name CKEDITOR.editor#dirChanged
- * @event
+ * Fired when the language direction of an element is changed.
+ *
+ * @event dirChanged
+ * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} eventData.node The element that is being changed.
+ * @param {Object} eventData
+ * @param {CKEDITOR.dom.node} eventData.node The element that is being changed.
  * @param {String} eventData.dir The new direction.
  */
 
 /**
  * Fired when the language direction in the specific cursor position is changed
- * @name CKEDITOR.editor#contentDirChanged
- * @event
+ *
+ * @event contentDirChanged
+ * @member CKEDITOR.editor
  * @param {String} eventData The direction in the current position.
  */

@@ -57,6 +57,7 @@ CKEDITOR.htmlParser.fragment = function() {
 	 *		alert( fragment.children[ 0 ].name );		// 'b'
 	 *		alert( fragment.children[ 1 ].value );	// ' Text'
 	 *
+	 * @static
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
 	 * @param {CKEDITOR.htmlParser.element/String} [parent] Optional contextual
 	 * element which makes the content been parsed as the content of this element.

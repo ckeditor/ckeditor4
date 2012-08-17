@@ -144,7 +144,7 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  */
 
 /**
- * Virtual class which just illustrates the features of hanlder objects to be
+ * Virtual class which just illustrates the features of handler objects to be
  * passed to the {@link CKEDITOR.ui#addHandler} function.
  * This class is not really part of the API, so don't call its constructor.
  *

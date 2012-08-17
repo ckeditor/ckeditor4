@@ -108,50 +108,52 @@
 		}
 	});
 })();
+
 /**
  * The minimum height that the editor can reach using the AutoGrow feature.
- * @name CKEDITOR.config.autoGrow_minHeight
- * @type Number
- * @default <code>200</code>
+ *
+ *		config.autoGrow_minHeight = 300;
+ *
  * @since 3.4
- * @example
- * config.autoGrow_minHeight = 300;
+ * @cfg {Number} [autoGrow_minHeight=200]
+ * @member CKEDITOR.config
  */
 
 /**
  * The maximum height that the editor can reach using the AutoGrow feature. Zero means unlimited.
- * @name CKEDITOR.config.autoGrow_maxHeight
- * @type Number
- * @default <code>0</code>
+ *
+ *		config.autoGrow_maxHeight = 400;
+ *
  * @since 3.4
- * @example
- * config.autoGrow_maxHeight = 400;
+ * @cfg {Number} [autoGrow_maxHeight=0]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether to have the auto grow happen on editor creation.
- * @name CKEDITOR.config.autoGrow_onStartup
- * @type Boolean
- * @default false
+ *
+ *		config.autoGrow_onStartup = true;
+ *
  * @since 3.6.2
- * @example
- * config.autoGrow_onStartup = true;
+ * @cfg {Boolean} [autoGrow_onStartup=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Extra height in pixel to leave between the bottom boundary of content with document size when auto resizing.
+ *
+ * @since 3.6.2
+ * @cfg {Number} [autoGrow_bottomSpace=0]
+ * @member CKEDITOR.config
  */
 
 /**
  * Fired when the AutoGrow plugin is about to change the size of the editor.
- * @name CKEDITOR.editor#autogrow
- * @event
+ *
+ * @event autogrow
+ * @member CKEDITOR.editor
+ * @param {Object} data
  * @param {Number} data.currentHeight The current height of the editor (before resizing).
  * @param {Number} data.newHeight The new height of the editor (after resizing). It can be changed
- *				to determine a different height value to be used instead.
- */
-
-
-/**
- *  Extra height in pixel to leave between the bottom boundary of content with document size when auto resizing.
- * @name CKEDITOR.config.autoGrow_bottomSpace
- * @type Number
- * @default 0
- * @since 3.6.2
+ * to determine a different height value to be used instead.
  */

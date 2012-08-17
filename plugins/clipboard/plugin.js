@@ -3,79 +3,80 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-/*
- * EXECUTION FLOWS:
- * -- CTRL+C
- *		* browser's default behaviour
- * -- CTRL+V
- *		* listen onKey (onkeydown)
- *		* simulate 'beforepaste' for non-IEs on editable
- *		* simulate 'paste' for Fx2/Opera on editable
- *		* listen 'onpaste' on editable ('onbeforepaste' for IE)
- *		* fire 'beforePaste' on editor
- *		* !canceled && getClipboardDataByPastebin
- *		* fire 'paste' on editor
- *		* !canceled && fire 'afterPaste' on editor
- * -- CTRL+X
- *		* listen onKey (onkeydown)
- *		* fire 'saveSnapshot' on editor
- *		* browser's default behaviour
- *		* deferred second 'saveSnapshot' event
- * -- Copy command
- *		* tryToCutCopy
- *			* execCommand
- *		* !success && alert
- * -- Cut command
- *		* fixCut
- *		* tryToCutCopy
- *			* execCommand
- *		* !success && alert
- * -- Paste command
- *		* fire 'paste' on editable ('beforepaste' for IE)
- *		* !canceled && execCommand 'paste'
- *		* !success && fire 'pasteDialog' on editor
- * -- Paste from native context menu & menubar
- *		(Fx & Webkits are handled in 'paste' default listner.
- *		Opera cannot be handled at all because it doesn't fire any events
- *		Special treatment is needed for IE, for which is this part of doc)
- *		* listen 'onpaste'
- *		* cancel native event
- *		* fire 'beforePaste' on editor
- *		* !canceled && getClipboardDataByPastebin
- *		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
- *		* fire 'paste' on editor
- *		* !canceled && fire 'afterPaste' on editor
- *
- *
- * PASTE EVENT - PREPROCESSING:
- * -- Possible dataValue types: auto, text, html.
- * -- Possible dataValue contents:
- *		* text (possible \n\r)
- *		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
- *		* html
- * -- Possible flags:
- *		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
- *			for content from editable pastebins, because they 'htmlify' pasted content.
- *
- * -- Type: auto:
- *		* content: htmlified text ->	filter, unify text markup (brs, ps, divs), set type: text
- *		* content: html ->				filter, set type: html
- * -- Type: text:
- *		* content: htmlified text ->	filter, unify text markup
- *		* content: html ->				filter, strip presentional markup, unify text markup
- * -- Type: html:
- *		* content: htmlified text ->	filter, unify text markup
- *		* content: html ->				filter
- *
- * -- Phases:
- *		* filtering (priorities 3-5) - e.g. pastefromword filters
- *		* content type sniffing (priority 6)
- *		* markup transformations for text (priority 6)
+/**
+ * @ignore
+ * File overview: Clipboard support.
  */
 
-/**
- * @file Clipboard support
- */
+//
+// EXECUTION FLOWS:
+// -- CTRL+C
+//		* browser's default behaviour
+// -- CTRL+V
+//		* listen onKey (onkeydown)
+//		* simulate 'beforepaste' for non-IEs on editable
+//		* simulate 'paste' for Fx2/Opera on editable
+//		* listen 'onpaste' on editable ('onbeforepaste' for IE)
+//		* fire 'beforePaste' on editor
+//		* !canceled && getClipboardDataByPastebin
+//		* fire 'paste' on editor
+//		* !canceled && fire 'afterPaste' on editor
+// -- CTRL+X
+//		* listen onKey (onkeydown)
+//		* fire 'saveSnapshot' on editor
+//		* browser's default behaviour
+//		* deferred second 'saveSnapshot' event
+// -- Copy command
+//		* tryToCutCopy
+//			* execCommand
+//		* !success && alert
+// -- Cut command
+//		* fixCut
+//		* tryToCutCopy
+//			* execCommand
+//		* !success && alert
+// -- Paste command
+//		* fire 'paste' on editable ('beforepaste' for IE)
+//		* !canceled && execCommand 'paste'
+//		* !success && fire 'pasteDialog' on editor
+// -- Paste from native context menu & menubar
+//		(Fx & Webkits are handled in 'paste' default listner.
+//		Opera cannot be handled at all because it doesn't fire any events
+//		Special treatment is needed for IE, for which is this part of doc)
+//		* listen 'onpaste'
+//		* cancel native event
+//		* fire 'beforePaste' on editor
+//		* !canceled && getClipboardDataByPastebin
+//		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
+//		* fire 'paste' on editor
+//		* !canceled && fire 'afterPaste' on editor
+//
+//
+// PASTE EVENT - PREPROCESSING:
+// -- Possible dataValue types: auto, text, html.
+// -- Possible dataValue contents:
+//		* text (possible \n\r)
+//		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
+//		* html
+// -- Possible flags:
+//		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
+//			for content from editable pastebins, because they 'htmlify' pasted content.
+//
+// -- Type: auto:
+//		* content: htmlified text ->	filter, unify text markup (brs, ps, divs), set type: text
+//		* content: html ->				filter, set type: html
+// -- Type: text:
+//		* content: htmlified text ->	filter, unify text markup
+//		* content: html ->				filter, strip presentional markup, unify text markup
+// -- Type: html:
+//		* content: htmlified text ->	filter, unify text markup
+//		* content: html ->				filter
+//
+// -- Phases:
+//		* filtering (priorities 3-5) - e.g. pastefromword filters
+//		* content type sniffing (priority 6)
+//		* markup transformations for text (priority 6)
+//
 
 'use strict';
 
@@ -228,16 +229,18 @@
 		addButtonsCommands();
 
 		/**
-		 * Get clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
-		 * @param {Object} [options.title] Title of paste dialog.
-		 * @param {Function} callback Function that will be executed with data.type and data.dataValue or null if none
-		 * 		of the capturing method succeeded.
-		 * @example
-		 * editor.getClipboardData( { title : 'Get my data' }, function( data )
-		 * {
-		 *		if ( data )
-		 *			alert( data.type + ' ' + data.dataValue );
-		 * });
+		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
+		 *
+		 *		editor.getClipboardData( { title: 'Get my data' }, function( data ) {
+		 *			if ( data )
+		 *				alert( data.type + ' ' + data.dataValue );
+		 *		} );
+		 *
+		 * @member CKEDITOR.editor
+		 * @param {Object} [options]
+		 * @param {String} [options.title] Title of paste dialog.
+		 * @param {Function} callback Function that will be executed with ```data.type``` and ```data.dataValue```
+		 * or ```null``` if none of the capturing method succeeded.
 		 */
 		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
@@ -365,9 +368,7 @@
 			}
 		}
 
-		/**
-		 * Add events listeners to editable.
-		 */
+		// Add events listeners to editable.
 		function addListenersToEditable() {
 			var editable = editor.editable();
 
@@ -465,18 +466,14 @@
 			editable.on( 'keyup', setToolbarStates );
 		}
 
-		/**
-		 * Create object representing Cut or Copy commands.
-		 */
+		// Create object representing Cut or Copy commands.
 		function createCutCopyCmd( type ) {
 			return {
 				type: type,
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
 				exec: function( data ) {
-					/**
-					 * Attempts to execute the Cut and Copy operations.
-					 */
+					// Attempts to execute the Cut and Copy operations.
 					function tryToCutCopy( type ) {
 						if ( CKEDITOR.env.ie )
 							return execIECommand( type );
@@ -549,11 +546,9 @@
 			}, 10 );
 		}
 
-		/**
-		 * Tries to execute any of the paste, cut or copy commands in IE. Returns a
-		 * boolean indicating that the operation succeeded.
-		 * @param {String} command *LOWER CASED* name of command ('paste', 'cut', 'copy').
-		 */
+		// Tries to execute any of the paste, cut or copy commands in IE. Returns a
+		// boolean indicating that the operation succeeded.
+		// @param {String} command *LOWER CASED* name of command ('paste', 'cut', 'copy').
 		function execIECommand( command ) {
 			var doc = editor.document,
 				body = doc.getBody(),
@@ -598,9 +593,7 @@
 			return editor.fire( 'paste', eventData );
 		}
 
-		/**
-		 * Cutting off control type element in IE standards breaks the selection entirely. (#4881)
-		 */
+		// Cutting off control type element in IE standards breaks the selection entirely. (#4881)
 		function fixCut() {
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.quirks )
 				return;
@@ -775,10 +768,8 @@
 			}
 		}
 
-		/**
-		 * Listens for some clipboard related keystrokes, so they get customized.
-		 * Needs to be bind to keydown event.
-		 */
+		// Listens for some clipboard related keystrokes, so they get customized.
+		// Needs to be bind to keydown event.
 		function onKey( event ) {
 			if ( editor.mode != 'wysiwyg' )
 				return;
@@ -1125,34 +1116,40 @@
 
 /**
  * The default content type is used when pasted data cannot be clearly recognized as HTML or text.
- * For example: 'foo' may come from a plain text editor or a website. It isn't possible to recognize content
- * type in this case, so default will be used.
- * <strong>Note:</strong> If content type is text, then styles of context of paste are preserved.
- * Allowed values are: 'html' and 'text'.
- * @name CKEDITOR.config.clipboard_defaultContentType
+ *
+ * For example: ```'foo'``` may come from a plain text editor or a website. It isn't possible to recognize content
+ * type in this case, so default will be used. However, it's clear that ```'<b>example</b> text'``` is an HTML
+ * and its origin is webpage, email or other rich text editor.
+ *
+ * **Note:** If content type is text, then styles of context of paste are preserved.
+ *
+ *		CKEDITOR.config.clipboard_defaultContentType = 'text';
+ *
  * @since 4.0
- * @type String
- * @default 'html'
- * @example
- * CKEDITOR.config.clipboard_defaultContentType = 'text';
+ * @cfg {'html'/'text'} [clipboard_defaultContentType='html']
+ * @member CKEDITOR.config
  */
 
 /**
  * Fired when a clipboard operation is about to be taken into the editor.
  * Listeners can manipulate the data to be pasted before having it effectively
  * inserted into the document.
- * @name CKEDITOR.editor#paste
+ *
  * @since 3.1
- * @event
- * @param {String} data.type Type of data in data.dataValue. Usually 'html' or 'text', but for listeners
- * 		with priority less than 6 it may be also 'auto', what means that content type hasn't been recognised yet
- * 		(this will be done by content type sniffer that listens with priority 6).
+ * @event paste
+ * @member CKEDITOR.editor
+ * @param {Object} data
+ * @param {String} data.type Type of data in ```data.dataValue```. Usually ```html``` or ```text```, but for listeners
+ * with priority less than 6 it may be also ```auto```, what means that content type hasn't been recognised yet
+ * (this will be done by content type sniffer that listens with priority 6).
  * @param {String} data.dataValue HTML to be pasted.
  */
 
 /**
  * Internal event to open the Paste dialog.
- * @name CKEDITOR.editor#pasteDialog
- * @event
- * @param {Function} [data] Callback that will be passed to editor.openDialog.
+ *
+ * @private
+ * @event pasteDialog
+ * @member CKEDITOR.editor
+ * @param {Function} [callback] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
  */
