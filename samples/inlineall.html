@@ -5,161 +5,322 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
+	<title>Massive inline editing &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
+	<script>
+
+		// This code is generally not necessary, but it is here to demonstrate
+		// how to customize specific editor instances on the fly. This fits well
+		// this demo because we have editable elements (like headers) that
+		// require less features.
+
+		// The "instanceCreated" event is fired for every editor instance created.
+		CKEDITOR.on( 'instanceCreated', function( event ) {
+			var editor = event.editor,
+				element = editor.element;
+
+			// Customize editors for headers and tag list.
+			// These editors don't need features like smileys, templates, iframes etc.
+			if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
+				// Customize the editor configurations on "configLoaded" event,
+				// which is fired after the configuration file loading and
+				// execution. This makes it possible to change the
+				// configurations before the editor initialization takes place.
+				editor.on( 'configLoaded', function() {
+
+					// Remove unnecessary plugins to make the editor simpler.
+					editor.config.removePlugins = 'colorbutton,find,flash,font,' +
+						'forms,iframe,image,newpage,removeformat,scayt,' +
+						'smiley,specialchar,stylescombo,templates,wsc';
+
+					// Rearrange the layout of the toolbar.
+					editor.config.toolbarGroups = [
+						{ name: 'editing',		groups: [ 'basicstyles', 'links' ] },
+						{ name: 'undo' },
+						{ name: 'clipboard',	groups: [ 'selection', 'clipboard' ] },
+						{ name: 'about' }
+					];
+				});
+			}
+		});
+
+	</script>
 	<link href="sample.css" rel="stylesheet">
-	<link href="assets/2-col-grid.css" rel="stylesheet">
 	<style>
-		/* The following styles are just for this demo page purpose. */
-		#header, #main, #ref, #interpret
+
+		/* Style a bit the editable elements (mainly cursor) */
+		.cke_editable[contenteditable="true"]
 		{
-			border: 3px solid transparent;
+			outline: none !important;
+			*border: none !important;	/* IE7 */
+
 			padding: 10px;
+			outline: none !important;
+			cursor: pointer;
 		}
+
+		/* Once an editable element gets focused, the "cke_focus" class is
+		   added to it, so we can style it differently. */
+		.cke_editable.cke_focus
+		{
+			box-shadow: inset 0px 0px 20px 3px #ddd;
+			outline: 1px solid #ddd !important;
+			*border: 1px solid #ddd !important;	/* IE7 */
+			cursor: auto;
+			background: #eee;
+		}
+
+		/* The following styles are just to make the page look nice. */
+
+		/* Workaround to show Arial Black in Firefox. */
+		@font-face
+		{
+			font-family: 'arial-black';
+			src: local('Arial Black');
+		}
+
+		#container
+		{
+			width: 960px;
+			margin: 30px auto 0;
+		}
+
+		#header
+		{
+			overflow: hidden;
+			padding: 0 0 30px;
+			border-bottom: 5px solid #05B2D2;
+			position: relative;
+		}
+
+		#headerLeft,
+		#headerRight
+		{
+			width: 49%;
+			overflow: hidden;
+		}
+
+		#headerLeft
+		{
+			float: left;
+			padding: 10px 1px 1px;
+		}
+
+		#headerLeft h2,
+		#headerLeft h3
+		{
+			text-align: right;
+			margin: 0;
+			overflow: hidden;
+			font-weight: normal;
+		}
+
+		#headerLeft h2
+		{
+			font-family: "Arial Black",arial-black;
+			font-size: 4.6em;
+			line-height: 1.1em;
+			text-transform: uppercase;
+		}
+
+		#headerLeft h3
+		{
+			font-size: 2.3em;
+			line-height: 1.1em;
+			margin: .2em 0 0;
+			color: #666;
+		}
+
+		#headerRight
+		{
+			float: right;
+			padding: 1px;
+		}
+
+		#headerRight p
+		{
+			font-size: 1.4em;
+			text-align: justify;
+			line-height: 1.8em;
+			margin: 0;
+			color: #666;
+		}
+
+		#headerRight p + p
+		{
+			margin-top: 20px;
+		}
+
+		#headerRight div
+		{
+			padding: 20px;
+			margin: 0 0 0 30px;
+		}
+
+		#columns
+		{
+			color: #333;
+			overflow: hidden;
+			padding: 20px 0;
+		}
+
+		#columns > div
+		{
+			float: left;
+			width: 33.3%;
+		}
+
+		#columns #column1 > div
+		{
+			margin-left: 1px;
+		}
+
+		#columns #column3 > div
+		{
+			margin-right: 1px;
+		}
+
+		#columns > div > div
+		{
+			margin: 0px 10px;
+			padding: 10px 20px;
+		}
+
+		#columns blockquote
+		{
+			position: relative;
+		}
+
+		#columns blockquote:before
+		{
+			content: "\201C";
+			font-size: 60px;
+			position: absolute;
+			left: -30px;
+			top: 10px;
+			color: #666;
+		}
+
+		#tagLine
+		{
+			border-top: 5px solid #05B2D2;
+			padding-top: 20px;
+		}
+
+		#taglist {
+			display: inline-block;
+			margin-left: 20px;
+			font-weight: bold;
+			margin: 0 0 0 20px;
+		}
+
 	</style>
 </head>
 <body>
 <div>
-	<h1 class="samples">CKEditor Sample &mdash; Inline Editing</h1>
+	<h1 class="samples"><a href="index.html">CKEditor Samples</a> &raquo; Massive inline editing</h1>
 	<div class="description">
 		<p>This sample page demonstrates the inline editing feature - CKEditor instances will be created automatically from page elements with <strong>contentEditable</strong> attribute set to value <strong>true</strong>:</p>
 		<pre class="samples">&lt;div <strong>contenteditable="true</strong>" &gt; ... &lt;/div&gt;</pre>
-		<p>Click inside on the section surrounded by orange dotted line to start editing.</p>
+		<p>Click inside of any element below to start editing.</p>
 	</div>
 </div>
-<hr>
-<h2 id="header" contenteditable="true" tabindex="1">
-	Little Red Riding Hood</h2>
-<div class="colmask leftmenu">
-	<div class="colleft">
-		<div  class="col1">
-			<h3>Interpretations</h3>
-			<div id="interpret" contenteditable="true">
-				<h4>Wolf attacks</h4>
+<div id="container">
+	<div id="header">
+		<div id="headerLeft">
+			<h2 id="sampleTitle" contenteditable="true">
+				CKEditor<br> Goes Inline!
+			</h2>
+			<h3 contenteditable="true">
+				Lorem ipsum dolor sit amet dolor duis blandit vestibulum faucibus a, tortor.
+			</h3>
+		</div>
+		<div id="headerRight">
+			<div contenteditable="true">
 				<p>
-					Ethologist Valerius Geist of the University of Calgary, Alberta wrote that the fable was likely based on genuine risk of wolf attacks at the time. He argues that wolves were in fact dangerous predators, and fables served as a valid warning not to enter forests where wolves were known to live, and to be on the look out for such. Both wolves and wilderness were treated as enemies of humanity in that region and time.
+					Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies.
 				</p>
-				<h4>Natural cycles</h4>
-				<p>Folklorists and cultural anthropologists such as P. Saintyves and Edward Burnett Tylor saw "Little Red Riding Hood" in terms of solar myths and other naturally-occurring cycles. Her red hood could represent the bright sun which is ultimately swallowed by the terrible night (the wolf), and the variations in which she is cut out of the wolf's belly represent by it the dawn. In this interpretation, there is a connection between the wolf of this tale and Sköll, the wolf in Norse myth that will swallow the personified Sun at Ragnarök, or Fenrir. Alternatively, the tale could be about the season of spring, or the month of May, escaping the winter.</p>
-				<h4>Ritual</h4>
-				<p>The tale has been interpreted as a puberty ritual, stemming from a prehistorical origin (sometimes an origin stemming from a previous matriarchal era). The girl, leaving home, enters a liminal state and by going through the acts of the tale, is transformed into an adult woman by the act of coming out of the wolf's belly.</p>
+				<p>
+					Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac.
+				</p>
 			</div>
 		</div>
-		<div class="col2">
-			<h3>The story</h3>
-			<div id="main" contenteditable="true" tabindex="2">
-				<p><img alt="" src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" style="margin-left: 10px;
-									margin-right: 10px; float: left; width: 120px; height: 168px;">
-				&quot;<b>Little Red Riding Hood</b>&quot; is a famous <a href="http://en.wikipedia.org/wiki/Fairy_tale"
-					title="Fairy tale">fairy tale</a> about a young girl&#39;s encounter with a
-				wolf. The story has been changed considerably in its history and subject to numerous
-				modern adaptations and readings.</p>
-				<table style="width: 200px; float: right;">
-					<caption>
-						<strong>International Names</strong></caption>
-					<tbody>
-						<tr>
-							<td>
-								Chinese
-							</td>
-							<td>
-								<i>小紅帽</i>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Italian
-							</td>
-							<td>
-								<i>Cappuccetto Rosso</i>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								Spanish
-							</td>
-							<td>
-								<i>Caperucita Roja</i>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+	</div>
+	<div id="columns">
+		<div id="column1">
+			<div contenteditable="true">
+				<h3>
+					Fusce vitae porttitor
+				</h3>
 				<p>
-					The version most widely known today is based on the <a href="http://en.wikipedia.org/wiki/Brothers_Grimm"
-						title="Brothers Grimm">Brothers Grimm</a> variant. It is about a girl called
-					Little Red Riding Hood, after the red <a href="http://en.wikipedia.org/wiki/Hood_%28headgear%29"
-						title="Hood (headgear)">hooded</a> <a href="http://en.wikipedia.org/wiki/Cape" title="Cape">
-							cape</a> or <a href="http://en.wikipedia.org/wiki/Cloak" title="Cloak">cloak</a>
-					she wears. The girl walks through the woods to deliver food to her sick grandmother.</p>
+					<strong>
+						Lorem ipsum dolor sit amet dolor. Duis blandit vestibulum faucibus a, tortor.
+					</strong>
+				</p>
 				<p>
-					A wolf wants to eat the girl but is afraid to do so in public. He approaches the
-					girl, and she na&iuml;vely tells him where she is going. He suggests the girl pick
-					some flowers, which she does. In the meantime, he goes to the grandmother&#39;s
-					house and gains entry by pretending to be the girl. He swallows the grandmother
-					whole, and waits for the girl, disguised as the grandmother.</p>
-				<p>
-					When the girl arrives, she notices he looks very strange to be her grandma. In most
-					retellings, this eventually culminates with Little Red Riding Hood saying, &quot;My,
-					what big teeth you have!&quot;<br>
-					To which the wolf replies, &quot;The better to eat you with,&quot; and swallows
-					her whole, too.</p>
-				<p>
-					A <a href="http://en.wikipedia.org/wiki/Hunter" title="Hunter">hunter</a>, however,
-					comes to the rescue and cuts the wolf open. Little Red Riding Hood and her grandmother
-					emerge unharmed. They fill the wolf&#39;s body with heavy stones, which drown him
-					when he falls into a well. Other versions of the story have had the grandmother
-					shut in the closet instead of eaten, and some have Little Red Riding Hood saved
-					by the hunter as the wolf advances on her rather than after she is eaten.</p>
-				<p>
-					The tale makes the clearest contrast between the safe world of the village and the
-					dangers of the <a href="http://en.wikipedia.org/wiki/Enchanted_forest" title="Enchanted forest">
-						forest</a>, conventional antitheses that are essentially medieval, though no
-					written versions are as old as that.</p>
-			</div>
-			<h3>Other references</h3>
-			<div id="ref" contenteditable="true" >
-				<ul>
-					<li>Bates, Clara Doty. <a target="_blank" href= "http://books.google.com/books?id=skDSAAAAMAAJ&pg=PA3#v=onepage&q&f=false">Little Red Riding-Hood</a>. Versified by Mrs. Clara Doty Bates, illustrated by Mrs. C. D. Finley (Boston: D. Lothrop and Company, 1883).
-					<li>Calvino, Italo. "The Wolf and the Three Girls," <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Italian Folktales</a> (New York: Houghton Mifflin Harcourt, 1992), <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PA75#v=onepage&q&f=false">no. 26, pp. 75-76</a>.
-					<li>Carryl, Guy Wetmore. "The New Red Riding Hood," <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PR1#v=onepage&q&f=false">Public Opinion: A Comprehensive Summary of the Press throughout the World on All Important Current Topics</a>, vol. 30 (January - June 1901), <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PA542#v=onepage&q&f=false">pp. 542-44</a>. First published in the Saturday Evening Post.
-					folktale from Italy of type 333A about a careless girl who is eaten up by a witch.
-					<li>Croser, Nigel. <a target="_blank" href= "http://books.google.com/books?id=sT3AJ2m7-VAC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Little Red Riding Hood</a>. Words by Nigel Croser, illustrated by Leanne Argent (Flinders Park, SA, Australia: Era Publications, 2003).
-					<li>Dahl, Roald, "Little Red Riding Hood and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fiction and Poetry Texts</a>, year 5, edited by Julie Orrell and Eileen Jones (Cheltenham, U.K.: Nelson Thomes, 2004), <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PA23#v=onepage&q&f=false">p. 23</a>.
-					<li><a target="_blank" href= "http://books.google.com/books?id=ONrj7H3oa5QC&pg=PA3#v=onepage&q&f=false">The Rescue of Little Red Riding Hood: A Juvenile Operetta in Five Acts</a> (Nashville: C. R. and H. H. Hatch, 1883).
-					<li>Riley, James Whitcomb. "Maymie's Story of Red Riding-Hood," <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PP9#v=onepage&q&f=false">The Complete Works of James Whitcomb Riley</a>, collected and edited by Edmund Henry Eitel, vol. 4 (&copy; 1913), <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PA412#v=onepage&q&f=false">pp. 412-18</a>.
-					<li>Thackeray, Miss [Anne Thackeray Ritchie]. <a target="_blank" href= "http://books.google.com/books?id=qQFFAAAAYAAJ&pg=PA1#v=onepage&q&f=false">Little Red Riding Hood</a> (Boston: Loring, 1867).
-					<li>Thurber, James. "The Little Girl and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fables for Our Time and Famous Poems Illustrated</a> (New York: Harper Collins, 1983), <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PA3#v=onepage&q&f=false">p. 3</a>.
-					<li>Tieck, Ludwig. <a target="_blank" href="http://www.gasl.org/refbib/Tieck__02_Schriften.pdf">Leben und Tod des kleinen Rothk&auml;ppchens (1800)</a>. This is a large pdf file (8.54 megabytes) containing facsimiles of three dramas from Ludwig Tieck's Schriften, vol. 2 (Berlin: G. Reimer, 1828). His version of "Little Red Riding Hood" is found on pages 327-62.
-				</ul>
-				<ul>
-					<li>Bates, Clara Doty. <a target="_blank" href= "http://books.google.com/books?id=skDSAAAAMAAJ&pg=PA3#v=onepage&q&f=false">Little Red Riding-Hood</a>. Versified by Mrs. Clara Doty Bates, illustrated by Mrs. C. D. Finley (Boston: D. Lothrop and Company, 1883).
-					<li>Calvino, Italo. "The Wolf and the Three Girls," <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Italian Folktales</a> (New York: Houghton Mifflin Harcourt, 1992), <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PA75#v=onepage&q&f=false">no. 26, pp. 75-76</a>.
-					<li>Carryl, Guy Wetmore. "The New Red Riding Hood," <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PR1#v=onepage&q&f=false">Public Opinion: A Comprehensive Summary of the Press throughout the World on All Important Current Topics</a>, vol. 30 (January - June 1901), <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PA542#v=onepage&q&f=false">pp. 542-44</a>. First published in the Saturday Evening Post.
-					folktale from Italy of type 333A about a careless girl who is eaten up by a witch.
-					<li>Croser, Nigel. <a target="_blank" href= "http://books.google.com/books?id=sT3AJ2m7-VAC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Little Red Riding Hood</a>. Words by Nigel Croser, illustrated by Leanne Argent (Flinders Park, SA, Australia: Era Publications, 2003).
-					<li>Dahl, Roald, "Little Red Riding Hood and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fiction and Poetry Texts</a>, year 5, edited by Julie Orrell and Eileen Jones (Cheltenham, U.K.: Nelson Thomes, 2004), <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PA23#v=onepage&q&f=false">p. 23</a>.
-					<li><a target="_blank" href= "http://books.google.com/books?id=ONrj7H3oa5QC&pg=PA3#v=onepage&q&f=false">The Rescue of Little Red Riding Hood: A Juvenile Operetta in Five Acts</a> (Nashville: C. R. and H. H. Hatch, 1883).
-					<li>Riley, James Whitcomb. "Maymie's Story of Red Riding-Hood," <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PP9#v=onepage&q&f=false">The Complete Works of James Whitcomb Riley</a>, collected and edited by Edmund Henry Eitel, vol. 4 (&copy; 1913), <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PA412#v=onepage&q&f=false">pp. 412-18</a>.
-					<li>Thackeray, Miss [Anne Thackeray Ritchie]. <a target="_blank" href= "http://books.google.com/books?id=qQFFAAAAYAAJ&pg=PA1#v=onepage&q&f=false">Little Red Riding Hood</a> (Boston: Loring, 1867).
-					<li>Thurber, James. "The Little Girl and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fables for Our Time and Famous Poems Illustrated</a> (New York: Harper Collins, 1983), <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PA3#v=onepage&q&f=false">p. 3</a>.
-					<li>Tieck, Ludwig. <a target="_blank" href="http://www.gasl.org/refbib/Tieck__02_Schriften.pdf">Leben und Tod des kleinen Rothk&auml;ppchens (1800)</a>. This is a large pdf file (8.54 megabytes) containing facsimiles of three dramas from Ludwig Tieck's Schriften, vol. 2 (Berlin: G. Reimer, 1828). His version of "Little Red Riding Hood" is found on pages 327-62.
-				</ul>
-				<ul>
-					<li>Bates, Clara Doty. <a target="_blank" href= "http://books.google.com/books?id=skDSAAAAMAAJ&pg=PA3#v=onepage&q&f=false">Little Red Riding-Hood</a>. Versified by Mrs. Clara Doty Bates, illustrated by Mrs. C. D. Finley (Boston: D. Lothrop and Company, 1883).
-					<li>Calvino, Italo. "The Wolf and the Three Girls," <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Italian Folktales</a> (New York: Houghton Mifflin Harcourt, 1992), <a target="_blank" href= "http://books.google.com/books?id=3Bwb6sTtLLEC&lpg=PP1&pg=PA75#v=onepage&q&f=false">no. 26, pp. 75-76</a>.
-					<li>Carryl, Guy Wetmore. "The New Red Riding Hood," <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PR1#v=onepage&q&f=false">Public Opinion: A Comprehensive Summary of the Press throughout the World on All Important Current Topics</a>, vol. 30 (January - June 1901), <a target="_blank" href= "http://books.google.com/books?id=idkaAAAAYAAJ&pg=PA542#v=onepage&q&f=false">pp. 542-44</a>. First published in the Saturday Evening Post.
-					folktale from Italy of type 333A about a careless girl who is eaten up by a witch.
-					<li>Croser, Nigel. <a target="_blank" href= "http://books.google.com/books?id=sT3AJ2m7-VAC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Little Red Riding Hood</a>. Words by Nigel Croser, illustrated by Leanne Argent (Flinders Park, SA, Australia: Era Publications, 2003).
-					<li>Dahl, Roald, "Little Red Riding Hood and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fiction and Poetry Texts</a>, year 5, edited by Julie Orrell and Eileen Jones (Cheltenham, U.K.: Nelson Thomes, 2004), <a target="_blank" href= "http://books.google.com/books?id=TOBhXGuKL2gC&lpg=PP1&pg=PA23#v=onepage&q&f=false">p. 23</a>.
-					<li><a target="_blank" href= "http://books.google.com/books?id=ONrj7H3oa5QC&pg=PA3#v=onepage&q&f=false">The Rescue of Little Red Riding Hood: A Juvenile Operetta in Five Acts</a> (Nashville: C. R. and H. H. Hatch, 1883).
-					<li>Riley, James Whitcomb. "Maymie's Story of Red Riding-Hood," <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PP9#v=onepage&q&f=false">The Complete Works of James Whitcomb Riley</a>, collected and edited by Edmund Henry Eitel, vol. 4 (&copy; 1913), <a target="_blank" href= "http://books.google.com/books?id=TNARAAAAYAAJ&pg=PA412#v=onepage&q&f=false">pp. 412-18</a>.
-					<li>Thackeray, Miss [Anne Thackeray Ritchie]. <a target="_blank" href= "http://books.google.com/books?id=qQFFAAAAYAAJ&pg=PA1#v=onepage&q&f=false">Little Red Riding Hood</a> (Boston: Loring, 1867).
-					<li>Thurber, James. "The Little Girl and the Wolf," <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PP1#v=onepage&q&f=false">Fables for Our Time and Famous Poems Illustrated</a> (New York: Harper Collins, 1983), <a target="_blank" href= "http://books.google.com/books?id=HedNG3C2BpUC&lpg=PP1&pg=PA3#v=onepage&q&f=false">p. 3</a>.
-					<li>Tieck, Ludwig. <a target="_blank" href="http://www.gasl.org/refbib/Tieck__02_Schriften.pdf">Leben und Tod des kleinen Rothk&auml;ppchens (1800)</a>. This is a large pdf file (8.54 megabytes) containing facsimiles of three dramas from Ludwig Tieck's Schriften, vol. 2 (Berlin: G. Reimer, 1828). His version of "Little Red Riding Hood" is found on pages 327-62.
-				</ul>
+					Proin nunc justo felis mollis tincidunt, risus risus pede, posuere cubilia Curae, Nullam euismod, enim. Etiam nibh ultricies dolor ac dignissim erat volutpat. Vivamus fermentum <a href="http://ckeditor.com/">nisl nulla sem in</a> metus. Maecenas wisi. Donec nec erat volutpat.
+				</p>
+				<blockquote>
+					<p>
+						Fusce vitae porttitor a, euismod convallis nisl, blandit risus tortor, pretium.
+						Vehicula vitae, imperdiet vel, ornare enim vel sodales rutrum
+					</p>
+				</blockquote>
+				<blockquote>
+					<p>
+						Libero nunc, rhoncus ante ipsum non ipsum. Nunc eleifend pede turpis id sollicitudin fringilla. Phasellus ultrices, velit ac arcu.
+					</p>
+				</blockquote>
+				<p>Pellentesque nunc. Donec suscipit erat. Pellentesque habitant morbi tristique ullamcorper.</p>
+				<p><strike>Mauris mattis feugiat lectus nec mauris. Nullam vitae ante.</strike></p>
 			</div>
 		</div>
+		<div id="column2">
+			<div contenteditable="true">
+				<h3>
+					Integer condimentum sit amet
+				</h3>
+				<p>
+					<strong>Aenean nonummy a, mattis varius. Cras aliquet.</strong>
+					Praesent <a href="http://ckeditor.com/">magna non mattis ac, rhoncus nunc</a>, rhoncus eget, cursus pulvinar mollis.</p>
+				<p>Proin id nibh. Sed eu libero posuere sed, lectus. Phasellus dui gravida gravida feugiat mattis ac, felis.</p>
+				<p>Integer condimentum sit amet, tempor elit odio, a dolor non ante at sapien. Sed ac lectus. Nulla ligula quis eleifend mi, id leo velit pede cursus arcu id nulla ac lectus. Phasellus vestibulum. Nunc viverra enim quis diam.</p>
+			</div>
+			<div contenteditable="true">
+				<h3>
+					Praesent wisi accumsan sit amet nibh
+				</h3>
+				<p>Donec ullamcorper, risus tortor, pretium porttitor. Morbi quam quis lectus non leo.</p>
+				<p style="margin-left: 40px; ">Integer faucibus scelerisque. Proin faucibus at, aliquet vulputate, odio at eros. Fusce <a href="http://ckeditor.com/">gravida, erat vitae augue</a>. Fusce urna fringilla gravida.</p>
+				<p>In hac habitasse platea dictumst. Praesent wisi accumsan sit amet nibh. Maecenas orci luctus a, lacinia quam sem, posuere commodo, odio condimentum tempor, pede semper risus. Suspendisse pede. In hac habitasse platea dictumst. Nam sed laoreet sit amet erat. Integer.</p>
+			</div>
+		</div>
+		<div id="column3">
+			<div contenteditable="true">
+				<p>
+					<img src="assets/inlineall/logo.png" alt="CKEditor logo" style="float:left">
+				</p>
+				<p>Quisque justo neque, mattis sed, fermentum ultrices <strong>posuere cubilia Curae</strong>, Vestibulum elit metus, quis placerat ut, lectus. Ut sagittis, nunc libero, egestas consequat lobortis velit rutrum ut, faucibus turpis. Fusce porttitor, nulla quis turpis. Nullam laoreet vel, consectetuer tellus suscipit ultricies, hendrerit wisi. Donec odio nec velit ac nunc sit amet, accumsan cursus aliquet. Vestibulum ante sit amet sagittis mi.</p>
+				<h3>
+					Nullam laoreet vel consectetuer tellus suscipit
+				</h3>
+				<ul>
+					<li>Ut sagittis, nunc libero, egestas consequat lobortis velit rutrum ut, faucibus turpis.</li>
+					<li>Fusce porttitor, nulla quis turpis. Nullam laoreet vel, consectetuer tellus suscipit ultricies, hendrerit wisi.</li>
+					<li>Mauris eget tellus. Donec non felis. Nam eget dolor. Vestibulum enim. Donec.</li>
+				</ul>
+				<p>Quisque justo neque, mattis sed, <a href="http://ckeditor.com/">fermentum ultrices posuere cubilia</a> Curae, Vestibulum elit metus, quis placerat ut, lectus.</p>
+				<p>Nullam laoreet vel, consectetuer tellus suscipit ultricies, hendrerit wisi. Ut sagittis, nunc libero, egestas consequat lobortis velit rutrum ut, faucibus turpis. Fusce porttitor, nulla quis turpis.</p>
+				<p>Donec odio nec velit ac nunc sit amet, accumsan cursus aliquet. Vestibulum ante sit amet sagittis mi. Sed in nonummy faucibus turpis. Mauris eget tellus. Donec non felis. Nam eget dolor. Vestibulum enim. Donec.</p>
+			</div>
+		</div>
+	</div>
+	<div id="tagLine">
+		Tags of this article:
+		<p id="taglist" contenteditable="true">
+			inline, editing, floating, CKEditor
+		</p>
 	</div>
 </div>
 <div id="footer">

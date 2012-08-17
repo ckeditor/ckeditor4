@@ -5,58 +5,48 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<meta charset="utf-8">
 	<title>UI Color Picker &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<link rel="stylesheet" href="sample.css">
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; Kama UI Color
+		<a href="index.html">CKEditor Samples</a> &raquo; Kama UI Color
 	</h1>
 	<div class="description">
-	<p>
-		This sample shows how to automatically replace <code>&lt;textarea&gt;</code> elements
-		with a CKEditor instance with an option to change the color of its user interface.<br>
-		<strong>Note:</strong>The UI skin color is a feature dedicated to the "kama" skin.
-	</p>
-	<h2 class="samples">Setting the User Interface Color</h2>
-	<p>
-	To specify the color of the user interface, set the <code>uiColor</code> property:
-	</p>
-	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
-	{
-		<strong>uiColor: '#EE0000'</strong>
-	});</pre>
-	<p>
-		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
-		the <code>&lt;textarea&gt;</code> element to be replaced.
-	</p>
-	<h2 class="samples">Enabling the Color Picker</h2>
-	<p>
-		If the <strong>uicolor</strong> plugin along with the dedicated <strong>UIColor</strong>
-		toolbar button is added to CKEditor, the user will also be able to pick the color of the
-		UI from the color palette available in the <strong>UI Color Picker</strong> dialog window.
-	</p>
-	<p>
-		To insert a CKEditor instance with the <strong>uicolor</strong> plugin enabled,
-		use the following JavaScript call:
-	</p>
-	<pre class="samples">CKEDITOR.replace( '<em>textarea_id</em>',
-	{
-		<strong>extraPlugins : 'uicolor',</strong>
-		toolbar : [ [ 'Bold', 'Italic' ], [ <strong>'UIColor'</strong> ] ]
-	});</pre>
-	</div>
-	<!-- This <div> holds alert messages to be display in the sample page. -->
-	<div id="alerts">
-		<noscript>
-			<p>
-				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
-				support, like yours, you should still see the contents (HTML data) and you should
-				be able to edit it normally, without a rich editor interface.
-			</p>
-		</noscript>
+		<p>
+			This sample shows how to automatically replace <code>&lt;textarea&gt;</code> elements
+			with a CKEditor instance with an option to change the color of its user interface.<br>
+			<strong>Note:</strong>The UI skin color is a feature dedicated to the "kama" skin.
+		</p>
+		<h2 class="samples">Setting the User Interface Color</h2>
+		<p>
+			To specify the color of the user interface, set the <code>uiColor</code> property:
+		</p>
+<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	<strong>uiColor: '#EE0000'</strong>
+});</pre>
+		<p>
+			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+			the <code>&lt;textarea&gt;</code> element to be replaced.
+		</p>
+		<h2 class="samples">Enabling the Color Picker</h2>
+		<p>
+			If the <strong>uicolor</strong> plugin along with the dedicated <strong>UIColor</strong>
+			toolbar button is added to CKEditor, the user will also be able to pick the color of the
+			UI from the color palette available in the <strong>UI Color Picker</strong> dialog window.
+		</p>
+		<p>
+			To insert a CKEditor instance with the <strong>uicolor</strong> plugin enabled,
+			use the following JavaScript call:
+		</p>
+		<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	<strong>extraPlugins : 'uicolor',</strong>
+	toolbar : [ [ 'Bold', 'Italic' ], [ <strong>'UIColor'</strong> ] ]
+});</pre>
 	</div>
 	<p>
 		Click the <strong>UI Color Picker</strong> button to test your color preferences at runtime.
@@ -72,16 +62,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
-			CKEDITOR.replace( 'editor1',
-				{
-					extraPlugins : 'uicolor',
-					toolbar :
-					[
-						[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
-						[ 'FontSize', 'TextColor', 'BGColor' ],
-						[ 'UIColor' ]
-					]
-				});
+			CKEDITOR.replace( 'editor1', {
+				extraPlugins : 'uicolor',
+				toolbar : [
+					[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+					[ 'FontSize', 'TextColor', 'BGColor' ],
+					[ 'UIColor' ]
+				]
+			});
 
 		</script>
 	</p>
@@ -95,20 +83,42 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
-			CKEDITOR.replace( 'editor2',
-				{
-					extraPlugins : 'uicolor',
-					uiColor: '#14B8C4',
-					toolbar :
-					[
-						[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
-						[ 'FontSize', 'TextColor', 'BGColor' ],
-						[ 'UIColor' ]
-					]
-				} );
+			CKEDITOR.replace( 'editor2', {
+				extraPlugins : 'uicolor',
+				uiColor: '#14B8C4',
+				toolbar : [
+					[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+					[ 'FontSize', 'TextColor', 'BGColor' ],
+					[ 'UIColor' ]
+				]
+			});
 
 		</script>
 	</p>
+	<p>
+		The third editor instance is inline. It also includes the <strong>UI Color Picker</strong> toolbar
+		button.
+	</p>
+	<div id="editor3" contenteditable="true">
+		<p>This is some <strong>sample text</strong>. You are using <a data-cke-saved-href="http://ckeditor.com/" href="http://ckeditor.com/">CKEditor</a>.</p>
+	</div>
+	<script>
+
+		// Disable automatic creation of inline instances.
+		CKEDITOR.disableAutoInline = true;
+
+		// Replace the <div id="editor3"> with an inline CKEditor instance.
+		CKEDITOR.inline( 'editor3', {
+			extraPlugins : 'uicolor',
+			uiColor: '#67C614',
+			toolbar : [
+				[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+				[ 'FontSize', 'TextColor', 'BGColor' ],
+				[ 'UIColor' ]
+			]
+		} );
+
+	</script>
 	<p>
 		<input type="submit" value="Submit">
 	</p>

@@ -5,59 +5,57 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
+	<title>Inline Editing by Code &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<title>Replace Textareas by Class Name &mdash; CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
 	<link href="sample.css" rel="stylesheet">
 	<style>
+
 		#editable
 		{
 			width: 45%;
 			padding: 10px;
 			float: left;
 		}
+
 	</style>
 </head>
 <body>
 	<h1 class="samples">
-		CKEditor Sample &mdash; Inline Editing by Code
+		<a href="index.html">CKEditor Samples</a> &raquo; Inline Editing by Code
 	</h1>
 	<div class="description">
 		<p>
 			This sample shows how to create an inline editor instance of CKEditor. It is created
-			with a JavaScript call using the following code:</p>
-		<pre class="samples">
+			with a JavaScript call using the following code:
+		</p>
+<pre class="samples">
 // This property tells CKEditor to not activate every element with contenteditable=true element.
 CKEDITOR.disableAutoInline = true;
 
-var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
+var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
+</pre>
 		<p>
-			Note that <code><em>editable</em></code> in the code above is the <code>id</code>
-			attribute of the <code>&lt;div&gt;</code> element to attache to.</p>
-	</div>
-	<!-- This <div> holds alert messages to be display in the sample page. -->
-	<div id="alerts">
-		<noscript>
-			<p>
-				<strong>CKEditor requires JavaScript to run</strong>. In a browser with no JavaScript
-				support, like yours, you should still see the contents (HTML data) and you should
-				be able to edit it normally, without a rich editor interface.
-			</p>
-		</noscript>
+			Note that <code>editable</code> in the code above is the <code>id</code>
+			attribute of the <code>&lt;div&gt;</code> element to be converted into an inline instance.
+		</p>
 	</div>
 	<div id="editable" contenteditable="true">
 		<h2>
 			<img alt="" src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" style="margin-left: 10px;
 				margin-right: 10px; float: left; width: 120px; height: 168px;">Little Red
-			Riding Hood</h2>
+			Riding Hood
+		</h2>
 		<p>
 			&quot;<b>Little Red Riding Hood</b>&quot; is a famous <a href="http://en.wikipedia.org/wiki/Fairy_tale"
 				title="Fairy tale">fairy tale</a> about a young girl&#39;s encounter with a
 			wolf. The story has been changed considerably in its history and subject to numerous
-			modern adaptations and readings.</p>
+			modern adaptations and readings.
+		</p>
 		<table style="width: 200px; float: right;">
 			<caption>
-				<strong>International Names</strong></caption>
+				<strong>International Names</strong>
+			</caption>
 			<tbody>
 				<tr>
 					<td>
@@ -117,11 +115,13 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );</pre>
 				forest</a>, conventional antitheses that are essentially medieval, though no
 			written versions are as old as that.</p>
 	</div>
-	<script type="text/javascript">
+	<script>
+
 		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
 		var editor = CKEDITOR.inline( 'editable' );
+
 	</script>
 	<div id="footer">
 		<hr>

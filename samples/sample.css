@@ -24,6 +24,38 @@ pre, code, kbd, samp, tt
 	font-size: 1em;
 }
 
+code
+{
+	background: #f3f3f3;
+	border: 1px solid #ddd;
+	padding: 1px 4px;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.new
+{
+	background: #FF7E00;
+	border: 1px solid #DA8028;
+	color: #fff;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 1px 4px;
+	text-shadow: 0 1px 0 #C97626;
+	text-transform: uppercase;
+	margin: 0 0 0 3px;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	-moz-box-shadow: 0 2px 3px 0 #FFA54E inset;
+	-webkit-box-shadow: 0 2px 3px 0 #FFA54E inset;
+	box-shadow: 0 2px 3px 0 #FFA54E inset;
+}
+
 h1.samples
 {
 	color: #0782C1;
@@ -31,6 +63,18 @@ h1.samples
 	font-weight: normal;
 	margin: 0;
 	padding: 0;
+}
+
+h1.samples a
+{
+	color: #0782C1;
+	text-decoration: none;
+	border-bottom: 1px dotted #0782C1;
+}
+
+.samples a:hover
+{
+	border-bottom: 1px dotted #0782C1;
 }
 
 h2.samples
@@ -79,11 +123,6 @@ a.samples
 	text-decoration: none;
 }
 
-a.samples:hover
-{
-	text-decoration: underline;
-}
-
 form
 {
 	margin: 0;
@@ -96,11 +135,6 @@ pre.samples
 	border: 1px solid #D7D7D7;
 	overflow: auto;
 	padding: 0.25em;
-}
-
-#alerts
-{
-	color: Red;
 }
 
 #footer
@@ -173,9 +207,55 @@ label
 	margin-bottom: 6px;
 }
 
-/* CKEditor editables are automatically set with the "cke_editable" class. */
+/**
+ *	CKEditor editables are automatically set with the "cke_editable" class.
+ */
+
 .cke_editable[contenteditable=true]
 {
 	outline: 3px dotted orange !important;
-	*border: 3px dotted orange !important;
+	*border: 3px dotted orange !important;	/* For IE7 */
+}
+
+/**
+ *	Samples index styles.
+ */
+
+.twoColumns,
+.twoColumnsLeft,
+.twoColumnsRight
+{
+	overflow: hidden;
+}
+
+.twoColumnsLeft,
+.twoColumnsRight
+{
+	width: 45%;
+}
+
+.twoColumnsLeft
+{
+	float: left;
+}
+
+.twoColumnsRight
+{
+	float: right;
+}
+
+dl.samples
+{
+	padding: 0 0 0 40px;
+}
+dl.samples > dt
+{
+	display: list-item;
+	list-style-type: disc;
+	list-style-position: outside;
+	margin: 0 0 3px;
+}
+dl.samples > dd
+{
+	margin: 0 0 3px;
 }

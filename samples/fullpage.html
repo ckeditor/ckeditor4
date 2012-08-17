@@ -1,28 +1,47 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+	<title>Full Page Editing with Document Properties Plugin &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<link rel="stylesheet" href="sample.css">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
+		<a href="index.html">CKEditor Samples</a> &raquo; Full Page Editing with Document Properties Plugin
 	</h1>
-	<form action="sample_posteddata.php" method="post">
-		<div class="description">
-			<p>
-				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
-			</p>
+	<div class="description">
+		<p>
+			This sample shows how to configure CKEditor to edit entire HTML pages, from the
+			<code>&lt;html&gt;</code> tag to the <code>&lt;/html&gt;</code> tag.
+		</p>
+		<p>
+			The <strong>Document Properties</strong> (<code>docprops</code>) plugin is also turned on.
+			This plugin allows you to set the metadata of the page, including the page encoding, margins,
+			meta tags, or background.
+		</p>
+		<p>
+			The CKEditor instance below is inserted with a JavaScript call using the following code:
+		</p>
 <pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>' )
-</pre>
-		</div>
+CKEDITOR.replace( '<em>textarea_id</em>',
+{
+	<strong>fullPage : true,
+	extraPlugins : 'docprops'</strong>
+});</pre>
+		<p>
+			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+			the <code>&lt;textarea&gt;</code> element to be replaced.
+		</p>
+	</div>
+	<form action="sample_posteddata.php" method="post">
+		<label for="editor1">
+			CKEditor using the <code>docprops</code> plugin and working in the Full Page mode:
+		</label>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">
 			&lt;h1&gt;
 				&lt;img alt="" src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" style="margin-left: 10px; margin-right: 10px; float: left; width: 120px; height: 168px;" /&gt;Little Red Riding Hood&lt;/h1&gt;
@@ -66,13 +85,10 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
 		</textarea>
 		<script>
 
-			// This call can be placed at any point after the
-			// <textarea>, or inside a <head><script> in a
-			// window.onload event handler.
-
-			// Replace the <textarea id="editor"> with an CKEditor
-			// instance, using default configurations.
-			CKEDITOR.replace( 'editor1' );
+			CKEDITOR.replace( 'editor1', {
+				fullPage : true,
+				extraPlugins : 'docprops'
+			});
 
 		</script>
 		<p>
