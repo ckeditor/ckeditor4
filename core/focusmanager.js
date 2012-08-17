@@ -81,7 +81,8 @@
 
 				this.hasFocus = true;
 
-				this._.editor.container.addClass( 'cke_focus' );
+				var ct = this._.editor.container
+				ct && ct.addClass( 'cke_focus' );
 				this._.editor.fire( 'focus' );
 			}
 		},
@@ -121,7 +122,8 @@
 				if ( this.hasFocus ) {
 					this.hasFocus = false;
 
-					this._.editor.container.removeClass( 'cke_focus' );
+					var ct = this._.editor.container;
+					ct && ct.removeClass( 'cke_focus' );
 					this._.editor.fire( 'blur' );
 				}
 			}
