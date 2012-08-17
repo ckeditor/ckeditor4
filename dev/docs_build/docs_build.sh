@@ -10,7 +10,7 @@ echo ""
 # Move to the script directory.
 cd $(dirname $0)
 
-jsduck ../../core ../../plugins ../../ckeditor.js -o api_docs
+jsduck ../../core ../../plugins ../../ckeditor.js -o api_docs --stats
 
 echo ""
 echo "Finished!"
