@@ -2122,8 +2122,6 @@ CKEDITOR.START = 1;
  */
 CKEDITOR.END = 2;
 
-CKEDITOR.STARTEND = 3;
-
 // Shrink range types.
 
 /**
