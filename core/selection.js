@@ -725,7 +725,7 @@
 		 *
 		 * @method
 		 * @param {Boolean} [onlyEditables] If set to ```true```, this function retrives editable ranges only.
-		 * @return {Array} Range instances that represent the current selection.
+		 * @returns {Array} Range instances that represent the current selection.
 		 */
 		getRanges: (function() {
 			var func = CKEDITOR.env.ie ? ( function() {

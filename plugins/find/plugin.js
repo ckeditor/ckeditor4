@@ -36,15 +36,15 @@ CKEDITOR.plugins.add( 'find', {
 
 /**
  * Defines the style to be used to highlight results with the find dialog.
- * @type Object
- * @default { element : 'span', styles : { 'background-color' : '#004', 'color' : '#fff' } }
- * @example
- * // Highlight search results with blue on yellow.
- * config.find_highlight =
- *     {
- *         element : 'span',
- *         styles : { 'background-color' : '#ff0', 'color' : '#00f' }
- *     };
+ *
+ *		// Highlight search results with blue on yellow.
+ *		config.find_highlight = {
+ *			element: 'span',
+ *			styles: { 'background-color': '#ff0', color: '#00f' }
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.find_highlight = {
-	element: 'span', styles: { 'background-color': '#004', 'color': '#fff' } };
+	element: 'span', styles: { 'background-color': '#004', color: '#fff' } };

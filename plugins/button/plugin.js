@@ -86,6 +86,7 @@
 	 * Represents button handler object.
 	 *
 	 * @class
+	 * @singleton
 	 * @extends CKEDITOR.ui.handlerDefinition
 	 */
 	CKEDITOR.ui.button.handler = {

@@ -61,7 +61,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * Creates a CSS style sheet and inserts it into the document.
 	 *
 	 * @param cssStyleText {String} CSS style text.
-	 * @return {Object} The created DOM native style sheet object.
+	 * @returns {Object} The created DOM native style sheet object.
 	 */
 	appendStyleText: function( cssStyleText ) {
 		if ( this.$.createStyleSheet ) {

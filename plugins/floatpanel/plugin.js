@@ -73,19 +73,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				return this._.panel.getBlock( name );
 			},
 
-			/*
-				corner (LTR):
-					1 = top-left
-					2 = top-right
-					3 = bottom-right
-					4 = bottom-left
-
-				corner (RTL):
-					1 = top-right
-					2 = top-left
-					3 = bottom-left
-					4 = bottom-right
-			 */
+			//	corner (LTR):
+			//		1 = top-left
+			//		2 = top-right
+			//		3 = bottom-right
+			//		4 = bottom-left
+			//
+			//	corner (RTL):
+			//		1 = top-right
+			//		2 = top-left
+			//		3 = bottom-left
+			//		4 = bottom-right
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );

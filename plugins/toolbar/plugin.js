@@ -153,7 +153,7 @@
 
 					var labelId = CKEDITOR.tools.getNextId();
 
-					var output = [ 
+					var output = [
 						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
 						'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ];
 
@@ -265,10 +265,8 @@
 									itemObj.toolbar = toolbarObj;
 									itemObj.onkey = itemKeystroke;
 
-									/*
-									 * Fix for #3052:
-									 * Prevent JAWS from focusing the toolbar after document load.
-									 */
+									// Fix for #3052:
+									// Prevent JAWS from focusing the toolbar after document load.
 									itemObj.onfocus = function() {
 										if ( !editor.toolbox.focusCommandExecuted )
 											editor.focus();
@@ -580,72 +578,80 @@
 	}
 })();
 
+/**
+ * Separator UI element.
+ *
+ * @readonly
+ * @property {String} [='separator']
+ * @member CKEDITOR
+ */
 CKEDITOR.UI_SEPARATOR = 'separator';
 
 /**
  * The "UI space" to which rendering the toolbar. For the default editor implementation,
- * the recommended options are "top" and "bottom".
- * @type String
- * @default 'top'
- * @example
- * config.toolbarLocation = 'bottom';
+ * the recommended options are ```'top'``` and ```'bottom'```.
+ *
+ *		config.toolbarLocation = 'bottom';
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.toolbarLocation = 'top';
 
 /**
  * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
  * toolbars (strips), each one being also an array, containing a list of UI items.
- * @type Array|String
- * @name CKEDITOR.config.toolbar
- * @default null (if set to null, generate toolbar automatically using all available buttons)
- * @example
- * // Defines a toolbar with only one strip containing the "Source" button, a
- * // separator and the "Bold" and "Italic" buttons.
- * config.toolbar =
- * [
- *     [ 'Source', '-', 'Bold', 'Italic' ]
- * ];
- * @example
- * // Similar to example the above, defines a "Basic" toolbar with only one strip containing three buttons.
- * // Note that this setting is composed by "toolbar_" added by the toolbar name, which in this case is called "Basic".
- * // This second part of the setting name can be anything. You must use this name in the CKEDITOR.config.toolbar setting,
- * // so you instruct the editor which toolbar_(name) setting to use.
- * config.toolbar_Basic =
- * [
- *     [ 'Source', '-', 'Bold', 'Italic' ]
- * ];
- * // Load toolbar_Name where Name = Basic.
- * config.toolbar = 'Basic';
+ *
+ * If set to ```null```, generate toolbar automatically using all available buttons.
+ *
+ *		// Defines a toolbar with only one strip containing the "Source" button, a
+ *		// separator and the "Bold" and "Italic" buttons.
+ *		config.toolbar = [
+ *			[ 'Source', '-', 'Bold', 'Italic' ]
+ *		];
+ *
+ *		// Similar to example the above, defines a "Basic" toolbar with only one strip containing three buttons.
+ *		// Note that this setting is composed by "toolbar_" added by the toolbar name, which in this case is called "Basic".
+ *		// This second part of the setting name can be anything. You must use this name in the CKEDITOR.config.toolbar setting,
+ *		// so you instruct the editor which toolbar_(name) setting to use.
+ *		config.toolbar_Basic = [
+ *			[ 'Source', '-', 'Bold', 'Italic' ]
+ *		];
+ *		// Load toolbar_Name where Name = Basic.
+ *		config.toolbar = 'Basic';
+ *
+ * @cfg {Array/String} [toolbar=null]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether the toolbar can be collapsed by the user. If disabled, the collapser
  * button will not be displayed.
- * @name CKEDITOR.config.toolbarCanCollapse
- * @type Boolean
- * @default false
- * @example
- * config.toolbarCanCollapse = true;
+ *
+ *		config.toolbarCanCollapse = true;
+ *
+ * @cfg {Boolean} [toolbarCanCollapse=false]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether the toolbar must start expanded when the editor is loaded.
- * @name CKEDITOR.config.toolbarStartupExpanded
- * @type Boolean
- * @default true
- * @example
- * config.toolbarStartupExpanded = false;
+ *
+ *		config.toolbarStartupExpanded = false;
+ *
+ * @cfg {Boolean} [toolbarStartupExpanded=true]
+ * @member CKEDITOR.config
  */
 
 /**
  * When enabled, makes the arrow keys navigation cycle within the current
  * toolbar group. Otherwise the arrows will move trought all items available in
- * the toolbar. The TAB key will still be used to quickly jump among the
+ * the toolbar. The *TAB* key will still be used to quickly jump among the
  * toolbar groups.
- * @name CKEDITOR.config.toolbarGroupCycling
+ *
+ *		config.toolbarGroupCycling = false;
+ *
  * @since 3.6
- * @type Boolean
- * @default true
- * @example
- * config.toolbarGroupCycling = false;
+ * @cfg {Boolean} [toolbarGroupCycling=true]
+ * @member CKEDITOR.config
  */

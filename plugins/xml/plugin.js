@@ -13,11 +13,13 @@
 
 	/**
 	 * Represents a loaded XML document.
-	 * @constructor
-	 * @param {object|string} xmlObjectOrData A native XML (DOM document) object or
-	 *		a string containing the XML definition to be loaded.
-	 * @example
-	 * var xml = <b>new CKEDITOR.xml( '<books><book title="My Book" /></books>' )</b>;
+	 *
+	 *		var xml = new CKEDITOR.xml( '<books><book title="My Book" /></books>' );
+	 *
+	 * @class
+	 * @constructor Creates xml class instance.
+	 * @param {Object/String} xmlObjectOrData A native XML (DOM document) object or
+	 * a string containing the XML definition to be loaded.
 	 */
 	CKEDITOR.xml = function( xmlObjectOrData ) {
 		var baseXml = null;
@@ -48,8 +50,6 @@
 
 		/**
 		 * The native XML (DOM document) used by the class instance.
-		 * @type object
-		 * @example
 		 */
 		this.baseXml = baseXml;
 	};
@@ -57,17 +57,18 @@
 	CKEDITOR.xml.prototype = {
 		/**
 		 * Get a single node from the XML document, based on a XPath query.
+		 *
+		 *		// Create the XML instance.
+		 *		var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
+		 *		// Get the first <item> node.
+		 *		var itemNode = <b>xml.selectSingleNode( 'list/item' )</b>;
+		 *		// Alert "item".
+		 *		alert( itemNode.nodeName );
+		 *
 		 * @param {String} xpath The XPath query to execute.
 		 * @param {Object} [contextNode] The XML DOM node to be used as the context
-		 *		for the XPath query. The document root is used by default.
+		 * for the XPath query. The document root is used by default.
 		 * @returns {Object} A XML node element or null if the query has no results.
-		 * @example
-		 * // Create the XML instance.
-		 * var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
-		 * // Get the first <item> node.
-		 * var itemNode = <b>xml.selectSingleNode( 'list/item' )</b>;
-		 * // Alert "item".
-		 * alert( itemNode.nodeName );
 		 */
 		selectSingleNode: function( xpath, contextNode ) {
 			var baseXml = this.baseXml;
@@ -87,19 +88,20 @@
 
 		/**
 		 * Gets a list node from the XML document, based on a XPath query.
+		 *
+		 *		// Create the XML instance.
+		 *		var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
+		 *		// Get the first <item> node.
+		 *		var itemNodes = xml.selectSingleNode( 'list/item' );
+		 *		// Alert "item" twice, one for each <item>.
+		 *		for ( var i = 0 ; i < itemNodes.length ; i++ )
+		 *			alert( itemNodes[i].nodeName );
+		 *
 		 * @param {String} xpath The XPath query to execute.
 		 * @param {Object} [contextNode] The XML DOM node to be used as the context
-		 *		for the XPath query. The document root is used by default.
-		 * @returns {ArrayLike} An array containing all matched nodes. The array will
-		 *		be empty if the query has no results.
-		 * @example
-		 * // Create the XML instance.
-		 * var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
-		 * // Get the first <item> node.
-		 * var itemNodes = xml.selectSingleNode( 'list/item' );
-		 * // Alert "item" twice, one for each <item>.
-		 * for ( var i = 0 ; i < itemNodes.length ; i++ )
-		 *     alert( itemNodes[i].nodeName );
+		 * for the XPath query. The document root is used by default.
+		 * @returns {Array} An array containing all matched nodes. The array will
+		 * be empty if the query has no results.
 		 */
 		selectNodes: function( xpath, contextNode ) {
 			var baseXml = this.baseXml,
@@ -126,16 +128,17 @@
 		/**
 		 * Gets the string representation of hte inner contents of a XML node,
 		 * based on a XPath query.
+		 *
+		 *		// Create the XML instance.
+		 *		var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
+		 *		// Alert "<item id="test1" /><item id="test2" />".
+		 *		alert( xml.getInnerXml( 'list' ) );
+		 *
 		 * @param {String} xpath The XPath query to execute.
 		 * @param {Object} [contextNode] The XML DOM node to be used as the context
-		 *		for the XPath query. The document root is used by default.
+		 * for the XPath query. The document root is used by default.
 		 * @returns {String} The textual representation of the inner contents of
-		 *		the node or null if the query has no results.
-		 * @example
-		 * // Create the XML instance.
-		 * var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
-		 * // Alert "<item id="test1" /><item id="test2" />".
-		 * alert( xml.getInnerXml( 'list' ) );
+		 * the node or null if the query has no results.
 		 */
 		getInnerXml: function( xpath, contextNode ) {
 			var node = this.selectSingleNode( xpath, contextNode ),

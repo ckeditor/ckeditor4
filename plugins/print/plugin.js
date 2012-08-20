@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Print Plugin
+ * @fileOverview Print Plugin
  */
 
 CKEDITOR.plugins.add( 'print', {

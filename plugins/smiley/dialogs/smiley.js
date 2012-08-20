@@ -10,10 +10,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		columns = config.smiley_columns || 8,
 		i;
 
-	/**
-	 * Simulate "this" of a dialog for non-dialog events.
-	 * @type {CKEDITOR.dialog}
-	 */
+	// Simulate "this" of a dialog for non-dialog events.
+	// @type {CKEDITOR.dialog}
 	var dialog;
 	var onClick = function( evt ) {
 			var target = evt.data.getTarget(),

@@ -1267,80 +1267,86 @@
 /**
  * Sets the default vertical distance between element edge and mouse pointer that
  * causes the box to appear. The distance is expressed in pixels (px).
- * @name CKEDITOR.config.line_triggerOffset
- * @type Number
- * @default <code>30</code>
- * @see CKEDITOR.config.line_holdDistance
- * @example
- * // Increases the offset to 15px.
- * CKEDITOR.config.line_triggerOffset  = 15;
+ *
+ *		// Increases the offset to 15px.
+ *		CKEDITOR.config.line_triggerOffset = 15;
+ *
+ * @cfg {Number} [line_triggerOffset=30]
+ * @member CKEDITOR.config
+ * @see CKEDITOR.config#line_holdDistance
  */
 
 /**
  * Defines the distance between mouse pointer and the box, within
  * which the box stays revealed and no other focus space is offered to be accessed.
- * The value is relative to {@link CKEDITOR.config.line_triggerOffset}.
- * @name CKEDITOR.config.line_holdDistance
- * @type Number
- * @default <code>.5</code>
- * @see CKEDITOR.config.line_triggerOffset
- * @example
- * // Increases the distance to 80% of {@link CKEDITOR.config.line_triggerOffset}.
- * CKEDITOR.config.line_holdDistance = .8;
+ * The value is relative to {@link #line_triggerOffset}.
+ *
+ *		// Increases the distance to 80% of CKEDITOR.config.line_triggerOffset.
+ *		CKEDITOR.config.line_holdDistance = .8;
+ *
+ * @cfg {Number} [line_holdDistance=0.5]
+ * @member CKEDITOR.config
+ * @see CKEDITOR.config#line_triggerOffset
  */
 
 // %REMOVE_START%
+
 /**
  * Defines default keystroke that inserts new paragraph before an element that
  * holds start of the current selection or just simply holds the caret.
- * @name CKEDITOR.config.line_keystrokeBefore
- * @type Number
- * @default <code>CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 // CTRL + SHIFT + [</code>
- * @example
- * // Changes keystroke to CTRL + SHIFT + ,
- * CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ *
+ *		// Changes keystroke to CTRL + SHIFT + ,
+ *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ *
+ * @ignore
+ * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
+ * @member CKEDITOR.config
  */
-//CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219, // CTRL + SHIFT + [
+// CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
+
 /**
  * Defines default keystroke that inserts new paragraph after an element that
  * holds start of the current selection or just simply holds the caret.
- * @name CKEDITOR.config.line_keystrokeBefore
- * @type Number
- * @default <code>CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 // CTRK + SHIFT + ]</code>
- * @example
- * // Changes keystroke to CTRL + SHIFT + .
- * CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ *
+ *		// Changes keystroke to CTRL + SHIFT + .
+ *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ *
+ * @ignore
+ * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
+ * @member CKEDITOR.config
  */
-//CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221, // CTRL + SHIFT + ],
+// CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
+
 // %REMOVE_END%
+
 /**
  * Defines box color. The color may be adjusted to enhance readability.
- * @name CKEDITOR.config.line_boxColor
- * @type String
- * @default <code>'#FF0000'</code>
- * @example
- * // Changes color to blue.
- * CKEDITOR.config.line_boxColor = '#0000FF';
+ *
+ *		// Changes color to blue.
+ *		CKEDITOR.config.line_boxColor = '#0000FF';
+ *
+ * @cfg {String} [line_boxColor='#FF0000']
+ * @member CKEDITOR.config
  */
 
 /**
  * Defines box opacity. The opacity may be adjusted to enhance readability
  * by revealing underlying elements.
- * @name CKEDITOR.config.line_boxOpacity
- * @type Number
- * @default <code>1</code>
- * @example
- * // Changes opacity to 30%.
- * CKEDITOR.config.line_boxOpacity = .3;
+ *
+ *		// Changes opacity to 30%.
+ *		CKEDITOR.config.line_boxOpacity = .3;
+ *
+ * @cfg {Number} [line_boxOpacity=1]
+ * @member CKEDITOR.config
  */
 
 /**
  * Activates plugin mode that considers all focus spaces between
- * {@link CKEDITOR.dtd.$block} elements as accessible by the box.
- * @name CKEDITOR.config.line_putEverywhere
- * @type Boolean
- * @default <code>false</code>
- * @example
- * // Enables "put everywhere" mode.
- * CKEDITOR.config.line_putEverywhere = true;
+ * {@link CKEDITOR.dtd#$block} elements as accessible by the box.
+ *
+ *		// Enables "put everywhere" mode.
+ *		CKEDITOR.config.line_putEverywhere = true;
+ *
+ * @cfg {Boolean} [line_putEverywhere=false]
+ * @member CKEDITOR.config
  */

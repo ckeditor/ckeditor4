@@ -44,9 +44,21 @@ CKEDITOR.plugins.add( 'menubutton', {
 				menu.show( CKEDITOR.document.getById( this._.id ), 4 );
 			};
 
+		/**
+		 * @class
+		 * @extends CKEDITOR.ui.button
+		 * @todo
+		 */
 		CKEDITOR.ui.menuButton = CKEDITOR.tools.createClass({
 			base: CKEDITOR.ui.button,
 
+			/**
+			 * Creates a menuButton class instance.
+			 *
+			 * @constructor
+			 * @param Object definition
+			 * @todo
+			 */
 			$: function( definition ) {
 				// We don't want the panel definition in this object.
 				var panelDefinition = definition.panel;

@@ -17,51 +17,51 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 
 /**
  * Class used to write HTML data.
- * @constructor
- * @example
- * var writer = new CKEDITOR.htmlWriter();
- * writer.openTag( 'p' );
- * writer.attribute( 'class', 'MyClass' );
- * writer.openTagClose( 'p' );
- * writer.text( 'Hello' );
- * writer.closeTag( 'p' );
- * alert( writer.getHtml() );  "&lt;p class="MyClass"&gt;Hello&lt;/p&gt;"
+ *
+ *		var writer = new CKEDITOR.htmlWriter();
+ *		writer.openTag( 'p' );
+ *		writer.attribute( 'class', 'MyClass' );
+ *		writer.openTagClose( 'p' );
+ *		writer.text( 'Hello' );
+ *		writer.closeTag( 'p' );
+ *		alert( writer.getHtml() ); // '<p class="MyClass">Hello</p>'
+ *
+ * @class
+ * @extends CKEDITOR.htmlParser.basicWriter
  */
 CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 	base: CKEDITOR.htmlParser.basicWriter,
 
+	/**
+	 * Creates a htmlWriter class instance.
+	 *
+	 * @constructor
+	 */
 	$: function() {
 		// Call the base contructor.
 		this.base();
 
 		/**
 		 * The characters to be used for each identation step.
-		 * @type String
-		 * @default "" (no indentation)
-		 * @example
-		 * // Use tab for indentation.
-		 * editorInstance.dataProcessor.writer.indentationChars = '\t';
+		 *
+		 *		// Use tab for indentation.
+		 *		editorInstance.dataProcessor.writer.indentationChars = '\t';
 		 */
 		this.indentationChars = '\t';
 
 		/**
-		 * The characters to be used to close "self-closing" elements, like "br" or
-		 * "img".
-		 * @type String
-		 * @default " /&gt;"
-		 * @example
-		 * // Use HTML4 notation for self-closing elements.
-		 * editorInstance.dataProcessor.writer.selfClosingEnd = '>';
+		 * The characters to be used to close "self-closing" elements, like ```<br>``` or ```<img>```.
+		 *
+		 *		// Use HTML4 notation for self-closing elements.
+		 *		editorInstance.dataProcessor.writer.selfClosingEnd = '>';
 		 */
 		this.selfClosingEnd = ' />';
 
 		/**
 		 * The characters to be used for line breaks.
-		 * @type String
-		 * @default "\n" (LF)
-		 * @example
-		 * // Use CRLF for line breaks.
-		 * editorInstance.dataProcessor.writer.lineBreakChars = '\r\n';
+		 *
+		 *		// Use CRLF for line breaks.
+		 *		editorInstance.dataProcessor.writer.lineBreakChars = '\r\n';
 		 */
 		this.lineBreakChars = '\n';
 
@@ -106,12 +106,13 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 	proto: {
 		/**
 		 * Writes the tag opening part for a opener tag.
+		 *
+		 *		// Writes '<p'.
+		 *		writer.openTag( 'p', { class : 'MyClass', id : 'MyId' } );
+		 *
 		 * @param {String} tagName The element name for this tag.
 		 * @param {Object} attributes The attributes defined for this tag. The
-		 *		attributes could be used to inspect the tag.
-		 * @example
-		 * // Writes "&lt;p".
-		 * writer.openTag( 'p', { class : 'MyClass', id : 'MyId' } );
+		 * attributes could be used to inspect the tag.
 		 */
 		openTag: function( tagName, attributes ) {
 			var rules = this._.rules[ tagName ];
@@ -134,15 +135,16 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Writes the tag closing part for a opener tag.
+		 *
+		 *		// Writes '>'.
+		 *		writer.openTagClose( 'p', false );
+		 *
+		 *		// Writes ' />'.
+		 *		writer.openTagClose( 'br', true );
+		 *
 		 * @param {String} tagName The element name for this tag.
 		 * @param {Boolean} isSelfClose Indicates that this is a self-closing tag,
-		 *		like "br" or "img".
-		 * @example
-		 * // Writes "&gt;".
-		 * writer.openTagClose( 'p', false );
-		 * @example
-		 * // Writes " /&gt;".
-		 * writer.openTagClose( 'br', true );
+		 * like ```<br>``` or ```<img>```.
 		 */
 		openTagClose: function( tagName, isSelfClose ) {
 			var rules = this._.rules[ tagName ];
@@ -167,11 +169,12 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		/**
 		 * Writes an attribute. This function should be called after opening the
 		 * tag with {@link #openTagClose}.
+		 *
+		 *		// Writes ' class="MyClass"'.
+		 *		writer.attribute( 'class', 'MyClass' );
+		 *
 		 * @param {String} attName The attribute name.
 		 * @param {String} attValue The attribute value.
-		 * @example
-		 * // Writes ' class="MyClass"'.
-		 * writer.attribute( 'class', 'MyClass' );
 		 */
 		attribute: function( attName, attValue ) {
 
@@ -186,10 +189,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Writes a closer tag.
+		 *
+		 *		// Writes '</p>'.
+		 *		writer.closeTag( 'p' );
+		 *
 		 * @param {String} tagName The element name for this tag.
-		 * @example
-		 * // Writes "&lt;/p&gt;".
-		 * writer.closeTag( 'p' );
 		 */
 		closeTag: function( tagName ) {
 			var rules = this._.rules[ tagName ];
@@ -218,10 +222,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Writes text.
+		 *
+		 *		// Writes 'Hello Word'.
+		 *		writer.text( 'Hello Word' );
+		 *
 		 * @param {String} text The text value
-		 * @example
-		 * // Writes "Hello Word".
-		 * writer.text( 'Hello Word' );
 		 */
 		text: function( text ) {
 			if ( this._.indent ) {
@@ -234,10 +239,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Writes a comment.
+		 *
+		 *		// Writes "<!-- My comment -->".
+		 *		writer.comment( ' My comment ' );
+		 *
 		 * @param {String} comment The comment text.
-		 * @example
-		 * // Writes "&lt;!-- My comment --&gt;".
-		 * writer.comment( ' My comment ' );
 		 */
 		comment: function( comment ) {
 			if ( this._.indent )
@@ -248,9 +254,9 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Writes a line break. It uses the {@link #lineBreakChars} property for it.
-		 * @example
-		 * // Writes "\n" (e.g.).
-		 * writer.lineBreak();
+		 *
+		 *		// Writes '\n' (e.g.).
+		 *		writer.lineBreak();
 		 */
 		lineBreak: function() {
 			if ( !this._.inPre && this._.output.length > 0 )
@@ -259,12 +265,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		},
 
 		/**
-		 * Writes the current indentation chars. It uses the
-		 * {@link #indentationChars} property, repeating it for the current
-		 * indentation steps.
-		 * @example
-		 * // Writes "\t" (e.g.).
-		 * writer.indentation();
+		 * Writes the current indentation chars. It uses the {@link #indentationChars}
+		 * property, repeating it for the current indentation steps.
+		 *
+		 *		// Writes '\t' (e.g.).
+		 *		writer.indentation();
 		 */
 		indentation: function() {
 			if ( !this._.inPre && this._.indentation )
@@ -275,8 +280,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		/**
 		 * Empties the current output buffer. It also brings back the default
 		 * values of the writer flags.
-		 * @example
-		 * writer.reset();
+		 *
+		 *		writer.reset();
 		 */
 		reset: function() {
 			this._.output = [];
@@ -288,33 +293,32 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 		/**
 		 * Sets formatting rules for a give element. The possible rules are:
-		 * <ul>
-		 *	<li><b>indent</b>: indent the element contents.</li>
-		 *	<li><b>breakBeforeOpen</b>: break line before the opener tag for this element.</li>
-		 *	<li><b>breakAfterOpen</b>: break line after the opener tag for this element.</li>
-		 *	<li><b>breakBeforeClose</b>: break line before the closer tag for this element.</li>
-		 *	<li><b>breakAfterClose</b>: break line after the closer tag for this element.</li>
-		 * </ul>
 		 *
-		 * All rules default to "false". Each call to the function overrides
+		 * * ```indent```: indent the element contents.
+		 * * ```breakBeforeOpen```: break line before the opener tag for this element.
+		 * * ```breakAfterOpen```: break line after the opener tag for this element.
+		 * * ```breakBeforeClose```: break line before the closer tag for this element.
+		 * * ```breakAfterClose```: break line after the closer tag for this element.
+		 *
+		 * All rules default to ```false```. Each call to the function overrides
 		 * already present rules, leaving the undefined untouched.
 		 *
-		 * By default, all elements available in the {@link CKEDITOR.dtd.$block),
-		 * {@link CKEDITOR.dtd.$listItem} and {@link CKEDITOR.dtd.$tableContent}
-		 * lists have all the above rules set to "true". Additionaly, the "br"
-		 * element has the "breakAfterOpen" set to "true".
+		 * By default, all elements available in the {@link CKEDITOR.dtd#$block},
+		 * {@link CKEDITOR.dtd#$listItem} and {@link CKEDITOR.dtd#$tableContent}
+		 * lists have all the above rules set to ```true```. Additionaly, the ```<br>```
+		 * element has the ```breakAfterOpen``` set to ```true```.
+		 *
+		 *		// Break line before and after "img" tags.
+		 *		writer.setRules( 'img', {
+		 *			breakBeforeOpen: true
+		 *			breakAfterOpen: true
+		 *		} );
+		 *
+		 *		// Reset the rules for the "h1" tag.
+		 *		writer.setRules( 'h1', {} );
+		 *
 		 * @param {String} tagName The element name to which set the rules.
 		 * @param {Object} rules An object containing the element rules.
-		 * @example
-		 * // Break line before and after "img" tags.
-		 * writer.setRules( 'img',
-		 *     {
-		 *         breakBeforeOpen : true
-		 *         breakAfterOpen : true
-		 *     });
-		 * @example
-		 * // Reset the rules for the "h1" tag.
-		 * writer.setRules( 'h1', {} );
 		 */
 		setRules: function( tagName, rules ) {
 			var currentRules = this._.rules[ tagName ];
@@ -328,28 +332,28 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 });
 
 /**
- * Whether to force using "&" instead of "&amp;amp;" in elements attributes
+ * Whether to force using ```'&'``` instead of ```'&amp;'``` in elements attributes
  * values, it's not recommended to change this setting for compliance with the
- * W3C XHTML 1.0 standards (<a href="http://www.w3.org/TR/xhtml1/#C_12">C.12, XHTML 1.0</a>).
- * @name CKEDITOR.config.forceSimpleAmpersand
- * @type Boolean
- * @default false
- * @example
- * // Use "&" instead of "&amp;amp;"
- * CKEDITOR.config.forceSimpleAmpersand = true;
+ * W3C XHTML 1.0 standards ([C.12, XHTML 1.0](http://www.w3.org/TR/xhtml1/#C_12)).
+ *
+ *		// Use ```'&'``` instead of ```'&amp;'```
+ *		CKEDITOR.config.forceSimpleAmpersand = true;
+ *
+ * @cfg {Boolean} [forceSimpleAmpersand=false]
+ * @member CKEDITOR.config
  */
 
 /**
  * The characters to be used for indenting the HTML produced by the editor.
- * Using characters different than " " (space) and "\t" (tab) is definitely
+ * Using characters different than ```' '``` (space) and ```'\t'``` (tab) is definitely
  * a bad idea as it'll mess the code.
- * @name CKEDITOR.config.dataIndentationChars
- * @type String
- * @default "\t" (tab)
- * @example
- * // No indentation.
- * CKEDITOR.config.dataIndentationChars = '';
- * @example
- * // Use two spaces for indentation.
- * CKEDITOR.config.dataIndentationChars = '  ';
+ *
+ *		// No indentation.
+ *		CKEDITOR.config.dataIndentationChars = '';
+ *
+ *		// Use two spaces for indentation.
+ *		CKEDITOR.config.dataIndentationChars = '  ';
+ *
+ * @cfg {String} [dataIndentationChars='\t']
+ * @member CKEDITOR.config
  */

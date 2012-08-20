@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Horizontal Page Break
+ * @fileOverview Horizontal Page Break
  */
 
 // Register a plugin named "pagebreak".
@@ -106,6 +106,8 @@ CKEDITOR.plugins.add( 'pagebreak', {
 
 	requires: 'fakeobjects'
 });
+
+// TODO Much probably there's no need to expose this object as public object.
 
 CKEDITOR.plugins.pagebreakCmd = {
 	exec: function( editor ) {

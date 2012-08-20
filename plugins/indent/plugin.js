@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Increse and decrease indent commands.
+ * @fileOverview Increse and decrease indent commands.
  */
 
 (function() {
@@ -386,30 +386,30 @@
 })();
 
 /**
- * Size of each indentation step
- * @name CKEDITOR.config.indentOffset
- * @type Number
- * @default 40
- * @example
- * config.indentOffset = 4;
+ * Size of each indentation step.
+ *
+ *		config.indentOffset = 4;
+ *
+ * @cfg {Number} [indentOffset=40]
+ * @member CKEDITOR.config
  */
 
 /**
- * Unit for the indentation style
- * @name CKEDITOR.config.indentUnit
- * @type String
- * @default 'px'
- * @example
+ * Unit for the indentation style.
+ *
  * config.indentUnit = 'em';
+ *
+ * @cfg {String} [indentUnit='px']
+ * @member CKEDITOR.config
  */
 
 /**
- * List of classes to use for indenting the contents. If it's null, no classes will be used
+ * List of classes to use for indenting the contents. If it's ```null```, no classes will be used
  * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
- * @name CKEDITOR.config.indentClasses
- * @type Array
- * @default null
- * @example
- * // Use the classes 'Indent1', 'Indent2', 'Indent3'
- * config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
+ *
+ *		// Use the classes 'Indent1', 'Indent2', 'Indent3'
+ *		config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
+ *
+ * @cfg {Array} [indentClasses=null]
+ * @member CKEDITOR.config
  */

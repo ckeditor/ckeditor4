@@ -38,11 +38,8 @@
 	}
 
 	CKEDITOR.plugins.add( 'dialogadvtab', {
-		/**
-		 *
-		 * @param tabConfig
-		 * id, dir, classes, styles
-		 */
+		// @param tabConfig
+		// id, dir, classes, styles
 		createAdvancedTab: function( editor, tabConfig ) {
 			if ( !tabConfig )
 				tabConfig = { id:1,dir:1,classes:1,styles:1 };

@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Preview plugin.
+ * @fileOverview Preview plugin.
  */
 
 (function() {

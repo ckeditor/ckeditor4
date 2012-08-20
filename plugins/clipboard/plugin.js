@@ -237,7 +237,7 @@
 		 *		} );
 		 *
 		 * @member CKEDITOR.editor
-		 * @param {Object} [options]
+		 * @param {Object} options
 		 * @param {String} [options.title] Title of paste dialog.
 		 * @param {Function} callback Function that will be executed with ```data.type``` and ```data.dataValue```
 		 * or ```null``` if none of the capturing method succeeded.

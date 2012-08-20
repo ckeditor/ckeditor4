@@ -232,14 +232,16 @@
  */
 
 /**
- * Function to execute whenever the UI element's parent dialog's {@link CKEDITOR.dialog.definition.setupContent} method is executed.
+ * Function to execute whenever the UI element's parent
+ * dialog's {@link CKEDITOR.dialog#setupContent} method is executed.
  * It usually takes care of the respective UI element as a standalone element.
  *
  * @property {Function} setup
  */
 
 /**
- * Function to execute whenever the UI element's parent dialog's {@link CKEDITOR.dialog.definition.commitContent} method is executed.
+ * Function to execute whenever the UI element's parent
+ * dialog's {@link CKEDITOR.dialog#commitContent} method is executed.
  * It usually takes care of the respective UI element as a standalone element.
  *
  * @property {Function} commit
@@ -548,7 +550,7 @@
  * Once the dialog is opened, the created element becomes a {@link CKEDITOR.ui.dialog.checkbox} object
  * and can be accessed with {@link CKEDITOR.dialog#getContentElement}.
  *
- * For a complete example of dialog definition, please check {@link CKEDITOR.dialog.add}.
+ * For a complete example of dialog definition, please check {@link CKEDITOR.dialog#add}.
  *
  *		// There is no constructor for this class, the user just has to define an
  *		// object with the appropriate properties.
@@ -598,7 +600,7 @@
  * Once the dialog is opened, the created element becomes a {@link CKEDITOR.ui.dialog.file} object
  * and can be accessed with {@link CKEDITOR.dialog#getContentElement}.
  *
- * For a complete example of dialog definition, please check {@link CKEDITOR.dialog.add}.
+ * For a complete example of dialog definition, please check {@link CKEDITOR.dialog#add}.
  *
  *		// There is no constructor for this class, the user just has to define an
  *		// object with the appropriate properties.
@@ -656,7 +658,7 @@
  * Once the dialog is opened, the created element becomes a {@link CKEDITOR.ui.dialog.fileButton} object
  * and can be accessed with {@link CKEDITOR.dialog#getContentElement}.
  *
- * For a complete example of dialog definition, please check {@link CKEDITOR.dialog.add}.
+ * For a complete example of dialog definition, please check {@link CKEDITOR.dialog#add}.
  *
  * @class CKEDITOR.dialog.definition.fileButton
  * @extends CKEDITOR.dialog.definition.uiElement
@@ -710,7 +712,7 @@
  * Once the dialog is opened, the created element becomes a {@link CKEDITOR.ui.dialog.html} object
  * and can be accessed with {@link CKEDITOR.dialog#getContentElement}.
  *
- * For a complete example of dialog definition, please check {@link CKEDITOR.dialog.add}.
+ * For a complete example of dialog definition, please check {@link CKEDITOR.dialog#add}.
  * To access HTML elements use {@link CKEDITOR.dom.document#getById}.
  *
  *		// There is no constructor for this class, the user just has to define an

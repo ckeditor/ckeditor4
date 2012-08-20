@@ -119,7 +119,7 @@ CKEDITOR.remove = function( editor ) {
 	 *		CKEDITOR.addCss( '.cke_editable h1,.cke_editable h2,.cke_editable h3 { border-bottom: 1px dotted red }' );
 	 *
 	 * @param {String} css The style rules to be appended.
-	 * @see CKEDITOR.config.contentsCss
+	 * @see CKEDITOR.config#contentsCss
 	 */
 	CKEDITOR.addCss = function( css ) {
 		styles.push( css );

@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Horizontal Rule plugin.
+ * @fileOverview Horizontal Rule plugin.
  */
 
 (function() {

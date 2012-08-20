@@ -22,9 +22,19 @@ CKEDITOR.plugins.add( 'panelbutton', {
 			_.panel.showBlock( this._.id, this.document.getById( this._.id ), 4 );
 		}
 
+		/**
+		 * @class
+		 * @extends CKEDITOR.ui.button
+		 * @todo class and methods
+		 */
 		CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
 			base: CKEDITOR.ui.button,
 
+			/**
+			 * Creates a panelButton class instance.
+			 *
+			 * @constructor
+			 */
 			$: function( definition ) {
 				// We don't want the panel definition in this object.
 				var panelDefinition = definition.panel;

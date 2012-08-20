@@ -99,57 +99,57 @@ CKEDITOR.plugins.add( 'resize', {
 /**
  * The minimum editor width, in pixels, when resizing the editor interface by using the resize handle.
  * Note: It falls back to editor's actual width if it is smaller than the default value.
- * @name CKEDITOR.config.resize_minWidth
- * @type Number
- * @default 750
- * @example
- * config.resize_minWidth = 500;
+ *
+ *		config.resize_minWidth = 500;
+ *
+ * @cfg {Number} [resize_minWidth=750]
+ * @member CKEDITOR.config
  */
 
 /**
  * The minimum editor height, in pixels, when resizing the editor interface by using the resize handle.
  * Note: It falls back to editor's actual height if it is smaller than the default value.
- * @name CKEDITOR.config.resize_minHeight
- * @type Number
- * @default 250
- * @example
- * config.resize_minHeight = 600;
+ *
+ *		config.resize_minHeight = 600;
+ *
+ * @cfg {Number} [resize_minHeight=250]
+ * @member CKEDITOR.config
  */
 
 /**
  * The maximum editor width, in pixels, when resizing the editor interface by using the resize handle.
- * @name CKEDITOR.config.resize_maxWidth
- * @type Number
- * @default 3000
- * @example
- * config.resize_maxWidth = 750;
+ *
+ *		config.resize_maxWidth = 750;
+ *
+ * @cfg {Number} [resize_maxWidth=3000]
+ * @member CKEDITOR.config
  */
 
 /**
  * The maximum editor height, in pixels, when resizing the editor interface by using the resize handle.
- * @name CKEDITOR.config.resize_maxHeight
- * @type Number
- * @default 3000
- * @example
- * config.resize_maxHeight = 600;
+ *
+ *		config.resize_maxHeight = 600;
+ *
+ * @cfg {Number} [resize_maxHeight=3000]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether to enable the resizing feature. If this feature is disabled, the resize handle will not be visible.
- * @name CKEDITOR.config.resize_enabled
- * @type Boolean
- * @default true
- * @example
- * config.resize_enabled = false;
+ *
+ *		config.resize_enabled = false;
+ *
+ * @cfg {Boolean} [resize_enabled=true]
+ * @member CKEDITOR.config
  */
 
 /**
  * The dimensions for which the editor resizing is enabled. Possible values
- * are <code>both</code>, <code>vertical</code>, and <code>horizontal</code>.
- * @name CKEDITOR.config.resize_dir
- * @type String
- * @default 'both'
+ * are ```both```, ```vertical```, and ```horizontal```.
+ *
+ *		config.resize_dir = 'vertical';
+ *
  * @since 3.3
- * @example
- * config.resize_dir = 'vertical';
+ * @cfg {String} [resize_dir='both']
+ * @member CKEDITOR.config
  */

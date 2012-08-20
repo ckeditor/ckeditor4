@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Forms Plugin
+ * @fileOverview Forms Plugin
  */
 
 CKEDITOR.plugins.add( 'forms', {

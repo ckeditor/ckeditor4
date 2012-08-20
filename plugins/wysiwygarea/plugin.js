@@ -277,14 +277,12 @@
 				editor.fire( 'dataReady' );
 			}, 0 );
 
-			/*
-			 * IE BUG: IE might have rendered the iframe with invisible contents.
-			 * (#3623). Push some inconsequential CSS style changes to force IE to
-			 * refresh it.
-			 *
-			 * Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
-			 * fix the problem. :(
-			 */
+			// IE BUG: IE might have rendered the iframe with invisible contents.
+			// (#3623). Push some inconsequential CSS style changes to force IE to
+			// refresh it.
+			//
+			// Also, for some unknown reasons, short timeouts (e.g. 100ms) do not
+			// fix the problem. :(
 			if ( CKEDITOR.env.ie ) {
 				setTimeout( function() {
 					if ( editor.document ) {
@@ -502,11 +500,9 @@
 
 				editor.fire( 'contentDomUnload' );
 
-				/*
-				 * IE BUG: When destroying editor DOM with the selection remains inside
-				 * editing area would break IE7/8's selection system, we have to put the editing
-				 * iframe offline first. (#3812 and #5441)
-				 */
+				// IE BUG: When destroying editor DOM with the selection remains inside
+				// editing area would break IE7/8's selection system, we have to put the editing
+				// iframe offline first. (#3812 and #5441)
 				iframe.remove();
 			}
 		}
@@ -604,10 +600,10 @@
 		else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
 			css.push( 'body.cke_contents_ltr{margin-right:0}' );
 
-		/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
-		To prevent this misbehavior, we show the scrollbar always */
-		/* #6341: The text cursor must be set on the editor area. */
-		/* #6632: Avoid having "text" shape of cursor in IE7 scrollbars.*/
+		// #3658: [IE6] Editor document has horizontal scrollbar on long lines.
+		// To prevent this misbehavior, we show the scrollbar always.
+		// #6341: The text cursor must be set on the editor area.
+		// #6632: Avoid having "text" shape of cursor in IE7 scrollbars.
 		css.push( 'html{_overflow-y:scroll;cursor:text;*cursor:auto}' );
 
 		// Use correct cursor for these elements
@@ -618,12 +614,12 @@
 })();
 
 /**
- * Disables the ability of resize objects (image and tables) in the editing
- * area.
- * @type Boolean
- * @default false
- * @example
- * config.disableObjectResizing = true;
+ * Disables the ability of resize objects (image and tables) in the editing area.
+ *
+ *		config.disableObjectResizing = true;
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.disableObjectResizing = false;
 
@@ -631,34 +627,38 @@ CKEDITOR.config.disableObjectResizing = false;
  * Disables the "table tools" offered natively by the browser (currently
  * Firefox only) to make quick table editing operations, like adding or
  * deleting rows and columns.
- * @type Boolean
- * @default true
- * @example
- * config.disableNativeTableHandles = false;
+ *
+ *		config.disableNativeTableHandles = false;
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.disableNativeTableHandles = true;
 
 /**
- * Disables the built-in words spell checker if browser provides one.<br /><br />
+ * Disables the built-in words spell checker if browser provides one.
  *
- * <strong>Note:</strong> Although word suggestions provided by browsers (natively) will not appear in CKEditor's default context menu,
- * users can always reach the native context menu by holding the <em>Ctrl</em> key when right-clicking if {@link CKEDITOR.config#browserContextMenuOnCtrl}
+ * **Note:** Although word suggestions provided by browsers (natively) will
+ * not appear in CKEditor's default context menu,
+ * users can always reach the native context menu by holding the
+ * *Ctrl* key when right-clicking if {@link #browserContextMenuOnCtrl}
  * is enabled or you're simply not using the context menu plugin.
  *
- * @type Boolean
- * @default true
- * @example
- * config.disableNativeSpellChecker = false;
+ *		config.disableNativeSpellChecker = false;
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * Whether the editor must output an empty value ("") if it's contents is made
+ * Whether the editor must output an empty value (```''```) if it's contents is made
  * by an empty paragraph only.
- * @type Boolean
- * @default true
- * @example
- * config.ignoreEmptyParagraph = false;
+ *
+ *		config.ignoreEmptyParagraph = false;
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.ignoreEmptyParagraph = true;
 
@@ -666,55 +666,52 @@ CKEDITOR.config.ignoreEmptyParagraph = true;
  * The CSS file(s) to be used to apply style to the contents. It should
  * reflect the CSS used in the final pages where the contents are to be
  * used.
- * @type String|Array
- * @default '&lt;CKEditor folder&gt;/contents.css'
- * @example
- * config.contentsCss = '/css/mysitestyles.css';
- * config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
+ *
+ *		config.contentsCss = '/css/mysitestyles.css';
+ *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
+ *
+ * @cfg {String/Array} [contentsCss=CKEDITOR.basePath + 'contents.css']
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.contentsCss = CKEDITOR.basePath + 'contents.css';
 
 /**
  * Language code of  the writting language which is used to author the editor
  * contents.
- * @name CKEDITOR.config.contentsLanguage
- * @default Same value with editor's UI language.
- * @type String
- * @example
- * config.contentsLanguage = 'fr';
+ *
+ *		config.contentsLanguage = 'fr';
+ *
+ * @cfg {String} [contentsLanguage=same value with editor's UI language]
+ * @member CKEDITOR.config
  */
 
 /**
  * The base href URL used to resolve relative and absolute URLs in the
  * editor content.
- * @name CKEDITOR.config.baseHref
- * @type String
- * @default '' (empty)
- * @example
- * config.baseHref = 'http://www.example.com/path/';
- */
-
-/**
- * Fired when data is loaded and ready for retrieval in an editor instance.
- * @name CKEDITOR.editor#dataReady
- * @event
+ *
+ *		config.baseHref = 'http://www.example.com/path/';
+ *
+ * @cfg {String} [baseHref='']
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether automatically create wrapping blocks around inline contents inside document body,
  * this helps to ensure the integrality of the block enter mode.
- * <strong>Note:</strong> Changing the default value might introduce unpredictable usability issues.
- * @name CKEDITOR.config.autoParagraph
+ *
+ * **Note:** Changing the default value might introduce unpredictable usability issues.
+ *
+ *		config.autoParagraph = false;
+ *
  * @since 3.6
- * @type Boolean
- * @default true
- * @example
- * config.autoParagraph = false;
+ * @cfg {Boolean} [autoParagraph=true]
+ * @member CKEDITOR.config
  */
 
 /**
- * Fired when some elements are added to the document
- * @name CKEDITOR.editor#ariaWidget
- * @event
+ * Fired when some elements are added to the document.
+ *
+ * @event ariaWidget
+ * @member CKEDITOR.editor
  * @param {Object} element The element being added
  */

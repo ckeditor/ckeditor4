@@ -91,7 +91,10 @@
 
 	/**
 	 * Return the DTD-valid parent tag names of the specified one.
-	 * @param tagName
+	 *
+	 * @member CKEDITOR.dtd
+	 * @param {String} tagName
+	 * @returns {Object}
 	 */
 	CKEDITOR.dtd.parentOf = function( tagName ) {
 		var result = {};
@@ -368,11 +371,9 @@
 				attrs[ 'cke:list' ] = 1;
 			},
 
-			/**
-			 *  Try to collect all list items among the children and establish one
-			 *  or more HTML list structures for them.
-			 * @param element
-			 */
+			// Try to collect all list items among the children and establish one
+			// or more HTML list structures for them.
+			// @param element
 			assembleList: function( element ) {
 				var children = element.children,
 					child, listItem, // The current processing cke:li element.
@@ -514,20 +515,16 @@
 				list = lastIndent = lastListItem = previousListId = previousListItemMargin = listBaseIndent = null;
 			},
 
-			/**
-			 * A simple filter which always rejecting.
-			 */
+			// A simple filter which always rejecting.
 			falsyFilter: function( value ) {
 				return false;
 			},
 
-			/**
-			 * A filter dedicated on the 'style' attribute filtering, e.g. dropping/replacing style properties.
-			 * @param styles {Array} in form of [ styleNameRegexp, styleValueRegexp,
-			 *  newStyleValue/newStyleGenerator, newStyleName ] where only the first
-			 *  parameter is mandatory.
-			 * @param whitelist {Boolean} Whether the {@param styles} will be considered as a white-list.
-			 */
+			// A filter dedicated on the 'style' attribute filtering, e.g. dropping/replacing style properties.
+			// @param styles {Array} in form of [ styleNameRegexp, styleValueRegexp,
+			// newStyleValue/newStyleGenerator, newStyleName ] where only the first
+			// parameter is mandatory.
+			// @param whitelist {Boolean} Whether the {@param styles} will be considered as a white-list.
 			stylesFilter: function( styles, whitelist ) {
 				return function( styleText, element ) {
 					var rules = [];
@@ -575,11 +572,9 @@
 				};
 			},
 
-			/**
-			 * Migrate the element by decorate styles on it.
-			 * @param styleDefiniton
-			 * @param variables
-			 */
+			// Migrate the element by decorate styles on it.
+			// @param styleDefiniton
+			// @param variables
 			elementMigrateFilter: function( styleDefiniton, variables ) {
 				return function( element ) {
 					var styleDef = variables ? new CKEDITOR.style( styleDefiniton, variables )._.definition : styleDefiniton;
@@ -589,10 +584,8 @@
 				};
 			},
 
-			/**
-			 * Migrate styles by creating a new nested stylish element.
-			 * @param styleDefinition
-			 */
+			// Migrate styles by creating a new nested stylish element.
+			// @param styleDefinition
 			styleMigrateFilter: function( styleDefinition, variableName ) {
 
 				var elementMigrateFilter = this.elementMigrateFilter;
@@ -609,21 +602,17 @@
 				};
 			},
 
-			/**
-			 * A filter which remove cke-namespaced-attribute on
-			 * all none-cke-namespaced elements.
-			 * @param value
-			 * @param element
-			 */
+			// A filter which remove cke-namespaced-attribute on
+			// all none-cke-namespaced elements.
+			// @param value
+			// @param element
 			bogusAttrFilter: function( value, element ) {
 				if ( element.name.indexOf( 'cke:' ) == -1 )
 					return false;
 			},
 
-			/**
-			 * A filter which will be used to apply inline css style according the stylesheet
-			 * definition rules, is generated lazily when filtering.
-			 */
+			// A filter which will be used to apply inline css style according the stylesheet
+			// definition rules, is generated lazily when filtering.
 			applyStyleFilter: null
 
 		},
@@ -1123,7 +1112,7 @@
 			alert( editor.lang.pastefromword.error );
 		}
 
-		/* Below post processing those things that are unable to delivered by filter rules. */
+		// Below post processing those things that are unable to delivered by filter rules.
 
 		// Remove 'cke' namespaced attribute used in filter rules as marker.
 		data = data.replace( /cke:.*?".*?"/g, '' );
@@ -1140,35 +1129,36 @@
 
 /**
  * Whether to ignore all font related formatting styles, including:
- * <ul>	<li>font size;</li>
- *		<li>font family;</li>
- *		<li>font foreground/background color.</li></ul>
- * @name CKEDITOR.config.pasteFromWordRemoveFontStyles
+ *
+ * * font size;
+ * * font family;
+ * * font foreground/background color.
+ *
+ *		config.pasteFromWordRemoveFontStyles = false;
+ *
  * @since 3.1
- * @type Boolean
- * @default true
- * @example
- * config.pasteFromWordRemoveFontStyles = false;
+ * @cfg {Boolean} [pasteFromWordRemoveFontStyles=true]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether to transform MS Word outline numbered headings into lists.
- * @name CKEDITOR.config.pasteFromWordNumberedHeadingToList
+ *
+ *		config.pasteFromWordNumberedHeadingToList = true;
+ *
  * @since 3.1
- * @type Boolean
- * @default false
- * @example
- * config.pasteFromWordNumberedHeadingToList = true;
+ * @cfg {Boolean} [pasteFromWordNumberedHeadingToList=false]
+ * @member CKEDITOR.config
  */
 
 /**
  * Whether to remove element styles that can't be managed with the editor. Note
  * that this doesn't handle the font specific styles, which depends on the
- * {@link CKEDITOR.config#pasteFromWordRemoveFontStyles} setting instead.
- * @name CKEDITOR.config.pasteFromWordRemoveStyles
+ * {@link #pasteFromWordRemoveFontStyles} setting instead.
+ *
+ *		config.pasteFromWordRemoveStyles = false;
+ *
  * @since 3.1
- * @type Boolean
- * @default true
- * @example
- * config.pasteFromWordRemoveStyles = false;
+ * @cfg {Boolean} [pasteFromWordRemoveStyles=true]
+ * @member CKEDITOR.config
  */

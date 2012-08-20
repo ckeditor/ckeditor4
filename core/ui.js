@@ -76,6 +76,7 @@ CKEDITOR.ui.prototype = {
 	 * Gets a UI object.
 	 *
 	 * @param {String} name The UI item hame.
+	 * @returns {Object} The UI element.
 	 */
 	create: function( name ) {
 		var item = this.items[ name ],
@@ -162,4 +163,6 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  *
  * @method create
  * @param {Object} definition The item definition.
+ * @returns {Object} The UI element.
+ * @todo We lack the "UI element" abstract super class.
  */

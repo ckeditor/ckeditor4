@@ -9,10 +9,8 @@
 
 	var cssLengthRegex = /^((?:\d*(?:\.\d+))|(?:\d+))(.*)?$/i;
 
-	/*
-	 * Replacing the former CSS length value with the later one, with
-	 * adjustment to the length  unit.
-	 */
+	// Replacing the former CSS length value with the later one, with
+	// adjustment to the length  unit.
 	function replaceCssLength( length1, length2 ) {
 		var parts1 = cssLengthRegex.exec( length1 ),
 			parts2 = cssLengthRegex.exec( length2 );
@@ -65,6 +63,10 @@
 		}
 	});
 
+	/**
+	 * @member CKEDITOR.editor
+	 * @todo
+	 */
 	CKEDITOR.editor.prototype.createFakeElement = function( realElement, className, realElementType, isResizable ) {
 		var lang = this.lang.fakeobjects,
 			label = lang[ realElementType ] || lang.unknown;
@@ -101,6 +103,10 @@
 		return this.document.createElement( 'img', { attributes: attributes } );
 	};
 
+	/**
+	 * @member CKEDITOR.editor
+	 * @todo
+	 */
 	CKEDITOR.editor.prototype.createFakeParserElement = function( realElement, className, realElementType, isResizable ) {
 		var lang = this.lang.fakeobjects,
 			label = lang[ realElementType ] || lang.unknown,
@@ -142,6 +148,10 @@
 		return new CKEDITOR.htmlParser.element( 'img', attributes );
 	};
 
+	/**
+	 * @member CKEDITOR.editor
+	 * @todo
+	 */
 	CKEDITOR.editor.prototype.restoreRealElement = function( fakeElement ) {
 		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
 			return null;

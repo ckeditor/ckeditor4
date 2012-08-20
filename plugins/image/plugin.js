@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Image plugin
+ * @fileOverview Image plugin
  */
 
 (function() {
@@ -128,18 +128,19 @@
 
 /**
  * Whether to remove links when emptying the link URL field in the image dialog.
- * @type Boolean
- * @default true
- * @example
- * config.image_removeLinkByEmptyURL = false;
+ *
+ *		config.image_removeLinkByEmptyURL = false;
+ *
+ * @cfg {Boolean} [image_removeLinkByEmptyURL=true]
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.image_removeLinkByEmptyURL = true;
 
 /**
- *  Padding text to set off the image in preview area.
- * @name CKEDITOR.config.image_previewText
- * @type String
- * @default "Lorem ipsum dolor..." placehoder text.
- * @example
- * config.image_previewText = CKEDITOR.tools.repeat( '___ ', 100 );
+ * Padding text to set off the image in preview area.
+ *
+ *		config.image_previewText = CKEDITOR.tools.repeat( '___ ', 100 );
+ *
+ * @cfg {String} [image_previewText='Lorem ipsum dolor...' (placeholder text)]
+ * @member CKEDITOR.config
  */

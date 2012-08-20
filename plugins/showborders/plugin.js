@@ -166,10 +166,9 @@
 
 /**
  * Whether to automatically enable the "show borders" command when the editor loads.
- * (ShowBorders in FCKeditor)
- * @name CKEDITOR.config.startupShowBorders
- * @type Boolean
- * @default true
- * @example
- * config.startupShowBorders = false;
+ *
+ *		config.startupShowBorders = false;
+ *
+ * @cfg {Boolean} [startupShowBorders=true]
+ * @member CKEDITOR.config
  */

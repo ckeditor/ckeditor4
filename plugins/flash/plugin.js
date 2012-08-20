@@ -111,23 +111,26 @@
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
 	/**
-	 * Save as EMBED tag only. This tag is unrecommended.
-	 * @type Boolean
-	 * @default false
+	 * Save as ```<embed>``` tag only. This tag is unrecommended.
+	 *
+	 * @cfg {Boolean} [flashEmbedTagOnly=false]
+	 * @member CKEDITOR.config
 	 */
 	flashEmbedTagOnly: false,
 
 	/**
-	 * Add EMBED tag as alternative: &lt;object&gt&lt;embed&gt&lt;/embed&gt&lt;/object&gt
-	 * @type Boolean
-	 * @default false
+	 * Add ```<embed>``` tag as alternative: ```<object><embed></embed></object>```.
+	 *
+	 * @cfg {Boolean} [flashAddEmbedTag=false]
+	 * @member CKEDITOR.config
 	 */
 	flashAddEmbedTag: true,
 
 	/**
-	 * Use embedTagOnly and addEmbedTag values on edit.
-	 * @type Boolean
-	 * @default false
+	 * Use {@link #flashEmbedTagOnly} and {@link #flashAddEmbedTag} values on edit.
+	 *
+	 * @cfg {Boolean} [flashConvertOnEdit=false]
+	 * @member CKEDITOR.config
 	 */
 	flashConvertOnEdit: false
 });

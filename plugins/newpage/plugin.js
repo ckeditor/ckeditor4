@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Horizontal Page Break
+ * @fileOverview Horizontal Page Break.
  */
 
 // Register a plugin named "newpage".
@@ -39,11 +39,12 @@ CKEDITOR.plugins.add( 'newpage', {
 		});
 	}
 });
+
 /**
  * The HTML to load in the editor when the "new page" command is executed.
- * @name CKEDITOR.config.newpage_html
- * @type String
- * @default ''
- * @example
- * config.newpage_html = '&lt;p&gt;Type your text here.&lt;/p&gt;';
+ *
+ *		config.newpage_html = '<p>Type your text here.</p>';
+ *
+ * @cfg {String} [newpage_html='']
+ * @member CKEDITOR.config
  */

@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Justify commands.
+ * @fileOverview Justify commands.
  */
 
 (function() {
@@ -205,12 +205,14 @@
 })();
 
 /**
- * List of classes to use for aligning the contents. If it's null, no classes will be used
- * and instead the corresponding CSS values will be used. The array should contain 4 members, in the following order: left, center, right, justify.
- * @name CKEDITOR.config.justifyClasses
- * @type Array
- * @default null
- * @example
- * // Use the classes 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'
- * config.justifyClasses = [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ];
+ * List of classes to use for aligning the contents. If it's ```null```, no classes will be used
+ * and instead the corresponding CSS values will be used.
+ *
+ * The array should contain 4 members, in the following order: left, center, right, justify.
+ *
+ *		// Use the classes 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'
+ *		config.justifyClasses = [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ];
+ *
+ * @cfg {Array} [justifyClasses=null]
+ * @member CKEDITOR.config
  */

@@ -60,8 +60,8 @@
 			 * This property indicate the way how this instance is associated with the {@link #element}.
 			 *
 			 * @property {Number}
-			 * @see CKEDITOR.ELEMENT_MODE_INLINE
-			 * @see CKEDITOR.ELEMENT_MODE_REPLACE
+			 * @see CKEDITOR#ELEMENT_MODE_INLINE
+			 * @see CKEDITOR#ELEMENT_MODE_REPLACE
 			 */
 			this.elementMode = mode;
 
@@ -576,7 +576,7 @@
 		 * @param {Object} [data] Data to be passed to the command.
 		 * @returns {Boolean} ```true``` if the command was executed
 		 * successfully, otherwise ```false```.
-		 * @see CKEDITOR.editor.addCommand
+		 * @see CKEDITOR.editor#addCommand
 		 */
 		execCommand: function( commandName, data ) {
 			var command = this.getCommand( commandName );
@@ -845,7 +845,7 @@
 		 *		CKEDITOR.instances.editor1.updateElement();
 		 *		alert( document.getElementById( 'editor1' ).value ); // The current editor data.
 		 *
-		 * @see CKEDITOR.editor.element
+		 * @see CKEDITOR.editor#element
 		 */
 		updateElement: function() {
 			return updateEditorElement.call( this );

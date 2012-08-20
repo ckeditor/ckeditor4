@@ -5,12 +5,10 @@
 
 (function() {
 
-	/**
-	 * Add to collection with DUP examination.
-	 * @param {Object} collection
-	 * @param {Object} element
-	 * @param {Object} database
-	 */
+	// Add to collection with DUP examination.
+	// @param {Object} collection
+	// @param {Object} element
+	// @param {Object} database
 	function addSafely( collection, element, database ) {
 		// 1. IE doesn't support customData on text nodes;
 		// 2. Text nodes never get chance to appear twice;
@@ -31,12 +29,9 @@
 		return retval;
 	}
 
-
-	/**
-	 * Dialog reused by both 'creatediv' and 'editdiv' commands.
-	 * @param {Object} editor
-	 * @param {String} command	The command name which indicate what the current command is.
-	 */
+	// Dialog reused by both 'creatediv' and 'editdiv' commands.
+	// @param {Object} editor
+	// @param {String} command	The command name which indicate what the current command is.
 	function divDialog( editor, command ) {
 		// Definition of elements at which div operation should stopped.
 		var divLimitDefinition = (function() {
@@ -54,10 +49,8 @@
 		// DTD of 'div' element
 		var dtd = CKEDITOR.dtd.div;
 
-		/**
-		 * Get the first div limit element on the element's path.
-		 * @param {Object} element
-		 */
+		// Get the first div limit element on the element's path.
+		// @param {Object} element
 		function getDivContainer( element ) {
 			var container = editor.elementPath( element ).blockLimit;
 
@@ -70,10 +63,8 @@
 			return container;
 		}
 
-		/**
-		 * Init all fields' setup/commit function.
-		 * @memberof divDialog
-		 */
+		// Init all fields' setup/commit function.
+		// @memberof divDialog
 		function setupFields() {
 			this.foreach( function( field ) {
 				// Exclude layout container elements
@@ -104,10 +95,8 @@
 			});
 		}
 
-		/**
-		 * Wrapping 'div' element around appropriate blocks among the selected ranges.
-		 * @param {Object} editor
-		 */
+		// Wrapping 'div' element around appropriate blocks among the selected ranges.
+		// @param {Object} editor
 		function createDiv( editor ) {
 			// new adding containers OR detected pre-existed containers.
 			var containers = [];
@@ -195,13 +184,11 @@
 			return containers;
 		}
 
-		/**
-		 * Divide a set of nodes to different groups by their path's blocklimit element.
-		 * Note: the specified nodes should be in source order naturally, which mean they are supposed to producea by following class:
-		 *  * CKEDITOR.dom.range.Iterator
-		 *  * CKEDITOR.dom.domWalker
-		 *  @return {Array []} the grouped nodes
-		 */
+		// Divide a set of nodes to different groups by their path's blocklimit element.
+		// Note: the specified nodes should be in source order naturally, which mean they are supposed to producea by following class:
+		//  * CKEDITOR.dom.range.Iterator
+		//  * CKEDITOR.dom.domWalker
+		// @returns {Array[]} the grouped nodes
 		function groupByDivLimit( nodes ) {
 			var groups = [],
 				lastDivLimit = null,
@@ -239,13 +226,11 @@
 
 		// Registered 'CKEDITOR.style' instances.
 		var styles = {};
-		/**
-		 * Hold a collection of created block container elements.
-		 */
+
+		// Hold a collection of created block container elements.
 		var containers = [];
-		/**
-		 * @type divDialog
-		 */
+
+		// @type divDialog
 		return {
 			title: editor.lang.div.title,
 			minWidth: 400,
@@ -458,9 +443,10 @@
 })();
 
 /**
- * @name CKEDITOR.config.div_wrapTable
- * Whether to wrap the whole table instead of indivisual cells when created 'div' in table cell.
- * @type Boolean
- * @default false
- * @example config.div_wrapTable = true;
+ * Whether to wrap the whole table instead of indivisual cells when created ```<div>``` in table cell.
+ *
+ *		config.div_wrapTable = true;
+ *
+ * @cfg {Boolean} [div_wrapTable=false]
+ * @member CKEDITOR.config
  */

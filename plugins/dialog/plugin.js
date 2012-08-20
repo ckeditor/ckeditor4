@@ -1551,10 +1551,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 * 			// ...
 	 *		} );
 	 *
+	 * @private
 	 * @class CKEDITOR.dialog.definitionObject
 	 * @extends CKEDITOR.dialog.definition
 	 * @constructor Creates a definitionObject class instance.
-	 * @private
 	 */
 	var definitionObject = function( dialog, dialogDefinition ) {
 			// TODO : Check if needed.
@@ -1653,9 +1653,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 *			// ...
 	 *		} );
 	 *
+	 * @private
 	 * @class CKEDITOR.dialog.definition.contentObject
 	 * @constructor Creates a contentObject class instance.
-	 * @private
 	 */
 	function contentObject( dialog, contentDefinition ) {
 		this._ = {
@@ -2996,7 +2996,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.dialog_backgroundCoverColor = 'rgb(255, 254, 253)';
  *
- * @cfg {String} [dialog_backgroundCoverColor='white'
+ * @cfg {String} [dialog_backgroundCoverColor='white']
  * @member CKEDITOR.config
  */
 
@@ -3006,7 +3006,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.dialog_backgroundCoverOpacity = 0.7;
  *
- * @cfg {Number} [CKEDITOR.config.dialog_backgroundCoverOpacity=0.5]
+ * @cfg {Number} [dialog_backgroundCoverOpacity=0.5]
  * @member CKEDITOR.config
  */
 
@@ -3014,7 +3014,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * If the dialog has more than one tab, put focus into the first tab as soon as dialog is opened.
  *
  *		config.dialog_startupFocusTab = true;
- * @cfg {Boolean} [CKEDITOR.config.dialog_startupFocusTab=false]
+ * @cfg {Boolean} [dialog_startupFocusTab=false]
  * @member CKEDITOR.config
  */
 
@@ -3024,7 +3024,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.dialog_magnetDistance = 30;
  *
- * @cfg {Number} [CKEDITOR.config.dialog_magnetDistance=20]
+ * @cfg {Number} [dialog_magnetDistance=20]
  * @member CKEDITOR.config
  */
 
@@ -3039,7 +3039,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *		config.dialog_buttonsOrder = 'rtl';
  *
  * @since 3.5
- * @cfg {String} [CKEDITOR.config.dialog_buttonsOrder='OS']
+ * @cfg {String} [dialog_buttonsOrder='OS']
  * @member CKEDITOR.config
  */
 
@@ -3056,7 +3056,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * config.removeDialogTabs = 'flash:advanced;image:Link';
  *
  * @since 3.5
- * @cfg {String} [CKEDITOR.config.removeDialogTabs='']
+ * @cfg {String} [removeDialogTabs='']
  * @member CKEDITOR.config
  */
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Spell checker
+ * @fileOverview Spell checker.
  */
 
 // Register a plugin named "wsc".

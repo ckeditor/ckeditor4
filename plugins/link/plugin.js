@@ -210,19 +210,22 @@ CKEDITOR.plugins.add( 'link', {
 
 CKEDITOR.plugins.link = {
 	/**
-	 *  Get the surrounding link element of current selection.
-	 * @param editor
-	 * @example CKEDITOR.plugins.link.getSelectedLink( editor );
+	 * Get the surrounding link element of current selection.
+	 *
+	 *		CKEDITOR.plugins.link.getSelectedLink( editor );
+	 *
+	 *		// The following selection will all return the link element.
+	 *
+	 *		<a href="#">li^nk</a>
+	 *		<a href="#">[link]</a>
+	 *		text[<a href="#">link]</a>
+	 *		<a href="#">li[nk</a>]
+	 *		[<b><a href="#">li]nk</a></b>]
+	 *		[<a href="#"><b>li]nk</b></a>
+	 *
 	 * @since 3.2.1
-	 * The following selection will all return the link element.
-	 *	 <pre>
-	 *  <a href="#">li^nk</a>
-	 *  <a href="#">[link]</a>
-	 *  text[<a href="#">link]</a>
-	 *  <a href="#">li[nk</a>]
-	 *  [<b><a href="#">li]nk</a></b>]
-	 *  [<a href="#"><b>li]nk</b></a>
-	 * </pre>
+	 * @member CKEDITOR.plugins.link
+	 * @param {CKEDITOR.editor} editor
 	 */
 	getSelectedLink: function( editor ) {
 		var selection = editor.getSelection();
@@ -235,16 +238,40 @@ CKEDITOR.plugins.link = {
 		return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 	},
 
-	// Opera and WebKit don't make it possible to select empty anchors. Fake
-	// elements must be used for them.
+	/**
+	 * Opera and WebKit don't make it possible to select empty anchors. Fake
+	 * elements must be used for them.
+	 *
+	 * @readonly
+	 * @property {Boolean}
+	 * @member CKEDITOR.plugins.link
+	 */
 	fakeAnchor: CKEDITOR.env.opera || CKEDITOR.env.webkit,
 
-	// For browsers that don't support CSS3 a[name]:empty(), note IE9 is included because of #7783.
+	/**
+	 * For browsers that don't support CSS3 ```a[name]:empty()```, note IE9 is included because of #7783.
+	 *
+	 * @readonly
+	 * @property {Boolean}
+	 * @member CKEDITOR.plugins.link
+	 */
 	synAnchorSelector: CKEDITOR.env.ie,
 
-	// For browsers that have editing issue with empty anchor.
+	/**
+	 * For browsers that have editing issue with empty anchor.
+	 *
+	 * @readonly
+	 * @property {Boolean}
+	 * @member CKEDITOR.plugins.link
+	 */
 	emptyAnchorFix: CKEDITOR.env.ie && CKEDITOR.env.version < 8,
 
+	/**
+	 * @member CKEDITOR.plugins.link
+	 * @param {CKEDITOR.editor} editor
+	 * @param {CKEDITOR.dom.element} element
+	 * @todo
+	 */
 	tryRestoreFakeAnchor: function( editor, element ) {
 		if ( element && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'anchor' ) {
 			var link = editor.restoreRealElement( element );
@@ -254,9 +281,10 @@ CKEDITOR.plugins.link = {
 	}
 };
 
+// TODO Much probably there's no need to expose these as public objects.
+
 CKEDITOR.unlinkCommand = function() {};
 CKEDITOR.unlinkCommand.prototype = {
-	/** @ignore */
 	exec: function( editor ) {
 		var style = new CKEDITOR.style( { element:'a',type:CKEDITOR.STYLE_INLINE,alwaysRemoveElement:1 } );
 		editor.removeStyle( style );
@@ -280,7 +308,6 @@ CKEDITOR.unlinkCommand.prototype = {
 
 CKEDITOR.removeAnchorCommand = function() {};
 CKEDITOR.removeAnchorCommand.prototype = {
-	/** @ignore */
 	exec: function( editor ) {
 		var sel = editor.getSelection(),
 			bms = sel.createBookmarks(),
@@ -301,6 +328,17 @@ CKEDITOR.removeAnchorCommand.prototype = {
 };
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
+	/**
+	 * @cfg {Boolean} [linkShowAdvancedTab=true]
+	 * @member CKEDITOR.config
+	 * @todo
+	 */
 	linkShowAdvancedTab: true,
+
+	/**
+	 * @cfg {Boolean} [linkShowTargetTab=true]
+	 * @member CKEDITOR.config
+	 * @todo
+	 */
 	linkShowTargetTab: true
 });

@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Paste as plain text plugin
+ * @fileOverview Paste as plain text plugin.
  */
 
 (function() {
@@ -65,10 +65,11 @@
  * Whether to force all pasting operations to insert on plain text into the
  * editor, loosing any formatting information possibly available in the source
  * text.
- * <strong>Note:</strong> paste from word (dialog) is not affected by this configuration.
- * @name CKEDITOR.config.forcePasteAsPlainText
- * @type Boolean
- * @default false
- * @example
- * config.forcePasteAsPlainText = true;
+ *
+ * **Note:** paste from word (dialog) is not affected by this configuration.
+ *
+ *		config.forcePasteAsPlainText = true;
+ *
+ * @cfg {Boolean} [forcePasteAsPlainText=false]
+ * @member CKEDITOR.config
  */

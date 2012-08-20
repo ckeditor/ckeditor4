@@ -379,7 +379,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * Retrieve the bounding rectangle of the current element, in pixels,
 	 * relative to the upper-left corner of the browser's client area.
 	 *
-	 * @return {Object} The dimensions of the DOM element including
+	 * @returns {Object} The dimensions of the DOM element including
 	 * ```left```, ```top```, ```right```, ```bottom```, ```width``` and ```height```.
 	 */
 	getClientRect: function() {

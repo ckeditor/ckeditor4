@@ -113,25 +113,25 @@
 
 
 /**
- * Whether to prompt the user about the clean up of content being pasted from
- * MS Word.
- * @name CKEDITOR.config.pasteFromWordPromptCleanup
+ * Whether to prompt the user about the clean up of content being pasted from MS Word.
+ *
+ *		config.pasteFromWordPromptCleanup = true;
+ *
  * @since 3.1
- * @type Boolean
- * @default undefined
- * @example
- * config.pasteFromWordPromptCleanup = true;
+ * @cfg {Boolean} [pasteFromWordPromptCleanup=false]
+ * @member CKEDITOR.config
  */
 
 /**
  * The file that provides the MS Word cleanup function for pasting operations.
- * Note: This is a global configuration shared by all editor instances present
+ *
+ * **Note:** This is a global configuration shared by all editor instances present
  * in the page.
- * @name CKEDITOR.config.pasteFromWordCleanupFile
+ *
+ *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file).
+ *		CKEDITOR.config.pasteFromWordCleanupFile = 'custom';
+ *
  * @since 3.1
- * @type String
- * @default 'default'
- * @example
- * // Load from 'pastefromword' plugin 'filter' sub folder (custom.js file).
- * CKEDITOR.config.pasteFromWordCleanupFile = 'custom';
+ * @cfg {String} [pasteFromWordCleanupFile='default']
+ * @member CKEDITOR.config
  */

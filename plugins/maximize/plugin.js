@@ -88,10 +88,8 @@
 		}
 	}
 
-	/**
-	 * Adding an iframe shim to this element, OR removing the existing one if already applied.
-	 * Note: This will only affect IE version below 7.
-	 */
+	// Adding an iframe shim to this element, OR removing the existing one if already applied.
+	// Note: This will only affect IE version below 7.
 	function createIframeShim( element ) {
 		if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 6 )
 			return null;

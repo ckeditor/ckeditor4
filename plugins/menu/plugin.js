@@ -15,10 +15,11 @@ CKEDITOR.plugins.add( 'menu', {
 		/**
 		 * Registers an item group to the editor context menu in order to make it
 		 * possible to associate it with menu items later.
-		 * @name CKEDITOR.editor.prototype.addMenuGroup
+		 *
 		 * @param {String} name Specify a group name.
 		 * @param {Number} [order=100] Define the display sequence of this group
-		 *  	inside the menu. A smaller value gets displayed first.
+		 * inside the menu. A smaller value gets displayed first.
+		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuGroup = function( name, order ) {
 			groupsOrder[ name ] = order || 100;
@@ -26,9 +27,11 @@ CKEDITOR.plugins.add( 'menu', {
 
 		/**
 		 * Adds an item from the specified definition to the editor context menu.
-		 * @name CKEDITOR.editor.prototype.addMenuItem
+		 *
+		 * @method
 		 * @param {String} name The menu item name.
-		 * @param {CKEDITOR.menu.definition} definition The menu item definition.
+		 * @param {Object} definition The menu item definition.
+		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuItem = function( name, definition ) {
 			if ( groupsOrder[ definition.group ] )
@@ -37,8 +40,10 @@ CKEDITOR.plugins.add( 'menu', {
 
 		/**
 		 * Adds one or more items from the specified definition array to the editor context menu.
-		 * @name CKEDITOR.editor.prototype.addMenuItems
-		 * @param {Array} definitions List of definitions for each menu item as if {@link CKEDITOR.editor.addMenuItem} is called.
+		 *
+		 * @method
+		 * @param {Array} definitions List of definitions for each menu item as if {@link #addMenuItem} is called.
+		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuItems = function( definitions ) {
 			for ( var itemName in definitions ) {
@@ -48,9 +53,11 @@ CKEDITOR.plugins.add( 'menu', {
 
 		/**
 		 * Retrieves a particular menu item definition from the editor context menu.
-		 * @name CKEDITOR.editor.prototype.getMenuItem
+		 *
+		 * @method
 		 * @param {String} name The name of the desired menu item.
-		 * @return {CKEDITOR.menu.definition}
+		 * @returns {Object}
+		 * @member CKEDITOR.editor
 		 */
 		editor.getMenuItem = function( name ) {
 			return menuItems[ name ];
@@ -58,9 +65,11 @@ CKEDITOR.plugins.add( 'menu', {
 
 		/**
 		 * Removes a particular menu item added before from the editor context menu.
-		 * @name CKEDITOR.editor.prototype.removeMenuItem
-		 * @param {String} name The name of the desired menu item.
+		 *
 		 * @since 3.6.1
+		 * @method
+		 * @param {String} name The name of the desired menu item.
+		 * @member CKEDITOR.editor
 		 */
 		editor.removeMenuItem = function( name ) {
 			delete menuItems[ name ];
@@ -436,21 +445,23 @@ CKEDITOR.plugins.add( 'menu', {
  * The amount of time, in milliseconds, the editor waits before displaying submenu
  * options when moving the mouse over options that contain submenus, like the
  * "Cell Properties" entry for tables.
- * @type Number
- * @default 400
- * @example
- * // Remove the submenu delay.
- * config.menu_subMenuDelay = 0;
+ *
+ *		// Remove the submenu delay.
+ *		config.menu_subMenuDelay = 0;
+ *
+ * @cfg {Number} [menu_subMenuDelay=400]
+ * @member CKEDITOR.config
  */
 
 /**
  * A comma separated list of items group names to be displayed in the context
  * menu. The order of items will reflect the order specified in this list if
  * no priority was defined in the groups.
- * @type String
- * @default 'clipboard,form,tablecell,tablecellproperties,tablerow,tablecolumn,table,anchor,link,image,flash,checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea'
- * @example
- * config.menu_groups = 'clipboard,table,anchor,link,image';
+ *
+ *		config.menu_groups = 'clipboard,table,anchor,link,image';
+ *
+ * @cfg {String} [menu_groups=see source]
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.menu_groups = 'clipboard,' +
 	'form,' +

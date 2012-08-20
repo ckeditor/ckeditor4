@@ -4,7 +4,7 @@
  */
 
 /**
- * @file AutoGrow plugin
+ * @fileOverview AutoGrow plugin.
  */
 
 (function() {
