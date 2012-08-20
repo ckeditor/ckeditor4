@@ -1,8 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--
-== BEGIN TEXT ONLY VERSION ==
-
 Software License Agreement
 ==========================
 
@@ -33,17 +28,12 @@ recipient of your version of this software to use, reproduce, modify
 and distribute this software under any of the above licenses.
 
 Sources of Intellectual Property Included in CKEditor
-=====================================================
+-----------------------------------------------------
 
 Where not otherwise indicated, all CKEditor content is authored by
 CKSource engineers and consists of CKSource-owned intellectual
 property. In some specific instances, CKEditor will incorporate work
 done by developers outside of CKSource with their express permission.
-
-YUI Test: At _source/tests/yuitest.js can be found part of the source
-code of YUI, which is licensed under the terms of the BSD License
-(http://developer.yahoo.com/yui/license.txt). YUI is Copyright (C)
-2008, Yahoo! Inc.
 
 (Ignore this line: %REMOVE_START%)
 
@@ -54,37 +44,28 @@ files of JavaScript Lint, which are licensed under the terms of the
 Mozilla Public License Version 1.1 (http://www.mozilla.org/MPL/).
 JavaScript Lint is Copyright (c) 2006 Matthias Miller.
 
-JsDoc Toolkit: At _dev/_thirdparty/jsdoc-toolkit can be found the
-source code of JsDoc Toolkit, which is licensed under the terms of the
-X11/MIT License (http://www.opensource.org/licenses/mit-license.php).
-JsDoc Toolkit is Copyright (c) 2008 Michael Mathews.
-
-Console_Getopt and PEAR: At _dev/_thirdparty/console_getopt can be
-found the source code of Console_Getopt and part of the source code of
-PEAR, which are licensed under the terms of the PHP License Version 3.0
-(http://www.php.net/license/3_0.txt). Console_Getopt and PEAR are
-Copyright (c) 1997-2004 The PHP Group.
-
 (Ignore this line: %REMOVE_END%)
 Trademarks
-==========
+----------
 
 CKEditor is a trademark of CKSource - Frederico Knabben. All other brand
 and product names are trademarks, registered trademarks or service
 marks of their respective holders.
 
-Appendix A: The GPL License
-===========================
+---
 
-		    GNU GENERAL PUBLIC LICENSE
-		       Version 2, June 1991
+Appendix A: The GPL License
+---------------------------
+
+GNU GENERAL PUBLIC LICENSE
+Version 2, June 1991
 
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
-			    Preamble
+Preamble
 
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
@@ -134,8 +115,8 @@ patent must be licensed for everyone's free use or not licensed at all.
   The precise terms and conditions for copying, distribution and
 modification follow.
 
-		    GNU GENERAL PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+GNU GENERAL PUBLIC LICENSE
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. This License applies to any program or other work which contains
 a notice placed by the copyright holder saying it may be distributed
@@ -333,7 +314,7 @@ make exceptions for this.  Our decision will be guided by the two goals
 of preserving the free status of all derivatives of our free software and
 of promoting the sharing and reuse of software generally.
 
-			    NO WARRANTY
+NO WARRANTY
 
   11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
@@ -355,14 +336,14 @@ YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
 PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGES.
 
-		     END OF TERMS AND CONDITIONS
+END OF TERMS AND CONDITIONS
 
 
 Appendix B: The LGPL License
-============================
+----------------------------
 
-		  GNU LESSER GENERAL PUBLIC LICENSE
-		       Version 2.1, February 1999
+GNU LESSER GENERAL PUBLIC LICENSE
+Version 2.1, February 1999
 
  Copyright (C) 1991, 1999 Free Software Foundation, Inc.
      59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -373,7 +354,7 @@ Appendix B: The LGPL License
  as the successor of the GNU Library Public License, version 2, hence
  the version number 2.1.]
 
-			    Preamble
+Preamble
 
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
@@ -475,8 +456,8 @@ modification follow.  Pay close attention to the difference between a
 former contains code derived from the library, whereas the latter must
 be combined with the library in order to run.
 
-		  GNU LESSER GENERAL PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+GNU LESSER GENERAL PUBLIC LICENSE
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. This License Agreement applies to any software library or other
 program which contains a notice placed by the copyright holder or
@@ -795,7 +776,7 @@ decision will be guided by the two goals of preserving the free status
 of all derivatives of our free software and of promoting the sharing
 and reuse of software generally.
 
-			    NO WARRANTY
+NO WARRANTY
 
   15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
 WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
@@ -818,16 +799,14 @@ FAILURE OF THE LIBRARY TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES.
 
-		     END OF TERMS AND CONDITIONS
+END OF TERMS AND CONDITIONS
 
 
 Appendix C: The MPL License
-===========================
+---------------------------
 
-                          MOZILLA PUBLIC LICENSE
-                                Version 1.1
-
-                              ===============
+MOZILLA PUBLIC LICENSE
+Version 1.1
 
 1. Definitions.
 
@@ -1293,87 +1272,3 @@ EXHIBIT A -Mozilla Public License.
      the notices in the Source Code files of the Original Code. You should
      use the text of this Exhibit A rather than the text found in the
      Original Code Source Code for Your Modifications.]
-
-== END TEXT ONLY VERSION ==
--->
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>License - CKEditor</title>
-</head>
-<body>
-	<h1>
-		Software License Agreement
-	</h1>
-	<p>
-		<strong>CKEditor&trade;</strong> - The text editor for Internet&trade; - <a href="http://ckeditor.com">
-			http://ckeditor.com</a><br />
-		Copyright &copy; 2003-2012, <a href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
-	</p>
-	<p>
-		Licensed under the terms of any of the following licenses at your choice:
-	</p>
-	<ul>
-		<li><a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> Version
-			2 or later (the "GPL");</li>
-		<li><a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>
-			Version 2.1 or later (the "LGPL");</li>
-		<li><a href="http://www.mozilla.org/MPL/MPL-1.1.html">Mozilla Public License</a> Version
-			1.1 or later (the "MPL").</li>
-	</ul>
-	<p>
-		You are not required to, but if you want to explicitly declare the license you have
-		chosen to be bound to when using, reproducing, modifying and distributing this software,
-		just include a text file titled "LEGAL" in your version of this software, indicating
-		your license choice. In any case, your choice will not restrict any recipient of
-		your version of this software to use, reproduce, modify and distribute this software
-		under any of the above licenses.
-	</p>
-	<h2>
-		Sources of Intellectual Property Included in CKEditor
-	</h2>
-	<p>
-		Where not otherwise indicated, all CKEditor content is authored by CKSource engineers
-		and consists of CKSource-owned intellectual property. In some specific instances,
-		CKEditor will incorporate work done by developers outside of CKSource with their
-		express permission.
-	</p>
-	<p>
-		<a href="http://developer.yahoo.com/yui/yuitest/">YUI Test</a>: At _source/tests/yuitest.js
-		can be found part of the source code of YUI, which is licensed under the terms of
-		the <a href="http://developer.yahoo.com/yui/license.txt">BSD License</a>. YUI is
-		Copyright &copy; 2008, Yahoo! Inc.
-	</p>
-	<!-- (Ignore this line: %REMOVE_START%)
-	Software available at our repository and developer version only:
-	-->
-	<p>
-		<a href="http://www.javascriptlint.com/">JavaScript Lint</a>: At _dev/_thirdparty/jsl
-		can be found the executable files of JavaScript Lint, which are licensed under the
-		terms of the Mozilla Public License Version 1.1 (<a href="http://developer.yahoo.com/yui/license.txt">http://developer.yahoo.com/yui/license.txt</a>).
-		JavaScript Lint is Copyright &copy; 2006 Matthias Miller.
-	</p>
-	<p>
-		<a href="http://code.google.com/p/jsdoc-toolkit/">JsDoc Toolkit</a>: At _dev/_thirdparty/jsdoc-toolkit can be found the
-		source code of JsDoc Toolkit, which is licensed under the terms of the
-		X11/MIT License Version
-		(<a href="http://www.opensource.org/licenses/mit-license.php">http://www.opensource.org/licenses/mit-license.php</a>).
-		JsDoc Toolkit is Copyright &copy; 2008 Michael Mathews.
-	</p>
-	<p>
-		<a href="http://pear.php.net/package/Console_Getopt">Console_Getopt</a> and <a href="http://pear.php.net/">
-			PEAR</a>: At _dev/_thirdparty/console_getopt can be found the source code of
-		Console_Getopt and part of the source code of PEAR, which are licensed under the
-		terms of the PHP License Version 3.0 (<a href="http://www.php.net/license/3_0.txt">http://www.php.net/license/3_0.txt</a>).
-		Console_Getopt and PEAR are Copyright &copy; 1997-2004 The PHP Group.
-	</p>
-	<!-- (Ignore this line: %REMOVE_END%) -->
-	<h2>
-		Trademarks
-	</h2>
-	<p>
-		CKEditor is a trademark of CKSource - Frederico Knabben. All other brand and product
-		names are trademarks, registered trademarks or service marks of their respective
-		holders.
-	</p>
-</body>
-</html>
