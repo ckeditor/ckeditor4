@@ -421,7 +421,7 @@
 	 *
 	 * **Note:** Since the native browser selection provides only one single
 	 * selection at a time per document, so if editor's editable element has lost focus,
-	 * this method will return a null value unless the `{@link CKEDITOR.editor#lockSelection}`
+	 * this method will return a null value unless the {@link CKEDITOR.editor#lockSelection}
 	 * has been called beforehand so the saved selection is retrieved.
 	 *
 	 *		var selection = CKEDITOR.instances.editor1.getSelection();
@@ -447,7 +447,7 @@
 	 * Locks the selection made in the editor in order to make it possible to
 	 * manipulate it without browser interference. A locked selection is
 	 * cached and remains unchanged until it is released with the
-	 * `{@link CKEDITOR.editor#unlockSelection}` method.
+	 * {@link CKEDITOR.editor#unlockSelection} method.
 	 *
 	 * @method
 	 * @member CKEDITOR.editor
@@ -469,14 +469,14 @@
 
 	/**
 	 * Unlocks the selection made in the editor and locked with the
-	 * `{@link CKEDITOR.editor#unlockSelection}` method. An unlocked selection
+	 * {@link CKEDITOR.editor#unlockSelection} method. An unlocked selection
 	 * is no longer cached and can be changed.
 	 *
 	 * @method
 	 * @member CKEDITOR.editor
 	 * @param {Boolean} [restore] If set to `true`, the selection is
 	 * restored back to the selection saved earlier by using the
-	 * `{@link CKEDITOR.dom.selection#lock}` method.
+	 * {@link CKEDITOR.dom.selection#lock} method.
 	 */
 	CKEDITOR.editor.prototype.unlockSelection = function( restore ) {
 		var sel = this._.savedSelection;

@@ -9,8 +9,8 @@
  */
 
 /**
- * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
- * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * Used in conjunction with {@link CKEDITOR.config#enterMode}
+ * and {@link CKEDITOR.config#shiftEnterMode} configuration
  * settings to make the editor produce `<p>` tags when
  * using the *Enter* key.
  *
@@ -21,8 +21,8 @@
 CKEDITOR.ENTER_P = 1;
 
 /**
- * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
- * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * Used in conjunction with {@link CKEDITOR.config#enterMode}
+ * and {@link CKEDITOR.config#shiftEnterMode} configuration
  * settings to make the editor produce `<br>` tags when
  * using the *Enter* key.
  *
@@ -33,8 +33,8 @@ CKEDITOR.ENTER_P = 1;
 CKEDITOR.ENTER_BR = 2;
 
 /**
- * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
- * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * Used in conjunction with {@link CKEDITOR.config#enterMode}
+ * and {@link CKEDITOR.config#shiftEnterMode} configuration
  * settings to make the editor produce `<div>` tags when
  * using the *Enter* key.
  *
@@ -82,7 +82,7 @@ CKEDITOR.config = {
 	/**
 	 * The user interface language localization to use. If left empty, the editor
 	 * will automatically be localized to the user language. If the user language is not supported,
-	 * the language specified in the `{@link CKEDITOR.config#defaultLanguage}`
+	 * the language specified in the {@link CKEDITOR.config#defaultLanguage}
 	 * configuration setting is used.
 	 *
 	 *		// Load the German interface.
@@ -93,7 +93,7 @@ CKEDITOR.config = {
 	language: '',
 
 	/**
-	 * The language to be used if the `{@link CKEDITOR.config#language}`
+	 * The language to be used if the {@link CKEDITOR.config#language}
 	 * setting is left empty and it is not possible to localize the editor to the user language.
 	 *
 	 *		config.defaultLanguage = 'it';
@@ -127,11 +127,11 @@ CKEDITOR.config = {
 	 * as a paragraph separator when indenting text.
 	 * The allowed values are the following constants that cause the behavior outlined below:
 	 *
-	 * * `{@link CKEDITOR#ENTER_P}` (1) &ndash; new `<p>` paragraphs are created;
-	 * * `{@link CKEDITOR#ENTER_BR}` (2) &ndash; lines are broken with `<br>` elements;
-	 * * `{@link CKEDITOR#ENTER_DIV}` (3) &ndash; new `<div>` blocks are created.
+	 * * {@link CKEDITOR#ENTER_P} (1) &ndash; new `<p>` paragraphs are created;
+	 * * {@link CKEDITOR#ENTER_BR} (2) &ndash; lines are broken with `<br>` elements;
+	 * * {@link CKEDITOR#ENTER_DIV} (3) &ndash; new `<div>` blocks are created.
 	 *
-	 * **Note**: It is recommended to use the `{@link CKEDITOR#ENTER_P}` setting because of
+	 * **Note**: It is recommended to use the {@link CKEDITOR#ENTER_P} setting because of
 	 * its semantic value and correctness. The editor is optimized for this setting.
 	 *
 	 *		// Not recommended.
@@ -142,9 +142,9 @@ CKEDITOR.config = {
 	enterMode: CKEDITOR.ENTER_P,
 
 	/**
-	 * Force the use of `{@link CKEDITOR.config#enterMode}` as line break regardless
-	 * of the context. If, for example, `{@link CKEDITOR.config#enterMode}` is set
-	 * to `{@link CKEDITOR#ENTER_P}`, pressing the *Enter* key inside a
+	 * Force the use of {@link CKEDITOR.config#enterMode} as line break regardless
+	 * of the context. If, for example, {@link CKEDITOR.config#enterMode} is set
+	 * to {@link CKEDITOR#ENTER_P}, pressing the *Enter* key inside a
 	 * `<div>` element will create a new paragraph with `<p>`
 	 * instead of a `<div>`.
 	 *
@@ -157,14 +157,14 @@ CKEDITOR.config = {
 	forceEnterMode: false,
 
 	/**
-	 * Similarly to the `{@link CKEDITOR.config#enterMode}` setting, it defines the behavior
+	 * Similarly to the {@link CKEDITOR.config#enterMode} setting, it defines the behavior
 	 * of the *Shift+Enter* key combination.
 	 *
 	 * The allowed values are the following constants the behavior outlined below:
 	 *
-	 * * `{@link CKEDITOR#ENTER_P}` (1) &ndash; new `<p>` paragraphs are created;
-	 * * `{@link CKEDITOR#ENTER_BR}` (2) &ndash; lines are broken with `<br>` elements;
-	 * * `{@link CKEDITOR#ENTER_DIV}` (3) &ndash; new `<div>` blocks are created.
+	 * * {@link CKEDITOR#ENTER_P} (1) &ndash; new `<p>` paragraphs are created;
+	 * * {@link CKEDITOR#ENTER_BR} (2) &ndash; lines are broken with `<br>` elements;
+	 * * {@link CKEDITOR#ENTER_DIV} (3) &ndash; new `<div>` blocks are created.
 	 *
 	 * Example:
 	 *
@@ -242,7 +242,7 @@ CKEDITOR.config = {
 	/**
 	 * Comma separated list of plugins to be used for an editor instance,
 	 * besides, the actual plugins that to be loaded could be still affected by two other settings:
-	 * `{@link CKEDITOR.config#extraPlugins}` and `{@link CKEDITOR.config#removePlugins}`.
+	 * {@link CKEDITOR.config#extraPlugins} and {@link CKEDITOR.config#removePlugins}.
 	 *
 	 * @cfg {String} [="<default list of plugins>"]
 	 */
@@ -250,7 +250,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
-	 * to add new plugins without having to touch `{@link CKEDITOR.config#plugins}` setting.
+	 * to add new plugins without having to touch {@link CKEDITOR.config#plugins} setting.
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
 	 *
@@ -260,7 +260,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of plugins that must not be loaded. This setting makes it possible
-	 * to avoid loading some plugins defined in the `{@link CKEDITOR.config#plugins}`
+	 * to avoid loading some plugins defined in the {@link CKEDITOR.config#plugins}
 	 * setting, without having to touch it.
 	 *
 	 *		config.removePlugins = 'elementspath,save,font';
@@ -295,7 +295,7 @@ CKEDITOR.config = {
 	 * The editor UI outer width. This can be an integer, for pixel sizes, or
 	 * any CSS-defined unit.
 	 *
-	 * Unlike the `{@link CKEDITOR.config#height}` setting, this
+	 * Unlike the {@link CKEDITOR.config#height} setting, this
 	 * one will set the outer width of the entire editor UI, not for the
 	 * editing area only.
 	 *
