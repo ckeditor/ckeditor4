@@ -43,7 +43,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	 *		alert( size.width );
 	 *		alert( size.height );
 	 *
-	 * @returns {Object} An object with the ```width``` and ```height```
+	 * @returns {Object} An object with the `width` and `height`
 	 * properties containing the size.
 	 */
 	getViewPaneSize: function() {
@@ -63,7 +63,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	 *		alert( pos.x );
 	 *		alert( pos.y );
 	 *
-	 * @returns {Object} An object with the ```x``` and ```y``` properties
+	 * @returns {Object} An object with the `x` and `y` properties
 	 * containing the scroll position.
 	 */
 	getScrollPosition: function() {
@@ -86,7 +86,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	/**
 	 * Gets the frame element containing this window context.
 	 *
-	 * @returns {CKEDITOR.dom.element} The frame element or ```null``` if not in a frame context.
+	 * @returns {CKEDITOR.dom.element} The frame element or `null` if not in a frame context.
 	 */
 	getFrame: function() {
 		var iframe = this.$.frameElement;

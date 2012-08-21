@@ -652,7 +652,7 @@ CKEDITOR.config.disableNativeTableHandles = true;
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * Whether the editor must output an empty value (```''```) if it's contents is made
+ * Whether the editor must output an empty value (`''`) if it's contents is made
  * by an empty paragraph only.
  *
  *		config.ignoreEmptyParagraph = false;

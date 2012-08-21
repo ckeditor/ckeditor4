@@ -239,8 +239,8 @@
 		 * @member CKEDITOR.editor
 		 * @param {Object} options
 		 * @param {String} [options.title] Title of paste dialog.
-		 * @param {Function} callback Function that will be executed with ```data.type``` and ```data.dataValue```
-		 * or ```null``` if none of the capturing method succeeded.
+		 * @param {Function} callback Function that will be executed with `data.type` and `data.dataValue`
+		 * or `null` if none of the capturing method succeeded.
 		 */
 		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
@@ -1117,8 +1117,8 @@
 /**
  * The default content type is used when pasted data cannot be clearly recognized as HTML or text.
  *
- * For example: ```'foo'``` may come from a plain text editor or a website. It isn't possible to recognize content
- * type in this case, so default will be used. However, it's clear that ```'<b>example</b> text'``` is an HTML
+ * For example: `'foo'` may come from a plain text editor or a website. It isn't possible to recognize content
+ * type in this case, so default will be used. However, it's clear that `'<b>example</b> text'` is an HTML
  * and its origin is webpage, email or other rich text editor.
  *
  * **Note:** If content type is text, then styles of context of paste are preserved.
@@ -1139,8 +1139,8 @@
  * @event paste
  * @member CKEDITOR.editor
  * @param {Object} data
- * @param {String} data.type Type of data in ```data.dataValue```. Usually ```html``` or ```text```, but for listeners
- * with priority less than 6 it may be also ```auto```, what means that content type hasn't been recognised yet
+ * @param {String} data.type Type of data in `data.dataValue`. Usually `html` or `text`, but for listeners
+ * with priority less than 6 it may be also `auto`, what means that content type hasn't been recognised yet
  * (this will be done by content type sniffer that listens with priority 6).
  * @param {String} data.dataValue HTML to be pasted.
  */

@@ -105,7 +105,7 @@
 			 * data load. If not provided, the data will be loaded
 			 * synchronously.
 			 * @returns {String} The loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, ```null```.
+			 * empty string. For invalid requests, `null`.
 			 */
 			load: function( url, callback ) {
 				return load( url, callback, getResponseText );
@@ -127,7 +127,7 @@
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
 			 * @returns {CKEDITOR.xml} An XML object holding the loaded data. For asynchronous requests, an
-			 * empty string. For invalid requests, ```null```.
+			 * empty string. For invalid requests, `null`.
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, getResponseXml );

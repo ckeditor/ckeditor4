@@ -431,7 +431,7 @@
  */
 
 /**
- * (Optional) Specify the layout of the label. Set to ```'horizontal'``` for horizontal layout.
+ * (Optional) Specify the layout of the label. Set to `'horizontal'` for horizontal layout.
  * The default layout is vertical.
  *
  *		{
@@ -811,8 +811,8 @@
  */
 
 /**
- * An array of options. Each option is a 1- or 2-item array of format ```[ 'Description', 'Value' ]```.
- * If ```'Value'``` is missing, then the value would be assumed to be the same as the description.
+ * An array of options. Each option is a 1- or 2-item array of format `[ 'Description', 'Value' ]`.
+ * If `'Value'` is missing, then the value would be assumed to be the same as the description.
  *
  * @property {Array} items
  */
@@ -863,8 +863,8 @@
  */
 
 /**
- * An array of options. Each option is a 1- or 2-item array of format ```[ 'Description', 'Value' ]```.
- * If ```'Value'``` is missing, then the value would be assumed to be the same as the description.
+ * An array of options. Each option is a 1- or 2-item array of format `[ 'Description', 'Value' ]`.
+ * If `'Value'` is missing, then the value would be assumed to be the same as the description.
  *
  * @property {Array} items
  */

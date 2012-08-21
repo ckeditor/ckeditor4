@@ -6,7 +6,7 @@
  /** @class CKEDITOR */
 
 /**
- * The class name used to identify ```<textarea>``` elements to be replace
+ * The class name used to identify `<textarea>` elements to be replace
  * by CKEditor instances. Set it to empty/null to disable this feature.
  *
  *		CKEDITOR.replaceClass = 'rich_editor';
@@ -17,10 +17,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 (function() {
 	/**
-	 * Replaces a ```<textarea>``` or a DOM element (```<div>```) with a CKEditor
+	 * Replaces a `<textarea>` or a DOM element (`<div>`) with a CKEditor
 	 * instance. For textareas, the initial value in the editor will be the
 	 * textarea value. For DOM elements, their innerHTML will be used
-	 * instead. We recommend using ```<textarea>``` and ```<div>``` elements only.
+	 * instead. We recommend using `<textarea>` and `<div>` elements only.
 	 *
 	 *		<textarea id="myfield" name="myfield"></textarea>
 	 *		...
@@ -57,7 +57,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Replace all ```<textarea>``` elements available in the document with
+	 * Replace all `<textarea>` elements available in the document with
 	 * editor instances.
 	 *
 	 *		// Replace all <textarea> elements in the page.
@@ -121,7 +121,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * Change the editing mode of this editor instance.
 	 *
 	 * **Note:** The mode switch could be asynchronous depending on the mode provider,
-	 * use the ```callback``` to hook subsequent code.
+	 * use the `callback` to hook subsequent code.
 	 *
 	 *		// Switch to "source" view.
 	 *		CKEDITOR.instances.editor1.setMode( 'source' );
@@ -191,7 +191,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {Boolean} [resizeInner] Indicates that the first inner interface
 	 * element must receive the size, not the outer element. The default theme
 	 * defines the interface inside a pair of span elements
-	 * (```<span><span>...</span></span>```). By default the
+	 * (`<span><span>...</span></span>`). By default the
 	 * first span element receives the sizes. If this parameter is set to
 	 * true, the second span is sized instead.
 	 */
@@ -432,7 +432,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 /**
  * The mode to load at the editor startup. It depends on the plugins
- * loaded. By default, the ```wysiwyg``` and ```source``` modes are available.
+ * loaded. By default, the `wysiwyg` and `source` modes are available.
  *
  *		config.startupMode = 'source';
  *

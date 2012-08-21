@@ -106,11 +106,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```label``` (Required) The label string.
-			 * * ```labelLayout``` (Optional) Put 'horizontal' here if the
+			 * * `label` (Required) The label string.
+			 * * `labelLayout` (Optional) Put 'horizontal' here if the
 			 *     label element is to be layed out horizontally. Otherwise a vertical
 			 *     layout will be used.
-			 * * ```widths``` (Optional) This applies only for horizontal
+			 * * `widths` (Optional) This applies only for horizontal
 			 *     layouts - an 2-element array of lengths to specify the widths of the
 			 *     label and the content element.
 			 *
@@ -173,10 +173,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```default``` (Optional) The default value.
-			 * * ```validate``` (Optional) The validation function.
-			 * * ```maxLength``` (Optional) The maximum length of text box contents.
-			 * * ```size``` (Optional) The size of the text box. This is
+			 * * `default` (Optional) The default value.
+			 * * `validate` (Optional) The validation function.
+			 * * `maxLength` (Optional) The maximum length of text box contents.
+			 * * `size` (Optional) The size of the text box. This is
 			 *     usually overridden by the size defined by the skin, however.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -254,12 +254,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 *
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```rows``` (Optional) The number of rows displayed.
+			 * * `rows` (Optional) The number of rows displayed.
 			 *     Defaults to 5 if not defined.
-			 * * ```cols``` (Optional) The number of cols displayed.
+			 * * `cols` (Optional) The number of cols displayed.
 			 *     Defaults to 20 if not defined. Usually overridden by skins.
-			 * * ```default``` (Optional) The default value.
-			 * * ```validate``` (Optional) The validation function.
+			 * * `default` (Optional) The default value.
+			 * * `validate` (Optional) The validation function.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -304,10 +304,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```checked``` (Optional) Whether the checkbox is checked
+			 * * `checked` (Optional) Whether the checkbox is checked
 			 *     on instantiation. Defaults to false.
-			 * * ```validate``` (Optional) The validation function.
-			 * * ```label``` (Optional) The checkbox label.
+			 * * `validate` (Optional) The validation function.
+			 * * `label` (Optional) The checkbox label.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -353,10 +353,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```default``` (Required) The default value.
-			 * * ```validate``` (Optional) The validation function.
-			 * * ```items``` (Required) An array of options. Each option
-			 *     is a 1- or 2-item array of format ```[ 'Description', 'Value' ]```. If ```'Value'```
+			 * * `default` (Required) The default value.
+			 * * `validate` (Optional) The validation function.
+			 * * `items` (Required) An array of options. Each option
+			 *     is a 1- or 2-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
 			 *     is missing, then the value would be assumed to be the same as the description.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -431,8 +431,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```label``` (Required) The button label.
-			 * * ```disabled``` (Optional) Set to true if you want the
+			 * * `label` (Required) The button label.
+			 * * `disabled` (Optional) Set to true if you want the
 			 *     button to appear in disabled state.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -499,15 +499,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```default``` (Required) The default value.
-			 * * ```validate``` (Optional) The validation function.
-			 * * ```items``` (Required) An array of options. Each option
-			 *     is a 1- or 2-item array of format ```[ 'Description', 'Value' ]```. If ```'Value'```
+			 * * `default` (Required) The default value.
+			 * * `validate` (Optional) The validation function.
+			 * * `items` (Required) An array of options. Each option
+			 *     is a 1- or 2-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
 			 *     is missing, then the value would be assumed to be the same as the
 			 *     description.
-			 * * ```multiple``` (Optional) Set this to true if you'd like
+			 * * `multiple` (Optional) Set this to true if you'd like
 			 *     to have a multiple-choice select box.
-			 * * ```size``` (Optional) The number of items to display in
+			 * * `size` (Optional) The number of items to display in
 			 *     the select box.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -562,7 +562,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```validate``` (Optional) The validation function.
+			 * * `validate` (Optional) The validation function.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -629,9 +629,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```for``` (Required) The file input's page and element Id
-			 *     to associate to, in a 2-item array format: ```[ 'page_id', 'element_id' ]```.
-			 * * ```validate``` (Optional) The validation function.
+			 * * `for` (Required) The file input's page and element Id
+			 *     to associate to, in a 2-item array format: `[ 'page_id', 'element_id' ]`.
+			 * * `validate` (Optional) The validation function.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -677,7 +677,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition Element definition.
 				 * Accepted fields:
 				 *
-				 * * ```html``` (Required) HTML code of this element.
+				 * * `html` (Required) HTML code of this element.
 				 *
 				 * @param {Array} htmlList List of HTML code to be added to the dialog's content area.
 				 */
@@ -740,8 +740,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```label``` (Optional) The legend of the this fieldset.
-			 * * ```children``` (Required) An array of dialog field definitions which will be grouped inside this fieldset.
+			 * * `label` (Optional) The legend of the this fieldset.
+			 * * `children` (Required) An array of dialog field definitions which will be grouped inside this fieldset.
 			 *
 			 */
 			fieldset: function( dialog, childObjList, childHtmlList, htmlList, elementDefinition ) {
@@ -807,7 +807,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Simulates a click to the button.
 			 *
-			 * @returns {Object} Return value of the ```click``` event.
+			 * @returns {Object} Return value of the `click` event.
 			 */
 			click: function() {
 				if ( !this._.disabled )
@@ -923,7 +923,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Handler for the text input's access key up event. Makes a ```select()```
+			 * Handler for the text input's access key up event. Makes a `select()`
 			 * call to the text input.
 			 */
 			accessKeyUp: function() {
@@ -953,7 +953,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the DOM element of the select box.
 			 *
-			 * @returns {CKEDITOR.dom.element} The ```<select>``` element of this UI element.
+			 * @returns {CKEDITOR.dom.element} The `<select>` element of this UI element.
 			 */
 			getInputElement: function() {
 				return this._.select.getElement();
@@ -1025,8 +1025,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the state of the checkbox.
 			 *
-			 * @param {Boolean} ```true``` to tick the checkbox, ```false``` to untick it.
-			 * @param {Boolean} noChangeEvent Internal commit, to supress ```change``` event on this element.
+			 * @param {Boolean} `true` to tick the checkbox, `false` to untick it.
+			 * @param {Boolean} noChangeEvent Internal commit, to supress `change` event on this element.
 			 */
 			setValue: function( checked, noChangeEvent ) {
 				this.getInputElement().$.checked = checked;
@@ -1082,7 +1082,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * Checks one of the radio buttons in this button group.
 			 *
 			 * @param {String} value The value of the button to be chcked.
-			 * @param {Boolean} noChangeEvent Internal commit, to supress ```change``` event on this element.
+			 * @param {Boolean} noChangeEvent Internal commit, to supress `change` event on this element.
 			 */
 			setValue: function( value, noChangeEvent ) {
 				var children = this._.children,
@@ -1157,7 +1157,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		/** @class CKEDITOR.ui.dialog.file */
 		CKEDITOR.ui.dialog.file.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement, commonPrototype, {
 			/**
-			 * Gets the ```<input>``` element of this file input.
+			 * Gets the `<input>` element of this file input.
 			 *
 			 * @returns {CKEDITOR.dom.element} The file input element.
 			 */
@@ -1215,7 +1215,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Redraws the file input and resets the file path in the file input.
 			 * The redraw logic is necessary because non-IE browsers tend to clear
-			 * the ```<iframe>``` containing the file input after closing the dialog.
+			 * the `<iframe>` containing the file input after closing the dialog.
 			 */
 			reset: function() {
 				var _ = this._,
@@ -1296,10 +1296,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/***
-			 * The default value of input ```type="file"``` is an empty string, but during initialization
+			 * The default value of input `type="file"` is an empty string, but during initialization
 			 * of this UI element, the iframe still isn't ready so it can't be read from that object
-			 * Setting it manually prevents later issues about the current value (```''```) being different
-			 * of the initial value (undefined as it asked for ```.value``` of a div).
+			 * Setting it manually prevents later issues about the current value (`''`) being different
+			 * of the initial value (undefined as it asked for `.value` of a div).
 			 */
 			setInitValue: function() {
 				this._.initValue = '';

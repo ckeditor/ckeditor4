@@ -215,11 +215,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 /**
  * Defines the colors to be displayed in the color selectors. This is a string
- * containing hexadecimal notation for HTML colors, without the ```'#'``` prefix.
+ * containing hexadecimal notation for HTML colors, without the `'#'` prefix.
  *
  * **Since 3.3:** A color name may optionally be defined by prefixing the entries with
- * a name and the slash character. For example, ```'FontColor1/FF9900'``` will be
- * displayed as the color ```#FF9900``` in the selector, but will be output as ```'FontColor1'```.
+ * a name and the slash character. For example, `'FontColor1/FF9900'` will be
+ * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
  *
  *		// Brazil colors only.
  *		config.colorButton_colors = '00923E,F8C100,28166F';

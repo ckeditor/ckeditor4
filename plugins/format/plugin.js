@@ -93,8 +93,8 @@ CKEDITOR.plugins.add( 'format', {
  * A list of semi colon separated style names (by default tags) representing
  * the style definition for each entry to be displayed in the Format combo in
  * the toolbar. Each entry must have its relative definition configuration in a
- * setting named ```'format_(tagName)'```. For example, the ```'p'``` entry has its
- * definition taken from ```config.format_p```.
+ * setting named `'format_(tagName)'`. For example, the `'p'` entry has its
+ * definition taken from `config.format_p`.
  *
  *		config.format_tags = 'p;h2;h3;pre';
  *
@@ -104,7 +104,7 @@ CKEDITOR.plugins.add( 'format', {
 CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 
 /**
- * The style definition to be used to apply the ```'Normal'``` format.
+ * The style definition to be used to apply the `'Normal'` format.
  *
  *		config.format_p = { element : 'p', attributes : { 'class' : 'normalPara' } };
  *
@@ -114,7 +114,7 @@ CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 CKEDITOR.config.format_p = { element: 'p' };
 
 /**
- * The style definition to be used to apply the ```'Normal (DIV)'``` format.
+ * The style definition to be used to apply the `'Normal (DIV)'` format.
  *
  *		config.format_div = { element : 'div', attributes : { 'class' : 'normalDiv' } };
  *
@@ -124,7 +124,7 @@ CKEDITOR.config.format_p = { element: 'p' };
 CKEDITOR.config.format_div = { element: 'div' };
 
 /**
- * The style definition to be used to apply the ```'Formatted'``` format.
+ * The style definition to be used to apply the `'Formatted'` format.
  *
  *		config.format_pre = { element: 'pre', attributes: { 'class': 'code' } };
  *
@@ -134,7 +134,7 @@ CKEDITOR.config.format_div = { element: 'div' };
 CKEDITOR.config.format_pre = { element: 'pre' };
 
 /**
- * The style definition to be used to apply the ```'Address'``` format.
+ * The style definition to be used to apply the `'Address'` format.
  *
  * config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
  *
@@ -144,7 +144,7 @@ CKEDITOR.config.format_pre = { element: 'pre' };
 CKEDITOR.config.format_address = { element: 'address' };
 
 /**
- * The style definition to be used to apply the ``'Heading 1'``` format.
+ * The style definition to be used to apply the ``'Heading 1'` format.
  *
  *		config.format_h1 = { element: 'h1', attributes: { 'class': 'contentTitle1' } };
  *
@@ -154,7 +154,7 @@ CKEDITOR.config.format_address = { element: 'address' };
 CKEDITOR.config.format_h1 = { element: 'h1' };
 
 /**
- * The style definition to be used to apply the ```'Heading 1'``` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h2 = { element: 'h2', attributes: { 'class': 'contentTitle2' } };
  *
@@ -164,7 +164,7 @@ CKEDITOR.config.format_h1 = { element: 'h1' };
 CKEDITOR.config.format_h2 = { element: 'h2' };
 
 /**
- * The style definition to be used to apply the ```'Heading 1'``` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h3 = { element: 'h3', attributes: { 'class': 'contentTitle3' } };
  *
@@ -174,7 +174,7 @@ CKEDITOR.config.format_h2 = { element: 'h2' };
 CKEDITOR.config.format_h3 = { element: 'h3' };
 
 /**
- * The style definition to be used to apply the ```'Heading 1'``` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h4 = { element: 'h4', attributes: { 'class': 'contentTitle4' } };
  *
@@ -184,7 +184,7 @@ CKEDITOR.config.format_h3 = { element: 'h3' };
 CKEDITOR.config.format_h4 = { element: 'h4' };
 
 /**
- * The style definition to be used to apply the ```'Heading 1'``` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h5 = { element: 'h5', attributes: { 'class': 'contentTitle5' } };
  *
@@ -194,7 +194,7 @@ CKEDITOR.config.format_h4 = { element: 'h4' };
 CKEDITOR.config.format_h5 = { element: 'h5' };
 
 /**
- * The style definition to be used to apply the ```'Heading 1'``` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h6 = { element: 'h6', attributes: { 'class': 'contentTitle6' } };
  *

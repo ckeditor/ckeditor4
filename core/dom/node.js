@@ -107,7 +107,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *
 	 * **Note**: Values set by {#setCustomData} won't be available in the clone.
 	 *
-	 * @param {Boolean} [includeChildren=false] If ```true``` then all node's
+	 * @param {Boolean} [includeChildren=false] If `true` then all node's
 	 * children will be cloned recursively.
 	 * @param {Boolean} [cloneId=false] Whether ID attributes should be cloned too.
 	 * @returns {CKEDITOR.dom.node} Clone of this node.
@@ -211,13 +211,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 * Retrieves a uniquely identifiable tree address for this node.
 	 * The tree address returned is an array of integers, with each integer
 	 * indicating a child index of a DOM node, starting from
-	 * ```document.documentElement```.
+	 * `document.documentElement`.
 	 *
-	 * For example, assuming ```<body>``` is the second child
-	 * of ```<html>``` (```<head>``` being the first),
+	 * For example, assuming `<body>` is the second child
+	 * of `<html>` (`<head>` being the first),
 	 * and we would like to address the third child under the
-	 * fourth child of ```<body>```, the tree address returned would be:
-	 * ```[1, 3, 2]```.
+	 * fourth child of `<body>`, the tree address returned would be:
+	 * `[1, 3, 2]`.
 	 *
 	 * The tree address cannot be used for finding back the DOM tree node once
 	 * the DOM tree structure has been modified.
@@ -268,7 +268,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		element2.getIndex();		// 4
 	 *		element2.getIndex( true );	// 2
 	 *
-	 * @param {Boolean} normalized When ```true``` empty text nodes and one followed
+	 * @param {Boolean} normalized When `true` empty text nodes and one followed
 	 * by another one text node are not counted in.
 	 * @returns {Number} Index of a node.
 	 */
@@ -695,7 +695,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	/**
 	 * Checks if this node is read-only (should not be changed).
 	 *
-	 * **Note:** When ```attributeCheck``` is not used, this method only work for elements
+	 * **Note:** When `attributeCheck` is not used, this method only work for elements
 	 * that are already presented in the document, otherwise the result
 	 * is not guaranteed, it's mainly for performance consideration.
 	 *

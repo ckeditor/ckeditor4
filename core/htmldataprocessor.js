@@ -547,9 +547,9 @@
 })();
 
 /**
- * Whether a filler text (non-breaking space entity - ```&nbsp;```) will be
+ * Whether a filler text (non-breaking space entity - `&nbsp;`) will be
  * inserted into empty block elements in HTML output,
- * this is used to render block elements properly with ```line-height```
+ * this is used to render block elements properly with `line-height`
  * When a function is instead specified, it'll be passed a {@link CKEDITOR.htmlParser.element}
  * to decide whether adding the filler text by expecting a boolean return value.
  *

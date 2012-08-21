@@ -57,7 +57,7 @@
 	CKEDITOR.focusManager.prototype = {
 		/**
 		 * Indicate this editor instance is activated (due to DOM focus change),
-		 * the ```activated``` state is a symbolic indicator of an active user
+		 * the `activated` state is a symbolic indicator of an active user
 		 * interaction session.
 		 *
 		 * **Note:** This method will not introduce UI focus
@@ -108,7 +108,7 @@
 		 * element which has just lost focus.
 		 *
 		 * **Note:** that this functions acts asynchronously with a delay of 100ms to
-		 * avoid temporary deactivation. Use instead the ```noDelay``` parameter
+		 * avoid temporary deactivation. Use instead the `noDelay` parameter
 		 * to deactivate immediately.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;

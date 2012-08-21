@@ -111,7 +111,7 @@
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
 	/**
-	 * Save as ```<embed>``` tag only. This tag is unrecommended.
+	 * Save as `<embed>` tag only. This tag is unrecommended.
 	 *
 	 * @cfg {Boolean} [flashEmbedTagOnly=false]
 	 * @member CKEDITOR.config
@@ -119,7 +119,7 @@ CKEDITOR.tools.extend( CKEDITOR.config, {
 	flashEmbedTagOnly: false,
 
 	/**
-	 * Add ```<embed>``` tag as alternative: ```<object><embed></embed></object>```.
+	 * Add `<embed>` tag as alternative: `<object><embed></embed></object>`.
 	 *
 	 * @cfg {Boolean} [flashAddEmbedTag=false]
 	 * @member CKEDITOR.config

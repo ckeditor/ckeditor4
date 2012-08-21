@@ -44,7 +44,7 @@
  * @method toHtml
  * @param {String} data The input data to be transformed.
  * @param {String} [fixForBody] The tag name to be used if the data must be
- * fixed because it is supposed to be loaded direcly into the ```<body>```
+ * fixed because it is supposed to be loaded direcly into the `<body>`
  * tag. This is generally not used by non-HTML data processors.
  * @todo fixForBody type - compare to htmlDataProcessor.
  */
@@ -65,6 +65,6 @@
  * @method toDataFormat
  * @param {String} html The HTML to be transformed.
  * @param {String} fixForBody The tag name to be used if the output data is
- * coming from ```<body>``` and may be eventually fixed for it. This is
+ * coming from `<body>` and may be eventually fixed for it. This is
  * generally not used by non-HTML data processors.
  */

@@ -201,7 +201,7 @@
 		 *		alert( CKEDITOR.tools.isArray( 'Test' ) );	// false
 		 *
 		 * @param {Object} object The object to be checked.
-		 * @returns {Boolean} ```true``` if the object is an Array, otherwise ```false```.
+		 * @returns {Boolean} `true` if the object is an Array, otherwise `false`.
 		 */
 		isArray: function( object ) {
 			return ( !!object && object instanceof Array );
@@ -230,7 +230,7 @@
 		 *
 		 * @param {String} property The CSS property name.
 		 * @param {String} value The CSS value.
-		 * @param {Boolean} [asString=false] If ```true```, then returned value will be a CSS string.
+		 * @param {Boolean} [asString=false] If `true`, then returned value will be a CSS string.
 		 * @returns {Object/String} The object containing CSS properties or its stringified version.
 		 */
 		cssVendorPrefix: function( property, value, asString ) {
@@ -271,7 +271,7 @@
 		})(),
 
 		/**
-		 * Build the HTML snippet of a set of ```<style>/<link>```.
+		 * Build the HTML snippet of a set of `<style>/<link>`.
 		 *
 		 * @param {String/Array} css Each of which are url (absolute) of a CSS file or
 		 * a trunk of style text.
@@ -387,7 +387,7 @@
 		 * @param {Number} [milliseconds=0] The amount of time (millisecods) to wait
 		 * to fire the function execution.
 		 * @param {Object} [scope=window] The object to hold the function execution scope
-		 * (the ```this``` object).
+		 * (the `this` object).
 		 * @param {Object/Array} [args] A single object, or an array of objects, to
 		 * pass as arguments to the function.
 		 * @param {Object} [ownerWindow=window] The window that will be used to set the
@@ -473,9 +473,9 @@
 		 * @param {Array} array The array to be searched.
 		 * @param {Object/Function} value The element to be found. Can be an
 		 * evaluation function which receives a single parameter call for
-		 * each entry in the array, returning ```true``` if the entry matches.
+		 * each entry in the array, returning `true` if the entry matches.
 		 * @returns {Number} The (zero based) index of the first entry that matches
-		 * the entry, or ```-1``` if not found.
+		 * the entry, or `-1` if not found.
 		 */
 		indexOf: function( array, value ) {
 			if ( typeof value == 'function' ) {
@@ -509,7 +509,7 @@
 		 * @param {Array} array The array to be searched.
 		 * @param {Object/Function} value The element to be found. Can be an
 		 * evaluation function which receives a single parameter call for
-		 * each entry in the array, returning ```true``` if the entry matches.
+		 * each entry in the array, returning `true` if the entry matches.
 		 * @returns Object The value that was found in an array.
 		 */
 		search: function( array, value ) {
@@ -533,7 +533,7 @@
 		 * @param {Function} func The function to be executed.
 		 * @param {Object} obj The object to which bind the execution context.
 		 * @returns {Function} The function that can be used to execute the
-		 * ```func``` function in the context of ```obj```.
+		 * `func` function in the context of `obj`.
 		 */
 		bind: function( func, obj ) {
 			return function() {
@@ -617,7 +617,7 @@
 		 *		CKEDITOR.tools.callFunction( ref ); // 'Hello!'
 		 *
 		 * @param {Function} fn The function to be executed on call.
-		 * @param {Object} [scope] The object to have the context on ```fn``` execution.
+		 * @param {Object} [scope] The object to have the context on `fn` execution.
 		 * @returns {Number} A unique reference to be used in conjuction with
 		 * {@link #callFunction}.
 		 */
@@ -655,7 +655,7 @@
 		},
 
 		/**
-		 * Append the ```px``` length unit to the size if it's missing.
+		 * Append the `px` length unit to the size if it's missing.
 		 *
 		 *		var cssLength = CKEDITOR.tools.cssLength;
 		 *		cssLength( 42 );		// '42px'
@@ -712,7 +712,7 @@
 		})(),
 
 		/**
-		 * String specified by ```str``` repeats ```times``` times.
+		 * String specified by `str` repeats `times` times.
 		 *
 		 * @param {String} str
 		 * @param {Number} times
@@ -793,7 +793,7 @@
 		},
 
 		/**
-		 * Find and convert ```rgb(x,x,x)``` colors definition to hexadecimal notation.
+		 * Find and convert `rgb(x,x,x)` colors definition to hexadecimal notation.
 		 * @param {String} styleText The style data (or just a string containing rgb colors) to be converted.
 		 * @returns {String} The style data with rgb colors converted to hexadecimal equivalents.
 		 */

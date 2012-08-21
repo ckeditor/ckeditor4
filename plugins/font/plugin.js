@@ -105,13 +105,13 @@
 
 /**
  * The list of fonts names to be displayed in the Font combo in the toolbar.
- * Entries are separated by semi-colons (```';'```), while it's possible to have more
+ * Entries are separated by semi-colons (`';'`), while it's possible to have more
  * than one font for each entry, in the HTML way (separated by comma).
  *
  * A display name may be optionally defined by prefixing the entries with the
- * name and the slash character. For example, ```'Arial/Arial, Helvetica, sans-serif'```
- * will be displayed as ```'Arial'``` in the list, but will be outputted as
- * ```'Arial, Helvetica, sans-serif'```.
+ * name and the slash character. For example, `'Arial/Arial, Helvetica, sans-serif'`
+ * will be displayed as `'Arial'` in the list, but will be outputted as
+ * `'Arial, Helvetica, sans-serif'`.
  *
  *		config.font_names =
  *			'Arial/Arial, Helvetica, sans-serif;' +
@@ -168,14 +168,14 @@ CKEDITOR.config.font_style = {
 
 /**
  * The list of fonts size to be displayed in the Font Size combo in the
- * toolbar. Entries are separated by semi-colons (```';'```).
+ * toolbar. Entries are separated by semi-colons (`';'`).
  *
- * Any kind of "CSS like``` size can be used, like ```'12px'```, ```'2.3em'```, ```'130%'```,
- * ```'larger'``` or ```'x-small'```.
+ * Any kind of "CSS like` size can be used, like `'12px'`, `'2.3em'`, `'130%'`,
+ * `'larger'` or `'x-small'`.
  *
  * A display name may be optionally defined by prefixing the entries with the
- * name and the slash character. For example, ```'Bigger Font/14px'``` will be
- * displayed as ```'Bigger Font'``` in the list, but will be outputted as ```'14px'```.
+ * name and the slash character. For example, `'Bigger Font/14px'` will be
+ * displayed as `'Bigger Font'` in the list, but will be outputted as `'14px'`.
  *
  *		config.fontSize_sizes = '16/16px;24/24px;48/48px;';
  *

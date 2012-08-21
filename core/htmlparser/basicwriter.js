@@ -47,7 +47,7 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 		 *
 		 * @param {String} tagName The element name for this tag.
 		 * @param {Boolean} isSelfClose Indicates that this is a self-closing tag,
-		 * like ```<br>``` or ```<img>```.
+		 * like `<br>` or `<img>`.
 		 */
 		openTagClose: function( tagName, isSelfClose ) {
 			if ( isSelfClose )

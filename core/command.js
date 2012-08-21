@@ -110,7 +110,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 
 		/**
 		 * Indicates that this command is sensible to the selection context.
-		 * If ```true```, the {@link CKEDITOR.command#method-refresh} method will be
+		 * If `true`, the {@link CKEDITOR.command#method-refresh} method will be
 		 * called for this command on the {@link CKEDITOR.editor#event-selectionChange} event.
 		 *
 		 * @property {Boolean} [=false]
@@ -176,7 +176,7 @@ CKEDITOR.command.prototype = {
 	 *		command.exec(); // Execute the command.
 	 *
 	 * @param {Number} newState The new state. See {@link #property-state}.
-	 * @returns {Boolean} Returns ```true``` if the command state changed.
+	 * @returns {Boolean} Returns `true` if the command state changed.
 	 */
 	setState: function( newState ) {
 		// Do nothing if there is no state change.

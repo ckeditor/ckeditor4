@@ -9,9 +9,9 @@
  */
 
 /**
- * Used in conjunction with ```{@link CKEDITOR.config#enterMode}```
- * and ```{@link CKEDITOR.config#shiftEnterMode}``` configuration
- * settings to make the editor produce ```<p>``` tags when
+ * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
+ * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * settings to make the editor produce `<p>` tags when
  * using the *Enter* key.
  *
  * @readonly
@@ -21,9 +21,9 @@
 CKEDITOR.ENTER_P = 1;
 
 /**
- * Used in conjunction with ```{@link CKEDITOR.config#enterMode}```
- * and ```{@link CKEDITOR.config#shiftEnterMode}``` configuration
- * settings to make the editor produce ```<br>``` tags when
+ * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
+ * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * settings to make the editor produce `<br>` tags when
  * using the *Enter* key.
  *
  * @readonly
@@ -33,9 +33,9 @@ CKEDITOR.ENTER_P = 1;
 CKEDITOR.ENTER_BR = 2;
 
 /**
- * Used in conjunction with ```{@link CKEDITOR.config#enterMode}```
- * and ```{@link CKEDITOR.config#shiftEnterMode}``` configuration
- * settings to make the editor produce ```<div>``` tags when
+ * Used in conjunction with `{@link CKEDITOR.config#enterMode}`
+ * and `{@link CKEDITOR.config#shiftEnterMode}` configuration
+ * settings to make the editor produce `<div>` tags when
  * using the *Enter* key.
  *
  * @readonly
@@ -55,7 +55,7 @@ CKEDITOR.ENTER_DIV = 3;
 CKEDITOR.config = {
 	/**
 	 * The URL path for the custom configuration file to be loaded. If not
-	 * overloaded with inline configuration, it defaults to the ```config.js```
+	 * overloaded with inline configuration, it defaults to the `config.js`
 	 * file present in the root of the CKEditor installation directory.
 	 *
 	 * CKEditor will recursively load custom configuration files defined inside
@@ -72,7 +72,7 @@ CKEDITOR.config = {
 	customConfig: 'config.js',
 
 	/**
-	 * Whether the replaced element (usually a ```<textarea>```)
+	 * Whether the replaced element (usually a `<textarea>`)
 	 * is to be updated automatically when posting the form containing the editor.
 	 *
 	 * @cfg
@@ -82,7 +82,7 @@ CKEDITOR.config = {
 	/**
 	 * The user interface language localization to use. If left empty, the editor
 	 * will automatically be localized to the user language. If the user language is not supported,
-	 * the language specified in the ```{@link CKEDITOR.config#defaultLanguage}```
+	 * the language specified in the `{@link CKEDITOR.config#defaultLanguage}`
 	 * configuration setting is used.
 	 *
 	 *		// Load the German interface.
@@ -93,7 +93,7 @@ CKEDITOR.config = {
 	language: '',
 
 	/**
-	 * The language to be used if the ```{@link CKEDITOR.config#language}```
+	 * The language to be used if the `{@link CKEDITOR.config#language}`
 	 * setting is left empty and it is not possible to localize the editor to the user language.
 	 *
 	 *		config.defaultLanguage = 'it';
@@ -106,12 +106,12 @@ CKEDITOR.config = {
 	 * The writting direction of the language used to write the editor
 	 * contents. Allowed values are:
 	 *
-	 * * ```''``` (empty string) - indicate content direction will be the same with either the editor
+	 * * `''` (empty string) - indicate content direction will be the same with either the editor
 	 *     UI direction or page element direction depending on the creators:
 	 *     * Themed UI: The same with user interface language direction;
 	 *     * Inline: The same with the editable element text direction;
-	 * * ```'ltr'``` - for Left-To-Right language (like English);
-	 * * ```'rtl'``` - for Right-To-Left languages (like Arabic).
+	 * * `'ltr'` - for Left-To-Right language (like English);
+	 * * `'rtl'` - for Right-To-Left languages (like Arabic).
 	 *
 	 * Example:
 	 *
@@ -123,15 +123,15 @@ CKEDITOR.config = {
 
 	/**
 	 * Sets the behavior of the *Enter* key. It also determines other behavior
-	 * rules of the editor, like whether the ```<br>``` element is to be used
+	 * rules of the editor, like whether the `<br>` element is to be used
 	 * as a paragraph separator when indenting text.
 	 * The allowed values are the following constants that cause the behavior outlined below:
 	 *
-	 * * ```{@link CKEDITOR#ENTER_P}``` (1) &ndash; new ```<p>``` paragraphs are created;
-	 * * ```{@link CKEDITOR#ENTER_BR}``` (2) &ndash; lines are broken with ```<br>``` elements;
-	 * * ```{@link CKEDITOR#ENTER_DIV}``` (3) &ndash; new ```<div>``` blocks are created.
+	 * * `{@link CKEDITOR#ENTER_P}` (1) &ndash; new `<p>` paragraphs are created;
+	 * * `{@link CKEDITOR#ENTER_BR}` (2) &ndash; lines are broken with `<br>` elements;
+	 * * `{@link CKEDITOR#ENTER_DIV}` (3) &ndash; new `<div>` blocks are created.
 	 *
-	 * **Note**: It is recommended to use the ```{@link CKEDITOR#ENTER_P}``` setting because of
+	 * **Note**: It is recommended to use the `{@link CKEDITOR#ENTER_P}` setting because of
 	 * its semantic value and correctness. The editor is optimized for this setting.
 	 *
 	 *		// Not recommended.
@@ -142,11 +142,11 @@ CKEDITOR.config = {
 	enterMode: CKEDITOR.ENTER_P,
 
 	/**
-	 * Force the use of ```{@link CKEDITOR.config#enterMode}``` as line break regardless
-	 * of the context. If, for example, ```{@link CKEDITOR.config#enterMode}``` is set
-	 * to ```{@link CKEDITOR#ENTER_P}```, pressing the *Enter* key inside a
-	 * ```<div>``` element will create a new paragraph with ```<p>```
-	 * instead of a ```<div>```.
+	 * Force the use of `{@link CKEDITOR.config#enterMode}` as line break regardless
+	 * of the context. If, for example, `{@link CKEDITOR.config#enterMode}` is set
+	 * to `{@link CKEDITOR#ENTER_P}`, pressing the *Enter* key inside a
+	 * `<div>` element will create a new paragraph with `<p>`
+	 * instead of a `<div>`.
 	 *
 	 *		// Not recommended.
 	 *		config.forceEnterMode = true;
@@ -157,14 +157,14 @@ CKEDITOR.config = {
 	forceEnterMode: false,
 
 	/**
-	 * Similarly to the ```{@link CKEDITOR.config#enterMode}``` setting, it defines the behavior
+	 * Similarly to the `{@link CKEDITOR.config#enterMode}` setting, it defines the behavior
 	 * of the *Shift+Enter* key combination.
 	 *
 	 * The allowed values are the following constants the behavior outlined below:
 	 *
-	 * * ```{@link CKEDITOR#ENTER_P}``` (1) &ndash; new ```<p>``` paragraphs are created;
-	 * * ```{@link CKEDITOR#ENTER_BR}``` (2) &ndash; lines are broken with ```<br>``` elements;
-	 * * ```{@link CKEDITOR#ENTER_DIV}``` (3) &ndash; new ```<div>``` blocks are created.
+	 * * `{@link CKEDITOR#ENTER_P}` (1) &ndash; new `<p>` paragraphs are created;
+	 * * `{@link CKEDITOR#ENTER_BR}` (2) &ndash; lines are broken with `<br>` elements;
+	 * * `{@link CKEDITOR#ENTER_DIV}` (3) &ndash; new `<div>` blocks are created.
 	 *
 	 * Example:
 	 *
@@ -175,7 +175,7 @@ CKEDITOR.config = {
 	shiftEnterMode: CKEDITOR.ENTER_BR,
 
 	/**
-	 * Sets the ```DOCTYPE``` to be used when loading the editor content as HTML.
+	 * Sets the `DOCTYPE` to be used when loading the editor content as HTML.
 	 *
 	 *		// Set the DOCTYPE to the HTML 4 (Quirks) mode.
 	 *		config.docType = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">';
@@ -185,7 +185,7 @@ CKEDITOR.config = {
 	docType: '<!DOCTYPE html>',
 
 	/**
-	 * Sets the ```id``` attribute to be used on the ```body``` element
+	 * Sets the `id` attribute to be used on the `body` element
 	 * of the editing area. This can be useful when you intend to reuse the original CSS
 	 * file you are using on your live website and want to assign the editor the same ID
 	 * as the section that will include the contents. In this way ID-specific CSS rules will
@@ -199,7 +199,7 @@ CKEDITOR.config = {
 	bodyId: '',
 
 	/**
-	 * Sets the ```class``` attribute to be used on the ```body``` element
+	 * Sets the `class` attribute to be used on the `body` element
 	 * of the editing area. This can be useful when you intend to reuse the original CSS
 	 * file you are using on your live website and want to assign the editor the same class
 	 * as the section that will include the contents. In this way class-specific CSS rules will
@@ -214,9 +214,9 @@ CKEDITOR.config = {
 
 	/**
 	 * Indicates whether the contents to be edited are being input as a full HTML page.
-	 * A full page includes the ```<html>```, ```<head>```, and ```<body>``` elements.
+	 * A full page includes the `<html>`, `<head>`, and `<body>` elements.
 	 * The final output will also reflect this setting, including the
-	 * ```<body>``` contents only if this setting is disabled.
+	 * `<body>` contents only if this setting is disabled.
 	 *
 	 *		config.fullPage = true;
 	 *
@@ -242,7 +242,7 @@ CKEDITOR.config = {
 	/**
 	 * Comma separated list of plugins to be used for an editor instance,
 	 * besides, the actual plugins that to be loaded could be still affected by two other settings:
-	 * ```{@link CKEDITOR.config#extraPlugins}``` and ```{@link CKEDITOR.config#removePlugins}```.
+	 * `{@link CKEDITOR.config#extraPlugins}` and `{@link CKEDITOR.config#removePlugins}`.
 	 *
 	 * @cfg {String} [="<default list of plugins>"]
 	 */
@@ -250,7 +250,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
-	 * to add new plugins without having to touch ```{@link CKEDITOR.config#plugins}``` setting.
+	 * to add new plugins without having to touch `{@link CKEDITOR.config#plugins}` setting.
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
 	 *
@@ -260,7 +260,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of plugins that must not be loaded. This setting makes it possible
-	 * to avoid loading some plugins defined in the ```{@link CKEDITOR.config#plugins}```
+	 * to avoid loading some plugins defined in the `{@link CKEDITOR.config#plugins}`
 	 * setting, without having to touch it.
 	 *
 	 *		config.removePlugins = 'elementspath,save,font';
@@ -283,7 +283,7 @@ CKEDITOR.config = {
 	protectedSource: [],
 
 	/**
-	 * The editor ```tabindex``` value.
+	 * The editor `tabindex` value.
 	 *
 	 *		config.tabIndex = 1;
 	 *
@@ -295,7 +295,7 @@ CKEDITOR.config = {
 	 * The editor UI outer width. This can be an integer, for pixel sizes, or
 	 * any CSS-defined unit.
 	 *
-	 * Unlike the ```{@link CKEDITOR.config#height}``` setting, this
+	 * Unlike the `{@link CKEDITOR.config#height}` setting, this
 	 * one will set the outer width of the entire editor UI, not for the
 	 * editing area only.
 	 *

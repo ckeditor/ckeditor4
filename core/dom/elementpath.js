@@ -102,7 +102,7 @@ CKEDITOR.dom.elementPath.prototype = {
 	 *
 	 * @param {CKEDITOR.dom.elementPath} otherPath The elementPath object to be
 	 * compared with this one.
-	 * @returns {Boolean} ```true``` if the paths are equal, containing the same
+	 * @returns {Boolean} `true` if the paths are equal, containing the same
 	 * number of elements and the same elements in the same order.
 	 */
 	compare: function( otherPath ) {
@@ -127,7 +127,7 @@ CKEDITOR.dom.elementPath.prototype = {
 	 * either a tag name, list (array and object) of tag names, element or an node evaluator function.
 	 * @param {Boolean} excludeRoot Not taking path root element into consideration.
 	 * @param {Boolean} fromTop Search start from the topmost element instead of bottom.
-	 * @returns {CKEDITOR.dom.element} The first matched dom element or ```null```.
+	 * @returns {CKEDITOR.dom.element} The first matched dom element or `null`.
 	 */
 	contains: function( query, excludeRoot, fromTop ) {
 		var evaluator;

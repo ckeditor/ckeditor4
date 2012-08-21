@@ -160,10 +160,10 @@
 /**
  * Whether to escape basic HTML entities in the document, including:
  *
- * * ```nbsp```
- * * ```gt```
- * * ```lt```
- * * ```amp```
+ * * `nbsp`
+ * * `gt`
+ * * `lt`
+ * * `amp`
  *
  * **Note:** It should not be subject to change unless when outputting a non-HTML data format like BBCode.
  *
@@ -212,10 +212,10 @@ CKEDITOR.config.entities_greek = true;
 /**
  * Whether to convert all remaining characters not included in the ASCII
  * character table to their relative decimal numeric representation of HTML entity.
- * When set to ```force```, it will convert all entities into this format.
+ * When set to `force`, it will convert all entities into this format.
  *
- * For example the phrase ```'This is Chinese: 汉语.'``` is output
- * as ```'This is Chinese: &#27721;&#35821;.'```
+ * For example the phrase `'This is Chinese: 汉语.'` is output
+ * as `'This is Chinese: &#27721;&#35821;.'`
  *
  *		config.entities_processNumerical = true;
  *		config.entities_processNumerical = 'force'; // Converts from '&nbsp;' into '&#160;';
@@ -226,7 +226,7 @@ CKEDITOR.config.entities_greek = true;
 
 /**
  * A comma separated list of  additional entities to be used. Entity names
- * or numbers must be used in a form that excludes the ```'&amp;'``` prefix and the ```';'``` ending.
+ * or numbers must be used in a form that excludes the `'&amp;'` prefix and the `';'` ending.
  *
  *		config.entities_additional = '#1049'; // Adds Cyrillic capital letter Short I (Й).
  *

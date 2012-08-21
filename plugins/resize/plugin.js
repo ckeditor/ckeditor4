@@ -145,7 +145,7 @@ CKEDITOR.plugins.add( 'resize', {
 
 /**
  * The dimensions for which the editor resizing is enabled. Possible values
- * are ```both```, ```vertical```, and ```horizontal```.
+ * are `both`, `vertical`, and `horizontal`.
  *
  *		config.resize_dir = 'vertical';
  *

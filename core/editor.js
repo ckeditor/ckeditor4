@@ -87,7 +87,7 @@
 		 *
 		 * **Note:** It will be originated from the ID or name
 		 * attribute of the {@link #element}, otherwise a name pattern of
-		 * ```'editor{n}'``` will be used.
+		 * `'editor{n}'` will be used.
 		 *
 		 * @property {String}
 		 */
@@ -301,8 +301,8 @@
 		/**
 		 * The [tabbing navigation](http://en.wikipedia.org/wiki/Tabbing_navigation) order determined for this editor instance.
 		 * This can be set by the <code>{@link CKEDITOR.config#tabIndex}</code>
-		 * setting or taken from the ```tabindex``` attribute of the
-		 * ```{@link #element}``` associated with the editor.
+		 * setting or taken from the `tabindex` attribute of the
+		 * `{@link #element}` associated with the editor.
 		 *
 		 *		alert( editor.tabIndex ); // e.g. 0
 		 *
@@ -574,8 +574,8 @@
 		 *
 		 * @param {String} commandName The indentifier name of the command.
 		 * @param {Object} [data] Data to be passed to the command.
-		 * @returns {Boolean} ```true``` if the command was executed
-		 * successfully, otherwise ```false```.
+		 * @returns {Boolean} `true` if the command was executed
+		 * successfully, otherwise `false`.
 		 * @see CKEDITOR.editor#addCommand
 		 */
 		execCommand: function( commandName, data ) {
@@ -603,12 +603,12 @@
 
 		/**
 		 * Gets one of the registered commands. Note that after registering a
-		 * command definition with ```{@link #addCommand}```, it is
+		 * command definition with `{@link #addCommand}`, it is
 		 * transformed internally into an instance of
-		 * ```{@link CKEDITOR.command}```, which will then be returned by this function.
+		 * `{@link CKEDITOR.command}`, which will then be returned by this function.
 		 *
 		 * @param {String} commandName The name of the command to be returned.
-		 * This is the same name that is used to register the command with ```addCommand```.
+		 * This is the same name that is used to register the command with `addCommand`.
 		 * @returns {CKEDITOR.command} The command object identified by the provided name.
 		 */
 		getCommand: function( commandName ) {
@@ -649,7 +649,7 @@
 		 * Gets the "raw data" currently available in the editor. This is a
 		 * fast method which returns the data as is, without processing, so it is
 		 * not recommended to use it on resulting pages. Instead it can be used
-		 * combined with the ```{@link #method-loadSnapshot}``` method in order
+		 * combined with the `{@link #method-loadSnapshot}` method in order
 		 * to be able to automatically save the editor data from time to time
 		 * while the user is using the editor, to avoid data loss, without risking
 		 * performance issues.
@@ -674,7 +674,7 @@
 		 * Loads "raw data" into the editor. The data is loaded with processing
 		 * straight to the editing area. It should not be used as a way to load
 		 * any kind of data, but instead in combination with
-		 * ```{@link #method-getSnapshot}``` produced data.
+		 * `{@link #method-getSnapshot}` produced data.
 		 *
 		 *		var data = editor.getSnapshot();
 		 *		editor.loadSnapshot( data );
@@ -688,7 +688,7 @@
 		/**
 		 * Sets the editor data. The data must be provided in the raw format (HTML).
 		 *
-		 * Note that this method is asynchronous. The ```callback``` parameter must
+		 * Note that this method is asynchronous. The `callback` parameter must
 		 * be used if interaction with the editor is needed after setting the data.
 		 *
 		 *		CKEDITOR.instances.editor1.setData( '<p>This is the editor data.</p>' );
@@ -698,7 +698,7 @@
 		 *		});
 		 *
 		 * @param {String} data HTML code to replace the curent content in the editor.
-		 * @param {Function} callback Function to be called after the ```setData``` is completed.
+		 * @param {Function} callback Function to be called after the `setData` is completed.
 		 * @param {Boolean} internal Whether to suppress any event firing when copying data internally inside the editor.
 		 */
 		setData: function( data, callback, internal ) {
@@ -721,14 +721,14 @@
 		/**
 		 * Puts or restores the editor into read-only state. When in read-only,
 		 * the user is not able to change the editor contents, but can still use
-		 * some editor features. This function sets the ```{@link #property-readOnly}```
-		 * property of the editor, firing the ```{@link #event-readOnly}``` event.
+		 * some editor features. This function sets the `{@link #property-readOnly}`
+		 * property of the editor, firing the `{@link #event-readOnly}` event.
 		 *
 		 * **Note:** the current editing area will be reloaded.
 		 *
 		 * @since 3.6
 		 * @param {Boolean} [isReadOnly] Indicates that the editor must go
-		 * read-only (```true```, default) or be restored and made editable (```false```).
+		 * read-only (`true`, default) or be restored and made editable (`false`).
 		 */
 		setReadOnly: function( isReadOnly ) {
 			isReadOnly = ( isReadOnly == undefined ) || isReadOnly;
@@ -747,12 +747,12 @@
 		/**
 		 * Inserts HTML code into the currently selected position in the editor in WYSIWYG mode.
 		 *
-		 * * ```"html"``` - content being inserted will completely override styles
+		 * * `"html"` - content being inserted will completely override styles
 		 *    of selected position.
-		 * * ```"text"``` - content being inserted will inherit styles applied in
+		 * * `"text"` - content being inserted will inherit styles applied in
 		 *    selected position. This mode should be used when inserting "htmlified" plain text
 		 *    (HTML without inline styles and styling elements like
-		 *    ```<b/>, <strong/>, <span style="..."/>```).
+		 *    `<b/>, <strong/>, <span style="..."/>`).
 		 *
 		 * Example:
 		 *
@@ -803,7 +803,7 @@
 		/**
 		 * Checks whether the current editor contents present changes when
 		 * compared to the contents loaded into the editor at startup, or to
-		 * the contents available in the editor when ```{@link #resetDirty}```
+		 * the contents available in the editor when `{@link #resetDirty}`
 		 * was called.
 		 *
 		 *		function beforeUnload( evt ) {
@@ -816,7 +816,7 @@
 		 *		else
 		 *			window.attachEvent( 'onbeforeunload', beforeUnload );
 		 *
-		 * @returns {Boolean} ```true``` if the contents contain changes.
+		 * @returns {Boolean} `true` if the contents contain changes.
 		 */
 		checkDirty: function() {
 			return this._.previousValue !== this.getSnapshot();
@@ -824,7 +824,7 @@
 
 		/**
 		 * Resets the "dirty state" of the editor so subsequent calls to
-		 * ```{@link #checkDirty}``` will return ```false``` if the user will not
+		 * `{@link #checkDirty}` will return `false` if the user will not
 		 * have made further changes to the contents.
 		 *
 		 *		alert( editor.checkDirty() ); // e.g. true
@@ -937,8 +937,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * If ```true```, makes the editor start in read-only state. Otherwise, it will check
- * if the linked ```<textarea>``` element has the ```disabled``` attribute.
+ * If `true`, makes the editor start in read-only state. Otherwise, it will check
+ * if the linked `<textarea>` element has the `disabled` attribute.
  *
  *		config.readOnly = true;
  *
@@ -971,7 +971,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Fired when a CKEDITOR instance is created, but still before initializing it.
  * To interact with a fully initialized instance, use the
- * ```{@link CKEDITOR#instanceReady}``` event instead.
+ * `{@link CKEDITOR#instanceReady}` event instead.
  *
  * @event instanceCreated
  * @member CKEDITOR
@@ -1009,7 +1009,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired before the command execution when ```{@link #execCommand}``` is called.
+ * Fired before the command execution when `{@link #execCommand}` is called.
  *
  * @event beforeCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1021,7 +1021,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired after the command execution when ```{@link #execCommand}``` is called.
+ * Fired after the command execution when `{@link #execCommand}` is called.
  *
  * @event afterCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1037,7 +1037,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * configurations initialization.
  *
  * Custom configuration files can be loaded thorugh the
- * ```{@link CKEDITOR.config#customConfig}``` setting. Several files can be loaded
+ * `{@link CKEDITOR.config#customConfig}` setting. Several files can be loaded
  * by changing this setting.
 
  * @event customConfigLoaded
@@ -1066,19 +1066,19 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #method-getSnapshot}``` call.
+ * Internal event to perform the `{@link #method-getSnapshot}` call.
  *
  * @event getSnapshot
  */
 
 /**
- * Internal event to perform the ```{@link #method-loadSnapshot}``` call.
+ * Internal event to perform the `{@link #method-loadSnapshot}` call.
  *
  * @event loadSnapshot
  */
 
 /**
- * Event fired before the ```{@link #method-getData}``` call returns allowing additional manipulation.
+ * Event fired before the `{@link #method-getData}` call returns allowing additional manipulation.
  *
  * @event getData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1087,7 +1087,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired before the ```{@link #method-setData}``` call is executed allowing additional manipulation.
+ * Event fired before the `{@link #method-setData}` call is executed allowing additional manipulation.
  *
  * @event setData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1096,8 +1096,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired at the end of the ```{@link #method-setData}``` call execution. Usually it is better to use the
- * ```{@link #dataReady}``` event.
+ * Event fired at the end of the `{@link #method-setData}` call execution. Usually it is better to use the
+ * `{@link #dataReady}` event.
  *
  * @event afterSetData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1122,7 +1122,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #method-insertHtml}``` call.
+ * Internal event to perform the `{@link #method-insertHtml}` call.
  *
  * @event insertHtml
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1132,7 +1132,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #method-insertText}``` call.
+ * Internal event to perform the `{@link #method-insertText}` call.
  *
  * @event insertText
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1140,7 +1140,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the ```{@link #method-insertElement}``` call.
+ * Internal event to perform the `{@link #method-insertElement}` call.
  *
  * @event insertElement
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1148,7 +1148,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired after the ```{@link #property-readOnly}``` property changes.
+ * Event fired after the `{@link #property-readOnly}` property changes.
  *
  * @since 3.6
  * @event readOnly

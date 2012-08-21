@@ -39,7 +39,7 @@ CKEDITOR.htmlParser = function() {
 		 * @param {String} tagName The tag name. The name is guarantted to be lowercased.
 		 * @param {Object} attributes An object containing all tag attributes. Each
 		 * property in this object represent and attribute name and its value is the attribute value.
-		 * @param {Boolean} selfClosing ```true``` if the tag closes itself, false if the tag doesn't.
+		 * @param {Boolean} selfClosing `true` if the tag closes itself, false if the tag doesn't.
 		 */
 		onTagOpen: function() {},
 

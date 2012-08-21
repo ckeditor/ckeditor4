@@ -405,7 +405,7 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Makes range collapsed by moving its start point (or end point if ```toStart==true```)
+		 * Makes range collapsed by moving its start point (or end point if `toStart==true`)
 		 * to the second end.
 		 *
 		 * @param {Boolean} toStart Collapse range "to start".
@@ -470,7 +470,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * Creates a bookmark object, which can be later used to restore the
 		 * range by using the {@link #moveToBookmark} function.
 		 *
-		 * This is an "intrusive" way to create a bookmark. It includes ```<span>``` tags
+		 * This is an "intrusive" way to create a bookmark. It includes `<span>` tags
 		 * in the range boundaries. The advantage of it is that it is possible to
 		 * handle DOM mutations when moving back to the bookmark.
 		 *
@@ -480,7 +480,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @param {Boolean} [serializable] Indicates that the bookmark nodes
 		 * must contain ids, which can be used to restore the range even
-		 * when these nodes suffer mutations (like a clonation or ```innerHTML``` change).
+		 * when these nodes suffer mutations (like a clonation or `innerHTML` change).
 		 * @returns {Object} And object representing a bookmark.
 		 * @returns {CKEDITOR.dom.node/String} return.startNode Node or element id.
 		 * @returns {CKEDITOR.dom.node/String} return.endNode Node or element id.
@@ -639,7 +639,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Moves this range to the given bookmark. See {@link #createBookmark} and {@link #createBookmark2}.
 		 *
-		 * If serializable bookmark passed, then its ```<span>``` markers will be removed.
+		 * If serializable bookmark passed, then its `<span>` markers will be removed.
 		 *
 		 * @param {Object} bookmark
 		 */
@@ -1447,7 +1447,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {CKEDITOR.dom.node} startNode The node to start the range.
 		 * @param {Number} startOffset An integer greater than or equal to zero
 		 * representing the offset for the start of the range from the start
-		 * of ```startNode```.
+		 * of `startNode`.
 		 */
 		setStart: function( startNode, startOffset ) {
 			// W3C requires a check for the new position. If it is after the end
@@ -1476,7 +1476,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {CKEDITOR.dom.node} endNode The node to end the range.
 		 * @param {Number} endOffset An integer greater than or equal to zero
 		 * representing the offset for the end of the range from the start
-		 * of ```endNode```.
+		 * of `endNode`.
 		 */
 		setEnd: function( endNode, endOffset ) {
 			// W3C requires a check for the new position. If it is before the start
@@ -1772,7 +1772,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {CKEDITOR.dom.element} element The target element to check.
 		 * @param {Number} checkType The boundary to check for both the range
 		 * and the element. It can be {@link CKEDITOR#START} or {@link CKEDITOR#END}.
-		 * @returns {Boolean} ```true``` if the range boundary is at the inner
+		 * @returns {Boolean} `true` if the range boundary is at the inner
 		 * boundary of the element.
 		 */
 		checkBoundaryOfElement: function( element, checkType ) {
@@ -1876,7 +1876,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Check if elements at which the range boundaries anchor are read-only,
-		 * with respect to ```contenteditable``` attribute.
+		 * with respect to `contenteditable` attribute.
 		 *
 		 * @returns {Boolean}
 		 */
@@ -1912,8 +1912,8 @@ CKEDITOR.dom.range = function( root ) {
 		 * element.
 		 *
 		 * For example, in an element tree like
-		 * ```<p><b><i></i></b> Text</p>```, the start editing point is
-		 * ```<p><b><i>^</i></b> Text</p>``` (inside ```<i>```).
+		 * `<p><b><i></i></b> Text</p>`, the start editing point is
+		 * `<p><b><i>^</i></b> Text</p>` (inside `<i>`).
 		 *
 		 * @param {CKEDITOR.dom.element} el The element into which look for the
 		 * editing spot.

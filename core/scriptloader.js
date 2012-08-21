@@ -39,12 +39,12 @@ CKEDITOR.scriptLoader = (function() {
 		 * @param {String/Array} scriptUrl One or more URLs pointing to the
 		 * scripts to be loaded.
 		 * @param {Function} [callback] A function to be called when the script
-		 * is loaded and executed. If a string is passed to ```scriptUrl```, a
+		 * is loaded and executed. If a string is passed to `scriptUrl`, a
 		 * boolean parameter is passed to the callback, indicating the
 		 * success of the load. If an array is passed instead, two arrays
 		 * parameters are passed to the callback - the first contains the
 		 * URLs that have been properly loaded and the second the failed ones.
-		 * @param {Object} [scope] The scope (```this``` reference) to be used for
+		 * @param {Object} [scope] The scope (`this` reference) to be used for
 		 * the callback call. Defaults to {@link CKEDITOR}.
 		 * @param {Boolean} [showBusy] Changes the cursor of the document while
 		 * the script is loaded.

@@ -191,12 +191,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	},
 
 	/**
-	 * Gets the ```<head>``` element for this document.
+	 * Gets the `<head>` element for this document.
 	 *
 	 *		var element = CKEDITOR.document.getHead();
 	 *		alert( element.getName() ); // 'head'
 	 *
-	 * @returns {CKEDITOR.dom.element} The ```<head>``` element.
+	 * @returns {CKEDITOR.dom.element} The `<head>` element.
 	 */
 	getHead: function() {
 		var head = this.$.getElementsByTagName( 'head' )[ 0 ];
@@ -209,12 +209,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	},
 
 	/**
-	 * Gets the ```<body>``` element for this document.
+	 * Gets the `<body>` element for this document.
 	 *
 	 *		var element = CKEDITOR.document.getBody();
 	 *		alert( element.getName() ); // 'body'
 	 *
-	 * @returns {CKEDITOR.dom.element} The ```<body>``` element.
+	 * @returns {CKEDITOR.dom.element} The `<body>` element.
 	 */
 	getBody: function() {
 		return new CKEDITOR.dom.element( this.$.body );

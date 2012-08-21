@@ -57,6 +57,6 @@
  * kept untouched.
  * @param {Array} [buffer] An array into which the output data will be pushed into.
  * The number of entries appended to the array is unknown.
- * @returns {String/Number} If ```buffer``` has not been provided, the processed
- * template output data, otherwise the new length of ```buffer```.
+ * @returns {String/Number} If `buffer` has not been provided, the processed
+ * template output data, otherwise the new length of `buffer`.
  */

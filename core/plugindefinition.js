@@ -32,8 +32,8 @@
 
 /**
  * A list of language files available for this plugin. These files are stored inside
- * the ```lang``` directory, which is inside the plugin directory, follow the name
- * pattern of ```langCode.js```, and contain a language definition created with
+ * the `lang` directory, which is inside the plugin directory, follow the name
+ * pattern of `langCode.js`, and contain a language definition created with
  * {@link CKEDITOR.plugins#setLang}.
  *
  * While the plugin is being loaded, the editor checks this list to see if
@@ -50,7 +50,7 @@
 
 /**
  * Function called on initialization of every editor instance created in the
- * page before the ```init()``` call task. The beforeInit function will be called for
+ * page before the `init()` call task. The beforeInit function will be called for
  * all plugins, after that the init function is called for all of them. This
  * feature makes it possible to initialize things that could be used in the
  * init function of other plugins.

@@ -30,7 +30,7 @@
  * @param {CKEDITOR.editor} editor The editor within which run the command.
  * @param {Object} [data] Additional data to be used to execute the command.
  * @returns {Boolean} Whether the command has been successfully executed.
- * Defaults to ```true```, if nothing is returned.
+ * Defaults to `true`, if nothing is returned.
  */
 
 /**
@@ -95,7 +95,7 @@
 
 /**
  * Indicates that this command is sensible to the selection context.
- * If ```true```, the {@link CKEDITOR.command#method-refresh} method will be
+ * If `true`, the {@link CKEDITOR.command#method-refresh} method will be
  * called for this command on selection changes, with a single parameter
  * representing the current elements path.
  *
@@ -106,7 +106,7 @@
  * Sets the element name used to reflect the command state on selection changes.
  * If the selection is in a place where the element is not allowed, the command
  * will be disabled.
- * Setting this property overrides {@link #contextSensitive} to ```true```.
+ * Setting this property overrides {@link #contextSensitive} to `true`.
  *
  * @property {Boolean} [context=true]
  */

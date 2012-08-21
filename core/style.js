@@ -178,7 +178,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Get the style state inside an element path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
-		 * @returns {Boolean} ```true``` if the element is active in the path.
+		 * @returns {Boolean} `true` if the element is active in the path.
 		 */
 		checkActive: function( elementPath ) {
 			switch ( this.type ) {
@@ -213,7 +213,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Whether this style can be applied at the element path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
-		 * @returns {Boolean} ```true``` if this style can be applied at the element path.
+		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
 		checkApplicable: function( elementPath ) {
 			switch ( this.type ) {
@@ -1518,12 +1518,12 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * The styles may be defined in the page containing the editor, or can be
  * loaded on demand from an external file. In the second case, if this setting
  * contains only a name, the styles definition file will be loaded from the
- * ```styles``` folder inside the styles plugin folder.
+ * `styles` folder inside the styles plugin folder.
  *
- * Otherwise, this setting has the ```name:url``` syntax, making it
+ * Otherwise, this setting has the `name:url` syntax, making it
  * possible to set the URL from which loading the styles file.
  *
- * Previously this setting was available as ```config.stylesCombo_stylesSet```.
+ * Previously this setting was available as `config.stylesCombo_stylesSet`.
  *
  *		// Load from the styles' styles folder (mystyles.js file).
  *		config.stylesSet = 'mystyles';

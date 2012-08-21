@@ -103,12 +103,12 @@ if ( !CKEDITOR.env ) {
 
 			/**
 			 * Indicates that the browser has a custom domain enabled. This has
-			 * been set with ```document.domain```.
+			 * been set with `document.domain`.
 			 *
 			 *		if ( CKEDITOR.env.isCustomDomain() )
 			 *			alert( 'I\'m in a custom domain!' );
 			 *
-			 * @returns {Boolean} ```true``` if a custom domain is enabled.
+			 * @returns {Boolean} `true` if a custom domain is enabled.
 			 */
 			isCustomDomain: function() {
 				if ( !this.ie )
@@ -126,7 +126,7 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.secure )
 			 *			alert( 'I\'m in SSL!' );
 			 *
-			 * @returns {Boolean} ```true``` if the page has an encrypted connection.
+			 * @returns {Boolean} `true` if the page has an encrypted connection.
 			 */
 			secure: location.protocol == 'https:'
 		};

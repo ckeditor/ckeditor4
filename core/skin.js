@@ -288,9 +288,9 @@
  *
  * This is a shortcut to {@link CKEDITOR#skinName}.
  *
- * It is possible to install skins outside the default ```skin``` folder in the
+ * It is possible to install skins outside the default `skin` folder in the
  * editor installation. In that case, the absolute URL path to that folder
- * should be provided, separated by a comma (```'skin_name,skin_path'```).
+ * should be provided, separated by a comma (`'skin_name,skin_path'`).
  *
  *		config.skin = 'kama';
  *
@@ -304,7 +304,7 @@
  * A function that support the chameleon (skin color switch) feature, providing
  * the skin colors styles update to be apply in runtime.
  *
- * **Note:** the embedded ```$color``` variable is to be substituted by a concrete UI color.
+ * **Note:** the embedded `$color` variable is to be substituted by a concrete UI color.
  *
  * @method chameleon
  * @param {String} editor The editor instance upon color changes impact.

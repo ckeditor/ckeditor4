@@ -50,7 +50,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	return {
 
 		/**
-		 * Get the private ```_``` object which is bound to the native
+		 * Get the private `_` object which is bound to the native
 		 * DOM object using {@link #getCustomData}.
 		 *
 		 *		var elementA = new CKEDITOR.dom.element( nativeElement );
@@ -155,7 +155,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 *		alert( doc == CKEDITOR.document );			// false
 	 *
 	 * @param {Object} object The object to compare with the current object.
-	 * @returns {Boolean} ```true``` if the object is equal.
+	 * @returns {Boolean} `true` if the object is equal.
 	 */
 	domObjectProto.equals = function( object ) {
 		// Try/Catch to avoid IE permission error when object is from different document.
@@ -172,7 +172,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 *
 	 * **Note:** The created data slot is only guarantied to be available on this unique dom node,
 	 * thus any wish to continue access it from other element clones (either created by
-	 * clone node or from ```innerHtml```) will fail, for such usage, please use
+	 * clone node or from `innerHtml`) will fail, for such usage, please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
 	 *
 	 *		var element = new CKEDITOR.dom.element( 'span' );
@@ -210,10 +210,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * Removes the value in data slot under given ```key```.
+	 * Removes the value in data slot under given `key`.
 	 *
 	 * @param {String} key
-	 * @returns {Object} Removed value or ```null``` if not found.
+	 * @returns {Object} Removed value or `null` if not found.
 	 */
 	domObjectProto.removeCustomData = function( key ) {
 		var expandoNumber = this.$[ 'data-cke-expando' ],

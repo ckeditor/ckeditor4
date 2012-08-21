@@ -15,7 +15,7 @@ if ( CKEDITOR.status == 'unloaded' ) {
 
 		/**
 		 * Forces the full CKEditor core code, in the case only the basic code has been
-		 * loaded (```ckeditor_basic.js```). This method self-destroys (becomes undefined) in
+		 * loaded (`ckeditor_basic.js`). This method self-destroys (becomes undefined) in
 		 * the first call or as soon as the full code is available.
 		 *
 		 *		// Check if the full core code has been loaded and load it.

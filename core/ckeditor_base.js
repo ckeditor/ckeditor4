@@ -105,7 +105,7 @@ if ( !window.CKEDITOR ) {
 			/**
 			 * The full URL for the CKEditor installation directory.
 			 * It is possible to manually provide the base path by setting a
-			 * global variable named ```CKEDITOR_BASEPATH```. This global variable
+			 * global variable named `CKEDITOR_BASEPATH`. This global variable
 			 * must be set **before** the editor script loading.
 			 *
 			 *		alert( CKEDITOR.basePath ); // e.g. 'http://www.example.com/ckeditor/'
@@ -155,9 +155,9 @@ if ( !window.CKEDITOR ) {
 			 * set to the {@link CKEDITOR#timestamp} value.
 			 *
 			 * It is possible to provide a custom implementation of this
-			 * function by setting a global variable named ```CKEDITOR_GETURL```.
+			 * function by setting a global variable named `CKEDITOR_GETURL`.
 			 * This global variable must be set **before** the editor script
-			 * loading. If the custom implementation returns nothing (```==null```), the
+			 * loading. If the custom implementation returns nothing (`==null`), the
 			 * default implementation is used.
 			 *
 			 *		// e.g. 'http://www.example.com/ckeditor/skins/default/editor.css?t=87dm'

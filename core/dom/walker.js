@@ -142,8 +142,8 @@
 	 *		[<p>Some <b>sample] text</b>
 	 *
 	 * While walking forward into the above range, the following nodes are
-	 * returned: ```<p>```, ```"Some "```, ```<b>``` and ```"sample"```. Going
-	 * backwards instead we have: ```"sample"``` and ```"Some "```. So note that the
+	 * returned: `<p>`, `"Some "`, `<b>` and `"sample"`. Going
+	 * backwards instead we have: `"sample"` and `"Some "`. So note that the
 	 * walker always returns nodes when "entering" them, but not when
 	 * "leaving" them. The guard function is instead called both when
 	 * entering and leaving nodes.
@@ -165,7 +165,7 @@
 			 * it's to be considered into the walk or not. If not provided, all
 			 * matched nodes are considered good.
 			 *
-			 * If the function returns ```false``` the node is ignored.
+			 * If the function returns `false` the node is ignored.
 			 *
 			 * @property {Function} evaluator
 			 */
@@ -176,7 +176,7 @@
 			 * whether the walk is to be finished. It's called when both
 			 * entering and exiting nodes, as well as for the matched nodes.
 			 *
-			 * If this function returns ```false```, the walking ends and no more
+			 * If this function returns `false`, the walking ends and no more
 			 * nodes are evaluated.
 
 			 * @property {Function} guard
@@ -247,8 +247,8 @@
 			/**
 			 * Check all nodes at right, executing the evaluation fuction.
 			 *
-			 * @returns {Boolean} ```false``` if the evaluator function returned
-			 * ```false``` for any of the matched nodes. Otherwise ```true```.
+			 * @returns {Boolean} `false` if the evaluator function returned
+			 * `false` for any of the matched nodes. Otherwise `true`.
 			 */
 			checkForward: function() {
 				return iterate.call( this, 0, 1 ) !== false;
@@ -257,8 +257,8 @@
 			/**
 			 * Check all nodes at left, executing the evaluation fuction.
 			 *
-			 * @returns {Boolean} ```false``` if the evaluator function returned
-			 * ```false``` for any of the matched nodes. Otherwise ```true```.
+			 * @returns {Boolean} `false` if the evaluator function returned
+			 * `false` for any of the matched nodes. Otherwise `true`.
 			 */
 			checkBackward: function() {
 				return iterate.call( this, 1, 1 ) !== false;
@@ -339,8 +339,8 @@
 	 * @statick
 	 * @param {Boolean} [contentOnly=false] Whether only test againt the text content of
 	 * bookmark node instead of the element itself (default).
-	 * @param {Boolean} [isReject=false] Whether should return ```false``` for the bookmark
-	 * node instead of ```true``` (default).
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the bookmark
+	 * node instead of `true` (default).
 	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.bookmark = function( contentOnly, isReject ) {

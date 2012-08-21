@@ -7,7 +7,7 @@
 	/** @class CKEDITOR */
 
 	/**
-	 * Turn a DOM element with ```contenteditable``` attribute set to ```true``` into a
+	 * Turn a DOM element with `contenteditable` attribute set to `true` into a
 	 * CKEditor instance, check {@link CKEDITOR.dtd#$editable} for the list of
 	 * allowed element names.
 	 *
@@ -15,7 +15,7 @@
 	 *		...
 	 *		CKEDITOR.inline( 'content' );
 	 *
-	 * @param {Object/String} element The DOM element (```<textarea>```), its ID or name.
+	 * @param {Object/String} element The DOM element (`<textarea>`), its ID or name.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
 	 * @returns {CKEDITOR.editor} The editor instance created.
@@ -76,7 +76,7 @@
 
 	/**
 	 * Call {@link CKEDITOR#inline} with all page elements with
-	 * ```contenteditable``` attribute set to ```true```.
+	 * `contenteditable` attribute set to `true`.
 	 *
 	 */
 	CKEDITOR.inlineAll = function() {
@@ -110,7 +110,7 @@
 
 /**
  * Avoid creating editor automatically on element which has attribute
- * ```contenteditable``` set to the value ```true```.
+ * `contenteditable` set to the value `true`.
  *
  *		CKEDITOR.disableAutoInline = true;
  *

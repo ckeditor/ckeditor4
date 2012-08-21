@@ -117,14 +117,14 @@ if ( !CKEDITOR.event ) {
 			 * event. A single {@link CKEDITOR.eventInfo} object instanced
 			 * is passed to this function containing all the event data.
 			 * @param {Object} [scopeObj] The object used to scope the listener
-			 * call (the ```this``` object). If omitted, the current object is used.
+			 * call (the `this` object). If omitted, the current object is used.
 			 * @param {Object} [listenerData] Data to be sent as the
 			 * {@link CKEDITOR.eventInfo#listenerData} when calling the
 			 * listener.
 			 * @param {Number} [priority=10] The listener priority. Lower priority
 			 * listeners are called first. Listeners with the same priority
 			 * value are called in registration order.
-			 * @returns {Object} An object containing the ```removeListener```
+			 * @returns {Object} An object containing the `removeListener`
 			 * function, which can be used to remove the listener at any time.
 			 */
 			on: function( eventName, listenerFunction, scopeObj, listenerData, priority ) {

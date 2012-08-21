@@ -249,7 +249,7 @@ CKEDITOR.plugins.link = {
 	fakeAnchor: CKEDITOR.env.opera || CKEDITOR.env.webkit,
 
 	/**
-	 * For browsers that don't support CSS3 ```a[name]:empty()```, note IE9 is included because of #7783.
+	 * For browsers that don't support CSS3 `a[name]:empty()`, note IE9 is included because of #7783.
 	 *
 	 * @readonly
 	 * @property {Boolean}

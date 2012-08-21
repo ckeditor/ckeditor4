@@ -121,11 +121,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	},
 
 	/**
-	 * Extracts characters from indexA up to but not including ```indexB```.
+	 * Extracts characters from indexA up to but not including `indexB`.
 	 *
-	 * @param {Number} indexA An integer between ```0``` and one less than the
+	 * @param {Number} indexA An integer between `0` and one less than the
 	 * length of the text.
-	 * @param {Number} [indexB] An integer between ```0``` and the length of the
+	 * @param {Number} [indexB] An integer between `0` and the length of the
 	 * string. If omitted, extracts characters to the end of the text.
 	 */
 	substring: function( indexA, indexB ) {

@@ -61,11 +61,11 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
 	 * @param {CKEDITOR.htmlParser.element/String} [parent] Optional contextual
 	 * element which makes the content been parsed as the content of this element.
-	 * @param {String/Boolean} [fixForBody] When ```parent``` is the ```<body>``` element,
-	 * and the param is a string value other than ```false```, it is to
+	 * @param {String/Boolean} [fixForBody] When `parent` is the `<body>` element,
+	 * and the param is a string value other than `false`, it is to
 	 * avoid having block-less content as the direct children of parent by wrapping
-	 * the content with a specified tag, e.g. when ```fixBodyTag``` specified as ```p```, the content
-	 * ```<body><i>foo</i></body>``` will be fixed into ```<body><p><i>foo</i></p></body>```.
+	 * the content with a specified tag, e.g. when `fixBodyTag` specified as `p`, the content
+	 * `<body><i>foo</i></body>` will be fixed into `<body><p><i>foo</i></p></body>`.
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 */
 	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixForBody ) {

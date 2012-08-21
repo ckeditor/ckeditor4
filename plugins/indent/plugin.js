@@ -404,7 +404,7 @@
  */
 
 /**
- * List of classes to use for indenting the contents. If it's ```null```, no classes will be used
+ * List of classes to use for indenting the contents. If it's `null`, no classes will be used
  * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
  *
  *		// Use the classes 'Indent1', 'Indent2', 'Indent3'

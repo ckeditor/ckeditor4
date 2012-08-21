@@ -45,7 +45,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype, {
 	/**
 	 * Gets the outer HTML of this comment.
 	 *
-	 * @returns {String} The HTML ```<!-- comment value -->```.
+	 * @returns {String} The HTML `<!-- comment value -->`.
 	 */
 	getOuterHtml: function() {
 		return '<!--' + this.$.nodeValue + '-->';

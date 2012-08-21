@@ -205,7 +205,7 @@
 })();
 
 /**
- * List of classes to use for aligning the contents. If it's ```null```, no classes will be used
+ * List of classes to use for aligning the contents. If it's `null`, no classes will be used
  * and instead the corresponding CSS values will be used.
  *
  * The array should contain 4 members, in the following order: left, center, right, justify.

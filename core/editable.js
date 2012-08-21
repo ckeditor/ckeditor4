@@ -6,7 +6,7 @@
 (function() {
 	/**
 	 * Editable class which provides all editing related activities by
-	 * the ```contenteditable``` element, dynamically get attached to editor instance.
+	 * the `contenteditable` element, dynamically get attached to editor instance.
 	 *
 	 * @class CKEDITOR.editable
 	 * @extends CKEDITOR.dom.element
@@ -19,8 +19,8 @@
 		 * @constructor Creates an editable class instance.
 		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
 		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
-		 * editing container, e.g. it could be either an HTML element with the ```contenteditable``` attribute
-		 * set to the true that handles wysiwyg editing or a ```<textarea>``` element that handles source editing.
+		 * editing container, e.g. it could be either an HTML element with the `contenteditable` attribute
+		 * set to the true that handles wysiwyg editing or a `<textarea>` element that handles source editing.
 		 */
 		$: function( editor, element ) {
 			// Transform the element into a CKEDITOR.dom.element instance.
@@ -55,8 +55,8 @@
 			},
 
 			/**
-			 * Overrides {@link CKEDITOR.dom.element#on} to have special ```focus/blur``` handling.
-			 * The ```focusin/focusout``` events are used in IE to replace regular ```focus/blur``` events
+			 * Overrides {@link CKEDITOR.dom.element#on} to have special `focus/blur` handling.
+			 * The `focusin/focusout` events are used in IE to replace regular `focus/blur` events
 			 * because we want to avoid the asynchronous nature of later ones.
 			 */
 			on: function( name, fn ) {

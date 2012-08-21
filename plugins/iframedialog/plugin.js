@@ -20,8 +20,8 @@ CKEDITOR.plugins.add( 'iframedialog', {
 		 * @param {Number} minWidth Minimum width of the dialog.
 		 * @param {Number} minHeight Minimum height of the dialog.
 		 * @param {Function} [onContentLoad] Function called when the iframe has been loaded.
-		 * If it isn't specified, the inner frame is notified of the dialog events (```'load'```,
-		 * ```'resize'```, ```'ok'``` and ```'cancel'```) on a function called ```'onDialogEvent'```.
+		 * If it isn't specified, the inner frame is notified of the dialog events (`'load'`,
+		 * `'resize'`, `'ok'` and `'cancel'`) on a function called `'onDialogEvent'`.
 		 * @param {Object} [userDefinition] Additional properties for the dialog definition.
 		 */
 		CKEDITOR.dialog.addIframe = function( name, title, src, minWidth, minHeight, onContentLoad, userDefinition ) {
@@ -102,10 +102,10 @@ CKEDITOR.plugins.add( 'iframedialog', {
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * ```src``` (Required) The src field of the iframe.
-			 * * ```width``` (Required) The iframe's width.
-			 * * ```height``` (Required) The iframe's height.
-			 * * ```onContentLoad``` (Optional) A function to be executed
+			 * * `src` (Required) The src field of the iframe.
+			 * * `width` (Required) The iframe's width.
+			 * * `height` (Required) The iframe's height.
+			 * * `onContentLoad` (Optional) A function to be executed
 			 *     after the iframe's contents has finished loading.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.

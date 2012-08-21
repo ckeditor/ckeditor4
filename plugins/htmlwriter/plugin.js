@@ -50,7 +50,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this.indentationChars = '\t';
 
 		/**
-		 * The characters to be used to close "self-closing" elements, like ```<br>``` or ```<img>```.
+		 * The characters to be used to close "self-closing" elements, like `<br>` or `<img>`.
 		 *
 		 *		// Use HTML4 notation for self-closing elements.
 		 *		editorInstance.dataProcessor.writer.selfClosingEnd = '>';
@@ -144,7 +144,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 *
 		 * @param {String} tagName The element name for this tag.
 		 * @param {Boolean} isSelfClose Indicates that this is a self-closing tag,
-		 * like ```<br>``` or ```<img>```.
+		 * like `<br>` or `<img>`.
 		 */
 		openTagClose: function( tagName, isSelfClose ) {
 			var rules = this._.rules[ tagName ];
@@ -294,19 +294,19 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		/**
 		 * Sets formatting rules for a give element. The possible rules are:
 		 *
-		 * * ```indent```: indent the element contents.
-		 * * ```breakBeforeOpen```: break line before the opener tag for this element.
-		 * * ```breakAfterOpen```: break line after the opener tag for this element.
-		 * * ```breakBeforeClose```: break line before the closer tag for this element.
-		 * * ```breakAfterClose```: break line after the closer tag for this element.
+		 * * `indent`: indent the element contents.
+		 * * `breakBeforeOpen`: break line before the opener tag for this element.
+		 * * `breakAfterOpen`: break line after the opener tag for this element.
+		 * * `breakBeforeClose`: break line before the closer tag for this element.
+		 * * `breakAfterClose`: break line after the closer tag for this element.
 		 *
-		 * All rules default to ```false```. Each call to the function overrides
+		 * All rules default to `false`. Each call to the function overrides
 		 * already present rules, leaving the undefined untouched.
 		 *
 		 * By default, all elements available in the {@link CKEDITOR.dtd#$block},
 		 * {@link CKEDITOR.dtd#$listItem} and {@link CKEDITOR.dtd#$tableContent}
-		 * lists have all the above rules set to ```true```. Additionaly, the ```<br>```
-		 * element has the ```breakAfterOpen``` set to ```true```.
+		 * lists have all the above rules set to `true`. Additionaly, the `<br>`
+		 * element has the `breakAfterOpen` set to `true`.
 		 *
 		 *		// Break line before and after "img" tags.
 		 *		writer.setRules( 'img', {
@@ -332,11 +332,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 });
 
 /**
- * Whether to force using ```'&'``` instead of ```'&amp;'``` in elements attributes
+ * Whether to force using `'&'` instead of `'&amp;'` in elements attributes
  * values, it's not recommended to change this setting for compliance with the
  * W3C XHTML 1.0 standards ([C.12, XHTML 1.0](http://www.w3.org/TR/xhtml1/#C_12)).
  *
- *		// Use ```'&'``` instead of ```'&amp;'```
+ *		// Use `'&'` instead of `'&amp;'`
  *		CKEDITOR.config.forceSimpleAmpersand = true;
  *
  * @cfg {Boolean} [forceSimpleAmpersand=false]
@@ -345,7 +345,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 
 /**
  * The characters to be used for indenting the HTML produced by the editor.
- * Using characters different than ```' '``` (space) and ```'\t'``` (tab) is definitely
+ * Using characters different than `' '` (space) and `'\t'` (tab) is definitely
  * a bad idea as it'll mess the code.
  *
  *		// No indentation.

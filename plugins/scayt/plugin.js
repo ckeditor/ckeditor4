@@ -703,7 +703,7 @@
 })();
 
 /**
- * If enabled (set to ```true```), turns on SCAYT automatically
+ * If enabled (set to `true`), turns on SCAYT automatically
  * after loading the editor.
  *
  *		config.scayt_autoStartup = true;
@@ -716,7 +716,7 @@
  * Defines the number of SCAYT suggestions to show in the main context menu.
  * Possible values are:
  *
- * * ```0``` (zero) &ndash; All suggestions are displayed in the main context menu.
+ * * `0` (zero) &ndash; All suggestions are displayed in the main context menu.
  * * Positive number &ndash; The maximum number of suggestions to show in the context
  *     menu. Other entries will be shown in the "More Suggestions" sub-menu.
  * * Negative number &ndash; No suggestions are shown in the main context menu. All
@@ -748,7 +748,7 @@
 
 /**
  * Enables/disables the "More Suggestions" sub-menu in the context menu.
- * Possible values are ```'on'``` and ```'off'```.
+ * Possible values are `'on'` and `'off'`.
  *
  *		// Disables the "More Suggestions" sub-menu.
  *		config.scayt_moreSuggestions = 'off';
@@ -760,13 +760,13 @@
 /**
  * Customizes the display of SCAYT context menu commands ("Add Word", "Ignore"
  * and "Ignore All"). This must be a string with one or more of the following
- * words separated by a pipe character (```'|'```):
+ * words separated by a pipe character (`'|'`):
  *
- * * ```off``` &ndash; disables all options.
- * * ```all``` &ndash; enables all options.
- * * ```ignore``` &ndash; enables the "Ignore" option.
- * * ```ignoreall``` &ndash; enables the "Ignore All" option.
- * * ```add``` &ndash; enables the "Add Word" option.
+ * * `off` &ndash; disables all options.
+ * * `all` &ndash; enables all options.
+ * * `ignore` &ndash; enables the "Ignore" option.
+ * * `ignoreall` &ndash; enables the "Ignore All" option.
+ * * `add` &ndash; enables the "Add Word" option.
  *
  * Example:
  *
@@ -779,10 +779,10 @@
 
 /**
  * Sets the default spell checking language for SCAYT. Possible values are:
- * ```'en_US'```, ```'en_GB'```, ```'pt_BR'```, ```'da_DK'```,
- * ```'nl_NL'```, ```'en_CA'```, ```'fi_FI'```, ```'fr_FR'```,
- * ```'fr_CA'```, ```'de_DE'```, ```'el_GR'```, ```'it_IT'```,
- * ```'nb_NO'```, ```'pt_PT'```, ```'es_ES'```, ```'sv_SE'```.
+ * `'en_US'`, `'en_GB'`, `'pt_BR'`, `'da_DK'`,
+ * `'nl_NL'`, `'en_CA'`, `'fi_FI'`, `'fr_FR'`,
+ * `'fr_CA'`, `'de_DE'`, `'el_GR'`, `'it_IT'`,
+ * `'nb_NO'`, `'pt_PT'`, `'es_ES'`, `'sv_SE'`.
  *
  *		// Sets SCAYT to German.
  *		config.scayt_sLang = 'de_DE';
@@ -793,9 +793,9 @@
 
 /**
  * Sets the visibility of particular tabs in the SCAYT dialog window and toolbar
- * button. This setting must contain a ```1``` (enabled) or ```0```
+ * button. This setting must contain a `1` (enabled) or `0`
  * (disabled) value for each of the following entries, in this precise order,
- * separated by a comma (```','```): ```'Options'```, ```'Languages'```, and ```'Dictionary'```.
+ * separated by a comma (`','`): `'Options'`, `'Languages'`, and `'Dictionary'`.
  *
  *		// Hides the "Languages" tab.
  *		config.scayt_uiTabs = '1,0,1';
@@ -818,7 +818,7 @@
 
 /**
  * Links SCAYT to custom dictionaries. This is a string containing dictionary IDs
- * separared by commas (```','```). Available only for the licensed version.
+ * separared by commas (`','`). Available only for the licensed version.
  *
  * Further details at [http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed)
  *
@@ -841,11 +841,11 @@
 /**
  * Defines the order SCAYT context menu items by groups.
  * This must be a string with one or more of the following
- * words separated by a pipe character (```'|'```):
+ * words separated by a pipe character (`'|'`):
  *
- * * ```suggest``` &ndash; main suggestion word list,
- * * ```moresuggest``` &ndash; more suggestions word list,
- * * ```control``` &ndash; SCAYT commands, such as "Ignore" and "Add Word".
+ * * `suggest` &ndash; main suggestion word list,
+ * * `moresuggest` &ndash; more suggestions word list,
+ * * `control` &ndash; SCAYT commands, such as "Ignore" and "Add Word".
  *
  * Example:
  *

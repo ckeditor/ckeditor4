@@ -122,9 +122,9 @@ CKEDITOR.plugins.removeformat = {
 /**
  * Add to a collection of functions to decide whether a specific
  * element should be considered as formatting element and thus
- * could be removed during ```removeFormat``` command.
+ * could be removed during `removeFormat` command.
  *
- * **Note:** Only available with the existence of ```removeformat``` plugin.
+ * **Note:** Only available with the existence of `removeformat` plugin.
  *
  *		// Don't remove empty span
  *		editor.addRemoveFormatFilter.push( function( element ) {
@@ -140,8 +140,8 @@ CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
 };
 
 /**
- * A comma separated list of elements to be removed when executing the ```remove
- " format``` command. Note that only inline elements are allowed.
+ * A comma separated list of elements to be removed when executing the `remove
+ * format` command. Note that only inline elements are allowed.
  *
  * @cfg
  * @member CKEDITOR.config
@@ -150,7 +150,7 @@ CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,
 
 /**
  * A comma separated list of elements attributes to be removed when executing
- * the ```remove format``` command.
+ * the `remove format` command.
  *
  * @cfg
  * @member CKEDITOR.config

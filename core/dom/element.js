@@ -380,7 +380,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * relative to the upper-left corner of the browser's client area.
 	 *
 	 * @returns {Object} The dimensions of the DOM element including
-	 * ```left```, ```top```, ```right```, ```bottom```, ```width``` and ```height```.
+	 * `left`, `top`, `right`, `bottom`, `width` and `height`.
 	 */
 	getClientRect: function() {
 		// http://help.dottoro.com/ljvmcrrn.php
@@ -621,7 +621,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	/**
 	 * Gets the text value of this element.
 	 *
-	 * Only in IE (which uses innerText), ```<br>``` will cause linebreaks,
+	 * Only in IE (which uses innerText), `<br>` will cause linebreaks,
 	 * and sucessive whitespaces (including line breaks) will be reduced to
 	 * a single space. This behavior is ok for us, for now. It may change
 	 * in the future.
@@ -645,7 +645,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Gets the value of the ```id``` attribute of this element.
+	 * Gets the value of the `id` attribute of this element.
 	 *
 	 *		var element = CKEDITOR.dom.element.createFromHtml( '<p id="myId"></p>' );
 	 *		alert( element.getId() ); // 'myId'
@@ -657,7 +657,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Gets the value of the ```name``` attribute of this element.
+	 * Gets the value of the `name` attribute of this element.
 	 *
 	 *		var element = CKEDITOR.dom.element.createFromHtml( '<input name="myName"></input>' );
 	 *		alert( <b>element.getNameAtt()</b> ); // 'myName'
@@ -757,7 +757,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		alert( element.is( { p:1,span:1 } ) );	// true
 	 *
 	 * @param {String.../Object} name One or more names to be checked, or a {@link CKEDITOR.dtd} object.
-	 * @returns {Boolean} ```true``` if the element name matches any of the names.
+	 * @returns {Boolean} `true` if the element name matches any of the names.
 	 */
 	is: function() {
 		var name = this.getName();
@@ -848,7 +848,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 
 	/**
 	 * Checks if this element is visible. May not work if the element is
-	 * child of an element with visibility set to ```hidden```, but works well
+	 * child of an element with visibility set to `hidden`, but works well
 	 * on the great majority of cases.
 	 *
 	 * @returns {Boolean} True if the element is visible.
@@ -951,7 +951,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *
 	 * @method
 	 * @param {String} name The attribute name.
-	 * @returns {Boolean} ```true``` if the specified attribute is defined.
+	 * @returns {Boolean} `true` if the specified attribute is defined.
 	 */
 	hasAttribute: (function() {
 		function standard( name ) {
@@ -972,7 +972,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	})(),
 
 	/**
-	 * Hides this element (sets ```display: none```).
+	 * Hides this element (sets `display: none`).
 	 *
 	 *		var element = CKEDITOR.document.getById( 'myElement' );
 	 *		element.hide();
@@ -1225,7 +1225,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		element.setStyle( 'float', 'right' );
 	 *
 	 * @param {String} name The name of the style. The CSS naming notation
-	 * must be used (e.g. ```background-color```).
+	 * must be used (e.g. `background-color`).
 	 * @param {String} value The value to be set to the style.
 	 * @returns {CKEDITOR.dom.element} This element instance.
 	 */
@@ -1259,7 +1259,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		var element = CKEDITOR.document.getById( 'myElement' );
 	 *		element.setOpacity( 0.75 );
 	 *
-	 * @param {Number} opacity A number within the range ```[0.0, 1.0]```.
+	 * @param {Number} opacity A number within the range `[0.0, 1.0]`.
 	 */
 	setOpacity: function( opacity ) {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
@@ -1298,9 +1298,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Gets closest positioned (```position != static```) ancestor.
+	 * Gets closest positioned (`position != static`) ancestor.
 	 *
-	 * @returns {CKEDITOR.dom.element} Positioned ancestor or ```null```.
+	 * @returns {CKEDITOR.dom.element} Positioned ancestor or `null`.
 	 */
 	getPositionedAncestor: function() {
 		var current = this;
@@ -1448,8 +1448,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *
 	 * @param {CKEDITOR.dom.element/CKEDITOR.dom.window} parent The container to scroll into.
 	 * @param {Boolean} [alignToTop] Align the element's top side with the container's
-	 * when ```true``` is specified; align the bottom with viewport bottom when
-	 * ```false``` is specified. Otherwise scroll on either side with the minimum
+	 * when `true` is specified; align the bottom with viewport bottom when
+	 * `false` is specified. Otherwise scroll on either side with the minimum
 	 * amount to show the element.
 	 * @param {Boolean} [hscroll] Whether horizontal overflow should be considered.
 	 */
@@ -1533,7 +1533,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Switch the ```class``` attribute to reflect one of the triple states of an
+	 * Switch the `class` attribute to reflect one of the triple states of an
 	 * element in one of {@link CKEDITOR#TRISTATE_ON}, {@link CKEDITOR#TRISTATE_OFF}
 	 * or {@link CKEDITOR#TRISTATE_DISABLED}.
 	 *
@@ -1583,7 +1583,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Returns the inner document of this ```<iframe>``` element.
+	 * Returns the inner document of this `<iframe>` element.
 	 *
 	 * @returns {CKEDITOR.dom.document} The inner document.
 	 */
@@ -1734,7 +1734,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Gets element's direction. Supports both CSS ```direction``` prop and ```dir``` attr.
+	 * Gets element's direction. Supports both CSS `direction` prop and `dir` attr.
 	 */
 	getDirection: function( useComputed ) {
 		return useComputed ? this.getComputedStyle( 'direction' )
@@ -1749,7 +1749,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		alert( element.data( 'extra-info' ) );	// 'test'
 	 *		element.data( 'extra-info', false );	// Remove the data-extra-info attribute from the element.
 	 *
-	 * @param {String} name The name of the attribute, excluding the ```data-``` part.
+	 * @param {String} name The name of the attribute, excluding the `data-` part.
 	 * @param {String} [value] The value to set. If set to false, the attribute will be removed.
 	 */
 	data: function( name, value ) {

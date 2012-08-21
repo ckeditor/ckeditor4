@@ -589,7 +589,7 @@ CKEDITOR.UI_SEPARATOR = 'separator';
 
 /**
  * The "UI space" to which rendering the toolbar. For the default editor implementation,
- * the recommended options are ```'top'``` and ```'bottom'```.
+ * the recommended options are `'top'` and `'bottom'`.
  *
  *		config.toolbarLocation = 'bottom';
  *
@@ -602,7 +602,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
  * toolbars (strips), each one being also an array, containing a list of UI items.
  *
- * If set to ```null```, generate toolbar automatically using all available buttons.
+ * If set to `null`, generate toolbar automatically using all available buttons.
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator and the "Bold" and "Italic" buttons.

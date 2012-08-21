@@ -7,7 +7,7 @@ CKEDITOR.plugins.add( 'popup' );
 
 CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 	/**
-	 * Opens Browser in a popup. The ```width``` and ```height``` parameters accept
+	 * Opens Browser in a popup. The `width` and `height` parameters accept
 	 * numbers (pixels) or percent (of screen size) values.
 	 *
 	 * @member CKEDITOR.editor

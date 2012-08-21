@@ -15,10 +15,10 @@
  *
  * Each element in the DTD is represented by a property in this object. Each
  * property contains the list of elements that can be contained by the element.
- * Text is represented by the ```#``` property.
+ * Text is represented by the `#` property.
  *
  * Several special grouping properties are also available. Their names start
- * with the ```$``` character.
+ * with the `$` character.
  *
  *		// Check if <div> can be contained in a <p> element.
  *		alert( !!CKEDITOR.dtd[ 'p' ][ 'div' ] ); // false
@@ -71,7 +71,7 @@ CKEDITOR.dtd = (function() {
 		$nonBodyContent: X( V, U, S ),
 
 		/**
-		 * List of block elements, like ```<p>``` or ```<div>```.
+		 * List of block elements, like `<p>` or `<div>`.
 		 */
 		$block: block,
 
@@ -81,7 +81,7 @@ CKEDITOR.dtd = (function() {
 		$blockLimit: { body:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,td:1,th:1,caption:1,form:1,table:1,ul:1,dl:1,ol:1,tr:1,dir:1,fieldset:1 },
 
 		/**
-		 * List of inline (```<span>``` like) elements.
+		 * List of inline (`<span>` like) elements.
 		 */
 		$inline: L, // Just like span.
 
@@ -91,7 +91,7 @@ CKEDITOR.dtd = (function() {
 		$object: { img:1,table:1,hr:1,iframe:1,input:1,textarea:1,select:1,applet:1,button:1,object:1,audio:1,video:1 },
 
 		/**
-		 * List of elements that can be children at ```<body>```.
+		 * List of elements that can be children at `<body>`.
 		 */
 		$body: X( { script:1,style:1 }, block ),
 
@@ -103,12 +103,12 @@ CKEDITOR.dtd = (function() {
 		$editable: { address:1,article:1,aside:1,blockquote:1,body:1,details:1,div:1,fieldset:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,nav:1,p:1,pre:1,section:1 },
 
 		/**
-		 * List of empty (self-closing) elements, like ```<br>``` or ```<img>```.
+		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
 		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,wbr:1 },
 
 		/**
-		 * List of list item elements, like ```<li>``` or ```<dd>```.
+		 * List of list item elements, like `<li>` or `<dd>`.
 		 */
 		$listItem: { dd:1,dt:1,li:1 },
 
@@ -124,7 +124,7 @@ CKEDITOR.dtd = (function() {
 		$nonEditable: { applet:1,button:1,embed:1,iframe:1,map:1,object:1,option:1,script:1,textarea:1,param:1,audio:1,video:1 },
 
 		/**
-		 * List of elements that can be ignored if empty, like ```<b>``` or ```<span>```.
+		 * List of elements that can be ignored if empty, like `<b>` or `<span>`.
 		 */
 		$removeEmpty: { abbr:1,acronym:1,address:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1,mark:1 },
 
@@ -134,7 +134,7 @@ CKEDITOR.dtd = (function() {
 		$tabIndex: { a:1,area:1,button:1,input:1,object:1,select:1,textarea:1 },
 
 		/**
-		 * List of elements used inside the ```<table>``` element, like ```<tbody>``` or ```<td>```.
+		 * List of elements used inside the `<table>` element, like `<tbody>` or `<td>`.
 		 */
 		$tableContent: { caption:1,col:1,colgroup:1,tbody:1,td:1,tfoot:1,th:1,thead:1,tr:1 },
 
