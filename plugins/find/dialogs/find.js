@@ -143,7 +143,6 @@
 			 * @private
 			 * @class CKEDITOR.plugins.find.characterRange
 			 * @constructor Creates a characterRange class instance.
-			 * @private
 			 */
 			var characterRange = function( characterWalker, rangeLength ) {
 					this._ = {

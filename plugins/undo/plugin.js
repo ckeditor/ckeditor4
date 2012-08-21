@@ -135,7 +135,6 @@
 	 * @private
 	 * @class CKEDITOR.plugins.undo.Image
 	 * @constructor Creates an Image class instance.
-	 * @private
 	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
 	 */
 	var Image = CKEDITOR.plugins.undo.Image = function( editor ) {
@@ -205,7 +204,6 @@
 	 * @private
 	 * @class CKEDITOR.plugins.undo.UndoManager
 	 * @constructor Creates an UndoManager class instance.
-	 * @private
 	 * @param {CKEDITOR.editor} editor
 	 */
 	function UndoManager( editor ) {
