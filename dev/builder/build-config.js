@@ -8,7 +8,8 @@ var CKBUILDER_CONFIG = {
 	ignore: [
 		'dev',
 		'.gitignore',
-		'.gitattributes'
+		'.gitattributes',
+		'README.md'
 	],
 	plugins: {
 		a11yhelp : 1,
