@@ -4,7 +4,7 @@
  */
 
 /**
- * @file Insert and remove numbered and bulleted lists.
+ * @fileOverview Insert and remove numbered and bulleted lists.
  */
 
 (function() {
@@ -39,11 +39,14 @@
 	}
 
 	CKEDITOR.plugins.list = {
-		/*
+		/**
 		 * Convert a DOM list tree into a data structure that is easier to
 		 * manipulate. This operation should be non-intrusive in the sense that it
 		 * does not change the DOM tree, with the exception that it may add some
 		 * markers to the list item nodes when database is specified.
+		 *
+		 * @member CKEDITOR.plugins.list
+		 * @todo params
 		 */
 		listToArray: function( listNode, database, baseArray, baseIndentLevel, grandparentNode ) {
 			if ( !listNodeNames[ listNode.getName() ] )
@@ -91,7 +94,12 @@
 			return baseArray;
 		},
 
-		// Convert our internal representation of a list back to a DOM forest.
+		/**
+		 * Convert our internal representation of a list back to a DOM forest.
+		 *
+		 * @member CKEDITOR.plugins.list
+		 * @todo params
+		 */
 		arrayToList: function( listArray, database, baseIndex, paragraphMode, dir ) {
 			if ( !baseIndex )
 				baseIndex = 0;

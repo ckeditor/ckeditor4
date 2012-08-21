@@ -7,10 +7,13 @@
 	/**
 	 * Represents a list os CKEDITOR.dom.range objects, which can be easily
 	 * iterated sequentially.
-	 * @constructor
-	 * @param {CKEDITOR.dom.range|Array} [ranges] The ranges contained on this list.
-	 *		Note that, if an array of ranges is specified, the range sequence
-	 *		should match its DOM order. This class will not help to sort them.
+	 *
+	 * @class
+	 * @extends Array
+	 * @constructor Creates a rangeList class instance.
+	 * @param {CKEDITOR.dom.range/CKEDITOR.dom.range[]} [ranges] The ranges contained on this list.
+	 * Note that, if an array of ranges is specified, the range sequence
+	 * should match its DOM order. This class will not help to sort them.
 	 */
 	CKEDITOR.dom.rangeList = function( ranges ) {
 		if ( ranges instanceof CKEDITOR.dom.rangeList )
@@ -24,14 +27,13 @@
 		return CKEDITOR.tools.extend( ranges, mixins );
 	};
 
-	var mixins =
-	/** @lends CKEDITOR.dom.rangeList.prototype */
-	{
+	var mixins = {
 		/**
 		 * Creates an instance of the rangeList iterator, it should be used
 		 * only when the ranges processing could be DOM intrusive, which
 		 * means it may pollute and break other ranges in this list.
 		 * Otherwise, it's enough to just iterate over this array in a for loop.
+		 *
 		 * @returns {CKEDITOR.dom.rangeListIterator}
 		 */
 		createIterator: function() {
@@ -43,14 +45,13 @@
 				bookmarks = [],
 				current;
 
-			/**
-			 * @lends CKEDITOR.dom.rangeListIterator.prototype
-			 */
 			return {
-
 				/**
 				 * Retrieves the next range in the list.
-				 * @param {Boolean} mergeConsequent Whether join two adjacent ranges into single, e.g. consequent table cells.
+				 *
+				 * @member CKEDITOR.dom.rangeListIterator
+				 * @param {Boolean} [mergeConsequent=false] Whether join two adjacent
+				 * ranges into single, e.g. consequent table cells.
 				 */
 				getNextRange: function( mergeConsequent ) {
 					current = current == undefined ? 0 : current + 1;
@@ -116,6 +117,12 @@
 			};
 		},
 
+		/**
+		 * Create bookmarks for all ranges. See {@link CKEDITOR.dom.range#createBookmark}.
+		 *
+		 * @param {Boolean} [serializable=false] See {@link CKEDITOR.dom.range#createBookmark}.
+		 * @returns {Array} Array of bookmarks.
+		 */
 		createBookmarks: function( serializable ) {
 			var retval = [],
 				bookmark;
@@ -132,6 +139,12 @@
 			return retval;
 		},
 
+		/**
+		 * Create "unobtrusive" bookmarks for all ranges. See {@link CKEDITOR.dom.range#createBookmark2}.
+		 *
+		 * @param {Boolean} [normalized=false] See {@link CKEDITOR.dom.range#createBookmark2}.
+		 * @returns {Array} Array of bookmarks.
+		 */
 		createBookmarks2: function( normalized ) {
 			var bookmarks = [];
 
@@ -143,6 +156,7 @@
 
 		/**
 		 * Move each range in the list to the position specified by a list of bookmarks.
+		 *
 		 * @param {Array} bookmarks The list of bookmarks, each one matching a range in the list.
 		 */
 		moveToBookmarks: function( bookmarks ) {
@@ -181,8 +195,7 @@
 
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part
- *	of the API. It just describes the return type of {@link CKEDITOR.dom.rangeList#createIterator}.
- * @name CKEDITOR.dom.rangeListIterator
- * @constructor
- * @example
+ * of the API. It just describes the return type of {@link CKEDITOR.dom.rangeList#createIterator}.
+ *
+ * @class CKEDITOR.dom.rangeListIterator
  */

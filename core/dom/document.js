@@ -10,11 +10,13 @@
 
 /**
  * Represents a DOM document.
- * @constructor
- * @augments CKEDITOR.dom.domObject
+ *
+ *		var document = new CKEDITOR.dom.document( document );
+ *
+ * @class
+ * @extends CKEDITOR.dom.domObject
+ * @constructor Creates a document class instance.
  * @param {Object} domDocument A native DOM document.
- * @example
- * var document = new CKEDITOR.dom.document( document );
  */
 CKEDITOR.dom.document = function( domDocument ) {
 	CKEDITOR.dom.domObject.call( this, domDocument );
@@ -24,16 +26,21 @@ CKEDITOR.dom.document = function( domDocument ) {
 
 CKEDITOR.dom.document.prototype = new CKEDITOR.dom.domObject();
 
-CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
-/** @lends CKEDITOR.dom.document.prototype */
-{
+CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
+	/**
+	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_DOCUMENT}.
+	 *
+	 * @readonly
+	 * @property {Number} [=CKEDITOR.NODE_DOCUMENT]
+	 */
 	type: CKEDITOR.NODE_DOCUMENT,
 
 	/**
 	 * Appends a CSS file to the document.
+	 *
+	 *		CKEDITOR.document.appendStyleSheet( '/mystyles.css' );
+	 *
 	 * @param {String} cssFileUrl The CSS file URL.
-	 * @example
-	 * <b>CKEDITOR.document.appendStyleSheet( '/mystyles.css' )</b>;
 	 */
 	appendStyleSheet: function( cssFileUrl ) {
 		if ( this.$.createStyleSheet )
@@ -52,8 +59,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 
 	/**
 	 * Creates a CSS style sheet and inserts it into the document.
+	 *
 	 * @param cssStyleText {String} CSS style text.
-	 * @return {Object} The created DOM native style sheet object.
+	 * @returns {Object} The created DOM native style sheet object.
 	 */
 	appendStyleText: function( cssStyleText ) {
 		if ( this.$.createStyleSheet ) {
@@ -68,6 +76,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return styleSheet || style.$.sheet;
 	},
 
+	/**
+	 * Creates {@link CKEDITOR.dom.element} instance in this document.
+	 *
+	 * @returns {CKEDITOR.dom.element}
+	 * @todo
+	 */
 	createElement: function( name, attribsAndStyles ) {
 		var element = new CKEDITOR.dom.element( name, this );
 
@@ -82,18 +96,30 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return element;
 	},
 
+	/**
+	 * Creates {@link CKEDITOR.dom.text} instance in this document.
+	 *
+	 * @param {String} text Value of the text node.
+	 * @returns {CKEDITOR.dom.element}
+	 */
 	createText: function( text ) {
 		return new CKEDITOR.dom.text( text, this );
 	},
 
+	/**
+	 * Moves the selection focus to this document's window.
+	 */
 	focus: function() {
 		this.getWindow().focus();
 	},
 
 	/**
 	 * Returns the element that is currently designated as the active element in the document.
-	 * <strong>Note:</strong>Only one element can be active at a time in a document. An active element does not necessarily have focus,
+	 *
+	 * **Note:** Only one element can be active at a time in a document.
+	 * An active element does not necessarily have focus,
 	 * but an element with focus is always the active element in a document.
+	 *
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	getActive: function() {
@@ -101,18 +127,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	},
 
 	/**
-	 * Gets and element based on its id.
+	 * Gets an element based on its id.
+	 *
+	 *		var element = CKEDITOR.document.getById( 'myElement' );
+	 *		alert( element.getId() ); // 'myElement'
+	 *
 	 * @param {String} elementId The element id.
 	 * @returns {CKEDITOR.dom.element} The element instance, or null if not found.
-	 * @example
-	 * var element = <b>CKEDITOR.document.getById( 'myElement' )</b>;
-	 * alert( element.getId() );  // "myElement"
 	 */
 	getById: function( elementId ) {
 		var $ = this.$.getElementById( elementId );
 		return $ ? new CKEDITOR.dom.element( $ ) : null;
 	},
 
+	/**
+	 * Gets a node based on its address. See {@link CKEDITOR.dom.node#getAddress}.
+	 *
+	 * @param {Array} address
+	 * @param {Boolean} [normalized=false]
+	 */
 	getByAddress: function( address, normalized ) {
 		var $ = this.$.documentElement;
 
@@ -145,6 +178,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 		return $ ? new CKEDITOR.dom.node( $ ) : null;
 	},
 
+	/**
+	 * Gets elements list based on given tag name.
+	 *
+	 * @param {String} tagName The element tag name.
+	 * @returns {CKEDITOR.dom.nodeList} The nodes list.
+	 */
 	getElementsByTag: function( tagName, namespace ) {
 		if ( !( CKEDITOR.env.ie && !( document.documentMode > 8 ) ) && namespace )
 			tagName = namespace + ':' + tagName;
@@ -152,11 +191,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	},
 
 	/**
-	 * Gets the &lt;head&gt; element for this document.
-	 * @returns {CKEDITOR.dom.element} The &lt;head&gt; element.
-	 * @example
-	 * var element = <b>CKEDITOR.document.getHead()</b>;
-	 * alert( element.getName() );  // "head"
+	 * Gets the `<head>` element for this document.
+	 *
+	 *		var element = CKEDITOR.document.getHead();
+	 *		alert( element.getName() ); // 'head'
+	 *
+	 * @returns {CKEDITOR.dom.element} The `<head>` element.
 	 */
 	getHead: function() {
 		var head = this.$.getElementsByTagName( 'head' )[ 0 ];
@@ -169,11 +209,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	},
 
 	/**
-	 * Gets the &lt;body&gt; element for this document.
-	 * @returns {CKEDITOR.dom.element} The &lt;body&gt; element.
-	 * @example
-	 * var element = <b>CKEDITOR.document.getBody()</b>;
-	 * alert( element.getName() );  // "body"
+	 * Gets the `<body>` element for this document.
+	 *
+	 *		var element = CKEDITOR.document.getBody();
+	 *		alert( element.getName() ); // 'body'
+	 *
+	 * @returns {CKEDITOR.dom.element} The `<body>` element.
 	 */
 	getBody: function() {
 		return new CKEDITOR.dom.element( this.$.body );
@@ -181,6 +222,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 
 	/**
 	 * Gets the DOM document element for this document.
+	 *
 	 * @returns {CKEDITOR.dom.element} The DOM document element.
 	 */
 	getDocumentElement: function() {
@@ -189,6 +231,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 
 	/**
 	 * Gets the window object that holds this document.
+	 *
 	 * @returns {CKEDITOR.dom.window} The window object.
 	 */
 	getWindow: function() {
@@ -202,14 +245,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype,
 	/**
 	 * Defines the document contents through document.write. Note that the
 	 * previous document contents will be lost (cleaned).
+	 *
+	 *		document.write(
+	 *			'<html>' +
+	 *				'<head><title>Sample Doc</title></head>' +
+	 *				'<body>Document contents created by code</body>' +
+	 *			'</html>'
+	 *		);
+	 *
 	 * @since 3.5
 	 * @param {String} html The HTML defining the document contents.
-	 * @example
-	 * document.write(
-	 *     '&lt;html&gt;' +
-	 *         '&lt;head&gt;&lt;title&gt;Sample Doc&lt;/title&gt;&lt;/head&gt;' +
-	 *         '&lt;body&gt;Document contents created by code&lt;/body&gt;' +
-	 *      '&lt;/html&gt;' );
 	 */
 	write: function( html ) {
 		// Don't leave any history log in IE. (#5657)

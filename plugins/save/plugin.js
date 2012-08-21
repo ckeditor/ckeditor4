@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileSave plugin.
+ * @fileOverview Save plugin.
  */
 
 (function() {

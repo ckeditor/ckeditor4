@@ -110,47 +110,49 @@ CKEDITOR.plugins.add( 'devtools', {
 })();
 
 /**
- * A function that returns the text to be displayed inside the Developer Tools tooltip when hovering over a dialog UI element.
- * There are 4 parameters that are being passed into the function: editor, dialog window, element, tab name.
- * @name editor.config.devtools_textCallback
+ * A function that returns the text to be displayed inside the Developer Tools
+ * tooltip when hovering over a dialog UI element.
+ *
+ *		// This is actually the default value.
+ *		// Show dialog window name, tab ID, and element ID.
+ *		config.devtools_textCallback = function( editor, dialog, element, tabName ) {
+ *			var lang = editor.lang.devtools,
+ *				link = '<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.dialog.definition.' +
+ *					( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
+ *					'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
+ *				str =
+ *					'<h2>' + lang.title + '</h2>' +
+ *					'<ul>' +
+ *						'<li><strong>' + lang.dialogName + '</strong> : ' + dialog.getName() + '</li>' +
+ *						'<li><strong>' + lang.tabName + '</strong> : ' + tabName + '</li>';
+ *
+ *			if ( element )
+ *				str += '<li><strong>' + lang.elementId + '</strong> : ' + element.id + '</li>';
+ *
+ *			str += '<li><strong>' + lang.elementType + '</strong> : ' + link + '</li>';
+ *
+ *			return str + '</ul>';
+ *		};
+ *
  * @since 3.6
- * @type Function
- * @default (see example)
- * @example
- * // This is actually the default value.
- * // Show dialog window name, tab ID, and element ID.
- * config.devtools_textCallback = function( editor, dialog, element, tabName )
- * {
- * 	var lang = editor.lang.devtools,
- * 		link = '<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.dialog.definition.' +
- * 				( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
- * 				'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
- * 		str =
- * 			'<h2>' + lang.title + '</h2>' +
- * 			'<ul>' +
- * 				'<li><strong>' + lang.dialogName + '</strong> : ' + dialog.getName() + '</li>' +
- * 				'<li><strong>' + lang.tabName + '</strong> : ' + tabName + '</li>';
- *
- * 	if ( element )
- * 		str += '<li><strong>' + lang.elementId + '</strong> : ' + element.id + '</li>';
- *
- * 	str += '<li><strong>' + lang.elementType + '</strong> : ' + link + '</li>';
- *
- * 	return str + '</ul>';
- * }
+ * @cfg {Function} [devtools_textCallback=see example]
+ * @member CKEDITOR.config
+ * @param {CKEDITOR.editor} editor
+ * @param dialog
+ * @param element
+ * @param tabName
  */
 
 /**
  * A setting that stores CSS rules to be injected into the page with styles to be applied to the tooltip element.
- * @name CKEDITOR.config.devtools_styles
+ *
+ *		// This is actually the default value.
+ *		CKEDITOR.config.devtools_styles =
+ *			'#cke_tooltip { padding: 5px; border: 2px solid #333; background: #ffffff }' +
+ *			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
+ *			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }';
+ *
  * @since 3.6
- * @type String
- * @default (see example)
- * @example
- * // This is actually the default value.
- * CKEDITOR.config.devtools_styles = &quot;
- *  #cke_tooltip { padding: 5px; border: 2px solid #333; background: #ffffff }
- *  #cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }
- *  #cke_tooltip ul { padding: 0pt; list-style-type: none; }
- * &quot;;
+ * @cfg {String} [devtools_styles=see example]
+ * @member CKEDITOR.config
  */

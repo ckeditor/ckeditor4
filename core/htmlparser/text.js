@@ -6,14 +6,16 @@
 (function() {
 	/**
 	 * A lightweight representation of HTML text.
-	 * @constructor
-	 * @example
+	 *
+	 * @class
+	 * @constructor Creates a text class instance.
+	 * @param {String} value The text node value.
 	 */
 	CKEDITOR.htmlParser.text = function( value ) {
 		/**
 		 * The text value.
-		 * @type String
-		 * @example
+		 *
+		 * @property {String}
 		 */
 		this.value = value;
 
@@ -25,16 +27,18 @@
 
 	CKEDITOR.htmlParser.text.prototype = {
 		/**
-		 * The node type. This is a constant value set to {@link CKEDITOR.NODE_TEXT}.
-		 * @type Number
-		 * @example
+		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_TEXT}.
+		 *
+		 * @readonly
+		 * @property {Number} [=CKEDITOR.NODE_TEXT]
 		 */
 		type: CKEDITOR.NODE_TEXT,
 
 		/**
-		 * Writes the HTML representation of this text to a CKEDITOR.htmlWriter.
-		 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
-		 * @example
+		 * Writes the HTML representation of this text to a {CKEDITOR.htmlParser.basicWriter}.
+		 *
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
 		writeHtml: function( writer, filter ) {
 			var text = this.value;

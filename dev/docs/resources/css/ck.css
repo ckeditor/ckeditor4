@@ -1,0 +1,52 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+#header-content
+{
+	background-image: url( ../images/ckeditorLogo.png ) !important;
+	background-position: left center !important;
+}
+
+#container-1004
+{
+	top: 95px !important;
+}
+
+#north-region-innerCt,
+#north-region
+{
+	height: 95px !important;
+}
+
+#doctabs
+{
+	top: 67px !important;
+}
+
+#container-1001
+{
+	height: auto !important;
+}
+
+#header-content
+{
+	height: 50px !important;
+	line-height: 50px !important;
+	padding-left: 48px !important;
+	margin-left: 20px !important;
+	font-weight: bold !important;
+	font-size: 18px !important;
+	text-shadow: 0 1px 0 #000 !important;
+}
+
+#search-container
+{
+	top: 25px !important;
+}
+
+#search-field-inputEl
+{
+	line-height: 22px !important;
+}

@@ -10,17 +10,13 @@
 		return node.type == CKEDITOR.NODE_TEXT && node.getLength() > 0 && ( !isReplace || !node.isReadOnly() );
 	}
 
-	/**
-	 * Elements which break characters been considered as sequence.
-	 */
+	// Elements which break characters been considered as sequence.
 	function nonCharactersBoundary( node ) {
 		return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary( CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$empty, CKEDITOR.dtd.$nonEditable ) ) );
 	}
 
-	/**
-	 * Get the cursor object which represent both current character and it's dom
-	 * position thing.
-	 */
+	// Get the cursor object which represent both current character and it's dom
+	// position thing.
 	var cursorStep = function() {
 			return {
 				textNode: this.textNode,
@@ -37,10 +33,8 @@
 			[ 'txtFindWordChk', 'txtReplaceWordChk' ],
 			[ 'txtFindCyclic', 'txtReplaceCyclic' ] ];
 
-	/**
-	 * Synchronize corresponding filed values between 'replace' and 'find' pages.
-	 * @param {String} currentPageId	The page id which receive values.
-	 */
+	// Synchronize corresponding filed values between 'replace' and 'find' pages.
+	// @param {String} currentPageId	The page id which receive values.
 	function syncFieldsBetweenTabs( currentPageId ) {
 		var sourceIndex, targetIndex, sourceField, targetField;
 
@@ -66,13 +60,11 @@
 					return 0;
 				} }, editor.config.find_highlight, true ) );
 
-			/**
-			 * Iterator which walk through the specified range char by char. By
-			 * default the walking will not stop at the character boundaries, until
-			 * the end of the range is encountered.
-			 * @param { CKEDITOR.dom.range } range
-			 * @param {Boolean} matchWord Whether the walking will stop at character boundary.
-			 */
+			// Iterator which walk through the specified range char by char. By
+			// default the walking will not stop at the character boundaries, until
+			// the end of the range is encountered.
+			// @param { CKEDITOR.dom.range } range
+			// @param {Boolean} matchWord Whether the walking will stop at character boundary.
 			var characterWalker = function( range, matchWord ) {
 					var self = this;
 					var walker = new CKEDITOR.dom.walker( range );
@@ -145,6 +137,13 @@
 			/**
 			 * A range of cursors which represent a trunk of characters which try to
 			 * match, it has the same length as the pattern  string.
+			 *
+			 * **Note:** This class isn't accessible from global scope.
+			 *
+			 * @private
+			 * @class CKEDITOR.plugins.find.characterRange
+			 * @constructor Creates a characterRange class instance.
+			 * @private
 			 */
 			var characterRange = function( characterWalker, rangeLength ) {
 					this._ = {
@@ -158,7 +157,7 @@
 
 			characterRange.prototype = {
 				/**
-				 * Translate this range to {@link CKEDITOR.dom.range}
+				 * Translate this range to {@link CKEDITOR.dom.range}.
 				 */
 				toDomRange: function() {
 					var range = editor.createRange();
@@ -179,6 +178,7 @@
 
 					return range;
 				},
+
 				/**
 				 * Reflect the latest changes from dom range.
 				 */
@@ -331,9 +331,8 @@
 			var KMP_NOMATCH = 0,
 				KMP_ADVANCED = 1,
 				KMP_MATCHED = 2;
-			/**
-			 * Examination the occurrence of a word which implement KMP algorithm.
-			 */
+
+			// Examination the occurrence of a word which implement KMP algorithm.
 			var kmpMatcher = function( pattern, ignoreCase ) {
 					var overlap = [ -1 ];
 					if ( ignoreCase )
@@ -453,9 +452,7 @@
 					return false;
 				},
 
-				/**
-				 * Record how much replacement occurred toward one replacing.
-				 */
+				// Record how much replacement occurred toward one replacing.
 				replaceCounter: 0,
 
 				replace: function( dialog, pattern, newString, matchCase, matchWord, matchCyclic, isReplaceAll ) {
@@ -498,10 +495,8 @@
 				}
 			};
 
-			/**
-			 * The range in which find/replace happened, receive from user
-			 * selection prior.
-			 */
+			// The range in which find/replace happened, receive from user
+			// selection prior.
 			function getSearchRange( isDefault ) {
 				var searchRange,
 					sel = editor.getSelection(),

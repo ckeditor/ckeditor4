@@ -12,11 +12,19 @@
 
 	/**
 	 * Panel UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='panel']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_PANEL = 'panel';
 
+	/**
+	 * @class
+	 * @constructor Creates a panel class instance.
+	 * @param {CKEDITOR.dom.document} document
+	 * @param {Object} definition
+	 */
 	CKEDITOR.ui.panel = function( document, definition ) {
 		// Copy all definition properties to this object.
 		if ( definition )
@@ -38,12 +46,19 @@
 	};
 
 	/**
-	 * Transforms a rich combo definition in a {@link CKEDITOR.ui.richCombo}
-	 * instance.
-	 * @type Object
-	 * @example
+	 * Represents panel handler object.
+	 *
+	 * @class
+	 * @singleton
+	 * @extends CKEDITOR.ui.handlerDefinition
 	 */
 	CKEDITOR.ui.panel.handler = {
+		/**
+		 * Transforms a panel definition in a {@link CKEDITOR.ui.panel} instance.
+		 *
+		 * @param {Object} definition
+		 * @returns {CKEDITOR.ui.panel}
+		 */
 		create: function( definition ) {
 			return new CKEDITOR.ui.panel( definition );
 		}
@@ -64,14 +79,15 @@
 				' style="margin:0;padding:0" onload="{onload}"></body>' +
 		'<\/html>' );
 
+	/** @class CKEDITOR.ui.panel */
 	CKEDITOR.ui.panel.prototype = {
 		/**
 		 * Renders the combo.
+		 *
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
-		 *		to be used by.
+		 * to be used by.
 		 * @param {Array} [output] The output array to which append the HTML relative
-		 *		to this button.
-		 * @example
+		 * to this button.
 		 */
 		render: function( editor, output ) {
 			this.getHolderElement = function() {
@@ -161,6 +177,9 @@
 			return html;
 		},
 
+		/**
+		 * @todo
+		 */
 		addBlock: function( name, block ) {
 			block = this._.blocks[ name ] = block instanceof CKEDITOR.ui.panel.block ? block : new CKEDITOR.ui.panel.block( this.getHolderElement(), block );
 
@@ -170,10 +189,16 @@
 			return block;
 		},
 
+		/**
+		 * @todo
+		 */
 		getBlock: function( name ) {
 			return this._.blocks[ name ];
 		},
 
+		/**
+		 * @todo
+		 */
 		showBlock: function( name ) {
 			var blocks = this._.blocks,
 				block = blocks[ name ],
@@ -204,12 +229,26 @@
 			return block;
 		},
 
+		/**
+		 * @todo
+		 */
 		destroy: function() {
 			this.element && this.element.remove();
 		}
 	};
 
+	/**
+	 * @class
+	 *
+	 * @todo class and all methods
+	 */
 	CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
+		/**
+		 * Creates a block class instances.
+		 *
+		 * @constructor
+		 * @todo
+		 */
 		$: function( blockHolder, blockDefinition ) {
 			this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
 				attributes: {
@@ -325,8 +364,9 @@
 })();
 
 /**
- * Fired when a panel is added to the document
- * @name CKEDITOR#ariaWidget
- * @event
- * @param {Object} holder The element wrapping the panel
+ * Fired when a panel is added to the document.
+ *
+ * @event ariaWidget
+ * @member CKEDITOR
+ * @param {Object} holder The element wrapping the panel.
  */

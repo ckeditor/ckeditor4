@@ -108,16 +108,17 @@
 
 			/**
 			 * Amend the top of undo stack (last undo image) with the current DOM changes.
-			 * @name CKEDITOR.editor#updateUndo
-			 * @example
-			 * function()
-			 * {
-			 *  editor.fire( 'saveSnapshot' );
-			 * 	editor.document.body.append(...);
-			 *  // Make new changes following the last undo snapshot part of it.
-			 * 	editor.fire( 'updateSnapshot' );
-			 * ...
-			 * }
+			 *
+			 *		function() {
+			 *			editor.fire( 'saveSnapshot' );
+			 *			editor.document.body.append(...);
+			 *			// Make new changes following the last undo snapshot part of it.
+			 *			editor.fire( 'updateSnapshot' );
+			 *			..
+			 *		}
+			 *
+			 * @event updateSnapshot
+			 * @member CKEDITOR.editor
 			 */
 			editor.on( 'updateSnapshot', function() {
 				if ( undoManager.currentImage )
@@ -130,8 +131,12 @@
 
 	/**
 	 * Undo snapshot which represents the current document status.
-	 * @name CKEDITOR.plugins.undo.Image
-	 * @param editor The editor instance on which the image is created.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.Image
+	 * @constructor Creates an Image class instance.
+	 * @private
+	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
 	 */
 	var Image = CKEDITOR.plugins.undo.Image = function( editor ) {
 			this.editor = editor;
@@ -193,7 +198,15 @@
 	};
 
 	/**
-	 * @constructor Main logic for Redo/Undo feature.
+	 * Main logic for Redo/Undo feature.
+	 *
+	 * **Note:** This class isn't accessible from the global scope.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.UndoManager
+	 * @constructor Creates an UndoManager class instance.
+	 * @private
+	 * @param {CKEDITOR.editor} editor
 	 */
 	function UndoManager( editor ) {
 		this.editor = editor;
@@ -291,22 +304,18 @@
 
 		},
 
-		// Reset the undo stack.
+		/**
+		 * Reset the undo stack.
+		 */
 		reset: function() {
-			/**
-			 * Remember last pressed key.
-			 */
+			// Remember last pressed key.
 			this.lastKeystroke = 0;
 
-			/**
-			 * Stack for all the undo and redo snapshots, they're always created/removed
-			 * in consistency.
-			 */
+			// Stack for all the undo and redo snapshots, they're always created/removed
+			// in consistency.
 			this.snapshots = [];
 
-			/**
-			 * Current snapshot history index.
-			 */
+			// Current snapshot history index.
 			this.index = -1;
 
 			this.limit = this.editor.config.undoStackSize || 20;
@@ -324,7 +333,8 @@
 
 		/**
 		 * Reset all states about typing.
-		 * @see  UndoManager.type
+		 *
+		 * @see #type
 		 */
 		resetType: function() {
 			this.typing = false;
@@ -451,8 +461,8 @@
 
 		/**
 		 * Check the current redo state.
-		 * @return {Boolean} Whether the document has previous state to
-		 *		retrieve.
+		 *
+		 * @returns {Boolean} Whether the document has previous state to retrieve.
 		 */
 		redoable: function() {
 			return this.enabled && this.hasRedo;
@@ -460,7 +470,8 @@
 
 		/**
 		 * Check the current undo state.
-		 * @return {Boolean} Whether the document has future state to restore.
+		 *
+		 * @returns {Boolean} Whether the document has future state to restore.
 		 */
 		undoable: function() {
 			return this.enabled && this.hasUndo;
@@ -515,36 +526,39 @@
 /**
  * The number of undo steps to be saved. The higher this setting value the more
  * memory is used for it.
- * @name CKEDITOR.config.undoStackSize
- * @type Number
- * @default 20
- * @example
- * config.undoStackSize = 50;
+ *
+ *		config.undoStackSize = 50;
+ *
+ * @cfg {Number} [undoStackSize=20]
+ * @member CKEDITOR.config
  */
 
 /**
  * Fired when the editor is about to save an undo snapshot. This event can be
  * fired by plugins and customizations to make the editor saving undo snapshots.
- * @name CKEDITOR.editor#saveSnapshot
- * @event
+ *
+ * @event saveSnapshot
+ * @member CKEDITOR.editor
  */
 
 /**
  * Fired before an undo image is to be taken. An undo image represents the
  * editor state at some point. It's saved into an undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
- * @name CKEDITOR.editor#beforeUndoImage
+ *
  * @since 3.5.3
+ * @event beforeUndoImage
+ * @member CKEDITOR.editor
  * @see CKEDITOR.editor#afterUndoImage
- * @event
  */
 
 /**
  * Fired after an undo image is taken. An undo image represents the
  * editor state at some point. It's saved into an undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
- * @name CKEDITOR.editor#afterUndoImage
+ *
  * @since 3.5.3
+ * @event afterUndoImage
+ * @member CKEDITOR.editor
  * @see CKEDITOR.editor#beforeUndoImage
- * @event
  */

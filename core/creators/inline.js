@@ -4,18 +4,21 @@
  */
 
 (function() {
+	/** @class CKEDITOR */
+
 	/**
-	 * Turn a DOM element with "contenteditable" attribute set to "true" into a
-	 * CKEditor instance, check {@link CKEDITOR.dtd.$editable } for the list of
+	 * Turn a DOM element with `contenteditable` attribute set to `true` into a
+	 * CKEditor instance, check {@link CKEDITOR.dtd#$editable} for the list of
 	 * allowed element names.
 	 *
-	 * @param {Object|String} element The DOM element (textarea), its ID or name.
-	 * @param {Object} [config] The specific configurations to apply to this editor instance.
+	 *		<div contenteditable="true" id="content"></textarea>
+	 *		...
+	 *		CKEDITOR.inline( 'content' );
+	 *
+	 * @param {Object/String} element The DOM element (`<textarea>`), its ID or name.
+	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
+	 * See {@link CKEDITOR.config}.
 	 * @returns {CKEDITOR.editor} The editor instance created.
-	 * @example
-	 * &lt;div contenteditable="true" id="content"&gt;&lt:/textarea&gt;
-	 * ...
-	 * <b>CKEDITOR.inline( 'content' )</b>;
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		if ( !CKEDITOR.env.isCompatible )
@@ -72,7 +75,9 @@
 	};
 
 	/**
-	 * Call {@link CKEDITOR.inline} with all page elements with "contenteditable" attribute set to "true".
+	 * Call {@link CKEDITOR#inline} with all page elements with
+	 * `contenteditable` attribute set to `true`.
+	 *
 	 */
 	CKEDITOR.inlineAll = function() {
 		var el, data;
@@ -104,10 +109,10 @@
 
 
 /**
- * Avoid creating editor automatically on element which has attribute "contenteditable" set to the value "true".
- * @name CKEDITOR.disableAutoInline
- * @type Boolean
- * @default false
- * @example
- * <b>CKEDITOR.disableAutoInline</b> = true;
+ * Avoid creating editor automatically on element which has attribute
+ * `contenteditable` set to the value `true`.
+ *
+ *		CKEDITOR.disableAutoInline = true;
+ *
+ * @cfg {Boolean} [disableAutoInline=false]
  */

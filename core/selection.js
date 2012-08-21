@@ -165,6 +165,11 @@
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
 
+		/**
+		 * @event selectionChange
+		 * @member CKEDITOR.editor
+		 * @todo
+		 */
 		editor.define( 'selectionChange', { errorProof:1 } );
 
 		editor.on( 'contentDom', function() {
@@ -399,8 +404,13 @@
 	});
 
 	/**
-	 * Check the selection change in editor and potentially fires the {@link CKEDITOR.editor#selectionChange} event.
-	 * @param [checkNow=false] {Boolean} Force the check to happen immediately instead of coming with a timeout delay (default).
+	 * Check the selection change in editor and potentially fires
+	 * the {@link CKEDITOR.editor#event-selectionChange} event.
+	 *
+	 * @method
+	 * @member CKEDITOR.editor
+	 * @param {Boolean} [checkNow=false] Force the check to happen immediately
+	 * instead of coming with a timeout delay (default).
 	 */
 	CKEDITOR.editor.prototype.selectionChange = function( checkNow ) {
 		( checkNow ? checkSelectionChange : checkSelectionChangeTimeout ).call( this );
@@ -408,14 +418,20 @@
 
 	/**
 	 * Retrieve the editor selection in scope of  editable element.
-	 * 	<strong>Note:</strong> Since the native browser selection provides only one single selection at a time per document,
-	 * 	so if editor's editable element has lost focus, this method will return a null value unless the  <code>#lockSelection</code>
-	 * 	has been called beforehand so the saved selection is retrieved.
 	 *
+	 * **Note:** Since the native browser selection provides only one single
+	 * selection at a time per document, so if editor's editable element has lost focus,
+	 * this method will return a null value unless the {@link CKEDITOR.editor#lockSelection}
+	 * has been called beforehand so the saved selection is retrieved.
+	 *
+	 *		var selection = CKEDITOR.instances.editor1.getSelection();
+	 *		alert( selection.getType() );
+	 *
+	 * @method
+	 * @member CKEDITOR.editor
+	 * @param {Boolean} forceRealSelection
 	 * @returns {CKEDITOR.dom.selection} A selection object or null if not available for the moment.
-	 * @example
-	 * var selection = CKEDITOR.instances.editor1.<strong>getSelection()</strong>;
-	 * alert( selection.getType() );
+	 * @todo param
 	 */
 	CKEDITOR.editor.prototype.getSelection = function( forceRealSelection ) {
 		// Check if there exists a locked selection.
@@ -430,8 +446,12 @@
 	/**
 	 * Locks the selection made in the editor in order to make it possible to
 	 * manipulate it without browser interference. A locked selection is
-	 * cached and remains unchanged until it is released with the <code>#unlockSelection</code>
-	 * method.
+	 * cached and remains unchanged until it is released with the
+	 * {@link CKEDITOR.editor#unlockSelection} method.
+	 *
+	 * @method
+	 * @member CKEDITOR.editor
+	 * @returns {Boolean} `true` if selection was locked.
 	 */
 	CKEDITOR.editor.prototype.lockSelection = function() {
 		if ( !this._.savedSelection ) {
@@ -448,9 +468,15 @@
 	};
 
 	/**
-	 * Unlocks the selection made in the editor and locked with the <code>#lockSelection</code> method,
-	 * An unlocked selection is no longer cached and can be changed.
-	 * @param {Boolean} [restore] If set to <code>true</code>, the selection is restored back to the selection saved earlier by using the <code>#lock</code> method.
+	 * Unlocks the selection made in the editor and locked with the
+	 * {@link CKEDITOR.editor#unlockSelection} method. An unlocked selection
+	 * is no longer cached and can be changed.
+	 *
+	 * @method
+	 * @member CKEDITOR.editor
+	 * @param {Boolean} [restore] If set to `true`, the selection is
+	 * restored back to the selection saved earlier by using the
+	 * {@link CKEDITOR.dom.selection#lock} method.
 	 */
 	CKEDITOR.editor.prototype.unlockSelection = function( restore ) {
 		var sel = this._.savedSelection;
@@ -463,23 +489,34 @@
 		return false;
 	};
 
+	/**
+	 * @method
+	 * @member CKEDITOR.editor
+	 * @todo
+	 */
 	CKEDITOR.editor.prototype.forceNextSelectionCheck = function() {
 		delete this._.selectionPreviousPath;
 	};
 
 	/**
 	 * Gets the current selection in context of the document's body element.
+	 *
+	 *		var selection = CKEDITOR.instances.editor1.document.getSelection();
+	 *		alert( selection.getType() );
+	 *
+	 * @method
+	 * @member CKEDITOR.dom.document
 	 * @returns {CKEDITOR.dom.selection} A selection object.
-	 * @example
-	 * var selection = CKEDITOR.instances.editor1.document.<strong>getSelection()</strong>;
-	 * alert( selection.getType() );
 	 */
 	CKEDITOR.dom.document.prototype.getSelection = function() {
 		return new CKEDITOR.dom.selection( this );
 	};
 
 	/**
-	 * Select this range as the only one with {@link CKEDITOR.dom.selection.prototype.selectRanges}.
+	 * Select this range as the only one with {@link CKEDITOR.dom.selection#selectRanges}.
+	 *
+	 * @method
+	 * @member CKEDITOR.dom.range
 	 */
 	CKEDITOR.dom.range.prototype.select = function() {
 		var sel = this.root instanceof CKEDITOR.editable ? this.root.editor.getSelection() : new CKEDITOR.dom.selection( this.root );
@@ -489,38 +526,50 @@
 
 	/**
 	 * No selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
-	 *     alert( 'Nothing is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_NONE )
+	 *			alert( 'Nothing is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_NONE = 1;
 
 	/**
 	 * A text or a collapsed selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
-	 *     alert( 'A text is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
+	 *			alert( 'A text is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_TEXT = 2;
 
 	/**
 	 * Element selection.
-	 * @constant
-	 * @example
-	 * if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
-	 *     alert( 'An element is selected' );
+	 *
+	 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT )
+	 *			alert( 'An element is selected' );
+	 *
+	 * @readonly
+	 * @property {Number} [=3]
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 
 	/**
-	 * Manipulates the selection within a DOM element, if the current browser selection spans outside of the element,
-	 * an empty selection object is returned.
-	 * @constructor
-	 * @param {CKEDITOR.dom.document} target The DOM document/element that the DOM selection is restrained to, only selection spans within the target element is considered as valid.
-	 * @example
-	 * var sel = new <strong>CKEDITOR.dom.selection( CKEDITOR.document )</strong>;
+	 * Manipulates the selection within a DOM element, if the current browser selection
+	 * spans outside of the element, an empty selection object is returned.
+	 *
+	 *		var sel = new CKEDITOR.dom.selection( CKEDITOR.document );
+	 *
+	 * @class
+	 * @constructor Creates a selection class instance.
+	 * @param {CKEDITOR.dom.document} target The DOM document/element that the DOM selection
+	 * is restrained to, only selection spans within the target element is considered as valid.
 	 */
 	CKEDITOR.dom.selection = function( target ) {
 		var isElement = target instanceof CKEDITOR.dom.element;
@@ -547,7 +596,7 @@
 			}
 		}
 
-		/* Check whether browser focus is really inside of the editable element. */
+		// Check whether browser focus is really inside of the editable element.
 
 		var nativeSel = this.getNative(),
 			rangeParent;
@@ -583,10 +632,10 @@
 	CKEDITOR.dom.selection.prototype = {
 		/**
 		 * Gets the native selection object from the browser.
-		 * @function
+		 *
+		 *		var selection = editor.getSelection().getNative();
+		 *
 		 * @returns {Object} The native browser selection object.
-		 * @example
-		 * var selection = editor.getSelection().<strong>getNative()</strong>;
 		 */
 		getNative: function() {
 			if ( this._.cache.nativeSel !== undefined )
@@ -598,20 +647,19 @@
 		/**
 		 * Gets the type of the current selection. The following values are
 		 * available:
-		 * <ul>
-		 *		<li><code>{@link CKEDITOR.SELECTION_NONE}</code> (1): No selection.</li>
-		 *		<li><code>{@link CKEDITOR.SELECTION_TEXT}</code> (2): A text or a collapsed
-		 *			selection is selected.</li>
-		 *		<li><code>{@link CKEDITOR.SELECTION_ELEMENT}</code> (3): An element is
-		 *			selected.</li>
-		 * </ul>
-		 * @function
-		 * @returns {Number} One of the following constant values:
-		 *		<code>{@link CKEDITOR.SELECTION_NONE}</code>, <code>{@link CKEDITOR.SELECTION_TEXT}</code>, or
-		 *		<code>{@link CKEDITOR.SELECTION_ELEMENT}</code>.
-		 * @example
-		 * if ( editor.getSelection().<strong>getType()</strong> == CKEDITOR.SELECTION_TEXT )
-		 *     alert( 'A text is selected' );
+		 *
+		 * * {@link CKEDITOR#SELECTION_NONE}</code> (1): No selection.
+		 * * {@link CKEDITOR#SELECTION_TEXT}</code> (2): A text or a collapsed selection is selected.
+		 * * {@link CKEDITOR#SELECTION_ELEMENT}</code> (3): An element is selected.
+		 *
+		 * Example:
+		 *
+		 *		if ( editor.getSelection().getType() == CKEDITOR.SELECTION_TEXT )
+		 *			alert( 'A text is selected' );
+		 *
+		 * @method
+		 * @returns {Number} One of the following constant values: {@link CKEDITOR#SELECTION_NONE},
+		 * {@link CKEDITOR#SELECTION_TEXT} or {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
 		getType: CKEDITOR.env.ie ?
 		function() {
@@ -667,15 +715,17 @@
 		},
 
 		/**
-		 * Retrieves the <code>{@link CKEDITOR.dom.range}</code> instances that represent the current selection.
+		 * Retrieves the {@link CKEDITOR.dom.range} instances that represent the current selection.
+		 *
 		 * Note: Some browsers return multiple ranges even for a continuous selection. Firefox, for example, returns
 		 * one range for each table cell when one or more table rows are selected.
-		 * @function
-		 * @param {Boolean} [onlyEditables] If set to <code>true</code>, this function retrives editable ranges only.
-		 * @return {Array} Range instances that represent the current selection.
-		 * @example
-		 * var ranges = selection.<strong>getRanges()</strong>;
-		 * alert( ranges.length );
+		 *
+		 *		var ranges = selection.getRanges();
+		 *		alert( ranges.length );
+		 *
+		 * @method
+		 * @param {Boolean} [onlyEditables] If set to `true`, this function retrives editable ranges only.
+		 * @returns {Array} Range instances that represent the current selection.
 		 */
 		getRanges: (function() {
 			var func = CKEDITOR.env.ie ? ( function() {
@@ -976,11 +1026,11 @@
 
 		/**
 		 * Gets the DOM element in which the selection starts.
-		 * @returns {CKEDITOR.dom.element} The element at the beginning of the
-		 *		selection.
-		 * @example
-		 * var element = editor.getSelection().<strong>getStartElement()</strong>;
-		 * alert( element.getName() );
+		 *
+		 *		var element = editor.getSelection().getStartElement();
+		 *		alert( element.getName() );
+		 *
+		 * @returns {CKEDITOR.dom.element} The element at the beginning of the selection.
 		 */
 		getStartElement: function() {
 			var cache = this._.cache;
@@ -1045,12 +1095,12 @@
 
 		/**
 		 * Gets the currently selected element.
+		 *
+		 *		var element = editor.getSelection().getSelectedElement();
+		 *		alert( element.getName() );
+		 *
 		 * @returns {CKEDITOR.dom.element} The selected element. Null if no
-		 *		selection is available or the selection type is not
-		 *		<code>{@link CKEDITOR.SELECTION_ELEMENT}</code>.
-		 * @example
-		 * var element = editor.getSelection().<strong>getSelectedElement()</strong>;
-		 * alert( element.getName() );
+		 * selection is available or the selection type is not {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
 		getSelectedElement: function() {
 			var cache = this._.cache;
@@ -1144,11 +1194,12 @@
 
 		/**
 		 * Retrieves the text contained within the range. An empty string is returned for non-text selection.
-		 * @returns {String} A string of text within the current selection.
+		 *
+		 *		var text = editor.getSelection().getSelectedText();
+		 *		alert( text );
+		 *
 		 * @since 3.6.1
-		 * @example
-		 * var text = editor.getSelection().<strong>getSelectedText()</strong>;
-		 * alert( text );
+		 * @returns {String} A string of text within the current selection.
 		 */
 		getSelectedText: function() {
 			var cache = this._.cache;
@@ -1164,10 +1215,9 @@
 		/**
 		 * Locks the selection made in the editor in order to make it possible to
 		 * manipulate it without browser interference. A locked selection is
-		 * cached and remains unchanged until it is released with the <code>#unlock</code>
-		 * method.
-		 * @example
-		 * editor.getSelection().<strong>lock()</strong>;
+		 * cached and remains unchanged until it is released with the {@link #unlock} method.
+		 *
+		 *		editor.getSelection().lock();
 		 */
 		lock: function() {
 			// Call all cacheable function.
@@ -1182,6 +1232,9 @@
 			this.isLocked = 1;
 		},
 
+		/**
+		 * @todo
+		 */
 		unlock: function( restore ) {
 			if ( !this.isLocked )
 				return;
@@ -1204,19 +1257,20 @@
 
 		/**
 		 * Clears the selection cache.
-		 * @example
-		 * editor.getSelection().<strong>reset()</strong>;
+		 *
+		 *		editor.getSelection().reset();
 		 */
 		reset: function() {
 			this._.cache = {};
 		},
 
 		/**
-		 * Makes the current selection of type <code>{@link CKEDITOR.SELECTION_ELEMENT}</code> by enclosing the specified element.
+		 * Makes the current selection of type {@link CKEDITOR#SELECTION_ELEMENT} by enclosing the specified element.
+		 *
+		 *		var element = editor.document.getById( 'sampleElement' );
+		 *		editor.getSelection.selectElement( element );
+		 *
 		 * @param {CKEDITOR.dom.element} element The element to enclose in the selection.
-		 * @example
-		 * var element = editor.document.getById( 'sampleElement' );
-		 * editor.getSelection.<strong>selectElement( element )</strong>;
 		 */
 		selectElement: function( element ) {
 			var range = new CKEDITOR.dom.range( this.root );
@@ -1226,12 +1280,13 @@
 		},
 
 		/**
-		 *  Clears the original selection and adds the specified ranges
-		 * to the document selection.
-		 * @param {Array} ranges An array of <code>{@link CKEDITOR.dom.range}</code> instances representing ranges to be added to the document.
-		 * @example
-		 * var ranges = new CKEDITOR.dom.range( editor.document );
-		 * editor.getSelection().<strong>selectRanges( [ ranges ] )</strong>;
+		 * Clears the original selection and adds the specified ranges to the document selection.
+		 *
+		 *		var ranges = new CKEDITOR.dom.range( editor.document );
+		 *		editor.getSelection().selectRanges( [ ranges ] );
+		 *
+		 * @param {Array} ranges An array of {@link CKEDITOR.dom.range} instances
+		 * representing ranges to be added to the document.
 		 */
 		selectRanges: function( ranges ) {
 			if ( !ranges.length )
@@ -1456,38 +1511,41 @@
 		},
 
 		/**
-		 *  Creates a bookmark for each range of this selection (from <code>#getRanges</code>)
-		 * by calling the <code>{@link CKEDITOR.dom.range.prototype.createBookmark}</code> method,
+		 * Creates a bookmark for each range of this selection (from {@link #getRanges})
+		 * by calling the {@link CKEDITOR.dom.range#createBookmark} method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
 		 * received are the same as with the underlying range method.
+		 *
+		 *		var bookmarks = editor.getSelection().createBookmarks();
+		 *
 		 * @returns {Array} Array of bookmarks for each range.
-		 * @example
-		 * var bookmarks = editor.getSelection().<strong>createBookmarks()</strong>;
 		 */
 		createBookmarks: function( serializable ) {
 			return this.getRanges().createBookmarks( serializable );
 		},
 
 		/**
-		 *  Creates a bookmark for each range of this selection (from <code>#getRanges</code>)
-		 * by calling the <code>{@link CKEDITOR.dom.range.prototype.createBookmark2}</code> method,
+		 * Creates a bookmark for each range of this selection (from {@link #getRanges})
+		 * by calling the {@link CKEDITOR.dom.range#createBookmark2} method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
 		 * received are the same as with the underlying range method.
+		 *
+		 *		var bookmarks = editor.getSelection().createBookmarks2();
+		 *
 		 * @returns {Array} Array of bookmarks for each range.
-		 * @example
-		 * var bookmarks = editor.getSelection().<strong>createBookmarks2()</strong>;
 		 */
 		createBookmarks2: function( normalized ) {
 			return this.getRanges().createBookmarks2( normalized );
 		},
 
 		/**
-		 * Selects the virtual ranges denoted by the bookmarks by calling <code>#selectRanges</code>.
+		 * Selects the virtual ranges denoted by the bookmarks by calling {@link #selectRanges}.
+		 *
+		 *		var bookmarks = editor.getSelection().createBookmarks();
+		 *		editor.getSelection().selectBookmarks( bookmarks );
+		 *
 		 * @param {Array} bookmarks The bookmarks representing ranges to be selected.
 		 * @returns {CKEDITOR.dom.selection} This selection object, after the ranges were selected.
-		 * @example
-		 * var bookmarks = editor.getSelection().createBookmarks();
-		 * editor.getSelection().<strong>selectBookmarks( bookmarks )</strong>;
 		 */
 		selectBookmarks: function( bookmarks ) {
 			var ranges = [];
@@ -1502,9 +1560,10 @@
 
 		/**
 		 * Retrieves the common ancestor node of the first range and the last range.
+		 *
+		 *		var ancestor = editor.getSelection().getCommonAncestor();
+		 *
 		 * @returns {CKEDITOR.dom.element} The common ancestor of the selection.
-		 * @example
-		 * var ancestor = editor.getSelection().<strong>getCommonAncestor()</strong>;
 		 */
 		getCommonAncestor: function() {
 			var ranges = this.getRanges(),
@@ -1515,8 +1574,8 @@
 
 		/**
 		 * Moves the scrollbar to the starting position of the current selection.
-		 * @example
-		 * editor.getSelection().<strong>scrollIntoView()</strong>;
+		 *
+		 *		editor.getSelection().scrollIntoView();
 		 */
 		scrollIntoView: function() {
 

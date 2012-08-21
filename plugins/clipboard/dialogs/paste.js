@@ -216,7 +216,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 });
 
 /**
- * Internal event to pass dialog's data to the listeners.
- * @name CKEDITOR.editor#pasteDialogCommit
- * @event
+ * Internal event to pass paste dialog's data to the listeners.
+ *
+ * @private
+ * @event pasteDialogCommit
+ * @member CKEDITOR.editor
  */

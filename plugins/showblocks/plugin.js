@@ -159,11 +159,10 @@
 })();
 
 /**
- * Whether to automaticaly enable the "show block" command when the editor
- * loads. (StartupShowBlocks in FCKeditor)
- * @name CKEDITOR.config.startupOutlineBlocks
- * @type Boolean
- * @default false
- * @example
- * config.startupOutlineBlocks = true;
+ * Whether to automaticaly enable the show block" command when the editor loads.
+ *
+ *		config.startupOutlineBlocks = true;
+ *
+ * @cfg {Boolean} [startupOutlineBlocks=false]
+ * @member CKEDITOR.config
  */

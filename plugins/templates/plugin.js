@@ -55,25 +55,24 @@
 
 /**
  * The templates definition set to use. It accepts a list of names separated by
- * comma. It must match definitions loaded with the templates_files setting.
- * @type String
- * @default 'default'
- * @name CKEDITOR.config.templates
- * @example
- * config.templates = 'my_templates';
+ * comma. It must match definitions loaded with the {@link #templates_files} setting.
+ *
+ *		config.templates = 'my_templates';
+ *
+ * @cfg {String} [templates='default']
+ * @member CKEDITOR.config
  */
 
 /**
  * The list of templates definition files to load.
- * @type (String) Array
- * @default [ 'plugins/templates/templates/default.js' ]
- * @example
- * config.templates_files =
- *     [
- *         '/editor_templates/site_default.js',
- *         'http://www.example.com/user_templates.js
- *     ];
  *
+ *		config.templates_files = [
+ *			'/editor_templates/site_default.js',
+ *			'http://www.example.com/user_templates.js
+ *		];
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.templates_files = [
 	CKEDITOR.getUrl( 'plugins/templates/templates/default.js' )
@@ -82,9 +81,10 @@ CKEDITOR.config.templates_files = [
 /**
  * Whether the "Replace actual contents" checkbox is checked by default in the
  * Templates dialog.
- * @type Boolean
- * @default true
- * @example
- * config.templates_replaceContent = false;
+ *
+ *		config.templates_replaceContent = false;
+ *
+ * @cfg
+ * @member CKEDITOR.config
  */
 CKEDITOR.config.templates_replaceContent = true;

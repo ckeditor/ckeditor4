@@ -32,7 +32,7 @@
 	if ( CKEDITOR.env.hc )
 		CKEDITOR.env.cssClass += ' cke_hc';
 
-	/* Initially hide UI spaces when relevant skins are loading, later restored by skin css. */
+	// Initially hide UI spaces when relevant skins are loading, later restored by skin css.
 	CKEDITOR.document.appendStyleText( '.cke{visibility:hidden;}' );
 
 	// Mark the editor as fully loaded.
@@ -64,14 +64,17 @@ if ( CKEDITOR.env.ie ) {
 
 /**
  * Indicates that CKEditor is running on a High Contrast environment.
- * @name CKEDITOR.env.hc
- * @example
- * if ( CKEDITOR.env.hc )
- *     alert( 'You're running on High Contrast mode. The editor interface will get adapted to provide you a better experience.' );
+ *
+ *		if ( CKEDITOR.env.hc )
+ *			alert( 'You\'re running on High Contrast mode. The editor interface will get adapted to provide you a better experience.' );
+ *
+ * @property {Boolean} hc
+ * @member CKEDITOR.env
  */
 
 /**
  * Fired when a CKEDITOR core object is fully loaded and ready for interaction.
- * @name CKEDITOR#loaded
- * @event
+ *
+ * @event loaded
+ * @member CKEDITOR
  */

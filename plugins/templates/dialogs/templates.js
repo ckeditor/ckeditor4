@@ -55,10 +55,8 @@
 			return item;
 		}
 
-		/**
-		 * Insert the specified template content into editor.
-		 * @param {Number} index
-		 */
+		// Insert the specified template content into editor.
+		// @param {Number} index
 		function insertTemplate( html ) {
 			var dialog = CKEDITOR.dialog.getCurrent(),
 				isReplace = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );

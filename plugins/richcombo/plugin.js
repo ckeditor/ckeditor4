@@ -52,11 +52,17 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	/**
 	 * Button UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='richcombo']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_RICHCOMBO = 'richcombo';
 
+	/**
+	 * @class
+	 * @todo
+	 */
 	CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
 		$: function( definition ) {
 			// Copy all definition properties to this object.
@@ -89,14 +95,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 				items: {},
 				state: CKEDITOR.TRISTATE_OFF
 			};
-		},
-
-		statics: {
-			handler: {
-				create: function( definition ) {
-					return new CKEDITOR.ui.richCombo( definition );
-				}
-			}
 		},
 
 		proto: {
@@ -339,9 +337,36 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				this._.state = state;
 			}
+		},
+
+		/**
+		 * Represents richCombo handler object.
+		 *
+		 * @class CKEDITOR.ui.richCombo.handler
+		 * @singleton
+		 * @extends CKEDITOR.ui.handlerDefinition
+		 */
+		statics: {
+			handler: {
+				/**
+				 * Transforms a richCombo definition in a {@link CKEDITOR.ui.richCombo} instance.
+				 *
+				 * @param {Object} definition
+				 * @returns {CKEDITOR.ui.richCombo}
+				 */
+				create: function( definition ) {
+					return new CKEDITOR.ui.richCombo( definition );
+				}
+			}
 		}
 	});
 
+	/**
+	 * @member CKEDITOR.ui
+	 * @param {String}
+	 * @param {Object} definition
+	 * @todo
+	 */
 	CKEDITOR.ui.prototype.addRichCombo = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_RICHCOMBO, definition );
 	};

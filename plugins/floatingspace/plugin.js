@@ -187,45 +187,45 @@
 })();
 
 /**
- * Along with {@link CKEDITOR.config.floatSpaceDockedOffsetY} it defines the
+ * Along with {@link #floatSpaceDockedOffsetY} it defines the
  * amount of offset (in pixels) between float space and the editable left/right
  * boundaries when space element is docked at either side of the editable.
- * @name CKEDITOR.config.floatSpaceDockedOffsetX
- * @type Number
- * @default 0
- * @example
- * config.floatSpaceDockedOffsetX = 10;
+ *
+ *		config.floatSpaceDockedOffsetX = 10;
+ *
+ * @cfg {Number} [floatSpaceDockedOffsetX=0]
+ * @member CKEDITOR.config
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpaceDockedOffsetX} it defines the
+ * Along with {@link #floatSpaceDockedOffsetX} it defines the
  * amount of offset (in pixels) between float space and the editable top/bottom
  * boundaries when space element is docked at either side of the editable.
- * @name CKEDITOR.config.floatSpaceDockedOffsetY
- * @type Number
- * @default 0
- * @example
+ *
  * config.floatSpaceDockedOffsetY = 10;
+ *
+ * @cfg {Number} [floatSpaceDockedOffsetY=0]
+ * @member CKEDITOR.config
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpacePinnedOffsetY} it defines the
+ * Along with {@link #floatSpacePinnedOffsetY} it defines the
  * amount of offset (in pixels) between float space and the view port boundaries
  * when space element is pinned.
- * @name CKEDITOR.config.floatSpacePinnedOffsetX
- * @type Number
- * @default 10
- * @example
- * config.floatSpacePinnedOffsetX = 20;
+ *
+ *		config.floatSpacePinnedOffsetX = 20;
+ *
+ * @cfg {Number} [floatSpacePinnedOffsetX=10]
+ * @member CKEDITOR.config
  */
 
 /**
- * Along with {@link CKEDITOR.config.floatSpacePinnedOffsetX} it defines the
+ * Along with {@link #floatSpacePinnedOffsetX} it defines the
  * amount of offset (in pixels) between float space and the view port boundaries
  * when space element is pinned.
- * @name CKEDITOR.config.floatSpacePinnedOffsetY
- * @type Number
- * @default 0
- * @example
- * config.floatSpacePinnedOffsetY = 20;
+ *
+ *		config.floatSpacePinnedOffsetY = 20;
+ *
+ * @cfg {Number} [floatSpacePinnedOffsetY=0]
+ * @member CKEDITOR.config
  */

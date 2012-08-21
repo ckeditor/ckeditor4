@@ -954,7 +954,9 @@
 /**
  * Create a two-dimension array that reflects the actual layout of table cells,
  * with cell spans, with mappings to the original td elements.
- * @param table {CKEDITOR.dom.element}
+ *
+ * @param {CKEDITOR.dom.element} table
+ * @member CKEDITOR.tools
  */
 CKEDITOR.tools.buildTableMap = function( table ) {
 	var aRows = table.$.rows;

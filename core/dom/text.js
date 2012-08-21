@@ -10,17 +10,19 @@
 
 /**
  * Represents a DOM text node.
- * @constructor
- * @augments CKEDITOR.dom.node
- * @param {Object|String} text A native DOM text node or a string containing
- *		the text to use to create a new text node.
+ *
+ *		var nativeNode = document.createTextNode( 'Example' );
+ *		var text = CKEDITOR.dom.text( nativeNode );
+ *
+ *		var text = CKEDITOR.dom.text( 'Example' );
+ *
+ * @class
+ * @extends CKEDITOR.dom.node
+ * @constructor Creates a text class instance.
+ * @param {Object/String} text A native DOM text node or a string containing
+ * the text to use to create a new text node.
  * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
- *		the node in case of new node creation. Defaults to the current document.
- * @example
- * var nativeNode = document.createTextNode( 'Example' );
- * var text = CKEDITOR.dom.text( nativeNode );
- * @example
- * var text = CKEDITOR.dom.text( 'Example' );
+ * the node in case of new node creation. Defaults to the current document.
  */
 CKEDITOR.dom.text = function( text, ownerDocument ) {
 	if ( typeof text == 'string' )
@@ -32,37 +34,44 @@ CKEDITOR.dom.text = function( text, ownerDocument ) {
 	// work for text nodes (which is not a big issue for us).
 	//
 	// CKEDITOR.dom.domObject.call( this, element );
-	/**
-	 * The native DOM text node represented by this class instance.
-	 * @type Object
-	 * @example
-	 * var element = new CKEDITOR.dom.text( 'Example' );
-	 * alert( element.$.nodeType );  // "3"
-	 */
+
 	this.$ = text;
 };
 
 CKEDITOR.dom.text.prototype = new CKEDITOR.dom.node();
 
-CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
-/** @lends CKEDITOR.dom.text.prototype */
-{
+CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	/**
-	 * The node type. This is a constant value set to
-	 * {@link CKEDITOR.NODE_TEXT}.
-	 * @type Number
-	 * @example
+	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_TEXT}.
+	 *
+	 * @readonly
+	 * @property {Number} [=CKEDITOR.NODE_TEXT]
 	 */
 	type: CKEDITOR.NODE_TEXT,
 
+	/**
+	 * Gets length of node's value.
+	 *
+	 * @returns {Number}
+	 */
 	getLength: function() {
 		return this.$.nodeValue.length;
 	},
 
+	/**
+	 * Gets node's value.
+	 *
+	 * @returns {String}
+	 */
 	getText: function() {
 		return this.$.nodeValue;
 	},
 
+	/**
+	 * Sets node's value.
+	 *
+	 * @param {String} text
+	 */
 	setText: function( text ) {
 		this.$.nodeValue = text;
 	},
@@ -74,6 +83,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
 	 * inserted as the next sibling of this node, contains all the content
 	 * at and after the offset point. When the offset is equal to the
 	 * length of this node, the new node has no data.
+	 *
 	 * @param {Number} The position at which to split, starting from zero.
 	 * @returns {CKEDITOR.dom.text} The new text node.
 	 */
@@ -111,11 +121,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype,
 	},
 
 	/**
-	 * Extracts characters from indexA up to but not including indexB.
-	 * @param {Number} indexA An integer between 0 and one less than the
-	 *		length of the text.
-	 * @param {Number} [indexB] An integer between 0 and the length of the
-	 *		string. If omitted, extracts characters to the end of the text.
+	 * Extracts characters from indexA up to but not including `indexB`.
+	 *
+	 * @param {Number} indexA An integer between `0` and one less than the
+	 * length of the text.
+	 * @param {Number} [indexB] An integer between `0` and the length of the
+	 * string. If omitted, extracts characters to the end of the text.
 	 */
 	substring: function( indexA, indexB ) {
 		// We need the following check due to a Firefox bug

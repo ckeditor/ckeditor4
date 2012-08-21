@@ -13,14 +13,14 @@
 
 	/**
 	 * Lightweight template used to build the output string from variables.
-	 * @class Represents an string template class.
+	 *
+	 *		// HTML template for presenting a label UI.
+	 *		var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>' );
+	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
+	 *
+	 * @class
+	 * @constructor Creates a template class instance.
 	 * @param {String} source The template source.
-	 * @example
-	 * <code>
-	 *	// Html template for presenting a label UI.
-	 *	var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>');
-	 *	alert(tpl.output({ cls: 'cke-label', label: 'foo'})); => '<div class="cke-label">foo</div>'
-	 * </code>
 	 */
 	CKEDITOR.template = function( source ) {
 		// Builds an optimized function body for the output() method, focused on performance.
@@ -49,14 +49,14 @@
 
 /**
  * Processes the template, filling its variables with the provided data.
- * @name CKEDITOR.template.prototype.output
+ *
+ * @method output
  * @param {Object} data An object containing properties which values will be
- *		used to fill the template variables. The property names must match the
- *		template variables names. Variables without matching properties will be
- *		kept untouched.
+ * used to fill the template variables. The property names must match the
+ * template variables names. Variables without matching properties will be
+ * kept untouched.
  * @param {Array} [buffer] An array into which the output data will be pushed into.
- *		The number of entries appended to the array is unknown.
- * @function
- * @returns {String|Integer} If "buffer" has not been provided, the processed
- *		template output data, otherwise the new length of "buffer".
+ * The number of entries appended to the array is unknown.
+ * @returns {String/Number} If `buffer` has not been provided, the processed
+ * template output data, otherwise the new length of `buffer`.
  */

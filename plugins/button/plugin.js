@@ -53,17 +53,20 @@
 
 	/**
 	 * Button UI element.
-	 * @constant
-	 * @example
+	 *
+	 * @readonly
+	 * @property {String} [='button']
+	 * @member CKEDITOR
 	 */
 	CKEDITOR.UI_BUTTON = 'button';
 
 	/**
 	 * Represents a button UI element. This class should not be called directly. To
-	 * create new buttons use {@link CKEDITOR.ui.prototype.addButton} instead.
-	 * @constructor
+	 * create new buttons use {@link CKEDITOR.ui#addButton} instead.
+	 *
+	 * @class
+	 * @constructor Creates a button class instance.
 	 * @param {Object} definition The button definition.
-	 * @example
 	 */
 	CKEDITOR.ui.button = function( definition ) {
 		CKEDITOR.tools.extend( this, definition,
@@ -80,24 +83,34 @@
 	};
 
 	/**
-	 * Transforms a button definition in a {@link CKEDITOR.ui.button} instance.
-	 * @type Object
-	 * @example
+	 * Represents button handler object.
+	 *
+	 * @class
+	 * @singleton
+	 * @extends CKEDITOR.ui.handlerDefinition
 	 */
 	CKEDITOR.ui.button.handler = {
+		/**
+		 * Transforms a button definition in a {@link CKEDITOR.ui.button} instance.
+		 *
+		 * @member CKEDITOR.ui.button.handler
+		 * @param {Object} definition
+		 * @returns {CKEDITOR.ui.button}
+		 */
 		create: function( definition ) {
 			return new CKEDITOR.ui.button( definition );
 		}
 	};
 
+	/** @class CKEDITOR.ui.button */
 	CKEDITOR.ui.button.prototype = {
 		/**
 		 * Renders the button.
+		 *
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
-		 *		to be used by.
+		 * to be used by.
 		 * @param {Array} output The output array to which append the HTML relative
-		 *		to this button.
-		 * @example
+		 * to this button.
 		 */
 		render: function( editor, output ) {
 			var env = CKEDITOR.env,
@@ -220,6 +233,9 @@
 			return instance;
 		},
 
+		/**
+		 * @todo
+		 */
 		setState: function( state ) {
 			if ( this._.state == state )
 				return false;
@@ -238,14 +254,15 @@
 
 	/**
 	 * Adds a button definition to the UI elements list.
+	 *
+	 *		editorInstance.ui.addButton( 'MyBold', {
+	 *			label: 'My Bold',
+	 *			command: 'bold'
+	 *		} );
+	 *
+	 * @member CKEDITOR.ui
 	 * @param {String} name The button name.
 	 * @param {Object} definition The button definition.
-	 * @example
-	 * editorInstance.ui.addButton( 'MyBold',
-	 *     {
-	 *         label : 'My Bold',
-	 *         command : 'bold'
-	 *     });
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );

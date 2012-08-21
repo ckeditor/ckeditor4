@@ -14,8 +14,9 @@ if ( typeof CKEDITOR == 'undefined' )
 if ( !CKEDITOR.loader ) {
 	/**
 	 * Load core scripts and their dependencies from _source.
-	 * @namespace
-	 * @example
+	 *
+	 * @class
+	 * @singleton
 	 */
 	CKEDITOR.loader = (function() {
 		// Table of script names and their dependencies.
@@ -122,22 +123,24 @@ if ( !CKEDITOR.loader ) {
 
 		var pendingLoad = [];
 
-		/** @lends CKEDITOR.loader */
 		return {
 			/**
 			 * The list of loaded scripts in their loading order.
-			 * @type Array
-			 * @example
-			 * // Alert the loaded script names.
-			 * alert( <b>CKEDITOR.loader.loadedScripts</b> );
+			 *
+			 *		// Alert the loaded script names.
+			 *		alert( CKEDITOR.loader.loadedScripts );
 			 */
 			loadedScripts: [],
 			/**
-			 * Table of script names and their dependencies
-			 * @type Array
+			 * Table of script names and their dependencies.
+			 *
+			 * @property {Array}
 			 */
 			scripts: scripts,
 
+			/**
+			 * @todo
+			 */
 			loadPending: function() {
 				var scriptName = pendingLoad.shift();
 
@@ -187,8 +190,12 @@ if ( !CKEDITOR.loader ) {
 			 * Loads a specific script, including its dependencies. This is not a
 			 * synchronous loading, which means that the code to be loaded will
 			 * not necessarily be available after this call.
-			 * @example
-			 * CKEDITOR.loader.load( 'dom/element' );
+			 *
+			 *		CKEDITOR.loader.load( 'dom/element' );
+			 *
+			 * @param {String} scriptName
+			 * @param {Boolean} [defer=false]
+			 * @todo params
 			 */
 			load: function( scriptName, defer ) {
 				// Check if the script has already been loaded.

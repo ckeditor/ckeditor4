@@ -14,11 +14,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl';
 
-	/**
-	 *
-	 * @param dialogName
-	 * @param callback [ childDialog ]
-	 */
+	// @param dialogName
+	// @param callback [ childDialog ]
 	function getDialogValue( dialogName, callback ) {
 		var onOk = function() {
 				releaseHandlers( this );

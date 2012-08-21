@@ -11,52 +11,42 @@
 /**
  * Base class for resource managers, like plugins. This class is not
  * intended to be used out of the CKEditor core code.
+ *
+ * @class
+ * @constructor Creates a resourceManager class instance.
  * @param {String} basePath The path for the resources folder.
  * @param {String} fileName The name used for resource files.
- * @namespace
- * @example
  */
 CKEDITOR.resourceManager = function( basePath, fileName ) {
 	/**
 	 * The base directory containing all resources.
-	 * @name CKEDITOR.resourceManager.prototype.basePath
-	 * @type String
-	 * @example
+	 *
+	 * @property {String}
 	 */
 	this.basePath = basePath;
 
 	/**
 	 * The name used for resource files.
-	 * @name CKEDITOR.resourceManager.prototype.fileName
-	 * @type String
-	 * @example
+	 *
+	 * @property {String}
 	 */
 	this.fileName = fileName;
 
 	/**
 	 * Contains references to all resources that have already been registered
 	 * with {@link #add}.
-	 * @name CKEDITOR.resourceManager.prototype.registered
-	 * @type Object
-	 * @example
 	 */
 	this.registered = {};
 
 	/**
 	 * Contains references to all resources that have already been loaded
 	 * with {@link #load}.
-	 * @name CKEDITOR.resourceManager.prototype.loaded
-	 * @type Object
-	 * @example
 	 */
 	this.loaded = {};
 
 	/**
 	 * Contains references to all resources that have already been registered
 	 * with {@link #addExternal}.
-	 * @name CKEDITOR.resourceManager.prototype.externals
-	 * @type Object
-	 * @example
 	 */
 	this.externals = {};
 
@@ -72,10 +62,11 @@ CKEDITOR.resourceManager = function( basePath, fileName ) {
 CKEDITOR.resourceManager.prototype = {
 	/**
 	 * Registers a resource.
+	 *
+	 *		CKEDITOR.plugins.add( 'sample', { ... plugin definition ... } );
+	 *
 	 * @param {String} name The resource name.
 	 * @param {Object} [definition] The resource definition.
-	 * @example
-	 * CKEDITOR.plugins.add( 'sample', { ... plugin definition ... } );
 	 * @see CKEDITOR.pluginDefinition
 	 */
 	add: function( name, definition ) {
@@ -93,10 +84,11 @@ CKEDITOR.resourceManager.prototype = {
 
 	/**
 	 * Gets the definition of a specific resource.
+	 *
+	 *		var definition = CKEDITOR.plugins.get( 'sample' );
+	 *
 	 * @param {String} name The resource name.
-	 * @type Object
-	 * @example
-	 * var definition = <b>CKEDITOR.plugins.get( 'sample' )</b>;
+	 * @returns {Object} The registered object.
 	 */
 	get: function( name ) {
 		return this.registered[ name ] || null;
@@ -104,10 +96,11 @@ CKEDITOR.resourceManager.prototype = {
 
 	/**
 	 * Get the folder path for a specific loaded resource.
+	 *
+	 *		alert( CKEDITOR.plugins.getPath( 'sample' ) ); // '<editor path>/plugins/sample/'
+	 *
 	 * @param {String} name The resource name.
-	 * @type String
-	 * @example
-	 * alert( <b>CKEDITOR.plugins.getPath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/"
+	 * @returns {String}
 	 */
 	getPath: function( name ) {
 		var external = this.externals[ name ];
@@ -116,10 +109,11 @@ CKEDITOR.resourceManager.prototype = {
 
 	/**
 	 * Get the file path for a specific loaded resource.
+	 *
+	 *		alert( CKEDITOR.plugins.getFilePath( 'sample' ) ); // '<editor path>/plugins/sample/plugin.js'
+	 *
 	 * @param {String} name The resource name.
-	 * @type String
-	 * @example
-	 * alert( <b>CKEDITOR.plugins.getFilePath( 'sample' )</b> );  // "&lt;editor path&gt;/plugins/sample/plugin.js"
+	 * @returns {String}
 	 */
 	getFilePath: function( name ) {
 		var external = this.externals[ name ];
@@ -129,20 +123,21 @@ CKEDITOR.resourceManager.prototype = {
 	/**
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
+	 *
+	 *		// Loads a plugin from '/myplugin/samples/plugin.js'.
+	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
+	 *
+	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
+	 *
+	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 *
 	 * @param {String} names The resource names, separated by commas.
 	 * @param {String} path The path of the folder containing the resource.
 	 * @param {String} [fileName] The resource file name. If not provided, the
-	 *		default name is used; If provided with a empty string, will implicitly indicates that {@param path}
-	 * 		is already the full path.
-	 * @example
-	 * // Loads a plugin from '/myplugin/samples/plugin.js'.
-	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
-	 * @example
-	 * // Loads a plugin from '/myplugin/samples/my_plugin.js'.
-	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
-	 * @example
-	 * // Loads a plugin from '/myplugin/samples/my_plugin.js'.
-	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 * default name is used. If provided with a empty string, will implicitly indicates that `path` argument
+	 * is already the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
 		names = names.split( ',' );
@@ -158,18 +153,16 @@ CKEDITOR.resourceManager.prototype = {
 
 	/**
 	 * Loads one or more resources.
-	 * @param {String|Array} name The name of the resource to load. It may be a
-	 *		string with a single resource name, or an array with several names.
+	 *
+	 *		CKEDITOR.plugins.load( 'myplugin', function( plugins ) {
+	 *			alert( plugins[ 'myplugin' ] ); // object
+	 *		} );
+	 *
+	 * @param {String/Array} name The name of the resource to load. It may be a
+	 * string with a single resource name, or an array with several names.
 	 * @param {Function} callback A function to be called when all resources
-	 *		are loaded. The callback will receive an array containing all
-	 *		loaded names.
-	 * @param {Object} [scope] The scope object to be used for the callback
-	 *		call.
-	 * @example
-	 * <b>CKEDITOR.plugins.load</b>( 'myplugin', function( plugins )
-	 *     {
-	 *         alert( plugins['myplugin'] );  // "object"
-	 *     });
+	 * are loaded. The callback will receive an array containing all loaded names.
+	 * @param {Object} [scope] The scope object to be used for the callback call.
 	 */
 	load: function( names, callback, scope ) {
 		// Ensure that we have an array of names.

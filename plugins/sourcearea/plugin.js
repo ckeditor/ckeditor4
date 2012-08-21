@@ -124,11 +124,6 @@
 	}
 })();
 
-/**
- * Holds the definition of commands an UI elements included with the sourcearea
- * plugin.
- * @example
- */
 CKEDITOR.plugins.sourcearea = {
 	commands: {
 		source: {
@@ -149,14 +144,15 @@ CKEDITOR.plugins.sourcearea = {
 
 /**
  * Controls CSS tab-size property of the sourcearea view.
- * <strong>Note:</strong> Works only with {@link CKEDITOR.config.dataIndentationChars}
- * set to <code>'\t'</code>. Please consider that not all browsers support
- * tab-size property yet.
- * @name CKEDITOR.config.sourceAreaTabSize
- * @type Integer
- * @default 4
- * @see CKEDITOR.config.dataIndentationChars
- * @example
- * // Set tab-size to 20 characters.
- * CKEDITOR.config.sourceAreaTabSize = 20;
+ *
+ * **Note:** Works only with {@link #dataIndentationChars}
+ * set to `'\t'`. Please consider that not all browsers support CSS
+ * `tab-size` property yet.
+ *
+ *		// Set tab-size to 20 characters.
+ *		CKEDITOR.config.sourceAreaTabSize = 20;
+ *
+ * @cfg {Number} [sourceAreaTabSize=4]
+ * @member CKEDITOR.config
+ * @see CKEDITOR.config#dataIndentationChars
  */

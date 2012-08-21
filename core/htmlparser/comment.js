@@ -5,14 +5,16 @@
 
 /**
  * A lightweight representation of an HTML comment.
- * @constructor
- * @example
+ *
+ * @class
+ * @constructor Creates a comment class instance.
+ * @param {String} value The comment text value.
  */
 CKEDITOR.htmlParser.comment = function( value ) {
 	/**
 	 * The comment text.
-	 * @type String
-	 * @example
+	 *
+	 * @property {String}
 	 */
 	this.value = value;
 
@@ -24,16 +26,17 @@ CKEDITOR.htmlParser.comment = function( value ) {
 
 CKEDITOR.htmlParser.comment.prototype = {
 	/**
-	 * The node type. This is a constant value set to {@link CKEDITOR.NODE_COMMENT}.
-	 * @type Number
-	 * @example
+	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_COMMENT}.
+	 *
+	 * @readonly
+	 * @property {Number} [=CKEDITOR.NODE_COMMENT]
 	 */
 	type: CKEDITOR.NODE_COMMENT,
 
 	/**
 	 * Writes the HTML representation of this comment to a CKEDITOR.htmlWriter.
-	 * @param {CKEDITOR.htmlWriter} writer The writer to which write the HTML.
-	 * @example
+	 *
+	 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 	 */
 	writeHtml: function( writer, filter ) {
 		var comment = this.value;

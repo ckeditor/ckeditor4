@@ -15,12 +15,14 @@ if ( CKEDITOR.status == 'unloaded' ) {
 
 		/**
 		 * Forces the full CKEditor core code, in the case only the basic code has been
-		 * loaded (ckeditor_basic.js). This method self-destroys (becomes undefined) in
+		 * loaded (`ckeditor_basic.js`). This method self-destroys (becomes undefined) in
 		 * the first call or as soon as the full code is available.
-		 * @example
-		 * // Check if the full core code has been loaded and load it.
-		 * if ( CKEDITOR.loadFullCore )
-		 *     <b>CKEDITOR.loadFullCore()</b>;
+		 *
+		 *		// Check if the full core code has been loaded and load it.
+		 *		if ( CKEDITOR.loadFullCore )
+		 *			CKEDITOR.loadFullCore();
+		 *
+		 * @member CKEDITOR
 		 */
 		CKEDITOR.loadFullCore = function() {
 			// If the basic code is not ready, just mark it to be loaded.
@@ -47,11 +49,12 @@ if ( CKEDITOR.status == 'unloaded' ) {
 		 * editor is loaded on demand, as soon as an instance is created.
 		 *
 		 * This value must be set on the page before the page load completion.
-		 * @type Number
-		 * @default 0 (zero)
-		 * @example
-		 * // Loads the full source after five seconds.
-		 * CKEDITOR.loadFullCoreTimeout = 5;
+		 *
+		 *		// Loads the full source after five seconds.
+		 *		CKEDITOR.loadFullCoreTimeout = 5;
+		 *
+		 * @property
+		 * @member CKEDITOR
 		 */
 		CKEDITOR.loadFullCoreTimeout = 0;
 

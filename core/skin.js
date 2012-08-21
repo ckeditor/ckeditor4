@@ -20,24 +20,31 @@
 
 	/**
 	 * Manages the loading of skin parts among all editor instances.
+	 *
+	 * @class
+	 * @singleton
 	 */
 	CKEDITOR.skin = {
 		/**
 		 * Returns the root path of the skin directory.
+		 *
+		 * @method
+		 * @todo
 		 */
 		path: getConfigPath,
 
 		/**
 		 * Load a skin part onto the page, do nothing if the part is already loaded.
-		 * <storng>Note:</strong> The "editor" part is always auto loaded upon instance creation,
-		 * thus this function is mainly used to <strong>lazy load</strong> other part of the skin
+		 *
+		 * **Note:** The "editor" part is always auto loaded upon instance creation,
+		 * thus this function is mainly used to **lazy load** other part of the skin
 		 * which don't have to present until been requested.
+		 *
+		 *		// Load the dialog part.
+		 *		editor.skin.loadPart( 'dialog' );
 		 *
 		 * @param {String} part Name of skin part CSS file resides in the skin directory.
 		 * @param {Function} fn The provided callback function which is invoked after part is loaded.
-		 * @example
-		 * // Load the dialog part.
-		 * editor.skin.loadPart( "dialog" );
 		 */
 		loadPart: function( part, fn ) {
 			if ( CKEDITOR.skin.name != getName() ) {
@@ -50,6 +57,7 @@
 
 		/**
 		 * Retrieve the real URL of a (CSS) skin part.
+		 *
 		 * @param {String} part
 		 */
 		getPath: function( part ) {
@@ -57,17 +65,17 @@
 		},
 
 		/**
-		 * List of registered icons. To add new icons to this list, use
-		 * {@link CKEDITOR.skin.addIcon}.
+		 * List of registered icons. To add new icons to this list, use {@link #addIcon}.
 		 */
 		icons: {},
 
 		/**
 		 * Registers an icon.
+		 *
 		 * @param {String} name The icon name.
 		 * @param {String} path The path to reach the icon image file.
 		 * @param {Number} [offset] The vertical offset position of the icon, if
-		 *		available inside a strip image.
+		 * available inside a strip image.
 		 */
 		addIcon: function( name, path, offset ) {
 			name = name.toLowerCase();
@@ -81,15 +89,16 @@
 
 		/**
 		 * Get the CSS background styles to be used to render an specific icon.
-		 * @param {String} name The icon name, as registered with {@link CKEDITOR.ui.prototype.addIcon}.
+		 *
+		 * @param {String} name The icon name, as registered with {@link #addIcon}.
 		 * @param {Boolean} [rtl] Indicates that the RTL version of the icon is
-		 *		to be used, if available.
+		 * to be used, if available.
 		 * @param {String} [overridePath] The path to reach the icon image file. It
-		 *		overrides the path defined by the named icon, if available, and is
-		 *		used if the named icon was not registered.
+		 * overrides the path defined by the named icon, if available, and is
+		 * used if the named icon was not registered.
 		 * @param {Number} [overrideOffset] The vertical offset position of the
-		 *		icon. It overrides the offset defined by the named icon, if
-		 *		available, and is used if the named icon was not registered.
+		 * icon. It overrides the offset defined by the named icon, if
+		 * available, and is used if the named icon was not registered.
 		 */
 		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
 			var icon, path, offset;
@@ -146,15 +155,25 @@
 			cssLoaded[ part ] = 1;
 		}
 
-		// css loading should not be blocking.
+		// CSS loading should not be blocking.
 		callback && callback();
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+		/**
+		 * @method
+		 * @member CKEDITOR.editor
+		 * @todo
+		 */
 		getUiColor: function() {
 			return this.uiColor;
 		},
 
+		/**
+		 * @method
+		 * @member CKEDITOR.editor
+		 * @todo
+		 */
 		setUiColor: function( color ) {
 			var uiStyle = getStylesheet( CKEDITOR.document );
 
@@ -220,7 +239,6 @@
 	}
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
-
 		// The chameleon feature is not for IE quirks.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
 			return;
@@ -255,11 +273,12 @@
  * {@link CKEDITOR.env}, the corresponding skin part file will be loaded in addition
  * to the "main" skin file for a particular browser.
  *
- * <strong>Note:</strong> For each of the defined skin parts must have
+ * **Note:** For each of the defined skin parts must have
  * the corresponding CSS file with the same name as UA inside of
  * the skin directory.
  *
- * @name CKEDITOR.skin.ua
+ * @property ua
+ * @todo type?
  */
 
 /**
@@ -267,26 +286,27 @@
  * different skin settings in the same page. In such case, just one of the
  * skins will be used for all editors.
  *
- * This is a shortcut to {@link CKEDITOR.skinName}.
+ * This is a shortcut to {@link CKEDITOR#skinName}.
  *
- * It is possible to install skins outside the default "skin" folder in the
+ * It is possible to install skins outside the default `skin` folder in the
  * editor installation. In that case, the absolute URL path to that folder
- * should be provided, separated by a comma ('skin_name,skin_path').
+ * should be provided, separated by a comma (`'skin_name,skin_path'`).
  *
- * @name CKEDITOR.config.skin
- * @type String
- * @example
- * config.skin = 'kama';
- * @example
- * config.skin = 'myskin,/customstuff/myskin/';
+ *		config.skin = 'kama';
+ *
+ *		config.skin = 'myskin,/customstuff/myskin/';
+ *
+ * @cfg {String} skin
+ * @member CKEDITOR.config
  */
 
 /**
  * A function that support the chameleon (skin color switch) feature, providing
  * the skin colors styles update to be apply in runtime.
- * <strong>Note:</strong> the embedded "$color" variable is to be substituted by a concrete UI color.
  *
- * @function CKEDITOR.skin.chameleon
+ * **Note:** the embedded `$color` variable is to be substituted by a concrete UI color.
+ *
+ * @method chameleon
  * @param {String} editor The editor instance upon color changes impact.
  * @param {String} part Name of the skin part where the color changes take place.
  */

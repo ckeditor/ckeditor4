@@ -4,10 +4,8 @@
  */
 
 CKEDITOR.dialog.add( 'specialchar', function( editor ) {
-	/**
-	 * Simulate "this" of a dialog for non-dialog events.
-	 * @type {CKEDITOR.dialog}
-	 */
+	// Simulate "this" of a dialog for non-dialog events.
+	// @type {CKEDITOR.dialog}
 	var dialog,
 		lang = editor.lang.specialchar;
 

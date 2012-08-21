@@ -4,19 +4,17 @@
  */
 
 (function() {
-	/*
-	 * It is possible to set things in three different places.
-	 * 1. As attributes in the object tag.
-	 * 2. As param tags under the object tag.
-	 * 3. As attributes in the embed tag.
-	 * It is possible for a single attribute to be present in more than one place.
-	 * So let's define a mapping between a sementic attribute and its syntactic
-	 * equivalents.
-	 * Then we'll set and retrieve attribute values according to the mapping,
-	 * instead of having to check and set each syntactic attribute every time.
-	 *
-	 * Reference: http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
-	 */
+	// It is possible to set things in three different places.
+	// 1. As attributes in the object tag.
+	// 2. As param tags under the object tag.
+	// 3. As attributes in the embed tag.
+	// It is possible for a single attribute to be present in more than one place.
+	// So let's define a mapping between a sementic attribute and its syntactic
+	// equivalents.
+	// Then we'll set and retrieve attribute values according to the mapping,
+	// instead of having to check and set each syntactic attribute every time.
+	//
+	// Reference: http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
 	var ATTRTYPE_OBJECT = 1,
 		ATTRTYPE_PARAM = 2,
 		ATTRTYPE_EMBED = 4;

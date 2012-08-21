@@ -117,11 +117,14 @@
 })();
 
 /**
- * Moves the UI focus to the element following this element in the tabindex
- * order.
- * @example
- * var element = CKEDITOR.document.getById( 'example' );
- * element.focusNext();
+ * Moves the UI focus to the element following this element in the tabindex order.
+ *
+ *		var element = CKEDITOR.document.getById( 'example' );
+ *		element.focusNext();
+ *
+ * @param {Boolean} [ignoreChildren=false]
+ * @param {Number} [indexToUse]
+ * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse ) {
 	var $ = this.$,
@@ -190,9 +193,13 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 
 /**
  * Moves the UI focus to the element before this element in the tabindex order.
- * @example
- * var element = CKEDITOR.document.getById( 'example' );
- * element.focusPrevious();
+ *
+ *		var element = CKEDITOR.document.getById( 'example' );
+ *		element.focusPrevious();
+ *
+ * @param {Boolean} [ignoreChildren=false]
+ * @param {Number} [indexToUse]
+ * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexToUse ) {
 	var $ = this.$,
@@ -258,28 +265,32 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 };
 
 /**
- * Intructs the editor to add a number of spaces (&amp;nbsp;) to the text when
- * hitting the TAB key. If set to zero, the TAB key will be used to move the
+ * Intructs the editor to add a number of spaces (`&nbsp;`) to the text when
+ * hitting the *TAB* key. If set to zero, the *TAB* key will be used to move the
  * cursor focus to the next element in the page, out of the editor focus.
- * @name CKEDITOR.config.tabSpaces
- * @type Number
- * @default 0
- * @example
- * config.tabSpaces = 4;
+ *
+ *		config.tabSpaces = 4;
+ *
+ * @cfg {Number} [tabSpaces=0]
+ * @member CKEDITOR.config
  */
 
 /**
  * Allow context-sensitive tab key behaviors, including the following scenarios:
- * <h5>When selection is anchored inside <b>table cells</b>:</h5>
- * <ul>
- * 		<li>If TAB is pressed, select the contents of the "next" cell. If in the last cell in the table, add a new row to it and focus its first cell.</li>
- * 		<li>If SHIFT+TAB is pressed, select the contents of the "previous" cell. Do nothing when it's in the first cell.</li>
- * </ul>
- * @name CKEDITOR.config.enableTabKeyTools
- * @type Boolean
- * @default true
- * @example
- * config.enableTabKeyTools = false;
+ *
+ * When selection is anchored inside **table cells**:
+ *
+ * * If *TAB* is pressed, select the contents of the "next" cell. If in the last
+ *     cell in the table, add a new row to it and focus its first cell.
+ * * If *SHIFT+TAB* is pressed, select the contents of the "previous" cell.
+ *     Do nothing when it's in the first cell.
+ *
+ * Example:
+ *
+ *		config.enableTabKeyTools = false;
+ *
+ * @cfg {Boolean} [enableTabKeyTools=true]
+ * @member CKEDITOR.config
  */
 
 // If the TAB key is not supposed to be enabled for navigation, the following

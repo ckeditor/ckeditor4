@@ -12,15 +12,17 @@ CKEDITOR.plugins.add( 'iframedialog', {
 	onLoad: function() {
 		/**
 		 * An iframe base dialog.
-		 * @param {String} name Name of the dialog
-		 * @param {String} title Title of the dialog
-		 * @param {Number} minWidth Minimum width of the dialog
-		 * @param {Number} minHeight Minimum height of the dialog
+		 *
+		 * @static
+		 * @member CKEDITOR.dialog
+		 * @param {String} name Name of the dialog.
+		 * @param {String} title Title of the dialog.
+		 * @param {Number} minWidth Minimum width of the dialog.
+		 * @param {Number} minHeight Minimum height of the dialog.
 		 * @param {Function} [onContentLoad] Function called when the iframe has been loaded.
-		 * If it isn't specified, the inner frame is notified of the dialog events ('load',
-		 * 'resize', 'ok' and 'cancel') on a function called 'onDialogEvent'
-		 * @param {Object} [userDefinition] Additional properties for the dialog definition
-		 * @example
+		 * If it isn't specified, the inner frame is notified of the dialog events (`'load'`,
+		 * `'resize'`, `'ok'` and `'cancel'`) on a function called `'onDialogEvent'`.
+		 * @param {Object} [userDefinition] Additional properties for the dialog definition.
 		 */
 		CKEDITOR.dialog.addIframe = function( name, title, src, minWidth, minHeight, onContentLoad, userDefinition ) {
 			var element = {
@@ -91,22 +93,22 @@ CKEDITOR.plugins.add( 'iframedialog', {
 		(function() {
 			/**
 			 * An iframe element.
+			 *
+			 * @class CKEDITOR.ui.dialog.iframeElement
 			 * @extends CKEDITOR.ui.dialog.uiElement
-			 * @example
 			 * @constructor
-			 * @param {CKEDITOR.dialog} dialog
-			 * Parent dialog object.
+			 * @private
+			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
-			 * <ul>
-			 * 	<li><strong>src</strong> (Required) The src field of the iframe. </li>
-			 * 	<li><strong>width</strong> (Required) The iframe's width.</li>
-			 * 	<li><strong>height</strong> (Required) The iframe's height.</li>
-			 * 	<li><strong>onContentLoad</strong> (Optional) A function to be executed
-			 * 	after the iframe's contents has finished loading.</li>
-			 * </ul>
-			 * @param {Array} htmlList
-			 * List of HTML code to output to.
+			 *
+			 * * `src` (Required) The src field of the iframe.
+			 * * `width` (Required) The iframe's width.
+			 * * `height` (Required) The iframe's height.
+			 * * `onContentLoad` (Optional) A function to be executed
+			 *     after the iframe's contents has finished loading.
+			 *
+			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			var iframeElement = function( dialog, elementDefinition, htmlList ) {
 					if ( arguments.length < 3 )

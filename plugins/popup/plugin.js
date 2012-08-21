@@ -7,12 +7,15 @@ CKEDITOR.plugins.add( 'popup' );
 
 CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 	/**
-	 * Opens Browser in a popup. The "width" and "height" parameters accept
+	 * Opens Browser in a popup. The `width` and `height` parameters accept
 	 * numbers (pixels) or percent (of screen size) values.
+	 *
+	 * @member CKEDITOR.editor
 	 * @param {String} url The url of the external file browser.
-	 * @param {String} width Popup window width.
-	 * @param {String} height Popup window height.
-	 * @param {String} options Popup window features.
+	 * @param {Number/String} [width='80%'] Popup window width.
+	 * @param {Number/String} [height='70%'] Popup window height.
+	 * @param {String} [options='location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes']
+	 * Popup window features.
 	 */
 	popup: function( url, width, height, options ) {
 		width = width || '80%';

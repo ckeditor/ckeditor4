@@ -4,62 +4,71 @@
  */
 
 /**
- * Creates a CKEDITOR.dom.range instance that can be used inside a specific
- * DOM Document.
- * @class Represents a delimited piece of content in a DOM Document.
+ * Represents a delimited piece of content in a DOM Document.
  * It is contiguous in the sense that it can be characterized as selecting all
- * of the content between a pair of boundary-points.<br>
- * <br>
+ * of the content between a pair of boundary-points.
+ *
  * This class shares much of the W3C
- * <a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html">Document Object Model Range</a>
+ * [Document Object Model Range](http://www.w3.org/TR/DOM-Level-2-Traversal-Range/ranges.html)
  * ideas and features, adding several range manipulation tools to it, but it's
  * not intended to be compatible with it.
- * @param {CKEDITOR.dom.document|CKEDITOR.dom.element} root The document or element within which the range will be scoped.
- * @example
- * // Create a range for the entire contents of the editor document body.
- * var range = new CKEDITOR.dom.range( editor.document );
- * range.selectNodeContents( editor.document.getBody() );
- * // Delete the contents.
- * range.deleteContents();
+ *
+ *		// Create a range for the entire contents of the editor document body.
+ *		var range = new CKEDITOR.dom.range( editor.document );
+ *		range.selectNodeContents( editor.document.getBody() );
+ *		// Delete the contents.
+ *		range.deleteContents();
+ *
+ * @class
+ * @constructor Creates a {@link CKEDITOR.dom.range} instance that can be used inside a specific DOM Document.
+ * @param {CKEDITOR.dom.document/CKEDITOR.dom.element} root The document or element
+ * within which the range will be scoped.
+ * @todo global "TODO" - precise algorithms descriptions needed for the most complex methods like #enlarge.
  */
 CKEDITOR.dom.range = function( root ) {
 	/**
 	 * Node within which the range begins.
-	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
-	 * @example
-	 * var range = new CKEDITOR.dom.range( editor.document );
-	 * range.selectNodeContents( editor.document.getBody() );
-	 * alert( range.startContainer.getName() );  // "body"
+	 * One of {@link CKEDITOR#NODE_ELEMENT}, {@link CKEDITOR#NODE_TEXT}
+	 *
+	 *		var range = new CKEDITOR.dom.range( editor.document );
+	 *		range.selectNodeContents( editor.document.getBody() );
+	 *		alert( range.startContainer.getName() ); // 'body'
+	 *
+	 * @property {Number}
 	 */
 	this.startContainer = null;
 
 	/**
 	 * Offset within the starting node of the range.
-	 * @type {Number}
-	 * @example
-	 * var range = new CKEDITOR.dom.range( editor.document );
-	 * range.selectNodeContents( editor.document.getBody() );
-	 * alert( range.startOffset );  // "0"
+	 *
+	 *		var range = new CKEDITOR.dom.range( editor.document );
+	 *		range.selectNodeContents( editor.document.getBody() );
+	 *		alert( range.startOffset ); // 0
+	 *
+	 * @property {Number}
 	 */
 	this.startOffset = null;
 
 	/**
 	 * Node within which the range ends.
-	 * @type {CKEDITOR.NODE_ELEMENT|CKEDITOR.NODE_TEXT}
-	 * @example
-	 * var range = new CKEDITOR.dom.range( editor.document );
-	 * range.selectNodeContents( editor.document.getBody() );
-	 * alert( range.endContainer.getName() );  // "body"
+	 * One of {@link CKEDITOR#NODE_ELEMENT}, {@link CKEDITOR#NODE_TEXT}
+	 *
+	 *		var range = new CKEDITOR.dom.range( editor.document );
+	 *		range.selectNodeContents( editor.document.getBody() );
+	 *		alert( range.endContainer.getName() ); // 'body'
+	 *
+	 * @property {Number}
 	 */
 	this.endContainer = null;
 
 	/**
 	 * Offset within the ending node of the range.
-	 * @type {Number}
-	 * @example
-	 * var range = new CKEDITOR.dom.range( editor.document );
-	 * range.selectNodeContents( editor.document.getBody() );
-	 * alert( range.endOffset );  // == editor.document.getBody().getChildCount()
+	 *
+	 *		var range = new CKEDITOR.dom.range( editor.document );
+	 *		range.selectNodeContents( editor.document.getBody() );
+	 *		alert( range.endOffset ); // == editor.document.getBody().getChildCount()
+	 *
+	 * @property {Number}
 	 */
 	this.endOffset = null;
 
@@ -67,28 +76,30 @@ CKEDITOR.dom.range = function( root ) {
 	 * Indicates that this is a collapsed range. A collapsed range has it's
 	 * start and end boudaries at the very same point so nothing is contained
 	 * in it.
-	 * @example
-	 * var range = new CKEDITOR.dom.range( editor.document );
-	 * range.selectNodeContents( editor.document.getBody() );
-	 * alert( range.collapsed );  // "false"
-	 * range.collapse();
-	 * alert( range.collapsed );  // "true"
+	 *
+	 *		var range = new CKEDITOR.dom.range( editor.document );
+	 *		range.selectNodeContents( editor.document.getBody() );
+	 *		alert( range.collapsed ); // false
+	 *		range.collapse();
+	 *		alert( range.collapsed ); // true
 	 */
 	this.collapsed = true;
 
 	var isDocRoot = root instanceof CKEDITOR.dom.document;
 	/**
 	 * The document within which the range can be used.
-	 * @type {CKEDITOR.dom.document}
-	 * @example
-	 * // Selects the body contents of the range document.
-	 * range.selectNodeContents( range.document.getBody() );
+	 *
+	 *		// Selects the body contents of the range document.
+	 *		range.selectNodeContents( range.document.getBody() );
+	 *
+	 * @property {CKEDITOR.dom.document}
 	 */
 	this.document = isDocRoot ? root : root.getDocument();
 
 	/**
 	 * The ancestor DOM element within which the range manipulation are limited.
-	 * @type {CKEDITOR.dom.element}
+	 *
+	 * @property {CKEDITOR.dom.element}
 	 */
 	this.root = isDocRoot ? root.getBody() : root;
 };
@@ -376,6 +387,11 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 	CKEDITOR.dom.range.prototype = {
+		/**
+		 * Clones this range.
+		 *
+		 * @returns {CKEDITOR.dom.range}
+		 */
 		clone: function() {
 			var clone = new CKEDITOR.dom.range( this.root );
 
@@ -388,6 +404,12 @@ CKEDITOR.dom.range = function( root ) {
 			return clone;
 		},
 
+		/**
+		 * Makes range collapsed by moving its start point (or end point if `toStart==true`)
+		 * to the second end.
+		 *
+		 * @param {Boolean} toStart Collapse range "to start".
+		 */
 		collapse: function( toStart ) {
 			if ( toStart ) {
 				this.endContainer = this.startContainer;
@@ -401,8 +423,11 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 *  The content nodes of the range are cloned and added to a document fragment, which is returned.
-		 *  <strong> Note: </strong> Text selection may lost after invoking this method. (caused by text node splitting).
+		 * The content nodes of the range are cloned and added to a document fragment, which is returned.
+		 *
+		 * **Note:** Text selection may lost after invoking this method (caused by text node splitting).
+		 *
+		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing clone of range's content.
 		 */
 		cloneContents: function() {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
@@ -415,6 +440,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Deletes the content nodes of the range permanently from the DOM tree.
+		 *
 		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
 		 */
 		deleteContents: function( mergeThen ) {
@@ -425,9 +451,11 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 *  The content nodes of the range are cloned and added to a document fragment,
-		 * meanwhile they're removed permanently from the DOM tree.
+		 * The content nodes of the range are cloned and added to a document fragment,
+		 * meanwhile they are removed permanently from the DOM tree.
+		 *
 		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
+		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing extracted content.
 		 */
 		extractContents: function( mergeThen ) {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
@@ -440,18 +468,24 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Creates a bookmark object, which can be later used to restore the
-		 * range by using the moveToBookmark function.
-		 * This is an "intrusive" way to create a bookmark. It includes <span> tags
+		 * range by using the {@link #moveToBookmark} function.
+		 *
+		 * This is an "intrusive" way to create a bookmark. It includes `<span>` tags
 		 * in the range boundaries. The advantage of it is that it is possible to
 		 * handle DOM mutations when moving back to the bookmark.
-		 * Attention: the inclusion of nodes in the DOM is a design choice and
+		 *
+		 * **Note:** the inclusion of nodes in the DOM is a design choice and
 		 * should not be changed as there are other points in the code that may be
-		 * using those nodes to perform operations. See GetBookmarkNode.
+		 * using those nodes to perform operations.
+		 *
 		 * @param {Boolean} [serializable] Indicates that the bookmark nodes
-		 *		must contain ids, which can be used to restore the range even
-		 *		when these nodes suffer mutations (like a clonation or innerHTML
-		 *		change).
+		 * must contain ids, which can be used to restore the range even
+		 * when these nodes suffer mutations (like a clonation or `innerHTML` change).
 		 * @returns {Object} And object representing a bookmark.
+		 * @returns {CKEDITOR.dom.node/String} return.startNode Node or element id.
+		 * @returns {CKEDITOR.dom.node/String} return.endNode Node or element id.
+		 * @returns {Boolean} return.serializable
+		 * @returns {Boolean} return.collapsed
 		 */
 		createBookmark: function( serializable ) {
 			var startNode, endNode;
@@ -508,12 +542,20 @@ CKEDITOR.dom.range = function( root ) {
 		 * Creates a "non intrusive" and "mutation sensible" bookmark. This
 		 * kind of bookmark should be used only when the DOM is supposed to
 		 * remain stable after its creation.
+		 *
 		 * @param {Boolean} [normalized] Indicates that the bookmark must
-		 *		normalized. When normalized, the successive text nodes are
-		 *		considered a single node. To sucessful load a normalized
-		 *		bookmark, the DOM tree must be also normalized before calling
-		 *		moveToBookmark.
+		 * normalized. When normalized, the successive text nodes are
+		 * considered a single node. To sucessful load a normalized
+		 * bookmark, the DOM tree must be also normalized before calling
+		 * {@link #moveToBookmark}.
 		 * @returns {Object} An object representing the bookmark.
+		 * @returns {Array} return.start Start container's address (see {@link CKEDITOR.dom.node#getAddress}).
+		 * @returns {Array} return.end Start container's address.
+		 * @returns {Number} return.startOffset
+		 * @returns {Number} return.endOffset
+		 * @returns {Boolean} return.collapsed
+		 * @returns {Boolean} return.normalized
+		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: function( normalized ) {
 			var startContainer = this.startContainer,
@@ -594,6 +636,13 @@ CKEDITOR.dom.range = function( root ) {
 			};
 		},
 
+		/**
+		 * Moves this range to the given bookmark. See {@link #createBookmark} and {@link #createBookmark2}.
+		 *
+		 * If serializable bookmark passed, then its `<span>` markers will be removed.
+		 *
+		 * @param {Object} bookmark
+		 */
 		moveToBookmark: function( bookmark ) {
 			if ( bookmark.is2 ) // Created with createBookmark2().
 			{
@@ -635,6 +684,14 @@ CKEDITOR.dom.range = function( root ) {
 			}
 		},
 
+		/**
+		 * Returns two nodes which are on the boundaries of this range.
+		 *
+		 * @returns {Object}
+		 * @returns {CKEDITOR.dom.node} return.startNode
+		 * @returns {CKEDITOR.dom.node} return.endNode
+		 * @todo precise desc/algorithm
+		 */
 		getBoundaryNodes: function() {
 			var startNode = this.startContainer,
 				endNode = this.endContainer,
@@ -688,8 +745,10 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Find the node which fully contains the range.
-		 * @param includeSelf
-		 * @param {Boolean} ignoreTextNode Whether ignore CKEDITOR.NODE_TEXT type.
+		 *
+		 * @param {Boolean} [includeSelf=false]
+		 * @param {Boolean} [ignoreTextNode=false] Whether ignore {@link CKEDITOR#NODE_TEXT} type.
+		 * @returns {CKEDITOR.dom.element}
 		 */
 		getCommonAncestor: function( includeSelf, ignoreTextNode ) {
 			var start = this.startContainer,
@@ -708,7 +767,7 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Transforms the startContainer and endContainer properties from text
+		 * Transforms the {@link #startContainer} and {@link #endContainer} properties from text
 		 * nodes to element nodes, whenever possible. This is actually possible
 		 * if either of the boundary containers point to a text node, and its
 		 * offset is set to zero, or after the last char in the node.
@@ -748,6 +807,11 @@ CKEDITOR.dom.range = function( root ) {
 				this.setEndAt( endNode, CKEDITOR.POSITION_AFTER_END );
 		},
 
+		/**
+		 * @param {Boolean} [ignoreStart=false]
+		 * @param {Boolean} [ignoreEnd=false]
+		 * @todo precise desc/algorithm
+		 */
 		trim: function( ignoreStart, ignoreEnd ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset,
@@ -819,6 +883,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Expands the range so that partial units are completely contained.
+		 *
 		 * @param unit {Number} The unit type to expand with.
 		 * @param {Boolean} [excludeBrs=false] Whether include line-breaks when expanding.
 		 */
@@ -1226,15 +1291,15 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 *  Descrease the range to make sure that boundaries
-		 *  always anchor beside text nodes or innermost element.
-		 * @param {Number} mode  ( CKEDITOR.SHRINK_ELEMENT | CKEDITOR.SHRINK_TEXT ) The shrinking mode.
-		 * <dl>
-		 * 	 <dt>CKEDITOR.SHRINK_ELEMENT</dt>
-		 * 	 <dd>Shrink the range boundaries to the edge of the innermost element.</dd>
-		 * 	 <dt>CKEDITOR.SHRINK_TEXT</dt>
-		 * 	 <dd>Shrink the range boudaries to anchor by the side of enclosed text  node, range remains if there's no text nodes on boundaries at all.</dd>
-		 * </dl>
+		 * Descrease the range to make sure that boundaries
+		 * always anchor beside text nodes or innermost element.
+		 *
+		 * @param {Number} mode The shrinking mode ({@link CKEDITOR#SHRINK_ELEMENT} or {@link CKEDITOR#SHRINK_TEXT}).
+		 *
+		 * * {@link CKEDITOR#SHRINK_ELEMENT} - Shrink the range boundaries to the edge of the innermost element.
+		 * * {@link CKEDITOR#SHRINK_TEXT} - Shrink the range boudaries to anchor by the side of enclosed text
+		 *     node, range remains if there's no text nodes on boundaries at all.
+		 *
 		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.
 		 */
 		shrink: function( mode, selectContents, shrinkOnBlockBoundary ) {
@@ -1325,6 +1390,8 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Inserts a node at the start of the range. The range will be expanded
 		 * the contain the node.
+		 *
+		 * @param {CKEDITOR.dom.node} node
 		 */
 		insertNode: function( node ) {
 			this.optimizeBookmark();
@@ -1348,27 +1415,39 @@ CKEDITOR.dom.range = function( root ) {
 			this.setStartBefore( node );
 		},
 
+		/**
+		 * @todo
+		 */
 		moveToPosition: function( node, position ) {
 			this.setStartAt( node, position );
 			this.collapse( true );
 		},
 
+		/**
+		 * @todo
+		 */
 		moveToRange: function( range ) {
 			this.setStart( range.startContainer, range.startOffset );
 			this.setEnd( range.endContainer, range.endOffset );
 		},
 
+		/**
+		 * Select nodes content. Range will start and end inside this node.
+		 *
+		 * @param {CKEDITOR.dom.node} node
+		 */
 		selectNodeContents: function( node ) {
 			this.setStart( node, 0 );
 			this.setEnd( node, node.type == CKEDITOR.NODE_TEXT ? node.getLength() : node.getChildCount() );
 		},
 
 		/**
-		 * Sets the start position of a Range.
+		 * Sets the start position of a range.
+		 *
 		 * @param {CKEDITOR.dom.node} startNode The node to start the range.
 		 * @param {Number} startOffset An integer greater than or equal to zero
-		 *		representing the offset for the start of the range from the start
-		 *		of startNode.
+		 * representing the offset for the start of the range from the start
+		 * of `startNode`.
 		 */
 		setStart: function( startNode, startOffset ) {
 			// W3C requires a check for the new position. If it is after the end
@@ -1393,10 +1472,11 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Sets the end position of a Range.
+		 *
 		 * @param {CKEDITOR.dom.node} endNode The node to end the range.
 		 * @param {Number} endOffset An integer greater than or equal to zero
-		 *		representing the offset for the end of the range from the start
-		 *		of endNode.
+		 * representing the offset for the end of the range from the start
+		 * of `endNode`.
 		 */
 		setEnd: function( endNode, endOffset ) {
 			// W3C requires a check for the new position. If it is before the start
@@ -1419,22 +1499,37 @@ CKEDITOR.dom.range = function( root ) {
 			updateCollapsed( this );
 		},
 
+		/**
+		 * @todo
+		 */
 		setStartAfter: function( node ) {
 			this.setStart( node.getParent(), node.getIndex() + 1 );
 		},
 
+		/**
+		 * @todo
+		 */
 		setStartBefore: function( node ) {
 			this.setStart( node.getParent(), node.getIndex() );
 		},
 
+		/**
+		 * @todo
+		 */
 		setEndAfter: function( node ) {
 			this.setEnd( node.getParent(), node.getIndex() + 1 );
 		},
 
+		/**
+		 * @todo
+		 */
 		setEndBefore: function( node ) {
 			this.setEnd( node.getParent(), node.getIndex() );
 		},
 
+		/**
+		 * @todo
+		 */
 		setStartAt: function( node, position ) {
 			switch ( position ) {
 				case CKEDITOR.POSITION_AFTER_START:
@@ -1459,6 +1554,9 @@ CKEDITOR.dom.range = function( root ) {
 			updateCollapsed( this );
 		},
 
+		/**
+		 * @todo
+		 */
 		setEndAt: function( node, position ) {
 			switch ( position ) {
 				case CKEDITOR.POSITION_AFTER_START:
@@ -1483,6 +1581,9 @@ CKEDITOR.dom.range = function( root ) {
 			updateCollapsed( this );
 		},
 
+		/**
+		 * @todo
+		 */
 		fixBlock: function( isStart, blockTag ) {
 			var bookmark = this.createBookmark(),
 				fixedBlock = this.document.createElement( blockTag );
@@ -1504,6 +1605,9 @@ CKEDITOR.dom.range = function( root ) {
 			return fixedBlock;
 		},
 
+		/**
+		 * @todo
+		 */
 		splitBlock: function( blockTag ) {
 			var startPath = new CKEDITOR.dom.elementPath( this.startContainer, this.root ),
 				endPath = new CKEDITOR.dom.elementPath( this.endContainer, this.root );
@@ -1570,9 +1674,11 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Branch the specified element from the collapsed range position and
 		 * place the caret between the two result branches.
-		 * Note: The range must be collapsed and been enclosed by this element.
+		 *
+		 * **Note:** The range must be collapsed and been enclosed by this element.
+		 *
 		 * @param {CKEDITOR.dom.element} element
-		 * @return {CKEDITOR.dom.element} Root element of the new branch after the split.
+		 * @returns {CKEDITOR.dom.element} Root element of the new branch after the split.
 		 */
 		splitElement: function( toSplit ) {
 			if ( !this.collapsed )
@@ -1595,10 +1701,12 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Recursively remove any empty path blocks at the range boundary.
+		 *
+		 * @method
 		 * @param {Boolean} atEnd Removal to perform at the end boundary,
 		 * otherwise to perform at the start.
 		 */
-		removeEmptyBlocksAtEnd : ( function() {
+		removeEmptyBlocksAtEnd: (function() {
 
 			var whitespace = CKEDITOR.dom.walker.whitespaces(),
 					bookmark = CKEDITOR.dom.walker.bookmark( false );
@@ -1637,12 +1745,22 @@ CKEDITOR.dom.range = function( root ) {
 				this.moveToBookmark( bm );
 			};
 
-		} )(),
+		})(),
 
+		/**
+		 * Gets {@link CKEDITOR.dom.elementPath} for the {@link #startContainer}.
+		 *
+		 * @returns {CKEDITOR.dom.elementPath}
+		 */
 		startPath: function() {
 			return new CKEDITOR.dom.elementPath( this.startContainer, this.root );
 		},
 
+		/**
+		 * Gets {@link CKEDITOR.dom.elementPath} for the {@link #endContainer}.
+		 *
+		 * @returns {CKEDITOR.dom.elementPath}
+		 */
 		endPath: function() {
 			return new CKEDITOR.dom.elementPath( this.endContainer, this.root );
 		},
@@ -1650,11 +1768,12 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Check whether a range boundary is at the inner boundary of a given
 		 * element.
+		 *
 		 * @param {CKEDITOR.dom.element} element The target element to check.
 		 * @param {Number} checkType The boundary to check for both the range
-		 *		and the element. It can be CKEDITOR.START or CKEDITOR.END.
-		 * @returns {Boolean} "true" if the range boundary is at the inner
-		 *		boundary of the element.
+		 * and the element. It can be {@link CKEDITOR#START} or {@link CKEDITOR#END}.
+		 * @returns {Boolean} `true` if the range boundary is at the inner
+		 * boundary of the element.
 		 */
 		checkBoundaryOfElement: function( element, checkType ) {
 			var checkStart = ( checkType == CKEDITOR.START );
@@ -1677,8 +1796,13 @@ CKEDITOR.dom.range = function( root ) {
 			return walker[ checkStart ? 'checkBackward' : 'checkForward' ]();
 		},
 
-		// Calls to this function may produce changes to the DOM. The range may
-		// be updated to reflect such changes.
+		/**
+		 * **Note:** Calls to this function may produce changes to the DOM. The range may
+		 * be updated to reflect such changes.
+		 *
+		 * @returns {Boolean}
+		 * @todo
+		 */
 		checkStartOfBlock: function() {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset;
@@ -1711,6 +1835,13 @@ CKEDITOR.dom.range = function( root ) {
 			return walker.checkBackward();
 		},
 
+		/**
+		 * **Note:** Calls to this function may produce changes to the DOM. The range may
+		 * be updated to reflect such changes.
+		 *
+		 * @returns {Boolean}
+		 * @todo
+		 */
 		checkEndOfBlock: function() {
 			var endContainer = this.endContainer,
 				endOffset = this.endOffset;
@@ -1745,7 +1876,9 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Check if elements at which the range boundaries anchor are read-only,
-		 * with respect to "contenteditable" attribute.
+		 * with respect to `contenteditable` attribute.
+		 *
+		 * @returns {Boolean}
 		 */
 		checkReadOnly: (function() {
 			function checkNodesEditable( node, anotherEnd ) {
@@ -1776,12 +1909,16 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Moves the range boundaries to the first/end editing point inside an
-		 * element. For example, in an element tree like
-		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;", the start editing point is
-		 * "&lt;p&gt;&lt;b&gt;&lt;i&gt;^&lt;/i&gt;&lt;/b&gt; Text&lt;/p&gt;" (inside &lt;i&gt;).
+		 * element.
+		 *
+		 * For example, in an element tree like
+		 * `<p><b><i></i></b> Text</p>`, the start editing point is
+		 * `<p><b><i>^</i></b> Text</p>` (inside `<i>`).
+		 *
 		 * @param {CKEDITOR.dom.element} el The element into which look for the
-		 *		editing spot.
+		 * editing spot.
 		 * @param {Boolean} isMoveToEnd Whether move to the end editable position.
+		 * @returns {Boolean} Whether range was moved.
 		 */
 		moveToElementEditablePosition: function( el, isMoveToEnd ) {
 			var nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
@@ -1836,14 +1973,18 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 *@see {CKEDITOR.dom.range.moveToElementEditablePosition}
+		 * See {@link #moveToElementEditablePosition}.
+		 *
+		 * @returns {Boolean} Whether range was moved.
 		 */
 		moveToElementEditStart: function( target ) {
 			return this.moveToElementEditablePosition( target );
 		},
 
 		/**
-		 *@see {CKEDITOR.dom.range.moveToElementEditablePosition}
+		 * See {@link #moveToElementEditablePosition}.
+		 *
+		 * @returns {Boolean} Whether range was moved.
 		 */
 		moveToElementEditEnd: function( target ) {
 			return this.moveToElementEditablePosition( target, true );
@@ -1851,6 +1992,8 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Get the single node enclosed within the range if there's one.
+		 *
+		 * @returns {CKEDITOR.dom.node}
 		 */
 		getEnclosedNode: function() {
 			var walkerRange = this.clone();
@@ -1872,6 +2015,11 @@ CKEDITOR.dom.range = function( root ) {
 			return node && node.equals( walker.previous() ) ? node : null;
 		},
 
+		/**
+		 * Get the node adjacent to the range start or {@link #startContainer}.
+		 *
+		 * @returns {CKEDITOR.dom.node}
+		 */
 		getTouchedStartNode: function() {
 			var container = this.startContainer;
 
@@ -1881,6 +2029,11 @@ CKEDITOR.dom.range = function( root ) {
 			return container.getChild( this.startOffset ) || container;
 		},
 
+		/**
+		 * Get the node adjacent to the range end or {@link #endContainer}.
+		 *
+		 * @returns {CKEDITOR.dom.node}
+		 */
 		getTouchedEndNode: function() {
 			var container = this.endContainer;
 
@@ -1892,8 +2045,6 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Scrolls the start of current range into view.
-		 * @example
-		 * range.<strong>scrollIntoView()</strong>;
 		 */
 		scrollIntoView: function() {
 
@@ -1952,12 +2103,41 @@ CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS = 3;
 CKEDITOR.ENLARGE_INLINE = 4;
 
 // Check boundary types.
-// @see CKEDITOR.dom.range.prototype.checkBoundaryOfElement
+
+/**
+ * See {@link CKEDITOR.dom.range#checkBoundaryOfElement}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=1]
+ */
 CKEDITOR.START = 1;
+
+/**
+ * See {@link CKEDITOR.dom.range#checkBoundaryOfElement}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=2]
+ */
 CKEDITOR.END = 2;
-CKEDITOR.STARTEND = 3;
 
 // Shrink range types.
-// @see CKEDITOR.dom.range.prototype.shrink
+
+/**
+ * See {@link CKEDITOR.dom.range#shrink}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=1]
+ */
 CKEDITOR.SHRINK_ELEMENT = 1;
+
+/**
+ * See {@link CKEDITOR.dom.range#shrink}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=2]
+ */
 CKEDITOR.SHRINK_TEXT = 2;

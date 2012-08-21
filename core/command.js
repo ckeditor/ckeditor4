@@ -4,41 +4,40 @@
  */
 
 /**
- * Creates a command class instance.
- * @class Represents a command that can be executed on an editor instance.
+ * Represents a command that can be executed on an editor instance.
+ *
+ *		var command = new CKEDITOR.command( editor, {
+ *			exec: function( editor ) {
+ *				alert( editor.document.getBody().getHtml() );
+ *			}
+ *		} );
+ *
+ * @class
+ * @mixins CKEDITOR.event
+ * @constructor Creates a command class instance.
  * @param {CKEDITOR.editor} editor The editor instance this command will be
- *		related to.
+ * related to.
  * @param {CKEDITOR.commandDefinition} commandDefinition The command
- *		definition.
- * @augments CKEDITOR.event
- * @example
- * var command = new CKEDITOR.command( editor,
- *     {
- *         exec : function( editor )
- *         {
- *             alert( editor.document.getBody().getHtml() );
- *         }
- *     });
+ * definition.
  */
 CKEDITOR.command = function( editor, commandDefinition ) {
 	/**
 	 * Lists UI items that are associated to this command. This list can be
 	 * used to interact with the UI on command execution (by the execution code
 	 * itself, for example).
-	 * @type Array
-	 * @example
-	 * alert( 'Number of UI items associated to this command: ' + command.<b>uiItems</b>.length );
+	 *
+	 *		alert( 'Number of UI items associated to this command: ' + command.uiItems.length );
 	 */
 	this.uiItems = [];
 
 	/**
 	 * Executes the command.
+	 *
+	 *		command.exec(); // The command gets executed.
+	 *
 	 * @param {Object} [data] Any data to pass to the command. Depends on the
-	 *		command implementation and requirements.
-	 * @returns {Boolean} A boolean indicating that the command has been
-	 *      successfully executed.
-	 * @example
-	 * command.<b>exec()</b>;  // The command gets executed.
+	 * command implementation and requirements.
+	 * @returns {Boolean} A boolean indicating that the command has been successfully executed.
 	 */
 	this.exec = function( data ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
@@ -54,9 +53,11 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Explicitly update the status of the command, by firing the {@link CKEDITOR.command#event:refresh} event,
-	 * as well as invoke the {@link CKEDITOR.commandDefinition.prototype.refresh} method if defined, this method
+	 * Explicitly update the status of the command, by firing the {@link CKEDITOR.command#event-refresh} event,
+	 * as well as invoke the {@link CKEDITOR.command#method-refresh} method if defined, this method
 	 * is to allow different parts of the editor code to contribute in command status resolution.
+	 *
+	 * @todo
 	 */
 	this.refresh = function( editor, path ) {
 		// Do nothing is we're on read-only and this command doesn't support it.
@@ -80,66 +81,58 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		return ( commandDefinition.refresh && commandDefinition.refresh.apply( this, arguments ) !== false );
 	};
 
-	CKEDITOR.tools.extend( this, commandDefinition,
-	// Defaults
-	/** @lends CKEDITOR.command.prototype */
-	{
+	CKEDITOR.tools.extend( this, commandDefinition, {
 		/**
 		 * The editor modes within which the command can be executed. The
 		 * execution will have no action if the current mode is not listed
 		 * in this property.
-		 * @type Object
-		 * @default { wysiwyg:1 }
-		 * @see CKEDITOR.editor.prototype.mode
-		 * @example
-		 * // Enable the command in both WYSIWYG and Source modes.
-		 * command.<b>modes</b> = { wysiwyg:1,source:1 };
-		 * @example
-		 * // Enable the command in Source mode only.
-		 * command.<b>modes</b> = { source:1 };
+		 *
+		 *		// Enable the command in both WYSIWYG and Source modes.
+		 *		command.modes = { wysiwyg:1,source:1 };
+		 *
+		 *		// Enable the command in Source mode only.
+		 *		command.modes = { source:1 };
+		 *
+		 * @see CKEDITOR.editor#mode
 		 */
 		modes: { wysiwyg:1 },
 
 		/**
 		 * Indicates that the editor will get the focus before executing
 		 * the command.
-		 * @type Boolean
-		 * @default true
-		 * @example
-		 * // Do not force the editor to have focus when executing the command.
-		 * command.<b>editorFocus</b> = false;
+		 *
+		 *		// Do not force the editor to have focus when executing the command.
+		 *		command.editorFocus = false;
+		 *
+		 * @property {Boolean} [=true]
 		 */
 		editorFocus: 1,
 
 		/**
 		 * Indicates that this command is sensible to the selection context.
-		 * If "true", the {@link CKEDITOR.command.refresh} method will be
-		 * called for this command on the {@link CKEDITOR.editor#selectionChange} event.
-		 * @type Boolean
-		 * @default false
+		 * If `true`, the {@link CKEDITOR.command#method-refresh} method will be
+		 * called for this command on the {@link CKEDITOR.editor#event-selectionChange} event.
+		 *
+		 * @property {Boolean} [=false]
 		 */
 		contextSensitive: !!commandDefinition.context,
 
 		/**
 		 * Indicates the editor state. Possible values are:
-		 * <ul>
-		 * <li>{@link CKEDITOR.TRISTATE_DISABLED}: the command is
-		 *		disabled. It's execution will have no effect. Same as
-		 *		{@link disable}.</li>
-		 * <li>{@link CKEDITOR.TRISTATE_ON}: the command is enabled
-		 *		and currently active in the editor (for context sensitive commands,
-		 *		for example).</li>
-		 * <li>{@link CKEDITOR.TRISTATE_OFF}: the command is enabled
-		 *		and currently inactive in the editor (for context sensitive
-		 *		commands, for example).</li>
-		 * </ul>
-		 * Do not set this property directly, using the {@link #setState}
-		 * method instead.
-		 * @type Number
-		 * @default {@link CKEDITOR.TRISTATE_OFF}
-		 * @example
-		 * if ( command.<b>state</b> == CKEDITOR.TRISTATE_DISABLED )
-		 *     alert( 'This command is disabled' );
+		 *
+		 * * {@link CKEDITOR#TRISTATE_DISABLED}: the command is
+		 *     disabled. It's execution will have no effect. Same as {@link #disable}.
+		 * * {@link CKEDITOR#TRISTATE_ON}: the command is enabled
+		 *     and currently active in the editor (for context sensitive commands,	for example).
+		 * * {@link CKEDITOR#TRISTATE_OFF}: the command is enabled
+		 *     and currently inactive in the editor (for context sensitive	commands, for example).
+		 *
+		 * Do not set this property directly, using the {@link #setState} method instead.
+		 *
+		 *		if ( command.state == CKEDITOR.TRISTATE_DISABLED )
+		 *			alert( 'This command is disabled' );
+		 *
+		 * @property {Number} [=CKEDITOR.TRISTATE_OFF]
 		 */
 		state: CKEDITOR.TRISTATE_OFF
 	});
@@ -151,11 +144,10 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 CKEDITOR.command.prototype = {
 	/**
 	 * Enables the command for execution. The command state (see
-	 * {@link CKEDITOR.command.prototype.state}) available before disabling it
-	 * is restored.
-	 * @example
-	 * command.<b>enable()</b>;
-	 * command.exec();    // Execute the command.
+	 * {@link CKEDITOR.command#property-state}) available before disabling it is restored.
+	 *
+	 *		command.enable();
+	 *		command.exec(); // Execute the command.
 	 */
 	enable: function() {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
@@ -164,11 +156,10 @@ CKEDITOR.command.prototype = {
 
 	/**
 	 * Disables the command for execution. The command state (see
-	 * {@link CKEDITOR.command.prototype.state}) will be set to
-	 * {@link CKEDITOR.TRISTATE_DISABLED}.
-	 * @example
-	 * command.<b>disable()</b>;
-	 * command.exec();    // "false" - Nothing happens.
+	 * {@link CKEDITOR.command#property-state}) will be set to {@link CKEDITOR#TRISTATE_DISABLED}.
+	 *
+	 *		command.disable();
+	 *		command.exec(); // "false" - Nothing happens.
 	 */
 	disable: function() {
 		this.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -176,15 +167,16 @@ CKEDITOR.command.prototype = {
 
 	/**
 	 * Sets the command state.
-	 * @param {Number} newState The new state. See {@link #state}.
-	 * @returns {Boolean} Returns "true" if the command state changed.
-	 * @example
-	 * command.<b>setState( CKEDITOR.TRISTATE_ON )</b>;
-	 * command.exec();    // Execute the command.
-	 * command.<b>setState( CKEDITOR.TRISTATE_DISABLED )</b>;
-	 * command.exec();    // "false" - Nothing happens.
-	 * command.<b>setState( CKEDITOR.TRISTATE_OFF )</b>;
-	 * command.exec();    // Execute the command.
+	 *
+	 *		command.setState( CKEDITOR.TRISTATE_ON );
+	 *		command.exec(); // Execute the command.
+	 *		command.setState( CKEDITOR.TRISTATE_DISABLED );
+	 *		command.exec(); // 'false' - Nothing happens.
+	 *		command.setState( CKEDITOR.TRISTATE_OFF );
+	 *		command.exec(); // Execute the command.
+	 *
+	 * @param {Number} newState The new state. See {@link #property-state}.
+	 * @returns {Boolean} Returns `true` if the command state changed.
 	 */
 	setState: function( newState ) {
 		// Do nothing if there is no state change.
@@ -206,8 +198,8 @@ CKEDITOR.command.prototype = {
 	/**
 	 * Toggles the on/off (active/inactive) state of the command. This is
 	 * mainly used internally by context sensitive commands.
-	 * @example
-	 * command.<b>toggleState()</b>;
+	 *
+	 *		command.toggleState();
 	 */
 	toggleState: function() {
 		if ( this.state == CKEDITOR.TRISTATE_OFF )
@@ -221,21 +213,25 @@ CKEDITOR.event.implementOn( CKEDITOR.command.prototype, true );
 
 /**
  * Indicates the previous command state.
- * @name CKEDITOR.command.prototype.previousState
- * @type Number
+ *
+ *		alert( command.previousState );
+ *
+ * @property {Number} previousState
  * @see #state
- * @example
- * alert( command.<b>previousState</b> );
  */
 
 /**
  * Fired when the command state changes.
- * @name CKEDITOR.command#state
- * @event
- * @example
- * command.on( <b>'state'</b> , function( e )
- *     {
- *         // Alerts the new state.
- *         alert( this.state );
- *     });
+ *
+ *		command.on( 'state', function( e ) {
+ *			// Alerts the new state.
+ *			alert( this.state );
+ *		} );
+ *
+ * @event state
+ */
+
+ /**
+ * @event refresh
+ * @todo
  */
