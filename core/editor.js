@@ -87,7 +87,7 @@
 		 *
 		 * **Note:** It will be originated from the ID or name
 		 * attribute of the {@link #element}, otherwise a name pattern of
-		 * "editor{n}" will be used.
+		 * ```'editor{n}'``` will be used.
 		 *
 		 * @property {String}
 		 */
@@ -747,9 +747,6 @@
 		/**
 		 * Inserts HTML code into the currently selected position in the editor in WYSIWYG mode.
 		 *
-		 * @param {String} html HTML code to be inserted into the editor.
-		 * @param {String} [mode='html'] Mode in which HTML will be inserted.
-		 *
 		 * * ```"html"``` - content being inserted will completely override styles
 		 *    of selected position.
 		 * * ```"text"``` - content being inserted will inherit styles applied in
@@ -760,6 +757,9 @@
 		 * Example:
 		 *
 		 *		CKEDITOR.instances.editor1.insertHtml( '<p>This is a new paragraph.</p>' );
+		 *
+		 * @param {String} html HTML code to be inserted into the editor.
+		 * @param {String} [mode='html'] Mode in which HTML will be inserted.
 		 */
 		insertHtml: function( html, mode ) {
 			this.fire( 'insertHtml', { dataValue: html, mode: mode } );
@@ -783,8 +783,8 @@
 		 * Inserts an element into the currently selected position in the
 		 * editor in WYSIWYG mode.
 		 *
-		 * var element = CKEDITOR.dom.element.createFromHtml( '<img src="hello.png" border="0" title="Hello" />' );
-		 * CKEDITOR.instances.editor1.insertElement( element );
+		 *		var element = CKEDITOR.dom.element.createFromHtml( '<img src="hello.png" border="0" title="Hello" />' );
+		 *		CKEDITOR.instances.editor1.insertElement( element );
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be inserted
 		 * into the editor.

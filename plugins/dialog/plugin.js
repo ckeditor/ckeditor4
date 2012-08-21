@@ -656,6 +656,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 *
 		 *		dialogObj.resize( 800, 640 );
 		 *
+		 * @method
 		 * @param {Number} width The width of the dialog in pixels.
 		 * @param {Number} height The height of the dialog in pixels.
 		 */
