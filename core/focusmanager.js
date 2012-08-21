@@ -83,7 +83,7 @@
 
 				this.hasFocus = true;
 
-				var ct = this._.editor.container
+				var ct = this._.editor.container;
 				ct && ct.addClass( 'cke_focus' );
 				this._.editor.fire( 'focus' );
 			}

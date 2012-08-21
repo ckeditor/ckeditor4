@@ -145,7 +145,7 @@
 					}
 				}
 			}
-			return CKEDITOR.getUrl( getConfigPath() + part + '.css' )
+			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
 	}
 
 	function loadCss( part, callback ) {
