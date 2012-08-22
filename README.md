@@ -5,10 +5,10 @@ CKEditor 4 – The best browser-based WYSIWYG editor
 
 This repository contains the development version of CKEditor.
 
-**Attention:** The code in this repository should be used locally, for development purposes only.
+**Attention:** The code in this repository should be used locally and development purposes only.
 We don’t recommend distributing it on remote websites because the user experience will be very limited.
-For that purpose, you should build it (see bellow) or use an official release instead,
-available in the [CKEditor website](http://ckeditor.com).
+For that purpose, you should build it (see below) or use an official release instead,
+available on the [CKEditor website](http://ckeditor.com).
 
 ### Code Installation
 
@@ -18,7 +18,7 @@ Simply clone it on any local directory and you’re set.
 ### Samples
 
 The `samples/` folder contains a good set of examples that can be used
-to test your installation as well as being a precious resource for learning
+to test your installation. It can also be a precious resource for learning
 some aspects of the CKEditor JavaScript API and its integration on web pages.
 
 ### Code Structure
@@ -30,7 +30,7 @@ The development code contains the following main elements:
     it provides the entire JavaScript API that makes the magic happen.
     - `plugins/`: contains most of the plugins maintained by the CKEditor core team.
     - `skin/`: contains the official default skin of CKEditor.
-    - `dev/`: contains “developer tools”.
+    - `dev/`: contains “developer tools.”
 
 ### Building a Release
 
@@ -39,8 +39,8 @@ The `dev/builder/builder.sh` script can be used for that purpose:
 
 	> ./dev/builder/builder.sh
 
-A “release ready” version of you development code working copy will be built in the new `dev/builder/release/` folder.
-Internet connection is necessary to run the builder, for its first time at least.
+A “release ready” working copy of your development code will be built in the new `dev/builder/release/` folder.
+An internet connection is necessary to run the builder, for its first time at least.
 
 ### License
 
