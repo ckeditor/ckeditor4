@@ -181,6 +181,37 @@ if ( !CKEDITOR.env ) {
 			env.ie8Compat = version == 8;
 			env.ie7Compat = version == 7;
 			env.ie6Compat = version < 7 || env.quirks;
+
+			/**
+			 * Indicates that CKEditor is running on an IE6-like environment, which
+			 * includes IE6 itself and IE7 and IE8 quirks mode.
+			 *
+			 * @deprecated
+			 * @property {Boolean} ie6Compat
+			 */
+
+			/**
+			 * Indicates that CKEditor is running on an IE7-like environment, which
+			 * includes IE7 itself and IE8's IE7 document mode.
+			 *
+			 * @deprecated
+			 * @property {Boolean} ie7Compat
+			 */
+
+			/**
+			 * Indicates that CKEditor is running on Internet Explorer 8 on
+			 * standards mode.
+			 *
+			 * @deprecated
+			 * @property {Boolean} ie8Compat
+			 */
+
+			/**
+			 * Indicates that CKEditor is running on Internet Explorer 9's standards mode.
+			 *
+			 * @deprecated
+			 * @property {Boolean} ie9Compat
+			 */
 		}
 
 		// Gecko.
