@@ -17,12 +17,21 @@
 
 	// Activates the box inside of an editor.
 	function initPlugin( editor ) {
+
+		var enterBehaviors = {};
+		enterBehaviors[ CKEDITOR.ENTER_BR ] = 'br';
+		enterBehaviors[ CKEDITOR.ENTER_P ] = 'p';
+		enterBehaviors[ CKEDITOR.ENTER_DIV ] = 'div';
+
 		// Configurables
 		var config = editor.config,
 			triggerOffset = config.magicline_triggerOffset || 30,
+			enterMode = config.enterMode,
 			that = {
 				// Global stuff is being initialized here.
 				editor: editor,
+				enterBehavior: enterBehaviors[ enterMode ], 		// A tag which is to be inserted by the magicline.
+				enterMode: enterMode,
 				triggerOffset: triggerOffset,
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
@@ -59,7 +68,7 @@
 			}, true );
 
 			// Enabling the box inside of inline editable is pointless.
-			// There's no need to place paragraphs inside paragraphs, links, spans, etc.
+			// There's no need to access spaces inside paragraphs, links, spans, etc.
 			if ( editable.is( CKEDITOR.dtd.$inline ) )
 				return;
 
@@ -282,6 +291,7 @@
 			// This one allows testing and debugging. It reveals some
 			// inner methods to the world.
 			this.backdoor = {
+				accessFocusSpace: accessFocusSpace,
 				boxTrigger: boxTrigger,
 				isHtml: isHtml,
 				isLine: isLine,
@@ -329,7 +339,7 @@
 		env = CKEDITOR.env;
 
 	// %REMOVE_START%
-	// Inserts new paragraph on demand by looking for closest parent trigger
+	// Access focus space on demand by looking for closest parent trigger
 	// or using current element under the caret as reference.
 	function accessSpaceCommand( that, insertAfter ) {
 		return {
@@ -344,11 +354,11 @@
 				if ( !isHtml( target ) )
 					return;
 
-				insertParagraph( that, function( paragraph ) {
+				accessFocusSpace( that, function( accessNode ) {
 					if ( target.equals( that.editable ) )
-						range.insertNode( paragraph );
+						range.insertNode( accessNode );
 					else
-						paragraph[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
+						accessNode[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
 				});
 
 				that.line.detach();
@@ -671,20 +681,20 @@
 
 		line.setOpacity( that.editor.config.magicline_opacity || 1 );
 
-		// Handle paragraph inserting.
+		// Handle accessSpace node insertion.
 		line.lineChildren[ 0 ].on( 'mouseup', function( event ) {
 			line.detach();
 
-			insertParagraph( that, function( paragraph ) {
+			accessFocusSpace( that, function( accessNode ) {
 				// Use old trigger that was saved by 'place' method. Look: line.place
 				var trigger = that.line.trigger;
 
-				paragraph[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ]
+				accessNode[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ]
 					( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
 			});
 
 			that.editor.focus();
-			that.hotParagraph.scrollIntoView();
+			that.hotNode.scrollIntoView();
 			event.data.preventDefault( true );
 		});
 
@@ -696,22 +706,39 @@
 		that.line = line;
 	}
 
-	// Creates new paragraph filled with dummy white-space.
-	// It inserts the paragraph according to insertFunction.
-	// Then the method selects the non-breaking space making the paragraph ready for typing.
-	function insertParagraph( that, insertFunction ) {
-		var paragraph = new newElement( 'p', that.doc ),
-			range = new CKEDITOR.dom.range( that.doc ),
-			dummy = that.doc.createText( WHITE_SPACE ),
-			editor = that.editor;
+	// This function allows accessing any focus space according to the insert function:
+	// 	* For enterMode ENTER_P it creates P element filled with dummy white-space.
+	// 	* For enterMode ENTER_DIV it creates DIV element filled with dummy white-space.
+	// 	* For enterMode ENTER_BR it creates BR element or &nbsp; in IE.
+	//
+	// The node is being inserted according to insertFunction. Finally the method
+	// selects the non-breaking space making the node ready for typing.
+	function accessFocusSpace( that, insertFunction ) {
+		var range = new CKEDITOR.dom.range( that.doc ),
+			editor = that.editor,
+			accessNode;
+
+		// IE requires text node of &nbsp; in ENTER_BR mode.
+		if ( env.ie && that.enterMode == CKEDITOR.ENTER_BR )
+			accessNode = that.doc.createText( WHITE_SPACE );
+
+		// In other cases a regular element is used.
+		else {
+			accessNode = new newElement( that.enterBehavior, that.doc );
+
+			if ( that.enterMode =! CKEDITOR.ENTER_BR ) {
+				var dummy = that.doc.createText( WHITE_SPACE );
+				dummy.appendTo( accessNode );
+			}
+		}
 
 		editor.fire( 'saveSnapshot' );
 
-		insertFunction( paragraph );
-		dummy.appendTo( paragraph );
-		range.moveToPosition( paragraph, CKEDITOR.POSITION_AFTER_START );
+		insertFunction( accessNode );
+		//dummy.appendTo( accessNode );
+		range.moveToPosition( accessNode, CKEDITOR.POSITION_AFTER_START );
 		editor.getSelection().selectRanges( [ range ] );
-		that.hotParagraph = paragraph;
+		that.hotNode = accessNode;
 
 		editor.fire( 'saveSnapshot' );
 	}
@@ -1292,7 +1319,7 @@
 // %REMOVE_START%
 
 /**
- * Defines default keystroke that inserts new paragraph before an element that
+ * Defines default keystroke that access the space before an element that
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + ,
@@ -1305,7 +1332,7 @@
 // CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
 
 /**
- * Defines default keystroke that inserts new paragraph after an element that
+ * Defines default keystroke that access the space after an element that
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + .
