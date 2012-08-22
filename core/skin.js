@@ -281,6 +281,13 @@
  * @todo type?
  */
 
+ /**
+  * Current skin name.
+  *
+  * @property {String} name
+  * @todo
+  */
+
 /**
  * The editor skin name. Note that is is not possible to have editors with
  * different skin settings in the same page. In such case, just one of the
