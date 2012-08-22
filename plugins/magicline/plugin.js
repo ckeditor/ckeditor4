@@ -499,7 +499,7 @@
 						'" contenteditable="false">' + WHITE_SPACE + '</span>', doc ), {
 					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
 						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
-						+ ';cursor:' + ( env.opera ? 'auto' : 'pointer' ) + ';', // cursor:pointer causes mouse flickering in opera
+						+ ';cursor:pointer;',
 					looks: [
 						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
 						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
