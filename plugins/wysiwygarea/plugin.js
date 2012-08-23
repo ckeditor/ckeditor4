@@ -600,11 +600,9 @@
 		else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
 			css.push( 'body.cke_contents_ltr{margin-right:0}' );
 
-		// #3658: [IE6] Editor document has horizontal scrollbar on long lines.
-		// To prevent this misbehavior, we show the scrollbar always.
 		// #6341: The text cursor must be set on the editor area.
 		// #6632: Avoid having "text" shape of cursor in IE7 scrollbars.
-		css.push( 'html{_overflow-y:scroll;cursor:text;*cursor:auto}' );
+		css.push( 'html{cursor:text;*cursor:auto}' );
 
 		// Use correct cursor for these elements
 		css.push( 'img,input,textarea{cursor:default}' );
