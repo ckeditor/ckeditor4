@@ -569,7 +569,7 @@
 					// Prevent from tick checkbox/radiobox/select
 					this.attachListener( this, 'click', function( ev ) {
 						if ( ev.data.getTarget().is( 'input', 'select' ) )
-							ev.data.preventDefasult();
+							ev.data.preventDefault();
 					});
 
 					// Prevent from editig textfield/textarea value.
