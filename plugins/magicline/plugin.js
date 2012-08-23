@@ -269,7 +269,7 @@
 					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
 					// If trigger exists, and trigger is correct -> show the box
-					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) )
+					if ( ( that.trigger = triggerEditable( that ) ) ) /*|| triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) */
 						that.line.attach().place();
 
 					// Otherwise remove the box
@@ -726,7 +726,7 @@
 		else {
 			accessNode = new newElement( that.enterBehavior, that.doc );
 
-			if ( that.enterMode =! CKEDITOR.ENTER_BR ) {
+			if ( that.enterMode != CKEDITOR.ENTER_BR ) {
 				var dummy = that.doc.createText( WHITE_SPACE );
 				dummy.appendTo( accessNode );
 			}
@@ -744,12 +744,12 @@
 	}
 
 	function isLine( that, node ) {
-		if ( !isHtml( node ) )
+		if ( !( node && node.type == CKEDITOR.NODE_ELEMENT && node.$ ) )
 			return false;
 
 		var line = that.line;
 
-		return node.equals( line.wrap ) || line.wrap.contains( node );
+		return line.wrap.equals( node ) || line.wrap.contains( node );
 	}
 
 	// Is text node containing white-spaces only?
@@ -807,29 +807,116 @@
 		return edgeBottom ? edgeChild.size.top > that.mouse.y : edgeChild.size.bottom < that.mouse.y;
 	}
 
-	// This method handles edge cases when:
-	// 	-> Mouse is around upper/lower edge of view pane.
-	// 		-> Scroll position is either minimal or maximal.
-	// 			-> It's OK to show LOOK_TOP/BOTTOM type box.
+	// This method handles edge cases:
+	// 	\-> Mouse is around upper or lower edge of view pane.
+	// 	\-> Also scroll position is either minimal or maximal.
+	// 	\-> It's OK to show LOOK_TOP(BOTTOM) type line.
+	//
+	// This trigger doesn't need additional post-filtering.
+	//
+	//	+----------------------------- Editable -+  /--
+	//	| +---------------------- First child -+ |  | <-- Top edge (first child)
+	//	| |                                    | |  |
+	//	| |                                    | |  |	 * Mouse activation area *
+	//	| |                                    | |  |
+	//	| |                 ...                | |	\-- Top edge + trigger offset
+	//	| .                                    . |
+	//	|                                        |
+	//	| .                                    . |
+	//	| |                 ...                | |  /-- Bottom edge - trigger offset
+	//	| |                                    | |  |
+	//	| |                                    | |  |	 * Mouse activation area *
+	//	| |                                    | |  |
+	//	| +----------------------- Last child -+ |  | <-- Bottom edge (last child)
+	//	+----------------------------------------+  \--
+	//
+	//	However the following implementation doesn't work if (+ reverse case):
+	//
+	//	+----------------------------- Editable -+
+	//	|                  ...                   |
+	//	|                  ...                   |
+	//	| +----------------------- Last child -+ |
+	//	| |                                    | |
+	//	| +------------------------------------+ | <-- Bottom edge (last child)
+	//	|                                        |
+	//	|          # <-- Mouse.y is above 1/2    |
+	//	|                                        | <-- 1/2 of editable height
+	//	|                                        |
+	//	|                                        |
+	//	|                                        |
+	//	|                                        |
+	//	|                                        |
+	//	|                                        |
+	//	|                                        |
+	//	+----------------------------------------+
+	//
 	function triggerEditable( that ) {
 		var editable = that.editable,
-			editableFirst = editable.getFirst( that.isRelevant ),
-			editableLast = editable.getLast( that.isRelevant ),
 			mouse = that.mouse,
 			view = that.view,
 			triggerOffset = that.triggerOffset;
 
-		if ( !editableFirst || !editableLast )
-			return null;
-
-		updateSize( that, editableFirst );
-		updateSize( that, editableLast );
+		// Update editable dimensions.
 		updateEditableSize( that );
 
-		if ( editableFirst.size.top > 0 && inBetween( mouse.y, 0, editableFirst.size.top + triggerOffset ) ) {
-			return new boxTrigger( null, editableFirst, EDGE_TOP, TYPE_EDGE, inInlineMode( that ) || view.scroll.y === 0 ? LOOK_TOP : LOOK_NORMAL );
-		} else if ( editableLast.size.bottom < view.pane.height && inBetween( mouse.y, editableLast.size.bottom - triggerOffset, view.pane.height ) ) {
-			return new boxTrigger( editableLast, null, EDGE_BOTTOM, TYPE_EDGE, inInlineMode( that ) || inBetween( editableLast.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ? LOOK_BOTTOM : LOOK_NORMAL );
+		// This flag determines whether checking bottom trigger.
+		var bottomTrigger = mouse.y > view.pane.height / 2;
+
+		// Edge node according to bottomTrigger.
+		var edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]();
+
+		// There's no edge node. Abort.
+		if ( !edgeNode )
+			return null;
+
+		// If the edgeNode in editable is ML, get the next one.
+		if ( isLine( that, edgeNode ) )
+			edgeNode = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]();
+
+		// Exclude bad nodes (no ML needed then):
+		//	\-> Edge node is text.
+		//	\-> Edge node is floated, etc.
+		//
+		// Edge node *must be* a valid trigger at this stage as well.
+		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) )
+			return null;
+
+		// Update size of edge node. Dimensions will be necessary.
+		updateSize( that, edgeNode );
+
+		// Return appropriate trigger according to bottomTrigger.
+		// \->	Top edge trigger case first.
+		if ( !bottomTrigger &&													// Top trigger case.
+			edgeNode.size.top > 0 &&											// Check if the first element is fully visible.
+			inBetween( mouse.y, 0, edgeNode.size.top + triggerOffset ) ) {		// Check if mouse in [0, edgeNode.top + triggerOffset].
+
+			// Determine trigger look.
+			var triggerLook = inInlineMode( that ) || view.scroll.y === 0 ?
+				LOOK_TOP : LOOK_NORMAL;
+
+			return new boxTrigger( null, edgeNode,
+				EDGE_TOP,
+				TYPE_EDGE,
+				triggerLook
+			);
+		}
+
+		// \->	Bottom case.
+		else if ( bottomTrigger &&
+			edgeNode.size.bottom < view.pane.height &&							// Check if the last element is fully visible
+			inBetween( mouse.y,													// Check if mouse in...
+				edgeNode.size.bottom - triggerOffset, view.pane.height ) ) {	// [ edgeNode.bottom - triggerOffset, paneHeight ]
+
+			// Determine trigger look.
+			var triggerLook = inInlineMode( that ) ||
+				inBetween( edgeNode.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ?
+					LOOK_BOTTOM : LOOK_NORMAL;
+
+			return new boxTrigger( edgeNode, null,
+				EDGE_BOTTOM,
+				TYPE_EDGE,
+				triggerLook
+			);
 		}
 
 		return null;
@@ -1013,6 +1100,9 @@
 			// 3.1.
 			if ( !( upperNext = upper.getNext( that.isRelevant ) ) )
 				break;
+
+			// if ( isTextNode( upperNext ) )
+			// 	return null;
 
 			// 3.2.
 			currentDistance = Math.abs( getMidpoint( that, upper, upperNext ) - that.mouse.y );
