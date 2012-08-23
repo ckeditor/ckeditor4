@@ -41,7 +41,7 @@
 			],
 			onShow: function() {
 				if ( isEdit )
-					this._element = CKEDITOR.plugins.placeholder.getSelectedPlaceHoder( editor );
+					this._element = CKEDITOR.plugins.placeholder.getSelectedPlaceHolder( editor );
 
 				this.setupContent( this._element );
 			},
