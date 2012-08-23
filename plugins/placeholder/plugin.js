@@ -56,7 +56,7 @@
 			}
 
 			editor.on( 'doubleclick', function( evt ) {
-				if ( CKEDITOR.plugins.placeholder.getSelectedPlaceHoder( editor ) )
+				if ( CKEDITOR.plugins.placeholder.getSelectedPlaceHolder( editor ) )
 					evt.data.dialog = 'editplaceholder';
 			});
 
@@ -129,7 +129,7 @@ CKEDITOR.plugins.placeholder = {
 		return null;
 	},
 
-	getSelectedPlaceHoder: function( editor ) {
+	getSelectedPlaceHolder: function( editor ) {
 		var range = editor.getSelection().getRanges()[ 0 ];
 		range.shrink( CKEDITOR.SHRINK_TEXT );
 		var node = range.startContainer;
