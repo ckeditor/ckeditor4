@@ -4,6 +4,8 @@
  */
 
 CKEDITOR.plugins.add( 'menu', {
+	requires: 'floatpanel',
+
 	beforeInit: function( editor ) {
 		var groups = editor.config.menu_groups.split( ',' ),
 			groupsOrder = editor._.menuGroups = {},
@@ -74,9 +76,7 @@ CKEDITOR.plugins.add( 'menu', {
 		editor.removeMenuItem = function( name ) {
 			delete menuItems[ name ];
 		};
-	},
-
-	requires: 'floatpanel'
+	}
 });
 
 (function() {
