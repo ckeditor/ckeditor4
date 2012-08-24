@@ -269,7 +269,8 @@
 					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
 					// If trigger exists, and trigger is correct -> show the box
-					if ( ( that.trigger = triggerEditable( that ) ) ) /*|| triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) */
+					//if ( ( that.trigger = triggerEditable( that ) ) ) /*|| triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) */
+					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) ) )
 						that.line.attach().place();
 
 					// Otherwise remove the box
@@ -317,6 +318,7 @@
 		LOOK_NORMAL = 1,
 		WHITE_SPACE = '\u00A0',
 		DTD_LISTITEM = CKEDITOR.dtd.$listItem,
+		DTD_TABLECONTENT = CKEDITOR.dtd.$tableContent,
 
 		// Minimum time that must elapse between two update*Size calls.
 		// It prevents constant getComuptedStyle calls and improves performance.
@@ -378,10 +380,10 @@
 	// The following type is used by numerous methods
 	// to share information about the hypothetical box placement
 	// and look by referring to boxTrigger properties.
-	function boxTrigger( upper, lower, edge, type, look ) {
-		this.upper = upper;
-		this.lower = lower;
-		this.set( edge, type, look );
+	function boxTrigger( triggerSetup ) {
+		this.upper = triggerSetup[ 0 ];
+		this.lower = triggerSetup[ 1 ];
+		this.set.apply( this, triggerSetup.slice( 2 ) );
 	}
 
 	boxTrigger.prototype = {
@@ -426,8 +428,11 @@
 
 		var trigger;
 
-		if ( isHtml( node ) )
-			return ( trigger = node.getAscendant( that.triggers, true ) ) && !trigger.contains( that.editable ) ? trigger : null;
+		if ( isHtml( node ) ) {
+			return ( trigger = node.getAscendant( that.triggers, true ) ) &&
+				!trigger.contains( that.editable ) &&
+				!trigger.equals( that.editable ) ? trigger : null;
+		}
 
 		return null;
 	}
@@ -442,8 +447,9 @@
 		return upperSizeBottom && lowerSizeTop ? 0 | ( upperSizeBottom + lowerSizeTop ) / 2 : upperSizeBottom || lowerSizeTop;
 	}
 
-	// Get nearest node (either text or HTML), but omit all empty
-	// text nodes (containing white characters only).
+	// Get nearest node (either text or HTML), but:
+	//	\->	omit all empty text nodes (containing white characters only)
+	//	\-> omit BR elements
 	function getNonEmptyNeighbour( that, node, goBack ) {
 		var nodeParent = node.getParent();
 
@@ -465,7 +471,9 @@
 
 		walker.guard = function( node ) {
 			// Found some non-empty text node or HTML element. Abort.
-			if ( isNotComment( node ) && ( !isEmptyTextNode( node ) || isHtml( node ) ) ) {
+			if ( isNotComment( node ) &&
+				( !isEmptyTextNode( node ) ||
+					( isHtml( node ) && !node.is( 'br' ) ) ) ) {
 				edgeNode = node;
 				return false;
 			}
@@ -796,8 +804,13 @@
 		return isHtml( element ) ? element.is( that.triggers ) : null;
 	}
 
+	// This function checks vertically is there's a relevant child between element's edge
+	// and the pointer.
+	//	\-> Table contents are omitted.
 	function isChildBetweenPointerAndEdge( that, parent, edgeBottom ) {
-		var edgeChild = parent[ edgeBottom ? 'getLast' : 'getFirst' ]( that.isRelevant );
+		var edgeChild = parent[ edgeBottom ? 'getLast' : 'getFirst' ]( function( node ) {
+			return that.isRelevant( node ) && !node.is( DTD_TABLECONTENT );
+		});
 
 		if ( !edgeChild )
 			return false;
@@ -860,10 +873,10 @@
 		updateEditableSize( that );
 
 		// This flag determines whether checking bottom trigger.
-		var bottomTrigger = mouse.y > view.pane.height / 2;
+		var bottomTrigger = mouse.y > view.pane.height / 2,
 
 		// Edge node according to bottomTrigger.
-		var edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]();
+			edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]();
 
 		// There's no edge node. Abort.
 		if ( !edgeNode )
@@ -894,11 +907,11 @@
 			var triggerLook = inInlineMode( that ) || view.scroll.y === 0 ?
 				LOOK_TOP : LOOK_NORMAL;
 
-			return new boxTrigger( null, edgeNode,
+			return new boxTrigger( [ null, edgeNode,
 				EDGE_TOP,
 				TYPE_EDGE,
 				triggerLook
-			);
+			] );
 		}
 
 		// \->	Bottom case.
@@ -912,84 +925,161 @@
 				inBetween( edgeNode.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ?
 					LOOK_BOTTOM : LOOK_NORMAL;
 
-			return new boxTrigger( edgeNode, null,
+			return new boxTrigger( [ edgeNode, null,
 				EDGE_BOTTOM,
 				TYPE_EDGE,
 				triggerLook
-			);
+			] );
 		}
 
 		return null;
 	}
 
-	// Checks if the pointer is in the upper/lower area of an element.
-	// Then the procedure analyses if the there's HTML node before/after that element.
-	// It also considers cases of an element being the first/last child of its parent.
+	// This method covers cases *inside* of an element:
+	// 	\->	The pointer is in the top (bottom) area of an element and there's
+	//		HTML node before (after) this element.
+	// 	\-> An element being the first or last child of its parent.
+	//
+	//	+----------------------- Parent element -+
+	//	| +----------------------- Element #1 -+ |  /--
+	//	| |                                    | |  |	 * Mouse activation area (as first child) *
+	//	| |                                    | |  \--
+	//	| |                                    | |  /--
+	//	| |                                    | |  |	 * Mouse activation area (Element #2) *
+	//	| +------------------------------------+ |  \--
+	//	|                                        |
+	//	| +----------------------- Element #2 -+ |  /--
+	//	| |                                    | |  |	 * Mouse activation area (Element #1) *
+	//	| |                                    | |  \--
+	//	| |                                    | |
+	//	| +------------------------------------+ |
+	//	|                                        |
+	//	|            Text node is here.          |
+	//	|                                        |
+	//	| +----------------------- Element #3 -+ |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| |                                    | |  /--
+	//	| |                                    | |  |	 * Mouse activation area (as last child) *
+	//	| +------------------------------------+ |  \--
+	//	+----------------------------------------+
+	//
 	function triggerEdge( that ) {
 		DEBUG && DEBUG.groupStart( 'triggerEdge' ); // %REMOVE_LINE%
 
+		// Get the ascendant trigger basing on elementFromMouse.
 		var element = getAscendantTrigger( that, elementFromMouse( that, true ) );
+
 		DEBUG && DEBUG.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
 
-		if ( !element || that.editable.equals( element ) ) {
-			DEBUG && DEBUG.logEnd( 'ABORT. No element or element is editable.' ); // %REMOVE_LINE%
+		// Abort if there's no appropriate element.
+		if ( !element ) {
+			DEBUG && DEBUG.logEnd( 'ABORT. No element, element is editable or element contains editable.' ); // %REMOVE_LINE%
 			return null;
 		}
 
-		// If that.triggerOffset is larger than a half of element's height, reduce the offset.
-		// If the offset wasn't reduced, top area search would cover most (all) cases.
+		// Dimensions will be necessary.
 		updateSize( that, element );
 
-		var fixedOffset = Math.min( that.triggerOffset, 0 | ( element.size.outerHeight / 2 ) ),
-			elementNext = element,
-			elementPrevious = element;
+		// If triggerOffset is larger than a half of element's height,
+		// use an offset of 1/2 of element's height. If the offset wasn't reduced,
+		// top area would cover most (all) cases.
+		var fixedOffset = Math.min( that.triggerOffset,
+				0 | ( element.size.outerHeight / 2 ) ),
 
-		// Around the upper edge of an element.
-		if ( inBetween( that.mouse.y, element.size.top - 1, element.size.top + fixedOffset ) ) {
-			// Search for nearest HTML element or non-empty text node.
-			elementPrevious = getNonEmptyNeighbour( that, elementPrevious, true );
+		// This variable will hold the trigger to be returned.
+			triggerSetup = [],
 
-			// Real HTML element before
-			if ( isHtml( elementPrevious ) ) {
-				DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
-				return new boxTrigger( elementPrevious, element, EDGE_MIDDLE, TYPE_EDGE );
-			}
+		// This flag determines whether dealing with a bottom trigger.
+			bottomTrigger;
 
-			// It's a text node
-			if ( elementPrevious ) {
-				DEBUG && DEBUG.logEnd( 'ABORT. Previous is non-empty text node', elementPrevious ); // %REMOVE_LINE%
-				return false;
-			}
-
-			// No previous element
-			DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_TOP' ); // %REMOVE_LINE%
-			return new boxTrigger( null, element, EDGE_TOP, TYPE_EDGE, element.equals( that.editable.getFirst( that.isRelevant ) ) ? LOOK_TOP : LOOK_NORMAL );
+		//	\-> Top trigger.
+		if ( inBetween( that.mouse.y, element.size.top - 1, element.size.top + fixedOffset ) )
+			bottomTrigger = false;
+		//	\-> Bottom trigger.
+		else if ( inBetween( that.mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) )
+			bottomTrigger = true;
+		//	\-> Abort. Not in a valid trigger space.
+		else {
+			DEBUG && DEBUG.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
+			return null;
 		}
 
-		// Around the lower edge of an element.
-		else if ( inBetween( that.mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) ) {
-			// Search for nearest html element or non-empty text node.
-			elementNext = getNonEmptyNeighbour( that, elementNext, false );
-
-			// Real HTML element before.
-			if ( isHtml( elementNext ) ) {
-				DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
-				return new boxTrigger( element, elementNext, EDGE_MIDDLE, TYPE_EDGE );
-			}
-
-			// It's a text node.
-			if ( elementNext ) {
-				DEBUG && DEBUG.logEnd( 'ABORT. Next is non-empty text node.', elementPrevious ); // %REMOVE_LINE%
-				return false;
-			}
-
-			// No next element.
-			DEBUG && DEBUG.logEnd( 'Made edge trigger of EDGE_BOTTOM' ); // %REMOVE_LINE%
-			return new boxTrigger( element, null, EDGE_BOTTOM, TYPE_EDGE, element.equals( that.editable.getLast( that.isRelevant ) ) && inBetween( element.size.bottom, that.view.pane.height - that.triggerOffset, that.view.pane.height ) ? LOOK_BOTTOM : LOOK_NORMAL );
+		// Reject wrong elements.
+		// 	\-> Reject an element which is a flow breaker.
+		// 	\-> Reject an element which has a child above/below the mouse pointer.
+		//	\-> Reject an element which belongs to list items.
+		if( isFlowBreaker( element ) ||
+			isChildBetweenPointerAndEdge( that, element, bottomTrigger ) ||
+			element.getParent().is( DTD_LISTITEM ) ) {
+				DEBUG && DEBUG.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
+				return null;
 		}
 
-		DEBUG && DEBUG.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
-		return false;
+		// Get sibling according to bottomTrigger.
+		var elementSibling = getNonEmptyNeighbour( that, element, !bottomTrigger );
+
+		// If the sibling is ML, get the next one according to bottomTrigger.
+		if ( isLine( that, elementSibling ) )
+			elementSibling = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]();
+
+		// If after the recent step we came back to the element it
+		// definitely means that element is a first or a last child.
+		if ( element.equals( elementSibling ) ) {
+			elementSibling = null;
+		}
+
+		// No previous element.
+		// This is a first or last child case.
+		if ( !elementSibling ) {
+			// No need to reject the element as it has already been done before.
+			// Prepare a trigger.
+			triggerSetup = [ null, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
+					bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
+					TYPE_EDGE,
+					element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
+						( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
+				] );
+
+			DEBUG && DEBUG.log( 'Configured edge trigger of ' + bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ); // %REMOVE_LINE%
+		}
+
+		// Abort. Sibling is a text element.
+		else if ( isTextNode( elementSibling ) ) {
+			DEBUG && DEBUG.logEnd( 'ABORT. Sibling is non-empty text element' ); // %REMOVE_LINE%
+			return null;
+		}
+
+		// Check if the sibling is a HTML element.
+		// If so, create an TYPE_EDGE, EDGE_MIDDLE trigger.
+		else if ( isHtml( elementSibling ) ) {
+			// Reject wrong elementSiblings.
+			// 	\-> Reject an elementSibling which is a flow breaker.
+			//	\-> Reject an elementSibling which isn't a trigger.
+			//	\-> Reject an elementSibling which belongs to list items.
+			if( isFlowBreaker( elementSibling ) ||
+				!isTrigger( that, elementSibling ) ||
+				elementSibling.getParent().is( DTD_LISTITEM ) ) {
+					DEBUG && DEBUG.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
+					return null;
+			}
+
+			// Prepare a trigger.
+			triggerSetup = [ elementSibling, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
+					EDGE_MIDDLE,
+					TYPE_EDGE
+				] );
+
+			DEBUG && DEBUG.log( 'Configured edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
+		}
+
+		if ( 0 in triggerSetup ) {
+			DEBUG && DEBUG.logEnd( 'SUCCESS. Returning a trigger.' ); // %REMOVE_LINE%
+			return new boxTrigger( triggerSetup );
+		}
+
+		DEBUG && DEBUG.logEnd( 'ABORT. No trigger generated.' ); // %REMOVE_LINE%
+		return null;
 	}
 
 	// Checks iteratively up and down in search for elements using elementFromMouse method.
@@ -1292,11 +1382,11 @@
 		// Abort if there was a similar query performed recently.
 		// This kind of caching provides great performance improvement.
 		else if ( element.size.ignoreScroll == ignoreScroll && element.size.date > new Date() - CACHE_TIME ) {
-			DEBUG && DEBUG.log( 'ELEMENT.size: get from cache' ); // %REMOVE_LINE%
+			DEBUG && DEBUG.log( 'element.size: get from cache' ); // %REMOVE_LINE%
 			return null;
 		}
 
-		DEBUG && DEBUG.log( 'ELEMENT.size: capture' ); // %REMOVE_LINE%
+		DEBUG && DEBUG.log( 'element.size: capture' ); // %REMOVE_LINE%
 
 		return extend( element.size, getSize( that, element, ignoreScroll ), {
 			date: +new Date()
