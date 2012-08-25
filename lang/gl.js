@@ -27,78 +27,78 @@ CKEDITOR.lang[ 'gl' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Editor de texto enriquecido',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Prema ALT 0 para obter axuda',
 
-		browseServer: 'Navegar no Servidor',
+		browseServer: 'Ver servidor',
 		url: 'URL',
 		protocol: 'Protocolo',
-		upload: 'Carregar',
-		uploadSubmit: 'Enviar ó Servidor',
+		upload: 'Cargar',
+		uploadSubmit: 'Enviar ao servidor',
 		image: 'Imaxe',
 		flash: 'Flash',
 		form: 'Formulario',
-		checkbox: 'Cadro de Verificación',
-		radio: 'Botón de Radio',
-		textField: 'Campo de Texto',
-		textarea: 'Área de Texto',
-		hiddenField: 'Campo Oculto',
+		checkbox: 'Campo de verificación',
+		radio: 'Botón de radio',
+		textField: 'Campo de texto',
+		textarea: 'Área de texto',
+		hiddenField: 'Campo oculto',
 		button: 'Botón',
-		select: 'Campo de Selección',
-		imageButton: 'Botón de Imaxe',
+		select: 'Campo de selección',
+		imageButton: 'Botón de imaxe',
 		notSet: '<non definido>',
 		id: 'Id',
 		name: 'Nome',
-		langDir: 'Orientación do Idioma',
-		langDirLtr: 'Esquerda a Dereita (LTR)',
-		langDirRtl: 'Dereita a Esquerda (RTL)',
-		langCode: 'Código do Idioma',
-		longDescr: 'Descrición Completa da URL',
-		cssClass: 'Clases da Folla de Estilos',
+		langDir: 'Orientación do idioma',
+		langDirLtr: 'Esquerda a dereita (LTR)',
+		langDirRtl: 'Dereita a esquerda (RTL)',
+		langCode: 'Código do idioma',
+		longDescr: 'Descrición completa da URL',
+		cssClass: 'Clases da folla de estilos',
 		advisoryTitle: 'Título',
 		cssStyle: 'Estilo',
 		ok: 'OK',
 		cancel: 'Cancelar',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
-		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		close: 'Pechar',
+		preview: 'Previsualizar',
+		resize: 'Redimensionar',
+		generalTab: 'Xeral',
 		advancedTab: 'Advanzado',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
-		width: 'Largura',
-		height: 'Altura',
+		validateNumberFailed: 'Este valor non é un número.',
+		confirmNewPage: 'Calquera cambio que non gardara neste contido perderase.\r\nEstá seguro que quere cargar a nova páxina?',
+		confirmCancel: 'Algunhas das opcións foron cambiadas.\r\nEsta seguro que quere pechar o diálogo??',
+		options: 'Opcións',
+		target: 'Obxectivo',
+		targetNew: 'Nova xaneal (_blank)',
+		targetTop: 'Xanela principal (_top)',
+		targetSelf: 'Mesma xanela (_self)',
+		targetParent: 'Xanela superior (_parent)',
+		langDirLTR: 'Esquerda a dereita (LTR)',
+		langDirRTL: 'Dereita a esquerda (RTL)',
+		styles: 'Estilo',
+		cssClasses: 'Clases da folla de estilos',
+		width: 'Ancho',
+		height: 'Alto',
 		align: 'Aliñamento',
 		alignLeft: 'Esquerda',
 		alignRight: 'Dereita',
 		alignCenter: 'Centro',
-		alignTop: 'Tope',
+		alignTop: 'Arriba',
 		alignMiddle: 'Centro',
 		alignBottom: 'Pé',
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHeight: 'O alto debe ser un número.',
+		invalidWidth: 'O ancho debe ser un número.',
+		invalidCssLength: 'O valor especificado para o campo "%1" debe ser un número positivo con ou sen unha unidade medida CSS válida (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'O valor especificado para o campo "%1" debe ser un número positivo con ou sen unha unidade de medida HTML válidoa (px or %).',
+		invalidInlineStyle: 'O valor especificado no estilo en liña debe consistir nunha ou máis tuplas co formato "nome : valor", separadas por punto e coma.',
+		cssLengthTooltip: 'Escriba un número para o valor en píxeles ou un número con unha unidade CSS válida (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, non dispoñíbel</span>'
 	}
 };
