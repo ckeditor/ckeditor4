@@ -82,13 +82,14 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this.id = CKEDITOR.tools.getNextNumber();
 
-			this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
+			this.document = ( panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
 
 			panelDefinition.className = 'cke_combopanel';
 			panelDefinition.block = {
 				multiSelect: panelDefinition.multiSelect,
 				attributes: panelDefinition.attributes
 			};
+			panelDefinition.toolbarRelated = true;
 
 			this._ = {
 				panelDefinition: panelDefinition,
@@ -107,9 +108,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Renders the combo.
 			 * @param {CKEDITOR.editor} editor The editor instance which this button is
-			 *		to be used by.
+			 * to be used by.
 			 * @param {Array} output The output array to which append the HTML relative
-			 *		to this button.
+			 * to this button.
 			 * @example
 			 */
 			render: function( editor, output ) {

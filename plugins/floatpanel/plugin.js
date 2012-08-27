@@ -12,9 +12,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-skinName-langDir[-uiColor][-CSSs][-level]
-		var key = CKEDITOR.tools.genKey( doc.getUniqueId(), parentElement.getUniqueId(), editor.lang.dir, editor.uiColor || '', definition.css || '', level || '' );
-
-		var panel = panels[ key ];
+		var key = CKEDITOR.tools.genKey( doc.getUniqueId(), parentElement.getUniqueId(), editor.lang.dir, editor.uiColor || '', definition.css || '', level || '' ),
+			panel = panels[ key ];
 
 		if ( !panel ) {
 			panel = panels[ key ] = new CKEDITOR.ui.panel( doc, definition );
@@ -50,6 +49,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		 */
 		$: function( editor, parentElement, definition, level ) {
 			definition.forceIFrame = 1;
+
+			// In case of editor with floating toolbar append panels that should float
+			// to the main UI element.
+			if ( definition.toolbarRelated && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				parentElement = CKEDITOR.document.getById( 'cke_' + editor.name );
 
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
@@ -132,13 +136,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var editable = this._.editor.editable();
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 
-
 				var element = this.element,
 					iframe = this._.iframe,
 					position = offsetParent.getDocumentPosition( element.getDocument() ),
-					rtl = this._.dir == 'rtl';
-
-				var left = position.x + ( offsetX || 0 ),
+					rtl = this._.dir == 'rtl',
+					left = position.x + ( offsetX || 0 ),
 					top = position.y + ( offsetY || 0 );
 
 				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
@@ -184,8 +186,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						var target = ev.data.getTarget();
-						if ( target.$ != focused.$ )
+						if ( ev.data.getTarget().$ != focused.$ )
 							return;
 
 						if ( this.visible && !this._.activeChild ) {
