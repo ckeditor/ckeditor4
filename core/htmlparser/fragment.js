@@ -61,14 +61,15 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
 	 * @param {CKEDITOR.htmlParser.element/String} [parent] Optional contextual
 	 * element which makes the content been parsed as the content of this element.
-	 * @param {String/Boolean} [fixForBody] When `parent` is the `<body>` element,
+	 * @param {String/Boolean} [fixingBlock] When `parent` is a block limit element,
 	 * and the param is a string value other than `false`, it is to
 	 * avoid having block-less content as the direct children of parent by wrapping
-	 * the content with a specified tag, e.g. when `fixBodyTag` specified as `p`, the content
-	 * `<body><i>foo</i></body>` will be fixed into `<body><p><i>foo</i></p></body>`.
+	 * the content with a block element of the specified tag, e.g.
+	 * when `fixingBlock` specified as `p`, the content `<body><i>foo</i></body>`
+	 * will be fixed into `<body><p><i>foo</i></p></body>`.
 	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
 	 */
-	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixForBody ) {
+	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixingBlock ) {
 		var parser = new CKEDITOR.htmlParser();
 
 		var root = parent instanceof CKEDITOR.htmlParser.element ? parent : typeof parent == 'string' ? new CKEDITOR.htmlParser.element( parent ) : new CKEDITOR.htmlParser.fragment();
@@ -144,23 +145,14 @@ CKEDITOR.htmlParser.fragment = function() {
 			// save it for restore later.
 			var savedCurrent = currentNode;
 
-			// If the target is the fragment and this inline element can't go inside
-			// body (if fixForBody).
-			if ( fixForBody && target.name == 'body' ) {
-				var elementName, realElementName;
-				if ( element.attributes && ( realElementName = element.attributes[ 'data-cke-real-element-type' ] ) )
-					elementName = realElementName;
-				else
-					elementName = element.name;
-
-				if ( elementName && !( elementName in CKEDITOR.dtd.$body || elementName == 'body' || element.isOrphan ) ) {
+			if ( checkAutoParagraphing( target, element ) )
+			{
 					// Create a <p> in the fragment.
 					currentNode = target;
-					parser.onTagOpen( fixForBody, {} );
+					parser.onTagOpen( fixingBlock, {} );
 
 					// The new target now is the <p>.
 					element.returnPoint = target = currentNode;
-				}
 			}
 
 			// Rtrim empty spaces on block end boundary. (#3585)
@@ -193,6 +185,28 @@ CKEDITOR.htmlParser.fragment = function() {
 				delete element.returnPoint;
 			} else
 				currentNode = moveCurrent ? target : savedCurrent;
+		}
+
+		// Auto paragraphing should happen when inline content enters the root element.
+		function checkAutoParagraphing( parent, node ) {
+
+			// Check for parent that can contain block.
+			if ( ( parent == root || parent.name == 'body' ) &&
+			     fixingBlock &&
+			     CKEDITOR.dtd[ parent.name ][ fixingBlock ] )
+			{
+				var name, realName;
+				if ( node.attributes && ( realName = node.attributes[ 'data-cke-real-element-type' ] ) )
+					name = realName;
+				else
+					name = node.name;
+
+				// Text node, inline elements are subjected, except for <script>/<style>.
+				return name && name in CKEDITOR.dtd.$inline &&
+				       !( name in CKEDITOR.dtd.head ) &&
+				       !node.isOrphan ||
+				       node.type == CKEDITOR.NODE_TEXT;
+			}
 		}
 
 		parser.onTagOpen = function( tagName, attributes, selfClosing, optionalClose ) {
@@ -343,7 +357,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			}
 
 			if ( tagName == 'body' )
-				fixForBody = false;
+				fixingBlock = false;
 		};
 
 		parser.onText = function( text ) {
@@ -368,16 +382,18 @@ CKEDITOR.htmlParser.fragment = function() {
 			sendPendingBRs();
 			checkPending();
 
-			if ( fixForBody && ( !currentNode.type || currentNode.name == 'body' ) && CKEDITOR.tools.trim( text ) ) {
-				this.onTagOpen( fixForBody, {}, 0, 1 );
-			}
-
 			// Shrinking consequential spaces into one single for all elements
 			// text contents.
 			if ( !inPre && !inTextarea )
 				text = text.replace( /[\t\r\n ]{2,}|[\t\r\n]/g, ' ' );
 
-			currentNode.add( new CKEDITOR.htmlParser.text( text ) );
+			text = new CKEDITOR.htmlParser.text( text );
+
+
+			if ( checkAutoParagraphing( currentNode, text ) )
+				this.onTagOpen( fixingBlock, {}, 0, 1 );
+
+			currentNode.add( text );
 		};
 
 		parser.onCDATA = function( cdata ) {
