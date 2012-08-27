@@ -28,6 +28,20 @@
 			triggerOffset = config.magicline_triggerOffset || 30,
 			enterMode = config.enterMode,
 			that = {
+				// %REMOVE_START%
+				// Internal DEBUG uses tools located in the topmost window.
+				debug: window.top.DEBUG || {
+					groupEnd: function() {},
+					groupStart: function() {},
+					log: function() {},
+					logElements: function() {},
+					logElementsEnd: function() {},
+					logEnd: function() {},
+					showHidden: function() {},
+					startTimer: function() {},
+					stopTimer: function() {}
+				},
+				// %REMOVE_END%
 				// Global stuff is being initialized here.
 				editor: editor,
 				enterBehavior: enterBehaviors[ enterMode ], 		// A tag which is to be inserted by the magicline.
@@ -157,7 +171,7 @@
 			// prevents the box from being shown.
 			editable.attachListener( editable, 'keyup', function( event ) {
 				that.hiddenMode = 0;
-				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
 			editable.attachListener( editable, 'keydown', function( event ) {
@@ -176,7 +190,7 @@
 						that.line.detach();
 				}
 
-				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
 			// This method ensures that checkMouse aren't executed
@@ -219,10 +233,10 @@
 					clearTimeout( scrollTimeout );
 					scrollTimeout = setTimeout( function() {
 						that.hiddenMode = 0;
-						DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 					}, 50 );
 
-					DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+					that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 				}
 			});
 
@@ -237,7 +251,7 @@
 				that.line.detach();
 				that.hiddenMode = 1;
 
-				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
@@ -245,7 +259,7 @@
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
 			editable.attachListener( win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
-				DEBUG && DEBUG.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
 			// This method handles mousemove mouse for box toggling.
@@ -253,8 +267,8 @@
 			// it tries to use different trigger type in order to place the box
 			// in correct place. The following procedure is executed periodically.
 			function checkMouse( mouse ) {
-				DEBUG && DEBUG.groupStart( 'CheckMouse' ); // %REMOVE_LINE%
-				DEBUG && DEBUG.startTimer(); // %REMOVE_LINE%
+				that.debug.groupStart( 'CheckMouse' ); // %REMOVE_LINE%
+				that.debug.startTimer(); // %REMOVE_LINE%
 
 				that.mouse = mouse;
 				that.trigger = null;
@@ -269,9 +283,9 @@
 					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
 					// If trigger exists, and trigger is correct -> show the box
-					//if ( ( that.trigger = triggerEditable( that ) ) ) /*|| triggerEdge( that ) || triggerExpand( that ) ) && triggerFilter( that ) */
-					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) ) )
+					if ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) {
 						that.line.attach().place();
+					}
 
 					// Otherwise remove the box
 					else {
@@ -279,14 +293,14 @@
 						that.line.detach();
 					}
 
-					DEBUG && DEBUG.showTrigger( that.trigger ); // %REMOVE_LINE%
-					DEBUG && DEBUG.mousePos( mouse.y, that.element ); // %REMOVE_LINE%
+					that.debug.showTrigger( that.trigger ); // %REMOVE_LINE%
+					that.debug.mousePos( mouse.y, that.element ); // %REMOVE_LINE%
 
 					checkMouseTimeoutPending = false;
 				}
 
-				DEBUG && DEBUG.stopTimer(); // %REMOVE_LINE%
-				DEBUG && DEBUG.groupEnd(); // %REMOVE_LINE%
+				that.debug.stopTimer(); // %REMOVE_LINE%
+				that.debug.groupEnd(); // %REMOVE_LINE%
 			}
 
 			// This one allows testing and debugging. It reveals some
@@ -299,7 +313,6 @@
 				getAscendantTrigger: getAscendantTrigger,
 				getNonEmptyNeighbour: getNonEmptyNeighbour,
 				getSize: getSize,
-				triggerFilter: triggerFilter,
 				that: that,
 				updateSize: updateSize,
 				updateWindowSize: updateWindowSize
@@ -328,11 +341,6 @@
 		CSS_COMMON = 'width:0px;height:0px;padding:0px;margin:0px;display:block;' + 'z-index:9999;color:#fff;position:absolute;font-size: 0px;line-height:0px;',
 		CSS_TRIANGLE = CSS_COMMON + 'border-color:transparent;display:block;border-style:solid;',
 		TRIANGLE_HTML = '<span>' + WHITE_SPACE + '</span>',
-
-		// %REMOVE_START%
-		// Internal DEBUG uses tools located in the topmost window.
-		DEBUG = window.top.DEBUG,
-		// %REMOVE_END%
 
 		// Some shorthands for common methods to save bytes
 		extend = CKEDITOR.tools.extend,
@@ -370,7 +378,9 @@
 	// %REMOVE_END%
 
 	function areSiblings( that, upper, lower ) {
-		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( that.isRelevant ) );
+		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( function( node ) {
+			return !( isEmptyTextNode( node ) || isComment( node ) || isFlowBreaker( node ) );
+		}) );
 	}
 
 	// boxTrigger is an abstract type which describes
@@ -397,25 +407,29 @@
 		}
 	};
 
-	function elementFromMouse( that, ignoreBox ) {
+	function elementFromPoint( doc, mouse ) {
+		return new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+	}
+
+	function elementFromMouse( that, ignoreBox, forceMouse ) {
 		if ( !that.mouse )
 			return null;
 
 		var doc = that.doc,
 			lineWrap = that.line.wrap,
-			mouse = that.mouse,
-			element = new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+			mouse = forceMouse || that.mouse,
+			element = elementFromPoint( doc, mouse );
 
 		// If ignoreBox is set and element is the box, it means that we
 		// need to hide the box for a while, repeat elementFromPoint
 		// and show it again.
 		if ( ignoreBox && isLine( that, element ) ) {
 			lineWrap.hide();
-			element = new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+			element = elementFromPoint( doc, mouse );
 			lineWrap.show();
 		}
 
-		if ( !isHtml( element ) )
+		if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
 			return null;
 
 		return element;
@@ -471,9 +485,10 @@
 
 		walker.guard = function( node ) {
 			// Found some non-empty text node or HTML element. Abort.
-			if ( isNotComment( node ) &&
-				( !isEmptyTextNode( node ) ||
-					( isHtml( node ) && !node.is( 'br' ) ) ) ) {
+			if ( !isComment( node ) &&
+				(
+					!isEmptyTextNode( node ) || ( isHtml( node ) && !node.is( 'br' ) ) )
+				) {
 				edgeNode = node;
 				return false;
 			}
@@ -495,6 +510,21 @@
 		return editable.isInline();
 	}
 
+	// Access space line consists of a few elements (spans):
+	// 	\-> Line wrapper.
+	// 	\-> Line.
+	// 	\-> Line triangles: left triangle (LT), right triangle (RT).
+	// 	\-> Button handler (BTN).
+	//
+	//	+--------------------------------------------------- line.wrap (span) -----+
+	//	| +---------------------------------------------------- line (span) -----+ |
+	//	| | +- LT \                                           +- BTN -+  / RT -+ | |
+	//	| | |      \                                          |     | | /      | | |
+	//	| | |      /                                          |  <__| | \      | | |
+	//	| | +-----/                                           +-------+  \-----+ | |
+	//	| +----------------------------------------------------------------------+ |
+	//  +--------------------------------------------------------------------------+
+	//
 	function initLine( that ) {
 		var doc = that.doc,
 			// This the main box element that holds triangles and the insertion button
@@ -553,7 +583,7 @@
 			// Checks whether mouseY is around an element by comparing boundaries and considering
 			// an offset distance.
 			mouseNear: function() {
-				DEBUG && DEBUG.groupStart( 'mouseNear' ); // %REMOVE_LINE%
+				that.debug.groupStart( 'mouseNear' ); // %REMOVE_LINE%
 
 				updateSize( that, this );
 				var offset = that.holdDistance,
@@ -561,11 +591,11 @@
 
 				// Determine neighborhood by element dimensions and offsets.
 				if ( size && inBetween( that.mouse.y, size.top - offset, size.bottom + offset ) && inBetween( that.mouse.x, size.left - offset, size.right + offset ) ) {
-					DEBUG && DEBUG.logEnd( 'Mouse is near.' ); // %REMOVE_LINE%
+					that.debug.logEnd( 'Mouse is near.' ); // %REMOVE_LINE%
 					return true;
 				}
 
-				DEBUG && DEBUG.logEnd( 'Mouse isn\'t near.' ); // %REMOVE_LINE%
+				that.debug.logEnd( 'Mouse isn\'t near.' ); // %REMOVE_LINE%
 				return false;
 			},
 
@@ -789,7 +819,7 @@
 	}
 
 	// Isn't node of NODE_COMMENT type?
-	var isNotComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT, true );
+	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
 	function isPositioned( element ) {
 		return !!{ absolute:1,fixed:1,relative:1 }[ element.getComputedStyle( 'position' ) ];
@@ -864,35 +894,49 @@
 	//	+----------------------------------------+
 	//
 	function triggerEditable( that ) {
+		that.debug.groupStart( 'triggerEditable' ); // %REMOVE_LINE%
+
 		var editable = that.editable,
 			mouse = that.mouse,
 			view = that.view,
-			triggerOffset = that.triggerOffset;
+			triggerOffset = that.triggerOffset,
+			triggerLook;
 
 		// Update editable dimensions.
 		updateEditableSize( that );
 
+		if( mouse.y )
+
 		// This flag determines whether checking bottom trigger.
-		var bottomTrigger = mouse.y > view.pane.height / 2,
+		var bottomTrigger = mouse.y > Math.min( view.editable.height, view.pane.height ) / 2,
 
 		// Edge node according to bottomTrigger.
-			edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]();
+		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
+			return !( isEmptyTextNode( node ) || isComment( node ) );
+		});
 
 		// There's no edge node. Abort.
-		if ( !edgeNode )
+		if ( !edgeNode ) {
+			that.debug.logEnd( 'ABORT. No edge node found.' ); // %REMOVE_LINE%
 			return null;
+		}
 
 		// If the edgeNode in editable is ML, get the next one.
-		if ( isLine( that, edgeNode ) )
-			edgeNode = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]();
+		if ( isLine( that, edgeNode ) ) {
+			edgeNode = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]( function( node ) {
+				return !( isEmptyTextNode( node ) || isComment( node ) );
+			});
+		}
 
 		// Exclude bad nodes (no ML needed then):
 		//	\-> Edge node is text.
 		//	\-> Edge node is floated, etc.
 		//
 		// Edge node *must be* a valid trigger at this stage as well.
-		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) )
+		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) ) {
+			that.debug.logEnd( 'ABORT. Invalid edge node.' ); // %REMOVE_LINE%
 			return null;
+		}
 
 		// Update size of edge node. Dimensions will be necessary.
 		updateSize( that, edgeNode );
@@ -904,8 +948,10 @@
 			inBetween( mouse.y, 0, edgeNode.size.top + triggerOffset ) ) {		// Check if mouse in [0, edgeNode.top + triggerOffset].
 
 			// Determine trigger look.
-			var triggerLook = inInlineMode( that ) || view.scroll.y === 0 ?
+			triggerLook = inInlineMode( that ) || view.scroll.y === 0 ?
 				LOOK_TOP : LOOK_NORMAL;
+
+			that.debug.logEnd( 'SUCCESS. Created box trigger. EDGE_TOP.' ); // %REMOVE_LINE%
 
 			return new boxTrigger( [ null, edgeNode,
 				EDGE_TOP,
@@ -921,9 +967,11 @@
 				edgeNode.size.bottom - triggerOffset, view.pane.height ) ) {	// [ edgeNode.bottom - triggerOffset, paneHeight ]
 
 			// Determine trigger look.
-			var triggerLook = inInlineMode( that ) ||
+			triggerLook = inInlineMode( that ) ||
 				inBetween( edgeNode.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ?
 					LOOK_BOTTOM : LOOK_NORMAL;
+
+			that.debug.logEnd( 'SUCCESS. Created box trigger. EDGE_BOTTOM.' ); // %REMOVE_LINE%
 
 			return new boxTrigger( [ edgeNode, null,
 				EDGE_BOTTOM,
@@ -932,6 +980,7 @@
 			] );
 		}
 
+		that.debug.logEnd( 'ABORT. No trigger created.' ); // %REMOVE_LINE%
 		return null;
 	}
 
@@ -965,16 +1014,20 @@
 	//	+----------------------------------------+
 	//
 	function triggerEdge( that ) {
-		DEBUG && DEBUG.groupStart( 'triggerEdge' ); // %REMOVE_LINE%
+		that.debug.groupStart( 'triggerEdge' ); // %REMOVE_LINE%
+
+		var mouse = that.mouse,
+			view = that.view,
+			triggerOffset = that.triggerOffset;
 
 		// Get the ascendant trigger basing on elementFromMouse.
 		var element = getAscendantTrigger( that, elementFromMouse( that, true ) );
 
-		DEBUG && DEBUG.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
+		that.debug.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
 
 		// Abort if there's no appropriate element.
 		if ( !element ) {
-			DEBUG && DEBUG.logEnd( 'ABORT. No element, element is editable or element contains editable.' ); // %REMOVE_LINE%
+			that.debug.logEnd( 'ABORT. No element, element is editable or element contains editable.' ); // %REMOVE_LINE%
 			return null;
 		}
 
@@ -984,24 +1037,25 @@
 		// If triggerOffset is larger than a half of element's height,
 		// use an offset of 1/2 of element's height. If the offset wasn't reduced,
 		// top area would cover most (all) cases.
-		var fixedOffset = Math.min( that.triggerOffset,
+		var fixedOffset = Math.min( triggerOffset,
 				0 | ( element.size.outerHeight / 2 ) ),
 
 		// This variable will hold the trigger to be returned.
 			triggerSetup = [],
+			triggerLook,
 
 		// This flag determines whether dealing with a bottom trigger.
 			bottomTrigger;
 
 		//	\-> Top trigger.
-		if ( inBetween( that.mouse.y, element.size.top - 1, element.size.top + fixedOffset ) )
+		if ( inBetween( mouse.y, element.size.top - 1, element.size.top + fixedOffset ) )
 			bottomTrigger = false;
 		//	\-> Bottom trigger.
-		else if ( inBetween( that.mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) )
+		else if ( inBetween( mouse.y, element.size.bottom - fixedOffset, element.size.bottom + 1 ) )
 			bottomTrigger = true;
 		//	\-> Abort. Not in a valid trigger space.
 		else {
-			DEBUG && DEBUG.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
+			that.debug.logEnd( 'ABORT. Not around of any edge.' ); // %REMOVE_LINE%
 			return null;
 		}
 
@@ -1012,7 +1066,7 @@
 		if( isFlowBreaker( element ) ||
 			isChildBetweenPointerAndEdge( that, element, bottomTrigger ) ||
 			element.getParent().is( DTD_LISTITEM ) ) {
-				DEBUG && DEBUG.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
+				that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
 				return null;
 		}
 
@@ -1029,24 +1083,42 @@
 			elementSibling = null;
 		}
 
-		// No previous element.
+		// No sibling element.
 		// This is a first or last child case.
 		if ( !elementSibling ) {
 			// No need to reject the element as it has already been done before.
 			// Prepare a trigger.
+
+			// Determine trigger look.
+			if ( element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ) {
+				updateEditableSize( that );
+
+				if ( bottomTrigger && inBetween( mouse.y,
+					element.size.bottom - triggerOffset, view.pane.height ) &&
+					inBetween( element.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ) {
+						triggerLook = LOOK_BOTTOM;
+				}
+				else if ( inBetween( mouse.y, 0, element.size.top + triggerOffset ) ) {
+					triggerLook = LOOK_TOP;
+				}
+			}
+			else
+				triggerLook = LOOK_NORMAL;
+
 			triggerSetup = [ null, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
 					bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
 					TYPE_EDGE,
+					triggerLook,
 					element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
 						( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
 				] );
 
-			DEBUG && DEBUG.log( 'Configured edge trigger of ' + bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ); // %REMOVE_LINE%
+			that.debug.log( 'Configured edge trigger of ' + ( bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ) ); // %REMOVE_LINE%
 		}
 
 		// Abort. Sibling is a text element.
 		else if ( isTextNode( elementSibling ) ) {
-			DEBUG && DEBUG.logEnd( 'ABORT. Sibling is non-empty text element' ); // %REMOVE_LINE%
+			that.debug.logEnd( 'ABORT. Sibling is non-empty text element' ); // %REMOVE_LINE%
 			return null;
 		}
 
@@ -1060,7 +1132,7 @@
 			if( isFlowBreaker( elementSibling ) ||
 				!isTrigger( that, elementSibling ) ||
 				elementSibling.getParent().is( DTD_LISTITEM ) ) {
-					DEBUG && DEBUG.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
+					that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
 					return null;
 			}
 
@@ -1070,258 +1142,246 @@
 					TYPE_EDGE
 				] );
 
-			DEBUG && DEBUG.log( 'Configured edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
+			that.debug.log( 'Configured edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
 		}
 
 		if ( 0 in triggerSetup ) {
-			DEBUG && DEBUG.logEnd( 'SUCCESS. Returning a trigger.' ); // %REMOVE_LINE%
+			that.debug.logEnd( 'SUCCESS. Returning a trigger.' ); // %REMOVE_LINE%
 			return new boxTrigger( triggerSetup );
 		}
 
-		DEBUG && DEBUG.logEnd( 'ABORT. No trigger generated.' ); // %REMOVE_LINE%
+		that.debug.logEnd( 'ABORT. No trigger generated.' ); // %REMOVE_LINE%
 		return null;
 	}
 
 	// Checks iteratively up and down in search for elements using elementFromMouse method.
 	// Useful if between two triggers.
-	function triggerExpand( that ) {
-		DEBUG && DEBUG.groupStart( 'triggerExpand' ); // %REMOVE_LINE%
+	//
+	//	+----------------------- Parent element -+
+	//	| +----------------------- Element #1 -+ |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| +------------------------------------+ |
+	//	|                                        |  /--
+	//	|                  .                     |  |
+	//	|                  .      +-- Floated -+ |  |
+	//	|                  |      |            | |  |	* Mouse activation area *
+	//	|                  |      |   IGNORE   | |  |
+	//	|                  X      |            | |  |	Method searches vertically for sibling elements.
+	//	|                  |      +------------+ |  |	Start point is X (mouse-y coordinate).
+	//	|                  |                     |  |	Floated elements, comments and empty text nodes are omitted.
+	//	|                  .                     |  |
+	//	|                  .                     |  |
+	//	|                                        |  \--
+	//	| +----------------------- Element #2 -+ |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| |                                    | |
+	//	| +------------------------------------+ |
+	//	+----------------------------------------+
+	//
+	var triggerExpand = ( function() {
+		// The heart of the procedure. This method creates triggers that are
+		// filtered by expandFilter method.
+		function expandEngine( that ) {
+			that.debug.groupStart( 'expandEngine' ); // %REMOVE_LINE%
 
-		var startElement = elementFromMouse( that, true ),
-			upper, lower, trigger;
+			var startElement = elementFromMouse( that, true ),
+				upper, lower, trigger;
 
-		if ( !isHtml( startElement ) )
-			return null;
-
-		trigger = verticalSearch( that,
-			function( current, startElement ) {
-				return startElement.equals( current );
-			}, function( that ) {
-				return elementFromMouse( that, true );
-			}, startElement ),
-
-		upper = trigger.upper,
-		lower = trigger.lower;
-
-		DEBUG && DEBUG.logElements( [ upper, lower ], [ 'Upper', 'Lower' ], 'Pair found' ); // %REMOVE_LINE%
-
-		// Success: two siblings have been found
-		if ( areSiblings( that, upper, lower ) ) {
-			DEBUG && DEBUG.logEnd( 'SUCCESS. Expand trigger created.' ); // %REMOVE_LINE%
-			return trigger.set( EDGE_MIDDLE, TYPE_EXPAND );
-		}
-
-		DEBUG && DEBUG.logElements( [ startElement, upper, lower ], // %REMOVE_LINE%
-			[ 'Start', 'Upper', 'Lower' ], 'Post-processing' ); // %REMOVE_LINE%
-
-		// Danger. Dragons ahead.
-		// No siblings have been found during previous phase, post-processing may be necessary.
-		// We can traverse DOM until a valid pair of elements around the pointer is found.
-		//
-		// Prepare for post-processing:
-		// 	1. Determine if upper and lower are children of startElement.
-		//		1.1. If so, find their ascendants that are closest to startElement (one level deeper than startElement).
-		//		1.2. Otherwise use first/last-child of the startElement as upper/lower. Why?:
-		//			a) 	upper/lower belongs to another branch of the DOM tree.
-		//			b) 	verticalSearch encountered an edge of the viewport and failed.
-		// 		1.3. Make sure upper and lower still exist. Why?:
-		//			a) 	Upper and lower may be not belong to the branch of the startElement (may not exist at all) and
-		//				startElement has no children.
-		//	2. Perform the post-processing.
-		//		2.1. Make sure upper isn't a text node OR the box. Otherwise find next HTML element Why?:
-		//			a) no text nodes - we need to find its dimensions.
-		//			b) the box is absolutely positioned.
-		//		2.2. Abort if there's no such element. Why?:
-		//			a) 	startElement may contain text nodes only.
-		//		2.3. Gather dimensions of an upper element.
-		//		2.4. Abort if lower edge of upper is already under the mouse pointer. Why?:
-		//			a) 	We expect upper to be above and lower below the mouse pointer.
-		//	3. Perform iterative search while upper != lower.
-		//		3.1. Find the upper-next element. If there's no such element, break current search. Why?:
-		//			a)	There's no point in further search if there are only text nodes ahead.
-		//		3.2. Calculate the distance between the middle point of ( upper, upperNext ) and mouse-y.
-		//		3.3. If the distance is shorter than the previous best, save it (save upper, upperNext as well).
-		//		3.4. If the optimal pair is found, assign it back to the trigger.
-
-		// 1.1., 1.2.
-		if ( upper && startElement.contains( upper ) ) {
-			while ( !upper.getParent().equals( startElement ) )
-				upper = upper.getParent();
-		} else
-			upper = startElement.getFirst();
-
-		if ( lower && startElement.contains( lower ) ) {
-			while ( !lower.getParent().equals( startElement ) )
-				lower = lower.getParent();
-		}
-		else
-			lower = startElement.getLast();
-
-		// 1.3.
-		if ( !upper || !lower ) {
-			DEBUG && DEBUG.logEnd( 'ABORT. There is no upper or no lower element.' ); // %REMOVE_LINE%
-			return null;
-		}
-
-		// 2.1.
-		if ( !isHtml( upper ) || isLine( that, upper ) ) {
-			// 2.2.
-			if ( !( upper = upper.getNext( that.isRelevant ) ) ) {
-				DEBUG && DEBUG.logEnd( 'ABORT There is no upper next.' ); // %REMOVE_LINE%
+			if ( !isHtml( startElement ) || startElement.contains( that.editable ) ) {
+				that.debug.logEnd( 'ABORT. No start element, or start element contains editable.' ); // %REMOVE_LINE%
 				return null;
 			}
-		}
 
-		// 2.3.
-		updateSize( that, upper );
+			trigger = verticalSearch( that,
+				function( current, startElement ) {
+					return !startElement.equals( current );	// stop when start element and the current one differ
+				}, function( that, mouse ) {
+					return elementFromMouse( that, true, mouse );
+				}, startElement ),
 
-		var minDistance = Number.MAX_VALUE,
-			currentDistance, upperNext, minElement, minElementNext;
-
-		// 2.4.
-		if ( upper.size.bottom > that.mouse.y ) {
-			DEBUG && DEBUG.logElementsEnd( [ startElement, upper, lower ], // %REMOVE_LINE%
-				[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below the pointer.' ); // %REMOVE_LINE%
-
-			return null;
-		}
-
-		while ( lower && !lower.equals( upper ) ) {
-			// 3.1.
-			if ( !( upperNext = upper.getNext( that.isRelevant ) ) )
-				break;
-
-			// if ( isTextNode( upperNext ) )
-			// 	return null;
-
-			// 3.2.
-			currentDistance = Math.abs( getMidpoint( that, upper, upperNext ) - that.mouse.y );
-
-			// 3.3.
-			if ( currentDistance < minDistance ) {
-				minDistance = currentDistance;
-				minElement = upper;
-				minElementNext = upperNext;
-			}
-
-			upper = upperNext;
-			updateSize( that, upper );
-		}
-
-		DEBUG && DEBUG.logElements( [ minElement, minElementNext ], // %REMOVE_LINE%
-			[ 'Min', 'MinNext' ], 'Post-processing results' ); // %REMOVE_LINE%
-
-		// 3.4.
-		if ( !minElement || !minElementNext ) {
-			DEBUG && DEBUG.logEnd( 'ABORT. No Min or MinNext' ); // %REMOVE_LINE%
-			return null;
-		}
-
-		// An element of minimal distance has been found. Assign it to the trigger.
-		trigger.upper = minElement;
-		trigger.lower = minElementNext;
-
-		// Success: post-processing revealed a pair of elements.
-		DEBUG && DEBUG.logEnd( 'SUCCESSFUL post-processing. Trigger created.' ); // %REMOVE_LINE%
-		return trigger.set( EDGE_MIDDLE, TYPE_EXPAND );
-	}
-
-	// A method for trigger filtering. Accepts or rejects trigger pairs
-	// by their location in DOM etc.
-	function triggerFilter( that ) {
-		DEBUG && DEBUG.groupStart( 'TriggerFilter' ); // %REMOVE_LINE%
-
-		var trigger = that.trigger,
 			upper = trigger.upper,
 			lower = trigger.lower;
 
-		// NOT: one of the elements is floated/positioned
-		if ( isFlowBreaker( lower ) || isFlowBreaker( upper ) ) {
-			DEBUG && DEBUG.logEnd( 'REJECTED. Lower or upper are isFlowBreakers.' ); // %REMOVE_LINE%
-			return false;
-		} else if ( trigger.is( EDGE_MIDDLE ) ) {
-			if ( !upper || !lower // NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
-			|| lower.equals( upper ) || upper.equals( lower ) // NOT: two trigger elements, one equals another.
-			|| lower.contains( upper ) || upper.contains( lower ) ) // NOT: two trigger elements, one contains another.
-			{
-				DEBUG && DEBUG.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
+			that.debug.logElements( [ upper, lower ], [ 'Upper', 'Lower' ], 'Pair found' ); // %REMOVE_LINE%
+
+			// Success: two siblings have been found
+			if ( areSiblings( that, upper, lower ) ) {
+				that.debug.logEnd( 'SUCCESS. Expand trigger created.' ); // %REMOVE_LINE%
+				return trigger.set( EDGE_MIDDLE, TYPE_EXPAND );
+			}
+
+			that.debug.logElements( [ startElement, upper, lower ], // %REMOVE_LINE%
+				[ 'Start', 'Upper', 'Lower' ], 'Post-processing' ); // %REMOVE_LINE%
+
+			// Danger. Dragons ahead.
+			// No siblings have been found during previous phase, post-processing may be necessary.
+			// We can traverse DOM until a valid pair of elements around the pointer is found.
+
+			// Prepare for post-processing:
+			// 	1. Determine if upper and lower are children of startElement.
+			// 		1.1. If so, find their ascendants that are closest to startElement (one level deeper than startElement).
+			// 		1.2. Otherwise use first/last-child of the startElement as upper/lower. Why?:
+			// 			a) 	upper/lower belongs to another branch of the DOM tree.
+			// 			b) 	verticalSearch encountered an edge of the viewport and failed.
+			// 		1.3. Make sure upper and lower still exist. Why?:
+			// 			a) 	Upper and lower may be not belong to the branch of the startElement (may not exist at all) and
+			// 				startElement has no children.
+			// 	2. Perform the post-processing.
+			// 		2.1. Make sure upper isn't a text node OR the box. Otherwise find next HTML element Why?:
+			// 			a) no text nodes - we need to find its dimensions.
+			// 			b) the box is absolutely positioned.
+			// 		2.2. Abort if there's no such element. Why?:
+			// 			a) 	startElement may contain text nodes only.
+			// 		2.3. Gather dimensions of an upper element.
+			// 		2.4. Abort if lower edge of upper is already under the mouse pointer. Why?:
+			// 			a) 	We expect upper to be above and lower below the mouse pointer.
+			// 	3. Perform iterative search while upper != lower.
+			// 		3.1. Find the upper-next element. If there's no such element, break current search. Why?:
+			// 			a)	There's no point in further search if there are only text nodes ahead.
+			// 		3.2. Calculate the distance between the middle point of ( upper, upperNext ) and mouse-y.
+			// 		3.3. If the distance is shorter than the previous best, save it (save upper, upperNext as well).
+			// 		3.4. If the optimal pair is found, assign it back to the trigger.
+
+			// 1.1., 1.2.
+			if ( upper && startElement.contains( upper ) ) {
+				while ( !upper.getParent().equals( startElement ) )
+					upper = upper.getParent();
+			} else {
+				upper = startElement.getFirst( function( node ) {
+					return expandSelector( that, node );
+				});
+			}
+
+			if ( lower && startElement.contains( lower ) ) {
+				while ( !lower.getParent().equals( startElement ) )
+					lower = lower.getParent();
+			} else {
+				lower = startElement.getLast( function( node ) {
+					return expandSelector( that, node );
+				});
+			}
+
+			// 1.3.
+			if ( !upper || !lower ) {
+				that.debug.logEnd( 'ABORT. There is no upper or no lower element.' ); // %REMOVE_LINE%
+				return null;
+			}
+
+			// // 2.1.
+			// if ( !isHtml( upper ) || isLine( that, upper ) ) {
+			// 	// 2.2.
+			// 	if ( !( upper = upper.getNext( that.isRelevant ) ) ) {
+			// 		that.debug.logEnd( 'ABORT There is no upper next.' ); // %REMOVE_LINE%
+			// 		return null;
+			// 	}
+			// }
+
+			// 2.3.
+			updateSize( that, upper );
+			updateSize( that, lower );
+
+			var minDistance = Number.MAX_VALUE,
+				currentDistance, upperNext, minElement, minElementNext;
+
+			// 2.4.
+			if ( upper.size.bottom > that.mouse.y || lower.size.top < that.mouse.y ) {
+				that.debug.logElementsEnd( [ startElement, upper, lower ], // %REMOVE_LINE%
+					[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below or above the pointer.' ); // %REMOVE_LINE%
+
+				return null;
+			}
+
+			while ( lower && !lower.equals( upper ) ) {
+				// 3.1.
+				if ( !( upperNext = upper.getNext( that.isRelevant ) ) )
+					break;
+
+				// 3.2.
+				currentDistance = Math.abs( getMidpoint( that, upper, upperNext ) - that.mouse.y );
+
+				// 3.3.
+				if ( currentDistance < minDistance ) {
+					minDistance = currentDistance;
+					minElement = upper;
+					minElementNext = upperNext;
+				}
+
+				upper = upperNext;
+				updateSize( that, upper );
+			}
+
+			that.debug.logElements( [ minElement, minElementNext ], // %REMOVE_LINE%
+				[ 'Min', 'MinNext' ], 'Post-processing results' ); // %REMOVE_LINE%
+
+			// 3.4.
+			if ( !minElement || !minElementNext ) {
+				that.debug.logEnd( 'ABORT. No Min or MinNext' ); // %REMOVE_LINE%
+				return null;
+			}
+
+			// An element of minimal distance has been found. Assign it to the trigger.
+			trigger.upper = minElement;
+			trigger.lower = minElementNext;
+
+			// Success: post-processing revealed a pair of elements.
+			that.debug.logEnd( 'SUCCESSFUL post-processing. Trigger created.' ); // %REMOVE_LINE%
+			return trigger.set( EDGE_MIDDLE, TYPE_EXPAND );
+		}
+
+		// This is default element selector used by the engine.
+		function expandSelector( that, node ) {
+			return !( isTextNode( node )
+				|| isComment( node )
+				|| isFlowBreaker( node )
+				|| isLine( that, node )
+				|| node.is( 'br' ) );
+		}
+
+		// A method for trigger filtering. Accepts or rejects trigger pairs
+		// by their location in DOM etc.
+		function expandFilter( that, trigger ) {
+			that.debug.groupStart( 'expandFilter' ); // %REMOVE_LINE%
+
+			var upper = trigger.upper,
+				lower = trigger.lower;
+
+			if ( !upper || !lower 											// NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
+				|| isFlowBreaker( lower ) || isFlowBreaker( upper )			// NOT: one of the elements is floated or positioned
+				|| lower.equals( upper ) || upper.equals( lower ) 			// NOT: two trigger elements, one equals another.
+				|| lower.contains( upper ) || upper.contains( lower ) ) { 	// NOT: two trigger elements, one contains another.
+				that.debug.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
 
 				return false;
 			}
 
 			// YES: two trigger elements, pure siblings.
 			else if ( isTrigger( that, upper ) && isTrigger( that, lower ) && areSiblings( that, upper, lower ) ) {
-				if ( trigger.is( TYPE_EXPAND ) ) {
-					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-						[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
-
-					return true;
-				}
-
-				// Check if there's an element that is between the edge and mouse pointer.
-				if ( trigger.is( TYPE_EDGE ) && !isChildBetweenPointerAndEdge( that, upper, true ) && !isChildBetweenPointerAndEdge( that, lower, false ) ) {
-					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-						[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE.' ); // %REMOVE_LINE%
-
-					return true;
-				} else {
-					DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-						[ 'upper', 'lower' ], 'REJECTED EDGE_MIDDLE' ); // %REMOVE_LINE%
-
-					return false;
-				}
-			}
-		} else if ( trigger.is( EDGE_TOP ) ) {
-			// NOT: there's a child above the pointer.
-			if ( isChildBetweenPointerAndEdge( that, lower, false ) ) {
-				DEBUG && DEBUG.logElementsEnd( [ lower ], // %REMOVE_LINE%
-					[ 'lower' ], 'REJECT EDGE_TOP. Edge child above' ); // %REMOVE_LINE%
-
-				return false;
-			}
-
-			// First child cases.
-			else if ( isTrigger( that, lower ) ) {
-				// NOT: signle trigger element, a child of li/dt/dd.
-				if ( lower.getParent().is( DTD_LISTITEM ) ) {
-					DEBUG && DEBUG.logEnd( 'REJECT EDGE_TOP. Parent is list' ); // %REMOVE_LINE%
-					return false;
-				}
-
-				// YES: single trigger element, first child.
-				DEBUG && DEBUG.logElementsEnd( [ lower ], [ 'lower' ], 'APPROVED EDGE_TOP' ); // %REMOVE_LINE%
-				return true;
-			}
-		} else if ( trigger.is( EDGE_BOTTOM ) ) {
-			// NOT: there's a child below the pointer.
-			if ( isChildBetweenPointerAndEdge( that, upper, true ) ) {
-				DEBUG && DEBUG.logElementsEnd( [ upper ], // %REMOVE_LINE%
-					[ 'upper' ], 'REJECT EDGE_BOTTOM. Edge child below' ); // %REMOVE_LINE%
-
-				return false;
-			}
-
-			// Last child cases.
-			else if ( isTrigger( that, upper ) ) {
-				// NOT: signle trigger element, a child of li/dt/dd.
-				if ( upper.getParent().is( DTD_LISTITEM ) ) {
-					DEBUG && DEBUG.logEnd( 'REJECT EDGE_BOTTOM. Parent is list' ); // %REMOVE_LINE%
-					return false;
-				}
-
-				// YES: single trigger element, last child.
-				DEBUG && DEBUG.logElementsEnd( [ upper ], // %REMOVE_LINE%
-					[ 'upper' ], 'APPROVED EDGE_BOTTOM' ); // %REMOVE_LINE%
+				that.debug.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
+					[ 'upper', 'lower' ], 'APPROVED EDGE_MIDDLE' ); // %REMOVE_LINE%
 
 				return true;
 			}
+
+			that.debug.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
+				[ 'upper', 'lower' ], 'Rejected unknown pair' ); // %REMOVE_LINE%
+
+			return false;
 		}
 
-		DEBUG && DEBUG.logElementsEnd( [ upper, lower ], // %REMOVE_LINE%
-			[ 'upper', 'lower' ], 'Rejected unknown pair' ); // %REMOVE_LINE%
+		// Simple wrapper for expandEngine and expandFilter.
+		return function( that ) {
+			that.debug.groupStart( 'triggerExpand' ); // %REMOVE_LINE%
 
-		return false;
-	}
+			var trigger = expandEngine( that );
+
+			that.debug.groupEnd(); // %REMOVE_LINE%
+			return trigger && expandFilter( that, trigger ) ? trigger : null;
+		};
+	})();
 
 	// Collects dimensions of an element.
 	var sizePrefixes = [ 'top', 'left', 'right', 'bottom' ];
@@ -1382,11 +1442,11 @@
 		// Abort if there was a similar query performed recently.
 		// This kind of caching provides great performance improvement.
 		else if ( element.size.ignoreScroll == ignoreScroll && element.size.date > new Date() - CACHE_TIME ) {
-			DEBUG && DEBUG.log( 'element.size: get from cache' ); // %REMOVE_LINE%
+			that.debug.log( 'element.size: get from cache' ); // %REMOVE_LINE%
 			return null;
 		}
 
-		DEBUG && DEBUG.log( 'element.size: capture' ); // %REMOVE_LINE%
+		that.debug.log( 'element.size: capture' ); // %REMOVE_LINE%
 
 		return extend( element.size, getSize( that, element, ignoreScroll ), {
 			date: +new Date()
@@ -1408,11 +1468,11 @@
 		var view = that.view;
 
 		if ( !force && view && view.date > new Date() - CACHE_TIME ) {
-			DEBUG && DEBUG.log( 'win.size: get from cache' ); // %REMOVE_LINE%
+			that.debug.log( 'win.size: get from cache' ); // %REMOVE_LINE%
 			return;
 		}
 
-		DEBUG && DEBUG.log( 'win.size: capturing' ); // %REMOVE_LINE%
+		that.debug.log( 'win.size: capturing' ); // %REMOVE_LINE%
 
 		var win = that.win,
 			scroll = win.getScrollPosition(),
@@ -1436,7 +1496,7 @@
 
 	// This method searches document vertically using given
 	// select criterion until stop criterion is fulfilled.
-	function verticalSearch( that, continueCriterion, selectCriterion, startElement ) {
+	function verticalSearch( that, stopCondition, selectCriterion, startElement ) {
 		var upper = startElement,
 			lower = startElement,
 			mouseStep = 0,
@@ -1447,26 +1507,27 @@
 
 		while ( mouse.y + mouseStep < viewPaneHeight && mouse.y - mouseStep > 0 ) {
 			if ( !upperFound )
-				upperFound = !continueCriterion( upper, startElement );
+				upperFound = stopCondition( upper, startElement );
 
 			if ( !lowerFound )
-				lowerFound = !continueCriterion( lower, startElement );
+				lowerFound = stopCondition( lower, startElement );
 
 			// Still not found...
 			if ( !upperFound && mouse.y - mouseStep > 0 )
-				upper = selectCriterion({ x: mouse.x, y: mouse.y - mouseStep } );
+				upper = selectCriterion( that, { x: mouse.x, y: mouse.y - mouseStep } );
 
 			if ( !lowerFound && mouse.y + mouseStep < viewPaneHeight )
-				lower = selectCriterion({ x: mouse.x, y: mouse.y + mouseStep } );
+				lower = selectCriterion( that, { x: mouse.x, y: mouse.y + mouseStep } );
 
 			if ( upperFound && lowerFound )
 				break;
 
-			// Instead of ++ to reduce the number of invokations by half
+			// Instead of ++ to reduce the number of invocations by half.
+			// It's trades off accuracy in some edge cases for improved performance.
 			mouseStep += 2;
 		}
 
-		return new boxTrigger( upper, lower, null, null );
+		return new boxTrigger( [ upper, lower, null, null ] );
 	}
 
 })();
