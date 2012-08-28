@@ -37,7 +37,9 @@
 					logElements: function() {},
 					logElementsEnd: function() {},
 					logEnd: function() {},
+					mousePos: function() {},
 					showHidden: function() {},
+					showTrigger: function() {},
 					startTimer: function() {},
 					stopTimer: function() {}
 				},
@@ -159,7 +161,7 @@
 				else {
 					var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
 
-					if ( !dest.$ || dest.is( 'html' ) ) {
+					if ( !dest.$ || ( dest.$ && dest.type == CKEDITOR.NODE_ELEMENT && dest.is( 'html' ) ) ) {
 						clearTimeout( checkMouseTimer );
 						checkMouseTimer = null;
 						hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
@@ -308,14 +310,14 @@
 			this.backdoor = {
 				accessFocusSpace: accessFocusSpace,
 				boxTrigger: boxTrigger,
-				isHtml: isHtml,
 				isLine: isLine,
 				getAscendantTrigger: getAscendantTrigger,
 				getNonEmptyNeighbour: getNonEmptyNeighbour,
 				getSize: getSize,
 				that: that,
-				updateSize: updateSize,
-				updateWindowSize: updateWindowSize
+				triggerEdge: triggerEdge,
+				triggerEditable: triggerEditable,
+				triggerExpand: triggerExpand
 			};
 		}
 	}
@@ -462,43 +464,16 @@
 	}
 
 	// Get nearest node (either text or HTML), but:
-	//	\->	omit all empty text nodes (containing white characters only)
-	//	\-> omit BR elements
+	//	\->	Omit all empty text nodes (containing white characters only).
+	//	\-> Omit BR elements
+	//	\-> Omit flow breakers.
 	function getNonEmptyNeighbour( that, node, goBack ) {
-		var nodeParent = node.getParent();
+		node = node[ goBack ? 'getPrevious' : 'getNext' ]( function( node ) {
+			return ( isTextNode( node ) && !isEmptyTextNode( node ) ) ||
+				( isHtml( node ) && !node.is( 'br' ) && !isFlowBreaker( node ) );
+		});
 
-		if ( !nodeParent )
-			return null;
-
-		var range = new CKEDITOR.dom.range( that.doc );
-
-		if ( goBack ) {
-			range.setStartAt( nodeParent, CKEDITOR.POSITION_AFTER_START );
-			range.setEndAt( node, CKEDITOR.POSITION_BEFORE_START );
-		} else {
-			range.setStartAt( node, CKEDITOR.POSITION_AFTER_END );
-			range.setEndAt( nodeParent, CKEDITOR.POSITION_BEFORE_END );
-		}
-
-		var walker = new CKEDITOR.dom.walker( range ),
-			edgeNode;
-
-		walker.guard = function( node ) {
-			// Found some non-empty text node or HTML element. Abort.
-			if ( !isComment( node ) &&
-				(
-					!isEmptyTextNode( node ) || ( isHtml( node ) && !node.is( 'br' ) ) )
-				) {
-				edgeNode = node;
-				return false;
-			}
-		};
-
-		while ( walker[ goBack ? 'previous' : 'next' ]() ) {
-			/*jsl:pass*/
-		}
-
-		return edgeNode;
+		return node;
 	}
 
 	function inBetween( val, lower, upper ) {
@@ -905,8 +880,6 @@
 		// Update editable dimensions.
 		updateEditableSize( that );
 
-		if( mouse.y )
-
 		// This flag determines whether checking bottom trigger.
 		var bottomTrigger = mouse.y > Math.min( view.editable.height, view.pane.height ) / 2,
 
@@ -944,7 +917,7 @@
 		// Return appropriate trigger according to bottomTrigger.
 		// \->	Top edge trigger case first.
 		if ( !bottomTrigger &&													// Top trigger case.
-			edgeNode.size.top > 0 &&											// Check if the first element is fully visible.
+			edgeNode.size.top >= 0 &&											// Check if the first element is fully visible.
 			inBetween( mouse.y, 0, edgeNode.size.top + triggerOffset ) ) {		// Check if mouse in [0, edgeNode.top + triggerOffset].
 
 			// Determine trigger look.
@@ -962,7 +935,7 @@
 
 		// \->	Bottom case.
 		else if ( bottomTrigger &&
-			edgeNode.size.bottom < view.pane.height &&							// Check if the last element is fully visible
+			edgeNode.size.bottom <= view.pane.height &&							// Check if the last element is fully visible
 			inBetween( mouse.y,													// Check if mouse in...
 				edgeNode.size.bottom - triggerOffset, view.pane.height ) ) {	// [ edgeNode.bottom - triggerOffset, paneHeight ]
 
@@ -1231,13 +1204,8 @@
 			// 			a) 	Upper and lower may be not belong to the branch of the startElement (may not exist at all) and
 			// 				startElement has no children.
 			// 	2. Perform the post-processing.
-			// 		2.1. Make sure upper isn't a text node OR the box. Otherwise find next HTML element Why?:
-			// 			a) no text nodes - we need to find its dimensions.
-			// 			b) the box is absolutely positioned.
-			// 		2.2. Abort if there's no such element. Why?:
-			// 			a) 	startElement may contain text nodes only.
-			// 		2.3. Gather dimensions of an upper element.
-			// 		2.4. Abort if lower edge of upper is already under the mouse pointer. Why?:
+			// 		2.1. Gather dimensions of an upper element.
+			// 		2.2. Abort if lower edge of upper is already under the mouse pointer. Why?:
 			// 			a) 	We expect upper to be above and lower below the mouse pointer.
 			// 	3. Perform iterative search while upper != lower.
 			// 		3.1. Find the upper-next element. If there's no such element, break current search. Why?:
@@ -1271,23 +1239,14 @@
 				return null;
 			}
 
-			// // 2.1.
-			// if ( !isHtml( upper ) || isLine( that, upper ) ) {
-			// 	// 2.2.
-			// 	if ( !( upper = upper.getNext( that.isRelevant ) ) ) {
-			// 		that.debug.logEnd( 'ABORT There is no upper next.' ); // %REMOVE_LINE%
-			// 		return null;
-			// 	}
-			// }
-
-			// 2.3.
+			// 2.1.
 			updateSize( that, upper );
 			updateSize( that, lower );
 
 			var minDistance = Number.MAX_VALUE,
 				currentDistance, upperNext, minElement, minElementNext;
 
-			// 2.4.
+			// 2.2.
 			if ( upper.size.bottom > that.mouse.y || lower.size.top < that.mouse.y ) {
 				that.debug.logElementsEnd( [ startElement, upper, lower ], // %REMOVE_LINE%
 					[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below or above the pointer.' ); // %REMOVE_LINE%
@@ -1338,7 +1297,7 @@
 				|| isComment( node )
 				|| isFlowBreaker( node )
 				|| isLine( that, node )
-				|| node.is( 'br' ) );
+				|| ( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
 		}
 
 		// A method for trigger filtering. Accepts or rejects trigger pairs
