@@ -158,7 +158,7 @@
 				cls: this.className,
 				frame: '',
 				env: CKEDITOR.env.cssClass,
-				'z-index': editor.config.baseFloatZIndex + 1
+				'z-index': editor.config.baseFloatZIndex + ( this.zIndexOffset || 1 )
 			};
 
 			if ( this.isFramed ) {

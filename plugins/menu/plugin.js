@@ -122,6 +122,10 @@ CKEDITOR.plugins.add( 'menu', {
 	var menuItemTpl = CKEDITOR.addTemplate( 'menuItem', menuItemSource ),
 		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource );
 
+	/**
+	 * @class
+	 * @todo
+	 */
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
 		$: function( editor, definition ) {
 			definition = this._.definition = definition || {};
@@ -387,6 +391,11 @@ CKEDITOR.plugins.add( 'menu', {
 			return itemA.order < itemB.order ? -1 : itemA.order > itemB.order ? 1 : 0;
 		});
 	}
+
+	/**
+	 * @class
+	 * @todo
+	 */
 	CKEDITOR.menuItem = CKEDITOR.tools.createClass({
 		$: function( editor, name, definition ) {
 			CKEDITOR.tools.extend( this, definition,
