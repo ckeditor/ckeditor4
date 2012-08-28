@@ -10,6 +10,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// %REMOVE_START%
 	config.plugins =
 		'about,' +
+		'a11yhelp,' +
 		'basicstyles,' +
 		'bidi,' +
 		'blockquote,' +
