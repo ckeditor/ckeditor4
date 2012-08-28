@@ -701,39 +701,39 @@
 
 		// When we're in block enter mode, a new paragraph will be established
 		// to encapsulate inline contents inside editable. (#3657)
-		if ( editor.config.autoParagraph !== false && enterMode != CKEDITOR.ENTER_BR && range.collapsed && editable.equals( blockLimit ) && !path.block ) {
-			var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+		if ( editor.config.autoParagraph !== false &&
+		     enterMode != CKEDITOR.ENTER_BR && range.collapsed &&
+		     editable.equals( blockLimit ) && !path.block ) {
 
-			// For IE, we should remove any filler node which was introduced before.
-			if ( CKEDITOR.env.ie ) {
-				var first = fixedBlock.getFirst( isNotEmpty );
-				if ( first && isNbsp( first ) ) {
-					first.remove();
-					domChanged = 1;
-				}
-			}
+			var testRng = range.clone();
+			testRng.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+			var walker = new CKEDITOR.dom.walker( testRng );
+			walker.guard = function( node ) {
+				return !isNotEmpty( node ) ||
+				       node.type == CKEDITOR.NODE_COMMENT ||
+				       node.isReadOnly();
+			};
 
-			// If the fixed block is actually blank and is already followed by an exitable blank
-			// block, we should revert the fix and move into the existed one. (#3684)
-			if ( isBlankParagraph( fixedBlock ) ) {
-				var element = fixedBlock.getNext( isNotWhitespace );
-				if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonEditable( element ) ) {
-					range.moveToElementEditStart( element );
-					fixedBlock.remove();
-					domChanged = 1;
-				} else {
-					element = fixedBlock.getPrevious( isNotWhitespace );
-					if ( element && element.type == CKEDITOR.NODE_ELEMENT && !nonEditable( element ) ) {
-						range.moveToElementEditEnd( element );
-						fixedBlock.remove();
+			// 1. Inline content discovered under cursor;
+			// 2. Empty editable.
+			if ( !walker.checkForward() ||
+			     testRng.checkStartOfBlock() && testRng.checkEndOfBlock() ) {
+
+				var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+
+				// For IE, we should remove any filler node which was introduced before.
+				if ( CKEDITOR.env.ie ) {
+					var first = fixedBlock.getFirst( isNotEmpty );
+					if ( first && isNbsp( first ) ) {
+						first.remove();
 						domChanged = 1;
 					}
 				}
-			}
 
-			range.select();
-			// Cancel this selection change in favor of the next (correct).  (#6811)
-			evt.cancel();
+				range.select();
+				// Cancel this selection change in favor of the next (correct).  (#6811)
+				evt.cancel();
+			}
 		}
 
 		return domChanged;
