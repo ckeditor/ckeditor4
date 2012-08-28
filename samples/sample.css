@@ -211,10 +211,24 @@ label
  *	CKEditor editables are automatically set with the "cke_editable" class.
  */
 
-.cke_editable[contenteditable=true]
+/* Style a bit the editable elements (mainly cursor) */
+.cke_editable[contenteditable="true"]
 {
-	outline: 3px dotted orange !important;
-	*border: 3px dotted orange !important;	/* For IE7 */
+	outline: none !important;
+	*border: none !important;	/* IE7 */
+	outline: none !important;
+	cursor: pointer;
+}
+
+/* Once an editable element gets focused, the "cke_focus" class is
+   added to it, so we can style it differently. */
+.cke_editable.cke_focus
+{
+	box-shadow: inset 0px 0px 20px 3px #ddd;
+	outline: 1px solid #ddd !important;
+	*border: 1px solid #ddd !important;	/* IE7 */
+	cursor: auto;
+	background: #eee;
 }
 
 /**

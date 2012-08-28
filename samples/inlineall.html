@@ -49,28 +49,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet">
 	<style>
 
-		/* Style a bit the editable elements (mainly cursor) */
-		.cke_editable[contenteditable="true"]
-		{
-			outline: none !important;
-			*border: none !important;	/* IE7 */
-
-			padding: 10px;
-			outline: none !important;
-			cursor: pointer;
-		}
-
-		/* Once an editable element gets focused, the "cke_focus" class is
-		   added to it, so we can style it differently. */
-		.cke_editable.cke_focus
-		{
-			box-shadow: inset 0px 0px 20px 3px #ddd;
-			outline: 1px solid #ddd !important;
-			*border: 1px solid #ddd !important;	/* IE7 */
-			cursor: auto;
-			background: #eee;
-		}
-
 		/* The following styles are just to make the page look nice. */
 
 		/* Workaround to show Arial Black in Firefox. */
@@ -78,6 +56,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		{
 			font-family: 'arial-black';
 			src: local('Arial Black');
+		}
+
+		*[contenteditable="true"]
+		{
+			padding: 10px;
 		}
 
 		#container
