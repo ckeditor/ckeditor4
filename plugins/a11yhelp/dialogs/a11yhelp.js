@@ -157,7 +157,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 				type: 'html',
 				id: 'legends',
 				style: 'white-space:normal;',
-				focus: function() {},
+				focus: function() { this.getElement().focus(); },
 				html: buildHelpContents() + '<style type="text/css">' +
 					'.cke_accessibility_legend' +
 					'{' +
