@@ -138,10 +138,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
-					position = offsetParent.getDocumentPosition( element.getDocument() ),
+					doc = element.getDocument(),
+					positionedAncestor = this._.parentElement.getPositionedAncestor(),
+					position = offsetParent.getDocumentPosition( doc ),
+					positionedAncestorPosition = positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 },
 					rtl = this._.dir == 'rtl',
-					left = position.x + ( offsetX || 0 ),
-					top = position.y + ( offsetY || 0 );
+					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
+					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
 				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
 				if ( rtl && ( corner == 1 || corner == 4 ) )
