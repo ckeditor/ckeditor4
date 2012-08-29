@@ -409,42 +409,42 @@
 		}
 	};
 
-	function elementFromPoint( doc, mouse ) {
-		return new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
-	}
-
-	function elementFromMouse( that, ignoreBox, forceMouse ) {
-		if ( !that.mouse )
-			return null;
-
-		var doc = that.doc,
-			lineWrap = that.line.wrap,
-			mouse = forceMouse || that.mouse,
-			element = elementFromPoint( doc, mouse );
-
-		// If ignoreBox is set and element is the box, it means that we
-		// need to hide the box for a while, repeat elementFromPoint
-		// and show it again.
-		if ( ignoreBox && isLine( that, element ) ) {
-			lineWrap.hide();
-			element = elementFromPoint( doc, mouse );
-			lineWrap.show();
+	var elementFromMouse = ( function() {
+		function elementFromPoint( doc, mouse ) {
+			return new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
 		}
 
-		if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
-			return null;
+		return function( that, ignoreBox, forceMouse ) {
+			if ( !that.mouse )
+				return null;
 
-		return element;
-	}
+			var doc = that.doc,
+				lineWrap = that.line.wrap,
+				mouse = forceMouse || that.mouse,
+				element = elementFromPoint( doc, mouse );
+
+			// If ignoreBox is set and element is the box, it means that we
+			// need to hide the box for a while, repeat elementFromPoint
+			// and show it again.
+			if ( ignoreBox && isLine( that, element ) ) {
+				lineWrap.hide();
+				element = elementFromPoint( doc, mouse );
+				lineWrap.show();
+			}
+
+			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
+				return null;
+
+			return element;
+		}
+	})();
 
 	// Gets the closest parent node that belongs to triggers group.
-	function getAscendantTrigger( that, node ) {
-		if ( !node )
-			return null;
+	function getAscendantTrigger( that ) {
+		var node = that.element,
+			trigger;
 
-		var trigger;
-
-		if ( isHtml( node ) ) {
+		if ( node && isHtml( node ) ) {
 			return ( trigger = node.getAscendant( that.triggers, true ) ) &&
 				!trigger.contains( that.editable ) &&
 				!trigger.equals( that.editable ) ? trigger : null;
@@ -994,7 +994,7 @@
 			triggerOffset = that.triggerOffset;
 
 		// Get the ascendant trigger basing on elementFromMouse.
-		var element = getAscendantTrigger( that, elementFromMouse( that, true ) );
+		var element = getAscendantTrigger( that );
 
 		that.debug.logElements( [ element ], [ 'Ascendant trigger' ], 'First stage' ); // %REMOVE_LINE%
 
@@ -1161,7 +1161,7 @@
 		function expandEngine( that ) {
 			that.debug.groupStart( 'expandEngine' ); // %REMOVE_LINE%
 
-			var startElement = elementFromMouse( that, true ),
+			var startElement = that.element,
 				upper, lower, trigger;
 
 			if ( !isHtml( startElement ) || startElement.contains( that.editable ) ) {
