@@ -528,7 +528,16 @@
 
 								evt.data.preventDefault();
 							}
-
+							// BACKSPACE/DEL pressed at the start/end of table cell.
+							else if ( ( parent = path.contains( [ 'td', 'th', 'caption' ] ) ) &&
+								      range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) ) {
+								next = parent[ rtl ? 'getPreviousSourceNode' : 'getNextSourceNode' ]( 1, CKEDITOR.NODE_ELEMENT );
+								if ( next && !next.isReadOnly() && range.root.contains( next ) ) {
+									range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
+									range.select();
+									evt.data.preventDefault();
+								}
+							}
 						}
 
 					}
