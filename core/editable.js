@@ -803,6 +803,9 @@
 
 	});
 
+	// #9222: Show text cursor in Gecko.
+	// Show default cursor over control elements on all non-IEs.
+	CKEDITOR.addCss( '.cke_editable{cursor:text}.cke_editable img,.cke_editable input,.cke_editable textarea{cursor:default}' );
 
 	//
 	// Functions related to insertXXX methods
