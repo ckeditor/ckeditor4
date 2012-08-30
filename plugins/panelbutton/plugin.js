@@ -37,16 +37,17 @@ CKEDITOR.plugins.add( 'panelbutton', {
 			 */
 			$: function( definition ) {
 				// We don't want the panel definition in this object.
-				var panelDefinition = definition.panel;
+				var panelDefinition = definition.panel || {};
 				delete definition.panel;
 
 				this.base( definition );
 
-				this.document = ( panelDefinition && panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
+				this.document = ( panelDefinition.parent && panelDefinition.parent.getDocument() ) || CKEDITOR.document;
 
 				panelDefinition.block = {
 					attributes: panelDefinition.attributes
 				};
+				panelDefinition.toolbarRelated = true;
 
 				this.hasArrow = true;
 
@@ -72,7 +73,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 					if ( _.panel )
 						return;
 
-					var panelDefinition = this._.panelDefinition || {},
+					var panelDefinition = this._.panelDefinition,
 						panelBlockDefinition = this._.panelDefinition.block,
 						panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
 						panel = this._.panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),

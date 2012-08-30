@@ -12,9 +12,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 	function getPanel( editor, doc, parentElement, definition, level ) {
 		// Generates the panel key: docId-eleId-skinName-langDir[-uiColor][-CSSs][-level]
-		var key = CKEDITOR.tools.genKey( doc.getUniqueId(), parentElement.getUniqueId(), editor.lang.dir, editor.uiColor || '', definition.css || '', level || '' );
-
-		var panel = panels[ key ];
+		var key = CKEDITOR.tools.genKey( doc.getUniqueId(), parentElement.getUniqueId(), editor.lang.dir, editor.uiColor || '', definition.css || '', level || '' ),
+			panel = panels[ key ];
 
 		if ( !panel ) {
 			panel = panels[ key ] = new CKEDITOR.ui.panel( doc, definition );
@@ -29,9 +28,32 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		return panel;
 	}
 
+	/**
+	 * Represents a floating panel UI element.
+	 *
+	 * It's reused by rich combos, color combos, menus, etc.
+	 * and it renders its content using {@link CKEDITOR.ui.panel}.
+	 *
+	 * @class
+	 * @todo
+	 */
 	CKEDITOR.ui.floatPanel = CKEDITOR.tools.createClass({
+		/**
+		 * Creates a floatPanel class instance.
+		 *
+		 * @constructor
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.dom.element} parentElement
+		 * @param {Object} definition Definition of the panel that will be floating.
+		 * @param {Number} level
+		 */
 		$: function( editor, parentElement, definition, level ) {
 			definition.forceIFrame = 1;
+
+			// In case of editor with floating toolbar append panels that should float
+			// to the main UI element.
+			if ( definition.toolbarRelated && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				parentElement = CKEDITOR.document.getById( 'cke_' + editor.name );
 
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
@@ -61,29 +83,49 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		},
 
 		proto: {
+			/**
+			 * @todo
+			 */
 			addBlock: function( name, block ) {
 				return this._.panel.addBlock( name, block );
 			},
 
+			/**
+			 * @todo
+			 */
 			addListBlock: function( name, multiSelect ) {
 				return this._.panel.addListBlock( name, multiSelect );
 			},
 
+			/**
+			 * @todo
+			 */
 			getBlock: function( name ) {
 				return this._.panel.getBlock( name );
 			},
 
-			//	corner (LTR):
-			//		1 = top-left
-			//		2 = top-right
-			//		3 = bottom-right
-			//		4 = bottom-left
-			//
-			//	corner (RTL):
-			//		1 = top-right
-			//		2 = top-left
-			//		3 = bottom-left
-			//		4 = bottom-right
+			/**
+			 * Shows panel block.
+			 *
+			 * @param {String} name
+			 * @param {CKEDITOR.dom.element} offsetParent Positioned parent.
+			 * @param {Number} corner
+			 *
+			 * * For LTR (left to right) oriented editor:
+			 *      * `1` = top-left
+			 *      * `2` = top-right
+			 *      * `3` = bottom-right
+			 *      * `4` = bottom-left
+			 * * For RTL (right to left):
+			 *      * `1` = top-right
+			 *      * `2` = top-left
+			 *      * `3` = bottom-left
+			 *      * `4` = bottom-right
+			 *
+			 * @param {Number} [offsetX=0]
+			 * @param {Number} [offsetY=0]
+			 * @todo what do exactly these params mean (especially corner)?
+			 */
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
@@ -94,14 +136,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var editable = this._.editor.editable();
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 
-
 				var element = this.element,
 					iframe = this._.iframe,
-					position = offsetParent.getDocumentPosition( element.getDocument() ),
-					rtl = this._.dir == 'rtl';
-
-				var left = position.x + ( offsetX || 0 ),
-					top = position.y + ( offsetY || 0 );
+					doc = element.getDocument(),
+					positionedAncestor = this._.parentElement.getPositionedAncestor(),
+					position = offsetParent.getDocumentPosition( doc ),
+					positionedAncestorPosition = positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 },
+					rtl = this._.dir == 'rtl',
+					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
+					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
 				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
 				if ( rtl && ( corner == 1 || corner == 4 ) )
@@ -146,8 +189,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						var target = ev.data.getTarget();
-						if ( target.$ != focused.$ )
+						if ( ev.data.getTarget().$ != focused.$ )
 							return;
 
 						if ( this.visible && !this._.activeChild ) {
@@ -338,6 +380,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 			},
 
+			/**
+			 * Restores last focused element or simply focus panel window.
+			 */
 			focus: function() {
 				// Webkit requires to blur any previous focused page element, in
 				// order to properly fire the "focus" event.
@@ -351,6 +396,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				focus.focus();
 			},
 
+			/**
+			 * @todo
+			 */
 			blur: function() {
 				var doc = this._.iframe.getFrameDocument(),
 					active = doc.getActive();
@@ -358,6 +406,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				active.is( 'a' ) && ( this._.lastFocused = active );
 			},
 
+			/**
+			 * Hides panel.
+			 *
+			 * @todo
+			 */
 			hide: function( returnFocus ) {
 				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
@@ -383,6 +436,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}
 			},
 
+			/**
+			 * @todo
+			 */
 			allowBlur: function( allow ) // Prevent editor from hiding the panel. #3222.
 			{
 				var panel = this._.panel;
@@ -392,6 +448,29 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				return panel.allowBlur;
 			},
 
+			/**
+			 * Shows specified panel as a child of one block of this one.
+			 *
+			 * @param {CKEDITOR.ui.floatPanel} panel
+			 * @param {String} blockName
+			 * @param {CKEDITOR.dom.element} offsetParent Positioned parent.
+			 * @param {Number} corner
+			 *
+			 * * For LTR (left to right) oriented editor:
+			 *      * `1` = top-left
+			 *      * `2` = top-right
+			 *      * `3` = bottom-right
+			 *      * `4` = bottom-left
+			 * * For RTL (right to left):
+			 *      * `1` = top-right
+			 *      * `2` = top-left
+			 *      * `3` = bottom-left
+			 *      * `4` = bottom-right
+			 *
+			 * @param {Number} [offsetX=0]
+			 * @param {Number} [offsetY=0]
+			 * @todo
+			 */
 			showAsChild: function( panel, blockName, offsetParent, corner, offsetX, offsetY ) {
 				// Skip reshowing of child which is already visible.
 				if ( this._.activeChild == panel && panel._.panel._.offsetParentId == offsetParent.getId() )
@@ -422,6 +501,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}
 			},
 
+			/**
+			 * @todo
+			 */
 			hideChild: function( restoreFocus ) {
 				var activeChild = this._.activeChild;
 
@@ -452,5 +534,5 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		// Remove the registration.
 		isLastInstance && ( panels = {} );
 
-	});
+	} );
 })();

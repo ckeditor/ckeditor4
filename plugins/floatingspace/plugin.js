@@ -140,8 +140,7 @@
 			id : editor.id,
 			name: editor.name,
 			langDir: editor.lang.dir,
-			langCode: editor.langCode,
-			'z-index': editor.config.baseFloatZIndex - 1
+			langCode: editor.langCode
 		};
 
 		// Get the HTML for the predefined spaces.
@@ -150,7 +149,7 @@
 			var floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( CKEDITOR.tools.extend({
 				topId: editor.ui.spaceId( 'top' ),
 				content: topHtml,
-				style: 'display:none;'
+				style: 'display:none;z-index:' + ( editor.config.baseFloatZIndex - 1 )
 			}, vars ) ) ) );
 
 			// There's no need for the floatSpace to be selectable.
