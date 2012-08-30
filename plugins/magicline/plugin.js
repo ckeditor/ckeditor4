@@ -470,7 +470,7 @@
 	function getNonEmptyNeighbour( that, node, goBack ) {
 		node = node[ goBack ? 'getPrevious' : 'getNext' ]( function( node ) {
 			return ( isTextNode( node ) && !isEmptyTextNode( node ) ) ||
-				( isHtml( node ) && !node.is( 'br' ) && !isFlowBreaker( node ) );
+				( isHtml( node ) && !isFlowBreaker( node ) && !isLine( that, node ) );
 		});
 
 		return node;
@@ -707,7 +707,10 @@
 			});
 
 			that.editor.focus();
-			that.hotNode.scrollIntoView();
+
+			if( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
+				that.hotNode.scrollIntoView();
+
 			event.data.preventDefault( true );
 		});
 
@@ -770,11 +773,7 @@
 
 	// Is fully visible HTML node?
 	function isHtml( node ) {
-		return node &&
-			node.type == CKEDITOR.NODE_ELEMENT &&
-			node.$ && // IE requires that
-			node.$.offsetHeight &&
-			node.$.offsetWidth;
+		return node && node.type == CKEDITOR.NODE_ELEMENT && node.$;	// IE requires that
 	}
 
 	function isFloated( element ) {
@@ -848,26 +847,6 @@
 	//	| +----------------------- Last child -+ |  | <-- Bottom edge (last child)
 	//	+----------------------------------------+  \--
 	//
-	//	However the following implementation doesn't work if (+ reverse case):
-	//
-	//	+----------------------------- Editable -+
-	//	|                  ...                   |
-	//	|                  ...                   |
-	//	| +----------------------- Last child -+ |
-	//	| |                                    | |
-	//	| +------------------------------------+ | <-- Bottom edge (last child)
-	//	|                                        |
-	//	|          # <-- Mouse.y is above 1/2    |
-	//	|                                        | <-- 1/2 of editable height
-	//	|                                        |
-	//	|                                        |
-	//	|                                        |
-	//	|                                        |
-	//	|                                        |
-	//	|                                        |
-	//	|                                        |
-	//	+----------------------------------------+
-	//
 	function triggerEditable( that ) {
 		that.debug.groupStart( 'triggerEditable' ); // %REMOVE_LINE%
 
@@ -881,7 +860,11 @@
 		updateEditableSize( that );
 
 		// This flag determines whether checking bottom trigger.
-		var bottomTrigger = mouse.y > Math.min( view.editable.height, view.pane.height ) / 2,
+		var bottomTrigger = mouse.y > ( inInlineMode( that ) ?
+				view.editable.top + view.editable.height / 2
+			:
+				// This is to handle case when editable.height / 2 <<< pane.height.
+				Math.min( view.editable.height, view.pane.height ) / 2 ),
 
 		// Edge node according to bottomTrigger.
 		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
@@ -1046,16 +1029,6 @@
 		// Get sibling according to bottomTrigger.
 		var elementSibling = getNonEmptyNeighbour( that, element, !bottomTrigger );
 
-		// If the sibling is ML, get the next one according to bottomTrigger.
-		if ( isLine( that, elementSibling ) )
-			elementSibling = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]();
-
-		// If after the recent step we came back to the element it
-		// definitely means that element is a first or a last child.
-		if ( element.equals( elementSibling ) ) {
-			elementSibling = null;
-		}
-
 		// No sibling element.
 		// This is a first or last child case.
 		if ( !elementSibling ) {
@@ -1067,11 +1040,11 @@
 				updateEditableSize( that );
 
 				if ( bottomTrigger && inBetween( mouse.y,
-					element.size.bottom - triggerOffset, view.pane.height ) &&
-					inBetween( element.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ) {
+					element.size.bottom - fixedOffset, view.pane.height ) &&
+					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height ) ) {
 						triggerLook = LOOK_BOTTOM;
 				}
-				else if ( inBetween( mouse.y, 0, element.size.top + triggerOffset ) ) {
+				else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) ) {
 					triggerLook = LOOK_TOP;
 				}
 			}
@@ -1243,16 +1216,13 @@
 			updateSize( that, upper );
 			updateSize( that, lower );
 
-			var minDistance = Number.MAX_VALUE,
-				currentDistance, upperNext, minElement, minElementNext;
-
-			// 2.2.
-			if ( upper.size.bottom > that.mouse.y || lower.size.top < that.mouse.y ) {
-				that.debug.logElementsEnd( [ startElement, upper, lower ], // %REMOVE_LINE%
-					[ 'Start', 'Upper', 'Lower' ], 'ABORT. Already below or above the pointer.' ); // %REMOVE_LINE%
-
+			if ( !checkMouseBetweenElements( that, upper, lower ) ) {
+				that.debug.logEnd( 'ABORT. Mouse is already above upper or below lower.' ); // %REMOVE_LINE%
 				return null;
 			}
+
+			var minDistance = Number.MAX_VALUE,
+				currentDistance, upperNext, minElement, minElementNext;
 
 			while ( lower && !lower.equals( upper ) ) {
 				// 3.1.
@@ -1282,6 +1252,11 @@
 				return null;
 			}
 
+			if ( !checkMouseBetweenElements( that, minElement, minElementNext ) ) {
+				that.debug.logEnd( 'ABORT. Mouse is already above minElement or below minElementNext.' ); // %REMOVE_LINE%
+				return null;
+			}
+
 			// An element of minimal distance has been found. Assign it to the trigger.
 			trigger.upper = minElement;
 			trigger.lower = minElementNext;
@@ -1298,6 +1273,30 @@
 				|| isFlowBreaker( node )
 				|| isLine( that, node )
 				|| ( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
+		}
+
+		// This method checks whether mouse-y is between the top edge of upper
+		// and bottom edge of lower.
+		//
+		// NOTE: This method assumes that updateSize has already been called
+		// for the elements and is up-to-date.
+		//
+		//	+---------------------------- Upper -+  /--
+		//	|                                    |  |
+		//	+------------------------------------+  |
+		//                                          |
+		//                     ...                  |
+		//                                          |
+		//						X                   |	* Return true for mouse-y in this range *
+		//                                          |
+		//                     ...                  |
+		//                                          |
+		//	+---------------------------- Lower -+  |
+		//	|                                    |  |
+		//	+------------------------------------+  \--
+		//
+		function checkMouseBetweenElements( that, upper, lower ) {
+			return inBetween( that.mouse.y, upper.size.top, lower.size.bottom );
 		}
 
 		// A method for trigger filtering. Accepts or rejects trigger pairs

@@ -430,13 +430,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					name;
 
 				return function( y, element ) {
-					if( !( name = element.getName() ) )
-						return;
-
 					my.setText( y );
 
-					if( element.type == CKEDITOR.NODE_ELEMENT )
-						over.setText( name + '.' + element.getAttribute( 'class' ) );
+					if( element && element.$ && element.type == CKEDITOR.NODE_ELEMENT ) {
+						try {
+							name = element.getName();
+							over.setText( name + '.' + element.getAttribute( 'class' ) );
+						} catch( e ) {}
+					}
 					else
 						over.setText( '-' );
 				}
