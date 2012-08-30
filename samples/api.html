@@ -32,7 +32,7 @@ function InsertHTML()
 	if ( editor.mode == 'wysiwyg' )
 	{
 		// Insert HTML code.
-		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertHtml
+		// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-insertHtml
 		editor.insertHtml( value );
 	}
 	else
@@ -49,7 +49,7 @@ function InsertText()
 	if ( editor.mode == 'wysiwyg' )
 	{
 		// Insert as plain text.
-		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertText
+		// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-insertText
 		editor.insertText( value );
 	}
 	else
@@ -63,7 +63,7 @@ function SetContents()
 	var value = document.getElementById( 'htmlArea' ).value;
 
 	// Set editor contents (replace current contents).
-	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setData
+	// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-setData
 	editor.setData( value );
 }
 
@@ -73,7 +73,7 @@ function GetContents()
 	var editor = CKEDITOR.instances.editor1;
 
 	// Get editor contents
-	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#getData
+	// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-getData
 	alert( editor.getData() );
 }
 
@@ -86,7 +86,7 @@ function ExecuteCommand( commandName )
 	if ( editor.mode == 'wysiwyg' )
 	{
 		// Execute the command.
-		// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#execCommand
+		// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-execCommand
 		editor.execCommand( commandName );
 	}
 	else
@@ -99,7 +99,7 @@ function CheckDirty()
 	var editor = CKEDITOR.instances.editor1;
 	// Checks whether the current editor contents present changes when compared
 	// to the contents loaded into the editor at startup
-	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#checkDirty
+	// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-checkDirty
 	alert( editor.checkDirty() );
 }
 
@@ -108,7 +108,7 @@ function ResetDirty()
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	// Resets the "dirty state" of the editor (see CheckDirty())
-	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#resetDirty
+	// http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor-method-resetDirty
 	editor.resetDirty();
 	alert( 'The "IsDirty" status has been reset' );
 }
@@ -138,7 +138,7 @@ function onBlur()
 	<div class="description">
 	<p>
 		This sample shows how to use the
-		<a class="samples" href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html">CKEditor JavaScript API</a>
+		<a class="samples" href="http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.editor">CKEditor JavaScript API</a>
 		to interact with the editor at runtime.
 	</p>
 	<p>
