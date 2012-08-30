@@ -227,7 +227,7 @@ label
 	box-shadow: inset 0px 0px 20px 3px #ddd;
 	outline: 1px solid #ddd !important;
 	*border: 1px solid #ddd !important;	/* IE7 */
-	cursor: auto;
+	cursor: text;
 	background: #eee;
 }
 
