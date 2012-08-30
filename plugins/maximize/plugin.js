@@ -296,6 +296,8 @@
 
 					savedSelection = savedScroll = null;
 					savedState = this.state;
+
+					editor.fire( 'maximize', this.state );
 				},
 				canUndo: false
 			});
