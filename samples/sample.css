@@ -221,13 +221,14 @@ label
 }
 
 /* Once an editable element gets focused, the "cke_focus" class is
-   added to it, so we can style it differently. */
-.cke_editable.cke_focus
+   added to it, so we can style it differently.
+   The second selector is for an editor using divarea. */
+.cke_editable.cke_focus, .cke_focus .cke_editable
 {
 	box-shadow: inset 0px 0px 20px 3px #ddd;
 	outline: 1px solid #ddd !important;
 	*border: 1px solid #ddd !important;	/* IE7 */
-	cursor: auto;
+	cursor: text;
 	background: #eee;
 }
 
