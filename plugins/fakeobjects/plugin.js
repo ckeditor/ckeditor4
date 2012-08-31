@@ -127,7 +127,7 @@
 
 		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
 		if ( !CKEDITOR.env.hc )
-			attributes.src = CKEDITOR.getUrl( 'images/spacer.gif' );
+			attributes.src = CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' );
 
 		if ( realElementType )
 			attributes[ 'data-cke-real-element-type' ] = realElementType;
