@@ -64,13 +64,7 @@ CKEDITOR.plugins.add( 'listblock', {
 				getClick: function() {
 					if ( !this._.click ) {
 						this._.click = CKEDITOR.tools.addFunction( function( value ) {
-							var marked = true;
-
-							if ( this.multiSelect )
-								marked = this.toggle( value );
-							else
-								this.mark( value );
-
+							var marked = this.toggle( value );
 							if ( this.onClick )
 								this.onClick( value, marked );
 						}, this );
