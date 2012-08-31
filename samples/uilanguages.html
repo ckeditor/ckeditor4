@@ -85,10 +85,10 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					// Replace the <textarea id="editor"> with an CKEditor
 					// instance, using default configurations.
 					editor = CKEDITOR.replace( 'editor1', {
-						language : languageCode,
+						language: languageCode,
 
-						on : {
-							instanceReady : function() {
+						on: {
+							instanceReady: function() {
 								// Wait for the editor to be ready to set
 								// the language combo.
 								var languages = document.getElementById( 'languages' );

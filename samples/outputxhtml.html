@@ -97,7 +97,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					// List of fonts available in the toolbar combo. Each font definition is
 					// separated by a semi-colon (;). We are using class names here, so each font
 					// is defined by {Combo Label}/{Class Name}.
-					font_names : 'Comic Sans MS/FontComic;Courier New/FontCourier;Times New Roman/FontTimes',
+					font_names: 'Comic Sans MS/FontComic;Courier New/FontCourier;Times New Roman/FontTimes',
 
 					// Define the way font elements will be applied to the document. The "span"
 					// element will be used. When a font is selected, the font name defined in the
@@ -124,12 +124,12 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					fontSize_sizes: 'Smaller/FontSmaller;Larger/FontLarger;8pt/FontSmall;14pt/FontBig;Double Size/FontDouble',
 					fontSize_style: {
 						element: 'span',
-						attributes: { 'class' : '#(size)' },
+						attributes: { 'class': '#(size)' },
 						overrides: [
 							{
 								element: 'span',
 								attributes: {
-									'class' : /^Font(?:Smaller|Larger|Small|Big|Double)$/
+									'class': /^Font(?:Smaller|Larger|Small|Big|Double)$/
 								}
 							}
 						]
@@ -138,12 +138,12 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					/*
 					 * Font colors.
 					 */
-					colorButton_enableMore : false,
+					colorButton_enableMore: false,
 
 					colorButton_colors: 'FontColor1/FF9900,FontColor2/0066CC,FontColor3/F00',
 					colorButton_foreStyle: {
 						element: 'span',
-						attributes: { 'class' : '#(color)' },
+						attributes: { 'class': '#(color)' },
 						overrides: [
 							{
 								element: 'span',
@@ -155,13 +155,13 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					},
 
 					colorButton_backStyle: {
-						element : 'span',
+						element: 'span',
 						attributes: { 'class': '#(color)BG' },
 						overrides: [
 							{
-								element : 'span',
-								attributes : {
-									'class' : /^FontColor(?:1|2|3)BG$/
+								element: 'span',
+								attributes: {
+									'class': /^FontColor(?:1|2|3)BG$/
 								}
 							}
 						]
