@@ -523,7 +523,7 @@
 			attach: function() {
 				// Only if not already attached
 				if ( !this.wrap.getParent() )
-					this.wrap.appendTo( that.editable );
+					this.wrap.appendTo( that.editable, true );
 
 				return this;
 			},
