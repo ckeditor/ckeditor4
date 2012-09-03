@@ -14,8 +14,7 @@
 	 * @param {CKEDITOR.editor} editor
 	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
-		var config = editor.config,
-			dataFilter, htmlFilter;
+		var dataFilter, htmlFilter;
 
 		this.editor = editor;
 
@@ -24,20 +23,9 @@
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
 		dataFilter.addRules( defaultDataFilterRules );
-		dataFilter.addRules( defaultDataBlockFilterRules );
+		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ) );
 		htmlFilter.addRules( defaultHtmlFilterRules );
-
-		var defaultHtmlBlockFilterRules = {
-			elements: {}
-		};
-
-		// The Root fragment is to be considered for BR cleanup when outputting.
-		defaultHtmlBlockFilterRules.root = getBlockExtension( true, false );
-
-		for ( i in blockLikeTags )
-			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks !== false );
-
-		htmlFilter.addRules( defaultHtmlBlockFilterRules );
+		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ) );
 	};
 
 	CKEDITOR.htmlDataProcessor.prototype = {
@@ -158,80 +146,283 @@
 		}
 	};
 
+	// Produce a set of filtering rules that handles bogus and filler node at the
+	// end of block/pseudo block, in the following consequence:
+	// 1. elements:<block> - this filter removes any bogus node, then check
+	// if it's an empty block that requires a filler.
+	// 2. elements:<br> - After cleaned with bogus, this filter checks the real
+	// line-break BR to compensate a filler after it.
+	//
+	// Terms definitions:
+	// filler: An element that's either <BR> or &NBSP; at the end of block that established line height.
+	// bogus: Whenever a filler is proceeded with inline content, it becomes a bogus which is subjected to be removed.
+	//
+	// Various forms of the filler:
+	// In output HTML: Filler should be consistently &NBSP; <BR> at the end of block is always considered as bogus.
+	// In Wysiwyg HTML: Browser dependent - Filler is either BR for non-IE, or &NBSP; for IE, <BR> is NEVER considered as bogus for IE.
+	function createBogusAndFillerRules( editor, type ) {
+		var rules = { elements: {} };
+		var isOutput = type == 'html';
+
+		// Build the list of text blocks.
+		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
+		for ( var i in textBlockTags )
+			if ( !( '#' in dtd[ i ] ) )
+				delete textBlockTags[ i ];
+
+		for ( i in textBlockTags )
+			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks !== false );
+
+		// Editable element is to be checked separately.
+		rules.root = blockFilter( isOutput );
+		rules.elements.br = brFilter( isOutput );
+		return rules;
+
+
+		function createFiller( isOutput ) {
+			return isOutput || CKEDITOR.env.ie ?
+			       new CKEDITOR.htmlParser.text( '\xa0' ) :
+			       new CKEDITOR.htmlParser.element( 'br', { 'data-cke-bogus': 1 } );
+		}
+
+		// This text block filter, remove any bogus and create the filler on demand.
+		function blockFilter( isOutput, fillEmptyBlock ) {
+
+			return function( block ) {
+
+				// DO NOT apply the filer if it's a fragment node.
+				if ( block.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+					return;
+
+				cleanBogus( block );
+
+				if ( ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) &&
+						 isEmptyBlockNeedFiller( block ) )
+				{
+					block.add( createFiller( isOutput ) );
+				}
+			};
+		}
+
+		// Append a filler right after the last line-break BR, found at the end of block.
+		function brFilter( isOutput ) {
+			return function ( br ) {
+
+				// DO NOT apply the filer if parent's a fragment node.
+				if ( br.parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+					return;
+
+				var attrs = br.attributes;
+				// Dismiss BRs that are either bogus or eol marker.
+				if ( 'data-cke-bogus' in attrs ||
+						 'data-cke-eol' in attrs ) {
+					delete attrs [ 'data-cke-bogus' ];
+					return;
+				}
+
+				// Judge the tail line-break BR, and to insert bogus after it.
+				var next = getNext( br ), previous = getPrevious( br );
+
+				if ( !next && isBlockBoundary( br.parent ) )
+					append( br.parent, createFiller( isOutput ) );
+				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) ) {
+					insertBefore( next, createFiller( isOutput ) );
+				}
+			}
+		}
+
+		// Determinate whether this node is potentially a bogus node.
+		function maybeBogus( node, atBlockEnd ) {
+
+			// BR that's not from IE DOM, except for a EOL marker.
+			if ( !( isOutput && CKEDITOR.env.ie ) &&
+					 node.type == CKEDITOR.NODE_ELEMENT && node.name == 'br' &&
+					 !node.attributes[ 'data-cke-eol' ] )
+				return true;
+
+			var match;
+			// NBSP, possibly.
+			if ( node.type == CKEDITOR.NODE_TEXT &&
+					 ( match = node.value.match( tailNbspRegex ) ) )
+			{
+				// We need to separate tail NBSP out of a text node, for later removal.
+				if ( match.index ) {
+					insertBefore( node, new CKEDITOR.htmlParser.text( node.value.substring( 0, match.index ) ) );
+					node.value = match[ 0 ];
+				}
+
+				// From IE DOM, at the end of a text block, or before block boundary.
+				if ( CKEDITOR.env.ie && isOutput && ( !atBlockEnd || node.parent.name in textBlockTags ) )
+					return true;
+
+				// From the output.
+				if ( !isOutput ) {
+					var previous = node.previous;
+
+					// Following a line-break at the end of block.
+					if ( previous && previous.name == 'br' )
+						return true;
+
+					// Or a single NBSP between two blocks.
+					if ( !previous || isBlockBoundary( previous ) )
+						return true;
+				}
+			}
+
+			return false;
+		}
+
+		// Removes all bogus inside of this block, and to convert fillers into the proper form.
+		function cleanBogus( block ) {
+			var bogus = [];
+			var last = getLast( block ), node, previous;
+			if ( last ) {
+
+				// Check for bogus at the end of this block.
+				// e.g. <p>foo<br /></p>
+				maybeBogus( last, 1 ) && bogus.push( last );
+
+				while ( last ) {
+
+					// Check for bogus at the end of any pseudo block contained.
+					if ( isBlockBoundary( last ) &&
+							 ( node = getPrevious( last ) ) &&
+							 maybeBogus( node ) )
+					{
+						// Bogus must have inline proceeding, instead single BR between two blocks,
+						// is considered as filler, e.g. <hr /><br /><hr />
+						if ( ( previous = getPrevious( node ) ) && !isBlockBoundary( previous ) )
+							bogus.push( node );
+						// Convert the filler into appropriate form.
+						else {
+							insertAfter( node, createFiller( isOutput ) );
+							removeFromParent( node );
+						}
+					}
+
+					last = last.previous;
+				}
+			}
+
+			// Now remove all bogus collected from above.
+			for ( var i = 0 ; i < bogus.length ; i++ )
+				removeFromParent( bogus[ i ] );
+		}
+
+		// Judge whether it's an empty block that requires a filler node.
+		function isEmptyBlockNeedFiller( block ) {
+
+			// DO NOT fill empty editable in IE.
+			if ( !isOutput && CKEDITOR.env.ie && block.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+				return false;
+
+			// 1. For IE version >=8,  empty blocks are displayed correctly themself in wysiwiyg;
+			// 2. For the rest, at least table cell and list item need no filler space. (#6248)
+			if ( !isOutput && CKEDITOR.env.ie &&
+					 ( document.documentMode > 7 ||
+						 block.name in CKEDITOR.dtd.tr ||
+						 block.name in CKEDITOR.dtd.$listItem ) ) {
+				return false;
+			}
+
+			var last = getLast( block );
+			return !last || block.name == 'form' && last.name == 'input' ;
+		}
+	}
+
 	function getFixBodyTag( config ) {
 		return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 	}
 
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
 	// Safari transforms the &nbsp; to \xa0. (#4172)
-	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+	var tailNbspRegex = /(?:&nbsp;|\xa0)$/;
 
 	var protectedSourceMarker = '{cke_protected}';
+
+	function getLast( node ) {
+		var last = node.children[ node.children.length - 1 ];
+		while ( last && isEmpty( last ) )
+			last = last.previous;
+		return last;
+	}
+
+	function getNext( node ) {
+		var next = node.next;
+		while ( next && isEmpty( next ) )
+			next = next.next;
+		return next;
+	}
+
+	function getPrevious( node ) {
+		var previous = node.previous;
+		while ( previous && isEmpty( previous ) )
+			previous = previous.previous;
+		return previous;
+	}
+
+	// Judge whether the node is an ghost node to be ignored, when traversing.
+	function isEmpty( node ) {
+		return node.type == CKEDITOR.NODE_TEXT &&
+		  !CKEDITOR.tools.trim( node.value ) ||
+		  node.type == CKEDITOR.NODE_ELEMENT &&
+		  node.attributes[ 'data-cke-bookmark' ];
+	}
+
+	// Judge whether the node is a block-like element.
+	function isBlockBoundary( node ) {
+		return node &&
+					 ( node.type == CKEDITOR.NODE_ELEMENT && node.name in blockLikeTags ||
+						 node.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT );
+	}
+
+	function insertAfter( node, insertion ) {
+		var children = node.parent.children;
+		var index = CKEDITOR.tools.indexOf( children, node );
+		children.splice( index + 1, 0, insertion );
+		var next = node.next;
+		node.next = insertion;
+		insertion.previous = node;
+		insertion.parent = node.parent;
+		insertion.next = next;
+	}
+
+	function insertBefore( node, insertion ) {
+		var children = node.parent.children;
+		var index = CKEDITOR.tools.indexOf( children, node );
+		children.splice( index, 0, insertion );
+		var prev = node.previous;
+		node.previous = insertion;
+		insertion.next = node;
+		insertion.parent = node.parent;
+		if ( prev ) {
+			insertion.previous = prev;
+			prev.next = insertion;
+		}
+	}
+
+	function append( parent, node ) {
+		var last = parent.children[ parent.children.length -1 ];
+		parent.children.push( node );
+		node.parent = parent;
+		if ( last ) {
+			last.next = node;
+			node.previous = last;
+		}
+	}
+
+	function removeFromParent( node ) {
+		var children = node.parent.children;
+		var index = CKEDITOR.tools.indexOf( children, node );
+		var previous = node.previous, next = node.next;
+		previous && ( previous.next = next );
+		next && ( next.previous = previous );
+		children.splice( index, 1 );
+	}
 
 	function getNodeIndex( node ) {
 		var parent = node.parent;
 		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
-	}
-
-	// Return the last non-space child node of the block (#4344).
-	function lastNormalChildIndex( block ) {
-		var lastIndex = block.children.length - 1,
-			last = block.children[ lastIndex ];
-
-		while ( last && ( last.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( last.value ) || last.type == CKEDITOR.NODE_ELEMENT && last.attributes[ 'data-cke-bookmark' ] ) )
-			last = block.children[ --lastIndex ];
-
-		return lastIndex;
-	}
-
-	function trimFillers( block, fromSource ) {
-		// If the current node is a block, and if we're converting from source or
-		// we're not in IE then search for and remove any tailing BR node.
-		//
-		// Also, any &nbsp; at the end of blocks are fillers, remove them as well.
-		// (#2886)
-		var children = block.children,
-			lastIndex = lastNormalChildIndex( block ),
-			last = children[ lastIndex ];
-
-		if ( last ) {
-			if ( ( fromSource || !CKEDITOR.env.ie ) && last.type == CKEDITOR.NODE_ELEMENT && last.name == 'br' )
-				children.splice( lastIndex, 1 );
-			else if ( last.type == CKEDITOR.NODE_TEXT && tailNbspRegex.test( last.value ) )
-				children.splice( lastIndex, 1 );
-		}
-	}
-
-	function blockNeedsExtension( block, fromSource, extendEmptyBlock ) {
-		if ( !fromSource && ( !extendEmptyBlock || typeof extendEmptyBlock == 'function' && ( extendEmptyBlock( block ) === false ) ) )
-			return false;
-
-		// 1. For IE version >=8,  empty blocks are displayed correctly themself in wysiwiyg;
-		// 2. For the rest, at least table cell and list item need no filler space.
-		// (#6248)
-		if ( fromSource && CKEDITOR.env.ie && ( document.documentMode > 7 || block.name in CKEDITOR.dtd.tr || block.name in CKEDITOR.dtd.$listItem ) )
-			return false;
-
-		var lastIndex = lastNormalChildIndex( block ),
-			lastChild = block.children[ lastIndex ];
-
-		return !lastChild || lastChild && ( lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.name == 'br'
-			// Some of the controls in form needs extension too,
-			// to move cursor at the end of the form. (#4791)
-			|| block.name == 'form' && lastChild.name == 'input' );
-	}
-
-	function getBlockExtension( isOutput, emptyBlockFiller ) {
-		return function( node ) {
-			trimFillers( node, !isOutput );
-
-			if ( blockNeedsExtension( node, !isOutput, emptyBlockFiller ) ) {
-				if ( isOutput || CKEDITOR.env.ie )
-					node.add( new CKEDITOR.htmlParser.text( '\xa0' ) );
-				else
-					node.add( new CKEDITOR.htmlParser.element( 'br', {} ) );
-			}
-		};
 	}
 
 	var dtd = CKEDITOR.dtd;
@@ -239,15 +430,9 @@
 	// Define orders of table elements.
 	var tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
 
-	// Find out the list of block-like tags that can contain <br>.
-	var blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$block, dtd.$listItem, dtd.$tableContent );
-	for ( var i in blockLikeTags ) {
-		if ( !( 'br' in dtd[ i ] ) )
-			delete blockLikeTags[ i ];
-	}
-	// We just avoid filler in <pre> right now.
-	// TODO: Support filler for <pre>, line break is also occupy line height.
-	delete blockLikeTags.pre;
+	// List of all block elements.
+	var blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$blockLimit, dtd.$block );
+
 	var defaultDataFilterRules = {
 		elements: {},
 		attributeNames: [
@@ -256,12 +441,6 @@
 			[ ( /^on/ ), 'data-cke-pa-on' ]
 		]
 	};
-
-	var defaultDataBlockFilterRules = {
-		elements: {} };
-
-	for ( i in blockLikeTags )
-		defaultDataBlockFilterRules.elements[ i ] = getBlockExtension();
 
 	var defaultHtmlFilterRules = {
 		elementNames: [
@@ -357,11 +536,6 @@
 			span: function( element ) {
 				if ( element.attributes[ 'class' ] == 'Apple-style-span' )
 					delete element.name;
-			},
-
-			// Empty <pre> in IE is reported with filler node (&nbsp;).
-			pre: function( element ) {
-				CKEDITOR.env.ie && trimFillers( element );
 			},
 
 			html: function( element ) {

@@ -640,44 +640,6 @@
 		return length;
 	}
 
-	function getExtendNestedListFilter( isHtmlFilter ) {
-		// An element filter function that corrects nested list start in an empty
-		// list item for better displaying/outputting. (#3165)
-		return function( listItem ) {
-			var children = listItem.children,
-				firstNestedListIndex = indexOfFirstChildElement( listItem, dtd.$list ),
-				firstNestedList = children[ firstNestedListIndex ],
-				nodeBefore = firstNestedList && firstNestedList.previous,
-				tailNbspmatch;
-
-			if ( nodeBefore && ( nodeBefore.name && nodeBefore.name == 'br' || nodeBefore.value && ( tailNbspmatch = nodeBefore.value.match( tailNbspRegex ) ) ) ) {
-				var fillerNode = nodeBefore;
-
-				// Always use 'nbsp' as filler node if we found a nested list appear
-				// in front of a list item.
-				if ( !( tailNbspmatch && tailNbspmatch.index ) && fillerNode == children[ 0 ] )
-					children[ 0 ] = ( isHtmlFilter || CKEDITOR.env.ie ) ? new CKEDITOR.htmlParser.text( '\xa0' ) : new CKEDITOR.htmlParser.element( 'br', {} );
-
-				// Otherwise the filler is not needed anymore.
-				else if ( fillerNode.name == 'br' )
-					children.splice( firstNestedListIndex - 1, 1 );
-				else
-					fillerNode.value = fillerNode.value.replace( tailNbspRegex, '' );
-			}
-
-		};
-	}
-
-	var defaultListDataFilterRules = {
-		elements: {} };
-	for ( var i in dtd.$listItem )
-		defaultListDataFilterRules.elements[ i ] = getExtendNestedListFilter();
-
-	var defaultListHtmlFilterRules = {
-		elements: {} };
-	for ( i in dtd.$listItem )
-		defaultListHtmlFilterRules.elements[ i ] = getExtendNestedListFilter( true );
-
 	// Check if node is block element that recieves text.
 	function isTextBlock( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && ( node.getName() in CKEDITOR.dtd.$block || node.getName() in CKEDITOR.dtd.$listItem ) && CKEDITOR.dtd[ node.getName() ][ '#' ];
@@ -986,14 +948,6 @@
 					setTimeout( function() { editor.selectionChange( 1 ); } );
 				}
 			});
-		},
-
-		afterInit: function( editor ) {
-			var dataProcessor = editor.dataProcessor;
-			if ( dataProcessor ) {
-				dataProcessor.dataFilter.addRules( defaultListDataFilterRules );
-				dataProcessor.htmlFilter.addRules( defaultListHtmlFilterRules );
-			}
 		}
 	});
 })();
