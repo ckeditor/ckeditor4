@@ -296,6 +296,8 @@
 
 					savedSelection = savedScroll = null;
 					savedState = this.state;
+
+					editor.fire( 'maximize', this.state );
 				},
 				canUndo: false
 			});
@@ -314,3 +316,13 @@
 		}
 	});
 })();
+
+/**
+ * Event fired when the maximize command is called.
+ * It also indicates whether an editor is maximized or not.
+ *
+ * @event maximize
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Number} data Current state of the command. See {@link CKEDITOR#TRISTATE_ON} and {@link CKEDITOR#TRISTATE_OFF}.
+ */

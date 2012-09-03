@@ -6,6 +6,7 @@
 CKEDITOR.plugins.add( 'resize', {
 	init: function( editor ) {
 		var config = editor.config;
+		var spaceId = editor.ui.spaceId( 'resizer' );
 
 		// Resize in the same direction of chrome,
 		// which is identical to dir of editor element. (#6614)
@@ -83,6 +84,7 @@ CKEDITOR.plugins.add( 'resize', {
 						direction = ' cke_resizer_vertical';
 
 					var resizerHtml = '<span' +
+						' id="' + spaceId + '"' +
 						' class="cke_resizer' + direction + ' cke_resizer_' + resizeDir + '"' +
 						' title="' + CKEDITOR.tools.htmlEncode( editor.lang.common.resize ) + '"' +
 						' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event)"' +
@@ -92,6 +94,11 @@ CKEDITOR.plugins.add( 'resize', {
 					resizeDir == 'ltr' && direction == 'ltr' ? event.data.html += resizerHtml : event.data.html = resizerHtml + event.data.html;
 				}
 			}, editor, null, 100 );
+
+			// Toggle the visibility of the resizer when an editor is being maximized or minimized.
+			editor.on( 'maximize', function( event ) {
+				editor.ui.space( 'resizer' )[ event.data == CKEDITOR.TRISTATE_ON ? 'hide' : 'show' ]();
+			});
 		}
 	}
 });
