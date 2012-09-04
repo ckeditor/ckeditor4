@@ -758,9 +758,11 @@
 		 * Create A "deferred" function which will not run immediately,
 		 * rather runs as soon as the interpreter’s call stack is empty.
 		 * Behaves much like window.setTimeout with a delay.
-		 * <strong>Note:</strong> The return value of the original function will loose.
+		 *
+		 * **Note:** The return value of the original function will loose.
+		 *
 		 * @param {Function} fn The callee function.
-		 * @param {Function} The new deferred function.
+		 * @returns {Function} The new deferred function.
 		 */
 		defer: function( fn ) {
 			return function() {

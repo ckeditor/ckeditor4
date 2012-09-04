@@ -412,10 +412,27 @@
 
 			// Loop through all plugins, to build the list of language
 			// files to get loaded.
+			//
+			// Check also whether any of loaded plugins doesn't require plugins
+			// defined in config.removePlugins. Throw non-blocking error if this happens.
 			for ( var pluginName in plugins ) {
 				var plugin = plugins[ pluginName ],
 					pluginLangs = plugin.lang,
-					lang = null;
+					lang = null,
+					requires = plugin.requires,
+					match, name;
+
+				// Transform it into a string, if it's not one.
+				if ( CKEDITOR.tools.isArray( requires ) )
+					requires = requires.join( ',' );
+
+				if ( requires && ( match = requires.match( removeRegex ) ) ) {
+					while ( ( name = match.pop() ) ) {
+						CKEDITOR.tools.setTimeout( function( name, pluginName ) {
+							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.');
+						}, 0, null, [ name, pluginName ] );
+					}
+				}
 
 				// If the plugin has "lang".
 				if ( pluginLangs && !editor.lang[ pluginName ] ) {
