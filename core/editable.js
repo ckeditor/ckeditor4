@@ -160,6 +160,9 @@
 					});
 				}
 
+				// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
+				html = html.replace( /^ | $/g, '&nbsp;' );
+
 				// Finally, preserve whitespaces that are to be lost.
 				html = html.replace( /(>|\s) /g, function( match, before ) {
 					return before + '&nbsp;';
