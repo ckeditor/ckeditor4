@@ -39,7 +39,7 @@ CKEDITOR.dtd = (function() {
 		B = { input:1,button:1,select:1,textarea:1,label:1 },
 		C = X( { a:1 }, B ),
 		D = X( { iframe:1 }, C ),
-		E = { hr:1,ul:1,menu:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,mark:1,time:1,meter:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,details:1,datagrid:1,datalist:1,blockquote:1,noscript:1,table:1,center:1,address:1,dir:1,pre:1,h5:1,dl:1,h4:1,noframes:1,h6:1,ol:1,h1:1,h3:1,h2:1 },
+		E = { hr:1,ul:1,menu:1,div:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,mark:1,time:1,meter:1,command:1,keygen:1,output:1,progress:1,audio:1,video:1,source:1,details:1,datagrid:1,datalist:1,blockquote:1,noscript:1,table:1,center:1,address:1,dir:1,pre:1,h5:1,dl:1,h4:1,noframes:1,h6:1,ol:1,h1:1,h3:1,h2:1 },
 		F = { ins:1,del:1,script:1,style:1 },
 		G = X( { b:1,acronym:1,bdo:1,'var':1,'#':1,abbr:1,code:1,br:1,i:1,cite:1,kbd:1,u:1,strike:1,s:1,tt:1,strong:1,q:1,samp:1,em:1,dfn:1,span:1,wbr:1 }, F ),
 		H = X( { sub:1,img:1,object:1,sup:1,basefont:1,map:1,applet:1,font:1,big:1,small:1,mark:1 }, G ),
@@ -105,7 +105,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
-		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,wbr:1 },
+		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,source:1,wbr:1 },
 
 		/**
 		 * List of list item elements, like `<li>` or `<dd>`.
