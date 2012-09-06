@@ -160,6 +160,9 @@
 					});
 				}
 
+				// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
+				html = html.replace( /^ | $/g, '&nbsp;' );
+
 				// Finally, preserve whitespaces that are to be lost.
 				html = html.replace( /(>|\s) /g, function( match, before ) {
 					return before + '&nbsp;';
@@ -1017,6 +1020,10 @@
 		function processDataForInsertion( that, data ) {
 			var range = that.range;
 
+			// Data processor would ltrim all white-spaces, so leave at least once for spaces-only insertion.
+			// Preserve nbsps first, so \u00a0{2,} won't be lost in second replace().
+			data = data.replace( /\u00a0/g, '&nbsp;' ).replace( /^\s+$/, '&nbsp;' );
+
 			// Rule 8. - wrap entire data in inline styles.
 			// (e.g. <p><b>x^z</b></p> + <p>a</p><p>b</p> -> <b><p>a</p><p>b</p></b>)
 			// Incorrect tags order will be fixed by htmlDataProcessor.
@@ -1030,18 +1037,18 @@
 
 			// Build the node list for insertion.
 			var doc = range.document,
-				tmp = doc.createElement( 'body' );
+				wrapper = doc.createElement( 'body' );
 
-			tmp.setHtml( data );
+			wrapper.setHtml( data );
 
 			// Rule 7.
 			var block = range.startPath().block;
 			if ( block &&													// Apply when there exists path block after deleting selection's content...
 				!( block.getChildCount() == 1 && block.getBogus() ) ) {		// ... and the only content of this block isn't a bogus.
-				stripBlockTagIfSingleLine( tmp );
+				stripBlockTagIfSingleLine( wrapper );
 			}
 
-			that.dataWrapper = tmp;
+			that.dataWrapper = wrapper;
 		}
 
 		function insertDataIntoRange( that ) {
