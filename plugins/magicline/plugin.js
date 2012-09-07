@@ -84,6 +84,10 @@
 				win: win
 			}, true );
 
+			// This is the boundary of the editor. For inline the boundary is editable itself.
+			// For framed editor, the HTML element is a real boundary.
+			that.boundary = that.inInlineMode ? that.editable : that.doc.getDocumentElement();
+
 			// Enabling the box inside of inline editable is pointless.
 			// There's no need to access spaces inside paragraphs, links, spans, etc.
 			if ( editable.is( CKEDITOR.dtd.$inline ) )
@@ -433,8 +437,21 @@
 				lineWrap.show();
 			}
 
-			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
+			// Return nothing if:
+			//	\-> Element is not HTML.
+			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) ) {
 				return null;
+			}
+
+			// Also return nothing if:
+			//	\-> We're IE<9 and element is out of the top-level element (editable for inline and HTML for framed).
+			//		This is due to the bug which allows IE<9 firing mouse events on element
+			//		with contenteditable=true while doing selection out (far, away) of the element.
+			//		Thus we must always be sure that we stay in editable or HTML.
+			if ( env.ie && env.version < 9 ) {
+				if ( !( that.boundary.equals( element ) || that.boundary.contains( element ) ) )
+					return null;
+			}
 
 			return element;
 		}
