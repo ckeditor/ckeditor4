@@ -621,8 +621,9 @@
 
 				// Restore original tab index.
 				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
-				if ( orgTabIndex !== null )
-					orgTabIndex ? this.setAttribute( 'tabIndex', orgTabIndex ) : this.removeAttribute( 'tabIndex' );
+				orgTabIndex !== null ?
+					this.setAttribute( 'tabIndex', orgTabIndex ) :
+					this.removeAttribute( 'tabIndex' );
 
 				// Cleanup our custom classes.
 				var classes;
