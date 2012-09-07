@@ -548,7 +548,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		function( propertyName ) {
 			return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
 		} : function( propertyName ) {
-			return this.getWindow().$.getComputedStyle( this.$, '' ).getPropertyValue( propertyName );
+			var style = this.getWindow().$.getComputedStyle( this.$, null );
+			// Firefox may return null if we call the above on a hidden iframe. (#9117)
+			return style ? style.getPropertyValue( propertyName ) : '';
 		},
 
 	/**
