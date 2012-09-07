@@ -215,7 +215,7 @@ label
 /* Style a bit the inline editables. */
 .cke_editable.cke_editable_inline
 {
-	cursor: pointer;
+	cursor: default;
 }
 
 /* Once an editable element gets focused, the "cke_focus" class is
