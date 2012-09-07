@@ -229,68 +229,68 @@
 				// When content doc is in standards mode, IE doesn't focus the editor when
 				// clicking at the region below body (on html element) content, we emulate
 				// the normal behavior on old IEs. (#1659, #7932)
-				if ( ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) && doc.$.compatMode != 'BackCompat' ) {
+				if ( doc.$.compatMode != 'BackCompat' ) {
+					if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
+						function moveRangeToPoint( range, x, y ) {
+							// Error prune in IE7. (#9034, #9110)
+							try { range.moveToPoint( x, y ); } catch ( e ) {}
+						}
 
-					function moveRangeToPoint( range, x, y )
-					{
-						// Error prune in IE7. (#9034, #9110)
-						try { range.moveToPoint( x, y ); } catch ( e ) {}
+						html.on( 'mousedown', function( evt ) {
+							evt = evt.data.$;
+
+							// Expand the text range along with mouse move.
+							function onHover( evt ) {
+								evt = evt.data.$;
+								if ( textRng ) {
+									// Read the current cursor.
+									var rngEnd = body.$.createTextRange();
+
+									moveRangeToPoint( rngEnd, evt.x, evt.y );
+
+									// Handle drag directions.
+									textRng.setEndPoint( textRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ? 'EndToEnd' : 'StartToStart', rngEnd );
+
+									// Update selection with new range.
+									textRng.select();
+								}
+							}
+
+							// We're sure that the click happens at the region
+							// below body, but not on scrollbar.
+							if ( evt.y < html.$.clientHeight &&
+									 evt.x < html.$.clientWidth ) {
+								// Start to build the text range.
+								var textRng = body.$.createTextRange();
+								moveRangeToPoint( textRng, evt.x, evt.y );
+
+								html.on( 'mousemove', onHover );
+
+								html.on( 'mouseup', function( evt ) {
+									html.removeListener( 'mousemove', onHover );
+									evt.removeListener();
+									textRng.select();
+								});
+							}
+						});
 					}
 
-					html.on( 'mousedown', function( evt ) {
-						evt = evt.data.$;
-
-						// Expand the text range along with mouse move.
-						function onHover( evt ) {
-							evt = evt.data.$;
-							if ( textRng ) {
-								// Read the current cursor.
-								var rngEnd = body.$.createTextRange();
-
-								moveRangeToPoint( rngEnd, evt.x, evt.y );
-
-								// Handle drag directions.
-								textRng.setEndPoint( textRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ? 'EndToEnd' : 'StartToStart', rngEnd );
-
-								// Update selection with new range.
-								textRng.select();
+					// It's much simpler for IE8+, we just need to reselect the reported range.
+					if ( CKEDITOR.env.version > 7 ) {
+						html.on( 'mouseup', function( evt ) {
+							// The event is not fired when clicking on the scrollbars,
+							// so we can safely check the following to understand
+							// whether the empty space following <body> has been clicked.
+							if ( evt.data.getTarget().is( 'html' ) ) {
+								var sel = CKEDITOR.document.$.selection,
+									range = sel.createRange();
+								// The selection range is reported on host, but actually it should applies to the content doc.
+								if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+									range.select();
 							}
-						}
-
-						// We're sure that the click happens at the region
-						// below body, but not on scrollbar.
-						if ( evt.y < html.$.clientHeight && evt.y > body.$.offsetTop + body.$.clientHeight && evt.x < html.$.clientWidth ) {
-							// Start to build the text range.
-							var textRng = body.$.createTextRange();
-							moveRangeToPoint( textRng, evt.x, evt.y );
-
-							html.on( 'mousemove', onHover );
-
-							html.on( 'mouseup', function( evt ) {
-								html.removeListener( 'mousemove', onHover );
-								evt.removeListener();
-								textRng.select();
-							});
-						}
-					});
+						});
+					}
 				}
-
-				// It's much simpler for IE8+, we just need to reselect the reported range.
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version > 7 ) {
-					html.on( 'mouseup', function( evt ) {
-						// The event is not fired when clicking on the scrollbars,
-						// so we can safely check the following to understand
-						// whether the empty space following <body> has been clicked.
-						if ( evt.data.getTarget().getName() == 'html' ) {
-							var sel = CKEDITOR.document.$.selection,
-								range = sel.createRange();
-							// The selection range is reported on host, but actually it should applies to the content doc.
-							if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
-								range.select();
-						}
-					});
-				}
-
 			}
 
 			// We check the selection change:

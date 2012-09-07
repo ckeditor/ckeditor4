@@ -586,9 +586,6 @@
 			css.push( 'html{height:100% !important}' );
 			css.push( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
 		}
-		// Remove the margin to avoid mouse confusion. (#8835)
-		else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
-			css.push( 'body.cke_contents_ltr{margin-right:0}' );
 
 		// #6341: The text cursor must be set on the editor area.
 		// #6632: Avoid having "text" shape of cursor in IE7 scrollbars.
