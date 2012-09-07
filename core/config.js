@@ -263,6 +263,10 @@ CKEDITOR.config = {
 	 * to avoid loading some plugins defined in the {@link CKEDITOR.config#plugins}
 	 * setting, without having to touch it.
 	 *
+	 * **Note:** Plugin required by other plugin cannot be removed (error will be thrown).
+	 * So e.g. if `contextmenu` is required by `tabletools`, then it can be removed
+	 * only if `tabletools` isn't loaded.
+	 *
 	 *		config.removePlugins = 'elementspath,save,font';
 	 *
 	 * @cfg
