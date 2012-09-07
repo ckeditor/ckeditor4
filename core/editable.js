@@ -438,8 +438,12 @@
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
 					var head = doc.getHead();
-					if ( !head.getCustomData( 'stylesheet' ) )
-						head.setCustomData( 'stylesheet', doc.appendStyleText( styles ) );
+					if ( !head.getCustomData( 'stylesheet' ) ) {
+						var sheet = doc.appendStyleText( styles );
+						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
+						head.setCustomData( 'stylesheet', sheet );
+						sheet.data( 'cke-temp', 1 );
+					}
 				}
 
 				// Update the stylesheet sharing count.
@@ -606,13 +610,10 @@
 				if ( orgDir !== null )
 					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
 
-				// Restore original tab index if saved.
-				// Otherwise, remove the attribute.
+				// Restore original tab index.
 				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
 				if ( orgTabIndex !== null )
-					this.setAttribute( 'tabIndex', orgTabIndex );
-				else
-					this.removeAttribute( 'tabIndex' );
+					orgTabIndex ? this.setAttribute( 'tabIndex', orgTabIndex ) : this.removeAttribute( 'tabIndex' );
 
 				// Cleanup our custom classes.
 				var classes;
@@ -629,7 +630,6 @@
 					if ( !( --refs ) ) {
 						doc.removeCustomData( 'stylesheet_ref' );
 						var sheet = head.removeCustomData( 'stylesheet' );
-						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
 						sheet.remove();
 					} else
 						doc.setCustomData( 'stylesheet_ref', refs );
