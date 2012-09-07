@@ -79,6 +79,7 @@
 			// Global stuff is being initialized here.
 			extend( that, {
 				editable: editable,
+				inInlineMode: editable.isInline(),
 				doc: doc,
 				win: win
 			}, true );
@@ -90,7 +91,7 @@
 
 			// Handle in-line editing by setting appropriate position.
 			// If current position is static, make it relative and clear top/left coordinates.
-			if ( inInlineMode( that ) && !isPositioned( editable ) ) {
+			if ( that.inInlineMode && !isPositioned( editable ) ) {
 				editable.setStyles({
 					position: 'relative',
 					top: null,
@@ -138,7 +139,7 @@
 
 				// Check for inline-mode editor. If so, check mouse position
 				// and remove the box if mouse outside of an editor.
-				if ( inInlineMode( that ) ) {
+				if ( that.inInlineMode ) {
 					var mouse = {
 						x: event.data.$.clientX,
 						y: event.data.$.clientY
@@ -199,7 +200,7 @@
 			// in parallel and no more frequently than specified in timeout function.
 			// In framed editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
-			editable.attachListener( inInlineMode( that ) ? editable : doc, 'mousemove', function( event ) {
+			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
 				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
@@ -480,11 +481,6 @@
 		return val > lower && val < upper;
 	}
 
-	function inInlineMode( that ) {
-		var editable = that.editor.editable();
-		return editable.isInline();
-	}
-
 	// Access space line consists of a few elements (spans):
 	// 	\-> Line wrapper.
 	// 	\-> Line.
@@ -597,7 +593,7 @@
 				updateSize( that, parent, true );
 
 				// Yeah, that's gonna be useful in inline-mode case.
-				if ( inInlineMode( that ) )
+				if ( that.inInlineMode )
 					updateEditableSize( that, true );
 
 				// Set X coordinate (left, right, width).
@@ -606,7 +602,7 @@
 					styleSet.right = -view.scroll.x;
 					styleSet.width = '';
 				} else {
-					styleSet.left = any.size.left - any.size.margin.left + view.scroll.x - ( inInlineMode( that ) ? view.editable.left + view.editable.border.left : 0 );
+					styleSet.left = any.size.left - any.size.margin.left + view.scroll.x - ( that.inInlineMode ? view.editable.left + view.editable.border.left : 0 );
 					styleSet.width = any.size.outerWidth + any.size.margin.left + any.size.margin.right + view.scroll.x;
 					styleSet.right = '';
 				}
@@ -634,24 +630,24 @@
 				// Set box button modes if close to the viewport horizontal edge
 				// or look forced by the trigger.
 				if ( trigger.is( LOOK_TOP ) || inBetween( styleSet.top, view.scroll.y - 15, view.scroll.y + 5 ) ) {
-					styleSet.top = inInlineMode( that ) ? 0 : view.scroll.y;
+					styleSet.top = that.inInlineMode ? 0 : view.scroll.y;
 					this.look( LOOK_TOP );
 				} else if ( trigger.is( LOOK_BOTTOM ) || inBetween( styleSet.top, view.pane.bottom - 5, view.pane.bottom + 15 ) ) {
-					styleSet.top = inInlineMode( that ) ?
+					styleSet.top = that.inInlineMode ?
 							view.editable.height + view.editable.padding.top + view.editable.padding.bottom
 						:
 							view.pane.bottom - 1;
 
 					this.look( LOOK_BOTTOM );
 				} else {
-					if ( inInlineMode( that ) )
+					if ( that.inInlineMode )
 						styleSet.top -= view.editable.top + view.editable.border.top;
 
 					this.look( LOOK_NORMAL );
 				}
 
 				// 1px bug here...
-				if ( inInlineMode( that ) )
+				if ( that.inInlineMode )
 					styleSet.top--;
 
 				// Append `px` prefixes.
@@ -860,7 +856,7 @@
 		updateEditableSize( that );
 
 		// This flag determines whether checking bottom trigger.
-		var bottomTrigger = mouse.y > ( inInlineMode( that ) ?
+		var bottomTrigger = mouse.y > ( that.inInlineMode ?
 				view.editable.top + view.editable.height / 2
 			:
 				// This is to handle case when editable.height / 2 <<< pane.height.
@@ -904,7 +900,7 @@
 			inBetween( mouse.y, 0, edgeNode.size.top + triggerOffset ) ) {		// Check if mouse in [0, edgeNode.top + triggerOffset].
 
 			// Determine trigger look.
-			triggerLook = inInlineMode( that ) || view.scroll.y === 0 ?
+			triggerLook = that.inInlineMode || view.scroll.y === 0 ?
 				LOOK_TOP : LOOK_NORMAL;
 
 			that.debug.logEnd( 'SUCCESS. Created box trigger. EDGE_TOP.' ); // %REMOVE_LINE%
@@ -923,7 +919,7 @@
 				edgeNode.size.bottom - triggerOffset, view.pane.height ) ) {	// [ edgeNode.bottom - triggerOffset, paneHeight ]
 
 			// Determine trigger look.
-			triggerLook = inInlineMode( that ) ||
+			triggerLook = that.inInlineMode ||
 				inBetween( edgeNode.size.bottom, view.pane.height - triggerOffset, view.pane.height ) ?
 					LOOK_BOTTOM : LOOK_NORMAL;
 
