@@ -975,6 +975,28 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * Sets listeners on editor's events.
+ *
+ * **Note:** This property can be set only in `config` object passed directly
+ * to the {@link CKEDITOR#replace}, {@link CKEDITOR#inline} and other creators.
+ *
+ *		CKEDITOR.replace( 'editor1', {
+ *			on: {
+ *				instanceReady: function() {
+ *					alert( this.name ); // 'editor1'
+ *				},
+ *
+ *				key: function() {
+ *					// ...
+ *				}
+ *			}
+ *		} );
+ *
+ * @cfg {Object} on
+ * @member CKEDITOR.config
+ */
+
+/**
  * The outer most element in the DOM tree in which the editable element resides, it's provided
  * by the concrete editor creator after editor UI is created and is not subjected to
  * be modified.
