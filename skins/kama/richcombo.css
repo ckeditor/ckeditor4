@@ -74,9 +74,9 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 /* Different states of the container. */
-.cke_combo_button_off:hover,
-.cke_combo_button_off:focus,
-.cke_combo_button_off:active
+.cke_combo_off .cke_combo_button:hover,
+.cke_combo_off .cke_combo_button:focus,
+.cke_combo_off .cke_combo_button:active
 {
 	background: #DFF1FF;
 	outline: none;
@@ -128,9 +128,9 @@ The visual representation of a rich combo widget looks as follows:
 	opacity: 0.70;
 }
 
-.cke_combo_button_off:hover .cke_combo_inlinelabel,
-.cke_combo_button_off:active .cke_combo_inlinelabel,
-.cke_combo_button_off:focus .cke_combo_inlinelabel
+.cke_combo_off .cke_combo_button:hover .cke_combo_inlinelabel,
+.cke_combo_off .cke_combo_button:active .cke_combo_inlinelabel,
+.cke_combo_off .cke_combo_button:focus .cke_combo_inlinelabel
 {
 	opacity: 1;
 }
@@ -173,8 +173,8 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 /* Disabled combo button styles. */
-.cke_combo_button_disabled .cke_combo_inlinelabel,
-.cke_combo_button_disabled .cke_combo_open
+.cke_combo_disabled .cke_combo_inlinelabel,
+.cke_combo_disabled .cke_combo_open
 {
 	opacity: 0.3;
 }

@@ -16,7 +16,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		' class="cke_combo cke_combo__{name}"' +
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
-			'<a class="cke_combo_button cke_combo_button_off" hidefocus=true title="{title}" tabindex="-1"' +
+			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
 			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
@@ -93,8 +93,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this._ = {
 				panelDefinition: panelDefinition,
-				items: {},
-				state: CKEDITOR.TRISTATE_OFF
+				items: {}
 			};
 		},
 
@@ -337,10 +336,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this._.state == state )
 					return;
 
-				var el = this.document.getById( 'cke_' + this.id ),
-					btn = el.getElementsByTag( 'a' ).getItem( 0 );
-
-				btn.setState( state, 'cke_combo_button' );
+				var el = this.document.getById( 'cke_' + this.id );
+				el.setState( state, 'cke_combo' );
 
 				this._.state = state;
 			}
