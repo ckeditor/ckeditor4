@@ -208,28 +208,24 @@ label
 }
 
 /**
- *	CKEditor editables are automatically set with the "cke_editable" class.
+ *	CKEditor editables are automatically set with the "cke_editable" class
+ *	plus cke_editable_(inline|themed) depending on the editor type.
  */
 
-/* Style a bit the editable elements (mainly cursor) */
-.cke_editable[contenteditable="true"]
+/* Style a bit the inline editables. */
+.cke_editable.cke_editable_inline
 {
-	outline: none !important;
-	*border: none !important;	/* IE7 */
-	outline: none !important;
 	cursor: pointer;
 }
 
 /* Once an editable element gets focused, the "cke_focus" class is
-   added to it, so we can style it differently.
-   The second selector is for an editor using divarea. */
-.cke_editable.cke_focus, .cke_focus .cke_editable
+   added to it, so we can style it differently. */
+.cke_editable.cke_editable_inline.cke_focus
 {
 	box-shadow: inset 0px 0px 20px 3px #ddd;
-	outline: 1px solid #ddd !important;
-	*border: 1px solid #ddd !important;	/* IE7 */
-	cursor: text;
+	outline: 1px solid #ddd;
 	background: #eee;
+	cursor: text;
 }
 
 /**

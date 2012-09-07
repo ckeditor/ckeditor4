@@ -378,6 +378,15 @@
 
 				// The editable class.
 				this.attachClass( 'cke_editable' );
+
+				// The element mode css class.
+				this.attachClass( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
+					'cke_editable_inline' :
+					editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ||
+					editor.elementMode == CKEDITOR.ELEMENT_MODE_APPENDTO ?
+					'cke_editable_themed' : ''
+				);
+
 				this.attachClass( 'cke_contents_' + editor.config.contentsLangDirection );
 
 				// Setup editor keystroke handlers on this element.
