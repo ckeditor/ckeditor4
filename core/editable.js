@@ -480,11 +480,11 @@
 
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
-				this.attachListener( this, 'keydown', function( evt ) {
+				this.attachListener( editor, 'key', function( evt ) {
 					if ( editor.readOnly )
 						return false;
 
-					var keyCode = evt.data.getKeystroke();
+					var keyCode = evt.data.keyCode, isHandled;
 
 					// Backspace OR Delete.
 					if ( keyCode in { 8:1,46:1 } ) {
@@ -509,7 +509,7 @@
 
 							editor.fire( 'saveSnapshot' );
 
-							evt.data.preventDefault();
+							isHandled = 1;
 						}
 						else if ( range.collapsed )
 						{
@@ -533,7 +533,7 @@
 
 								editor.fire( 'saveSnapshot' );
 
-								evt.data.preventDefault();
+								isHandled = 1;
 							}
 							else if ( path.blockLimit && path.blockLimit.is( 'td' ) &&
 									  ( parent = path.blockLimit.getAscendant( 'table' ) ) &&
@@ -553,7 +553,7 @@
 
 								editor.fire( 'saveSnapshot' );
 
-								evt.data.preventDefault();
+								isHandled = 1;
 							}
 							// BACKSPACE/DEL pressed at the start/end of table cell.
 							else if ( ( parent = path.contains( [ 'td', 'th', 'caption' ] ) ) &&
@@ -562,14 +562,14 @@
 								if ( next && !next.isReadOnly() && range.root.contains( next ) ) {
 									range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
 									range.select();
-									evt.data.preventDefault();
+									isHandled = 1;
 								}
 							}
 						}
 
 					}
 
-					return true;
+					return !isHandled;
 				});
 
 				// Prevent automatic submission in IE #6336
