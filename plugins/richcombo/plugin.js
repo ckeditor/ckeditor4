@@ -93,8 +93,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this._ = {
 				panelDefinition: panelDefinition,
-				items: {},
-				state: CKEDITOR.TRISTATE_OFF
+				items: {}
 			};
 		},
 
@@ -337,7 +336,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this._.state == state )
 					return;
 
-				this.document.getById( 'cke_' + this.id ).setState( state );
+				var el = this.document.getById( 'cke_' + this.id );
+				el.setState( state, 'cke_combo' );
 
 				this._.state = state;
 			}
