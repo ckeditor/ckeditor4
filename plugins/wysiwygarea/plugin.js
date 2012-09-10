@@ -95,9 +95,6 @@
 		}
 	});
 
-	// Matching an empty paragraph at the end of document.
-	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
-
 	// Support for custom document.domain in IE.
 	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
@@ -460,12 +457,6 @@
 					if ( editor.dataProcessor )
 						data = editor.dataProcessor.toDataFormat( data );
 
-					// Reset empty if the document contains only one empty paragraph.
-					if ( config.ignoreEmptyParagraph )
-						data = data.replace( emptyParagraphRegexp, function( match, lookback ) {
-						return lookback;
-					});
-
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;
 					if ( docType )
@@ -649,17 +640,6 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
-
-/**
- * Whether the editor must output an empty value (`''`) if it's contents is made
- * by an empty paragraph only.
- *
- *		config.ignoreEmptyParagraph = false;
- *
- * @cfg
- * @member CKEDITOR.config
- */
-CKEDITOR.config.ignoreEmptyParagraph = true;
 
 /**
  * The CSS file(s) to be used to apply style to the contents. It should

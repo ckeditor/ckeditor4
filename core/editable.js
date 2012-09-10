@@ -337,11 +337,22 @@
 
 				// Handle the load/read of editor data/snapshot.
 				this.attachListener( editor, 'beforeGetData', function() {
-					editor.setData( this.getData(), null, 1 );
+					var data = this.getData();
+
+					// Post processing html output of wysiwyg editable.
+					if ( !this.is( 'textarea' ) ) {
+						// Reset empty if the document contains only one empty paragraph.
+						if ( editor.config.ignoreEmptyParagraph !== false )
+							data = data.replace( emptyParagraphRegexp, function( match, lookback ) { return lookback; } );
+					}
+
+					editor.setData( data, null, 1 );
 				}, this );
+
 				this.attachListener( editor, 'getSnapshot', function( evt ) {
 					evt.data = this.getData( 1 );
 				}, this );
+
 				this.attachListener( editor, 'afterSetData', function() {
 					this.setData( editor.getData( 1 ) );
 				}, this );
@@ -1532,6 +1543,16 @@
 	})();
 
 })();
+
+/**
+ * Whether the editor must output an empty value (`''`) if it's contents is made
+ * by an empty paragraph only.
+ *
+ *		config.ignoreEmptyParagraph = false;
+ *
+ * @cfg {Boolean} [ignoreEmptyParagraph=true]
+ * @member CKEDITOR.config
+ */
 
 /**
  * @event focus
