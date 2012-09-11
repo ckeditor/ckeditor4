@@ -422,7 +422,7 @@ CKEDITOR.plugins.add( 'menu', {
 				var hasSubMenu = this.getItems;
 				// ltr: BLACK LEFT-POINTING POINTER
 				// rtl: BLACK RIGHT-POINTING POINTER
-				var arrowLabel = '&' + ( this.editor.lang.dir == 'rtl' ? '9668' : '9658' ) + ';';
+				var arrowLabel = '&#' + ( this.editor.lang.dir == 'rtl' ? '9668' : '9658' ) + ';';
 
 				var params = {
 					id: id,
