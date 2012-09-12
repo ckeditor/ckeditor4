@@ -471,6 +471,8 @@
 
 				var doc = editor.document;
 
+				this.changeAttr( 'spellcheck', !editor.config.disableNativeSpellChecker );
+
 				// Apply contents direction on demand, with original direction saved.
 				var dir = editor.config.contentsLangDirection;
 				if ( this.getDirection( 1 ) != dir )

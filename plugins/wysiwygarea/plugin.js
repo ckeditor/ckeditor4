@@ -107,8 +107,6 @@
 		var script = doc.getElementById( "cke_actscrpt" );
 		script && script.parentNode.removeChild( script );
 
-		body.spellcheck = !editor.config.disableNativeSpellChecker;
-
 		if ( CKEDITOR.env.gecko ) {
 			// Force Gecko to change contentEditable from false to true on domReady
 			// (because it's previously set to true on iframe's body creation).
