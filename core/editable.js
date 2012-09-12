@@ -809,10 +809,8 @@
 
 	function isNotBubbling( fn, src ) {
 		return function( evt ) {
-			var target = evt.data.getTarget(),
-				other = evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget;
-			other = other ? CKEDITOR.dom.element.get( other ) : null;
-			if ( target.equals( src ) && !( other && src.contains( other ) ) )
+			var other = CKEDITOR.dom.element.get( evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget );
+			if ( ! ( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};
 	}
