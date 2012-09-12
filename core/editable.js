@@ -101,6 +101,22 @@
 			},
 
 			/**
+			 * Restore all attribution changes made by {@link #changeAttr }.
+			 */
+			restoreAttrs : function() {
+				var changes = this._.attrChanges, orgVal;
+				for ( var attr in changes )
+				{
+					if ( changes.hasOwnProperty( attr ) )
+					{
+						orgVal = changes[ attr ];
+						// Restore original attribute.
+						orgVal != null ? this.setAttribute( attr, orgVal ) : this.removeAttribute( attr );
+					}
+				}
+			},
+
+			/**
 			 * Adds a CSS class name to this editable that needs to be removed on detaching.
 			 *
 			 * @param {String} className The class name to be added.
@@ -112,6 +128,26 @@
 					!classes && ( classes = [] ), classes.push( cls );
 					this.setCustomData( 'classes', classes );
 					this.addClass( cls );
+				}
+			},
+
+			/**
+			 * Make an attribution change that would be reverted on editable detaching.
+			 * @param {String} attr The attribute name to be changed.
+			 * @param {String} val The value of specified attribute.
+			 */
+			changeAttr : function( attr, val ) {
+
+				var orgVal = this.getAttribute( attr );
+				if ( val !== orgVal )
+				{
+					!this._.attrChanges && ( this._.attrChanges = {} );
+
+					// Saved the original attribute val.
+					if ( !( attr in this._.attrChanges ) )
+						this._.attrChanges[ attr ] = orgVal;
+
+					this.setAttribute( attr, val );
 				}
 			},
 
@@ -437,21 +473,15 @@
 
 				// Apply contents direction on demand, with original direction saved.
 				var dir = editor.config.contentsLangDirection;
-				if ( this.getDirection( 1 ) != dir ) {
-					var orgDir = this.getAttribute( 'dir' ) || '';
-					this.setCustomData( 'org_dir_saved', orgDir );
-					this.setAttribute( 'dir', dir );
-				}
+				if ( this.getDirection( 1 ) != dir )
+					this.changeAttr( 'dir', dir );
 
 				// Apply tab index on demand, with original direction saved.
 				if ( editor.document.equals( CKEDITOR.document ) ) {
-					var elementTabIndex = this.getAttribute( 'tabindex' );
-					this.setCustomData( 'org_tabindex_saved', elementTabIndex );
 
 					// tabIndex of the editable is different than editor's one.
 					// Update the attribute of the editable.
-					if ( elementTabIndex != editor.tabIndex )
-						this.setAttribute( 'tabIndex', editor.tabIndex );
+					this.changeAttr( 'tabindex', editor.tabIndex );
 				}
 
 				// Create the content stylesheet for this document.
@@ -614,7 +644,6 @@
 							ev.data.preventDefault();
 					});
 				}
-
 			}
 		},
 
@@ -624,17 +653,7 @@
 				this.editor.setData( this.editor.getData(), 0, 1 );
 
 				this.clearListeners();
-
-				// Restore original text direction.
-				var orgDir = this.removeCustomData( 'org_dir_saved' );
-				if ( orgDir !== null )
-					orgDir ? this.setAttribute( 'dir', orgDir ) : this.removeAttribute( 'dir' );
-
-				// Restore original tab index.
-				var orgTabIndex = this.removeCustomData( 'org_tabindex_saved' );
-				orgTabIndex !== null ?
-					this.setAttribute( 'tabIndex', orgTabIndex ) :
-					this.removeAttribute( 'tabIndex' );
+				this.restoreAttrs();
 
 				// Cleanup our custom classes.
 				var classes;
