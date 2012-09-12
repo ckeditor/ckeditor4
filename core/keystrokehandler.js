@@ -115,6 +115,27 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  *			[ CKEDITOR.ALT + 109, 'toolbarCollapse' ]			// ALT + -
  *		];
  *
+ * To reset a particular keystroke, the following approach can be used:
+ *
+ *		// Disable default CTRL + L keystroke which executes link command.
+ *		config.keystrokes = [
+ *			...
+ *			[ CKEDITOR.CTRL + 76, null ],						// CTRL + L
+ *			...
+ *		];
+ *
+ * To reset all default keystrokes an {@link CKEDITOR#instanceReady} callback should be
+ * used. This is since editor defaults are merged rather than overwritten by
+ * user keystrokes.
+ *
+ * <strong>NOTE</strong>: This can be potentially harmful for an editor. Avoid this unless you're
+ * aware of the consequences.
+ *
+ *		// Reset all default keystrokes.
+ *		config.on.instanceReady = function() {
+ *			this.keystrokeHandler.keystrokes = [];
+ *		}
+ *
  * @cfg {Array} [keystrokes=see an example]
  * @member CKEDITOR.config
  */
