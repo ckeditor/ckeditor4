@@ -248,7 +248,7 @@
 		}
 
 		function onMouseMove( evt ) {
-			move( evt.data.$.clientX );
+			move( evt.data.getPageOffset().x );
 		}
 
 		document = editor.document;
@@ -350,9 +350,11 @@
 				editor.document.getBody().on( 'mousemove', function( evt ) {
 					evt = evt.data;
 
+					var pageX = evt.getPageOffset().x;
+
 					// If we're already attached to a pillar, simply move the
 					// resizer.
-					if ( resizer && resizer.move( evt.$.clientX ) ) {
+					if ( resizer && resizer.move( pageX ) ) {
 						cancel( evt );
 						return;
 					}
@@ -373,7 +375,7 @@
 						table.on( 'mousedown', clearPillarsCache );
 					}
 
-					var pillar = getPillarAtPosition( pillars, evt.$.clientX );
+					var pillar = getPillarAtPosition( pillars, pageX );
 					if ( pillar ) {
 						!resizer && ( resizer = new columnResizer( editor ) );
 						resizer.attachTo( pillar );
