@@ -13,3 +13,89 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	line-height: 22px !important;
 }
+
+/* Welcome page */
+#welcome
+{
+	padding: 30px 15px 15px;
+	width: 900px;
+}
+
+#welcomeLogo
+{
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+#welcomeIntro
+{
+	overflow: hidden;
+}
+
+#welcomeHorizontal
+{
+	clear: both;
+	overflow: hidden;
+}
+
+#welcomePopular,
+#welcomeOther
+{
+	overflow: hidden;
+}
+
+#welcomePopular
+{
+	float: left;
+	width: 70%;
+	margin-bottom: -10px;
+}
+
+#welcomePopular ul li
+{
+	float: left;
+	width: 50%;
+}
+
+#welcomePopular ul li dl
+{
+	padding: 0 10px 25px;
+}
+
+#welcomePopular ul li dl dt
+{
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#welcome h1
+{
+	padding-bottom: 20px;
+	padding-top: 12px;
+}
+
+#welcome h2
+{
+	font-family: "Exo", sans-serif;
+	color: #66AB16;
+	font-size: 1.4em;
+	margin: 20px 0;
+}
+
+#welcome .blist
+{
+	padding-left: 15px;
+}
+
+#welcome .blist li
+{
+	list-style-position: inside;
+	list-style-type: disc;
+
+}
+
+#welcome p
+{
+	margin-bottom: 10px;
+}
