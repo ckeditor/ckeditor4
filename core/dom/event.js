@@ -126,6 +126,25 @@ CKEDITOR.dom.event.prototype = {
 	 */
 	getPhase: function() {
 		return this.$.eventPhase || 2;
+	},
+
+	/**
+	 * Retrieves the coordinates of the mouse pointer relative to the top-left
+	 * corner of the document, in mouse related event.
+	 * @returns {Object} The object contains the position.
+	 * @example
+	 * element.on( 'mousemouse', function( ev )
+	 *     {
+	 *         var pageOffset = ev.data.getPageOffset();
+	 *         alert( pageOffset.x ); // page offset X
+	 *         alert( pageOffset.y ); // page offset Y
+	 *     });
+	 */
+	getPageOffset : function() {
+		var doc = this.getTarget().getDocument().$;
+		var pageX = this.$.pageX || this.$.clientX + ( doc.documentElement.scrollLeft || doc.body.scrollLeft );
+		var pageY = this.$.pageY || this.$.clientY + ( doc.documentElement.scrollTop || doc.body.scrollTop );
+		return { x : pageX, y : pageY };
 	}
 };
 
