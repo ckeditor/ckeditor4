@@ -111,7 +111,7 @@
 					{
 						orgVal = changes[ attr ];
 						// Restore original attribute.
-						orgVal != null ? this.setAttribute( attr, orgVal ) : this.removeAttribute( attr );
+						orgVal !== null ? this.setAttribute( attr, orgVal ) : this.removeAttribute( attr );
 					}
 				}
 			},

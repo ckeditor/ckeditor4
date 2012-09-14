@@ -454,7 +454,7 @@
 			}
 
 			return element;
-		}
+		};
 	})();
 
 	// Gets the closest parent node that belongs to triggers group.
