@@ -27,42 +27,43 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	margin: 0 20px 0 0;
 }
 
-#welcomeIntro
+#intro
 {
 	overflow: hidden;
 }
 
-#welcomeHorizontal
+#license,
+#contribute
 {
 	clear: both;
 	overflow: hidden;
 }
 
-#welcomePopular,
-#welcomeOther
+#popular,
+#resources
 {
 	overflow: hidden;
 }
 
-#welcomePopular
+#popular
 {
 	float: left;
 	width: 70%;
 	margin-bottom: -10px;
 }
 
-#welcomePopular ul li
+#popular ul li
 {
 	float: left;
 	width: 50%;
 }
 
-#welcomePopular ul li dl
+#popular ul li dl
 {
 	padding: 0 10px 25px;
 }
 
-#welcomePopular ul li dl dt
+#popular ul li dl dt
 {
 	font-size: 1.2em;
 	font-weight: bold;
