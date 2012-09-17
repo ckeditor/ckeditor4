@@ -31,10 +31,15 @@ jsduck ../../core ../../plugins ../../ckeditor.js -o build \
 	--footer="Copyright © 2003-2012, <a href='http://cksource.com' style='color: #085585'>CKSource</a> - Frederico Knabben. All rights reserved. |
 	Generated with <a href='https://github.com/senchalabs/jsduck'>JSDuck</a> 4.0.0." \
 	--meta-tags customs.rb \
-	--warnings=-no_doc
+	--warnings=-no_doc \
+	--welcome=welcome.html
 
-echo "Copying customizations into resources..."
+echo "Applying customizations:"
+echo "	* Copying resources..."
 cp -r resources build
+
+echo "	* Copying favicon..."
+cp favicon.ico build
 
 echo ""
 echo "Finished!"
