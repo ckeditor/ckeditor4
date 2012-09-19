@@ -10,6 +10,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script src="../ckeditor.js"></script>
 	<script src="assets/outputforflash/swfobject.js"></script>
 	<link href="sample.css" rel="stylesheet">
+	<style>
+
+		.alert
+		{
+			background: #ffa84c;
+			padding: 10px 15px;
+			font-weight: bold;
+			display: block;
+			margin-bottom: 20px;
+		}
+
+	</style>
 </head>
 <body>
 	<h1 class="samples">
@@ -48,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'due to security restrictions implemented in Flash.' +
 							'\n\nPlease load the sample from a web server instead.' );
 
-					CKEDITOR.replace( 'editor1', {
+					var editor = CKEDITOR.replace( 'editor1', {
 						height: 290,
 						width: '100%',
 						toolbar: [
@@ -212,6 +224,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}
 
 					CKEDITOR.domReady( function() {
+						if ( !swfobject.hasFlashPlayerVersion( '8' ) ) {
+							CKEDITOR.dom.element.createFromHtml( '<span class="alert">' +
+									'At least Adobe Flash Player 8 is required to run this sample. ' +
+									'You can download it from <a href="http://get.adobe.com/flashplayer">Adobe\'s website</a>.' +
+								'</span>' ).insertBefore( editor.element );
+						}
+
 						swfobject.embedSWF(
 							'assets/outputforflash/outputforflash.swf',
 							'ckFlashContainer',
