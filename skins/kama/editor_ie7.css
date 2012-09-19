@@ -20,7 +20,8 @@ This file contains styles to used by Internet Explorer 7 only.
 .cke_rtl .cke_combo,
 .cke_rtl .cke_combo *,
 .cke_rtl .cke_path_item,
-.cke_rtl .cke_path_item *
+.cke_rtl .cke_path_item *,
+.cke_rtl .cke_path_empty
 {
 	float: none;
 }
