@@ -75,6 +75,8 @@ a.cke_button
 
 .cke_toolbar_separator
 {
+	display: inline-block;
+	float: none;
 	vertical-align: top;
 }
 
