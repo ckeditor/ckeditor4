@@ -110,10 +110,17 @@ CKEDITOR.plugins.add( 'menu', {
 				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
-	menuItemSource += '<span class="cke_menubutton_icon"><span class="cke_button_icon cke_button__{name}_icon"' +
-				' style="{iconStyle}"></span></span>' +
-				'<span class="cke_menubutton_label">{arrowHtml}{label}</span>' +
-				'</a></span>';
+	menuItemSource +=
+				'<span class="cke_menubutton_inner">' +
+					'<span class="cke_menubutton_icon">' +
+						'<span class="cke_button_icon cke_button__{name}_icon" style="{iconStyle}"></span>' +
+					'</span>' +
+					'<span class="cke_menubutton_label">' +
+						'{label}' +
+					'</span>' +
+					'{arrowHtml}' +
+				'</span>' +
+			'</a></span>';
 
 	var menuArrowSource = '<span class="cke_menuarrow">' +
 				'<span>{label}</span>' +
