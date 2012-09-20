@@ -223,6 +223,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					var panelLoad = CKEDITOR.tools.bind( function() {
 						var target = element;
 
+						// Reset panel width as the new content can be narrower
+						// than the old one. (#9355)
+						target.removeStyle( 'width' );
+
 						if ( block.autoSize ) {
 							// We must adjust first the width or IE6 could include extra lines in the height computation
 							var widthNode = block.element.$;
@@ -241,11 +245,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
 
 							// Add some extra pixels to improve the appearance.
-							// Do this once to avoid unnecessary expansion
-							// of the panel. Otherwise, the panel will be expanded
-							// by few pixels every time it appears.
-							if ( !block.extraWidth )
-								width += block.extraWidth = 4;
+							width += 10;
 
 							target.setStyle( 'width', width + 'px' );
 
