@@ -24,17 +24,26 @@
 		return height;
 	}
 
+	function getScrollable( editor ) {
+		var doc = editor.document,
+			body = doc.getBody(),
+			htmlElement = doc.getDocumentElement();
+
+		// Quirks mode overflows body, standards overflows document element
+		return doc.$.compatMode == 'BackCompat' ? body : htmlElement;
+	}
+
 	var resizeEditor = function( editor ) {
 			if ( !editor.window )
 				return;
 
-			var doc = editor.document,
-				iframe = new CKEDITOR.dom.element( doc.getWindow().$.frameElement ),
-				body = doc.getBody(),
-				htmlElement = doc.getDocumentElement(),
+		var maximize = editor.getCommand( 'maximize' );
+			// Disable autogrow when the editor is maximized .(#6339)
+		if( maximize && maximize.state == CKEDITOR.TRISTATE_ON )
+			return;
+
+		var scrollable = getScrollable( editor ),
 				currentHeight = editor.window.getViewPaneSize().height,
-				// Quirks mode overflows body, standards overflows document element
-				scrollable = doc.$.compatMode == 'BackCompat' ? body : htmlElement,
 				newHeight = contentHeight( scrollable );
 
 			// Additional space specified by user.
@@ -87,11 +96,8 @@
 					var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1,mode:1 };
 					for ( var eventName in eventsList ) {
 						editor.on( eventName, function( evt ) {
-							var maximize = editor.getCommand( 'maximize' );
 							// Some time is required for insertHtml, and it gives other events better performance as well.
-							if ( evt.editor.mode == 'wysiwyg' &&
-								// Disable autogrow when the editor is maximized .(#6339)
-								( !maximize || maximize.state != CKEDITOR.TRISTATE_ON ) ) {
+							if ( evt.editor.mode == 'wysiwyg'  ) {
 								setTimeout( function() {
 									resizeEditor( evt.editor );
 									// Second pass to make correction upon
@@ -101,6 +107,18 @@
 							}
 						});
 					}
+
+					// Coordinate with the "maximize" plugin. (#9311)
+					editor.on( 'afterCommandExec', function( evt ) {
+						if ( evt.data.name == 'maximize' && evt.editor.mode == 'wysiwyg' ) {
+							if ( evt.data.command.state == CKEDITOR.TRISTATE_ON ) {
+								var scrollable = getScrollable( editor );
+								scrollable.removeStyle( 'overflow' );
+							}
+ 							else
+								resizeEditor( editor );
+						}
+					});
 
 					editor.config.autoGrow_onStartup && editor.execCommand( 'autogrow' );
 				}
