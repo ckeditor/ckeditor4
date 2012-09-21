@@ -34,10 +34,21 @@ This file contains styles to used by Internet Explorer 7 only.
 	top: 33px;
 }
 /* IE7 needs position static #6806 */
+/* IE7 displays footer button too low and too close to the resizer (#9359) */
 .cke_dialog_footer_buttons
 {
 	position: static;
+	margin-top: 7px;		/* Keep it slightly lower */
+	margin-right: 24px;		/* Keep it away from the resizer */
 }
+/* END #6806 */
+
+.cke_rtl .cke_dialog_footer_buttons
+{
+	margin-right: 0;
+	margin-left: 24px;		/* Keep it away from the resizer */
+}
+/* END #9359 */
 
 .cke_rtl .cke_dialog_close_button
 {
