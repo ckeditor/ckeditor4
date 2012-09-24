@@ -334,32 +334,30 @@ CKEDITOR.dom.range = function( root ) {
 	function getCheckStartEndBlockEvalFunction( isStart ) {
 		var skipBogus = false,
 			bookmarkEvaluator = CKEDITOR.dom.walker.bookmark( true ),
-			nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+			isBogus = CKEDITOR.dom.walker.bogus();
 
 		return function( node ) {
 			// First ignore bookmark nodes.
 			if ( bookmarkEvaluator( node ) )
 				return true;
 
-			if ( node.type == CKEDITOR.NODE_TEXT ) {
-				// Skip the block filler NBSP.
-				if ( CKEDITOR.env.ie && nbspRegExp.test( node.getText() ) && !skipBogus && !( isStart && node.getNext() ) ) {
-					skipBogus = true;
-				}
-				// If there's any visible text, then we're not at the start.
-				else if ( node.hasAscendant( 'pre' ) || CKEDITOR.tools.trim( node.getText() ).length )
-					return false;
-			} else if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-				// If there are non-empty inline elements (e.g. <img />), then we're not
-				// at the start.
-				if ( !inlineChildReqElements[ node.getName() ] ) {
-					// Skip the padding block br.
-					if ( !CKEDITOR.env.ie && node.is( 'br' ) && !skipBogus && !( isStart && node.getNext() ) ) {
-						skipBogus = true;
-					} else
-						return false;
-				}
+			// Skip the bogus node at the end of block.
+			if ( isBogus( node ) && !skipBogus ) {
+				skipBogus = true;
+				return true;
 			}
+
+			// If there's any visible text, then we're not at the start.
+			if ( node.type == CKEDITOR.NODE_TEXT &&
+					 ( node.hasAscendant( 'pre' ) ||
+						 CKEDITOR.tools.trim( node.getText() ).length ) )
+				return false;
+
+			// If there are non-empty inline elements (e.g. <img />), then we're not
+			// at the start.
+			if ( node.type == CKEDITOR.NODE_ELEMENT && !node.is( inlineChildReqElements ) )
+				return false;
+
 			return true;
 		};
 	}
@@ -379,7 +377,8 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
-		bookmarkEval = new CKEDITOR.dom.walker.bookmark();
+		bookmarkEval = new CKEDITOR.dom.walker.bookmark(),
+		nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
 	function nonWhitespaceOrBookmarkEval( node ) {
 		// Whitespaces and bookmark nodes are to be ignored.
@@ -1808,12 +1807,13 @@ CKEDITOR.dom.range = function( root ) {
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset;
 
-			// If the starting node is a text node, and non-empty before the offset,
-			// then we're surely not at the start of block.
-			if ( startOffset && startContainer.type == CKEDITOR.NODE_TEXT ) {
+			// [IE] Special handling for range start in text with a leading NBSP,
+			// we it to be isolated, for bogus check.
+			if ( CKEDITOR.env.ie && startOffset && startContainer.type == CKEDITOR.NODE_TEXT )
+			{
 				var textBefore = CKEDITOR.tools.ltrim( startContainer.substring( 0, startOffset ) );
-				if ( textBefore.length )
-					return false;
+				if ( nbspRegExp.test( textBefore ) )
+					this.trim( 0, 1 );
 			}
 
 			// Antecipate the trim() call here, so the walker will not make
@@ -1847,12 +1847,13 @@ CKEDITOR.dom.range = function( root ) {
 			var endContainer = this.endContainer,
 				endOffset = this.endOffset;
 
-			// If the ending node is a text node, and non-empty after the offset,
-			// then we're surely not at the end of block.
-			if ( endContainer.type == CKEDITOR.NODE_TEXT ) {
+			// [IE] Special handling for range end in text with a following NBSP,
+			// we it to be isolated, for bogus check.
+			if ( CKEDITOR.env.ie && endContainer.type == CKEDITOR.NODE_TEXT )
+			{
 				var textAfter = CKEDITOR.tools.rtrim( endContainer.substring( endOffset ) );
-				if ( textAfter.length )
-					return false;
+				if ( nbspRegExp.test( textAfter ) )
+					this.trim( 1, 0 );
 			}
 
 			// Antecipate the trim() call here, so the walker will not make
@@ -1922,7 +1923,6 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} Whether range was moved.
 		 */
 		moveToElementEditablePosition: function( el, isMoveToEnd ) {
-			var nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
 			function nextDFS( node, childOnly ) {
 				var next;
