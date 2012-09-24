@@ -102,3 +102,87 @@ a.cke_button
 	vertical-align: middle;
 	padding-bottom: 8px;
 }
+
+/*
+ * Editor menus are display:table-driven. IE7 doesn't support this approach,
+ * hence this position&float hybrid fall-back.
+ */
+.cke_menubutton
+{
+	display: block;
+	height: 24px;
+}
+
+.cke_menubutton_inner
+{
+	display: block;
+	position: relative;
+}
+
+.cke_menubutton_icon
+{
+	height: 16px;
+	width: 16px;
+}
+
+.cke_menubutton_icon,
+.cke_menubutton_label,
+.cke_menuarrow
+{
+	display: inline-block;
+}
+
+.cke_menubutton_label
+{
+	width: auto;
+	vertical-align: top;
+	line-height: 24px;
+	height: 24px;
+	margin: 0 10px 0 0;
+}
+
+.cke_menuarrow
+{
+	width: 3px;
+	height: 5px;
+	padding: 0;
+	position: absolute;
+	right: 8px;
+	top: 11px;
+
+	background-position: 0 -1411px;
+}
+
+/* Menus in RTL mode. */
+.cke_rtl .cke_menubutton_icon
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+.cke_rtl .cke_menubutton_label
+{
+	float: right;
+	clear: both;
+	margin: 0 24px 0 10px;
+}
+
+.cke_hc .cke_rtl .cke_menubutton_label
+{
+	margin-right: 0;
+}
+
+
+.cke_rtl .cke_menuarrow
+{
+	left: 8px;
+	right: auto;
+	background-position: 0px -1390px;
+}
+
+.cke_hc .cke_menuarrow
+{
+	top: 5px;
+	padding: 0 5px;
+}

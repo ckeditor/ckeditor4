@@ -29,13 +29,15 @@ The following is a visual representation of the main elements of a menu:
 This is the .cke_menubutton structure:
 (Note that the menu button icon shares with toolbar button the common class .cke_button_icon to achieve the same outlook.)
 
-+-- .cke_menubutton ------------------------------------------+
-| +-- .cke_menubutton_icon ---+ +-- .cke_menubutton_label --+ |
-| | +-- .cke_button_icon ---+ | |                           | |
-| | |                       | | |                           | |
-| | +-----------------------+ | |                           | |
-| +---------------------------+ +---------------------------+ |
-+-------------------------------------------------------------+
++-- .cke_menubutton -------------------------------------------------------------------------+
+| +-- .cke_menubutton_inner ---------------------------------------------------------------+ |
+| | +-- .cke_menubutton_icon ---+ +-- .cke_menubutton_label --+ +-- .cke_cke_menuarrow --+ | |
+| | | +-- .cke_button_icon ---+ | |                           | |                        | | |
+| | | |                       | | |                           | |                        | | |
+| | | +-----------------------+ | |                           | |                        | | |
+| | +---------------------------+ +---------------------------+ +------------------------+ | |
+| +----------------------------------------------------------------------------------------+ |
++--------------------------------------------------------------------------------------------+
 
 Special outer level classes used in this file:
 
@@ -74,22 +76,30 @@ Special outer level classes used in this file:
 	border: 2px solid;
 }
 
+.cke_menubutton_inner {
+	display: table-row;
+}
+
+.cke_menubutton_icon,
+.cke_menubutton_label,
+.cke_menuarrow {
+	display: table-cell;
+}
+
 /* The menu item icon. */
 .cke_menubutton_icon
 {
 	background-color: #D3D3D3;
-	border: solid 4px #D3D3D3;
 	opacity: 0.70; /* Safari, Opera and Mozilla */
 	filter: alpha(opacity=70); /* IE */
-	width: 16px;
-	height: 16px;
-	float: left;
-	clear: both;
+	padding: 4px;
 }
 
-.cke_rtl .cke_menubutton_icon
+.cke_hc .cke_menubutton_icon
 {
-	float: right;
+	height: 16px;
+	width: 0;
+	padding: 4px 0;
 }
 
 .cke_menubutton:hover .cke_menubutton_icon,
@@ -97,7 +107,6 @@ Special outer level classes used in this file:
 .cke_menubutton:active .cke_menubutton_icon
 {
 	background-color: #9d9d9d;
-	border: solid 4px #9d9d9d;
 }
 
 .cke_menubutton_disabled:hover .cke_menubutton_icon,
@@ -112,21 +121,10 @@ Special outer level classes used in this file:
 /* The textual part of each menu item. */
 .cke_menubutton_label
 {
-	display:block;
-	padding-right: 3px;
-	padding-top: 5px;
-	padding-left: 4px;
-	height:19px;
-	margin-left: 24px;
-	background-color: #fff;
-}
-
-.cke_rtl .cke_menubutton_label
-{
-	padding-right: 0;
-	margin-left: 0;
-	padding-left: 3px;
-	margin-right: 28px;
+	padding: 0 5px;
+	background-color: transparent;
+	width: 100%;
+	vertical-align: middle;
 }
 
 .cke_menubutton_disabled .cke_menubutton_label
@@ -136,9 +134,9 @@ Special outer level classes used in this file:
 	filter: alpha(opacity=30);
 }
 
-.cke_menubutton:hover .cke_menubutton_label,
-.cke_menubutton:focus .cke_menubutton_label,
-.cke_menubutton:active .cke_menubutton_label
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active
 {
 	background-color: #D3D3D3;
 }
@@ -162,23 +160,16 @@ Special outer level classes used in this file:
 {
 	/* arrowright.gif*/
 	background-image: url(images/sprites.png);
-	background-position: 0 -1411px;
+	background-position: 0 -1400px;
 	background-repeat: no-repeat;
-	height: 5px;
-	width: 3px;
-	float: right;
-	margin-right: 2px;
-	margin-top: 3px;
+	padding: 0 5px;
 }
 
 .cke_rtl .cke_menuarrow
 {
-	float: left;
-	margin-right: 0;
-	margin-left: 2px;
 	/* arrowleft.gif*/
 	background-image: url(images/sprites.png);
-	background-position: 0px -1390px;
+	background-position: 7px -1380px;
 	background-repeat: no-repeat;
 }
 
@@ -189,11 +180,10 @@ Special outer level classes used in this file:
 
 .cke_hc .cke_menuarrow
 {
-	width: auto;
-	margin-top: 0;
 }
 
 .cke_hc .cke_menuarrow span
 {
+	vertical-align: middle;
 	display: inline;
 }
