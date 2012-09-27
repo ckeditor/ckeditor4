@@ -121,18 +121,12 @@
 						updateStyle: function( name, value ) {
 							var styles = this.getValue();
 
-							// Remove the current value.
-							if ( styles ) {
-								styles = styles.replace( new RegExp( '\\s*' + name + '\s*:[^;]*(?:$|;\s*)', 'i' ), '' ).replace( /^[;\s]+/, '' ).replace( /\s+$/, '' );
-							}
-
-							if ( value ) {
-								styles && !( /;\s*$/ ).test( styles ) && ( styles += '; ' );
-								styles += name + ': ' + value;
-							}
+							var tmp = editor.document.createElement( 'span' );
+							tmp.setAttribute( 'style', styles );
+							tmp.setStyle( name, value );
+							styles = CKEDITOR.tools.normalizeCssText( tmp.getAttribute( 'style' ) );
 
 							this.setValue( styles, 1 );
-
 						},
 
 						setup: setupAdvParams,
