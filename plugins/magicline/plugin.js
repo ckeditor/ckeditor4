@@ -532,10 +532,10 @@
 			lineChildren: [
 				extend(
 					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
-						'" contenteditable="false">' + WHITE_SPACE + '</span>', doc ), {
+						'" contenteditable="false">&#8629;</span>', doc ), {
 					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor
-						+ ';cursor:pointer;',
+						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor + ';cursor:pointer;'
+						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ),
 					looks: [
 						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
 						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
