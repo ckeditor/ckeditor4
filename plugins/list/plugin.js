@@ -695,14 +695,27 @@
 		var bm = cursor.createBookmark();
 
 		// Kill original bogus;
-		var currentPath = editor.elementPath( cursor.startContainer );
-		var currentBlock = currentPath.lastElement.getAscendant( 'li', 1 ) || currentPath.block;
+		var currentPath = new CKEDITOR.dom.elementPath( cursor.startContainer ),
+				pathBlock = currentPath.block,
+				currentBlock = currentPath.lastElement.getAscendant( 'li', 1 ) || pathBlock,
+				nextPath = new CKEDITOR.dom.elementPath( nextCursor.startContainer ),
+				nextLi = nextPath.contains( CKEDITOR.dtd.$listItem ),
+				nextList = nextPath.contains( CKEDITOR.dtd.$list ),
+				last;
 
-		var bogus = currentPath.block.getBogus();
-		bogus && bogus.remove();
+		// Remove bogus node the current block/pseudo block.
+		if ( pathBlock ) {
+			var bogus = pathBlock.getBogus();
+			bogus && bogus.remove();
+		}
+		else if ( nextList ) {
+			last = nextList.getPrevious( nonEmpty );
+			if ( last && blockBogus( last ) )
+				last.remove();
+		}
 
 		// Kill the tail br in extracted.
-		var last = frag.getLast();
+		last = frag.getLast();
 		if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.is( 'br' ) )
 			last.remove();
 
@@ -712,9 +725,6 @@
 			frag.insertBefore( nextNode );
 		else
 			cursor.startContainer.append( frag );
-
-		var nextPath = nextCursor.startPath();
-		var nextLi = nextPath.contains( 'li' );
 
 		// Move the sub list nested in the next list item.
 		if ( nextLi ) {
