@@ -172,6 +172,7 @@
 
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
+				outerDoc = CKEDITOR.document,
 				editable = editor.editable(),
 				body = doc.getBody(),
 				html = doc.getDocumentElement();
@@ -247,12 +248,29 @@
 									moveRangeToPoint( rngEnd, evt.x, evt.y );
 
 									// Handle drag directions.
-									textRng.setEndPoint( textRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ? 'EndToEnd' : 'StartToStart', rngEnd );
+									textRng.setEndPoint(
+										startRng.compareEndPoints( 'StartToStart', rngEnd ) < 0 ?
+										'EndToEnd' : 'StartToStart', rngEnd );
 
 									// Update selection with new range.
 									textRng.select();
 								}
 							}
+
+							function removeListeners() {
+								outerDoc.removeListener( 'mouseup', onSelectEnd );
+								html.removeListener( 'mouseup', onSelectEnd );
+							}
+
+							function onSelectEnd() {
+
+								html.removeListener( 'mousemove', onHover );
+								removeListeners();
+
+								// Make it in effect on mouse up. (#9022)
+								textRng.select();
+							}
+
 
 							// We're sure that the click happens at the region
 							// below body, but not on scrollbar.
@@ -262,31 +280,44 @@
 								var textRng = body.$.createTextRange();
 								moveRangeToPoint( textRng, evt.x, evt.y );
 
-								html.on( 'mousemove', onHover );
+								// Records the dragging start of the above text range.
+								var startRng = textRng.duplicate();
 
-								html.on( 'mouseup', function( evt ) {
-									html.removeListener( 'mousemove', onHover );
-									evt.removeListener();
-									textRng.select();
-								});
+								html.on( 'mousemove', onHover );
+								outerDoc.on( 'mouseup', onSelectEnd );
+								html.on( 'mouseup', onSelectEnd );
 							}
 						});
 					}
 
 					// It's much simpler for IE8+, we just need to reselect the reported range.
 					if ( CKEDITOR.env.version > 7 ) {
-						html.on( 'mouseup', function( evt ) {
+						html.on( 'mousedown', function( evt ) {
+							if ( evt.data.getTarget().is( 'html' ) ) {
+								// Limit the text selection mouse move inside of editable. (#9715)
+								outerDoc.on( 'mouseup', onSelectEnd );
+								html.on( 'mouseup', onSelectEnd )
+							}
+
+						});
+
+						function removeListeners() {
+							outerDoc.removeListener( 'mouseup', onSelectEnd );
+							html.removeListener( 'mouseup', onSelectEnd );
+						}
+
+						function onSelectEnd() {
+							removeListeners();
+
 							// The event is not fired when clicking on the scrollbars,
 							// so we can safely check the following to understand
 							// whether the empty space following <body> has been clicked.
-							if ( evt.data.getTarget().is( 'html' ) ) {
 								var sel = CKEDITOR.document.$.selection,
 									range = sel.createRange();
 								// The selection range is reported on host, but actually it should applies to the content doc.
 								if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
 									range.select();
-							}
-						});
+						}
 					}
 				}
 			}
