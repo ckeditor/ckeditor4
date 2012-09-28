@@ -331,14 +331,15 @@ CKEDITOR.dom.range = function( root ) {
 
 	// Creates the appropriate node evaluator for the dom walker used inside
 	// check(Start|End)OfBlock.
-	function getCheckStartEndBlockEvalFunction( isStart ) {
+	function getCheckStartEndBlockEvalFunction() {
 		var skipBogus = false,
+			whitespaces = CKEDITOR.dom.walker.whitespaces(),
 			bookmarkEvaluator = CKEDITOR.dom.walker.bookmark( true ),
 			isBogus = CKEDITOR.dom.walker.bogus();
 
 		return function( node ) {
-			// First ignore bookmark nodes.
-			if ( bookmarkEvaluator( node ) )
+			// First skip empty nodes
+			if ( bookmarkEvaluator( node ) || whitespaces( node ) )
 				return true;
 
 			// Skip the bogus node at the end of block.
@@ -367,12 +368,21 @@ CKEDITOR.dom.range = function( root ) {
 	// Evaluator for CKEDITOR.dom.element::checkBoundaryOfElement, reject any
 	// text node and non-empty elements unless it's being bookmark text.
 	function elementBoundaryEval( checkStart ) {
+		var whitespaces = CKEDITOR.dom.walker.whitespaces(),
+			bookmark = CKEDITOR.dom.walker.bookmark( 1 );
+
 		return function( node ) {
+			// First skip empty nodes.
+			if ( bookmark( node ) || whitespaces( node ) )
+				return true;
+
 			// Tolerant bogus br when checking at the end of block.
 			// Reject any text node unless it's being bookmark
 			// OR it's spaces.
 			// Reject any element unless it's being invisible empty. (#3883)
-			return !checkStart && isBogus( node ) || ( node.type == CKEDITOR.NODE_TEXT ? !CKEDITOR.tools.trim( node.getText() ) || !!node.getParent().data( 'cke-bookmark' ) : node.getName() in CKEDITOR.dtd.$removeEmpty );
+			return !checkStart && isBogus( node ) ||
+						 node.type == CKEDITOR.NODE_ELEMENT &&
+						 node.is( CKEDITOR.dtd.$removeEmpty );
 		};
 	}
 
@@ -1831,7 +1841,7 @@ CKEDITOR.dom.range = function( root ) {
 			walkerRange.setStartAt( path.block || path.blockLimit, CKEDITOR.POSITION_AFTER_START );
 
 			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = getCheckStartEndBlockEvalFunction( true );
+			walker.evaluator = getCheckStartEndBlockEvalFunction();
 
 			return walker.checkBackward();
 		},
@@ -1871,9 +1881,49 @@ CKEDITOR.dom.range = function( root ) {
 			walkerRange.setEndAt( path.block || path.blockLimit, CKEDITOR.POSITION_BEFORE_END );
 
 			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = getCheckStartEndBlockEvalFunction( false );
+			walker.evaluator = getCheckStartEndBlockEvalFunction();
 
 			return walker.checkForward();
+		},
+
+		/**
+		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the previous element before the range start.
+		 * @param {Function} evaluator Function used as the walker's evaluator.
+		 * @param {Function} [guard] Function used as the walker's guard.
+		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
+		 * default to the root editable if not defined.
+		 *
+		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
+		 */
+		getPreviousNode : function( evaluator, guard, boundary ) {
+			var walkerRange = this.clone();
+			walkerRange.collapse( 1 );
+			walkerRange.setStartAt( boundary || this.root, CKEDITOR.POSITION_AFTER_START );
+
+			var walker = new CKEDITOR.dom.walker( walkerRange );
+			walker.evaluator = evaluator;
+			walker.guard = guard;
+			return walker.previous();
+		},
+
+		/**
+		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the next element before the range start.
+		 * @param {Function} evaluator Function used as the walker's evaluator.
+		 * @param {Function} [guard] Function used as the walker's guard.
+		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
+		 * default to the root editable if not defined.
+		 *
+		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
+		 */
+		getNextNode: function( evaluator, guard, boundary ) {
+			var walkerRange = this.clone();
+			walkerRange.collapse();
+			walkerRange.setEndAt( boundary || this.root, CKEDITOR.POSITION_BEFORE_END );
+
+			var walker = new CKEDITOR.dom.walker( walkerRange );
+			walker.evaluator = evaluator;
+			walker.guard = guard;
+			return walker.next();
 		},
 
 		/**

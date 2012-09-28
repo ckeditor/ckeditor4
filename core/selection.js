@@ -59,24 +59,39 @@
 
 	// #### checkSelectionChange : END
 
+	var isVisible = CKEDITOR.dom.walker.invisible( 1 );
 	function rangeRequiresFix( range ) {
-		function isInlineCt( node ) {
-			return node && node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$removeEmpty;
+		function isTextCt( node, isAtEnd ) {
+			if ( !node || node.type == CKEDITOR.NODE_TEXT )
+				return false;
+
+			var testRng = range.clone();
+			return testRng[ 'moveToElementEdit' + ( isAtEnd ? 'End' : 'Start' ) ]( node );
 		}
 
-		var start = range.startContainer,
-			offset = range.startOffset;
-
-		if ( start.type == CKEDITOR.NODE_TEXT )
+		// Range root must be the editable element, it's to avoid creating filler char
+		// on any temporary internal selection.
+		if ( !( range.root instanceof CKEDITOR.editable ) ) {
 			return false;
+		}
 
-		// 1. Empty inline element. <span>^</span>
-		// 2. Empty block. <p>^</p> (#7222)
-		// 3. Adjoin to inline element. <p><strong>text</strong>^</p>
-		return !CKEDITOR.tools.trim( start.getHtml() ) ?
-					 isInlineCt( start ) || start.isBlockBoundary() :
-					 isInlineCt( start.getChild( offset - 1 ) ) ||
-					 isInlineCt( start.getChild( offset ) );
+		var ct = range.startContainer;
+
+		var previous = range.getPreviousNode( isVisible, null, ct ),
+			next = range.getNextNode( isVisible, null, ct );
+
+		// Any adjacent text container may absorb the cursor, e.g.
+		// <p><strong>text</strong>^foo</p>
+		// <p>foo^<strong>text</strong></p>
+		// <div>^<p>foo</p></div>
+		if ( isTextCt( previous ) || isTextCt( next, 1 ) )
+			return true;
+
+		// Empty block/inline element is also affected. <span>^</span>, <p>^</p> (#7222)
+		if ( !( previous || next ) && !( ct.type == CKEDITOR.NODE_ELEMENT && ct.isBlockBoundary() && ct.getBogus() ) )
+			return true;
+
+		return false;
 	}
 
 	function createFillingChar( element ) {

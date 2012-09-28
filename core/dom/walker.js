@@ -367,8 +367,14 @@
 	 */
 	CKEDITOR.dom.walker.whitespaces = function( isReject ) {
 		return function( node ) {
-			var isWhitespace = node && ( node.type == CKEDITOR.NODE_TEXT ) && !CKEDITOR.tools.trim( node.getText() );
-			return !!( isReject ^ isWhitespace );
+			var isWhitespace;
+			if ( node && node.type == CKEDITOR.NODE_TEXT ) {
+				// whitespace, as well as the text cursor filler node we used in Webkit. (#9384)
+				isWhitespace = !CKEDITOR.tools.trim( node.getText() ) ||
+					CKEDITOR.env.webkit && node.getText() == '\u200b';
+			}
+
+			return !! ( isReject ^ isWhitespace );
 		};
 	};
 
@@ -382,13 +388,24 @@
 	CKEDITOR.dom.walker.invisible = function( isReject ) {
 		var whitespace = CKEDITOR.dom.walker.whitespaces();
 		return function( node ) {
+			var invisible;
+
+			if ( whitespace( node ) )
+				invisible = 1;
+			else {
+				// Visibility should be checked on element.
+				if ( node.type == CKEDITOR.NODE_TEXT )
+					node = node.getParent();
+
 			// Nodes that take no spaces in wysiwyg:
 			// 1. White-spaces but not including NBSP;
 			// 2. Empty inline elements, e.g. <b></b> we're checking here
 			// 'offsetHeight' instead of 'offsetWidth' for properly excluding
 			// all sorts of empty paragraph, e.g. <br />.
-			var isInvisible = whitespace( node ) || node.is && !node.$.offsetHeight;
-			return !!( isReject ^ isInvisible );
+				invisible = !node.$.offsetHeight;
+			}
+
+			return !!( isReject ^ invisible );
 		};
 	};
 
