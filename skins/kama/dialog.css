@@ -166,9 +166,9 @@ available.
 The following is the visual representation of the tabs block:
 
 +-- .cke_dialog_tabs ------------------------------------+
-|  +-- .cke_dialog_tab --+ +-- .cke_dialog_tab --+ ...   | 
-|  |                     | |                     |       | 
-|  +---------------------+ +---------------------+       | 
+|  +-- .cke_dialog_tab --+ +-- .cke_dialog_tab --+ ...   |
+|  |                     | |                     |       |
+|  +---------------------+ +---------------------+       |
 +--------------------------------------------------------+
 
 The .cke_dialog_tab_selected class is appended to the active tab.
@@ -455,49 +455,49 @@ a.cke_dialog_ui_button
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background: transparent url(images/sprites.png) repeat-x scroll 0 -1069px;
-	padding: 5px 0;
 	text-align: center;
+	display: inline-block;
 }
 
 /* The inner part of the button. */
 a.cke_dialog_ui_button_ok span,
 a.cke_dialog_ui_button_cancel span
 {
-	width:60px;
-	padding-right: 20px;
-	padding-left: 20px;
+	width: 60px;
+	padding: 5px 20px 5px;
+	display: inline-block;
 }
 
 /* Special class appended to the Ok button. */
 a.cke_dialog_ui_button_ok
 {
-	background-position: 0 -1143px;
+	background-position: 0 -1144px;
 }
 
 a.cke_dialog_ui_button_ok span
 {
-	background: transparent url(images/sprites.png) no-repeat scroll right -1219px;
+	background: transparent url(images/sprites.png) no-repeat scroll right -1216px;
 }
 
 .cke_rtl a.cke_dialog_ui_button_ok span
 {
-	background-position: left -1219px;
+	background-position: left -1216px;
 }
 
 /* Special class appended to the Cancel button. */
 a.cke_dialog_ui_button_cancel
 {
-	background-position: 0 -1104px;
+	background-position: 0 -1105px;
 }
 
 a.cke_dialog_ui_button_cancel span
 {
-	background: transparent url(images/sprites.png) no-repeat scroll right -1245px;
+	background: transparent url(images/sprites.png) no-repeat scroll right -1242px;
 }
 
 .cke_rtl a.cke_dialog_ui_button_cancel span
 {
-	background-position: left -1245px;
+	background-position: left -1242px;
 }
 
 span.cke_dialog_ui_button
@@ -536,21 +536,19 @@ a.cke_dialog_ui_button:active
 .cke_dialog_footer_buttons
 {
 	display: inline-table;
-	margin-right: 12px;
-	margin-left: 12px;
+	margin: 6px 12px 0 12px;
 	width: auto;
 	position: relative;
 }
 
 .cke_dialog_footer_buttons span.cke_dialog_ui_button
 {
-	margin: 7px 0;
 	text-align: center;
 }
 
 
 /*
-Styles for other dialog element types. 
+Styles for other dialog element types.
 */
 .cke_dialog_ui_input_select
 {

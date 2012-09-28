@@ -89,14 +89,22 @@ a.cke_path_item:active
 	font-size: 28px;
 }
 
-.cke_rtl div.cke_dialog_ui_input_text
+/* #3766 In the context menu, long labels with second level menu get wrapped */
+.cke_menuarrow
 {
-	padding-left: 1px;
+	position: absolute;
+	right: 2px;
 }
 
-.cke_rtl input.cke_dialog_ui_input_text
+.cke_rtl .cke_menuarrow
 {
-	position: relative;
-	right: 1px;
-	padding-left: 1px;
+	position: absolute;
+	left: 2px;
+}
+/* END #3766 */
+
+/* This guarantees the gap between the footer buttons in RTL under IE8 (#9359) */
+.cke_rtl .cke_dialog_footer_buttons .cke_dialog_ui_hbox_first
+{
+	padding-left: 10px !important;
 }
