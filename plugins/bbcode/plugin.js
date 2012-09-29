@@ -464,24 +464,34 @@
 				return this._.rules[ tagName ] && this._.rules[ tagName ][ ruleName ];
 			},
 
-			openTag: function( tag, attributes ) {
+			openTag : function( tag ) {
 				if ( tag in bbcodeMap ) {
 					if ( this.getRule( tag, 'breakBeforeOpen' ) )
 						this.lineBreak( 1 );
 
 					this.write( '[', tag );
-					var option = attributes.option;
-					option && this.write( '=', option );
-					this.write( ']' );
-
-					if ( this.getRule( tag, 'breakAfterOpen' ) )
-						this.lineBreak( 1 );
-				} else if ( tag == 'br' )
-					this._.output.push( '\n' );
+				}
 			},
 
-			openTagClose: function() {},
-			attribute: function() {},
+			openTagClose : function( tag ) {
+				if ( tag == 'br' )
+					this._.output.push( '\n' );
+				else if ( tag in bbcodeMap ) {
+					this.write( ']' );
+					if ( this.getRule( tag, 'breakAfterOpen' ) )
+						this.lineBreak( 1 );
+				}
+			},
+
+			attribute : function( name, val ) {
+				if ( name == 'option' ) {
+					// Force simply ampersand in attributes.
+					if ( typeof val == 'string' )
+						val = val.replace( /&amp;/g, '&' );
+
+					this.write( '=', val );
+				}
+			},
 
 			closeTag: function( tag ) {
 				if ( tag in bbcodeMap ) {
