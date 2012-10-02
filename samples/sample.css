@@ -229,6 +229,13 @@ label
 	cursor: text;
 }
 
+/* Avoid pre-formatted overflows inline editable. */
+.cke_editable_inline pre
+{
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
 /**
  *	Samples index styles.
  */
