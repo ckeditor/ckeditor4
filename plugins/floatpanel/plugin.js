@@ -182,14 +182,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					CKEDITOR.event.useCapture = true;
 
 					focused.on( 'blur', function( ev ) {
-						if ( !this.allowBlur() )
-							return;
 
 						// As we are using capture to register the listener,
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						if ( ev.data.getTarget().$ != focused.$ )
+						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET )
 							return;
 
 						if ( this.visible && !this._.activeChild ) {

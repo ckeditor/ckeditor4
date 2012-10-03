@@ -115,6 +115,17 @@ CKEDITOR.dom.event.prototype = {
 	getTarget: function() {
 		var rawNode = this.$.target || this.$.srcElement;
 		return rawNode ? new CKEDITOR.dom.node( rawNode ) : null;
+	},
+
+	/**
+	 * Returns an integer value that indicates the current processing phase of an event.
+	 * For browsers that doesn't support event phase, {@link CKEDITOR#EVENT_PHASE_AT_TARGET} is always returned.
+	 *
+	 * @returns {Number} One of {@link CKEDITOR#EVENT_PHASE_CAPTURING},
+	 * {@link CKEDITOR#EVENT_PHASE_AT_TARGET}, or {@link CKEDITOR#EVENT_PHASE_BUBBLING}.
+	 */
+	getPhase: function() {
+		return this.$.eventPhase || 2;
 	}
 };
 
@@ -147,3 +158,30 @@ CKEDITOR.SHIFT = 0x220000;
  * @member CKEDITOR
  */
 CKEDITOR.ALT = 0x440000;
+
+/**
+ * Capturing phase.
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.EVENT_PHASE_CAPTURING = 1;
+
+/**
+ * Event at target.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.EVENT_PHASE_AT_TARGET = 2;
+
+/**
+ * Bubbling phase.
+ *
+ * @readonly
+ * @property {Number} [=3]
+ * @member CKEDITOR
+ */
+CKEDITOR.EVENT_PHASE_BUBBLING = 3;
