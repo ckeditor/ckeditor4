@@ -54,7 +54,19 @@
 	var SLOT_NAME = 'focusmanager',
 		SLOT_NAME_LISTENERS = 'focusmanager_handlers';
 
+	CKEDITOR.focusManager._ = {
+		/**
+		 * The delay (in milliseconds) to deactivate the editor when UI dom element has lost focus.
+		 *
+		 * @private
+		 * @static
+		 * @property {Number} [_.blurDelay=200]
+		 */
+		blurDelay: 200
+	};
+
 	CKEDITOR.focusManager.prototype = {
+
 		/**
 		 * Indicate this editor instance is activated (due to DOM focus change),
 		 * the `activated` state is a symbolic indicator of an active user
@@ -133,13 +145,14 @@
 			if ( this._.timer )
 				clearTimeout( this._.timer );
 
-			if ( noDelay ) {
+			var delay = CKEDITOR.focusManager._.blurDelay;
+			if ( noDelay || !delay ) {
 				doBlur.call( this );
 			} else {
 				this._.timer = CKEDITOR.tools.setTimeout( function() {
 					delete this._.timer;
 					doBlur.call( this );
-				}, 200, this );
+				}, delay, this );
 			}
 		},
 
