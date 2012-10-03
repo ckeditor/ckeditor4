@@ -909,12 +909,6 @@
 					zombies: []
 				};
 
-			// Temporary hack to handle list and table cases by native impl.
-			if ( checkToUseNativeImpl( that, data ) ) {
-				afterInsert( editable );
-				return;
-			}
-
 			prepareRangeToDataInsertion( that );
 
 			// DATA PROCESSING
@@ -943,37 +937,6 @@
 			editable.editor.focus();
 
 			editable.editor.fire( 'saveSnapshot' );
-		}
-
-		// Check if use browser's native html insertion API based on
-		// selection context and data to be inserted.
-		function checkToUseNativeImpl( that, data ) {
-
-			// Check if a complete list presents in the data.
-			var dataMatched = /<(ol|ul|dl)\b/i.test( data ),
-				path = that.range.startPath();
-
-			// Selection start within a list, but not including the case
-			// where there exists a block inside of the list item.
-			if ( dataMatched &&
-			     ( path.block && path.block.is( DTD.$listItem ) ||
-			       path.lastElement.is( DTD.$list ) ) ) {
-				return nativeInsert();
-			}
-
-			function nativeInsert() {
-				var doc = that.range.document;
-				return CKEDITOR.tools.tryThese( function() {
-					doc.$.execCommand( 'inserthtml', false, data );
-					return 1;
-				},
-				function() {
-					doc.$.selection.createRange().pasteHTML( data );
-					return 1;
-				} );
-			}
-
-			return 0;
 		}
 
 		// Prepare range to its data deletion.
@@ -1115,7 +1078,7 @@
 				separateEndContainer = !!endContainer.getCommonAncestor( startContainer ) // endC is not detached.
 				&& pos != CKEDITOR.POSITION_IDENTICAL && !( pos & CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_IS_CONTAINED ); // endC & endS are in separate branches.
 
-			nodesData = extractNodesData( that.dataWrapper, startContainer );
+			nodesData = extractNodesData( that.dataWrapper, that );
 
 			removeBrsAdjacentToPastedBlocks( nodesData, range );
 
@@ -1235,7 +1198,7 @@
 					continue;
 
 				testRange = range.clone();
-				testRange.moveToPosition( node, CKEDITOR.POSITION_AFTER_START );
+				testRange.moveToElementEditStart( node );
 				testRange.removeEmptyBlocksAtEnd();
 			}
 
@@ -1309,9 +1272,11 @@
 			return node.type == CKEDITOR.NODE_ELEMENT;
 		}
 
-		function extractNodesData( dataWrapper, startContainer ) {
+		function extractNodesData( dataWrapper, that ) {
 			var node, sibling, nodeName, allowed,
 				nodesData = [],
+				startContainer = that.range.startContainer,
+				path = that.range.startPath(),
 				allowedNames = DTD[ startContainer.getName() ],
 				nodeIndex = 0,
 				nodesList = dataWrapper.getChildren(),
@@ -1321,11 +1286,22 @@
 				lineBreak = 0,
 				blockSibling;
 
+			// Selection start within a list.
+			var insideOfList = path.contains( DTD.$list );
+
 			for ( ; nodeIndex < nodesCount; ++nodeIndex ) {
 				node = nodesList.getItem( nodeIndex );
 
 				if ( checkIfElement( node ) ) {
 					nodeName = node.getName();
+
+					// Extract only the list items, when insertion happens
+					// inside of a list, reads as rearrange list items. (#7957)
+					if ( insideOfList && nodeName in CKEDITOR.dtd.$list ) {
+						nodesData = nodesData.concat( extractNodesData( node, that ) );
+						continue;
+					}
+
 					allowed = !!allowedNames[ nodeName ];
 
 					// Mark <brs data-cke-eol="1"> at the beginning and at the end.
