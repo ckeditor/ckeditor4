@@ -128,7 +128,7 @@ CKEDITOR.dtd = (function() {
 		header: F,
 		hgroup: { h1:1,h2:1,h3:1,h4:1,h5:1,h6:1 },
 		hr: E,
-		html: X( { head:1,body:1 }, F, M ), // Head and body are optional... TODO does it make sense for us?
+		html: X( { head:1,body:1 }, F, M ), // Head and body are optional...
 		i: P,
 		iframe: T,
 		img: E,
@@ -229,12 +229,12 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
-		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,wbr:1 },
+		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,source:1,track:1,wbr:1 },
 
 		/**
 		 * List of inline (`<span>` like) elements.
 		 */
-		$inline: P, // TODO remove transparent elements temporarily treated like block elements (audio, video).
+		$inline: Y( P, { audio:1,video:1 } ),
 
 		/**
 		 * List of list root elements.
