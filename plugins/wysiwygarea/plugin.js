@@ -103,8 +103,10 @@
 			doc = win.document,
 			body = doc.body;
 
-		// Remove this script from the DOM.
-		var script = doc.getElementById( "cke_actscrpt" );
+		// Remove helper scripts from the DOM.
+		var script = doc.getElementById( 'cke_actscrpt' );
+		script && script.parentNode.removeChild( script );
+		script = doc.getElementById( 'cke_shimscrpt' );
 		script && script.parentNode.removeChild( script );
 
 		if ( CKEDITOR.env.gecko ) {
@@ -401,7 +403,6 @@
 
 					// The script that launches the bootstrap logic on 'domReady', so the document
 					// is fully editable even before the editing iframe is fully loaded (#4455).
-
 					var bootstrapCode =
 						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
 							( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
@@ -413,6 +414,18 @@
 							'}' +
 							( CKEDITOR.env.ie ? 'onload();' : 'document.addEventListener("DOMContentLoaded", onload, false );' ) +
 						'</script>';
+
+					// For IE<9 add support for HTML5's elements.
+					// Note: this code must not be deferred.
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+						bootstrapCode +=
+							'<script id="cke_shimscrpt">' +
+								'(function(){' +
+									'var e="abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video".split(","),i=e.length;' +
+									'while(i--){document.createElement(e[i])}' +
+								'})()' +
+							'</script>';
+					}
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
 
