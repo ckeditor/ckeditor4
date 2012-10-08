@@ -1,0 +1,174 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/*
+menu.css (part of editor.css)
+===============================
+
+This file styles menus used in the editor UI. These menus are the list of
+options available inside some "floating panels", like menu buttons of the
+toolbar or the context menu.
+
+Note that the menu itself doesn't include the floating element that holds it.
+That element is styles in the panel.css file.
+
+The following is a visual representation of the main elements of a menu:
+
++-- .cke_menu -----------------+
+| +-- .cke_menuitem  --------+ |
+| | +-- .cke_menubutton ---+ | |
+| | |                      | | |
+| | +----------------------+ | |
+| +--------------------------+ |
+| +-- .cke_menuseparator ----+ |
+| ...                          |
++------------------------------+
+
+This is the .cke_menubutton structure:
+(Note that the menu button icon shares with toolbar button the common class .cke_button_icon to achieve the same outlook.)
+
++-- .cke_menubutton ------------------------------------------+
+| +-- .cke_menubutton_icon ---+ +-- .cke_menubutton_label --+ |
+| | +-- .cke_button_icon ---+ | |                           | |
+| | |                       | | |                           | |
+| | +-----------------------+ | |                           | |
+| +---------------------------+ +---------------------------+ |
++-------------------------------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+	.cke_rtl: Available when the editor UI is on RTL.
+*/
+
+/* .cke_menuitem is the element that holds the entire structure of each of the
+   menu items. */
+
+.cke_menubutton
+{
+	/* The "button" inside a menu item is a <a> element.
+	   Transforms it into a block. */
+	display:block;
+}
+
+.cke_menuitem span
+{
+	/* Avoid the text selection cursor inside menu items. */
+	cursor: default;
+}
+
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active
+{
+}
+
+/* The menu item icon. */
+.cke_menubutton_icon
+{
+	background-color: #eaeaea;
+	border: 4px solid #eaeaea;
+	width: 16px;
+	height: 16px;
+	float: left;
+	clear: both;
+}
+
+.cke_rtl .cke_menubutton_icon
+{
+	float: right;
+}
+
+.cke_menubutton:hover .cke_menubutton_icon,
+.cke_menubutton:focus .cke_menubutton_icon,
+.cke_menubutton:active .cke_menubutton_icon
+{
+	background-color: #ccc;
+	border: 4px solid #ccc;
+}
+
+.cke_menubutton_disabled .cke_button_icon,
+.cke_menubutton_disabled .cke_menubutton_label
+{
+	opacity: 0.3;
+	filter: alpha(opacity=30);
+}
+
+.cke_menubutton_disabled:hover .cke_menubutton_icon
+{
+    background-color: #e5e5e5;
+   	border: 4px solid #e5e5e5;
+}
+
+/* The textual part of each menu item. */
+.cke_menubutton_label
+{
+	display:block;
+	padding-right: 3px;
+	padding-top: 5px;
+	padding-left: 4px;
+	height:19px;
+	margin-left: 24px;
+	background-color: #fff;
+}
+
+.cke_rtl .cke_menubutton_label
+{
+	padding-right: 4px;
+	padding-left: 3px;
+	margin-left: 0;
+	margin-right: 24px;
+}
+
+
+.cke_menubutton:hover .cke_menubutton_label,
+.cke_menubutton:focus .cke_menubutton_label,
+.cke_menubutton:active .cke_menubutton_label
+{
+    border-color: #dedede;
+   	background-color: #f2f2f2;
+
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+    box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+}
+
+.cke_panel_frame .cke_menubutton_label
+{
+	display: none;
+}
+
+/* The separator used to separate menu item groups. */
+.cke_menuseparator
+{
+	background-color: #d9d9d9;
+	height: 1px;
+}
+
+/* The small arrow shown for item with sub-menus. */
+.cke_menuarrow
+{
+	background-image: url(images/arrow.png);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	height: 6px;
+	width: 5px;
+	float: right;
+	margin-right: 2px;
+	margin-top: 3px;
+}
+
+.cke_rtl .cke_menuarrow
+{
+	float: left;
+	margin-right: 0;
+	margin-left: 2px;
+	background-position: 0px -6px;
+}
+
+.cke_menuarrow span
+{
+	display: none;
+}
