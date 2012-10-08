@@ -663,9 +663,16 @@
 					this.look( LOOK_NORMAL );
 				}
 
-				// 1px bug here...
-				if ( that.inInlineMode )
+				if ( that.inInlineMode ) {
+					// 1px bug here...
 					styleSet.top--;
+
+					// Consider the editable to be an element with overflow:scroll
+					// and non-zero scrollTop/scrollLeft value.
+					// For example: divarea editable. (#9383)
+					styleSet.top += view.editable.scroll.top;
+					styleSet.left += view.editable.scroll.left;
+				}
 
 				// Append `px` prefixes.
 				for ( var style in styleSet )
@@ -1394,6 +1401,13 @@
 		box.height = box.outerHeight - ( padding.top + padding.bottom + border.top + border.bottom ), box.width = box.outerWidth - ( padding.left + padding.right + border.left + border.right ),
 
 		box.bottom = box.top + box.outerHeight, box.right = box.left + box.outerWidth;
+
+		if ( that.inInlineMode ) {
+			box.scroll = {
+				top: element.$.scrollTop,
+				left: element.$.scrollLeft
+			}
+		}
 
 		return extend({
 			border: border,
