@@ -720,8 +720,7 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.config.enterMode,
-			domChanged = 0;
+			enterMode = editor.config.enterMode;
 
 		if ( CKEDITOR.env.gecko ) {
 			// v3: check if this is needed.
@@ -735,9 +734,11 @@
 			// 1. It is really displayed as block; (#7221)
 			// 2. It doesn't end with one inner block; (#7467)
 			// 3. It doesn't have bogus br yet.
-			if ( pathBlock && pathBlock.isBlockBoundary() && !( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) && !pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
+			if ( pathBlock && pathBlock.isBlockBoundary() &&
+				!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
+				!pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
+
 				pathBlock.appendBogus();
-				domChanged = 1;
 			}
 		}
 
@@ -768,7 +769,6 @@
 					var first = fixedBlock.getFirst( isNotEmpty );
 					if ( first && isNbsp( first ) ) {
 						first.remove();
-						domChanged = 1;
 					}
 				}
 
@@ -777,8 +777,6 @@
 				evt.cancel();
 			}
 		}
-
-		return domChanged;
 	}
 
 	function blockInputClick( evt ) {
@@ -845,10 +843,13 @@
 			// Do it only when selection is not locked. (#8222)
 			if ( sel && !sel.isLocked ) {
 				var isDirty = editor.checkDirty();
-				editor.fire( 'saveSnapshot', { contentOnly:1 } );
-				// Notify undoManager that dom was fixed, so it can update the latest snapshot.
-				if ( fixDom( evt ) )
-					editor.fire( 'updateSnapshot' );
+
+				// Lock undoM before touching DOM to prevent
+				// recording these changes as separate snapshot.
+				editor.fire( 'lockSnapshot' );
+				fixDom( evt );
+				editor.fire( 'unlockSnapshot' );
+
 				!isDirty && editor.resetDirty();
 			}
 		});

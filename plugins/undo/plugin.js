@@ -98,6 +98,11 @@
 				});
 			}
 
+			/**
+			 * Reset undo stack.
+			 *
+			 * @member CKEDITOR.editor
+			 */
 			editor.resetUndo = function() {
 				// Reset the undo stack.
 				undoManager.reset();
@@ -124,6 +129,27 @@
 				if ( undoManager.currentImage )
 					undoManager.update();
 			});
+
+			/**
+			 * Lock manager to prevent any save/update operations.
+			 *
+			 * It's convenient to lock manager before doing DOM operations
+			 * that shouldn't be recored (e.g. auto paragraphing).
+			 *
+			 * See {@link CKEDITOR.plugins.undo.UndoManager#lock} for more details.
+			 *
+			 * @event lockSnapshot
+			 * @member CKEDITOR.editor
+			 */
+			editor.on( 'lockSnapshot', undoManager.lock, undoManager );
+
+			/**
+			 * Unlock manager and update latest snapshot.
+			 *
+			 * @event unlockSnapshot
+			 * @member CKEDITOR.editor
+			 */
+			editor.on( 'unlockSnapshot', undoManager.unlock, undoManager );
 		}
 	});
 
@@ -218,6 +244,16 @@
 		navigationKeyCodes = { 37:1,38:1,39:1,40:1 }; // Arrows: L, T, R, B
 
 	UndoManager.prototype = {
+		/**
+		 * When `locked` property is not `null` manager is locked, so
+		 * operations like `save` or `update` are forbidden.
+		 *
+		 * Manager can be locked/unlocked by {@link #lock} and {@link #unlock} methods.
+		 *
+		 * @private
+		 * @property {Object} [locked=null]
+		 */
+
 		/**
 		 * Process undo system regard keystrikes.
 		 * @param {CKEDITOR.dom.event} event
@@ -322,9 +358,7 @@
 
 			this.hasUndo = false;
 			this.hasRedo = false;
-
-			// Finish transaction.
-			this.isLocked = false;
+			this.locked = null;
 
 			this.resetType();
 		},
@@ -354,7 +388,7 @@
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			// Do not change snapshots stack when locked.
-			if ( this.isLocked )
+			if ( this.locked )
 				return false;
 
 			var snapshots = this.snapshots;
@@ -402,7 +436,7 @@
 			// Start transaction - do not allow any mutations to the
 			// snapshots stack done when selecting bookmarks (much probably
 			// by selectionChange listener).
-			this.isLocked = true;
+			this.locked = 1;
 
 			this.editor.loadSnapshot( image.contents );
 
@@ -417,7 +451,7 @@
 				$range.select();
 			}
 
-			this.isLocked = false;
+			this.locked = 0;
 
 			this.index = image.index;
 
@@ -514,9 +548,46 @@
 		 * Update the last snapshot of the undo stack with the current editor content.
 		 */
 		update: function() {
-			// Do not change snapshots stack when locked.
-			if ( !this.isLocked )
+			// Do not change snapshots stack is locked.
+			if ( !this.locked )
 				this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
+		},
+
+		/**
+		 * Lock the snapshot stack to prevent any save/update operations, and additionally
+		 * update the tip snapshot with the DOM changes during the locked period when necessary,
+		 * after the {@link #unlock} method is called.
+		 *
+		 * It's mainly used for ensure any DOM operations that shouldn't be recorded (e.g. auto paragraphing).
+		 */
+		lock: function() {
+			if ( !this.locked ) {
+				var snapBefore = this.editor.getSnapshot();
+
+				// If current editor content matches the tip of snapshot stack,
+				// the stack tip must be updated by unlock, to include any changes made
+				// during this period.
+				var matchedTip = this.currentImage && snapBefore == this.currentImage.contents;
+
+				this.locked = { update: matchedTip ? snapBefore : null };
+			}
+		},
+
+		/**
+		 * Unlock the snapshot stack and check to amend the last snapshot.
+		 *
+		 * See {@link #lock} for more details.
+		 */
+		unlock: function() {
+			if ( this.locked ) {
+				var update = this.locked.update,
+					snap = this.editor.getSnapshot();
+
+				this.locked = null;
+
+				if ( typeof update == 'string' && snap != update )
+					this.update();
+			}
 		}
 	};
 })();
