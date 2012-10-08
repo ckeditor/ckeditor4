@@ -299,7 +299,7 @@
  * editor installation. In that case, the absolute URL path to that folder
  * should be provided, separated by a comma (`'skin_name,skin_path'`).
  *
- *		config.skin = 'kama';
+ *		config.skin = 'moono';
  *
  *		config.skin = 'myskin,/customstuff/myskin/';
  *

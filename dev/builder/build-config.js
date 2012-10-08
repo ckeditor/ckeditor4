@@ -4,7 +4,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'kama',
+	skin: 'moono',
 	ignore: [
 		'dev',
 		'.gitignore',

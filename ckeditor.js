@@ -32,11 +32,11 @@ else {
  *
  * **Note:** This is a global configuration that applies to all instances.
  *
- *		CKEDITOR.skinName = 'kama';
+ *		CKEDITOR.skinName = 'moono';
  *
  *		CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
  *
- * @cfg {String} [skinName='kama']
+ * @cfg {String} [skinName='moono']
  * @member CKEDITOR
  */
-CKEDITOR.skinName = 'kama';
+CKEDITOR.skinName = 'moono';
