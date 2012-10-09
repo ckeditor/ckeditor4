@@ -127,6 +127,10 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				open: function( offsetParent, corner, offsetX, offsetY ) {
 					this.editor.focus();
 					offsetParent = offsetParent || CKEDITOR.document.getDocumentElement();
+
+					// #9362: Force selection check to update commands' states in the new context.
+					this.editor.selectionChange( 1 );
+
 					this.show( offsetParent, corner, offsetX, offsetY );
 				}
 			}
