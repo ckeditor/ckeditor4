@@ -421,7 +421,7 @@
 					continue;
 				// Handle simply group name item.
 				else if ( typeof toolbarGroup == 'string' )
-					toolbarGroup = toolbar[ i ] = { name : toolbarGroup };
+					toolbarGroup = toolbar[ i ] = { name: toolbarGroup };
 
 				var items, subGroups = toolbarGroup.groups;
 
@@ -482,15 +482,14 @@
 
 		function fillGroup( toolbarGroup, uiItems ) {
 
-			if ( uiItems.length )
-			{
+			if ( uiItems.length ) {
 				if ( toolbarGroup.items )
 					toolbarGroup.items.push( '-' );
 				else
 					toolbarGroup.items = [];
 
 				var item;
-				while( ( item = uiItems.shift() ) )
+				while ( ( item = uiItems.shift() ) )
 					toolbarGroup.items.push( item.name );
 			}
 		}
@@ -501,12 +500,15 @@
 		if ( typeof toolbar == 'string' )
 			toolbar = editor.config[ 'toolbar_' + toolbar ];
 
-		// If not toolbar has been explicitly defined, build it based on the toolbarGroups.
-		return toolbar || buildToolbarConfig();
+		// If toolbar hasn't been explicitly defined, build it based on the toolbarGroups.
+		return ( editor.toolbar = toolbar || buildToolbarConfig() );
 	}
 
 	/**
 	 * Add toolbar group. See {@link CKEDITOR.config#toolbarGroups} for more details.
+	 *
+	 * **Note:** This method won't modify toolbar groups set explicitly by
+	 * {@link CKEDITOR.config#toolbarGroups}. It will extend only default setting.
 	 *
 	 * @param {String} name Group name.
 	 * @param {Number/String} previous Name of group after which this one
@@ -642,7 +644,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * Buttons are associated with toolbar groups by `toolbar` property in their definition objects.
  *
  * New groups may be dynamically added during the editor and plugins initialization by
- * {@link CKEDITOR.ui#addToolbarGroup}.
+ * {@link CKEDITOR.ui#addToolbarGroup}. Although only if default setting was used.
  *
  *		// Default setting.
  *		config.toolbarGroups = [
@@ -697,4 +699,13 @@ CKEDITOR.config.toolbarLocation = 'top';
  * @since 3.6
  * @cfg {Boolean} [toolbarGroupCycling=true]
  * @member CKEDITOR.config
+ */
+
+/**
+ * Toolbar definition used by the editor. It is crated from the
+ * {@link CKEDITOR.config#toolbar} if it is set or automatically
+ * based on {@link CKEDITOR.config#toolbarGroups}.
+ *
+ * @property {Object} toolbar
+ * @member CKEDITOR.editor
  */
