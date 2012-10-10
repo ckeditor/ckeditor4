@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Toolbar configuration &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../ckeditor.js"></script>
+	<link href="sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
+	</h1>
+	<form action="sample_posteddata.php" method="post">
+		<div class="description">
+			<p>
+				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
+			</p>
+<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>' )
+</pre>
+		</div>
+		<h2 class="samples">Current toolbar configuration</h2>
+		<textarea cols="80" id="editor_current" name="editor_current" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+
+		<h2 class="samples">Full toolbar configuration</h2>
+		<textarea cols="80" id="editor_full" name="editor_full" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+
+		<script>
+
+			CKEDITOR.replace( 'editor1' );
+
+		</script>
+	</form>
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>

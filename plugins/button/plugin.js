@@ -257,7 +257,8 @@
 	 *
 	 *		editorInstance.ui.addButton( 'MyBold', {
 	 *			label: 'My Bold',
-	 *			command: 'bold'
+	 *			command: 'bold',
+	 *			toolbar: 'basicstyles,1'
 	 *		} );
 	 *
 	 * @member CKEDITOR.ui
