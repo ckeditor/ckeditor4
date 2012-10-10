@@ -754,9 +754,15 @@
 				// we're canceling it.
 				preventPasteEventNow();
 
+				// #9247: Lock focus to prevent IE from hiding toolbar for inline editor.
+				var focusManager = editor.focusManager;
+				focusManager.lock();
+
 				if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
+					focusManager.unlock();
 					return false;
 				}
+				focusManager.unlock();
 			} else {
 				try {
 					if ( editor.editable().fire( mainPasteEvent ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
