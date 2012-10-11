@@ -81,7 +81,7 @@ h2.samples
 {
 	color: #000000;
 	font-size: 130%;
-	margin: 0;
+	margin: 15px 0 0 0;
 	padding: 0;
 }
 
@@ -135,6 +135,10 @@ pre.samples
 	border: 1px solid #D7D7D7;
 	overflow: auto;
 	padding: 0.25em;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	-webkit-tab-size: 4;
+	tab-size: 4;
 }
 
 #footer
