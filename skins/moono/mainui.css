@@ -177,7 +177,7 @@ Special outer level classes used in this file:
     height: 0;
     overflow: hidden;
     border-width: 10px 10px 0 0;
-    border-color: transparent #A5A5A5 transparent transparent;
+    border-color: transparent #666 transparent transparent;
     border-style: dashed solid dashed dashed;
 
 	font-size: 0;
