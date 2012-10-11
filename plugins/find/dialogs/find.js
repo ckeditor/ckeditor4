@@ -501,7 +501,7 @@
 					sel = editor.getSelection(),
 					editable = editor.editable();
 
-				if ( sel && sel.type == CKEDITOR.SELECTION_NONE && !isDefault ) {
+				if ( sel && !isDefault ) {
 					searchRange = sel.getRanges()[ 0 ].clone();
 					searchRange.collapse( true );
 				} else {
