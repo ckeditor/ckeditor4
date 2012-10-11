@@ -141,7 +141,7 @@ CKEDITOR.dom.elementPath.prototype = {
 			};
 		else if ( CKEDITOR.tools.isArray( query ) )
 			evaluator = function( node ) {
-				return query.indexOf( node.getName() ) > -1;
+				return CKEDITOR.tools.indexOf( query, node.getName() ) > -1;
 			};
 		else if ( typeof query == 'function' )
 			evaluator = query;
