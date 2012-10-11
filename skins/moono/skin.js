@@ -54,7 +54,7 @@ CKEDITOR.skin.name = 'moono-light';
 //
 // The available browser specific files must be set separately for editor.css
 // and dialog.css.
-CKEDITOR.skin.ua_editor = 'ie,ie7,ie8';
+CKEDITOR.skin.ua_editor = 'ie,ie7,ie8,gecko';
 CKEDITOR.skin.ua_dialog = 'ie,ie7,ie8,opera';
 
 // %REMOVE_START%
