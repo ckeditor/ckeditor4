@@ -54,10 +54,6 @@ Special outer level classes used in this file:
     /*border-bottom-color: #ccc;*/
     padding: 0;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
     box-shadow: 0 0 3px rgba(0,0,0,.15);
@@ -69,10 +65,7 @@ Special outer level classes used in this file:
 	/* This is <span>, so transform it into a block.*/
 	display: block;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	-webkit-touch-callout: none;
-	border-radius: 3px;
 
     background: #fff;
 	padding: 0;
@@ -111,10 +104,6 @@ Special outer level classes used in this file:
     border-bottom: 1px solid #b6b6b6;
     padding: 6px 8px 2px;
 
-    -moz-border-radius: 2px 2px 0 0;
-    -webkit-border-radius: 2px 2px 0 0;
-    border-radius: 2px 2px 0 0;
-
     -moz-box-shadow: 0 1px 0 #fff inset;
     -webkit-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
@@ -133,10 +122,6 @@ Special outer level classes used in this file:
 {
     border: 1px solid #b6b6b6;
     border-bottom-color: #999;
-
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
 }
 
 .cke_bottom
@@ -149,10 +134,6 @@ Special outer level classes used in this file:
     -moz-box-shadow: 0 1px 0 #fff inset;
     -webkit-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
-
-    -moz-border-radius: 0 0 2px 2px;
-    -webkit-border-radius: 0 0 2px 2px;
-    border-radius: 0 0 2px 2px;
 
     background: #cfd1cf;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
