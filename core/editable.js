@@ -1024,26 +1024,39 @@
 		function processDataForInsertion( that, data ) {
 			var range = that.range;
 
-			// Data processor would ltrim all white-spaces, so leave at least once for spaces-only insertion.
-			// Preserve nbsps first, so \u00a0{2,} won't be lost in second replace().
-			data = data.replace( /\u00a0/g, '&nbsp;' ).replace( /^\s+$/, '&nbsp;' );
-
 			// Rule 8. - wrap entire data in inline styles.
 			// (e.g. <p><b>x^z</b></p> + <p>a</p><p>b</p> -> <b><p>a</p><p>b</p></b>)
 			// Incorrect tags order will be fixed by htmlDataProcessor.
 			if ( that.type == 'text' && that.inlineStylesRoot )
 				data = wrapDataWithInlineStyles( data, that );
 
+
+			var context = that.blockLimit.getName();
+
+			// Wrap data to be inserted, to avoid loosing leading whitespaces
+			// when going through the below procedure.
+			if ( /^\s+|\s+$/.test( data ) && 'span' in CKEDITOR.dtd[ context ] ) {
+				var protect = '<span data-cke-marker="1">&nbsp;</span>';
+				data =  protect + data + protect;
+			}
+
 			// Process the inserted html, in context of the insertion root.
 			// Don't use the "fix for body" feature as auto paragraphing must
 			// be handled during insertion.
-			data = that.editor.dataProcessor.toHtml( data, that.blockLimit.getName(), false );
+			data = that.editor.dataProcessor.toHtml( data, context, false );
+
 
 			// Build the node list for insertion.
 			var doc = range.document,
 				wrapper = doc.createElement( 'body' );
 
 			wrapper.setHtml( data );
+
+			// Eventually remove the temporaries.
+			if ( protect ) {
+				wrapper.getFirst().remove();
+				wrapper.getLast().remove();
+			}
 
 			// Rule 7.
 			var block = range.startPath().block;

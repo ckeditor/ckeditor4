@@ -125,6 +125,22 @@ CKEDITOR.htmlParser.fragment = function() {
 				addElement( pendingBRs.shift(), currentNode );
 		}
 
+		// Rtrim empty spaces on block end boundary. (#3585)
+		function removeTailWhitespace( element ) {
+			if ( element._.isBlockLike && element.name != 'pre' && element.name != 'textarea' ) {
+
+				var length = element.children.length,
+					lastChild = element.children[ length - 1 ],
+					text;
+				if ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT ) {
+					if ( !( text = CKEDITOR.tools.rtrim( lastChild.value ) ) )
+						element.children.length = length - 1;
+					else
+						lastChild.value = text;
+				}
+			}
+		}
+
 		// Beside of simply append specified element to target, this function also takes
 		// care of other dirty lifts like forcing block in body, trimming spaces at
 		// the block boundaries etc.
@@ -155,19 +171,7 @@ CKEDITOR.htmlParser.fragment = function() {
 					element.returnPoint = target = currentNode;
 			}
 
-			// Rtrim empty spaces on block end boundary. (#3585)
-			if ( element._.isBlockLike && element.name != 'pre' && element.name != 'textarea' ) {
-
-				var length = element.children.length,
-					lastChild = element.children[ length - 1 ],
-					text;
-				if ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT ) {
-					if ( !( text = CKEDITOR.tools.rtrim( lastChild.value ) ) )
-						element.children.length = length - 1;
-					else
-						lastChild.value = text;
-				}
-			}
+			removeTailWhitespace( element );
 
 			// Avoid adding empty inline.
 			if ( !( isRemoveEmpty( element ) && !element.children.length ) )
@@ -415,6 +419,8 @@ CKEDITOR.htmlParser.fragment = function() {
 		// Close all pending nodes, make sure return point is properly restored.
 		while ( currentNode != root )
 			addElement( currentNode, currentNode.parent, 1 );
+
+		removeTailWhitespace( root );
 
 		// Return only the contents.
 		if ( !( root instanceof CKEDITOR.htmlParser.fragment ) ) {
