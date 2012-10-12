@@ -321,7 +321,7 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingChar( editor.document );
+							removeFillingChar( editor.editable() );
 					}
 
 				}, null, null, 10 );
