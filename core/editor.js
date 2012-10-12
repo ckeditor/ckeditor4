@@ -129,9 +129,6 @@
 		 */
 		this.focusManager = new CKEDITOR.focusManager( this );
 
-		// Documented in dataprocessor.js.
-		this.dataProcessor = new CKEDITOR.htmlDataProcessor( this );
-
 		/**
 		 * Controls keystrokes typing in this editor instance.
 		 *
@@ -318,6 +315,13 @@
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
 
+		initComponents( editor );
+	}
+
+	// Various other core components that read editor configuration.
+	function initComponents( editor ) {
+		// Documented in dataprocessor.js.
+		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
 		loadSkin( editor );
 	}
 

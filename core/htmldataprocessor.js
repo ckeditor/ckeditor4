@@ -35,7 +35,7 @@
 		defaultHtmlBlockFilterRules.root = getBlockExtension( true, false );
 
 		for ( i in blockLikeTags )
-			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
+			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks !== false );
 
 		htmlFilter.addRules( defaultHtmlBlockFilterRules );
 	};
@@ -586,4 +586,3 @@
  * @cfg {Boolean} [fillEmptyBlocks=true]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.fillEmptyBlocks = true;
