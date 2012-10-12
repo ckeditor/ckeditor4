@@ -72,7 +72,7 @@
 				return textFilter ? textFilter.filter( commentText, comment ) : commentText;
 			},
 
-			onFragment: function( element ) {
+			onRoot: function( element ) {
 				var rootFilter = this._.root;
 				return rootFilter ? rootFilter.filter( element ) : element;
 			},

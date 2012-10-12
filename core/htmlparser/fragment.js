@@ -195,9 +195,8 @@ CKEDITOR.htmlParser.fragment = function() {
 		function checkAutoParagraphing( parent, node ) {
 
 			// Check for parent that can contain block.
-			if ( ( parent == root || parent.name == 'body' ) &&
-			     fixingBlock &&
-			     CKEDITOR.dtd[ parent.name ][ fixingBlock ] )
+			if ( ( parent == root || parent.name == 'body' ) && fixingBlock &&
+					 ( !parent.name || CKEDITOR.dtd[ parent.name ][ fixingBlock ] ) )
 			{
 				var name, realName;
 				if ( node.attributes && ( realName = node.attributes[ 'data-cke-real-element-type' ] ) )
@@ -422,22 +421,19 @@ CKEDITOR.htmlParser.fragment = function() {
 
 		removeTailWhitespace( root );
 
-		// Return only the contents.
-		if ( !( root instanceof CKEDITOR.htmlParser.fragment ) ) {
-			var frag = new CKEDITOR.htmlParser.fragment(),
-				children = root.children;
-
-			// Move children to fragment.
-			while ( children.length )
-				frag.add( children.shift() );
-
-			root = frag;
-		}
-
 		return root;
 	};
 
 	CKEDITOR.htmlParser.fragment.prototype = {
+
+		/**
+		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_DOCUMENT_FRAGMENT}.
+		 *
+		 * @readonly
+		 * @property {Number} [=CKEDITOR.NODE_DOCUMENT_FRAGMENT]
+		 */
+		type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
+
 		/**
 		 * Adds a node to this fragment.
 		 *
@@ -497,12 +493,16 @@ CKEDITOR.htmlParser.fragment = function() {
 			};
 
 			// Filtering the root fragment before anything else.
-			!this.name && filter && filter.onFragment( this );
+			!this.name && filter && filter.onRoot( this );
 
 			this.writeChildrenHtml( writer, isChildrenFiltered ? null : filter );
 		},
 
 		writeChildrenHtml: function( writer, filter ) {
+
+			if ( !this.parent && filter )
+				filter.onRoot( this );
+
 			for ( var i = 0; i < this.children.length; i++ )
 				this.children[ i ].writeHtml( writer, filter );
 		}

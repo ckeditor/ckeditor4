@@ -52,11 +52,6 @@
 		 * @returns {String}
 		 */
 		toHtml: function( data, context, fixForBody ) {
-			// param position shift when context is not specified.
-			if ( typeof context != 'string' ) {
-				fixForBody = context;
-				context = '';
-			}
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
@@ -87,10 +82,11 @@
 			var editable = this.editor.editable(),
 				isPre;
 
-			// Context fall back to the editable.
-			context = context || editable.getName();
+			// Fall back to the editable as context if not specified.
+			if ( !context && context !== null )
+				context = editable.getName();
 
-			var fixBin = context;
+			var fixBin = context || editable.getName();
 
 			// Old IEs loose formats when load html into <pre>.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
@@ -126,7 +122,7 @@
 
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 
-			fragment.writeHtml( writer, this.dataFilter );
+			fragment.writeChildrenHtml( writer, this.dataFilter );
 			data = writer.getHtml( true );
 
 			// Protect the real comments again.
@@ -150,7 +146,7 @@
 
 			writer.reset();
 
-			fragment.writeHtml( writer, this.htmlFilter );
+			fragment.writeChildrenHtml( writer, this.htmlFilter );
 
 			var data = writer.getHtml( true );
 
