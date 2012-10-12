@@ -38,6 +38,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'dialogadvtab', {
+		requires : 'dialog',
 		// @param tabConfig
 		// id, dir, classes, styles
 		createAdvancedTab: function( editor, tabConfig ) {
