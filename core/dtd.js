@@ -243,7 +243,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of inline (`<span>` like) elements.
 		 */
-		$inline: Y( P, { audio:1,video:1 } ),
+		$inline: P,
 
 		/**
 		 * List of list root elements.
