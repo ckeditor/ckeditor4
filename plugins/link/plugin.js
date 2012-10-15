@@ -208,6 +208,12 @@ CKEDITOR.plugins.add( 'link', {
 	}
 });
 
+/**
+ * Set of link plugin's helpers.
+ *
+ * @class
+ * @singleton
+ */
 CKEDITOR.plugins.link = {
 	/**
 	 * Get the surrounding link element of current selection.
@@ -224,7 +230,6 @@ CKEDITOR.plugins.link = {
 	 *		[<a href="#"><b>li]nk</b></a>
 	 *
 	 * @since 3.2.1
-	 * @member CKEDITOR.plugins.link
 	 * @param {CKEDITOR.editor} editor
 	 */
 	getSelectedLink: function( editor ) {
@@ -234,8 +239,12 @@ CKEDITOR.plugins.link = {
 			return selectedElement;
 
 		var range = selection.getRanges( true )[ 0 ];
-		range.shrink( CKEDITOR.SHRINK_TEXT );
-		return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
+
+		if ( range ) {
+			range.shrink( CKEDITOR.SHRINK_TEXT );
+			return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
+		}
+		return null;
 	},
 
 	/**
@@ -244,7 +253,6 @@ CKEDITOR.plugins.link = {
 	 *
 	 * @readonly
 	 * @property {Boolean}
-	 * @member CKEDITOR.plugins.link
 	 */
 	fakeAnchor: CKEDITOR.env.opera || CKEDITOR.env.webkit,
 
@@ -253,7 +261,6 @@ CKEDITOR.plugins.link = {
 	 *
 	 * @readonly
 	 * @property {Boolean}
-	 * @member CKEDITOR.plugins.link
 	 */
 	synAnchorSelector: CKEDITOR.env.ie,
 
@@ -262,12 +269,10 @@ CKEDITOR.plugins.link = {
 	 *
 	 * @readonly
 	 * @property {Boolean}
-	 * @member CKEDITOR.plugins.link
 	 */
 	emptyAnchorFix: CKEDITOR.env.ie && CKEDITOR.env.version < 8,
 
 	/**
-	 * @member CKEDITOR.plugins.link
 	 * @param {CKEDITOR.editor} editor
 	 * @param {CKEDITOR.dom.element} element
 	 * @todo

@@ -955,12 +955,16 @@
 						// Range may start inside a non-editable element,
 						// replace the range start after it.
 						if ( range.startContainer.isReadOnly() ) {
-							var current = range.startContainer;
+							var current = range.startContainer,
+								isElement;
+
 							while ( current ) {
-								if ( current.is( 'body' ) || !current.isReadOnly() )
+								isElement = current.type == CKEDITOR.NODE_ELEMENT;
+
+								if ( ( isElement && current.is( 'body' ) ) || !current.isReadOnly() )
 									break;
 
-								if ( current.type == CKEDITOR.NODE_ELEMENT && current.getAttribute( 'contentEditable' ) == 'false' )
+								if ( isElement && current.getAttribute( 'contentEditable' ) == 'false' )
 									range.setStartAfter( current );
 
 								current = current.getParent();
