@@ -238,7 +238,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
-		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,source:1,track:1,wbr:1 },
+		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,source:1,track:1,wbr:1,command:1,embed:1,keygen:1,basefont:1,dialog:1,isindex:1 },
 
 		/**
 		 * List of inline (`<span>` like) elements.
