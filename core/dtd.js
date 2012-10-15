@@ -212,9 +212,18 @@ CKEDITOR.dtd = (function() {
 		$block: X( { audio:1,dd:1,dt:1,li:1,video:1 }, FO, DFO ),
 
 		/**
-		 * List of block limit elements.
+		 * List of elements that contains other blocks, in which block-level operations should be limited,
+		 * this property is not intended to be checked directly, use {@link CKEDITOR.dom.elementPath.blockLimit} instead.
+		 *
+		 * Some examples of editor behaviors that are impacted by block limits:
+		 *
+		 *  * Enter key never split a block-limit element;
+		 *  * Style application is constraint by the block limit of the current selection.
+		 *  * Pasted html will be inserted into the block limit of the current selection.
+		 *
+		 * **Note:** As an exception &lt;li&gt; is not considered as a block limit, as it's generally used as a text block.
 		 */
-		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figcaption:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,summary:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
+		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
 
 		/**
 		 * List of elements that contain character data.
