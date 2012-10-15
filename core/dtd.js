@@ -273,7 +273,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of elements that can be ignored if empty, like `<b>` or `<span>`.
 		 */
-		$removeEmpty: { abbr:1,acronym:1,b:1,bdi:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,mark:1,q:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 },
+		$removeEmpty: { abbr:1,acronym:1,b:1,bdi:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,mark:1,meter:1,output:1,q:1,ruby:1,s:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,time:1,tt:1,u:1,'var':1 },
 
 		/**
 		 * List of elements that have tabindex set to zero by default.
