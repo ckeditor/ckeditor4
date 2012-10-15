@@ -144,7 +144,7 @@ CKEDITOR.dtd = (function() {
 		mark: P, // Treat as normal inline element (not a transparent one).
 		menu: X( { li:1 }, F ),
 		meta: E,
-		meter: P,
+		meter: Y( P, { meter:1 } ),
 		nav: F,
 		noscript: X( { link:1,meta:1,style:1 }, P ), // Treat as normal inline element (not a transparent one).
 		object: X( { param:1 }, P ), // Treat as normal inline element (not a transparent one).
@@ -155,7 +155,7 @@ CKEDITOR.dtd = (function() {
 		p: P,
 		param: E,
 		pre: P,
-		progress: P,
+		progress: Y( P, { progress:1 } ),
 		q: P,
 		rp: P,
 		rt: P,
@@ -180,7 +180,7 @@ CKEDITOR.dtd = (function() {
 		tfoot: { tr:1 },
 		th: P,
 		thead: { tr:1 },
-		time: P,
+		time: Y( P, { time:1 } ),
 		title: T,
 		tr: { th:1,td:1 },
 		track: E,
