@@ -64,7 +64,7 @@ CKEDITOR.dtd = (function() {
 		// F - PF (Flow Only).
 		FO = { address:1,article:1,aside:1,blockquote:1,details:1,div:1,dl:1,fieldset:1,figure:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,hr:1,menu:1,nav:1,ol:1,p:1,pre:1,section:1,table:1,ul:1 },
 		// Metadata elements.
-		M = { link:1,style:1,meta:1,script:1,noscript:1,command:1 },
+		M = { command:1,link:1,meta:1,noscript:1,script:1,style:1 },
 		// Empty.
 		E = {},
 		// Text.
@@ -238,7 +238,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
-		$empty: { area:1,base:1,br:1,col:1,hr:1,img:1,input:1,link:1,meta:1,param:1,source:1,track:1,wbr:1,command:1,embed:1,keygen:1,basefont:1,dialog:1,isindex:1 },
+		$empty: { area:1,base:1,basefont:1,br:1,col:1,command:1,dialog:1,embed:1,hr:1,img:1,input:1,isindex:1,keygen:1,link:1,meta:1,param:1,source:1,track:1,wbr:1 },
 
 		/**
 		 * List of inline (`<span>` like) elements.
