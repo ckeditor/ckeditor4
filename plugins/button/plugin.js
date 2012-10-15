@@ -40,7 +40,7 @@
 
 	var templateArrow = '<span class="cke_button_arrow">' +
 		// BLACK DOWN-POINTING TRIANGLE
-	( CKEDITOR.env.hc ? '&#9660;' : '&nbsp;' ) +
+	( CKEDITOR.env.hc ? '&#9660;' : '' ) +
 		'</span>';
 
 	var btnArrowTpl = CKEDITOR.addTemplate( 'buttonArrow', templateArrow ),
