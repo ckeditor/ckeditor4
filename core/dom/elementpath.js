@@ -179,7 +179,9 @@ CKEDITOR.dom.elementPath.prototype = {
 
 		// Check for block context.
 		if ( tag in CKEDITOR.dtd.$block ) {
-			holder = ( this.root.equals( this.block ) && this.block ) || this.blockLimit;
+			// Indeterminate elements which are not subjected to be splitted or surrounded must be checked first.
+			var inter = this.contains( CKEDITOR.dtd.$intermediate );
+			holder = inter || ( this.root.equals( this.block ) && this.block ) || this.blockLimit;
 			return !!holder.getDtd()[ tag ];
 		}
 
