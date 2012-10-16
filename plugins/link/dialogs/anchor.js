@@ -23,6 +23,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		onOk: function() {
 			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) );
 			var attributes = {
+				id: name,
 				name: name,
 				'data-cke-saved-name': name
 			};

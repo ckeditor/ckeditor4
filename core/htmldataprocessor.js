@@ -35,7 +35,7 @@
 		defaultHtmlBlockFilterRules.root = getBlockExtension( true, false );
 
 		for ( i in blockLikeTags )
-			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks );
+			defaultHtmlBlockFilterRules.elements[ i ] = getBlockExtension( true, editor.config.fillEmptyBlocks !== false );
 
 		htmlFilter.addRules( defaultHtmlBlockFilterRules );
 	};
@@ -172,6 +172,11 @@
 
 	var protectedSourceMarker = '{cke_protected}';
 
+	function getNodeIndex( node ) {
+		var parent = node.parent;
+		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
+	}
+
 	// Return the last non-space child node of the block (#4344).
 	function lastNormalChildIndex( block ) {
 		var lastIndex = block.children.length - 1,
@@ -304,10 +309,26 @@
 
 			// The contents of table should be in correct order (#4809).
 			table: function( element ) {
-				var children = element.children;
-				children.sort( function( node1, node2 ) {
-					return node1.type == CKEDITOR.NODE_ELEMENT && node2.type == node1.type ? CKEDITOR.tools.indexOf( tableOrder, node1.name ) > CKEDITOR.tools.indexOf( tableOrder, node2.name ) ? 1 : -1 : 0;
-				});
+					// Clone the array as it would become empty during the sort call.
+					var children = element.children.slice( 0 );
+					children.sort( function ( node1, node2 ) {
+						var index1, index2;
+
+						// Compare in the predefined order.
+						if ( node1.type == CKEDITOR.NODE_ELEMENT &&
+								 node2.type == node1.type ) {
+							index1 = CKEDITOR.tools.indexOf( tableOrder, node1.name );
+							index2 = CKEDITOR.tools.indexOf( tableOrder, node2.name );
+						}
+
+						// Make sure the sort is stable, if no order can be established above.
+						if ( !( index1 > -1 && index2 > -1 && index1 != index2 ) ) {
+							index1 = getNodeIndex( node1 );
+							index2 = getNodeIndex( node2 );
+						}
+
+						return index1 > index2 ? 1 : -1;
+					});
 			},
 
 			embed: function( element ) {
@@ -417,7 +438,7 @@
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
 	}
 
-	var protectElementRegex = /<(a|area|img|input)\b([^>]*)>/gi,
+	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
 		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
@@ -565,4 +586,3 @@
  * @cfg {Boolean} [fillEmptyBlocks=true]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.fillEmptyBlocks = true;

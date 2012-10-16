@@ -726,11 +726,8 @@
 											if ( !isNaN( value ) ) {
 												element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
 												element.setStyle( 'border-style', 'solid' );
-											} else if ( !value && this.isChanged() ) {
-												element.removeStyle( 'border-width' );
-												element.removeStyle( 'border-style' );
-												element.removeStyle( 'border-color' );
-											}
+											} else if ( !value && this.isChanged() )
+												element.removeStyle( 'border' );
 
 											if ( !internalCommit && type == IMAGE )
 												element.removeAttribute( 'border' );
