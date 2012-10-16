@@ -288,7 +288,12 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of "transparent" elements. See [W3C's definition of "transparent" element](http://dev.w3.org/html5/markup/terminology.html#transparent).
 		 */
-		$transparent: { a:1,audio:1,canvas:1,del:1,ins:1,map:1,noscript:1,object:1,video:1 }
+		$transparent: { a:1,audio:1,canvas:1,del:1,ins:1,map:1,noscript:1,object:1,video:1 },
+
+		/**
+		 * List of elements that are not to exist standalone that must live under it's parent element.
+		 */
+		$intermediate: { caption:1,colgroup:1,dd:1,dt:1,figcaption:1,legend:1,li:1,optgroup:1,option:1,rp:1,rt:1,summary:1,tbody:1,td:1,tfoot:1,th:1,thead:1,tr:1 }
 	} );
 
 	return dtd;
