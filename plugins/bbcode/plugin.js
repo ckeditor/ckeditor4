@@ -393,7 +393,7 @@
 		parser.parse( CKEDITOR.tools.htmlEncode( source ) );
 
 		// Close all hanging nodes.
-		while ( currentNode.type ) {
+		while ( currentNode.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
 			var parent = currentNode.parent,
 				node = currentNode;
 

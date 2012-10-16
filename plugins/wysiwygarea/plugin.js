@@ -392,9 +392,6 @@
 						// Hack to make Fx put cursor at the start of doc on fresh focus.
 						data = data.replace( /<body/, '<body contenteditable="true" ' );
 
-						// Distinguish bogus to normal BR at the end of document for Mozilla. (#5293).
-						data = data.replace( /<br \/>(?=\s*<\/(:?html|body)>)/, '$&<br type="_moz" />' );
-
 						// Another hack which is used by onDomReady to remove a leading
 						// <br> which is inserted by Firefox 3.6 when document.write is called.
 						// This additional <br> is present because of contenteditable="true"
