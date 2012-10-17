@@ -250,13 +250,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				list.onClick = function( value, marked ) {
 
-					if ( marked )
-						me.setValue( value, me._.items[ value ] );
-					else
-						me.setValue( '' );
-
-					// The order matters, to allow combo value further determined
-					// by impl.
 					if ( me.onClick )
 						me.onClick.call( me, value, marked );
 
