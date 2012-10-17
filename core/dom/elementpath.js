@@ -88,9 +88,30 @@
 		}
 		while ( ( e = e.getParent() ) );
 
+		/**
+		 * @property {CKEDITOR.dom.element}
+		 * @todo
+		 */
 		this.block = block;
+
+		/**
+		 * @property {CKEDITOR.dom.element}
+		 * @todo
+		 */
 		this.blockLimit = blockLimit;
+
+		/**
+		 * The root of the elements path - `startNode` argument passed to class constructor or body element.
+		 *
+		 * @property {CKEDITOR.dom.element}
+		 * @todo
+		 */
 		this.root = root;
+
+		/**
+		 * @property {CKEDITOR.dom.element[]}
+		 * @todo
+		 */
 		this.elements = elements;
 	};
 
