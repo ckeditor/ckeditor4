@@ -59,17 +59,3 @@ a.cke_combo_button:hover .cke_combo_inlinelabel
 	right: 1px;
 	padding-left: 1px;
 }
-
-/* #3766 In the context menu, long labels with second level menu get wrapped */
-.cke_menuarrow
-{
-	position: absolute;
-	right: 2px;
-}
-
-.cke_rtl .cke_menuarrow
-{
-	position: absolute;
-	left: 2px;
-}
-/* END #3766 */
