@@ -185,6 +185,17 @@
 
 				var listeners = {
 					blur: function() {
+						// Opera might raise undesired blur event on editable, check if it's
+						// really blurred. (#9459)
+						if ( CKEDITOR.env.opera ) {
+							var editable = this._.editor.editable();
+							if ( editable && element.equals( editable ) ) {
+								var active = CKEDITOR.document.getActive();
+								if ( active.equals( editable.isInline() ? editable : editable.getWindow().getFrame() ) )
+									return;
+							}
+						}
+
 						if ( element.equals( this.currentActive ) )
 							this.blur();
 					},
