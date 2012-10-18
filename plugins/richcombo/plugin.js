@@ -34,7 +34,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 	if ( CKEDITOR.env.gecko )
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
-	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
+	template +=
+		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
+		' onmousedown="return CKEDITOR.tools.callFunction({mousedownFn},event);" ' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
@@ -116,35 +118,46 @@ CKEDITOR.plugins.add( 'richcombo', {
 				var env = CKEDITOR.env;
 
 				var id = 'cke_' + this.id;
-				var clickFn = CKEDITOR.tools.addFunction( function( $element ) {
-					var _ = this._;
+				var clickFn = CKEDITOR.tools.addFunction( function( el ) {
 
-					if ( _.state == CKEDITOR.TRISTATE_DISABLED )
-						return;
+				// Restore locked selection in Opera.
+				if ( selLocked ) {
+					editor.unlockSelection( 1 );
+					selLocked = 0;
+				}
 
-					this.createPanel( editor );
-
-					if ( _.on ) {
-						_.panel.hide();
-						return;
-					}
-
-					this.commit();
-					var value = this.getValue();
-					if ( value )
-						_.list.mark( value );
-					else
-						_.list.unmarkAll();
-
-					_.panel.showBlock( this.id, new CKEDITOR.dom.element( $element ), 4 );
+					instance.execute( el );
 				}, this );
 
+				var combo = this;
 				var instance = {
 					id: id,
 					combo: this,
 					focus: function() {
 						var element = CKEDITOR.document.getById( id ).getChild( 1 );
 						element.focus();
+					},
+					execute : function( el ) {
+						var _ = combo._;
+
+						if ( _.state == CKEDITOR.TRISTATE_DISABLED )
+							return;
+
+						combo.createPanel( editor );
+
+						if ( _.on ) {
+							_.panel.hide();
+							return;
+						}
+
+						combo.commit();
+						var value = combo.getValue();
+						if ( value )
+							_.list.mark( value );
+						else
+							_.list.unmarkAll();
+
+						_.panel.showBlock( combo.id, new CKEDITOR.dom.element( el ), 4 );
 					},
 					clickFn: clickFn
 				};
@@ -183,6 +196,18 @@ CKEDITOR.plugins.add( 'richcombo', {
 					instance.onfocus && instance.onfocus();
 				});
 
+				var selLocked = 0;
+				var mouseDownFn = CKEDITOR.tools.addFunction( function() {
+					// Opera: lock to prevent loosing editable text selection when clicking on button.
+					if ( CKEDITOR.env.opera ) {
+						var edt = editor.editable();
+						if ( edt.isInline() && edt.hasFocus ) {
+							editor.lockSelection();
+							selLocked = 1;
+						}
+					}
+				});
+
 				// For clean up
 				instance.keyDownFn = keyDownFn;
 
@@ -193,6 +218,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					title: this.title,
 					titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 					keydownFn: keyDownFn,
+					mousedownFn: mouseDownFn,
 					focusFn: focusFn,
 					clickFn: clickFn
 				};

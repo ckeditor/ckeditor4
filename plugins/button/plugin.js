@@ -27,6 +27,7 @@
 
 	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
+		' onmousedown="return CKEDITOR.tools.callFunction({mousedownFn},event);" ' +
 		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 			'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 		'<span class="cke_button_icon cke_button__{name}_icon" style="{style}"';
@@ -163,7 +164,29 @@
 				return retVal;
 			});
 
-			instance.clickFn = clickFn = CKEDITOR.tools.addFunction( instance.execute, instance );
+			var selLocked = 0;
+
+			var mousedownFn = CKEDITOR.tools.addFunction( function() {
+				// Opera: lock to prevent loosing editable text selection when clicking on button.
+				if ( CKEDITOR.env.opera ) {
+					var edt = editor.editable();
+					if ( edt.isInline() && edt.hasFocus ) {
+						editor.lockSelection();
+						selLocked = 1;
+					}
+				}
+			});
+
+			instance.clickFn = clickFn = CKEDITOR.tools.addFunction( function() {
+
+				// Restore locked selection in Opera.
+				if ( selLocked ) {
+					editor.unlockSelection( 1 );
+					selLocked = 0;
+				}
+
+				instance.execute();
+			});
 
 
 			// Indicate a mode sensitive button.
@@ -219,6 +242,7 @@
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
 				keydownFn: keydownFn,
+				mousedownFn: mousedownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( name, ( editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
