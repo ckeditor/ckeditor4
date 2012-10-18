@@ -1471,6 +1471,15 @@
 				if ( !sel )
 					return;
 
+				// Opera: The above hack work around a *visually wrong* text selection that
+				// happens in certain situation. (#6874, #9447)
+				if ( CKEDITOR.env.opera )
+				{
+					var nativeRng = this.document.$.createRange();
+					nativeRng.selectNodeContents( this.root.$ );
+					sel.addRange( nativeRng );
+				}
+
 				sel.removeAllRanges();
 
 				for ( var i = 0; i < ranges.length; i++ ) {
