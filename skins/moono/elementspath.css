@@ -52,6 +52,11 @@ The following is a visual representation of its main elements:
 	float: right;
 }
 
+.cke_rtl .cke_path
+{
+    margin-right: 10px;
+}
+
 /* The items are <a> elements, so we define its hover states here. */
 a.cke_path_item:hover,
 a.cke_path_item:focus,

@@ -37,18 +37,13 @@ a.cke_combo_button:hover .cke_combo_inlinelabel
 
 .cke_toolbox_collapser
 {
-	border: 2px outset #efefef;
+	border: 1px solid #a6a6a6;
 }
 
 .cke_toolbox_collapser .cke_arrow
 {
-	margin: 0 1px 1px 1px;
+	margin-top: 1px;
 }
-.cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow
-{
-	margin-left: 2px;
-}
-
 .cke_resizer
 {
 }

@@ -59,68 +59,68 @@ The visual representation of a rich combo widget looks as follows:
 {
 	display: inline-block;
 	float: left;
-    margin: 0 6px 5px 0;
+	margin: 0 6px 5px 0;
 
-    border: 1px solid #a6a6a6;
-    border-bottom-color: #979797;
+	border: 1px solid #a6a6a6;
+	border-bottom-color: #979797;
 
-    -moz-border-radius: 3px;
-   	-webkit-border-radius: 3px;
-   	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 
-    -moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
-    background: #e4e4e4;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e4e4e4));
-   	background-image: -moz-linear-gradient(top, #ffffff, #e4e4e4);
-   	background-image: -webkit-linear-gradient(top, #ffffff, #e4e4e4);
-   	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
-   	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
-   	background-image: linear-gradient(top, #ffffff, #e4e4e4);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
+	background: #e4e4e4;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e4e4e4));
+	background-image: -moz-linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: -webkit-linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: linear-gradient(top, #ffffff, #e4e4e4);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
 }
 
 /* Different states of the container. */
 a.cke_combo_button:hover,
 a.cke_combo_button:focus
 {
-    background: #ccc;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ccc));
-   	background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: linear-gradient(top, #f2f2f2, #ccc);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
+	background: #ccc;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ccc));
+	background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
+	background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
+	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
+	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
+	background-image: linear-gradient(top, #f2f2f2, #ccc);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
 }
 
 a.cke_combo_button:active,
 .cke_combo.cke_on a.cke_combo_button
 {
-    border: 1px solid #777;
-    /*border-bottom-color: #777;*/
+	border: 1px solid #777;
+	/*border-bottom-color: #777;*/
 
-    -moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
-    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
 
-    background: #b5b5b5;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#cacaca));
-   	background-image: -moz-linear-gradient(top, #aaa, #cacaca);
-   	background-image: -webkit-linear-gradient(top, #aaa, #cacaca);
-   	background-image: -o-linear-gradient(top, #aaa, #cacaca);
-   	background-image: -ms-linear-gradient(top, #aaa, #cacaca);
-   	background-image: linear-gradient(top, #aaa, #cacaca);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
+	background: #b5b5b5;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#cacaca));
+	background-image: -moz-linear-gradient(top, #aaa, #cacaca);
+	background-image: -webkit-linear-gradient(top, #aaa, #cacaca);
+	background-image: -o-linear-gradient(top, #aaa, #cacaca);
+	background-image: -ms-linear-gradient(top, #aaa, #cacaca);
+	background-image: linear-gradient(top, #aaa, #cacaca);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
 }
 
 a.cke_combo_button:active .cke_combo_text,
 .cke_combo.cke_on .cke_combo_text
 {
-    /*color: #fff;*/
-    /*text-shadow: 0 1px 0 rgba(0,0,0,.5);*/
+	/*color: #fff;*/
+	/*text-shadow: 0 1px 0 rgba(0,0,0,.5);*/
 }
 
 
@@ -137,23 +137,23 @@ a.cke_combo_button:active .cke_combo_text,
 .cke_combo_text
 {
 	line-height: 26px;
-    padding-left: 10px;
+	padding-left: 10px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	float: left;
 	cursor: default;
-    color: #474747;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    font-size: 11px;
-    /*font-weight: bold;*/
+	color: #474747;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	font-size: 11px;
+	/*font-weight: bold;*/
 }
 
 .cke_rtl .cke_combo_text
 {
 	float: right;
 	text-align: right;
-    padding-left: 0;
-    padding-right: 10px;
+	padding-left: 0;
+	padding-right: 10px;
 }
 
 /* The label of the combo whose value hasn't been changed (it's default).
@@ -166,13 +166,13 @@ a.cke_combo_button:active .cke_combo_text,
    It holds an arrow as a visual indicator. */
 .cke_combo_open
 {
-    cursor: default;
-    display: inline-block;
-    font-size: 0;
-    height: 19px;
-    line-height: 17px;
-    margin: 1px 7px 1px;
-    width: 5px;
+	cursor: default;
+	display: inline-block;
+	font-size: 0;
+	height: 19px;
+	line-height: 17px;
+	margin: 1px 7px 1px;
+	width: 5px;
 }
 
 

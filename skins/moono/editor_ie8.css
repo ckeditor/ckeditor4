@@ -21,6 +21,10 @@ This file contains styles to used by Internet Explorer 8 only.
 {
 	border-width:3px;
 }
+.cke_toolbox_collapser .cke_arrow
+{
+	margin-top: 0;
+}
 
 .cke_button_arrow
 {

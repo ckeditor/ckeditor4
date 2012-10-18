@@ -76,8 +76,13 @@ a.cke_button
 .cke_toolbar_separator
 {
 	vertical-align: top;
+	background-color: #c0c0c0;
 }
 
+.cke_toolbox_collapser .cke_arrow
+{
+	margin-top: 0;
+}
 .cke_toolbox_collapser .cke_arrow
 {
 	border-width:4px;
@@ -97,5 +102,4 @@ a.cke_button
 {
 	display: table-cell;
 	vertical-align: middle;
-	padding-bottom: 8px;
 }
