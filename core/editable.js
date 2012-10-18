@@ -442,12 +442,23 @@
 				editor.keystrokeHandler.attach( this );
 
 				// Update focus states.
-				this.on( 'blur', function() {
+				this.on( 'blur', function( evt ) {
+					// Opera might raise undesired blur event on editable, check if it's
+					// really blurred, otherwise cancel the event. (#9459)
+					if ( CKEDITOR.env.opera ) {
+						var active = CKEDITOR.document.getActive();
+						if ( active.equals( this.isInline() ? this : this.getWindow().getFrame() ) ) {
+							evt.cancel();
+							return;
+						}
+					}
+
 					this.hasFocus = false;
-				});
+				}, null, null, -1 );
+
 				this.on( 'focus', function() {
 					this.hasFocus = true;
-				});
+				}, null, null, -1 );
 
 				// Register to focus manager.
 				editor.focusManager.add( this );
