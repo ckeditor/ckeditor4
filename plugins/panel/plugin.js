@@ -65,7 +65,7 @@
 	};
 
 	var panelTpl = CKEDITOR.addTemplate( 'panel', '<div lang="{langCode}" id="{id}" dir={dir}' +
-		' class="cke cke_reset_all cke_panel cke_panel {cls} cke_{dir}"' +
+		' class="cke cke_reset_all {editorId} cke_panel cke_panel {cls} cke_{dir}"' +
 		' style="z-index:{z-index}" role="presentation">' +
 		'{frame}' +
 		'</div>' );
@@ -152,6 +152,7 @@
 			};
 
 			var data = {
+				editorId: editor.id,
 				id: this.id,
 				langCode: editor.langCode,
 				dir: editor.lang.dir,
