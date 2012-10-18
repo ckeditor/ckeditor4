@@ -2102,7 +2102,7 @@ CKEDITOR.dom.range = function( root ) {
 			// The reference element contains a zero-width space to avoid
 			// a premature removal. The view is to be scrolled with respect
 			// to this element.
-			var reference = new CKEDITOR.dom.element.createFromHtml( '<span>\u200b</span>', this.document ),
+			var reference = new CKEDITOR.dom.element.createFromHtml( '<span>&nbsp;</span>', this.document ),
 				afterCaretNode, startContainerText, isStartText;
 
 			var range = this.clone();
