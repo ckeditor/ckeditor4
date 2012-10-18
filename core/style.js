@@ -1387,32 +1387,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function applyStyleOnSelection( selection, remove ) {
 		var doc = selection.document,
-			bookmarks;
-
-		// Due to Opera text selection bug we'll need a bookmark to restore later
-		// the selection.
-		if ( CKEDITOR.env.opera )
-			bookmarks = selection.createBookmarks( 1 );
-
-		var ranges = selection.getRanges(),
+			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
-			range,
-			iterator = ranges.createIterator();
+			range;
 
+		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range );
 
-		// Select bookmarks previously created for Opera.
-		if ( bookmarks ) {
-			if ( bookmarks.length == 1 && bookmarks[ 0 ].collapsed ) {
-				selection.selectRanges( ranges );
-				doc.getById( bookmarks[ 0 ].startNode ).remove();
-			} else
-				selection.selectBookmarks( bookmarks );
-		}
-		else
-			selection.selectRanges( ranges );
-
+		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
 	}
 })();
