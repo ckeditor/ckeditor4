@@ -14,9 +14,8 @@ CKEDITOR.plugins.add( 'link', {
 
 		var template = '.%2 a.cke_anchor,' +
 			'.%2 a.cke_anchor_empty' +
-			// IE6 breaks with the following selectors.
-			( ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) ? '' : ',.cke_editable.%2 a[name]' +
-			',.cke_editable.%2 a[data-cke-saved-name]' ) +
+			',.cke_editable.%2 a[name]' +
+			',.cke_editable.%2 a[data-cke-saved-name]' +
 			'{' +
 				baseStyle +
 				'padding-%1:18px;' +

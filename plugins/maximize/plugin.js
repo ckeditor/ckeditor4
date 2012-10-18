@@ -88,25 +88,6 @@
 		}
 	}
 
-	// Adding an iframe shim to this element, OR removing the existing one if already applied.
-	// Note: This will only affect IE version below 7.
-	function createIframeShim( element ) {
-		if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 6 )
-			return null;
-
-		var shim = CKEDITOR.dom.element.createFromHtml( '<iframe frameborder="0" tabindex="-1"' +
-			' src="javascript:' +
-				'void((function(){' +
-					'document.open();' +
-					( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + this.getDocument().$.domain + '\';' : '' ) +
-					'document.close();' +
-				'})())"' +
-			' style="display:block;position:absolute;z-index:-1;' +
-			'progid:DXImageTransform.Microsoft.Alpha(opacity=0);' +
-			'"></iframe>' );
-		return element.append( shim, true );
-	}
-
 	CKEDITOR.plugins.add( 'maximize', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'maximize', // %REMOVE_LINE_CORE%
@@ -125,12 +106,9 @@
 			// Saved scroll position for the outer window.
 			var outerScroll;
 
-			var shim;
-
 			// Saved resize handler function.
 			function resizeHandler() {
 				var viewPaneSize = mainWindow.getViewPaneSize();
-				shim && shim.setStyles({ width: viewPaneSize.width + 'px', height: viewPaneSize.height + 'px' } );
 				editor.resize( viewPaneSize.width, viewPaneSize.height, null, true );
 			}
 
@@ -202,8 +180,6 @@
 							top: '0px'
 						});
 
-						shim = createIframeShim( container ); // IE6 select element penetration when maximized. (#4459)
-
 						// Add cke_maximized class before resize handle since that will change things sizes (#5580)
 						container.addClass( 'cke_maximized' );
 
@@ -251,11 +227,6 @@
 							setTimeout( function() {
 								container.setStyle( 'display', 'block' );
 							}, 0 );
-						}
-
-						if ( shim ) {
-							shim.remove();
-							shim = null;
 						}
 
 						// Emit a resize event, because this time the size is modified in
