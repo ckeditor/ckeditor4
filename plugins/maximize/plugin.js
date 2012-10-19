@@ -169,7 +169,8 @@
 						var currentNode = editor.container;
 						while ( ( currentNode = currentNode.getParent() ) ) {
 							currentNode.setCustomData( 'maximize_saved_styles', saveStyles( currentNode ) );
-							currentNode.setStyle( 'z-index', editor.config.baseFloatZIndex - 1 );
+							// Show under floatpanels (-1) and context menu (-2).
+							currentNode.setStyle( 'z-index', editor.config.baseFloatZIndex - 5 );
 						}
 						contents.setCustomData( 'maximize_saved_styles', saveStyles( contents, true ) );
 						container.setCustomData( 'maximize_saved_styles', saveStyles( container, true ) );
@@ -195,7 +196,8 @@
 						container.setStyle( 'position', CKEDITOR.env.gecko && CKEDITOR.env.quirks ? 'fixed' : 'absolute' );
 						container.$.offsetLeft; // SAFARI BUG: See #2066.
 						container.setStyles({
-							'z-index': editor.config.baseFloatZIndex - 1,
+							// Show under floatpanels (-1) and context menu (-2).
+							'z-index': editor.config.baseFloatZIndex - 5,
 							left: '0px',
 							top: '0px'
 						});
