@@ -1749,9 +1749,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * Gets element's direction. Supports both CSS `direction` prop and `dir` attr.
 	 */
 	getDirection: function( useComputed ) {
-		return useComputed ? this.getComputedStyle( 'direction' )
-		// Webkit: offline element returns empty direction (#8053).
-		|| this.getDirection() || this.getDocument().$.dir || this.getDocument().getBody().getDirection( 1 ) : this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
+		if ( useComputed ) {
+			return this.getComputedStyle( 'direction' ) ||
+					this.getDirection() ||
+					this.getParent() && this.getParent().getDirection( 1 ) ||
+					this.getDocument().$.dir;
+		}
+		else
+			return this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
 	},
 
 	/**
