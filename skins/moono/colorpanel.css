@@ -97,8 +97,8 @@ a:hover.cke_colorbox,
 a:focus.cke_colorbox,
 a:active.cke_colorbox
 {
-	border: #316ac5 1px solid;
-	background-color: #dff1ff;
+	border: #b6b6b6 1px solid;
+	background-color: #e5e5e5;
 }
 
 /* Buttons which are visible at the top/bottom of the color palette:
@@ -122,6 +122,6 @@ a:focus.cke_colormore,
 a:active.cke_colorauto,
 a:active.cke_colormore
 {
-	border: #316ac5 1px solid;
-	background-color: #dff1ff;
+	border: #b6b6b6 1px solid;
+	background-color: #e5e5e5;
 }
