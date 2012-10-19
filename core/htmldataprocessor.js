@@ -196,7 +196,9 @@
 
 				cleanBogus( block );
 
-				if ( ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) &&
+				// It's mandatory for the filler to present inside of empty block when in WYSIWYG.
+				if ( ( !isOutput ||
+						 ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) ) &&
 						 isEmptyBlockNeedFiller( block ) )
 				{
 					block.add( createFiller( isOutput ) );
