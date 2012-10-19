@@ -470,6 +470,13 @@ CKEDITOR.plugins.add( 'menu', {
  */
 
 /**
+ * Fired when a menu is shown.
+ *
+ * @event menuShow
+ * @member CKEDITOR.editor
+ */
+
+/**
  * A comma separated list of items group names to be displayed in the context
  * menu. The order of items will reflect the order specified in this list if
  * no priority was defined in the groups.
