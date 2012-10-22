@@ -1460,13 +1460,22 @@
 					var nativeRange = this.document.$.createRange();
 					var startContainer = range.startContainer;
 
-					// In FF2, if we have a collapsed range, inside an empty
-					// element, we must add something to it otherwise the caret
-					// will not be visible.
-					// In Opera instead, the selection will be moved out of the
-					// element. (#4657)
-					if ( range.collapsed && ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ) && startContainer.type == CKEDITOR.NODE_ELEMENT && !startContainer.getChildCount() ) {
-						startContainer.appendText( '' );
+					// In Opera, we have some cases when a collapsed text selection cursor will be moved out of the
+					// anchor node:
+					// 1. Inside of any empty inline. (#4657)
+					// 2. In adjacent to any inline element.
+					if ( CKEDITOR.env.opera && range.collapsed && startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+
+						var leftSib = startContainer.getChild( range.startOffset - 1 ),
+							rightSib = startContainer.getChild( range.startOffset );
+
+						if ( !leftSib && !rightSib && startContainer.is( CKEDITOR.dtd.$removeEmpty ) ||
+								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT && leftSib.is( CKEDITOR.dtd.$removeEmpty ) ||
+								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT && rightSib.is( CKEDITOR.dtd.$removeEmpty )
+							 ) {
+							range.insertNode( this.document.createText( '' ) );
+							range.collapse( 1 );
+						}
 					}
 
 					if ( range.collapsed && CKEDITOR.env.webkit && rangeRequiresFix( range ) ) {
