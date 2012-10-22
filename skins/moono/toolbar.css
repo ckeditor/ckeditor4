@@ -86,6 +86,13 @@ Special outer level classes used in this file:
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
 }
 
+.cke_hc .cke_toolgroup
+{
+	border: 0;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
 .cke_toolgroup *:first-child
 {
 	-moz-border-top-left-radius: 2px;
@@ -144,6 +151,15 @@ a.cke_button
 	float: right;
 }
 
+.cke_hc .cke_button
+{
+	border: 1px solid black;
+
+	/* Compensate the added border */
+	padding: 3px 5px;
+	margin: -2px 4px 0 -2px;
+}
+
 /* This class is applied to the button when it is "active" (pushed).
    This style indicates that the feature associated with the button is active
    i.e. currently writing in bold or when spell checking is enabled. */
@@ -161,6 +177,14 @@ a.cke_button
 	background-image: -ms-linear-gradient(top, #aaa, #cacaca);
 	background-image: linear-gradient(top, #aaa, #cacaca);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
+}
+
+.cke_hc .cke_button_on
+{
+	border-width: 3px;
+
+	/* Compensate the border change */
+	padding: 1px 3px;
 }
 
 .cke_button_on .cke_button_label
@@ -233,6 +257,11 @@ a.cke_button_off:active
 	float: right;
 }
 
+.cke_hc .cke_button_icon
+{
+	display: none;
+}
+
 a.cke_button_off:hover .cke_button_icon
 {
     /* http://caniuse.com/css-filters */
@@ -262,6 +291,13 @@ a.cke_button_off:hover .cke_button_icon
 	float: right;
 }
 
+.cke_hc .cke_button_label
+{
+	padding: 0;
+	display: inline-block;
+	font-size: 12px;
+}
+
 /* The small arrow available on buttons that can be expanded
    (e.g. the color buttons). */
 .cke_button_arrow
@@ -282,6 +318,14 @@ a.cke_button_off:hover .cke_button_icon
 {
 	margin-right: 5px;
 	margin-left: 0;
+}
+
+.cke_hc .cke_button_arrow
+{
+	font-size: 10px;
+	margin: 3px -2px 0 3px;
+	width: auto;
+	border: 0;
 }
 
 /* The vertical separator which is used within a single toolbar to split
@@ -307,6 +351,13 @@ a.cke_button_off:hover .cke_button_icon
 	-webkit-box-shadow: -1px 0 1px rgba(255,255,255,.1);
 	-moz-box-shadow: -1px 0 1px rgba(255,255,255,.1);
 	box-shadow: -1px 0 1px rgba(255,255,255,.1);
+}
+
+.cke_hc .cke_toolbar_separator
+{
+	width: 0;
+	border-left: 1px solid;
+	margin: 1px 5px 0 0px;
 }
 
 /* The dummy element that breaks toolbars.
@@ -397,4 +448,13 @@ a.cke_button_off:hover .cke_button_icon
 	margin-top: 4px;
 	border-bottom-color: transparent;
 	border-top-color: #474747;
+}
+
+.cke_hc .cke_toolbox_collapser .cke_arrow
+{
+	font-size: 8px;
+	width: auto;
+	border: 0;
+	margin-top: 0;
+	margin-right: 2px;
 }

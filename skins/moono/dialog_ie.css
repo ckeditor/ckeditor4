@@ -36,3 +36,16 @@ This file contains styles to used by all versions of Internet Explorer only.
 {
 	padding-right: 2px !important;
 }
+
+
+/* Disable filters for HC mode. */
+.cke_hc .cke_dialog_title,
+.cke_hc .cke_dialog_footer,
+.cke_hc a.cke_dialog_tab,
+.cke_hc a.cke_dialog_ui_button,
+.cke_hc a.cke_dialog_ui_button:hover,
+.cke_hc a.cke_dialog_ui_button_ok,
+.cke_hc a.cke_dialog_ui_button_ok:hover
+{
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}

@@ -59,3 +59,21 @@ a.cke_combo_button:hover .cke_combo_inlinelabel
 	right: 1px;
 	padding-left: 1px;
 }
+
+/* Gradient filters must be removed for HC mode to reveal the background. */
+.cke_hc .cke_top,
+.cke_hc .cke_bottom,
+.cke_hc .cke_combo_button,
+.cke_hc a.cke_combo_button:hover,
+.cke_hc a.cke_combo_button:focus,
+.cke_hc .cke_toolgroup,
+.cke_hc .cke_button_on,
+.cke_hc a.cke_button_off:hover,
+.cke_hc a.cke_button_off:focus,
+.cke_hc a.cke_button_off:active,
+.cke_hc .cke_toolbox_collapser,
+.cke_hc .cke_toolbox_collapser:hover,
+.cke_hc .cke_panel_grouptitle
+{
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}

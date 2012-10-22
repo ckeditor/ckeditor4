@@ -36,6 +36,11 @@ The visual representation of a rich combo widget looks as follows:
 	float: right;
 }
 
+.cke_hc .cke_combo
+{
+	margin-top: -2px;
+}
+
 /* The label of the combo widget. It is invisible by default, yet
    it's important for semantics and accessibility. */
 .cke_combo_label
@@ -156,6 +161,12 @@ a.cke_combo_button:active .cke_combo_text,
 	padding-right: 10px;
 }
 
+.cke_hc .cke_combo_text
+{
+	line-height: 22px;
+	font-size: 12px;
+}
+
 /* The label of the combo whose value hasn't been changed (it's default).
    It displays the name of the property the combo is responsible for. */
 .cke_combo_inlinelabel
@@ -175,6 +186,12 @@ a.cke_combo_button:active .cke_combo_text,
 	width: 5px;
 }
 
+.cke_hc .cke_combo_open
+{
+	height: 17px;
+	margin-top: 3px;
+}
+
 
 /* The arrow which is displayed inside of the .cke_combo_open handler. */
 .cke_combo_arrow
@@ -189,4 +206,12 @@ a.cke_combo_button:active .cke_combo_text,
 	border-left: 3px solid transparent;
 	border-right: 3px solid transparent;
 	border-top: 3px solid #474747;
+}
+
+.cke_hc .cke_combo_arrow
+{
+	font-size: 10px;
+	width: auto;
+	border: 0;
+	margin-top: 3px;
 }

@@ -256,6 +256,13 @@ a.cke_dialog_tab_selected
 	filter: none;
 }
 
+.cke_hc a.cke_dialog_tab:hover,
+.cke_hc a.cke_dialog_tab_selected
+{
+	border: 3px solid;
+	padding: 2px 6px;
+}
+
 /* The .cke_single_page class is appended to the dialog outer element in case
    of dialogs that has no tabs. */
 .cke_single_page .cke_dialog_tabs
@@ -289,6 +296,15 @@ a.cke_dialog_tab_selected
 .cke_dialog_close_button span
 {
 	display: none;
+}
+
+.cke_hc .cke_dialog_close_button span
+{
+	display: inline;
+	cursor: pointer;
+	font-weight: bold;
+	position: relative;
+	top: 3px;
 }
 
 .cke_dialog_close_button:hover
@@ -534,6 +550,15 @@ textarea.cke_dialog_ui_input_textarea:focus
 	box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
 }
 
+.cke_hc div.cke_dialog_ui_input_text,
+.cke_hc div.cke_dialog_ui_input_password,
+.cke_hc div.cke_dialog_ui_input_textarea
+{
+	background-color: white;
+	border: 1px solid #a0a0a0;
+	padding: 1px 0px;
+}
+
 /*
 Button
 --------
@@ -597,6 +622,12 @@ a.cke_dialog_ui_button:hover
 	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
 	background-image: linear-gradient(top, #f2f2f2, #ccc);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
+}
+
+.cke_hc a.cke_dialog_ui_button:hover
+{
+	border: 3px solid;
+	padding: 1px 10px;
 }
 
 a.cke_dialog_ui_button[style*="width"]
