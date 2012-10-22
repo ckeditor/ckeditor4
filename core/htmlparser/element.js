@@ -170,6 +170,11 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			};
 
 			if ( filter ) {
+
+				// Filtering if it's the root node.
+				if ( !this.parent )
+					filter.onRoot( this );
+
 				while ( true ) {
 					if ( !( writeName = filter.onElementName( writeName ) ) )
 						return;
