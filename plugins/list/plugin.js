@@ -758,11 +758,13 @@
 				editor.ui.addButton( 'NumberedList', {
 					label: editor.lang.list.numberedlist,
 					command: 'numberedlist',
+					directional: true,
 					toolbar: 'list,10'
 				});
 				editor.ui.addButton( 'BulletedList', {
 					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist',
+					directional: true,
 					toolbar: 'list,20'
 				});
 			}
