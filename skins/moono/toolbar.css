@@ -187,23 +187,6 @@ a.cke_button
 	padding: 1px 3px;
 }
 
-.cke_button_on .cke_button_label
-{
-}
-
-.cke_button_on .cke_button_icon
-{
-    /* experimental - only for one color icons! */
-    /* http://caniuse.com/css-filters */
-    /*-webkit-filter: invert(100%) brightness(20%);*/
-}
-
-/* This class is applied to the button when the feature associated with the
-   button is available but currently not active.*/
-.cke_button_off
-{
-}
-
 /* This class is applied to the button when the feature associated with the
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
@@ -260,12 +243,6 @@ a.cke_button_off:active
 .cke_hc .cke_button_icon
 {
 	display: none;
-}
-
-a.cke_button_off:hover .cke_button_icon
-{
-    /* http://caniuse.com/css-filters */
-    -webkit-filter: brightness(-10%);
 }
 
 /* The label of the button that stores the name of the feature. By default,

@@ -160,18 +160,6 @@ Comments in this file will give more details about each of the above blocks.
 	text-align: left;
 }
 
-.cke_dialog_footer .cke_resizer
-{
-}
-
-.cke_dialog_footer .cke_resizer_ltr
-{
-}
-
-.cke_dialog_footer .cke_resizer_rtl
-{
-}
-
 /*
 Dialog tabs
 -------------
@@ -243,10 +231,6 @@ a.cke_dialog_tab
 	margin-left: 3px;
 }
 
-a.cke_dialog_tab:hover
-{
-}
-
 a.cke_dialog_tab_selected
 {
 	background: #fff;
@@ -305,10 +289,6 @@ a.cke_dialog_tab_selected
 	font-weight: bold;
 	position: relative;
 	top: 3px;
-}
-
-.cke_dialog_close_button:hover
-{
 }
 
 .cke_ltr .cke_dialog_close_button
@@ -457,14 +437,6 @@ input.cke_dialog_ui_input_password
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
-div.cke_dialog_ui_input_text,
-div.cke_dialog_ui_input_password
-{
-	/*background-color: white;*/
-	/*border: 1px solid #a0a0a0;*/
-	/*padding: 1px 0px;*/
-}
-
 /*
 Textarea
 ----------
@@ -490,20 +462,6 @@ textarea.cke_dialog_ui_input_textarea
 	overflow: auto;
 	resize: none;
 }
-
-div.cke_dialog_ui_input_textarea
-{
-	/*background-color: white;*/
-	/*border: 1px solid #a0a0a0;*/
-	/*padding: 1px 0px;*/
-}
-
-/*
-Text Input & Textarea
-----------
-normal, :hover, :active
-*/
-
 
 input.cke_dialog_ui_input_text,
 input.cke_dialog_ui_input_password,
@@ -681,41 +639,6 @@ a.cke_dialog_ui_button_ok span
 	text-shadow: 0 -1px 0 #55830c;
 }
 
-.cke_rtl a.cke_dialog_ui_button_ok span
-{
-}
-
-/* Special class appended to the Cancel button. */
-a.cke_dialog_ui_button_cancel
-{
-}
-
-a.cke_dialog_ui_button_cancel span
-{
-}
-
-.cke_rtl a.cke_dialog_ui_button_cancel span
-{
-}
-
-span.cke_dialog_ui_button
-{
-}
-
-/* .cke_disabled is appended to disabled buttons */
-a.cke_dialog_ui_button span.cke_disabled
-{
-	/*border: #898980 1px solid;*/
-	/*color: #5e5e55;*/
-	/*background-color: #c5c5b3;*/
-}
-
-a.cke_dialog_ui_button:hover,
-a.cke_dialog_ui_button:focus,
-a.cke_dialog_ui_button:active
-{
-}
-
 /* A special container that holds the footer buttons. */
 .cke_dialog_footer_buttons
 {
@@ -724,10 +647,6 @@ a.cke_dialog_ui_button:active
 	width: auto;
 	position: relative;
 	vertical-align: middle;
-}
-
-.cke_dialog_footer_buttons span.cke_dialog_ui_button
-{
 }
 
 /*
@@ -761,13 +680,6 @@ Styles for other dialog element types.
 /*
  * Some utility CSS classes for dialog authors.
  */
-.cke_dialog .cke_dark_background
-{
-}
-
-.cke_dialog .cke_light_background
-{
-}
 
 .cke_dialog .cke_centered
 {
@@ -862,7 +774,7 @@ tendency that these will be moved to the plugins code in the future.
 	background-color: #e4e4e4;
 }
 
-.cke_dialog  .FlashPreviewBox
+.cke_dialog .FlashPreviewBox
 {
 	white-space: normal;
 	border: 2px ridge black;

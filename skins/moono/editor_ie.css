@@ -44,9 +44,6 @@ a.cke_combo_button:hover .cke_combo_inlinelabel
 {
 	margin-top: 1px;
 }
-.cke_resizer
-{
-}
 
 .cke_rtl div.cke_dialog_ui_input_text
 {
@@ -75,5 +72,5 @@ a.cke_combo_button:hover .cke_combo_inlinelabel
 .cke_hc .cke_toolbox_collapser:hover,
 .cke_hc .cke_panel_grouptitle
 {
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }

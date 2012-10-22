@@ -81,8 +81,6 @@ panel contents and color panels check menu.css and colorpanel.css.
 {
 	width: 100%;
 	height: 100%;
-
-	/*font-family: Arial, Verdana, sans-serif;*/
 	font-size: 12px;
 
 	overflow: auto;

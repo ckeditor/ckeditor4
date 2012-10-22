@@ -15,11 +15,11 @@ This file contains styles to used by all Gecko based browsers (Firefox) only.
 
 .cke_bottom
 {
-    padding-bottom: 3px;
+	padding-bottom: 3px;
 }
 
 .cke_combo_text
 {
-    margin-bottom: -1px;
-    margin-top: 1px;
+	margin-bottom: -1px;
+	margin-top: 1px;
 }

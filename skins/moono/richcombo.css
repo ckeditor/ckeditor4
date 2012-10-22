@@ -105,7 +105,6 @@ a.cke_combo_button:active,
 .cke_combo.cke_on a.cke_combo_button
 {
 	border: 1px solid #777;
-	/*border-bottom-color: #777;*/
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
@@ -120,14 +119,6 @@ a.cke_combo_button:active,
 	background-image: linear-gradient(top, #aaa, #cacaca);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
 }
-
-a.cke_combo_button:active .cke_combo_text,
-.cke_combo.cke_on .cke_combo_text
-{
-	/*color: #fff;*/
-	/*text-shadow: 0 1px 0 rgba(0,0,0,.5);*/
-}
-
 
 .cke_rtl .cke_combo_button
 {
@@ -150,7 +141,6 @@ a.cke_combo_button:active .cke_combo_text,
 	color: #474747;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
 	font-size: 11px;
-	/*font-weight: bold;*/
 }
 
 .cke_rtl .cke_combo_text
@@ -165,12 +155,6 @@ a.cke_combo_button:active .cke_combo_text,
 {
 	line-height: 22px;
 	font-size: 12px;
-}
-
-/* The label of the combo whose value hasn't been changed (it's default).
-   It displays the name of the property the combo is responsible for. */
-.cke_combo_inlinelabel
-{
 }
 
 /* The handler which opens the panel of rich combo properties.
@@ -191,7 +175,6 @@ a.cke_combo_button:active .cke_combo_text,
 	height: 17px;
 	margin-top: 3px;
 }
-
 
 /* The arrow which is displayed inside of the .cke_combo_open handler. */
 .cke_combo_arrow
