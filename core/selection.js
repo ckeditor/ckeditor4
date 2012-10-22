@@ -1317,7 +1317,7 @@
 		 * Makes the current selection of type {@link CKEDITOR#SELECTION_ELEMENT} by enclosing the specified element.
 		 *
 		 *		var element = editor.document.getById( 'sampleElement' );
-		 *		editor.getSelection.selectElement( element );
+		 *		editor.getSelection().selectElement( element );
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to enclose in the selection.
 		 */
