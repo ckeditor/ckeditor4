@@ -80,6 +80,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			editor.on( 'mode', function() {
 				this.hide();
 			}, this );
+
+			editor.on( 'resize', function() {
+				this.hide();
+			}, this );
 		},
 
 		proto: {
