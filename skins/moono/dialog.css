@@ -323,7 +323,7 @@ the same labelling structure, having the label text inside an element with
    appended to it. */
 div.cke_disabled .cke_dialog_ui_labeled_content *
 {
-	background-color: #a0a0a0;
+	background-color: #ddd;
 	cursor: default;
 }
 
@@ -542,7 +542,6 @@ a.cke_dialog_ui_button
 
 	text-align: center;
 	color: #333;
-	text-shadow: 0 1px 0 rgba(0,0,0,.5);
 	vertical-align: middle;
 	cursor: pointer;
 
@@ -639,6 +638,11 @@ a.cke_dialog_ui_button_ok span
 	text-shadow: 0 -1px 0 #55830c;
 }
 
+span.cke_dialog_ui_button
+{
+	cursor: pointer;
+}
+
 /* A special container that holds the footer buttons. */
 .cke_dialog_footer_buttons
 {
@@ -680,6 +684,15 @@ Styles for other dialog element types.
 /*
  * Some utility CSS classes for dialog authors.
  */
+.cke_dialog .cke_dark_background
+{
+	background-color: #DEDEDE;
+}
+
+.cke_dialog .cke_light_background
+{
+	background-color: #EBEBEB;
+}
 
 .cke_dialog .cke_centered
 {
@@ -840,14 +853,7 @@ tendency that these will be moved to the plugins code in the future.
 a.cke_smile img
 {
 	/* IE6 does not support transparent borders */
-	border: 2px solid #eaead1;
-}
-
-a.cke_smile:focus img,
-a.cke_smile:active img,
-a.cke_smile:hover img
-{
-	border-color: #C7C78F;
+	border: 2px solid #DEDEDE;
 }
 
 /**
