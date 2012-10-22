@@ -646,18 +646,20 @@
 		var nativeSel = this.getNative(),
 			rangeParent;
 
-		if ( nativeSel.getRangeAt ) {
-			range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
-			rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
-		}
-		// For old IEs.
-		else {
-			// Sometimes, mostly when selection is close to the table or hr,
-			// IE throws "Unspecified error".
-			try {
-				range = nativeSel.createRange();
-			} catch ( err ) {}
-			rangeParent = range && CKEDITOR.dom.element.get( range.item && range.item( 0 ) || range.parentElement() );
+		if ( nativeSel ) {
+			if ( nativeSel.getRangeAt ) {
+				range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
+				rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
+			}
+			// For old IEs.
+			else {
+				// Sometimes, mostly when selection is close to the table or hr,
+				// IE throws "Unspecified error".
+				try {
+					range = nativeSel.createRange();
+				} catch ( err ) {}
+				rangeParent = range && CKEDITOR.dom.element.get( range.item && range.item( 0 ) || range.parentElement() );
+			}
 		}
 
 		// Selection out of concerned range, empty the selection.
