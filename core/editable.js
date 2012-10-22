@@ -532,7 +532,7 @@
 					// Backspace OR Delete.
 					if ( keyCode in { 8:1,46:1 } ) {
 						var sel = editor.getSelection(),
-							selected = sel.getSelectedElement(),
+							selected,
 							range = sel.getRanges()[ 0 ],
 							path = range.startPath(),
 							block,
@@ -540,7 +540,8 @@
 							next,
 							rtl = keyCode == 8;
 
-						if ( selected ) {
+						// Remove the entire list/table on fully selected content. (#7645)
+						if ( selected = getSelectedTableList( sel ) ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
 
@@ -822,6 +823,51 @@
 			if ( ! ( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};
+	}
+
+	// Check if the entire table/list contents is selected.
+	function getSelectedTableList( sel ) {
+		var selected,
+			range = sel.getRanges()[ 0 ],
+			editable = sel.root,
+			path = range.startPath(),
+			structural = { table:1,ul:1,ol:1,dl:1 };
+
+		var isBogus = CKEDITOR.dom.walker.bogus();
+
+		if ( path.contains( structural ) ) {
+			// Enlarging the start boundary.
+			var walkerRng = range.clone();
+			walkerRng.collapse( 1 );
+			walkerRng.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
+
+			var walker = new CKEDITOR.dom.walker( walkerRng ),
+				// Check the range is at the inner boundary of the structural element.
+				guard = function( walker, isEnd ) {
+					return function( node, isWalkOut ) {
+						if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
+							selected = node;
+
+						if ( isNotEmpty( node ) && !isWalkOut && !( isEnd && isBogus( node ) ) )
+							return false;
+					};
+				};
+
+			walker.guard = guard( walker );
+			walker.checkBackward();
+			if ( selected ) {
+				walkerRng = range.clone();
+				walkerRng.collapse();
+				walkerRng.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
+				walker = new CKEDITOR.dom.walker( walkerRng );
+				walker.guard = guard( walker, 1 );
+				selected = 0;
+				walker.checkForward();
+				return selected;
+			}
+		}
+
+		return null;
 	}
 
 
