@@ -486,21 +486,28 @@ CKEDITOR.htmlParser.fragment = function() {
 			var isChildrenFiltered;
 			this.filterChildren = function() {
 				var writer = new CKEDITOR.htmlParser.basicWriter();
-				this.writeChildrenHtml.call( this, writer, filter, true );
+				this.writeChildrenHtml.call( this, writer, filter );
 				var html = writer.getHtml();
 				this.children = new CKEDITOR.htmlParser.fragment.fromHtml( html ).children;
 				isChildrenFiltered = 1;
 			};
 
-			// Filtering the root fragment before anything else.
-			!this.name && filter && filter.onRoot( this );
+			// Apply the root filter.
+			filter && filter.onRoot( this );
 
 			this.writeChildrenHtml( writer, isChildrenFiltered ? null : filter );
 		},
 
-		writeChildrenHtml: function( writer, filter ) {
+		/**
+		 * Write and filtering the child nodes of this fragment.
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} filter The filter to use when writing the HTML.
+		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the {@link filter}.
+		 */
+		writeChildrenHtml: function( writer, filter, filterRoot ) {
 
-			if ( !this.parent && filter )
+			// Filtering root if enforced.
+			if ( filterRoot && !this.parent && filter )
 				filter.onRoot( this );
 
 			for ( var i = 0; i < this.children.length; i++ )

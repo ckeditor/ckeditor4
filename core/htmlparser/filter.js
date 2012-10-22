@@ -50,7 +50,7 @@
 				// Add the comment.
 				this._.comment = transformNamedItem( this._.comment, rules.comment, priority ) || this._.comment;
 
-				// Add root fragment.
+				// Add root node rules.
 				this._.root = transformNamedItem( this._.root, rules.root, priority ) || this._.root;
 			},
 

@@ -110,7 +110,7 @@
 
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 
-			fragment.writeChildrenHtml( writer, this.dataFilter );
+			fragment.writeChildrenHtml( writer, this.dataFilter, 1 );
 			data = writer.getHtml( true );
 
 			// Protect the real comments again.
@@ -134,7 +134,7 @@
 
 			writer.reset();
 
-			fragment.writeChildrenHtml( writer, this.htmlFilter );
+			fragment.writeChildrenHtml( writer, this.htmlFilter, 1 );
 
 			var data = writer.getHtml( true );
 
