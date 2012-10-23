@@ -243,24 +243,26 @@
 		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
 			return;
 
-		var editor = evt.editor;
+		var editor = evt.editor,
+			showCallback = function( event ) {
+				var panel = event.data[ 0 ] || event.data;
+				var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
 
-		editor.on( 'menuShow', function( event ) {
-			var panel = event.data[ 0 ];
-			var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
+				// Add stylesheet if missing.
+				if ( !iframe.getById( 'cke_ui_color' ) ) {
+					var node = getStylesheet( iframe );
+					uiColorMenus.push( node );
 
-			// Add stylesheet if missing.
-			if ( !iframe.getById( 'cke_ui_color' ) ) {
-				var node = getStylesheet( iframe );
-				uiColorMenus.push( node );
-
-				var color = editor.getUiColor();
-				// Set uiColor for new panel.
-				if ( color ) {
-					updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					var color = editor.getUiColor();
+					// Set uiColor for new panel.
+					if ( color ) {
+						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					}
 				}
-			}
-		});
+			};
+
+		editor.on( 'panelShow', showCallback );
+		editor.on( 'menuShow', showCallback );
 
 		// Apply UI color if specified in config.
 		if ( editor.config.uiColor )
@@ -299,7 +301,7 @@
  * editor installation. In that case, the absolute URL path to that folder
  * should be provided, separated by a comma (`'skin_name,skin_path'`).
  *
- *		config.skin = 'kama';
+ *		config.skin = 'moono';
  *
  *		config.skin = 'myskin,/customstuff/myskin/';
  *

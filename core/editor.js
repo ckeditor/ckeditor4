@@ -107,7 +107,7 @@
 		 * the page when creating the editor.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
-		 *		alert( editor.config.skin ); // e.g. 'kama'
+		 *		alert( editor.config.skin ); // e.g. 'moono'
 		 *
 		 * @property {CKEDITOR.config}
 		 */
