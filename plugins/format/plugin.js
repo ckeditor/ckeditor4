@@ -63,6 +63,10 @@ CKEDITOR.plugins.add( 'format', {
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
+					// Don't check state on selectionChange fired when combo is opened.
+					if ( this._.on )
+						return;
+
 					var currentTag = this.getValue();
 
 					var elementPath = ev.data.path;
