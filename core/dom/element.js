@@ -1611,17 +1611,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 			// Trick to solve this issue, forcing the iframe to get ready
 			// by simply setting its "src" property.
 			$.src = $.src;
-
-			// In IE6 though, the above is not enough, so we must pause the
-			// execution for a while, giving it time to think.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 7 ) {
-				window.showModalDialog( 'javascript:document.write("' +
-					'<script>' +
-						'window.setTimeout(' +
-							'function(){window.close();}' +
-							',50);' +
-					'</script>")' );
-			}
 		}
 
 		return $ && new CKEDITOR.dom.document( $.contentWindow.document );

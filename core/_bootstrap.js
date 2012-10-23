@@ -51,17 +51,6 @@
 	}
 })();
 
-// Needed for IE6 to not request image (HTTP 200 or 304) for every CSS background. (#6187)
-if ( CKEDITOR.env.ie ) {
-	// Remove IE mouse flickering on IE6 because of background images.
-	try {
-		document.execCommand( 'BackgroundImageCache', false, true );
-	} catch ( e ) {
-		// We have been reported about loading problems caused by the above
-		// line. For safety, let's just ignore errors.
-	}
-}
-
 /**
  * Indicates that CKEditor is running on a High Contrast environment.
  *
