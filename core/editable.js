@@ -550,6 +550,7 @@
 							range.moveToPosition( selected, CKEDITOR.POSITION_BEFORE_START );
 							// Remove the control manually.
 							selected.remove();
+							range.select();
 
 							editor.fire( 'saveSnapshot' );
 
