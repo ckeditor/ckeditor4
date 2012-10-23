@@ -1753,7 +1753,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 			return this.getComputedStyle( 'direction' ) ||
 					this.getDirection() ||
 					this.getParent() && this.getParent().getDirection( 1 ) ||
-					this.getDocument().$.dir;
+					this.getDocument().$.dir ||
+					'ltr';
 		}
 		else
 			return this.getStyle( 'direction' ) || this.getAttribute( 'dir' );
