@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 (function() {
 	var template = '<span id="{id}"' +
-		' class="cke_combo cke_combo__{name}"' +
+		' class="cke_combo cke_combo__{name} {cls}"' +
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
 			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
@@ -137,7 +137,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 						var element = CKEDITOR.document.getById( id ).getChild( 1 );
 						element.focus();
 					},
-					execute : function( el ) {
+					execute: function( el ) {
 						var _ = combo._;
 
 						if ( _.state == CKEDITOR.TRISTATE_DISABLED )
@@ -216,6 +216,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					name: this.name || this.command,
 					label: this.label,
 					title: this.title,
+					cls: this.className || '',
 					titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 					keydownFn: keyDownFn,
 					mousedownFn: mouseDownFn,

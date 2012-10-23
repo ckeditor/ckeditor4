@@ -5,7 +5,7 @@
 
 (function() {
 	var template = '<a id="{id}"' +
-		' class="cke_button cke_button__{name} cke_button_{state}"' +
+		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
 		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
@@ -237,6 +237,7 @@
 				id: id,
 				name: name,
 				label: this.label,
+				cls: this.className || '',
 				state: stateName,
 				title: this.title,
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
