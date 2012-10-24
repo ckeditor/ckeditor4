@@ -39,8 +39,12 @@
 	}
 
 	function handleMixedDirContent( editor, path ) {
-		var directionNode = path.block || path.blockLimit;
-		editor.fire( 'contentDirChanged', directionNode ? directionNode.getComputedStyle( 'direction' ) : editor.lang.dir );
+		var directionNode = path.block || path.blockLimit || editor.editable();
+		var pathDir = directionNode.getDirection( 1 );
+		if ( pathDir != ( editor._.selDir || editor.lang.dir ) ) {
+			editor._.selDir = pathDir;
+			editor.fire( 'contentDirChanged', pathDir );
+		}
 	}
 
 	// Returns element with possibility of applying the direction.
