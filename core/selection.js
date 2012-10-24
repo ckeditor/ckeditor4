@@ -251,7 +251,7 @@
 						}
 
 						html.on( 'mousedown', function( evt ) {
-							evt = evt.data.$;
+							evt = evt.data;
 
 							// Expand the text range along with mouse move.
 							function onHover( evt ) {
@@ -289,11 +289,12 @@
 
 							// We're sure that the click happens at the region
 							// below body, but not on scrollbar.
-							if ( evt.y < html.$.clientHeight &&
-									 evt.x < html.$.clientWidth ) {
+							if ( evt.getTarget().is( 'html' ) &&
+									 evt.$.y < html.$.clientHeight &&
+									 evt.$.x < html.$.clientWidth ) {
 								// Start to build the text range.
 								var textRng = body.$.createTextRange();
-								moveRangeToPoint( textRng, evt.x, evt.y );
+								moveRangeToPoint( textRng, evt.$.x, evt.$.y );
 
 								// Records the dragging start of the above text range.
 								var startRng = textRng.duplicate();
