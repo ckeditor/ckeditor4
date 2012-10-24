@@ -15,9 +15,7 @@
 		if ( sel.getType() == CKEDITOR.SELECTION_NONE )
 			return;
 
-		// Before doing anything, save a locked copy to be used for later recovery.
-		sel.lock();
-		this._.lastSelection = sel;
+		this.fire( 'selectionCheck', sel );
 
 		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
@@ -206,8 +204,22 @@
 					restoreSel = 0;
 				}, null, null, -1 );
 
+				var lastSel;
+				// Save a fresh copy of the selection.
+				function saveSel() {
+					lastSel = editor.getSelection( 1 );
+					lastSel.lock();
+				}
+
+				// For IE, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
+				// For the rest, a more frequent check is required for each selection change made.
+				if ( CKEDITOR.env.ie )
+					editable.attachListener( editable, 'beforedeactivate', saveSel, null, null, -1 );
+				else
+					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
+
 				editable.attachListener( editable, 'blur', function() {
-					editor.lockSelection();
+					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
 
@@ -497,19 +509,16 @@
 	 *
 	 * @method
 	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.dom.selection} [sel] Specify the selection to be locked.
 	 * @returns {Boolean} `true` if selection was locked.
 	 */
-	CKEDITOR.editor.prototype.lockSelection = function() {
-		if ( !this._.savedSelection ) {
-			var sel = this.getSelection( 1 );
-			sel = sel.getType() == CKEDITOR.SELECTION_NONE ? this._.lastSelection : sel;
-			if ( sel ) {
+	CKEDITOR.editor.prototype.lockSelection = function( sel ) {
+			sel = sel || this.getSelection( 1 );
+			if ( sel.getType() != CKEDITOR.SELECTION_NONE ) {
 				!sel.isLocked && sel.lock();
 				this._.savedSelection = sel;
 				return true;
 			}
-		}
-
 		return false;
 	};
 
@@ -731,7 +740,7 @@
 				// object even when type == 'None' is returned by IE.
 				// So we'd better check the object returned by
 				// createRange() rather than by looking at the type.
-				if ( sel.createRange().parentElement )
+				if ( sel.createRange().parentElement() )
 					type = CKEDITOR.SELECTION_TEXT;
 			} catch ( e ) {}
 
@@ -1519,10 +1528,10 @@
 				}
 			}
 
-			// Fakes the IE DOM event "selectionchange" on editable.
-			this.root.fire( 'selectionchange' );
 			this.reset();
 
+			// Fakes the IE DOM event "selectionchange" on editable.
+			this.root.fire( 'selectionchange' );
 		},
 
 		/**
