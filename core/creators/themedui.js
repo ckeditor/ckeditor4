@@ -367,14 +367,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.focus();
 		});
 
-		// Use a class to indicate that the current selection is in different direction than the UI.
-		editor.on( 'contentDirChanged', function( evt ) {
-			var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
-
-			container.getChild( 1 )[ func ]( 'cke_mixed_dir_content' );
-
-		});
-
 		editor.fireOnce( 'uiReady' );
 	}
 
