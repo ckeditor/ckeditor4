@@ -502,7 +502,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * Write and filtering the child nodes of this fragment.
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 * @param {CKEDITOR.htmlParser.filter} filter The filter to use when writing the HTML.
-		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the {@link filter}.
+		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		writeChildrenHtml: function( writer, filter, filterRoot ) {
 
