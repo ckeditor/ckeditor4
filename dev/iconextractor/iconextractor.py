@@ -5,22 +5,22 @@
 # to be as follows:
 #										Columns
 #
-#				  0       1       2       3      ...
-#				+---+---+---+---+---+---+---+---+---+-----------------------+
-#			0	|	|   |	|   |	|   |	|   |	|   ...					|
-#				+---+   +---+   +---+   +---+   +---+   					|
-#				|															|
-#				+---+   +---+   +---+   +---+   +---+   +---+   +---+ 		|
-#			1	|	|   |	|   |	|   |	|   |	|   |	|   |	|   	|
-#				+---+   +---+   +---+   +---+   +---+   +---+   +---+   	|
-#	Rows		|															|
-#				+---+   +---+   											|
-#			2	|	|   |	|   											|
-#				+---+   +---+   											|
-#				|															|
-#			...	| ... 														|
-#				|															|
-#				+-----------------------------------------------------------+
+#               0       1       2       3      ...
+#             +---+---+---+---+---+---+---+---+---+-----------------------+
+#         0   |   |   |   |   |   |   |   |   |   |   ...                 |
+#             +---+   +---+   +---+   +---+   +---+                       |
+#             |                                                           |
+#             +---+   +---+   +---+   +---+   +---+   +---+   +---+       |
+#         1   |   |   |   |   |   |   |   |   |   |   |   |   |   |       |
+#             +---+   +---+   +---+   +---+   +---+   +---+   +---+       |
+#  Rows       |                                                           |
+#             +---+   +---+                                               |
+#         2   |   |   |   |                                               |
+#             +---+   +---+                                               |
+#             |                                                           |
+#       ...   | ...                                                       |
+#             |                                                           |
+#             +-----------------------------------------------------------+
 #
 #	The structure of the image should correspond with "names" with is a
 #	multi-dimensional array. Each icon (and each gap) is determined by the "size" parameter.
@@ -28,6 +28,8 @@
 #	Sample usage:
 #		python iconextractor.py --image=/absolute/path/to/icons.png --dest=/absolute/path/to/dest --size=16
 #
+#	Requires:
+#		Imagemagick suite (http://www.imagemagick.org/)
 
 import os, sys, getopt
 
@@ -144,7 +146,7 @@ def extractIcon( row, column, name ):
 
 	print 'Extracting ' + name + '.png ...'
 
-	os.system( 'convert {} -crop {}x{}+{}+{} -sharpen 0x1.0 {}'.format(
+	os.system( 'convert {} -crop {}x{}+{}+{} +repage -sharpen 0x1.0 png32:{}'.format(
 		image, size, size, x, y, os.path.join( dest, name + '.png' ) ) )
 
 try:
