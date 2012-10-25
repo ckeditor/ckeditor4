@@ -242,7 +242,7 @@
 			//
 			// Now the range restore is disabled, so we simply force IE to clean
 			// up the selection before blur.
-			this.on( 'blur', function() {
+			this.attachListener( doc, 'blur', function() {
 				// Error proof when the editor is not visible. (#6375)
 				try {
 					doc.$.selection.empty();

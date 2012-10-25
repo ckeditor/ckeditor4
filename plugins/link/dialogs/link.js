@@ -1189,20 +1189,21 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			attributes.href = attributes[ 'data-cke-saved-href' ];
 
 			if ( !this._.selectedElement ) {
-				// Create element if current selection is collapsed.
-				var ranges = selection.getRanges( true );
-				if ( ranges.length == 1 && ranges[ 0 ].collapsed ) {
+				var range = selection.getRanges( 1 )[ 0 ];
+
+				// Use link URL as text with a collapsed cursor.
+				if ( range.collapsed ) {
 					// Short mailto link text view (#5736).
 					var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ], editor.document );
-					ranges[ 0 ].insertNode( text );
-					ranges[ 0 ].selectNodeContents( text );
-					selection.selectRanges( ranges );
+					range.insertNode( text );
+					range.selectNodeContents( text );
 				}
 
 				// Apply style.
 				var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
 				style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
-				editor.applyStyle( style );
+				style.applyToRange( range );
+				range.select();
 			} else {
 				// We're only editing an existing link, so just overwrite the attributes.
 				var element = this._.selectedElement,
