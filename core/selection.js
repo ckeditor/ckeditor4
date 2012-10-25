@@ -376,6 +376,10 @@
 
 		// Clear the cached range path before unload. (#7174)
 		editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
+		// Check selection change on data reload.
+		editor.on( 'dataReady', function() {
+			editor.selectionChange( 1 );
+		});
 
 		function clearSelection() {
 			var sel = editor.getSelection();
