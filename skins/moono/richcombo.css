@@ -151,7 +151,6 @@ The visual representation of a rich combo widget looks as follows:
 	cursor: default;
 	color: #474747;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-	font-size: 11px;
 }
 
 .cke_rtl .cke_combo_text
