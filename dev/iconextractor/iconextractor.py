@@ -48,7 +48,9 @@ names = [
 		'preview',
 		'preview-rtl',
 		'print',
-		[ 'templates', 'templates-rtl' ]
+		[ 'templates', 'templates-rtl' ],
+		'docprops',
+		'docprops-rtl'
 	],
 	[
 		[ 'cut', 'cut-rtl' ],
@@ -96,9 +98,9 @@ names = [
 		'numberedlist-rtl',
 		'bulletedlist',
 		'bulletedlist-rtl',
+		'outdent',
 		'indent',
 		'indent-rtl',
-		'outdent',
 		'outdent-rtl',
 		'blockquote',
 		'creatediv',
@@ -136,7 +138,8 @@ names = [
 		'showblocks-rtl'
 	],
 	[
-		'about'
+		'about',
+		'uicolor'
 	]
 ]
 
