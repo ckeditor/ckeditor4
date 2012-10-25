@@ -39,8 +39,12 @@
 	}
 
 	function handleMixedDirContent( editor, path ) {
-		var directionNode = path.block || path.blockLimit;
-		editor.fire( 'contentDirChanged', directionNode ? directionNode.getComputedStyle( 'direction' ) : editor.lang.dir );
+		var directionNode = path.block || path.blockLimit || editor.editable();
+		var pathDir = directionNode.getDirection( 1 );
+		if ( pathDir != ( editor._.selDir || editor.lang.dir ) ) {
+			editor._.selDir = pathDir;
+			editor.fire( 'contentDirChanged', pathDir );
+		}
 	}
 
 	// Returns element with possibility of applying the direction.
@@ -221,6 +225,14 @@
 						dir: evt.data.getDirection( 1 )
 					});
 				});
+			});
+
+			// Indicate that the current selection is in different direction than the UI.
+			editor.on( 'contentDirChanged', function( evt ) {
+				var func = ( editor.lang.dir != evt.data ? 'add' : 'remove' ) + 'Class';
+				var toolbar = editor.ui.space( editor.config.toolbarLocation );
+				if ( toolbar )
+					toolbar[ func ]( 'cke_mixed_dir_content' );
 			});
 		}
 	});

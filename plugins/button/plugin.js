@@ -222,6 +222,25 @@
 				}
 			}
 
+			// For button that has text-direction awareness on selection path.
+			if ( this.directional ) {
+				editor.on( 'contentDirChanged', function( evt ) {
+					var el = CKEDITOR.document.getById( this._.id ),
+						icon = el.getFirst();
+
+					var pathDir = evt.data;
+
+					// Make a minor direction change to become style-able for the skin icon.
+					if ( pathDir !=  editor.lang.dir )
+						el.addClass( 'cke_' + pathDir );
+					else
+						el.removeClass( 'cke_ltr' ).removeClass( 'cke_rtl' );
+
+					// Inline style update for the plugin icon.
+					icon.setAttribute( 'style', CKEDITOR.skin.getIconStyle( name, pathDir == 'rtl', this.icon, this.iconOffset ) );
+				}, this );
+			}
+
 			if ( !command )
 				stateName += 'off';
 

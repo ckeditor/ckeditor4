@@ -156,6 +156,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		element.removeClass( 'classA' );	// <div class="classB">
 	 *		element.removeClass( 'classB' );	// <div>
 	 *
+	 * @chainable
 	 * @param {String} className The name of the class to remove.
 	 */
 	removeClass: function( className ) {
@@ -171,6 +172,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 					this.removeAttribute( 'class' );
 			}
 		}
+
+		return this;
 	},
 
 	/**

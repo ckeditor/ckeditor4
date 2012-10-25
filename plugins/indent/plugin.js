@@ -333,11 +333,13 @@
 				editor.ui.addButton( 'Indent', {
 					label: editor.lang.indent.indent,
 					command: 'indent',
+					directional: true,
 					toolbar: 'indent,20'
 				});
 				editor.ui.addButton( 'Outdent', {
 					label: editor.lang.indent.outdent,
 					command: 'outdent',
+					directional: true,
 					toolbar: 'indent,10'
 				});
 			}
