@@ -196,9 +196,9 @@
 
 				cleanBogus( block );
 
-				// It's mandatory for the filler to present inside of empty block when in WYSIWYG.
-				if ( ( !isOutput ||
-						 ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) ) &&
+				// [Opera] it's mandatory for the filler to present inside of empty block when in WYSIWYG.
+				if ( ( ( CKEDITOR.env.opera && !isOutput ) ||
+						( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) ) &&
 						 isEmptyBlockNeedFiller( block ) )
 				{
 					block.add( createFiller( isOutput ) );
