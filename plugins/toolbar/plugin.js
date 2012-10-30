@@ -158,17 +158,15 @@
 
 					var output = [
 						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
-						'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;"' ];
+						'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">' ];
 
 					var expanded = editor.config.toolbarStartupExpanded !== false,
 						groupStarted, pendingSeparator;
 
-					output.push( expanded ? '>' : ' style="display:none">' );
-
 					// If the toolbar collapser will be available, we'll have
 					// an additional container for all toolbars.
 					if ( editor.config.toolbarCanCollapse )
-						output.push( '<span class="cke_toolbox_main">' );
+						output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
 					var toolbars = editor.toolbox.toolbars,
 						toolbar = getToolbarConfig( editor );
