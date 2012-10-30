@@ -636,7 +636,7 @@
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
-							style = CKEDITOR.tools.parseCssText( attributes.style ),
+							style = CKEDITOR.tools.parseCssText( attributes.style, 1 ),
 							value;
 
 						var tagName = element.name;
