@@ -230,16 +230,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						target.removeStyle( 'width' );
 
 						if ( block.autoSize ) {
-							// We must adjust first the width or IE6 could include extra lines in the height computation
-							var widthNode = block.element.$;
+							var panelDoc = block.element.getDocument();
+							var width = ( CKEDITOR.env.webkit? block.element : panelDoc.getBody() )[ '$' ].scrollWidth;
 
-							if ( CKEDITOR.env.gecko || CKEDITOR.env.opera )
-								widthNode = widthNode.parentNode;
-
-							if ( CKEDITOR.env.ie )
-								widthNode = widthNode.document.body;
-
-							var width = widthNode.scrollWidth;
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (#3426)
