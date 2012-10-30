@@ -369,7 +369,7 @@
 				checkPendingBrs();
 				checkPending();
 
-				text.replace( /([\r\n])|[^\r\n]*/g, function( piece, lineBreak ) {
+				text.replace( /(\r\n|[\r\n])|[^\r\n]*/g, function( piece, lineBreak ) {
 					if ( lineBreak !== undefined && lineBreak.length )
 						pendingBrs++;
 					else if ( piece.length ) {
