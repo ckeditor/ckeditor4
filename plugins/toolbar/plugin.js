@@ -151,7 +151,10 @@
 				if ( event.data.space == editor.config.toolbarLocation ) {
 					editor.toolbox = new toolbox();
 
-					var labelId = CKEDITOR.tools.getNextId();
+					var labelId = CKEDITOR.tools.getNextId(),
+						removeButtons = editor.config.removeButtons;
+
+					removeButtons = removeButtons && removeButtons.split( ',' );
 
 					var output = [
 						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
@@ -203,6 +206,10 @@
 							var item,
 								itemName = items[ i ],
 								canGroup;
+
+							// Ignore items that are configured to be removed.
+							if ( removeButtons && CKEDITOR.tools.indexOf( removeButtons, itemName ) >= 0 )
+								continue;
 
 							item = editor.ui.create( itemName );
 
@@ -690,7 +697,7 @@ CKEDITOR.config.toolbarLocation = 'top';
 
 /**
  * When enabled, makes the arrow keys navigation cycle within the current
- * toolbar group. Otherwise the arrows will move trought all items available in
+ * toolbar group. Otherwise the arrows will move through all items available in
  * the toolbar. The *TAB* key will still be used to quickly jump among the
  * toolbar groups.
  *
@@ -698,6 +705,21 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * @since 3.6
  * @cfg {Boolean} [toolbarGroupCycling=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * List of toolbar button names that must not be rendered. This will work as
+ * well for non-button toolbar items, like the Font combos.
+ *
+ *		config.removeButtons = 'Underline,JustifyCenter';
+ *
+ * This configuration should not be overused, having
+ * {@link CKEDITOR.config#removePlugins} removing features from the editor. In
+ * some cases though, a single plugin may define a set of toolbar buttons and
+ * removeButtons may be useful when just a few of them are to be removed.
+ *
+ * @cfg {String} [removeButtons]
  * @member CKEDITOR.config
  */
 
