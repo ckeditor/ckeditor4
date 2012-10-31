@@ -18,6 +18,12 @@ This file contains styles to used by all versions of Internet Explorer only.
 	filter: alpha(opacity = 30);
 }
 
+/* PNG Alpha Transparency Fix For IE<9 */
+.cke_button_disabled .cke_button_icon
+{
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF);
+}
+
 .cke_button_off:hover,
 .cke_button_off:focus,
 .cke_button_off:active
