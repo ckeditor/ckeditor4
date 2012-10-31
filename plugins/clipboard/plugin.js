@@ -726,7 +726,8 @@
 				// a div wrapper if you copy/paste the body of the editor.
 				// Remove hidden div and restore selection.
 				var bogusSpan;
-				pastebin = ( CKEDITOR.env.webkit && ( bogusSpan = pastebin.getFirst() ) && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) ? bogusSpan : pastebin );
+				if ( CKEDITOR.env.webkit && ( bogusSpan = pastebin.getFirst() ) && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) )
+					pastebin = bogusSpan;
 
 				// IE7: selection must go before removing pastebin. (#8691)
 				sel.selectBookmarks( bms );
