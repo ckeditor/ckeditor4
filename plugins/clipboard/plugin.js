@@ -651,17 +651,18 @@
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
 
+			// Append bogus to prevent Opera from doing this. (#9522)
+			if ( CKEDITOR.env.opera )
+				pastebin.appendBogus();
+
 			var containerOffset = 0,
 				win = doc.getWindow();
 
 			// Seems to be the only way to avoid page scroll in Fx 3.x.
-			if ( ff3x )
-			{
+			if ( ff3x ) {
 				pastebin.insertAfter( bms[ 0 ].startNode );
 				pastebin.setStyle( 'display', 'inline' );
-			}
-			else
-			{
+			} else {
 				if ( CKEDITOR.env.webkit ) {
 					// It's better to paste close to the real paste destination, so inherited styles
 					// (which Webkits will try to compensate by styling span) differs less from the destination's one.
