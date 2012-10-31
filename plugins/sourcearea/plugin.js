@@ -34,15 +34,6 @@
 					},
 					CKEDITOR.tools.cssVendorPrefix( 'tab-size', editor.config.sourceAreaTabSize || 4 ) ) );
 
-				var ariaLabel = [ editor.lang.editor, editor.name ].join( ',' );
-
-				textarea.setAttributes({
-					dir: 'ltr',
-					tabIndex: CKEDITOR.env.webkit ? -1 : editor.tabIndex,
-					'role': 'textbox',
-					'aria-label': ariaLabel
-				});
-
 				textarea.addClass( 'cke_source cke_reset cke_enable_context_menu' );
 
 				editor.ui.space( 'contents' ).append( textarea );
