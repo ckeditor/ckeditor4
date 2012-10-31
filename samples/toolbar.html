@@ -138,7 +138,9 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			toolbar = editor.toolbar;
 
 		for ( var i = 0; i < toolbar.length; ++i ) {
-			output.push( dumpToolbarGroup( toolbar[ i ], printGroups ) );
+			var group = dumpToolbarGroup( toolbar[ i ], printGroups );
+			if ( group )
+				output.push( group );
 		}
 
 		return 'config.toolbar' + ( printGroups ? 'Groups' : '' ) + ' = [\n\t' + output.join( ',\n\t' ) + '\n];';
@@ -151,6 +153,9 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			return '\'' + group + '\'';
 		if ( CKEDITOR.tools.isArray( group ) )
 			return dumpToolbarItems( group );
+		// Skip group when printing entire toolbar configuration and there are no items in this group.
+		if ( !printGroups && !group.items )
+			return;
 
 		if ( group.name )
 			output.push( 'name: \'' + group.name + '\'' );
