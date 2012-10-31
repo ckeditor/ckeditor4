@@ -165,7 +165,7 @@
 
 					// If the toolbar collapser will be available, we'll have
 					// an additional container for all toolbars.
-					if ( editor.config.toolbarCanCollapse )
+					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE )
 						output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
 					var toolbars = editor.toolbox.toolbars,
