@@ -63,6 +63,13 @@ This file contains styles to used by Internet Explorer 7 only.
 	height: 26px;
 }
 
+/* Avoid breaking elements that use background gradient when page zoom > 1 (#9548) */
+.cke_toolgroup,
+.cke_combo
+{
+	position: relative;
+}
+
 a.cke_button
 {
 	/* IE7: buttons must not float to wrap the toolbar in a whole. */
@@ -191,9 +198,3 @@ a.cke_button
 	padding: 0 5px;
 }
 
-.cke_rtl input.cke_dialog_ui_input_text,
-.cke_rtl input.cke_dialog_ui_input_password
-{
-	/* Positioning is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
-	position: relative;
-}
