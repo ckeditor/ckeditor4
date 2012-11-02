@@ -722,6 +722,10 @@
 				if ( CKEDITOR.env.ie )
 					editable.focus();
 
+				// IE7: selection must go before removing pastebin. (#8691)
+				sel.selectBookmarks( bms );
+				pastebin.remove();
+
 				// Grab the HTML contents.
 				// We need to look for a apple style wrapper on webkit it also adds
 				// a div wrapper if you copy/paste the body of the editor.
@@ -730,12 +734,7 @@
 				if ( CKEDITOR.env.webkit && ( bogusSpan = pastebin.getFirst() ) && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) )
 					pastebin = bogusSpan;
 
-				// IE7: selection must go before removing pastebin. (#8691)
-				sel.selectBookmarks( bms );
-
 				editor.removeListener( 'selectionChange', cancel );
-
-				pastebin.remove();
 				callback( pastebin.getHtml() );
 			}, 0 );
 		}
