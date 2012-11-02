@@ -66,12 +66,12 @@ CKEDITOR.plugins.add( 'format', {
 
 					var currentTag = this.getValue(),
 						elementPath = ev.data.path,
-						blockContext = elementPath.isContextFor( 'p' );
+						isEnabled = !editor.readOnly && elementPath.isContextFor( 'p' );
 
 					// Disable the command when selection path is "blockless".
-					this[ blockContext ? 'enable' : 'disable' ]();
+					this[ isEnabled ? 'enable' : 'disable' ]();
 
-					if ( blockContext )
+					if ( isEnabled )
 					{
 						for ( var tag in styles ) {
 							if ( styles[ tag ].checkActive( elementPath ) ) {
