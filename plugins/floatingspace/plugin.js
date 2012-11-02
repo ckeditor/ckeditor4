@@ -155,6 +155,13 @@
 			// There's no need for the floatSpace to be selectable.
 			floatSpace.unselectable();
 
+			// Prevent clicking on non-buttons area of the space from blurring editor.
+			floatSpace.on( 'mousedown', function( evt ) {
+				evt = evt.data;
+				if ( !evt.getTarget().hasAscendant( 'a', 1 ) )
+					evt.preventDefault();
+			});
+
 			editor.on( 'focus', function( evt ) {
 				layout( evt );
 				win.on( 'scroll', layout );
