@@ -71,8 +71,8 @@ CKEDITOR.plugins.add( 'format', {
 					// Disable the command when selection path is "blockless".
 					this[ isEnabled ? 'enable' : 'disable' ]();
 
-					if ( isEnabled )
-					{
+					if ( isEnabled ) {
+
 						for ( var tag in styles ) {
 							if ( styles[ tag ].checkActive( elementPath ) ) {
 								if ( tag != currentTag )
