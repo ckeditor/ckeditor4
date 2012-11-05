@@ -198,3 +198,9 @@ a.cke_button
 	padding: 0 5px;
 }
 
+.cke_rtl input.cke_dialog_ui_input_text,
+.cke_rtl input.cke_dialog_ui_input_password
+{
+	/* Positioning is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
+	position: relative;
+}

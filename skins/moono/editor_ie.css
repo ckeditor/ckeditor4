@@ -47,18 +47,6 @@ This file contains styles to used by all versions of Internet Explorer only.
 	margin-top: 1px;
 }
 
-.cke_rtl div.cke_dialog_ui_input_text
-{
-	padding-left: 1px;
-}
-
-.cke_rtl input.cke_dialog_ui_input_text
-{
-	position: relative;
-	right: 1px;
-	padding-left: 1px;
-}
-
 /* Gradient filters must be removed for HC mode to reveal the background. */
 .cke_hc .cke_top,
 .cke_hc .cke_bottom,
