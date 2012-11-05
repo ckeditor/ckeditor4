@@ -151,38 +151,35 @@ CKEDITOR.htmlParser.fragment = function() {
 		// there's a return point node specified on the element, otherwise move current onto {@link target} node.
 		//
 		function addElement( element, target, moveCurrent ) {
-			// Ignore any element that has already been added.
-			if ( element.previous !== undefined )
-				return;
-
 			target = target || currentNode || root;
 
 			// Current element might be mangled by fix body below,
 			// save it for restore later.
 			var savedCurrent = currentNode;
 
-			if ( checkAutoParagraphing( target, element ) )
-			{
+			// Ignore any element that has already been added.
+			if ( element.previous === undefined ) {
+				if ( checkAutoParagraphing( target, element ) ) {
 					// Create a <p> in the fragment.
 					currentNode = target;
 					parser.onTagOpen( fixingBlock, {} );
 
 					// The new target now is the <p>.
 					element.returnPoint = target = currentNode;
+				}
+
+				removeTailWhitespace( element );
+
+				// Avoid adding empty inline.
+				if ( !( isRemoveEmpty( element ) && !element.children.length ) )
+					target.add( element );
+
+				if ( element.name == 'pre' )
+					inPre = false;
+
+				if ( element.name == 'textarea' )
+					inTextarea = false;
 			}
-
-			removeTailWhitespace( element );
-
-			// Avoid adding empty inline.
-			if ( !( isRemoveEmpty( element ) && !element.children.length ) )
-				target.add( element );
-
-			if ( element.name == 'pre' )
-				inPre = false;
-
-			if ( element.name == 'textarea' )
-				inTextarea = false;
-
 
 			if ( element.returnPoint ) {
 				currentNode = element.returnPoint;
