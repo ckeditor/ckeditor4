@@ -726,9 +726,6 @@
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
 
-				// Cancel the locked selection.
-				editor.unlockSelection();
-
 				// Restore properly the document focus. (#8849)
 				if ( CKEDITOR.env.ie )
 					editable.focus();
