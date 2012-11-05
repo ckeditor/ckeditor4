@@ -405,6 +405,12 @@
 		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', clearSelection, null, null, 9 );
 		// Webkit's selection will mess up after the data loading.
 		CKEDITOR.env.webkit && editor.on( 'setData', clearSelection );
+
+		// Invalidate locked selection when unloading DOM (e.g. after setData). (#9521)
+		editor.on( 'contentDomUnload', function() {
+			editor.unlockSelection();
+		});
+
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
