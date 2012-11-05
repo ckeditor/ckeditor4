@@ -63,18 +63,16 @@ CKEDITOR.plugins.add( 'format', {
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
-					// Don't check state on selectionChange fired when combo is opened.
-					if ( this._.on )
-						return;
 
-					var currentTag = this.getValue();
-
-					var elementPath = ev.data.path;
+					var currentTag = this.getValue(),
+						elementPath = ev.data.path,
+						isEnabled = !editor.readOnly && elementPath.isContextFor( 'p' );
 
 					// Disable the command when selection path is "blockless".
-					if ( elementPath.isContextFor( 'p' ) ) {
-						this.setState( CKEDITOR.TRISTATE_OFF );
+					this[ isEnabled ? 'enable' : 'disable' ]();
 
+					if ( isEnabled )
+					{
 						for ( var tag in styles ) {
 							if ( styles[ tag ].checkActive( elementPath ) ) {
 								if ( tag != currentTag )
@@ -82,11 +80,10 @@ CKEDITOR.plugins.add( 'format', {
 								return;
 							}
 						}
-					} else
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
-					// If no styles match, just empty it.
-					this.setValue( '' );
+						// If no styles match, just empty it.
+						this.setValue( '' );
+					}
 				}, this );
 			}
 		});
