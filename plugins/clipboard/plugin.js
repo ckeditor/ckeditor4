@@ -708,15 +708,23 @@
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
-			range.setStartAt( pastebin, CKEDITOR.POSITION_AFTER_START );
-			range.setEndAt( pastebin, CKEDITOR.POSITION_BEFORE_END );
-			range.select();
+			range.selectNodeContents( pastebin );
+			var sel = range.select();
+
+			// If non-native paste is executed, IE will open security alert and blur editable.
+			// Editable will then lock selection inside itself and after accepting security alert
+			// this selection will be restored. We overwrite stored selection, so it's restored
+			// in pastebin. (#9552)
+			if ( CKEDITOR.env.ie ) {
+				var blurListener = editable.once( 'blur', function( evt ) {
+					editor.lockSelection( sel );
+				} );
+			}
 
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
-
-				// Cancel the locked selection.
-				editor.unlockSelection();
+				// Blur will be fired only on non-native paste. In other case manually remove listener.
+				blurListener && blurListener.removeListener();
 
 				// Restore properly the document focus. (#8849)
 				if ( CKEDITOR.env.ie )

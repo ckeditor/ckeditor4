@@ -571,12 +571,15 @@
 	 * Select this range as the only one with {@link CKEDITOR.dom.selection#selectRanges}.
 	 *
 	 * @method
+	 * @returns {CKEDITOR.dom.selection}
 	 * @member CKEDITOR.dom.range
 	 */
 	CKEDITOR.dom.range.prototype.select = function() {
 		var sel = this.root instanceof CKEDITOR.editable ? this.root.editor.getSelection() : new CKEDITOR.dom.selection( this.root );
 
 		sel.selectRanges( [ this ] );
+
+		return sel;
 	};
 
 	/**
