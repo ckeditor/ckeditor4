@@ -596,9 +596,15 @@
 		},
 
 		refresh: function( editor, path ) {
-			var limit = path.blockLimit || path.root;
-			var list = path.contains( this.type, 1 );
-			list && limit.contains( list ) ? this.setState( CKEDITOR.TRISTATE_ON ) : this.setState( CKEDITOR.TRISTATE_OFF );
+			var list = path.contains( listNodeNames, 1 ),
+				limit = path.blockLimit || path.root;
+
+			// 1. Only a single type of list activate.
+			// 2. Do not show list outside of block limit.
+			if ( list && limit.contains( list ) )
+				this.setState( list.is( this.type ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			else
+				this.setState( CKEDITOR.TRISTATE_OFF );
 		}
 	};
 
