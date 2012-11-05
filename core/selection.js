@@ -615,6 +615,8 @@
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 
+	var isMSSelection = typeof window.getSelection != 'function';
+
 	/**
 	 * Manipulates the selection within a DOM element, if the current browser selection
 	 * spans outside of the element, an empty selection object is returned.
@@ -698,7 +700,7 @@
 			if ( this._.cache.nativeSel !== undefined )
 				return this._.cache.nativeSel;
 
-			return ( this._.cache.nativeSel = this.document.$.selection || this.document.getWindow().$.getSelection() );
+			return ( this._.cache.nativeSel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection() );
 		},
 
 		/**
@@ -718,7 +720,7 @@
 		 * @returns {Number} One of the following constant values: {@link CKEDITOR#SELECTION_NONE},
 		 * {@link CKEDITOR#SELECTION_TEXT} or {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
-		getType: CKEDITOR.env.ie ?
+		getType: isMSSelection ?
 		function() {
 			var cache = this._.cache;
 			if ( cache.type )
@@ -785,7 +787,7 @@
 		 * @returns {Array} Range instances that represent the current selection.
 		 */
 		getRanges: (function() {
-			var func = CKEDITOR.env.ie ? ( function() {
+			var func = isMSSelection ? ( function() {
 				function getNodeIndex( node ) {
 					return new CKEDITOR.dom.node( node ).getIndex();
 				}
@@ -1208,7 +1210,7 @@
 				return cache.selectedText;
 
 			var nativeSel = this.getNative(),
-				text = CKEDITOR.env.ie ? nativeSel.type == 'Control' ? '' : nativeSel.createRange().text : nativeSel.toString();
+				text = isMSSelection ? nativeSel.type == 'Control' ? '' : nativeSel.createRange().text : nativeSel.toString();
 
 			return ( cache.selectedText = text );
 		},
@@ -1312,7 +1314,7 @@
 				return;
 			}
 
-			if ( CKEDITOR.env.ie ) {
+			if ( isMSSelection ) {
 				var notWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 					fillerTextRegex = /\ufeff|\u00a0/,
 					nonCells = { table:1,tbody:1,tr:1 };
@@ -1614,7 +1616,7 @@
 		removeAllRanges: function() {
 			var nativ = this.getNative();
 
-			nativ && nativ[ nativ.removeAllRanges ? 'removeAllRanges' : 'empty' ]();
+			nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ]();
 
 			this.reset();
 		}
