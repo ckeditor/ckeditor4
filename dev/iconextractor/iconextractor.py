@@ -32,11 +32,14 @@
 #		Imagemagick suite (http://www.imagemagick.org/)
 
 import os, sys, getopt
+import Image
+import shutil
 
 # Defaults
 size = 12
 image = False
 dest = False
+tempPath = 'temp.png'
 
 names = [
 	[
@@ -113,7 +116,7 @@ names = [
 	],
 	[
 		'link',
-	 	'unlink',
+		'unlink',
 		'anchor',
 		'anchor-rtl',
 	],
@@ -143,14 +146,47 @@ names = [
 	]
 ]
 
+# Compare icons pixel by pixel.
+def compareIcons( path1, path2 ):
+	try:
+		icon1 = Image.open( path1 )
+		icon2 = Image.open( path2 )
+
+		img1 = icon1.load()
+		img2 = icon2.load()
+
+		x = 0
+		while x < size:
+			y = 0
+			while y < size:
+				if img1[ x, y ] != img2[ x, y ]:
+					return False
+				y += 1
+			x += 1
+
+		return True
+	except IOError:
+		return False
+
 def extractIcon( row, column, name ):
 	x = 2 * column * size
 	y = 2 * row * size
 
-	print 'Extracting ' + name + '.png ...'
+	targetPath = os.path.join( dest, name + '.png' )
 
+	# Create temp icon file.
 	os.system( 'convert {} -crop {}x{}+{}+{} +repage -sharpen 0x1.0 png32:{}'.format(
-		image, size, size, x, y, os.path.join( dest, name + '.png' ) ) )
+		image, size, size, x, y, tempPath )
+	)
+
+	# Compare temp icon file with the existing one (if any).
+	# Update icon if it's different.
+	if not compareIcons( tempPath, targetPath ):
+		print '\tUpdating icon: ' + name + '.png ...'
+		shutil.copy( tempPath, targetPath )
+
+
+#-------------------------------------------------------------------------------
 
 try:
 	opts, args = getopt.getopt( sys.argv[ 1: ], '', [ 'image=', 'size=', 'dest=' ] )
@@ -177,6 +213,8 @@ if not os.path.exists( dest ):
 	print dest + ' directory doesn\'t exist. Creating.'
 	os.makedirs( dest )
 
+print 'Extracting icons...'
+
 for rowindex, row in enumerate( names ):
 	for column, icon in enumerate( row ):
 		if isinstance( icon, str ):
@@ -184,3 +222,10 @@ for rowindex, row in enumerate( names ):
 		else:
 			for subicon in icon:
 				extractIcon( rowindex, column, subicon )
+
+print 'Cleaning temp file...'
+
+# Cleaning...
+os.remove( tempPath )
+
+print 'Extracting is done. Finishing.'
