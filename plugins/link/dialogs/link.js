@@ -40,7 +40,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 	// Handles the event when the "Type" selection box is changed.
 	var linkTypeChanged = function() {
 			var dialog = this.getDialog(),
-				partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
+				partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions', 'internalOptions' ],
 				typeValue = this.getValue(),
 				uploadTab = dialog.definition.getContents( 'upload' ),
 				uploadInitiallyHidden = uploadTab && uploadTab.hidden;
@@ -78,6 +78,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 		emailBodyRegex = /body=([^;?:@&=$,\/]*)/,
 		anchorRegex = /^#(.*)$/,
 		urlRegex = /^((?:http|https|ftp|news):\/\/)?(.*)$/,
+		internalRegex = /^\/.+/,
 		selectableTargets = /^(_(?:self|top|parent|blank))$/,
 		encodedEmailLinkRegex = /^javascript:void\(location\.href='mailto:'\+String\.fromCharCode\(([^)]+)\)(?:\+'(.*)')?\)$/,
 		functionCallProtectedEmailLinkRegex = /^javascript:([^(]+)\(([^)]+)\)$/;
@@ -87,7 +88,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 	var parseLink = function( editor, element ) {
 			var href = ( element && ( element.data( 'cke-saved-href' ) || element.getAttribute( 'href' ) ) ) || '',
-				javascriptMatch, emailMatch, anchorMatch, urlMatch,
+				javascriptMatch, emailMatch, anchorMatch, urlMatch, internalMatch,
 				retval = {};
 
 			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
@@ -122,11 +123,32 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				}
 			}
 
-			if ( !retval.type ) {
-				if ( ( anchorMatch = href.match( anchorRegex ) ) ) {
+			if ( !retval.type )
+			{
+			    
+               if (  href && ( internalMatch = href.match( internalRegex ) ) )
+               {
+                       
+                       var blnFound = false;
+                       var strAddress = internalMatch[0];
+                       for(i=0;i<editor.config.internalPages.length;i++){
+                               if(editor.config.internalPages[i][1] == strAddress) blnFound = true;
+                       }
+                       if(blnFound){
+                               retval.type = 'internal';
+                       }
+                       else {
+                               retval.type = 'url';
+                       }
+                       retval.url = {};
+                       retval.url.protocol = "";
+                       retval.url.url = strAddress;
+               }		    
+			       else if ( ( anchorMatch = href.match( anchorRegex ) ) )
+				{
 					retval.type = 'anchor';
 					retval.anchor = {};
-					retval.anchor.name = retval.anchor.id = anchorMatch[ 1 ];
+					retval.anchor.name = retval.anchor.id = anchorMatch[1];
 				}
 				// Protected email link as encoded string.
 				else if ( ( emailMatch = href.match( emailRegex ) ) ) {
@@ -342,7 +364,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				items: [
 					[ linkLang.toUrl, 'url' ],
 					[ linkLang.toAnchor, 'anchor' ],
-					[ linkLang.toEmail, 'email' ]
+					[ linkLang.toEmail, 'email' ],
+					[ 'Intern side', 'internal']
 					],
 				onChange: linkTypeChanged,
 				setup: function( data ) {
@@ -645,9 +668,47 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 					if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 						this.getElement().hide();
 				}
-			}
+			},
+				{
+					type :  'vbox',
+					id : 'internalOptions',
+					padding : 1,
+					children :
+					[
+						{
+							id : 'internalAddress',
+							type : 'select',
+							label : 'Side',
+							'default' : '/',
+							style : 'width : 100%;',
+							items :	editor.config.internalPages,
+							setup : function( data ) {
+								if ( data.url )	{
+									this.setValue( data.url.url );
+								}
+								else {
+									if(editor.config.internalPages.length > 0){
+										this.setValue(editor.config.internalPages[0][1]);
+									}
+								}
+							},
+							commit : function( data ) {
+								if ( !data.internal )
+									data.internal = {};
+																			
+								data.internal.url = this.getValue();
+								
+							}
+						}							
+					],
+					setup : function( data )
+					{
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) this.getElement().hide();
+					}
+				}
 			]
 		},
+		
 			{
 			id: 'target',
 			label: linkLang.target,
@@ -1072,6 +1133,10 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						id = ( data.anchor && data.anchor.id );
 					attributes[ 'data-cke-saved-href' ] = '#' + ( name || id || '' );
 					break;
+               case 'internal':
+                       var internal = ( data.internal && data.internal.url ) || '';
+                       attributes[ 'data-cke-saved-href' ] = internal;
+                       break;
 				case 'email':
 
 					var linkHref,

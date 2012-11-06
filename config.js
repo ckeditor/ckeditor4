@@ -4,6 +4,10 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	
+	config.internalPages = [['Side 1','/Side1'],['Side 2','/Side2']];
+	//config.internalPages = [];
+	
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
