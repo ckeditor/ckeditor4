@@ -103,6 +103,18 @@
  */
 
 /**
+ * Defined by command definition a function to determinate the command state, it will be invoked
+ * when editor has it's `states` or `selection` changed.
+ *
+ * **Note:** The function provided must be calling {@link CKEDITOR.command#setState} in all circumstance,
+ * if it is intended to update the command state.
+ *
+ * @method refresh
+ * @param {CKEDITOR.editor} editor
+ * @param {CKEDITOR.dom.elementPath} path
+ */
+
+/**
  * Sets the element name used to reflect the command state on selection changes.
  * If the selection is in a place where the element is not allowed, the command
  * will be disabled.
