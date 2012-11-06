@@ -624,8 +624,10 @@
 				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
 					this.attachListener( this, 'mousedown', function( ev ) {
 						var control = ev.data.getTarget();
-						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) )
+						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) ) {
 							editor.getSelection().selectElement( control );
+							ev.data.preventDefault();
+						}
 					});
 				}
 
