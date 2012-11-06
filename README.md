@@ -1,6 +1,21 @@
 CKEditor 4 - The best browser-based WYSIWYG editor
 ==================================================
 
+## Adding support for internal links in link dialog
+
+This version of the CKEditor adds support for a new link type, which is internal pages / links
+This enables the user to select an internal link or an stored link instead of remembering the
+full url to the content.
+
+Right now, the only way to set the pages is a config-parameter config.internalPages.
+To add pages to this parameter, use this type of array:
+config.internalPages = [['Name of page','/url/to/page'],['Second page','/second/url]];
+
+To indicate a treeview, you can also do like this:
+config.internalPages = [['Name of page','/url/to/page'],['Second page','/second/url],['.. Child of second page','/child/of/second/page']];
+
+The rest of this Readme is the original document from CKSource:
+
 ## Development Code
 
 This repository contains the development version of CKEditor.
