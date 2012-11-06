@@ -2940,7 +2940,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @see CKEDITOR.dialog#add
 		 */
 		openDialog: function( dialogName, callback ) {
-			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+			var dialog = null, dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
 				showCover( this );
@@ -2949,41 +2949,30 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( typeof dialogDefinitions == 'function' ) {
 				var storedDialogs = this._.storedDialogs || ( this._.storedDialogs = {} );
 
-				var dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
+				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
 				callback && callback.call( dialog, dialog );
 				dialog.show();
 
-				return dialog;
 			} else if ( dialogDefinitions == 'failed' ) {
 				hideCover( this );
 				throw new Error( '[CKEDITOR.dialog.openDialog] Dialog "' + dialogName + '" failed when loading definition.' );
-			}
+			} else if ( typeof dialogDefinitions == 'string' ) {
 
-			var me = this;
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ),
+					function() {
+						var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+						// In case of plugin error, mark it as loading failed.
+						if ( typeof dialogDefinition != 'function' )
+							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
 
-			function onDialogFileLoaded( success ) {
-				var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
-
-				// Check if definition is loaded.
-				if ( loadDefinition && typeof success == 'undefined' )
-					return;
-
-				// In case of plugin error, mark it as loading failed.
-				if ( typeof dialogDefinition != 'function' )
-					CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
-
-				me.openDialog( dialogName, callback );
-			}
-
-			if ( typeof dialogDefinitions == 'string' ) {
-				var loadDefinition = 1;
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ), onDialogFileLoaded, null, 0, 1 );
+						this.openDialog( dialogName, callback );
+					}, this, 0, 1 );
 			}
 
 			CKEDITOR.skin.loadPart( 'dialog' );
 
-			return null;
+			return dialog;
 		}
 	});
 })();
