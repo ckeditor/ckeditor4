@@ -110,7 +110,7 @@ CKEDITOR.dtd = (function() {
 		dfn: P,
 		div: X( { style:1 }, F ),
 		dl: { dt:1,dd:1 },
-		dt: P,
+		dt: F,
 		em: P,
 		embed: E,
 		fieldset: X( { legend:1 }, F ),
