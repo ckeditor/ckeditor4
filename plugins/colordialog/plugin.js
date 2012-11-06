@@ -12,9 +12,11 @@ CKEDITOR.plugins.colordialog = {
 
 		/**
 		 * Open up color dialog and to receive the selected color.
-		 * @param callback The callback when color dialog is closed
-		 * @param callback.color The color value received if selected on the dialog.
+		 *
+		 * @param {Function} callback The callback when color dialog is closed
+		 * @param {String} callback.color The color value received if selected on the dialog.
 		 * @param [scope] The scope in which the callback will be bound.
+		 * @member CKEDITOR.editor
 		 */
 		editor.getColorFromDialog = function( callback, scope ) {
 			var onClose = function( evt ) {
@@ -33,7 +35,7 @@ CKEDITOR.plugins.colordialog = {
 
 			editor.execCommand( 'colordialog' );
 
-			if ( editor._.storedDialogs.colordialog )
+			if ( editor._.storedDialogs && editor._.storedDialogs.colordialog )
 				bindToDialog( editor._.storedDialogs.colordialog );
 			else {
 				CKEDITOR.on( 'dialogDefinition', function( e ) {
