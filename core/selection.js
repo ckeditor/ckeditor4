@@ -1448,7 +1448,7 @@
 					sel.addRange( nativeRng );
 				}
 
-				sel.removeAllRanges();
+				this.removeAllRanges();
 
 				for ( var i = 0; i < ranges.length; i++ ) {
 					// Joining sequential ranges introduced by
@@ -1625,7 +1625,8 @@
 		removeAllRanges: function() {
 			var nativ = this.getNative();
 
-			nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ]();
+			try { nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ](); }
+			catch(er){}
 
 			this.reset();
 		}
