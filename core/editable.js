@@ -294,7 +294,8 @@
 
 				selection.selectRanges( [ range ] );
 
-				afterInsert( this );
+				// Do not scroll after inserting, because Opera may fail on certain element (e.g. iframe/iframe.html).
+				afterInsert( this, CKEDITOR.env.opera );
 			},
 
 			/**
@@ -1587,11 +1588,11 @@
 		editable.editor.fire( 'saveSnapshot' );
 	}
 
-	function afterInsert( editable ) {
+	function afterInsert( editable, noScroll ) {
 		var editor = editable.editor;
 
 		// Scroll using selection, not ranges, to affect native pastes.
-		editor.getSelection().scrollIntoView();
+		!noScroll && editor.getSelection().scrollIntoView();
 
 		// Save snaps after the whole execution completed.
 		// This's a workaround for make DOM modification's happened after
