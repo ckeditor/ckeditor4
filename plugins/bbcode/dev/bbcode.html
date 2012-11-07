@@ -6,7 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Clipboard playground &ndash; CKEditor Sample</title>
+	<title>BBCode plugin playground &ndash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 	<style>
@@ -118,7 +118,7 @@ The above version most widely known today is based on the [url=http://en.wikiped
 	var editor = CKEDITOR.replace( 'editor1', {
 		extraPlugins: 'bbcode',
 		// Remove unused plugins.
-		removePlugins: 'bidi,button,dialogadvtab,div,filebrowser,flash,format,forms,horizontalrule,iframe,indent,justify,liststyle,pagebreak,showborders,stylescombo,table,tabletools,templates',
+		removePlugins: 'bidi,dialogadvtab,div,filebrowser,flash,format,forms,horizontalrule,iframe,justify,liststyle,pagebreak,showborders,stylescombo,table,tabletools,templates',
 		// Width and height are not supported in the BBCode format, so object resizing is disabled.
 		disableObjectResizing: true,
 		height: 250,
@@ -136,7 +136,7 @@ The above version most widely known today is based on the [url=http://en.wikiped
 		// Strip CKEditor smileys to those commonly used in BBCode.
 		smiley_images: [
 			'regular_smile.gif', 'sad_smile.gif', 'wink_smile.gif', 'teeth_smile.gif', 'tounge_smile.gif',
-			'embaressed_smile.gif', 'omg_smile.gif', 'whatchutalkingabout_smile.gif', 'angel_smile.gif', 'shades_smile.gif',
+			'embarrassed_smile.gif', 'omg_smile.gif', 'whatchutalkingabout_smile.gif', 'angel_smile.gif', 'shades_smile.gif',
 			'cry_smile.gif', 'kiss.gif'
 		],
 		smiley_descriptions: [
