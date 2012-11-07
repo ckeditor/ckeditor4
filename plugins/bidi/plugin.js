@@ -213,7 +213,7 @@
 
 			var lang = editor.lang.bidi;
 
-			if ( editor.ui.addButton )
+			if ( editor.ui.addToolbarGroup )
 				editor.ui.addToolbarGroup( 'bidi', 'align', 'paragraph' );
 
 			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
