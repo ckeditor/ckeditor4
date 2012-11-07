@@ -74,3 +74,11 @@ a.cke_path_item:active
 	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
 	box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
 }
+
+.cke_hc a.cke_path_item:hover,
+.cke_hc a.cke_path_item:focus,
+.cke_hc a.cke_path_item:active
+{
+	border: 2px solid;
+	padding: 1px 2px;
+}
