@@ -155,6 +155,7 @@
 			 * @see CKEDITOR.editor#insertHtml
 			 */
 			insertHtml: function( data, mode ) {
+				beforeInsert( this );
 				// Default mode is 'html'.
 				insert( this, mode == 'text' ? 'text' : 'html', data );
 			},
@@ -163,6 +164,8 @@
 			 * @see CKEDITOR.editor#insertText
 			 */
 			insertText: function( text ) {
+				beforeInsert( this );
+
 				var editor = this.editor,
 					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
 					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
@@ -211,10 +214,7 @@
 			 * @see CKEDITOR.editor#insertElement
 			 */
 			insertElement: function( element ) {
-				// TODO this should be gone after refactoring insertElement.
-				// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
-				this.editor.focus();
-				this.editor.fire( 'saveSnapshot' );
+				beforeInsert( this );
 
 				var editor = this.editor,
 					enterMode = editor.config.enterMode,
@@ -294,14 +294,8 @@
 
 				selection.selectRanges( [ range ] );
 
-				// TODO this should be gone after refactoring insertElement.
-				// Save snaps after the whole execution completed.
-				// This's a workaround for make DOM modification's happened after
-				// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
-				// call.
-				setTimeout( function() {
-					editor.fire( 'saveSnapshot' );
-				}, 0 );
+				// Do not scroll after inserting, because Opera may fail on certain element (e.g. iframe/iframe.html).
+				afterInsert( this, CKEDITOR.env.opera );
 			},
 
 			/**
@@ -931,8 +925,6 @@
 		// Inserts the given (valid) HTML into the range position (with range content deleted),
 		// guarantee it's result to be a valid DOM tree.
 		function insert( editable, type, data ) {
-			beforeInsert( editable );
-
 			var editor = editable.editor,
 				doc = editable.getDocument(),
 				selection = editor.getSelection(),
@@ -991,13 +983,6 @@
 			range.select();
 
 			afterInsert( editable );
-		}
-
-		function beforeInsert( editable ) {
-			// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
-			editable.editor.focus();
-
-			editable.editor.fire( 'saveSnapshot' );
 		}
 
 		// Prepare range to its data deletion.
@@ -1319,21 +1304,6 @@
 
 		}
 
-		function afterInsert( editable ) {
-			var editor = editable.editor;
-
-			// Scroll using selection, not ranges, to affect native pastes.
-			editor.getSelection().scrollIntoView();
-
-			// Save snaps after the whole execution completed.
-			// This's a workaround for make DOM modification's happened after
-			// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
-			// call.
-			setTimeout( function() {
-				editor.fire( 'saveSnapshot' );
-			}, 0 );
-		}
-
 		//
 		// HELPERS ------------------------------------------------------------
 		//
@@ -1610,6 +1580,28 @@
 
 		return insert;
 	})();
+
+	function beforeInsert( editable ) {
+		// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
+		editable.editor.focus();
+
+		editable.editor.fire( 'saveSnapshot' );
+	}
+
+	function afterInsert( editable, noScroll ) {
+		var editor = editable.editor;
+
+		// Scroll using selection, not ranges, to affect native pastes.
+		!noScroll && editor.getSelection().scrollIntoView();
+
+		// Save snaps after the whole execution completed.
+		// This's a workaround for make DOM modification's happened after
+		// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
+		// call.
+		setTimeout( function() {
+			editor.fire( 'saveSnapshot' );
+		}, 0 );
+	}
 
 })();
 
