@@ -211,9 +211,9 @@
 					lastSel.lock();
 				}
 
-				// For IE, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
+				// For old IEs, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
 				// For the rest, a more frequent check is required for each selection change made.
-				if ( CKEDITOR.env.ie )
+				if ( isMSSelection )
 					editable.attachListener( editable, 'beforedeactivate', saveSel, null, null, -1 );
 				else
 					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
