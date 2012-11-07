@@ -93,11 +93,11 @@
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
-			// Filter webkit garbage.
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data.dataValue,
 					blockElements = CKEDITOR.dtd.$block;
 
+				// Filter webkit garbage.
 				if ( data.indexOf( 'Apple-' ) > -1 ) {
 					// Replace special webkit's &nbsp; with simple space, because webkit
 					// produces them even for normal spaces.
@@ -121,6 +121,17 @@
 
 					// Remove all other classes.
 					data = data.replace( /(<[^>]+) class="Apple-[^"]*"/gi, '$1' );
+				}
+
+				// Strip editable that was copied from inside. (#9534)
+				if ( data.match( /^<[^<]+cke_editable/i ) ) {
+					var header, wrapper = new CKEDITOR.dom.element( 'div' );
+
+					wrapper.setHtml( data );
+					// Verify for sure.
+					if ( wrapper.getChildCount() == 1 && ( header = wrapper.getFirst() ).hasClass( 'cke_editable' ) )
+						// Strip editable and bogus <br> (added on FF).
+						data = header.getHtml().replace( /<br>$/i, '' );
 				}
 
 				if ( CKEDITOR.env.ie ) {
