@@ -244,6 +244,19 @@ a.cke_dialog_tab
 	margin-left: 3px;
 }
 
+/* A hover state of a regular inactive tab. */
+a.cke_dialog_tab:hover
+{
+	background: #ebebeb;
+	background: -moz-linear-gradient(top, #ebebeb 0%, #dfdfdf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#dfdfdf));
+	background: -webkit-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: -o-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: -ms-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: linear-gradient(to bottom, #ebebeb 0%,#dfdfdf 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#dfdfdf',GradientType=0 );
+}
+
 a.cke_dialog_tab_selected
 {
 	background: #fff;
@@ -251,6 +264,19 @@ a.cke_dialog_tab_selected
 	border-bottom-color: #fff;
 	cursor: default;
 	filter: none;
+}
+
+/* A hover state for selected tab. */
+a.cke_dialog_tab_selected:hover
+{
+	background: #ededed;
+	background: -moz-linear-gradient(top, #ededed 0%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#ffffff));
+	background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: -o-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: -ms-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: linear-gradient(to bottom, #ededed 0%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 );
 }
 
 .cke_hc a.cke_dialog_tab:hover,
