@@ -1841,10 +1841,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				direction = ' cke_resizer_horizontal';
 			else if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT )
 				direction = ' cke_resizer_vertical';
-			var resizer = CKEDITOR.dom.element.createFromHtml( '<div' +
+			var resizer = CKEDITOR.dom.element.createFromHtml(
+				'<div' +
 				' class="cke_resizer' + direction + ' cke_resizer_' + editor.lang.dir + '"' +
 				' title="' + CKEDITOR.tools.htmlEncode( editor.lang.common.resize ) + '"' +
-				' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )"></div>' );
+				' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )">' +
+				// BLACK LOWER RIGHT TRIANGLE (ltr)
+				// BLACK LOWER LEFT TRIANGLE (rtl)
+				( editor.lang.dir == 'ltr' ? '\u25E2' : '\u25E3' ) +
+				'</div>' );
 			dialog.parts.footer.append( resizer, 1 );
 		});
 		editor.on( 'destroy', function() {

@@ -162,21 +162,29 @@ Special outer level classes used in this file:
 	border-style: dashed solid dashed dashed;
 
 	font-size: 0;
-	float: right;
 	vertical-align: bottom;
-	cursor: se-resize;
 
-	position: absolute;
-	bottom: 3px;
+	margin-top: 8px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.3);
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.3);
 	box-shadow: 0 1px 0 rgba(255,255,255,.3);
 }
 
+.cke_hc .cke_resizer
+{
+	font-size: 15px;
+	width: auto;
+	height: auto;
+	border-width: 0;
+}
+
 .cke_resizer_ltr
 {
-	right: 3px;
+	cursor: se-resize;
+
+	float: right;
+	margin-right: -4px;
 }
 
 /* This class is added in RTL mode. This is a special case for the resizer
@@ -189,7 +197,10 @@ Special outer level classes used in this file:
 	border-color: transparent transparent transparent #A5A5A5;
 	border-style: dashed dashed dashed solid;
 
-	left: 3px;
+	cursor: sw-resize;
+
+	float: left;
+	margin-left: -4px;
 	right: auto;
 }
 

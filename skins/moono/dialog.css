@@ -126,7 +126,7 @@ Comments in this file will give more details about each of the above blocks.
 }
 
 /* The dialog footer, which usually contains the "Ok" and "Cancel" buttons as
-   well as a rsizer handle. */
+   well as a resize handler. */
 .cke_dialog_footer
 {
 	text-align: right;
@@ -156,6 +156,21 @@ Comments in this file will give more details about each of the above blocks.
 .cke_rtl .cke_dialog_footer
 {
 	text-align: left;
+}
+
+.cke_dialog .cke_resizer
+{
+	margin-top: 22px;
+}
+
+.cke_dialog .cke_resizer_rtl
+{
+	margin-left: 5px;
+}
+
+.cke_dialog .cke_resizer_ltr
+{
+	margin-right: 5px;
 }
 
 /*
@@ -649,7 +664,7 @@ span.cke_dialog_ui_button
 .cke_dialog_footer_buttons
 {
 	display: inline-table;
-	margin: 5px 18px 5px;
+	margin: 5px;
 	width: auto;
 	position: relative;
 	vertical-align: middle;
