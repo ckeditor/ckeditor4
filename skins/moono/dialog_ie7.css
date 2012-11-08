@@ -30,6 +30,12 @@ This file contains styles to used by Internet Explorer 7 only.
 	position: static;
 }
 
+/* IE7 crops the bottom pixels of footer buttons (#9491) */
+.cke_dialog_footer_buttons a.cke_dialog_ui_button
+{
+	vertical-align: top;
+}
+
 /* IE7 needs positioning on text fields, to not stretch dialog horizontally. (#8971) */
 input.cke_dialog_ui_input_text,
 input.cke_dialog_ui_input_password
