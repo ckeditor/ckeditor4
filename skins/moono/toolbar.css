@@ -179,7 +179,10 @@ a.cke_button
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
 }
 
-.cke_hc .cke_button_on
+.cke_hc .cke_button_on,
+.cke_hc a.cke_button_off:hover,
+.cke_hc a.cke_button_off:focus,
+.cke_hc a.cke_button_off:active
 {
 	border-width: 3px;
 
@@ -194,6 +197,11 @@ a.cke_button
 .cke_button_disabled
 {
 	opacity: 0.3;
+}
+
+.cke_hc .cke_button_disabled
+{
+	opacity: 0.5;
 }
 
 a.cke_button_on:hover,

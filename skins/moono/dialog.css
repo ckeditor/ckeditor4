@@ -126,7 +126,7 @@ Comments in this file will give more details about each of the above blocks.
 }
 
 /* The dialog footer, which usually contains the "Ok" and "Cancel" buttons as
-   well as a rsizer handle. */
+   well as a resize handler. */
 .cke_dialog_footer
 {
 	text-align: right;
@@ -156,6 +156,21 @@ Comments in this file will give more details about each of the above blocks.
 .cke_rtl .cke_dialog_footer
 {
 	text-align: left;
+}
+
+.cke_dialog .cke_resizer
+{
+	margin-top: 22px;
+}
+
+.cke_dialog .cke_resizer_rtl
+{
+	margin-left: 5px;
+}
+
+.cke_dialog .cke_resizer_ltr
+{
+	margin-right: 5px;
 }
 
 /*
@@ -391,6 +406,17 @@ It is possible to have nested V/H-Boxes.
 	padding-right: 0;
 }
 
+/* Applies to all labeled dialog fields */
+
+.cke_hc div.cke_dialog_ui_input_text,
+.cke_hc div.cke_dialog_ui_input_password,
+.cke_hc div.cke_dialog_ui_input_textarea,
+.cke_hc div.cke_dialog_ui_input_select,
+.cke_hc div.cke_dialog_ui_input_file
+{
+	border: 1px solid;
+}
+
 /*
 Text Input
 ------------
@@ -506,15 +532,6 @@ textarea.cke_dialog_ui_input_textarea:focus
 	box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
 }
 
-.cke_hc div.cke_dialog_ui_input_text,
-.cke_hc div.cke_dialog_ui_input_password,
-.cke_hc div.cke_dialog_ui_input_textarea
-{
-	background-color: white;
-	border: 1px solid #a0a0a0;
-	padding: 1px 0px;
-}
-
 /*
 Button
 --------
@@ -579,7 +596,9 @@ a.cke_dialog_ui_button:hover
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
 }
 
-.cke_hc a.cke_dialog_ui_button:hover
+.cke_hc a.cke_dialog_ui_button:hover,
+.cke_hc a.cke_dialog_ui_button:focus,
+.cke_hc a.cke_dialog_ui_button:active
 {
 	border: 3px solid;
 	padding: 1px 10px;
@@ -645,7 +664,7 @@ span.cke_dialog_ui_button
 .cke_dialog_footer_buttons
 {
 	display: inline-table;
-	margin: 5px 18px 5px;
+	margin: 5px;
 	width: auto;
 	position: relative;
 	vertical-align: middle;
@@ -654,7 +673,8 @@ span.cke_dialog_ui_button
 /*
 Styles for other dialog element types.
 */
-.cke_dialog_ui_input_select
+
+select.cke_dialog_ui_input_select
 {
 	height: 24px;
 	line-height: 24px;
@@ -663,6 +683,8 @@ Styles for other dialog element types.
 	border: 1px solid #c9cccf;
 	border-top-color: #aeb3b9;
 	padding: 4px 6px;
+
+	outline: none;
 
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -677,6 +699,13 @@ Styles for other dialog element types.
 {
 	width: 100%;
 	height: 25px;
+}
+
+.cke_hc .cke_dialog_ui_labeled_content input:focus,
+.cke_hc .cke_dialog_ui_labeled_content select:focus,
+.cke_hc .cke_dialog_ui_labeled_content textarea:focus
+{
+	outline: 1px dotted;
 }
 
 /*
@@ -874,7 +903,6 @@ a.cke_smile img
 /* Compensate focus outline for some input elements. (#6200) */
 .cke_dialog_ui_checkbox_input:focus,
 .cke_dialog_ui_radio_input:focus,
-.cke_dialog_ui_input_select:focus,
 .cke_btn_over
 {
 	outline: 1px dotted #696969;

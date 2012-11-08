@@ -52,11 +52,6 @@ The following is a visual representation of its main elements:
 	float: right;
 }
 
-.cke_rtl .cke_path
-{
-	margin-right: 10px;
-}
-
 /* The items are <a> elements, so we define its hover states here. */
 a.cke_path_item:hover,
 a.cke_path_item:focus,
@@ -73,4 +68,12 @@ a.cke_path_item:active
 	-moz-box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
 	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
 	box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
+}
+
+.cke_hc a.cke_path_item:hover,
+.cke_hc a.cke_path_item:focus,
+.cke_hc a.cke_path_item:active
+{
+	border: 2px solid;
+	padding: 1px 2px;
 }
