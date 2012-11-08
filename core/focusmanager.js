@@ -174,9 +174,10 @@
 
 				// Bypass the element's internal DOM focus change.
 				if ( isCapture ) {
-					// No capture support for focus/blur in old IEs, resort to
-					// focusin/out instead.
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+
+					// Use "focusin/focusout" events instead of capture phase in IEs,
+					// which fires synchronously.
+					if ( CKEDITOR.env.ie ) {
 						focusEvent = 'focusin';
 						blurEvent = 'focusout';
 					} else

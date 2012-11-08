@@ -456,10 +456,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var element = this.getElement();
 
 					(function() {
-						element.on( 'click', function( evt ) {
-							me.fire( 'click', { dialog: me.getDialog() } );
-							evt.data.preventDefault();
-						});
+						element.on( 'click', me.click, me );
 
 						element.on( 'keydown', function( evt ) {
 							if ( evt.data.getKeystroke() in { 32:1 } ) {
@@ -812,7 +809,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 			click: function() {
 				if ( !this._.disabled )
 					return this.fire( 'click', { dialog: this._.dialog } );
-				this.getElement().$.blur();
 				return false;
 			},
 
@@ -855,9 +851,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 			eventProcessors: CKEDITOR.tools.extend( {}, CKEDITOR.ui.dialog.uiElement.prototype.eventProcessors, {
 				onClick: function( dialog, func ) {
 					this.on( 'click', function() {
-						// Some browsers (Chrome, IE8, IE7 compat mode) don't move
-						// focus to clicked button. Force this.
-						this.getElement().focus();
 						func.apply( this, arguments );
 					});
 				}
