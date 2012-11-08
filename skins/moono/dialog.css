@@ -133,7 +133,7 @@ Comments in this file will give more details about each of the above blocks.
 	position: relative;
 
 	border: none;
-	border-top: 1px solid #bfbfbf;
+	outline: 1px solid #bfbfbf;
 
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
