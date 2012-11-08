@@ -144,18 +144,22 @@ CKEDITOR.skin.chameleon = (function() {
 				'] ' +
 			'{id} .cke_dialog_footer [' +
 					'{defaultGradient}' +
-					'border-top-color:{defaultBorder};' +
+					'outline-color:{defaultBorder};' +
+					'border-top-color:{defaultBorder};' +	// IE7 doesn't use outline.
 				'] ' +
 			'{id} .cke_dialog_tab [' +
 					'{lightGradient}' +
 					'border-color:{defaultBorder};' +
 				'] ' +
+			'{id} .cke_dialog_tab:hover [' +
+					'{mediumGradient}' +
+				'] ' +
 			'{id} .cke_dialog_contents [' +
 					'border-top-color:{defaultBorder};' +
 				'] ' +
-			'{id} .cke_dialog_tab_selected [' +
+			'{id} .cke_dialog_tab_selected, {id} .cke_dialog_tab_selected:hover [' +
 					'background:{dialogTabSelected};' +
-					'border-bottom-color:{dialogTabSelected};' +
+					'border-bottom-color:{dialogTabSelectedBorder};' +
 				'] ' +
 			'{id} .cke_dialog_body [' +
 					'background:{dialogBody};' +
@@ -253,7 +257,9 @@ CKEDITOR.skin.chameleon = (function() {
 				ckeToolbarSeparator: colorBrightness( uiColor, 0.5 ),
 				ckeColorauto: colorBrightness( uiColor, 0.8 ),
 				dialogBody: colorBrightness( uiColor, 0.7 ),
-				dialogTabSelected: '#fff',
+				// Use gradient instead of simple hex to avoid further filter resetting in IE.
+				dialogTabSelected: verticalGradient( '#FFFFFF', '#FFFFFF' ),
+				dialogTabSelectedBorder: '#FFF',
 				elementsPathColor: colorBrightness( uiColor, -0.6 ),
 				elementsPathBg: uiColor,
 				menubuttonIcon: colorBrightness( uiColor, 0.5 ),
