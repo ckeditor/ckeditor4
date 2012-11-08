@@ -528,6 +528,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 							innerHTML = [],
 							attributes = { 'id': _.inputId, 'class': 'cke_dialog_ui_input_select', 'aria-labelledby': this._.labelId };
 
+						html.push( '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' );
+						if ( elementDefinition.width )
+							html.push( 'style="width:' + elementDefinition.width + '" ' );
+						html.push( '>' );
+
 						// Add multiple and size attributes from element definition.
 						if ( elementDefinition.size != undefined )
 							attributes.size = elementDefinition.size;
@@ -543,6 +548,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 							myDefinition.style = myDefinition.inputStyle;
 
 						_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
+
+						html.push( '</div>' );
+
 						return html.join( '' );
 					};
 
