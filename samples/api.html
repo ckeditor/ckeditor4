@@ -165,7 +165,17 @@ function onBlur()
 					on :
 					{
 						focus: onFocus,
-						blur: onBlur
+						blur: onBlur,
+
+						// Check for availability of corresponding plugins.
+						pluginsLoaded : function( evt )
+						{
+							var doc = CKEDITOR.document, ed = evt.editor;
+							if ( !ed.getCommand( 'bold' ) )
+								doc.getById( 'exec-bold' ).hide();
+							if ( !ed.getCommand( 'link' ) )
+								doc.getById( 'exec-link' ).hide();
+						}
 					}
 				});
 		</script>
@@ -174,8 +184,8 @@ function onBlur()
 		</p>
 
 		<div id="eButtons" style="display: none">
-			<input onclick="ExecuteCommand('bold');" type="button" value="Execute &quot;bold&quot; Command">
-			<input onclick="ExecuteCommand('link');" type="button" value="Execute &quot;link&quot; Command">
+			<input id="exec-bold" onclick="ExecuteCommand('bold');" type="button" value="Execute &quot;bold&quot; Command">
+			<input id="exec-link" onclick="ExecuteCommand('link');" type="button" value="Execute &quot;link&quot; Command">
 			<input onclick="Focus();" type="button" value="Focus">
 			<br><br>
 			<input onclick="InsertHTML();" type="button" value="Insert HTML">

@@ -21,18 +21,42 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<strong>Note:</strong>The UI skin color feature depends on the CKEditor skin
 			compatibility. The Moono and Kama skins are examples of skins that work with it.
 		</p>
-		<h2 class="samples">Setting the User Interface Color</h2>
-		<p>
-			To specify the color of the user interface, set the <code>uiColor</code> property:
-		</p>
-<pre class="samples">
+	</div>
+	<p>
+		Click the <strong>UI Color Picker</strong> button to test your color preferences at runtime.
+	</p>
+	<form action="sample_posteddata.php" method="post">
+	<h2 class="samples">Setting the User Interface Color</h2>
+	<p>
+		This editor instance has a UI color value defined in configuration to change the skin color,
+		To specify the color of the user interface, set the <code>uiColor</code> property:
+	</p>
+	<pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>', {
 	<strong>uiColor: '#EE0000'</strong>
 });</pre>
-		<p>
-			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
-			the <code>&lt;textarea&gt;</code> element to be replaced.
-		</p>
+	<p>
+		Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
+		the <code>&lt;textarea&gt;</code> element to be replaced.
+	</p>
+	<p>
+		<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<script>
+
+			// Replace the <textarea id="editor"> with an CKEditor
+			// instance, using default configurations.
+			CKEDITOR.replace( 'editor1', {
+				uiColor: '#14B8C4',
+				toolbar: [
+					[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+					[ 'FontSize', 'TextColor', 'BGColor' ],
+					[ 'UIColor' ]
+				]
+			});
+
+		</script>
+	</p>
+	<div id="ui-color-plugin">
 		<h2 class="samples">Enabling the Color Picker</h2>
 		<p>
 			If the <strong>uicolor</strong> plugin along with the dedicated <strong>UIColor</strong>
@@ -48,78 +72,46 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 	<strong>extraPlugins: 'uicolor',</strong>
 	toolbar: [ [ 'Bold', 'Italic' ], [ <strong>'UIColor'</strong> ] ]
 });</pre>
-	</div>
-	<p>
-		Click the <strong>UI Color Picker</strong> button to test your color preferences at runtime.
-	</p>
-	<p>
-		The first editor instance includes the <strong>UI Color Picker</strong> toolbar button,
-		but the default UI color is not defined, so the editor uses the skin color.
-	</p>
-	<form action="sample_posteddata.php" method="post">
-	<p>
-		<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+		<p>
+			<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script>
+
+				// Replace the <textarea id="editor"> with an CKEditor
+				// instance, using default configurations.
+				CKEDITOR.replace( 'editor2', {
+					extraPlugins: 'uicolor',
+					toolbar: [
+						[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+						[ 'FontSize', 'TextColor', 'BGColor' ],
+						[ 'UIColor' ]
+					]
+				});
+
+			</script>
+		</p>
+		<p>
+			The <strong>UI Color Picker</strong> toolbar button can be also used on inline editor.
+		</p>
+		<div id="editor3" contenteditable="true">
+			<p>This is some <strong>sample text</strong>. You are using <a data-cke-saved-href="http://ckeditor.com/" href="http://ckeditor.com/">CKEditor</a>.</p>
+		</div>
 		<script>
 
-			// Replace the <textarea id="editor"> with an CKEditor
-			// instance, using default configurations.
-			CKEDITOR.replace( 'editor1', {
+			// Disable automatic creation of inline instances.
+			CKEDITOR.disableAutoInline = true;
+
+			// Replace the <div id="editor3"> with an inline CKEditor instance.
+			CKEDITOR.inline( 'editor3', {
 				extraPlugins: 'uicolor',
 				toolbar: [
 					[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
 					[ 'FontSize', 'TextColor', 'BGColor' ],
 					[ 'UIColor' ]
 				]
-			});
+			} );
 
 		</script>
-	</p>
-	<p>
-		The second editor instance includes the <strong>UI Color Picker</strong> toolbar button. The
-		default UI color was defined, so the skin color is not used.
-	</p>
-	<p>
-		<textarea cols="80" id="editor2" name="editor2" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
-		<script>
-
-			// Replace the <textarea id="editor"> with an CKEditor
-			// instance, using default configurations.
-			CKEDITOR.replace( 'editor2', {
-				extraPlugins: 'uicolor',
-				uiColor: '#14B8C4',
-				toolbar: [
-					[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
-					[ 'FontSize', 'TextColor', 'BGColor' ],
-					[ 'UIColor' ]
-				]
-			});
-
-		</script>
-	</p>
-	<p>
-		The third editor instance is inline. It also includes the <strong>UI Color Picker</strong> toolbar
-		button.
-	</p>
-	<div id="editor3" contenteditable="true">
-		<p>This is some <strong>sample text</strong>. You are using <a data-cke-saved-href="http://ckeditor.com/" href="http://ckeditor.com/">CKEditor</a>.</p>
 	</div>
-	<script>
-
-		// Disable automatic creation of inline instances.
-		CKEDITOR.disableAutoInline = true;
-
-		// Replace the <div id="editor3"> with an inline CKEditor instance.
-		CKEDITOR.inline( 'editor3', {
-			extraPlugins: 'uicolor',
-			uiColor: '#67C614',
-			toolbar: [
-				[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
-				[ 'FontSize', 'TextColor', 'BGColor' ],
-				[ 'UIColor' ]
-			]
-		} );
-
-	</script>
 	<p>
 		<input type="submit" value="Submit">
 	</p>

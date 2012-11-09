@@ -117,7 +117,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		var editor = CKEDITOR.replace( 'editor1', {
 			// Defines a simpler toolbar to be used in this sample.
 			// Note that we have added out "MyButton" button here.
-			toolbar: [ [ 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike','-','Link', '-', 'MyButton' ] ]
+			toolbar: [ [ 'Source', '-', 'Link', '-', 'MyButton' ] ],
+			plugins : 'wysiwygarea,sourcearea,toolbar,link,contextmenu'
 		});
 
 		// Listen for the "pluginsLoaded" event, so we are sure that the
