@@ -720,7 +720,7 @@
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
 			range.selectNodeContents( pastebin );
-			var sel = range.select();
+			var selPastebin = range.select();
 
 			// If non-native paste is executed, IE will open security alert and blur editable.
 			// Editable will then lock selection inside itself and after accepting security alert
@@ -728,7 +728,7 @@
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
 				var blurListener = editable.once( 'blur', function( evt ) {
-					editor.lockSelection( sel );
+					editor.lockSelection( selPastebin );
 				} );
 			}
 
