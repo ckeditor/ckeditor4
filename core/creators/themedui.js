@@ -313,7 +313,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			style += 'width:' + width + 'px;';
 
 		if ( !themedTpl ) {
-			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<span' +
+			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +
 				' id="cke_{name}"' +
 				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} ' + CKEDITOR.env.cssClass + '" ' +
 				' dir="{langDir}"' +
@@ -321,14 +321,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 				' role="application"' +
 				' aria-labelledby="cke_{name}_arialbl" {style}>' +
 				'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-					'<span class="cke_inner cke_reset" role="presentation">' +
+					'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
 						'<span id="{topId}" class="cke_top cke_reset_all"' +
 						' role="presentation" style="height:auto">{topHtml}</span>' +
-						'<span id="{contentId}" class="cke_contents cke_reset"' +
-						' role="presentation" style="height:{height}"></span>' +
+						'<{outerEl} id="{contentId}" class="cke_contents cke_reset"' +
+						' role="presentation" style="height:{height}"></{outerEl}>' +
 						'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
-					'</span>' +
-				'</span>' );
+					'</{outerEl}>' +
+				'</{outerEl}>' );
 		}
 
 		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
@@ -343,7 +343,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			topHtml: topHtml || '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomId: editor.ui.spaceId( 'bottom' ),
-			bottomHtml: bottomHtml || ''
+			bottomHtml: bottomHtml || '',
+			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
 		}));
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
