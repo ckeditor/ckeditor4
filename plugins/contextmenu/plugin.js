@@ -150,6 +150,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			}
 		});
 
+		editor.setKeystroke( CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' );
 		editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' );
 	}
 });
