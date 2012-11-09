@@ -528,14 +528,12 @@ textarea.cke_dialog_ui_input_textarea:hover
 
 input.cke_dialog_ui_input_text:focus,
 input.cke_dialog_ui_input_password:focus,
-textarea.cke_dialog_ui_input_textarea:focus
+textarea.cke_dialog_ui_input_textarea:focus,
+select.cke_dialog_ui_input_select:focus
 {
+	outline: none;
 	border: 1px solid #139ff7;
 	border-top-color: #1392e9;
-
-	-moz-box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
-	box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
 }
 
 /*
