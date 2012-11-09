@@ -620,7 +620,10 @@
 						var control = ev.data.getTarget();
 						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) ) {
 							editor.getSelection().selectElement( control );
-							ev.data.preventDefault();
+
+							// Prevent focus from stealing from the editable. (#9515)
+							if ( control.is( 'input', 'textarea', 'select' ) )
+								ev.data.preventDefault();
 						}
 					});
 				}
