@@ -1441,7 +1441,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				parent.$.clientWidth && parent.$.clientWidth < parent.$.scrollWidth ||
 				parent.$.clientHeight && parent.$.clientHeight < parent.$.scrollHeight;
 
-			if ( overflowed )
+			// Skip body element, which will report wrong clientHeight when containing
+			// floated content. (#9523)
+			if ( overflowed && !parent.is( 'body' ) )
 				this.scrollIntoParent( parent, alignToTop, 1 );
 
 			// Walk across the frame.
