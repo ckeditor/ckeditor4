@@ -7,12 +7,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <head>
 	<title>Using Stylesheet Parser Plugin &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link rel="stylesheet" href="sample.css">
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/sample.css">
+	<meta name="ckeditor-sample-name" content="Stylesheet Parser plugin">
+	<meta name="ckeditor-sample-description" content="Using the Stylesheet Parser plugin to fill the Styles drop-down list based on the CSS classes available in the document stylesheet.">
+	<meta name="ckeditor-sample-group" content="Plugins">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Using the Stylesheet Parser Plugin
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using the Stylesheet Parser Plugin
 	</h1>
 	<div class="description">
 		<p>
@@ -33,7 +36,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			the <code>&lt;textarea&gt;</code> element to be replaced with CKEditor.
 		</p>
 	</div>
-	<form action="sample_posteddata.php" method="post">
+	<form action="../../../samples/sample_posteddata.php" method="post">
 		<p>
 			<label for="editor1">
 				CKEditor using the <code>stylesheetparser</code> plugin with its default configuration:
@@ -51,7 +54,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					extraPlugins: 'stylesheetparser',
 
 					// Stylesheet for the contents.
-					contentsCss: 'assets/stylesheetparser/sample.css',
+					contentsCss: 'assets/sample.css',
 
 					// Do not load the default Styles configuration.
 					stylesSet: []
