@@ -1493,9 +1493,8 @@
 							rightSib = startContainer.getChild( range.startOffset );
 
 						if ( !leftSib && !rightSib && startContainer.is( CKEDITOR.dtd.$removeEmpty ) ||
-								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT && leftSib.isEditable() ||
-								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT && rightSib.isEditable()
-							 ) {
+								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT ||
+								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT ) {
 							range.insertNode( this.document.createText( '' ) );
 							range.collapse( 1 );
 						}
