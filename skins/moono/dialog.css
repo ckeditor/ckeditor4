@@ -364,7 +364,7 @@ the same labelling structure, having the label text inside an element with
 
 /* If an element is supposed to be disabled, the .cke_disabled class is
    appended to it. */
-div.cke_disabled .cke_dialog_ui_labeled_content *
+div.cke_disabled .cke_dialog_ui_labeled_content div *
 {
 	background-color: #ddd;
 	cursor: default;
@@ -467,30 +467,6 @@ The basic text field to input text.
 +-------------------------------------------------+
 */
 
-input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
-{
-	background-color: #fff;
-	border: 1px solid #c9cccf;
-	border-top-color: #aeb3b9;
-	padding: 4px 6px;
-	width: 100%;
-	*width: 95%;
-
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-}
-
 /*
 Textarea
 ----------
@@ -582,7 +558,7 @@ a.cke_dialog_ui_button
 	*display: inline;
 	*zoom: 1;
 
-	padding: 3px 12px;
+	padding: 3px 0;
 	margin: 0;
 
 	text-align: center;
@@ -612,6 +588,11 @@ a.cke_dialog_ui_button
 
 }
 
+span.cke_dialog_ui_button
+{
+	padding: 0 12px;
+}
+
 a.cke_dialog_ui_button:hover
 {
 	border-color: #9e9e9e;
@@ -633,13 +614,13 @@ a.cke_dialog_ui_button:hover
 	border: 3px solid;
 	padding: 1px 10px;
 }
-
+/*
 a.cke_dialog_ui_button[style*="width"]
 {
-	display: block;
+	display: block !important;
 	width: auto !important;
 }
-
+*/
 /* The inner part of the button. */
 a.cke_dialog_ui_button_ok span,
 a.cke_dialog_ui_button_cancel span
