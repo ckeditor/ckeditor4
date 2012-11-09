@@ -659,7 +659,7 @@
 	}
 
 	function protectPreFormatted( html ) {
-		return html.replace( /(<pre\b[^>]*>)(\r\n|\n)/g, '$1$2$2' );
+		return CKEDITOR.env.opera ? html : html.replace( /(<pre\b[^>]*>)(\r\n|\n)/g, '$1$2$2' );
 	}
 
 	function protectRealComments( html ) {
