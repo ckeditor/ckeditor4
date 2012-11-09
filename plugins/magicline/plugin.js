@@ -135,7 +135,7 @@
 			}, null, null, 0 );
 
 			// Hide the box on mouseout if mouse leaves document.
-			editable.attachListener( doc, 'mouseout', function( event ) {
+			editable.attachListener( that.inInlineMode ? doc : doc.getWindow().getFrame(), 'mouseout', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -164,13 +164,9 @@
 				}
 
 				else {
-					var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
-
-					if ( !dest.$ || ( dest.$ && dest.type == CKEDITOR.NODE_ELEMENT && dest.is( 'html' ) ) ) {
-						clearTimeout( checkMouseTimer );
-						checkMouseTimer = null;
-						hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
-					}
+					clearTimeout( checkMouseTimer );
+					checkMouseTimer = null;
+					hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
 				}
 			});
 
