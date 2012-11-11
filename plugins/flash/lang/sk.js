@@ -3,41 +3,41 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'sk', {
-	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
-	accessSameDomain: 'Same domain', // MISSING
+	access: 'Prístup skriptu',
+	accessAlways: 'Vždy',
+	accessNever: 'Nikdy',
+	accessSameDomain: 'Rovnaká doména',
 	alignAbsBottom: 'Úplne dole',
 	alignAbsMiddle: 'Do stredu',
-	alignBaseline: 'Na základňu',
+	alignBaseline: 'Na základnú čiaru',
 	alignTextTop: 'Na horný okraj textu',
 	bgcolor: 'Farba pozadia',
-	chkFull: 'Allow Fullscreen', // MISSING
+	chkFull: 'Povoliť zobrazenie na celú obrazovku (fullscreen)',
 	chkLoop: 'Opakovanie',
 	chkMenu: 'Povoliť Flash Menu',
 	chkPlay: 'Automatické prehrávanie',
-	flashvars: 'Variables for Flash', // MISSING
+	flashvars: 'Premenné pre Flash',
 	hSpace: 'H-medzera',
 	properties: 'Vlastnosti Flashu',
-	propertiesTab: 'Properties', // MISSING
-	quality: 'Quality', // MISSING
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
+	propertiesTab: 'Vlastnosti',
+	quality: 'Kvalita',
+	qualityAutoHigh: 'Automaticky vysoká',
+	qualityAutoLow: 'Automaticky nízka',
+	qualityBest: 'Najlepšia',
+	qualityHigh: 'Vysoká',
+	qualityLow: 'Nízka',
+	qualityMedium: 'Stredná',
 	scale: 'Mierka',
-	scaleAll: 'Zobraziť mierku',
-	scaleFit: 'Roztiahnuť na celé',
+	scaleAll: 'Zobraziť všetko',
+	scaleFit: 'Roztiahnuť, aby sedelo presne',
 	scaleNoBorder: 'Bez okrajov',
 	title: 'Vlastnosti Flashu',
 	vSpace: 'V-medzera',
-	validateHSpace: 'HSpace must be a number.', // MISSING
-	validateSrc: 'Zadajte prosím URL odkazu',
-	validateVSpace: 'VSpace must be a number.', // MISSING
-	windowMode: 'Window mode', // MISSING
-	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	validateHSpace: 'H-medzera musí byť číslo.',
+	validateSrc: 'URL nesmie byť prázdne.',
+	validateVSpace: 'V-medzera musí byť číslo',
+	windowMode: 'Mód okna',
+	windowModeOpaque: 'Nepriehľadný',
+	windowModeTransparent: 'Priehľadný',
+	windowModeWindow: 'Okno'
 });

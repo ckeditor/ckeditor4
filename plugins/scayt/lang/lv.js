@@ -3,31 +3,31 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'scayt', 'lv', {
-	about: 'About SCAYT', // MISSING
-	aboutTab: 'About', // MISSING
-	addWord: 'Add Word', // MISSING
-	allCaps: 'Ignore All-Caps Words', // MISSING
-	dic_create: 'Create', // MISSING
-	dic_delete: 'Delete', // MISSING
-	dic_field_name: 'Dictionary name', // MISSING
-	dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
-	dic_rename: 'Rename', // MISSING
-	dic_restore: 'Restore', // MISSING
-	dictionariesTab: 'Dictionaries', // MISSING
-	disable: 'Disable SCAYT', // MISSING
-	emptyDic: 'Dictionary name should not be empty.', // MISSING
-	enable: 'Enable SCAYT', // MISSING
-	ignore: 'Ignore', // MISSING
-	ignoreAll: 'Ignore All', // MISSING
-	ignoreDomainNames: 'Ignore Domain Names', // MISSING
-	langs: 'Languages', // MISSING
-	languagesTab: 'Languages', // MISSING
-	mixedCase: 'Ignore Words with Mixed Case', // MISSING
-	mixedWithDigits: 'Ignore Words with Numbers', // MISSING
-	moreSuggestions: 'More suggestions', // MISSING
-	opera_title: 'Not supported by Opera', // MISSING
-	options: 'Options', // MISSING
-	optionsTab: 'Options', // MISSING
-	title: 'Spell Check As You Type', // MISSING
-	toggle: 'Toggle SCAYT' // MISSING
+	about: 'Par SCAYT',
+	aboutTab: 'Par',
+	addWord: 'Pievienot vārdu',
+	allCaps: 'Ignorēt vārdus ar lielajiem burtiem',
+	dic_create: 'Izveidot',
+	dic_delete: 'Dzēst',
+	dic_field_name: 'Vārdnīcas nosaukums',
+	dic_info: 'Sākumā lietotāja vārdnīca tiek glabāta Cookie. Diemžēl, Cookie ir ierobežots izmērs. Kad vārdnīca sasniegs izmēru, ka to vairs nevar glabāt Cookie, tā tiks noglabāta uz servera. Lai saglabātu personīgo vārdnīcu uz jūsu servera, jums jānorāda tās nosaukums. Ja jūs jau esiet noglabājuši vārdnīcu, lūdzu ierakstiet tās nosaukum un nospiediet Atjaunot pogu.',
+	dic_rename: 'Pārsaukt',
+	dic_restore: 'Atjaunot',
+	dictionariesTab: 'Vārdnīcas',
+	disable: 'Atslēgt SCAYT',
+	emptyDic: 'Vārdnīcas nosaukums nevar būt tukšs.',
+	enable: 'Ieslēgt SCAYT',
+	ignore: 'Ignorēt',
+	ignoreAll: 'Ignorēt visu',
+	ignoreDomainNames: 'Ignorēt domēnu nosaukumus',
+	langs: 'Valodas',
+	languagesTab: 'Valodas',
+	mixedCase: 'Ignorēt vārdus ar jauktu reģistru burtiem',
+	mixedWithDigits: 'Ignorēt vārdus ar skaitļiem',
+	moreSuggestions: 'Vairāk ieteikumi',
+	opera_title: 'Opera neatbalsta',
+	options: 'Uzstādījumi',
+	optionsTab: 'Uzstādījumi',
+	title: 'Pārbaudīt gramatiku rakstot',
+	toggle: 'Pārslēgt SCAYT'
 });

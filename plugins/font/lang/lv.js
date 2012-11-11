@@ -5,10 +5,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'lv', {
 	fontSize: {
 		label: 'Izmērs',
-		voiceLabel: 'Font Size',
+		voiceLabel: 'Fonta izmeŗs',
 		panelTitle: 'Izmērs'
 	},
 	label: 'Šrifts',
 	panelTitle: 'Šrifts',
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'Fonts'
 });

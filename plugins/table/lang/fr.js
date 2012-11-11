@@ -48,7 +48,7 @@ CKEDITOR.plugins.setLang( 'table', 'fr', {
 	headers: 'En-Têtes',
 	headersBoth: 'Les deux',
 	headersColumn: 'Première colonne',
-	headersNone: 'Aucune',
+	headersNone: 'Aucunes',
 	headersRow: 'Première ligne',
 	invalidBorder: 'La taille de la bordure doit être un nombre.',
 	invalidCellPadding: 'La marge intérieure des cellules doit être un nombre positif.',

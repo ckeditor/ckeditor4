@@ -6,17 +6,17 @@ CKEDITOR.plugins.setLang( 'toolbar', 'el', {
 	toolbarCollapse: 'Σύμπτηξη Εργαλειοθήκης',
 	toolbarExpand: 'Ανάπτυξη Εργαλειοθήκης',
 	toolbarGroups: {
-		document: 'Document',
+		document: 'Έγγραφο',
 		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		editing: 'Σε επεξεργασία',
+		forms: 'Φόρμες',
+		basicstyles: 'Βασικά στυλ',
+		paragraph: 'Παράγραφος',
+		links: 'Συνδέσμοι',
+		insert: 'Εισαγωγή',
+		styles: 'Στυλ',
+		colors: 'Χρώματα',
+		tools: 'Εργαλεία'
 	},
 	toolbars: 'Εργαλειοθήκες Επεξεργαστή'
 });

@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'mn', {
 	charsetTR: 'Tурк',
 	charsetUN: 'Юникод (UTF-8)',
 	charsetWE: 'Баруун европ',
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Сонгох',
 	design: 'Design', // MISSING
 	docTitle: 'Хуудасны гарчиг',
 	docType: 'Баримт бичгийн төрөл Heading',
@@ -38,5 +38,5 @@ CKEDITOR.plugins.setLang( 'docprops', 'mn', {
 	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
 	title: 'Баримт бичиг шинж чанар',
 	txtColor: 'Фонтны өнгө',
-	xhtmlDec: 'XHTML агуулж зарлах'
+	xhtmlDec: 'XHTML-ийн мэдээллийг агуулах'
 });

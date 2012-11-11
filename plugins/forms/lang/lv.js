@@ -7,9 +7,9 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		title: 'Pogas īpašības',
 		text: 'Teksts (vērtība)',
 		type: 'Tips',
-		typeBtn: 'Button',
-		typeSbm: 'Submit',
-		typeRst: 'Reset'
+		typeBtn: 'Poga',
+		typeSbm: 'Nosūtīt',
+		typeRst: 'Atcelt'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Atzīmēšanas kastītes īpašības',
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		menu: 'Formas īpašības',
 		action: 'Darbība',
 		method: 'Metode',
-		encoding: 'Encoding'
+		encoding: 'Kodējums'
 	},
 	hidden: {
 		title: 'Paslēptās teksta rindas īpašības',

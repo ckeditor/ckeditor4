@@ -3,10 +3,10 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'lv', {
-	copy: 'Copyright &copy; $1. All rights reserved.', // MISSING
-	dlgTitle: 'About CKEditor', // MISSING
-	help: 'Check $1 for help.', // MISSING
-	moreInfo: 'For licensing information please visit our web site:', // MISSING
-	title: 'About CKEditor', // MISSING
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	copy: 'Kopēšanas tiesības &copy; $1. Visas tiesības rezervētas.',
+	dlgTitle: 'Par CKEditor',
+	help: 'Pārbaudiet $1 palīdzībai.',
+	moreInfo: 'Informācijai par licenzēšanu apmeklējiet mūsu mājas lapu:',
+	title: 'Par CKEditor',
+	userGuide: 'CKEditor Lietotāja pamācība'
 });

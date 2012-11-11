@@ -36,7 +36,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		value: 'Утга',
 		size: 'Хэмжээ',
 		lines: 'Мөр',
-		chkMulti: 'Олон сонголт зөвшөөрөх',
+		chkMulti: 'Олон зүйл зэрэг сонгохыг зөвшөөрөх',
 		opText: 'Тэкст',
 		opValue: 'Утга',
 		btnAdd: 'Нэмэх',

@@ -7,9 +7,9 @@ CKEDITOR.plugins.setLang( 'image', 'lv', {
 	alt: 'Alternatīvais teksts',
 	border: 'Rāmis',
 	btnUpload: 'Nosūtīt serverim',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	button2Img: 'Vai vēlaties pārveidot izvēlēto attēla pogu uz attēla?',
 	hSpace: 'Horizontālā telpa',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Vai vēlaties pārveidot izvēlēto attēlu uz attēla pogas?',
 	infoTab: 'Informācija par attēlu',
 	linkTab: 'Hipersaite',
 	lockRatio: 'Nemainīga Augstuma/Platuma attiecība',
@@ -18,9 +18,9 @@ CKEDITOR.plugins.setLang( 'image', 'lv', {
 	title: 'Attēla īpašības',
 	titleButton: 'Attēlpogas īpašības',
 	upload: 'Augšupielādēt',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'Trūkst attēla atrašanās adrese.',
 	vSpace: 'Vertikālā telpa',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Apmalei jābūt veselam skaitlim',
+	validateHSpace: 'HSpace jābūt veselam skaitlim',
+	validateVSpace: 'VSpace jābūt veselam skaitlim'
 });

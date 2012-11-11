@@ -3,10 +3,10 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'lv', {
-	bold: 'Treknu šriftu',
-	italic: 'Slīprakstā',
+	bold: 'Treknināts',
+	italic: 'Kursīvs',
 	strike: 'Pārsvītrots',
-	subscript: 'Zemrakstā',
+	subscript: 'Apakšrakstā',
 	superscript: 'Augšrakstā',
-	underline: 'Apakšsvītra'
+	underline: 'Pasvītrots'
 });

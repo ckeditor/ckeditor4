@@ -3,20 +3,20 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'lv', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Aizvērt rīkjoslu',
+	toolbarExpand: 'Atvērt rīkjoslu',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokuments',
+		clipboard: 'Starpliktuve/Atcelt',
+		editing: 'Labošana',
+		forms: 'Formas',
+		basicstyles: 'Pamata stili',
+		paragraph: 'Paragrāfs',
+		links: 'Saites',
+		insert: 'Ievietot',
+		styles: 'Stili',
+		colors: 'Krāsas',
+		tools: 'Rīki'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Redaktora rīkjoslas'
 });

@@ -4,10 +4,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'mn', {
 	auto: 'Автоматаар',
-	bgColorTitle: 'Фонны өнгө',
+	bgColorTitle: 'Дэвсгэр өнгө',
 	colors: {
-		'000': 'Black',
-		'800000': 'Maroon',
+		'000': 'Хар',
+		'800000': 'Хүрэн',
 		'8B4513': 'Saddle Brown',
 		'2F4F4F': 'Dark Slate Gray',
 		'008080': 'Teal',
@@ -21,23 +21,23 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'mn', {
 		'40E0D0': 'Turquoise',
 		'0000CD': 'Medium Blue',
 		'800080': 'Purple',
-		'808080': 'Gray',
-		F00: 'Red',
+		'808080': 'Саарал',
+		F00: 'Улаан',
 		FF8C00: 'Dark Orange',
-		FFD700: 'Gold',
-		'008000': 'Green',
-		'0FF': 'Cyan',
-		'00F': 'Blue',
-		EE82EE: 'Violet',
+		FFD700: 'Алт',
+		'008000': 'Ногоон',
+		'0FF': 'Цэнхэр',
+		'00F': 'Хөх',
+		EE82EE: 'Ягаан',
 		A9A9A9: 'Dim Gray',
 		FFA07A: 'Light Salmon',
-		FFA500: 'Orange',
-		FFFF00: 'Yellow',
+		FFA500: 'Улбар шар',
+		FFFF00: 'Шар',
 		'00FF00': 'Lime',
 		AFEEEE: 'Pale Turquoise',
 		ADD8E6: 'Light Blue',
 		DDA0DD: 'Plum',
-		D3D3D3: 'Light Grey',
+		D3D3D3: 'Цайвар саарал',
 		FFF0F5: 'Lavender Blush',
 		FAEBD7: 'Antique White',
 		FFFFE0: 'Light Yellow',
@@ -45,9 +45,9 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'mn', {
 		F0FFFF: 'Azure',
 		F0F8FF: 'Alice Blue',
 		E6E6FA: 'Lavender',
-		FFF: 'White'
+		FFF: 'Цагаан'
 	},
 	more: 'Нэмэлт өнгөнүүд...',
-	panelTitle: 'Colors', // MISSING
-	textColorTitle: 'Фонтны өнгө'
+	panelTitle: 'Өнгөнүүд',
+	textColorTitle: 'Бичвэрийн өнгө'
 });

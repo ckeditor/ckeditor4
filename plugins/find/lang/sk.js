@@ -4,10 +4,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'sk', {
 	find: 'Hľadať',
-	findOptions: 'Find Options',
+	findOptions: 'Nájsť možnosti',
 	findWhat: 'Čo hľadať:',
-	matchCase: 'Rozlišovať malé/veľké písmená',
-	matchCyclic: 'Match cyclic',
+	matchCase: 'Rozlišovať malé a veľké písmená',
+	matchCyclic: 'Cykliť zhodu',
 	matchWord: 'Len celé slová',
 	notFoundMsg: 'Hľadaný text nebol nájdený.',
 	replace: 'Nahradiť',

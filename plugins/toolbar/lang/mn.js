@@ -12,11 +12,11 @@ CKEDITOR.plugins.setLang( 'toolbar', 'mn', {
 		forms: 'Forms',
 		basicstyles: 'Basic Styles',
 		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		links: 'Холбоосууд',
+		insert: 'Оруулах',
+		styles: 'Загварууд',
+		colors: 'Онгөнүүд',
+		tools: 'Хэрэгслүүд'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Болосруулагчийн хэрэгслийн самбар'
 });

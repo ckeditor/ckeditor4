@@ -3,9 +3,9 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'el', {
-	clear: 'Clear', // MISSING
+	clear: 'Καθαρισμός',
 	highlight: 'Highlight', // MISSING
-	options: 'Color Options', // MISSING
-	selected: 'Selected Color', // MISSING
-	title: 'Select color' // MISSING
+	options: 'Επιλογές Χρωμάτων',
+	selected: 'Επιλεγμένο Χρώμα',
+	title: 'Επιλογή Χρώματος'
 });

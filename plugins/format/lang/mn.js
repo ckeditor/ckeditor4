@@ -3,16 +3,16 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'mn', {
-	label: 'Формат',
-	panelTitle: 'Формат',
+	label: 'Параргафын загвар',
+	panelTitle: 'Параргафын загвар',
 	tag_address: 'Хаяг',
 	tag_div: 'Paragraph (DIV)',
-	tag_h1: 'Heading 1',
-	tag_h2: 'Heading 2',
-	tag_h3: 'Heading 3',
-	tag_h4: 'Heading 4',
-	tag_h5: 'Heading 5',
-	tag_h6: 'Heading 6',
+	tag_h1: 'Гарчиг 1',
+	tag_h2: 'Гарчиг 2',
+	tag_h3: 'Гарчиг 3',
+	tag_h4: 'Гарчиг 4',
+	tag_h5: 'Гарчиг 5',
+	tag_h6: 'Гарчиг 6',
 	tag_p: 'Хэвийн',
 	tag_pre: 'Formatted'
 });

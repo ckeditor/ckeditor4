@@ -7,19 +7,19 @@ CKEDITOR.plugins.setLang( 'docprops', 'lv', {
 	bgFixed: 'Fona attēls ir fiksēts',
 	bgImage: 'Fona attēla hipersaite',
 	charset: 'Simbolu kodējums',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
+	charsetASCII: 'ASCII',
+	charsetCE: 'Centrāleiropas',
+	charsetCR: 'Kirilica',
+	charsetCT: 'Ķīniešu tradicionālā (Big5)',
+	charsetGR: 'Grieķu',
+	charsetJP: 'Japāņu',
+	charsetKR: 'Korejiešu',
 	charsetOther: 'Cits simbolu kodējums',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose', // MISSING
-	design: 'Design', // MISSING
+	charsetTR: 'Turku',
+	charsetUN: 'Unikods (UTF-8)',
+	charsetWE: 'Rietumeiropas',
+	chooseColor: 'Izvēlēties',
+	design: 'Dizains',
 	docTitle: 'Dokumenta virsraksts <Title>',
 	docType: 'Dokumenta tips',
 	docTypeOther: 'Cits dokumenta tips',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'lv', {
 	metaDescription: 'Dokumenta apraksts',
 	metaKeywords: 'Dokumentu aprakstoši atslēgvārdi (atdalīti ar komatu)',
 	other: '<cits>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Šis ir <strong>parauga teksts</strong>. Jūs izmantojiet <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Dokumenta īpašības',
 	txtColor: 'Teksta krāsa',
 	xhtmlDec: 'Ietvert XHTML deklarācijas'

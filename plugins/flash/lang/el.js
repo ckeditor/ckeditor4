@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'el', {
 	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
+	accessAlways: 'Πάντα',
+	accessNever: 'Ποτέ',
 	accessSameDomain: 'Same domain', // MISSING
 	alignAbsBottom: 'Απόλυτα Κάτω',
 	alignAbsMiddle: 'Απόλυτα στη Μέση',
@@ -16,17 +16,17 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	chkLoop: 'Επανάληψη',
 	chkMenu: 'Ενεργοποίηση Flash Menu',
 	chkPlay: 'Αυτόματη Εκτέλεση',
-	flashvars: 'Variables for Flash', // MISSING
+	flashvars: 'Μεταβλητές για Flash',
 	hSpace: 'Οριζόντιο Διάστημα',
 	properties: 'Ιδιότητες Flash',
 	propertiesTab: 'Ιδιότητες',
-	quality: 'Quality', // MISSING
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
+	quality: 'Ποιότητα',
+	qualityAutoHigh: 'Αυτόματη Υψηλή',
+	qualityAutoLow: 'Αυτόματη Χαμηλή',
+	qualityBest: 'Καλύτερη',
+	qualityHigh: 'Υψηλή',
+	qualityLow: 'Χαμηλή',
+	qualityMedium: 'Μεσαία',
 	scale: 'Μεγέθυνση',
 	scaleAll: 'Εμφάνιση όλων',
 	scaleFit: 'Ακριβές Μέγεθος',
@@ -37,7 +37,7 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	validateSrc: 'Εισάγετε την τοποθεσία (URL) του υπερσυνδέσμου (Link)',
 	validateVSpace: 'VSpace must be a number.', // MISSING
 	windowMode: 'Window mode', // MISSING
-	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	windowModeOpaque: 'Συμπαγές',
+	windowModeTransparent: 'Διάφανο',
+	windowModeWindow: 'Παράθυρο'
 });

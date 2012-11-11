@@ -7,5 +7,5 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'el', {
 	flash: 'Flash Animation', // MISSING
 	hiddenfield: 'Hidden Field', // MISSING
 	iframe: 'IFrame', // MISSING
-	unknown: 'Unknown Object' // MISSING
+	unknown: 'Άγνωστο Αντικείμενο'
 });

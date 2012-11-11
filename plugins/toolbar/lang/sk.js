@@ -3,20 +3,20 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sk', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Zbaliť lištu nástrojov',
+	toolbarExpand: 'Rozbaliť lištu nástrojov',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokument',
+		clipboard: 'Schránka pre kopírovanie/Späť',
+		editing: 'Upravovanie',
+		forms: 'Formuláre',
+		basicstyles: 'Základné štýly',
+		paragraph: 'Odstavec',
+		links: 'Odkazy',
+		insert: 'Vložiť',
+		styles: 'Štýly',
+		colors: 'Farby',
+		tools: 'Nástroje'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Lišty nástrojov editora'
 });

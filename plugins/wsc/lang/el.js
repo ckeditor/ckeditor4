@@ -15,10 +15,10 @@ CKEDITOR.plugins.setLang( 'wsc', 'el', {
 	noChanges: 'Ο ορθογραφικός έλεγχος ολοκληρώθηκε: Δεν άλλαξαν λέξεις',
 	noMispell: 'Ο ορθογραφικός έλεγχος ολοκληρώθηκε: Δεν βρέθηκαν λάθη',
 	noSuggestions: '- Δεν υπάρχουν προτάσεις -',
-	notAvailable: 'Sorry, but service is unavailable now.',
+	notAvailable: 'Η υπηρεσία δεν είναι διαθέσιμη αυτήν την στιγμή.',
 	notInDic: 'Δεν υπάρχει στο λεξικό',
 	oneChange: 'Ο ορθογραφικός έλεγχος ολοκληρώθηκε: Άλλαξε μια λέξη',
 	progress: 'Γίνεται ορθογραφικός έλεγχος...',
-	title: 'Spell Check',
+	title: 'Ορθογραφικός Έλεγχος',
 	toolbar: 'Ορθογραφικός Έλεγχος'
 });

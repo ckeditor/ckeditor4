@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'sk', {
 	label: 'Formát',
 	panelTitle: 'Formát',
 	tag_address: 'Adresa',
-	tag_div: 'Odsek (DIV)',
+	tag_div: 'Normálny (DIV)',
 	tag_h1: 'Nadpis 1',
 	tag_h2: 'Nadpis 2',
 	tag_h3: 'Nadpis 3',
