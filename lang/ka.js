@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'ka' ] = {
 		alignTop: 'ზემოთა',
 		alignMiddle: 'შუა',
 		alignBottom: 'ქვემოთა',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'სიმაღლე რიცხვით უნდა იყოს წარმოდგენილი.',
 		invalidWidth: 'სიგანე რიცხვით უნდა იყოს წარმოდგენილი.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

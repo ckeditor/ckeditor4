@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		alignTop: 'Sus',
 		alignMiddle: 'Mijloc',
 		alignBottom: 'Jos',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Înălțimea trebuie să fie un număr.',
 		invalidWidth: 'Lățimea trebuie să fie un număr.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		alignTop: '靠上對齊',
 		alignMiddle: '置中對齊',
 		alignBottom: '靠下對齊',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: '高度必須為數字格式',
 		invalidWidth: '寬度必須為數字格式',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

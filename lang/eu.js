@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

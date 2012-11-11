@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		alignTop: 'Ovast',
 		alignMiddle: 'Miðja',
 		alignBottom: 'Botnur',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',
 		invalidCssLength: 'Virðið sett í "%1" feltið má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px, %, in, cm, mm, em, ex, pt, ella pc).',

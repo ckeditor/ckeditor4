@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignTop: 'По верху',
 		alignMiddle: 'По середине',
 		alignBottom: 'По низу',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',
 		invalidCssLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',

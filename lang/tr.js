@@ -90,6 +90,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		alignTop: 'Tepe',
 		alignMiddle: 'Orta',
 		alignBottom: 'Alt',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Yükseklik sayı olmalıdır.',
 		invalidWidth: 'Genişlik bir sayı olmalıdır.',
 		invalidCssLength: 'Belirttiğiniz sayı "%1" alanı için pozitif bir sayı CSS birim değeri olmalıdır (px, %, in, cm, mm, em, ex, pt, veya pc).',

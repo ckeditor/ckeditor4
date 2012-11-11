@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'af' ] = {
 		alignTop: 'Bo',
 		alignMiddle: 'Middel',
 		alignBottom: 'Onder',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Hoogte moet \'n getal wees',
 		invalidWidth: 'Breedte moet \'n getal wees.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
