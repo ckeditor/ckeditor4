@@ -45,6 +45,16 @@ This file contains styles to used by Internet Explorer 7 only.
 	vertical-align: top;
 }
 
+/* IE7 margin loose on float. */
+.cke_dialog .cke_resizer_ltr
+{
+	padding-left: 4px;
+}
+.cke_dialog .cke_resizer_rtl
+{
+	padding-right: 4px;
+}
+
 /* 	IE7 doesn't support box-sizing and therefore we cannot
 	have sexy inputs which go well with the layout. */
 .cke_dialog_ui_input_text,
