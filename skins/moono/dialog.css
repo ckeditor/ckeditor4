@@ -699,6 +699,11 @@ span.cke_dialog_ui_button
 Styles for other dialog element types.
 */
 
+div.cke_dialog_ui_input_select
+{
+	display: table;
+}
+
 select.cke_dialog_ui_input_select
 {
 	height: 24px;
