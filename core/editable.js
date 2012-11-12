@@ -507,6 +507,9 @@
 				var ref = doc.getCustomData( 'stylesheet_ref' ) || 0;
 				doc.setCustomData( 'stylesheet_ref', ref + 1 );
 
+				// Pass this configuration to styles system.
+				this.setCustomData( 'cke_includeReadonly', !editor.config.disableReadonlyStyling );
+
 				// Prevent the browser opening read-only links. (#6032)
 				this.attachListener( this, 'click', function( ev ) {
 					ev = ev.data;
