@@ -68,8 +68,8 @@ var CKEDITOR_LANGS = (function() {
 
 	var langsArray = [];
 
-	for ( var code in langs ) {
-		langsArray.push({ code: code, name: langs[ code ] } );
+	for ( var code in CKEDITOR.lang.languages ) {
+		langsArray.push({ code: code, name: ( langs[ code ] || code ) } );
 	}
 
 	langsArray.sort( function( a, b ) {
