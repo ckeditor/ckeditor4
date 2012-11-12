@@ -49,3 +49,14 @@ This file contains styles to used by all versions of Internet Explorer only.
 {
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
+
+/* 	Remove border from dialog field wrappers in HC
+	to avoid double borders. */
+.cke_hc div.cke_dialog_ui_input_text,
+.cke_hc div.cke_dialog_ui_input_password,
+.cke_hc div.cke_dialog_ui_input_textarea,
+.cke_hc div.cke_dialog_ui_input_select,
+.cke_hc div.cke_dialog_ui_input_file
+{
+	border: 0;
+}
