@@ -399,7 +399,7 @@
 /**
  * Unit for the indentation style.
  *
- * config.indentUnit = 'em';
+ *		config.indentUnit = 'em';
  *
  * @cfg {String} [indentUnit='px']
  * @member CKEDITOR.config

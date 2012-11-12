@@ -3027,6 +3027,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * If the dialog has more than one tab, put focus into the first tab as soon as dialog is opened.
  *
  *		config.dialog_startupFocusTab = true;
+ *
  * @cfg {Boolean} [dialog_startupFocusTab=false]
  * @member CKEDITOR.config
  */
@@ -3048,6 +3049,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * * `'ltr'` - for Left-To-Right order;
  * * `'rtl'` - for Right-To-Left order.
  *
+ * Example:
  *
  *		config.dialog_buttonsOrder = 'rtl';
  *
@@ -3066,7 +3068,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * **Note:** Be cautious when specifying dialog tabs that are mandatory,
  * like `'info'`, dialog functionality might be broken because of this!
  *
- * config.removeDialogTabs = 'flash:advanced;image:Link';
+ *		config.removeDialogTabs = 'flash:advanced;image:Link';
  *
  * @since 3.5
  * @cfg {String} [removeDialogTabs='']
@@ -3136,7 +3138,8 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog is hidden
+ * Fired when a dialog is hidden.
+ *
  * @event dialogHide
  * @member CKEDITOR.editor
  */
