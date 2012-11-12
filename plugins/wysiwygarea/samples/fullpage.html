@@ -5,14 +5,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Full Page Editing with Document Properties Plugin &mdash; CKEditor Sample</title>
+	<title>Full Page Editing &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link rel="stylesheet" href="sample.css">
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/sample.css">
+	<meta name="ckeditor-sample-name" content="Full page support">
+	<meta name="ckeditor-sample-group" content="Plugins">
+	<meta name="ckeditor-sample-description" content="CKEditor inserted with a JavaScript call and used to edit the whole page from &lt;html&gt; to &lt;/html&gt;.">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Full Page Editing with Document Properties Plugin
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Full Page Editing
 	</h1>
 	<div class="description">
 		<p>
@@ -20,27 +23,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<code>&lt;html&gt;</code> tag to the <code>&lt;/html&gt;</code> tag.
 		</p>
 		<p>
-			The <strong>Document Properties</strong> (<code>docprops</code>) plugin is also turned on.
-			This plugin allows you to set the metadata of the page, including the page encoding, margins,
-			meta tags, or background.
-		</p>
-		<p>
 			The CKEditor instance below is inserted with a JavaScript call using the following code:
 		</p>
 <pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>',
-{
-	<strong>fullPage: true,
-	extraPlugins: 'docprops'</strong>
-});</pre>
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	<strong>fullPage: true</strong>
+});
+</pre>
 		<p>
 			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
 			the <code>&lt;textarea&gt;</code> element to be replaced.
 		</p>
 	</div>
-	<form action="sample_posteddata.php" method="post">
+	<form action="../../../samples/sample_posteddata.php" method="post">
 		<label for="editor1">
-			CKEditor using the <code>docprops</code> plugin and working in the Full Page mode:
+			CKEditor output the entire page including content outside of
+			<code>&lt;body&gt;</code> element, so content like meta and title can be changed:
 		</label>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">
 			&lt;h1&gt;
@@ -87,7 +85,7 @@ CKEDITOR.replace( '<em>textarea_id</em>',
 
 			CKEDITOR.replace( 'editor1', {
 				fullPage: true,
-				extraPlugins: 'docprops'
+				extraPlugins: 'wysiwygarea'
 			});
 
 		</script>
