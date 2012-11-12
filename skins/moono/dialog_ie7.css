@@ -13,6 +13,14 @@ This file contains styles to used by Internet Explorer 7 only.
 /* Base it on dialog_ie.css, overriding it with styles defined in this file. */
 @import url("dialog_ie.css");
 
+.cke_dialog_body
+{
+	/* 	By default, a relative position is used.
+		However it breaks IE7 and causes input flickering
+		when hovering dialog footer. Reset to static to fix it. */
+	position: static;
+}
+
 .cke_dialog_title
 {
 	/* gradient fix */
@@ -22,6 +30,9 @@ This file contains styles to used by Internet Explorer 7 only.
 .cke_dialog_footer
 {
 	padding-top: 5px;
+
+	/* IE7 ignores footer's outline. Use border instead. */
+	border-top: 1px solid #bfbfbf;
 }
 
 /* IE7 needs position static #6806 */
@@ -30,18 +41,20 @@ This file contains styles to used by Internet Explorer 7 only.
 	position: static;
 }
 
-/* IE7 needs positioning on text fields, to not stretch dialog horizontally. (#8971) */
-input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
+/* IE7 crops the bottom pixels of footer buttons (#9491) */
+.cke_dialog_footer_buttons a.cke_dialog_ui_button
 {
-	position: absolute;
+	vertical-align: top;
 }
 
-div.cke_dialog_ui_input_text,
-div.cke_dialog_ui_input_password
+/* 	IE7 doesn't support box-sizing and therefore we cannot
+	have sexy inputs which go well with the layout. */
+.cke_dialog_ui_input_text,
+.cke_dialog_ui_input_password,
+.cke_dialog_ui_input_textarea,
+.cke_dialog_ui_input_select
 {
-	position: relative;
-	height: 25px;
+	padding: 0 !important;
 }
 
 /* Predefined border to avoid visual size change impact. */

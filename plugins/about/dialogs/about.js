@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 					'.cke_about_container a' +
 					'{' +
 						'cursor:pointer !important;' +
-						'color:blue !important;' +
+						'color:#00B2CE !important;' +
 						'text-decoration:underline !important;' +
 					'}' +
 					'</style>' +

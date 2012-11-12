@@ -62,6 +62,10 @@ Comments in this file will give more details about each of the above blocks.
 	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
+
+	/* 	This one is required by Firefox 3.6. Without it,
+		dialog tabs and resizer float outside of the dialog. */
+	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -133,7 +137,7 @@ Comments in this file will give more details about each of the above blocks.
 	position: relative;
 
 	border: none;
-	border-top: 1px solid #bfbfbf;
+	outline: 1px solid #bfbfbf;
 
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
@@ -244,6 +248,19 @@ a.cke_dialog_tab
 	margin-left: 3px;
 }
 
+/* A hover state of a regular inactive tab. */
+a.cke_dialog_tab:hover
+{
+	background: #ebebeb;
+	background: -moz-linear-gradient(top, #ebebeb 0%, #dfdfdf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#dfdfdf));
+	background: -webkit-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: -o-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: -ms-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
+	background: linear-gradient(to bottom, #ebebeb 0%,#dfdfdf 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#dfdfdf',GradientType=0 );
+}
+
 a.cke_dialog_tab_selected
 {
 	background: #fff;
@@ -251,6 +268,19 @@ a.cke_dialog_tab_selected
 	border-bottom-color: #fff;
 	cursor: default;
 	filter: none;
+}
+
+/* A hover state for selected tab. */
+a.cke_dialog_tab_selected:hover
+{
+	background: #ededed;
+	background: -moz-linear-gradient(top, #ededed 0%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#ffffff));
+	background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: -o-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: -ms-linear-gradient(top, #ededed 0%,#ffffff 100%);
+	background: linear-gradient(to bottom, #ededed 0%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 );
 }
 
 .cke_hc a.cke_dialog_tab:hover,
@@ -334,7 +364,7 @@ the same labelling structure, having the label text inside an element with
 
 /* If an element is supposed to be disabled, the .cke_disabled class is
    appended to it. */
-div.cke_disabled .cke_dialog_ui_labeled_content *
+div.cke_disabled .cke_dialog_ui_labeled_content div *
 {
 	background-color: #ddd;
 	cursor: default;
@@ -437,30 +467,6 @@ The basic text field to input text.
 +-------------------------------------------------+
 */
 
-input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
-{
-	background-color: #fff;
-	border: 1px solid #c9cccf;
-	border-top-color: #aeb3b9;
-	padding: 4px 6px;
-	width: 100%;
-	*width: 95%;
-
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-}
-
 /*
 Textarea
 ----------
@@ -522,14 +528,12 @@ textarea.cke_dialog_ui_input_textarea:hover
 
 input.cke_dialog_ui_input_text:focus,
 input.cke_dialog_ui_input_password:focus,
-textarea.cke_dialog_ui_input_textarea:focus
+textarea.cke_dialog_ui_input_textarea:focus,
+select.cke_dialog_ui_input_select:focus
 {
+	outline: none;
 	border: 1px solid #139ff7;
 	border-top-color: #1392e9;
-
-	-moz-box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
-	box-shadow: 0 1px 0 rgba(0,0,0,.05) inset, 0 0 5px #009cff;
 }
 
 /*
@@ -552,7 +556,7 @@ a.cke_dialog_ui_button
 	*display: inline;
 	*zoom: 1;
 
-	padding: 3px 12px;
+	padding: 3px 0;
 	margin: 0;
 
 	text-align: center;
@@ -582,6 +586,11 @@ a.cke_dialog_ui_button
 
 }
 
+span.cke_dialog_ui_button
+{
+	padding: 0 12px;
+}
+
 a.cke_dialog_ui_button:hover
 {
 	border-color: #9e9e9e;
@@ -603,13 +612,13 @@ a.cke_dialog_ui_button:hover
 	border: 3px solid;
 	padding: 1px 10px;
 }
-
+/*
 a.cke_dialog_ui_button[style*="width"]
 {
-	display: block;
+	display: block !important;
 	width: auto !important;
 }
-
+*/
 /* The inner part of the button. */
 a.cke_dialog_ui_button_ok span,
 a.cke_dialog_ui_button_cancel span
@@ -682,7 +691,7 @@ select.cke_dialog_ui_input_select
 	background-color: #fff;
 	border: 1px solid #c9cccf;
 	border-top-color: #aeb3b9;
-	padding: 4px 6px;
+	padding: 2px 6px;
 
 	outline: none;
 
