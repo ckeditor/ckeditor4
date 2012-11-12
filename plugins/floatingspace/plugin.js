@@ -208,7 +208,7 @@
  * amount of offset (in pixels) between float space and the editable top/bottom
  * boundaries when space element is docked at either side of the editable.
  *
- * config.floatSpaceDockedOffsetY = 10;
+ *		config.floatSpaceDockedOffsetY = 10;
  *
  * @cfg {Number} [floatSpaceDockedOffsetY=0]
  * @member CKEDITOR.config
@@ -221,7 +221,7 @@
  *
  *		config.floatSpacePinnedOffsetX = 20;
  *
- * @cfg {Number} [floatSpacePinnedOffsetX=10]
+ * @cfg {Number} [floatSpacePinnedOffsetX=0]
  * @member CKEDITOR.config
  */
 
