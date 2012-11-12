@@ -162,6 +162,12 @@ Comments in this file will give more details about each of the above blocks.
 	text-align: left;
 }
 
+.cke_hc .cke_dialog_footer
+{
+	outline: none;
+	border-top: 1px solid #fff;
+}
+
 .cke_dialog .cke_resizer
 {
 	margin-top: 22px;
@@ -437,7 +443,6 @@ It is possible to have nested V/H-Boxes.
 }
 
 /* Applies to all labeled dialog fields */
-
 .cke_hc div.cke_dialog_ui_input_text,
 .cke_hc div.cke_dialog_ui_input_password,
 .cke_hc div.cke_dialog_ui_input_textarea,
@@ -610,8 +615,18 @@ a.cke_dialog_ui_button:hover
 .cke_hc a.cke_dialog_ui_button:active
 {
 	border: 3px solid;
-	padding: 1px 10px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 }
+
+.cke_hc a.cke_dialog_ui_button:hover span,
+.cke_hc a.cke_dialog_ui_button:focus span,
+.cke_hc a.cke_dialog_ui_button:active span
+{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /*
 a.cke_dialog_ui_button[style*="width"]
 {
@@ -682,6 +697,11 @@ span.cke_dialog_ui_button
 /*
 Styles for other dialog element types.
 */
+
+div.cke_dialog_ui_input_select
+{
+	display: table;
+}
 
 select.cke_dialog_ui_input_select
 {
