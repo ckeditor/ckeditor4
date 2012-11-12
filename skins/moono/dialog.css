@@ -610,8 +610,18 @@ a.cke_dialog_ui_button:hover
 .cke_hc a.cke_dialog_ui_button:active
 {
 	border: 3px solid;
-	padding: 1px 10px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 }
+
+.cke_hc a.cke_dialog_ui_button:hover span,
+.cke_hc a.cke_dialog_ui_button:focus span,
+.cke_hc a.cke_dialog_ui_button:active span
+{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /*
 a.cke_dialog_ui_button[style*="width"]
 {
