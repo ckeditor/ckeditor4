@@ -29,8 +29,6 @@ This file contains styles to used by Internet Explorer 7 only.
 
 .cke_dialog_footer
 {
-	padding-top: 5px;
-
 	/* IE7 ignores footer's outline. Use border instead. */
 	border-top: 1px solid #bfbfbf;
 }
