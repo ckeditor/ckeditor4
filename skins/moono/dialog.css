@@ -162,6 +162,12 @@ Comments in this file will give more details about each of the above blocks.
 	text-align: left;
 }
 
+.cke_hc .cke_dialog_footer
+{
+	outline: none;
+	border-top: 1px solid #fff;
+}
+
 .cke_dialog .cke_resizer
 {
 	margin-top: 22px;
