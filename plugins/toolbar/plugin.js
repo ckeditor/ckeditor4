@@ -687,6 +687,10 @@ CKEDITOR.config.toolbarLocation = 'top';
 /**
  * Whether the toolbar must start expanded when the editor is loaded.
  *
+ * Setting this option to `false` will affect toolbar only when
+ * {@link #toolbarCanCollapse} is set to `true`:
+ *
+ *		config.toolbarCanCollapse = true;
  *		config.toolbarStartupExpanded = false;
  *
  * @cfg {Boolean} [toolbarStartupExpanded=true]
