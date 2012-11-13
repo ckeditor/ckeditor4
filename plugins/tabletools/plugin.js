@@ -237,13 +237,17 @@
 		for ( var i = 0; i < height; i++ ) {
 			cloneCol.push( map[ i ][ colIndex ] );
 			var nextCell = insertBefore ? map[ i ][ colIndex - 1 ] : map[ i ][ colIndex + 1 ];
-			nextCell && nextCol.push( nextCell );
+			nextCol.push( nextCell );
 		}
 
 		for ( i = 0; i < height; i++ ) {
 			var cell;
+
+			if ( !cloneCol[ i ] )
+				continue;
+
 			// Check whether there's a spanning column here, do not break it.
-			if ( cloneCol[ i ].colSpan > 1 && nextCol.length && nextCol[ i ] == cloneCol[ i ] ) {
+			if ( cloneCol[ i ].colSpan > 1 && nextCol[ i ] == cloneCol[ i ] ) {
 				cell = cloneCol[ i ];
 				cell.colSpan += 1;
 			} else {
