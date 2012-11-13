@@ -906,10 +906,57 @@ tendency that these will be moved to the plugins code in the future.
 	font-weight: bold;
 }
 
+a.cke_smile
+{
+	overflow: hidden;
+	display: block;
+	text-align: center;
+	padding: 0.3em 0;
+}
+
 a.cke_smile img
 {
-	/* IE6 does not support transparent borders */
-	border: 2px solid #DEDEDE;
+	vertical-align: middle;
+}
+
+a.cke_specialchar
+{
+	cursor: inherit;
+	display: block;
+	height: 1.25em;
+	padding: 0.2em 0.3em;
+	text-align: center;
+}
+
+a.cke_smile,
+a.cke_specialchar
+{
+	border: 1px solid transparent;
+}
+
+a.cke_smile:hover,
+a.cke_smile:focus,
+a.cke_smile:active,
+a.cke_specialchar:hover,
+a.cke_specialchar:focus,
+a.cke_specialchar:active
+{
+	background: #fff;
+	outline: 0;
+}
+
+a.cke_smile:hover,
+a.cke_specialchar:hover
+{
+	border-color: #888;
+}
+
+a.cke_smile:focus,
+a.cke_smile:active,
+a.cke_specialchar:focus,
+a.cke_specialchar:active
+{
+	border-color: #139FF7;
 }
 
 /**
