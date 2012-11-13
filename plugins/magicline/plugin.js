@@ -1518,24 +1518,24 @@
  * causes the box to appear. The distance is expressed in pixels (px).
  *
  *		// Increases the offset to 15px.
- *		CKEDITOR.config.line_triggerOffset = 15;
+ *		CKEDITOR.config.magicline_triggerOffset = 15;
  *
- * @cfg {Number} [line_triggerOffset=30]
+ * @cfg {Number} [magicline_triggerOffset=30]
  * @member CKEDITOR.config
- * @see CKEDITOR.config#line_holdDistance
+ * @see CKEDITOR.config#magicline_holdDistance
  */
 
 /**
  * Defines the distance between mouse pointer and the box, within
  * which the box stays revealed and no other focus space is offered to be accessed.
- * The value is relative to {@link #line_triggerOffset}.
+ * The value is relative to {@link #magicline_triggerOffset}.
  *
- *		// Increases the distance to 80% of CKEDITOR.config.line_triggerOffset.
- *		CKEDITOR.config.line_holdDistance = .8;
+ *		// Increases the distance to 80% of CKEDITOR.config.magicline_triggerOffset.
+ *		CKEDITOR.config.magicline_holdDistance = .8;
  *
- * @cfg {Number} [line_holdDistance=0.5]
+ * @cfg {Number} [magicline_holdDistance=0.5]
  * @member CKEDITOR.config
- * @see CKEDITOR.config#line_triggerOffset
+ * @see CKEDITOR.config#magicline_triggerOffset
  */
 
 // %REMOVE_START%
@@ -1545,10 +1545,10 @@
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + ,
- *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
  *
  * @ignore
- * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
+ * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
  * @member CKEDITOR.config
  */
 // CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
@@ -1558,10 +1558,10 @@
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + .
- *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
  *
  * @ignore
- * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
+ * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
  * @member CKEDITOR.config
  */
 // CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
@@ -1572,9 +1572,9 @@
  * Defines box color. The color may be adjusted to enhance readability.
  *
  *		// Changes color to blue.
- *		CKEDITOR.config.line_boxColor = '#0000FF';
+ *		CKEDITOR.config.magicline_color = '#0000FF';
  *
- * @cfg {String} [line_boxColor='#FF0000']
+ * @cfg {String} [magicline_color='#FF0000']
  * @member CKEDITOR.config
  */
 
@@ -1583,9 +1583,9 @@
  * by revealing underlying elements.
  *
  *		// Changes opacity to 30%.
- *		CKEDITOR.config.line_boxOpacity = .3;
+ *		CKEDITOR.config.magicline_boxOpacity = .3;
  *
- * @cfg {Number} [line_boxOpacity=1]
+ * @cfg {Number} [magicline_boxOpacity=1]
  * @member CKEDITOR.config
  */
 
@@ -1594,8 +1594,8 @@
  * {@link CKEDITOR.dtd#$block} elements as accessible by the box.
  *
  *		// Enables "put everywhere" mode.
- *		CKEDITOR.config.line_putEverywhere = true;
+ *		CKEDITOR.config.magicline_putEverywhere = true;
  *
- * @cfg {Boolean} [line_putEverywhere=false]
+ * @cfg {Boolean} [magicline_putEverywhere=false]
  * @member CKEDITOR.config
  */
