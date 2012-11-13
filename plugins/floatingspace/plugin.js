@@ -69,6 +69,9 @@
 					}
 
 					mode = newMode;
+
+					// Resize is required between modes switch.
+					resize = 1;
 				}
 
 				// Show up the space on focus gain.
