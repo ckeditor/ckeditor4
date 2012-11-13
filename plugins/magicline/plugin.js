@@ -708,8 +708,6 @@
 		// Make the box unselectable.
 		line.unselectable();
 
-		line.setOpacity( that.editor.config.magicline_opacity || 1 );
-
 		// Handle accessSpace node insertion.
 		line.lineChildren[ 0 ].on( 'mouseup', function( event ) {
 			line.detach();
@@ -1575,17 +1573,6 @@
  *		CKEDITOR.config.magicline_color = '#0000FF';
  *
  * @cfg {String} [magicline_color='#FF0000']
- * @member CKEDITOR.config
- */
-
-/**
- * Defines box opacity. The opacity may be adjusted to enhance readability
- * by revealing underlying elements.
- *
- *		// Changes opacity to 30%.
- *		CKEDITOR.config.magicline_boxOpacity = .3;
- *
- * @cfg {Number} [magicline_boxOpacity=1]
  * @member CKEDITOR.config
  */
 
