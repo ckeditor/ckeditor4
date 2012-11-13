@@ -113,8 +113,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				// RIGHT-ARROW
 			case rtl ? 37:
 				39 :
-				// TAB
-			case 9:
 				// relative is TD
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -142,8 +140,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				// LEFT-ARROW
 			case rtl ? 39:
 				37 :
-				// SHIFT + TAB
-			case CKEDITOR.SHIFT + 9:
 				// relative is TD
 				if ( ( relative = element.getParent().getPrevious() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -189,7 +185,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				character, charDesc;
 
 			while ( i < size ) {
-				html.push( '<tr>' );
+				html.push( '<tr role="presentation">' );
 
 				for ( var j = 0; j < columns; j++, i++ ) {
 					if ( ( character = chars[ i ] ) ) {
