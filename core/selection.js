@@ -1300,7 +1300,9 @@
 		/**
 		 * Clears the original selection and adds the specified ranges to the document selection.
 		 *
-		 *		var ranges = new CKEDITOR.dom.range( editor.document );
+		 * 		// Move selection to the end of the editable element.
+		 *		var range = editor.createRange();
+		 *		range.moveToPosition( range.root, CKEDITOR.POSITION_BEFORE_END );
 		 *		editor.getSelection().selectRanges( [ ranges ] );
 		 *
 		 * @param {Array} ranges An array of {@link CKEDITOR.dom.range} instances
