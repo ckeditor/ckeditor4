@@ -307,7 +307,7 @@ CKEDITOR.skin.chameleon = (function() {
 		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
 		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
 		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
-		'textcolor,textfield,textfield-rtl,underline,undo-rtl,undo,unlink' ).split( ',' );
+		'textcolor,textfield,textfield-rtl,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
 
 	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
 

@@ -13,7 +13,12 @@ This file contains styles to used by all versions of Internet Explorer only.
 /* Base it on editor.css, overriding it with styles defined in this file. */
 @import url("editor.css");
 
-.cke_button_disabled
+a.cke_button_disabled,
+
+/* Those two are to overwrite the gradient filter since we cannot have both of them. */
+a.cke_button_disabled:hover,
+a.cke_button_disabled:focus,
+a.cke_button_disabled:active
 {
 	filter: alpha(opacity = 30);
 }
