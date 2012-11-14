@@ -1,0 +1,9 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+button = Toolbar button tooltip for the Templates feature.
+emptyListMsg = Error message displayed when the template list in the Content Templates dialog window is empty.
+insertOption = Label for the Replace actual contents field of the Content Templates dialog window.
+options = Voice label for the Template Options feature.
+selectPromptMsg = Content Templates dialog window command description.
+title = Label for the Content Templates dialog window.

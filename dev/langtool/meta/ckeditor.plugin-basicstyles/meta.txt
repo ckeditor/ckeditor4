@@ -1,0 +1,9 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+bold = Toolbar button tooltip for the Bold feature.
+italic = Toolbar button tooltip for the Italics feature.
+strike = Toolbar button tooltip for the Strike feature.
+subscript = Toolbar button tooltip for the Subscript feature.
+superscript = Toolbar button tooltip for the Superscript feature.
+underline = Toolbar button tooltip for the Underline feature.

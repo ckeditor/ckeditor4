@@ -1,0 +1,30 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+about = Label for the About SCAYT menu option for the SCAYT feature.
+aboutTab = Label for the About tab of the Spell Check As You Type dialog window.
+addWord = Label for the Add Word context menu option for the SCAYT feature.
+allCaps = Label for the Ignore All-Caps Words field of the Spell Check As You Type dialog window.
+dic_create = Label for the Create button of the Spell Check As You Type dialog window.
+dic_delete = Label for the Delete button of the Spell Check As You Type dialog window.
+dic_field_name = Label for the Dictionary name field of the Spell Check As You Type dialog window.
+dic_info = Dictionary information text of the Spell Check As You Type dialog window.
+dic_rename = Label for the Rename button of the Spell Check As You Type dialog window.
+dic_restore = Label for the Restore button of the Spell Check As You Type dialog window.
+dictionariesTab = Label for the Dictionaries tab of the Spell Check As You Type dialog window and the menu option for SCAYT.
+disable = Label for the Disable SCAYT menu option for the SCAYT feature.
+emptyDic = Error message displayed when the SCAYT dictionary name is empty.
+enable = Label for the Enable SCAYT menu option for the SCAYT feature.
+ignore = Label for the Ignore context menu option for the SCAYT feature.
+ignoreAll = Label for the Ignore All context menu option for the SCAYT feature.
+ignoreDomainNames = Label for the Ignore Domain Names field of the Spell Check As You Type dialog window.
+langs = Label for the Languages menu option for the SCAYT feature.
+languagesTab = Label for the Languages tab of the Spell Check As You Type dialog window.
+mixedCase = Label for the Ignore Words with Mixed Case field of the Spell Check As You Type dialog window.
+mixedWithDigits = Label for the Ignore Words with Numbers field of the Spell Check As You Type dialog window.
+moreSuggestions = Label for the More suggestions context menu option for the SCAYT feature.
+opera_title = Toolbar drop-down menu tooltip for the SCAYT feature displayed to Opera users.
+options = 
+optionsTab = Label for the Options tab of the Spell Check As You Type dialog window.
+title = Label for the Spell Check As You Type (SCAYT) dialog window.
+toggle = 

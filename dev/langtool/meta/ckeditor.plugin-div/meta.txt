@@ -1,0 +1,16 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+IdInputLabel = Label for the Id field of the Div Container dialog window.
+advisoryTitleInputLabel = Label for the Advisory Title field of the Div Container dialog window.
+cssClassInputLabel = Label for the Stylesheet Classes field of the Div Container dialog window.
+edit = Context menu entry text for Div container editing.
+inlineStyleInputLabel = 
+langDirLTRLabel = Left to Right (LTR) language direction option text for the Div Container dialog window.
+langDirLabel = Label for the Language Direction field of the Div Container dialog window.
+langDirRTLLabel = Right to Left (RTL) language direction option text for the Div Container dialog window.
+languageCodeInputLabel = Label for the Language Code field of the Div Container dialog window.
+remove = Label for the Remove Div Container feature displayed in the Div container context menu.
+styleSelectLabel = Label for the Style field of the Div Container dialog window.
+title = Label for the Div Container dialog window.
+toolbar = Toolbar button tooltip for the Div Container feature.

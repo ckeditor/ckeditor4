@@ -1,0 +1,3 @@
+# CKLangTool config
+# Define here "lang_map" mappings between CKEditor language codes and Transifex
+lang_map = en_CA:en-ca,en_AU:en-au,fr_CA:fr-ca,pt_BR:pt-br,sr@latin:sr-latn,zh_CN:zh-cn,zh_HK:zh-hk,zh_TW:zh-tw

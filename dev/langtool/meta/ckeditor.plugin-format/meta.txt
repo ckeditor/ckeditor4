@@ -1,0 +1,15 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+label = Label for the Format drop-down menu.
+panelTitle = Toolbar drop-down menu tooltip and WAI-ARIA label for the Format feature.
+tag_address = Label for the human-readable description of the address format.
+tag_div = Label for the human-readable description of the div format.
+tag_h1 = Label for the human-readable description of the heading level 1 format.
+tag_h2 = Label for the human-readable description of the heading level 2 format.
+tag_h3 = Label for the human-readable description of the heading level 3 format.
+tag_h4 = Label for the human-readable description of the heading level 4 format.
+tag_h5 = Label for the human-readable description of the heading level 5 format.
+tag_h6 = Label for the human-readable description of the heading level 6 format.
+tag_p = Label for the human-readable description of the paragraph format.
+tag_pre = Label for the human-readable description of the preformatted text format.

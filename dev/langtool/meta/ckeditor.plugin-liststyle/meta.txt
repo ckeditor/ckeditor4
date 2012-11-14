@@ -1,0 +1,22 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+armenian = Label for the Armenian numbering numbered list type option.
+bulletedTitle = Label for the Bulleted List Properties dialog window.
+circle = Label for the Circle bulleted list type option.
+decimal = Label for the Decimal numbering numbered list type option.
+decimalLeadingZero = Label for the Decimal leading zero numbered list type option.
+disc = Label for the Disc bulleted list type option.
+georgian = Label for the Georgian numbering numbered list type option.
+lowerAlpha = Label for the Lower Alpha numbered list type option.
+lowerGreek = Label for the Lower Greek numbered list type option.
+lowerRoman = Label for the Lower Roman numbered list type option.
+none = 
+notset = Label for the <not set> list type option.
+numberedTitle = Label for the Numbered List Properties dialog window.
+square = Label for the Square bulleted list type option.
+start = Label for the Start field of the Numbered and Bulleted List Properties dialog windows.
+type = Label for the Type field of the Numbered and Bulleted List Properties dialog windows.
+upperAlpha = Label for the Upper Alpha numbered list type option.
+upperRoman = Label for the Upper Roman numbered list type option.
+validateStartNumber = Error message displayed when a numbered list does not start with a whole number.

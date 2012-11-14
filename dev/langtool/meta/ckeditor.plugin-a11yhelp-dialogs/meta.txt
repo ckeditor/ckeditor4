@@ -1,0 +1,33 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+title = 
+contents = 
+legend.0.name = 
+legend.0.items.0.name = 
+legend.0.items.0.legend = 
+legend.0.items.1.name = 
+legend.0.items.1.legend = 
+legend.0.items.2.name = 
+legend.0.items.2.legend = 
+legend.0.items.3.name = 
+legend.0.items.3.legend = 
+legend.0.items.4.name = 
+legend.0.items.4.legend = 
+legend.1.name = 
+legend.1.items.0.name = 
+legend.1.items.0.legend = 
+legend.1.items.1.name = 
+legend.1.items.1.legend = 
+legend.1.items.2.name = 
+legend.1.items.2.legend = 
+legend.1.items.3.name = 
+legend.1.items.3.legend = 
+legend.1.items.4.name = 
+legend.1.items.4.legend = 
+legend.1.items.5.name = 
+legend.1.items.5.legend = 
+legend.1.items.6.name = 
+legend.1.items.6.legend = 
+legend.1.items.7.name = 
+legend.1.items.7.legend = 

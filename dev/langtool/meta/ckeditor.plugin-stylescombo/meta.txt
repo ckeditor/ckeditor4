@@ -1,0 +1,8 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+label = Label for the Styles drop-down menu.
+panelTitle = Toolbar drop-down menu tooltip and WAI-ARIA label for the Styles feature.
+panelTitle1 = Label for the Block Styles group of the Styles drop-down menu.
+panelTitle2 = Label for the Inline Styles group of the Styles drop-down menu.
+panelTitle3 = Label for the Object Styles group of the Styles drop-down menu.
