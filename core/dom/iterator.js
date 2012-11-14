@@ -172,7 +172,7 @@
 						if ( currentNode.getFirst() ) {
 							// If we don't have a range yet, let's start it.
 							if ( !range ) {
-								range = new CKEDITOR.dom.range( this.range.document );
+								range = this.range.clone();
 								range.setStartAt( currentNode, CKEDITOR.POSITION_BEFORE_START );
 							}
 
