@@ -7,14 +7,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <head>
 	<title>Toolbar Configuration &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Toolbar Configurations">
+	<meta name="ckeditor-sample-group" content="Advanced Samples">
+	<meta name="ckeditor-sample-description" content="Configuring CKEditor to display full or custom toolbar layout.">
+	<meta name="ckeditor-sample-isnew" content="1">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
 	</h1>
-
 	<div class="description">
 		<p>
 			This sample page demonstrates editor with loaded <a href="#fullToolbar">full toolbar</a> (all registered buttons) and, if
@@ -91,6 +94,8 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 
 (function() {
 	'use strict';
+
+	CKEDITOR.config.extraPlugins = 'toolbar';
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
 		var editor = evt.editor,

@@ -7,8 +7,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <head>
 	<title>ENTER Key Configuration &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Using the &quot;Enter&quot; key in CKEditor">
+	<meta name="ckeditor-sample-group" content="Advanced Samples">
+	<meta name="ckeditor-sample-description" content="Configuring the behavior of &lt;em&gt;Enter&lt;/em&gt; and &lt;em&gt;Shift+Enter&lt;/em&gt; keys.">
 	<script>
 
 		var editor;
@@ -20,6 +23,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// Create the editor again, with the appropriate settings.
 			editor = CKEDITOR.replace( 'editor1', {
+				extraPlugins: 'enterkey',
 				enterMode: Number( document.getElementById( 'xEnter' ).value ),
 				shiftEnterMode: Number( document.getElementById( 'xShiftEnter' ).value )
 			});
@@ -31,7 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; ENTER Key Configuration
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; ENTER Key Configuration
 	</h1>
 	<div class="description">
 		<p>
@@ -76,7 +80,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 		</select>
 	</div>
 	<br style="clear: both">
-	<form action="sample_posteddata.php" method="post">
+	<form action="../../../samples/sample_posteddata.php" method="post">
 		<p>
 			<br>
 			<textarea cols="80" id="editor1" name="editor1" rows="10">This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.</textarea>

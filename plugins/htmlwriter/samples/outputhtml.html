@@ -7,12 +7,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <head>
 	<title>HTML Compliant Output &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Output XHTML">
+	<meta name="ckeditor-sample-group" content="Advanced Samples">
+	<meta name="ckeditor-sample-description" content="Configuring CKEditor to produce XHTML 1.1 compliant code.">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Producing HTML Compliant Output
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Producing HTML Compliant Output
 	</h1>
 	<div class="description">
 		<p>
@@ -43,7 +46,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 	...
 });</pre>
 	</div>
-	<form action="sample_posteddata.php" method="post">
+	<form action="../../../samples/sample_posteddata.php" method="post">
 		<p>
 			<label for="editor1">
 				Editor 1:
@@ -126,8 +129,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 				 * Adjust the behavior of the dataProcessor to avoid styles
 				 * and make it look like FCKeditor HTML output.
 				 */
-				function configureHtmlOutput( ev )
-				{
+				function configureHtmlOutput( ev ) {
 					var editor = ev.editor,
 						dataProcessor = editor.dataProcessor,
 						htmlFilter = dataProcessor && dataProcessor.htmlFilter;
@@ -157,11 +159,11 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 									if ( style ) {
 										// Get the width from the style.
-										var match = /(?:^|\s)width\s*:\s*(\d+)px/i.exec( style ),
+										var match = ( /(?:^|\s)width\s*:\s*(\d+)px/i ).exec( style ),
 											width = match && match[ 1 ];
 
 										// Get the height from the style.
-										match = /(?:^|\s)height\s*:\s*(\d+)px/i.exec( style );
+										match = ( /(?:^|\s)height\s*:\s*(\d+)px/i ).exec( style );
 										var height = match && match[ 1 ];
 
 										if ( width ) {
@@ -182,7 +184,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 									if ( style ) {
 										// Get the align from the style.
-										match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+										match = ( /(?:^|\s)text-align\s*:\s*(\w*);/i ).exec( style );
 										var align = match && match[ 1 ];
 
 										if ( align ) {
