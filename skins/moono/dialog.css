@@ -610,6 +610,17 @@ a.cke_dialog_ui_button:hover
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
 }
 
+/* 	:focus/:active styles for dialog buttons: regular and footer. */
+a.cke_dialog_ui_button:focus,
+a.cke_dialog_ui_button:active
+{
+	border-color: #969696;
+	outline: none;
+	-moz-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
+	-webkit-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
+	box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
+}
+
 .cke_hc a.cke_dialog_ui_button:hover,
 .cke_hc a.cke_dialog_ui_button:focus,
 .cke_hc a.cke_dialog_ui_button:active
@@ -682,6 +693,31 @@ a.cke_dialog_ui_button_ok span
 span.cke_dialog_ui_button
 {
 	cursor: pointer;
+}
+
+/* 	:focus/:active styles for dialog footer buttons (ok & cancel) */
+a.cke_dialog_ui_button_ok:focus,
+a.cke_dialog_ui_button_ok:active,
+a.cke_dialog_ui_button_cancel:focus,
+a.cke_dialog_ui_button_cancel:active
+{
+	border-width: 2px;
+	padding: 2px 0;
+}
+
+a.cke_dialog_ui_button_ok:focus,
+a.cke_dialog_ui_button_ok:active
+{
+	border-color: #568C0A;
+}
+
+/* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
+a.cke_dialog_ui_button_ok:focus span,
+a.cke_dialog_ui_button_ok:active span,
+a.cke_dialog_ui_button_cancel:focus span,
+a.cke_dialog_ui_button_cancel:active span
+{
+	padding: 0 11px;	/* Thick button border must be compensated. */
 }
 
 /* A special container that holds the footer buttons. */
@@ -906,10 +942,57 @@ tendency that these will be moved to the plugins code in the future.
 	font-weight: bold;
 }
 
+a.cke_smile
+{
+	overflow: hidden;
+	display: block;
+	text-align: center;
+	padding: 0.3em 0;
+}
+
 a.cke_smile img
 {
-	/* IE6 does not support transparent borders */
-	border: 2px solid #DEDEDE;
+	vertical-align: middle;
+}
+
+a.cke_specialchar
+{
+	cursor: inherit;
+	display: block;
+	height: 1.25em;
+	padding: 0.2em 0.3em;
+	text-align: center;
+}
+
+a.cke_smile,
+a.cke_specialchar
+{
+	border: 1px solid transparent;
+}
+
+a.cke_smile:hover,
+a.cke_smile:focus,
+a.cke_smile:active,
+a.cke_specialchar:hover,
+a.cke_specialchar:focus,
+a.cke_specialchar:active
+{
+	background: #fff;
+	outline: 0;
+}
+
+a.cke_smile:hover,
+a.cke_specialchar:hover
+{
+	border-color: #888;
+}
+
+a.cke_smile:focus,
+a.cke_smile:active,
+a.cke_specialchar:focus,
+a.cke_specialchar:active
+{
+	border-color: #139FF7;
 }
 
 /**

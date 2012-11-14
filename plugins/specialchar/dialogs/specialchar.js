@@ -205,7 +205,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 						html.push( '<td class="cke_dark_background" style="cursor: default" role="presentation">' +
 							'<a href="javascript: void(0);" role="option"' +
-							' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + charLabelId + '"', ' style="cursor: inherit; display: block; height: 1.25em; margin-top: 0.25em; text-align: center;" title="', CKEDITOR.tools.htmlEncode( charDesc ), '"' +
+							' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + charLabelId + '"', ' class="cke_specialchar" title="', CKEDITOR.tools.htmlEncode( charDesc ), '"' +
 							' onkeydown="CKEDITOR.tools.callFunction( ' + onKeydown + ', event, this )"' +
 							' onclick="CKEDITOR.tools.callFunction(' + onClick + ', this); return false;"' +
 							' tabindex="-1">' +
