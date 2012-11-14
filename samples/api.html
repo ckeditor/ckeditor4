@@ -13,8 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 // The instanceReady event is fired, when an instance of CKEditor has finished
 // its initialization.
-CKEDITOR.on( 'instanceReady', function( ev )
-{
+CKEDITOR.on( 'instanceReady', function( ev ) {
 	// Show the editor name and description in the browser status bar.
 	document.getElementById( 'eMessage' ).innerHTML = 'Instance <code>' + ev.editor.name + '<\/code> loaded.';
 
@@ -22,8 +21,7 @@ CKEDITOR.on( 'instanceReady', function( ev )
 	document.getElementById( 'eButtons' ).style.display = 'block';
 });
 
-function InsertHTML()
-{
+function InsertHTML() {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	var value = document.getElementById( 'htmlArea' ).value;
@@ -39,8 +37,7 @@ function InsertHTML()
 		alert( 'You must be in WYSIWYG mode!' );
 }
 
-function InsertText()
-{
+function InsertText() {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	var value = document.getElementById( 'txtArea' ).value;
@@ -56,8 +53,7 @@ function InsertText()
 		alert( 'You must be in WYSIWYG mode!' );
 }
 
-function SetContents()
-{
+function SetContents() {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	var value = document.getElementById( 'htmlArea' ).value;
@@ -67,8 +63,7 @@ function SetContents()
 	editor.setData( value );
 }
 
-function GetContents()
-{
+function GetContents() {
 	// Get the editor instance that you want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 
@@ -77,8 +72,7 @@ function GetContents()
 	alert( editor.getData() );
 }
 
-function ExecuteCommand( commandName )
-{
+function ExecuteCommand( commandName ) {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 
@@ -93,8 +87,7 @@ function ExecuteCommand( commandName )
 		alert( 'You must be in WYSIWYG mode!' );
 }
 
-function CheckDirty()
-{
+function CheckDirty() {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	// Checks whether the current editor contents present changes when compared
@@ -103,8 +96,7 @@ function CheckDirty()
 	alert( editor.checkDirty() );
 }
 
-function ResetDirty()
-{
+function ResetDirty() {
 	// Get the editor instance that we want to interact with.
 	var editor = CKEDITOR.instances.editor1;
 	// Resets the "dirty state" of the editor (see CheckDirty())
@@ -113,18 +105,15 @@ function ResetDirty()
 	alert( 'The "IsDirty" status has been reset' );
 }
 
-function Focus()
-{
+function Focus() {
 	CKEDITOR.instances.editor1.focus();
 }
 
-function onFocus()
-{
+function onFocus() {
 	document.getElementById( 'eMessage' ).innerHTML = '<b>' + this.name + ' is focused </b>';
 }
 
-function onBlur()
-{
+function onBlur() {
 	document.getElementById( 'eMessage' ).innerHTML = this.name + ' lost focus';
 }
 
@@ -162,22 +151,20 @@ function onBlur()
 		<script>
 			// Replace the <textarea id="editor1"> with an CKEditor instance.
 			CKEDITOR.replace( 'editor1', {
-					on :
-					{
-						focus: onFocus,
-						blur: onBlur,
+				on: {
+					focus: onFocus,
+					blur: onBlur,
 
-						// Check for availability of corresponding plugins.
-						pluginsLoaded : function( evt )
-						{
-							var doc = CKEDITOR.document, ed = evt.editor;
-							if ( !ed.getCommand( 'bold' ) )
-								doc.getById( 'exec-bold' ).hide();
-							if ( !ed.getCommand( 'link' ) )
-								doc.getById( 'exec-link' ).hide();
-						}
+					// Check for availability of corresponding plugins.
+					pluginsLoaded: function( evt ) {
+						var doc = CKEDITOR.document, ed = evt.editor;
+						if ( !ed.getCommand( 'bold' ) )
+							doc.getById( 'exec-bold' ).hide();
+						if ( !ed.getCommand( 'link' ) )
+							doc.getById( 'exec-link' ).hide();
 					}
-				});
+				}
+			});
 		</script>
 
 		<p id="eMessage">
