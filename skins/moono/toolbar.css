@@ -174,7 +174,7 @@ a.cke_button
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
-.cke_button_disabled
+.cke_button_disabled .cke_button_icon
 {
 	opacity: 0.3;
 }
@@ -195,7 +195,9 @@ a.cke_button_on:active
 
 a.cke_button_off:hover,
 a.cke_button_off:focus,
-a.cke_button_off:active
+a.cke_button_off:active,
+a.cke_button_disabled:focus,
+a.cke_button_disabled:active
 {
 	-moz-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
 	-webkit-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
