@@ -125,7 +125,7 @@ Special outer level classes used in this file:
 
 .cke_bottom
 {
-	padding: 4px 8px;
+	padding: 6px 8px 2px;
 	position: relative;
 
 	border-top: 1px solid #bfbfbf;
@@ -164,7 +164,11 @@ Special outer level classes used in this file:
 	font-size: 0;
 	vertical-align: bottom;
 
-	margin-top: 8px;
+	margin-top: 6px;
+
+	/* 	A margin in case of no other element in the same container
+		to keep a distance to the bottom edge. */
+	margin-bottom: 2px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.3);
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.3);

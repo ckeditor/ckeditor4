@@ -310,11 +310,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 				' aria-labelledby="cke_{name}_arialbl">' +
 				'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
 					'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
-						'<span id="{topId}" class="cke_top cke_reset_all"' +
-						' role="presentation" style="height:auto">{topHtml}</span>' +
-						'<{outerEl} id="{contentId}" class="cke_contents cke_reset"' +
-						' role="presentation"></{outerEl}>' +
-						'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
+						'{topHtml}' +
+						'<{outerEl} id="{contentId}" class="cke_contents cke_reset" role="presentation"></{outerEl}>' +
+						'{bottomHtml}' +
 					'</{outerEl}>' +
 				'</{outerEl}>' );
 		}
@@ -325,11 +323,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			voiceLabel: editor.lang.editor,
-			topId: editor.ui.spaceId( 'top' ),
-			topHtml: topHtml || '',
+			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
-			bottomId: editor.ui.spaceId( 'bottom' ),
-			bottomHtml: bottomHtml || '',
+			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
 			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
 		}));
 
@@ -343,8 +339,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Make top and bottom spaces unelectable, but not content space,
 		// otherwise the editable area would be affected.
-		editor.ui.space( 'top' ).unselectable();
-		editor.ui.space( 'bottom' ).unselectable();
+		topHtml && editor.ui.space( 'top' ).unselectable();
+		bottomHtml && editor.ui.space( 'bottom' ).unselectable();
 
 		var width = editor.config.width, height = editor.config.height;
 		if ( width )

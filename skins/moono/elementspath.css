@@ -23,6 +23,7 @@ The following is a visual representation of its main elements:
 .cke_path
 {
 	float: left;
+	margin: -2px 0 2px;
 }
 
 /* Each item of the elements path. */
