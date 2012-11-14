@@ -68,14 +68,14 @@ Special outer level classes used in this file:
 
 	background: #fff;
 	padding: 0;
-	overflow: hidden;
 }
 
 /* Added to the outer boundary of the UI when in inline editing,
    when the UI is floating. */
 .cke_float
 {
-	border-width: 1px 0 0;
+	/* Make white the space between the outer and the inner borders. */
+	border: none;
 }
 
 .cke_float .cke_inner
@@ -101,10 +101,7 @@ Special outer level classes used in this file:
 {
 	/*border: 1px solid #b2b2b2;*/
 	border-bottom: 1px solid #b6b6b6;
-	padding: 0 5px;
-
-	/* The following negative margin hides the bottom border when .cke_top is empty. */
-	margin-top: -1px;
+	padding: 6px 8px 2px;
 
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
@@ -128,13 +125,10 @@ Special outer level classes used in this file:
 
 .cke_bottom
 {
-	padding: 0 5px;
+	padding: 4px 8px;
 	position: relative;
 
 	border-top: 1px solid #bfbfbf;
-
-	/* The following negative margin hides the bottom border when .cke_bottom is empty. */
-	margin-bottom: -1px;
 
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
@@ -149,6 +143,7 @@ Special outer level classes used in this file:
 	background-image: linear-gradient(top, #ebebeb, #cfd1cf);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffebebeb', endColorstr='#cfd1cf');
 }
+
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
@@ -169,10 +164,7 @@ Special outer level classes used in this file:
 	font-size: 0;
 	vertical-align: bottom;
 
-	margin-top: 14px;
-	/* 	The following margin is to keep the bottom separation
-		when elementspath is missing and resizer is the only element in container. */
-	margin-bottom: 5px;
+	margin-top: 8px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.3);
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.3);
@@ -185,15 +177,14 @@ Special outer level classes used in this file:
 	width: auto;
 	height: auto;
 	border-width: 0;
-	margin-top: 6px;
-	margin-bottom: 0px;
 }
 
 .cke_resizer_ltr
 {
 	cursor: se-resize;
+
 	float: right;
-	margin-left: 1px;
+	margin-right: -4px;
 }
 
 /* This class is added in RTL mode. This is a special case for the resizer
