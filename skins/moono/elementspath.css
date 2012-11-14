@@ -33,8 +33,8 @@ The following is a visual representation of its main elements:
 {
 	display: inline-block;
 	float: left;
-	padding: 3px 4px;
-	margin-right: 2px;
+	padding: 4px;
+	margin: 4px 0 4px 2px;
 	cursor: default;
 	text-decoration: none;
 	outline: 0;
