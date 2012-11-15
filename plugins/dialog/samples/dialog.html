@@ -25,67 +25,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 
 	</style>
-</head>
-<body>
-	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using CKEditor Dialog API
-	</h1>
-	<div class="description">
-		<p>
-			This sample shows how to use the
-			<a class="samples" href="http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.dialog">CKEditor Dialog API</a>
-			to customize CKEditor dialog windows without changing the original editor code.
-			The following customizations are being done in the example below:
-		</p>
-		<p>
-			For details on how to create this setup check the source code of this sample page.
-		</p>
-	</div>
-	<p>A custom dialog is added to the editors using the <code>pluginsLoaded</code> event, from an external <a target="_blank" href="assets/my_dialog.js">dialog definition file</a>:</p>
-	<ol>
-		<li><strong>Creating a custom dialog window</strong> &ndash; "My Dialog" dialog window opened with the "My Dialog" toolbar button.</li>
-		<li><strong>Creating a custom button</strong> &ndash; Add button to open the dialog with "My Dialog" toolbar button.</li>
-	</ol>
-	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
 	<script>
 
-		// Replace the <textarea id="editor1"> with an CKEditor instance.
-		CKEDITOR.replace( 'editor1', {
-			extraPlugins : 'dialog',
-			// Defines a simpler toolbar to be used in this sample.
-			// Note that we have added out "MyButton" button here.
-			toolbar: [ [ 'MyButton' ] ]
-		});
-
-		// Listen for the "pluginsLoaded" event, so we are sure that the
-		// "dialog" plugin has been loaded and we are able to do our
-		// customizations.
-		CKEDITOR.on( 'pluginsLoaded', function( ev ) {
-
+		CKEDITOR.on( 'instanceCreated', function( ev ){
 			var editor = ev.editor;
 
-			// If our custom dialog has not been registered, do that now.
-			if ( !CKEDITOR.dialog.exists( 'myDialog' ) ) {
-				// We need to do the following trick to find out the dialog
-				// definition file URL path. In the real world, you would simply
-				// point to an absolute path directly, like "/mydir/mydialog.js".
-				var href = document.location.href.split( '/' );
-				href.pop();
-				href.push( 'assets/my_dialog.js' );
-				href = href.join( '/' );
+			// Listen for the "pluginsLoaded" event, so we are sure that the
+			// "dialog" plugin has been loaded and we are able to do our
+			// customizations.
+			editor.on( 'pluginsLoaded', function() {
 
-				// Finally, register the dialog.
-				CKEDITOR.dialog.add( 'myDialog', href );
-			}
+				// If our custom dialog has not been registered, do that now.
+				if ( !CKEDITOR.dialog.exists( 'myDialog' ) ) {
+					// We need to do the following trick to find out the dialog
+					// definition file URL path. In the real world, you would simply
+					// point to an absolute path directly, like "/mydir/mydialog.js".
+					var href = document.location.href.split( '/' );
+					href.pop();
+					href.push( 'assets/my_dialog.js' );
+					href = href.join( '/' );
 
-			// Register the command used to open the dialog.
-			editor.addCommand( 'myDialogCmd', new CKEDITOR.dialogCommand( 'myDialog' ) );
+					// Finally, register the dialog.
+					CKEDITOR.dialog.add( 'myDialog', href );
+				}
 
-			// Add the a custom toolbar buttons, which fires the above
-			// command..
-			editor.ui.add( 'MyButton', CKEDITOR.UI_BUTTON, {
-				label: 'My Dialog',
-				command: 'myDialogCmd'
+				// Register the command used to open the dialog.
+				editor.addCommand( 'myDialogCmd', new CKEDITOR.dialogCommand( 'myDialog' ) );
+
+				// Add the a custom toolbar buttons, which fires the above
+				// command..
+				editor.ui.add( 'MyButton', CKEDITOR.UI_BUTTON, {
+					label: 'My Dialog',
+					command: 'myDialogCmd'
+				});
 			});
 		});
 
@@ -153,6 +125,37 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		});
 
+		var config = {
+			extraPlugins: 'dialog',
+			toolbar: [ [ 'MyButton' ] ]
+		};
+
+	</script>
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using CKEditor Dialog API
+	</h1>
+	<div class="description">
+		<p>
+			This sample shows how to use the
+			<a class="samples" href="http://nightly-v4.ckeditor.com/ckeditor_api/#!/api/CKEDITOR.dialog">CKEditor Dialog API</a>
+			to customize CKEditor dialog windows without changing the original editor code.
+			The following customizations are being done in the example below:
+		</p>
+		<p>
+			For details on how to create this setup check the source code of this sample page.
+		</p>
+	</div>
+	<p>A custom dialog is added to the editors using the <code>pluginsLoaded</code> event, from an external <a target="_blank" href="assets/my_dialog.js">dialog definition file</a>:</p>
+	<ol>
+		<li><strong>Creating a custom dialog window</strong> &ndash; "My Dialog" dialog window opened with the "My Dialog" toolbar button.</li>
+		<li><strong>Creating a custom button</strong> &ndash; Add button to open the dialog with "My Dialog" toolbar button.</li>
+	</ol>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+	<script>
+		// Replace the <textarea id="editor1"> with an CKEditor instance.
+		CKEDITOR.replace( 'editor1', config );
 	</script>
 	<p>The below editor modify the dialog definition of the above added dialog using the <code>dialogDefinition</code> event:</p>
 	<ol>
@@ -167,12 +170,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script>
 
 		// Replace the <textarea id="editor1"> with an CKEditor instance.
-		CKEDITOR.replace( 'editor2', {
-			// Defines a simpler toolbar to be used in this sample.
-			// Note that we have added out "MyButton" button here.
-			extraPlugins : 'dialog',
-			toolbar: [ [ 'MyButton' ] ]
-		});
+		CKEDITOR.replace( 'editor2', config );
 
 	</script>
 	<div id="footer">
