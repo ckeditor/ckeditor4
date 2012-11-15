@@ -415,7 +415,7 @@
 
 			// Take the base for the new toolbar, which is basically a toolbar
 			// definition without items.
-			var toolbar = editor.config.toolbarGroups || getPrivateToolbarGroups( editor );
+			var toolbar = CKEDITOR.tools.clone( editor.config.toolbarGroups ) || getPrivateToolbarGroups( editor );
 
 			// Fill the toolbar groups with the available ui items.
 			for ( var i = 0; i < toolbar.length; i++ ) {
