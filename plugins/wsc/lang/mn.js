@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'wsc', 'mn', {
 	btnIgnore: 'Зөвшөөрөх',
 	btnIgnoreAll: 'Бүгдийг зөвшөөрөх',
-	btnReplace: 'Дарж бичих',
+	btnReplace: 'Солих',
 	btnReplaceAll: 'Бүгдийг Дарж бичих',
 	btnUndo: 'Буцаах',
 	changeTo: 'Өөрчлөх',

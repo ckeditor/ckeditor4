@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'iframe', 'el', {
 	border: 'Show frame border', // MISSING
 	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
+	scrolling: 'Ενεργοποίηση μπαρών κύλισης',
 	title: 'IFrame Properties', // MISSING
 	toolbar: 'IFrame' // MISSING
 });

@@ -3,24 +3,24 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'sk', {
-	alertUrl: 'Zadajte prosím URL obrázku',
+	alertUrl: 'Zadajte prosím URL obrázka',
 	alt: 'Alternatívny text',
-	border: 'Okraje',
-	btnUpload: 'Odoslať na server',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	border: 'Rám (border)',
+	btnUpload: 'Odoslať to na server',
+	button2Img: 'Chcete zmeniť vybrané obrázkové tlačidlo na jednoduchý obrázok?',
 	hSpace: 'H-medzera',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Chcete zmeniť vybraný obrázok na obrázkové tlačidlo?',
 	infoTab: 'Informácie o obrázku',
 	linkTab: 'Odkaz',
-	lockRatio: 'Zámok',
-	menu: 'Vlastnosti obrázku',
+	lockRatio: 'Pomer zámky',
+	menu: 'Vlastnosti obrázka',
 	resetSize: 'Pôvodná veľkosť',
-	title: 'Vlastnosti obrázku',
+	title: 'Vlastnosti obrázka',
 	titleButton: 'Vlastnosti obrázkového tlačidla',
-	upload: 'Odoslať',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	upload: 'Nahrať',
+	urlMissing: 'Chýba URL zdroja obrázka.',
 	vSpace: 'V-medzera',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Rám (border) musí byť celé číslo.',
+	validateHSpace: 'H-medzera musí byť celé číslo.',
+	validateVSpace: 'V-medzera musí byť celé číslo.'
 });

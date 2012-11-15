@@ -20,20 +20,20 @@ CKEDITOR.plugins.setLang( 'table', 'mn', {
 		rowSpan: 'Rows Span',
 		colSpan: 'Columns Span',
 		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
+		hAlign: 'Хэвтээд тэгшлэх арга',
+		vAlign: 'Босоод тэгшлэх арга',
 		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
+		bgColor: 'Дэвсгэр өнгө',
+		borderColor: 'Хүрээний өнгө',
 		data: 'Data',
 		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
+		yes: 'Тийм',
+		no: 'Үгүй',
+		invalidWidth: 'Нүдний өргөн нь тоо байх ёстой.',
 		invalidHeight: 'Cell height must be a number.',
 		invalidRowSpan: 'Rows span must be a whole number.',
 		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		chooseColor: 'Сонгох'
 	},
 	cellPad: 'Нүх доторлох(padding)',
 	cellSpace: 'Нүх хоорондын зай (spacing)',
@@ -56,7 +56,7 @@ CKEDITOR.plugins.setLang( 'table', 'mn', {
 	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
 	invalidHeight: 'Table height must be a number.', // MISSING
 	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	invalidWidth: 'Хүснэгтийн өргөн нь тоо байх ёстой.',
 	menu: 'Хүснэгт',
 	row: {
 		menu: 'Мөр',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'mn', {
 	toolbar: 'Хүснэгт',
 	widthPc: 'хувь',
 	widthPx: 'цэг',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'өргөний нэгж'
 });

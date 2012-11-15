@@ -26,6 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'elementspath,' +
 		'enterkey,' +
 		'entities,' +
+		'filebrowser,'+
 		'find,' +
 		'flash,' +
 		'floatingspace,' +
@@ -40,6 +41,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'justify,' +
 		'link,' +
 		'list,' +
+		'liststyle,' +
 		'magicline,' +
 		'maximize,' +
 		'newpage,' +

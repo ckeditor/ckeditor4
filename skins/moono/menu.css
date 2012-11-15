@@ -69,11 +69,17 @@ Special outer level classes used in this file:
 	display: block;
 }
 
+.cke_hc .cke_menubutton
+{
+	padding: 2px;
+}
+
 .cke_hc .cke_menubutton:hover,
 .cke_hc .cke_menubutton:focus,
 .cke_hc .cke_menubutton:active
 {
 	border: 2px solid;
+	padding: 0;
 }
 
 .cke_menubutton_inner {

@@ -22,17 +22,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				a target container to be replaced is no longer necessary. A new editor
 				instance is inserted directly wherever it is desired.
 			</p>
-			<p>
-				This editor is using an <code>&lt;iframe&gt;</code> element based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
-			</p>
 <pre class="samples">CKEDITOR.appendTo( '<em>container_id</em>',
 	{ /* Configuration options to be used. */ }
 	'Editor content to be used.'
 );</pre>
 		</div>
-		<label>
-			Editor 1:
-		</label>
 		<script>
 
 			// This call can be placed at any point after the
@@ -42,42 +36,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Replace the <textarea id="editor"> with an CKEditor
 			// instance, using default configurations.
 			CKEDITOR.appendTo( 'section1',
-				{},
+				null,
 				'<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>'
 			);
 
 		</script>
 	</div>
 	<br>
-	<div id="section2">
-		<label>
-			Editor 2:
-		</label>
-		<div class="description">
-			<p>
-				This editor is using an <code>&lt;div&gt;</code> element based editing area, provided by the <strong>Divarea</strong> plugin.
-			</p>
-<pre class="samples">
-CKEDITOR.appendTo( '<em>container_id</em>',
-	{ extraPlugins: 'divarea' },
-	'Editor content to be used.'
-);</pre>
-		</div>
-		<script>
-
-			// This call can be placed at any point after the
-			// <textarea>, or inside a <head><script> in a
-			// window.onload event handler.
-
-			// Replace the <textarea id="editor"> with an CKEditor
-			// instance, using default configurations.
-			CKEDITOR.appendTo( 'section2',
-				{ extraPlugins: 'divarea' },
-				'<p>This is some <strong>sample text</strong>. You are using <a href="http://ckeditor.com/">CKEditor</a>.</p>'
-			);
-
-		</script>
-	</div>
 	<div id="footer">
 		<hr>
 		<p>

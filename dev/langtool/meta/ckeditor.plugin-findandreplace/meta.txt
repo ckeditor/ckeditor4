@@ -1,0 +1,12 @@
+find = Label for the Find tab and Find button of the Find and Replace dialog window.
+findOptions = Label for the Find Options fieldset of the Find and Replace dialog window.
+findWhat = Label for the Find what field of the Find and Replace dialog window.
+matchCase = Label for the Match Case field of the Find and Replace dialog window.
+matchCyclic = Label for the Match cyclic field of the Find and Replace dialog window.
+matchWord = Label for the Match whole word field of the Find and Replace dialog window.
+notFoundMsg = Error message displayed when the specified term was not found in the document.
+replace = Label for the Replace tab and Replace button of the Find and Replace dialog window.
+replaceAll = Label for the Replace All button of the Find and Replace dialog window.
+replaceSuccessMsg = A message stating how many occurrences of the searched term were replaced in the document.
+replaceWith = Label for the Replace with field of the Find and Replace dialog window.
+title = Label for the Find and Replace dialog window.

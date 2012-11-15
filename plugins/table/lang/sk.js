@@ -3,7 +3,7 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'sk', {
-	border: 'Ohraničenie',
+	border: 'Šírka rámu (border)',
 	caption: 'Popis',
 	cell: {
 		menu: 'Bunka',
@@ -15,33 +15,33 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 		mergeDown: 'Zlúčiť dole',
 		splitHorizontal: 'Rozdeliť bunky horizontálne',
 		splitVertical: 'Rozdeliť bunky vertikálne',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		title: 'Vlastnosti bunky',
+		cellType: 'Typ bunky',
+		rowSpan: 'Rozsah riadkov',
+		colSpan: 'Rozsah stĺpcov',
+		wordWrap: 'Zalomovanie riadkov',
+		hAlign: 'Horizontálne zarovnanie',
+		vAlign: 'Vertikálne zarovnanie',
+		alignBaseline: 'Základná čiara (baseline)',
+		bgColor: 'Farba pozadia',
+		borderColor: 'Farba rámu',
+		data: 'Dáta',
+		header: 'Hlavička',
+		yes: 'Áno',
+		no: 'Nie',
+		invalidWidth: 'Šírka bunky musí byť číslo.',
+		invalidHeight: 'Výška bunky musí byť číslo.',
+		invalidRowSpan: 'Rozsah riadkov musí byť celé číslo.',
+		invalidColSpan: 'Rozsah stĺpcov musí byť celé číslo.',
+		chooseColor: 'Vybrať'
 	},
-	cellPad: 'Odsadenie obsahu',
-	cellSpace: 'Vzdialenosť buniek',
+	cellPad: 'Odsadenie obsahu (cell padding)',
+	cellSpace: 'Vzdialenosť buniek (cell spacing)',
 	column: {
 		menu: 'Stĺpec',
-		insertBefore: 'Vložiť stĺpec za',
-		insertAfter: 'Vložiť stĺpec pred',
-		deleteColumn: 'Zmazať stĺpec'
+		insertBefore: 'Vložiť stĺpec pred',
+		insertAfter: 'Vložiť stĺpec po',
+		deleteColumn: 'Zmazať stĺpce'
 	},
 	columns: 'Stĺpce',
 	deleteTable: 'Vymazať tabuľku',
@@ -50,9 +50,9 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 	headersColumn: 'Prvý stĺpec',
 	headersNone: 'Žiadne',
 	headersRow: 'Prvý riadok',
-	invalidBorder: 'Širka rámu musí byť celé číslo.',
-	invalidCellPadding: 'Odsadenie v bunkách (padding) musí byť číslo.',
-	invalidCellSpacing: 'Medzera mädzi bunkami (spacing) musí byť číslo.',
+	invalidBorder: 'Širka rámu musí byť číslo.',
+	invalidCellPadding: 'Odsadenie v bunkách (cell padding) musí byť kladné číslo.',
+	invalidCellSpacing: 'Medzera mädzi bunkami (cell spacing) musí byť kladné číslo.',
 	invalidCols: 'Počet stĺpcov musí byť číslo väčšie ako 0.',
 	invalidHeight: 'Výška tabuľky musí byť číslo.',
 	invalidRows: 'Počet riadkov musí byť číslo väčšie ako 0.',
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 	menu: 'Vlastnosti tabuľky',
 	row: {
 		menu: 'Riadok',
-		insertBefore: 'Vložiť riadok za',
-		insertAfter: 'Vložiť riadok pred',
-		deleteRow: 'Vymazať riadok'
+		insertBefore: 'Vložiť riadok pred',
+		insertAfter: 'Vložiť riadok po',
+		deleteRow: 'Vymazať riadky'
 	},
 	rows: 'Riadky',
 	summary: 'Prehľad',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 	toolbar: 'Tabuľka',
 	widthPc: 'percent',
 	widthPx: 'pixelov',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'jednotka šírky'
 });

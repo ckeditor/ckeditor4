@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'liststyle', 'mn', {
 	numberedTitle: 'Numbered List Properties',
 	square: 'Square',
 	start: 'Start',
-	type: 'Type',
+	type: 'Төрөл',
 	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
 	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'List start number must be a whole number.'

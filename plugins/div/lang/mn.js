@@ -8,12 +8,12 @@ CKEDITOR.plugins.setLang( 'div', 'mn', {
 	cssClassInputLabel: 'Stylesheet Classes', // MISSING
 	edit: 'Edit Div', // MISSING
 	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
+	langDirLTRLabel: 'Зүүн талаас баруун тишээ (LTR)',
 	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+	langDirRTLLabel: 'Баруун талаас зүүн тишээ (RTL)',
 	languageCodeInputLabel: ' Language Code', // MISSING
 	remove: 'Remove Div', // MISSING
 	styleSelectLabel: 'Style', // MISSING
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
+	title: 'Div гэдэг хэсэг бий болгох',
+	toolbar: 'Div гэдэг хэсэг бий болгох'
 });

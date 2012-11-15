@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		alignTop: 'Ylös',
 		alignMiddle: 'Keskelle',
 		alignBottom: 'Alas',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Korkeuden täytyy olla numero.',
 		invalidWidth: 'Leveyden täytyy olla numero.',
 		invalidCssLength: 'Kentän "%1" arvon täytyy olla positiivinen luku CSS mittayksikön (px, %, in, cm, mm, em, ex, pt tai pc) kanssa tai ilman.',

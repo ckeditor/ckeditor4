@@ -3,6 +3,6 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'bidi', 'mn', {
-	ltr: 'Text direction from left to right', // MISSING
-	rtl: 'Text direction from right to left' // MISSING
+	ltr: 'Зүүнээс баруун тийш бичлэг',
+	rtl: 'Баруунаас зүүн тийш бичлэг'
 });

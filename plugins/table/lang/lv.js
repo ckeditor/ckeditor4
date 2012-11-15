@@ -7,61 +7,61 @@ CKEDITOR.plugins.setLang( 'table', 'lv', {
 	caption: 'Leģenda',
 	cell: {
 		menu: 'Šūna',
-		insertBefore: 'Insert Cell Before',
-		insertAfter: 'Insert Cell After',
+		insertBefore: 'Pievienot šūnu pirms',
+		insertAfter: 'Pievienot šūnu pēc',
 		deleteCell: 'Dzēst rūtiņas',
 		merge: 'Apvienot rūtiņas',
-		mergeRight: 'Merge Right',
-		mergeDown: 'Merge Down',
-		splitHorizontal: 'Split Cell Horizontally',
-		splitVertical: 'Split Cell Vertically',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		mergeRight: 'Apvieno pa labi',
+		mergeDown: 'Apvienot uz leju',
+		splitHorizontal: 'Sadalīt šūnu horizontāli',
+		splitVertical: 'Sadalīt šūnu vertikāli',
+		title: 'Šūnas uzstādījumi',
+		cellType: 'Šūnas tips',
+		rowSpan: 'Apvienotas rindas',
+		colSpan: 'Apvienotas kolonas',
+		wordWrap: 'Vārdu pārnese',
+		hAlign: 'Horizontālais novietojums',
+		vAlign: 'Vertikālais novietojums',
+		alignBaseline: 'Pamatrinda',
+		bgColor: 'Fona krāsa',
+		borderColor: 'Rāmja krāsa',
+		data: 'Dati',
+		header: 'Virsraksts',
+		yes: 'Jā',
+		no: 'Nē',
+		invalidWidth: 'Šūnas platumam jābūt skaitlim',
+		invalidHeight: 'Šūnas augstumam jābūt skaitlim',
+		invalidRowSpan: 'Apvienojamo rindu skaitam jābūt veselam skaitlim',
+		invalidColSpan: 'Apvienojamo kolonu skaitam jābūt veselam skaitlim',
+		chooseColor: 'Izvēlēties'
 	},
 	cellPad: 'Rūtiņu nobīde',
 	cellSpace: 'Rūtiņu atstatums',
 	column: {
 		menu: 'Kolonna',
-		insertBefore: 'Insert Column Before',
-		insertAfter: 'Insert Column After',
+		insertBefore: 'Ievietot kolonu pirms',
+		insertAfter: 'Ievieto kolonu pēc',
 		deleteColumn: 'Dzēst kolonnas'
 	},
 	columns: 'Kolonnas',
 	deleteTable: 'Dzēst tabulu',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
-	headersNone: 'None', // MISSING
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	headers: 'Virsraksti',
+	headersBoth: 'Abi',
+	headersColumn: 'Pirmā kolona',
+	headersNone: 'Nekas',
+	headersRow: 'Pirmā rinda',
+	invalidBorder: 'Rāmju izmēram jābūt skaitlim',
+	invalidCellPadding: 'Šūnu atkāpēm jābūt pozitīvam skaitlim',
+	invalidCellSpacing: 'Šūnu atstarpēm jābūt pozitīvam skaitlim',
+	invalidCols: 'Kolonu skaitam jābūt lielākam par 0',
+	invalidHeight: 'Tabulas augstumam jābūt skaitlim',
+	invalidRows: 'Rindu skaitam jābūt lielākam par 0',
+	invalidWidth: 'Tabulas platumam jābūt skaitlim',
 	menu: 'Tabulas īpašības',
 	row: {
 		menu: 'Rinda',
-		insertBefore: 'Insert Row Before',
-		insertAfter: 'Insert Row After',
+		insertBefore: 'Ievietot rindu pirms',
+		insertAfter: 'Ievietot rindu pēc',
 		deleteRow: 'Dzēst rindas'
 	},
 	rows: 'Rindas',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'lv', {
 	toolbar: 'Tabula',
 	widthPc: 'procentuāli',
 	widthPx: 'pikseļos',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'platuma mērvienība'
 });

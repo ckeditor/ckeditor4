@@ -1,0 +1,23 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+alertUrl = 
+alt = Label for the Alternative Text field of the Image Properties dialog window.
+border = Label for the Border field of the Image Properties dialog window.
+btnUpload = Label for the button that uploads the file to the server.
+button2Img = A message asking the user to confirm if one wants to transform an image button to a normal image.
+hSpace = Label for the HSpace field of the Image Properties dialog window.
+img2Button = A message asking the user to confirm if one wants to transform an image to an image button.
+infoTab = Label for the Image Info tab of the Image Properties dialog window.
+linkTab = Label for the Link tab of the Image Properties dialog window.
+lockRatio = Tooltip for the Lock Ratio icon of the Image Properties dialog window.
+menu = Label for the Image Properties context menu entry for an image.
+resetSize = Tooltip for the Reset Size icon of the Image Properties dialog window.
+title = Label for the Image Properties dialog window.
+titleButton = Label for the Image Button Properties dialog window.
+upload = Label for the Upload tab of the Image Properties dialog window.
+urlMissing = Error message displayed when a user attempts to add an image without giving its URL.
+vSpace = Label for the VSpace field of the Image Properties dialog window.
+validateBorder = Error message informing the user that the image border value must be a whole number.
+validateHSpace = Error message informing the user that the HSpace value must be a whole number.
+validateVSpace = Error message informing the user that the VSpace value must be a whole number.

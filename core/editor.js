@@ -30,6 +30,9 @@
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
 
+		// Make a clone of the config object, to avoid having it touched by our code. (#9636)
+		instanceConfig = instanceConfig && CKEDITOR.tools.clone( instanceConfig );
+
 		// if editor is created off one page element.
 		if ( element !== undefined ) {
 			// Asserting element and mode not null.
@@ -378,14 +381,14 @@
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
-			var removeRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
-			plugins = plugins.replace( removeRegex, '' );
+			var extraRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			plugins = plugins.replace( extraRegex, '' );
 
 			plugins += ',' + extraPlugins;
 		}
 
 		if ( removePlugins ) {
-			removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			var removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
 			plugins = plugins.replace( removeRegex, '' );
 		}
 

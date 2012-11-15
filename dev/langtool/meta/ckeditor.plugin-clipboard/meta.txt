@@ -1,0 +1,12 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+copy = Toolbar button tooltip for the Copy feature.
+copyError = Error message displayed when the browser security settings are blocking the copying operation.
+cut = Toolbar button tooltip for the Cut feature.
+cutError = Error message displayed when the browser security settings are blocking the cutting operation.
+paste = Toolbar button tooltip for the Paste feature.
+pasteArea = WAI-ARIA label for the paste area.
+pasteMsg = A help message urging the user to paste the text into the dialog window by using the keyboard.
+securityMsg = Error message displayed when the browser security settings are blocking the pasting operation.
+title = Label for the Paste dialog window.

@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignTop: '上',
 		alignMiddle: '中央',
 		alignBottom: '下',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

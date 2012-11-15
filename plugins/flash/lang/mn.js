@@ -4,14 +4,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'mn', {
 	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
-	accessSameDomain: 'Same domain', // MISSING
+	accessAlways: 'Онцлогууд',
+	accessNever: 'Хэзээ ч үгүй',
+	accessSameDomain: 'Байнга',
 	alignAbsBottom: 'Abs доод талд',
 	alignAbsMiddle: 'Abs Дунд талд',
 	alignBaseline: 'Baseline',
 	alignTextTop: 'Текст дээр',
-	bgcolor: 'Фонны өнгө',
+	bgcolor: 'Дэвсгэр өнгө',
 	chkFull: 'Allow Fullscreen', // MISSING
 	chkLoop: 'Давтах',
 	chkMenu: 'Флаш цэс идвэхжүүлэх',

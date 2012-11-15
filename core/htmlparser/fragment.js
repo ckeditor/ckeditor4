@@ -37,9 +37,6 @@ CKEDITOR.htmlParser.fragment = function() {
 	// parser fixing.
 	var nonBreakingBlocks = CKEDITOR.tools.extend( { table:1,ul:1,ol:1,dl:1 }, CKEDITOR.dtd.table, CKEDITOR.dtd.ul, CKEDITOR.dtd.ol, CKEDITOR.dtd.dl );
 
-	// IE < 8 don't output the close tag on definition list items. (#6975)
-	var optionalCloseTags = CKEDITOR.env.ie && CKEDITOR.env.version < 8 ? { dd:1,dt:1 } : {};
-
 	var listBlocks = { ol:1,ul:1 };
 
 	// Dtd of the fragment element, basically it accept anything except for intermediate structure, e.g. orphan <li>.
@@ -151,38 +148,35 @@ CKEDITOR.htmlParser.fragment = function() {
 		// there's a return point node specified on the element, otherwise move current onto {@link target} node.
 		//
 		function addElement( element, target, moveCurrent ) {
-			// Ignore any element that has already been added.
-			if ( element.previous !== undefined )
-				return;
-
 			target = target || currentNode || root;
 
 			// Current element might be mangled by fix body below,
 			// save it for restore later.
 			var savedCurrent = currentNode;
 
-			if ( checkAutoParagraphing( target, element ) )
-			{
+			// Ignore any element that has already been added.
+			if ( element.previous === undefined ) {
+				if ( checkAutoParagraphing( target, element ) ) {
 					// Create a <p> in the fragment.
 					currentNode = target;
 					parser.onTagOpen( fixingBlock, {} );
 
 					// The new target now is the <p>.
 					element.returnPoint = target = currentNode;
+				}
+
+				removeTailWhitespace( element );
+
+				// Avoid adding empty inline.
+				if ( !( isRemoveEmpty( element ) && !element.children.length ) )
+					target.add( element );
+
+				if ( element.name == 'pre' )
+					inPre = false;
+
+				if ( element.name == 'textarea' )
+					inTextarea = false;
 			}
-
-			removeTailWhitespace( element );
-
-			// Avoid adding empty inline.
-			if ( !( isRemoveEmpty( element ) && !element.children.length ) )
-				target.add( element );
-
-			if ( element.name == 'pre' )
-				inPre = false;
-
-			if ( element.name == 'textarea' )
-				inTextarea = false;
-
 
 			if ( element.returnPoint ) {
 				currentNode = element.returnPoint;
@@ -212,6 +206,16 @@ CKEDITOR.htmlParser.fragment = function() {
 			}
 		}
 
+		// Judge whether two element tag names are likely the siblings from the same
+		// structural element.
+		function possiblySibling( tag1, tag2 ) {
+
+			if ( tag1 in CKEDITOR.dtd.$listItem || tag1 in CKEDITOR.dtd.$tableContent )
+				return tag1 == tag2 || tag1 == 'dt' && tag2 == 'dd' || tag1 == 'dd' && tag2 == 'dt';
+
+			return false;
+		}
+
 		parser.onTagOpen = function( tagName, attributes, selfClosing, optionalClose ) {
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
@@ -221,7 +225,7 @@ CKEDITOR.htmlParser.fragment = function() {
 				element.isEmpty = true;
 
 			// Check for optional closed elements, including browser quirks and manually opened blocks.
-			element.isOptionalClose = tagName in optionalCloseTags || optionalClose;
+			element.isOptionalClose = optionalClose;
 
 			// This is a tag to be removed if empty, so do not add it immediately.
 			if ( isRemoveEmpty( element ) ) {
@@ -263,14 +267,20 @@ CKEDITOR.htmlParser.fragment = function() {
 						!element.returnPoint && ( element.returnPoint = currentNode );
 						currentNode = lastChild;
 					}
-					// Establish new list root for orphan list items.
-					else if ( tagName in CKEDITOR.dtd.$listItem && currentName != tagName )
+					// Establish new list root for orphan list items, but NOT to create
+					// new list for the following ones, fix them instead. (#6975)
+					// <dl><dt>foo<dd>bar</dl>
+					// <ul><li>foo<li>bar</ul>
+					else if ( tagName in CKEDITOR.dtd.$listItem &&
+							!possiblySibling( tagName, currentName ) ) {
 						parser.onTagOpen( tagName == 'li' ? 'ul' : 'dl', {}, 0, 1 );
+					}
 					// We're inside a structural block like table and list, AND the incoming element
 					// is not of the same type (e.g. <td>td1<td>td2</td>), we simply add this new one before it,
 					// and most importantly, return back to here once this element is added,
 					// e.g. <table><tr><td>td1</td><p>p1</p><td>td2</td></tr></table>
-					else if ( currentName in nonBreakingBlocks && currentName != tagName ) {
+					else if ( currentName in nonBreakingBlocks &&
+							!possiblySibling( tagName, currentName ) ) {
 						!element.returnPoint && ( element.returnPoint = currentNode );
 						currentNode = currentNode.parent;
 					} else {

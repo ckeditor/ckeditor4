@@ -5,8 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'templates', 'lv', {
 	button: 'Sagataves',
 	emptyListMsg: '(Nav norādītas sagataves)',
-	insertOption: 'Replace actual contents', // MISSING
-	options: 'Template Options', // MISSING
+	insertOption: 'Aizvietot pašreizējo saturu',
+	options: 'Sagataves uzstādījumi',
 	selectPromptMsg: 'Lūdzu, norādiet sagatavi, ko atvērt editorā<br>(patreizējie dati tiks zaudēti):',
 	title: 'Satura sagataves'
 });

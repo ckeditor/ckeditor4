@@ -93,26 +93,6 @@ Special outer level classes used in this file:
 	margin-bottom: 10px;
 }
 
-.cke_toolgroup *:first-child
-{
-	-moz-border-top-left-radius: 2px;
-	-moz-border-bottom-left-radius: 2px;
-	-webkit-border-top-left-radius: 2px;
-	-webkit-border-bottom-left-radius: 2px;
-	border-top-left-radius: 2px;
-	border-bottom-left-radius: 2px;
-}
-
-.cke_toolgroup *:last-child
-{
-	-moz-border-top-right-radius: 2px;
-	-moz-border-bottom-right-radius: 2px;
-	-webkit-border-top-right-radius: 2px;
-	-webkit-border-bottom-right-radius: 2px;
-	border-top-right-radius: 2px;
-	border-bottom-right-radius: 2px;
-}
-
 .cke_rtl .cke_toolgroup *:first-child
 {
 	-moz-border-radius: 0 2px 2px 0;
@@ -179,7 +159,13 @@ a.cke_button
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
 }
 
-.cke_hc .cke_button_on
+.cke_hc .cke_button_on,
+.cke_hc a.cke_button_off:hover,
+.cke_hc a.cke_button_off:focus,
+.cke_hc a.cke_button_off:active,
+.cke_hc a.cke_button_disabled:hover,
+.cke_hc a.cke_button_disabled:focus,
+.cke_hc a.cke_button_disabled:active
 {
 	border-width: 3px;
 
@@ -191,9 +177,14 @@ a.cke_button
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
-.cke_button_disabled
+.cke_button_disabled .cke_button_icon
 {
 	opacity: 0.3;
+}
+
+.cke_hc .cke_button_disabled
+{
+	opacity: 0.5;
 }
 
 a.cke_button_on:hover,
@@ -207,7 +198,10 @@ a.cke_button_on:active
 
 a.cke_button_off:hover,
 a.cke_button_off:focus,
-a.cke_button_off:active
+a.cke_button_off:active,
+a.cke_button_disabled:hover,
+a.cke_button_disabled:focus,
+a.cke_button_disabled:active
 {
 	-moz-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
 	-webkit-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;

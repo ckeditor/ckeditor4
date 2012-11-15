@@ -3,28 +3,28 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'lv', {
-	acccessKey: 'Pieejas kods',
+	acccessKey: 'Pieejas taustiņš',
 	advanced: 'Izvērstais',
 	advisoryContentType: 'Konsultatīvs satura tips',
 	advisoryTitle: 'Konsultatīvs virsraksts',
 	anchor: {
 		toolbar: 'Ievietot/Labot iezīmi',
-		menu: 'Iezīmes īpašības',
-		title: 'Iezīmes īpašības',
+		menu: 'Labot iezīmi',
+		title: 'Iezīmes uzstādījumi',
 		name: 'Iezīmes nosaukums',
 		errorName: 'Lūdzu norādiet iezīmes nosaukumu',
-		remove: 'Remove Anchor'
+		remove: 'Noņemt iezīmi'
 	},
 	anchorId: 'Pēc elementa ID',
 	anchorName: 'Pēc iezīmes nosaukuma',
-	charset: 'Pievienotā resursa kodu tabula',
+	charset: 'Pievienotā resursa kodējums',
 	cssClasses: 'Stilu saraksta klases',
 	emailAddress: 'E-pasta adrese',
 	emailBody: 'Ziņas saturs',
 	emailSubject: 'Ziņas tēma',
-	id: 'Id', // MISSING
+	id: 'ID',
 	info: 'Hipersaites informācija',
-	langCode: 'Valodas lasīšanas virziens',
+	langCode: 'Valodas kods',
 	langDir: 'Valodas lasīšanas virziens',
 	langDirLTR: 'No kreisās uz labo (LTR)',
 	langDirRTL: 'No labās uz kreiso (RTL)',
@@ -40,12 +40,12 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	popupLeft: 'Kreisā koordināte',
 	popupLocationBar: 'Atrašanās vietas josla',
 	popupMenuBar: 'Izvēlnes josla',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'Mērogojams',
 	popupScrollBars: 'Ritjoslas',
 	popupStatusBar: 'Statusa josla',
 	popupToolbar: 'Rīku josla',
 	popupTop: 'Augšējā koordināte',
-	rel: 'Relationship', // MISSING
+	rel: 'Relācija',
 	selectAnchor: 'Izvēlēties iezīmi',
 	styles: 'Stils',
 	tabIndex: 'Ciļņu indekss',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	title: 'Hipersaite',
 	toAnchor: 'Iezīme šajā lapā',
 	toEmail: 'E-pasts',
-	toUrl: 'URL', // MISSING
+	toUrl: 'Adrese',
 	toolbar: 'Ievietot/Labot hipersaiti',
 	type: 'Hipersaites tips',
 	unlink: 'Noņemt hipersaiti',

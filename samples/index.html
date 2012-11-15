@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -24,12 +24,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				<dt><a class="samples" href="replacebycode.html">Replace textarea elements by code</a></dt>
 				<dd>Replacement of textarea elements with CKEditor instances by using a JavaScript call.</dd>
-
-				<dt><a class="samples" href="divarea.html">Replace textarea with a "DIV-based" editor</a> <span class="new">New!</span></dt>
-				<dd>Using <code>div</code> instead of <code>iframe</code> for rich editing.</dd>
-
-				<dt><a class="samples" href="fullpage.html">Full page support with the Document Properties plugin</a></dt>
-				<dd>CKEditor inserted with a JavaScript call and used to edit the whole page from <code>&lt;html&gt;</code> to <code>&lt;/html&gt;</code>.</dd>
 			</dl>
 
 			<h2 class="samples">
@@ -41,40 +35,50 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				<dt><a class="samples" href="uilanguages.html">User Interface languages</a></dt>
 				<dd>Changing CKEditor User Interface language and adding a drop-down list that lets the user choose the UI language.</dd>
-
-				<dt><a class="samples" href="toolbar.html">Toolbar configuration</a> <span class="new">New!</span></dt>
-				<dd>Configuring CKEditor to display full or custom toolbar layout.</dd>
 			</dl>
 
+			<!-- %REMOVE_START% -->
 			<h2 class="samples">
-				Additional plugins
+				Plugins
 			</h2>
 			<dl class="samples">
-				<dt><a class="samples" href="autogrow.html">AutoGrow plugin</a></dt>
+				<dt><a class="samples" href="../plugins/autogrow/samples/autogrow.html">AutoGrow plugin</a></dt>
 				<dd>Using the AutoGrow plugin in order to make the editor grow to fit the size of its content.</dd>
 
-				<dt><a class="samples" href="bbcode.html">Output for BBCode</a></dt>
+				<dt><a class="samples" href="../plugins/bbcode/samples/bbcode.html">Output for BBCode</a></dt>
 				<dd>Configuring CKEditor to produce BBCode tags instead of HTML.</dd>
 
-				<dt><a class="samples" href="stylesheetparser.html">Stylesheet Parser plugin</a></dt>
+				<dt><a class="samples" href="../plugins/wysiwygarea/samples/fullpage.html">Full page support</a></dt>
+				<dd>CKEditor inserted with a JavaScript call and used to edit the whole page from <code>&lt;html&gt;</code> to <code>&lt;/html&gt;</code>.</dd>
+
+				<dt><a class="samples" href="../plugins/stylesheetparser/samples/stylesheetparser.html">Stylesheet Parser plugin</a></dt>
 				<dd>Using the Stylesheet Parser plugin to fill the Styles drop-down list based on the CSS classes available in the document stylesheet.</dd>
 
-				<dt><a class="samples" href="devtools.html">Developer Tools plugin</a></dt>
+				<dt><a class="samples" href="../plugins/devtools/samples/devtools.html">Developer Tools plugin</a></dt>
 				<dd>Using the Developer Tools plugin to display information about dialog window UI elements to allow for easier customization.</dd>
 
-				<dt><a class="samples" href="placeholder.html">Placeholder plugin</a></dt>
+				<dt><a class="samples" href="../plugins/placeholder/samples/placeholder.html">Placeholder plugin</a></dt>
 				<dd>Using the Placeholder plugin to create uneditable sections that can only be created and modified with a proper dialog window.</dd>
 
-				<dt><a class="samples" href="tableresize.html">TableResize plugin</a></dt>
+				<dt><a class="samples" href="../plugins/tableresize/samples/tableresize.html">TableResize plugin</a></dt>
 				<dd>Using the TableResize plugin to enable table column resizing.</dd>
 
-				<dt><a class="samples" href="magicline.html">Magicline plugin</a> <span class="new">New!</span></dt>
+				<dt><a class="samples" href="../plugins/magicline/samples/magicline.html">Magicline plugin</a> <span class="new">New!</span></dt>
 				<dd>Using the Magicline plugin to access difficult focus spaces.</dd>
+
+				<dt><a class="samples" href="../plugins/docprops/samples/docprops.html">Document Properties plugin</a></dt>
+				<dd>Manage various page meta data with a dialog.</dd>
+
+				<dt><a class="samples" href="../plugins/uicolor/samples/uicolor.html">UIColor plugin</a></dt>
+				<dd>Using the UIColor plugin to pick up skin color.</dd>
 			</dl>
+			<!-- %REMOVE_END% -->
+
+			<!-- PLUGINS_SAMPLES -->
 		</div>
 		<div class="twoColumnsRight">
 			<h2 class="samples">
-				Inline editing <span class="new">New!</span>
+				Inline Editing <span class="new">New!</span>
 			</h2>
 			<dl class="samples">
 				<dt><a class="samples" href="inlineall.html">Massive inline editor creation</a> <span class="new">New!</span></dt>
@@ -82,6 +86,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				<dt><a class="samples" href="inlinebycode.html">Convert element into an inline editor by code</a> <span class="new">New!</span></dt>
 				<dd>Conversion of DOM elements into inline CKEditor instances by using a JavaScript call.</dd>
+
+				<!-- INLINE_EDITING_SAMPLES -->
 			</dl>
 
 			<h2 class="samples">
@@ -100,26 +106,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				<dt><a class="samples" href="api.html">Basic usage of the API</a></dt>
 				<dd>Using the CKEditor JavaScript API to interact with the editor at runtime.</dd>
 
-				<dt><a class="samples" href="apidialog.html">Using the JavaScript API to customize dialog windows</a></dt>
-				<dd>Using the dialog windows API to customize dialog windows without changing the original editor code.</dd>
-
-				<dt><a class="samples" href="enterkey.html">Using the "Enter" key in CKEditor</a></dt>
-				<dd>Configuring the behavior of <em>Enter</em> and <em>Shift+Enter</em> keys.</dd>
-
-				<dt><a class="samples" href="outputxhtml.html">Output XHTML</a></dt>
-				<dd>Configuring CKEditor to produce XHTML 1.1 compliant code.</dd>
-
-				<dt><a class="samples" href="outputhtml.html">Output HTML</a></dt>
-				<dd>Configuring CKEditor to produce legacy HTML 4 code.</dd>
-
-				<dt><a class="samples" href="outputforflash.html">Output for Flash</a></dt>
-				<dd>Configuring CKEditor to produce HTML code that can be used with Adobe Flash.</dd>
+				<dt><a class="samples" href="xhtmlstyle.html">XHTML-compliant style</a></dt>
+				<dd>Configuring CKEditor to produce XHTML 1.1 compliant attributes and styles.</dd>
 
 				<dt><a class="samples" href="readonly.html">Read-only mode</a></dt>
 				<dd>Using the readOnly API to block introducing changes to the editor contents.</dd>
 
 				<dt><a class="samples" href="tabindex.html">"Tab" key-based navigation</a> <span class="new">New!</span></dt>
 				<dd>Navigating among editor instances with tab key.</dd>
+
+				<!-- %REMOVE_START% -->
+				<dt><a class="samples" href="../plugins/divarea/samples/divarea.html">Replace textarea with a "DIV-based" editor</a> <span class="new">New!</span></dt>
+				<dd>Using <code>div</code> instead of <code>iframe</code> for rich editing.</dd>
+
+				<dt><a class="samples" href="../plugins/dialog/samples/dialog.html">Using the JavaScript API to customize dialog windows</a></dt>
+				<dd>Using the dialog windows API to customize dialog windows without changing the original editor code.</dd>
+
+				<dt><a class="samples" href="../plugins/enterkey/samples/enterkey.html">Using the "Enter" key in CKEditor</a></dt>
+				<dd>Configuring the behavior of <em>Enter</em> and <em>Shift+Enter</em> keys.</dd>
+
+				<dt><a class="samples" href="../plugins/toolbar/samples/toolbar.html">Toolbar configuration</a> <span class="new">New!</span></dt>
+				<dd>Configuring CKEditor to display full or custom toolbar layout.</dd>
+
+				<dt><a class="samples" href="../plugins/htmlwriter/samples/outputhtml.html">Output HTML</a></dt>
+				<dd>Configuring CKEditor to produce legacy HTML 4 code.</dd>
+
+				<dt><a class="samples" href="../plugins/htmlwriter/samples/outputforflash.html">Output for Flash</a></dt>
+				<dd>Configuring CKEditor to produce HTML code that can be used with Adobe Flash.</dd>
+				<!-- %REMOVE_END% -->
+
+				<!-- ADVANCED_SAMPLES -->
 			</dl>
 		</div>
 	</div>

@@ -144,18 +144,22 @@ CKEDITOR.skin.chameleon = (function() {
 				'] ' +
 			'{id} .cke_dialog_footer [' +
 					'{defaultGradient}' +
-					'border-top-color:{defaultBorder};' +
+					'outline-color:{defaultBorder};' +
+					'border-top-color:{defaultBorder};' +	// IE7 doesn't use outline.
 				'] ' +
 			'{id} .cke_dialog_tab [' +
 					'{lightGradient}' +
 					'border-color:{defaultBorder};' +
 				'] ' +
+			'{id} .cke_dialog_tab:hover [' +
+					'{mediumGradient}' +
+				'] ' +
 			'{id} .cke_dialog_contents [' +
 					'border-top-color:{defaultBorder};' +
 				'] ' +
-			'{id} .cke_dialog_tab_selected [' +
+			'{id} .cke_dialog_tab_selected, {id} .cke_dialog_tab_selected:hover [' +
 					'background:{dialogTabSelected};' +
-					'border-bottom-color:{dialogTabSelected};' +
+					'border-bottom-color:{dialogTabSelectedBorder};' +
 				'] ' +
 			'{id} .cke_dialog_body [' +
 					'background:{dialogBody};' +
@@ -253,7 +257,9 @@ CKEDITOR.skin.chameleon = (function() {
 				ckeToolbarSeparator: colorBrightness( uiColor, 0.5 ),
 				ckeColorauto: colorBrightness( uiColor, 0.8 ),
 				dialogBody: colorBrightness( uiColor, 0.7 ),
-				dialogTabSelected: '#fff',
+				// Use gradient instead of simple hex to avoid further filter resetting in IE.
+				dialogTabSelected: verticalGradient( '#FFFFFF', '#FFFFFF' ),
+				dialogTabSelectedBorder: '#FFF',
 				elementsPathColor: colorBrightness( uiColor, -0.6 ),
 				elementsPathBg: uiColor,
 				menubuttonIcon: colorBrightness( uiColor, 0.5 ),
@@ -273,6 +279,9 @@ CKEDITOR.skin.chameleon = (function() {
 // ----------------------------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
 //
+// Note: As "moono" is the default CKEditor skin, it provides no custom icons,
+// thus this code is commented out.
+//
 // This code is here just to make the skin work fully when using its "source"
 // version. Without this, the skin will still work, but its icons will not be
 // used (again, on source version only).
@@ -285,30 +294,29 @@ CKEDITOR.skin.chameleon = (function() {
 // If a required icon is not available here, the plugin defined icon will be
 // used instead. This means that a skin is not required to provide all icons.
 // Actually, it is not required to provide icons at all.
-
-(function() {
-	// The available icons. This list must match the file names (without
-	// extension) available inside the "icons" folder.
-	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
-		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
-		'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
-		'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
-		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
-		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
-		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
-		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
-		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
-		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
-		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
-		'textcolor,textfield,textfield-rtl,underline,undo-rtl,undo,unlink' ).split( ',' );
-
-	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
-
-	for ( var i = 0; i < icons.length; i++ ) {
-		CKEDITOR.skin.icons[ icons[ i ] ] = { path: iconsFolder + icons[ i ] + '.png', offset: 0 } ;
-	}
-})();
+//
+// (function() {
+//		// The available icons. This list must match the file names (without
+//		// extension) available inside the "icons" folder.
+//		var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
+//			'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
+//			'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+//			'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
+//			'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
+//			'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
+//			'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
+//			'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+//			'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
+//			'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
+//			'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
+//			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
+//			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
+//
+//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+//
+//		for ( var i = 0; i < icons.length; i++ ) {
+//			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
+//		}
+// })();
 
 // %REMOVE_END%
-

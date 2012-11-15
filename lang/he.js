@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'he' ] = {
 		alignTop: 'למעלה',
 		alignMiddle: 'לאמצע',
 		alignBottom: 'לתחתית',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',
 		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',

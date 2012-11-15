@@ -9,7 +9,8 @@ var CKBUILDER_CONFIG = {
 		'dev',
 		'.gitignore',
 		'.gitattributes',
-		'README.md'
+		'README.md',
+		'.mailmap'
 	],
 	plugins: {
 		a11yhelp : 1,

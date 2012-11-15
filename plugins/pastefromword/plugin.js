@@ -23,7 +23,8 @@
 					var cmd = this;
 
 					forceFromWord = 1;
-					editor.on( 'beforePaste', forceHtmlMode );
+					// Force html mode for incomming paste events sequence.
+					editor.once( 'beforePaste', forceHtmlMode );
 
 					editor.getClipboardData({ title: editor.lang.pastefromword.title }, function( data ) {
 						// Do not use editor#paste, because it would start from beforePaste event.

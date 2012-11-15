@@ -135,7 +135,7 @@
 			}, null, null, 0 );
 
 			// Hide the box on mouseout if mouse leaves document.
-			editable.attachListener( doc, 'mouseout', function( event ) {
+			editable.attachListener( that.inInlineMode ? doc : doc.getWindow().getFrame(), 'mouseout', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -164,13 +164,9 @@
 				}
 
 				else {
-					var dest = new newElement( event.data.$.relatedTarget || event.data.$.toElement, doc );
-
-					if ( !dest.$ || ( dest.$ && dest.type == CKEDITOR.NODE_ELEMENT && dest.is( 'html' ) ) ) {
-						clearTimeout( checkMouseTimer );
-						checkMouseTimer = null;
-						hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
-					}
+					clearTimeout( checkMouseTimer );
+					checkMouseTimer = null;
+					hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
 				}
 			});
 
@@ -711,8 +707,6 @@
 
 		// Make the box unselectable.
 		line.unselectable();
-
-		line.setOpacity( that.editor.config.magicline_opacity || 1 );
 
 		// Handle accessSpace node insertion.
 		line.lineChildren[ 0 ].on( 'mouseup', function( event ) {
@@ -1522,24 +1516,24 @@
  * causes the box to appear. The distance is expressed in pixels (px).
  *
  *		// Increases the offset to 15px.
- *		CKEDITOR.config.line_triggerOffset = 15;
+ *		CKEDITOR.config.magicline_triggerOffset = 15;
  *
- * @cfg {Number} [line_triggerOffset=30]
+ * @cfg {Number} [magicline_triggerOffset=30]
  * @member CKEDITOR.config
- * @see CKEDITOR.config#line_holdDistance
+ * @see CKEDITOR.config#magicline_holdDistance
  */
 
 /**
  * Defines the distance between mouse pointer and the box, within
  * which the box stays revealed and no other focus space is offered to be accessed.
- * The value is relative to {@link #line_triggerOffset}.
+ * The value is relative to {@link #magicline_triggerOffset}.
  *
- *		// Increases the distance to 80% of CKEDITOR.config.line_triggerOffset.
- *		CKEDITOR.config.line_holdDistance = .8;
+ *		// Increases the distance to 80% of CKEDITOR.config.magicline_triggerOffset.
+ *		CKEDITOR.config.magicline_holdDistance = .8;
  *
- * @cfg {Number} [line_holdDistance=0.5]
+ * @cfg {Number} [magicline_holdDistance=0.5]
  * @member CKEDITOR.config
- * @see CKEDITOR.config#line_triggerOffset
+ * @see CKEDITOR.config#magicline_triggerOffset
  */
 
 // %REMOVE_START%
@@ -1549,10 +1543,10 @@
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + ,
- *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
  *
  * @ignore
- * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
+ * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
  * @member CKEDITOR.config
  */
 // CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
@@ -1562,10 +1556,10 @@
  * holds start of the current selection or just simply holds the caret.
  *
  *		// Changes keystroke to CTRL + SHIFT + .
- *		CKEDITOR.config.line_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
  *
  * @ignore
- * @cfg {Number} [line_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
+ * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
  * @member CKEDITOR.config
  */
 // CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
@@ -1576,20 +1570,9 @@
  * Defines box color. The color may be adjusted to enhance readability.
  *
  *		// Changes color to blue.
- *		CKEDITOR.config.line_boxColor = '#0000FF';
+ *		CKEDITOR.config.magicline_color = '#0000FF';
  *
- * @cfg {String} [line_boxColor='#FF0000']
- * @member CKEDITOR.config
- */
-
-/**
- * Defines box opacity. The opacity may be adjusted to enhance readability
- * by revealing underlying elements.
- *
- *		// Changes opacity to 30%.
- *		CKEDITOR.config.line_boxOpacity = .3;
- *
- * @cfg {Number} [line_boxOpacity=1]
+ * @cfg {String} [magicline_color='#FF0000']
  * @member CKEDITOR.config
  */
 
@@ -1598,8 +1581,8 @@
  * {@link CKEDITOR.dtd#$block} elements as accessible by the box.
  *
  *		// Enables "put everywhere" mode.
- *		CKEDITOR.config.line_putEverywhere = true;
+ *		CKEDITOR.config.magicline_putEverywhere = true;
  *
- * @cfg {Boolean} [line_putEverywhere=false]
+ * @cfg {Boolean} [magicline_putEverywhere=false]
  * @member CKEDITOR.config
  */

@@ -194,6 +194,19 @@ is its visual representation:
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
+.cke_hc .cke_panel_listItem a
+{
+	border-style: none;
+}
+
+.cke_hc .cke_panel_listItem a:hover,
+.cke_hc .cke_panel_listItem a:focus,
+.cke_hc .cke_panel_listItem a:active
+{
+	border: 2px solid;
+	padding: 1px 2px;
+}
+
 /* The title of the entire panel which is visible on top of the list. */
 .cke_panel_grouptitle
 {

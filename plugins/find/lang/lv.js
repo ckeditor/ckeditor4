@@ -4,15 +4,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'lv', {
 	find: 'Meklēt',
-	findOptions: 'Find Options',
+	findOptions: 'Meklēt uzstādījumi',
 	findWhat: 'Meklēt:',
 	matchCase: 'Reģistrjūtīgs',
-	matchCyclic: 'Match cyclic',
+	matchCyclic: 'Sakrist cikliski',
 	matchWord: 'Jāsakrīt pilnībā',
 	notFoundMsg: 'Norādītā frāze netika atrasta.',
 	replace: 'Nomainīt',
 	replaceAll: 'Aizvietot visu',
-	replaceSuccessMsg: '%1 occurrence(s) replaced.',
+	replaceSuccessMsg: '%1 gadījums(i) aizvietoti',
 	replaceWith: 'Nomainīt uz:',
-	title: 'Find and Replace'
+	title: 'Meklēt un aizvietot'
 });

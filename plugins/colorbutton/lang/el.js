@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 	auto: 'Αυτόματα',
 	bgColorTitle: 'Χρώμα Φόντου',
 	colors: {
-		'000': 'Black',
+		'000': 'Μαύρο',
 		'800000': 'Maroon',
 		'8B4513': 'Saddle Brown',
 		'2F4F4F': 'Dark Slate Gray',
@@ -20,8 +20,8 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		'006400': 'Dark Green',
 		'40E0D0': 'Turquoise',
 		'0000CD': 'Medium Blue',
-		'800080': 'Purple',
-		'808080': 'Gray',
+		'800080': 'Μώβ',
+		'808080': 'Γκρί',
 		F00: 'Red',
 		FF8C00: 'Dark Orange',
 		FFD700: 'Gold',
@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		FFF: 'White'
 	},
 	more: 'Περισσότερα χρώματα...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Χρώματα',
 	textColorTitle: 'Χρώμα Κειμένου'
 });

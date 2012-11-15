@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'lv', {
 	label: 'Stils',
-	panelTitle: 'Formatting Styles', // MISSING
-	panelTitle1: 'Block Styles', // MISSING
-	panelTitle2: 'Inline Styles', // MISSING
-	panelTitle3: 'Object Styles' // MISSING
+	panelTitle: 'Formatēšanas stili',
+	panelTitle1: 'Bloka stili',
+	panelTitle2: 'iekļautie stili',
+	panelTitle3: 'Objekta stili'
 });

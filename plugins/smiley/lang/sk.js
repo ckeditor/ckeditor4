@@ -4,6 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'smiley', 'sk', {
 	options: 'Možnosti smajlíkov',
-	title: 'Vkladanie smajlíkov',
+	title: 'Vložiť smajlíka',
 	toolbar: 'Smajlíky'
 });

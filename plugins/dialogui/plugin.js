@@ -456,10 +456,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var element = this.getElement();
 
 					(function() {
-						element.on( 'click', function( evt ) {
-							me.fire( 'click', { dialog: me.getDialog() } );
-							evt.data.preventDefault();
-						});
+						element.on( 'click', me.click, me );
 
 						element.on( 'keydown', function( evt ) {
 							if ( evt.data.getKeystroke() in { 32:1 } ) {
@@ -531,6 +528,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 							innerHTML = [],
 							attributes = { 'id': _.inputId, 'class': 'cke_dialog_ui_input_select', 'aria-labelledby': this._.labelId };
 
+						html.push( '<div class="cke_dialog_ui_input_', elementDefinition.type, '" role="presentation"' );
+						if ( elementDefinition.width )
+							html.push( 'style="width:' + elementDefinition.width + '" ' );
+						html.push( '>' );
+
 						// Add multiple and size attributes from element definition.
 						if ( elementDefinition.size != undefined )
 							attributes.size = elementDefinition.size;
@@ -546,6 +548,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 							myDefinition.style = myDefinition.inputStyle;
 
 						_.select = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'select', null, attributes, innerHTML.join( '' ) );
+
+						html.push( '</div>' );
+
 						return html.join( '' );
 					};
 
@@ -812,7 +817,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 			click: function() {
 				if ( !this._.disabled )
 					return this.fire( 'click', { dialog: this._.dialog } );
-				this.getElement().$.blur();
 				return false;
 			},
 
@@ -855,9 +859,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 			eventProcessors: CKEDITOR.tools.extend( {}, CKEDITOR.ui.dialog.uiElement.prototype.eventProcessors, {
 				onClick: function( dialog, func ) {
 					this.on( 'click', function() {
-						// Some browsers (Chrome, IE8, IE7 compat mode) don't move
-						// focus to clicked button. Force this.
-						this.getElement().focus();
 						func.apply( this, arguments );
 					});
 				}

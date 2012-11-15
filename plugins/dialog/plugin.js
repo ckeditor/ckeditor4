@@ -1841,10 +1841,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				direction = ' cke_resizer_horizontal';
 			else if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT )
 				direction = ' cke_resizer_vertical';
-			var resizer = CKEDITOR.dom.element.createFromHtml( '<div' +
+			var resizer = CKEDITOR.dom.element.createFromHtml(
+				'<div' +
 				' class="cke_resizer' + direction + ' cke_resizer_' + editor.lang.dir + '"' +
 				' title="' + CKEDITOR.tools.htmlEncode( editor.lang.common.resize ) + '"' +
-				' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )"></div>' );
+				' onmousedown="CKEDITOR.tools.callFunction(' + mouseDownFn + ', event )">' +
+				// BLACK LOWER RIGHT TRIANGLE (ltr)
+				// BLACK LOWER LEFT TRIANGLE (rtl)
+				( editor.lang.dir == 'ltr' ? '\u25E2' : '\u25E3' ) +
+				'</div>' );
 			dialog.parts.footer.append( resizer, 1 );
 		});
 		editor.on( 'destroy', function() {
@@ -2940,7 +2945,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @see CKEDITOR.dialog#add
 		 */
 		openDialog: function( dialogName, callback ) {
-			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+			var dialog = null, dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
 				showCover( this );
@@ -2949,41 +2954,30 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( typeof dialogDefinitions == 'function' ) {
 				var storedDialogs = this._.storedDialogs || ( this._.storedDialogs = {} );
 
-				var dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
+				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
 				callback && callback.call( dialog, dialog );
 				dialog.show();
 
-				return dialog;
 			} else if ( dialogDefinitions == 'failed' ) {
 				hideCover( this );
 				throw new Error( '[CKEDITOR.dialog.openDialog] Dialog "' + dialogName + '" failed when loading definition.' );
-			}
+			} else if ( typeof dialogDefinitions == 'string' ) {
 
-			var me = this;
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ),
+					function() {
+						var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+						// In case of plugin error, mark it as loading failed.
+						if ( typeof dialogDefinition != 'function' )
+							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
 
-			function onDialogFileLoaded( success ) {
-				var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
-
-				// Check if definition is loaded.
-				if ( loadDefinition && typeof success == 'undefined' )
-					return;
-
-				// In case of plugin error, mark it as loading failed.
-				if ( typeof dialogDefinition != 'function' )
-					CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
-
-				me.openDialog( dialogName, callback );
-			}
-
-			if ( typeof dialogDefinitions == 'string' ) {
-				var loadDefinition = 1;
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ), onDialogFileLoaded, null, 0, 1 );
+						this.openDialog( dialogName, callback );
+					}, this, 0, 1 );
 			}
 
 			CKEDITOR.skin.loadPart( 'dialog' );
 
-			return null;
+			return dialog;
 		}
 	});
 })();
@@ -3033,6 +3027,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * If the dialog has more than one tab, put focus into the first tab as soon as dialog is opened.
  *
  *		config.dialog_startupFocusTab = true;
+ *
  * @cfg {Boolean} [dialog_startupFocusTab=false]
  * @member CKEDITOR.config
  */
@@ -3054,6 +3049,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * * `'ltr'` - for Left-To-Right order;
  * * `'rtl'` - for Right-To-Left order.
  *
+ * Example:
  *
  *		config.dialog_buttonsOrder = 'rtl';
  *
@@ -3072,7 +3068,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * **Note:** Be cautious when specifying dialog tabs that are mandatory,
  * like `'info'`, dialog functionality might be broken because of this!
  *
- * config.removeDialogTabs = 'flash:advanced;image:Link';
+ *		config.removeDialogTabs = 'flash:advanced;image:Link';
  *
  * @since 3.5
  * @cfg {String} [removeDialogTabs='']
@@ -3142,7 +3138,8 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog is hidden
+ * Fired when a dialog is hidden.
+ *
  * @event dialogHide
  * @member CKEDITOR.editor
  */

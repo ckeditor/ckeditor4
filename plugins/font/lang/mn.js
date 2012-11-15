@@ -5,10 +5,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'mn', {
 	fontSize: {
 		label: 'Хэмжээ',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Хэмжээ'
+		voiceLabel: 'Үсгийн хэмжээ',
+		panelTitle: 'Үсгийн хэмжээ'
 	},
-	label: 'Фонт',
-	panelTitle: 'Фонт',
-	voiceLabel: 'Font' // MISSING
+	label: 'Үсгийн хэлбэр',
+	panelTitle: 'Үгсийн хэлбэрийн нэр',
+	voiceLabel: 'Үгсийн хэлбэр'
 });

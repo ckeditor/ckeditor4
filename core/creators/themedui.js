@@ -300,35 +300,21 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
 		var bottomHtml = editor.fireOnce( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
-		var height = editor.config.height;
-
-		// The editor height is considered only if the contents space got filled.
-		if ( !isNaN( height ) )
-			height += 'px';
-
-		var style = '';
-		var width = editor.config.width;
-
-		if ( !isNaN( width ) )
-			style += 'width:' + width + 'px;';
-
 		if ( !themedTpl ) {
-			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<span' +
+			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +
 				' id="cke_{name}"' +
 				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} ' + CKEDITOR.env.cssClass + '" ' +
 				' dir="{langDir}"' +
 				' lang="{langCode}"' +
 				' role="application"' +
-				' aria-labelledby="cke_{name}_arialbl" {style}>' +
+				' aria-labelledby="cke_{name}_arialbl">' +
 				'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-					'<span class="cke_inner cke_reset" role="presentation">' +
-						'<span id="{topId}" class="cke_top cke_reset_all"' +
-						' role="presentation" style="height:auto">{topHtml}</span>' +
-						'<span id="{contentId}" class="cke_contents cke_reset"' +
-						' role="presentation" style="height:{height}"></span>' +
-						'<span id="{bottomId}" class="cke_bottom cke_reset_all" role="presentation">{bottomHtml}</span>' +
-					'</span>' +
-				'</span>' );
+					'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
+						'{topHtml}' +
+						'<{outerEl} id="{contentId}" class="cke_contents cke_reset" role="presentation"></{outerEl}>' +
+						'{bottomHtml}' +
+					'</{outerEl}>' +
+				'</{outerEl}>' );
 		}
 
 		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
@@ -337,13 +323,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			voiceLabel: editor.lang.editor,
-			style: ( style ? ' style="' + style + '"' : '' ),
-			height: height,
-			topId: editor.ui.spaceId( 'top' ),
-			topHtml: topHtml || '',
+			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
-			bottomId: editor.ui.spaceId( 'bottom' ),
-			bottomHtml: bottomHtml || ''
+			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
+			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
 		}));
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
@@ -356,8 +339,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Make top and bottom spaces unelectable, but not content space,
 		// otherwise the editable area would be affected.
-		editor.ui.space( 'top' ).unselectable();
-		editor.ui.space( 'bottom' ).unselectable();
+		topHtml && editor.ui.space( 'top' ).unselectable();
+		bottomHtml && editor.ui.space( 'bottom' ).unselectable();
+
+		var width = editor.config.width, height = editor.config.height;
+		if ( width )
+			container.setStyle( 'width', CKEDITOR.tools.cssLength( width ) );
+
+		// The editor height is applied to the contents space.
+		if ( height )
+			editor.ui.space( 'contents' ).setStyle( 'height', CKEDITOR.tools.cssLength( height ) );
 
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();

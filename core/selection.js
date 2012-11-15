@@ -211,9 +211,9 @@
 					lastSel.lock();
 				}
 
-				// For IE, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
+				// For old IEs, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
 				// For the rest, a more frequent check is required for each selection change made.
-				if ( CKEDITOR.env.ie )
+				if ( isMSSelection )
 					editable.attachListener( editable, 'beforedeactivate', saveSel, null, null, -1 );
 				else
 					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
@@ -405,6 +405,12 @@
 		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', clearSelection, null, null, 9 );
 		// Webkit's selection will mess up after the data loading.
 		CKEDITOR.env.webkit && editor.on( 'setData', clearSelection );
+
+		// Invalidate locked selection when unloading DOM (e.g. after setData). (#9521)
+		editor.on( 'contentDomUnload', function() {
+			editor.unlockSelection();
+		});
+
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
@@ -1442,7 +1448,7 @@
 					sel.addRange( nativeRng );
 				}
 
-				sel.removeAllRanges();
+				this.removeAllRanges();
 
 				for ( var i = 0; i < ranges.length; i++ ) {
 					// Joining sequential ranges introduced by
@@ -1487,9 +1493,8 @@
 							rightSib = startContainer.getChild( range.startOffset );
 
 						if ( !leftSib && !rightSib && startContainer.is( CKEDITOR.dtd.$removeEmpty ) ||
-								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT && leftSib.isEditable() ||
-								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT && rightSib.isEditable()
-							 ) {
+								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT ||
+								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT ) {
 							range.insertNode( this.document.createText( '' ) );
 							range.collapse( 1 );
 						}
@@ -1619,7 +1624,8 @@
 		removeAllRanges: function() {
 			var nativ = this.getNative();
 
-			nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ]();
+			try { nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ](); }
+			catch(er){}
 
 			this.reset();
 		}

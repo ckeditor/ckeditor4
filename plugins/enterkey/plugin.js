@@ -210,26 +210,8 @@
 				range.moveToElementEditStart( isStartOfBlock && !isEndOfBlock ? nextBlock : newBlock );
 			}
 
-			if ( !CKEDITOR.env.ie ) {
-				if ( nextBlock ) {
-					// If we have split the block, adds a temporary span at the
-					// range position and scroll relatively to it.
-					var tmpNode = doc.createElement( 'span' );
-
-					// We need some content for Safari.
-					tmpNode.setHtml( '&nbsp;' );
-
-					range.insertNode( tmpNode );
-					tmpNode.scrollIntoView();
-					range.deleteContents();
-				} else {
-					// We may use the above scroll logic for the new block case
-					// too, but it gives some weird result with Opera.
-					newBlock.scrollIntoView();
-				}
-			}
-
 			range.select();
+			range.scrollIntoView();
 		},
 
 		enterBr: function( editor, mode, range, forceMode ) {
@@ -283,11 +265,9 @@
 			} else {
 				var lineBreak;
 
-				isPre = ( startBlockTag == 'pre' );
-
-				// Gecko prefers <br> as line-break inside <pre> (#4711).
-				if ( isPre && !CKEDITOR.env.gecko )
-					lineBreak = doc.createText( CKEDITOR.env.ie ? '\r' : '\n' );
+				// IE<8 prefers text node as line-break inside of <pre> (#4711).
+				if ( startBlockTag == 'pre' && CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
+					lineBreak = doc.createText( '\r' );
 				else
 					lineBreak = doc.createElement( 'br' );
 
@@ -313,21 +293,6 @@
 
 					range.setStartAt( lineBreak.getNext(), CKEDITOR.POSITION_AFTER_START );
 
-					// Scroll into view, for non IE.
-					var dummy = null;
-
-					// BR is not positioned in Opera and Webkit.
-					if ( !CKEDITOR.env.gecko ) {
-						dummy = doc.createElement( 'span' );
-						// We need have some contents for Webkit to position it
-						// under parent node. ( #3681)
-						dummy.setHtml( '&nbsp;' );
-					} else
-						dummy = doc.createElement( 'br' );
-
-					dummy.insertBefore( lineBreak.getNext() );
-					dummy.scrollIntoView();
-					dummy.remove();
 				}
 			}
 
@@ -335,6 +300,7 @@
 			range.collapse( true );
 
 			range.select();
+			range.scrollIntoView();
 		}
 	};
 

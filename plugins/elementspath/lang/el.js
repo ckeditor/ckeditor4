@@ -4,5 +4,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'el', {
 	eleLabel: 'Elements path', // MISSING
-	eleTitle: '%1 element' // MISSING
+	eleTitle: '%1 στοιχείο'
 });

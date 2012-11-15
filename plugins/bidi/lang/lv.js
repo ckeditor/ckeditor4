@@ -3,6 +3,6 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'bidi', 'lv', {
-	ltr: 'Text direction from left to right', // MISSING
-	rtl: 'Text direction from right to left' // MISSING
+	ltr: 'Teksta virziens no kreisās uz labo',
+	rtl: 'Teksta virziens no labās uz kreiso'
 });

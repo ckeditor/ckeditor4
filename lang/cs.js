@@ -91,6 +91,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		alignTop: 'Nahoru',
 		alignMiddle: 'Na střed',
 		alignBottom: 'Dolů',
+		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Zadaná výška musí být číslo.',
 		invalidWidth: 'Šířka musí být číslo.',
 		invalidCssLength: 'Hodnota určená pro pole "%1" musí být kladné číslo bez nebo s platnou jednotkou míry CSS (px, %, in, cm, mm, em, ex, pt, nebo pc).',

@@ -1,0 +1,39 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+bgColor = Label for the Background Color field of the Document Properties plugin dialog window.
+bgFixed = Label for the Non-scrolling (Fixed) Background field of the Document Properties plugin dialog window.
+bgImage = Label for the Background Image URL field of the Document Properties plugin dialog window.
+charset = Label for the Character Set Encoding field of the Document Properties plugin dialog window.
+charsetASCII = Label for the ASCII charset option of the Document Properties plugin dialog window.
+charsetCE = Label for the Central European charset option of the Document Properties plugin dialog window.
+charsetCR = Label for the Cyrillic charset option of the Document Properties plugin dialog window.
+charsetCT = Label for the Chinese Traditional (Big5) charset option of the Document Properties plugin dialog window.
+charsetGR = Label for the Greek charset option of the Document Properties plugin dialog window.
+charsetJP = Label for the Japanese charset option of the Document Properties plugin dialog window.
+charsetKR = Label for the Korean charset option of the Document Properties plugin dialog window.
+charsetOther = Label for the Other Character Set Encoding field of the Document Properties plugin dialog window.
+charsetTR = Label for the Turkish charset option of the Document Properties plugin dialog window.
+charsetUN = Label for the Unicode (UTF-8) charset option of the Document Properties plugin dialog window.
+charsetWE = Label for the Western European charset option of the Document Properties plugin dialog window.
+chooseColor = Label for the Choose button of the Document Properties plugin dialog window.
+design = Label for the Design tab of the Document Properties plugin dialog window.
+docTitle = Label for the Page Title field of the Document Properties plugin dialog window.
+docType = Label for the Document Type Heading field of the Document Properties plugin dialog window.
+docTypeOther = Label for the Other Document Type Heading field of the Document Properties plugin dialog window.
+label = Toolbar button tooltip for the Document Properties feature.
+margin = Label for the Page Margins field of the Document Properties plugin dialog window.
+marginBottom = Label for the Bottom margin option of the Document Properties plugin dialog window.
+marginLeft = Label for the Left margin option of the Document Properties plugin dialog window.
+marginRight = Label for the Right margin option of the Document Properties plugin dialog window.
+marginTop = Label for the Top margin option of the Document Properties plugin dialog window.
+meta = Label for the Meta Tags tab of the Document Properties plugin dialog window.
+metaAuthor = Label for the Author field of the Document Properties plugin dialog window.
+metaCopyright = Label for the Copyright field of the Document Properties plugin dialog window.
+metaDescription = Label for the Document Description field of the Document Properties plugin dialog window.
+metaKeywords = Label for the Document Indexing Keywords (comma separated) field of the Document Properties plugin dialog window.
+other = Label for the Other doctype and charset options of the Document Properties plugin dialog window.
+previewHtml = HTML preview of the text displayed in the Preview tab of the Document Properties plugin dialog window.
+title = Label for the Document Properties plugin dialog window.
+txtColor = Label for the Text Color field of the Document Properties plugin dialog window.
+xhtmlDec = Label for the Include XHTML Declarations field of the Document Properties plugin dialog window.

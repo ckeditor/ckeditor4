@@ -50,6 +50,8 @@
 				return new CKEDITOR.dom.element( name, editor.document );
 			};
 
+		var editable = editor.editable();
+
 		var dialogadvtab = editor.plugins.dialogadvtab;
 
 		return {
@@ -373,7 +375,8 @@
 								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
-								'default': 500,
+								// Smarter default table width. (#9600)
+								'default': editable.getSize( 'width' ) < 500 ? '100%' : 500,
 								getValue: defaultToPixel,
 								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {

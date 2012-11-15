@@ -14,49 +14,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl';
 
-	// @param dialogName
-	// @param callback [ childDialog ]
-	function getDialogValue( dialogName, callback ) {
-		var onOk = function() {
-				releaseHandlers( this );
-				callback( this, this._.parentDialog );
-				this._.parentDialog.changeFocus();
-			};
-		var onCancel = function() {
-				releaseHandlers( this );
-				this._.parentDialog.changeFocus();
-			};
-		var releaseHandlers = function( dialog ) {
-				dialog.removeListener( 'ok', onOk );
-				dialog.removeListener( 'cancel', onCancel );
-			};
-		var bindToDialog = function( dialog ) {
-				dialog.on( 'ok', onOk );
-				dialog.on( 'cancel', onCancel );
-			};
-		editor.execCommand( dialogName );
-		if ( editor._.storedDialogs.colordialog )
-			bindToDialog( editor._.storedDialogs.colordialog );
-		else {
-			CKEDITOR.on( 'dialogDefinition', function( e ) {
-				if ( e.data.name != dialogName )
-					return;
-
-				var definition = e.data.definition;
-
-				e.removeListener();
-				definition.onLoad = CKEDITOR.tools.override( definition.onLoad, function( orginal ) {
-					return function() {
-						bindToDialog( this );
-						definition.onLoad = orginal;
-						if ( typeof orginal == 'function' )
-							orginal.call( this );
-					};
-				});
-			});
-		}
-	}
-
 	return {
 		title: langCell.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
@@ -376,10 +333,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
-								var self = this;
-								getDialogValue( 'colordialog', function( colorDialog ) {
-									self.getDialog().getContentElement( 'info', 'bgColor' ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
-								});
+								editor.getColorFromDialog( function( color ) {
+									if ( color )
+										this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
+									this.focus();
+								}, this );
 							}
 						}
 						]
@@ -422,10 +380,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
-								var self = this;
-								getDialogValue( 'colordialog', function( colorDialog ) {
-									self.getDialog().getContentElement( 'info', 'borderColor' ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
-								});
+								editor.getColorFromDialog( function( color ) {
+									if ( color )
+										this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
+									this.focus();
+								}, this );
 							}
 						}
 						]

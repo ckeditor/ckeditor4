@@ -3,31 +3,31 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'scayt', 'sk', {
-	about: 'About SCAYT', // MISSING
-	aboutTab: 'About', // MISSING
-	addWord: 'Add Word', // MISSING
-	allCaps: 'Ignore All-Caps Words', // MISSING
-	dic_create: 'Create', // MISSING
-	dic_delete: 'Delete', // MISSING
-	dic_field_name: 'Dictionary name', // MISSING
-	dic_info: 'Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type its name and click the Restore button.', // MISSING
-	dic_rename: 'Rename', // MISSING
-	dic_restore: 'Restore', // MISSING
-	dictionariesTab: 'Dictionaries', // MISSING
-	disable: 'Disable SCAYT', // MISSING
-	emptyDic: 'Dictionary name should not be empty.', // MISSING
-	enable: 'Enable SCAYT', // MISSING
-	ignore: 'Ignore', // MISSING
-	ignoreAll: 'Ignore All', // MISSING
-	ignoreDomainNames: 'Ignore Domain Names', // MISSING
-	langs: 'Languages', // MISSING
-	languagesTab: 'Languages', // MISSING
-	mixedCase: 'Ignore Words with Mixed Case', // MISSING
-	mixedWithDigits: 'Ignore Words with Numbers', // MISSING
-	moreSuggestions: 'More suggestions', // MISSING
-	opera_title: 'Not supported by Opera', // MISSING
-	options: 'Options', // MISSING
-	optionsTab: 'Options', // MISSING
-	title: 'Spell Check As You Type', // MISSING
-	toggle: 'Toggle SCAYT' // MISSING
+	about: 'O KPPP (Kontrola pravopisu počas písania)',
+	aboutTab: 'O',
+	addWord: 'Pridať slovo',
+	allCaps: 'Ignorovať slová písané veľkými písmenami',
+	dic_create: 'Vytvoriť',
+	dic_delete: 'Vymazať',
+	dic_field_name: 'Názov slovníka',
+	dic_info: 'Spočiatku je užívateľský slovník uložený v cookie. Cookie však majú obmedzenú veľkosť. Keď užívateľský slovník narastie do bodu, kedy nemôže byť uložený v cookie, potom musí byť slovník uložený na našom serveri. Pre uloženie vášho osobného slovníka na náš server by ste mali zadať názov pre váš slovník. Ak už máte uložený slovník, prosíme, napíšte jeho názov a kliknite tlačidlo Obnoviť.',
+	dic_rename: 'Premenovať',
+	dic_restore: 'Obnoviť',
+	dictionariesTab: 'Slovníky',
+	disable: 'Zakázať  KPPP (Kontrola pravopisu počas písania)',
+	emptyDic: 'Názov slovníka by nemal byť prázdny.',
+	enable: 'Povoliť KPPP (Kontrola pravopisu počas písania)',
+	ignore: 'Ignorovať',
+	ignoreAll: 'Ignorovať všetko',
+	ignoreDomainNames: 'Iznorovať názvy domén',
+	langs: 'Jazyky',
+	languagesTab: 'Jazyky',
+	mixedCase: 'Ignorovať slová so smiešanými veľkými a malými písmenami',
+	mixedWithDigits: 'Ignorovať slová s číslami',
+	moreSuggestions: 'Viac návrhov',
+	opera_title: 'Nepodporované Operou',
+	options: 'Možnosti',
+	optionsTab: 'Možnosti',
+	title: 'Kontrola pravopisu počas písania',
+	toggle: 'Prepnúť KPPP (Kontrola pravopisu počas písania)'
 });

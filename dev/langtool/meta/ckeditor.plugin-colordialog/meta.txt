@@ -1,0 +1,8 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+clear = Label for the Clear button of the Colors dialog window.
+highlight = Label for the Highlight field of the Colors dialog window.
+options = Voice label for the Options entry of the Colors dialog window.
+selected = Label for the Selected color field of the Colors dialog window.
+title = Label for the Colors dialog window.

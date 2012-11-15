@@ -1,0 +1,17 @@
+# Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.html or http://ckeditor.com/license
+
+toolbarCollapse = Toolbar button tooltip for the Collapse Toolbar feature.
+toolbarExpand = Toolbar button tooltip for the Expand Toolbar feature.
+toolbarGroups.document = WAI-ARIA label for the Document toolbar buttons group.
+toolbarGroups.clipboard = WAI-ARIA label for the Clipboard/Undo toolbar buttons group.
+toolbarGroups.editing = WAI-ARIA label for the Editing toolbar buttons group.
+toolbarGroups.forms = WAI-ARIA label for the Forms toolbar buttons group.
+toolbarGroups.basicstyles = WAI-ARIA label for the Basic Styles toolbar buttons group.
+toolbarGroups.paragraph = WAI-ARIA label for the Paragraph toolbar buttons group.
+toolbarGroups.links = WAI-ARIA label for the Links toolbar buttons group.
+toolbarGroups.insert = WAI-ARIA label for the Insert toolbar buttons group.
+toolbarGroups.styles = WAI-ARIA label for the Styles toolbar buttons group.
+toolbarGroups.colors = WAI-ARIA label for the Colors toolbar buttons group.
+toolbarGroups.tools = WAI-ARIA label for the Tools toolbar buttons group.
+toolbars = ARIA description for editor toolbars.
