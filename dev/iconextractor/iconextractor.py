@@ -142,7 +142,8 @@ names = [
 	],
 	[
 		'about',
-		'uicolor'
+		'uicolor',
+		'placeholder'
 	]
 ]
 
