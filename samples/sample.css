@@ -190,6 +190,11 @@ pre.samples
 {
 	margin: 0;
 	padding: 0;
+}
+
+#outputSample pre,
+pre.samples
+{
 	white-space: pre; /* CSS2 */
 	white-space: -moz-pre-wrap; /* Mozilla*/
 	white-space: -o-pre-wrap; /* Opera 7 */
