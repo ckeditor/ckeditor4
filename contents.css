@@ -6,14 +6,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 body
 {
 	/* Font */
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 12px;
+	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-size: 13px;
 
 	/* Text color */
-	color: #222;
+	color: #333;
 
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
+
+	margin: 20px;
+}
+
+blockquote
+{
+	font-style: italic;
+	padding: 8px 8px 8px 20px;
+	border-left: 5px solid #ccc;
+}
+
+a
+{
+	color: #0782C1;
 }
 
 ol,ul,dl
@@ -22,4 +36,14 @@ ol,ul,dl
 	*margin-right:0px;
 	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
 	padding:0 40px;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	font-weight: normal;
+}
+
+p,ul,ol,dl,blockquote
+{
+	line-height: 1.6em;
 }
