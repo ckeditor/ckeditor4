@@ -113,7 +113,7 @@ CKEDITOR.plugins.add( 'menu', {
 	menuItemSource +=
 				'<span class="cke_menubutton_inner">' +
 					'<span class="cke_menubutton_icon">' +
-						'<span class="cke_button_icon cke_button__{name}_icon" style="{iconStyle}"></span>' +
+						'<span class="cke_button_icon cke_button__{iconName}_icon" style="{iconStyle}"></span>' +
 					'</span>' +
 					'<span class="cke_menubutton_label">' +
 						'{label}' +
@@ -431,9 +431,14 @@ CKEDITOR.plugins.add( 'menu', {
 				// rtl: BLACK RIGHT-POINTING POINTER
 				var arrowLabel = '&#' + ( this.editor.lang.dir == 'rtl' ? '9668' : '9658' ) + ';';
 
+				var iconName = this.name;
+				if ( this.icon && !( /\./ ).test( this.icon ) )
+					iconName = this.icon;
+
 				var params = {
 					id: id,
 					name: this.name,
+					iconName: iconName,
 					label: this.label,
 					cls: this.className || '',
 					state: stateName,
@@ -446,7 +451,7 @@ CKEDITOR.plugins.add( 'menu', {
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
-					iconStyle: CKEDITOR.skin.getIconStyle( this.name, ( this.editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
+					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
 					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : ''
 				};
 

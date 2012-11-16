@@ -243,7 +243,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
 		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
 		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,placeholder,preview-rtl,' +
 		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
 		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
 		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +

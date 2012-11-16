@@ -13,7 +13,7 @@
 	CKEDITOR.plugins.add( 'placeholder', {
 		requires: 'dialog',
 		lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,he,hr,it,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
-		icons: 'createplaceholder,editplaceholder', // %REMOVE_LINE_CORE%
+		icons: 'placeholder', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			CKEDITOR.addCss( '.cke_placeholder' +
 				'{' +
@@ -31,7 +31,8 @@
 			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
 				label: lang.toolbar,
 				command: 'createplaceholder',
-				toolbar: 'insert,5'
+				toolbar: 'insert,5',
+				icon: 'placeholder'
 			});
 
 			if ( editor.addMenuItems ) {
@@ -41,7 +42,8 @@
 						label: lang.edit,
 						command: 'editplaceholder',
 						group: 'placeholder',
-						order: 1
+						order: 1,
+						icon: 'placeholder'
 					}
 				});
 
