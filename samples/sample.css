@@ -24,6 +24,11 @@ pre, code, kbd, samp, tt
 	font-size: 1em;
 }
 
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+
 code
 {
 	background: #f3f3f3;
