@@ -103,7 +103,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// <textarea>, or inside a <head><script> in a
 			// window.onload event handler.
 
-			CKEDITOR.replace( 'editor1' );
+			CKEDITOR.replace( 'editor1', {
+				extraPlugins: 'magicline' // Ensure that magicline plugin, which is required for this sample, is loaded.
+			} );
 
 		</script>
 	</div>
@@ -182,7 +184,8 @@ CKEDITOR.replace( 'editor2', {
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor2', {
-				magicline_color: 'blue' // Blue line
+				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
+				magicline_color: 'blue'		// Blue line
 			});
 
 		</script>

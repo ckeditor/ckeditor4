@@ -58,6 +58,11 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 				CKEDITOR.replace( 'editor1', {
 					/*
+					 * Ensure that htmlwriter plugin, which is required for this sample, is loaded.
+					 */
+					extraPlugins: 'htmlwriter',
+
+					/*
 					 * Style sheet for the contents
 					 */
 					contentsCss: 'body {color:#000; background-color#:FFF;}',
