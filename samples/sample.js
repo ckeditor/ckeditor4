@@ -6,16 +6,16 @@
 (function() {
 
 	var doc = CKEDITOR.document;
-	var tags;
+	var plugins;
 
 	// Check for sample compliance.
 	CKEDITOR.on( 'instanceReady', function( ev ) {
 
 		// Read sample tags.
-		if ( tags === undefined )
+		if ( plugins === undefined )
 		{
-			var tagMeta = doc.$.getElementsByName( 'ckeditor-sample-tags' ),
-			tags = tagMeta.length && CKEDITOR.dom.element.get( tagMeta[ 0 ] ).getAttribute( 'content' ).split( ',' );
+			var meta = doc.$.getElementsByName( 'ckeditor-sample-required-plugins' ),
+			plugins = meta.length && CKEDITOR.dom.element.get( meta[ 0 ] ).getAttribute( 'content' ).split( ',' );
 		}
 
 		var editor = ev.editor,
@@ -24,7 +24,7 @@
 
 		// Check if 'sourcearea' plugin mode is available in themed UI instance,
 		// on sample pages where source view is required.
-		if ( CKEDITOR.tools.indexOf( tags, 'output' ) > -1 &&
+		if ( CKEDITOR.tools.indexOf( plugins, 'sourcearea' ) > -1 &&
 				 !editor._.modes.source &&
 				 editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 				missing.push( 'sourcearea' );
