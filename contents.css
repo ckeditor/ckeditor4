@@ -56,6 +56,20 @@ hr
 	border-top: 1px solid #ccc;
 }
 
+img.right {
+    border: 1px solid #ccc;
+    float: right;
+    margin-left: 15px;
+    padding: 5px;
+}
+
+img.left {
+    border: 1px solid #ccc;
+    float: right;
+    margin-left: 15px;
+    padding: 5px;
+}
+
 img:hover {
 	opacity: .9;
 	filter: alpha(opacity = 90);
