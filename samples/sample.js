@@ -3,47 +3,31 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+// Tool scripts for the sample pages.
+// This file can be ignored and is not required to make use of CKEditor.
+
 (function() {
-
-	var doc = CKEDITOR.document;
-	var plugins;
-
 	// Check for sample compliance.
 	CKEDITOR.on( 'instanceReady', function( ev ) {
-
-		// Read sample tags.
-		if ( plugins === undefined )
-		{
-			var meta = doc.$.getElementsByName( 'ckeditor-sample-required-plugins' ),
-			plugins = meta.length && CKEDITOR.dom.element.get( meta[ 0 ] ).getAttribute( 'content' ).split( ',' );
-		}
-
 		var editor = ev.editor,
-			// To collect missing plugins.
+			meta = CKEDITOR.document.$.getElementsByName( 'ckeditor-sample-required-plugins' ),
+			requires = meta.length ? CKEDITOR.dom.element.get( meta[ 0 ] ).getAttribute( 'content' ).split( ',' ) : [],
 			missing = [];
 
-		// Check if 'sourcearea' plugin mode is available in themed UI instance,
-		// on sample pages where source view is required.
-		if ( CKEDITOR.tools.indexOf( plugins, 'sourcearea' ) > -1 &&
-				 !editor._.modes.source &&
-				 editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
-				missing.push( 'sourcearea' );
-		}
-
-		// Inject a warning info above the editor if missing found.
-		if ( missing.length )
-		{
-			for ( var i = 0 ; i < missing.length ; i++ ) {
-				missing[ i ] = '<code>' + missing[ i ] + '</code>'
+		if ( requires.length ) {
+			for ( var i = 0; i < requires.length; i++ ) {
+				if ( !editor.plugins[ requires[ i ] ] )
+					missing.push( '<code>' + requires[ i ] + '</code>' );
 			}
 
-			var warn = CKEDITOR.dom.element.createFromHtml(
-				'<div class="warning">' +
-				'<span>To fully experience this demo, the ' + missing.join( ',' ) + ' plugin(s) is required.</span>'+
-				'</div>'
-			);
-			warn.insertBefore( editor.container );
+			if ( missing.length ) {
+				var warn = CKEDITOR.dom.element.createFromHtml(
+					'<div class="warning">' +
+						'<span>To fully experience this demo, the ' + missing.join( ', ' ) + ' plugin' + ( missing.length > 1 ? 's are' : ' is' ) + ' required.</span>' +
+					'</div>'
+				);
+				warn.insertBefore( editor.container );
+			}
 		}
 	});
-
 })();
