@@ -287,3 +287,18 @@ dl.samples > dd
 {
 	margin: 0 0 3px;
 }
+.warning
+{
+    color: #ff0000;
+	background-color: #FFCCBA;
+    border: 2px dotted #ff0000;
+	padding: 15px 10px;
+	margin: 10px 0;
+}
+
+.warning span:before
+{
+	content : 'WARNING: ';
+	font-weight: bold;
+	font-size: 16px;
+}
