@@ -66,6 +66,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'\n\nPlease load the sample from a web server instead.' );
 
 					var editor = CKEDITOR.replace( 'editor1', {
+						/*
+						 * Ensure that htmlwriter plugin, which is required for this sample, is loaded.
+						 */
+						extraPlugins: 'htmlwriter',
+
 						height: 290,
 						width: '100%',
 						toolbar: [
