@@ -16,13 +16,15 @@ body
 	background-color: #fff;
 
 	margin: 20px;
+	line-height: 1.6em;
 }
 
 blockquote
 {
 	font-style: italic;
-	padding: 8px 8px 8px 20px;
+	padding: 2px 8px 2px 20px;
 	border-left: 5px solid #ccc;
+	font-family: Georgia, Times, "Times New Roman", serif;
 }
 
 a
@@ -41,9 +43,20 @@ ol,ul,dl
 h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
+	line-height: 1.2em;
 }
 
 p,ul,ol,dl,blockquote
 {
-	line-height: 1.6em;
+}
+
+hr
+{
+	border: 0px;
+	border-top: 1px solid #ccc;
+}
+
+img:hover {
+	opacity: .9;
+	filter: alpha(opacity = 90);
 }

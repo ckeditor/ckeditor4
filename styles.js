@@ -31,8 +31,18 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Address',			element: 'address' },
 	*/
 
-	{ name: 'Blue Title',		element: 'h3', styles: { 'color': 'Blue' } },
-	{ name: 'Red Title',		element: 'h3', styles: { 'color': 'Red' } },
+	{ name: 'Italic Title',		element: 'h2', styles: { 'font-style': 'italic' } },
+	{ name: 'Subtitle',			element: 'h3', styles: { 'color': '#aaa', 'font-style': 'italic' } },
+	{
+		name: 'Block container',
+		element: 'div',
+		styles: {
+			padding: '10px',
+			background: '#eee',
+			border: '1px solid #ccc',
+			'margin-bottom': '10px'
+		}
+	},
 
 	/* Inline Styles */
 
@@ -72,22 +82,42 @@ CKEDITOR.stylesSet.add( 'default', [
 	/* Object Styles */
 
 	{
-		name: 'Image on Left',
+		name: 'Styled image (left)',
 		element: 'img',
 		attributes: {
-			'style': 'padding: 5px; margin-right: 5px',
-			'border': '2',
 			'align': 'left'
+		},
+		styles: {
+			padding: '5px',
+			'margin-right': '10px',
+			border: '1px solid #ccc'
 		}
 	},
 
 	{
-		name: 'Image on Right',
+		name: 'Styled image (right)',
 		element: 'img',
 		attributes: {
-			'style': 'padding: 5px; margin-left: 5px',
-			'border': '2',
 			'align': 'right'
+		},
+		styles: {
+			padding: '5px',
+			'margin-left': '10px',
+			border: '1px solid #ccc'
+		}
+	},
+
+	{
+		name: 'Compact table',
+		element: 'table',
+		attributes: {
+			cellpadding: '5',
+			cellspacing: '0',
+			border: '1',
+			bordercolor: '#ccc'
+		},
+		styles: {
+			'border-collapse': 'collapse'
 		}
 	},
 
