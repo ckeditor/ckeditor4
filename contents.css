@@ -7,7 +7,7 @@ body
 {
 	/* Font */
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 13px;
+	font-size: 12px;
 
 	/* Text color */
 	color: #333;
@@ -16,6 +16,11 @@ body
 	background-color: #fff;
 
 	margin: 20px;
+}
+
+.cke_editable
+{
+	font-size: 13px;
 	line-height: 1.6em;
 }
 
