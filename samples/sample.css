@@ -135,6 +135,8 @@ pre.samples
 	border: 1px solid #D7D7D7;
 	overflow: auto;
 	padding: 0.25em;
+	white-space: pre-wrap; /* CSS 2.1 */
+	word-wrap: break-word; /* IE7 */
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	-webkit-tab-size: 4;
@@ -190,17 +192,6 @@ pre.samples
 {
 	margin: 0;
 	padding: 0;
-}
-
-#outputSample pre,
-pre.samples
-{
-	white-space: pre; /* CSS2 */
-	white-space: -moz-pre-wrap; /* Mozilla*/
-	white-space: -o-pre-wrap; /* Opera 7 */
-	white-space: pre-wrap; /* CSS 2.1 */
-	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-	word-wrap: break-word; /* IE */
 }
 
 .description
