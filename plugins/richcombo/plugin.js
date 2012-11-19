@@ -249,7 +249,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					me.setState( CKEDITOR.TRISTATE_ON );
 
-					list.focus( !me.multiSelect && me.getValue() );
+					list.focus( !list.multiSelect && me.getValue() );
 
 					me._.on = 1;
 
