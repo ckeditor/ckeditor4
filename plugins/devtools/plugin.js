@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'devtools', {
 (function() {
 	function defaultCallback( editor, dialog, element, tabName ) {
 		var lang = editor.lang.devtools,
-			link = '<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.dialog.definition.' +
+			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
 			( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
 			'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
 			str = '<h2>' + lang.title + '</h2>' +
@@ -117,7 +117,7 @@ CKEDITOR.plugins.add( 'devtools', {
  *		// Show dialog window name, tab ID, and element ID.
  *		config.devtools_textCallback = function( editor, dialog, element, tabName ) {
  *			var lang = editor.lang.devtools,
- *				link = '<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.dialog.definition.' +
+ *				link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
  *					( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
  *					'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
  *				str =
