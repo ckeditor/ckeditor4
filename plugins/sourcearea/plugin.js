@@ -80,6 +80,16 @@
 			editor.on( 'mode', function() {
 				editor.getCommand( 'source' ).setState( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			});
+
+			function onResize() {
+				// Holder rectange size is stretched by textarea,
+				// so hide it just for a moment.
+				this.hide();
+				this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
+				this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
+				// When we have proper holder size, show textarea again.
+				this.show();
+			}
 		}
 	});
 
@@ -112,16 +122,6 @@
 			}
 		}
 	});
-
-	function onResize() {
-		// Holder rectange size is stretched by textarea,
-		// so hide it just for a moment.
-		this.hide();
-		this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
-		this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
-		// When we have proper holder size, show textarea again.
-		this.show();
-	}
 })();
 
 CKEDITOR.plugins.sourcearea = {
