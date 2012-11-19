@@ -792,6 +792,8 @@
 					return false;
 				}
 			}
+
+			return true;
 		}
 
 		// Listens for some clipboard related keystrokes, so they get customized.

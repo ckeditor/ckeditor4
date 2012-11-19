@@ -56,7 +56,7 @@ CKEDITOR.plugins.colordialog = {
 						} );
 				} );
 			}
-		}
+		};
 
 
 	}

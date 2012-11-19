@@ -324,7 +324,7 @@
 							if ( evt.data.getTarget().is( 'html' ) ) {
 								// Limit the text selection mouse move inside of editable. (#9715)
 								outerDoc.on( 'mouseup', onSelectEnd );
-								html.on( 'mouseup', onSelectEnd )
+								html.on( 'mouseup', onSelectEnd );
 							}
 
 						});

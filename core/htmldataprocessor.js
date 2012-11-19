@@ -230,7 +230,7 @@
 				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) ) {
 					insertBefore( next, createFiller( isOutput ) );
 				}
-			}
+			};
 		}
 
 		// Determinate whether this node is potentially a bogus node.
@@ -605,7 +605,7 @@
 		}
 	}
 	// Disable form elements editing mode provided by some browers. (#5746)
-	for ( i in { input:1,textarea:1 } ) {
+	for ( var i in { input:1,textarea:1 } ) {
 		defaultDataFilterRules.elements[ i ] = protectReadOnly;
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
 	}

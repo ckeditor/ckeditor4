@@ -1400,7 +1400,7 @@
 			box.scroll = {
 				top: element.$.scrollTop,
 				left: element.$.scrollLeft
-			}
+			};
 		}
 
 		return extend({
