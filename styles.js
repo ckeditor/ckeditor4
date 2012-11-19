@@ -37,10 +37,9 @@ CKEDITOR.stylesSet.add( 'default', [
 		name: 'Special Container',
 		element: 'div',
 		styles: {
-			padding: '10px',
+			padding: '5px 10px',
 			background: '#eee',
-			border: '1px solid #ccc',
-			'margin-bottom': '10px'
+			border: '1px solid #ccc'
 		}
 	},
 
