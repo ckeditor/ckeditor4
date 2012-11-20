@@ -178,7 +178,7 @@ CKEDITOR.dtd = (function() {
 		td: F,
 		textarea: T,
 		tfoot: { tr:1 },
-		th: P,
+		th: F,
 		thead: { tr:1 },
 		time: Y( P, { time:1 } ),
 		title: T,
