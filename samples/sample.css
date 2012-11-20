@@ -318,7 +318,7 @@ img.right {
 
 img.left {
     border: 1px solid #ccc;
-    float: right;
-    margin-left: 15px;
+    float: left;
+    margin-right: 15px;
     padding: 5px;
 }
