@@ -2055,12 +2055,12 @@ CKEDITOR.dom.range = function( root ) {
 				return null;
 
 			var walker = new CKEDITOR.dom.walker( walkerRange ),
-				isNotBookmarks = CKEDITOR.dom.walker.bookmark( true ),
-				isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
-				evaluator = function( node ) {
-					return isNotWhitespaces( node ) && isNotBookmarks( node );
-				};
-			walkerRange.evaluator = evaluator;
+				isNotBookmarks = CKEDITOR.dom.walker.bookmark( false, true ),
+				isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true );
+
+			walker.evaluator = function( node ) {
+				return isNotWhitespaces( node ) && isNotBookmarks( node );
+			};
 			var node = walker.next();
 			walker.reset();
 			return node && node.equals( walker.previous() ) ? node : null;
