@@ -27,9 +27,25 @@ body
 blockquote
 {
 	font-style: italic;
-	padding: 2px 8px 2px 20px;
-	border-left: 5px solid #ccc;
 	font-family: Georgia, Times, "Times New Roman", serif;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+}
+
+.cke_contents_ltr blockquote
+{
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+}
+
+.cke_contents_rtl blockquote
+{
+	padding-left: 8px;
+	padding-right: 20px;
+	border-right-width: 5px;
 }
 
 a
@@ -40,9 +56,9 @@ a
 ol,ul,dl
 {
 	/* IE7: reset rtl list margin. (#7334) */
-	*margin-right:0px;
+	*margin-right: 0px;
 	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
-	padding:0 40px;
+	padding: 0 40px;
 }
 
 h1,h2,h3,h4,h5,h6
