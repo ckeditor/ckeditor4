@@ -124,14 +124,22 @@
 				}
 
 				// Strip editable that was copied from inside. (#9534)
-				if ( data.match( /^<[^<]+cke_editable/i ) ) {
-					var header, wrapper = new CKEDITOR.dom.element( 'div' );
+				if ( data.match( /^<[^<]+cke_(editable|contents)/i ) ) {
+					var tmp,
+						editable_wrapper,
+						wrapper = new CKEDITOR.dom.element( 'div' );
 
 					wrapper.setHtml( data );
-					// Verify for sure.
-					if ( wrapper.getChildCount() == 1 && ( header = wrapper.getFirst() ).hasClass( 'cke_editable' ) )
-						// Strip editable and bogus <br> (added on FF).
-						data = header.getHtml().replace( /<br>$/i, '' );
+					// Verify for sure and check for nested editor UI parts. (#9675)
+					while ( wrapper.getChildCount() == 1 &&
+							( tmp = wrapper.getFirst() ) &&
+							( tmp.hasClass( 'cke_editable' ) || tmp.hasClass( 'cke_contents' ) ) ) {
+						wrapper = editable_wrapper = tmp;
+					}
+
+					// If editable wrapper was found strip it and bogus <br> (added on FF).
+					if ( editable_wrapper )
+						data = editable_wrapper.getHtml().replace( /<br>$/i, '' );
 				}
 
 				if ( CKEDITOR.env.ie ) {
