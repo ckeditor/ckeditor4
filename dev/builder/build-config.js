@@ -7,10 +7,11 @@ var CKBUILDER_CONFIG = {
 	skin: 'moono',
 	ignore: [
 		'dev',
+		'README.md',
 		'.gitignore',
 		'.gitattributes',
-		'README.md',
-		'.mailmap'
+		'.mailmap',
+		'.idea'
 	],
 	plugins: {
 		a11yhelp : 1,
