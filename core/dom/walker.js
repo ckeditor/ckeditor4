@@ -336,8 +336,8 @@
 	 * Whether the to-be-evaluated node is a bookmark node OR bookmark node
 	 * inner contents.
 	 *
-	 * @statick
-	 * @param {Boolean} [contentOnly=false] Whether only test againt the text content of
+	 * @static
+	 * @param {Boolean} [contentOnly=false] Whether only test against the text content of
 	 * bookmark node instead of the element itself (default).
 	 * @param {Boolean} [isReject=false] Whether should return `false` for the bookmark
 	 * node instead of `true` (default).
@@ -351,7 +351,7 @@
 		return function( node ) {
 			var isBookmark, parent;
 			// Is bookmark inner text node?
-			isBookmark = ( node && !node.getName && ( parent = node.getParent() ) && isBookmarkNode( parent ) );
+			isBookmark = ( node && node.type != CKEDITOR.NODE_ELEMENT && ( parent = node.getParent() ) && isBookmarkNode( parent ) );
 			// Is bookmark node?
 			isBookmark = contentOnly ? isBookmark : isBookmark || isBookmarkNode( node );
 			return !!( isReject ^ isBookmark );
