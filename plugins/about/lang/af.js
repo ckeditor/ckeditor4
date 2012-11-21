@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'af', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: 'Vir lisensie-informasie, besoek asb. ons webwerf:',
 	title: 'Info oor CKEditor',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

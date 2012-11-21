@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	emailAddress: 'ई-मेल पता',
 	emailBody: 'संदेश',
 	emailSubject: 'संदेश विषय',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'लिंक  ',
 	langCode: 'भाषा लिखने की दिशा',
 	langDir: 'भाषा लिखने की दिशा',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	title: 'लिंक',
 	toAnchor: 'इस पेज का ऐंकर',
 	toEmail: 'ई-मेल',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'लिंक इन्सर्ट/संपादन',
 	type: 'लिंक प्रकार',
 	unlink: 'लिंक हटायें',

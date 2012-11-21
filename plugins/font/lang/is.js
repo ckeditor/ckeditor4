@@ -10,5 +10,5 @@ CKEDITOR.plugins.setLang( 'font', 'is', {
 	},
 	label: 'Leturgerð ',
 	panelTitle: 'Leturgerð ',
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'Leturgerð '
 });

@@ -47,12 +47,12 @@ CKEDITOR.lang[ 'mk' ] = {
 		textField: 'Text Field', // MISSING
 		textarea: 'Textarea', // MISSING
 		hiddenField: 'Hidden Field', // MISSING
-		button: 'Button', // MISSING
+		button: 'Button',
 		select: 'Selection Field', // MISSING
 		imageButton: 'Image Button', // MISSING
-		notSet: '<not set>', // MISSING
+		notSet: '<not set>',
 		id: 'Id', // MISSING
-		name: 'Name', // MISSING
+		name: 'Name',
 		langDir: 'Language Direction', // MISSING
 		langDirLtr: 'Left to Right (LTR)', // MISSING
 		langDirRtl: 'Right to Left (RTL)', // MISSING
@@ -66,7 +66,7 @@ CKEDITOR.lang[ 'mk' ] = {
 		close: 'Close', // MISSING
 		preview: 'Preview', // MISSING
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Општо',
 		advancedTab: 'Advanced', // MISSING
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING

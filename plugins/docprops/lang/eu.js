@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'eu', {
 	charsetTR: 'Turkiarra',
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: 'Mendebaldeko Europakoa',
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: 'Orriaren Izenburua',
 	docType: 'Document Type Goiburua',

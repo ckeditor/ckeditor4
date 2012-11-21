@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'is', {
 	charsetTR: 'Tyrkneskt',
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: 'Vestur-evrópst',
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: 'Titill síðu',
 	docType: 'Flokkur skjalategunda',

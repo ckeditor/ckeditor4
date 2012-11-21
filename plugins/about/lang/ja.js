@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'ja', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: 'ライセンス情報の詳細はウェブサイトにて確認してください:',
 	title: 'CKEditorバージョン情報',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

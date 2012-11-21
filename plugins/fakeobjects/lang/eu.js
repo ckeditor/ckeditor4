@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'fakeobjects', 'eu', {
 	anchor: 'Aingura',
 	flash: 'Flash Animazioa',
-	hiddenfield: 'Hidden Field', // MISSING
+	hiddenfield: 'Ezkutuko Eremua',
 	iframe: 'IFrame', // MISSING
 	unknown: 'Objektu ezezaguna'
 });

@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	emailAddress: 'Alamat E-Mail',
 	emailBody: 'Isi Kandungan Mesej',
 	emailSubject: 'Subjek Mesej',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Butiran Sambungan',
 	langCode: 'Arah Tulisan',
 	langDir: 'Arah Tulisan',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	title: 'Sambungan',
 	toAnchor: 'Pautan dalam muka surat ini',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Masukkan/Sunting Sambungan',
 	type: 'Jenis Sambungan',
 	unlink: 'Buang Sambungan',

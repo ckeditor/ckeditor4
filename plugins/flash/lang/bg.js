@@ -7,17 +7,17 @@ CKEDITOR.plugins.setLang( 'flash', 'bg', {
 	accessAlways: 'Винаги',
 	accessNever: 'Никога',
 	accessSameDomain: 'Същият домейн',
-	alignAbsBottom: 'Abs Bottom', // MISSING
-	alignAbsMiddle: 'Abs Middle', // MISSING
-	alignBaseline: 'Baseline', // MISSING
-	alignTextTop: 'Text Top', // MISSING
-	bgcolor: 'Background color', // MISSING
+	alignAbsBottom: 'Най-долу',
+	alignAbsMiddle: 'Точно по средата',
+	alignBaseline: 'Базова линия',
+	alignTextTop: 'Върху текста',
+	bgcolor: 'Цвят на фона',
 	chkFull: 'Allow Fullscreen', // MISSING
 	chkLoop: 'Цикъл',
-	chkMenu: 'Enable Flash Menu', // MISSING
+	chkMenu: 'Разрешено Flash меню',
 	chkPlay: 'Авто. пускане',
 	flashvars: 'Променливи за Флаш',
-	hSpace: 'HSpace', // MISSING
+	hSpace: 'Хоризонтален отстъп',
 	properties: 'Настройки за флаш',
 	propertiesTab: 'Настройки',
 	quality: 'Качество',
@@ -27,12 +27,12 @@ CKEDITOR.plugins.setLang( 'flash', 'bg', {
 	qualityHigh: 'Високо',
 	qualityLow: 'Ниско',
 	qualityMedium: 'Средно',
-	scale: 'Scale', // MISSING
+	scale: 'Оразмеряване',
 	scaleAll: 'Показва всичко',
-	scaleFit: 'Exact Fit', // MISSING
+	scaleFit: 'Според мястото',
 	scaleNoBorder: 'Без рамка',
 	title: 'Настройки за флаш',
-	vSpace: 'VSpace', // MISSING
+	vSpace: 'Вертикален отстъп',
 	validateHSpace: 'HSpace must be a number.', // MISSING
 	validateSrc: 'Уеб адреса не трябва да е празен.',
 	validateVSpace: 'VSpace must be a number.', // MISSING

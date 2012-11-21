@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	emailAddress: '이메일 주소',
 	emailBody: '내용',
 	emailSubject: '제목',
-	id: 'Id', // MISSING
+	id: 'ID',
 	info: '링크 정보',
 	langCode: '쓰기 방향',
 	langDir: '쓰기 방향',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	title: '링크',
 	toAnchor: '책갈피',
 	toEmail: '이메일',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: '링크 삽입/변경',
 	type: '링크 종류',
 	unlink: '링크 삭제',

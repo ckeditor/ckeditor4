@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ca', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Editor de barra d\'eines'
 });

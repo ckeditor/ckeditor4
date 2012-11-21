@@ -4,13 +4,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'ro', {
 	IdInputLabel: 'Id',
-	advisoryTitleInputLabel: 'Advisory Title', // MISSING
-	cssClassInputLabel: 'Stylesheet Classes', // MISSING
+	advisoryTitleInputLabel: 'Titlul consultativ',
+	cssClassInputLabel: 'Clasele cu stilul paginii (CSS)',
 	edit: 'Edit Div', // MISSING
 	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+	langDirLTRLabel: 'stânga-dreapta (LTR)',
+	langDirLabel: 'Direcţia cuvintelor',
+	langDirRTLLabel: 'dreapta-stânga (RTL)',
 	languageCodeInputLabel: 'Codul limbii',
 	remove: 'Remove Div', // MISSING
 	styleSelectLabel: 'Stil',

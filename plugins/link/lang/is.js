@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	emailAddress: 'Netfang',
 	emailBody: 'Meginmál',
 	emailSubject: 'Efni',
-	id: 'Id', // MISSING
+	id: 'Auðkenni',
 	info: 'Almennt',
 	langCode: 'Lesstefna',
 	langDir: 'Lesstefna',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	title: 'Stikla',
 	toAnchor: 'Bókamerki á þessari síðu',
 	toEmail: 'Netfang',
-	toUrl: 'URL', // MISSING
+	toUrl: 'Vefslóð',
 	toolbar: 'Stofna/breyta stiklu',
 	type: 'Stikluflokkur',
 	unlink: 'Fjarlægja stiklu',

@@ -27,7 +27,7 @@ CKEDITOR.lang[ 'mn' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Хэлбэрт бичвэр боловсруулагч',
 
 	// Common messages and labels.
 	common: {
@@ -64,24 +64,24 @@ CKEDITOR.lang[ 'mn' ] = {
 		cssStyle: 'Загвар',
 		ok: 'OK',
 		cancel: 'Болих',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'Хаах',
+		preview: 'Уридчлан харах',
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Ерөнхий',
 		advancedTab: 'Нэмэлт',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		options: 'Сонголт',
+		target: 'Бай',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Зүүн талаас баруун тийшээ (LTR)',
+		langDirRTL: 'Баруун талаас зүүн тийшээ (RTL)',
+		styles: 'Загвар',
+		cssClasses: 'Stylesheet классууд',
 		width: 'Өргөн',
 		height: 'Өндөр',
 		align: 'Эгнээ',
@@ -92,8 +92,8 @@ CKEDITOR.lang[ 'mn' ] = {
 		alignMiddle: 'Дунд талд',
 		alignBottom: 'Доод талд',
 		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		invalidHeight: 'Өндөр нь тоо байх ёстой.',
+		invalidWidth: 'Өргөн нь тоо байх ёстой.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

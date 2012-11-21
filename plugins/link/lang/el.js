@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	emailAddress: 'Διεύθυνση e-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Πληροφορίες Συνδέσμου',
 	langCode: 'Κατεύθυνση Κειμένου',
 	langDir: 'Κατεύθυνση Κειμένου',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	title: 'Σύνδεσμος',
 	toAnchor: 'Άγκυρα σε αυτή τη σελίδα',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Σύνδεσμος',
 	type: 'Τύπος Συνδέσμου',
 	unlink: 'Αφαίρεση Συνδέσμου (Link)',

@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'el', {
 	label: 'Μορφοποίηση',
 	panelTitle: 'Μορφοποίηση Παραγράφου',
 	tag_address: 'Διεύθυνση',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: 'Κανονικό (DIV)',
 	tag_h1: 'Επικεφαλίδα 1',
 	tag_h2: 'Επικεφαλίδα 2',
 	tag_h3: 'Επικεφαλίδα 3',

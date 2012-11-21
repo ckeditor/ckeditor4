@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		alignTop: 'Brig',
 		alignMiddle: 'Canol',
 		alignBottom: 'Gwaelod',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Gwerth annilys.',
 		invalidHeight: 'Rhaid i\'r Uchder fod yn rhif.',
 		invalidWidth: 'Rhaid i\'r Lled fod yn rhif.',
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',

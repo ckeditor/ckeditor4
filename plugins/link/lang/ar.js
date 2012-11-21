@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	title: 'إرتباط تشعبي',
 	toAnchor: 'مكان في هذا المستند',
 	toEmail: 'بريد إلكتروني',
-	toUrl: 'URL', // MISSING
+	toUrl: 'الرابط',
 	toolbar: 'رابط',
 	type: 'نوع الربط',
 	unlink: 'إزالة رابط',

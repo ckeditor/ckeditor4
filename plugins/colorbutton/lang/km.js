@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'km', {
 		FFF: 'White'
 	},
 	more: 'ពណ៌ផ្សេងទៀត..',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'ពណ៌អក្សរ'
 });

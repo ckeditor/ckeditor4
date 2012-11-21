@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'ko', {
 	charsetTR: 'Turkish', // MISSING
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: '페이지명',
 	docType: '문서 헤드',

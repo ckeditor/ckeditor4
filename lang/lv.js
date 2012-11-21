@@ -27,13 +27,13 @@ CKEDITOR.lang[ 'lv' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Bagātinātā teksta redaktors',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Palīdzībai, nospiediet ALT 0 ',
 
 		browseServer: 'Skatīt servera saturu',
 		url: 'URL',
@@ -64,24 +64,24 @@ CKEDITOR.lang[ 'lv' ] = {
 		cssStyle: 'Stils',
 		ok: 'Darīts!',
 		cancel: 'Atcelt',
-		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		close: 'Aizvērt',
+		preview: 'Priekšskatījums',
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Vispārīgi',
 		advancedTab: 'Izvērstais',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		validateNumberFailed: 'Šī vērtība nav skaitlis',
+		confirmNewPage: 'Jebkuras nesaglabātās izmaiņas tiks zaudētas. Vai tiešām vēlaties atvērt jaunu lapu?',
+		confirmCancel: 'Daži no uzstādījumiem ir mainīti. Vai tiešām vēlaties aizvērt šo dialogu?',
+		options: 'Uzstādījumi',
+		target: 'Mērķis',
+		targetNew: 'Jauns logs (_blank)',
+		targetTop: 'Virsējais logs (_top)',
+		targetSelf: 'Tas pats logs (_self)',
+		targetParent: 'Avota logs (_parent)',
+		langDirLTR: 'Kreisais uz Labo (LTR)',
+		langDirRTL: 'Labais uz Kreiso (RTL)',
+		styles: 'Stils',
+		cssClasses: 'Stilu klases',
 		width: 'Platums',
 		height: 'Augstums',
 		align: 'Nolīdzināt',
@@ -91,15 +91,15 @@ CKEDITOR.lang[ 'lv' ] = {
 		alignTop: 'Augšā',
 		alignMiddle: 'Vertikāli centrēts',
 		alignBottom: 'Apakšā',
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidValue	: 'Nekorekta vērtība',
+		invalidHeight: 'Augstumam jābūt skaitlim.',
+		invalidWidth: 'Platumam jābūt skaitlim',
+		invalidCssLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām CSS mērvienībām (px, %, in, cm, mm, em, ex, pt, vai pc).',
+		invalidHtmlLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām HTML mērvienībām (px vai %).',
+		invalidInlineStyle: 'Iekļautajā stilā norādītajai vērtībai jāsastāv no viena vai vairākiem pāriem pēc forma\'ta "nosaukums: vērtība", atdalītiem ar semikolu.',
+		cssLengthTooltip: 'Ievadiet vērtību pikseļos vai skaitli ar derīgu CSS mērvienību (px, %, in, cm, mm, em, ex, pt, vai pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, nav pieejams</span>'
 	}
 };

@@ -3,16 +3,16 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'el', {
-	access: 'Script Access', // MISSING
+	access: 'Πρόσβαση Script',
 	accessAlways: 'Πάντα',
 	accessNever: 'Ποτέ',
-	accessSameDomain: 'Same domain', // MISSING
+	accessSameDomain: 'Ίδιο όνομα τομέα',
 	alignAbsBottom: 'Απόλυτα Κάτω',
 	alignAbsMiddle: 'Απόλυτα στη Μέση',
 	alignBaseline: 'Γραμμή Βάσης',
 	alignTextTop: 'Κορυφή Κειμένου',
 	bgcolor: 'Χρώμα Υποβάθρου',
-	chkFull: 'Allow Fullscreen', // MISSING
+	chkFull: 'Να Επιτρέπεται η Προβολή σε Πλήρη Οθόνη',
 	chkLoop: 'Επανάληψη',
 	chkMenu: 'Ενεργοποίηση Flash Menu',
 	chkPlay: 'Αυτόματη Εκτέλεση',
@@ -33,10 +33,10 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	scaleNoBorder: 'Χωρίς Περίγραμμα',
 	title: 'Ιδιότητες Flash',
 	vSpace: 'Κάθετο Διάστημα',
-	validateHSpace: 'HSpace must be a number.', // MISSING
+	validateHSpace: 'Το HSpace πρέπει να είναι αριθμός.',
 	validateSrc: 'Εισάγετε την τοποθεσία (URL) του υπερσυνδέσμου (Link)',
-	validateVSpace: 'VSpace must be a number.', // MISSING
-	windowMode: 'Window mode', // MISSING
+	validateVSpace: 'Το VSpace πρέπει να είναι αριθμός.',
+	windowMode: 'Τρόπος λειτουργίας παραθύρου.',
 	windowModeOpaque: 'Συμπαγές',
 	windowModeTransparent: 'Διάφανο',
 	windowModeWindow: 'Παράθυρο'

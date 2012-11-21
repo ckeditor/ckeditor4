@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		ok: 'OK',
 		cancel: 'Batal',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Prebiu',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Advanced',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'ms' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'Sasaran',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Kiri ke Kanan (LTR)',
+		langDirRTL: 'Kanan ke Kiri (RTL)',
+		styles: 'Stail',
+		cssClasses: 'Kelas-kelas Stylesheet',
 		width: 'Lebar',
 		height: 'Tinggi',
 		align: 'Jajaran',

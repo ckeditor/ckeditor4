@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'eu', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: 'Lizentziari buruzko informazioa gure webgunean:',
 	title: 'CKEditor(r)i buruz',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

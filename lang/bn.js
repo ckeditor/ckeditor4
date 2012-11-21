@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'bn' ] = {
 		ok: 'ওকে',
 		cancel: 'বাতিল',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'প্রিভিউ',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'এডভান্সড',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'bn' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'টার্গেট',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'বাম থেকে ডান (LTR)',
+		langDirRTL: 'ডান থেকে বাম (RTL)',
+		styles: 'স্টাইল',
+		cssClasses: 'স্টাইল-শীট ক্লাস',
 		width: 'প্রস্থ',
 		height: 'দৈর্ঘ্য',
 		align: 'এলাইন',

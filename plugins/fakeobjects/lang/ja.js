@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'fakeobjects', 'ja', {
 	anchor: 'アンカー',
 	flash: 'Flash Animation',
-	hiddenfield: 'Hidden Field', // MISSING
+	hiddenfield: '不可視フィールド',
 	iframe: 'IFrame', // MISSING
 	unknown: 'Unknown Object'
 });

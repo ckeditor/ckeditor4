@@ -5,8 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'about', 'ca', {
 	copy: 'Copyright &copy; $1. Tots els drets reservats.',
 	dlgTitle: 'Quant al CKEditor',
-	help: 'Check $1 for help.', // MISSING
+	help: 'Premeu $1 per obtenir ajuda.',
 	moreInfo: 'Per informació sobre llicències visiteu el web:',
 	title: 'Quant al CKEditor',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'Manual d\'usuari de CKEditor'
 });

@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
-	title: 'Accessibility Instructions', // MISSING
+	title: 'Accessibility Instructions',
 	contents: 'Nội dung Hỗ trợ. Nhấn ESC để đóng hộp thoại.',
 	legend: [
 		{

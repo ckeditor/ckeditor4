@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ro', {
 		FFF: 'White'
 	},
 	more: 'Mai multe culori...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Culoarea textului'
 });

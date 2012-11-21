@@ -10,5 +10,5 @@ CKEDITOR.plugins.setLang( 'font', 'th', {
 	},
 	label: 'แบบอักษร',
 	panelTitle: 'แบบอักษร',
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'แบบอักษร'
 });

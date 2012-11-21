@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	title: '超連結',
 	toAnchor: '本頁錨點',
 	toEmail: '電子郵件',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: '插入/編輯超連結',
 	type: '超連接類型',
 	unlink: '移除超連結',

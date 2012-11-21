@@ -4,5 +4,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'undo', 'mk', {
 	redo: 'Redo', // MISSING
-	undo: 'Undo' // MISSING
+	undo: 'Undo'
 });

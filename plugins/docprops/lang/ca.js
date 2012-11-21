@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'ca', {
 	bgFixed: 'Fons fixe',
 	bgImage: 'URL de la imatge de fons',
 	charset: 'Codificació de conjunt de caràcters',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Centreeuropeu',
 	charsetCR: 'Ciríl·lic',
 	charsetCT: 'Xinès tradicional (Big5)',
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'ca', {
 	charsetKR: 'Coreà',
 	charsetOther: 'Una altra codificació de caràcters',
 	charsetTR: 'Turc',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Europeu occidental',
 	chooseColor: 'Trieu',
-	design: 'Design', // MISSING
+	design: 'Disseny',
 	docTitle: 'Títol de la pàgina',
 	docType: 'Capçalera de tipus de document',
 	docTypeOther: 'Un altra capçalera de tipus de document',
@@ -31,11 +31,11 @@ CKEDITOR.plugins.setLang( 'docprops', 'ca', {
 	marginTop: 'Cap',
 	meta: 'Metadades',
 	metaAuthor: 'Autor',
-	metaCopyright: 'Copyright', // MISSING
+	metaCopyright: 'Copyright',
 	metaDescription: 'Descripció del document',
 	metaKeywords: 'Mots clau per a indexació (separats per coma)',
 	other: '<altre>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Aquest és un <strong>text d\'exemple</strong>. Estàs utilitzant <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Propietats del document',
 	txtColor: 'Color de Text',
 	xhtmlDec: 'Incloure declaracions XHTML'

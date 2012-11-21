@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		ok: 'OK',
 		cancel: 'Otkaži',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Izgled stranice',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Napredni tagovi',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'Meta',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'S leva na desno (LTR)',
+		langDirRTL: 'S desna na levo (RTL)',
+		styles: 'Stil',
+		cssClasses: 'Stylesheet klase',
 		width: 'Širina',
 		height: 'Visina',
 		align: 'Ravnanje',

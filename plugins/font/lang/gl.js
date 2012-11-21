@@ -10,5 +10,5 @@ CKEDITOR.plugins.setLang( 'font', 'gl', {
 	},
 	label: 'Tipo',
 	panelTitle: 'Tipo',
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'Tipo'
 });

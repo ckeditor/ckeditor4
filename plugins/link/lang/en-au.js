@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'en-au', {
 	title: 'Link',
 	toAnchor: 'Link to anchor in the text',
 	toEmail: 'E-mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Link',
 	type: 'Link Type',
 	unlink: 'Unlink',

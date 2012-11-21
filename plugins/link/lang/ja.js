@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	title: 'ハイパーリンク',
 	toAnchor: 'このページのアンカー',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'リンク挿入/編集',
 	type: 'リンクタイプ',
 	unlink: 'リンク削除',

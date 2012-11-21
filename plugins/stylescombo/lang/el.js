@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'el', {
 	label: 'Μορφές',
-	panelTitle: 'Formatting Styles', // MISSING
-	panelTitle1: 'Block Styles', // MISSING
-	panelTitle2: 'Inline Styles', // MISSING
-	panelTitle3: 'Object Styles' // MISSING
+	panelTitle: 'Στυλ Μορφοποίησης',
+	panelTitle1: 'Στυλ Κομματιών',
+	panelTitle2: 'Στυλ Εν Σειρά',
+	panelTitle3: 'Στυλ Αντικειμένων'
 });

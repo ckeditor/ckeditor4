@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ms', {
 		FFF: 'White'
 	},
 	more: 'Warna lain-lain...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Warna Text'
 });
