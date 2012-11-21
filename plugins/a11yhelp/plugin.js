@@ -23,7 +23,10 @@
 			editor.addCommand( commandName, {
 				exec: function() {
 					var langCode = editor.langCode;
-					langCode = plugin.availableLangs[ langCode ] ? langCode : 'en';
+					langCode =
+						plugin.availableLangs[ langCode ] ? langCode :
+						plugin.availableLangs[ langCode.replace( /-.*/, '' ) ] ? langCode.replace( /-.*/, '' ) :
+						'en';
 
 					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 						editor.lang.a11yhelp = plugin.langEntries[ langCode ];
