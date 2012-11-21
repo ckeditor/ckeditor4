@@ -448,8 +448,14 @@
 						pluginLangs = pluginLangs.split( ',' );
 
 					// Resolve the plugin language. If the current language
-					// is not available, get the first one (default one).
-					lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
+					// is not available, get english or the first one.
+					if ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 )
+						lang = editor.langCode;
+					// English is our backup language - try to find it.
+					else if ( CKEDITOR.tools.indexOf( pluginLangs, 'en' ) >= 0 )
+						lang = 'en';
+					else
+						lang = pluginLangs[ 0 ];
 
 					if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
 						// Put the language file URL into the list of files to
