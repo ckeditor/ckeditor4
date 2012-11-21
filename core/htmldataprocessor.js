@@ -166,9 +166,10 @@
 
 		// Build the list of text blocks.
 		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
-		for ( var i in textBlockTags )
+		for ( var i in textBlockTags ) {
 			if ( !( '#' in dtd[ i ] ) )
 				delete textBlockTags[ i ];
+		}
 
 		for ( i in textBlockTags )
 			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks !== false );
@@ -177,7 +178,6 @@
 		rules.root = blockFilter( isOutput );
 		rules.elements.br = brFilter( isOutput );
 		return rules;
-
 
 		function createFiller( isOutput ) {
 			return isOutput || CKEDITOR.env.ie ?
