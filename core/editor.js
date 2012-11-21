@@ -448,8 +448,21 @@
 						pluginLangs = pluginLangs.split( ',' );
 
 					// Resolve the plugin language. If the current language
-					// is not available, get the first one (default one).
-					lang = ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 ? editor.langCode : pluginLangs[ 0 ] );
+					// is not available, get English or the first one.
+					if ( CKEDITOR.tools.indexOf( pluginLangs, editor.langCode ) >= 0 )
+						lang = editor.langCode;
+					else {
+						// The language code may have the locale information (zh-cn).
+						// Fall back to locale-less in that case (zh).
+						var langPart = editor.langCode.replace( /-.*/, '' );
+						if ( langPart != editor.langCode && CKEDITOR.tools.indexOf( pluginLangs, langPart ) >= 0 )
+							lang = langPart;
+						// Try the only "generic" option we have: English.
+						else if ( CKEDITOR.tools.indexOf( pluginLangs, 'en' ) >= 0 )
+							lang = 'en';
+						else
+							lang = pluginLangs[ 0 ];
+					}
 
 					if ( !plugin.langEntries || !plugin.langEntries[ lang ] ) {
 						// Put the language file URL into the list of files to

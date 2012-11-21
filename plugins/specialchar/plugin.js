@@ -23,7 +23,10 @@ CKEDITOR.plugins.add( 'specialchar', {
 		editor.addCommand( pluginName, {
 			exec: function() {
 				var langCode = editor.langCode;
-				langCode = plugin.availableLangs[ langCode ] ? langCode : 'en';
+				langCode =
+					plugin.availableLangs[ langCode ] ? langCode :
+					plugin.availableLangs[ langCode.replace( /-.*/, '' ) ] ? langCode.replace( /-.*/, '' ) :
+					'en';
 
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 					CKEDITOR.tools.extend( editor.lang.specialchar, plugin.langEntries[ langCode ] );
