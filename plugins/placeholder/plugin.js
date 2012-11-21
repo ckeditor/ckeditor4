@@ -12,7 +12,7 @@
 	var placeholderReplaceRegex = /\[\[[^\]]+\]\]/g;
 	CKEDITOR.plugins.add( 'placeholder', {
 		requires: 'dialog',
-		lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,he,hr,it,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,he,hr,it,ku,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'placeholder', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			CKEDITOR.addCss( '.cke_placeholder' +

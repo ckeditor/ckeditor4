@@ -41,6 +41,7 @@ var CKEDITOR_LANGS = (function() {
 		ka: 'Georgian',
 		km: 'Khmer',
 		ko: 'Korean',
+		ku : 'Kurdish',
 		lt: 'Lithuanian',
 		lv: 'Latvian',
 		mn: 'Mongolian',
