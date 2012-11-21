@@ -392,9 +392,9 @@
 					// it if no options are available at all.
 					stylesField[ stylesField.items.length > 1 ? 'enable' : 'disable' ]();
 
-					// Now setup the field value manually.
+					// Now setup the field value manually if dialog was opened on element. (#9689)
 					setTimeout( function() {
-						stylesField.setup( dialog._element );
+						dialog._element && stylesField.setup( dialog._element );
 					}, 0 );
 				});
 			},
