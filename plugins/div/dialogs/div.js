@@ -73,7 +73,7 @@
 						// Read the dialog fields values from the specified
 						// element attributes.
 						field.setup = function( element ) {
-							field.setValue( element.getAttribute( field.id ) || '' );
+							field.setValue( element.getAttribute( field.id ) || '', 1 );
 						};
 					}
 					if ( !field.commit ) {
@@ -320,9 +320,7 @@
 							label: editor.lang.common.cssStyle,
 							'default': '',
 							commit: function( element ) {
-								// Merge with 'elementStyle', which is of higher priority.
-								var merged = this.getValue() + ( element.getCustomData( 'elementStyle' ) || '' );
-								element.setAttribute( 'style', merged );
+								element.setAttribute( 'style', this.getValue() );
 							}
 						}
 						]
