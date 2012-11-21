@@ -22,17 +22,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'el', {
 
 			{
 			name: 'Αναδυόμενο Μενού Επεξεργαστή',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: 'Πατήστε ${contextMenu} ή APPLICATION KEY για να ανοίξετε το αναδυόμενο μενού. Μετά μετακινηθείτε στην επόμενη επιλογή του μενού με  TAB ή ΚΑΤΩ ΒΕΛΑΚΙ. Μετακινηθείτε στην προηγούμενη επιλογή με SHIFT+TAB ή ΠΑΝΩ ΒΕΛΑΚΙ. Πατήστε ΔΙΑΣΤΗΜΑ ή ENTER για να επιλέξετε το τρέχων στοιχείο. Ανοίξτε το αναδυόμενο μενού της τρέχουσας επιλογής με ΔΙΑΣΤΗΜΑ ή ENTER ή ΔΕΞΙ ΒΕΛΑΚΙ. Μεταβείτε πίσω στο αρχικό στοιχείο μενού με ESC ή ΑΡΙΣΤΕΡΟ ΒΕΛΑΚΙ. Κλείστε το αναδυόμενο μενού με ESC.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Κουτί Λίστας Επεξεργαστών',
+			legend: 'Μέσα σε ένα κουτί λίστας, μετακινηθείτε στο επόμενο στοιχείο με TAB ή ΚΑΤΩ ΒΕΛΑΚΙ. Μετακινηθείτε στο προηγούμενο στοιχείο με SHIFT + TAB ή ΠΑΝΩ ΒΕΛΑΚΙ. Πατήστε ΔΙΑΣΤΗΜΑ ή ENTER για να επιλέξετε ένα στοιχείο. Πατήστε ESC για να κλείσετε το κουτί της λίστας.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Μπάρα Διαδρομών Στοιχείων Επεξεργαστή',
+			legend: 'Πατήστε ${elementsPathFocus} για να περιηγηθείτε στην μπάρα διαδρομών στοιχείων του επεξεργαστή. Μετακινηθείτε στο κουμπί του επόμενου στοιχείου με το TAB ή το ΔΕΞΙ ΒΕΛΑΚΙ. Μετακινηθείτε στο κουμπί του προηγούμενου στοιχείου με το SHIFT+TAB ή το ΑΡΙΣΤΕΡΟ ΒΕΛΑΚΙ. Πατήστε ΔΙΑΣΤΗΜΑ ή ENTER για να επιλέξετε το στοιχείο στον επεξεργαστή.'
 		}
 		]
 	},

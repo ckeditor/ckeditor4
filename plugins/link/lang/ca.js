@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	popupStatusBar: 'Barra d\'estat',
 	popupToolbar: 'Barra d\'eines',
 	popupTop: 'Posició dalt',
-	rel: 'Relationship', // MISSING
+	rel: 'Relació',
 	selectAnchor: 'Selecciona una àncora',
 	styles: 'Estil',
 	tabIndex: 'Index de Tab',

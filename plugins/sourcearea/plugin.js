@@ -10,7 +10,7 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'sourcearea', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'source,source-rtl', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Source mode isn't available in inline mode yet.
@@ -80,6 +80,16 @@
 			editor.on( 'mode', function() {
 				editor.getCommand( 'source' ).setState( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			});
+
+			function onResize() {
+				// Holder rectange size is stretched by textarea,
+				// so hide it just for a moment.
+				this.hide();
+				this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
+				this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
+				// When we have proper holder size, show textarea again.
+				this.show();
+			}
 		}
 	});
 
@@ -112,16 +122,6 @@
 			}
 		}
 	});
-
-	function onResize() {
-		// Holder rectange size is stretched by textarea,
-		// so hide it just for a moment.
-		this.hide();
-		this.setStyle( 'height', this.getParent().$.clientHeight + 'px' );
-		this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
-		// When we have proper holder size, show textarea again.
-		this.show();
-	}
 })();
 
 CKEDITOR.plugins.sourcearea = {

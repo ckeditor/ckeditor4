@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'el', {
 	clear: 'Καθαρισμός',
-	highlight: 'Highlight', // MISSING
+	highlight: 'Σήμανση',
 	options: 'Επιλογές Χρωμάτων',
 	selected: 'Επιλεγμένο Χρώμα',
 	title: 'Επιλογή Χρώματος'

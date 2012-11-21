@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	emailAddress: 'อีเมล์ (E-Mail)',
 	emailBody: 'ข้อความ',
 	emailSubject: 'หัวเรื่อง',
-	id: 'Id', // MISSING
+	id: 'ไอดี',
 	info: 'รายละเอียด',
 	langCode: 'การเขียน-อ่านภาษา',
 	langDir: 'การเขียน-อ่านภาษา',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	title: 'ลิงค์เชื่อมโยงเว็บ อีเมล์ รูปภาพ หรือไฟล์อื่นๆ',
 	toAnchor: 'จุดเชื่อมโยง (Anchor)',
 	toEmail: 'ส่งอีเมล์ (E-Mail)',
-	toUrl: 'URL', // MISSING
+	toUrl: 'ที่อยู่อ้างอิง URL',
 	toolbar: 'แทรก/แก้ไข ลิงค์',
 	type: 'ประเภทของลิงค์',
 	unlink: 'ลบ ลิงค์',

@@ -60,7 +60,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		langCode: 'Код на езика',
 		longDescr: 'Уеб адрес за дълго описание',
 		cssClass: 'Класове за CSS',
-		advisoryTitle: 'Advisory Title', // MISSING
+		advisoryTitle: 'Препоръчително заглавие',
 		cssStyle: 'Стил',
 		ok: 'ОК',
 		cancel: 'Отказ',

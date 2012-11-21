@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'bs', {
 	emailAddress: 'E-Mail Adresa',
 	emailBody: 'Poruka',
 	emailSubject: 'Subjekt poruke',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Link info',
 	langCode: 'Smjer pisanja',
 	langDir: 'Smjer pisanja',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'bs', {
 	title: 'Link',
 	toAnchor: 'Sidro na ovoj stranici',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Ubaci/Izmjeni link',
 	type: 'Tip linka',
 	unlink: 'Izbriši link',

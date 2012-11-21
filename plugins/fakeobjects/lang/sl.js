@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'fakeobjects', 'sl', {
 	anchor: 'Sidro',
 	flash: 'Flash animacija',
-	hiddenfield: 'Hidden Field', // MISSING
+	hiddenfield: 'Skrito polje',
 	iframe: 'IFrame', // MISSING
 	unknown: 'Neznan objekt'
 });

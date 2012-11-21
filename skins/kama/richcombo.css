@@ -112,6 +112,7 @@ The visual representation of a rich combo widget looks as follows:
 	color: #666666;
 	float: left;
 	cursor: default;
+	width: 60px;
 }
 
 .cke_rtl .cke_combo_text

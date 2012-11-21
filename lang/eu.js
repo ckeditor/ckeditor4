@@ -65,23 +65,23 @@ CKEDITOR.lang[ 'eu' ] = {
 		ok: 'Ados',
 		cancel: 'Utzi',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Aurrebista',
 		resize: 'Arrastatu tamaina aldatzeko',
 		generalTab: 'Orokorra',
 		advancedTab: 'Aurreratua',
 		validateNumberFailed: 'Balio hau ez da zenbaki bat.',
 		confirmNewPage: 'Eduki honetan gorde gabe dauden aldaketak galduko dira. Ziur zaude orri berri bat kargatu nahi duzula?',
 		confirmCancel: 'Aukera batzuk aldatu egin dira. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		options: 'Aukerak',
+		target: 'Target (Helburua)',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Ezkerretik Eskumara(LTR)',
+		langDirRTL: 'Eskumatik Ezkerrera (RTL)',
+		styles: 'Estiloa',
+		cssClasses: 'Estilo-orriko Klaseak',
 		width: 'Zabalera',
 		height: 'Altuera',
 		align: 'Lerrokatu',

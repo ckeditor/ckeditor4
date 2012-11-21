@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'zh', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: '訪問我們的網站以獲取更多關於協議的信息',
 	title: '關於 CKEditor',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

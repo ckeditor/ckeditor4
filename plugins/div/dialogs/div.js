@@ -73,7 +73,7 @@
 						// Read the dialog fields values from the specified
 						// element attributes.
 						field.setup = function( element ) {
-							field.setValue( element.getAttribute( field.id ) || '' );
+							field.setValue( element.getAttribute( field.id ) || '', 1 );
 						};
 					}
 					if ( !field.commit ) {
@@ -256,21 +256,20 @@
 							[ editor.lang.common.notSet, '' ]
 							],
 						onChange: function() {
-							commitInternally.call( this, [ 'info:class', 'advanced:dir', 'advanced:style' ] );
+							commitInternally.call( this, [ 'info:elementStyle', 'info:class', 'advanced:dir', 'advanced:style' ] );
 						},
 						setup: function( element ) {
 							for ( var name in styles )
-								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name );
+								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name, 1 );
 						},
 						commit: function( element ) {
 							var styleName;
 							if ( ( styleName = this.getValue() ) ) {
 								var style = styles[ styleName ];
-								var customData = element.getCustomData( 'elementStyle' ) || '';
-
 								style.applyToObject( element );
-								element.setCustomData( 'elementStyle', customData + style._.definition.attributes.style );
 							}
+							else
+								element.removeAttribute( 'style' );
 						}
 					},
 						{
@@ -320,9 +319,7 @@
 							label: editor.lang.common.cssStyle,
 							'default': '',
 							commit: function( element ) {
-								// Merge with 'elementStyle', which is of higher priority.
-								var merged = this.getValue() + ( element.getCustomData( 'elementStyle' ) || '' );
-								element.setAttribute( 'style', merged );
+								element.setAttribute( 'style', this.getValue() );
 							}
 						}
 						]
@@ -392,9 +389,9 @@
 					// it if no options are available at all.
 					stylesField[ stylesField.items.length > 1 ? 'enable' : 'disable' ]();
 
-					// Now setup the field value manually.
+					// Now setup the field value manually if dialog was opened on element. (#9689)
 					setTimeout( function() {
-						stylesField.setup( dialog._element );
+						dialog._element && stylesField.setup( dialog._element );
 					}, 0 );
 				});
 			},

@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'flash', 'mk', {
 	accessSameDomain: 'Same domain', // MISSING
 	alignAbsBottom: 'Abs Bottom', // MISSING
 	alignAbsMiddle: 'Abs Middle', // MISSING
-	alignBaseline: 'Baseline', // MISSING
+	alignBaseline: 'Baseline',
 	alignTextTop: 'Text Top', // MISSING
 	bgcolor: 'Background color', // MISSING
 	chkFull: 'Allow Fullscreen', // MISSING

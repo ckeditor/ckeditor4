@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ko', {
 		FFF: 'White'
 	},
 	more: '색상선택...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: '글자 색상'
 });

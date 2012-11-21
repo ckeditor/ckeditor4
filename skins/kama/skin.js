@@ -47,7 +47,7 @@ CKEDITOR.skin.name = 'kama';
 // The accepted browser names must match the CKEDITOR.env properties. The most
 // common names are: ie, opera, webkit and gecko. Check the documentation for
 // the complete list:
-// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.env.html
+// http://docs.ckeditor.com/#!/api/CKEDITOR.env
 //
 // Internet explorer is an expection and the browser version is also accepted
 // (ie7, ie8, ie9, ie10), as well as a special name for IE in Quirks mode (iequirks).
@@ -243,7 +243,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
 		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
 		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,placeholder,preview-rtl,' +
 		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
 		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
 		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +

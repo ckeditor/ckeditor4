@@ -53,7 +53,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'removeformat,' +
 		'resize,' +
 		'save,' +
-		'scayt,' +
 		'selectall,' +
 		'showblocks,' +
 		'showborders,' +
@@ -67,7 +66,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'templates,' +
 		'toolbar,' +
 		'undo,' +
-		'wsc,' +
 		'wysiwygarea';
 	// %REMOVE_END%
 };

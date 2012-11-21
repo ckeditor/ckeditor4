@@ -3,7 +3,7 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'mk', {
-	bgColor: 'Background Color', // MISSING
+	bgColor: 'Background Color',
 	bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
 	bgImage: 'Background Image URL', // MISSING
 	charset: 'Character Set Encoding', // MISSING
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'mk', {
 	charsetTR: 'Turkish', // MISSING
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: 'Page Title', // MISSING
 	docType: 'Document Type Heading', // MISSING

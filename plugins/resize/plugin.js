@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'resize', {
 		// which is identical to dir of editor element. (#6614)
 		var resizeDir = editor.element ? editor.element.getDirection( 1 ) : 'ltr';
 
-		!config.resize_dir && ( config.resize_dir = 'both' );
+		!config.resize_dir && ( config.resize_dir = 'vertical' );
 		( config.resize_maxWidth == undefined ) && ( config.resize_maxWidth = 3000 );
 		( config.resize_maxHeight == undefined ) && ( config.resize_maxHeight = 3000 );
 		( config.resize_minWidth == undefined ) && ( config.resize_minWidth = 750 );
@@ -159,9 +159,9 @@ CKEDITOR.plugins.add( 'resize', {
  * The dimensions for which the editor resizing is enabled. Possible values
  * are `both`, `vertical`, and `horizontal`.
  *
- *		config.resize_dir = 'vertical';
+ *		config.resize_dir = 'both';
  *
  * @since 3.3
- * @cfg {String} [resize_dir='both']
+ * @cfg {String} [resize_dir='vertical']
  * @member CKEDITOR.config
  */

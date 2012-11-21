@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'en-ca', {
 		FFF: 'White'
 	},
 	more: 'More Colours...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Text Colour'
 });

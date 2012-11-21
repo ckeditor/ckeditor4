@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	emailAddress: 'Enderezo de E-Mail',
 	emailBody: 'Corpo do Mensaxe',
 	emailSubject: 'Asunto do Mensaxe',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Información da Ligazón',
 	langCode: 'Orientación do Idioma',
 	langDir: 'Orientación do Idioma',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	title: 'Ligazón',
 	toAnchor: 'Referencia nesta páxina',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Inserir/Editar Ligazón',
 	type: 'Tipo de Ligazón',
 	unlink: 'Eliminar Ligazón',

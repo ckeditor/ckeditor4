@@ -73,7 +73,8 @@ panel contents and color panels check menu.css and colorpanel.css.
 /* This class represents panels which are used by rich combos. */
 .cke_combopanel
 {
-	height: auto;
+    width: 150px;
+    height: 170px;
 }
 
 /* The IFRAME the panel is wrapped into. */

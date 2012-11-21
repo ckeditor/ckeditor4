@@ -5,8 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'link', 'bg', {
 	acccessKey: 'Ключ за достъп',
 	advanced: 'Разширено',
-	advisoryContentType: 'Advisory Content Type', // MISSING
-	advisoryTitle: 'Advisory Title', // MISSING
+	advisoryContentType: 'Препоръчителен тип на съдържанието',
+	advisoryTitle: 'Препоръчително заглавие',
 	anchor: {
 		toolbar: 'Котва',
 		menu: 'Промяна на котва',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	},
 	anchorId: 'По ID на елемент',
 	anchorName: 'По име на котва',
-	charset: 'Linked Resource Charset', // MISSING
+	charset: 'Тип на свързания ресурс',
 	cssClasses: 'Класове за CSS',
 	emailAddress: 'E-mail aдрес',
 	emailBody: 'Съдържание',
@@ -30,7 +30,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	langDirRTL: 'Дясно на Ляво (ДнЛ)',
 	menu: 'Промяна на връзка',
 	name: 'Име',
-	noAnchors: '(No anchors available in the document)', // MISSING
+	noAnchors: '(Няма котви в текущия документ)',
 	noEmail: 'Моля въведете e-mail aдрес',
 	noUrl: 'Моля въведете URL адреса',
 	other: '<друго>',
@@ -48,7 +48,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	rel: 'Връзка',
 	selectAnchor: 'Изберете котва',
 	styles: 'Стил',
-	tabIndex: 'Tab Index', // MISSING
+	tabIndex: 'Ред на достъп',
 	target: 'Цел',
 	targetFrame: '<frame>',
 	targetFrameName: 'Име на целевият прозорец',

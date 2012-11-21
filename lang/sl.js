@@ -65,23 +65,23 @@ CKEDITOR.lang[ 'sl' ] = {
 		ok: 'V redu',
 		cancel: 'Prekliči',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Predogled',
 		resize: 'Potegni za spremembo velikosti',
 		generalTab: 'Splošno',
 		advancedTab: 'Napredno',
 		validateNumberFailed: 'Ta vrednost ni število.',
 		confirmNewPage: 'Vse neshranjene spremembe te vsebine bodo izgubljene. Ali gotovo želiš naložiti novo stran?',
 		confirmCancel: 'Nekaj možnosti je bilo spremenjenih. Ali gotovo želiš zapreti okno?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		options: 'Možnosti',
+		target: 'Cilj',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'Od leve proti desni (LTR)',
+		langDirRTL: 'Od desne proti levi (RTL)',
+		styles: 'Slog',
+		cssClasses: 'Razred stilne predloge',
 		width: 'Širina',
 		height: 'Višina',
 		align: 'Poravnava',

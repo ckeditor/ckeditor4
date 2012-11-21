@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'el' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Πατήστε το ALT 0 για βοήθεια',
 
 		browseServer: 'Εξερεύνηση διακομιστή',
 		url: 'URL',
@@ -81,7 +81,7 @@ CKEDITOR.lang[ 'el' ] = {
 		langDirLTR: 'Αριστερά προς Δεξιά (LTR)',
 		langDirRTL: 'Δεξιά προς Αριστερά (RTL)',
 		styles: 'Μορφή',
-		cssClasses: 'Stylesheet Classes', // MISSING
+		cssClasses: 'Stylesheet Classes',
 		width: 'Πλάτος',
 		height: 'Ύψος',
 		align: 'Στοίχιση',
@@ -91,15 +91,15 @@ CKEDITOR.lang[ 'el' ] = {
 		alignTop: 'Πάνω',
 		alignMiddle: 'Μέση',
 		alignBottom: 'Κάτω',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Μη έγκυρη τιμή.',
 		invalidHeight: 'Το ύψος πρέπει να είναι ένας αριθμός.',
 		invalidWidth: 'Το πλάτος πρέπει να είναι ένας αριθμός.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης CSS (px, %, in, cm, mm, em, ex, pt, ή pc).',
+		invalidHtmlLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης HTML (px or %).',
+		invalidInlineStyle: 'Η τιμή για το εν σειρά στυλ πρέπει να περιέχει ένα ή περισσότερα ζεύγη με την μορφή "όνομα: τιμή" διαχωρισμένα με Ελληνικό ερωτηματικό.',
+		cssLengthTooltip: 'Εισάγεται μια τιμή σε pixel ή έναν αριθμό μαζί με μια έγκυρη μονάδα μέτρησης CSS (px, %, in, cm, mm, em, ex, pt, ή pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, δεν είναι διαθέσιμο</span>'
 	}
 };

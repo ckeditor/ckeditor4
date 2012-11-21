@@ -538,7 +538,7 @@
 							rtl = keyCode == 8;
 
 						// Remove the entire list/table on fully selected content. (#7645)
-						if ( selected = getSelectedTableList( sel ) ) {
+						if ( ( selected = getSelectedTableList( sel ) ) ) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
 

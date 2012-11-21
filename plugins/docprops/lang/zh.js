@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'zh', {
 	charsetTR: '土耳其文',
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: '西歐語系',
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: '頁面標題',
 	docType: '文件類型',

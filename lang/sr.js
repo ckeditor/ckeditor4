@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'sr' ] = {
 		ok: 'OK',
 		cancel: 'Oткажи',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Изглед странице',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'Напредни тагови',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'sr' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'Meтa',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'С лева на десно (LTR)',
+		langDirRTL: 'С десна на лево (RTL)',
+		styles: 'Стил',
+		cssClasses: 'Stylesheet класе',
 		width: 'Ширина',
 		height: 'Висина',
 		align: 'Равнање',

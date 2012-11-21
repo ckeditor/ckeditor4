@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'bs', {
 		FFF: 'White'
 	},
 	more: 'Više boja...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Boja teksta'
 });

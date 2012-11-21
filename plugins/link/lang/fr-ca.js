@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'fr-ca', {
 	emailAddress: 'Adresse E-Mail',
 	emailBody: 'Corps du message',
 	emailSubject: 'Sujet du message',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Informations sur le lien',
 	langCode: 'Sens d\'écriture',
 	langDir: 'Sens d\'écriture',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'fr-ca', {
 	title: 'Propriétés du lien',
 	toAnchor: 'Ancre dans cette page',
 	toEmail: 'E-Mail',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Insérer/modifier le lien',
 	type: 'Type de lien',
 	unlink: 'Supprimer le lien',

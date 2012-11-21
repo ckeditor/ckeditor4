@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'mk', {
 	auto: 'Automatic', // MISSING
-	bgColorTitle: 'Background Color', // MISSING
+	bgColorTitle: 'Background Color',
 	colors: {
 		'000': 'Black',
 		'800000': 'Maroon',
@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'mk', {
 		FFF: 'White'
 	},
 	more: 'More Colors...', // MISSING
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Text Color' // MISSING
 });

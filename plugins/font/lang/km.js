@@ -10,5 +10,5 @@ CKEDITOR.plugins.setLang( 'font', 'km', {
 	},
 	label: 'ហ្វុង',
 	panelTitle: 'ហ្វុង',
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'ហ្វុង'
 });

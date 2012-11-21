@@ -84,7 +84,7 @@
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var textificationFilter;
@@ -124,14 +124,22 @@
 				}
 
 				// Strip editable that was copied from inside. (#9534)
-				if ( data.match( /^<[^<]+cke_editable/i ) ) {
-					var header, wrapper = new CKEDITOR.dom.element( 'div' );
+				if ( data.match( /^<[^<]+cke_(editable|contents)/i ) ) {
+					var tmp,
+						editable_wrapper,
+						wrapper = new CKEDITOR.dom.element( 'div' );
 
 					wrapper.setHtml( data );
-					// Verify for sure.
-					if ( wrapper.getChildCount() == 1 && ( header = wrapper.getFirst() ).hasClass( 'cke_editable' ) )
-						// Strip editable and bogus <br> (added on FF).
-						data = header.getHtml().replace( /<br>$/i, '' );
+					// Verify for sure and check for nested editor UI parts. (#9675)
+					while ( wrapper.getChildCount() == 1 &&
+							( tmp = wrapper.getFirst() ) &&
+							( tmp.hasClass( 'cke_editable' ) || tmp.hasClass( 'cke_contents' ) ) ) {
+						wrapper = editable_wrapper = tmp;
+					}
+
+					// If editable wrapper was found strip it and bogus <br> (added on FF).
+					if ( editable_wrapper )
+						data = editable_wrapper.getHtml().replace( /<br>$/i, '' );
 				}
 
 				if ( CKEDITOR.env.ie ) {
@@ -792,6 +800,8 @@
 					return false;
 				}
 			}
+
+			return true;
 		}
 
 		// Listens for some clipboard related keystrokes, so they get customized.

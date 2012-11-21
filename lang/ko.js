@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		ok: '예',
 		cancel: '아니오',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: '미리보기',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: '자세히',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'ko' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: '타겟',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: '왼쪽에서 오른쪽 (LTR)',
+		langDirRTL: '오른쪽에서 왼쪽 (RTL)',
+		styles: 'Style',
+		cssClasses: 'Stylesheet Classes',
 		width: '너비',
 		height: '높이',
 		align: '정렬',

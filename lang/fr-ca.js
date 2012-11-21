@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		ok: 'OK',
 		cancel: 'Annuler',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'Previsualiser',
 		resize: 'Resize', // MISSING
 		generalTab: 'Général',
 		advancedTab: 'Avancée',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'Destination',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'De gauche à droite (LTR)',
+		langDirRTL: 'De droite à gauche (RTL)',
+		styles: 'Style',
+		cssClasses: 'Classes de feuilles de style',
 		width: 'Largeur',
 		height: 'Hauteur',
 		align: 'Alignement',

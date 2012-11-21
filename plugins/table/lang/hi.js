@@ -48,7 +48,7 @@ CKEDITOR.plugins.setLang( 'table', 'hi', {
 	headers: 'Headers', // MISSING
 	headersBoth: 'Both', // MISSING
 	headersColumn: 'First column', // MISSING
-	headersNone: 'None', // MISSING
+	headersNone: 'None',
 	headersRow: 'First Row', // MISSING
 	invalidBorder: 'Border size must be a number.', // MISSING
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING

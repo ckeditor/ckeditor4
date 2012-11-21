@@ -27,7 +27,7 @@ CKEDITOR.lang[ 'sk' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Editor formátovaného textu',
 
 	// Common messages and labels.
 	common: {
@@ -66,22 +66,22 @@ CKEDITOR.lang[ 'sk' ] = {
 		cancel: 'Zrušiť',
 		close: 'Zatvorit',
 		preview: 'Náhľad',
-		resize: 'Resize', // MISSING
+		resize: 'Zmeniť veľkosť',
 		generalTab: 'Hlavné',
 		advancedTab: 'Rozšírené',
 		validateNumberFailed: 'Hodnota nieje číslo.',
 		confirmNewPage: 'Prajete si načítat novú stránku? Všetky neuložené zmeny budú stratené. ',
 		confirmCancel: 'Niektore možnosti boli zmenené. Naozaj chcete zavrieť okno?',
-		options: 'Options', // MISSING
-		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		options: 'Možnosti',
+		target: 'Cieľ',
+		targetNew: 'Nové okno (_blank)',
+		targetTop: 'Najvrchnejšie okno (_top)',
+		targetSelf: 'To isté okno (_self)',
+		targetParent: 'Rodičovské okno (_parent)',
+		langDirLTR: 'Zľava doprava (LTR)',
+		langDirRTL: 'Sprava doľava (RTL)',
+		styles: 'Štýl',
+		cssClasses: 'Triedy štýlu',
 		width: 'Šírka',
 		height: 'Výška',
 		align: 'Zarovnanie',
@@ -91,15 +91,15 @@ CKEDITOR.lang[ 'sk' ] = {
 		alignTop: 'Nahor',
 		alignMiddle: 'Na stred',
 		alignBottom: 'Dole',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Neplatná hodnota.',
 		invalidHeight: 'Výška musí byť číslo.',
 		invalidWidth: 'Šírka musí byť číslo.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Špecifikovaná hodnota pre pole "%1" musí byť kladné číslo s alebo bez platnej CSS mernej jednotky (px, %, in, cm, mm, em, ex, pt alebo pc).',
+		invalidHtmlLength: 'Špecifikovaná hodnota pre pole "%1" musí byť kladné číslo s alebo bez platnej HTML mernej jednotky (px alebo %).',
+		invalidInlineStyle: 'Zadaná hodnota pre inline štýl musí pozostávať s jedného, alebo viac dvojíc formátu "názov: hodnota", oddelených bodkočiarkou.',
+		cssLengthTooltip: 'Vložte číslo pre hodnotu v pixeloch alebo číslo so správnou CSS jednotou (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, nedostupný</span>'
 	}
 };

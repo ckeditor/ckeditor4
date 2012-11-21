@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	emailAddress: 'Э-шуудангийн хаяг',
 	emailBody: 'Зурвасны их бие',
 	emailSubject: 'Зурвасны гарчиг',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Холбоосын тухай мэдээлэл',
 	langCode: 'Хэлний код',
 	langDir: 'Хэлний чиглэл',

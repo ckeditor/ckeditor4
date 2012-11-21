@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'image', 'bs', {
 	hSpace: 'HSpace',
 	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 	infoTab: 'Info slike',
-	linkTab: 'Link', // MISSING
+	linkTab: 'Link',
 	lockRatio: 'Zakljuèaj odnos',
 	menu: 'Svojstva slike',
 	resetSize: 'Resetuj dimenzije',

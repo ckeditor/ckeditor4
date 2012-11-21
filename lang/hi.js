@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'hi' ] = {
 		ok: 'ठीक है',
 		cancel: 'रद्द करें',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'प्रीव्यू',
 		resize: 'Resize', // MISSING
 		generalTab: 'सामान्य',
 		advancedTab: 'ऍड्वान्स्ड',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'hi' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'टार्गेट',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'बायें से दायें (LTR)',
+		langDirRTL: 'दायें से बायें (RTL)',
+		styles: 'स्टाइल',
+		cssClasses: 'स्टाइल-शीट क्लास',
 		width: 'चौड़ाई',
 		height: 'ऊँचाई',
 		align: 'ऍलाइन',

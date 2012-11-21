@@ -65,7 +65,7 @@ CKEDITOR.lang[ 'th' ] = {
 		ok: 'ตกลง',
 		cancel: 'ยกเลิก',
 		close: 'Close', // MISSING
-		preview: 'Preview', // MISSING
+		preview: 'ดูหน้าเอกสารตัวอย่าง',
 		resize: 'Resize', // MISSING
 		generalTab: 'General', // MISSING
 		advancedTab: 'ขั้นสูง',
@@ -73,15 +73,15 @@ CKEDITOR.lang[ 'th' ] = {
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
 		options: 'Options', // MISSING
-		target: 'Target', // MISSING
+		target: 'การเปิดหน้าลิงค์',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
 		targetSelf: 'Same Window (_self)', // MISSING
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
-		cssClasses: 'Stylesheet Classes', // MISSING
+		langDirLTR: 'จากซ้ายไปขวา (LTR)',
+		langDirRTL: 'จากขวามาซ้าย (RTL)',
+		styles: 'ลักษณะการแสดงผล',
+		cssClasses: 'คลาสของไฟล์กำหนดลักษณะการแสดงผล',
 		width: 'ความกว้าง',
 		height: 'ความสูง',
 		align: 'การจัดวาง',

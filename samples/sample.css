@@ -24,6 +24,11 @@ pre, code, kbd, samp, tt
 	font-size: 1em;
 }
 
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+
 code
 {
 	background: #f3f3f3;
@@ -135,6 +140,8 @@ pre.samples
 	border: 1px solid #D7D7D7;
 	overflow: auto;
 	padding: 0.25em;
+	white-space: pre-wrap; /* CSS 2.1 */
+	word-wrap: break-word; /* IE7 */
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	-webkit-tab-size: 4;
@@ -190,12 +197,6 @@ pre.samples
 {
 	margin: 0;
 	padding: 0;
-	white-space: pre; /* CSS2 */
-	white-space: -moz-pre-wrap; /* Mozilla*/
-	white-space: -o-pre-wrap; /* Opera 7 */
-	white-space: pre-wrap; /* CSS 2.1 */
-	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-	word-wrap: break-word; /* IE */
 }
 
 .description
@@ -281,4 +282,52 @@ dl.samples > dt
 dl.samples > dd
 {
 	margin: 0 0 3px;
+}
+.warning
+{
+    color: #ff0000;
+	background-color: #FFCCBA;
+    border: 2px dotted #ff0000;
+	padding: 15px 10px;
+	margin: 10px 0;
+}
+
+/* Used on inline samples */
+
+blockquote
+{
+	font-style: italic;
+	font-family: Georgia, Times, "Times New Roman", serif;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+}
+
+.cke_contents_ltr blockquote
+{
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+}
+
+.cke_contents_rtl blockquote
+{
+	padding-left: 8px;
+	padding-right: 20px;
+	border-right-width: 5px;
+}
+
+img.right {
+    border: 1px solid #ccc;
+    float: right;
+    margin-left: 15px;
+    padding: 5px;
+}
+
+img.left {
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 15px;
+    padding: 5px;
 }

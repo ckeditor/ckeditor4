@@ -3,7 +3,7 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'bg', {
-	bgColor: 'Background Color', // MISSING
+	bgColor: 'Фон',
 	bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
 	bgImage: 'Background Image URL', // MISSING
 	charset: 'Кодова таблица',
@@ -25,10 +25,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'bg', {
 	docTypeOther: 'Other Document Type Heading', // MISSING
 	label: 'Настройки на документа',
 	margin: 'Page Margins', // MISSING
-	marginBottom: 'Bottom', // MISSING
-	marginLeft: 'Left', // MISSING
-	marginRight: 'Right', // MISSING
-	marginTop: 'Top', // MISSING
+	marginBottom: 'Долу',
+	marginLeft: 'Ляво',
+	marginRight: 'Дясно',
+	marginTop: 'Горе',
 	meta: 'Мета етикети',
 	metaAuthor: 'Author', // MISSING
 	metaCopyright: 'Copyright', // MISSING
@@ -37,6 +37,6 @@ CKEDITOR.plugins.setLang( 'docprops', 'bg', {
 	other: 'Други...',
 	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
 	title: 'Настройки на документа',
-	txtColor: 'Text Color', // MISSING
+	txtColor: 'Цвят на шрифт',
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
 });

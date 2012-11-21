@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'ar', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: 'للحصول على معلومات الترخيص ، يرجى زيارة موقعنا على شبكة الانترنت:',
 	title: 'عن CKEditor',
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

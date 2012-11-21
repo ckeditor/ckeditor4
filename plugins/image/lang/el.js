@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'image', 'el', {
 	btnUpload: 'Αποστολή στον Διακομιστή',
 	button2Img: 'Θέλετε να μετατρέψετε το επιλεγμένο κουμπί εικόνας σε απλή εικόνα;',
 	hSpace: 'Οριζόντιο Διάστημα',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Θέλετε να μεταμορφώσετε την επιλεγμένη εικόνα που είναι πάνω σε ένα κουμπί;',
 	infoTab: 'Πληροφορίες Εικόνας',
 	linkTab: 'Σύνδεσμος',
 	lockRatio: 'Κλείδωμα Αναλογίας',
@@ -18,9 +18,9 @@ CKEDITOR.plugins.setLang( 'image', 'el', {
 	title: 'Ιδιότητες Εικόνας',
 	titleButton: 'Ιδιότητες Κουμπιού Εικόνας',
 	upload: 'Ανέβασμα',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'Το URL πηγής για την εικόνα λείπει.',
 	vSpace: 'Κάθετο Διάστημα',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Το περίγραμμα πρέπει να είναι ένας ακέραιος αριθμός.',
+	validateHSpace: 'Το HSpace πρέπει να είναι ένας ακέραιος αριθμός.',
+	validateVSpace: 'Το VSpace πρέπει να είναι ένας ακέραιος αριθμός.'
 });

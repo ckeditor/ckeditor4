@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	emailAddress: 'ইমেইল ঠিকানা',
 	emailBody: 'মেসেজের দেহ',
 	emailSubject: 'মেসেজের বিষয়',
-	id: 'Id', // MISSING
+	id: 'আইডি',
 	info: 'লিংক তথ্য',
 	langCode: 'ভাষা লেখার দিক',
 	langDir: 'ভাষা লেখার দিক',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	title: 'লিংক',
 	toAnchor: 'এই পেজে নোঙর কর',
 	toEmail: 'ইমেইল',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'লিংক যুক্ত কর',
 	type: 'লিংক প্রকার',
 	unlink: 'লিংক সরাও',

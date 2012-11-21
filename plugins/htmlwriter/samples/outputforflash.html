@@ -8,8 +8,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Output for Flash &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
+	<script src="../../../samples/sample.js"></script>
 	<script src="assets/outputforflash/swfobject.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-required-plugins" content="sourcearea">
 	<meta name="ckeditor-sample-name" content="Output for Flash">
 	<meta name="ckeditor-sample-group" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Configuring CKEditor to produce HTML code that can be used with Adobe Flash.">
@@ -64,6 +66,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							'\n\nPlease load the sample from a web server instead.' );
 
 					var editor = CKEDITOR.replace( 'editor1', {
+						/*
+						 * Ensure that htmlwriter plugin, which is required for this sample, is loaded.
+						 */
+						extraPlugins: 'htmlwriter',
+
 						height: 290,
 						width: '100%',
 						toolbar: [

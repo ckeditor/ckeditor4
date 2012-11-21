@@ -9,8 +9,8 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	rsquo: 'علامت نقل قول تکی راست',
 	ldquo: 'علامت دوتایی نقل قول چپ',
 	rdquo: 'علامت دوتایی نقل قول راست',
-	ndash: 'En dash', // MISSING
-	mdash: 'Em dash', // MISSING
+	ndash: 'خط تیره En',
+	mdash: 'خط تیره Em',
 	iexcl: 'علامت گذاری به عنوان علامت تعجب وارونه',
 	cent: 'نشان سنت',
 	pound: 'نشان پوند',

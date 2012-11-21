@@ -4,13 +4,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'bg', {
 	IdInputLabel: 'ID',
-	advisoryTitleInputLabel: 'Advisory Title', // MISSING
-	cssClassInputLabel: 'Stylesheet Classes', // MISSING
+	advisoryTitleInputLabel: 'Препоръчително заглавие',
+	cssClassInputLabel: 'Класове за CSS',
 	edit: 'Промяна на Div',
 	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
+	langDirLTRLabel: 'Ляво на Дясно (ЛнД)',
+	langDirLabel: 'Посока на езика',
+	langDirRTLLabel: 'Дясно на Ляво (ДнЛ)',
 	languageCodeInputLabel: ' Код на езика',
 	remove: 'Премахване на Div',
 	styleSelectLabel: 'Стил',

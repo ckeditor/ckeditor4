@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'el', {
 	bgFixed: 'Φόντο χωρίς κύλιση',
 	bgImage: 'Διεύθυνση εικόνας φόντου',
 	charset: 'Κωδικοποίηση Χαρακτήρων',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Κεντρικής Ευρώπης',
 	charsetCR: 'Κυριλλική',
 	charsetCT: 'Παραδοσιακά κινέζικα (Big5)',
@@ -18,8 +18,8 @@ CKEDITOR.plugins.setLang( 'docprops', 'el', {
 	charsetTR: 'Τουρκική',
 	charsetUN: 'Διεθνής (UTF-8)',
 	charsetWE: 'Δυτικής Ευρώπης',
-	chooseColor: 'Choose', // MISSING
-	design: 'Design', // MISSING
+	chooseColor: 'Επιλέξτε',
+	design: 'Σχεδιασμός',
 	docTitle: 'Τίτλος Σελίδας',
 	docType: 'Επικεφαλίδα τύπου εγγράφου',
 	docTypeOther: 'Άλλη επικεφαλίδα τύπου εγγράφου',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'el', {
 	metaDescription: 'Περιγραφή εγγράφου',
 	metaKeywords: 'Λέξεις κλειδιά δείκτες εγγράφου (διαχωρισμός με κόμμα)',
 	other: 'Άλλο...',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Αυτό είναι ένα <strong>κείμενο παραδείγματος</strong>. Χρησιμοποιείτε τον <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Ιδιότητες Εγγράφου',
 	txtColor: 'Χρώμα Γραμμάτων',
 	xhtmlDec: 'Να συμπεριληφθούν οι δηλώσεις XHTML'

@@ -78,10 +78,10 @@ CKEDITOR.lang[ 'pt' ] = {
 		targetTop: 'Janela superior (_top)',
 		targetSelf: 'Mesma janela (_self)',
 		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
+		langDirLTR: 'Esquerda à Direita (LTR)',
 		langDirRTL: 'Direita para Esquerda (RTL)',
 		styles: 'Estilo',
-		cssClasses: 'Stylesheet Classes', // MISSING
+		cssClasses: 'Classes de Estilo de Folhas Classes',
 		width: 'Largura',
 		height: 'Altura',
 		align: 'Alinhamento',

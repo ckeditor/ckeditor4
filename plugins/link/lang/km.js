@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	emailAddress: 'អ៊ីមែល',
 	emailBody: 'អត្ថបទ',
 	emailSubject: 'ចំណងជើងអត្ថបទ',
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'ពត៌មានអំពីឈ្នាប់',
 	langCode: 'ទិសដៅភាសា',
 	langDir: 'ទិសដៅភាសា',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	title: 'ឈ្នាប់',
 	toAnchor: 'យុថ្កានៅក្នុងទំព័រនេះ',
 	toEmail: 'អ៊ីមែល',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'បន្ថែម/កែប្រែ ឈ្នាប់',
 	type: 'ប្រភេទឈ្នាប់',
 	unlink: 'លប់ឈ្នាប់',

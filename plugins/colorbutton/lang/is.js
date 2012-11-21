@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'is', {
 		FFF: 'White'
 	},
 	more: 'Fleiri liti...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Litur texta'
 });

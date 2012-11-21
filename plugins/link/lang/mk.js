@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	langDirLTR: 'Left to Right (LTR)', // MISSING
 	langDirRTL: 'Right to Left (RTL)', // MISSING
 	menu: 'Edit Link', // MISSING
-	name: 'Name', // MISSING
+	name: 'Name',
 	noAnchors: '(No anchors available in the document)', // MISSING
 	noEmail: 'Please type the e-mail address', // MISSING
 	noUrl: 'Please type the link URL', // MISSING

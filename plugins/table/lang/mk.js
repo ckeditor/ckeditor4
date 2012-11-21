@@ -43,12 +43,12 @@ CKEDITOR.plugins.setLang( 'table', 'mk', {
 		insertAfter: 'Insert Column After',
 		deleteColumn: 'Delete Columns'
 	},
-	columns: 'Columns', // MISSING
+	columns: 'Columns',
 	deleteTable: 'Delete Table', // MISSING
 	headers: 'Headers', // MISSING
 	headersBoth: 'Both', // MISSING
 	headersColumn: 'First column', // MISSING
-	headersNone: 'None', // MISSING
+	headersNone: 'None',
 	headersRow: 'First Row', // MISSING
 	invalidBorder: 'Border size must be a number.', // MISSING
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
@@ -64,7 +64,7 @@ CKEDITOR.plugins.setLang( 'table', 'mk', {
 		insertAfter: 'Insert Row After',
 		deleteRow: 'Delete Rows'
 	},
-	rows: 'Rows', // MISSING
+	rows: 'Rows',
 	summary: 'Summary', // MISSING
 	title: 'Table Properties', // MISSING
 	toolbar: 'Table', // MISSING

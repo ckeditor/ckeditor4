@@ -74,7 +74,8 @@ panel contents and color panels check menu.css and colorpanel.css.
 	-moz-border-radius-topleft: 0;
 	-webkit-border-top-left-radius: 0;
 	border-top-left-radius: 0;
-	height: auto;
+	width: 150px;
+    height: 170px;
 }
 
 /* The IFRAME the panel is wrapped into. */

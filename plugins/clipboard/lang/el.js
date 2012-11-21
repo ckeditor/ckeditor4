@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'el', {
 	cut: 'Αποκοπή',
 	cutError: 'Οι ρυθμίσεις ασφαλείας του φυλλομετρητή σας δεν επιτρέπουν την επιλεγμένη εργασία αποκοπής. Χρησιμοποιείστε το πληκτρολόγιο (Ctrl/Cmd+X).',
 	paste: 'Επικόλληση',
-	pasteArea: 'Paste Area', // MISSING
+	pasteArea: 'Περιοχή Επικόλλησης',
 	pasteMsg: 'Παρακαλώ επικολήστε στο ακόλουθο κουτί χρησιμοποιόντας το πληκτρολόγιο (<strong>Ctrl/Cmd+V</strong>) και πατήστε OK.',
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+	securityMsg: 'Λόγων των ρυθμίσεων ασφάλειας του περιηγητή σας, ο επεξεργαστής δεν μπορεί να έχει πρόσβαση στην μνήμη επικόλλησης. Χρειάζεται να επικολλήσετε ξανά σε αυτό το παράθυρο.',
 	title: 'Επικόλληση'
 });

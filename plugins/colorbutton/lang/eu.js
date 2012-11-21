@@ -48,6 +48,6 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eu', {
 		FFF: 'White'
 	},
 	more: 'Kolore gehiago...',
-	panelTitle: 'Colors', // MISSING
+	panelTitle: 'Colors',
 	textColorTitle: 'Testu Kolorea'
 });

@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	title: 'Esteka',
 	toAnchor: 'Aingura orrialde honetan',
 	toEmail: 'ePosta',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Txertatu/Editatu Esteka',
 	type: 'Esteka Mota',
 	unlink: 'Kendu Esteka',

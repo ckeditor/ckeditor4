@@ -9,43 +9,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	display: inline;
 }
 
-.cke_combo__styles .cke_combo_text,
-.cke_combo__format .cke_combo_text
-{
-	width: 60px;
-}
-
-.cke_combo__font .cke_combo_text,
+/* "Font Size" combo width */
 .cke_combo__fontsize .cke_combo_text
 {
 	width: 30px;
 }
 
-/* "Styles" panel size */
-.cke_combopanel__styles
-{
-	width: 150px;
-	height: 170px;
-}
-
-/* "Format" panel size */
-.cke_combopanel__format
-{
-	width: 150px;
-	height: 170px;
-}
-
-/* "Font" panel size */
-.cke_combopanel__font
-{
-	width: 150px;
-	height: 170px;
-}
-
 /* "Font Size" panel size */
 .cke_combopanel__fontsize
 {
-	height: 170px;
+	width: 120px;
 }
 
 /* Editable regions */

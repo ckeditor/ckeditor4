@@ -831,8 +831,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyObjectStyle( range ) {
-		var parent = range.getCommonAncestor( true, true ),
-			element = new CKEDITOR.dom.elementPath( parent, range.root ).contains( this.element, 1 );
+		// Selected or parent element. (#9651)
+		var start = range.getEnclosedNode() || range.getCommonAncestor( false, true ),
+			element = new CKEDITOR.dom.elementPath( start, range.root ).contains( this.element, 1 );
 
 		element && !element.isReadOnly() && setupElement( element, this );
 	}

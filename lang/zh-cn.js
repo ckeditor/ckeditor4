@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		alignTop: '顶端',
 		alignMiddle: '居中',
 		alignBottom: '底部',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',
 		invalidCssLength: '该字段必须为合式的CSS长度值，包括单位(px, %, in, cm, mm, em, ex, pt 或 pc)',

@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	title: 'Povezava',
 	toAnchor: 'Zaznamek na tej strani',
 	toEmail: 'Elektronski naslov',
-	toUrl: 'URL', // MISSING
+	toUrl: 'URL',
 	toolbar: 'Vstavi/uredi povezavo',
 	type: 'Vrsta povezave',
 	unlink: 'Odstrani povezavo',
