@@ -256,21 +256,20 @@
 							[ editor.lang.common.notSet, '' ]
 							],
 						onChange: function() {
-							commitInternally.call( this, [ 'info:class', 'advanced:dir', 'advanced:style' ] );
+							commitInternally.call( this, [ 'info:elementStyle', 'info:class', 'advanced:dir', 'advanced:style' ] );
 						},
 						setup: function( element ) {
 							for ( var name in styles )
-								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name );
+								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name, 1 );
 						},
 						commit: function( element ) {
 							var styleName;
 							if ( ( styleName = this.getValue() ) ) {
 								var style = styles[ styleName ];
-								var customData = element.getCustomData( 'elementStyle' ) || '';
-
 								style.applyToObject( element );
-								element.setCustomData( 'elementStyle', customData + style._.definition.attributes.style );
 							}
+							else
+								element.removeAttribute( 'style' );
 						}
 					},
 						{
