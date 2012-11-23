@@ -196,18 +196,36 @@
 
 			var isInline = editable.isInline();
 
+			var restoreSel;
+
+			// Give the editable an initial selection on first focus,
+			// put selection at a consistent position at the start
+			// of the contents. (#5156)
+			editable.attachListener( 'focus', function( evt ) {
+				evt.removeListener();
+
+				if ( restoreSel !== 0 ) {
+					var rng = editor.createRange();
+					rng.moveToElementEditStart( editable );
+					rng.select();
+				}
+			}, null, null, -2 );
+
+			// Plays the magic here to restore/save dom selection on editable focus/blur.
+			editable.attachListener( editable, 'focus', function() {
+				editor.unlockSelection( restoreSel );
+				restoreSel = 0;
+			}, null, null, -1 );
+
+			// Disable selection restoring when clicking in.
+			editable.attachListener( editable, 'mousedown', function() {
+				restoreSel = 0;
+			});
+
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
-				var restoreSel;
-
-				// Plays the magic here to restore/save dom selection on editable focus/blur.
-				editable.attachListener( editable, 'focus', function() {
-					editor.unlockSelection( restoreSel );
-					restoreSel = 0;
-				}, null, null, -1 );
-
 				var lastSel;
 				// Save a fresh copy of the selection.
 				function saveSel() {
@@ -226,11 +244,6 @@
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
-
-				// Disable selection restoring when clicking in.
-				editable.attachListener( editable, 'mousedown', function() {
-					restoreSel = 0;
-				});
 			}
 
 			// The following selection related fixes applies to only framed editable.
