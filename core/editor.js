@@ -899,15 +899,18 @@
 		 *			[ CKEDITOR.SHIFT + 120, 'bold' ]
 		 *		] );
 		 *
-		 * This method may be used during the runtime to modify keystrokes.
-		 * It's often used by plugins (like `link` or `basicstyles`) to set
-		 * their keystrokes during plugins loading.
+		 * This method may be used in the following cases:
 		 *
-		 * When all plugins are loaded and initialized (this is after {@link CKEDITOR.editor#pluginsLoaded}
-		 * event is fired), editor extends keystrokes with {@link CKEDITOR.config#keystrokes}.
-		 * Keystrokes set there overwrite previosly defined ones.
+		 * * By plugins (like `link` or `basicstyles`) to set their keystrokes when plugins are being loaded.
+		 * * During the runtime to modify existing keystrokes.
 		 *
-		 * After all you can still set new keystrokes using this method.
+		 * The editor handles keystroke configuration in the following order:
+		 *
+		 * 1. Plugins use this method to define default keystrokes.
+		 * 2. Editor extends default keystrokes with {@link CKEDITOR.config#keystrokes}.
+		 * 3. Editor blocks keystrokes defined in {@link CKEDITOR.config#blockedKeystrokes}.
+		 *
+		 * After all, you can still set new keystrokes using this method during the runtime.
 		 *
 		 * @since 4.0
 		 * @param {Number/Array} keystroke Keystroke or an array of keystroke definitions.
