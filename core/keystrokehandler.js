@@ -17,6 +17,9 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	/**
 	 * List of keystrokes associated to commands. Each entry points to the
 	 * command to be executed.
+	 *
+	 * Since CKEditor 4 there's no need to modify this property directly during the runtime.
+	 * Use {@link CKEDITOR.editor#setKeystroke} instead.
 	 */
 	this.keystrokes = {};
 
@@ -95,7 +98,16 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * is an array where the first item is the keystroke, and the second is the
  * name of the command to be executed.
  *
- *		// This is actually the default value.
+ * This setting should be used to define (as well as to overwrite or remove) keystrokes
+ * set by plugins (like `link` and `basicstyles`). If you want to set keystroke inside
+ * plugin or during runtime use {@link CKEDITOR.editor#setKeystroke} instead.
+ *
+ * See {@link CKEDITOR.editor#setKeystroke} documentation for more details
+ * regarding start up order.
+ *
+ *		// These are actually some of the default keystrokes.
+ *		// Although they are set by editor.setKeystroke() method, so
+ *		// by default config.keystrokes is an empty array.
  *		config.keystrokes = [
  *			[ CKEDITOR.ALT + 121, 'toolbarFocus' ],				// ALT + F10
  *			[ CKEDITOR.ALT + 122, 'elementsPathFocus' ],		// ALT + F11
@@ -128,15 +140,15 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * used. This is since editor defaults are merged rather than overwritten by
  * user keystrokes.
  *
- * <strong>NOTE</strong>: This can be potentially harmful for an editor. Avoid this unless you're
+ * **Note**: This can be potentially harmful for an editor. Avoid this unless you're
  * aware of the consequences.
  *
  *		// Reset all default keystrokes.
  *		config.on.instanceReady = function() {
  *			this.keystrokeHandler.keystrokes = [];
- *		}
+ *		};
  *
- * @cfg {Array} [keystrokes=see an example]
+ * @cfg {Array} [keystrokes=[]]
  * @member CKEDITOR.config
  */
 
