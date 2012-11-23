@@ -28,22 +28,6 @@
 			triggerOffset = config.magicline_triggerOffset || 30,
 			enterMode = config.enterMode,
 			that = {
-				// %REMOVE_START%
-				// Internal DEBUG uses tools located in the topmost window.
-				debug: window.top.DEBUG || {
-					groupEnd: function() {},
-					groupStart: function() {},
-					log: function() {},
-					logElements: function() {},
-					logElementsEnd: function() {},
-					logEnd: function() {},
-					mousePos: function() {},
-					showHidden: function() {},
-					showTrigger: function() {},
-					startTimer: function() {},
-					stopTimer: function() {}
-				},
-				// %REMOVE_END%
 				// Global stuff is being initialized here.
 				editor: editor,
 				enterBehavior: enterBehaviors[ enterMode ], 		// A tag which is to be inserted by the magicline.
@@ -55,6 +39,31 @@
 				triggers: config.magicline_everywhere || false ? CKEDITOR.dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1 }
 			},
 			scrollTimeout, hideTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
+
+		// %REMOVE_START%
+		// Internal DEBUG uses tools located in the topmost window.
+
+		// (#9701) Due to security limitations some browsers may throw
+		// errors when accessing window.top object. Do it safely first then.
+		try {
+			that.debug = window.top.DEBUG;
+		}
+		catch ( e ) {}
+
+		that.debug = that.debug || {
+			groupEnd: function() {},
+			groupStart: function() {},
+			log: function() {},
+			logElements: function() {},
+			logElementsEnd: function() {},
+			logEnd: function() {},
+			mousePos: function() {},
+			showHidden: function() {},
+			showTrigger: function() {},
+			startTimer: function() {},
+			stopTimer: function() {}
+		};
+		// %REMOVE_END%
 
 		// Simple irrelevant elements filter.
 		that.isRelevant = function( node ) {
