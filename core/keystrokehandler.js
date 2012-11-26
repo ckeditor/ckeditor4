@@ -17,6 +17,9 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	/**
 	 * List of keystrokes associated to commands. Each entry points to the
 	 * command to be executed.
+	 *
+	 * Since CKEditor 4 there's no need to modify this property directly during the runtime.
+	 * Use {@link CKEDITOR.editor#setKeystroke} instead.
 	 */
 	this.keystrokes = {};
 
@@ -95,29 +98,26 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * is an array where the first item is the keystroke, and the second is the
  * name of the command to be executed.
  *
- *		// This is actually the default value.
+ * This setting should be used to define (as well as to overwrite or remove) keystrokes
+ * set by plugins (like `link` and `basicstyles`). If you want to set a keystroke
+ * for your plugin or during the runtime, use {@link CKEDITOR.editor#setKeystroke} instead.
+ *
+ * Since default keystrokes are set by {@link CKEDITOR.editor#setKeystroke}
+ * method, by default `config.keystrokes` is an empty array.
+ *
+ * See {@link CKEDITOR.editor#setKeystroke} documentation for more details
+ * regarding the start up order.
+ *
+ *		// Change default CTRL + L keystroke for 'link' command to CTRL + SHIFT + L.
  *		config.keystrokes = [
- *			[ CKEDITOR.ALT + 121, 'toolbarFocus' ],				// ALT + F10
- *			[ CKEDITOR.ALT + 122, 'elementsPathFocus' ],		// ALT + F11
- *
- *			[ CKEDITOR.SHIFT + 121, 'contextMenu' ],			// SHIFT + F10
- *
- *			[ CKEDITOR.CTRL + 90, 'undo' ],						// CTRL + Z
- *			[ CKEDITOR.CTRL + 89, 'redo' ],						// CTRL + Y
- *			[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90, 'redo' ],	// CTRL + SHIFT + Z
- *
- *			[ CKEDITOR.CTRL + 76, 'link' ],						// CTRL + L
- *
- *			[ CKEDITOR.CTRL + 66, 'bold' ],						// CTRL + B
- *			[ CKEDITOR.CTRL + 73, 'italic' ],					// CTRL + I
- *			[ CKEDITOR.CTRL + 85, 'underline' ],				// CTRL + U
- *
- *			[ CKEDITOR.ALT + 109, 'toolbarCollapse' ]			// ALT + -
+ *			...
+ *			[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 76, 'link' ],	// CTRL + SHIFT + L
+ *			...
  *		];
  *
  * To reset a particular keystroke, the following approach can be used:
  *
- *		// Disable default CTRL + L keystroke which executes link command.
+ *		// Disable default CTRL + L keystroke which executes link command by default.
  *		config.keystrokes = [
  *			...
  *			[ CKEDITOR.CTRL + 76, null ],						// CTRL + L
@@ -128,15 +128,15 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * used. This is since editor defaults are merged rather than overwritten by
  * user keystrokes.
  *
- * <strong>NOTE</strong>: This can be potentially harmful for an editor. Avoid this unless you're
+ * **Note**: This can be potentially harmful for an editor. Avoid this unless you're
  * aware of the consequences.
  *
  *		// Reset all default keystrokes.
  *		config.on.instanceReady = function() {
  *			this.keystrokeHandler.keystrokes = [];
- *		}
+ *		};
  *
- * @cfg {Array} [keystrokes=see an example]
+ * @cfg {Array} [keystrokes=[]]
  * @member CKEDITOR.config
  */
 
