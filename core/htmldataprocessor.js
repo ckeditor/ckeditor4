@@ -20,6 +20,11 @@
 
 		this.dataFilter = dataFilter = new CKEDITOR.htmlParser.filter();
 		this.htmlFilter = htmlFilter = new CKEDITOR.htmlParser.filter();
+
+		/**
+		 * The HTML writer used by this data processor to format the output.
+		 * @type {CKEDITOR.htmlParser.basicWriter}
+		 */
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
 		dataFilter.addRules( defaultDataFilterRules );
