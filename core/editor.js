@@ -414,7 +414,7 @@
 			 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
 			 *
 			 *		// Check if a plugin is available.
-			 *		if ( editor.plugin.image ) {
+			 *		if ( editor.plugins.image ) {
 			 *			...
 			 *		}
 			 *
