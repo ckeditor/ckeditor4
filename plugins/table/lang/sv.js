@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'table', 'sv', {
 	},
 	columns: 'Kolumner',
 	deleteTable: 'Radera tabell',
-	headers: 'Ruberiker',
+	headers: 'Rubriker',
 	headersBoth: 'Båda',
 	headersColumn: 'Första kolumnen',
 	headersNone: 'Ingen',
