@@ -18,9 +18,8 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		picker.refresh( pickerId );
 	}
 
-	function setNewUiColor( color, force ) {
-		if ( force || dialog._.contents.tab1.livePeview.getValue() )
-			editor.setUiColor( color );
+	function setNewUiColor( color ) {
+		editor.setUiColor( color );
 		// Write new config string into textbox.
 		dialog._.contents.tab1.configBox.setValue( 'config.uiColor = "#' + picker.get( "hex" ) + '"' );
 	}
@@ -60,8 +59,6 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		}
 	};
 
-	var skipPreviewChange = true;
-
 	return {
 		title: editor.lang.uicolor.title,
 		minWidth: 360,
@@ -87,22 +84,6 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 				id: 'tab1',
 				type: 'vbox',
 				children: [
-					{
-					id: 'livePeview',
-					type: 'checkbox',
-					label: editor.lang.uicolor.preview,
-					'default': 1,
-					onLoad: function() {
-						skipPreviewChange = true;
-					},
-					onChange: function() {
-						if ( skipPreviewChange )
-							return;
-						var on = this.getValue(),
-							color = on ? '#' + picker.get( 'hex' ) : uiColor;
-						setNewUiColor( color, true );
-					}
-				},
 					{
 					type: 'hbox',
 					children: [
