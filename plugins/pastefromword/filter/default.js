@@ -89,6 +89,15 @@
 		this.attributes.style = styleText.replace( /^;|;(?=;)/, '' );
 	};
 
+	// Retrieve a style property value of the element.
+	elementPrototype.getStyle = function( name ) {
+		var styles = this.attributes.style;
+		if ( styles ) {
+			styles = CKEDITOR.tools.parseCssText( styles, 1 );
+			return styles[ name ];
+		}
+	};
+
 	/**
 	 * Return the DTD-valid parent tag names of the specified one.
 	 *
@@ -768,16 +777,19 @@
 					},
 
 					'p': function( element ) {
-						// This's a fall-back approach to recognize list item in FF3.6,
-						// as it's not perfect as not all list style (e.g. "heading list") is shipped
+						// A a fall-back approach to resolve list item in browsers
+						// that doesn't include "mso-list:Ignore" on list bullets,
+						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
-						if ( /MsoListParagraph/.exec( element.attributes[ 'class' ] ) ) {
+						if ( /MsoListParagraph/.exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							});
-							var bullet = bulletText && bulletText.parent,
-								bulletAttrs = bullet && bullet.attributes;
-							bulletAttrs && !bulletAttrs.style && ( bulletAttrs.style = 'mso-list: Ignore;' );
+
+							var bullet = bulletText && bulletText.parent;
+							if ( bullet ) {
+								bullet.addStyle( 'mso-list', 'Ignore' );
+							}
 						}
 
 						element.filterChildren();
