@@ -932,6 +932,12 @@
 								] )( styleText, element ) || '';
 						}
 
+						if ( !attrs.style )
+							delete attrs.style;
+
+						if ( CKEDITOR.tools.isEmpty( attrs ) )
+							delete element.name;
+
 						return null;
 					},
 
