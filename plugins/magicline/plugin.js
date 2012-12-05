@@ -38,7 +38,7 @@
 				rtl: config.contentsLangDirection == 'rtl',
 				triggers: config.magicline_everywhere ? dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
 			},
-			scrollTimeout, hideTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
+			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
 
 		// %REMOVE_START%
 		// Internal DEBUG uses tools located in the topmost window.
@@ -143,8 +143,6 @@
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
-				clearTimeout( hideTimeout );
-
 				// Check for inline-mode editor. If so, check mouse position
 				// and remove the box if mouse outside of an editor.
 				if ( that.inInlineMode ) {
@@ -170,7 +168,7 @@
 				else {
 					clearTimeout( checkMouseTimer );
 					checkMouseTimer = null;
-					hideTimeout = CKEDITOR.tools.setTimeout( that.line.detach, 150, that.line );
+					that.line.detach();
 				}
 			});
 
@@ -205,7 +203,6 @@
 			// In framed editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
 			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
-				clearTimeout( hideTimeout );
 				checkMouseTimeoutPending = true;
 
 				if ( editor.mode != 'wysiwyg' || checkMouseTimer )
