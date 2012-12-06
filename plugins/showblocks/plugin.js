@@ -22,7 +22,12 @@
 
 		refresh: function( editor ) {
 			if ( editor.document ) {
-				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'attachClass' : 'removeClass';
+				// Show blocks turns inactive after editor loses focus when in inline.
+				var showBlocks = this.state == CKEDITOR.TRISTATE_ON &&
+				   ( editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ||
+					   editor.focusManager.hasFocus );
+
+				var funcName = showBlocks ? 'attachClass' : 'removeClass';
 				editor.editable()[ funcName ]( 'cke_show_blocks' );
 			}
 		}
@@ -148,6 +153,15 @@
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
 			});
+
+			// Refresh the command on focus/blur in inline.
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+				function onFocusBlur() {
+					command.refresh( editor );
+				}
+				editor.on( 'focus', onFocusBlur );
+				editor.on( 'blur', onFocusBlur );
+			}
 
 			// Refresh the command on setData.
 			editor.on( 'contentDom', function() {
