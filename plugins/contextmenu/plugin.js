@@ -18,9 +18,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						className: 'cke_menu_panel',
 						attributes: {
 							'aria-label': editor.lang.contextmenu.options
-						},
-						// Hide under toolbar (-1).
-						zIndexOffset: -2
+						}
 					}
 				});
 			},
