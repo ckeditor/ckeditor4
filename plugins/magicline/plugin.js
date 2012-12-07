@@ -72,11 +72,6 @@
 				&& !isFlowBreaker( node ); 	// 	-> Node can be neither floated nor positioned nor aligned.
 		};
 
-		// %REMOVE_START%
-		// Editor commands for accessing difficult focus spaces.
-		editor.addCommand( 'accessSpaceBefore', accessSpaceCommand( that ) );
-		editor.addCommand( 'accessSpaceAfter', accessSpaceCommand( that, true ) );
-		// %REMOVE_END%
 		editor.on( 'contentDom', addListeners, this );
 
 		function addListeners() {
@@ -274,6 +269,15 @@
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
+			// Editor commands for accessing difficult focus spaces.
+			editor.addCommand( 'accessPreviousSpace', accessFocusSpaceCmd( that ) );
+			editor.addCommand( 'accessNextSpace', accessFocusSpaceCmd( that, true ) );
+
+			editor.setKeystroke( [
+				[ CKEDITOR.CTRL + 219 /*[*/, 'accessPreviousSpace' ],
+				[ CKEDITOR.CTRL + 221 /*]*/, 'accessNextSpace' ]
+			] );
+
 			// This method handles mousemove mouse for box toggling.
 			// It uses mouse position to determine underlying element, then
 			// it tries to use different trigger type in order to place the box
@@ -359,35 +363,6 @@
 		newElement = CKEDITOR.dom.element,
 		newElementFromHtml = newElement.createFromHtml,
 		env = CKEDITOR.env;
-
-	// %REMOVE_START%
-	// Access focus space on demand by looking for closest parent trigger
-	// or using current element under the caret as reference.
-	function accessSpaceCommand( that, insertAfter ) {
-		return {
-			canUndo: true,
-			modes: { wysiwyg:1 },
-			exec: function( editor ) {
-				var selection = editor.getSelection(),
-					selected = selection.getStartElement(),
-					range = selection.getRanges()[ 0 ],
-					target = getAscendantTrigger( that, selected ) || selected;
-
-				if ( !isHtml( target ) )
-					return;
-
-				accessFocusSpace( that, function( accessNode ) {
-					if ( target.equals( that.editable ) )
-						range.insertNode( accessNode );
-					else
-						accessNode[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
-				});
-
-				that.line.detach();
-			}
-		};
-	}
-	// %REMOVE_END%
 
 	function areSiblings( that, upper, lower ) {
 		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( function( node ) {
@@ -780,6 +755,87 @@
 		that.hotNode = accessNode;
 
 		editor.fire( 'saveSnapshot' );
+	}
+
+	// Access focus space on demand by taking an element under the caret as a reference.
+	// The space is accessed provided the element under the caret is trigger AND:
+	// 	- first/last-child of its parent
+	// OR
+	// 	- has a direct sibling element, which is also a trigger
+	function accessFocusSpaceCmd( that, insertAfter ) {
+		return {
+			canUndo: true,
+			modes: { wysiwyg: 1 },
+			exec: ( function() {
+				// Inserts line (accessNode) at the position by taking target node as a reference.
+				function doAccess( target ) {
+					accessFocusSpace( that, function( accessNode ) {
+						accessNode[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
+					});
+
+					if( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
+						that.hotNode.scrollIntoView();
+
+					// Detach the line if was visible (previously triggered by mouse).
+					that.line.detach();
+				}
+
+				return function( editor ) {
+					var	selected = editor.getSelection().getStartElement();
+
+					// That holds element from mouse. Replace it with the
+					// element under the caret.
+					that.element = selected;
+
+					// Handle the following cases where selected neighbour is trigger AND:
+					//	- Is first/last-child
+					//	OR
+					//	- Has a sibling, which is also a trigger.
+					var neighbor = getNonEmptyNeighbour( that, selected, !insertAfter ),
+						neighborSibling;
+
+					// Check for a neighbour that belongs to triggers.
+					if ( isHtml( neighbor ) && neighbor.is( that.triggers ) &&
+							(
+									// Check whether neighbor is first/last-child.
+									!getNonEmptyNeighbour( that, neighbor, !insertAfter )
+								||
+									// Check for a sibling of a neighbour that also is a trigger.
+									(
+										( neighborSibling = getNonEmptyNeighbour( that, neighbor, !insertAfter ) ) &&
+										isHtml( neighborSibling ) &&
+										neighborSibling.is( that.triggers )
+									)
+							)
+						) {
+						doAccess( neighbor );
+						return;
+					}
+
+					// Look for possible target element DOWN "selected" DOM branch (towards editable)
+					// that belong to that.triggers
+					var target = getAscendantTrigger( that, selected );
+
+					// No HTML target -> no access.
+					if ( !isHtml( target ) )
+						return;
+
+					// Target is first/last child -> access.
+					if ( !getNonEmptyNeighbour( that, target, !insertAfter ) ) {
+						doAccess( target );
+						return;
+					}
+
+					var sibling = getNonEmptyNeighbour( that, target, !insertAfter );
+
+					// Target has a sibling that belongs to that.triggers -> access.
+					if ( sibling && isHtml( sibling ) && sibling.is( that.triggers ) ) {
+						doAccess( target );
+						return;
+					}
+				};
+			})()
+		};
 	}
 
 	function isLine( that, node ) {
@@ -1545,35 +1601,29 @@
  * @see CKEDITOR.config#magicline_triggerOffset
  */
 
-// %REMOVE_START%
-
 /**
- * Defines default keystroke that access the space before an element that
- * holds start of the current selection or just simply holds the caret.
+ * Defines default keystroke that access the closest unreachable focus space **before**
+ * the caret (start of the selection). If there's no any focus space, selection remains.
  *
- *		// Changes keystroke to CTRL + SHIFT + ,
- *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 188;
+ *		// Changes keystroke to CTRL + ,
+ *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + 188;
  *
- * @ignore
- * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
+ * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + 219 (CTRL + [)]
  * @member CKEDITOR.config
  */
-// CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
+CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + 219; // CTRL + [
 
 /**
- * Defines default keystroke that access the space after an element that
- * holds start of the current selection or just simply holds the caret.
+ * Defines default keystroke that access the closest unreachable focus space **after**
+ * the caret (start of the selection). If there's no any focus space, selection remains.
  *
- *		// Changes keystroke to CTRL + SHIFT + .
- *		CKEDITOR.config.magicline_keystrokeBefore = CKEDITOR.CTRL + CKEDITOR.SHIFT + 190;
+ *		// Changes keystroke to CTRL + .
+ *		CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + 190;
  *
- * @ignore
- * @cfg {Number} [magicline_keystrokeBefore=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRK + SHIFT + ])]
+ * @cfg {Number} [magicline_keystrokeAfter=CKEDITOR.CTRL + 221 (CTRL + ])]
  * @member CKEDITOR.config
  */
-// CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
-
-// %REMOVE_END%
+CKEDITOR.config.magicline_keystrokeAfter = CKEDITOR.CTRL + 221; // CTRL + ]
 
 /**
  * Defines box color. The color may be adjusted to enhance readability.
