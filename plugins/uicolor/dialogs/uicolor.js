@@ -41,6 +41,9 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 				}
 			});
 
+			// Make Yahoo widget available to public.
+			this.picker = picker;
+
 			// Set actual UI color to the picker.
 			if ( uiColor )
 				setNewPickerColor( uiColor );
