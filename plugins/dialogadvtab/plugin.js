@@ -114,7 +114,7 @@
 						onChange: function() {},
 
 						getStyle: function( name, defaultValue ) {
-							var match = this.getValue().match( new RegExp( name + '\\s*:\\s*([^;]*)', 'i' ) );
+							var match = this.getValue().match( new RegExp( '(?:^|;)\\s*' + name + '\\s*:\\s*([^;]*)', 'i' ) );
 							return match ? match[ 1 ] : defaultValue;
 						},
 
