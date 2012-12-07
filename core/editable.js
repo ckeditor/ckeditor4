@@ -522,7 +522,7 @@
 				//  on fully selected element . (#4047) (#7645)
 				this.attachListener( editor, 'key', function( evt ) {
 					if ( editor.readOnly )
-						return false;
+						return true;
 
 					var keyCode = evt.data.keyCode, isHandled;
 
