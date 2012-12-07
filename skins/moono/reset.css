@@ -35,6 +35,9 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	width: auto;
 	height: auto;
 	vertical-align: baseline;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
 }
 
 /* Reset for elements and their children. */
@@ -49,6 +52,9 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	width: auto;
 	height: auto;
 	vertical-align: baseline;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
 
 	/* These are rule inherited by all children elements. */
 	border-collapse: collapse;
@@ -94,4 +100,10 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 {
 	padding: 10px;
 	border: 2px groove #E0DFE3;
+}
+
+.cke_reset_all select {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
