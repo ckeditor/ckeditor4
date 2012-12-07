@@ -1495,7 +1495,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	// "Inherit" (copy actually) from CKEDITOR.event.
 	CKEDITOR.event.implementOn( CKEDITOR.dialog );
-	CKEDITOR.event.implementOn( CKEDITOR.dialog.prototype, true );
+	CKEDITOR.event.implementOn( CKEDITOR.dialog.prototype );
 
 	var defaultDialogDefinition = {
 		resizable: CKEDITOR.DIALOG_RESIZE_BOTH,

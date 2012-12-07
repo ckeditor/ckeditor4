@@ -209,7 +209,7 @@ CKEDITOR.command.prototype = {
 	}
 };
 
-CKEDITOR.event.implementOn( CKEDITOR.command.prototype, true );
+CKEDITOR.event.implementOn( CKEDITOR.command.prototype );
 
 /**
  * Indicates the previous command state.
