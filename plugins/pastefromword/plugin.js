@@ -66,7 +66,7 @@
 					// load them and when they'll get loaded fire new paste event
 					// for which data will be filtered in second execution of
 					// this listener.
-					var isLazyLoad = loadFilterRules( path, function() {
+					var isLazyLoad = loadFilterRules( editor, path, function() {
 						// Event continuation with the original data.
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
@@ -92,13 +92,13 @@
 
 	});
 
-	function loadFilterRules( path, callback ) {
+	function loadFilterRules( editor, path, callback ) {
 		var isLoaded = CKEDITOR.cleanWord;
 
 		if ( isLoaded )
 			callback();
 		else {
-			var filterFilePath = CKEDITOR.getUrl( CKEDITOR.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) );
+			var filterFilePath = CKEDITOR.getUrl( editor.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) );
 
 			// Load with busy indicator.
 			CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
@@ -129,10 +129,16 @@
  * **Note:** This is a global configuration shared by all editor instances present
  * in the page.
  *
- *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file).
- *		CKEDITOR.config.pasteFromWordCleanupFile = 'custom';
+ *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file) using path relative to CKEditor installation folder.
+ *		CKEDITOR.config.pasteFromWordCleanupFile = 'plugins/pastefromword/filter/custom.js';
+ *
+ *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file) using full path (including CKEditor installation folder).
+ *		CKEDITOR.config.pasteFromWordCleanupFile = '/ckeditor/plugins/pastefromword/filter/custom.js';
+ *
+ *		// Load custom.js file from 'customFilerts' folder (located in server's root) using full URL.
+ *		CKEDITOR.config.pasteFromWordCleanupFile = 'http://my.example.com/customFilerts/custom.js';
  *
  * @since 3.1
- * @cfg {String} [pasteFromWordCleanupFile='default']
+ * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
  * @member CKEDITOR.config
  */
