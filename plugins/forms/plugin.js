@@ -145,7 +145,7 @@ CKEDITOR.plugins.add( 'forms', {
 						return { textarea: CKEDITOR.TRISTATE_OFF };
 
 					if ( name == 'input' ) {
-						switch ( element.getAttribute( 'type' ) ) {
+						switch ( element.getAttribute( 'type' ) || 'text' ) {
 							case 'button':
 							case 'submit':
 							case 'reset':
@@ -160,7 +160,8 @@ CKEDITOR.plugins.add( 'forms', {
 							case 'image':
 								return imagePlugin ? { imagebutton: CKEDITOR.TRISTATE_OFF } : null;
 
-							default:
+							case 'text':
+							case 'password':
 								return { textfield: CKEDITOR.TRISTATE_OFF };
 						}
 					}
@@ -183,7 +184,7 @@ CKEDITOR.plugins.add( 'forms', {
 			else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 				evt.data.dialog = 'hiddenfield';
 			else if ( element.is( 'input' ) ) {
-				switch ( element.getAttribute( 'type' ) ) {
+				switch ( element.getAttribute( 'type' ) || 'text' ) {
 					case 'button':
 					case 'submit':
 					case 'reset':
@@ -198,7 +199,8 @@ CKEDITOR.plugins.add( 'forms', {
 					case 'image':
 						evt.data.dialog = 'imagebutton';
 						break;
-					default:
+					case 'text':
+					case 'password':
 						evt.data.dialog = 'textfield';
 						break;
 				}
