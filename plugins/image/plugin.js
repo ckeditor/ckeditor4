@@ -105,7 +105,7 @@
 	function getSelectedImage( editor, element ) {
 		if ( !element ) {
 			var sel = editor.getSelection();
-			element = ( sel.getType() == CKEDITOR.SELECTION_ELEMENT ) && sel.getSelectedElement();
+			element = sel.getSelectedElement();
 		}
 
 		if ( element && element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
