@@ -342,11 +342,12 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
-				var chromeRoot = editor.container && editor.container.getChild( 1 ),
-					mixedContentClass = chromeRoot && chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+				// Apply the editor mixed direction status to menu.
+				var path = editor.elementPath(),
+					mixedDirCls = path.direction() != editor.lang.dir ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
-				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];
+				var output = [ '<div class="cke_menu' + mixedDirCls + '" role="presentation">' ];
 
 				var length = items.length,
 					lastGroup = length && items[ 0 ].group;

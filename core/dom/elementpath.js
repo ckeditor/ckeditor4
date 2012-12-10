@@ -208,5 +208,15 @@ CKEDITOR.dom.elementPath.prototype = {
 
 		return true;
 
+	},
+
+	/**
+	 * Retrieve the text direction for this elements path.
+	 *
+	 * @returns {'ltr'/'rtl'}
+	 */
+	direction: function() {
+		var directionNode = this.block || this.blockLimit || this.root;
+		return directionNode.getDirection( 1 );
 	}
 };
