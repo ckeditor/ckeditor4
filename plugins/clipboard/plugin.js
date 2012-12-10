@@ -133,6 +133,7 @@
 					// Verify for sure and check for nested editor UI parts. (#9675)
 					while ( wrapper.getChildCount() == 1 &&
 							( tmp = wrapper.getFirst() ) &&
+							tmp.type == CKEDITOR.NODE_ELEMENT &&	// Make sure first-child is element.
 							( tmp.hasClass( 'cke_editable' ) || tmp.hasClass( 'cke_contents' ) ) ) {
 						wrapper = editable_wrapper = tmp;
 					}
