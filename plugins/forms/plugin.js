@@ -31,7 +31,8 @@ CKEDITOR.plugins.add( 'forms', {
 	},
 	init: function( editor ) {
 		var lang = editor.lang,
-			order = 0;
+			order = 0,
+			textfieldTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 };
 
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
@@ -145,7 +146,8 @@ CKEDITOR.plugins.add( 'forms', {
 						return { textarea: CKEDITOR.TRISTATE_OFF };
 
 					if ( name == 'input' ) {
-						switch ( element.getAttribute( 'type' ) || 'text' ) {
+						var type = element.getAttribute( 'type' ) || 'text';
+						switch ( type ) {
 							case 'button':
 							case 'submit':
 							case 'reset':
@@ -159,11 +161,10 @@ CKEDITOR.plugins.add( 'forms', {
 
 							case 'image':
 								return imagePlugin ? { imagebutton: CKEDITOR.TRISTATE_OFF } : null;
-
-							case 'text':
-							case 'password':
-								return { textfield: CKEDITOR.TRISTATE_OFF };
 						}
+
+						if ( textfieldTypes[ type ] )
+							return { textfield: CKEDITOR.TRISTATE_OFF };
 					}
 
 					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
@@ -184,7 +185,8 @@ CKEDITOR.plugins.add( 'forms', {
 			else if ( element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 				evt.data.dialog = 'hiddenfield';
 			else if ( element.is( 'input' ) ) {
-				switch ( element.getAttribute( 'type' ) || 'text' ) {
+				var type = element.getAttribute( 'type' ) || 'text';
+				switch ( type ) {
 					case 'button':
 					case 'submit':
 					case 'reset':
@@ -199,11 +201,9 @@ CKEDITOR.plugins.add( 'forms', {
 					case 'image':
 						evt.data.dialog = 'imagebutton';
 						break;
-					case 'text':
-					case 'password':
-						evt.data.dialog = 'textfield';
-						break;
 				}
+				if ( textfieldTypes[ type ] )
+					evt.data.dialog = 'textfield';
 			}
 		});
 	},
