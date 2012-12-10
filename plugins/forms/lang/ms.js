@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ms', {
 		maxChars: 'Isian Maksimum',
 		type: 'Jenis',
 		typeText: 'Teks',
-		typePass: 'Kata Laluan'
+		typePass: 'Kata Laluan',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

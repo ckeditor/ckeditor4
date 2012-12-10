@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'fo', {
 		maxChars: 'Mest loyvdu tekn',
 		type: 'Slag',
 		typeText: 'Tekstur',
-		typePass: 'Loyniorð'
+		typePass: 'Loyniorð',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

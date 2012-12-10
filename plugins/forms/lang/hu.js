@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		maxChars: 'Maximális karakterszám',
 		type: 'Típus',
 		typeText: 'Szöveg',
-		typePass: 'Jelszó'
+		typePass: 'Jelszó',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		maxChars: 'En Fazla Karakter',
 		type: 'Tür',
 		typeText: 'Metin',
-		typePass: 'Şifre'
+		typePass: 'Şifre',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

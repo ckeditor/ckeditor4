@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		maxChars: 'Maksimi merkkimäärä',
 		type: 'Tyyppi',
 		typeText: 'Teksti',
-		typePass: 'Salasana'
+		typePass: 'Salasana',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

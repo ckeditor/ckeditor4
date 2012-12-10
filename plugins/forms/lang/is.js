@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		maxChars: 'Hámarksfjöldi leturtákna',
 		type: 'Gerð',
 		typeText: 'Texti',
-		typePass: 'Lykilorð'
+		typePass: 'Lykilorð',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

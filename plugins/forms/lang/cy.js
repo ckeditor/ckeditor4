@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		maxChars: 'Uchafswm y Nodau',
 		type: 'Math',
 		typeText: 'Testun',
-		typePass: 'Cyfrinair'
+		typePass: 'Cyfrinair',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		maxChars: 'Số ký tự tối đa',
 		type: 'Kiểu',
 		typeText: 'Ký tự',
-		typePass: 'Mật khẩu'
+		typePass: 'Mật khẩu',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

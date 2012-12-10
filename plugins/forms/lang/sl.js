@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		maxChars: 'Največje število znakov',
 		type: 'Tip',
 		typeText: 'Besedilo',
-		typePass: 'Geslo'
+		typePass: 'Geslo',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

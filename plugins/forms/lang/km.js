@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		maxChars: 'អក្សរអតិបរិមា',
 		type: 'ប្រភេទ',
 		typeText: 'ពាក្យ',
-		typePass: 'ពាក្យសំងាត់'
+		typePass: 'ពាក្យសំងាត់',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

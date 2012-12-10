@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		maxChars: '最多字元數',
 		type: '類型',
 		typeText: '文字',
-		typePass: '密碼'
+		typePass: '密碼',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

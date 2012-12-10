@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		maxChars: 'Simbolu maksimālais daudzums',
 		type: 'Tips',
 		typeText: 'Teksts',
-		typePass: 'Parole'
+		typePass: 'Parole',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

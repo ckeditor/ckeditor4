@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		maxChars: 'ئەڭ كۆپ ھەرپ سانى',
 		type: 'تىپى',
 		typeText: 'تېكىست',
-		typePass: 'ئىم'
+		typePass: 'ئىم',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		maxChars: 'Хамгийн их тэмдэгт',
 		type: 'Төрөл',
 		typeText: 'Текст',
-		typePass: 'Нууц үг'
+		typePass: 'Нууц үг',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });
