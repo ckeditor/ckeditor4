@@ -687,6 +687,8 @@
 					// It's better to paste close to the real paste destination, so inherited styles
 					// (which Webkits will try to compensate by styling span) differs less from the destination's one.
 					editable.append( pastebin );
+					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
+					pastebin.addClass( 'cke_editable' );
 					// Compensate position of offsetParent.
 					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
 				} else {
