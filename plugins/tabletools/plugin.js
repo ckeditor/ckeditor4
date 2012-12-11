@@ -46,10 +46,12 @@
 					// So we have to take care to include a td we've entered only when we've
 					// walked into its children.
 
-					var parent = node.getAscendant( 'td' ) || node.getAscendant( 'th' );
-					if ( parent && !parent.getCustomData( 'selected_cell' ) ) {
-						CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
-						retval.push( parent );
+					if ( node.type != CKEDITOR.NODE_ELEMENT || !node.is( CKEDITOR.dtd.table ) ) {
+						var parent = node.getAscendant( 'td', true ) || node.getAscendant( 'th', true );
+						if ( parent && !parent.getCustomData( 'selected_cell' ) ) {
+							CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
+							retval.push( parent );
+						}
 					}
 				}
 			}
