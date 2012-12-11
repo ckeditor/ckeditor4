@@ -1524,7 +1524,7 @@
  * Sets the default vertical distance between element edge and mouse pointer that
  * causes the box to appear. The distance is expressed in pixels (px).
  *
- *		// Increases the offset to 15px.
+ *		// Changes the offset to 15px.
  *		CKEDITOR.config.magicline_triggerOffset = 15;
  *
  * @cfg {Number} [magicline_triggerOffset=30]
