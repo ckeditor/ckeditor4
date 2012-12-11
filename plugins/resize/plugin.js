@@ -69,6 +69,8 @@ CKEDITOR.plugins.add( 'resize', {
 					editor.document.on( 'mousemove', dragHandler );
 					editor.document.on( 'mouseup', dragEndHandler );
 				}
+
+				$event.preventDefault && $event.preventDefault();
 			});
 
 			editor.on( 'destroy', function() {
