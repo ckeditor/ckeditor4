@@ -344,7 +344,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 				// Apply the editor mixed direction status to menu.
 				var path = editor.elementPath(),
-					mixedDirCls = path.direction() != editor.lang.dir ? ' cke_mixed_dir_content' : '';
+					mixedDirCls = ( path && path.direction() != editor.lang.dir ) ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
 				var output = [ '<div class="cke_menu' + mixedDirCls + '" role="presentation">' ];
