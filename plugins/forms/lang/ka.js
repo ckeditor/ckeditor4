@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ka', {
 		maxChars: 'ასოების მაქსიმალური ოდენობა',
 		type: 'ტიპი',
 		typeText: 'ტექსტი',
-		typePass: 'პაროლი'
+		typePass: 'პაროლი',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

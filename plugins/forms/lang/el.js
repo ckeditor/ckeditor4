@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		maxChars: 'Μέγιστοι χαρακτήρες',
 		type: 'Τύπος',
 		typeText: 'Κείμενο',
-		typePass: 'Κωδικός'
+		typePass: 'Κωδικός',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

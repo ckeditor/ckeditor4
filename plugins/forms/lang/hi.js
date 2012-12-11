@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'hi', {
 		maxChars: 'अधिकतम करॅक्टर',
 		type: 'टाइप',
 		typeText: 'टेक्स्ट',
-		typePass: 'पास्वर्ड'
+		typePass: 'पास्वर्ड',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

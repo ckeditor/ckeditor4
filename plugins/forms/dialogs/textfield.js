@@ -5,7 +5,7 @@
 CKEDITOR.dialog.add( 'textfield', function( editor ) {
 	var autoAttributes = { value:1,size:1,maxLength:1 };
 
-	var acceptedTypes = { text:1,password:1 };
+	var acceptedTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 };
 
 	function autoCommit( data ) {
 		var element = data.element;
@@ -148,8 +148,12 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 				'default': 'text',
 				accessKey: 'M',
 				items: [
-					[ editor.lang.forms.textfield.typeText, 'text' ],
-					[ editor.lang.forms.textfield.typePass, 'password' ]
+					[ editor.lang.forms.textfield.typeEmail,	'email' ],
+					[ editor.lang.forms.textfield.typePass,		'password' ],
+					[ editor.lang.forms.textfield.typeSearch,	'search' ],
+					[ editor.lang.forms.textfield.typeTel,		'tel' ],
+					[ editor.lang.forms.textfield.typeText,		'text' ],
+					[ editor.lang.forms.textfield.typeUrl,		'url' ]
 					],
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'type' ) );

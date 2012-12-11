@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		maxChars: 'Максимално карактера',
 		type: 'Тип',
 		typeText: 'Текст',
-		typePass: 'Лозинка'
+		typePass: 'Лозинка',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

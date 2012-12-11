@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		maxChars: '最大長',
 		type: 'タイプ',
 		typeText: 'テキスト',
-		typePass: 'パスワード入力'
+		typePass: 'パスワード入力',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

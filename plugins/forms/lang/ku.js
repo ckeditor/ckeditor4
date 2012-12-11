@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		maxChars: 'ئهوپهڕی نووسه',
 		type: 'جۆر',
 		typeText: 'دهق',
-		typePass: 'پێپهڕهوشه'
+		typePass: 'پێپهڕهوشه',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

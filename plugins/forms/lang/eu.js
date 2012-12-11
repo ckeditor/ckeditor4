@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'eu', {
 		maxChars: 'Zenbat karaktere gehienez',
 		type: 'Mota',
 		typeText: 'Testua',
-		typePass: 'Pasahitza'
+		typePass: 'Pasahitza',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

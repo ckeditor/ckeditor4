@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		maxChars: 'Maksimalus simbolių skaičius',
 		type: 'Tipas',
 		typeText: 'Tekstas',
-		typePass: 'Slaptažodis'
+		typePass: 'Slaptažodis',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

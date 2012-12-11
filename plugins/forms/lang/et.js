@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		maxChars: 'Maksimaalselt tähemärke',
 		type: 'Liik',
 		typeText: 'Tekst',
-		typePass: 'Parool'
+		typePass: 'Parool',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

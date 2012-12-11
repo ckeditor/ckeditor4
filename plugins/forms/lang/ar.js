@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ar', {
 		maxChars: 'اقصى عدد للسمات',
 		type: 'نوع المحتوى',
 		typeText: 'نص',
-		typePass: 'كلمة مرور'
+		typePass: 'كلمة مرور',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

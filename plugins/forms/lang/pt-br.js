@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		maxChars: 'Número Máximo de Caracteres',
 		type: 'Tipo',
 		typeText: 'Texto',
-		typePass: 'Senha'
+		typePass: 'Senha',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });

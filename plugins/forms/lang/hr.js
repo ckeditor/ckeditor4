@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		maxChars: 'Najviše karaktera',
 		type: 'Vrsta',
 		typeText: 'Tekst',
-		typePass: 'Šifra'
+		typePass: 'Šifra',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL' // MISSING
 	}
 });
