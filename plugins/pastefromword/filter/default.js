@@ -573,15 +573,15 @@
 			},
 
 			// Migrate the element by decorate styles on it.
-			// @param styleDefiniton
+			// @param styleDefinition
 			// @param variables
-			elementMigrateFilter: function( styleDefiniton, variables ) {
-				return function( element ) {
-					var styleDef = variables ? new CKEDITOR.style( styleDefiniton, variables )._.definition : styleDefiniton;
+			elementMigrateFilter: function( styleDefinition, variables ) {
+				return styleDefinition ? function( element ) {
+					var styleDef = variables ? new CKEDITOR.style( styleDefinition, variables )._.definition : styleDefinition;
 					element.name = styleDef.element;
 					CKEDITOR.tools.extend( element.attributes, CKEDITOR.tools.clone( styleDef.attributes ) );
 					element.addStyle( CKEDITOR.style.getStyleText( styleDef ) );
-				};
+				} : function(){};
 			},
 
 			// Migrate styles by creating a new nested stylish element.
@@ -589,7 +589,7 @@
 			styleMigrateFilter: function( styleDefinition, variableName ) {
 
 				var elementMigrateFilter = this.elementMigrateFilter;
-				return function( value, element ) {
+				return styleDefinition ? function( value, element ) {
 					// Build an stylish element first.
 					var styleElement = new CKEDITOR.htmlParser.element( null ),
 						variables = {};
@@ -599,7 +599,7 @@
 					// Place the new element inside the existing span.
 					styleElement.children = element.children;
 					element.children = [ styleElement ];
-				};
+				} : function(){};
 			},
 
 			// A filter which remove cke-namespaced-attribute on
