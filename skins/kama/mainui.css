@@ -56,7 +56,7 @@ Special outer level classes used in this file:
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px solid #D3D3D3;
-	
+
 	/* Spacing between the outer and the inner boundaries. */
 	padding: 5px;
 }
@@ -192,4 +192,8 @@ Special outer level classes used in this file:
 	overflow: auto;
 	padding: 0 8px;
 	outline-style: none;
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
