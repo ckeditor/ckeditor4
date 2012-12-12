@@ -101,16 +101,26 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 	var variablesPattern = /\$\{(.*?)\}/g;
 
-	function replaceVariables( match, name ) {
-		var keystrokes = editor.keystrokeHandler.keystrokes;
+	var replaceVariables = (function() {
+		// Swaps keystrokes with their commands in object literal.
+		// This makes searching keystrokes by command much easier.
+		function swapKeystrokes( obj ) {
+			var flipped = {};
 
-		for ( var key in keystrokes ) {
-			if ( keystrokes[ key ] == name )
-				break;
+			for ( var i in obj )
+				flipped[ obj[ i ] ] = i;
+
+			return flipped;
 		}
 
-		return representKeyStroke( key );
-	}
+		return function( match, name ) {
+			var keystroke = swapKeystrokes( editor.keystrokeHandler.keystrokes )[ name ];
+
+			// Return the keystroke representation or leave match untouched
+			// if there's no keystroke for such command.
+			return keystroke ? representKeyStroke( keystroke ) : match;
+		};
+	})();
 
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
@@ -131,10 +141,15 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
-					itemHtml;
-				itemHtml = itemTpl.replace( '%1', item.name ).
-				replace( '%2', item.legend.replace( variablesPattern, replaceVariables ) );
-				sectionHtml.push( itemHtml );
+					itemLegend = item.legend.replace( variablesPattern, replaceVariables );
+
+				// (#9765) If some commands haven't been replaced in the legend,
+				// most likely their keystrokes are unavailable and we shouldn't include
+				// them in our help list.
+				if ( itemLegend.match( variablesPattern ) )
+					continue;
+
+				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
 
 			pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
