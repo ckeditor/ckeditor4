@@ -132,12 +132,88 @@
 									editorRect.width > spaceRect.width ) ?
 								( editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left' ) :
 								( mid - editorRect.left > editorRect.right - mid ? 'left' :
-								 'right' );
+								 'right' ),
+						offset;
 
-					// Horizontally aligned with editable or view port left otherwise right boundary.
-					var newLeft = alignSide == 'left' ? ( editorRect.left > 0 ? editorRect.left : 0 ) : ( editorRect.right < viewRect.width ? viewRect.width - editorRect.right : 0 );
+					if ( alignSide == 'left' ) {
+						// If the space rect fits into viewport, align it
+						// to the left edge of editor:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |   +------------- Space -+         |
+						// |   |                     |         |
+						// |   +---------------------+         |
+						// |   +------------------ Editor -+   |
+						// |   |                           |   |
+						//
+						if ( editorRect.left > 0 )
+							offset = editorRect.left;
 
-					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + newLeft + pageScrollX ) );
+						// If the left part of the editor is cut off by the left
+						// edge of the viewport, stick the space to the viewport:
+						//
+						//       +------------------------ Viewport -+
+						//       |                                   |
+						//       +---------------- Space -+          |
+						//       |                        |          |
+						//       +------------------------+          |
+						//  +----|------------- Editor -+            |
+						//  |    |                      |            |
+						//
+						else
+							offset = 0;
+					}
+					else {
+						// If the space rect fits into viewport, align it
+						// to the right edge of editor:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |         +------------- Space -+   |
+						// |         |                     |   |
+						// |         +---------------------+   |
+						// |   +------------------ Editor -+   |
+						// |   |                           |   |
+						//
+						if ( editorRect.right < viewRect.width )
+							offset = viewRect.width - editorRect.right;
+
+						// If the right part of the editor is cut off by the right
+						// edge of the viewport, stick the space to the viewport:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |             +------------- Space -+
+						// |             |                     |
+						// |             +---------------------+
+						// |                 +-----------------|- Editor -+
+						// |                 |                 |          |
+						//
+						else
+							offset = 0;
+					}
+
+					// (#9769) Finally, stick the space to the opposite side of
+					// the viewport when it's cut off horizontally on the left/right
+					// side like below.
+					//
+					// This trick reveals cut off space in some edge cases and
+					// hence it improves accessibility.
+					//
+					// +------------------------ Viewport -+
+					// |                                   |
+					// |              +--------------------|-- Space -+
+					// |              |                    |          |
+					// |              +--------------------|----------+
+					// |              +------- Editor -+   |
+					// |              |                |   |
+					if ( offset + spaceRect.width > viewRect.width ) {
+						alignSide = alignSide == 'left' ? 'right' : 'left';
+						offset = 0;
+					}
+
+					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + pageScrollX ) );
 				}
 			};
 
