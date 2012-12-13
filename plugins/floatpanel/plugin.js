@@ -58,8 +58,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
 				element = panel.element,
-				iframe = element.getFirst(),
-				that = this;
+				iframe = element.getFirst();
 
 			// Disable native browser menu. (#4825)
 			element.disableContextMenu();
@@ -78,14 +77,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				dir: editor.lang.dir
 			};
 
-			editor.on( 'mode', hide );
-			editor.on( 'resize', hide );
+			editor.on( 'mode', this.hide, this );
+			editor.on( 'resize', this.hide, this );
 			// Window resize doesn't cause hide on blur. (#9800)
-			CKEDITOR.document.getWindow().on( 'resize', hide );
-
-			function hide() {
-				that.hide();
-			}
+			doc.getWindow().on( 'resize', this.hide, this );
 		},
 
 		proto: {
