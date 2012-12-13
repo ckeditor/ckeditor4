@@ -1115,6 +1115,27 @@
 		if ( CKEDITOR.env.gecko )
 			data = data.replace( /(<!--\[if[^<]*?\])-->([\S\s]*?)<!--(\[endif\]-->)/gi, '$1$2$3' );
 
+		// #9456 - Webkit doesn't wrap list number with span, which is crucial for filter to recognize list.
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		//
+		// Transform to:
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			<span>
+		//				3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		if ( CKEDITOR.env.webkit ) {
+			data = data.replace( /(class="MsoListParagraph[^>]+><!--\[if !supportLists\]-->)([^<]+<span[^<]+<\/span>)(<!--\[endif\]-->)/gi, '$1<span>$2</span>$3' );
+		}
+
 		var dataProcessor = new pasteProcessor(),
 			dataFilter = dataProcessor.dataFilter;
 
