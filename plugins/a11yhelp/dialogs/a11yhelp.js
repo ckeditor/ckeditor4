@@ -104,21 +104,16 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var replaceVariables = (function() {
 		// Swaps keystrokes with their commands in object literal.
 		// This makes searching keystrokes by command much easier.
-		function swapKeystrokes( obj ) {
-			var flipped = {};
+		var keystrokesByCode = editor.keystrokeHandler.keystrokes,
+			keystrokesByName = {};
 
-			for ( var i in obj )
-				flipped[ obj[ i ] ] = i;
-
-			return flipped;
-		}
+		for ( var i in keystrokesByCode )
+			keystrokesByName[ keystrokesByCode[ i ] ] = i;
 
 		return function( match, name ) {
-			var keystroke = swapKeystrokes( editor.keystrokeHandler.keystrokes )[ name ];
-
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystroke ? representKeyStroke( keystroke ) : match;
+			return keystrokesByName[ name ] ? representKeyStroke( keystrokesByName[ name ] ) : match;
 		};
 	})();
 
