@@ -201,7 +201,7 @@
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
 			// of the contents. (#5156)
-			editable.attachListener( 'focus', function( evt ) {
+			editable.attachListener( editable, 'focus', function( evt ) {
 				evt.removeListener();
 
 				if ( restoreSel !== 0 ) {
