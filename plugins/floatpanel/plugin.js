@@ -58,7 +58,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
 				element = panel.element,
-				iframe = element.getFirst();
+				iframe = element.getFirst(),
+				that = this;
 
 			// Disable native browser menu. (#4825)
 			element.disableContextMenu();
@@ -77,13 +78,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				dir: editor.lang.dir
 			};
 
-			editor.on( 'mode', function() {
-				this.hide();
-			}, this );
+			editor.on( 'mode', hide );
+			editor.on( 'resize', hide );
+			// Window resize doesn't cause hide on blur. (#9800)
+			doc.getWindow().on( 'resize', hide );
 
-			editor.on( 'resize', function() {
-				this.hide();
-			}, this );
+			// We need a wrapper because events implementation doesn't allow to attach
+			// one listener more than once for the same event on the same object.
+			// Remember that floatPanel#hide is shared between all instances.
+			function hide() {
+				that.hide();
+			}
 		},
 
 		proto: {
