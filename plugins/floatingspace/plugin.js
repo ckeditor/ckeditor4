@@ -135,82 +135,102 @@
 								 'right' ),
 						offset;
 
-					if ( alignSide == 'left' ) {
-						// If the space rect fits into viewport, align it
-						// to the left edge of editor:
-						//
-						// +------------------------ Viewport -+
-						// |                                   |
-						// |   +------------- Space -+         |
-						// |   |                     |         |
-						// |   +---------------------+         |
-						// |   +------------------ Editor -+   |
-						// |   |                           |   |
-						//
-						if ( editorRect.left > 0 )
-							offset = editorRect.left;
-
-						// If the left part of the editor is cut off by the left
-						// edge of the viewport, stick the space to the viewport:
-						//
-						//       +------------------------ Viewport -+
-						//       |                                   |
-						//       +---------------- Space -+          |
-						//       |                        |          |
-						//       +------------------------+          |
-						//  +----|------------- Editor -+            |
-						//  |    |                      |            |
-						//
-						else
-							offset = 0;
+					// (#9769) If viewport width is less than space width,
+					// make sure space never cross the left boundary of the viewport.
+					// In other words: top-left corner of the space is always visible.
+					if ( spaceRect.width > viewRect.width ) {
+						alignSide = 'left';
+						offset = 0;
 					}
 					else {
-						// If the space rect fits into viewport, align it
-						// to the right edge of editor:
-						//
-						// +------------------------ Viewport -+
-						// |                                   |
-						// |         +------------- Space -+   |
-						// |         |                     |   |
-						// |         +---------------------+   |
-						// |   +------------------ Editor -+   |
-						// |   |                           |   |
-						//
-						if ( editorRect.right < viewRect.width )
-							offset = viewRect.width - editorRect.right;
+						if ( alignSide == 'left' ) {
+							// If the space rect fits into viewport, align it
+							// to the left edge of editor:
+							//
+							// +------------------------ Viewport -+
+							// |                                   |
+							// |   +------------- Space -+         |
+							// |   |                     |         |
+							// |   +---------------------+         |
+							// |   +------------------ Editor -+   |
+							// |   |                           |   |
+							//
+							if ( editorRect.left > 0 )
+								offset = editorRect.left;
 
-						// If the right part of the editor is cut off by the right
-						// edge of the viewport, stick the space to the viewport:
+							// If the left part of the editor is cut off by the left
+							// edge of the viewport, stick the space to the viewport:
+							//
+							//       +------------------------ Viewport -+
+							//       |                                   |
+							//       +---------------- Space -+          |
+							//       |                        |          |
+							//       +------------------------+          |
+							//  +----|------------- Editor -+            |
+							//  |    |                      |            |
+							//
+							else
+								offset = 0;
+						}
+						else {
+							// If the space rect fits into viewport, align it
+							// to the right edge of editor:
+							//
+							// +------------------------ Viewport -+
+							// |                                   |
+							// |         +------------- Space -+   |
+							// |         |                     |   |
+							// |         +---------------------+   |
+							// |   +------------------ Editor -+   |
+							// |   |                           |   |
+							//
+							if ( editorRect.right < viewRect.width )
+								offset = viewRect.width - editorRect.right;
+
+							// If the right part of the editor is cut off by the right
+							// edge of the viewport, stick the space to the viewport:
+							//
+							// +------------------------ Viewport -+
+							// |                                   |
+							// |             +------------- Space -+
+							// |             |                     |
+							// |             +---------------------+
+							// |                 +-----------------|- Editor -+
+							// |                 |                 |          |
+							//
+							else
+								offset = 0;
+						}
+
+						// (#9769) Finally, stick the space to the opposite side of
+						// the viewport when it's cut off horizontally on the left/right
+						// side like below.
+						//
+						// This trick reveals cut off space in some edge cases and
+						// hence it improves accessibility.
 						//
 						// +------------------------ Viewport -+
 						// |                                   |
-						// |             +------------- Space -+
-						// |             |                     |
-						// |             +---------------------+
-						// |                 +-----------------|- Editor -+
-						// |                 |                 |          |
+						// |              +--------------------|-- Space -+
+						// |              |                    |          |
+						// |              +--------------------|----------+
+						// |              +------- Editor -+   |
+						// |              |                |   |
 						//
-						else
+						//				becomes:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |   +----------------------- Space -+
+						// |   |                               |
+						// |   +-------------------------------+
+						// |              +------- Editor -+   |
+						// |              |                |   |
+						//							
+						if ( offset + spaceRect.width > viewRect.width ) {
+							alignSide = alignSide == 'left' ? 'right' : 'left';
 							offset = 0;
-					}
-
-					// (#9769) Finally, stick the space to the opposite side of
-					// the viewport when it's cut off horizontally on the left/right
-					// side like below.
-					//
-					// This trick reveals cut off space in some edge cases and
-					// hence it improves accessibility.
-					//
-					// +------------------------ Viewport -+
-					// |                                   |
-					// |              +--------------------|-- Space -+
-					// |              |                    |          |
-					// |              +--------------------|----------+
-					// |              +------- Editor -+   |
-					// |              |                |   |
-					if ( offset + spaceRect.width > viewRect.width ) {
-						alignSide = alignSide == 'left' ? 'right' : 'left';
-						offset = 0;
+						}
 					}
 
 					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + pageScrollX ) );
