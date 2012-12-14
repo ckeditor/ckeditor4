@@ -728,6 +728,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// browser what is the current situation first.
 			var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
 			var isFixed = element.getComputedStyle( 'position' ) == 'fixed';
+
+			// (#8888) In some cases of a very small viewport, dialog is incorrectly
+			// positioned in IE7. It also happens that it remains sticky and user cannot
+			// scroll down/up to reveal dialog's content below/above the viewport; this is
+			// cumbersome.
+			// The only way to fix this is to move mouse out of the browser and
+			// go back to see that dialog position is automagically fixed. No events,
+			// no style change - pure magic. This is a IE7 rendering issue, which can be
+			// fixed with dummy style redraw on each move.
+			if ( CKEDITOR.env.ie )
+				element.setStyle( 'zoom', '100%' );
+
 			if ( isFixed && this._.position && this._.position.x == x && this._.position.y == y )
 				return;
 
