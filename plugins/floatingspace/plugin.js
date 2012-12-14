@@ -69,21 +69,14 @@
 					}
 
 					mode = newMode;
-
-					// Resize is required between modes switch.
-					resize = 1;
 				}
 
 				// Show up the space on focus gain.
 				evt.name == 'focus' && floatSpace.show();
 
-				// Resize is not required when scrolling.
-				var resize = evt.name != 'scroll';
-				if ( resize ) {
-					// Reset the horizontal position for below measurement.
-					floatSpace.removeStyle( 'left' );
-					floatSpace.removeStyle( 'right' );
-				}
+				// Reset the horizontal position for below measurement.
+				floatSpace.removeStyle( 'left' );
+				floatSpace.removeStyle( 'right' );
 
 				// Compute the screen position from the TextRectangle object would
 				// be very simple, even though the "width"/"height" property is not
@@ -124,21 +117,115 @@
 						changeMode( 'pin' );
 				}
 
-				if ( resize ) {
-					var viewRect = win.getViewPaneSize();
-					var mid = viewRect.width / 2;
-					var alignSide =
-								( editorRect.left > 0 && editorRect.right < viewRect.width &&
-									editorRect.width > spaceRect.width ) ?
-								( editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left' ) :
-								( mid - editorRect.left > editorRect.right - mid ? 'left' :
-								 'right' );
+				var viewRect = win.getViewPaneSize();
+				var mid = viewRect.width / 2;
+				var alignSide =
+							( editorRect.left > 0 && editorRect.right < viewRect.width &&
+								editorRect.width > spaceRect.width ) ?
+							( editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left' ) :
+							( mid - editorRect.left > editorRect.right - mid ? 'left' :
+							 'right' ),
+					offset;
 
-					// Horizontally aligned with editable or view port left otherwise right boundary.
-					var newLeft = alignSide == 'left' ? ( editorRect.left > 0 ? editorRect.left : 0 ) : ( editorRect.right < viewRect.width ? viewRect.width - editorRect.right : 0 );
-
-					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + newLeft + pageScrollX ) );
+				// (#9769) If viewport width is less than space width,
+				// make sure space never cross the left boundary of the viewport.
+				// In other words: top-left corner of the space is always visible.
+				if ( spaceRect.width > viewRect.width ) {
+					alignSide = 'left';
+					offset = 0;
 				}
+				else {
+					if ( alignSide == 'left' ) {
+						// If the space rect fits into viewport, align it
+						// to the left edge of editor:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |   +------------- Space -+         |
+						// |   |                     |         |
+						// |   +---------------------+         |
+						// |   +------------------ Editor -+   |
+						// |   |                           |   |
+						//
+						if ( editorRect.left > 0 )
+							offset = editorRect.left;
+
+						// If the left part of the editor is cut off by the left
+						// edge of the viewport, stick the space to the viewport:
+						//
+						//       +------------------------ Viewport -+
+						//       |                                   |
+						//       +---------------- Space -+          |
+						//       |                        |          |
+						//       +------------------------+          |
+						//  +----|------------- Editor -+            |
+						//  |    |                      |            |
+						//
+						else
+							offset = 0;
+					}
+					else {
+						// If the space rect fits into viewport, align it
+						// to the right edge of editor:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |         +------------- Space -+   |
+						// |         |                     |   |
+						// |         +---------------------+   |
+						// |   +------------------ Editor -+   |
+						// |   |                           |   |
+						//
+						if ( editorRect.right < viewRect.width )
+							offset = viewRect.width - editorRect.right;
+
+						// If the right part of the editor is cut off by the right
+						// edge of the viewport, stick the space to the viewport:
+						//
+						// +------------------------ Viewport -+
+						// |                                   |
+						// |             +------------- Space -+
+						// |             |                     |
+						// |             +---------------------+
+						// |                 +-----------------|- Editor -+
+						// |                 |                 |          |
+						//
+						else
+							offset = 0;
+					}
+
+					// (#9769) Finally, stick the space to the opposite side of
+					// the viewport when it's cut off horizontally on the left/right
+					// side like below.
+					//
+					// This trick reveals cut off space in some edge cases and
+					// hence it improves accessibility.
+					//
+					// +------------------------ Viewport -+
+					// |                                   |
+					// |              +--------------------|-- Space -+
+					// |              |                    |          |
+					// |              +--------------------|----------+
+					// |              +------- Editor -+   |
+					// |              |                |   |
+					//
+					//				becomes:
+					//
+					// +------------------------ Viewport -+
+					// |                                   |
+					// |   +----------------------- Space -+
+					// |   |                               |
+					// |   +-------------------------------+
+					// |              +------- Editor -+   |
+					// |              |                |   |
+					//							
+					if ( offset + spaceRect.width > viewRect.width ) {
+						alignSide = alignSide == 'left' ? 'right' : 'left';
+						offset = 0;
+					}
+				}
+
+				floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + ( mode == 'pin' ? 0 : pageScrollX ) ) );
 			};
 
 		var body = CKEDITOR.document.getBody();
