@@ -38,6 +38,12 @@
 			innerHtml = editor.fire( 'uiSpace', { space: spaceName, html: '' } ).html;
 
 			if ( innerHtml ){
+				// Block the uiSpace handling by others (e.g. themed-ui).
+				editor.on( 'uiSpace', function( ev ) {
+					if ( ev.data.space == spaceName )
+						ev.cancel();
+				}, null, null, 1 );  // Hi-priority
+
 				// Inject the space into the target.
 				space = target.append( CKEDITOR.dom.element.createFromHtml( containerTpl.output({
 					id : editor.id,
