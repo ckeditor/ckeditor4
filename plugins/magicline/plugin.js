@@ -36,7 +36,7 @@
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
-				triggers: config.magicline_everywhere ? dtd.$block : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
+				triggers: config.magicline_everywhere ? DTD_BLOCK : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
 			},
 			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
 
@@ -353,6 +353,7 @@
 		DTD_LISTITEM = dtd.$listItem,
 		DTD_TABLECONTENT = dtd.$tableContent,
 		DTD_NONACCESSIBLE = extend( {}, dtd.$nonEditable, dtd.$empty ),
+		DTD_BLOCK = dtd.$block,
 
 		// Minimum time that must elapse between two update*Size calls.
 		// It prevents constant getComuptedStyle calls and improves performance.
@@ -815,6 +816,16 @@
 
 				return function( editor ) {
 					var selected = editor.getSelection().getStartElement();
+
+					// (#9833) Go down to the closest non-inline element in DOM structure
+					// since inline elements don't participate in in magicline.
+					selected = selected.getAscendant( DTD_BLOCK, 1 );
+
+					// Sometimes it may happen that there's no parent block below selected element
+					// or, for example, getAscendant reaches editable or editable parent.
+					// We must avoid such pathological cases.
+					if ( !selected || selected.equals( that.editable ) || selected.contains( that.editable ) )
+						return;
 
 					// That holds element from mouse. Replace it with the
 					// element under the caret.
