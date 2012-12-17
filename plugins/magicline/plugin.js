@@ -275,6 +275,22 @@
 				[ config.magicline_keystrokeNext, 'accessNextSpace' ]
 			] );
 
+			// Revert magicline hot node on undo/redo.
+			editor.on( 'loadSnapshot', function( event ) {
+				var elements = doc.getElementsByTag( that.enterBehavior ),
+					element;
+
+				for ( var i = elements.count(); i--; ) {
+					if ( ( element = elements.getItem( i ) ).hasAttribute( 'data-cke-magicline-hot' ) ) {
+						// Restore hotNode
+						that.hotNode = element;
+						// Restore last access direction
+						that.lastCmdDirection = element.getAttribute( 'data-cke-magicline-dir' ) === 'true' ? true : false;
+						break;
+					}
+				}
+			} );
+
 			// This method handles mousemove mouse for box toggling.
 			// It uses mouse position to determine underlying element, then
 			// it tries to use different trigger type in order to place the box
@@ -702,7 +718,7 @@
 
 				accessNode[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ]
 					( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
-			});
+			}, true );
 
 			that.editor.focus();
 
@@ -727,7 +743,7 @@
 	//
 	// The node is being inserted according to insertFunction. Finally the method
 	// selects the non-breaking space making the node ready for typing.
-	function accessFocusSpace( that, insertFunction ) {
+	function accessFocusSpace( that, insertFunction, doSave ) {
 		var range = new CKEDITOR.dom.range( that.doc ),
 			editor = that.editor,
 			accessNode;
@@ -746,7 +762,7 @@
 			}
 		}
 
-		editor.fire( 'saveSnapshot' );
+		doSave && editor.fire( 'saveSnapshot' );
 
 		insertFunction( accessNode );
 		//dummy.appendTo( accessNode );
@@ -754,7 +770,7 @@
 		editor.getSelection().selectRanges( [ range ] );
 		that.hotNode = accessNode;
 
-		editor.fire( 'saveSnapshot' );
+		doSave && editor.fire( 'saveSnapshot' );
 	}
 
 	// Access focus space on demand by taking an element under the caret as a reference.
@@ -801,11 +817,32 @@
 			canUndo: true,
 			modes: { wysiwyg: 1 },
 			exec: ( function() {
+
 				// Inserts line (accessNode) at the position by taking target node as a reference.
 				function doAccess( target ) {
+					// Remove old hotNode under certain circumstances.
+					var hotNodeChar = ( env.ie && env.version < 9 ? ' ' : WHITE_SPACE ),
+						removeOld = that.hotNode &&							// Old hotNode must exist.
+							that.hotNode.getText() == hotNodeChar &&		// Old hotNode hasn't been changed.
+							that.element.equals( that.hotNode ) &&			// Caret is inside old hotNode.
+							that.lastCmdDirection === !!insertAfter;		// Command is executed in the same direction.
+
 					accessFocusSpace( that, function( accessNode ) {
+						if ( removeOld && that.hotNode )
+							that.hotNode.remove();
+
 						accessNode[ insertAfter ? 'insertAfter' : 'insertBefore' ]( target );
-					});
+
+						// Make this element distinguishable. Also remember the direction
+						// it's been inserted into document.
+						accessNode.setAttributes( {
+							'data-cke-magicline-hot': 1,
+							'data-cke-magicline-dir': !!insertAfter
+						} );
+
+						// Save last direction of the command (is insertAfter?).
+						that.lastCmdDirection = !!insertAfter;
+					} );
 
 					if( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
 						that.hotNode.scrollIntoView();
