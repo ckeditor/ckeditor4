@@ -716,9 +716,9 @@
 		 * Gets the type of the current selection. The following values are
 		 * available:
 		 *
-		 * * {@link CKEDITOR#SELECTION_NONE}</code> (1): No selection.
-		 * * {@link CKEDITOR#SELECTION_TEXT}</code> (2): A text or a collapsed selection is selected.
-		 * * {@link CKEDITOR#SELECTION_ELEMENT}</code> (3): An element is selected.
+		 * * {@link CKEDITOR#SELECTION_NONE} (1): No selection.
+		 * * {@link CKEDITOR#SELECTION_TEXT} (2): A text or a collapsed selection is selected.
+		 * * {@link CKEDITOR#SELECTION_ELEMENT} (3): An element is selected.
 		 *
 		 * Example:
 		 *
