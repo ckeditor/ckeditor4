@@ -354,13 +354,31 @@
 			// 1. Upon "selectionchange" event from the editable element. (which might be faked event fired by our code)
 			// 2. After the accomplish of keyboard and mouse events.
 			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
-			editable.attachListener( editable, 'mouseup', checkSelectionChangeTimeout, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
 			// Always fire the selection change on focus gain.
 			editable.attachListener( editable, 'focus', function() {
 				editor.forceNextSelectionCheck();
 				editor.selectionChange( 1 );
 			});
+
+			// #9699: On Webkit&Gecko in inline editor and on Opera in framed editor we have to check selection
+			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
+			// has to be initialized in editable, but for mouseup we listen on document element.
+			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
+			if ( editable.isInline() ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
+				var mouseDown;
+				editable.attachListener( editable, 'mousedown', function() {
+					mouseDown = 1;
+				});
+				editable.attachListener( doc.getDocumentElement(), 'mouseup', function() {
+					if ( mouseDown )
+						checkSelectionChangeTimeout.call( editor );
+					mouseDown = 0;
+				});
+			}
+			// In all other cases listen on simple mouseup over editable, as we did before #9699.
+			else
+				editable.attachListener( editable, 'mouseup', checkSelectionChangeTimeout, editor );
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.
