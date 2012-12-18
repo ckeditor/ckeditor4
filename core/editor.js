@@ -1241,3 +1241,46 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @param {String} name The template name.
  * @param {String} source The source data for this template.
  */
+
+/**
+ * Fired when content of the editor (its DOM structure) is ready.
+ * It is similar to native DOMContentLoaded event, but it concerns
+ * editor's content. It is also a first event fired after
+ * {@link CKEDITOR.editable} is initialized.
+ *
+ * This event is particularly important for framed editor, because
+ * on editor initialization and every time data are set
+ * (by {@link CKEDITOR.editor#method-setData}) contents DOM structure
+ * is rebuilt. Thus, e.g. you need to attach DOM events listeners
+ * on editable one more time.
+ *
+ * On inline editor this event is fired only once - when editor
+ * is initialized for the first time. That's because setting
+ * editor's content doesn't cause editable destruction and creation.
+ *
+ * {@link #contentDom} goes along with {@link #contentDomUnload} which
+ * is fired before contents DOM structure is destroyed. This is the
+ * right moment to detach content DOM events listener. Otherwise
+ * browsers like IE or Opera may throw exceptions when accessing
+ * elements from detached document.
+ *
+ * **Note:** {@link CKEDITOR.editable#attachListener} is a convenient
+ * way to attach listeners that will be detached on {@link #contentDomUnload}.
+ *
+ *		editor.on( 'contentDom', function() {
+ *			var editable = editor.editable();
+ *
+ *			editable.attachListener( editable, 'click', function() {
+ *				console.log( 'Editable has been clicked' );
+ *			});
+ *		});
+ *
+ * @event contentDom
+ */
+
+/**
+ * Fired before contents DOM structure is destroyed.
+ * See {@link #contentDom} documentation for more details.
+ *
+ * @event contentDomUnload
+ */
