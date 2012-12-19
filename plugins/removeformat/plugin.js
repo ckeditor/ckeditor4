@@ -128,8 +128,8 @@ CKEDITOR.plugins.removeformat = {
  *
  * **Note:** Only available with the existence of `removeformat` plugin.
  *
- *		// Don't remove empty span
- *		editor.addRemoveFormatFilter.push( function( element ) {
+ *		// Don't remove empty span.
+ *		editor.addRemoveFormatFilter( function( element ) {
  *			return !( element.is( 'span' ) && CKEDITOR.tools.isEmpty( element.getAttributes() ) );
  *		} );
  *
