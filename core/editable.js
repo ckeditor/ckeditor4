@@ -466,6 +466,14 @@
 					});
 				}
 
+				// Apply tab index on demand, with original direction saved.
+				if ( this.isInline() ) {
+
+					// tabIndex of the editable is different than editor's one.
+					// Update the attribute of the editable.
+					this.changeAttr( 'tabindex', editor.tabIndex );
+				}
+
 				// The above is all we'll be doing for a <textarea> editable.
 				if ( this.is( 'textarea' ) )
 					return;
@@ -482,14 +490,6 @@
 				var dir = editor.config.contentsLangDirection;
 				if ( this.getDirection( 1 ) != dir )
 					this.changeAttr( 'dir', dir );
-
-				// Apply tab index on demand, with original direction saved.
-				if ( editor.document.equals( CKEDITOR.document ) ) {
-
-					// tabIndex of the editable is different than editor's one.
-					// Update the attribute of the editable.
-					this.changeAttr( 'tabindex', editor.tabIndex );
-				}
 
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
@@ -913,7 +913,37 @@
 				!isDirty && editor.resetDirty();
 			}
 		});
+	});
 
+
+	CKEDITOR.on( 'instanceCreated', function( evt ) {
+		var editor = evt.editor;
+
+		editor.on( 'mode', function() {
+
+			var editable = editor.editable();
+
+			// Setup proper ARIA roles and properties for inline editable, framed
+			// editable is instead handled by plugin.
+			if ( editable.isInline() ) {
+
+				var ariaLabel = [ this.lang.editor, this.name ].join( ',' );
+
+				editable.changeAttr( 'role', 'textbox' );
+				editable.changeAttr( 'aria-label', ariaLabel );
+				editable.changeAttr( 'title', ariaLabel );
+
+				// Put the voice label in different spaces, depending on element mode, so
+				// the DOM element get auto detached on mode reload or editor destroy.
+				var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
+				if ( ct ) {
+					var ariaDescId = CKEDITOR.tools.getNextId(),
+						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + this.lang.common.editorHelp + '</span>' );
+					ct.append( desc );
+					editable.changeAttr( 'aria-describedby', ariaDescId );
+				}
+			}
+		});
 	});
 
 	// #9222: Show text cursor in Gecko.

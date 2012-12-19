@@ -152,6 +152,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// Detach the current editable.
 			editor.editable( 0 );
 
+			// Clear up the mode space.
+			editor.ui.space( 'contents' ).setHtml( '' );
+
 			editor.mode = '';
 		}
 
