@@ -10,7 +10,7 @@
 		' dir="{langDir}"' +
 		' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
 		' lang="{langCode}"' +
-		' role="presentation"' +
+		' role="application"' +
 		' style="{style}"' +
 		'>' +
 			'<div class="cke_inner">' +
