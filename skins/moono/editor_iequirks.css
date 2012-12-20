@@ -51,3 +51,23 @@ in Quirks mode only.
 	display: inline-block;
 	vertical-align: top;
 }
+
+.cke_resizer
+{
+	width: 10px;
+}
+
+.cke_source
+{
+	white-space: normal;
+}
+
+.cke_bottom
+{
+	position: static; /* Without this bottom space doesn't move when resizing editor. */
+}
+
+.cke_colorbox
+{
+	font-size: 0; /* Set minimal font size, so button won't be streched by the text that doesn't exist. */
+}
