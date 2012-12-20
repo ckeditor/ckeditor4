@@ -121,11 +121,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	var templateSource = '<div class="cke cke_reset_all {editorId} {editorDialogClass}' +
 		'" dir="{langDir}"' +
 		' lang="{langCode}"' +
-		' role="dialog"' +
-		' aria-labelledby="cke_dialog_title_{id}"' +
+		' role="application"' +
 		'>' +
 		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' style="position:absolute" role="presentation">' +
+			' aria-labelledby="cke_dialog_title_{id}"' +
+			' style="position:absolute" role="dialog">' +
 			'<tr><td role="presentation">' +
 			'<div class="cke_dialog_body" role="presentation">' +
 				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
