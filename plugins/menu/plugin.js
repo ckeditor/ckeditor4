@@ -242,7 +242,11 @@ CKEDITOR.plugins.add( 'menu', {
 				var element = this._.panel.getBlock( this.id ).element.getDocument().getById( this.id + String( index ) );
 
 				// Show the submenu.
-				menu.show( element, 2 );
+				// This timeout is needed to give time for the sub-menu get
+				// focus when JAWS is running. (#9844)
+				setTimeout( function() {
+					menu.show( element, 2 );
+				},0);
 			}
 		},
 
