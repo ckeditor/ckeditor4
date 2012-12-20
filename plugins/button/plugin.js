@@ -292,6 +292,15 @@
 
 			if ( element ) {
 				element.setState( state, 'cke_button' );
+
+				state == CKEDITOR.TRISTATE_DISABLED ?
+					element.setAttribute( 'aria-disabled', true ) :
+					element.removeAttribute( 'aria-disabled' );
+
+				state == CKEDITOR.TRISTATE_ON ?
+					element.setAttribute( 'aria-pressed', true ) :
+					element.removeAttribute( 'aria-pressed' );
+
 				return true;
 			} else
 				return false;

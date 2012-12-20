@@ -359,6 +359,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				var el = this.document.getById( 'cke_' + this.id );
 				el.setState( state, 'cke_combo' );
 
+				state == CKEDITOR.TRISTATE_DISABLED ?
+					el.setAttribute( 'aria-disabled', true ) :
+					el.removeAttribute( 'aria-disabled' );
+
 				this._.state = state;
 			},
 
