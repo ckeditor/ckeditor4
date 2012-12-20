@@ -41,7 +41,11 @@ CKEDITOR.plugins.add( 'menubutton', {
 
 				this.setState( CKEDITOR.TRISTATE_ON );
 
-				menu.show( CKEDITOR.document.getById( this._.id ), 4 );
+				// This timeout is needed to give time for the panel get focus
+				// when JAWS is running. (#9842)
+				setTimeout( function() {
+					menu.show( CKEDITOR.document.getById( _.id ), 4 );
+				},0);
 			};
 
 		/**
