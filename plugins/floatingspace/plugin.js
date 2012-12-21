@@ -258,6 +258,7 @@
 			});
 
 			editor.on( 'focus', function( evt ) {
+				CKEDITOR.fire("floatDisplayed", null, this);
 				layout( evt );
 				win.on( 'scroll', layout );
 				win.on( 'resize', layout );
@@ -265,6 +266,7 @@
 
 			editor.on( 'blur', function() {
 				floatSpace.hide();
+				CKEDITOR.fire("floatHidden", null, this);
 				win.removeListener( 'scroll', layout );
 				win.removeListener( 'resize', layout );
 			});
