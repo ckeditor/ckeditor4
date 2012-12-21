@@ -925,9 +925,9 @@
 
 			// Setup proper ARIA roles and properties for inline editable, framed
 			// editable is instead handled by plugin.
-			if ( editable.isInline() ) {
+			if ( editable && editable.isInline() ) {
 
-				var ariaLabel = [ this.lang.editor, this.name ].join( ',' );
+				var ariaLabel = this.lang.editor + ', ' + this.name;
 
 				editable.changeAttr( 'role', 'textbox' );
 				editable.changeAttr( 'aria-label', ariaLabel );
