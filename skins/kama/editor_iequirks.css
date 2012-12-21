@@ -242,3 +242,12 @@ a.cke_dialog_ui_button_cancel span
 	font-size: 0;
 }
 
+.cke_colorbox
+{
+	font-size: 0; /* Set minimal font size, so button won't be streched by the text that doesn't exist. */
+}
+
+.cke_source
+{
+	white-space: normal;
+}

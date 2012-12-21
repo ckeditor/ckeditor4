@@ -1971,7 +1971,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						'top:0;' +
 						'width:100%;' +
 						'height: 100%;' +
-						'progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
+						'filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0)">' +
 					'</iframe>' );
 			}
 
