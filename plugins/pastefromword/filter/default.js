@@ -89,6 +89,15 @@
 		this.attributes.style = styleText.replace( /^;|;(?=;)/, '' );
 	};
 
+	// Retrieve a style property value of the element.
+	elementPrototype.getStyle = function( name ) {
+		var styles = this.attributes.style;
+		if ( styles ) {
+			styles = CKEDITOR.tools.parseCssText( styles, 1 );
+			return styles[ name ];
+		}
+	};
+
 	/**
 	 * Return the DTD-valid parent tag names of the specified one.
 	 *
@@ -768,16 +777,19 @@
 					},
 
 					'p': function( element ) {
-						// This's a fall-back approach to recognize list item in FF3.6,
-						// as it's not perfect as not all list style (e.g. "heading list") is shipped
+						// A a fall-back approach to resolve list item in browsers
+						// that doesn't include "mso-list:Ignore" on list bullets,
+						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
-						if ( /MsoListParagraph/.exec( element.attributes[ 'class' ] ) ) {
+						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							});
-							var bullet = bulletText && bulletText.parent,
-								bulletAttrs = bullet && bullet.attributes;
-							bulletAttrs && !bulletAttrs.style && ( bulletAttrs.style = 'mso-list: Ignore;' );
+
+							var bullet = bulletText && bulletText.parent;
+							if ( bullet ) {
+								bullet.addStyle( 'mso-list', 'Ignore' );
+							}
 						}
 
 						element.filterChildren();
@@ -919,6 +931,12 @@
 								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
 								] )( styleText, element ) || '';
 						}
+
+						if ( !attrs.style )
+							delete attrs.style;
+
+						if ( CKEDITOR.tools.isEmpty( attrs ) )
+							delete element.name;
 
 						return null;
 					},
@@ -1096,6 +1114,27 @@
 		// e.g. <![if !vml]>...<![endif]>
 		if ( CKEDITOR.env.gecko )
 			data = data.replace( /(<!--\[if[^<]*?\])-->([\S\s]*?)<!--(\[endif\]-->)/gi, '$1$2$3' );
+
+		// #9456 - Webkit doesn't wrap list number with span, which is crucial for filter to recognize list.
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		//
+		// Transform to:
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			<span>
+		//				3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		if ( CKEDITOR.env.webkit ) {
+			data = data.replace( /(class="MsoListParagraph[^>]+><!--\[if !supportLists\]-->)([^<]+<span[^<]+<\/span>)(<!--\[endif\]-->)/gi, '$1<span>$2</span>$3' );
+		}
 
 		var dataProcessor = new pasteProcessor(),
 			dataFilter = dataProcessor.dataFilter;
