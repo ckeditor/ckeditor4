@@ -68,6 +68,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			legend: '按 ${toolbarCollapse}'
 		},
 			{
+			name: ' Access previous focus space command', // MISSING
+			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+		},
+			{
+			name: ' Access next focus space command', // MISSING
+			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+		},
+			{
 			name: ' 无障碍设计说明',
 			legend: '按 ${a11yHelp}'
 		}
