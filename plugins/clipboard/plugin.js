@@ -743,8 +743,15 @@
 				} );
 			}
 
+			var scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
+
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
+				// Restore main window's scroll position which could have been changed
+				// by browser in cases described in #9771.
+				if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
+					CKEDITOR.document[ CKEDITOR.env.webkit ? 'getBody' : 'getDocumentElement' ]().$.scrollTop = scrollTop;
+
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
 
