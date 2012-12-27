@@ -193,3 +193,10 @@ a.cke_button
 	/* Positioning is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
 	position: relative;
 }
+
+/* Reset vertical paddings which put editing area under bottom UI space. (#9721) */
+.cke_wysiwyg_div
+{
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
