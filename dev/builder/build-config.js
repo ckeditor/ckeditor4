@@ -10,8 +10,9 @@ var CKBUILDER_CONFIG = {
 		'README.md',
 		'.gitignore',
 		'.gitattributes',
+		'.idea',
 		'.mailmap',
-		'.idea'
+		'.DS_Store'
 	],
 	plugins: {
 		a11yhelp: 1,
@@ -23,6 +24,7 @@ var CKBUILDER_CONFIG = {
 		colorbutton: 1,
 		colordialog: 1,
 		contextmenu: 1,
+		dialogadvtab: 1,
 		div: 1,
 		elementspath: 1,
 		enterkey: 1,
