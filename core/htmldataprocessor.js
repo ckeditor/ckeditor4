@@ -166,24 +166,6 @@
 	// In output HTML: Filler should be consistently &NBSP; <BR> at the end of block is always considered as bogus.
 	// In Wysiwyg HTML: Browser dependent - Filler is either BR for non-IE, or &NBSP; for IE, <BR> is NEVER considered as bogus for IE.
 	function createBogusAndFillerRules( editor, type ) {
-		var rules = { elements: {} };
-		var isOutput = type == 'html';
-
-		// Build the list of text blocks.
-		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
-		for ( var i in textBlockTags ) {
-			if ( !( '#' in dtd[ i ] ) )
-				delete textBlockTags[ i ];
-		}
-
-		for ( i in textBlockTags )
-			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks !== false );
-
-		// Editable element is to be checked separately.
-		rules.root = blockFilter( isOutput );
-		rules.elements.br = brFilter( isOutput );
-		return rules;
-
 		function createFiller( isOutput ) {
 			return isOutput || CKEDITOR.env.ie ?
 			       new CKEDITOR.htmlParser.text( '\xa0' ) :
@@ -335,6 +317,24 @@
 			var last = getLast( block );
 			return !last || block.name == 'form' && last.name == 'input' ;
 		}
+
+		var rules = { elements: {} };
+		var isOutput = type == 'html';
+
+		// Build the list of text blocks.
+		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
+		for ( var i in textBlockTags ) {
+			if ( !( '#' in dtd[ i ] ) )
+				delete textBlockTags[ i ];
+		}
+
+		for ( i in textBlockTags )
+			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks !== false );
+
+		// Editable element is to be checked separately.
+		rules.root = blockFilter( isOutput );
+		rules.elements.br = brFilter( isOutput );
+		return rules;
 	}
 
 	function getFixBodyTag( config ) {
