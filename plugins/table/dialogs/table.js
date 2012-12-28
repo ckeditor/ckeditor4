@@ -385,7 +385,7 @@
 								},
 								setup: function( selectedTable ) {
 									var val = selectedTable.getStyle( 'width' );
-									val && this.setValue( val );
+									this.setValue( val );
 								},
 								commit: commitValue
 							}
