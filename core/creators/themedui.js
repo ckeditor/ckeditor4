@@ -431,7 +431,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * Fired after the editor instance is resized through
  * the {@link CKEDITOR.editor#resize} method.
  *
- * @event resisze
+ * @event resize
  */
 
 /**
