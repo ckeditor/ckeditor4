@@ -19,7 +19,9 @@
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
 				isCustomDomain = CKEDITOR.env.isCustomDomain();
 
-			if ( config.fullPage ) {
+			if ( config.previewPostProcess && typeof(config.previewPostProcess) == 'function' ) {
+				sHTML = config.previewPostProcess(editor);
+			} else if ( config.fullPage ) {
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
 			} else {
 				var bodyHtml = '<body ',
