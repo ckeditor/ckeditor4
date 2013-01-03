@@ -259,7 +259,7 @@
 				}
 
 				// From IE DOM, at the end of a text block, or before block boundary.
-				if ( CKEDITOR.env.ie && isOutput && ( !atBlockEnd || node.parent.name in textBlockTags ) )
+				if ( CKEDITOR.env.ie && isOutput && ( !atBlockEnd || node.parent && node.parent.name in textBlockTags ) )
 					return true;
 
 				// From the output.
