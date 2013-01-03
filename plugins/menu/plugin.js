@@ -485,6 +485,8 @@ CKEDITOR.plugins.add( 'menu', {
  *
  * @event menuShow
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.ui.panel[]} data
  */
 
 /**

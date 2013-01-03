@@ -221,4 +221,5 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
  * @private
  * @event pasteDialogCommit
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */

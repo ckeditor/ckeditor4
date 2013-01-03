@@ -697,5 +697,6 @@ CKEDITOR.config.contentsCss = CKEDITOR.basePath + 'contents.css';
  *
  * @event ariaWidget
  * @member CKEDITOR.editor
- * @param {Object} element The element being added
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dom.element} data The element being added.
  */

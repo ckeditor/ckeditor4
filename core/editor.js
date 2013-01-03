@@ -1065,6 +1065,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
+ *
  * @event instanceReady
  * @member CKEDITOR
  * @param {CKEDITOR.editor} editor The editor instance that has been created.
@@ -1090,7 +1091,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event beforeCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.name The command name.
  * @param {Object} data.commandData The data to be sent to the command. This
  * can be manipulated by the event listener.
@@ -1102,7 +1103,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event afterCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.name The command name.
  * @param {Object} data.commandData The data sent to the command.
  * @param {CKEDITOR.command} data.command The command itself.
@@ -1116,7 +1117,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * Custom configuration files can be loaded thorugh the
  * {@link CKEDITOR.config#customConfig} setting. Several files can be loaded
  * by changing this setting.
-
+ *
  * @event customConfigLoaded
  * @param {CKEDITOR.editor} editor This editor instance.
  */
@@ -1134,24 +1135,29 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * in any plugin.
  *
  * @event destroy
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
  * Internal event to get the current data.
  *
  * @event beforeGetData
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
  * Internal event to perform the {@link #method-getSnapshot} call.
  *
  * @event getSnapshot
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
  * Internal event to perform the {@link #method-loadSnapshot} call.
  *
  * @event loadSnapshot
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data The data that will be used.
  */
 
 /**
@@ -1159,7 +1165,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event getData
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.dataValue The data that will be returned.
  */
 
@@ -1168,7 +1174,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event setData
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.dataValue The data that will be used.
  */
 
@@ -1178,7 +1184,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event afterSetData
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.dataValue The data that has been set.
  */
 
@@ -1196,6 +1202,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * and ready for interaction.
  *
  * @event instanceReady
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -1203,7 +1210,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event insertHtml
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data
+ * @param data
  * @param {String} data.mode Mode in which data is inserted (see {@link #method-insertHtml}).
  * @param {String} data.dataValue The HTML to insert.
  */
@@ -1213,7 +1220,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event insertText
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {String} text The text to insert.
+ * @param {String} data The text to insert.
  */
 
 /**
@@ -1221,7 +1228,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event insertElement
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {CKEDITOR.dom.element} element The element to insert.
+ * @param {CKEDITOR.dom.element} data The element to insert.
  */
 
 /**
@@ -1238,8 +1245,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event template
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {String} name The template name.
- * @param {String} source The source data for this template.
+ * @param data
+ * @param {String} data.name The template name.
+ * @param {String} data.source The source data for this template.
  */
 
 /**
@@ -1276,6 +1284,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		});
  *
  * @event contentDom
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -1283,4 +1292,5 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * See {@link #contentDom} documentation for more details.
  *
  * @event contentDomUnload
+ * @param {CKEDITOR.editor} editor This editor instance.
  */

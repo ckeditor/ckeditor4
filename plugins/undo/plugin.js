@@ -124,6 +124,7 @@
 			 *
 			 * @event updateSnapshot
 			 * @member CKEDITOR.editor
+ 			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
 			editor.on( 'updateSnapshot', function() {
 				if ( undoManager.currentImage )
@@ -140,6 +141,7 @@
 			 *
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
+ 			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
 			editor.on( 'lockSnapshot', undoManager.lock, undoManager );
 
@@ -148,6 +150,7 @@
 			 *
 			 * @event unlockSnapshot
 			 * @member CKEDITOR.editor
+ 			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
 			editor.on( 'unlockSnapshot', undoManager.unlock, undoManager );
 		}
@@ -608,6 +611,7 @@
  *
  * @event saveSnapshot
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -618,6 +622,7 @@
  * @since 3.5.3
  * @event beforeUndoImage
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @see CKEDITOR.editor#afterUndoImage
  */
 
@@ -629,5 +634,6 @@
  * @since 3.5.3
  * @event afterUndoImage
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @see CKEDITOR.editor#beforeUndoImage
  */

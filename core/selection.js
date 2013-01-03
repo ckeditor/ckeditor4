@@ -178,8 +178,12 @@
 
 		/**
 		 * @event selectionChange
+		 *
 		 * @member CKEDITOR.editor
-		 * @todo
+ 		 * @param {CKEDITOR.editor} editor This editor instance.
+ 		 * @param data
+ 		 * @param {CKEDITOR.dom.selection} data.selection
+ 		 * @param {CKEDITOR.dom.elementPath} data.path
 		 */
 		editor.define( 'selectionChange', { errorProof:1 } );
 
