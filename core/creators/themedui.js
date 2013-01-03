@@ -447,12 +447,11 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  * @since 3.5.3
  * @event beforeSetMode
- * @param {String} newMode The name of the mode which is about to be set.
+ * @param {String} data The name of the mode which is about to be set.
  */
 
 /**
  * Fired after setting the editing mode. See also {@link #beforeSetMode} and {@link #beforeModeUnload}
  *
  * @event mode
- * @param {String} previousMode The previous mode of the editor.
  */

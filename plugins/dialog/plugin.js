@@ -3108,8 +3108,9 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event selectPage
  * @member CKEDITOR.dialog
- * @param {String} page The id of the page that it's gonna be selected.
- * @param {String} currentPage The id of the current page.
+ * @param data
+ * @param {String} data.page The id of the page that it's gonna be selected.
+ * @param {String} data.currentPage The id of the current page.
  */
 
 /**
@@ -3117,7 +3118,8 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event cancel
  * @member CKEDITOR.dialog
- * @param {Boolean} hide Whether the event should proceed or not.
+ * @param data
+ * @param {Boolean} data.hide Whether the event should proceed or not.
  */
 
 /**
@@ -3125,7 +3127,8 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event ok
  * @member CKEDITOR.dialog
- * @param {Boolean} hide Whether the event should proceed or not.
+ * @param data
+ * @param {Boolean} data.hide Whether the event should proceed or not.
  */
 
 /**
@@ -3161,12 +3164,26 @@ CKEDITOR.plugins.add( 'dialog', {
  * both the {@link CKEDITOR.dialog} object and the dialog instance
  * since 3.5.3, previously it's available only in the global object.
  *
+ * @static
+ * @event resize
+ * @member CKEDITOR.dialog
+ * @param data
+ * @param {CKEDITOR.dialog} data.dialog The dialog being resized (if
+ * it's fired on the dialog itself, this parameter isn't sent).
+ * @param {String} data.skin The skin name.
+ * @param {Number} data.width The new width.
+ * @param {Number} data.height The new height.
+ */
+
+/**
+ * Fired when a dialog is being resized. The event is fired on
+ * both the {@link CKEDITOR.dialog} object and the dialog instance
+ * since 3.5.3, previously it's available only in the global object.
+ *
  * @since 3.5
  * @event resize
  * @member CKEDITOR.dialog
- * @param {CKEDITOR.dialog} dialog The dialog being resized (if
- * it's fired on the dialog itself, this parameter isn't sent).
- * @param {String} skin The skin name.
- * @param {Number} width The new width.
- * @param {Number} height The new height.
+ * @param data
+ * @param {Number} data.width The new width.
+ * @param {Number} data.height The new height.
  */

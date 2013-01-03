@@ -369,5 +369,5 @@
  *
  * @event ariaWidget
  * @member CKEDITOR
- * @param {Object} holder The element wrapping the panel.
+ * @param {Object} data The element wrapping the panel.
  */

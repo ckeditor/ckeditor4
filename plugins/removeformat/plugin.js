@@ -167,6 +167,7 @@ CKEDITOR.config.removeFormatAttributes = 'class,style,lang,width,height,align,hs
  *
  * @event removeFormatCleanup
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {CKEDITOR.dom.element} data.element The element that was cleaned up.
  */

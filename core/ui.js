@@ -141,7 +141,7 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  * Internal event fired when a new UI element is ready.
  *
  * @event ready
- * @param {Object} element The new element
+ * @param {Object} data The new element.
  */
 
 /**

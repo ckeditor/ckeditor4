@@ -214,6 +214,7 @@
  *
  * @event elementsPathUpdate
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.space The elementsPath container.
+ * @param {CKEDITOR.dom.element} data.space The elementsPath container.
  */
