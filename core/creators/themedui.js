@@ -252,6 +252,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		data && editor.setData( data, null, true );
 
+		// Clean during initialization.
+		editor.resetDirty();
+
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			loadTheme( editor );
@@ -260,12 +263,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 				attachToForm( editor );
 
 			editor.setMode( editor.config.startupMode, function() {
+				// Clean on startup.
+				editor.resetDirty();
+
 				// Editor is completely loaded for interaction.
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
-
-				// Clean on startup.
-				editor.resetDirty();
 			});
 		});
 
