@@ -4,9 +4,9 @@
  */
 
 /**
- * @fileOverview The "showblocks" plugin. Enable it will make all block level
- *               elements being decorated with a border and the element name
- *               displayed on the left-right corner.
+ * @fileOverview The "selectall" plugin provides an editor command that
+ *               allows selecting the entire content of editable area.
+ *               This plugin also enables a toolbar button for the feature.
  */
 
 (function() {
