@@ -164,8 +164,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.mode = newMode;
 
 			if ( isDirty !== undefined ) {
-				// The editor data "may be dirty" after this point.
-				editor.mayBeDirty = true;
 				!isDirty && editor.resetDirty();
 			}
 
