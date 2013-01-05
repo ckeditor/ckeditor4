@@ -41,10 +41,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 <pre class="samples">
 CKEDITOR.replace( 'editor2a', {
 	allowedContent:
-		'p blockquote strong em,' +
-		'a[href],' +
-		'img[src,alt],' +
-		'table tr th td caption,' +
+		'h1 h2 h3 p blockquote strong em;' +
+		'a[href];' +
+		'img.left,right[src,alt]{width,height};' +
+		'table tr th td caption;' +
 		'span{font-family,color}'
 } );
 </pre>
@@ -56,10 +56,10 @@ CKEDITOR.replace( 'editor2a', {
 
 			CKEDITOR.replace( 'editor2a', {
 				allowedContent:
-					'h1 h2 h3 p blockquote strong em,' +
-					'a[href],' +
-					'img[src,alt],' +
-					'table tr th td caption,' +
+					'h1 h2 h3 p blockquote strong em;' +
+					'a[href];' +
+					'img.left,right[src,alt]{width,height};' +
+					'table tr th td caption;' +
 					'span{font-family,color}'
 			} );
 
@@ -79,17 +79,14 @@ CKEDITOR.replace( 'editor2a', {
 <pre class="samples">
 CKEDITOR.replace( 'editor2b', {
 	allowedContent: {
-		'$1': 'strong,em,ul,ol',
-		'$2': {
-			elements: 'h1,h2,h3,p,blockquote,li',
+		'strong em ul ol': true,
+		'h1 h2 h3 p blockquote li': {
 			styles: 'text-align'
 		},
 		a: { attrs: 'href,target' },
 		img: {
-			attrs: {
-				src: true,
-				alt: true
-			},
+			attrs: 'src,alt',
+			styles: 'width,height',
 			classes: 'left,right'
 		},
 		span: function( element ) {
@@ -107,17 +104,14 @@ CKEDITOR.replace( 'editor2b', {
 
 			CKEDITOR.replace( 'editor2b', {
 				allowedContent: {
-					'$1': 'strong,em,ul,ol',
-					'$2': {
-						elements: 'h1,h2,h3,p,blockquote,li',
+					'strong em ul ol': true,
+					'h1 h2 h3 p blockquote li': {
 						styles: 'text-align'
 					},
 					a: { attrs: 'href,target' },
 					img: {
-						attrs: {
-							src: true,
-							alt: true
-						},
+						attrs: 'src,alt',
+						styles: 'width,height',
 						classes: 'left,right'
 					},
 					span: function( element ) {
