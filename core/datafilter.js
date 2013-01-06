@@ -17,11 +17,10 @@
 
 		var allowedContent = editor.config.allowedContent;
 
-		if ( !allowedContent ) {
-			allowedContent = defaultAllowedContent;
+		if ( !allowedContent )
 			this.customConfig = false;
-		}
 
+		this.addRules( defaultAllowedContent, 1 );
 		this.addRules( allowedContent, 1 );
 
 		editor.once( 'pluginsLoaded', function() {
@@ -140,8 +139,6 @@
 		applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
 		applyRuleToHash( rule.styles, element.styles, status.validStyles );
 		applyRuleToArray( rule.classes, element.classes, status.validClasses );
-
-		updateElement( element, status );
 	}
 
 	function applyRuleToArray( itemsRule, items, validItems ) {
@@ -208,7 +205,7 @@
 
 	function parseRulesString( input ) {
 			//              <   elements   >< classes ><   styles and attributes   >< separator >
-		var groupPattern = /^([a-z0-9*\s]+)(?:\.([\w-,]+))?({[\w\-,]+}|\[[\w\-,]+\]){0,2}(?:;\s*|$)/i,
+		var groupPattern = /^([a-z0-9*\s]+)(?:\.([\w-,]+))?((?:{[\w\-,]+}|\[[\w\-,]+\]){0,2})(?:;\s*|$)/i,
 			match,
 			attrsAndStyles, styles, attrs,
 			rules = {},
@@ -262,11 +259,12 @@
 			styles = element.styles,
 			name,
 			stylesArr = [],
-			classesArr = [];
+			classesArr = [],
+			internalAttr = /^data-cke-/;
 
 		// We can safely remove class and styles attributes because they will be serialized later.
 		for ( name in attrs ) {
-			if ( !validAttrs[ name ] )
+			if ( !validAttrs[ name ] && !internalAttr.test( name ) )
 				delete attrs[ name ];
 		}
 
@@ -310,9 +308,9 @@
 	}
 
 	// Default editor's rules.
-	// TODO... shouldn't be default completely empty?
 	var defaultAllowedContent = {
-		'p br div span': true
+		'p br': true
 	};
+
 
 })();
