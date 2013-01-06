@@ -79,19 +79,18 @@
 				var name = element.name,
 					status = {
 						valid: false,
-						modified: false,
-						validStyles: {},
+						validAttributes: {},
 						validClasses: {},
-						validAttributes: {}
+						validStyles: {}
 					},
 					rules = elementsRules[ name ],
 					i, l;
 
-				if ( element.name == 'span') console.log( element);
-
 				// Early return - if there are no rules, remove this element.
-				if ( !rules && !genericRules )
+				if ( !rules && !genericRules ) {
 					removeElement( element, name );
+					return;
+				}
 
 				// TODO For performance reasons they may be parsed only on demand.
 				element.styles = parseCssText( element.attributes.style || '', 1 );
@@ -108,8 +107,12 @@
 				}
 
 				// Finally, if after running all filter rules it is still disallowed - remove it.
-				if ( !status.valid )
+				if ( !status.valid ) {
 					removeElement( element, name );
+					return;
+				}
+
+				updateElement( element, status );
 			}
 		}
 	};
@@ -118,33 +121,52 @@
 		var name = element.name;
 
 		// This generic rule doesn't apply to this element - skip it.
-		if ( !isSpecific && !checkValue( rule.elements, name ) )
+		// NOTE: this is requiring that ALL generic rules have elements validator.
+		if ( !isSpecific && !rule.elements( name ) )
 			return;
 
 		// Optimalization - validate only if still invalid.
 		if ( !status.valid ) {
 			// If rule has validator and it accepts this element - make it valid.
 			if ( rule.validate ) {
-				if ( checkValue( rule.validate, element ) )
+				if ( rule.validate( element ) )
 					status.valid = true;
 			}
 			// If there's no validator make it valid anyway, because there exists a rule for this element.
 			else
 				status.valid = true;
 		}
+
+		applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
+		applyRuleToHash( rule.styles, element.styles, status.validStyles );
+		applyRuleToArray( rule.classes, element.classes, status.validClasses );
+
+		updateElement( element, status );
 	}
 
-	function checkValue( validator, value1, value2 ) {
-		// Code optimalization. Check if validator exists here.
-		// If not - return true (value is ok).
-		if ( !validator )
-			return true;
+	function applyRuleToArray( itemsRule, items, validItems ) {
+		if ( !itemsRule )
+			return;
 
-		return validator( value1, value2 );
+		for ( var i = 0, l = items.length, item; i < l; ++i ) {
+			item = items[ i ];
+			if ( !validItems[ item ] )
+				validItems[ item ] = itemsRule( item );
+		}
+	}
+
+	function applyRuleToHash( itemsRule, items, validItems ) {
+		if ( !itemsRule )
+			return;
+
+		for ( var name in items ) {
+			if ( !validItems[ name ] )
+				validItems[ name ] = itemsRule( name, items[ name ] );
+		}
 	}
 
 	function optimizeRule( rule ) {
-		for ( var i in { elements:1,styles:1,attrs:1,classes:1 } ) {
+		for ( var i in { elements:1,styles:1,attributes:1,classes:1 } ) {
 			if ( rule[ i ] )
 				rule[ i ] = validatorFunction( rule[ i ] );
 		}
@@ -211,7 +233,7 @@
 				elements: match[ 1 ],
 				classes: match[ 2 ] || null,
 				styles: styles,
-				attrs: attrs
+				attributes: attrs
 			};
 
 			// Move to the next group.
@@ -232,6 +254,37 @@
 			delete element.name;
 	}
 
+	function updateElement( element, status ) {
+		var validAttrs = status.validAttributes,
+			validStyles = status.validStyles,
+			validClasses = status.validClasses,
+			attrs = element.attributes,
+			styles = element.styles,
+			name,
+			stylesArr = [],
+			classesArr = [];
+
+		// We can safely remove class and styles attributes because they will be serialized later.
+		for ( name in attrs ) {
+			if ( !validAttrs[ name ] )
+				delete attrs[ name ];
+		}
+
+		for ( name in styles ) {
+			if ( validStyles[ name ] )
+				stylesArr.push( name + ':' + styles[ name ] );
+		}
+		if ( stylesArr.length )
+			element.attributes.style = stylesArr.join( '; ' );
+
+		for ( name in validClasses ) {
+			if ( validClasses[ name ] )
+				classesArr.push( name );
+		}
+		if ( classesArr.length )
+			element.attributes.class = classesArr.join( ' ' );
+	}
+
 	function validatorFunction( validator ) {
 		var type = typeof validator;
 		if ( type == 'object' )
@@ -241,7 +294,7 @@
 			case 'function':
 				return validator;
 			case 'string':
-				var arr = validator.split( /,\s+/ );
+				var arr = validator.split( /,\s*/ );
 				return function( value ) {
 					return indexOf( arr, value ) > -1;
 				};
