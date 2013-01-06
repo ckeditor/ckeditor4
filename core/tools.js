@@ -92,7 +92,7 @@
 				clone = [];
 
 				for ( var i = 0; i < obj.length; i++ )
-					clone[ i ] = this.clone( obj[ i ] );
+					clone[ i ] = CKEDITOR.tools.clone( obj[ i ] );
 
 				return clone;
 			}
@@ -107,7 +107,7 @@
 
 			for ( var propertyName in obj ) {
 				var property = obj[ propertyName ];
-				clone[ propertyName ] = this.clone( property );
+				clone[ propertyName ] = CKEDITOR.tools.clone( property );
 			}
 
 			return clone;
@@ -816,7 +816,7 @@
 		 * @param {Boolean} [normalize=false] Normalize properties and values
 		 * (e.g. trim spaces, convert to lower case).
 		 * @param {Boolean} [nativeNormalize=false] Parse the data using the browser.
-		 * @returns {String} The object containing parsed properties.
+		 * @returns {Object} The object containing parsed properties.
 		 */
 		parseCssText: function( styleText, normalize, nativeNormalize ) {
 			var retval = {};
