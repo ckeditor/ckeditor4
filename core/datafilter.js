@@ -280,7 +280,7 @@
 				classesArr.push( name );
 		}
 		if ( classesArr.length )
-			element.attributes.class = classesArr.join( ' ' );
+			element.attributes[ 'class' ] = classesArr.join( ' ' );
 	}
 
 	function validatorFunction( validator ) {
