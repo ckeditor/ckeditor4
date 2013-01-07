@@ -20,7 +20,9 @@
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/image.js' );
 
 			// Register the command.
-			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
+			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
+				allowedContent: 'img[src,alt]{width,height,border-width,border-style,margin,float}'
+			} ) );
 
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'Image', {

@@ -60,6 +60,16 @@
 
 			if ( htmlFilter )
 				htmlFilter.addRules( htmlFilterRules );
+
+			editor.dataFilter.addRules( {
+				img: {
+					validate: function( element ) {
+						return !!element.attributes[ 'data-cke-realelement' ];
+					},
+					// Validate all classes, attrs and styles.
+					validateAll: true
+				}
+			} );
 		}
 	});
 

@@ -80,7 +80,8 @@
 						valid: false,
 						validAttributes: {},
 						validClasses: {},
-						validStyles: {}
+						validStyles: {},
+						allValid: 0
 					},
 					rules = elementsRules[ name ],
 					i, l;
@@ -111,7 +112,8 @@
 					return;
 				}
 
-				updateElement( element, status );
+				if ( !status.allValid )
+					updateElement( element, status );
 			}
 		}
 	};
@@ -129,16 +131,25 @@
 			// If rule has validator and it accepts this element - make it valid.
 			if ( rule.validate ) {
 				if ( rule.validate( element ) )
-					status.valid = true;
+					status.valid = !rule.propertiesOnly;
+				// Return so attrs, styles and classes won't be validated.
+				else
+					return;
 			}
 			// If there's no validator make it valid anyway, because there exists a rule for this element.
 			else
-				status.valid = true;
+				status.valid = !rule.propertiesOnly;
 		}
 
-		applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
-		applyRuleToHash( rule.styles, element.styles, status.validStyles );
-		applyRuleToArray( rule.classes, element.classes, status.validClasses );
+		if ( rule.validateAll )
+			status.allValid = 1;
+
+		// No need to run validators.
+		if ( !status.allValid ) {
+			applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
+			applyRuleToHash( rule.styles, element.styles, status.validStyles );
+			applyRuleToArray( rule.classes, element.classes, status.validClasses );
+		}
 	}
 
 	function applyRuleToArray( itemsRule, items, validItems ) {

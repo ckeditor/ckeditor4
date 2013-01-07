@@ -109,12 +109,12 @@
 		allowedContent: {
 			// TODO this is not a complete list of elements.
 			'caption div h1 h2 h3 h4 h5 h6 p td th': {
-				// This trick prevents accepting elements, so this rule adds style if element is allowed by other rule.
-				validate: function() { return false; },
+				// Do not add elements, but only text-align style if element is validated by other rule.
+				propertiesOnly: true,
 				styles: 'text-align'
 			},
 			'img': {
-				validate: function() { return false; },
+				propertiesOnly: true,
 				styles: 'float'
 			}
 		},
