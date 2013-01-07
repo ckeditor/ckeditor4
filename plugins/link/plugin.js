@@ -49,8 +49,12 @@ CKEDITOR.plugins.add( 'link', {
 
 	init: function( editor ) {
 		// Add the link and unlink buttons.
-		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
-		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor' ) );
+		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
+			allowedContent: 'a[href,target]'
+		} ) );
+		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
+			allowedContent: 'a[name]'
+		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 

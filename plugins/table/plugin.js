@@ -14,7 +14,10 @@ CKEDITOR.plugins.add( 'table', {
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
 
-		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
+		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', {
+			context: 'table',
+			allowedContent: 'table{width,height}[align,border,cellpadding,cellspacing,summary]; caption th td tr'
+		} ) );
 
 		function createDef( def ) {
 			return CKEDITOR.tools.extend( def || {}, {
