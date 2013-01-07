@@ -308,9 +308,7 @@
 	}
 
 	// Default editor's rules.
-	var defaultAllowedContent = {
-		'p br': true
-	};
+	var defaultAllowedContent = 'p br';
 
 
 })();
