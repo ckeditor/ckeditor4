@@ -66,7 +66,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		cancel: 'Atcelt',
 		close: 'Aizvērt',
 		preview: 'Priekšskatījums',
-		resize: 'Resize', // MISSING
+		resize: 'Mērogot',
 		generalTab: 'Vispārīgi',
 		advancedTab: 'Izvērstais',
 		validateNumberFailed: 'Šī vērtība nav skaitlis',

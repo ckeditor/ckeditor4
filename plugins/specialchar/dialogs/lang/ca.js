@@ -18,12 +18,12 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ca', {
 	yen: 'Símbol de Yen',
 	brvbar: 'Broken bar', // MISSING
 	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
+	uml: 'Dièresi',
 	copy: 'Símbol de Copyright',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Left-pointing double angle quotation mark', // MISSING
 	not: 'Not sign', // MISSING
-	reg: 'Registered sign', // MISSING
+	reg: 'Símbol registrat',
 	macr: 'Macron', // MISSING
 	deg: 'Degree sign', // MISSING
 	sup2: 'Superscript two', // MISSING

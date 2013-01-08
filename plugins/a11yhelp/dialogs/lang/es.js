@@ -3,21 +3,21 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
-	title: 'Tilgængelighedsinstrukser',
-	contents: 'Onlinehjælp. For at lukke dette vindue klik ESC',
+CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
+	title: 'Instrucciones de acceso',
+	contents: 'Ayuda. Para cerrar presione ESC.',
 	legend: [
 		{
-		name: 'Generelt',
+		name: 'General',
 		items: [
 			{
-			name: 'Editor værktøjslinje',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Barra de herramientas del editor',
+			legend: 'Presiona ${toolbarFocus} para navegar por la barra de herramientas. Para moverse por los distintos grupos de herramientas usa las teclas TAB y MAY-TAB. Para moverse por las distintas herramientas usa FLECHA DERECHA o FECHA IZQUIERDA. Presiona "espacio" o "intro" para activar la herramienta.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Editor de diálogo',
+			legend: 'Dentro de un cuadro de diálogo, presione la tecla TAB para desplazarse al campo siguiente del cuadro de diálogo, pulse SHIFT + TAB para desplazarse al campo anterior, pulse ENTER para presentar cuadro de diálogo, pulse la tecla ESC para cancelar el diálogo. Para los diálogos que tienen varias páginas, presione ALT + F10 para navegar a la pestaña de la lista. Luego pasar a la siguiente pestaña con TAB o FLECHA DERECHA. Para ir a la ficha anterior con SHIFT + TAB o FLECHA IZQUIERDA. Presione ESPACIO o ENTRAR para seleccionar la página de ficha.'
 		},
 
 			{
@@ -37,19 +37,19 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		]
 	},
 		{
-		name: 'Kommandoer',
+		name: 'Commands', // MISSING
 		items: [
 			{
-			name: 'Fortryd kommando',
-			legend: 'Klik på ${undo}'
+			name: ' Undo command', // MISSING
+			legend: 'Press ${undo}' // MISSING
 		},
 			{
-			name: 'Gentag kommando',
-			legend: 'Klik ${redo}'
+			name: ' Redo command', // MISSING
+			legend: 'Press ${redo}' // MISSING
 		},
 			{
 			name: ' Bold command', // MISSING
-			legend: 'Klik ${bold}'
+			legend: 'Press ${bold}' // MISSING
 		},
 			{
 			name: ' Italic command', // MISSING
@@ -57,11 +57,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		},
 			{
 			name: ' Underline command', // MISSING
-			legend: 'Klik ${underline}'
+			legend: 'Press ${underline}' // MISSING
 		},
 			{
 			name: ' Link command', // MISSING
-			legend: 'Klik ${link}'
+			legend: 'Press ${link}' // MISSING
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING
@@ -77,7 +77,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		},
 			{
 			name: ' Accessibility Help', // MISSING
-			legend: 'Kilk ${a11yHelp}'
+			legend: 'Press ${a11yHelp}' // MISSING
 		}
 		]
 	}

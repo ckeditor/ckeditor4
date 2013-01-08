@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Redigera verktygsfält'
 });

@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 		title: 'Egenskaper för ankarlänk',
 		name: 'Ankarnamn',
 		errorName: 'Var god ange ett ankarnamn',
-		remove: 'Remove Anchor'
+		remove: 'Radera ankare'
 	},
 	anchorId: 'efter objektid',
 	anchorName: 'efter ankarnamn',
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	popupStatusBar: 'Statusfält',
 	popupToolbar: 'Verktygsfält',
 	popupTop: 'Position från sidans topp',
-	rel: 'Relationship', // MISSING
+	rel: 'Förhållande',
 	selectAnchor: 'Välj ett ankare',
 	styles: 'Stilmall',
 	tabIndex: 'Tabindex',

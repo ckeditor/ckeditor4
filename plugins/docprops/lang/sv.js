@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sv', {
 	bgFixed: 'Fast bakgrund',
 	bgImage: 'Bakgrundsbildens URL',
 	charset: 'Teckenuppsättningar',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Central Europa',
 	charsetCR: 'Kyrillisk',
 	charsetCT: 'Traditionell Kinesisk (Big5)',
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'sv', {
 	charsetKR: 'Koreanska',
 	charsetOther: 'Övriga teckenuppsättningar',
 	charsetTR: 'Turkiska',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Väst Europa',
 	chooseColor: 'Välj',
-	design: 'Design', // MISSING
+	design: 'Design',
 	docTitle: 'Sidtitel',
 	docType: 'Sidhuvud',
 	docTypeOther: 'Övriga sidhuvuden',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sv', {
 	metaDescription: 'Sidans beskrivning',
 	metaKeywords: 'Sidans nyckelord',
 	other: '<annan>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Detta är en <strong>exempel text</strong>. Du använder <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Dokumentegenskaper',
 	txtColor: 'Textfärg',
 	xhtmlDec: 'Inkludera XHTML deklaration'

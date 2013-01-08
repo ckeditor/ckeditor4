@@ -70,8 +70,8 @@ CKEDITOR.lang[ 'bg' ] = {
 		generalTab: 'Общо',
 		advancedTab: 'Разширено',
 		validateNumberFailed: 'Тази стойност не е число',
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmNewPage: 'Всички незапазени промени ще бъдат изгубени. Сигурни ли сте, че желаете да заредите нова страница?',
+		confirmCancel: 'Някои от опциите са променени. Сигурни ли сте, че желаете да затворите прозореца?',
 		options: 'Опции',
 		target: 'Цел',
 		targetNew: 'Нов прозорец (_blank)',
@@ -91,15 +91,15 @@ CKEDITOR.lang[ 'bg' ] = {
 		alignTop: 'Горе',
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Невалидна стойност.',
 		invalidHeight: 'Височината трябва да е число.',
 		invalidWidth: 'Ширина требе да е число.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Стойността на полето "%1" трябва да бъде положително число с или без валидна CSS измервателна единица (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'Стойността на полето "%1" трябва да бъде положително число с или без валидна HTML измервателна единица (px or %).',
+		invalidInlineStyle: 'Стойността на стилa трябва да съдържат една или повече двойки във формат "name : value", разделени с двоеточие.',
+		cssLengthTooltip: 'Въведете числена стойност в пиксели или друга валидна CSS единица (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, недостъпно</span>'
 	}
 };

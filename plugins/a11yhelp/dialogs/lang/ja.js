@@ -3,15 +3,15 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
-	title: 'Tilgængelighedsinstrukser',
-	contents: 'Onlinehjælp. For at lukke dette vindue klik ESC',
+CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
+	title: 'Accessibility Instructions', // MISSING
+	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
 	legend: [
 		{
-		name: 'Generelt',
+		name: '全般',
 		items: [
 			{
-			name: 'Editor værktøjslinje',
+			name: 'Editor Toolbar', // MISSING
 			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 		},
 
@@ -37,19 +37,19 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		]
 	},
 		{
-		name: 'Kommandoer',
+		name: 'Commands', // MISSING
 		items: [
 			{
-			name: 'Fortryd kommando',
-			legend: 'Klik på ${undo}'
+			name: ' Undo command', // MISSING
+			legend: 'Press ${undo}' // MISSING
 		},
 			{
-			name: 'Gentag kommando',
-			legend: 'Klik ${redo}'
+			name: ' Redo command', // MISSING
+			legend: 'Press ${redo}' // MISSING
 		},
 			{
 			name: ' Bold command', // MISSING
-			legend: 'Klik ${bold}'
+			legend: 'Press ${bold}' // MISSING
 		},
 			{
 			name: ' Italic command', // MISSING
@@ -57,11 +57,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		},
 			{
 			name: ' Underline command', // MISSING
-			legend: 'Klik ${underline}'
+			legend: 'Press ${underline}' // MISSING
 		},
 			{
 			name: ' Link command', // MISSING
-			legend: 'Klik ${link}'
+			legend: 'Press ${link}' // MISSING
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING
@@ -77,7 +77,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		},
 			{
 			name: ' Accessibility Help', // MISSING
-			legend: 'Kilk ${a11yHelp}'
+			legend: 'Press ${a11yHelp}' // MISSING
 		}
 		]
 	}
