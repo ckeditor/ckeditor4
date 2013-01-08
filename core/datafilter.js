@@ -234,8 +234,8 @@
 	}
 
 	function parseRulesString( input ) {
-			//              <   elements   >< classes ><   styles and attributes   >< separator >
-		var groupPattern = /^([a-z0-9*\s]+)(?:\.([\w-,]+))?((?:{[\w\-,]+}|\[[\w\-,]+\]){0,2})(?:;\s*|$)/i,
+			//              <   elements   ><    classes    ><              styles and attributes              >< separator >
+		var groupPattern = /^([a-z0-9*\s]+)(?:\.([\w\-,\s]+))?((?:\s*{[\w\-,\s]+}\s*|\s*\[[\w\-,\s]+\]\s*){0,2})(?:;\s*|$)/i,
 			match,
 			attrsAndStyles, styles, attrs,
 			rules = {},
@@ -322,7 +322,7 @@
 			case 'function':
 				return validator;
 			case 'string':
-				var arr = validator.split( /,\s*/ );
+				var arr = trim( validator ).split( /\s*,\s*/ );
 				return function( value ) {
 					return indexOf( arr, value ) > -1;
 				};
