@@ -11,41 +11,50 @@
 		clone = CKEDITOR.tools.clone,
 		parseCssText = CKEDITOR.tools.parseCssText;
 
-	CKEDITOR.dataFilter = function( editor ) {
-		this.customConfig = true;
+	CKEDITOR.dataFilter = function( editorOrRules ) {
 		this.allowedContent = [];
 
-		var allowedContent = editor.config.allowedContent;
+		if ( editorOrRules instanceof CKEDITOR.editor ) {
+			var editor = editorOrRules;
+			this.customConfig = true;
 
-		if ( !allowedContent )
+			var allowedContent = editor.config.allowedContent;
+
+			if ( !allowedContent )
+				this.customConfig = false;
+
+			this.addRules( defaultAllowedContent, 1 );
+			this.addRules( allowedContent, 1 );
+
+			editor.once( 'pluginsLoaded', function() {
+				var filterFn = this.getFilterFunction();
+
+				// Add element filter at the end of filters queue.
+				editor.dataProcessor.dataFilter.addRules( {
+					elements: {
+						'^': filterFn
+					}
+				}, 100 );
+
+				editor.dataProcessor.htmlFilter.addRules( {
+					elements: {
+						'^': filterFn
+					}
+				}, 100 );
+			}, this );
+		}
+		// Rules object passed in editorOrRules argument - initialize standalone dataFilter.
+		else {
 			this.customConfig = false;
-
-		this.addRules( defaultAllowedContent, 1 );
-		this.addRules( allowedContent, 1 );
-
-		editor.once( 'pluginsLoaded', function() {
-			var filterFn = this.getFilterFunction();
-
-			// Add element filter at the end of filters queue.
-			editor.dataProcessor.dataFilter.addRules( {
-				elements: {
-					'^': filterFn
-				}
-			}, 100 );
-
-			editor.dataProcessor.htmlFilter.addRules( {
-				elements: {
-					'^': filterFn
-				}
-			}, 100 );
-		}, this );
+			this.addRules( editorOrRules, 1 );
+		}
 	};
 
 	CKEDITOR.dataFilter.prototype = {
 		addRules: function( newRules, overrideCustom ) {
 			// Don't override custom user's configuration if not explicitly requested.
 			if ( this.customConfig && !overrideCustom )
-				return;
+				return false;
 
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
@@ -67,6 +76,8 @@
 
 				this.allowedContent.push( rule );
 			}
+
+			return true;
 		},
 
 		getFilterFunction: function() {
