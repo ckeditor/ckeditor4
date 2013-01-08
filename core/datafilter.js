@@ -7,9 +7,10 @@
 	'use strict';
 
 	var DTD = CKEDITOR.dtd,
-		indexOf = CKEDITOR.tools.indexOf,
 		clone = CKEDITOR.tools.clone,
-		parseCssText = CKEDITOR.tools.parseCssText;
+		indexOf = CKEDITOR.tools.indexOf,
+		parseCssText = CKEDITOR.tools.parseCssText,
+		trim = CKEDITOR.tools.trim;
 
 	CKEDITOR.dataFilter = function( editorOrRules ) {
 		this.allowedContent = [];
@@ -200,7 +201,7 @@
 			rule = rules[ i ];
 
 			if ( typeof rule.elements == 'string' ) {
-				elements = rule.elements.split( /\s+/ );
+				elements = trim( rule.elements ).split( /\s+/ );
 				delete rule.elements;
 
 				// Do not optimize rule.elements.
@@ -233,7 +234,7 @@
 			rules = {},
 			groupNum = 1;
 
-		input = CKEDITOR.tools.trim( input );
+		input = trim( input );
 
 		while ( ( match = input.match( groupPattern ) ) ) {
 			styles = attrs = null;
