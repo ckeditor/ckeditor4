@@ -134,8 +134,7 @@
 		var name = element.name;
 
 		// This generic rule doesn't apply to this element - skip it.
-		// NOTE: this is requiring that ALL generic rules have elements validator.
-		if ( !isSpecific && !rule.elements( name ) )
+		if ( !isSpecific && rule.elements && !rule.elements( name ) )
 			return;
 
 		// Optimalization - validate only if still invalid.
@@ -201,17 +200,25 @@
 			rule = rules[ i ];
 
 			if ( typeof rule.elements == 'string' ) {
-				elements = trim( rule.elements ).split( /\s+/ );
+				elements = trim( rule.elements );
 				delete rule.elements;
 
 				// Do not optimize rule.elements.
 				optimizeRule( rule );
 
-				while ( ( element = elements.pop() ) ) {
-					if ( !elementsRules[ element ] )
-						elementsRules[ element ] = [ rule ];
-					else
-						elementsRules[ element ].push( rule );
+				if ( elements == '*' ) {
+					rule.propertiesOnly = true;
+					genericRules.push( rule );
+				}
+				else {
+					elements = elements.split( /\s+/ );
+
+					while ( ( element = elements.pop() ) ) {
+						if ( !elementsRules[ element ] )
+							elementsRules[ element ] = [ rule ];
+						else
+							elementsRules[ element ].push( rule );
+					}
 				}
 			}
 			else {
@@ -332,6 +339,5 @@
 
 	// Default editor's rules.
 	var defaultAllowedContent = 'p br';
-
 
 })();
