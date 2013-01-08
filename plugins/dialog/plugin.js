@@ -3143,6 +3143,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event dialogShow
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -3157,6 +3158,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event dialogHide
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
