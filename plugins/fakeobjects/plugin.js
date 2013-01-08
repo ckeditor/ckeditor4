@@ -66,8 +66,8 @@
 					validate: function( element ) {
 						return !!element.attributes[ 'data-cke-realelement' ];
 					},
-					// Validate all classes, attrs and styles.
-					validateAll: true
+					// Mark all classes, attrs and styles as valid.
+					markAllValid: true
 				}
 			} );
 		}

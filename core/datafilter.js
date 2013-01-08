@@ -141,7 +141,7 @@
 				status.valid = !rule.propertiesOnly;
 		}
 
-		if ( rule.validateAll )
+		if ( rule.markAllValid )
 			status.allValid = 1;
 
 		// No need to run validators.
