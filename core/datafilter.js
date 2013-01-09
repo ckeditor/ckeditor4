@@ -78,6 +78,10 @@
 				this.allowedContent.push( rule );
 			}
 
+			// Clear cached filter function allowing for dynamic rules adding.
+			// TODO It's extremely senseless, because of poor performance.
+			delete this._.filterFunction;
+
 			return true;
 		},
 
