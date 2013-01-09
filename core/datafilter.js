@@ -14,6 +14,7 @@
 
 	CKEDITOR.dataFilter = function( editorOrRules ) {
 		this.allowedContent = [];
+		this._ = {};
 
 		if ( editorOrRules instanceof CKEDITOR.editor ) {
 			var editor = editorOrRules;
@@ -82,11 +83,14 @@
 		},
 
 		getFilterFunction: function() {
+			if ( this._.filterFunction )
+				return this._.filterFunction;
+
 			var rules = optimizeRules( this.allowedContent ),
 				elementsRules = rules.elements,
 				genericRules = rules.generic;
 
-			return function( element ) {
+			return this._.filterFunction = function( element ) {
 				var name = element.name,
 					status = {
 						valid: false,
@@ -104,9 +108,11 @@
 					return;
 				}
 
-				// TODO For performance reasons they may be parsed only on demand.
-				element.styles = parseCssText( element.attributes.style || '', 1 );
-				element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+				// These properties could be mocked by dataFilter#test.
+				if ( !element.styles )
+					element.styles = parseCssText( element.attributes.style || '', 1 );
+				if ( !element.classes )
+					element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
 
 				if ( rules ) {
 					for ( i = 0, l = rules.length; i < l; ++i )
@@ -126,7 +132,35 @@
 
 				if ( !status.allValid )
 					updateElement( element, status );
-			}
+			};
+		},
+
+		test: function( element ) {
+			element = parseRulesString( element )[ '$1' ];
+			var styles = element.styles,
+				classes = element.classes;
+
+			element.name = element.elements;
+			element.classes = classes = ( classes ? classes.split( /\s*,\s*/ ) : [] );
+			element.styles = mockHash( styles );
+			element.attributes = mockHash( element.attributes );
+
+			if ( classes.length )
+				element.attributes[ 'class' ] = classes.join( ' ' );
+			if ( styles )
+				element.attributes.style = CKEDITOR.tools.writeCssText( element.styles );
+
+			var copy = clone( element );
+
+			this.getFilterFunction()( copy );
+
+			if ( copy.name != element.name )
+				return false;
+			// Compare only left to right, because copy may be only trimmed version of original element.
+			if ( !CKEDITOR.tools.objectCompare( element.attributes, copy.attributes, true ) )
+				return false;
+
+			return true;
 		}
 	};
 
@@ -149,6 +183,8 @@
 			}
 			// If there's no validator make it valid anyway, because there exists a rule for this element.
 			else
+				// If propertiesOnly is true it will keep status.valid == false.
+				// This way only element properties (styles, attrs, classes) will be validated.
 				status.valid = !rule.propertiesOnly;
 		}
 
@@ -182,6 +218,20 @@
 			if ( !validItems[ name ] )
 				validItems[ name ] = itemsRule( name, items[ name ] );
 		}
+	}
+
+	function mockHash( str ) {
+		// It may be a null or empty string.
+		if ( !str )
+			return {};
+
+		var keys = str.split( /\s*,\s*/ ).sort(),
+			obj = {}
+
+		while ( keys.length )
+			obj[ keys.shift() ] = 'test';
+
+		return obj;
 	}
 
 	function optimizeRule( rule ) {
@@ -249,16 +299,16 @@
 			if ( ( attrsAndStyles = match[ 3 ] ) ) {
 				styles = attrsAndStyles.match( /{([^}]+)}/ );
 				if ( styles )
-					styles = styles[ 1 ];
+					styles = trim( styles[ 1 ] );
 
 				attrs = attrsAndStyles.match( /\[([^\]]+)\]/ );
 				if ( attrs )
-					attrs = attrs[ 1 ];
+					attrs = trim( attrs[ 1 ] );
 			}
 
 			rules[ '$' + groupNum++ ] = {
 				elements: match[ 1 ],
-				classes: match[ 2 ] || null,
+				classes: match[ 2 ] ? trim( match[ 2 ] ) : null,
 				styles: styles,
 				attributes: attrs
 			};
@@ -303,14 +353,14 @@
 				stylesArr.push( name + ':' + styles[ name ] );
 		}
 		if ( stylesArr.length )
-			element.attributes.style = stylesArr.join( '; ' );
+			element.attributes.style = stylesArr.sort().join( '; ' );
 
 		for ( name in validClasses ) {
 			if ( validClasses[ name ] )
 				classesArr.push( name );
 		}
 		if ( classesArr.length )
-			element.attributes[ 'class' ] = classesArr.join( ' ' );
+			element.attributes[ 'class' ] = classesArr.sort().join( ' ' );
 	}
 
 	function validatorFunction( validator ) {
