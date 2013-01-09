@@ -846,6 +846,40 @@
 				retval[ name ] = value;
 			});
 			return retval;
+		},
+
+		writeCssText: function( styles ) {
+			var name,
+				stylesArr = [];
+
+			for ( name in styles )
+					stylesArr.push( name + ':' + styles[ name ] );
+
+			return stylesArr.join( '; ' );
+		},
+
+		objectCompare: function( left, right, onlyLeft ) {
+			var name;
+
+			if ( !left && !right )
+				return true;
+			if ( !left || !right )
+				return false;
+
+			for ( name in left ) {
+				if ( left[ name ] != right[ name ] ) {
+					return false;
+				}
+			}
+
+			if ( !onlyLeft ) {
+				for ( name in right ) {
+					if ( left[ name ] != right[ name ] )
+						return false;
+				}
+			}
+
+			return true;
 		}
 	};
 })();
