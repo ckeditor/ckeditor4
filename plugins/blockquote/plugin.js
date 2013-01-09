@@ -12,7 +12,14 @@
 		return true;
 	}
 
-	var commandObject = {
+	function command() {
+		this.content = {
+			allowed: 'blockquote',
+			required: 'blockquote'
+		}
+	}
+
+	command.prototype = {
 		exec: function( editor ) {
 			var state = editor.getCommand( 'blockquote' ).state,
 				selection = editor.getSelection(),
@@ -222,9 +229,7 @@
 			this.setState( editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		},
 
-		context: 'blockquote',
-
-		allowedContent: 'blockquote p'
+		context: 'blockquote'
 	};
 
 	CKEDITOR.plugins.add( 'blockquote', {
@@ -234,7 +239,7 @@
 			if ( editor.blockless )
 				return;
 
-			editor.addCommand( 'blockquote', commandObject );
+			editor.addCommand( 'blockquote', new command() );
 
 			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {
 				label: editor.lang.blockquote.toolbar,

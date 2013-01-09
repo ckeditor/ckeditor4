@@ -557,10 +557,6 @@
 		 * @param {CKEDITOR.commandDefinition} commandDefinition The command definition.
 		 */
 		addCommand: function( commandName, commandDefinition ) {
-			var allowedContent = commandDefinition.allowedContent;
-			if ( allowedContent )
-				this.dataFilter.addRules( allowedContent );
-
 			return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
 		},
 

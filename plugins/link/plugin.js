@@ -50,10 +50,16 @@ CKEDITOR.plugins.add( 'link', {
 	init: function( editor ) {
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
-			allowedContent: 'a[href,target]'
+			content: {
+				allowed: 'a[href,target]',
+				required: 'a[href]'
+			}
 		} ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
-			allowedContent: 'a[name]'
+			content: {
+				allowed: 'a[name]',
+				required: 'a[name]'
+			}
 		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
@@ -291,7 +297,11 @@ CKEDITOR.plugins.link = {
 
 // TODO Much probably there's no need to expose these as public objects.
 
-CKEDITOR.unlinkCommand = function() {};
+CKEDITOR.unlinkCommand = function() {
+	this.content = {
+		required: 'a[href]'
+	};
+};
 CKEDITOR.unlinkCommand.prototype = {
 	exec: function( editor ) {
 		var style = new CKEDITOR.style( { element:'a',type:CKEDITOR.STYLE_INLINE,alwaysRemoveElement:1 } );
@@ -314,7 +324,11 @@ CKEDITOR.unlinkCommand.prototype = {
 	startDisabled: 1
 };
 
-CKEDITOR.removeAnchorCommand = function() {};
+CKEDITOR.removeAnchorCommand = function() {
+	this.content = {
+		required: 'a[name]'
+	};
+};
 CKEDITOR.removeAnchorCommand.prototype = {
 	exec: function( editor ) {
 		var sel = editor.getSelection(),
