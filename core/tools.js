@@ -194,6 +194,16 @@
 			return new copy();
 		},
 
+		copy: function( source ) {
+			var obj = {},
+				name;
+
+			for ( name in source )
+				obj[ name ] = source[ name ];
+
+			return obj;
+		},
+
 		/**
 		 * Checks if an object is an Array.
 		 *

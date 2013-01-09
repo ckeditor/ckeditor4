@@ -7,7 +7,7 @@
 	'use strict';
 
 	var DTD = CKEDITOR.dtd,
-		clone = CKEDITOR.tools.clone,
+		copy = CKEDITOR.tools.copy,
 		indexOf = CKEDITOR.tools.indexOf,
 		parseCssText = CKEDITOR.tools.parseCssText,
 		trim = CKEDITOR.tools.trim;
@@ -65,8 +65,7 @@
 
 			for ( groupName in newRules ) {
 				// Clone rule, because we'll modify it later.
-				// TODO We don't need deep clone.
-				rule = clone( newRules[ groupName ] );
+				rule = copy( newRules[ groupName ] );
 
 				if ( typeof rule == 'boolean' )
 					rule = {};
@@ -150,7 +149,8 @@
 			if ( styles )
 				element.attributes.style = CKEDITOR.tools.writeCssText( element.styles );
 
-			var copy = clone( element );
+			// Make a deep copy.
+			var copy = CKEDITOR.tools.clone( element );
 
 			this.getFilterFunction()( copy );
 
@@ -247,7 +247,8 @@
 			i, l, rule, elements, element;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
-			rule = rules[ i ];
+			// Do not modify original rule.
+			rule = copy( rules[ i ] );
 
 			if ( typeof rule.elements == 'string' ) {
 				elements = trim( rule.elements );
