@@ -368,6 +368,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			html.push( '>', ( label || styleDefinition.name ), '</', elementName, '>' );
 
 			return html.join( '' );
+		},
+
+		getDefinition: function() {
+			return this._.definition;
 		}
 	};
 

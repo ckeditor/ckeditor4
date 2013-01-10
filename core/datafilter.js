@@ -64,8 +64,18 @@
 
 			if ( !newRules )
 				return false;
+
+			var i, ret;
+
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
+			else if ( newRules instanceof CKEDITOR.style )
+				newRules = convertStylesToRules( newRules );
+			else if ( CKEDITOR.tools.isArray( newRules ) ) {
+				for ( i = 0; i < newRules.length; ++i )
+					ret = this.addRules( newRules[ i ], overrideCustom );
+				return ret; // Return last status.
+			}
 
 			var groupName, rule,
 				rulesToOptimize = [];
@@ -243,6 +253,15 @@
 			if ( !validItems[ name ] )
 				validItems[ name ] = itemsRule( name, items[ name ] );
 		}
+	}
+
+	function convertStylesToRules( style ) {
+		var styleDef = style.getDefinition(),
+			rule = {};
+
+		rule[ styleDef.element ] = true;
+
+		return rule;
 	}
 
 	function mockHash( str ) {
