@@ -151,10 +151,7 @@
 				if ( event.data.space == editor.config.toolbarLocation ) {
 					editor.toolbox = new toolbox();
 
-					var labelId = CKEDITOR.tools.getNextId(),
-						removeButtons = editor.config.removeButtons;
-
-					removeButtons = removeButtons && removeButtons.split( ',' );
+					var labelId = CKEDITOR.tools.getNextId();
 
 					var output = [
 						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
@@ -204,10 +201,6 @@
 							var item,
 								itemName = items[ i ],
 								canGroup;
-
-							// Ignore items that are configured to be removed.
-							if ( removeButtons && CKEDITOR.tools.indexOf( removeButtons, itemName ) >= 0 )
-								continue;
 
 							item = editor.ui.create( itemName );
 
@@ -408,6 +401,10 @@
 	});
 
 	function getToolbarConfig( editor ) {
+		var removeButtons = editor.config.removeButtons;
+
+		removeButtons = removeButtons && removeButtons.split( ',' );
+
 		function buildToolbarConfig() {
 
 			// Object containing all toolbar groups used by ui items.
@@ -486,7 +483,6 @@
 		}
 
 		function fillGroup( toolbarGroup, uiItems ) {
-
 			if ( uiItems.length ) {
 				if ( toolbarGroup.items )
 					toolbarGroup.items.push( '-' );
@@ -494,8 +490,11 @@
 					toolbarGroup.items = [];
 
 				var item;
-				while ( ( item = uiItems.shift() ) )
-					toolbarGroup.items.push( item.name );
+				while ( ( item = uiItems.shift() ) ) {
+					// Ignore items that are configured to be removed.
+					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, item.name ) == -1 )
+						toolbarGroup.items.push( item.name );
+				}
 			}
 		}
 
