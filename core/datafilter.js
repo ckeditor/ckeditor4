@@ -13,8 +13,12 @@
 		trim = CKEDITOR.tools.trim;
 
 	CKEDITOR.dataFilter = function( editorOrRules ) {
+		// Easy-to-debug rules.
 		this.allowedContent = [];
-		this._ = {};
+		this._ = {
+			// Optimized rules.
+			rules: {}
+		};
 
 		if ( editorOrRules instanceof CKEDITOR.editor ) {
 			var editor = editorOrRules;
@@ -61,7 +65,8 @@
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
 
-			var groupName, rule;
+			var groupName, rule,
+				rulesToOptimize = [];
 
 			for ( groupName in newRules ) {
 				// Clone rule, because we'll modify it later.
@@ -76,11 +81,10 @@
 					rule.elements = groupName;
 
 				this.allowedContent.push( rule );
+				rulesToOptimize.push( rule );
 			}
 
-			// Clear cached filter function allowing for dynamic rules adding.
-			// TODO It's extremely senseless, because of poor performance.
-			delete this._.filterFunction;
+			optimizeRules( this._.rules, rulesToOptimize );
 
 			return true;
 		},
@@ -89,12 +93,12 @@
 			if ( this._.filterFunction )
 				return this._.filterFunction;
 
-			var rules = optimizeRules( this.allowedContent ),
-				elementsRules = rules.elements,
-				genericRules = rules.generic;
+			var optimizedRules = this._.rules;
 
 			return this._.filterFunction = function( element ) {
 				var name = element.name,
+					rules = optimizedRules.elements[ name ],
+					genericRules = optimizedRules.generic,
 					status = {
 						valid: false,
 						validAttributes: {},
@@ -102,7 +106,6 @@
 						validStyles: {},
 						allValid: 0
 					},
-					rules = elementsRules[ name ],
 					i, l;
 
 				// Early return - if there are no rules, remove this element.
@@ -238,16 +241,16 @@
 		return obj;
 	}
 
-	function optimizeRule( rule ) {
+	function optimizeValidators( rule ) {
 		for ( var i in { elements:1,styles:1,attributes:1,classes:1 } ) {
 			if ( rule[ i ] )
 				rule[ i ] = validatorFunction( rule[ i ] );
 		}
 	}
 
-	function optimizeRules( rules ) {
-		var elementsRules = {},
-			genericRules = [],
+	function optimizeRules( optimizedRules, rules ) {
+		var elementsRules = optimizedRules.elements || {},
+			genericRules = optimizedRules.generic || [],
 			i, l, rule, elements, element;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
@@ -259,7 +262,7 @@
 				delete rule.elements;
 
 				// Do not optimize rule.elements.
-				optimizeRule( rule );
+				optimizeValidators( rule );
 
 				if ( elements == '*' ) {
 					rule.propertiesOnly = true;
@@ -277,15 +280,13 @@
 				}
 			}
 			else {
-				optimizeRule( rule );
+				optimizeValidators( rule );
 				genericRules.push( rule );
 			}
 		}
 
-		return {
-			elements: elementsRules,
-			generic: genericRules.length ? genericRules : null
-		};
+		optimizedRules.elements = elementsRules;
+		optimizedRules.generic = genericRules.length ? genericRules : null;
 	}
 
 	function parseRulesString( input ) {
