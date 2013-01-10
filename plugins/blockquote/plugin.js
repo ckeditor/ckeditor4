@@ -16,7 +16,7 @@
 		this.content = {
 			allowed: 'blockquote',
 			required: 'blockquote'
-		}
+		};
 	}
 
 	command.prototype = {
