@@ -198,11 +198,8 @@
 
 						// Create all items defined for this toolbar.
 						for ( var i = 0; i < items.length; i++ ) {
-							var item,
-								itemName = items[ i ],
+							var item = items[ i ],
 								canGroup;
-
-							item = editor.ui.create( itemName );
 
 							if ( item ) {
 								if ( item.type == CKEDITOR.UI_SEPARATOR ) {
@@ -485,17 +482,53 @@
 		function fillGroup( toolbarGroup, uiItems ) {
 			if ( uiItems.length ) {
 				if ( toolbarGroup.items )
-					toolbarGroup.items.push( '-' );
+					toolbarGroup.items.push( editor.ui.create( '-' ) );
 				else
 					toolbarGroup.items = [];
 
-				var item;
+				var item, name;
 				while ( ( item = uiItems.shift() ) ) {
+					name = typeof item == 'string' ? item : item.name;
+
 					// Ignore items that are configured to be removed.
-					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, item.name ) == -1 )
-						toolbarGroup.items.push( item.name );
+					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, name ) == -1 ) {
+						item = editor.ui.create( name );
+
+						if ( !item )
+							continue;
+
+						if ( item.registerContent ) {
+							 if ( !item.registerContent( editor ) )
+								continue;
+						}
+						toolbarGroup.items.push( item );
+					}
 				}
 			}
+		}
+
+		function populateToolbarConfig( config ) {
+			var toolbar = [],
+				i, group, newGroup;
+
+			for ( i = 0; i < config.length; ++i ) {
+				group = config[ i ];
+				newGroup = {};
+
+				if ( group == '/' )
+					toolbar.push( group );
+				else if ( CKEDITOR.tools.isArray( group) ) {
+					fillGroup( newGroup, CKEDITOR.tools.clone( group ) );
+					toolbar.push( newGroup );
+				}
+				else if ( group.items ) {
+					fillGroup( newGroup, CKEDITOR.tools.clone( group.items ) );
+					newGroup.name = group.name;
+					toolbar.push( newGroup);
+				}
+			}
+
+			return toolbar;
 		}
 
 		var toolbar = editor.config.toolbar;
@@ -504,8 +537,7 @@
 		if ( typeof toolbar == 'string' )
 			toolbar = editor.config[ 'toolbar_' + toolbar ];
 
-		// If toolbar hasn't been explicitly defined, build it based on the toolbarGroups.
-		return ( editor.toolbar = toolbar || buildToolbarConfig() );
+		return ( editor.toolbar = toolbar ? populateToolbarConfig( toolbar ) : buildToolbarConfig() );
 	}
 
 	/**

@@ -304,6 +304,33 @@
 				return true;
 			} else
 				return false;
+		},
+
+		registerContent: function( editor ) {
+			var content = this.content;
+
+			// If button's content definition isn't defined, check for command's.
+			if ( !content && this.command ) {
+				var cmd = editor.getCommand( this.command );
+				content = cmd && cmd.content;
+			}
+
+			if ( content ) {
+				var dataFilter = editor.dataFilter;
+
+				// If custom configuration, then test if this button/command is allowed.
+				if ( dataFilter.customConfig ) {
+					if ( cmd.content.required )
+						if ( !dataFilter.test( cmd.content.required ) )
+							return false;
+				}
+				// If default configuration, add this button's allowed content rules.
+				else if ( content.allowed ) {
+					dataFilter.addRules( content.allowed );
+				}
+			}
+
+			return true;
 		}
 	};
 
@@ -321,29 +348,6 @@
 	 * @param {Object} definition The button definition.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
-		var content = definition.content;
-
-		// If button's content definition isn't defined, check for command's.
-		if ( !content && definition.command ) {
-			var cmd = this.editor.getCommand( definition.command );
-			content = cmd && cmd.content;
-		}
-
-		if ( content ) {
-			var dataFilter = this.editor.dataFilter;
-
-			// If custom configuration, then test if this button/command is allowed.
-			if ( dataFilter.customConfig ) {
-				if ( cmd.content.required )
-					if ( !dataFilter.test( cmd.content.required ) )
-						return;
-			}
-			// If default configuration, add this button's allowed content rules.
-			else if ( content.allowed ) {
-				dataFilter.addRules( content.allowed );
-			}
-		}
-
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
 	};
 
