@@ -1413,7 +1413,8 @@ CKEDITOR.styleCommand = function( style ) {
 	this.style = style;
 	// TODO shouldn't we create content def only when explicitly requested (by argument)?
 	this.content = {
-		allowed: style
+		allowed: style,
+		required: style
 	};
 };
 
