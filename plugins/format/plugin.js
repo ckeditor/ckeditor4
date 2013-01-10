@@ -20,8 +20,11 @@ CKEDITOR.plugins.add( 'format', {
 		var styles = {};
 		for ( var i = 0; i < tags.length; i++ ) {
 			var tag = tags[ i ];
-			styles[ tag ] = new CKEDITOR.style( config[ 'format_' + tag ] );
-			styles[ tag ]._.enterMode = editor.config.enterMode;
+			var style = new CKEDITOR.style( config[ 'format_' + tag ] );
+			if ( editor.dataFilter.registerContent( { allowed: style, required: style } ) ) {
+				styles[ tag ] = style;
+				styles[ tag ]._.enterMode = editor.config.enterMode;
+			}
 		}
 
 		editor.ui.addRichCombo( 'Format', {
