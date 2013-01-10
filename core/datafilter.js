@@ -62,6 +62,8 @@
 			if ( this.customConfig && !overrideCustom )
 				return false;
 
+			if ( !newRules )
+				return false;
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
 
@@ -139,6 +141,22 @@
 				if ( !status.allValid )
 					updateElement( element, status );
 			};
+		},
+
+		registerContent: function( contentDefinition ) {
+			if ( contentDefinition ) {
+				// If custom configuration, then test if contentDef is allowed
+				if ( this.customConfig ) {
+					if ( contentDefinition.required )
+						if ( !this.test( contentDefinition.required ) )
+							return false;
+				}
+				// If default configuration, add this allowed content rules.
+				else
+					this.addRules( contentDefinition.allowed );
+			}
+
+			return true;
 		},
 
 		test: function( element ) {

@@ -315,22 +315,7 @@
 				content = cmd && cmd.content;
 			}
 
-			if ( content ) {
-				var dataFilter = editor.dataFilter;
-
-				// If custom configuration, then test if this button/command is allowed.
-				if ( dataFilter.customConfig ) {
-					if ( cmd.content.required )
-						if ( !dataFilter.test( cmd.content.required ) )
-							return false;
-				}
-				// If default configuration, add this button's allowed content rules.
-				else if ( content.allowed ) {
-					dataFilter.addRules( content.allowed );
-				}
-			}
-
-			return true;
+			return editor.dataFilter.registerContent( content );
 		}
 	};
 
