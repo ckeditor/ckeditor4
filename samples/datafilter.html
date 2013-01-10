@@ -94,14 +94,6 @@ CKEDITOR.replace( 'editor2b', {
 			attributes: 'src,alt',
 			styles: 'width,height',
 			classes: 'left,right'
-		},
-		span: {
-			validate: function( element ) {
-				// Only span having one of these styles is allowed.
-				return element.styles[ 'font-family' ] || element.styles.color;
-			},
-			// We still have to accept these styles.
-			styles: 'font-family,color'
 		}
 	}
 } );
@@ -123,14 +115,6 @@ CKEDITOR.replace( 'editor2b', {
 						attributes: 'src,alt',
 						styles: 'width,height',
 						classes: 'left,right'
-					},
-					span: {
-						validate: function( element ) {
-							// Only span having at least one of these styles is allowed.
-							return element.styles[ 'font-family' ] || element.styles.color;
-						},
-						// We still have to accept these styles.
-						styles: 'font-family,color'
 					}
 				}
 			} );
