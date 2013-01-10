@@ -169,20 +169,13 @@
 			return true;
 		},
 
-		test: function( element ) {
-			element = parseRulesString( element )[ '$1' ];
-			var styles = element.styles,
-				classes = element.classes;
+		test: function( test ) {
+			var element;
 
-			element.name = element.elements;
-			element.classes = classes = ( classes ? classes.split( /\s*,\s*/ ) : [] );
-			element.styles = mockHash( styles );
-			element.attributes = mockHash( element.attributes );
-
-			if ( classes.length )
-				element.attributes[ 'class' ] = classes.join( ' ' );
-			if ( styles )
-				element.attributes.style = CKEDITOR.tools.writeCssText( element.styles );
+			if ( typeof test == 'string' )
+				element = mockElementFromString( test );
+			else
+				element = mockElementFromStyle( test );
 
 			// Make a deep copy.
 			var copy = CKEDITOR.tools.clone( element );
@@ -262,6 +255,35 @@
 		rule[ styleDef.element ] = true;
 
 		return rule;
+	}
+
+	function mockElementFromString( str ) {
+		var element = parseRulesString( str )[ '$1' ],
+			styles = element.styles,
+			classes = element.classes;
+
+		element.name = element.elements;
+		element.classes = classes = ( classes ? classes.split( /\s*,\s*/ ) : [] );
+		element.styles = mockHash( styles );
+		element.attributes = mockHash( element.attributes );
+
+		if ( classes.length )
+			element.attributes[ 'class' ] = classes.join( ' ' );
+		if ( styles )
+			element.attributes.style = CKEDITOR.tools.writeCssText( element.styles );
+
+		return element;
+	}
+
+	function mockElementFromStyle( style ) {
+		var styleDef = style.getDefinition();
+
+		return {
+			name: styleDef.element,
+			attributes: {},
+			classes: [],
+			styles: {}
+		};
 	}
 
 	function mockHash( str ) {
