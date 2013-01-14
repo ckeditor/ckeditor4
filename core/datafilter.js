@@ -126,7 +126,7 @@
 					return;
 				}
 
-				// These properties could be mocked by dataFilter#test.
+				// These properties could be mocked by dataFilter#check.
 				if ( !element.styles )
 					element.styles = parseCssText( element.attributes.style || '', 1 );
 				if ( !element.classes )
@@ -155,10 +155,10 @@
 
 		registerContent: function( contentDefinition ) {
 			if ( contentDefinition ) {
-				// If custom configuration, then test if contentDef is allowed
+				// If custom configuration, then check if contentDef is allowed
 				if ( this.customConfig ) {
 					if ( contentDefinition.required )
-						if ( !this.test( contentDefinition.required ) )
+						if ( !this.check( contentDefinition.required ) )
 							return false;
 				}
 				// If default configuration, add this allowed content rules.
@@ -169,7 +169,7 @@
 			return true;
 		},
 
-		test: function( test ) {
+		check: function( test ) {
 			var element;
 
 			if ( typeof test == 'string' )
