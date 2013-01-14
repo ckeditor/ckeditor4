@@ -12,8 +12,25 @@
 		parseCssText = CKEDITOR.tools.parseCssText,
 		trim = CKEDITOR.tools.trim;
 
+	/**
+	 * @class
+	 */
 	CKEDITOR.filter = function( editorOrRules ) {
-		// Easy-to-debug rules.
+		/**
+		 * Whether custom {@Link CKEDITOR.config#allowedContent} was set.
+		 *
+		 * @property {Boolean} customConfig
+		 */
+
+		/**
+		 * Array of rules added by {@link #allow} method.
+		 *
+		 * Rules in this array are slightly modified version of those
+		 * which were added.
+		 *
+		 * This property is useful for debugging issues with rules string parsing
+		 * or for checking what rules were automatically added by editor features.
+		 */
 		this.allowedContent = [];
 		this._ = {
 			// Optimized rules.
@@ -57,6 +74,15 @@
 	};
 
 	CKEDITOR.filter.prototype = {
+		/**
+		 * Adds specified rules to the filter.
+		 *
+		 * @param {Object/String/CKEDITOR.style/Object[]/String[]/CKEDITOR.style[]} newRules
+		 * @param {Boolean} [overrideCustom] By default this method will reject any rules
+		 * if default {@link CKEDITOR.config#allowedContent} is defined. Pass `true`
+		 * to force rules addition.
+		 * @returns {Boolean} Whether rules were accepted.
+		 */
 		allow: function( newRules, overrideCustom ) {
 			// Don't override custom user's configuration if not explicitly requested.
 			if ( this.customConfig && !overrideCustom )
@@ -101,6 +127,21 @@
 			return true;
 		},
 
+		/**
+		 * Returns function that accepts {@link CKEDITOR.htmlParser.element}
+		 * and filters it basing on allowed content rules registered by
+		 * {@link #allow} method.
+		 *
+		 * Filter uses this function as an elements rule for {@link CKEDITOR.htmlParser.filter}.
+		 *
+		 *		editor.dataProcessor.htmlFilter.addRules( {
+		 *			elements: {
+		 *				'^': editor.filter.getFilterFunction()
+		 *			}
+		 *		} );
+		 *
+		 * @returns {Function}
+		 */
 		getFilterFunction: function() {
 			if ( this._.filterFunction )
 				return this._.filterFunction;
@@ -153,6 +194,25 @@
 			};
 		},
 
+		/**
+		 * Shorthand function that can be used during feature activation.
+		 *
+		 * It accepts `contentDefinition` object with two properties - `allowed` and `required`.
+		 *
+		 *	* If {@link #customConfig} is `true` (custom {@link CKEDITOR.config#allowedContent} was defined)
+		 *		it checks if `contentDefinition.required`. If it is allowed or `contentDefinition.required`
+		 *		hasn't been defined method returns `true`, what means that this feature
+		 *		is allowed. Otherwise it returns `false`.
+		 *	* If {@link #customConfig} is `false` (default allowed content rules are used) it registers
+		 *		`contentDefinition.allowed` using {@link #allow} method. In this case method always returns
+		 *		`true` (feature is allowed), because it assumes that rules provided in `contentDefinition.allowed`
+		 *		will validate elements required by this feature.
+		 *
+		 * @param contentDefinition
+		 * @param contentDefinition.allowed Rules to be added as allowed.
+		 * @param contentDefinition.required Content to be checked by {@link #check}.
+		 * @returns {Boolean} Whether feature is allowed.
+		 */
 		registerContent: function( contentDefinition ) {
 			if ( contentDefinition ) {
 				// If default configuration, then add allowed content rules.
@@ -167,6 +227,13 @@
 			return true;
 		},
 
+		/**
+		 * Checks whether content defined in test argument is allowed
+		 * by this filter.
+		 *
+		 * @param {String/CKEDITOR.style} test
+		 * @returns {Boolean} Returns `true` if content is allowed.
+		 */
 		check: function( test ) {
 			var element;
 
