@@ -61,7 +61,7 @@
 			if ( htmlFilter )
 				htmlFilter.addRules( htmlFilterRules );
 
-			editor.dataFilter.allow( {
+			editor.filter.allow( {
 				img: {
 					validate: function( element ) {
 						return !!element.attributes[ 'data-cke-realelement' ];

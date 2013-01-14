@@ -325,7 +325,7 @@
 	function initComponents( editor ) {
 		// Documented in dataprocessor.js.
 		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-		editor.dataFilter = new CKEDITOR.dataFilter( editor );
+		editor.filter = new CKEDITOR.filter( editor );
 		loadSkin( editor );
 	}
 

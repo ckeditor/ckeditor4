@@ -12,7 +12,7 @@
 		parseCssText = CKEDITOR.tools.parseCssText,
 		trim = CKEDITOR.tools.trim;
 
-	CKEDITOR.dataFilter = function( editorOrRules ) {
+	CKEDITOR.filter = function( editorOrRules ) {
 		// Easy-to-debug rules.
 		this.allowedContent = [];
 		this._ = {
@@ -49,14 +49,14 @@
 				}, 100 );
 			}, this );
 		}
-		// Rules object passed in editorOrRules argument - initialize standalone dataFilter.
+		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
 			this.allow( editorOrRules, 1 );
 		}
 	};
 
-	CKEDITOR.dataFilter.prototype = {
+	CKEDITOR.filter.prototype = {
 		allow: function( newRules, overrideCustom ) {
 			// Don't override custom user's configuration if not explicitly requested.
 			if ( this.customConfig && !overrideCustom )
@@ -126,7 +126,7 @@
 					return;
 				}
 
-				// These properties could be mocked by dataFilter#check.
+				// These properties could be mocked by filter#check.
 				if ( !element.styles )
 					element.styles = parseCssText( element.attributes.style || '', 1 );
 				if ( !element.classes )

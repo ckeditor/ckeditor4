@@ -315,7 +315,7 @@
 				content = cmd && cmd.content;
 			}
 
-			return editor.dataFilter.registerContent( content );
+			return editor.filter.registerContent( content );
 		}
 	};
 
