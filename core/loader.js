@@ -201,7 +201,7 @@ if ( !CKEDITOR.loader ) {
 			 */
 			load: function( scriptName, defer ) {
 				// Check if the script has already been loaded.
-				if ( scriptName in this.loadedScripts )
+				if ( ( 's:' + scriptName ) in this.loadedScripts )
 					return;
 
 				// Get the script dependencies list.
@@ -211,7 +211,8 @@ if ( !CKEDITOR.loader ) {
 
 				// Mark the script as loaded, even before really loading it, to
 				// avoid cross references recursion.
-				this.loadedScripts[ scriptName ] = true;
+				// Prepend script name with 's:' to avoid conflict with Array's methods.
+				this.loadedScripts[ 's:' + scriptName ] = true;
 
 				// Load all dependencies first.
 				for ( var i = 0; i < dependencies.length; i++ )
