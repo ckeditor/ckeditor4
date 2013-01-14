@@ -29,8 +29,8 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			this.addRules( defaultAllowedContent, 1 );
-			this.addRules( allowedContent, 1 );
+			this.allow( defaultAllowedContent, 1 );
+			this.allow( allowedContent, 1 );
 
 			editor.once( 'pluginsLoaded', function() {
 				var filterFn = this.getFilterFunction();
@@ -52,12 +52,12 @@
 		// Rules object passed in editorOrRules argument - initialize standalone dataFilter.
 		else {
 			this.customConfig = false;
-			this.addRules( editorOrRules, 1 );
+			this.allow( editorOrRules, 1 );
 		}
 	};
 
 	CKEDITOR.dataFilter.prototype = {
-		addRules: function( newRules, overrideCustom ) {
+		allow: function( newRules, overrideCustom ) {
 			// Don't override custom user's configuration if not explicitly requested.
 			if ( this.customConfig && !overrideCustom )
 				return false;
@@ -73,7 +73,7 @@
 				newRules = convertStylesToRules( newRules );
 			else if ( CKEDITOR.tools.isArray( newRules ) ) {
 				for ( i = 0; i < newRules.length; ++i )
-					ret = this.addRules( newRules[ i ], overrideCustom );
+					ret = this.allow( newRules[ i ], overrideCustom );
 				return ret; // Return last status.
 			}
 
@@ -163,7 +163,7 @@
 				}
 				// If default configuration, add this allowed content rules.
 				else
-					this.addRules( contentDefinition.allowed );
+					this.allow( contentDefinition.allowed );
 			}
 
 			return true;
