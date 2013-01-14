@@ -155,15 +155,13 @@
 
 		registerContent: function( contentDefinition ) {
 			if ( contentDefinition ) {
+				// If default configuration, then add allowed content rules.
+				this.allow( contentDefinition.allowed );
 				// If custom configuration, then check if contentDef is allowed
 				if ( this.customConfig ) {
 					if ( contentDefinition.required )
-						if ( !this.check( contentDefinition.required ) )
-							return false;
+						return this.check( contentDefinition.required );
 				}
-				// If default configuration, add this allowed content rules.
-				else
-					this.allow( contentDefinition.allowed );
 			}
 
 			return true;
