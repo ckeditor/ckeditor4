@@ -306,16 +306,28 @@
 				return false;
 		},
 
+		/**
+		 * If any of {@link #allows} or {@link #requires} has been defined
+		 * registers button. If not tries to register command if
+		 * it is associated with this button.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {Boolean} See {@link CKEDITOR.filter#registerContent}.
+		 */
 		registerContent: function( editor ) {
-			var content = this.content;
+			var allows = this.allows,
+				requires = this.requires;
 
 			// If button's content definition isn't defined, check for command's.
-			if ( !content && this.command ) {
+			if ( !allows && !requires && this.command ) {
 				var cmd = editor.getCommand( this.command );
-				content = cmd && cmd.content;
+				if ( cmd ) {
+					allows = cmd.allows;
+					requires = cmd.requires;
+				}
 			}
 
-			return editor.filter.registerContent( content );
+			return editor.filter.registerContent( allows, requires );
 		}
 	};
 

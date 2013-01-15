@@ -16,10 +16,8 @@ CKEDITOR.plugins.add( 'table', {
 
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', {
 			context: 'table',
-			content: {
-				allowed: 'table{width,height}[align,border,cellpadding,cellspacing,summary]; caption th td tr',
-				required: 'table' // TODO We should also check td and tr.
-			}
+			allows: 'table{width,height}[align,border,cellpadding,cellspacing,summary]; caption th td tr',
+			requires: 'table' // TODO We should also check td and tr.
 		} ) );
 
 		function createDef( def ) {

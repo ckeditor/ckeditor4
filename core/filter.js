@@ -197,32 +197,24 @@
 		/**
 		 * Shorthand function that can be used during feature activation.
 		 *
-		 * It accepts `contentDefinition` object with two properties - `allowed` and `required`.
-		 *
 		 *	* If {@link #customConfig} is `true` (custom {@link CKEDITOR.config#allowedContent} was defined)
-		 *		it checks if `contentDefinition.required`. If it is allowed or `contentDefinition.required`
-		 *		hasn't been defined method returns `true`, what means that this feature
-		 *		is allowed. Otherwise it returns `false`.
+		 *		this method returns `true` (what means that tested feature is allowed) if `requires` is allowed
+		 *		or hasn't been defined. So it returns `false` only if required content isn't allowed.
 		 *	* If {@link #customConfig} is `false` (default allowed content rules are used) it registers
-		 *		`contentDefinition.allowed` using {@link #allow} method. In this case method always returns
-		 *		`true` (feature is allowed), because it assumes that rules provided in `contentDefinition.allowed`
+		 *		`allows` rules using {@link #allow} method. In this case method always returns
+		 *		`true` (feature is allowed), because it assumes that rules provided in `allows`
 		 *		will validate elements required by this feature.
 		 *
-		 * @param contentDefinition
-		 * @param contentDefinition.allowed Rules to be added as allowed.
-		 * @param contentDefinition.required Content to be checked by {@link #check}.
+		 * @param [allows] Rules to be added as allowed.
+		 * @param [requires] Content to be checked by {@link #check}.
 		 * @returns {Boolean} Whether feature is allowed.
 		 */
-		registerContent: function( contentDefinition ) {
-			if ( contentDefinition ) {
-				// If default configuration, then add allowed content rules.
-				this.allow( contentDefinition.allowed );
-				// If custom configuration, then check if contentDef is allowed
-				if ( this.customConfig ) {
-					if ( contentDefinition.required )
-						return this.check( contentDefinition.required );
-				}
-			}
+		registerContent: function( allows, requires ) {
+			// If default configuration, then add allowed content rules.
+			this.allow( allows );
+			// If custom configuration, then check if required content is allowed.
+			if ( this.customConfig && requires )
+				return this.check( requires );
 
 			return true;
 		},

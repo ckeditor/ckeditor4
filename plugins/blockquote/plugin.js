@@ -12,12 +12,7 @@
 		return true;
 	}
 
-	function command() {
-		this.content = {
-			allowed: 'blockquote',
-			required: 'blockquote'
-		};
-	}
+	function command() {}
 
 	command.prototype = {
 		exec: function( editor ) {
@@ -229,7 +224,10 @@
 			this.setState( editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		},
 
-		context: 'blockquote'
+		context: 'blockquote',
+
+		allows: 'blockquote',
+		requires: 'blockquote'
 	};
 
 	CKEDITOR.plugins.add( 'blockquote', {
