@@ -37,19 +37,6 @@
 		this.name = name;
 		this.value = value;
 		this.context = 'p';
-		this.allows = {
-			// TODO this is not a complete list of elements.
-			'caption div h1 h2 h3 h4 h5 h6 p td th': {
-				// Do not add elements, but only text-align style if element is validated by other rule.
-				propertiesOnly: true,
-				styles: 'text-align'
-			},
-			'img': {
-				propertiesOnly: true,
-				styles: 'float'
-			}
-		};
-		this.requires = 'p{text-align}';
 
 		var classes = editor.config.justifyClasses;
 		if ( classes ) {
@@ -70,6 +57,18 @@
 
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
 		}
+
+		this.allows = {
+			// TODO this is not a complete list of elements.
+			// TODO how is it image alignment changed by justify buttons? Where should it be allowed?
+			'caption div h1 h2 h3 h4 h5 h6 p td th': {
+				// Do not add elements, but only text-align style if element is validated by other rule.
+				propertiesOnly: true,
+				styles: this.cssClassName ? null : 'text-align',
+				classes: this.cssClassName || null
+			}
+		};
+		this.requires = 'p{text-align}';
 	}
 
 	function onDirChanged( e ) {
