@@ -26,14 +26,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<!-- This div will handle all toolbars -->
 	</div>
 
-	<div style="height: 300px;overflow: auto; border: 1px solid #afafaf; padding: 20px; margin: 20px;">
+	<div style="height: 300px; overflow: auto; border: 1px solid #afafaf; padding: 20px; margin: 20px;">
 
-		<div id="framed1" style="width:49%;float:left;margin-bottom: 20px;"></div>
-		<div id="framed2" style="width:49%;float:right;margin-bottom: 20px;"></div>
+		<div id="framed1" style="width: 49%; float: left; margin-bottom: 20px;"></div>
+		<div id="framed2" style="width: 49%; float: right; margin-bottom: 20px;"></div>
 
-		<hr style="clear: both;margin: 20px 0;">
+		<hr style="clear: both; margin: 20px 0;">
 
-		<div contenteditable="true" id="inline1" style="width:49%;float:left;">
+		<div contenteditable="true" id="inline1" style="width: 49%; float: left;">
 			<h3>
 				Integer condimentum sit amet
 			</h3>
@@ -43,7 +43,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			<p>Proin id nibh. Sed eu libero posuere sed, lectus. Phasellus dui gravida gravida feugiat mattis ac, felis.</p>
 			<p>Integer condimentum sit amet, tempor elit odio, a dolor non ante at sapien. Sed ac lectus. Nulla ligula quis eleifend mi, id leo velit pede cursus arcu id nulla ac lectus. Phasellus vestibulum. Nunc viverra enim quis diam.</p>
 		</div>
-		<div contenteditable="true" id="inline2" style="width:49%;float:right;">
+		<div contenteditable="true" id="inline2" style="width: 49%; float: right;">
 			<h3>
 				Praesent wisi accumsan sit amet nibh
 			</h3>
@@ -82,20 +82,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		});
 
 		CKEDITOR.appendTo( 'framed1', {
-			extraPlugins: 'sharedspace',
-			sharedSpaces: {
-				top: 'top',
-				bottom: 'bottom'
-			}},
+				extraPlugins: 'sharedspace',
+				sharedSpaces: {
+					top: 'top',
+					bottom: 'bottom'
+				}
+			},
 			document.getElementById( 'inline1' ).innerHTML
 		);
 
 		CKEDITOR.appendTo( 'framed2', {
-			extraPlugins: 'sharedspace',
-			sharedSpaces: {
-				top: 'top',
-				bottom: 'bottom'
-			}},
+				extraPlugins: 'sharedspace',
+				sharedSpaces: {
+					top: 'top',
+					bottom: 'bottom'
+				}
+			},
 			document.getElementById( 'inline2' ).innerHTML
 		);
 
