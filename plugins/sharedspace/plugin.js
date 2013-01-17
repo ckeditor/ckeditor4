@@ -20,7 +20,7 @@
 		'</div>' );
 
 	CKEDITOR.plugins.add( 'sharedspace', {
-		init: function( editor ) {
+		afterInit: function( editor ) {
 			var spaces = editor.config.sharedSpaces;
 
 			if ( spaces ) {
