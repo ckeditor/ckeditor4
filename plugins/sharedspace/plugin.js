@@ -4,6 +4,8 @@
  */
 
 (function() {
+	'use strict';
+
 	var containerTpl = CKEDITOR.addTemplate( 'sharedcontainer', '<div' +
 		' id="cke_{name}"' +
 		' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_shared cke_detached cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
@@ -37,7 +39,7 @@
 			// Have other plugins filling the space.
 			innerHtml = editor.fire( 'uiSpace', { space: spaceName, html: '' } ).html;
 
-			if ( innerHtml ){
+			if ( innerHtml ) {
 				// Block the uiSpace handling by others (e.g. themed-ui).
 				editor.on( 'uiSpace', function( ev ) {
 					if ( ev.data.space == spaceName )
@@ -46,7 +48,7 @@
 
 				// Inject the space into the target.
 				space = target.append( CKEDITOR.dom.element.createFromHtml( containerTpl.output({
-					id : editor.id,
+					id: editor.id,
 					name: editor.name,
 					langDir: editor.lang.dir,
 					langCode: editor.langCode,
@@ -75,12 +77,11 @@
 				editor.focusManager.add( space, 1 );
 
 				// When the editor gets focus, show the space container, hiding others.
-				editor.on( 'focus', function()
-				{
-					for ( var i = 0, sibling, children = target.getChildren() ; ( sibling = children.getItem( i ) ) ; i++ ) {
-						if ( sibling.type == CKEDITOR.NODE_ELEMENT
-							&& !sibling.equals( space )
-							&& sibling.hasClass( 'cke_shared' ) ) {
+				editor.on( 'focus', function() {
+					for ( var i = 0, sibling, children = target.getChildren(); ( sibling = children.getItem( i ) ); i++ ) {
+						if ( sibling.type == CKEDITOR.NODE_ELEMENT &&
+							!sibling.equals( space ) &&
+							sibling.hasClass( 'cke_shared' ) ) {
 							sibling.hide();
 						}
 					}
@@ -107,14 +108,14 @@
  *		// Place the toolbar inside the element with ID "someElementId" and the
  *		// elements path into the element with ID "anotherId".
  *		config.sharedSpaces = {
- *   		top : 'someElementId',
- *			bottom : 'anotherId'
+ *			top: 'someElementId',
+ *			bottom: 'anotherId'
  *		};
  *
  *		// Place the toolbar inside the element with ID "someElementId". The
  *		// elements path will remain attached to the editor UI.
  *		config.sharedSpaces = {
- *			top : 'someElementId'
+ *			top: 'someElementId'
  *		};
  *
  * @cfg {Object} [sharedSpaces]
