@@ -1,11 +1,12 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-'use strict';
-
 (function() {
+
+	'use strict';
+
 	var containerTpl = CKEDITOR.addTemplate( 'sharedcontainer', '<div' +
 		' id="cke_{name}"' +
 		' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_shared cke_detached cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
