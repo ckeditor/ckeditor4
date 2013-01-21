@@ -229,6 +229,10 @@ CKEDITOR.htmlParser.cssStyle = function() {
 					if ( i == 1 )
 						attribsArray.push( [ a, value ] );
 					else if ( filter ) {
+						// Loop until name isn't modified.
+						// A little bit senseless, but IE would do that anyway
+						// because it iterates with for-in loop even over properties
+						// created during its run.
 						while ( true ) {
 							if ( !( newAttrName = filter.onAttributeName( a ) ) ) {
 								delete attributes[ a ];
