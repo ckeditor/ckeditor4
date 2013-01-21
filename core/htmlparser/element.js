@@ -314,6 +314,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				children[ --i ].insertAfter( this );
 
 			this.remove();
-		}
+		},
+
+		forEach: CKEDITOR.htmlParser.fragment.prototype.forEach
 	} );
 })();
