@@ -510,35 +510,26 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 */
 		writeHtml: function( writer, filter ) {
-			var isChildrenFiltered;
-			this.filterChildren2 = function() {
-				var writer = new CKEDITOR.htmlParser.basicWriter();
-				this.writeChildrenHtml.call( this, writer, filter );
-				var html = writer.getHtml();
-				this.children = new CKEDITOR.htmlParser.fragment.fromHtml( html ).children;
-				isChildrenFiltered = 1;
-			};
+			if ( filter )
+				this.filter( filter );
 
-			// Apply the root filter.
-			filter && filter.onRoot( this );
-
-			this.writeChildrenHtml( writer, isChildrenFiltered ? null : filter );
+			this.writeChildrenHtml( writer );
 		},
 
 		/**
 		 * Write and filtering the child nodes of this fragment.
+		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 * @param {CKEDITOR.htmlParser.filter} filter The filter to use when writing the HTML.
 		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		writeChildrenHtml: function( writer, filter, filterRoot ) {
-
 			// Filtering root if enforced.
 			if ( filterRoot && !this.parent && filter )
 				filter.onRoot( this );
 
-			for ( var i = 0; i < this.children.length; i++ )
-				this.children[ i ].writeHtml( writer, filter );
+			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
+				children[ i ].writeHtml( writer );
 		}
 	};
 })();

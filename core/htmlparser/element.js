@@ -237,134 +237,43 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Writes the element HTML to a CKEDITOR.htmlWriter.
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {CKEDITOR.htmlParser.filter} [filter]
 		 */
 		writeHtml: function( writer, filter ) {
-			var attributes = this.attributes;
+			if ( filter )
+				this.filter( filter );
 
-			// Ignore cke: prefixes when writing HTML.
-			var element = this,
-				writeName = element.name,
-				a, newAttrName, value;
-
-			var isChildrenFiltered;
-
-			/**
-			 * Providing an option for bottom-up filtering order (element
-			 * children to be pre-filtered before the element itself).
-			 */
-			element.filterChildren2 = function() {
-				if ( !isChildrenFiltered ) {
-					var writer = new CKEDITOR.htmlParser.basicWriter();
-					CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.call( element, writer, filter );
-					element.children = new CKEDITOR.htmlParser.fragment.fromHtml( writer.getHtml(), element.clone(), 0 ).children;
-					isChildrenFiltered = 1;
-				}
-			};
-
-			if ( filter ) {
-
-				// Filtering if it's the root node.
-				if ( !this.parent )
-					filter.onRoot( this );
-
-				while ( true ) {
-					if ( !( writeName = filter.onElementName( writeName ) ) )
-						return;
-
-					element.name = writeName;
-
-					if ( !( element = filter.onElement( element ) ) )
-						return;
-
-					element.parent = this.parent;
-
-					if ( element.name == writeName )
-						break;
-
-					// If the element has been replaced with something of a
-					// different type, then make the replacement write itself.
-					if ( element.type != CKEDITOR.NODE_ELEMENT ) {
-						element.writeHtml( writer, filter );
-						return;
-					}
-
-					writeName = element.name;
-
-					// This indicate that the element has been dropped by
-					// filter but not the children.
-					if ( !writeName ) {
-						// Fix broken parent refs.
-						for ( var c = 0, length = this.children.length; c < length; c++ )
-							this.children[ c ].parent = element.parent;
-
-						this.writeChildrenHtml.call( element, writer, isChildrenFiltered ? null : filter );
-						return;
-					}
-				}
-
-				// The element may have been changed, so update the local
-				// references.
-				attributes = element.attributes;
-			}
+			var name = this.name,
+				attribsArray = [],
+				attributes = this.attributes,
+				attrName,
+				attr, i, l;
 
 			// Open element tag.
-			writer.openTag( writeName, attributes );
+			writer.openTag( name, attributes );
 
 			// Copy all attributes to an array.
-			var attribsArray = [];
-			// Iterate over the attributes twice since filters may alter
-			// other attributes.
-			for ( var i = 0; i < 2; i++ ) {
-				for ( a in attributes ) {
-					newAttrName = a;
-					value = attributes[ a ];
-					if ( i == 1 )
-						attribsArray.push( [ a, value ] );
-					else if ( filter ) {
-						// Loop until name isn't modified.
-						// A little bit senseless, but IE would do that anyway
-						// because it iterates with for-in loop even over properties
-						// created during its run.
-						while ( true ) {
-							if ( !( newAttrName = filter.onAttributeName( a ) ) ) {
-								delete attributes[ a ];
-								break;
-							} else if ( newAttrName != a ) {
-								delete attributes[ a ];
-								a = newAttrName;
-								continue;
-							} else
-								break;
-						}
-						if ( newAttrName ) {
-							if ( ( value = filter.onAttribute( element, newAttrName, value ) ) === false )
-								delete attributes[ newAttrName ];
-							else
-								attributes[ newAttrName ] = value;
-						}
-					}
-				}
-			}
+			for ( attrName in attributes )
+				attribsArray.push( [ attrName, attributes[ attrName ] ] );
+
 			// Sort the attributes by name.
 			if ( writer.sortAttributes )
 				attribsArray.sort( sortAttribs );
 
 			// Send the attributes.
-			var len = attribsArray.length;
-			for ( i = 0; i < len; i++ ) {
-				var attrib = attribsArray[ i ];
-				writer.attribute( attrib[ 0 ], attrib[ 1 ] );
+			for ( i = 0, l = attribsArray.length; i < l; i++ ) {
+				attr = attribsArray[ i ];
+				writer.attribute( attr[ 0 ], attr[ 1 ] );
 			}
 
 			// Close the tag.
-			writer.openTagClose( writeName, element.isEmpty );
+			writer.openTagClose( name, this.isEmpty );
 
-			if ( !element.isEmpty ) {
-				this.writeChildrenHtml.call( element, writer, isChildrenFiltered ? null : filter );
-				// Close the element.
-				writer.closeTag( writeName );
-			}
+			this.writeChildrenHtml( writer );
+
+			// Close the element.
+			if ( !this.isEmpty )
+				writer.closeTag( name );
 		},
 
 		/**
@@ -373,10 +282,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
-		writeChildrenHtml: function( writer, filter ) {
-			// Send children.
-			CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.apply( this, arguments );
-		},
+		writeChildrenHtml: CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml,
 
 		replaceWithChildren: function() {
 			var children = this.children;
