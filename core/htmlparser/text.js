@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+ 'use strict';
+
 (function() {
 	/**
 	 * A lightweight representation of HTML text.
@@ -25,7 +27,7 @@
 		};
 	};
 
-	CKEDITOR.htmlParser.text.prototype = {
+	CKEDITOR.htmlParser.text.prototype = CKEDITOR.tools.extend( new CKEDITOR.htmlParser.node(), {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_TEXT}.
 		 *
@@ -33,6 +35,13 @@
 		 * @property {Number} [=CKEDITOR.NODE_TEXT]
 		 */
 		type: CKEDITOR.NODE_TEXT,
+
+		filter: function( filter ) {
+			if ( !( this.value = filter.onText( this.value, this ) ) ) {
+				this.remove();
+				return false;
+			}
+		},
 
 		/**
 		 * Writes the HTML representation of this text to a {CKEDITOR.htmlParser.basicWriter}.
@@ -48,5 +57,5 @@
 
 			writer.text( text );
 		}
-	};
+	} );
 })();

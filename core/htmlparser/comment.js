@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+ 'use strict';
+
 /**
  * A lightweight representation of an HTML comment.
  *
@@ -32,6 +34,10 @@ CKEDITOR.htmlParser.comment.prototype = {
 	 * @property {Number} [=CKEDITOR.NODE_COMMENT]
 	 */
 	type: CKEDITOR.NODE_COMMENT,
+
+	filter: function( filter ) {
+		throw Error( 'Implement me!' );
+	},
 
 	/**
 	 * Writes the HTML representation of this comment to a CKEDITOR.htmlWriter.

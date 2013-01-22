@@ -3,10 +3,12 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+ 'use strict';
+
 (function() {
 
 	/**
-	 * A lightweight representation of HTML text.
+	 * A lightweight representation of HTML CDATA.
 	 *
 	 * @class
 	 * @constructor Creates a cdata class instance.
@@ -21,7 +23,7 @@
 		this.value = value;
 	};
 
-	CKEDITOR.htmlParser.cdata.prototype = {
+	CKEDITOR.htmlParser.cdata.prototype = CKEDITOR.tools.extend( new CKEDITOR.htmlParser.node(), {
 		/**
 		 * CDATA has the same type as {@link CKEDITOR.htmlParser.text} This is
 		 * a constant value set to {@link CKEDITOR#NODE_TEXT}.
@@ -31,6 +33,8 @@
 		 */
 		type: CKEDITOR.NODE_TEXT,
 
+		filter: function() {},
+
 		/**
 		 * Writes the CDATA with no special manipulations.
 		 *
@@ -39,5 +43,5 @@
 		writeHtml: function( writer ) {
 			writer.write( this.value );
 		}
-	};
+	} );
 })();

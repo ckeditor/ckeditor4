@@ -54,6 +54,11 @@
 				this._.root = transformNamedItem( this._.root, rules.root, priority ) || this._.root;
 			},
 
+			// TODO do we really need this method, since we have fragment#filter( filter )?
+			applyTo: function( node ) {
+				node.filter( this );
+			},
+
 			onElementName: function( name ) {
 				return filterName( name, this._.elementNames );
 			},

@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+ 'use strict';
+
 /**
  * A lightweight representation of an HTML element.
  *
@@ -113,7 +115,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return a < b ? -1 : a > b ? 1 : 0;
 		};
 
-	CKEDITOR.htmlParser.element.prototype = {
+	CKEDITOR.htmlParser.element.prototype = CKEDITOR.tools.extend( new CKEDITOR.htmlParser.node(), {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_ELEMENT}.
 		 *
@@ -140,6 +142,97 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return new CKEDITOR.htmlParser.element( this.name, this.attributes );
 		},
 
+		// TODO return next node to be filtered?
+		filter: function( filter ) {
+			var element = this,
+				originalName, name;
+
+			// Filtering if it's the root node.
+			if ( !element.parent )
+				filter.onRoot( element );
+
+			while ( true ) {
+				originalName = element.name;
+
+				if ( !( name = filter.onElementName( originalName ) ) ) {
+					this.remove();
+					return false;
+				}
+
+				element.name = name;
+
+				if ( !( element = filter.onElement( element ) ) ) {
+					this.remove();
+					return false;
+				}
+
+				// New element has been returned - replace current one
+				// and process it (stop processing this and return false, what
+				// means that element has been removed).
+				if ( element !== this ) {
+					this.replaceWith( element );
+					return false;
+				}
+
+				// If name has been changed - continue loop, so in next iteration
+				// filters for new name will be applied to this element.
+				// If name hasn't been changed - stop.
+				if ( element.name == originalName )
+					break;
+
+				// If element has been replaced with something of a
+				// different type, then make the replacement filter itself.
+				if ( element.type != CKEDITOR.NODE_ELEMENT ) {
+					this.replaceWith( element );
+					element.filter( filter );
+					return;
+				}
+
+				// This indicate that the element has been dropped by
+				// filter but not the children.
+				if ( !element.name ) {
+					this.replaceWithChildren();
+					return false;
+				}
+			}
+
+			var attributes = element.attributes,
+				a, value, newAttrName;
+
+			for ( a in attributes ) {
+				newAttrName = a;
+				value = attributes[ a ];
+
+				// Loop until name isn't modified.
+				// A little bit senseless, but IE would do that anyway
+				// because it iterates with for-in loop even over properties
+				// created during its run.
+				while ( true ) {
+					if ( !( newAttrName = filter.onAttributeName( a ) ) ) {
+						delete attributes[ a ];
+						break;
+					} else if ( newAttrName != a ) {
+						delete attributes[ a ];
+						a = newAttrName;
+						continue;
+					} else
+						break;
+				}
+
+				if ( newAttrName ) {
+					if ( ( value = filter.onAttribute( element, newAttrName, value ) ) === false )
+						delete attributes[ newAttrName ];
+					else
+						attributes[ newAttrName ] = value;
+				}
+			}
+
+			if ( !element.isEmpty )
+				this.filterChildren( filter );
+		},
+
+		filterChildren: CKEDITOR.htmlParser.fragment.prototype.filterChildren,
+
 		/**
 		 * Writes the element HTML to a CKEDITOR.htmlWriter.
 		 *
@@ -160,7 +253,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			 * Providing an option for bottom-up filtering order (element
 			 * children to be pre-filtered before the element itself).
 			 */
-			element.filterChildren = function() {
+			element.filterChildren2 = function() {
 				if ( !isChildrenFiltered ) {
 					var writer = new CKEDITOR.htmlParser.basicWriter();
 					CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.call( element, writer, filter );
@@ -283,6 +376,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		writeChildrenHtml: function( writer, filter ) {
 			// Send children.
 			CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml.apply( this, arguments );
+		},
+
+		replaceWithChildren: function() {
+			var children = this.children;
+
+			for ( var i = children.length; i; )
+				children[ --i ].insertAfter( this );
+
+			this.remove();
 		}
-	};
+	} );
 })();

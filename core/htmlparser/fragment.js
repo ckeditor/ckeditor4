@@ -482,6 +482,23 @@ CKEDITOR.htmlParser.fragment = function() {
 				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
 
+		filter: function( filter ) {
+			// Apply the root filter.
+			filter.onRoot( this );
+
+			this.filterChildren( filter );
+		},
+
+		filterChildren: function( filter ) {
+			// Don't cache anything, children array may be modified by filter rule.
+			for ( var i = 0; i < this.children.length; i++ ) {
+				// Stay in place if filter returned false, what means
+				// that node has been removed.
+				if ( this.children[ i ].filter( filter ) === false )
+					i--;
+			}
+		},
+
 		/**
 		 * Writes the fragment HTML to a {@link CKEDITOR.htmlParser.basicWriter}.
 		 *
@@ -494,7 +511,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 */
 		writeHtml: function( writer, filter ) {
 			var isChildrenFiltered;
-			this.filterChildren = function() {
+			this.filterChildren2 = function() {
 				var writer = new CKEDITOR.htmlParser.basicWriter();
 				this.writeChildrenHtml.call( this, writer, filter );
 				var html = writer.getHtml();
