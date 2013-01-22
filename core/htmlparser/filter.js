@@ -146,7 +146,7 @@
 
 		if ( itemsLength ) {
 			// Find the index to insert the items at.
-			for ( i = 0; i < listLength && list[ i ].pri < priority; i++ ) {
+			for ( i = 0; i < listLength && list[ i ].pri <= priority; i++ ) {
 				/*jsl:pass*/
 			}
 
