@@ -60,16 +60,6 @@
 
 			if ( htmlFilter )
 				htmlFilter.addRules( htmlFilterRules );
-
-			editor.filter.allow( {
-				img: {
-					validate: function( element ) {
-						return !!element.attributes[ 'data-cke-realelement' ];
-					},
-					// Mark all classes, attrs and styles as valid.
-					markAllValid: true
-				}
-			} );
 		}
 	});
 

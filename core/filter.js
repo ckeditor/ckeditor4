@@ -52,18 +52,23 @@
 			editor.once( 'pluginsLoaded', function() {
 				var filterFn = this.getFilterFunction();
 
-				// Add element filter at the end of filters queue.
+				// Filter incoming "data".
+				// Add element filter at the beginning of filters queue
+				// when data->html.
 				editor.dataProcessor.dataFilter.addRules( {
 					elements: {
 						'^': filterFn
 					}
-				}, 100 );
+				}, 1 );
 
+				// Filter outcoming "data".
+				// Add element filter at the end of filters queue
+				// when html->data.
 				editor.dataProcessor.htmlFilter.addRules( {
 					elements: {
-						'^': filterFn
+						'$': filterFn
 					}
-				}, 100 );
+				}, 999 );
 			}, this );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
