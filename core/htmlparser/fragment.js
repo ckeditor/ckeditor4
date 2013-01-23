@@ -528,6 +528,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( filterRoot && !this.parent && filter )
 				filter.onRoot( this );
 
+			if ( filter )
+				this.filterChildren( filter );
+
 			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
 				children[ i ].writeHtml( writer );
 		}
