@@ -505,7 +505,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
-		filterChildren: function( filter ) {
+		filterChildren: function( filter, filterRoot ) {
 			// If this element's children were already filtered
 			// by current filter, don't filter them 2nd time.
 			// This situation may occur when filtering bottom-up
@@ -514,6 +514,10 @@ CKEDITOR.htmlParser.fragment = function() {
 			// is manipulating DOM structure.
 			if ( this.childrenFilteredBy == filter.id )
 				return;
+
+			// Filtering root if enforced.
+			if ( filterRoot && !this.parent )
+				filter.onRoot( this );
 
 			this.childrenFilteredBy = filter.id;
 
