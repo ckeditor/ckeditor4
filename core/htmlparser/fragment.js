@@ -490,6 +490,17 @@ CKEDITOR.htmlParser.fragment = function() {
 		},
 
 		filterChildren: function( filter ) {
+			// If this element's children were already filtered
+			// by current filter, don't filter them 2nd time.
+			// This situation may occur when filtering bottom-up
+			// (filterChildren() called manually in element's filter),
+			// or in unpredictable edge cases when filter
+			// is manipulating DOM structure.
+			if ( this.childrenFilteredBy == filter.id )
+				return;
+
+			this.childrenFilteredBy = filter.id;
+
 			// Don't cache anything, children array may be modified by filter rule.
 			for ( var i = 0; i < this.children.length; i++ ) {
 				// Stay in place if filter returned false, what means

@@ -16,6 +16,7 @@
 		 * @todo param
 		 */
 		$: function( rules ) {
+			this.id = CKEDITOR.tools.getNextNumber();
 			this._ = {
 				elementNames: [],
 				attributeNames: [],
