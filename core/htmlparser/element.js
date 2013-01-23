@@ -256,7 +256,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Writes the element HTML to a CKEDITOR.htmlWriter.
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} [filter]
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to be applied to this node.
+		 * **Note:** it's unsafe to filter offline (not appended) node.
 		 */
 		writeHtml: function( writer, filter ) {
 			if ( filter )

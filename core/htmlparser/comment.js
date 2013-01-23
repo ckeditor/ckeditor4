@@ -58,15 +58,20 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 			return false;
 		}
 
-		this.value = comment
+		this.value = comment;
 	},
 
 	/**
 	 * Writes the HTML representation of this comment to a CKEDITOR.htmlWriter.
 	 *
 	 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+	 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to be applied to this node.
+	 * **Note:** it's unsafe to filter offline (not appended) node.
 	 */
-	writeHtml: function( writer ) {
+	writeHtml: function( writer, filter ) {
+		if ( filter )
+			this.filter( filter );
+
 		writer.comment( this.value );
 	}
 } );

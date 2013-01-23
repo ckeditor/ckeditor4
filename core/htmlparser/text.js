@@ -56,15 +56,14 @@
 		 * Writes the HTML representation of this text to a {CKEDITOR.htmlParser.basicWriter}.
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to be applied to this node.
+		 * **Note:** it's unsafe to filter offline (not appended) node.
 		 */
 		writeHtml: function( writer, filter ) {
-			var text = this.value;
+			if ( filter )
+				this.filter( filter );
 
-			if ( filter && !( text = filter.onText( text, this ) ) )
-				return;
-
-			writer.text( text );
+			writer.text( this.value );
 		}
 	} );
 })();
