@@ -17,7 +17,7 @@
 	 */
 	CKEDITOR.filter = function( editorOrRules ) {
 		/**
-		 * Whether custom {@Link CKEDITOR.config#allowedContent} was set.
+		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
 		 * @property {Boolean} customConfig
 		 */
@@ -32,6 +32,16 @@
 		 * or for checking what rules were automatically added by editor features.
 		 */
 		this.allowedContent = [];
+
+		/**
+		 * Whether filter is disabled.
+		 *
+		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `false`.
+		 *
+		 * @readonly
+		 */
+		this.disabled = false;
+
 		this._ = {
 			// Optimized rules.
 			rules: {}
@@ -42,6 +52,12 @@
 			this.customConfig = true;
 
 			var allowedContent = editor.config.allowedContent;
+
+			// Disable filter completely by setting config.allowedContent = false.
+			if ( allowedContent === false ) {
+				this.disabled = true;
+				return;
+			}
 
 			if ( !allowedContent )
 				this.customConfig = false;
@@ -89,6 +105,9 @@
 		 * @returns {Boolean} Whether rules were accepted.
 		 */
 		allow: function( newRules, overrideCustom ) {
+			if ( this.disabled )
+				return false;
+
 			// Don't override custom user's configuration if not explicitly requested.
 			if ( this.customConfig && !overrideCustom )
 				return false;
@@ -215,6 +234,9 @@
 		 * @returns {Boolean} Whether feature is allowed.
 		 */
 		registerContent: function( allows, requires ) {
+			if ( this.disabled )
+				return true;
+
 			// If default configuration, then add allowed content rules.
 			this.allow( allows );
 			// If custom configuration, then check if required content is allowed.
@@ -232,6 +254,9 @@
 		 * @returns {Boolean} Returns `true` if content is allowed.
 		 */
 		check: function( test ) {
+			if ( this.disabled )
+				return true;
+
 			var element;
 
 			if ( typeof test == 'string' )
