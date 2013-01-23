@@ -11,6 +11,7 @@
 	 * A lightweight representation of HTML CDATA.
 	 *
 	 * @class
+	 * @extends CKEDITOR.htmlParser.node
 	 * @constructor Creates a cdata class instance.
 	 * @param {String} value The CDATA section value.
 	 */

@@ -447,8 +447,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		/**
 		 * Adds a node to this fragment.
 		 *
-		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.htmlParser.text/CKEDITOR.htmlParser.comment} node
-		 * The node to be added.
+		 * @param {CKEDITOR.htmlParser.node} node The node to be added.
 		 * @param {Number} [index] From where the insertion happens.
 		 */
 		add: function( node, index ) {
@@ -482,6 +481,11 @@ CKEDITOR.htmlParser.fragment = function() {
 				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
 
+		/**
+		 * Filter this fragment's content with given filter.
+		 *
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
 		filter: function( filter ) {
 			// Apply the root filter.
 			filter.onRoot( this );
@@ -489,6 +493,14 @@ CKEDITOR.htmlParser.fragment = function() {
 			this.filterChildren( filter );
 		},
 
+		/**
+		 * Filter this fragment's children with given filter.
+		 *
+		 * Element's children may only be filtered once by one
+		 * instance of filter.
+		 *
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
 		filterChildren: function( filter ) {
 			// If this element's children were already filtered
 			// by current filter, don't filter them 2nd time.
@@ -519,6 +531,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *		alert( writer.getHtml() ); // '<p><b>Example</b></p>'
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to use when writing the HTML.
 		 */
 		writeHtml: function( writer, filter ) {
 			if ( filter )
@@ -531,7 +544,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * Write and filtering the child nodes of this fragment.
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} filter The filter to use when writing the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to use when writing the HTML.
 		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		writeChildrenHtml: function( writer, filter, filterRoot ) {

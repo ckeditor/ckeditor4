@@ -16,7 +16,15 @@
 		 * @todo param
 		 */
 		$: function( rules ) {
+			/**
+			 * ID of filter instance, which is used to mark elements
+			 * to which this filter has been already applied.
+			 *
+			 * @property {Number} id
+			 * @readonly
+			 */
 			this.id = CKEDITOR.tools.getNextNumber();
+
 			this._ = {
 				elementNames: [],
 				attributeNames: [],
@@ -29,6 +37,12 @@
 		},
 
 		proto: {
+			/**
+			 * Add rules to this filter
+			 *
+			 * @param rules Object containing filter rules.
+			 * @param {Number} [priority=10]
+			 */
 			addRules: function( rules, priority ) {
 				if ( typeof priority != 'number' )
 					priority = 10;
@@ -55,7 +69,11 @@
 				this._.root = transformNamedItem( this._.root, rules.root, priority ) || this._.root;
 			},
 
-			// TODO do we really need this method, since we have fragment#filter( filter )?
+			/**
+			 * Apply this filter to given node.
+			 *
+			 * @param {CKEDITOR.htmlParser.node} node The node to be filtered.
+			 */
 			applyTo: function( node ) {
 				node.filter( this );
 			},

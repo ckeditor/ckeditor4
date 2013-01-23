@@ -9,6 +9,7 @@
  * A lightweight representation of an HTML element.
  *
  * @class
+ * @extends CKEDITOR.htmlParser.node
  * @constructor Creates an element class instance.
  * @param {String} name The element name.
  * @param {Object} attributes And object holding all attributes defined for
@@ -106,6 +107,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 	};
 };
 
+/** @class CKEDITOR.htmlParser.element */
 (function() {
 	// Used to sort attribute entries in an array, where the first element of
 	// each object is the attribute name.
@@ -128,8 +130,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Adds a node to the element children list.
 		 *
 		 * @method
-		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.htmlParser.text/CKEDITOR.htmlParser.comment} node
-		 * The node to be added.
+		 * @param {CKEDITOR.htmlParser.node} node The node to be added.
+		 * @param {Number} [index] From where the insertion happens.
 		 */
 		add: CKEDITOR.htmlParser.fragment.prototype.add,
 
@@ -142,7 +144,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return new CKEDITOR.htmlParser.element( this.name, this.attributes );
 		},
 
-		// TODO return next node to be filtered?
+		/**
+		 * Filter this element and its children with given filter.
+		 *
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @returns {Boolean} Method returns `false` when this element has
+		 * been removed or replaced with other. This is an information for
+		 * {@link #filterChildren} that it has to repeat filter on current
+		 * position in parent's children array.
+		 */
 		filter: function( filter ) {
 			var element = this,
 				originalName, name;
@@ -231,6 +241,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				this.filterChildren( filter );
 		},
 
+		/**
+		 * Filter this element's children with given filter.
+		 *
+		 * Element's children may only be filtered once by one
+		 * instance of filter.
+		 *
+		 * @method filterChildren
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
 		filterChildren: CKEDITOR.htmlParser.fragment.prototype.filterChildren,
 
 		/**
@@ -280,10 +299,13 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Send children of this element to the writer.
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {CKEDITOR.htmlParser.filter} [filter]
 		 */
 		writeChildrenHtml: CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml,
 
+		/**
+		 * Replace this element with its children.
+		 */
 		replaceWithChildren: function() {
 			var children = this.children;
 

@@ -10,6 +10,7 @@
 	 * A lightweight representation of HTML text.
 	 *
 	 * @class
+	 * @extends CKEDITOR.htmlParser.node
 	 * @constructor Creates a text class instance.
 	 * @param {String} value The text node value.
 	 */
@@ -36,6 +37,14 @@
 		 */
 		type: CKEDITOR.NODE_TEXT,
 
+		/**
+		 * Filter this text node with given filter.
+		 *
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @returns {Boolean} Method returns `false` when this text node has
+		 * been removed. This is an information for {@link CKEDITOR.htmlParser.element#filterChildren}
+		 * that it has to repeat filter on current position in parent's children array.
+		 */
 		filter: function( filter ) {
 			if ( !( this.value = filter.onText( this.value, this ) ) ) {
 				this.remove();

@@ -15,6 +15,9 @@
 	CKEDITOR.htmlParser.node = function() {};
 
 	CKEDITOR.htmlParser.node.prototype = {
+		/**
+		 * Remove this node from a tree.
+		 */
 		remove: function() {
 			var children = this.parent.children,
 				index = CKEDITOR.tools.indexOf( children, this ),
@@ -27,6 +30,11 @@
 			this.parent = null;
 		},
 
+		/**
+		 * Replace this node with given one.
+		 *
+		 * @param {CKEDITOR.htmlParser.node} node The node that will replace this one.
+		 */
 		replaceWith: function( node ) {
 			var children = this.parent.children,
 				index = CKEDITOR.tools.indexOf( children, this ),
@@ -42,6 +50,11 @@
 			this.parent = null;
 		},
 
+		/**
+		 * Insert this node after given one.
+		 *
+		 * @param {CKEDITOR.htmlParser.node} node The node that will precede this element.
+		 */
 		insertAfter: function( node ) {
 			var children = node.parent.children,
 				index = CKEDITOR.tools.indexOf( children, node ),
