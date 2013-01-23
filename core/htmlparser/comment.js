@@ -26,7 +26,7 @@ CKEDITOR.htmlParser.comment = function( value ) {
 	};
 };
 
-CKEDITOR.htmlParser.comment.prototype = {
+CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.htmlParser.node(), {
 	/**
 	 * The node type. This is a constant value set to {@link CKEDITOR#NODE_COMMENT}.
 	 *
@@ -36,7 +36,19 @@ CKEDITOR.htmlParser.comment.prototype = {
 	type: CKEDITOR.NODE_COMMENT,
 
 	filter: function( filter ) {
-		throw Error( 'Implement me!' );
+		var comment = this.value;
+
+		if ( !( comment = filter.onComment( comment, this ) ) ) {
+			this.remove();
+			return false;
+		}
+
+		if ( typeof comment != 'string' ) {
+			this.replaceWith( comment );
+			return false;
+		}
+
+		this.value = comment
 	},
 
 	/**
@@ -44,20 +56,7 @@ CKEDITOR.htmlParser.comment.prototype = {
 	 *
 	 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 	 */
-	writeHtml: function( writer, filter ) {
-		var comment = this.value;
-
-		if ( filter ) {
-			if ( !( comment = filter.onComment( comment, this ) ) )
-				return;
-
-			if ( typeof comment != 'string' ) {
-				comment.parent = this.parent;
-				comment.writeHtml( writer, filter );
-				return;
-			}
-		}
-
-		writer.comment( comment );
+	writeHtml: function( writer ) {
+		writer.comment( this.value );
 	}
-};
+} );
