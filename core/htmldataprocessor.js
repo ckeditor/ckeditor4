@@ -14,7 +14,8 @@
 	 * @param {CKEDITOR.editor} editor
 	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
-		var dataFilter, htmlFilter;
+		var dataFilter, htmlFilter,
+			that = this;
 
 		this.editor = editor;
 
@@ -31,25 +32,14 @@
 		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ) );
 		htmlFilter.addRules( defaultHtmlFilterRules );
 		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ) );
-	};
 
-	CKEDITOR.htmlDataProcessor.prototype = {
-		/**
-		 * Process the input (potentially malformed) HTML to a purified form which
-		 * is suitable to be used in the wysiwyg editable.
-		 *
-		 * @param {String} data The raw data.
-		 * @param {String} [context] The tag name of a context element within which
-		 * the input is to be processed, default to be the editable element.
-		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
-		 * @returns {String}
-		 */
-		toHtml: function( data, context, fixForBody ) {
+		editor.on( 'toHtml', function( evt ) {
+			var evtData = evt.data,
+				data = evtData.dataValue;
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
-
-			data = protectSource( data, this.editor );
+			data = protectSource( data, editor );
 
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in
@@ -72,14 +62,8 @@
 			// eat it up. (#5789)
 			data = protectPreFormatted( data );
 
-			var editable = this.editor.editable(),
+			var fixBin = evtData.context || editor.editable().getName(),
 				isPre;
-
-			// Fall back to the editable as context if not specified.
-			if ( !context && context !== null )
-				context = editable.getName();
-
-			var fixBin = context || editable.getName();
 
 			// Old IEs loose formats when load html into <pre>.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
@@ -90,7 +74,7 @@
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
-			var el = this.editor.document.createElement( fixBin );
+			var el = editor.document.createElement( fixBin );
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );
@@ -111,17 +95,49 @@
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, context, fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
+			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( editor.config ) );
+		}, null, null, 5 );
 
-			var writer = new CKEDITOR.htmlParser.basicWriter();
+		editor.on( 'toHtml', function( evt ) {
+			evt.data.dataValue.filterChildren( that.dataFilter, true );
+		}, null, null, 10 );
 
-			fragment.writeChildrenHtml( writer, this.dataFilter, 1 );
+		editor.on( 'toHtml', function( evt ) {
+			var evtData = evt.data,
+				data = evtData.dataValue,
+				writer = new CKEDITOR.htmlParser.basicWriter();
+
+			data.writeChildrenHtml( writer );
 			data = writer.getHtml( true );
 
 			// Protect the real comments again.
-			data = protectRealComments( data );
+			evtData.dataValue = protectRealComments( data );
+		}, null, null, 15 );
+	};
 
-			return data;
+	CKEDITOR.htmlDataProcessor.prototype = {
+		/**
+		 * Process the input (potentially malformed) HTML to a purified form which
+		 * is suitable to be used in the wysiwyg editable.
+		 *
+		 * @param {String} data The raw data.
+		 * @param {String} [context] The tag name of a context element within which
+		 * the input is to be processed, default to be the editable element.
+		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
+		 * @returns {String}
+		 */
+		toHtml: function( data, context, fixForBody ) {
+			var editor = this.editor
+
+			// Fall back to the editable as context if not specified.
+			if ( !context && context !== null )
+				context = editor.editable().getName();
+
+			return editor.fire( 'toHtml', {
+				dataValue: data,
+				context: context,
+				fixForBody: fixForBody
+			} ).dataValue;
 		},
 
 		/**
@@ -767,4 +783,32 @@
  * @since 3.5
  * @cfg {Boolean} [fillEmptyBlocks=true]
  * @member CKEDITOR.config
+ */
+
+/**
+ * This event is fired by {@link CKEDITOR.htmlDataProcessor} when input HTML
+ * is to be purified by {@link CKEDITOR.htmlDataProcessor#toHtml} method.
+ *
+ * By adding listeners with different priorities it is possible
+ * to process input HTML on different stages:
+ *
+ *	* 1-4: Data are available in original string format.
+ *	* 5: Data are initially filtered with regexp patterns and parsed to
+ *		{@link CKEDITOR.htmlParser.fragment} {@link CKEDITOR.htmlParser.element}.
+ *	* 5-9: Data are available in parsed format, but {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		isn't applied yet.
+ *	* 10: Data are filtered with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
+ *	* 10-14: Data are available in parsed format and {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		isn't already applied.
+ *	* 15: Data are written back to HTML string.
+ *	* 15-*: Data are available in HTML string.
+ *
+ * @since 4.1
+ * @event toHtml
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Input data to be purified.
+ * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} `context` argument.
+ * @param {String} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} `fixForBody` argument.
  */

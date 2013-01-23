@@ -504,6 +504,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * instance of filter.
 		 *
 		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		filterChildren: function( filter, filterRoot ) {
 			// If this element's children were already filtered
