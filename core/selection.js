@@ -10,10 +10,38 @@
 	// the current node and check it on successive requests. If there is any
 	// change on the tree, then the selectionChange event gets fired.
 	function checkSelectionChange() {
-		// Editor may have no selection at all.
-		var sel = this.getSelection( 1 );
-		if ( sel.getType() == CKEDITOR.SELECTION_NONE )
-			return;
+		// A possibly available fake-selection.
+		var sel = this._.fakeSelection;
+
+		if ( sel ) {
+			// Temporarily invalidate the cache, so getType() will return the real native value (not the fake one).
+			delete sel._.cache.nativeSel;
+			delete sel._.cache.type;
+
+			// If a native selection took place, then the fake-selection must be invalidated.
+			if ( sel.getType() != CKEDITOR.SELECTION_NONE ) {
+				// Remove the cache from fake-selection references in use elsewhere.
+				sel.reset();
+
+				// Remove the main sel reference.
+				sel = this._.fakeSelection = 0;
+			}
+			else {
+				// Restore the nativeSel cache for fake-selection.
+				sel._.cache.nativeSel = null;
+				sel._.cache.type = CKEDITOR.SELECTION_ELEMENT;
+			}
+		}
+
+		// If not fake-selection is available then get the native selection.
+		if ( !sel ) {
+			// Native selection.
+			sel = this.getSelection( 1 );
+
+			// Editor may have no selection at all.
+			if ( sel.getType() == CKEDITOR.SELECTION_NONE )
+				return;
+		}
 
 		this.fire( 'selectionCheck', sel );
 
@@ -593,9 +621,10 @@
 	 * @todo param
 	 */
 	CKEDITOR.editor.prototype.getSelection = function( forceRealSelection ) {
-		// Check if there exists a locked selection.
-		if ( this._.savedSelection && !forceRealSelection )
-			return this._.savedSelection;
+
+		// Check if there exists a locked or fake selection.
+		if ( ( this._.savedSelection || this._.fakeSelection ) && !forceRealSelection )
+			return this._.savedSelection || this._.fakeSelection;
 
 		// Editable element might be absent.
 		var editable = this.editable();
@@ -1408,6 +1437,7 @@
 		 */
 		reset: function() {
 			this._.cache = {};
+			this.isFake = 0;
 		},
 
 		/**
@@ -1437,6 +1467,8 @@
 		 * representing ranges to be added to the document.
 		 */
 		selectRanges: function( ranges ) {
+			this.reset();
+
 			if ( !ranges.length )
 				return;
 
@@ -1671,6 +1703,48 @@
 			this.reset();
 
 			// Fakes the IE DOM event "selectionchange" on editable.
+			this.root.fire( 'selectionchange' );
+		},
+
+		/**
+		 * Makes a "fake selection" of an element.
+		 *
+		 * A fake selection does not render UI artifacts over the selected
+		 * element. Additionally, the browser native selection system is not
+		 * aware of the fake selection. In practice, the native selection is
+		 * moved to a hidden place where no native selection UI artifacts are
+		 * displayed to the user.
+		 * @param element The element to be "selected".
+		 */
+		fake: function( element ) {
+			var cache = this._.cache;
+
+			delete cache.nativeSel;
+			var nativeSel = this.getNative();
+
+			// Cleanup the current native selection, setting its type to NONE.
+			nativeSel.removeAllRanges && nativeSel.removeAllRanges() ||
+			nativeSel.empty && nativeSel.empty();
+
+			// Caches a range than holds the element.
+			var range = new CKEDITOR.dom.range( element.getDocument() );
+			range.setStartBefore( element );
+			range.setEndAfter( element );
+			cache.ranges = new CKEDITOR.dom.rangeList( range );
+
+			// Put this element in the cache.
+			cache.selectedElement = cache.startElement = element;
+			cache.type = CKEDITOR.SELECTION_ELEMENT;
+
+			// Properties that will not be available when isFake.
+			cache.selectedText = cache.nativeSel = null;
+
+			this.isFake = 1;
+
+			// Save this selection, so it can be returned by editor.getSelection().
+			this.root.editor._.fakeSelection = this;
+
+			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
 		},
 
