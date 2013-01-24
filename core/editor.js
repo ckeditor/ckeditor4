@@ -942,6 +942,16 @@
 				else
 					delete keystrokes[ keystroke ];
 			}
+		},
+
+		/**
+		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
+		 *
+		 * @param feature See {@link CKEDITOR.filter#addFeature}.
+		 * @returns {Boolean} See {@link CKEDITOR.filter#addFeature}.
+		 */
+		addFeature: function( feature ) {
+			return this.filter.addFeature( feature );
 		}
 	});
 })();

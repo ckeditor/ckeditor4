@@ -307,27 +307,23 @@
 		},
 
 		/**
-		 * If any of {@link #allows} or {@link #requires} has been defined
-		 * registers button. If not tries to register command if
-		 * it is associated with this button.
+		 * Returns this button if it is a feature,
+		 * or command if is bound.
 		 *
-		 * @param {CKEDITOR.editor} editor
-		 * @returns {Boolean} See {@link CKEDITOR.filter#registerContent}.
+		 * @param {CKEDITOR.editor} Editor instance.
+		 * @returns {CKEDITOR.ui.button/CKEDITOR.command} The feature.
 		 */
-		registerContent: function( editor ) {
-			var allows = this.allows,
-				requires = this.requires;
+		toFeature: function( editor ) {
+			if ( this._.feature )
+				return this._.feature;
 
-			// If button's content definition isn't defined, check for command's.
-			if ( !allows && !requires && this.command ) {
-				var cmd = editor.getCommand( this.command );
-				if ( cmd ) {
-					allows = cmd.allows;
-					requires = cmd.requires;
-				}
-			}
+			var feature = this;
 
-			return editor.filter.registerContent( allows, requires );
+			// If button isn't a feature, return command if is bound.
+			if ( !this.allows && !this.requires && this.command )
+				feature = editor.getCommand( this.command ) || feature;
+
+			return this._.feature = feature;
 		}
 	};
 

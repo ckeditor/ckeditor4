@@ -497,10 +497,9 @@
 						if ( !item )
 							continue;
 
-						if ( item.registerContent ) {
-							 if ( !item.registerContent( editor ) )
-								continue;
-						}
+						if ( !editor.addFeature( item ) )
+							continue;
+
 						toolbarGroup.items.push( item );
 					}
 				}
