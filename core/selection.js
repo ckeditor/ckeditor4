@@ -23,8 +23,8 @@
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
 
-				// Remove the main sel reference.
-				sel = this._.fakeSelection = 0;
+				// Have the code using the native selection.
+				sel = 0;
 			}
 			else {
 				// Restore the nativeSel cache for fake-selection.
@@ -1442,6 +1442,9 @@
 		reset: function() {
 			this._.cache = {};
 			this.isFake = 0;
+
+			// Invalidate any fake selection available in the editor.
+			this.root.editor && ( delete this.root.editor._.fakeSelection );
 		},
 
 		/**
