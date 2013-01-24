@@ -133,9 +133,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 *
 			 * @param {Number} [offsetX=0]
 			 * @param {Number} [offsetY=0]
+			 * @param {Function} [callback] A callback function executed when block positioning is done.
 			 * @todo what do exactly these params mean (especially corner)?
 			 */
-			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
+			showBlock: function( name, offsetParent, corner, offsetX, offsetY, callback ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
@@ -359,6 +360,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							left: left + 'px'
 						});
 						element.setOpacity( 1 );
+
+						callback && callback();
 					}, this );
 
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;

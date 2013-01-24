@@ -787,9 +787,9 @@
 				if ( editor.mode == 'wysiwyg' && key in { 8:1,46:1 } ) {
 					var sel = editor.getSelection(),
 						range = sel.getRanges()[ 0 ],
-						path = range.startPath();
+						path = range && range.startPath();
 
-					if ( !range.collapsed )
+					if ( !range || !range.collapsed )
 						return;
 
 					path = new CKEDITOR.dom.elementPath( range.startContainer );

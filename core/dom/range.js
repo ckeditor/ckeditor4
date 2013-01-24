@@ -2038,7 +2038,7 @@ CKEDITOR.dom.range = function( root ) {
 				// Stop immediately if we've found a text node.
 				if ( el.type == CKEDITOR.NODE_TEXT ) {
 					// Put cursor before block filler.
-					if ( isMoveToEnd && this.checkEndOfBlock() && nbspRegExp.test( el.getText() ) )
+					if ( isMoveToEnd && this.endContainer && this.checkEndOfBlock() && nbspRegExp.test( el.getText() ) )
 						this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
 					else
 						this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
@@ -2053,7 +2053,7 @@ CKEDITOR.dom.range = function( root ) {
 						found = 1;
 					}
 					// Put cursor before padding block br.
-					else if ( isMoveToEnd && el.is( 'br' ) && this.checkEndOfBlock() )
+					else if ( isMoveToEnd && el.is( 'br' ) && this.endContainer && this.checkEndOfBlock() )
 						this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
 				}
 
@@ -2061,6 +2061,33 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			return !!found;
+		},
+
+		/**
+		 * Moves the range boundaries to the closest editing point after/before an
+		 * element.
+		 *
+		 * For example, if the start element has `id="start"`,
+		 * `<p><b><i>italic</i></b><span id="start">start</start></p>`, the closest previous editing point is
+		 * `<p><b><i>italic^</i></b><span id="start">start</start></p>` (at the end of `<i>`).
+		 *
+		 * See: {@link #moveToElementEditablePosition}.
+		 *
+		 * @param {CKEDITOR.dom.element} el The starting element.
+		 * @param {Boolean} isMoveToEnd Whether move to the end of editable. Otherwise, look back.
+		 * @returns {Boolean} Whether the range was moved.
+		 */
+		moveToClosestEditablePosition: function( node, isMoveToEnd ) {
+			var sibling;
+
+			do {
+				while ( ( sibling = node[ isMoveToEnd ? 'getNext' : 'getPrevious' ]( nonWhitespaceOrBookmarkEval ) ) ) {
+					if ( this.moveToElementEditablePosition( sibling, !isMoveToEnd ) )
+						return true;
+				}
+			} while ( ( node = node.getParent() ) && !node.equals( this.root ) );
+
+			return false;
 		},
 
 		/**

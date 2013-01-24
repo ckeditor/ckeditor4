@@ -391,6 +391,16 @@
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
+
+				// Avoid locking selection when moving focus to inner editables.
+				editable.attachListener( editable, 'DOMFocusIn', function() {
+					editor.unlockSelection();
+				});
+
+				// Disable selection restoring when clicking in.
+				editable.attachListener( editable, 'mousedown', function() {
+					restoreSel = 0;
+				});
 			}
 
 			// The following selection related fixes applies to only framed editable.

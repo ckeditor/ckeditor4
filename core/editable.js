@@ -41,13 +41,26 @@
 		proto: {
 
 			focus: function() {
+
+				var active;
+
+				// [Webkit] When DOM focus is inside of nested contenteditable elements,
+				// apply focus on the main editable will compromise it's text selection.
+				if ( CKEDITOR.env.webkit && !this.hasFocus ) {
+					active = this.getDocument().getActive();
+					if ( this.contains( active ) ) {
+						active.focus();
+						return;
+					}
+				}
+
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
 				// the host page document, to avoid bringing an unexpected scroll.
 				this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
 
 				// Remedy if Safari doens't applies focus properly. (#279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
-					var active = CKEDITOR.document.getActive();
+					active = CKEDITOR.document.getActive();
 					if ( !active.equals( this.getWindow().getFrame() ) ) {
 						this.getWindow().focus();
 					}
@@ -612,6 +625,44 @@
 							}
 						}
 
+					}
+
+					return !isHandled;
+				});
+
+				// Fix keystrokes around non-editables.
+				this.attachListener( editor, 'key', function( evt ) {
+					if ( editor.readOnly )
+						return false;
+
+					var keyCode = evt.data.keyCode, isHandled;
+
+					// Backspace OR Delete.
+					if ( keyCode in { 8:1,46:1 } ) {
+						var sel = editor.getSelection(),
+							range = sel.getRanges()[ 0 ],
+							path = range.startPath(),
+							next,
+							rtl = keyCode == 8;
+
+						// Not to consider bogus node at the end of block.
+						if ( range.checkEndOfBlock() )
+							range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_END );
+
+						// Backspace/Del should skip non-editable element.
+						while ( ( next = range[ rtl ? 'getPreviousNode' : 'getNextNode' ]() ) &&
+								 next.type == CKEDITOR.NODE_ELEMENT &&
+								 next.isReadOnly() )
+						{
+							isHandled = 1;
+							range.moveToPosition( next, rtl ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+						}
+
+						if ( isHandled ) {
+							range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
+							range.select();
+							range.scrollIntoView();
+						}
 					}
 
 					return !isHandled;

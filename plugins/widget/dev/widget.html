@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Widgets DEV &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+
+	<script>
+
+		CKEDITOR.config.removePlugins = 'iframe';
+		CKEDITOR.config.extraPlugins = 'widget,widgetcaption,widgetblockquote,widgetvideo,widgettime';
+
+	</script>
+
+	<style>
+
+		body {
+			font-size: 13px;
+			width: auto;
+		}
+		.editor1 {
+			padding: 10px;
+			border: 2px solid #dfdfdf;
+			overflow: auto;
+			width: 580px;
+		}
+
+		body p {
+			line-height: 1.8em;
+		}
+
+		/* Reset some styles from sample.css */
+		.cke_editable.cke_editable_inline
+		{
+			cursor: auto;
+		}
+
+		.cke_editable.cke_editable_inline.cke_focus
+		{
+			box-shadow: none;
+			background: inherit;
+			cursor: auto;
+		}
+
+		#logger {
+			background: #fff;
+			border: 3px solid #000;
+			padding: 0px;
+
+			position: fixed;
+			top: 30px;
+			right: 30px;
+
+			width: 800px;
+			height: 500px;
+			overflow-y: scroll;
+		}
+
+		#logger p {
+			padding: 0;
+			margin: 0;
+			border-bottom: 1px solid #000;
+			display: block;
+			overflow: hidden;
+		}
+
+		#logger p > span {
+			padding: 0 5px;
+			margin: -1px -1px 0 0 ;
+			display: inline-block;
+			border: 1px solid #555;
+		}
+
+		#logger p,
+		#logger p > span {
+			line-height: 20px;
+		}
+
+		#logger p > span:nth-child( 2n + 1 ) {
+			background: #FFD4B4;
+		}
+
+		#logger p > span.col1 {
+			background: #555;
+			color: #fff;
+		}
+
+		#logger p > span.mono {
+			font-size: 11px;
+			width: 780px;
+			background: #fff;
+		}
+
+		#logger .caret,
+		#logger .selection {
+			border-radius: 3px;
+		}
+
+		#logger .caret {
+			background: #FF72F6;
+			padding: 0 3px;
+		}
+
+		#logger .selection {
+			background: #71D1FF;
+		}
+
+		#loggerClear {
+			position: fixed;
+			right: 30px;
+			top: 550px;
+			font-size: 20px;
+		}
+
+		#cke_temp {
+			opacity: .1;
+		}
+	</style>
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor DEV Samples</a> &raquo; Widgets
+	</h1>
+
+	<div id="editor1" contenteditable="true" class="editor1">
+		<p>Lorem ipsum <span class="time" data-widget-property="time" timestamp="1357220873242" data-widget="time" utc="false">14:47:53</span> ipsum lorem.</p>
+	</div>
+
+	<br>
+
+	<textarea id="editor2" contenteditable="true">
+		<p>Lorem ipsum <span class="time" data-widget-property="time" timestamp="1357220873242" data-widget="time" utc="false">14:47:53</span> ipsum lorem.</p>
+	</textarea>
+
+	<br>
+
+	<textarea id="editor3" contenteditable="true">
+		<p>Lorem ipsum ipsum lorem.</p>
+		<figure class="blockquote" about="/blockquote/1" data-widget="blockquote">
+			<blockquote data-widget-property="quote">
+				<p>Duck!</p>
+			</blockquote>
+			<figcaption data-widget-property="caption">Goose.</figcaption>
+		</figure>
+		<p>Lorem ipsum ipsum lorem.</p>
+	</textarea>
+
+	<div id="logger"></div>
+
+	<br>
+
+	<textarea id="temp"></textarea>
+
+	<script>
+		CKEDITOR.disableAutoInline = true;
+
+		var logTpl = new CKEDITOR.template( '<p>' +
+				'<span>{date}</span>' +
+				'<span class="col1">{editorName} &gt; <strong>{caller}</strong> &gt; {eventName}</span>' +
+				'<span>Selected: {selected}</span>' +
+				'<span class="mono">{data}</span>' +
+			'</p>' ),
+			logger = CKEDITOR.document.getById( 'logger' );
+
+		function getHtmlWithSelection( editor ) {
+			CKEDITOR.env.webkit && editor.fire( 'beforeSetMode' );
+
+			var editable = editor.editable(),
+				tempEditable = temp.editable();
+
+			function getRelativeAddress( element, editable ) {
+				var elementAddr = element.getAddress(),
+					editableAddr = editable.getAddress();
+
+				if ( editable.isInline() ) {
+					elementAddr.splice( 0, editableAddr.length );
+					elementAddr.unshift( 1 );
+				}
+
+				return elementAddr;
+			}
+
+			function replaceWithBookmark( match, startOrEnd ) {
+				var bookmark;
+				switch( startOrEnd )
+				{
+					case 'S' :
+						bookmark = '[';
+						break;
+					case 'E' :
+						bookmark = ']';
+						break;
+					case 'C' :
+						bookmark = '^';
+						break;
+				}
+				return bookmark;
+			}
+
+			tempEditable.setHtml( editable.getHtml() );
+
+			var oldRanges = editor.getSelection().getRanges(),
+				newRanges = [],
+				newRange, oldRange;
+
+			for ( var i = oldRanges.length; i--; ) {
+				oldRange = oldRanges[ i ];
+				newRange = new CKEDITOR.dom.range( temp.document );
+
+				newRange.setStart( temp.document.getByAddress( getRelativeAddress( oldRange.startContainer, editable ) ), oldRange.startOffset );
+				newRange.setEnd( temp.document.getByAddress( getRelativeAddress( oldRange.endContainer, editable ) ), oldRange.endOffset );
+				newRange.collapsed = oldRange.collapsed;
+				newRanges.push( newRange );
+			}
+
+			temp.getSelection().selectRanges( newRanges );
+
+			var iter = temp.getSelection().getRanges().createIterator(),
+				range;
+
+			while ( ( range = iter.getNextRange() ) )
+				range.createBookmark( 1 );
+
+			html = browserHtmlFix( tempEditable.getHtml() );
+			html = html.replace( /<span\b[^>]*?id="?cke_bm_\d+(\w)"?\b[^>]*?>.*?<\/span>/gi, replaceWithBookmark );
+
+			return html;
+		}
+
+		function browserHtmlFix( html ) {
+			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 )
+			{
+				// Fix output base href on anchored link.
+				html = html.replace( /href="(.*?)#(.*?)"/gi,
+				   function( m, base, anchor )
+				   {
+					   if ( base == window.location.href.replace( window.location.hash, '' ) )
+						   return 'href="#' + anchor + '"';
+
+					   return m;
+				   } );
+
+				// Fix output line break after HR.
+				html = html.replace( /(<HR>)\r\n/gi, function( m, hr ) { return hr; } );
+			}
+
+			return html;
+		}
+
+		function observe( editor ) {
+			editor.on( 'instanceReady', function() {
+				var that = this;
+
+				var showSelection = ( function() {
+					var getDate = ( function() {
+						function fillZeros( string, len ) {
+							return ( '000' + string ).slice( -len );
+						}
+
+						return function() {
+							var d = new Date();
+							return [ fillZeros( d.getHours(), 2 ), fillZeros( d.getMinutes(), 2 ), fillZeros( d.getSeconds(), 2 ), fillZeros( d.getMilliseconds(), 3 ) ].join( ':' );
+						}
+					})();
+
+					function getWidgetNameAndId( widget ) {
+						if ( !widget )
+							return '---';
+
+						return 'widget' + CKEDITOR.tools.capitalize( widget.name ) + '#' + widget.id;
+					}
+
+					return function( event ) {
+						logger.appendHtml( logTpl.output( {
+							date: getDate(),
+							editorName: editor.name.toUpperCase(),
+							eventName: event.name,
+							caller: getWidgetNameAndId( event.data ) ,
+							data: '',
+							selected: getWidgetNameAndId( editor.widgets.selected )
+						} ) );
+
+						var data = getHtmlWithSelection( editor ),
+							dataHolder = logger.getLast().getLast(),
+							selRegex = /\[[^\]\[]*\]/g,
+							caretSplit = data.split( '^' ),
+							selSplit = data.match( selRegex );
+
+						// Log colourful selection.
+						if ( selSplit ) {
+							var splitted = data.split( selRegex ),
+								selElement = CKEDITOR.dom.element.createFromHtml( '<span class="selection"></span>' );
+
+							selElement.setText( selSplit[ 0 ] );
+
+							dataHolder.appendText( splitted[ 0 ] );
+							dataHolder.append( selElement );
+							dataHolder.appendText( splitted[ 1 ] );
+						}
+
+						// Log colourful caret.
+						else if ( caretSplit.length == 2 ) {
+							dataHolder.appendText( caretSplit[ 0 ] );
+							dataHolder.appendHtml( '<span class="caret">^</span>' );
+							dataHolder.appendText( caretSplit[ 1 ] );
+						}
+
+						// No caret, no selection. Just some text.
+						else
+							dataHolder.setText( data );
+
+						logger.$.scrollTop = logger.$.scrollHeight;
+					}
+				})();
+
+				function observeWidgetEvents( events ) {
+					var event;
+					while( ( event = events.pop() ) )
+						that.widgets.on( event, showSelection );
+				}
+
+				observeWidgetEvents( [
+					'widgetCreated',
+					'widgetSelected',
+					'widgetBlur',
+					'widgetSetupSelected',
+					'widgetSetupPasted',
+					'widgetInited',
+					'widgetDeeditable',
+					'widgetEdit'
+				] );
+			} );
+		}
+
+		function clearLog() {
+			logger.setText( '' );
+		}
+
+		var config = {
+			toolbar: 'Custom',
+			toolbar_Custom: [
+				{
+					name: 'custom',
+					items: [ 'Source', 'Bold', 'Italic', 'Underline', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', 'Widget' ]
+				}
+			],
+			width: '600px',
+			height: '150px'
+		};
+
+		var editor1 = CKEDITOR.inline( 'editor1', config );
+		var editor2 = CKEDITOR.replace( 'editor2', config );
+		var editor3 = CKEDITOR.replace( 'editor3', config );
+		var temp = CKEDITOR.replace( 'temp', config );
+
+		observe( editor1 );
+		observe( editor2 );
+		observe( editor3 );
+
+	</script>
+
+	<button type="button" id="loggerClear" onclick="clearLog()">Clear log</button>
+</body>
+</html>

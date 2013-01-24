@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Widgets &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Widgets">
+	<meta name="ckeditor-sample-group" content="Plugins">
+	<meta name="ckeditor-sample-description" content="Widgets showcase.">
+	<meta name="ckeditor-sample-isnew" content="1">
+
+	<script>
+
+		CKEDITOR.config.removePlugins = 'iframe';
+		CKEDITOR.config.extraPlugins = 'widget,widgetcaption,widgetblockquote,widgetvideo,widgettime';
+
+	</script>
+
+	<style>
+
+		body {
+			font-size: 13px;
+		}
+		.editable {
+			padding: 20px;
+			border: 2px solid #dfdfdf;
+			overflow: auto;
+		}
+
+		body p {
+			line-height: 1.8em;
+		}
+
+		/* Reset some styles from sample.css */
+		.cke_editable.cke_editable_inline
+		{
+			cursor: auto;
+		}
+		.cke_editable.cke_editable_inline.cke_focus
+		{
+			box-shadow: none;
+			background: inherit;
+			cursor: auto;
+		}
+
+	</style>
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Widgets
+	</h1>
+
+	<p><strong>Widgets</strong> are represented by a group of elements that act as a single entity inside the editable content. The widget elements are many times protected from direct editing and can be configured to have different behavior, features or layout.</p>
+
+	<p>A good example for a widgets is a &quot;captioned image&quot;, which contains an image element and text for the caption. Both parts will always live together and should be selected as a whole. Once deleted, both should be removed.</p>
+
+	<h1>Examples</h1>
+
+	<p><strong>Notice: </strong>The following examples have been configured to use just a small subset of the CKEditor features because the Widget feature is still on prototyping phase. This simplication aims to&nbsp;avoid taking your attention out of the aspects already implemented on Widgets. Check <a href="http://dev.ckeditor.com/ticket/9764">ticket #9764</a>&nbsp;for full details about the specifications and current limitations on widgets.</p>
+
+	<p>Be sure to try the <strong>Insert Widget button</strong>&nbsp;&rArr;&nbsp;<img class="cke_button__widget_icon" alt="Insert Widget Button" src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" style="background-image: url(../icons/widget.png); width:16px;height:16px;vertical-align: middle;" />.</p>
+
+	<h2>Captioned Image Widget Sample</h2>
+
+	<div id="editor1" contenteditable="true" class="editable">
+
+		<h1>Apollo 11</h1>
+
+		<figure class="caption" about="/caption/1" data-widget="caption" style="float: right">
+			<img alt="Saturn V carrying Apollo 11" src="../../../samples/assets/sample.jpg" data-widget-property="image" />
+			<figcaption data-widget-property="caption"><a href="http://en.wikipedia.org/wiki/Saturn_V">Saturn V</a> carrying Apollo 11</figcaption>
+		</figure>
+
+		<p><strong>Apollo 11</strong>&nbsp;was the&nbsp;spaceflight&nbsp;that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a>&nbsp;and&nbsp;<a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the&nbsp;Moon&nbsp;on July 20, 1969, at <span class="time" data-widget-property="time" timestamp="1357220873242" data-widget="time" utc="false">14:47:53</span>. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC. Armstrong spent about two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command spacecraft&nbsp;alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+		<p>Launched by a&nbsp;Saturn V&nbsp;rocket from&nbsp;Kennedy Space Center&nbsp;in&nbsp;Merritt Island, Florida&nbsp;on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s&nbsp;Apollo program. The Apollo&nbsp;spacecraft&nbsp;had three parts: aCommand Module&nbsp;with a cabin for the three astronauts which was the only part which landed back on Earth; a&nbsp;Service Module&nbsp;which supported the Command Module with propulsion, electrical power, oxygen and water; and a&nbsp;Lunar Module&nbsp;for landing on the Moon. After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the&nbsp;Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the&nbsp;Pacific Ocean&nbsp;on July 24.</p>
+
+		<p>Broadcast on live TV <strong>(see&nbsp;YouTube Video Widget Sample)</strong> to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as &quot;one small step for [a] man, one giant leap for mankind.&quot; <strong>(see&nbsp;Quotation Widget Sample)</strong> Apollo 11 effectively ended the Space Race&nbsp;and fulfilled a national goal proposed in 1961 by the late U.S. President&nbsp;John F. Kennedy&nbsp;in a speech before the&nbsp;United States Congress, &quot;before this decade is out, of landing a man on the Moon and returning him safely to the Earth.&quot;</p>
+
+		<p>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></p>
+	</div>
+
+	<h2>YouTube Video Widget Sample</h2>
+
+	<div id="editor2" contenteditable="true" class="editable">
+		<h2>Broadcasting and <em>quotes</em></h2>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<figure class="video" style="float: left" data-widget="video"><iframe frameborder="0" height="315" data-widget-property="iframe" src="http://www.youtube-nocookie.com/embed/pCp2jTtay0w?rel=0" width="420"></iframe></figure>
+
+		<p>Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<p>Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<p>Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+	</div>
+
+	<h2>Quote Widget Sample</h2>
+
+	<div id="editor3" contenteditable="true" class="editable">
+		<h2>Broadcasting and <em>quotes</em> <a id="quotes" name="quotes"></a></h2>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<figure class="blockquote" about="/blockquote/1" data-widget="blockquote">
+			<blockquote data-widget-property="quote">
+				<p>One small step for [a] man, one giant leap for mankind.</p>
+			</blockquote>
+			<figcaption data-widget-property="caption">Neil Armstrong, when stepping onto the lunar surface.</figcaption>
+		</figure>
+
+		<p>Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+	</div>
+
+	<h2>Framed Editor Sample</h2>
+
+	<textarea cols="80" id="editor4" name="editor4" rows="10">
+
+		<h1>Apollo 11</h1>
+
+		<figure class="caption" about="/caption/1" data-widget="caption" style="float: right">
+			<img alt="Saturn V carrying Apollo 11" src="../../../samples/assets/sample.jpg" data-widget-property="image" />
+			<figcaption data-widget-property="caption"><a href="http://en.wikipedia.org/wiki/Saturn_V">Saturn V</a> carrying Apollo 11</figcaption>
+		</figure>
+
+		<p><strong>Apollo 11</strong>&nbsp;was the&nbsp;spaceflight&nbsp;that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a>&nbsp;and&nbsp;<a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>,
+			on the&nbsp;Moon&nbsp;on July 20, 1969, at
+			<span class="time" data-widget="time" data-widget-property="time">?</span>
+			. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC. Armstrong spent about two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command spacecraft&nbsp;alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+		<p>Launched by a&nbsp;Saturn V&nbsp;rocket from&nbsp;Kennedy Space Center&nbsp;in&nbsp;Merritt Island, Florida&nbsp;on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s&nbsp;Apollo program. The Apollo&nbsp;spacecraft&nbsp;had three parts: aCommand Module&nbsp;with a cabin for the three astronauts which was the only part which landed back on Earth; a&nbsp;Service Module&nbsp;which supported the Command Module with propulsion, electrical power, oxygen and water; and a&nbsp;Lunar Module&nbsp;for landing on the Moon. After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the&nbsp;Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the&nbsp;Pacific Ocean&nbsp;on July 24.</p>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<figure class="blockquote" about="/blockquote/1" data-widget="blockquote">
+			<blockquote data-widget-property="quote">
+				<p>One small step for [a] man, one giant leap for mankind.</p>
+			</blockquote>
+			<figcaption data-widget-property="caption">Neil Armstrong, when stepping onto the lunar surface.</figcaption>
+		</figure>
+
+		<p>Launched by a&nbsp;Saturn V&nbsp;rocket from&nbsp;Kennedy Space Center&nbsp;in&nbsp;Merritt Island, Florida&nbsp;on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s&nbsp;Apollo program. The Apollo&nbsp;spacecraft&nbsp;had three parts: aCommand Module&nbsp;with a cabin for the three astronauts which was the only part which landed back on Earth; a&nbsp;Service Module&nbsp;which supported the Command Module with propulsion, electrical power, oxygen and water; and a&nbsp;Lunar Module&nbsp;for landing on the Moon. After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the&nbsp;Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the&nbsp;Pacific Ocean&nbsp;on July 24.</p>
+
+		<figure class="video" style="float: left" data-widget="video"><iframe frameborder="0" height="315" data-widget-property="iframe" src="http://www.youtube-nocookie.com/embed/pCp2jTtay0w?rel=0" width="420"></iframe></figure>
+
+		<p>Launched by a&nbsp;Saturn V&nbsp;rocket from&nbsp;Kennedy Space Center&nbsp;in&nbsp;Merritt Island, Florida&nbsp;on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s&nbsp;Apollo program. The Apollo&nbsp;spacecraft&nbsp;had three parts: aCommand Module&nbsp;with a cabin for the three astronauts which was the only part which landed back on Earth; a&nbsp;Service Module&nbsp;which supported the Command Module with propulsion, electrical power, oxygen and water; and a&nbsp;Lunar Module&nbsp;for landing on the Moon. After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the&nbsp;Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the&nbsp;Pacific Ocean&nbsp;on July 24.</p>
+
+		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	</textarea>
+
+	<script>
+
+		CKEDITOR.replace( 'editor4', {
+			height: 500
+		});
+
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>

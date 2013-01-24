@@ -36,6 +36,7 @@
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
+				tabuList: [ 'data-widget-wrapper' ].concat( config.magicline_tabuList || [] ),
 				triggers: config.magicline_everywhere ? DTD_BLOCK : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
 			},
 			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
@@ -311,8 +312,10 @@
 					&& !that.line.mouseNear() 								// 	-> Mouse pointer can't be close to the box.
 					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
-					// If trigger exists, and trigger is correct -> show the box
-					if ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) {
+					// If trigger exists, and trigger is correct -> show the box.
+					// Don't show the line if trigger is a descendant of some tabu-list element.
+					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
+						!isInTabu( that, that.trigger.upper || that.trigger.lower ) ) {
 						that.line.attach().place();
 					}
 
@@ -860,6 +863,10 @@
 					// since inline elements don't participate in in magicline.
 					selected = selected.getAscendant( DTD_BLOCK, 1 );
 
+					// Stop if selected is a child of a tabu-list element.
+					if ( isInTabu( that, selected ) )
+						return;
+
 					// Sometimes it may happen that there's no parent block below selected element
 					// or, for example, getAscendant reaches editable or editable parent.
 					// We must avoid such pathological cases.
@@ -972,6 +979,22 @@
 
 	function isTrigger( that, element ) {
 		return isHtml( element ) ? element.is( that.triggers ) : null;
+	}
+
+	function isInTabu( that, element ) {
+		if ( !element )
+			return false;
+
+		var parents = element.getParents( 1 );
+
+		for ( var i = parents.length ; i-- ; ) {
+			for ( var j = that.tabuList.length ; j-- ; ) {
+				if ( parents[ i ].hasAttribute( that.tabuList[ j ] ) )
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	// This function checks vertically is there's a relevant child between element's edge
@@ -1711,6 +1734,17 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 2
  * @member CKEDITOR.config
  */
 CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
+
+/**
+ * Defines a list of attributes that, if assigned to some elements, prevent magicline from being
+ * used within these elements.
+ *
+ *		// Adds "data-tabu" attribute to magicline tabu list.
+ *		CKEDITOR.config.magicline_tabuList = [ 'data-tabu' ];
+ *
+ * @cfg {Number} [magicline_tabuList=[ 'data-widget-wrapper' ]]
+ * @member CKEDITOR.config
+ */
 
 /**
  * Defines box color. The color may be adjusted to enhance readability.

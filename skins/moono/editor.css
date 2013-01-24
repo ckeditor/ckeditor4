@@ -21,7 +21,7 @@ other files.
 @import url("mainui.css");
 
 /* Styles all "panels", which are the floating elements that appear when
-   opening toolbar combos, menu buttons, context menus, etc. */ 
+   opening toolbar combos, menu buttons, context menus, etc. */
 @import url("panel.css");
 
 /* Styles the color panel displayed by the color buttons. */
@@ -38,6 +38,9 @@ other files.
 
 /* Styles the elements path bar, available at the bottom of the editor UI.*/
 @import url("elementspath.css");
+
+/* Styles props panels.*/
+@import url("propspanel.css");
 
 /* Contains hard-coded presets for "configurable-like" options of the UI
    (e.g. display labels on specific buttons) */

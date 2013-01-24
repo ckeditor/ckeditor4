@@ -1,0 +1,140 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+.cke_props_panel
+{
+	width: 230px;
+	overflow: visible;
+	background: #fff;
+
+	border: 1px solid #b2b2b2;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	-moz-box-shadow: 0 0 10px #aaa;
+	-webkit-box-shadow: 0 0 10px #aaa;
+	box-shadow: 0 0 10px #aaa;
+
+	z-index: 5000;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+
+	outline: none;
+}
+
+.cke_props_panel:before
+{
+	width: 0;
+	height: 0;
+	content: "";
+	position: absolute;
+	top: 7px;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-right: 8px solid #999;
+	left: -8px;
+}
+
+.cke_props_panel.cke_props_panel_vflip:before
+{
+	top: auto;
+	bottom: 7px;
+}
+
+.cke_props_panel .cke_props_panel_title
+{
+	font-weight: bold;
+	font-size: 13px;
+	cursor: move;
+	position: relative;
+
+	color: #474747;
+	text-shadow: 0 1px 0 rgba(255,255,255,.75);
+
+	border-bottom: 1px solid #999;
+	padding: 6px 10px;
+
+	-moz-border-radius: 2px 2px 0 0;
+	-webkit-border-radius: 2px 2px 0 0;
+	border-radius: 2px 2px 0 0;
+
+	-moz-box-shadow: 0 1px 0 #fff inset;
+	-webkit-box-shadow: 0 1px 0 #fff inset;
+	box-shadow: 0 1px 0 #fff inset;
+
+	background: #cfd1cf;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#cfd1cf));
+	background-image: -moz-linear-gradient(top, #f5f5f5, #cfd1cf);
+	background-image: -webkit-linear-gradient(top, #f5f5f5, #cfd1cf);
+	background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
+	background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
+	background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff5f5f5', endColorstr='#ffcfd1cf');
+}
+
+.cke_props_panel .cke_props_panel_inner
+{
+	padding: 15px;
+}
+
+.cke_props_panel_inner label
+{
+	padding-right: 10px;
+}
+
+.cke_props_panel_inner .cke_dialog_ui_text + .cke_dialog_ui_text
+{
+	margin-top: 10px;
+}
+
+.cke_props_panel_inner .cke_dialog_ui_input_radio label
+{
+	display: inline-block;
+}
+
+.cke_props_panel_inner input.cke_dialog_ui_input_text
+{
+	background-color: #fff;
+	border: 1px solid #c9cccf;
+	border-top-color: #aeb3b9;
+	padding: 4px 6px;
+	outline: none;
+	width: 100%;
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
+	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
+}
+
+.cke_props_panel_inner input.cke_dialog_ui_input_text:hover
+{
+	border: 1px solid #aeb3b9;
+	border-top-color: #a0a6ad;
+}
+
+.cke_props_panel_inner input.cke_dialog_ui_input_text:focus
+{
+	outline: none;
+	border: 1px solid #139ff7;
+	border-top-color: #1392e9;
+}
+
+.cke_props_panel_inner .cke_dialog_ui_labeled_label
+{
+	font-weight: bold;
+	padding-bottom: 5px;
+	display: block;
+}
