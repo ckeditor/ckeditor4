@@ -113,6 +113,31 @@
 			// Protect the real comments again.
 			evtData.dataValue = protectRealComments( data );
 		}, null, null, 15 );
+
+
+		editor.on( 'toDataFormat', function( evt ) {
+			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
+				evt.data.dataValue, editor.editable().getName(), getFixBodyTag( editor.config ) );
+		}, null, null, 5 );
+
+		editor.on( 'toDataFormat', function( evt ) {
+			evt.data.dataValue.filterChildren( that.htmlFilter, true );
+		}, null, null, 10 );
+
+		editor.on( 'toDataFormat', function( evt ) {
+			var data = evt.data.dataValue,
+				writer = that.writer;
+
+			writer.reset();
+			data.writeChildrenHtml( writer );
+			data = writer.getHtml( true );
+
+			// Restore those non-HTML protected source. (#4475,#4880)
+			data = unprotectRealComments( data );
+			data = unprotectSource( data, editor );
+
+			evt.data.dataValue = data;
+		}, null, null, 15 );
 	};
 
 	CKEDITOR.htmlDataProcessor.prototype = {
@@ -147,23 +172,9 @@
 		 * @returns {String}
 		 */
 		toDataFormat: function( html ) {
-			// The parent element will always be the editable.
-			var editable = this.editor.editable(),
-				writer = this.writer;
-
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), getFixBodyTag( this.editor.config ) );
-
-			writer.reset();
-
-			fragment.writeChildrenHtml( writer, this.htmlFilter, 1 );
-
-			var data = writer.getHtml( true );
-
-			// Restore those non-HTML protected source. (#4475,#4880)
-			data = unprotectRealComments( data );
-			data = unprotectSource( data, this.editor );
-
-			return data;
+			return this.editor.fire( 'toDataFormat', {
+				dataValue: html,
+			} ).dataValue;
 		}
 	};
 
@@ -812,3 +823,18 @@
  * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} `context` argument.
  * @param {String} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} `fixForBody` argument.
  */
+
+/**
+ * This event is fired when {@link CKEDITOR.htmlDataProcessor} is converting
+ * internal HTML to output data HTML.
+ *
+ * See {@link #toHtml} event documentation for more details.
+ *
+ * @since 4.1
+ * @event toDataFormat
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Output data to be prepared.
+ */
+
