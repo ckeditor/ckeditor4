@@ -36,7 +36,7 @@
 		/**
 		 * Whether filter is disabled.
 		 *
-		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `false`.
+		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `true`.
 		 *
 		 * @readonly
 		 */
@@ -53,8 +53,8 @@
 
 			var allowedContent = editor.config.allowedContent;
 
-			// Disable filter completely by setting config.allowedContent = false.
-			if ( allowedContent === false ) {
+			// Disable filter completely by setting config.allowedContent = true.
+			if ( allowedContent === true ) {
 				this.disabled = true;
 				return;
 			}
