@@ -46,7 +46,8 @@
 
 		this._ = {
 			// Optimized rules.
-			rules: {}
+			rules: {},
+			cachedTests: {}
 		};
 
 		if ( editorOrRules instanceof CKEDITOR.editor ) {
@@ -123,6 +124,9 @@
 
 			if ( !newRules )
 				return false;
+
+			// Clear cache.
+			this._.cachedChecks = {};
 
 			var i, ret;
 
@@ -271,11 +275,14 @@
 			if ( this.disabled )
 				return true;
 
-			var element;
+			var element, result;
 
-			if ( typeof test == 'string' )
+			if ( typeof test == 'string' ) {
+				if ( test in this._.cachedChecks )
+					return this._.cachedChecks[ test ];
+
 				element = mockElementFromString( test );
-			else
+			} else
 				element = mockElementFromStyle( test );
 
 			// Make a deep copy.
@@ -284,12 +291,17 @@
 			this.getFilterFunction()( copy );
 
 			if ( copy.name != element.name )
-				return false;
+				result = false;
 			// Compare only left to right, because copy may be only trimmed version of original element.
-			if ( !CKEDITOR.tools.objectCompare( element.attributes, copy.attributes, true ) )
-				return false;
+			else if ( !CKEDITOR.tools.objectCompare( element.attributes, copy.attributes, true ) )
+				result = false;
+			else
+				result = true;
 
-			return true;
+			if ( typeof test == 'string' )
+				this._.cachedChecks[ test ] = result;
+
+			return result;
 		}
 	};
 
