@@ -11,6 +11,18 @@
 (function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
+			if ( editor.config.fullPage ) {
+				editor.addFeature( {
+					allows: {
+						'html head body title style': true,
+						'meta link': {
+							markAllValid: true
+						}
+					},
+					requires: 'body'
+				} );
+			}
+
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
 				iframe.setStyles({ width: '100%', height: '100%' } );

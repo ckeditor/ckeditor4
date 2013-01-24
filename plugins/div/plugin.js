@@ -20,6 +20,8 @@
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
+				allows: 'div',
+				requires: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {
 					var context = editor.config.div_wrapTable ? path.root : path.blockLimit;

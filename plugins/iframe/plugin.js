@@ -25,7 +25,10 @@
 				lang = editor.lang.iframe;
 
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
-			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
+			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
+				allows: 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]',
+				requires: 'iframe'
+			} ) );
 
 			editor.ui.addButton && editor.ui.addButton( 'Iframe', {
 				label: lang.toolbar,

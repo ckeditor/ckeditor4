@@ -37,6 +37,16 @@
 	indentCommand.prototype = {
 		// It applies to a "block-like" context.
 		context: 'p',
+		allows: {
+			// TODO this may not be a complete list of elements.
+			'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
+				// Do not add elements, but only text-align style if element is validated by other rule.
+				propertiesOnly: true,
+				styles: 'margin-left,margin-right'
+			}
+		},
+		requires: 'p[margin-left]',
+
 		refresh: function( editor, path ) {
 			var list = path && path.contains( listNodeNames ),
 				firstBlock = path.block || path.blockLimit;

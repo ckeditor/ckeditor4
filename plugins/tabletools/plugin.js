@@ -679,103 +679,129 @@
 					}
 				});
 			}
+			function addCmd( name, cmd ) {
+				editor.addCommand( name, cmd );
+				editor.addFeature( cmd );
+			}
 
-			editor.addCommand( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef() ) );
+			addCmd( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef( {
+				allows: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
+				requires: 'table'
+			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
-			editor.addCommand( 'rowDelete', createDef({
+			addCmd( 'rowDelete', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					placeCursorInCell( deleteRows( selection ) );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'rowInsertBefore', createDef({
+			addCmd( 'rowInsertBefore', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection, true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'rowInsertAfter', createDef({
+			addCmd( 'rowInsertAfter', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'columnDelete', createDef({
+			addCmd( 'columnDelete', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					var element = deleteColumns( selection );
 					element && placeCursorInCell( element, true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'columnInsertBefore', createDef({
+			addCmd( 'columnInsertBefore', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection, true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'columnInsertAfter', createDef({
+			addCmd( 'columnInsertAfter', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellDelete', createDef({
+			addCmd( 'cellDelete', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					deleteCells( selection );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellMerge', createDef({
+			addCmd( 'cellMerge', createDef( {
+				allows: 'td[colspan,rowspan]',
+				requires: 'td[colspan,rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection() ), true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellMergeRight', createDef({
+			addCmd( 'cellMergeRight', createDef( {
+				allows: 'td[colspan]',
+				requires: 'td[colspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellMergeDown', createDef({
+			addCmd( 'cellMergeDown', createDef( {
+				allows: 'td[rowspan]',
+				requires: 'td[rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellVerticalSplit', createDef({
+			addCmd( 'cellVerticalSplit', createDef( {
+				allows: 'td[rowspan]',
+				requires: 'td[rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( verticalSplitCell( editor.getSelection() ) );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellHorizontalSplit', createDef({
+			addCmd( 'cellHorizontalSplit', createDef( {
+				allows: 'td[colspan]',
+				requires: 'td[colspan]',
 				exec: function( editor ) {
 					placeCursorInCell( horizontalSplitCell( editor.getSelection() ) );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellInsertBefore', createDef({
+			addCmd( 'cellInsertBefore', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection, true );
 				}
-			}));
+			} ) );
 
-			editor.addCommand( 'cellInsertAfter', createDef({
+			addCmd( 'cellInsertAfter', createDef( {
+				requires: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection );
 				}
-			}));
+			} ) );
 
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {
