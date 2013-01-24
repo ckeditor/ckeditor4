@@ -66,25 +66,32 @@
 			this.allow( allowedContent, 1 );
 
 			editor.once( 'pluginsLoaded', function() {
-				var filterFn = this.getFilterFunction();
+				var filterFn = this.getFilterFunction(),
+					filter = new CKEDITOR.htmlParser.filter();
 
-				// Filter incoming "data".
-				// Add element filter at the beginning of filters queue
-				// when data->html.
-				editor.dataProcessor.dataFilter.addRules( {
+				filter.addRules( {
 					elements: {
 						'^': filterFn
 					}
-				}, 1 );
+				} );
+
+				// Filter incoming "data".
+				// Add element filter before htmlDataProcessor.dataFilter
+				// when purifying input data to correct html.
+				editor.on( 'toHtml', function( evt ) {
+					// Filter only children because data maybe be wrapped
+					// with element, not a doc fragment.
+					evt.data.dataValue.filterChildren( filter );
+				}, null, null, 6 );
 
 				// Filter outcoming "data".
-				// Add element filter at the end of filters queue
-				// when html->data.
-				editor.dataProcessor.htmlFilter.addRules( {
-					elements: {
-						'$': filterFn
-					}
-				}, 999 );
+				// Add element filter  after htmlDataProcessor.htmlFilter
+				// when preparing output data HTML.
+				editor.on( 'toDataFormat', function( evt ) {
+					// Filter only children because data maybe be wrapped
+					// with element, not a doc fragment.
+					evt.data.dataValue.filterChildren( filter );
+				}, null, null, 11 );
 			}, this );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
