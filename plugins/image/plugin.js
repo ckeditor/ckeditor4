@@ -21,8 +21,8 @@
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
-				allows: 'img[src,alt]{width,height,border-width,border-style,margin,float}',
-				requires: 'img[src,alt]'
+				allows: 'img[align,alt,src]{border,border-width,border-style,float,height,margin,width}',
+				requires: 'img[alt,src]'
 			} ) );
 
 			// Register the toolbar button.
