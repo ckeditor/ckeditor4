@@ -207,7 +207,10 @@
 						validAttributes: {},
 						validClasses: {},
 						validStyles: {},
-						allValid: 0
+						// Whether all are valid.
+						allAttributes: false,
+						allClasses: false,
+						allStyles: false
 					},
 					i, l;
 
@@ -233,14 +236,13 @@
 						applyRule( genericRules[ i ], element, status, false );
 				}
 
-				// Finally, if after running all filter rules it is still disallowed - remove it.
+				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
 				if ( !status.valid ) {
 					removeElement( element, name );
 					return;
 				}
 
-				if ( !status.allValid )
-					updateElement( element, status );
+				updateElement( element, status );
 			};
 		},
 
@@ -342,14 +344,15 @@
 				status.valid = !rule.propertiesOnly;
 		}
 
-		if ( rule.markAllValid )
-			status.allValid = 1;
-
-		// No need to run validators.
-		if ( !status.allValid ) {
-			applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
-			applyRuleToHash( rule.styles, element.styles, status.validStyles );
-			applyRuleToArray( rule.classes, element.classes, status.validClasses );
+		// Apply rule only when all attrs/styles/classes haven't been marked as valid.
+		if ( !status.allAttributes ) {
+			status.allAttributes = applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
+		}
+		if ( !status.allStyles ) {
+			status.allStyles = applyRuleToHash( rule.styles, element.styles, status.validStyles );
+		}
+		if ( !status.allClasses ) {
+			status.allClasses = applyRuleToArray( rule.classes, element.classes, status.validClasses );
 		}
 	}
 
@@ -357,21 +360,31 @@
 		if ( !itemsRule )
 			return;
 
+		if ( itemsRule === true )
+			return true;
+
 		for ( var i = 0, l = items.length, item; i < l; ++i ) {
 			item = items[ i ];
 			if ( !validItems[ item ] )
 				validItems[ item ] = itemsRule( item );
 		}
+
+		return false;
 	}
 
 	function applyRuleToHash( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return;
 
+		if ( itemsRule === true )
+			return true;
+
 		for ( var name in items ) {
 			if ( !validItems[ name ] )
 				validItems[ name ] = itemsRule( name, items[ name ] );
 		}
+
+		return false;
 	}
 
 	function convertStylesToRules( style ) {
@@ -426,17 +439,31 @@
 		return obj;
 	}
 
+	// Optimize rule's validators (for elements, styles, etc.).
+	// If any of these validators is a wildcard return true,
+	// what means that this rule is a priority.
+	// It should be applied in the first order, because it will
+	// mark many properties as valid without checking them,
+	// so next rules will be able to skip them saving time.
 	function optimizeValidators( rule ) {
+		var validator,
+			priority = false;
+
 		for ( var i in { elements:1,styles:1,attributes:1,classes:1 } ) {
-			if ( rule[ i ] )
-				rule[ i ] = validatorFunction( rule[ i ] );
+			if ( ( validator = rule[ i ] ) ) {
+				rule[ i ] = validatorFunction( validator );
+				if ( validator === true )
+					priority = true;
+			}
 		}
+
+		return priority;
 	}
 
 	function optimizeRules( optimizedRules, rules ) {
 		var elementsRules = optimizedRules.elements || {},
 			genericRules = optimizedRules.generic || [],
-			i, l, rule, elements, element;
+			i, l, rule, elements, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
 			// Do not modify original rule.
@@ -447,11 +474,12 @@
 				delete rule.elements;
 
 				// Do not optimize rule.elements.
-				optimizeValidators( rule );
+				priority = optimizeValidators( rule );
 
 				if ( elements == '*' ) {
 					rule.propertiesOnly = true;
-					genericRules.push( rule );
+					// Add priority rules at the beginning.
+					genericRules[ priority ? 'unshift' : 'push' ]( rule );
 				}
 				else {
 					elements = elements.split( /\s+/ );
@@ -460,13 +488,15 @@
 						if ( !elementsRules[ element ] )
 							elementsRules[ element ] = [ rule ];
 						else
-							elementsRules[ element ].push( rule );
+							elementsRules[ element ][ priority ? 'unshift' : 'push' ]( rule );
 					}
 				}
 			}
 			else {
-				optimizeValidators( rule );
-				genericRules.push( rule );
+				priority = optimizeValidators( rule );
+
+				// Add priority rules at the beginning.
+				genericRules[ priority ? 'unshift' : 'push' ]( rule );
 			}
 		}
 
@@ -475,8 +505,8 @@
 	}
 
 	function parseRulesString( input ) {
-			//              <   elements   ><                  styles, attributes and classes                   >< separator >
-		var groupPattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s]+}\s*|\s*\[[\w\-,\s]+\]\s*|\s*\([\w\-,\s]+\)\s*){0,3})(?:;\s*|$)/i,
+			//              <   elements   ><                     styles, attributes and classes                      >< separator >
+		var groupPattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
 			match,
 			props, styles, attrs, classes,
 			rules = {},
@@ -534,33 +564,52 @@
 			validClasses = status.validClasses,
 			attrs = element.attributes,
 			styles = element.styles,
+			origClasses = attrs[ 'class' ],
+			origStyles = attrs.style,
 			name,
 			stylesArr = [],
 			classesArr = [],
 			internalAttr = /^data-cke-/;
 
-		// We can safely remove class and styles attributes because they will be serialized later.
-		for ( name in attrs ) {
-			if ( !validAttrs[ name ] && !internalAttr.test( name ) )
-				delete attrs[ name ];
+		// Will be updated later.
+		delete attrs.style;
+		delete attrs[ 'class' ];
+
+		if ( !status.allAttributes ) {
+			// We can safely remove class and styles attributes because they will be serialized later.
+			for ( name in attrs ) {
+				if ( !validAttrs[ name ] && !internalAttr.test( name ) )
+					delete attrs[ name ];
+			}
 		}
 
-		for ( name in styles ) {
-			if ( validStyles[ name ] )
-				stylesArr.push( name + ':' + styles[ name ] );
+		if ( !status.allStyles ) {
+			for ( name in styles ) {
+				if ( validStyles[ name ] )
+					stylesArr.push( name + ':' + styles[ name ] );
+			}
+			if ( stylesArr.length )
+				attrs.style = stylesArr.sort().join( '; ' );
 		}
-		if ( stylesArr.length )
-			element.attributes.style = stylesArr.sort().join( '; ' );
+		else if ( origStyles )
+			attrs.style = origStyles;
 
-		for ( name in validClasses ) {
-			if ( validClasses[ name ] )
-				classesArr.push( name );
+		if ( !status.allClasses ) {
+			for ( name in validClasses ) {
+				if ( validClasses[ name ] )
+					classesArr.push( name );
+			}
+			if ( classesArr.length )
+				attrs[ 'class' ] = classesArr.sort().join( ' ' );
 		}
-		if ( classesArr.length )
-			element.attributes[ 'class' ] = classesArr.sort().join( ' ' );
+		else if ( origClasses )
+			attrs[ 'class' ] = origClasses;
 	}
 
 	function validatorFunction( validator ) {
+		if ( validator == '*' )
+			return true;
+
 		var type = typeof validator;
 		if ( type == 'object' )
 			type = validator.test ? 'regexp' : 'array';
