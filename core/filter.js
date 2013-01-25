@@ -462,31 +462,26 @@
 	}
 
 	function parseRulesString( input ) {
-			//              <   elements   ><    classes    ><              styles and attributes              >< separator >
-		var groupPattern = /^([a-z0-9*\s]+)(?:\.([\w\-,\s]+))?((?:\s*{[\w\-,\s]+}\s*|\s*\[[\w\-,\s]+\]\s*){0,2})(?:;\s*|$)/i,
+			//              <   elements   ><                  styles, attributes and classes                   >< separator >
+		var groupPattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s]+}\s*|\s*\[[\w\-,\s]+\]\s*|\s*\([\w\-,\s]+\)\s*){0,3})(?:;\s*|$)/i,
 			match,
-			attrsAndStyles, styles, attrs,
+			props, styles, attrs, classes,
 			rules = {},
 			groupNum = 1;
 
 		input = trim( input );
 
 		while ( ( match = input.match( groupPattern ) ) ) {
-			styles = attrs = null;
-
-			if ( ( attrsAndStyles = match[ 3 ] ) ) {
-				styles = attrsAndStyles.match( /{([^}]+)}/ );
-				if ( styles )
-					styles = trim( styles[ 1 ] );
-
-				attrs = attrsAndStyles.match( /\[([^\]]+)\]/ );
-				if ( attrs )
-					attrs = trim( attrs[ 1 ] );
-			}
+			if ( ( props = match[ 2 ] ) ) {
+				styles = parserProperties( props, 'styles' );
+				attrs = parserProperties( props, 'attrs' );
+				classes = parserProperties( props, 'classes' );
+			} else
+				styles = attrs = classes = null;
 
 			rules[ '$' + groupNum++ ] = {
 				elements: match[ 1 ],
-				classes: match[ 2 ] ? trim( match[ 2 ] ) : null,
+				classes: classes,
 				styles: styles,
 				attributes: attrs
 			};
@@ -496,6 +491,17 @@
 		}
 
 		return rules;
+	}
+
+	var groupsPatterns = {
+		styles: /{([^}]+)}/,
+		attrs: /\[([^\]]+)\]/,
+		classes: /\(([^\)]+)\)/
+	};
+
+	function parserProperties( properties, groupName ) {
+		var group = properties.match( groupsPatterns[ groupName ] );
+		return group ? trim( group[ 1 ] ) : null;
 	}
 
 	function removeElement( element, name ) {
