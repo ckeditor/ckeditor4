@@ -559,6 +559,8 @@
 				entities: false,
 				fillEmptyBlocks: false
 			}, true );
+
+			editor.filter.disable();
 		},
 
 		init: function( editor ) {

@@ -68,34 +68,36 @@
 			this.allow( defaultAllowedContent, 1 );
 			this.allow( allowedContent, 1 );
 
-			editor.once( 'pluginsLoaded', function() {
-				var filterFn = this.getFilterFunction(),
-					filter = new CKEDITOR.htmlParser.filter();
+			//
+			// Add filter listeners to toHTML and toDataFormat events.
+			//
 
-				filter.addRules( {
-					elements: {
-						'^': filterFn
-					}
-				} );
+			var filterFn = this.getFilterFunction(),
+				filter = new CKEDITOR.htmlParser.filter();
 
-				// Filter incoming "data".
-				// Add element filter before htmlDataProcessor.dataFilter
-				// when purifying input data to correct html.
-				editor.on( 'toHtml', function( evt ) {
-					// Filter only children because data maybe be wrapped
-					// with element, not a doc fragment.
-					evt.data.dataValue.filterChildren( filter );
-				}, null, null, 6 );
+			filter.addRules( {
+				elements: {
+					'^': filterFn
+				}
+			} );
 
-				// Filter outcoming "data".
-				// Add element filter  after htmlDataProcessor.htmlFilter
-				// when preparing output data HTML.
-				editor.on( 'toDataFormat', function( evt ) {
-					// Filter only children because data maybe be wrapped
-					// with element, not a doc fragment.
-					evt.data.dataValue.filterChildren( filter );
-				}, null, null, 11 );
-			}, this );
+			// Filter incoming "data".
+			// Add element filter before htmlDataProcessor.dataFilter
+			// when purifying input data to correct html.
+			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
+				// Filter only children because data maybe be wrapped
+				// with element, not a doc fragment.
+				evt.data.dataValue.filterChildren( filter );
+			}, null, null, 6 );
+
+			// Filter outcoming "data".
+			// Add element filter  after htmlDataProcessor.htmlFilter
+			// when preparing output data HTML.
+			this._.toDataFormatListener = editor.on( 'toDataFormat', function( evt ) {
+				// Filter only children because data maybe be wrapped
+				// with element, not a doc fragment.
+				evt.data.dataValue.filterChildren( filter );
+			}, null, null, 11 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -162,6 +164,17 @@
 			optimizeRules( this._.rules, rulesToOptimize );
 
 			return true;
+		},
+
+		/**
+		 * Disable allowed content filter.
+		 */
+		disable: function() {
+			this.disabled = true;
+			if ( this._.toHtmlListener )
+				this._.toHtmlListener.removeListener();
+			if ( this._.toDataFormatListener )
+				this._.toDataFormatListener.removeListener();
 		},
 
 		/**
