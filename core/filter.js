@@ -135,7 +135,7 @@
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
 			else if ( newRules instanceof CKEDITOR.style )
-				newRules = convertStylesToRules( newRules );
+				newRules = convertStyleToRules( newRules );
 			else if ( CKEDITOR.tools.isArray( newRules ) ) {
 				for ( i = 0; i < newRules.length; ++i )
 					ret = this.allow( newRules[ i ], overrideCustom );
@@ -306,14 +306,14 @@
 				element = mockElementFromStyle( test );
 
 			// Make a deep copy.
-			var copy = CKEDITOR.tools.clone( element );
+			var clone = CKEDITOR.tools.clone( element );
 
-			this.getFilterFunction()( copy );
+			this.getFilterFunction()( clone );
 
-			if ( copy.name != element.name )
+			if ( clone.name != element.name )
 				result = false;
-			// Compare only left to right, because copy may be only trimmed version of original element.
-			else if ( !CKEDITOR.tools.objectCompare( element.attributes, copy.attributes, true ) )
+			// Compare only left to right, because clone may be only trimmed version of original element.
+			else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) )
 				result = false;
 			else
 				result = true;
@@ -392,15 +392,27 @@
 		return false;
 	}
 
-	function convertStylesToRules( style ) {
+	function convertStyleToRules( style ) {
 		var styleDef = style.getDefinition(),
-			rule = {};
+			rules = {},
+			rule,
+			attrs = styleDef.attributes;
 
-		rule[ styleDef.element ] = true;
+		rules[ styleDef.element ] = rule = {
+			styles: styleDef.styles
+		};
 
-		return rule;
+		if ( attrs ) {
+			attrs = copy( attrs );
+			rule.classes = attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null
+			rule.attributes = attrs;
+		}
+
+		return rules;
 	}
 
+	// Create pseudo element that will be passed through filter
+	// to check if tested string is allowed.
 	function mockElementFromString( str ) {
 		var element = parseRulesString( str )[ '$1' ],
 			styles = element.styles,
@@ -419,15 +431,26 @@
 		return element;
 	}
 
+	// Create pseudo element that will be passed through filter
+	// to check if tested style is allowed.
 	function mockElementFromStyle( style ) {
-		var styleDef = style.getDefinition();
+		var styleDef = style.getDefinition(),
+			styles = styleDef.styles || null,
+			attrs = styleDef.attributes || {};
 
-		return {
+		if ( styles ) {
+			styles = copy( styles );
+			attrs.style = CKEDITOR.tools.writeCssText( styles );
+		}
+
+		var el = {
 			name: styleDef.element,
-			attributes: {},
-			classes: [],
-			styles: {}
+			attributes: attrs,
+			classes: attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null,
+			styles: styles
 		};
+
+		return el;
 	}
 
 	function mockHash( str ) {
@@ -617,7 +640,9 @@
 
 		var type = typeof validator;
 		if ( type == 'object' )
-			type = validator.test ? 'regexp' : 'array';
+			type = validator.test ? 'regexp' :
+				validator.push ? 'array' :
+				type;
 
 		switch ( type ) {
 			case 'function':
@@ -634,6 +659,10 @@
 			case 'array':
 				return function( value ) {
 					return indexOf( validator, value ) > -1;
+				};
+			case 'object':
+				return function( value ) {
+					return value in validator;
 				};
 		}
 	}
