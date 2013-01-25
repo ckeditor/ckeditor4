@@ -20,7 +20,7 @@
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
-				allows: 'div',
+				allows: 'div(*)',
 				requires: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {

@@ -13,12 +13,7 @@
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
 				editor.addFeature( {
-					allows: {
-						'html head body title style': true,
-						'meta link': {
-							markAllValid: true
-						}
-					},
+					allows: 'html head body title style; meta link [*]',
 					requires: 'body'
 				} );
 			}
