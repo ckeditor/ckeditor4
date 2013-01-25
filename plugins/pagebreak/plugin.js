@@ -125,5 +125,18 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 		editor.insertElement( pagebreak );
 	},
-	context: 'div'
+	context: 'div',
+	allows: {
+		div: {
+			styles: 'page-break-after'
+		},
+		span: {
+			validate: function( element ) {
+				var parent = element.parent;
+				return parent && parent.name == 'div' && parent.styles[ 'page-break-after' ];
+			},
+			styles: 'display'
+		}
+	},
+	requires: 'div{page-break-after}'
 };
