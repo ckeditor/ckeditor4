@@ -149,7 +149,7 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( fillingChar.getText().replace( /\u200B/g, '' ) );
+			fillingChar.setText( fillingChar.getText().replace( /\u200B( )?/g, function( m ) { return m[1] ? '\xa0' : '' } ) );
 
 			// Restore the bookmark.
 			if ( bm ) {
