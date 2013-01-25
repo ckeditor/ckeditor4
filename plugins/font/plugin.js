@@ -5,7 +5,11 @@
 
 (function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
-		var config = editor.config;
+		var config = editor.config,
+			style = new CKEDITOR.style( styleDefinition );
+
+		if ( !editor.addFeature( { requires: style, allows: style } ) )
+			return;
 
 		// Gets the list of fonts from the settings.
 		var names = entries.split( ';' ),

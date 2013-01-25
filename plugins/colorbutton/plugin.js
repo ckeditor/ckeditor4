@@ -24,6 +24,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function addButton( name, type, title, order ) {
+			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] );
+			if ( !editor.addFeature( { allows: style, requires: style } ) )
+				return;
+
 			var colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
