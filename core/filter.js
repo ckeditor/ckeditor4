@@ -196,11 +196,16 @@
 			if ( this._.filterFunction )
 				return this._.filterFunction;
 
-			var optimizedRules = this._.rules;
+			var optimizedRules = this._.rules,
+				unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
 
 			return this._.filterFunction = function( element ) {
-				var name = element.name,
-					rules = optimizedRules.elements[ name ],
+				var name = element.name;
+				// Unprotect elements names previously protected by htmlDataProcessor
+				// (see protectElementNames and protectSelfClosingElements functions).
+				name = name.replace( unprotectElementsNamesRegexp, '$1' );
+
+				var rules = optimizedRules.elements[ name ],
 					genericRules = optimizedRules.generic,
 					status = {
 						valid: false,
