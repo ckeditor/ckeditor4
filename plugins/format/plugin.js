@@ -17,15 +17,21 @@ CKEDITOR.plugins.add( 'format', {
 		var tags = config.format_tags.split( ';' );
 
 		// Create style objects for all defined styles.
-		var styles = {};
+		var styles = {},
+			stylesCount = 0;
 		for ( var i = 0; i < tags.length; i++ ) {
 			var tag = tags[ i ];
 			var style = new CKEDITOR.style( config[ 'format_' + tag ] );
 			if ( editor.filter.addFeature( { allows: style, requires: style } ) ) {
+				stylesCount++;
 				styles[ tag ] = style;
 				styles[ tag ]._.enterMode = editor.config.enterMode;
 			}
 		}
+
+		// Hide entire combo when all formats are rejected.
+		if ( stylesCount == 0 )
+			return;
 
 		editor.ui.addRichCombo( 'Format', {
 			label: lang.label,
