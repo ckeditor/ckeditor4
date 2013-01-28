@@ -36,12 +36,18 @@
 		/**
 		 * Whether filter is disabled.
 		 *
-		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `true`.
+		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `true`
+		 * or use {@link #disable} method.
 		 *
 		 * @readonly
 		 */
 		this.disabled = false;
 
+		/**
+		 * Editor instance if not a standalone filter.
+		 *
+		 * @property {CKEDITOR.editor} [=null]
+		 */
 		this.editor = null;
 
 		this._ = {
@@ -127,7 +133,7 @@
 			if ( !newRules )
 				return false;
 
-			// Clear cache.
+			// Clear cache, because new rules could change results of checks.
 			this._.cachedChecks = {};
 
 			var i, ret;
@@ -146,17 +152,22 @@
 				rulesToOptimize = [];
 
 			for ( groupName in newRules ) {
-				// Clone rule, because we'll modify it later.
-				rule = copy( newRules[ groupName ] );
-
+				// { 'p h1': true } => { 'p h1': {} }.
 				if ( typeof rule == 'boolean' )
 					rule = {};
+				// { 'p h1': func } => { 'p h1': { validate: func } }.
 				else if ( typeof rule == 'function' )
 					rule = { validate: rule };
+				// Clone (shallow) rule, because we'll modify it later.
+				else
+					rule = copy( newRules[ groupName ] );
 
+				// If this is not an unnamed rule ({ '$1' => { ... } })
+				// move elements list to property.
 				if ( groupName.charAt( 0 ) != '$' )
 					rule.elements = groupName;
 
+				// Save rule and remember to optimize it.
 				this.allowedContent.push( rule );
 				rulesToOptimize.push( rule );
 			}
@@ -193,12 +204,14 @@
 		 * @returns {Function}
 		 */
 		getFilterFunction: function() {
+			// Return cached function.
 			if ( this._.filterFunction )
 				return this._.filterFunction;
 
 			var optimizedRules = this._.rules,
 				unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
 
+			// Return and cache created function.
 			return this._.filterFunction = function( element ) {
 				var name = element.name;
 				// Unprotect elements names previously protected by htmlDataProcessor
@@ -208,24 +221,29 @@
 				var rules = optimizedRules.elements[ name ],
 					genericRules = optimizedRules.generic,
 					status = {
+						// Whether any of rules accepted element.
+						// If not - it will be stripped.
 						valid: false,
+						// Objects containing accepted attributes, classes and styles.
 						validAttributes: {},
 						validClasses: {},
 						validStyles: {},
 						// Whether all are valid.
+						// If we know that all element's attrs/classes/styles are valid
+						// we can skip their validation, to improve performance.
 						allAttributes: false,
 						allClasses: false,
 						allStyles: false
 					},
 					i, l;
 
-				// Early return - if there are no rules, remove this element.
+				// Early return - if there are no rules for this element (specific or generic), remove it.
 				if ( !rules && !genericRules ) {
 					removeElement( element, name );
 					return;
 				}
 
-				// These properties could be mocked by filter#check.
+				// Parse classes and styles if that hasn't been done by filter#check yet.
 				if ( !element.styles )
 					element.styles = parseCssText( element.attributes.style || '', 1 );
 				if ( !element.classes )
@@ -247,6 +265,7 @@
 					return;
 				}
 
+				// Update element's attributes based on status of filtering.
 				updateElement( element, status );
 			};
 		},
@@ -298,18 +317,23 @@
 			var element, result;
 
 			if ( typeof test == 'string' ) {
+				// Check if result of this check hasn't been already cached.
 				if ( test in this._.cachedChecks )
 					return this._.cachedChecks[ test ];
 
+				// Create test element from string.
 				element = mockElementFromString( test );
 			} else
+				// Create test element from CKEDITOR.style.
 				element = mockElementFromStyle( test );
 
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element );
 
+			// Filter clone of mocked element.
 			this.getFilterFunction()( clone );
 
+			// Name has been changed what means that element hasn't been accepted.
 			if ( clone.name != element.name )
 				result = false;
 			// Compare only left to right, because clone may be only trimmed version of original element.
@@ -318,6 +342,7 @@
 			else
 				result = true;
 
+			// Cache result of this test - we can build cache only for string tests.
 			if ( typeof test == 'string' )
 				this._.cachedChecks[ test ] = result;
 
@@ -361,10 +386,14 @@
 		}
 	}
 
+	// Apply itemsRule to items (only classes are kept in array).
+	// Push accepted items to validItems array.
+	// Return true when all items are valid.
 	function applyRuleToArray( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return;
 
+		// True means that all elements of array are accepted (the asterix was used for classes).
 		if ( itemsRule === true )
 			return true;
 
@@ -392,6 +421,7 @@
 		return false;
 	}
 
+	// Convert CKEDITOR.style to filter's rule.
 	function convertStyleToRules( style ) {
 		var styleDef = style.getDefinition(),
 			rules = {},
@@ -453,6 +483,9 @@
 		return el;
 	}
 
+	// Mock hash based on string.
+	// 'a,b,c' => { a: 'test', b: 'test', c: 'test' }
+	// Used to mock styles and attributes objects.
 	function mockHash( str ) {
 		// It may be a null or empty string.
 		if ( !str )
@@ -488,28 +521,31 @@
 		return priority;
 	}
 
+	// Add optimized version of rule to optimizedRules object.
 	function optimizeRules( optimizedRules, rules ) {
 		var elementsRules = optimizedRules.elements || {},
 			genericRules = optimizedRules.generic || [],
 			i, l, rule, elements, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
-			// Do not modify original rule.
+			// Shallow copy. Do not modify original rule.
 			rule = copy( rules[ i ] );
 
+			// If elements list was explicitly defined,
+			// add this rule for every defined element.
 			if ( typeof rule.elements == 'string' ) {
+				// Do not optimize rule.elements.
 				elements = trim( rule.elements );
 				delete rule.elements;
-
-				// Do not optimize rule.elements.
 				priority = optimizeValidators( rule );
 
+				// E.g. "*(xxx)[xxx]" - it's a generic rule that
+				// validates properties only.
 				if ( elements == '*' ) {
 					rule.propertiesOnly = true;
 					// Add priority rules at the beginning.
 					genericRules[ priority ? 'unshift' : 'push' ]( rule );
-				}
-				else {
+				} else {
 					elements = elements.split( /\s+/ );
 
 					while ( ( element = elements.pop() ) ) {
@@ -519,8 +555,7 @@
 							elementsRules[ element ][ priority ? 'unshift' : 'push' ]( rule );
 					}
 				}
-			}
-			else {
+			} else {
 				priority = optimizeValidators( rule );
 
 				// Add priority rules at the beginning.
@@ -544,12 +579,14 @@
 
 		while ( ( match = input.match( groupPattern ) ) ) {
 			if ( ( props = match[ 2 ] ) ) {
-				styles = parserProperties( props, 'styles' );
-				attrs = parserProperties( props, 'attrs' );
-				classes = parserProperties( props, 'classes' );
+				styles = parseProperties( props, 'styles' );
+				attrs = parseProperties( props, 'attrs' );
+				classes = parseProperties( props, 'classes' );
 			} else
 				styles = attrs = classes = null;
 
+			// Add as an unnamed rule, because there can be two rules
+			// for one elements set defined in string format.
 			rules[ '$' + groupNum++ ] = {
 				elements: match[ 1 ],
 				classes: classes,
@@ -570,7 +607,7 @@
 		classes: /\(([^\)]+)\)/
 	};
 
-	function parserProperties( properties, groupName ) {
+	function parseProperties( properties, groupName ) {
 		var group = properties.match( groupsPatterns[ groupName ] );
 		return group ? trim( group[ 1 ] ) : null;
 	}
@@ -586,6 +623,7 @@
 			delete element.name;
 	}
 
+	// Update element object based on status of filtering.
 	function updateElement( element, status ) {
 		var validAttrs = status.validAttributes,
 			validStyles = status.validStyles,
@@ -599,13 +637,14 @@
 			classesArr = [],
 			internalAttr = /^data-cke-/;
 
-		// Will be updated later.
+		// Will be recreated later if any of styles/classes were passed.
 		delete attrs.style;
 		delete attrs[ 'class' ];
 
 		if ( !status.allAttributes ) {
 			// We can safely remove class and styles attributes because they will be serialized later.
 			for ( name in attrs ) {
+				// If not valid and not internal attribute delete it.
 				if ( !validAttrs[ name ] && !internalAttr.test( name ) )
 					delete attrs[ name ];
 			}
@@ -634,6 +673,9 @@
 			attrs[ 'class' ] = origClasses;
 	}
 
+	// Create validator function based on multiple
+	// accepted validator formats:
+	// function, string ('a,b,c'), regexp, array (['a','b','c']) and object ({a:1,b:2,c:3})
 	function validatorFunction( validator ) {
 		if ( validator == '*' )
 			return true;
