@@ -626,8 +626,14 @@
 
 	var protectSelfClosingRegex = /<cke:(param|embed)([^>]*?)\/?>(?!\s*<\/cke:\1)/gi;
 
+    var textareaRegex=/<textarea(?=[ >])[^>]*>[\s\S]*<\/textarea>/gi;
+    
 	function protectAttributes( html ) {
-		return html.replace( protectElementRegex, function( element, tag, attributes ) {
+        // Protect html inside html
+        html = html.replace( textareaRegex, function( match ) {
+            return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
+        });
+		html =  html.replace( protectElementRegex, function( element, tag, attributes ) {
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
@@ -637,6 +643,7 @@
 				return fullAttr;
 			}) + '>';
 		});
+        return unprotectElements(html);
 	}
 
 	function protectElements( html ) {
