@@ -37,13 +37,40 @@
 		}
 	}
 
+	var defaultTabConfig = { id:1,dir:1,classes:1,styles:1 };
+
 	CKEDITOR.plugins.add( 'dialogadvtab', {
 		requires : 'dialog',
+
+		// Returns allowed content rule for the content created by this plugin.
+		allowedContent: function( tabConfig ) {
+			if ( !tabConfig )
+				tabConfig = defaultTabConfig;
+
+			var allowedAttrs = [];
+			if ( tabConfig.id )
+				allowedAttrs.push( 'id' );
+			if ( tabConfig.dir )
+				allowedAttrs.push( 'dir' );
+
+			var allowed = '';
+
+			if ( allowedAttrs.length )
+				allowed += '[' + allowedAttrs.join( ',' ) +  ']';
+
+			if ( tabConfig.classes )
+				allowed += '(*)';
+			if ( tabConfig.styles )
+				allowed += '{*}';
+
+			return allowed;
+		},
+
 		// @param tabConfig
 		// id, dir, classes, styles
 		createAdvancedTab: function( editor, tabConfig ) {
 			if ( !tabConfig )
-				tabConfig = { id:1,dir:1,classes:1,styles:1 };
+				tabConfig = defaultTabConfig;
 
 			var lang = editor.lang.common;
 

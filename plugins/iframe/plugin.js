@@ -26,7 +26,8 @@
 
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
-				allows: 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]{height,width}',
+				allows: 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]{height,width};' +
+					( editor.plugins.dialogadvtab ? 'iframe' + editor.plugins.dialogadvtab.allowedContent( { id:1,classes:1,styles:1 } ) : '' ),
 				requires: 'iframe'
 			} ) );
 
