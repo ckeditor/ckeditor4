@@ -18,14 +18,16 @@ CKEDITOR.plugins.add( 'format', {
 
 		// Create style objects for all defined styles.
 		var styles = {},
-			stylesCount = 0;
+			stylesCount = 0,
+			allows = [];
 		for ( var i = 0; i < tags.length; i++ ) {
 			var tag = tags[ i ];
 			var style = new CKEDITOR.style( config[ 'format_' + tag ] );
-			if ( editor.filter.addFeature( { allows: style, requires: style } ) ) {
+			if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
 				stylesCount++;
 				styles[ tag ] = style;
 				styles[ tag ]._.enterMode = editor.config.enterMode;
+				allows.push( style );
 			}
 		}
 
@@ -37,6 +39,7 @@ CKEDITOR.plugins.add( 'format', {
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,20',
+			allows: allows,
 
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
