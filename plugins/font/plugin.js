@@ -8,9 +8,6 @@
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
 
-		if ( !editor.addFeature( { requires: style, allows: style } ) )
-			return;
-
 		// Gets the list of fonts from the settings.
 		var names = entries.split( ';' ),
 			values = [];
@@ -38,6 +35,8 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
+			requires: style,
+			allows: style,
 
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
