@@ -302,7 +302,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Get the HTML for the predefined spaces.
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
-		var bottomHtml = editor.fireOnce( 'uiSpace', { space: 'bottom', html: '' } ).html;
+		var bottomHtml = editor.fire( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
 		if ( !themedTpl ) {
 			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +

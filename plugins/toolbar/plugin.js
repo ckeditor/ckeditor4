@@ -149,6 +149,9 @@
 
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == editor.config.toolbarLocation ) {
+					// Create toolbar only once.
+					event.removeListener();
+
 					editor.toolbox = new toolbox();
 
 					var labelId = CKEDITOR.tools.getNextId();
