@@ -20,7 +20,7 @@
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
-				allows: 'div(*)',
+				allows: 'div(*)[dir,id,lang,title]{*}',
 				requires: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {
@@ -29,8 +29,9 @@
 				}
 			}));
 
-			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ) );
+			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv', { requires: 'div' } ) );
 			editor.addCommand( 'removediv', {
+				requires: 'div',
 				exec: function( editor ) {
 					var selection = editor.getSelection(),
 						ranges = selection && selection.getRanges(),

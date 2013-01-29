@@ -21,7 +21,7 @@
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
-				allows: 'img[align,alt,src]{border,border-width,border-style,float,height,margin,width}',
+				allows: 'img[align,alt,dir,id,lang,longdesc,src,title]{*}(*)',
 				requires: 'img[alt,src]'
 			} ) );
 
