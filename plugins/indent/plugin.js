@@ -45,7 +45,7 @@
 				styles: 'margin-left,margin-right'
 			}
 		},
-		requires: 'p[margin-left]',
+		requires: 'p{margin-left}',
 
 		refresh: function( editor, path ) {
 			var list = path && path.contains( listNodeNames ),
