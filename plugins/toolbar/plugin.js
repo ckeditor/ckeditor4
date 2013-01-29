@@ -148,212 +148,213 @@
 				};
 
 			editor.on( 'uiSpace', function( event ) {
-				if ( event.data.space == editor.config.toolbarLocation ) {
-					// Create toolbar only once.
-					event.removeListener();
+				if ( event.data.space != editor.config.toolbarLocation )
+					return;
 
-					editor.toolbox = new toolbox();
+				// Create toolbar only once.
+				event.removeListener();
 
-					var labelId = CKEDITOR.tools.getNextId();
+				editor.toolbox = new toolbox();
 
-					var output = [
-						'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
-						'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">' ];
+				var labelId = CKEDITOR.tools.getNextId();
 
-					var expanded = editor.config.toolbarStartupExpanded !== false,
-						groupStarted, pendingSeparator;
+				var output = [
+					'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
+					'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">' ];
 
-					// If the toolbar collapser will be available, we'll have
-					// an additional container for all toolbars.
-					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE )
-						output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
+				var expanded = editor.config.toolbarStartupExpanded !== false,
+					groupStarted, pendingSeparator;
 
-					var toolbars = editor.toolbox.toolbars,
-						toolbar = getToolbarConfig( editor );
+				// If the toolbar collapser will be available, we'll have
+				// an additional container for all toolbars.
+				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE )
+					output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
-					for ( var r = 0; r < toolbar.length; r++ ) {
-						var toolbarId,
-							toolbarObj = 0,
-							toolbarName,
-							row = toolbar[ r ],
-							items;
+				var toolbars = editor.toolbox.toolbars,
+					toolbar = getToolbarConfig( editor );
 
-						// It's better to check if the row object is really
-						// available because it's a common mistake to leave
-						// an extra comma in the toolbar definition
-						// settings, which leads on the editor not loading
-						// at all in IE. (#3983)
-						if ( !row )
-							continue;
+				for ( var r = 0; r < toolbar.length; r++ ) {
+					var toolbarId,
+						toolbarObj = 0,
+						toolbarName,
+						row = toolbar[ r ],
+						items;
 
-						if ( groupStarted ) {
-							output.push( '</span>' );
-							groupStarted = 0;
-							pendingSeparator = 0;
-						}
+					// It's better to check if the row object is really
+					// available because it's a common mistake to leave
+					// an extra comma in the toolbar definition
+					// settings, which leads on the editor not loading
+					// at all in IE. (#3983)
+					if ( !row )
+						continue;
 
-						if ( row === '/' ) {
-							output.push( '<span class="cke_toolbar_break"></span>' );
-							continue;
-						}
-
-						items = row.items || row;
-
-						// Create all items defined for this toolbar.
-						for ( var i = 0; i < items.length; i++ ) {
-							var item = items[ i ],
-								canGroup;
-
-							if ( item ) {
-								if ( item.type == CKEDITOR.UI_SEPARATOR ) {
-									// Do not add the separator immediately. Just save
-									// it be included if we already have something in
-									// the toolbar and if a new item is to be added (later).
-									pendingSeparator = groupStarted && item;
-									continue;
-								}
-
-								canGroup = item.canGroup !== false;
-
-								// Initialize the toolbar first, if needed.
-								if ( !toolbarObj ) {
-									// Create the basic toolbar object.
-									toolbarId = CKEDITOR.tools.getNextId();
-									toolbarObj = { id: toolbarId, items: [] };
-									toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
-
-									// Output the toolbar opener.
-									output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
-
-									// If a toolbar name is available, send the voice label.
-									toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
-
-									output.push( '<span class="cke_toolbar_start"></span>' );
-
-									// Add the toolbar to the "editor.toolbox.toolbars"
-									// array.
-									var index = toolbars.push( toolbarObj ) - 1;
-
-									// Create the next/previous reference.
-									if ( index > 0 ) {
-										toolbarObj.previous = toolbars[ index - 1 ];
-										toolbarObj.previous.next = toolbarObj;
-									}
-								}
-
-								if ( canGroup ) {
-									if ( !groupStarted ) {
-										output.push( '<span class="cke_toolgroup" role="presentation">' );
-										groupStarted = 1;
-									}
-								} else if ( groupStarted ) {
-									output.push( '</span>' );
-									groupStarted = 0;
-								}
-
-								function addItem( item ) {
-									var itemObj = item.render( editor, output );
-									index = toolbarObj.items.push( itemObj ) - 1;
-
-									if ( index > 0 ) {
-										itemObj.previous = toolbarObj.items[ index - 1 ];
-										itemObj.previous.next = itemObj;
-									}
-
-									itemObj.toolbar = toolbarObj;
-									itemObj.onkey = itemKeystroke;
-
-									// Fix for #3052:
-									// Prevent JAWS from focusing the toolbar after document load.
-									itemObj.onfocus = function() {
-										if ( !editor.toolbox.focusCommandExecuted )
-											editor.focus();
-									};
-								}
-
-								if ( pendingSeparator ) {
-									addItem( pendingSeparator );
-									pendingSeparator = 0;
-								}
-
-								addItem( item );
-							}
-						}
-
-						if ( groupStarted ) {
-							output.push( '</span>' );
-							groupStarted = 0;
-							pendingSeparator = 0;
-						}
-
-						if ( toolbarObj )
-							output.push( '<span class="cke_toolbar_end"></span></span>' );
-					}
-
-					if ( editor.config.toolbarCanCollapse )
+					if ( groupStarted ) {
 						output.push( '</span>' );
-
-					// Not toolbar collapser for inline mode.
-					if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
-						var collapserFn = CKEDITOR.tools.addFunction( function() {
-							editor.execCommand( 'toolbarCollapse' );
-						});
-
-						editor.on( 'destroy', function() {
-							CKEDITOR.tools.removeFunction( collapserFn );
-						});
-
-						editor.addCommand( 'toolbarCollapse', {
-							readOnly: 1,
-							exec: function( editor ) {
-								var collapser = editor.ui.space( 'toolbar_collapser' ),
-									toolbox = collapser.getPrevious(),
-									contents = editor.ui.space( 'contents' ),
-									toolboxContainer = toolbox.getParent(),
-									contentHeight = parseInt( contents.$.style.height, 10 ),
-									previousHeight = toolboxContainer.$.offsetHeight,
-									minClass = 'cke_toolbox_collapser_min',
-									collapsed = collapser.hasClass( minClass );
-
-								if ( !collapsed ) {
-									toolbox.hide();
-									collapser.addClass( minClass );
-									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarExpand );
-								} else {
-									toolbox.show();
-									collapser.removeClass( minClass );
-									collapser.setAttribute( 'title', editor.lang.toolbar.toolbarCollapse );
-								}
-
-								// Update collapser symbol.
-								collapser.getFirst().setText( collapsed ? '\u25B2' : // BLACK UP-POINTING TRIANGLE
-								'\u25C0' ); // BLACK LEFT-POINTING TRIANGLE
-
-								var dy = toolboxContainer.$.offsetHeight - previousHeight;
-								contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
-
-								editor.fire( 'resize' );
-							},
-
-							modes: { wysiwyg:1,source:1 }
-						});
-
-						editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
-
-						output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
-							+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
-							+ '" tabIndex="-1" class="cke_toolbox_collapser' );
-
-						if ( !expanded )
-							output.push( ' cke_toolbox_collapser_min' );
-
-						output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span class="cke_arrow">&#9650;</span>', // BLACK UP-POINTING TRIANGLE
-							'</a>' );
+						groupStarted = 0;
+						pendingSeparator = 0;
 					}
 
-					output.push( '</span>' );
-					event.data.html += output.join( '' );
+					if ( row === '/' ) {
+						output.push( '<span class="cke_toolbar_break"></span>' );
+						continue;
+					}
+
+					items = row.items || row;
+
+					// Create all items defined for this toolbar.
+					for ( var i = 0; i < items.length; i++ ) {
+						var item = items[ i ],
+							canGroup;
+
+						if ( item ) {
+							if ( item.type == CKEDITOR.UI_SEPARATOR ) {
+								// Do not add the separator immediately. Just save
+								// it be included if we already have something in
+								// the toolbar and if a new item is to be added (later).
+								pendingSeparator = groupStarted && item;
+								continue;
+							}
+
+							canGroup = item.canGroup !== false;
+
+							// Initialize the toolbar first, if needed.
+							if ( !toolbarObj ) {
+								// Create the basic toolbar object.
+								toolbarId = CKEDITOR.tools.getNextId();
+								toolbarObj = { id: toolbarId, items: [] };
+								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
+
+								// Output the toolbar opener.
+								output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+
+								// If a toolbar name is available, send the voice label.
+								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );
+
+								output.push( '<span class="cke_toolbar_start"></span>' );
+
+								// Add the toolbar to the "editor.toolbox.toolbars"
+								// array.
+								var index = toolbars.push( toolbarObj ) - 1;
+
+								// Create the next/previous reference.
+								if ( index > 0 ) {
+									toolbarObj.previous = toolbars[ index - 1 ];
+									toolbarObj.previous.next = toolbarObj;
+								}
+							}
+
+							if ( canGroup ) {
+								if ( !groupStarted ) {
+									output.push( '<span class="cke_toolgroup" role="presentation">' );
+									groupStarted = 1;
+								}
+							} else if ( groupStarted ) {
+								output.push( '</span>' );
+								groupStarted = 0;
+							}
+
+							function addItem( item ) {
+								var itemObj = item.render( editor, output );
+								index = toolbarObj.items.push( itemObj ) - 1;
+
+								if ( index > 0 ) {
+									itemObj.previous = toolbarObj.items[ index - 1 ];
+									itemObj.previous.next = itemObj;
+								}
+
+								itemObj.toolbar = toolbarObj;
+								itemObj.onkey = itemKeystroke;
+
+								// Fix for #3052:
+								// Prevent JAWS from focusing the toolbar after document load.
+								itemObj.onfocus = function() {
+									if ( !editor.toolbox.focusCommandExecuted )
+										editor.focus();
+								};
+							}
+
+							if ( pendingSeparator ) {
+								addItem( pendingSeparator );
+								pendingSeparator = 0;
+							}
+
+							addItem( item );
+						}
+					}
+
+					if ( groupStarted ) {
+						output.push( '</span>' );
+						groupStarted = 0;
+						pendingSeparator = 0;
+					}
+
+					if ( toolbarObj )
+						output.push( '<span class="cke_toolbar_end"></span></span>' );
 				}
+
+				if ( editor.config.toolbarCanCollapse )
+					output.push( '</span>' );
+
+				// Not toolbar collapser for inline mode.
+				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
+					var collapserFn = CKEDITOR.tools.addFunction( function() {
+						editor.execCommand( 'toolbarCollapse' );
+					});
+
+					editor.on( 'destroy', function() {
+						CKEDITOR.tools.removeFunction( collapserFn );
+					});
+
+					editor.addCommand( 'toolbarCollapse', {
+						readOnly: 1,
+						exec: function( editor ) {
+							var collapser = editor.ui.space( 'toolbar_collapser' ),
+								toolbox = collapser.getPrevious(),
+								contents = editor.ui.space( 'contents' ),
+								toolboxContainer = toolbox.getParent(),
+								contentHeight = parseInt( contents.$.style.height, 10 ),
+								previousHeight = toolboxContainer.$.offsetHeight,
+								minClass = 'cke_toolbox_collapser_min',
+								collapsed = collapser.hasClass( minClass );
+
+							if ( !collapsed ) {
+								toolbox.hide();
+								collapser.addClass( minClass );
+								collapser.setAttribute( 'title', editor.lang.toolbar.toolbarExpand );
+							} else {
+								toolbox.show();
+								collapser.removeClass( minClass );
+								collapser.setAttribute( 'title', editor.lang.toolbar.toolbarCollapse );
+							}
+
+							// Update collapser symbol.
+							collapser.getFirst().setText( collapsed ? '\u25B2' : // BLACK UP-POINTING TRIANGLE
+							'\u25C0' ); // BLACK LEFT-POINTING TRIANGLE
+
+							var dy = toolboxContainer.$.offsetHeight - previousHeight;
+							contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
+
+							editor.fire( 'resize' );
+						},
+
+						modes: { wysiwyg:1,source:1 }
+					});
+
+					editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
+
+					output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
+						+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
+						+ '" tabIndex="-1" class="cke_toolbox_collapser' );
+
+					if ( !expanded )
+						output.push( ' cke_toolbox_collapser_min' );
+
+					output.push( '" onclick="CKEDITOR.tools.callFunction(' + collapserFn + ')">', '<span class="cke_arrow">&#9650;</span>', // BLACK UP-POINTING TRIANGLE
+						'</a>' );
+				}
+
+				output.push( '</span>' );
+				event.data.html += output.join( '' );
 			});
 
 			editor.on( 'destroy', function() {
