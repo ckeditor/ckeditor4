@@ -115,7 +115,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			a = a[ 0 ];
 			b = b[ 0 ];
 			return a < b ? -1 : a > b ? 1 : 0;
-		};
+		},
+		fragProto = CKEDITOR.htmlParser.fragment.prototype;
 
 	CKEDITOR.htmlParser.element.prototype = CKEDITOR.tools.extend( new CKEDITOR.htmlParser.node(), {
 		/**
@@ -133,7 +134,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {CKEDITOR.htmlParser.node} node The node to be added.
 		 * @param {Number} [index] From where the insertion happens.
 		 */
-		add: CKEDITOR.htmlParser.fragment.prototype.add,
+		add: fragProto.add,
 
 		/**
 		 * Clone this element.
@@ -250,7 +251,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @method filterChildren
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
-		filterChildren: CKEDITOR.htmlParser.fragment.prototype.filterChildren,
+		filterChildren: fragProto.filterChildren,
 
 		/**
 		 * Writes the element HTML to a CKEDITOR.htmlWriter.
@@ -302,7 +303,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
 		 * @param {CKEDITOR.htmlParser.filter} [filter]
 		 */
-		writeChildrenHtml: CKEDITOR.htmlParser.fragment.prototype.writeChildrenHtml,
+		writeChildrenHtml: fragProto.writeChildrenHtml,
 
 		/**
 		 * Replace this element with its children.
@@ -316,6 +317,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			this.remove();
 		},
 
-		forEach: CKEDITOR.htmlParser.fragment.prototype.forEach
+		forEach: fragProto.forEach,
+
+		insert: fragProto.insert
 	} );
 })();

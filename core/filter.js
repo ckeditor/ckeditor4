@@ -164,24 +164,32 @@
 			return true;
 		},
 
+		/**
+		 * Apply this filter to passed fragment or element. The result
+		 * of filtering is DOM tree without disallowed content.
+		 *
+		 * @param {CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} fragment Node to be filtered.
+		 */
 		applyTo: function( fragment ) {
 			var toBeRemoved = [],
 				filterFn = getFilterFunction( this, toBeRemoved );
 
-			// Filter all children, skip root.
+			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( filterFn, CKEDITOR.NODE_ELEMENT, true );
 
+			var element,
+				toBeChecked = [];
 
-			var element, name;
+			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
+			while ( ( element = toBeRemoved.pop() ) )
+				removeElement( element, toBeChecked );
 
-			while ( ( element = toBeRemoved.pop() ) ) {
-				name = element.name;
-				if ( DTD.$block[ name ] )
-					element.name = 'p';
-				else if ( DTD.$empty[ name ] )
-					element.remove();
-				else
-					element.replaceWithChildren();
+			// Check elements that have been marked as invalid (e.g. li as child of body after ul has been removed).
+			while ( ( element = toBeChecked.pop() ) ) {
+				if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+					!DTD[ element.parent.name ][ element.name ]
+				)
+					removeElement( element, toBeChecked );
 			}
 		},
 
@@ -730,5 +738,104 @@
 
 	// Default editor's rules.
 	var defaultAllowedContent = 'p br';
+
+	//
+	// REMOVE ELEMENT ---------------------------------------------------------
+	//
+
+	// Checks whether node is allowed by DTD.
+	function allowedIn( node, parentDtd ) {
+		if ( node.type == CKEDITOR.NODE_ELEMENT )
+			return parentDtd[ node.name ];
+		if ( node.type == CKEDITOR.NODE_TEXT )
+			return parentDtd[ '#' ];
+		return true;
+	}
+
+	// Check whether all children will be valid in new context.
+	// Note: it doesn't verify if text node is valid, because
+	// new parent should accept them.
+	function checkChildren( children, newParentName ) {
+		var allowed = DTD[ newParentName ];
+
+		for ( var i = 0, l = children.length, child; i < l; ++i ) {
+			child = children[ i ];
+			if ( child.type == CKEDITOR.NODE_ELEMENT && !allowed[ child.name ] )
+				return false;
+		}
+
+		return true;
+	}
+
+	// Whether this is an inline element or text.
+	function inlineNode( node ) {
+		return node.type == CKEDITOR.NODE_TEXT ||
+			node.type == CKEDITOR.NODE_ELEMENT && DTD.$inline[ node.name ];
+	}
+
+	// Try to remove element in the best possible way.
+	//
+	// @param {Array} toBeChecked After executing this function
+	// this array will contain elements that should be checked
+	// because they were marked as potentially in wrong context (e.g. li in body).
+	function removeElement( element, toBeChecked ) {
+		var name = element.name;
+
+		if ( DTD.$empty[ name ] || !element.children.length )
+			element.remove();
+		else if ( DTD.$block[ name ] || name == 'tr' )
+			stripElement( element, toBeChecked );
+		else
+			element.replaceWithChildren();
+	}
+
+	// Strip element, but leave its content.
+	function stripElement( element, toBeChecked ) {
+		var children = element.children;
+
+		// First, check if element's children may be wrapped with <p>.
+		// Ignore that <p> may not be allowed in element.parent.
+		// This will be fixed when removing parent, because in all known cases
+		// parent will was also marked to be removed.
+		if ( checkChildren( children, 'p' ) ) {
+			element.name = 'p';
+			return;
+		}
+
+		var parent = element.parent,
+			parentDtd = DTD[ parent.name ],
+			shouldAutoP = parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT || parent.name == 'body',
+			i, j, child, p, node,
+			toBeRemoved = [];
+
+		for ( i = children.length; i > 0; ) {
+			child = children[ --i ];
+
+			// If parent requires auto paragraphing and child is inline node,
+			// insert this child into newly created paragraph.
+			if ( shouldAutoP && inlineNode( child )  ) {
+				if ( !p ) {
+					p = new CKEDITOR.htmlParser.element( 'p' );
+					p.insertAfter( element );
+				}
+				p.insert( child, 0 );
+			}
+			// Child which doesn't need to be auto paragraphed.
+			else {
+				p = null;
+				child.insertAfter( element );
+				// If inserted into invalid context, mark it and check
+				// after removing all elements.
+				if ( parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+					child.type == CKEDITOR.NODE_ELEMENT &&
+					!DTD[ parent.name ][ child.name ]
+				)
+					toBeChecked.push( child );
+			}
+		}
+
+		// All children have been moved to element's parent, so remove it.
+		element.remove();
+	}
 
 })();
