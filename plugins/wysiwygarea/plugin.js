@@ -13,7 +13,7 @@
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
 				editor.addFeature( {
-					allows: 'html head body title style; meta link [*]',
+					allows: 'html head title style; body (*)[id]; meta link [*]',
 					requires: 'body'
 				} );
 			}
