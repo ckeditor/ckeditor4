@@ -568,8 +568,8 @@ CKEDITOR.htmlParser.fragment = function() {
 				children[ i ].writeHtml( writer );
 		},
 
-		forEach: function( callback, type ) {
-			if ( !type || this.type == type )
+		forEach: function( callback, type, skipRoot ) {
+			if ( !skipRoot && ( !type || this.type == type ) )
 				callback( this );
 
 			var children = this.children,
