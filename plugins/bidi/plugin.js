@@ -126,7 +126,7 @@
 			// It applies to a "block-like" context.
 			context: 'p',
 			allows: {
-				'table ul ol blockquote div tr p div li td': {
+				'h1 h2 h3 h4 h5 h6 table ul ol blockquote div tr p div li td': {
 					propertiesOnly: true,
 					attributes: 'dir'
 				}
