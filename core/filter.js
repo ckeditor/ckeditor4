@@ -78,32 +78,19 @@
 			// Add filter listeners to toHTML and toDataFormat events.
 			//
 
-			var filterFn = this.getFilterFunction(),
-				filter = new CKEDITOR.htmlParser.filter();
-
-			filter.addRules( {
-				elements: {
-					'^': filterFn
-				}
-			} );
-
 			// Filter incoming "data".
 			// Add element filter before htmlDataProcessor.dataFilter
 			// when purifying input data to correct html.
 			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				// Filter only children because data maybe be wrapped
-				// with element, not a doc fragment.
-				evt.data.dataValue.filterChildren( filter );
-			}, null, null, 6 );
+				this.applyTo( evt.data.dataValue );
+			}, this, null, 6 );
 
 			// Filter outcoming "data".
 			// Add element filter  after htmlDataProcessor.htmlFilter
 			// when preparing output data HTML.
 			this._.toDataFormatListener = editor.on( 'toDataFormat', function( evt ) {
-				// Filter only children because data maybe be wrapped
-				// with element, not a doc fragment.
-				evt.data.dataValue.filterChildren( filter );
-			}, null, null, 11 );
+				this.applyTo( evt.data.dataValue );
+			}, this, null, 11 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -177,6 +164,27 @@
 			return true;
 		},
 
+		applyTo: function( fragment ) {
+			var toBeRemoved = [],
+				filterFn = getFilterFunction( this, toBeRemoved );
+
+			// Filter all children, skip root.
+			fragment.forEach( filterFn, CKEDITOR.NODE_ELEMENT, true );
+
+
+			var element, name;
+
+			while ( ( element = toBeRemoved.pop() ) ) {
+				name = element.name;
+				if ( DTD.$block[ name ] )
+					element.name = 'p';
+				else if ( DTD.$empty[ name ] )
+					element.remove();
+				else
+					element.replaceWithChildren();
+			}
+		},
+
 		/**
 		 * Check whether feature can be enabled. Unlike the {@link #addFeature}
 		 * this method always checks the feature, even when default configuration
@@ -215,88 +223,6 @@
 		},
 
 		/**
-		 * Returns function that accepts {@link CKEDITOR.htmlParser.element}
-		 * and filters it basing on allowed content rules registered by
-		 * {@link #allow} method.
-		 *
-		 * Filter uses this function as an elements rule for {@link CKEDITOR.htmlParser.filter}.
-		 *
-		 *		editor.dataProcessor.htmlFilter.addRules( {
-		 *			elements: {
-		 *				'^': editor.filter.getFilterFunction()
-		 *			}
-		 *		} );
-		 *
-		 * @returns {Function}
-		 */
-		getFilterFunction: function() {
-			// Return cached function.
-			if ( this._.filterFunction )
-				return this._.filterFunction;
-
-			var optimizedRules = this._.rules,
-				unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
-
-			// Return and cache created function.
-			return this._.filterFunction = function( element ) {
-				var name = element.name;
-				// Unprotect elements names previously protected by htmlDataProcessor
-				// (see protectElementNames and protectSelfClosingElements functions).
-				name = name.replace( unprotectElementsNamesRegexp, '$1' );
-
-				var rules = optimizedRules.elements[ name ],
-					genericRules = optimizedRules.generic,
-					status = {
-						// Whether any of rules accepted element.
-						// If not - it will be stripped.
-						valid: false,
-						// Objects containing accepted attributes, classes and styles.
-						validAttributes: {},
-						validClasses: {},
-						validStyles: {},
-						// Whether all are valid.
-						// If we know that all element's attrs/classes/styles are valid
-						// we can skip their validation, to improve performance.
-						allAttributes: false,
-						allClasses: false,
-						allStyles: false
-					},
-					i, l;
-
-				// Early return - if there are no rules for this element (specific or generic), remove it.
-				if ( !rules && !genericRules ) {
-					removeElement( element, name );
-					return;
-				}
-
-				// Parse classes and styles if that hasn't been done by filter#check yet.
-				if ( !element.styles )
-					element.styles = parseCssText( element.attributes.style || '', 1 );
-				if ( !element.classes )
-					element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
-
-				if ( rules ) {
-					for ( i = 0, l = rules.length; i < l; ++i )
-						applyRule( rules[ i ], element, status, true );
-				}
-
-				if ( genericRules ) {
-					for ( i = 0, l = genericRules.length; i < l; ++i )
-						applyRule( genericRules[ i ], element, status, false );
-				}
-
-				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
-				if ( !status.valid ) {
-					removeElement( element, name );
-					return;
-				}
-
-				// Update element's attributes based on status of filtering.
-				updateElement( element, status );
-			};
-		},
-
-		 /**
 		 * Checks whether a feature can be enabled for the HTML restrictions in place
 		 * for the current CKEditor instance, based on the HTML the feature might
 		 * generate and the minimal HTML the feature needs to be able to generate.
@@ -354,13 +280,14 @@
 				element = mockElementFromStyle( test );
 
 			// Make a deep copy.
-			var clone = CKEDITOR.tools.clone( element );
+			var clone = CKEDITOR.tools.clone( element ),
+				toBeRemoved = [];
 
 			// Filter clone of mocked element.
-			this.getFilterFunction()( clone );
+			getFilterFunction( this, toBeRemoved )( clone );
 
-			// Name has been changed what means that element hasn't been accepted.
-			if ( clone.name != element.name )
+			// Element has been marked for removal.
+			if ( toBeRemoved.length > 0 )
 				result = false;
 			// Compare only left to right, because clone may be only trimmed version of original element.
 			else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) )
@@ -465,6 +392,83 @@
 		}
 
 		return rules;
+	}
+
+	// Returns function that accepts {@link CKEDITOR.htmlParser.element}
+	// and filters it basing on allowed content rules registered by
+	// {@link #allow} method.
+	//
+	// @param {CKEDITOR.filter} that
+	function getFilterFunction( that, toBeRemoved ) {
+		// If filter function is cached we'll return function from different scope
+		// than this, so we need to pass toBeRemoved array by reference.
+		var privObj = that._;
+		privObj.toBeRemoved = toBeRemoved;
+
+		// Return cached function.
+		if ( privObj.filterFunction )
+			return privObj.filterFunction;
+
+		var optimizedRules = privObj.rules,
+			unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
+
+		// Return and cache created function.
+		return privObj.filterFunction = function( element ) {
+			var name = element.name;
+			// Unprotect elements names previously protected by htmlDataProcessor
+			// (see protectElementNames and protectSelfClosingElements functions).
+			name = name.replace( unprotectElementsNamesRegexp, '$1' );
+
+			var rules = optimizedRules.elements[ name ],
+				genericRules = optimizedRules.generic,
+				status = {
+					// Whether any of rules accepted element.
+					// If not - it will be stripped.
+					valid: false,
+					// Objects containing accepted attributes, classes and styles.
+					validAttributes: {},
+					validClasses: {},
+					validStyles: {},
+					// Whether all are valid.
+					// If we know that all element's attrs/classes/styles are valid
+					// we can skip their validation, to improve performance.
+					allAttributes: false,
+					allClasses: false,
+					allStyles: false
+				},
+				i, l;
+
+			// Early return - if there are no rules for this element (specific or generic), remove it.
+			if ( !rules && !genericRules ) {
+				privObj.toBeRemoved.push( element );
+				return;
+			}
+
+			// Parse classes and styles if that hasn't been done by filter#check yet.
+			if ( !element.styles )
+				element.styles = parseCssText( element.attributes.style || '', 1 );
+			if ( !element.classes )
+				element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+
+			if ( rules ) {
+				for ( i = 0, l = rules.length; i < l; ++i )
+					applyRule( rules[ i ], element, status, true );
+			}
+
+			if ( genericRules ) {
+				for ( i = 0, l = genericRules.length; i < l; ++i )
+					applyRule( genericRules[ i ], element, status, false );
+			}
+
+			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
+			if ( !status.valid ) {
+				privObj.toBeRemoved.push( element );
+				return;
+			}
+
+			// Update element's attributes based on status of filtering.
+			updateElement( element, status );
+		};
 	}
 
 	// Create pseudo element that will be passed through filter
@@ -636,17 +640,6 @@
 	function parseProperties( properties, groupName ) {
 		var group = properties.match( groupsPatterns[ groupName ] );
 		return group ? trim( group[ 1 ] ) : null;
-	}
-
-	function removeElement( element, name ) {
-		if ( DTD.$block[ name ] ) {
-			// TODO Very brutal way of removing elements.
-			element.name = 'p';
-			element.attributes = {};
-			element.styles = {};
-		}
-		else
-			delete element.name;
 	}
 
 	// Update element object based on status of filtering.
