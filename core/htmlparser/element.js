@@ -338,8 +338,6 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
 		 */
-		forEach: fragProto.forEach,
-
-		insert: fragProto.insert
+		forEach: fragProto.forEach
 	} );
 })();

@@ -818,7 +818,7 @@
 					p = new CKEDITOR.htmlParser.element( 'p' );
 					p.insertAfter( element );
 				}
-				p.insert( child, 0 );
+				p.add( child, 0 );
 			}
 			// Child which doesn't need to be auto paragraphed.
 			else {

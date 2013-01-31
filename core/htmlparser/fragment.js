@@ -604,20 +604,6 @@ CKEDITOR.htmlParser.fragment = function() {
 				else if ( !type || node.type == type )
 					callback( node );
 			}
-		},
-
-		insert: function( node, index ) {
-			if ( isNaN( index ) )
-				index = this.children.length;
-
-			var previous = index > 0 ? this.children[ index - 1 ] : null;
-			if ( previous )
-				previous.next = node;
-
-			node.previous = previous;
-			node.parent = this;
-
-			this.children.splice( index, 0, node );
 		}
 	};
 })();
