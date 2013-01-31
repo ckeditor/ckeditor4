@@ -317,6 +317,27 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			this.remove();
 		},
 
+		/**
+		 * Execute callback on each node (of given type) in this element.
+		 *
+		 *		// Create <p> element with foo<b>bar</b>bom as its content.
+		 *		var elP = CKEDITOR.htmlParser.fragment.fromHtml( 'foo<b>bar</b>bom', 'p' );
+		 *		elP.forEach( function( node ) {
+		 *			console.log( node );
+		 *		} );
+		 *		// Will log:
+		 *		// 1. document fragment,
+		 *		// 2. <p> element,
+		 *		// 3. "foo" text node,
+		 *		// 4. <b> element,
+		 *		// 5. "bar" text node,
+		 *		// 6. "bom" text node.
+		 *
+		 * @param {Function} callback Function to be executed on every node.
+		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
+		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
+		 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
+		 */
 		forEach: fragProto.forEach,
 
 		insert: fragProto.insert
