@@ -173,7 +173,7 @@
 		 */
 		toDataFormat: function( html ) {
 			return this.editor.fire( 'toDataFormat', {
-				dataValue: html,
+				dataValue: html
 			} ).dataValue;
 		}
 	};

@@ -42,7 +42,7 @@ CKEDITOR.plugins.add( 'forms', {
 				button: 'input[type,name,value]',
 				form: 'form[action,name,id,enctype,target,method]',
 				hiddenfield: 'input[type,name,value]',
-				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}',
+				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}'
 			},
 			requires = {
 				checkbox: 'input',
