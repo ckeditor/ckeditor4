@@ -320,7 +320,7 @@
 			var feature = this;
 
 			// If button isn't a feature, return command if is bound.
-			if ( !this.allows && !this.requires && this.command )
+			if ( !this.allowedContent && !this.requiredContent && this.command )
 				feature = editor.getCommand( this.command ) || feature;
 
 			return this._.feature = feature;

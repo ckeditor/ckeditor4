@@ -35,8 +35,8 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
-			requires: style,
-			allows: style,
+			allowedContent: style,
+			requiredContent: style,
 
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),

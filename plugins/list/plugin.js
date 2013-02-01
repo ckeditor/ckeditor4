@@ -444,8 +444,8 @@
 		this.name = name;
 		this.type = type;
 		this.context = type;
-		this.allows = type + ' li';
-		this.requires = type; // TODO li check needed.
+		this.allowedContent = type + ' li';
+		this.requiredContent = type; // TODO li check needed.
 	}
 
 	var elementType = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );

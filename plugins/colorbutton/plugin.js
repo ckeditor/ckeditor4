@@ -33,8 +33,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				modes: { wysiwyg:1 },
 				editorFocus: 1,
 				toolbar: 'colors,' + order,
-				allows: style,
-				requires: style,
+				allowedContent: style,
+				requiredContent: style,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),

@@ -33,7 +33,7 @@ CKEDITOR.plugins.add( 'forms', {
 		var lang = editor.lang,
 			order = 0,
 			textfieldTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 },
-			allows = {
+			allowedContent = {
 				checkbox: 'input[type,name,checked]',
 				radio: 'input[type,name,checked]',
 				textfield: 'input[type,name,value,size,maxlength]',
@@ -44,7 +44,7 @@ CKEDITOR.plugins.add( 'forms', {
 				hiddenfield: 'input[type,name,value]',
 				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}'
 			},
-			requires = {
+			requiredContent = {
 				checkbox: 'input',
 				radio: 'input',
 				textfield: 'input',
@@ -60,8 +60,8 @@ CKEDITOR.plugins.add( 'forms', {
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
 				var def = {
-					allows: allows[ commandName ],
-					requires: requires[ commandName ]
+					allowedContent: allowedContent[ commandName ],
+					requiredContent: requiredContent[ commandName ]
 				};
 				commandName == 'form' && ( def.context = 'form' );
 

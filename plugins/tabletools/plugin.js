@@ -685,13 +685,13 @@
 			}
 
 			addCmd( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef( {
-				allows: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
-				requires: 'table'
+				allowedContent: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
+				requiredContent: 'table'
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
 			addCmd( 'rowDelete', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					placeCursorInCell( deleteRows( selection ) );
@@ -699,7 +699,7 @@
 			} ) );
 
 			addCmd( 'rowInsertBefore', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection, true );
@@ -707,7 +707,7 @@
 			} ) );
 
 			addCmd( 'rowInsertAfter', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertRow( selection );
@@ -715,7 +715,7 @@
 			} ) );
 
 			addCmd( 'columnDelete', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					var element = deleteColumns( selection );
@@ -724,7 +724,7 @@
 			} ) );
 
 			addCmd( 'columnInsertBefore', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection, true );
@@ -732,7 +732,7 @@
 			} ) );
 
 			addCmd( 'columnInsertAfter', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertColumn( selection );
@@ -740,7 +740,7 @@
 			} ) );
 
 			addCmd( 'cellDelete', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					deleteCells( selection );
@@ -748,47 +748,47 @@
 			} ) );
 
 			addCmd( 'cellMerge', createDef( {
-				allows: 'td[colspan,rowspan]',
-				requires: 'td[colspan,rowspan]',
+				allowedContent: 'td[colspan,rowspan]',
+				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection() ), true );
 				}
 			} ) );
 
 			addCmd( 'cellMergeRight', createDef( {
-				allows: 'td[colspan]',
-				requires: 'td[colspan]',
+				allowedContent: 'td[colspan]',
+				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
 				}
 			} ) );
 
 			addCmd( 'cellMergeDown', createDef( {
-				allows: 'td[rowspan]',
-				requires: 'td[rowspan]',
+				allowedContent: 'td[rowspan]',
+				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
 				}
 			} ) );
 
 			addCmd( 'cellVerticalSplit', createDef( {
-				allows: 'td[rowspan]',
-				requires: 'td[rowspan]',
+				allowedContent: 'td[rowspan]',
+				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
 					placeCursorInCell( verticalSplitCell( editor.getSelection() ) );
 				}
 			} ) );
 
 			addCmd( 'cellHorizontalSplit', createDef( {
-				allows: 'td[colspan]',
-				requires: 'td[colspan]',
+				allowedContent: 'td[colspan]',
+				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
 					placeCursorInCell( horizontalSplitCell( editor.getSelection() ) );
 				}
 			} ) );
 
 			addCmd( 'cellInsertBefore', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection, true );
@@ -796,7 +796,7 @@
 			} ) );
 
 			addCmd( 'cellInsertAfter', createDef( {
-				requires: 'table',
+				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					insertCell( selection );

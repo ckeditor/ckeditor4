@@ -50,12 +50,12 @@ CKEDITOR.plugins.add( 'link', {
 	init: function( editor ) {
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
-			allows: 'a[accesskey,charset,dir,href,id,lang,name,rel,tabindex,target,title,type](*){*}',
-			requires: 'a[href]'
+			allowedContent: 'a[accesskey,charset,dir,href,id,lang,name,rel,tabindex,target,title,type](*){*}',
+			requiredContent: 'a[href]'
 		} ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
-			allows: 'a[name]',
-			requires: 'a[name]'
+			allowedContent: 'a[name]',
+			requiredContent: 'a[name]'
 		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
@@ -314,7 +314,7 @@ CKEDITOR.unlinkCommand.prototype = {
 
 	contextSensitive: 1,
 	startDisabled: 1,
-	requires: 'a[href]'
+	requiredContent: 'a[href]'
 };
 
 CKEDITOR.removeAnchorCommand = function() {};
@@ -336,7 +336,7 @@ CKEDITOR.removeAnchorCommand.prototype = {
 		}
 		sel.selectBookmarks( bms );
 	},
-	requires: 'a[name]'
+	requiredContent: 'a[name]'
 };
 
 CKEDITOR.tools.extend( CKEDITOR.config, {

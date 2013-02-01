@@ -24,7 +24,7 @@
 
 		this.startDisabled = name == 'outdent';
 
-		this.allows = {
+		this.allowedContent = {
 			// TODO this may not be a complete list of elements.
 			'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
 				// Do not add elements, but only text-align style if element is validated by other rule.
@@ -33,7 +33,7 @@
 				classes: useClasses ? editor.config.indentClasses : null
 			}
 		};
-		this.requires = 'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' );
+		this.requiredContent = 'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' );
 	}
 
 	// Returns the CSS property to be used for identing a given element.

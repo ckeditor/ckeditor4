@@ -15,8 +15,8 @@
 			editor.insertElement( hr );
 		},
 
-		allows: 'hr',
-		requires: 'hr'
+		allowedContent: 'hr',
+		requiredContent: 'hr'
 	};
 
 	var pluginName = 'horizontalrule';

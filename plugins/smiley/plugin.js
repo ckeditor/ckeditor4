@@ -10,8 +10,8 @@ CKEDITOR.plugins.add( 'smiley', {
 	init: function( editor ) {
 		editor.config.smiley_path = editor.config.smiley_path || ( this.path + 'images/' );
 		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley', {
-			allows: 'img[alt,height,src,title,width]',
-			requires: 'img'
+			allowedContent: 'img[alt,height,src,title,width]',
+			requiredContent: 'img'
 		} ) );
 		editor.ui.addButton && editor.ui.addButton( 'Smiley', {
 			label: editor.lang.smiley.toolbar,

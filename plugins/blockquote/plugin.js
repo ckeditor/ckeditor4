@@ -226,8 +226,8 @@
 
 		context: 'blockquote',
 
-		allows: 'blockquote',
-		requires: 'blockquote'
+		allowedContent: 'blockquote',
+		requiredContent: 'blockquote'
 	};
 
 	CKEDITOR.plugins.add( 'blockquote', {

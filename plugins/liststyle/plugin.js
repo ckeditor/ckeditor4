@@ -12,16 +12,16 @@
 				return;
 
 			var cmd = new CKEDITOR.dialogCommand( 'numberedListStyle', {
-				requires: 'ol',
-				allows: 'ol{list-style-type}[start]'
+				requiredContent: 'ol',
+				allowedContent: 'ol{list-style-type}[start]'
 			} );
 			editor.addCommand( 'numberedListStyle', cmd );
 			editor.addFeature( cmd );
 			CKEDITOR.dialog.add( 'numberedListStyle', this.path + 'dialogs/liststyle.js' );
 
 			cmd = new CKEDITOR.dialogCommand( 'bulletedListStyle', {
-				requires: 'ul',
-				allows: 'ul{list-style-type}'
+				requiredContent: 'ul',
+				allowedContent: 'ul{list-style-type}'
 			} );
 			editor.addCommand( 'bulletedListStyle', cmd );
 			editor.addFeature( cmd );
