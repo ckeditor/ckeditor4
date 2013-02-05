@@ -174,10 +174,14 @@
 		 */
 		applyTo: function( fragment ) {
 			var toBeRemoved = [],
-				filterFn = getFilterFunction( this, toBeRemoved );
+				rules = this._.rules,
+				transformations = this._.transformations,
+				filterFn = getFilterFunction( this );
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
-			fragment.forEach( filterFn, CKEDITOR.NODE_ELEMENT, true );
+			fragment.forEach( function( el ) {
+					filterFn( el, rules, transformations, toBeRemoved );
+				}, CKEDITOR.NODE_ELEMENT, true );
 
 			var element,
 				toBeChecked = [];
@@ -324,7 +328,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this, toBeRemoved )( clone, true );
+			getFilterFunction( this )( clone, this._.rules, false, toBeRemoved );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -439,30 +443,23 @@
 	// {@link #allow} method.
 	//
 	// @param {CKEDITOR.filter} that
-	function getFilterFunction( that, toBeRemoved ) {
-		// If filter function is cached we'll return function from different scope
-		// than this, so we need to pass toBeRemoved array by reference.
-		var privObj = that._;
-		privObj.toBeRemoved = toBeRemoved;
-
+	function getFilterFunction( that ) {
 		// Return cached function.
-		if ( privObj.filterFunction )
-			return privObj.filterFunction;
+		if ( that._.filterFunction )
+			return that._.filterFunction;
 
-		var optimizedRules = privObj.rules,
-			unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
+		var unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
 
 		// Return and cache created function.
-		return privObj.filterFunction = function( element, withoutTransformations ) {
-			var name = element.name;
+		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved ) {
+			var name = element.name,
+				i, l, trans;
+
 			// Unprotect elements names previously protected by htmlDataProcessor
 			// (see protectElementNames and protectSelfClosingElements functions).
 			name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
-			var transformations = privObj.transformations[ name ],
-				i, l, trans;
-
-			if ( !withoutTransformations && transformations ) {
+			if ( ( transformations = transformations && transformations[ name ] ) ) {
 				populateProperties( element );
 				for ( i = 0; i < transformations.length; ++i ) {
 					trans = transformations[ i ];
@@ -494,7 +491,7 @@
 
 			// Early return - if there are no rules for this element (specific or generic), remove it.
 			if ( !rules && !genericRules ) {
-				privObj.toBeRemoved.push( element );
+				toBeRemoved.push( element );
 				return;
 			}
 
@@ -514,7 +511,7 @@
 
 			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
 			if ( !status.valid ) {
-				privObj.toBeRemoved.push( element );
+				toBeRemoved.push( element );
 				return;
 			}
 
