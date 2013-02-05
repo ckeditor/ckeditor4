@@ -23,10 +23,9 @@
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
 				allowedContent: 'img[align,alt,dir,id,lang,longdesc,src,title]{*}(*)',
 				requiredContent: 'img[alt,src]',
-				contentTransformations: {
-					'img{width}': 'sizeToStyle',
-					'img[width]': 'sizeToAttribute'
-				}
+				contentTransformations: [
+					[ 'img{width}: sizeToStyle', 'img[width]: sizeToAttribute' ]
+				]
 			} ) );
 
 			// Register the toolbar button.

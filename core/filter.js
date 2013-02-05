@@ -51,7 +51,7 @@
 		this._ = {
 			// Optimized allowed content rules.
 			rules: {},
-			// Object: element name => array of functions.
+			// Object: element name => array of transformations groups.
 			transformations: {},
 			cachedTests: {}
 		};
@@ -277,24 +277,15 @@
 				return;
 
 			var optimized = this._.transformations,
-				name, fn, rule;
+				group, i;
 
-			for ( rule in transformations ) {
-				fn = transformations[ rule ];
+			for ( i = 0; i < transformations.length; ++i ) {
+				group = optimizeTransformations( transformations[ i ] );
 
-				// Extract element name.
-				name = rule.match( /^([a-z0-9]+)/g )[ 0 ];
+				if ( !optimized[ group.name ] )
+					optimized[ group.name ] = [];
 
-				if ( !optimized[ name ] )
-					optimized[ name ] = [];
-
-				optimized[ name ].push( {
-					// It doesn't make sense to test against name rule (e.g. 'table'), so don't save it.
-					rule: name != rule ? rule : null,
-
-					// Handle shorthand format. E.g.: { 'table[width]': 'sizeToAttribute' }.
-					fn: typeof fn == 'string' ? getTransformationFn( fn ) : fn
-				} );
+				optimized[ group.name ].push( group.rules );
 			}
 		},
 
@@ -461,11 +452,9 @@
 
 			if ( ( transformations = transformations && transformations[ name ] ) ) {
 				populateProperties( element );
-				for ( i = 0; i < transformations.length; ++i ) {
-					trans = transformations[ i ];
-					if ( !trans.rule || that.check( trans.rule ) )
-						trans.fn( element, transformationsTools );
-				}
+
+				for ( i = 0; i < transformations.length; ++i )
+					applyTransformationsGroup( that, element, transformations[ i ] );
 			}
 
 			// Name could be changed by transformations.
@@ -517,12 +506,6 @@
 
 			// Update element's attributes based on status of filtering.
 			updateElement( element, status );
-		};
-	}
-
-	function getTransformationFn( toolName ) {
-		return function( el, tools ) {
-			tools[ toolName ]( el );
 		};
 	}
 
@@ -653,7 +636,12 @@
 	}
 
 	//                  <   elements   ><                     styles, attributes and classes                      >< separator >
-	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i;
+	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
+		groupsPatterns = {
+			styles: /{([^}]+)}/,
+			attrs: /\[([^\]]+)\]/,
+			classes: /\(([^\)]+)\)/
+		};
 
 	function parseRulesString( input ) {
 		var match,
@@ -686,12 +674,6 @@
 
 		return rules;
 	}
-
-	var groupsPatterns = {
-		styles: /{([^}]+)}/,
-		attrs: /\[([^\]]+)\]/,
-		classes: /\(([^\)]+)\)/
-	};
 
 	function parseProperties( properties, groupName ) {
 		var group = properties.match( groupsPatterns[ groupName ] );
@@ -892,8 +874,56 @@
 	}
 
 	//
-	// TRANSFORMATION TOOLS ---------------------------------------------------
+	// TRANSFORMATIONS --------------------------------------------------------
 	//
+
+	function applyTransformationsGroup( filter, element, group ) {
+		var i, rule;
+
+		for ( i = 0; i < group.length; ++i ) {
+			rule = group[ i ];
+
+			if ( !rule.left || filter.check( rule.left ) ) {
+				rule.right( element, transformationsTools );
+				return; // Only first matching rule in a group is executed.
+			}
+		}
+	}
+
+	function getTransformationFn( toolName ) {
+		return function( el, tools ) {
+			tools[ toolName ]( el );
+		};
+	}
+
+	function optimizeTransformations( rules ) {
+		var groupName, i, rule,
+			optimizedRules = [];
+
+		for ( i = 0; i < rules.length; ++i ) {
+			rule = rules[ i ];
+
+			if ( typeof rule == 'string' )
+				rule = rule.split( /\s*:\s*/ );
+
+			// Extract element name.
+			if ( !groupName )
+				groupName = rule[ 0 ].match( /^([a-z0-9]+)/g )[ 0 ];
+
+			optimizedRules.push( {
+				// It doesn't make sense to test against name rule (e.g. 'table'), so don't save it.
+				left: groupName == rule[ 0 ] ? null : rule[ 0 ],
+
+				// Handle shorthand format. E.g.: 'table[width]:sizeToAttribute'.
+				right: typeof rule[ 1 ] == 'string' ? getTransformationFn( rule[ 1 ] ) : rule[ 1 ]
+			} );
+		}
+
+		return {
+			name: groupName,
+			rules: optimizedRules
+		};
+	}
 
 	var transformationsTools = {
 		sizeToStyle: function( element ) {

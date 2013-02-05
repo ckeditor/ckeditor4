@@ -21,10 +21,9 @@ CKEDITOR.plugins.add( 'table', {
 				'th td tr[scope];' +
 				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
 			requiredContent: 'table', // TODO We should also check td and tr.
-			contentTransformations: {
-				'table{width}': 'sizeToStyle',
-				'table[width]': 'sizeToAttribute'
-			}
+			contentTransformations: [
+				[ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
+			]
 		} ) );
 
 		function createDef( def ) {
