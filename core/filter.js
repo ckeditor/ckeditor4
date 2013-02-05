@@ -273,15 +273,24 @@
 				return;
 
 			var optimized = this._.transformations,
-				name, fn;
+				name, fn, rule;
 
-			for ( name in transformations ) {
-				fn = transformations[ name ];
+			for ( rule in transformations ) {
+				fn = transformations[ rule ];
+
+				// Extract element name.
+				name = rule.match( /^([a-z0-9]+)/g )[ 0 ];
 
 				if ( !optimized[ name ] )
 					optimized[ name ] = [];
 
-				optimized[ name ].push( fn );
+				optimized[ name ].push( {
+					// It doesn't make sense to test against name rule (e.g. 'table'), so don't save it.
+					rule: name != rule ? rule : null,
+
+					// Handle shorthand format. E.g.: { 'table[width]': 'sizeToAttribute' }.
+					fn: typeof fn == 'string' ? getTransformationFn( fn ) : fn
+				} );
 			}
 		},
 
@@ -451,12 +460,14 @@
 			name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
 			var transformations = privObj.transformations[ name ],
-				i, l;
+				i, l, trans;
 
 			if ( !withoutTransformations && transformations ) {
 				populateProperties( element );
 				for ( i = 0; i < transformations.length; ++i ) {
-					transformations[ i ]( element, transformationsTools );
+					trans = transformations[ i ];
+					if ( !trans.rule || that.check( trans.rule ) )
+						trans.fn( element, transformationsTools );
 				}
 			}
 
@@ -509,6 +520,12 @@
 
 			// Update element's attributes based on status of filtering.
 			updateElement( element, status );
+		};
+	}
+
+	function getTransformationFn( toolName ) {
+		return function( el, tools ) {
+			tools[ toolName ]( el );
 		};
 	}
 
@@ -638,17 +655,18 @@
 		optimizedRules.generic = genericRules.length ? genericRules : null;
 	}
 
+	//                  <   elements   ><                     styles, attributes and classes                      >< separator >
+	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i;
+
 	function parseRulesString( input ) {
-			//              <   elements   ><                     styles, attributes and classes                      >< separator >
-		var groupPattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
-			match,
+		var match,
 			props, styles, attrs, classes,
 			rules = {},
 			groupNum = 1;
 
 		input = trim( input );
 
-		while ( ( match = input.match( groupPattern ) ) ) {
+		while ( ( match = input.match( rulePattern ) ) ) {
 			if ( ( props = match[ 2 ] ) ) {
 				styles = parseProperties( props, 'styles' );
 				attrs = parseProperties( props, 'attrs' );

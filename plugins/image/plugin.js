@@ -24,12 +24,8 @@
 				allowedContent: 'img[align,alt,dir,id,lang,longdesc,src,title]{*}(*)',
 				requiredContent: 'img[alt,src]',
 				contentTransformations: {
-					img: function( el, t ) {
-						if ( editor.filter.check( 'img{width}' ) )
-							t.sizeToStyle( el );
-						else if ( editor.filter.check( 'img[width]' ) )
-							t.sizeToAttribute( el );
-					}
+					'img{width}': 'sizeToStyle',
+					'img[width]': 'sizeToAttribute'
 				}
 			} ) );
 

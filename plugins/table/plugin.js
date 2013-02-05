@@ -22,12 +22,8 @@ CKEDITOR.plugins.add( 'table', {
 				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
 			requiredContent: 'table', // TODO We should also check td and tr.
 			contentTransformations: {
-				table: function( el, t ) {
-					if ( editor.filter.check( 'table{width}' ) )
-						t.sizeToStyle( el );
-					else if ( editor.filter.check( 'table[width]' ) )
-						t.sizeToAttribute( el );
-				}
+				'table{width}': 'sizeToStyle',
+				'table[width]': 'sizeToAttribute'
 			}
 		} ) );
 
