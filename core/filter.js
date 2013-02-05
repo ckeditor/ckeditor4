@@ -49,8 +49,10 @@
 		this.editor = null;
 
 		this._ = {
-			// Optimized rules.
+			// Optimized allowed content rules.
 			rules: {},
+			// Object: element name => array of functions.
+			transformations: {},
 			cachedTests: {}
 		};
 
@@ -254,6 +256,8 @@
 			if ( feature.toFeature )
 				feature = feature.toFeature( this.editor );
 
+			this.addTransformations( feature.contentTransformations );
+
 			// If default configuration (will be checked inside #allow()),
 			// then add allowed content rules.
 			this.allow( feature.allowedContent );
@@ -262,6 +266,23 @@
 				return this.check( feature.requiredContent );
 
 			return true;
+		},
+
+		addTransformations: function( transformations ) {
+			if ( !transformations )
+				return;
+
+			var optimized = this._.transformations,
+				name, fn;
+
+			for ( name in transformations ) {
+				fn = transformations[ name ];
+
+				if ( !optimized[ name ] )
+					optimized[ name ] = [];
+
+				optimized[ name ].push( fn );
+			}
 		},
 
 		/**
@@ -293,7 +314,8 @@
 				toBeRemoved = [];
 
 			// Filter clone of mocked element.
-			getFilterFunction( this, toBeRemoved )( clone );
+			// Do not run transformations.
+			getFilterFunction( this, toBeRemoved )( clone, true );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -422,11 +444,24 @@
 			unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
 
 		// Return and cache created function.
-		return privObj.filterFunction = function( element ) {
+		return privObj.filterFunction = function( element, withoutTransformations ) {
 			var name = element.name;
 			// Unprotect elements names previously protected by htmlDataProcessor
 			// (see protectElementNames and protectSelfClosingElements functions).
 			name = name.replace( unprotectElementsNamesRegexp, '$1' );
+
+			var transformations = privObj.transformations[ name ],
+				i, l;
+
+			if ( !withoutTransformations && transformations ) {
+				populateProperties( element );
+				for ( i = 0; i < transformations.length; ++i ) {
+					transformations[ i ]( element, transformationsTools );
+				}
+			}
+
+			// Name could be changed by transformations.
+			name = element.name;
 
 			var rules = optimizedRules.elements[ name ],
 				genericRules = optimizedRules.generic,
@@ -444,8 +479,7 @@
 					allAttributes: false,
 					allClasses: false,
 					allStyles: false
-				},
-				i, l;
+				};
 
 			// Early return - if there are no rules for this element (specific or generic), remove it.
 			if ( !rules && !genericRules ) {
@@ -453,11 +487,9 @@
 				return;
 			}
 
-			// Parse classes and styles if that hasn't been done by filter#check yet.
-			if ( !element.styles )
-				element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
-			if ( !element.classes )
-				element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+			// Could not be done yet if there were no transformations and if this
+			// is real (not mocked) object.
+			populateProperties( element );
 
 			if ( rules ) {
 				for ( i = 0, l = rules.length; i < l; ++i )
@@ -651,6 +683,14 @@
 		return group ? trim( group[ 1 ] ) : null;
 	}
 
+	function populateProperties( element ) {
+		// Parse classes and styles if that hasn't been done before.
+		if ( !element.styles )
+			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
+		if ( !element.classes )
+			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+	}
+
 	// Update element object based on status of filtering.
 	function updateElement( element, status ) {
 		var validAttrs = status.validAttributes,
@@ -835,5 +875,52 @@
 		// All children have been moved to element's parent, so remove it.
 		element.remove();
 	}
+
+	//
+	// TRANSFORMATION TOOLS ---------------------------------------------------
+	//
+
+	var transformationsTools = {
+		sizeToStyle: function( element ) {
+			this.lengthToStyle( element, 'width' );
+			this.lengthToStyle( element, 'height' );
+		},
+
+		sizeToAttribute: function( element ) {
+			this.lengthToAttribute( element, 'width' );
+			this.lengthToAttribute( element, 'height' );
+		},
+
+		lengthToStyle: function( element, attrName, styleName ) {
+			styleName = styleName || attrName;
+
+			if ( !( styleName in element.styles ) ) {
+				var value = element.attributes[ attrName ];
+
+				if ( value ) {
+					if ( ( /^\d+$/ ).test( value ) )
+						value += 'px';
+
+					element.styles[ styleName ] = value;
+				}
+			}
+
+			delete element.attributes[ attrName ];
+		},
+
+		lengthToAttribute: function( element, styleName, attrName ) {
+			attrName = attrName || styleName;
+
+			if ( !( attrName in element.attributes ) ) {
+				var value = element.styles[ styleName ],
+					match = value && value.match( /^(\d+)(?:\.\d*)?px$/ );
+
+				if ( match )
+					element.attributes[ attrName ] = match[ 1 ];
+			}
+
+			delete element.styles[ styleName ];
+		}
+	};
 
 })();
