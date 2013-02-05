@@ -22,7 +22,15 @@
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
 				allowedContent: 'img[align,alt,dir,id,lang,longdesc,src,title]{*}(*)',
-				requiredContent: 'img[alt,src]'
+				requiredContent: 'img[alt,src]',
+				contentTransformations: {
+					img: function( el, t ) {
+						if ( editor.filter.check( 'img{width}' ) )
+							t.sizeToStyle( el );
+						else if ( editor.filter.check( 'img[width]' ) )
+							t.sizeToAttribute( el );
+					}
+				}
 			} ) );
 
 			// Register the toolbar button.

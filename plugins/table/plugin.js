@@ -20,7 +20,15 @@ CKEDITOR.plugins.add( 'table', {
 				'caption tbody thead tfoot;' +
 				'th td tr[scope];' +
 				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
-			requiredContent: 'table' // TODO We should also check td and tr.
+			requiredContent: 'table', // TODO We should also check td and tr.
+			contentTransformations: {
+				table: function( el, t ) {
+					if ( editor.filter.check( 'table{width}' ) )
+						t.sizeToStyle( el );
+					else if ( editor.filter.check( 'table[width]' ) )
+						t.sizeToAttribute( el );
+				}
+			}
 		} ) );
 
 		function createDef( def ) {
