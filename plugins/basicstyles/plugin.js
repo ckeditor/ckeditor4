@@ -15,7 +15,11 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				if ( !styleDefiniton )
 					return;
 
-				var style = new CKEDITOR.style( styleDefiniton );
+				var style = new CKEDITOR.style( styleDefiniton ),
+					forms = contentForms[ commandName ];
+
+				// Put the style as the most important form.
+				forms.unshift( style );
 
 				// Listen to contextual style activation.
 				editor.attachStyleStateChange( style, function( state ) {
@@ -23,7 +27,9 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				});
 
 				// Create the command that can be used to apply the style.
-				editor.addCommand( commandName, new CKEDITOR.styleCommand( style ) );
+				editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
+					contentForms: forms
+				} ) );
 
 				// Register the button, if the button plugin is loaded.
 				if ( editor.ui.addButton ) {
@@ -35,7 +41,48 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				}
 			};
 
-		var config = editor.config,
+		var contentForms = {
+				bold: [
+					'strong',
+					'b',
+					[ 'span', function( el ) {
+						var fw = el.styles[ 'font-weight' ];
+						return fw == 'bold' || +fw >= 700;
+					} ]
+				],
+
+				italic: [
+					'em',
+					'i',
+					[ 'span', function( el ) {
+						return el.styles[ 'font-style' ] == 'italic';
+					} ]
+				],
+
+				underline: [
+					'u',
+					[ 'span', function( el ) {
+						return el.styles[ 'text-decoration' ] == 'underline';
+					} ]
+				],
+
+				strike: [
+					'strike',
+					's',
+					[ 'span', function( el ) {
+						return el.styles[ 'text-decoration' ] == 'line-through';
+					} ]
+				],
+
+				subscript: [
+					'sub'
+				],
+
+				superscript: [
+					'sup'
+				]
+			},
+			config = editor.config,
 			lang = editor.lang.basicstyles;
 
 		addButtonCommand( 'Bold', lang.bold, 'bold', config.coreStyles_bold );

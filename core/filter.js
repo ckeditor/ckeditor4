@@ -237,6 +237,35 @@
 				this._.toDataFormatListener.removeListener();
 		},
 
+		addContentForms: function( forms ) {
+			if ( this.disabled )
+				return;
+
+			if ( !forms )
+				return;
+
+			var i, form,
+				transfGroups = [],
+				preferredForm;
+
+			// First, find preferred form - this is, first allowed.
+			for ( i = 0; i < forms.length && !preferredForm; ++i ) {
+				form = forms[ i ];
+
+				if ( ( typeof form == 'string' || form instanceof CKEDITOR.style ) && this.check( form ) )
+					preferredForm = form;
+			}
+
+			if ( !preferredForm )
+				return;
+
+			for ( i = 0; i < forms.length; ++i ) {
+				transfGroups.push( getContentFormTransformationGroup( forms[ i ], preferredForm ) );
+			}
+
+			this.addTransformations( transfGroups );
+		},
+
 		/**
 		 * Checks whether a feature can be enabled for the HTML restrictions in place
 		 * for the current CKEditor instance, based on the HTML the feature might
@@ -260,11 +289,13 @@
 			if ( feature.toFeature )
 				feature = feature.toFeature( this.editor );
 
-			this.addTransformations( feature.contentTransformations );
-
 			// If default configuration (will be checked inside #allow()),
 			// then add allowed content rules.
 			this.allow( feature.allowedContent );
+
+			this.addTransformations( feature.contentTransformations );
+			this.addContentForms( feature.contentForms );
+
 			// If custom configuration, then check if required content is allowed.
 			if ( this.customConfig && feature.requiredContent )
 				return this.check( feature.requiredContent );
@@ -273,6 +304,9 @@
 		},
 
 		addTransformations: function( transformations ) {
+			if ( this.disabled )
+				return;
+
 			if ( !transformations )
 				return;
 
@@ -280,7 +314,7 @@
 				group, i;
 
 			for ( i = 0; i < transformations.length; ++i ) {
-				group = optimizeTransformations( transformations[ i ] );
+				group = optimizeTransformationsGroup( transformations[ i ] );
 
 				if ( !optimized[ group.name ] )
 					optimized[ group.name ] = [];
@@ -883,11 +917,80 @@
 		for ( i = 0; i < group.length; ++i ) {
 			rule = group[ i ];
 
-			if ( !rule.left || filter.check( rule.left ) ) {
+			if ( ( !rule.check || filter.check( rule.check ) ) &&
+				( !rule.left || rule.left( element ) ) ) {
 				rule.right( element, transformationsTools );
 				return; // Only first matching rule in a group is executed.
 			}
 		}
+	}
+
+	function elementMatchesStyle( element, style ) {
+		var def = style.getDefinition(),
+			defAttrs = def.attributes,
+			defStyles = def.styles,
+			attrName, styleName,
+			classes, classPattern, cl;
+
+		if ( element.name != def.element )
+			return false;
+
+		for ( attrName in defAttrs ) {
+			if ( attrName == 'class' ) {
+				classes = defAttrs[ attrName ].split( /\s+/ );
+				classPattern = element.classes.join( '|' );
+				while ( ( cl = classes.pop() ) ) {
+					if ( classPattern.indexOf( cl ) == -1 )
+						return false;
+				}
+			} else {
+				if ( element.attributes[ attrName ] != defAttrs[ attrName ] )
+					return false;
+			}
+		}
+
+		for ( styleName in defStyles ) {
+			if ( element.styles[ styleName ] != defStyles[ styleName ] )
+				return false;
+		}
+
+		return true;
+	}
+
+	function getContentFormTransformationGroup( form, preferredForm ) {
+		var element, left;
+
+		if ( typeof form == 'string' )
+			element = form;
+		else if ( form instanceof CKEDITOR.style ) {
+			left = form;
+		}
+		else {
+			element = form[ 0 ];
+			left = form[ 1 ];
+		}
+
+		return [ {
+			element: element,
+			left: left,
+			right: function( el, tools ) {
+				tools.transform( el, preferredForm );
+			}
+		} ];
+	}
+
+	function getElementNameForTransformation( rule, check ) {
+		if ( rule.element )
+			return rule.element;
+		if ( check )
+			return check.match( /^([a-z0-9]+)/i )[ 0 ];
+		return rule.left.getDefinition().element;
+	}
+
+	function getMatchStyleFn( style ) {
+		return function( el ) {
+			return transformationsTools.matchStyle( el, style );
+		};
 	}
 
 	function getTransformationFn( toolName ) {
@@ -896,26 +999,40 @@
 		};
 	}
 
-	function optimizeTransformations( rules ) {
+	function optimizeTransformationsGroup( rules ) {
 		var groupName, i, rule,
+			check, left, right,
 			optimizedRules = [];
 
 		for ( i = 0; i < rules.length; ++i ) {
 			rule = rules[ i ];
 
-			if ( typeof rule == 'string' )
+			if ( typeof rule == 'string' ) {
 				rule = rule.split( /\s*:\s*/ );
+				check = rule[ 0 ];
+				left = null;
+				right = rule[ 1 ];
+			} else {
+				check = rule.check;
+				left = rule.left;
+				right = rule.right;
+			}
 
 			// Extract element name.
 			if ( !groupName )
-				groupName = rule[ 0 ].match( /^([a-z0-9]+)/g )[ 0 ];
+				groupName = getElementNameForTransformation( rule, check );
+
+			if ( left instanceof CKEDITOR.style )
+				left = getMatchStyleFn( left );
 
 			optimizedRules.push( {
 				// It doesn't make sense to test against name rule (e.g. 'table'), so don't save it.
-				left: groupName == rule[ 0 ] ? null : rule[ 0 ],
+				check: check == groupName ? null : check,
+
+				left: left,
 
 				// Handle shorthand format. E.g.: 'table[width]:sizeToAttribute'.
-				right: typeof rule[ 1 ] == 'string' ? getTransformationFn( rule[ 1 ] ) : rule[ 1 ]
+				right: typeof right == 'string' ? getTransformationFn( right ) : right
 			} );
 		}
 
@@ -965,6 +1082,41 @@
 			}
 
 			delete element.styles[ styleName ];
+		},
+
+		matchStyle: elementMatchesStyle,
+
+		transform: function( el, form ) {
+			if ( typeof form == 'string' )
+				el.name = form;
+			// Form is an instance of CKEDITOR.style.
+			else {
+				var def = form.getDefinition(),
+					defStyles = def.styles,
+					defAttrs = def.attributes,
+					attrName, styleName,
+					existingClassesPattern, defClasses, cl;
+
+				el.name = def.element;
+
+				for ( attrName in defAttrs ) {
+					if ( attrName == 'class' ) {
+						existingClassesPattern = el.classes.join( '|' );
+						defClasses = defAttrs[ attrName ].split( /\s+/ );
+
+						while ( ( cl = defClasses.pop() ) ) {
+							if ( existingClassesPattern.indexOf( cl ) == -1 )
+								el.classes.push( cl );
+						}
+					} else {
+						el.attributes[ attrName ] = defAttrs[ attrName ];
+					}
+				}
+
+				for ( styleName in defStyles ) {
+					el.styles[ styleName ] = defStyles[ styleName ];
+				}
+			}
 		}
 	};
 
