@@ -194,6 +194,14 @@
 			return new copy();
 		},
 
+		/**
+		 * Make fast (shallow) copy of an object.
+		 * This method is faster than {@link #clone} which does
+		 * deep copy of an object (including arrays).
+		 *
+		 * @param {Object} source The object to be copied.
+		 * @returns {Object} Copy of `source`.
+		 */
 		copy: function( source ) {
 			var obj = {},
 				name;
@@ -806,6 +814,7 @@
 
 		/**
 		 * Find and convert `rgb(x,x,x)` colors definition to hexadecimal notation.
+		 *
 		 * @param {String} styleText The style data (or just a string containing rgb colors) to be converted.
 		 * @returns {String} The style data with rgb colors converted to hexadecimal equivalents.
 		 */
@@ -858,16 +867,36 @@
 			return retval;
 		},
 
+		/**
+		 * Serialize `style name => value` hash to a style text.
+		 *
+		 *		var styleObj = CKEDITOR.tools.parseCssText( 'color: red; border: none' );
+		 *		console.log( styleObj.color ); // -> 'red'
+		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
+		 *
+		 * @param {Object} styles The object contaning style properties.
+		 * @returns {String} The serialized style text.
+		 */
 		writeCssText: function( styles ) {
 			var name,
 				stylesArr = [];
 
 			for ( name in styles )
-					stylesArr.push( name + ':' + styles[ name ] );
+				stylesArr.push( name + ':' + styles[ name ] );
 
 			return stylesArr.join( '; ' );
 		},
 
+		/**
+		 * Compare two objects.
+		 *
+		 * **Note:** This method performs shallow, non-strict comparison.
+		 *
+		 * @param {Object} left
+		 * @param {Object} right
+		 * @param {Boolean} [onlyLeft] Check only these properties which are present in `left` object.
+		 * @returns {Boolean} Whether objects are identical.
+		 */
 		objectCompare: function( left, right, onlyLeft ) {
 			var name;
 
