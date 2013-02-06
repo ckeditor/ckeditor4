@@ -84,7 +84,7 @@
 			// Add element filter before htmlDataProcessor.dataFilter
 			// when purifying input data to correct html.
 			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				this.applyTo( evt.data.dataValue );
+				this.applyTo( evt.data.dataValue, true );
 			}, this, null, 6 );
 
 			// Filter outcoming "data".
@@ -171,8 +171,9 @@
 		 * of filtering is DOM tree without disallowed content.
 		 *
 		 * @param {CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} fragment Node to be filtered.
+		 * @param {Boolean} toHtml Set to `true` if filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 */
-		applyTo: function( fragment ) {
+		applyTo: function( fragment, toHtml ) {
 			var toBeRemoved = [],
 				rules = this._.rules,
 				transformations = this._.transformations,
@@ -180,7 +181,7 @@
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
-					filterFn( el, rules, transformations, toBeRemoved );
+					filterFn( el, rules, transformations, toBeRemoved, toHtml );
 				}, CKEDITOR.NODE_ELEMENT, true );
 
 			var element,
@@ -473,16 +474,19 @@
 		if ( that._.filterFunction )
 			return that._.filterFunction;
 
-		var unprotectElementsNamesRegexp = /^cke:(object|embed|param|html|body|head|title)$/;
+		var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
+			protectElementsNamesRegexp = /^(object|embed|param)$/;
 
 		// Return and cache created function.
-		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved ) {
+		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml ) {
 			var name = element.name,
 				i, l, trans;
 
 			// Unprotect elements names previously protected by htmlDataProcessor
 			// (see protectElementNames and protectSelfClosingElements functions).
-			name = name.replace( unprotectElementsNamesRegexp, '$1' );
+			// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
+			if ( toHtml )
+				element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
 			if ( ( transformations = transformations && transformations[ name ] ) ) {
 				populateProperties( element );
@@ -540,6 +544,10 @@
 
 			// Update element's attributes based on status of filtering.
 			updateElement( element, status );
+
+			// Protect previously unprotected elements.
+			if ( toHtml )
+				element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
 		};
 	}
 
