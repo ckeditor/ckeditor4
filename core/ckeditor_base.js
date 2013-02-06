@@ -283,8 +283,8 @@ if ( !window.CKEDITOR ) {
 		// implementation pointing to a global named CKEDITOR_GETURL.
 		var newGetUrl = window.CKEDITOR_GETURL;
 		if ( newGetUrl ) {
-			var originalGetUrl = CKEDITOR.url;
-			CKEDITOR.url = function( resource ) {
+			var originalGetUrl = CKEDITOR.getUrl;
+			CKEDITOR.getUrl = function( resource ) {
 				return newGetUrl.call( CKEDITOR, resource ) || originalGetUrl.call( CKEDITOR, resource );
 			};
 		}

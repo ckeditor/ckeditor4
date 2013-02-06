@@ -1,6 +1,11 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.0.2
+
+* [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
+
+
 ## CKEditor 4.0.1
 
 Fixed issues:
