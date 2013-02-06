@@ -1005,7 +1005,7 @@
 	// TRANSFORMATIONS --------------------------------------------------------
 	//
 
-	// Apply giver transformations group to the element.
+	// Apply given transformations group to the element.
 	function applyTransformationsGroup( filter, element, group ) {
 		var i, rule;
 
