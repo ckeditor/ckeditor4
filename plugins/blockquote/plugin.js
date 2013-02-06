@@ -12,9 +12,7 @@
 		return true;
 	}
 
-	function command() {}
-
-	command.prototype = {
+	var commandObject = {
 		exec: function( editor ) {
 			var state = editor.getCommand( 'blockquote' ).state,
 				selection = editor.getSelection(),
@@ -237,7 +235,7 @@
 			if ( editor.blockless )
 				return;
 
-			editor.addCommand( 'blockquote', new command() );
+			editor.addCommand( 'blockquote', commandObject );
 
 			editor.ui.addButton && editor.ui.addButton( 'Blockquote', {
 				label: editor.lang.blockquote.toolbar,
