@@ -44,8 +44,6 @@ CKEDITOR.htmlParser.fragment = function() {
 	// Dtd of the fragment element, basically it accept anything except for intermediate structure, e.g. orphan <li>.
 	var rootDtd = CKEDITOR.tools.extend( {}, { html:1 }, CKEDITOR.dtd.html, CKEDITOR.dtd.body, CKEDITOR.dtd.head, { style:1,script:1 } );
 
-	var NODE_ELEMENT = CKEDITOR.NODE_ELEMENT;
-
 	function isRemoveEmpty( node ) {
 		// Empty link is to be removed when empty but not anchor. (#7894)
 		return node.name == 'a' && node.attributes.href || CKEDITOR.dtd.$removeEmpty[ node.name ];
@@ -482,7 +480,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			this.children.splice( index, 0, node );
 
 			if ( !this._.hasInlineStarted )
-				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == NODE_ELEMENT && !node._.isBlockLike );
+				this._.hasInlineStarted = node.type == CKEDITOR.NODE_TEXT || ( node.type == CKEDITOR.NODE_ELEMENT && !node._.isBlockLike );
 		},
 
 		/**
@@ -599,7 +597,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			for ( ; i < l; i++ ) {
 				node = children[ i ];
-				if ( node.type == NODE_ELEMENT )
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
 					node.forEach( callback, type );
 				else if ( !type || node.type == type )
 					callback( node );
