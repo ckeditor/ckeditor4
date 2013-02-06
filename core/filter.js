@@ -238,6 +238,26 @@
 				this._.toDataFormatListener.removeListener();
 		},
 
+		/**
+		 * Add array of Feature's content forms. All forms
+		 * will be then transformed to the first form which is allowed.
+		 *
+		 *		editor.filter.allow( 'i' );
+		 *		editor.filter.addContentForms( [
+		 *			'em',
+		 *			'i',
+		 *			[ 'span', function( el ) {
+		 *				return el.styles[ 'font-style' ] == 'italic';
+		 *			} ]
+		 *		] );
+		 *		// Now <em> and <span style="font-style:italic"> will be replaced with <i>
+		 *		// because this is the first allowed form.
+		 *
+		 * This method is used by editor to add {@link CKEDITOR.feature#contentForms}
+		 * when adding feature by {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
+		 *
+		 * @param {Array} forms
+		 */
 		addContentForms: function( forms ) {
 			if ( this.disabled )
 				return;
@@ -253,16 +273,17 @@
 			for ( i = 0; i < forms.length && !preferredForm; ++i ) {
 				form = forms[ i ];
 
+				// Check only strings and styles - array format isn't supported by #check().
 				if ( ( typeof form == 'string' || form instanceof CKEDITOR.style ) && this.check( form ) )
 					preferredForm = form;
 			}
 
+			// This feature doesn't have preferredForm, so ignore it.
 			if ( !preferredForm )
 				return;
 
-			for ( i = 0; i < forms.length; ++i ) {
+			for ( i = 0; i < forms.length; ++i )
 				transfGroups.push( getContentFormTransformationGroup( forms[ i ], preferredForm ) );
-			}
 
 			this.addTransformations( transfGroups );
 		},
@@ -304,6 +325,69 @@
 			return true;
 		},
 
+		/**
+		 * Add array of content transformations groups. One group
+		 * may contain many transformations rules, but only the first
+		 * matching rule in a group is executed.
+		 *
+		 * Single transformation rule is an object with 4 properties:
+		 *
+		 *	* `check` (optional) - if set and {@link CKEDITOR.filter} doesn't
+		 *		accept this allowed content rule, this transformation rule
+		 *		won't be executed (it doesn't *match*). This value is passed
+		 *		to {@link #check}.
+		 *	* `element` (optional) - this string property tells filter on which
+		 *		element this transformation can be ran. It's optional, because
+		 *		element's name can be obtained from `check` (if it's a String format)
+		 *		or `left` (if it's a {@link CKEDITOR.style} instance).
+		 *	* `left` (optional) - a function accepting element or {@link CKEDITOR.style}
+		 *		instance verifying whether transformation should be
+		 *		executed on this specific element. If it returns `false` or element
+		 *		doesn't match this style this transformation rule doesn't *match*.
+		 *	* `right` - a function accepting element and {@link CKEDITOR.filter.transformationsTools}
+		 *		or a string containing name of {@link CKEDITOR.filter.transformationsTools} method
+		 *		that should be called on element.
+		 *
+		 * There's also a shorthand format. Transformation rule can be defined by
+		 * single string `'check:right'`. String before `':'` will be used as
+		 * a `check` property and the second part as `right`.
+		 *
+		 * Transformation rules can be grouped. Filter will try to apply
+		 * first rule in a group. If it *matches* it will ignore next rules and
+		 * go to the next group. If it doesn't *match* it will check next one.
+		 *
+		 * Examples:
+		 *
+		 *		editor.filter.addTransformations( [
+		 *			// First group.
+		 *			[
+		 *				// First rule. If table{width} is allowed
+		 *				// executes {@link CKEDITOR.filter.transformationsTools#sizeToStyle} on table element.
+		 *				'table{width}: sizeToStyle',
+		 *				// Second rule shouldn't be executed if first was.
+		 *				'table[width]: sizeToAttribute'
+		 *			],
+		 *			// Second group.
+		 *			[
+		 *				// This rule will add foo="1" attribute to all images that
+		 *				// don't have it.
+		 *				{
+		 *					element: 'img',
+		 *					left: function( el ) {
+		 *						return !el.attributes.foo;
+		 *					},
+		 *					right: function( el, tools ) {
+		 *						el.attributes.foo = '1';
+		 *					}
+		 *				}
+		 *			]
+		 *		] );
+		 *
+		 * This method is used by editor to add {@link CKEDITOR.feature#contentTransformations}
+		 * when adding feature by {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
+		 *
+		 * @param {Array} transformations
+		 */
 		addTransformations: function( transformations ) {
 			if ( this.disabled )
 				return;
@@ -488,6 +572,7 @@
 			if ( toHtml )
 				element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
+			// If transformations are set apply all groups.
 			if ( ( transformations = transformations && transformations[ name ] ) ) {
 				populateProperties( element );
 
@@ -919,12 +1004,14 @@
 	// TRANSFORMATIONS --------------------------------------------------------
 	//
 
+	// Apply giver transformations group to the element.
 	function applyTransformationsGroup( filter, element, group ) {
 		var i, rule;
 
 		for ( i = 0; i < group.length; ++i ) {
 			rule = group[ i ];
 
+			// Test with #check or #left only if it's set.
 			if ( ( !rule.check || filter.check( rule.check ) ) &&
 				( !rule.left || rule.left( element ) ) ) {
 				rule.right( element, transformationsTools );
@@ -933,6 +1020,10 @@
 		}
 	}
 
+	// Check whether element matches CKEDITOR.style.
+	// The element can be a "superset" of style,
+	// e.g. it may have more classes, but need to have
+	// at least those defined in style.
 	function elementMatchesStyle( element, style ) {
 		var def = style.getDefinition(),
 			defAttrs = def.attributes,
@@ -965,6 +1056,8 @@
 		return true;
 	}
 
+	// Return transformation group for content form.
+	// One content form makes one transformation rule in one group.
 	function getContentFormTransformationGroup( form, preferredForm ) {
 		var element, left;
 
@@ -987,6 +1080,8 @@
 		} ];
 	}
 
+	// Obtain element's name from transformation rule.
+	// It will be defined by #element, or #check or #left (styleDef.element).
 	function getElementNameForTransformation( rule, check ) {
 		if ( rule.element )
 			return rule.element;
@@ -997,7 +1092,7 @@
 
 	function getMatchStyleFn( style ) {
 		return function( el ) {
-			return transformationsTools.matchStyle( el, style );
+			return elementMatchesStyle( el, style );
 		};
 	}
 
@@ -1050,17 +1145,40 @@
 		};
 	}
 
-	var transformationsTools = {
+	/**
+	 * Singleton containing tools useful for transformations rules.
+	 *
+	 * @class CKEDITOR.filter.transformationsTools
+	 * @singleton
+	 */
+	var transformationsTools = CKEDITOR.filter.transformationsTools = {
+		/**
+		 * Convert `width` and `height` attributes to styles.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
 		sizeToStyle: function( element ) {
 			this.lengthToStyle( element, 'width' );
 			this.lengthToStyle( element, 'height' );
 		},
 
+		/**
+		 * Convert `width` and `height` styles to attributes.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
 		sizeToAttribute: function( element ) {
 			this.lengthToAttribute( element, 'width' );
 			this.lengthToAttribute( element, 'height' );
 		},
 
+		/**
+		 * Convert length in `attrName` attribute to a valid CSS length (like `width` or `height`).
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {String} attrName Name of an attribute that will be converted.
+		 * @param {String} [styleName=attrName] Name of a style into which attribute will be converted.
+		 */
 		lengthToStyle: function( element, attrName, styleName ) {
 			styleName = styleName || attrName;
 
@@ -1078,6 +1196,13 @@
 			delete element.attributes[ attrName ];
 		},
 
+		/**
+		 * Convert length in `styleName` style to a valid length attribute (like `width` or `height`).
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {String} styleName Name of a style that will be converted.
+		 * @param {String} [attrName=styleName] Name of an attribute into which style will be converted.
+		 */
 		lengthToAttribute: function( element, styleName, attrName ) {
 			attrName = attrName || styleName;
 
@@ -1092,8 +1217,26 @@
 			delete element.styles[ styleName ];
 		},
 
-		matchStyle: elementMatchesStyle,
+		/**
+		 * Check whether element matches given {@link CKEDITOR.style}.
+		 * The element can be a "superset" of style, e.g. it may have
+		 * more classes, but need to have at least those defined in style.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {CKEDITOR.style} style
+		 */
+		matchesStyle: elementMatchesStyle,
 
+		/*
+		 * Transform element to given form.
+		 *
+		 * Form may be a:
+		 * 	* {@link CKEDITOR.style},
+		 *	* string - the new name of an element,
+		 *
+		 * @param {CKEDITOR.htmlParser.element} el
+		 * @param {CKEDITOR.style/String} form
+		 */
 		transform: function( el, form ) {
 			if ( typeof form == 'string' )
 				el.name = form;
