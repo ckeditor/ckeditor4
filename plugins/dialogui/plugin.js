@@ -702,8 +702,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 					// Look for focus function in definition.
 					var focus = elementDefinition.focus;
 					if ( focus ) {
+						var oldFocus = this.focus;
 						this.focus = function() {
-							this.selectParentTab();
+							oldFocus.call( this );
 							typeof focus == 'function' && focus.call( this );
 							this.fire( 'focus' );
 						};
