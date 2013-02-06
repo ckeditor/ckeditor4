@@ -413,9 +413,10 @@
 		 * by this filter.
 		 *
 		 * @param {String/CKEDITOR.style} test
+		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
 		 * @returns {Boolean} Returns `true` if content is allowed.
 		 */
-		check: function( test ) {
+		check: function( test, applyTransformations ) {
 			if ( this.disabled )
 				return true;
 
@@ -438,7 +439,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.rules, false, toBeRemoved );
+			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -1012,7 +1013,8 @@
 			rule = group[ i ];
 
 			// Test with #check or #left only if it's set.
-			if ( ( !rule.check || filter.check( rule.check ) ) &&
+			// Do not apply transformations because that creates infinite loop.
+			if ( ( !rule.check || filter.check( rule.check, false ) ) &&
 				( !rule.left || rule.left( element ) ) ) {
 				rule.right( element, transformationsTools );
 				return; // Only first matching rule in a group is executed.
