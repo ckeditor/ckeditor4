@@ -1039,6 +1039,25 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					style: contents.style || 'width: 100%;'
 				}, pageHtml );
 
+			var contentMap = this._.contents[ contents.id ] = {},
+				cursor,
+				children = vbox.getChild(),
+				enabledFields = 0;
+
+			while ( ( cursor = children.shift() ) ) {
+				// Count all allowed fields.
+				if ( !cursor.notAllowed && cursor.type != 'hbox' && cursor.type != 'vbox' )
+					enabledFields++;
+
+				contentMap[ cursor.id ] = cursor;
+				if ( typeof( cursor.getChild ) == 'function' )
+					children.push.apply( children, cursor.getChild() );
+			}
+
+			// If all fields are disabled (because they are not allowed) hide this tab.
+			if ( !enabledFields )
+				contents.hidden = true;
+
 			// Create the HTML for the tab and the content block.
 			var page = CKEDITOR.dom.element.createFromHtml( pageHtml.join( '' ) );
 			page.setAttribute( 'role', 'tabpanel' );
@@ -1067,16 +1086,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			!contents.hidden && this._.pageCount++;
 			this._.lastTab = tab;
 			this.updateStyle();
-
-			var contentMap = this._.contents[ contents.id ] = {},
-				cursor,
-				children = vbox.getChild();
-
-			while ( ( cursor = children.shift() ) ) {
-				contentMap[ cursor.id ] = cursor;
-				if ( typeof( cursor.getChild ) == 'function' )
-					children.push.apply( children, cursor.getChild() );
-			}
 
 			// Attach the DOM nodes.
 
@@ -2195,8 +2204,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					i;
 
 				// TODO do not touch dialog's private parts.
-				if ( elementDefinition.requiredContent && !dialog._.editor.filter.check( elementDefinition.requiredContent ) )
+				if ( elementDefinition.requiredContent && !dialog._.editor.filter.check( elementDefinition.requiredContent ) ) {
 					styles.display = 'none';
+					this.notAllowed = true;
+				}
 
 				// Set the id, a unique id is required for getElement() to work.
 				attributes.id = domId;
