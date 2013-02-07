@@ -290,6 +290,7 @@
 							{
 							type: 'select',
 							id: 'selHeaders',
+							requiredContent: 'th',
 							'default': '',
 							label: editor.lang.table.headers,
 							items: [
@@ -324,6 +325,8 @@
 							{
 							type: 'text',
 							id: 'txtBorder',
+							requiredContent: 'table[border]',
+							// Avoid setting border which will then disappear.
 							'default': 1,
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
@@ -341,6 +344,7 @@
 							{
 							id: 'cmbAlign',
 							type: 'select',
+							requiredContent: 'table[align]',
 							'default': '',
 							label: editor.lang.common.align,
 							items: [
@@ -372,6 +376,7 @@
 								{
 								type: 'text',
 								id: 'txtWidth',
+								requiredContent: 'table{width}',
 								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
@@ -398,6 +403,7 @@
 								{
 								type: 'text',
 								id: 'txtHeight',
+								requiredContent: 'table{height}',
 								controlStyle: 'width:5em',
 								label: editor.lang.common.height,
 								title: editor.lang.common.cssLengthTooltip,
@@ -424,6 +430,7 @@
 							{
 							type: 'text',
 							id: 'txtCellSpace',
+							requiredContent: 'table[cellspacing]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellSpace,
 							'default': 1,
@@ -441,6 +448,7 @@
 							{
 							type: 'text',
 							id: 'txtCellPad',
+							requiredContent: 'table[cellpadding]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellPad,
 							'default': 1,
@@ -471,6 +479,7 @@
 						{
 						type: 'text',
 						id: 'txtCaption',
+						requiredContent: 'caption',
 						label: editor.lang.table.caption,
 						setup: function( selectedTable ) {
 							this.enable();
@@ -517,6 +526,7 @@
 						{
 						type: 'text',
 						id: 'txtSummary',
+						requiredContent: 'table[summary]',
 						label: editor.lang.table.summary,
 						setup: function( selectedTable ) {
 							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
