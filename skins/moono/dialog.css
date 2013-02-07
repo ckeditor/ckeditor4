@@ -650,14 +650,12 @@ a.cke_dialog_ui_button[style*="width"]
 	width: auto !important;
 }
 */
-/* The inner part of the button. */
-a.cke_dialog_ui_button_ok span,
-a.cke_dialog_ui_button_cancel span
+/* The inner part of the button (both in dialog tabs and dialog footer). */
+.cke_dialog_footer_buttons a.cke_dialog_ui_button span
 {
 	color: inherit;
 	font-size: 12px;
 	font-weight: bold;
-	text-shadow: 0 1px 0 #fff;
 	line-height: 20px;
 }
 
@@ -690,6 +688,13 @@ a.cke_dialog_ui_button_ok:hover
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88be14', endColorstr='#5d9c0a',GradientType=0 );
 }
 
+/* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
+a.cke_dialog_ui_button span
+{
+	text-shadow: 0 1px 0 #fff;
+}
+
+/* Text shadow used for inner part of OK dialog button in footer. */
 a.cke_dialog_ui_button_ok span
 {
 	text-shadow: 0 -1px 0 #55830c;
