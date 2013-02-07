@@ -1434,6 +1434,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			return CKEDITOR.dialog._.currentTop;
 		},
 
+		isTabEnabled: function( editor, dialogName, tabName ) {
+			var cfg = editor.config.removeDialogTabs;
+
+			return !( cfg && cfg.match( new RegExp( '(?:^|;)' + dialogName + ':' + tabName + '(?:$|;)', 'i' ) ) );
+		},
+
 		/**
 		 * The default OK button for dialogs. Fires the `ok` event and closes the dialog if the event succeeds.
 		 *
