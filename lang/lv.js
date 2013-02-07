@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -66,7 +66,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		cancel: 'Atcelt',
 		close: 'Aizvērt',
 		preview: 'Priekšskatījums',
-		resize: 'Resize', // MISSING
+		resize: 'Mērogot',
 		generalTab: 'Vispārīgi',
 		advancedTab: 'Izvērstais',
 		validateNumberFailed: 'Šī vērtība nav skaitlis',

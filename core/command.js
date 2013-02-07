@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -223,7 +223,7 @@ CKEDITOR.event.implementOn( CKEDITOR.command.prototype );
 /**
  * Fired when the command state changes.
  *
- *		command.on( 'state', function( e ) {
+ *		command.on( 'state', function() {
  *			// Alerts the new state.
  *			alert( this.state );
  *		} );

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -429,7 +429,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
 
 /**
  * Fired after the editor instance is resized through
- * the {@link CKEDITOR.editor#resize} method.
+ * the {@link CKEDITOR.editor#method-resize} method.
  *
  * @event resize
  */
@@ -447,12 +447,11 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  * @since 3.5.3
  * @event beforeSetMode
- * @param {String} newMode The name of the mode which is about to be set.
+ * @param {String} data The name of the mode which is about to be set.
  */
 
 /**
  * Fired after setting the editing mode. See also {@link #beforeSetMode} and {@link #beforeModeUnload}
  *
  * @event mode
- * @param {String} previousMode The previous mode of the editor.
  */

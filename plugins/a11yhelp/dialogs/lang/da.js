@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	title: 'Tilgængelighedsinstrukser',
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	contents: 'Onlinehjælp. For at lukke dette vindue klik ESC',
 	legend: [
 		{
 		name: 'Generelt',

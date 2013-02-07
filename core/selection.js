@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -178,8 +178,12 @@
 
 		/**
 		 * @event selectionChange
+		 *
 		 * @member CKEDITOR.editor
-		 * @todo
+ 		 * @param {CKEDITOR.editor} editor This editor instance.
+ 		 * @param data
+ 		 * @param {CKEDITOR.dom.selection} data.selection
+ 		 * @param {CKEDITOR.dom.elementPath} data.path
 		 */
 		editor.define( 'selectionChange', { errorProof:1 } );
 

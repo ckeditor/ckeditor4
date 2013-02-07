@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -1184,7 +1184,8 @@
  * @since 3.1
  * @event paste
  * @member CKEDITOR.editor
- * @param {Object} data
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
  * @param {String} data.type Type of data in `data.dataValue`. Usually `html` or `text`, but for listeners
  * with priority less than 6 it may be also `auto`, what means that content type hasn't been recognised yet
  * (this will be done by content type sniffer that listens with priority 6).
@@ -1197,5 +1198,6 @@
  * @private
  * @event pasteDialog
  * @member CKEDITOR.editor
- * @param {Function} [callback] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
  */

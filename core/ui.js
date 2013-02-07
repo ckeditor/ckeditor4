@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -141,7 +141,7 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  * Internal event fired when a new UI element is ready.
  *
  * @event ready
- * @param {Object} element The new element
+ * @param {Object} data The new element.
  */
 
 /**

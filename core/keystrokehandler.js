@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -149,4 +149,5 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * @param {Number} data.keyCode A number representing the key code (or combination).
  * It is the sum of the current key code and the {@link CKEDITOR#CTRL}, {@link CKEDITOR#SHIFT}
  * and {@link CKEDITOR#ALT} constants, if those are pressed.
+ * @param {CKEDITOR.editor} editor This editor instance.
  */

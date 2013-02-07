@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -214,6 +214,7 @@
  *
  * @event elementsPathUpdate
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.space The elementsPath container.
+ * @param {CKEDITOR.dom.element} data.space The elementsPath container.
  */

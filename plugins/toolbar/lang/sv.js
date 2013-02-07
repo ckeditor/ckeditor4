@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Redigera verktygsfält'
 });

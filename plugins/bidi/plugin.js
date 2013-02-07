@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -285,9 +285,9 @@
  * @event dirChanged
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} eventData
- * @param {CKEDITOR.dom.node} eventData.node The element that is being changed.
- * @param {String} eventData.dir The new direction.
+ * @param data
+ * @param {CKEDITOR.dom.node} data.node The element that is being changed.
+ * @param {String} data.dir The new direction.
  */
 
 /**
@@ -295,5 +295,6 @@
  *
  * @event contentDirChanged
  * @member CKEDITOR.editor
- * @param {String} eventData The direction in the current position.
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {String} data The direction in the current position.
  */

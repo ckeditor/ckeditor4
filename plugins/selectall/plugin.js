@@ -1,12 +1,12 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview The "showblocks" plugin. Enable it will make all block level
- *               elements being decorated with a border and the element name
- *               displayed on the left-right corner.
+ * @fileOverview The "selectall" plugin provides an editor command that
+ *               allows selecting the entire content of editable area.
+ *               This plugin also enables a toolbar button for the feature.
  */
 
 (function() {

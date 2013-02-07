@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -170,7 +170,8 @@
  *
  * @event autogrow
  * @member CKEDITOR.editor
- * @param {Object} data
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
  * @param {Number} data.currentHeight The current height of the editor (before resizing).
  * @param {Number} data.newHeight The new height of the editor (after resizing). It can be changed
  * to determine a different height value to be used instead.
