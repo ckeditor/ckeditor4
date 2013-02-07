@@ -33,7 +33,7 @@
 							style._name = styleName;
 							style._.enterMode = config.enterMode;
 							// Weight is used to sort stylesset later.
-							style._weight = i + style.type*1000;
+							style._weight = i + (style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3) *1000;
 
 							stylesList.push( style );
 						}
