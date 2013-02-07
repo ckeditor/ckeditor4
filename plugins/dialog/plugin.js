@@ -1024,6 +1024,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @param {Object} contents Content definition.
 		 */
 		addPage: function( contents ) {
+			if ( contents.requiredContent && !this._.editor.filter.check( contents.requiredContent ) )
+				return;
+
 			var pageHtml = [],
 				titleHtml = contents.label ? ' title="' + CKEDITOR.tools.htmlEncode( contents.label ) + '"' : '',
 				elements = contents.elements,
@@ -2190,6 +2193,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					domId = this.domId = attributes.id || CKEDITOR.tools.getNextId() + '_uiElement',
 					id = this.id = elementDefinition.id,
 					i;
+
+				// TODO do not touch dialog's private parts.
+				if ( elementDefinition.requiredContent && !dialog._.editor.filter.check( elementDefinition.requiredContent ) )
+					styles.display = 'none';
 
 				// Set the id, a unique id is required for getElement() to work.
 				attributes.id = domId;

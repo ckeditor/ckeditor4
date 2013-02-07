@@ -552,6 +552,7 @@
 							children: [
 								{
 								type: 'hbox',
+								requiredContent: 'img{width,height}',
 								widths: [ '50%', '50%' ],
 								children: [
 									{
@@ -700,6 +701,7 @@
 									{
 									type: 'text',
 									id: 'txtBorder',
+									requiredContent: 'img{border-width}',
 									width: '60px',
 									label: editor.lang.image.border,
 									'default': '',
@@ -742,6 +744,7 @@
 									{
 									type: 'text',
 									id: 'txtHSpace',
+									requiredContent: 'img{margin-left,margin-right}',
 									width: '60px',
 									label: editor.lang.image.hSpace,
 									'default': '',
@@ -792,6 +795,7 @@
 									{
 									type: 'text',
 									id: 'txtVSpace',
+									requiredContent: 'img{margin-top,margin-bottom}',
 									width: '60px',
 									label: editor.lang.image.vSpace,
 									'default': '',
@@ -840,6 +844,7 @@
 								},
 									{
 									id: 'cmbAlign',
+									requiredContent: 'img{float}',
 									type: 'select',
 									widths: [ '35%', '65%' ],
 									style: 'width:90px',
@@ -930,6 +935,7 @@
 				},
 					{
 					id: 'Link',
+					requiredContent: 'a[href]',
 					label: editor.lang.image.linkTab,
 					padding: 0,
 					elements: [
@@ -1030,6 +1036,7 @@
 							{
 							type: 'text',
 							id: 'linkId',
+							requiredContent: 'img[id]',
 							label: editor.lang.common.id,
 							setup: function( type, element ) {
 								if ( type == IMAGE )
@@ -1045,6 +1052,7 @@
 							{
 							id: 'cmbLangDir',
 							type: 'select',
+							requiredContent: 'img[dir]',
 							style: 'width : 100px;',
 							label: editor.lang.common.langDir,
 							'default': '',
@@ -1067,6 +1075,7 @@
 							{
 							type: 'text',
 							id: 'txtLangCode',
+							requiredContent: 'img[lang]',
 							label: editor.lang.common.langCode,
 							'default': '',
 							setup: function( type, element ) {
@@ -1085,6 +1094,7 @@
 						{
 						type: 'text',
 						id: 'txtGenLongDescr',
+						requiredContent: 'img[longdesc]',
 						label: editor.lang.common.longDescr,
 						setup: function( type, element ) {
 							if ( type == IMAGE )
@@ -1104,6 +1114,7 @@
 							{
 							type: 'text',
 							id: 'txtGenClass',
+							requiredContent: 'img(xyz)', // Random text like 'xyz' class will check if all are allowed.
 							label: editor.lang.common.cssClass,
 							'default': '',
 							setup: function( type, element ) {
@@ -1120,6 +1131,7 @@
 							{
 							type: 'text',
 							id: 'txtGenTitle',
+							requiredContent: 'img[title]',
 							label: editor.lang.common.advisoryTitle,
 							'default': '',
 							onChange: function() {
@@ -1145,6 +1157,7 @@
 						{
 						type: 'text',
 						id: 'txtdlgGenStyle',
+						requiredContent: 'img{xyz}', // Random text like 'xyz' class will check if all are allowed.
 						label: editor.lang.common.cssStyle,
 						validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 						'default': '',
