@@ -799,6 +799,7 @@
 		// parent will was also marked to be removed.
 		if ( checkChildren( children, 'p' ) ) {
 			element.name = 'p';
+			element.attributes = {};
 			return;
 		}
 
