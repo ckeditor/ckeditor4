@@ -32,12 +32,14 @@
 							style = styles[ styleName ] = new CKEDITOR.style( styleDefinition );
 							style._name = styleName;
 							style._.enterMode = config.enterMode;
+							// Weight is used to sort stylesset later.
+							style._weight = i + (style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3) *1000;
 
 							stylesList.push( style );
 						}
 
 						// Sorts the Array, so the styles get grouped by type.
-						stylesList.sort( sortStyles );
+						stylesList.sort( function( styleA, styleB ) { return styleB._weight - styleA._weight } );
 					}
 
 					callback && callback();
@@ -176,11 +178,4 @@
 			});
 		}
 	});
-
-	function sortStyles( styleA, styleB ) {
-		var typeA = styleA.type,
-			typeB = styleB.type;
-
-		return typeA == typeB ? 0 : typeA == CKEDITOR.STYLE_OBJECT ? -1 : typeB == CKEDITOR.STYLE_OBJECT ? 1 : typeB == CKEDITOR.STYLE_BLOCK ? 1 : -1;
-	}
 })();
