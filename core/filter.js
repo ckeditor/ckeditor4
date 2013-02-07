@@ -186,7 +186,8 @@
 
 			// Check elements that have been marked as invalid (e.g. li as child of body after ul has been removed).
 			while ( ( element = toBeChecked.pop() ) ) {
-				if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+				if ( element.parent &&
+					element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
 					!DTD[ element.parent.name ][ element.name ]
 				)
 					removeElement( element, toBeChecked );
