@@ -1114,7 +1114,7 @@
 							{
 							type: 'text',
 							id: 'txtGenClass',
-							requiredContent: 'img(xyz)', // Random text like 'xyz' class will check if all are allowed.
+							requiredContent: 'img(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 							label: editor.lang.common.cssClass,
 							'default': '',
 							setup: function( type, element ) {
@@ -1157,7 +1157,7 @@
 						{
 						type: 'text',
 						id: 'txtdlgGenStyle',
-						requiredContent: 'img{xyz}', // Random text like 'xyz' class will check if all are allowed.
+						requiredContent: 'img{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssStyle,
 						validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 						'default': '',

@@ -650,6 +650,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 		},
 			{
 			id: 'target',
+			requiredContent: 'a[target]', // This is not fully correct, because some target option requires JS.
 			label: linkLang.target,
 			title: linkLang.target,
 			elements: [
@@ -892,6 +893,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						id: 'advId',
+						requiredContent: 'a[id]',
 						label: linkLang.id,
 						setup: setupAdvParams,
 						commit: commitAdvParams
@@ -899,6 +901,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'select',
 						id: 'advLangDir',
+						requiredContent: 'a[dir]',
 						label: linkLang.langDir,
 						'default': '',
 						style: 'width:110px',
@@ -913,6 +916,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						id: 'advAccessKey',
+						requiredContent: 'a[accesskey]',
 						width: '80px',
 						label: linkLang.acccessKey,
 						maxLength: 1,
@@ -930,6 +934,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						label: linkLang.name,
 						id: 'advName',
+						requiredContent: 'a[name]',
 						setup: setupAdvParams,
 						commit: commitAdvParams
 
@@ -938,6 +943,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						label: linkLang.langCode,
 						id: 'advLangCode',
+						requiredContent: 'a[lang]',
 						width: '110px',
 						'default': '',
 						setup: setupAdvParams,
@@ -948,6 +954,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						type: 'text',
 						label: linkLang.tabIndex,
 						id: 'advTabIndex',
+						requiredContent: 'a[tabindex]',
 						width: '80px',
 						maxLength: 5,
 						setup: setupAdvParams,
@@ -969,6 +976,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.advisoryTitle,
+						requiredContent: 'a[title]',
 						'default': '',
 						id: 'advTitle',
 						setup: setupAdvParams,
@@ -978,6 +986,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.advisoryContentType,
+						requiredContent: 'a[type]',
 						'default': '',
 						id: 'advContentType',
 						setup: setupAdvParams,
@@ -993,6 +1002,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.cssClasses,
+						requiredContent: 'a(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						'default': '',
 						id: 'advCSSClasses',
 						setup: setupAdvParams,
@@ -1002,6 +1012,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.charset,
+						requiredContent: 'a[charset]',
 						'default': '',
 						id: 'advCharset',
 						setup: setupAdvParams,
@@ -1017,6 +1028,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.rel,
+						requiredContent: 'a[rel]',
 						'default': '',
 						id: 'advRel',
 						setup: setupAdvParams,
@@ -1025,6 +1037,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						{
 						type: 'text',
 						label: linkLang.styles,
+						requiredContent: 'a{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 						'default': '',
 						id: 'advStyles',
 						validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
