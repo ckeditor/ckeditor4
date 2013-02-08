@@ -9,6 +9,7 @@ CKEditor 4 Changelog
 * [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when editor.readOnly is set.
 * [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on getData() if set via docprops dialog.
 * [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with select fields in Kama.
+* [#9851](http://dev.ckeditor.com/ticket/9851): SelectionChange isn't fired when mouse selection finished outside editable.
 
 ## CKEditor 4.0.1
 
