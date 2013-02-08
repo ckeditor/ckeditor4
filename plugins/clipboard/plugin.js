@@ -477,7 +477,10 @@
 				!preventBeforePasteEvent && fixCut( editor );
 			});
 
-			editable.on( 'mouseup', function() {
+			// Use editor.document instead of editable in non-IEs for observing mouseup
+			// since editable won't fire the event if selection process started within
+			// iframe and ended out of the editor (#9851).
+			( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement() ).on( 'mouseup', function() {
 				setTimeout( function() {
 					setToolbarStates();
 				}, 0 );
