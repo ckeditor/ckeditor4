@@ -8,6 +8,7 @@ CKEditor 4 Changelog
 * [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.
 * [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when editor.readOnly is set.
 * [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on getData() if set via docprops dialog.
+* [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with select fields in Kama.
 
 ## CKEditor 4.0.1
 
