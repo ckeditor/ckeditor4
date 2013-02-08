@@ -11,6 +11,7 @@ CKEditor 4 Changelog
 * [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with select fields in Kama.
 * [#9851](http://dev.ckeditor.com/ticket/9851): SelectionChange isn't fired when mouse selection finished outside editable.
 * [#9903](http://dev.ckeditor.com/ticket/9903): [Inline editor] Bad positioning of floating space with page h-scroll.
+* [#9872](http://dev.ckeditor.com/ticket/9872): Editor.checkDirty() returns true when called onload. Removed obsolete editor.mayBeDirty flag.
 
 ## CKEditor 4.0.1
 

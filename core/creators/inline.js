@@ -36,6 +36,9 @@
 		// data retrieval possible immediately after the editor creation.
 		editor.setData( element.getHtml(), null, true );
 
+		// Clean during initialization.
+		editor.resetDirty();
+
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			editor.fire( 'uiReady' );
@@ -49,6 +52,9 @@
 			// Load and process editor data.
 			editor.setData( editor.getData( 1 ) );
 
+			// Clean on startup.
+			editor.resetDirty();
+
 			editor.fire( 'contentDom' );
 			// Inline editing defaults to "wysiwyg" mode, so plugins don't
 			// need to make special handling for this "mode-less" environment.
@@ -58,9 +64,6 @@
 			// The editor is completely loaded for interaction.
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
-
-			// Clean on startup.
-			editor.resetDirty();
 
 			// give priority to plugins that relay on editor#loaded for bootstrapping.
 		}, null, null, 10000 );
