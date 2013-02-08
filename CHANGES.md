@@ -7,6 +7,7 @@ CKEditor 4 Changelog
 * [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
 * [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.
 * [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when editor.readOnly is set.
+* [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on getData() if set via docprops dialog.
 
 ## CKEditor 4.0.1
 
