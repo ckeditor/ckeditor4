@@ -205,7 +205,7 @@
 			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
 				checkMouseTimeoutPending = true;
 
-				if ( editor.mode != 'wysiwyg' || checkMouseTimer )
+				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer )
 					return;
 
 				// IE<9 requires this event-driven object to be created
