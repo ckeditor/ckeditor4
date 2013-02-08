@@ -218,14 +218,18 @@
 					// |   +-------------------------------+
 					// |              +------- Editor -+   |
 					// |              |                |   |
-					//							
+					//
 					if ( offset + spaceRect.width > viewRect.width ) {
 						alignSide = alignSide == 'left' ? 'right' : 'left';
 						offset = 0;
 					}
 				}
 
-				floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + ( mode == 'pin' ? 0 : pageScrollX ) ) );
+				// Pin mode is fixed, so don't include scroll-x.
+				// (#9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
+				var scroll = mode == 'pin' ? 0 : alignSide == 'left' ? pageScrollX : -pageScrollX;
+
+				floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + scroll ) );
 			};
 
 		var body = CKEDITOR.document.getBody();
