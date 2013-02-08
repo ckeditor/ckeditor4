@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.0.2
 
 * [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
+* [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
 
 
 ## CKEditor 4.0.1
