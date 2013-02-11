@@ -52,6 +52,12 @@ in Quirks mode only.
 	vertical-align: top;
 }
 
+/* Otherwise formatting toolbar breaks when editing a mixed content (#9893). */
+.cke_rtl .cke_button_icon
+{
+	float: none;
+}
+
 .cke_resizer
 {
 	width: 10px;
