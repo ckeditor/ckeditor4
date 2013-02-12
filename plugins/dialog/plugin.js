@@ -1434,6 +1434,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			return CKEDITOR.dialog._.currentTop;
 		},
 
+		/**
+		 * Check whether tab wasn't removed by {@link CKEDITOR.config#removeDialogTabs}.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 * @param {String} dialogName
+		 * @param {String} tabName
+		 * @returns {Boolean}
+		 */
 		isTabEnabled: function( editor, dialogName, tabName ) {
 			var cfg = editor.config.removeDialogTabs;
 
