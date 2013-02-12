@@ -704,10 +704,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					if ( focus ) {
 						var oldFocus = this.focus;
 						this.focus = function() {
-							if ( typeof focus == 'function' )
-								focus.call( this );
-							else
-								oldFocus.call( this );
+							( typeof focus == 'function' ? focus : oldFocus ).call( this );
 							this.fire( 'focus' );
 						};
 						if ( elementDefinition.isFocusable ) {
