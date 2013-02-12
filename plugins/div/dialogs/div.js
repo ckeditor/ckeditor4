@@ -275,6 +275,7 @@
 						{
 						id: 'class',
 						type: 'text',
+						requiredContent: 'div(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						'default': ''
 					}
@@ -298,12 +299,14 @@
 							{
 							type: 'text',
 							id: 'id',
+							requiredContent: 'div[id]',
 							label: editor.lang.common.id,
 							'default': ''
 						},
 							{
 							type: 'text',
 							id: 'lang',
+							requiredContent: 'div[lang]',
 							label: editor.lang.common.langCode,
 							'default': ''
 						}
@@ -315,6 +318,7 @@
 							{
 							type: 'text',
 							id: 'style',
+							requiredContent: 'div{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 							style: 'width: 100%;',
 							label: editor.lang.common.cssStyle,
 							'default': '',
@@ -330,6 +334,7 @@
 							{
 							type: 'text',
 							id: 'title',
+							requiredContent: 'div[title]',
 							style: 'width: 100%;',
 							label: editor.lang.common.advisoryTitle,
 							'default': ''
@@ -339,6 +344,7 @@
 						{
 						type: 'select',
 						id: 'dir',
+						requiredContent: 'div[dir]',
 						style: 'width: 100%;',
 						label: editor.lang.common.langDir,
 						'default': '',
@@ -368,7 +374,7 @@
 
 				// Reuse the 'stylescombo' plugin's styles definition.
 				editor.getStylesSet( function( stylesDefinitions ) {
-					var styleName;
+					var styleName, style;
 
 					if ( stylesDefinitions ) {
 						// Digg only those styles that apply to 'div'.
@@ -376,11 +382,13 @@
 							var styleDefinition = stylesDefinitions[ i ];
 							if ( styleDefinition.element && styleDefinition.element == 'div' ) {
 								styleName = styleDefinition.name;
-								styles[ styleName ] = new CKEDITOR.style( styleDefinition );
+								styles[ styleName ] = style = new CKEDITOR.style( styleDefinition );
 
-								// Populate the styles field options with style name.
-								stylesField.items.push( [ styleName, styleName ] );
-								stylesField.add( styleName, styleName );
+								if ( editor.filter.check( style ) ) {
+									// Populate the styles field options with style name.
+									stylesField.items.push( [ styleName, styleName ] );
+									stylesField.add( styleName, styleName );
+								}
 							}
 						}
 					}
