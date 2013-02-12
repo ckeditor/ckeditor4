@@ -13,6 +13,7 @@ CKEditor 4 Changelog
 * [#9903](http://dev.ckeditor.com/ticket/9903): [Inline editor] Bad positioning of floating space with page h-scroll.
 * [#9872](http://dev.ckeditor.com/ticket/9872): Editor.checkDirty() returns true when called onload. Removed obsolete editor.mayBeDirty flag.
 * [#9893](http://dev.ckeditor.com/ticket/9893): Fixed broken toolbar when editing mixed-dir content in quirks mode.
+* [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog and the Anchors option is used and no anchors are available.
 
 ## CKEditor 4.0.1
 
