@@ -542,7 +542,7 @@
 				}
 				]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor )
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
 				]
 		};
 	}

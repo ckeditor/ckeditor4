@@ -211,7 +211,7 @@
 				}
 				]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 } )
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 }, 'iframe' )
 				]
 		};
 	});
