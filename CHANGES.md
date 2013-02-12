@@ -14,6 +14,7 @@ CKEditor 4 Changelog
 * [#9872](http://dev.ckeditor.com/ticket/9872): Editor.checkDirty() returns true when called onload. Removed obsolete editor.mayBeDirty flag.
 * [#9893](http://dev.ckeditor.com/ticket/9893): Fixed broken toolbar when editing mixed-dir content in quirks mode.
 * [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog and the Anchors option is used and no anchors are available.
+* [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea based editors.
 
 ## CKEditor 4.0.1
 
