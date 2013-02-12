@@ -8,8 +8,6 @@
 
 	var DTD = CKEDITOR.dtd,
 		copy = CKEDITOR.tools.copy,
-		indexOf = CKEDITOR.tools.indexOf,
-		parseCssText = CKEDITOR.tools.parseCssText,
 		trim = CKEDITOR.tools.trim;
 
 	/**
@@ -71,7 +69,8 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			this.allow( defaultAllowedContent, 1 );
+			// Add editor's default rules.
+			this.allow( 'p br', 1 );
 			this.allow( allowedContent, 1 );
 
 			//
@@ -455,7 +454,7 @@
 
 			// Parse classes and styles if that hasn't been done by filter#check yet.
 			if ( !element.styles )
-				element.styles = parseCssText( element.attributes.style || '', 1 );
+				element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
 			if ( !element.classes )
 				element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
 
@@ -720,7 +719,7 @@
 			case 'string':
 				var arr = trim( validator ).split( /\s*,\s*/ );
 				return function( value ) {
-					return indexOf( arr, value ) > -1;
+					return CKEDITOR.tools.indexOf( arr, value ) > -1;
 				};
 			case 'regexp':
 				return function( value ) {
@@ -728,7 +727,7 @@
 				};
 			case 'array':
 				return function( value ) {
-					return indexOf( validator, value ) > -1;
+					return CKEDITOR.tools.indexOf( validator, value ) > -1;
 				};
 			case 'object':
 				return function( value ) {
@@ -736,9 +735,6 @@
 				};
 		}
 	}
-
-	// Default editor's rules.
-	var defaultAllowedContent = 'p br';
 
 	//
 	// REMOVE ELEMENT ---------------------------------------------------------
@@ -805,7 +801,6 @@
 		}
 
 		var parent = element.parent,
-			parentDtd = DTD[ parent.name ],
 			shouldAutoP = parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT || parent.name == 'body',
 			i, j, child, p, node,
 			toBeRemoved = [];
