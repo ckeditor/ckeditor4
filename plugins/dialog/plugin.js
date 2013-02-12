@@ -2209,8 +2209,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					id = this.id = elementDefinition.id,
 					i;
 
-				// TODO do not touch dialog's private parts.
-				if ( elementDefinition.requiredContent && !dialog._.editor.filter.check( elementDefinition.requiredContent ) ) {
+				if ( elementDefinition.requiredContent && !dialog.getParentEditor().filter.check( elementDefinition.requiredContent ) ) {
 					styles.display = 'none';
 					this.notAllowed = true;
 				}
