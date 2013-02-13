@@ -131,7 +131,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 			styles: 'page-break-after'
 		},
 		span: {
-			validate: function( element ) {
+			match: function( element ) {
 				var parent = element.parent;
 				return parent && parent.name == 'div' && parent.styles[ 'page-break-after' ];
 			},
