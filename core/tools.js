@@ -919,6 +919,23 @@
 			}
 
 			return true;
+		},
+
+		/**
+		 * Return array of passed object's keys.
+		 *
+		 *		console.log( CKEDITOR.tools.objectKeys( { foo: 1, bar: false } );
+		 *		// -> [ 'foo', 'bar' ]
+		 *
+		 * @param {Object} obj
+		 * @returns {Array} Object's keys.
+		 */
+		objectKeys: function( obj ) {
+			var keys = [];
+			for ( var i in obj )
+				keys.push( i );
+
+			return keys;
 		}
 	};
 })();

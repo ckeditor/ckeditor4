@@ -534,13 +534,17 @@
 			attrs = styleDef.attributes;
 
 		rules[ styleDef.element ] = rule = {
-			styles: styleDef.styles
+			styles: styleDef.styles,
+			requiredStyles: styleDef.styles && CKEDITOR.tools.objectKeys( styleDef.styles )
 		};
 
 		if ( attrs ) {
 			attrs = copy( attrs );
-			rule.classes = attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null
+			rule.classes = attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null;
+			rule.requiredClasses = rule.classes;
+			delete attrs[ 'class' ];
 			rule.attributes = attrs;
+			rule.requiredAttributes = attrs && CKEDITOR.tools.objectKeys( attrs );
 		}
 
 		return rules;
