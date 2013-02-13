@@ -1,6 +1,23 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.0.2
+
+* [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
+* [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
+* [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.
+* [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when editor.readOnly is set.
+* [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on getData() if set via docprops dialog.
+* [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with select fields in Kama.
+* [#9851](http://dev.ckeditor.com/ticket/9851): SelectionChange isn't fired when mouse selection finished outside editable.
+* [#9903](http://dev.ckeditor.com/ticket/9903): [Inline editor] Bad positioning of floating space with page h-scroll.
+* [#9872](http://dev.ckeditor.com/ticket/9872): Editor.checkDirty() returns true when called onload. Removed obsolete editor.mayBeDirty flag.
+* [#9893](http://dev.ckeditor.com/ticket/9893): Fixed broken toolbar when editing mixed-dir content in quirks mode.
+* [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog and the Anchors option is used and no anchors are available.
+* [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea based editors.
+* [#9940](http://dev.ckeditor.com/ticket/9940): With Firefox, navigating back to a page with the editor was making the entire page editable.
+* [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
+
 ## CKEditor 4.0.1
 
 Fixed issues:

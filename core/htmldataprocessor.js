@@ -565,7 +565,12 @@
 
 			title: function( element ) {
 				var titleText = element.children[ 0 ];
-				titleText && ( titleText.value = element.attributes[ 'data-cke-title' ] || '' );
+
+				// Append text-node to title tag if not present (i.e. non-IEs) (#9882).
+				!titleText && append( element, titleText = new CKEDITOR.htmlParser.text() );
+
+				// Transfer data-saved title to title tag.
+				titleText.value = element.attributes[ 'data-cke-title' ] || '';
 			}
 		},
 

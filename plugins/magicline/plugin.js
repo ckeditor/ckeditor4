@@ -205,7 +205,7 @@
 			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
 				checkMouseTimeoutPending = true;
 
-				if ( editor.mode != 'wysiwyg' || checkMouseTimer )
+				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer )
 					return;
 
 				// IE<9 requires this event-driven object to be created
@@ -1693,10 +1693,10 @@
  *		// Changes keystroke to CTRL + ,
  *		CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + 188;
  *
- * @cfg {Number} [magicline_keystrokePrevious=CKEDITOR.CTRL + CKEDITOR.ALT + 219 (CTRL + ALT + [)]
+ * @cfg {Number} [magicline_keystrokePrevious=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.ALT + 219; // CTRL + ALT + [
+CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
 
 /**
  * Defines default keystroke that access the closest unreachable focus space **after**
@@ -1705,10 +1705,10 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.ALT + 219
  *		// Changes keystroke to CTRL + .
  *		CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + 190;
  *
- * @cfg {Number} [magicline_keystrokeNext=CKEDITOR.CTRL + CKEDITOR.ALT + 221 (CTRL + ALT + ])]
+ * @cfg {Number} [magicline_keystrokeNext=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRL + SHIFT + ])]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.ALT + 221; // CTRL + ALT + ]
+CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
 
 /**
  * Defines box color. The color may be adjusted to enhance readability.

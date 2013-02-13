@@ -459,9 +459,8 @@ a.cke_dialog_ui_button
 	display: inline-block;
 }
 
-/* The inner part of the button. */
-a.cke_dialog_ui_button_ok span,
-a.cke_dialog_ui_button_cancel span
+/* The inner part of the button (dialog footer buttons only). */
+.cke_dialog_footer_buttons a.cke_dialog_ui_button span
 {
 	width: 60px;
 	padding: 5px 20px 5px;
@@ -550,7 +549,7 @@ a.cke_dialog_ui_button:active
 /*
 Styles for other dialog element types.
 */
-.cke_dialog_ui_input_select
+select.cke_dialog_ui_input_select
 {
 	border: 1px solid #a0a0a0;
 	background-color: white;

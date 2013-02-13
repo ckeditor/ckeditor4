@@ -381,8 +381,12 @@
 				});
 			}
 			// In all other cases listen on simple mouseup over editable, as we did before #9699.
+			//
+			// Use document instead of editable in non-IEs for observing mouseup
+			// since editable won't fire the event if selection process started within iframe and ended out
+			// of the editor (#9851).
 			else
-				editable.attachListener( editable, 'mouseup', checkSelectionChangeTimeout, editor );
+				editable.attachListener( CKEDITOR.env.ie ? editable : doc.getDocumentElement(), 'mouseup', checkSelectionChangeTimeout, editor );
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.

@@ -69,6 +69,9 @@
 	}
 
 	function refreshCursor( editor ) {
+		if ( editor.editable().isInline() )
+			return;
+
 		// Refresh all editor instances on the page (#5724).
 		var all = CKEDITOR.instances;
 		for ( var i in all ) {
