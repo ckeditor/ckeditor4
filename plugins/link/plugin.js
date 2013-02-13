@@ -50,11 +50,11 @@ CKEDITOR.plugins.add( 'link', {
 	init: function( editor ) {
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
-			allowedContent: 'a[accesskey,charset,dir,href,id,lang,name,rel,tabindex,target,title,type](*){*}',
+			allowedContent: 'a[accesskey,charset,dir,!href,id,lang,name,rel,tabindex,target,title,type](*){*}',
 			requiredContent: 'a[href]'
 		} ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
-			allowedContent: 'a[name]',
+			allowedContent: 'a[!name]',
 			requiredContent: 'a[name]'
 		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );

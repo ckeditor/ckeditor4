@@ -62,10 +62,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.replace( 'editor2', {
 	allowedContent:
 		'h1 h2 h3 p blockquote strong em;' +
-		'a[href];' +
-		'img(left,right)[src,alt,width,height];' +
+		'a[!href];' +
+		'img(left,right)[!src,alt,width,height];' +
 		'table tr th td caption;' +
-		'span{font-family,color}'
+		'span{!font-family};' +'
+		'span{!color}'
 } );
 </pre>
 		</div>
@@ -77,10 +78,11 @@ CKEDITOR.replace( 'editor2', {
 			CKEDITOR.replace( 'editor2', {
 				allowedContent:
 					'h1 h2 h3 p blockquote strong em;' +
-					'a[href];' +
-					'img(left,right)[src,alt,width,height];' +
+					'a[!href];' +
+					'img(left,right)[!src,alt,width,height];' +
 					'table tr th td caption;' +
-					'span{font-family,color}'
+					'span{!font-family};' +
+					'span{!color}'
 			} );
 
 		</script>
@@ -103,9 +105,9 @@ CKEDITOR.replace( 'editor3', {
 		'h1 h2 h3 p blockquote li': {
 			styles: 'text-align'
 		},
-		a: { attributes: 'href,target' },
+		a: { attributes: '!href,target' },
 		img: {
-			attributes: 'src,alt',
+			attributes: '!src,alt',
 			styles: 'width,height',
 			classes: 'left,right'
 		}
@@ -124,9 +126,9 @@ CKEDITOR.replace( 'editor3', {
 					'h1 h2 h3 p blockquote li': {
 						styles: 'text-align'
 					},
-					a: { attributes: 'href,target' },
+					a: { attributes: '!href,target' },
 					img: {
-						attributes: 'src,alt',
+						attributes: '!src,alt',
 						styles: 'width,height',
 						classes: 'left,right'
 					}
