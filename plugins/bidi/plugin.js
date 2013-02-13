@@ -125,6 +125,13 @@
 		return {
 			// It applies to a "block-like" context.
 			context: 'p',
+			allowedContent: {
+				'h1 h2 h3 h4 h5 h6 table ul ol blockquote div tr p div li td': {
+					propertiesOnly: true,
+					attributes: 'dir'
+				}
+			},
+			requiredContent: 'p[dir]',
 			refresh: function( editor, path ) {
 				setToolbarStates( editor, path );
 				handleMixedDirContent( editor, path );

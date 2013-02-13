@@ -304,6 +304,26 @@
 				return true;
 			} else
 				return false;
+		},
+
+		/**
+		 * Returns this button if it is a feature,
+		 * or command if is bound.
+		 *
+		 * @param {CKEDITOR.editor} Editor instance.
+		 * @returns {CKEDITOR.ui.button/CKEDITOR.command} The feature.
+		 */
+		toFeature: function( editor ) {
+			if ( this._.feature )
+				return this._.feature;
+
+			var feature = this;
+
+			// If button isn't a feature, return command if is bound.
+			if ( !this.allowedContent && !this.requiredContent && this.command )
+				feature = editor.getCommand( this.command ) || feature;
+
+			return this._.feature = feature;
 		}
 	};
 

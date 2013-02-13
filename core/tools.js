@@ -92,7 +92,7 @@
 				clone = [];
 
 				for ( var i = 0; i < obj.length; i++ )
-					clone[ i ] = this.clone( obj[ i ] );
+					clone[ i ] = CKEDITOR.tools.clone( obj[ i ] );
 
 				return clone;
 			}
@@ -107,7 +107,7 @@
 
 			for ( var propertyName in obj ) {
 				var property = obj[ propertyName ];
-				clone[ propertyName ] = this.clone( property );
+				clone[ propertyName ] = CKEDITOR.tools.clone( property );
 			}
 
 			return clone;
@@ -192,6 +192,24 @@
 			var copy = function() {};
 			copy.prototype = source;
 			return new copy();
+		},
+
+		/**
+		 * Make fast (shallow) copy of an object.
+		 * This method is faster than {@link #clone} which does
+		 * deep copy of an object (including arrays).
+		 *
+		 * @param {Object} source The object to be copied.
+		 * @returns {Object} Copy of `source`.
+		 */
+		copy: function( source ) {
+			var obj = {},
+				name;
+
+			for ( name in source )
+				obj[ name ] = source[ name ];
+
+			return obj;
 		},
 
 		/**
@@ -796,6 +814,7 @@
 
 		/**
 		 * Find and convert `rgb(x,x,x)` colors definition to hexadecimal notation.
+		 *
 		 * @param {String} styleText The style data (or just a string containing rgb colors) to be converted.
 		 * @returns {String} The style data with rgb colors converted to hexadecimal equivalents.
 		 */
@@ -816,7 +835,7 @@
 		 * @param {Boolean} [normalize=false] Normalize properties and values
 		 * (e.g. trim spaces, convert to lower case).
 		 * @param {Boolean} [nativeNormalize=false] Parse the data using the browser.
-		 * @returns {String} The object containing parsed properties.
+		 * @returns {Object} The object containing parsed properties.
 		 */
 		parseCssText: function( styleText, normalize, nativeNormalize ) {
 			var retval = {};
@@ -846,6 +865,60 @@
 				retval[ name ] = value;
 			});
 			return retval;
+		},
+
+		/**
+		 * Serialize `style name => value` hash to a style text.
+		 *
+		 *		var styleObj = CKEDITOR.tools.parseCssText( 'color: red; border: none' );
+		 *		console.log( styleObj.color ); // -> 'red'
+		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
+		 *
+		 * @param {Object} styles The object contaning style properties.
+		 * @returns {String} The serialized style text.
+		 */
+		writeCssText: function( styles ) {
+			var name,
+				stylesArr = [];
+
+			for ( name in styles )
+				stylesArr.push( name + ':' + styles[ name ] );
+
+			return stylesArr.join( '; ' );
+		},
+
+		/**
+		 * Compare two objects.
+		 *
+		 * **Note:** This method performs shallow, non-strict comparison.
+		 *
+		 * @param {Object} left
+		 * @param {Object} right
+		 * @param {Boolean} [onlyLeft] Check only these properties which are present in `left` object.
+		 * @returns {Boolean} Whether objects are identical.
+		 */
+		objectCompare: function( left, right, onlyLeft ) {
+			var name;
+
+			if ( !left && !right )
+				return true;
+			if ( !left || !right )
+				return false;
+
+			for ( name in left ) {
+				if ( left[ name ] != right[ name ] ) {
+					return false;
+				}
+			}
+
+			if ( !onlyLeft ) {
+				for ( name in right ) {
+					if ( left[ name ] != right[ name ] )
+						return false;
+				}
+			}
+
+			return true;
 		}
 	};
 })();

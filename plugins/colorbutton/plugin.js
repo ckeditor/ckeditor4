@@ -24,13 +24,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function addButton( name, type, title, order ) {
-			var colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
 				modes: { wysiwyg:1 },
 				editorFocus: 1,
 				toolbar: 'colors,' + order,
+				allowedContent: style,
+				requiredContent: style,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),

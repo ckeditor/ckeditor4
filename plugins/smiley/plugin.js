@@ -9,7 +9,10 @@ CKEDITOR.plugins.add( 'smiley', {
 	icons: 'smiley', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		editor.config.smiley_path = editor.config.smiley_path || ( this.path + 'images/' );
-		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley' ) );
+		editor.addCommand( 'smiley', new CKEDITOR.dialogCommand( 'smiley', {
+			allowedContent: 'img[alt,height,src,title,width]',
+			requiredContent: 'img'
+		} ) );
 		editor.ui.addButton && editor.ui.addButton( 'Smiley', {
 			label: editor.lang.smiley.toolbar,
 			command: 'smiley',

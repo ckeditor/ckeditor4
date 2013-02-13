@@ -368,6 +368,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			html.push( '>', ( label || styleDefinition.name ), '</', elementName, '>' );
 
 			return html.join( '' );
+		},
+
+		getDefinition: function() {
+			return this._.definition;
 		}
 	};
 
@@ -1407,6 +1411,9 @@ CKEDITOR.STYLE_OBJECT = 3;
  */
 CKEDITOR.styleCommand = function( style ) {
 	this.style = style;
+	// TODO shouldn't we create content def only when explicitly requested (by argument)?
+	this.allowedContent = style;
+	this.requiredContent = style;
 };
 
 /**

@@ -20,6 +20,8 @@
 			var lang = editor.lang.div;
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
+				allowedContent: 'div(*)[dir,id,lang,title]{*}',
+				requiredContent: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {
 					var context = editor.config.div_wrapTable ? path.root : path.blockLimit;
@@ -27,8 +29,9 @@
 				}
 			}));
 
-			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ) );
+			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv', { requiredContent: 'div' } ) );
 			editor.addCommand( 'removediv', {
+				requiredContent: 'div',
 				exec: function( editor ) {
 					var selection = editor.getSelection(),
 						ranges = selection && selection.getRanges(),

@@ -222,7 +222,10 @@
 			this.setState( editor.elementPath( firstBlock ).contains( 'blockquote', 1 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		},
 
-		context: 'blockquote'
+		context: 'blockquote',
+
+		allowedContent: 'blockquote',
+		requiredContent: 'blockquote'
 	};
 
 	CKEDITOR.plugins.add( 'blockquote', {

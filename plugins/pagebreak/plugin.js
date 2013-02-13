@@ -68,7 +68,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 					'class': function( value, element ) {
 						var className = value.replace( 'cke_pagebreak', '' );
 						if ( className != value ) {
-							var span = CKEDITOR.htmlParser.fragment.fromHtml( '<span style="display: none;">&nbsp;</span>' );
+							var span = CKEDITOR.htmlParser.fragment.fromHtml( '<span style="display: none;">&nbsp;</span>' ).children[ 0 ];
 							element.children.length = 0;
 							element.add( span );
 							var attrs = element.attributes;
@@ -125,5 +125,18 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 		editor.insertElement( pagebreak );
 	},
-	context: 'div'
+	context: 'div',
+	allowedContent: {
+		div: {
+			styles: 'page-break-after'
+		},
+		span: {
+			validate: function( element ) {
+				var parent = element.parent;
+				return parent && parent.name == 'div' && parent.styles[ 'page-break-after' ];
+			},
+			styles: 'display'
+		}
+	},
+	requiredContent: 'div{page-break-after}'
 };

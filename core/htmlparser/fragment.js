@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+'use strict';
+
 /**
  * A lightweight representation of an HTML DOM structure.
  *
@@ -500,8 +502,9 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * instance of filter.
 		 *
 		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
-		filterChildren: function( filter ) {
+		filterChildren: function( filter, filterRoot ) {
 			// If this element's children were already filtered
 			// by current filter, don't filter them 2nd time.
 			// This situation may occur when filtering bottom-up
@@ -510,6 +513,10 @@ CKEDITOR.htmlParser.fragment = function() {
 			// is manipulating DOM structure.
 			if ( this.childrenFilteredBy == filter.id )
 				return;
+
+			// Filtering root if enforced.
+			if ( filterRoot && !this.parent )
+				filter.onRoot( this );
 
 			this.childrenFilteredBy = filter.id;
 
@@ -557,6 +564,44 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
 				children[ i ].writeHtml( writer );
+		},
+
+		/**
+		 * Execute callback on each node (of given type) in this document fragment.
+		 *
+		 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>foo<b>bar</b>bom</p>' );
+		 *		fragment.forEach( function( node ) {
+		 *			console.log( node );
+		 *		} );
+		 *		// Will log:
+		 *		// 1. document fragment,
+		 *		// 2. <p> element,
+		 *		// 3. "foo" text node,
+		 *		// 4. <b> element,
+		 *		// 5. "bar" text node,
+		 *		// 6. "bom" text node.
+		 *
+		 * @param {Function} callback Function to be executed on every node.
+		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
+		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
+		 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
+		 */
+		forEach: function( callback, type, skipRoot ) {
+			if ( !skipRoot && ( !type || this.type == type ) )
+				callback( this );
+
+			var children = this.children,
+				node,
+				i = 0,
+				l = children.length;
+
+			for ( ; i < l; i++ ) {
+				node = children[ i ];
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					node.forEach( callback, type );
+				else if ( !type || node.type == type )
+					callback( node );
+			}
 		}
 	};
 })();

@@ -11,6 +11,17 @@ CKEDITOR.plugins.add( 'docprops', {
 		var cmd = new CKEDITOR.dialogCommand( 'docProps' );
 		// Only applicable on full page mode.
 		cmd.modes = { wysiwyg: editor.config.fullPage };
+		cmd.allowedContent = {
+			body: {
+				styles: '*',
+				attributes: 'dir'
+			},
+			html: {
+				attributes: 'lang,xml:lang'
+			}
+		};
+		cmd.requiredContent = 'body';
+
 		editor.addCommand( 'docProps', cmd );
 		CKEDITOR.dialog.add( 'docProps', this.path + 'dialogs/docprops.js' );
 

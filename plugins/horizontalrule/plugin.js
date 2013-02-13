@@ -13,7 +13,10 @@
 		exec: function( editor ) {
 			var hr = editor.document.createElement( 'hr' );
 			editor.insertElement( hr );
-		}
+		},
+
+		allowedContent: 'hr',
+		requiredContent: 'hr'
 	};
 
 	var pluginName = 'horizontalrule';

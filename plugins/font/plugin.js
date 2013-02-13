@@ -5,7 +5,8 @@
 
 (function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
-		var config = editor.config;
+		var config = editor.config,
+			style = new CKEDITOR.style( styleDefinition );
 
 		// Gets the list of fonts from the settings.
 		var names = entries.split( ';' ),
@@ -34,6 +35,8 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
+			allowedContent: style,
+			requiredContent: style,
 
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),

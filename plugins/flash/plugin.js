@@ -34,7 +34,12 @@
 
 		},
 		init: function( editor ) {
-			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash' ) );
+			editor.addCommand( 'flash', new CKEDITOR.dialogCommand( 'flash', {
+				allowedContent: 'object[align,classid,codebase,height,hspace,vspace,width]{*}(*);' +
+					'param[name,value];' +
+					'embed[allowscriptaccess,bgcolor,height,hspace,pluginspage,quality,scale,src,type,vspace,width,wmode]{*}(*)',
+				requiredContent: 'embed'
+			} ) );
 			editor.ui.addButton && editor.ui.addButton( 'Flash', {
 				label: editor.lang.common.flash,
 				command: 'flash',
