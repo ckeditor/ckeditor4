@@ -16,6 +16,7 @@ CKEditor 4 Changelog
 * [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog and the Anchors option is used and no anchors are available.
 * [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea based editors.
 * [#9940](http://dev.ckeditor.com/ticket/9940): With Firefox, navigating back to a page with the editor was making the entire page editable.
+* [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
 
 ## CKEditor 4.0.1
 
