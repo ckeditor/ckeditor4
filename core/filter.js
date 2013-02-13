@@ -72,6 +72,7 @@
 			// Add editor's default rules.
 			this.allow( 'p br', 1 );
 			this.allow( allowedContent, 1 );
+			this.allow( editor.config.extraAllowedContent, 1 );
 
 			//
 			// Add filter listeners to toHTML and toDataFormat events.
