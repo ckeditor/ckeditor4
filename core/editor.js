@@ -370,8 +370,20 @@
 
 			editor.fire( 'langLoaded' );
 
-			loadPlugins( editor );
+			preloadStylesSet( editor );
 		});
+	}
+
+	// Preloads styles set file (config.stylesSet).
+	// If stylesSet was defined directly (by an array)
+	// this function will call loadPlugins fully synchronously.
+	// If stylesSet is a string (path) loadPlugins will
+	// be called asynchronously.
+	// In both cases - styles will be preload before plugins initialization.
+	function preloadStylesSet( editor ) {
+		editor.getStylesSet( function() {
+			loadPlugins( editor );
+		} );
 	}
 
 	function loadPlugins( editor ) {
