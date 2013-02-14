@@ -31,7 +31,7 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 			// Avoid unnecessary setData. Also preserve selection
 			// when user changed his mind and goes back to wysiwyg editing.
 			if ( newData === oldData )
-				return;
+				return true;
 
 			editor.setData( this.getValueOf( 'main', 'data' ), function() {
 				// Avoid selection error in webkit & gecko.
