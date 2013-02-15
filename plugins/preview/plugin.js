@@ -17,7 +17,8 @@
 			var sHTML,
 				config = editor.config,
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
-				isCustomDomain = CKEDITOR.env.isCustomDomain();
+				isCustomDomain = CKEDITOR.env.isCustomDomain(),
+				eventData;
 
 			if ( config.fullPage ) {
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
@@ -56,9 +57,11 @@
 				iLeft = Math.round( screen.width * 0.1 );
 			} catch ( e ) {}
 
+			editor.fire( 'contentPreview', eventData = { dataValue: sHTML } );
+
 			var sOpenUrl = '';
 			if ( isCustomDomain ) {
-				window._cke_htmlToLoad = sHTML;
+				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = 'javascript:void( (function(){' +
 					'document.open();' +
 					'document.domain="' + document.domain + '";' +
@@ -71,7 +74,7 @@
 			// With Firefox only, we need to open a special preview page, so
 			// anchors will work properly on it. (#9047)
 			if ( CKEDITOR.env.gecko ) {
-				window._cke_htmlToLoad = sHTML;
+				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = pluginPath + 'preview.html';
 			}
 
@@ -81,7 +84,7 @@
 			if ( !isCustomDomain && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
 				doc.open();
-				doc.write( sHTML );
+				doc.write( eventData.dataValue );
 				doc.close();
 
 				// Chrome will need this to show the embedded. (#8016)
@@ -115,3 +118,15 @@
 		}
 	});
 })();
+
+/**
+ * Event fired when executing `preview` command, which allows additional data manipulation.
+ * With this event, the raw HTML content of the preview window to be displayed can be altered
+ * or modified.
+ *
+ * @event contentPreview
+ * @member CKEDITOR
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String} data.dataValue The data that will go to the preview.
+ */
