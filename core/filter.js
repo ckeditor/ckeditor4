@@ -8,7 +8,8 @@
 
 	var DTD = CKEDITOR.dtd,
 		copy = CKEDITOR.tools.copy,
-		trim = CKEDITOR.tools.trim;
+		trim = CKEDITOR.tools.trim,
+		TEST_VALUE = 'cke-test';
 
 	/**
 	 * @class
@@ -457,7 +458,19 @@
 
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element ),
-				toBeRemoved = [];
+				toBeRemoved = [],
+				transformations, i;
+
+			// Apply transformations to original element.
+			// Transformations will be applied to clone by the filter function.
+			if ( applyTransformations !== false && ( transformations = this._.transformations[ element.name ] ) ) {
+				for ( i = 0; i < transformations.length; ++i )
+					applyTransformationsGroup( this, element, transformations[ i ] );
+
+				// Transformations could modify styles or classes, so they need to be copied
+				// to attributes object.
+				updateAttributes( element );
+			}
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
@@ -754,18 +767,19 @@
 	// to check if tested style is allowed.
 	function mockElementFromStyle( style ) {
 		var styleDef = style.getDefinition(),
-			styles = styleDef.styles || null,
+			styles = styleDef.styles,
 			attrs = styleDef.attributes || {};
 
 		if ( styles ) {
 			styles = copy( styles );
-			attrs.style = CKEDITOR.tools.writeCssText( styles );
-		}
+			attrs.style = CKEDITOR.tools.writeCssText( styles, true );
+		} else
+			styles = {};
 
 		var el = {
 			name: styleDef.element,
 			attributes: attrs,
-			classes: attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null,
+			classes: attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : [],
 			styles: styles
 		};
 
@@ -773,7 +787,7 @@
 	}
 
 	// Mock hash based on string.
-	// 'a,b,c' => { a: 'test', b: 'test', c: 'test' }
+	// 'a,b,c' => { a: 'cke-test', b: 'cke-test', c: 'cke-test' }
 	// Used to mock styles and attributes objects.
 	function mockHash( str ) {
 		// It may be a null or empty string.
@@ -784,7 +798,7 @@
 			obj = {}
 
 		while ( keys.length )
-			obj[ keys.shift() ] = 'test';
+			obj[ keys.shift() ] = TEST_VALUE;
 
 		return obj;
 	}
@@ -939,6 +953,23 @@
 			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
 		if ( !element.classes )
 			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+	}
+
+	// Copy element's styles and classes back to attributes array.
+	function updateAttributes( element ) {
+		var attrs = element.attributes,
+			stylesArr = [],
+			name, styles;
+
+		// Will be recreated later if any of styles/classes exists.
+		delete attrs.style;
+		delete attrs[ 'class' ];
+
+		if ( ( styles = CKEDITOR.tools.writeCssText( element.styles, true ) ) )
+			attrs.style = styles;
+
+		if ( element.classes.length )
+			attrs[ 'class' ] = element.classes.sort().join( ' ' );
 	}
 
 	// Update element object based on status of filtering.
@@ -1339,6 +1370,9 @@
 
 				if ( match )
 					element.attributes[ attrName ] = match[ 1 ];
+				// Pass the TEST_VALUE used by filter#check when mocking element.
+				else if ( value == TEST_VALUE )
+					element.attributes[ attrName ] = TEST_VALUE;
 			}
 
 			delete element.styles[ styleName ];
