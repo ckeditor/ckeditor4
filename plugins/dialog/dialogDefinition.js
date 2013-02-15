@@ -196,6 +196,15 @@
  */
 
 /**
+ * The content that needs to be allowed to enable this UI element.
+ * All formats accepted by {@link CKEDITOR.filter#check} may be used.
+ *
+ * When all UI elements in a tab are disabled, this tab will be disabled automatically.
+ *
+ * @property {String/Object/CKEDITOR.style} requiredContent
+ */
+
+/**
  * CSS class names to append to the UI element.
  *
  * @property {String} className

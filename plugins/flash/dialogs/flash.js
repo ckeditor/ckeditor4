@@ -373,6 +373,7 @@
 						{
 						type: 'text',
 						id: 'width',
+						requiredContent: 'embed[width]',
 						style: 'width:95px',
 						label: editor.lang.common.width,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.width ) ),
@@ -382,6 +383,7 @@
 						{
 						type: 'text',
 						id: 'height',
+						requiredContent: 'embed[height]',
 						style: 'width:95px',
 						label: editor.lang.common.height,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.height ) ),
@@ -391,6 +393,7 @@
 						{
 						type: 'text',
 						id: 'hSpace',
+						requiredContent: 'embed[hspace]',
 						style: 'width:95px',
 						label: editor.lang.flash.hSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateHSpace ),
@@ -400,6 +403,7 @@
 						{
 						type: 'text',
 						id: 'vSpace',
+						requiredContent: 'embed[vspace]',
 						style: 'width:95px',
 						label: editor.lang.flash.vSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateVSpace ),
@@ -454,6 +458,7 @@
 						{
 						id: 'scale',
 						type: 'select',
+						requiredContent: 'embed[scale]',
 						label: editor.lang.flash.scale,
 						'default': '',
 						style: 'width : 100%;',
@@ -469,6 +474,7 @@
 						{
 						id: 'allowScriptAccess',
 						type: 'select',
+						requiredContent: 'embed[allowscriptaccess]',
 						label: editor.lang.flash.access,
 						'default': '',
 						style: 'width : 100%;',
@@ -490,6 +496,7 @@
 						{
 						id: 'wmode',
 						type: 'select',
+						requiredContent: 'embed[wmode]',
 						label: editor.lang.flash.windowMode,
 						'default': '',
 						style: 'width : 100%;',
@@ -505,6 +512,7 @@
 						{
 						id: 'quality',
 						type: 'select',
+						requiredContent: 'embed[quality]',
 						label: editor.lang.flash.quality,
 						'default': 'high',
 						style: 'width : 100%;',
@@ -529,6 +537,7 @@
 						{
 						id: 'align',
 						type: 'select',
+						requiredContent: 'object[align]',
 						label: editor.lang.common.align,
 						'default': '',
 						style: 'width : 100%;',
@@ -613,6 +622,7 @@
 						{
 						type: 'text',
 						id: 'id',
+						requiredContent: 'object[id]',
 						label: editor.lang.common.id,
 						setup: loadValue,
 						commit: commitValue
@@ -626,6 +636,7 @@
 						{
 						type: 'text',
 						id: 'bgcolor',
+						requiredContent: 'embed[bgcolor]',
 						label: editor.lang.flash.bgcolor,
 						setup: loadValue,
 						commit: commitValue
@@ -633,6 +644,7 @@
 						{
 						type: 'text',
 						id: 'class',
+						requiredContent: 'embed(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						setup: loadValue,
 						commit: commitValue
@@ -642,6 +654,7 @@
 					{
 					type: 'text',
 					id: 'style',
+					requiredContent: 'embed{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 					validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 					label: editor.lang.common.cssStyle,
 					setup: loadValue,

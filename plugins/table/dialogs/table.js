@@ -290,6 +290,7 @@
 							{
 							type: 'select',
 							id: 'selHeaders',
+							requiredContent: 'th',
 							'default': '',
 							label: editor.lang.table.headers,
 							items: [
@@ -324,7 +325,9 @@
 							{
 							type: 'text',
 							id: 'txtBorder',
-							'default': 1,
+							requiredContent: 'table[border]',
+							// Avoid setting border which will then disappear.
+							'default': editor.filter.check( 'table[border]' ) ? 1 : 0,
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
 							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidBorder ),
@@ -341,6 +344,7 @@
 							{
 							id: 'cmbAlign',
 							type: 'select',
+							requiredContent: 'table[align]',
 							'default': '',
 							label: editor.lang.common.align,
 							items: [
@@ -372,11 +376,12 @@
 								{
 								type: 'text',
 								id: 'txtWidth',
+								requiredContent: 'table{width}',
 								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
 								// Smarter default table width. (#9600)
-								'default': editable.getSize( 'width' ) < 500 ? '100%' : 500,
+								'default': editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
 								getValue: defaultToPixel,
 								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {
@@ -398,6 +403,7 @@
 								{
 								type: 'text',
 								id: 'txtHeight',
+								requiredContent: 'table{height}',
 								controlStyle: 'width:5em',
 								label: editor.lang.common.height,
 								title: editor.lang.common.cssLengthTooltip,
@@ -424,9 +430,10 @@
 							{
 							type: 'text',
 							id: 'txtCellSpace',
+							requiredContent: 'table[cellspacing]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellSpace,
-							'default': 1,
+							'default': editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
@@ -441,9 +448,10 @@
 							{
 							type: 'text',
 							id: 'txtCellPad',
+							requiredContent: 'table[cellpadding]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellPad,
-							'default': 1,
+							'default': editor.filter.check( 'table[cellpadding]' ) ? 1 : 0,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
@@ -471,6 +479,7 @@
 						{
 						type: 'text',
 						id: 'txtCaption',
+						requiredContent: 'caption',
 						label: editor.lang.table.caption,
 						setup: function( selectedTable ) {
 							this.enable();
@@ -517,6 +526,7 @@
 						{
 						type: 'text',
 						id: 'txtSummary',
+						requiredContent: 'table[summary]',
 						label: editor.lang.table.summary,
 						setup: function( selectedTable ) {
 							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
@@ -532,7 +542,7 @@
 				}
 				]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor )
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
 				]
 		};
 	}

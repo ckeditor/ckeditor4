@@ -17,10 +17,14 @@
 			if ( editor.blockless )
 				return;
 
-			var lang = editor.lang.div;
+			var lang = editor.lang.div,
+				allowed = 'div(*)';
+
+			if ( CKEDITOR.dialog.isTabEnabled( editor, 'editdiv', 'advanced' ) )
+				allowed += ';div[dir,id,lang,title]{*}';
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
-				allowedContent: 'div(*)[dir,id,lang,title]{*}',
+				allowedContent: allowed,
 				requiredContent: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {

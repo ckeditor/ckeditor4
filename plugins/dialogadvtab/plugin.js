@@ -68,7 +68,7 @@
 
 		// @param tabConfig
 		// id, dir, classes, styles
-		createAdvancedTab: function( editor, tabConfig ) {
+		createAdvancedTab: function( editor, tabConfig, element ) {
 			if ( !tabConfig )
 				tabConfig = defaultTabConfig;
 
@@ -95,6 +95,7 @@
 						id: 'advId',
 						att: 'id',
 						type: 'text',
+						requiredContent: element ? element + '[id]' : null,
 						label: lang.id,
 						setup: setupAdvParams,
 						commit: commitAdvParams
@@ -106,6 +107,7 @@
 						id: 'advLangDir',
 						att: 'dir',
 						type: 'select',
+						requiredContent: element ? element + '[dir]' : null,
 						label: lang.langDir,
 						'default': '',
 						style: 'width:100%',
@@ -134,6 +136,7 @@
 						id: 'advStyles',
 						att: 'style',
 						type: 'text',
+						requiredContent: element ? element + '{cke-xyz}' : null,
 						label: lang.styles,
 						'default': '',
 
@@ -172,6 +175,7 @@
 							id: 'advCSSClasses',
 							att: 'class',
 							type: 'text',
+							requiredContent: element ? element + '(cke-xyz)' : null,
 							label: lang.cssClasses,
 							'default': '',
 							setup: setupAdvParams,
