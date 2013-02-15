@@ -679,8 +679,8 @@
 					}
 				});
 			}
-			function addCmd( name, cmd ) {
-				editor.addCommand( name, cmd );
+			function addCmd( name, def ) {
+				var cmd = editor.addCommand( name, def );
 				editor.addFeature( cmd );
 			}
 

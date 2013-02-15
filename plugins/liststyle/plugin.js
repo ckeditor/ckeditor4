@@ -11,19 +11,21 @@
 			if ( editor.blockless )
 				return;
 
-			var cmd = new CKEDITOR.dialogCommand( 'numberedListStyle', {
+			var def, cmd;
+
+			def = new CKEDITOR.dialogCommand( 'numberedListStyle', {
 				requiredContent: 'ol',
 				allowedContent: 'ol{list-style-type}[start]'
 			} );
-			editor.addCommand( 'numberedListStyle', cmd );
+			cmd = editor.addCommand( 'numberedListStyle', def );
 			editor.addFeature( cmd );
 			CKEDITOR.dialog.add( 'numberedListStyle', this.path + 'dialogs/liststyle.js' );
 
-			cmd = new CKEDITOR.dialogCommand( 'bulletedListStyle', {
+			def = new CKEDITOR.dialogCommand( 'bulletedListStyle', {
 				requiredContent: 'ul',
 				allowedContent: 'ul{list-style-type}'
 			} );
-			editor.addCommand( 'bulletedListStyle', cmd );
+			cmd = editor.addCommand( 'bulletedListStyle', def );
 			editor.addFeature( cmd );
 			CKEDITOR.dialog.add( 'bulletedListStyle', this.path + 'dialogs/liststyle.js' );
 

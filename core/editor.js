@@ -557,7 +557,9 @@
 		 * @param {CKEDITOR.commandDefinition} commandDefinition The command definition.
 		 */
 		addCommand: function( commandName, commandDefinition ) {
-			return this.commands[ commandName ] = new CKEDITOR.command( this, commandDefinition );
+			commandDefinition.name = commandName.toLowerCase();
+			var cmd = new CKEDITOR.command( this, commandDefinition );
+			return this.commands[ commandName ] = cmd;
 		},
 
 		/**
