@@ -560,7 +560,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference : name in reference ) ) )
 				return new CKEDITOR.dom.node( $ );
 
-			$ = $.parentNode;
+			try {
+				$ = $.parentNode;
+			} catch( e ) {
+				$ = null;
+			}
 		}
 		return null;
 	},
