@@ -33,7 +33,7 @@
 
 					styleName = styleDefinition.name;
 
-					style = styles[ styleName ] = new CKEDITOR.style( styleDefinition );
+					style = new CKEDITOR.style( styleDefinition );
 
 					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
 						style._name = styleName;
@@ -42,6 +42,7 @@
 						// Weight is used to sort styles (#9029).
 						style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
+						styles[ styleName ] = style;
 						stylesList.push( style );
 						allowedContent.push( style );
 					}
