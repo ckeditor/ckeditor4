@@ -144,9 +144,9 @@
 				// { 'p h1': true } => { 'p h1': {} }.
 				if ( typeof rule == 'boolean' )
 					rule = {};
-				// { 'p h1': func } => { 'p h1': { validate: func } }.
+				// { 'p h1': func } => { 'p h1': { match: func } }.
 				else if ( typeof rule == 'function' )
-					rule = { validate: rule };
+					rule = { match: rule };
 				// Clone (shallow) rule, because we'll modify it later.
 				else
 					rule = copy( newRules[ groupName ] );
@@ -465,33 +465,30 @@
 		if ( !isSpecific && rule.elements && !rule.elements( name ) )
 			return;
 
-		// Optimalization - validate only if still invalid.
-		if ( !status.valid ) {
-			// If rule has validator and it accepts this element - make it valid.
-			if ( rule.validate ) {
-				if ( rule.validate( element ) )
-					status.valid = !rule.propertiesOnly;
-				// Return so attrs, styles and classes won't be validated.
-				else
-					return;
-			}
-			// If there's no validator make it valid anyway, because there exists a rule for this element.
-			else
-				// If propertiesOnly is true it will keep status.valid == false.
-				// This way only element properties (styles, attrs, classes) will be validated.
-				status.valid = !rule.propertiesOnly;
+		// This rule doesn't match this element - skip it.
+		if ( rule.match ) {
+			if ( !rule.match( element ) )
+				return;
 		}
 
+		// If element doesn't have all required styles/attrs/classes
+		// this rule doesn't match it.
+		if ( !hasAllRequired( rule, element ) )
+			return;
+
+		// If this rule doesn't validate properties only mark element as valid.
+		if ( !rule.propertiesOnly )
+			status.valid = true;
+
 		// Apply rule only when all attrs/styles/classes haven't been marked as valid.
-		if ( !status.allAttributes ) {
+		if ( !status.allAttributes )
 			status.allAttributes = applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
-		}
-		if ( !status.allStyles ) {
+
+		if ( !status.allStyles )
 			status.allStyles = applyRuleToHash( rule.styles, element.styles, status.validStyles );
-		}
-		if ( !status.allClasses ) {
+
+		if ( !status.allClasses )
 			status.allClasses = applyRuleToArray( rule.classes, element.classes, status.validClasses );
-		}
 	}
 
 	// Apply itemsRule to items (only classes are kept in array).
@@ -537,16 +534,44 @@
 			attrs = styleDef.attributes;
 
 		rules[ styleDef.element ] = rule = {
-			styles: styleDef.styles
+			styles: styleDef.styles,
+			requiredStyles: styleDef.styles && CKEDITOR.tools.objectKeys( styleDef.styles )
 		};
 
 		if ( attrs ) {
 			attrs = copy( attrs );
-			rule.classes = attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null
+			rule.classes = attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : null;
+			rule.requiredClasses = rule.classes;
+			delete attrs[ 'class' ];
 			rule.attributes = attrs;
+			rule.requiredAttributes = attrs && CKEDITOR.tools.objectKeys( attrs );
 		}
 
 		return rules;
+	}
+
+	// Extract required properties from props (if it is a string or array -
+	// other formats cannot contain required properties) and push them to req array.
+	// Return props array with removed '!' characters from items' names.
+	// It has to be returned because when props passed in string the
+	// reference will be broken.
+	function extractRequired( props, req ) {
+		var prop, i;
+
+		if ( typeof props == 'string' )
+			props = props.split( /\s*,\s*/ );
+
+		// Not an array - may be a function or object.
+		if ( typeof props != 'object' || !props.length )
+			return props;
+
+		for ( i = 0; i < props.length; ++i ) {
+			prop = props[ i ];
+			if ( prop.indexOf( '!' ) == 0 )
+				req.push( ( props[ i ] = prop.slice( 1 ) ) );
+		}
+
+		return props;
 	}
 
 	// Returns function that accepts {@link CKEDITOR.htmlParser.element}
@@ -637,6 +662,40 @@
 		};
 	}
 
+	// Check whether element has all properties (styles,classes,attrs) required by a rule.
+	function hasAllRequired( rule, element ) {
+		var required = rule.required;
+
+		if ( !required )
+			return true;
+
+		var i, reqs, existing;
+
+		if ( ( reqs = required.classes ) ) {
+			existing = element.classes;
+			for ( i = 0; i < reqs.length; ++i ) {
+				if ( CKEDITOR.tools.indexOf( existing, reqs[ i ] ) == -1 )
+					return false;
+			}
+		}
+
+		return hasAllRequiredInHash( element.styles, required.styles ) &&
+			hasAllRequiredInHash( element.attributes, required.attributes );
+	}
+
+	// Check whether all items in required (array) exist in existing (object).
+	function hasAllRequiredInHash( existing, required ) {
+		if ( !required )
+			return true;
+
+		for ( var i = 0; i < required.length; ++i ) {
+			if ( !( required[ i ] in existing ) )
+				return false;
+		}
+
+		return true;
+	}
+
 	// Create pseudo element that will be passed through filter
 	// to check if tested string is allowed.
 	function mockElementFromString( str ) {
@@ -696,6 +755,13 @@
 		return obj;
 	}
 
+	var validators = { elements:1,styles:1,attributes:1,classes:1 },
+		validatorsRequired = {
+			styles: 'requiredStyles',
+			attributes: 'requiredAttributes',
+			classes: 'requiredClasses'
+		};
+
 	// Optimize rule's validators (for elements, styles, etc.).
 	// If any of these validators is a wildcard return true,
 	// what means that this rule is a priority.
@@ -703,25 +769,46 @@
 	// mark many properties as valid without checking them,
 	// so next rules will be able to skip them saving time.
 	function optimizeValidators( rule ) {
-		var validator,
-			priority = false;
+		var validator, allReqs, reqProp,
+			priority = false,
+			reqs = {},
+			hasReq;
 
-		for ( var i in { elements:1,styles:1,attributes:1,classes:1 } ) {
+		for ( var i in validators ) {
+			allReqs = [];
+
 			if ( ( validator = rule[ i ] ) ) {
-				rule[ i ] = validatorFunction( validator );
-				if ( validator === true )
+				// Extract required properties (those with '!') to the allReqs array.
+				validator = extractRequired( validator, allReqs );
+				// True means that this is a wildcard, so this rule have a high priority.
+				if ( ( rule[ i ] = validatorFunction( validator ) ) === true )
 					priority = true;
+			}
+
+			// Add names from requiredClasses/Attrs/Styles to allReqs array.
+			if ( ( reqProp = rule[ validatorsRequired[ i ] ] ) ) {
+				if ( typeof reqProp == 'string' )
+					reqProp = reqProp.split( /\s*,\s*/ );
+				allReqs = allReqs.concat( reqProp );
+			}
+
+			if ( allReqs.length ) {
+				reqs[ i ] = allReqs;
+				hasReq = 1;
 			}
 		}
 
-		return priority;
+		return {
+			priority: priority,
+			required: hasReq ? reqs : null
+		};
 	}
 
 	// Add optimized version of rule to optimizedRules object.
 	function optimizeRules( optimizedRules, rules ) {
 		var elementsRules = optimizedRules.elements || {},
 			genericRules = optimizedRules.generic || [],
-			i, l, rule, elements, element, priority;
+			i, l, rule, elements, element, optResult;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
 			// Shallow copy. Do not modify original rule.
@@ -733,14 +820,14 @@
 				// Do not optimize rule.elements.
 				elements = trim( rule.elements );
 				delete rule.elements;
-				priority = optimizeValidators( rule );
+				optResult = optimizeValidators( rule );
 
 				// E.g. "*(xxx)[xxx]" - it's a generic rule that
 				// validates properties only.
 				if ( elements == '*' ) {
 					rule.propertiesOnly = true;
 					// Add priority rules at the beginning.
-					genericRules[ priority ? 'unshift' : 'push' ]( rule );
+					genericRules[ optResult.priority ? 'unshift' : 'push' ]( rule );
 				} else {
 					elements = elements.split( /\s+/ );
 
@@ -748,23 +835,25 @@
 						if ( !elementsRules[ element ] )
 							elementsRules[ element ] = [ rule ];
 						else
-							elementsRules[ element ][ priority ? 'unshift' : 'push' ]( rule );
+							elementsRules[ element ][ optResult.priority ? 'unshift' : 'push' ]( rule );
 					}
 				}
 			} else {
-				priority = optimizeValidators( rule );
+				optResult = optimizeValidators( rule );
 
 				// Add priority rules at the beginning.
-				genericRules[ priority ? 'unshift' : 'push' ]( rule );
+				genericRules[ optResult.priority ? 'unshift' : 'push' ]( rule );
 			}
+
+			rule.required = optResult.required;
 		}
 
 		optimizedRules.elements = elementsRules;
 		optimizedRules.generic = genericRules.length ? genericRules : null;
 	}
 
-	//                  <   elements   ><                     styles, attributes and classes                      >< separator >
-	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[\w\-,\s\*]+}\s*|\s*\[[\w\-,\s\*]+\]\s*|\s*\([\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
+	//                  <   elements   ><                      styles, attributes and classes                       >< separator >
+	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[!\w\-,\s\*]+}\s*|\s*\[[!\w\-,\s\*]+\]\s*|\s*\([!\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
 		groupsPatterns = {
 			styles: /{([^}]+)}/,
 			attrs: /\[([^\]]+)\]/,
@@ -803,6 +892,8 @@
 		return rules;
 	}
 
+	// Extract specified properties group (styles, attrs, classes) from
+	// what stands after the elements list in string format of allowedContent.
 	function parseProperties( properties, groupName ) {
 		var group = properties.match( groupsPatterns[ groupName ] );
 		return group ? trim( group[ 1 ] ) : null;
