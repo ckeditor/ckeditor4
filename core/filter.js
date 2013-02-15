@@ -331,7 +331,7 @@
 		},
 
 		/**
-		 * Add array of content transformations groups. One group
+		 * Add an array of content transformations groups. One group
 		 * may contain many transformations rules, but only the first
 		 * matching rule in a group is executed.
 		 *
@@ -414,14 +414,29 @@
 		},
 
 		/**
-		 * Checks whether content defined in test argument is allowed
+		 * Check whether content defined in test argument is allowed
 		 * by this filter.
+		 *
+		 * Unless `strictCheck` is set to `true` this method checks
+		 * if all parts of the `test` (styles, attributes and classes)
+		 * are accepted by the filter, not whether element with
+		 * these properties only would be accepted.
+		 *
+		 * For example:
+		 *
+		 *		// Rule: 'img[!src,alt]'
+		 *		filter.check( 'img[alt]' ); // -> true
+		 *		filter.check( 'img[alt]', true, true ); // -> false
+		 *
+		 * Second check returned false because of `src` is required.
 		 *
 		 * @param {String/CKEDITOR.style} test
 		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
+		 * @param {Boolean} [strictCheck] Whether fitler should check if element with exactly
+		 * these properties is allowed.
 		 * @returns {Boolean} Returns `true` if content is allowed.
 		 */
-		check: function( test, applyTransformations ) {
+		check: function( test, applyTransformations, strictCheck ) {
 			if ( this.disabled )
 				return true;
 
@@ -444,7 +459,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved );
+			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -463,7 +478,13 @@
 		}
 	};
 
-	function applyRule( rule, element, status, isSpecific ) {
+	// Apply ACR to an element
+	// @param rule
+	// @param element
+	// @param status Object containing status of element's filtering.
+	// @param {Boolean} isSpecific True if this is specific element's rule, false if generic.
+	// @param {Boolean} skipRequired If true don't check if element has all required properties.
+	function applyRule( rule, element, status, isSpecific, skipRequired ) {
 		var name = element.name;
 
 		// This generic rule doesn't apply to this element - skip it.
@@ -478,7 +499,7 @@
 
 		// If element doesn't have all required styles/attrs/classes
 		// this rule doesn't match it.
-		if ( !hasAllRequired( rule, element ) )
+		if ( !skipRequired && !hasAllRequired( rule, element ) )
 			return;
 
 		// If this rule doesn't validate properties only mark element as valid.
@@ -593,7 +614,13 @@
 			protectElementsNamesRegexp = /^(object|embed|param)$/;
 
 		// Return and cache created function.
-		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml ) {
+		// @param {CKEDITOR.htmlParser.element}
+		// @param optimizedRules Rules to be used.
+		// @param [transformations] Transformations to be applied.
+		// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
+		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
+		// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
+		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired ) {
 			var name = element.name,
 				i, l, trans;
 
@@ -644,12 +671,12 @@
 
 			if ( rules ) {
 				for ( i = 0, l = rules.length; i < l; ++i )
-					applyRule( rules[ i ], element, status, true );
+					applyRule( rules[ i ], element, status, true, skipRequired );
 			}
 
 			if ( genericRules ) {
 				for ( i = 0, l = genericRules.length; i < l; ++i )
-					applyRule( genericRules[ i ], element, status, false );
+					applyRule( genericRules[ i ], element, status, false, skipRequired );
 			}
 
 			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
