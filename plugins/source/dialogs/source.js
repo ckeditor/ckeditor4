@@ -66,7 +66,8 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 				id: 'data',
 				inputStyle: 'cursor:auto;' +
 					'width:' + width + 'px;' +
-					'height:' + height + 'px',
+					'height:' + height + 'px;' +
+					'tab-size:4;',
 				'class': 'cke_source'
 			}]
 		}]
