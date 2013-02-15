@@ -24,33 +24,38 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 			this.setValueOf( 'main', 'data', oldData = editor.getData() );
 		},
 
-		onOk: function() {
-			var that = this,
-				newData = this.getValueOf( 'main', 'data' );
+		onOk: (function() {
+			function setData( newData ) {
+				var that = this;
 
-			// Avoid unnecessary setData. Also preserve selection
-			// when user changed his mind and goes back to wysiwyg editing.
-			if ( newData === oldData )
-				return true;
+				editor.setData( newData, function() {
+					that.hide();
 
-			editor.setData( this.getValueOf( 'main', 'data' ), function() {
-				// Avoid selection error in webkit & gecko.
-				if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) {
+					// Ensure correct selection.
 					var range = editor.createRange();
 					range.moveToElementEditStart( editor.editable() );
 					range.select();
-				}
+				} );
+			}
 
-				// Fix wrong caret position in IEs.
-				CKEDITOR.env.ie && editor.editable().focus();
+			return function( event ) {
+				var newData = this.getValueOf( 'main', 'data' );
 
-				// Close the dialog once getData is done and selection is fixed.
-				that.hide();
-			} );
+				// Avoid unnecessary setData. Also preserve selection
+				// when user changed his mind and goes back to wysiwyg editing.
+				if ( newData === oldData )
+					return true;
 
-			// Don't let the dialog close before setData is over.
-			return false;
-		},
+				// Set data asynchronously to avoid errors in IE.
+				CKEDITOR.env.ie ?
+						CKEDITOR.tools.setTimeout( setData, 0, this, newData )
+					:
+						setData.call( this, newData );
+
+				// Don't let the dialog close before setData is over.
+				return false;
+			};
+		})(),
 
 		contents: [{
 			id: 'main',
