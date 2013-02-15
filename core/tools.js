@@ -873,16 +873,21 @@
 		 *		var styleObj = CKEDITOR.tools.parseCssText( 'color: red; border: none' );
 		 *		console.log( styleObj.color ); // -> 'red'
 		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
+		 *		CKEDITOR.tools.writeCssText( styleObj, true ); // -> 'border:none; color:red'
 		 *
 		 * @param {Object} styles The object contaning style properties.
+		 * @param {Boolean} [sort] Whether to sort CSS properties.
 		 * @returns {String} The serialized style text.
 		 */
-		writeCssText: function( styles ) {
+		writeCssText: function( styles, sort ) {
 			var name,
 				stylesArr = [];
 
 			for ( name in styles )
 				stylesArr.push( name + ':' + styles[ name ] );
+
+			if ( sort )
+				stylesArr.sort();
 
 			return stylesArr.join( '; ' );
 		},

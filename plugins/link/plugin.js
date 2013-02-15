@@ -52,9 +52,9 @@ CKEDITOR.plugins.add( 'link', {
 			required = 'a[href]';
 
 		if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'advanced' ) )
-			allowed += ';a[accesskey,charset,dir,id,lang,name,rel,tabindex,title,type]{*}(*)';
+			allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type]{*}(*)' );
 		if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'target' ) )
-			allowed += ';a[target,onclick]';
+			allowed = allowed.replace( ']', ',target,onclick]' );
 
 		// Add the link and unlink buttons.
 		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
