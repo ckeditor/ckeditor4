@@ -440,12 +440,14 @@
 			if ( this.disabled )
 				return true;
 
-			var element, result;
+			var element, result, cacheKey;
 
 			if ( typeof test == 'string' ) {
+				cacheKey = test + '<' + ( applyTransformations === false ? '0' : '1' ) + ( strictCheck ? '1' : '0' ) + '>';
+
 				// Check if result of this check hasn't been already cached.
-				if ( test in this._.cachedChecks )
-					return this._.cachedChecks[ test ];
+				if ( cacheKey in this._.cachedChecks )
+					return this._.cachedChecks[ cacheKey ];
 
 				// Create test element from string.
 				element = mockElementFromString( test );
@@ -472,7 +474,7 @@
 
 			// Cache result of this test - we can build cache only for string tests.
 			if ( typeof test == 'string' )
-				this._.cachedChecks[ test ] = result;
+				this._.cachedChecks[ cacheKey ] = result;
 
 			return result;
 		}
