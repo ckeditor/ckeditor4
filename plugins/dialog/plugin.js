@@ -2795,6 +2795,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 * @extends CKEDITOR.commandDefinition
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
+	 * @param {Object} [ext] Additional command definition's properties.
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;

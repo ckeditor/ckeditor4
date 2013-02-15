@@ -1406,14 +1406,25 @@ CKEDITOR.STYLE_OBJECT = 3;
 })();
 
 /**
+ * Generic style command. It applies a specific style when executed.
+ *
+ *		var boldStyle = new CKEDITOR.style( { element: 'strong' } );
+ *		// Register the "bold" command, which applies the bold style.
+ *		editor.addCommand( 'bold', new CKEDITOR.dialogCommand( boldStyle ) );
+ *
  * @class
- * @todo
+ * @constructor Creates a styleCommand class instance.
+ * @extends CKEDITOR.commandDefinition
+ * @param {CKEDITOR.style} style The style to be applied when command is executed.
+ * @param {Object} [ext] Additional command definition's properties.
  */
-CKEDITOR.styleCommand = function( style ) {
+CKEDITOR.styleCommand = function( style, ext ) {
 	this.style = style;
 	// TODO shouldn't we create content def only when explicitly requested (by argument)?
 	this.allowedContent = style;
 	this.requiredContent = style;
+
+	CKEDITOR.tools.extend( this, ext, true );
 };
 
 /**
