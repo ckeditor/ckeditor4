@@ -44,7 +44,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 			return false;
 
 		if ( this.editorFocus ) // Give editor focus if necessary (#4355).
-		editor.focus();
+			editor.focus();
 
 		if ( this.fire( 'exec' ) === false )
 			return true;
