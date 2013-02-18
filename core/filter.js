@@ -52,8 +52,11 @@
 		/**
 		 * Enter mode used by filter when deciding how to strip disallowed elements.
 		 *
-		 * For editor's filter will be equal to {@link CKEDITOR.config#enterMode}.
-		 * For standalone filter will be set to {@link CKEDITOR#ENTER_P} by default.
+		 * For editor's filter it will be set to {@link CKEDITOR.config#enterMode} unless this
+		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor - in this case
+		 * {@link CKEDITOR#ENTER_BR} will be forced.
+		 *
+		 * For standalone filter it will be by default set to {@link CKEDITOR#ENTER_P}.
 		 *
 		 * @property {CKEDITOR.ENTER_P/CKEDITOR.ENTER_DIV/CKEDITOR.ENTER_BR}
 		 */
@@ -83,7 +86,8 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			this.enterMode = enterMode = editor.config.enterMode;
+			// Force ENTER_BR for blockless editable.
+			this.enterMode = enterMode = ( editor.blockless ? CKEDITOR.ENTER_BR : editor.config.enterMode );
 
 			this.allow( 'br ' + ( enterMode == CKEDITOR.ENTER_P ? 'p' : enterMode == CKEDITOR.ENTER_DIV ? 'div' : '' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
