@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.dialog.add( 'source', function( editor ) {
+CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 	var size = CKEDITOR.document.getWindow().getViewPaneSize();
 
 	// Make it maximum 800px wide, but still fully visible in the viewport.
@@ -16,7 +16,7 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 	var oldData;
 
 	return {
-		title: editor.lang.source.title,
+		title: editor.lang.sourcedialog.title,
 		minWidth: 100,
 		minHeight: 100,
 
@@ -39,7 +39,8 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 			}
 
 			return function( event ) {
-				var newData = this.getValueOf( 'main', 'data' );
+				// Remove CR from input data for reliable comparison with editor data.
+				var newData = this.getValueOf( 'main', 'data' ).replace( /\r/g, '' );
 
 				// Avoid unnecessary setData. Also preserve selection
 				// when user changed his mind and goes back to wysiwyg editing.
@@ -59,7 +60,7 @@ CKEDITOR.dialog.add( 'source', function( editor ) {
 
 		contents: [{
 			id: 'main',
-			label: editor.lang.source.title,
+			label: editor.lang.sourcedialog.title,
 			elements: [{
 				type: 'textarea',
 				type: 'textarea',

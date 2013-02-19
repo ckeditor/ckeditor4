@@ -29,7 +29,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</h1>
 	<div class="description">
 		<p>
-			<strong>Source</strong> plugin provides an easy way to edit raw HTML content
+			<strong>Sourcedialog</strong> plugin provides an easy way to edit raw HTML content
 			of an editor, similarly to what is possible with <strong>Sourcearea</strong>
 			plugin for framed instances but using dialogs. Thanks to that, it's also possible
 			to manipulate raw content of inline editor instances.
@@ -37,19 +37,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<p>
 			This plugin extends the toolbar with a button,
 			which opens a dialog window with a source code editor. To enable this
-			plugin, basically add <code>extraPlugins: 'source'</code> to editor's
+			plugin, basically add <code>extraPlugins: 'sourcedialog'</code> to editor's
 			config:
 		</p>
 <pre class="samples">
 // Inline editor.
 CKEDITOR.inline( 'editable', {
-	<strong>extraPlugins: 'source'</strong>,
+	<strong>extraPlugins: 'sourcedialog'</strong>,
 	removePlugins: 'sourcearea'
 });
 
 // Framed editor.
 CKEDITOR.replace( 'textarea_id', {
-	<strong>extraPlugins: 'source'</strong>,
+	<strong>extraPlugins: 'sourcedialog'</strong>,
 	removePlugins: 'sourcearea'
 });
 </pre>
@@ -90,7 +90,7 @@ CKEDITOR.replace( 'textarea_id', {
 				{ name: 'basicstyles' },
 				{ name: 'links' }
 			],
-			extraPlugins: 'source',
+			extraPlugins: 'sourcedialog',
 			removePlugins: 'sourcearea'
 		}
 
