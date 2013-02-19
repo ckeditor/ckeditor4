@@ -57,7 +57,10 @@
 				iLeft = Math.round( screen.width * 0.1 );
 			} catch ( e ) {}
 
-			editor.fire( 'contentPreview', eventData = { dataValue: sHTML } );
+			// (#9907) Allow data manipulation before preview is displayed.
+			// Also don't open the preview window when event cancelled.
+			if ( !editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) )
+				return false;
 
 			var sOpenUrl = '';
 			if ( isCustomDomain ) {
