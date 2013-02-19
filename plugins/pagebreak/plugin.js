@@ -128,7 +128,7 @@ CKEDITOR.plugins.pagebreakCmd = {
 	context: 'div',
 	allowedContent: {
 		div: {
-			styles: 'page-break-after'
+			styles: '!page-break-after'
 		},
 		span: {
 			match: function( element ) {
