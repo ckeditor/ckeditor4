@@ -2813,7 +2813,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// undo support should dedicate to specific dialog implementation.
 		canUndo: false,
 
-		editorFocus: CKEDITOR.env.ie || CKEDITOR.env.webkit
+		editorFocus: 1
 	};
 
 	(function() {
