@@ -198,20 +198,31 @@
 			var toBeRemoved = [],
 				rules = this._.rules,
 				transformations = this._.transformations,
-				filterFn = getFilterFunction( this );
+				filterFn = getFilterFunction( this ),
+				protectedRegexs = this.editor && this.editor.config.protectedSource;
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
-					filterFn( el, rules, transformations, toBeRemoved, toHtml );
-				}, CKEDITOR.NODE_ELEMENT, true );
+					if ( el.type == CKEDITOR.NODE_ELEMENT )
+						filterFn( el, rules, transformations, toBeRemoved, toHtml );
+					else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^{cke_protected}(?!{C})/ ) ) {
+						if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
+							toBeRemoved.push( el );
+					}
+				}, null, true );
 
-			var element, check,
+			var node, element, check,
 				toBeChecked = [],
 				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
-			while ( ( element = toBeRemoved.pop() ) )
-				removeElement( element, enterTag, toBeChecked );
+			while ( ( node = toBeRemoved.pop() ) ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					removeElement( node, enterTag, toBeChecked );
+				// This is a comment securing rejected element - remove it completely.
+				else
+					node.remove();
+			}
 
 			// Check elements that have been marked as possibly invalid.
 			while ( ( check = toBeChecked.pop() ) ) {
@@ -659,6 +670,36 @@
 		}
 
 		return props;
+	}
+
+	// Filter element protected with a comment.
+	// Returns true if protected content is ok, false otherwise.
+	function filterProtectedElement( comment, protectedRegexs, filterFn, rules, transformations, toHtml ) {
+		var source = decodeURIComponent( comment.value.replace( /^{cke_protected}/, '' ) ),
+			protectedFrag,
+			toBeRemoved = [],
+			node, i, match;
+
+		// Protected element's and protected source's comments look exactly the same.
+		// Check if what we have isn't a protected source instead of protected script/noscript.
+		if ( protectedRegexs ) {
+			for ( i = 0; i < protectedRegexs.length; ++i ) {
+				if ( ( match = source.match( protectedRegexs[ i ] ) ) &&
+					match[ 0 ].length == source.length	// Check whether this pattern matches entire source
+														// to avoid '<script>alert("<? 1 ?>")</script>' matching
+														// the PHP's protectedSource regexp.
+				)
+					return true;
+			}
+		}
+
+		protectedFrag = CKEDITOR.htmlParser.fragment.fromHtml( source );
+
+		if ( protectedFrag.children.length == 1 && ( node = protectedFrag.children[ 0 ] ).type == CKEDITOR.NODE_ELEMENT )
+			filterFn( node, rules, transformations, toBeRemoved, toHtml );
+
+		// If protected element has been marked to be removed, return 'false' - comment was rejected.
+		return !toBeRemoved.length;
 	}
 
 	// Returns function that accepts {@link CKEDITOR.htmlParser.element}
