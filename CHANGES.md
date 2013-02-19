@@ -17,6 +17,7 @@ CKEditor 4 Changelog
 * [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea based editors.
 * [#9940](http://dev.ckeditor.com/ticket/9940): With Firefox, navigating back to a page with the editor was making the entire page editable.
 * [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
+* [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when editor focused for the first time.
 
 ## CKEditor 4.0.1
 
