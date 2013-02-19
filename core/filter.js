@@ -205,7 +205,7 @@
 					filterFn( el, rules, transformations, toBeRemoved, toHtml );
 				}, CKEDITOR.NODE_ELEMENT, true );
 
-			var element,
+			var element, check,
 				toBeChecked = [],
 				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
 
@@ -213,13 +213,42 @@
 			while ( ( element = toBeRemoved.pop() ) )
 				removeElement( element, enterTag, toBeChecked );
 
-			// Check elements that have been marked as invalid (e.g. li as child of body after ul has been removed).
-			while ( ( element = toBeChecked.pop() ) ) {
-				if ( element.parent &&
-					element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
-					!DTD[ element.parent.name ][ element.name ]
-				)
-					removeElement( element, enterTag, toBeChecked );
+			// Check elements that have been marked as possibly invalid.
+			while ( ( check = toBeChecked.pop() ) ) {
+				element = check.el;
+				// Element has been already removed.
+				if ( !element.parent )
+					continue;
+
+				switch ( check.check ) {
+					// Check if element itself is correct.
+					case 'it':
+						// Check if element included in $removeEmpty has no children.
+						if ( DTD.$removeEmpty[ element.name ] && !element.children.length )
+							removeElement( element, enterTag, toBeChecked );
+						// Check if that is invalid element.
+						else if ( !validateElement( element ) )
+							removeElement( element, enterTag, toBeChecked );
+						break;
+
+					// Check if element is in correct context. If not - remove element.
+					case 'el-up':
+						// Check if e.g. li is a child of body after ul has been removed.
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+							!DTD[ element.parent.name ][ element.name ]
+						)
+							removeElement( element, enterTag, toBeChecked );
+						break;
+
+					// Check if element is in correct context. If not - remove parent.
+					case 'parent-down':
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+							!DTD[ element.parent.name ][ element.name ]
+						)
+							removeElement( element.parent, enterTag, toBeChecked );
+						break;
+				}
+
 			}
 		},
 
@@ -491,7 +520,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck );
+			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -652,7 +681,8 @@
 		// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
 		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
 		// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
-		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired ) {
+		// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
+		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
 			var name = element.name,
 				i, l, trans;
 
@@ -720,6 +750,11 @@
 			// Update element's attributes based on status of filtering.
 			updateElement( element, status );
 
+			if ( !skipFinalValidation && !validateElement( element ) ) {
+				toBeRemoved.push( element );
+				return;
+			}
+
 			// Protect previously unprotected elements.
 			if ( toHtml )
 				element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
@@ -771,6 +806,7 @@
 		element.classes = classes = ( classes ? classes.split( /\s*,\s*/ ) : [] );
 		element.styles = mockHash( styles );
 		element.attributes = mockHash( element.attributes );
+		element.children = [];
 
 		if ( classes.length )
 			element.attributes[ 'class' ] = classes.join( ' ' );
@@ -797,7 +833,8 @@
 			name: styleDef.element,
 			attributes: attrs,
 			classes: attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : [],
-			styles: styles
+			styles: styles,
+			children: []
 		};
 
 		return el;
@@ -1039,6 +1076,26 @@
 			attrs[ 'class' ] = origClasses;
 	}
 
+	function validateElement( element ) {
+		var attrs;
+
+		switch ( element.name ) {
+			case 'a':
+				attrs = element.attributes;
+				if ( !attrs.href && !attrs.name )
+					return false;
+				if ( !attrs.name && !element.children.length )
+					return false;
+				break;
+			case 'img':
+				if ( !element.attributes.src )
+					return false;
+				break;
+		}
+
+		return true;
+	}
+
 	// Create validator function based on multiple
 	// accepted validator formats:
 	// function, string ('a,b,c'), regexp, array (['a','b','c']) and object ({a:1,b:2,c:3})
@@ -1122,7 +1179,10 @@
 	//
 	// @param {Array} toBeChecked After executing this function
 	// this array will contain elements that should be checked
-	// because they were marked as potentially in wrong context (e.g. li in body).
+	// because they were marked as potentially:
+	// * in wrong context (e.g. li in body),
+	// * empty elements from $removeEmpty,
+	// * incorrect img/a/other element validated by validateElement().
 	function removeElement( element, enterTag, toBeChecked ) {
 		var name = element.name;
 
@@ -1130,15 +1190,24 @@
 			// Special case - hr in br mode should be replaced with br, not removed.
 			if ( name == 'hr' && enterTag == 'br' )
 				element.replaceWith( createBr() );
-			else
+			else {
+				// Parent might become an empty inline specified in $removeEmpty or empty a[href].
+				if ( element.parent )
+					toBeChecked.push( { check: 'it', el: element.parent } );
+
 				element.remove();
-		} else if ( DTD.$block[ name ] || name == 'tr' ) {
+			}
+		} else if ( DTD.$block[ name ] || name == 'tr' )
 			if ( enterTag == 'br' )
 				stripBlockBr( element, toBeChecked );
 			else
 				stripBlock( element, enterTag, toBeChecked );
-		} else
+		else {
+			// Parent might become an empty inline specified in $removeEmpty or empty a[href].
+			if ( element.parent )
+				toBeChecked.push( { check: 'it', el: element.parent } );
 			element.replaceWithChildren();
+		}
 	}
 
 	// Strip element block, but leave its content.
@@ -1148,11 +1217,13 @@
 
 		// First, check if element's children may be wrapped with <p/div>.
 		// Ignore that <p/div> may not be allowed in element.parent.
-		// This will be fixed when removing parent, because in all known cases
-		// parent will be also marked to be removed.
+		// This will be fixed when removing parent or by toBeChecked rule.
 		if ( checkChildren( children, enterTag ) ) {
 			element.name = enterTag;
 			element.attributes = {};
+			// Check if this p/div was put in correct context.
+			// If not - strip parent.
+			toBeChecked.push( { check: 'parent-down', el: element } );
 			return;
 		}
 
@@ -1170,6 +1241,10 @@
 				if ( !p ) {
 					p = new CKEDITOR.htmlParser.element( enterTag );
 					p.insertAfter( element );
+
+					// Check if this p/div was put in correct context.
+					// If not - strip parent.
+					toBeChecked.push( { check: 'parent-down', el: p } );
 				}
 				p.add( child, 0 );
 			}
@@ -1183,7 +1258,7 @@
 					child.type == CKEDITOR.NODE_ELEMENT &&
 					!DTD[ parent.name ][ child.name ]
 				)
-					toBeChecked.push( child );
+					toBeChecked.push( { check: 'el-up', el: child } );
 			}
 		}
 
