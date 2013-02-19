@@ -95,6 +95,8 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 (function() {
 	'use strict';
 
+	var buttonsNames;
+
 	CKEDITOR.config.extraPlugins = 'toolbar';
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
@@ -111,6 +113,9 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			else
 				return;
 		}
+
+		if ( !buttonsNames )
+			buttonsNames = createButtonsNamesHash( editor.ui.items );
 
 		// Toolbar isn't set explicitly, so it was created automatically from toolbarGroups.
 		if ( !editor.config.toolbar ) {
@@ -131,7 +136,6 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 		var preOutput = pre.getOuterHtml().replace( /(?=<\/)/, output );
 		CKEDITOR.dom.element.createFromHtml( preOutput ).replace( pre );
 	} );
-
 
 	CKEDITOR.replace( 'editorCurrent', { height: 100 } );
 	CKEDITOR.replace( 'editorFull', {
@@ -180,7 +184,35 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	function dumpToolbarItems( items ) {
 		if ( typeof items == 'string' )
 			return '\'' + items + '\'';
-		return '[ \'' + items.join( '\', \'' ) + '\' ]';
+
+		var names = [],
+			i, item;
+
+		for ( var i = 0; i < items.length; ++i ) {
+			item = items[ i ];
+			if ( typeof item == 'string' )
+				names.push( item );
+			else {
+				if ( item.type == CKEDITOR.UI_SEPARATOR )
+					names.push( '-' );
+				else
+					names.push( buttonsNames[ item.name ] );
+			}
+		}
+
+		return '[ \'' + names.join( '\', \'' ) + '\' ]';
+	}
+
+	// Creates { 'lowercased': 'LowerCased' } buttons names hash.
+	function createButtonsNamesHash( items ) {
+		var hash = {},
+			name;
+
+		for ( name in items ) {
+			hash[ items[ name ].name ] = name;
+		}
+
+		return hash;
 	}
 
 })();
