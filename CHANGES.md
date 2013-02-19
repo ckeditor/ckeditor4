@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.1
 
 * [#9907](http://dev.ckeditor.com/ticket/9907): Added contentPreview event for preview data manipulation.
+* [#9713](http://dev.ckeditor.com/ticket/9713): Introduced `sourcedialog` plugin that brings raw HTML editing for inline editor instances.
 
 ## CKEditor 4.0.2
 
