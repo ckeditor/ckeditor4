@@ -1288,7 +1288,7 @@
 			if ( restore ) {
 				// Saved selection may be outdated (e.g. anchored in offline nodes).
 				// Avoid getting broken by such.
-				var common = selectedElement || ranges[ 0 ].getCommonAncestor();
+				var common = selectedElement || ranges[ 0 ] && ranges[ 0 ].getCommonAncestor();
 				if ( !( common && common.getAscendant( 'body', 1 ) ) )
 					return;
 
