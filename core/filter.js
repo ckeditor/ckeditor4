@@ -1238,11 +1238,19 @@
 
 				element.remove();
 			}
-		} else if ( DTD.$block[ name ] || name == 'tr' )
+		} else if ( DTD.$block[ name ] || name == 'tr' ) {
 			if ( enterTag == 'br' )
 				stripBlockBr( element, toBeChecked );
 			else
 				stripBlock( element, enterTag, toBeChecked );
+		}
+		// Special case - elements that may contain CDATA
+		// should be removed completely. <script> is handled
+		// by filterProtectedElement().
+		else if ( name == 'style' )
+			element.remove();
+		// The rest of inline elements. May also be the last resort
+		// for some special elements.
 		else {
 			// Parent might become an empty inline specified in $removeEmpty or empty a[href].
 			if ( element.parent )
