@@ -205,7 +205,7 @@
 					filterFn( el, rules, transformations, toBeRemoved, toHtml );
 				}, CKEDITOR.NODE_ELEMENT, true );
 
-			var element,
+			var element, check,
 				toBeChecked = [],
 				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
 
@@ -214,22 +214,41 @@
 				removeElement( element, enterTag, toBeChecked );
 
 			// Check elements that have been marked as possibly invalid.
-			while ( ( element = toBeChecked.pop() ) ) {
+			while ( ( check = toBeChecked.pop() ) ) {
+				element = check.el;
 				// Element has been already removed.
 				if ( !element.parent )
 					continue;
 
-				// Check if e.g. li is a child of body after ul has been removed.
-				if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
-					!DTD[ element.parent.name ][ element.name ]
-				)
-					removeElement( element, enterTag, toBeChecked );
-				// Check if element included in $removeEmpty has no children.
-				else if ( DTD.$removeEmpty[ element.name ] && !element.children.length )
-					removeElement( element, enterTag, toBeChecked );
-				// Check if that is invalid element.
-				else if ( !validateElement( element ) )
-					removeElement( element, enterTag, toBeChecked );
+				switch ( check.check ) {
+					// Check if element itself is correct.
+					case 'it':
+						// Check if element included in $removeEmpty has no children.
+						if ( DTD.$removeEmpty[ element.name ] && !element.children.length )
+							removeElement( element, enterTag, toBeChecked );
+						// Check if that is invalid element.
+						else if ( !validateElement( element ) )
+							removeElement( element, enterTag, toBeChecked );
+						break;
+
+					// Check if element is in correct context. If not - remove element.
+					case 'el-up':
+						// Check if e.g. li is a child of body after ul has been removed.
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+							!DTD[ element.parent.name ][ element.name ]
+						)
+							removeElement( element, enterTag, toBeChecked );
+						break;
+
+					// Check if element is in correct context. If not - remove parent.
+					case 'parent-down':
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
+							!DTD[ element.parent.name ][ element.name ]
+						)
+							removeElement( element.parent, enterTag, toBeChecked );
+						break;
+				}
+
 			}
 		},
 
@@ -1174,7 +1193,7 @@
 			else {
 				// Parent might become an empty inline specified in $removeEmpty or empty a[href].
 				if ( element.parent )
-					toBeChecked.push( element.parent );
+					toBeChecked.push( { check: 'it', el: element.parent } );
 
 				element.remove();
 			}
@@ -1186,7 +1205,7 @@
 		else {
 			// Parent might become an empty inline specified in $removeEmpty or empty a[href].
 			if ( element.parent )
-				toBeChecked.push( element.parent );
+				toBeChecked.push( { check: 'it', el: element.parent } );
 			element.replaceWithChildren();
 		}
 	}
@@ -1198,11 +1217,13 @@
 
 		// First, check if element's children may be wrapped with <p/div>.
 		// Ignore that <p/div> may not be allowed in element.parent.
-		// This will be fixed when removing parent, because in all known cases
-		// parent will be also marked to be removed.
+		// This will be fixed when removing parent or by toBeChecked rule.
 		if ( checkChildren( children, enterTag ) ) {
 			element.name = enterTag;
 			element.attributes = {};
+			// Check if this p/div was put in correct context.
+			// If not - strip parent.
+			toBeChecked.push( { check: 'parent-down', el: element } );
 			return;
 		}
 
@@ -1220,6 +1241,10 @@
 				if ( !p ) {
 					p = new CKEDITOR.htmlParser.element( enterTag );
 					p.insertAfter( element );
+
+					// Check if this p/div was put in correct context.
+					// If not - strip parent.
+					toBeChecked.push( { check: 'parent-down', el: p } );
 				}
 				p.add( child, 0 );
 			}
@@ -1233,7 +1258,7 @@
 					child.type == CKEDITOR.NODE_ELEMENT &&
 					!DTD[ parent.name ][ child.name ]
 				)
-					toBeChecked.push( child );
+					toBeChecked.push( { check: 'el-up', el: child } );
 			}
 		}
 
