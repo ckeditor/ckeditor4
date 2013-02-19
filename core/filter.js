@@ -49,6 +49,19 @@
 		 */
 		this.editor = null;
 
+		/**
+		 * Enter mode used by filter when deciding how to strip disallowed elements.
+		 *
+		 * For editor's filter it will be set to {@link CKEDITOR.config#enterMode} unless this
+		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor - in this case
+		 * {@link CKEDITOR#ENTER_BR} will be forced.
+		 *
+		 * For standalone filter it will be by default set to {@link CKEDITOR#ENTER_P}.
+		 *
+		 * @property {CKEDITOR.ENTER_P/CKEDITOR.ENTER_DIV/CKEDITOR.ENTER_BR}
+		 */
+		this.enterMode = CKEDITOR.ENTER_P;
+
 		this._ = {
 			// Optimized allowed content rules.
 			rules: {},
@@ -61,7 +74,8 @@
 			var editor = this.editor = editorOrRules;
 			this.customConfig = true;
 
-			var allowedContent = editor.config.allowedContent;
+			var allowedContent = editor.config.allowedContent,
+				enterMode;
 
 			// Disable filter completely by setting config.allowedContent = true.
 			if ( allowedContent === true ) {
@@ -72,8 +86,10 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			// Add editor's default rules.
-			this.allow( 'p br', 'default', 1 );
+			// Force ENTER_BR for blockless editable.
+			this.enterMode = enterMode = ( editor.blockless ? CKEDITOR.ENTER_BR : editor.config.enterMode );
+
+			this.allow( 'br ' + ( enterMode == CKEDITOR.ENTER_P ? 'p' : enterMode == CKEDITOR.ENTER_DIV ? 'div' : '' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
 
@@ -190,11 +206,12 @@
 				}, CKEDITOR.NODE_ELEMENT, true );
 
 			var element,
-				toBeChecked = [];
+				toBeChecked = [],
+				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( element = toBeRemoved.pop() ) )
-				removeElement( element, toBeChecked );
+				removeElement( element, enterTag, toBeChecked );
 
 			// Check elements that have been marked as invalid (e.g. li as child of body after ul has been removed).
 			while ( ( element = toBeChecked.pop() ) ) {
@@ -202,7 +219,7 @@
 					element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
 					!DTD[ element.parent.name ][ element.name ]
 				)
-					removeElement( element, toBeChecked );
+					removeElement( element, enterTag, toBeChecked );
 			}
 		},
 
@@ -1086,10 +1103,19 @@
 		return true;
 	}
 
+	function createBr() {
+		return new CKEDITOR.htmlParser.element( 'br' );
+	}
+
 	// Whether this is an inline element or text.
 	function inlineNode( node ) {
 		return node.type == CKEDITOR.NODE_TEXT ||
 			node.type == CKEDITOR.NODE_ELEMENT && DTD.$inline[ node.name ];
+	}
+
+	function isBrOrBlock( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT &&
+			( node.name == 'br' || DTD.$block[ node.name ] );
 	}
 
 	// Try to remove element in the best possible way.
@@ -1097,27 +1123,35 @@
 	// @param {Array} toBeChecked After executing this function
 	// this array will contain elements that should be checked
 	// because they were marked as potentially in wrong context (e.g. li in body).
-	function removeElement( element, toBeChecked ) {
+	function removeElement( element, enterTag, toBeChecked ) {
 		var name = element.name;
 
-		if ( DTD.$empty[ name ] || !element.children.length )
-			element.remove();
-		else if ( DTD.$block[ name ] || name == 'tr' )
-			stripElement( element, toBeChecked );
-		else
+		if ( DTD.$empty[ name ] || !element.children.length ) {
+			// Special case - hr in br mode should be replaced with br, not removed.
+			if ( name == 'hr' && enterTag == 'br' )
+				element.replaceWith( createBr() );
+			else
+				element.remove();
+		} else if ( DTD.$block[ name ] || name == 'tr' ) {
+			if ( enterTag == 'br' )
+				stripBlockBr( element, toBeChecked );
+			else
+				stripBlock( element, enterTag, toBeChecked );
+		} else
 			element.replaceWithChildren();
 	}
 
-	// Strip element, but leave its content.
-	function stripElement( element, toBeChecked ) {
+	// Strip element block, but leave its content.
+	// Works in 'div' and 'p' enter modes.
+	function stripBlock( element, enterTag, toBeChecked ) {
 		var children = element.children;
 
-		// First, check if element's children may be wrapped with <p>.
-		// Ignore that <p> may not be allowed in element.parent.
+		// First, check if element's children may be wrapped with <p/div>.
+		// Ignore that <p/div> may not be allowed in element.parent.
 		// This will be fixed when removing parent, because in all known cases
-		// parent will was also marked to be removed.
-		if ( checkChildren( children, 'p' ) ) {
-			element.name = 'p';
+		// parent will be also marked to be removed.
+		if ( checkChildren( children, enterTag ) ) {
+			element.name = enterTag;
 			element.attributes = {};
 			return;
 		}
@@ -1134,7 +1168,7 @@
 			// insert this child into newly created paragraph.
 			if ( shouldAutoP && inlineNode( child )  ) {
 				if ( !p ) {
-					p = new CKEDITOR.htmlParser.element( 'p' );
+					p = new CKEDITOR.htmlParser.element( enterTag );
 					p.insertAfter( element );
 				}
 				p.add( child, 0 );
@@ -1155,6 +1189,27 @@
 
 		// All children have been moved to element's parent, so remove it.
 		element.remove();
+	}
+
+	// Prepend/append block with <br> if isn't
+	// already prepended/appended with <br> or block and
+	// isn't first/last child of its parent.
+	// Then replace element with its children.
+	// <p>a</p><p>b</p> => <p>a</p><br>b => a<br>b
+	function stripBlockBr( element, toBeChecked ) {
+		var br;
+
+		if ( element.previous && !isBrOrBlock( element.previous ) ) {
+			br = createBr();
+			br.insertBefore( element );
+		}
+
+		if ( element.next && !isBrOrBlock( element.next ) ) {
+			br = createBr();
+			br.insertAfter( element );
+		}
+
+		element.replaceWithChildren();
 	}
 
 	//

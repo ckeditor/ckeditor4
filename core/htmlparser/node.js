@@ -68,6 +68,25 @@
 			next && ( next.previous = this );
 
 			this.parent = node.parent;
+		},
+
+		/**
+		 * Insert this node before given one.
+		 *
+		 * @param {CKEDITOR.htmlParser.node} node The node that will follow this element.
+		 */
+		insertBefore: function( node ) {
+			var children = node.parent.children,
+				index = CKEDITOR.tools.indexOf( children, node );
+
+			children.splice( index, 0, this );
+
+			this.next = node;
+			this.previous = node.previous;
+			node.previous && ( node.previous.next = this );
+			node.previous = this;
+
+			this.parent = node.parent;
 		}
 	};
 })();
