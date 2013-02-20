@@ -1,6 +1,10 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.0.1.1
+
+* Security update: Added protection against XSS attack and possible path disclosure in PHP sample.
+
 ## CKEditor 4.0.1
 
 Fixed issues:
