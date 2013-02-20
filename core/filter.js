@@ -104,11 +104,11 @@
 				this.applyTo( evt.data.dataValue, true );
 			}, this, null, 6 );
 
-			// Filter outcoming "data".
-			// Add element filter  after htmlDataProcessor.htmlFilter
+			// Transform outcoming "data".
+			// Add element filter after htmlDataProcessor.htmlFilter
 			// when preparing output data HTML.
 			this._.toDataFormatListener = editor.on( 'toDataFormat', function( evt ) {
-				this.applyTo( evt.data.dataValue );
+				this.applyTo( evt.data.dataValue, false, true );
 			}, this, null, 11 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
@@ -192,11 +192,13 @@
 		 * of filtering is DOM tree without disallowed content.
 		 *
 		 * @param {CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} fragment Node to be filtered.
-		 * @param {Boolean} toHtml Set to `true` if filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
+		 * @param {Boolean} [toHtml] Set to `true` if filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
+		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
+		 * won't be filtered with allowed content rules.
 		 */
-		applyTo: function( fragment, toHtml ) {
+		applyTo: function( fragment, toHtml, transformOnly ) {
 			var toBeRemoved = [],
-				rules = this._.rules,
+				rules = !transformOnly && this._.rules,
 				transformations = this._.transformations,
 				filterFn = getFilterFunction( this ),
 				protectedRegexs = this.editor && this.editor.config.protectedSource;
@@ -717,7 +719,7 @@
 
 		// Return and cache created function.
 		// @param {CKEDITOR.htmlParser.element}
-		// @param optimizedRules Rules to be used.
+		// @param [optimizedRules] Rules to be used.
 		// @param [transformations] Transformations to be applied.
 		// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
 		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
@@ -739,61 +741,67 @@
 
 				for ( i = 0; i < transformations.length; ++i )
 					applyTransformationsGroup( that, element, transformations[ i ] );
+
+				// Update style and class attrs, because that won't be done after applying rules.
+				if ( !optimizedRules )
+					updateAttributes( element );
 			}
 
-			// Name could be changed by transformations.
-			name = element.name;
+			if ( optimizedRules ) {
+				// Name could be changed by transformations.
+				name = element.name;
 
-			var rules = optimizedRules.elements[ name ],
-				genericRules = optimizedRules.generic,
-				status = {
-					// Whether any of rules accepted element.
-					// If not - it will be stripped.
-					valid: false,
-					// Objects containing accepted attributes, classes and styles.
-					validAttributes: {},
-					validClasses: {},
-					validStyles: {},
-					// Whether all are valid.
-					// If we know that all element's attrs/classes/styles are valid
-					// we can skip their validation, to improve performance.
-					allAttributes: false,
-					allClasses: false,
-					allStyles: false
-				};
+				var rules = optimizedRules.elements[ name ],
+					genericRules = optimizedRules.generic,
+					status = {
+						// Whether any of rules accepted element.
+						// If not - it will be stripped.
+						valid: false,
+						// Objects containing accepted attributes, classes and styles.
+						validAttributes: {},
+						validClasses: {},
+						validStyles: {},
+						// Whether all are valid.
+						// If we know that all element's attrs/classes/styles are valid
+						// we can skip their validation, to improve performance.
+						allAttributes: false,
+						allClasses: false,
+						allStyles: false
+					};
 
-			// Early return - if there are no rules for this element (specific or generic), remove it.
-			if ( !rules && !genericRules ) {
-				toBeRemoved.push( element );
-				return;
-			}
+				// Early return - if there are no rules for this element (specific or generic), remove it.
+				if ( !rules && !genericRules ) {
+					toBeRemoved.push( element );
+					return;
+				}
 
-			// Could not be done yet if there were no transformations and if this
-			// is real (not mocked) object.
-			populateProperties( element );
+				// Could not be done yet if there were no transformations and if this
+				// is real (not mocked) object.
+				populateProperties( element );
 
-			if ( rules ) {
-				for ( i = 0, l = rules.length; i < l; ++i )
-					applyRule( rules[ i ], element, status, true, skipRequired );
-			}
+				if ( rules ) {
+					for ( i = 0, l = rules.length; i < l; ++i )
+						applyRule( rules[ i ], element, status, true, skipRequired );
+				}
 
-			if ( genericRules ) {
-				for ( i = 0, l = genericRules.length; i < l; ++i )
-					applyRule( genericRules[ i ], element, status, false, skipRequired );
-			}
+				if ( genericRules ) {
+					for ( i = 0, l = genericRules.length; i < l; ++i )
+						applyRule( genericRules[ i ], element, status, false, skipRequired );
+				}
 
-			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
-			if ( !status.valid ) {
-				toBeRemoved.push( element );
-				return;
-			}
+				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
+				if ( !status.valid ) {
+					toBeRemoved.push( element );
+					return;
+				}
 
-			// Update element's attributes based on status of filtering.
-			updateElement( element, status );
+				// Update element's attributes based on status of filtering.
+				updateElement( element, status );
 
-			if ( !skipFinalValidation && !validateElement( element ) ) {
-				toBeRemoved.push( element );
-				return;
+				if ( !skipFinalValidation && !validateElement( element ) ) {
+					toBeRemoved.push( element );
+					return;
+				}
 			}
 
 			// Protect previously unprotected elements.
