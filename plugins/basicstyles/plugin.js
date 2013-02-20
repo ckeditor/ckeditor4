@@ -67,8 +67,8 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				],
 
 				strike: [
-					'strike',
 					's',
+					'strike',
 					[ 'span', function( el ) {
 						return el.styles[ 'text-decoration' ] == 'line-through';
 					} ]
@@ -157,7 +157,7 @@ CKEDITOR.config.coreStyles_underline = { element: 'u' };
  * @cfg
  * @member CKEDITOR.config
  */
-CKEDITOR.config.coreStyles_strike = { element: 'strike' };
+CKEDITOR.config.coreStyles_strike = { element: 's', overrides: 'strike' };
 
 /**
  * The style definition that applies the subscript style to the text.
