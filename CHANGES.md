@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 * [#9907](http://dev.ckeditor.com/ticket/9907): Added contentPreview event for preview data manipulation.
 * [#9713](http://dev.ckeditor.com/ticket/9713): Introduced `sourcedialog` plugin that brings raw HTML editing for inline editor instances.
+* [#9796](http://dev.ckeditor.com/ticket/9796): Introduced `<s>` as a default tag for strikethrough, which replaces obsolete `<strike>` in HTML5.
 
 ## CKEditor 4.0.2
 
