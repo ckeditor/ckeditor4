@@ -30,14 +30,6 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 */
 	this.uiItems = [];
 
-	this.checkAllowed = function() {
-		var allowed = editor.filter.checkFeature( this );
-		this.checkAllowed = function() {
-			return allowed;
-		}
-		return allowed;
-	};
-
 	/**
 	 * Executes the command.
 	 *
@@ -87,6 +79,23 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 			return true;
 
 		return ( commandDefinition.refresh && commandDefinition.refresh.apply( this, arguments ) !== false );
+	};
+
+	var allowed;
+
+	/**
+	 * Checks whether this command is allowed by the allowed
+	 * content filter ({@link CKEDITOR.filter}). This means
+	 * that if command implements Feature interface it will be tested
+	 * by {@link CKEDITOR.filter.checkFeature}.
+	 *
+	 * @returns {Boolean} Whether command is allowed.
+	 */
+	this.checkAllowed = function() {
+		if ( typeof allowed == 'boolean' )
+			return allowed;
+
+		return allowed = editor.filter.checkFeature( this );
 	};
 
 	CKEDITOR.tools.extend( this, commandDefinition, {
