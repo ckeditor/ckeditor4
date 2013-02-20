@@ -59,6 +59,8 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 		}
 
 		this.value = comment;
+
+		return true;
 	},
 
 	/**

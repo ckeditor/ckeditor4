@@ -32,7 +32,7 @@ CKEDITOR.plugins.add( 'format', {
 		}
 
 		// Hide entire combo when all formats are rejected.
-		if ( stylesCount == 0 )
+		if ( stylesCount === 0 )
 			return;
 
 		editor.ui.addRichCombo( 'Format', {

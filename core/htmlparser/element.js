@@ -195,8 +195,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				// different type, then make the replacement filter itself.
 				if ( element.type != CKEDITOR.NODE_ELEMENT ) {
 					this.replaceWith( element );
-					element.filter( filter );
-					return;
+					return false;
 				}
 
 				// This indicate that the element has been dropped by
@@ -240,6 +239,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			if ( !element.isEmpty )
 				this.filterChildren( filter );
+
+			return true;
 		},
 
 		/**
