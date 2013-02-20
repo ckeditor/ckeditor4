@@ -3,7 +3,6 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.0.2
 
-* Security update: Added protection against XSS attack and possible path disclosure in PHP sample.
 * [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
 * [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
 * [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.
@@ -19,6 +18,10 @@ CKEditor 4 Changelog
 * [#9940](http://dev.ckeditor.com/ticket/9940): With Firefox, navigating back to a page with the editor was making the entire page editable.
 * [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
 * [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when editor focused for the first time.
+
+## CKEditor 4.0.1.1
+
+* Security update: Added protection against XSS attack and possible path disclosure in PHP sample.
 
 ## CKEditor 4.0.1
 
