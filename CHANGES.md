@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.0.2
 
+* Security update: Added protection against XSS attack and possible path disclosure in PHP sample.
 * [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
 * [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
 * [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.

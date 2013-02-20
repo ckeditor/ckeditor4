@@ -25,24 +25,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</thead>
 <?php
 
-if ( isset( $_POST ) )
-	$postArray = &$_POST ;			// 4.1.0 or later, use $_POST
-else
-	$postArray = &$HTTP_POST_VARS ;	// prior to 4.1.0, use HTTP_POST_VARS
-
-foreach ( $postArray as $sForm => $value )
+if (!empty($_POST))
 {
-	if ( get_magic_quotes_gpc() )
-		$postedValue = htmlspecialchars( stripslashes( $value ) ) ;
-	else
-		$postedValue = htmlspecialchars( $value ) ;
+	foreach ( $_POST as $key => $value )
+	{
+		if ( ( !is_string($value) && !is_numeric($value) ) || !is_string($key) )
+			continue;
 
+		if ( get_magic_quotes_gpc() )
+			$value = htmlspecialchars( stripslashes((string)$value) );
+		else
+			$value = htmlspecialchars( (string)$value );
 ?>
 		<tr>
-			<th style="vertical-align: top"><?php echo $sForm?></th>
-			<td><pre class="samples"><?php echo $postedValue?></pre></td>
+			<th style="vertical-align: top"><?php echo htmlspecialchars( (string)$key ); ?></th>
+			<td><pre class="samples"><?php echo $value; ?></pre></td>
 		</tr>
 	<?php
+	}
 }
 ?>
 	</table>
