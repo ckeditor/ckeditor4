@@ -152,7 +152,7 @@
 		 * @returns {String}
 		 */
 		toHtml: function( data, context, fixForBody ) {
-			var editor = this.editor
+			var editor = this.editor;
 
 			// Fall back to the editable as context if not specified.
 			if ( !context && context !== null )

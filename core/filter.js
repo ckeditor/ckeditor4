@@ -207,7 +207,7 @@
 			fragment.forEach( function( el ) {
 					if ( el.type == CKEDITOR.NODE_ELEMENT )
 						filterFn( el, rules, transformations, toBeRemoved, toHtml );
-					else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^{cke_protected}(?!{C})/ ) ) {
+					else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
 						if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
 							toBeRemoved.push( el );
 					}
@@ -596,7 +596,7 @@
 	// Return true when all items are valid.
 	function applyRuleToArray( itemsRule, items, validItems ) {
 		if ( !itemsRule )
-			return;
+			return false;
 
 		// True means that all elements of array are accepted (the asterix was used for classes).
 		if ( itemsRule === true )
@@ -613,7 +613,7 @@
 
 	function applyRuleToHash( itemsRule, items, validItems ) {
 		if ( !itemsRule )
-			return;
+			return false;
 
 		if ( itemsRule === true )
 			return true;
@@ -667,7 +667,7 @@
 
 		for ( i = 0; i < props.length; ++i ) {
 			prop = props[ i ];
-			if ( prop.indexOf( '!' ) == 0 )
+			if ( prop.indexOf( '!' ) === 0 )
 				req.push( ( props[ i ] = prop.slice( 1 ) ) );
 		}
 
@@ -677,7 +677,7 @@
 	// Filter element protected with a comment.
 	// Returns true if protected content is ok, false otherwise.
 	function filterProtectedElement( comment, protectedRegexs, filterFn, rules, transformations, toHtml ) {
-		var source = decodeURIComponent( comment.value.replace( /^{cke_protected}/, '' ) ),
+		var source = decodeURIComponent( comment.value.replace( /^\{cke_protected\}/, '' ) ),
 			protectedFrag,
 			toBeRemoved = [],
 			node, i, match;
@@ -898,7 +898,7 @@
 			return {};
 
 		var keys = str.split( /\s*,\s*/ ).sort(),
-			obj = {}
+			obj = {};
 
 		while ( keys.length )
 			obj[ keys.shift() ] = TEST_VALUE;
@@ -1004,7 +1004,7 @@
 	}
 
 	//                  <   elements   ><                      styles, attributes and classes                       >< separator >
-	var rulePattern = /^([a-z0-9*\s]+)((?:\s*{[!\w\-,\s\*]+}\s*|\s*\[[!\w\-,\s\*]+\]\s*|\s*\([!\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
+	var rulePattern = /^([a-z0-9*\s]+)((?:\s*\{[!\w\-,\s\*]+\}\s*|\s*\[[!\w\-,\s\*]+\]\s*|\s*\([!\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
 		groupsPatterns = {
 			styles: /{([^}]+)}/,
 			attrs: /\[([^\]]+)\]/,
@@ -1179,6 +1179,8 @@
 					return value in validator;
 				};
 		}
+
+		return false;
 	}
 
 	//

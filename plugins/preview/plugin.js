@@ -95,6 +95,8 @@
 					doc.body.innerHTML += '';
 				}, 0 );
 			}
+
+			return true;
 		}
 	};
 

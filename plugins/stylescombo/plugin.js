@@ -177,7 +177,6 @@
 					}
 					styles = {};
 					stylesList = [];
-					loadStylesSet();
 				}
 			});
 		}
