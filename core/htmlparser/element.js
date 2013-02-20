@@ -195,7 +195,6 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				// different type, then make the replacement filter itself.
 				if ( element.type != CKEDITOR.NODE_ELEMENT ) {
 					this.replaceWith( element );
-					element.filter( filter );
 					return false;
 				}
 
