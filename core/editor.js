@@ -104,6 +104,19 @@
 		this.id = CKEDITOR.tools.getNextId();
 
 		/**
+		 * Indicates editor initialization status. The following statuses are available:
+		 *
+		 *	* **unloaded**: the initial state - editor's instance has been initialized,
+		 *	but its components (config, plugins, language files) are not loaded yet.
+		 *	* **loaded**: editor's components have been loaded - see {@link CKEDITOR.editor#loaded} event.
+		 *	* **ready**: editor is fully initialized and ready - see {@link CKEDITOR.editor#instanceReady} event.
+		 *	* **destroyed**: the editor has been destroyed - see {@link CKEDITOR.editor#method-destroy} method.
+		 *
+		 * @property {String}
+		 */
+		this.status = 'unloaded';
+
+		/**
 		 * The configurations for this editor instance. It inherits all
 		 * settings defined in {@link CKEDITOR.config}, combined with settings
 		 * loaded from custom configuration files and those defined inline in
@@ -140,14 +153,18 @@
 		this.keystrokeHandler = new CKEDITOR.keystrokeHandler( this );
 
 		// Make the editor update its command states on mode change.
-		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
 		this.on( 'selectionChange', updateCommandsContext );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
+			updateCommands.call( this );
+			// First 'mode' event is fired before this 'instanceReady',
+			// so to avoid updating commands twice, add this listener here.
+			this.on( 'mode', updateCommands );
+
 			this.config.startupFocus && this.focus();
-		});
+		} );
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
@@ -172,17 +189,18 @@
 	}
 
 	function updateCommands() {
-		var command,
-			commands = this.commands,
+		var commands = this.commands,
 			mode = this.mode;
 
 		if ( !mode )
 			return;
 
-		for ( var name in commands ) {
-			command = commands[ name ];
-			command[ command.startDisabled ? 'disable' : this.readOnly && !command.readOnly ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
-		}
+		for ( var name in commands )
+			updateCommand( this, commands[ name ] );
+	}
+
+	function updateCommand( editor, cmd ) {
+		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
 	}
 
 	function updateCommandsContext( ev ) {
@@ -526,6 +544,7 @@
 				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ )
 					editor.keystrokeHandler.blockedKeystrokes[ editor.config.blockedKeystrokes[ i ] ] = 1;
 
+				editor.status = 'loaded';
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
@@ -571,6 +590,11 @@
 		addCommand: function( commandName, commandDefinition ) {
 			commandDefinition.name = commandName.toLowerCase();
 			var cmd = new CKEDITOR.command( this, commandDefinition );
+
+			// Update command when added after editor has been already initialized.
+			if ( this.status == 'ready' && this.mode )
+				updateCommand( this, cmd );
+
 			return this.commands[ commandName ] = cmd;
 		},
 
@@ -592,6 +616,8 @@
 			!noUpdate && updateEditorElement.call( this );
 
 			this.editable( null );
+
+			this.status = 'destroyed';
 
 			this.fire( 'destroy' );
 
@@ -865,7 +891,7 @@
 		 *
 		 *		function beforeUnload( evt ) {
 		 *			if ( CKEDITOR.instances.editor1.checkDirty() )
-		 *				return e.returnValue = "You will lose the changes made in the editor.";
+		 *				return evt.returnValue = "You will lose the changes made in the editor.";
 		 *		}
 		 *
 		 *		if ( window.addEventListener )
@@ -876,7 +902,7 @@
 		 * @returns {Boolean} `true` if the contents contain changes.
 		 */
 		checkDirty: function() {
-			return this._.previousValue !== this.getSnapshot();
+			return this.status == 'ready' && this._.previousValue !== this.getSnapshot();
 		},
 
 		/**
@@ -1081,6 +1107,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * Fired when CKEDITOR instance's components (config, languages and plugins) are fully
+ * loaded and initialized. However, the editor will be fully ready to for interaction
+ * on {@link CKEDITOR#instanceReady}.
+ *
+ * @event instanceLoaded
+ * @member CKEDITOR
+ * @param {CKEDITOR.editor} editor This editor instance that has been loaded.
+ */
+
+/**
  * Fired when a CKEDITOR instance is destroyed.
  *
  * @event instanceDestroyed
@@ -1227,6 +1263,15 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * and ready for interaction.
  *
  * @event instanceReady
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when editor's components (config, languages and plugins) are fully
+ * loaded and initialized. However, the editor will be fully ready to for interaction
+ * on {@link #instanceReady}.
+ *
+ * @event loaded
  * @param {CKEDITOR.editor} editor This editor instance.
  */
 

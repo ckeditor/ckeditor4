@@ -36,9 +36,6 @@
 		// data retrieval possible immediately after the editor creation.
 		editor.setData( element.getHtml(), null, true );
 
-		// Clean during initialization.
-		editor.resetDirty();
-
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			editor.fire( 'uiReady' );
@@ -62,6 +59,7 @@
 			editor.fire( 'mode' );
 
 			// The editor is completely loaded for interaction.
+			editor.status = 'ready';
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
 
