@@ -1437,6 +1437,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		/**
 		 * Check whether tab wasn't removed by {@link CKEDITOR.config#removeDialogTabs}.
 		 *
+		 * @static
 		 * @param {CKEDITOR.editor} editor
 		 * @param {String} dialogName
 		 * @param {String} tabName
