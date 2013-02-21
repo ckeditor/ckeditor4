@@ -62,6 +62,7 @@
 			editor.fire( 'mode' );
 
 			// The editor is completely loaded for interaction.
+			editor.status = 'ready';
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
 

@@ -267,6 +267,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 				editor.resetDirty();
 
 				// Editor is completely loaded for interaction.
+				editor.status = 'ready';
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
 			});

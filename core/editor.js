@@ -104,6 +104,19 @@
 		this.id = CKEDITOR.tools.getNextId();
 
 		/**
+		 * Indicates editor initialization status. The following statuses are available:
+		 *
+		 *	* **unloaded**: the initial state - editor's instance has been initialized,
+		 *	but its components (config, plugins, language files) are not loaded yet.
+		 *	* **loaded**: editor's components have been loaded - see {@link CKEDITOR.editor#loaded} event.
+		 *	* **ready**: editor is fully initialized and ready - see {@link CKEDITOR.editor#instanceReady} event.
+		 *	* **destroyed**: the editor has been destroyed - see {@link CKEDITOR.editor#method-destroy} method.
+		 *
+		 * @property {String}
+		 */
+		this.status = 'unloaded';
+
+		/**
 		 * The configurations for this editor instance. It inherits all
 		 * settings defined in {@link CKEDITOR.config}, combined with settings
 		 * loaded from custom configuration files and those defined inline in
@@ -526,6 +539,7 @@
 				for ( i = 0; i < editor.config.blockedKeystrokes.length; i++ )
 					editor.keystrokeHandler.blockedKeystrokes[ editor.config.blockedKeystrokes[ i ] ] = 1;
 
+				editor.status = 'loaded';
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			});
@@ -592,6 +606,8 @@
 			!noUpdate && updateEditorElement.call( this );
 
 			this.editable( null );
+
+			this.status = 'destroyed';
 
 			this.fire( 'destroy' );
 
@@ -1081,6 +1097,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * Fired when CKEDITOR instance's components (config, languages and plugins) are fully
+ * loaded and initialized. However, the editor will be fully ready to for interaction
+ * on {@link CKEDITOR#instanceReady}.
+ *
+ * @event instanceLoaded
+ * @member CKEDITOR
+ * @param {CKEDITOR.editor} editor This editor instance that has been loaded.
+ */
+
+/**
  * Fired when a CKEDITOR instance is destroyed.
  *
  * @event instanceDestroyed
@@ -1227,6 +1253,15 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * and ready for interaction.
  *
  * @event instanceReady
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when editor's components (config, languages and plugins) are fully
+ * loaded and initialized. However, the editor will be fully ready to for interaction
+ * on {@link #instanceReady}.
+ *
+ * @event loaded
  * @param {CKEDITOR.editor} editor This editor instance.
  */
 
