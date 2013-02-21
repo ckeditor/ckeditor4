@@ -201,15 +201,17 @@
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
 			// of the contents. (#5156)
-			editable.attachListener( editable, 'focus', function( evt ) {
-				evt.removeListener();
+			if ( !CKEDITOR.env.opera ) {
+				editable.attachListener( editable, 'focus', function( evt ) {
+					evt.removeListener();
 
-				if ( restoreSel !== 0 ) {
-					var rng = editor.createRange();
-					rng.moveToElementEditStart( editable );
-					rng.select();
-				}
-			}, null, null, -2 );
+					if ( restoreSel !== 0 ) {
+						var rng = editor.createRange();
+						rng.moveToElementEditStart( editable );
+						rng.select();
+					}
+				}, null, null, -2 );
+			}
 
 			// Plays the magic here to restore/save dom selection on editable focus/blur.
 			editable.attachListener( editable, 'focus', function() {

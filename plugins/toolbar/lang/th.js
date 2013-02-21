@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'th', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'ซ่อนแถบเครื่องมือ',
+	toolbarExpand: 'เปิดแถบเครื่องมือ',
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Clipboard/Undo',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'th', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'แถบเครื่องมือช่วยพิมพ์ข้อความ'
 });

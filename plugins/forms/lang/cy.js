@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		type: 'Math',
 		typeText: 'Testun',
 		typePass: 'Cyfrinair',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeEmail: 'Ebost',
+		typeSearch: 'Chwilio',
+		typeTel: 'Rhif Ffôn',
+		typeUrl: 'URL'
 	}
 });

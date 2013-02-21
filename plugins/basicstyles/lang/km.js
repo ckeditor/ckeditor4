@@ -3,10 +3,10 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'km', {
-	bold: 'អក្សរដិតធំ',
-	italic: 'អក្សរផ្តេក',
-	strike: 'ដិតបន្ទាត់ពាក់កណ្តាលអក្សរ',
+	bold: 'ក្រាស់',
+	italic: 'ទ្រេត',
+	strike: 'គូស​បន្ទាត់​ចំ​កណ្ដាល',
 	subscript: 'អក្សរតូចក្រោម',
 	superscript: 'អក្សរតូចលើ',
-	underline: 'ដិតបន្ទាត់ពីក្រោមអក្សរ'
+	underline: 'គូស​បន្ទាត់​ក្រោម'
 });

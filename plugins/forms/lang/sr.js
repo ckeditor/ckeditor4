@@ -63,6 +63,6 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		typeEmail: 'Email', // MISSING
 		typeSearch: 'Search', // MISSING
 		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeUrl: 'УРЛ'
 	}
 });

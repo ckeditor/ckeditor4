@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'th', {
 	anchor: 'แทรก/แก้ไข Anchor',
-	flash: 'Flash Animation', // MISSING
+	flash: 'ภาพอนิเมชั่นแฟลช',
 	hiddenfield: 'ฮิดเดนฟิลด์',
-	iframe: 'IFrame', // MISSING
-	unknown: 'Unknown Object' // MISSING
+	iframe: 'IFrame',
+	unknown: 'วัตถุไม่ทราบชนิด'
 });

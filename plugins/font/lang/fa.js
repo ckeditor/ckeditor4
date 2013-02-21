@@ -6,9 +6,9 @@ CKEDITOR.plugins.setLang( 'font', 'fa', {
 	fontSize: {
 		label: 'اندازه',
 		voiceLabel: 'اندازه قلم',
-		panelTitle: 'اندازه'
+		panelTitle: 'اندازه قلم'
 	},
 	label: 'قلم',
-	panelTitle: 'قلم',
+	panelTitle: 'نام قلم',
 	voiceLabel: 'قلم'
 });

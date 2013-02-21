@@ -103,6 +103,9 @@ Special outer level classes used in this file:
 	border-bottom: 1px solid #b6b6b6;
 	padding: 6px 8px 2px;
 
+	/* Allow breaking toolbars when in a narrow editor. (#9947) */
+	white-space: normal;
+
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;

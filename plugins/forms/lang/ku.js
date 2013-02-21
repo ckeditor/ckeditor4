@@ -63,6 +63,6 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		typeEmail: 'Email', // MISSING
 		typeSearch: 'Search', // MISSING
 		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeUrl: 'ناونیشانی بهستهر'
 	}
 });
