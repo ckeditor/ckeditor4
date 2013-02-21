@@ -65,10 +65,12 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 				type: 'textarea',
 				type: 'textarea',
 				id: 'data',
+				dir: 'ltr',
 				inputStyle: 'cursor:auto;' +
 					'width:' + width + 'px;' +
 					'height:' + height + 'px;' +
-					'tab-size:4;',
+					'tab-size:4;' +
+					'text-align:left;',
 				'class': 'cke_source'
 			}]
 		}]

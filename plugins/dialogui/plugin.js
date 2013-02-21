@@ -284,6 +284,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 				if ( typeof elementDefinition.inputStyle != 'undefined' )
 					attributes.style = elementDefinition.inputStyle;
 
+				if ( elementDefinition.dir )
+					attributes.dir = elementDefinition.dir;
+
 				var innerHTML = function() {
 						attributes[ 'aria-labelledby' ] = this._.labelId;
 						this._.required && ( attributes[ 'aria-required' ] = this._.required );
