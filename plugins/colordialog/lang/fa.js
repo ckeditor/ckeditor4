@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'colordialog', 'fa', {
 	clear: 'پاک کردن',
 	highlight: 'متمایز',
-	options: 'گزینههای رنگ',
+	options: 'گزینه​های رنگ',
 	selected: 'رنگ انتخاب شده',
 	title: 'انتخاب رنگ'
 });

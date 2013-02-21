@@ -13,14 +13,14 @@ CKEDITOR.plugins.setLang( 'image', 'fa', {
 	infoTab: 'اطلاعات تصویر',
 	linkTab: 'پیوند',
 	lockRatio: 'قفل کردن نسبت',
-	menu: 'ویژگیهای تصویر',
+	menu: 'ویژگی​های تصویر',
 	resetSize: 'بازنشانی اندازه',
-	title: 'ویژگیهای تصویر',
-	titleButton: 'ویژگیهای دکمهٴ تصویری',
+	title: 'ویژگی​های تصویر',
+	titleButton: 'ویژگی​های دکمهٴ تصویری',
 	upload: 'انتقال به سرور',
 	urlMissing: 'آدرس URL اصلی تصویر یافت نشد.',
 	vSpace: 'فاصلهٴ عمودی',
 	validateBorder: 'مقدار خطوط باید یک عدد باشد.',
-	validateHSpace: 'مقدار فاصلهگذاری افقی باید یک عدد باشد.',
-	validateVSpace: 'مقدار فاصلهگذاری عمودی باید یک عدد باشد.'
+	validateHSpace: 'مقدار فاصله گذاری افقی باید یک عدد باشد.',
+	validateVSpace: 'مقدار فاصله گذاری عمودی باید یک عدد باشد.'
 });

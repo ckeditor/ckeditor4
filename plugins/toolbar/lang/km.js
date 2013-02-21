@@ -3,20 +3,20 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'km', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'បង្រួម​របារ​ឧបករណ៍',
+	toolbarExpand: 'ពង្រីក​របារ​ឧបករណ៍',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'ឯកសារ',
+		clipboard: 'Clipboard/មិន​ធ្វើ​វិញ',
+		editing: 'ការ​កែ​សម្រួល',
+		forms: 'បែបបទ',
+		basicstyles: 'រចនាបថ​មូលដ្ឋាន',
+		paragraph: 'កថាខណ្ឌ',
+		links: 'តំណ',
+		insert: 'បញ្ចូល',
+		styles: 'រចនាបថ',
+		colors: 'ពណ៌',
+		tools: 'ឧបករណ៍'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'របារ​ឧបករណ៍​កែ​សម្រួល'
 });

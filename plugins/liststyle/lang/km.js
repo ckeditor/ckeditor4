@@ -3,7 +3,7 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'km', {
-	armenian: 'Armenian numbering',
+	armenian: 'លេខ​អារមេនី',
 	bulletedTitle: 'Bulleted List Properties',
 	circle: 'Circle',
 	decimal: 'Decimal (1, 2, 3, etc.)',
@@ -17,9 +17,9 @@ CKEDITOR.plugins.setLang( 'liststyle', 'km', {
 	notset: '<not set>',
 	numberedTitle: 'Numbered List Properties',
 	square: 'Square',
-	start: 'Start',
-	type: 'Type',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	start: 'ចាប់​ផ្ដើម',
+	type: 'ប្រភេទ',
+	upperAlpha: 'អក្សរ​ធំ (A, B, C, D, E, ...)',
+	upperRoman: 'លេខ​រ៉ូម៉ាំង​ធំ (I, II, III, IV, V, ...)',
+	validateStartNumber: 'List start number must be a whole number.' // MISSING
 });

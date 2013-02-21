@@ -3,9 +3,9 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'km', {
-	label: 'ម៉ូត',
-	panelTitle: 'Formatting Styles', // MISSING
-	panelTitle1: 'Block Styles', // MISSING
-	panelTitle2: 'Inline Styles', // MISSING
-	panelTitle3: 'Object Styles' // MISSING
+	label: 'រចនាបថ',
+	panelTitle: 'ទ្រង់ទ្រាយ​រចនាបថ',
+	panelTitle1: 'រចនាបថ​ប្លក់',
+	panelTitle2: 'រចនាបថ​ក្នុង​ជួរ',
+	panelTitle3: 'រចនាបថ​វត្ថុ'
 });

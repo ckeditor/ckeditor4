@@ -9,13 +9,13 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fa', {
 		document: 'سند',
 		clipboard: 'حافظه موقت/برگشت',
 		editing: 'در حال ویرایش',
-		forms: 'فرمها',
-		basicstyles: 'شیوههای پایه',
+		forms: 'فرم​ها',
+		basicstyles: 'شیوه​های پایه',
 		paragraph: 'بند',
 		links: 'پیوندها',
 		insert: 'ورود',
-		styles: 'شیوهها',
-		colors: 'رنگها',
+		styles: 'شیوه​ها',
+		colors: 'رنگ​ها',
 		tools: 'ابزارها'
 	},
 	toolbars: 'نوار ابزار'

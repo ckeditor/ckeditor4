@@ -7,119 +7,119 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	euro: 'نشان یورو',
 	lsquo: 'علامت نقل قول تکی چپ',
 	rsquo: 'علامت نقل قول تکی راست',
-	ldquo: 'علامت دوتایی نقل قول چپ',
-	rdquo: 'علامت دوتایی نقل قول راست',
+	ldquo: 'علامت نقل قول دوتایی چپ',
+	rdquo: 'علامت نقل قول دوتایی راست',
 	ndash: 'خط تیره En',
 	mdash: 'خط تیره Em',
-	iexcl: 'علامت گذاری به عنوان علامت تعجب وارونه',
+	iexcl: 'علامت تعجب وارونه',
 	cent: 'نشان سنت',
 	pound: 'نشان پوند',
 	curren: 'نشان ارز',
 	yen: 'نشان ین',
 	brvbar: 'نوار شکسته',
 	sect: 'نشان بخش',
-	uml: 'Diaeresis', // MISSING
+	uml: 'نشان سواگیری',
 	copy: 'نشان کپی رایت',
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
-	not: 'علامت ثبت نشده',
-	reg: 'علامت ثبت شده',
-	macr: 'Macron', // MISSING
+	ordf: 'شاخص ترتیبی مونث',
+	laquo: 'اشاره چپ مکرر برای زاویه علامت نقل قول',
+	not: 'نشان ثبت نشده',
+	reg: 'نشان ثبت شده',
+	macr: 'نشان خط بالای حرف',
 	deg: 'نشان درجه',
 	sup2: 'بالانویس دو',
 	sup3: 'بالانویس سه',
 	acute: 'لهجه غلیظ',
 	micro: 'نشان مایکرو',
-	para: 'Pilcrow sign', // MISSING
+	para: 'نشان محل بند',
 	middot: 'نقطه میانی',
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
-	ordm: 'Masculine ordinal indicator', // MISSING
+	cedil: 'سدیل',
+	sup1: 'بالانویس 1',
+	ordm: 'شاخص ترتیبی مذکر',
 	raquo: 'نشان زاویه‌دار دوتایی نقل قول راست چین',
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
-	iquest: 'Inverted question mark', // MISSING
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
-	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
-	Iacute: 'Latin capital letter I with acute accent', // MISSING
-	Icirc: 'Latin capital letter I with circumflex', // MISSING
-	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
-	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
-	Oacute: 'Latin capital letter O with acute accent', // MISSING
-	Ocirc: 'Latin capital letter O with circumflex', // MISSING
-	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
-	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
-	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
-	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
-	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
-	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
-	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
-	eacute: 'Latin small letter e with acute accent', // MISSING
-	ecirc: 'Latin small letter e with circumflex', // MISSING
-	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
-	iacute: 'Latin small letter i with acute accent', // MISSING
-	icirc: 'Latin small letter i with circumflex', // MISSING
-	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
-	oacute: 'Latin small letter o with acute accent', // MISSING
-	ocirc: 'Latin small letter o with circumflex', // MISSING
-	otilde: 'Latin small letter o with tilde', // MISSING
-	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
-	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
-	uacute: 'Latin small letter u with acute accent', // MISSING
-	ucirc: 'Latin small letter u with circumflex', // MISSING
-	uuml: 'Latin small letter u with diaeresis', // MISSING
-	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
-	yuml: 'Latin small letter y with diaeresis', // MISSING
-	OElig: 'Latin capital ligature OE', // MISSING
-	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'جهت‌نمای دوتایی چپ به راست',
-	diams: 'Black diamond suit', // MISSING
+	frac14: 'واحد عامیانه 1/4',
+	frac12: 'واحد عامینه نصف',
+	frac34: 'واحد عامیانه 3/4',
+	iquest: 'علامت سوال معکوس',
+	Agrave: 'حرف A بزرگ لاتین با تلفظ غلیظ',
+	Aacute: 'حرف A بزرگ لاتین با تلفظ شدید',
+	Acirc: 'حرف A بزرگ لاتین با دور',
+	Atilde: 'حرف A بزرگ لاتین با صدای کامی',
+	Auml: 'حرف A بزرگ لاتین با نشان سواگیری',
+	Aring: 'حرف A بزرگ لاتین با حلقه بالا',
+	AElig: 'حرف Æ بزرگ لاتین',
+	Ccedil: 'حرف C بزرگ لاتین با نشان سواگیری',
+	Egrave: 'حرف E بزرگ لاتین با تلفظ درشت',
+	Eacute: 'حرف E بزرگ لاتین با تلفظ زیر',
+	Ecirc: 'حرف E بزرگ لاتین با خمان',
+	Euml: 'حرف E بزرگ لاتین با نشان سواگیری',
+	Igrave: 'حرف I بزرگ لاتین با تلفظ درشت',
+	Iacute: 'حرف I بزرگ لاتین با تلفظ ریز',
+	Icirc: 'حرف I بزرگ لاتین با خمان',
+	Iuml: 'حرف I بزرگ لاتین با نشان سواگیری',
+	ETH: 'حرف لاتین بزرگ واکه ترتیبی',
+	Ntilde: 'حرف N بزرگ لاتین با مد',
+	Ograve: 'حرف O بزرگ لاتین با تلفظ درشت',
+	Oacute: 'حرف O بزرگ لاتین با تلفظ ریز',
+	Ocirc: 'حرف O بزرگ لاتین با خمان',
+	Otilde: 'حرف O بزرگ لاتین با مد',
+	Ouml: 'حرف O بزرگ لاتین با نشان سواگیری',
+	times: 'نشان ضربدر',
+	Oslash: 'حرف O بزرگ لاتین با میان خط',
+	Ugrave: 'حرف U بزرگ لاتین با تلفظ درشت',
+	Uacute: 'حرف U بزرگ لاتین با تلفظ ریز',
+	Ucirc: 'حرف U بزرگ لاتین با خمان',
+	Uuml: 'حرف U بزرگ لاتین با نشان سواگیری',
+	Yacute: 'حرف Y بزرگ لاتین با تلفظ ریز',
+	THORN: 'حرف بزرگ لاتین خاردار',
+	szlig: 'حرف کوچک لاتین شارپ s',
+	agrave: 'حرف a کوچک لاتین با تلفظ درشت',
+	aacute: 'حرف a کوچک لاتین با تلفظ ریز',
+	acirc: 'حرف a کوچک لاتین با خمان',
+	atilde: 'حرف a کوچک لاتین با صدای کامی',
+	auml: 'حرف a کوچک لاتین با نشان سواگیری',
+	aring: 'حرف a کوچک لاتین گوشواره دار',
+	aelig: 'حرف کوچک لاتین æ',
+	ccedil: 'حرف c کوچک لاتین با نشان سدیل',
+	egrave: 'حرف e کوچک لاتین با تلفظ درشت',
+	eacute: 'حرف e کوچک لاتین با تلفظ ریز',
+	ecirc: 'حرف e کوچک لاتین با خمان',
+	euml: 'حرف e کوچک لاتین با نشان سواگیری',
+	igrave: 'حرف i کوچک لاتین با تلفظ درشت',
+	iacute: 'حرف i کوچک لاتین با تلفظ ریز',
+	icirc: 'حرف i کوچک لاتین با خمان',
+	iuml: 'حرف i کوچک لاتین با نشان سواگیری',
+	eth: 'حرف کوچک لاتین eth',
+	ntilde: 'حرف n کوچک لاتین با صدای کامی',
+	ograve: 'حرف o کوچک لاتین با تلفظ درشت',
+	oacute: 'حرف o کوچک لاتین با تلفظ زیر',
+	ocirc: 'حرف o کوچک لاتین با خمان',
+	otilde: 'حرف o کوچک لاتین با صدای کامی',
+	ouml: 'حرف o کوچک لاتین با نشان سواگیری',
+	divide: 'نشان بخش',
+	oslash: 'حرف o کوچک لاتین با میان خط',
+	ugrave: 'حرف u کوچک لاتین با تلفظ درشت',
+	uacute: 'حرف u کوچک لاتین با تلفظ ریز',
+	ucirc: 'حرف u کوچک لاتین با خمان',
+	uuml: 'حرف u کوچک لاتین با نشان سواگیری',
+	yacute: 'حرف y کوچک لاتین با تلفظ ریز',
+	thorn: 'حرف کوچک لاتین خاردار',
+	yuml: 'حرف y کوچک لاتین با نشان سواگیری',
+	OElig: 'بند بزرگ لاتین OE',
+	oelig: 'بند کوچک لاتین oe',
+	'372': 'حرف W بزرگ لاتین با خمان',
+	'374': 'حرف Y بزرگ لاتین با خمان',
+	'373': 'حرف w کوچک لاتین با خمان',
+	'375': 'حرف y کوچک لاتین با خمان',
+	sbquo: 'نشان نقل قول تکی زیر-9',
+	'8219': 'نشان نقل قول تکی high-reversed-9',
+	bdquo: 'نقل قول دوتایی پایین-9',
+	hellip: 'حذف افقی',
+	trade: 'نشان تجاری',
+	'9658': 'نشانگر سیاه جهت راست',
+	bull: 'گلوله',
+	rarr: 'فلش راست',
+	rArr: 'فلش دوتایی راست',
+	hArr: 'فلش دوتایی چپ راست',
+	diams: 'نشان الماس سیاه',
 	asymp: 'تقریبا برابر با'
 });

@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'fa', {
 	button: {
-		title: 'ویژگیهای دکمه',
+		title: 'ویژگی​های دکمه',
 		text: 'متن (مقدار)',
 		type: 'نوع',
 		typeBtn: 'دکمه',
@@ -12,27 +12,27 @@ CKEDITOR.plugins.setLang( 'forms', 'fa', {
 		typeRst: 'بازنشانی (Reset)'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'ویژگیهای خانهٴ گزینهای',
-		radioTitle: 'ویژگیهای دکمهٴ رادیویی',
+		checkboxTitle: 'ویژگی​های خانهٴ گزینه​ای',
+		radioTitle: 'ویژگی​های دکمهٴ رادیویی',
 		value: 'مقدار',
 		selected: 'برگزیده'
 	},
 	form: {
-		title: 'ویژگیهای فرم',
-		menu: 'ویژگیهای فرم',
+		title: 'ویژگی​های فرم',
+		menu: 'ویژگی​های فرم',
 		action: 'رویداد',
 		method: 'متد',
 		encoding: 'رمزنگاری'
 	},
 	hidden: {
-		title: 'ویژگیهای فیلد پنهان',
+		title: 'ویژگی​های فیلد پنهان',
 		name: 'نام',
 		value: 'مقدار'
 	},
 	select: {
-		title: 'ویژگیهای فیلد چندگزینهای',
+		title: 'ویژگی​های فیلد چندگزینه​ای',
 		selectInfo: 'اطلاعات',
-		opAvail: 'گزینههای دردسترس',
+		opAvail: 'گزینه​های دردسترس',
 		value: 'مقدار',
 		size: 'اندازه',
 		lines: 'خطوط',
@@ -47,22 +47,22 @@ CKEDITOR.plugins.setLang( 'forms', 'fa', {
 		btnDelete: 'پاککردن'
 	},
 	textarea: {
-		title: 'ویژگیهای ناحیهٴ متنی',
-		cols: 'ستونها',
+		title: 'ویژگی​های ناحیهٴ متنی',
+		cols: 'ستون​ها',
 		rows: 'سطرها'
 	},
 	textfield: {
-		title: 'ویژگیهای فیلد متنی',
+		title: 'ویژگی​های فیلد متنی',
 		name: 'نام',
 		value: 'مقدار',
 		charWidth: 'پهنای نویسه',
-		maxChars: 'بیشینهٴ نویسهها',
+		maxChars: 'بیشینهٴ نویسه​ها',
 		type: 'نوع',
 		typeText: 'متن',
 		typePass: 'گذرواژه',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeEmail: 'ایمیل',
+		typeSearch: 'جستجو',
+		typeTel: 'شماره تلفن',
+		typeUrl: 'URL'
 	}
 });

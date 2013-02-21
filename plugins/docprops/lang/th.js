@@ -7,19 +7,19 @@ CKEDITOR.plugins.setLang( 'docprops', 'th', {
 	bgFixed: 'พื้นหลังแบบไม่มีแถบเลื่อน',
 	bgImage: 'ที่อยู่อ้างอิงออนไลน์ของรูปพื้นหลัง (Image URL)',
 	charset: 'ชุดตัวอักษร',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
+	charsetASCII: 'ASCII',
+	charsetCE: 'Central European',
+	charsetCR: 'Cyrillic',
+	charsetCT: 'Chinese Traditional (Big5)',
+	charsetGR: 'Greek',
+	charsetJP: 'Japanese',
+	charsetKR: 'Korean',
 	charsetOther: 'ชุดตัวอักษรอื่นๆ',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
+	charsetTR: 'Turkish',
+	charsetUN: 'Unicode (UTF-8)',
+	charsetWE: 'Western European',
 	chooseColor: 'Choose',
-	design: 'Design', // MISSING
+	design: 'ออกแบบ',
 	docTitle: 'ชื่อไตเติ้ล',
 	docType: 'ประเภทของเอกสาร',
 	docTypeOther: 'ประเภทเอกสารอื่นๆ',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'th', {
 	metaDescription: 'ประโยคอธิบายเกี่ยวกับเอกสาร',
 	metaKeywords: 'คำสำคัญอธิบายเอกสาร (คั่นคำด้วย คอมม่า)',
 	other: '<อื่น ๆ>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>นี่เป็น <strong>ข้อความตัวอย่าง</strong>. คุณกำลังใช้งาน <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'คุณสมบัติของเอกสาร',
 	txtColor: 'สีตัวอักษร',
 	xhtmlDec: 'รวมเอา  XHTML Declarations ไว้ด้วย'
