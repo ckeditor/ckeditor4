@@ -153,14 +153,18 @@
 		this.keystrokeHandler = new CKEDITOR.keystrokeHandler( this );
 
 		// Make the editor update its command states on mode change.
-		this.on( 'mode', updateCommands );
 		this.on( 'readOnly', updateCommands );
 		this.on( 'selectionChange', updateCommandsContext );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
+			updateCommands.call( this );
+			// First 'mode' event is fired before this 'instanceReady',
+			// so to avoid updating commands twice, add this listener here.
+			this.on( 'mode', updateCommands );
+
 			this.config.startupFocus && this.focus();
-		});
+		} );
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
 
@@ -185,17 +189,18 @@
 	}
 
 	function updateCommands() {
-		var command,
-			commands = this.commands,
+		var commands = this.commands,
 			mode = this.mode;
 
 		if ( !mode )
 			return;
 
-		for ( var name in commands ) {
-			command = commands[ name ];
-			command[ command.startDisabled ? 'disable' : this.readOnly && !command.readOnly ? 'disable' : command.modes[ mode ] ? 'enable' : 'disable' ]();
-		}
+		for ( var name in commands )
+			updateCommand( this, commands[ name ] );
+	}
+
+	function updateCommand( editor, cmd ) {
+		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
 	}
 
 	function updateCommandsContext( ev ) {
@@ -585,6 +590,11 @@
 		addCommand: function( commandName, commandDefinition ) {
 			commandDefinition.name = commandName.toLowerCase();
 			var cmd = new CKEDITOR.command( this, commandDefinition );
+
+			// Update command when added after editor has been already initialized.
+			if ( this.status == 'ready' && this.mode )
+				updateCommand( this, cmd );
+
 			return this.commands[ commandName ] = cmd;
 		},
 
