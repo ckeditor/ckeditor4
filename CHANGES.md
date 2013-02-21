@@ -19,6 +19,7 @@ CKEditor 4 Changelog
 * [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
 * [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when editor focused for the first time.
 * [#9947](http://dev.ckeditor.com/ticket/9947): [Webkit] Editor overflows parent container in some edge cases.
+* [#10105](http://dev.ckeditor.com/ticket/10105): Fixed: Broken sourcearea view when RTL language is set.
 
 ## CKEditor 4.0.1.1
 
