@@ -891,7 +891,7 @@
 		 *
 		 *		function beforeUnload( evt ) {
 		 *			if ( CKEDITOR.instances.editor1.checkDirty() )
-		 *				return e.returnValue = "You will lose the changes made in the editor.";
+		 *				return evt.returnValue = "You will lose the changes made in the editor.";
 		 *		}
 		 *
 		 *		if ( window.addEventListener )
@@ -902,7 +902,7 @@
 		 * @returns {Boolean} `true` if the contents contain changes.
 		 */
 		checkDirty: function() {
-			return this._.previousValue !== this.getSnapshot();
+			return this.status == 'ready' && this._.previousValue !== this.getSnapshot();
 		},
 
 		/**

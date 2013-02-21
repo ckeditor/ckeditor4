@@ -252,9 +252,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		data && editor.setData( data, null, true );
 
-		// Clean during initialization.
-		editor.resetDirty();
-
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			loadTheme( editor );
