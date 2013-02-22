@@ -73,6 +73,11 @@
 					mode = newMode;
 				}
 
+				var editable = editor.editable();
+				// #10112 Do not fail on editable-less editor.
+				if ( !editable )
+					return;
+
 				// Show up the space on focus gain.
 				evt.name == 'focus' && floatSpace.show();
 
@@ -85,8 +90,7 @@
 				// available for all, it's safe to figure that out from the rest.
 
 				// http://help.dottoro.com/ljgupwlp.php
-				var editable = editor.editable(),
-					spaceRect = floatSpace.getClientRect(),
+				var spaceRect = floatSpace.getClientRect(),
 					editorRect = editable.getClientRect(),
 					spaceHeight = spaceRect.height,
 					pageScrollX = scrollOffset( 'left' );
