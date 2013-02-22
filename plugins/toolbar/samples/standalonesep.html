@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Toolbar Configuration with Standalone Separator &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+</head>
+<body>
+		<div contenteditable="true" id="testtoolbar">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</div>
+
+	<script>
+
+		(function() {
+
+			CKEDITOR.inline('testtoolbar', { extraPlugins: 'toolbar', toolbar: [
+				{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
+				'|',
+				[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+				'/',
+				{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
+			]
+		 })
+		})();
+
+	</script>
+
+</body>
+</html>
+
+
+

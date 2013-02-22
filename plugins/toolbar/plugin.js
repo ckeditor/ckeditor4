@@ -197,6 +197,11 @@
 							continue;
 						}
 
+						if ( row === '|' ) {
+							output.push( '<span class="cke_toolbar_standalone_separator"></span>' );
+							continue;
+						}
+
 						items = row.items || row;
 
 						// Create all items defined for this toolbar.
@@ -384,7 +389,7 @@
 				}
 			});
 
-			// Manage editor focus  when navigating the toolbar.
+			// Manage editor focus	when navigating the toolbar.
 			editor.on( 'uiReady', function() {
 				var toolbox = editor.ui.space( 'toolbox' );
 				toolbox && editor.focusManager.add( toolbox, 1 );
@@ -550,7 +555,7 @@
 				if ( atStart )
 					subgroupOf.groups.splice( 0, 0, name );
 				else
-					subgroupOf.groups.push(  name );
+					subgroupOf.groups.push(	 name );
 				return;
 			} else {
 				// Ignore "previous" if subgroupOf has not been found.
@@ -577,7 +582,7 @@
 		return editor._.toolbarGroups || ( editor._.toolbarGroups = [
 			{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-			{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+			{ name: 'editing',	   groups: [ 'find', 'selection', 'spellchecker' ] },
 			{ name: 'forms' },
 			'/',
 			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
@@ -655,7 +660,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *		config.toolbarGroups = [
  *			{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
  *			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
- *			{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+ *			{ name: 'editing',	   groups: [ 'find', 'selection', 'spellchecker' ] },
  *			{ name: 'forms' },
  *			'/',
  *			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
