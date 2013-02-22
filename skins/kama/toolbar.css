@@ -308,6 +308,20 @@ a.cke_button_off:active
 	clear: right;
 }
 
+/* The vertical separator which is used outside toolbars */
+.cke_toolbar_standalone_separator
+{
+	background: #A6A6A6;
+	display: block;
+	float: left;
+	height: 28px;
+	margin: 0 12px 0 6px;
+	width: 1px;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.5),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+}
+
 /* The button, which when clicked hides (collapses) all the toolbars. */
 .cke_toolbox_collapser
 {
