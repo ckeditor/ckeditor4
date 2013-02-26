@@ -5,5 +5,5 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'specialchar', 'ku', {
 	options: 'هەڵبژاردەی نووسەی تایبەتی',
 	title: 'هەڵبژاردنی نووسەی تایبەتی',
-	toolbar: 'دانانەی نووسەی تایبەتی'
+	toolbar: 'دانانی نووسەی تایبەتی'
 });

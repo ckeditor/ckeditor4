@@ -27,19 +27,19 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Éditeur de texte enrichi',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Prem ALT 0 per obtenir ajuda',
+		editorHelp: 'Appuyez sur 0 pour de l\'aide',
 
 		browseServer: 'Parcourir le serveur',
 		url: 'URL',
 		protocol: 'Protocole',
-		upload: 'Télécharger',
-		uploadSubmit: 'Envoyer sur le serveur',
+		upload: 'Envoyer',
+		uploadSubmit: 'Envoyer au serveur',
 		image: 'Image',
 		flash: 'Animation Flash',
 		form: 'Formulaire',
@@ -49,7 +49,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		textarea: 'Zone de texte',
 		hiddenField: 'Champ caché',
 		button: 'Bouton',
-		select: 'Champ de sélection',
+		select: 'Liste déroulante',
 		imageButton: 'Bouton image',
 		notSet: '<Par défaut>',
 		id: 'Id',
@@ -59,29 +59,29 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		langDirRtl: 'De droite à gauche (RTL)',
 		langCode: 'Code langue',
 		longDescr: 'URL de description longue',
-		cssClass: 'Classes de feuilles de style',
+		cssClass: 'Classes CSS',
 		advisoryTitle: 'Titre',
 		cssStyle: 'Style',
 		ok: 'OK',
 		cancel: 'Annuler',
-		close: 'Close', // MISSING
-		preview: 'Previsualiser',
-		resize: 'Resize', // MISSING
+		close: 'Fermer',
+		preview: 'Aperçu',
+		resize: 'Redimensionner',
 		generalTab: 'Général',
-		advancedTab: 'Avancée',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
-		target: 'Destination',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		advancedTab: 'Avancé',
+		validateNumberFailed: 'Cette valeur n\'est pas un nombre.',
+		confirmNewPage: 'Les changements non sauvegardés seront perdus. Êtes-vous certain de vouloir charger une nouvelle page?',
+		confirmCancel: 'Certaines options ont été modifiées.  Êtes-vous certain de vouloir fermer?',
+		options: 'Options',
+		target: 'Cible',
+		targetNew: 'Nouvelle fenêtre (_blank)',
+		targetTop: 'Fenêtre supérieur (_top)',
+		targetSelf: 'Cette fenêtre (_self)',
+		targetParent: 'Fenêtre parent (_parent)',
 		langDirLTR: 'De gauche à droite (LTR)',
 		langDirRTL: 'De droite à gauche (RTL)',
 		styles: 'Style',
-		cssClasses: 'Classes de feuilles de style',
+		cssClasses: 'Classe CSS',
 		width: 'Largeur',
 		height: 'Hauteur',
 		align: 'Alignement',
@@ -91,15 +91,15 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		alignTop: 'Haut',
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidValue	: 'Valeur invalide.',
+		invalidHeight: 'La hauteur doit être un nombre.',
+		invalidWidth: 'La largeur doit être un nombre.',
+		invalidCssLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure HTML valide (px ou %).',
+		invalidInlineStyle: 'La valeur spécifiée pour le style intégré doit être composée d\'un ou plusieurs couples de valeur au format "nom : valeur", separés par des points-virgules.',
+		cssLengthTooltip: 'Entrer un nombre pour la valeur en pixel ou un nombre avec une unité CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, indisponible</span>'
 	}
 };

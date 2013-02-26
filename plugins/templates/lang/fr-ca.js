@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'templates', 'fr-ca', {
 	button: 'Modèles',
 	emptyListMsg: '(Aucun modèle disponible)',
 	insertOption: 'Remplacer tout le contenu actuel',
-	options: 'Template Options', // MISSING
-	selectPromptMsg: 'Sélectionner le modèle à ouvrir dans l\'éditeur<br>(le contenu actuel sera remplacé):',
+	options: 'Options de modèles',
+	selectPromptMsg: 'Sélectionner le modèle à ouvrir dans l\'éditeur',
 	title: 'Modèles de contenu'
 });

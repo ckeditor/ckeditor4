@@ -4,65 +4,65 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ku', {
 	button: {
-		title: 'خاسیهتی دوگمه',
-		text: '(نرخی) دهق',
+		title: 'خاسیەتی دوگمە',
+		text: '(نرخی) دەق',
 		type: 'جۆر',
-		typeBtn: 'دوگمه',
-		typeSbm: 'ناردن',
-		typeRst: 'ڕێکخستنهوه'
+		typeBtn: 'دوگمە',
+		typeSbm: 'بنێرە',
+		typeRst: 'ڕێکخستنەوە'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'خاسیهتی چووارگۆشی پشکنین',
-		radioTitle: 'خاسیهتی جێگرهوهی دوگمه',
+		checkboxTitle: 'خاسیەتی چووارگۆشی پشکنین',
+		radioTitle: 'خاسیەتی جێگرەوەی دوگمە',
 		value: 'نرخ',
-		selected: 'ههڵبژاردرا'
+		selected: 'هەڵبژاردرا'
 	},
 	form: {
-		title: 'خاسیهتی داڕشته',
-		menu: 'خاسیهتی داڕشته',
+		title: 'خاسیەتی داڕشتە',
+		menu: 'خاسیەتی داڕشتە',
 		action: 'کردار',
-		method: 'ڕێگه',
-		encoding: 'بهکۆدکهر'
+		method: 'ڕێگە',
+		encoding: 'بەکۆدکەر'
 	},
 	hidden: {
-		title: 'خاسیهتی خانهی شاردراوه',
+		title: 'خاسیەتی خانەی شاردراوە',
 		name: 'ناو',
 		value: 'نرخ'
 	},
 	select: {
-		title: 'ههڵبژاردهی خاسیهتی خانه',
+		title: 'هەڵبژاردەی خاسیەتی خانە',
 		selectInfo: 'زانیاری',
-		opAvail: 'ههڵبژاردهی ههبوو',
+		opAvail: 'هەڵبژاردەی لەبەردەستدابوون',
 		value: 'نرخ',
-		size: 'گهورهیی',
-		lines: 'هێڵهکان',
-		chkMulti: 'ڕێدان بهفره ههڵبژارده',
-		opText: 'دهق',
+		size: 'گەورەیی',
+		lines: 'هێڵەکان',
+		chkMulti: 'ڕێدان بەفره هەڵبژارده',
+		opText: 'دەق',
 		opValue: 'نرخ',
 		btnAdd: 'زیادکردن',
 		btnModify: 'گۆڕانکاری',
-		btnUp: 'سهرهوه',
-		btnDown: 'خوارهوه',
-		btnSetValue: 'دابنێ وهك نرخێکی ههڵبژێردراو',
-		btnDelete: 'سڕینهوه'
+		btnUp: 'سەرەوه',
+		btnDown: 'خوارەوە',
+		btnSetValue: 'دابنێ وەك نرخێکی هەڵبژێردراو',
+		btnDelete: 'سڕینەوه'
 	},
 	textarea: {
-		title: 'خاسیهتی ڕووبهری دهق',
-		cols: 'ئهستونیهکان',
-		rows: 'ڕیزهکان'
+		title: 'خاسیەتی ڕووبەری دەق',
+		cols: 'ستوونەکان',
+		rows: 'ڕیزەکان'
 	},
 	textfield: {
-		title: 'خاسیهتی خانهی دهق',
+		title: 'خاسیەتی خانەی دەق',
 		name: 'ناو',
 		value: 'نرخ',
-		charWidth: 'پانی نووسه',
-		maxChars: 'ئهوپهڕی نووسه',
+		charWidth: 'پانی نووسە',
+		maxChars: 'ئەوپەڕی نووسە',
 		type: 'جۆر',
-		typeText: 'دهق',
-		typePass: 'پێپهڕهوشه',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'ناونیشانی بهستهر'
+		typeText: 'دەق',
+		typePass: 'پێپەڕەوشە',
+		typeEmail: 'ئیمەیل',
+		typeSearch: 'گەڕان',
+		typeTel: 'ژمارەی تەلەفۆن',
+		typeUrl: 'ناونیشانی بەستەر'
 	}
 });

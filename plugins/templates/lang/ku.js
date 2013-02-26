@@ -4,9 +4,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'ku', {
 	button: 'ڕووکار',
-	emptyListMsg: '(هیچ ڕووکارێك دیارینهکراوه)',
-	insertOption: 'لهشوێن دانانی ئهم پێکهاتانهی ئێستا',
-	options: 'ههڵبژاردهکانی ڕووکار',
-	selectPromptMsg: 'ڕووکارێك ههڵبژێره بۆ کردنهوهی له سهرنووسهر:',
-	title: 'پێکهاتهی ڕووکار'
+	emptyListMsg: '(هیچ ڕووکارێك دیارینەکراوە)',
+	insertOption: 'لە شوێن دانانی ئەم پێکهاتانەی ئێستا',
+	options: 'هەڵبژاردەکانی ڕووکار',
+	selectPromptMsg: 'ڕووکارێك هەڵبژێره بۆ کردنەوەی له سەرنووسەر:',
+	title: 'پێکهاتەی ڕووکار'
 });

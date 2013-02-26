@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'ku', {
 	label: 'شێواز',
-	panelTitle: 'شێوازی ڕازاندنهوه',
+	panelTitle: 'شێوازی ڕازاندنەوە',
 	panelTitle1: 'شێوازی خشت',
 	panelTitle2: 'شێوازی ناوهێڵ',
-	panelTitle3: 'شێوازی بهرکار'
+	panelTitle3: 'شێوازی بەرکار'
 });

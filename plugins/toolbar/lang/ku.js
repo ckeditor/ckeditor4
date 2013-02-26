@@ -6,17 +6,17 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ku', {
 	toolbarCollapse: 'شاردنەوی هێڵی تووڵامراز',
 	toolbarExpand: 'نیشاندانی هێڵی تووڵامراز',
 	toolbarGroups: {
-		document: 'پهڕه',
-		clipboard: 'بڕین/پووچکردنهوه',
+		document: 'پەڕه',
+		clipboard: 'بڕین/پووچکردنەوە',
 		editing: 'چاکسازی',
-		forms: 'داڕشته',
-		basicstyles: 'شێوازی بنچینهیی',
-		paragraph: 'بڕگه',
-		links: 'بهستهر',
-		insert: 'خستنه ناو',
+		forms: 'داڕشتە',
+		basicstyles: 'شێوازی بنچینەیی',
+		paragraph: 'بڕگە',
+		links: 'بەستەر',
+		insert: 'خستنە ناو',
 		styles: 'شێواز',
-		colors: 'ڕهنگهکان',
-		tools: 'ئامرازهکان'
+		colors: 'ڕەنگەکان',
+		tools: 'ئامرازەکان'
 	},
-	toolbars: 'تووڵاەرازی دەسکاریکەر'
+	toolbars: 'تووڵامرازی دەسکاریکەر'
 });

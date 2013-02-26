@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		type: 'Tür',
 		typeText: 'Metin',
 		typePass: 'Şifre',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'E-posta',
+		typeSearch: 'Ara',
+		typeTel: 'Telefon Numarası',
 		typeUrl: 'URL'
 	}
 });
