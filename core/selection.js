@@ -201,7 +201,7 @@
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
 			// of the contents. (#9507)
-			if ( !CKEDITOR.env.opera ) {
+			if ( CKEDITOR.env.gecko ) {
 				editable.attachListener( editable, 'focus', function( evt ) {
 					evt.removeListener();
 
@@ -209,9 +209,6 @@
 						var native = editor.getSelection().getNative();
 						// Do it only if the native selection is at an unwanted
 						// place (at the very start of the editable). #10119
-						// IEs<9 won't enter this if (no isCollapsed property on selection instance),
-						// but this is acceptable since they do a good job in terms of
-						// default selection positioning.
 						if ( native.isCollapsed && native.anchorNode == editable.$ ) {
 							var rng = editor.createRange();
 							rng.moveToElementEditStart( editable );
