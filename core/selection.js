@@ -200,7 +200,7 @@
 
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
-			// of the contents. (#5156)
+			// of the contents. (#9507)
 			if ( !CKEDITOR.env.opera ) {
 				editable.attachListener( editable, 'focus', function( evt ) {
 					evt.removeListener();
