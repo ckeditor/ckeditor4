@@ -392,7 +392,7 @@
 			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
 			// has to be initialized in editable, but for mouseup we listen on document element.
 			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
-			if ( editable.isInline() ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
+			if ( isInline ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
 				var mouseDown;
 				editable.attachListener( editable, 'mousedown', function() {
 					mouseDown = 1;
