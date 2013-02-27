@@ -70,7 +70,9 @@ CKEDITOR.replace( 'editor2', {
 		'img(left,right)[!src,alt,width,height];' +
 		'table tr th td caption;' +
 		'span{!font-family};' +'
-		'span{!color}'
+		'span{!color}' +
+		'span(!marker);' +
+		'del ins'
 } );
 </pre>
 		</div>
@@ -86,7 +88,9 @@ CKEDITOR.replace( 'editor2', {
 					'img(left,right)[!src,alt,width,height];' +
 					'table tr th td caption;' +
 					'span{!font-family};' +
-					'span{!color}'
+					'span{!color};' +
+					'span(!marker);' +
+					'del ins'
 			} );
 
 		</script>
@@ -105,7 +109,7 @@ CKEDITOR.replace( 'editor2', {
 <pre class="samples">
 CKEDITOR.replace( 'editor3', {
 	allowedContent: {
-		'b i ul ol': true,
+		'b i ul ol big small': true,
 		'h1 h2 h3 p blockquote li': {
 			styles: 'text-align'
 		},
@@ -126,7 +130,7 @@ CKEDITOR.replace( 'editor3', {
 
 			CKEDITOR.replace( 'editor3', {
 				allowedContent: {
-					'b i ul ol': true,
+					'b i ul ol big small': true,
 					'h1 h2 h3 p blockquote li': {
 						styles: 'text-align'
 					},
