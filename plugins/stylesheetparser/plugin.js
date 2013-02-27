@@ -87,22 +87,29 @@
 
 	// Register a plugin named "stylesheetparser".
 	CKEDITOR.plugins.add( 'stylesheetparser', {
-		onLoad: function() {
-			var obj = CKEDITOR.editor.prototype;
-			obj.getStylesSet = CKEDITOR.tools.override( obj.getStylesSet, function( org ) {
-				return function( callback ) {
-					var self = this;
-					org.call( this, function( definitions ) {
+		init: function( editor ) {
+			// Stylesheet parser is incompatible with filter (#10136).
+			editor.filter.disable();
+
+			var cachedDefinitions;
+
+			// Overwrite editor#getStylesSet asap (contentDom is the first moment
+			// when editor.document is ready), but before stylescombo reads styles set (priority 5).
+			editor.on( 'contentDom', function() {
+				editor.getStylesSet = function( callback ) {
+					if ( cachedDefinitions )
+						return callback( cachedDefinitions );
+
+					CKEDITOR.editor.prototype.getStylesSet.call( editor, function( definitions ) {
 						// Rules that must be skipped
-						var skipSelectors = self.config.stylesheetParser_skipSelectors || ( /(^body\.|^\.)/i ),
+						var skipSelectors = editor.config.stylesheetParser_skipSelectors || ( /(^body\.|^\.)/i ),
 							// Rules that are valid
-							validSelectors = self.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
+							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
 
-						callback( ( self._.stylesDefinitions = definitions.concat( LoadStylesCSS( self.document.$, skipSelectors, validSelectors ) ) ) );
-					});
+						callback( ( cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) ) ) );
+					} );
 				};
-			});
-
+			}, null, null, 5 );
 		}
 	});
 })();

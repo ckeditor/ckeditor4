@@ -18,45 +18,42 @@
 				combo,
 				allowedContent = [];
 
-			editor.getStylesSet( function( stylesDefinitions ) {
-				if ( !stylesDefinitions )
-					return;
+			// We need to wait for stylesheet parser's done its job (contentDom, prior=5).
+			editor.once( 'contentDom', function() {
+				editor.getStylesSet( function( stylesDefinitions ) {
+					if ( !stylesDefinitions )
+						return;
 
-				var style, styleName;
+					var style, styleName;
 
-				// Put all styles into an Array.
-				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
-					var styleDefinition = stylesDefinitions[ i ];
+					// Put all styles into an Array.
+					for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
+						var styleDefinition = stylesDefinitions[ i ];
 
-					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
-						continue;
+						if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+							continue;
 
-					styleName = styleDefinition.name;
+						styleName = styleDefinition.name;
 
-					style = new CKEDITOR.style( styleDefinition );
+						style = new CKEDITOR.style( styleDefinition );
 
-					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
-						style._name = styleName;
-						style._.enterMode = config.enterMode;
+						if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
+							style._name = styleName;
+							style._.enterMode = config.enterMode;
 
-						// Weight is used to sort styles (#9029).
-						style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
+							// Weight is used to sort styles (#9029).
+							style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
-						styles[ styleName ] = style;
-						stylesList.push( style );
-						allowedContent.push( style );
+							styles[ styleName ] = style;
+							stylesList.push( style );
+							allowedContent.push( style );
+						}
 					}
-				}
 
-				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
-				stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
-			});
-
-			// Hide entire combo when all styles are rejected.
-			// Although it looks like editor.getStylesSet is asynchronous,
-			// at this point it should behave synchronously.
-			if ( !stylesList.length )
-				return;
+					// Sorts the Array, so the styles get grouped by type in proper order (#9029).
+					stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
+				} );
+			} );
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
