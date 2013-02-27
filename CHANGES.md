@@ -20,6 +20,7 @@ CKEditor 4 Changelog
 * [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when editor focused for the first time.
 * [#9947](http://dev.ckeditor.com/ticket/9947): [Webkit] Editor overflows parent container in some edge cases.
 * [#10105](http://dev.ckeditor.com/ticket/10105): Fixed: Broken sourcearea view when RTL language is set.
+* [#10123](http://dev.ckeditor.com/ticket/10123): [Webkit] Fixed: Several dialogs have broken layout since latest Webkit.
 
 ## CKEditor 4.0.1.1
 
