@@ -18,8 +18,7 @@
 				combo,
 				allowedContent = [];
 
-			// We need to wait for stylesheet parser's done its job (contentDom, prior=5).
-			editor.once( 'contentDom', function() {
+			function initItems() {
 				editor.getStylesSet( function( stylesDefinitions ) {
 					if ( !stylesDefinitions )
 						return;
@@ -53,7 +52,14 @@
 					// Sorts the Array, so the styles get grouped by type in proper order (#9029).
 					stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
 				} );
-			} );
+			}
+
+			// We need to wait until stylesheet parser's done its job (contentDom, prior=5).
+			if ( editor.plugins.stylesheetparser )
+				editor.once( 'contentDom', initItems );
+			// If stylesheetparses isn't loaded, we need to load items before first setData(), so ACF will be ready.
+			else
+				initItems();
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
