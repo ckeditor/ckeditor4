@@ -200,15 +200,20 @@
 
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
-			// of the contents. (#5156)
-			if ( !CKEDITOR.env.opera ) {
+			// of the contents. (#9507)
+			if ( CKEDITOR.env.gecko ) {
 				editable.attachListener( editable, 'focus', function( evt ) {
 					evt.removeListener();
 
 					if ( restoreSel !== 0 ) {
-						var rng = editor.createRange();
-						rng.moveToElementEditStart( editable );
-						rng.select();
+						var nativ = editor.getSelection().getNative();
+						// Do it only if the native selection is at an unwanted
+						// place (at the very start of the editable). #10119
+						if ( nativ.isCollapsed && nativ.anchorNode == editable.$ ) {
+							var rng = editor.createRange();
+							rng.moveToElementEditStart( editable );
+							rng.select();
+						}
 					}
 				}, null, null, -2 );
 			}
@@ -384,7 +389,7 @@
 			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
 			// has to be initialized in editable, but for mouseup we listen on document element.
 			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
-			if ( editable.isInline() ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
+			if ( isInline ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
 				var mouseDown;
 				editable.attachListener( editable, 'mousedown', function() {
 					mouseDown = 1;
@@ -699,7 +704,15 @@
 				var nativeRange = this.document.$.createRange();
 				nativeRange.setStart( range.startContainer.$, range.startOffset );
 				nativeRange.collapse( 1 );
+
+				// It may happen that setting proper selection will
+				// cause focus to be fired. Cancel it because focus
+				// shouldn't be fired when retriving selection. (#10115)
+				var listener = this.root.on( 'focus', function( evt ) {
+					evt.cancel();
+				}, null, null, -100 );
 				sel.addRange( nativeRange );
+				listener.removeListener();
 			}
 		}
 

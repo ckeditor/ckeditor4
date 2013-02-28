@@ -60,7 +60,7 @@ CKEDITOR.plugins.setLang( 'table', 'bg', {
 	menu: 'Настройки на таблицата',
 	row: {
 		menu: 'Ред',
-		insertBefore: 'Insert Row Before',
+		insertBefore: 'Вмъкване на ред преди',
 		insertAfter: 'Вмъкване на ред след',
 		deleteRow: 'Изтриване на редове'
 	},

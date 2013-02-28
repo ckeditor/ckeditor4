@@ -88,7 +88,6 @@
 
 
 			function onClick( elementIndex ) {
-				editor.focus();
 				var element = editor._.elementsPath.list[ elementIndex ];
 				if ( element.equals( editor.editable() ) ) {
 					var range = editor.createRange();
@@ -96,6 +95,10 @@
 					range.select();
 				} else
 					editor.getSelection().selectElement( element );
+
+				// It is important to focus() *after* the above selection
+				// manipulation, otherwise Firefox will have troubles. #10119
+				editor.focus();
 			}
 
 			var onClickHanlder = CKEDITOR.tools.addFunction( onClick );

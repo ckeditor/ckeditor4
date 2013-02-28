@@ -4,9 +4,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'ku', {
 	fontSize: {
-		label: 'گهورهیی',
-		voiceLabel: 'گهورهیی فۆنت',
-		panelTitle: 'گهورهیی فۆنت'
+		label: 'گەورەیی',
+		voiceLabel: 'گەورەیی فۆنت',
+		panelTitle: 'گەورەیی فۆنت'
 	},
 	label: 'فۆنت',
 	panelTitle: 'ناوی فۆنت',

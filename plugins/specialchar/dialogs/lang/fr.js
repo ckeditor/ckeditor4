@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	ldquo: 'Guillemet double ouvrant',
 	rdquo: 'Guillemet double fermant',
 	ndash: 'Tiret haut',
-	mdash: 'Tiret bas underscore',
+	mdash: 'Tiret cadratin',
 	iexcl: 'Point d\'exclamation inversé',
 	cent: 'Symbole Cent',
 	pound: 'Symbole Livre Sterling',
