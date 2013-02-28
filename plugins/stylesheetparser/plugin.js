@@ -95,7 +95,7 @@
 
 			// Overwrite editor#getStylesSet asap (contentDom is the first moment
 			// when editor.document is ready), but before stylescombo reads styles set (priority 5).
-			editor.on( 'contentDom', function() {
+			editor.once( 'contentDom', function() {
 				editor.getStylesSet = function( callback ) {
 					if ( cachedDefinitions )
 						return callback( cachedDefinitions );
