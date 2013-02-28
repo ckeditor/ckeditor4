@@ -139,6 +139,7 @@
 			 *
 			 * See {@link CKEDITOR.plugins.undo.UndoManager#lock} for more details.
 			 *
+			 * @since 4.0
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
@@ -148,6 +149,7 @@
 			/**
 			 * Unlock manager and update latest snapshot.
 			 *
+			 * @since 4.0
 			 * @event unlockSnapshot
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
@@ -562,6 +564,8 @@
 		 * after the {@link #unlock} method is called.
 		 *
 		 * It's mainly used for ensure any DOM operations that shouldn't be recorded (e.g. auto paragraphing).
+		 *
+		 * @since 4.0
 		 */
 		lock: function() {
 			if ( !this.locked ) {
@@ -580,6 +584,8 @@
 		 * Unlock the snapshot stack and check to amend the last snapshot.
 		 *
 		 * See {@link #lock} for more details.
+		 *
+		 * @since 4.0
 		 */
 		unlock: function() {
 			if ( this.locked ) {
