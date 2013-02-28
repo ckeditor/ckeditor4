@@ -18,7 +18,9 @@
 				combo,
 				allowedContent = [];
 
-			editor.getStylesSet( function( stylesDefinitions ) {
+			editor.on( 'stylesSet', function( evt ) {
+				var stylesDefinitions = evt.data.styles;
+
 				if ( !stylesDefinitions )
 					return;
 
@@ -50,13 +52,7 @@
 
 				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
 				stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
-			});
-
-			// Hide entire combo when all styles are rejected.
-			// Although it looks like editor.getStylesSet is asynchronous,
-			// at this point it should behave synchronously.
-			if ( !stylesList.length )
-				return;
+			} );
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
