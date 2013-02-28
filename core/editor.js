@@ -399,7 +399,14 @@
 	// be called asynchronously.
 	// In both cases - styles will be preload before plugins initialization.
 	function preloadStylesSet( editor ) {
-		editor.getStylesSet( function() {
+		editor.getStylesSet( function( styles ) {
+			// Wait for editor#loaded, so plugins could add their listeners.
+			// But listen with high priority to fire editor#stylesSet before editor#uiReady and editor#setData.
+			editor.once( 'loaded', function() {
+				// Note: we can't use fireOnce because this event may canceled and fired again.
+				editor.fire( 'stylesSet', { styles: styles } );
+			}, null, null, 1 );
+
 			loadPlugins( editor );
 		} );
 	}
@@ -1145,6 +1152,19 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @event pluginsLoaded
  * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when styles set is loaded. During editor initialization
+ * phase the {@link #getStylesSet} method returns only styles that
+ * are already loaded, which may not include e.g. styles parsed
+ * by `stylesheetparser` plugin. Thus, to be notified when all
+ * styles are ready you can listen on this event.
+ *
+ * @since 4.1
+ * @event stylesSet
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Array} styles Array of styles definitions.
  */
 
 /**

@@ -18,48 +18,41 @@
 				combo,
 				allowedContent = [];
 
-			function initItems() {
-				editor.getStylesSet( function( stylesDefinitions ) {
-					if ( !stylesDefinitions )
-						return;
+			editor.on( 'stylesSet', function( evt ) {
+				var stylesDefinitions = evt.data.styles;
 
-					var style, styleName;
+				if ( !stylesDefinitions )
+					return;
 
-					// Put all styles into an Array.
-					for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
-						var styleDefinition = stylesDefinitions[ i ];
+				var style, styleName;
 
-						if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
-							continue;
+				// Put all styles into an Array.
+				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
+					var styleDefinition = stylesDefinitions[ i ];
 
-						styleName = styleDefinition.name;
+					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+						continue;
 
-						style = new CKEDITOR.style( styleDefinition );
+					styleName = styleDefinition.name;
 
-						if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
-							style._name = styleName;
-							style._.enterMode = config.enterMode;
+					style = new CKEDITOR.style( styleDefinition );
 
-							// Weight is used to sort styles (#9029).
-							style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
+					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
+						style._name = styleName;
+						style._.enterMode = config.enterMode;
 
-							styles[ styleName ] = style;
-							stylesList.push( style );
-							allowedContent.push( style );
-						}
+						// Weight is used to sort styles (#9029).
+						style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
+
+						styles[ styleName ] = style;
+						stylesList.push( style );
+						allowedContent.push( style );
 					}
+				}
 
-					// Sorts the Array, so the styles get grouped by type in proper order (#9029).
-					stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
-				} );
-			}
-
-			// We need to wait until stylesheet parser's done its job (contentDom, prior=5).
-			if ( editor.plugins.stylesheetparser )
-				editor.once( 'contentDom', initItems );
-			// If stylesheetparses isn't loaded, we need to load items before first setData(), so ACF will be ready.
-			else
-				initItems();
+				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
+				stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
+			} );
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
