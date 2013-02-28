@@ -89,6 +89,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * that if command implements Feature interface it will be tested
 	 * by {@link CKEDITOR.filter.checkFeature}.
 	 *
+	 * @since 4.1
 	 * @returns {Boolean} Whether command is allowed.
 	 */
 	this.checkAllowed = function() {

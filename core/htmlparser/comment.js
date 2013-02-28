@@ -39,6 +39,7 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 	/**
 	 * Filter this comment with given filter.
 	 *
+	 * @since 4.1
 	 * @param {CKEDITOR.htmlParser.filter} filter
 	 * @returns {Boolean} Method returns `false` when this comment has
 	 * been removed or replaced with other node. This is an information for

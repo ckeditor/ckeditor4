@@ -40,6 +40,7 @@
 		/**
 		 * Filter this text node with given filter.
 		 *
+		 * @since 4.1
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @returns {Boolean} Method returns `false` when this text node has
 		 * been removed. This is an information for {@link CKEDITOR.htmlParser.element#filterChildren}

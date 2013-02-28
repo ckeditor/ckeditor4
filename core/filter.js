@@ -12,6 +12,8 @@
 		TEST_VALUE = 'cke-test';
 
 	/**
+	 *
+	 * @since 4.1
 	 * @class
 	 */
 	CKEDITOR.filter = function( editorOrRules ) {

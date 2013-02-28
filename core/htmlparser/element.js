@@ -148,6 +148,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Filter this element and its children with given filter.
 		 *
+		 * @since 4.1
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @returns {Boolean} Method returns `false` when this element has
 		 * been removed or replaced with other. This is an information for
@@ -308,6 +309,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 		/**
 		 * Replace this element with its children.
+		 *
+		 * @since 4.1
 		 */
 		replaceWithChildren: function() {
 			var children = this.children;
@@ -334,6 +337,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *		// 5. "bar" text node,
 		 *		// 6. "bom" text node.
 		 *
+		 * @since 4.1
 		 * @param {Function} callback Function to be executed on every node.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
 		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.

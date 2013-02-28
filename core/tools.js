@@ -199,6 +199,7 @@
 		 * This method is faster than {@link #clone} which does
 		 * deep copy of an object (including arrays).
 		 *
+		 * @since 4.1
 		 * @param {Object} source The object to be copied.
 		 * @returns {Object} Copy of `source`.
 		 */
@@ -875,6 +876,7 @@
 		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
 		 *		CKEDITOR.tools.writeCssText( styleObj, true ); // -> 'border:none; color:red'
 		 *
+		 * @since 4.1
 		 * @param {Object} styles The object contaning style properties.
 		 * @param {Boolean} [sort] Whether to sort CSS properties.
 		 * @returns {String} The serialized style text.
@@ -897,6 +899,7 @@
 		 *
 		 * **Note:** This method performs shallow, non-strict comparison.
 		 *
+		 * @since 4.1
 		 * @param {Object} left
 		 * @param {Object} right
 		 * @param {Boolean} [onlyLeft] Check only these properties which are present in `left` object.
@@ -932,6 +935,7 @@
 		 *		console.log( CKEDITOR.tools.objectKeys( { foo: 1, bar: false } );
 		 *		// -> [ 'foo', 'bar' ]
 		 *
+		 * @since 4.1
 		 * @param {Object} obj
 		 * @returns {Array} Object's keys.
 		 */

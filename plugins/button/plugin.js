@@ -310,6 +310,7 @@
 		 * Returns this button if it is a feature,
 		 * or command if is bound.
 		 *
+		 * @since 4.1
 		 * @param {CKEDITOR.editor} Editor instance.
 		 * @returns {CKEDITOR.ui.button/CKEDITOR.command} The feature.
 		 */
