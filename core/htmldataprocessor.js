@@ -149,6 +149,8 @@
 		 * @param {String} data The raw data.
 		 * @param {String} [context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
+		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
+		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
 		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
 		 * @param {Boolean} [dontFilter] Don't filter data with {@link CKEDITOR.filter}.
 		 * @returns {String}
