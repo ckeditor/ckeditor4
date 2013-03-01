@@ -731,7 +731,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * See {@link #getFirst}.
 	 *
 	 * @param {Function} evaluator Filtering the result node.
-	 * @retunrs {CKEDITOR.dom.node}
+	 * @returns {CKEDITOR.dom.node}
 	 */
 	getLast: function( evaluator ) {
 		var last = this.$.lastChild,

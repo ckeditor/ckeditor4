@@ -1309,7 +1309,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Defines the onChange event for UI element definitions.
 			 *
-			 * @propert {Object}
+			 * @property {Object}
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
