@@ -826,7 +826,8 @@
  * @param data
  * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Input data to be purified.
  * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} `context` argument.
- * @param {String} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} `fixForBody` argument.
+ * @param {Bolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} `fixForBody` argument.
+ * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} `dontFilter` argument.
  */
 
 /**
