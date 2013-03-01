@@ -841,6 +841,7 @@
 		 *
 		 * * `"html"` - content being inserted will completely override styles
 		 *    of selected position.
+		 * * `"unfiltered_html"` - like `"html"` but content isn't filtered with {@link CKEDITOR.filter}.
 		 * * `"text"` - content being inserted will inherit styles applied in
 		 *    selected position. This mode should be used when inserting "htmlified" plain text
 		 *    (HTML without inline styles and styling elements like

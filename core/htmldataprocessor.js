@@ -150,9 +150,10 @@
 		 * @param {String} [context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
 		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
+		 * @param {Boolean} [dontFilter] Don't filter data with {@link CKEDITOR.filter}.
 		 * @returns {String}
 		 */
-		toHtml: function( data, context, fixForBody ) {
+		toHtml: function( data, context, fixForBody, dontFilter ) {
 			var editor = this.editor;
 
 			// Fall back to the editable as context if not specified.
@@ -162,7 +163,8 @@
 			return editor.fire( 'toHtml', {
 				dataValue: data,
 				context: context,
-				fixForBody: fixForBody
+				fixForBody: fixForBody,
+				dontFilter: !!dontFilter
 			} ).dataValue;
 		},
 
