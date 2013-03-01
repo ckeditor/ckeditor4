@@ -131,14 +131,16 @@ CKEDITOR.dom.event.prototype = {
 	/**
 	 * Retrieves the coordinates of the mouse pointer relative to the top-left
 	 * corner of the document, in mouse related event.
+	 *
+	 *		element.on( 'mousemouse', function( ev ) {
+	 *			var pageOffset = ev.data.getPageOffset();
+	 *			alert( pageOffset.x );			// page offset X
+	 *			alert( pageOffset.y );			// page offset Y
+	 *     } );
+	 *
 	 * @returns {Object} The object contains the position.
-	 * @example
-	 * element.on( 'mousemouse', function( ev )
-	 *     {
-	 *         var pageOffset = ev.data.getPageOffset();
-	 *         alert( pageOffset.x ); // page offset X
-	 *         alert( pageOffset.y ); // page offset Y
-	 *     });
+	 * @returns {Number} return.x
+	 * @returns {Number} return.y
 	 */
 	getPageOffset : function() {
 		var doc = this.getTarget().getDocument().$;
