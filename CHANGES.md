@@ -5,12 +5,11 @@ CKEditor 4 Changelog
 
 * [#9829](http://dev.ckeditor.com/ticket/9829): Data and features activation based on configurations.
 
-  Brand new data filtering system that works in 3 modes:
+  Brand new data filtering system that works in 2 modes:
 
   * based on loaded features (toolbar items, plugins) - data will be filtered accordingly to what they can handle,
   * based on `config.allowedContent` rules - data will be filtered and editor's features (toolbar items, commands,
-  keystrokes) enabled if they are allowed,
-  * based on loaded features plus `config.extraAllowedContent`.
+  keystrokes) enabled if they are allowed.
 
   See `datafiltering.html` sample, [guides](http://docs.ckeditor.com/#!/guide/dev_data_filter) and [`CKEDITOR.filter` API documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
 * Included in [#9829](http://dev.ckeditor.com/ticket/9829): Introduced new `htmlDataProcessor`'s events: `toHtml` and `toDataFormat` allowing for better integration with data processing.
