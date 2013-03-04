@@ -39,6 +39,7 @@ CKEditor 4 Changelog
 * [#9947](http://dev.ckeditor.com/ticket/9947): [Webkit] Editor overflows parent container in some edge cases.
 * [#10105](http://dev.ckeditor.com/ticket/10105): Fixed: Broken sourcearea view when RTL language is set.
 * [#10123](http://dev.ckeditor.com/ticket/10123): [Webkit] Fixed: Several dialogs have broken layout since latest Webkit.
+* [#10152](http://dev.ckeditor.com/ticket/10152): Fixed: Invalid ARIA property used on menu items.
 
 ## CKEditor 4.0.1.1
 
