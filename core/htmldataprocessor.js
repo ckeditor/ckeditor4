@@ -24,7 +24,8 @@
 
 		/**
 		 * The HTML writer used by this data processor to format the output.
-		 * @type {CKEDITOR.htmlParser.basicWriter}
+		 *
+		 * @property {CKEDITOR.htmlParser.basicWriter}
 		 */
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 

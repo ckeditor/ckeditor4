@@ -343,6 +343,7 @@
 	function initComponents( editor ) {
 		// Documented in dataprocessor.js.
 		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
+		// Documented in filter.js
 		editor.filter = new CKEDITOR.filter( editor );
 		loadSkin( editor );
 	}
@@ -994,7 +995,7 @@
 		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
-		 * @param feature See {@link CKEDITOR.filter#addFeature}.
+		 * @param {CKEDITOR.feature} feature See {@link CKEDITOR.filter#addFeature}.
 		 * @returns {Boolean} See {@link CKEDITOR.filter#addFeature}.
 		 */
 		addFeature: function( feature ) {

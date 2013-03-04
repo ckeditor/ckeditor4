@@ -12,24 +12,57 @@
 		TEST_VALUE = 'cke-test';
 
 	/**
+	 * Highly configurable class which implements input data filtering mechanisms
+	 * and core functions used for features activation.
+	 *
+	 * A filter instance is always available under {@link CKEDITOR.editor#filter}
+	 * property and is used by editor in its core features like filtering input data,
+	 * applying data transformations, validating whether feature may be enabled for
+	 * current setup. It may be configured in two ways:
+	 *
+	 *	* By user with the {@link CKEDITOR.config#allowedContent} setting.
+	 *	* Automatically, by loaded features (toolbar items, commands, etc.).
+	 *
+	 * In both cases additional allowed content rules may be added by
+	 * setting {@link CKEDITOR.config#extraAllowedContent}.
+	 *
+	 * **Note**: filter's rules will be extended with following elements
+	 * depending on {@CKEDITOR.config#enterMode} setting:
+	 *
+	 *	* 'p br' - for {@link CKEDITOR#ENTER_P},
+	 *	* 'div br' - for {@link CKEDITOR#ENTER_DIV},
+	 *	* 'br' - for {@link CKEDITOR#ENTER_BR}.
+	 *
+	 * Filter may also be used as a standalone instance by passing
+	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
+	 * to the constructor:
+	 *
+	 *		var filter = new CKEDITOR.filter( 'b' );
+	 *
+	 *		filter.check( 'b' ); // -> true
+	 *		filter.check( 'i' ); // -> false
+	 *		filter.allow( 'i' );
+	 *		filter.check( 'i' ); // -> true
 	 *
 	 * @since 4.1
 	 * @class
-	 * @constructor
-	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRule/CKEDITOR.filter.allowedContentRule[]} editorOrRules
+	 * @constructor Creates a filter class instance.
+	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
 	 */
 	CKEDITOR.filter = function( editorOrRules ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
-		 * Meaningless for standalone filter.
 		 *
+		 * This property is meaningless for standalone filter.
+		 *
+		 * @readonly
 		 * @property {Boolean} customConfig
 		 */
 
 		/**
 		 * Array of rules added by {@link #allow} method (including those
 		 * loaded from {@link CKEDITOR.config#allowedContent} and
-		 * {@link CKEDITOR.config#extraAllowedContent}.
+		 * {@link CKEDITOR.config#extraAllowedContent}).
 		 *
 		 * Rules in this array are slightly modified versions of those
 		 * which were added.
@@ -69,7 +102,7 @@
 		 * For standalone filter it will be by default set to {@link CKEDITOR#ENTER_P}.
 		 *
 		 * @readonly
-		 * @property {Number} [CKEDITOR.ENTER_P]
+		 * @property {Number} [=CKEDITOR.ENTER_P]
 		 */
 		this.enterMode = CKEDITOR.ENTER_P;
 
@@ -143,7 +176,7 @@
 		 *			header2Style = new CKEDITOR.style( { element: 'h2' } );
 		 *		editor.filter.allow( [ header1Style, header2Style ], 'HeadersCombo' );
 		 *
-		 * @param {CKEDITOR.filter.allowedContentRule/CKEDITOR.filter.allowedContentRule[]} newRules Rule(s) to be added.
+		 * @param {CKEDITOR.filter.allowedContentRules} newRules Rule(s) to be added.
 		 * @param {String} [featureName] Name of a feature that allows this content (most often plugin/button/command's name).
 		 * @param {Boolean} [overrideCustom] By default this method will reject any rules
 		 * if {@link CKEDITOR.config#allowedContent} is defined to avoid overriding it.
@@ -1641,6 +1674,7 @@
 		 * Transform element to given form.
 		 *
 		 * Form may be a:
+		 *
 		 * 	* {@link CKEDITOR.style},
 		 *	* string - the new name of an element,
 		 *
@@ -1684,53 +1718,184 @@
 })();
 
 /**
+ * Allowed content rules. This setting is used when
+ * instantiating {@link CKEDITOR.editor#filter}.
+ *
+ * Following values are accepted:
+ *
+ *	* {@link CKEDITOR.filter.allowedContentRules} - defined rules will be added
+ *	to the {@link CKEDITOR.editor#filter}.
+ *	* `true` - will disable filter (data won't be filtered,
+ *	all features will be activated).
+ *	* default - filter will be configured by loaded features
+ *	(toolbar items, commands, etc.).
+ *
+ * In all cases filter's configuration may be extended by
+ * {@link CKEDITOR.config#extraAllowedContent}. This option may be especially
+ * useful when you want to use default `allowedContent` value
+ * plus some additional rules.
+ *
+ *		CKEDITOR.replace( 'textarea_id', {
+ *			allowedContent: 'p b i; a[!href]',
+ *			on: {
+ *				instanceReady: function( evt ) {
+ *					var editor = evt.editor;
+ *
+ *					editor.filter.check( 'h1' ); // -> false
+ *					editor.setData( '<h1><i>Foo</i></h1><p class="left"><span>Bar</span> <a href="http://foo.bar">foo</a></p>' );
+ *					// Editor contents will be:
+ *					'<p><i>Foo</i></p><p>Bar <a href="http://foo.bar">foo</a></p>'
+ *				}
+ *			}
+ *		} );
+ *
  * @since 4.1
- * @cfg {Object/String} allowedContent
+ * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
  * @member CKEDITOR.config
  */
 
 /**
+ * This option makes it possible to set additional allowed
+ * content rules for {@link CKEDITOR.editor#filter}.
+ *
+ * It is especially useful in combination with default
+ * {@link CKEDITOR.config#allowedContent} value:
+ *
+ *		CKEDITOR.replace( 'textarea_id', {
+ *			plugins: 'wysiwygarea,toolbar,format',
+ *			extraAllowedContent: 'b i',
+ *			on: {
+ *				instanceReady: function( evt ) {
+ *					var editor = evt.editor;
+ *
+ *					editor.filter.check( 'h1' ); // -> true (thanks to format combo)
+ *					editor.filter.check( 'b' ); // -> true (thanks to extraAllowedContent)
+ *					editor.setData( '<h1><i>Foo</i></h1><p class="left"><b>Bar</b> <a href="http://foo.bar">foo</a></p>' );
+ *					// Editor contents will be:
+ *					'<h1>Foo</h1><p><b>Bar</b> foo</p>'
+ *				}
+ *			}
+ *		} );
+ *
+ * See {@link CKEDITOR.config#allowedContent} for more details.
+ *
  * @since 4.1
  * @cfg {Object/String} extraAllowedContent
  * @member CKEDITOR.config
  */
 
 /**
+ * Filter instance used for input data filtering, data
+ * transformations and features activation.
+ *
+ * It points to a {CKEDITOR.filter} instance set up based on
+ * editor's configuration.
+ *
  * @since 4.1
- * @class CKEDITOR.filter.allowedContentRule}
+ * @property {CKEDITOR.filter} filter
+ * @member CKEDITOR.editor
+ */
+
+/**
+ * @since 4.1
+ * @class CKEDITOR.filter.allowedContentRules}
+ * @abstract
  */
 
 /**
  * @since 4.1
  * @class CKEDITOR.filter.contentRule}
+ * @abstract
  */
 
 /**
+ * Interface that may be automatically implemented by any
+ * instance of any class which has at least `name` property and
+ * can be meant as editor's feature.
+ *
+ * For example:
+ *
+ *	* 'Bold' command, button and keystroke - it doesn't mean exactly
+ * `<strong>` or `<b>` but just the ability to create bold.
+ *	* 'Format' richcombo - it also doesn't mean any HTML tag.
+ *	* 'Link' command, button and keystroke.
+ *	* 'Image' command, button and dialog.
+ *
+ * Thus, most often feature is an instance of one of following classes:
+ *
+ *	* {@link CKEDITOR.command}
+ *	* {@link CKEDITOR.ui.button}
+ *	* {@link CKEDITOR.ui.richCombo}
+ *
+ * None of them have `name` property explicitly defined, but
+ * it is set by {@link CKEDITOR.editor#addCommand} and {@link CKEDITOR.ui#add}.
+ *
+ * During editor initialization all features that editor should activate
+ * should be passed to {@link CKEDITOR.editor#addFeature} (shorthand for {@link CKEDITOR.filter#addFeature}).
+ *
+ * This method checks if feature can be activated (see {@link #requiredContent}) and if yes,
+ * then it registers allowed content rules required by this feature (see {@link #allowedContent}) and
+ * two kinds of transformations: {@link #contentForms} and {@link #contentTransformations}.
+ *
+ * By default all buttons that are included in [toolbar's layout configuration](#!/guide/dev_toolbar)
+ * are checked and registered with {@link CKEDITOR.editor#addFeature}, all styles available in 'Format'
+ * and 'Styles' combos are checked and registered too and so on.
  *
  * @since 4.1
  * @class CKEDITOR.feature
+ * @abstract
  */
 
 /**
- * @property {CKEDITOR.filter.allowedContentRule/CKEDITOR.filter.allowedContentRule[]} allowedContent
  * HTML that can be generated by this feature.
+ *
+ * For example basic image feature (image button displaying image dialog)
+ * may allow `'img[!src,alt,width,height]'`.
+ *
+ * During feature activation this value is passed to {@link CKEDITOR.filter#allow}.
+ *
+ * @property {CKEDITOR.filter.allowedContentRules} [allowedContent=null]
  */
 
 /**
- * @property {CKEDITOR.filter.contentRule} requiredContent Minimal HTML that this feature must be allowed to
+ * Minimal HTML that this feature must be allowed to
  * generate for it to be able to function at all.
+ *
+ * For example basic image feature (image button displaying image dialog)
+ * to be activated needs `'img[src,alt]'`.
+ *
+ * During feature validation this value is passed to {@link CKEDITOR.filter#check}.
+ *
+ * If this value isn't provided feature will be always activated.
+ *
+ * @property {CKEDITOR.filter.contentRule} [requiredContent=null]
  */
 
 /**
- * @property {String} name Name of this feature.
+ * Feature's name.
+ *
+ * It is used for example to identify which {@link CKEDITOR.filter#allowedContent}'s
+ * rule was added for which feature.
+ *
+ * @property {String} name
  */
 
 /**
- * @property contentForms
+ * Feature content forms to be registered in {@link CKEDITOR.editor#filter}
+ * during feature activation.
+ *
+ * See {@link CKEDITOR.filter#addContentForms} for more details.
+ *
+ * @property [contentForms=null]
  */
 
 /**
- * @property contentTransformations
+ * Transformations (usually for content generated by this feature, but not necessarily)
+ * that will be registered in {@link CKEDITOR.editor#filter} during feature activation.
+ *
+ * See {@link CKEDITOR.filter#addTransformations} for more details.
+ *
+ * @property [contentTransformations=null]
  */
 
 /**

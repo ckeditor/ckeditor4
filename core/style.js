@@ -1485,7 +1485,10 @@ CKEDITOR.loadStylesSet = function( name, url, callback ) {
  *
  *		editor.getStylesSet( function( stylesDefinitions ) {} );
  *
+ * See also {@link CKEDITOR.editor#stylesSet} event.
+ *
  * @param {Function} callback The function to be called with the styles data.
+ * @member CKEDITOR.editor
  */
 CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
 	if ( !this._.stylesDefinitions ) {
@@ -1564,7 +1567,7 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  * Note that the `name` has to be equal to the name used in
  * {@link CKEDITOR.stylesSet#add} while registering styles set.
  *
- * *Note:* Since 4.1 it is possible to set `stylesSet` to `false`
+ * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
  *		// Do not load any file. Styles set is empty.
@@ -1587,6 +1590,6 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  *		];
  *
  * @since 3.3
- * @cfg {String/Array/false} [stylesSet='default']
+ * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
  */
