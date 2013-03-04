@@ -86,11 +86,11 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	/**
 	 * Checks whether this command is allowed by the allowed
 	 * content filter ({@link CKEDITOR.filter}). This means
-	 * that if command implements Feature interface it will be tested
-	 * by {@link CKEDITOR.filter.checkFeature}.
+	 * that if command implements {@link CKEDITOR.feature} interface it will be tested
+	 * by {@link CKEDITOR.filter#checkFeature}.
 	 *
 	 * @since 4.1
-	 * @returns {Boolean} Whether command is allowed.
+	 * @returns {Boolean} Whether this command is allowed.
 	 */
 	this.checkAllowed = function() {
 		if ( typeof allowed == 'boolean' )
