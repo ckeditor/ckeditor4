@@ -12,11 +12,14 @@ CKEditor 4 Changelog
   keystrokes) enabled if they are allowed.
 
   See `datafiltering.html` sample, [guides](http://docs.ckeditor.com/#!/guide/dev_data_filter) and [`CKEDITOR.filter` API documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
-* Included in [#9829](http://dev.ckeditor.com/ticket/9829): Introduced new `htmlDataProcessor`'s events: `toHtml` and `toDataFormat` allowing for better integration with data processing.
-* [#9981](http://dev.ckeditor.com/ticket/9981): Added ability to filter `htmlParser.fragment`, `htmlParser.element` etc. by many `htmlParser.filter`s before writing structure to HTML string.
 * [#9387](http://dev.ckeditor.com/ticket/9387): Reintroduced "Shared Spaces" - ability to display toolbar and bottom space in selected locations and to share them by different editor instances.
 * [#9907](http://dev.ckeditor.com/ticket/9907): Added `contentPreview` event for preview data manipulation.
 * [#9713](http://dev.ckeditor.com/ticket/9713): Introduced `sourcedialog` plugin that brings raw HTML editing for inline editor instances.
+* Included in [#9829](http://dev.ckeditor.com/ticket/9829): Introduced new events: `toHtml` and `toDataFormat` allowing for better integration with data processing. See API documentation: [`toHtml`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-toHtml), [`toDataFormat`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-toDataFormat).
+* [#9981](http://dev.ckeditor.com/ticket/9981): Added ability to filter `htmlParser.fragment`, `htmlParser.element` etc. by many `htmlParser.filter`s before writing structure to HTML string.
+* Included in [#10103](http://dev.ckeditor.com/ticket/10103):
+  * Introduced `editor.status` property making it easier to check the current status of editor. See [API documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-status).
+  * Default `command`'s state is now `CKEDITOR.TRISTATE_DISABLE`. It will be activated on `editor.instanceReady` or immediately after being added if editor is already initialized.
 * [#9796](http://dev.ckeditor.com/ticket/9796): Introduced `<s>` as a default tag for strikethrough, which replaces obsolete `<strike>` in HTML5.
 
 ## CKEditor 4.0.2

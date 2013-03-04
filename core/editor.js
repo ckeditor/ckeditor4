@@ -112,6 +112,7 @@
 		 *	* **ready**: editor is fully initialized and ready - see {@link CKEDITOR.editor#instanceReady} event.
 		 *	* **destroyed**: the editor has been destroyed - see {@link CKEDITOR.editor#method-destroy} method.
 		 *
+		 * @since 4.1
 		 * @property {String}
 		 */
 		this.status = 'unloaded';
