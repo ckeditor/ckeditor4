@@ -3,7 +3,20 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1
 
-* [#9907](http://dev.ckeditor.com/ticket/9907): Added contentPreview event for preview data manipulation.
+* [#9829](http://dev.ckeditor.com/ticket/9829): Data and features activation based on configurations.
+
+  Brand new data filtering system that works in 3 modes:
+
+  * based on loaded features (toolbar items, plugins) - data will be filtered accordingly to what they can handle,
+  * based on `config.allowedContent` rules - data will be filtered and editor's features (toolbar items, commands,
+  keystrokes) enabled if they are allowed,
+  * based on loaded features plus `config.extraAllowedContent`.
+
+  See `datafiltering.html` sample, [guides](http://docs.ckeditor.com/#!/guide/dev_data_filter) and [`CKEDITOR.filter` API documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
+* Included in [#9829](http://dev.ckeditor.com/ticket/9829): Introduced new `htmlDataProcessor`'s events: `toHtml` and `toDataFormat` allowing for better integration with data processing.
+* [#9981](http://dev.ckeditor.com/ticket/9981): Added ability to filter `htmlParser.fragment`, `htmlParser.element` etc. by many `htmlParser.filter`s before writing structure to HTML string.
+* [#9387](http://dev.ckeditor.com/ticket/9387): Reintroduced "Shared Spaces" - ability to display toolbar and bottom space in selected locations and to share them by different editor instances.
+* [#9907](http://dev.ckeditor.com/ticket/9907): Added `contentPreview` event for preview data manipulation.
 * [#9713](http://dev.ckeditor.com/ticket/9713): Introduced `sourcedialog` plugin that brings raw HTML editing for inline editor instances.
 * [#9796](http://dev.ckeditor.com/ticket/9796): Introduced `<s>` as a default tag for strikethrough, which replaces obsolete `<strike>` in HTML5.
 
