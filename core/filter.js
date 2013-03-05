@@ -13,25 +13,26 @@
 
 	/**
 	 * Highly configurable class which implements input data filtering mechanisms
-	 * and core functions used for features activation.
+	 * and core functions used for the activation of editor features.
 	 *
-	 * A filter instance is always available under {@link CKEDITOR.editor#filter}
-	 * property and is used by editor in its core features like filtering input data,
-	 * applying data transformations, validating whether feature may be enabled for
-	 * current setup. It may be configured in two ways:
+	 * A filter instance is always available under the {@link CKEDITOR.editor#filter}
+	 * property and is used by the editor in its core features like filtering input data,
+	 * applying data transformations, validating whether a feature may be enabled for
+	 * the current setup. It may be configured in two ways:
 	 *
-	 *	* By user with the {@link CKEDITOR.config#allowedContent} setting.
+	 *	* By the user, with the {@link CKEDITOR.config#allowedContent} setting.
 	 *	* Automatically, by loaded features (toolbar items, commands, etc.).
 	 *
 	 * In both cases additional allowed content rules may be added by
-	 * setting {@link CKEDITOR.config#extraAllowedContent}.
+	 * setting the {@link CKEDITOR.config#extraAllowedContent}
+	 * configuration option.
 	 *
-	 * **Note**: filter's rules will be extended with following elements
-	 * depending on {@CKEDITOR.config#enterMode} setting:
+	 * **Note**: Filter rules will be extended with the following elements
+	 * depending on the {@link CKEDITOR.config#enterMode} setting:
 	 *
-	 *	* 'p br' - for {@link CKEDITOR#ENTER_P},
-	 *	* 'div br' - for {@link CKEDITOR#ENTER_DIV},
-	 *	* 'br' - for {@link CKEDITOR#ENTER_BR}.
+	 *	* `'p br'` &ndash; for {@link CKEDITOR#ENTER_P},
+	 *	* `'div br'` &ndash; for {@link CKEDITOR#ENTER_DIV},
+	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
 	 * Filter may also be used as a standalone instance by passing
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
@@ -53,32 +54,31 @@
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
-		 * This property is meaningless for standalone filter.
+		 * This property does not apply to the standalone filter.
 		 *
 		 * @readonly
 		 * @property {Boolean} customConfig
 		 */
 
 		/**
-		 * Array of rules added by {@link #allow} method (including those
+		 * Array of rules added by the {@link #allow} method (including those
 		 * loaded from {@link CKEDITOR.config#allowedContent} and
 		 * {@link CKEDITOR.config#extraAllowedContent}).
 		 *
-		 * Rules in this array are slightly modified versions of those
-		 * which were added.
+		 * Rules in this array are in unified allowed content rules format.
 		 *
 		 * This property is useful for debugging issues with rules string parsing
-		 * or for checking what rules were automatically added by editor features.
+		 * or for checking which rules were automatically added by editor features.
 		 *
 		 * @readonly
 		 */
 		this.allowedContent = [];
 
 		/**
-		 * Whether filter is disabled.
+		 * Whether the filter is disabled.
 		 *
-		 * To disable filter set {@link CKEDITOR.config#allowedContent} to `true`
-		 * or use {@link #disable} method.
+		 * To disable the filter, set {@link CKEDITOR.config#allowedContent} to `true`
+		 * or use the {@link #disable} method.
 		 *
 		 * @readonly
 		 */
@@ -93,13 +93,13 @@
 		this.editor = null;
 
 		/**
-		 * Enter mode used by filter when deciding how to strip disallowed elements.
+		 * Enter mode used by the filter when deciding how to strip disallowed elements.
 		 *
-		 * For editor's filter it will be set to {@link CKEDITOR.config#enterMode} unless this
-		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor - in this case
+		 * For editor filter it will be set to {@link CKEDITOR.config#enterMode} unless this
+		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor &mdash; in this case
 		 * {@link CKEDITOR#ENTER_BR} will be forced.
 		 *
-		 * For standalone filter it will be by default set to {@link CKEDITOR#ENTER_P}.
+		 * For the standalone filter by default it will be set to {@link CKEDITOR#ENTER_P}.
 		 *
 		 * @readonly
 		 * @property {Number} [=CKEDITOR.ENTER_P]
@@ -168,7 +168,7 @@
 		 *
 		 * Read about rules formats in [Allowed Content Rules guide](#!/guide/dev_allowed_content_rules).
 		 *
-		 *		// Add basic rule for custom image feature (e.g. 'MyImage' button).
+		 *		// Add a basic rule for custom image feature (e.g. 'MyImage' button).
 		 *		editor.filter.allow( 'img[!src,alt]', 'MyImage' );
 		 *
 		 *		// Add rules for two header styles allowed by 'HeadersCombo'.
@@ -177,11 +177,11 @@
 		 *		editor.filter.allow( [ header1Style, header2Style ], 'HeadersCombo' );
 		 *
 		 * @param {CKEDITOR.filter.allowedContentRules} newRules Rule(s) to be added.
-		 * @param {String} [featureName] Name of a feature that allows this content (most often plugin/button/command's name).
+		 * @param {String} [featureName] Name of a feature that allows this content (most often plugin/button/command name).
 		 * @param {Boolean} [overrideCustom] By default this method will reject any rules
 		 * if {@link CKEDITOR.config#allowedContent} is defined to avoid overriding it.
 		 * Pass `true` to force rules addition.
-		 * @returns {Boolean} Whether rules were accepted.
+		 * @returns {Boolean} Whether the rules were accepted.
 		 */
 		allow: function( newRules, featureName, overrideCustom ) {
 			if ( this.disabled )
@@ -242,7 +242,7 @@
 		},
 
 		/**
-		 * Apply this filter to passed {@link CKEDITOR.htmlParser.fragment} or {@link CKEDITOR.htmlParser.element}.
+		 * Applies this filter to passed {@link CKEDITOR.htmlParser.fragment} or {@link CKEDITOR.htmlParser.element}.
 		 * The result of filtering is a DOM tree without disallowed content.
 		 *
 		 *			// Create standalone filter passing 'p' and 'b' elements.
@@ -256,9 +256,9 @@
 		 *		writer.getHtml(); // -> '<p><b>foo</b> bar</p>'
 		 *
 		 * @param {CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} fragment Node to be filtered.
-		 * @param {Boolean} [toHtml] Set to `true` if filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
+		 * @param {Boolean} [toHtml] Set to `true` if the filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
-		 * won't be filtered with allowed content rules.
+		 * will not be filtered with allowed content rules.
 		 */
 		applyTo: function( fragment, toHtml, transformOnly ) {
 			var toBeRemoved = [],
@@ -330,8 +330,8 @@
 		},
 
 		/**
-		 * Check whether {@link CKEDITOR.feature} can be enabled. Unlike the {@link #addFeature}
-		 * this method always checks the feature, even when default configuration
+		 * Checks whether a {@link CKEDITOR.feature} can be enabled. Unlike {@link #addFeature},
+		 * this method always checks the feature, even when the default configuration
 		 * for {@link CKEDITOR.config#allowedContent} is used.
 		 *
 		 *		// TODO example
@@ -355,13 +355,13 @@
 		},
 
 		/**
-		 * Disable allowed content filter.
+		 * Disables allowed content filter.
 		 *
 		 * This method is meant to be used by plugins which are not
-		 * compatible with filter and in other cases in which filter
-		 * has to be disabled during initialization phase or runtime.
+		 * compatible with the filter and in other cases in which the filter
+		 * has to be disabled during the initialization phase or runtime.
 		 *
-		 * In other cases filter may be disabled by setting
+		 * In other cases the filter can be disabled by setting
 		 * {@link CKEDITOR.config#allowedContent} to `true`.
 		 */
 		disable: function() {
@@ -373,8 +373,8 @@
 		},
 
 		/**
-		 * Add array of {@link CKEDITOR.feature}'s content forms. All forms
-		 * will be then transformed to the first form which is allowed by the filter.
+		 * Adds an array of {@link CKEDITOR.feature} content forms. All forms
+		 * will then be transformed to the first form which is allowed by the filter.
 		 *
 		 *		editor.filter.allow( 'i; span{!font-style}' );
 		 *		editor.filter.addContentForms( [
@@ -386,12 +386,12 @@
 		 *		] );
 		 *		// Now <em> and <span style="font-style:italic"> will be replaced with <i>
 		 *		// because this is the first allowed form.
-		 *		// <span> is allowed too, but it's the last form and
-		 *		// additionaly - editor can't transform element based on
-		 *		// array+function form).
+		 *		// <span> is allowed too, but it is the last form and
+		 *		// additionaly, the editor cannot transform an element based on
+		 *		// the array+function form).
 		 *
-		 * This method is used by editor to register {@link CKEDITOR.feature#contentForms}
-		 * when adding feature by {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
+		 * This method is used by the editor to register {@link CKEDITOR.feature#contentForms}
+		 * when adding a feature with {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
 		 *
 		 * @param {Array} forms The feature's content forms.
 		 */
@@ -462,51 +462,51 @@
 		},
 
 		/**
-		 * Add an array of content transformations groups. One group
-		 * may contain many transformations rules, but only the first
+		 * Adds an array of content transformation groups. One group
+		 * may contain many transformation rules, but only the first
 		 * matching rule in a group is executed.
 		 *
-		 * Single transformation rule is an object with 4 properties:
+		 * A single transformation rule is an object with four properties:
 		 *
-		 *	* `check` (optional) - if set and {@link CKEDITOR.filter} doesn't
-		 *		accept this allowed content rule, this transformation rule
-		 *		won't be executed (it doesn't *match*). This value is passed
+		 *	* `check` (optional) &ndash; if set and {@link CKEDITOR.filter} does
+		 *		not accept this allowed content rule, this transformation rule
+		 *		will not be executed (it does not *match*). This value is passed
 		 *		to {@link #check}.
-		 *	* `element` (optional) - this string property tells filter on which
-		 *		element this transformation can be ran. It's optional, because
-		 *		element's name can be obtained from `check` (if it's a String format)
-		 *		or `left` (if it's a {@link CKEDITOR.style} instance).
-		 *	* `left` (optional) - a function accepting element or {@link CKEDITOR.style}
-		 *		instance verifying whether transformation should be
-		 *		executed on this specific element. If it returns `false` or element
-		 *		doesn't match this style this transformation rule doesn't *match*.
-		 *	* `right` - a function accepting element and {@link CKEDITOR.filter.transformationsTools}
-		 *		or a string containing name of {@link CKEDITOR.filter.transformationsTools} method
-		 *		that should be called on element.
+		 *	* `element` (optional) &ndash; this string property tells the filter on which
+		 *		element this transformation can be run. It is optional, because
+		 *		the element name can be obtained from `check` (if it is a String format)
+		 *		or `left` (if it is a {@link CKEDITOR.style} instance).
+		 *	* `left` (optional) &ndash; a function accepting an element or a {@link CKEDITOR.style}
+		 *		instance verifying whether the transformation should be
+		 *		executed on this specific element. If it returns `false` or if an element
+		 *		does not match this style, this transformation rule does not *match*.
+		 *	* `right` &ndash; a function accepting an element and {@link CKEDITOR.filter.transformationsTools}
+		 *		or a string containing the name of the {@link CKEDITOR.filter.transformationsTools} method
+		 *		that should be called on an element.
 		 *
-		 * There's also a shorthand format. Transformation rule can be defined by
-		 * single string `'check:right'`. String before `':'` will be used as
-		 * a `check` property and the second part as `right`.
+		 * A shorthand format is also available. A transformation rule can be defined by
+		 * a single string `'check:right'`. The string before `':'` will be used as
+		 * the `check` property and the second part as the `right` property.
 		 *
-		 * Transformation rules can be grouped. Filter will try to apply
-		 * first rule in a group. If it *matches* it will ignore next rules and
-		 * go to the next group. If it doesn't *match* it will check next one.
+		 * Transformation rules can be grouped. The filter will try to apply
+		 * the first rule in a group. If it *matches*, the filter will ignore subsequent rules and
+		 * will move to the next group. If it does not *match*, the next rule will be checked.
 		 *
 		 * Examples:
 		 *
 		 *		editor.filter.addTransformations( [
 		 *			// First group.
 		 *			[
-		 *				// First rule. If table{width} is allowed
-		 *				// executes {@link CKEDITOR.filter.transformationsTools#sizeToStyle} on table element.
+		 *				// First rule. If table{width} is allowed, it
+		 *				// executes {@link CKEDITOR.filter.transformationsTools#sizeToStyle} on a table element.
 		 *				'table{width}: sizeToStyle',
-		 *				// Second rule shouldn't be executed if first was.
+		 *				// Second rule should not be executed if the first was.
 		 *				'table[width]: sizeToAttribute'
 		 *			],
 		 *			// Second group.
 		 *			[
-		 *				// This rule will add foo="1" attribute to all images that
-		 *				// don't have it.
+		 *				// This rule will add the foo="1" attribute to all images that
+		 *				// do not have it.
 		 *				{
 		 *					element: 'img',
 		 *					left: function( el ) {
@@ -537,12 +537,12 @@
 		 *		// '<table style="height:100px; width:200px">...</table>'		-> '<table style="height:100px; width:200px">...</table>'
 		 *		// '<table height="100" width="200">...</table>'				-> '<table style="height:100px; width:200px">...</table>'
 		 *		//
-		 *		// Note: both forms are allowed (size set by style and by attrs), but only
-		 *		// the first transformation is applied - size is always transformed to style.
-		 *		// The reason is that only the first transformation matching allowed content rules is applied.
+		 *		// Note: Both forms are allowed (size set by style and by attributes), but only
+		 *		// the first transformation is applied &mdash; the size is always transformed to a style.
+		 *		// This is because only the first transformation matching allowed content rules is applied.
 		 *
-		 * This method is used by editor to add {@link CKEDITOR.feature#contentTransformations}
-		 * when adding feature by {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
+		 * This method is used by the editor to add {@link CKEDITOR.feature#contentTransformations}
+		 * when adding a feature by {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
 		 *
 		 * @param {Array} transformations
 		 */
@@ -567,13 +567,13 @@
 		},
 
 		/**
-		 * Check whether content defined in `test` argument is allowed
+		 * Checks whether the content defined in the `test` argument is allowed
 		 * by this filter.
 		 *
-		 * Unless `strictCheck` is set to `true` this method checks
-		 * if all parts of the `test` (styles, attributes and classes)
-		 * are accepted by the filter. Not whether element with only
-		 * these properties would be accepted.
+		 * If `strictCheck` is set to `false` (default value), this method checks
+		 * if all parts of the `test` (styles, attributes, and classes) are
+		 * accepted by the filter. If `strictCheck` is set to `true`, the test
+		 * must also contain the required attributes, styles, and classes.
 		 *
 		 * For example:
 		 *
@@ -581,13 +581,13 @@
 		 *		filter.check( 'img[alt]' ); // -> true
 		 *		filter.check( 'img[alt]', true, true ); // -> false
 		 *
-		 * Second `check()` call returned false because `src` is required.
+		 * Second `check()` call returned `false` because `src` is required.
 		 *
 		 * @param {CKEDITOR.filter.contentRule} test
 		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
-		 * @param {Boolean} [strictCheck] Whether fitler should check if element with exactly
+		 * @param {Boolean} [strictCheck] Whether the filter should check if an element with exactly
 		 * these properties is allowed.
-		 * @returns {Boolean} Returns `true` if content is allowed.
+		 * @returns {Boolean} Returns `true` if the content is allowed.
 		 */
 		check: function( test, applyTransformations, strictCheck ) {
 			if ( this.disabled )
@@ -1593,7 +1593,7 @@
 	 */
 	var transformationsTools = CKEDITOR.filter.transformationsTools = {
 		/**
-		 * Convert `width` and `height` attributes to styles.
+		 * Converts `width` and `height` attributes to styles.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
@@ -1603,7 +1603,7 @@
 		},
 
 		/**
-		 * Convert `width` and `height` styles to attributes.
+		 * Converts `width` and `height` styles to attributes.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
@@ -1613,11 +1613,11 @@
 		},
 
 		/**
-		 * Convert length in `attrName` attribute to a valid CSS length (like `width` or `height`).
+		 * Converts length in the `attrName` attribute to a valid CSS length (like `width` or `height`).
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @param {String} attrName Name of an attribute that will be converted.
-		 * @param {String} [styleName=attrName] Name of a style into which attribute will be converted.
+		 * @param {String} attrName Name of the attribute that will be converted.
+		 * @param {String} [styleName=attrName] Name of the style into which the attribute will be converted.
 		 */
 		lengthToStyle: function( element, attrName, styleName ) {
 			styleName = styleName || attrName;
@@ -1637,11 +1637,11 @@
 		},
 
 		/**
-		 * Convert length in `styleName` style to a valid length attribute (like `width` or `height`).
+		 * Converts length in the `styleName` style to a valid length attribute (like `width` or `height`).
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @param {String} styleName Name of a style that will be converted.
-		 * @param {String} [attrName=styleName] Name of an attribute into which style will be converted.
+		 * @param {String} styleName Name of the style that will be converted.
+		 * @param {String} [attrName=styleName] Name of the attribute into which the style will be converted.
 		 */
 		lengthToAttribute: function( element, styleName, attrName ) {
 			attrName = attrName || styleName;
@@ -1661,9 +1661,9 @@
 		},
 
 		/**
-		 * Check whether element matches given {@link CKEDITOR.style}.
-		 * The element can be a "superset" of style, e.g. it may have
-		 * more classes, but need to have at least those defined in style.
+		 * Checks whether an element matches a given {@link CKEDITOR.style}.
+		 * The element can be a "superset" of a style, e.g. it may have
+		 * more classes, but needs to have at least those defined in the style.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.style} style
@@ -1721,19 +1721,19 @@
  * Allowed content rules. This setting is used when
  * instantiating {@link CKEDITOR.editor#filter}.
  *
- * Following values are accepted:
+ * The following values are accepted:
  *
- *	* {@link CKEDITOR.filter.allowedContentRules} - defined rules will be added
+ *	* {@link CKEDITOR.filter.allowedContentRules} &ndash; defined rules will be added
  *	to the {@link CKEDITOR.editor#filter}.
- *	* `true` - will disable filter (data won't be filtered,
+ *	* `true` &ndash; will disable the filter (data will not be filtered,
  *	all features will be activated).
- *	* default - filter will be configured by loaded features
+ *	* default &ndash; the filter will be configured by loaded features
  *	(toolbar items, commands, etc.).
  *
- * In all cases filter's configuration may be extended by
+ * In all cases filter configuration may be extended by
  * {@link CKEDITOR.config#extraAllowedContent}. This option may be especially
- * useful when you want to use default `allowedContent` value
- * plus some additional rules.
+ * useful when you want to use the default `allowedContent` value
+ * along with some additional rules.
  *
  *		CKEDITOR.replace( 'textarea_id', {
  *			allowedContent: 'p b i; a[!href]',
@@ -1758,7 +1758,7 @@
  * This option makes it possible to set additional allowed
  * content rules for {@link CKEDITOR.editor#filter}.
  *
- * It is especially useful in combination with default
+ * It is especially useful in combination with the default
  * {@link CKEDITOR.config#allowedContent} value:
  *
  *		CKEDITOR.replace( 'textarea_id', {
@@ -1768,7 +1768,7 @@
  *				instanceReady: function( evt ) {
  *					var editor = evt.editor;
  *
- *					editor.filter.check( 'h1' ); // -> true (thanks to format combo)
+ *					editor.filter.check( 'h1' ); // -> true (thanks to Format combo)
  *					editor.filter.check( 'b' ); // -> true (thanks to extraAllowedContent)
  *					editor.setData( '<h1><i>Foo</i></h1><p class="left"><b>Bar</b> <a href="http://foo.bar">foo</a></p>' );
  *					// Editor contents will be:
@@ -1786,10 +1786,10 @@
 
 /**
  * Filter instance used for input data filtering, data
- * transformations and features activation.
+ * transformations, and activation of features.
  *
  * It points to a {CKEDITOR.filter} instance set up based on
- * editor's configuration.
+ * editor configuration.
  *
  * @since 4.1
  * @property {CKEDITOR.filter} filter
@@ -1810,36 +1810,36 @@
 
 /**
  * Interface that may be automatically implemented by any
- * instance of any class which has at least `name` property and
- * can be meant as editor's feature.
+ * instance of any class which has at least the `name` property and
+ * can be meant as an editor feature.
  *
  * For example:
  *
- *	* 'Bold' command, button and keystroke - it doesn't mean exactly
- * `<strong>` or `<b>` but just the ability to create bold.
- *	* 'Format' richcombo - it also doesn't mean any HTML tag.
- *	* 'Link' command, button and keystroke.
- *	* 'Image' command, button and dialog.
+ *	* 'Bold' command, button, and keystroke &ndash; it does not mean exactly
+ * `<strong>` or `<b>` but just the ability to create bold text.
+ *	* 'Format' drop-down list &ndash; it also does not imply any HTML tag.
+ *	* 'Link' command, button, and keystroke.
+ *	* 'Image' command, button, and dialog window.
  *
- * Thus, most often feature is an instance of one of following classes:
+ * Thus most often a feature is an instance of one of the following classes:
  *
  *	* {@link CKEDITOR.command}
  *	* {@link CKEDITOR.ui.button}
  *	* {@link CKEDITOR.ui.richCombo}
  *
- * None of them have `name` property explicitly defined, but
+ * None of them have a `name` property explicitly defined, but
  * it is set by {@link CKEDITOR.editor#addCommand} and {@link CKEDITOR.ui#add}.
  *
- * During editor initialization all features that editor should activate
+ * During editor initialization all features that the editor should activate
  * should be passed to {@link CKEDITOR.editor#addFeature} (shorthand for {@link CKEDITOR.filter#addFeature}).
  *
- * This method checks if feature can be activated (see {@link #requiredContent}) and if yes,
- * then it registers allowed content rules required by this feature (see {@link #allowedContent}) and
- * two kinds of transformations: {@link #contentForms} and {@link #contentTransformations}.
+ * This method checks if a feature can be activated (see {@link #requiredContent}) and if yes,
+ * then it registers allowed content rules required by this feature (see {@link #allowedContent}) along
+ * with two kinds of transformations: {@link #contentForms} and {@link #contentTransformations}.
  *
- * By default all buttons that are included in [toolbar's layout configuration](#!/guide/dev_toolbar)
- * are checked and registered with {@link CKEDITOR.editor#addFeature}, all styles available in 'Format'
- * and 'Styles' combos are checked and registered too and so on.
+ * By default all buttons that are included in [toolbar layout configuration](#!/guide/dev_toolbar)
+ * are checked and registered with {@link CKEDITOR.editor#addFeature}, all styles available in the
+ * 'Format' and 'Styles' drop-down lists are checked and registered too and so on.
  *
  * @since 4.1
  * @class CKEDITOR.feature
@@ -1847,42 +1847,42 @@
  */
 
 /**
- * HTML that can be generated by this feature.
+ * HTML code that can be generated by this feature.
  *
- * For example basic image feature (image button displaying image dialog)
+ * For example a basic image feature (image button displaying the image dialog window)
  * may allow `'img[!src,alt,width,height]'`.
  *
- * During feature activation this value is passed to {@link CKEDITOR.filter#allow}.
+ * During the feature activation this value is passed to {@link CKEDITOR.filter#allow}.
  *
  * @property {CKEDITOR.filter.allowedContentRules} [allowedContent=null]
  */
 
 /**
- * Minimal HTML that this feature must be allowed to
- * generate for it to be able to function at all.
+ * Minimal HTML code that this feature must be allowed to
+ * generate in order to work.
  *
- * For example basic image feature (image button displaying image dialog)
- * to be activated needs `'img[src,alt]'`.
+ * For example a basic image feature (image button displaying the image dialog window)
+ * needs `'img[src,alt]'` in order to be activated.
  *
- * During feature validation this value is passed to {@link CKEDITOR.filter#check}.
+ * During the feature validation this value is passed to {@link CKEDITOR.filter#check}.
  *
- * If this value isn't provided feature will be always activated.
+ * If this value is not provided, a feature will be always activated.
  *
  * @property {CKEDITOR.filter.contentRule} [requiredContent=null]
  */
 
 /**
- * Feature's name.
+ * The name of the feature.
  *
- * It is used for example to identify which {@link CKEDITOR.filter#allowedContent}'s
+ * It is used for example to identify which {@link CKEDITOR.filter#allowedContent}
  * rule was added for which feature.
  *
  * @property {String} name
  */
 
 /**
- * Feature content forms to be registered in {@link CKEDITOR.editor#filter}
- * during feature activation.
+ * Feature content forms to be registered in the {@link CKEDITOR.editor#filter}
+ * during the feature activation.
  *
  * See {@link CKEDITOR.filter#addContentForms} for more details.
  *
@@ -1891,7 +1891,7 @@
 
 /**
  * Transformations (usually for content generated by this feature, but not necessarily)
- * that will be registered in {@link CKEDITOR.editor#filter} during feature activation.
+ * that will be registered in the {@link CKEDITOR.editor#filter} during the feature activation.
  *
  * See {@link CKEDITOR.filter#addTransformations} for more details.
  *
