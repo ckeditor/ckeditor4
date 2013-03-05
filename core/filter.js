@@ -145,7 +145,7 @@
 			// Add element filter before htmlDataProcessor.dataFilter
 			// when purifying input data to correct html.
 			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				this.applyTo( evt.data.dataValue, true );
+				this.applyTo( evt.data.dataValue, true, evt.data.dontFilter );
 			}, this, null, 6 );
 
 			// Transform outcoming "data".
