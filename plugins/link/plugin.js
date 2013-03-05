@@ -62,7 +62,7 @@ CKEDITOR.plugins.add( 'link', {
 			requiredContent: required
 		} ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
-			allowedContent: 'a[!name]',
+			allowedContent: 'a[!name,id]',
 			requiredContent: 'a[name]'
 		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
