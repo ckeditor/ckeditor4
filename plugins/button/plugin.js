@@ -307,12 +307,18 @@
 		},
 
 		/**
-		 * Returns this button if it is a feature,
-		 * or command if is bound.
+		 * Returns this button's {@link CKEDITOR.feature} instance.
+		 *
+		 * It may be this button instance if it has at least one of
+		 * `allowedContent` and `requiredContent` properties. Otherwise,
+		 * if command is bound to this button by `command` property, then
+		 * that command will be returned.
+		 *
+		 * This method implements {@link CKEDITOR.feature#toFeature} interface method.
 		 *
 		 * @since 4.1
 		 * @param {CKEDITOR.editor} Editor instance.
-		 * @returns {CKEDITOR.ui.button/CKEDITOR.command} The feature.
+		 * @returns {CKEDITOR.feature} The feature.
 		 */
 		toFeature: function( editor ) {
 			if ( this._.feature )
