@@ -145,7 +145,8 @@
 			// Add element filter before htmlDataProcessor.dataFilter
 			// when purifying input data to correct html.
 			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				this.applyTo( evt.data.dataValue, true, evt.data.dontFilter );
+				if ( this.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
+					editor.fire( 'dataFiltered' );
 			}, this, null, 6 );
 
 			// Transform outcoming "data".
@@ -259,23 +260,30 @@
 		 * @param {Boolean} [toHtml] Set to `true` if the filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
 		 * will not be filtered with allowed content rules.
+		 * @returns {Boolean} Whether some part of `fragment` has been removed by filter.
 		 */
 		applyTo: function( fragment, toHtml, transformOnly ) {
 			var toBeRemoved = [],
 				rules = !transformOnly && this._.rules,
 				transformations = this._.transformations,
 				filterFn = getFilterFunction( this ),
-				protectedRegexs = this.editor && this.editor.config.protectedSource;
+				protectedRegexs = this.editor && this.editor.config.protectedSource,
+				isModified = false;
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
-					if ( el.type == CKEDITOR.NODE_ELEMENT )
-						filterFn( el, rules, transformations, toBeRemoved, toHtml );
+					if ( el.type == CKEDITOR.NODE_ELEMENT ) {
+						if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
+							isModified = true;
+					}
 					else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
 						if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
 							toBeRemoved.push( el );
 					}
 				}, null, true );
+
+			if ( toBeRemoved.length )
+				isModified = true;
 
 			var node, element, check,
 				toBeChecked = [],
@@ -325,8 +333,9 @@
 							removeElement( element.parent, enterTag, toBeChecked );
 						break;
 				}
-
 			}
+
+			return isModified;
 		},
 
 		/**
@@ -818,9 +827,11 @@
 		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
 		// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
 		// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
+		// @returns {Boolean} Whether content has been modified.
 		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
 			var name = element.name,
-				i, l, trans;
+				i, l, trans,
+				isModified = false;
 
 			// Unprotect elements names previously protected by htmlDataProcessor
 			// (see protectElementNames and protectSelfClosingElements functions).
@@ -865,7 +876,7 @@
 				// Early return - if there are no rules for this element (specific or generic), remove it.
 				if ( !rules && !genericRules ) {
 					toBeRemoved.push( element );
-					return;
+					return true;
 				}
 
 				// Could not be done yet if there were no transformations and if this
@@ -885,21 +896,24 @@
 				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
 				if ( !status.valid ) {
 					toBeRemoved.push( element );
-					return;
+					return true;
 				}
 
 				// Update element's attributes based on status of filtering.
-				updateElement( element, status );
+				if ( updateElement( element, status ) )
+					isModified = true;
 
 				if ( !skipFinalValidation && !validateElement( element ) ) {
 					toBeRemoved.push( element );
-					return;
+					return true;
 				}
 			}
 
 			// Protect previously unprotected elements.
 			if ( toHtml )
 				element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
+
+			return isModified;
 		};
 	}
 
@@ -1169,6 +1183,7 @@
 	}
 
 	// Update element object based on status of filtering.
+	// @returns Whether element was modified.
 	function updateElement( element, status ) {
 		var validAttrs = status.validAttributes,
 			validStyles = status.validStyles,
@@ -1180,7 +1195,8 @@
 			name,
 			stylesArr = [],
 			classesArr = [],
-			internalAttr = /^data-cke-/;
+			internalAttr = /^data-cke-/,
+			isModified = false;
 
 		// Will be recreated later if any of styles/classes were passed.
 		delete attrs.style;
@@ -1190,8 +1206,10 @@
 			// We can safely remove class and styles attributes because they will be serialized later.
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
-				if ( !validAttrs[ name ] && !internalAttr.test( name ) )
+				if ( !validAttrs[ name ] && !internalAttr.test( name ) ) {
 					delete attrs[ name ];
+					isModified = true;
+				}
 			}
 		}
 
@@ -1199,6 +1217,8 @@
 			for ( name in styles ) {
 				if ( validStyles[ name ] )
 					stylesArr.push( name + ':' + styles[ name ] );
+				else
+					isModified = true;
 			}
 			if ( stylesArr.length )
 				attrs.style = stylesArr.sort().join( '; ' );
@@ -1213,9 +1233,14 @@
 			}
 			if ( classesArr.length )
 				attrs[ 'class' ] = classesArr.sort().join( ' ' );
+
+			if ( origClasses && classesArr.length < origClasses.split( /\s+/ ).length )
+				isModified = true;
 		}
 		else if ( origClasses )
 			attrs[ 'class' ] = origClasses;
+
+		return isModified;
 	}
 
 	function validateElement( element ) {
@@ -1794,6 +1819,21 @@
  * @since 4.1
  * @property {CKEDITOR.filter} filter
  * @member CKEDITOR.editor
+ */
+
+/**
+ * This event is fired when {@link CKEDITOR.filter} has stripped some
+ * content from loaded (by e.g. {@link CKEDITOR.editor#method-setData} or in source mode) or
+ * inserted (e.g. when pasting or using {@link CKEDITOR.editor#method-insertHtml}) data.
+ *
+ * This event may be helpful when testing whether {@link CKEDITOR.config#allowedContent}
+ * setting is sufficient and correct for system which is migrating to CKEditor 4.1
+ * (which introduced [Advanced Content Filter](#!/guide/dev_advanced_content_filter)).
+ *
+ * @since 4.1
+ * @event dataFiltered
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
