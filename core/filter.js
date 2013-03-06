@@ -34,6 +34,8 @@
 	 *	* `'div br'` &ndash; for {@link CKEDITOR#ENTER_DIV},
 	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
+	 * **Read more** about the Advanced Content Filter in [guides](#!/guide/dev_advanced_content_filter).
+	 *
 	 * Filter may also be used as a standalone instance by passing
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
 	 * to the constructor:
@@ -364,7 +366,7 @@
 		},
 
 		/**
-		 * Disables allowed content filter.
+		 * Disables Advanced Content Filter.
 		 *
 		 * This method is meant to be used by plugins which are not
 		 * compatible with the filter and in other cases in which the filter
@@ -1696,12 +1698,12 @@
 		matchesStyle: elementMatchesStyle,
 
 		/*
-		 * Transform element to given form.
+		 * Transforms element to given form.
 		 *
 		 * Form may be a:
 		 *
 		 * 	* {@link CKEDITOR.style},
-		 *	* string - the new name of an element,
+		 *	* string &ndash; the new name of an element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} el
 		 * @param {CKEDITOR.style/String} form
@@ -1837,12 +1839,26 @@
  */
 
 /**
+ * Virtual class which is the [Allowed Content Rules](#!/guide/dev_allowed_content_rules) formats type.
+ *
+ * Possible formats are:
+ *
+ *	* [string format](#!/guide/dev_allowed_content_rules-section-2),
+ *	* [object format](#!/guide/dev_allowed_content_rules-section-3),
+ *	* {@link CKEDITOR.style} &ndash; used mainly for integrating plugins with ACF,
+ *	* an array of the above formats.
+ *
  * @since 4.1
  * @class CKEDITOR.filter.allowedContentRules}
  * @abstract
  */
 
 /**
+ * Virtual class which is {@link CKEDITOR.filter#check} argument's type.
+ *
+ * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
+ * It may contain only one element and its styles, classes and attributes.
+ *
  * @since 4.1
  * @class CKEDITOR.filter.contentRule}
  * @abstract
@@ -1855,11 +1871,11 @@
  *
  * For example:
  *
- *	* 'Bold' command, button, and keystroke &ndash; it does not mean exactly
+ *	* "Bold" command, button, and keystroke &ndash; it does not mean exactly
  * `<strong>` or `<b>` but just the ability to create bold text.
- *	* 'Format' drop-down list &ndash; it also does not imply any HTML tag.
- *	* 'Link' command, button, and keystroke.
- *	* 'Image' command, button, and dialog window.
+ *	* "Format" drop-down list &ndash; it also does not imply any HTML tag.
+ *	* "Link" command, button, and keystroke.
+ *	* "Image" command, button, and dialog window.
  *
  * Thus most often a feature is an instance of one of the following classes:
  *
@@ -1939,6 +1955,14 @@
  */
 
 /**
+ * Returns a feature that this feature needs to register.
+ *
+ * In some cases, during activation, one feature may need to register
+ * other feature. For example a {@link CKEDITOR.ui.button} often registers
+ * a related command. See {@link CKEDITOR.ui.button#toFeature}.
+ *
+ * This method is executed when feature is passed to the {@link CKEDITOR.editor#addFeature}.
+ *
  * @method toFeature
  * @returns {CKEDITOR.feature}
  */
