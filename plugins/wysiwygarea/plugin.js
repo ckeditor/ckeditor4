@@ -19,17 +19,16 @@
 			}
 
 			editor.addMode( 'wysiwyg', function( callback ) {
-				var iframe = CKEDITOR.document.createElement( 'iframe' );
-				iframe.setStyles({ width: '100%', height: '100%' } );
-				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
-
-				var contentSpace = editor.ui.space( 'contents' );
-				contentSpace.append( iframe );
-
 				var src = 'document.open();' +
-					// The document domain must be set any time we
-				// call document.open().
-				( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+				// The document domain must be set any time we call document.open().
+				//
+				// (#10165) Temp: If document.domain was touched in IE>8,
+				// use config.forceCustomDomain to fix access denied issue.
+				( isCustomDomain || editor.config.forceCustomDomain ?
+						( 'document.domain="' + document.domain + '";' )
+					:
+						''
+				) +
 					'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
@@ -38,6 +37,14 @@
 				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
 					:
 					'';
+
+				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '"></iframe>', CKEDITOR.document );
+				iframe.setStyles({ width: '100%', height: '100%' } );
+				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
+
+				var contentSpace = editor.ui.space( 'contents' );
+				contentSpace.append( iframe );
+
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
@@ -66,7 +73,6 @@
 					frameBorder: 0,
 					'aria-describedby' : labelId,
 					title: frameLabel,
-					src: src,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				});
