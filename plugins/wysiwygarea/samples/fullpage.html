@@ -29,12 +29,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</p>
 <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>', {
-	<strong>fullPage: true</strong>
+	<strong>fullPage: true</strong>,
+	<strong>allowedContent: true</strong>
 });
 </pre>
 		<p>
 			Note that <code><em>textarea_id</em></code> in the code above is the <code>id</code> attribute of
 			the <code>&lt;textarea&gt;</code> element to be replaced.
+		</p>
+		<p>
+			The <code><em>allowedContent</em></code> in the code above is set to <code>true</code> to disable content filtering.
+			Setting this option is not obligatory, but in full page mode there is a strong chance that one may want be able to freely enter any HTML content in source mode without any limitations.
 		</p>
 	</div>
 	<form action="../../../samples/sample_posteddata.php" method="post">
@@ -49,6 +54,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 			CKEDITOR.replace( 'editor1', {
 				fullPage: true,
+				allowedContent: true,
 				extraPlugins: 'wysiwygarea'
 			});
 
