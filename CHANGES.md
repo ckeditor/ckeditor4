@@ -3,24 +3,24 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.0.2
 
-* [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding CKEDITOR.getUrl with CKEDITOR_GETURL.
-* [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog footer have different look and size (Moono, Kama).
-* [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with styleSet.add() are displayed in wrong order.
-* [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when editor.readOnly is set.
-* [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on getData() if set via docprops dialog.
-* [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with select fields in Kama.
-* [#9851](http://dev.ckeditor.com/ticket/9851): SelectionChange isn't fired when mouse selection finished outside editable.
-* [#9903](http://dev.ckeditor.com/ticket/9903): [Inline editor] Bad positioning of floating space with page h-scroll.
-* [#9872](http://dev.ckeditor.com/ticket/9872): Editor.checkDirty() returns true when called onload. Removed obsolete editor.mayBeDirty flag.
-* [#9893](http://dev.ckeditor.com/ticket/9893): Fixed broken toolbar when editing mixed-dir content in quirks mode.
-* [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog and the Anchors option is used and no anchors are available.
-* [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea based editors.
-* [#9940](http://dev.ckeditor.com/ticket/9940): With Firefox, navigating back to a page with the editor was making the entire page editable.
+* [#9779](http://dev.ckeditor.com/ticket/9779): Fixed overriding `CKEDITOR.getUrl` with `CKEDITOR_GETURL`.
+* [#9772](http://dev.ckeditor.com/ticket/9772): Custom buttons in dialog window footer have different look and size (Moono, Kama).
+* [#9029](http://dev.ckeditor.com/ticket/9029): Custom styles added with `styleSet.add()` are displayed in wrong order.
+* [#9887](http://dev.ckeditor.com/ticket/9887): Disable magicline when `editor.readOnly` is set.
+* [#9882](http://dev.ckeditor.com/ticket/9882): Fixed empty document title on `getData()` if set via the Document Properties dialog window.
+* [#9773](http://dev.ckeditor.com/ticket/9773): Fixed rendering problems with selection fields in the Kama skin.
+* [#9851](http://dev.ckeditor.com/ticket/9851): The `selectionChange` event is not fired when mouse selection ended outside editable.
+* [#9903](http://dev.ckeditor.com/ticket/9903): [Inline editor] Bad positioning of floating space with page horizontal scroll.
+* [#9872](http://dev.ckeditor.com/ticket/9872): `editor.checkDirty()` returns `true` when called onload. Removed the obsolete `editor.mayBeDirty` flag.
+* [#9893](http://dev.ckeditor.com/ticket/9893): Fixed broken toolbar when editing mixed direction content in Quirks mode.
+* [#9845](http://dev.ckeditor.com/ticket/9845): Fixed TAB navigation in the Link dialog window when the Anchor option is used and no anchors are available.
+* [#9883](http://dev.ckeditor.com/ticket/9883): Maximizing was making the entire page editable with divarea-based editors.
+* [#9940](http://dev.ckeditor.com/ticket/9940): [Firefox] Navigating back to a page with the editor was making the entire page editable.
 * [#9966](http://dev.ckeditor.com/ticket/9966): Fixed: Unable to type square brackets with French keyboard layout. Changed magicline keystrokes.
-* [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when editor focused for the first time.
+* [#9507](http://dev.ckeditor.com/ticket/9507): [Firefox] Selection is moved before editable position when the editor is focused for the first time.
 * [#9947](http://dev.ckeditor.com/ticket/9947): [Webkit] Editor overflows parent container in some edge cases.
-* [#10105](http://dev.ckeditor.com/ticket/10105): Fixed: Broken sourcearea view when RTL language is set.
-* [#10123](http://dev.ckeditor.com/ticket/10123): [Webkit] Fixed: Several dialogs have broken layout since latest Webkit.
+* [#10105](http://dev.ckeditor.com/ticket/10105): Fixed: Broken sourcearea view when an RTL language is set.
+* [#10123](http://dev.ckeditor.com/ticket/10123): [Webkit] Fixed: Several dialog windows have broken layout since the latest Webkit release.
 * [#10152](http://dev.ckeditor.com/ticket/10152): Fixed: Invalid ARIA property used on menu items.
 
 ## CKEditor 4.0.1.1
@@ -79,4 +79,4 @@ The CKEditor JavaScript API has been kept compatible with CKEditor 4, whenever
 possible. The list of relevant changes can be found in the [API Changes page of
 the CKEditor 4 documentation][1].
 
-[1]: http://docs.ckeditor.com/#!/guide/dev_api_changes "API Changes""
+[1]: http://docs.ckeditor.com/#!/guide/dev_api_changes "API Changes"
