@@ -5,12 +5,12 @@
 
 (function() {
 	/**
-	 * Represents an HTML data processor, which is responsible to translate and
-	 * transform the editor data on input and output.
+	 * Represents an HTML data processor, which is responsible for translating and
+	 * transforming the editor data on input and output.
 	 *
 	 * @class
 	 * @extends CKEDITOR.dataProcessor
-	 * @constructor Creates a htmlDataProcessor class instance.
+	 * @constructor Creates an htmlDataProcessor class instance.
 	 * @param {CKEDITOR.editor} editor
 	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
@@ -143,16 +143,16 @@
 
 	CKEDITOR.htmlDataProcessor.prototype = {
 		/**
-		 * Process the input (potentially malformed) HTML to a purified form which
-		 * is suitable to be used in the wysiwyg editable.
+		 * Processes the input (potentially malformed) HTML to a purified form which
+		 * is suitable for using in the WYSIWYG editable.
 		 *
 		 * @param {String} data The raw data.
 		 * @param {String} [context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
-		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
-		 * @param {Boolean} [dontFilter] Don't filter data with {@link CKEDITOR.filter}.
+		 * @param {Boolean} [fixForBody] Whether to trigger the auto paragraph for non-block contents.
+		 * @param {Boolean} [dontFilter] Do not filter data with {@link CKEDITOR.filter}.
 		 * @returns {String}
 		 */
 		toHtml: function( data, context, fixForBody, dontFilter ) {
@@ -782,11 +782,11 @@
 })();
 
 /**
- * Whether a filler text (non-breaking space entity - `&nbsp;`) will be
- * inserted into empty block elements in HTML output,
- * this is used to render block elements properly with `line-height`
- * When a function is instead specified, it'll be passed a {@link CKEDITOR.htmlParser.element}
- * to decide whether adding the filler text by expecting a boolean return value.
+ * Whether a filler text (non-breaking space entity &mdash; `&nbsp;`) will be
+ * inserted into empty block elements in HTML output.
+ * This is used to render block elements properly with `line-height`.
+ * When a function is specified instead, it will be passed a {@link CKEDITOR.htmlParser.element}
+ * to decide whether adding the filler text by expecting a Boolean return value.
  *
  *		config.fillEmptyBlocks = false; // Prevent filler nodes in all empty blocks.
  *
@@ -802,22 +802,22 @@
  */
 
 /**
- * This event is fired by {@link CKEDITOR.htmlDataProcessor} when input HTML
- * is to be purified by {@link CKEDITOR.htmlDataProcessor#toHtml} method.
+ * This event is fired by the {@link CKEDITOR.htmlDataProcessor} when input HTML
+ * is to be purified by the {@link CKEDITOR.htmlDataProcessor#toHtml} method.
  *
  * By adding listeners with different priorities it is possible
  * to process input HTML on different stages:
  *
- *	* 1-4: Data are available in original string format.
- *	* 5: Data are initially filtered with regexp patterns and parsed to
+ *	* 1-4: Data is available in the original string format.
+ *	* 5: Data is initially filtered with regexp patterns and parsed to
  *		{@link CKEDITOR.htmlParser.fragment} {@link CKEDITOR.htmlParser.element}.
- *	* 5-9: Data are available in parsed format, but {@link CKEDITOR.htmlDataProcessor#dataFilter}
- *		isn't applied yet.
- *	* 10: Data are filtered with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
- *	* 10-14: Data are available in parsed format and {@link CKEDITOR.htmlDataProcessor#dataFilter}
- *		isn't already applied.
- *	* 15: Data are written back to HTML string.
- *	* 15-*: Data are available in HTML string.
+ *	* 5-9: Data is available in the parsed format, but {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		is not applied yet.
+ *	* 10: Data is filtered with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
+ *	* 10-14: Data is available in the parsed format and {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		has already been applied.
+ *	* 15: Data is written back to an HTML string.
+ *	* 15-*: Data is available in an HTML string.
  *
  * @since 4.1
  * @event toHtml
@@ -825,9 +825,9 @@
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Input data to be purified.
- * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} `context` argument.
- * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} `fixForBody` argument.
- * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} `dontFilter` argument.
+ * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} The `context` argument.
+ * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} The `fixForBody` argument.
+ * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
  */
 
 /**

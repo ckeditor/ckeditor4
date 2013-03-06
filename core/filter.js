@@ -262,7 +262,7 @@
 		 * @param {Boolean} [toHtml] Set to `true` if the filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
 		 * will not be filtered with allowed content rules.
-		 * @returns {Boolean} Whether some part of `fragment` has been removed by filter.
+		 * @returns {Boolean} Whether some part of the `fragment` was removed by the filter.
 		 */
 		applyTo: function( fragment, toHtml, transformOnly ) {
 			var toBeRemoved = [],
@@ -1825,12 +1825,13 @@
 
 /**
  * This event is fired when {@link CKEDITOR.filter} has stripped some
- * content from loaded (by e.g. {@link CKEDITOR.editor#method-setData} or in source mode) or
- * inserted (e.g. when pasting or using {@link CKEDITOR.editor#method-insertHtml}) data.
+ * content from the data that was loaded (e.g. by {@link CKEDITOR.editor#method-setData}
+ * method or in the source mode) or inserted (e.g. when pasting or using the
+ * {@link CKEDITOR.editor#method-insertHtml} method).
  *
- * This event may be helpful when testing whether {@link CKEDITOR.config#allowedContent}
- * setting is sufficient and correct for system which is migrating to CKEditor 4.1
- * (which introduced [Advanced Content Filter](#!/guide/dev_advanced_content_filter)).
+ * This event is useful when testing whether the {@link CKEDITOR.config#allowedContent}
+ * setting is sufficient and correct for a system that is migrating to CKEditor 4.1
+ * (where the [Advanced Content Filter](#!/guide/dev_advanced_content_filter) was introduced).
  *
  * @since 4.1
  * @event dataFiltered
@@ -1849,7 +1850,7 @@
  *	* an array of the above formats.
  *
  * @since 4.1
- * @class CKEDITOR.filter.allowedContentRules}
+ * @class CKEDITOR.filter.allowedContentRules
  * @abstract
  */
 
@@ -1860,7 +1861,7 @@
  * It may contain only one element and its styles, classes and attributes.
  *
  * @since 4.1
- * @class CKEDITOR.filter.contentRule}
+ * @class CKEDITOR.filter.contentRule
  * @abstract
  */
 
