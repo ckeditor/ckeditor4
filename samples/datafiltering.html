@@ -20,14 +20,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</h1>
 	<div class="description">
 		<p>
-			This sample page demonstrates the idea of Advanced Content Filtering
-			(<abbr title="Advanced Content Filtering">ACF</abbr>) feature, a sophisticated
+			This sample page demonstrates the idea of Advanced Content Filter
+			(<abbr title="Advanced Content Filter">ACF</abbr>), a sophisticated
 			tool that takes control over what kind of data is accepted by the editor and what
 			kind of output is produced.
 		</p>
 		<h2>When and what is being filtered?</h2>
 		<p>
-			<abbr title="Advanced Content Filtering">ACF</abbr> controls
+			<abbr title="Advanced Content Filter">ACF</abbr> controls
 			<strong>every single source of data</strong> that comes to the editor.
 			It process both HTML that is inserted manually (i.e. pasted by the user)
 			and programmatically like:
@@ -36,22 +36,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 editor.setData( '&lt;p&gt;Hello world!&lt;/p&gt;' );
 </pre>
 		<p>
-			<abbr title="Advanced Content Filtering">ACF</abbr> discards invalid,
+			<abbr title="Advanced Content Filter">ACF</abbr> discards invalid,
 			useless HTML tags and attributes so the editor remains "clean" during
-			runtime. <abbr title="Advanced Content Filtering">ACF</abbr> behaviour
+			runtime. <abbr title="Advanced Content Filter">ACF</abbr> behaviour
 			can be configured and adjusted for a particular case to prevent the
 			output HTML (i.e. in CMS systems) from being polluted.
 
 			This kind of filtering is a first, client-side line of defense
 			against "<a href="http://en.wikipedia.org/wiki/Tag_soup">tag soups</a>",
 			the tool that precisely restricts which tags, attributes and styles
-			are allowed (desired). When properly configured, <abbr title="Advanced Content Filtering">ACF</abbr>
+			are allowed (desired). When properly configured, <abbr title="Advanced Content Filter">ACF</abbr>
 			is an easy and fast way to produce a high-quality, intentionally filtered HTML.
 		</p>
 
 		<h3>How to configure or disable ACF?</h3>
 		<p>
-			Advanced Content Filtering is enabled by default, working in "automatic mode", yet
+			Advanced Content Filter is enabled by default, working in "automatic mode", yet
 			it provides a set of easy rules that allow adjusting filtering rules
 			and disabling the entire feature when necessary. The config property
 			responsible for this feature is <code><a class="samples"
@@ -62,7 +62,7 @@ editor.setData( '&lt;p&gt;Hello world!&lt;/p&gt;' );
 			of content is enabled and which is not. For example, if the link
 			plugin is loaded it implies that <code>&lt;a&gt;</code> tag is
 			automatically allowed. Each plugin is given a set
-			of predefined <abbr title="Advanced Content Filtering">ACF</abbr> rules
+			of predefined <abbr title="Advanced Content Filter">ACF</abbr> rules
 			that control the editor until <code><a class="samples"
 			href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-allowedContent">
 			config.allowedContent</a></code>
@@ -71,7 +71,7 @@ editor.setData( '&lt;p&gt;Hello world!&lt;/p&gt;' );
 		<p>
 			Let's assume our intention is to restrict the editor to accept (produce) <strong>paragraphs
 			only: no attributes, no styles, no other tags</strong>.
-			With <abbr title="Advanced Content Filtering">ACF</abbr>
+			With <abbr title="Advanced Content Filter">ACF</abbr>
 			this is very simple. Basically set <code><a class="samples"
 			href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-allowedContent">
 			config.allowedContent</a></code> to <code>'p'</code>:
@@ -99,13 +99,13 @@ alert( editor.getData() );
 			filtering would happen if we pasted disallowed HTML into this editor.
 		</p>
 		<p>
-			This is just a small sample of what <abbr title="Advanced Content Filtering">ACF</abbr>
+			This is just a small sample of what <abbr title="Advanced Content Filter">ACF</abbr>
 			can do. To know more, please refer to the sample section below and
-			<span style="color: red; font-size: 20px;">[ TODO: OFFICIAL GUIDE ]</span>.
+			<a href="http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter">the official Advanced Content Filter guide</a>.
 		</p>
 		<p>
 			You may, of course, want CKEditor to avoid filtering of any kind.
-			To get rid of <abbr title="Advanced Content Filtering">ACF</abbr>,
+			To get rid of <abbr title="Advanced Content Filter">ACF</abbr>,
 			basically set <code><a class="samples"
 			href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-allowedContent">
 			config.allowedContent</a></code> to <code>true</code> like this:
@@ -116,14 +116,14 @@ CKEDITOR.replace( <em>textarea_id</em>, {
 } );
 </pre>
 
-		<h2>Beyond data flow: <abbr title="User Interface">UI</abbr> interactions</h2>
+		<h2>Beyond data flow: Features activation</h2>
 		<p>
-			<abbr title="Advanced Content Filtering">ACF</abbr> is far more than
+			<abbr title="Advanced Content Filter">ACF</abbr> is far more than
 			<abbr title="Input/Output">I/O</abbr> control: the entire
 			<abbr title="User Interface">UI</abbr> of the editor is adjusted to what
 			filters restrict. For example: if <code>&lt;a&gt;</code> tag is
 			<strong>disallowed</strong>
-			by <abbr title="Advanced Content Filtering">ACF</abbr>,
+			by <abbr title="Advanced Content Filter">ACF</abbr>,
 			then accordingly <code>link</code> command, toolbar button and link dialog
 			are also disabled. Editor is smart: it knows which features must be
 			removed from the interface to match filtering rules.
@@ -134,18 +134,15 @@ CKEDITOR.replace( <em>textarea_id</em>, {
 			to have only one attribute (<code>href</code>)
 			<code>config.allowedContent = 'a[!href]'</code>, then
 			"Target" tab of the link dialog is automatically disabled as <code>target</code>
-			attribute isn't included in <abbr title="Advanced Content Filtering">ACF</abbr> rules
+			attribute isn't included in <abbr title="Advanced Content Filter">ACF</abbr> rules
 			for <code>&lt;a&gt;</code>. This behaviour applies to dialog fields, context
-			menus and toolbar buttons. To know more about
-			<abbr title="Advanced Content Filtering">ACF</abbr> and
-			<abbr title="User Interface">UI</abbr> interactions, please refer to
-			<span style="color: red; font-size: 20px;">[ TODO: OFFICIAL GUIDE ]</span>.
+			menus and toolbar buttons.
 		</p>
 
 		<h2>Sample configurations</h2>
 		<p>
 			There are several editor instances below that present different
-			<abbr title="Advanced Content Filtering">ACF</abbr> setups. <strong>All of them,
+			<abbr title="Advanced Content Filter">ACF</abbr> setups. <strong>All of them,
 			except the last inline instance, share the same HTML content</strong> to visualize
 			how different filtering rules affect the same input data.
 		</p>
@@ -185,7 +182,7 @@ CKEDITOR.replace( <em>textarea_id</em>, {
 		<div class="description">
 			<p>
 				This editor is using a custom configuration for
-				<abbr title="Advanced Content Filtering">ACF</abbr>:
+				<abbr title="Advanced Content Filter">ACF</abbr>:
 			</p>
 <pre class="samples">
 CKEDITOR.replace( 'editor2', {
@@ -277,7 +274,7 @@ CKEDITOR.replace( 'editor2', {
 		<div class="description">
 			<p>
 				This editor is using a custom configuration for
-				<abbr title="Advanced Content Filtering">ACF</abbr>.
+				<abbr title="Advanced Content Filter">ACF</abbr>.
 				Note that filters can be configured as an object literal
 				as an alternative to a string-based definition.
 			</p>
@@ -344,7 +341,7 @@ CKEDITOR.replace( 'editor4', {
 				plugin/button that is responsible for creating and editing this
 				kind of content (for example: the image is missing because
 				of <code>removeButtons: 'Image'</code>). The conclusion is that
-				<abbr title="Advanced Content Filtering">ACF</abbr> works "backwards"
+				<abbr title="Advanced Content Filter">ACF</abbr> works "backwards"
 				as well: <strong>modifying <abbr title="User Interface">UI</abbr>
 				elements is changing allowed content rules</strong>.
 			</p>
@@ -372,13 +369,13 @@ CKEDITOR.replace( 'editor4', {
 		<div class="description">
 			<p>
 				This editor is built on editable <code>&lt;h1&gt;</code> element.
-				<abbr title="Advanced Content Filtering">ACF</abbr> takes care of
+				<abbr title="Advanced Content Filter">ACF</abbr> takes care of
 				what can be included in <code>&lt;h1&gt;</code>. Note that there
 				are no block styles in Styles combo. Also why lists, indentation,
 				blockquote, div, form and other buttons are missing.
 			</p>
 			<p>
-				<abbr title="Advanced Content Filtering">ACF</abbr> makes sure that
+				<abbr title="Advanced Content Filter">ACF</abbr> makes sure that
 				no disallowed tags will come to <code>&lt;h1&gt;</code> so the final
 				markup is valid. If the user tried to paste some invalid HTML
 				into this editor (let's say a list), it would be automatically
