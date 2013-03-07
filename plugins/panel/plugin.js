@@ -74,7 +74,7 @@
 
 	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
-			'<head>{css}</head>' +
+			'<head>{css}{script}</head>' +
 			'<body class="cke_{dir}"' +
 				' style="margin:0;padding:0" onload="{onload}"></body>' +
 		'<\/html>' );
@@ -111,9 +111,15 @@
 								this.onLoad();
 						}, this ) );
 
+						var script = CKEDITOR.env.isCustomDomain() || ( CKEDITOR.env.ie && editor.config.forceCustomDomain ) ?
+							'<script type="text/javascript">document.domain="' + document.domain + '"</script>'
+							:
+							'';
+
 						doc.write( frameDocTpl.output( CKEDITOR.tools.extend({
 							css: CKEDITOR.tools.buildStyleHtml( this.css ),
-							onload: 'window.parent.CKEDITOR.tools.callFunction(' + onLoad + ');'
+							onload: 'window.parent.CKEDITOR.tools.callFunction(' + onLoad + ');',
+							script: script
 						}, data ) ) );
 
 						var win = doc.getWindow();
@@ -162,11 +168,29 @@
 				'z-index': editor.config.baseFloatZIndex + 1
 			};
 
+			var src = 'document.open();' +
+				// The document domain must be set any time we call document.open().
+				//
+				// (#10165) Temp: If document.domain was touched in IE>8,
+				// use config.forceCustomDomain to fix access denied issue.
+				( CKEDITOR.env.isCustomDomain() || ( CKEDITOR.env.ie && editor.config.forceCustomDomain ) ?
+						( 'document.domain="' + document.domain + '";' )
+					:
+						''
+				) +
+					'document.close();';
+
+			// With IE, the custom domain has to be taken care at first,
+			// for other browers, the 'src' attribute should be left empty to
+			// trigger iframe's 'load' event.
+			src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
+				:
+				'';
+
 			if ( this.isFramed ) {
 				data.frame = frameTpl.output({
 					id: this.id + '_frame',
-					src: 'javascript:void(document.open(),' + ( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\',' : '' )
-						+ 'document.close())">'
+					src: src
 				});
 			}
 

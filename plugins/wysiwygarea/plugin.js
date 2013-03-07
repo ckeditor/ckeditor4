@@ -38,7 +38,7 @@
 					:
 					'';
 
-				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>', CKEDITOR.document );
+				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
 				iframe.setStyles({ width: '100%', height: '100%' } );
 				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
 
