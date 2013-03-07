@@ -38,7 +38,7 @@
 					:
 					'';
 
-				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '"></iframe>', CKEDITOR.document );
+				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>', CKEDITOR.document );
 				iframe.setStyles({ width: '100%', height: '100%' } );
 				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
 
@@ -70,7 +70,6 @@
 				});
 
 				iframe.setAttributes({
-					frameBorder: 0,
 					'aria-describedby' : labelId,
 					title: frameLabel,
 					tabIndex: editor.tabIndex,
