@@ -605,7 +605,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								' title="', elementDefinition.label, '"' +
 								' src="javascript:void(' ];
 
-						html.push( isCustomDomain ? '(function(){' +
+						html.push( isCustomDomain || ( CKEDITOR.env.ie && dialog._.editor.config.forceCustomDomain ) ? '(function(){' +
 							'document.open();' +
 							'document.domain=\'' + document.domain + '\';' +
 							'document.close();' +
@@ -1266,6 +1266,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				var inputId = _.frameId + '_input';
 
+					var script = CKEDITOR.env.isCustomDomain() || ( CKEDITOR.env.ie && _.dialog._.editor.config.forceCustomDomain ) ?
+							'<script type="text/javascript">document.domain="' + document.domain + '"</script>'
+						:
+							'';
+
 					frameDocument.$.write( [ '<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
 														'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
 														CKEDITOR.tools.htmlEncode( elementDefinition.action ),
@@ -1281,6 +1286,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 														'" />',
 														'</form>',
 														'</body></html>',
+														script,
 														'<script>window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
 														'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}</script>' ].join( '' ) );
 
