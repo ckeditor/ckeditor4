@@ -111,7 +111,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			this.type = CKEDITOR.STYLE_OBJECT;
 
 		this._ = {
-			definition: styleDefinition
+			definition: styleDefinition,
+			enterMode: CKEDITOR.config.enterMode /* becouse the code reffers to it */
 		};
 	};
 
