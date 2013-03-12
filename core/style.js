@@ -1420,7 +1420,6 @@ CKEDITOR.STYLE_OBJECT = 3;
  */
 CKEDITOR.styleCommand = function( style, ext ) {
 	this.style = style;
-	// TODO shouldn't we create content def only when explicitly requested (by argument)?
 	this.allowedContent = style;
 	this.requiredContent = style;
 

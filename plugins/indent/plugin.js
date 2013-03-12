@@ -25,7 +25,6 @@
 		this.startDisabled = name == 'outdent';
 
 		this.allowedContent = {
-			// TODO this may not be a complete list of elements.
 			'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
 				// Do not add elements, but only text-align style if element is validated by other rule.
 				propertiesOnly: true,

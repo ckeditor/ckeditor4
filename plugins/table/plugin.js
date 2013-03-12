@@ -20,7 +20,7 @@ CKEDITOR.plugins.add( 'table', {
 				'caption tbody thead tfoot;' +
 				'th td tr[scope];' +
 				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
-			requiredContent: 'table', // TODO We should also check td and tr.
+			requiredContent: 'table',
 			contentTransformations: [
 				[ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
 			]
