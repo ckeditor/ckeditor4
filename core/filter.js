@@ -236,6 +236,8 @@
 				if ( featureName )
 					rule.featureName = featureName.toLowerCase();
 
+				standardizeRule( rule );
+
 				// Save rule and remember to optimize it.
 				this.allowedContent.push( rule );
 				rulesToOptimize.push( rule );
@@ -668,7 +670,7 @@
 		var name = element.name;
 
 		// This generic rule doesn't apply to this element - skip it.
-		if ( !isSpecific && rule.elements && !rule.elements( name ) )
+		if ( !isSpecific && typeof rule.elements == 'function' && !rule.elements( name ) )
 			return;
 
 		// This rule doesn't match this element - skip it.
@@ -756,28 +758,81 @@
 		return rules;
 	}
 
-	// Extract required properties from props (if it is a string or array -
-	// other formats cannot contain required properties) and push them to req array.
-	// Return props array with removed '!' characters from items' names.
-	// It has to be returned because when props passed in string the
-	// reference will be broken.
-	function extractRequired( props, req ) {
-		var prop, i;
+	// Convert all validator formats (string, array, object, boolean) to hash or boolean:
+	// * true is returned for '*'/true validator,
+	// * false is returned for empty validator (no validator at all (false/null) or e.g. empty array),
+	// * object is returned in other cases.
+	function convertValidatorToHash( validator, delimiter ) {
+		if ( !validator )
+			return false;
 
-		if ( typeof props == 'string' )
-			props = props.split( /\s*,\s*/ );
+		if ( validator === true )
+			return validator;
 
-		// Not an array - may be a function or object.
-		if ( typeof props != 'object' || !props.length )
-			return props;
+		if ( typeof validator == 'string' ) {
+			validator = trim( validator );
+			if ( validator == '*' )
+				return true;
+			else
+				return CKEDITOR.tools.convertArrayToObject( validator.split( delimiter ) );
+		}
+		else if ( CKEDITOR.tools.isArray( validator ) ) {
+			if ( validator.length )
+				return CKEDITOR.tools.convertArrayToObject( validator );
+			else
+				return false;
+		}
+		// If object.
+		else {
+			var obj = {},
+				len = 0;
 
-		for ( i = 0; i < props.length; ++i ) {
-			prop = props[ i ];
-			if ( prop.indexOf( '!' ) === 0 )
-				req.push( ( props[ i ] = prop.slice( 1 ) ) );
+			for ( var i in validator ) {
+				obj[ i ] = validator[ i ];
+				len++
+			}
+
+			return len ? obj : false;
+		}
+	}
+
+	// Extract required properties from "required" validator and "all" properties.
+	// Remove exclamation marks from "all" properties.
+	//
+	// E.g.:
+	// requiredClasses = { cl1: true }
+	// (all) classes = { cl1: true, cl2: true, '!cl3': true }
+	//
+	// result:
+	// returned = { cl1: true, cl3: true }
+	// all = { cl1: true, cl2: true, cl3: true }
+	//
+	// This function returns false if nothing is required.
+	function extractRequired( required, all ) {
+		var unbang = [],
+			empty = true,
+			i;
+
+		if ( required )
+			empty = false;
+		else
+			required = {};
+
+		for ( i in all ) {
+			if ( i.charAt( 0 ) == '!' ) {
+				i = i.slice( 1 );
+				unbang.push( i );
+				required[ i ] = true;
+				empty = false;
+			}
 		}
 
-		return props;
+		while ( ( i = unbang.pop() ) ) {
+			all[ i ] = all[ '!' + i ];
+			delete all[ '!' + i ];
+		}
+
+		return empty ? false : required;
 	}
 
 	// Filter element protected with a comment.
@@ -923,14 +978,12 @@
 
 	// Check whether element has all properties (styles,classes,attrs) required by a rule.
 	function hasAllRequired( rule, element ) {
-		var required = rule.required;
-
-		if ( !required )
+		if ( rule.nothingRequired )
 			return true;
 
 		var i, reqs, existing;
 
-		if ( ( reqs = required.classes ) ) {
+		if ( ( reqs = rule.requiredClasses ) ) {
 			existing = element.classes;
 			for ( i = 0; i < reqs.length; ++i ) {
 				if ( CKEDITOR.tools.indexOf( existing, reqs[ i ] ) == -1 )
@@ -938,8 +991,8 @@
 			}
 		}
 
-		return hasAllRequiredInHash( element.styles, required.styles ) &&
-			hasAllRequiredInHash( element.attributes, required.attributes );
+		return hasAllRequiredInHash( element.styles, rule.requiredStyles ) &&
+			hasAllRequiredInHash( element.attributes, rule.requiredAttributes );
 	}
 
 	// Check whether all items in required (array) exist in existing (object).
@@ -1017,97 +1070,65 @@
 		return obj;
 	}
 
-	var validators = { elements:1,styles:1,attributes:1,classes:1 },
+	var validators = { styles:1,attributes:1,classes:1 },
 		validatorsRequired = {
 			styles: 'requiredStyles',
 			attributes: 'requiredAttributes',
 			classes: 'requiredClasses'
 		};
 
-	// Optimize rule's validators (for elements, styles, etc.).
-	// If any of these validators is a wildcard return true,
-	// what means that this rule is a priority.
-	// It should be applied in the first order, because it will
-	// mark many properties as valid without checking them,
-	// so next rules will be able to skip them saving time.
-	function optimizeValidators( rule ) {
-		var validator, allReqs, reqProp,
-			priority = false,
-			reqs = {},
-			hasReq;
+	// Optimize a rule by replacing validators with functions
+	// and rewriting requiredXXX validators to arrays.
+	function optimizeRule( rule ) {
+		var i;
+		for ( i in validators )
+			rule[ i ] = validatorFunction( rule[ i ] );
 
-		for ( var i in validators ) {
-			allReqs = [];
-
-			if ( ( validator = rule[ i ] ) ) {
-				// Extract required properties (those with '!') to the allReqs array.
-				validator = extractRequired( validator, allReqs );
-				// True means that this is a wildcard, so this rule have a high priority.
-				if ( ( rule[ i ] = validatorFunction( validator ) ) === true )
-					priority = true;
-			}
-
-			// Add names from requiredClasses/Attrs/Styles to allReqs array.
-			if ( ( reqProp = rule[ validatorsRequired[ i ] ] ) ) {
-				if ( typeof reqProp == 'string' )
-					reqProp = reqProp.split( /\s*,\s*/ );
-				allReqs = allReqs.concat( reqProp );
-			}
-
-			if ( allReqs.length ) {
-				reqs[ i ] = allReqs;
-				hasReq = 1;
-			}
+		var nothingRequired = true;
+		for ( i in validatorsRequired ) {
+			i = validatorsRequired[ i ];
+			rule[ i ] = CKEDITOR.tools.objectKeys( rule[ i ] );
+			if ( rule[ i ] )
+				nothingRequired = false;
 		}
 
-		return {
-			priority: priority,
-			required: hasReq ? reqs : null
-		};
+		rule.nothingRequired = nothingRequired;
 	}
 
 	// Add optimized version of rule to optimizedRules object.
 	function optimizeRules( optimizedRules, rules ) {
 		var elementsRules = optimizedRules.elements || {},
 			genericRules = optimizedRules.generic || [],
-			i, l, rule, elements, element, optResult;
+			i, l, j, rule, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
 			// Shallow copy. Do not modify original rule.
 			rule = copy( rules[ i ] );
+			priority = rule.classes === true || rule.styles === true || rule.attributes === true;
+			optimizeRule( rule );
 
+			// E.g. "*(xxx)[xxx]" - it's a generic rule that
+			// validates properties only.
+			// Or '$1': { match: function() {...} }
+			if ( rule.elements === true || rule.elements === null ) {
+				rule.elements = validatorFunction( rule.elements );
+				// Add priority rules at the beginning.
+				genericRules[ priority ? 'unshift' : 'push' ]( rule );
+			}
 			// If elements list was explicitly defined,
 			// add this rule for every defined element.
-			if ( typeof rule.elements == 'string' ) {
-				// Do not optimize rule.elements.
-				elements = trim( rule.elements );
+			else {
+				// We don't need elements validator for this kind of rule.
+				var elements = rule.elements;
 				delete rule.elements;
-				optResult = optimizeValidators( rule );
 
-				// E.g. "*(xxx)[xxx]" - it's a generic rule that
-				// validates properties only.
-				if ( elements == '*' ) {
-					rule.propertiesOnly = true;
-					// Add priority rules at the beginning.
-					genericRules[ optResult.priority ? 'unshift' : 'push' ]( rule );
-				} else {
-					elements = elements.split( /\s+/ );
-
-					while ( ( element = elements.pop() ) ) {
-						if ( !elementsRules[ element ] )
-							elementsRules[ element ] = [ rule ];
-						else
-							elementsRules[ element ][ optResult.priority ? 'unshift' : 'push' ]( rule );
-					}
+				for ( element in elements ) {
+					if ( !elementsRules[ element ] )
+						elementsRules[ element ] = [ rule ];
+					else
+						elementsRules[ element ][ priority ? 'unshift' : 'push' ]( rule );
 				}
-			} else {
-				optResult = optimizeValidators( rule );
-
-				// Add priority rules at the beginning.
-				genericRules[ optResult.priority ? 'unshift' : 'push' ]( rule );
 			}
-
-			rule.required = optResult.required;
 		}
 
 		optimizedRules.elements = elementsRules;
@@ -1167,6 +1188,23 @@
 			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
 		if ( !element.classes )
 			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+	}
+
+	// Standardize a rule by converting all validators to hashes.
+	function standardizeRule( rule ) {
+		rule.elements = convertValidatorToHash( rule.elements, /\s+/ ) || null;
+		rule.propertiesOnly = rule.propertiesOnly || ( rule.elements === true );
+
+		var delim = /\s*,\s*/,
+			i;
+
+		for ( i in validators ) {
+			rule[ i ] = convertValidatorToHash( rule[ i ], delim ) || null;
+			rule[ validatorsRequired[ i ] ] = extractRequired( convertValidatorToHash(
+				rule[ validatorsRequired[ i ] ], delim ), rule[ i ] ) || null;
+		}
+
+		rule.match = rule.match || null;
 	}
 
 	// Copy element's styles and classes back to attributes array.
@@ -1267,42 +1305,15 @@
 		return true;
 	}
 
-	// Create validator function based on multiple
-	// accepted validator formats:
-	// function, string ('a,b,c'), regexp, array (['a','b','c']) and object ({a:1,b:2,c:3})
 	function validatorFunction( validator ) {
-		if ( validator == '*' )
+		if ( !validator )
+			return false;
+		if ( validator === true )
 			return true;
 
-		var type = typeof validator;
-		if ( type == 'object' )
-			type = validator.test ? 'regexp' :
-				validator.push ? 'array' :
-				type;
-
-		switch ( type ) {
-			case 'function':
-				return validator;
-			case 'string':
-				var arr = trim( validator ).split( /\s*,\s*/ );
-				return function( value ) {
-					return CKEDITOR.tools.indexOf( arr, value ) > -1;
-				};
-			case 'regexp':
-				return function( value ) {
-					return validator.test( value );
-				};
-			case 'array':
-				return function( value ) {
-					return CKEDITOR.tools.indexOf( validator, value ) > -1;
-				};
-			case 'object':
-				return function( value ) {
-					return value in validator;
-				};
-		}
-
-		return false;
+		return function( value ) {
+			return value in validator;
+		};
 	}
 
 	//

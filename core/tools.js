@@ -945,6 +945,32 @@
 				keys.push( i );
 
 			return keys;
+		},
+
+		/**
+		 * Convert an array to an object by rewriting array's items
+		 * to object properties.
+		 *
+		 *		var arr = [ 'foo', 'bar', 'foo' ];
+		 *		console.log( CKEDITOR.tools.convertArrayToObject( arr ) );
+		 *		// -> { foo: true, bar: true }
+		 *		console.log( CKEDITOR.tools.convertArrayToObject( arr, 1 ) );
+		 *		// -> { foo: 1, bar: 1 }
+		 *
+		 * @since 4.1
+		 * @param {Array} arr The array to be converted to object.
+		 * @param [fillWith=true] Set each property of an object to `fillWith` value.
+		 */
+		convertArrayToObject: function( arr, fillWith ) {
+			var obj = {};
+
+			if ( arguments.length == 1 )
+				fillWith = true;
+
+			for ( var i = 0, l = arr.length; i < l; ++i )
+				obj[ arr[ i ] ] = fillWith;
+
+			return obj;
 		}
 	};
 })();
