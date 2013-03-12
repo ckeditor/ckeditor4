@@ -216,6 +216,8 @@
 				rulesToOptimize = [];
 
 			for ( groupName in newRules ) {
+				rule = newRules[ groupName ];
+
 				// { 'p h1': true } => { 'p h1': {} }.
 				if ( typeof rule == 'boolean' )
 					rule = {};
@@ -224,7 +226,7 @@
 					rule = { match: rule };
 				// Clone (shallow) rule, because we'll modify it later.
 				else
-					rule = copy( newRules[ groupName ] );
+					rule = copy( rule );
 
 				// If this is not an unnamed rule ({ '$1' => { ... } })
 				// move elements list to property.
