@@ -74,15 +74,18 @@
 		 *
 		 * @param {String} name The icon name.
 		 * @param {String} path The path to reach the icon image file.
-		 * @param {Number} [offset] The vertical offset position of the icon, if
-		 * available inside a strip image.
+		 * @param {Number} [offset_vert] The vertical offset position of the icon, if
+		 * available inside a sprites image.
+		 * @param {Number} [offset_horz] The horizontal offset position of the icon, if
+		 * available inside a sprites image.
 		 */
-		addIcon: function( name, path, offset ) {
+		addIcon: function( name, path, offset_vert, offset_horz ) {
 			name = name.toLowerCase();
 			if ( !this.icons[ name ] ) {
 				this.icons[ name ] = {
 					path: path,
-					offset: offset || 0
+					offset_vert: offset_vert || 0,
+					offset_horz: offset_horz || 0
 				};
 			}
 		},
@@ -93,15 +96,18 @@
 		 * @param {String} name The icon name, as registered with {@link #addIcon}.
 		 * @param {Boolean} [rtl] Indicates that the RTL version of the icon is
 		 * to be used, if available.
-		 * @param {String} [overridePath] The path to reach the icon image file. It
-		 * overrides the path defined by the named icon, if available, and is
+		 * @param {String} [overridePath] The path to reach the icon image file. 
+		 * It overrides the path defined by the named icon, if available, and is
 		 * used if the named icon was not registered.
-		 * @param {Number} [overrideOffset] The vertical offset position of the
-		 * icon. It overrides the offset defined by the named icon, if
+		 * @param {Number} [overrideOffset_vert] The vertical offset position 
+		 * of the icon. It overrides the offset defined by the named icon, if
+		 * available, and is used if the named icon was not registered.
+		 * @param {Number} [overrideOffset_horz] The horizontal offset position 
+		 * of the icon. It overrides the offset defined by the named icon, if
 		 * available, and is used if the named icon was not registered.
 		 */
-		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
-			var icon, path, offset;
+		getIconStyle: function( name, rtl, overridePath, overrideOffset_vert, overrideOffset_horz ) {
+			var icon, path, offset_vert, offset_horz;
 
 			if ( name ) {
 				name = name.toLowerCase();
@@ -115,10 +121,11 @@
 			}
 
 			path = overridePath || ( icon && icon.path ) || '';
-			offset = overrideOffset || ( icon && icon.offset );
+			offset_vert = overrideOffset_vert || ( icon && icon.offset_vert );
+			offset_horz = overrideOffset_horz || ( icon && icon.offset_horz );
 
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:' + offset_horz + 'px '+offset_vert+'px;' );
 		}
 	};
 
