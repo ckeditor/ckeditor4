@@ -104,13 +104,13 @@ CKEDITOR.config.coreStyles_underline = { element: 'u' };
  *		CKEDITOR.config.coreStyles_strike = {
  *			element: 'span',
  *			attributes: { 'class': 'StrikeThrough' },
- *			overrides: 'strike'
+ *			overrides: 's'
  *		};
  *
  * @cfg
  * @member CKEDITOR.config
  */
-CKEDITOR.config.coreStyles_strike = { element: 'strike' };
+CKEDITOR.config.coreStyles_strike = { element: 's' };
 
 /**
  * The style definition that applies the subscript style to the text.
