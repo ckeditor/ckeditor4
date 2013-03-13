@@ -78,10 +78,12 @@
 		 * available inside a sprites image.
 		 * @param {Number} [offset_horz] The horizontal offset position of the icon, if
 		 * available inside a sprites image.
+		 * @param {Boolean} choose to override any existing icon object stored in the 
+		 * icons[] array.
 		 */
-		addIcon: function( name, path, offset_vert, offset_horz ) {
+		addIcon: function( name, path, offset_vert, offset_horz, override ) {
 			name = name.toLowerCase();
-			if ( !this.icons[ name ] ) {
+			if (override || !this.icons[ name ] ) {
 				this.icons[ name ] = {
 					path: path,
 					offset: offset_vert || 0, //offset can't be renamed here because it seems that ckbuilder.jar sets this prop name directly during a build
