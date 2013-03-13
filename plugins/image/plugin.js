@@ -24,8 +24,6 @@
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) )
 				allowed = 'img[alt,dir,id,lang,longdesc,!src,title]{*}(*)';
-			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'link' ) )
-				allowed += ';a[!href]';
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {

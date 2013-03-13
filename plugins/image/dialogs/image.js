@@ -981,6 +981,7 @@
 						{
 						id: 'cmbTarget',
 						type: 'select',
+						requiredContent: 'a[target]',
 						label: editor.lang.common.target,
 						'default': '',
 						items: [
