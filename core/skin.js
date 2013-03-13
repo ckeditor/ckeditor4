@@ -79,15 +79,14 @@
 		 * @param {Number} [offset_horz] The horizontal offset position of the icon, 
 		 * if available inside a sprites image.
 		 */
-		addIcon: function( name, path, offset_vert, offset_horz ) {
+		addIcon: function( name, path, offset ) {
 			name = name.toLowerCase();
-			//if ( !this.icons[ name ] ) {//Removed, as it should always allow a call to override
+			if ( !this.icons[ name ] ) {
 				this.icons[ name ] = {
 					path: path,
-					offset_vert: offset_vert || 0,
-					offset_horz: offset_horz || 0
+					offset: offset || 0
 				};
-			//}
+			}
 		},
 
 		/**
@@ -106,8 +105,8 @@
 		 * of the icon. It overrides the offset_horz defined by the named icon, 
 		 * if available, and is used if the named icon was not registered.
 		 */
-		getIconStyle: function( name, rtl, overridePath, overrideOffset_vert, overrideOffset_horz ) {
-			var icon, path, offset_vert, offset_horz;
+		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
+			var icon, path, offset;
 
 			if ( name ) {
 				name = name.toLowerCase();
@@ -121,11 +120,10 @@
 			}
 
 			path = overridePath || ( icon && icon.path ) || '';
-			offset_vert = overrideOffset_vert || ( icon && icon.offset_vert );
-			offset_horz = overrideOffset_horz || ( icon && icon.offset_horz );
+			offset = overrideOffset || ( icon && icon.offset );
 
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:' + offset_horz + 'px '+offset_vert+'px;' );
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
 		}
 	};
 
