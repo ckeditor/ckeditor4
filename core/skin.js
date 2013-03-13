@@ -74,8 +74,10 @@
 		 *
 		 * @param {String} name The icon name.
 		 * @param {String} path The path to reach the icon image file.
-		 * @param {Number} [offset] The vertical offset position of the icon, if
-		 * available inside a strip image.
+		 * @param {Number} [offset_vert] The vertical offset position of the icon, if
+		 * available inside a sprites image.
+		 * @param {Number} [offset_horz] The horizontal offset position of the icon, 
+		 * if available inside a sprites image.
 		 */
 		addIcon: function( name, path, offset_vert, offset_horz ) {
 			name = name.toLowerCase();
@@ -97,9 +99,12 @@
 		 * @param {String} [overridePath] The path to reach the icon image file. It
 		 * overrides the path defined by the named icon, if available, and is
 		 * used if the named icon was not registered.
-		 * @param {Number} [overrideOffset] The vertical offset position of the
-		 * icon. It overrides the offset defined by the named icon, if
-		 * available, and is used if the named icon was not registered.
+		 * @param {Number} [overrideOffset_vert] The vertical offset position 
+		 * of the icon. It overrides the offset_vert defined by the named icon, 
+		 * if available, and is used if the named icon was not registered.
+		 * @param {Number} [overrideOffset_horz] The vertical offset position 
+		 * of the icon. It overrides the offset_horz defined by the named icon, 
+		 * if available, and is used if the named icon was not registered.
 		 */
 		getIconStyle: function( name, rtl, overridePath, overrideOffset_vert, overrideOffset_horz ) {
 			var icon, path, offset_vert, offset_horz;
