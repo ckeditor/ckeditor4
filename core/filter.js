@@ -1626,7 +1626,7 @@
 	}
 
 	/**
-	 * Singleton containing tools useful for transformations rules.
+	 * Singleton containing tools useful for transformation rules.
 	 *
 	 * @class CKEDITOR.filter.transformationsTools
 	 * @singleton
@@ -1857,9 +1857,9 @@
  *
  * Possible formats are:
  *
- *	* [string format](#!/guide/dev_allowed_content_rules-section-2),
- *	* [object format](#!/guide/dev_allowed_content_rules-section-3),
- *	* {@link CKEDITOR.style} &ndash; used mainly for integrating plugins with ACF,
+ *	* the [string format](#!/guide/dev_allowed_content_rules-section-2),
+ *	* the [object format](#!/guide/dev_allowed_content_rules-section-3),
+ *	* a {@link CKEDITOR.style} instance &ndash; used mainly for integrating plugins with Advanced Content Filter,
  *	* an array of the above formats.
  *
  * @since 4.1
@@ -1868,10 +1868,10 @@
  */
 
 /**
- * Virtual class which is {@link CKEDITOR.filter#check} argument's type.
+ * Virtual class representing {@link CKEDITOR.filter#check} argument.
  *
  * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
- * It may contain only one element and its styles, classes and attributes.
+ * It may contain only one element and its styles, classes, and attributes.
  *
  * @since 4.1
  * @class CKEDITOR.filter.contentRule
