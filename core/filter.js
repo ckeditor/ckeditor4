@@ -1871,7 +1871,8 @@
  * Virtual class representing {@link CKEDITOR.filter#check} argument.
  *
  * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
- * It may contain only one element and its styles, classes, and attributes.
+ * It may contain only one element and its styles, classes, and attributes. Only the
+ * string format and a {@link CKEDITOR.style} instances are accepted.
  *
  * @since 4.1
  * @class CKEDITOR.filter.contentRule
