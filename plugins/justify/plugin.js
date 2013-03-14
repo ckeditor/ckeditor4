@@ -56,6 +56,10 @@
 			}
 
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
+			this.requiredContent = 'p(' + this.cssClassName + ')';
+		}
+		else {
+			this.requiredContent = 'p{text-align}';
 		}
 
 		this.allowedContent = {
@@ -66,7 +70,6 @@
 				classes: this.cssClassName || null
 			}
 		};
-		this.requiredContent = 'p{text-align}';
 	}
 
 	function onDirChanged( e ) {
