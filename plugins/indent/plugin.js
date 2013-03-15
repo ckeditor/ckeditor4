@@ -32,7 +32,11 @@
 				classes: useClasses ? editor.config.indentClasses : null
 			}
 		};
-		this.requiredContent = 'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' );
+
+		this.requiredContent = [
+			'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' ),
+			'li'
+		];
 	}
 
 	// Returns the CSS property to be used for identing a given element.
