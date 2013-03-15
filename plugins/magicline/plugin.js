@@ -277,7 +277,7 @@
 
 			// Revert magicline hot node on undo/redo.
 			editor.on( 'loadSnapshot', function( event ) {
-				var elements = doc.getElementsByTag( that.enterBehavior ),
+				var elements = editor.document.getElementsByTag( that.enterBehavior ),
 					element;
 
 				for ( var i = elements.count(); i--; ) {
