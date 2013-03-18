@@ -905,9 +905,10 @@
 				for ( i = 0; i < transformations.length; ++i )
 					applyTransformationsGroup( that, element, transformations[ i ] );
 
-				// Update style and class attrs, because that won't be done after applying rules.
-				if ( !optimizedRules )
-					updateAttributes( element );
+				// Do not count on updateElement(), because it:
+				// * may not be called,
+				// * may skip some properties when all are marked as valid.
+				updateAttributes( element );
 			}
 
 			if ( optimizedRules ) {
@@ -1245,7 +1246,6 @@
 		delete attrs[ 'class' ];
 
 		if ( !status.allAttributes ) {
-			// We can safely remove class and styles attributes because they will be serialized later.
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
 				if ( !validAttrs[ name ] ) {
@@ -1708,6 +1708,40 @@
 			}
 
 			delete element.styles[ styleName ];
+		},
+
+		/**
+		 * Converts the `align` attribute to the `float` style if not set. Attribute
+		 * is always removed.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
+		alignmentToStyle: function( element ) {
+			if ( !( 'float' in element.styles ) ) {
+				var value = element.attributes.align;
+
+				if ( value == 'left' || value == 'right' )
+					element.styles.float = value;
+			}
+
+			delete element.attributes.align;
+		},
+
+		/**
+		 * Converts the `float` style to the `align` attribute if not set.
+		 * Style is always removed.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
+		alignmentToAttribute: function( element ) {
+			if ( !( 'align' in element.attributes ) ) {
+				var value = element.styles.float;
+
+				if ( value == 'left' || value == 'right' )
+					element.attributes.align = value;
+			}
+
+			delete element.styles.float;
 		},
 
 		/**
