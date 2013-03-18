@@ -1234,7 +1234,7 @@
 			styles = element.styles,
 			origClasses = attrs[ 'class' ],
 			origStyles = attrs.style,
-			name,
+			name, origName,
 			stylesArr = [],
 			classesArr = [],
 			internalAttr = /^data-cke-/,
@@ -1248,10 +1248,22 @@
 			// We can safely remove class and styles attributes because they will be serialized later.
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
-				if ( !validAttrs[ name ] && !internalAttr.test( name ) ) {
-					delete attrs[ name ];
-					isModified = true;
+				if ( !validAttrs[ name ] ) {
+					// Allow all internal attibutes...
+					if ( internalAttr.test( name ) ) {
+						// ... unless this is a saved attribute and the original one isn't allowed.
+						if ( name != ( origName = name.replace( /^data-cke-saved-/, '' ) ) &&
+							!validAttrs[ origName ]
+						) {
+							delete attrs[ name ];
+							isModified = true;
+						}
+					} else {
+						delete attrs[ name ];
+						isModified = true;
+					}
 				}
+
 			}
 		}
 
@@ -1290,10 +1302,8 @@
 
 		switch ( element.name ) {
 			case 'a':
-				attrs = element.attributes;
-				if ( !attrs.href && !attrs.name )
-					return false;
-				if ( !attrs.name && !element.children.length )
+				// Code borrowed from htmlDataProcessor, so ACF does the same clean up.
+				if ( !( element.children.length || element.attributes.name ) )
 					return false;
 				break;
 			case 'img':
