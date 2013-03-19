@@ -34,8 +34,8 @@
 	}
 
 	var resizeEditor = function( editor ) {
-			if ( !editor.window )
-				return;
+		if ( !editor.window )
+			return;
 
 		var maximize = editor.getCommand( 'maximize' );
 			// Disable autogrow when the editor is maximized .(#6339)
@@ -43,30 +43,28 @@
 			return;
 
 		var scrollable = getScrollable( editor ),
-				currentHeight = editor.window.getViewPaneSize().height,
-				newHeight = contentHeight( scrollable );
+			currentHeight = editor.window.getViewPaneSize().height,
+			newHeight = contentHeight( scrollable );
 
-			// Additional space specified by user.
-			newHeight += ( editor.config.autoGrow_bottomSpace || 0 );
+		// Additional space specified by user.
+		newHeight += ( editor.config.autoGrow_bottomSpace || 0 );
 
-			var min = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
-				max = editor.config.autoGrow_maxHeight || Infinity;
+		var min = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
+			max = editor.config.autoGrow_maxHeight || Infinity;
 
-			newHeight = Math.max( newHeight, min );
-			newHeight = Math.min( newHeight, max );
+		newHeight = Math.max( newHeight, min );
+		newHeight = Math.min( newHeight, max );
 
-			if ( newHeight != currentHeight ) {
-				newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
-				editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
-			}
+		if ( newHeight != currentHeight ) {
+			newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
+			editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
+		}
 
-			if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < max )
-				scrollable.setStyle( 'overflow-y', 'hidden' );
-			else
-				scrollable.removeStyle( 'overflow-y' );
-
-
-		};
+		if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < max )
+			scrollable.setStyle( 'overflow-y', 'hidden' );
+		else
+			scrollable.removeStyle( 'overflow-y' );
+	};
 
 	CKEDITOR.plugins.add( 'autogrow', {
 		init: function( editor ) {
