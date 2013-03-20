@@ -33,6 +33,9 @@
 			}
 		};
 
+		// #10192: Either blocks intendation or lists are required - acitvate
+		// indent commands in both situations. Lists are sufficient, because
+		// indent is needed for leaving list with enter key.
 		this.requiredContent = [
 			'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' ),
 			'li'
