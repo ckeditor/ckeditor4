@@ -1731,7 +1731,7 @@
 				var value = element.attributes.align;
 
 				if ( value == 'left' || value == 'right' )
-					element.styles.float = value;
+					element.styles[ 'float' ] = value; // Uh... GCC doesn't like the 'float' prop name.
 			}
 
 			delete element.attributes.align;
@@ -1745,13 +1745,13 @@
 		 */
 		alignmentToAttribute: function( element ) {
 			if ( !( 'align' in element.attributes ) ) {
-				var value = element.styles.float;
+				var value = element.styles[ 'float' ];
 
 				if ( value == 'left' || value == 'right' )
 					element.attributes.align = value;
 			}
 
-			delete element.styles.float;
+			delete element.styles[ 'float' ]; // Uh... GCC doesn't like the 'float' prop name.
 		},
 
 		/**
