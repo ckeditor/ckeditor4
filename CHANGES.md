@@ -1,6 +1,10 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.1
+
+* [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with enter key doesn't work with Advanced Content Filter in several cases.
+
 ## CKEditor 4.1 RC
 
 * [#9829](http://dev.ckeditor.com/ticket/9829): Data and features activation based on editor configuration.
@@ -22,7 +26,6 @@ CKEditor 4 Changelog
   * Introduced the `editor.status` property to make it easier to check the current status of the editor. See [API documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-status).
   * Default `command` state is now `CKEDITOR.TRISTATE_DISABLE`. It will be activated on `editor.instanceReady` or immediately after being added if the editor is already initialized.
 * [#9796](http://dev.ckeditor.com/ticket/9796): Introduced `<s>` as a default tag for strikethrough, which replaces obsolete `<strike>` in HTML5.
-* [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with enter key doesn't work with Advanced Content Filter in several cases.
 
 ## CKEditor 4.0.2
 
