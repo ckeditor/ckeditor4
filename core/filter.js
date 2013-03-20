@@ -608,6 +608,16 @@
 			if ( this.disabled )
 				return true;
 
+			// If rules are an array, expand it and return the logical OR value of
+			// the rules.
+			if ( CKEDITOR.tools.isArray( test ) ) {
+				for ( var i = test.length ; i-- ; ) {
+					if ( this.check( test[ i ], applyTransformations, strictCheck ) )
+						return true;
+				}
+				return false;
+			}
+
 			var element, result, cacheKey;
 
 			if ( typeof test == 'string' ) {

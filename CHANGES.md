@@ -1,6 +1,10 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.1
+
+* [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with enter key doesn't work with Advanced Content Filter in several cases.
+
 ## CKEditor 4.1 RC
 
 * [#9829](http://dev.ckeditor.com/ticket/9829): Data and features activation based on editor configuration.
