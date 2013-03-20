@@ -361,8 +361,8 @@
 			if ( !feature )
 				return true;
 
-			// Some features may want to register other feature.
-			// E.g. button may return command bound to it.
+			// Some features may want to register other features.
+			// E.g. a button may return a command bound to it.
 			if ( feature.toFeature )
 				feature = feature.toFeature( this.editor );
 
@@ -408,7 +408,7 @@
 		 * This method is used by the editor to register {@link CKEDITOR.feature#contentForms}
 		 * when adding a feature with {@link #addFeature} or {@link CKEDITOR.editor#addFeature}.
 		 *
-		 * @param {Array} forms The feature's content forms.
+		 * @param {Array} forms The content forms of a feature.
 		 */
 		addContentForms: function( forms ) {
 			if ( this.disabled )
@@ -442,8 +442,8 @@
 
 		/**
 		 * Checks whether a feature can be enabled for the HTML restrictions in place
-		 * for the current CKEditor instance, based on the HTML the feature might
-		 * generate and the minimal HTML the feature needs to be able to generate.
+		 * for the current CKEditor instance, based on the HTML code the feature might
+		 * generate and the minimal HTML code the feature needs to be able to generate.
 		 *
 		 *		// TODO example
 		 *
@@ -457,8 +457,8 @@
 			if ( !feature )
 				return true;
 
-			// Some features may want to register other feature.
-			// E.g. button may return command bound to it.
+			// Some features may want to register other features.
+			// E.g. a button may return a command bound to it.
 			if ( feature.toFeature )
 				feature = feature.toFeature( this.editor );
 
@@ -2027,10 +2027,10 @@
  * Returns a feature that this feature needs to register.
  *
  * In some cases, during activation, one feature may need to register
- * other feature. For example a {@link CKEDITOR.ui.button} often registers
+ * another feature. For example a {@link CKEDITOR.ui.button} often registers
  * a related command. See {@link CKEDITOR.ui.button#toFeature}.
  *
- * This method is executed when feature is passed to the {@link CKEDITOR.editor#addFeature}.
+ * This method is executed when a feature is passed to the {@link CKEDITOR.editor#addFeature}.
  *
  * @method toFeature
  * @returns {CKEDITOR.feature}
