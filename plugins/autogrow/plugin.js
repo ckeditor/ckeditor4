@@ -33,7 +33,10 @@
 		return doc.$.compatMode == 'BackCompat' ? body : htmlElement;
 	}
 
-	var resizeEditor = function( editor ) {
+	// @param editor
+	// @param {Number} lastHeight The last height set by autogrow.
+	// @returns {Number} New height if has been changed, or the passed `lastHeight`.
+	var resizeEditor = function( editor, lastHeight ) {
 		if ( !editor.window )
 			return;
 
@@ -55,15 +58,20 @@
 		newHeight = Math.max( newHeight, min );
 		newHeight = Math.min( newHeight, max );
 
-		if ( newHeight != currentHeight ) {
+		// #10196 Do not resize editor if new height is equal
+		// to the one set by previous resizeEditor() call.
+		if ( newHeight != currentHeight && lastHeight != newHeight ) {
 			newHeight = editor.fire( 'autoGrow', { currentHeight: currentHeight, newHeight: newHeight } ).newHeight;
 			editor.resize( editor.container.getStyle( 'width' ), newHeight, true );
+			lastHeight = newHeight;
 		}
 
 		if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < max )
 			scrollable.setStyle( 'overflow-y', 'hidden' );
 		else
 			scrollable.removeStyle( 'overflow-y' );
+
+		return lastHeight;
 	};
 
 	CKEDITOR.plugins.add( 'autogrow', {
@@ -75,7 +83,8 @@
 
 			editor.on( 'instanceReady', function() {
 
-				var editable = editor.editable();
+				var editable = editor.editable(),
+					lastHeight;
 
 				// Simply set auto height with div wysiwyg.
 				if ( editable.isInline() )
@@ -84,7 +93,9 @@
 				else
 				{
 					editor.addCommand( 'autogrow', {
-						exec:resizeEditor,
+						exec: function( editor ) {
+							lastHeight = resizeEditor( editor, lastHeight );
+						},
 						modes:{ wysiwyg:1 },
 						readOnly: 1,
 						canUndo: false,
@@ -97,10 +108,10 @@
 							// Some time is required for insertHtml, and it gives other events better performance as well.
 							if ( evt.editor.mode == 'wysiwyg'  ) {
 								setTimeout( function() {
-									resizeEditor( evt.editor );
+									lastHeight = resizeEditor( evt.editor, lastHeight );
 									// Second pass to make correction upon
 									// the first resize, e.g. scrollbar.
-									resizeEditor( evt.editor );
+									lastHeight = resizeEditor( evt.editor, lastHeight );
 								}, 100 );
 							}
 						});
@@ -114,7 +125,7 @@
 								scrollable.removeStyle( 'overflow' );
 							}
  							else
-								resizeEditor( editor );
+								lastHeight = resizeEditor( editor, lastHeight );
 						}
 					});
 
