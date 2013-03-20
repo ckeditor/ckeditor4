@@ -3,13 +3,13 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1
 
-* [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with enter key doesn't work with Advanced Content Filter in several cases.
+* [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with Enter key does not work with Advanced Content Filter in several cases.
 * [#10191](http://dev.ckeditor.com/ticket/10191): Fixed allowed content rules unification, so the `filter.allowedContent` property always contains rules in the same format.
-* [#10224](http://dev.ckeditor.com/ticket/10224): Advanced Content Filter does not remove non-empty `<a>` elements any more.
-* Minor issues in plugins integration with Advanced Content Filter:
-  * [#10166](http://dev.ckeditor.com/ticket/10166): Added transformation from the `align` attribute to `float` style to preserve backward compatibility after introduction of Advanced Content Filter.
-  * [#10195](http://dev.ckeditor.com/ticket/10195): Image plugin does not register rules for links to Advanced Content Filter any more.
-  * [#10213](http://dev.ckeditor.com/ticket/10213): Justify plugin is now correctly registering rules to Advanced Content Filter in case when the `config.justifyClasses` is defined.
+* [#10224](http://dev.ckeditor.com/ticket/10224): Advanced Content Filter does not remove non-empty `<a>` elements anymore.
+* Minor issues in plugin integration with Advanced Content Filter:
+  * [#10166](http://dev.ckeditor.com/ticket/10166): Added transformation from the `align` attribute to `float` style to preserve backward compatibility after the introduction of Advanced Content Filter.
+  * [#10195](http://dev.ckeditor.com/ticket/10195): Image plugin no longer registers rules for links to Advanced Content Filter.
+  * [#10213](http://dev.ckeditor.com/ticket/10213): Justify plugin is now correctly registering rules to Advanced Content Filter when `config.justifyClasses` is defined.
 
 ## CKEditor 4.1 RC
 
