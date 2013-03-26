@@ -219,11 +219,12 @@
 	//            elements Array of {@link CKEDITOR.dialog.definition.content}
 	//            objects.
 	function attachFileBrowser( editor, dialogName, definition, elements ) {
-		if (!elements) return;
+		if ( !elements || !elements.length )
+			return;
 
 		var element, fileInput;
 
-		for ( var i = 0, l = elements.length; i < l; ++i) {
+		for ( var i = elements.length; i--; ) {
 			element = elements[ i ];
 
 			if ( element.type == 'hbox' || element.type == 'vbox' || element.type == 'fieldset' )
