@@ -278,15 +278,22 @@
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
-					if ( el.type == CKEDITOR.NODE_ELEMENT ) {
-						if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
-							isModified = true;
-					}
-					else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
-						if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
-							toBeRemoved.push( el );
-					}
-				}, null, true );
+				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
+					// (#10260) Don't touch elements like spans with data-cke-* attribute since they're
+					// responsible e.g. for placing markers, bookmarks, odds and stuff.
+					// We love 'em and we don't wanna lose anything during the filtering.
+					// '|' is to avoid tricky joints like data-="foo" + cke-="bar". Yes, they're possible.
+					if ( el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
+						return;
+
+					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
+						isModified = true;
+				}
+				else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
+					if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
+						toBeRemoved.push( el );
+				}
+			}, null, true );
 
 			if ( toBeRemoved.length )
 				isModified = true;
