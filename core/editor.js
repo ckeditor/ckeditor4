@@ -156,13 +156,13 @@
 		// Make the editor update its command states on mode change.
 		this.on( 'readOnly', updateCommands );
 		this.on( 'selectionChange', updateCommandsContext );
+		this.on( 'mode', updateCommands );
 
 		// Handle startup focus.
-		this.on( 'instanceReady', function() {
-			updateCommands.call( this );
+		this.on( 'instanceReady', function( event ) {
+			updateCommands.call( this, event );
 			// First 'mode' event is fired before this 'instanceReady',
 			// so to avoid updating commands twice, add this listener here.
-			this.on( 'mode', updateCommands );
 
 			this.config.startupFocus && this.focus();
 		} );
@@ -189,16 +189,31 @@
 		return name;
 	}
 
-	function updateCommands() {
-		var commands = this.commands,
-			mode = this.mode;
+	var updateCommands = ( function() {
+		var startupCommands;
 
-		if ( !mode )
-			return;
+		return function( event ) {
+			var commands = this.commands,
+				mode = this.mode;
 
-		for ( var name in commands )
-			updateCommand( this, commands[ name ] );
-	}
+			if ( !mode )
+				return;
+
+			// Cache all the commands names that are present since the very beginning
+			// of editor's life. They will be used as a reference to determine which commands
+			// have been created afterwards (#10249).
+			if ( !startupCommands )
+				startupCommands = CKEDITOR.tools.objectKeys( commands );
+
+			// If updateCommands() is called on instanceReady, update all the *new commands* that
+			// emerged *after* the standard command definition phase but before this instanceReady.
+			// Otherwise, e.g. when called on mode or readOnly, update all the available commands (#10249).
+			for ( var name in commands ) {
+				if ( event.name == 'instanceReady' ? !~CKEDITOR.tools.indexOf( startupCommands, name ) : true )
+					updateCommand( this, commands[ name ] );
+			}
+		}
+	})();
 
 	function updateCommand( editor, cmd ) {
 		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
