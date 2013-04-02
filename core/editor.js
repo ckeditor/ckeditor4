@@ -160,9 +160,9 @@
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function( event ) {
+			// #10103: Update commands which were added after first 'mode' event and before
+			// instanceReady. Commands added later will be instantly updated.
 			updateCommands.call( this, event );
-			// First 'mode' event is fired before this 'instanceReady',
-			// so to avoid updating commands twice, add this listener here.
 
 			this.config.startupFocus && this.focus();
 		} );
