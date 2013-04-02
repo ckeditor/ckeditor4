@@ -156,14 +156,10 @@
 		// Make the editor update its command states on mode change.
 		this.on( 'readOnly', updateCommands );
 		this.on( 'selectionChange', updateCommandsContext );
+		this.on( 'mode', updateCommands );
 
 		// Handle startup focus.
-		this.on( 'instanceReady', function() {
-			updateCommands.call( this );
-			// First 'mode' event is fired before this 'instanceReady',
-			// so to avoid updating commands twice, add this listener here.
-			this.on( 'mode', updateCommands );
-
+		this.on( 'instanceReady', function( event ) {
 			this.config.startupFocus && this.focus();
 		} );
 
@@ -191,12 +187,9 @@
 
 	function updateCommands() {
 		var commands = this.commands,
-			mode = this.mode;
+			name;
 
-		if ( !mode )
-			return;
-
-		for ( var name in commands )
+		for ( name in commands )
 			updateCommand( this, commands[ name ] );
 	}
 
@@ -600,8 +593,12 @@
 			commandDefinition.name = commandName.toLowerCase();
 			var cmd = new CKEDITOR.command( this, commandDefinition );
 
-			// Update command when added after editor has been already initialized.
-			if ( this.status == 'ready' && this.mode )
+			// Update command when mode is set.
+			// This guarantees that commands added before first editor#mode
+			// aren't immediately updated, but waits for editor#mode and that
+			// commands added later are immediately refreshed, even when added
+			// before instanceReady. #10103, #10249
+			if ( this.mode )
 				updateCommand( this, cmd );
 
 			return this.commands[ commandName ] = cmd;

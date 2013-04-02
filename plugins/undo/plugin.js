@@ -78,11 +78,16 @@
 				editor.mode == 'wysiwyg' && undoManager.save( true );
 			});
 
-			// Make the undo manager available only in wysiwyg mode.
-			editor.on( 'mode', function() {
+			function toggleUndoManager() {
 				undoManager.enabled = editor.readOnly ? false : editor.mode == 'wysiwyg';
 				undoManager.onChange();
-			});
+			}
+
+			// Make the undo manager available only in wysiwyg mode.
+			editor.on( 'mode', toggleUndoManager );
+
+			// Disable undo manager when in read-only mode.
+			editor.on( 'readOnly', toggleUndoManager );
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Undo', {
