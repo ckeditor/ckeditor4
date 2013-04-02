@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.1.1
 
 * [#10172](http://dev.ckeditor.com/ticket/10172): Pressing delete/backspace in empty table cell moves cursor to next/previous cell.
+* [#10219](http://dev.ckeditor.com/ticket/10219): Error thrown when destroying an instance in parallel with a mouseup event.
 
 ## CKEditor 4.1
 
