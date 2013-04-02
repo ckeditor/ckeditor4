@@ -160,10 +160,6 @@
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function( event ) {
-			// #10103: Update commands which were added after first 'mode' event and before
-			// instanceReady. Commands added later will be instantly updated.
-			updateCommands.call( this, event );
-
 			this.config.startupFocus && this.focus();
 		} );
 
@@ -189,31 +185,13 @@
 		return name;
 	}
 
-	var updateCommands = ( function() {
-		var startupCommands;
+	function updateCommands() {
+		var commands = this.commands,
+			name;
 
-		return function( event ) {
-			var commands = this.commands,
-				mode = this.mode;
-
-			if ( !mode )
-				return;
-
-			// Cache all the commands names that are present since the very beginning
-			// of editor's life. They will be used as a reference to determine which commands
-			// have been created afterwards (#10249).
-			if ( !startupCommands )
-				startupCommands = CKEDITOR.tools.objectKeys( commands );
-
-			// If updateCommands() is called on instanceReady, update all the *new commands* that
-			// emerged *after* the standard command definition phase but before this instanceReady.
-			// Otherwise, e.g. when called on mode or readOnly, update all the available commands (#10249).
-			for ( var name in commands ) {
-				if ( event.name == 'instanceReady' ? !~CKEDITOR.tools.indexOf( startupCommands, name ) : true )
-					updateCommand( this, commands[ name ] );
-			}
-		}
-	})();
+		for ( name in commands )
+			updateCommand( this, commands[ name ] );
+	}
 
 	function updateCommand( editor, cmd ) {
 		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
@@ -615,8 +593,12 @@
 			commandDefinition.name = commandName.toLowerCase();
 			var cmd = new CKEDITOR.command( this, commandDefinition );
 
-			// Update command when added after editor has been already initialized.
-			if ( this.status == 'ready' && this.mode )
+			// Update command when mode is set.
+			// This guarantees that commands added before first editor#mode
+			// aren't immediately updated, but waits for editor#mode and that
+			// commands added later are immediately refreshed, even when added
+			// before instanceReady. #10103, #10249
+			if ( this.mode )
 				updateCommand( this, cmd );
 
 			return this.commands[ commandName ] = cmd;
