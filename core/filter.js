@@ -1886,6 +1886,7 @@
  * editor configuration.
  *
  * @since 4.1
+ * @readonly
  * @property {CKEDITOR.filter} filter
  * @member CKEDITOR.editor
  */

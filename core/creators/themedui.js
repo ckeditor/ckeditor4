@@ -412,6 +412,7 @@ CKEDITOR.replaceClass = 'ckeditor';
  *
  *		alert( CKEDITOR.instances.editor1.mode ); // (e.g.) 'wysiwyg'
  *
+ * @readonly
  * @property {String} mode
  */
 

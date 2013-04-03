@@ -764,6 +764,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * {@link CKEDITOR.config#toolbar} if it is set or automatically
  * based on {@link CKEDITOR.config#toolbarGroups}.
  *
+ * @readonly
  * @property {Object} toolbar
  * @member CKEDITOR.editor
  */
