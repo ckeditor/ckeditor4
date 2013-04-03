@@ -922,11 +922,13 @@
 			// editable is instead handled by plugin.
 			if ( editable && editable.isInline() ) {
 
-				var ariaLabel = this.lang.editor + ', ' + this.name;
+				var ariaLabel = editor.title;
 
 				editable.changeAttr( 'role', 'textbox' );
 				editable.changeAttr( 'aria-label', ariaLabel );
-				editable.changeAttr( 'title', ariaLabel );
+
+				if ( ariaLabel )
+					editable.changeAttr( 'title', ariaLabel );
 
 				// Put the voice label in different spaces, depending on element mode, so
 				// the DOM element get auto detached on mode reload or editor destroy.

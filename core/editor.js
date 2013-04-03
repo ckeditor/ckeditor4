@@ -362,6 +362,8 @@
 
 	function loadLang( editor ) {
 		CKEDITOR.lang.load( editor.config.language, editor.config.defaultLanguage, function( languageCode, lang ) {
+			var configTitle = editor.config.title;
+
 			/**
 			 * The code for the language resources that have been loaded
 			 * for the user interface elements of this editor instance.
@@ -385,6 +387,19 @@
 			// from different language code files, we need a copy of lang,
 			// not a direct reference to it.
 			editor.lang = CKEDITOR.tools.prototypedCopy( lang );
+
+			/**
+			 * Indicates the human-readable title of this editor. Although this is a read-only property,
+			 * it can be initialized with {@link CKEDITOR.config#title}.
+			 *
+			 * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name editor.name}
+			 * which identifies the instance in {@link CKEDITOR#instances} literal.
+			 *
+			 * @property {String}
+			 * @readonly
+			 * @since 4.2
+			 */
+			editor.title = typeof configTitle == 'string' || configTitle === false ? configTitle : [ editor.lang.editor, editor.name ].join( ', ' );
 
 			// We're not able to support RTL in Firefox 2 at this time.
 			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
@@ -1082,6 +1097,33 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		config.startupFocus = true;
  *
  * @cfg {Boolean} [startupFocus=false]
+ * @member CKEDITOR.config
+ */
+
+ /**
+ * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
+ * tooltips and impacts on various accessibility aspects, e.g. it is commonly used by screen readers
+ * for distinguishing editor instances and for navigation. Accepted values are string or ``false``.
+ *
+ * **Note:** When ``config.title`` set globally, the same value will be applied to all editor instances
+ * loaded with this config. This may have a critical impact on several accessibility aspects.
+ *
+ * **Note:** Disabling title by setting ``config.title = false`` may also have a critical impact on
+ * several accessibility aspects.
+ *
+ * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name}
+ * which identifies the instance in {@link CKEDITOR#instances} literal.
+ *
+ *		// Set title to 'My WYSIWYG editor.'.
+ *		config.title = 'My WYSIWYG editor.';
+ *
+ *		// Disable title attribute.
+ *		config.title = false;
+ *
+ * @since 4.2
+ * @cfg {String/Boolean} [title=based on editor.name]
+ * @see CKEDITOR.editor.name
+ * @see CKEDITOR.editor.title
  * @member CKEDITOR.config
  */
 
