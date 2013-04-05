@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.editor} class, which represents an
+ * @fileOverview Defines the {@link CKEDITOR.editor} class that represents an
  *		editor instance.
  */
 
@@ -15,7 +15,7 @@
 
 	/**
 	 * Represents an editor instance. This constructor should be rarely
-	 * used, in favor of the {@link CKEDITOR} editor creation functions.
+	 * used in favor of the {@link CKEDITOR} editor creation functions.
 	 *
 	 * @class CKEDITOR.editor
 	 * @mixins CKEDITOR.event
@@ -24,7 +24,6 @@
 	 * @param {CKEDITOR.dom.element} [element] The DOM element upon which this editor
 	 * will be created.
 	 * @param {Number} [mode] The element creation mode to be used by this editor.
-	 * will be created.
 	 */
 	function Editor( instanceConfig, element, mode ) {
 		// Call the CKEDITOR.event constructor to initialize this instance.
@@ -39,7 +38,7 @@
 			if ( !( element instanceof CKEDITOR.dom.element ) )
 				throw new Error( 'Expect element of type CKEDITOR.dom.element.' );
 			else if ( !mode )
-				throw new Error( 'One of the element mode must be specified.' );
+				throw new Error( 'One of the element modes must be specified.' );
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 				throw new Error( 'Inline element mode is not supported on IE quirks.' );
@@ -1121,14 +1120,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * The document that holds the editor contents.
+ * The document that stores the editor contents.
  *
  * * For the framed editor it is equal to the document inside the
- * iframe containing editable element.
+ * iframe containing the editable element.
  * * For the inline editor it is equal to {@link CKEDITOR#document}.
  *
- * The document object is available after the {@link #contentDom} is fired
- * and may be invalidated when {@link #contentDomUnload} event is fired
+ * The document object is available after the {@link #contentDom} event is fired
+ * and may be invalidated when the {@link #contentDomUnload} event is fired
  * (framed editor only).
  *
  *		editor.on( 'contentDom', function() {

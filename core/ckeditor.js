@@ -14,8 +14,8 @@
 delete CKEDITOR.loadFullCore;
 
 /**
- * Holds references to all editor instances created. The name of the properties
- * in this object correspond to instance names, and their values contains the
+ * Stores references to all editor instances created. The name of the properties
+ * in this object correspond to instance names, and their values contain the
  * {@link CKEDITOR.editor} object representing them.
  *
  *		alert( CKEDITOR.instances.editor1.name ); // 'editor1'
@@ -25,7 +25,7 @@ delete CKEDITOR.loadFullCore;
 CKEDITOR.instances = {};
 
 /**
- * The document of the window holding the CKEDITOR object.
+ * The document of the window storing the CKEDITOR object.
  *
  *		alert( CKEDITOR.document.getBody().getName() ); // 'body'
  *
@@ -74,11 +74,11 @@ CKEDITOR.remove = function( editor ) {
 	var tpls = {};
 
 	/**
-	 * Add a named {@link CKEDITOR.template} instance to be reused among all editors,
-	 * it will returns the existed one if template with same name is already
-	 * defined, additionally fires the "template" event to allow template source customization.
+	 * Adds a named {@link CKEDITOR.template} instance to be reused among all editors.
+	 * This will return the existing one if a template with same name is already
+	 * defined. Additionally, it fires the "template" event to allow template source customization.
 	 *
-	 * @param {String} name The name which identify one UI template.
+	 * @param {String} name The name which identifies a UI template.
 	 * @param {String} source The source string for constructing this template.
 	 * @returns {CKEDITOR.template} The created template instance.
 	 */
@@ -95,7 +95,7 @@ CKEDITOR.remove = function( editor ) {
 	};
 
 	/**
-	 * Retrieve a defined template created with {@link CKEDITOR#addTemplate}.
+	 * Retrieves a defined template created with {@link CKEDITOR#addTemplate}.
 	 *
 	 * @param {String} name The template name.
 	 */
@@ -108,14 +108,14 @@ CKEDITOR.remove = function( editor ) {
 	var styles = [];
 
 	/**
-	 * Append a trunk of css to be appended to the editor document.
+	 * Adds CSS rules to be appended to the editor document.
 	 * This method is mostly used by plugins to add custom styles to the editor
-	 * document. For basic contents styling the contents.css file should be
+	 * document. For basic content styling the `contents.css` file should be
 	 * used instead.
 	 *
 	 * **Note:** This function should be called before the creation of editor instances.
 	 *
-	 *		// Add styles for all headings inside of editable contents.
+	 *		// Add styles for all headings inside editable contents.
 	 *		CKEDITOR.addCss( '.cke_editable h1,.cke_editable h2,.cke_editable h3 { border-bottom: 1px dotted red }' );
 	 *
 	 * @param {String} css The style rules to be appended.
@@ -126,7 +126,7 @@ CKEDITOR.remove = function( editor ) {
 	};
 
 	/**
-	 * Returns a string will all CSS rules passes to the {@link CKEDITOR#addCss} method.
+	 * Returns a string will all CSS rules passed to the {@link CKEDITOR#addCss} method.
 	 *
 	 * @returns {String} A string containing CSS rules.
 	 */
@@ -155,7 +155,7 @@ CKEDITOR.loader.load( '_bootstrap' ); // %REMOVE_LINE%
 CKEDITOR.TRISTATE_ON = 1;
 
 /**
- * Used to indicate the OFF or NON ACTIVE state.
+ * Used to indicate the OFF or INACTIVE state.
  *
  * @readonly
  * @property {Number} [=2]
@@ -163,7 +163,7 @@ CKEDITOR.TRISTATE_ON = 1;
 CKEDITOR.TRISTATE_OFF = 2;
 
 /**
- * Used to indicate DISABLED state.
+ * Used to indicate the DISABLED state.
  *
  * @readonly
  * @property {Number} [=0]
@@ -171,7 +171,7 @@ CKEDITOR.TRISTATE_OFF = 2;
 CKEDITOR.TRISTATE_DISABLED = 0;
 
 /**
- * The editor which is currently active (have user focus).
+ * The editor which is currently active (has user focus).
  *
  *		function showCurrentEditorName() {
  *			if ( CKEDITOR.currentInstance )
@@ -188,7 +188,7 @@ CKEDITOR.TRISTATE_DISABLED = 0;
  * Fired when the CKEDITOR.currentInstance object reference changes. This may
  * happen when setting the focus on different editor instances in the page.
  *
- *		var editor; // Variable to hold a reference to the current editor.
+ *		var editor; // A variable to store a reference to the current editor.
  *		CKEDITOR.on( 'currentInstance', function() {
  *			editor = CKEDITOR.currentInstance;
  *		} );
@@ -198,7 +198,7 @@ CKEDITOR.TRISTATE_DISABLED = 0;
 
 /**
  * Fired when the last instance has been destroyed. This event is used to perform
- * global memory clean up.
+ * global memory cleanup.
  *
  * @event reset
  */
