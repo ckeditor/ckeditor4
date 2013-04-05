@@ -5,6 +5,12 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1.1
 
+* [#10172](http://dev.ckeditor.com/ticket/10172): Pressing delete/backspace in empty table cell moves cursor to next/previous cell.
+* [#10219](http://dev.ckeditor.com/ticket/10219): Error thrown when destroying an instance in parallel with a mouseup event.
+* [#10265](http://dev.ckeditor.com/ticket/10265): Wrong loop type in filebrowser plugin.
+* [#10249](http://dev.ckeditor.com/ticket/10249): Wrong undo/redo states at start.
+* [#10268](http://dev.ckeditor.com/ticket/10268): "Show blocks" does not recover after switching to sour source view.
+
 ## CKEditor 4.1
 
 * [#10192](http://dev.ckeditor.com/ticket/10192): Closing lists with Enter key does not work with Advanced Content Filter in several cases.

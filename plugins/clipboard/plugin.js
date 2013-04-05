@@ -477,13 +477,22 @@
 				!preventBeforePasteEvent && fixCut( editor );
 			});
 
+			var mouseupTimeout;
+
 			// Use editor.document instead of editable in non-IEs for observing mouseup
 			// since editable won't fire the event if selection process started within
 			// iframe and ended out of the editor (#9851).
 			editable.attachListener( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement(), 'mouseup', function() {
-				setTimeout( function() {
+				mouseupTimeout = setTimeout( function() {
 					setToolbarStates();
 				}, 0 );
+			});
+
+			// Make sure that deferred mouseup callback isn't executed after editor instance
+			// had been destroyed. This may happen when editor.destroy() is called in parallel
+			// with mouseup event (i.e. a button with onclick callback) (#10219).
+			editor.on( 'destroy', function() {
+				clearTimeout( mouseupTimeout );
 			});
 
 			editable.on( 'keyup', setToolbarStates );
