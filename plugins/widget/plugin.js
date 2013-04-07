@@ -361,6 +361,47 @@
 						true );
 					});
 				}
+			},
+
+			/**
+			 * Wraps element with a widget container.
+			 *
+			 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} element
+			 * @param {String} [widgetName]
+			 */
+			wrapElement: function( element, widgetName ) {
+				var wrapper = null;
+
+				if ( element instanceof CKEDITOR.dom.element ) {
+					var widget = this.registered[ widgetName || element.data( 'widget' ) ];
+					if ( !widget )
+						return null;
+
+					// Do not wrap already wrapped element.
+					wrapper = element.getParent();
+					if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
+						return wrapper;
+
+					wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
+					wrapper.setAttributes( wrapperDef );
+					wrapper.replace( element );
+					element.appendTo( wrapper );
+				}
+				else if ( element instanceof CKEDITOR.htmlParser.element ) {
+					var widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+					if ( !widget )
+						return null;
+
+					wrapper = element.parent;
+					if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
+						return wrapper;
+
+					wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperDef );
+					element.replaceWith( wrapper );
+					wrapper.add( element );
+				}
+
+				return wrapper;
 			}
 		};
 
