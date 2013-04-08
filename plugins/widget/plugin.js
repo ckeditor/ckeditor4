@@ -38,7 +38,7 @@
 		},
 
 		beforeInit: function( editor ) {
-			editor.widgets = Widgets( editor );
+			editor.widgets = new Repository( editor );
 			CKEDITOR.event.implementOn( editor.widgets );
 			editor.fire( 'widgetsRegistered' );
 		},
@@ -206,7 +206,7 @@
 							setTimeout( function() {
 								range = editor.getSelection().getRanges()[ 0 ];
 
-								var widget = editor.widgets.belongsToWidget( range.startContainer );
+								var widget = editor.widgets.getByElement( range.startContainer );
 								widget && widget.select();
 							}, 0 );
 							break;
@@ -270,132 +270,172 @@
 		}
 	});
 
-	function Widgets( editor ) {
-		var repo = {
-			editor: editor,
-			registered: {},
-			instances: [],
-
-			add: function( name, widgetObj ) {
-				this.registered[ name ] = widgetObj;
-				widgetObj.name = name;
-				widgetObj.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
-				this.setupEditor( widgetObj );
-				addCommand( editor, widgetObj );
-			},
-
-			belongsToWidget: function( element ) {
-				if ( !element )
-					return false;
-
-				var wrapper;
-
-				for ( var i = this.instances.length ; i-- ; ) {
-					wrapper = this.instances[ i ].wrapper;
-					if ( wrapper.equals( element ) || wrapper.contains( element ) )
-						return this.instances[ i ];
-				}
-
-				return false;
-			},
-
-			remove: function( widgetObj ) {
-				this.instances.splice( this.instances.indexOf( widgetObj ), 1 );
-			},
-
-			getById: function( id ) {
-				for ( var i = this.instances.length ; i-- ; ) {
-					if ( this.instances[ i ].id == id )
-						return this.instances[ i ];
-				}
-
-				return null;
-			},
-
-			init: function( element, widgetObj ) {
-				var widget = new Widget( this.editor, this.nextId(), element, widgetObj );
-				this.instances.push( widget );
-				return widget;
-			},
-
-			nextId: function() {
-				return this.instances.length;
-			},
-
-			setupEditor: function( widgetObj ) {
-				// If necessary, Create dialog for this registered widget.
-				if ( widgetObj.dialog ) {
-					// Generate the name for this dialog.
-					var dialogName = widgetObj.dialogName = 'widget' +
-						CKEDITOR.tools.capitalize( widgetObj.name ) + 'Dialog';
-
-					CKEDITOR.dialog.add( dialogName, function( editor ) {
-						// Widget dialog definition is extended with generic
-						// properties and methods.
-						var dialog = widgetObj.dialog,
-							elements = dialog.elements;
-
-						delete dialog.elements;
-
-						return CKEDITOR.tools.extend( {
-								minWidth: 200,
-								minHeight: 100
-							}, {
-								contents: [
-									{ elements: elements }
-								]
-							},
-							dialog,
-						true );
-					});
-				}
-			},
-
-			/**
-			 * Wraps element with a widget container.
-			 *
-			 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} element
-			 * @param {String} [widgetName]
-			 */
-			wrapElement: function( element, widgetName ) {
-				var wrapper = null;
-
-				if ( element instanceof CKEDITOR.dom.element ) {
-					var widget = this.registered[ widgetName || element.data( 'widget' ) ];
-					if ( !widget )
-						return null;
-
-					// Do not wrap already wrapped element.
-					wrapper = element.getParent();
-					if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
-						return wrapper;
-
-					wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
-					wrapper.setAttributes( wrapperDef );
-					wrapper.replace( element );
-					element.appendTo( wrapper );
-				}
-				else if ( element instanceof CKEDITOR.htmlParser.element ) {
-					var widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
-					if ( !widget )
-						return null;
-
-					wrapper = element.parent;
-					if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
-						return wrapper;
-
-					wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperDef );
-					element.replaceWith( wrapper );
-					wrapper.add( element );
-				}
-
-				return wrapper;
-			}
-		};
-
-		return repo;
+	/**
+	 * @class CKEDITOR.plugins.widget.repository
+	 */
+	function Repository( editor ) {
+		this.editor = editor;
+		this.registered = {};
+		this.instances = [];
 	}
 
+	Repository.prototype = {
+		/**
+		 * Adds widget definition to the repository.
+		 *
+		 * @param {String} name
+		 * @param {CKEDITOR.plugins.widget.definition} widgetDef
+		 */
+		add: function( name, widgetDef ) {
+			this.registered[ name ] = widgetDef;
+			widgetDef.name = name;
+			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
+			this.setupEditor( widgetDef );
+			addCommand( this.editor, widgetDef );
+		},
+
+		/**
+		 * Gets widget instance by element which may be
+		 * widget's wrapper or any of its children.
+		 *
+		 * @param {CKEDITOR.dom.element} element
+		 * @returns {CKEDITOR.plugins.widget} Widget instance or `null`.
+		 */
+		getByElement: function( element ) {
+			if ( !element )
+				return null;
+
+			var wrapper;
+
+			for ( var i = this.instances.length; i--; ) {
+				wrapper = this.instances[ i ].wrapper;
+				if ( wrapper.equals( element ) || wrapper.contains( element ) )
+					return this.instances[ i ];
+			}
+
+			return null;
+		},
+
+		/**
+		 * TODO is it needed?
+		 */
+		remove: function( widgetObj ) {
+			this.instances.splice( this.instances.indexOf( widgetObj ), 1 );
+		},
+
+		/**
+		 * Gets widget instance by its id.
+		 *
+		 * @param {Number} id
+		 * @returns {CKEDITOR.plugins.widget}
+		 */
+		getById: function( id ) {
+			for ( var i = this.instances.length ; i-- ; ) {
+				if ( this.instances[ i ].id == id )
+					return this.instances[ i ];
+			}
+
+			return null;
+		},
+
+		/**
+		 * Initializes widget for given element.
+		 *
+		 * @param {CKEDITOR.dom.element} element
+		 * @param {String/CKEDITOR.plugins.widget.definition} widget Name of a widget type or a widget definition.
+		 * Widget definition should be previously registered by {@link CKEDITOR.plugins.widget.repository#add}.
+		 * @returns {CKEDITOR.plugins.widget} The widget instance.
+		 */
+		init: function( element, widgetDef ) {
+			if ( !widgetDef )
+				widgetDef = this.registered[ element.data( 'widget' ) ];
+			else if ( typeof widgetDef == 'string' )
+				widgetDef = this.registered[ widgetDef ];
+
+			// Wrap element if still wasn't wrapped (was added during runtime by method that skips dataProcessor).
+			this.wrapElement( element );
+
+			var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
+			this.instances.push( widget );
+			return widget;
+		},
+
+		setupEditor: function( widgetObj ) {
+			// If necessary, Create dialog for this registered widget.
+			if ( widgetObj.dialog ) {
+				// Generate the name for this dialog.
+				var dialogName = widgetObj.dialogName = 'widget' +
+					CKEDITOR.tools.capitalize( widgetObj.name ) + 'Dialog';
+
+				CKEDITOR.dialog.add( dialogName, function( editor ) {
+					// Widget dialog definition is extended with generic
+					// properties and methods.
+					var dialog = widgetObj.dialog,
+						elements = dialog.elements;
+
+					delete dialog.elements;
+
+					return CKEDITOR.tools.extend( {
+							minWidth: 200,
+							minHeight: 100
+						}, {
+							contents: [
+								{ elements: elements }
+							]
+						},
+						dialog,
+					true );
+				});
+			}
+		},
+
+		/**
+		 * Wraps element with a widget container.
+		 *
+		 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The widget element to be wrapperd.
+		 * @param {String} [widgetName]
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The wrapper element or `null` if
+		 * widget of this type is not registered.
+		 */
+		wrapElement: function( element, widgetName ) {
+			var wrapper = null;
+
+			if ( element instanceof CKEDITOR.dom.element ) {
+				var widget = this.registered[ widgetName || element.data( 'widget' ) ];
+				if ( !widget )
+					return null;
+
+				// Do not wrap already wrapped element.
+				wrapper = element.getParent();
+				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
+					return wrapper;
+
+				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
+				wrapper.setAttributes( wrapperDef );
+				wrapper.replace( element );
+				element.appendTo( wrapper );
+			}
+			else if ( element instanceof CKEDITOR.htmlParser.element ) {
+				var widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+				if ( !widget )
+					return null;
+
+				wrapper = element.parent;
+				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
+					return wrapper;
+
+				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperDef );
+				element.replaceWith( wrapper );
+				wrapper.add( element );
+			}
+
+			return wrapper;
+		}
+	};
+
+	/**
+	 * @class CKEDITOR.plugins.widget
+	 */
 	function Widget( editor, id, element, widgetObj ) {
 
 		// Extend this widget with widgetObj-specific
@@ -406,7 +446,7 @@
 			element: element,
 			parts: findParts( element ),
 			blurListeners: []
-		});
+		}, true );
 
 
 		editor.widgets.fire( 'beforeWidgetCreated', this );
@@ -450,6 +490,10 @@
 	}
 
 	Widget.prototype = {
+		updateData: function() {
+			// By default do nothing.
+		},
+
 		blur: function() {
 			if ( this.editor.widgets.selected == this ) {
 				this.removeOutline();
@@ -766,7 +810,7 @@
 
 		// Initialize only widgets by elements that don't belong to existing widget.
 		while ( ( element = elements.pop() ) )
-			!widgets.belongsToWidget( element ) && newElements.push( element );
+			!widgets.getByElement( element ) && newElements.push( element );
 
 		while ( ( element = newElements.pop() ) )
 			repo.init( element, widgetObj );
@@ -840,7 +884,7 @@
 		}
 
 		if ( element && element.hasAttribute( 'data-widget-id' ) ) {
-			var widget = editor.widgets.belongsToWidget( element );
+			var widget = editor.widgets.getByElement( element );
 
 			if ( !inEditable( widget, initialElement ) )
 				return widget;
@@ -872,7 +916,7 @@
 	function getSiblingWidget( editor, element, getNext ) {
 		var widget;
 
-		if ( ( widget = editor.widgets.belongsToWidget( element[ getNext ? 'getNext' : 'getPrevious' ]( nonWhitespaceOrBookmarkEval ) ) ) )
+		if ( ( widget = editor.widgets.getByElement( element[ getNext ? 'getNext' : 'getPrevious' ]( nonWhitespaceOrBookmarkEval ) ) ) )
 			return widget;
 
 		return null;
@@ -1126,4 +1170,7 @@
 			editor.fire( 'unlockSnapshot' );
 		}, 0 );
 	}
+
+	CKEDITOR.plugins.widget = Widget;
+	Widget.repository = Repository;
 })();
