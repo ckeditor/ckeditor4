@@ -44,40 +44,28 @@
 		},
 
 		afterInit: function( editor ) {
-			var registered = editor.widgets.registered;
+			var toBeWrapped = [];
 
 			addButtons( editor );
 
-			function wrapWidget( element, type ) {
-				if ( !registered[ type ] )
-					return;
+			// We cannot change DOM structure during processing with filter,
+			// so first - cache all elements in data-widget attribute and then,
+			// just after filter has been applied, wrap all widgets.
+			// We could use frag.forEach() in 'toHtml' listener, but it's better to
+			// avoid another loop.
+			editor.on( 'toHtml', function( evt ) {
+				var el;
 
-				var wrap = new CKEDITOR.htmlParser.element( registered[ type ].inline ? 'span' : 'div', wrapperDef );
-
-				// Clone element. Append it to wrapper.
-				var clone = element.clone();
-				clone.children = element.children;
-				clone.attributes[ 'data-widget-wrapped' ] = 1;
-				wrap.add( clone );
-
-				// Insert wrap at the position of element.
-				element.parent.add( wrap,
-					CKEDITOR.tools.indexOf( element.parent.children, element ) + 1 );
-			}
-
+				while ( ( el = toBeWrapped.pop() ) ) {
+					// Wrap only if still has parent (hasn't been removed).
+					el.parent && editor.widgets.wrapElement( el );
+				}
+			}, null, null, 11 );
 			editor.dataProcessor.dataFilter.addRules( {
 				elements: {
 					$: function( element ) {
-						// Don't change already wrapped.
-						if ( 'data-widget-wrapped' in element.attributes )
-							return element;
-
-						if ( 'data-widget' in element.attributes ) {
-							wrapWidget( element, element.attributes[ 'data-widget' ] );
-
-							// We don't want element in DOM any more.
-							return false;
-						}
+						if ( 'data-widget' in element.attributes )
+							toBeWrapped.push( element );
 					}
 				}
 			} );
