@@ -46,7 +46,7 @@
 		afterInit: function( editor ) {
 			var toBeWrapped = [];
 
-			addButtons( editor );
+			addWidgetButtons( editor );
 
 			// We cannot change DOM structure during processing with filter,
 			// so first - cache all elements in data-widget attribute and then,
@@ -290,8 +290,9 @@
 			this.registered[ name ] = widgetDef;
 			widgetDef.name = name;
 			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
-			this.setupEditor( widgetDef );
-			addCommand( this.editor, widgetDef );
+
+			addWidgetDialog( widgetDef );
+			addWidgetCommand( this.editor, widgetDef );
 		},
 
 		/**
@@ -358,35 +359,6 @@
 			var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
 			this.instances.push( widget );
 			return widget;
-		},
-
-		setupEditor: function( widgetObj ) {
-			// If necessary, Create dialog for this registered widget.
-			if ( widgetObj.dialog ) {
-				// Generate the name for this dialog.
-				var dialogName = widgetObj.dialogName = 'widget' +
-					CKEDITOR.tools.capitalize( widgetObj.name ) + 'Dialog';
-
-				CKEDITOR.dialog.add( dialogName, function( editor ) {
-					// Widget dialog definition is extended with generic
-					// properties and methods.
-					var dialog = widgetObj.dialog,
-						elements = dialog.elements;
-
-					delete dialog.elements;
-
-					return CKEDITOR.tools.extend( {
-							minWidth: 200,
-							minHeight: 100
-						}, {
-							contents: [
-								{ elements: elements }
-							]
-						},
-						dialog,
-					true );
-				});
-			}
 		},
 
 		/**
@@ -769,21 +741,6 @@
 		return !whitespaceEval( node ) && !bookmarkEval( node );
 	}
 
-	function findElementsByType( root, type ) {
-		var elements = [],
-			typeAttr;
-
-		// Walker used to traverse DOM tree.
-		forEachChild( root, function( node ) {
-			if ( node.type == CKEDITOR.NODE_ELEMENT &&
-					( typeAttr = node.getAttribute( 'data-widget' ) ) &&
-					( typeAttr == type ) )
-				elements.push( node );
-		});
-
-		return elements;
-	}
-
 	function findParts( element ) {
 		var parts = {};
 
@@ -793,48 +750,6 @@
 		});
 
 		return parts;
-	}
-
-	function forEachChild( element, callback ) {
-		var elements = element.getElementsByTag( '*' );
-
-		for ( var i = 0, l = elements.count(); i < l; ++i ) {
-			callback( elements.getItem( i ) );
-		}
-	}
-
-	function initializeWidget( repo, widgetObj, widgets ) {
-		var elements = findElementsByType( repo.editor.editable(), widgetObj.name ),
-			newElements = [],
-			element;
-
-		// Initialize only widgets by elements that don't belong to existing widget.
-		while ( ( element = elements.pop() ) )
-			!widgets.getByElement( element ) && newElements.push( element );
-
-		while ( ( element = newElements.pop() ) )
-			repo.init( element, widgetObj );
-	}
-
-	function initializeWidgets( editor ) {
-		var widgets = editor.widgets,
-			registered = widgets.registered,
-			name, instance;
-
-		// Get rid of non-existing instances first.
-		for( var i = widgets.instances.length ; i-- ; ) {
-			if ( !widgets.instances[ i ].wrapper.isVisible() ) {
-				if ( widgets.instances[ i ] == widgets.selected )
-					delete widgets.selected;
-
-				widgets.instances.splice( i, 1 );
-			}
-		}
-
-		for ( name in registered )
-			initializeWidget( widgets, registered[ name ], widgets );
-
-		editor.fire( 'widgetsInitialized' );
 	}
 
 	function inEditable( widget, target ) {
@@ -1009,98 +924,6 @@
 			});
 		}
 	}
-
-	function addButtons( editor ) {
-		var widgets = editor.widgets.registered,
-			widget,
-			widgetName,
-			widgetButton,
-			commandName,
-			allowedContent = [],
-			rule,
-			buttons = {},
-			buttonsStates = {},
-			hasButtons = 0,
-			menuGroup = 'widgetButton';
-
-		for ( widgetName in widgets ) {
-			widget = widgets[ widgetName ];
-			commandName = widget.commandName;
-
-			// Create button if defined.
-			widgetButton = widget.button;
-			if ( widgetButton ) {
-				buttons[ commandName ] = {
-					label: widgetButton.label,
-					group: menuGroup,
-					command: commandName
-				};
-				buttonsStates[ commandName ] = CKEDITOR.TRISTATE_OFF;
-				hasButtons = 1;
-
-				if ( widget.allowedContent )
-					allowedContent.push( widget.allowedContent );
-				if ( widget.widgetTags ) {
-					rule = {};
-					rule[ widget.widgetTags ] = {
-						attributes: /^data-widget/
-					};
-					allowedContent.push( rule );
-				}
-			}
-
-			addContextMenu( editor, widgetName, commandName );
-		}
-
-		if ( hasButtons ) {
-			editor.addMenuGroup( menuGroup );
-			editor.addMenuItems( buttons );
-
-			editor.ui.add( 'Widget', CKEDITOR.UI_MENUBUTTON, {
-				allowedContent: allowedContent,
-				label: 'Widget',
-				title: 'Widgets',
-				modes: { wysiwyg:1 },
-				toolbar: 'insert,1',
-				onMenu: function() {
-					return buttonsStates;
-				}
-			});
-		}
-	}
-
-	// Create command - first check if widget.command is defined,
-	// if not - try to create generic one based on widget.template
-	function addCommand( editor, widget ) {
-		if ( widget.command )
-			editor.addCommand( widget.commandName, widget.command );
-		else {
-			editor.addCommand( widget.commandName, {
-				exec: function() {
-					var selected = editor.widgets.selected;
-					// If a widget of the same type is selected, start editing.
-					if ( selected && selected.name == widget.name )
-						selected.edit && selected.edit();
-
-					// Otherwise, create a brand-new widget from template.
-					else if ( widget.template ) {
-						var	element = CKEDITOR.dom.element.createFromHtml( widget.template.output( widget.defaults ) ),
-							wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' ),
-							instance;
-
-						wrapper.setAttributes( wrapperDef );
-						wrapper.append( element );
-
-						editor.insertElement( wrapper );
-						instance = editor.widgets.init( element, widget )
-						instance.select();
-						instance.edit && instance.edit();
-					}
-				}
-			});
-		}
-	}
-
 	function copyDataByCopyBin( evt, editor, editable, selected, key ) {
 		var copybin = new CKEDITOR.dom.element( 'div', editor.document ),
 			isCut = key == CKEDITOR.CTRL + 88;
@@ -1171,6 +994,190 @@
 		}, 0 );
 	}
 
+	//
+	// REPOSITORY helpers -----------------------------------------------------
+	//
+
+	function addWidgetButtons( editor ) {
+		var widgets = editor.widgets.registered,
+			widget,
+			widgetName,
+			widgetButton,
+			commandName,
+			allowedContent = [],
+			rule,
+			buttons = {},
+			buttonsStates = {},
+			hasButtons = 0,
+			menuGroup = 'widgetButton';
+
+		for ( widgetName in widgets ) {
+			widget = widgets[ widgetName ];
+			commandName = widget.commandName;
+
+			// Create button if defined.
+			widgetButton = widget.button;
+			if ( widgetButton ) {
+				buttons[ commandName ] = {
+					label: widgetButton.label,
+					group: menuGroup,
+					command: commandName
+				};
+				buttonsStates[ commandName ] = CKEDITOR.TRISTATE_OFF;
+				hasButtons = 1;
+
+				if ( widget.allowedContent )
+					allowedContent.push( widget.allowedContent );
+				if ( widget.widgetTags ) {
+					rule = {};
+					rule[ widget.widgetTags ] = {
+						attributes: /^data-widget/
+					};
+					allowedContent.push( rule );
+				}
+			}
+
+			addContextMenu( editor, widgetName, commandName );
+		}
+
+		if ( hasButtons ) {
+			editor.addMenuGroup( menuGroup );
+			editor.addMenuItems( buttons );
+
+			editor.ui.add( 'Widget', CKEDITOR.UI_MENUBUTTON, {
+				allowedContent: allowedContent,
+				label: 'Widget',
+				title: 'Widgets',
+				modes: { wysiwyg:1 },
+				toolbar: 'insert,1',
+				onMenu: function() {
+					return buttonsStates;
+				}
+			});
+		}
+	}
+
+	// Create command - first check if widget.command is defined,
+	// if not - try to create generic one based on widget.template
+	function addWidgetCommand( editor, widget ) {
+		if ( widget.command )
+			editor.addCommand( widget.commandName, widget.command );
+		else {
+			editor.addCommand( widget.commandName, {
+				exec: function() {
+					var selected = editor.widgets.selected;
+					// If a widget of the same type is selected, start editing.
+					if ( selected && selected.name == widget.name )
+						selected.edit && selected.edit();
+
+					// Otherwise, create a brand-new widget from template.
+					else if ( widget.template ) {
+						var	element = CKEDITOR.dom.element.createFromHtml( widget.template.output( widget.defaults ) ),
+							wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' ),
+							instance;
+
+						wrapper.setAttributes( wrapperDef );
+						wrapper.append( element );
+
+						editor.insertElement( wrapper );
+						instance = editor.widgets.init( element, widget )
+						instance.select();
+						instance.edit && instance.edit();
+					}
+				}
+			});
+		}
+	}
+
+	function addWidgetDialog( widgetDef ) {
+		// If necessary, Create dialog for this registered widget.
+		if ( widgetDef.dialog ) {
+			// Generate the name for this dialog.
+			var dialogName = widgetDef.dialogName = 'widget' +
+				CKEDITOR.tools.capitalize( widgetDef.name ) + 'Dialog';
+
+			CKEDITOR.dialog.add( dialogName, function( editor ) {
+				// Widget dialog definition is extended with generic
+				// properties and methods.
+				var dialog = widgetDef.dialog,
+					elements = dialog.elements;
+
+				delete dialog.elements;
+
+				return CKEDITOR.tools.extend( {
+						minWidth: 200,
+						minHeight: 100
+					}, {
+						contents: [
+							{ elements: elements }
+						]
+					},
+					dialog,
+				true );
+			} );
+		}
+	}
+
+	function findElementsByType( root, type ) {
+		var elements = [],
+			typeAttr;
+
+		// Walker used to traverse DOM tree.
+		forEachChild( root, function( node ) {
+			if ( node.type == CKEDITOR.NODE_ELEMENT &&
+					( typeAttr = node.getAttribute( 'data-widget' ) ) &&
+					( typeAttr == type ) )
+				elements.push( node );
+		} );
+
+		return elements;
+	}
+
+	function forEachChild( element, callback ) {
+		var elements = element.getElementsByTag( '*' );
+
+		for ( var i = 0, l = elements.count(); i < l; ++i ) {
+			callback( elements.getItem( i ) );
+		}
+	}
+
+	function initializeWidget( repo, widgetObj, widgets ) {
+		var elements = findElementsByType( repo.editor.editable(), widgetObj.name ),
+			newElements = [],
+			element;
+
+		// Initialize only widgets by elements that don't belong to existing widget.
+		while ( ( element = elements.pop() ) )
+			!widgets.getByElement( element ) && newElements.push( element );
+
+		while ( ( element = newElements.pop() ) )
+			repo.init( element, widgetObj );
+	}
+
+	function initializeWidgets( editor ) {
+		var widgets = editor.widgets,
+			registered = widgets.registered,
+			name, instance;
+
+		// Get rid of non-existing instances first.
+		for ( var i = widgets.instances.length ; i-- ; ) {
+			if ( !widgets.instances[ i ].wrapper.isVisible() ) {
+				if ( widgets.instances[ i ] == widgets.selected )
+					delete widgets.selected;
+
+				widgets.instances.splice( i, 1 );
+			}
+		}
+
+		for ( name in registered )
+			initializeWidget( widgets, registered[ name ], widgets );
+
+		editor.fire( 'widgetsInitialized' );
+	}
+
+	//
+	// EXPOSE PUBLIC API ------------------------------------------------------
+	//
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 })();
