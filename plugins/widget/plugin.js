@@ -21,20 +21,20 @@
 		icons: 'widget',
 
 		onLoad: function() {
-			CKEDITOR.addCss( '\
-				.cke_widget_wrapper:hover {\
-					outline: 2px solid yellow;\
-					cursor: default;\
-				}\
-				.cke_widget_wrapper:hover .cke_widget_editable {\
-					outline: 2px solid yellow;\
-				}\
-				.cke_widget_editable:focus,\
-				.cke_widget_wrapper:hover .cke_widget_editable:focus,\
-				.cke_widget_wrapper:focus {\
-					outline: 2px solid Highlight;\
-				}\
-			' );
+			CKEDITOR.addCss(
+				'.cke_widget_wrapper:hover{' +
+					'outline:2px solid yellow;' +
+					'cursor:default;' +
+				'}' +
+				'.cke_widget_wrapper:hover .cke_widget_editable{' +
+					'outline:2px solid yellow;' +
+				'}' +
+				'.cke_widget_editable:focus,' +
+				'.cke_widget_wrapper:hover .cke_widget_editable:focus,' +
+				'.cke_widget_wrapper:focus{' +
+					'outline:2px solid Highlight;' +
+				'}'
+			);
 		},
 
 		beforeInit: function( editor ) {
