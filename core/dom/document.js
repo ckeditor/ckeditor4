@@ -191,6 +191,41 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	},
 
 	/**
+	 * Gets elements list having given class name.
+	 *
+	 * **NOTE:** On IE7 and IE8 returned {@link CKEDITOR.dom.nodeList}
+	 * won't behave like a native nodeList - e.g. it won't be updated after
+	 * making changes to DOM.
+	 *
+	 * @param {String} className The class name.
+	 * @returns {CKEDITOR.dom.nodeList} The nodes list.
+	 */
+	getElementsByClass: function( className ) {
+		var list;
+		if ( this.$.getElementsByClassName ) {
+			list = this.$.getElementsByClassName( className );
+		}
+		// For IE 7 & 8 only...
+		// http://caniuse.com/getelementsbyclassname
+		else {
+			var allElements = this.$.getElementsByTagName( '*' ),
+				classWhiteSpaces = /[\t\r\n]/g,
+				i, l;
+
+			className = ' ' + className + ' ';
+			list = [];
+
+			// Adapted from jQuery's hasClass() implementation.
+			for ( i = 0, l = allElements.length; i < l; ++i ) {
+				if ( ( ' ' + allElements[ i ].className + ' ' ).replace( classWhiteSpaces, ' ' ).indexOf( className ) >= 0 )
+					list.push( allElements[ i ] );
+			}
+		}
+
+		return new CKEDITOR.dom.nodeList( list );
+	},
+
+	/**
 	 * Gets the `<head>` element for this document.
 	 *
 	 *		var element = CKEDITOR.document.getHead();

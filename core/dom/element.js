@@ -582,6 +582,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	getElementsByTag: CKEDITOR.dom.document.prototype.getElementsByTag,
 
 	/**
+	 * Gets this element's descendants list having given class name.
+	 *
+	 * **NOTE:** On IE7 and IE8 returned {@link CKEDITOR.dom.nodeList}
+	 * won't behave like a native nodeList - e.g. it won't be updated after
+	 * making changes to DOM.
+	 *
+	 * @param {String} className The class name.
+	 * @returns {CKEDITOR.dom.nodeList} The nodes list.
+	 */
+	getElementsByClass: CKEDITOR.dom.document.prototype.getElementsByClass,
+
+	/**
 	 * Gets the computed tabindex for this element.
 	 *
 	 *		var element = CKEDITOR.document.getById( 'myDiv' );
