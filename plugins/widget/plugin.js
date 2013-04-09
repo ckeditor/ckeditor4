@@ -40,7 +40,6 @@
 		beforeInit: function( editor ) {
 			editor.widgets = new Repository( editor );
 			CKEDITOR.event.implementOn( editor.widgets );
-			editor.fire( 'widgetsRegistered' );
 		},
 
 		afterInit: function( editor ) {
