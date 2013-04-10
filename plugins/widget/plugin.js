@@ -389,11 +389,18 @@
 				newInstances = [],
 				instance;
 
+			// Since locking and unlocking snasphot isn't a lightweight operation
+			// lock it here so all '(un)lockSnapshot' events (which will be fired in Widget constructors)
+			// will be ignored.
+			this.editor.fire( 'lockSnapshot' );
+
 			for ( var i = newWidgets.count(); i--; ) {
 				instance = this.initOn( newWidgets.getItem( i ).getFirst() );
 				if ( instance )
 					newInstances.push( instance );
 			}
+
+			this.editor.fire( 'unlockSnapshot' );
 
 			return newInstances;
 		},
