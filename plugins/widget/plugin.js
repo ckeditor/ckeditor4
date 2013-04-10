@@ -13,7 +13,8 @@
 		'data-widget-wrapper': 1,
 		'style': 'position:relative;' + ( !CKEDITOR.env.gecko ?
 			CKEDITOR.tools.cssVendorPrefix( 'user-select', 'none', 1 ) : '' ),
-		'class': 'cke_widget_wrapper'
+		// Class cke_widget_new marks widgets which haven't been initialized yet.
+		'class': 'cke_widget_wrapper cke_widget_new'
 	};
 
 	CKEDITOR.plugins.add( 'widget', {
@@ -318,6 +319,7 @@
 
 		/**
 		 * TODO is it needed?
+		 * it definitely shouldn't look like an opposite method to #add, which is not.
 		 */
 		remove: function( widgetObj ) {
 			this.instances.splice( this.instances.indexOf( widgetObj ), 1 );
@@ -330,7 +332,7 @@
 		 * @returns {CKEDITOR.plugins.widget}
 		 */
 		getById: function( id ) {
-			for ( var i = this.instances.length ; i-- ; ) {
+			for ( var i = this.instances.length; i--; ) {
 				if ( this.instances[ i ].id == id )
 					return this.instances[ i ];
 			}
@@ -339,25 +341,62 @@
 		},
 
 		/**
-		 * Initializes widget for given element.
+		 * Initializes widget on given element if widget hasn't
+		 * been initialzed on it yet.
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {String/CKEDITOR.plugins.widget.definition} widget Name of a widget type or a widget definition.
 		 * Widget definition should be previously registered by {@link CKEDITOR.plugins.widget.repository#add}.
-		 * @returns {CKEDITOR.plugins.widget} The widget instance.
+		 * @returns {CKEDITOR.plugins.widget} The widget instance or null if there's no widget for given element.
 		 */
-		init: function( element, widgetDef ) {
-			if ( !widgetDef )
-				widgetDef = this.registered[ element.data( 'widget' ) ];
-			else if ( typeof widgetDef == 'string' )
-				widgetDef = this.registered[ widgetDef ];
-
+		initOn: function( element, widgetDef ) {
 			// Wrap element if still wasn't wrapped (was added during runtime by method that skips dataProcessor).
-			this.wrapElement( element );
+			var wrapper = this.wrapElement( element );
 
-			var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
-			this.instances.push( widget );
-			return widget;
+			if ( wrapper ) {
+				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
+				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
+					if ( !widgetDef )
+						widgetDef = this.registered[ element.data( 'widget' ) ];
+					else if ( typeof widgetDef == 'string' )
+						widgetDef = this.registered[ widgetDef ];
+
+					wrapper.removeClass( 'cke_widget_new' );
+
+					var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
+					this.instances.push( widget );
+
+					return widget;
+				}
+
+				// Widget already has been initialized, so try to widget by element
+				return this.getByElement( element );
+			}
+
+			// No wrapper means that there's no widget for this element.
+			return null;
+		},
+
+		/**
+		 * Initializes widgets on all elements which were wrapped by {@link #wrapElement} and
+		 * haven't been initialized yet.
+		 *
+		 * @param {CKEDITOR.dom.element} [container=editor.editable()] Container which will be checked for not
+		 * initialized widgets. Defaults to editor's editable element.
+		 * @returns {CKEDITOR.plugins.widget[]} Array of widget instances which have been initialized.
+		 */
+		initOnAll: function( container ) {
+			var newWidgets = ( container || this.editor.editable() ).getElementsByClass( 'cke_widget_new' ),
+				newInstances = [],
+				instance;
+
+			for ( var i = newWidgets.count(); i--; ) {
+				instance = this.initOn( newWidgets.getItem( i ).getFirst() );
+				if ( instance )
+					newInstances.push( instance );
+			}
+
+			return newInstances;
 		},
 
 		/**
@@ -1079,7 +1118,7 @@
 						wrapper.append( element );
 
 						editor.insertElement( wrapper );
-						instance = editor.widgets.init( element, widget )
+						instance = editor.widgets.initOn( element, widget );
 						instance.select();
 						instance.edit && instance.edit();
 					}
@@ -1150,7 +1189,7 @@
 			!widgets.getByElement( element ) && newElements.push( element );
 
 		while ( ( element = newElements.pop() ) )
-			repo.init( element, widgetObj );
+			repo.initOn( element, widgetObj );
 	}
 
 	function initializeWidgets( editor ) {
