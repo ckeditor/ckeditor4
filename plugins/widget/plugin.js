@@ -355,13 +355,12 @@
 
 			if ( wrapper ) {
 				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
+				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
 					if ( !widgetDef )
 						widgetDef = this.registered[ element.data( 'widget' ) ];
 					else if ( typeof widgetDef == 'string' )
 						widgetDef = this.registered[ widgetDef ];
-
-					wrapper.removeClass( 'cke_widget_new' );
 
 					var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
 					this.instances.push( widget );
@@ -420,10 +419,15 @@
 				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
 					return wrapper;
 
+				// Lock snapshot during making changes to DOM.
+				this.editor.fire( 'lockSnapshot' );
+
 				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
 				wrapper.setAttributes( wrapperDef );
 				wrapper.replace( element );
 				element.appendTo( wrapper );
+
+				this.editor.fire( 'unlockSnapshot' );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
 				var widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
@@ -447,7 +451,6 @@
 	 * @class CKEDITOR.plugins.widget
 	 */
 	function Widget( editor, id, element, widgetObj ) {
-
 		// Extend this widget with widgetObj-specific
 		// methods and properties.
 		CKEDITOR.tools.extend( this, widgetObj, {
@@ -458,15 +461,10 @@
 			blurListeners: []
 		}, true );
 
-
-		editor.widgets.fire( 'beforeWidgetCreated', this );
-
-		// We don't want all the dirty things we do to the widget to be recorded
-		// by the undo manager because double (empty) snapshots are produced
-		// (selection goes nuts). Better lock it and never let it know what's going on below
-		// so eventually we have a single snapshot.
+		// Lock snapshot during making changed to DOM.
 		editor.fire( 'lockSnapshot' );
 
+		// Convers all this to privates.
 		this.setupWrapper();
 		this.setupEditables();
 		this.setupMask();
@@ -475,28 +473,21 @@
 		this.setupSelected();
 		this.setupPasted();
 
+		this.wrapper.removeClass( 'cke_widget_new' );
+
 		this.init && this.init();
-		editor.widgets.fire( 'widgetInited', this );
 
 		this.updateData();
 
-
-		// Remember that this widget has already been initialized.
-		var wasInited = this.setInit();
+		this.setInit();
 
 		// Disable contenteditable on the wrapper once the initialization process
 		// is over and selection is set (i.e. after setupPasted). This prevents
 		// from selection being put at the beginning of editable.
 		this.wrapper.setAttribute( 'contenteditable', false );
-		editor.widgets.fire( 'widgetDeeditable', this );
 
-		// Since widget is ready, we can unlock the undo system so it operates
-		// normally. Now we basically overwrite the last snapshot with the latest one
-		// so it feels like nothing happened.
+		// Unlock snapshot after we've done all changes.
 		editor.fire( 'unlockSnapshot' );
-		!wasInited && editor.fire( 'updateSnapshot' );
-
-		editor.widgets.fire( 'widgetCreated', this );
 	}
 
 	Widget.prototype = {
@@ -630,6 +621,8 @@
 			}
 		},
 
+		// TODO change name to setInited and isInited.
+		// Convert this method to private.
 		// Marks widget initialized.
 		setInit: function() {
 			if ( !this.wrapper.hasAttribute( 'data-widget-wrapper-init' ) ) {
@@ -718,7 +711,7 @@
 
 		// Since webkit (also FF) destroys the selection when pasting a widget (only a widget,
 		// NOTHING more), we can detect this case since we marked such widget with
-		// and attribute. We restore the caret after the widget once it is ready and
+		// an attribute. We restore the caret after the widget once it is ready and
 		// remove the attribute so it looks pretty much like a regular, non-pathological paste.
 		setupPasted: function() {
 			if ( this.element.hasAttribute( 'data-widget-cbin-direct' ) ) {
