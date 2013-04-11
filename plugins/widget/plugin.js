@@ -40,7 +40,6 @@
 
 		beforeInit: function( editor ) {
 			editor.widgets = new Repository( editor );
-			CKEDITOR.event.implementOn( editor.widgets );
 		},
 
 		afterInit: function( editor ) {
@@ -57,10 +56,11 @@
 				var el;
 
 				while ( ( el = toBeWrapped.pop() ) ) {
-					// Wrap only if still has parent (hasn't been removed).
+					// Wrap only if still has parent (hasn't been removed at some point).
 					el.parent && editor.widgets.wrapElement( el );
 				}
 			}, null, null, 11 );
+
 			editor.dataProcessor.dataFilter.addRules( {
 				elements: {
 					$: function( element ) {
@@ -82,191 +82,6 @@
 					}
 				}
 			} );
-
-			editor.on( 'afterPaste', function() {
-				initializeWidgets( editor );
-			});
-
-			editor.on( 'mode', function( event ) {
-				if ( editor.mode != 'wysiwyg' )
-					return;
-
-				initializeWidgetClick( editor );
-			});
-
-			editor.on( 'dataReady', function() {
-				initializeWidgets( editor );
-			});
-
-			editor.on( 'loadSnapshot', function() {
-				initializeWidgets( editor );
-			}, null, null, 11 );
-
-			editor.on( 'paste', function( event ) {
-				var data = event.data.dataValue;
-
-				if ( data.match( /data-widget-cbin-direct/g ) ) {
-					// Clean DIV wrapper added by FF when copying.
-					data = data.replace( /^<div>(.*)<\/div>$/g, '$1' );
-
-					// Clean widget markers.
-					data = data.replace( /^(<span[^>]*>)?cke-dummy-before\[(<\/span>)?/g, '' );
-					data = data.replace( /(<span[^>]*>)?\]cke-dummy-after(<\/span>|<br>)?$/g, '' );
-
-					event.data.dataValue = data;
-				}
-			});
-
-			editor.on( 'key', function( evt ) {
-				var sel = editor.widgets.selected,
-					key = evt.data.keyCode,
-					editable = editor.editable(),
-					range = new CKEDITOR.dom.range( editor.document );
-
-				if ( sel ) {
-					// When there's a selected widget instance.
-					switch ( key ) {
-						// BACKSPACE and DEL
-						case 8:
-						case 46:
-							editor.fire( 'saveSnapshot' );
-
-							range.moveToClosestEditablePosition( sel.wrapper );
-							range.select();
-
-							// Remove the element from the DOM.
-							sel.wrapper.remove();
-
-							// Cleanup the selection pointer.
-							delete editor.widgets.selected;
-
-							// Stop these keys here.
-							evt.cancel();
-							editor.focus();
-
-							editor.fire( 'saveSnapshot' );
-							break;
-
-						case 13:	// RETURN
-							sel.edit && sel.edit();
-							evt.cancel();
-							break;
-
-						case CKEDITOR.CTRL + 88:	// CTRL+X
-						case CKEDITOR.CTRL + 67:	// CTRL+C
-							copyDataByCopyBin( evt, editor, editable, sel, key );
-							break;
-
-						// De-select selected widget with arrow keys.
-						// Move the caret to the closest focus space according
-						// to which key has been pressed.
-						case 37:	// ARROW LEFT
-						case 39:	// ARROW RIGHT
-						case 38: 	// ARROW UP
-						case 40: 	// ARROW BOTTOM
-							var siblingWidget;
-
-
-							// Firefox needs focus to be called. Otherwise,
-							// it won't move the caret. It looks like it's confused
-							// by the fact, that there are no ranges in editable
-							// when the widget is selected (see: widget.focus()).
-							if ( CKEDITOR.env.gecko )
-								editor.focus();
-
-							if ( siblingWidget = getSiblingWidget( editor, sel.wrapper, key in { 39:1, 40:1 } ) ) {
-								siblingWidget.select();
-							}
-							else if ( range.moveToClosestEditablePosition( sel.wrapper, key in { 39:1, 40:1 } ) ) {
-								range.select();
-								sel.blur();
-							}
-
-							// Always cancel this kind of keyboard event if widget is selected.
-							evt.cancel();
-					}
-				}
-				else {
-					// When there's no selected widget.
-					switch ( key ) {
-						// Observe where does the caret go when ARROW UP|DOWN key
-						// is pressed. If it goes into an existing widget instance,
-						// select this instance.
-						case 38: 	// ARROW UP
-						case 40: 	// ARROW BOTTOM
-							var range = editor.getSelection().getRanges()[ 0 ],
-								startContainer = range.startContainer;
-
-							// If startContainer before the caret moves belongs to some
-							// editable, then we navigate INSIDE of the widget.
-							// Abort widget selection procedure in such case.
-							if ( inEditables( editor, startContainer ) )
-								return;
-
-							setTimeout( function() {
-								range = editor.getSelection().getRanges()[ 0 ];
-
-								var widget = editor.widgets.getByElement( range.startContainer );
-								widget && widget.select();
-							}, 0 );
-							break;
-
-						// Navigate thorough widgets with ARROW LEFT|RIGHT keys.
-						case 37: 	// ARROW LEFT
-						case 39: 	// ARROW RIGHT
-							var instances = editor.widgets.instances,
-								selRange = editor.getSelection().getRanges()[ 0 ],
-								startContainer = selRange.startContainer,
-								wrapper;
-
-							// If startContainer before the caret moves belongs to some
-							// editable, then we navigate INSIDE of the widget.
-							// Abort widget selection procedure in such case.
-							if ( inEditables( editor, startContainer ) )
-								return;
-
-							selRange.collapse();
-							selRange.optimize();
-
-							// Iterate over all widget instances and check whether
-							// current selection range matches some of the closest
-							// focus spaces.
-							for ( var i = instances.length; i-- ; ) {
-								wrapper = instances[ i ].wrapper;
-
-								if ( range.moveToClosestEditablePosition( wrapper, key == 37 ) &&
-									 range.startContainer.equals( selRange.startContainer ) &&
-									 range.startOffset == selRange.startOffset ) {
-									instances[ i ].select();
-									evt.cancel();
-								}
-							}
-					}
-				}
-
-				switch ( key ) {
-					case CKEDITOR.CTRL + 65:	// CTRL+A
-						var element = editor.getSelection().getStartElement();
-
-						if ( !element )
-							return;
-
-						while ( element ) {
-							if ( element.equals( editable ) )
-								return;
-
-							if ( element.hasClass( 'cke_widget_editable' ) )
-								break;
-
-							element = element.getParent();
-						}
-
-						range.selectNodeContents( element );
-						range.select();
-
-						evt.cancel();
-				}
-			} );
 		}
 	});
 
@@ -277,6 +92,20 @@
 		this.editor = editor;
 		this.registered = {};
 		this.instances = [];
+
+		editor.on( 'dataReady', function() {
+			this.destroyAll();
+			this.initOnAll();
+		}, this );
+
+		editor.on( 'mode', function() {
+			if ( editor.mode == 'wysiwyg' )
+				initializeWidgetClick( editor );
+		} );
+
+		editor.on( 'paste', onPaste );
+
+		editor.on( 'key', onKey );
 	}
 
 	Repository.prototype = {
@@ -293,6 +122,24 @@
 
 			addWidgetDialog( widgetDef );
 			addWidgetCommand( this.editor, widgetDef );
+		},
+
+		destroy: function( widget, cleanUpElement ) {
+			var index = CKEDITOR.tools.indexOf( this.instances, widget );
+
+			// Remove widget instance.
+			if ( index > -1 )
+				this.instances.splice( index, 1 );
+
+			// Destroy it anyway.
+			widget.destroy( cleanUpElement );
+		},
+
+		destroyAll: function( cleanUpElements ) {
+			var widget;
+
+			while ( ( widget = this.instances.pop() ) )
+				widget.destroy( cleanUpElements );
 		},
 
 		/**
@@ -315,14 +162,6 @@
 			}
 
 			return null;
-		},
-
-		/**
-		 * TODO is it needed?
-		 * it definitely shouldn't look like an opposite method to #add, which is not.
-		 */
-		remove: function( widgetObj ) {
-			this.instances.splice( this.instances.indexOf( widgetObj ), 1 );
 		},
 
 		/**
@@ -350,18 +189,21 @@
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or null if there's no widget for given element.
 		 */
 		initOn: function( element, widgetDef ) {
+			if ( !widgetDef )
+				widgetDef = this.registered[ element.data( 'widget' ) ];
+			else if ( typeof widgetDef == 'string' )
+				widgetDef = this.registered[ widgetDef ];
+
+			if ( !widgetDef )
+				return null;
+
 			// Wrap element if still wasn't wrapped (was added during runtime by method that skips dataProcessor).
-			var wrapper = this.wrapElement( element );
+			var wrapper = this.wrapElement( element, widgetDef.name );
 
 			if ( wrapper ) {
 				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
-					if ( !widgetDef )
-						widgetDef = this.registered[ element.data( 'widget' ) ];
-					else if ( typeof widgetDef == 'string' )
-						widgetDef = this.registered[ widgetDef ];
-
 					var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
 					this.instances.push( widget );
 
@@ -454,6 +296,8 @@
 		}
 	};
 
+	CKEDITOR.event.implementOn( Repository.prototype );
+
 	/**
 	 * @class CKEDITOR.plugins.widget
 	 */
@@ -512,14 +356,22 @@
 			}
 		},
 
-		destroy: function() {
+		destroy: function( cleanUpElement ) {
+			var editor = this.editor;
+
 			// Remove editables from focusmanager.
 			if ( this.editables ) {
 				for ( var name in this.editables )
-					this.editor.focusManager.remove( this.editables[ name ] );
+					editor.focusManager.remove( this.editables[ name ] );
 			}
+			editor.focusManager.remove( this.wrapper );
 
-			CKEDITOR.dom.element.createFromHtml( this.getHtml() ).replace( this.wrapper );
+			if ( cleanUpElement )
+				this.element.replace( this.wrapper );
+			else {
+				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-init' ] );
+				this.wrapper.addClass( 'cke_widget_new' );
+			}
 		},
 
 		edit: function() {
@@ -779,17 +631,6 @@
 		return !whitespaceEval( node ) && !bookmarkEval( node );
 	}
 
-	function findParts( element ) {
-		var parts = {};
-
-		forEachChild( element, function( node ) {
-			if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-property' ) )
-				parts[ node.getAttribute( 'data-widget-property' ) ] = node;
-		});
-
-		return parts;
-	}
-
 	function inEditable( widget, target ) {
 		var editables = widget.editables,
 			inEditable,
@@ -874,67 +715,6 @@
 
 		return null;
 	}
-
-	var initializeWidgetClick = ( function() {
-		function callback( event ) {
-
-			var element = event.data.getTarget(),
-				widget = getSelectedWidget( this, element );
-
-			// Check if the widget is selected.
-			if ( widget ) {
-				event.data.preventDefault();
-
-				widget.select();
-
-				if ( event.name == 'dblclick' )
-					widget.edit && widget.edit();
-
-				// Always return false except contextmenu event.
-				// This is since we want contextmenu for widgets.
-				return event.name == 'contextmenu';
-			}
-		}
-
-		function removeListeners( editor ) {
-			var listeners = editor.widgets.listeners;
-
-			if ( !listeners )
-				return;
-
-			var listener;
-
-			while ( ( listener = listeners.pop() ) )
-				listener.removeListener();
-		}
-
-		function attachListener( editor ) {
-			var listeners = editor.widgets.listeners,
-				editable = editor.editable();
-
-			if ( !listeners )
-				listeners = [];
-
-			listeners.push( editable.on.apply( editable, Array.prototype.slice.call( arguments, 1 ) ) );
-		}
-
-		return function( editor ) {
-			removeListeners( editor );
-
-			// Select widget when double-click to open dialog.
-			attachListener( editor, 'dblclick', callback, editor, null, 1 );
-
-			// Click on the widget wrapper to select it as a whole.
-			attachListener( editor, 'click', callback, editor, null, 1 );
-
-			// Also select widget when showing contextmenu.
-			attachListener( editor, 'contextmenu', callback, editor, null, 1 );
-
-			// Make sure that no double selectionChange is fired. Cancel mousedown before
-			// selection system catches it when widget is selected.
-			attachListener( editor, 'mousedown', callback, editor, null, 1 );
-		}
-	})();
 
 	function addContextMenu( editor, widgetName, commandName ) {
 		if ( editor.contextMenu ) {
@@ -1156,19 +936,247 @@
 		}
 	}
 
-	function findElementsByType( root, type ) {
-		var elements = [],
-			typeAttr;
+	var initializeWidgetClick = ( function() {
+		function callback( event ) {
 
-		// Walker used to traverse DOM tree.
-		forEachChild( root, function( node ) {
-			if ( node.type == CKEDITOR.NODE_ELEMENT &&
-					( typeAttr = node.getAttribute( 'data-widget' ) ) &&
-					( typeAttr == type ) )
-				elements.push( node );
-		} );
+			var element = event.data.getTarget(),
+				widget = getSelectedWidget( this, element );
 
-		return elements;
+			// Check if the widget is selected.
+			if ( widget ) {
+				event.data.preventDefault();
+
+				widget.select();
+
+				if ( event.name == 'dblclick' )
+					widget.edit && widget.edit();
+
+				// Always return false except contextmenu event.
+				// This is since we want contextmenu for widgets.
+				return event.name == 'contextmenu';
+			}
+		}
+
+		function removeListeners( editor ) {
+			var listeners = editor.widgets.listeners;
+
+			if ( !listeners )
+				return;
+
+			var listener;
+
+			while ( ( listener = listeners.pop() ) )
+				listener.removeListener();
+		}
+
+		function attachListener( editor ) {
+			var listeners = editor.widgets.listeners,
+				editable = editor.editable();
+
+			if ( !listeners )
+				listeners = [];
+
+			listeners.push( editable.on.apply( editable, Array.prototype.slice.call( arguments, 1 ) ) );
+		}
+
+		return function( editor ) {
+			removeListeners( editor );
+
+			// Select widget when double-click to open dialog.
+			attachListener( editor, 'dblclick', callback, editor, null, 1 );
+
+			// Click on the widget wrapper to select it as a whole.
+			attachListener( editor, 'click', callback, editor, null, 1 );
+
+			// Also select widget when showing contextmenu.
+			attachListener( editor, 'contextmenu', callback, editor, null, 1 );
+
+			// Make sure that no double selectionChange is fired. Cancel mousedown before
+			// selection system catches it when widget is selected.
+			attachListener( editor, 'mousedown', callback, editor, null, 1 );
+		}
+	})();
+
+	function onKey( evt ) {
+		var editor = evt.editor,
+			sel = editor.widgets.selected,
+			key = evt.data.keyCode,
+			editable = editor.editable(),
+			range = new CKEDITOR.dom.range( editor.document );
+
+		if ( sel ) {
+			// When there's a selected widget instance.
+			switch ( key ) {
+				// BACKSPACE and DEL
+				case 8:
+				case 46:
+					editor.fire( 'saveSnapshot' );
+
+					range.moveToClosestEditablePosition( sel.wrapper );
+					range.select();
+
+					// Remove the element from the DOM.
+					sel.wrapper.remove();
+
+					// Cleanup the selection pointer.
+					delete editor.widgets.selected;
+
+					// Stop these keys here.
+					evt.cancel();
+					editor.focus();
+
+					editor.fire( 'saveSnapshot' );
+					break;
+
+				case 13:	// RETURN
+					sel.edit && sel.edit();
+					evt.cancel();
+					break;
+
+				case CKEDITOR.CTRL + 88:	// CTRL+X
+				case CKEDITOR.CTRL + 67:	// CTRL+C
+					copyDataByCopyBin( evt, editor, editable, sel, key );
+					break;
+
+				// De-select selected widget with arrow keys.
+				// Move the caret to the closest focus space according
+				// to which key has been pressed.
+				case 37:	// ARROW LEFT
+				case 39:	// ARROW RIGHT
+				case 38: 	// ARROW UP
+				case 40: 	// ARROW BOTTOM
+					var siblingWidget;
+
+
+					// Firefox needs focus to be called. Otherwise,
+					// it won't move the caret. It looks like it's confused
+					// by the fact, that there are no ranges in editable
+					// when the widget is selected (see: widget.focus()).
+					if ( CKEDITOR.env.gecko )
+						editor.focus();
+
+					if ( siblingWidget = getSiblingWidget( editor, sel.wrapper, key in { 39:1, 40:1 } ) ) {
+						siblingWidget.select();
+					}
+					else if ( range.moveToClosestEditablePosition( sel.wrapper, key in { 39:1, 40:1 } ) ) {
+						range.select();
+						sel.blur();
+					}
+
+					// Always cancel this kind of keyboard event if widget is selected.
+					evt.cancel();
+			}
+		}
+		else {
+			// When there's no selected widget.
+			switch ( key ) {
+				// Observe where does the caret go when ARROW UP|DOWN key
+				// is pressed. If it goes into an existing widget instance,
+				// select this instance.
+				case 38: 	// ARROW UP
+				case 40: 	// ARROW BOTTOM
+					var range = editor.getSelection().getRanges()[ 0 ],
+						startContainer = range.startContainer;
+
+					// If startContainer before the caret moves belongs to some
+					// editable, then we navigate INSIDE of the widget.
+					// Abort widget selection procedure in such case.
+					if ( inEditables( editor, startContainer ) )
+						return;
+
+					setTimeout( function() {
+						range = editor.getSelection().getRanges()[ 0 ];
+
+						var widget = editor.widgets.getByElement( range.startContainer );
+						widget && widget.select();
+					}, 0 );
+					break;
+
+				// Navigate thorough widgets with ARROW LEFT|RIGHT keys.
+				case 37: 	// ARROW LEFT
+				case 39: 	// ARROW RIGHT
+					var instances = editor.widgets.instances,
+						selRange = editor.getSelection().getRanges()[ 0 ],
+						startContainer = selRange.startContainer,
+						wrapper;
+
+					// If startContainer before the caret moves belongs to some
+					// editable, then we navigate INSIDE of the widget.
+					// Abort widget selection procedure in such case.
+					if ( inEditables( editor, startContainer ) )
+						return;
+
+					selRange.collapse();
+					selRange.optimize();
+
+					// Iterate over all widget instances and check whether
+					// current selection range matches some of the closest
+					// focus spaces.
+					for ( var i = instances.length; i-- ; ) {
+						wrapper = instances[ i ].wrapper;
+
+						if ( range.moveToClosestEditablePosition( wrapper, key == 37 ) &&
+							 range.startContainer.equals( selRange.startContainer ) &&
+							 range.startOffset == selRange.startOffset ) {
+							instances[ i ].select();
+							evt.cancel();
+						}
+					}
+			}
+		}
+
+		switch ( key ) {
+			case CKEDITOR.CTRL + 65:	// CTRL+A
+				var element = editor.getSelection().getStartElement();
+
+				if ( !element )
+					return;
+
+				while ( element ) {
+					if ( element.equals( editable ) )
+						return;
+
+					if ( element.hasClass( 'cke_widget_editable' ) )
+						break;
+
+					element = element.getParent();
+				}
+
+				range.selectNodeContents( element );
+				range.select();
+
+				evt.cancel();
+		}
+	}
+
+	function onPaste( evt ) {
+		var data = evt.data.dataValue;
+
+		if ( data.match( /data-widget-cbin-direct/g ) ) {
+			// Clean DIV wrapper added by FF when copying.
+			data = data.replace( /^<div>(.*)<\/div>$/g, '$1' );
+
+			// Clean widget markers.
+			data = data.replace( /^(<span[^>]*>)?cke-dummy-before\[(<\/span>)?/g, '' );
+			data = data.replace( /(<span[^>]*>)?\]cke-dummy-after(<\/span>|<br>)?$/g, '' );
+
+			evt.data.dataValue = data;
+		}
+	}
+
+	//
+	// WIDGET helpers ---------------------------------------------------------
+	//
+
+	function findParts( element ) {
+		var parts = {};
+
+		forEachChild( element, function( node ) {
+			if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-property' ) )
+				parts[ node.getAttribute( 'data-widget-property' ) ] = node;
+		});
+
+		return parts;
 	}
 
 	function forEachChild( element, callback ) {
@@ -1177,40 +1185,6 @@
 		for ( var i = 0, l = elements.count(); i < l; ++i ) {
 			callback( elements.getItem( i ) );
 		}
-	}
-
-	function initializeWidget( repo, widgetObj, widgets ) {
-		var elements = findElementsByType( repo.editor.editable(), widgetObj.name ),
-			newElements = [],
-			element;
-
-		// Initialize only widgets by elements that don't belong to existing widget.
-		while ( ( element = elements.pop() ) )
-			!widgets.getByElement( element ) && newElements.push( element );
-
-		while ( ( element = newElements.pop() ) )
-			repo.initOn( element, widgetObj );
-	}
-
-	function initializeWidgets( editor ) {
-		var widgets = editor.widgets,
-			registered = widgets.registered,
-			name, instance;
-
-		// Get rid of non-existing instances first.
-		for ( var i = widgets.instances.length ; i-- ; ) {
-			if ( !widgets.instances[ i ].wrapper.isVisible() ) {
-				if ( widgets.instances[ i ] == widgets.selected )
-					delete widgets.selected;
-
-				widgets.instances.splice( i, 1 );
-			}
-		}
-
-		for ( name in registered )
-			initializeWidget( widgets, registered[ name ], widgets );
-
-		editor.fire( 'widgetsInitialized' );
 	}
 
 	//
