@@ -579,14 +579,14 @@
 		 */
 		lock: function() {
 			if ( !this.locked ) {
-				var snapBefore = this.editor.getSnapshot();
+				var imageBefore = new Image( this.editor );
 
 				// If current editor content matches the tip of snapshot stack,
 				// the stack tip must be updated by unlock, to include any changes made
 				// during this period.
-				var matchedTip = this.currentImage && snapBefore == this.currentImage.contents;
+				var matchedTip = this.currentImage && this.currentImage.equals( imageBefore, true );
 
-				this.locked = { update: matchedTip ? snapBefore : null, level: 1 };
+				this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
 			}
 			// Increase the level of lock.
 			else
@@ -604,12 +604,11 @@
 			if ( this.locked ) {
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
-					var update = this.locked.update,
-						snap = this.editor.getSnapshot();
+					var updateImage = this.locked.update;
 
 					this.locked = null;
 
-					if ( typeof update == 'string' && snap != update )
+					if ( updateImage && !updateImage.equals( new Image( this.editor ), true ) )
 						this.update();
 				}
 			}
