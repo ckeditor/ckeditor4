@@ -460,29 +460,31 @@
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor,
-			editable = editor.editable();
+		var editor = evt.editor;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
 		if ( CKEDITOR.env.webkit ) {
 			editor.on( 'selectionChange', function() {
-				checkFillingChar( editable );
+				checkFillingChar( editor.editable() );
 			}, null, null, -1 );
 			editor.on( 'beforeSetMode', function() {
-				removeFillingChar( editable );
+				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
 
 			var fillingCharBefore, resetSelection;
 
 			function beforeData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					// If cursor is right blinking by side of the filler node, save it for restoring,
 					// as the following text substitution will blind it. (#7437)
-					var sel = doc.$.defaultView.getSelection();
+					var sel = editor.document.$.defaultView.getSelection();
 					if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
 						resetSelection = 1;
 
@@ -492,14 +494,17 @@
 			}
 
 			function afterData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					fillingChar.setText( fillingCharBefore );
 
 					if ( resetSelection ) {
-						doc.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
+						editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
 						resetSelection = 0;
 					}
 				}
@@ -510,7 +515,6 @@
 			editor.on( 'beforeGetData', beforeData, null, null, 0 );
 			editor.on( 'getData', afterData );
 		}
-
 	});
 
 	/**
