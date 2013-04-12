@@ -144,6 +144,9 @@
 			 *
 			 * See {@link CKEDITOR.plugins.undo.UndoManager#lock} for more details.
 			 *
+			 * **Note:** In order to unlock the Undo Manager {@link #unlockSnapshot} has to be fired
+			 * number of times `lockSnapshot` has been fired.
+			 *
 			 * @since 4.0
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
@@ -570,6 +573,8 @@
 		 *
 		 * It's mainly used for ensure any DOM operations that shouldn't be recorded (e.g. auto paragraphing).
 		 *
+		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the Undo Manager.
+		 *
 		 * @since 4.0
 		 */
 		lock: function() {
@@ -581,8 +586,11 @@
 				// during this period.
 				var matchedTip = this.currentImage && snapBefore == this.currentImage.contents;
 
-				this.locked = { update: matchedTip ? snapBefore : null };
+				this.locked = { update: matchedTip ? snapBefore : null, level: 1 };
 			}
+			// Increase the level of lock.
+			else
+				this.locked.level++;
 		},
 
 		/**
@@ -594,13 +602,16 @@
 		 */
 		unlock: function() {
 			if ( this.locked ) {
-				var update = this.locked.update,
-					snap = this.editor.getSnapshot();
+				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
+				if ( !--this.locked.level ) {
+					var update = this.locked.update,
+						snap = this.editor.getSnapshot();
 
-				this.locked = null;
+					this.locked = null;
 
-				if ( typeof update == 'string' && snap != update )
-					this.update();
+					if ( typeof update == 'string' && snap != update )
+						this.update();
+				}
 			}
 		}
 	};
