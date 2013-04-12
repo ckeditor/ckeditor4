@@ -42,6 +42,11 @@
 			// it up and apply the filter.
 			data = protectSource( data, editor );
 
+			// Protect content of textareas. (#9995)
+			// Do this before protecting attributes to avoid breaking:
+			// <textarea><img src="..." /></textarea>
+			data = protectElements( data, protectTextareaRegex );
+
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in
 			// the code.
@@ -49,7 +54,7 @@
 
 			// Protect elements than can't be set inside a DIV. E.g. IE removes
 			// style tags from innerHTML. (#3710)
-			data = protectElements( data );
+			data = protectElements( data, protectElementsRegex );
 
 			// Certain elements has problem to go through DOM operation, protect
 			// them by prefixing 'cke' namespace. (#3591)
@@ -646,7 +651,7 @@
 				break;
 		}
 	}
-	// Disable form elements editing mode provided by some browers. (#5746)
+	// Disable form elements editing mode provided by some browsers. (#5746)
 	for ( var i in { input:1,textarea:1 } ) {
 		defaultDataFilterRules.elements[ i ] = protectReadOnly;
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
@@ -655,7 +660,9 @@
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
 		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
-	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
+		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
+	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
+		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
 
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)[^>]*>)/gi,
@@ -676,8 +683,13 @@
 		});
 	}
 
-	function protectElements( html ) {
-		return html.replace( protectElementsRegex, function( match ) {
+	function protectElements( html, regex ) {
+		return html.replace( regex, function( match, tag, content ) {
+			// Encode < and > in textarea because this won't be done by a browser, since
+			// textarea will be protected during passing data through fix bin.
+			if ( match.indexOf( '<textarea' ) == 0 )
+				match = tag + unprotectRealComments( content ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + '</textarea>';
+
 			return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
 		});
 	}
