@@ -8,6 +8,9 @@ CKEditor 4 Changelog
 * [#10265](http://dev.ckeditor.com/ticket/10265): Wrong loop type in filebrowser plugin.
 * [#10249](http://dev.ckeditor.com/ticket/10249): Wrong undo/redo states at start.
 * [#10268](http://dev.ckeditor.com/ticket/10268): "Show blocks" does not recover after switching to sour source view.
+* [#9995](http://dev.ckeditor.com/ticket/9995): HTML in `textarea` should not be modified by the `htmlDataProcessor`.
+* [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
+* [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current enter mode.
 
 ## CKEditor 4.1
 
