@@ -608,6 +608,14 @@
 					// Place the new element inside the existing span.
 					styleElement.children = element.children;
 					element.children = [ styleElement ];
+
+					// #10285 - later on styleElement will replace element if element won't have any attributes.
+					// However, in some cases styleElement is identical to element and therefore should not be filtered
+					// to avoid inf loop. Unfortunately calling element.filterChildren() does not prevent from that (#10327).
+					// However, we can assume that we don't need to filter styleElement at all, so it is safe to replace
+					// its filter method.
+					styleElement.filter = function() {};
+					styleElement.parent = element;
 				} : function(){};
 			},
 
