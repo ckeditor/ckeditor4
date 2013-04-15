@@ -283,7 +283,11 @@
 					// responsible e.g. for placing markers, bookmarks, odds and stuff.
 					// We love 'em and we don't wanna lose anything during the filtering.
 					// '|' is to avoid tricky joints like data-="foo" + cke-="bar". Yes, they're possible.
-					if ( el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
+					//
+					// NOTE: data-cke-* assigned elements are preserved only when filter is used with
+					//       htmlDataProcessor.toHtml because we don't want to protect them when outputting data
+					//       (toDataFormat).
+					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
 					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
