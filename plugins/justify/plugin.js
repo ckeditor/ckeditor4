@@ -38,7 +38,9 @@
 		this.value = value;
 		this.context = 'p';
 
-		var classes = editor.config.justifyClasses;
+		var classes = editor.config.justifyClasses,
+			blockTag = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
 		if ( classes ) {
 			switch ( value ) {
 				case 'left':
@@ -56,10 +58,10 @@
 			}
 
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
-			this.requiredContent = 'p(' + this.cssClassName + ')';
+			this.requiredContent = blockTag + '(' + this.cssClassName + ')';
 		}
 		else {
-			this.requiredContent = 'p{text-align}';
+			this.requiredContent = blockTag + '{text-align}';
 		}
 
 		this.allowedContent = {
@@ -70,6 +72,11 @@
 				classes: this.cssClassName || null
 			}
 		};
+
+		// In enter mode BR we need to allow here for div, because when non other
+		// feature allows div justify is the only plugin that uses it.
+		if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
+			this.allowedContent.div = true;
 	}
 
 	function onDirChanged( e ) {
