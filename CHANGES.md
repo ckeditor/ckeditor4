@@ -9,10 +9,11 @@ CKEditor 4 Changelog
 * [#10249](http://dev.ckeditor.com/ticket/10249): Wrong undo/redo states at start.
 * [#10268](http://dev.ckeditor.com/ticket/10268): "Show blocks" does not recover after switching to sour source view.
 * [#9995](http://dev.ckeditor.com/ticket/9995): HTML in `textarea` should not be modified by the `htmlDataProcessor`.
-* [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
 * [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current enter mode.
 * [#10260](http://dev.ckeditor.com/ticket/10260): Fixed: Advanced Content Filter blocks tabSpaces. Unified `data-cke-*` attributes filtering.
+* [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
 * [#10291](http://dev.ckeditor.com/ticket/10291): [Webkit] Space after filling char should be secured.
+* [#10330](http://dev.ckeditor.com/ticket/10330): [Webkit] Filling char is not removed on `keydown` in specific cases.
 
 ## CKEditor 4.1
 

@@ -417,7 +417,7 @@
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.
-				doc.on( 'keydown', function( evt ) {
+				editable.attachListener( doc, 'keydown', function( evt ) {
 					var key = evt.data.getKey();
 					// Remove the filling char before some keys get
 					// executed, so they'll not get blocked by it.
@@ -432,7 +432,7 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingChar( editor.editable() );
+							removeFillingChar( editable );
 					}
 
 				}, null, null, -1 );
