@@ -12,6 +12,7 @@ CKEditor 4 Changelog
 * [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
 * [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current enter mode.
 * [#10260](http://dev.ckeditor.com/ticket/10260): Fixed: Advanced Content Filter blocks tabSpaces. Unified `data-cke-*` attributes filtering.
+* [#10291](http://dev.ckeditor.com/ticket/10291): [Webkit] Space after filling char should be secured.
 
 ## CKEditor 4.1
 
