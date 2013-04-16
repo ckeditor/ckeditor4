@@ -149,7 +149,7 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( fillingChar.getText().replace( /\u200B/g, '' ) );
+			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
 
 			// Restore the bookmark.
 			if ( bm ) {
@@ -160,6 +160,13 @@
 				sel.addRange( rng );
 			}
 		}
+	}
+
+	function replaceFillingChar( html ) {
+		return html.replace( /\u200B( )?/g, function( match ) {
+			// #10291 if filling char is followed by a space replace it with nbsp.
+			return match[ 1 ] ? '\xa0' : '';
+		} );
 	}
 
 	function isReversedSelection( sel ) {
@@ -489,7 +496,7 @@
 						resetSelection = 1;
 
 					fillingCharBefore = fillingChar.getText();
-					fillingChar.setText( fillingCharBefore.replace( /\u200B/g, '' ) );
+					fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
 				}
 			}
 
