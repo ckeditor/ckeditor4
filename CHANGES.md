@@ -11,6 +11,7 @@ CKEditor 4 Changelog
 * [#9995](http://dev.ckeditor.com/ticket/9995): HTML in `textarea` should not be modified by the `htmlDataProcessor`.
 * [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
 * [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current enter mode.
+* [#10260](http://dev.ckeditor.com/ticket/10260): Fixed: Advanced Content Filter blocks tabSpaces. Unified `data-cke-*` attributes filtering.
 
 ## CKEditor 4.1
 
