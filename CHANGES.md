@@ -15,6 +15,7 @@ CKEditor 4 Changelog
 * [#10291](http://dev.ckeditor.com/ticket/10291): [Webkit] Space after filling char should be secured.
 * [#10330](http://dev.ckeditor.com/ticket/10330): [Webkit] Filling char is not removed on `keydown` in specific cases.
 * [#10285](http://dev.ckeditor.com/ticket/10285): Fixed: styled text pasted from MS Word causes infinite loop.
+* [#10131](http://dev.ckeditor.com/ticket/10131): Fixed: undoManager#update does not refresh command state.
 
 ## CKEditor 4.1
 
