@@ -16,6 +16,7 @@ CKEditor 4 Changelog
 * [#10330](http://dev.ckeditor.com/ticket/10330): [Webkit] Filling char is not removed on `keydown` in specific cases.
 * [#10285](http://dev.ckeditor.com/ticket/10285): Fixed: styled text pasted from MS Word causes infinite loop.
 * [#10131](http://dev.ckeditor.com/ticket/10131): Fixed: undoManager#update does not refresh command state.
+* [#10337](http://dev.ckeditor.com/ticket/10337): Fixed: Unable to remove `<s>` using removeformat.
 
 ## CKEditor 4.1
 
