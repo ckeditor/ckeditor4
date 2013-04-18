@@ -1877,7 +1877,7 @@
  *					editor.filter.check( 'b' ); // -> true (thanks to extraAllowedContent)
  *					editor.setData( '<h1><i>Foo</i></h1><p class="left"><b>Bar</b> <a href="http://foo.bar">foo</a></p>' );
  *					// Editor contents will be:
- *					'<h1>Foo</h1><p><b>Bar</b> foo</p>'
+ *					'<h1><i>Foo</i></h1><p><b>Bar</b> foo</p>'
  *				}
  *			}
  *		} );
