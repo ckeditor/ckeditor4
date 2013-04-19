@@ -3,20 +3,20 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1.1
 
-* [#10172](http://dev.ckeditor.com/ticket/10172): Pressing delete/backspace in empty table cell moves cursor to next/previous cell.
-* [#10219](http://dev.ckeditor.com/ticket/10219): Error thrown when destroying an instance in parallel with a mouseup event.
-* [#10265](http://dev.ckeditor.com/ticket/10265): Wrong loop type in filebrowser plugin.
+* [#10172](http://dev.ckeditor.com/ticket/10172): Pressing *Delete*/*Backspace* in an empty table cell moves the cursor to the next/previous cell.
+* [#10219](http://dev.ckeditor.com/ticket/10219): Error thrown when destroying an editor instance in parallel with a mouseup event.
+* [#10265](http://dev.ckeditor.com/ticket/10265): Wrong loop type in the Filebrowser plugin.
 * [#10249](http://dev.ckeditor.com/ticket/10249): Wrong undo/redo states at start.
-* [#10268](http://dev.ckeditor.com/ticket/10268): "Show blocks" does not recover after switching to sour source view.
-* [#9995](http://dev.ckeditor.com/ticket/9995): HTML in `textarea` should not be modified by the `htmlDataProcessor`.
-* [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current enter mode.
-* [#10260](http://dev.ckeditor.com/ticket/10260): Fixed: Advanced Content Filter blocks tabSpaces. Unified `data-cke-*` attributes filtering.
-* [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after filling char has been added/removed.
-* [#10291](http://dev.ckeditor.com/ticket/10291): [Webkit] Space after filling char should be secured.
-* [#10330](http://dev.ckeditor.com/ticket/10330): [Webkit] Filling char is not removed on `keydown` in specific cases.
-* [#10285](http://dev.ckeditor.com/ticket/10285): Fixed: styled text pasted from MS Word causes infinite loop.
-* [#10131](http://dev.ckeditor.com/ticket/10131): Fixed: undoManager#update does not refresh command state.
-* [#10337](http://dev.ckeditor.com/ticket/10337): Fixed: Unable to remove `<s>` using removeformat.
+* [#10268](http://dev.ckeditor.com/ticket/10268): "Show Blocks" does not recover after switching to source view.
+* [#9995](http://dev.ckeditor.com/ticket/9995): HTML code in `textarea` should not be modified by the `htmlDataProcessor`.
+* [#10320](http://dev.ckeditor.com/ticket/10320): Justify plugin should add elements to the ACF based on current Enter mode.
+* [#10260](http://dev.ckeditor.com/ticket/10260): Fixed: Advanced Content Filter blocks `tabSpaces`. Unified `data-cke-*` attributes filtering.
+* [#10315](http://dev.ckeditor.com/ticket/10315): [Webkit] Undo manager should not record snapshots after a filling character was added/removed.
+* [#10291](http://dev.ckeditor.com/ticket/10291): [Webkit] Space after a filling character should be secured.
+* [#10330](http://dev.ckeditor.com/ticket/10330): [Webkit] The filling character is not removed on `keydown` in specific cases.
+* [#10285](http://dev.ckeditor.com/ticket/10285): Fixed: Styled text pasted from MS Word causes an infinite loop.
+* [#10131](http://dev.ckeditor.com/ticket/10131): Fixed: `undoManager#update` does not refresh the command state.
+* [#10337](http://dev.ckeditor.com/ticket/10337): Fixed: Unable to remove `<s>` using `removeformat`.
 
 ## CKEditor 4.1
 
