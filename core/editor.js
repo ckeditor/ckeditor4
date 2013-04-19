@@ -1108,16 +1108,18 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * **Note:** When ``config.title`` set globally, the same value will be applied to all editor instances
  * loaded with this config. This may have a critical impact on several accessibility aspects.
  *
- * **Note:** Disabling title by setting ``config.title = false`` may also have a critical impact on
+ * **Note:** Setting ``config.title = false`` may also have a critical impact on
  * several accessibility aspects.
  *
  * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name}
  * which identifies the instance in {@link CKEDITOR#instances} literal.
  *
- *		// Set title to 'My WYSIWYG editor.'.
+ *		// Set title to 'My WYSIWYG editor.'. The original title of the element (if any)
+ *		// will be restored once the editor instance is destroyed.
  *		config.title = 'My WYSIWYG editor.';
  *
- *		// Disable title attribute.
+ *		// Don't touch the title. If the element already has a title, it remains untouched.
+ *		// Also if there is no title attribute, nothing new will be added.
  *		config.title = false;
  *
  * @since 4.2
