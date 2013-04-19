@@ -80,8 +80,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					 * Read more: http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
 					 */
 					allowedContent:
-						// Block elements that can be aligned (we need to allow for text-align to enable justify buttons).
-						'h1 h2 h3 p pre {text-align}[align]; ' +
+						'h1 h2 h3 p pre[align]; ' +
 						'blockquote code kbd samp var del ins cite q b i u strike ul ol li hr table tbody tr td th caption; ' +
 						'img[!src,alt,align,width,height]; font[!face]; font[!family]; font[!color]; font{!background-color}; a[!href]; a[!name]',
 
@@ -141,34 +140,19 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 						{ name: 'Inline Quotation', element: 'q' }
 					],
 
-					on: { 'instanceReady': configureHtmlOutput }
+					on: {
+						pluginsLoaded: configureTransformations,
+						loaded: configureHtmlWriter
+					}
 				});
 
 				/*
-				 * Adjust the behavior of the dataProcessor to avoid styles
-				 * and make it look like FCKeditor HTML output.
+				 * Add missing content transformations.
 				 */
-				function configureHtmlOutput( ev ) {
-					var editor = ev.editor,
-						dataProcessor = editor.dataProcessor,
-						htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+				function configureTransformations( evt ) {
+					var editor = evt.editor;
 
-					// Out self closing tags the HTML4 way, like <br>.
-					dataProcessor.writer.selfClosingEnd = '>';
-
-					// Make output formatting behave similar to FCKeditor.
-					var dtd = CKEDITOR.dtd;
-					for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
-						dataProcessor.writer.setRules( e, {
-							indent: true,
-							breakBeforeOpen: true,
-							breakAfterOpen: false,
-							breakBeforeClose: !dtd[ e ][ '#' ],
-							breakAfterClose: true
-						});
-					}
-
-					htmlFilter.addRules( {
+					editor.dataProcessor.htmlFilter.addRules( {
 						attributes: {
 							style: function( value, element ) {
 								// Return #RGB for background and border colors
@@ -190,8 +174,31 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 						[ { element: 'h1',	right: alignToAttribute } ],
 						[ { element: 'h2',	right: alignToAttribute } ],
 						[ { element: 'h3',	right: alignToAttribute } ],
-						[ { element: 'pre',	right: alignToAttribute } ],
+						[ { element: 'pre',	right: alignToAttribute } ]
 					] );
+				}
+
+				/*
+				 * Adjust the behavior of htmlWriter to make it output HTML like FCKeditor.
+				 */
+				function configureHtmlWriter( evt ) {
+					var editor = evt.editor,
+						dataProcessor = editor.dataProcessor;
+
+					// Out self closing tags the HTML4 way, like <br>.
+					dataProcessor.writer.selfClosingEnd = '>';
+
+					// Make output formatting behave similar to FCKeditor.
+					var dtd = CKEDITOR.dtd;
+					for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
+						dataProcessor.writer.setRules( e, {
+							indent: true,
+							breakBeforeOpen: true,
+							breakAfterOpen: false,
+							breakBeforeClose: !dtd[ e ][ '#' ],
+							breakAfterClose: true
+						});
+					}
 				}
 
 			</script>
