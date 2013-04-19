@@ -315,16 +315,7 @@
 		// Lock snapshot during making changed to DOM.
 		editor.fire( 'lockSnapshot' );
 
-		// Convers all this to privates.
-		this.setupWrapper();
-		this.setupEditables();
-		this.setupMask();
-		this.removeOutline();
-		this.setupHidden();
-		this.setupSelected();
-		this.setupPasted();
-
-		this.wrapper.removeClass( 'cke_widget_new' );
+		setUpWidget( this );
 
 		this.init && this.init();
 
@@ -348,7 +339,7 @@
 
 		blur: function() {
 			if ( this.editor.widgets.selected == this ) {
-				this.removeOutline();
+				removeOutline( this );
 				delete this.editor.widgets.selected;
 				this.element.removeAttribute( 'data-widget-selected' );
 
@@ -416,10 +407,6 @@
 				return false;
 
 			return this.wrapper.hasAttribute( 'data-widget-wrapper-init' );
-		},
-
-		removeOutline: function() {
-			this.wrapper.removeStyle( 'outline' );
 		},
 
 		removeBlurListeners: function() {
@@ -496,66 +483,11 @@
 			this.wrapper.setStyle( 'outline', '2px solid Highlight' );
 		},
 
-		setupWrapper: function() {
-			// Retrieve widget wrapper. Assign an id to it.
-			var wrapper = this.element.getParent();
-			wrapper.setAttribute( 'data-widget-id', this.id );
-
-			this.wrapper = wrapper;
-			this.editor.focusManager.add( wrapper );
-		},
-
-		// Makes widget editables editable, selectable, etc.
-		// Adds necessary classes, properties, and styles.
-		// Also adds editables to focusmanager.
-		setupEditables: function() {
-			if ( !this.editables )
-				return;
-
-			var editables = this.editables(),
-				that = this,
-				editable;
-
-			// Initialize nested editables.
-			for ( var name in editables ) {
-				editable = editables[ name ];
-				editable.setAttribute( 'contenteditable', true );
-				editable.setStyle( 'cursor', 'text' );
-				editable.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
-				editable.addClass( 'cke_widget_editable' );
-				editable.setAttribute( 'data-widget-editable' );
-				this.editor.focusManager.add( editable );
-
-				// Fix DEL and BACKSPACE behaviour in widget editables. Make sure
-				// that pressing BACKSPACE|DEL at the very beginning|end of editable
-				// won't move caret outside of editable.
-				if ( !this.isInit() ) {
-					( function( editable ) {
-						editable.on( 'keydown', function( event ) {
-							var key = event.data.getKey(),
-								range = that.editor.getSelection().getRanges()[ 0 ];
-
-							if ( key in { 8:1, 46:1 } ) {
-								if ( range.collapsed &&
-									range.checkBoundaryOfElement( editable, CKEDITOR[ key == 8 ? 'START' : 'END' ] ) ) {
-										event.data.preventDefault();
-								}
-
-								event.data.stopPropagation();
-							}
-						});
-					} )( editable );
-				}
-			}
-
-			this.editables = editables;
-		},
-
 		// Since browser clipboard ignores hidden elements, widgets mark such elements
 		// with a specific attribute and remove CSS. This method reverts this
 		// process: elements with a specific attribute are being hidden with CSS styles.
 		// Eventually an attribute is removed as well.
-		setupHidden: function() {
+		/*setupHidden: function() {
 			var elements = this.wrapper.getElementsByTag( '*' ),
 				i = 0,
 				element;
@@ -606,21 +538,7 @@
 				this.editor.widgets.fire( 'widgetSetupSelected', this );
 				this.select();
 			}
-		},
-
-		setupMask: function() {
-			if ( this.isInit() )
-				return;
-
-			// When initialized for the first time.
-			if ( this.needsMask ) {
-				var img = CKEDITOR.dom.element.createFromHtml(
-					'<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" ' +
-					'style="position:absolute;width:100%;height:100%;top:0;left:0;" draggable="false">' );
-
-				img.appendTo( this.wrapper );
-			}
-		}
+		}*/
 	};
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
@@ -1185,6 +1103,86 @@
 		for ( var i = 0, l = elements.count(); i < l; ++i ) {
 			callback( elements.getItem( i ) );
 		}
+	}
+
+	function removeOutline( widget ) {
+		widget.wrapper.removeStyle( 'outline' );
+	}
+
+	// Makes widget editables editable, selectable, etc.
+	// Adds necessary classes, properties, and styles.
+	// Also adds editables to focusmanager.
+	function setUpEditables( widget ) {
+		if ( !widget.editables )
+			return;
+
+		var editables = widget.editables(),
+			editable, name;
+
+		// Initialize nested editables.
+		for ( name in editables ) {
+			editable = editables[ name ];
+			editable.setAttribute( 'contenteditable', true );
+			editable.setStyle( 'cursor', 'text' );
+			editable.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
+			editable.addClass( 'cke_widget_editable' );
+			editable.setAttribute( 'data-widget-editable' );
+			widget.editor.focusManager.add( editable );
+
+			// Fix DEL and BACKSPACE behaviour in widget editables. Make sure
+			// widget pressing BACKSPACE|DEL at the very beginning|end of editable
+			// won't move caret outside of editable.
+			(function( editable ) {
+				editable.on( 'keydown', function( evt ) {
+					var key = evt.data.getKey(),
+						range = widget.editor.getSelection().getRanges()[ 0 ];
+
+					if ( key == 8 || key == 46 ) {
+						if ( range.collapsed &&
+							range.checkBoundaryOfElement( editable, CKEDITOR[ key == 8 ? 'START' : 'END' ] ) ) {
+								evt.data.preventDefault();
+						}
+
+						evt.data.stopPropagation();
+					}
+				} );
+			})( editable );
+		}
+
+		widget.editables = editables;
+	}
+
+	function setUpMask( widget ) {
+		// When initialized for the first time.
+		if ( widget.needsMask ) {
+			var img = CKEDITOR.dom.element.createFromHtml(
+				'<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" ' +
+				'style="position:absolute;width:100%;height:100%;top:0;left:0;" draggable="false">', widget.editor.document );
+
+			img.appendTo( widget.wrapper );
+		}
+	}
+
+	function setUpWidget( widget ) {
+		setUpWrapper( widget );
+		setUpEditables( widget );
+		setUpMask( widget );
+		removeOutline( widget );
+
+		// TODO should be executed on paste/undo/redo only.
+		// this.setupHidden();
+		// this.setupSelected();
+		// this.setupPasted();
+
+		widget.wrapper.removeClass( 'cke_widget_new' );
+	}
+
+	function setUpWrapper( widget ) {
+		// Retrieve widget wrapper. Assign an id to it.
+		var wrapper = widget.wrapper = widget.element.getParent();
+		wrapper.setAttribute( 'data-widget-id', widget.id );
+
+		widget.editor.focusManager.add( wrapper );
 	}
 
 	//
