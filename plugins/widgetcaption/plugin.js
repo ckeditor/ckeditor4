@@ -55,13 +55,12 @@ CKEDITOR.plugins.add( 'widgetcaption', {
 			},
 
 			init: function() {
-				if ( !this.isInit() ) {
-					var align = this.element.getStyle( 'float' );
+				var align = this.element.getStyle( 'float' );
 
-					// Move float style from figure to wrapper.
-					this.wrapper.setStyle( 'float', align );
-					this.element.setStyle( 'float', '' );
-				}
+				// Move float style from figure to wrapper.
+				this.wrapper.setStyle( 'float', align );
+				this.element.setStyle( 'float', '' );
+
 				this.parts.image.$.draggable = false;
 			},
 

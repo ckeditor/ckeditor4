@@ -32,7 +32,8 @@
 				'}' +
 				'.cke_widget_editable:focus,' +
 				'.cke_widget_wrapper:hover .cke_widget_editable:focus,' +
-				'.cke_widget_wrapper:focus{' +
+				'.cke_widget_wrapper:focus' +
+				'.cke_widget_wrapper.cke_widget_selected{' +
 					'outline:2px solid Highlight;' +
 				'}'
 			);
@@ -321,7 +322,8 @@
 
 		this.updateData();
 
-		this.setInit();
+		// Finally mark widget as inited.
+		this.wrapper.setAttribute( 'data-widget-wrapper-init', 1 );
 
 		// Disable contenteditable on the wrapper once the initialization process
 		// is over and selection is set (i.e. after setupPasted). This prevents
@@ -339,7 +341,7 @@
 
 		blur: function() {
 			if ( this.editor.widgets.selected == this ) {
-				removeOutline( this );
+				this.wrapper.removeClass( 'cke_widget_selected' );
 				delete this.editor.widgets.selected;
 				this.element.removeAttribute( 'data-widget-selected' );
 
@@ -363,6 +365,8 @@
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-init' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
 			}
+
+			this.wrapper = null;
 		},
 
 		edit: function() {
@@ -400,13 +404,14 @@
 			return this.template.output( this.data );
 		},
 
- 		// Check if widget has already been initialized. This means, for example,
-		// that widget has mask, element styles have been transferred to wrapper etc.
-		isInit: function() {
-			if ( !this.wrapper )
-				return false;
-
-			return this.wrapper.hasAttribute( 'data-widget-wrapper-init' );
+		/**
+		 * Checks if widget has already been initialized. This means, for example,
+		 * that widget has mask, element styles have been transferred to wrapper etc.
+		 *
+		 * @returns {Boolean}
+		 */
+		isInited: function() {
+			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-init' ) );
 		},
 
 		removeBlurListeners: function() {
@@ -434,8 +439,7 @@
 			widgets.selected = this;
 
 			this.element.setAttribute( 'data-widget-selected' );
-
-			this.setOutline();
+			this.wrapper.addClass( 'cke_widget_selected' );
 
 			if ( CKEDITOR.env.ie )
 				setTimeout( function() {
@@ -465,22 +469,6 @@
 				that.removeBlurListeners();
 				that.blur();
 			}
-		},
-
-		// TODO change name to setInited and isInited.
-		// Convert this method to private.
-		// Marks widget initialized.
-		setInit: function() {
-			if ( !this.wrapper.hasAttribute( 'data-widget-wrapper-init' ) ) {
-				this.wrapper.setAttribute( 'data-widget-wrapper-init', 1 );
-				return false;
-			}
-
-			return true;
-		},
-
-		setOutline: function() {
-			this.wrapper.setStyle( 'outline', '2px solid Highlight' );
 		},
 
 		// Since browser clipboard ignores hidden elements, widgets mark such elements
@@ -1105,10 +1093,6 @@
 		}
 	}
 
-	function removeOutline( widget ) {
-		widget.wrapper.removeStyle( 'outline' );
-	}
-
 	// Makes widget editables editable, selectable, etc.
 	// Adds necessary classes, properties, and styles.
 	// Also adds editables to focusmanager.
@@ -1167,7 +1151,6 @@
 		setUpWrapper( widget );
 		setUpEditables( widget );
 		setUpMask( widget );
-		removeOutline( widget );
 
 		// TODO should be executed on paste/undo/redo only.
 		// this.setupHidden();

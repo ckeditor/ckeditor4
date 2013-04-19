@@ -49,14 +49,11 @@ CKEDITOR.plugins.add( 'widgetvideo', {
 				var element = this.element,
 					that = this;
 
-				// When initialized for the first time.
-				if ( !this.isInit() ) {
-					var align = element.getStyle( 'float' );
+				var align = element.getStyle( 'float' );
 
-					// Move float style from figure to wrapper.
-					this.wrapper.setStyle( 'float', align );
-					this.element.setStyle( 'float', '' );
-				}
+				// Move float style from figure to wrapper.
+				this.wrapper.setStyle( 'float', align );
+				this.element.setStyle( 'float', '' );
 			},
 
 			dialog: {
