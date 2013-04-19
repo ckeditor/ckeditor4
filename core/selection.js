@@ -149,7 +149,7 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( fillingChar.getText().replace( /\u200B/g, '' ) );
+			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
 
 			// Restore the bookmark.
 			if ( bm ) {
@@ -160,6 +160,13 @@
 				sel.addRange( rng );
 			}
 		}
+	}
+
+	function replaceFillingChar( html ) {
+		return html.replace( /\u200B( )?/g, function( match ) {
+			// #10291 if filling char is followed by a space replace it with nbsp.
+			return match[ 1 ] ? '\xa0' : '';
+		} );
 	}
 
 	function isReversedSelection( sel ) {
@@ -410,7 +417,7 @@
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.
-				doc.on( 'keydown', function( evt ) {
+				editable.attachListener( doc, 'keydown', function( evt ) {
 					var key = evt.data.getKey();
 					// Remove the filling char before some keys get
 					// executed, so they'll not get blocked by it.
@@ -425,7 +432,7 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingChar( editor.editable() );
+							removeFillingChar( editable );
 					}
 
 				}, null, null, -1 );
@@ -460,46 +467,51 @@
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor,
-			editable = editor.editable();
+		var editor = evt.editor;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
 		if ( CKEDITOR.env.webkit ) {
 			editor.on( 'selectionChange', function() {
-				checkFillingChar( editable );
+				checkFillingChar( editor.editable() );
 			}, null, null, -1 );
 			editor.on( 'beforeSetMode', function() {
-				removeFillingChar( editable );
+				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
 
 			var fillingCharBefore, resetSelection;
 
 			function beforeData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					// If cursor is right blinking by side of the filler node, save it for restoring,
 					// as the following text substitution will blind it. (#7437)
-					var sel = doc.$.defaultView.getSelection();
+					var sel = editor.document.$.defaultView.getSelection();
 					if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
 						resetSelection = 1;
 
 					fillingCharBefore = fillingChar.getText();
-					fillingChar.setText( fillingCharBefore.replace( /\u200B/g, '' ) );
+					fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
 				}
 			}
 
 			function afterData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					fillingChar.setText( fillingCharBefore );
 
 					if ( resetSelection ) {
-						doc.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
+						editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
 						resetSelection = 0;
 					}
 				}
@@ -510,7 +522,6 @@
 			editor.on( 'beforeGetData', beforeData, null, null, 0 );
 			editor.on( 'getData', afterData );
 		}
-
 	});
 
 	/**
