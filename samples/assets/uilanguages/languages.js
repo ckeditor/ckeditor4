@@ -55,6 +55,7 @@ var CKEDITOR_LANGS = (function() {
 		ro: 'Romanian',
 		ru: 'Russian',
 		sk: 'Slovak',
+		sq : 'Albanian',
 		sl: 'Slovenian',
 		sr: 'Serbian (Cyrillic)',
 		'sr-latn': 'Serbian (Latin)',

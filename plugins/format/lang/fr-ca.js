@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'fr-ca', {
 	label: 'Format',
-	panelTitle: 'Format',
+	panelTitle: 'Format de paragraphe',
 	tag_address: 'Adresse',
 	tag_div: 'Normal (DIV)',
 	tag_h1: 'En-tête 1',

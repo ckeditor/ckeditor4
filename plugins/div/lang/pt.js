@@ -6,14 +6,14 @@ CKEDITOR.plugins.setLang( 'div', 'pt', {
 	IdInputLabel: 'ID',
 	advisoryTitleInputLabel: 'Título',
 	cssClassInputLabel: 'Classes de Estilo de Folhas Classes',
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
+	edit: 'Editar Div',
+	inlineStyleInputLabel: 'Estilho em Linha',
 	langDirLTRLabel: 'Esquerda à Direita (LTR)',
 	langDirLabel: 'Orientação de idioma',
 	langDirRTLLabel: 'Direita a Esquerda (RTL)',
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
+	languageCodeInputLabel: 'Codigo do Idioma',
+	remove: 'Remover Div',
 	styleSelectLabel: 'Estilo',
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
+	title: 'Criar Div',
+	toolbar: 'Criar Div'
 });

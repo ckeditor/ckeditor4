@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'sourcedialog', {
-	lang: 'en', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'sourcedialog,sourcedialog-rtl', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {

@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'basicstyles', 'ca', {
 	bold: 'Negreta',
 	italic: 'Cursiva',
-	strike: 'Barrat',
+	strike: 'Ratllat',
 	subscript: 'Subíndex',
 	superscript: 'Superíndex',
 	underline: 'Subratllat'

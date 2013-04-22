@@ -35,7 +35,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'натисніть ALT 0 для довідки',
 
-		browseServer: 'Огляд',
+		browseServer: 'Огляд Сервера',
 		url: 'URL',
 		protocol: 'Протокол',
 		upload: 'Надіслати',
@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		alignTop: 'По верхньому краю',
 		alignMiddle: 'По середині',
 		alignBottom: 'По нижньому краю',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Невірне значення.',
 		invalidHeight: 'Висота повинна бути цілим числом.',
 		invalidWidth: 'Ширина повинна бути цілим числом.',
 		invalidCssLength: 'Значення, вказане для "%1" в полі повинно бути позитивним числом або без дійсного виміру CSS блоку (px, %, in, cm, mm, em, ex, pt, or pc).',

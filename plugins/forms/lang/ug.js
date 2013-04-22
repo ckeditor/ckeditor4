@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		type: 'تىپى',
 		typeText: 'تېكىست',
 		typePass: 'ئىم',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'تورخەت',
+		typeSearch: 'ئىزدە',
+		typeTel: 'تېلېفون نومۇر',
 		typeUrl: 'ئادرېس'
 	}
 });

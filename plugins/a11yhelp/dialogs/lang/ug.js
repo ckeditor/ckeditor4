@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 
 			{
 			name: 'تەھرىرلىگۈچ سۆزلەشكۈسى',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: 'سۆزلەشكۈدە TAB كۇنۇپكىسىدا كېيىنكى سۆز بۆلىكىگە يۆتكىلىدۇ، SHIFT + TAB بىرىكمە كۇنۇپكىسىدا ئالدىنقى سۆز بۆلىكىگە يۆتكىلىدۇ، ENTER كۇنۇپكىسىدا سۆزلەشكۈنى تاپشۇرىدۇ، ESC كۇنۇپكىسى سۆزلەشكۈدىن ۋاز كېچىدۇ. كۆپ بەتكۈچلۈك سۆزلەشكۈگە نىسبەتەن، ALT + F10 دا بەتكۈچ تىزىمىغا يۆتكەيدۇ. ئاندىن TAB كۇنۇپكىسى ياكى ئوڭ يا ئوق كۇنۇپكىسى كېيىنكى بەتكۈچكە يۆتكەيدۇ؛ SHIFT + TAB كۇنۇپكىسى ياكى سول يا ئوق كۇنۇپكىسى ئالدىنقى بەتكۈچكە يۆتكەيدۇ. بوشلۇق كۇنۇپكىسى ياكى ENTER كۇنۇپكىسى بەتكۈچنى تاللايدۇ.'
 		},
 
 			{

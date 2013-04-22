@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	bgFixed: 'Fundo Fixo',
 	bgImage: 'Caminho para a Imagem de Fundo',
 	charset: 'Codificação de Caracteres',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Central European', // MISSING
 	charsetCR: 'Cyrillic', // MISSING
 	charsetCT: 'Chinese Traditional (Big5)', // MISSING
