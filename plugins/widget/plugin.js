@@ -58,7 +58,10 @@
 
 				while ( ( el = toBeWrapped.pop() ) ) {
 					// Wrap only if still has parent (hasn't been removed at some point).
-					el.parent && editor.widgets.wrapElement( el );
+					if ( el.parent ) {
+						cleanUpWidgetElement( el );
+						editor.widgets.wrapElement( el );
+					}
 				}
 			}, null, null, 11 );
 
@@ -96,6 +99,10 @@
 
 		editor.on( 'dataReady', function() {
 			this.destroyAll();
+			this.initOnAll();
+		}, this );
+
+		editor.on( 'afterPaste', function() {
 			this.initOnAll();
 		}, this );
 
@@ -842,6 +849,19 @@
 		}
 	}
 
+	// Unwraps widget element and clean up element.
+	//
+	// This function is used to clean up pasted widgets.
+	// It should have similar result to widget#destroy plus
+	// some additional adjustments, specific for pasting.
+	//
+	// @param {CKEDITOR.htmlParser.element} el
+	function cleanUpWidgetElement( el ) {
+		var parent = el.parent;
+		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-widget-wrapper' ] )
+			parent.replaceWith( el );
+	}
+
 	var initializeWidgetClick = ( function() {
 		function callback( event ) {
 
@@ -1171,6 +1191,7 @@
 	//
 	// EXPOSE PUBLIC API ------------------------------------------------------
 	//
+
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 })();
