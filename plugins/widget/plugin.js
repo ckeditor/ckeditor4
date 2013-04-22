@@ -96,6 +96,9 @@
 		this.editor = editor;
 		this.registered = {};
 		this.instances = [];
+		this._ = {
+			nextId: 0
+		};
 
 		editor.on( 'dataReady', function() {
 			this.destroyAll();
@@ -212,7 +215,7 @@
 				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
-					var widget = new Widget( this.editor, this.instances.length, element, widgetDef );
+					var widget = new Widget( this.editor, this._.nextId++, element, widgetDef );
 					this.instances.push( widget );
 
 					return widget;
