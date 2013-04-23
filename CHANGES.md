@@ -1,6 +1,8 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.1.2
+
 ## CKEditor 4.1.1
 
 * Added new translation: Albanian.
