@@ -100,7 +100,20 @@
 			nextId: 0
 		};
 
+		var snapshotLoaded = 0;
+
 		editor.on( 'dataReady', function() {
+			// Clean up all widgets loaded from snapshot.
+			if ( snapshotLoaded ) {
+				// By locking and unlocking we'll updated snapshot loaded
+				// a moment ago. We need that because entire wrapper
+				// will be rebuilt and e.g. widget id will be modified.
+				editor.fire( 'lockSnapshot' );
+				cleanUpAllWidgetElements( this, editor.editable() );
+				editor.fire( 'unlockSnapshot' );
+			}
+			snapshotLoaded = 0;
+
 			this.destroyAll();
 			this.initOnAll();
 		}, this );
@@ -108,6 +121,15 @@
 		editor.on( 'afterPaste', function() {
 			this.initOnAll();
 		}, this );
+
+		// Set flag so dataReady will know that additional
+		// cleanup is needed, because snapshot containing widgets was loaded.
+		editor.on( 'loadSnapshot', function( evt ) {
+			// Primitive but sufficient check which will prevent from executing
+			// heavier cleanUpAllWidgetElements if not needed.
+			if ( ( /data-widget/ ).test( evt.data ) )
+				snapshotLoaded = 1;
+		} );
 
 		editor.on( 'mode', function() {
 			if ( editor.mode == 'wysiwyg' )
@@ -863,6 +885,33 @@
 		var parent = el.parent;
 		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-widget-wrapper' ] )
 			parent.replaceWith( el );
+	}
+
+	// Similar to cleanUpWidgetElement, but works on DOM and finds
+	// widget elements by its own.
+	//
+	// Unlike cleanUpWidgetElement it will wrap element back.
+	//
+	// @param {CKEDITOR.dom.element} container
+	function cleanUpAllWidgetElements( widgetsRepo, container ) {
+		// Transform to normal array to avoid dealing with live collection (not available on IE7&8).
+		var wrappers = [].slice.apply( container.getElementsByClass( 'cke_widget_wrapper' ).$ ),
+			wrapper, element,
+			i = 0,
+			l = wrappers.length;
+
+		for ( ; i < l; ++i ) {
+			wrapper = new CKEDITOR.dom.element( wrappers[ i ] );
+			element = wrapper.getFirst();
+			// If wrapper contains widget element - unwrap it and wrap again.
+			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
+				element.replace( wrapper );
+				widgetsRepo.wrapElement( element );
+			}
+			// Otherwise - something is wrong... clean this up.
+			else
+				wrapper.remove();
+		}
 	}
 
 	var initializeWidgetClick = ( function() {
