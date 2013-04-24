@@ -44,48 +44,7 @@
 		},
 
 		afterInit: function( editor ) {
-			var toBeWrapped = [];
-
 			addWidgetButtons( editor );
-
-			// We cannot change DOM structure during processing with filter,
-			// so first - cache all elements in data-widget attribute and then,
-			// just after filter has been applied, wrap all widgets.
-			// We could use frag.forEach() in 'toHtml' listener, but it's better to
-			// avoid another loop.
-			editor.on( 'toHtml', function( evt ) {
-				var el;
-
-				while ( ( el = toBeWrapped.pop() ) ) {
-					// Wrap only if still has parent (hasn't been removed at some point).
-					if ( el.parent ) {
-						cleanUpWidgetElement( el );
-						editor.widgets.wrapElement( el );
-					}
-				}
-			}, null, null, 11 );
-
-			editor.dataProcessor.dataFilter.addRules( {
-				elements: {
-					$: function( element ) {
-						if ( 'data-widget' in element.attributes )
-							toBeWrapped.push( element );
-					}
-				}
-			} );
-
-			editor.dataProcessor.htmlFilter.addRules( {
-				elements: {
-					$: function( element ) {
-						if ( 'data-widget-id' in element.attributes ) {
-							// We assume that widget consist of a single element wrapping its contents.
-							var widget = editor.widgets.getById( element.attributes[ 'data-widget-id' ] );
-
-							return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : '';
-						}
-					}
-				}
-			} );
 		}
 	});
 
@@ -100,37 +59,6 @@
 			nextId: 0
 		};
 
-		var snapshotLoaded = 0;
-
-		editor.on( 'dataReady', function() {
-			// Clean up all widgets loaded from snapshot.
-			if ( snapshotLoaded ) {
-				// By locking and unlocking we'll updated snapshot loaded
-				// a moment ago. We need that because entire wrapper
-				// will be rebuilt and e.g. widget id will be modified.
-				editor.fire( 'lockSnapshot' );
-				cleanUpAllWidgetElements( this, editor.editable() );
-				editor.fire( 'unlockSnapshot' );
-			}
-			snapshotLoaded = 0;
-
-			this.destroyAll();
-			this.initOnAll();
-		}, this );
-
-		editor.on( 'afterPaste', function() {
-			this.initOnAll();
-		}, this );
-
-		// Set flag so dataReady will know that additional
-		// cleanup is needed, because snapshot containing widgets was loaded.
-		editor.on( 'loadSnapshot', function( evt ) {
-			// Primitive but sufficient check which will prevent from executing
-			// heavier cleanUpAllWidgetElements if not needed.
-			if ( ( /data-widget/ ).test( evt.data ) )
-				snapshotLoaded = 1;
-		} );
-
 		editor.on( 'mode', function() {
 			if ( editor.mode == 'wysiwyg' )
 				initializeWidgetClick( editor );
@@ -139,6 +67,8 @@
 		editor.on( 'paste', onPaste );
 
 		editor.on( 'key', onKey );
+
+		setUpDataProcessing( this );
 	}
 
 	Repository.prototype = {
@@ -1126,6 +1056,88 @@
 			evt.data.dataValue = data;
 		}
 	}
+
+	// Set up data processing like:
+	// * toHtml/toDataFormat,
+	// * pasting handling,
+	// * undo/redo handling.
+	function setUpDataProcessing( widgetsRepo ) {
+		var editor = widgetsRepo.editor,
+			snapshotLoaded = 0;
+
+		editor.on( 'dataReady', function() {
+			// Clean up all widgets loaded from snapshot.
+			if ( snapshotLoaded ) {
+				// By locking and unlocking we'll updated snapshot loaded
+				// a moment ago. We need that because entire wrapper
+				// will be rebuilt and e.g. widget id will be modified.
+				editor.fire( 'lockSnapshot' );
+				cleanUpAllWidgetElements( widgetsRepo, editor.editable() );
+				editor.fire( 'unlockSnapshot' );
+			}
+			snapshotLoaded = 0;
+
+			widgetsRepo.destroyAll();
+			widgetsRepo.initOnAll();
+		} );
+
+		editor.on( 'afterPaste', function() {
+			// Init is enough, because inserted widgets were
+			// cleaned up by toHtml.
+			widgetsRepo.initOnAll();
+		} );
+
+		// Set flag so dataReady will know that additional
+		// cleanup is needed, because snapshot containing widgets was loaded.
+		editor.on( 'loadSnapshot', function( evt ) {
+			// Primitive but sufficient check which will prevent from executing
+			// heavier cleanUpAllWidgetElements if not needed.
+			if ( ( /data-widget/ ).test( evt.data ) )
+				snapshotLoaded = 1;
+		} );
+
+		var toBeWrapped = [];
+
+		// We cannot change DOM structure during processing with filter,
+		// so first - cache all elements in data-widget attribute and then,
+		// just after filter has been applied, wrap all widgets.
+		// We could use frag.forEach() in 'toHtml' listener, but it's better to
+		// avoid another loop.
+		editor.on( 'toHtml', function( evt ) {
+			var el;
+
+			while ( ( el = toBeWrapped.pop() ) ) {
+				// Wrap only if still has parent (hasn't been removed at some point).
+				if ( el.parent ) {
+					cleanUpWidgetElement( el );
+					widgetsRepo.wrapElement( el );
+				}
+			}
+		}, null, null, 11 );
+
+		editor.dataProcessor.dataFilter.addRules( {
+			elements: {
+				$: function( element ) {
+					if ( 'data-widget' in element.attributes )
+						toBeWrapped.push( element );
+				}
+			}
+		} );
+
+		editor.dataProcessor.htmlFilter.addRules( {
+			elements: {
+				$: function( element ) {
+					if ( 'data-widget-id' in element.attributes ) {
+						// We assume that widget consist of a single element wrapping its contents.
+						var widget = widgetsRepo.getById( element.attributes[ 'data-widget-id' ] );
+
+						return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : '';
+					}
+				}
+			}
+		} );
+	}
+
 
 	//
 	// WIDGET helpers ---------------------------------------------------------
