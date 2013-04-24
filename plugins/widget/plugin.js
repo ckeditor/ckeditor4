@@ -277,7 +277,7 @@
 		this.updateData();
 
 		// Finally mark widget as inited.
-		this.wrapper.setAttribute( 'data-widget-wrapper-init', 1 );
+		this.wrapper.setAttribute( 'data-widget-wrapper-inited', 1 );
 
 		// Disable contenteditable on the wrapper once the initialization process
 		// is over and selection is set (i.e. after setupPasted). This prevents
@@ -318,7 +318,7 @@
 			if ( cleanUpElement )
 				this.element.replace( this.wrapper );
 			else {
-				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-init' ] );
+				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
 			}
 
@@ -369,7 +369,7 @@
 		 * @returns {Boolean}
 		 */
 		isInited: function() {
-			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-init' ) );
+			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-inited' ) );
 		},
 
 		/* TMP
