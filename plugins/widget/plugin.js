@@ -59,6 +59,7 @@
 			nextId: 0
 		};
 
+		/* TMP
 		editor.on( 'mode', function() {
 			if ( editor.mode == 'wysiwyg' )
 				initializeWidgetClick( editor );
@@ -67,6 +68,7 @@
 		editor.on( 'paste', onPaste );
 
 		editor.on( 'key', onKey );
+		*/
 
 		setUpDataProcessing( this );
 	}
@@ -301,6 +303,7 @@
 			// By default do nothing.
 		},
 
+		/* TMP
 		blur: function() {
 			if ( this.editor.widgets.selected == this ) {
 				this.wrapper.removeClass( 'cke_widget_selected' );
@@ -310,6 +313,7 @@
 				this.editor.widgets.fire( 'widgetBlur', this );
 			}
 		},
+		*/
 
 		destroy: function( cleanUpElement ) {
 			var editor = this.editor;
@@ -331,6 +335,7 @@
 			this.wrapper = null;
 		},
 
+		/* TMP
 		edit: function() {
 			if ( !this.dialog )
 				return;
@@ -359,6 +364,7 @@
 				});
 			} );
 		},
+		*/
 
 		// Returns clean, stripped, HTML version of the widget.
 		getHtml: function() {
@@ -376,6 +382,7 @@
 			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-init' ) );
 		},
 
+		/* TMP
 		removeBlurListeners: function() {
 			var listener;
 			while ( ( listener = this.blurListeners.pop() ) )
@@ -433,7 +440,6 @@
 			}
 		},
 
-		/*
 		// Since webkit (also FF) destroys the selection when pasting a widget (only a widget,
 		// NOTHING more), we can detect this case since we marked such widget with
 		// an attribute. We restore the caret after the widget once it is ready and
@@ -476,6 +482,7 @@
 		*/
 	};
 
+	/*
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
 		bookmarkEval = new CKEDITOR.dom.walker.bookmark();
 
@@ -664,6 +671,7 @@
 			editor.fire( 'unlockSnapshot' );
 		}, 0 );
 	}
+	*/
 
 	//
 	// REPOSITORY helpers -----------------------------------------------------
@@ -708,7 +716,9 @@
 				}
 			}
 
-			addContextMenu( editor, widgetName, commandName );
+			/* TMP
+			 * addContextMenu( editor, widgetName, commandName );
+			 */
 		}
 
 		if ( hasButtons ) {
@@ -752,8 +762,10 @@
 
 						editor.insertElement( wrapper );
 						instance = editor.widgets.initOn( element, widget );
+						/* TMP
 						instance.select();
 						instance.edit && instance.edit();
+						*/
 					}
 				}
 			});
@@ -829,6 +841,7 @@
 		}
 	}
 
+	/*
 	var initializeWidgetClick = ( function() {
 		function callback( event ) {
 
@@ -1056,6 +1069,7 @@
 			evt.data.dataValue = data;
 		}
 	}
+	*/
 
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
@@ -1148,8 +1162,8 @@
 
 		forEachChild( element, function( node ) {
 			if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-property' ) )
-				parts[ node.getAttribute( 'data-widget-property' ) ] = node;
-		});
+				parts[ node.data( 'widget-property' ) ] = node;
+		} );
 
 		return parts;
 	}
@@ -1157,9 +1171,8 @@
 	function forEachChild( element, callback ) {
 		var elements = element.getElementsByTag( '*' );
 
-		for ( var i = 0, l = elements.count(); i < l; ++i ) {
+		for ( var i = 0, l = elements.count(); i < l; ++i )
 			callback( elements.getItem( i ) );
-		}
 	}
 
 	// Makes widget editables editable, selectable, etc.
@@ -1222,7 +1235,6 @@
 		setUpMask( widget );
 
 		// TODO should be executed on paste/undo/redo only.
-		// this.setupHidden();
 		// this.setupSelected();
 		// this.setupPasted();
 
