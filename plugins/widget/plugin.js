@@ -503,23 +503,7 @@
 			}
 		},
 
-		// Since browser clipboard ignores hidden elements, widgets mark such elements
-		// with a specific attribute and remove CSS. This method reverts this
-		// process: elements with a specific attribute are being hidden with CSS styles.
-		// Eventually an attribute is removed as well.
-		/*setupHidden: function() {
-			var elements = this.wrapper.getElementsByTag( '*' ),
-				i = 0,
-				element;
-
-			while ( ( element = elements.getItem( i++ ) ) ) {
-				if ( element.hasAttribute( 'data-widget-hidden' ) ) {
-					element.removeAttribute( 'data-widget-hidden' );
-					element.setStyle( 'display', 'none' );
-				}
-			}
-		},
-
+		/*
 		// Since webkit (also FF) destroys the selection when pasting a widget (only a widget,
 		// NOTHING more), we can detect this case since we marked such widget with
 		// an attribute. We restore the caret after the widget once it is ready and
@@ -558,7 +542,8 @@
 				this.editor.widgets.fire( 'widgetSetupSelected', this );
 				this.select();
 			}
-		}*/
+		}
+		*/
 	};
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
