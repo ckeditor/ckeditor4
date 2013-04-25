@@ -46,7 +46,8 @@
 		this.registered = {};
 		this.instances = [];
 		this._ = {
-			nextId: 0
+			nextId: 0,
+			upcasts: []
 		};
 
 		/* TMP
@@ -83,6 +84,7 @@
 
 			addWidgetDialog( widgetDef );
 			addWidgetCommand( this.editor, widgetDef );
+			addWidgetProcessors( this, widgetDef );
 
 			this.registered[ name ] = widgetDef;
 
@@ -811,6 +813,18 @@
 		}
 	}
 
+	function addWidgetProcessors( widgetsRepo, widgetDef ) {
+		var upcasts = widgetDef.config.upcasts;
+
+		if ( !upcasts )
+			return;
+
+		upcasts = upcasts.split( ',' );
+
+		while ( upcasts.length )
+			widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
+	}
+
 	// Unwraps widget element and clean up element.
 	//
 	// This function is used to clean up pasted widgets.
@@ -849,6 +863,11 @@
 			else
 				wrapper.remove();
 		}
+	}
+
+	// @param {CKEDITOR.htmlParser.element}
+	function isWidgetElement( element ) {
+		return !!element.attributes[ 'data-widget' ];
 	}
 
 	/*
@@ -1120,13 +1139,42 @@
 				snapshotLoaded = 1;
 		} );
 
-		var toBeWrapped = [];
+		var toBeWrapped = [],
+			upcasts = widgetsRepo._.upcasts;
 
 		// We cannot change DOM structure during processing with filter,
 		// so first - cache all elements in data-widget attribute and then,
 		// just after filter has been applied, wrap all widgets.
 		// We could use frag.forEach() in 'toHtml' listener, but it's better to
 		// avoid another loop.
+		editor.dataProcessor.dataFilter.addRules( {
+			elements: {
+				$: function( element ) {
+					if ( 'data-widget' in element.attributes )
+						toBeWrapped.push( element );
+					// Do not trigger upcasting in as many cases as we can, except of checking
+					// whether this element is any ancestor of widget element, which is
+					// heavier than upcasting, so we'll do that later.
+					else if ( upcasts.length && !( 'data-widget-wrapper' in element.attributes ) ) {
+						var upcast,
+							i = 0,
+							l = upcasts.length;
+
+						for ( ; i < l; ++i ) {
+							upcast = upcasts[ i ];
+							// Check if this element should be upcasted and if yes, then
+							// whether it isn't a descendant of any widget element.
+							if ( upcast[ 0 ]( element ) && !element.getAscendant( isWidgetElement ) ) {
+								element.attributes[ 'data-widget' ] = upcast[ 1 ];
+								toBeWrapped.push( element );
+								return;
+							}
+						}
+					}
+				}
+			}
+		} );
+
 		editor.on( 'toHtml', function( evt ) {
 			var el;
 
@@ -1138,15 +1186,6 @@
 				}
 			}
 		}, null, null, 11 );
-
-		editor.dataProcessor.dataFilter.addRules( {
-			elements: {
-				$: function( element ) {
-					if ( 'data-widget' in element.attributes )
-						toBeWrapped.push( element );
-				}
-			}
-		} );
 
 		editor.dataProcessor.htmlFilter.addRules( {
 			elements: {
