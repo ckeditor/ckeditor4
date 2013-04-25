@@ -819,6 +819,12 @@
 		if ( !upcasts )
 			return;
 
+		// Single rule activated by setting config.upcasts = true.
+		// wDef.upcasts has to be a function.
+		if ( upcasts === true )
+			return widgetsRepo._.upcasts.push( [ widgetDef.upcasts, widgetDef.name ] );
+
+		// Multiple rules.
 		upcasts = upcasts.split( ',' );
 
 		while ( upcasts.length )
@@ -1156,7 +1162,7 @@
 					// whether this element is any ancestor of widget element, which is
 					// heavier than upcasting, so we'll do that later.
 					else if ( upcasts.length && !( 'data-widget-wrapper' in element.attributes ) ) {
-						var upcast,
+						var upcast, upcasted,
 							i = 0,
 							l = upcasts.length;
 
@@ -1164,7 +1170,12 @@
 							upcast = upcasts[ i ];
 							// Check if this element should be upcasted and if yes, then
 							// whether it isn't a descendant of any widget element.
-							if ( upcast[ 0 ]( element ) && !element.getAscendant( isWidgetElement ) ) {
+							if ( ( upcasted = upcast[ 0 ]( element ) ) && !element.getAscendant( isWidgetElement ) ) {
+								// If upcast function returned element, upcast this one.
+								// It can be e.g. a new element wrapping the original one.
+								if ( upcasted instanceof CKEDITOR.htmlParser.element )
+									element = upcasted;
+
 								element.attributes[ 'data-widget' ] = upcast[ 1 ];
 								toBeWrapped.push( element );
 								return;
