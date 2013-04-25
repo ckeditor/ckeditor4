@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	<script>
 
-		CKEDITOR.config.extraPlugins = 'widget,widgetimage';
+		CKEDITOR.config.extraPlugins = 'widgetimage';
 		CKEDITOR.config.allowedContent = true;
 		CKEDITOR.config.height = 400;
 		CKEDITOR.disableAutoInline = true;
@@ -127,18 +127,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.replace( 'editor1' );
 		CKEDITOR.replace( 'editor2', {
 			on: {
-				widgetDefinition: setWidgetConfiguration
+				widgetDefinition: function( evt ) {
+					if ( evt.data.name == 'image' )
+						evt.data.config.upcasts = 'captionedImage';
+				}
 			}
 		} );
 		CKEDITOR.inline( 'editor3', {
 			on: {
-				widgetDefinition: setWidgetConfiguration
+				widgetDefinition: function( evt ) {
+					if ( evt.data.name == 'image' )
+						evt.data.config.upcasts = 'image';
+				}
 			}
 		} );
-
-		function setWidgetConfiguration( evt ) {
-
-		}
 
 	</script>
 

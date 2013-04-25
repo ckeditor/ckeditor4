@@ -117,6 +117,18 @@
 			}
 
 			return null;
+		},
+
+		/**
+		 * Wraps this element with given `wrapper`.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} wrapper The element which will be this element's new parent.
+		 * @returns {CKEDITOR.htmlParser.element} Wrapper.
+		 */
+		wrapWith: function( wrapper ) {
+			this.replaceWith( wrapper );
+			wrapper.add( this );
+			return wrapper;
 		}
 	};
 })();
