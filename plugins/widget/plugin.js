@@ -69,14 +69,24 @@
 		 *
 		 * @param {String} name
 		 * @param {CKEDITOR.plugins.widget.definition} widgetDef
+		 * @returns {CKEDITOR.plugins.widget.registeredDefinition}
 		 */
 		add: function( name, widgetDef ) {
-			this.registered[ name ] = widgetDef;
+			// Create prototyped copy of original widget defintion, so we won't modify it.
+			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
 			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
+			// Clone config too.
+			widgetDef.config = CKEDITOR.tools.prototypedCopy( widgetDef.config );
+
+			this.editor.fire( 'widgetDefinition', widgetDef );
 
 			addWidgetDialog( widgetDef );
 			addWidgetCommand( this.editor, widgetDef );
+
+			this.registered[ name ] = widgetDef;
+
+			return widgetDef;
 		},
 
 		destroy: function( widget, cleanUpElement ) {
