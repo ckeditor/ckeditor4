@@ -93,6 +93,30 @@
 			node.previous = this;
 
 			this.parent = node.parent;
+		},
+
+		/**
+		 * Gets the closest ancestor element of this element which satisfies given condition
+		 *
+		 * @param {String/Object/Function} condition Name of an ancestor, hash of names or validator function.
+		 * @returns {CKEDITOR.htmlParser.element} The closest ancestor which satisfies given condition or `null`.
+		 */
+		getAscendant: function( condition ) {
+			var checkFn =
+				typeof condition == 'function' ?	condition :
+				typeof condition == 'string' ?		function( el ) { return el.name == condition } :
+													function( el ) { return el.name in condition };
+
+			var parent = this.parent;
+
+			// Parent has to be an element - don't check doc fragment.
+			while ( parent && parent.type == CKEDITOR.NODE_ELEMENT ) {
+				if ( checkFn( parent ) )
+					return parent;
+				parent = parent.parent;
+			}
+
+			return null;
 		}
 	};
 })();
