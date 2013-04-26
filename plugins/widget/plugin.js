@@ -368,10 +368,18 @@
 		},
 		*/
 
-		// Returns clean, stripped, HTML version of the widget.
+		/**
+		 * Gets widget's output HTML.
+		 *
+		 * @returns {String}
+		 */
 		getHtml: function() {
-			this.updateData();
-			return this.template.output( this.data );
+			if ( this.template ) {
+				this.updateData();
+				return this.template.output( this.data );
+			}
+			else
+				return this.element.getOuterHtml();
 		},
 
 		/**
@@ -1202,10 +1210,9 @@
 			elements: {
 				$: function( element ) {
 					if ( 'data-widget-id' in element.attributes ) {
-						// We assume that widget consist of a single element wrapping its contents.
 						var widget = widgetsRepo.getById( element.attributes[ 'data-widget-id' ] );
 
-						return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : '';
+						return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : false;
 					}
 				}
 			}
