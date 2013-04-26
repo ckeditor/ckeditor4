@@ -98,6 +98,7 @@
 		/**
 		 * Gets the closest ancestor element of this element which satisfies given condition
 		 *
+		 * @since 4.2
 		 * @param {String/Object/Function} condition Name of an ancestor, hash of names or validator function.
 		 * @returns {CKEDITOR.htmlParser.element} The closest ancestor which satisfies given condition or `null`.
 		 */
@@ -122,6 +123,7 @@
 		/**
 		 * Wraps this element with given `wrapper`.
 		 *
+		 * @since 4.2
 		 * @param {CKEDITOR.htmlParser.element} wrapper The element which will be this element's new parent.
 		 * @returns {CKEDITOR.htmlParser.element} Wrapper.
 		 */

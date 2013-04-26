@@ -79,12 +79,16 @@
 			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
 			// Clone config too.
 			widgetDef.config = CKEDITOR.tools.prototypedCopy( widgetDef.config );
+			widgetDef._ = widgetDef._ || {};
 
 			this.editor.fire( 'widgetDefinition', widgetDef );
 
 			addWidgetDialog( widgetDef );
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
+
+			// Cache choosen fn.
+ 			widgetDef._.downcastFn = widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ];
 
 			this.registered[ name ] = widgetDef;
 
@@ -251,15 +255,14 @@
 	/**
 	 * @class CKEDITOR.plugins.widget
 	 */
-	function Widget( editor, id, element, widgetObj ) {
-		// Extend this widget with widgetObj-specific
+	function Widget( editor, id, element, widgetDef ) {
+		// Extend this widget with widgetDef-specific
 		// methods and properties.
-		CKEDITOR.tools.extend( this, widgetObj, {
+		CKEDITOR.tools.extend( this, widgetDef, {
 			editor: editor,
 			id: id,
 			element: element,
-			parts: findParts( element ),
-			blurListeners: []
+			parts: findParts( element )
 		}, true );
 
 		// Lock snapshot during making changed to DOM.
@@ -1195,7 +1198,13 @@
 					if ( 'data-widget-id' in element.attributes ) {
 						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
 
-						return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : false;
+						if ( widget ) {
+							return widget._.downcastFn ?
+								widget._.downcastFn( element.getFirst( isWidgetElement ) ) :
+								CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ];
+						}
+
+						return false;
 					}
 				}
 			}

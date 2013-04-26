@@ -343,6 +343,47 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
 		 */
-		forEach: fragProto.forEach
+		forEach: fragProto.forEach,
+
+		/**
+		 * Gets this element's first child. If `condition` is given returns
+		 * first child which satisfies that condition.
+		 *
+		 * @since 4.2
+		 * @param {String/Object/Function} condition Name of a child, hash of names or validator function.
+		 * @returns {CKEDITOR.htmlParser.node}
+		 */
+		getFirst: function( condition ) {
+			if ( !condition )
+				return this.children.length ? this.children[ 0 ] : null;
+
+			if ( typeof condition != 'function' )
+				condition = nameCondition( condition );
+
+			for ( var i = 0, l = this.children.length; i < l; ++i ) {
+				if ( condition( this.children[ i ] ) )
+					return this.children[ i ];
+			}
+			return null;
+		},
+
+		/**
+		 * Gets this element's inner HTML.
+		 *
+		 * @since 4.2
+		 * @returns {String}
+		 */
+		getHtml: function() {
+			var writer = new CKEDITOR.htmlParser.basicWriter();
+			this.writeChildrenHtml( writer );
+			return writer.getHtml();
+		}
 	} );
+
+	function nameCondition( condition ) {
+		return function( el ) {
+			return el.type == CKEDITOR.NODE_ELEMENT &&
+				( typeof condition == 'string' ? el.name == condition : el.name in condition );
+		};
+	}
 })();

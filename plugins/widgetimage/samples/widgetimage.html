@@ -128,8 +128,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.replace( 'editor2', {
 			on: {
 				widgetDefinition: function( evt ) {
-					if ( evt.data.name == 'image' )
+					if ( evt.data.name == 'image' ) {
 						evt.data.config.upcasts = 'captionedImage';
+						evt.data.config.downcast = 'captionedImage';
+					}
 				}
 			}
 		} );
@@ -137,8 +139,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			extraPlugins: 'sourcedialog,widgetimage',
 			on: {
 				widgetDefinition: function( evt ) {
-					if ( evt.data.name == 'image' )
+					if ( evt.data.name == 'image' ) {
 						evt.data.config.upcasts = 'image';
+						evt.data.config.downcast = 'captionedImage';
+					}
 				}
 			}
 		} );
