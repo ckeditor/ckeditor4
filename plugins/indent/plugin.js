@@ -4,364 +4,408 @@
  */
 
 /**
- * @fileOverview Increse and decrease indent commands.
+ * @fileOverview Increase and decrease indent commands.
  */
 
 (function() {
-	var listNodeNames = { ol:1,ul:1 },
-		isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+	CKEDITOR.plugins.indent = {
+		/**
+		 * A base class for generic command definition, mainly responsible for creating indent
+		 * UI buttons, and refreshing UI states.
+		 *
+		 * Commands of this class do not perform any indentation itself. They
+		 * delegate job to content-specific indentation commands (i.e. indentlist).
+		 *
+		 * @class CKEDITOR.plugins.indent.indentCommand
+		 * @param {CKEDITOR.editor} editor The editor instance this command will be
+ 		 * related to.
+		 * @param {String} name Name of the command.
+		 */
+		indentCommand: CKEDITOR.tools.createClass({
+			$: function( editor, name ) {
+				this.name = name;
+				this.isIndent = this.name == 'indent';
+				this.editor = editor;
 
-	function indentCommand( editor, name ) {
-		this.name = name;
-		var useClasses = this.useIndentClasses = editor.config.indentClasses && editor.config.indentClasses.length > 0;
-		if ( useClasses ) {
-			this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
-			this.indentClassMap = {};
-			for ( var i = 0; i < editor.config.indentClasses.length; i++ )
-				this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
-		}
+				// Create and register toolbar button if possible.
+				if ( editor.ui.addButton ) {
+					editor.ui.addButton( name.charAt( 0 ).toUpperCase() + name.slice( 1 ), {
+						label: editor.lang.indent[ name ],
+						command: name,
+						directional: true,
+						toolbar: 'indent,' + ( this.isIndent ? '20' : '10' )
+					});
+				}
+			},
 
-		this.startDisabled = name == 'outdent';
+			proto: {
+				context: 'p',
 
-		this.allowedContent = {
-			'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
-				// Do not add elements, but only text-align style if element is validated by other rule.
-				propertiesOnly: true,
-				styles: !useClasses ? 'margin-left,margin-right' : null,
-				classes: useClasses ? editor.config.indentClasses : null
+				exec: function() {},
+
+				/**
+				 * Attaches event listeners for this generic command. Since indentation
+				 * system is event-oriented, generic commands communicate with
+				 * content-specific commands using own `exec` and `refresh` events.
+				 *
+				 * Listener priorities are crucial. Different indentation phases
+				 * are executed whit different priorities.
+				 *
+				 * For `exec` event:
+				 *
+				 * * 0: Selection and bookmarks are saved by generic command.
+				 * * 1-19: Content-specific commands try to indent the code by executing
+				 * 	 own {@link CKEDITOR.command#method-exec} methods.
+				 * * 20: Bookmarks are re-selected by generic command.
+				 *
+				 * For `refresh` event:
+				 *
+				 * * <20: Content-specific commands refresh their states according
+				 * 	 to the given path by executing {@link CKEDITOR.command#method-refresh}.
+				 * 	 They save their states in `event.data.states` object passed along.
+				 * 	 with the event.
+				 * * 20: Command state is determined according to what states
+				 * 	 have been returned by content-specific commands (`event.data.states`).
+				 * 	 UI elements are updated at this stage.
+				 */
+				setupListeners: function() {
+					var editor = this.editor,
+						selection, bookmarks;
+
+					// Set the command state according to content-specific
+					// command states.
+					this.on( 'refresh', function( event ) {
+						// If no state comes with event data, disable command.
+						var states = [ CKEDITOR.TRISTATE_DISABLED ];
+
+						for ( var s in event.data.states )
+							states.push( event.data.states[ s ] );
+
+						// Maybe a little bit shorter?
+						if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_ON ) )
+							this.setState( CKEDITOR.TRISTATE_ON );
+						else if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_OFF ) )
+							this.setState( CKEDITOR.TRISTATE_OFF );
+						else
+							this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}, this, null, 20 );
+
+					// Initialization. Save bookmarks and mark event as not handled
+					// by any plugin (command) yet.
+					this.on( 'exec', function( event ) {
+						selection = editor.getSelection();
+						bookmarks = selection.createBookmarks( 1 );
+
+						// Mark execution as not handled yet.
+						if ( !event.data )
+							event.data = {};
+
+						event.data.done = false;
+					}, this, null, 0 );
+
+					// Housekeeping. Make sure selectionChange will be called.
+					// Also re-select previously saved bookmarks.
+					this.on( 'exec', function( event ) {
+						editor.forceNextSelectionCheck();
+						selection.selectBookmarks( bookmarks );
+					}, this, null, 20 );
+				}
 			}
-		};
+		}),
 
-		// #10192: Either blocks intendation or lists are required - acitvate
-		// indent commands in both situations. Lists are sufficient, because
-		// indent is needed for leaving list with enter key.
-		this.requiredContent = [
-			'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' ),
-			'li'
-		];
-	}
+		/**
+		 * A base class for specific indentation command definitions responsible for
+		 * handling a limited set of elements i.e. indentlist or indentblock.
+		 *
+		 * Commands of this class perform real indentation and modify DOM structure.
+		 * They observe events fired by {@link CKEDITOR.plugins.indent.indentCommand}
+		 * and perform defined actions.
+		 *
+		 * @class CKEDITOR.plugins.indent.indentSomeCommand
+		 * @param {CKEDITOR.editor} editor The editor instance this command will be
+ 		 * related to.
+		 * @param {String} name Name of the command.
+		 */
+		indentSomeCommand: CKEDITOR.tools.createClass({
+			$: function( editor, name ) {
+				this.name = name;
+				this.editor = editor;
+				this.isIndent = !!~this.name.indexOf( 'indent' );
+				this.execPriority = 10;
+				this.setupIndentClasses();
+			},
 
-	// Returns the CSS property to be used for identing a given element.
-	function getIndentCssProperty( element, dir ) {
-		return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
-	}
+			proto: {
+				context: 'p',
 
-	function isListItem( node ) {
-		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
-	}
+				/**
+				 * Stores created markers for all command instances so they can eventually be
+				 * purged once command is done.
+				 */
+				database: {},
 
-	indentCommand.prototype = {
-		// It applies to a "block-like" context.
-		context: 'p',
+				/**
+				 * Stores names of nodes handled by all content-specific command
+				 * instances in form of object literal. This information is used
+				 * by `indentblock` plugin.
+				 */
+				handledNodeNames: {},
 
-		refresh: function( editor, path ) {
-			var list = path && path.contains( listNodeNames ),
-				firstBlock = path.block || path.blockLimit;
+				/**
+				 * Registers new handled content shared with other command instances
+				 * into {@link CKEDITOR.plugins.indent.indentSomeCommand#property-handledNodeNames}.
+				 *
+				 *		// Register `ul` in handledNodeNames
+				 *		command.addHandledContent( { ul: 1 } );
+				 *
+				 * @param {Object} def Object containing element names.
+				 */
+				addHandledContent: function( def ) {
+					CKEDITOR.tools.extend( this.handledNodeNames, def );
+				},
 
-			if ( list )
-				this.setState( CKEDITOR.TRISTATE_OFF );
+				/**
+				 * Generic indentation procedure for any element shared across
+				 * content-specific indentation commands.
+				 *
+				 *		// Indent element of id equal foo
+				 *		var element = CKEDITOR.document.getById( 'foo' );
+				 *		command.indentElement( element );
+				 *
+				 * @param {CKEDITOR.dom.element} element An element to be indented.
+				 * @param {String} [dir] Element direction.
+				 * @returns {Boolean}
+				 */
+				indentElement: function( element, dir ) {
+					if ( element.getCustomData( 'indent_processed' ) )
+						return false;
 
-			else if ( !this.useIndentClasses && this.name == 'indent' )
-				this.setState( CKEDITOR.TRISTATE_OFF );
+					var editor = this.editor;
 
-			else if ( !firstBlock )
-				this.setState( CKEDITOR.TRISTATE_DISABLED );
-
-			else if ( this.useIndentClasses ) {
-				var indentClass = firstBlock.$.className.match( this.classNameRegex ),
-					indentStep = 0;
-
-				if ( indentClass ) {
-					indentClass = indentClass[ 1 ];
-					indentStep = this.indentClassMap[ indentClass ];
-				}
-
-				if ( ( this.name == 'outdent' && !indentStep ) || ( this.name == 'indent' && indentStep == editor.config.indentClasses.length ) )
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
-				else
-					this.setState( CKEDITOR.TRISTATE_OFF );
-			} else {
-				var indent = parseInt( firstBlock.getStyle( getIndentCssProperty( firstBlock ) ), 10 );
-				if ( isNaN( indent ) )
-					indent = 0;
-				if ( indent <= 0 )
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
-				else
-					this.setState( CKEDITOR.TRISTATE_OFF );
-			}
-		},
-		exec: function( editor ) {
-			var self = this,
-				database = {};
-
-			function indentList( listNode ) {
-				// Our starting and ending points of the range might be inside some blocks under a list item...
-				// So before playing with the iterator, we need to expand the block to include the list items.
-				var startContainer = range.startContainer,
-					endContainer = range.endContainer;
-				while ( startContainer && !startContainer.getParent().equals( listNode ) )
-					startContainer = startContainer.getParent();
-				while ( endContainer && !endContainer.getParent().equals( listNode ) )
-					endContainer = endContainer.getParent();
-
-				if ( !startContainer || !endContainer )
-					return;
-
-				// Now we can iterate over the individual items on the same tree depth.
-				var block = startContainer,
-					itemsToMove = [],
-					stopFlag = false;
-				while ( !stopFlag ) {
-					if ( block.equals( endContainer ) )
-						stopFlag = true;
-					itemsToMove.push( block );
-					block = block.getNext();
-				}
-				if ( itemsToMove.length < 1 )
-					return;
-
-				// Do indent or outdent operations on the array model of the list, not the
-				// list's DOM tree itself. The array model demands that it knows as much as
-				// possible about the surrounding lists, we need to feed it the further
-				// ancestor node that is still a list.
-				var listParents = listNode.getParents( true );
-				for ( var i = 0; i < listParents.length; i++ ) {
-					if ( listParents[ i ].getName && listNodeNames[ listParents[ i ].getName() ] ) {
-						listNode = listParents[ i ];
-						break;
-					}
-				}
-				var indentOffset = self.name == 'indent' ? 1 : -1,
-					startItem = itemsToMove[ 0 ],
-					lastItem = itemsToMove[ itemsToMove.length - 1 ];
-
-				// Convert the list DOM tree into a one dimensional array.
-				var listArray = CKEDITOR.plugins.list.listToArray( listNode, database );
-
-				// Apply indenting or outdenting on the array.
-				var baseIndent = listArray[ lastItem.getCustomData( 'listarray_index' ) ].indent;
-				for ( i = startItem.getCustomData( 'listarray_index' ); i <= lastItem.getCustomData( 'listarray_index' ); i++ ) {
-					listArray[ i ].indent += indentOffset;
-					// Make sure the newly created sublist get a brand-new element of the same type. (#5372)
-					if ( indentOffset > 0 ) {
-						var listRoot = listArray[ i ].parent;
-						listArray[ i ].parent = new CKEDITOR.dom.element( listRoot.getName(), listRoot.getDocument() );
-					}
-				}
-
-				for ( i = lastItem.getCustomData( 'listarray_index' ) + 1;
-				i < listArray.length && listArray[ i ].indent > baseIndent; i++ )
-					listArray[ i ].indent += indentOffset;
-
-				// Convert the array back to a DOM forest (yes we might have a few subtrees now).
-				// And replace the old list with the new forest.
-				var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, listNode.getDirection() );
-
-				// Avoid nested <li> after outdent even they're visually same,
-				// recording them for later refactoring.(#3982)
-				if ( self.name == 'outdent' ) {
-					var parentLiElement;
-					if ( ( parentLiElement = listNode.getParent() ) && parentLiElement.is( 'li' ) ) {
-						var children = newList.listNode.getChildren(),
-							pendingLis = [],
-							count = children.count(),
-							child;
-
-						for ( i = count - 1; i >= 0; i-- ) {
-							if ( ( child = children.getItem( i ) ) && child.is && child.is( 'li' ) )
-								pendingLis.push( child );
-						}
-					}
-				}
-
-				if ( newList )
-					newList.listNode.replace( listNode );
-
-				// Move the nested <li> to be appeared after the parent.
-				if ( pendingLis && pendingLis.length ) {
-					for ( i = 0; i < pendingLis.length; i++ ) {
-						var li = pendingLis[ i ],
-							followingList = li;
-
-						// Nest preceding <ul>/<ol> inside current <li> if any.
-						while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in listNodeNames ) {
-							// IE requires a filler NBSP for nested list inside empty list item,
-							// otherwise the list item will be inaccessiable. (#4476)
-							if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
-								return isNotWhitespaces( node ) && isNotBookmark( node );
-							}))
-								li.append( range.document.createText( '\u00a0' ) );
-
-							li.append( followingList );
+					if ( this.useIndentClasses ) {
+						// Transform current class f to indent step index.
+						var indentClass = element.$.className.match( this.classNameRegex ),
+							indentStep = 0;
+						if ( indentClass ) {
+							indentClass = indentClass[ 1 ];
+							indentStep = this.indentClassMap[ indentClass ];
 						}
 
-						li.insertAfter( parentLiElement );
+						// Operate on indent step index, transform indent step index back to class
+						// name.
+						if ( !this.isIndent )
+							indentStep--;
+						else
+							indentStep++;
+
+						if ( indentStep < 0 )
+							return false;
+
+						indentStep = Math.min( indentStep, this.indentClasses.length );
+						indentStep = Math.max( indentStep, 0 );
+						element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( this.classNameRegex, '' ) );
+
+						if ( indentStep > 0 )
+							element.addClass( this.indentClasses[ indentStep - 1 ] );
+					} else {
+						var indentCssProperty = this.getIndentCssProperty( element, dir ),
+							currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 ),
+							indentOffset = editor.config.indentOffset || 40;
+
+						if ( isNaN( currentOffset ) )
+							currentOffset = 0;
+
+						currentOffset += ( this.isIndent ? 1 : -1 ) * indentOffset;
+
+						if ( currentOffset < 0 )
+							return false;
+
+						currentOffset = Math.max( currentOffset, 0 );
+						currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
+
+						element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
+
+						if ( element.getAttribute( 'style' ) === '' )
+							element.removeAttribute( 'style' );
 					}
-				}
-			}
 
-			function indentBlock() {
-				var iterator = range.createIterator(),
-					enterMode = editor.config.enterMode;
-				iterator.enforceRealBlocks = true;
-				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
-				var block;
-				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
-					indentElement( block );
-			}
+					CKEDITOR.dom.element.setMarker( this.database, element, 'indent_processed', 1 );
 
-			function indentElement( element, dir ) {
-				if ( element.getCustomData( 'indent_processed' ) )
-					return false;
+					return true;
+				},
 
-				if ( self.useIndentClasses ) {
-					// Transform current class name to indent step index.
-					var indentClass = element.$.className.match( self.classNameRegex ),
+				/**
+				 * Method that checks if current indentation level for an element
+				 * reached the limit determined by {@link CKEDITOR.config#indentClasses}.
+				 *
+				 * @param {CKEDITOR.dom.element} node An element to be checked.
+				 * @returns {Boolean}
+				 */
+				checkIndentClassLeft: function( node ) {
+					var indentClass = node.$.className.match( this.classNameRegex ),
+						extraConditions = this.indentClassLeftConditions,
 						indentStep = 0;
+
+					// If node has one of the indentClasses:
+					//		\-> If it holds the topmost indentClass, then
+					//		    no more classes have left.
+					//		\-> If it holds any other indentClass, it can use the next one
+					//		    or the previous one.
+					//		\-> Outdent is always possible. We can remove indentClass.
 					if ( indentClass ) {
 						indentClass = indentClass[ 1 ];
-						indentStep = self.indentClassMap[ indentClass ];
+
+						return this.isIndent ?
+								this.indentClassMap[ indentClass ] != this.indentClasses.length
+							:
+								true;
 					}
 
-					// Operate on indent step index, transform indent step index back to class
-					// name.
-					if ( self.name == 'outdent' )
-						indentStep--;
+					// If node has no class which belongs to indentClasses,
+					// then it is at 0-level. It can be indented but not outdented.
 					else
-						indentStep++;
+						return this.isIndent;
+				},
 
-					if ( indentStep < 0 )
-						return false;
+				/**
+				 * Transfers the information about {@link CKEDITOR.config#indentClasses}
+				 * to the command object so it's easy to access.
+				 */
+				setupIndentClasses: function() {
+					/**
+					 * Determines whether {@link CKEDITOR.config#indentClasses} are in use.
+					 *
+					 * @property {Boolean} useIndentClasses
+					 * @member CKEDITOR.plugins.indent.indentSomeCommand
+					 */
 
-					indentStep = Math.min( indentStep, editor.config.indentClasses.length );
-					indentStep = Math.max( indentStep, 0 );
-					element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( self.classNameRegex, '' ) );
-					if ( indentStep > 0 )
-						element.addClass( editor.config.indentClasses[ indentStep - 1 ] );
-				} else {
-					var indentCssProperty = getIndentCssProperty( element, dir ),
-						currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 );
-					if ( isNaN( currentOffset ) )
-						currentOffset = 0;
-					var indentOffset = editor.config.indentOffset || 40;
-					currentOffset += ( self.name == 'indent' ? 1 : -1 ) * indentOffset;
+					/**
+					 * A map of {@link CKEDITOR.config#indentClasses} used by indentation
+					 * commands.
+					 *
+					 * @property {Boolean} indentClassMap
+					 * @member CKEDITOR.plugins.indent.indentSomeCommand
+					 */
+					var editor = this.editor;
 
-					if ( currentOffset < 0 )
-						return false;
+					this.indentClasses = editor.config.indentClasses;
 
-					currentOffset = Math.max( currentOffset, 0 );
-					currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
-					element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
-					if ( element.getAttribute( 'style' ) === '' )
-						element.removeAttribute( 'style' );
-				}
+					if ( ( this.useIndentClasses = this.indentClasses && this.indentClasses.length > 0 ) ) {
+						this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
+						this.indentClassMap = {};
 
-				CKEDITOR.dom.element.setMarker( database, element, 'indent_processed', 1 );
-				return true;
-			}
-
-			var selection = editor.getSelection(),
-				bookmarks = selection.createBookmarks( 1 ),
-				ranges = selection && selection.getRanges( 1 ),
-				range;
-
-
-			var iterator = ranges.createIterator();
-			while ( ( range = iterator.getNextRange() ) ) {
-				var rangeRoot = range.getCommonAncestor(),
-					nearestListBlock = rangeRoot;
-
-				while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ nearestListBlock.getName() ] ) )
-					nearestListBlock = nearestListBlock.getParent();
-
-				// Avoid having selection enclose the entire list. (#6138)
-				// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
-				if ( !nearestListBlock ) {
-					var selectedNode = range.getEnclosedNode();
-					if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in listNodeNames ) {
-						range.setStartAt( selectedNode, CKEDITOR.POSITION_AFTER_START );
-						range.setEndAt( selectedNode, CKEDITOR.POSITION_BEFORE_END );
-						nearestListBlock = selectedNode;
+						for ( var i = 0; i < editor.config.indentClasses.length; i++ )
+							this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
 					}
+				},
+
+				/**
+				 * Determines indent CSS property for an element according to
+				 * what is the direction of such element. It can be either `margin-left`
+				 * or `margin-right`.
+				 *
+				 *		// Get indent CSS property of an element.
+				 *		var element = CKEDITOR.document.getById( 'foo' );
+				 *		command.getIndentCssProperty( element );	// 'margin-left'
+				 *
+				 * @param {CKEDITOR.dom.element} element An element to be checked.
+				 * @param {String} [dir] Element direction.
+				 * @returns {String}
+				 */
+				getIndentCssProperty: function( element, dir ) {
+					return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
 				}
-
-				// Avoid selection anchors under list root.
-				// <ul>[<li>...</li>]</ul> =>	<ul><li>[...]</li></ul>
-				if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in listNodeNames ) {
-					var walker = new CKEDITOR.dom.walker( range );
-					walker.evaluator = isListItem;
-					range.startContainer = walker.next();
-				}
-
-				if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in listNodeNames ) {
-					walker = new CKEDITOR.dom.walker( range );
-					walker.evaluator = isListItem;
-					range.endContainer = walker.previous();
-				}
-
-				if ( nearestListBlock ) {
-					var firstListItem = nearestListBlock.getFirst( isListItem ),
-						hasMultipleItems = !!firstListItem.getNext( isListItem ),
-						rangeStart = range.startContainer,
-						indentWholeList = firstListItem.equals( rangeStart ) || firstListItem.contains( rangeStart );
-
-					// Indent the entire list if cursor is inside the first list item. (#3893)
-					// Only do that for indenting or when using indent classes or when there is something to outdent. (#6141)
-					if ( !( indentWholeList && ( self.name == 'indent' || self.useIndentClasses || parseInt( nearestListBlock.getStyle( getIndentCssProperty( nearestListBlock ) ), 10 ) ) && indentElement( nearestListBlock, !hasMultipleItems && firstListItem.getDirection() ) ) )
-						indentList( nearestListBlock );
-				} else
-					indentBlock();
 			}
+		}),
 
-			// Clean up the markers.
-			CKEDITOR.dom.element.clearAllMarkers( database );
+		/**
+		 * Registers content-specific commands as a part of indentation system
+		 * directed by generic commands. Since a command is registered,
+		 * it observes for events of a related generic command.
+		 *
+		 *		CKEDITOR.plugins.indent.registerIndentCommands( editor, {
+		 *			'indentlist': new indentListCommand( editor, 'indentlist' ),
+		 *			'outdentlist': new indentListCommand( editor, 'outdentlist' )
+		 *		});
+		 *
+		 * @member CKEDITOR.plugins.indent
+		 * @param {CKEDITOR.editor} editor The editor instance this command is
+ 		 * related to.
+		 * @param {Object} commands An object of {@link CKEDITOR.command}.
+		 */
+		registerIndentCommands: function( editor, commands ) {
+			var that = this;
 
-			editor.forceNextSelectionCheck();
-			selection.selectBookmarks( bookmarks );
+			editor.on( 'loaded', function() {
+				for ( var name in commands )
+					that.setupIntentListeners( editor, this.addCommand( name, commands[ name ] ) );
+			});
+		},
+
+		/**
+		 * Registers necessary event listeners for a content-specific command.
+		 *
+		 * Content-specific commands listen on generic command's `exec` and
+		 * try to execute itself, one after another. If some execution is
+		 * successful, `event.data.done` is set so no more commands are involved.
+		 *
+		 * Content-specific commands also listen on generic command's `refresh`
+		 * and fill `event.data.states` object with own states. A generic command
+		 * uses these data to determine own state and update UI.
+		 *
+		 * @member CKEDITOR.plugins.indent
+		 * @param {CKEDITOR.editor} editor The editor instance this command is
+ 		 * related to.
+		 * @param {CKEDITOR.command} command An object of command names and instances.
+		 */
+		setupIntentListeners: function( editor, command ) {
+			// Get generic command associated with this specific command.
+			var related = editor.getCommand( command.isIndent ? 'indent' : 'outdent' );
+
+			// Observe generic exec event and execute command when necessary.
+			// If the command was successfully handled by the command and
+			// DOM has been modified, stop event propagation so no other plugin
+			// will bother. Job is done.
+			related.on( 'exec', function( event ) {
+				if ( event.data.done )
+					return;
+
+				if ( editor.execCommand( command.name ) )
+					event.data.done = true;
+
+				// Clean up the markers.
+				CKEDITOR.dom.element.clearAllMarkers( command.database );
+			}, this, null, command.execPriority );
+
+			// Observe generic refresh event and force command refresh.
+			// Once refreshed, save command state in event data
+			// so generic command plugin can update its own state and UI.
+			related.on( 'refresh', function( event ) {
+				command.refresh( editor, event.data.path );
+
+				if ( !event.data.states )
+					event.data.states = {};
+
+				event.data.states[ command.name ] = command.state;
+			});
+
+			// Since specific indent commands have no UI elements,
+			// they need to be manually registered as a editor feature.
+			// Doing this a this stage.
+			editor.addFeature( command );
 		}
 	};
 
 	CKEDITOR.plugins.add( 'indent', {
-		// TODO: Remove this dependency.
-		requires: 'list',
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'indent,indent-rtl,outdent,outdent-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
-		onLoad: function() {
-			// [IE6/7] Raw lists are using margin instead of padding for visual indentation in wysiwyg mode. (#3893)
-			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
-				CKEDITOR.addCss( ".cke_editable ul," +
-					".cke_editable ol" +
-					"{" +
-					"	margin-left: 0px;" +
-					"	padding-left: 40px;" +
-					"}" );
-			}
-		},
 		init: function( editor ) {
-			if ( editor.blockless )
-				return;
+			var that = this;
 
 			// Register commands.
-			var indent = editor.addCommand( 'indent', new indentCommand( editor, 'indent' ) ),
-				outdent = editor.addCommand( 'outdent', new indentCommand( editor, 'outdent' ) );
-
-			if ( editor.ui.addButton ) {
-				// Register the toolbar buttons.
-				editor.ui.addButton( 'Indent', {
-					label: editor.lang.indent.indent,
-					command: 'indent',
-					directional: true,
-					toolbar: 'indent,20'
-				});
-				editor.ui.addButton( 'Outdent', {
-					label: editor.lang.indent.outdent,
-					command: 'outdent',
-					directional: true,
-					toolbar: 'indent,10'
-				});
-			}
+			editor.addCommand( 'indent', new CKEDITOR.plugins.indent.indentCommand( editor, 'indent' ) ).setupListeners(),
+			editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.indentCommand( editor, 'outdent' ) ).setupListeners();
 
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( e ) {
