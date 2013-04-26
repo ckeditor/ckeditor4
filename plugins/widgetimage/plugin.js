@@ -4,8 +4,20 @@
 
 	CKEDITOR.plugins.add( 'widgetimage', {
 		requires: 'widget,image',
+
 		init: function( editor ) {
 			editor.widgets.add( 'image', {
+				init: function() {
+					var align = this.element.getStyle( 'float' ) || this.parts.image.getStyle( 'float' );
+
+					// Move float style from figure/img to wrapper.
+					this.wrapper.setStyle( 'float', align );
+					this.element.setStyle( 'float', '' );
+					this.parts.image.setStyle( 'float', '' );
+
+					this.parts.image.$.draggable = false;
+				},
+
 				upcasts: {
 					// Upcast images with data-caption attributes.
 					captionedImage: function( el ) {
@@ -41,8 +53,13 @@
 	} );
 
 	function upcastElement( el ) {
-		var figure = el.wrapWith( new CKEDITOR.htmlParser.element( 'figure' ) );
-		figure.add( CKEDITOR.htmlParser.fragment.fromHtml( el.attributes[ 'data-caption' ] || '', 'figcaption' ) );
+		var figure = el.wrapWith( new CKEDITOR.htmlParser.element( 'figure', { 'class': 'caption' } ) ),
+			caption = CKEDITOR.htmlParser.fragment.fromHtml( el.attributes[ 'data-caption' ] || '', 'figcaption' );
+
+		figure.add( caption );
+
+		caption.attributes[ 'data-widget-property' ] = 'caption';
+		el.attributes[ 'data-widget-property' ] = 'image';
 
 		delete el.attributes[ 'data-caption' ];
 		return figure;

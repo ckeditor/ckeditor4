@@ -14,15 +14,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<meta name="ckeditor-sample-description" content="Widget image showcase.">
 	<meta name="ckeditor-sample-isnew" content="1">
 
-	<script>
-
-		CKEDITOR.config.extraPlugins = 'widgetimage';
-		CKEDITOR.config.allowedContent = true;
-		CKEDITOR.config.height = 400;
-		CKEDITOR.disableAutoInline = true;
-
-	</script>
-
 	<style>
 
 		body {
@@ -50,6 +41,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			cursor: auto;
 		}
 
+		figure.caption figcaption {
+			text-align: center;
+		}
+
+		figure.caption {
+			border: solid 1px #ccc;
+			border-radius: 2px;
+			background: rgba(0,0,0,0.05);
+			padding: 10px;
+			margin: 10 20px;
+		}
+
 	</style>
 </head>
 <body>
@@ -70,7 +73,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<p><strong>Apollo 11</strong>&nbsp;was the&nbsp;spaceflight&nbsp;that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a>&nbsp;and&nbsp;<a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the&nbsp;Moon&nbsp;on July 20, 1969, at 14:47:53. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC. Armstrong spent about two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command spacecraft&nbsp;alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 
 		<figure class="caption" data-widget="image" style="float: left">
-			<img alt="Maserati GranTurismo" src="assets/maserati.jpg" data-widget-property="image" width="300" />
+			<img alt="Maserati GranTurismo" src="assets/maserati.jpg" data-widget-property="image" style="width: 300px" />
 			<figcaption data-widget-property="caption">Maserati GranTurismo</figcaption>
 		</figure>
 
@@ -87,7 +90,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<textarea id="editor2" cols="10" rows="10">
 		<h2>Broadcasting and <em>quotes</em></h2>
 
-		<img src="assets/maserati.jpg" alt="Maserati GranTurismo" data-caption="Maserati GranTurismo S MC Sport Line" style="float: right" />
+		<img src="assets/maserati.jpg" alt="Maserati GranTurismo" data-caption="Maserati GranTurismo S MC Sport Line" style="float: right; width: 300px" />
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
@@ -95,7 +98,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
-		<p><img src="assets/audi.jpg" alt="Audi RS5" style="float: left" />Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+		<p><img src="assets/audi.jpg" alt="Audi RS5" style="float: left; width: 300px" />Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
@@ -107,7 +110,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<div id="editor3" contenteditable="true" class="editable">
 		<h2>Broadcasting and <em>quotes</em></h2>
 
-		<img src="assets/maserati.jpg" alt="Maserati GranTurismo" data-caption="Maserati GranTurismo S MC Sport Line" style="float: right" />
+		<img src="assets/maserati.jpg" alt="Maserati GranTurismo" data-caption="Maserati GranTurismo S MC Sport Line" style="float: right; width: 300px" />
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
@@ -115,7 +118,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
-		<p><img src="assets/audi.jpg" alt="Audi RS5" style="float: left" />Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+		<p><img src="assets/audi.jpg" alt="Audi RS5" style="float: left; width: 300px" />Armstrong spent about <strike>three and a half</strike> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)" title="Michael Collins (astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module" title="Apollo Command/Service Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 
 		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
@@ -124,8 +127,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	<script>
 
-		CKEDITOR.replace( 'editor1' );
+		CKEDITOR.disableAutoInline = true;
+
+		CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'widgetimage',
+			allowedContent: true,
+			height: 400,
+			contentsCss: [ '../../../contents.css', 'contents.css' ]
+		} );
+
 		CKEDITOR.replace( 'editor2', {
+			extraPlugins: 'widgetimage',
+			allowedContent: true,
+			height: 400,
+			contentsCss: [ '../../../contents.css', 'contents.css' ],
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' ) {
@@ -135,8 +150,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 		} );
+
 		CKEDITOR.inline( 'editor3', {
 			extraPlugins: 'sourcedialog,widgetimage',
+			allowedContent: true,
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' ) {

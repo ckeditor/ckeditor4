@@ -1,0 +1,11 @@
+figure.caption figcaption {
+	text-align: center;
+}
+
+figure.caption {
+	border: solid 1px #ccc;
+	border-radius: 2px;
+	background: rgba(0,0,0,0.05);
+	padding: 10px;
+	margin: 10 20px;
+}
