@@ -44,7 +44,7 @@
 	function Repository( editor ) {
 		this.editor = editor;
 		this.registered = {};
-		this.instances = [];
+		this.instances = {};
 		this._ = {
 			nextId: 0,
 			upcasts: []
@@ -92,21 +92,19 @@
 		},
 
 		destroy: function( widget, cleanUpElement ) {
-			var index = CKEDITOR.tools.indexOf( this.instances, widget );
-
-			// Remove widget instance.
-			if ( index > -1 )
-				this.instances.splice( index, 1 );
+			delete this.instances[ widget.id ];
 
 			// Destroy it anyway.
 			widget.destroy( cleanUpElement );
 		},
 
 		destroyAll: function( cleanUpElements ) {
-			var widget;
+			var instances = this.instances;
 
-			while ( ( widget = this.instances.pop() ) )
-				widget.destroy( cleanUpElements );
+			for ( var id in instances ) {
+				instances[ id ].destroy( cleanUpElements );
+				delete instances[ id ];
+			}
 		},
 
 		/**
@@ -122,25 +120,10 @@
 
 			var wrapper;
 
-			for ( var i = this.instances.length; i--; ) {
-				wrapper = this.instances[ i ].wrapper;
+			for ( var id in this.instances ) {
+				wrapper = this.instances[ id ].wrapper;
 				if ( wrapper.equals( element ) || wrapper.contains( element ) )
-					return this.instances[ i ];
-			}
-
-			return null;
-		},
-
-		/**
-		 * Gets widget instance by its id.
-		 *
-		 * @param {Number} id
-		 * @returns {CKEDITOR.plugins.widget}
-		 */
-		getById: function( id ) {
-			for ( var i = this.instances.length; i--; ) {
-				if ( this.instances[ i ].id == id )
-					return this.instances[ i ];
+					return this.instances[ id ];
 			}
 
 			return null;
@@ -172,7 +155,7 @@
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
 					var widget = new Widget( this.editor, this._.nextId++, element, widgetDef );
-					this.instances.push( widget );
+					this.instances[ widget.id ] = widget;
 
 					return widget;
 				}
@@ -1210,7 +1193,7 @@
 			elements: {
 				$: function( element ) {
 					if ( 'data-widget-id' in element.attributes ) {
-						var widget = widgetsRepo.getById( element.attributes[ 'data-widget-id' ] );
+						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
 
 						return widget ? CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ] : false;
 					}
