@@ -134,6 +134,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 		} );
 		CKEDITOR.inline( 'editor3', {
+			extraPlugins: 'sourcedialog,widgetimage',
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' )
