@@ -12,6 +12,9 @@
 		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 
+	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
 		init: function( editor ) {
