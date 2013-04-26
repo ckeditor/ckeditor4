@@ -8,14 +8,22 @@
 		init: function( editor ) {
 			editor.widgets.add( 'image', {
 				init: function() {
-					var align = this.element.getStyle( 'float' ) || this.parts.image.getStyle( 'float' );
+					var floatStyle = this.element.getStyle( 'float' ) || this.parts.image.getStyle( 'float' );
 
 					// Move float style from figure/img to wrapper.
-					this.wrapper.setStyle( 'float', align );
+					this.wrapper.setStyle( 'float', floatStyle );
 					this.element.setStyle( 'float', '' );
 					this.parts.image.setStyle( 'float', '' );
 
 					this.parts.image.$.draggable = false;
+				},
+
+				getHtml: function() {
+					var figure = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
+
+					cleanUpImage( figure.getFirst( 'img' ), this );
+
+					return figure.getOuterHtml();
 				},
 
 				upcasts: {
@@ -33,17 +41,14 @@
 				},
 
 				downcasts: {
-					captionedImage: function( el ) {
-						var image = el.getFirst( 'img' ),
-							caption = el.getFirst( 'figcaption' );
+					captionedImage: function( el, widget ) {
+						var image = el.getFirst( 'img' );
 
 						// If for some reasons image disappeared, remove this widget.
 						if ( !image )
 							return false;
 
-						// Something could happen that caption was removed. However,
-						// this was a widget, so it still should be.
-						image.attributes[ 'data-caption' ] = caption ? caption.getHtml() : '';
+						cleanUpImage( image, widget, true );
 
 						return image;
 					}
@@ -63,6 +68,28 @@
 
 		delete el.attributes[ 'data-caption' ];
 		return figure;
+	}
+
+	function cleanUpImage( image, widget, toImage ) {
+		var attrs = image.attributes;
+
+		// Something could happen that caption was removed. However,
+		// this was a widget, so it still should be.
+		if ( toImage ) {
+			var caption = image.parent.getFirst( 'figcaption' );
+			attrs[ 'data-caption' ] = caption ? caption.getHtml() : '';
+
+			delete attrs[ 'data-widget-property' ];
+		}
+
+		delete attrs[ 'draggable' ];
+
+		var floatStyle = widget.wrapper.getStyle( 'float' );
+		if ( floatStyle ) {
+			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
+			styles.float = floatStyle;
+			attrs.style = CKEDITOR.tools.writeCssText( styles );
+		}
 	}
 
 })();

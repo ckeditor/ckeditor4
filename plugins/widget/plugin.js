@@ -1200,7 +1200,7 @@
 
 						if ( widget ) {
 							return widget._.downcastFn ?
-								widget._.downcastFn( element.getFirst( isWidgetElement ) ) :
+								widget._.downcastFn( element.getFirst( isWidgetElement ), widget ) :
 								CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ];
 						}
 

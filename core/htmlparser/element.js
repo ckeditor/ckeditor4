@@ -377,6 +377,18 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 			this.writeChildrenHtml( writer );
 			return writer.getHtml();
+		},
+
+		/**
+		 * Gets this element's outer HTML.
+		 *
+		 * @since 4.2
+		 * @returns {String}
+		 */
+		getOuterHtml: function() {
+			var writer = new CKEDITOR.htmlParser.basicWriter();
+			this.writeHtml( writer );
+			return writer.getHtml();
 		}
 	} );
 
