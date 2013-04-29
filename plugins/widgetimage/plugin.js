@@ -17,15 +17,9 @@
 
 					this.parts.image.$.draggable = false;
 
-					// Add listener with priority 9, to set data before default listener.
-					this.on( 'getHtml', function( evt ) {
-						var figure = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
-
-						cleanUpImage( figure.getFirst( 'img' ), this );
-						delete figure.attributes[ 'data-widget-data' ];
-
-						evt.data = figure.getOuterHtml();
-					}, null, null, 9 );
+					this.on( 'getOutput', function( evt ) {
+						cleanUpImage( evt.data.getFirst( 'img' ), this );
+					} );
 				},
 
 				upcasts: {

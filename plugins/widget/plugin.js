@@ -403,12 +403,23 @@
 		*/
 
 		/**
-		 * Gets widget's output HTML.
+		 * Gets widget's output element.
 		 *
-		 * @returns {String}
+		 * @param {CKEDITOR.htmlParser.element} [element] Widget element
+		 * which may be returned as output after being cleaned up.
+		 * @returns {CKEDITOR.htmlParser.element}
 		 */
-		getHtml: function() {
-			return this.fire( 'getHtml' );
+		getOutput: function( element ) {
+			if ( this.template )
+				element = CKEDITOR.htmlParser.fragment.fromHtml( this.template.output( this.data ) ).children[ 0 ];
+			else {
+				if ( !element )
+					element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
+
+				delete element.attributes[ 'data-widget-data' ];
+			}
+
+			return this.fire( 'getOutput', element );
 		},
 
 		/**
@@ -1244,9 +1255,10 @@
 						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
 
 						if ( widget ) {
+							var widgetElement = element.getFirst( isWidgetElement );
 							return widget._.downcastFn ?
-								widget._.downcastFn( element.getFirst( isWidgetElement ), widget ) :
-								CKEDITOR.htmlParser.fragment.fromHtml( widget.getHtml() ).children[ 0 ];
+								widget._.downcastFn( widgetElement, widget ) :
+								widget.getOutput( widgetElement );
 						}
 
 						return false;
@@ -1343,19 +1355,6 @@
 		// this.setupPasted();
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
-
-		widget.on( 'getHtml', function( evt ) {
-			// Do not overwrite already set HTML.
-			if ( typeof evt.data == 'undefined' ) {
-				if ( this.template )
-					evt.data = this.template.output( this.data );
-				else {
-					var el = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
-					delete el.attributes[ 'data-widget-data' ];
-					evt.data = el.getOuterHtml();
-				}
-			}
-		} );
 	}
 
 	function setUpWidgetData( widget, widgetDefData ) {
@@ -1390,13 +1389,10 @@
 })();
 
 /**
- * Event fired before {@link #method-getHtml} method returns data.
- * It allows additional modifications to the returned value.
+ * Event fired before {@link #method-getOutput} method returns data.
+ * It allows additional modifications to the returned element.
  *
- * Note: if data is set in listener with lower priority than 10,
- * then the default listener will not overwrite this data.
- *
- * @event getHtml
+ * @event getOutput
  * @member CKEDITOR.plugins.widget
- * @param {String} data The HTML that will be returned.
+ * @param {CKEDITOR.htmlParser.element} element The element that will be returned.
  */
