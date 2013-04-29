@@ -16,14 +16,15 @@
 					this.parts.image.setStyle( 'float', '' );
 
 					this.parts.image.$.draggable = false;
-				},
 
-				getHtml: function() {
-					var figure = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
+					// Add listener with priority 9, to set data before default listener.
+					this.on( 'getHtml', function( evt ) {
+						var figure = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
 
-					cleanUpImage( figure.getFirst( 'img' ), this );
+						cleanUpImage( figure.getFirst( 'img' ), this );
 
-					return figure.getOuterHtml();
+						evt.data = figure.getOuterHtml();
+					}, this, null, 9 );
 				},
 
 				upcasts: {
