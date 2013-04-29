@@ -3,6 +3,8 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1.2
 
+* [#10389] (http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
+
 ## CKEditor 4.1.1
 
 * Added new translation: Albanian.
