@@ -22,9 +22,10 @@
 						var figure = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
 
 						cleanUpImage( figure.getFirst( 'img' ), this );
+						delete figure.attributes[ 'data-widget-data' ];
 
 						evt.data = figure.getOuterHtml();
-					}, this, null, 9 );
+					}, null, null, 9 );
 				},
 
 				upcasts: {

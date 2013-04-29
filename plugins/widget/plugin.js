@@ -40,6 +40,7 @@
 
 	/**
 	 * @class CKEDITOR.plugins.widget.repository
+	 * @mixins CKEDITOR.event
 	 */
 	function Repository( editor ) {
 		this.editor = editor;
@@ -254,6 +255,7 @@
 
 	/**
 	 * @class CKEDITOR.plugins.widget
+	 * @mixins CKEDITOR.event
 	 */
 	function Widget( editor, id, element, widgetDef ) {
 		// Extend this widget with widgetDef-specific
@@ -262,7 +264,11 @@
 			editor: editor,
 			id: id,
 			element: element,
-			parts: findParts( element )
+			parts: findParts( element ),
+			// Set default data.
+			data: CKEDITOR.tools.extend( {}, widgetDef.defaults ),
+			// WAAARNING: Clone widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
+			_: CKEDITOR.tools.extend( {}, widgetDef._ )
 		}, true );
 
 		// Lock snapshot during making changed to DOM.
@@ -272,7 +278,7 @@
 
 		this.init && this.init();
 
-		this.updateData();
+		setUpWidgetData( this );
 
 		// Finally mark widget as inited.
 		this.wrapper.setAttribute( 'data-widget-wrapper-inited', 1 );
@@ -287,8 +293,48 @@
 	}
 
 	Widget.prototype = {
-		updateData: function() {
-			// By default do nothing.
+		/**
+		 * Sets widget value(s) in {@link #propeorty-data} object.
+		 * If given value(s) modifies current ones {@link #event-data} event is fired.
+		 *
+		 *		this.setData( 'align', 'left' );
+		 *		this.data.align; // -> 'left'
+		 *
+		 *		this.setData( { align: 'right', opened: false } );
+		 *		this.data.align; // -> 'right'
+		 *		this.data.opened; // -> false
+		 *
+		 * Set values are stored in {@link #element}'s attribute (`data-widget-data`),
+		 * in JSON string, so therefore {@link #property-data} should contain
+		 * only serializable data.
+		 *
+		 * @param {String/Object} keyOrData
+		 * @param {Object} value
+		 */
+		setData: function( key, value ) {
+			var data = this.data,
+				modified = 0;
+
+			if ( typeof key == 'string' ) {
+				if ( data[ key ] !== value ) {
+					data[ key ] = value;
+					modified = 1;
+				}
+			}
+			else {
+				var newData = key;
+
+				for ( key in newData ) {
+					if ( data[ key ] !== newData[ key ] ) {
+						modified = 1;
+						data[ key ] = newData[ key ];
+					}
+				}
+			}
+			if ( modified ) {
+				writeDataToElement( this );
+				this.fire( 'data', data );
+			}
 		},
 
 		/* TMP
@@ -312,6 +358,8 @@
 					editor.focusManager.remove( this.editables[ name ] );
 			}
 			editor.focusManager.remove( this.wrapper );
+
+			this.element.removeAttribute( 'data-widget-data' );
 
 			if ( cleanUpElement )
 				this.element.replace( this.wrapper );
@@ -1299,14 +1347,26 @@
 		widget.on( 'getHtml', function( evt ) {
 			// Do not overwrite already set HTML.
 			if ( typeof evt.data == 'undefined' ) {
-				if ( this.template ) {
-					this.updateData();
+				if ( this.template )
 					evt.data = this.template.output( this.data );
+				else {
+					var el = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
+					delete el.attributes[ 'data-widget-data' ];
+					evt.data = el.getOuterHtml();
 				}
-				else
-					evt.data = this.element.getOuterHtml();
 			}
 		} );
+	}
+
+	function setUpWidgetData( widget, widgetDefData ) {
+		var widgetDataAttr = widget.element.data( 'widget-data' );
+
+		if ( widgetDataAttr )
+			widget.setData( JSON.parse( widgetDataAttr ) );
+
+		// Write data to element because this could not be done, because
+		// there either was no data attribute or it was empty/equal to defaults.
+		writeDataToElement( widget );
 	}
 
 	function setUpWrapper( widget ) {
@@ -1315,6 +1375,10 @@
 		wrapper.setAttribute( 'data-widget-id', widget.id );
 
 		widget.editor.focusManager.add( wrapper );
+	}
+
+	function writeDataToElement( widget ) {
+		widget.element.data( 'widget-data', JSON.stringify( widget.data ) );
 	}
 
 	//
