@@ -1775,12 +1775,12 @@
 		 */
 		matchesStyle: elementMatchesStyle,
 
-		/*
+		/**
 		 * Transforms element to given form.
 		 *
 		 * Form may be a:
 		 *
-		 * 	* {@link CKEDITOR.style},
+		 *	* {@link CKEDITOR.style},
 		 *	* string &ndash; the new name of an element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} el
