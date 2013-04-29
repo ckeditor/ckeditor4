@@ -131,6 +131,16 @@
 			this.replaceWith( wrapper );
 			wrapper.add( this );
 			return wrapper;
+		},
+
+		/**
+		 * Gets this node's index in its parent's children array.
+		 *
+		 * @since 4.2
+		 * @returns {Number}
+		 */
+		getIndex: function() {
+			return CKEDITOR.tools.indexOf( this.parent.children, this );
 		}
 	};
 })();

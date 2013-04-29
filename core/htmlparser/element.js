@@ -389,6 +389,33 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			var writer = new CKEDITOR.htmlParser.basicWriter();
 			this.writeHtml( writer );
 			return writer.getHtml();
+		},
+
+		/**
+		 * Splits this element at given index.
+		 *
+		 * @param {Number} index Index at which element will be split &ndash; `0` means beginning,
+		 * `1` after first child node, etc.
+		 * @returns {CKEDITOR.htmlParser.element} New element, following this one.
+		 */
+		split: function( index ) {
+			var cloneChildren = this.children.splice( index, this.children.length - index ),
+				clone = this.clone();
+
+			for ( var i = 0; i < cloneChildren.length; ++i )
+				cloneChildren[ i ].parent = clone;
+
+			clone.children = cloneChildren;
+
+			if ( cloneChildren[ 0 ] )
+				cloneChildren[ 0 ].previous = null;
+
+			if ( index > 0 )
+				this.children[ index - 1 ].next = null;
+
+			this.parent.add( clone, this.getIndex() + 1 );
+
+			return clone;
 		}
 	} );
 
