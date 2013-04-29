@@ -360,12 +360,7 @@
 		 * @returns {String}
 		 */
 		getHtml: function() {
-			if ( this.template ) {
-				this.updateData();
-				return this.template.output( this.data );
-			}
-			else
-				return this.element.getOuterHtml();
+			return this.fire( 'getHtml' );
 		},
 
 		/**
@@ -477,6 +472,8 @@
 		}
 		*/
 	};
+
+	CKEDITOR.event.implementOn( Widget.prototype );
 
 	/*
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
@@ -1298,6 +1295,18 @@
 		// this.setupPasted();
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
+
+		widget.on( 'getHtml', function( evt ) {
+			// Do not overwrite already set HTML.
+			if ( typeof evt.data == 'undefined' ) {
+				if ( this.template ) {
+					this.updateData();
+					evt.data = this.template.output( this.data );
+				}
+				else
+					evt.data = this.element.getOuterHtml();
+			}
+		} );
 	}
 
 	function setUpWrapper( widget ) {
@@ -1315,3 +1324,15 @@
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 })();
+
+/**
+ * Event fired before {@link #method-getHtml} method returns data.
+ * It allows additional modifications to the returned value.
+ *
+ * Note: if data is set in listener with lower priority than 10,
+ * then the default listener will not overwrite this data.
+ *
+ * @event getHtml
+ * @member CKEDITOR.plugins.widget
+ * @param {String} data The HTML that will be returned.
+ */
