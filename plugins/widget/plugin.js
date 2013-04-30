@@ -205,6 +205,9 @@
 		/**
 		 * Wraps element with a widget container.
 		 *
+		 * If this method is called on {@link CKEDITOR.htmlParser.element}, then it will
+		 * also take care of fixing DOM after wrapping (wrapper may not be allowed in element's parent).
+		 *
 		 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The widget element to be wrapperd.
 		 * @param {String} [widgetName]
 		 * @returns {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The wrapper element or `null` if
@@ -243,8 +246,15 @@
 					return wrapper;
 
 				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperDef );
-				element.replaceWith( wrapper );
+
+				var parent = element.parent,
+					index = element.getIndex();
+
+				element.remove();
 				wrapper.add( element );
+
+				// Insert wrapper fixing DOM (splitting parents if wrapper is not allowed inside them).
+				insertElement( parent, index, wrapper );
 			}
 
 			return wrapper;
@@ -919,6 +929,45 @@
 			else
 				wrapper.remove();
 		}
+	}
+
+	// Inserts element at given index.
+	// It will check DTD and split ancestor elements up to the first
+	// that can contain this element.
+	//
+	// @param {CKEDITOR.htmlParser.element} parent
+	// @param {Number} index
+	// @param {CKEDITOR.htmlParser.element} element
+	function insertElement( parent, index, element ) {
+		// Do not split doc fragment...
+		if ( parent.type == CKEDITOR.NODE_ELEMENT ) {
+			var parentAllows = CKEDITOR.dtd[ parent.name ];
+			// Parent element is known (included in DTD) and cannot contain
+			// this element.
+			if ( parentAllows && !parentAllows[ element.name ] ) {
+				var parent2 = parent.split( index ),
+					parentParent = parent.parent;
+
+				// Element will now be inserted at right parent's index.
+				index = parent2.getIndex();
+
+				// If left part of split is empty - remove it.
+				if ( !parent.children.length ) {
+					index -= 1;
+					parent.remove();
+				}
+
+				// If right part of split is empty - remove it.
+				if ( !parent2.children.length )
+					parent2.remove();
+
+				// Try inserting as grandpas' children.
+				return insertElement( parentParent, index, element );
+			}
+		}
+
+		// Finally we can add this element.
+		parent.add( element, index );
 	}
 
 	// @param {CKEDITOR.htmlParser.element}
