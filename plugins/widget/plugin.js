@@ -88,9 +88,6 @@
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
-			// Cache choosen fn.
- 			widgetDef._.downcastFn = widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ];
-
 			this.registered[ name ] = widgetDef;
 
 			return widgetDef;
@@ -159,7 +156,7 @@
 				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
-					var widget = new Widget( this.editor, this._.nextId++, element, widgetDef );
+					var widget = new Widget( this, this._.nextId++, element, widgetDef );
 					this.instances[ widget.id ] = widget;
 
 					return widget;
@@ -267,19 +264,65 @@
 	 * @class CKEDITOR.plugins.widget
 	 * @mixins CKEDITOR.event
 	 */
-	function Widget( editor, id, element, widgetDef ) {
+	function Widget( widgetsRepo, id, element, widgetDef ) {
+		var editor = widgetsRepo.editor;
+
 		// Extend this widget with widgetDef-specific
 		// methods and properties.
 		CKEDITOR.tools.extend( this, widgetDef, {
+			/**
+			 * The editor instance.
+			 *
+			 * @readonly
+			 * @property {CKEDITOR.editor}
+			 */
 			editor: editor,
+
+			/**
+			 * This widget's unique (per editor instance) id.
+			 *
+			 * @readonly
+			 * @property {Number}
+			 */
 			id: id,
+
+			/**
+			 * Widget's main element.
+			 *
+			 * @readonly
+			 * @property {CKEDITOR.dom.element}
+			 */
 			element: element,
+
 			parts: findParts( element ),
-			// Set default data.
+
+			/**
+			 * Widget's data object.
+			 *
+			 * Data can only be set by {@link #setData} method.
+			 *
+			 * @readonly
+			 */
 			data: CKEDITOR.tools.extend( {}, widgetDef.defaults ),
-			// WAAARNING: Clone widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
-			_: CKEDITOR.tools.extend( {}, widgetDef._ )
+
+			/**
+			 * Is data ready. Set to `true` when data from all sources
+			 * ({@link CKEDITOR.plugins.widget.definition#defaults}, set
+			 * in {@link #init} method and loaded from widget's element)
+			 * are finally loaded. This is immediately followed by first {@link #event-data}.
+			 *
+			 * @readonly
+			 */
+			dataReady: false,
+
+			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
+			_: {
+				// Cache choosen fn.
+				downcastFn: widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
+			}
 		}, true );
+
+		widgetsRepo.fire( 'instanceCreated', this );
 
 		// Lock snapshot during making changed to DOM.
 		editor.fire( 'lockSnapshot' );
@@ -341,7 +384,9 @@
 					}
 				}
 			}
-			if ( modified ) {
+
+			// Block firing data event and overwriting data element before setUpWidgetData is executed.
+			if ( modified && this.dataReady ) {
 				writeDataToElement( this );
 				this.fire( 'data', data );
 			}
@@ -1406,15 +1451,20 @@
 		widget.wrapper.removeClass( 'cke_widget_new' );
 	}
 
-	function setUpWidgetData( widget, widgetDefData ) {
+	function setUpWidgetData( widget ) {
 		var widgetDataAttr = widget.element.data( 'widget-data' );
 
 		if ( widgetDataAttr )
 			widget.setData( JSON.parse( widgetDataAttr ) );
 
-		// Write data to element because this could not be done, because
-		// there either was no data attribute or it was empty/equal to defaults.
+		// Unblock data and...
+		widget.dataReady = true;
+
+		// Write data to element because this was blocked when data wasn't ready.
 		writeDataToElement( widget );
+
+		// Fire data event first time, because this was blocked when data wasn't ready.
+		widget.fire( 'data', widget.data );
 	}
 
 	function setUpWrapper( widget ) {
@@ -1443,5 +1493,14 @@
  *
  * @event getOutput
  * @member CKEDITOR.plugins.widget
- * @param {CKEDITOR.htmlParser.element} element The element that will be returned.
+ * @param {CKEDITOR.htmlParser.element} data The element that will be returned.
  */
+
+ /**
+  * Event fire when widget instance is created, but before it is fully
+  * initialized.
+  *
+  * @event instanceCreated
+  * @member CKEDITOR.plugins.widget.repository
+  * @Param {CKEDITOR.plugins.widget} data The widget instance.
+  */
