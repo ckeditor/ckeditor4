@@ -50,6 +50,11 @@
 
 						return image;
 					}
+				},
+
+				parts: {
+					image: 'img',
+					caption: 'figcaption'
 				}
 			} );
 		}
@@ -60,9 +65,6 @@
 			caption = CKEDITOR.htmlParser.fragment.fromHtml( el.attributes[ 'data-caption' ] || '', 'figcaption' );
 
 		figure.add( caption );
-
-		caption.attributes[ 'data-widget-property' ] = 'caption';
-		el.attributes[ 'data-widget-property' ] = 'image';
 
 		delete el.attributes[ 'data-caption' ];
 		return figure;
@@ -76,8 +78,6 @@
 		if ( toImage ) {
 			var caption = image.parent.getFirst( 'figcaption' );
 			attrs[ 'data-caption' ] = caption ? caption.getHtml() : '';
-
-			delete attrs[ 'data-widget-property' ];
 		}
 
 		var floatStyle = widget.data.floatStyle;

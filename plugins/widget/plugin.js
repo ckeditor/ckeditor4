@@ -267,8 +267,7 @@
 	function Widget( widgetsRepo, id, element, widgetDef ) {
 		var editor = widgetsRepo.editor;
 
-		// Extend this widget with widgetDef-specific
-		// methods and properties.
+		// Extend this widget with widgetDef-specific methods and properties.
 		CKEDITOR.tools.extend( this, widgetDef, {
 			/**
 			 * The editor instance.
@@ -293,8 +292,6 @@
 			 * @property {CKEDITOR.dom.element}
 			 */
 			element: element,
-
-			parts: findParts( element ),
 
 			/**
 			 * Widget's data object.
@@ -321,6 +318,16 @@
 				downcastFn: widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
 			}
 		}, true );
+
+		/**
+		 * Object of widget's component elements.
+		 *
+		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts}
+		 * one `partName => element` pair is added to this object during
+		 * widget initialization.
+		 *
+		 * @property {Object} parts
+		 */
 
 		widgetsRepo.fire( 'instanceCreated', this );
 
@@ -1367,24 +1374,6 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
-	function findParts( element ) {
-		var parts = {};
-
-		forEachChild( element, function( node ) {
-			if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-property' ) )
-				parts[ node.data( 'widget-property' ) ] = node;
-		} );
-
-		return parts;
-	}
-
-	function forEachChild( element, callback ) {
-		var elements = element.getElementsByTag( '*' );
-
-		for ( var i = 0, l = elements.count(); i < l; ++i )
-			callback( elements.getItem( i ) );
-	}
-
 	// Makes widget editables editable, selectable, etc.
 	// Adds necessary classes, properties, and styles.
 	// Also adds editables to focusmanager.
@@ -1439,8 +1428,27 @@
 		}
 	}
 
+	// Replace parts object containing:
+	// partName => selector pairs
+	// with:
+	// partName => element pairs
+	function setUpParts( widget ) {
+		if ( widget.parts ) {
+			var parts = {},
+				el, partName;
+
+			for ( partName in widget.parts ) {
+				el = widget.element.$.querySelector( widget.parts[ partName ] );
+				el = el ? new CKEDITOR.dom.element( el ) : null;
+				parts[ partName ] = el;
+			}
+			widget.parts = parts;
+		}
+	}
+
 	function setUpWidget( widget ) {
 		setUpWrapper( widget );
+		setUpParts( widget );
 		setUpEditables( widget );
 		setUpMask( widget );
 
