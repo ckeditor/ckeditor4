@@ -588,13 +588,18 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *
 		 * @since 4.1
 		 * @param {Function} callback Function to be executed on every node.
+		 * **Since 4.2** if `callback` returned `false` ancestors of current node will be ignored.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
 		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
 		 */
 		forEach: function( callback, type, skipRoot ) {
 			if ( !skipRoot && ( !type || this.type == type ) )
-				callback( this );
+				var ret = callback( this );
+
+			// Do not filter children if callback returned false.
+			if ( ret === false )
+				return;
 
 			var children = this.children,
 				node,
