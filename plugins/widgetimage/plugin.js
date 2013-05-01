@@ -16,7 +16,7 @@
 					this.setData( 'floatStyle', floatStyle );
 
 					this.on( 'getOutput', function( evt ) {
-						cleanUpImage( evt.data.getFirst( 'img' ), this );
+						downcastWidgetElement( evt.data, this );
 					} );
 
 					this.on( 'data', function() {
@@ -40,15 +40,11 @@
 
 				downcasts: {
 					captionedImage: function( el, widget ) {
-						var image = el.getFirst( 'img' );
+						var img = el.getFirst( 'img' );
 
-						// If for some reason image disappeared, remove this widget.
-						if ( !image )
-							return false;
+						downcastWidgetElement( el, widget, img );
 
-						cleanUpImage( image, widget, true );
-
-						return image;
+						return img;
 					}
 				},
 
@@ -70,16 +66,22 @@
 		return figure;
 	}
 
-	function cleanUpImage( image, widget, toImage ) {
-		var attrs = image.attributes;
+	function downcastWidgetElement( element, widget, downcastTo ) {
+		if ( !downcastTo )
+			downcastTo = element;
 
-		// Something could happen that caption was removed. However,
-		// this was a widget, so it still should be.
-		if ( toImage ) {
-			var caption = image.parent.getFirst( 'figcaption' );
+		var attrs = downcastTo.attributes;
+
+		// Downcasting to image - copy caption's content to data-caption attribute.
+		if ( downcastTo.name == 'img' ) {
+			var caption = element.getFirst( 'figcaption' );
+
+			// Something could happen that caption was removed. However,
+			// this was a widget, so it still should be.
 			attrs[ 'data-caption' ] = caption ? caption.getHtml() : '';
 		}
 
+		// Add float style to the downcasted element.
 		var floatStyle = widget.data.floatStyle;
 		if ( floatStyle ) {
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
