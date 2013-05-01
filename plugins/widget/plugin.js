@@ -227,7 +227,7 @@
 				this.editor.fire( 'lockSnapshot' );
 
 				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
-				wrapper.setAttributes( wrapperDef );
+				wrapper.setAttributes( wrapperAttributes );
 				wrapper.replace( element );
 				element.appendTo( wrapper );
 
@@ -242,7 +242,7 @@
 				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
 					return wrapper;
 
-				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperDef );
+				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperAttributes );
 
 				var parent = element.parent,
 					index = element.getIndex();
@@ -791,7 +791,7 @@
 	// REPOSITORY helpers -----------------------------------------------------
 	//
 
-	var wrapperDef = {
+	var wrapperAttributes = {
 		// tabindex="-1" means that it can receive focus by code.
 		'tabindex': -1,
 		'data-widget-wrapper': 1,
@@ -881,7 +881,7 @@
 							wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' ),
 							instance;
 
-						wrapper.setAttributes( wrapperDef );
+						wrapper.setAttributes( wrapperAttributes );
 						wrapper.append( element );
 
 						editor.insertElement( wrapper );
@@ -1309,9 +1309,9 @@
 				$: function( element ) {
 					if ( 'data-widget' in element.attributes )
 						toBeWrapped.push( element );
-					// Do not trigger upcasting in as many cases as we can, except of checking
-					// whether this element is any ancestor of widget element, which is
-					// heavier than upcasting, so we'll do that later.
+					// Do not trigger upcasting in as many cases as we know we should,
+					// except of checking whether this element is any ancestor of widget element,
+					// what is heavier than upcasting, so we'll do that later.
 					else if ( upcasts.length && !( 'data-widget-wrapper' in element.attributes ) ) {
 						var upcast, upcasted,
 							i = 0,
