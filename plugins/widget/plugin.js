@@ -1296,58 +1296,62 @@
 				snapshotLoaded = 1;
 		} );
 
-		var toBeWrapped = [],
-			upcasts = widgetsRepo._.upcasts;
+		var upcasts = widgetsRepo._.upcasts;
 
-		// We cannot change DOM structure during processing with filter,
-		// so first - cache all elements in data-widget attribute and then,
-		// just after filter has been applied, wrap all widgets.
-		// We could use frag.forEach() in 'toHtml' listener, but it's better to
-		// avoid another loop.
-		editor.dataProcessor.dataFilter.addRules( {
-			elements: {
-				$: function( element ) {
-					if ( 'data-widget' in element.attributes )
+		editor.on( 'toHtml', function( evt ) {
+			var toBeWrapped = [],
+				element;
+
+			evt.data.dataValue.forEach( function( element ) {
+				// Wrapper found - find widget element, add it to be
+				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
+				if ( 'data-widget-wrapper' in element.attributes ) {
+					element = element.getFirst( isWidgetElement );
+
+					if ( element )
 						toBeWrapped.push( element );
-					// Do not trigger upcasting in as many cases as we know we should,
-					// except of checking whether this element is any ancestor of widget element,
-					// what is heavier than upcasting, so we'll do that later.
-					else if ( upcasts.length && !( 'data-widget-wrapper' in element.attributes ) ) {
-						var upcast, upcasted,
-							i = 0,
-							l = upcasts.length;
 
-						for ( ; i < l; ++i ) {
-							upcast = upcasts[ i ];
-							// Check if this element should be upcasted and if yes, then
-							// whether it isn't a descendant of any widget element.
-							if ( ( upcasted = upcast[ 0 ]( element ) ) && !element.getAscendant( isWidgetElement ) ) {
-								// If upcast function returned element, upcast this one.
-								// It can be e.g. a new element wrapping the original one.
-								if ( upcasted instanceof CKEDITOR.htmlParser.element )
-									element = upcasted;
+					// Do not iterate over ancestors.
+					return false;
+				}
+				// Widget element found - add it to be cleaned up (just in case)
+				// and wrapped and stop iterating in this branch.
+				else if ( 'data-widget' in element.attributes ) {
+					toBeWrapped.push( element );
 
-								element.attributes[ 'data-widget' ] = upcast[ 1 ];
-								toBeWrapped.push( element );
-								return;
-							}
+					// Do not iterate over ancestors.
+					return false;
+				}
+				else if ( upcasts.length ) {
+					var upcast, upcasted,
+						i = 0,
+						l = upcasts.length;
+
+					for ( ; i < l; ++i ) {
+						upcast = upcasts[ i ];
+
+						if ( ( upcasted = upcast[ 0 ]( element ) ) ) {
+							// If upcast function returned element, upcast this one.
+							// It can be e.g. a new element wrapping the original one.
+							if ( upcasted instanceof CKEDITOR.htmlParser.element )
+								element = upcasted;
+
+							element.attributes[ 'data-widget' ] = upcast[ 1 ];
+							toBeWrapped.push( element );
+
+							// Do not iterate over ancestors.
+							return false;
 						}
 					}
 				}
-			}
-		} );
+			}, CKEDITOR.NODE_ELEMENT );
 
-		editor.on( 'toHtml', function( evt ) {
-			var el;
-
-			while ( ( el = toBeWrapped.pop() ) ) {
-				// Wrap only if still has parent (hasn't been removed at some point).
-				if ( el.parent ) {
-					cleanUpWidgetElement( el );
-					widgetsRepo.wrapElement( el );
-				}
+			// Clean up and wrap all queued elements.
+			while ( ( element = toBeWrapped.pop() ) ) {
+				cleanUpWidgetElement( element );
+				widgetsRepo.wrapElement( element );
 			}
-		}, null, null, 11 );
+		}, null, null, 10 );
 
 		editor.dataProcessor.htmlFilter.addRules( {
 			elements: {
