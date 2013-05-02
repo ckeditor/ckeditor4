@@ -8,6 +8,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Widget image &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
+	<script src="../../../dev/console/console.js"></script> <!-- %REMOVE_LINE% -->
+	<script src="../../widget/dev/console.js"></script> <!-- %REMOVE_LINE% -->
 	<link href="../../../samples/sample.css" rel="stylesheet">
 	<meta name="ckeditor-sample-name" content="Widget image">
 	<meta name="ckeditor-sample-group" content="Plugins">
@@ -151,6 +153,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			}
 		} );
+
+		// %REMOVE_START%
+
+		CKCONSOLE.create( 'widget', { editor: 'editor1' } );
+		CKCONSOLE.create( 'widget', { editor: 'editor2' } );
+		CKCONSOLE.create( 'widget', { editor: 'editor3' } );
+
+		// %REMOVE_END
 
 	</script>
 
