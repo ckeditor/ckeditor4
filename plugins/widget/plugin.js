@@ -1334,6 +1334,10 @@
 		var editor = widgetsRepo.editor,
 			snapshotLoaded = 0;
 
+		editor.on( 'contentDomUnload', function() {
+			widgetsRepo.destroyAll( true );
+		} );
+
 		editor.on( 'dataReady', function() {
 			// Clean up all widgets loaded from snapshot.
 			if ( snapshotLoaded ) {
@@ -1346,13 +1350,17 @@
 			}
 			snapshotLoaded = 0;
 
+			// Some widgets were destroyed on contentDomUnload,
+			// some on loadSnapshot, but that does not include
+			// e.g. setHtml on inline editor or widgets removed just
+			// before setting data.
 			widgetsRepo.destroyAll( true );
 			widgetsRepo.initOnAll();
 		} );
 
 		editor.on( 'afterPaste', function() {
-			// Init is enough, because inserted widgets were
-			// cleaned up by toHtml.
+			// Init is enough (no clean up needed),
+			// because inserted widgets were cleaned up by toHtml.
 			widgetsRepo.initOnAll();
 		} );
 
@@ -1363,7 +1371,9 @@
 			// heavier cleanUpAllWidgetElements if not needed.
 			if ( ( /data-widget/ ).test( evt.data ) )
 				snapshotLoaded = 1;
-		} );
+
+			widgetsRepo.destroyAll( true );
+		}, null, null, 9 );
 
 		var upcasts = widgetsRepo._.upcasts;
 
