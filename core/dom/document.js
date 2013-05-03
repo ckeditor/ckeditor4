@@ -301,5 +301,35 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 
 		this.$.write( html );
 		this.$.close();
+	},
+
+	/**
+	 * Wrapper for `querySelectorAll`. Returns a list of elements within this document that match
+	 * specified `selector`.
+	 *
+	 * **Note:** not available in IE7.
+	 *
+	 * @since 4.2
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.nodeList}
+	 */
+	find: function( selector ) {
+		return new CKEDITOR.dom.nodeList( this.$.querySelectorAll( selector ) );
+	},
+
+	/**
+	 * Wrapper for `querySelector`. Returns first element within this document that matches
+	 * specified `selector`.
+	 *
+	 * **Note:** not available in IE7.
+	 *
+	 * @since 4.2
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	findOne: function( selector ) {
+		var el = this.$.querySelector( selector );
+
+		return el ? new CKEDITOR.dom.element( el ) : null;
 	}
 });

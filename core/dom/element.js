@@ -1812,7 +1812,31 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		}
 
 		return null;
-	}
+	},
+
+	/**
+	 * Wrapper for `querySelectorAll`. Returns a list of elements within this element that match
+	 * specified `selector`.
+	 *
+	 * **Note:** not available in IE7.
+	 *
+	 * @since 4.2
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.nodeList}
+	 */
+	find: CKEDITOR.dom.document.prototype.find,
+
+	/**
+	 * Wrapper for `querySelector`. Returns first element within this element that matches
+	 * specified `selector`.
+	 *
+	 * **Note:** not available in IE7.
+	 *
+	 * @since 4.2
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	findOne: CKEDITOR.dom.document.prototype.findOne
 });
 
 	var sides = {
