@@ -63,9 +63,17 @@
 		*/
 
 		setUpDataProcessing( this );
+		setUpWidgetsObserver( this );
 	}
 
 	Repository.prototype = {
+		/**
+		 * Minimum delay between widgets checks.
+		 *
+		 * @private
+		 */
+		MIN_CHECK_DELAY: 1000,
+
 		/**
 		 * Adds widget definition to the repository.
 		 *
@@ -93,19 +101,54 @@
 			return widgetDef;
 		},
 
-		destroy: function( widget, cleanUpElement ) {
-			widget.destroy( cleanUpElement );
+		/**
+		 * Checks if all widgets instances are still present in DOM.
+		 * Destroys those which are not.
+		 */
+		checkWidgets: function() {
+			if ( this.editor.mode != 'wysiwyg' )
+				return;
+
+			var toBeDestroyed = [],
+				editable = this.editor.editable(),
+				instances = this.instances,
+				id;
+
+			if ( !editable )
+				return;
+
+			for ( id in instances ) {
+				if ( !editable.contains( instances[ id ].wrapper ) )
+					this.destroy( instances[ id ], true );
+			}
+		},
+
+		/**
+		 * Removes and destroys widget instance.
+		 *
+		 * @param {CKEDITOR.plugins.widget} widget
+		 * @param {Boolean} [offline] Whether widget is offline (detached from DOM tree) -
+		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
+		 */
+		destroy: function( widget, offline ) {
+			widget.destroy( offline );
 			delete this.instances[ widget.id ];
 			this.fire( 'instanceDestroyed', widget );
 		},
 
-		destroyAll: function( cleanUpElements ) {
+		/**
+		 * Removes and destroys all widgets instances.
+		 *
+		 * @param {Boolean} [offline] Whether widgets are offline (detached from DOM tree) -
+		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
+		 */
+		destroyAll: function( offline ) {
 			var instances = this.instances,
 				widget;
 
 			for ( var id in instances ) {
 				widget = instances[ id ]
-				widget.destroy( cleanUpElements );
+				widget.destroy( offline );
 				delete instances[ id ];
 				this.fire( 'instanceDestroyed', widget );
 			}
@@ -420,11 +463,10 @@
 		 *
 		 * This method fires {#event-destroy} event.
 		 *
-		 * @param {Boolean} [cleanUpElement] If `true`, then removes wrapper (reverts wrapping).
-		 * If not set, then it reverts widget to the state before initialization (wrapped, but with `cke_widdget_new`
-		 * class, etc.).
+		 * @param {Boolean} [offline] Whether widget is offline (detached from DOM tree) -
+		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
-		destroy: function( cleanUpElement ) {
+		destroy: function( offline ) {
 			var editor = this.editor;
 
 			this.fire( 'destroy' );
@@ -436,11 +478,8 @@
 			}
 			editor.focusManager.remove( this.wrapper );
 
-			this.element.removeAttribute( 'data-widget-data' );
-
-			if ( cleanUpElement )
-				this.element.replace( this.wrapper );
-			else {
+			if ( !offline ) {
+				this.element.removeAttribute( 'data-widget-data' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
 			}
@@ -1292,7 +1331,7 @@
 			}
 			snapshotLoaded = 0;
 
-			widgetsRepo.destroyAll();
+			widgetsRepo.destroyAll( true );
 			widgetsRepo.initOnAll();
 		} );
 
@@ -1386,6 +1425,46 @@
 				}
 			}
 		} );
+	}
+
+	function setUpWidgetsObserver( widgetsRepo ) {
+		var editor = widgetsRepo.editor,
+			scheduled,
+			lastCheck = 0;
+
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
+			// Schedule check on keyup, but not more often than once per MIN_CHECK_DELAY.
+			editable.attachListener( editable.isInline() ? editable : editor.document, 'keyup', function() {
+				if ( scheduled )
+					return;
+
+				var diff = ( new Date() ).getTime() - lastCheck;
+
+				// If less than MIN_CHECK_DELAY passed after last check,
+				// schedule next for MIN_CHECK_DELAY after previous one.
+				if ( diff < widgetsRepo.MIN_CHECK_DELAY )
+					scheduled = setTimeout( check, widgetsRepo.MIN_CHECK_DELAY - diff );
+				else
+					check();
+			}, null, null, 999 );
+		} );
+
+		editor.on( 'contentDomUnload', function() {
+			if ( scheduled )
+				clearTimeout( scheduled );
+
+			scheduled = lastCheck = 0;
+		} )
+
+		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
+
+		function check() {
+			lastCheck = ( new Date() ).getTime();
+			scheduled = false;
+			widgetsRepo.fire( 'checkWidgets' );
+		}
 	}
 
 

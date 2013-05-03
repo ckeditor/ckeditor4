@@ -24,6 +24,7 @@
 					editor.on( 'selectionChange', logFn( 'selectionChange' ) );
 					editor.widgets.on( 'instanceDestroyed', logFn( 'widget destroyed' ) );
 					editor.widgets.on( 'instanceCreated', logFn( 'widget created' ) );
+					editor.widgets.on( 'checkWidgets', logFn( 'checking widgets...' ) );
 				}
 			}
 		]
