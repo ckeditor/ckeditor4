@@ -94,18 +94,20 @@
 		},
 
 		destroy: function( widget, cleanUpElement ) {
-			delete this.instances[ widget.id ];
-
-			// Destroy it anyway.
 			widget.destroy( cleanUpElement );
+			delete this.instances[ widget.id ];
+			this.fire( 'instanceDestroyed', widget );
 		},
 
 		destroyAll: function( cleanUpElements ) {
-			var instances = this.instances;
+			var instances = this.instances,
+				widget;
 
 			for ( var id in instances ) {
-				instances[ id ].destroy( cleanUpElements );
+				widget = instances[ id ]
+				widget.destroy( cleanUpElements );
 				delete instances[ id ];
+				this.fire( 'instanceDestroyed', widget );
 			}
 		},
 
@@ -411,8 +413,21 @@
 		},
 		*/
 
+		/**
+		 * Destroys this widget instance.
+		 *
+		 * Use {@link CKEDITOR.plugins.widget.repository#destroy} when possible instead of this method.
+		 *
+		 * This method fires {#event-destroy} event.
+		 *
+		 * @param {Boolean} [cleanUpElement] If `true`, then removes wrapper (reverts wrapping).
+		 * If not set, then it reverts widget to the state before initialization (wrapped, but with `cke_widdget_new`
+		 * class, etc.).
+		 */
 		destroy: function( cleanUpElement ) {
 			var editor = this.editor;
+
+			this.fire( 'destroy' );
 
 			// Remove editables from focusmanager.
 			if ( this.editables ) {
@@ -1508,11 +1523,29 @@
  * @param {CKEDITOR.htmlParser.element} data The element that will be returned.
  */
 
- /**
-  * Event fire when widget instance is created, but before it is fully
-  * initialized.
-  *
-  * @event instanceCreated
-  * @member CKEDITOR.plugins.widget.repository
-  * @Param {CKEDITOR.plugins.widget} data The widget instance.
-  */
+/**
+ * Event fired when widget is about to be destroyed, but before it is
+ * fully torn down.
+ *
+ * @event destroy
+ * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fire when widget instance is created, but before it is fully
+ * initialized.
+ *
+ * @event instanceCreated
+ * @member CKEDITOR.plugins.widget.repository
+ * @param {CKEDITOR.plugins.widget} data The widget instance.
+ */
+
+/**
+ * Event fire when widget instance was destroyed.
+ *
+ * See also {@link CKEDITOR.plugins.widget#event-destroy}.
+ *
+ * @event instanceDestroyed
+ * @member CKEDITOR.plugins.widget.repository
+ * @param {CKEDITOR.plugins.widget} data The widget instance.
+ */
