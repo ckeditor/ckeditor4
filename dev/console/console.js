@@ -116,7 +116,7 @@ var CKCONSOLE = (function() {
 
 		editorPanel.append( container );
 
-		var valuesElements = container.getElementsByClass( 'ckconsole_value' ),
+		var valuesElements = container.find( '.ckconsole_value' ),
 			values = {};
 
 		for ( var el, i = 0, l = valuesElements.count(); i < l; ++i ) {
@@ -147,7 +147,7 @@ var CKCONSOLE = (function() {
 
 		editorPanel.append( container );
 
-		var logList = container.getElementsByClass( 'ckconsole_log' ).getItem( 0 );
+		var logList = container.findOne( '.ckconsole_log' );
 
 		editor.on( 'pluginsLoaded', function() {
 			panelDefinition.on( editor, log, logFn );

@@ -1561,8 +1561,7 @@
 				el, partName;
 
 			for ( partName in widget.parts ) {
-				el = widget.element.$.querySelector( widget.parts[ partName ] );
-				el = el ? new CKEDITOR.dom.element( el ) : null;
+				el = widget.element.findOne( widget.parts[ partName ] );
 				parts[ partName ] = el;
 			}
 			widget.parts = parts;
