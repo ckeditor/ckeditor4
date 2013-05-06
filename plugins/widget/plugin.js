@@ -239,7 +239,7 @@
 		 * @returns {CKEDITOR.plugins.widget[]} Array of widget instances which have been initialized.
 		 */
 		initOnAll: function( container ) {
-			var newWidgets = ( container || this.editor.editable() ).getElementsByClass( 'cke_widget_new' ),
+			var newWidgets = ( container || this.editor.editable() ).find( '.cke_widget_new' ),
 				newInstances = [],
 				instance;
 
@@ -249,7 +249,7 @@
 			this.editor.fire( 'lockSnapshot' );
 
 			for ( var i = newWidgets.count(); i--; ) {
-				instance = this.initOn( newWidgets.getItem( i ).getFirst() );
+				instance = this.initOn( newWidgets.getItem( i ).getFirst( isWidgetElement2 ) );
 				if ( instance )
 					newInstances.push( instance );
 			}
@@ -1032,15 +1032,14 @@
 	//
 	// @param {CKEDITOR.dom.element} container
 	function cleanUpAllWidgetElements( widgetsRepo, container ) {
-		// Transform to normal array to avoid dealing with live collection (not available on IE7&8).
-		var wrappers = [].slice.apply( container.getElementsByClass( 'cke_widget_wrapper' ).$ ),
+		var wrappers = container.find( '.cke_widget_wrapper' ),
 			wrapper, element,
 			i = 0,
-			l = wrappers.length;
+			l = wrappers.count();
 
 		for ( ; i < l; ++i ) {
-			wrapper = new CKEDITOR.dom.element( wrappers[ i ] );
-			element = wrapper.getFirst();
+			wrapper = wrappers.getItem( i );
+			element = wrapper.getFirst( isWidgetElement2 );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
@@ -1093,7 +1092,12 @@
 
 	// @param {CKEDITOR.htmlParser.element}
 	function isWidgetElement( element ) {
-		return !!element.attributes[ 'data-widget' ];
+		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
+	}
+
+	// @param {CKEDITOR.dom.element}
+	function isWidgetElement2( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
 	/*
