@@ -39,20 +39,17 @@
 						'ul' + requiredParams,
 						'ol' + requiredParams
 					];
-
-					this.addHandledContent( this.listNodeNames );
 				},
 
 				proto: {
-					listNodeNames: { ol: 1, ul: 1 },
+					// Elements that, if in an elementpath, will be handled by this
+					// command. They restrict the scope of the plugin.
+					indentedContent: { ol: 1, ul: 1 },
 
 					refresh: function( editor, path ) {
 						// console.log( '	\\-> refreshing ', this.name );
 
-						if ( !path )
-							this.setState( CKEDITOR.TRISTATE_DISABLED );
-
-						var list = path.contains( this.listNodeNames );
+						var list = this.getIndentScope( path );
 
 						//	- List in the path
 						//
@@ -88,7 +85,7 @@
 					exec: function( editor ) {
 						var that = this,
 							database = this.database,
-							listNodeNames = this.listNodeNames;
+							indentedContent = this.indentedContent;
 
 						function indentList( listNode ) {
 							// Our starting and ending points of the range might be inside some blocks under a list item...
@@ -125,7 +122,7 @@
 							// ancestor node that is still a list.
 							var listParents = listNode.getParents( true );
 							for ( var i = 0; i < listParents.length; i++ ) {
-								if ( listParents[ i ].getName && listNodeNames[ listParents[ i ].getName() ] ) {
+								if ( listParents[ i ].getName && indentedContent[ listParents[ i ].getName() ] ) {
 									listNode = listParents[ i ];
 									break;
 								}
@@ -184,7 +181,7 @@
 										followingList = li;
 
 									// Nest preceding <ul>/<ol> inside current <li> if any.
-									while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in listNodeNames ) {
+									while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in indentedContent ) {
 										// IE requires a filler NBSP for nested list inside empty list item,
 										// otherwise the list item will be inaccessiable. (#4476)
 										if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
@@ -209,14 +206,14 @@
 							var rangeRoot = range.getCommonAncestor(),
 								nearestListBlock = rangeRoot;
 
-							while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && listNodeNames[ nearestListBlock.getName() ] ) )
+							while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && indentedContent[ nearestListBlock.getName() ] ) )
 								nearestListBlock = nearestListBlock.getParent();
 
 							// Avoid having selection enclose the entire list. (#6138)
 							// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
 							if ( !nearestListBlock ) {
 								var selectedNode = range.getEnclosedNode();
-								if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in listNodeNames ) {
+								if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in indentedContent ) {
 									range.setStartAt( selectedNode, CKEDITOR.POSITION_AFTER_START );
 									range.setEndAt( selectedNode, CKEDITOR.POSITION_BEFORE_END );
 									nearestListBlock = selectedNode;
@@ -225,13 +222,13 @@
 
 							// Avoid selection anchors under list root.
 							// <ul>[<li>...</li>]</ul> =>	<ul><li>[...]</li></ul>
-							if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in listNodeNames ) {
+							if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in indentedContent ) {
 								var walker = new CKEDITOR.dom.walker( range );
 								walker.evaluator = isListItem;
 								range.startContainer = walker.next();
 							}
 
-							if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in listNodeNames ) {
+							if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in indentedContent ) {
 								walker = new CKEDITOR.dom.walker( range );
 								walker.evaluator = isListItem;
 								range.endContainer = walker.previous();

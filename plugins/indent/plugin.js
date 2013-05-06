@@ -145,26 +145,6 @@
 				database: {},
 
 				/**
-				 * Stores names of nodes handled by all content-specific command
-				 * instances in form of object literal. This information is used
-				 * by `indentblock` plugin.
-				 */
-				handledNodeNames: {},
-
-				/**
-				 * Registers new handled content shared with other command instances
-				 * into {@link CKEDITOR.plugins.indent.indentSomeCommand#property-handledNodeNames}.
-				 *
-				 *		// Register `ul` in handledNodeNames
-				 *		command.addHandledContent( { ul: 1 } );
-				 *
-				 * @param {Object} def Object containing element names.
-				 */
-				addHandledContent: function( def ) {
-					CKEDITOR.tools.extend( this.handledNodeNames, def );
-				},
-
-				/**
 				 * Generic indentation procedure for any element shared across
 				 * content-specific indentation commands.
 				 *
@@ -265,6 +245,17 @@
 					// then it is at 0-level. It can be indented but not outdented.
 					else
 						return this.isIndent;
+				},
+
+				/**
+				 * Method that checks if the element path contains an element handled
+				 * by this indentation command.
+				 *
+				 * @param {CKEDITOR.dom.elementPath} node A path to be checked.
+				 * @returns {CKEDITOR.dom.element}
+				 */
+				getIndentScope: function( path ) {
+					return path.contains( this.indentedContent );
 				},
 
 				/**

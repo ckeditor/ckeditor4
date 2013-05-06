@@ -17,36 +17,40 @@
 				$: function( editor, name ) {
 					this.base.apply( this, arguments );
 
-					this.allowedContent = {
-						'div h1 h2 h3 h4 h5 h6 p pre': {
-							// Do not add elements, but only text-align style if element is validated by other rule.
-							propertiesOnly: true,
-							styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
-							classes: this.useIndentClasses ? this.indentClasses : null
-						}
+					this.allowedContent = {};
+					this.allowedContent[ CKEDITOR.tools.objectKeys( this.indentedContent ).join( ' ' ) ] = {
+						// Do not add elements, but only text-align style if element is validated by other rule.
+						propertiesOnly: true,
+						styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
+						classes: this.useIndentClasses ? this.indentClasses : null
 					};
 
 					this.requiredContent = 'p' + ( this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '{margin-left}' );
 
+					// Indent block is a kind of generic indentation. It must
+					// be executed after any other indentation commands.
 					this.execPriority = 15;
 				},
 
 				proto: {
+					// Elements that, if in an elementpath, will be handled by this
+					// command. They restrict the scope of the plugin.
+					indentedContent: { div: 1, dl: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1, pre: 1, table: 1 },
+
 					refresh: function( editor, path ) {
 						// console.log( '	\\-> refreshing ', this.name );
 						var firstBlock = path.block || path.blockLimit;
 
-						//	+ HandledNode in the path
+						//	- IndentedContent in the path
 						//
-						// 		\-> Don't try to indent if the element is handled
-						// 		    by some other, more specific plugin. This will prevent
-						// 		    indentblock from being executed in all possible cases.
-						if ( path.contains( this.handledNodeNames ) )
+						// 		\-> Don't try to indent if the element is out of
+						//		    this plugin's scope.
+						if ( !this.getIndentScope( path ) )
 							this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 						else if ( this.useIndentClasses ) {
-							//	- HandledNode in the path
-							//	+ indentClasses
+							//	+ IndentedContent in the path
+							//	+ IndentClasses
 							//
 							// 		\-> If there are indentation classes, check if reached
 							// 		    the highest level of indentation. If so, disable
@@ -58,7 +62,7 @@
 						}
 
 						else {
-							//	- HandledNode in the path
+							//	+ IndentedContent in the path
 							//	- IndentClasses
 							//	+ Indenting
 							//
@@ -67,7 +71,7 @@
 							if ( this.isIndent )
 								this.setState( CKEDITOR.TRISTATE_OFF );
 
-							//	- HandledNode in the path
+							//	+ IndentedContent in the path
 							//	- IndentClasses
 							//	- Indenting
 							//	- Block in the path
@@ -77,7 +81,7 @@
 							else if ( !firstBlock )
 								this.setState( CKEDITOR.TRISTATE_DISABLED );
 
-							//	- HandledNode in the path
+							//	+ IndentedContent in the path
 							//	- IndentClasses
 							//	- Indenting
 							//	+ Block in path.
@@ -103,7 +107,8 @@
 
 					exec: function( editor ) {
 						var selection = editor.getSelection(),
-							range = selection && selection.getRanges( 1 )[ 0 ];
+							range = selection && selection.getRanges( 1 )[ 0 ],
+							path = editor.elementPath();
 
 						function indentBlock() {
 							var iterator = range.createIterator(),
@@ -118,6 +123,7 @@
 						}
 
 						indentBlock.call( this );
+
 						return true;
 					}
 				}
