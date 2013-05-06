@@ -330,7 +330,7 @@
 			editor.on( 'loaded', function() {
 				for ( var name in commands )
 					that.setupIntentListeners( editor, this.addCommand( name, commands[ name ] ) );
-			});
+			} );
 		},
 
 		/**

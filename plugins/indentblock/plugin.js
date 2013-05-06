@@ -17,12 +17,13 @@
 				$: function( editor, name ) {
 					this.base.apply( this, arguments );
 
-					this.allowedContent = {};
-					this.allowedContent[ CKEDITOR.tools.objectKeys( this.indentedContent ).join( ' ' ) ] = {
-						// Do not add elements, but only text-align style if element is validated by other rule.
-						propertiesOnly: true,
-						styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
-						classes: this.useIndentClasses ? this.indentClasses : null
+					this.allowedContent = {
+						'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
+							// Do not add elements, but only text-align style if element is validated by other rule.
+							propertiesOnly: true,
+							styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
+							classes: this.useIndentClasses ? this.indentClasses : null
+						}
 					};
 
 					this.requiredContent = 'p' + ( this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '{margin-left}' );
@@ -90,9 +91,7 @@
 							//		    We can calculate current indentation level and
 							//			try to increase/decrease it.
 							else {
-								var indent = parseInt(
-											firstBlock.getStyle( this.getIndentCssProperty( firstBlock ) )
-										, 10 );
+								var indent = parseInt( firstBlock.getStyle( this.getIndentCssProperty( firstBlock ) ), 10 );
 
 								if ( isNaN( indent ) )
 									indent = 0;
@@ -131,8 +130,8 @@
 
 			// Register commands.
 			CKEDITOR.plugins.indent.registerIndentCommands( editor, {
-				'indentblock': new indentBlockCommand( editor, 'indentblock' ),
-				'outdentblock': new indentBlockCommand( editor, 'outdentblock' )
+				indentblock: new indentBlockCommand( editor, 'indentblock' ),
+				outdentblock: new indentBlockCommand( editor, 'outdentblock' )
 			});
 		}
 	});

@@ -242,14 +242,12 @@
 
 								// Indent the entire list if cursor is inside the first list item. (#3893)
 								// Only do that for indenting or when using indent classes or when there is something to outdent. (#6141)
-								if ( !indentWholeList || !( that.isIndent || that.useIndentClasses || parseInt( nearestListBlock.getStyle( that.getIndentCssProperty( nearestListBlock ) ), 10 ) ) ) {
+								if ( !indentWholeList || !( that.isIndent || that.useIndentClasses || parseInt( nearestListBlock.getStyle( that.getIndentCssProperty( nearestListBlock ) ), 10 ) ) )
 									indentList( nearestListBlock );
-									return true;
-								} else if ( !this.indentElement( nearestListBlock, !hasMultipleItems && firstListItem.getDirection() ) ) {
+								else if ( !this.indentElement( nearestListBlock, !hasMultipleItems && firstListItem.getDirection() ) )
 									indentList( nearestListBlock );
-									return true;
-								} else
-									return true;
+
+								return true;
 							}
 
 							return false;
@@ -260,8 +258,8 @@
 
 			// Register commands.
 			CKEDITOR.plugins.indent.registerIndentCommands( editor, {
-				'indentlist': new indentListCommand( editor, 'indentlist' ),
-				'outdentlist': new indentListCommand( editor, 'outdentlist' )
+				indentlist: new indentListCommand( editor, 'indentlist' ),
+				outdentlist: new indentListCommand( editor, 'outdentlist' )
 			});
 		}
 	});
