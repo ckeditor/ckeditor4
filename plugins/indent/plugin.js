@@ -17,9 +17,9 @@
 		init: function( editor ) {
 			var that = this;
 
-			// Register commands.
-			editor.addCommand( 'indent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'indent' ) ).setupListeners(),
-			editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'outdent' ) ).setupListeners();
+			// Register generic commands.
+			setupGenericListeners( editor.addCommand( 'indent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'indent' ) ) );
+			setupGenericListeners( editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'outdent' ) ) );
 
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( e ) {
@@ -71,7 +71,8 @@
 		 * Commands of this class do not perform any indentation itself. They
 		 * delegate job to content-specific indentation commands (i.e. indentlist).
 		 *
-		 * @class CKEDITOR.plugins.indent.indentCommand
+		 * @class CKEDITOR.plugins.indent.genericDefinition
+		 * @extends CKEDITOR.command
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
  		 * related to.
 		 * @param {String} name Name of the command.
@@ -97,10 +98,11 @@
 		 * handling a limited set of elements i.e. indentlist or indentblock.
 		 *
 		 * Commands of this class perform real indentation and modify DOM structure.
-		 * They observe events fired by {@link CKEDITOR.plugins.indent.indentCommand}
+		 * They observe events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
 		 * and perform defined actions.
 		 *
-		 * @class CKEDITOR.plugins.indent.indentSomeCommand
+		 * @class CKEDITOR.plugins.indent.specificDefinition
+		 * @extends CKEDITOR.command
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
  		 * related to.
 		 * @param {String} name Name of the command.
@@ -186,75 +188,7 @@
 	CKEDITOR.plugins.indent.genericDefinition.prototype = {
 		context: 'p',
 
-		exec: function() {},
-
-		/**
-		 * Attaches event listeners for this generic command. Since indentation
-		 * system is event-oriented, generic commands communicate with
-		 * content-specific commands using own `exec` and `refresh` events.
-		 *
-		 * Listener priorities are crucial. Different indentation phases
-		 * are executed whit different priorities.
-		 *
-		 * For `exec` event:
-		 *
-		 * * 0: Selection and bookmarks are saved by generic command.
-		 * * 1-19: Content-specific commands try to indent the code by executing
-		 * 	 own {@link CKEDITOR.command#method-exec} methods.
-		 * * 20: Bookmarks are re-selected by generic command.
-		 *
-		 * For `refresh` event:
-		 *
-		 * * <20: Content-specific commands refresh their states according
-		 * 	 to the given path by executing {@link CKEDITOR.command#method-refresh}.
-		 * 	 They save their states in `event.data.states` object passed along.
-		 * 	 with the event.
-		 * * 20: Command state is determined according to what states
-		 * 	 have been returned by content-specific commands (`event.data.states`).
-		 * 	 UI elements are updated at this stage.
-		 */
-		setupListeners: function() {
-			var editor = this.editor,
-				selection, bookmarks;
-
-			// Set the command state according to content-specific
-			// command states.
-			this.on( 'refresh', function( event ) {
-				// If no state comes with event data, disable command.
-				var states = [ CKEDITOR.TRISTATE_DISABLED ];
-
-				for ( var s in event.data.states )
-					states.push( event.data.states[ s ] );
-
-				// Maybe a little bit shorter?
-				if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_ON ) )
-					this.setState( CKEDITOR.TRISTATE_ON );
-				else if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_OFF ) )
-					this.setState( CKEDITOR.TRISTATE_OFF );
-				else
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
-			}, this, null, 20 );
-
-			// Initialization. Save bookmarks and mark event as not handled
-			// by any plugin (command) yet.
-			this.on( 'exec', function( event ) {
-				selection = editor.getSelection();
-				bookmarks = selection.createBookmarks( 1 );
-
-				// Mark execution as not handled yet.
-				if ( !event.data )
-					event.data = {};
-
-				event.data.done = false;
-			}, this, null, 0 );
-
-			// Housekeeping. Make sure selectionChange will be called.
-			// Also re-select previously saved bookmarks.
-			this.on( 'exec', function( event ) {
-				editor.forceNextSelectionCheck();
-				selection.selectBookmarks( bookmarks );
-			}, this, null, 20 );
-		}
+		exec: function() {}
 	};
 
 	CKEDITOR.plugins.indent.specificDefinition.prototype = {
@@ -388,16 +322,18 @@
 			/**
 			 * Determines whether {@link CKEDITOR.config#indentClasses} are in use.
 			 *
+			 * @readonly
 			 * @property {Boolean} useIndentClasses
-			 * @member CKEDITOR.plugins.indent.indentSomeCommand
+			 * @member CKEDITOR.plugins.indent.specificDefinition
 			 */
 
 			/**
 			 * A map of {@link CKEDITOR.config#indentClasses} used by indentation
 			 * commands.
 			 *
+			 * @readonly
 			 * @property {Boolean} indentClassMap
-			 * @member CKEDITOR.plugins.indent.indentSomeCommand
+			 * @member CKEDITOR.plugins.indent.specificDefinition
 			 */
 			var editor = this.editor;
 
@@ -429,6 +365,77 @@
 			return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
 		}
 	};
+
+	/**
+	 * Attaches event listeners for this generic command. Since indentation
+	 * system is event-oriented, generic commands communicate with
+	 * content-specific commands using own `exec` and `refresh` events.
+	 *
+	 * Listener priorities are crucial. Different indentation phases
+	 * are executed whit different priorities.
+	 *
+	 * For `exec` event:
+	 *
+	 * * 0: Selection and bookmarks are saved by generic command.
+	 * * 1-19: Content-specific commands try to indent the code by executing
+	 * 	 own {@link CKEDITOR.command#method-exec} methods.
+	 * * 20: Bookmarks are re-selected by generic command.
+	 *
+	 * For `refresh` event:
+	 *
+	 * * <20: Content-specific commands refresh their states according
+	 * 	 to the given path by executing {@link CKEDITOR.command#method-refresh}.
+	 * 	 They save their states in `event.data.states` object passed along.
+	 * 	 with the event.
+	 * * 20: Command state is determined according to what states
+	 * 	 have been returned by content-specific commands (`event.data.states`).
+	 * 	 UI elements are updated at this stage.
+	 *
+	 * @param {CKEDITOR.command} command Command to be set up.
+	 * @private
+	 */
+	function setupGenericListeners( command ) {
+		var editor = command.editor,
+			selection, bookmarks;
+
+		// Set the command state according to content-specific
+		// command states.
+		command.on( 'refresh', function( event ) {
+			// If no state comes with event data, disable command.
+			var states = [ CKEDITOR.TRISTATE_DISABLED ];
+
+			for ( var s in event.data.states )
+				states.push( event.data.states[ s ] );
+
+			// Maybe a little bit shorter?
+			if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_ON ) )
+				this.setState( CKEDITOR.TRISTATE_ON );
+			else if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_OFF ) )
+				this.setState( CKEDITOR.TRISTATE_OFF );
+			else
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
+		}, command, null, 20 );
+
+		// Initialization. Save bookmarks and mark event as not handled
+		// by any plugin (command) yet.
+		command.on( 'exec', function( event ) {
+			selection = editor.getSelection();
+			bookmarks = selection.createBookmarks( 1 );
+
+			// Mark execution as not handled yet.
+			if ( !event.data )
+				event.data = {};
+
+			event.data.done = false;
+		}, command, null, 0 );
+
+		// Housekeeping. Make sure selectionChange will be called.
+		// Also re-select previously saved bookmarks.
+		command.on( 'exec', function( event ) {
+			editor.forceNextSelectionCheck();
+			selection.selectBookmarks( bookmarks );
+		}, command, null, 20 );
+	}
 })();
 
 /**
