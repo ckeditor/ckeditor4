@@ -8,6 +8,8 @@
  */
 
 (function() {
+	'use strict';
+
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
 		init: function( editor ) {
