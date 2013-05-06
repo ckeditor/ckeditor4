@@ -22,7 +22,7 @@
 				'}' +
 				'.cke_widget_editable:focus,' +
 				'.cke_widget_wrapper:hover .cke_widget_editable:focus,' +
-				'.cke_widget_wrapper:focus' +
+				'.cke_widget_wrapper:focus,' +
 				'.cke_widget_wrapper.cke_widget_selected{' +
 					'outline:2px solid Highlight' +
 				'}'
@@ -79,6 +79,7 @@
 
 		setupDataProcessing( this );
 		setupWidgetsObserver( this );
+		setupSelectionObserver( this );
 	}
 
 	Repository.prototype = {
@@ -174,9 +175,10 @@
 		 * widget's wrapper or any of its children.
 		 *
 		 * @param {CKEDITOR.dom.element} element
+		 * @param {Boolean} [checkWrapperOnly] Check only if `element` equals wrapper.
 		 * @returns {CKEDITOR.plugins.widget} Widget instance or `null`.
 		 */
-		getByElement: function( element ) {
+		getByElement: function( element, checkWrapperOnly ) {
 			if ( !element )
 				return null;
 
@@ -184,7 +186,7 @@
 
 			for ( var id in this.instances ) {
 				wrapper = this.instances[ id ].wrapper;
-				if ( wrapper.equals( element ) || wrapper.contains( element ) )
+				if ( wrapper.equals( element ) || ( !checkWrapperOnly && wrapper.contains( element ) ) )
 					return this.instances[ id ];
 			}
 
@@ -414,62 +416,15 @@
 
 	Widget.prototype = {
 		/**
-		 * Sets widget value(s) in {@link #propeorty-data} object.
-		 * If given value(s) modifies current ones {@link #event-data} event is fired.
+		 * Changes widget's select state. Usually executed automatically after
+		 * widget has been selected by {@link #select} method or selection was moved
+		 * out of widget.
 		 *
-		 *		this.setData( 'align', 'left' );
-		 *		this.data.align; // -> 'left'
-		 *
-		 *		this.setData( { align: 'right', opened: false } );
-		 *		this.data.align; // -> 'right'
-		 *		this.data.opened; // -> false
-		 *
-		 * Set values are stored in {@link #element}'s attribute (`data-widget-data`),
-		 * in JSON string, so therefore {@link #property-data} should contain
-		 * only serializable data.
-		 *
-		 * @param {String/Object} keyOrData
-		 * @param {Object} value
+		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 */
-		setData: function( key, value ) {
-			var data = this.data,
-				modified = 0;
-
-			if ( typeof key == 'string' ) {
-				if ( data[ key ] !== value ) {
-					data[ key ] = value;
-					modified = 1;
-				}
-			}
-			else {
-				var newData = key;
-
-				for ( key in newData ) {
-					if ( data[ key ] !== newData[ key ] ) {
-						modified = 1;
-						data[ key ] = newData[ key ];
-					}
-				}
-			}
-
-			// Block firing data event and overwriting data element before setupWidgetData is executed.
-			if ( modified && this.dataReady ) {
-				writeDataToElement( this );
-				this.fire( 'data', data );
-			}
+		setSelected: function( selected ) {
+			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
 		},
-
-		/* TMP
-		blur: function() {
-			if ( this.editor.widgets.selected == this ) {
-				this.wrapper.removeClass( 'cke_widget_selected' );
-				delete this.editor.widgets.selected;
-				this.element.removeAttribute( 'data-widget-selected' );
-
-				this.editor.widgets.fire( 'widgetBlur', this );
-			}
-		},
-		*/
 
 		/**
 		 * Destroys this widget instance.
@@ -562,6 +517,61 @@
 		isInited: function() {
 			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-inited' ) );
 		},
+
+		/**
+		 * Selects widget.
+		 */
+		select: function() {
+			var sel = this.editor.getSelection();
+			if ( sel )
+				sel.fake( this.wrapper );
+		},
+
+		/**
+		 * Sets widget value(s) in {@link #propeorty-data} object.
+		 * If given value(s) modifies current ones {@link #event-data} event is fired.
+		 *
+		 *		this.setData( 'align', 'left' );
+		 *		this.data.align; // -> 'left'
+		 *
+		 *		this.setData( { align: 'right', opened: false } );
+		 *		this.data.align; // -> 'right'
+		 *		this.data.opened; // -> false
+		 *
+		 * Set values are stored in {@link #element}'s attribute (`data-widget-data`),
+		 * in JSON string, so therefore {@link #property-data} should contain
+		 * only serializable data.
+		 *
+		 * @param {String/Object} keyOrData
+		 * @param {Object} value
+		 */
+		setData: function( key, value ) {
+			var data = this.data,
+				modified = 0;
+
+			if ( typeof key == 'string' ) {
+				if ( data[ key ] !== value ) {
+					data[ key ] = value;
+					modified = 1;
+				}
+			}
+			else {
+				var newData = key;
+
+				for ( key in newData ) {
+					if ( data[ key ] !== newData[ key ] ) {
+						modified = 1;
+						data[ key ] = newData[ key ];
+					}
+				}
+			}
+
+			// Block firing data event and overwriting data element before setupWidgetData is executed.
+			if ( modified && this.dataReady ) {
+				writeDataToElement( this );
+				this.fire( 'data', data );
+			}
+		}
 
 		/* TMP
 		removeBlurListeners: function() {
@@ -1452,6 +1462,21 @@
 						return false;
 					}
 				}
+			}
+		} );
+	}
+
+	function setupSelectionObserver( widgetsRepo ) {
+		widgetsRepo.editor.on( 'selectionChange', function( evt ) {
+			var sel = evt.data.selection,
+				selectedElement = sel.getSelectedElement(),
+				widget;
+
+			if ( selectedElement && ( widget = widgetsRepo.getByElement( selectedElement ) ) ) {
+				widgetsRepo.selected = widget;
+				widgetsRepo.fire( 'widgetSelected', { widget: widget } );
+
+				widget.setSelected( true );
 			}
 		} );
 	}
