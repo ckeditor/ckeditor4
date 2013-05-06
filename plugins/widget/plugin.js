@@ -77,8 +77,8 @@
 		editor.on( 'key', onKey );
 		*/
 
-		setUpDataProcessing( this );
-		setUpWidgetsObserver( this );
+		setupDataProcessing( this );
+		setupWidgetsObserver( this );
 	}
 
 	Repository.prototype = {
@@ -394,11 +394,11 @@
 		// Lock snapshot during making changed to DOM.
 		editor.fire( 'lockSnapshot' );
 
-		setUpWidget( this );
+		setupWidget( this );
 
 		this.init && this.init();
 
-		setUpWidgetData( this );
+		setupWidgetData( this );
 
 		// Finally mark widget as inited.
 		this.wrapper.setAttribute( 'data-widget-wrapper-inited', 1 );
@@ -452,7 +452,7 @@
 				}
 			}
 
-			// Block firing data event and overwriting data element before setUpWidgetData is executed.
+			// Block firing data event and overwriting data element before setupWidgetData is executed.
 			if ( modified && this.dataReady ) {
 				writeDataToElement( this );
 				this.fire( 'data', data );
@@ -1334,7 +1334,7 @@
 	// * toHtml/toDataFormat,
 	// * pasting handling,
 	// * undo/redo handling.
-	function setUpDataProcessing( widgetsRepo ) {
+	function setupDataProcessing( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			snapshotLoaded = 0;
 
@@ -1456,7 +1456,7 @@
 		} );
 	}
 
-	function setUpWidgetsObserver( widgetsRepo ) {
+	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			scheduled,
 			lastCheck = 0;
@@ -1504,7 +1504,7 @@
 	// Makes widget editables editable, selectable, etc.
 	// Adds necessary classes, properties, and styles.
 	// Also adds editables to focusmanager.
-	function setUpEditables( widget ) {
+	function setupEditables( widget ) {
 		if ( !widget.editables )
 			return;
 
@@ -1544,7 +1544,7 @@
 		widget.editables = editables;
 	}
 
-	function setUpMask( widget ) {
+	function setupMask( widget ) {
 		// When initialized for the first time.
 		if ( widget.needsMask ) {
 			var img = CKEDITOR.dom.element.createFromHtml(
@@ -1559,7 +1559,7 @@
 	// partName => selector pairs
 	// with:
 	// partName => element pairs
-	function setUpParts( widget ) {
+	function setupParts( widget ) {
 		if ( widget.parts ) {
 			var parts = {},
 				el, partName;
@@ -1572,11 +1572,11 @@
 		}
 	}
 
-	function setUpWidget( widget ) {
-		setUpWrapper( widget );
-		setUpParts( widget );
-		setUpEditables( widget );
-		setUpMask( widget );
+	function setupWidget( widget ) {
+		setupWrapper( widget );
+		setupParts( widget );
+		setupEditables( widget );
+		setupMask( widget );
 
 		// TODO should be executed on paste/undo/redo only.
 		// this.setupSelected();
@@ -1585,7 +1585,7 @@
 		widget.wrapper.removeClass( 'cke_widget_new' );
 	}
 
-	function setUpWidgetData( widget ) {
+	function setupWidgetData( widget ) {
 		var widgetDataAttr = widget.element.data( 'widget-data' );
 
 		if ( widgetDataAttr )
@@ -1601,7 +1601,7 @@
 		widget.fire( 'data', widget.data );
 	}
 
-	function setUpWrapper( widget ) {
+	function setupWrapper( widget ) {
 		// Retrieve widget wrapper. Assign an id to it.
 		var wrapper = widget.wrapper = widget.element.getParent();
 		wrapper.setAttribute( 'data-widget-id', widget.id );
