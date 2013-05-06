@@ -1803,29 +1803,78 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Wrapper for `querySelectorAll`. Returns a list of elements within this element that match
-	 * specified `selector`.
+	 * Returns list of elements within this element that match specified `selector`.
 	 *
-	 * **Note:** not available in IE7.
+	 * **Notes:**
+	 *
+	 *	* Not available in IE7.
+	 *	* Returned list is not a live collection (like a result of native `querySelectorAll`).
+	 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+	 *
+	 *			HTML:		'<body><div><i>foo</i></div></body>'
+	 *			Native:		div.querySelectorAll( 'body i' ) // ->		[ <i>foo</i> ]
+	 *			Method:		div.find( 'body i' ) // ->					[]
+	 *						div.find( 'i' ) // ->						[ <i>foo</i> ]
 	 *
 	 * @since 4.2
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
-	find: CKEDITOR.dom.document.prototype.find,
+	find: function( selector ) {
+		var removeTmpId = createTmpId( this ),
+			list = new CKEDITOR.dom.nodeList(
+				this.$.querySelectorAll( getContextualizedSelector( this, selector ) )
+			);
+
+		removeTmpId();
+
+		return list;
+	},
 
 	/**
-	 * Wrapper for `querySelector`. Returns first element within this element that matches
-	 * specified `selector`.
+	 * Returns first element within this element that matches specified `selector`.
 	 *
-	 * **Note:** not available in IE7.
+	 * **Notes:**
+	 *
+	 *	* Not available in IE7.
+	 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+	 *
+	 *			HTML:		'<body><div><i>foo</i></div></body>'
+	 *			Native:		div.querySelector( 'body i' ) // ->			<i>foo</i>
+	 *			Method:		div.findOne( 'body i' ) // ->				null
+	 *						div.findOne( 'i' ) // ->					<i>foo</i>
 	 *
 	 * @since 4.2
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.element}
 	 */
-	findOne: CKEDITOR.dom.document.prototype.findOne
+	findOne: function( selector ) {
+		var removeTmpId = createTmpId( this ),
+			found = this.$.querySelector( getContextualizedSelector( this, selector ) );
+
+		removeTmpId();
+
+		return found ? new CKEDITOR.dom.element( found ) : null;
+	}
 });
+
+	function createTmpId( element ) {
+		var hadId = true;
+
+		if ( !element.$.id ) {
+			element.$.id = 'cke_tmp_' + CKEDITOR.tools.getNextNumber();
+			hadId = false;
+		}
+
+		return function() {
+			if ( !hadId )
+				element.removeAttribute( 'id' );
+		};
+	}
+
+	function getContextualizedSelector( element, selector ) {
+		return '#' + element.$.id + ' ' + selector.split( /,\s*/ ).join( ', #' + element.$.id + ' ' );
+	}
 
 	var sides = {
 		width: [ 'border-left-width', 'border-right-width', 'padding-left', 'padding-right' ],
