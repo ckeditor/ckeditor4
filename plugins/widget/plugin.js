@@ -1496,6 +1496,10 @@
 
 			// Widget was selected by faking selection on it (most likely widget#focus).
 			if ( selectedElement && ( widget = widgetsRepo.getByElement( selectedElement, true ) ) ) {
+				// Blur previously focused if another widget is focused.
+				if ( widgetsRepo.focused && widget !== widgetsRepo.focused )
+					blurFocusedWidget();
+
 				widgetsRepo.focused = widget;
 				widgetsRepo.selected.push( widget );
 				widgetsRepo.fire( 'widgetFocused', { widget: widget } );
@@ -1503,14 +1507,19 @@
 				widget.setSelected( true ).setFocused( true );
 			}
 			// Other selections - blur widget if selected.
-			else if ( ( widget = widgetsRepo.focused ) ) {
-				widgetsRepo.focused = null;
-				widgetsRepo.selected.splice( CKEDITOR.tools.indexOf( widgetsRepo.selected, widget ), 1 );
-				widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
-
-				widget.setSelected( false ).setFocused( false );
-			}
+			else if ( ( widget = widgetsRepo.focused ) )
+				blurFocusedWidget();
 		} );
+
+		function blurFocusedWidget() {
+			var widget = widgetsRepo.focused;
+
+			widgetsRepo.focused = null;
+			widgetsRepo.selected.splice( CKEDITOR.tools.indexOf( widgetsRepo.selected, widget ), 1 );
+			widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
+
+			widget.setSelected( false ).setFocused( false );
+		}
 	}
 
 	function setupWidgetsObserver( widgetsRepo ) {
