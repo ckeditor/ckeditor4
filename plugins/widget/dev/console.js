@@ -21,10 +21,41 @@
 				type: 'log',
 
 				on: function( editor, log, logFn ) {
-					editor.on( 'selectionChange', logFn( 'selectionChange' ) );
-					editor.widgets.on( 'instanceDestroyed', logFn( 'widget destroyed' ) );
-					editor.widgets.on( 'instanceCreated', logFn( 'widget created' ) );
-					editor.widgets.on( 'checkWidgets', logFn( 'checking widgets...' ) );
+					// Add all listeners with high priorities to log
+					// messages in the correct order when one event depends on another.
+					// E.g. selectionChange triggers widget selection - if this listener
+					// for selectionChange will be executed later than that one, then order
+					// will be incorrect.
+
+					editor.on( 'selectionChange', function( evt ) {
+						var msg = 'selection change',
+							sel = evt.data.selection,
+							el = sel.getSelectedElement(),
+							widget;
+
+						if ( el && ( widget = editor.widgets.getByElement( el, true ) ) )
+							msg += ' (id: ' + widget.id + ')';
+
+						log( msg );
+					}, null, null, 1 );
+
+					editor.widgets.on( 'instanceDestroyed', function( evt ) {
+						log( 'instance destroyed (id: ' + evt.data.id + ')' );
+					}, null, null, 1 );
+
+					editor.widgets.on( 'instanceCreated', function( evt ) {
+						log( 'instance created (id: ' + evt.data.id + ')' );
+					}, null, null, 1 );
+
+					editor.widgets.on( 'widgetFocused', function( evt ) {
+						log( 'widget focused (id: ' + evt.data.widget.id + ')' );
+					}, null, null, 1 );
+
+					editor.widgets.on( 'widgetBlurred', function( evt ) {
+						log( 'widget blurred (id: ' + evt.data.widget.id + ')' );
+					}, null, null, 1 );
+
+					editor.widgets.on( 'checkWidgets', logFn( 'checking widgets' ), null, null, 1 );
 				}
 			}
 		]

@@ -68,20 +68,10 @@
 			upcasts: []
 		};
 
-		/* TMP
-		editor.on( 'mode', function() {
-			if ( editor.mode == 'wysiwyg' )
-				initializeWidgetClick( editor );
-		} );
-
-		editor.on( 'paste', onPaste );
-
-		editor.on( 'key', onKey );
-		*/
-
 		setupDataProcessing( this );
 		setupWidgetsObserver( this );
 		setupSelectionObserver( this );
+		setupMouseObserver( this );
 	}
 
 	Repository.prototype = {
@@ -1133,67 +1123,6 @@
 	}
 
 	/*
-	var initializeWidgetClick = ( function() {
-		function callback( event ) {
-
-			var element = event.data.getTarget(),
-				widget = getSelectedWidget( this, element );
-
-			// Check if the widget is selected.
-			if ( widget ) {
-				event.data.preventDefault();
-
-				widget.select();
-
-				if ( event.name == 'dblclick' )
-					widget.edit && widget.edit();
-
-				// Always return false except contextmenu event.
-				// This is since we want contextmenu for widgets.
-				return event.name == 'contextmenu';
-			}
-		}
-
-		function removeListeners( editor ) {
-			var listeners = editor.widgets.listeners;
-
-			if ( !listeners )
-				return;
-
-			var listener;
-
-			while ( ( listener = listeners.pop() ) )
-				listener.removeListener();
-		}
-
-		function attachListener( editor ) {
-			var listeners = editor.widgets.listeners,
-				editable = editor.editable();
-
-			if ( !listeners )
-				listeners = [];
-
-			listeners.push( editable.on.apply( editable, Array.prototype.slice.call( arguments, 1 ) ) );
-		}
-
-		return function( editor ) {
-			removeListeners( editor );
-
-			// Select widget when double-click to open dialog.
-			attachListener( editor, 'dblclick', callback, editor, null, 1 );
-
-			// Click on the widget wrapper to select it as a whole.
-			attachListener( editor, 'click', callback, editor, null, 1 );
-
-			// Also select widget when showing contextmenu.
-			attachListener( editor, 'contextmenu', callback, editor, null, 1 );
-
-			// Make sure that no double selectionChange is fired. Cancel mousedown before
-			// selection system catches it when widget is selected.
-			attachListener( editor, 'mousedown', callback, editor, null, 1 );
-		}
-	})();
-
 	function onKey( evt ) {
 		var editor = evt.editor,
 			sel = editor.widgets.selected,
@@ -1485,6 +1414,23 @@
 					}
 				}
 			}
+		} );
+	}
+
+	function setupMouseObserver( widgetsRepo ) {
+		var editor = widgetsRepo.editor;
+
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
+			editable.attachListener( editable.isInline() ? editable : editor.document, 'mousedown', function( evt ) {
+				var widget;
+
+				if ( ( widget = widgetsRepo.getByElement( evt.data.getTarget() ) ) ) {
+					evt.data.preventDefault();
+					widget.focus();
+				}
+			} );
 		} );
 	}
 
