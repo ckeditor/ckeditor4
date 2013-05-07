@@ -69,11 +69,18 @@ div.ckconsole:hover {
 
 .ckconsole .ckconsole_log_item {
 	border-bottom: solid 1px #EEE;
+	background: rgba(0,0,0,0);
+	transition: background 1s;
+	-webkit-transition: background 1s;
+}
+
+.ckconsole .ckconsole_fresh_log_item {
+	background: rgba(0,0,0,0.2);
 }
 
 .ckconsole_log_item .ckconsole_time {
 	padding: 1px 10px;
-	background: #EEE;
+	background: rgba(100,100,100,0.1);
 	font-family: monospace;
 	font-size: 11px;
 }

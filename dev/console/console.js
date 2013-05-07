@@ -164,6 +164,10 @@ var CKCONSOLE = (function() {
 
 			logList.append( item );
 			logList.$.scrollTop = logList.$.scrollHeight;
+
+			setTimeout( function() {
+				item.removeClass( 'ckconsole_fresh_log_item' );
+			}, 250 );
 		}
 
 		function logFn( msg ) {
@@ -189,7 +193,7 @@ var CKCONSOLE = (function() {
 			'</section>'
 		),
 		logItemTpl = new CKEDITOR.template(
-			'<li class="ckconsole_log_item"><time datetime="{time}" class="ckconsole_time">{time}</time> <code>{msg}</code></li>'
+			'<li class="ckconsole_log_item ckconsole_fresh_log_item"><time datetime="{time}" class="ckconsole_time">{time}</time> <code>{msg}</code></li>'
 		);
 
 	return that;
