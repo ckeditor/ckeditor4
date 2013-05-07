@@ -120,6 +120,7 @@
 		specificDefinition: function( editor, name, isIndent ) {
 			this.name = name;
 			this.editor = editor;
+			this.canUndo = false;
 
 			/**
 			 * Determines whether the command belongs to indentation family.
