@@ -61,6 +61,8 @@
 		this.editor = editor;
 		this.registered = {};
 		this.instances = {};
+		this.selected = [];
+		this.focused = null;
 		this._ = {
 			nextId: 0,
 			upcasts: []
@@ -416,17 +418,6 @@
 
 	Widget.prototype = {
 		/**
-		 * Changes widget's select state. Usually executed automatically after
-		 * widget has been selected by {@link #select} method or selection was moved
-		 * out of widget.
-		 *
-		 * @param {Boolean} selected Whether to select or deselect this widget.
-		 */
-		setSelected: function( selected ) {
-			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
-		},
-
-		/**
 		 * Destroys this widget instance.
 		 *
 		 * Use {@link CKEDITOR.plugins.widget.repository#destroy} when possible instead of this method.
@@ -519,9 +510,9 @@
 		},
 
 		/**
-		 * Selects widget.
+		 * Focuses widget by selecting it.
 		 */
-		select: function() {
+		focus: function() {
 			var sel = this.editor.getSelection();
 			if ( sel )
 				sel.fake( this.wrapper );
@@ -544,6 +535,7 @@
 		 *
 		 * @param {String/Object} keyOrData
 		 * @param {Object} value
+		 * @chainable
 		 */
 		setData: function( key, value ) {
 			var data = this.data,
@@ -571,7 +563,37 @@
 				writeDataToElement( this );
 				this.fire( 'data', data );
 			}
-		}
+
+			return this;
+		},
+
+		/**
+		 * Changes widget's focus state. Usually executed automatically after
+		 * widget has been focused by {@link #focus} method or selection was moved
+		 * out of widget.
+		 *
+		 * @param {Boolean} selected Whether to select or deselect this widget.
+		 * @chainable
+		 */
+		setFocused: function( focused ) {
+			this.wrapper[ focused ? 'addClass' : 'removeClass' ]( 'cke_widget_focused' );
+			this.fire( focused ? 'focus' : 'blur' );
+			return this;
+		},
+
+		/**
+		 * Changes widget's select state. Usually executed automatically after
+		 * widget has been selected by {@link #focus} method or selection was moved
+		 * out of widget.
+		 *
+		 * @param {Boolean} selected Whether to select or deselect this widget.
+		 * @chainable
+		 */
+		setSelected: function( selected ) {
+			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
+			this.fire(  selected ? 'select' : 'deselect' );
+			return this;
+		},
 
 		/* TMP
 		removeBlurListeners: function() {
@@ -1472,11 +1494,21 @@
 				selectedElement = sel.getSelectedElement(),
 				widget;
 
-			if ( selectedElement && ( widget = widgetsRepo.getByElement( selectedElement ) ) ) {
-				widgetsRepo.selected = widget;
-				widgetsRepo.fire( 'widgetSelected', { widget: widget } );
+			// Widget was selected by faking selection on it (most likely widget#focus).
+			if ( selectedElement && ( widget = widgetsRepo.getByElement( selectedElement, true ) ) ) {
+				widgetsRepo.focused = widget;
+				widgetsRepo.selected.push( widget );
+				widgetsRepo.fire( 'widgetFocused', { widget: widget } );
 
-				widget.setSelected( true );
+				widget.setSelected( true ).setFocused( true );
+			}
+			// Other selections - blur widget if selected.
+			else if ( ( widget = widgetsRepo.focused ) ) {
+				widgetsRepo.focused = null;
+				widgetsRepo.selected.splice( CKEDITOR.tools.indexOf( widgetsRepo.selected, widget ), 1 );
+				widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
+
+				widget.setSelected( false ).setFocused( false );
 			}
 		} );
 	}
