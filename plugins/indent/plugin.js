@@ -18,7 +18,7 @@
 			var that = this;
 
 			// Register generic commands.
-			setupGenericListeners( editor.addCommand( 'indent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'indent' ) ) );
+			setupGenericListeners( editor.addCommand( 'indent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'indent', true ) ) );
 			setupGenericListeners( editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'outdent' ) ) );
 
 			// Register dirChanged listener.
@@ -76,11 +76,20 @@
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
  		 * related to.
 		 * @param {String} name Name of the command.
+		 * @param {Boolean} [isIndent] Define command as indenting or outdenting.
 		 */
-		genericDefinition: function( editor, name ) {
+		genericDefinition: function( editor, name, isIndent ) {
 			this.name = name;
-			this.isIndent = this.name == 'indent';
 			this.editor = editor;
+
+			/**
+			 * Determines whether the command belongs to indentation family.
+			 * Otherwise it's assumed as an outdenting one.
+			 *
+			 * @readonly
+			 * @property {Boolean} [=false]
+			 */
+			this.isIndent = !!isIndent;
 
 			// Create and register toolbar button if possible.
 			if ( editor.ui.addButton ) {
@@ -106,22 +115,26 @@
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
  		 * related to.
 		 * @param {String} name Name of the command.
+		 * @param {Boolean} [isIndent] Define command as indenting or outdenting.
 		 */
-		specificDefinition: function( editor, name ) {
+		specificDefinition: function( editor, name, isIndent ) {
 			this.name = name;
 			this.editor = editor;
 
 			/**
 			 * Determines whether the command belongs to indentation family.
 			 * Otherwise it's assumed as an outdenting one.
+			 *
+			 * @readonly
 			 * @property {Boolean} [=false]
 			 */
-			this.isIndent = !!~this.name.indexOf( 'indent' );
+			this.isIndent = !!isIndent;
 
 			/**
 			 * Priority of command execution. The lower the number, the higher
 			 * is the priority. The priority must be within 1-99.
 			 *
+			 * @readonly
 			 * @see setupGenericListeners
 			 * @property {Number} [=10]
 			 */

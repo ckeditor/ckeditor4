@@ -13,6 +13,12 @@
 	CKEDITOR.plugins.add( 'indentblock', {
 		requires: 'indent',
 		init: function( editor ) {
+			// Register commands.
+			CKEDITOR.plugins.indent.registerCommands( editor, {
+				indentblock: new commandDefinition( editor, 'indentblock', true ),
+				outdentblock: new commandDefinition( editor, 'outdentblock' )
+			});
+
 			function commandDefinition( editor, name ) {
 				CKEDITOR.plugins.indent.specificDefinition.apply( this, arguments );
 
@@ -124,12 +130,6 @@
 
 					return true;
 				}
-			});
-
-			// Register commands.
-			CKEDITOR.plugins.indent.registerCommands( editor, {
-				indentblock: new commandDefinition( editor, 'indentblock' ),
-				outdentblock: new commandDefinition( editor, 'outdentblock' )
 			});
 		}
 	});
