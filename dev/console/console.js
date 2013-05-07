@@ -2,7 +2,7 @@
 
 var CKCONSOLE = (function() {
 	var	that = {
-			container: null,
+			containers: {},
 			definitions: {},
 
 			add: function( consoleName, definition ) {
@@ -17,7 +17,7 @@ var CKCONSOLE = (function() {
 				if ( typeof editor == 'string' )
 					editor = CKEDITOR.instances[ editor ];
 
-				createConsole( editor, definition );
+				createConsole( editor, definition, config );
 			},
 
 			panels: {
@@ -26,10 +26,9 @@ var CKCONSOLE = (function() {
 			}
 		};
 
-	function createConsole( editor, definition ) {
-		createContainer();
-
-		var editorPanel = createEditorPanel( editor, definition ),
+	function createConsole( editor, definition, config ) {
+		var container = createContainer( config.side || 'right' ),
+			editorPanel = createEditorPanel( editor, container, definition ),
 			panels = [],
 			panels2Refresh = [],
 			refreshTimeout,
@@ -82,22 +81,26 @@ var CKCONSOLE = (function() {
 		}
 	}
 
-	function createContainer() {
-		if ( !that.container ) {
-			that.container = fromHtml( '<div class="ckconsole cke_reset_all"></div>' );
-			CKEDITOR.document.getBody().append( that.container );
+	function createContainer( side ) {
+		var container = that.containers[ side ];
+
+		if ( !container ) {
+			container = that.containers[ side ] = fromHtml( '<div class="ckconsole cke_reset_all ckconsole_side_' + side + '"></div>' );
+			CKEDITOR.document.getBody().append( container );
 
 			var link = fromHtml( '<link rel="stylesheet" href="' + CKEDITOR.getUrl( 'dev/console/console.css' ) + '">' );
 			CKEDITOR.document.getHead().append( link );
 		}
+
+		return container;
 	}
 
-	function createEditorPanel( editor, definition ) {
+	function createEditorPanel( editor, container, definition ) {
 		var el = fromHtml( editorPanelTpl, {
 			name: editor.name + '/' + definition.name
 		} );
 
-		that.container.append( el );
+		container.append( el );
 		return el;
 	}
 

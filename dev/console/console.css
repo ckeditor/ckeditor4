@@ -12,6 +12,10 @@ div.ckconsole {
 	-webkit-transition: opacity 0.5s;
 }
 
+div.ckconsole_side_left {
+	left: 0;
+}
+
 div.ckconsole:hover {
 	opacity: 1;
 }
