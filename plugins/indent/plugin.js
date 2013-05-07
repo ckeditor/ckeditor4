@@ -120,7 +120,9 @@
 
 			/**
 			 * Priority of command execution. The lower the number, the higher
-			 * is the priority.
+			 * is the priority. The priority must be within 1-99.
+			 *
+			 * @see setupGenericListeners
 			 * @property {Number} [=10]
 			 */
 			this.execPriority = 10;
@@ -386,17 +388,17 @@
 	 * For `exec` event:
 	 *
 	 * * 0: Selection and bookmarks are saved by generic command.
-	 * * 1-19: Content-specific commands try to indent the code by executing
+	 * * 1-99: Content-specific commands try to indent the code by executing
 	 * 	 own {@link CKEDITOR.command#method-exec} methods.
-	 * * 20: Bookmarks are re-selected by generic command.
+	 * * 100: Bookmarks are re-selected by generic command.
 	 *
 	 * For `refresh` event:
 	 *
-	 * * <20: Content-specific commands refresh their states according
+	 * * <100: Content-specific commands refresh their states according
 	 * 	 to the given path by executing {@link CKEDITOR.command#method-refresh}.
 	 * 	 They save their states in `event.data.states` object passed along.
 	 * 	 with the event.
-	 * * 20: Command state is determined according to what states
+	 * * 100: Command state is determined according to what states
 	 * 	 have been returned by content-specific commands (`event.data.states`).
 	 * 	 UI elements are updated at this stage.
 	 *
@@ -423,7 +425,7 @@
 				this.setState( CKEDITOR.TRISTATE_OFF );
 			else
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
-		}, command, null, 20 );
+		}, command, null, 100 );
 
 		// Initialization. Save bookmarks and mark event as not handled
 		// by any plugin (command) yet.
@@ -443,7 +445,7 @@
 		command.on( 'exec', function( event ) {
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
-		}, command, null, 20 );
+		}, command, null, 100 );
 	}
 })();
 

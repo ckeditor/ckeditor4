@@ -29,7 +29,7 @@
 
 				// Indent block is a kind of generic indentation. It must
 				// be executed after any other indentation commands.
-				this.execPriority = 15;
+				this.execPriority = 90;
 			};
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, CKEDITOR.plugins.indent.specificDefinition.prototype, {
