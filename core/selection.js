@@ -324,7 +324,8 @@
  		 * @param {CKEDITOR.dom.selection} data.selection
  		 * @param {CKEDITOR.dom.elementPath} data.path
 		 */
-		editor.define( 'selectionChange', { errorProof:1 } );
+		// TODO uncomment this after finishing works or just remove...
+		// editor.define( 'selectionChange', { errorProof:1 } );
 
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
