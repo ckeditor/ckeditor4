@@ -17,6 +17,31 @@
 					};
 				}
 			},
+
+			{
+				type: 'box',
+				content:
+					'<ul class="ckconsole_list">' +
+						'<li>focused: <span class="ckconsole_value" data-value="focused"></span></li>' +
+						'<li>selected: <span class="ckconsole_value" data-value="selected"></span></li>' +
+					'</ul>',
+
+				refresh: function( editor ) {
+					var focused = editor.widgets.focused,
+						selected = editor.widgets.selected,
+						selectedIds = [];
+
+					for ( var i = 0; i < selected.length; ++i )
+						selectedIds.push( selected[ i ].id );
+
+					return {
+						header: 'Focus &amp; selection',
+						focused: focused ? 'id: ' + focused.id : '-',
+						selected: selectedIds.length ? 'id: ' + selectedIds.join( ', id: ' ) : '-'
+					};
+				}
+			},
+
 			{
 				type: 'log',
 
