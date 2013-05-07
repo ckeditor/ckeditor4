@@ -110,8 +110,27 @@
 		specificDefinition: function( editor, name ) {
 			this.name = name;
 			this.editor = editor;
+
+			/**
+			 * Determines whether the command belongs to indentation family.
+			 * Otherwise it's assumed as an outdenting one.
+			 * @property {Boolean} [=false]
+			 */
 			this.isIndent = !!~this.name.indexOf( 'indent' );
+
+			/**
+			 * Priority of command execution. The lower the number, the higher
+			 * is the priority.
+			 * @property {Number} [=10]
+			 */
 			this.execPriority = 10;
+
+			/**
+			 * Stores created markers for the command so they can eventually be
+			 * purged after exec.
+			 */
+			this.database = {};
+
 			this.setupIndentClasses();
 		},
 
@@ -139,48 +158,44 @@
 		 * @param {Object} commands An object of {@link CKEDITOR.command}.
 		 */
 		registerCommands: function( editor, commands ) {
-			var that = this;
-
-			function setupListeners( editor, command ) {
-				// Get generic command associated with this specific command.
-				var related = editor.getCommand( command.isIndent ? 'indent' : 'outdent' );
-
-				// Observe generic exec event and execute command when necessary.
-				// If the command was successfully handled by the command and
-				// DOM has been modified, stop event propagation so no other plugin
-				// will bother. Job is done.
-				related.on( 'exec', function( event ) {
-					if ( event.data.done )
-						return;
-
-					if ( editor.execCommand( command.name ) )
-						event.data.done = true;
-
-					// Clean up the markers.
-					CKEDITOR.dom.element.clearAllMarkers( command.database );
-				}, this, null, command.execPriority );
-
-				// Observe generic refresh event and force command refresh.
-				// Once refreshed, save command state in event data
-				// so generic command plugin can update its own state and UI.
-				related.on( 'refresh', function( event ) {
-					command.refresh( editor, event.data.path );
-
-					if ( !event.data.states )
-						event.data.states = {};
-
-					event.data.states[ command.name ] = command.state;
-				});
-
-				// Since specific indent commands have no UI elements,
-				// they need to be manually registered as a editor feature.
-				// Doing this a this stage.
-				editor.addFeature( command );
-			}
-
 			editor.on( 'loaded', function() {
-				for ( var name in commands )
-					setupListeners( editor, this.addCommand( name, commands[ name ] ) );
+				for ( var name in commands ) {
+					(function( editor, command ) {
+						var related = editor.getCommand( command.isIndent ? 'indent' : 'outdent' );
+
+						// Observe generic exec event and execute command when necessary.
+						// If the command was successfully handled by the command and
+						// DOM has been modified, stop event propagation so no other plugin
+						// will bother. Job is done.
+						related.on( 'exec', function( event ) {
+							if ( event.data.done )
+								return;
+
+							if ( editor.execCommand( command.name ) )
+								event.data.done = true;
+
+							// Clean up the markers.
+							CKEDITOR.dom.element.clearAllMarkers( command.database );
+						}, this, null, command.execPriority );
+
+						// Observe generic refresh event and force command refresh.
+						// Once refreshed, save command state in event data
+						// so generic command plugin can update its own state and UI.
+						related.on( 'refresh', function( event ) {
+							command.refresh( editor, event.data.path );
+
+							if ( !event.data.states )
+								event.data.states = {};
+
+							event.data.states[ command.name ] = command.state;
+						});
+
+						// Since specific indent commands have no UI elements,
+						// they need to be manually registered as a editor feature.
+						// Doing this a this stage.
+						editor.addFeature( command );
+					})( this, this.addCommand( name, commands[ name ] ) );
+				}
 			} );
 		}
 	}
@@ -193,12 +208,6 @@
 
 	CKEDITOR.plugins.indent.specificDefinition.prototype = {
 		context: 'p',
-
-		/**
-		 * Stores created markers for all command instances so they can eventually be
-		 * purged once command is done.
-		 */
-		database: {},
 
 		/**
 		 * Generic indentation procedure for any element shared across
