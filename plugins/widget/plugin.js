@@ -20,11 +20,11 @@
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
 					'outline:2px solid yellow' +
 				'}' +
-				'.cke_widget_editable:focus,' +
-				'.cke_widget_wrapper:hover .cke_widget_editable:focus,' +
-				'.cke_widget_wrapper:focus,' +
-				'.cke_widget_wrapper.cke_widget_selected{' +
-					'outline:2px solid Highlight' +
+				'.cke_widget_wrapper.cke_widget_focused{' +
+					'outline:2px solid #ace' +
+				'}' +
+				'.cke_widget_selected{' +
+					'background:rgba(170,205,240,.2)' +
 				'}'
 				// %REMOVE_START%
 				+
