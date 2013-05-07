@@ -146,7 +146,46 @@
 			 */
 			this.database = {};
 
-			this.setupIndentClasses();
+			/**
+			 * Refers to the configured indentClasses of the editor instance this
+			 * command belongs to.
+			 *
+			 * @readonly
+			 * @see CKEDITOR.config#indentClasses
+			 * @property {Array} [=null]
+			 */
+			this.indentClasses = editor.config.indentClasses;
+
+			/**
+			 * Determines whether {@link CKEDITOR.config#indentClasses} are in use.
+			 *
+			 * @readonly
+			 * @property {Boolean} [=false]
+			 */
+			this.useIndentClasses = this.indentClasses && 0 in this.indentClasses;
+
+			/**
+			 * A map of {@link CKEDITOR.config#indentClasses} used by indentation
+			 * commands.
+			 *
+			 * @readonly
+			 * @property {Object} [={}]
+			 */
+			this.indentClassMap = {};
+
+			if ( this.useIndentClasses ) {
+				/**
+				 * A regular expression used used by indentation procedure for determining
+				 * actual indentation level of an element.
+				 *
+				 * @readonly
+				 * @property {Object} [=null]
+				 */
+				this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
+
+				for ( var i = 0; i < this.indentClasses.length; i++ )
+					this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
+			}
 		},
 
 		/**
@@ -336,40 +375,6 @@
 		 */
 		getContext: function( path ) {
 			return path.contains( this.indentContext );
-		},
-
-		/**
-		 * Transfers the information about {@link CKEDITOR.config#indentClasses}
-		 * to the command object so it's easy to access.
-		 */
-		setupIndentClasses: function() {
-			/**
-			 * Determines whether {@link CKEDITOR.config#indentClasses} are in use.
-			 *
-			 * @readonly
-			 * @property {Boolean} useIndentClasses
-			 * @member CKEDITOR.plugins.indent.specificDefinition
-			 */
-
-			/**
-			 * A map of {@link CKEDITOR.config#indentClasses} used by indentation
-			 * commands.
-			 *
-			 * @readonly
-			 * @property {Boolean} indentClassMap
-			 * @member CKEDITOR.plugins.indent.specificDefinition
-			 */
-			var editor = this.editor;
-
-			this.indentClasses = editor.config.indentClasses;
-
-			if ( ( this.useIndentClasses = this.indentClasses && this.indentClasses.length > 0 ) ) {
-				this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
-				this.indentClassMap = {};
-
-				for ( var i = 0; i < editor.config.indentClasses.length; i++ )
-					this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
-			}
 		},
 
 		/**
