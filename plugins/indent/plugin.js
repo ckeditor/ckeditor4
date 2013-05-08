@@ -213,9 +213,9 @@
 		 * @param {Object} commands An object of {@link CKEDITOR.command}.
 		 */
 		registerCommands: function( editor, commands ) {
-			editor.on( 'loaded', function() {
+			editor.on( 'pluginsLoaded', function() {
 				for ( var name in commands ) {
-					(function( editor, command ) {
+					( function( editor, command ) {
 						var related = editor.getCommand( command.isIndent ? 'indent' : 'outdent' );
 
 						// Observe generic exec event and execute command when necessary.
@@ -249,7 +249,7 @@
 						// they need to be manually registered as a editor feature.
 						// Doing this a this stage.
 						editor.addFeature( command );
-					})( this, this.addCommand( name, commands[ name ] ) );
+					} )( this, this.addCommand( name, commands[ name ] ) );
 				}
 			} );
 		}
