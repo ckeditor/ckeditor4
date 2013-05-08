@@ -1453,7 +1453,7 @@
 				widget.setSelected( true ).setFocused( true );
 			}
 			// Other selections - blur widget if selected.
-			else if ( ( widget = widgetsRepo.focused ) )
+			else if ( widgetsRepo.focused )
 				blurFocusedWidget();
 		} );
 
@@ -1462,9 +1462,12 @@
 
 			widgetsRepo.focused = null;
 			widgetsRepo.selected.splice( CKEDITOR.tools.indexOf( widgetsRepo.selected, widget ), 1 );
-			widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
 
-			widget.setSelected( false ).setFocused( false );
+			// Widget could be destroyed in the meantime - e.g. data could be set.
+			if ( widget.isInited() ) {
+				widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
+				widget.setSelected( false ).setFocused( false );
+			}
 		}
 	}
 
