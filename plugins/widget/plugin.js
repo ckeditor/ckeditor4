@@ -1479,42 +1479,20 @@
 
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			scheduled,
-			lastCheck = 0;
+			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_CHECK_DELAY, function() {
+				widgetsRepo.fire( 'checkWidgets' );
+			} );
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
 
 			// Schedule check on keyup, but not more often than once per MIN_CHECK_DELAY.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'keyup', function() {
-				if ( scheduled )
-					return;
-
-				var diff = ( new Date() ).getTime() - lastCheck;
-
-				// If less than MIN_CHECK_DELAY passed after last check,
-				// schedule next for MIN_CHECK_DELAY after previous one.
-				if ( diff < widgetsRepo.MIN_CHECK_DELAY )
-					scheduled = setTimeout( check, widgetsRepo.MIN_CHECK_DELAY - diff );
-				else
-					check();
-			}, null, null, 999 );
+			editable.attachListener( editable.isInline() ? editable : editor.document, 'keyup', buffer.input, null, null, 999 );
 		} );
 
-		editor.on( 'contentDomUnload', function() {
-			if ( scheduled )
-				clearTimeout( scheduled );
-
-			scheduled = lastCheck = 0;
-		} )
+		editor.on( 'contentDomUnload', buffer.reset );
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
-
-		function check() {
-			lastCheck = ( new Date() ).getTime();
-			scheduled = false;
-			widgetsRepo.fire( 'checkWidgets' );
-		}
 	}
 
 
