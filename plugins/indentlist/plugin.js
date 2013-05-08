@@ -45,8 +45,6 @@
 				indentContext: { ol: 1, ul: 1 },
 
 				refresh: function( editor, path ) {
-					// console.log( '	\\-> refreshing ', this.name );
-
 					var list = this.getContext( path );
 
 					//	- List in the path
@@ -206,6 +204,13 @@
 
 						while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && indentContext[ nearestListBlock.getName() ] ) )
 							nearestListBlock = nearestListBlock.getParent();
+
+						// Avoid having selection boundaries out of the list.
+						// <ul><li>[...</li></ul><p>...]</p> => <ul><li>[...]</li></ul><p>...</p>
+						if ( !nearestListBlock ) {
+							if ( ( nearestListBlock = range.startPath().contains( indentContext ) ) )
+								range.setEndAt( nearestListBlock, CKEDITOR.POSITION_BEFORE_END );
+						}
 
 						// Avoid having selection enclose the entire list. (#6138)
 						// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
