@@ -1457,6 +1457,12 @@
 				blurFocusedWidget();
 		} );
 
+		// Invalidate old widgets early - immediately on dataReady.
+		widgetsRepo.editor.on( 'dataReady', function( evt ) {
+			if ( widgetsRepo.focused )
+				blurFocusedWidget();
+		} );
+
 		function blurFocusedWidget() {
 			var widget = widgetsRepo.focused;
 
