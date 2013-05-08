@@ -81,6 +81,7 @@
 					}, null, null, 1 );
 
 					editor.widgets.on( 'checkWidgets', logFn( 'checking widgets' ), null, null, 1 );
+					editor.widgets.on( 'checkSelection', logFn( 'checking selection' ), null, null, 1 );
 				}
 			}
 		]

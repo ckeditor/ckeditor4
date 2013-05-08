@@ -76,11 +76,18 @@
 
 	Repository.prototype = {
 		/**
-		 * Minimum delay between widgets checks.
+		 * Minimum interval between selection checks.
 		 *
 		 * @private
 		 */
-		MIN_CHECK_DELAY: 1000,
+		MIN_SELECTION_CHECK_INTERVAL: 500,
+
+		/**
+		 * Minimum interval between widgets checks.
+		 *
+		 * @private
+		 */
+		MIN_WIDGETS_CHECK_INTERVAL: 1000,
 
 		/**
 		 * Adds widget definition to the repository.
@@ -107,6 +114,34 @@
 			this.registered[ name ] = widgetDef;
 
 			return widgetDef;
+		},
+
+		checkSelection: function() {
+			var sel = this.editor.getSelection(),
+				selectedElement = sel.getSelectedElement(),
+				updater = stateUpdater( this ),
+				widget;
+
+			// Widget is focused so commit and finish checking.
+			if ( selectedElement && ( widget = this.getByElement( selectedElement, true ) ) )
+				return updater.focus( widget ).select( widget ).commit();
+
+			var range = sel.getRanges()[ 0 ];
+
+			// No ranges or collapsed range mean that nothing is selected, so commit and finish checking.
+			if ( !range || range.collapsed )
+				return updater.commit();
+
+			// Range is not empty, so create walker checking for wrappers.
+			var walker = new CKEDITOR.dom.walker( range ),
+				wrapper;
+
+			walker.evaluator = isWidgetWrapper2;
+
+			while ( ( wrapper = walker.next() ) )
+				updater.select( this.getByElement( wrapper ) );
+
+			updater.commit();
 		},
 
 		/**
@@ -1122,6 +1157,10 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
+	function isWidgetWrapper2( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget-wrapper' );
+	}
+
 	/*
 	function onKey( evt ) {
 		var editor = evt.editor,
@@ -1435,51 +1474,36 @@
 	}
 
 	function setupSelectionObserver( widgetsRepo ) {
-		widgetsRepo.editor.on( 'selectionChange', function( evt ) {
-			var sel = evt.data.selection,
-				selectedElement = sel.getSelectedElement(),
-				widget;
+		var editor = widgetsRepo.editor,
+			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_SELECTION_CHECK_INTERVAL,	fireSelectionCheck );
 
-			// Widget was selected by faking selection on it (most likely widget#focus).
-			if ( selectedElement && ( widget = widgetsRepo.getByElement( selectedElement, true ) ) ) {
-				// Blur previously focused if another widget is focused.
-				if ( widgetsRepo.focused && widget !== widgetsRepo.focused )
-					blurFocusedWidget();
-
-				widgetsRepo.focused = widget;
-				widgetsRepo.selected.push( widget );
-				widgetsRepo.fire( 'widgetFocused', { widget: widget } );
-
-				widget.setSelected( true ).setFocused( true );
+		editor.on( 'afterSelectionCheck', function( evt ) {
+			// If selectionChange was fired - check selection immediately.
+			if ( evt.data.changed ) {
+				buffer.reset();
+				buffer.input();
 			}
-			// Other selections - blur widget if selected.
-			else if ( widgetsRepo.focused )
-				blurFocusedWidget();
+			// If selectionChange wasn't fired buffer events.
+			else
+				buffer.input();
 		} );
+
+		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
 
 		// Invalidate old widgets early - immediately on dataReady.
-		widgetsRepo.editor.on( 'dataReady', function( evt ) {
-			if ( widgetsRepo.focused )
-				blurFocusedWidget();
+		editor.on( 'dataReady', function( evt ) {
+			// Deselect and blur all widgets.
+			stateUpdater( widgetsRepo ).commit();
 		} );
 
-		function blurFocusedWidget() {
-			var widget = widgetsRepo.focused;
-
-			widgetsRepo.focused = null;
-			widgetsRepo.selected.splice( CKEDITOR.tools.indexOf( widgetsRepo.selected, widget ), 1 );
-
-			// Widget could be destroyed in the meantime - e.g. data could be set.
-			if ( widget.isInited() ) {
-				widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
-				widget.setSelected( false ).setFocused( false );
-			}
+		function fireSelectionCheck() {
+			widgetsRepo.fire( 'checkSelection' );
 		}
 	}
 
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_CHECK_DELAY, function() {
+			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, function() {
 				widgetsRepo.fire( 'checkWidgets' );
 			} );
 
@@ -1494,6 +1518,63 @@
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 	}
+
+function stateUpdater( widgetsRepo ) {
+	var currentlySelected = widgetsRepo.selected,
+		toBeSelected = [],
+		toBeDeselected = currentlySelected.slice( 0 ),
+		focused = null;
+
+	return {
+		select: function( widget ) {
+			if ( CKEDITOR.tools.indexOf( currentlySelected, widget ) < 0 )
+				toBeSelected.push( widget );
+
+			var index = CKEDITOR.tools.indexOf( toBeDeselected, widget );
+			if ( index >= 0 )
+				toBeDeselected.splice( index, 1 );
+
+			return this;
+		},
+
+		focus: function( widget ) {
+			focused = widget;
+			return this;
+		},
+
+		commit: function() {
+			var focusedChanged = widgetsRepo.focused !== focused,
+				widget;
+
+			if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
+				widgetsRepo.focused = null;
+				if ( widget.isInited() ) {
+					// Widget could be destroyed in the meantime - e.g. data could be set.
+					widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
+					widget.setFocused( false );
+				}
+			}
+
+			while ( ( widget = toBeDeselected.pop() ) ) {
+				currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
+				// Widget could be destroyed in the meantime - e.g. data could be set.
+				if ( widget.isInited() )
+					widget.setSelected( false );
+			}
+
+			if ( focusedChanged && focused ) {
+				widgetsRepo.focused = focused;
+				widgetsRepo.fire( 'widgetFocused', { widget: focused } );
+				focused.setFocused( true );
+			}
+
+			while ( ( widget = toBeSelected.pop() ) ) {
+				currentlySelected.push( widget );
+				widget.setSelected( true );
+			}
+		}
+	};
+}
 
 
 	//
