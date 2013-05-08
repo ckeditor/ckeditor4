@@ -64,6 +64,8 @@
 	});
 
 	CKEDITOR.plugins.indent = {
+		listNodeNames: { ol: 1, ul: 1 },
+
 		/**
 		 * A base class for generic command definition, mainly responsible for creating indent
 		 * UI buttons, and refreshing UI states.
@@ -252,6 +254,45 @@
 					} )( this, this.addCommand( name, commands[ name ] ) );
 				}
 			} );
+		},
+
+		/**
+		 * Determines whether a node is a list <li> element.
+		 *
+		 * @param {CKEDITOR.dom.node} node A node to be checked.
+		 * @returns {Boolean}
+		 */
+		isListItem: function( node ) {
+			return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
+		},
+
+		/**
+		 * Determines indent CSS property for an element according to
+		 * what is the direction of such element. It can be either `margin-left`
+		 * or `margin-right`.
+		 *
+		 *		// Get indent CSS property of an element.
+		 *		var element = CKEDITOR.document.getById( 'foo' );
+		 *		command.getIndentCssProperty( element );	// 'margin-left'
+		 *
+		 * @param {CKEDITOR.dom.element} element An element to be checked.
+		 * @param {String} [dir] Element direction.
+		 * @returns {String}
+		 */
+		getIndentCssProperty: function( element, dir ) {
+			return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
+		},
+
+		/**
+		 * Return the numerical indent value of margin-left|right of an element,
+		 * considering element's direction. If element has no margin specified,
+		 * NaN is returned.
+		 *
+		 * @param {CKEDITOR.dom.element} element An element to be checked.
+		 * @returns {Number}
+		 */
+		getNumericalIndentLevel: function ( element ) {
+			return parseInt( element.getStyle( CKEDITOR.plugins.indent.getIndentCssProperty( element ) ), 10 );
 		}
 	}
 
@@ -308,7 +349,7 @@
 				if ( indentStep > 0 )
 					element.addClass( this.indentClasses[ indentStep - 1 ] );
 			} else {
-				var indentCssProperty = this.getIndentCssProperty( element, dir ),
+				var indentCssProperty = CKEDITOR.plugins.indent.getIndentCssProperty( element, dir ),
 					currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 ),
 					indentOffset = editor.config.indentOffset || 40;
 
@@ -376,23 +417,6 @@
 		 */
 		getContext: function( path ) {
 			return path.contains( this.indentContext );
-		},
-
-		/**
-		 * Determines indent CSS property for an element according to
-		 * what is the direction of such element. It can be either `margin-left`
-		 * or `margin-right`.
-		 *
-		 *		// Get indent CSS property of an element.
-		 *		var element = CKEDITOR.document.getById( 'foo' );
-		 *		command.getIndentCssProperty( element );	// 'margin-left'
-		 *
-		 * @param {CKEDITOR.dom.element} element An element to be checked.
-		 * @param {String} [dir] Element direction.
-		 * @returns {String}
-		 */
-		getIndentCssProperty: function( element, dir ) {
-			return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
 		}
 	};
 

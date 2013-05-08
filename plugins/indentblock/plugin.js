@@ -10,17 +10,26 @@
 (function() {
 	'use strict';
 
+	var isListItem, getIndentCssProperty, getNumericalIndentLevel;
+
 	CKEDITOR.plugins.add( 'indentblock', {
 		requires: 'indent',
 		init: function( editor ) {
+			var globalHelpers = CKEDITOR.plugins.indent;
+
+			// Use global helper functions.
+			isListItem = globalHelpers.isListItem;
+			getIndentCssProperty = globalHelpers.getIndentCssProperty;
+			getNumericalIndentLevel = globalHelpers.getNumericalIndentLevel;
+
 			// Register commands.
-			CKEDITOR.plugins.indent.registerCommands( editor, {
+			globalHelpers.registerCommands( editor, {
 				indentblock: new commandDefinition( editor, 'indentblock', true ),
 				outdentblock: new commandDefinition( editor, 'outdentblock' )
 			});
 
 			function commandDefinition( editor, name ) {
-				CKEDITOR.plugins.indent.specificDefinition.apply( this, arguments );
+				globalHelpers.specificDefinition.apply( this, arguments );
 
 				this.allowedContent = {
 					'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
@@ -38,19 +47,22 @@
 				this.execPriority = 90;
 			};
 
-			CKEDITOR.tools.extend( commandDefinition.prototype, CKEDITOR.plugins.indent.specificDefinition.prototype, {
+			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
 				// Elements that, if in an elementpath, will be handled by this
 				// command. They restrict the scope of the plugin.
-				indentContext: { div: 1, dl: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1, pre: 1, table: 1 },
+				indentContext: { div: 1, dl: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ul: 1, ol: 1, p: 1, pre: 1, table: 1 },
 
 				refresh: function( editor, path ) {
-					// console.log( '	\\-> refreshing ', this.name );
 					var firstBlock = path.block || path.blockLimit;
+
+					if ( isListItem( firstBlock ) )
+						firstBlock = firstBlock.getParent();
 
 					//	- indentContext in the path
 					//
-					// 		\-> Don't try to indent if the element is out of
+					// 			Don't try to indent if the element is out of
 					//		    this plugin's scope.
+					//
 					if ( !this.getContext( path ) )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
@@ -58,9 +70,10 @@
 						//	+ indentContext in the path
 						//	+ IndentClasses
 						//
-						// 		\-> If there are indentation classes, check if reached
+						// 			If there are indentation classes, check if reached
 						// 		    the highest level of indentation. If so, disable
 						// 		    the command.
+						//
 						if ( this.checkIndentClassLeft( firstBlock ) )
 							this.setState( CKEDITOR.TRISTATE_OFF );
 						else
@@ -72,8 +85,9 @@
 						//	- IndentClasses
 						//	+ Indenting
 						//
-						// 		\-> No indent-level limitations due to indent classes.
-						// 		    indent-like command can always be executed.
+						// 			No indent-level limitations due to indent classes.
+						// 		    Indent-like command can always be executed.
+						//
 						if ( this.isIndent )
 							this.setState( CKEDITOR.TRISTATE_OFF );
 
@@ -82,8 +96,9 @@
 						//	- Indenting
 						//	- Block in the path
 						//
-						// 		\-> No block in path. There's no element to apply indentation
+						// 			No block in path. There's no element to apply indentation
 						// 		    so disable the command.
+						//
 						else if ( !firstBlock )
 							this.setState( CKEDITOR.TRISTATE_DISABLED );
 
@@ -92,11 +107,12 @@
 						//	- Indenting
 						//	+ Block in path.
 						//
-						// 		\-> Not using indentClasses but there is firstBlock.
+						// 			Not using indentClasses but there is firstBlock.
 						//		    We can calculate current indentation level and
 						//			try to increase/decrease it.
+						//
 						else {
-							var indent = parseInt( firstBlock.getStyle( this.getIndentCssProperty( firstBlock ) ), 10 );
+							var indent = getNumericalIndentLevel( firstBlock );
 
 							if ( isNaN( indent ) )
 								indent = 0;
@@ -110,11 +126,19 @@
 				},
 
 				exec: function( editor ) {
-					var selection = editor.getSelection(),
+					var listNodeNames = globalHelpers.listNodeNames,
+						selection = editor.getSelection(),
 						range = selection && selection.getRanges( 1 )[ 0 ],
-						path = editor.elementPath();
+						nearestListBlock;
 
-					function indentBlock() {
+					// If there's some list in the path, then it will be
+					// a full-list indent by increasing or decreasing margin property.
+					if ( ( nearestListBlock = editor.elementPath().contains( listNodeNames ) ) )
+						this.indentElement( nearestListBlock );
+
+					// If no list in the path, use iterator to indent all the possible
+					// paragraphs in the range, creating them if necessary.
+					else {
 						var iterator = range.createIterator(),
 							enterMode = editor.config.enterMode,
 							block;
@@ -125,8 +149,6 @@
 						while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
 							this.indentElement( block );
 					}
-
-					indentBlock.call( this );
 
 					return true;
 				}
