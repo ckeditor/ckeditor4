@@ -457,12 +457,13 @@
 
 			this.fire( 'destroy' );
 
+			/* TMP
 			// Remove editables from focusmanager.
 			if ( this.editables ) {
 				for ( var name in this.editables )
 					editor.focusManager.remove( this.editables[ name ] );
 			}
-			editor.focusManager.remove( this.wrapper );
+			*/
 
 			if ( !offline ) {
 				this.element.removeAttribute( 'data-widget-data' );
@@ -1543,6 +1544,7 @@ function stateUpdater( widgetsRepo ) {
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
+	/* TMP
 	// Makes widget editables editable, selectable, etc.
 	// Adds necessary classes, properties, and styles.
 	// Also adds editables to focusmanager.
@@ -1596,6 +1598,7 @@ function stateUpdater( widgetsRepo ) {
 			img.appendTo( widget.wrapper );
 		}
 	}
+	*/
 
 	// Replace parts object containing:
 	// partName => selector pairs
@@ -1617,8 +1620,8 @@ function stateUpdater( widgetsRepo ) {
 	function setupWidget( widget ) {
 		setupWrapper( widget );
 		setupParts( widget );
-		setupEditables( widget );
-		setupMask( widget );
+		// setupEditables( widget );
+		// setupMask( widget );
 
 		// TODO should be executed on paste/undo/redo only.
 		// this.setupSelected();
@@ -1647,8 +1650,6 @@ function stateUpdater( widgetsRepo ) {
 		// Retrieve widget wrapper. Assign an id to it.
 		var wrapper = widget.wrapper = widget.element.getParent();
 		wrapper.setAttribute( 'data-widget-id', widget.id );
-
-		widget.editor.focusManager.add( wrapper );
 	}
 
 	function writeDataToElement( widget ) {
