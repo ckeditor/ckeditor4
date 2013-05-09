@@ -40,7 +40,14 @@
 					}
 				};
 
-				this.requiredContent = 'p' + ( this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '{margin-left}' );
+				if ( this.enterBr )
+					this.allowedContent.div = true;
+
+				this.requiredContent = ( this.enterBr ? 'div' : 'p' ) +
+					( this.useIndentClasses ?
+							'(' + this.indentClasses.join( ',' ) + ')'
+						:
+							'{margin-left}' );
 
 				// Indent block is a kind of generic indentation. It must
 				// be executed after any other indentation commands.
@@ -58,16 +65,18 @@
 					if ( isListItem( firstBlock ) )
 						firstBlock = firstBlock.getParent();
 
-					//	- indentContext in the path
+					//	- indentContext in the path or ENTER_BR
 					//
 					// 			Don't try to indent if the element is out of
-					//		    this plugin's scope.
+					//		    this plugin's scope. This assertion is omitted
+					//			if ENTER_BR is in use since there may be no block
+					//			in the path.
 					//
-					if ( !this.getContext( path ) )
+					if ( !this.enterBr && !this.getContext( path ) )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 					else if ( this.useIndentClasses ) {
-						//	+ indentContext in the path
+						//	+ indentContext in the path or ENTER_BR
 						//	+ IndentClasses
 						//
 						// 			If there are indentation classes, check if reached
@@ -81,7 +90,7 @@
 					}
 
 					else {
-						//	+ indentContext in the path
+						//	+ indentContext in the path or ENTER_BR
 						//	- IndentClasses
 						//	+ Indenting
 						//
@@ -91,7 +100,7 @@
 						if ( this.isIndent )
 							this.setState( CKEDITOR.TRISTATE_OFF );
 
-						//	+ indentContext in the path
+						//	+ indentContext in the path or ENTER_BR
 						//	- IndentClasses
 						//	- Indenting
 						//	- Block in the path
@@ -102,7 +111,7 @@
 						else if ( !firstBlock )
 							this.setState( CKEDITOR.TRISTATE_DISABLED );
 
-						//	+ indentContext in the path
+						//	+ indentContext in the path or ENTER_BR
 						//	- IndentClasses
 						//	- Indenting
 						//	+ Block in path.

@@ -123,6 +123,7 @@
 			this.name = name;
 			this.editor = editor;
 			this.canUndo = false;
+			this.enterBr = editor.config.enterMode == CKEDITOR.ENTER_BR;
 
 			/**
 			 * Determines whether the command belongs to indentation family.

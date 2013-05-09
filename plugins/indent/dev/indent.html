@@ -58,7 +58,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<a href="#listnblock">List &amp; Block</a>,
 		<a href="#classes">Classes</a>,
 		<a href="#list">List</a>,
-		<a href="#block">Block</a>
+		<a href="#block">Block</a>,
+		<a href="#br">ENTER_BR</a>
 	</p>
 
 	<h1 class="samples">Indent DEV sample</h1>
@@ -146,6 +147,23 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</li>
 		<li>
 			<pre id="editor4_out"></pre>
+		</li>
+	</ul>
+
+	<h2 id="br">CKEDITOR.ENTER_BR</h2>
+	<ul class="editors">
+		<li>
+			<textarea cols="80" id="editor5" rows="10">
+				Text
+				<br>
+				<ul>
+					<li>a</li>
+					<li>b</li>
+				</ul>
+			</textarea>
+		</li>
+		<li>
+			<pre id="editor5_out"></pre>
 		</li>
 	</ul>
 	<script>
@@ -260,6 +278,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.replace( 'editor4', {
 			plugins: plugins,
 			removePlugins: 'indentlist'
+		} );
+
+		CKEDITOR.replace( 'editor5', {
+			plugins: plugins,
+			enterMode: CKEDITOR.ENTER_BR
 		} );
 	</script>
 </body>

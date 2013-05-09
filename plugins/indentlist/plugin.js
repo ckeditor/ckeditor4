@@ -36,12 +36,11 @@
 					'ol ul': {
 						// Do not add elements, but only text-align style if element is validated by other rule.
 						propertiesOnly: true,
-						styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
 						classes: this.useIndentClasses ? this.indentClasses : null
 					}
 				};
 
-				var requiredParams = ( this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '{margin-left}' );
+				var requiredParams = this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '';
 
 				this.requiredContent = [
 					'ul' + requiredParams,
@@ -93,7 +92,7 @@
 					// 			Don't indent if path in the first list item because
 					//			is requires margins to be used. This is a job for indentblock.
 					//
-					else if ( firstListItem.equals( list.getFirst( isListItem ) ) )
+					else if ( firstListItem && firstListItem.equals( list.getFirst( isListItem ) ) )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 					// 	+ List in the path
