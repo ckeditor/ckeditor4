@@ -55,7 +55,7 @@
 
 				refresh: function( editor, path ) {
 					var list = this.getContext( path ),
-						firstListItem = path.block;
+						inFirstListItem = list && path.block && path.block.equals( list.getFirst( isListItem ) );
 
 					//	- List in the path
 					//
@@ -68,10 +68,11 @@
 					//	- List in the path
 					//	- Indent margin.
 					//
-					// 			Indentblock handles blocks with margins.
-					//			Indentlist never plays with margins: nesting only.
+					// 			Indentblock handles blocks with margins when
+					//			entire list must be indented. Indentlist never plays with
+					//			margins of the entire list: nesting only.
 					//
-					else if ( getNumericalIndentLevel( list ) )
+					else if ( getNumericalIndentLevel( list ) && inFirstListItem )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 					//	+ List in the path
@@ -92,7 +93,7 @@
 					// 			Don't indent if path in the first list item because
 					//			is requires margins to be used. This is a job for indentblock.
 					//
-					else if ( firstListItem && firstListItem.equals( list.getFirst( isListItem ) ) )
+					else if ( inFirstListItem )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 
 					// 	+ List in the path
