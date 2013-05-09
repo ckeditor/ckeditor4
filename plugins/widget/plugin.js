@@ -1015,6 +1015,16 @@
 			widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
 	}
 
+	function blurWidget( widgetsRepo, widget ) {
+		widgetsRepo.focused = null;
+
+		if ( widget.isInited() ) {
+			// Widget could be destroyed in the meantime - e.g. data could be set.
+			widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
+			widget.setFocused( false );
+		}
+	}
+
 	// Unwraps widget element and clean up element.
 	//
 	// This function is used to clean up pasted widgets.
@@ -1442,6 +1452,13 @@
 			stateUpdater( widgetsRepo ).commit();
 		} );
 
+		editor.on( 'blur', function() {
+			var widget;
+
+			if ( ( widget = widgetsRepo.focused ) )
+				blurWidget( widgetsRepo, widget );
+		} );
+
 		function fireSelectionCheck() {
 			widgetsRepo.fire( 'checkSelection' );
 		}
@@ -1497,12 +1514,7 @@ function stateUpdater( widgetsRepo ) {
 				widget;
 
 			if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
-				widgetsRepo.focused = null;
-				if ( widget.isInited() ) {
-					// Widget could be destroyed in the meantime - e.g. data could be set.
-					widgetsRepo.fire( 'widgetBlurred', { widget: widget } );
-					widget.setFocused( false );
-				}
+				blurWidget( widgetsRepo, widget );
 			}
 
 			while ( ( widget = toBeDeselected.pop() ) ) {
