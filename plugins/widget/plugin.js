@@ -538,6 +538,10 @@
 		 * Focuses widget by selecting it.
 		 */
 		focus: function() {
+			// Focus editor first.
+			if ( !this.editor.focusManager.hasFocus )
+				this.editor.focus();
+
 			var sel = this.editor.getSelection();
 			if ( sel )
 				sel.fake( this.wrapper );
@@ -621,63 +625,6 @@
 		},
 
 		/* TMP
-		removeBlurListeners: function() {
-			var listener;
-			while ( ( listener = this.blurListeners.pop() ) )
-				listener.removeListener();
-		},
-
-		select: function( force ) {
-			var that = this,
-				widgets = this.editor.widgets;
-
-			if ( !force && widgets.selected && widgets.selected == this )
-				return;
-
-			// If clicked again without blurring - remove old listeners
-			// before attaching the new ones.
-			this.removeBlurListeners();
-
-			// If one of the widgets is selected, then blur it and
-			// mark this widget as selected.
-			if ( widgets.selected && widgets.selected != this )
-				widgets.selected.blur();
-
-			widgets.selected = this;
-
-			this.element.setAttribute( 'data-widget-selected' );
-			this.wrapper.addClass( 'cke_widget_selected' );
-
-			if ( CKEDITOR.env.ie )
-				setTimeout( function() {
-					!that.editor.focusManager.hasFocus && that.editor.focus();
-				}, 0 );
-			else
-				that.wrapper.focus();
-
-			that.editor.getSelection().fake( that.wrapper );
-
-			widgets.fire( 'widgetSelected', this );
-
-			setTimeout( function() {
-				blurOn( 'selectionChange' );
-				blurOn( 'blur' );
-			}, 0 );
-
-			function blurOn( eventName ) {
-				that.blurListeners.push( that.editor.on( eventName, callback, that.editor ) );
-			}
-
-			function callback( event ) {
-				// Do not blur if widget remains selected on selectionChange.
-				if ( event.name == 'selectionChange' && that == getWidgetFromSelection( that.editor, event.data.selection ) )
-					return false;
-
-				that.removeBlurListeners();
-				that.blur();
-			}
-		},
-
 		// Since webkit (also FF) destroys the selection when pasting a widget (only a widget,
 		// NOTHING more), we can detect this case since we marked such widget with
 		// an attribute. We restore the caret after the widget once it is ready and
