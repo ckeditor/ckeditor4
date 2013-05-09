@@ -29,8 +29,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * <script src="adapters/jquery/adapter.js"></script>
  */
 
-(function()
-{
+(function() {
 	/**
 	 * Allows CKEditor to override jQuery.fn.val(), making it possible to use the val()
 	 * function on textareas, as usual, having it synchronized with CKEditor.<br>
@@ -61,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// jQuery object methods.
 	jQuery.extend( jQuery.fn,
-	/** @lends jQuery.fn */
+	/** @lends jQuery.fn */ 
 	{
 		/**
 		 * Return existing CKEditor instance for first matched element.
@@ -73,8 +72,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @return CKEDITOR.editor
 		 * @see CKEDITOR.editor
 		 */
-		ckeditorGet: function()
-		{
+		ckeditorGet: function() {
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
 			if ( !instance )
 				throw "CKEditor not yet initialized, use ckeditor() with callback.";
@@ -101,39 +99,32 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 * @name jQuery.fn.ckeditor
 		 * @return jQuery.fn
 		 */
-		ckeditor: function( callback, config )
-		{
+		ckeditor: function( callback, config ) {
 			if ( !CKEDITOR.env.isCompatible )
 				return this;
 
-			if ( !jQuery.isFunction( callback ))
-			{
+			if ( !jQuery.isFunction( callback )) {
 				var tmp = config;
 				config = callback;
 				callback = tmp;
 			}
 			config = config || {};
 
-			this.filter( 'textarea, div, p' ).each( function()
-			{
+			this.filter( 'textarea, div, p' ).each( function() {
 				var $element = jQuery( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
 					element = this;
 
-				if ( editor && !instanceLock )
-				{
+				if ( editor && !instanceLock ) {
 					if ( callback )
 						callback.apply( editor, [ this ] );
-				}
-				else if ( !instanceLock )
-				{
+				} else if ( !instanceLock ) {
 					// CREATE NEW INSTANCE
 
 					// Handle config.autoUpdateElement inside this plugin if desired.
 					if ( config.autoUpdateElement
-						|| ( typeof config.autoUpdateElement == 'undefined' && CKEDITOR.config.autoUpdateElement ) )
-					{
+						|| ( typeof config.autoUpdateElement == 'undefined' && CKEDITOR.config.autoUpdateElement ) ) {
 						config.autoUpdateElementJquery = true;
 					}
 
@@ -146,14 +137,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
-					editor.on( 'instanceReady', function( event )
-					{
+					editor.on( 'instanceReady', function( event ) {
 						var editor = event.editor;
-						setTimeout( function()
-						{
+						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
-							if ( !editor.element )
-							{
+							if ( !editor.element ) {
 								setTimeout( arguments.callee, 100 );
 								return;
 							}
@@ -162,8 +150,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							event.removeListener( 'instanceReady', this.callee );
 
 							// Forward setData on dataReady.
-							editor.on( 'dataReady', function()
-							{
+							editor.on( 'dataReady', function() {
 								$element.trigger( 'setData' + '.ckeditor', [ editor ] );
 							});
 
@@ -173,18 +160,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							}, 999 );
 
 							// Forward destroy event.
-							editor.on( 'destroy', function()
-							{
+							editor.on( 'destroy', function() {
 								$element.trigger( 'destroy.ckeditor', [ editor ] );
 							});
 
 							// Integrate with form submit.
-							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $element.parents( 'form' ).length )
-							{
-								var onSubmit = function()
-								{
-									$element.ckeditor( function()
-									{
+							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $element.parents( 'form' ).length ) {
+								var onSubmit = function() {
+									$element.ckeditor( function() {
 										editor.updateElement();
 									});
 								};
@@ -196,16 +179,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								$element.parents( 'form' ).bind( 'form-pre-serialize', onSubmit );
 
 								// Unbind when editor destroyed.
-								$element.bind( 'destroy.ckeditor', function()
-								{
+								$element.bind( 'destroy.ckeditor', function() {
 									$element.parents( 'form' ).unbind( 'submit', onSubmit );
 									$element.parents( 'form' ).unbind( 'form-pre-serialize', onSubmit );
 								});
 							}
 
 							// Garbage collect on destroy.
-							editor.on( 'destroy', function()
-							{
+							editor.on( 'destroy', function() {
 								$element.data( 'ckeditorInstance', null );
 							});
 
@@ -220,24 +201,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								callback.apply( editor, [ element ] );
 						}, 0 );
 					}, null, null, 9999);
-				}
-				else
-				{
+				} else {
 					// Editor is already during creation process, bind our code to the event.
-					CKEDITOR.on( 'instanceReady', function( event )
-					{
+					CKEDITOR.on( 'instanceReady', function( event ) {
 						var editor = event.editor;
-						setTimeout( function()
-						{
+						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
-							if ( !editor.element )
-							{
+							if ( !editor.element ) {
 								setTimeout( arguments.callee, 100 );
 								return;
 							}
 
-							if ( editor.element.$ == element )
-							{
+							if ( editor.element.$ == element ) {
 								// Run given code.
 								if ( callback )
 									callback.apply( editor, [ element ] );
@@ -251,10 +226,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 	// New val() method for objects.
-	if ( CKEDITOR.config.jqueryOverrideVal )
-	{
-		jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod )
-		{
+	if ( CKEDITOR.config.jqueryOverrideVal ) {
+		jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod ) {
 			/**
 			 * CKEditor-aware val() method.
 			 *
@@ -264,33 +237,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			 * @param oldValMethod
 			 * @name jQuery.fn.val
 			 */
-			return function( newValue, forceNative )
-			{
+			return function( newValue, forceNative ) {
 				var isSetter = typeof newValue != 'undefined',
 					result;
 
-				this.each( function()
-				{
+				this.each( function() {
 					var $this = jQuery( this ),
 						editor = $this.data( 'ckeditorInstance' );
 
-					if ( !forceNative && $this.is( 'textarea' ) && editor )
-					{
+					if ( !forceNative && $this.is( 'textarea' ) && editor ) {
 						if ( isSetter )
-							editor.setData( newValue );
-						else
-						{
+							editor.setData( newValue ); 
+						else {
 							result = editor.getData();
 							// break;
 							return null;
 						}
-					}
-					else
-					{
+					} else {
 						if ( isSetter )
-							oldValMethod.call( $this, newValue );
-						else
-						{
+							oldValMethod.call( $this, newValue ); 
+						else {
 							result = oldValMethod.call( $this );
 							// break;
 							return null;
