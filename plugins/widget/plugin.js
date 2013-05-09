@@ -919,10 +919,9 @@
 
 	var wrapperAttributes = {
 		// tabindex="-1" means that it can receive focus by code.
-		'tabindex': -1,
+		tabindex: -1,
 		'data-widget-wrapper': 1,
-		'style': 'position:relative;' + ( !CKEDITOR.env.gecko ?
-			CKEDITOR.tools.cssVendorPrefix( 'user-select', 'none', 1 ) : '' ),
+		style: 'position:relative;' + CKEDITOR.tools.cssVendorPrefix( 'user-select', 'none', 1 ),
 		// Class cke_widget_new marks widgets which haven't been initialized yet.
 		'class': 'cke_widget_wrapper cke_widget_new'
 	};
