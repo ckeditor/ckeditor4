@@ -49,8 +49,6 @@ div.ckconsole:hover {
 	font-size: 14px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	transition: background 0.25s;
-	-webkit-transition: background 0.25s;
 }
 .ckconsole .ckconsole_editor_header:before {
 	content: '\25bc\00a0'; /* down triangle arrow + nbsp */
@@ -59,19 +57,20 @@ div.ckconsole:hover {
 	content: '\25ba\00a0'; /* right triangle arrow + nbsp */
 }
 
-.ckconsole .ckconsole_refreshed .ckconsole_editor_header {
-	background: #EE6;
-}
-
 .ckconsole .ckconsole_panel_header {
 	background: #EEE;
 	border-top: solid 2px #CCC;
+	transition: background 0.1s;
+	-webkit-transition: background 0.1s;
 }
 .ckconsole .ckconsole_panel_header:before {
 	content: '\25bE\00a0'; /* small down triangle arrow + nbsp */
 }
 .ckconsole .ckconsole_folded .ckconsole_panel_header:before {
 	content: '\25b8\00a0'; /* small right triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_refreshed .ckconsole_panel_header {
+	background: #EE6;
 }
 
 .ckconsole_folded > .ckconsole_panel {

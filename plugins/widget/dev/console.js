@@ -15,6 +15,16 @@
 						header: 'Instances (' + instances.length + ')',
 						instances: generateInstancesList( instances )
 					};
+				},
+
+				refreshOn: function( editor, refresh ) {
+					editor.widgets.on( 'instanceCreated', function( evt ) {
+						refresh();
+
+						evt.data.on( 'data', refresh );
+					} );
+
+					editor.widgets.on( 'instanceDestroyed', refresh );
 				}
 			},
 
@@ -39,6 +49,10 @@
 						focused: focused ? 'id: ' + focused.id : '-',
 						selected: selectedIds.length ? 'id: ' + selectedIds.join( ', id: ' ) : '-'
 					};
+				},
+
+				refreshOn: function( editor, refresh ) {
+					editor.on( 'afterSelectionCheck', refresh );
 				}
 			},
 

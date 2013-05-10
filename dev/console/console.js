@@ -30,8 +30,6 @@ var CKCONSOLE = (function() {
 		var container = createContainer(),
 			editorPanel = createEditorPanel( editor, container, definition ),
 			panels = [],
-			panels2Refresh = [],
-			refreshTimeout,
 			panelDefinition,
 			panel;
 
@@ -39,49 +37,22 @@ var CKCONSOLE = (function() {
 			panelDefinition = definition.panels[ i ];
 			panel = new that.panels[ panelDefinition.type ]( editor, editorPanel, panelDefinition );
 
+			if ( panel.refreshOn )
+				setupPanelRefresh( editor, panel );
+
 			panels.push( panel );
-			if ( panel.refresh )
-				panels2Refresh.push( panel );
-			if ( panel.init )
-				panels2Init.push( panel );
 		}
 
 		editor.on( 'focus', function() {
 			editorPanel.addClass( 'ckconsole_active' );
-
-			if ( refreshTimeout )
-				clearTimeout( refreshTimeout );
-			refresh();
 		} );
 
 		editor.on( 'blur', function() {
 			editorPanel.removeClass( 'ckconsole_active' );
-
-			if ( refreshTimeout )
-				clearTimeout( refreshTimeout );
 		} );
-
-		editor.on( 'instanceReady', function() {
-			refresh( true );
-		} );
-
-		function refresh( once ) {
-			for ( var i = 0; i < panels2Refresh.length; ++i )
-				panels2Refresh[ i ].refresh();
-
-			editorPanel.addClass( 'ckconsole_refreshed' );
-
-			if ( !once )
-				refreshTimeout = setTimeout( refresh, 2000 );
-			setTimeout( removeRefreshed, 100 );
-		}
-
-		function removeRefreshed() {
-			editorPanel.removeClass( 'ckconsole_refreshed' );
-		}
 	}
 
-	function createContainer( side ) {
+	function createContainer() {
 		var container = that.container;
 
 		if ( !container ) {
@@ -108,6 +79,7 @@ var CKCONSOLE = (function() {
 		} );
 
 		container.append( el );
+
 		return el;
 	}
 
@@ -131,6 +103,26 @@ var CKCONSOLE = (function() {
 			html = html.output( data );
 
 		return CKEDITOR.dom.element.createFromHtml( html );
+	}
+
+	function setupPanelRefresh( editor, panel ) {
+		var timer,
+			buffer = CKEDITOR.tools.eventsBuffer( 500, function() {
+				panel.refresh();
+				panel.container.addClass( 'ckconsole_refreshed' );
+
+				if ( timer )
+					clearTimeout( timer );
+				setTimeout( removeClass, 200 );
+			} );
+
+		editor.on( 'pluginsLoaded', function() {
+			panel.refreshOn( editor, buffer.input );
+		} );
+
+		function removeClass() {
+			panel.container.removeClass( 'ckconsole_refreshed' );
+		}
 	}
 
 
@@ -157,6 +149,7 @@ var CKCONSOLE = (function() {
 			definition: panelDefinition,
 			container: container,
 			valuesElements: values,
+			refreshOn: panelDefinition.refreshOn,
 			refresh: function() {
 				var values = this.definition.refresh( this.editor ),
 					valueName;
@@ -210,11 +203,11 @@ var CKCONSOLE = (function() {
 	}
 
 	var editorPanelTpl = new CKEDITOR.template(
-			'<section class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header">Editor: {name}</h1></section>'
+			'<section class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header" onmousedown="return false">Editor: {name}</h1></section>'
 		),
 		panelTpl = new CKEDITOR.template(
 			'<section class="ckconsole_panel ckconsole_folded">' +
-				'<h1 class="ckconsole_header ckconsole_panel_header">{header}</h1>' +
+				'<h1 class="ckconsole_header ckconsole_panel_header" onmousedown="return false">{header}</h1>' +
 				'{content}' +
 			'</section>'
 		),
