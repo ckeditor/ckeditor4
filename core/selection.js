@@ -353,7 +353,7 @@
 						var nativ = editor.getSelection().getNative();
 						// Do it only if the native selection is at an unwanted
 						// place (at the very start of the editable). #10119
-						if ( nativ.isCollapsed && nativ.anchorNode == editable.$ ) {
+						if ( nativ && nativ.isCollapsed && nativ.anchorNode == editable.$ ) {
 							var rng = editor.createRange();
 							rng.moveToElementEditStart( editable );
 							rng.select();
