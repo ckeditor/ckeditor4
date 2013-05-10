@@ -1,5 +1,9 @@
+body {
+	padding-right: 430px; /* ckconsole (400px) + normal padding (30px) */
+}
+
 div.ckconsole {
-	width: 333px;
+	width: 400px;
 	position: fixed;
 	top: 0;
 	right: 0;

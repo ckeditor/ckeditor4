@@ -2,7 +2,7 @@
 
 var CKCONSOLE = (function() {
 	var	that = {
-			containers: {},
+			container: null,
 			definitions: {},
 
 			add: function( consoleName, definition ) {
@@ -27,7 +27,7 @@ var CKCONSOLE = (function() {
 		};
 
 	function createConsole( editor, definition, config ) {
-		var container = createContainer( config.side || 'right' ),
+		var container = createContainer(),
 			editorPanel = createEditorPanel( editor, container, definition ),
 			panels = [],
 			panels2Refresh = [],
@@ -82,10 +82,10 @@ var CKCONSOLE = (function() {
 	}
 
 	function createContainer( side ) {
-		var container = that.containers[ side ];
+		var container = that.container;
 
 		if ( !container ) {
-			container = that.containers[ side ] = fromHtml( '<div class="ckconsole cke_reset_all ckconsole_side_' + side + '"></div>' );
+			container = that.container = fromHtml( '<div class="ckconsole cke_reset_all"></div>' );
 			CKEDITOR.document.getBody().append( container );
 
 			var link = fromHtml( '<link rel="stylesheet" href="' + CKEDITOR.getUrl( 'dev/console/console.css' ) + '">' );
