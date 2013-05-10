@@ -63,6 +63,12 @@
 		}
 	});
 
+	/**
+	 * Global command class definitions and global helpers.
+	 *
+	 * @class
+	 * @singleton
+	 */
 	CKEDITOR.plugins.indent = {
 		listNodeNames: { ol: 1, ul: 1 },
 
@@ -112,6 +118,9 @@
 		 * They observe events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
 		 * and perform defined actions.
 		 *
+		 * Calling this kind of commands directly isn't recommended since they
+		 * can't be undone, however this is still possible.
+		 *
 		 * @class CKEDITOR.plugins.indent.specificDefinition
 		 * @extends CKEDITOR.command
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
@@ -123,6 +132,15 @@
 			this.name = name;
 			this.editor = editor;
 			this.canUndo = false;
+
+			/**
+			 * Determines whether the editor that command belongs to has
+			 * config.enterMode set to CKEDITOR.ENTER_BR.
+			 *
+			 * @readonly
+			 * @see CKEDITOR.config#enterMode
+			 * @property {Boolean} [=false]
+			 */
 			this.enterBr = editor.config.enterMode == CKEDITOR.ENTER_BR;
 
 			/**
@@ -258,7 +276,7 @@
 		},
 
 		/**
-		 * Determines whether a node is a list <li> element.
+		 * Determines whether a node is a list LI element.
 		 *
 		 * @param {CKEDITOR.dom.node} node A node to be checked.
 		 * @returns {Boolean}
