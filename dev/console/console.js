@@ -28,7 +28,7 @@ var CKCONSOLE = (function() {
 
 	function createConsole( editor, definition, config ) {
 		var container = createContainer(),
-			editorPanel = createEditorPanel( editor, container, definition ),
+			editorPanel = createEditorPanel( editor, container, definition, config ),
 			panels = [],
 			panelDefinition,
 			panel;
@@ -66,7 +66,7 @@ var CKCONSOLE = (function() {
 		return container;
 	}
 
-	function createEditorPanel( editor, container, definition ) {
+	function createEditorPanel( editor, container, definition, config ) {
 		var el = fromHtml( editorPanelTpl, {
 			name: editor.name + '/' + definition.name
 		} );
@@ -77,6 +77,9 @@ var CKCONSOLE = (function() {
 			else
 				el.addClass( 'ckconsole_folded' );
 		} );
+
+		if ( config.folded )
+			el.addClass( 'ckconsole_folded' );
 
 		container.append( el );
 
