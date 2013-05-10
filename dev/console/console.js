@@ -100,7 +100,29 @@ var CKCONSOLE = (function() {
 			name: editor.name + '/' + definition.name
 		} );
 
+		el.findOne( '.ckconsole_header' ).on( 'click', function( evt ) {
+			if ( el.hasClass( 'ckconsole_folded') )
+				el.removeClass( 'ckconsole_folded' );
+			else
+				el.addClass( 'ckconsole_folded' );
+		} );
+
 		container.append( el );
+		return el;
+	}
+
+	function createPanel( editorPanel, data ) {
+		var el = fromHtml( panelTpl, data );
+
+		el.findOne( '.ckconsole_header' ).on( 'click', function( evt ) {
+			if ( el.hasClass( 'ckconsole_folded') )
+				el.removeClass( 'ckconsole_folded' );
+			else
+				el.addClass( 'ckconsole_folded' );
+		} );
+
+		editorPanel.append( el );
+
 		return el;
 	}
 
@@ -111,13 +133,16 @@ var CKCONSOLE = (function() {
 		return CKEDITOR.dom.element.createFromHtml( html );
 	}
 
+
+	//
+	// PANELS -----------------------------------------------------------------
+	//
+
 	function panelBox( editor, editorPanel, panelDefinition ) {
-		var container = fromHtml( panelTpl, {
+		var container = createPanel( editorPanel, {
 			header: '<span class="ckconsole_value" data-value="header"></span>',
 			content: '<div class="ckconsole_content">' + panelDefinition.content + '</div>'
 		} );
-
-		editorPanel.append( container );
 
 		var valuesElements = container.find( '.ckconsole_value' ),
 			values = {};
@@ -143,12 +168,10 @@ var CKCONSOLE = (function() {
 	}
 
 	function panelLog( editor, editorPanel, panelDefinition ) {
-		var container = fromHtml( panelTpl, {
+		var container = createPanel( editorPanel, {
 			header: 'Console',
 			content: '<ul class="ckconsole_log"></ul>'
 		} );
-
-		editorPanel.append( container );
 
 		var logList = container.findOne( '.ckconsole_log' );
 
@@ -187,10 +210,10 @@ var CKCONSOLE = (function() {
 	}
 
 	var editorPanelTpl = new CKEDITOR.template(
-			'<section class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header">&#9658; Editor: {name}</h1></section>'
+			'<section class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header">Editor: {name}</h1></section>'
 		),
 		panelTpl = new CKEDITOR.template(
-			'<section class="ckconsole_panel">' +
+			'<section class="ckconsole_panel ckconsole_folded">' +
 				'<h1 class="ckconsole_header ckconsole_panel_header">{header}</h1>' +
 				'{content}' +
 			'</section>'

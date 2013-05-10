@@ -37,6 +37,11 @@ div.ckconsole:hover {
 	padding: 3px 10px;
 }
 
+.ckconsole .ckconsole_header,
+.ckconsole .ckconsole_header * {
+	cursor: pointer;
+}
+
 .ckconsole .ckconsole_editor_header {
 	background: #DDD;
 	font-size: 14px;
@@ -44,6 +49,12 @@ div.ckconsole:hover {
 	padding-bottom: 10px;
 	transition: background 0.25s;
 	-webkit-transition: background 0.25s;
+}
+.ckconsole .ckconsole_editor_header:before {
+	content: '\25bc\00a0'; /* down triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_folded .ckconsole_editor_header:before {
+	content: '\25ba\00a0'; /* right triangle arrow + nbsp */
 }
 
 .ckconsole .ckconsole_refreshed .ckconsole_editor_header {
@@ -53,6 +64,20 @@ div.ckconsole:hover {
 .ckconsole .ckconsole_panel_header {
 	background: #EEE;
 	border-top: solid 2px #CCC;
+}
+.ckconsole .ckconsole_panel_header:before {
+	content: '\25bE\00a0'; /* small down triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_folded .ckconsole_panel_header:before {
+	content: '\25b8\00a0'; /* small right triangle arrow + nbsp */
+}
+
+.ckconsole_folded > .ckconsole_panel {
+	display: none;
+}
+.ckconsole_folded > .ckconsole_content,
+.ckconsole_folded > .ckconsole_log {
+	display: none;
 }
 
 .ckconsole .ckconsole_list {
