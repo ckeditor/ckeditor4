@@ -5,9 +5,6 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
-		// TODO: should not depend on a particular format plugin.
-		requires: 'indent',
-
 		init: function( editor ) {
 			editor.addCommand( 'enter', { modes:{wysiwyg:1 },
 				editorFocus: false,
@@ -54,7 +51,77 @@
 			if ( atBlockStart && atBlockEnd ) {
 				// Exit the list when we're inside an empty list item block. (#5376)
 				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
-					editor.execCommand( 'outdent' );
+					var blockParent = block.getParent(),
+						blockGrandParent = blockParent.getParent(),
+
+						selection = editor.getSelection(),
+						bookmarks = selection.createBookmarks(),
+
+						orgDir = block.getDirection( 1 ),
+						className = block.getAttribute( 'class' ),
+						style = block.getAttribute( 'style' ),
+						dirLoose = blockGrandParent.getDirection( 1 ) != orgDir,
+
+						enterMode = editor.config.enterMode,
+						needsBlock = enterMode != CKEDITOR.ENTER_BR || dirLoose || style || className,
+
+						range = editor.createRange(),
+						child;
+
+					//
+					// <ul>							=>		<ul>
+					// 		<li>					=>			<li>
+					// 			<ul>				=>				<ul>
+					// 				<li>x</li>		=>						<li>x</li>
+					// 				<li>^</li>		=>				</ul>
+					// 			</ul>				=>				<li>^</li>
+					// 		</li>					=>			</li>
+					// </ul>						=>		</ul>
+					//
+					if ( blockGrandParent.is( 'li' ) )
+						block.insertAfter( blockGrandParent );
+
+					//
+					// <ul>					=>		<ul>
+					// 		<li>x</li>		=>			<li>x</li>
+					//		<li>^</li>		=>		</ul>
+					// </ul>				=>		^<br/>
+					// y					=>		y
+					//
+					else if ( !needsBlock ) {
+						block.appendBogus();
+
+						while ( ( child = block.getLast() ) )
+							child.insertAfter( blockParent );
+
+						block.remove();
+					}
+
+					//
+					// <ul>					=>		<ul>
+					// 		<li>x</li>		=>			<li>x</li>
+					//		<li>^</li>		=>		</ul>
+					// </ul>				=>		<p>^</p>
+					// <p>y</p>				=>		<p>y</p>
+					//
+					else {
+						var newBlock = doc.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+
+						if ( dirLoose )
+							newBlock.setAttribute( 'dir', orgDir );
+
+						style && newBlock.setAttribute( 'style', style );
+						className && newBlock.setAttribute( 'class', className );
+
+						while ( ( child = block.getLast() ) )
+							child.appendTo( newBlock );
+
+						newBlock.insertAfter( block.getParent() );
+						block.remove();
+					}
+
+					selection.selectBookmarks( bookmarks );
+
 					return;
 				}
 
