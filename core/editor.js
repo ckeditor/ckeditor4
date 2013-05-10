@@ -310,7 +310,7 @@
 		 * @property {Boolean}
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.isReadOnly() : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
+		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element && editor.element.isReadOnly() : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
 
 		/**
 		 * Indicates that the editor is running into an environment where
@@ -319,7 +319,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
+		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && editor.element && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
 
 		/**
 		 * The [tabbing navigation](http://en.wikipedia.org/wiki/Tabbing_navigation) order determined for this editor instance.
@@ -392,7 +392,7 @@
 
 			if ( !editor.config.contentsLangDirection ) {
 				// Fallback to either the editable element direction or editor UI direction depending on creators.
-				editor.config.contentsLangDirection = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.getDirection( 1 ) : editor.lang.dir;
+				editor.config.contentsLangDirection = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element && editor.element.getDirection( 1 ) : editor.lang.dir;
 			}
 
 			editor.fire( 'langLoaded' );
