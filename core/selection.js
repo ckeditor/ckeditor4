@@ -11,32 +11,26 @@
 	// change on the tree, then the selectionChange event gets fired.
 	function checkSelectionChange() {
 		// A possibly available fake-selection.
-		var sel = this._.fakeSelection;
+		var sel = this._.fakeSelection,
+			realSel;
 
 		if ( sel ) {
-			// Temporarily invalidate the cache, so getType() will return the real native value (not the fake one).
-			delete sel._.cache.nativeSel;
-			delete sel._.cache.type;
+			realSel = this.getSelection( 1 );
 
-			// If a native selection took place, then the fake-selection must be invalidated.
-			if ( sel.getType() != CKEDITOR.SELECTION_NONE ) {
+			// If real (not locked/stored) selection was moved from hidden container,
+			// then the fake-selection must be invalidated.
+			if ( !realSel || !isHiddenSelection( realSel ) ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
 
 				// Have the code using the native selection.
 				sel = 0;
 			}
-			else {
-				// Restore the nativeSel cache for fake-selection.
-				sel._.cache.nativeSel = null;
-				sel._.cache.type = CKEDITOR.SELECTION_ELEMENT;
-			}
 		}
 
 		// If not fake-selection is available then get the native selection.
 		if ( !sel ) {
-			// Native selection.
-			sel = this.getSelection( 1 );
+			sel = realSel || this.getSelection( 1 );
 
 			// Editor may have no selection at all.
 			if ( !sel || sel.getType() == CKEDITOR.SELECTION_NONE )
@@ -243,6 +237,47 @@
 
 		listener.removeListener();
 		listener2 && listener2.removeListener();
+	}
+
+	// Creates cke_hidden_sel container and puts real selection there.
+	function hideSelection( editor ) {
+		var hiddenEl = CKEDITOR.dom.element.createFromHtml( '<div class="cke_hidden_sel" data-cke-hidden-sel="1" data-cke-temp="1">&nbsp;</div>' );
+		editor.editable().append( hiddenEl );
+
+		var sel = editor.getSelection(),
+			range = editor.createRange(),
+			// Cancel selectionchange fired by selectRanges - prevent from firing selectionChange.
+			listener = sel.root.on( 'selectionchange', function( evt ) {
+				evt.cancel();
+			}, null, null, 0 );
+
+		range.setStartAt( hiddenEl, CKEDITOR.POSITION_AFTER_START );
+		range.setEndAt( hiddenEl, CKEDITOR.POSITION_BEFORE_END );
+		sel.selectRanges( [ range ] );
+
+		listener.removeListener();
+
+		// Set this value at the end, so reset() executed by selectRanges()
+		// will clean up old hidden selection container.
+		editor._.hiddenSelectionContainer = hiddenEl;
+	}
+
+	// Whether selection was hidden by hideSelection.
+	function isHiddenSelection( sel ) {
+		var el = sel.getCommonAncestor();
+
+		if ( el && el.type == CKEDITOR.NODE_TEXT )
+			el = el.getParent();
+
+		return el && el.data( 'cke-hidden-sel' );
+	}
+
+	function removeHiddenSelectionContainer( editor ) {
+		var hiddenEl = editor._.hiddenSelectionContainer;
+
+		if ( hiddenEl )
+			hiddenEl.remove();
+		delete editor._.hiddenSelectionContainer;
 	}
 
 	// Setup all editor instances for the necessary selection hooks.
@@ -513,6 +548,8 @@
 		editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
 		// Check selection change on data reload.
 		editor.on( 'dataReady', function() {
+			delete editor._.fakeSelection;
+			delete editor._.hiddenSelectionContainer;
 			editor.selectionChange( 1 );
 		});
 
@@ -845,7 +882,15 @@
 		}
 
 		// Selection out of concerned range, empty the selection.
-		if ( !( rangeParent && ( root.equals( rangeParent ) || root.contains( rangeParent ) ) ) ) {
+		// TODO check whether this condition cannot be reverted to its old
+		// form (commented out) after we closed #10438.
+		//if ( !( rangeParent && ( root.equals( rangeParent ) || root.contains( rangeParent ) ) ) ) {
+		if ( !(
+			rangeParent &&
+			( rangeParent.type == CKEDITOR.NODE_ELEMENT || rangeParent.type == CKEDITOR.NODE_TEXT ) &&
+			( this.root.equals( rangeParent ) || this.root.contains( rangeParent ) )
+		) ) {
+
 			this._.cache.type = CKEDITOR.SELECTION_NONE;
 			this._.cache.startElement = null;
 			this._.cache.selectedElement = null;
@@ -1443,10 +1488,15 @@
 			this._.cache = {};
 			this.isFake = 0;
 
+			var editor = this.root.editor;
+
 			// Invalidate any fake selection available in the editor.
-			if ( this.root.editor && this.root.editor._.fakeSelection ) {
-				if ( this === this.root.editor._.fakeSelection )
-					delete this.root.editor._.fakeSelection;
+			if ( editor && editor._.fakeSelection ) {
+				if ( this === editor._.fakeSelection ) {
+					delete editor._.fakeSelection;
+
+					removeHiddenSelectionContainer( editor );
+				}
 				// TODO after #9786 use commented out lines instead of console.error.
 				else
 					window.console && console.log( 'Wrong selection instance resets fake selection' );
@@ -1732,14 +1782,13 @@
 		 * @param element The element to be "selected".
 		 */
 		fake: function( element ) {
+			var editor = this.root.editor;
+
+			hideSelection( editor );
+
+			// Set this value after executing hiseSelection, because it may
+			// cause reset() which overwrites cache.
 			var cache = this._.cache;
-
-			delete cache.nativeSel;
-			var nativeSel = this.getNative();
-
-			// Cleanup the current native selection, setting its type to NONE.
-			nativeSel.removeAllRanges && nativeSel.removeAllRanges() ||
-			nativeSel.empty && nativeSel.empty();
 
 			// Caches a range than holds the element.
 			var range = new CKEDITOR.dom.range( element.getDocument() );
@@ -1757,7 +1806,7 @@
 			this.isFake = 1;
 
 			// Save this selection, so it can be returned by editor.getSelection().
-			this.root.editor._.fakeSelection = this;
+			editor._.fakeSelection = this;
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
