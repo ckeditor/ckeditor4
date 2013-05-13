@@ -10,7 +10,8 @@
 (function() {
 	'use strict';
 
-	var isListItem, getIndentCssProperty, getNumericalIndentLevel;
+	var isListItem, getIndentCssProperty, getNumericalIndentLevel,
+		isFirstListItemInPath;
 
 	CKEDITOR.plugins.add( 'indentblock', {
 		requires: 'indent',
@@ -21,6 +22,7 @@
 			isListItem = globalHelpers.isListItem;
 			getIndentCssProperty = globalHelpers.getIndentCssProperty;
 			getNumericalIndentLevel = globalHelpers.getNumericalIndentLevel;
+			isFirstListItemInPath = globalHelpers.isFirstListItemInPath;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -52,6 +54,26 @@
 				// Indent block is a kind of generic indentation. It must
 				// be executed after any other indentation commands.
 				this.execPriority = 90;
+
+				// Indent and outdent entire list with TAB/SHIFT+TAB key. Indenting can
+				// be done only when editor path is in the first child of the list.
+				editor.on( 'key', function( event ) {
+					if ( editor.mode != 'wysiwyg' )
+						return;
+
+					var key = event.data.keyCode;
+
+					if ( event.data.keyCode == this.indentKey && isFirstListItemInPath( editor.elementPath() ) ) {
+						// Exec related global indentation command. Global
+						// commands take care of bookmarks and selection,
+						// so it's much easier to use them instead of
+						// content-specific commands.
+						editor.execCommand( this.relatedGlobal );
+
+						// Cancel the key event so editor doesn't lose focus.
+						event.cancel();
+					}
+				}, this );
 			};
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {

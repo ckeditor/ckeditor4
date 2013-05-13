@@ -63,6 +63,8 @@
 		}
 	});
 
+	var listNodeNames = { ol: 1, ul: 1 };
+
 	/**
 	 * Global command class definitions and global helpers.
 	 *
@@ -70,7 +72,7 @@
 	 * @singleton
 	 */
 	CKEDITOR.plugins.indent = {
-		listNodeNames: { ol: 1, ul: 1 },
+		listNodeNames: listNodeNames,
 
 		/**
 		 * A base class for generic command definition, mainly responsible for creating indent
@@ -118,9 +120,6 @@
 		 * They observe events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
 		 * and perform defined actions.
 		 *
-		 * Calling this kind of commands directly isn't recommended since they
-		 * can't be undone, however this is still possible.
-		 *
 		 * @class CKEDITOR.plugins.indent.specificDefinition
 		 * @extends CKEDITOR.command
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
@@ -131,7 +130,6 @@
 		specificDefinition: function( editor, name, isIndent ) {
 			this.name = name;
 			this.editor = editor;
-			this.canUndo = false;
 
 			/**
 			 * Determines whether the editor that command belongs to has
@@ -151,6 +149,20 @@
 			 * @property {Boolean} [=false]
 			 */
 			this.isIndent = !!isIndent;
+
+			/**
+			 * The global command's name related to this one.
+			 *
+			 * @readonly
+			 */
+			this.relatedGlobal = isIndent ? 'indent' : 'outdent';
+
+			/**
+			 * A keystroke associated with this command (TAB or SHIFT+TAB).
+			 *
+			 * @readonly
+			 */
+			this.indentKey = isIndent ? 9 : CKEDITOR.SHIFT + 9;
 
 			/**
 			 * Priority of command execution. The lower the number, the higher
@@ -237,7 +249,7 @@
 			editor.on( 'pluginsLoaded', function() {
 				for ( var name in commands ) {
 					( function( editor, command ) {
-						var related = editor.getCommand( command.isIndent ? 'indent' : 'outdent' );
+						var related = editor.getCommand( command.relatedGlobal );
 
 						// Observe generic exec event and execute command when necessary.
 						// If the command was successfully handled by the command and
@@ -247,8 +259,15 @@
 							if ( event.data.done )
 								return;
 
+							// Make sure that anything this command will do is invisible
+							// for undoManager. What undoManager only can see and
+							// remember is the execution of the global command (related).
+							editor.fire( 'lockSnapshot' );
+
 							if ( editor.execCommand( command.name ) )
 								event.data.done = true;
+
+							editor.fire( 'unlockSnapshot' );
 
 							// Clean up the markers.
 							CKEDITOR.dom.element.clearAllMarkers( command.database );
@@ -281,9 +300,7 @@
 		 * @param {CKEDITOR.dom.node} node A node to be checked.
 		 * @returns {Boolean}
 		 */
-		isListItem: function( node ) {
-			return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
-		},
+		isListItem: isListItem,
 
 		/**
 		 * Determines indent CSS property for an element according to
@@ -312,8 +329,22 @@
 		 */
 		getNumericalIndentLevel: function ( element ) {
 			return parseInt( element.getStyle( CKEDITOR.plugins.indent.getIndentCssProperty( element ) ), 10 );
+		},
+
+		/**
+		 * Check whether a first child of a list is in the path.
+		 *
+		 * @param {CKEDITOR.dom.elementPath} path A path to be checked.
+		 * @param {CKEDITOR.dom.element} [list] A list to be used as a reference.
+		 * @returns {Boolean}
+		 */
+		isFirstListItemInPath: function( path, list ) {
+			if ( !list )
+				list = path.contains( listNodeNames );
+
+			return list && path.block && path.block.equals( list.getFirst( isListItem ) );
 		}
-	}
+	};
 
 	CKEDITOR.plugins.indent.genericDefinition.prototype = {
 		context: 'p',
@@ -508,6 +539,10 @@
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
 		}, command, null, 100 );
+	}
+
+	function isListItem( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 })();
 

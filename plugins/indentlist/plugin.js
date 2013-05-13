@@ -12,16 +12,18 @@
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isListItem, getNumericalIndentLevel;
+		isListItem, getNumericalIndentLevel, isFirstListItemInPath;
 
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
 		init: function( editor ) {
-			var globalHelpers = CKEDITOR.plugins.indent;
+			var globalHelpers = CKEDITOR.plugins.indent,
+				editable = editor;
 
 			// Use global helper functions.
 			isListItem = globalHelpers.isListItem;
 			getNumericalIndentLevel = globalHelpers.getNumericalIndentLevel;
+			isFirstListItemInPath = globalHelpers.isFirstListItemInPath;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -46,6 +48,36 @@
 					'ul' + requiredParams,
 					'ol' + requiredParams
 				];
+
+				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
+				// be done for any list item that isn't the first child of the parent.
+				editor.on( 'key', function( event ) {
+					if ( editor.mode != 'wysiwyg' )
+						return;
+
+					var key = event.data.keyCode;
+
+					if ( event.data.keyCode == this.indentKey ) {
+						var list = this.getContext( editor.elementPath() );
+
+						if ( list ) {
+							// Don't indent if in first list item of the parent.
+							// Outdent, however, can always be done to collapse
+							// the list into a paragraph (div).
+							if ( this.isIndent && isFirstListItemInPath( editor.elementPath(), list ) )
+								return;
+
+							// Exec related global indentation command. Global
+							// commands take care of bookmarks and selection,
+							// so it's much easier to use them instead of
+							// content-specific commands.
+							editor.execCommand( this.relatedGlobal );
+
+							// Cancel the key event so editor doesn't lose focus.
+							event.cancel();
+						}
+					}
+				}, this );
 			};
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
@@ -55,7 +87,7 @@
 
 				refresh: function( editor, path ) {
 					var list = this.getContext( path ),
-						inFirstListItem = list && path.block && path.block.equals( list.getFirst( isListItem ) );
+						inFirstListItem = isFirstListItemInPath( path, list );
 
 					//	- List in the path
 					//
@@ -298,7 +330,6 @@
 					}
 				}
 			});
-
 		}
 	});
 })();
