@@ -39,7 +39,7 @@
 			sel = this.getSelection( 1 );
 
 			// Editor may have no selection at all.
-			if ( sel.getType() == CKEDITOR.SELECTION_NONE )
+			if ( !sel || sel.getType() == CKEDITOR.SELECTION_NONE )
 				return;
 		}
 
@@ -630,9 +630,9 @@
 		if ( ( this._.savedSelection || this._.fakeSelection ) && !forceRealSelection )
 			return this._.savedSelection || this._.fakeSelection;
 
-		// Editable element might be absent.
+		// Editable element might be absent or editor might not be in a wysiwyg mode.
 		var editable = this.editable();
-		return editable ? new CKEDITOR.dom.selection( editable ) : null;
+		return editable && this.mode == 'wysiwyg' ? new CKEDITOR.dom.selection( editable ) : null;
 	};
 
 	/**
