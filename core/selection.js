@@ -1444,7 +1444,15 @@
 			this.isFake = 0;
 
 			// Invalidate any fake selection available in the editor.
-			this.root.editor && ( delete this.root.editor._.fakeSelection );
+			if ( this.root.editor && this.root.editor._.fakeSelection ) {
+				if ( this === this.root.editor._.fakeSelection )
+					delete this.root.editor._.fakeSelection;
+				// TODO after #9786 use commented out lines instead of console.error.
+				else
+					window.console && console.log( 'Wrong selection instance resets fake selection' );
+				// else // %REMOVE_LINE%
+				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
+			}
 		},
 
 		/**
