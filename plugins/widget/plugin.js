@@ -116,6 +116,11 @@
 			return widgetDef;
 		},
 
+		/**
+		 * Checks selection to update widgets states (select and focus).
+		 *
+		 * This method is triggered by {@link #event-checkSelection} event.
+		 */
 		checkSelection: function() {
 			var sel = this.editor.getSelection(),
 				selectedElement = sel.getSelectedElement(),
@@ -147,6 +152,8 @@
 		/**
 		 * Checks if all widgets instances are still present in DOM.
 		 * Destroys those which are not.
+		 *
+		 * This method is triggered by {@link #event-checkWidigets} event.
 		 */
 		checkWidgets: function() {
 			if ( this.editor.mode != 'wysiwyg' )
@@ -1120,6 +1127,7 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
+	// @param {CKEDITOR.dom.element}
 	function isWidgetWrapper2( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget-wrapper' );
 	}
@@ -1419,6 +1427,8 @@
 		} );
 	}
 
+	// Setup mouse observer which will trigger:
+	// * widget focus on widget click.
 	function setupMouseObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
@@ -1436,6 +1446,10 @@
 		} );
 	}
 
+	// Setup selection observer which will trigger:
+	// * widget select & focus on selection change,
+	// * deselecting and blurring all widgets on data,
+	// * blurring widget on editor blur.
 	function setupSelectionObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_SELECTION_CHECK_INTERVAL,	fireSelectionCheck );
@@ -1471,6 +1485,8 @@
 		}
 	}
 
+	// Setup observer which will trigger checkWidgets on:
+	// * keyup.
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, function() {
@@ -1493,57 +1509,59 @@
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 	}
 
-function stateUpdater( widgetsRepo ) {
-	var currentlySelected = widgetsRepo.selected,
-		toBeSelected = [],
-		toBeDeselected = currentlySelected.slice( 0 ),
-		focused = null;
+	// Helper for coordinating which widgets should be
+	// selected/deselected and which one should be focused/blurred.
+	function stateUpdater( widgetsRepo ) {
+		var currentlySelected = widgetsRepo.selected,
+			toBeSelected = [],
+			toBeDeselected = currentlySelected.slice( 0 ),
+			focused = null;
 
-	return {
-		select: function( widget ) {
-			if ( CKEDITOR.tools.indexOf( currentlySelected, widget ) < 0 )
-				toBeSelected.push( widget );
+		return {
+			select: function( widget ) {
+				if ( CKEDITOR.tools.indexOf( currentlySelected, widget ) < 0 )
+					toBeSelected.push( widget );
 
-			var index = CKEDITOR.tools.indexOf( toBeDeselected, widget );
-			if ( index >= 0 )
-				toBeDeselected.splice( index, 1 );
+				var index = CKEDITOR.tools.indexOf( toBeDeselected, widget );
+				if ( index >= 0 )
+					toBeDeselected.splice( index, 1 );
 
-			return this;
-		},
+				return this;
+			},
 
-		focus: function( widget ) {
-			focused = widget;
-			return this;
-		},
+			focus: function( widget ) {
+				focused = widget;
+				return this;
+			},
 
-		commit: function() {
-			var focusedChanged = widgetsRepo.focused !== focused,
-				widget;
+			commit: function() {
+				var focusedChanged = widgetsRepo.focused !== focused,
+					widget;
 
-			if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
-				blurWidget( widgetsRepo, widget );
+				if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
+					blurWidget( widgetsRepo, widget );
+				}
+
+				while ( ( widget = toBeDeselected.pop() ) ) {
+					currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
+					// Widget could be destroyed in the meantime - e.g. data could be set.
+					if ( widget.isInited() )
+						widget.setSelected( false );
+				}
+
+				if ( focusedChanged && focused ) {
+					widgetsRepo.focused = focused;
+					widgetsRepo.fire( 'widgetFocused', { widget: focused } );
+					focused.setFocused( true );
+				}
+
+				while ( ( widget = toBeSelected.pop() ) ) {
+					currentlySelected.push( widget );
+					widget.setSelected( true );
+				}
 			}
-
-			while ( ( widget = toBeDeselected.pop() ) ) {
-				currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
-				// Widget could be destroyed in the meantime - e.g. data could be set.
-				if ( widget.isInited() )
-					widget.setSelected( false );
-			}
-
-			if ( focusedChanged && focused ) {
-				widgetsRepo.focused = focused;
-				widgetsRepo.fire( 'widgetFocused', { widget: focused } );
-				focused.setFocused( true );
-			}
-
-			while ( ( widget = toBeSelected.pop() ) ) {
-				currentlySelected.push( widget );
-				widget.setSelected( true );
-			}
-		}
-	};
-}
+		};
+	}
 
 
 	//
@@ -1691,7 +1709,37 @@ function stateUpdater( widgetsRepo ) {
  */
 
 /**
- * Event fire when widget instance is created, but before it is fully
+ * Event fired when widget is focused.
+ *
+ * Widget can be focused by executing {@link #method-focus}.
+ *
+ * @event focus
+ * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fired when widget is blurred.
+ *
+ * @event blur
+ * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fired when widget is selected.
+ *
+ * @event select
+ * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fired when widget is deselected.
+ *
+ * @event deselect
+ * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fired when widget instance is created, but before it is fully
  * initialized.
  *
  * @event instanceCreated
@@ -1700,11 +1748,29 @@ function stateUpdater( widgetsRepo ) {
  */
 
 /**
- * Event fire when widget instance was destroyed.
+ * Event fired when widget instance was destroyed.
  *
  * See also {@link CKEDITOR.plugins.widget#event-destroy}.
  *
  * @event instanceDestroyed
  * @member CKEDITOR.plugins.widget.repository
  * @param {CKEDITOR.plugins.widget} data The widget instance.
+ */
+
+/**
+ * Event fired to trigger selection check.
+ *
+ * See {@link #method-checkSelection} method.
+ *
+ * @event checkSelection
+ * @member CKEDITOR.plugins.widget.repository
+ */
+
+/**
+ * Event fired to trigger widgets check.
+ *
+ * See {@link #method-checkWidgets} method.
+ *
+ * @event checkWidgets
+ * @member CKEDITOR.plugins.widget.repository
  */
