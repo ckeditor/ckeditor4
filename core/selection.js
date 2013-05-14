@@ -1497,11 +1497,11 @@
 
 					removeHiddenSelectionContainer( editor );
 				}
-				// TODO after #9786 use commented out lines instead of console.error.
+				// TODO after #9786 use commented out lines instead of console.log.
 				else
-					window.console && console.log( 'Wrong selection instance resets fake selection' );
+					window.console && console.log( 'Wrong selection instance resets fake selection.' );
 				// else // %REMOVE_LINE%
-				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
+				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection.', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
 			}
 		},
 
