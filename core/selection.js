@@ -1459,7 +1459,8 @@
 
 			if ( restore ) {
 				var selectedElement = this.getSelectedElement(),
-					ranges = !selectedElement && this.getRanges();
+					ranges = !selectedElement && this.getRanges(),
+					faked = this.isFake;
 			}
 
 			this.isLocked = 0;
@@ -1472,7 +1473,9 @@
 				if ( !( common && common.getAscendant( 'body', 1 ) ) )
 					return;
 
-				if ( selectedElement )
+				if ( faked )
+					this.fake( selectedElement );
+				else if ( selectedElement )
 					this.selectElement( selectedElement );
 				else
 					this.selectRanges( ranges );
