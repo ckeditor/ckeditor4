@@ -280,6 +280,22 @@
 		delete editor._.hiddenSelectionContainer;
 	}
 
+	// Hide hidden selection container.
+	CKEDITOR.addCss(
+		'.cke_hidden_sel{' +
+			'opacity:0;' +
+			(
+				// IE has problems with setting selection in positioned elements.
+				CKEDITOR.env.ie ?
+					'margin-left:-1000px'
+				:
+					'position:fixed;' +
+					'top:0;' +
+					'left:-1000px'
+			) +
+		'}'
+	);
+
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
