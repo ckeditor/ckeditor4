@@ -19,7 +19,7 @@
 
 			// If real (not locked/stored) selection was moved from hidden container,
 			// then the fake-selection must be invalidated.
-			if ( !realSel || !isHiddenSelection( realSel ) ) {
+			if ( !realSel || !realSel.isHidden() ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
 
@@ -260,16 +260,6 @@
 		// Set this value at the end, so reset() executed by selectRanges()
 		// will clean up old hidden selection container.
 		editor._.hiddenSelectionContainer = hiddenEl;
-	}
-
-	// Whether selection was hidden by hideSelection.
-	function isHiddenSelection( sel ) {
-		var el = sel.getCommonAncestor();
-
-		if ( el && el.type == CKEDITOR.NODE_TEXT )
-			el = el.getParent();
-
-		return el && el.data( 'cke-hidden-sel' );
 	}
 
 	function removeHiddenSelectionContainer( editor ) {
@@ -1829,6 +1819,27 @@
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
+		},
+
+		/**
+		 * Checks whether selection is placed in hidden element.
+		 *
+		 * This method is to be used to verify whether fake selection
+		 * (see {@link #fake}) is still hidden.
+		 *
+		 * **Note:** this method should be executed on real selection - e.g.:
+		 *
+		 *		editor.getSelection( true ).isHidden();
+		 *
+		 * @returns {Boolean}
+		 */
+		isHidden: function() {
+			var el = this.getCommonAncestor();
+
+			if ( el && el.type == CKEDITOR.NODE_TEXT )
+				el = el.getParent();
+
+			return !!( el && el.data( 'cke-hidden-sel' ) );
 		},
 
 		/**
