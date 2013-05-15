@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'eo', {
 		type: 'Tipo',
 		typeText: 'Teksto',
 		typePass: 'Pasvorto',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'retpoŝtadreso',
+		typeSearch: 'Serĉi',
+		typeTel: 'Telefonnumero',
 		typeUrl: 'URL'
 	}
 });

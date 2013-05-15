@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'fr-ca', {
-	confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
-	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
-	title: 'Coller en tant que Word (formaté)',
-	toolbar: 'Coller en tant que Word (formaté)'
+	confirmCleanup: 'Le texte que vous tentez de coller semble provenir de Word.  Désirez vous le nettoyer avant de coller?',
+	error: 'Il n\'a pas été possible de nettoyer les données collées du à une erreur interne',
+	title: 'Coller de Word',
+	toolbar: 'Coller de Word'
 });

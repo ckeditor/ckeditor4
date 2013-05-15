@@ -9,8 +9,8 @@
 
 CKEDITOR.plugins.add( 'specialchar', {
 	// List of available localizations.
-	availableLangs: { ca:1,cs:1,cy:1,de:1,en:1,eo:1,et:1,fa:1,fi:1,fr:1,he:1,hr:1,it:1,ku:1,lv:1,nb:1,nl:1,no:1,pl:1,'pt-br':1,sk:1,sv:1,th:1,tr:1,ug:1,'zh-cn':1 },
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	availableLangs: { ca:1,cs:1,cy:1,de:1,el:1,en:1,eo:1,es:1,et:1,fa:1,fi:1,fr:1,'fr-ca':1,he:1,hr:1,it:1,ku:1,lv:1,nb:1,nl:1,no:1,pl:1,'pt-br':1,sk:1,sq:1,sv:1,th:1,tr:1,ug:1,'zh-cn':1 },
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	requires: 'dialog',
 	icons: 'specialchar', // %REMOVE_LINE_CORE%
 	init: function( editor ) {

@@ -73,6 +73,18 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					docType: '<!DOCTYPE HTML>',
 
 					/*
+					 * Allowed content rules which beside limiting allowed HTML
+					 * will also take care of transforming styles to attributes
+					 * (currently only for img - see transformation rules defined below).
+					 *
+					 * Read more: http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
+					 */
+					allowedContent:
+						'h1 h2 h3 p pre[align]; ' +
+						'blockquote code kbd samp var del ins cite q b i u strike ul ol li hr table tbody tr td th caption; ' +
+						'img[!src,alt,align,width,height]; font[!face]; font[!family]; font[!color]; font[!size]; font{!background-color}; a[!href]; a[!name]',
+
+					/*
 					 * Core styles.
 					 */
 					coreStyles_bold: { element: 'b' },
@@ -98,12 +110,11 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					fontSize_style: {
 						element: 'font',
 						attributes: { 'size': '#(size)' }
-					} ,
+					},
 
 					/*
 					 * Font colors.
 					 */
-					colorButton_enableMore: true,
 
 					colorButton_foreStyle: {
 						element: 'font',
@@ -129,22 +140,55 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 						{ name: 'Inline Quotation', element: 'q' }
 					],
 
-					on: { 'instanceReady': configureHtmlOutput }
+					on: {
+						pluginsLoaded: configureTransformations,
+						loaded: configureHtmlWriter
+					}
 				});
 
 				/*
-				 * Adjust the behavior of the dataProcessor to avoid styles
-				 * and make it look like FCKeditor HTML output.
+				 * Add missing content transformations.
 				 */
-				function configureHtmlOutput( ev ) {
-					var editor = ev.editor,
-						dataProcessor = editor.dataProcessor,
-						htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+				function configureTransformations( evt ) {
+					var editor = evt.editor;
+
+					editor.dataProcessor.htmlFilter.addRules( {
+						attributes: {
+							style: function( value, element ) {
+								// Return #RGB for background and border colors
+								return CKEDITOR.tools.convertRgbToHex( value );
+							}
+						}
+					} );
+
+					// Default automatic content transformations do not yet take care of
+					// align attributes on blocks, so we need to add our own transformation rules.
+					function alignToAttribute( element ) {
+						if ( element.styles[ 'text-align' ] ) {
+							element.attributes.align = element.styles[ 'text-align' ];
+							delete element.styles[ 'text-align' ];
+						}
+					}
+					editor.filter.addTransformations( [
+						[ { element: 'p',	right: alignToAttribute } ],
+						[ { element: 'h1',	right: alignToAttribute } ],
+						[ { element: 'h2',	right: alignToAttribute } ],
+						[ { element: 'h3',	right: alignToAttribute } ],
+						[ { element: 'pre',	right: alignToAttribute } ]
+					] );
+				}
+
+				/*
+				 * Adjust the behavior of htmlWriter to make it output HTML like FCKeditor.
+				 */
+				function configureHtmlWriter( evt ) {
+					var editor = evt.editor,
+						dataProcessor = editor.dataProcessor;
 
 					// Out self closing tags the HTML4 way, like <br>.
 					dataProcessor.writer.selfClosingEnd = '>';
 
-					// Make output formatting behave similar to FCKeditor
+					// Make output formatting behave similar to FCKeditor.
 					var dtd = CKEDITOR.dtd;
 					for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) ) {
 						dataProcessor.writer.setRules( e, {
@@ -155,66 +199,6 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 							breakAfterClose: true
 						});
 					}
-
-					// Output properties as attributes, not styles.
-					htmlFilter.addRules( {
-						elements: {
-							$: function( element ) {
-								// Output dimensions of images as width and height
-								if ( element.name == 'img' ) {
-									var style = element.attributes.style;
-
-									if ( style ) {
-										// Get the width from the style.
-										var match = ( /(?:^|\s)width\s*:\s*(\d+)px/i ).exec( style ),
-											width = match && match[ 1 ];
-
-										// Get the height from the style.
-										match = ( /(?:^|\s)height\s*:\s*(\d+)px/i ).exec( style );
-										var height = match && match[ 1 ];
-
-										if ( width ) {
-											element.attributes.style = element.attributes.style.replace( /(?:^|\s)width\s*:\s*(\d+)px;?/i , '' );
-											element.attributes.width = width;
-										}
-
-										if ( height ) {
-											element.attributes.style = element.attributes.style.replace( /(?:^|\s)height\s*:\s*(\d+)px;?/i , '' );
-											element.attributes.height = height;
-										}
-									}
-								}
-
-								// Output alignment of paragraphs using align
-								if ( element.name == 'p' ) {
-									style = element.attributes.style;
-
-									if ( style ) {
-										// Get the align from the style.
-										match = ( /(?:^|\s)text-align\s*:\s*(\w*);/i ).exec( style );
-										var align = match && match[ 1 ];
-
-										if ( align ) {
-											element.attributes.style = element.attributes.style.replace( /(?:^|\s)text-align\s*:\s*(\w*);?/i , '' );
-											element.attributes.align = align;
-										}
-									}
-								}
-
-								if ( !element.attributes.style )
-									delete element.attributes.style;
-
-								return element;
-							}
-						},
-
-						attributes: {
-							style: function( value, element ) {
-								// Return #RGB for background and border colors
-								return CKEDITOR.tools.convertRgbToHex( value );
-							}
-						}
-					});
 				}
 
 			</script>

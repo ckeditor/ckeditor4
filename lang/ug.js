@@ -90,7 +90,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		alignTop: 'ئۈستى',
 		alignMiddle: 'ئوتتۇرا',
 		alignBottom: 'ئاستى',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'ئىناۋەتسىز قىممەت.',
 		invalidHeight: 'ئېگىزلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
 		invalidWidth: 'كەڭلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
 		invalidCssLength: 'بۇ سۆز بۆلىكى چوقۇم مۇۋاپىق بولغان CSS ئۇزۇنلۇق قىممىتى بولۇشى زۆرۈر، بىرلىكى (px, %, in, cm, mm, em, ex, pt ياكى pc)',

@@ -495,7 +495,7 @@
 		 * A single transformation rule is an object with four properties:
 		 *
 		 *	* `check` (optional) &ndash; if set and {@link CKEDITOR.filter} does
-		 *		not accept this allowed content rule, this transformation rule
+		 *		not accept this {@link CKEDITOR.filter.contentRule}, this transformation rule
 		 *		will not be executed (it does not *match*). This value is passed
 		 *		to {@link #check}.
 		 *	* `element` (optional) &ndash; this string property tells the filter on which
@@ -1775,12 +1775,12 @@
 		 */
 		matchesStyle: elementMatchesStyle,
 
-		/*
+		/**
 		 * Transforms element to given form.
 		 *
 		 * Form may be a:
 		 *
-		 * 	* {@link CKEDITOR.style},
+		 *	* {@link CKEDITOR.style},
 		 *	* string &ndash; the new name of an element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} el

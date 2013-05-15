@@ -3,8 +3,13 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2
 
+## CKEditor 4.1.2
+
+* [#10389](http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
+
 ## CKEditor 4.1.1
 
+* Added new translation: Albanian.
 * [#10172](http://dev.ckeditor.com/ticket/10172): Pressing *Delete*/*Backspace* in an empty table cell moves the cursor to the next/previous cell.
 * [#10219](http://dev.ckeditor.com/ticket/10219): Error thrown when destroying an editor instance in parallel with a mouseup event.
 * [#10265](http://dev.ckeditor.com/ticket/10265): Wrong loop type in the Filebrowser plugin.

@@ -12,27 +12,27 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 		items: [
 			{
 			name: 'Editor de barra d\'eines',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Premi ${toolbarFocus} per desplaçar-se per la barra d\'eines. Vagi en el següent i anterior grup de barra d\'eines amb TAB i SHIFT-TAB. Vagi en el següent i anterior botó de la barra d\'eines amb RIGHT ARROW i LEFT ARROW. Premi SPACE o ENTER per activar el botó de la barra d\'eines.'
 		},
 
 			{
 			name: 'Editor de quadre de diàleg',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: 'Dins d\'un quadre de diàleg, premi la tecla TAB per desplaçar-se al següent camp del quadre de diàleg, premi SHIFT + TAB per desplaçar-se a l\'anterior camp, premi ENTER per acceptar el quadre de diàleg, premi ESC per cancel·lar el quadre de diàleg. Per els quadres de diàleg que tenen diverses pestanyes, premi ALT + F10 per anar a la llista de pestanyes. Després podrà desplaçar-se a la següent pestanya amb TAB o RIGHT ARROW. Anar a la pestanya anterior amb SHIFT + TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar la pestanya.'
 		},
 
 			{
 			name: 'Editor de menú contextual',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: 'Premi ${contextMenu} o APPLICATION KEY per obrir el menú contextual. Després desplacis a la següent opció del menú amb TAB o DOWN ARROW. Desplacis a l\'anterior opció amb SHIFT+TAB o UP ARROW. Premi SPACE o ENTER per seleccionar l\'opció del menú. Obri el submenú de l\'actual opció utilitzant SPACE o ENTER o RIGHT ARROW. Pot tornar a l\'opció del menú pare amb ESC o LEFT ARROW. Tanqui el menú contextual amb ESC.'
 		},
 
 			{
 			name: 'Editor de caixa de llista',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Dins d\'un quadre de llista, desplacis al següent element de la llista amb TAB o DOWN ARROW. Desplacis a l\'anterior element de la llista amb SHIFT + TAB o UP ARROW. Premi SPACE o ENTER per seleccionar l\'opció de la llista. Premi ESC per tancar el quadre de llista.'
 		},
 
 			{
 			name: 'Editor de barra de ruta de l\'element',
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Premi ${elementsPathFocus} per anar als elements de la barra de ruta. Desplacis al botó de l\'element següent amb TAB o RIGHT ARROW. Desplacis a l\'anterior botó amb  SHIFT+TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar l\'element a l\'editor.'
 		}
 		]
 	},
@@ -49,35 +49,35 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 		},
 			{
 			name: 'Ordre negreta',
-			legend: 'Prem ${bold}'
+			legend: 'Premi ${bold}'
 		},
 			{
 			name: 'Ordre cursiva',
-			legend: 'Prem ${italic}'
+			legend: 'Premi ${italic}'
 		},
 			{
 			name: 'Ordre subratllat',
-			legend: 'Prem ${underline}'
+			legend: 'Premi ${underline}'
 		},
 			{
 			name: 'Ordre enllaç',
-			legend: 'Prem ${link}'
+			legend: 'Premi ${link}'
 		},
 			{
 			name: 'Ordre amagar barra d\'eines',
-			legend: 'Prem ${toolbarCollapse}'
+			legend: 'Premi ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Ordre per accedir a l\'anterior espai enfocat',
+			legend: 'Premi ${accessPreviousSpace} per accedir a l\'enfocament d\'espai més proper inabastable abans del símbol d\'intercalació, per exemple: dos elements HR adjacents. Repetiu la combinació de tecles per arribar a enfocaments d\'espais distants.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Ordre per accedir al següent espai enfocat',
+			legend: 'Premi ${accessNextSpace} per accedir a l\'enfocament d\'espai més proper inabastable després del símbol d\'intercalació, per exemple: dos elements HR adjacents. Repetiu la combinació de tecles per arribar a enfocaments d\'espais distants.'
 		},
 			{
 			name: 'Ajuda d\'accessibilitat',
-			legend: 'Prem ${a11yHelp}'
+			legend: 'Premi ${a11yHelp}'
 		}
 		]
 	}
