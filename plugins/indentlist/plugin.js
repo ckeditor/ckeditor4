@@ -78,7 +78,7 @@
 						}
 					}
 				}, this );
-			};
+			}
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
 				// Elements that, if in an elementpath, will be handled by this
@@ -270,6 +270,7 @@
 					var selection = editor.getSelection(),
 						ranges = selection && selection.getRanges( 1 ),
 						iterator = ranges.createIterator(),
+						contentIndented = false,
 						range;
 
 					while ( ( range = iterator.getNextRange() ) ) {
@@ -323,11 +324,12 @@
 							else if ( !this.isIndent && !this.indentElement( nearestListBlock, !hasMultipleItems && firstListItem.getDirection() ) )
 								indentList( nearestListBlock );
 
-							return true;
+							contentIndented = true;
 						}
 
-						return false;
 					}
+
+					return contentIndented;
 				}
 			});
 		}

@@ -45,7 +45,8 @@
 			var atBlockStart = range.checkStartOfBlock(),
 				atBlockEnd = range.checkEndOfBlock(),
 				path = editor.elementPath( range.startContainer ),
-				block = path.block;
+				block = path.block,
+				newBlock;
 
 			// Exit the list when we're inside an empty list item block. (#5376)
 			if ( atBlockStart && atBlockEnd ) {
@@ -65,7 +66,6 @@
 						enterMode = editor.config.enterMode,
 						needsBlock = enterMode != CKEDITOR.ENTER_BR || dirLoose || style || className,
 
-						range = editor.createRange(),
 						child;
 
 					//
@@ -105,7 +105,7 @@
 					// <p>y</p>				=>		<p>y</p>
 					//
 					else {
-						var newBlock = doc.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+						newBlock = doc.createElement( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 						if ( dirLoose )
 							newBlock.setAttribute( 'dir', orgDir );
@@ -206,7 +206,7 @@
 				if ( nextBlock )
 					range.moveToElementEditStart( nextBlock );
 			} else {
-				var newBlock, newBlockDir;
+				var newBlockDir;
 
 				if ( previousBlock ) {
 					// Do not enter this block if it's a header tag, or we are in

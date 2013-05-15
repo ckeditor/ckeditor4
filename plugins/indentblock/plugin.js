@@ -74,7 +74,7 @@
 						event.cancel();
 					}
 				}, this );
-			};
+			}
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
 				// Elements that, if in an elementpath, will be handled by this
