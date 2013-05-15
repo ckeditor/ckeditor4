@@ -13,6 +13,10 @@
 				editorFocus: false,
 				exec: function( editor ) {
 					enter( editor );
+					// Return false to not prevent the default behavior 
+					if(CKEDITOR.env.iOS) {
+						return false;
+					}
 				}
 			});
 
@@ -20,6 +24,10 @@
 				editorFocus: false,
 				exec: function( editor ) {
 					shiftEnter( editor );
+					// Return false to not prevent the default behavior 
+					if(CKEDITOR.env.iOS) {
+						return false;
+					}
 				}
 			});
 
@@ -321,33 +329,47 @@
 	}
 
 	function enter( editor, mode, forceMode ) {
-		forceMode = editor.config.forceEnterMode || forceMode;
+		var executeEnter = function () {
+			// Undo the browsers creation of the element to allow CKEDITOR to create it normally
+			// This just undo's the element creation, and not the catch for the autocorrector
+			if(CKEDITOR.env.iOS) {
+				editor.execCommand('undo');
+			}
 
-		// Only effective within document.
-		if ( editor.mode != 'wysiwyg' )
-			return false;
+			forceMode = editor.config.forceEnterMode || forceMode;
 
-		if ( !mode )
-			mode = editor.config.enterMode;
+			// Only effective within document.
+			if ( editor.mode != 'wysiwyg' )
+				return false;
 
-		// Check path block specialities:
-		// 1. Cannot be a un-splittable element, e.g. table caption;
-		// 2. Must not be the editable element itself. (blockless)
-		var path = editor.elementPath();
-		if ( !path.isContextFor( 'p' ) ) {
-			mode = CKEDITOR.ENTER_BR;
-			forceMode = 1;
+			if ( !mode )
+				mode = editor.config.enterMode;
+
+			// Check path block specialities:
+			// 1. Cannot be a un-splittable element, e.g. table caption;
+			// 2. Must not be the editable element itself. (blockless)
+			var path = editor.elementPath();
+			if ( !path.isContextFor( 'p' ) ) {
+				mode = CKEDITOR.ENTER_BR;
+				forceMode = 1;
+			}
+
+			editor.fire( 'saveSnapshot' ); // Save undo step.
+
+			if ( mode == CKEDITOR.ENTER_BR )
+				enterBr( editor, mode, null, forceMode );
+			else
+				enterBlock( editor, mode, null, forceMode );
+
+			editor.fire( 'saveSnapshot' );
+		};
+
+		if(CKEDITOR.env.iOS) {
+			CKEDITOR.tools.defer(executeEnter)();
 		}
-
-		editor.fire( 'saveSnapshot' ); // Save undo step.
-
-		if ( mode == CKEDITOR.ENTER_BR )
-			enterBr( editor, mode, null, forceMode );
-		else
-			enterBlock( editor, mode, null, forceMode );
-
-		editor.fire( 'saveSnapshot' );
-
+		else {
+			executeEnter();
+		}
 		return true;
 	}
 
