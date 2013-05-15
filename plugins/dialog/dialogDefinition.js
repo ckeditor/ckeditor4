@@ -792,6 +792,7 @@
  *		// Example:
  *		{
  *			type: 'radio',
+ *			buttonLayout: 'horizontal',
  *			id: 'country',
  *			label: 'Which country is bigger',
  *			items: [ [ 'France', 'FR' ], [ 'Germany', 'DE' ] ],
