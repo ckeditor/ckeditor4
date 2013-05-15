@@ -710,20 +710,62 @@
 		if ( CKEDITOR.env.webkit ) {
 			var sel = this.document.getWindow().$.getSelection();
 			if ( sel.type == 'None' && this.document.getActive().equals( this.root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
-				var range = new CKEDITOR.dom.range( this.root );
-				range.moveToPosition( this.root, CKEDITOR.POSITION_AFTER_START );
-				var nativeRange = this.document.$.createRange();
-				nativeRange.setStart( range.startContainer.$, range.startOffset );
-				nativeRange.collapse( 1 );
-
 				// It may happen that setting proper selection will
 				// cause focus to be fired. Cancel it because focus
 				// shouldn't be fired when retriving selection. (#10115)
 				var listener = this.root.on( 'focus', function( evt ) {
 					evt.cancel();
 				}, null, null, -100 );
+
+				var range = new CKEDITOR.dom.range( this.root );
+				range.moveToPosition( this.root, CKEDITOR.POSITION_AFTER_START );
+
+				var nativeRange = this.document.$.createRange();
+				nativeRange.setStart( range.startContainer.$, range.startOffset );
+				nativeRange.collapse( 1 );
+
+				sel.removeAllRanges();
 				sel.addRange( nativeRange );
+
 				listener.removeListener();
+			}
+		}
+		else if ( CKEDITOR.env.gecko ) {
+			var sel = this.document.getWindow().$.getSelection();
+
+			if ( sel && this.document.getActive().equals( this.root ) && sel.focusNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
+				var listener = this.root.on( 'focus', function( evt ) {
+					evt.cancel();
+				}, null, null, -100 );
+
+				// TODO we should promote this fix for every setData - also on inline editor,
+				// in which case this code is not executed.
+				var range = new CKEDITOR.dom.range( this.root );
+				range.moveToElementEditStart( this.root );
+
+				var nativeRange = this.document.$.createRange();
+				nativeRange.setStart( range.startContainer.$, range.startOffset );
+				nativeRange.collapse( 1 );
+
+				sel.removeAllRanges();
+				sel.addRange( nativeRange );
+
+				this.root.focus();
+
+				listener.removeListener();
+			}
+		}
+		else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 ) {
+			var sel = this.document.getWindow().$.getSelection(),
+				anchorNode = sel && sel.anchorNode;
+
+			if ( anchorNode )
+				anchorNode = new CKEDITOR.dom.node( anchorNode );
+
+			if ( this.document.getActive().equals( this.document.getDocumentElement() ) &&
+				anchorNode && ( this.root.equals( anchorNode ) || this.root.contains( anchorNode ) )
+			) {
+				this.root.focus();
 			}
 		}
 
