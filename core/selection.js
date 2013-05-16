@@ -733,7 +733,9 @@
 		else if ( CKEDITOR.env.gecko ) {
 			var sel = this.document.getWindow().$.getSelection();
 
-			if ( sel && this.document.getActive().equals( this.root ) && sel.focusNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
+			if ( sel && this.document.getActive().equals( this.root ) &&
+				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT
+			) {
 				var listener = this.root.on( 'focus', function( evt ) {
 					evt.cancel();
 				}, null, null, -100 );
