@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'is', {
@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		maxChars: 'Hámarksfjöldi leturtákna',
 		type: 'Gerð',
 		typeText: 'Texti',
-		typePass: 'Lykilorð'
+		typePass: 'Lykilorð',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'Vefslóð'
 	}
 });

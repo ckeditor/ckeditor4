@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'pt', {
@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	bgFixed: 'Fundo Fixo',
 	bgImage: 'Caminho para a Imagem de Fundo',
 	charset: 'Codificação de Caracteres',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Central European', // MISSING
 	charsetCR: 'Cyrillic', // MISSING
 	charsetCT: 'Chinese Traditional (Big5)', // MISSING

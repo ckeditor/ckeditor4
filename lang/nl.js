@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'nl' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Druk ALT 0 voor hulp',
 
 		browseServer: 'Bladeren op server',
 		url: 'URL',
@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		alignTop: 'Boven',
 		alignMiddle: 'Midden',
 		alignBottom: 'Onder',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Ongeldige waarde.',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',
 		invalidCssLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige CSS meeteenheid (px, %, in, cm, mm, em, ex, pt of pc).',

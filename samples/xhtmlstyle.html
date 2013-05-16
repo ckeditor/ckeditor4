@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
@@ -60,6 +60,18 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					 * Style sheet for the contents
 					 */
 					contentsCss: 'assets/outputxhtml/outputxhtml.css',
+
+					/*
+					 * Special allowed content rules for spans used by
+					 * font face, size, and color buttons.
+					 *
+					 * Note: all rules have been written separately so
+					 * it was possible to specify required classes.
+					 */
+					extraAllowedContent: 'span(!FontColor1);span(!FontColor2);span(!FontColor3);' +
+						'span(!FontColor1BG);span(!FontColor2BG);span(!FontColor3BG);' +
+						'span(!FontComic);span(!FontCourier);span(!FontTimes);' +
+						'span(!FontSmaller);span(!FontLarger);span(!FontSmall);span(!FontBig);span(!FontDouble)',
 
 					/*
 					 * Core styles.
@@ -211,7 +223,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

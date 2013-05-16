@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -108,11 +108,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			/**
 			 * Renders the combo.
+			 *
 			 * @param {CKEDITOR.editor} editor The editor instance which this button is
 			 * to be used by.
 			 * @param {Array} output The output array to which append the HTML relative
 			 * to this button.
-			 * @example
 			 */
 			render: function( editor, output ) {
 				var env = CKEDITOR.env;
@@ -358,6 +358,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				var el = this.document.getById( 'cke_' + this.id );
 				el.setState( state, 'cke_combo' );
+
+				state == CKEDITOR.TRISTATE_DISABLED ?
+					el.setAttribute( 'aria-disabled', true ) :
+					el.removeAttribute( 'aria-disabled' );
 
 				this._.state = state;
 			},

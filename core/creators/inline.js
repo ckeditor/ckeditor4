@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -49,6 +49,9 @@
 			// Load and process editor data.
 			editor.setData( editor.getData( 1 ) );
 
+			// Clean on startup.
+			editor.resetDirty();
+
 			editor.fire( 'contentDom' );
 			// Inline editing defaults to "wysiwyg" mode, so plugins don't
 			// need to make special handling for this "mode-less" environment.
@@ -56,11 +59,9 @@
 			editor.fire( 'mode' );
 
 			// The editor is completely loaded for interaction.
+			editor.status = 'ready';
 			editor.fireOnce( 'instanceReady' );
 			CKEDITOR.fire( 'instanceReady', null, editor );
-
-			// Clean on startup.
-			editor.resetDirty();
 
 			// give priority to plugins that relay on editor#loaded for bootstrapping.
 		}, null, null, 10000 );

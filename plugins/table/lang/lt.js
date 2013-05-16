@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'lt', {
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'table', 'lt', {
 		invalidColSpan: 'Reikšmė turi būti skaičius.',
 		chooseColor: 'Pasirinkite'
 	},
-	cellPad: 'Trapas nuo langelio rėmo iki teksto',
+	cellPad: 'Tarpas nuo langelio rėmo iki teksto',
 	cellSpace: 'Tarpas tarp langelių',
 	column: {
 		menu: 'Stulpelis',

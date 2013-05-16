@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -157,7 +157,7 @@
 			insertHtml: function( data, mode ) {
 				beforeInsert( this );
 				// Default mode is 'html'.
-				insert( this, mode == 'text' ? 'text' : 'html', data );
+				insert( this, mode || 'html', data );
 			},
 
 			/**
@@ -466,6 +466,14 @@
 					});
 				}
 
+				// Apply tab index on demand, with original direction saved.
+				if ( this.isInline() ) {
+
+					// tabIndex of the editable is different than editor's one.
+					// Update the attribute of the editable.
+					this.changeAttr( 'tabindex', editor.tabIndex );
+				}
+
 				// The above is all we'll be doing for a <textarea> editable.
 				if ( this.is( 'textarea' ) )
 					return;
@@ -482,14 +490,6 @@
 				var dir = editor.config.contentsLangDirection;
 				if ( this.getDirection( 1 ) != dir )
 					this.changeAttr( 'dir', dir );
-
-				// Apply tab index on demand, with original direction saved.
-				if ( editor.document.equals( CKEDITOR.document ) ) {
-
-					// tabIndex of the editable is different than editor's one.
-					// Update the attribute of the editable.
-					this.changeAttr( 'tabindex', editor.tabIndex );
-				}
 
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
@@ -522,7 +522,7 @@
 				//  on fully selected element . (#4047) (#7645)
 				this.attachListener( editor, 'key', function( evt ) {
 					if ( editor.readOnly )
-						return false;
+						return true;
 
 					var keyCode = evt.data.keyCode, isHandled;
 
@@ -600,12 +600,7 @@
 							// BACKSPACE/DEL pressed at the start/end of table cell.
 							else if ( ( parent = path.contains( [ 'td', 'th', 'caption' ] ) ) &&
 								      range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) ) {
-								next = parent[ rtl ? 'getPreviousSourceNode' : 'getNextSourceNode' ]( 1, CKEDITOR.NODE_ELEMENT );
-								if ( next && !next.isReadOnly() && range.root.contains( next ) ) {
-									range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
-									range.select();
-									isHandled = 1;
-								}
+								isHandled = 1;
 							}
 						}
 
@@ -913,7 +908,37 @@
 				!isDirty && editor.resetDirty();
 			}
 		});
+	});
 
+
+	CKEDITOR.on( 'instanceCreated', function( evt ) {
+		var editor = evt.editor;
+
+		editor.on( 'mode', function() {
+
+			var editable = editor.editable();
+
+			// Setup proper ARIA roles and properties for inline editable, framed
+			// editable is instead handled by plugin.
+			if ( editable && editable.isInline() ) {
+
+				var ariaLabel = this.lang.editor + ', ' + this.name;
+
+				editable.changeAttr( 'role', 'textbox' );
+				editable.changeAttr( 'aria-label', ariaLabel );
+				editable.changeAttr( 'title', ariaLabel );
+
+				// Put the voice label in different spaces, depending on element mode, so
+				// the DOM element get auto detached on mode reload or editor destroy.
+				var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
+				if ( ct ) {
+					var ariaDescId = CKEDITOR.tools.getNextId(),
+						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + this.lang.common.editorHelp + '</span>' );
+					ct.append( desc );
+					editable.changeAttr( 'aria-describedby', ariaDescId );
+				}
+			}
+		});
 	});
 
 	// #9222: Show text cursor in Gecko.
@@ -938,7 +963,13 @@
 				// Note: getRanges will be overwritten for tests since we want to test
 				// 		custom ranges and bypass native selections.
 				// TODO what should we do with others? Remove?
-				range = selection.getRanges()[ 0 ];
+				range = selection.getRanges()[ 0 ],
+				dontFilter = false;
+
+			if ( type == 'unfiltered_html' ) {
+				type = 'html';
+				dontFilter = true;
+			}
 
 			// Check range spans in non-editable.
 			if ( range.checkReadOnly() )
@@ -953,6 +984,7 @@
 				// The "state" value.
 				that = {
 					type: type,
+					dontFilter: dontFilter,
 					editable: editable,
 					editor: editor,
 					range: range,
@@ -1094,7 +1126,7 @@
 			// Process the inserted html, in context of the insertion root.
 			// Don't use the "fix for body" feature as auto paragraphing must
 			// be handled during insertion.
-			data = that.editor.dataProcessor.toHtml( data, null, false );
+			data = that.editor.dataProcessor.toHtml( data, null, false, that.dontFilter );
 
 
 			// Build the node list for insertion.

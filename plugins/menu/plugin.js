@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -89,8 +89,7 @@ CKEDITOR.plugins.add( 'menu', {
 		' hidefocus="true"' +
 		' role="menuitem"' +
 		' aria-haspopup="{hasPopup}"' +
-		' aria-disabled="{disabled}"' +
-		' aria-pressed="{pressed}"';
+		' aria-disabled="{disabled}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -242,7 +241,11 @@ CKEDITOR.plugins.add( 'menu', {
 				var element = this._.panel.getBlock( this.id ).element.getDocument().getById( this.id + String( index ) );
 
 				// Show the submenu.
-				menu.show( element, 2 );
+				// This timeout is needed to give time for the sub-menu get
+				// focus when JAWS is running. (#9844)
+				setTimeout( function() {
+					menu.show( element, 2 );
+				},0);
 			}
 		},
 
@@ -342,11 +345,12 @@ CKEDITOR.plugins.add( 'menu', {
 				// Put the items in the right order.
 				sortItems( items );
 
-				var chromeRoot = editor.container && editor.container.getChild( 1 ),
-					mixedContentClass = chromeRoot && chromeRoot.hasClass( 'cke_mixed_dir_content' ) ? ' cke_mixed_dir_content' : '';
+				// Apply the editor mixed direction status to menu.
+				var path = editor.elementPath(),
+					mixedDirCls = ( path && path.direction() != editor.lang.dir ) ? ' cke_mixed_dir_content' : '';
 
 				// Build the HTML that composes the menu and its items.
-				var output = [ '<div class="cke_menu' + mixedContentClass + '" role="presentation">' ];
+				var output = [ '<div class="cke_menu' + mixedDirCls + '" role="presentation">' ];
 
 				var length = items.length,
 					lastGroup = length && items[ 0 ].group;
@@ -444,7 +448,6 @@ CKEDITOR.plugins.add( 'menu', {
 					state: stateName,
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
-					pressed: state == CKEDITOR.TRISTATE_ON,
 					title: this.label,
 					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
 					hoverFn: menu._.itemOverFn,
@@ -480,6 +483,8 @@ CKEDITOR.plugins.add( 'menu', {
  *
  * @event menuShow
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.ui.panel[]} data
  */
 
 /**

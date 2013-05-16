@@ -1,10 +1,11 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 /* "Source" button label */
-.cke_button__source_label
+.cke_button__source_label,
+.cke_button__sourcedialog_label
 {
 	display: inline;
 }

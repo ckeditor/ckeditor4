@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -208,5 +208,15 @@ CKEDITOR.dom.elementPath.prototype = {
 
 		return true;
 
+	},
+
+	/**
+	 * Retrieve the text direction for this elements path.
+	 *
+	 * @returns {'ltr'/'rtl'}
+	 */
+	direction: function() {
+		var directionNode = this.block || this.blockLimit || this.root;
+		return directionNode.getDirection( 1 );
 	}
 };

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -58,10 +58,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			var doc = parentElement.getDocument(),
 				panel = getPanel( editor, doc, parentElement, definition, level || 0 ),
 				element = panel.element,
-				iframe = element.getFirst();
+				iframe = element.getFirst(),
+				that = this;
 
 			// Disable native browser menu. (#4825)
 			element.disableContextMenu();
+
+			// Floating panels are placed outside the main editor UI, so we must
+			// make them application regions as well. (#9543)
+			element.setAttribute( 'role', 'application' );
 
 			this.element = element;
 
@@ -77,13 +82,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				dir: editor.lang.dir
 			};
 
-			editor.on( 'mode', function() {
-				this.hide();
-			}, this );
+			editor.on( 'mode', hide );
+			editor.on( 'resize', hide );
+			// Window resize doesn't cause hide on blur. (#9800)
+			doc.getWindow().on( 'resize', hide );
 
-			editor.on( 'resize', function() {
-				this.hide();
-			}, this );
+			// We need a wrapper because events implementation doesn't allow to attach
+			// one listener more than once for the same event on the same object.
+			// Remember that floatPanel#hide is shared between all instances.
+			function hide() {
+				that.hide();
+			}
 		},
 
 		proto: {
@@ -142,6 +151,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
+					// Non IE prefer the event into a window object.
+					focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
 					doc = element.getDocument(),
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
@@ -175,10 +186,11 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				// To allow the context menu to decrease back their width
 				element.getFirst().removeStyle( 'width' );
 
+				// Report to focus manager.
+				this._.editor.focusManager.add( focused );
+
 				// Configure the IFrame blur event. Do that only once.
 				if ( !this._.blurSet ) {
-					// Non IE prefer the event into a window object.
-					var focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow );
 
 					// With addEventListener compatible browsers, we must
 					// useCapture when registering the focus/blur events to
@@ -209,9 +221,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, this );
 
 					CKEDITOR.event.useCapture = false;
-
-					// Report to focus manager.
-					this._.editor.focusManager.add( focused );
 
 					this._.blurSet = 1;
 				}

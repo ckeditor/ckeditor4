@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -87,6 +87,15 @@
 		styleText = ( isPrepend ? [ addingStyleText, styleText ] : [ styleText, addingStyleText ] ).join( ';' );
 
 		this.attributes.style = styleText.replace( /^;|;(?=;)/, '' );
+	};
+
+	// Retrieve a style property value of the element.
+	elementPrototype.getStyle = function( name ) {
+		var styles = this.attributes.style;
+		if ( styles ) {
+			styles = CKEDITOR.tools.parseCssText( styles, 1 );
+			return styles[ name ];
+		}
 	};
 
 	/**
@@ -573,15 +582,15 @@
 			},
 
 			// Migrate the element by decorate styles on it.
-			// @param styleDefiniton
+			// @param styleDefinition
 			// @param variables
-			elementMigrateFilter: function( styleDefiniton, variables ) {
-				return function( element ) {
-					var styleDef = variables ? new CKEDITOR.style( styleDefiniton, variables )._.definition : styleDefiniton;
+			elementMigrateFilter: function( styleDefinition, variables ) {
+				return styleDefinition ? function( element ) {
+					var styleDef = variables ? new CKEDITOR.style( styleDefinition, variables )._.definition : styleDefinition;
 					element.name = styleDef.element;
 					CKEDITOR.tools.extend( element.attributes, CKEDITOR.tools.clone( styleDef.attributes ) );
 					element.addStyle( CKEDITOR.style.getStyleText( styleDef ) );
-				};
+				} : function(){};
 			},
 
 			// Migrate styles by creating a new nested stylish element.
@@ -589,7 +598,7 @@
 			styleMigrateFilter: function( styleDefinition, variableName ) {
 
 				var elementMigrateFilter = this.elementMigrateFilter;
-				return function( value, element ) {
+				return styleDefinition ? function( value, element ) {
 					// Build an stylish element first.
 					var styleElement = new CKEDITOR.htmlParser.element( null ),
 						variables = {};
@@ -599,7 +608,15 @@
 					// Place the new element inside the existing span.
 					styleElement.children = element.children;
 					element.children = [ styleElement ];
-				};
+
+					// #10285 - later on styleElement will replace element if element won't have any attributes.
+					// However, in some cases styleElement is identical to element and therefore should not be filtered
+					// to avoid inf loop. Unfortunately calling element.filterChildren() does not prevent from that (#10327).
+					// However, we can assume that we don't need to filter styleElement at all, so it is safe to replace
+					// its filter method.
+					styleElement.filter = function() {};
+					styleElement.parent = element;
+				} : function(){};
 			},
 
 			// A filter which remove cke-namespaced-attribute on
@@ -617,7 +634,7 @@
 
 		},
 
-		getRules: function( editor ) {
+		getRules: function( editor, filter ) {
 			var dtd = CKEDITOR.dtd,
 				blockLike = CKEDITOR.tools.extend( {}, dtd.$block, dtd.$listItem, dtd.$tableContent ),
 				config = editor.config,
@@ -649,7 +666,7 @@
 				],
 
 				root: function( element ) {
-					element.filterChildren();
+					element.filterChildren( filter );
 					assembleList( element );
 				},
 
@@ -673,7 +690,7 @@
 
 						// Processing headings.
 						if ( tagName.match( /h\d/ ) ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							// Is the heading actually a list item?
 							if ( resolveListItem( element ) )
 								return;
@@ -683,14 +700,14 @@
 						}
 						// Remove inline elements which contain only empty spaces.
 						else if ( tagName in dtd.$inline ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							if ( containsNothingButSpaces( element ) )
 								delete element.name;
 						}
 						// Remove element with ms-office namespace,
 						// with it's content preserved, e.g. 'o:p'.
 						else if ( tagName.indexOf( ':' ) != -1 && tagName.indexOf( 'cke' ) == -1 ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 
 							// Restore image real link from vml.
 							if ( tagName == 'v:imagedata' ) {
@@ -705,7 +722,7 @@
 
 						// Assembling list items into a whole list.
 						if ( tagName in listDtdParents ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							assembleList( element );
 						}
 					},
@@ -768,19 +785,22 @@
 					},
 
 					'p': function( element ) {
-						// This's a fall-back approach to recognize list item in FF3.6,
-						// as it's not perfect as not all list style (e.g. "heading list") is shipped
+						// A a fall-back approach to resolve list item in browsers
+						// that doesn't include "mso-list:Ignore" on list bullets,
+						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
-						if ( /MsoListParagraph/.exec( element.attributes[ 'class' ] ) ) {
+						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							});
-							var bullet = bulletText && bulletText.parent,
-								bulletAttrs = bullet && bullet.attributes;
-							bulletAttrs && !bulletAttrs.style && ( bulletAttrs.style = 'mso-list: Ignore;' );
+
+							var bullet = bulletText && bulletText.parent;
+							if ( bullet ) {
+								bullet.addStyle( 'mso-list', 'Ignore' );
+							}
 						}
 
-						element.filterChildren();
+						element.filterChildren( filter );
 
 						// Is the paragraph actually a list item?
 						if ( resolveListItem( element ) )
@@ -832,7 +852,7 @@
 							return;
 						}
 
-						element.filterChildren();
+						element.filterChildren( filter );
 
 						var attrs = element.attributes,
 							styleText = attrs.style,
@@ -874,7 +894,7 @@
 						if ( isListBulletIndicator( element.parent ) )
 							return false;
 
-						element.filterChildren();
+						element.filterChildren( filter );
 						if ( containsNothingButSpaces( element ) ) {
 							delete element.name;
 							return null;
@@ -919,6 +939,12 @@
 								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
 								] )( styleText, element ) || '';
 						}
+
+						if ( !attrs.style )
+							delete attrs.style;
+
+						if ( CKEDITOR.tools.isEmpty( attrs ) )
+							delete element.name;
 
 						return null;
 					},
@@ -1097,11 +1123,32 @@
 		if ( CKEDITOR.env.gecko )
 			data = data.replace( /(<!--\[if[^<]*?\])-->([\S\s]*?)<!--(\[endif\]-->)/gi, '$1$2$3' );
 
+		// #9456 - Webkit doesn't wrap list number with span, which is crucial for filter to recognize list.
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		//
+		// Transform to:
+		//
+		//		<p class="MsoListParagraphCxSpLast" style="text-indent:-18.0pt;mso-list:l0 level1 lfo2">
+		//			<!--[if !supportLists]-->
+		//			<span>
+		//				3.<span style="font-size: 7pt; line-height: normal; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		//			</span>
+		//			<!--[endif]-->Test3<o:p></o:p>
+		//		</p>
+		if ( CKEDITOR.env.webkit ) {
+			data = data.replace( /(class="MsoListParagraph[^>]+><!--\[if !supportLists\]-->)([^<]+<span[^<]+<\/span>)(<!--\[endif\]-->)/gi, '$1<span>$2</span>$3' );
+		}
+
 		var dataProcessor = new pasteProcessor(),
 			dataFilter = dataProcessor.dataFilter;
 
 		// These rules will have higher priorities than default ones.
-		dataFilter.addRules( CKEDITOR.plugins.pastefromword.getRules( editor ) );
+		dataFilter.addRules( CKEDITOR.plugins.pastefromword.getRules( editor, dataFilter ) );
 
 		// Allow extending data filter rules.
 		editor.fire( 'beforeCleanWord', { filter: dataFilter } );

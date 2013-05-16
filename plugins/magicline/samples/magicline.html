@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
@@ -103,7 +103,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'magicline' // Ensure that magicline plugin, which is required for this sample, is loaded.
+				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
+				allowedContent: true		// Switch off the ACF, so very complex content created to
+											// show magicline's power isn't filtered.
 			} );
 
 		</script>
@@ -184,7 +186,9 @@ CKEDITOR.replace( 'editor2', {
 
 			CKEDITOR.replace( 'editor2', {
 				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
-				magicline_color: 'blue'		// Blue line
+				magicline_color: 'blue',	// Blue line
+				allowedContent: true		// Switch off the ACF, so very complex content created to
+											// show magicline's power isn't filtered.
 			});
 
 		</script>
@@ -195,7 +199,7 @@ CKEDITOR.replace( 'editor2', {
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

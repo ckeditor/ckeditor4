@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		menu: 'Propriétés du formulaire',
 		action: 'Action',
 		method: 'Méthode',
-		encoding: 'Encoding'
+		encoding: 'Encodage'
 	},
 	hidden: {
 		title: 'Propriétés du champ caché',
@@ -30,13 +30,13 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		value: 'Valeur'
 	},
 	select: {
-		title: 'Propriétés de la liste/du menu',
+		title: 'Propriétés du champ de sélection',
 		selectInfo: 'Info',
 		opAvail: 'Options disponibles',
 		value: 'Valeur',
 		size: 'Taille',
 		lines: 'lignes',
-		chkMulti: 'Sélection multiple',
+		chkMulti: 'Permettre les sélections multiples',
 		opText: 'Texte',
 		opValue: 'Valeur',
 		btnAdd: 'Ajouter',
@@ -55,10 +55,14 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		title: 'Propriétés du champ texte',
 		name: 'Nom',
 		value: 'Valeur',
-		charWidth: 'Largeur en caractères',
+		charWidth: 'Largeur de caractères',
 		maxChars: 'Nombre maximum de caractères',
 		type: 'Type',
 		typeText: 'Texte',
-		typePass: 'Mot de passe'
+		typePass: 'Mot de passe',
+		typeEmail: 'Courriel',
+		typeSearch: 'Recherche',
+		typeTel: 'Numéro de téléphone',
+		typeUrl: 'URL'
 	}
 });

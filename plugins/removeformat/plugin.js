@@ -1,10 +1,10 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'removeformat', {
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'removeformat', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		editor.addCommand( 'removeFormat', CKEDITOR.plugins.removeformat.commands.removeformat );
@@ -13,8 +13,6 @@ CKEDITOR.plugins.add( 'removeformat', {
 			command: 'removeFormat',
 			toolbar: 'cleanup,10'
 		});
-
-		editor._.removeFormat = { filters: [] };
 	}
 });
 
@@ -113,7 +111,8 @@ CKEDITOR.plugins.removeformat = {
 	// @param {CKEDITOR.editor} editor
 	// @param {CKEDITOR.dom.element} element
 	filter: function( editor, element ) {
-		var filters = editor._.removeFormat.filters;
+		// If editor#addRemoveFotmatFilter hasn't been executed yet value is not initialized.
+		var filters = editor._.removeFormatFilters || [];
 		for ( var i = 0; i < filters.length; i++ ) {
 			if ( filters[ i ]( element ) === false )
 				return false;
@@ -129,8 +128,8 @@ CKEDITOR.plugins.removeformat = {
  *
  * **Note:** Only available with the existence of `removeformat` plugin.
  *
- *		// Don't remove empty span
- *		editor.addRemoveFormatFilter.push( function( element ) {
+ *		// Don't remove empty span.
+ *		editor.addRemoveFormatFilter( function( element ) {
  *			return !( element.is( 'span' ) && CKEDITOR.tools.isEmpty( element.getAttributes() ) );
  *		} );
  *
@@ -139,7 +138,10 @@ CKEDITOR.plugins.removeformat = {
  * @param {Function} func The function to be called, which will be passed a {CKEDITOR.dom.element} element to test.
  */
 CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
-	this._.removeFormat.filters.push( func );
+	if ( !this._.removeFormatFilters )
+		this._.removeFormatFilters = [];
+
+	this._.removeFormatFilters.push( func );
 };
 
 /**
@@ -149,7 +151,7 @@ CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
  * @cfg
  * @member CKEDITOR.config
  */
-CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var';
+CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var';
 
 /**
  * A comma separated list of elements attributes to be removed when executing
@@ -165,6 +167,7 @@ CKEDITOR.config.removeFormatAttributes = 'class,style,lang,width,height,align,hs
  *
  * @event removeFormatCleanup
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {CKEDITOR.dom.element} data.element The element that was cleaned up.
  */

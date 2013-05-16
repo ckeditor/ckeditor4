@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -12,14 +12,6 @@ This file contains styles to used by Internet Explorer 7 only.
 
 /* Base it on dialog_ie.css, overriding it with styles defined in this file. */
 @import url("dialog_ie.css");
-
-.cke_dialog_body
-{
-	/* 	By default, a relative position is used.
-		However it breaks IE7 and causes input flickering
-		when hovering dialog footer. Reset to static to fix it. */
-	position: static;
-}
 
 .cke_dialog_title
 {

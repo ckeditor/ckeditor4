@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'bg', {
@@ -60,7 +60,7 @@ CKEDITOR.plugins.setLang( 'table', 'bg', {
 	menu: 'Настройки на таблицата',
 	row: {
 		menu: 'Ред',
-		insertBefore: 'Insert Row Before',
+		insertBefore: 'Вмъкване на ред преди',
 		insertAfter: 'Вмъкване на ред след',
 		deleteRow: 'Изтриване на редове'
 	},

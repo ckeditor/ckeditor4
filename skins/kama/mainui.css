@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -56,7 +56,7 @@ Special outer level classes used in this file:
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px solid #D3D3D3;
-	
+
 	/* Spacing between the outer and the inner boundaries. */
 	padding: 5px;
 }
@@ -114,6 +114,7 @@ Special outer level classes used in this file:
 	border: 1px solid black;
 }
 
+
 /* Make the main spaces enlarge to hold potentially floated content. */
 .cke_top,
 .cke_contents,
@@ -124,6 +125,12 @@ Special outer level classes used in this file:
 
 	/* Ideally this should be "auto", but it shows scrollbars in IE7. */
 	overflow: hidden;
+}
+
+/* Allow breaking toolbars when in a narrow editor. (#9947) */
+.cke_top
+{
+	white-space: normal;
 }
 
 /* The resizer is the small UI element that is rendered at the bottom right
@@ -192,4 +199,8 @@ Special outer level classes used in this file:
 	overflow: auto;
 	padding: 0 8px;
 	outline-style: none;
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }

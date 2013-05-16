@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -66,6 +66,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			{
 			name: 'بستن نوار ابزار فرمان',
 			legend: 'فشردن ${toolbarCollapse}'
+		},
+			{
+			name: 'دسترسی به فرمان محل تمرکز قبلی',
+			legend: 'فشردن ${accessPreviousSpace} برای دسترسی به نزدیک ترین فضای قابل دسترسی تمرکز قبل از هشتک، برای مثال: دو عنصر مجاور HR. تکرار کلید ترکیبی برای رسیدن به فضاهای تمرکز از راه دور.'
+		},
+			{
+			name: 'دسترسی به فضای دستور بعدی',
+			legend: 'برای دسترسی به نزدیکترین فضای تمرکز غیر قابل دسترس، ${accessNextSpace} را پس از علامت هشتک بفشارید، برای مثال:  دو عنصر مجاور HR. کلید ترکیبی را برای رسیدن به فضای تمرکز تکرار کنید.'
 		},
 			{
 			name: 'راهنمای دسترسی',

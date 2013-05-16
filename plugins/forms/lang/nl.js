@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'nl', {
@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		maxChars: 'Maximum aantal tekens',
 		type: 'Soort',
 		typeText: 'Tekst',
-		typePass: 'Wachtwoord'
+		typePass: 'Wachtwoord',
+		typeEmail: 'E-mail',
+		typeSearch: 'Zoeken',
+		typeTel: 'Telefoonnummer',
+		typeUrl: 'URL'
 	}
 });

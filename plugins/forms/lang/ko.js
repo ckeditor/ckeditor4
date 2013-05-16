@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ko', {
@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		maxChars: '최대 글자수',
 		type: '종류',
 		typeText: '문자열',
-		typePass: '비밀번호'
+		typePass: '비밀번호',
+		typeEmail: 'Email', // MISSING
+		typeSearch: 'Search', // MISSING
+		typeTel: 'Telephone Number', // MISSING
+		typeUrl: 'URL'
 	}
 });

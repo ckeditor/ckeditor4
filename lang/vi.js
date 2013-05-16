@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignTop: 'Trên',
 		alignMiddle: 'Giữa',
 		alignBottom: 'Dưới',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Giá trị không hợp lệ.',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',
 		invalidCssLength: 'Giá trị quy định cho trường "%1" phải là một số dương có hoặc không có một đơn vị đo CSS hợp lệ (px, %, in, cm, mm, em, ex, pt, hoặc pc).',

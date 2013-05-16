@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -38,6 +38,12 @@ code
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+abbr
+{
+	border-bottom: 1px dotted #555;
+	cursor: pointer;
 }
 
 .new

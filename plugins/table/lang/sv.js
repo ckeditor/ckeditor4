@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'sv', {
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'table', 'sv', {
 	},
 	columns: 'Kolumner',
 	deleteTable: 'Radera tabell',
-	headers: 'Ruberiker',
+	headers: 'Rubriker',
 	headersBoth: 'Båda',
 	headersColumn: 'Första kolumnen',
 	headersNone: 'Ingen',

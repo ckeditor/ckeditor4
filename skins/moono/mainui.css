@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -102,6 +102,9 @@ Special outer level classes used in this file:
 	/*border: 1px solid #b2b2b2;*/
 	border-bottom: 1px solid #b6b6b6;
 	padding: 6px 8px 2px;
+
+	/* Allow breaking toolbars when in a narrow editor. (#9947) */
+	white-space: normal;
 
 	-moz-box-shadow: 0 1px 0 #fff inset;
 	-webkit-box-shadow: 0 1px 0 #fff inset;
@@ -218,4 +221,8 @@ Special outer level classes used in this file:
 	overflow: auto;
 	padding: 0 8px;
 	outline-style: none;
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }

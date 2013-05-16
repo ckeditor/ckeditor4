@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'he', {
@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'he', {
 		maxChars: 'מקסימום תווים',
 		type: 'סוג',
 		typeText: 'טקסט',
-		typePass: 'סיסמה'
+		typePass: 'סיסמה',
+		typeEmail: 'דוא"ל',
+		typeSearch: 'חיפוש',
+		typeTel: 'מספר טלפון',
+		typeUrl: 'כתובת (URL)'
 	}
 });

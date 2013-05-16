@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -560,7 +560,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference : name in reference ) ) )
 				return new CKEDITOR.dom.node( $ );
 
-			$ = $.parentNode;
+			try {
+				$ = $.parentNode;
+			} catch( e ) {
+				$ = null;
+			}
 		}
 		return null;
 	},

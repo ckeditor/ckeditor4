@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -69,6 +69,8 @@ CKEDITOR.plugins.add( 'resize', {
 					editor.document.on( 'mousemove', dragHandler );
 					editor.document.on( 'mouseup', dragEndHandler );
 				}
+
+				$event.preventDefault && $event.preventDefault();
 			});
 
 			editor.on( 'destroy', function() {

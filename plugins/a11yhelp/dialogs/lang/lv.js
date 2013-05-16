@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -66,6 +66,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'lv', {
 			{
 			name: 'Rīkjoslas aizvēršanas komanda',
 			legend: 'Nospiediet ${toolbarCollapse}'
+		},
+			{
+			name: 'Piekļūt iepriekšējai fokusa vietas komandai',
+			legend: 'Nospiediet ${accessPreviousSpace} lai piekļūtu tuvākajai nepieejamajai fokusa vietai pirms kursora. Piemēram: diviem blakus esošiem līnijas HR elementiem. Atkārtojiet taustiņu kombināciju lai piekļūtu pie tālākām vietām.'
+		},
+			{
+			name: 'Piekļūt nākošā fokusa apgabala komandai',
+			legend: 'Nospiediet ${accessNextSpace} lai piekļūtu tuvākajai nepieejamajai fokusa vietai pēc kursora. Piemēram: diviem blakus esošiem līnijas HR elementiem. Atkārtojiet taustiņu kombināciju lai piekļūtu pie tālākām vietām.'
 		},
 			{
 			name: 'Pieejamības palīdzība',

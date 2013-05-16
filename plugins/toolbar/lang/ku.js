@@ -1,22 +1,22 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'ku', {
 	toolbarCollapse: 'شاردنەوی هێڵی تووڵامراز',
 	toolbarExpand: 'نیشاندانی هێڵی تووڵامراز',
 	toolbarGroups: {
-		document: 'پهڕه',
-		clipboard: 'بڕین/پووچکردنهوه',
+		document: 'پەڕه',
+		clipboard: 'بڕین/پووچکردنەوە',
 		editing: 'چاکسازی',
-		forms: 'داڕشته',
-		basicstyles: 'شێوازی بنچینهیی',
-		paragraph: 'بڕگه',
-		links: 'بهستهر',
-		insert: 'خستنه ناو',
+		forms: 'داڕشتە',
+		basicstyles: 'شێوازی بنچینەیی',
+		paragraph: 'بڕگە',
+		links: 'بەستەر',
+		insert: 'خستنە ناو',
 		styles: 'شێواز',
-		colors: 'ڕهنگهکان',
-		tools: 'ئامرازهکان'
+		colors: 'ڕەنگەکان',
+		tools: 'ئامرازەکان'
 	},
-	toolbars: 'تووڵاەرازی دەسکاریکەر'
+	toolbars: 'تووڵامرازی دەسکاریکەر'
 });

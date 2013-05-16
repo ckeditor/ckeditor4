@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -63,7 +63,6 @@ CKEDITOR.addTemplates( 'default', {
 				'<caption style="border:solid 1px black">' +
 					'<strong>Table title</strong>' +
 				'</caption>' +
-				'</tr>' +
 				'<tr>' +
 					'<td>&nbsp;</td>' +
 					'<td>&nbsp;</td>' +

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'pt', {
@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt', {
 	paste: 'Colar',
 	pasteArea: 'Paste Area', // MISSING
 	pasteMsg: 'Por favor, cole dentro da seguinte caixa usando o teclado (<STRONG>Ctrl/Cmd+V</STRONG>) e prima <STRONG>OK</STRONG>.',
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+	securityMsg: 'Devido ás definições de segurança do teu browser, o editor não pode aceder ao clipboard diretamente. É necessário que voltes a colar as informações nesta janela.',
 	title: 'Colar'
 });

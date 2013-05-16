@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 
 			{
 			name: 'تەھرىرلىگۈچ سۆزلەشكۈسى',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: 'سۆزلەشكۈدە TAB كۇنۇپكىسىدا كېيىنكى سۆز بۆلىكىگە يۆتكىلىدۇ، SHIFT + TAB بىرىكمە كۇنۇپكىسىدا ئالدىنقى سۆز بۆلىكىگە يۆتكىلىدۇ، ENTER كۇنۇپكىسىدا سۆزلەشكۈنى تاپشۇرىدۇ، ESC كۇنۇپكىسى سۆزلەشكۈدىن ۋاز كېچىدۇ. كۆپ بەتكۈچلۈك سۆزلەشكۈگە نىسبەتەن، ALT + F10 دا بەتكۈچ تىزىمىغا يۆتكەيدۇ. ئاندىن TAB كۇنۇپكىسى ياكى ئوڭ يا ئوق كۇنۇپكىسى كېيىنكى بەتكۈچكە يۆتكەيدۇ؛ SHIFT + TAB كۇنۇپكىسى ياكى سول يا ئوق كۇنۇپكىسى ئالدىنقى بەتكۈچكە يۆتكەيدۇ. بوشلۇق كۇنۇپكىسى ياكى ENTER كۇنۇپكىسى بەتكۈچنى تاللايدۇ.'
 		},
 
 			{
@@ -66,6 +66,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 			{
 			name: 'قورال بالداق قاتلاش بۇيرۇقى',
 			legend: '${toolbarCollapse} نى بېسىڭ'
+		},
+			{
+			name: ' Access previous focus space command', // MISSING
+			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+		},
+			{
+			name: ' Access next focus space command', // MISSING
+			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
 			name: 'توسالغۇسىز لايىھە چۈشەندۈرۈشى',

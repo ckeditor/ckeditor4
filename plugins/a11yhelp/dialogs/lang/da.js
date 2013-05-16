@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	title: 'Tilgængelighedsinstrukser',
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	contents: 'Onlinehjælp. For at lukke dette vindue klik ESC',
 	legend: [
 		{
 		name: 'Generelt',
@@ -66,6 +66,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			{
 			name: ' Toolbar Collapse command', // MISSING
 			legend: 'Press ${toolbarCollapse}' // MISSING
+		},
+			{
+			name: ' Access previous focus space command', // MISSING
+			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+		},
+			{
+			name: ' Access next focus space command', // MISSING
+			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
 			name: ' Accessibility Help', // MISSING

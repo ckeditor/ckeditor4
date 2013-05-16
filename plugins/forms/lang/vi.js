@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'vi', {
@@ -59,6 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		maxChars: 'Số ký tự tối đa',
 		type: 'Kiểu',
 		typeText: 'Ký tự',
-		typePass: 'Mật khẩu'
+		typePass: 'Mật khẩu',
+		typeEmail: 'Email',
+		typeSearch: 'Tìm kiếm',
+		typeTel: 'Số điện thoại',
+		typeUrl: 'URL'
 	}
 });

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -279,13 +279,18 @@ CKEDITOR.plugins.add( 'dialogui', {
 				attributes.rows = elementDefinition.rows || 5;
 				attributes.cols = elementDefinition.cols || 20;
 
+				attributes[ 'class' ] = 'cke_dialog_ui_input_textarea ' + ( elementDefinition[ 'class' ] || '' );
+
 				if ( typeof elementDefinition.inputStyle != 'undefined' )
 					attributes.style = elementDefinition.inputStyle;
+
+				if ( elementDefinition.dir )
+					attributes.dir = elementDefinition.dir;
 
 				var innerHTML = function() {
 						attributes[ 'aria-labelledby' ] = this._.labelId;
 						this._.required && ( attributes[ 'aria-required' ] = this._.required );
-						var html = [ '<div class="cke_dialog_ui_input_textarea" role="presentation"><textarea class="cke_dialog_ui_input_textarea" id="', domId, '" ' ];
+						var html = [ '<div class="cke_dialog_ui_input_textarea" role="presentation"><textarea id="', domId, '" ' ];
 						for ( var i in attributes )
 							html.push( i + '="' + CKEDITOR.tools.htmlEncode( attributes[ i ] ) + '" ' );
 						html.push( '>', CKEDITOR.tools.htmlEncode( me._[ 'default' ] ), '</textarea></div>' );
@@ -702,9 +707,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 					// Look for focus function in definition.
 					var focus = elementDefinition.focus;
 					if ( focus ) {
+						var oldFocus = this.focus;
 						this.focus = function() {
-							this.selectParentTab();
-							typeof focus == 'function' && focus.call( this );
+							( typeof focus == 'function' ? focus : oldFocus ).call( this );
 							this.fire( 'focus' );
 						};
 						if ( elementDefinition.isFocusable ) {
@@ -1057,7 +1062,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
 						return commonEventProcessors.onChange.apply( this, arguments );
 					else {
 						dialog.on( 'load', function() {
@@ -1309,7 +1314,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Defines the onChange event for UI element definitions.
 			 *
-			 * @propert {Object}
+			 * @property {Object}
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {

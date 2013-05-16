@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -193,6 +193,15 @@
  * The popup label of the UI element.
  *
  * @property {String} title
+ */
+
+/**
+ * The content that needs to be allowed to enable this UI element.
+ * All formats accepted by {@link CKEDITOR.filter#check} may be used.
+ *
+ * When all UI elements in a tab are disabled, this tab will be disabled automatically.
+ *
+ * @property {String/Object/CKEDITOR.style} requiredContent
  */
 
 /**

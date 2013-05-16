@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -731,7 +731,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * See {@link #getFirst}.
 	 *
 	 * @param {Function} evaluator Filtering the result node.
-	 * @retunrs {CKEDITOR.dom.node}
+	 * @returns {CKEDITOR.dom.node}
 	 */
 	getLast: function( evaluator ) {
 		var last = this.$.lastChild,

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -32,5 +32,5 @@ if ( !CKEDITOR.editor ) {
 	};
 
 	// "Inherit" (copy actually) from CKEDITOR.event.
-	CKEDITOR.event.implementOn( CKEDITOR.editor.prototype, true );
+	CKEDITOR.event.implementOn( CKEDITOR.editor.prototype );
 }

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	ldquo: 'Guillemet double ouvrant',
 	rdquo: 'Guillemet double fermant',
 	ndash: 'Tiret haut',
-	mdash: 'Tiret bas underscore',
+	mdash: 'Tiret cadratin',
 	iexcl: 'Point d\'exclamation inversé',
 	cent: 'Symbole Cent',
 	pound: 'Symbole Livre Sterling',

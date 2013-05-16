@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 ?>
@@ -25,24 +25,24 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		</thead>
 <?php
 
-if ( isset( $_POST ) )
-	$postArray = &$_POST ;			// 4.1.0 or later, use $_POST
-else
-	$postArray = &$HTTP_POST_VARS ;	// prior to 4.1.0, use HTTP_POST_VARS
-
-foreach ( $postArray as $sForm => $value )
+if (!empty($_POST))
 {
-	if ( get_magic_quotes_gpc() )
-		$postedValue = htmlspecialchars( stripslashes( $value ) ) ;
-	else
-		$postedValue = htmlspecialchars( $value ) ;
+	foreach ( $_POST as $key => $value )
+	{
+		if ( ( !is_string($value) && !is_numeric($value) ) || !is_string($key) )
+			continue;
 
+		if ( get_magic_quotes_gpc() )
+			$value = htmlspecialchars( stripslashes((string)$value) );
+		else
+			$value = htmlspecialchars( (string)$value );
 ?>
 		<tr>
-			<th style="vertical-align: top"><?php echo $sForm?></th>
-			<td><pre class="samples"><?php echo $postedValue?></pre></td>
+			<th style="vertical-align: top"><?php echo htmlspecialchars( (string)$key ); ?></th>
+			<td><pre class="samples"><?php echo $value; ?></pre></td>
 		</tr>
 	<?php
+	}
 }
 ?>
 	</table>
@@ -52,7 +52,7 @@ foreach ( $postArray as $sForm => $value )
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
 		</p>
 	</div>
 </body>

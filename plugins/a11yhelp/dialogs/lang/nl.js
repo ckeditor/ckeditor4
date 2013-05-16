@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -66,6 +66,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 			{
 			name: 'Werkbalk inklappen opdracht',
 			legend: 'Druk op ${toolbarCollapse}'
+		},
+			{
+			name: 'Ga naar vorige focus spatie commando',
+			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtsbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
+		},
+			{
+			name: 'Ga naar volgende focus spatie commando',
+			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de meest dichtbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
 		},
 			{
 			name: 'Toegankelijkheidshulp',

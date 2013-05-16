@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -296,8 +296,12 @@ if ( !CKEDITOR.env ) {
 				env.cssClass += ' cke_browser_iequirks';
 		}
 
-		if ( env.gecko && version < 10900 )
-			env.cssClass += ' cke_browser_gecko18';
+		if ( env.gecko ) {
+			if ( version < 10900 )
+				env.cssClass += ' cke_browser_gecko18';
+			else if ( version <= 11000 )
+				env.cssClass += ' cke_browser_gecko19';
+		}
 
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';

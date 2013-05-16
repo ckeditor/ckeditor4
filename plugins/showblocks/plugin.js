@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -22,14 +22,19 @@
 
 		refresh: function( editor ) {
 			if ( editor.document ) {
-				var funcName = ( this.state == CKEDITOR.TRISTATE_ON ) ? 'attachClass' : 'removeClass';
+				// Show blocks turns inactive after editor loses focus when in inline.
+				var showBlocks = this.state == CKEDITOR.TRISTATE_ON &&
+				   ( editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ||
+					   editor.focusManager.hasFocus );
+
+				var funcName = showBlocks ? 'attachClass' : 'removeClass';
 				editor.editable()[ funcName ]( 'cke_show_blocks' );
 			}
 		}
 	};
 
 	CKEDITOR.plugins.add( 'showblocks', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'showblocks,showblocks-rtl', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			var cssTemplate = '.%2 p,' +
@@ -148,6 +153,15 @@
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
 			});
+
+			// Refresh the command on focus/blur in inline.
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+				function onFocusBlur() {
+					command.refresh( editor );
+				}
+				editor.on( 'focus', onFocusBlur );
+				editor.on( 'blur', onFocusBlur );
+			}
 
 			// Refresh the command on setData.
 			editor.on( 'contentDom', function() {

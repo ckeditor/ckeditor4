@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'ku', {
-	clear: 'پاککردنهوه',
+	clear: 'پاکیکەوە',
 	highlight: 'نیشانکردن',
-	options: 'ههڵبژاردهی ڕهنگهکان',
-	selected: 'ههڵبژاردرا',
-	title: 'ههڵبژاردنی ڕهنگ'
+	options: 'هەڵبژاردەی ڕەنگەکان',
+	selected: 'ڕەنگی هەڵبژێردراو',
+	title: 'هەڵبژاردنی ڕەنگ'
 });

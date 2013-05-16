@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'devtools', {
 		var lang = editor.lang.devtools,
 			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
 			( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
-			'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
+			'" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
 			str = '<h2>' + lang.title + '</h2>' +
 			'<ul>' +
 			'<li><strong>' + lang.dialogName + '</strong> : ' + dialog.getName() + '</li>' +
