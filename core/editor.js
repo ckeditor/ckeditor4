@@ -395,9 +395,9 @@
 			 * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name editor.name}
 			 * which identifies the instance in {@link CKEDITOR#instances} literal.
 			 *
-			 * @property {String}
-			 * @readonly
 			 * @since 4.2
+			 * @readonly
+			 * @property {String/Boolean}
 			 */
 			editor.title = typeof configTitle == 'string' || configTitle === false ? configTitle : [ editor.lang.editor, editor.name ].join( ', ' );
 
@@ -1103,12 +1103,12 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  /**
  * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
  * tooltips and impacts on various accessibility aspects, e.g. it is commonly used by screen readers
- * for distinguishing editor instances and for navigation. Accepted values are string or ``false``.
+ * for distinguishing editor instances and for navigation. Accepted values are string or `false`.
  *
- * **Note:** When ``config.title`` set globally, the same value will be applied to all editor instances
+ * **Note:** When `config.title` set globally, the same value will be applied to all editor instances
  * loaded with this config. This may have a critical impact on several accessibility aspects.
  *
- * **Note:** Setting ``config.title = false`` may also have a critical impact on
+ * **Note:** Setting `config.title = false` may also have a critical impact on
  * several accessibility aspects.
  *
  * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name}
@@ -1124,9 +1124,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @since 4.2
  * @cfg {String/Boolean} [title=based on editor.name]
+ * @member CKEDITOR.config
  * @see CKEDITOR.editor.name
  * @see CKEDITOR.editor.title
- * @member CKEDITOR.config
  */
 
 /**
