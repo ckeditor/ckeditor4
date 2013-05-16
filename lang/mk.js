@@ -70,7 +70,7 @@ CKEDITOR.lang[ 'mk' ] = {
 		advancedTab: 'Advanced', // MISSING
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure that you want to close the dialog?', // MISSING
 		options: 'Options', // MISSING
 		target: 'Target', // MISSING
 		targetNew: 'New Window (_blank)', // MISSING

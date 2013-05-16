@@ -71,7 +71,7 @@ CKEDITOR.lang[ 'th' ] = {
 		advancedTab: 'ขั้นสูง',
 		validateNumberFailed: 'ค่านี้ไม่ใช่ตัวเลข',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmCancel: 'Some of the options have been changed. Are you sure that you want to close the dialog?', // MISSING
 		options: 'ตัวเลือก',
 		target: 'การเปิดหน้าลิงค์',
 		targetNew: 'หน้าต่างใหม่ (_blank)',
