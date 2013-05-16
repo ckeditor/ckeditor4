@@ -757,7 +757,8 @@
 				listener.removeListener();
 			}
 		}
-		else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 ) {
+		// IEs 9+.
+		else if ( CKEDITOR.env.ie && !isMSSelection ) {
 			var sel = this.document.getWindow().$.getSelection(),
 				anchorNode = sel && sel.anchorNode;
 
@@ -767,7 +768,33 @@
 			if ( this.document.getActive().equals( this.document.getDocumentElement() ) &&
 				anchorNode && ( this.root.equals( anchorNode ) || this.root.contains( anchorNode ) )
 			) {
+				var listener = this.root.on( 'focus', function( evt ) {
+					evt.cancel();
+				}, null, null, -100 );
+
 				this.root.focus();
+
+				listener.removeListener();
+			}
+		}
+		// IEs 7&8.
+		else if ( CKEDITOR.env.ie ) {
+			var sel = this.document.$.selection,
+				active;
+
+			// IE8 throws unspecified error when trying to access document.$.activeElement.
+			try {
+				active = this.document.getActive();
+			} catch ( e ) {}
+
+			if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) ) {
+				var listener = this.root.on( 'focus', function( evt ) {
+					evt.cancel();
+				}, null, null, -100 );
+
+				this.root.focus();
+
+				listener.removeListener();
 			}
 		}
 
