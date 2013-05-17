@@ -754,27 +754,27 @@
 				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
 				fixInitialSelection( root, sel, true );
 		}
-		// IEs 9+.
-		else if ( CKEDITOR.env.ie && !isMSSelection ) {
-			var anchorNode = sel && sel.anchorNode;
-
-			if ( anchorNode )
-				anchorNode = new CKEDITOR.dom.node( anchorNode );
-
-			if ( this.document.getActive().equals( this.document.getDocumentElement() ) &&
-				anchorNode && ( root.equals( anchorNode ) || root.contains( anchorNode ) ) )
-				fixInitialSelection( root, null, true );
-		}
-		// IEs 7&8.
 		else if ( CKEDITOR.env.ie ) {
 			var active;
 
-			// IE8 throws unspecified error when trying to access document.$.activeElement.
+			// IE8,9 throw unspecified error when trying to access document.$.activeElement.
 			try {
 				active = this.document.getActive();
 			} catch ( e ) {}
 
-			if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) )
+			// IEs 9+.
+			if ( !isMSSelection ) {
+				var anchorNode = sel && sel.anchorNode;
+
+				if ( anchorNode )
+					anchorNode = new CKEDITOR.dom.node( anchorNode );
+
+				if ( active && active.equals( this.document.getDocumentElement() ) &&
+					anchorNode && ( root.equals( anchorNode ) || root.contains( anchorNode ) ) )
+					fixInitialSelection( root, null, true );
+			}
+			// IEs 7&8.
+			else if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) )
 				fixInitialSelection( root, null, true );
 		}
 
