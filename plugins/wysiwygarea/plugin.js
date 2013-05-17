@@ -318,8 +318,12 @@
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
-				if ( isSnapshot )
+				if ( isSnapshot ) {
 					this.setHtml( data );
+					// Fire dataReady for the consistency with inline editors
+					// and because it makes sense. (#10370)
+					editor.fire( 'dataReady' );
+				}
 				else {
 					this._.isLoadingData = true;
 					editor._.dataStore = { id:1 };
