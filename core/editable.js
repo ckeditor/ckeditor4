@@ -1619,7 +1619,8 @@
 				element = element.getParent();
 			}
 
-			return wrapper.getOuterHtml().replace( '{cke-peak}', data );
+			// "$$" in replacement means a single "$" (#10367).
+			return wrapper.getOuterHtml().replace( '{cke-peak}', data.replace( /\$/g, '$$$$' ) );
 		}
 
 		return insert;
