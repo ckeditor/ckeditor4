@@ -3,6 +3,9 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2
 
+* [#10042](http://dev.ckeditor.com/ticket/10042): Introduced config.title to change the human-readable title of the editor.
+* [#10370](http://dev.ckeditor.com/ticket/10370): Inconsistency in data events between framed and inline editors.
+
 ## CKEditor 4.1.2
 
 * [#10389](http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
