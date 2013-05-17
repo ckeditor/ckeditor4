@@ -179,6 +179,33 @@
 		}
 	}
 
+	// Read the comments in selection constructor.
+	function fixInitialSelection( root, nativeSel, doFocus ) {
+		// It may happen that setting proper selection will
+		// cause focus to be fired (even without actually focusing root).
+		// Cancel it because focus shouldn't be fired when retriving selection. (#10115)
+		var listener = root.on( 'focus', function( evt ) {
+			evt.cancel();
+		}, null, null, -100 );
+
+		// FF && Webkit.
+		if ( !CKEDITOR.env.ie ) {
+			var range = new CKEDITOR.dom.range( root );
+			range.moveToElementEditStart( root );
+
+			var nativeRange = root.getDocument().$.createRange();
+			nativeRange.setStart( range.startContainer.$, range.startOffset );
+			nativeRange.collapse( 1 );
+
+			nativeSel.removeAllRanges();
+			nativeSel.addRange( nativeRange );
+		}
+
+		doFocus && root.focus();
+
+		listener.removeListener();
+	}
+
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
@@ -695,9 +722,11 @@
 	 * is restrained to, only selection spans within the target element is considered as valid.
 	 */
 	CKEDITOR.dom.selection = function( target ) {
-		var isElement = target instanceof CKEDITOR.dom.element;
+		var isElement = target instanceof CKEDITOR.dom.element,
+			root;
+
 		this.document = target instanceof CKEDITOR.dom.document ? target : target.getDocument();
-		this.root = isElement ? target : this.document.getBody();
+		this.root = root = isElement ? target : this.document.getBody();
 		this.isLocked = 0;
 		this._ = {
 			cache: {}
@@ -707,95 +736,46 @@
 		// on the editable element while still having no selection
 		// available. We normalize it here by replicating the
 		// behavior of other browsers.
+		//
+		// Webkit's condition covers also the case when editable hasn't been focused
+		// at all. Thanks to this hack Webkit always has selection in the right place.
+		//
+		// On FF and IE we only fix the first case, when editable was activated
+		// but the selection is broken - usually this happens after setData if editor was focused.
+
+		var sel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection();
+
 		if ( CKEDITOR.env.webkit ) {
-			var sel = this.document.getWindow().$.getSelection();
-			if ( sel.type == 'None' && this.document.getActive().equals( this.root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT ) {
-				// It may happen that setting proper selection will
-				// cause focus to be fired. Cancel it because focus
-				// shouldn't be fired when retriving selection. (#10115)
-				var listener = this.root.on( 'focus', function( evt ) {
-					evt.cancel();
-				}, null, null, -100 );
-
-				var range = new CKEDITOR.dom.range( this.root );
-				range.moveToPosition( this.root, CKEDITOR.POSITION_AFTER_START );
-
-				var nativeRange = this.document.$.createRange();
-				nativeRange.setStart( range.startContainer.$, range.startOffset );
-				nativeRange.collapse( 1 );
-
-				sel.removeAllRanges();
-				sel.addRange( nativeRange );
-
-				listener.removeListener();
-			}
+			if ( sel.type == 'None' && this.document.getActive().equals( root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
+				fixInitialSelection( root, sel );
 		}
 		else if ( CKEDITOR.env.gecko ) {
-			var sel = this.document.getWindow().$.getSelection();
-
-			if ( sel && this.document.getActive().equals( this.root ) &&
-				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT
-			) {
-				var listener = this.root.on( 'focus', function( evt ) {
-					evt.cancel();
-				}, null, null, -100 );
-
-				// TODO we should promote this fix for every setData - also on inline editor,
-				// in which case this code is not executed.
-				var range = new CKEDITOR.dom.range( this.root );
-				range.moveToElementEditStart( this.root );
-
-				var nativeRange = this.document.$.createRange();
-				nativeRange.setStart( range.startContainer.$, range.startOffset );
-				nativeRange.collapse( 1 );
-
-				sel.removeAllRanges();
-				sel.addRange( nativeRange );
-
-				this.root.focus();
-
-				listener.removeListener();
-			}
+			if ( sel && this.document.getActive().equals( root ) &&
+				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
+				fixInitialSelection( root, sel, true );
 		}
 		// IEs 9+.
 		else if ( CKEDITOR.env.ie && !isMSSelection ) {
-			var sel = this.document.getWindow().$.getSelection(),
-				anchorNode = sel && sel.anchorNode;
+			var anchorNode = sel && sel.anchorNode;
 
 			if ( anchorNode )
 				anchorNode = new CKEDITOR.dom.node( anchorNode );
 
 			if ( this.document.getActive().equals( this.document.getDocumentElement() ) &&
-				anchorNode && ( this.root.equals( anchorNode ) || this.root.contains( anchorNode ) )
-			) {
-				var listener = this.root.on( 'focus', function( evt ) {
-					evt.cancel();
-				}, null, null, -100 );
-
-				this.root.focus();
-
-				listener.removeListener();
-			}
+				anchorNode && ( root.equals( anchorNode ) || root.contains( anchorNode ) ) )
+				fixInitialSelection( root, null, true );
 		}
 		// IEs 7&8.
 		else if ( CKEDITOR.env.ie ) {
-			var sel = this.document.$.selection,
-				active;
+			var active;
 
 			// IE8 throws unspecified error when trying to access document.$.activeElement.
 			try {
 				active = this.document.getActive();
 			} catch ( e ) {}
 
-			if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) ) {
-				var listener = this.root.on( 'focus', function( evt ) {
-					evt.cancel();
-				}, null, null, -100 );
-
-				this.root.focus();
-
-				listener.removeListener();
-			}
+			if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) )
+				fixInitialSelection( root, null, true );
 		}
 
 		// Check whether browser focus is really inside of the editable element.
@@ -820,7 +800,7 @@
 		}
 
 		// Selection out of concerned range, empty the selection.
-		if ( !( rangeParent && ( this.root.equals( rangeParent ) || this.root.contains( rangeParent ) ) ) ) {
+		if ( !( rangeParent && ( root.equals( rangeParent ) || root.contains( rangeParent ) ) ) ) {
 			this._.cache.type = CKEDITOR.SELECTION_NONE;
 			this._.cache.startElement = null;
 			this._.cache.selectedElement = null;
