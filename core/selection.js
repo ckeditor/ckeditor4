@@ -361,7 +361,7 @@
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
-			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko || CKEDITOR.env.opera || isInline ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
 				var lastSel;
 				// Save a fresh copy of the selection.
 				function saveSel() {
