@@ -1009,8 +1009,9 @@
 			// DATA PROCESSING
 
 			// Select range and stop execution.
-			if ( data ) {
-				processDataForInsertion( that, data );
+			// If data has been totally emptied after the filtering,
+			// any insertion is pointless (#10339).
+			if ( data && processDataForInsertion( that, data ) ) {
 
 				// DATA INSERTION
 				insertDataIntoRange( that );
@@ -1153,6 +1154,8 @@
 			}
 
 			that.dataWrapper = wrapper;
+
+			return data;
 		}
 
 		function insertDataIntoRange( that ) {
