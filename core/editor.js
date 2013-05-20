@@ -840,6 +840,10 @@
 			if ( this.readOnly != isReadOnly ) {
 				this.readOnly = isReadOnly;
 
+				// Block or release BACKSPACE key according to current read-only
+				// state to prevent browser's history navigation (#9761).
+				this.keystrokeHandler.blockedKeystrokes[ 8 ] = +isReadOnly;
+
 				this.editable().setReadOnly( isReadOnly );
 
 				// Fire the readOnly event so the editor features can update
