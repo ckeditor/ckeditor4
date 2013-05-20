@@ -270,6 +270,21 @@
 		delete editor._.hiddenSelectionContainer;
 	}
 
+	function addFakeSelectionKeyHandlers( sel, editor, element, handlers ) {
+		sel._.fakeKeyListener = editor.editable().attachListener( element, 'keydown', function( evt ) {
+			var handler = handlers[ evt.data.keyCode ],
+				handled;
+
+			if ( handler )
+				handled = handler( evt, sel, element );
+
+			if ( !handled ) {
+				evt.data.preventDefault();
+				evt.data.stopPropagation();
+			}
+		} );
+	}
+
 	// Hide hidden selection container.
 	CKEDITOR.addCss(
 		'.cke_hidden_sel{' +
@@ -1504,6 +1519,11 @@
 				if ( this === editor._.fakeSelection ) {
 					delete editor._.fakeSelection;
 
+					if ( this._.fakeKeyListener ) {
+						this._.fakeKeyListener.removeListener();
+						delete this._.fakeKeyListener;
+					}
+
 					removeHiddenSelectionContainer( editor );
 				}
 				// TODO after #9786 use commented out lines instead of console.log.
@@ -1788,9 +1808,12 @@
 		 * aware of the fake selection. In practice, the native selection is
 		 * moved to a hidden place where no native selection UI artifacts are
 		 * displayed to the user.
-		 * @param element The element to be "selected".
+		 *
+		 * @param {CKEDITOR.dom.element} element The element to be "selected".
+		 * @param definition The fake selection definition.
+		 * @param definition.keyHandlers List of `key code => listener` pairs.
 		 */
-		fake: function( element ) {
+		fake: function( element, definition ) {
 			var editor = this.root.editor;
 
 			hideSelection( editor );
@@ -1816,6 +1839,9 @@
 
 			// Save this selection, so it can be returned by editor.getSelection().
 			editor._.fakeSelection = this;
+
+			if ( definition && definition.keyHandlers )
+				addFakeSelectionKeyHandlers( this, editor, element, definition.keyHandlers );
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
