@@ -84,8 +84,12 @@
 			attachListener: function( obj, event, fn, scope, listenerData, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
 				// Register the listener.
-				var args = Array.prototype.slice.call( arguments, 1 );
-				this._.listeners.push( obj.on.apply( obj, args ) );
+				var args = Array.prototype.slice.call( arguments, 1 ),
+					listener = obj.on.apply( obj, args );
+
+				this._.listeners.push( listener );
+
+				return listener;
 			},
 
 			/**
