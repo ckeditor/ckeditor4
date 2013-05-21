@@ -152,6 +152,49 @@ CKEDITOR.scriptLoader = (function() {
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
 			}
-		}
+		},
+
+		/**
+		 * Loads a script in a queue, so only one is loaded at the same time.
+		 *
+		 * @since 4.1.2
+		 * @param {String} scriptUrl URL pointing to the script to be loaded.
+		 * @param {Function} [callback] A function to be called when the script
+		 * is loaded and executed. A boolean parameter is passed to the callback,
+		 * indicating the success of the load.
+		 *
+		 * @see CKEDITOR.scriptLoader#load
+		 */
+		queue: ( function() {
+			var pending = [],
+				queueStarted = 0;
+
+			// Loads the very first script from queue and removes it.
+			function loadNext() {
+				var script;
+
+				if ( ( script = pending.shift() ) )
+					this.load( script.scriptUrl, script.callback, CKEDITOR, 0 );
+			}
+
+			return function( scriptUrl, callback ) {
+				var that = this;
+
+				// This callback calls the standard callback for the script
+				// and loads the very next script from pending list.
+				function callbackWrapper() {
+					callback && callback.apply( this, arguments );
+					loadNext.call( that );
+				};
+
+				// Let's add this script to the queue
+				pending.push( { 'scriptUrl': scriptUrl, 'callback': callbackWrapper } );
+
+				// Start loading scripts in this queue, one-by-one.
+				// It's enough to start	it one, hence queueStarted flag.
+				if ( !queueStarted++ )
+					loadNext.call( this );
+			};
+		})()
 	};
 })();
