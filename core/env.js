@@ -313,5 +313,25 @@ if ( !CKEDITOR.env ) {
 	})();
 }
 
+/**
+ * Even though {@link CKEDITOR.env#isCustomDomain} can detect
+ * that custom `document.domain` has been set, there are cases when
+ * detection is not possible. This is when `document.domain` is touched but
+ * not changed, i.e. `document.domain = document.domain`. In such case, browsers
+ * assume that `document.domain` is different, so the editor also should be
+ * manually configured to handle such setup.
+ *
+ * This option notifies the editor that `document.domain` has changed and this change
+ * can be undetectable. It is recommended to use it always when `document.domain`
+ * is altered. Otherwise "Permission denied" errors may occur in latest versions of
+ * Interner Explorer.
+ *
+ *		// Forces custom domain.
+ *		CKEDITOR.config.forceCustomDomain = true;
+ *
+ * @cfg {Boolean} [forceCustomDomain=false]
+ * @member CKEDITOR.config
+ */
+
 // PACKAGER_RENAME( CKEDITOR.env )
 // PACKAGER_RENAME( CKEDITOR.env.ie )
