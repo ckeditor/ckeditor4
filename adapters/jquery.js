@@ -60,7 +60,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// jQuery object methods.
 	jQuery.extend( jQuery.fn,
-	/** @lends jQuery.fn */ 
+	/** @lends jQuery.fn */
 	{
 		/**
 		 * Return existing CKEditor instance for first matched element.
@@ -149,9 +149,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Remove this listener.
 							event.removeListener( 'instanceReady', this.callee );
 
-							// Forward setData on dataReady.
+							// Forward dataReady.
 							editor.on( 'dataReady', function() {
-								$element.trigger( 'setData' + '.ckeditor', [ editor ] );
+								$element.trigger( 'dataReady' + '.ckeditor', [ editor ] );
+							});
+
+							// Forward setData.
+							editor.on( 'setData', function( event ) {
+								$element.trigger( 'setData' + '.ckeditor', [ editor, event.data ] );
 							});
 
 							// Forward getData.
@@ -247,7 +252,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					if ( !forceNative && $this.is( 'textarea' ) && editor ) {
 						if ( isSetter )
-							editor.setData( newValue ); 
+							editor.setData( newValue );
 						else {
 							result = editor.getData();
 							// break;
@@ -255,7 +260,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						}
 					} else {
 						if ( isSetter )
-							oldValMethod.call( $this, newValue ); 
+							oldValMethod.call( $this, newValue );
 						else {
 							result = oldValMethod.call( $this );
 							// break;
