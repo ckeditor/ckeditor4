@@ -200,10 +200,21 @@
 			nativeSel.removeAllRanges();
 			nativeSel.addRange( nativeRange );
 		}
+		else {
+			// IE in specific case may also fire selectionchange.
+			// We cannot block bubbling selectionchange, so at least we
+			// can prevent from falling into inf recursion caused by fix for #9699
+			// (see wysiwygarea plugin).
+			// http://dev.ckeditor.com/ticket/10438#comment:13
+			var listener2 = root.getDocument().on( 'selectionchange', function( evt ) {
+				evt.cancel();
+			}, null, null, -100 );
+		}
 
 		doFocus && root.focus();
 
 		listener.removeListener();
+		listener2 && listener2.removeListener();
 	}
 
 	// Setup all editor instances for the necessary selection hooks.
