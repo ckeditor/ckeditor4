@@ -110,7 +110,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			}
 			config = config || {};
 
-			this.filter( 'textarea, div, p' ).each( function() {
+			this.each( function() {
+
 				var $element = jQuery( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
@@ -133,7 +134,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					editor = CKEDITOR.replace( element, config );
+					try {
+						if( $( this ).is( "textarea" ) ) {
+							editor = CKEDITOR.replace( element, config );
+						} else {
+							editor = CKEDITOR.inline( element, config );
+						}
+					} catch( err ) { // to catch wrong element types
+						console.error( err.message );
+						return this;
+					}
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
