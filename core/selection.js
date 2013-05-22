@@ -363,12 +363,9 @@
 			// and restoring it upon focus gain.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
 				var lastSel;
-				// Save a fresh copy of the selection.
+				// Save a cloned version of current selection.
 				function saveSel() {
-					lastSel = editor.getSelection();
-
-					if ( !lastSel.isFake )
-						lastSel = editor.getSelection( 1 );
+					lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
 
 					lastSel.lock();
 				}
