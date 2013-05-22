@@ -806,7 +806,8 @@
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 
-	var isMSSelection = typeof window.getSelection != 'function';
+	var isMSSelection = typeof window.getSelection != 'function',
+		nextRev = 1;
 
 	/**
 	 * Manipulates the selection within a DOM element. If the current browser selection
@@ -847,6 +848,7 @@
 		var isElement = target instanceof CKEDITOR.dom.element,
 			root;
 
+		this.rev = nextRev++;
 		this.document = target instanceof CKEDITOR.dom.document ? target : target.getDocument();
 		this.root = root = isElement ? target : this.document.getBody();
 		this.isLocked = 0;
@@ -1539,6 +1541,7 @@
 		reset: function() {
 			this._.cache = {};
 			this.isFake = 0;
+			this.rev = nextRev++;
 
 			var editor = this.root.editor;
 
@@ -1864,6 +1867,7 @@
 			cache.selectedText = cache.nativeSel = null;
 
 			this.isFake = 1;
+			this.rev = nextRev++;
 
 			// Save this selection, so it can be returned by editor.getSelection().
 			editor._.fakeSelection = this;
@@ -1993,3 +1997,44 @@
 	};
 
 })();
+
+/**
+ * Selection's revision. This value is incremented every time new
+ * selection is created or existing one is modified.
+ *
+ * @since 4.2
+ * @readonly
+ * @property {Number} rev
+ */
+
+/**
+ * Document in which selection is anchored.
+ *
+ * @readonly
+ * @property {CKEDITOR.dom.document} document
+ */
+
+/**
+ * Selection's root element.
+ *
+ * @readonly
+ * @property {CKEDITOR.dom.element} root
+ */
+
+/**
+ * Whether selection is locked (cannot be modified).
+ *
+ * See {@link #lock} and {@link #unlock} methods.
+ *
+ * @readonly
+ * @property {Boolean} isLocked
+ */
+
+/**
+ * Whether selection is a fake selection.
+ *
+ * See {@link #fake} method.
+ *
+ * @readonly
+ * @property {Boolean} isFake
+ */
