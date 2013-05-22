@@ -271,8 +271,8 @@
 	}
 
 	function addFakeSelectionKeyHandlers( sel, editor, element, handlers ) {
-		sel._.fakeKeyListener = editor.editable().attachListener( element, 'keydown', function( evt ) {
-			var handler = handlers[ evt.data.keyCode ],
+		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
+			var handler = handlers && handlers[ evt.data.getKey() ],
 				handled;
 
 			if ( handler )
@@ -281,8 +281,9 @@
 			if ( !handled ) {
 				evt.data.preventDefault();
 				evt.data.stopPropagation();
+				evt.cancel();
 			}
-		} );
+		}, null, null, -100 );
 	}
 
 	// Hide hidden selection container.
@@ -1542,18 +1543,19 @@
 			this._.cache = {};
 			this.isFake = 0;
 
-			var editor = this.root.editor;
+			var editor = this.root.editor,
+				listener;
 
 			// Invalidate any fake selection available in the editor.
 			if ( editor && editor._.fakeSelection ) {
 				// Test whether this selection is the one that was
 				// faked or its clone.
-				if ( this.rev === editor._.fakeSelection.rev ) {
+				if ( this.rev == editor._.fakeSelection.rev ) {
 					delete editor._.fakeSelection;
 
-					if ( this._.fakeKeyListener ) {
-						this._.fakeKeyListener.removeListener();
-						delete this._.fakeKeyListener;
+					if ( ( listener = editor._.fakeSelectionKeyListener ) ) {
+						listener.removeListener();
+						delete editor._.fakeSelectionKeyListener;
 					}
 
 					removeHiddenSelectionContainer( editor );
@@ -1875,8 +1877,7 @@
 			// Save this selection, so it can be returned by editor.getSelection().
 			editor._.fakeSelection = this;
 
-			if ( definition && definition.keyHandlers )
-				addFakeSelectionKeyHandlers( this, editor, element, definition.keyHandlers );
+			addFakeSelectionKeyHandlers( this, editor, element, definition && definition.keyHandlers );
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
