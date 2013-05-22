@@ -666,7 +666,7 @@
 	};
 
 	/**
-	 * Retrieve the editor selection in scope of  editable element.
+	 * Retrieve the editor selection in scope of editable element.
 	 *
 	 * **Note:** Since the native browser selection provides only one single
 	 * selection at a time per document, so if editor's editable element has lost focus,
@@ -678,9 +678,8 @@
 	 *
 	 * @method
 	 * @member CKEDITOR.editor
-	 * @param {Boolean} forceRealSelection
+	 * @param {Boolean} forceRealSelection Return real selection, instead of saved or fake one.
 	 * @returns {CKEDITOR.dom.selection} A selection object or null if not available for the moment.
-	 * @todo param
 	 */
 	CKEDITOR.editor.prototype.getSelection = function( forceRealSelection ) {
 
@@ -813,17 +812,41 @@
 	var isMSSelection = typeof window.getSelection != 'function';
 
 	/**
-	 * Manipulates the selection within a DOM element, if the current browser selection
+	 * Manipulates the selection within a DOM element. If the current browser selection
 	 * spans outside of the element, an empty selection object is returned.
 	 *
-	 *		var sel = new CKEDITOR.dom.selection( CKEDITOR.document );
+	 * Despite the fact that selection's constructor allows to create selection instances,
+	 * usually it's better to get selection from the editor instance:
+	 *
+	 *		var sel = editor.getSelection();
+	 *
+	 * See {@link CKEDITOR.editor#getSelection}.
 	 *
 	 * @class
 	 * @constructor Creates a selection class instance.
-	 * @param {CKEDITOR.dom.document} target The DOM document/element that the DOM selection
-	 * is restrained to, only selection spans within the target element is considered as valid.
+	 *
+	 *		// Selection scoped in document.
+	 *		var sel = new CKEDITOR.dom.selection( CKEDITOR.document );
+	 *
+	 *		// Selection scoped in element with 'editable' id.
+	 *		var sel = new CKEDITOR.dom.selection( CKEDITOR.document.getById( 'editable' ) );
+	 *
+	 *		// Cloning selection.
+	 *		var clone = new CKEDITOR.dom.selection( sel );
+	 *
+	 * @param {CKEDITOR.dom.document/CKEDITOR.dom.element/CKEDITOR.dom.selection} target
+	 * The DOM document/element that the DOM selection is restrained to. Only selection which spans
+	 * within the target element is considered as valid.
+	 *
+	 * If {@link CKEDITOR.dom.selection} is passed, then its clone will be created.
 	 */
 	CKEDITOR.dom.selection = function( target ) {
+		// Target is a selection - clone it.
+		if ( target instanceof CKEDITOR.dom.selection ) {
+			var selection = target;
+			target = target.root;
+		}
+
 		var isElement = target instanceof CKEDITOR.dom.element,
 			root;
 
@@ -833,6 +856,14 @@
 		this._ = {
 			cache: {}
 		};
+
+		// Clone selection.
+		if ( selection ) {
+			CKEDITOR.tools.extend( this._.cache, selection._.cache );
+			this.isFake = selection.isFake;
+			this.isLocked = selection.isLocked;
+			return;
+		}
 
 		// On WebKit, it may happen that we've already have focus
 		// on the editable element while still having no selection
