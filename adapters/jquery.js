@@ -135,7 +135,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					// Set instance reference in element's data.
 					try {
-						if( $( this ).is( "textarea" ) ) {
+						if( jQuery( this ).is( "textarea" ) ) {
 							editor = CKEDITOR.replace( element, config );
 						} else {
 							editor = CKEDITOR.inline( element, config );
@@ -236,6 +236,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					}, null, null, 9999);
 				}
 			});
+
+			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
 			return this;
 		}
 	});
