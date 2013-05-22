@@ -1541,13 +1541,14 @@
 		reset: function() {
 			this._.cache = {};
 			this.isFake = 0;
-			this.rev = nextRev++;
 
 			var editor = this.root.editor;
 
 			// Invalidate any fake selection available in the editor.
 			if ( editor && editor._.fakeSelection ) {
-				if ( this === editor._.fakeSelection ) {
+				// Test whether this selection is the one that was
+				// faked or its clone.
+				if ( this.rev === editor._.fakeSelection.rev ) {
 					delete editor._.fakeSelection;
 
 					if ( this._.fakeKeyListener ) {
@@ -1563,6 +1564,8 @@
 				// else // %REMOVE_LINE%
 				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection.', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
 			}
+
+			this.rev = nextRev++;
 		},
 
 		/**
