@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.1.2
 
 * [#10389](http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
+* [#9761](http://dev.ckeditor.com/ticket/9761): Update BACKSPACE key state in blockedKeystrokes when using editor.setReadOnly().
 
 ## CKEditor 4.1.1
 

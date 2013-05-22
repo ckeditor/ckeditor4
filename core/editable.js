@@ -432,7 +432,11 @@
 
 				// Setup editor keystroke handlers on this element.
 				var keystrokeHandler = editor.keystrokeHandler;
-				keystrokeHandler.blockedKeystrokes[ 8 ] = editor.readOnly;
+
+				// If editor is read-only, then make sure that BACKSPACE key
+				// is blocked to prevent browser history navigation.
+				keystrokeHandler.blockedKeystrokes[ 8 ] = +editor.readOnly;
+
 				editor.keystrokeHandler.attach( this );
 
 				// Update focus states.
