@@ -848,7 +848,7 @@
 		var isElement = target instanceof CKEDITOR.dom.element,
 			root;
 
-		this.rev = nextRev++;
+		this.rev = selection ? selection.rev : nextRev++;
 		this.document = target instanceof CKEDITOR.dom.document ? target : target.getDocument();
 		this.root = root = isElement ? target : this.document.getBody();
 		this.isLocked = 0;
