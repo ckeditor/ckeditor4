@@ -270,9 +270,9 @@
 		delete editor._.hiddenSelectionContainer;
 	}
 
-	function addFakeSelectionKeyHandlers( sel, editor, element, handlers ) {
+	function addFakeSelectionKeystrokeHandlers( sel, editor, element, handlers ) {
 		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
-			var handler = handlers && handlers[ evt.data.getKey() ],
+			var handler = handlers && handlers[ evt.data.getKeystroke() ],
 				handled;
 
 			if ( handler )
@@ -1847,7 +1847,7 @@
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be "selected".
 		 * @param definition The fake selection definition.
-		 * @param definition.keyHandlers List of `key code => listener` pairs.
+		 * @param definition.keystrokeHandlers List of `keystroke code => listener` pairs.
 		 */
 		fake: function( element, definition ) {
 			var editor = this.root.editor;
@@ -1877,7 +1877,7 @@
 			// Save this selection, so it can be returned by editor.getSelection().
 			editor._.fakeSelection = this;
 
-			addFakeSelectionKeyHandlers( this, editor, element, definition && definition.keyHandlers );
+			addFakeSelectionKeystrokeHandlers( this, editor, element, definition && definition.keystrokeHandlers );
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
