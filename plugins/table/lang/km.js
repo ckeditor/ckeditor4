@@ -3,72 +3,72 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'km', {
-	border: 'ទំហំស៊ុម',
+	border: 'ទំហំ​បន្ទាត់​ស៊ុម',
 	caption: 'ចំណងជើង',
 	cell: {
-		menu: 'Cell',
-		insertBefore: 'Insert Cell Before',
-		insertAfter: 'Insert Cell After',
-		deleteCell: 'លប់សែល',
-		merge: 'បញ្ជូលសែល',
-		mergeRight: 'Merge Right',
-		mergeDown: 'Merge Down',
-		splitHorizontal: 'Split Cell Horizontally',
-		splitVertical: 'Split Cell Vertically',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		menu: 'ក្រឡា',
+		insertBefore: 'បញ្ចូល​ក្រឡា​ពីមុខ',
+		insertAfter: 'បញ្ចូល​ក្រឡា​ពី​ក្រោយ',
+		deleteCell: 'លុប​ក្រឡា',
+		merge: 'បញ្ចូល​ក្រឡា​ចូល​គ្នា',
+		mergeRight: 'បញ្ចូល​គ្នា​ខាង​ស្ដាំ',
+		mergeDown: 'បញ្ចូល​គ្នា​ចុះ​ក្រោម',
+		splitHorizontal: 'ពុះ​ក្រឡា​ផ្ដេក',
+		splitVertical: 'ពុះ​ក្រឡា​បញ្ឈរ',
+		title: 'លក្ខណៈ​ក្រឡា',
+		cellType: 'ប្រភេទ​ក្រឡា',
+		rowSpan: 'ចំនួន​ជួរ​ដេក​លាយ​ចូល​គ្នា',
+		colSpan: 'ចំនួន​ជួរ​ឈរ​លាយ​ចូល​គ្នា',
+		wordWrap: 'រុំ​ពាក្យ',
+		hAlign: 'ការ​តម្រឹម​ផ្ដេក',
+		vAlign: 'ការ​តម្រឹម​បញ្ឈរ',
+		alignBaseline: 'ខ្សែ​បន្ទាត់​គោល',
+		bgColor: 'ពណ៌​ផ្ទៃ​ក្រោយ',
+		borderColor: 'ពណ៌​បន្ទាត់​ស៊ុម',
+		data: 'ទិន្នន័យ',
+		header: 'ក្បាល',
+		yes: 'ព្រម',
+		no: 'ទេ',
+		invalidWidth: 'ទទឹង​ក្រឡា​ត្រូវ​តែ​ជា​លេខ។',
+		invalidHeight: 'កម្ពស់​ក្រឡា​ត្រូវ​តែ​ជា​លេខ។',
+		invalidRowSpan: 'ចំនួន​ជួរ​ដេក​លាយ​ចូល​គ្នា​ត្រូវ​តែ​ជា​លេខ​ទាំង​អស់។',
+		invalidColSpan: 'ចំនួន​ជួរ​ឈរ​លាយ​ចូល​គ្នា​ត្រូវ​តែ​ជា​លេខ​ទាំង​អស់។',
+		chooseColor: 'រើស'
 	},
-	cellPad: 'គែមសែល',
-	cellSpace: 'គំលាតសែល',
+	cellPad: 'ចន្លោះ​ក្រឡា',
+	cellSpace: 'គម្លាត​ក្រឡា',
 	column: {
-		menu: 'Column',
-		insertBefore: 'Insert Column Before',
-		insertAfter: 'Insert Column After',
-		deleteColumn: 'លប់ជួរឈរ'
+		menu: 'ជួរ​ឈរ',
+		insertBefore: 'បញ្ចូល​ជួរ​ឈរ​ពីមុខ',
+		insertAfter: 'បញ្ចូល​ជួរ​ឈរ​ពី​ក្រោយ',
+		deleteColumn: 'លុប​ជួរ​ឈរ'
 	},
 	columns: 'ជួរឈរ',
-	deleteTable: 'លប់តារាង',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
-	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
-	menu: 'ការកំណត់ តារាង',
+	deleteTable: 'លុប​តារាង',
+	headers: 'ក្បាល',
+	headersBoth: 'ទាំង​ពីរ',
+	headersColumn: 'ជួរ​ឈរ​ដំបូង',
+	headersNone: 'មិន​មាន',
+	headersRow: 'ជួរ​ដេក​ដំបូង',
+	invalidBorder: 'ទំហំ​បន្ទាត់​ស៊ុម​ត្រូវ​តែ​ជា​លេខ។',
+	invalidCellPadding: 'ចន្លោះ​ក្រឡា​ត្រូវ​តែជា​លេខ​វិជ្ជមាន។',
+	invalidCellSpacing: 'គម្លាត​ក្រឡា​ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន។',
+	invalidCols: 'ចំនួន​ជួរ​ឈរ​ត្រូវ​តែ​ជា​លេខ​ធំ​ជាង 0។',
+	invalidHeight: 'កម្ពស់​តារាង​ត្រូវ​តែ​ជា​លេខ',
+	invalidRows: 'ចំនួន​ជួរ​ដេក​ត្រូវ​តែ​ជា​លេខ​ធំ​ជាង 0។',
+	invalidWidth: 'ទទឹង​តារាង​ត្រូវ​តែ​ជា​លេខ។',
+	menu: 'លក្ខណៈ​តារាង',
 	row: {
-		menu: 'Row',
-		insertBefore: 'Insert Row Before',
-		insertAfter: 'Insert Row After',
-		deleteRow: 'លប់ជួរផ្តេក'
+		menu: 'ជួរ​ដេក',
+		insertBefore: 'បញ្ចូល​ជួរ​ដេក​ពីមុខ',
+		insertAfter: 'បញ្ចូល​ជួរ​ដេក​ពី​ក្រោយ',
+		deleteRow: 'លុប​ជួរ​ដេក'
 	},
-	rows: 'ជួរផ្តេក',
-	summary: 'សេចក្តីសង្ខេប',
-	title: 'ការកំណត់ តារាង',
+	rows: 'ជួរ​ដេក',
+	summary: 'សេចក្តី​សង្ខេប',
+	title: 'លក្ខណៈ​តារាង',
 	toolbar: 'តារាង',
 	widthPc: 'ភាគរយ',
 	widthPx: 'ភីកសែល',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'ឯកតា​ទទឹង'
 });

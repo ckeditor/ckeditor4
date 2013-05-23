@@ -4,50 +4,61 @@
  */
 
 (function() {
+	'use strict';
+
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: 'richcombo',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			var config = editor.config,
 				lang = editor.lang.stylescombo,
 				styles = {},
 				stylesList = [],
-				combo;
+				combo,
+				allowedContent = [];
 
-			function loadStylesSet( callback ) {
-				editor.getStylesSet( function( stylesDefinitions ) {
-					if ( !stylesList.length ) {
-						var style, styleName;
+			editor.on( 'stylesSet', function( evt ) {
+				var stylesDefinitions = evt.data.styles;
 
-						// Put all styles into an Array.
-						for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
-							var styleDefinition = stylesDefinitions[ i ];
+				if ( !stylesDefinitions )
+					return;
 
-							if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
-								continue;
+				var style, styleName;
 
-							styleName = styleDefinition.name;
+				// Put all styles into an Array.
+				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
+					var styleDefinition = stylesDefinitions[ i ];
 
-							style = styles[ styleName ] = new CKEDITOR.style( styleDefinition );
-							style._name = styleName;
-							style._.enterMode = config.enterMode;
+					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+						continue;
 
-							stylesList.push( style );
-						}
+					styleName = styleDefinition.name;
 
-						// Sorts the Array, so the styles get grouped by type.
-						stylesList.sort( sortStyles );
+					style = new CKEDITOR.style( styleDefinition );
+
+					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
+						style._name = styleName;
+						style._.enterMode = config.enterMode;
+
+						// Weight is used to sort styles (#9029).
+						style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
+
+						styles[ styleName ] = style;
+						stylesList.push( style );
+						allowedContent.push( style );
 					}
+				}
 
-					callback && callback();
-				});
-			}
+				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
+				stylesList.sort( function( styleA, styleB ) { return styleA._.weight - styleB._.weight; } );
+			} );
 
 			editor.ui.addRichCombo( 'Styles', {
 				label: lang.label,
 				title: lang.panelTitle,
 				toolbar: 'styles,10',
+				allowedContent: allowedContent,
 
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
@@ -56,29 +67,24 @@
 				},
 
 				init: function() {
-					combo = this;
+					var style, styleName, lastType, type, i, count;
 
-					loadStylesSet( function() {
-						var style, styleName, lastType, type, i, count;
+					// Loop over the Array, adding all items to the
+					// combo.
+					for ( i = 0, count = stylesList.length; i < count; i++ ) {
+						style = stylesList[ i ];
+						styleName = style._name;
+						type = style.type;
 
-						// Loop over the Array, adding all items to the
-						// combo.
-						for ( i = 0, count = stylesList.length; i < count; i++ ) {
-							style = stylesList[ i ];
-							styleName = style._name;
-							type = style.type;
-
-							if ( type != lastType ) {
-								combo.startGroup( lang[ 'panelTitle' + String( type ) ] );
-								lastType = type;
-							}
-
-							combo.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(), styleName );
+						if ( type != lastType ) {
+							this.startGroup( lang[ 'panelTitle' + String( type ) ] );
+							lastType = type;
 						}
 
-						combo.commit();
+						this.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(), styleName );
+					}
 
-					});
+					this.commit();
 				},
 
 				onClick: function( value ) {
@@ -167,20 +173,8 @@
 					}
 					styles = {};
 					stylesList = [];
-					loadStylesSet();
 				}
-			});
-
-			editor.on( 'instanceReady', function() {
-				loadStylesSet();
 			});
 		}
 	});
-
-	function sortStyles( styleA, styleB ) {
-		var typeA = styleA.type,
-			typeB = styleB.type;
-
-		return typeA == typeB ? 0 : typeA == CKEDITOR.STYLE_OBJECT ? -1 : typeB == CKEDITOR.STYLE_OBJECT ? 1 : typeB == CKEDITOR.STYLE_BLOCK ? 1 : -1;
-	}
 })();

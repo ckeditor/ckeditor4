@@ -5,12 +5,23 @@
 
 CKEDITOR.plugins.add( 'docprops', {
 	requires: 'wysiwygarea,dialog',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'docprops,docprops-rtl', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		var cmd = new CKEDITOR.dialogCommand( 'docProps' );
 		// Only applicable on full page mode.
 		cmd.modes = { wysiwyg: editor.config.fullPage };
+		cmd.allowedContent = {
+			body: {
+				styles: '*',
+				attributes: 'dir'
+			},
+			html: {
+				attributes: 'lang,xml:lang'
+			}
+		};
+		cmd.requiredContent = 'body';
+
 		editor.addCommand( 'docProps', cmd );
 		CKEDITOR.dialog.add( 'docProps', this.path + 'dialogs/docprops.js' );
 

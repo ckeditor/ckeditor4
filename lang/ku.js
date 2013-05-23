@@ -26,13 +26,13 @@ CKEDITOR.lang[ 'ku' ] = {
 	dir: 'rtl',
 
 	// ARIA description.
-	editor: 'سەرنووسەی دەقی بەپیت',
+	editor: 'سەرنووسەی دەقی بە پیت',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'کلیکی ALT له‌گه‌ڵ 0 بکه‌ بۆ یارمه‌تی',
+		editorHelp: 'کلیکی ALT لەگەڵ 0 بکه‌ بۆ یارمەتی',
 
 		browseServer: 'هێنانی ڕاژە',
 		url: 'ناونیشانی بەستەر',
@@ -67,13 +67,13 @@ CKEDITOR.lang[ 'ku' ] = {
 		preview: 'پێشبینین',
 		resize: 'گۆڕینی ئەندازە',
 		generalTab: 'گشتی',
-		advancedTab: 'په‌ره‌سه‌ندوو',
-		validateNumberFailed: 'ئەم نرخە ژمارە نیه، تکایە نرخێکی ژمارە بنووسە.',
-		confirmNewPage: 'سەرجەم گۆڕانکاریەکان و پێکهاتەکانی ناوەووە لەدەست دەدەی گەر بێتوو پاشکەوتی نەکەی یەکەم جار، تۆ هەر دڵنیایی لەکردنەوەی پەنجەرەکی نوێ؟',
-		confirmCancel: 'هەندێك هەڵبژاردە گۆڕدراوە. تۆ دڵنیایی له‌داخستنی ئەم دیالۆگە؟',
-		options: 'هەڵبژاردە',
+		advancedTab: 'پەرەسەندوو',
+		validateNumberFailed: 'ئەم نرخە ژمارە نیە، تکایە نرخێکی ژمارە بنووسە.',
+		confirmNewPage: 'سەرجەم گۆڕانکاریەکان و پێکهاتەکانی ناووەوە لەدەست دەدەی گەر بێتوو پاشکەوتی نەکەی یەکەم جار، تۆ هەر دڵنیایی لەکردنەوەی پەنجەرەکی نوێ؟',
+		confirmCancel: 'هەندێك هەڵبژاردە گۆڕدراوە. تۆ دڵنیایی لە داخستنی ئەم دیالۆگە؟',
+		options: 'هەڵبژاردەکان',
 		target: 'ئامانج',
-		targetNew: 'پەنجەرەیه‌کی نوێ (_blank)',
+		targetNew: 'پەنجەرەیەکی نوێ (_blank)',
 		targetTop: 'لووتکەی پەنجەرە (_top)',
 		targetSelf: 'لەهەمان پەنجەرە (_self)',
 		targetParent: 'پەنجەرەی باوان (_parent)',
@@ -95,8 +95,8 @@ CKEDITOR.lang[ 'ku' ] = {
 		invalidWidth: 'پانی دەبێت ژمارە بێت.',
 		invalidCssLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی (px, %, in, cm, mm, em, ex, pt, یان pc).',
 		invalidHtmlLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی HTML (px یان %).',
-		invalidInlineStyle: 'دانه‌ی نرخی شێوازی ناوهێڵ ده‌بێت پێکهاتبێت له‌یه‌ك یان زیاتری داڕشته‌ "ناو : نرخ", جیاکردنه‌وه‌ی به‌فاریزه‌وخاڵ',
-		cssLengthTooltip: 'ژماره‌یه‌ك بنووسه‌ بۆ نرخی piksel یان ئامرازێکی درووستی CSS (px, %, in, cm, mm, em, ex, pt, یان pc).',
+		invalidInlineStyle: 'دانەی نرخی شێوازی ناوهێڵ دەبێت پێکهاتبێت لەیەك یان زیاتری داڕشتە "ناو : نرخ", جیاکردنەوەی بە فاریزە و خاڵ',
+		cssLengthTooltip: 'ژمارەیەك بنووسه‌ بۆ نرخی piksel یان ئامرازێکی درووستی CSS (px, %, in, cm, mm, em, ex, pt, یان pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, ئامادە نیە</span>'

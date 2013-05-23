@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'justify', 'ku', {
 	block: 'هاوستوونی',
-	center: 'ناوهڕاست',
-	left: 'بههێڵ کردنی چهپ',
-	right: 'بههێڵ کردنی ڕاست'
+	center: 'ناوەڕاست',
+	left: 'بەهێڵ کردنی چەپ',
+	right: 'بەهێڵ کردنی ڕاست'
 });

@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+'use strict';
+
 /**
  * A lightweight representation of an HTML DOM structure.
  *
@@ -57,14 +59,17 @@ CKEDITOR.htmlParser.fragment = function() {
 	 * @static
 	 * @param {String} fragmentHtml The HTML to be parsed, filling the fragment.
 	 * @param {CKEDITOR.htmlParser.element/String} [parent] Optional contextual
-	 * element which makes the content been parsed as the content of this element.
+	 * element which makes the content been parsed as the content of this element and fix
+	 * to match it.
+	 * If not provided, then {@link CKEDITOR.htmlParser.fragment} will be used
+	 * as the parent and it will be returned.
 	 * @param {String/Boolean} [fixingBlock] When `parent` is a block limit element,
 	 * and the param is a string value other than `false`, it is to
 	 * avoid having block-less content as the direct children of parent by wrapping
 	 * the content with a block element of the specified tag, e.g.
 	 * when `fixingBlock` specified as `p`, the content `<body><i>foo</i></body>`
 	 * will be fixed into `<body><p><i>foo</i></p></body>`.
-	 * @returns CKEDITOR.htmlParser.fragment The fragment created.
+	 * @returns {CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} The created fragment or passed `parent`.
 	 */
 	CKEDITOR.htmlParser.fragment.fromHtml = function( fragmentHtml, parent, fixingBlock ) {
 		var parser = new CKEDITOR.htmlParser();
@@ -447,8 +452,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		/**
 		 * Adds a node to this fragment.
 		 *
-		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.htmlParser.text/CKEDITOR.htmlParser.comment} node
-		 * The node to be added.
+		 * @param {CKEDITOR.htmlParser.node} node The node to be added.
 		 * @param {Number} [index] From where the insertion happens.
 		 */
 		add: function( node, index ) {
@@ -483,6 +487,54 @@ CKEDITOR.htmlParser.fragment = function() {
 		},
 
 		/**
+		 * Filter this fragment's content with given filter.
+		 *
+		 * @since 4.1
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
+		filter: function( filter ) {
+			// Apply the root filter.
+			filter.onRoot( this );
+
+			this.filterChildren( filter );
+		},
+
+		/**
+		 * Filter this fragment's children with given filter.
+		 *
+		 * Element's children may only be filtered once by one
+		 * instance of filter.
+		 *
+		 * @since 4.1
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
+		 */
+		filterChildren: function( filter, filterRoot ) {
+			// If this element's children were already filtered
+			// by current filter, don't filter them 2nd time.
+			// This situation may occur when filtering bottom-up
+			// (filterChildren() called manually in element's filter),
+			// or in unpredictable edge cases when filter
+			// is manipulating DOM structure.
+			if ( this.childrenFilteredBy == filter.id )
+				return;
+
+			// Filtering root if enforced.
+			if ( filterRoot && !this.parent )
+				filter.onRoot( this );
+
+			this.childrenFilteredBy = filter.id;
+
+			// Don't cache anything, children array may be modified by filter rule.
+			for ( var i = 0; i < this.children.length; i++ ) {
+				// Stay in place if filter returned false, what means
+				// that node has been removed.
+				if ( this.children[ i ].filter( filter ) === false )
+					i--;
+			}
+		},
+
+		/**
 		 * Writes the fragment HTML to a {@link CKEDITOR.htmlParser.basicWriter}.
 		 *
 		 *		var writer = new CKEDITOR.htmlWriter();
@@ -491,37 +543,71 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *		alert( writer.getHtml() ); // '<p><b>Example</b></p>'
 		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to use when writing the HTML.
 		 */
 		writeHtml: function( writer, filter ) {
-			var isChildrenFiltered;
-			this.filterChildren = function() {
-				var writer = new CKEDITOR.htmlParser.basicWriter();
-				this.writeChildrenHtml.call( this, writer, filter );
-				var html = writer.getHtml();
-				this.children = new CKEDITOR.htmlParser.fragment.fromHtml( html ).children;
-				isChildrenFiltered = 1;
-			};
+			if ( filter )
+				this.filter( filter );
 
-			// Apply the root filter.
-			filter && filter.onRoot( this );
-
-			this.writeChildrenHtml( writer, isChildrenFiltered ? null : filter );
+			this.writeChildrenHtml( writer );
 		},
 
 		/**
 		 * Write and filtering the child nodes of this fragment.
+		 *
 		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
-		 * @param {CKEDITOR.htmlParser.filter} filter The filter to use when writing the HTML.
+		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to use when writing the HTML.
 		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		writeChildrenHtml: function( writer, filter, filterRoot ) {
-
 			// Filtering root if enforced.
 			if ( filterRoot && !this.parent && filter )
 				filter.onRoot( this );
 
-			for ( var i = 0; i < this.children.length; i++ )
-				this.children[ i ].writeHtml( writer, filter );
+			if ( filter )
+				this.filterChildren( filter );
+
+			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
+				children[ i ].writeHtml( writer );
+		},
+
+		/**
+		 * Execute callback on each node (of given type) in this document fragment.
+		 *
+		 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>foo<b>bar</b>bom</p>' );
+		 *		fragment.forEach( function( node ) {
+		 *			console.log( node );
+		 *		} );
+		 *		// Will log:
+		 *		// 1. document fragment,
+		 *		// 2. <p> element,
+		 *		// 3. "foo" text node,
+		 *		// 4. <b> element,
+		 *		// 5. "bar" text node,
+		 *		// 6. "bom" text node.
+		 *
+		 * @since 4.1
+		 * @param {Function} callback Function to be executed on every node.
+		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
+		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
+		 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
+		 */
+		forEach: function( callback, type, skipRoot ) {
+			if ( !skipRoot && ( !type || this.type == type ) )
+				callback( this );
+
+			var children = this.children,
+				node,
+				i = 0,
+				l = children.length;
+
+			for ( ; i < l; i++ ) {
+				node = children[ i ];
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					node.forEach( callback, type );
+				else if ( !type || node.type == type )
+					callback( node );
+			}
 		}
 	};
 })();

@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'th' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'กด ALT 0 หากต้องการความช่วยเหลือ',
 
 		browseServer: 'เปิดหน้าต่างจัดการไฟล์อัพโหลด',
 		url: 'ที่อยู่อ้างอิง URL',
@@ -64,19 +64,19 @@ CKEDITOR.lang[ 'th' ] = {
 		cssStyle: 'ลักษณะการแสดงผล',
 		ok: 'ตกลง',
 		cancel: 'ยกเลิก',
-		close: 'Close', // MISSING
+		close: 'ปิด',
 		preview: 'ดูหน้าเอกสารตัวอย่าง',
-		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		resize: 'ปรับขนาด',
+		generalTab: 'ทั่วไป',
 		advancedTab: 'ขั้นสูง',
-		validateNumberFailed: 'This value is not a number.', // MISSING
+		validateNumberFailed: 'ค่านี้ไม่ใช่ตัวเลข',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
+		options: 'ตัวเลือก',
 		target: 'การเปิดหน้าลิงค์',
-		targetNew: 'New Window (_blank)', // MISSING
+		targetNew: 'หน้าต่างใหม่ (_blank)',
 		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
+		targetSelf: 'หน้าต่างเดียวกัน (_self)',
 		targetParent: 'Parent Window (_parent)', // MISSING
 		langDirLTR: 'จากซ้ายไปขวา (LTR)',
 		langDirRTL: 'จากขวามาซ้าย (RTL)',
@@ -91,9 +91,9 @@ CKEDITOR.lang[ 'th' ] = {
 		alignTop: 'บนสุด',
 		alignMiddle: 'กึ่งกลางแนวตั้ง',
 		alignBottom: 'ชิดด้านล่าง',
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		invalidValue	: 'ค่าไม่ถูกต้อง',
+		invalidHeight: 'ความสูงต้องเป็นตัวเลข',
+		invalidWidth: 'ความกว้างต้องเป็นตัวเลข',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

@@ -63,6 +63,6 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		typeEmail: 'Email', // MISSING
 		typeSearch: 'Search', // MISSING
 		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeUrl: '地址'
 	}
 });

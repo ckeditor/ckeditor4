@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add( 'table', {
 	requires: 'dialog',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'table', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		if ( editor.blockless )
@@ -14,7 +14,17 @@ CKEDITOR.plugins.add( 'table', {
 		var table = CKEDITOR.plugins.table,
 			lang = editor.lang.table;
 
-		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', { context: 'table' } ) );
+		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', {
+			context: 'table',
+			allowedContent: 'table{width,height}[align,border,cellpadding,cellspacing,summary];' +
+				'caption tbody thead tfoot;' +
+				'th td tr[scope];' +
+				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
+			requiredContent: 'table',
+			contentTransformations: [
+				[ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
+			]
+		} ) );
 
 		function createDef( def ) {
 			return CKEDITOR.tools.extend( def || {}, {

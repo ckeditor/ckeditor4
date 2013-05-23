@@ -6,7 +6,7 @@
 (function() {
 	CKEDITOR.plugins.add( 'iframe', {
 		requires: 'dialog,fakeobjects',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'iframe', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			CKEDITOR.addCss( 'img.cke_iframe' +
@@ -22,10 +22,17 @@
 		},
 		init: function( editor ) {
 			var pluginName = 'iframe',
-				lang = editor.lang.iframe;
+				lang = editor.lang.iframe,
+				allowed = 'iframe[align,longdesc,frameborder,height,name,scrolling,src,title,width]';
+
+			if ( editor.plugins.dialogadvtab )
+				allowed += ';iframe' + editor.plugins.dialogadvtab.allowedContent( { id:1,classes:1,styles:1 } );
 
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/iframe.js' );
-			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
+			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
+				allowedContent: allowed,
+				requiredContent: 'iframe'
+			} ) );
 
 			editor.ui.addButton && editor.ui.addButton( 'Iframe', {
 				label: lang.toolbar,

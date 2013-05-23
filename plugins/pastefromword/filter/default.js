@@ -608,6 +608,14 @@
 					// Place the new element inside the existing span.
 					styleElement.children = element.children;
 					element.children = [ styleElement ];
+
+					// #10285 - later on styleElement will replace element if element won't have any attributes.
+					// However, in some cases styleElement is identical to element and therefore should not be filtered
+					// to avoid inf loop. Unfortunately calling element.filterChildren() does not prevent from that (#10327).
+					// However, we can assume that we don't need to filter styleElement at all, so it is safe to replace
+					// its filter method.
+					styleElement.filter = function() {};
+					styleElement.parent = element;
 				} : function(){};
 			},
 
@@ -626,7 +634,7 @@
 
 		},
 
-		getRules: function( editor ) {
+		getRules: function( editor, filter ) {
 			var dtd = CKEDITOR.dtd,
 				blockLike = CKEDITOR.tools.extend( {}, dtd.$block, dtd.$listItem, dtd.$tableContent ),
 				config = editor.config,
@@ -658,7 +666,7 @@
 				],
 
 				root: function( element ) {
-					element.filterChildren();
+					element.filterChildren( filter );
 					assembleList( element );
 				},
 
@@ -682,7 +690,7 @@
 
 						// Processing headings.
 						if ( tagName.match( /h\d/ ) ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							// Is the heading actually a list item?
 							if ( resolveListItem( element ) )
 								return;
@@ -692,14 +700,14 @@
 						}
 						// Remove inline elements which contain only empty spaces.
 						else if ( tagName in dtd.$inline ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							if ( containsNothingButSpaces( element ) )
 								delete element.name;
 						}
 						// Remove element with ms-office namespace,
 						// with it's content preserved, e.g. 'o:p'.
 						else if ( tagName.indexOf( ':' ) != -1 && tagName.indexOf( 'cke' ) == -1 ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 
 							// Restore image real link from vml.
 							if ( tagName == 'v:imagedata' ) {
@@ -714,7 +722,7 @@
 
 						// Assembling list items into a whole list.
 						if ( tagName in listDtdParents ) {
-							element.filterChildren();
+							element.filterChildren( filter );
 							assembleList( element );
 						}
 					},
@@ -792,7 +800,7 @@
 							}
 						}
 
-						element.filterChildren();
+						element.filterChildren( filter );
 
 						// Is the paragraph actually a list item?
 						if ( resolveListItem( element ) )
@@ -844,7 +852,7 @@
 							return;
 						}
 
-						element.filterChildren();
+						element.filterChildren( filter );
 
 						var attrs = element.attributes,
 							styleText = attrs.style,
@@ -886,7 +894,7 @@
 						if ( isListBulletIndicator( element.parent ) )
 							return false;
 
-						element.filterChildren();
+						element.filterChildren( filter );
 						if ( containsNothingButSpaces( element ) ) {
 							delete element.name;
 							return null;
@@ -1140,7 +1148,7 @@
 			dataFilter = dataProcessor.dataFilter;
 
 		// These rules will have higher priorities than default ones.
-		dataFilter.addRules( CKEDITOR.plugins.pastefromword.getRules( editor ) );
+		dataFilter.addRules( CKEDITOR.plugins.pastefromword.getRules( editor, dataFilter ) );
 
 		// Allow extending data filter rules.
 		editor.fire( 'beforeCleanWord', { filter: dataFilter } );

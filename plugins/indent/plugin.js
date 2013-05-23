@@ -14,8 +14,8 @@
 
 	function indentCommand( editor, name ) {
 		this.name = name;
-		this.useIndentClasses = editor.config.indentClasses && editor.config.indentClasses.length > 0;
-		if ( this.useIndentClasses ) {
+		var useClasses = this.useIndentClasses = editor.config.indentClasses && editor.config.indentClasses.length > 0;
+		if ( useClasses ) {
 			this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
 			this.indentClassMap = {};
 			for ( var i = 0; i < editor.config.indentClasses.length; i++ )
@@ -23,6 +23,23 @@
 		}
 
 		this.startDisabled = name == 'outdent';
+
+		this.allowedContent = {
+			'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
+				// Do not add elements, but only text-align style if element is validated by other rule.
+				propertiesOnly: true,
+				styles: !useClasses ? 'margin-left,margin-right' : null,
+				classes: useClasses ? editor.config.indentClasses : null
+			}
+		};
+
+		// #10192: Either blocks intendation or lists are required - acitvate
+		// indent commands in both situations. Lists are sufficient, because
+		// indent is needed for leaving list with enter key.
+		this.requiredContent = [
+			'p' + ( useClasses ? '(' + editor.config.indentClasses[ 0 ] + ')' : '{margin-left}' ),
+			'li'
+		];
 	}
 
 	// Returns the CSS property to be used for identing a given element.
@@ -37,6 +54,7 @@
 	indentCommand.prototype = {
 		// It applies to a "block-like" context.
 		context: 'p',
+
 		refresh: function( editor, path ) {
 			var list = path && path.contains( listNodeNames ),
 				firstBlock = path.block || path.blockLimit;
@@ -307,7 +325,7 @@
 	CKEDITOR.plugins.add( 'indent', {
 		// TODO: Remove this dependency.
 		requires: 'list',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'indent,indent-rtl,outdent,outdent-rtl', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			// [IE6/7] Raw lists are using margin instead of padding for visual indentation in wysiwyg mode. (#3893)

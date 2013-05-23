@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'ca', {
 	find: 'Cerca',
-	findOptions: 'Find Options',
-	findWhat: 'Cerca:',
+	findOptions: 'Opcions de Cerca',
+	findWhat: 'Cerca el:',
 	matchCase: 'Distingeix majúscules/minúscules',
 	matchCyclic: 'Match cyclic',
 	matchWord: 'Només paraules completes',
@@ -13,6 +13,6 @@ CKEDITOR.plugins.setLang( 'find', 'ca', {
 	replace: 'Reemplaça',
 	replaceAll: 'Reemplaça-ho tot',
 	replaceSuccessMsg: '%1 ocurrència/es reemplaçada/es.',
-	replaceWith: 'Remplaça amb:',
+	replaceWith: 'Reemplaça amb:',
 	title: 'Cerca i reemplaça'
 });

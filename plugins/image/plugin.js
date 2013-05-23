@@ -11,7 +11,7 @@
 
 	CKEDITOR.plugins.add( 'image', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'image', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var pluginName = 'image';
@@ -19,8 +19,21 @@
 			// Register the dialog.
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/image.js' );
 
+			var allowed = 'img[alt,!src]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width}',
+				required = 'img[alt,src]';
+
+			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) )
+				allowed = 'img[alt,dir,id,lang,longdesc,!src,title]{*}(*)';
+
 			// Register the command.
-			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
+			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
+				allowedContent: allowed,
+				requiredContent: required,
+				contentTransformations: [
+					[ 'img{width}: sizeToStyle', 'img[width]: sizeToAttribute' ],
+					[ 'img{float}: alignmentToStyle', 'img[align]: alignmentToAttribute' ]
+				]
+			} ) );
 
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'Image', {

@@ -4,68 +4,68 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'Instrukcje dotyczące dostępności',
+	contents: 'Zawartość pomocy. Wciśnij ESC, aby zamknąć to okno.',
 	legend: [
 		{
-		name: 'Ogólne',
+		name: 'Informacje ogólne',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Pasek narzędzi edytora',
+			legend: 'Wciśnij ${toolbarFocus} aby przejść do paska narzędzi. Przejdź do następnej i poprzedniej grupy narzędzi używając TAB oraz SHIFT-TAB. Przejdź do następnego i poprzedniego narzędzia używając STRZAŁKI W PRAWO lub STRZAŁKI W LEWO. Wciśnij SPACJĘ lub ENTER, aby aktywować zaznaczone narzędzie.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Okno dialogowe edytora',
+			legend: 'Będąc w oknie dialogowym wciśnij TAB aby przejść do następnego pola dialogowego, wciśnij SHIFT + TAB aby przejść do poprzedniego pola, wciśnij ENTER aby wysłać dialog, wciśnij ESC aby anulować dialog. Dla okien dialogowych z wieloma zakładkami, wciśnij ALT + F10 aby przejść do listy zakładek. Gdy to zrobisz przejdź do następnej zakładki wciskając TAB lub STRZAŁKĘ W PRAWO. Przejdź do poprzedniej zakładki wciskając SHIFT + TAB lub STRZAŁKĘ W LEWO. Wciśnij SPACJĘ lub ENTER aby wybrać zakładkę.'
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Menu kontekstowe edytora',
+			legend: 'Wciśnij ${contextMenu} lub PRZYCISK APLIKACJI aby otworzyć menu kontekstowe. Przejdź do następnej pozycji menu wciskając TAB lub STRZAŁKĘ W DÓŁ. Przejdź do poprzedniej pozycji menu wciskając SHIFT + TAB lub STRZAŁKĘ W GÓRĘ. Wciśnij SPACJĘ lub ENTER aby wygrać pozycję menu. Otwórz pod-menu obecnej pozycji wciskając SPACJĘ lub ENTER lub STRZAŁKĘ W PRAWO. Wróć do pozycji nadrzędnego menu wciskając ESC lub STRZAŁKĘ W LEWO. Zamknij menu wciskając ESC.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
+			name: 'Lista w edytorze',
 			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Pasek ścieżki elementów edytora',
+			legend: 'Naciśnij ${elementsPathFocus} w celu przejścia do paska ścieżki elementów edytora. W celu przejścia do kolejnego elementu naciśnij klawisz Tab lub Strzałki w prawo. W celu przejścia do poprzedniego elementu naciśnij klawisze Shift+Tab lub Strzałki w lewo. By wybrać element w edytorze, użyj klawisza Spacji lub Enter.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Polecenia',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Polecenie Cofnij',
+			legend: 'Naciśnij ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Polecenie Ponów',
+			legend: 'Naciśnij ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Polecenie Pogrubienie',
+			legend: 'Naciśnij ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Polecenie Kursywa',
+			legend: 'Naciśnij ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Polecenie Podkreślenie',
+			legend: 'Naciśnij ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Polecenie Wstaw/ edytuj odnośnik',
+			legend: 'Naciśnij ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Polecenie schowaj pasek narzędzi',
+			legend: 'Naciśnij ${toolbarCollapse}'
 		},
 			{
 			name: ' Access previous focus space command', // MISSING
@@ -76,8 +76,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Pomoc dotycząca dostępności',
+			legend: 'Naciśnij ${a11yHelp}'
 		}
 		]
 	}

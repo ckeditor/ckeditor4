@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add( 'link', {
 	requires: 'dialog,fakeobjects',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 	onLoad: function() {
 		// Add the CSS styles for anchor placeholders.
@@ -48,9 +48,23 @@ CKEDITOR.plugins.add( 'link', {
 	},
 
 	init: function( editor ) {
+		var allowed = 'a[!href]',
+			required = 'a[href]';
+
+		if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'advanced' ) )
+			allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type]{*}(*)' );
+		if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'target' ) )
+			allowed = allowed.replace( ']', ',target,onclick]' );
+
 		// Add the link and unlink buttons.
-		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
-		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor' ) );
+		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
+			allowedContent: allowed,
+			requiredContent: required
+		} ) );
+		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
+			allowedContent: 'a[!name,id]',
+			requiredContent: 'a[name]'
+		} ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 
@@ -307,7 +321,8 @@ CKEDITOR.unlinkCommand.prototype = {
 	},
 
 	contextSensitive: 1,
-	startDisabled: 1
+	startDisabled: 1,
+	requiredContent: 'a[href]'
 };
 
 CKEDITOR.removeAnchorCommand = function() {};
@@ -328,7 +343,8 @@ CKEDITOR.removeAnchorCommand.prototype = {
 			}
 		}
 		sel.selectBookmarks( bms );
-	}
+	},
+	requiredContent: 'a[name]'
 };
 
 CKEDITOR.tools.extend( CKEDITOR.config, {

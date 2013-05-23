@@ -46,17 +46,17 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	columns: 'Colunas',
 	deleteTable: 'Eliminar Tabela',
 	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	headersBoth: 'Ambos',
+	headersColumn: 'Primeira coluna',
 	headersNone: 'Nenhum',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
+	headersRow: 'Primeira Linha',
+	invalidBorder: 'O tamanho da borda tem de ser um numero.',
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	invalidCols: 'O numero de colunas tem de ser um numero maior que 0.',
+	invalidHeight: 'A altura da tabela tem de ser um numero.',
+	invalidRows: 'O numero de linhas tem de ser um numero maior que 0.',
+	invalidWidth: 'A largura da tabela tem de ser um numero.',
 	menu: 'Propriedades da Tabela',
 	row: {
 		menu: 'Linha',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	toolbar: 'Tabela',
 	widthPc: 'percentagem',
 	widthPx: 'pixeis',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'unidade da largura'
 });

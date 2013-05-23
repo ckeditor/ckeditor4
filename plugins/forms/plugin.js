@@ -9,7 +9,7 @@
 
 CKEDITOR.plugins.add( 'forms', {
 	requires: 'dialog,fakeobjects',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'button,checkbox,form,hiddenfield,imagebutton,radio,select,select-rtl,textarea,textarea-rtl,textfield', // %REMOVE_LINE_CORE%
 	onLoad: function() {
 		CKEDITOR.addCss( '.cke_editable form' +
@@ -32,12 +32,37 @@ CKEDITOR.plugins.add( 'forms', {
 	init: function( editor ) {
 		var lang = editor.lang,
 			order = 0,
-			textfieldTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 };
+			textfieldTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 },
+			allowedContent = {
+				checkbox: 'input[type,name,checked]',
+				radio: 'input[type,name,checked]',
+				textfield: 'input[type,name,value,size,maxlength]',
+				textarea: 'textarea[cols,rows,name]',
+				select: 'select[name,size,multiple]; option[value,selected]',
+				button: 'input[type,name,value]',
+				form: 'form[action,name,id,enctype,target,method]',
+				hiddenfield: 'input[type,name,value]',
+				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}'
+			},
+			requiredContent = {
+				checkbox: 'input',
+				radio: 'input',
+				textfield: 'input',
+				textarea: 'textarea',
+				select: 'select',
+				button: 'input',
+				form: 'form',
+				hiddenfield: 'input',
+				imagebutton: 'input'
+			};
 
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
-				var def = {};
+				var def = {
+					allowedContent: allowedContent[ commandName ],
+					requiredContent: requiredContent[ commandName ]
+				};
 				commandName == 'form' && ( def.context = 'form' );
 
 				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, def ) );

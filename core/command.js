@@ -40,11 +40,11 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * @returns {Boolean} A boolean indicating that the command has been successfully executed.
 	 */
 	this.exec = function( data ) {
-		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
+		if ( this.state == CKEDITOR.TRISTATE_DISABLED || !this.checkAllowed() )
 			return false;
 
 		if ( this.editorFocus ) // Give editor focus if necessary (#4355).
-		editor.focus();
+			editor.focus();
 
 		if ( this.fire( 'exec' ) === false )
 			return true;
@@ -79,6 +79,24 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 			return true;
 
 		return ( commandDefinition.refresh && commandDefinition.refresh.apply( this, arguments ) !== false );
+	};
+
+	var allowed;
+
+	/**
+	 * Checks whether this command is allowed by the allowed
+	 * content filter ({@link CKEDITOR.filter}). This means
+	 * that if command implements {@link CKEDITOR.feature} interface it will be tested
+	 * by {@link CKEDITOR.filter#checkFeature}.
+	 *
+	 * @since 4.1
+	 * @returns {Boolean} Whether this command is allowed.
+	 */
+	this.checkAllowed = function() {
+		if ( typeof allowed == 'boolean' )
+			return allowed;
+
+		return allowed = editor.filter.checkFeature( this );
 	};
 
 	CKEDITOR.tools.extend( this, commandDefinition, {
@@ -132,9 +150,9 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 *		if ( command.state == CKEDITOR.TRISTATE_DISABLED )
 		 *			alert( 'This command is disabled' );
 		 *
-		 * @property {Number} [=CKEDITOR.TRISTATE_OFF]
+		 * @property {Number} [=CKEDITOR.TRISTATE_DISABLED]
 		 */
-		state: CKEDITOR.TRISTATE_OFF
+		state: CKEDITOR.TRISTATE_DISABLED
 	});
 
 	// Call the CKEDITOR.event constructor to initialize this instance.
@@ -150,7 +168,7 @@ CKEDITOR.command.prototype = {
 	 *		command.exec(); // Execute the command.
 	 */
 	enable: function() {
-		if ( this.state == CKEDITOR.TRISTATE_DISABLED )
+		if ( this.state == CKEDITOR.TRISTATE_DISABLED && this.checkAllowed() )
 			this.setState( ( !this.preserveState || ( typeof this.previousState == 'undefined' ) ) ? CKEDITOR.TRISTATE_OFF : this.previousState );
 	},
 
@@ -180,7 +198,7 @@ CKEDITOR.command.prototype = {
 	 */
 	setState: function( newState ) {
 		// Do nothing if there is no state change.
-		if ( this.state == newState )
+		if ( this.state == newState || !this.checkAllowed() )
 			return false;
 
 		this.previousState = this.state;

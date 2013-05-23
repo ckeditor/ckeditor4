@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		type: 'Kiểu',
 		typeText: 'Ký tự',
 		typePass: 'Mật khẩu',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Tìm kiếm',
+		typeTel: 'Số điện thoại',
+		typeUrl: 'URL'
 	}
 });

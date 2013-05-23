@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'fr-ca', {
 	fontSize: {
 		label: 'Taille',
-		voiceLabel: 'Font Size',
+		voiceLabel: 'Taille',
 		panelTitle: 'Taille'
 	},
 	label: 'Police',

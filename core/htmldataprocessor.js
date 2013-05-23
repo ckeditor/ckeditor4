@@ -5,16 +5,17 @@
 
 (function() {
 	/**
-	 * Represents an HTML data processor, which is responsible to translate and
-	 * transform the editor data on input and output.
+	 * Represents an HTML data processor, which is responsible for translating and
+	 * transforming the editor data on input and output.
 	 *
 	 * @class
 	 * @extends CKEDITOR.dataProcessor
-	 * @constructor Creates a htmlDataProcessor class instance.
+	 * @constructor Creates an htmlDataProcessor class instance.
 	 * @param {CKEDITOR.editor} editor
 	 */
 	CKEDITOR.htmlDataProcessor = function( editor ) {
-		var dataFilter, htmlFilter;
+		var dataFilter, htmlFilter,
+			that = this;
 
 		this.editor = editor;
 
@@ -23,7 +24,8 @@
 
 		/**
 		 * The HTML writer used by this data processor to format the output.
-		 * @type {CKEDITOR.htmlParser.basicWriter}
+		 *
+		 * @property {CKEDITOR.htmlParser.basicWriter}
 		 */
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
@@ -31,25 +33,19 @@
 		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ) );
 		htmlFilter.addRules( defaultHtmlFilterRules );
 		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ) );
-	};
 
-	CKEDITOR.htmlDataProcessor.prototype = {
-		/**
-		 * Process the input (potentially malformed) HTML to a purified form which
-		 * is suitable to be used in the wysiwyg editable.
-		 *
-		 * @param {String} data The raw data.
-		 * @param {String} [context] The tag name of a context element within which
-		 * the input is to be processed, default to be the editable element.
-		 * @param {Boolean} [fixForBody] Whether trigger the auto paragraph for non-block contents.
-		 * @returns {String}
-		 */
-		toHtml: function( data, context, fixForBody ) {
+		editor.on( 'toHtml', function( evt ) {
+			var evtData = evt.data,
+				data = evtData.dataValue;
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
+			data = protectSource( data, editor );
 
-			data = protectSource( data, this.editor );
+			// Protect content of textareas. (#9995)
+			// Do this before protecting attributes to avoid breaking:
+			// <textarea><img src="..." /></textarea>
+			data = protectElements( data, protectTextareaRegex );
 
 			// Before anything, we must protect the URL attributes as the
 			// browser may changing them when setting the innerHTML later in
@@ -58,7 +54,7 @@
 
 			// Protect elements than can't be set inside a DIV. E.g. IE removes
 			// style tags from innerHTML. (#3710)
-			data = protectElements( data );
+			data = protectElements( data, protectElementsRegex );
 
 			// Certain elements has problem to go through DOM operation, protect
 			// them by prefixing 'cke' namespace. (#3591)
@@ -72,14 +68,8 @@
 			// eat it up. (#5789)
 			data = protectPreFormatted( data );
 
-			var editable = this.editor.editable(),
+			var fixBin = evtData.context || editor.editable().getName(),
 				isPre;
-
-			// Fall back to the editable as context if not specified.
-			if ( !context && context !== null )
-				context = editable.getName();
-
-			var fixBin = context || editable.getName();
 
 			// Old IEs loose formats when load html into <pre>.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && fixBin == 'pre' ) {
@@ -90,7 +80,7 @@
 
 			// Call the browser to help us fixing a possibly invalid HTML
 			// structure.
-			var el = this.editor.document.createElement( fixBin );
+			var el = editor.document.createElement( fixBin );
 			// Add fake character to workaround IE comments bug. (#3801)
 			el.setHtml( 'a' + data );
 			data = el.getHtml().substr( 1 );
@@ -111,17 +101,78 @@
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data, context, fixForBody === false ? false : getFixBodyTag( this.editor.config ) );
+			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( editor.config ) );
+		}, null, null, 5 );
 
-			var writer = new CKEDITOR.htmlParser.basicWriter();
+		editor.on( 'toHtml', function( evt ) {
+			evt.data.dataValue.filterChildren( that.dataFilter, true );
+		}, null, null, 10 );
 
-			fragment.writeChildrenHtml( writer, this.dataFilter, 1 );
+		editor.on( 'toHtml', function( evt ) {
+			var evtData = evt.data,
+				data = evtData.dataValue,
+				writer = new CKEDITOR.htmlParser.basicWriter();
+
+			data.writeChildrenHtml( writer );
 			data = writer.getHtml( true );
 
 			// Protect the real comments again.
-			data = protectRealComments( data );
+			evtData.dataValue = protectRealComments( data );
+		}, null, null, 15 );
 
-			return data;
+
+		editor.on( 'toDataFormat', function( evt ) {
+			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
+				evt.data.dataValue, editor.editable().getName(), getFixBodyTag( editor.config ) );
+		}, null, null, 5 );
+
+		editor.on( 'toDataFormat', function( evt ) {
+			evt.data.dataValue.filterChildren( that.htmlFilter, true );
+		}, null, null, 10 );
+
+		editor.on( 'toDataFormat', function( evt ) {
+			var data = evt.data.dataValue,
+				writer = that.writer;
+
+			writer.reset();
+			data.writeChildrenHtml( writer );
+			data = writer.getHtml( true );
+
+			// Restore those non-HTML protected source. (#4475,#4880)
+			data = unprotectRealComments( data );
+			data = unprotectSource( data, editor );
+
+			evt.data.dataValue = data;
+		}, null, null, 15 );
+	};
+
+	CKEDITOR.htmlDataProcessor.prototype = {
+		/**
+		 * Processes the input (potentially malformed) HTML to a purified form which
+		 * is suitable for using in the WYSIWYG editable.
+		 *
+		 * @param {String} data The raw data.
+		 * @param {String} [context] The tag name of a context element within which
+		 * the input is to be processed, default to be the editable element.
+		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
+		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
+		 * @param {Boolean} [fixForBody] Whether to trigger the auto paragraph for non-block contents.
+		 * @param {Boolean} [dontFilter] Do not filter data with {@link CKEDITOR.filter}.
+		 * @returns {String}
+		 */
+		toHtml: function( data, context, fixForBody, dontFilter ) {
+			var editor = this.editor;
+
+			// Fall back to the editable as context if not specified.
+			if ( !context && context !== null )
+				context = editor.editable().getName();
+
+			return editor.fire( 'toHtml', {
+				dataValue: data,
+				context: context,
+				fixForBody: fixForBody,
+				dontFilter: !!dontFilter
+			} ).dataValue;
 		},
 
 		/**
@@ -131,23 +182,9 @@
 		 * @returns {String}
 		 */
 		toDataFormat: function( html ) {
-			// The parent element will always be the editable.
-			var editable = this.editor.editable(),
-				writer = this.writer;
-
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html, editable.getName(), getFixBodyTag( this.editor.config ) );
-
-			writer.reset();
-
-			fragment.writeChildrenHtml( writer, this.htmlFilter, 1 );
-
-			var data = writer.getHtml( true );
-
-			// Restore those non-HTML protected source. (#4475,#4880)
-			data = unprotectRealComments( data );
-			data = unprotectSource( data, this.editor );
-
-			return data;
+			return this.editor.fire( 'toDataFormat', {
+				dataValue: html
+			} ).dataValue;
 		}
 	};
 
@@ -565,7 +602,12 @@
 
 			title: function( element ) {
 				var titleText = element.children[ 0 ];
-				titleText && ( titleText.value = element.attributes[ 'data-cke-title' ] || '' );
+
+				// Append text-node to title tag if not present (i.e. non-IEs) (#9882).
+				!titleText && append( element, titleText = new CKEDITOR.htmlParser.text() );
+
+				// Transfer data-saved title to title tag.
+				titleText.value = element.attributes[ 'data-cke-title' ] || '';
 			}
 		},
 
@@ -609,7 +651,7 @@
 				break;
 		}
 	}
-	// Disable form elements editing mode provided by some browers. (#5746)
+	// Disable form elements editing mode provided by some browsers. (#5746)
 	for ( var i in { input:1,textarea:1 } ) {
 		defaultDataFilterRules.elements[ i ] = protectReadOnly;
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
@@ -618,7 +660,9 @@
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
 		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
-	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
+		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
+	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
+		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
 
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)[^>]*>)/gi,
@@ -639,8 +683,13 @@
 		});
 	}
 
-	function protectElements( html ) {
-		return html.replace( protectElementsRegex, function( match ) {
+	function protectElements( html, regex ) {
+		return html.replace( regex, function( match, tag, content ) {
+			// Encode < and > in textarea because this won't be done by a browser, since
+			// textarea will be protected during passing data through fix bin.
+			if ( match.indexOf( '<textarea' ) == 0 )
+				match = tag + unprotectRealComments( content ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + '</textarea>';
+
 			return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
 		});
 	}
@@ -745,11 +794,11 @@
 })();
 
 /**
- * Whether a filler text (non-breaking space entity - `&nbsp;`) will be
- * inserted into empty block elements in HTML output,
- * this is used to render block elements properly with `line-height`
- * When a function is instead specified, it'll be passed a {@link CKEDITOR.htmlParser.element}
- * to decide whether adding the filler text by expecting a boolean return value.
+ * Whether a filler text (non-breaking space entity &mdash; `&nbsp;`) will be
+ * inserted into empty block elements in HTML output.
+ * This is used to render block elements properly with `line-height`.
+ * When a function is specified instead, it will be passed a {@link CKEDITOR.htmlParser.element}
+ * to decide whether adding the filler text by expecting a Boolean return value.
  *
  *		config.fillEmptyBlocks = false; // Prevent filler nodes in all empty blocks.
  *
@@ -763,3 +812,47 @@
  * @cfg {Boolean} [fillEmptyBlocks=true]
  * @member CKEDITOR.config
  */
+
+/**
+ * This event is fired by the {@link CKEDITOR.htmlDataProcessor} when input HTML
+ * is to be purified by the {@link CKEDITOR.htmlDataProcessor#toHtml} method.
+ *
+ * By adding listeners with different priorities it is possible
+ * to process input HTML on different stages:
+ *
+ *	* 1-4: Data is available in the original string format.
+ *	* 5: Data is initially filtered with regexp patterns and parsed to
+ *		{@link CKEDITOR.htmlParser.fragment} {@link CKEDITOR.htmlParser.element}.
+ *	* 5-9: Data is available in the parsed format, but {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		is not applied yet.
+ *	* 10: Data is filtered with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
+ *	* 10-14: Data is available in the parsed format and {@link CKEDITOR.htmlDataProcessor#dataFilter}
+ *		has already been applied.
+ *	* 15: Data is written back to an HTML string.
+ *	* 15-*: Data is available in an HTML string.
+ *
+ * @since 4.1
+ * @event toHtml
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Input data to be purified.
+ * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} The `context` argument.
+ * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} The `fixForBody` argument.
+ * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
+ */
+
+/**
+ * This event is fired when {@link CKEDITOR.htmlDataProcessor} is converting
+ * internal HTML to output data HTML.
+ *
+ * See {@link #toHtml} event documentation for more details.
+ *
+ * @since 4.1
+ * @event toDataFormat
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Output data to be prepared.
+ */
+

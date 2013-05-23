@@ -11,7 +11,7 @@
 CKEDITOR.plugins.add( 'pagebreak', {
 	requires: 'fakeobjects',
 
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 	icons: 'pagebreak,pagebreak-rtl', // %REMOVE_LINE_CORE%
 	onLoad: function() {
 		var cssStyles = [
@@ -68,7 +68,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 					'class': function( value, element ) {
 						var className = value.replace( 'cke_pagebreak', '' );
 						if ( className != value ) {
-							var span = CKEDITOR.htmlParser.fragment.fromHtml( '<span style="display: none;">&nbsp;</span>' );
+							var span = CKEDITOR.htmlParser.fragment.fromHtml( '<span style="display: none;">&nbsp;</span>' ).children[ 0 ];
 							element.children.length = 0;
 							element.add( span );
 							var attrs = element.attributes;
@@ -125,5 +125,18 @@ CKEDITOR.plugins.pagebreakCmd = {
 
 		editor.insertElement( pagebreak );
 	},
-	context: 'div'
+	context: 'div',
+	allowedContent: {
+		div: {
+			styles: '!page-break-after'
+		},
+		span: {
+			match: function( element ) {
+				var parent = element.parent;
+				return parent && parent.name == 'div' && parent.styles[ 'page-break-after' ];
+			},
+			styles: 'display'
+		}
+	},
+	requiredContent: 'div{page-break-after}'
 };

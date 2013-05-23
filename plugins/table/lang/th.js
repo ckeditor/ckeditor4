@@ -45,18 +45,18 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	},
 	columns: 'สดมน์',
 	deleteTable: 'ลบตาราง',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	headers: 'ส่วนหัว',
+	headersBoth: 'ทั้งสองอย่าง',
+	headersColumn: 'คอลัมน์แรก',
 	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
+	headersRow: 'แถวแรก',
+	invalidBorder: 'ขนาดเส้นกรอบต้องเป็นจำนวนตัวเลข',
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	invalidCols: 'จำนวนคอลัมน์ต้องเป็นจำนวนมากกว่า 0',
+	invalidHeight: 'ส่วนสูงของตารางต้องเป็นตัวเลข',
+	invalidRows: 'จำนวนของแถวต้องเป็นจำนวนมากกว่า 0',
+	invalidWidth: 'ความกว้างตารางต้องเป็นตัวเลข',
 	menu: 'คุณสมบัติของ ตาราง',
 	row: {
 		menu: 'แถว',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	toolbar: 'ตาราง',
 	widthPc: 'เปอร์เซ็น',
 	widthPx: 'จุดสี',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'หน่วยความกว้าง'
 });

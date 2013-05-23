@@ -68,12 +68,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			legend: 'فشردن ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'دسترسی به فرمان محل تمرکز قبلی',
+			legend: 'فشردن ${accessPreviousSpace} برای دسترسی به نزدیک ترین فضای قابل دسترسی تمرکز قبل از هشتک، برای مثال: دو عنصر مجاور HR. تکرار کلید ترکیبی برای رسیدن به فضاهای تمرکز از راه دور.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'دسترسی به فضای دستور بعدی',
+			legend: 'برای دسترسی به نزدیکترین فضای تمرکز غیر قابل دسترس، ${accessNextSpace} را پس از علامت هشتک بفشارید، برای مثال:  دو عنصر مجاور HR. کلید ترکیبی را برای رسیدن به فضای تمرکز تکرار کنید.'
 		},
 			{
 			name: 'راهنمای دسترسی',

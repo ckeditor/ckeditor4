@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'table', 'lt', {
 		invalidColSpan: 'Reikšmė turi būti skaičius.',
 		chooseColor: 'Pasirinkite'
 	},
-	cellPad: 'Trapas nuo langelio rėmo iki teksto',
+	cellPad: 'Tarpas nuo langelio rėmo iki teksto',
 	cellSpace: 'Tarpas tarp langelių',
 	column: {
 		menu: 'Stulpelis',

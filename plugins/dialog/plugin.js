@@ -1024,6 +1024,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * @param {Object} contents Content definition.
 		 */
 		addPage: function( contents ) {
+			if ( contents.requiredContent && !this._.editor.filter.check( contents.requiredContent ) )
+				return;
+
 			var pageHtml = [],
 				titleHtml = contents.label ? ' title="' + CKEDITOR.tools.htmlEncode( contents.label ) + '"' : '',
 				elements = contents.elements,
@@ -1035,6 +1038,25 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					padding: contents.padding,
 					style: contents.style || 'width: 100%;'
 				}, pageHtml );
+
+			var contentMap = this._.contents[ contents.id ] = {},
+				cursor,
+				children = vbox.getChild(),
+				enabledFields = 0;
+
+			while ( ( cursor = children.shift() ) ) {
+				// Count all allowed fields.
+				if ( !cursor.notAllowed && cursor.type != 'hbox' && cursor.type != 'vbox' )
+					enabledFields++;
+
+				contentMap[ cursor.id ] = cursor;
+				if ( typeof( cursor.getChild ) == 'function' )
+					children.push.apply( children, cursor.getChild() );
+			}
+
+			// If all fields are disabled (because they are not allowed) hide this tab.
+			if ( !enabledFields )
+				contents.hidden = true;
 
 			// Create the HTML for the tab and the content block.
 			var page = CKEDITOR.dom.element.createFromHtml( pageHtml.join( '' ) );
@@ -1064,16 +1086,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			!contents.hidden && this._.pageCount++;
 			this._.lastTab = tab;
 			this.updateStyle();
-
-			var contentMap = this._.contents[ contents.id ] = {},
-				cursor,
-				children = vbox.getChild();
-
-			while ( ( cursor = children.shift() ) ) {
-				contentMap[ cursor.id ] = cursor;
-				if ( typeof( cursor.getChild ) == 'function' )
-					children.push.apply( children, cursor.getChild() );
-			}
 
 			// Attach the DOM nodes.
 
@@ -1420,6 +1432,22 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		getCurrent: function() {
 			return CKEDITOR.dialog._.currentTop;
+		},
+
+		/**
+		 * Check whether tab wasn't removed by {@link CKEDITOR.config#removeDialogTabs}.
+		 *
+		 * @since 4.1
+		 * @static
+		 * @param {CKEDITOR.editor} editor
+		 * @param {String} dialogName
+		 * @param {String} tabName
+		 * @returns {Boolean}
+		 */
+		isTabEnabled: function( editor, dialogName, tabName ) {
+			var cfg = editor.config.removeDialogTabs;
+
+			return !( cfg && cfg.match( new RegExp( '(?:^|;)' + dialogName + ':' + tabName + '(?:$|;)', 'i' ) ) );
 		},
 
 		/**
@@ -2191,6 +2219,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					id = this.id = elementDefinition.id,
 					i;
 
+				if ( elementDefinition.requiredContent && !dialog.getParentEditor().filter.check( elementDefinition.requiredContent ) ) {
+					styles.display = 'none';
+					this.notAllowed = true;
+				}
+
 				// Set the id, a unique id is required for getElement() to work.
 				attributes.id = domId;
 
@@ -2426,6 +2459,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						if ( elementDefinition && elementDefinition.expand )
 							html.push( 'height:100%;' );
 						html.push( 'width:' + cssLength( width || '100%' ), ';' );
+
+						// (#10123) Temp fix for dialog broken layout in latest webkit.
+						if ( CKEDITOR.env.webkit )
+							html.push( 'float:none;' );
+
 						html.push( '"' );
 						html.push( 'align="', CKEDITOR.tools.htmlEncode(
 						( elementDefinition && elementDefinition.align ) || ( dialog.getParentEditor().lang.dir == 'ltr' ? 'left' : 'right' ) ), '" ' );
@@ -2795,6 +2833,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	 * @extends CKEDITOR.commandDefinition
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
+	 * @param {Object} [ext] Additional command definition's properties.
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;
@@ -2813,7 +2852,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// undo support should dedicate to specific dialog implementation.
 		canUndo: false,
 
-		editorFocus: CKEDITOR.env.ie || CKEDITOR.env.webkit
+		editorFocus: 1
 	};
 
 	(function() {

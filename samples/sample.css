@@ -40,6 +40,12 @@ code
 	border-radius: 3px;
 }
 
+abbr
+{
+	border-bottom: 1px dotted #555;
+	cursor: pointer;
+}
+
 .new
 {
 	background: #FF7E00;

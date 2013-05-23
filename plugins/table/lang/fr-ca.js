@@ -15,28 +15,28 @@ CKEDITOR.plugins.setLang( 'table', 'fr-ca', {
 		mergeDown: 'Fusionner en bas',
 		splitHorizontal: 'Scinder la cellule horizontalement',
 		splitVertical: 'Scinder la cellule verticalement',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		title: 'Propriétés de la cellule',
+		cellType: 'Type de cellule',
+		rowSpan: 'Fusion de lignes',
+		colSpan: 'Fusion de colonnes',
+		wordWrap: 'Retour à la ligne',
+		hAlign: 'Alignement horizontal',
+		vAlign: 'Alignement vertical',
+		alignBaseline: 'Bas du texte',
+		bgColor: 'Couleur d\'arrière plan',
+		borderColor: 'Couleur de bordure',
+		data: 'Données',
+		header: 'En-tête',
+		yes: 'Oui',
+		no: 'Non',
+		invalidWidth: 'La largeur de cellule doit être un nombre.',
+		invalidHeight: 'La hauteur de cellule doit être un nombre.',
+		invalidRowSpan: 'La fusion de lignes doit être un nombre entier.',
+		invalidColSpan: 'La fusion de colonnes doit être un nombre entier.',
+		chooseColor: 'Sélectionner'
 	},
-	cellPad: 'Contour',
-	cellSpace: 'Espacement',
+	cellPad: 'Marge interne des cellules',
+	cellSpace: 'Espacement des cellules',
 	column: {
 		menu: 'Colonne',
 		insertBefore: 'Insérer une colonne avant',
@@ -45,18 +45,18 @@ CKEDITOR.plugins.setLang( 'table', 'fr-ca', {
 	},
 	columns: 'Colonnes',
 	deleteTable: 'Supprimer le tableau',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
-	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	headers: 'En-têtes',
+	headersBoth: 'Les deux.',
+	headersColumn: 'Première colonne',
+	headersNone: 'Aucun',
+	headersRow: 'Première ligne',
+	invalidBorder: 'La taille de bordure doit être un nombre.',
+	invalidCellPadding: 'La marge interne des cellules doit être un nombre positif.',
+	invalidCellSpacing: 'L\'espacement des cellules doit être un nombre positif.',
+	invalidCols: 'Le nombre de colonnes doit être supérieur à 0.',
+	invalidHeight: 'La hauteur du tableau doit être un nombre.',
+	invalidRows: 'Le nombre de lignes doit être supérieur à 0.',
+	invalidWidth: 'La largeur du tableau doit être un nombre.',
 	menu: 'Propriétés du tableau',
 	row: {
 		menu: 'Ligne',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'fr-ca', {
 	toolbar: 'Tableau',
 	widthPc: 'pourcentage',
 	widthPx: 'pixels',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'unité de largeur'
 });

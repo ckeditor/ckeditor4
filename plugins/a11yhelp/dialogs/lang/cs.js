@@ -72,8 +72,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Příkaz pro přístup k dalšímu prostoru zaměření',
+			legend: 'Stiskněte ${accessNextSpace} pro přístup k nejbližšímu nedosažitelnému prostoru zaměření po stříšce, například: dva přilehlé prvky HR. Pro dosažení vzdálených prostorů zaměření tuto kombinaci kláves opakujte.'
 		},
 			{
 			name: ' Nápověda přístupnosti',

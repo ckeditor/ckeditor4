@@ -164,8 +164,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.mode = newMode;
 
 			if ( isDirty !== undefined ) {
-				// The editor data "may be dirty" after this point.
-				editor.mayBeDirty = true;
 				!isDirty && editor.resetDirty();
 			}
 
@@ -262,12 +260,13 @@ CKEDITOR.replaceClass = 'ckeditor';
 				attachToForm( editor );
 
 			editor.setMode( editor.config.startupMode, function() {
-				// Editor is completely loaded for interaction.
-				editor.fireOnce( 'instanceReady' );
-				CKEDITOR.fire( 'instanceReady', null, editor );
-
 				// Clean on startup.
 				editor.resetDirty();
+
+				// Editor is completely loaded for interaction.
+				editor.status = 'ready';
+				editor.fireOnce( 'instanceReady' );
+				CKEDITOR.fire( 'instanceReady', null, editor );
 			});
 		});
 
@@ -301,7 +300,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Get the HTML for the predefined spaces.
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
-		var bottomHtml = editor.fireOnce( 'uiSpace', { space: 'bottom', html: '' } ).html;
+		var bottomHtml = editor.fire( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
 		if ( !themedTpl ) {
 			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +
@@ -413,6 +412,7 @@ CKEDITOR.replaceClass = 'ckeditor';
  *
  *		alert( CKEDITOR.instances.editor1.mode ); // (e.g.) 'wysiwyg'
  *
+ * @readonly
  * @property {String} mode
  */
 

@@ -89,8 +89,7 @@ CKEDITOR.plugins.add( 'menu', {
 		' hidefocus="true"' +
 		' role="menuitem"' +
 		' aria-haspopup="{hasPopup}"' +
-		' aria-disabled="{disabled}"' +
-		' aria-pressed="{pressed}"';
+		' aria-disabled="{disabled}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -449,7 +448,6 @@ CKEDITOR.plugins.add( 'menu', {
 					state: stateName,
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
-					pressed: state == CKEDITOR.TRISTATE_ON,
 					title: this.label,
 					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
 					hoverFn: menu._.itemOverFn,

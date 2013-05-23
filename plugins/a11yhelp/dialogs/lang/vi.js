@@ -61,11 +61,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 		},
 			{
 			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			legend: 'Nhấn ${link}'
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			legend: 'Nhấn${toolbarCollapse}'
 		},
 			{
 			name: ' Access previous focus space command', // MISSING
@@ -77,7 +77,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 		},
 			{
 			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			legend: 'Nhấn ${a11yHelp}'
 		}
 		]
 	}

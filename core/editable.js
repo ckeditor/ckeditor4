@@ -157,7 +157,7 @@
 			insertHtml: function( data, mode ) {
 				beforeInsert( this );
 				// Default mode is 'html'.
-				insert( this, mode == 'text' ? 'text' : 'html', data );
+				insert( this, mode || 'html', data );
 			},
 
 			/**
@@ -600,12 +600,7 @@
 							// BACKSPACE/DEL pressed at the start/end of table cell.
 							else if ( ( parent = path.contains( [ 'td', 'th', 'caption' ] ) ) &&
 								      range.checkBoundaryOfElement( parent, rtl ? CKEDITOR.START : CKEDITOR.END ) ) {
-								next = parent[ rtl ? 'getPreviousSourceNode' : 'getNextSourceNode' ]( 1, CKEDITOR.NODE_ELEMENT );
-								if ( next && !next.isReadOnly() && range.root.contains( next ) ) {
-									range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
-									range.select();
-									isHandled = 1;
-								}
+								isHandled = 1;
 							}
 						}
 
@@ -968,7 +963,13 @@
 				// Note: getRanges will be overwritten for tests since we want to test
 				// 		custom ranges and bypass native selections.
 				// TODO what should we do with others? Remove?
-				range = selection.getRanges()[ 0 ];
+				range = selection.getRanges()[ 0 ],
+				dontFilter = false;
+
+			if ( type == 'unfiltered_html' ) {
+				type = 'html';
+				dontFilter = true;
+			}
 
 			// Check range spans in non-editable.
 			if ( range.checkReadOnly() )
@@ -983,6 +984,7 @@
 				// The "state" value.
 				that = {
 					type: type,
+					dontFilter: dontFilter,
 					editable: editable,
 					editor: editor,
 					range: range,
@@ -1124,7 +1126,7 @@
 			// Process the inserted html, in context of the insertion root.
 			// Don't use the "fix for body" feature as auto paragraphing must
 			// be handled during insertion.
-			data = that.editor.dataProcessor.toHtml( data, null, false );
+			data = that.editor.dataProcessor.toHtml( data, null, false, that.dontFilter );
 
 
 			// Build the node list for insertion.

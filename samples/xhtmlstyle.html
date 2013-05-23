@@ -62,6 +62,18 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 					contentsCss: 'assets/outputxhtml/outputxhtml.css',
 
 					/*
+					 * Special allowed content rules for spans used by
+					 * font face, size, and color buttons.
+					 *
+					 * Note: all rules have been written separately so
+					 * it was possible to specify required classes.
+					 */
+					extraAllowedContent: 'span(!FontColor1);span(!FontColor2);span(!FontColor3);' +
+						'span(!FontColor1BG);span(!FontColor2BG);span(!FontColor3BG);' +
+						'span(!FontComic);span(!FontCourier);span(!FontTimes);' +
+						'span(!FontSmaller);span(!FontLarger);span(!FontSmall);span(!FontBig);span(!FontDouble)',
+
+					/*
 					 * Core styles.
 					 */
 					coreStyles_bold: {

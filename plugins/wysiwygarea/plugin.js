@@ -11,6 +11,13 @@
 (function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
+			if ( editor.config.fullPage ) {
+				editor.addFeature( {
+					allowedContent: 'html head title; style [media,type]; body (*)[id]; meta link [*]',
+					requiredContent: 'body'
+				} );
+			}
+
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var iframe = CKEDITOR.document.createElement( 'iframe' );
 				iframe.setStyles({ width: '100%', height: '100%' } );
@@ -507,30 +514,6 @@
 			}
 		}
 	});
-
-	// Fixing Firefox 'Back-Forward Cache' breaks design mode. (#4514)
-	if ( CKEDITOR.env.gecko ) {
-		(function() {
-			var body = document.body;
-
-			if ( !body )
-				window.addEventListener( 'load', arguments.callee, false );
-			else {
-				var currentHandler = body.getAttribute( 'onpageshow' );
-				body.setAttribute( 'onpageshow', ( currentHandler ? currentHandler + ';' : '' ) + 'event.persisted&&(function(){' +
-					'var x=CKEDITOR.instances,d,i;' +
-					'for(i in x){' +
-						'd=x[i].document;' +
-						'if(d){' +
-							'd.$.designMode="off";' +
-							'd.$.designMode="on";' +
-						'}' +
-					'}' +
-					'})();' );
-			}
-		})();
-
-	}
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {

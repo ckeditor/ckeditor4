@@ -84,7 +84,7 @@
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var textificationFilter;
@@ -477,10 +477,22 @@
 				!preventBeforePasteEvent && fixCut( editor );
 			});
 
-			editable.on( 'mouseup', function() {
-				setTimeout( function() {
+			var mouseupTimeout;
+
+			// Use editor.document instead of editable in non-IEs for observing mouseup
+			// since editable won't fire the event if selection process started within
+			// iframe and ended out of the editor (#9851).
+			editable.attachListener( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement(), 'mouseup', function() {
+				mouseupTimeout = setTimeout( function() {
 					setToolbarStates();
 				}, 0 );
+			});
+
+			// Make sure that deferred mouseup callback isn't executed after editor instance
+			// had been destroyed. This may happen when editor.destroy() is called in parallel
+			// with mouseup event (i.e. a button with onclick callback) (#10219).
+			editor.on( 'destroy', function() {
+				clearTimeout( mouseupTimeout );
 			});
 
 			editable.on( 'keyup', setToolbarStates );
@@ -901,7 +913,7 @@
 			else {
 				var sel = editor.getSelection(),
 					ranges = sel.getRanges();
-				retval = sel.type != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
+				retval = sel.getType() != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
 			}
 
 			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;

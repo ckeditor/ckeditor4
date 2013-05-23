@@ -6,13 +6,13 @@ CKEDITOR.plugins.setLang( 'div', 'th', {
 	IdInputLabel: 'ไอดี',
 	advisoryTitleInputLabel: 'คำเกริ่นนำ',
 	cssClassInputLabel: 'คลาสของไฟล์กำหนดลักษณะการแสดงผล',
-	edit: 'Edit Div', // MISSING
+	edit: 'แก้ไข Div',
 	inlineStyleInputLabel: 'Inline Style', // MISSING
 	langDirLTRLabel: 'จากซ้ายไปขวา (LTR)',
 	langDirLabel: 'การเขียน-อ่านภาษา',
 	langDirRTLLabel: 'จากขวามาซ้าย (RTL)',
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
+	languageCodeInputLabel: 'รหัสภาษา',
+	remove: 'ลบ Div',
 	styleSelectLabel: 'ลักษณะการแสดงผล',
 	title: 'Create Div Container', // MISSING
 	toolbar: 'Create Div Container' // MISSING

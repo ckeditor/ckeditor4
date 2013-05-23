@@ -107,6 +107,7 @@
 						{
 						id: 'width',
 						type: 'text',
+						requiredContent: 'iframe[width]',
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.width,
@@ -117,6 +118,7 @@
 						{
 						id: 'height',
 						type: 'text',
+						requiredContent: 'iframe[height]',
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.height,
@@ -127,6 +129,7 @@
 						{
 						id: 'align',
 						type: 'select',
+						requiredContent: 'iframe[align]',
 						'default': '',
 						items: [
 							[ commonLang.notSet, '' ],
@@ -161,6 +164,7 @@
 						{
 						id: 'scrolling',
 						type: 'checkbox',
+						requiredContent: 'iframe[scrolling]',
 						label: iframeLang.scrolling,
 						setup: loadValue,
 						commit: commitValue
@@ -168,6 +172,7 @@
 						{
 						id: 'frameborder',
 						type: 'checkbox',
+						requiredContent: 'iframe[frameborder]',
 						label: iframeLang.border,
 						setup: loadValue,
 						commit: commitValue
@@ -181,6 +186,7 @@
 						{
 						id: 'name',
 						type: 'text',
+						requiredContent: 'iframe[name]',
 						label: commonLang.name,
 						setup: loadValue,
 						commit: commitValue
@@ -188,6 +194,7 @@
 						{
 						id: 'title',
 						type: 'text',
+						requiredContent: 'iframe[title]',
 						label: commonLang.advisoryTitle,
 						setup: loadValue,
 						commit: commitValue
@@ -197,13 +204,14 @@
 					{
 					id: 'longdesc',
 					type: 'text',
+					requiredContent: 'iframe[longdesc]',
 					label: commonLang.longDescr,
 					setup: loadValue,
 					commit: commitValue
 				}
 				]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 } )
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 }, 'iframe' )
 				]
 		};
 	});

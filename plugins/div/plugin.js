@@ -11,15 +11,21 @@
 (function() {
 	CKEDITOR.plugins.add( 'div', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'creatediv', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			if ( editor.blockless )
 				return;
 
-			var lang = editor.lang.div;
+			var lang = editor.lang.div,
+				allowed = 'div(*)';
+
+			if ( CKEDITOR.dialog.isTabEnabled( editor, 'editdiv', 'advanced' ) )
+				allowed += ';div[dir,id,lang,title]{*}';
 
 			editor.addCommand( 'creatediv', new CKEDITOR.dialogCommand( 'creatediv', {
+				allowedContent: allowed,
+				requiredContent: 'div',
 				contextSensitive: true,
 				refresh: function( editor, path ) {
 					var context = editor.config.div_wrapTable ? path.root : path.blockLimit;
@@ -27,8 +33,9 @@
 				}
 			}));
 
-			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv' ) );
+			editor.addCommand( 'editdiv', new CKEDITOR.dialogCommand( 'editdiv', { requiredContent: 'div' } ) );
 			editor.addCommand( 'removediv', {
+				requiredContent: 'div',
 				exec: function( editor ) {
 					var selection = editor.getSelection(),
 						ranges = selection && selection.getRanges(),

@@ -18,6 +18,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'colorbutton,' +
 		'colordialog,' +
 		'contextmenu,' +
+		'dialogadvtab,' +
 		'div,' +
 		'elementspath,' +
 		'enterkey,' +

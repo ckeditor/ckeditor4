@@ -38,7 +38,9 @@
 		this.value = value;
 		this.context = 'p';
 
-		var classes = editor.config.justifyClasses;
+		var classes = editor.config.justifyClasses,
+			blockTag = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
 		if ( classes ) {
 			switch ( value ) {
 				case 'left':
@@ -56,7 +58,25 @@
 			}
 
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
+			this.requiredContent = blockTag + '(' + this.cssClassName + ')';
 		}
+		else {
+			this.requiredContent = blockTag + '{text-align}';
+		}
+
+		this.allowedContent = {
+			'caption div h1 h2 h3 h4 h5 h6 p pre td th li': {
+				// Do not add elements, but only text-align style if element is validated by other rule.
+				propertiesOnly: true,
+				styles: this.cssClassName ? null : 'text-align',
+				classes: this.cssClassName || null
+			}
+		};
+
+		// In enter mode BR we need to allow here for div, because when non other
+		// feature allows div justify is the only plugin that uses it.
+		if ( editor.config.enterMode == CKEDITOR.ENTER_BR )
+			this.allowedContent.div = true;
 	}
 
 	function onDirChanged( e ) {
@@ -160,7 +180,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'justify', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'justifyblock,justifycenter,justifyleft,justifyright', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			if ( editor.blockless )

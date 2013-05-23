@@ -3,9 +3,9 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'fr-ca', {
-	label: 'Style',
-	panelTitle: 'Formatting Styles', // MISSING
-	panelTitle1: 'Block Styles', // MISSING
-	panelTitle2: 'Inline Styles', // MISSING
-	panelTitle3: 'Object Styles' // MISSING
+	label: 'Styles',
+	panelTitle: 'Styles de formattage',
+	panelTitle1: 'Styles de block',
+	panelTitle2: 'Styles en ligne',
+	panelTitle3: 'Styles d\'objet'
 });

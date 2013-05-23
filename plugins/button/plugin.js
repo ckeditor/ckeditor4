@@ -304,6 +304,33 @@
 				return true;
 			} else
 				return false;
+		},
+
+		/**
+		 * Returns this button's {@link CKEDITOR.feature} instance.
+		 *
+		 * It may be this button instance if it has at least one of
+		 * `allowedContent` and `requiredContent` properties. Otherwise,
+		 * if command is bound to this button by `command` property, then
+		 * that command will be returned.
+		 *
+		 * This method implements {@link CKEDITOR.feature#toFeature} interface method.
+		 *
+		 * @since 4.1
+		 * @param {CKEDITOR.editor} Editor instance.
+		 * @returns {CKEDITOR.feature} The feature.
+		 */
+		toFeature: function( editor ) {
+			if ( this._.feature )
+				return this._.feature;
+
+			var feature = this;
+
+			// If button isn't a feature, return command if is bound.
+			if ( !this.allowedContent && !this.requiredContent && this.command )
+				feature = editor.getCommand( this.command ) || feature;
+
+			return this._.feature = feature;
 		}
 	};
 

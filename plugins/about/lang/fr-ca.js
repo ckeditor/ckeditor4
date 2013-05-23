@@ -3,10 +3,10 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'fr-ca', {
-	copy: 'Copyright &copy; $1. All rights reserved.', // MISSING
-	dlgTitle: 'About CKEditor', // MISSING
-	help: 'Check $1 for help.', // MISSING
-	moreInfo: 'For licensing information please visit our web site:', // MISSING
-	title: 'About CKEditor', // MISSING
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	copy: 'Copyright &copy; $1. Tous droits réservés.',
+	dlgTitle: 'À propos de CKEditor',
+	help: 'Consulter $1 pour l\'aide.',
+	moreInfo: 'Pour les informations de licence, consulter notre site internet:',
+	title: 'À propos de CKEditor',
+	userGuide: 'Guide utilisateur de CKEditor'
 });

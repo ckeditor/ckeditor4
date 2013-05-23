@@ -37,13 +37,40 @@
 		}
 	}
 
+	var defaultTabConfig = { id:1,dir:1,classes:1,styles:1 };
+
 	CKEDITOR.plugins.add( 'dialogadvtab', {
 		requires : 'dialog',
+
+		// Returns allowed content rule for the content created by this plugin.
+		allowedContent: function( tabConfig ) {
+			if ( !tabConfig )
+				tabConfig = defaultTabConfig;
+
+			var allowedAttrs = [];
+			if ( tabConfig.id )
+				allowedAttrs.push( 'id' );
+			if ( tabConfig.dir )
+				allowedAttrs.push( 'dir' );
+
+			var allowed = '';
+
+			if ( allowedAttrs.length )
+				allowed += '[' + allowedAttrs.join( ',' ) +  ']';
+
+			if ( tabConfig.classes )
+				allowed += '(*)';
+			if ( tabConfig.styles )
+				allowed += '{*}';
+
+			return allowed;
+		},
+
 		// @param tabConfig
 		// id, dir, classes, styles
-		createAdvancedTab: function( editor, tabConfig ) {
+		createAdvancedTab: function( editor, tabConfig, element ) {
 			if ( !tabConfig )
-				tabConfig = { id:1,dir:1,classes:1,styles:1 };
+				tabConfig = defaultTabConfig;
 
 			var lang = editor.lang.common;
 
@@ -68,6 +95,7 @@
 						id: 'advId',
 						att: 'id',
 						type: 'text',
+						requiredContent: element ? element + '[id]' : null,
 						label: lang.id,
 						setup: setupAdvParams,
 						commit: commitAdvParams
@@ -79,6 +107,7 @@
 						id: 'advLangDir',
 						att: 'dir',
 						type: 'select',
+						requiredContent: element ? element + '[dir]' : null,
 						label: lang.langDir,
 						'default': '',
 						style: 'width:100%',
@@ -107,6 +136,7 @@
 						id: 'advStyles',
 						att: 'style',
 						type: 'text',
+						requiredContent: element ? element + '{cke-xyz}' : null,
 						label: lang.styles,
 						'default': '',
 
@@ -145,6 +175,7 @@
 							id: 'advCSSClasses',
 							att: 'class',
 							type: 'text',
+							requiredContent: element ? element + '(cke-xyz)' : null,
 							label: lang.cssClasses,
 							'default': '',
 							setup: setupAdvParams,

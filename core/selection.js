@@ -149,7 +149,7 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( fillingChar.getText().replace( /\u200B/g, '' ) );
+			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
 
 			// Restore the bookmark.
 			if ( bm ) {
@@ -160,6 +160,13 @@
 				sel.addRange( rng );
 			}
 		}
+	}
+
+	function replaceFillingChar( html ) {
+		return html.replace( /\u200B( )?/g, function( match ) {
+			// #10291 if filling char is followed by a space replace it with nbsp.
+			return match[ 1 ] ? '\xa0' : '';
+		} );
 	}
 
 	function isReversedSelection( sel ) {
@@ -196,18 +203,43 @@
 
 			var isInline = editable.isInline();
 
+			var restoreSel;
+
+			// Give the editable an initial selection on first focus,
+			// put selection at a consistent position at the start
+			// of the contents. (#9507)
+			if ( CKEDITOR.env.gecko ) {
+				editable.attachListener( editable, 'focus', function( evt ) {
+					evt.removeListener();
+
+					if ( restoreSel !== 0 ) {
+						var nativ = editor.getSelection().getNative();
+						// Do it only if the native selection is at an unwanted
+						// place (at the very start of the editable). #10119
+						if ( nativ.isCollapsed && nativ.anchorNode == editable.$ ) {
+							var rng = editor.createRange();
+							rng.moveToElementEditStart( editable );
+							rng.select();
+						}
+					}
+				}, null, null, -2 );
+			}
+
+			// Plays the magic here to restore/save dom selection on editable focus/blur.
+			editable.attachListener( editable, 'focus', function() {
+				editor.unlockSelection( restoreSel );
+				restoreSel = 0;
+			}, null, null, -1 );
+
+			// Disable selection restoring when clicking in.
+			editable.attachListener( editable, 'mousedown', function() {
+				restoreSel = 0;
+			});
+
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
-				var restoreSel;
-
-				// Plays the magic here to restore/save dom selection on editable focus/blur.
-				editable.attachListener( editable, 'focus', function() {
-					editor.unlockSelection( restoreSel );
-					restoreSel = 0;
-				}, null, null, -1 );
-
 				var lastSel;
 				// Save a fresh copy of the selection.
 				function saveSel() {
@@ -226,11 +258,6 @@
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
-
-				// Disable selection restoring when clicking in.
-				editable.attachListener( editable, 'mousedown', function() {
-					restoreSel = 0;
-				});
 			}
 
 			// The following selection related fixes applies to only framed editable.
@@ -369,7 +396,7 @@
 			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
 			// has to be initialized in editable, but for mouseup we listen on document element.
 			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
-			if ( editable.isInline() ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
+			if ( isInline ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
 				var mouseDown;
 				editable.attachListener( editable, 'mousedown', function() {
 					mouseDown = 1;
@@ -381,12 +408,16 @@
 				});
 			}
 			// In all other cases listen on simple mouseup over editable, as we did before #9699.
+			//
+			// Use document instead of editable in non-IEs for observing mouseup
+			// since editable won't fire the event if selection process started within iframe and ended out
+			// of the editor (#9851).
 			else
-				editable.attachListener( editable, 'mouseup', checkSelectionChangeTimeout, editor );
+				editable.attachListener( CKEDITOR.env.ie ? editable : doc.getDocumentElement(), 'mouseup', checkSelectionChangeTimeout, editor );
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.
-				doc.on( 'keydown', function( evt ) {
+				editable.attachListener( doc, 'keydown', function( evt ) {
 					var key = evt.data.getKey();
 					// Remove the filling char before some keys get
 					// executed, so they'll not get blocked by it.
@@ -401,7 +432,7 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingChar( editor.editable() );
+							removeFillingChar( editable );
 					}
 
 				}, null, null, -1 );
@@ -436,46 +467,51 @@
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor,
-			editable = editor.editable();
+		var editor = evt.editor;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
 		if ( CKEDITOR.env.webkit ) {
 			editor.on( 'selectionChange', function() {
-				checkFillingChar( editable );
+				checkFillingChar( editor.editable() );
 			}, null, null, -1 );
 			editor.on( 'beforeSetMode', function() {
-				removeFillingChar( editable );
+				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
 
 			var fillingCharBefore, resetSelection;
 
 			function beforeData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					// If cursor is right blinking by side of the filler node, save it for restoring,
 					// as the following text substitution will blind it. (#7437)
-					var sel = doc.$.defaultView.getSelection();
+					var sel = editor.document.$.defaultView.getSelection();
 					if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
 						resetSelection = 1;
 
 					fillingCharBefore = fillingChar.getText();
-					fillingChar.setText( fillingCharBefore.replace( /\u200B/g, '' ) );
+					fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
 				}
 			}
 
 			function afterData() {
-				var doc = editor.document,
-					fillingChar = getFillingChar( editable );
+				var editable = editor.editable();
+				if ( !editable )
+					return;
+
+				var fillingChar = getFillingChar( editable );
 
 				if ( fillingChar ) {
 					fillingChar.setText( fillingCharBefore );
 
 					if ( resetSelection ) {
-						doc.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
+						editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
 						resetSelection = 0;
 					}
 				}
@@ -486,7 +522,6 @@
 			editor.on( 'beforeGetData', beforeData, null, null, 0 );
 			editor.on( 'getData', afterData );
 		}
-
 	});
 
 	/**
@@ -680,7 +715,15 @@
 				var nativeRange = this.document.$.createRange();
 				nativeRange.setStart( range.startContainer.$, range.startOffset );
 				nativeRange.collapse( 1 );
+
+				// It may happen that setting proper selection will
+				// cause focus to be fired. Cancel it because focus
+				// shouldn't be fired when retriving selection. (#10115)
+				var listener = this.root.on( 'focus', function( evt ) {
+					evt.cancel();
+				}, null, null, -100 );
 				sel.addRange( nativeRange );
+				listener.removeListener();
 			}
 		}
 
@@ -1284,7 +1327,7 @@
 			if ( restore ) {
 				// Saved selection may be outdated (e.g. anchored in offline nodes).
 				// Avoid getting broken by such.
-				var common = selectedElement || ranges[ 0 ].getCommonAncestor();
+				var common = selectedElement || ranges[ 0 ] && ranges[ 0 ].getCommonAncestor();
 				if ( !( common && common.getAscendant( 'body', 1 ) ) )
 					return;
 

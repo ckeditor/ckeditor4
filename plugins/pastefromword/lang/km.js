@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'km', {
-	confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
-	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
-	title: 'ចំលងដាក់ពី Word',
-	toolbar: 'ចំលងដាក់ពី Word'
+	confirmCleanup: 'អត្ថបទ​ដែល​អ្នក​ចង់​បិទ​ភ្ជាប់​នេះ ទំនង​ដូច​ជា​ចម្លង​មក​ពី Word។ តើ​អ្នក​ចង់​សម្អាត​វា​មុន​បិទ​ភ្ជាប់​ទេ?',
+	error: 'ដោយ​សារ​មាន​បញ្ហា​ផ្នែក​ក្នុង​ធ្វើ​ឲ្យ​មិន​អាច​សម្អាត​ទិន្នន័យ​ដែល​បាន​បិទ​ភ្ជាប់',
+	title: 'បិទ​ភ្ជាប់​ពី Word',
+	toolbar: 'បិទ​ភ្ជាប់​ពី Word'
 });

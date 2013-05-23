@@ -17,7 +17,8 @@
 			var sHTML,
 				config = editor.config,
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
-				isCustomDomain = CKEDITOR.env.isCustomDomain();
+				isCustomDomain = CKEDITOR.env.isCustomDomain(),
+				eventData;
 
 			if ( config.fullPage ) {
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
@@ -56,9 +57,14 @@
 				iLeft = Math.round( screen.width * 0.1 );
 			} catch ( e ) {}
 
+			// (#9907) Allow data manipulation before preview is displayed.
+			// Also don't open the preview window when event cancelled.
+			if ( !editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) )
+				return false;
+
 			var sOpenUrl = '';
 			if ( isCustomDomain ) {
-				window._cke_htmlToLoad = sHTML;
+				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = 'javascript:void( (function(){' +
 					'document.open();' +
 					'document.domain="' + document.domain + '";' +
@@ -71,7 +77,7 @@
 			// With Firefox only, we need to open a special preview page, so
 			// anchors will work properly on it. (#9047)
 			if ( CKEDITOR.env.gecko ) {
-				window._cke_htmlToLoad = sHTML;
+				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = pluginPath + 'preview.html';
 			}
 
@@ -81,7 +87,7 @@
 			if ( !isCustomDomain && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
 				doc.open();
-				doc.write( sHTML );
+				doc.write( eventData.dataValue );
 				doc.close();
 
 				// Chrome will need this to show the embedded. (#8016)
@@ -89,6 +95,8 @@
 					doc.body.innerHTML += '';
 				}, 0 );
 			}
+
+			return true;
 		}
 	};
 
@@ -96,7 +104,7 @@
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 
@@ -115,3 +123,15 @@
 		}
 	});
 })();
+
+/**
+ * Event fired when executing `preview` command, which allows additional data manipulation.
+ * With this event, the raw HTML content of the preview window to be displayed can be altered
+ * or modified.
+ *
+ * @event contentPreview
+ * @member CKEDITOR
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {String} data.dataValue The data that will go to the preview.
+ */
