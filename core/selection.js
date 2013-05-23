@@ -579,7 +579,18 @@
 			delete editor._.fakeSelection;
 			delete editor._.hiddenSelectionContainer;
 			editor.selectionChange( 1 );
-		});
+		} );
+		// When loaded data are ready check whether hidden selection container was not loaded.
+		editor.on( 'loadSnapshot', function() {
+			// TODO replace with el.find() which will be introduced in #9764,
+			// because it may happen that hidden sel container won't be the last element.
+			var el = editor.editable().getLast( function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT;
+			} );
+
+			if ( el && el.hasAttribute( 'data-cke-hidden-sel' ) )
+				el.remove();
+		}, null, null, 100 );
 
 		function clearSelection() {
 			var sel = editor.getSelection();
