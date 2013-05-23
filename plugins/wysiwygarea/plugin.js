@@ -466,7 +466,9 @@
 					var data = fullPage ? doc.getDocumentElement().getOuterHtml() : doc.getBody().getHtml();
 
 					// BR at the end of document is bogus node for Mozilla. (#5293).
-					if ( CKEDITOR.env.gecko )
+					// Prevent BRs from disappearing from the end of the content
+					// while enterMode is ENTER_BR (#10146).
+					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
 					if ( editor.dataProcessor )
