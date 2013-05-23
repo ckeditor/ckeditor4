@@ -242,6 +242,9 @@
 	// Creates cke_hidden_sel container and puts real selection there.
 	function hideSelection( editor ) {
 		var hiddenEl = CKEDITOR.dom.element.createFromHtml( '<div class="cke_hidden_sel" data-cke-hidden-sel="1" data-cke-temp="1">&nbsp;</div>' );
+
+		editor.fire( 'lockSnapshot' );
+
 		editor.editable().append( hiddenEl );
 
 		var sel = editor.getSelection(),
@@ -257,6 +260,8 @@
 
 		listener.removeListener();
 
+		editor.fire( 'unlockSnapshot' );
+
 		// Set this value at the end, so reset() executed by selectRanges()
 		// will clean up old hidden selection container.
 		editor._.hiddenSelectionContainer = hiddenEl;
@@ -265,8 +270,12 @@
 	function removeHiddenSelectionContainer( editor ) {
 		var hiddenEl = editor._.hiddenSelectionContainer;
 
-		if ( hiddenEl )
+		if ( hiddenEl ) {
+			editor.fire( 'lockSnapshot' );
 			hiddenEl.remove();
+			editor.fire( 'unlockSnapshot' );
+		}
+
 		delete editor._.hiddenSelectionContainer;
 	}
 
