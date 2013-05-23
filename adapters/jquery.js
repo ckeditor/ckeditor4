@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 */
 		ckeditor: function( callback, config ) {
 			if ( !CKEDITOR.env.isCompatible )
-				return this;
+				throw new Error( 'Environment is incompatible.' );
 
 			if ( !jQuery.isFunction( callback )) {
 				var tmp = config;
@@ -134,16 +134,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					try {
-						if( jQuery( this ).is( "textarea" ) ) {
-							editor = CKEDITOR.replace( element, config );
-						} else {
-							editor = CKEDITOR.inline( element, config );
-						}
-					} catch( err ) { // to catch wrong element types
-						console.error( err.message );
-						return this;
+					if( jQuery( this ).is( "textarea" ) ) {
+						editor = CKEDITOR.replace( element, config );
+					} else {
+						editor = CKEDITOR.inline( element, config );
 					}
+
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
