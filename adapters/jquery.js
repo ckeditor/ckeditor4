@@ -239,47 +239,31 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	});
 
 	// New val() method for objects.
+	/**
+	 * CKEditor-aware val() method.
+	 *
+	 * Acts same as original jQuery val(), but for textareas which have CKEditor instances binded to them, method
+	 * returns editor's content. It also works for settings values.
+	 *
+	 * @param oldValMethod
+	 * @name jQuery.fn.val
+	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
-		jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod ) {
-			/**
-			 * CKEditor-aware val() method.
-			 *
-			 * Acts same as original jQuery val(), but for textareas which have CKEditor instances binded to them, method
-			 * returns editor's content. It also works for settings values.
-			 *
-			 * @param oldValMethod
-			 * @name jQuery.fn.val
-			 */
-			return function( newValue, forceNative ) {
-				var isSetter = typeof newValue != 'undefined',
-					result;
+		jQuery.valHooks[ 'textarea' ] = {
+			get: function( elem ) {
+				var $this = jQuery( elem ),
+					editor = $this.data( 'ckeditorInstance' );
 
-				this.each( function() {
-					var $this = jQuery( this ),
-						editor = $this.data( 'ckeditorInstance' );
+				if ( editor )
+					return editor.getData();
+			},
+			set: function( elem, value ) {
+				var $this = jQuery( elem ),
+					editor = $this.data( 'ckeditorInstance' );
 
-					if ( !forceNative && $this.is( 'textarea' ) && editor ) {
-						if ( isSetter )
-							editor.setData( newValue );
-						else {
-							result = editor.getData();
-							// break;
-							return null;
-						}
-					} else {
-						if ( isSetter )
-							oldValMethod.call( $this, newValue );
-						else {
-							result = oldValMethod.call( $this );
-							// break;
-							return null;
-						}
-					}
-
-					return true;
-				});
-				return isSetter ? this : result;
-			};
-		});
+				if ( editor )
+					editor.setData( value );
+			}
+		};
 	}
 })();
