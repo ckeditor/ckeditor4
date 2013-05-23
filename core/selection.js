@@ -289,7 +289,7 @@
 				handled;
 
 			if ( handler )
-				handled = handler( evt, sel, element );
+				handled = handler( { editor: editor, selected: element, selection: sel, keyEvent: evt } );
 
 			if ( !handled ) {
 				evt.data.preventDefault();
