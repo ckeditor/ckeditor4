@@ -1279,7 +1279,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						'</body></html>',
 						'<script>',
 							// Support for custom document.domain in IE.
-							CKEDITOR.env.ie ? '<script>(' + CKEDITOR.tools.fixDomain + ')();</script>' : '',
+							CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
 
 							'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
 							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
