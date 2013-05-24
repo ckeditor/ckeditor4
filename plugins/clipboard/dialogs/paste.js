@@ -5,7 +5,6 @@
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
 	var lang = editor.lang.clipboard;
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -130,12 +129,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' :
-							isCustomDomain ?
-								'javascript:void((function(){' +
+							CKEDITOR.env.ie ?
+								'javascript:void((function(){' + encodeURIComponent(
 									'document.open();' +
-									'document.domain=\'' + document.domain + '\';' +
-									'document.close();' +
-								'})())"'
+									'(' + CKEDITOR.tools.fixDomain + ')();' +
+									'document.close();'
+								) + '})())"'
 							: '';
 
 					var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
