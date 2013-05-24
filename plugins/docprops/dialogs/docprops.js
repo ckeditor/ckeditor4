@@ -146,13 +146,12 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 			};
 		};
 	var previewSrc = 'javascript:' +
-		'void((function(){' +
-			encodeURIComponent( 'document.open();' +
-		( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\';' : '' ) +
-		'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
-		'document.close();'
-		) +
-		'})())';
+		'void((function(){' + encodeURIComponent(
+			'document.open();' +
+			( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
+			'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
+			'document.close();'
+		) + '})())';
 
 	return {
 		title: lang.title,
