@@ -261,7 +261,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		this.$.open( 'text/html', 'replace' );
 
 		// Support for custom document.domain in IE.
-		CKEDITOR.env.isCustomDomain() && ( this.$.domain = document.domain );
+		if ( CKEDITOR.env.ie ) {
+			html = '<script>(' + CKEDITOR.tools.fixDomain + ')();</script>' + html;
+		}
 
 		this.$.write( html );
 		this.$.close();
