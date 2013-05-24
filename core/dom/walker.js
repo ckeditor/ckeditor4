@@ -447,6 +447,26 @@
 		};
 	};
 
+	/**
+	 * Whether the to-be-evaluated node is a temporary element
+	 * (element with `data-cke-temp` attribute) or its child.
+	 *
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * temporary element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.temp = function( isReject ) {
+		return function( node ) {
+			if ( node.type != CKEDITOR.NODE_ELEMENT )
+				node = node.getParent();
+
+			var isTemp = node && node.hasAttribute( 'data-cke-temp' );
+
+			return !!( isReject ^ isTemp );
+		};
+	};
+
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
 		isWhitespaces = CKEDITOR.dom.walker.whitespaces(),
 		isBookmark = CKEDITOR.dom.walker.bookmark(),
