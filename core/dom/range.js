@@ -1929,12 +1929,12 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the previous element before the range start.
+		 *
 		 * @param {Function} evaluator Function used as the walker's evaluator.
 		 * @param {Function} [guard] Function used as the walker's guard.
 		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
 		 * default to the root editable if not defined.
-		 *
-		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
+		 * @returns {CKEDITOR.dom.element/null} The returned node from the traversal.
 		 */
 		getPreviousNode : function( evaluator, guard, boundary ) {
 			var walkerRange = this.clone();
@@ -1949,12 +1949,12 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the next element before the range start.
+		 *
 		 * @param {Function} evaluator Function used as the walker's evaluator.
 		 * @param {Function} [guard] Function used as the walker's guard.
 		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
 		 * default to the root editable if not defined.
-		 *
-		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
+		 * @returns {CKEDITOR.dom.element/null} The returned node from the traversal.
 		 */
 		getNextNode: function( evaluator, guard, boundary ) {
 			var walkerRange = this.clone();
@@ -2091,26 +2091,56 @@ CKEDITOR.dom.range = function( root ) {
 		 * element.
 		 *
 		 * For example, if the start element has `id="start"`,
-		 * `<p><b><i>italic</i></b><span id="start">start</start></p>`, the closest previous editing point is
-		 * `<p><b><i>italic^</i></b><span id="start">start</start></p>` (at the end of `<i>`).
+		 * `<p><b>foo</b><span id="start">start</start></p>`, the closest previous editing point is
+		 * `<p><b>foo</b>^<span id="start">start</start></p>` (between `<b>` and `<span>`).
 		 *
-		 * See: {@link #moveToElementEditablePosition}.
+		 * See also: {@link #moveToElementEditablePosition}.
 		 *
-		 * @param {CKEDITOR.dom.element} el The starting element.
+		 * @param {CKEDITOR.dom.element} element The starting element.
 		 * @param {Boolean} isMoveToEnd Whether move to the end of editable. Otherwise, look back.
 		 * @returns {Boolean} Whether the range was moved.
 		 */
-		moveToClosestEditablePosition: function( node, isMoveToEnd ) {
-			var sibling;
+		moveToClosestEditablePosition: function( element, isMoveToEnd ) {
+			// We don't want to modify original range if there's no editable position.
+			var range = new CKEDITOR.dom.range( this.root ),
+				found = 0,
+				sibling,
+				positions = [ CKEDITOR.POSITION_AFTER_END, CKEDITOR.POSITION_BEFORE_START ];
 
-			do {
-				while ( ( sibling = node[ isMoveToEnd ? 'getNext' : 'getPrevious' ]( nonIgnoredEval ) ) ) {
-					if ( this.moveToElementEditablePosition( sibling, !isMoveToEnd ) )
-						return true;
+			// Set collapsed range at one of ends of element.
+			range.moveToPosition( element, positions[ isMoveToEnd ? 0 : 1 ] );
+
+			// Start element isn't a block, so we can automatically place range
+			// next to it.
+			if ( !element.is( CKEDITOR.dtd.$block ) )
+				found = 1;
+			else {
+				// Look for first node that fulfills eval function
+				// and place range next to it.
+				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( eval );
+				if ( sibling ) {
+					found = 1;
+					range.moveToPosition( sibling, positions[ isMoveToEnd ? 1 : 0 ] );
 				}
-			} while ( ( node = node.getParent() ) && !node.equals( this.root ) );
+			}
 
-			return false;
+			if ( found )
+				this.moveToRange( range );
+
+			return !!found;
+
+			function eval( node ) {
+				return (
+					!node.isReadOnly() &&		// Skip non-editable elements and theirs content.
+					!tempEval( node ) &&		// Skip temporary elements.
+					!bookmarkEval( node ) &&	// Skip bookmarks.
+					// Only text nodes and non-block non-intermediate elements matches.
+					(
+						node.type == CKEDITOR.NODE_TEXT ||
+						node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$block ) && !node.is( CKEDITOR.dtd.$intermediate )
+					)
+				);
+			}
 		},
 
 		/**
