@@ -20,15 +20,8 @@
 
 			editor.addMode( 'wysiwyg', function( callback ) {
 				var src = 'document.open();' +
-				// The document domain must be set any time we call document.open().
-				//
-				// (#10165) Temp: If document.domain was touched in IE>8,
-				// use config.forceCustomDomain to fix access denied issue.
-				( isCustomDomain || ( CKEDITOR.env.ie && editor.config.forceCustomDomain ) ?
-						( 'document.domain="' + document.domain + '";' )
-					:
-						''
-				) +
+					// In IE, the document domain must be set any time we call document.open().
+					( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
 					'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
@@ -106,9 +99,6 @@
 			});
 		}
 	});
-
-	// Support for custom document.domain in IE.
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 	function onDomReady( win ) {
 		var editor = this.editor,
@@ -417,7 +407,7 @@
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 					var bootstrapCode =
 						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
-							( isCustomDomain || ( CKEDITOR.env.ie && config.forceCustomDomain ) ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+							( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
 							'function onload(){' +
 								'if(!wasLoaded)' +	// FF3.6 calls onload twice when editor.setData. Stop that.

@@ -592,9 +592,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 						_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
 
-						// Support for custom document.domain in IE.
-						var isCustomDomain = CKEDITOR.env.isCustomDomain();
-
 						var html = [
 							'<iframe' +
 								' frameborder="0"' +
@@ -605,11 +602,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 								' title="', elementDefinition.label, '"' +
 								' src="javascript:void(' ];
 
-						html.push( isCustomDomain || ( CKEDITOR.env.ie && dialog._.editor.config.forceCustomDomain ) ? '(function(){' +
-							'document.open();' +
-							'document.domain=\'' + document.domain + '\';' +
-							'document.close();' +
-							'})()'
+						// Support for custom document.domain on IE. (#10165)
+						html.push( CKEDITOR.env.ie ?
+							'(function(){' + encodeURIComponent(
+								'document.open();' +
+								'(' + CKEDITOR.tools.fixDomain + ')();' +
+								'document.close();'
+							) + '})()'
 							:
 							'0' );
 
@@ -1256,39 +1255,36 @@ CKEDITOR.plugins.add( 'dialogui', {
 				function generateFormField() {
 					frameDocument.$.open();
 
-					// Support for custom document.domain in IE.
-					if ( CKEDITOR.env.isCustomDomain() )
-						frameDocument.$.domain = document.domain;
-
 					var size = '';
 					if ( elementDefinition.size )
 						size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 ); // "Browse" button is bigger in IE.
 
-				var inputId = _.frameId + '_input';
+					var inputId = _.frameId + '_input';
 
-					var script = CKEDITOR.env.isCustomDomain() || ( CKEDITOR.env.ie && _.dialog._.editor.config.forceCustomDomain ) ?
-							'<script type="text/javascript">document.domain="' + document.domain + '"</script>'
-						:
-							'';
+					frameDocument.$.write( [
+						'<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
+							'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
+								CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+							'">',
+								// Replicate the field label inside of iframe.
+								'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
+									CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+								'</label>',
+								'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
+									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+									'" size="',
+									CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
+								'" />',
+							'</form>',
+						'</body></html>',
+						'<script>',
+							// Support for custom document.domain in IE.
+							CKEDITOR.env.ie ? '<script>(' + CKEDITOR.tools.fixDomain + ')();</script>' : '',
 
-					frameDocument.$.write( [ '<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
-														'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
-														CKEDITOR.tools.htmlEncode( elementDefinition.action ),
-														'">',
-													// Replicate the field label inside of iframe.
-																	'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
-													CKEDITOR.tools.htmlEncode( elementDefinition.label ),
-													'</label>',
-													'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
-														CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
-														'" size="',
-														CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
-														'" />',
-														'</form>',
-														'</body></html>',
-														script,
-														'<script>window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
-														'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}</script>' ].join( '' ) );
+							'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
+							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
+						'</script>'
+					].join( '' ) );
 
 					frameDocument.$.close();
 
