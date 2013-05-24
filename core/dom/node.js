@@ -706,7 +706,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		// For the following HTML:
 	 *		// <div contenteditable="false">Some <b>text</b></div>
 	 *
-	 *		// If "ele" is the above <div>
+	 *		// If "element" is the above <div>.
 	 *		element.isReadOnly(); // true
 	 *
 	 * @since 3.5
