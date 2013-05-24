@@ -394,11 +394,12 @@ CKEDITOR.dom.range = function( root ) {
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
 		bookmarkEval = new CKEDITOR.dom.walker.bookmark(),
+		tempEval = new CKEDITOR.dom.walker.temp(),
 		nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
-	function nonWhitespaceOrBookmarkEval( node ) {
-		// Whitespaces and bookmark nodes are to be ignored.
-		return !whitespaceEval( node ) && !bookmarkEval( node );
+	function nonIgnoredEval( node ) {
+		// Whitespaces, bookmark nodes and temp nodes are to be ignored.
+		return !whitespaceEval( node ) && !bookmarkEval( node ) && !tempEval( node );
 	}
 
 	CKEDITOR.dom.range.prototype = {
@@ -2018,10 +2019,10 @@ CKEDITOR.dom.range = function( root ) {
 				var next;
 
 				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isEditable( false ) )
-					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonWhitespaceOrBookmarkEval );
+					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonIgnoredEval );
 
 				if ( !childOnly && !next )
-					next = node[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonWhitespaceOrBookmarkEval );
+					next = node[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonIgnoredEval );
 
 				return next;
 			}
