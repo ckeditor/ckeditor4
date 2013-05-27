@@ -2117,8 +2117,7 @@ CKEDITOR.dom.range = function( root ) {
 			function eval( node ) {
 				return (
 					!node.isReadOnly() &&		// Skip non-editable elements and theirs content.
-					!tempEval( node ) &&		// Skip temporary elements.
-					!bookmarkEval( node ) &&	// Skip bookmarks.
+					nonIgnoredEval( node ) &&	// Skip temporary elements, bookmarks and whitespaces.
 					// Only text nodes and non-block non-intermediate elements matches.
 					(
 						node.type == CKEDITOR.NODE_TEXT ||
