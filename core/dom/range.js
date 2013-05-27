@@ -2105,7 +2105,16 @@ CKEDITOR.dom.range = function( root ) {
 				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( eval );
 				if ( sibling ) {
 					found = 1;
-					range.moveToPosition( sibling, positions[ isMoveToEnd ? 1 : 0 ] );
+
+					// Special case - eval accepts block element only if it's a non-editable block,
+					// which we want to select, not place collapsed selection next to it (which browsers
+					// can't handle).
+					if ( sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( CKEDITOR.dtd.$block ) ) {
+						range.setStartAt( sibling, CKEDITOR.POSITION_BEFORE_START );
+						range.setEndAt( sibling, CKEDITOR.POSITION_AFTER_END );
+					}
+					else
+						range.moveToPosition( sibling, positions[ isMoveToEnd ? 1 : 0 ] );
 				}
 			}
 
@@ -2114,14 +2123,21 @@ CKEDITOR.dom.range = function( root ) {
 
 			return !!found;
 
+			// Returns true for:
+			// * text nodes
+			// * non-block, non-intermediate elements
+			// * non-editable blocks
 			function eval( node ) {
 				return (
-					!node.isReadOnly() &&		// Skip non-editable elements and theirs content.
-					nonIgnoredEval( node ) &&	// Skip temporary elements, bookmarks and whitespaces.
-					// Only text nodes and non-block non-intermediate elements matches.
+					// Skip temporary elements, bookmarks and whitespaces.
+					nonIgnoredEval( node ) &&
 					(
 						node.type == CKEDITOR.NODE_TEXT ||
-						node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$block ) && !node.is( CKEDITOR.dtd.$intermediate )
+						(
+							node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$intermediate ) &&
+							// If it is a block, it needs to be non-editable (special case - see above).
+							( node.is( CKEDITOR.dtd.$block ) ? node.getAttribute( 'contenteditable' ) == 'false' : true )
+						)
 					)
 				);
 			}
