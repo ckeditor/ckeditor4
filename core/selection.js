@@ -284,8 +284,11 @@
 	}
 
 	function addFakeSelectionKeystrokeHandlers( sel, editor, element, handlers ) {
+		// Add default handlers (left, up, right, down).
+		handlers = CKEDITOR.tools.extend( handlers || {}, defaultFakeSelectionKeystrokeHandlers );
+
 		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
-			var handler = handlers && handlers[ evt.data.getKeystroke() ],
+			var handler = handlers[ evt.data.getKeystroke() ],
 				handled;
 
 			if ( handler )
@@ -298,6 +301,29 @@
 			}
 		}, null, null, -100 );
 	}
+
+	var defaultFakeSelectionKeystrokeHandlers = (function() {
+		function leave( right ) {
+			return function( evt ) {
+				var range = evt.editor.createRange();
+
+				// Move selection only if there's a editable place for it.
+				// It no, then do nothing (keystroke will be blocked, widget selection kept).
+				if ( range.moveToClosestEditablePosition( evt.selected, right ) )
+					evt.editor.getSelection().selectRanges( [ range ] );
+			}
+		}
+
+		var leaveLeft = leave(),
+			leaveRight = leave( 1 );
+
+		return {
+			'37': leaveLeft,	// LEFT
+			'38': leaveLeft,	// UP
+			'39': leaveRight,	// RIGHT
+			'40': leaveRight	// DOWN
+		};
+	})();
 
 	// Hide hidden selection container.
 	CKEDITOR.addCss(
