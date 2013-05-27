@@ -1650,6 +1650,17 @@
 				return;
 			}
 
+			// Handle special case - automatic fake selection on non-editable elements.
+			var enclosed;
+			if (
+				ranges.length == 1 && !ranges[ 0 ].collapsed &&
+				( enclosed = ranges[ 0 ].getEnclosedNode() ) &&
+				enclosed.type == CKEDITOR.NODE_ELEMENT && enclosed.getAttribute( 'contenteditable' ) == 'false'
+			) {
+				this.fake( enclosed );
+				return;
+			}
+
 			if ( isMSSelection ) {
 				var notWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 					fillerTextRegex = /\ufeff|\u00a0/,
