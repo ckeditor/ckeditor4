@@ -2014,6 +2014,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} Whether range was moved.
 		 */
 		moveToElementEditablePosition: function( el, isMoveToEnd ) {
+
 			function nextDFS( node, childOnly ) {
 				var next;
 
@@ -2032,18 +2033,16 @@ CKEDITOR.dom.range = function( root ) {
 				return true;
 			}
 
-			var found = 0,
-				alreadyPickedNext = 0,
-				moveTo = 0;
+			var found = 0;
 
 			while ( el ) {
 				// Stop immediately if we've found a text node.
 				if ( el.type == CKEDITOR.NODE_TEXT ) {
 					// Put cursor before block filler.
 					if ( isMoveToEnd && this.endContainer && this.checkEndOfBlock() && nbspRegExp.test( el.getText() ) )
-						moveTo = [ el, CKEDITOR.POSITION_BEFORE_START ];
+						this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
 					else
-						moveTo = [ el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START ];
+						this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_AFTER_END : CKEDITOR.POSITION_BEFORE_START );
 					found = 1;
 					break;
 				}
@@ -2051,37 +2050,16 @@ CKEDITOR.dom.range = function( root ) {
 				// If an editable element is found, move inside it, but not stop the searching.
 				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
 					if ( el.isEditable() ) {
-						moveTo = [ el, isMoveToEnd ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_AFTER_START ];
+						this.moveToPosition( el, isMoveToEnd ? CKEDITOR.POSITION_BEFORE_END : CKEDITOR.POSITION_AFTER_START );
 						found = 1;
 					}
 					// Put cursor before padding block br.
 					else if ( isMoveToEnd && el.is( 'br' ) && this.endContainer && this.checkEndOfBlock() )
-						moveTo = [ el, CKEDITOR.POSITION_BEFORE_START ];
-					// Found non-editable block element - skip it. E.g.:
-					// Instead here (el==DIV):
-					// <div>^<DIV contenteditable="false">foo</div>bar</div>
-					// Go here (el==BAR):
-					// <div><div contenteditable="false">foo</div>^BAR</div>
-					// But this is ok (el==SPAN):
-					// <div>^<SPAN contenteditable="false">foo</span>bar</div>
-					else if ( el.getAttribute( 'contentEditable' ) == 'false' && el.is( CKEDITOR.dtd.$block ) ) {
-						alreadyPickedNext = 1;
-						// We'll scan next subtree, so we're starting from the beginning.
-						found = 0;
-						el = el[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonIgnoredEval );
-					}
-
+						this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
 				}
 
-				if ( !alreadyPickedNext )
-					el = nextDFS( el, found );
-				else
-					alreadyPickedNext = 0;
+				el = nextDFS( el, found );
 			}
-
-			// Move the range only if found editable place.
-			if ( found && moveTo )
-				this.moveToPosition.apply( this, moveTo );
 
 			return !!found;
 		},
