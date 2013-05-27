@@ -118,14 +118,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="cke cke_reset_all {editorId} {editorDialogClass}' +
+	var templateSource = '<div class="cke_reset_all {editorId} {editorDialogClass}' +
 		'" dir="{langDir}"' +
 		' lang="{langCode}"' +
-		' role="application"' +
+		' role="dialog"' +
+		' aria-labelledby="cke_dialog_title_{id}"' +
 		'>' +
 		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' aria-labelledby="cke_dialog_title_{id}"' +
-			' style="position:absolute" role="dialog">' +
+			' style="position:absolute" role="presentation">' +
 			'<tr><td role="presentation">' +
 			'<div class="cke_dialog_body" role="presentation">' +
 				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
