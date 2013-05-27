@@ -2056,6 +2056,13 @@ CKEDITOR.dom.range = function( root ) {
 					// Put cursor before padding block br.
 					else if ( isMoveToEnd && el.is( 'br' ) && this.endContainer && this.checkEndOfBlock() )
 						this.moveToPosition( el, CKEDITOR.POSITION_BEFORE_START );
+					// Special case - non-editable block. Select entire element, because it does not make sense
+					// to place collapsed selection next to it, because browsers can't handle that.
+					else if ( el.getAttribute( 'contenteditable' ) == 'false' && el.is( CKEDITOR.dtd.$block ) ) {
+						this.setStartBefore( el );
+						this.setEndAfter( el );
+						return true;
+					}
 				}
 
 				el = nextDFS( el, found );
