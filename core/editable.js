@@ -1619,8 +1619,9 @@
 				element = element.getParent();
 			}
 
-			// "$$" in replacement means a single "$" (#10367).
-			return wrapper.getOuterHtml().replace( '{cke-peak}', data.replace( /\$/g, '$$$$' ) );
+			// Don't use String.replace because it fails in IE7 if special replacement
+			// characters ($$, $&, etc.) are in data (#10367).
+			return wrapper.getOuterHtml().split( '{cke-peak}' ).join( data );
 		}
 
 		return insert;
