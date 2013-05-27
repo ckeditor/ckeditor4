@@ -175,8 +175,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								$element.trigger( 'destroy.ckeditor', [ editor ] );
 							});
 
+							editor.on( 'save', function() {
+								$( element.form ).submit();
+								return false;
+							}, null, null, 9 );
+
 							// Integrate with form submit.
-							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $element.parents( 'form' ).length ) {
+							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $( element.form ).length ) {
 								var onSubmit = function() {
 									$element.ckeditor( function() {
 										editor.updateElement();
@@ -184,15 +189,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								};
 
 								// Bind to submit event.
-								$element.parents( 'form' ).submit( onSubmit );
+								$( element.form ).submit( onSubmit );
 
 								// Bind to form-pre-serialize from jQuery Forms plugin.
-								$element.parents( 'form' ).bind( 'form-pre-serialize', onSubmit );
+								$( element.form ).bind( 'form-pre-serialize', onSubmit );
 
 								// Unbind when editor destroyed.
 								$element.bind( 'destroy.ckeditor', function() {
-									$element.parents( 'form' ).unbind( 'submit', onSubmit );
-									$element.parents( 'form' ).unbind( 'form-pre-serialize', onSubmit );
+									$( element.form ).unbind( 'submit', onSubmit );
+									$( element.form ).unbind( 'form-pre-serialize', onSubmit );
 								});
 							}
 
