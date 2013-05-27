@@ -314,6 +314,31 @@
 			}
 		}
 
+		function del( right ) {
+			return function( evt ) {
+				var editor = evt.editor,
+					range = editor.createRange(),
+					found;
+
+				// If haven't found place for caret on the default side,
+				// try to find it on the other side.
+				if ( !( found = range.moveToClosestEditablePosition( evt.selected, right ) ) )
+					found = range.moveToClosestEditablePosition( evt.selected, !right );
+
+				if ( found )
+					editor.getSelection().selectRanges( [ range ] );
+
+				evt.selected.remove();
+
+				// Haven't found any editable space before removing element,
+				// try to place the caret anywhere (most likely, in empty editable).
+				if ( !found ) {
+					range.moveToElementEditablePosition( editor.editable() );
+					editor.getSelection().selectRanges( [ range ] );
+				}
+			}
+		}
+
 		var leaveLeft = leave(),
 			leaveRight = leave( 1 );
 
@@ -321,7 +346,9 @@
 			'37': leaveLeft,	// LEFT
 			'38': leaveLeft,	// UP
 			'39': leaveRight,	// RIGHT
-			'40': leaveRight	// DOWN
+			'40': leaveRight,	// DOWN
+			'8': del(),			// BACKSPACE
+			'46': del( 1 )		// DELETE
 		};
 	})();
 
