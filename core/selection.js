@@ -646,8 +646,18 @@
 		editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
 		// Check selection change on data reload.
 		editor.on( 'dataReady', function() {
+			// Clean up fake selection after setting data.
 			delete editor._.fakeSelection;
 			delete editor._.hiddenSelectionContainer;
+
+			var listener = editor._.fakeSelectionKeyListener;
+			if ( listener ) {
+				// In inline editor setData keeps editable element, so we need to detach listener.
+				if ( editor.editable().isInline() )
+					listener.removeListener();
+				delete editor._.fakeSelectionKeyListener;
+			}
+
 			editor.selectionChange( 1 );
 		} );
 		// When loaded data are ready check whether hidden selection container was not loaded.
