@@ -166,14 +166,13 @@ CKEDITOR.scriptLoader = (function() {
 		 * @see CKEDITOR.scriptLoader#load
 		 */
 		queue: ( function() {
-			var pending = [],
-				queueStarted = 0;
+			var pending = [];
 
 			// Loads the very first script from queue and removes it.
 			function loadNext() {
 				var script;
 
-				if ( ( script = pending.shift() ) )
+				if ( ( script = pending[ 0 ] ) )
 					this.load( script.scriptUrl, script.callback, CKEDITOR, 0 );
 			}
 
@@ -184,15 +183,18 @@ CKEDITOR.scriptLoader = (function() {
 				// and loads the very next script from pending list.
 				function callbackWrapper() {
 					callback && callback.apply( this, arguments );
+
+					// Removed the just loaded script from the queue.
+					pending.shift();
+
 					loadNext.call( that );
 				};
 
 				// Let's add this script to the queue
 				pending.push( { 'scriptUrl': scriptUrl, 'callback': callbackWrapper } );
 
-				// Start loading scripts in this queue, one-by-one.
-				// It's enough to start	it one, hence queueStarted flag.
-				if ( !queueStarted++ )
+				// If the queue was empty, then start loading.
+				if ( pending.length == 1 )
 					loadNext.call( this );
 			};
 		})()
