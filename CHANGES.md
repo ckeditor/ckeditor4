@@ -7,6 +7,7 @@ CKEditor 4 Changelog
 * [#9761](http://dev.ckeditor.com/ticket/9761): Update BACKSPACE key state in blockedKeystrokes when using editor.setReadOnly().
 * [#10360](http://dev.ckeditor.com/ticket/10360): ARIA role="application" should not be used for dialogs.
 * [#10339](http://dev.ckeditor.com/ticket/10339): Error thrown when inserting custom element.
+* [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: editable#insertText loses characters if RegExp replace controls are inserted.
 
 ## CKEditor 4.1.1
 
