@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 * [#10389](http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
 * [#9761](http://dev.ckeditor.com/ticket/9761): Update BACKSPACE key state in blockedKeystrokes when using editor.setReadOnly().
+* [#10360](http://dev.ckeditor.com/ticket/10360): ARIA role="application" should not be used for dialogs.
 * [#10339](http://dev.ckeditor.com/ticket/10339): Error thrown when inserting custom element.
 
 ## CKEditor 4.1.1
