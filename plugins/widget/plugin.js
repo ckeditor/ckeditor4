@@ -1136,27 +1136,6 @@
 		if ( sel ) {
 			// When there's a selected widget instance.
 			switch ( key ) {
-				// BACKSPACE and DEL
-				case 8:
-				case 46:
-					editor.fire( 'saveSnapshot' );
-
-					range.moveToClosestEditablePosition( sel.wrapper );
-					range.select();
-
-					// Remove the element from the DOM.
-					sel.wrapper.remove();
-
-					// Cleanup the selection pointer.
-					delete editor.widgets.selected;
-
-					// Stop these keys here.
-					evt.cancel();
-					editor.focus();
-
-					editor.fire( 'saveSnapshot' );
-					break;
-
 				case 13:	// RETURN
 					sel.edit && sel.edit();
 					evt.cancel();
@@ -1166,34 +1145,6 @@
 				case CKEDITOR.CTRL + 67:	// CTRL+C
 					copyDataByCopyBin( evt, editor, editable, sel, key );
 					break;
-
-				// De-select selected widget with arrow keys.
-				// Move the caret to the closest focus space according
-				// to which key has been pressed.
-				case 37:	// ARROW LEFT
-				case 39:	// ARROW RIGHT
-				case 38: 	// ARROW UP
-				case 40: 	// ARROW BOTTOM
-					var siblingWidget;
-
-
-					// Firefox needs focus to be called. Otherwise,
-					// it won't move the caret. It looks like it's confused
-					// by the fact, that there are no ranges in editable
-					// when the widget is selected (see: widget.focus()).
-					if ( CKEDITOR.env.gecko )
-						editor.focus();
-
-					if ( siblingWidget = getSiblingWidget( editor, sel.wrapper, key in { 39:1, 40:1 } ) ) {
-						siblingWidget.select();
-					}
-					else if ( range.moveToClosestEditablePosition( sel.wrapper, key in { 39:1, 40:1 } ) ) {
-						range.select();
-						sel.blur();
-					}
-
-					// Always cancel this kind of keyboard event if widget is selected.
-					evt.cancel();
 			}
 		}
 		else {
