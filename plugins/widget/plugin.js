@@ -629,49 +629,7 @@
 			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
 			this.fire(  selected ? 'select' : 'deselect' );
 			return this;
-		},
-
-		/* TMP
-		// Since webkit (also FF) destroys the selection when pasting a widget (only a widget,
-		// NOTHING more), we can detect this case since we marked such widget with
-		// an attribute. We restore the caret after the widget once it is ready and
-		// remove the attribute so it looks pretty much like a regular, non-pathological paste.
-		setupPasted: function() {
-			if ( this.element.hasAttribute( 'data-widget-cbin-direct' ) ) {
-				var range = new CKEDITOR.dom.range( this.editor.document ),
-					siblingWidget;
-
-				// If there's a widget right after this one, we cannot move the caret after it.
-				// Select this widget in such case.
-				if ( getSiblingWidget( this.editor, this.wrapper, 1 ) )
-					this.select();
-
-				// Also if, somehow, there's no space to move caret (i.e. first and only child
-				// of editable), basically select this widget.
-				else if ( !range.moveToClosestEditablePosition( this.wrapper, 1 ) )
-					this.select();
-
-				// If there's a possibility to move the caret, let's do it.
-				else
-					range.select();
-
-				// Clean-up the mess we did. The better is, the less attributes we have.
-				this.element.removeAttribute( 'data-widget-cbin-direct' );
-
-				this.editor.widgets.fire( 'widgetSetupPasted', this );
-			}
-		},
-
-		// If the widget has an appropriate attribute, i.e. it was selected when
-		// being deleted, this attribute allows re-selecting it on undo.
-		setupSelected: function() {
-			if ( this.element.hasAttribute( 'data-widget-selected' ) ) {
-				this.element.removeAttribute( 'data-widget-selected' );
-				this.editor.widgets.fire( 'widgetSetupSelected', this );
-				this.select();
-			}
 		}
-		*/
 	};
 
 	CKEDITOR.event.implementOn( Widget.prototype );
@@ -1590,10 +1548,6 @@
 		setupParts( widget );
 		// setupEditables( widget );
 		// setupMask( widget );
-
-		// TODO should be executed on paste/undo/redo only.
-		// this.setupSelected();
-		// this.setupPasted();
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
 	}
