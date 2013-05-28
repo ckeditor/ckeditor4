@@ -133,6 +133,13 @@ Special outer level classes used in this file:
 	white-space: normal;
 }
 
+/* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+.cke_browser_ios .cke_contents
+{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
 .cke_resizer
