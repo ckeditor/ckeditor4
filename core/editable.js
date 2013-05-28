@@ -1012,7 +1012,6 @@
 			// If data has been totally emptied after the filtering,
 			// any insertion is pointless (#10339).
 			if ( data && processDataForInsertion( that, data ) ) {
-
 				// DATA INSERTION
 				insertDataIntoRange( that );
 			}
