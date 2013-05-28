@@ -546,8 +546,8 @@
 		 * Focuses widget by selecting it.
 		 */
 		focus: function() {
-			if ( !this.editor.focusManager.hasFocus )
-				this.editor.focus();
+			// Always focus editor (not only when focusManger.hasFocus is false) (because of #10483).
+			this.editor.focus();
 
 			var sel = this.editor.getSelection();
 			if ( sel )
