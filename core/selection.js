@@ -285,7 +285,7 @@
 
 	function addFakeSelectionKeystrokeHandlers( sel, editor, element, handlers ) {
 		// Add default handlers (left, up, right, down).
-		handlers = CKEDITOR.tools.extend( handlers || {}, defaultFakeSelectionKeystrokeHandlers );
+		handlers = CKEDITOR.tools.extend( getFakeSelectionDefaultKeystrokeHandlers(), handlers || {}, true );
 
 		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
 			var handler = handlers[ evt.data.getKeystroke() ],
@@ -302,7 +302,7 @@
 		}, null, null, -100 );
 	}
 
-	var defaultFakeSelectionKeystrokeHandlers = (function() {
+	var getFakeSelectionDefaultKeystrokeHandlers = (function() {
 		function leave( right ) {
 			return function( evt ) {
 				var range = evt.editor.createRange();
@@ -342,13 +342,15 @@
 		var leaveLeft = leave(),
 			leaveRight = leave( 1 );
 
-		return {
-			'37': leaveLeft,	// LEFT
-			'38': leaveLeft,	// UP
-			'39': leaveRight,	// RIGHT
-			'40': leaveRight,	// DOWN
-			'8': del(),			// BACKSPACE
-			'46': del( 1 )		// DELETE
+		return function() {
+			return {
+				'37': leaveLeft,	// LEFT
+				'38': leaveLeft,	// UP
+				'39': leaveRight,	// RIGHT
+				'40': leaveRight,	// DOWN
+				'8': del(),			// BACKSPACE
+				'46': del( 1 )		// DELETE
+			};
 		};
 	})();
 
