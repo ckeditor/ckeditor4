@@ -472,10 +472,6 @@
 			}
 			*/
 
-			// On Gecko we need to focus wrapper in order to catch blur when blurring editor.
-			if ( CKEDITOR.env.gecko )
-				editor.focusManager.remove( this.wrapper );
-
 			if ( !offline ) {
 				this.element.removeAttribute( 'data-widget-data' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
@@ -550,10 +546,7 @@
 		 * Focuses widget by selecting it.
 		 */
 		focus: function() {
-			// On Gecko we need to focus wrapper in order to catch blur on editor blur.
-			if ( CKEDITOR.env.gecko )
-				this.wrapper.focus();
-			else if ( !this.editor.focusManager.hasFocus )
+			if ( !this.editor.focusManager.hasFocus )
 				this.editor.focus();
 
 			var sel = this.editor.getSelection();
@@ -1674,9 +1667,6 @@
 		// Retrieve widget wrapper. Assign an id to it.
 		var wrapper = widget.wrapper = widget.element.getParent();
 		wrapper.setAttribute( 'data-widget-id', widget.id );
-
-		if ( CKEDITOR.env.gecko )
-			widget.editor.focusManager.add( wrapper );
 	}
 
 	function writeDataToElement( widget ) {
