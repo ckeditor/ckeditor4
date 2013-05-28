@@ -8,6 +8,7 @@ CKEditor 4 Changelog
 * [#10360](http://dev.ckeditor.com/ticket/10360): ARIA role="application" should not be used for dialogs.
 * [#10339](http://dev.ckeditor.com/ticket/10339): Error thrown when inserting custom element.
 * [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: editable#insertText loses characters if RegExp replace controls are inserted.
+* [#10146](http://dev.ckeditor.com/ticket/10146): [Firefox] Empty lines are being removed while config#enterMode is ENTER_BR.
 
 ## CKEditor 4.1.1
 
