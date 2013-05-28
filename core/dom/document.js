@@ -265,11 +265,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		// The script must be appended because if placed before the
 		// doctype, IE will go into quirks mode and mess with
 		// the editable, e.g. by changing its default height.
-		//
-		// Possible refac to be done: The doctype to be detected (i.e. regex)
-		// and the script to be placed next to it.
 		if ( CKEDITOR.env.ie )
-			html += '<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>';
+			html = html.replace( /(?:^\s*<!DOCTYPE[^>]*?>)|^/i, '$&\n<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>' );
 
 		this.$.write( html );
 		this.$.close();
