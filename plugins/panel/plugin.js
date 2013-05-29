@@ -267,7 +267,8 @@
 				attributes: {
 					'tabIndex': -1,
 					'class': 'cke_panel_block',
-					'role': 'presentation'
+					'role': 'presentation',
+					'tabindex': 0
 				},
 				styles: {
 					display: 'none'

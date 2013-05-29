@@ -13,6 +13,7 @@ CKEditor 4 Changelog
 * [#10298](http://dev.ckeditor.com/ticket/10298): Data processor breaks attributes containing protected parts.
 * [#9945](http://dev.ckeditor.com/ticket/9945): [iOS] Scrolling not possible on iPad.
 * [#10165](http://dev.ckeditor.com/ticket/10165): [IE] Access denied error if document.domain has been altered.
+* [#10361](http://dev.ckeditor.com/ticket/10361): ARIA role="application" should not be used for floating panels.
 
 ## CKEditor 4.1.1
 
