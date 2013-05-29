@@ -250,7 +250,9 @@
 				editor.fireOnce( 'customConfigLoaded' );
 		} else {
 			// Load the custom configuration file.
-			CKEDITOR.scriptLoader.load( customConfig, function() {
+			// To resolve customConfig race conflicts, use scriptLoader#queue
+			// instead of scriptLoader#load (#6504).
+			CKEDITOR.scriptLoader.queue( customConfig, function() {
 				// If the CKEDITOR.editorConfig function has been properly
 				// defined in the custom configuration file, cache it.
 				if ( CKEDITOR.editorConfig )
