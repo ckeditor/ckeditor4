@@ -676,7 +676,7 @@
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
 				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 ) {
-					fullAttr = fullAttr.slice( 1 );  // Strip the space.
+					fullAttr = fullAttr.slice( 1 ); // Strip the space.
 					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rnd + '-' + fullAttr;
 				}
 

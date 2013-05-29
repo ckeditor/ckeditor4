@@ -165,7 +165,7 @@ CKEDITOR.scriptLoader = (function() {
 		 *
 		 * @see CKEDITOR.scriptLoader#load
 		 */
-		queue: ( function() {
+		queue: (function() {
 			var pending = [];
 
 			// Loads the very first script from queue and removes it.
@@ -191,7 +191,7 @@ CKEDITOR.scriptLoader = (function() {
 				};
 
 				// Let's add this script to the queue
-				pending.push( { 'scriptUrl': scriptUrl, 'callback': callbackWrapper } );
+				pending.push( { scriptUrl: scriptUrl, callback: callbackWrapper } );
 
 				// If the queue was empty, then start loading.
 				if ( pending.length == 1 )
