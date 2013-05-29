@@ -9,6 +9,7 @@ CKEditor 4 Changelog
 * [#10339](http://dev.ckeditor.com/ticket/10339): Error thrown when inserting custom element.
 * [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: editable#insertText loses characters if RegExp replace controls are inserted.
 * [#10146](http://dev.ckeditor.com/ticket/10146): [Firefox] Empty lines are being removed while config#enterMode is ENTER_BR.
+* [#6504](http://dev.ckeditor.com/ticket/6504): Resolved race condition while loading several customConfig files.
 
 ## CKEditor 4.1.1
 
