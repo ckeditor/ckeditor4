@@ -12,6 +12,7 @@ CKEditor 4 Changelog
 * [#6504](http://dev.ckeditor.com/ticket/6504): Resolved race condition while loading several customConfig files.
 * [#10298](http://dev.ckeditor.com/ticket/10298): Data processor breaks attributes containing protected parts.
 * [#9945](http://dev.ckeditor.com/ticket/9945): [iOS] Scrolling not possible on iPad.
+* [#10165](http://dev.ckeditor.com/ticket/10165): [IE] Access denied error if document.domain has been altered.
 
 ## CKEditor 4.1.1
 

@@ -17,7 +17,6 @@
 			var sHTML,
 				config = editor.config,
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
-				isCustomDomain = CKEDITOR.env.isCustomDomain(),
 				eventData;
 
 			if ( config.fullPage ) {
@@ -63,15 +62,17 @@
 				return false;
 
 			var sOpenUrl = '';
-			if ( isCustomDomain ) {
+			if ( CKEDITOR.env.ie ) {
 				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = 'javascript:void( (function(){' +
 					'document.open();' +
-					'document.domain="' + document.domain + '";' +
+					// Support for custom document.domain.
+					// Strip comments and replace parent with window.opener in the function body.
+					( '(' + CKEDITOR.tools.fixDomain + ')();' ).replace( /\/\/.*?\n/g, '' ).replace( /parent\./g, 'window.opener.' ) +
 					'document.write( window.opener._cke_htmlToLoad );' +
 					'document.close();' +
 					'window.opener._cke_htmlToLoad = null;' +
-					'})() )';
+				'})() )';
 			}
 
 			// With Firefox only, we need to open a special preview page, so
@@ -84,7 +85,7 @@
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
-			if ( !isCustomDomain && !CKEDITOR.env.gecko ) {
+			if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
 				doc.open();
 				doc.write( eventData.dataValue );

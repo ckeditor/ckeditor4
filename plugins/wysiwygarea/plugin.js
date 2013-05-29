@@ -19,17 +19,9 @@
 			}
 
 			editor.addMode( 'wysiwyg', function( callback ) {
-				var iframe = CKEDITOR.document.createElement( 'iframe' );
-				iframe.setStyles({ width: '100%', height: '100%' } );
-				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
-
-				var contentSpace = editor.ui.space( 'contents' );
-				contentSpace.append( iframe );
-
 				var src = 'document.open();' +
-					// The document domain must be set any time we
-				// call document.open().
-				( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+					// In IE, the document domain must be set any time we call document.open().
+					( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
 					'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
@@ -38,6 +30,14 @@
 				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
 					:
 					'';
+
+				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
+				iframe.setStyles({ width: '100%', height: '100%' } );
+				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
+
+				var contentSpace = editor.ui.space( 'contents' );
+				contentSpace.append( iframe );
+
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
@@ -63,10 +63,8 @@
 				});
 
 				iframe.setAttributes({
-					frameBorder: 0,
 					'aria-describedby' : labelId,
 					title: frameLabel,
-					src: src,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				});
@@ -101,9 +99,6 @@
 			});
 		}
 	});
-
-	// Support for custom document.domain in IE.
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 	function onDomReady( win ) {
 		var editor = this.editor,
@@ -412,7 +407,6 @@
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 					var bootstrapCode =
 						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
-							( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
 							'function onload(){' +
 								'if(!wasLoaded)' +	// FF3.6 calls onload twice when editor.setData. Stop that.

@@ -261,7 +261,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		this.$.open( 'text/html', 'replace' );
 
 		// Support for custom document.domain in IE.
-		CKEDITOR.env.isCustomDomain() && ( this.$.domain = document.domain );
+		//
+		// The script must be appended because if placed before the
+		// doctype, IE will go into quirks mode and mess with
+		// the editable, e.g. by changing its default height.
+		if ( CKEDITOR.env.ie )
+			html = html.replace( /(?:^\s*<!DOCTYPE[^>]*?>)|^/i, '$&\n<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>' );
 
 		this.$.write( html );
 		this.$.close();
