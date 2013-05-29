@@ -306,6 +306,9 @@ if ( !CKEDITOR.env ) {
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';
 
+		if ( env.iOS )
+			env.cssClass += ' cke_browser_ios';
+
 		return env;
 	})();
 }
