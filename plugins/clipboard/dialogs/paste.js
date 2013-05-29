@@ -171,7 +171,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					if ( CKEDITOR.env.ie ) {
 						var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 						focusGrabber.on( 'focus', function() {
-							iframe.$.contentWindow.focus();
+							// Since fixDomain is called in src attribute,
+							// IE needs some slight delay to correctly move focus.
+							setTimeout( function() {
+								iframe.$.contentWindow.focus();
+							});
 						});
 						container.append( focusGrabber );
 
