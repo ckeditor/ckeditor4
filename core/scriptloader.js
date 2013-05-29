@@ -188,7 +188,7 @@ CKEDITOR.scriptLoader = (function() {
 					pending.shift();
 
 					loadNext.call( that );
-				};
+				}
 
 				// Let's add this script to the queue
 				pending.push( { scriptUrl: scriptUrl, callback: callbackWrapper } );

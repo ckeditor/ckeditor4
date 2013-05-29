@@ -689,7 +689,7 @@
 		return html.replace( regex, function( match, tag, content ) {
 			// Encode < and > in textarea because this won't be done by a browser, since
 			// textarea will be protected during passing data through fix bin.
-			if ( match.indexOf( '<textarea' ) == 0 )
+			if ( match.indexOf( '<textarea' ) === 0 )
 				match = tag + unprotectRealComments( content ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + '</textarea>';
 
 			return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';

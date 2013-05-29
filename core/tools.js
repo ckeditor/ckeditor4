@@ -989,8 +989,8 @@
 				try {
 					// Try to access the parent document. It throws
 					// "access denied" if restricted by the "Same Origin" policy.
-					domain = parent.document.domain;
-					return true;
+					domain = window.parent.document.domain;
+					break;
 				} catch ( e ) {
 					// Calculate the value to set to document.domain.
 					domain = domain ?
@@ -1005,11 +1005,13 @@
 
 					// Stop here if there is no more domain parts available.
 					if ( !domain )
-						return false;
+						break;
 
 					document.domain = domain;
 				}
 			}
+
+			return !!domain;
 		}
 	};
 })();
