@@ -402,6 +402,25 @@ CKEDITOR.dom.range = function( root ) {
 		return !whitespaceEval( node ) && !bookmarkEval( node ) && !tempEval( node );
 	}
 
+	// Returns true for:
+	// * text nodes
+	// * non-block, non-intermediate elements
+	// * non-editable blocks
+	CKEDITOR.dom.range.firstEditableEval = function( node ) {
+		return (
+			// Skip temporary elements, bookmarks and whitespaces.
+			nonIgnoredEval( node ) &&
+			(
+				node.type == CKEDITOR.NODE_TEXT ||
+				(
+					node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$intermediate ) &&
+					// If it is a block, it needs to be non-editable (special case - see above).
+					( node.is( CKEDITOR.dtd.$block ) ? node.getAttribute( 'contenteditable' ) == 'false' : true )
+				)
+			)
+		);
+	};
+
 	CKEDITOR.dom.range.prototype = {
 		/**
 		 * Clones this range.
@@ -2102,7 +2121,7 @@ CKEDITOR.dom.range = function( root ) {
 			else {
 				// Look for first node that fulfills eval function
 				// and place range next to it.
-				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( eval );
+				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( CKEDITOR.dom.range.firstEditableEval );
 				if ( sibling ) {
 					found = 1;
 
@@ -2122,25 +2141,6 @@ CKEDITOR.dom.range = function( root ) {
 				this.moveToRange( range );
 
 			return !!found;
-
-			// Returns true for:
-			// * text nodes
-			// * non-block, non-intermediate elements
-			// * non-editable blocks
-			function eval( node ) {
-				return (
-					// Skip temporary elements, bookmarks and whitespaces.
-					nonIgnoredEval( node ) &&
-					(
-						node.type == CKEDITOR.NODE_TEXT ||
-						(
-							node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$intermediate ) &&
-							// If it is a block, it needs to be non-editable (special case - see above).
-							( node.is( CKEDITOR.dtd.$block ) ? node.getAttribute( 'contenteditable' ) == 'false' : true )
-						)
-					)
-				);
-			}
 		},
 
 		/**

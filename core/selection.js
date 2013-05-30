@@ -354,6 +354,34 @@
 		};
 	})();
 
+	function getOnKeyDownListener( editor ) {
+		var keystrokes = { '37':1,'39':1,'8':1,'46':1 };
+
+		return function( evt ) {
+			var keystroke = evt.data.getKeystroke();
+
+			// Handle only left/right/del/bspace keys.
+			if ( !keystrokes[ keystroke ] )
+				return;
+
+			var sel = editor.getSelection(),
+				ranges = sel.getRanges(),
+				range = ranges[ 0 ];
+
+			// Handle only single range and it has to be collapsed.
+			if ( ranges.length != 1 || !range.collapsed )
+				return;
+
+			var next = range[ keystroke < 38 ? 'getPreviousNode' : 'getNextNode' ]( CKEDITOR.dom.range.firstEditableEval );
+
+			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
+				editor.getSelection().fake( next );
+				evt.data.preventDefault();
+				evt.cancel();
+			}
+		};
+	}
+
 	// Hide hidden selection container.
 	CKEDITOR.addCss(
 		'.cke_hidden_sel{' +
@@ -640,6 +668,10 @@
 
 				}, null, null, -1 );
 			}
+
+			// Automatically select non-editable element when navigating into
+			// it by left/right or backspace/del keys.
+			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
 		});
 
 		// Clear the cached range path before unload. (#7174)
