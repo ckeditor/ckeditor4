@@ -54,3 +54,10 @@
 		}
 	});
 })();
+
+/**
+ * Fired when user clicks on save button. This event allows overwrite default save button behavior.
+ *
+ * @event save
+ * @member CKEDITOR.editor
+ */

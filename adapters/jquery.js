@@ -1,57 +1,40 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
+﻿/**
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.html or http://ckeditor.com/license
+ */
 
 /**
- * @fileOverview jQuery adapter provides easy use of basic CKEditor functions
- *   and access to internal API. It also integrates some aspects of CKEditor with
- *   jQuery framework.
+ * @fileOverview Defines the {@link adapters.jQuery jQuery adapter}.
+ */
+
+/**
+ * @class adapters.jQuery
  *
- * Every TEXTAREA, DIV and P elements can be converted to working editor.
+ * jQuery adapter provides easy use of basic CKEditor functions and access to internal API. To find more information about jQuery adapter go to [guide page](#!/guide/dev_jquery) or see the sample.
  *
- * Plugin exposes some of editor's event to jQuery event system. All of those are namespaces inside
- * ".ckeditor" namespace and can be binded/listened on supported textarea, div and p nodes.
- *
- * Available jQuery events:
- * - instanceReady.ckeditor( editor, rootNode )
- *   Triggered when new instance is ready.
- * - destroy.ckeditor( editor )
- *   Triggered when instance is destroyed.
- * - getData.ckeditor( editor, eventData )
- *   Triggered when getData event is fired inside editor. It can change returned data using eventData reference.
- * - setData.ckeditor( editor )
- *   Triggered when getData event is fired inside editor.
- *
- * @example
- * <script src="jquery.js"></script>
- * <script src="ckeditor.js"></script>
- * <script src="adapters/jquery/adapter.js"></script>
+ * @aside guide dev_jquery
  */
 
 (function() {
 	/**
-	 * Allows CKEditor to override jQuery.fn.val(), making it possible to use the val()
-	 * function on textareas, as usual, having it synchronized with CKEditor.<br>
-	 * <br>
-	 * This configuration option is global and executed during the jQuery Adapter loading.
-	 * It can't be customized across editor instances.
-	 * @type Boolean
-	 * @example
-	 * &lt;script&gt;
-	 * CKEDITOR.config.jqueryOverrideVal = true;
-	 * &lt;/script&gt;
-	 * &lt;!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal --&gt;
-	 * &lt;script src="/ckeditor/adapters/jquery.js"&gt;&lt;/script&gt;
-	 * @example
-	 * // ... then later in the code ...
+	 * Allows CKEditor to override jQuery.fn.val(), making possible to use the val() function on textareas, as usual, having it synchronized with CKEditor.
 	 *
-	 * $( 'textarea' ).ckeditor();
-	 * // ...
-	 * $( 'textarea' ).val( 'New content' );
+	 * This configuration option is global and executed during the jQuery Adapter loading. It can't be customized across editor instances.
+	 *
+	 * 		<script>
+	 * 			CKEDITOR.config.jqueryOverrideVal = true;
+	 * 		</script>
+	 * 		<!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal -->
+	 * 		<script src="/ckeditor/adapters/jquery.js"></script>
+	 *
+	 * 		$( 'textarea' ).ckeditor();
+	 * 		// ...
+	 * 		$( 'textarea' ).val( 'New content' );
+	 *
+ 	 * @property {boolean} [jqueryOverrideVal = true]
+	 * @member adapters.jQuery
 	 */
-	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined'
-		? true : CKEDITOR.config.jqueryOverrideVal;
+	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined' ? true : CKEDITOR.config.jqueryOverrideVal;
 
 	var jQuery = window.jQuery;
 
@@ -60,7 +43,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	// jQuery object methods.
 	jQuery.extend( jQuery.fn,
-	/** @lends jQuery.fn */
+	// @lends jQuery.fn
 	{
 		/**
 		 * Return existing CKEditor instance for first matched element.
@@ -68,9 +51,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		 *
 		 * Raised exception if editor doesn't exist or isn't ready yet.
 		 *
-		 * @name jQuery.ckeditorGet
+		 * @method ckeditorGet
 		 * @return CKEDITOR.editor
-		 * @see CKEDITOR.editor
+		 * @deprecated Use {@link #editor editor property} instead.
 		 */
 		ckeditorGet: function() {
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
@@ -79,24 +62,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			return instance;
 		},
 		/**
-		 * Triggers creation of CKEditor in all matched elements (reduced to DIV, P and TEXTAREAs).
-		 * Binds callback to instanceReady event of all instances. If editor is already created, than
-		 * callback is fired right away.
+		 * jQuery function which triggers creation of CKEditor in {@link CKEDITOR.dtd#$editable all matched elements}. Every TEXTAREA element will be converted to frame editor and any other supported element to inline editor. jQuery chaining allowed. Binds callback to instanceReady event of all instances. If editor is already created, than callback is fired right away.
 		 *
 		 * Mixed parameter order allowed.
 		 *
-		 * @param callback Function to be run on editor instance. Passed parameters: [ textarea ].
-		 * Callback is fiered in "this" scope being ckeditor instance and having source textarea as first param.
+		 * @method ckeditor
 		 *
-		 * @param config Configuration options for new instance(s) if not already created.
-		 * See URL
+		 * @param {Function} callback
+		 * Function to be run on editor instance. Callback takes source element as parameter.
 		 *
-		 * @example
-		 * $( 'textarea' ).ckeditor( function( textarea ) {
-		 *   $( textarea ).val( this.getData() )
-		 * } );
+		 * 		$( 'textarea' ).ckeditor( function( textarea ) {
+		 * 		  // callback function code
+		 * 		} );
 		 *
-		 * @name jQuery.fn.ckeditor
+		 * @param {Object} config
+		 * Configuration options for new instance(s) if not already created.
+		 *
+		 * 		$( 'textarea' ).ckeditor( {
+		 *			uiColor: '#9AB8F3'
+		 *		} );
+		 *
 		 * @return jQuery.fn
 		 */
 		ckeditor: function( callback, config ) {
@@ -152,29 +137,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								return;
 							}
 
-							// Remove this listener.
+							// Remove this listener. Triggered when new instance is ready.
 							event.removeListener( 'instanceReady', this.callee );
 
-							// Forward dataReady.
+							/**
+							 * Forwarded editor's {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
+							 * @event dataReady
+							 *
+							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 */
 							editor.on( 'dataReady', function() {
-								$element.trigger( 'dataReady' + '.ckeditor', [ editor ] );
+								$element.trigger( 'dataReady.ckeditor', [ editor ] );
 							});
 
-							// Forward setData.
+							/**
+							 * Forwarded editor's {@link CKEDITOR.editor#event-setData setData event} as a jQuery event.
+							 * @event setData
+							 *
+							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param data
+							 * @param {String} data.dataValue The data that will be used.
+							 */
 							editor.on( 'setData', function( event ) {
-								$element.trigger( 'setData' + '.ckeditor', [ editor, event.data ] );
+								$element.trigger( 'setData.ckeditor', [ editor, event.data ] );
 							});
 
-							// Forward getData.
+							/**
+							 * Forwarded editor's {@link CKEDITOR.editor#event-getData getData event} as a jQuery event.
+							 * @event getData
+							 *
+							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param data
+							 * @param {String} data.dataValue The data that will be returned.
+							 */
 							editor.on( 'getData', function( event ) {
-								$element.trigger( 'getData' + '.ckeditor', [ editor, event.data ] );
+								$element.trigger( 'getData.ckeditor', [ editor, event.data ] );
 							}, 999 );
 
-							// Forward destroy event.
+							/**
+							 * Forwarded editor's {@link CKEDITOR.editor#event-destroy destroy event} as a jQuery event.
+							 * @event destroy
+							 *
+							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 */
 							editor.on( 'destroy', function() {
 								$element.trigger( 'destroy.ckeditor', [ editor ] );
 							});
 
+							// Overwrite save button to call jQuery submit instead of javascript submit. Otherwise jQuery.forms does not work properly
 							editor.on( 'save', function() {
 								$( element.form ).submit();
 								return false;
@@ -209,7 +219,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							// Remove lock.
 							$element.data( '_ckeditorInstanceLock', null );
 
-							// Fire instanceReady event.
+							/**
+							 * Forwarded editor's {@link CKEDITOR.editor#event-instanceReady instanceReady event} as a jQuery event.
+							 * @event instanceReady
+							 *
+							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 */
 							$element.trigger( 'instanceReady.ckeditor', [ editor ] );
 
 							// Run given (first) code.
@@ -238,20 +253,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				}
 			});
 
+			/**
+			 * Existing CKEditor instance. Allows to easily use internal API.This is not a jQuery object.
+			 *
+			 * 		var editor = $( 'textarea' ).ckeditor().editor;
+			 *
+			 * @property editor
+			 */
 			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
 			return this;
 		}
 	});
 
-	// New val() method for objects.
 	/**
-	 * CKEditor-aware val() method.
+	 * Overwritten val() method for textareas which have CKEditor instances binded to them. Method gets or sets editor's content using {@link CKEDITOR.editor#method-getData editor.getData()} or {@link CKEDITOR.editor#method-setData editor.setData()}.
 	 *
-	 * Acts same as original jQuery val(), but for textareas which have CKEditor instances binded to them, method
-	 * returns editor's content. It also works for settings values.
-	 *
-	 * @param oldValMethod
-	 * @name jQuery.fn.val
+	 * @method val
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
 		jQuery.valHooks[ 'textarea' ] = {
