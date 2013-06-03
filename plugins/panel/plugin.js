@@ -273,7 +273,7 @@
 				styles: {
 					display: 'none'
 				}
-			}));
+			} ) );
 
 			// Copy all definition properties to this object.
 			if ( blockDefinition )
@@ -281,10 +281,10 @@
 
 
 			// Set the a11y attributes of this element ...
-			this.element.setAttributes({
+			this.element.setAttributes( {
 				'aria-label': this.attributes[ 'aria-label' ],
 				'title': this.attributes.title || this.attributes[ 'aria-label' ]
-			});
+			} );
 
 			// ...  and remove them from being set in the panel main element.
 			delete this.attributes[ 'aria-label' ];

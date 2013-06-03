@@ -979,8 +979,8 @@
 		 * This is a IE only requirement.
 		 *
 		 * @since 4.1.2
-		 * @returns {boolean} True if the current domain is already good or if
-		 * 		it has been fixed successfully.
+		 * @returns {Boolean} `true` if the current domain is already good or if
+		 * it has been fixed successfully.
 		 */
 		fixDomain: function() {
 			var domain;

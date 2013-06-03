@@ -222,7 +222,8 @@ CKEDITOR.plugins.add( 'listblock', {
 								break;
 							}
 						}
-					} else {
+					}
+					else {
 						this.element.focus();
 					}
 

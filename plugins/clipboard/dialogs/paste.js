@@ -175,8 +175,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							// IE needs some slight delay to correctly move focus.
 							setTimeout( function() {
 								iframe.$.contentWindow.focus();
-							});
-						});
+							} );
+						} );
 						container.append( focusGrabber );
 
 						// Override focus handler on field.
