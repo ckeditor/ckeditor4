@@ -70,7 +70,7 @@
 		'{frame}' +
 		'</div>' );
 
-	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="application" frameborder="0" src="{src}"></iframe>' );
+	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="presentation" frameborder="0" src="{src}"></iframe>' );
 
 	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
@@ -279,8 +279,16 @@
 			if ( blockDefinition )
 				CKEDITOR.tools.extend( this, blockDefinition );
 
-			if ( !this.attributes.title )
-				this.attributes.title = this.attributes[ 'aria-label' ];
+
+			// Set the a11y attributes of this element ...
+			this.element.setAttributes({
+				'aria-label': this.attributes[ 'aria-label' ],
+				'title': this.attributes.title || this.attributes[ 'aria-label' ]
+			});
+
+			// ...  and remove them from being set in the panel main element.
+			delete this.attributes[ 'aria-label' ];
+			delete this.attributes.title;
 
 			this.keys = {};
 

@@ -37,6 +37,9 @@ CKEDITOR.plugins.add( 'listblock', {
 				// Call the base contructor.
 				this.base.apply( this, arguments );
 
+				// Set the proper a11y attributes.
+				this.element.setAttribute( 'role', attribs.role );
+
 				var keys = this.keys;
 				keys[ 40 ] = 'next'; // ARROW-DOWN
 				keys[ 9 ] = 'next'; // TAB
