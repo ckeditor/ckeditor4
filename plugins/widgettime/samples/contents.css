@@ -1,7 +1,5 @@
 time {
-	padding: 2px 4px;
-	color: #fff;
-	font-weight: bold;
-	background: #00b2f0;
+	background: rgba(0,0,0,0.1);
 	border-radius: 2px;
+	padding: 1px;
 }
