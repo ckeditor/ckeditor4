@@ -3182,6 +3182,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event dialogShow
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dialog} data The opened dialog instance.
  */
 
 /**
@@ -3197,6 +3198,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event dialogHide
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dialog} data The hidden dialog instance.
  */
 
 /**
