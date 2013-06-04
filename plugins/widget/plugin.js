@@ -1267,7 +1267,7 @@
 					if ( element )
 						toBeWrapped.push( element );
 
-					// Do not iterate over ancestors.
+					// Do not iterate over descendants.
 					return false;
 				}
 				// Widget element found - add it to be cleaned up (just in case)
@@ -1275,7 +1275,7 @@
 				else if ( 'data-widget' in element.attributes ) {
 					toBeWrapped.push( element );
 
-					// Do not iterate over ancestors.
+					// Do not iterate over descendants.
 					return false;
 				}
 				else if ( upcasts.length ) {
@@ -1295,7 +1295,7 @@
 							element.attributes[ 'data-widget' ] = upcast[ 1 ];
 							toBeWrapped.push( element );
 
-							// Do not iterate over ancestors.
+							// Do not iterate over descendants.
 							return false;
 						}
 					}
@@ -1335,16 +1335,33 @@
 		var editor = widgetsRepo.editor;
 
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				evtRoot = editable.isInline() ? editable : editor.document,
+				widget;
 
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'mousedown', function( evt ) {
-				var widget;
-
+			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
 				if ( ( widget = widgetsRepo.getByElement( evt.data.getTarget() ) ) ) {
 					evt.data.preventDefault();
-					widget.focus();
+					if ( !CKEDITOR.env.ie )
+						widget.focus();
 				}
 			} );
+
+			// On IE it is not enough to block mousedown. If widget wrapper (element with
+			// contenteditable=false attribute) is clicked directly (it is a target),
+			// then after mouseup/click IE will select that element.
+			// It is not possible to prevent that default action,
+			// so we force fake selection after everything happened.
+			if ( CKEDITOR.env.ie ) {
+				editable.attachListener( evtRoot, 'mouseup', function( evt ) {
+					if ( widget ) {
+						setTimeout( function() {
+							widget.focus();
+							widget = null;
+						} );
+					}
+				} );
+			}
 		} );
 	}
 
