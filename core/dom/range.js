@@ -392,34 +392,9 @@ CKEDITOR.dom.range = function( root ) {
 		};
 	}
 
-	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
-		bookmarkEval = new CKEDITOR.dom.walker.bookmark(),
-		tempEval = new CKEDITOR.dom.walker.temp(),
-		nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
-
-	function nonIgnoredEval( node ) {
-		// Whitespaces, bookmark nodes and temp nodes are to be ignored.
-		return !whitespaceEval( node ) && !bookmarkEval( node ) && !tempEval( node );
-	}
-
-	// Returns true for:
-	// * text nodes
-	// * non-block, non-intermediate elements
-	// * non-editable blocks
-	CKEDITOR.dom.range.firstEditableEval = function( node ) {
-		return (
-			// Skip temporary elements, bookmarks and whitespaces.
-			nonIgnoredEval( node ) &&
-			(
-				node.type == CKEDITOR.NODE_TEXT ||
-				(
-					node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$intermediate ) &&
-					// If it is a block, it needs to be non-editable (special case - see above).
-					( node.is( CKEDITOR.dtd.$block ) ? node.getAttribute( 'contenteditable' ) == 'false' : true )
-				)
-			)
-		);
-	};
+	var nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
+		editableEval = CKEDITOR.dom.walker.editable(),
+		notIgnoredEval = CKEDITOR.dom.walker.ignored( true );
 
 	CKEDITOR.dom.range.prototype = {
 		/**
@@ -2038,10 +2013,10 @@ CKEDITOR.dom.range = function( root ) {
 				var next;
 
 				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isEditable( false ) )
-					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( nonIgnoredEval );
+					next = node[ isMoveToEnd ? 'getLast' : 'getFirst' ]( notIgnoredEval );
 
 				if ( !childOnly && !next )
-					next = node[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( nonIgnoredEval );
+					next = node[ isMoveToEnd ? 'getPrevious' : 'getNext' ]( notIgnoredEval );
 
 				return next;
 			}
@@ -2100,6 +2075,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * See also: {@link #moveToElementEditablePosition}.
 		 *
+		 * @since 4.2
 		 * @param {CKEDITOR.dom.element} element The starting element.
 		 * @param {Boolean} isMoveToEnd Whether move to the end of editable. Otherwise, look back.
 		 * @returns {Boolean} Whether the range was moved.
@@ -2121,7 +2097,7 @@ CKEDITOR.dom.range = function( root ) {
 			else {
 				// Look for first node that fulfills eval function
 				// and place range next to it.
-				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( CKEDITOR.dom.range.firstEditableEval );
+				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( editableEval );
 				if ( sibling ) {
 					found = 1;
 
