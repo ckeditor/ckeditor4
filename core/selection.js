@@ -354,6 +354,8 @@
 		};
 	})();
 
+	var editableEval = CKEDITOR.dom.walker.editable();
+
 	function getOnKeyDownListener( editor ) {
 		var keystrokes = { '37':1,'39':1,'8':1,'46':1 };
 
@@ -372,7 +374,7 @@
 			if ( ranges.length != 1 || !range.collapsed )
 				return;
 
-			var next = range[ keystroke < 38 ? 'getPreviousNode' : 'getNextNode' ]( CKEDITOR.dom.range.firstEditableEval );
+			var next = range[ keystroke < 38 ? 'getPreviousNode' : 'getNextNode' ]( editableEval );
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
 				editor.getSelection().fake( next );
