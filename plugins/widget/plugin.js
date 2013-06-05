@@ -107,7 +107,6 @@
 
 			this.editor.fire( 'widgetDefinition', widgetDef );
 
-			addWidgetDialog( widgetDef );
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
@@ -481,36 +480,52 @@
 			this.wrapper = null;
 		},
 
-		/* TMP
+		/**
+		 * Starts widget editing.
+		 *
+		 * This method fires {@link CKEDITOR.plugins.widget#event-edit} event
+		 * which may be cancelled in order to prevent from opening dialog.
+		 *
+		 * Dialog name is obtained from event's data `dialogName` property or
+		 * from {@link CKEDITOR.plugins.widget.definition#dialogName}.
+		 */
 		edit: function() {
-			if ( !this.dialog )
+			var evtData = { dialogName: this.dialogName },
+				that = this;
+
+			// Edit event was blocked, but there's no dialog to be automatically opened.
+			if ( !this.fire( 'edit', evtData ) || !evtData.dialogName )
 				return;
 
-			var that = this;
+			this.editor.openDialog( evtData.dialogName, function( dialog ) {
+				var showListener,
+					okListener;
 
-			this.editor.widgets.fire( 'widgetEdit', this );
+				showListener = dialog.on( 'show', function() {
+					dialog.setupContent( that );
+				} );
+				okListener = dialog.on( 'ok', function() {
+					// Commit dialog's fields, but prevent from
+					// firing data event for every field. Fire only one,
+					// bulk event at the end.
+					var dataChanged,
+						dataListener = that.on( 'data', function( evt ) {
+							dataChanged = 1;
+							evt.cancel();
+						}, null, null, 0 );
 
-			this.editor.openDialog( this.dialogName, function( dialog ) {
-				this.on( 'show', function( event ) {
-					that.editor.fire( 'saveSnapshot' );
-					that.updateData();
-					this.setupContent( that );
-					event.removeListener();
-				});
-				this.on( 'ok', function( event ) {
-					this.commitContent( that );
-					that.updateData();
-					that.editor.fire( 'saveSnapshot' );
-					event.removeListener();
-				});
-				this.on( 'hide', function( event ) {
-					that.select( 1 );
-					that.updateData();
-					event.removeListener();
-				});
+					dialog.commitContent( that );
+
+					dataListener.removeListener();
+					if ( dataChanged )
+						that.fire( 'data', that.data );
+				} );
+
+				dialog.once( 'hide', function() {
+					showListener.removeListener();
+				} );
 			} );
 		},
-		*/
 
 		/**
 		 * Gets widget's output element.
@@ -549,9 +564,17 @@
 			// Always focus editor (not only when focusManger.hasFocus is false) (because of #10483).
 			this.editor.focus();
 
-			var sel = this.editor.getSelection();
+			var sel = this.editor.getSelection(),
+				that = this;
+
 			if ( sel )
-				sel.fake( this.wrapper );
+				sel.fake( this.wrapper, {
+					keystrokeHandlers: {
+						'13': function() {
+							that.edit();
+						}
+					}
+				} );
 		},
 
 		/**
@@ -838,35 +861,6 @@
 					}
 				}
 			});
-		}
-	}
-
-	function addWidgetDialog( widgetDef ) {
-		// If necessary, Create dialog for this registered widget.
-		if ( widgetDef.dialog ) {
-			// Generate the name for this dialog.
-			var dialogName = widgetDef.dialogName = 'widget' +
-				CKEDITOR.tools.capitalize( widgetDef.name ) + 'Dialog';
-
-			CKEDITOR.dialog.add( dialogName, function( editor ) {
-				// Widget dialog definition is extended with generic
-				// properties and methods.
-				var dialog = widgetDef.dialog,
-					elements = dialog.elements;
-
-				delete dialog.elements;
-
-				return CKEDITOR.tools.extend( {
-						minWidth: 200,
-						minHeight: 100
-					}, {
-						contents: [
-							{ elements: elements }
-						]
-					},
-					dialog,
-				true );
-			} );
 		}
 	}
 
@@ -1453,6 +1447,17 @@
  *
  * @event deselect
  * @member CKEDITOR.plugins.widget
+ */
+
+/**
+ * Event fired by {@link #method-edit}. It can be cancelled
+ * in order to stop default action (opening dialog).
+ *
+ * @event edit
+ * @member CKEDITOR.plugins.widget
+ * @param data
+ * @param {String} data.dialogName Defaults to {@link CKEDITOR.plugins.widget.definition#dialogName}
+ * and can be changed or set by listener.
  */
 
 /**

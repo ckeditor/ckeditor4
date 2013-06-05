@@ -12,8 +12,18 @@ CKEDITOR.plugins.add( 'widgettime', {
 	init: function( editor ) {
 		editor.widgets.add( 'time', {
 			inline: true,
+			dialogName: 'widgettime',
 
 			init: function() {
+				this.setData( {
+					dateTime: this.element.getAttribute( 'datetime' ),
+					text: this.element.getText()
+				} );
+
+				this.on( 'data', function() {
+					this.element.setAttribute( 'datetime', this.data.dateTime );
+					this.element.setText( this.data.text );
+				} );
 			},
 
 			upcasts: {
@@ -32,5 +42,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 				}
 			}
 		} );
+
+		CKEDITOR.dialog.add( 'widgettime', this.path + 'dialogs/widgettime.js' );
 	}
 } );
