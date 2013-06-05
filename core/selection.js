@@ -336,6 +336,8 @@
 					range.moveToElementEditablePosition( editor.editable() );
 					editor.getSelection().selectRanges( [ range ] );
 				}
+
+				editor.fire( 'saveSnapshot' );
 			}
 		}
 
