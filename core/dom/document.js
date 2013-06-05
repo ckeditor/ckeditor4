@@ -235,11 +235,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {CKEDITOR.dom.window} The window object.
 	 */
 	getWindow: function() {
-		var win = new CKEDITOR.dom.window( this.$.parentWindow || this.$.defaultView );
-
-		return ( this.getWindow = function() {
-			return win;
-		})();
+		return new CKEDITOR.dom.window( this.$.parentWindow || this.$.defaultView );
 	},
 
 	/**
