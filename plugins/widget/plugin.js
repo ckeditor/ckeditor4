@@ -501,6 +501,10 @@
 				var showListener,
 					okListener;
 
+				// Allow to add a custom dialog handler.
+				if ( !that.fire( 'dialog', dialog ) )
+					return;
+
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
 				} );
@@ -523,6 +527,7 @@
 
 				dialog.once( 'hide', function() {
 					showListener.removeListener();
+					okListener.removeListener();
 				} );
 			} );
 		},
@@ -1458,6 +1463,17 @@
  * @param data
  * @param {String} data.dialogName Defaults to {@link CKEDITOR.plugins.widget.definition#dialogName}
  * and can be changed or set by listener.
+ */
+
+/**
+ * Event fired when dialog for widget editing is opened.
+ * This event can be cancelled in order to handle editing dialog
+ * in a custom manner.
+ *
+ * @event dialog
+ * @member CKEDITOR.plugins.widget
+ * @param data
+ * @param {CKEDITOR.dialog} data The opened dialog instance.
  */
 
 /**

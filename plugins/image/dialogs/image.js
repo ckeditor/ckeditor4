@@ -299,7 +299,14 @@
 							this.setupContent( LINK, link );
 					}
 
-					if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) || element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
+					// Edit given image element instead the one from selection.
+					if ( this.customImageElement ) {
+						this.imageEditMode = 'img';
+						this.imageElement = this.customImageElement;
+						delete this.customImageElement;
+					}
+					else if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) ||
+						element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
 						this.imageEditMode = element.getName();
 						this.imageElement = element;
 					}

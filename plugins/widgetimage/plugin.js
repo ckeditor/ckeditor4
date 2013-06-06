@@ -7,6 +7,8 @@
 
 		init: function( editor ) {
 			editor.widgets.add( 'image', {
+				dialogName: 'image',
+
 				init: function() {
 					// Read float style from figure/image and remove it from these elements.
 					// This style will be set on wrapper in #data listener.
@@ -21,6 +23,32 @@
 
 					this.on( 'data', function() {
 						this.wrapper.setStyle( 'float', this.data.floatStyle );
+					} );
+
+					this.on( 'dialog', function( evt ) {
+						// We'll handle editing here.
+						evt.cancel();
+
+						var dialog = evt.data,
+							widget = this,
+							okListener;
+
+						dialog.customImageElement = this.parts.image;
+
+						dialog.once( 'show', function() {
+							dialog.setValueOf( 'info', 'cmbAlign', widget.data.floatStyle );
+							dialog.hidePage( 'Link' );
+						} );
+
+						okListener = dialog.once( 'ok', function() {
+							widget.setData( 'floatStyle', dialog.getValueOf( 'info', 'cmbAlign' ) );
+							widget.parts.image.removeStyle( 'float' );
+						} );
+
+						dialog.once( 'hide', function() {
+							okListener.removeListener();
+							dialog.showPage( 'Link' );
+						} );
 					} );
 				},
 
