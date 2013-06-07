@@ -294,11 +294,8 @@
 			if ( handler )
 				handled = handler( { editor: editor, selected: element, selection: sel, keyEvent: evt } );
 
-			if ( !handled ) {
+			if ( !handled )
 				evt.data.preventDefault();
-				evt.data.stopPropagation();
-				evt.cancel();
-			}
 		}, null, null, -100 );
 	}
 
