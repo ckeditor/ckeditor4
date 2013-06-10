@@ -157,7 +157,7 @@ CKEDITOR.config.format_pre = { element: 'pre' };
 CKEDITOR.config.format_address = { element: 'address' };
 
 /**
- * The style definition to be used to apply the ``'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 1'` format.
  *
  *		config.format_h1 = { element: 'h1', attributes: { 'class': 'contentTitle1' } };
  *
@@ -167,7 +167,7 @@ CKEDITOR.config.format_address = { element: 'address' };
 CKEDITOR.config.format_h1 = { element: 'h1' };
 
 /**
- * The style definition to be used to apply the `'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 2'` format.
  *
  *		config.format_h2 = { element: 'h2', attributes: { 'class': 'contentTitle2' } };
  *
@@ -177,7 +177,7 @@ CKEDITOR.config.format_h1 = { element: 'h1' };
 CKEDITOR.config.format_h2 = { element: 'h2' };
 
 /**
- * The style definition to be used to apply the `'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 3'` format.
  *
  *		config.format_h3 = { element: 'h3', attributes: { 'class': 'contentTitle3' } };
  *
@@ -187,7 +187,7 @@ CKEDITOR.config.format_h2 = { element: 'h2' };
 CKEDITOR.config.format_h3 = { element: 'h3' };
 
 /**
- * The style definition to be used to apply the `'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 4'` format.
  *
  *		config.format_h4 = { element: 'h4', attributes: { 'class': 'contentTitle4' } };
  *
@@ -197,7 +197,7 @@ CKEDITOR.config.format_h3 = { element: 'h3' };
 CKEDITOR.config.format_h4 = { element: 'h4' };
 
 /**
- * The style definition to be used to apply the `'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 5'` format.
  *
  *		config.format_h5 = { element: 'h5', attributes: { 'class': 'contentTitle5' } };
  *
@@ -207,7 +207,7 @@ CKEDITOR.config.format_h4 = { element: 'h4' };
 CKEDITOR.config.format_h5 = { element: 'h5' };
 
 /**
- * The style definition to be used to apply the `'Heading 1'` format.
+ * The style definition to be used to apply the `'Heading 6'` format.
  *
  *		config.format_h6 = { element: 'h6', attributes: { 'class': 'contentTitle6' } };
  *
