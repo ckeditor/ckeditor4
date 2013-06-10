@@ -1397,6 +1397,11 @@
 				evt.cancel();
 			}
 		} );
+
+		widget.on( 'doubleclick', function( evt ) {
+			widget.edit();
+			evt.cancel();
+		} );
 	}
 
 	function setupWidgetData( widget ) {
