@@ -1128,7 +1128,8 @@
 	}
 
 	// Setup mouse observer which will trigger:
-	// * widget focus on widget click.
+	// * widget focus on widget click,
+	// * widget#doubleclick forwarded from editor#doubleclick.
 	function setupMouseObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
@@ -1161,6 +1162,15 @@
 				} );
 			}
 		} );
+
+		editor.on( 'doubleclick', function( evt ) {
+			var widget = widgetsRepo.getByElement( evt.data.element );
+
+			if ( !widget )
+				return;
+
+			return widget.fire( 'doubleclick', { element: evt.data.element } );
+		}, null, null, 1 );
 	}
 
 	// Setup editor#key observer which will forward it
@@ -1501,6 +1511,15 @@
  * @param data
  * @param {Number} data.keyCode A number representing the key code (or combination).
  */
+
+ /**
+  * Event fired when widget was double clicked.
+  *
+  * @event doubleclick
+  * @member CKEDITOR.plugins.widget
+  * @param data
+  * @param {CKEDITOR.dom.element} data.element The double clicked element.
+  */
 
 /**
  * Event fired when widget instance is created, but before it is fully
