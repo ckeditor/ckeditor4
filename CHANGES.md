@@ -3,18 +3,18 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1.2
 
-* [#10389](http://dev.ckeditor.com/ticket/10389): Invalid closing tag </tr> in a sample "Text and Table" template.
-* [#9761](http://dev.ckeditor.com/ticket/9761): Update BACKSPACE key state in blockedKeystrokes when using editor.setReadOnly().
-* [#10360](http://dev.ckeditor.com/ticket/10360): ARIA role="application" should not be used for dialogs.
-* [#10339](http://dev.ckeditor.com/ticket/10339): Error thrown when inserting custom element.
-* [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: editable#insertText loses characters if RegExp replace controls are inserted.
-* [#10146](http://dev.ckeditor.com/ticket/10146): [Firefox] Empty lines are being removed while config#enterMode is ENTER_BR.
-* [#6504](http://dev.ckeditor.com/ticket/6504): Resolved race condition while loading several customConfig files.
-* [#10298](http://dev.ckeditor.com/ticket/10298): Data processor breaks attributes containing protected parts.
+* [#10339](http://dev.ckeditor.com/ticket/10339): Fixed: Error thrown when inserted data totally stripped out after filtering and processing.
+* [#10298](http://dev.ckeditor.com/ticket/10298): Fixed: Data processor breaks attributes containing protected parts.
+* [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: `editable#insertText` loses characters when `RegExp` replace controls are being inserted.
+* [#10165](http://dev.ckeditor.com/ticket/10165): [IE] Access denied error when `document.domain` has been altered.
+* [#9761](http://dev.ckeditor.com/ticket/9761): Update *Backspace* key state in `keystrokeHandler#blockedKeystrokes` when calling `editor.setReadOnly()`.
+* [#6504](http://dev.ckeditor.com/ticket/6504): Fixed: Race condition while loading several `config.customConfig` files.
+* [#10146](http://dev.ckeditor.com/ticket/10146): [Firefox] Empty lines are being removed while `config#enterMode` is `CKEDITOR.ENTER_BR`.
+* [#10360](http://dev.ckeditor.com/ticket/10360): Fixed: ARIA `role="application"` should not be used for dialogs.
+* [#10361](http://dev.ckeditor.com/ticket/10361): Fixed: ARIA `role="application"` should not be used for floating panels.
+* [#10510](http://dev.ckeditor.com/ticket/10510): Introduced unique voice labels to differentiate between different editor instances.
 * [#9945](http://dev.ckeditor.com/ticket/9945): [iOS] Scrolling not possible on iPad.
-* [#10165](http://dev.ckeditor.com/ticket/10165): [IE] Access denied error if document.domain has been altered.
-* [#10361](http://dev.ckeditor.com/ticket/10361): ARIA role="application" should not be used for floating panels.
-* [#10510](http://dev.ckeditor.com/ticket/10510): Editors should have unique voice labels to differentiate between different instances.
+* [#10389](http://dev.ckeditor.com/ticket/10389): Fixed: Invalid HTML in the "Text and Table" template.
 
 ## CKEditor 4.1.1
 
