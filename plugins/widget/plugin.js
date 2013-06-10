@@ -72,6 +72,7 @@
 		setupWidgetsObserver( this );
 		setupSelectionObserver( this );
 		setupMouseObserver( this );
+		setupKeyboardObserver( this );
 	}
 
 	Repository.prototype = {
@@ -1169,6 +1170,21 @@
 		} );
 	}
 
+	// Setup editor#key observer which will forward it
+	// to focused widget.
+	function setupKeyboardObserver( widgetsRepo ) {
+		var editor = widgetsRepo.editor;
+
+		editor.on( 'key', function( evt ) {
+			var focused = widgetsRepo.focused;
+
+			if ( !focused )
+				return;
+
+			return focused.fire( 'key', { keyCode: evt.data.keyCode } );
+		}, null, null, 1 );
+	}
+
 	// Setup selection observer which will trigger:
 	// * widget select & focus on selection change,
 	// * deselecting and blurring all widgets on data,
@@ -1472,8 +1488,18 @@
  *
  * @event dialog
  * @member CKEDITOR.plugins.widget
- * @param data
  * @param {CKEDITOR.dialog} data The opened dialog instance.
+ */
+
+/**
+ * Event fired when key is pressed on focused widget.
+ * This event is forwarded from {@link CKEDITOR.editor#key} event and
+ * has the ability to block editor's keystrokes.
+ *
+ * @event key
+ * @member CKEDITOR.plugins.widget
+ * @param data
+ * @param {Number} data.keyCode A number representing the key code (or combination).
  */
 
 /**
