@@ -14,6 +14,7 @@ CKEditor 4 Changelog
 * [#9945](http://dev.ckeditor.com/ticket/9945): [iOS] Scrolling not possible on iPad.
 * [#10165](http://dev.ckeditor.com/ticket/10165): [IE] Access denied error if document.domain has been altered.
 * [#10361](http://dev.ckeditor.com/ticket/10361): ARIA role="application" should not be used for floating panels.
+* [#10510](http://dev.ckeditor.com/ticket/10510): Editors should have unique voice labels to differentiate between different instances.
 
 ## CKEditor 4.1.1
 
