@@ -570,17 +570,10 @@
 			// Always focus editor (not only when focusManger.hasFocus is false) (because of #10483).
 			this.editor.focus();
 
-			var sel = this.editor.getSelection(),
-				that = this;
+			var sel = this.editor.getSelection();
 
 			if ( sel )
-				sel.fake( this.wrapper, {
-					keystrokeHandlers: {
-						'13': function() {
-							that.edit();
-						}
-					}
-				} );
+				sel.fake( this.wrapper );
 		},
 
 		/**
@@ -1387,6 +1380,13 @@
 		// setupMask( widget );
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
+
+		widget.on( 'key', function( evt ) {
+			if ( evt.data.keyCode == 13 ) {
+				widget.edit();
+				evt.cancel();
+			}
+		} );
 	}
 
 	function setupWidgetData( widget ) {
