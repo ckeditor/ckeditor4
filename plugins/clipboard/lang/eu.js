@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eu', {
 	cut: 'Ebaki',
 	cutError: 'Zure web nabigatzailearen segurtasun ezarpenak testuak automatikoki moztea ez dute baimentzen. Mesedez teklatua erabili ezazu (Ctrl/Cmd+X).',
 	paste: 'Itsatsi',
-	pasteArea: 'Paste Area', // MISSING
+	pasteArea: 'Itsasteko Area',
 	pasteMsg: 'Mesedez teklatua erabilita (<STRONG>Ctrl/Cmd+V</STRONG>) ondorego eremuan testua itsatsi eta <STRONG>OK</STRONG> sakatu.',
 	securityMsg: 'Nabigatzailearen segurtasun ezarpenak direla eta, editoreak ezin du arbela zuzenean erabili. Leiho honetan berriro itsatsi behar duzu.',
 	title: 'Itsatsi'

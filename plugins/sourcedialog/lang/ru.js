@@ -4,6 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'ru', {
-	toolbar: 'Источник',
+	toolbar: 'Исходник',
 	title: 'Источник'
 });

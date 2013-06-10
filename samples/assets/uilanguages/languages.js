@@ -55,6 +55,7 @@ var CKEDITOR_LANGS = (function() {
 		'pt-br': 'Portuguese (Brazil)',
 		ro: 'Romanian',
 		ru: 'Russian',
+		si: 'Sinhala',
 		sk: 'Slovak',
 		sq : 'Albanian',
 		sl: 'Slovenian',

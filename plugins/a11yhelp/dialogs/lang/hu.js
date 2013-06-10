@@ -4,80 +4,80 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'hu', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'Kisegítő utasítások',
+	contents: 'Súgó tartalmak. A párbeszédablak bezárásához nyomjon ESC-et.',
 	legend: [
 		{
 		name: 'Általános',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Szerkesztő Eszköztár',
+			legend: 'Nyomjon ${toolbarFocus} hogy kijelölje az eszköztárat. A következő és előző eszköztár csoporthoz a TAB és SHIFT TAB-al juthat el. A következő és előző eszköztár gombhoz a BAL NYÍL vagy JOBB NYÍL gombbal juthat el. Nyomjon SPACE-t vagy ENTER-t hogy aktiválja az eszköztár gombot.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Szerkesző párbeszéd ablak',
+			legend: 'Párbeszédablakban nyomjon TAB-ot a következő párbeszédmezőhöz ugráshoz, nyomjon SHIFT + TAB-ot az előző mezőhöz ugráshoz, nyomjon ENTER-t a párbeszédablak elfogadásához, nyomjon ESC-et a párbeszédablak elvetéséhez. Azokhoz a párbeszédablakokhoz, amik több fület tartalmaznak, nyomjon ALT + F10-et hogy a fülekre ugorjon. Ezután a TAB-al vagy a JOBB NYÍLLAL a következő fülre ugorhat. Az előző fülre ugráshoz használja a SHIFT + TAB-ot vagy a BAL NYILAT. Nyomjon SPACE-t vagy ENTER-t hogy kijelölje a fület.'
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Szerkesztő helyi menü',
+			legend: 'Nyomjon ${contextMenu}-t vagy ALKALMAZÁS BILLENTYŰT a helyi menü megnyitásához. Ezután a következő menüpontra léphet a TAB vagy LEFELÉ NYÍLLAL. Az előző opciót a SHIFT+TAB vagy FELFELÉ NYÍLLAL érheti el. Nyomjon SPACE-t vagy ENTER-t a menüpont kiválasztásához. A jelenlegi menüpont almenüjének megnyitásához nyomjon SPACE-t vagy ENTER-t, vagy JOBB NYILAT. A főmenühöz való visszatéréshez nyomjon ESC-et vagy BAL NYILAT. A helyi menü bezárása az ESC billentyűvel lehetséges.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Szerkesztő lista',
+			legend: 'A listán belül a következő elemre a TAB vagy LEFELÉ NYÍLLAL mozoghat. Az előző elem kiválasztásához nyomjon SHIFT+TAB-ot vagy FELFELÉ NYILAT. Nyomjon SPACE-t vagy ENTER-t az elem kiválasztásához. Az ESC billentyű megnyomásával bezárhatja a listát.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Szerkesztő elem utak sáv',
+			legend: 'Nyomj ${elementsPathFocus} hogy kijelöld a elemek út sávját. A következő elem gombhoz a TAB-al vagy a JOBB NYÍLLAL juthatsz el. Az előző gombhoz a SHIFT+TAB vagy BAL NYÍLLAL mehetsz. A SPACE vagy ENTER billentyűvel kiválaszthatod az elemet a szerkesztőben.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Parancsok',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Parancs visszavonása',
+			legend: 'Nyomj ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Parancs megismétlése',
+			legend: 'Nyomjon ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Félkövér parancs',
+			legend: 'Nyomjon ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Dőlt parancs',
+			legend: 'Nyomjon ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Aláhúzott parancs',
+			legend: 'Nyomjon ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Link parancs',
+			legend: 'Nyomjon ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Szerkesztősáv összecsukása parancs',
+			legend: 'Nyomjon ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Hozzáférés az előző fókusz helyhez parancs',
+			legend: 'Nyomj ${accessNextSpace} hogy hozzáférj a legközelebbi elérhetetlen fókusz helyhez a hiányjel előtt, például: két szomszédos HR elemhez. Ismételd meg a billentyűkombinációt hogy megtaláld a távolabbi fókusz helyeket.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Hozzáférés a következő fókusz helyhez parancs',
+			legend: 'Nyomj ${accessNextSpace} hogy hozzáférj a legközelebbi elérhetetlen fókusz helyhez a hiányjel után, például: két szomszédos HR elemhez. Ismételd meg a billentyűkombinációt hogy megtaláld a távolabbi fókusz helyeket.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Kisegítő súgó',
+			legend: 'Nyomjon ${a11yHelp}'
 		}
 		]
 	}

@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.1.2
 
+* Added new translation: Sinhala.
 * [#10339](http://dev.ckeditor.com/ticket/10339): Fixed: Error thrown when inserted data totally stripped out after filtering and processing.
 * [#10298](http://dev.ckeditor.com/ticket/10298): Fixed: Data processor breaks attributes containing protected parts.
 * [#10367](http://dev.ckeditor.com/ticket/10367): Fixed: `editable#insertText` loses characters when `RegExp` replace controls are being inserted.

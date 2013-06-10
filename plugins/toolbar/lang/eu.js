@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'eu', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Tresna-barra Txikitu',
+	toolbarExpand: 'Tresna-barra Luzatu',
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Clipboard/Undo',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'eu', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Editorearen Tresna-barra'
 });

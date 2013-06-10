@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		alignTop: 'Haut',
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Valeur incorrecte.',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
 		invalidCssLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',

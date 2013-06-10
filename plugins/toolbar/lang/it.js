@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'it', {
 	toolbarExpand: 'Espandi Toolbar',
 	toolbarGroups: {
 		document: 'Documento',
-		clipboard: 'Copia negli appunti/Indietro',
+		clipboard: 'Copia negli appunti/Annulla',
 		editing: 'Modifica',
 		forms: 'Form',
 		basicstyles: 'Stili di base',

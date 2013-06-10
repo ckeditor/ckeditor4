@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'hu' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Segítségért nyomjon ALT 0',
 
 		browseServer: 'Böngészés a szerveren',
 		url: 'Hivatkozás',
@@ -91,13 +91,13 @@ CKEDITOR.lang[ 'hu' ] = {
 		alignTop: 'Tetejére',
 		alignMiddle: 'Középre',
 		alignBottom: 'Aljára',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Érvénytelen érték.',
 		invalidHeight: 'A magasság mezőbe csak számokat írhat.',
 		invalidWidth: 'A szélesség mezőbe csak számokat írhat.',
 		invalidCssLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes CSS egységgel megjelölve(px, %, in, cm, mm, em, ex, pt vagy pc).',
 		invalidHtmlLength: '"%1"-hez megadott érték csakis egy pozitív szám lehet, esetleg egy érvényes HTML egységgel megjelölve(px vagy %).',
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidInlineStyle: 'Az inline stílusnak megadott értéknek tartalmaznia kell egy vagy több rekordot a "name : value" formátumban, pontosvesszővel elválasztva.',
+		cssLengthTooltip: 'Adjon meg egy számot értéknek pixelekben vagy egy számot érvényes CSS mértékegységben (px, %, in, cm, mm, em, ex, pt, vagy pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nem elérhető</span>'

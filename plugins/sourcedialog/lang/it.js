@@ -4,6 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'it', {
-	toolbar: 'Codice Sorgente',
-	title: 'Codice Sorgente'
+	toolbar: 'Sorgente',
+	title: 'Sorgente'
 });

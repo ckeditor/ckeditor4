@@ -68,12 +68,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'no', {
 			legend: 'Trykk ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Gå til forrige fokusområde',
+			legend: 'Trykk ${accessPreviousSpace} for å komme til nærmeste fokusområde før skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Gå til neste fokusområde',
+			legend: 'Trykk ${accessNextSpace} for å komme til nærmeste fokusområde etter skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
 		},
 			{
 			name: 'Hjelp for tilgjengelighet',

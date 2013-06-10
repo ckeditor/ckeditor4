@@ -68,7 +68,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			legend: 'کلیك ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
+			name: 'چوونەناو سەرنجدانی پێشوی فەرمانی بۆشایی',
 			legend: 'کلیک ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
 		},
 			{

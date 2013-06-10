@@ -3,17 +3,17 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'gl', {
-	IdInputLabel: 'Id', // MISSING
-	advisoryTitleInputLabel: 'Advisory Title', // MISSING
-	cssClassInputLabel: 'Stylesheet Classes', // MISSING
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
-	styleSelectLabel: 'Style', // MISSING
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
+	IdInputLabel: 'ID',
+	advisoryTitleInputLabel: 'Título',
+	cssClassInputLabel: 'Clases da folla de estilos',
+	edit: 'Editar Div',
+	inlineStyleInputLabel: 'Estilo de liña',
+	langDirLTRLabel: 'Esquerda a dereita (LTR)',
+	langDirLabel: 'Dirección de escritura do idioma',
+	langDirRTLLabel: 'Dereita a esquerda (RTL)',
+	languageCodeInputLabel: 'Código do idioma',
+	remove: 'Retirar Div',
+	styleSelectLabel: 'Estilo',
+	title: 'Crear un contedor Div',
+	toolbar: 'Crear un contedor Div'
 });

@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Heslo',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Hľadať',
+		typeTel: 'Telefónne číslo',
 		typeUrl: 'URL'
 	}
 });

@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		type: 'Tyyppi',
 		typeText: 'Teksti',
 		typePass: 'Salasana',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Sähköposti',
+		typeSearch: 'Haku',
+		typeTel: 'Puhelinnumero',
 		typeUrl: 'Osoite'
 	}
 });

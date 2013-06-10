@@ -3,10 +3,10 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'gl', {
-	bold: 'Negrita',
+	bold: 'Negra',
 	italic: 'Cursiva',
-	strike: 'Tachado',
+	strike: 'Riscado',
 	subscript: 'Subíndice',
 	superscript: 'Superíndice',
-	underline: 'Sub-raiado'
+	underline: 'Subliñado'
 });

@@ -3,40 +3,40 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'gl', {
-	bgColor: 'Cor de Fondo',
-	bgFixed: 'Fondo Fixo',
-	bgImage: 'URL da Imaxe de Fondo',
-	charset: 'Codificación do Xogo de Caracteres',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
-	charsetOther: 'Outra Codificación do Xogo de Caracteres',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose',
-	design: 'Design', // MISSING
-	docTitle: 'Título da Páxina',
-	docType: 'Encabezado do Tipo de Documento',
-	docTypeOther: 'Outro Encabezado do Tipo de Documento',
-	label: 'Propriedades do Documento',
-	margin: 'Marxes da Páxina',
+	bgColor: 'Cor do fondo',
+	bgFixed: 'Fondo fixo (non se despraza)',
+	bgImage: 'URL da imaxe do fondo',
+	charset: 'Codificación de caracteres',
+	charsetASCII: 'ASCII',
+	charsetCE: 'Centro europeo',
+	charsetCR: 'Cirílico',
+	charsetCT: 'Chinés tradicional (Big5)',
+	charsetGR: 'Grego',
+	charsetJP: 'Xaponés',
+	charsetKR: 'Coreano',
+	charsetOther: 'Outra codificación de caracteres',
+	charsetTR: 'Turco',
+	charsetUN: 'Unicode (UTF-8)',
+	charsetWE: 'Europeo occidental',
+	chooseColor: 'Escoller',
+	design: 'Deseño',
+	docTitle: 'Título da páxina',
+	docType: 'Cabeceira do tipo de documento',
+	docTypeOther: 'Outra cabeceira do tipo de documento',
+	label: 'Propiedades do documento',
+	margin: 'Marxes da páxina',
 	marginBottom: 'Abaixo',
 	marginLeft: 'Esquerda',
 	marginRight: 'Dereita',
 	marginTop: 'Arriba',
-	meta: 'Meta Tags', // MISSING
+	meta: 'Meta etiquetas',
 	metaAuthor: 'Autor',
-	metaCopyright: 'Copyright', // MISSING
-	metaDescription: 'Descripción do Documento',
-	metaKeywords: 'Palabras Chave de Indexación do Documento (separadas por comas)',
-	other: '<outro>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
-	title: 'Propriedades do Documento',
-	txtColor: 'Cor do Texto',
-	xhtmlDec: 'Incluir Declaracións XHTML'
+	metaCopyright: 'Dereito de autoría',
+	metaDescription: 'Descrición do documento',
+	metaKeywords: 'Palabras clave de indexación do documento (separadas por comas)',
+	other: 'Outro...',
+	previewHtml: '<p>Este é un <strong>texto de exemplo</strong>. Vostede esta a empregar o <a href="javascript:void(0)">CKEditor</a>.</p>',
+	title: 'Propiedades do documento',
+	txtColor: 'Cor do texto',
+	xhtmlDec: 'Incluír as declaracións XHTML'
 });

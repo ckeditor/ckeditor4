@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 	toolbar: 'Taula',
 	widthPc: 'ehuneko',
 	widthPx: 'pixel',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'zabalera unitatea'
 });

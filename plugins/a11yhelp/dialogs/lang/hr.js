@@ -4,80 +4,80 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'hr', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'Upute dostupnosti',
+	contents: 'Sadržaj pomoći. Za zatvaranje pritisnite ESC.',
 	legend: [
 		{
 		name: 'Općenito',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Alatna traka',
+			legend: 'Pritisni ${toolbarFocus} za navigaciju do alatne trake. Pomicanje do prethodne ili sljedeće alatne grupe vrši se pomoću SHIFT-TAB i TAB. Pomicanje do prethodnog ili sljedećeg gumba u alatnoj traci vrši se pomoću lijeve i desne strelice kursora. Pritisnite SPACE ili ENTER za aktivaciju alatne trake.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Dijalog',
+			legend: 'Unutar dijaloga, pritisnite TAB za navigaciju do sljedećeg polja, pritisnite SHIFT + TAB za vraćanje na prethodno polje, pritisnite ENTER za slanje dijaloga ili ESC za zatvaranje dijaloga. Za dijaloge koji imaju višestruke kartice, pritisnite ALT + F10 za na navigaciju i zatim TAB ili lijeva strelica kursora ili SHIFT + TAB i desna strelica kursora. SPACE ili ENTER odabiru karticu.'
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Kontekstni izbornik',
+			legend: 'Pritisnite ${contextMenu} ili APPLICATION tipku za otvaranje kontekstnog izbornika. Pomicanje se vrši TAB ili strelicom kursora prema dolje ili SHIFT+TAB ili strelica kursora prema gore. SPACE ili ENTER odabiru opciju izbornika. Otvorite podizbornik trenutne opcije sa  SPACE, ENTER ili desna strelica kursora. Povratak na prethodni izbornik vrši se sa ESC ili lijevom strelicom kursora. Zatvaranje se vrši pritiskom na tipku ESC.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Lista',
+			legend: 'Unutar list-boxa, pomicanje na sljedeću stavku vrši se sa TAB ili strelica kursora prema dolje. Na prethodnu sa SHIFT + TAB ili strelica prema gore. Pritiskom na SPACE ili ENTER odabire se stavka ili ESC za zatvaranje.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Traka putanje elemenata',
+			legend: 'Pritisnite ${elementsPathFocus} za navigaciju po putanji elemenata. Pritisnite TAB ili desnu strelicu kursora za pomicanje na sljedeći element ili SHIFT + TAB ili lijeva strelica kursora za pomicanje na prethodni element. Pritiskom na SPACE ili ENTER vrši se odabir elementa.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Naredbe',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Vrati naredbu',
+			legend: 'Pritisni ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Ponovi naredbu',
+			legend: 'Pritisni ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Bold naredba',
+			legend: 'Pritisni ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Italic naredba',
+			legend: 'Pritisni ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Underline naredba',
+			legend: 'Pritisni ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Link naredba',
+			legend: 'Pritisni ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Smanji alatnu traku naredba',
+			legend: 'Pritisni ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Access previous focus space naredba',
+			legend: 'Pritisni ${accessPreviousSpace} za pristup najbližem nedostupnom razmaku prije kursora, npr.: dva spojena HR elementa. Ponovnim pritiskom dohvatiti će se sljedeći nedostupni razmak.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Access next focus space naredba',
+			legend: 'Pritisni ${accessNextSpace} za pristup najbližem nedostupnom razmaku nakon kursora, npr.: dva spojena HR elementa. Ponovnim pritiskom dohvatiti će se sljedeći nedostupni razmak.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Pomoć za dostupnost',
+			legend: 'Pritisni ${a11yHelp}'
 		}
 		]
 	}

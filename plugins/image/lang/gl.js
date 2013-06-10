@@ -3,24 +3,24 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'gl', {
-	alertUrl: 'Por favor, escriba a URL da imaxe',
-	alt: 'Texto Alternativo',
-	border: 'Límite',
-	btnUpload: 'Enviar ó Servidor',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-	hSpace: 'Esp. Horiz.',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-	infoTab: 'Información da Imaxe',
+	alertUrl: 'Escriba o URL da imaxe',
+	alt: 'Texto alternativo',
+	border: 'Bordo',
+	btnUpload: 'Enviar ao servidor',
+	button2Img: 'Quere converter o botón da imaxe seleccionada nunha imaxe sinxela?',
+	hSpace: 'Esp.Horiz.',
+	img2Button: 'Quere converter a imaxe seleccionada nun botón de imaxe?',
+	infoTab: 'Información da imaxe',
 	linkTab: 'Ligazón',
 	lockRatio: 'Proporcional',
-	menu: 'Propriedades da Imaxe',
-	resetSize: 'Tamaño Orixinal',
-	title: 'Propriedades da Imaxe',
-	titleButton: 'Propriedades do Botón de Imaxe',
-	upload: 'Carregar',
-	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'Esp. Vert.',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	menu: 'Propiedades da imaxe',
+	resetSize: 'Tamaño orixinal',
+	title: 'Propiedades da imaxe',
+	titleButton: 'Propiedades do botón de imaxe',
+	upload: 'Cargar',
+	urlMissing: 'Non se atopa o URL da imaxe.',
+	vSpace: 'Esp.Vert.',
+	validateBorder: 'O bordo debe ser un número.',
+	validateHSpace: 'O espazado horizontal debe ser un número.',
+	validateVSpace: 'O espazado vertical debe ser un número.'
 });

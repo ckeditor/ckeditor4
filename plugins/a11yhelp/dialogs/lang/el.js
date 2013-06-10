@@ -68,12 +68,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'el', {
 			legend: 'Πατήστε ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Πρόσβαση προηγούμενης εντολής χώρου εστίασης ',
+			legend: 'Πατήστε ${accessPreviousSpace} για να έχετε πρόσβαση στον πιο κοντινό χώρο εστίασης πριν το δρομέα, για παράδειγμα: δύο παρακείμενα στοιχεία ΥΕ. Επαναλάβετε το συνδυασμό πλήκτρων για να φθάσετε στους χώρους μακρινής εστίασης. '
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Πρόσβαση επόμενηw εντολήw χώροz εστίασης',
+			legend: 'Πατήστε ${accessNextSpace} για να έχete πρόσβαση στον πιο κοντινό χώρο εστίασης μετά το δρομέα, για παράδειγμα: δύο παρακείμενα στοιχεία ΥΕ. Επαναλάβετε το συνδυασμό πλήκτρων για τους χώρους μακρινής εστίασης. '
 		},
 			{
 			name: ' Βοήθεια Προσβασιμότητας',

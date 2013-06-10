@@ -3,72 +3,72 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'gl', {
-	border: 'Tamaño do Borde',
+	border: 'Tamaño do bordo',
 	caption: 'Título',
 	cell: {
 		menu: 'Cela',
-		insertBefore: 'Insert Cell Before',
-		insertAfter: 'Insert Cell After',
-		deleteCell: 'Borrar Cela',
-		merge: 'Unir Celas',
-		mergeRight: 'Merge Right',
-		mergeDown: 'Merge Down',
-		splitHorizontal: 'Split Cell Horizontally',
-		splitVertical: 'Split Cell Vertically',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		insertBefore: 'Inserir a cela á esquerda',
+		insertAfter: 'Inserir a cela á dereita',
+		deleteCell: 'Eliminar celas',
+		merge: 'Combinar celas',
+		mergeRight: 'Combinar á dereita',
+		mergeDown: 'Combinar cara abaixo',
+		splitHorizontal: 'Dividir a cela en horizontal',
+		splitVertical: 'Dividir a cela en vertical',
+		title: 'Propiedades da cela',
+		cellType: 'Tipo de cela',
+		rowSpan: 'Expandir filas',
+		colSpan: 'Expandir columnas',
+		wordWrap: 'Axustar ao contido',
+		hAlign: 'Aliñación horizontal',
+		vAlign: 'Aliñación vertical',
+		alignBaseline: 'Liña de base',
+		bgColor: 'Cor do fondo',
+		borderColor: 'Cor do bordo',
+		data: 'Datos',
+		header: 'Cabeceira',
+		yes: 'Si',
+		no: 'Non',
+		invalidWidth: 'O largo da cela debe ser un número.',
+		invalidHeight: 'O alto da cela debe ser un número.',
+		invalidRowSpan: 'A expansión de filas debe ser un número enteiro.',
+		invalidColSpan: 'A expansión de columnas debe ser un número enteiro.',
+		chooseColor: 'Escoller'
 	},
-	cellPad: 'Marxe interior',
-	cellSpace: 'Marxe entre Celas',
+	cellPad: 'Marxe interior da cela',
+	cellSpace: 'Marxe entre celas',
 	column: {
 		menu: 'Columna',
-		insertBefore: 'Insert Column Before',
-		insertAfter: 'Insert Column After',
+		insertBefore: 'Inserir a columna á esquerda',
+		insertAfter: 'Inserir a columna á dereita',
 		deleteColumn: 'Borrar Columnas'
 	},
 	columns: 'Columnas',
 	deleteTable: 'Borrar Táboa',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
-	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
-	menu: 'Propiedades da Táboa',
+	headers: 'Cabeceiras',
+	headersBoth: 'Ambas',
+	headersColumn: 'Primeira columna',
+	headersNone: 'Ningún',
+	headersRow: 'Primeira fila',
+	invalidBorder: 'O tamaño do bordo debe ser un número.',
+	invalidCellPadding: 'A marxe interior debe ser un número positivo.',
+	invalidCellSpacing: 'A marxe entre celas debe ser un número positivo.',
+	invalidCols: 'O número de columnas debe ser un número maior que 0.',
+	invalidHeight: 'O alto da táboa debe ser un número.',
+	invalidRows: 'O número de filas debe ser un número maior que 0',
+	invalidWidth: 'O largo da táboa debe ser un número.',
+	menu: 'Propiedades da táboa',
 	row: {
 		menu: 'Fila',
-		insertBefore: 'Insert Row Before',
-		insertAfter: 'Insert Row After',
-		deleteRow: 'Borrar Filas'
+		insertBefore: 'Inserir a fila por riba',
+		insertAfter: 'Inserir a fila por baixo',
+		deleteRow: 'Eliminar filas'
 	},
 	rows: 'Filas',
-	summary: 'Sumario',
-	title: 'Propiedades da Táboa',
-	toolbar: 'Tabla',
-	widthPc: 'percent',
-	widthPx: 'pixels',
-	widthUnit: 'width unit' // MISSING
+	summary: 'Resumo',
+	title: 'Propiedades da táboa',
+	toolbar: 'Taboa',
+	widthPc: 'porcentaxe',
+	widthPx: 'píxeles',
+	widthUnit: 'unidade do largo'
 });

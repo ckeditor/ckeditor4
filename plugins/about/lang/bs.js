@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'bs', {
 	help: 'Check $1 for help.', // MISSING
 	moreInfo: 'For licensing information please visit our web site:', // MISSING
 	title: 'About CKEditor', // MISSING
-	userGuide: 'CKEditor User\'s Guide' // MISSING
+	userGuide: 'CKEditor User\'s Guide'
 });

@@ -7,6 +7,6 @@ CKEDITOR.plugins.setLang( 'templates', 'it', {
 	emptyListMsg: '(Nessun modello definito)',
 	insertOption: 'Cancella il contenuto corrente',
 	options: 'Opzioni del Modello',
-	selectPromptMsg: 'Seleziona il modello da aprire nell\'editor<br />(il contenuto attuale verrà eliminato):',
+	selectPromptMsg: 'Seleziona il modello da aprire nell\'editor',
 	title: 'Contenuto dei modelli'
 });
