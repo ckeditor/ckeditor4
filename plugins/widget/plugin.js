@@ -653,33 +653,6 @@
 	CKEDITOR.event.implementOn( Widget.prototype );
 
 	/* TMP
-
-	function addContextMenu( editor, widgetName, commandName ) {
-		if ( editor.contextMenu ) {
-			var groupName = 'widget' + CKEDITOR.tools.capitalize( widgetName ) + 'Group';
-
-			editor.addMenuGroup( groupName );
-			editor.addMenuItem( commandName, {
-				label: 'Edit ' + CKEDITOR.tools.capitalize( widgetName ),
-				icon: 'icons/foo.png',
-				command: commandName,
-				group: groupName
-			});
-
-			editor.contextMenu.addListener( function( element ) {
-				if ( !element )
-					return null;
-
-				var selected = getWidgetFromSelection( editor ) || editor.widgets.selected;
-
-				if ( selected && selected.name == widgetName ) {
-					var menu = {};
-					menu[ commandName ] = CKEDITOR.TRISTATE_OFF;
-					return menu;
-				}
-			});
-		}
-	}
 	function copyDataByCopyBin( evt, editor, editable, selected, key ) {
 		var copybin = new CKEDITOR.dom.element( 'div', editor.document ),
 			isCut = key == CKEDITOR.CTRL + 88;
@@ -770,8 +743,6 @@
 			widgetName,
 			widgetButton,
 			commandName,
-			allowedContent = [],
-			rule,
 			buttons = {},
 			buttonsStates = {},
 			hasButtons = 0,
@@ -791,21 +762,7 @@
 				};
 				buttonsStates[ commandName ] = CKEDITOR.TRISTATE_OFF;
 				hasButtons = 1;
-
-				if ( widget.allowedContent )
-					allowedContent.push( widget.allowedContent );
-				if ( widget.widgetTags ) {
-					rule = {};
-					rule[ widget.widgetTags ] = {
-						attributes: /^data-widget/
-					};
-					allowedContent.push( rule );
-				}
 			}
-
-			/* TMP
-			 * addContextMenu( editor, widgetName, commandName );
-			 */
 		}
 
 		if ( hasButtons ) {
@@ -813,7 +770,6 @@
 			editor.addMenuItems( buttons );
 
 			editor.ui.add( 'Widget', CKEDITOR.UI_MENUBUTTON, {
-				allowedContent: allowedContent,
 				label: 'Widget',
 				title: 'Widgets',
 				modes: { wysiwyg:1 },
@@ -821,7 +777,7 @@
 				onMenu: function() {
 					return buttonsStates;
 				}
-			});
+			} );
 		}
 	}
 

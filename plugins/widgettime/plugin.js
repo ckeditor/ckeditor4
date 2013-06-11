@@ -13,6 +13,14 @@ CKEDITOR.plugins.add( 'widgettime', {
 		editor.widgets.add( 'time', {
 			inline: true,
 			dialogName: 'widgettime',
+			button: {
+				label: 'Time'
+			},
+			template: new CKEDITOR.template( '<time data-widget="time" datetime="{dateTime}">{text}</time>' ),
+			defaults: {
+				dateTime: ( new Date() )[ Date.prototype.toISOString ? 'toISOString' : 'toUTCString' ](),
+				text: ( new Date() ).toDateString()
+			},
 
 			init: function() {
 				this.setData( {
