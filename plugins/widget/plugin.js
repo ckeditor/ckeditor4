@@ -487,18 +487,18 @@
 		 * This method fires {@link CKEDITOR.plugins.widget#event-edit} event
 		 * which may be cancelled in order to prevent from opening dialog.
 		 *
-		 * Dialog name is obtained from event's data `dialogName` property or
-		 * from {@link CKEDITOR.plugins.widget.definition#dialogName}.
+		 * Dialog name is obtained from event's data `dialog` property or
+		 * from {@link CKEDITOR.plugins.widget.definition#dialog}.
 		 */
 		edit: function() {
-			var evtData = { dialogName: this.dialogName },
+			var evtData = { dialog: this.dialog },
 				that = this;
 
 			// Edit event was blocked, but there's no dialog to be automatically opened.
-			if ( !this.fire( 'edit', evtData ) || !evtData.dialogName )
+			if ( !this.fire( 'edit', evtData ) || !evtData.dialog )
 				return;
 
-			this.editor.openDialog( evtData.dialogName, function( dialog ) {
+			this.editor.openDialog( evtData.dialog, function( dialog ) {
 				var showListener,
 					okListener;
 
@@ -1442,7 +1442,7 @@
  * @event edit
  * @member CKEDITOR.plugins.widget
  * @param data
- * @param {String} data.dialogName Defaults to {@link CKEDITOR.plugins.widget.definition#dialogName}
+ * @param {String} data.dialog Defaults to {@link CKEDITOR.plugins.widget.definition#dialog}
  * and can be changed or set by listener.
  */
 

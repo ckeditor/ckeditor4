@@ -8,7 +8,7 @@
 
 		init: function( editor ) {
 			editor.widgets.add( 'image', {
-				dialogName: 'image',
+				dialog: 'image',
 				button: {
 					label: 'Captioned image'
 				},

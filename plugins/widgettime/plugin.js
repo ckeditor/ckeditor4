@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 	init: function( editor ) {
 		editor.widgets.add( 'time', {
 			inline: true,
-			dialogName: 'widgettime',
+			dialog: 'widgettime',
 			button: {
 				label: 'Time'
 			},
