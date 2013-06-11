@@ -396,7 +396,7 @@
 			 *
 			 * @readonly
 			 */
-			data: CKEDITOR.tools.extend( {}, widgetDef.defaults ),
+			data: CKEDITOR.tools.extend( {}, typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ),
 
 			/**
 			 * Is data ready. Set to `true` when data from all sources
@@ -798,7 +798,8 @@
 						focused.edit();
 					// Otherwise, create a brand-new widget from template.
 					else if ( widgetDef.template ) {
-						var	element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( widgetDef.defaults ) ),
+						var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
+							element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 							instance;
 
 						editor.insertElement( element );
