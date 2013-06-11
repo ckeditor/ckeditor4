@@ -17,6 +17,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 				label: 'Time'
 			},
 			template: new CKEDITOR.template( '<time data-widget="time" datetime="{dateTime}">{text}</time>' ),
+
 			defaults: function() {
 				return {
 					dateTime: ( new Date() )[ Date.prototype.toISOString ? 'toISOString' : 'toUTCString' ](),
@@ -29,11 +30,11 @@ CKEDITOR.plugins.add( 'widgettime', {
 					dateTime: this.element.getAttribute( 'datetime' ),
 					text: this.element.getText()
 				} );
+			},
 
-				this.on( 'data', function() {
-					this.element.setAttribute( 'datetime', this.data.dateTime );
-					this.element.setText( this.data.text );
-				} );
+			data: function() {
+				this.element.setAttribute( 'datetime', this.data.dateTime );
+				this.element.setText( this.data.text );
 			},
 
 			upcasts: {

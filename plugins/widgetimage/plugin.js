@@ -35,10 +35,6 @@
 						downcastWidgetElement( evt.data, this );
 					} );
 
-					this.on( 'data', function() {
-						this.wrapper.setStyle( 'float', this.data.floatStyle );
-					} );
-
 					this.on( 'dialog', function( evt ) {
 						// We'll handle editing here.
 						evt.cancel();
@@ -64,6 +60,10 @@
 							dialog.showPage( 'Link' );
 						} );
 					} );
+				},
+
+				data: function() {
+					this.wrapper.setStyle( 'float', this.data.floatStyle );
 				},
 
 				upcasts: {

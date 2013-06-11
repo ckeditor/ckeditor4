@@ -430,7 +430,7 @@
 		// Lock snapshot during making changed to DOM.
 		editor.fire( 'lockSnapshot' );
 
-		setupWidget( this );
+		setupWidget( this, widgetDef );
 
 		this.init && this.init();
 
@@ -1333,7 +1333,7 @@
 		}
 	}
 
-	function setupWidget( widget ) {
+	function setupWidget( widget, widgetDef ) {
 		setupWrapper( widget );
 		setupParts( widget );
 		// setupEditables( widget );
@@ -1352,6 +1352,9 @@
 			widget.edit();
 			evt.cancel();
 		} );
+
+		if ( widgetDef.data )
+			widget.on( 'data', widgetDef.data );
 	}
 
 	function setupWidgetData( widget ) {
