@@ -826,36 +826,33 @@
 	}
 
 	// Create command - first check if widget.command is defined,
-	// if not - try to create generic one based on widget.template
-	function addWidgetCommand( editor, widget ) {
-		if ( widget.command )
-			editor.addCommand( widget.commandName, widget.command );
+	// if not - try to create generic one based on widget.template.
+	//
+	// @param editor
+	// @param {CKEDITOR.plugins.widget.registeredDefinition} widgetDef
+	function addWidgetCommand( editor, widgetDef ) {
+		if ( widgetDef.command )
+			editor.addCommand( widgetDef.commandName, widgetDef.command );
 		else {
-			editor.addCommand( widget.commandName, {
+			editor.addCommand( widgetDef.commandName, {
 				exec: function() {
-					var selected = editor.widgets.selected;
-					// If a widget of the same type is selected, start editing.
-					if ( selected && selected.name == widget.name )
-						selected.edit && selected.edit();
-
+					var focused = editor.widgets.focused;
+					// If a widget of the same type is focused, start editing.
+					if ( focused && focused.name == widgetDef.name )
+						focused.edit();
 					// Otherwise, create a brand-new widget from template.
-					else if ( widget.template ) {
-						var	element = CKEDITOR.dom.element.createFromHtml( widget.template.output( widget.defaults ) ),
-							wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' ),
+					else if ( widgetDef.template ) {
+						var	element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( widgetDef.defaults ) ),
 							instance;
 
-						wrapper.setAttributes( wrapperAttributes );
-						wrapper.append( element );
+						editor.insertElement( element );
+						instance = editor.widgets.initOn( element, widgetDef );
 
-						editor.insertElement( wrapper );
-						instance = editor.widgets.initOn( element, widget );
-						/* TMP
-						instance.select();
-						instance.edit && instance.edit();
-						*/
+						instance.focus();
+						instance.edit();
 					}
 				}
-			});
+			} );
 		}
 	}
 
