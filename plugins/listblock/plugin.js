@@ -37,6 +37,9 @@ CKEDITOR.plugins.add( 'listblock', {
 				// Call the base contructor.
 				this.base.apply( this, arguments );
 
+				// Set the proper a11y attributes.
+				this.element.setAttribute( 'role', attribs.role );
+
 				var keys = this.keys;
 				keys[ 40 ] = 'next'; // ARROW-DOWN
 				keys[ 9 ] = 'next'; // TAB
@@ -205,12 +208,13 @@ CKEDITOR.plugins.add( 'listblock', {
 				focus: function( value ) {
 					this._.focusIndex = -1;
 
-					if ( value ) {
-						var selected = this.element.getDocument().getById( this._.items[ value ] ).getFirst();
+					var links = this.element.getElementsByTag( 'a' ),
+						link,
+						selected,
+						i = -1;
 
-						var links = this.element.getElementsByTag( 'a' ),
-							link,
-							i = -1;
+					if ( value ) {
+						selected = this.element.getDocument().getById( this._.items[ value ] ).getFirst();
 
 						while ( ( link = links.getItem( ++i ) ) ) {
 							if ( link.equals( selected ) ) {
@@ -218,11 +222,14 @@ CKEDITOR.plugins.add( 'listblock', {
 								break;
 							}
 						}
-
-						setTimeout( function() {
-							selected.focus();
-						}, 0 );
 					}
+					else {
+						this.element.focus();
+					}
+
+					selected && setTimeout( function() {
+						selected.focus();
+					}, 0 );
 				}
 			}
 		});

@@ -658,7 +658,7 @@
 	}
 
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
-		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
+		protectAttributeRegex = /\s(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
 		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
@@ -675,8 +675,10 @@
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
-				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
+				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 ) {
+					fullAttr = fullAttr.slice( 1 ); // Strip the space.
 					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rnd + '-' + fullAttr;
+				}
 
 				return fullAttr;
 			}) + '>';
@@ -687,7 +689,7 @@
 		return html.replace( regex, function( match, tag, content ) {
 			// Encode < and > in textarea because this won't be done by a browser, since
 			// textarea will be protected during passing data through fix bin.
-			if ( match.indexOf( '<textarea' ) == 0 )
+			if ( match.indexOf( '<textarea' ) === 0 )
 				match = tag + unprotectRealComments( content ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + '</textarea>';
 
 			return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';

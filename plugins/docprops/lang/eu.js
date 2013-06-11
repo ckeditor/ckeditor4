@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'eu', {
 	bgFixed: 'Korritze gabeko Atzealdea',
 	bgImage: 'Atzeko Irudiaren URL-a',
 	charset: 'Karaktere Multzoaren Kodeketa',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Erdialdeko Europakoa',
 	charsetCR: 'Zirilikoa',
 	charsetCT: 'Txinatar Tradizionala (Big5)',
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'eu', {
 	charsetKR: 'Korearra',
 	charsetOther: 'Beste Karaktere Multzoko Kodeketa',
 	charsetTR: 'Turkiarra',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Mendebaldeko Europakoa',
 	chooseColor: 'Choose',
-	design: 'Design', // MISSING
+	design: 'Diseinua',
 	docTitle: 'Orriaren Izenburua',
 	docType: 'Document Type Goiburua',
 	docTypeOther: 'Beste Document Type Goiburua',
@@ -31,11 +31,11 @@ CKEDITOR.plugins.setLang( 'docprops', 'eu', {
 	marginTop: 'Goian',
 	meta: 'Meta Informazioa',
 	metaAuthor: 'Egilea',
-	metaCopyright: 'Copyright', // MISSING
+	metaCopyright: 'Copyright',
 	metaDescription: 'Dokumentuaren Deskribapena',
 	metaKeywords: 'Dokumentuaren Gako-hitzak (komarekin bananduta)',
 	other: '<other>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Hau <strong>adibideko testua</strong> da. <a href="javascript:void(0)">CKEditor</a> erabiltzen ari zara.</p>',
 	title: 'Dokumentuaren Ezarpenak',
 	txtColor: 'Testu Kolorea',
 	xhtmlDec: 'XHTML Ezarpenak'

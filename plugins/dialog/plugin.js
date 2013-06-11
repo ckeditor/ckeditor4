@@ -118,14 +118,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="cke cke_reset_all {editorId} {editorDialogClass}' +
+	var templateSource = '<div class="cke_reset_all {editorId} {editorDialogClass}' +
 		'" dir="{langDir}"' +
 		' lang="{langCode}"' +
-		' role="application"' +
+		' role="dialog"' +
+		' aria-labelledby="cke_dialog_title_{id}"' +
 		'>' +
 		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' aria-labelledby="cke_dialog_title_{id}"' +
-			' style="position:absolute" role="dialog">' +
+			' style="position:absolute" role="presentation">' +
 			'<tr><td role="presentation">' +
 			'<div class="cke_dialog_body" role="presentation">' +
 				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
@@ -161,8 +161,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		// IFrame shim for dialog that masks activeX in IE. (#7619)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ) {
-			var isCustomDomain = CKEDITOR.env.isCustomDomain(),
-				src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();' + ( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) + 'document.close();' ) + '}())',
+			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())',
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 					' frameBorder="0"' +
 					' class="cke_iframe_shim"' +
@@ -1976,8 +1975,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			if ( CKEDITOR.env.ie6Compat ) {
 				// Support for custom document.domain in IE.
-				var isCustomDomain = CKEDITOR.env.isCustomDomain(),
-					iframeHtml = '<html><body style=\\\'background-color:' + backgroundColorStyle + ';\\\'></body></html>';
+				var iframeHtml = '<html><body style=\\\'background-color:' + backgroundColorStyle + ';\\\'></body></html>';
 
 				html.push( '<iframe' +
 					' hidefocus="true"' +
@@ -1985,12 +1983,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					' id="cke_dialog_background_iframe"' +
 					' src="javascript:' );
 
-				html.push( 'void((function(){' +
+				html.push( 'void((function(){' + encodeURIComponent(
 					'document.open();' +
-					( isCustomDomain ? 'document.domain=\'' + document.domain + '\';' : '' ) +
+					// Support for custom document.domain in IE.
+					'(' + CKEDITOR.tools.fixDomain + ')();' +
 					'document.write( \'' + iframeHtml + '\' );' +
-					'document.close();' +
-					'})())' );
+					'document.close();'
+				) + '})())' );
 
 				html.push( '"' +
 					' style="' +
@@ -3183,6 +3182,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event dialogShow
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dialog} data The opened dialog instance.
  */
 
 /**
@@ -3198,6 +3198,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event dialogHide
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {CKEDITOR.dialog} data The hidden dialog instance.
  */
 
 /**

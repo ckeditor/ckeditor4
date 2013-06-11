@@ -249,14 +249,14 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					me.setState( CKEDITOR.TRISTATE_ON );
 
-					list.focus( !list.multiSelect && me.getValue() );
-
 					me._.on = 1;
 
 					me.editorFocus && editor.focus();
 
 					if ( me.onOpen )
 						me.onOpen();
+
+					list.focus( !list.multiSelect && me.getValue() );
 				};
 
 				panel.onHide = function( preventOnClose ) {

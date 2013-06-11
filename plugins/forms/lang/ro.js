@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		type: 'Tip',
 		typeText: 'Text',
 		typePass: 'Parolă',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Cauta',
+		typeTel: 'Numar de telefon',
 		typeUrl: 'URL'
 	}
 });

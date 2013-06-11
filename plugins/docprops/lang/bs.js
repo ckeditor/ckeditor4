@@ -3,7 +3,7 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'bs', {
-	bgColor: 'Background Color', // MISSING
+	bgColor: 'Background Color',
 	bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
 	bgImage: 'Background Image URL', // MISSING
 	charset: 'Character Set Encoding', // MISSING
@@ -18,17 +18,17 @@ CKEDITOR.plugins.setLang( 'docprops', 'bs', {
 	charsetTR: 'Turkish', // MISSING
 	charsetUN: 'Unicode (UTF-8)', // MISSING
 	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose', // MISSING
+	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: 'Page Title', // MISSING
 	docType: 'Document Type Heading', // MISSING
 	docTypeOther: 'Other Document Type Heading', // MISSING
 	label: 'Document Properties', // MISSING
 	margin: 'Page Margins', // MISSING
-	marginBottom: 'Bottom', // MISSING
-	marginLeft: 'Left', // MISSING
-	marginRight: 'Right', // MISSING
-	marginTop: 'Top', // MISSING
+	marginBottom: 'Dno',
+	marginLeft: 'Lijevo',
+	marginRight: 'Desno',
+	marginTop: 'Vrh',
 	meta: 'Meta Tags', // MISSING
 	metaAuthor: 'Author', // MISSING
 	metaCopyright: 'Copyright', // MISSING
@@ -37,6 +37,6 @@ CKEDITOR.plugins.setLang( 'docprops', 'bs', {
 	other: 'Other...', // MISSING
 	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
 	title: 'Document Properties', // MISSING
-	txtColor: 'Text Color', // MISSING
+	txtColor: 'Boja teksta',
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
 });

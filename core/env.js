@@ -109,6 +109,7 @@ if ( !CKEDITOR.env ) {
 			 *			alert( 'I\'m in a custom domain!' );
 			 *
 			 * @returns {Boolean} `true` if a custom domain is enabled.
+			 * @deprecated
 			 */
 			isCustomDomain: function() {
 				if ( !this.ie )
@@ -305,6 +306,9 @@ if ( !CKEDITOR.env ) {
 
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';
+
+		if ( env.iOS )
+			env.cssClass += ' cke_browser_ios';
 
 		return env;
 	})();

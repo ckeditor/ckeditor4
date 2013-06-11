@@ -91,7 +91,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		alignTop: 'Sus',
 		alignMiddle: 'Mijloc',
 		alignBottom: 'Jos',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Varloare invalida',
 		invalidHeight: 'Înălțimea trebuie să fie un număr.',
 		invalidWidth: 'Lățimea trebuie să fie un număr.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
@@ -100,6 +100,6 @@ CKEDITOR.lang[ 'ro' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, nu este disponibil</span>'
 	}
 };

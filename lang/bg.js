@@ -67,7 +67,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		close: 'Затвори',
 		preview: 'Преглед',
 		resize: 'Влачете за да оразмерите',
-		generalTab: 'Общо',
+		generalTab: 'Общи',
 		advancedTab: 'Разширено',
 		validateNumberFailed: 'Тази стойност не е число',
 		confirmNewPage: 'Всички незапазени промени ще бъдат изгубени. Сигурни ли сте, че желаете да заредите нова страница?',

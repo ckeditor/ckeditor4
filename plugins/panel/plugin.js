@@ -70,7 +70,7 @@
 		'{frame}' +
 		'</div>' );
 
-	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="application" frameborder="0" src="{src}"></iframe>' );
+	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="presentation" frameborder="0" src="{src}"></iframe>' );
 
 	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
@@ -163,10 +163,22 @@
 			};
 
 			if ( this.isFramed ) {
+				// With IE, the custom domain has to be taken care at first,
+				// for other browers, the 'src' attribute should be left empty to
+				// trigger iframe's 'load' event.
+				var src =
+					CKEDITOR.env.air ? 'javascript:void(0)' :
+					CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent(
+						'document.open();' +
+						// In IE, the document domain must be set any time we call document.open().
+						'(' + CKEDITOR.tools.fixDomain + ')();' +
+						'document.close();'
+					) + '}())' :
+					'';
+
 				data.frame = frameTpl.output({
 					id: this.id + '_frame',
-					src: 'javascript:void(document.open(),' + ( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\',' : '' )
-						+ 'document.close())">'
+					src: src
 				});
 			}
 
@@ -255,19 +267,28 @@
 				attributes: {
 					'tabIndex': -1,
 					'class': 'cke_panel_block',
-					'role': 'presentation'
+					'role': 'presentation',
+					'tabindex': 0
 				},
 				styles: {
 					display: 'none'
 				}
-			}));
+			} ) );
 
 			// Copy all definition properties to this object.
 			if ( blockDefinition )
 				CKEDITOR.tools.extend( this, blockDefinition );
 
-			if ( !this.attributes.title )
-				this.attributes.title = this.attributes[ 'aria-label' ];
+
+			// Set the a11y attributes of this element ...
+			this.element.setAttributes( {
+				'aria-label': this.attributes[ 'aria-label' ],
+				'title': this.attributes.title || this.attributes[ 'aria-label' ]
+			} );
+
+			// ...  and remove them from being set in the panel main element.
+			delete this.attributes[ 'aria-label' ];
+			delete this.attributes.title;
 
 			this.keys = {};
 

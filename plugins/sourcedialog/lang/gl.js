@@ -4,6 +4,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'gl', {
-	toolbar: 'Código Fonte',
-	title: 'Código Fonte'
+	toolbar: 'Orixe',
+	title: 'Orixe'
 });

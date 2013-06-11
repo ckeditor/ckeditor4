@@ -64,10 +64,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			// Disable native browser menu. (#4825)
 			element.disableContextMenu();
 
-			// Floating panels are placed outside the main editor UI, so we must
-			// make them application regions as well. (#9543)
-			element.setAttribute( 'role', 'application' );
-
 			this.element = element;
 
 			this._ = {

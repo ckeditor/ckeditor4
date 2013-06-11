@@ -18,9 +18,9 @@ CKEDITOR.plugins.setLang( 'image', 'eu', {
 	title: 'Irudi Ezaugarriak',
 	titleButton: 'Irudi Botoiaren Ezaugarriak',
 	upload: 'Gora Kargatu',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'Irudiaren iturburu URL-a falta da.',
 	vSpace: 'VSpace',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Ertza zenbaki oso bat izan behar da.',
+	validateHSpace: 'HSpace zenbaki oso bat izan behar da.',
+	validateVSpace: 'VSpace zenbaki oso bat izan behar da.'
 });

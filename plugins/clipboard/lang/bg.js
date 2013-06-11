@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	cut: 'Отрежи',
 	cutError: 'Настройките за сигурност на Вашия браузър не позволяват на редактора автоматично да изъплни действията за отрязване. Моля ползвайте клавиатурните команди за целта (ctrl+x).',
 	paste: 'Вмъкни',
-	pasteArea: 'Paste Area', // MISSING
+	pasteArea: 'Зона за вмъкване',
 	pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl/Cmd+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+	securityMsg: 'Заради настройките за сигурност на Вашия браузър, редакторът не може да прочете данните от клипборда коректно.',
 	title: 'Вмъкни'
 });

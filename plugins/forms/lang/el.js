@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		type: 'Τύπος',
 		typeText: 'Κείμενο',
 		typePass: 'Κωδικός',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Αναζήτηση',
+		typeTel: 'Τηλέφωνο ',
 		typeUrl: 'URL'
 	}
 });

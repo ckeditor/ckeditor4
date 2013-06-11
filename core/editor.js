@@ -250,7 +250,9 @@
 				editor.fireOnce( 'customConfigLoaded' );
 		} else {
 			// Load the custom configuration file.
-			CKEDITOR.scriptLoader.load( customConfig, function() {
+			// To resolve customConfig race conflicts, use scriptLoader#queue
+			// instead of scriptLoader#load (#6504).
+			CKEDITOR.scriptLoader.queue( customConfig, function() {
 				// If the CKEDITOR.editorConfig function has been properly
 				// defined in the custom configuration file, cache it.
 				if ( CKEDITOR.editorConfig )
@@ -854,6 +856,10 @@
 
 			if ( this.readOnly != isReadOnly ) {
 				this.readOnly = isReadOnly;
+
+				// Block or release BACKSPACE key according to current read-only
+				// state to prevent browser's history navigation (#9761).
+				this.keystrokeHandler.blockedKeystrokes[ 8 ] = +isReadOnly;
 
 				this.editable().setReadOnly( isReadOnly );
 

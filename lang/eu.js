@@ -27,19 +27,19 @@ CKEDITOR.lang[ 'eu' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Testu Aberastuko Editorea',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'ALT 0 sakatu laguntza jasotzeko',
 
 		browseServer: 'Zerbitzaria arakatu',
 		url: 'URL',
 		protocol: 'Protokoloa',
 		upload: 'Gora kargatu',
-		uploadSubmit: 'Zerbitzarira bidalia',
+		uploadSubmit: 'Zerbitzarira bidali',
 		image: 'Irudia',
 		flash: 'Flasha',
 		form: 'Formularioa',
@@ -64,7 +64,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		cssStyle: 'Estiloa',
 		ok: 'Ados',
 		cancel: 'Utzi',
-		close: 'Close', // MISSING
+		close: 'Itxi',
 		preview: 'Aurrebista',
 		resize: 'Arrastatu tamaina aldatzeko',
 		generalTab: 'Orokorra',
@@ -74,10 +74,10 @@ CKEDITOR.lang[ 'eu' ] = {
 		confirmCancel: 'Aukera batzuk aldatu egin dira. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
 		options: 'Aukerak',
 		target: 'Target (Helburua)',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetNew: 'Leiho Berria (_blank)',
+		targetTop: 'Goieneko Leihoan (_top)',
+		targetSelf: 'Leiho Berdinean (_self)',
+		targetParent: 'Leiho Gurasoan (_parent)',
 		langDirLTR: 'Ezkerretik Eskumara(LTR)',
 		langDirRTL: 'Eskumatik Ezkerrera (RTL)',
 		styles: 'Estiloa',
@@ -91,13 +91,13 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Balio ezegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: '"%1" eremurako zehaztutako balioa zenbaki positibo bat izan behar du, aukeran CSS neurri unitate batekin (px, %, in, cm, mm, em, ex, pt edo pc).',
+		invalidHtmlLength: '"%1" eremurako zehaztutako balioa zenbaki positibo bat izan behar du, aukeran HTML neurri unitate batekin (px edo %).',
+		invalidInlineStyle: 'Lerroko estiloan zehazten dena tupla "name : value" formatuko eta puntu eta komaz bereiztutako tupla bat edo gehiago izan behar dira.',
+		cssLengthTooltip: 'Zenbakia bakarrik zehazten bada pixeletan egongo da. CSS neurri unitatea ere zehaztu ahal da (px, %, in, cm, mm, em, ex, pt, edo pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'

@@ -647,7 +647,7 @@
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element ),
 				toBeRemoved = [],
-				transformations, i;
+				transformations;
 
 			// Apply transformations to original element.
 			// Transformations will be applied to clone by the filter function.
@@ -810,7 +810,7 @@
 
 			for ( var i in validator ) {
 				obj[ i ] = validator[ i ];
-				len++
+				len++;
 			}
 
 			return len ? obj : false;

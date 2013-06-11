@@ -5,6 +5,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'justify', 'gl', {
 	block: 'Xustificado',
 	center: 'Centrado',
-	left: 'Aliñar á Esquerda',
-	right: 'Aliñar á Dereita'
+	left: 'Aliñar á esquerda',
+	right: 'Aliñar á dereita'
 });

@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		type: '类型',
 		typeText: '文本',
 		typePass: '密码',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: '搜索',
+		typeTel: '电话号码',
 		typeUrl: '地址'
 	}
 });

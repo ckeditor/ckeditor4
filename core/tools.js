@@ -971,6 +971,47 @@
 				obj[ arr[ i ] ] = fillWith;
 
 			return obj;
+		},
+
+		/**
+		 * Tries to fix the document.domain of the current document to match the
+		 * parent window domain, avoiding "Same Origin" policy issues.
+		 * This is a IE only requirement.
+		 *
+		 * @since 4.1.2
+		 * @returns {Boolean} `true` if the current domain is already good or if
+		 * it has been fixed successfully.
+		 */
+		fixDomain: function() {
+			var domain;
+
+			while( 1 ) {
+				try {
+					// Try to access the parent document. It throws
+					// "access denied" if restricted by the "Same Origin" policy.
+					domain = window.parent.document.domain;
+					break;
+				} catch ( e ) {
+					// Calculate the value to set to document.domain.
+					domain = domain ?
+
+						// If it is not the first pass, strip one part of the
+						// name. E.g.  "test.example.com"  => "example.com"
+						domain.replace( /.+?(?:\.|$)/, '' ) :
+
+						// In the first pass, we'll handle the
+						// "document.domain = document.domain" case.
+						document.domain;
+
+					// Stop here if there is no more domain parts available.
+					if ( !domain )
+						break;
+
+					document.domain = domain;
+				}
+			}
+
+			return !!domain;
 		}
 	};
 })();

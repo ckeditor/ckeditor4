@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		type: 'Típus',
 		typeText: 'Szöveg',
 		typePass: 'Jelszó',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Ímél',
+		typeSearch: 'Keresés',
+		typeTel: 'Telefonszám',
 		typeUrl: 'URL'
 	}
 });

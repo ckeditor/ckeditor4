@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	noAnchors: '(Ez daude aingurak eskuragarri dokumentuan)',
 	noEmail: 'Mesedez ePosta helbidea idatzi',
 	noUrl: 'Mesedez URL esteka idatzi',
-	other: '<other>', // MISSING
+	other: '<bestelakoa>',
 	popupDependent: 'Menpekoa (Netscape)',
 	popupFeatures: 'Popup Leihoaren Ezaugarriak',
 	popupFullScreen: 'Pantaila Osoa (IE)',
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	popupStatusBar: 'Egoera Barra',
 	popupToolbar: 'Tresna Barra',
 	popupTop: 'Goiko Posizioa',
-	rel: 'Relationship', // MISSING
+	rel: 'Erlazioa',
 	selectAnchor: 'Aingura bat hautatu',
 	styles: 'Estiloa',
 	tabIndex: 'Tabulazio Indizea',
