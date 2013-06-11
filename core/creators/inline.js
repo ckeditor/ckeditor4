@@ -36,6 +36,19 @@
 		// data retrieval possible immediately after the editor creation.
 		editor.setData( element.getHtml(), null, true );
 
+		if ( element.is( 'textarea' ) ) {
+			var textarea = element;
+			element = CKEDITOR.dom.element.createFromHtml( "<div contenteditable='true'> " + element.getValue() + " </div>" );
+			element.insertAfter( textarea );
+			textarea.hide();
+
+			// attaching the concrete form
+			var form = textarea.$.form && new CKEDITOR.dom.element( textarea.$.form );
+			editor.attachToForm( form );
+
+			editor.setData( editor.getData( 1 ) );
+		}
+
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			editor.fire( 'uiReady' );
@@ -43,16 +56,17 @@
 			// Enable editing on the element.
 			editor.editable( element );
 
+			// fix the readonly setting
+			editor.setReadOnly( false );
+
 			// Editable itself is the outermost element.
 			editor.container = element;
-
-			// Load and process editor data.
-			editor.setData( editor.getData( 1 ) );
 
 			// Clean on startup.
 			editor.resetDirty();
 
 			editor.fire( 'contentDom' );
+
 			// Inline editing defaults to "wysiwyg" mode, so plugins don't
 			// need to make special handling for this "mode-less" environment.
 			editor.mode = 'wysiwyg';
@@ -68,7 +82,18 @@
 
 		// Handle editor destroying.
 		editor.on( 'destroy', function() {
+			var editor = this,
+				container = editor.container,
+				element = editor.element;
+
 			editor.element.clearCustomData();
+
+			container.clearCustomData();
+			container.remove();
+
+			element.clearCustomData();
+			element.show();
+
 			delete editor.element;
 		});
 
@@ -94,7 +119,9 @@
 					// the instance settings and eventually cancel the creation.
 
 					data = {
-						element: el, config: {} };
+						element: el,
+						config: {}
+					};
 
 					if ( CKEDITOR.fire( 'inline', data ) !== false )
 						CKEDITOR.inline( el, data.config );
@@ -105,8 +132,8 @@
 
 	CKEDITOR.domReady( function() {
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
-	});
-})();
+	} );
+} )();
 
 
 /**
