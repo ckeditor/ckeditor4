@@ -262,7 +262,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			loadTheme( editor );
 
 			if (  mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement )
-				attachToForm( editor );
+				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
+				editor.attachToForm( form );
 
 			editor.setMode( editor.config.startupMode, function() {
 				// Clean on startup.
@@ -370,48 +371,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		});
 
 		editor.fireOnce( 'uiReady' );
-	}
-
-	function attachToForm( editor ) {
-		var element = editor.element;
-
-		// If are replacing a textarea, we must
-		if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
-			var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
-			if ( form ) {
-				function onSubmit( evt ) {
-					editor.updateElement();
-
-					// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
-					// it was cancelled, prevent submitting the form.
-					if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
-						evt.data.preventDefault();
-				}
-				form.on( 'submit', onSubmit );
-
-				// Setup the submit function because it doesn't fire the
-				// "submit" event.
-				if ( !form.$.submit.nodeName && !form.$.submit.length ) {
-					form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-						return function( evt ) {
-							onSubmit( new CKEDITOR.dom.event( evt ) );
-
-							// For IE, the DOM submit function is not a
-							// function, so we need third check.
-							if ( originalSubmit.apply )
-								originalSubmit.apply( this, arguments );
-							else
-								originalSubmit();
-						};
-					});
-				}
-
-				// Remove 'submit' events registered on form element before destroying.(#3988)
-				editor.on( 'destroy', function() {
-					form.removeListener( 'submit', onSubmit );
-				});
-			}
-		}
 	}
 
 	// Replace all textareas with the default class name.

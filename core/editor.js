@@ -636,6 +636,48 @@
 			return this.commands[ commandName ] = cmd;
 		},
 
+		attachToForm : 	function( ) {
+			var element = this.element;
+
+			// If are replacing a textarea, we must
+			if ( this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
+				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
+				if ( form ) {
+					function onSubmit( evt ) {
+						this.updateElement();
+
+						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
+						// it was cancelled, prevent submitting the form.
+						if ( this._.required && !element.getValue() && this.fire( 'required' ) === false )
+							evt.data.preventDefault();
+					}
+					form.on( 'submit', onSubmit );
+
+					// Setup the submit function because it doesn't fire the
+					// "submit" event.
+					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
+						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
+							return function( evt ) {
+								onSubmit( new CKEDITOR.dom.event( evt ) );
+
+								// For IE, the DOM submit function is not a
+								// function, so we need third check.
+								if ( originalSubmit.apply )
+									originalSubmit.apply( this, arguments );
+								else
+									originalSubmit();
+							};
+						});
+					}
+
+					// Remove 'submit' events registered on form element before destroying.(#3988)
+					this.on( 'destroy', function() {
+						form.removeListener( 'submit', onSubmit );
+					});
+				}
+			}
+		},
+
 		/**
 		 * Destroys the editor instance, releasing all resources used by it.
 		 * If the editor replaced an element, the element will be recovered.
