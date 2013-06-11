@@ -541,14 +541,10 @@
 		 * @returns {CKEDITOR.htmlParser.element}
 		 */
 		getOutput: function( element ) {
-			if ( this.template )
-				element = CKEDITOR.htmlParser.fragment.fromHtml( this.template.output( this.data ) ).children[ 0 ];
-			else {
-				if ( !element )
-					element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
+			if ( !element )
+				element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
 
-				delete element.attributes[ 'data-widget-data' ];
-			}
+			delete element.attributes[ 'data-widget-data' ];
 
 			return this.fire( 'getOutput', element );
 		},
