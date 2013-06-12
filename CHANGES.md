@@ -1,6 +1,8 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.1.3
+
 ## CKEditor 4.1.2
 
 * Added new translation: Sinhala.
