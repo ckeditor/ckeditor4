@@ -10,31 +10,40 @@
 /**
  * @class adapters.jQuery
  *
- * jQuery adapter provides easy use of basic CKEditor functions and access to internal API. To find more information about jQuery adapter go to [guide page](#!/guide/dev_jquery) or see the sample.
+ * jQuery adapter provides easy use of basic CKEditor functions and access to internal API.
+ * To find more information about jQuery adapter go to [guide page](#!/guide/dev_jquery) or see the sample.
  *
  * @aside guide dev_jquery
  */
 
 (function() {
 	/**
-	 * Allows CKEditor to override jQuery.fn.val(), making possible to use the val() function on textareas, as usual, having it synchronized with CKEditor.
+	 * Allows CKEditor to override `jQuery.fn.val()`, making possible to use the val()
+	 * function on textareas, as usual, having it synchronized with CKEditor.
 	 *
-	 * This configuration option is global and executed during the jQuery Adapter loading. It can't be customized across editor instances.
+	 * This configuration option is global and executed during the jQuery Adapter loading.
+	 * It can't be customized across editor instances.
 	 *
 	 * 		<script>
 	 * 			CKEDITOR.config.jqueryOverrideVal = true;
 	 * 		</script>
+	 *
 	 * 		<!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal -->
 	 * 		<script src="/ckeditor/adapters/jquery.js"></script>
 	 *
-	 * 		$( 'textarea' ).ckeditor();
-	 * 		// ...
-	 * 		$( 'textarea' ).val( 'New content' );
+	 * 		<script>
+	 * 			$( 'textarea' ).ckeditor();
+	 * 			// ...
+	 * 			$( 'textarea' ).val( 'New content' );
+	 * 		</script>
 	 *
- 	 * @property {boolean} [jqueryOverrideVal = true]
-	 * @member adapters.jQuery
+	 * @cfg {Boolean} [jqueryOverrideVal = true]
+	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined' ? true : CKEDITOR.config.jqueryOverrideVal;
+	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined'  ?
+				true
+			:
+				CKEDITOR.config.jqueryOverrideVal;
 
 	var jQuery = window.jQuery;
 
@@ -42,9 +51,7 @@
 		return;
 
 	// jQuery object methods.
-	jQuery.extend( jQuery.fn,
-	// @lends jQuery.fn
-	{
+	jQuery.extend( jQuery.fn, {
 		/**
 		 * Return existing CKEditor instance for first matched element.
 		 * Allows to easily use internal API. Doesn't return jQuery object.
@@ -57,30 +64,36 @@
 		 */
 		ckeditorGet: function() {
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
+
 			if ( !instance )
 				throw "CKEditor not yet initialized, use ckeditor() with callback.";
+
 			return instance;
 		},
+
 		/**
-		 * jQuery function which triggers creation of CKEditor in {@link CKEDITOR.dtd#$editable all matched elements}. Every TEXTAREA element will be converted to frame editor and any other supported element to inline editor. jQuery chaining allowed. Binds callback to instanceReady event of all instances. If editor is already created, than callback is fired right away.
+		 * jQuery function which triggers creation of CKEditor with `<textarea>` and {@link CKEDITOR.dtd#$editable editable elements}.
+		 * Every `<textarea>` element will be converted to framed editor and any other supported element to inline editor.
+		 * This method binds callback to `instanceReady` event of all instances.
+		 * If editor is already created, then callback is fired right away.
 		 *
-		 * Mixed parameter order allowed.
+		 * **Note**: jQuery chaining and mixed parameter order allowed.
 		 *
 		 * @method ckeditor
 		 *
 		 * @param {Function} callback
 		 * Function to be run on editor instance. Callback takes source element as parameter.
 		 *
-		 * 		$( 'textarea' ).ckeditor( function( textarea ) {
-		 * 		  // callback function code
-		 * 		} );
+		 * 	$( 'textarea' ).ckeditor( function( textarea ) {
+		 * 		// callback function code
+		 * 	} );
 		 *
 		 * @param {Object} config
 		 * Configuration options for new instance(s) if not already created.
 		 *
-		 * 		$( 'textarea' ).ckeditor( {
-		 *			uiColor: '#9AB8F3'
-		 *		} );
+		 * 	$( 'textarea' ).ckeditor( {
+		 * 		uiColor: '#9AB8F3'
+		 * 	} );
 		 *
 		 * @return jQuery.fn
 		 */
@@ -88,15 +101,15 @@
 			if ( !CKEDITOR.env.isCompatible )
 				throw new Error( 'Environment is incompatible.' );
 
-			if ( !jQuery.isFunction( callback )) {
+			if ( !jQuery.isFunction( callback ) ) {
 				var tmp = config;
 				config = callback;
 				callback = tmp;
 			}
+
 			config = config || {};
 
 			this.each( function() {
-
 				var $element = jQuery( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
@@ -119,17 +132,17 @@
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					if( jQuery( this ).is( "textarea" ) ) {
+					if ( jQuery( this ).is( "textarea" ) )
 						editor = CKEDITOR.replace( element, config );
-					} else {
+					else
 						editor = CKEDITOR.inline( element, config );
-					}
 
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
 					editor.on( 'instanceReady', function( event ) {
 						var editor = event.editor;
+
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
@@ -148,7 +161,7 @@
 							 */
 							editor.on( 'dataReady', function() {
 								$element.trigger( 'dataReady.ckeditor', [ editor ] );
-							});
+							} );
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-setData setData event} as a jQuery event.
@@ -160,7 +173,7 @@
 							 */
 							editor.on( 'setData', function( event ) {
 								$element.trigger( 'setData.ckeditor', [ editor, event.data ] );
-							});
+							} );
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-getData getData event} as a jQuery event.
@@ -182,39 +195,40 @@
 							 */
 							editor.on( 'destroy', function() {
 								$element.trigger( 'destroy.ckeditor', [ editor ] );
-							});
+							} );
 
-							// Overwrite save button to call jQuery submit instead of javascript submit. Otherwise jQuery.forms does not work properly
+							// Overwrite save button to call jQuery submit instead of javascript submit.
+							// Otherwise jQuery.forms does not work properly
 							editor.on( 'save', function() {
-								$( element.form ).submit();
+								jQuery( element.form ).submit();
 								return false;
 							}, null, null, 9 );
 
 							// Integrate with form submit.
-							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $( element.form ).length ) {
+							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && jQuery( element.form ).length ) {
 								var onSubmit = function() {
 									$element.ckeditor( function() {
 										editor.updateElement();
-									});
+									} );
 								};
 
 								// Bind to submit event.
-								$( element.form ).submit( onSubmit );
+								jQuery( element.form ).submit( onSubmit );
 
 								// Bind to form-pre-serialize from jQuery Forms plugin.
-								$( element.form ).bind( 'form-pre-serialize', onSubmit );
+								jQuery( element.form ).bind( 'form-pre-serialize', onSubmit );
 
 								// Unbind when editor destroyed.
 								$element.bind( 'destroy.ckeditor', function() {
-									$( element.form ).unbind( 'submit', onSubmit );
-									$( element.form ).unbind( 'form-pre-serialize', onSubmit );
-								});
+									jQuery( element.form ).unbind( 'submit', onSubmit );
+									jQuery( element.form ).unbind( 'form-pre-serialize', onSubmit );
+								} );
 							}
 
 							// Garbage collect on destroy.
 							editor.on( 'destroy', function() {
 								$element.data( 'ckeditorInstance', null );
-							});
+							} );
 
 							// Remove lock.
 							$element.data( '_ckeditorInstanceLock', null );
@@ -231,7 +245,7 @@
 							if ( callback )
 								callback.apply( editor, [ element ] );
 						}, 0 );
-					}, null, null, 9999);
+					}, null, null, 9999 );
 				} else {
 					// Editor is already during creation process, bind our code to the event.
 					CKEDITOR.on( 'instanceReady', function( event ) {
@@ -243,30 +257,33 @@
 								return;
 							}
 
-							if ( editor.element.$ == element ) {
-								// Run given code.
-								if ( callback )
-									callback.apply( editor, [ element ] );
-							}
+							// Run given code.
+							if ( editor.element.$ == element && callback )
+								callback.apply( editor, [ element ] );
 						}, 0 );
-					}, null, null, 9999);
+					}, null, null, 9999 );
 				}
-			});
+			} );
 
 			/**
-			 * Existing CKEditor instance. Allows to easily use internal API.This is not a jQuery object.
+			 * Existing CKEditor instance. Allows to easily use internal API.
 			 *
-			 * 		var editor = $( 'textarea' ).ckeditor().editor;
+			 * **Note**: This is not a jQuery object.
+			 *
+			 * 	var editor = $( 'textarea' ).ckeditor().editor;
 			 *
 			 * @property editor
 			 */
 			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
+
 			return this;
 		}
-	});
+	} );
 
 	/**
-	 * Overwritten val() method for textareas which have CKEditor instances binded to them. Method gets or sets editor's content using {@link CKEDITOR.editor#method-getData editor.getData()} or {@link CKEDITOR.editor#method-setData editor.setData()}.
+	 * Overwritten jQuery `val()` method for `<textarea>` elements which have CKEditor instances bound.
+	 * Method gets or sets editor's content using {@link CKEDITOR.editor#method-getData editor.getData()}
+	 * or {@link CKEDITOR.editor#method-setData editor.setData()}.
 	 *
 	 * @method val
 	 */
