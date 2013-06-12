@@ -411,7 +411,7 @@
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				// Cache choosen fn.
-				downcastFn: widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
+				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
 			}
 		}, true );
 
@@ -543,8 +543,6 @@
 		getOutput: function( element ) {
 			if ( !element )
 				element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
-
-			delete element.attributes[ 'data-widget-data' ];
 
 			return this.fire( 'getOutput', element );
 		},
@@ -814,15 +812,14 @@
 	}
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
+		// Single rule which is automatically activated.
+		if ( widgetDef.upcast )
+			return widgetsRepo._.upcasts.push( [ widgetDef.upcast, widgetDef.name ] );
+
 		var upcasts = widgetDef.config.upcasts;
 
 		if ( !upcasts )
 			return;
-
-		// Single rule activated by setting config.upcasts = true.
-		// wDef.upcasts has to be a function.
-		if ( upcasts === true )
-			return widgetsRepo._.upcasts.push( [ widgetDef.upcasts, widgetDef.name ] );
 
 		// Multiple rules.
 		upcasts = upcasts.split( ',' );
@@ -1064,10 +1061,17 @@
 						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
 
 						if ( widget ) {
-							var widgetElement = element.getFirst( isWidgetElement );
-							return widget._.downcastFn ?
-								widget._.downcastFn( widgetElement, widget ) :
-								widget.getOutput( widgetElement );
+							var widgetElement = element.getFirst( isWidgetElement ),
+								retElement = widget._.downcastFn ?
+									widget._.downcastFn( widgetElement, widget ) :
+									widget.getOutput( widgetElement );
+
+							if ( !retElement )
+								retElement = widgetElement;
+
+							delete retElement.attributes[ 'data-widget-data' ];
+
+							return retElement;
 						}
 
 						return false;

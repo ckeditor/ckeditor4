@@ -37,20 +37,14 @@ CKEDITOR.plugins.add( 'widgettime', {
 				this.element.setText( this.data.text );
 			},
 
-			upcasts: {
-				// Upcast all time elements.
-				time: function( el ) {
-					return el.name == 'time';
-				}
+			// Upcast all time elements.
+			upcast: function( el ) {
+				return el.name == 'time';
 			},
 
-			downcasts: {
-				// Downcast to normal time element, without data-widget attribute.
-				time: function( el ) {
-					delete el.attributes[ 'data-widget' ];
-					delete el.attributes[ 'data-widget-data' ];
-					return el;
-				}
+			// Downcast to normal time element, without data-widget attribute.
+			downcast: function( el ) {
+				delete el.attributes[ 'data-widget' ];
 			}
 		} );
 
