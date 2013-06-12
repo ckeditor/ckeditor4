@@ -8,15 +8,13 @@
 (function() {
 
 	CKEDITOR.plugins.add( 'widgetimage', {
-		requires: 'widget,image',
+		requires: 'widget,image,dialog',
 		icons: 'widgetimage',
 
 		init: function( editor ) {
 			editor.widgets.add( 'image', {
 				dialog: 'image',
-				button: {
-					label: 'Captioned image'
-				},
+				button: 'Captioned image',
 				template:
 					'<figure class="caption" data-widget="image">' +
 						'<img alt="" src="" /><figcaption>caption...</figcaption>' +

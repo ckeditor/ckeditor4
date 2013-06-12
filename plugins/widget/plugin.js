@@ -8,8 +8,6 @@
 (function() {
 
 	CKEDITOR.plugins.add( 'widget', {
-		requires: 'dialog,menubutton',
-
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper:hover{' +
@@ -735,7 +733,7 @@
 			widgetButton = widget.button;
 			if ( widgetButton ) {
 				editor.ui.addButton && editor.ui.addButton( CKEDITOR.tools.capitalize( widget.commandName ), {
-					label: widgetButton.label,
+					label: widgetButton,
 					command: widget.commandName,
 					toolbar: 'insert,10'
 				} );

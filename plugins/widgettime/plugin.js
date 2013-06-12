@@ -6,16 +6,14 @@
 'use strict';
 
 CKEDITOR.plugins.add( 'widgettime', {
-	requires: 'widget',
+	requires: 'widget,dialog',
 	icons: 'widgettime',
 
 	init: function( editor ) {
 		editor.widgets.add( 'time', {
 			inline: true,
 			dialog: 'widgettime',
-			button: {
-				label: 'Time'
-			},
+			button: 'Time',
 			template: '<time datetime="{dateTime}">{text}</time>',
 
 			defaults: function() {
