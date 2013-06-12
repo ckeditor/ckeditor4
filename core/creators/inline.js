@@ -38,15 +38,21 @@
 
 		if ( element.is( 'textarea' ) ) {
 			var textarea = element;
-			element = CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true">' + element.getValue() + '</div>' );
+			var openTag;
+
+			// Construct container according to readOnly config settings.
+			if ( !instanceConfig.readOnly )
+				openTag = '<div contenteditable="true">';
+			else
+				openTag = '<div contenteditable="false">';
+
+			element = CKEDITOR.dom.element.createFromHtml( openTag + element.getValue() + '</div>' );
 			element.insertAfter( textarea );
 			textarea.hide();
 
 			// Attaching the concrete form.
 			var form = textarea.$.form && new CKEDITOR.dom.element( textarea.$.form );
 			editor.attachToForm( form );
-
-			editor.setData( editor.getData( 1 ) );
 		}
 
 		// Once the editor is loaded, start the UI.
@@ -57,10 +63,14 @@
 			editor.editable( element );
 
 			// Fix the readonly setting.
-			editor.setReadOnly( false );
+			if ( !instanceConfig.readOnly && textarea)
+				editor.setReadOnly( false );
 
 			// Editable itself is the outermost element.
 			editor.container = element;
+
+			// Load and process editor data.
+			editor.setData( editor.getData( 1 ) );
 
 			// Clean on startup.
 			editor.resetDirty();
