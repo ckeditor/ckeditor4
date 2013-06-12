@@ -16,7 +16,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 			button: {
 				label: 'Time'
 			},
-			template: new CKEDITOR.template( '<time datetime="{dateTime}">{text}</time>' ),
+			template: '<time datetime="{dateTime}">{text}</time>',
 
 			defaults: function() {
 				return {

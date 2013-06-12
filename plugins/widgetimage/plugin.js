@@ -17,11 +17,10 @@
 				button: {
 					label: 'Captioned image'
 				},
-				template: new CKEDITOR.template(
+				template:
 					'<figure class="caption" data-widget="image">' +
 						'<img alt="" src="" /><figcaption>caption...</figcaption>' +
-					'</figure>'
-				),
+					'</figure>',
 
 				init: function() {
 					// Read float style from figure/image and remove it from these elements.
