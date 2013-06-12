@@ -12,6 +12,7 @@ CKEDITOR.dialog.add( 'widgettime', function( editor ) {
 		minHeight: 100,
 		contents: [
 			{
+				id: 'info',
 				elements: [
 					{
 						id: 'dateTime',

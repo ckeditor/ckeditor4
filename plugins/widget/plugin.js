@@ -84,14 +84,15 @@
 			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
 			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
-			if ( widgetDef.template )
-				widgetDef.template = new CKEDITOR.template( widgetDef.template );
 
 			// Clone config too.
 			widgetDef.config = CKEDITOR.tools.prototypedCopy( widgetDef.config );
 			widgetDef._ = widgetDef._ || {};
 
 			this.editor.fire( 'widgetDefinition', widgetDef );
+
+			if ( widgetDef.template )
+				widgetDef.template = new CKEDITOR.template( widgetDef.template );
 
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
