@@ -9,7 +9,6 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		requires: 'dialog,menubutton',
-		icons: 'widget',
 
 		onLoad: function() {
 			CKEDITOR.addCss(
@@ -742,43 +741,20 @@
 		var widgets = editor.widgets.registered,
 			widget,
 			widgetName,
-			widgetButton,
-			commandName,
-			buttons = {},
-			buttonsStates = {},
-			hasButtons = 0,
-			menuGroup = 'widgetButton';
+			widgetButton;
 
 		for ( widgetName in widgets ) {
 			widget = widgets[ widgetName ];
-			commandName = widget.commandName;
 
 			// Create button if defined.
 			widgetButton = widget.button;
 			if ( widgetButton ) {
-				buttons[ commandName ] = {
+				editor.ui.addButton && editor.ui.addButton( CKEDITOR.tools.capitalize( widget.commandName ), {
 					label: widgetButton.label,
-					group: menuGroup,
-					command: commandName
-				};
-				buttonsStates[ commandName ] = CKEDITOR.TRISTATE_OFF;
-				hasButtons = 1;
+					command: widget.commandName,
+					toolbar: 'insert,10'
+				} );
 			}
-		}
-
-		if ( hasButtons ) {
-			editor.addMenuGroup( menuGroup );
-			editor.addMenuItems( buttons );
-
-			editor.ui.add( 'Widget', CKEDITOR.UI_MENUBUTTON, {
-				label: 'Widget',
-				title: 'Widgets',
-				modes: { wysiwyg:1 },
-				toolbar: 'insert,1',
-				onMenu: function() {
-					return buttonsStates;
-				}
-			} );
 		}
 	}
 
