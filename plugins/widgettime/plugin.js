@@ -40,11 +40,6 @@ CKEDITOR.plugins.add( 'widgettime', {
 			// Upcast all time elements.
 			upcast: function( el ) {
 				return el.name == 'time';
-			},
-
-			// Downcast to normal time element, without data-widget attribute.
-			downcast: function( el ) {
-				delete el.attributes[ 'data-widget' ];
 			}
 		} );
 

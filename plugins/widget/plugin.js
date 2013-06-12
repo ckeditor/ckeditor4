@@ -473,7 +473,7 @@
 			*/
 
 			if ( !offline ) {
-				this.element.removeAttribute( 'data-widget-data' );
+				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-was-marked' ] );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
 			}
@@ -800,6 +800,9 @@
 							element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 							instance;
 
+						if ( element.hasAttribute( 'data-widget' ) )
+							element.setAttribute( 'data-widget-was-marked' );
+
 						editor.insertElement( element );
 						instance = editor.widgets.initOn( element, widgetDef );
 
@@ -1018,6 +1021,7 @@
 				// Widget element found - add it to be cleaned up (just in case)
 				// and wrapped and stop iterating in this branch.
 				else if ( 'data-widget' in element.attributes ) {
+					element.attributes[ 'data-widget-was-marked' ] = '1';
 					toBeWrapped.push( element );
 
 					// Do not iterate over descendants.
@@ -1069,7 +1073,15 @@
 							if ( !retElement )
 								retElement = widgetElement;
 
-							delete retElement.attributes[ 'data-widget-data' ];
+							var attrs = retElement.attributes;
+
+							delete attrs[ 'data-widget-data' ];
+
+							// If widget did not have data-widget attribute before upcasting remove it.
+							if ( attrs[ 'data-widget-was-marked' ] )
+								delete attrs[ 'data-widget-was-marked' ];
+							else
+								delete attrs[ 'data-widget' ];
 
 							return retElement;
 						}
