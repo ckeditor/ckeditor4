@@ -16,7 +16,7 @@
  * @aside guide dev_jquery
  */
 
-(function() {
+(function( $ ) {
 	/**
 	 * Allows CKEditor to override `jQuery.fn.val()`, making possible to use the val()
 	 * function on textareas, as usual, having it synchronized with CKEditor.
@@ -45,13 +45,11 @@
 			:
 				CKEDITOR.config.jqueryOverrideVal;
 
-	var jQuery = window.jQuery;
-
-	if ( typeof jQuery == 'undefined' )
+	if ( typeof $ == 'undefined' )
 		return;
 
 	// jQuery object methods.
-	jQuery.extend( jQuery.fn, {
+	$.extend( $.fn, {
 		/**
 		 * Return existing CKEditor instance for first matched element.
 		 * Allows to easily use internal API. Doesn't return jQuery object.
@@ -101,7 +99,7 @@
 			if ( !CKEDITOR.env.isCompatible )
 				throw new Error( 'Environment is incompatible.' );
 
-			if ( !jQuery.isFunction( callback ) ) {
+			if ( !$.isFunction( callback ) ) {
 				var tmp = config;
 				config = callback;
 				callback = tmp;
@@ -110,7 +108,7 @@
 			config = config || {};
 
 			this.each( function() {
-				var $element = jQuery( this ),
+				var $element = $( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
 					element = this;
@@ -132,7 +130,7 @@
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					if ( jQuery( this ).is( "textarea" ) )
+					if ( $( this ).is( "textarea" ) )
 						editor = CKEDITOR.replace( element, config );
 					else
 						editor = CKEDITOR.inline( element, config );
@@ -200,12 +198,12 @@
 							// Overwrite save button to call jQuery submit instead of javascript submit.
 							// Otherwise jQuery.forms does not work properly
 							editor.on( 'save', function() {
-								jQuery( element.form ).submit();
+								$( element.form ).submit();
 								return false;
 							}, null, null, 9 );
 
 							// Integrate with form submit.
-							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && jQuery( element.form ).length ) {
+							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $( element.form ).length ) {
 								var onSubmit = function() {
 									$element.ckeditor( function() {
 										editor.updateElement();
@@ -213,15 +211,15 @@
 								};
 
 								// Bind to submit event.
-								jQuery( element.form ).submit( onSubmit );
+								$( element.form ).submit( onSubmit );
 
 								// Bind to form-pre-serialize from jQuery Forms plugin.
-								jQuery( element.form ).bind( 'form-pre-serialize', onSubmit );
+								$( element.form ).bind( 'form-pre-serialize', onSubmit );
 
 								// Unbind when editor destroyed.
 								$element.bind( 'destroy.ckeditor', function() {
-									jQuery( element.form ).unbind( 'submit', onSubmit );
-									jQuery( element.form ).unbind( 'form-pre-serialize', onSubmit );
+									$( element.form ).unbind( 'submit', onSubmit );
+									$( element.form ).unbind( 'form-pre-serialize', onSubmit );
 								} );
 							}
 
@@ -288,16 +286,16 @@
 	 * @method val
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
-		jQuery.valHooks[ 'textarea' ] = {
+		$.valHooks[ 'textarea' ] = {
 			get: function( elem ) {
-				var $this = jQuery( elem ),
+				var $this = $( elem ),
 					editor = $this.data( 'ckeditorInstance' );
 
 				if ( editor )
 					return editor.getData();
 			},
 			set: function( elem, value ) {
-				var $this = jQuery( elem ),
+				var $this = $( elem ),
 					editor = $this.data( 'ckeditorInstance' );
 
 				if ( editor )
@@ -305,4 +303,4 @@
 			}
 		};
 	}
-})();
+})( window.jQuery );
