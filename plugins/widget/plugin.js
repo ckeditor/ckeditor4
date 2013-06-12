@@ -25,21 +25,6 @@
 				'.cke_widget_selected{' +
 					'background:rgba(170,205,240,.2)' +
 				'}'
-				// %REMOVE_START%
-				+
-				'.cke_widget_wrapper:hover:after{' +
-					'content:"id: " attr(data-widget-id);' +
-					'position:absolute;' +
-					'top:0;' +
-					'right:0;' +
-					'padding:2px 4px;' +
-					'background:#EEE;' +
-					'border:solid 1px #DDD;' +
-					'border-radius:2px;' +
-					'color:#BBB;' +
-					'font:bold 10px sans-serif' +
-				'}'
-				// %REMOVE_END%
 			);
 		},
 
