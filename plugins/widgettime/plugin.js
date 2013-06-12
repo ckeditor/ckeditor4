@@ -12,6 +12,17 @@ CKEDITOR.plugins.add( 'widgettime', {
 	// Let CKEditor know about the plugin icon.
 	icons: 'widgettime',
 
+	onLoad: function() {
+		// Styles used for widget editing. Do this "onLoad" because it should be
+		// executed just once on plugin loading, not for each editor instance.
+		CKEDITOR.addCss(
+			'time {' +
+				'background: rgba(0,0,0,0.1);' +
+				'border-radius: 2px;' +
+				'padding: 1px;' +
+			'}' );
+	},
+
 	init: function( editor ) {
 		// Register the widget with a unique name "time".
 		editor.widgets.add( 'time', {
