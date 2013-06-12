@@ -38,11 +38,11 @@
 
 		if ( element.is( 'textarea' ) ) {
 			var textarea = element;
-			element = CKEDITOR.dom.element.createFromHtml( "<div contenteditable='true'> " + element.getValue() + " </div>" );
+			element = CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true">' + element.getValue() + '</div>' );
 			element.insertAfter( textarea );
 			textarea.hide();
 
-			// attaching the concrete form
+			// Attaching the concrete form.
 			var form = textarea.$.form && new CKEDITOR.dom.element( textarea.$.form );
 			editor.attachToForm( form );
 
@@ -56,7 +56,7 @@
 			// Enable editing on the element.
 			editor.editable( element );
 
-			// fix the readonly setting
+			// Fix the readonly setting.
 			editor.setReadOnly( false );
 
 			// Editable itself is the outermost element.
@@ -133,8 +133,7 @@
 	CKEDITOR.domReady( function() {
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
 	} );
-} )();
-
+})();
 
 /**
  * Avoid creating editor automatically on element which has attribute

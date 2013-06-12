@@ -640,8 +640,7 @@
 			var element = this.element;
 
 			// If are replacing a textarea, we must
-			if ( this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
-				var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
+			if ( element.is( 'textarea' ) ) {
 				if ( form ) {
 					function onSubmit( evt ) {
 						this.updateElement();
