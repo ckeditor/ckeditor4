@@ -1,6 +1,9 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.1.3
+* [#5189](http://dev.ckeditor.com/ticket/5189): Find/Replace dialog: rename button to "Close".
+
 ## CKEditor 4.1.2
 
 * Added new translation: Sinhala.

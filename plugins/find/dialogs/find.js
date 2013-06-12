@@ -518,7 +518,12 @@
 				resizable: CKEDITOR.DIALOG_RESIZE_NONE,
 				minWidth: 350,
 				minHeight: 170,
-				buttons: [ CKEDITOR.dialog.cancelButton ], // Cancel button only.
+				buttons: [
+					// Close button only.
+					CKEDITOR.dialog.cancelButton( editor, {
+						label: editor.lang.common.close
+					} )
+				],
 				contents: [
 					{
 					id: 'find',
