@@ -225,11 +225,11 @@
 
 							// Garbage collect on destroy.
 							editor.on( 'destroy', function() {
-								$element.data( 'ckeditorInstance', null );
+								$element.removeData( 'ckeditorInstance' );
 							} );
 
 							// Remove lock.
-							$element.data( '_ckeditorInstanceLock', null );
+							$element.removeData( '_ckeditorInstanceLock' );
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-instanceReady instanceReady event} as a jQuery event.
