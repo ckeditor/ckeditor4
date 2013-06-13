@@ -122,14 +122,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'widgetimage',
-			allowedContent: true,
 			height: 400,
 			contentsCss: [ '../../../contents.css', 'contents.css' ]
 		} );
 
 		CKEDITOR.replace( 'editor2', {
 			extraPlugins: 'widgetimage',
-			allowedContent: true,
 			height: 400,
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
 			on: {
@@ -137,6 +135,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( evt.data.name == 'image' ) {
 						evt.data.config.upcasts = 'captionedImage';
 						evt.data.config.downcast = 'captionedImage';
+						evt.data.allowedContent = 'img[data-caption,data-widget]';
 					}
 				}
 			}
@@ -144,12 +143,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.inline( 'editor3', {
 			extraPlugins: 'sourcedialog,widgetimage',
-			allowedContent: true,
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' ) {
 						evt.data.config.upcasts = 'image';
 						evt.data.config.downcast = 'captionedImage';
+						evt.data.allowedContent = 'img[data-caption,data-widget]';
 					}
 				}
 			}

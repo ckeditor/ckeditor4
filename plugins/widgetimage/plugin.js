@@ -19,6 +19,7 @@
 					'<figure class="caption" data-widget="image">' +
 						'<img alt="" src="" /><figcaption>caption...</figcaption>' +
 					'</figure>',
+				allowedContent: 'figure(!caption)[!data-widget]{float}; figcaption',
 
 				init: function() {
 					// Read float style from figure/image and remove it from these elements.

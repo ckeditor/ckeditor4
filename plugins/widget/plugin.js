@@ -97,6 +97,10 @@
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
+			// Register widget automatically if it does not have a button.
+			if ( !widgetDef.button )
+				this.editor.addFeature( widgetDef );
+
 			this.registered[ name ] = widgetDef;
 
 			return widgetDef;
@@ -733,7 +737,7 @@
 			// Create button if defined.
 			widgetButton = widget.button;
 			if ( widgetButton ) {
-				editor.ui.addButton && editor.ui.addButton( CKEDITOR.tools.capitalize( widget.commandName ), {
+				editor.ui.addButton && editor.ui.addButton( 'Widget' + CKEDITOR.tools.capitalize( widget.name ), {
 					label: widgetButton,
 					command: widget.commandName,
 					toolbar: 'insert,10'
@@ -772,7 +776,9 @@
 						instance.focus();
 						instance.edit();
 					}
-				}
+				},
+				allowedContent: widgetDef.allowedContent,
+				requiredContent: widgetDef.requiredContent
 			} );
 		}
 	}

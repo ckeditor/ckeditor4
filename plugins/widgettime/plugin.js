@@ -37,6 +37,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 
 			// The HTML template used for new widgets creation.
 			template: '<time datetime="{dateTime}">{text}</time>',
+			allowedContent: 'time[!datetime]',
 
 			// The default data used to fill the above template.
 			defaults: function() {

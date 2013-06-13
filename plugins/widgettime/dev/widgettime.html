@@ -78,14 +78,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'widgettime',
-			allowedContent: true,
 			height: 350,
 			contentsCss: [ '../../../contents.css', 'contents.css' ]
 		} );
 
 		CKEDITOR.inline( 'editor2', {
-			extraPlugins: 'sourcedialog,widgettime',
-			allowedContent: true
+			extraPlugins: 'sourcedialog,widgettime'
 		} );
 
 		CKCONSOLE.create( 'widget', { editor: 'editor1' } );
