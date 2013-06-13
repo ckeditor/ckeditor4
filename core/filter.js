@@ -287,6 +287,10 @@
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
 				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
+					// Do not filter element with data-cke-filter="off" and all their descendants.
+					if ( el.attributes[ 'data-cke-filter' ] == 'off' )
+						return false;
+
 					// (#10260) Don't touch elements like spans with data-cke-* attribute since they're
 					// responsible e.g. for placing markers, bookmarks, odds and stuff.
 					// We love 'em and we don't wanna lose anything during the filtering.
@@ -297,10 +301,6 @@
 					//       (toDataFormat).
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
-
-					// Do not filter element with data-cke-filter="off" and all their descendants.
-					if ( el.attributes[ 'data-cke-filter' ] == 'off' )
-						return false;
 
 					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
 						isModified = true;
