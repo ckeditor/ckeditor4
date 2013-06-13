@@ -24,6 +24,9 @@
 		if ( !CKEDITOR.env.isCompatible )
 			return null;
 
+		if( !instanceConfig )
+			instanceConfig = {};
+
 		element = CKEDITOR.dom.element.get( element );
 
 		// Avoid multiple inline editor instances on the same element.
@@ -70,7 +73,8 @@
 			editor.container = element;
 
 			// Load and process editor data.
-			editor.setData( editor.getData( 1 ) );
+			if( !textarea )
+				editor.setData( editor.getData( 1 ) );
 
 			// Clean on startup.
 			editor.resetDirty();
