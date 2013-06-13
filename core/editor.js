@@ -636,9 +636,10 @@
 			return this.commands[ commandName ] = cmd;
 		},
 
-		attachToForm : 	function( ) {
-			var element = this.element;
-
+		attachToForm: function ( form, element ) {
+			var self = this;
+			if ( !element )
+				element = this.element;
 			// If are replacing a textarea, we must
 			if ( element.is( 'textarea' ) ) {
 				if ( form ) {
@@ -656,6 +657,7 @@
 					// "submit" event.
 					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
+
 							return function( evt ) {
 								onSubmit( new CKEDITOR.dom.event( evt ) );
 
@@ -670,7 +672,7 @@
 					}
 
 					// Remove 'submit' events registered on form element before destroying.(#3988)
-					this.on( 'destroy', function() {
+					self.on( 'destroy', function() {
 						form.removeListener( 'submit', onSubmit );
 					});
 				}
