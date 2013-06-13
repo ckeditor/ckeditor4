@@ -298,6 +298,10 @@
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
+					// Do not filter element with data-cke-filter="off" and all their descendants.
+					if ( el.attributes[ 'data-cke-filter' ] == 'off' )
+						return false;
+
 					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
 						isModified = true;
 				}
