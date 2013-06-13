@@ -74,6 +74,7 @@
 		 * Every `<textarea>` element will be converted to framed editor and any other supported element to inline editor.
 		 * This method binds callback to `instanceReady` event of all instances.
 		 * If editor is already created, then callback is fired right away.
+		 * You can also create multiple editors at once using `$( '.className' ).ckeditor();`
 		 *
 		 * **Note**: jQuery chaining and mixed parameter order allowed.
 		 *
@@ -107,11 +108,15 @@
 
 			config = config || {};
 
+			var editors = [];
+
 			this.each( function() {
 				var $element = $( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
 					element = this;
+
+				editors.push( editor );
 
 				if ( editor && !instanceLock ) {
 					if ( callback )
@@ -272,7 +277,9 @@
 			 *
 			 * @property {CKEDITOR.editor} editor
 			 */
-			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
+
+			if(editors.length > 0)
+				this.editor = editors.length == 1?editors[0]:editors;
 
 			return this;
 		}
