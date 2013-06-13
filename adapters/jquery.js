@@ -24,20 +24,20 @@
 	 * This configuration option is global and executed during the jQuery Adapter loading.
 	 * It can't be customized across editor instances.
 	 *
-	 * 		<script>
-	 * 			CKEDITOR.config.jqueryOverrideVal = true;
-	 * 		</script>
+	 *		<script>
+	 *			CKEDITOR.config.jqueryOverrideVal = true;
+	 *		</script>
 	 *
-	 * 		<!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal -->
-	 * 		<script src="/ckeditor/adapters/jquery.js"></script>
+	 *		<!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal -->
+	 *		<script src="/ckeditor/adapters/jquery.js"></script>
 	 *
-	 * 		<script>
-	 * 			$( 'textarea' ).ckeditor();
-	 * 			// ...
-	 * 			$( 'textarea' ).val( 'New content' );
-	 * 		</script>
+	 *		<script>
+	 *			$( 'textarea' ).ckeditor();
+	 *			// ...
+	 *			$( 'textarea' ).val( 'New content' );
+	 *		</script>
 	 *
-	 * @cfg {Boolean} [jqueryOverrideVal = true]
+	 * @cfg {Boolean} [jqueryOverrideVal=true]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined'  ?
@@ -57,14 +57,14 @@
 		 * Raised exception if editor doesn't exist or isn't ready yet.
 		 *
 		 * @method ckeditorGet
-		 * @return CKEDITOR.editor
+		 * @returns CKEDITOR.editor
 		 * @deprecated Use {@link #editor editor property} instead.
 		 */
 		ckeditorGet: function() {
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
 
 			if ( !instance )
-				throw "CKEditor not yet initialized, use ckeditor() with callback.";
+				throw 'CKEditor not yet initialized, use ckeditor() with callback.';
 
 			return instance;
 		},
@@ -82,18 +82,18 @@
 		 * @param {Function} callback
 		 * Function to be run on editor instance. Callback takes source element as parameter.
 		 *
-		 * 	$( 'textarea' ).ckeditor( function( textarea ) {
-		 * 		// callback function code
-		 * 	} );
+		 *		$( 'textarea' ).ckeditor( function( textarea ) {
+		 *			// callback function code
+		 *		} );
 		 *
 		 * @param {Object} config
 		 * Configuration options for new instance(s) if not already created.
 		 *
-		 * 	$( 'textarea' ).ckeditor( {
-		 * 		uiColor: '#9AB8F3'
-		 * 	} );
+		 *		$( 'textarea' ).ckeditor( {
+		 *			uiColor: '#9AB8F3'
+		 *		} );
 		 *
-		 * @return jQuery.fn
+		 * @returns jQuery.fn
 		 */
 		ckeditor: function( callback, config ) {
 			if ( !CKEDITOR.env.isCompatible )
@@ -130,7 +130,7 @@
 					$element.data( '_ckeditorInstanceLock', true );
 
 					// Set instance reference in element's data.
-					if ( $( this ).is( "textarea" ) )
+					if ( $( this ).is( 'textarea' ) )
 						editor = CKEDITOR.replace( element, config );
 					else
 						editor = CKEDITOR.inline( element, config );
@@ -233,8 +233,8 @@
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-instanceReady instanceReady event} as a jQuery event.
-							 * @event instanceReady
 							 *
+							 * @event instanceReady
 							 * @param {CKEDITOR.editor} editor Editor's instance.
 							 */
 							$element.trigger( 'instanceReady.ckeditor', [ editor ] );
@@ -268,9 +268,9 @@
 			 *
 			 * **Note**: This is not a jQuery object.
 			 *
-			 * 	var editor = $( 'textarea' ).ckeditor().editor;
+			 *		var editor = $( 'textarea' ).ckeditor().editor;
 			 *
-			 * @property editor
+			 * @property {CKEDITOR.editor} editor
 			 */
 			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
 
