@@ -108,15 +108,11 @@
 
 			config = config || {};
 
-			var editors = [];
-
 			this.each( function() {
 				var $element = $( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
 					element = this;
-
-				editors.push( editor );
 
 				if ( editor && !instanceLock ) {
 					if ( callback )
@@ -277,9 +273,7 @@
 			 *
 			 * @property {CKEDITOR.editor} editor
 			 */
-
-			if(editors.length > 0)
-				this.editor = editors.length == 1?editors[0]:editors;
+			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
 
 			return this;
 		}
