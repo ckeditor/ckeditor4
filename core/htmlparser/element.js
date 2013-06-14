@@ -394,6 +394,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Splits this element at given index.
 		 *
+		 * @since 4.2
 		 * @param {Number} index Index at which element will be split &ndash; `0` means beginning,
 		 * `1` after first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} New element, following this one.
@@ -416,6 +417,29 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			this.parent.add( clone, this.getIndex() + 1 );
 
 			return clone;
+		},
+
+		/**
+		 * Removes class name from classes list.
+		 *
+		 * @since 4.2
+		 * @param {String} className The class name to be removed.
+		 */
+		removeClass: function( className ) {
+			var classes = this.attributes[ 'class' ],
+				index;
+
+			if ( !classes )
+				return;
+
+			// We can safely assume that className won't break regexp.
+			// http://stackoverflow.com/questions/448981/what-characters-are-valid-in-css-class-names
+			classes = CKEDITOR.tools.trim( classes.replace( new RegExp( '(?:\\s+|^)' + className + '(?:\\s+|$)' ), ' ' ) );
+
+			if ( classes )
+				this.attributes[ 'class' ] = classes;
+			else
+				delete this.attributes[ 'class' ];
 		}
 	} );
 
