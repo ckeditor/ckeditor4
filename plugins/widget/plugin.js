@@ -22,6 +22,9 @@
 				'}' +
 				'.cke_widget_selected{' +
 					'background:rgba(170,205,240,.2)' +
+				'}' +
+				'.cke_widget_editable{' +
+					'cursor:text' +
 				'}'
 			);
 		},
@@ -1031,6 +1034,9 @@
 		editor.dataProcessor.htmlFilter.addRules( {
 			elements: {
 				$: function( element ) {
+					var attrs;
+
+					// Wrapper.
 					if ( 'data-widget-id' in element.attributes ) {
 						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
 
@@ -1043,7 +1049,7 @@
 							if ( !retElement )
 								retElement = widgetElement;
 
-							var attrs = retElement.attributes;
+							attrs = retElement.attributes;
 
 							delete attrs[ 'data-widget-data' ];
 
@@ -1057,6 +1063,13 @@
 						}
 
 						return false;
+					}
+					// Nested editable.
+					else if ( 'data-widget-editable' in element.attributes ) {
+						attrs = element.attributes;
+						delete attrs[ 'data-widget-editable' ];
+						delete attrs[ 'contenteditable' ];
+						element.removeClass( 'cke_widget_editable' );
 					}
 				}
 			}
@@ -1246,6 +1259,33 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
+	function setupEditables( widget ) {
+		if ( !widget.editables )
+			return;
+
+		var editables = {},
+			editableName,
+			editableCfg,
+			editable;
+
+		for ( editableName in widget.editables ) {
+			editableCfg = widget.editables[ editableName ];
+			editable = widget.element.findOne( typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
+
+			if ( editable ) {
+				editables[ editableName ] = editable;
+
+				editable.setAttributes( {
+					contenteditable: 'true',
+					'data-widget-editable': 1
+				} );
+				editable.addClass( 'cke_widget_editable' );
+			}
+		}
+
+		widget.editables = editables;
+	}
+
 	/* TMP
 	// Makes widget editables editable, selectable, etc.
 	// Adds necessary classes, properties, and styles.
@@ -1322,7 +1362,7 @@
 	function setupWidget( widget, widgetDef ) {
 		setupWrapper( widget );
 		setupParts( widget );
-		// setupEditables( widget );
+		setupEditables( widget );
 		// setupMask( widget );
 
 		widget.wrapper.removeClass( 'cke_widget_new' );

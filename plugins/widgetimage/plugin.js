@@ -21,6 +21,15 @@
 					'</figure>',
 				allowedContent: 'figure(!caption)[!data-widget]{float}; figcaption',
 
+				parts: {
+					image: 'img',
+					caption: 'figcaption'
+				},
+
+				editables: {
+					caption: 'figcaption'
+				},
+
 				init: function() {
 					// Read float style from figure/image and remove it from these elements.
 					// This style will be set on wrapper in #data listener.
@@ -86,11 +95,6 @@
 
 						return img;
 					}
-				},
-
-				parts: {
-					image: 'img',
-					caption: 'figcaption'
 				}
 			} );
 		}
