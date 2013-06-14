@@ -20,9 +20,6 @@
 				'.cke_widget_wrapper.cke_widget_focused{' +
 					'outline:2px solid #ace' +
 				'}' +
-				'.cke_widget_selected{' +
-					'background:rgba(170,205,240,.2)' +
-				'}' +
 				'.cke_widget_editable{' +
 					'cursor:text' +
 				'}'
@@ -731,7 +728,7 @@
 		tabindex: -1,
 		'data-widget-wrapper': 1,
 		'data-cke-filter': 'off',
-		style: 'position:relative;' + CKEDITOR.tools.cssVendorPrefix( 'user-select', 'none', 1 ),
+		style: 'position:relative',
 		// Class cke_widget_new marks widgets which haven't been initialized yet.
 		'class': 'cke_widget_wrapper cke_widget_new'
 	};
