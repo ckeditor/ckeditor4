@@ -345,6 +345,13 @@
 
 			return wrapper;
 		}
+
+		// %REMOVE_START%
+		// Expose for tests.
+		,
+		getNestedEditable: getNestedEditable
+
+		// %REMOVE_END%
 	};
 
 	CKEDITOR.event.implementOn( Repository.prototype );
@@ -853,6 +860,21 @@
 		}
 	}
 
+	// Gets nested editable if node is its descendant or the editable itself.
+	//
+	// @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
+	// @param {CKEDITOR.dom.node} node Start search from this node.
+	// @returns {CKEDITOR.dom.element} Element or null.
+	function getNestedEditable( guard, node ) {
+		if ( !node || node.equals( guard ) )
+			return null;
+
+		if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-editable' ) )
+			return node;
+
+		return getNestedEditable( guard, node.getParent() );
+	}
+
 	// Inserts element at given index.
 	// It will check DTD and split ancestor elements up to the first
 	// that can contain this element.
@@ -1088,10 +1110,18 @@
 				widget;
 
 			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
-				if ( ( widget = widgetsRepo.getByElement( evt.data.getTarget() ) ) ) {
-					evt.data.preventDefault();
-					if ( !CKEDITOR.env.ie )
-						widget.focus();
+				var target = evt.data.getTarget();
+
+				// Widget was clicked, but not editable nested in it.
+				if ( ( widget = widgetsRepo.getByElement( target ) ) ) {
+					if ( !getNestedEditable( widget.wrapper, target ) ) {
+						evt.data.preventDefault();
+						if ( !CKEDITOR.env.ie )
+							widget.focus();
+					}
+					// Reset widget so mouseup listener is not confused.
+					else
+						widget = null;
 				}
 			} );
 
