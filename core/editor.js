@@ -312,7 +312,20 @@
 		 * @property {Boolean}
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.isReadOnly() : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
+		editor.readOnly = !!(
+			editor.config.readOnly || (
+				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
+						editor.element.is( 'textarea' ) ?
+								editor.element.hasAttribute( 'disabled' )
+							:
+								editor.element.isReadOnly()
+					:
+						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+								editor.element.hasAttribute( 'disabled' )
+							:
+								false
+			)
+		);
 
 		/**
 		 * Indicates that the editor is running into an environment where
