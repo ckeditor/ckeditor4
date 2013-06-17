@@ -1022,7 +1022,8 @@
 		 * the current data available in the editor.
 		 *
 		 * **Note:** This method will only affect those editor instances created
-		 * with {@link CKEDITOR#ELEMENT_MODE_REPLACE} element mode.
+		 * with {@link CKEDITOR#ELEMENT_MODE_REPLACE} element mode or inline instances
+		 * bound to `<textarea>` elements.
 		 *
 		 *		CKEDITOR.instances.editor1.updateElement();
 		 *		alert( document.getElementById( 'editor1' ).value ); // The current editor data.
