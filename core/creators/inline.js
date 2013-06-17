@@ -24,38 +24,30 @@
 		if ( !CKEDITOR.env.isCompatible )
 			return null;
 
-		if( !instanceConfig )
-			instanceConfig = {};
-
 		element = CKEDITOR.dom.element.get( element );
 
 		// Avoid multiple inline editor instances on the same element.
 		if ( element.getEditor() )
 			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
 
-		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE );
+		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
+			textarea = element.is( 'textarea' ) ? element : null;
 
 		// Initial editor data is simply loaded from the page element content to make
 		// data retrieval possible immediately after the editor creation.
-		editor.setData( element.getHtml(), null, true );
+		editor.setData( element[ textarea ? 'getValue' : 'getHtml' ](), null, true );
 
-		if ( element.is( 'textarea' ) ) {
-			var textarea = element;
-			var openTag;
+		if ( textarea ) {
+			element = CKEDITOR.dom.element.createFromHtml(
+				'<div contenteditable="' + !!editor.readOnly + '">' + textarea.getValue() + '</div>',
+				CKEDITOR.document );
 
-			// Construct container according to readOnly config settings.
-			if ( !instanceConfig.readOnly )
-				openTag = '<div contenteditable="true">';
-			else
-				openTag = '<div contenteditable="false">';
-
-			element = CKEDITOR.dom.element.createFromHtml( openTag + element.getValue() + '</div>' );
 			element.insertAfter( textarea );
 			textarea.hide();
 
 			// Attaching the concrete form.
-			var form = textarea.$.form && new CKEDITOR.dom.element( textarea.$.form );
-			editor.attachToForm( form );
+			if ( textarea.$.form )
+				editor.attachToForm( new CKEDITOR.dom.element( textarea.$.form ) );
 		}
 
 		// Once the editor is loaded, start the UI.
@@ -65,16 +57,11 @@
 			// Enable editing on the element.
 			editor.editable( element );
 
-			// Fix the readonly setting.
-			if ( !instanceConfig.readOnly && textarea)
-				editor.setReadOnly( false );
-
 			// Editable itself is the outermost element.
 			editor.container = element;
 
 			// Load and process editor data.
-			if( !textarea )
-				editor.setData( editor.getData( 1 ) );
+			editor.setData( editor.getData( 1 ) );
 
 			// Clean on startup.
 			editor.resetDirty();
@@ -96,20 +83,18 @@
 
 		// Handle editor destroying.
 		editor.on( 'destroy', function() {
-			var editor = this,
-				container = editor.container,
-				element = editor.element;
+			// Remove container from DOM if inline-textarea editor.
+			// Show <textarea> back again.
+			if ( textarea ) {
+				editor.container.clearCustomData();
+				editor.container.remove();
+				textarea.show();
+			}
 
 			editor.element.clearCustomData();
 
-			container.clearCustomData();
-			container.remove();
-
-			element.clearCustomData();
-			element.show();
-
 			delete editor.element;
-		});
+		} );
 
 		return editor;
 	};
