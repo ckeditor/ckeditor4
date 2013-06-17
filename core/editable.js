@@ -479,8 +479,8 @@
 				}
 
 				// The above is all we'll be doing for a <textarea> editable.
-				if ( this.is( 'textarea' ) && !this.isInline() )
-				 	return;
+				if ( this.is( 'textarea' ) )
+					return;
 
 				// The DOM document which the editing acts upon.
 				editor.document = this.getDocument();
