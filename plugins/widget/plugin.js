@@ -1379,7 +1379,7 @@
 				el, partName;
 
 			for ( partName in widget.parts ) {
-				el = widget.element.findOne( widget.parts[ partName ] );
+				el = widget.wrapper.findOne( widget.parts[ partName ] );
 				parts[ partName ] = el;
 			}
 			widget.parts = parts;
