@@ -287,21 +287,57 @@
 	 * @method val
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
-		$.valHooks[ 'textarea' ] = {
-			get: function( elem ) {
-				var $this = $( elem ),
-					editor = $this.data( 'ckeditorInstance' );
+			jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod ) {
+				return function( value ) {
 
-				if ( editor )
-					return editor.getData();
-			},
-			set: function( elem, value ) {
-				var $this = $( elem ),
-					editor = $this.data( 'ckeditorInstance' );
+					if ( arguments.length ) { //setter, i.e. .val( "some data" );
 
-				if ( editor )
-					editor.setData( value );
-			}
-		};
-	}
+						var _this = this,
+							promises = [], //use promise to handle setData callback
+							result;
+
+						result = this.each( function() {
+
+							var $elem = jQuery( this ),
+								editor = $elem.data( 'ckeditorInstance' );
+
+							if ( $elem.is( 'textarea' ) && editor ) { //handle .val for CKEditor
+
+								var dfd = new jQuery.Deferred();
+
+								editor.setData( value, function() {
+									dfd.resolve();
+								} );
+								promises.push( dfd.promise() );
+							} else { //call default .val function for rest of elements
+								return oldValMethod.call( $elem, value );
+							}
+						} );
+
+						if ( !promises.length ) { //if there is no promise return default result (jQuery object of chaining)
+							return result;
+						} else { //create one promise which will be resolved when all of promises will be done
+							var dfd = new jQuery.Deferred();
+
+							$.when.apply( this, promises ).done( function () {
+								dfd.resolveWith( _this );
+							} );
+
+							return dfd.promise();
+						}
+
+					} else { //getter .val();
+						var $elem = $( this ).eq( 0 ),
+							editor = $elem.data( 'ckeditorInstance' );
+
+						if ( $elem.is( 'textarea' ) && editor ) {
+							return editor.getData();
+						} else {
+							return oldValMethod.call( $elem );
+						}
+					}
+				};
+			} );
+		}
+
 })( window.jQuery );
