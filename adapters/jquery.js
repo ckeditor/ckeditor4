@@ -282,9 +282,12 @@
 	/**
 	 * Overwritten jQuery `val()` method for `<textarea>` elements which have CKEditor instances bound.
 	 * Method gets or sets editor's content using {@link CKEDITOR.editor#method-getData editor.getData()}
-	 * or {@link CKEDITOR.editor#method-setData editor.setData()}.
+	 * or {@link CKEDITOR.editor#method-setData editor.setData()}. To handle
+	 * {@link CKEDITOR.editor#method-setData editor.setData()} callback (setData is asynchronous)
+	 * `val( 'some data' )` will return [jQuery promise](http://api.jquery.com/promise/).
 	 *
 	 * @method val
+	 * @returns String|Number|Array|jQuery.fn|function(jQuery promise)
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
 			jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod ) {
