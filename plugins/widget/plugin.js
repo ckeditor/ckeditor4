@@ -405,6 +405,9 @@
 			 */
 			dataReady: false,
 
+			// Revert what widgetDef could override (automatic #edit listener).
+			edit: Widget.prototype.edit,
+
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				// Cache choosen fn.
@@ -1393,6 +1396,9 @@
 
 		if ( widgetDef.data )
 			widget.on( 'data', widgetDef.data );
+
+		if ( widgetDef.edit )
+			widget.on( 'edit', widgetDef.edit );
 	}
 
 	function setupWidgetData( widget ) {
