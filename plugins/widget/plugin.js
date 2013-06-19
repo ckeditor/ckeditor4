@@ -772,7 +772,9 @@
 						instance;
 
 					if ( element.hasAttribute( 'data-widget' ) )
-						element.setAttribute( 'data-widget-was-marked' );
+						element.data( 'widget-was-marked', '1' );
+					else
+						element.data( 'widget', widgetDef.name );
 
 					editor.insertElement( element );
 					instance = editor.widgets.initOn( element, widgetDef );
