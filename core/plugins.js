@@ -27,6 +27,8 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 
 		var loadPlugins = function( names ) {
 				originalLoad.call( this, names, function( plugins ) {
+					var iconDirectory = 'icons/' + ( CKEDITOR.env.hidpi ? '32/' : '' );
+
 					CKEDITOR.tools.extend( allPlugins, plugins );
 
 					var requiredPlugins = [];
@@ -39,7 +41,7 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 							if ( plugin.icons ) {
 								var icons = plugin.icons.split( ',' );
 								for ( var ic = 0 ; ic < icons.length ; ic++ ) {
-									CKEDITOR.skin.addIcon( icons[ ic ], plugin.path + 'icons/' + icons[ ic ] + '.png' );
+									CKEDITOR.skin.addIcon( icons[ ic ], plugin.path + iconDirectory + icons[ ic ] + '.png' );
 								}
 							}
 							initialized[ pluginName ] = 1;
