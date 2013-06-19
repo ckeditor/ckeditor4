@@ -408,7 +408,7 @@
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				// Cache choosen fn.
-				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
+				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ]
 			}
 		}, true );
 

@@ -129,7 +129,7 @@
 		var floatStyle = widget.data.floatStyle;
 		if ( floatStyle ) {
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
-			styles.float = floatStyle;
+			styles[ 'float' ] = floatStyle;
 			attrs.style = CKEDITOR.tools.writeCssText( styles );
 		}
 	}
