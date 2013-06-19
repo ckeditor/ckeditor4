@@ -754,41 +754,36 @@
 		}
 	}
 
-	// Create command - first check if widget.command is defined,
-	// if not - try to create generic one based on widget.template.
+	// Create a command creating and editing widget.
 	//
 	// @param editor
 	// @param {CKEDITOR.plugins.widget.registeredDefinition} widgetDef
 	function addWidgetCommand( editor, widgetDef ) {
-		if ( widgetDef.command )
-			editor.addCommand( widgetDef.commandName, widgetDef.command );
-		else {
-			editor.addCommand( widgetDef.commandName, {
-				exec: function() {
-					var focused = editor.widgets.focused;
-					// If a widget of the same type is focused, start editing.
-					if ( focused && focused.name == widgetDef.name )
-						focused.edit();
-					// Otherwise, create a brand-new widget from template.
-					else if ( widgetDef.template ) {
-						var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
-							element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
-							instance;
+		editor.addCommand( widgetDef.commandName, {
+			exec: function() {
+				var focused = editor.widgets.focused;
+				// If a widget of the same type is focused, start editing.
+				if ( focused && focused.name == widgetDef.name )
+					focused.edit();
+				// Otherwise, create a brand-new widget from template.
+				else if ( widgetDef.template ) {
+					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
+						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
+						instance;
 
-						if ( element.hasAttribute( 'data-widget' ) )
-							element.setAttribute( 'data-widget-was-marked' );
+					if ( element.hasAttribute( 'data-widget' ) )
+						element.setAttribute( 'data-widget-was-marked' );
 
-						editor.insertElement( element );
-						instance = editor.widgets.initOn( element, widgetDef );
+					editor.insertElement( element );
+					instance = editor.widgets.initOn( element, widgetDef );
 
-						instance.focus();
-						instance.edit();
-					}
-				},
-				allowedContent: widgetDef.allowedContent,
-				requiredContent: widgetDef.requiredContent
-			} );
-		}
+					instance.focus();
+					instance.edit();
+				}
+			},
+			allowedContent: widgetDef.allowedContent,
+			requiredContent: widgetDef.requiredContent
+		} );
 	}
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
