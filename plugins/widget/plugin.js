@@ -1166,18 +1166,10 @@
 	// * deselecting and blurring all widgets on data,
 	// * blurring widget on editor blur.
 	function setupSelectionObserver( widgetsRepo ) {
-		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_SELECTION_CHECK_INTERVAL,	fireSelectionCheck );
+		var editor = widgetsRepo.editor;
 
-		editor.on( 'afterSelectionCheck', function( evt ) {
-			// If selectionChange was fired - check selection immediately.
-			if ( evt.data.changed ) {
-				buffer.reset();
-				buffer.input();
-			}
-			// If selectionChange wasn't fired buffer events.
-			else
-				buffer.input();
+		editor.on( 'selectionCheck', function() {
+			widgetsRepo.fire( 'checkSelection' );
 		} );
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
@@ -1194,10 +1186,6 @@
 			if ( ( widget = widgetsRepo.focused ) )
 				blurWidget( widgetsRepo, widget );
 		} );
-
-		function fireSelectionCheck() {
-			widgetsRepo.fire( 'checkSelection' );
-		}
 	}
 
 	// Setup observer which will trigger checkWidgets on:
