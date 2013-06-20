@@ -454,6 +454,8 @@
 
 		// Unlock snapshot after we've done all changes.
 		editor.fire( 'unlockSnapshot' );
+
+		this.fire( 'ready' );
 	}
 
 	Widget.prototype = {
@@ -1451,6 +1453,13 @@
  * @event getOutput
  * @member CKEDITOR.plugins.widget
  * @param {CKEDITOR.htmlParser.element} data The element that will be returned.
+ */
+
+/**
+ * Event fired when widget is ready (fully initialized).
+ *
+ * @event ready
+ * @member CKEDITOR.plugins.widget
  */
 
 /**
