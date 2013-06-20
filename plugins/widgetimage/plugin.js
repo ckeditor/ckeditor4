@@ -88,10 +88,10 @@
 				},
 
 				downcasts: {
-					captionedImage: function( el, widget ) {
+					captionedImage: function( el ) {
 						var img = el.getFirst( 'img' );
 
-						downcastWidgetElement( el, widget, img );
+						downcastWidgetElement( el, this, img );
 
 						return img;
 					}

@@ -1073,7 +1073,7 @@
 						if ( widget ) {
 							var widgetElement = element.getFirst( isWidgetElement ),
 								retElement = widget._.downcastFn ?
-									widget._.downcastFn( widgetElement, widget ) :
+									widget._.downcastFn.call( widget, widgetElement ) :
 									widget.getOutput( widgetElement );
 
 							if ( !retElement )
