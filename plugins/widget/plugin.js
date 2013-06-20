@@ -787,7 +787,8 @@
 					else
 						element.data( 'widget', widgetDef.name );
 
-					editor.insertElement( element );
+					var wrapper = editor.widgets.wrapElement( element );
+					editor.insertElement( wrapper );
 					instance = editor.widgets.initOn( element, widgetDef );
 
 					instance.focus();
