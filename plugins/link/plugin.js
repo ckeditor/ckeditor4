@@ -9,8 +9,8 @@ CKEDITOR.plugins.add( 'link', {
 	icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 	onLoad: function() {
 		// Add the CSS styles for anchor placeholders.
-		var baseStyle = 'background:url(' + CKEDITOR.getUrl( this.path + 'images/anchor.png' ) + ') no-repeat %1 center;' +
-			'border:1px dotted #00f;';
+		var iconPath = CKEDITOR.getUrl( this.path + 'images' + ( CKEDITOR.env.hidpi ? '/32' : '' ) + '/anchor.png' ),
+			baseStyle = 'background:url(' + iconPath + ') no-repeat %1 center;border:1px dotted #00f;background-size:16px;';
 
 		var template = '.%2 a.cke_anchor,' +
 			'.%2 a.cke_anchor_empty' +
