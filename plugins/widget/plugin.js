@@ -1296,7 +1296,7 @@
 
 		for ( editableName in widget.editables ) {
 			editableCfg = widget.editables[ editableName ];
-			editable = widget.element.findOne( typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
+			editable = widget.wrapper.findOne( typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
 
 			if ( editable ) {
 				editables[ editableName ] = editable;
