@@ -339,6 +339,20 @@
 		},
 
 		/**
+		 * Replace HTML entities previously encoded by
+		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
+		 * representation.
+		 *
+		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&gt;a &quot; b &lt;' ); // '<a " b >'
+		 *
+		 * @param {String} text The text to be decoded.
+		 * @returns {String} The decoded text.
+		 */
+		htmlDecodeAttr: function( text ) {
+			return text.replace( /&quot;/g, '"' ).replace( /&lt;/g, '<' ).replace( /&gt;/g, '>' );
+		},
+
+		/**
 		 * Gets a unique number for this CKEDITOR execution session. It returns
 		 * consecutive numbers starting from 1.
 		 *

@@ -182,7 +182,7 @@ CKEDITOR.htmlParser = function() {
 							if ( !attValue && emptyAttribs[ attName ] )
 								attribs[ attName ] = attName;
 							else
-								attribs[ attName ] = attValue;
+								attribs[ attName ] = CKEDITOR.tools.htmlDecodeAttr( attValue );
 						}
 					}
 
