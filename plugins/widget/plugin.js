@@ -314,7 +314,10 @@
 
 				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
 				wrapper.setAttributes( wrapperAttributes );
-				wrapper.replace( element );
+
+				// Replace element unless it is a detached one.
+				if ( element.getParent() )
+					wrapper.replace( element );
 				element.appendTo( wrapper );
 
 				this.editor.fire( 'unlockSnapshot' );
@@ -331,13 +334,18 @@
 				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperAttributes );
 
 				var parent = element.parent,
-					index = element.getIndex();
+					index;
 
-				element.remove();
+				// Don't detached and then insert already detached element.
+				if ( parent ) {
+					index = element.getIndex();
+					element.remove();
+				}
+
 				wrapper.add( element );
 
 				// Insert wrapper fixing DOM (splitting parents if wrapper is not allowed inside them).
-				insertElement( parent, index, wrapper );
+				parent && insertElement( parent, index, wrapper );
 			}
 
 			return wrapper;
