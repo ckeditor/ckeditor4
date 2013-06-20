@@ -512,7 +512,8 @@
 	function initLine( that ) {
 		var doc = that.doc,
 			// This the main box element that holds triangles and the insertion button
-			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc );
+			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc ),
+			iconPath = this.path + 'images/' + ( env.hidpi ? '32/' : '' ) + 'icon.png';
 
 		extend( line, {
 
@@ -530,8 +531,9 @@
 					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
 						'" contenteditable="false">&#8629;</span>', doc ), {
 					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor + ';cursor:pointer;'
-						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ),
+						+ 'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;'
+						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' )
+						+ ( env.hidpi ? 'background-size: 9px 10px;' : '' ),
 					looks: [
 						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
 						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),

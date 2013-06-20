@@ -4,7 +4,8 @@
  */
 
 CKEDITOR.dialog.add( 'about', function( editor ) {
-	var lang = editor.lang.about;
+	var lang = editor.lang.about,
+		imagePath = CKEDITOR.plugins.get( 'about' ).path + 'dialogs/' + ( CKEDITOR.env.hidpi ? '32/' : '' ) + 'logo_ckeditor.png';
 
 	return {
 		title: CKEDITOR.env.ie ? lang.dlgTitle : lang.title,
@@ -35,7 +36,8 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 					'{' +
 						'height:81px;' +
 						'background-color:#fff;' +
-						'background-image:url(' + CKEDITOR.plugins.get( 'about' ).path + 'dialogs/logo_ckeditor.png);' +
+						'background-image:url(' + imagePath + ');' +
+						( CKEDITOR.env.hidpi ? 'background-size:163px 58px;' : '' ) +
 						'background-position:center; ' +
 						'background-repeat:no-repeat;' +
 						'margin-bottom:10px;' +
