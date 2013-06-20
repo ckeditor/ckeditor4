@@ -131,6 +131,9 @@
 	],
 	"11": [
 		"plugins/link/images/anchor.png",
-		"skins/moono/images/close.png"
+		"skins/moono/images/close.png",
+		"skins/moono/images/lock.png",
+		"skins/moono/images/lock-open.png",
+		"skins/moono/images/refresh.png"
 	]
 }
