@@ -17,7 +17,9 @@
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
 					'outline:2px solid yellow' +
 				'}' +
-				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element{' +
+				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element,' +
+				// We need higher specificity than hover style.
+				'.cke_widget_wrapper .cke_widget_editable.cke_widget_editable_focused{' +
 					'outline:2px solid #ace' +
 				'}' +
 				'.cke_widget_editable{' +
