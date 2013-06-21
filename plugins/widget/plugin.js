@@ -45,6 +45,7 @@
 		this.instances = {};
 		this.selected = [];
 		this.focused = null;
+		this.widgetHoldingFocusedEditable = null;
 		this._ = {
 			nextId: 0,
 			upcasts: []
@@ -415,6 +416,14 @@
 
 			// Revert what widgetDef could override (automatic #edit listener).
 			edit: Widget.prototype.edit,
+
+			/**
+			 * Contains nested editable which currently holds focus.
+			 *
+			 * @readonly
+			 * @property {CKEDITOR.dom.element}
+			 */
+			focusedEditable: null,
 
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
@@ -1176,6 +1185,7 @@
 
 	// Setup selection observer which will trigger:
 	// * widget select & focus on selection change,
+	// * nested editable focus (related properites and classes) on selection change,
 	// * deselecting and blurring all widgets on data,
 	// * blurring widget on editor blur.
 	function setupSelectionObserver( widgetsRepo ) {
@@ -1186,6 +1196,23 @@
 		} );
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
+
+		editor.on( 'selectionChange', function( evt ) {
+			var nestedEditable = getNestedEditable( editor.editable(), evt.data.selection.getStartElement() ),
+				newWidget = nestedEditable && widgetsRepo.getByElement( nestedEditable ),
+				oldWidget = widgetsRepo.widgetHoldingFocusedEditable;
+
+			if ( oldWidget ) {
+				if ( oldWidget !== newWidget || !oldWidget.focusedEditable.equals( nestedEditable ) ) {
+					oldWidget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
+					oldWidget.focusedEditable = null;
+					widgetsRepo.widgetHoldingFocusedEditable = null;
+
+					focusEditable( newWidget, nestedEditable );
+				}
+			} else
+				focusEditable( newWidget, nestedEditable );
+		} );
 
 		// Invalidate old widgets early - immediately on dataReady.
 		editor.on( 'dataReady', function( evt ) {
@@ -1199,6 +1226,16 @@
 			if ( ( widget = widgetsRepo.focused ) )
 				blurWidget( widgetsRepo, widget );
 		} );
+
+		function focusEditable( widget, editable ) {
+			// It may happen that there's no widget even if editable was found -
+			// e.g. if selection was automatically set in editable although widget wasn't initialized yet.
+			if ( widget && editable ) {
+				widgetsRepo.widgetHoldingFocusedEditable = widget;
+				widget.focusedEditable = editable;
+				editable.addClass( 'cke_widget_editable_focused' );
+			}
+		}
 	}
 
 	// Setup observer which will trigger checkWidgets on:
