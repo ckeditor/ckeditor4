@@ -444,13 +444,11 @@
 
 		setupWidgetData( this );
 
-		// Finally mark widget as inited.
-		this.wrapper.setAttribute( 'data-widget-wrapper-inited', 1 );
-
-		// Disable contenteditable on the wrapper once the initialization process
-		// is over and selection is set (i.e. after setupPasted). This prevents
-		// from selection being put at the beginning of editable.
-		this.wrapper.setAttribute( 'contenteditable', false );
+		// Finally mark widget as inited and non-editable.
+		this.wrapper.setAttributes( {
+			'data-widget-wrapper-inited': 1,
+			contenteditable: false
+		} );
 
 		// Unlock snapshot after we've done all changes.
 		editor.fire( 'unlockSnapshot' );
