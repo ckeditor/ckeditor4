@@ -484,6 +484,7 @@
 
 			if ( !offline ) {
 				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-was-marked' ] );
+				this.element.removeClass( 'cke_widget_element' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
 			}
@@ -1392,6 +1393,7 @@
 		// setupMask( widget );
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
+		widget.element.addClass( 'cke_widget_element' );
 
 		widget.on( 'key', function( evt ) {
 			if ( evt.data.keyCode == 13 ) {
