@@ -10,14 +10,14 @@
 	CKEDITOR.plugins.add( 'widget', {
 		onLoad: function() {
 			CKEDITOR.addCss(
-				'.cke_widget_wrapper:hover{' +
+				'.cke_widget_wrapper:hover>.cke_widget_element{' +
 					'outline:2px solid yellow;' +
 					'cursor:default' +
 				'}' +
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
 					'outline:2px solid yellow' +
 				'}' +
-				'.cke_widget_wrapper.cke_widget_focused{' +
+				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element{' +
 					'outline:2px solid #ace' +
 				'}' +
 				'.cke_widget_editable{' +
