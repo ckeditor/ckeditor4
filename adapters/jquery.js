@@ -198,10 +198,11 @@
 
 							// Overwrite save button to call jQuery submit instead of javascript submit.
 							// Otherwise jQuery.forms does not work properly
-							editor.on( 'save', function() {
+							editor.on( 'save', function( e ) {
+								console.log( e,this );
 								$( element.form ).submit();
 								return false;
-							}, null, null, 9 );
+							}, null, null, 0 );
 
 							// Integrate with form submit.
 							if ( editor.config.autoUpdateElementJquery && $element.is( 'textarea' ) && $( element.form ).length ) {

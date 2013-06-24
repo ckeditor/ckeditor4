@@ -9,12 +9,10 @@
 
 (function() {
 	var saveCmd = {
-		modes:{ wysiwyg:1,source:1 },
 		readOnly: 1,
 
 		exec: function( editor ) {
-
-			if( editor.fire( 'save' ) ) {
+			if ( editor.fire( 'save' ) ) {
 				var $form = editor.element.$.form;
 
 				if ( $form ) {
@@ -58,6 +56,8 @@
 /**
  * Fired when user clicks on save button. This event allows overwrite default save button behavior.
  *
+ * @since 4.2
  * @event save
  * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
