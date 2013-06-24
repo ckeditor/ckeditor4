@@ -290,7 +290,7 @@
 	 * @returns String|Number|Array|jQuery.fn|function(jQuery promise)
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
-			jQuery.fn.val = CKEDITOR.tools.override( jQuery.fn.val, function( oldValMethod ) {
+			$.fn.val = CKEDITOR.tools.override( $.fn.val, function( oldValMethod ) {
 				return function( value ) {
 
 					if ( arguments.length ) { //setter, i.e. .val( "some data" );
@@ -306,7 +306,7 @@
 
 							if ( $elem.is( 'textarea' ) && editor ) { //handle .val for CKEditor
 
-								var dfd = new jQuery.Deferred();
+								var dfd = new $.Deferred();
 
 								editor.setData( value, function() {
 									dfd.resolve();
@@ -320,7 +320,7 @@
 						if ( !promises.length ) { //if there is no promise return default result (jQuery object of chaining)
 							return result;
 						} else { //create one promise which will be resolved when all of promises will be done
-							var dfd = new jQuery.Deferred();
+							var dfd = new $.Deferred();
 
 							$.when.apply( this, promises ).done( function () {
 								dfd.resolveWith( _this );
