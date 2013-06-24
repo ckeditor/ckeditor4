@@ -488,6 +488,7 @@
 			if ( this.editables ) {
 				for ( var name in this.editables ) {
 					this.editables[ name ].removeListener( 'focus', this._.onEditableFocus );
+					this.editables[ name ].removeListener( 'keydown', this._.onEditableKey );
 					editor.focusManager.remove( this.editables[ name ] );
 				}
 			}
@@ -1348,6 +1349,15 @@
 			widget.editor.forceNextSelectionCheck();
 			widget.editor.selectionChange( 1 );
 		};
+		widget._.onEditableKey = function( evt ) {
+			// CTRL+A.
+			if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
+				var range = widget.editor.createRange();
+				range.selectNodeContents( this );
+				range.select();
+				evt.data.preventDefault();
+			}
+		};
 
 		for ( editableName in widget.editables ) {
 			editableCfg = widget.editables[ editableName ];
@@ -1364,6 +1374,7 @@
 
 				widget.editor.focusManager.add( editable );
 				editable.on( 'focus', widget._.onEditableFocus );
+				editable.on( 'keydown', widget._.onEditableKey );
 			}
 		}
 
@@ -1453,6 +1464,7 @@
 		widget.element.addClass( 'cke_widget_element' );
 
 		widget.on( 'key', function( evt ) {
+			// ENTER.
 			if ( evt.data.keyCode == 13 ) {
 				widget.edit();
 				evt.cancel();
