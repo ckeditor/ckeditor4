@@ -484,13 +484,9 @@
 
 			this.fire( 'destroy' );
 
-			// Remove editables from focusmanager.
 			if ( this.editables ) {
-				for ( var name in this.editables ) {
-					this.editables[ name ].removeListener( 'focus', this._.onEditableFocus );
-					this.editables[ name ].removeListener( 'keydown', this._.onEditableKey );
-					editor.focusManager.remove( this.editables[ name ] );
-				}
+				for ( var name in this.editables )
+					this.destroyEditable( name, offline );
 			}
 
 			if ( !offline ) {
@@ -501,6 +497,27 @@
 			}
 
 			this.wrapper = null;
+		},
+
+		/**
+		 * Destroys nested editable.
+		 *
+		 * @param {String} editableName Nested editable name.
+		 * @param {Boolean} [offline] See {@link #method-destroy} method.
+		 */
+		destroyEditable: function( editableName, offline ) {
+			var editable = this.editables[ editableName ];
+
+			editable.removeListener( 'focus', onEditableFocus );
+			editable.removeListener( 'keydown', onEditableKey );
+			this.editor.focusManager.remove( editable );
+
+			if ( !offline ) {
+				editable.removeClass( 'cke_widget_editable' );
+				editable.removeAttributes( [ 'contenteditable', 'data-widget-editable' ] );
+			}
+
+			delete this.editables[ editableName ];
 		},
 
 		/**
@@ -567,6 +584,32 @@
 				element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
 
 			return this.fire( 'getOutput', element );
+		},
+
+		/**
+		 * Initializes nested editable.
+		 *
+		 * @param {String} editableName The nested editable name.
+		 * @param {String} selector CSS selector used to find editable element inside widget wrapper.
+		 * @param {CKEDITOR.filter.allowedContentRules} [filterRules] Allowed Content Rules
+		 * which will be used to restrict content and features allowed in nested editable.
+		 */
+		initEditable: function( editableName, selector, filterRules ) {
+			var editable = this.wrapper.findOne( selector );
+
+			if ( editable ) {
+				this.editables[ editableName ] = editable;
+
+				editable.setAttributes( {
+					contenteditable: 'true',
+					'data-widget-editable': 1
+				} );
+				editable.addClass( 'cke_widget_editable' );
+
+				this.editor.focusManager.add( editable );
+				editable.on( 'focus', onEditableFocus, this );
+				editable.on( 'keydown', onEditableKey, this );
+			}
 		},
 
 		/**
@@ -1334,51 +1377,43 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
+	// Force selectionChange when editable was focused.
+	// Similar to hack in selection.js#~620.
+	// @context widget
+	function onEditableFocus() {
+		this.editor.forceNextSelectionCheck();
+		this.editor.selectionChange( 1 );
+	}
+
+	// @context widget
+	function onEditableKey( evt ) {
+		var focusedEditable;
+
+		// CTRL+A.
+		if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
+			if ( ( focusedEditable = this.focusedEditable ) ) {
+				var range = this.editor.createRange();
+				range.selectNodeContents( focusedEditable );
+				range.select();
+				evt.data.preventDefault();
+			}
+		}
+	}
+
 	function setupEditables( widget ) {
 		if ( !widget.editables )
 			return;
 
-		var editables = {},
-			editableName,
+		var editableName,
 			editableCfg,
-			editable;
+			definedEditables = widget.editables;
 
-		// Force selectionChange when editable was focused.
-		// Similar to hack in selection.js#~620.
-		widget._.onEditableFocus = function() {
-			widget.editor.forceNextSelectionCheck();
-			widget.editor.selectionChange( 1 );
-		};
-		widget._.onEditableKey = function( evt ) {
-			// CTRL+A.
-			if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
-				var range = widget.editor.createRange();
-				range.selectNodeContents( this );
-				range.select();
-				evt.data.preventDefault();
-			}
-		};
+		widget.editables = {};
 
-		for ( editableName in widget.editables ) {
-			editableCfg = widget.editables[ editableName ];
-			editable = widget.wrapper.findOne( typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
-
-			if ( editable ) {
-				editables[ editableName ] = editable;
-
-				editable.setAttributes( {
-					contenteditable: 'true',
-					'data-widget-editable': 1
-				} );
-				editable.addClass( 'cke_widget_editable' );
-
-				widget.editor.focusManager.add( editable );
-				editable.on( 'focus', widget._.onEditableFocus );
-				editable.on( 'keydown', widget._.onEditableKey );
-			}
+		for ( editableName in definedEditables ) {
+			editableCfg = definedEditables[ editableName ];
+			widget.initEditable( editableName, typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
 		}
-
-		widget.editables = editables;
 	}
 
 	/* TMP
