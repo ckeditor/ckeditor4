@@ -222,6 +222,7 @@ a.cke_button_disabled:active
 {
 	cursor: inherit;
 	background-repeat: no-repeat;
+	background-size: 16px;
 	margin-top: 1px;
 	width: 16px;
 	height: 16px;

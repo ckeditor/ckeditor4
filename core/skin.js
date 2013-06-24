@@ -118,7 +118,7 @@
 			offset = overrideOffset || ( icon && icon.offset );
 
 			return path &&
-				( 'background-size:16px;background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
 		}
 	};
 
