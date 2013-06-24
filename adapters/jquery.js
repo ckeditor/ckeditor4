@@ -106,17 +106,24 @@
 				callback = tmp;
 			}
 
+			var promises = [];
+
 			config = config || {};
 
 			this.each( function() {
 				var $element = $( this ),
 					editor = $element.data( 'ckeditorInstance' ),
 					instanceLock = $element.data( '_ckeditorInstanceLock' ),
-					element = this;
+					element = this,
+					dfd = new $.Deferred();
+
+					promises.push( dfd.promise() );
 
 				if ( editor && !instanceLock ) {
-					if ( callback )
+					if ( callback ) {
 						callback.apply( editor, [ this ] );
+					}
+					dfd.resolve();
 				} else if ( !instanceLock ) {
 					// CREATE NEW INSTANCE
 
@@ -244,6 +251,7 @@
 							// Run given (first) code.
 							if ( callback )
 								callback.apply( editor, [ element ] );
+							dfd.resolve();
 						}, 0 );
 					}, null, null, 9999 );
 				} else {
@@ -260,6 +268,7 @@
 							// Run given code.
 							if ( editor.element.$ == element && callback )
 								callback.apply( editor, [ element ] );
+							dfd.resolve();
 						}, 0 );
 					}, null, null, 9999 );
 				}
@@ -275,6 +284,19 @@
 			 * @property {CKEDITOR.editor} editor
 			 */
 			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
+
+			var dfd = new $.Deferred();
+			$.when.apply( this, promises ).then( function() {
+				dfd.resolve();
+			} );
+
+			/**
+			 * jQuery promise object to handle asynchronous constructor. This promise will be resolved after ALL of the constructors.
+			 *
+			 * @property {Function} promise
+			 *
+			 */
+			this.promise = dfd.promise();
 
 			return this;
 		}
