@@ -273,9 +273,20 @@ CKEDITOR.skin.chameleon = (function() {
 	};
 })();
 
+// 5. Register the skin as HiDPI-compatible.
+// --------------------------------------
+//
+// Note: As "moono" supports hi-density screens (e.g. Retina) by providing an alternative
+// iconset which is twice as big as the default one, it announces itself as HiDPI-compatible.
+//
+// This property is optional and only makes sense if 32px x 32px icons (defaults are 16px x 16px)
+// actually exists for the skin. Editor will automatically detect the HiDPI environment
+// and load high-resolution icons if this flag is set "true".
+CKEDITOR.skin.hidpi = true;
+
 // %REMOVE_START%
 
-// 4. Register the skin icons for development purposes only
+// 5. Register the skin icons for development purposes only
 // ----------------------------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
 //
