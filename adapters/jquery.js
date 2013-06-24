@@ -290,57 +290,57 @@
 	 * @returns String|Number|Array|jQuery.fn|function(jQuery promise)
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
-			$.fn.val = CKEDITOR.tools.override( $.fn.val, function( oldValMethod ) {
-				return function( value ) {
-
-					if ( arguments.length ) { //setter, i.e. .val( "some data" );
-
-						var _this = this,
-							promises = [], //use promise to handle setData callback
-							result;
+		$.fn.val = CKEDITOR.tools.override( $.fn.val, function( oldValMethod ) {
+			return function( value ) {
+				// Setter, i.e. .val( "some data" );
+				if ( arguments.length ) {
+					var _this = this,
+						promises = [], //use promise to handle setData callback
 
 						result = this.each( function() {
-
-							var $elem = jQuery( this ),
+							var $elem = $( this ),
 								editor = $elem.data( 'ckeditorInstance' );
 
-							if ( $elem.is( 'textarea' ) && editor ) { //handle .val for CKEditor
-
+							// Handle .val for CKEditor.
+							if ( $elem.is( 'textarea' ) && editor ) {
 								var dfd = new $.Deferred();
 
 								editor.setData( value, function() {
 									dfd.resolve();
 								} );
+
 								promises.push( dfd.promise() );
-							} else { //call default .val function for rest of elements
-								return oldValMethod.call( $elem, value );
 							}
+							// Call default .val function for rest of elements
+							else
+								return oldValMethod.call( $elem, value );
 						} );
 
-						if ( !promises.length ) { //if there is no promise return default result (jQuery object of chaining)
-							return result;
-						} else { //create one promise which will be resolved when all of promises will be done
-							var dfd = new $.Deferred();
+					// If there is no promise return default result (jQuery object of chaining).
+					if ( !promises.length )
+						return result;
+					// Create one promise which will be resolved when all of promises will be done.
+					else {
+						var dfd = new $.Deferred();
 
-							$.when.apply( this, promises ).done( function () {
-								dfd.resolveWith( _this );
-							} );
+						$.when.apply( this, promises ).done( function() {
+							dfd.resolveWith( _this );
+						} );
 
-							return dfd.promise();
-						}
-
-					} else { //getter .val();
-						var $elem = $( this ).eq( 0 ),
-							editor = $elem.data( 'ckeditorInstance' );
-
-						if ( $elem.is( 'textarea' ) && editor ) {
-							return editor.getData();
-						} else {
-							return oldValMethod.call( $elem );
-						}
+						return dfd.promise();
 					}
-				};
-			} );
-		}
+				}
+				// Getter .val();
+				else {
+					var $elem = $( this ).eq( 0 ),
+						editor = $elem.data( 'ckeditorInstance' );
 
+					if ( $elem.is( 'textarea' ) && editor )
+						return editor.getData();
+					else
+						return oldValMethod.call( $elem );
+				}
+			};
+		} );
+	}
 })( window.jQuery );
