@@ -486,8 +486,10 @@
 
 			// Remove editables from focusmanager.
 			if ( this.editables ) {
-				for ( var name in this.editables )
+				for ( var name in this.editables ) {
+					this.editables[ name ].removeListener( 'focus', this._.onEditableFocus );
 					editor.focusManager.remove( this.editables[ name ] );
+				}
 			}
 
 			if ( !offline ) {
@@ -1340,6 +1342,13 @@
 			editableCfg,
 			editable;
 
+		// Force selectionChange when editable was focused.
+		// Similar to hack in selection.js#~620.
+		widget._.onEditableFocus = function() {
+			widget.editor.forceNextSelectionCheck();
+			widget.editor.selectionChange( 1 );
+		};
+
 		for ( editableName in widget.editables ) {
 			editableCfg = widget.editables[ editableName ];
 			editable = widget.wrapper.findOne( typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
@@ -1354,6 +1363,7 @@
 				editable.addClass( 'cke_widget_editable' );
 
 				widget.editor.focusManager.add( editable );
+				editable.on( 'focus', widget._.onEditableFocus );
 			}
 		}
 
