@@ -27,7 +27,7 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 
 		var loadPlugins = function( names ) {
 				originalLoad.call( this, names, function( plugins ) {
-					var iconDirectory = 'icons/' + ( CKEDITOR.env.hidpi ? '32/' : '' );
+					var iconDirectory = 'icons/' + ( CKEDITOR.skin.hidpi && CKEDITOR.env.hidpi ? '32/' : '' );
 
 					CKEDITOR.tools.extend( allPlugins, plugins );
 
