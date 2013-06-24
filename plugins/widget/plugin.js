@@ -174,6 +174,9 @@
 		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
 		destroy: function( widget, offline ) {
+			if ( this.widgetHoldingFocusedEditable === widget )
+				blurEditable( this, widget, offline );
+
 			widget.destroy( offline );
 			delete this.instances[ widget.id ];
 			this.fire( 'instanceDestroyed', widget );
@@ -191,9 +194,7 @@
 
 			for ( var id in instances ) {
 				widget = instances[ id ]
-				widget.destroy( offline );
-				delete instances[ id ];
-				this.fire( 'instanceDestroyed', widget );
+				this.destroy( widget, offline );
 			}
 		},
 
@@ -483,13 +484,11 @@
 
 			this.fire( 'destroy' );
 
-			/* TMP
 			// Remove editables from focusmanager.
 			if ( this.editables ) {
 				for ( var name in this.editables )
 					editor.focusManager.remove( this.editables[ name ] );
 			}
-			*/
 
 			if ( !offline ) {
 				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-was-marked' ] );
@@ -829,6 +828,14 @@
 			widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
 	}
 
+	function blurEditable( widgetsRepo, widget, offline ) {
+		if ( !offline )
+			widget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
+
+		widget.focusedEditable = null;
+		widgetsRepo.widgetHoldingFocusedEditable = null;
+	}
+
 	function blurWidget( widgetsRepo, widget ) {
 		widgetsRepo.focused = null;
 
@@ -876,6 +883,12 @@
 			else
 				wrapper.remove();
 		}
+	}
+
+	function focusEditable( widgetsRepo, widget, editable ) {
+		widgetsRepo.widgetHoldingFocusedEditable = widget;
+		widget.focusedEditable = editable;
+		editable.addClass( 'cke_widget_editable_focused' );
 	}
 
 	// Gets nested editable if node is its descendant or the editable itself.
@@ -1206,14 +1219,16 @@
 
 			if ( oldWidget ) {
 				if ( oldWidget !== newWidget || !oldWidget.focusedEditable.equals( nestedEditable ) ) {
-					oldWidget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
-					oldWidget.focusedEditable = null;
-					widgetsRepo.widgetHoldingFocusedEditable = null;
+					blurEditable( widgetsRepo, oldWidget );
 
-					focusEditable( newWidget, nestedEditable );
+					if ( newWidget && nestedEditable )
+						focusEditable( widgetsRepo, newWidget, nestedEditable );
 				}
-			} else
-				focusEditable( newWidget, nestedEditable );
+			}
+			// It may happen that there's no widget even if editable was found -
+			// e.g. if selection was automatically set in editable although widget wasn't initialized yet.
+			else if ( newWidget && nestedEditable )
+				focusEditable( widgetsRepo, newWidget, nestedEditable );
 		} );
 
 		// Invalidate old widgets early - immediately on dataReady.
@@ -1227,17 +1242,10 @@
 
 			if ( ( widget = widgetsRepo.focused ) )
 				blurWidget( widgetsRepo, widget );
-		} );
 
-		function focusEditable( widget, editable ) {
-			// It may happen that there's no widget even if editable was found -
-			// e.g. if selection was automatically set in editable although widget wasn't initialized yet.
-			if ( widget && editable ) {
-				widgetsRepo.widgetHoldingFocusedEditable = widget;
-				widget.focusedEditable = editable;
-				editable.addClass( 'cke_widget_editable_focused' );
-			}
-		}
+			if ( ( widget = widgetsRepo.widgetHoldingFocusedEditable ) )
+				blurEditable( widgetsRepo, widget );
+		} );
 	}
 
 	// Setup observer which will trigger checkWidgets on:
@@ -1344,6 +1352,8 @@
 					'data-widget-editable': 1
 				} );
 				editable.addClass( 'cke_widget_editable' );
+
+				widget.editor.focusManager.add( editable );
 			}
 		}
 
