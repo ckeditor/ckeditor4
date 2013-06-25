@@ -317,6 +317,12 @@
 				// Lock snapshot during making changes to DOM.
 				this.editor.fire( 'lockSnapshot' );
 
+				// If attribute isn't already set (e.g. for pasted widget), set it.
+				if ( !element.hasAttribute( 'data-widget-was-marked' ) )
+					element.data( 'widget-was-marked', element.data( 'widget' ) ? 1 : 0 );
+				if ( widgetName )
+					element.data( 'widget', widgetName );
+
 				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
 				wrapper.setAttributes( wrapperAttributes );
 
@@ -335,6 +341,12 @@
 				wrapper = element.parent;
 				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
 					return wrapper;
+
+				// If attribute isn't already set (e.g. for pasted widget), set it.
+				if ( !( 'data-widget-was-marked' in element.attributes ) )
+					element.attributes[ 'data-widget-was-marked' ] = element.attributes[ 'data-widget' ] ? 1 : 0;
+				if ( widgetName )
+					element.attributes[ 'data-widget' ] = widgetName;
 
 				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperAttributes );
 
@@ -844,12 +856,7 @@
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 						instance;
 
-					if ( element.hasAttribute( 'data-widget' ) )
-						element.data( 'widget-was-marked', '1' );
-					else
-						element.data( 'widget', widgetDef.name );
-
-					var wrapper = editor.widgets.wrapElement( element );
+					var wrapper = editor.widgets.wrapElement( element, widgetDef.name );
 					editor.insertElement( wrapper );
 					instance = editor.widgets.initOn( element, widgetDef );
 
@@ -1081,6 +1088,7 @@
 
 		editor.on( 'toHtml', function( evt ) {
 			var toBeWrapped = [],
+				toBe,
 				element;
 
 			evt.data.dataValue.forEach( function( element ) {
@@ -1090,7 +1098,7 @@
 					element = element.getFirst( isWidgetElement );
 
 					if ( element )
-						toBeWrapped.push( element );
+						toBeWrapped.push( [ element ] );
 
 					// Do not iterate over descendants.
 					return false;
@@ -1098,8 +1106,7 @@
 				// Widget element found - add it to be cleaned up (just in case)
 				// and wrapped and stop iterating in this branch.
 				else if ( 'data-widget' in element.attributes ) {
-					element.attributes[ 'data-widget-was-marked' ] = '1';
-					toBeWrapped.push( element );
+					toBeWrapped.push( [ element ] );
 
 					// Do not iterate over descendants.
 					return false;
@@ -1118,8 +1125,7 @@
 							if ( upcasted instanceof CKEDITOR.htmlParser.element )
 								element = upcasted;
 
-							element.attributes[ 'data-widget' ] = upcast[ 1 ];
-							toBeWrapped.push( element );
+							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
 							// Do not iterate over descendants.
 							return false;
@@ -1129,9 +1135,9 @@
 			}, CKEDITOR.NODE_ELEMENT );
 
 			// Clean up and wrap all queued elements.
-			while ( ( element = toBeWrapped.pop() ) ) {
-				cleanUpWidgetElement( element );
-				widgetsRepo.wrapElement( element );
+			while ( ( toBe = toBeWrapped.pop() ) ) {
+				cleanUpWidgetElement( toBe[ 0 ] );
+				widgetsRepo.wrapElement( toBe[ 0 ], toBe[ 1 ] );
 			}
 		}, null, null, 10 );
 
@@ -1158,10 +1164,9 @@
 							delete attrs[ 'data-widget-data' ];
 
 							// If widget did not have data-widget attribute before upcasting remove it.
-							if ( attrs[ 'data-widget-was-marked' ] )
-								delete attrs[ 'data-widget-was-marked' ];
-							else
+							if ( attrs[ 'data-widget-was-marked' ] != '1' )
 								delete attrs[ 'data-widget' ];
+							delete attrs[ 'data-widget-was-marked' ];
 
 							return retElement;
 						}
