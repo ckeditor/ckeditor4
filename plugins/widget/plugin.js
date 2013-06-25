@@ -318,8 +318,8 @@
 				this.editor.fire( 'lockSnapshot' );
 
 				// If attribute isn't already set (e.g. for pasted widget), set it.
-				if ( !element.hasAttribute( 'data-widget-was-marked' ) )
-					element.data( 'widget-was-marked', element.data( 'widget' ) ? 1 : 0 );
+				if ( !element.hasAttribute( 'data-widget-keep-attr' ) )
+					element.data( 'widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
 				if ( widgetName )
 					element.data( 'widget', widgetName );
 
@@ -343,8 +343,8 @@
 					return wrapper;
 
 				// If attribute isn't already set (e.g. for pasted widget), set it.
-				if ( !( 'data-widget-was-marked' in element.attributes ) )
-					element.attributes[ 'data-widget-was-marked' ] = element.attributes[ 'data-widget' ] ? 1 : 0;
+				if ( !( 'data-widget-keep-attr' in element.attributes ) )
+					element.attributes[ 'data-widget-keep-attr' ] = element.attributes[ 'data-widget' ] ? 1 : 0;
 				if ( widgetName )
 					element.attributes[ 'data-widget' ] = widgetName;
 
@@ -503,7 +503,7 @@
 			}
 
 			if ( !offline ) {
-				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-was-marked' ] );
+				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-keep-attr' ] );
 				this.element.removeClass( 'cke_widget_element' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
@@ -1164,9 +1164,9 @@
 							delete attrs[ 'data-widget-data' ];
 
 							// If widget did not have data-widget attribute before upcasting remove it.
-							if ( attrs[ 'data-widget-was-marked' ] != '1' )
+							if ( attrs[ 'data-widget-keep-attr' ] != '1' )
 								delete attrs[ 'data-widget' ];
-							delete attrs[ 'data-widget-was-marked' ];
+							delete attrs[ 'data-widget-keep-attr' ];
 
 							return retElement;
 						}
