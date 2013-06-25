@@ -273,28 +273,9 @@ CKEDITOR.skin.chameleon = (function() {
 	};
 })();
 
-// 5. Register the skin as HiDPI-compatible.
-// --------------------------------------
-// Note: As "moono" is the default CKEditor skin, it provides no custom icons.
-// Still, it works with high-resolution icons provided by plugins, hence hidpi
-// flag is "true".
-//
-// Announces the skin as HiDPI-ready (optimized for hi-density screens e.g. Retina)
-// by providing an alternative iconset and optimized CSS. HiDPI icons must be twice as big
-// (defaults are 16px x 16px) and stored under "skin_name/icons/32/" directory.
-//
-// The common place for additional HiDPI images used by the skin (but not icons)
-// is "skin_name/images/32/" directory.
-//
-// This property is optional and only makes sense if 32px x 32px icons
-// and high-resolution images actually exist along with optimized CSS files.
-// Editor will automatically detect the HiDPI environment and attempt to load
-// the high-resolution resources if this flag is set true.
-CKEDITOR.skin.hidpi = true;
-
 // %REMOVE_START%
 
-// 5. Register the skin icons for development purposes only
+// 4. Register the skin icons for development purposes only
 // ----------------------------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
 //
@@ -331,12 +312,7 @@ CKEDITOR.skin.hidpi = true;
 //			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
 //			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
 //
-//		// Note that if the skin is HiDPI-compatible (CKEDITOR.skin.hidpi is "true")
-//		// the following line should consider the HiDPI environment:
-//		//
-//		// 	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? '32/' : '' ) );
-//		//
-//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? '32/' : '' ) );
 //
 //		for ( var i = 0; i < icons.length; i++ ) {
 //			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );

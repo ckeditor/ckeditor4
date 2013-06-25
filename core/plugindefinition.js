@@ -91,9 +91,6 @@
  * the HiDPI environment and attempt to load the high-resolution resources
  * if this flag is set `true`.
  *
- * **Note**: The skin also **must** support HiDPI screens (see: {@link CKEDITOR.skin#hidpi})
- * to load HiDPI icons (e.g. optimized CSS is required).
- *
  * @since 4.2
  * @property {Boolean} hidpi
  */
