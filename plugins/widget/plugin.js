@@ -228,9 +228,10 @@
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {String/CKEDITOR.plugins.widget.definition} widget Name of a widget type or a widget definition.
 		 * Widget definition should be previously registered by {@link CKEDITOR.plugins.widget.repository#add}.
+		 * @param startupData Widget's startup data (has precedence over defaults one).
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or null if there's no widget for given element.
 		 */
-		initOn: function( element, widgetDef ) {
+		initOn: function( element, widgetDef, startupData ) {
 			if ( !widgetDef )
 				widgetDef = this.registered[ element.data( 'widget' ) ];
 			else if ( typeof widgetDef == 'string' )
@@ -246,7 +247,7 @@
 				// Check if widget wrapper is new (widget hasn't been initialzed on it yet).
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
-					var widget = new Widget( this, this._.nextId++, element, widgetDef );
+					var widget = new Widget( this, this._.nextId++, element, widgetDef, startupData );
 					this.instances[ widget.id ] = widget;
 
 					return widget;
@@ -369,7 +370,7 @@
 	 * @class CKEDITOR.plugins.widget
 	 * @mixins CKEDITOR.event
 	 */
-	function Widget( widgetsRepo, id, element, widgetDef ) {
+	function Widget( widgetsRepo, id, element, widgetDef, startupData ) {
 		var editor = widgetsRepo.editor;
 
 		// Extend this widget with widgetDef-specific methods and properties.
@@ -454,7 +455,7 @@
 
 		this.init && this.init();
 
-		setupWidgetData( this );
+		setupWidgetData( this, startupData );
 
 		// Finally mark widget as inited and non-editable.
 		this.wrapper.setAttributes( {
@@ -1522,11 +1523,13 @@
 			widget.on( 'edit', widgetDef.edit );
 	}
 
-	function setupWidgetData( widget ) {
+	function setupWidgetData( widget, startupData ) {
 		var widgetDataAttr = widget.element.data( 'widget-data' );
 
 		if ( widgetDataAttr )
 			widget.setData( JSON.parse( widgetDataAttr ) );
+		if ( startupData )
+			widget.setData( startupData );
 
 		// Unblock data and...
 		widget.dataReady = true;
