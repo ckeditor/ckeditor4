@@ -42,7 +42,7 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 									CKEDITOR.skin.addIcon( icons[ ic ],
 										plugin.path +
 										'icons/' +
-										( CKEDITOR.env.hidpi && CKEDITOR.skin.hidpi && plugin.hidpi ? '32/' : '' ) +
+										( CKEDITOR.env.hidpi && plugin.hidpi ? '32/' : '' ) +
 										icons[ ic ] +
 										'.png' );
 								}
