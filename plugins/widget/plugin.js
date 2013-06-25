@@ -833,7 +833,11 @@
 				// If a widget of the same type is focused, start editing.
 				if ( focused && focused.name == widgetDef.name )
 					focused.edit();
-				// Otherwise, create a brand-new widget from template.
+				// Otherwise...
+				// ... use insert method is was defined.
+				else if ( widgetDef.insert )
+					widgetDef.insert();
+				// ... or create a brand-new widget from template.
 				else if ( widgetDef.template ) {
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
