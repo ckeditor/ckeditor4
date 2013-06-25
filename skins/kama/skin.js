@@ -214,9 +214,27 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	return css;
 };
 
+// 4. Register the skin as HiDPI-compatible.
+// --------------------------------------
+// Note: Since "kama" isn't HiDPI-ready, the hidpi flag is commented out.
+//
+// Announces the skin as HiDPI-ready (optimized for hi-density screens e.g. Retina)
+// by providing an alternative iconset and optimized CSS. HiDPI icons must be twice as big
+// (defaults are 16px x 16px) and stored under "skin_name/icons/32/" directory.
+//
+// The common place for additional HiDPI images used by the skin (but not icons)
+// is "skin_name/images/32/" directory.
+//
+// This property is optional and only makes sense if 32px x 32px icons
+// and high-resolution images actually exist along with optimized CSS files.
+// Editor will automatically detect the HiDPI environment and attempt to load
+// the high-resolution resources if this flag is set true.
+//
+// CKEDITOR.skin.hidpi = true;
+
 // %REMOVE_START%
 
-// 4. Register the skin icons for development purposes only
+// 5. Register the skin icons for development purposes only
 // ----------------------------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
 //
@@ -250,6 +268,11 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
 		'textcolor,textfield,underline,undo-rtl,undo,unlink' ).split( ',' );
 
+	// Note that if the skin was HiDPI-compatible (CKEDITOR.skin.hidpi set "true")
+	// the following line should consider the HiDPI environment:
+	//
+	// 	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? '32/' : '' ) );
+	//
 	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
 
 	for ( var i = 0; i < icons.length; i++ ) {

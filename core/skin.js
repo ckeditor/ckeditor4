@@ -283,12 +283,29 @@
  * @todo type?
  */
 
- /**
-  * Current skin name.
-  *
-  * @property {String} name
-  * @todo
-  */
+/**
+ * Current skin name.
+ *
+ * @property {String} name
+ * @todo
+ */
+
+/**
+ * Announces the skin as HiDPI-ready (optimized for hi-density screens e.g. *Retina*)
+ * by providing an alternative iconset and optimized CSS. HiDPI icons must be twice as big
+ * (defaults are `16px x 16px`) and stored under `skin_name/icons/32/` directory.
+ *
+ * The common place for additional HiDPI images used by the skin (**but not icons**)
+ * is `skin_name/images/32/` directory.
+ *
+ * This property is optional and only makes sense if `32px x 32px` icons
+ * and high-resolution images actually exist along with optimized CSS files.
+ * Editor will automatically detect the HiDPI environment and attempt to load
+ * the high-resolution resources if this flag is set `true`.
+ *
+ * @since 4.2
+ * @property {Boolean} hidpi
+ */
 
 /**
  * The editor skin name. Note that is is not possible to have editors with

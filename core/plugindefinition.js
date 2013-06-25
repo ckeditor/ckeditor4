@@ -77,3 +77,23 @@
  * @method init
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
  */
+
+/**
+ * Announces the plugin as HiDPI-ready (optimized for hi-density screens e.g. *Retina*)
+ * by providing high-resolution icons and images. HiDPI icons must be twice as big
+ * (defaults are `16px x 16px`) and stored under `plugin_name/icons/32/` directory.
+ *
+ * The common place for additional HiDPI images used by the plugin (**but not icons**)
+ * is `plugin_name/images/32/` directory.
+ *
+ * This property is optional and only makes sense if `32px x 32px` icons
+ * and high-resolution images actually exist. Editor will automatically detect
+ * the HiDPI environment and attempt to load the high-resolution resources
+ * if this flag is set `true`.
+ *
+ * **Note**: The skin also **must** support HiDPI screens (see: {@link CKEDITOR.skin#hidpi})
+ * to load HiDPI icons (e.g. optimized CSS is required).
+ *
+ * @since 4.2
+ * @property {Boolean} hidpi
+ */
