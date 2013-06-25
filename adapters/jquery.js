@@ -100,16 +100,19 @@
 			if ( !CKEDITOR.env.isCompatible )
 				throw new Error( 'Environment is incompatible.' );
 
+			// Reverse the order of arguments if the first one isn't a function.
 			if ( !$.isFunction( callback ) ) {
 				var tmp = config;
 				config = callback;
 				callback = tmp;
 			}
 
+			// An array of instanceReady callback promises.
 			var promises = [];
 
 			config = config || {};
 
+			// Iterate over the collection.
 			this.each( function() {
 				var $element = $( this ),
 					editor = $element.data( 'ckeditorInstance' ),
@@ -120,9 +123,9 @@
 					promises.push( dfd.promise() );
 
 				if ( editor && !instanceLock ) {
-					if ( callback ) {
+					if ( callback )
 						callback.apply( editor, [ this ] );
-					}
+
 					dfd.resolve();
 				} else if ( !instanceLock ) {
 					// CREATE NEW INSTANCE
@@ -146,8 +149,8 @@
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
-					editor.on( 'instanceReady', function( evt ) {
-						var editor = evt.editor;
+					editor.on( 'instanceReady', function( event ) {
+						var editor = event.editor;
 
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
@@ -157,7 +160,7 @@
 							}
 
 							// Remove this listener. Triggered when new instance is ready.
-							evt.removeListener();
+							event.removeListener();
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
@@ -177,8 +180,8 @@
 							 * @param data
 							 * @param {String} data.dataValue The data that will be used.
 							 */
-							editor.on( 'setData', function( evt ) {
-								$element.trigger( 'setData.ckeditor', [ editor, evt.data ] );
+							editor.on( 'setData', function( event ) {
+								$element.trigger( 'setData.ckeditor', [ editor, event.data ] );
 							} );
 
 							/**
@@ -189,8 +192,8 @@
 							 * @param data
 							 * @param {String} data.dataValue The data that will be returned.
 							 */
-							editor.on( 'getData', function( evt ) {
-								$element.trigger( 'getData.ckeditor', [ editor, evt.data ] );
+							editor.on( 'getData', function( event ) {
+								$element.trigger( 'getData.ckeditor', [ editor, event.data ] );
 							}, 999 );
 
 							/**
@@ -205,7 +208,7 @@
 
 							// Overwrite save button to call jQuery submit instead of javascript submit.
 							// Otherwise jQuery.forms does not work properly
-							editor.on( 'save', function( e ) {
+							editor.on( 'save', function() {
 								$( element.form ).submit();
 								return false;
 							}, null, null, 20 );
@@ -250,13 +253,15 @@
 							// Run given (first) code.
 							if ( callback )
 								callback.apply( editor, [ element ] );
+
 							dfd.resolve();
 						}, 0 );
 					}, null, null, 9999 );
 				} else {
 					// Editor is already during creation process, bind our code to the event.
-					CKEDITOR.on( 'instanceReady', function( evt ) {
-						var editor = evt.editor;
+					CKEDITOR.on( 'instanceReady', function( event ) {
+						var editor = event.editor;
+
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
@@ -267,10 +272,25 @@
 							// Run given code.
 							if ( editor.element.$ == element && callback )
 								callback.apply( editor, [ element ] );
+
 							dfd.resolve();
 						}, 0 );
 					}, null, null, 9999 );
 				}
+			} );
+
+			/**
+			 * jQuery promise object to handle asynchronous constructor.
+			 * This promise will be resolved after **all** of the constructors.
+			 *
+			 * @property {Function} promise
+			 */
+			var dfd = new $.Deferred();
+
+			this.promise = dfd.promise();
+
+			$.when.apply( this, promises ).then( function() {
+				dfd.resolve();
 			} );
 
 			/**
@@ -283,19 +303,6 @@
 			 * @property {CKEDITOR.editor} editor
 			 */
 			this.editor = this.eq( 0 ).data( 'ckeditorInstance' );
-
-			var dfd = new $.Deferred();
-			$.when.apply( this, promises ).then( function() {
-				dfd.resolve();
-			} );
-
-			/**
-			 * jQuery promise object to handle asynchronous constructor. This promise will be resolved after ALL of the constructors.
-			 *
-			 * @property {Function} promise
-			 *
-			 */
-			this.promise = dfd.promise();
 
 			return this;
 		}
