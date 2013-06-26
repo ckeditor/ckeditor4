@@ -259,9 +259,7 @@
 					}, null, null, 9999 );
 				} else {
 					// Editor is already during creation process, bind our code to the event.
-					CKEDITOR.on( 'instanceReady', function( event ) {
-						var editor = event.editor;
-
+					editor.once( 'instanceReady', function( event ) {
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
