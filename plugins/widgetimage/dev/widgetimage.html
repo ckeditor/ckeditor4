@@ -136,6 +136,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						evt.data.config.upcasts = 'captionedImage';
 						evt.data.config.downcast = 'captionedImage';
 						evt.data.allowedContent = 'img[data-caption,data-widget]';
+						evt.data.editables = {
+							caption: {
+								selector: 'figcaption',
+								allowedContent: 'strong em; a[!href]'
+							}
+						};
 					}
 				}
 			}
