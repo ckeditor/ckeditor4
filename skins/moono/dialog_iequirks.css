@@ -17,5 +17,5 @@ Quirks mode only.
 /* [IE7-8] Filter on footer causes background artifacts when opening dialog. */
 .cke_dialog_footer
 {
-	filter: ;
+	filter: "";
 }
