@@ -305,7 +305,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( !themedTpl ) {
 			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +
 				' id="cke_{name}"' +
-				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} ' + CKEDITOR.env.cssClass + '" ' +
+				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} {hidpi} ' + CKEDITOR.env.cssClass + '" ' +
 				' dir="{langDir}"' +
 				' lang="{langCode}"' +
 				' role="application"' +
@@ -323,6 +323,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			id: editor.id,
 			name: name,
 			langDir: editor.lang.dir,
+			hidpi: CKEDITOR.env.hidpi ? 'cke_hidpi' : '',
 			langCode: editor.langCode,
 			voiceLabel: [ editor.lang.editor, editor.name ].join( ', ' ),
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
