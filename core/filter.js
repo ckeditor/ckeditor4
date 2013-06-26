@@ -1902,15 +1902,34 @@
  */
 
 /**
- * Filter instance used for input data filtering, data
+ * The main filter instance used for input data filtering, data
  * transformations, and activation of features.
  *
- * It points to a {CKEDITOR.filter} instance set up based on
+ * It points to a {@link CKEDITOR.filter} instance set up based on
  * editor configuration.
  *
  * @since 4.1
  * @readonly
  * @property {CKEDITOR.filter} filter
+ * @member CKEDITOR.editor
+ */
+
+/**
+ * The active filter instance. This instance will be used to make a decision which
+ * commands, buttons and other {@link CKEDITOR.feature features} can be enabled.
+ *
+ * By default it equals {@link #filter}, but can be changed by {@link setActiveFilter}.
+ *
+ *		editor.on( 'activeFilterChange', function() {
+ *			if ( editor.activeFilter.check( 'cite' ) )
+ *				// Do something when <cite> was enabled - e.g. enable button.
+ *			else
+ *				// Otherwise do something else.
+ *		} );
+ *
+ * @since 4.2
+ * @readonly
+ * @property {CKEDITOR.filter} activeFilter
  * @member CKEDITOR.editor
  */
 

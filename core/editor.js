@@ -161,7 +161,12 @@
 
 		// Make the editor update its command states on mode change.
 		this.on( 'readOnly', updateCommands );
-		this.on( 'selectionChange', updateCommandsContext );
+		this.on( 'selectionChange', function( evt ) {
+			updateCommandsContext( this, evt.data.path );
+		} );
+		this.on( 'activeFilterChange', function( evt ) {
+			updateCommandsContext( this, this.elementPath(), true );
+		} );
 		this.on( 'mode', updateCommands );
 
 		// Handle startup focus.
@@ -212,16 +217,15 @@
 		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
 	}
 
-	function updateCommandsContext( ev ) {
+	function updateCommandsContext( editor, path, filterChange ) {
 		var command,
-			commands = this.commands,
-			editor = ev.editor,
-			path = ev.data.path;
+			name,
+			commands = editor.commands;
 
-		for ( var name in commands ) {
+		for ( name in commands ) {
 			command = commands[ name ];
 
-			if ( command.contextSensitive )
+			if ( filterChange || command.contextSensitive )
 				command.refresh( editor, path );
 		}
 	}
@@ -372,8 +376,11 @@
 	function initComponents( editor ) {
 		// Documented in dataprocessor.js.
 		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-		// Documented in filter.js
-		editor.filter = new CKEDITOR.filter( editor );
+
+		// Documented in filter.js.
+		// Set activeFilter directly to avoid firing event.
+		editor.filter = editor.activeFilter = new CKEDITOR.filter( editor );
+
 		loadSkin( editor );
 	}
 
@@ -1114,11 +1121,33 @@
 		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
+		 * @since 4.1
 		 * @param {CKEDITOR.feature} feature See {@link CKEDITOR.filter#addFeature}.
 		 * @returns {Boolean} See {@link CKEDITOR.filter#addFeature}.
 		 */
 		addFeature: function( feature ) {
 			return this.filter.addFeature( feature );
+		},
+
+		/**
+		 * Sets the active filter ({@link #activeFilter}). Fires {@link #activeFilterChange} event.
+		 *
+		 *		// Set active filter which allows only 4 elements.
+		 *		// Buttons like Bold, Italic will be disabled.
+		 *		var filter = new CKEDITOR.filter( 'p strong em br' );
+		 *		editor.setActiveFilter( filter );
+		 *
+		 * @since 4.2
+		 * @param {CKEDITOR.filter} filter Filter instance or `null` to reset to the default one.
+		 */
+		setActiveFilter: function( filter ) {
+			if ( filter === null )
+				filter = this.filter;
+
+			if ( this.activeFilter !== filter ) {
+				this.activeFilter = filter;
+				this.fire( 'activeFilterChange' );
+			}
 		}
 	});
 })();
