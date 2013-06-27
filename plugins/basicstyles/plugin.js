@@ -6,7 +6,7 @@
 CKEDITOR.plugins.add( 'basicstyles', {
 	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	icons: 'bold,italic,underline,strike,subscript,superscript', // %REMOVE_LINE_CORE%
-	hidpi: true,
+	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		var order = 0;
 		// All buttons use the same code to register. So, to avoid
