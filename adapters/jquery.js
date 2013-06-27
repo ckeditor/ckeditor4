@@ -4,11 +4,12 @@
  */
 
 /**
- * @fileOverview Defines the {@link adapters.jQuery jQuery adapter}.
+ * @fileOverview Defines the {@link CKEDITOR_Adapters.jQuery jQuery adapter}.
  */
 
 /**
- * @class adapters.jQuery
+ * @class CKEDITOR_Adapters.jQuery
+ * @singleton
  *
  * jQuery adapter provides easy use of basic CKEditor functions and access to internal API.
  * To find more information about jQuery adapter go to [guide page](#!/guide/dev_jquery) or see the sample.
