@@ -56,7 +56,6 @@
 		 *
 		 * Raised exception if editor doesn't exist or isn't ready yet.
 		 *
-		 * @method ckeditorGet
 		 * @returns CKEDITOR.editor
 		 * @deprecated Use {@link #editor editor property} instead.
 		 */
@@ -77,8 +76,6 @@
 		 * You can also create multiple editors at once using `$( '.className' ).ckeditor();`
 		 *
 		 * **Note**: jQuery chaining and mixed parameter order allowed.
-		 *
-		 * @method ckeditor
 		 *
 		 * @param {Function} callback
 		 * Function to be run on editor instance. Callback takes source element as parameter.
@@ -164,8 +161,8 @@
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
-							 * @event dataReady
 							 *
+							 * @event dataReady
 							 * @param {CKEDITOR.editor} editor Editor's instance.
 							 */
 							editor.on( 'dataReady', function() {
@@ -174,8 +171,8 @@
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-setData setData event} as a jQuery event.
-							 * @event setData
 							 *
+							 * @event setData
 							 * @param {CKEDITOR.editor} editor Editor's instance.
 							 * @param data
 							 * @param {String} data.dataValue The data that will be used.
@@ -186,8 +183,8 @@
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-getData getData event} as a jQuery event.
-							 * @event getData
 							 *
+							 * @event getData
 							 * @param {CKEDITOR.editor} editor Editor's instance.
 							 * @param data
 							 * @param {String} data.dataValue The data that will be returned.
@@ -198,8 +195,8 @@
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-destroy destroy event} as a jQuery event.
-							 * @event destroy
 							 *
+							 * @event destroy
 							 * @param {CKEDITOR.editor} editor Editor's instance.
 							 */
 							editor.on( 'destroy', function() {
