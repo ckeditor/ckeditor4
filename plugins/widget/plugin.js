@@ -170,34 +170,6 @@
 		},
 
 		/**
-		 * Creates {@link CKEDITOR.filter} instance for given widget, editable and rules.
-		 *
-		 * Once filter for widget-editable pair is created it is cached, so the same instance
-		 * will be returned when method is executed again.
-		 *
-		 * @param {String} widgetName
-		 * @param {String} editableName
-		 * @param {CKEDITOR.filter.allowedContentRules} rules
-		 * @returns {CKEDITOR.filter} Filter instance or `null` if rules are not defined.
-		 */
-		createEditableFilter: function( widgetName, editableName, rules ) {
-			if ( !rules )
-				return null;
-
-			var editables = this._.filters[ widgetName ];
-
-			if ( !editables )
-				this._.filters[ widgetName ] = editables = {};
-
-			var filter = editables[ editableName ];
-
-			if ( !filter )
-				editables[ editableName ] = filter = new CKEDITOR.filter( rules );
-
-			return filter;
-		},
-
-		/**
 		 * Removes and destroys widget instance.
 		 *
 		 * @param {CKEDITOR.plugins.widget} widget
@@ -206,7 +178,7 @@
 		 */
 		destroy: function( widget, offline ) {
 			if ( this.widgetHoldingFocusedEditable === widget )
-				widget.setFocusedEditable( null, offline );
+				setFocusedEditable( this, widget, null, offline );
 
 			widget.destroy( offline );
 			delete this.instances[ widget.id ];
@@ -402,7 +374,9 @@
 		// %REMOVE_START%
 		// Expose for tests.
 		,
-		getNestedEditable: getNestedEditable
+		getNestedEditable: getNestedEditable,
+
+		createEditableFilter: createEditableFilter
 
 		// %REMOVE_END%
 	};
@@ -745,30 +719,6 @@
 		},
 
 		/**
-		 *
-		 */
-		setFocusedEditable: function( editableElement, offline ) {
-			if ( editableElement ) {
-				this.repository.widgetHoldingFocusedEditable = this;
-				this.focusedEditable = editableElement;
-				editableElement.addClass( 'cke_widget_editable_focused' );
-
-				var editableName = editableElement.data( 'widget-editable' ),
-					filter = this.repository.createEditableFilter( this.name, editableName, this.definition.editables[ editableName].allowedContent );
-
-				if ( filter )
-					this.editor.setActiveFilter( filter );
-			} else {
-				if ( !offline )
-					this.focusedEditable.removeClass( 'cke_widget_editable_focused' );
-
-				this.focusedEditable = null;
-				this.repository.widgetHoldingFocusedEditable = null;
-				this.editor.setActiveFilter( null );
-			}
-		},
-
-		/**
 		 * Changes widget's select state. Usually executed automatically after
 		 * widget has been selected by {@link #focus} method or selection was moved
 		 * out of widget.
@@ -992,6 +942,33 @@
 		}
 	}
 
+	// Creates {@link CKEDITOR.filter} instance for given widget, editable and rules.
+	//
+	// Once filter for widget-editable pair is created it is cached, so the same instance
+	// will be returned when method is executed again.
+	//
+	// @param {String} widgetName
+	// @param {String} editableName
+	// @param {CKEDITOR.filter.allowedContentRules} rules
+	// @returns {CKEDITOR.filter} Filter instance or `null` if rules are not defined.
+	// @context CKEDITOR.plugins.widget.repository
+	function createEditableFilter( widgetName, editableName, rules ) {
+		if ( !rules )
+			return null;
+
+		var editables = this._.filters[ widgetName ];
+
+		if ( !editables )
+			this._.filters[ widgetName ] = editables = {};
+
+		var filter = editables[ editableName ];
+
+		if ( !filter )
+			editables[ editableName ] = filter = new CKEDITOR.filter( rules );
+
+		return filter;
+	}
+
 	// Gets nested editable if node is its descendant or the editable itself.
 	//
 	// @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
@@ -1077,6 +1054,28 @@
 		}
 	}
 	*/
+
+	function setFocusedEditable( widgetsRepo, widget, editableElement, offline ) {
+		if ( editableElement ) {
+			widgetsRepo.widgetHoldingFocusedEditable = widget;
+			widget.focusedEditable = editableElement;
+			editableElement.addClass( 'cke_widget_editable_focused' );
+
+			var editableName = editableElement.data( 'widget-editable' ),
+				filter = createEditableFilter.call( widgetsRepo, widget.name, editableName,
+					widgetsRepo.registered[ widget.name ].editables[ editableName].allowedContent );
+
+			if ( filter )
+				widgetsRepo.editor.setActiveFilter( filter );
+		} else {
+			if ( !offline )
+				widget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
+
+			widget.focusedEditable = null;
+			widgetsRepo.widgetHoldingFocusedEditable = null;
+			widgetsRepo.editor.setActiveFilter( null );
+		}
+	}
 
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
@@ -1318,16 +1317,16 @@
 
 			if ( oldWidget ) {
 				if ( oldWidget !== newWidget || !oldWidget.focusedEditable.equals( nestedEditable ) ) {
-					oldWidget.setFocusedEditable( null );
+					setFocusedEditable( widgetsRepo, oldWidget, null );
 
 					if ( newWidget && nestedEditable )
-						newWidget.setFocusedEditable( nestedEditable );
+						setFocusedEditable( widgetsRepo, newWidget, nestedEditable );
 				}
 			}
 			// It may happen that there's no widget even if editable was found -
 			// e.g. if selection was automatically set in editable although widget wasn't initialized yet.
 			else if ( newWidget && nestedEditable )
-				newWidget.setFocusedEditable( nestedEditable );
+				setFocusedEditable( widgetsRepo, newWidget, nestedEditable );
 		} );
 
 		// Invalidate old widgets early - immediately on dataReady.
@@ -1343,7 +1342,7 @@
 				blurWidget( widgetsRepo, widget );
 
 			if ( ( widget = widgetsRepo.widgetHoldingFocusedEditable ) )
-				widget.setFocusedEditable( null );
+				setFocusedEditable( widgetsRepo, widget, null );
 		} );
 	}
 
