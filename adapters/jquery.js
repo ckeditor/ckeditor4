@@ -146,8 +146,8 @@
 					$element.data( 'ckeditorInstance', editor );
 
 					// Register callback.
-					editor.on( 'instanceReady', function( event ) {
-						var editor = event.editor;
+					editor.on( 'instanceReady', function( evt ) {
+						var editor = evt.editor;
 
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
@@ -157,7 +157,7 @@
 							}
 
 							// Remove this listener. Triggered when new instance is ready.
-							event.removeListener();
+							evt.removeListener();
 
 							/**
 							 * Forwarded editor's {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
@@ -177,8 +177,8 @@
 							 * @param data
 							 * @param {String} data.dataValue The data that will be used.
 							 */
-							editor.on( 'setData', function( event ) {
-								$element.trigger( 'setData.ckeditor', [ editor, event.data ] );
+							editor.on( 'setData', function( evt ) {
+								$element.trigger( 'setData.ckeditor', [ editor, evt.data ] );
 							} );
 
 							/**
@@ -189,8 +189,8 @@
 							 * @param data
 							 * @param {String} data.dataValue The data that will be returned.
 							 */
-							editor.on( 'getData', function( event ) {
-								$element.trigger( 'getData.ckeditor', [ editor, event.data ] );
+							editor.on( 'getData', function( evt ) {
+								$element.trigger( 'getData.ckeditor', [ editor, evt.data ] );
 							}, 999 );
 
 							/**
@@ -256,7 +256,7 @@
 					}, null, null, 9999 );
 				} else {
 					// Editor is already during creation process, bind our code to the event.
-					editor.once( 'instanceReady', function( event ) {
+					editor.once( 'instanceReady', function( evt ) {
 						setTimeout( function() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
