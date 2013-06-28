@@ -7,6 +7,8 @@
 
 (function() {
 
+	var DRAG_HANDLER_SIZE = 14;
+
 	CKEDITOR.plugins.add( 'widget', {
 		onLoad: function() {
 			CKEDITOR.addCss(
@@ -27,10 +29,8 @@
 				'}' +
 				'.cke_widget_drag_handler{' +
 					'position:absolute;' +
-					'top:0;' +
-					'right:0;' +
-					'width:14px;' +
-					'height:14px;' +
+					'width:' + DRAG_HANDLER_SIZE + 'px;' +
+					'height:' + DRAG_HANDLER_SIZE + 'px;' +
 					'display:none;' +
 					'opacity:0.75;' +
 					'background:rgba(200,200,200,0.25)' +
@@ -344,7 +344,7 @@
 					element.data( 'widget', widgetName );
 
 				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
-				wrapper.setAttributes( wrapperAttributes );
+				wrapper.setAttributes( getWrapperAttributes( widget.inline ) );
 
 				// Replace element unless it is a detached one.
 				if ( element.getParent() )
@@ -368,7 +368,7 @@
 				if ( widgetName )
 					element.attributes[ 'data-widget' ] = widgetName;
 
-				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', wrapperAttributes );
+				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', getWrapperAttributes( widget.inline ) );
 
 				var parent = element.parent,
 					index;
@@ -829,16 +829,6 @@
 	// REPOSITORY helpers -----------------------------------------------------
 	//
 
-	var wrapperAttributes = {
-		// tabindex="-1" means that it can receive focus by code.
-		tabindex: -1,
-		'data-widget-wrapper': 1,
-		'data-cke-filter': 'off',
-		style: 'position:relative',
-		// Class cke_widget_new marks widgets which haven't been initialized yet.
-		'class': 'cke_widget_wrapper cke_widget_new'
-	};
-
 	function addWidgetButtons( editor ) {
 		var widgets = editor.widgets.registered,
 			widget,
@@ -1000,6 +990,18 @@
 			return node;
 
 		return getNestedEditable( guard, node.getParent() );
+	}
+
+	function getWrapperAttributes( inlineWidget ) {
+		return {
+			// tabindex="-1" means that it can receive focus by code.
+			tabindex: -1,
+			'data-widget-wrapper': 1,
+			'data-cke-filter': 'off',
+			style: 'position:relative' + ( inlineWidget ? ';display:inline-block' : '' ),
+			// Class cke_widget_new marks widgets which haven't been initialized yet.
+			'class': 'cke_widget_wrapper cke_widget_new'
+		};
 	}
 
 	// Inserts element at given index.
@@ -1553,6 +1555,14 @@
 		}
 	}
 
+	// Position drag handler according to the widget's element position.
+	function positionDragHandler( widget ) {
+		var handler = widget.dragHandler;
+
+		handler.setStyle( 'top', widget.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
+		handler.setStyle( 'left', widget.element.$.offsetLeft + 'px' );
+	}
+
 	function setupDragHandler( widget ) {
 		var img = new CKEDITOR.dom.element.createFromHtml(
 			'<img draggable="true" class="cke_widget_drag_handler" data-widget-drag-handler="1" src="' + widget.editor.plugins.widget.path + 'images/drag.png">', widget.editor.document );
@@ -1682,6 +1692,10 @@
 
 		if ( widgetDef.edit )
 			widget.on( 'edit', widgetDef.edit );
+
+		widget.on( 'data', function() {
+			positionDragHandler( widget );
+		}, null, null, 999 );
 	}
 
 	function setupWidgetData( widget, startupData ) {
