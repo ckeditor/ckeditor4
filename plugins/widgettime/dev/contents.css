@@ -7,8 +7,8 @@ time {
 .cke_widget_wrapper:hover:after {
 	content: "id: " attr(data-widget-id);
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: -20px;
+	left: 0;
 	padding: 2px 4px;
 	background: #EEE;
 	border: solid 1px #DDD;

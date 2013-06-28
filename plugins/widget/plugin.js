@@ -24,6 +24,22 @@
 				'}' +
 				'.cke_widget_editable{' +
 					'cursor:text' +
+				'}' +
+				'.cke_widget_drag_handler{' +
+					'position:absolute;' +
+					'top:0;' +
+					'right:0;' +
+					'width:14px;' +
+					'height:14px;' +
+					'display:none;' +
+					'opacity:0.75;' +
+					'background:rgba(200,200,200,0.25)' +
+				'}' +
+				'.cke_widget_wrapper:hover>.cke_widget_drag_handler{' +
+					'display:block' +
+				'}' +
+				'.cke_widget_drag_handler:hover{' +
+					'opacity:1' +
 				'}'
 			);
 		},
@@ -514,6 +530,7 @@
 				this.element.removeClass( 'cke_widget_element' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
+				this.dragHandler.remove();
 			}
 
 			this.wrapper = null;
@@ -1241,6 +1258,10 @@
 			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
 				var target = evt.data.getTarget();
 
+				// Ignore mousedown on drag and drop handler.
+				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-widget-drag-handler' ) )
+					return;
+
 				// Widget was clicked, but not editable nested in it.
 				if ( ( widget = widgetsRepo.getByElement( target ) ) ) {
 					if ( !getNestedEditable( widget.wrapper, target ) ) {
@@ -1452,6 +1473,18 @@
 		}
 	}
 
+	function setupDragHandler( widget ) {
+		var img = new CKEDITOR.dom.element.createFromHtml(
+			'<img draggable="true" class="cke_widget_drag_handler" data-widget-drag-handler="1" src="' + widget.editor.plugins.widget.path + 'images/drag.png">', widget.editor.document );
+
+		img.on( 'dragstart', function( evt ) {
+			evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: widget.editor.name, id: widget.id } ) );
+		} );
+
+		widget.wrapper.append( img );
+		widget.dragHandler = img;
+	}
+
 	function setupEditables( widget ) {
 		if ( !widget.editables )
 			return;
@@ -1545,6 +1578,7 @@
 		setupWrapper( widget );
 		setupParts( widget );
 		setupEditables( widget );
+		setupDragHandler( widget );
 		// setupMask( widget );
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
