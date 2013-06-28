@@ -75,6 +75,7 @@
 		setupSelectionObserver( this );
 		setupMouseObserver( this );
 		setupKeyboardObserver( this );
+		setupDragAndDrop( this );
 	}
 
 	Repository.prototype = {
@@ -1055,6 +1056,43 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget-wrapper' );
 	}
 
+	function moveSelectionToDropPosition( editor, dropEvt ) {
+		var $evt = dropEvt.data.$,
+			$range,
+			range = editor.createRange();
+
+		// Make testing possible.
+		if ( dropEvt.data.testRange ) {
+			dropEvt.data.testRange.select();
+			return;
+		}
+
+		// Webkits.
+		if ( document.caretRangeFromPoint ) {
+			$range = editor.document.$.caretRangeFromPoint( $evt.clientX, $evt.clientY );
+			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
+			range.collapse( true );
+		}
+		// FF.
+		else if ( $evt.rangeParent ) {
+			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
+			range.collapse( true );
+		}
+		// IEs.
+		else if ( document.body.createTextRange ) {
+			$range = editor.document.getBody().$.createTextRange();
+			$range.moveToPoint( $evt.clientX, $evt.clientY );
+			var id = 'cke-temp-' + ( new Date() ).getTime();
+			$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+
+			var span = editor.document.getById( id );
+			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
+			span.remove();
+		}
+
+		range.select();
+	}
+
 	/* TMP
 	function onPaste( evt ) {
 		var data = evt.data.dataValue;
@@ -1241,6 +1279,48 @@
 					}
 				}
 			}
+		} );
+	}
+
+	function setupDragAndDrop( widgetsRepo ) {
+		var editor = widgetsRepo.editor;
+
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
+			editable.attachListener( editable, 'drop', function( evt ) {
+				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
+					dataObj,
+					sourceWidget;
+
+				if ( !dataStr )
+					return;
+
+				try {
+					dataObj = JSON.parse( dataStr );
+				} catch ( e ) {
+					// Do nothing - data couldn't be parsed so it's not a CKEditor's data.
+					return;
+				}
+
+				if ( dataObj.type != 'cke-widget' )
+					return;
+
+				evt.data.preventDefault();
+
+				// Something went wrong... maybe someone is dragging widgets between editors/windows/tabs/browsers/frames.
+				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
+					return;
+
+				var widgetHtml = sourceWidget.wrapper.getOuterHtml();
+
+				moveSelectionToDropPosition( editor, evt );
+
+				sourceWidget.wrapper.remove();
+				widgetsRepo.destroy( sourceWidget, true );
+
+				editor.execCommand( 'paste', widgetHtml );
+			} );
 		} );
 	}
 
