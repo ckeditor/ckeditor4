@@ -52,7 +52,7 @@
 				},
 
 				refreshOn: function( editor, refresh ) {
-					editor.on( 'afterSelectionCheck', refresh );
+					editor.on( 'selectionCheck', refresh, null, null, 999 );
 				}
 			},
 

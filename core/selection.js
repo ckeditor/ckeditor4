@@ -39,15 +39,11 @@
 
 		this.fire( 'selectionCheck', sel );
 
-		var currentPath = this.elementPath(),
-			changed = false;
+		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
 			this._.selectionPreviousPath = currentPath;
 			this.fire( 'selectionChange', { selection: sel, path: currentPath } );
-			changed = true;
 		}
-
-		this.fire( 'afterSelectionCheck', { selection: sel, changed: changed } );
 	}
 
 	var checkSelectionChangeTimer, checkSelectionChangeTimeoutPending;
