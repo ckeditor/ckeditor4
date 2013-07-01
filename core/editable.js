@@ -630,44 +630,6 @@
 					return !isHandled;
 				});
 
-				// Fix keystrokes around non-editables.
-				this.attachListener( editor, 'key', function( evt ) {
-					if ( editor.readOnly )
-						return false;
-
-					var keyCode = evt.data.keyCode, isHandled;
-
-					// Backspace OR Delete.
-					if ( keyCode in { 8:1,46:1 } ) {
-						var sel = editor.getSelection(),
-							range = sel.getRanges()[ 0 ],
-							path = range.startPath(),
-							next,
-							rtl = keyCode == 8;
-
-						// Not to consider bogus node at the end of block.
-						if ( range.checkEndOfBlock() )
-							range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_END );
-
-						// Backspace/Del should skip non-editable element.
-						while ( ( next = range[ rtl ? 'getPreviousNode' : 'getNextNode' ]() ) &&
-								 next.type == CKEDITOR.NODE_ELEMENT &&
-								 next.isReadOnly() )
-						{
-							isHandled = 1;
-							range.moveToPosition( next, rtl ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
-						}
-
-						if ( isHandled ) {
-							range[ rtl ? 'moveToElementEditEnd' : 'moveToElementEditStart' ]( next );
-							range.select();
-							range.scrollIntoView();
-						}
-					}
-
-					return !isHandled;
-				});
-
 				// Prevent automatic submission in IE #6336
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
