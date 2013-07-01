@@ -41,26 +41,13 @@
 		proto: {
 
 			focus: function() {
-
-				var active;
-
-				// [Webkit] When DOM focus is inside of nested contenteditable elements,
-				// apply focus on the main editable will compromise it's text selection.
-				if ( CKEDITOR.env.webkit && !this.hasFocus ) {
-					active = this.getDocument().getActive();
-					if ( this.contains( active ) ) {
-						active.focus();
-						return;
-					}
-				}
-
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
 				// the host page document, to avoid bringing an unexpected scroll.
 				this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
 
 				// Remedy if Safari doens't applies focus properly. (#279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
-					active = CKEDITOR.document.getActive();
+					var active = CKEDITOR.document.getActive();
 					if ( !active.equals( this.getWindow().getFrame() ) ) {
 						this.getWindow().focus();
 					}
