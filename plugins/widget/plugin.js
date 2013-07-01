@@ -547,7 +547,6 @@
 			var editable = this.editables[ editableName ];
 
 			editable.removeListener( 'focus', onEditableFocus );
-			editable.removeListener( 'keydown', onEditableKey );
 			this.editor.focusManager.remove( editable );
 
 			if ( !offline ) {
@@ -646,7 +645,6 @@
 
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
-				editable.on( 'keydown', onEditableKey, this );
 			}
 		},
 
@@ -1100,6 +1098,28 @@
 		range.select();
 	}
 
+	function onEditableKey( widget, keyCode ) {
+		var focusedEditable = widget.focusedEditable;
+
+		// CTRL+A.
+		if ( keyCode == CKEDITOR.CTRL + 65 ) {
+			var range = widget.editor.createRange();
+			range.selectNodeContents( focusedEditable );
+			range.select();
+			// Cancel event - block default.
+			return false;
+		}
+		// DEL or BACKSPACE.
+		else if ( keyCode == 8 || keyCode == 46 ) {
+			var ranges = widget.editor.getSelection().getRanges(),
+				range = ranges[ 0 ];
+
+			// Block del or backspace if at editable's boundary.
+			return !( ranges.length == 1 && range.collapsed &&
+				range.checkBoundaryOfElement( focusedEditable, CKEDITOR[ keyCode == 8 ? 'START' : 'END' ] ) );
+		}
+	}
+
 	/* TMP
 	function onPaste( evt ) {
 		var data = evt.data.dataValue;
@@ -1404,12 +1424,16 @@
 		var editor = widgetsRepo.editor;
 
 		editor.on( 'key', function( evt ) {
-			var focused = widgetsRepo.focused;
+			var focused = widgetsRepo.focused,
+				widgetHoldingFocusedEditable = widgetsRepo.widgetHoldingFocusedEditable,
+				ret;
 
-			if ( !focused )
-				return;
+			if ( focused )
+				ret = focused.fire( 'key', { keyCode: evt.data.keyCode } );
+			else if ( widgetHoldingFocusedEditable )
+				ret = onEditableKey( widgetHoldingFocusedEditable, evt.data.keyCode );
 
-			return focused.fire( 'key', { keyCode: evt.data.keyCode } );
+			return ret;
 		}, null, null, 1 );
 	}
 
@@ -1554,21 +1578,6 @@
 		this.editor.selectionChange( 1 );
 	}
 
-	// @context widget
-	function onEditableKey( evt ) {
-		var focusedEditable;
-
-		// CTRL+A.
-		if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
-			if ( ( focusedEditable = this.focusedEditable ) ) {
-				var range = this.editor.createRange();
-				range.selectNodeContents( focusedEditable );
-				range.select();
-				evt.data.preventDefault();
-			}
-		}
-	}
-
 	// Position drag handler according to the widget's element position.
 	function positionDragHandler( widget ) {
 		var handler = widget.dragHandler;
@@ -1606,49 +1615,6 @@
 	}
 
 	/* TMP
-	// Makes widget editables editable, selectable, etc.
-	// Adds necessary classes, properties, and styles.
-	// Also adds editables to focusmanager.
-	function setupEditables( widget ) {
-		if ( !widget.editables )
-			return;
-
-		var editables = widget.editables(),
-			editable, name;
-
-		// Initialize nested editables.
-		for ( name in editables ) {
-			editable = editables[ name ];
-			editable.setAttribute( 'contenteditable', true );
-			editable.setStyle( 'cursor', 'text' );
-			editable.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
-			editable.addClass( 'cke_widget_editable' );
-			editable.setAttribute( 'data-widget-editable' );
-			widget.editor.focusManager.add( editable );
-
-			// Fix DEL and BACKSPACE behaviour in widget editables. Make sure
-			// widget pressing BACKSPACE|DEL at the very beginning|end of editable
-			// won't move caret outside of editable.
-			(function( editable ) {
-				editable.on( 'keydown', function( evt ) {
-					var key = evt.data.getKey(),
-						range = widget.editor.getSelection().getRanges()[ 0 ];
-
-					if ( key == 8 || key == 46 ) {
-						if ( range.collapsed &&
-							range.checkBoundaryOfElement( editable, CKEDITOR[ key == 8 ? 'START' : 'END' ] ) ) {
-								evt.data.preventDefault();
-						}
-
-						evt.data.stopPropagation();
-					}
-				} );
-			})( editable );
-		}
-
-		widget.editables = editables;
-	}
-
 	function setupMask( widget ) {
 		// When initialized for the first time.
 		if ( widget.needsMask ) {
