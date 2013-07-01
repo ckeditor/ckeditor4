@@ -1053,6 +1053,11 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
+	// @param {CKEDITOR.htmlParser.element}
+	function isWidgetWrapper( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-widget-wrapper' ];
+	}
+
 	// @param {CKEDITOR.dom.element}
 	function isWidgetWrapper2( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget-wrapper' );
@@ -1140,7 +1145,8 @@
 	// * undo/redo handling.
 	function setupDataProcessing( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			snapshotLoaded = 0;
+			snapshotLoaded = 0,
+			processedWidgetOnly;
 
 		editor.on( 'contentDomUnload', function() {
 			widgetsRepo.destroyAll( true );
@@ -1169,7 +1175,11 @@
 		editor.on( 'afterPaste', function() {
 			// Init is enough (no clean up needed),
 			// because inserted widgets were cleaned up by toHtml.
-			widgetsRepo.initOnAll();
+			var newInstances = widgetsRepo.initOnAll();
+
+			// If just a widget was pasted and nothing more focus it.
+			if ( processedWidgetOnly && newInstances.length == 1 )
+				newInstances[ 0 ].focus();
 		} );
 
 		// Set flag so dataReady will know that additional
@@ -1238,6 +1248,10 @@
 				cleanUpWidgetElement( toBe[ 0 ] );
 				widgetsRepo.wrapElement( toBe[ 0 ], toBe[ 1 ] );
 			}
+
+			// Used to determine whether only widget was pasted.
+			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
+				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 10 );
 
 		editor.dataProcessor.htmlFilter.addRules( {
