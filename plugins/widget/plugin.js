@@ -817,7 +817,7 @@
 			} else
 				selected.select();
 
- 			// Unlock the undo so it operates normally.
+			// Unlock the undo so it operates normally.
 			editor.fire( 'unlockSnapshot' );
 		}, 0 );
 	}
