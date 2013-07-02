@@ -28,7 +28,7 @@
 			globalHelpers.registerCommands( editor, {
 				indentblock: new commandDefinition( editor, 'indentblock', true ),
 				outdentblock: new commandDefinition( editor, 'outdentblock' )
-			});
+			} );
 
 			function commandDefinition( editor, name ) {
 				globalHelpers.specificDefinition.apply( this, arguments );
@@ -57,13 +57,13 @@
 
 				// Indent and outdent entire list with TAB/SHIFT+TAB key. Indenting can
 				// be done only when editor path is in the first child of the list.
-				editor.on( 'key', function( event ) {
+				editor.on( 'key', function( evt ) {
 					if ( editor.mode != 'wysiwyg' )
 						return;
 
-					var key = event.data.keyCode;
+					var key = evt.data.keyCode;
 
-					if ( event.data.keyCode == this.indentKey && isFirstListItemInPath( editor.elementPath() ) ) {
+					if ( evt.data.keyCode == this.indentKey && isFirstListItemInPath( editor.elementPath() ) ) {
 						// Exec related global indentation command. Global
 						// commands take care of bookmarks and selection,
 						// so it's much easier to use them instead of
@@ -71,7 +71,7 @@
 						editor.execCommand( this.relatedGlobal );
 
 						// Cancel the key event so editor doesn't lose focus.
-						event.cancel();
+						evt.cancel();
 					}
 				}, this );
 			}
@@ -183,7 +183,7 @@
 
 					return true;
 				}
-			});
+			} );
 		}
-	});
+	} );
 })();

@@ -22,10 +22,10 @@
 			setupGenericListeners( editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'outdent' ) ) );
 
 			// Register dirChanged listener.
-			editor.on( 'dirChanged', function( e ) {
+			editor.on( 'dirChanged', function( evt ) {
 				var range = editor.createRange();
-				range.setStartBefore( e.data.node );
-				range.setEndAfter( e.data.node );
+				range.setStartBefore( evt.data.node );
+				range.setEndAfter( evt.data.node );
 
 				var walker = new CKEDITOR.dom.walker( range ),
 					node;
@@ -33,7 +33,7 @@
 				while ( ( node = walker.next() ) ) {
 					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 						// A child with the defined dir is to be ignored.
-						if ( !node.equals( e.data.node ) && node.getDirection() ) {
+						if ( !node.equals( evt.data.node ) && node.getDirection() ) {
 							range.setStartAfter( node );
 							walker = new CKEDITOR.dom.walker( range );
 							continue;
@@ -42,7 +42,7 @@
 						// Switch alignment classes.
 						var classes = editor.config.indentClasses;
 						if ( classes ) {
-							var suffix = ( e.data.dir == 'ltr' ) ? [ '_rtl', '' ] : [ '', '_rtl' ];
+							var suffix = ( evt.data.dir == 'ltr' ) ? [ '_rtl', '' ] : [ '', '_rtl' ];
 							for ( var i = 0; i < classes.length; i++ ) {
 								if ( node.hasClass( classes[ i ] + suffix[ 0 ] ) ) {
 									node.removeClass( classes[ i ] + suffix[ 0 ] );
@@ -59,9 +59,9 @@
 						marginRight ? node.setStyle( 'margin-right', marginRight ) : node.removeStyle( 'margin-right' );
 					}
 				}
-			});
+			} );
 		}
-	});
+	} );
 
 	var listNodeNames = { ol: 1, ul: 1 };
 
@@ -108,7 +108,7 @@
 					command: name,
 					directional: true,
 					toolbar: 'indent,' + ( this.isIndent ? '20' : '10' )
-				});
+				} );
 			}
 		},
 
@@ -240,14 +240,14 @@
 		 *		CKEDITOR.plugins.indent.registerCommands( editor, {
 		 *			'indentlist': new indentListCommand( editor, 'indentlist' ),
 		 *			'outdentlist': new indentListCommand( editor, 'outdentlist' )
-		 *		});
+		 *		} );
 		 *
 		 * Content-specific commands listen on generic command's `exec` and
 		 * try to execute itself, one after another. If some execution is
-		 * successful, `event.data.done` is set so no more commands are involved.
+		 * successful, `evt.data.done` is set so no more commands are involved.
 		 *
 		 * Content-specific commands also listen on generic command's `refresh`
-		 * and fill `event.data.states` object with own states. A generic command
+		 * and fill `evt.data.states` object with own states. A generic command
 		 * uses these data to determine own state and update UI.
 		 *
 		 * @member CKEDITOR.plugins.indent
@@ -265,8 +265,8 @@
 						// If the command was successfully handled by the command and
 						// DOM has been modified, stop event propagation so no other plugin
 						// will bother. Job is done.
-						relatedGlobal.on( 'exec', function( event ) {
-							if ( event.data.done )
+						relatedGlobal.on( 'exec', function( evt ) {
+							if ( evt.data.done )
 								return;
 
 							// Make sure that anything this command will do is invisible
@@ -275,7 +275,7 @@
 							editor.fire( 'lockSnapshot' );
 
 							if ( command.exec( editor ) )
-								event.data.done = true;
+								evt.data.done = true;
 
 							editor.fire( 'unlockSnapshot' );
 
@@ -286,14 +286,14 @@
 						// Observe generic refresh event and force command refresh.
 						// Once refreshed, save command state in event data
 						// so generic command plugin can update its own state and UI.
-						relatedGlobal.on( 'refresh', function( event ) {
-							command.refresh( editor, event.data.path );
+						relatedGlobal.on( 'refresh', function( evt ) {
+							command.refresh( editor, evt.data.path );
 
-							if ( !event.data.states )
-								event.data.states = {};
+							if ( !evt.data.states )
+								evt.data.states = {};
 
-							event.data.states[ command.name ] = command.state;
-						});
+							evt.data.states[ command.name ] = command.state;
+						} );
 
 						// Since specific indent commands have no UI elements,
 						// they need to be manually registered as a editor feature.
@@ -533,10 +533,10 @@
 	 *
 	 * * <100: Content-specific commands refresh their states according
 	 * 	 to the given path by executing {@link CKEDITOR.command#method-refresh}.
-	 * 	 They save their states in `event.data.states` object passed along.
+	 * 	 They save their states in `evt.data.states` object passed along.
 	 * 	 with the event.
 	 * * 100: Command state is determined according to what states
-	 * 	 have been returned by content-specific commands (`event.data.states`).
+	 * 	 have been returned by content-specific commands (`evt.data.states`).
 	 * 	 UI elements are updated at this stage.
 	 *
 	 * @param {CKEDITOR.command} command Command to be set up.
@@ -548,12 +548,12 @@
 
 		// Set the command state according to content-specific
 		// command states.
-		command.on( 'refresh', function( event ) {
+		command.on( 'refresh', function( evt ) {
 			// If no state comes with event data, disable command.
 			var states = [ CKEDITOR.TRISTATE_DISABLED ];
 
-			for ( var s in event.data.states )
-				states.push( event.data.states[ s ] );
+			for ( var s in evt.data.states )
+				states.push( evt.data.states[ s ] );
 
 			// Maybe a little bit shorter?
 			if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_ON ) )
@@ -566,20 +566,20 @@
 
 		// Initialization. Save bookmarks and mark event as not handled
 		// by any plugin (command) yet.
-		command.on( 'exec', function( event ) {
+		command.on( 'exec', function( evt ) {
 			selection = editor.getSelection();
 			bookmarks = selection.createBookmarks( 1 );
 
 			// Mark execution as not handled yet.
-			if ( !event.data )
-				event.data = {};
+			if ( !evt.data )
+				evt.data = {};
 
-			event.data.done = false;
+			evt.data.done = false;
 		}, command, null, 0 );
 
 		// Housekeeping. Make sure selectionChange will be called.
 		// Also re-select previously saved bookmarks.
-		command.on( 'exec', function( event ) {
+		command.on( 'exec', function( evt ) {
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
 		}, command, null, 100 );

@@ -29,7 +29,7 @@
 			globalHelpers.registerCommands( editor, {
 				indentlist: new commandDefinition( editor, 'indentlist', true ),
 				outdentlist: new commandDefinition( editor, 'outdentlist' )
-			});
+			} );
 
 			function commandDefinition( editor, name ) {
 				globalHelpers.specificDefinition.apply( this, arguments );
@@ -51,13 +51,13 @@
 
 				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
 				// be done for any list item that isn't the first child of the parent.
-				editor.on( 'key', function( event ) {
+				editor.on( 'key', function( evt ) {
 					if ( editor.mode != 'wysiwyg' )
 						return;
 
-					var key = event.data.keyCode;
+					var key = evt.data.keyCode;
 
-					if ( event.data.keyCode == this.indentKey ) {
+					if ( evt.data.keyCode == this.indentKey ) {
 						var list = this.getContext( editor.elementPath() );
 
 						if ( list ) {
@@ -74,7 +74,7 @@
 							editor.execCommand( this.relatedGlobal );
 
 							// Cancel the key event so editor doesn't lose focus.
-							event.cancel();
+							evt.cancel();
 						}
 					}
 				}, this );
@@ -256,7 +256,7 @@
 									// otherwise the list item will be inaccessiable. (#4476)
 									if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
 										return isNotWhitespaces( node ) && isNotBookmark( node );
-									}))
+									} ) )
 										li.append( range.document.createText( '\u00a0' ) );
 
 									li.append( followingList );
@@ -331,7 +331,7 @@
 
 					return contentIndented;
 				}
-			});
+			} );
 		}
-	});
+	} );
 })();
