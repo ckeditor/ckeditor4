@@ -373,7 +373,7 @@
 				var parent = element.parent,
 					index;
 
-				// Don't detached and then insert already detached element.
+				// Don't detach already detached element.
 				if ( parent ) {
 					index = element.getIndex();
 					element.remove();
