@@ -285,13 +285,13 @@
 
 		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
 			var handler = handlers[ evt.data.getKeystroke() ],
-				handled;
+				ret;
 
-			if ( handler )
-				handled = handler( { editor: editor, selected: element, selection: sel, keyEvent: evt } );
-
-			if ( !handled )
-				evt.data.preventDefault();
+			if ( handler ) {
+				ret = handler( { editor: editor, selected: element, selection: sel, keyEvent: evt } );
+				if ( ret === false )
+					evt.data.preventDefault();
+			}
 		}, null, null, -100 );
 	}
 
@@ -304,6 +304,9 @@
 				// It no, then do nothing (keystroke will be blocked, widget selection kept).
 				if ( range.moveToClosestEditablePosition( evt.selected, right ) )
 					evt.editor.getSelection().selectRanges( [ range ] );
+
+				// Prevent default.
+				return false;
 			}
 		}
 
@@ -331,6 +334,9 @@
 				}
 
 				editor.fire( 'saveSnapshot' );
+
+				// Prevent default.
+				return false;
 			}
 		}
 

@@ -751,77 +751,6 @@
 
 	CKEDITOR.event.implementOn( Widget.prototype );
 
-	/* TMP
-	function copyDataByCopyBin( evt, editor, editable, selected, key ) {
-		var copybin = new CKEDITOR.dom.element( 'div', editor.document ),
-			isCut = key == CKEDITOR.CTRL + 88;
-
-		editable.append( copybin );
-
-		var clone = CKEDITOR.dom.element.createFromHtml( selected.getHtml() ),
-			cloneElements = clone.getElementsByTag( '*' ),
-			i = 0,
-			element;
-
-
-		// By default, web browsers ignore hidden elements when copying
-		// to the clipboard. To have them copied and properly pasted, they must
-		// be marked by an attribute and have display:none style removed.
-		while ( ( element = cloneElements.getItem( i++ ) ) ) {
-			if ( element.getStyle( 'display' ) == 'none' ) {
-				element.setAttribute( 'data-widget-hidden', 1 );
-				element.removeStyle( 'display' );
-			}
-		}
-
-		// Mark the widget with an attribute to let know that widget was the ONLY
-		// thing copied to the clipboard. Since webkit (and FF as well) destroys selection when
-		// pasting the widget (and only a single widget, nothing more), this will help
-		// us with moving the caret after the widget once it is ready.
-		clone.setAttribute( 'data-widget-cbin-direct', 1 );
-
-		// (#9909) insert dummy nodes to fix webkit issues. This will also
-		// let us extract the widget in Firefox, since it's copied with additional
-		// wrapper.
-		copybin.setHtml( 'cke-dummy-before[' + clone.getOuterHtml() + ']cke-dummy-after' );
-
-		// Don't let the selected widget call blur when being removed during cutting.
-		isCut && selected.removeBlurListeners();
-
-		// Once the clone of the widget is inside of copybin, select
-		// the entire contents. This selection will be copied by the
-		// native browser's clipboard system.
-		var range = new CKEDITOR.dom.range( editor.document );
-		range.selectNodeContents( copybin );
-		range.select();
-
-		setTimeout( function() {
-			// Fool the undo system. Make all the changes a single snapshot.
-			editor.fire( 'lockSnapshot' );
-
-			copybin.remove();
-
-			// In case of CTRL+X, put selection to the closest previous
-			// editable position to simulate a real, native cutting process.
-			if ( isCut ) {
-				range.moveToClosestEditablePosition( selected.wrapper );
-				range.select();
-
-				delete editor.widgets.selected;
-
-				// Remove widget from DOM when cutting.
-				selected.wrapper.remove();
-
-				if ( CKEDITOR.env.gecko )
-					editor.focus();
-			} else
-				selected.select();
-
-			// Unlock the undo so it operates normally.
-			editor.fire( 'unlockSnapshot' );
-		}, 0 );
-	}
-	*/
 
 	//
 	// REPOSITORY helpers -----------------------------------------------------
@@ -1570,6 +1499,40 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
+	function cancel( evt ) {
+		evt.cancel();
+	}
+
+	function copySingleWidget( widget, isCut ) {
+		var editor = widget.editor,
+			copybin = new CKEDITOR.dom.element( 'div', editor.document );
+
+		copybin.setAttributes( {
+			id: 'cke_copybin'
+		} );
+
+		copybin.setHtml( 'cke-copybin-start[' + widget.wrapper.getOuterHtml() + ']cke-copybin-end' );
+
+		editor.editable().append( copybin );
+
+		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
+			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
+
+		// Once the clone of the widget is inside of copybin, select
+		// the entire contents. This selection will be copied by the
+		// native browser's clipboard system.
+		var range = editor.createRange();
+		range.selectNodeContents( copybin );
+		range.select();
+
+		setTimeout( function() {
+			copybin.remove();
+			widget.focus();
+			listener1.removeListener();
+			listener2.removeListener();
+		}, 0 );
+	}
+
 	// Force selectionChange when editable was focused.
 	// Similar to hack in selection.js#~620.
 	// @context widget
@@ -1655,12 +1618,21 @@
 		widget.element.addClass( 'cke_widget_element' );
 
 		widget.on( 'key', function( evt ) {
+			var keyCode = evt.data.keyCode;
+
 			// ENTER.
-			if ( evt.data.keyCode == 13 ) {
+			if ( keyCode == 13 )
 				widget.edit();
-				evt.cancel();
+			// CTRL+C or CTRL+X.
+			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
+				return; // Do not preventDefault.
 			}
-		} );
+
+			return false;
+		}, null, null, 999 );
+		// Listen with high priority so it's possible
+		// to overwrite this callback.
 
 		widget.on( 'doubleclick', function( evt ) {
 			widget.edit();
