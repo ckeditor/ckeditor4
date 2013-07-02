@@ -95,7 +95,7 @@
 					//			in the path.
 					//
 					if ( !this.enterBr && !this.getContext( path ) )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
+						this.state = CKEDITOR.TRISTATE_DISABLED;
 
 					else if ( this.useIndentClasses ) {
 						//	+ indentContext in the path or ENTER_BR
@@ -106,9 +106,9 @@
 						// 		    the command.
 						//
 						if ( this.checkIndentClassLeft( firstBlock ) )
-							this.setState( CKEDITOR.TRISTATE_OFF );
+							this.state = CKEDITOR.TRISTATE_OFF;
 						else
-							this.setState( CKEDITOR.TRISTATE_DISABLED );
+							this.state = CKEDITOR.TRISTATE_DISABLED;
 					}
 
 					else {
@@ -120,7 +120,7 @@
 						// 		    Indent-like command can always be executed.
 						//
 						if ( this.isIndent )
-							this.setState( CKEDITOR.TRISTATE_OFF );
+							this.state = CKEDITOR.TRISTATE_OFF;
 
 						//	+ indentContext in the path or ENTER_BR
 						//	- IndentClasses
@@ -131,7 +131,7 @@
 						// 		    so disable the command.
 						//
 						else if ( !firstBlock )
-							this.setState( CKEDITOR.TRISTATE_DISABLED );
+							this.state = CKEDITOR.TRISTATE_DISABLED;
 
 						//	+ indentContext in the path or ENTER_BR
 						//	- IndentClasses
@@ -149,14 +149,14 @@
 								indent = 0;
 
 							if ( indent <= 0 )
-								this.setState( CKEDITOR.TRISTATE_DISABLED );
+								this.state = CKEDITOR.TRISTATE_DISABLED;
 							else
-								this.setState( CKEDITOR.TRISTATE_OFF );
+								this.state = CKEDITOR.TRISTATE_OFF;
 						}
 					}
 				},
 
-				exec: function( editor ) {
+				indent: function( editor ) {
 					var listNodeNames = globalHelpers.listNodeNames,
 						selection = editor.getSelection(),
 						range = selection && selection.getRanges( 1 )[ 0 ],

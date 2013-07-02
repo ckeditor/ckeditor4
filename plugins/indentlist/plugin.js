@@ -95,7 +95,7 @@
 					//			This command is for lists only.
 					//
 					if ( !list )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
+						this.state = CKEDITOR.TRISTATE_DISABLED;
 
 					//	- List in the path
 					//	- Indent margin.
@@ -105,7 +105,7 @@
 					//			margins of the entire list: nesting only.
 					//
 					else if ( getNumericalIndentLevel( list ) && inFirstListItem )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
+						this.state = CKEDITOR.TRISTATE_DISABLED;
 
 					//	+ List in the path
 					//	- Indent margin.
@@ -115,7 +115,7 @@
 					//			or entire collapsed into a paragraph.
 					//
 					else if ( !this.isIndent )
-						this.setState( CKEDITOR.TRISTATE_OFF );
+						this.state = CKEDITOR.TRISTATE_OFF;
 
 					// 	+ List in the path
 					//	- Indent margin.
@@ -126,7 +126,7 @@
 					//			is requires margins to be used. This is a job for indentblock.
 					//
 					else if ( inFirstListItem )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
+						this.state = CKEDITOR.TRISTATE_DISABLED;
 
 					// 	+ List in the path
 					//	- Indent margin.
@@ -138,7 +138,7 @@
 					// 		    disable the command. User restricted depth with classes.
 					//
 					else if ( this.useIndentClasses && !this.checkIndentClassLeft( list ) )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
+						this.state = CKEDITOR.TRISTATE_DISABLED;
 
 					// 	+ List in the path
 					//	- Indent margin.
@@ -149,10 +149,10 @@
 					// 			We can always indent a little bit more ;)
 					//
 					else
-						this.setState( CKEDITOR.TRISTATE_OFF );
+						this.state = CKEDITOR.TRISTATE_OFF;
 				},
 
-				exec: function( editor ) {
+				indent: function( editor ) {
 					var that = this,
 						database = this.database,
 						indentContext = this.indentContext;

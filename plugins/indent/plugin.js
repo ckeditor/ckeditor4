@@ -118,10 +118,12 @@
 		 *
 		 * Commands of this class perform real indentation and modify DOM structure.
 		 * They observe events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
-		 * and perform defined actions.
+		 * and execute defined actions.
+		 *
+		 * **NOTE**: This is not an {@link CKEDITOR.command editor command}.
+		 * Context-specific commands are internal, for indentation system only.
 		 *
 		 * @class CKEDITOR.plugins.indent.specificDefinition
-		 * @extends CKEDITOR.command
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
  		 * related to.
 		 * @param {String} name Name of the command.
@@ -207,6 +209,14 @@
 			 */
 			this.indentClassMap = {};
 
+			/**
+			 * A state of the command.
+			 *
+			 * @readonly
+			 * @property {Number} [=CKEDITOR.TRISTATE_DISABLED]
+			 */
+			this.state = CKEDITOR.TRISTATE_DISABLED;
+
 			if ( this.useIndentClasses ) {
 				/**
 				 * A regular expression used used by indentation procedure for determining
@@ -224,7 +234,7 @@
 
 		/**
 		 * Registers content-specific commands as a part of indentation system
-		 * directed by generic commands. Since a command is registered,
+		 * directed by generic commands. Once a command is registered,
 		 * it observes for events of a related generic command.
 		 *
 		 *		CKEDITOR.plugins.indent.registerCommands( editor, {
@@ -249,22 +259,22 @@
 			editor.on( 'pluginsLoaded', function() {
 				for ( var name in commands ) {
 					( function( editor, command ) {
-						var related = editor.getCommand( command.relatedGlobal );
+						var relatedGlobal = editor.getCommand( command.relatedGlobal );
 
 						// Observe generic exec event and execute command when necessary.
 						// If the command was successfully handled by the command and
 						// DOM has been modified, stop event propagation so no other plugin
 						// will bother. Job is done.
-						related.on( 'exec', function( event ) {
+						relatedGlobal.on( 'exec', function( event ) {
 							if ( event.data.done )
 								return;
 
 							// Make sure that anything this command will do is invisible
 							// for undoManager. What undoManager only can see and
-							// remember is the execution of the global command (related).
+							// remember is the execution of the global command (relatedGlobal).
 							editor.fire( 'lockSnapshot' );
 
-							if ( editor.execCommand( command.name ) )
+							if ( command.exec( editor ) )
 								event.data.done = true;
 
 							editor.fire( 'unlockSnapshot' );
@@ -276,7 +286,7 @@
 						// Observe generic refresh event and force command refresh.
 						// Once refreshed, save command state in event data
 						// so generic command plugin can update its own state and UI.
-						related.on( 'refresh', function( event ) {
+						relatedGlobal.on( 'refresh', function( event ) {
 							command.refresh( editor, event.data.path );
 
 							if ( !event.data.states )
@@ -287,9 +297,8 @@
 
 						// Since specific indent commands have no UI elements,
 						// they need to be manually registered as a editor feature.
-						// Doing this a this stage.
 						editor.addFeature( command );
-					} )( this, this.addCommand( name, commands[ name ] ) );
+					} )( this, commands[ name ] );
 				}
 			} );
 		},
@@ -353,7 +362,25 @@
 	};
 
 	CKEDITOR.plugins.indent.specificDefinition.prototype = {
-		context: 'p',
+		/**
+		 * Executes the content-specific procedure if the
+		 * context is correct. It refreshes the state of the command
+		 * first to be up-to-date. Then it calls
+		 * {@link CKEDITOR.plugins.indent.specificDefinition#indent method}
+		 * defined for the command that modifies DOM.
+		 *
+		 * @param {CKEDITOR.editor} editor The editor instance this command will be
+ 		 * related to.
+		 * @returns {Boolean}
+		 */
+		exec: function( editor ) {
+			this.refresh( editor, editor.elementPath() );
+
+			if ( this.state == CKEDITOR.TRISTATE_DISABLED || !editor.filter.checkFeature( this ) )
+				return false;
+
+			return this.indent( editor );
+		},
 
 		/**
 		 * Generic indentation procedure for any element shared across
@@ -468,6 +495,23 @@
 		getContext: function( path ) {
 			return path.contains( this.indentContext );
 		}
+
+		/**
+		 * Refreshes the state of the content-specific command
+		 * similarly to {@link CKEDITOR.command#method-refresh}. It updates
+		 * the {@link CKEDITOR.plugins.indent.specificDefinition#state} property.
+		 *
+		 * @method refresh
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.dom.elementPath} path
+		 */
+
+		/**
+		 * Performs indentation (outdentation) in DOM.
+		 *
+		 * @method indent
+		 * @param {CKEDITOR.editor} editor
+		 */
 	};
 
 	/**
