@@ -197,8 +197,7 @@
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
 
 	Image.prototype = {
-		equals: function( otherImage, contentOnly ) {
-
+		equalsContent: function( otherImage ) {
 			var thisContents = this.contents,
 				otherContents = otherImage.contents;
 
@@ -211,9 +210,9 @@
 			if ( thisContents != otherContents )
 				return false;
 
-			if ( contentOnly )
-				return true;
-
+			return true;
+		},
+		equalsSelection: function( otherImage ) {
 			var bookmarksA = this.bookmarks,
 				bookmarksB = otherImage.bookmarks;
 
@@ -232,6 +231,9 @@
 			}
 
 			return true;
+		},
+		equals: function( otherImage ) {
+			return this.equalsContent( otherImage ) && this.equalsSelection( otherImage );
 		}
 	};
 
@@ -415,8 +417,18 @@
 				return false;
 
 			// Check if this is a duplicate. In such case, do nothing.
-			if ( this.currentImage && image.equals( this.currentImage, onContentOnly ) )
-				return false;
+			if ( this.currentImage ) {
+				var equalContent = image.equalsContent( this.currentImage ),
+				    equalSelection = image.equalsSelection( this.currentImage );
+
+				if ( equalContent )
+					return false;
+
+				if ( !onContentOnly && equalContent && equalSelection )
+					return false;
+			}
+
+
 
 			// Drop future snapshots.
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
@@ -485,7 +497,7 @@
 				if ( isUndo ) {
 					for ( i = this.index - 1; i >= 0; i-- ) {
 						image = snapshots[ i ];
-						if ( !currentImage.equals( image, true ) ) {
+						if ( !currentImage.equalsContent( image ) ) {
 							image.index = i;
 							return image;
 						}
@@ -493,7 +505,7 @@
 				} else {
 					for ( i = this.index + 1; i < snapshots.length; i++ ) {
 						image = snapshots[ i ];
-						if ( !currentImage.equals( image, true ) ) {
+						if ( !currentImage.equalsContent( image ) ) {
 							image.index = i;
 							return image;
 						}
@@ -584,7 +596,7 @@
 				// If current editor content matches the tip of snapshot stack,
 				// the stack tip must be updated by unlock, to include any changes made
 				// during this period.
-				var matchedTip = this.currentImage && this.currentImage.equals( imageBefore, true );
+				var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
 
 				this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
 			}
@@ -608,7 +620,7 @@
 
 					this.locked = null;
 
-					if ( updateImage && !updateImage.equals( new Image( this.editor ), true ) )
+					if ( updateImage && !updateImage.equalsContent( new Image( this.editor ) ) )
 						this.update();
 				}
 			}
