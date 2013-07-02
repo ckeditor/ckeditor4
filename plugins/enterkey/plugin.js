@@ -117,9 +117,9 @@
 						//              <li>x</li>      =>          </li>
 						//              <li>^</li>      =>          <li>^</li>
 						//              <li>y</li>      =>          <li>
-                        //          </ul>               =>              <ul>
-                        //      </li>                   =>                  <li>y</li>
-                        //  </ul>                       =>              </ul>
+						//          </ul>               =>              <ul>
+						//      </li>                   =>                  <li>y</li>
+						//  </ul>                       =>              </ul>
 						//                              =>          </li>
 						//                              =>      </ul>
 
@@ -135,17 +135,17 @@
 						// before the list if block is first child and after the list
 						// if block is the last child, respectively.
 						//
-	                    //  <ul>                       =>      <ul>
-	                    //      <li>x</li>             =>          <li>x</li>
-	                    //      <li>^</li>             =>      </ul>
-	                    //  </ul>                      =>      ^
-	                	//
-	                    //                            AND
-	                 	//
-	                    //  <ul>                       =>      ^
-	                    //      <li>^</li>             =>      <ul>
-	                    //      <li>x</li>             =>          <li>x</li>
-	                    //  </ul>                      =>      </ul>
+						//  <ul>                       =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//  </ul>                      =>      ^
+						//
+						//                            AND
+						//
+						//  <ul>                       =>      ^
+						//      <li>^</li>             =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//  </ul>                      =>      </ul>
 
 						if ( firstChild || lastChild ) {
 							while ( ( child = block[ firstChild ? 'getFirst' : 'getLast' ]() ) )
@@ -156,13 +156,13 @@
 						// then split the list and put all the block contents
 						// between two lists.
 						//
-	                    //  <ul>                       =>      <ul>
-	                    //      <li>x</li>             =>          <li>x</li>
-	                    //      <li>^</li>             =>      </ul>
-	                    //      <li>y</li>             =>      ^
-	                    //  </ul>                      =>      <ul>
-	                    //                             =>          <li>y</li>
-	                    //                             =>      </ul>
+						//  <ul>                       =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//      <li>y</li>             =>      ^
+						//  </ul>                      =>      <ul>
+						//                             =>          <li>y</li>
+						//                             =>      </ul>
 
 						else {
 							block.breakParent( blockParent );
@@ -190,16 +190,16 @@
 						// if block is the last child, respectively.
 						//
 						//  <ul>                       =>      <ul>
-                        //      <li>x</li>             =>          <li>x</li>
-                        //      <li>^</li>             =>      </ul>
-                        //  </ul>                      =>      <p>^</p>
-	                	//
-	                    //                            AND
-	                 	//
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//  </ul>                      =>      <p>^</p>
+						//
+						//                            AND
+						//
 						//  <ul>                       =>      <p>^</p>
-                        //      <li>^</li>             =>      <ul>
-                        //      <li>x</li>             =>          <li>x</li>
-                        //  </ul>                      =>      </ul>
+						//      <li>^</li>             =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//  </ul>                      =>      </ul>
 
 						if ( firstChild || lastChild )
 							newBlock[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockParent );
@@ -208,13 +208,13 @@
 						// then split the list and put the new block between
 						// two lists.
 						//
-                        //                             =>       <ul>
-                        //     <ul>                    =>           <li>x</li>
-                        //         <li>x</li>          =>       </ul>
-                        //         <li>^</li>          =>       <p>^</p>
-                        //         <li>y</li>          =>       <ul>
-                        //     </ul>                   =>           <li>y</li>
-                        //                             =>       </ul>
+						//                             =>       <ul>
+						//     <ul>                    =>           <li>x</li>
+						//         <li>x</li>          =>       </ul>
+						//         <li>^</li>          =>       <p>^</p>
+						//         <li>y</li>          =>       <ul>
+						//     </ul>                   =>           <li>y</li>
+						//                             =>       </ul>
 
 						else {
 							block.breakParent( blockParent );
