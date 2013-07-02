@@ -254,9 +254,11 @@
 		this.reset();
 	}
 
-	var editingKeyCodes = { /*Backspace*/8:1,/*Delete*/46:1 },
-		modifierKeyCodes = { /*Shift*/16:1,/*Ctrl*/17:1,/*Alt*/18:1 },
-		navigationKeyCodes = { 37:1,38:1,39:1,40:1 }; // Arrows: L, T, R, B
+	/* keyTypes:
+		-1: delete (Backspace, Delete),
+		 0: neutral (Home, F1, Shift),
+		 1: character (a, 9, &) */
+	var keyTypes = { 8: -1/*Backspace*/, 9: 0/*Tab*/, 13: 1/*Enter*/, 16: 0/*Shift*/, 17: 0/*Ctrl*/, 18: 0/*Alt*/, 19: 0/*Pause/Break*/, 20: 0/*Caps Lock*/, 27: 0/*Esc*/, 32: 1/*Space*/, 33: 0/*Page Up*/, 34: 0/*Page Down*/, 35: 0/*End*/, 36: 0/*Home*/, 37: 0/*Left*/, 38: 0/*Up*/, 39: 0/*Right*/, 40: 0/*Down*/, 45: 0/*Insert*/, 46: -1/*Delete*/, 48: 1/*0*/, 49: 1/*1*/, 50: 1/*2*/, 51: 1/*3*/, 52: 1/*4*/, 53: 1/*5*/, 54: 1/*6*/, 55: 1/*7*/, 56: 1/*8*/, 57: 1/*9*/, 65: 1/*A*/, 66: 1/*B*/, 67: 1/*C*/, 68: 1/*D*/, 69: 1/*E*/, 70: 1/*F*/, 71: 1/*G*/, 72: 1/*H*/, 73: 1/*I*/, 74: 1/*J*/, 75: 1/*K*/, 76: 1/*L*/, 77: 1/*M*/, 78: 1/*N*/, 79: 1/*O*/, 80: 1/*P*/, 81: 1/*Q*/, 82: 1/*R*/, 83: 1/*S*/, 84: 1/*T*/, 85: 1/*U*/, 86: 1/*V*/, 87: 1/*W*/, 88: 1/*X*/, 89: 1/*Y*/, 90: 1/*Z*/, 91: 0/*Windows*/, 93: 0/*Right Click*/, 96: 1/*Numpad 0*/, 97: 1/*Numpad 1*/, 98: 1/*Numpad 2*/, 99: 1/*Numpad 3*/, 100: 1/*Numpad 4*/, 101: 1/*Numpad 5*/, 102: 1/*Numpad 6*/, 103: 1/*Numpad 7*/, 104: 1/*Numpad 8*/, 105: 1/*Numpad 9*/, 106: 1/*Numpad **/, 107: 1/*Numpad +*/, 109: 1/*Numpad -*/, 110: 1/*Numpad .*/, 111: 1/*Numpad /*/, 112: 0/*F1*/, 113: 0/*F2*/, 114: 0/*F3*/, 115: 0/*F4*/, 116: 0/*F5*/, 117: 0/*F6*/, 118: 0/*F7*/, 119: 0/*F8*/, 120: 0/*F9*/, 121: 0/*F10*/, 122: 0/*F11*/, 123: 0/*F12*/, 144: 0/*Num Lock*/, 145: 0/*Scroll Lock*/, 182: 0/*My Computer*/, 183: 0/*My Calculator*/, 186: 1/*;*/, 187: 1/*=*/, 188: 1/*,*/, 189: 1/*-*/, 190: 1/*.*/, 191: 1/*/*/, 192: 1/*`*/, 219: 1/*[*/, 220: 1/*\\*/, 221: 1/*]*/, 222: 1/***/ };
 
 	UndoManager.prototype = {
 		/**
@@ -275,24 +277,23 @@
 		 */
 		type: function( event ) {
 			var keystroke = event && event.data.getKey(),
-				isModifierKey = keystroke in modifierKeyCodes,
-				isEditingKey = keystroke in editingKeyCodes,
-				wasEditingKey = this.lastKeystroke in editingKeyCodes,
-				sameAsLastEditingKey = isEditingKey && keystroke == this.lastKeystroke,
-				// Keystrokes which navigation through contents.
-				isReset = keystroke in navigationKeyCodes,
-				wasReset = this.lastKeystroke in navigationKeyCodes,
-
-				// Keystrokes which just introduce new contents.
-				isContent = ( !isEditingKey && !isReset ),
+				keyType = keystroke in keyTypes? keyTypes[ keystroke ]:0,
+				isDeleteKey = keyType == -1,
+				isNeutralKey = keyType == 0,
+				isCharacterKey = keyType == 1,
+				lastKeyType = keystroke in keyTypes? keyTypes[ keystroke ]:0,
+				wasDeleteKey = lastKeyType == -1,
+				wasNeutralKey = lastKeyType == 0,
+				sameAsLastEditingKey = isDeleteKey && keystroke == this.lastKeystroke,
 
 				// Create undo snap for every different modifier key.
-				modifierSnapshot = ( isEditingKey && !sameAsLastEditingKey ),
+				modifierSnapshot = ( isDeleteKey && !sameAsLastEditingKey ),
 				// Create undo snap on the following cases:
 				// 1. Just start to type .
 				// 2. Typing some content after a modifier.
 				// 3. Typing some content after make a visible selection.
-				startedTyping = !( isModifierKey || this.typing ) || ( isContent && ( wasEditingKey || wasReset ) );
+				startedTyping = !( isNeutralKey || this.typing ) || ( isCharacterKey && ( wasDeleteKey || wasNeutralKey ) ),
+				editor = this.editor;
 
 			if ( startedTyping || modifierSnapshot ) {
 				var beforeTypeImage = new Image( this.editor ),
@@ -333,21 +334,29 @@
 			this.lastKeystroke = keystroke;
 
 			// Create undo snap after typed too much (over 25 times).
-			if ( isEditingKey ) {
+			if ( isDeleteKey ) {
 				this.typesCount = 0;
 				this.modifiersCount++;
 
 				if ( this.modifiersCount > 25 ) {
 					this.save( false, null, false );
 					this.modifiersCount = 1;
+				} else {
+					setTimeout(function() {
+						editor.fire( 'change' );
+					}, 0 );
 				}
-			} else if ( !isReset ) {
+			} else if ( isCharacterKey ) {
 				this.modifiersCount = 0;
 				this.typesCount++;
 
 				if ( this.typesCount > 25 ) {
 					this.save( false, null, false );
 					this.typesCount = 1;
+				} else {
+					setTimeout(function() {
+						editor.fire( 'change' );
+					}, 0 );
 				}
 			}
 
@@ -424,11 +433,11 @@
 				if ( equalContent )
 					return false;
 
+				this.editor.fire( 'change' );
+
 				if ( !onContentOnly && equalContent && equalSelection )
 					return false;
 			}
-
-
 
 			// Drop future snapshots.
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
@@ -485,6 +494,8 @@
 			// the original snapshot due to dom change. (#4622)
 			this.update();
 			this.fireChange();
+
+			editor.fire( 'change' );
 		},
 
 		// Get the closest available image.
