@@ -186,6 +186,26 @@
 			}
 		},
 
+		del: function( widget ) {
+			if ( this.focused === widget ) {
+				var editor = widget.editor,
+					range = editor.createRange(),
+					found;
+
+				// If haven't found place for caret on the default side,
+				// try to find it on the other side.
+				if ( !( found = range.moveToClosestEditablePosition( widget.wrapper, true ) ) )
+					found = range.moveToClosestEditablePosition( widget.wrapper, false );
+
+				if ( found )
+					editor.getSelection().selectRanges( [ range ] );
+			}
+
+			widget.wrapper.remove();
+			this.destroy( widget, true );
+			this.editor.fire( 'saveSnapshot' );
+		},
+
 		/**
 		 * Removes and destroys widget instance.
 		 *
@@ -1527,9 +1547,15 @@
 
 		setTimeout( function() {
 			copybin.remove();
-			widget.focus();
+
+			if ( !isCut )
+				widget.focus();
+
 			listener1.removeListener();
 			listener2.removeListener();
+
+			if ( isCut )
+				widget.repository.del( widget );
 		}, 0 );
 	}
 
