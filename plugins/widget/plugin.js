@@ -486,9 +486,7 @@
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				// Cache choosen fn.
-				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ],
-				// Hash of CKEDITOR.filter instances for editables.
-				editablesFilters: {}
+				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ]
 			}
 		}, true );
 
