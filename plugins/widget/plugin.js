@@ -1069,23 +1069,6 @@
 		}
 	}
 
-	/* TMP
-	function onPaste( evt ) {
-		var data = evt.data.dataValue;
-
-		if ( data.match( /data-widget-cbin-direct/g ) ) {
-			// Clean DIV wrapper added by FF when copying.
-			data = data.replace( /^<div>(.*)<\/div>$/g, '$1' );
-
-			// Clean widget markers.
-			data = data.replace( /^(<span[^>]*>)?cke-dummy-before\[(<\/span>)?/g, '' );
-			data = data.replace( /(<span[^>]*>)?\]cke-dummy-after(<\/span>|<br>)?$/g, '' );
-
-			evt.data.dataValue = data;
-		}
-	}
-	*/
-
 	function setFocusedEditable( widgetsRepo, widget, editableElement, offline ) {
 		if ( editableElement ) {
 			widgetsRepo.widgetHoldingFocusedEditable = widget;
@@ -1264,6 +1247,14 @@
 					}
 				}
 			}
+		} );
+
+		// Handle pasted single widget.
+		editor.on( 'paste', function( evt ) {
+			evt.data.dataValue = evt.data.dataValue.replace(
+				/^(?:<div id="cke_copybin">)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/div>)?$/,
+				'$1'
+			);
 		} );
 	}
 
@@ -1531,7 +1522,7 @@
 			id: 'cke_copybin'
 		} );
 
-		copybin.setHtml( 'cke-copybin-start[' + widget.wrapper.getOuterHtml() + ']cke-copybin-end' );
+		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
 
 		editor.editable().append( copybin );
 
