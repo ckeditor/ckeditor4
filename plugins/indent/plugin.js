@@ -63,8 +63,6 @@
 		}
 	} );
 
-	var listNodeNames = { ol: 1, ul: 1 };
-
 	/**
 	 * Global command class definitions and global helpers.
 	 *
@@ -72,8 +70,6 @@
 	 * @singleton
 	 */
 	CKEDITOR.plugins.indent = {
-		listNodeNames: listNodeNames,
-
 		/**
 		 * A base class for generic command definition, mainly responsible for creating indent
 		 * UI buttons, and refreshing UI states.
@@ -173,55 +169,6 @@
 			 * purged after exec.
 			 */
 			this.database = {};
-
-			/**
-			 * Refers to the configured indentClasses of the editor instance this
-			 * command belongs to.
-			 *
-			 * @readonly
-			 * @see CKEDITOR.config#indentClasses
-			 * @property {Array} [=null]
-			 */
-			this.indentClasses = editor.config.indentClasses;
-
-			/**
-			 * Determines whether {@link CKEDITOR.config#indentClasses} are in use.
-			 *
-			 * @readonly
-			 * @property {Boolean} [=false]
-			 */
-			this.useIndentClasses = this.indentClasses && 0 in this.indentClasses;
-
-			/**
-			 * A map of {@link CKEDITOR.config#indentClasses} used by indentation
-			 * commands.
-			 *
-			 * @readonly
-			 * @property {Object} [={}]
-			 */
-			this.indentClassMap = {};
-
-			/**
-			 * A state of the command.
-			 *
-			 * @readonly
-			 * @property {Number} [=CKEDITOR.TRISTATE_DISABLED]
-			 */
-			this.state = CKEDITOR.TRISTATE_DISABLED;
-
-			if ( this.useIndentClasses ) {
-				/**
-				 * A regular expression used used by indentation procedure for determining
-				 * actual indentation level of an element.
-				 *
-				 * @readonly
-				 * @property {Object} [=null]
-				 */
-				this.classNameRegex = new RegExp( '(?:^|\\s+)(' + editor.config.indentClasses.join( '|' ) + ')(?=$|\\s)' );
-
-				for ( var i = 0; i < this.indentClasses.length; i++ )
-					this.indentClassMap[ editor.config.indentClasses[ i ] ] = i + 1;
-			}
 		},
 
 		/**
@@ -302,50 +249,7 @@
 		 * @param {CKEDITOR.dom.node} node A node to be checked.
 		 * @returns {Boolean}
 		 */
-		isListItem: isListItem,
-
-		/**
-		 * Determines indent CSS property for an element according to
-		 * what is the direction of such element. It can be either `margin-left`
-		 * or `margin-right`.
-		 *
-		 *		// Get indent CSS property of an element.
-		 *		var element = CKEDITOR.document.getById( 'foo' );
-		 *		command.getIndentCssProperty( element );	// 'margin-left'
-		 *
-		 * @param {CKEDITOR.dom.element} element An element to be checked.
-		 * @param {String} [dir] Element direction.
-		 * @returns {String}
-		 */
-		getIndentCssProperty: function( element, dir ) {
-			return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
-		},
-
-		/**
-		 * Return the numerical indent value of margin-left|right of an element,
-		 * considering element's direction. If element has no margin specified,
-		 * NaN is returned.
-		 *
-		 * @param {CKEDITOR.dom.element} element An element to be checked.
-		 * @returns {Number}
-		 */
-		getNumericalIndentLevel: function ( element ) {
-			return parseInt( element.getStyle( CKEDITOR.plugins.indent.getIndentCssProperty( element ) ), 10 );
-		},
-
-		/**
-		 * Check whether a first child of a list is in the path.
-		 *
-		 * @param {CKEDITOR.dom.elementPath} path A path to be checked.
-		 * @param {CKEDITOR.dom.element} [list] A list to be used as a reference.
-		 * @returns {Boolean}
-		 */
-		isFirstListItemInPath: function( path, list ) {
-			if ( !list )
-				list = path.contains( listNodeNames );
-
-			return list && path.block && path.block.equals( list.getFirst( isListItem ) );
-		}
+		isListItem: isListItem
 	};
 
 	CKEDITOR.plugins.indent.genericDefinition.prototype = {
@@ -369,8 +273,6 @@
 		execJob: function( editor, priority ) {
 			var job = this.jobs[ priority ];
 
-			console.log( this.name, 'execing job', this, priority );
-
 			if ( job.state != CKEDITOR.TRISTATE_DISABLED )
 				return job.exec.call( this, editor );
 		},
@@ -381,109 +283,6 @@
 			job.state = job.refresh.call( this, editor, path );
 
 			return job.state;
-		},
-
-		/**
-		 * Generic indentation procedure for any element shared across
-		 * content-specific indentation commands.
-		 *
-		 *		// Indent element of id equal foo
-		 *		var element = CKEDITOR.document.getById( 'foo' );
-		 *		command.indentElement( element );
-		 *
-		 * @param {CKEDITOR.dom.element} element An element to be indented.
-		 * @param {String} [dir] Element direction.
-		 * @returns {Boolean}
-		 */
-		indentElement: function( element, dir ) {
-			if ( element.getCustomData( 'indent_processed' ) )
-				return false;
-
-			var editor = this.editor;
-
-			if ( this.useIndentClasses ) {
-				// Transform current class f to indent step index.
-				var indentClass = element.$.className.match( this.classNameRegex ),
-					indentStep = 0;
-				if ( indentClass ) {
-					indentClass = indentClass[ 1 ];
-					indentStep = this.indentClassMap[ indentClass ];
-				}
-
-				// Operate on indent step index, transform indent step index back to class
-				// name.
-				if ( !this.isIndent )
-					indentStep--;
-				else
-					indentStep++;
-
-				if ( indentStep < 0 )
-					return false;
-
-				indentStep = Math.min( indentStep, this.indentClasses.length );
-				indentStep = Math.max( indentStep, 0 );
-				element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( this.classNameRegex, '' ) );
-
-				if ( indentStep > 0 )
-					element.addClass( this.indentClasses[ indentStep - 1 ] );
-			} else {
-				var indentCssProperty = CKEDITOR.plugins.indent.getIndentCssProperty( element, dir ),
-					currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 ),
-					indentOffset = editor.config.indentOffset || 40;
-
-				if ( isNaN( currentOffset ) )
-					currentOffset = 0;
-
-				currentOffset += ( this.isIndent ? 1 : -1 ) * indentOffset;
-
-				if ( currentOffset < 0 )
-					return false;
-
-				currentOffset = Math.max( currentOffset, 0 );
-				currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
-
-				element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
-
-				if ( element.getAttribute( 'style' ) === '' )
-					element.removeAttribute( 'style' );
-			}
-
-			CKEDITOR.dom.element.setMarker( this.database, element, 'indent_processed', 1 );
-
-			return true;
-		},
-
-		/**
-		 * Method that checks if current indentation level for an element
-		 * reached the limit determined by {@link CKEDITOR.config#indentClasses}.
-		 *
-		 * @param {CKEDITOR.dom.element} node An element to be checked.
-		 * @returns {Boolean}
-		 */
-		checkIndentClassLeft: function( node ) {
-			var indentClass = node.$.className.match( this.classNameRegex ),
-				extraConditions = this.indentClassLeftConditions,
-				indentStep = 0;
-
-			// If node has one of the indentClasses:
-			//		\-> If it holds the topmost indentClass, then
-			//		    no more classes have left.
-			//		\-> If it holds any other indentClass, it can use the next one
-			//		    or the previous one.
-			//		\-> Outdent is always possible. We can remove indentClass.
-			if ( indentClass ) {
-				indentClass = indentClass[ 1 ];
-
-				return this.isIndent ?
-						this.indentClassMap[ indentClass ] != this.indentClasses.length
-					:
-						true;
-			}
-
-			// If node has no class which belongs to indentClasses,
-			// then it is at 0-level. It can be indented but not outdented.
-			else
-				return this.isIndent;
 		},
 
 		/**
@@ -529,7 +328,6 @@
 	 * * 1-99: Content-specific commands try to indent the code by executing
 	 * 	 own {@link CKEDITOR.command#method-exec} methods.
 	 * * 100: Bookmarks are re-selected by generic command.
-	 *
 	 * For `refresh` event:
 	 *
 	 * * <100: Content-specific commands refresh their states according
@@ -550,7 +348,6 @@
 		// Set the command state according to content-specific
 		// command states.
 		command.on( 'refresh', function( evt ) {
-			console.log( command.name, 'states', evt.data.states );
 			// If no state comes with event data, disable command.
 			var states = [ CKEDITOR.TRISTATE_DISABLED ];
 
@@ -569,7 +366,6 @@
 		// Initialization. Save bookmarks and mark event as not handled
 		// by any plugin (command) yet.
 		command.on( 'exec', function( evt ) {
-			console.log( '----------------------------' );
 			selection = editor.getSelection();
 			bookmarks = selection.createBookmarks( 1 );
 
@@ -608,16 +404,5 @@
  *		config.indentUnit = 'em';
  *
  * @cfg {String} [indentUnit='px']
- * @member CKEDITOR.config
- */
-
-/**
- * List of classes to use for indenting the contents. If it's `null`, no classes will be used
- * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
- *
- *		// Use the classes 'Indent1', 'Indent2', 'Indent3'
- *		config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
- *
- * @cfg {Array} [indentClasses=null]
  * @member CKEDITOR.config
  */

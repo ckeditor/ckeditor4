@@ -12,7 +12,7 @@
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
 		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isListItem, getNumericalIndentLevel, isFirstListItemInPath;
+		isListItem;
 
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
@@ -22,8 +22,6 @@
 
 			// Use global helper functions.
 			isListItem = globalHelpers.isListItem;
-			getNumericalIndentLevel = globalHelpers.getNumericalIndentLevel;
-			isFirstListItemInPath = globalHelpers.isFirstListItemInPath;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -34,20 +32,8 @@
 			function commandDefinition( editor, name ) {
 				globalHelpers.specificDefinition.apply( this, arguments );
 
-				this.allowedContent = {
-					'ol ul': {
-						// Do not add elements, but only text-align style if element is validated by other rule.
-						propertiesOnly: true,
-						classes: this.useIndentClasses ? this.indentClasses : null
-					}
-				};
-
-				var requiredParams = this.useIndentClasses ? '(' + this.indentClasses.join( ',' ) + ')' : '';
-
-				this.requiredContent = [
-					'ul' + requiredParams,
-					'ol' + requiredParams
-				];
+				this.allowedContent = { 'ol ul': true };
+				this.requiredContent = [ 'ul', 'ol' ];
 
 				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
 				// be done for any list item that isn't the first child of the parent.
@@ -64,7 +50,7 @@
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && isFirstListItemInPath( editor.elementPath(), list ) )
+							if ( this.isIndent && isFirstListItemInPath.call( this, editor.elementPath(), list ) )
 								return;
 
 							// Exec related global indentation command. Global
@@ -85,7 +71,7 @@
 					this.jobs[ 10 ] = {
 						refresh: function( editor, path ) {
 							var list = this.getContext( path ),
-								inFirstListItem = isFirstListItemInPath( path, list );
+								inFirstListItem = isFirstListItemInPath.call( this, path, list );
 
 							if ( !list || !this.isIndent || inFirstListItem )
 								return CKEDITOR.TRISTATE_DISABLED;
@@ -93,17 +79,13 @@
 							return CKEDITOR.TRISTATE_OFF;
 						},
 
-						exec: function( editor ) {
-							console.log( 'exec', this.name, 10 );
-							return indentList.call( this, editor );
-						}
+						exec: CKEDITOR.tools.bind( indentList, this )
 					};
 				} else {
 					this.jobs[ 30 ] = {
 						// Outdent only. Any list item.
 						refresh: function( editor, path ) {
-							var list = this.getContext( path ),
-								inFirstListItem = isFirstListItemInPath( path, list );
+							var list = this.getContext( path );
 
 							if ( !list || this.isIndent )
 								return CKEDITOR.TRISTATE_DISABLED;
@@ -111,10 +93,7 @@
 							return CKEDITOR.TRISTATE_OFF;
 						},
 
-						exec: function( editor ) {
-							console.log( 'exec', this.name, 30 );
-							return indentList.call( this, editor );
-						}
+						exec: CKEDITOR.tools.bind( indentList, this )
 					};
 				}
 			}
@@ -122,74 +101,7 @@
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
 				// Elements that, if in an elementpath, will be handled by this
 				// command. They restrict the scope of the plugin.
-				indentContext: globalHelpers.listNodeNames,
-
-				// refresh: function( editor, path ) {
-				// 	var list = this.getContext( path ),
-				// 		inFirstListItem = isFirstListItemInPath( path, list );
-
-				// 	//	- List in the path
-				// 	//
-				// 	// 			Then this command makes no longer sense.
-				// 	//			This command is for lists only.
-				// 	//
-				// 	if ( !list )
-				// 		this.state = CKEDITOR.TRISTATE_DISABLED;
-
-				// 	//	- List in the path
-				// 	//	- Indent margin.
-				// 	//
-				// 	// 			Indentblock handles blocks with margins when
-				// 	//			entire list must be indented. Indentlist never plays with
-				// 	//			margins of the entire list: nesting only.
-				// 	//
-				// 	else if ( getNumericalIndentLevel( list ) && inFirstListItem )
-				// 		this.state = CKEDITOR.TRISTATE_DISABLED;
-
-				// 	//	+ List in the path
-				// 	//	- Indent margin.
-				// 	//	- Indenting
-				// 	//
-				// 	// 			List can always be outdented, nesting can be undone
-				// 	//			or entire collapsed into a paragraph.
-				// 	//
-				// 	else if ( !this.isIndent )
-				// 		this.state = CKEDITOR.TRISTATE_OFF;
-
-				// 	// 	+ List in the path
-				// 	//	- Indent margin.
-				// 	//	+ Indenting
-				// 	//	+ First list item
-				// 	//
-				// 	// 			Don't indent if path in the first list item because
-				// 	//			is requires margins to be used. This is a job for indentblock.
-				// 	//
-				// 	else if ( inFirstListItem )
-				// 		this.state = CKEDITOR.TRISTATE_DISABLED;
-
-				// 	// 	+ List in the path
-				// 	//	- Indent margin.
-				// 	//	+ Indenting
-				// 	//	- First list item
-				// 	//	+ IndentClasses
-				// 	//
-				// 	// 			If reached the topmost level (class) of indentation,
-				// 	// 		    disable the command. User restricted depth with classes.
-				// 	//
-				// 	else if ( this.useIndentClasses && !this.checkIndentClassLeft( list ) )
-				// 		this.state = CKEDITOR.TRISTATE_DISABLED;
-
-				// 	// 	+ List in the path
-				// 	//	- Indent margin.
-				// 	//	+ Indenting
-				// 	//	- First list item
-				// 	//	- IndentClasses
-				// 	//
-				// 	// 			We can always indent a little bit more ;)
-				// 	//
-				// 	else
-				// 		this.state = CKEDITOR.TRISTATE_OFF;
-				// },
+				indentContext: { ol: 1, ul: 1 }
 			} );
 		}
 	} );
@@ -312,7 +224,6 @@
 		var selection = editor.getSelection(),
 			ranges = selection && selection.getRanges( 1 ),
 			iterator = ranges.createIterator(),
-			contentIndented = false,
 			range;
 
 		while ( ( range = iterator.getNextRange() ) ) {
@@ -360,19 +271,24 @@
 					rangeStart = range.startContainer,
 					indentWholeList = firstListItem.equals( rangeStart ) || firstListItem.contains( rangeStart );
 
-				if ( !indentWholeList || !( that.isIndent || that.useIndentClasses ) )
-					indentList( nearestListBlock );
-
-				else if ( !this.isIndent && !this.indentElement( nearestListBlock, !hasMultipleItems && firstListItem.getDirection() ) )
-					indentList( nearestListBlock );
-
-				contentIndented = true;
+				indentList( nearestListBlock );
+				return true;
 			}
 
 		}
+	}
 
-		console.log( 'ci', contentIndented );
+	/**
+	 * Check whether a first child of a list is in the path.
+	 *
+	 * @param {CKEDITOR.dom.elementPath} path A path to be checked.
+	 * @param {CKEDITOR.dom.element} [list] A list to be used as a reference.
+	 * @returns {Boolean}
+	 */
+	function isFirstListItemInPath( path, list ) {
+		if ( !list )
+			list = path.contains( this.indentContext );
 
-		return contentIndented;
+		return list && path.block && path.block.equals( list.getFirst( isListItem ) );
 	}
 })();

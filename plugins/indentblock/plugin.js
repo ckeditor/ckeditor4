@@ -10,7 +10,7 @@
 (function() {
 	'use strict';
 
-	var isListItem, getIndentCssProperty, getNumericalIndentLevel,
+	var isListItem,
 		isFirstListItemInPath;
 
 	CKEDITOR.plugins.add( 'indentblock', {
@@ -20,8 +20,6 @@
 
 			// Use global helper functions.
 			isListItem = globalHelpers.isListItem;
-			getIndentCssProperty = globalHelpers.getIndentCssProperty;
-			getNumericalIndentLevel = globalHelpers.getNumericalIndentLevel;
 			isFirstListItemInPath = globalHelpers.isFirstListItemInPath;
 
 			// Register commands.
@@ -37,8 +35,8 @@
 					'div h1 h2 h3 h4 h5 h6 ol p pre ul': {
 						// Do not add elements, but only text-align style if element is validated by other rule.
 						propertiesOnly: true,
-						styles: !this.useIndentClasses ? 'margin-left,margin-right' : null,
-						classes: this.useIndentClasses ? this.indentClasses : null
+						styles: !this.indentClasses ? 'margin-left,margin-right' : null,
+						classes: this.indentClasses || null
 					}
 				};
 
@@ -46,7 +44,7 @@
 					this.allowedContent.div = true;
 
 				this.requiredContent = ( this.enterBr ? 'div' : 'p' ) +
-					( this.useIndentClasses ?
+					( this.indentClasses ?
 							'(' + this.indentClasses.join( ',' ) + ')'
 						:
 							'{margin-left}' );
@@ -89,7 +87,7 @@
 							if ( !this.enterBr && !this.getContext( path ) )
 								return CKEDITOR.TRISTATE_DISABLED;
 
-							else if ( this.useIndentClasses ) {
+							else if ( this.indentClasses ) {
 								//	+ indentContext in the path or ENTER_BR
 								//	+ IndentClasses
 								//
@@ -97,7 +95,7 @@
 								// 		    the highest level of indentation. If so, disable
 								// 		    the command.
 								//
-								if ( this.checkIndentClassLeft( firstBlock ) )
+								if ( checkIndentClassLeft.call( this, firstBlock ) )
 									return CKEDITOR.TRISTATE_OFF;
 								else
 									return CKEDITOR.TRISTATE_DISABLED;
@@ -146,17 +144,14 @@
 						},
 
 						exec: function( editor ) {
-							console.log( 'exec', this.name, 20 );
-
-							var listNodeNames = globalHelpers.listNodeNames,
-								selection = editor.getSelection(),
+							var selection = editor.getSelection(),
 								range = selection && selection.getRanges( 1 )[ 0 ],
 								nearestListBlock;
 
 							// If there's some list in the path, then it will be
 							// a full-list indent by increasing or decreasing margin property.
-							if ( ( nearestListBlock = editor.elementPath().contains( listNodeNames ) ) )
-								this.indentElement( nearestListBlock );
+							if ( ( nearestListBlock = editor.elementPath().contains( CKEDITOR.dtd.$list ) ) )
+								indentElement.call( this, nearestListBlock );
 
 							// If no list in the path, use iterator to indent all the possible
 							// paragraphs in the range, creating them if necessary.
@@ -169,7 +164,7 @@
 								iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 								while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
-									this.indentElement( block );
+									indentElement.call( this, block );
 							}
 
 							return true;
@@ -182,7 +177,146 @@
 				// Elements that, if in an elementpath, will be handled by this
 				// command. They restrict the scope of the plugin.
 				indentContext: { div: 1, dl: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ul: 1, ol: 1, p: 1, pre: 1, table: 1 },
+
+				indentClasses: editor.config.indentClasses,
+
+				classNameRegex: new RegExp( '(?:^|\\s+)(' + ( editor.config.indentClasses || [] ).join( '|' ) + ')(?=$|\\s)' )
 			}, true );
 		}
 	} );
+
+	/**
+	 * Generic indentation procedure for any element shared across
+	 * content-specific indentation commands.
+	 *
+	 *		// Indent element of id equal foo
+	 *		var element = CKEDITOR.document.getById( 'foo' );
+	 *		command.indentElement( element );
+	 *
+	 * @param {CKEDITOR.dom.element} element An element to be indented.
+	 * @param {String} [dir] Element direction.
+	 * @returns {Boolean}
+	 */
+	function indentElement( element, dir ) {
+		if ( element.getCustomData( 'indent_processed' ) )
+			return false;
+
+		var editor = this.editor;
+
+		if ( this.indentClasses ) {
+			// Transform current class f to indent step index.
+			var indentClass = element.$.className.match( this.classNameRegex ),
+				indentStep = 0;
+			if ( indentClass ) {
+				indentClass = indentClass[ 1 ];
+				indentStep = CKEDITOR.tools.indexOf( this.indentClasses, indentClass ) + 1;
+			}
+
+			// Operate on indent step index, transform indent step index back to class
+			// name.
+			if ( !this.isIndent )
+				indentStep--;
+			else
+				indentStep++;
+
+			if ( indentStep < 0 )
+				return false;
+
+			indentStep = Math.min( indentStep, this.indentClasses.length );
+			indentStep = Math.max( indentStep, 0 );
+			element.$.className = CKEDITOR.tools.ltrim( element.$.className.replace( this.classNameRegex, '' ) );
+
+			if ( indentStep > 0 )
+				element.addClass( this.indentClasses[ indentStep - 1 ] );
+		} else {
+			var indentCssProperty = getIndentCssProperty( element, dir ),
+				currentOffset = parseInt( element.getStyle( indentCssProperty ), 10 ),
+				indentOffset = editor.config.indentOffset || 40;
+
+			if ( isNaN( currentOffset ) )
+				currentOffset = 0;
+
+			currentOffset += ( this.isIndent ? 1 : -1 ) * indentOffset;
+
+			if ( currentOffset < 0 )
+				return false;
+
+			currentOffset = Math.max( currentOffset, 0 );
+			currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
+
+			element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
+
+			if ( element.getAttribute( 'style' ) === '' )
+				element.removeAttribute( 'style' );
+		}
+
+		CKEDITOR.dom.element.setMarker( this.database, element, 'indent_processed', 1 );
+
+		return true;
+	}
+
+	/**
+	 * Method that checks if current indentation level for an element
+	 * reached the limit determined by {@link CKEDITOR.config#indentClasses}.
+	 *
+	 * @param {CKEDITOR.dom.element} node An element to be checked.
+	 * @returns {Boolean}
+	 */
+	function checkIndentClassLeft( node ) {
+		var indentClass = node.$.className.match( this.classNameRegex );
+
+		// If node has one of the indentClasses:
+		//	\-> If it holds the topmost indentClass, then
+		//	    no more classes have left.
+		//	\-> If it holds any other indentClass, it can use the next one
+		//	    or the previous one.
+		//	\-> Outdent is always possible. We can remove indentClass.
+		if ( indentClass )
+			return this.isIndent ? indentClass[ 1 ] != this.indentClasses.slice( -1 ) : true;
+
+		// If node has no class which belongs to indentClasses,
+		// then it is at 0-level. It can be indented but not outdented.
+		else
+			return this.isIndent;
+	}
+
+	/**
+	 * Determines indent CSS property for an element according to
+	 * what is the direction of such element. It can be either `margin-left`
+	 * or `margin-right`.
+	 *
+	 *		// Get indent CSS property of an element.
+	 *		var element = CKEDITOR.document.getById( 'foo' );
+	 *		command.getIndentCssProperty( element );	// 'margin-left'
+	 *
+	 * @param {CKEDITOR.dom.element} element An element to be checked.
+	 * @param {String} [dir] Element direction.
+	 * @returns {String}
+	 */
+	function getIndentCssProperty( element, dir ) {
+		return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
+	}
+
+	/**
+	 * Return the numerical indent value of margin-left|right of an element,
+	 * considering element's direction. If element has no margin specified,
+	 * NaN is returned.
+	 *
+	 * @param {CKEDITOR.dom.element} element An element to be checked.
+	 * @returns {Number}
+	 */
+	function getNumericalIndentLevel( element ) {
+		return parseInt( element.getStyle( getIndentCssProperty( element ) ), 10 );
+	}
 })();
+
+/**
+ * List of classes to use for indenting the contents. If it's `null`, no classes will be used
+ * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
+ *
+ *		// Use the classes 'Indent1', 'Indent2', 'Indent3'
+ *		config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
+ *
+ * @cfg {Array} [indentClasses=null]
+ * @member CKEDITOR.config
+ */
