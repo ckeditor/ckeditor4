@@ -278,6 +278,16 @@ if ( !CKEDITOR.env ) {
 			);
 
 		/**
+		 * Indicates that CKEditor is running in HiDPI environment.
+		 *
+		 *		if ( CKEDITOR.env.hidpi )
+		 *			alert( 'You are using a screen with high pixel density.' );
+		 *
+		 * @property {Boolean}
+		 */
+		env.hidpi = window.devicePixelRatio >= 2;
+
+		/**
 		 * The CSS class to be appended on the main UI containers, making it
 		 * easy to apply browser specific styles to it.
 		 *
@@ -310,15 +320,8 @@ if ( !CKEDITOR.env ) {
 		if ( env.iOS )
 			env.cssClass += ' cke_browser_ios';
 
-		/**
-		 * Indicates that CKEditor is running in HiDPI environment.
-		 *
-		 *		if ( CKEDITOR.env.hidpi )
-		 *			alert( 'You are using a screen with high pixel density.' );
-		 *
-		 * @property {Boolean}
-		 */
-		env.hidpi = window.devicePixelRatio >= 2;
+		if ( env.hidpi )
+			env.cssClass += ' cke_hidpi';
 
 		return env;
 	})();
