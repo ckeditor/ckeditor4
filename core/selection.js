@@ -230,7 +230,7 @@
  		 * @param {CKEDITOR.dom.selection} data.selection
  		 * @param {CKEDITOR.dom.elementPath} data.path
 		 */
-		editor.define( 'selectionChange', { errorProof:1 } );
+		editor.define( 'selectionChange', { errorProof:0 } );
 
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
