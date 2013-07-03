@@ -673,3 +673,16 @@
  * @param {CKEDITOR.editor} editor This editor instance.
  * @see CKEDITOR.editor#beforeUndoImage
  */
+
+/**
+ * Fired when content of editor changed. Change event is part of undo plugin
+ * and will not be fired without this plugin. To make this event fast it is
+ * is not verified if content really changed. In some cases you can get multiple
+ * change events during one change. If it is important not to get change event
+ * too often you should check if content changes after this event.
+ *
+ * @since 4.2
+ * @event change
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
