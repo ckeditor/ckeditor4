@@ -169,16 +169,6 @@
 			this.indentKey = isIndent ? 9 : CKEDITOR.SHIFT + 9;
 
 			/**
-			 * Priority of command execution. The lower the number, the higher
-			 * is the priority. The priority must be within 1-99.
-			 *
-			 * @readonly
-			 * @see setupGenericListeners
-			 * @property {Number} [=10]
-			 */
-			this.execPriority = 10;
-
-			/**
 			 * Stores created markers for the command so they can eventually be
 			 * purged after exec.
 			 */
@@ -263,39 +253,40 @@
 					( function( editor, command ) {
 						var relatedGlobal = editor.getCommand( command.relatedGlobal );
 
-						// Observe generic exec event and execute command when necessary.
-						// If the command was successfully handled by the command and
-						// DOM has been modified, stop event propagation so no other plugin
-						// will bother. Job is done.
-						relatedGlobal.on( 'exec', function( evt ) {
-							if ( evt.data.done )
-								return;
+						for ( var priority in command.jobs ) {
+							// Observe generic exec event and execute command when necessary.
+							// If the command was successfully handled by the command and
+							// DOM has been modified, stop event propagation so no other plugin
+							// will bother. Job is done.
+							relatedGlobal.on( 'exec', function( evt ) {
+								if ( evt.data.done )
+									return;
 
-							// Make sure that anything this command will do is invisible
-							// for undoManager. What undoManager only can see and
-							// remember is the execution of the global command (relatedGlobal).
-							editor.fire( 'lockSnapshot' );
+								// Make sure that anything this command will do is invisible
+								// for undoManager. What undoManager only can see and
+								// remember is the execution of the global command (relatedGlobal).
+								editor.fire( 'lockSnapshot' );
 
-							if ( command.exec( editor ) )
-								evt.data.done = true;
+								if ( command.execJob( editor, priority ) )
+									evt.data.done = true;
 
-							editor.fire( 'unlockSnapshot' );
+								editor.fire( 'unlockSnapshot' );
 
-							// Clean up the markers.
-							CKEDITOR.dom.element.clearAllMarkers( command.database );
-						}, this, null, command.execPriority );
+								// Clean up the markers.
+								CKEDITOR.dom.element.clearAllMarkers( command.database );
+							}, this, null, priority );
 
-						// Observe generic refresh event and force command refresh.
-						// Once refreshed, save command state in event data
-						// so generic command plugin can update its own state and UI.
-						relatedGlobal.on( 'refresh', function( evt ) {
-							command.refresh( editor, evt.data.path );
+							// Observe generic refresh event and force command refresh.
+							// Once refreshed, save command state in event data
+							// so generic command plugin can update its own state and UI.
+							relatedGlobal.on( 'refresh', function( evt ) {
+								if ( !evt.data.states )
+									evt.data.states = {};
 
-							if ( !evt.data.states )
-								evt.data.states = {};
-
-							evt.data.states[ command.name ] = command.state;
-						} );
+								evt.data.states[ command.name + '@' + priority ] =
+									command.refreshJob( editor, priority, evt.data.path );
+							}, this, null, priority );
+						}
 
 						// Since specific indent commands have no UI elements,
 						// they need to be manually registered as a editor feature.
@@ -375,13 +366,21 @@
  		 * related to.
 		 * @returns {Boolean}
 		 */
-		exec: function( editor ) {
-			this.refresh( editor, editor.elementPath() );
+		execJob: function( editor, priority ) {
+			var job = this.jobs[ priority ];
 
-			if ( this.state == CKEDITOR.TRISTATE_DISABLED || !editor.filter.checkFeature( this ) )
-				return false;
+			console.log( this.name, 'execing job', this, priority );
 
-			return this.indent( editor );
+			if ( job.state != CKEDITOR.TRISTATE_DISABLED )
+				return job.exec.call( this, editor );
+		},
+
+		refreshJob: function( editor, priority, path ) {
+			var job = this.jobs[ priority ];
+
+			job.state = job.refresh.call( this, editor, path );
+
+			return job.state;
 		},
 
 		/**
@@ -551,6 +550,7 @@
 		// Set the command state according to content-specific
 		// command states.
 		command.on( 'refresh', function( evt ) {
+			console.log( command.name, 'states', evt.data.states );
 			// If no state comes with event data, disable command.
 			var states = [ CKEDITOR.TRISTATE_DISABLED ];
 
@@ -569,6 +569,7 @@
 		// Initialization. Save bookmarks and mark event as not handled
 		// by any plugin (command) yet.
 		command.on( 'exec', function( evt ) {
+			console.log( '----------------------------' );
 			selection = editor.getSelection();
 			bookmarks = selection.createBookmarks( 1 );
 
