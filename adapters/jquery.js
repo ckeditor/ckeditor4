@@ -4,32 +4,33 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR_Adapters.jQuery jQuery adapter}.
+ * @fileOverview Defines the {@link CKEDITOR_Adapters.jQuery jQuery Adapter}.
  */
 
 /**
  * @class CKEDITOR_Adapters.jQuery
  * @singleton
  *
- * jQuery adapter provides easy use of basic CKEditor functions and access to internal API.
- * To find more information about jQuery adapter go to [guide page](#!/guide/dev_jquery) or see the sample.
+ * The jQuery Adapter allows for easy use of basic CKEditor functions and access to the internal API.
+ * To find more information about the jQuery Adapter, go to the [jQuery Adapter section](#!/guide/dev_jquery)
+ * of the Developer's Guide or see the "Create Editors with jQuery" sample.
  *
  * @aside guide dev_jquery
  */
 
 (function( $ ) {
 	/**
-	 * Allows CKEditor to override `jQuery.fn.val()`, making possible to use the val()
-	 * function on textareas, as usual, having it synchronized with CKEditor.
+	 * Allows CKEditor to override `jQuery.fn.val()`. When set to `true`, the `val()` function
+	 * used on textarea elements replaced with CKEditor uses the CKEditor API.
 	 *
-	 * This configuration option is global and executed during the jQuery Adapter loading.
-	 * It can't be customized across editor instances.
+	 * This configuration option is global and is executed during the loading of the jQuery Adapter.
+	 * It cannot be customized across editor instances.
 	 *
 	 *		<script>
 	 *			CKEDITOR.config.jqueryOverrideVal = true;
 	 *		</script>
 	 *
-	 *		<!-- Important: The JQuery adapter is loaded *after* setting jqueryOverrideVal -->
+	 *		<!-- Important: The jQuery Adapter is loaded *after* setting jqueryOverrideVal. -->
 	 *		<script src="/ckeditor/adapters/jquery.js"></script>
 	 *
 	 *		<script>
@@ -52,10 +53,10 @@
 	// jQuery object methods.
 	$.extend( $.fn, {
 		/**
-		 * Return existing CKEditor instance for first matched element.
-		 * Allows to easily use internal API. Doesn't return jQuery object.
+		 * Returns an existing CKEditor instance for the first matched element.
+		 * Allows to easily use the internal API. Does not return a jQuery object.
 		 *
-		 * Raised exception if editor doesn't exist or isn't ready yet.
+		 * Raises an exception if the editor does not exist or is not ready yet.
 		 *
 		 * @returns CKEDITOR.editor
 		 * @deprecated Use {@link #editor editor property} instead.
@@ -64,25 +65,27 @@
 			var instance = this.eq( 0 ).data( 'ckeditorInstance' );
 
 			if ( !instance )
-				throw 'CKEditor not yet initialized, use ckeditor() with callback.';
+				throw 'CKEditor is not initialized yet, use ckeditor() with a callback.';
 
 			return instance;
 		},
 
 		/**
-		 * jQuery function which triggers creation of CKEditor with `<textarea>` and {@link CKEDITOR.dtd#$editable editable elements}.
-		 * Every `<textarea>` element will be converted to framed editor and any other supported element to inline editor.
-		 * This method binds callback to `instanceReady` event of all instances.
-		 * If editor is already created, then callback is fired right away.
-		 * You can also create multiple editors at once using `$( '.className' ).ckeditor();`
+		 * A jQuery function which triggers the creation of CKEditor with `<textarea>` and
+		 * {@link CKEDITOR.dtd#$editable editable} elements.
+		 * Every `<textarea>` element will be converted to a framed editor, while any other
+		 * supported element will be converted to an inline editor.
+		 * This method binds the callback to the `instanceReady` event of all instances.
+		 * If the editor has already been created, the callback is fired straightaway.
+		 * You can also create multiple editors at once by using `$( '.className' ).ckeditor();`.
 		 *
-		 * **Note**: jQuery chaining and mixed parameter order allowed.
+		 * **Note**: jQuery chaining and mixed parameter order is allowed.
 		 *
 		 * @param {Function} callback
-		 * Function to be run on editor instance. Callback takes source element as parameter.
+		 * Function to be run on the editor instance. Callback takes the source element as a parameter.
 		 *
 		 *		$( 'textarea' ).ckeditor( function( textarea ) {
-		 *			// callback function code
+		 *			// Callback function code.
 		 *		} );
 		 *
 		 * @param {Object} config
@@ -96,7 +99,7 @@
 		 */
 		ckeditor: function( callback, config ) {
 			if ( !CKEDITOR.env.isCompatible )
-				throw new Error( 'Environment is incompatible.' );
+				throw new Error( 'The environment is incompatible.' );
 
 			// Reverse the order of arguments if the first one isn't a function.
 			if ( !$.isFunction( callback ) ) {
@@ -161,20 +164,20 @@
 							evt.removeListener();
 
 							/**
-							 * Forwarded editor's {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
+							 * Forwards the CKEditor {@link CKEDITOR.editor#event-dataReady dataReady event} as a jQuery event.
 							 *
 							 * @event dataReady
-							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param {CKEDITOR.editor} editor Editor instance.
 							 */
 							editor.on( 'dataReady', function() {
 								$element.trigger( 'dataReady.ckeditor', [ editor ] );
 							} );
 
 							/**
-							 * Forwarded editor's {@link CKEDITOR.editor#event-setData setData event} as a jQuery event.
+							 * Forwards the CKEditor {@link CKEDITOR.editor#event-setData setData event} as a jQuery event.
 							 *
 							 * @event setData
-							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param {CKEDITOR.editor} editor Editor instance.
 							 * @param data
 							 * @param {String} data.dataValue The data that will be used.
 							 */
@@ -183,10 +186,10 @@
 							} );
 
 							/**
-							 * Forwarded editor's {@link CKEDITOR.editor#event-getData getData event} as a jQuery event.
+							 * Forwards the CKEditor {@link CKEDITOR.editor#event-getData getData event} as a jQuery event.
 							 *
 							 * @event getData
-							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param {CKEDITOR.editor} editor Editor instance.
 							 * @param data
 							 * @param {String} data.dataValue The data that will be returned.
 							 */
@@ -195,10 +198,10 @@
 							}, 999 );
 
 							/**
-							 * Forwarded editor's {@link CKEDITOR.editor#event-destroy destroy event} as a jQuery event.
+							 * Forwards the CKEditor {@link CKEDITOR.editor#event-destroy destroy event} as a jQuery event.
 							 *
 							 * @event destroy
-							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param {CKEDITOR.editor} editor Editor instance.
 							 */
 							editor.on( 'destroy', function() {
 								$element.trigger( 'destroy.ckeditor', [ editor ] );
@@ -241,10 +244,10 @@
 							$element.removeData( '_ckeditorInstanceLock' );
 
 							/**
-							 * Forwarded editor's {@link CKEDITOR.editor#event-instanceReady instanceReady event} as a jQuery event.
+							 * Forwards the CKEditor {@link CKEDITOR.editor#event-instanceReady instanceReady event} as a jQuery event.
 							 *
 							 * @event instanceReady
-							 * @param {CKEDITOR.editor} editor Editor's instance.
+							 * @param {CKEDITOR.editor} editor Editor instance.
 							 */
 							$element.trigger( 'instanceReady.ckeditor', [ editor ] );
 
@@ -276,7 +279,7 @@
 			} );
 
 			/**
-			 * jQuery promise object to handle asynchronous constructor.
+			 * The [jQuery Promise object]((http://api.jquery.com/promise/)) that handles the asynchronous constructor.
 			 * This promise will be resolved after **all** of the constructors.
 			 *
 			 * @property {Function} promise
@@ -290,7 +293,7 @@
 			} );
 
 			/**
-			 * Existing CKEditor instance. Allows to easily use internal API.
+			 * Existing CKEditor instance. Allows to easily use the internal API.
 			 *
 			 * **Note**: This is not a jQuery object.
 			 *
@@ -305,14 +308,14 @@
 	} );
 
 	/**
-	 * Overwritten jQuery `val()` method for `<textarea>` elements which have CKEditor instances bound.
-	 * Method gets or sets editor's content using {@link CKEDITOR.editor#method-getData editor.getData()}
-	 * or {@link CKEDITOR.editor#method-setData editor.setData()}. To handle
-	 * {@link CKEDITOR.editor#method-setData editor.setData()} callback (setData is asynchronous)
-	 * `val( 'some data' )` will return [jQuery promise](http://api.jquery.com/promise/).
+	 * Overwritten jQuery `val()` method for `<textarea>` elements that have bound CKEditor instances.
+	 * This method gets or sets editor content by using the {@link CKEDITOR.editor#method-getData editor.getData()}
+	 * or {@link CKEDITOR.editor#method-setData editor.setData()} methods. To handle
+	 * the {@link CKEDITOR.editor#method-setData editor.setData()} callback (as `setData` is asynchronous),
+	 * `val( 'some data' )` will return a [jQuery Promise object](http://api.jquery.com/promise/).
 	 *
 	 * @method val
-	 * @returns String|Number|Array|jQuery.fn|function(jQuery promise)
+	 * @returns String|Number|Array|jQuery.fn|function(jQuery Promise)
 	 */
 	if ( CKEDITOR.config.jqueryOverrideVal ) {
 		$.fn.val = CKEDITOR.tools.override( $.fn.val, function( oldValMethod ) {
