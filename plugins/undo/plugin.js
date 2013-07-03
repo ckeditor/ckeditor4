@@ -66,18 +66,16 @@
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
 				editor.editable().on( 'keydown', function( event ) {
-					var keystroke = event && event.data.getKey();
+					var keystroke = event.data.getKey();
 
-					if (keystroke == 8/*Backspace*/ || keystroke == 46/*Delete*/ ) {
-						undoManager.type( keystroke, false );
+					if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ ) {
+						undoManager.type( keystroke, 0 );
 					}
 				});
 
 				editor.editable().on( 'keypress', function( event ) {
-					var keystroke = event && event.data.getKey();
-					undoManager.type( keystroke, true );
+					undoManager.type( event.data.getKey(), 1 );
 				});
-
 			});
 
 			// Always save an undo snapshot - the previous mode might have
@@ -220,6 +218,7 @@
 
 			return true;
 		},
+
 		equalsSelection: function( otherImage ) {
 			var bookmarksA = this.bookmarks,
 				bookmarksB = otherImage.bookmarks;
@@ -239,7 +238,7 @@
 			}
 
 			return true;
-		},
+		}
 	};
 
 	/**
@@ -272,27 +271,29 @@
 
 		/**
 		 * Process undo system regard keystrikes.
-		 * @param {number} keystroke key code,
-		 * @param {boolean} isCharacter if true it is character ('a', '1', '&', ...), otherwise it is remove key (delete or backspace),
+		 * @param {number} keystroke The key code,
+		 * @param {boolean} isCharacter If true it is character ('a', '1', '&', ...), otherwise it is remove key (delete or backspace),
 		 */
 		type: function( keystroke, isCharacter ) {
-			var // Create undo snap for every different modifier key.
-				modifierSnapshot = ( !isCharacter && keystroke != this.lastKeystroke ),
-				// Create undo snap on the following cases:
-				// 1. Just start to type .
-				// 2. Typing some content after a modifier.
-				// 3. Typing some content after make a visible selection.
-				startedTyping = !this.typing || ( isCharacter && !this.wasCharacter ),
-				editor = this.editor;
+			// Create undo snap for every different modifier key.
+			var modifierSnapshot = ( !isCharacter && keystroke != this.lastKeystroke );
+
+			// Create undo snap on the following cases:
+			// 1. Just start to type .
+			// 2. Typing some content after a modifier.
+			// 3. Typing some content after make a visible selection.
+			var startedTyping = !this.typing || ( isCharacter && !this.wasCharacter );
+
+			var editor = this.editor;
 
 			if ( startedTyping || modifierSnapshot ) {
-				var beforeTypeImage = new Image( this.editor ),
+				var beforeTypeImage = new Image( editor ),
 					beforeTypeCount = this.snapshots.length;
 
 				// Use setTimeout, so we give the necessary time to the
 				// browser to insert the character into the DOM.
 				CKEDITOR.tools.setTimeout( function() {
-					var currentSnapshot = this.editor.getSnapshot();
+					var currentSnapshot = editor.getSnapshot();
 
 					// In IE, we need to remove the expando attributes.
 					if ( CKEDITOR.env.ie )
@@ -428,8 +429,8 @@
 				this.editor.fire( 'change' );
 
 				if ( !onContentOnly && equalContent && equalSelection )
-					return false;
-			}
+						return false;
+				}
 
 			// Drop future snapshots.
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
@@ -675,11 +676,15 @@
  */
 
 /**
- * Fired when content of editor changed. Change event is part of undo plugin
- * and will not be fired without this plugin. To make this event fast it is
- * is not verified if content really changed. In some cases you can get multiple
- * change events during one change. If it is important not to get change event
- * too often you should check if content changes after this event.
+ * Fired when the content of the editor changed.
+ *
+ * Due to performance reasons, it is not verified if the content really changed.
+ * The editor instead watches several editing actions that usually result on
+ * changes. Therefore, this event may be fired when no changes happen on some
+ * cases or even get fired twice.
+ *
+ * If it is important not to get change event too often you should compare the
+ * previous and the current editor content inside the event listener.
  *
  * @since 4.2
  * @event change
