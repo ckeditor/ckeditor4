@@ -419,18 +419,16 @@
 
 			// Check if this is a duplicate. In such case, do nothing.
 			if ( this.currentImage ) {
-				var equalContent = image.equalsContent( this.currentImage );
-
-				if ( equalContent )
-					return false;
-
-				var equalSelection = image.equalsSelection( this.currentImage );
-
-				this.editor.fire( 'change' );
-
-				if ( !onContentOnly && equalContent && equalSelection )
+				if ( image.equalsContent( this.currentImage ) ) {
+					if ( onContentOnly )
 						return false;
+
+					if ( image.equalsSelection( this.currentImage ) )
+						return false;
+				} else {
+					this.editor.fire( 'change' );
 				}
+			}
 
 			// Drop future snapshots.
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
