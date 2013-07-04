@@ -81,10 +81,10 @@
 /**
  * Announces the plugin as HiDPI-ready (optimized for hi-density screens e.g. *Retina*)
  * by providing high-resolution icons and images. HiDPI icons must be twice as big
- * (defaults are `16px x 16px`) and stored under `plugin_name/icons/32/` directory.
+ * (defaults are `16px x 16px`) and stored under `plugin_name/icons/hidpi/` directory.
  *
  * The common place for additional HiDPI images used by the plugin (**but not icons**)
- * is `plugin_name/images/32/` directory.
+ * is `plugin_name/images/hidpi/` directory.
  *
  * This property is optional and only makes sense if `32px x 32px` icons
  * and high-resolution images actually exist. Editor will automatically detect

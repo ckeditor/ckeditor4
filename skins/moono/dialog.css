@@ -332,7 +332,7 @@ a.cke_dialog_tab_selected:hover
 }
 
 .cke_hidpi .cke_dialog_close_button {
-	background-image: url(images/32/close.png);
+	background-image: url(images/hidpi/close.png);
 	background-size: 16px;
 }
 
@@ -818,7 +818,7 @@ select.cke_dialog_ui_input_select
 
 .cke_hidpi .cke_dialog a.cke_btn_reset {
 	background-size: 16px;
-	background-image: url(images/32/refresh.png);
+	background-image: url(images/hidpi/refresh.png);
 }
 
 .cke_rtl .cke_dialog a.cke_btn_reset
@@ -864,11 +864,11 @@ select.cke_dialog_ui_input_select
 }
 
 .cke_hidpi .cke_dialog a.cke_btn_locked {
-	background-image: url(images/32/lock.png);
+	background-image: url(images/hidpi/lock.png);
 }
 
 .cke_hidpi .cke_dialog a.cke_btn_unlocked {
-	background-image: url(images/32/lock-open.png);
+	background-image: url(images/hidpi/lock-open.png);
 }
 
 .cke_dialog .cke_btn_over
