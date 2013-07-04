@@ -15,11 +15,30 @@
 		icons: 'indent,indent-rtl,outdent,outdent-rtl', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var that = this;
-
 			// Register generic commands.
-			setupGenericListeners( editor.addCommand( 'indent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'indent', true ) ) );
-			setupGenericListeners( editor.addCommand( 'outdent', new CKEDITOR.plugins.indent.genericDefinition( editor, 'outdent' ) ) );
+			setupGenericListeners( editor,
+				editor.addCommand( 'indent',
+					new CKEDITOR.plugins.indent.genericDefinition( true ) ) );
+			setupGenericListeners( editor,
+				editor.addCommand( 'outdent',
+					new CKEDITOR.plugins.indent.genericDefinition() ) );
+
+			// Create and register toolbar button if possible.
+			if ( editor.ui.addButton ) {
+				editor.ui.addButton( 'Indent', {
+					label: editor.lang.indent.indent,
+					command: 'indent',
+					directional: true,
+					toolbar: 'indent,20'
+				} );
+
+				editor.ui.addButton( 'Outdent', {
+					label: editor.lang.indent.outdent,
+					command: 'outdent',
+					directional: true,
+					toolbar: 'indent,10'
+				} );
+			}
 
 			// Register dirChanged listener.
 			editor.on( 'dirChanged', function( evt ) {
@@ -86,10 +105,7 @@
 		 * @param {String} name Name of the command.
 		 * @param {Boolean} [isIndent] Define command as indenting or outdenting.
 		 */
-		genericDefinition: function( editor, name, isIndent ) {
-			this.name = name;
-			this.editor = editor;
-
+		genericDefinition: function( isIndent ) {
 			/**
 			 * Determines whether the command belongs to indentation family.
 			 * Otherwise it's assumed as an outdenting one.
@@ -101,16 +117,6 @@
 
 			// Mimic naive startDisabled behavior for outdent.
 			this.startDisabled = !this.isIndent;
-
-			// Create and register toolbar button if possible.
-			if ( editor.ui.addButton ) {
-				editor.ui.addButton( CKEDITOR.tools.capitalize( name ), {
-					label: editor.lang.indent[ name ],
-					command: name,
-					directional: true,
-					toolbar: 'indent,' + ( this.isIndent ? '20' : '10' )
-				} );
-			}
 		},
 
 		/**
@@ -371,9 +377,8 @@
 	 * @param {CKEDITOR.command} command Command to be set up.
 	 * @private
 	 */
-	function setupGenericListeners( command ) {
-		var editor = command.editor,
-			selection, bookmarks;
+	function setupGenericListeners( editor, command ) {
+		var selection, bookmarks;
 
 		// Set the command state according to content-specific
 		// command states.
