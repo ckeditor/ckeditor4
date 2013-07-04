@@ -49,7 +49,7 @@
 							'{margin-left}' );
 
 				this.jobs = {
-					20: {
+					'20': {
 						refresh: function( editor, path ) {
 							var firstBlock = path.block || path.blockLimit;
 

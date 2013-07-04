@@ -10,18 +10,19 @@
 (function() {
 	'use strict';
 
+	var TRISTATE_DISABLED = CKEDITOR.TRISTATE_DISABLED,
+		TRISTATE_OFF = CKEDITOR.TRISTATE_OFF;
+
 	CKEDITOR.plugins.add( 'indent', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'indent,indent-rtl,outdent,outdent-rtl', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
+			var genericDefinition = CKEDITOR.plugins.indent.genericDefinition;
+
 			// Register generic commands.
-			setupGenericListeners( editor,
-				editor.addCommand( 'indent',
-					new CKEDITOR.plugins.indent.genericDefinition( true ) ) );
-			setupGenericListeners( editor,
-				editor.addCommand( 'outdent',
-					new CKEDITOR.plugins.indent.genericDefinition() ) );
+			setupGenericListeners( editor, editor.addCommand( 'indent', new genericDefinition( true ) ) );
+			setupGenericListeners( editor, editor.addCommand( 'outdent', new genericDefinition() ) );
 
 			// Create and register toolbar button if possible.
 			if ( editor.ui.addButton ) {
@@ -142,26 +143,30 @@
 
 			/**
 			 * An object of jobs handled by the command. Each job consist
-			 * of two functions: `refresh`, `exec` and priority.
+			 * of two functions: `refresh`, `exec` and execution priority.
 			 *
-			 * * The `refresh` function determines whether a job is doable for
-			 * a particular context. These functions are executed in the
-			 * order of priorities, one by one, for all plugins that registered
-			 * jobs. As jobs are related to generic commands, refreshing
-			 * occurs when the global command is firing the `refresh` event.
-			 * This function must return either {@link CKEDITOR#TRISTATE_DISABLED}
-			 * or {@link CKEDITOR#TRISTATE_OFF}.
+			 *	* The `refresh` function determines whether a job is doable for
+			 *	  a particular context. These functions are executed in the
+			 *	  order of priorities, one by one, for all plugins that registered
+			 *	  jobs. As jobs are related to generic commands, refreshing
+			 *	  occurs when the global command is firing the `refresh` event.
 			 *
-			 * * The `exec` function modifies DOM if it's possible. Just like
-			 * `refresh`, `exec` functions are executed in the order of priorities
-			 * while the global command is executed.
-			 * This function must return boolean, indicating whether it was successful.
+			 *	  **Note**: This function must return either {@link CKEDITOR#TRISTATE_DISABLED}
+			 *	  or {@link CKEDITOR#TRISTATE_OFF}.
 			 *
-			 * For details, please check comments for `setupGenericListeners` function.
+			 *	* The `exec` function modifies DOM if possible. Just like
+			 *	  `refresh`, `exec` functions are executed in the order of priorities
+			 *	  while the generic command is executed. This function isn't executed
+			 *	  if `refresh` for this job returned {@link CKEDITOR#TRISTATE_DISABLED}.
+			 *
+			 *	  **Note**: This function must return boolean, indicating whether it was successful.
+			 *	  If job was successful, then no other jobs are being executed.
+			 *
+			 * Sample definition:
 			 *
 			 *		command.jobs = {
 			 *			// Priority = 20.
-			 *			20: {
+			 *			'20': {
 			 *				refresh( editor, path ) {
 			 *					if ( condition )
 			 *						return CKEDITOR.TRISTATE_OFF;
@@ -169,14 +174,18 @@
 			 *						return CKEDITOR.TRISTATE_DISABLED;
 			 *				},
 			 *				exec( editor ) {
-			 *					// Modify DOM
+			 *					// DOM modified! This was OK.
+			 *					return true;
 			 *				}
 			 *			},
 			 *			// Priority = 60. This job is done later.
-			 *			60: {
+			 *			'60': {
 			 *				// Another job.
 			 *			}
 			 *		};
+			 *
+			 * For additional information, please check comments for
+			 * `setupGenericListeners` function.
 			 *
 			 * @readonly
 			 * @property {Object} [={}]
@@ -316,7 +325,7 @@
 		execJob: function( editor, priority ) {
 			var job = this.jobs[ priority ];
 
-			if ( job.state != CKEDITOR.TRISTATE_DISABLED )
+			if ( job.state != TRISTATE_DISABLED )
 				return job.exec.call( this, editor );
 		},
 
@@ -362,17 +371,46 @@
 	 *
 	 *	* 0: Selection and bookmarks are saved by generic command.
 	 *	* 1-99: Content-specific commands try to indent the code by executing
-	 *    own jobs ({@link CKEDITOR.plugins.indent.specificDefinition#jobs}).
+	 *	  own jobs ({@link CKEDITOR.plugins.indent.specificDefinition#jobs}).
 	 *	* 100: Bookmarks are re-selected by generic command.
+	 *
+	 * The visual interpretation looks as follows:
+	 *
+	 *		  +------------------+
+	 *		  | Exec event fired |
+	 *		  +------ + ---------+
+	 *		          |
+	 *		        0 -<----------+ Selection and bookmarks saved
+	 *		          |
+	 *		          |
+	 *		       25 -<---+ Exec 1st job of plugin#1 (return false, continuing...)
+	 *		          |
+	 *		          |
+	 *		       50 -<---+ Exec 1st job of plugin#2 (return false, continuing...)
+	 *		          |
+	 *		          |
+	 *		       75 -<---+ Exec 2nd job of plugin#1 (only if plugin#2 failed)
+	 *		          |
+	 *		          |
+	 *		      100 -<-----------+ Re-select bookmarks, clean-up.
+	 *		          |
+	 *		+-------- v ----------+
+	 *		| Exec event finished |
+	 *		+---------------------+
 	 *
 	 * For `refresh` event:
 	 *
 	 *	* <100: Content-specific commands refresh their job states according
 	 *	  to the given path. Jobs save their states in `evt.data.states` object
-	 *	  passed along with the event.
+	 *	  passed along with the event. This can be either {@link CKEDITOR#TRISTATE_DISABLED}
+	 *	  or {@link CKEDITOR#TRISTATE_OFF}.
 	 *	* 100: Command state is determined according to what states
-	 *	  have been returned by content-specific commands (`evt.data.states`).
+	 *	  have been returned by content-specific jobs (`evt.data.states`).
 	 *	  UI elements are updated at this stage.
+	 *
+	 *	  **Note**: If there is at least one jobs with {@link CKEDITOR#TRISTATE_OFF} state,
+	 *	  then the generic command is also {@link CKEDITOR#TRISTATE_OFF}. Otherwise,
+	 *	  the command state is {@link CKEDITOR#TRISTATE_DISABLED}.
 	 *
 	 * @param {CKEDITOR.command} command Command to be set up.
 	 * @private
@@ -384,18 +422,15 @@
 		// command states.
 		command.on( 'refresh', function( evt ) {
 			// If no state comes with event data, disable command.
-			var states = [ CKEDITOR.TRISTATE_DISABLED ];
+			var states = [ TRISTATE_DISABLED ];
 
 			for ( var s in evt.data.states )
 				states.push( evt.data.states[ s ] );
 
-			// Maybe a little bit shorter?
-			if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_ON ) )
-				this.setState( CKEDITOR.TRISTATE_ON );
-			else if ( CKEDITOR.tools.search( states, CKEDITOR.TRISTATE_OFF ) )
-				this.setState( CKEDITOR.TRISTATE_OFF );
-			else
-				this.setState( CKEDITOR.TRISTATE_DISABLED );
+			this.setState( CKEDITOR.tools.search( states, TRISTATE_OFF ) ?
+					TRISTATE_OFF
+				:
+					TRISTATE_DISABLED );
 		}, command, null, 100 );
 
 		// Initialization. Save bookmarks and mark event as not handled
