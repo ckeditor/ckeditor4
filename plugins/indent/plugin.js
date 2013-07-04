@@ -80,7 +80,7 @@
 		 * delegate job to content-specific indentation commands (i.e. indentlist).
 		 *
 		 * @class CKEDITOR.plugins.indent.genericDefinition
-		 * @extends CKEDITOR.command
+		 * @extends CKEDITOR.commandDefinition
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
 		 * related to.
 		 * @param {String} name Name of the command.
@@ -104,7 +104,7 @@
 
 			// Create and register toolbar button if possible.
 			if ( editor.ui.addButton ) {
-				editor.ui.addButton( name.charAt( 0 ).toUpperCase() + name.slice( 1 ), {
+				editor.ui.addButton( CKEDITOR.tools.capitalize( name ), {
 					label: editor.lang.indent[ name ],
 					command: name,
 					directional: true,
