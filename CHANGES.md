@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 * [#10281](http://dev.ckeditor.com/ticket/10281): jQuery adapter.
 * [#10042](http://dev.ckeditor.com/ticket/10042): Introduced config.title to change the human-readable title of the editor.
 * [#10370](http://dev.ckeditor.com/ticket/10370): Inconsistency in data events between framed and inline editors.
+* [#9794](http://dev.ckeditor.com/ticket/9794): OnChange event.
 
 ## CKEditor 4.1.2
 
