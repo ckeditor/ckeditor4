@@ -11,7 +11,9 @@
 	'use strict';
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
+		TRISTATE_DISABLED = CKEDITOR.TRISTATE_DISABLED,
+		TRISTATE_OFF = CKEDITOR.TRISTATE_OFF;
 
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
@@ -37,8 +39,6 @@
 					if ( editor.mode != 'wysiwyg' )
 						return;
 
-					var key = evt.data.keyCode;
-
 					if ( evt.data.keyCode == this.indentKey ) {
 						var list = this.getContext( editor.elementPath() );
 
@@ -46,7 +46,7 @@
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && isFirstListItemInPath.call( this, editor.elementPath(), list ) )
+							if ( this.isIndent && firstItemInPath.call( this, editor.elementPath(), list ) )
 								return;
 
 							// Exec related global indentation command. Global
@@ -61,25 +61,40 @@
 					}
 				}, this );
 
+				// There are two different jobs for this plugin:
+				//
+				//	* Indent job (priority=10), before indentblock.
+				//
+				//	  This job is before indentblock because, if this plugin is
+				//	  loaded it has higher priority over indentblock. It means that,
+				//	  if possible, nesting is performed, and then block manipulation,
+				//	  if necessary.
+				//
+				//	* Outdent job (priority=30), after outdentblock.
+				//
+				//	  This job got to be after outdentblock because in some cases
+				//	  (margin, config#indentClass on list) outdent must be done on
+				//	  block-level.
+
 				this.jobs[ this.isIndent ? 10 : 30 ] = {
 					refresh: this.isIndent ?
 							function( editor, path ) {
 								var list = this.getContext( path ),
-									inFirstListItem = isFirstListItemInPath.call( this, path, list );
+									inFirstListItem = firstItemInPath.call( this, path, list );
 
 								if ( !list || !this.isIndent || inFirstListItem )
-									return CKEDITOR.TRISTATE_DISABLED;
+									return TRISTATE_DISABLED;
 
-								return CKEDITOR.TRISTATE_OFF;
+								return TRISTATE_OFF;
 							}
 						:
 							function( editor, path ) {
 								var list = this.getContext( path );
 
 								if ( !list || this.isIndent )
-									return CKEDITOR.TRISTATE_DISABLED;
+									return TRISTATE_DISABLED;
 
-								return CKEDITOR.TRISTATE_OFF;
+								return TRISTATE_OFF;
 							},
 
 					exec: CKEDITOR.tools.bind( indentList, this )
@@ -207,6 +222,8 @@
 					li.insertAfter( parentLiElement );
 				}
 			}
+
+			return true;
 		}
 
 		var selection = editor.getSelection(),
@@ -243,50 +260,33 @@
 			// <ul>[<li>...</li>]</ul> =>	<ul><li>[...]</li></ul>
 			if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in context ) {
 				var walker = new CKEDITOR.dom.walker( range );
-				walker.evaluator = isListItem;
+				walker.evaluator = listItem;
 				range.startContainer = walker.next();
 			}
 
 			if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in context ) {
 				walker = new CKEDITOR.dom.walker( range );
-				walker.evaluator = isListItem;
+				walker.evaluator = listItem;
 				range.endContainer = walker.previous();
 			}
 
-			if ( nearestListBlock ) {
-				var firstListItem = nearestListBlock.getFirst( isListItem ),
-					hasMultipleItems = !!firstListItem.getNext( isListItem ),
-					rangeStart = range.startContainer,
-					indentWholeList = firstListItem.equals( rangeStart ) || firstListItem.contains( rangeStart );
-
-				indentList( nearestListBlock );
-				return true;
-			}
-
+			if ( nearestListBlock )
+				return indentList( nearestListBlock );
 		}
 	}
 
-	/**
-	 * Check whether a first child of a list is in the path.
-	 *
-	 * @param {CKEDITOR.dom.elementPath} path A path to be checked.
-	 * @param {CKEDITOR.dom.element} [list] A list to be used as a reference.
-	 * @returns {Boolean}
-	 */
-	function isFirstListItemInPath( path, list ) {
+	// Check whether a first child of a list is in the path.
+	// The list can be extracted from path or given explicitly
+	// e.g. for better performance if cached.
+	function firstItemInPath( path, list ) {
 		if ( !list )
 			list = path.contains( this.context );
 
-		return list && path.block && path.block.equals( list.getFirst( isListItem ) );
+		return list && path.block && path.block.equals( list.getFirst( listItem ) );
 	}
 
-	/**
-	 * Determines whether a node is a list LI element.
-	 *
-	 * @param {CKEDITOR.dom.node} node A node to be checked.
-	 * @returns {Boolean}
-	 */
-	function isListItem( node ) {
+	// Determines whether a node is a list <li> element.
+	function listItem( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 })();

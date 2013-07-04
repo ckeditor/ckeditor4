@@ -10,7 +10,10 @@
 (function() {
 	'use strict';
 
-	var $listItem = CKEDITOR.dtd.$listItem;
+	var $listItem = CKEDITOR.dtd.$listItem,
+		$list = CKEDITOR.dtd.$list,
+		TRISTATE_DISABLED = CKEDITOR.TRISTATE_DISABLED,
+		TRISTATE_OFF = CKEDITOR.TRISTATE_OFF;
 
 	CKEDITOR.plugins.add( 'indentblock', {
 		requires: 'indent',
@@ -66,70 +69,69 @@
 							//		</ul>
 
 							else if ( firstBlock.getAscendant( $listItem ) )
-								return CKEDITOR.TRISTATE_DISABLED;
+								return TRISTATE_DISABLED;
 
-							//	- context in the path or ENTER_BR
+							//	[-] Context in the path or ENTER_BR
 							//
-							// 			Don't try to indent if the element is out of
-							//		    this plugin's scope. This assertion is omitted
-							//			if ENTER_BR is in use since there may be no block
-							//			in the path.
-							//
+							//		Don't try to indent if the element is out of
+							//		this plugin's scope. This assertion is omitted
+							//		if ENTER_BR is in use since there may be no block
+							//		in the path.
+
 							if ( !this.enterBr && !this.getContext( path ) )
-								return CKEDITOR.TRISTATE_DISABLED;
+								return TRISTATE_DISABLED;
 
 							else if ( classes ) {
-								//	+ context in the path or ENTER_BR
-								//	+ IndentClasses
+
+								//	[+] Context in the path or ENTER_BR
+								//	[+] IndentClasses
 								//
-								// 			If there are indentation classes, check if reached
-								// 		    the highest level of indentation. If so, disable
-								// 		    the command.
-								//
+								//		If there are indentation classes, check if reached
+								//		the highest level of indentation. If so, disable
+								//		the command.
+
 								if ( indentClassLeft.call( this, firstBlock, classes ) )
-									return CKEDITOR.TRISTATE_OFF;
+									return TRISTATE_OFF;
 								else
-									return CKEDITOR.TRISTATE_DISABLED;
-							}
+									return TRISTATE_DISABLED;
+							} else {
 
-							else {
-								//	+ context in the path or ENTER_BR
-								//	- IndentClasses
-								//	+ Indenting
+								//	[+] Context in the path or ENTER_BR
+								//	[-] IndentClasses
+								//	[+] Indenting
 								//
-								// 			No indent-level limitations due to indent classes.
-								// 		    Indent-like command can always be executed.
-								//
+								//		No indent-level limitations due to indent classes.
+								//		Indent-like command can always be executed.
+
 								if ( this.isIndent )
-									return CKEDITOR.TRISTATE_OFF;
+									return TRISTATE_OFF;
 
-								//	+ context in the path or ENTER_BR
-								//	- IndentClasses
-								//	- Indenting
-								//	- Block in the path
+								//	[+] Context in the path or ENTER_BR
+								//	[-] IndentClasses
+								//	[-] Indenting
+								//	[-] Block in the path
 								//
-								// 			No block in path. There's no element to apply indentation
-								// 		    so disable the command.
-								//
+								//		No block in path. There's no element to apply indentation
+								//		so disable the command.
+
 								else if ( !firstBlock )
-									return CKEDITOR.TRISTATE_DISABLED;
+									return TRISTATE_DISABLED;
 
-								//	+ context in the path or ENTER_BR
-								//	- IndentClasses
-								//	- Indenting
-								//	+ Block in path.
+								//	[+] Context in the path or ENTER_BR
+								//	[-] IndentClasses
+								//	[-] Indenting
+								//	[+] Block in path.
 								//
-								// 			Not using indentClasses but there is firstBlock.
-								//		    We can calculate current indentation level and
-								//			try to increase/decrease it.
-								//
+								//		Not using indentClasses but there is firstBlock.
+								//		We can calculate current indentation level and
+								//		try to increase/decrease it.
+
 								else {
-									var indent = getIndent( firstBlock );
-
-									if ( isNaN( indent ) )
-										indent = 0;
-
-									return CKEDITOR[ indent <= 0 ? 'TRISTATE_DISABLED' : 'TRISTATE_OFF' ];
+									return CKEDITOR[
+										( getIndent( firstBlock ) || 0 ) <= 0 ?
+												'TRISTATE_DISABLED'
+											:
+												'TRISTATE_OFF' ];
 								}
 							}
 						},
@@ -141,7 +143,7 @@
 
 							// If there's some list in the path, then it will be
 							// a full-list indent by increasing or decreasing margin property.
-							if ( ( nearestListBlock = editor.elementPath().contains( CKEDITOR.dtd.$list ) ) )
+							if ( ( nearestListBlock = editor.elementPath().contains( $list ) ) )
 								indentElement.call( this, nearestListBlock, classes );
 
 							// If no list in the path, use iterator to indent all the possible
@@ -169,47 +171,39 @@
 				// command. They restrict the scope of the plugin.
 				context: { div: 1, dl: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ul: 1, ol: 1, p: 1, pre: 1, table: 1 },
 
-				classNameRegex: classes ? new RegExp( '(?:^|\\s+)(' + classes.join( '|' ) + ')(?=$|\\s)' ) : null
-			}, true );
+				// A regex built on config#indentClasses to detect whether an
+				// element has some indentClass or not.
+				classNameRegex: classes ?
+					new RegExp( '(?:^|\\s+)(' + classes.join( '|' ) + ')(?=$|\\s)' )
+						:
+					null
+			} );
 		}
 	} );
 
-	/**
-	 * Generic indentation procedure for any element shared across
-	 * content-specific indentation commands.
-	 *
-	 *		// Indent element of id equal foo
-	 *		var element = CKEDITOR.document.getById( 'foo' );
-	 *		command.indentElement( element );
-	 *
-	 * @param {CKEDITOR.dom.element} element An element to be indented.
-	 * @param {String} [dir] Element direction.
-	 * @returns {Boolean}
-	 */
+	// Generic indentation procedure for indentation of any element
+	// either with margin property or config#indentClass.
 	function indentElement( element, classes, dir ) {
 		if ( element.getCustomData( 'indent_processed' ) )
-			return false;
+			return;
 
-		var editor = this.editor;
+		var editor = this.editor,
+			isIndent = this.isIndent;
 
 		if ( classes ) {
 			// Transform current class f to indent step index.
 			var indentClass = element.$.className.match( this.classNameRegex ),
 				indentStep = 0;
+
 			if ( indentClass ) {
 				indentClass = indentClass[ 1 ];
 				indentStep = CKEDITOR.tools.indexOf( classes, indentClass ) + 1;
 			}
 
-			// Operate on indent step index, transform indent step index back to class
-			// name.
-			if ( !this.isIndent )
-				indentStep--;
-			else
-				indentStep++;
-
-			if ( indentStep < 0 )
-				return false;
+			// Operate on indent step index, transform indent step index
+			// back to class name.
+			if ( ( indentStep += isIndent ? 1 : -1 ) < 0 )
+				return;
 
 			indentStep = Math.min( indentStep, classes.length );
 			indentStep = Math.max( indentStep, 0 );
@@ -225,15 +219,18 @@
 			if ( isNaN( currentOffset ) )
 				currentOffset = 0;
 
-			currentOffset += ( this.isIndent ? 1 : -1 ) * indentOffset;
+			currentOffset += ( isIndent ? 1 : -1 ) * indentOffset;
 
 			if ( currentOffset < 0 )
-				return false;
+				return;
 
 			currentOffset = Math.max( currentOffset, 0 );
 			currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
 
-			element.setStyle( indentCssProperty, currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : '' );
+			element.setStyle( indentCssProperty, currentOffset ?
+					currentOffset + ( editor.config.indentUnit || 'px' )
+				:
+					'' );
 
 			if ( element.getAttribute( 'style' ) === '' )
 				element.removeAttribute( 'style' );
@@ -241,59 +238,40 @@
 
 		CKEDITOR.dom.element.setMarker( this.database, element, 'indent_processed', 1 );
 
-		return true;
+		return;
 	}
 
-	/**
-	 * Method that checks if current indentation level for an element
-	 * reached the limit determined by {@link CKEDITOR.config#indentClasses}.
-	 *
-	 * @param {CKEDITOR.dom.element} node An element to be checked.
-	 * @returns {Boolean}
-	 */
+	// Method that checks if current indentation level for an element
+	// reached the limit determined by config#indentClasses.
 	function indentClassLeft( node, classes ) {
-		var indentClass = node.$.className.match( this.classNameRegex );
+		var indentClass = node.$.className.match( this.classNameRegex ),
+			isIndent = this.isIndent;
 
 		// If node has one of the indentClasses:
-		//	\-> If it holds the topmost indentClass, then
-		//	    no more classes have left.
-		//	\-> If it holds any other indentClass, it can use the next one
-		//	    or the previous one.
-		//	\-> Outdent is always possible. We can remove indentClass.
+		//	* If it holds the topmost indentClass, then
+		//	  no more classes have left.
+		//	* If it holds any other indentClass, it can use the next one
+		//	  or the previous one.
+		//	* Outdent is always possible. We can remove indentClass.
 		if ( indentClass )
-			return this.isIndent ? indentClass[ 1 ] != classes.slice( -1 ) : true;
+			return isIndent ? indentClass[ 1 ] != classes.slice( -1 ) : true;
 
 		// If node has no class which belongs to indentClasses,
 		// then it is at 0-level. It can be indented but not outdented.
 		else
-			return this.isIndent;
+			return isIndent;
 	}
 
-	/**
-	 * Determines indent CSS property for an element according to
-	 * what is the direction of such element. It can be either `margin-left`
-	 * or `margin-right`.
-	 *
-	 *		// Get indent CSS property of an element.
-	 *		var element = CKEDITOR.document.getById( 'foo' );
-	 *		command.getIndentCss( element );	// 'margin-left'
-	 *
-	 * @param {CKEDITOR.dom.element} element An element to be checked.
-	 * @param {String} [dir] Element direction.
-	 * @returns {String}
-	 */
+	// Determines indent CSS property for an element according to
+	// what is the direction of such element. It can be either `margin-left`
+	// or `margin-right`.
 	function getIndentCss( element, dir ) {
 		return ( dir || element.getComputedStyle( 'direction' ) ) == 'ltr' ? 'margin-left' : 'margin-right';
 	}
 
-	/**
-	 * Return the numerical indent value of margin-left|right of an element,
-	 * considering element's direction. If element has no margin specified,
-	 * NaN is returned.
-	 *
-	 * @param {CKEDITOR.dom.element} element An element to be checked.
-	 * @returns {Number}
-	 */
+	// Return the numerical indent value of margin-left|right of an element,
+	// considering element's direction. If element has no margin specified,
+	// NaN is returned.
 	function getIndent( element ) {
 		return parseInt( element.getStyle( getIndentCss( element ) ), 10 );
 	}
