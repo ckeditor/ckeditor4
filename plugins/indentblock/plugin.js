@@ -50,8 +50,23 @@
 						refresh: function( editor, path ) {
 							var firstBlock = path.block || path.blockLimit;
 
+							// Switch context from list item to list
+							// because indentblock can indent entire list
+							// but not a single list element.
+
 							if ( firstBlock.is( $listItem ) )
 								firstBlock = firstBlock.getParent();
+
+							// If firstBlock isn't list item, but still there's
+							// some ascendant (i.e. <ul>), then this is not
+							// a job for indentblock, e.g.:
+							//
+							//		<ul>
+							//			<li><p>foo</p></li>
+							//		</ul>
+
+							else if ( firstBlock.getAscendant( $listItem ) )
+								return CKEDITOR.TRISTATE_DISABLED;
 
 							//	- context in the path or ENTER_BR
 							//
