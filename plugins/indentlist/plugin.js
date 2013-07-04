@@ -89,7 +89,7 @@
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
 				// Elements that, if in an elementpath, will be handled by this
 				// command. They restrict the scope of the plugin.
-				indentContext: { ol: 1, ul: 1 }
+				context: { ol: 1, ul: 1 }
 			} );
 		}
 	} );
@@ -97,7 +97,7 @@
 	function indentList( editor ) {
 		var that = this,
 			database = this.database,
-			indentContext = this.indentContext;
+			context = this.context;
 
 		function indentList( listNode ) {
 			// Our starting and ending points of the range might be inside some blocks under a list item...
@@ -134,7 +134,7 @@
 			// ancestor node that is still a list.
 			var listParents = listNode.getParents( true );
 			for ( var i = 0; i < listParents.length; i++ ) {
-				if ( listParents[ i ].getName && indentContext[ listParents[ i ].getName() ] ) {
+				if ( listParents[ i ].getName && context[ listParents[ i ].getName() ] ) {
 					listNode = listParents[ i ];
 					break;
 				}
@@ -193,7 +193,7 @@
 						followingList = li;
 
 					// Nest preceding <ul>/<ol> inside current <li> if any.
-					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in indentContext ) {
+					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in context ) {
 						// IE requires a filler NBSP for nested list inside empty list item,
 						// otherwise the list item will be inaccessiable. (#4476)
 						if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
@@ -218,13 +218,13 @@
 			var rangeRoot = range.getCommonAncestor(),
 				nearestListBlock = rangeRoot;
 
-			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && indentContext[ nearestListBlock.getName() ] ) )
+			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) )
 				nearestListBlock = nearestListBlock.getParent();
 
 			// Avoid having selection boundaries out of the list.
 			// <ul><li>[...</li></ul><p>...]</p> => <ul><li>[...]</li></ul><p>...</p>
 			if ( !nearestListBlock ) {
-				if ( ( nearestListBlock = range.startPath().contains( indentContext ) ) )
+				if ( ( nearestListBlock = range.startPath().contains( context ) ) )
 					range.setEndAt( nearestListBlock, CKEDITOR.POSITION_BEFORE_END );
 			}
 
@@ -232,7 +232,7 @@
 			// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
 			if ( !nearestListBlock ) {
 				var selectedNode = range.getEnclosedNode();
-				if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in indentContext ) {
+				if ( selectedNode && selectedNode.type == CKEDITOR.NODE_ELEMENT && selectedNode.getName() in context ) {
 					range.setStartAt( selectedNode, CKEDITOR.POSITION_AFTER_START );
 					range.setEndAt( selectedNode, CKEDITOR.POSITION_BEFORE_END );
 					nearestListBlock = selectedNode;
@@ -241,13 +241,13 @@
 
 			// Avoid selection anchors under list root.
 			// <ul>[<li>...</li>]</ul> =>	<ul><li>[...]</li></ul>
-			if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in indentContext ) {
+			if ( nearestListBlock && range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in context ) {
 				var walker = new CKEDITOR.dom.walker( range );
 				walker.evaluator = isListItem;
 				range.startContainer = walker.next();
 			}
 
-			if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in indentContext ) {
+			if ( nearestListBlock && range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in context ) {
 				walker = new CKEDITOR.dom.walker( range );
 				walker.evaluator = isListItem;
 				range.endContainer = walker.previous();
@@ -275,7 +275,7 @@
 	 */
 	function isFirstListItemInPath( path, list ) {
 		if ( !list )
-			list = path.contains( this.indentContext );
+			list = path.contains( this.context );
 
 		return list && path.block && path.block.equals( list.getFirst( isListItem ) );
 	}

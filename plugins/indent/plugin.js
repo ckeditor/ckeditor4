@@ -287,7 +287,7 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		getContext: function( path ) {
-			return path.contains( this.indentContext );
+			return path.contains( this.context );
 		}
 	};
 
