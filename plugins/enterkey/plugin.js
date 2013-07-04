@@ -173,7 +173,8 @@
 
 						block.remove();
 					} else {
-						newBlock = doc.createElement( blockTag );
+						// Use <div> block for ENTER_BR and ENTER_DIV.
+						newBlock = doc.createElement( mode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 						if ( dirLoose )
 							newBlock.setAttribute( 'dir', orgDir );
