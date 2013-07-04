@@ -1927,7 +1927,7 @@
  *				// Otherwise do something else.
  *		} );
  *
- * @since 4.2
+ * @since 4.3
  * @readonly
  * @property {CKEDITOR.filter} activeFilter
  * @member CKEDITOR.editor

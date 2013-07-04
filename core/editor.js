@@ -1137,7 +1137,7 @@
 		 *		var filter = new CKEDITOR.filter( 'p strong em br' );
 		 *		editor.setActiveFilter( filter );
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @param {CKEDITOR.filter} filter Filter instance or `null` to reset to the default one.
 		 */
 		setActiveFilter: function( filter ) {

@@ -2075,7 +2075,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * See also: {@link #moveToElementEditablePosition}.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @param {CKEDITOR.dom.element} element The starting element.
 		 * @param {Boolean} isMoveToEnd Whether move to the end of editable. Otherwise, look back.
 		 * @returns {Boolean} Whether the range was moved.

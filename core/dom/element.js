@@ -1816,7 +1816,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *			Method:		div.find( 'body i' ) // ->					[]
 	 *						div.find( 'i' ) // ->						[ <i>foo</i> ]
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
@@ -1844,7 +1844,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *			Method:		div.findOne( 'body i' ) // ->				null
 	 *						div.findOne( 'i' ) // ->					<i>foo</i>
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.element}
 	 */

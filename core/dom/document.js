@@ -277,7 +277,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 *	* Not available in IE7.
 	 *	* Returned list is not a live collection (like a result of native `querySelectorAll`).
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
@@ -291,7 +291,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 *
 	 * **Note:** not available in IE7.
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @param {String} selector
 	 * @returns {CKEDITOR.dom.element}
 	 */

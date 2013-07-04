@@ -451,7 +451,7 @@
 	 * Whether the to-be-evaluated node is a temporary element
 	 * (element with `data-cke-temp` attribute) or its child.
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether should return `false` for the
 	 * temporary element instead of `true` (default).
@@ -485,7 +485,7 @@
 	 * * bookmarks (see {@link CKEDITOR.dom.walker.bookmark}),
 	 * * temporary elements (see {@link CKEDITOR.dom.walker.temp}).
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether should return `false` for the
 	 * ignored element instead of `true` (default).
@@ -529,7 +529,7 @@
 	 * * non-editable blocks (special case - such blocks cannot be containers nor
 	 * siblings, they need to be selected entirely).
 	 *
-	 * @since 4.2
+	 * @since 4.3
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether should return `false` for the
 	 * ignored element instead of `true` (default).

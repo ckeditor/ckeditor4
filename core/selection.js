@@ -2152,7 +2152,7 @@
  * Selection's revision. This value is incremented every time new
  * selection is created or existing one is modified.
  *
- * @since 4.2
+ * @since 4.3
  * @readonly
  * @property {Number} rev
  */

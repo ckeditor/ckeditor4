@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
- 'use strict';
+'use strict';
 
 /**
  * A lightweight representation of an HTML element.
@@ -349,7 +349,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Gets this element's first child. If `condition` is given returns
 		 * first child which satisfies that condition.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @param {String/Object/Function} condition Name of a child, hash of names or validator function.
 		 * @returns {CKEDITOR.htmlParser.node}
 		 */
@@ -370,7 +370,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's inner HTML.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @returns {String}
 		 */
 		getHtml: function() {
@@ -382,7 +382,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's outer HTML.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @returns {String}
 		 */
 		getOuterHtml: function() {
@@ -394,7 +394,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Splits this element at given index.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @param {Number} index Index at which element will be split &ndash; `0` means beginning,
 		 * `1` after first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} New element, following this one.
@@ -422,7 +422,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Removes class name from classes list.
 		 *
-		 * @since 4.2
+		 * @since 4.3
 		 * @param {String} className The class name to be removed.
 		 */
 		removeClass: function( className ) {
