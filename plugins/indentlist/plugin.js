@@ -65,37 +65,29 @@
 					}
 				}, this );
 
-				this.jobs = {};
+				this.jobs[ this.isIndent ? 10 : 30 ] = {
+					refresh: this.isIndent ?
+							function( editor, path ) {
+								var list = this.getContext( path ),
+									inFirstListItem = isFirstListItemInPath.call( this, path, list );
 
-				if ( this.isIndent ) {
-					this.jobs[ 10 ] = {
-						refresh: function( editor, path ) {
-							var list = this.getContext( path ),
-								inFirstListItem = isFirstListItemInPath.call( this, path, list );
+								if ( !list || !this.isIndent || inFirstListItem )
+									return CKEDITOR.TRISTATE_DISABLED;
 
-							if ( !list || !this.isIndent || inFirstListItem )
-								return CKEDITOR.TRISTATE_DISABLED;
+								return CKEDITOR.TRISTATE_OFF;
+							}
+						:
+							function( editor, path ) {
+								var list = this.getContext( path );
 
-							return CKEDITOR.TRISTATE_OFF;
-						},
+								if ( !list || this.isIndent )
+									return CKEDITOR.TRISTATE_DISABLED;
 
-						exec: CKEDITOR.tools.bind( indentList, this )
-					};
-				} else {
-					this.jobs[ 30 ] = {
-						// Outdent only. Any list item.
-						refresh: function( editor, path ) {
-							var list = this.getContext( path );
+								return CKEDITOR.TRISTATE_OFF;
+							},
 
-							if ( !list || this.isIndent )
-								return CKEDITOR.TRISTATE_DISABLED;
-
-							return CKEDITOR.TRISTATE_OFF;
-						},
-
-						exec: CKEDITOR.tools.bind( indentList, this )
-					};
-				}
+					exec: CKEDITOR.tools.bind( indentList, this )
+				};
 			}
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {

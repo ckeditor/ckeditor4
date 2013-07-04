@@ -10,15 +10,12 @@
 (function() {
 	'use strict';
 
-	var isListItem;
+	var $listItem = CKEDITOR.dtd.$listItem;
 
 	CKEDITOR.plugins.add( 'indentblock', {
 		requires: 'indent',
 		init: function( editor ) {
 			var globalHelpers = CKEDITOR.plugins.indent;
-
-			// Use global helper functions.
-			isListItem = globalHelpers.isListItem;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -52,7 +49,7 @@
 						refresh: function( editor, path ) {
 							var firstBlock = path.block || path.blockLimit;
 
-							if ( isListItem( firstBlock ) )
+							if ( firstBlock.is( $listItem ) )
 								firstBlock = firstBlock.getParent();
 
 							//	- indentContext in the path or ENTER_BR

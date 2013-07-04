@@ -131,6 +131,8 @@
 			this.name = name;
 			this.editor = editor;
 
+			this.jobs = {};
+
 			/**
 			 * Determines whether the editor that command belongs to has
 			 * config.enterMode set to CKEDITOR.ENTER_BR.
@@ -295,23 +297,6 @@
 		getContext: function( path ) {
 			return path.contains( this.indentContext );
 		}
-
-		/**
-		 * Refreshes the state of the content-specific command
-		 * similarly to {@link CKEDITOR.command#method-refresh}. It updates
-		 * the {@link CKEDITOR.plugins.indent.specificDefinition#state} property.
-		 *
-		 * @method refresh
-		 * @param {CKEDITOR.editor} editor
-		 * @param {CKEDITOR.dom.elementPath} path
-		 */
-
-		/**
-		 * Performs indentation (outdentation) in DOM.
-		 *
-		 * @method indent
-		 * @param {CKEDITOR.editor} editor
-		 */
 	};
 
 	/**
