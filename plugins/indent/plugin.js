@@ -243,15 +243,7 @@
 					} )( this, commands[ name ] );
 				}
 			} );
-		},
-
-		/**
-		 * Determines whether a node is a list LI element.
-		 *
-		 * @param {CKEDITOR.dom.node} node A node to be checked.
-		 * @returns {Boolean}
-		 */
-		isListItem: isListItem
+		}
 	};
 
 	CKEDITOR.plugins.indent.genericDefinition.prototype = {
@@ -367,10 +359,6 @@
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
 		}, command, null, 100 );
-	}
-
-	function isListItem( node ) {
-		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 })();
 

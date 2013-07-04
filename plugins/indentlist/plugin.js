@@ -11,17 +11,13 @@
 	'use strict';
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isListItem;
+		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true );
 
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
 		init: function( editor ) {
 			var globalHelpers = CKEDITOR.plugins.indent,
 				editable = editor;
-
-			// Use global helper functions.
-			isListItem = globalHelpers.isListItem;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -282,5 +278,15 @@
 			list = path.contains( this.indentContext );
 
 		return list && path.block && path.block.equals( list.getFirst( isListItem ) );
+	}
+
+	/**
+	 * Determines whether a node is a list LI element.
+	 *
+	 * @param {CKEDITOR.dom.node} node A node to be checked.
+	 * @returns {Boolean}
+	 */
+	function isListItem( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
 	}
 })();
