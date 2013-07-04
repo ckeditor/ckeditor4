@@ -231,9 +231,8 @@
 					var bookmarkA = bookmarksA[ i ],
 						bookmarkB = bookmarksB[ i ];
 
-					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) ) {
+					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) )
 						return false;
-					}
 				}
 			}
 
@@ -271,8 +270,8 @@
 
 		/**
 		 * Process undo system regard keystrikes.
-		 * @param {number} keystroke The key code,
-		 * @param {boolean} isCharacter If true it is character ('a', '1', '&', ...), otherwise it is remove key (delete or backspace),
+		 * @param {Number} keystroke The key code.
+		 * @param {Boolean} isCharacter If `true` it is character ('a', '1', '&', ...), otherwise it is remove key (delete or backspace).
 		 */
 		type: function( keystroke, isCharacter ) {
 			// Create undo snap for every different modifier key.
