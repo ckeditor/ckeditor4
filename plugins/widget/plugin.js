@@ -1349,7 +1349,8 @@
 		editor.on( 'doubleclick', function( evt ) {
 			var widget = widgetsRepo.getByElement( evt.data.element );
 
-			if ( !widget )
+			// Not in widget or in nested editable.
+			if ( !widget || getNestedEditable( widget.wrapper, evt.data.element ) )
 				return;
 
 			return widget.fire( 'doubleclick', { element: evt.data.element } );
