@@ -24,7 +24,7 @@
 				},
 				state: CKEDITOR.TRISTATE_DISABLED,
 				canUndo: false
-			});
+			} );
 
 			var redoCommand = editor.addCommand( 'redo', {
 				exec: function() {
@@ -35,7 +35,7 @@
 				},
 				state: CKEDITOR.TRISTATE_DISABLED,
 				canUndo: false
-			});
+			} );
 
 			editor.setKeystroke( [
 				[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
@@ -61,28 +61,27 @@
 			// Save snapshots before doing custom changes.
 			editor.on( 'saveSnapshot', function( evt ) {
 				undoManager.save( evt.data && evt.data.contentOnly );
-			});
+			} );
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
 				editor.editable().on( 'keydown', function( event ) {
 					var keystroke = event.data.getKey();
 
-					if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ ) {
+					if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
 						undoManager.type( keystroke, 0 );
-					}
-				});
+				} );
 
 				editor.editable().on( 'keypress', function( event ) {
 					undoManager.type( event.data.getKey(), 1 );
-				});
-			});
+				} );
+			} );
 
 			// Always save an undo snapshot - the previous mode might have
 			// changed editor contents.
 			editor.on( 'beforeModeUnload', function() {
 				editor.mode == 'wysiwyg' && undoManager.save( true );
-			});
+			} );
 
 			function toggleUndoManager() {
 				undoManager.enabled = editor.readOnly ? false : editor.mode == 'wysiwyg';
@@ -100,13 +99,13 @@
 					label: editor.lang.undo.undo,
 					command: 'undo',
 					toolbar: 'undo,10'
-				});
+				} );
 
 				editor.ui.addButton( 'Redo', {
 					label: editor.lang.undo.redo,
 					command: 'redo',
 					toolbar: 'undo,20'
-				});
+				} );
 			}
 
 			/**
@@ -140,7 +139,7 @@
 			editor.on( 'updateSnapshot', function() {
 				if ( undoManager.currentImage )
 					undoManager.update();
-			});
+			} );
 
 			/**
 			 * Lock manager to prevent any save/update operations.
@@ -170,7 +169,7 @@
 			 */
 			editor.on( 'unlockSnapshot', undoManager.unlock, undoManager );
 		}
-	});
+	} );
 
 	CKEDITOR.plugins.undo = {};
 
