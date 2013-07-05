@@ -10,7 +10,7 @@
   side and write it to a file or the database.
 
   Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-  For licensing, see LICENSE.html or <a href="http://ckeditor.com/license">http://ckeditor.com/license</a>
+  For licensing, see LICENSE.md or <a href="http://ckeditor.com/license">http://ckeditor.com/license</a>
 -------------------------------------------------------------------------------------------
 
 </pre><div style="display:none"></body> */ include "assets/posteddata.php"; ?>

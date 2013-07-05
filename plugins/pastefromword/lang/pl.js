@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'pl', {
 	confirmCleanup: 'Tekst, który chcesz wkleić, prawdopodobnie pochodzi z programu Microsoft Word. Czy chcesz go wyczyścić przed wklejeniem?',

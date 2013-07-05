@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 find = Label for the Find tab and Find button of the Find and Replace dialog window.
 findOptions = Label for the Find Options fieldset of the Find and Replace dialog window.

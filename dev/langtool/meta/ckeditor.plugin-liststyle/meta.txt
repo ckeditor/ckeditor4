@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 armenian = Label for the Armenian numbering numbered list type option.
 bulletedTitle = Label for the Bulleted List Properties dialog window.

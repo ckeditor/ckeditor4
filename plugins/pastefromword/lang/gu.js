@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'gu', {
 	confirmCleanup: 'તમે જે ટેક્ષ્ત્ કોપી કરી રહ્યા છો ટે વર્ડ ની છે. કોપી કરતા પેહલા સાફ કરવી છે?',

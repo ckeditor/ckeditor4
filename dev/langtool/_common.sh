@@ -1,6 +1,6 @@
 #!/bin/bash
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
 

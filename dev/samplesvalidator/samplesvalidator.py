@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 # Validates HTML files in a directory with W3C validator.
 # To use this script simply call:
