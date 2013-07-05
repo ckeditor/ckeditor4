@@ -236,7 +236,7 @@ is its visual representation:
     background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
     background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
     background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff5f5f5', endColorstr='#ffcfd1cf');
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
 
 /* The following styles set defaults of the elements used by the Paragraph

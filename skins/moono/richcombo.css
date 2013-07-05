@@ -84,7 +84,7 @@ The visual representation of a rich combo widget looks as follows:
 	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
 	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
 	background-image: linear-gradient(top, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 }
 
 /* Different states of the container. */
@@ -98,7 +98,7 @@ The visual representation of a rich combo widget looks as follows:
 	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
 	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
 	background-image: linear-gradient(top, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 
 	outline: none;
 }
@@ -119,7 +119,7 @@ The visual representation of a rich combo widget looks as follows:
 	background-image: -o-linear-gradient(top, #aaa, #cacaca);
 	background-image: -ms-linear-gradient(top, #aaa, #cacaca);
 	background-image: linear-gradient(top, #aaa, #cacaca);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffaaaaaa', endColorstr='#ffcacaca');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#aaaaaa', endColorstr='#cacaca');
 }
 
 .cke_combo_on a.cke_combo_button:hover,
