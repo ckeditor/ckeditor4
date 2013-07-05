@@ -8,6 +8,7 @@ CKEditor 4 Changelog
 * [#10370](http://dev.ckeditor.com/ticket/10370): Inconsistency in data events between framed and inline editors.
 * [#9794](http://dev.ckeditor.com/ticket/9794): OnChange event.
 * [#9923](http://dev.ckeditor.com/ticket/9923): HiDPI support in editor UI. HiDPI icons for Moono skin.
+* [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation.
 
 ## CKEditor 4.1.2
 
