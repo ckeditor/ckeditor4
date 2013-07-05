@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.1.3
 
 * [#5189](http://dev.ckeditor.com/ticket/5189): Find/Replace dialog: rename button to "Close".
+* [#10562](http://dev.ckeditor.com/ticket/10562): [Housekeeping] CSS gradient filters in Moono.
 
 ## CKEditor 4.1.2
 
