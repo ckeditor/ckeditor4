@@ -76,13 +76,16 @@
 		 * @param {String} path The path to reach the icon image file.
 		 * @param {Number} [offset] The vertical offset position of the icon, if
 		 * available inside a strip image.
+		 * @param {String} [bgsize] The value of CSS "background-size" property to
+		 * use for this icon
 		 */
-		addIcon: function( name, path, offset ) {
+		addIcon: function( name, path, offset, bgsize ) {
 			name = name.toLowerCase();
 			if ( !this.icons[ name ] ) {
 				this.icons[ name ] = {
 					path: path,
-					offset: offset || 0
+					offset: offset || 0,
+					bgsize : bgsize || '16px'
 				};
 			}
 		},
@@ -99,9 +102,12 @@
 		 * @param {Number} [overrideOffset] The vertical offset position of the
 		 * icon. It overrides the offset defined by the named icon, if
 		 * available, and is used if the named icon was not registered.
+		 * @param {String} [overrideBgsize] The value of CSS "background-size" property
+		 * to use for the icon. It overrides the value defined by the named icon,
+		 * if available, and is used if the named icon was not registered.
 		 */
-		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
-			var icon, path, offset;
+		getIconStyle: function( name, rtl, overridePath, overrideOffset, overrideBgsize ) {
+			var icon, path, offset, bgsize;
 
 			if ( name ) {
 				name = name.toLowerCase();
@@ -116,9 +122,10 @@
 
 			path = overridePath || ( icon && icon.path ) || '';
 			offset = overrideOffset || ( icon && icon.offset );
+			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
 		}
 	};
 
@@ -283,12 +290,12 @@
  * @todo type?
  */
 
- /**
-  * Current skin name.
-  *
-  * @property {String} name
-  * @todo
-  */
+/**
+ * Current skin name.
+ *
+ * @property {String} name
+ * @todo
+ */
 
 /**
  * The editor skin name. Note that is is not possible to have editors with
