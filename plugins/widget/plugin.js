@@ -1307,17 +1307,23 @@
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
 				evtRoot = editable.isInline() ? editable : editor.document,
-				widget;
+				widget,
+				mouseDownOnDragHandler;
 
 			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
 				var target = evt.data.getTarget();
 
+				widget = widgetsRepo.getByElement( target );
+				mouseDownOnDragHandler = 0; // Reset.
+
 				// Ignore mousedown on drag and drop handler.
-				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-widget-drag-handler' ) )
+				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-widget-drag-handler' ) ) {
+					mouseDownOnDragHandler = 1;
 					return;
+				}
 
 				// Widget was clicked, but not editable nested in it.
-				if ( ( widget = widgetsRepo.getByElement( target ) ) ) {
+				if ( widget ) {
 					if ( !getNestedEditable( widget.wrapper, target ) ) {
 						evt.data.preventDefault();
 						if ( !CKEDITOR.env.ie )
@@ -1326,6 +1332,16 @@
 					// Reset widget so mouseup listener is not confused.
 					else
 						widget = null;
+				}
+			} );
+
+			// Focus widget on mouseup if mousedown was fired on drag handler.
+			// Note: mouseup won't be fired at all if widget was dragged and dropped, so
+			// this code will be executed only when drag handler was clicked.
+			editable.attachListener( evtRoot, 'mouseup', function() {
+				if ( widget && mouseDownOnDragHandler ) {
+					mouseDownOnDragHandler = 0;
+					widget.focus();
 				}
 			} );
 
