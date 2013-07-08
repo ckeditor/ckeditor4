@@ -245,10 +245,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
 
-		// Do not replace the textarea right now, just hide it. The effective
-		// replacement will be done later in the editor creation lifecycle.
-		if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+		if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+			// Do not replace the textarea right now, just hide it. The effective
+			// replacement will be done later in the editor creation lifecycle.
 			element.setStyle( 'visibility', 'hidden' );
+
+			// #8031 Remember if textarea was required and remove the attribute.
+			editor._.required = element.hasAttribute( 'required' );
+			element.removeAttribute( 'required' );
+		}
 
 		data && editor.setData( data, null, true );
 
@@ -286,7 +291,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		if ( element ) {
 			element.clearCustomData();
-			editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.show();
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+				element.show();
+				if ( editor._.required )
+					element.setAttribute( 'required', 'required' );
+			}
 			delete editor.element;
 		}
 	}
@@ -370,8 +379,13 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
 			var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
 			if ( form ) {
-				function onSubmit() {
+				function onSubmit( evt ) {
 					editor.updateElement();
+
+					// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
+					// it was cancelled, prevent submitting the form.
+					if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
+						evt.data.preventDefault();
 				}
 				form.on( 'submit', onSubmit );
 
@@ -379,8 +393,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 				// "submit" event.
 				if ( !form.$.submit.nodeName && !form.$.submit.length ) {
 					form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-						return function() {
-							editor.updateElement();
+						return function( evt ) {
+							onSubmit( new CKEDITOR.dom.event( evt ) );
 
 							// For IE, the DOM submit function is not a
 							// function, so we need third check.
@@ -432,6 +446,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * the {@link CKEDITOR.editor#method-resize} method.
  *
  * @event resize
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -439,6 +454,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * {@link #beforeSetMode} and {@link #event-mode}.
  *
  * @event beforeModeUnload
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
@@ -447,6 +463,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  * @since 3.5.3
  * @event beforeSetMode
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param {String} data The name of the mode which is about to be set.
  */
 
@@ -454,4 +471,22 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * Fired after setting the editing mode. See also {@link #beforeSetMode} and {@link #beforeModeUnload}
  *
  * @event mode
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when editor (replacing textarea which has a `required` attribute) is empty during form submitting.
+ *
+ * This event replaces native required fields validation which browsers cannot
+ * perform when CKEditor replaces `textarea` elements.
+ *
+ * You can cancel this event to prevent from submitting data.
+ *
+ *		editor.on( 'required', function( evt ) {
+ *			alert( 'Article content is required.' );
+ *			evt.cancel();
+ *		} );
+ *
+ * @event required
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
