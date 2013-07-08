@@ -119,7 +119,7 @@ CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 /**
  * The style definition to be used to apply the `'Normal'` format.
  *
- *		config.format_p = { element : 'p', attributes : { 'class' : 'normalPara' } };
+ *		config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
  *
  * @cfg {Object} [format_p={ element: 'p' }]
  * @member CKEDITOR.config
@@ -129,7 +129,7 @@ CKEDITOR.config.format_p = { element: 'p' };
 /**
  * The style definition to be used to apply the `'Normal (DIV)'` format.
  *
- *		config.format_div = { element : 'div', attributes : { 'class' : 'normalDiv' } };
+ *		config.format_div = { element: 'div', attributes: { 'class': 'normalDiv' } };
  *
  * @cfg {Object} [format_div={ element: 'div' }]
  * @member CKEDITOR.config
@@ -149,7 +149,7 @@ CKEDITOR.config.format_pre = { element: 'pre' };
 /**
  * The style definition to be used to apply the `'Address'` format.
  *
- * config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
+ *		config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
  *
  * @cfg {Object} [format_address={ element: 'address' }]
  * @member CKEDITOR.config

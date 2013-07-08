@@ -26,7 +26,7 @@ a.cke_button_disabled:active
 /* PNG Alpha Transparency Fix For IE<9 */
 .cke_button_disabled .cke_button_icon
 {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF, endColorstr=#00FFFFFF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00ffffff, endColorstr=#00ffffff);
 }
 
 .cke_button_off:hover,

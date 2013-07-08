@@ -12,6 +12,12 @@ CKEditor 4 Changelog
 * [#8244](http://dev.ckeditor.com/ticket/8244): Use (SHIFT+)TAB to indent and outdent lists.
 * [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `textareas` - introduced `editor#required` event.
 
+## CKEditor 4.1.3
+
+* [#5189](http://dev.ckeditor.com/ticket/5189): Find/Replace dialog: rename button to "Close".
+* [#10562](http://dev.ckeditor.com/ticket/10562): [Housekeeping] CSS gradient filters in Moono.
+* [#10537](http://dev.ckeditor.com/ticket/10537): ACF should register default rule for `config.shiftEnterMode`.
+
 ## CKEditor 4.1.2
 
 * Added new translation: Sinhala.
