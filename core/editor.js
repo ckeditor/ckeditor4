@@ -649,9 +649,16 @@
 			return this.commands[ commandName ] = cmd;
 		},
 
-		attachToForm: function ( form, element ) {
-			var self = this;
-			if ( !element )
+		/**
+		 * Attaches editor to form to call {@link #updateElement} before form submit.
+		 * This method is called by both creators ({@link CKEDITOR#replace replace} and
+		 * {@link CKEDITOR#inline inline}) so there is no reason to call it manually.
+		 *
+		 * @private
+		 * @param {CKEDITOR.dom.element} form The form element.
+		 */
+		_attachToForm: function ( form ) {
+			var self = this,
 				element = this.element;
 			// If are replacing a textarea, we must
 			if ( element.is( 'textarea' ) ) {

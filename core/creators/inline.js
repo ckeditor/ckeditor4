@@ -27,8 +27,10 @@
 		element = CKEDITOR.dom.element.get( element );
 
 		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
+		if ( element.getEditor() ) {
 			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		}
+
 
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
 			textarea = element.is( 'textarea' ) ? element : null;
@@ -39,7 +41,7 @@
 
 		if ( textarea ) {
 			element = CKEDITOR.dom.element.createFromHtml(
-				'<div contenteditable="' + !!editor.readOnly + '">' + textarea.getValue() + '</div>',
+				'<div contenteditable="' + !!editor.readOnly + '" class="cke_textarea_inline">' + textarea.getValue() + '</div>',
 				CKEDITOR.document );
 
 			element.insertAfter( textarea );
@@ -47,7 +49,7 @@
 
 			// Attaching the concrete form.
 			if ( textarea.$.form )
-				editor.attachToForm( new CKEDITOR.dom.element( textarea.$.form ) );
+				editor._attachToForm( new CKEDITOR.dom.element( textarea.$.form ) );
 		}
 
 		// Once the editor is loaded, start the UI.
