@@ -250,8 +250,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// replacement will be done later in the editor creation lifecycle.
 			element.setStyle( 'visibility', 'hidden' );
 
-			// #8031 Store the original value of required attribute and remove it.
-			editor._.required = element.hasAttribute( 'required' ) ? element.getAttribute( 'required' ) : false;
+			// #8031 Remember if textarea was required and remove the attribute.
+			editor._.required = element.hasAttribute( 'required' );
 			element.removeAttribute( 'required' );
 		}
 
@@ -293,8 +293,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			element.clearCustomData();
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 				element.show();
-				if ( editor._.required !== false )
-					element.setAttribute( 'required', editor._.required );
+				if ( editor._.required )
+					element.setAttribute( 'required', 'required' );
 			}
 			delete editor.element;
 		}
@@ -384,7 +384,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 					// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
 					// it was cancelled, prevent submitting the form.
-					if ( editor._.required !== false && !element.getValue() && editor.fire( 'required' ) === false )
+					if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
 						evt.data.preventDefault();
 				}
 				form.on( 'submit', onSubmit );
