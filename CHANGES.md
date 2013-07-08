@@ -10,6 +10,7 @@ CKEditor 4 Changelog
 * [#9923](http://dev.ckeditor.com/ticket/9923): HiDPI support in editor UI. HiDPI icons for Moono skin.
 * [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation.
 * [#8244](http://dev.ckeditor.com/ticket/8244): Use (SHIFT+)TAB to indent and outdent lists.
+* [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `textareas` - introduced `editor#required` event.
 
 ## CKEditor 4.1.2
 
