@@ -565,6 +565,7 @@
 			var editable = this.editables[ editableName ];
 
 			editable.removeListener( 'focus', onEditableFocus );
+			editable.removeListener( 'blur', onEditableBlur );
 			this.editor.focusManager.remove( editable );
 
 			if ( !offline ) {
@@ -663,6 +664,7 @@
 
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
+				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
 			}
 		},
 
@@ -1563,6 +1565,20 @@
 			if ( isCut )
 				widget.repository.del( widget );
 		}, 0 );
+	}
+
+	// [IE] Force keeping focus because IE sometimes forgets to fire focus on main editable
+	// when blurring nested editable.
+	// @context widget
+	function onEditableBlur() {
+		var active = CKEDITOR.document.getActive(),
+			editor = this.editor,
+			editable = editor.editable();
+
+		// If focus stays within editor override blur and set currentActive because it should be
+		// automatically changed to editable on editable#focus but it is not fired.
+		if ( ( editable.isInline() ? editable : editor.document.getWindow().getFrame() ).equals( active ) )
+			editor.focusManager.focus( editable );
 	}
 
 	// Force selectionChange when editable was focused.
