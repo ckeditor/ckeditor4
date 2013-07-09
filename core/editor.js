@@ -334,7 +334,9 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
+		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
+			!( editor.element.is( 'textarea' ) || CKEDITOR.dtd[ editor.element.getName() ][ 'p' ] ) :
+			false;
 
 		/**
 		 * The [tabbing navigation](http://en.wikipedia.org/wiki/Tabbing_navigation) order determined for this editor instance.
