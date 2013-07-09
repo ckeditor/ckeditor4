@@ -39,11 +39,6 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 			attribute of the <code>&lt;div&gt;</code> element to be converted into an inline instance.
 		</p>
 	</div>
-	<textarea id="textarea-editable" >
-		<h2>This is the editor from textarea field</h2>
-
-		<p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
-	</textarea>
 	<div id="editable" contenteditable="true">
 		<h1><img alt="Saturn V carrying Apollo 11" class="right" src="assets/sample.jpg" /> Apollo 11</h1>
 
@@ -64,7 +59,16 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 		<blockquote>
 			<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
 		</blockquote>
-
+	</div>
+	<div class="description">
+		<p>
+			You can also create inline editor from a <code>textarea</code> element. In this case the <code>textarea</code> element will be replaced with <code>div</code> element with editable content.
+		</p>
+<pre class="samples">
+var editor = CKEDITOR.inline( document.getElementById( 'textarea-editable' ) );
+</pre>
+	</div>
+	<textarea id="textarea-editable">
 		<h2>Technical details <a id="tech-details" name="tech-details"></a></h2>
 
 		<table align="right" border="1" bordercolor="#ccc" cellpadding="5" cellspacing="0" style="border-collapse:collapse;margin:10px 0 10px 15px;">
@@ -103,15 +107,13 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 
 		<hr />
 		<p style="text-align: right;"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
-	</div>
+	</textarea>
 	<script>
-
 		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
 		var editor = CKEDITOR.inline( 'editable' );
 		var editor2 = CKEDITOR.inline( 'textarea-editable' );
-
 	</script>
 	<div id="footer">
 		<hr>
