@@ -658,17 +658,18 @@
 		 * @param {CKEDITOR.dom.element} form The form element.
 		 */
 		_attachToForm: function ( form ) {
-			var self = this,
-				element = this.element;
+			var editor = this,
+				element = editor.element;
+
 			// If are replacing a textarea, we must
 			if ( element.is( 'textarea' ) ) {
 				if ( form ) {
 					function onSubmit( evt ) {
-						this.updateElement();
+						editor.updateElement();
 
 						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
 						// it was cancelled, prevent submitting the form.
-						if ( this._.required && !element.getValue() && this.fire( 'required' ) === false )
+						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
 							evt.data.preventDefault();
 					}
 					form.on( 'submit', onSubmit );
@@ -677,7 +678,6 @@
 					// "submit" event.
 					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-
 							return function( evt ) {
 								onSubmit( new CKEDITOR.dom.event( evt ) );
 
@@ -692,7 +692,7 @@
 					}
 
 					// Remove 'submit' events registered on form element before destroying.(#3988)
-					self.on( 'destroy', function() {
+					editor.on( 'destroy', function() {
 						form.removeListener( 'submit', onSubmit );
 					});
 				}
