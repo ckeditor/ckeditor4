@@ -49,18 +49,18 @@
 
 			// Asserting element DTD depending on mode.
 			function isSupportedElement ( element, mode ) {
-				if(mode == CKEDITOR.ELEMENT_MODE_INLINE) {
+				if ( mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 					if ( element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' ) )
-						return true;
+						return  1;
 					else
-						return false;
-				} else if (mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
-					if( !element.is( CKEDITOR.dtd.$nonBodyContent ) )
-						return true;
+						return  0;
+				} else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+					if ( !element.is( CKEDITOR.dtd.$nonBodyContent ) )
+						return  1;
 					else
-						return false;
+						return  0;
 				}
-				return true;
+				return 1;
 			}
 
 
