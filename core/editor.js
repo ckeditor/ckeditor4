@@ -44,9 +44,24 @@
 				throw new Error( 'Inline element mode is not supported on IE quirks.' );
 			}
 
-			// Asserting element DTD depending on mode.
-			if ( mode == CKEDITOR.ELEMENT_MODE_INLINE && !( element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' ) ) || mode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( CKEDITOR.dtd.$nonBodyContent ) )
+			if ( !isSupportedElement( element, mode ) )
 				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
+
+			// Asserting element DTD depending on mode.
+			function isSupportedElement ( element, mode ) {
+				if(mode == CKEDITOR.ELEMENT_MODE_INLINE) {
+					if ( element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' ) )
+						return true;
+					else
+						return false;
+				} else if (mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+					if( !element.is( CKEDITOR.dtd.$nonBodyContent ) )
+						return true;
+					else
+						return false;
+				}
+				return true;
+			}
 
 
 			/**
