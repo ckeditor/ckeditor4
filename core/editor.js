@@ -656,7 +656,7 @@
 		 *
 		 * @private
 		 */
-		_attachToForm: function () {
+		_attachToForm: function() {
 			var editor = this,
 				element = editor.element,
 				form = new CKEDITOR.dom.element( element.$.form );
@@ -688,13 +688,13 @@
 								else
 									originalSubmit();
 							};
-						});
+						} );
 					}
 
 					// Remove 'submit' events registered on form element before destroying.(#3988)
 					editor.on( 'destroy', function() {
 						form.removeListener( 'submit', onSubmit );
-					});
+					} );
 				}
 			}
 		},
