@@ -5,43 +5,44 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
-	var path = require( 'path' ),
-		fs = require( 'fs' ),
-		argv = require( 'optimist' ).argv,
-		util = require( 'util' ),
-		exec = require( 'child_process' ).exec,
+'use strict';
 
-		// The heart of the application.
-		main = require( '../lib/main' ),
-		iconmaker = main.iconmaker,
+var path = require( 'path' ),
+	fs = require( 'fs' ),
+	argv = require( 'optimist' ).argv,
+	util = require( 'util' ),
+	exec = require( 'child_process' ).exec,
 
-		// This is the size of the icon that makes it default, placed in directory/icon.png
-		// Other sizes are stored under directory/size/icon.png
-		DEFAULT_SIZE = main.DEFAULT_SIZE,
+	// The heart of the application.
+	main = require( '../lib/main' ),
+	iconmaker = main.iconmaker,
 
-		helpString = util.format( [
-			'Usage: iconmaker (options) [extra options]\n\n',
+	// This is the size of the icon that makes it default, placed in directory/icon.png
+	// Other sizes are stored under directory/size/icon.png
+	DEFAULT_SIZE = main.DEFAULT_SIZE,
 
-			'\tThis program slices CKEditor iconsets into individual icons placed in various locations.\n\n',
-			'\tIconmaker depends on:\n',
-			'\t\t * Node.js (see: http://nodejs.org/)\n',
-			'\t\t * ImageMagick\'s command-line tool named convert (see: http://www.imagemagick.org/script/convert.php).\n\n',
+	helpString = util.format( [
+		'Usage: iconmaker (options) [extra options]\n\n',
 
-			'\tSample call (cold run first):\n\n',
-			'\t\tdev/iconmaker/bin/iconmaker.js -i skins/moono/dev/icons16.png -l skins/moono/dev/locations.json -c\n\n',
+		'\tThis program slices CKEditor iconsets into individual icons placed in various locations.\n\n',
+		'\tIconmaker depends on:\n',
+		'\t\t * Node.js (see: http://nodejs.org/)\n',
+		'\t\t * ImageMagick\'s command-line tool named convert (see: http://www.imagemagick.org/script/convert.php).\n\n',
 
-			'Options:\n\n',
+		'\tSample call (cold run first):\n\n',
+		'\t\tdev/iconmaker/bin/iconmaker.js -i skins/moono/dev/icons16.png -l skins/moono/dev/locations.json -c\n\n',
 
-			'    -i FILE    input PNG file with the iconset\n',
-			'    -l FILE    icon location JSON file\n',
+		'Options:\n\n',
 
-			'\nExtra options:\n\n',
+		'    -i FILE    input PNG file with the iconset\n',
+		'    -l FILE    icon location JSON file\n',
 
-			'    -s    icon size (%s is default)\n',
-			'    -c    cold run (no file is touched)\n',
-			'    -h    this message\n'
-		].join( '' ), DEFAULT_SIZE );
+		'\nExtra options:\n\n',
+
+		'    -s    icon size (%s is default)\n',
+		'    -c    cold run (no file is touched)\n',
+		'    -h    this message\n'
+	].join( '' ), DEFAULT_SIZE );
 
 function gracefulFailure( error ) {
 	console.error( '[!] %s', error.stack ? error.stack : error );
@@ -86,4 +87,3 @@ fs.readFile( argv.l, function( error, locations ) {
 		gracefulFailure( e );
 	}
 } );
-})();
