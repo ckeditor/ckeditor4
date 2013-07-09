@@ -15,6 +15,10 @@
 	 *		...
 	 *		CKEDITOR.inline( 'content' );
 	 *
+	 * It is also possible to create inline editor from textarea element. If you do so
+	 * an additional `div` with editable content will be created directly after the
+	 * `textarea` element and that `textarea` element will be hidden.
+	 *
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
 	 * See {@link CKEDITOR.config}.
@@ -35,13 +39,14 @@
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
 			textarea = element.is( 'textarea' ) ? element : null;
 
-		// Initial editor data is simply loaded from the page element content to make
-		// data retrieval possible immediately after the editor creation.
-		editor.setData( element[ textarea ? 'getValue' : 'getHtml' ](), null, true );
-
 		if ( textarea ) {
+			editor.setData( textarea.getValue(), null, true );
+
+			//Change element from textarea to div
 			element = CKEDITOR.dom.element.createFromHtml(
-				'<div contenteditable="' + !!editor.readOnly + '" class="cke_textarea_inline">' + textarea.getValue() + '</div>',
+				'<div contenteditable="' + !!editor.readOnly + '" class="cke_textarea_inline">' +
+					textarea.getValue() +
+				'</div>',
 				CKEDITOR.document );
 
 			element.insertAfter( textarea );
@@ -49,7 +54,11 @@
 
 			// Attaching the concrete form.
 			if ( textarea.$.form )
-				editor._attachToForm( new CKEDITOR.dom.element( textarea.$.form ) );
+				editor._attachToForm();
+		} else {
+			// Initial editor data is simply loaded from the page element content to make
+			// data retrieval possible immediately after the editor creation.
+			editor.setData( element.getHtml(), null, true );
 		}
 
 		// Once the editor is loaded, start the UI.

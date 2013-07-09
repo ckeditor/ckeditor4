@@ -655,11 +655,11 @@
 		 * {@link CKEDITOR#inline inline}) so there is no reason to call it manually.
 		 *
 		 * @private
-		 * @param {CKEDITOR.dom.element} form The form element.
 		 */
-		_attachToForm: function ( form ) {
+		_attachToForm: function () {
 			var editor = this,
-				element = editor.element;
+				element = editor.element,
+				form = new CKEDITOR.dom.element( element.$.form );
 
 			// If are replacing a textarea, we must
 			if ( element.is( 'textarea' ) ) {
