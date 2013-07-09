@@ -45,7 +45,7 @@
 			}
 
 			// Asserting element DTD depending on mode.
-			if ( mode == CKEDITOR.ELEMENT_MODE_INLINE && !element.is( CKEDITOR.dtd.$editable ) || mode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( CKEDITOR.dtd.$nonBodyContent ) )
+			if ( mode == CKEDITOR.ELEMENT_MODE_INLINE && !( element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' ) ) || mode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( CKEDITOR.dtd.$nonBodyContent ) )
 				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
 
 
