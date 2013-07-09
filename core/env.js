@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.env} object, which constains
+ * @fileOverview Defines the {@link CKEDITOR.env} object which contains
  *		environment and browser information.
  */
 
@@ -21,10 +21,10 @@ if ( !CKEDITOR.env ) {
 
 		var env = {
 			/**
-			 * Indicates that CKEditor is running on Internet Explorer.
+			 * Indicates that CKEditor is running in Internet Explorer.
 			 *
 			 *		if ( CKEDITOR.env.ie )
-			 *			alert( 'I\'m on IE!' );
+			 *			alert( 'I\'m running in IE!' );
 			 *
 			 * @property {Boolean}
 			 */
@@ -32,27 +32,27 @@ if ( !CKEDITOR.env ) {
 			// Use eval to preserve conditional comment when compiling with Google Closure Compiler (#93).
 
 			/**
-			 * Indicates that CKEditor is running on Opera.
+			 * Indicates that CKEditor is running in Opera.
 			 *
 			 *		if ( CKEDITOR.env.opera )
-			 *			alert( 'I\'m on Opera!' );
+			 *			alert( 'I\'m running in Opera!' );
 			 *
 			 * @property {Boolean}
 			 */
 			opera: ( !!opera && opera.version ),
 
 			/**
-			 * Indicates that CKEditor is running on a WebKit based browser, like Safari.
+			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari.
 			 *
 			 *		if ( CKEDITOR.env.webkit )
-			 *			alert( 'I\'m on WebKit!' );
+			 *			alert( 'I\'m running in a WebKit browser!' );
 			 *
 			 * @property {Boolean}
 			 */
 			webkit: ( agent.indexOf( ' applewebkit/' ) > -1 ),
 
 			/**
-			 * Indicates that CKEditor is running on Adobe AIR.
+			 * Indicates that CKEditor is running in Adobe AIR.
 			 *
 			 *		if ( CKEDITOR.env.air )
 			 *			alert( 'I\'m on AIR!' );
@@ -72,7 +72,7 @@ if ( !CKEDITOR.env ) {
 			mac: ( agent.indexOf( 'macintosh' ) > -1 ),
 
 			/**
-			 * Indicates that CKEditor is running on a quirks mode environemnt.
+			 * Indicates that CKEditor is running in a Quirks Mode environemnt.
 			 *
 			 *		if ( CKEDITOR.env.quirks )
 			 *			alert( 'Nooooo!' );
@@ -82,7 +82,7 @@ if ( !CKEDITOR.env ) {
 			quirks: ( document.compatMode == 'BackCompat' ),
 
 			/**
-			 * Indicates that CKEditor is running on a mobile like environemnt.
+			 * Indicates that CKEditor is running in a mobile environemnt.
 			 *
 			 *		if ( CKEDITOR.env.mobile )
 			 *			alert( 'I\'m running with CKEditor today!' );
@@ -122,10 +122,10 @@ if ( !CKEDITOR.env ) {
 			},
 
 			/**
-			 * Indicates that page is running under an encrypted connection.
+			 * Indicates that the page is running under an encrypted connection.
 			 *
 			 *		if ( CKEDITOR.env.secure )
-			 *			alert( 'I\'m in SSL!' );
+			 *			alert( 'I\'m on SSL!' );
 			 *
 			 * @returns {Boolean} `true` if the page has an encrypted connection.
 			 */
@@ -133,7 +133,7 @@ if ( !CKEDITOR.env ) {
 		};
 
 		/**
-		 * Indicates that CKEditor is running on a Gecko based browser, like
+		 * Indicates that CKEditor is running in a Gecko-based browser, like
 		 * Firefox.
 		 *
 		 *		if ( CKEDITOR.env.gecko )
@@ -144,19 +144,19 @@ if ( !CKEDITOR.env ) {
 		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.opera );
 
 		/**
-		 * Indicates that CKEditor is running on Chrome.
+		 * Indicates that CKEditor is running in Chrome.
 		 *
 		 *		if ( CKEDITOR.env.chrome )
-		 *			alert( 'I\'m riding Chrome!' );
+		 *			alert( 'I\'m running in Chrome!' );
 		 *
 		 * @property {Boolean} chrome
 		 */
 
 		 /**
-		 * Indicates that CKEditor is running on Safari (including mobile version).
+		 * Indicates that CKEditor is running in Safari (including the mobile version).
 		 *
 		 *		if ( CKEDITOR.env.safari )
-		 *			alert( 'I\'m riding Safari!' );
+		 *			alert( 'I\'m on Safari!' );
 		 *
 		 * @property {Boolean} safari
 		 */
@@ -184,31 +184,32 @@ if ( !CKEDITOR.env ) {
 			env.ie6Compat = version < 7 || env.quirks;
 
 			/**
-			 * Indicates that CKEditor is running on an IE6-like environment, which
-			 * includes IE6 itself and IE7 and IE8 quirks mode.
+			 * Indicates that CKEditor is running in an IE6-like environment, which
+			 * includes IE6 itself as well as IE7 and IE8 in Quirks Mode.
 			 *
 			 * @deprecated
 			 * @property {Boolean} ie6Compat
 			 */
 
 			/**
-			 * Indicates that CKEditor is running on an IE7-like environment, which
-			 * includes IE7 itself and IE8's IE7 document mode.
+			 * Indicates that CKEditor is running in an IE7-like environment, which
+			 * includes IE7 itself and IE8's IE7 Document Mode.
 			 *
 			 * @deprecated
 			 * @property {Boolean} ie7Compat
 			 */
 
 			/**
-			 * Indicates that CKEditor is running on Internet Explorer 8 on
-			 * standards mode.
+			 * Indicates that CKEditor is running in Internet Explorer 8 on
+			 * Standards Mode.
 			 *
 			 * @deprecated
 			 * @property {Boolean} ie8Compat
 			 */
 
 			/**
-			 * Indicates that CKEditor is running on Internet Explorer 9's standards mode.
+			 * Indicates that CKEditor is running in Internet Explorer 9 on
+			 * Standards Mode.
 			 *
 			 * @deprecated
 			 * @property {Boolean} ie9Compat
@@ -241,14 +242,14 @@ if ( !CKEDITOR.env ) {
 		/**
 		 * Contains the browser version.
 		 *
-		 * For gecko based browsers (like Firefox) it contains the revision
+		 * For Gecko-based browsers (like Firefox) it contains the revision
 		 * number with first three parts concatenated with a padding zero
 		 * (e.g. for revision 1.9.0.2 we have 10900).
 		 *
-		 * For webkit based browser (like Safari and Chrome) it contains the
+		 * For WebKit-based browsers (like Safari and Chrome) it contains the
 		 * WebKit build version (e.g. 522).
 		 *
-		 * For IE browsers, it matches the "document mode".
+		 * For IE browsers, it matches the "Document Mode".
 		 *
 		 *		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 6 )
 		 *			alert( 'Ouch!' );
@@ -258,7 +259,7 @@ if ( !CKEDITOR.env ) {
 		env.version = version;
 
 		/**
-		 * Indicates that CKEditor is running on a compatible browser.
+		 * Indicates that CKEditor is running in a compatible browser.
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )
 		 *			alert( 'Your browser is pretty cool!' );
@@ -266,7 +267,7 @@ if ( !CKEDITOR.env ) {
 		 * @property {Boolean}
 		 */
 		env.isCompatible =
-			// White list of mobile devices that supports.
+			// White list of mobile devices that CKEditor supports.
 			env.iOS && version >= 534 ||
 			!env.mobile && (
 				( env.ie && version > 6 ) ||
@@ -278,7 +279,7 @@ if ( !CKEDITOR.env ) {
 			);
 
 		/**
-		 * Indicates that CKEditor is running in HiDPI environment.
+		 * Indicates that CKEditor is running in the HiDPI environment.
 		 *
 		 *		if ( CKEDITOR.env.hidpi )
 		 *			alert( 'You are using a screen with high pixel density.' );
@@ -288,8 +289,9 @@ if ( !CKEDITOR.env ) {
 		env.hidpi = window.devicePixelRatio >= 2;
 
 		/**
-		 * The CSS class to be appended on the main UI containers, making it
-		 * easy to apply browser specific styles to it.
+		 * A CSS class that denotes the browser where CKEditor runs and is appended
+		 * to the HTML element that contains the editor. It makes it easier to apply
+		 * browser-specific styles to editor instances.
 		 *
 		 *		myDiv.className = CKEDITOR.env.cssClass;
 		 *
