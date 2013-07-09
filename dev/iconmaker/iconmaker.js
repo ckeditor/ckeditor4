@@ -14,7 +14,7 @@ var path = require( 'path' ),
 	exec = require( 'child_process' ).exec,
 
 	// The heart of the application.
-	main = require( '../lib/main' ),
+	main = require( './lib/main' ),
 	iconmaker = main.iconmaker,
 
 	// This is the size of the icon that makes it default, placed in directory/icon.png
@@ -30,7 +30,7 @@ var path = require( 'path' ),
 		'\t\t * ImageMagick\'s command-line tool named convert (see: http://www.imagemagick.org/script/convert.php).\n\n',
 
 		'\tSample call (cold run first):\n\n',
-		'\t\tdev/iconmaker/bin/iconmaker.js -i skins/moono/dev/icons16.png -l skins/moono/dev/locations.json -c\n\n',
+		'\t\t./dev/iconmaker/iconmaker.js -i skins/moono/dev/icons16.png -l skins/moono/dev/locations.json -c\n\n',
 
 		'Options:\n\n',
 
