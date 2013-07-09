@@ -30,7 +30,7 @@
 			function commandDefinition( editor, name ) {
 				globalHelpers.specificDefinition.apply( this, arguments );
 
-				this.allowedContent = { 'ol ul': true };
+				// Require ul OR ol list.
 				this.requiredContent = [ 'ul', 'ol' ];
 
 				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
