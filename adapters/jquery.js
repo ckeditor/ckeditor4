@@ -338,6 +338,7 @@
 								} );
 
 								promises.push( dfd.promise() );
+								return true;
 							}
 							// Call default .val function for rest of elements
 							else
