@@ -261,9 +261,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		editor.on( 'loaded', function() {
 			loadTheme( editor );
 
-			if (  mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement )
-				if ( element.$.form )
-					editor._attachToForm();
+			if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement && element.$.form )
+				editor._attachToForm();
 
 			editor.setMode( editor.config.startupMode, function() {
 				// Clean on startup.

@@ -792,7 +792,8 @@
 		// Check whether browser focus is really inside of the editable element.
 
 		var nativeSel = this.getNative(),
-			rangeParent;
+			rangeParent,
+			range;
 
 		if ( nativeSel ) {
 			if ( nativeSel.getRangeAt ) {

@@ -125,7 +125,7 @@
 				endContainer = endContainer.getParent();
 
 			if ( !startContainer || !endContainer )
-				return;
+				return false;
 
 			// Now we can iterate over the individual items on the same tree depth.
 			var block = startContainer,
@@ -141,7 +141,7 @@
 			}
 
 			if ( itemsToMove.length < 1 )
-				return;
+				return false;
 
 			// Do indent or outdent operations on the array model of the list, not the
 			// list's DOM tree itself. The array model demands that it knows as much as
@@ -273,6 +273,7 @@
 			if ( nearestListBlock )
 				return indentList( nearestListBlock );
 		}
+		return 0;
 	}
 
 	// Check whether a first child of a list is in the path.

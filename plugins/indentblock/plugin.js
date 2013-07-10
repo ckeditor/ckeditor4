@@ -163,7 +163,7 @@
 							return true;
 						}
 					}
-				}
+				};
 			}
 
 			CKEDITOR.tools.extend( commandDefinition.prototype, globalHelpers.specificDefinition.prototype, {
