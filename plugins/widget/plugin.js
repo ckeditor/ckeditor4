@@ -233,7 +233,7 @@
 				widget;
 
 			for ( var id in instances ) {
-				widget = instances[ id ]
+				widget = instances[ id ];
 				this.destroy( widget, offline );
 			}
 		},
@@ -342,10 +342,11 @@
 		 * widget of this type is not registered.
 		 */
 		wrapElement: function( element, widgetName ) {
-			var wrapper = null;
+			var wrapper = null,
+				widget;
 
 			if ( element instanceof CKEDITOR.dom.element ) {
-				var widget = this.registered[ widgetName || element.data( 'widget' ) ];
+				widget = this.registered[ widgetName || element.data( 'widget' ) ];
 				if ( !widget )
 					return null;
 
@@ -374,7 +375,7 @@
 				this.editor.fire( 'unlockSnapshot' );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
-				var widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+				widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
 				if ( !widget )
 					return null;
 
@@ -1051,13 +1052,14 @@
 	}
 
 	function onEditableKey( widget, keyCode ) {
-		var focusedEditable = widget.focusedEditable;
+		var focusedEditable = widget.focusedEditable,
+			range;
 
 		// CTRL+A.
 		if ( keyCode == CKEDITOR.CTRL + 65 ) {
-			var range = widget.editor.createRange(),
-				bogus = focusedEditable.getBogus();
+			var bogus = focusedEditable.getBogus();
 
+			range = widget.editor.createRange();
 			range.selectNodeContents( focusedEditable );
 			// Exclude bogus if exists.
 			if ( bogus )
@@ -1069,8 +1071,9 @@
 		}
 		// DEL or BACKSPACE.
 		else if ( keyCode == 8 || keyCode == 46 ) {
-			var ranges = widget.editor.getSelection().getRanges(),
-				range = ranges[ 0 ];
+			var ranges = widget.editor.getSelection().getRanges();
+
+			range = ranges[ 0 ];
 
 			// Block del or backspace if at editable's boundary.
 			return !( ranges.length == 1 && range.collapsed &&

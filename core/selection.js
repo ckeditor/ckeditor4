@@ -307,7 +307,7 @@
 
 				// Prevent default.
 				return false;
-			}
+			};
 		}
 
 		function del( right ) {
@@ -337,7 +337,7 @@
 
 				// Prevent default.
 				return false;
-			}
+			};
 		}
 
 		var leaveLeft = leave(),
@@ -997,7 +997,7 @@
 			CKEDITOR.tools.extend( this._.cache, selection._.cache );
 			this.isFake = selection.isFake;
 			this.isLocked = selection.isLocked;
-			return;
+			return this;
 		}
 
 		// On WebKit, it may happen that we've already have focus
@@ -1751,13 +1751,13 @@
 			}
 
 			// Handle special case - automatic fake selection on non-editable elements.
-			var enclosed;
+			var enclosedNode;
 			if (
 				ranges.length == 1 && !ranges[ 0 ].collapsed &&
-				( enclosed = ranges[ 0 ].getEnclosedNode() ) &&
-				enclosed.type == CKEDITOR.NODE_ELEMENT && enclosed.getAttribute( 'contenteditable' ) == 'false'
+				( enclosedNode = ranges[ 0 ].getEnclosedNode() ) &&
+				enclosedNode.type == CKEDITOR.NODE_ELEMENT && enclosedNode.getAttribute( 'contenteditable' ) == 'false'
 			) {
-				this.fake( enclosed );
+				this.fake( enclosedNode );
 				return;
 			}
 
