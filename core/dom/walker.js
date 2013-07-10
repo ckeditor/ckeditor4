@@ -308,7 +308,7 @@
 	 * @todo
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
-		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames || {} ) : CKEDITOR.dtd.$block;
+		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block;
 
 		// Don't consider floated formatting as block boundary, fall back to dtd check in that case. (#6297)
 		return this.getComputedStyle( 'float' ) == 'none' && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
@@ -473,7 +473,9 @@
 		isBookmark = CKEDITOR.dom.walker.bookmark(),
 		isTemp = CKEDITOR.dom.walker.temp(),
 		toSkip = function( node ) {
-			return isBookmark( node ) || isWhitespaces( node ) || node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$inline && !( node.getName() in CKEDITOR.dtd.$empty );
+			return isBookmark( node ) ||
+				isWhitespaces( node ) ||
+				node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$inline ) && !node.is( CKEDITOR.dtd.$empty );
 		};
 
 	/**
@@ -545,7 +547,7 @@
 	 * Check if there's a filler node at the end of an element, and return it.
 	 *
 	 * @member CKEDITOR.dom.element
-	 * @returns {Boolean}
+	 * @returns {CKEDITOR.dom.node/Boolean} Bogus node or `false`.
 	 */
 	CKEDITOR.dom.element.prototype.getBogus = function() {
 		// Bogus are not always at the end, e.g. <p><a>text<br /></a></p> (#7070).
