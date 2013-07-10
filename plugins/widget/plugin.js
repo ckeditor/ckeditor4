@@ -1055,8 +1055,14 @@
 
 		// CTRL+A.
 		if ( keyCode == CKEDITOR.CTRL + 65 ) {
-			var range = widget.editor.createRange();
+			var range = widget.editor.createRange(),
+				bogus = focusedEditable.getBogus();
+
 			range.selectNodeContents( focusedEditable );
+			// Exclude bogus if exists.
+			if ( bogus )
+				range.setEndAt( bogus, CKEDITOR.POSITION_BEFORE_START );
+
 			range.select();
 			// Cancel event - block default.
 			return false;
