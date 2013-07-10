@@ -77,7 +77,8 @@ CKEDITOR.plugins.add( 'iframedialog', {
 					id: 'iframe',
 					label: title,
 					expand: true,
-					elements: [ element ]
+					elements: [ element ],
+					style: 'width:' + element.width + ';height:' + element.height
 				}
 				]
 			};
