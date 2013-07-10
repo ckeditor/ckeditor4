@@ -92,9 +92,16 @@
 					editor.fire( 'saveSnapshot' );
 
 					var style = styles[ value ],
-						elementPath = editor.elementPath();
+						elementPath = editor.elementPath(),
+//inicio alteração - sempre aplica estilo selecionado
+						tagsRegex = editor._.removeFormatRegex;  
 
-					editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
+					editor._.removeFormatRegex=new RegExp( '^(?:font|span)$', 'i' );
+					editor.execCommand('removeFormat');
+					editor._.removeFormatRegex=tagsRegex;
+					style[ 'apply' ]( editor.document );					
+					//editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
+//fim alteração					
 					editor.fire( 'saveSnapshot' );
 				},
 

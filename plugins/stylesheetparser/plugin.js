@@ -52,8 +52,8 @@
 				node = sheet.ownerNode || sheet.owningElement;
 
 			// Skip the internal stylesheets
-			if ( node.getAttribute( 'data-cke-temp' ) )
-				continue;
+			//if ( node.getAttribute( 'data-cke-temp' ) )
+			//	continue;
 
 			// Exclude stylesheets injected by extensions
 			if ( sheet.href && sheet.href.substr( 0, 9 ) == 'chrome://' )
@@ -76,7 +76,8 @@
 				sClassName = oElement[ 1 ];
 
 			styles.push({
-				name: element + '.' + sClassName,
+				//name: element + '.' + sClassName,
+				name: sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
 			});
