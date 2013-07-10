@@ -40,14 +40,11 @@
 			else if ( !mode )
 				throw new Error( 'One of the element modes must be specified.' );
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE )
 				throw new Error( 'Inline element mode is not supported on IE quirks.' );
-			}
 
-			// Asserting element DTD depending on mode.
-			if ( mode == CKEDITOR.ELEMENT_MODE_INLINE && !element.is( CKEDITOR.dtd.$editable ) || mode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( CKEDITOR.dtd.$nonBodyContent ) )
+			if ( !isSupportedElement( element, mode ) )
 				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
-
 
 			/**
 			 * The original host page element upon which the editor is created, it's only
@@ -194,6 +191,15 @@
 		return name;
 	}
 
+	// Asserting element DTD depending on mode.
+	function isSupportedElement( element, mode ) {
+		if ( mode == CKEDITOR.ELEMENT_MODE_INLINE )
+			return element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' );
+		else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+			return !element.is( CKEDITOR.dtd.$nonBodyContent );
+		return 1;
+	}
+
 	function updateCommands() {
 		var commands = this.commands,
 			name;
@@ -312,7 +318,20 @@
 		 * @property {Boolean}
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
-		editor.readOnly = !!( editor.config.readOnly || ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.isReadOnly() : editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? editor.element.getAttribute( 'disabled' ) : false ) );
+		editor.readOnly = !!(
+			editor.config.readOnly || (
+				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
+						editor.element.is( 'textarea' ) ?
+								editor.element.hasAttribute( 'disabled' )
+							:
+								editor.element.isReadOnly()
+					:
+						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+								editor.element.hasAttribute( 'disabled' )
+							:
+								false
+			)
+		);
 
 		/**
 		 * Indicates that the editor is running into an environment where
@@ -321,7 +340,9 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE && !CKEDITOR.dtd[ editor.element.getName() ][ 'p' ];
+		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
+			!( editor.element.is( 'textarea' ) || CKEDITOR.dtd[ editor.element.getName() ][ 'p' ] ) :
+			false;
 
 		/**
 		 * The [tabbing navigation](http://en.wikipedia.org/wiki/Tabbing_navigation) order determined for this editor instance.
@@ -634,6 +655,56 @@
 				updateCommand( this, cmd );
 
 			return this.commands[ commandName ] = cmd;
+		},
+
+		/**
+		 * Attaches editor to form to call {@link #updateElement} before form submit.
+		 * This method is called by both creators ({@link CKEDITOR#replace replace} and
+		 * {@link CKEDITOR#inline inline}) so there is no reason to call it manually.
+		 *
+		 * @private
+		 */
+		_attachToForm: function() {
+			var editor = this,
+				element = editor.element,
+				form = new CKEDITOR.dom.element( element.$.form );
+
+			// If are replacing a textarea, we must
+			if ( element.is( 'textarea' ) ) {
+				if ( form ) {
+					function onSubmit( evt ) {
+						editor.updateElement();
+
+						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
+						// it was cancelled, prevent submitting the form.
+						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
+							evt.data.preventDefault();
+					}
+					form.on( 'submit', onSubmit );
+
+					// Setup the submit function because it doesn't fire the
+					// "submit" event.
+					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
+						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
+							return function( evt ) {
+								onSubmit( new CKEDITOR.dom.event( evt ) );
+
+								// For IE, the DOM submit function is not a
+								// function, so we need third check.
+								if ( originalSubmit.apply )
+									originalSubmit.apply( this, arguments );
+								else
+									originalSubmit();
+							};
+						} );
+					}
+
+					// Remove 'submit' events registered on form element before destroying.(#3988)
+					editor.on( 'destroy', function() {
+						form.removeListener( 'submit', onSubmit );
+					} );
+				}
+			}
 		},
 
 		/**
@@ -966,7 +1037,8 @@
 		 * the current data available in the editor.
 		 *
 		 * **Note:** This method will only affect those editor instances created
-		 * with {@link CKEDITOR#ELEMENT_MODE_REPLACE} element mode.
+		 * with {@link CKEDITOR#ELEMENT_MODE_REPLACE} element mode or inline instances
+		 * bound to `<textarea>` elements.
 		 *
 		 *		CKEDITOR.instances.editor1.updateElement();
 		 *		alert( document.getElementById( 'editor1' ).value ); // The current editor data.

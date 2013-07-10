@@ -11,10 +11,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<link href="sample.css" rel="stylesheet">
 	<style>
 
-		#editable
+		.cke_editable
 		{
 			padding: 10px;
-			float: left;
+			margin-bottom: 10px;
 		}
 
 	</style>
@@ -59,53 +59,69 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 		<blockquote>
 			<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
 		</blockquote>
-
-		<h2>Technical details <a id="tech-details" name="tech-details"></a></h2>
-
-		<table align="right" border="1" bordercolor="#ccc" cellpadding="5" cellspacing="0" style="border-collapse:collapse;margin:10px 0 10px 15px;">
-			<caption><strong>Mission crew</strong></caption>
-			<thead>
-			<tr>
-				<th scope="col">Position</th>
-				<th scope="col">Astronaut</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>Commander</td>
-				<td>Neil A. Armstrong</td>
-			</tr>
-			<tr>
-				<td>Command Module Pilot</td>
-				<td>Michael Collins</td>
-			</tr>
-			<tr>
-				<td>Lunar Module Pilot</td>
-				<td>Edwin &quot;Buzz&quot; E. Aldrin, Jr.</td>
-			</tr>
-			</tbody>
-		</table>
-
-		<p>Launched by a <strong>Saturn V</strong> rocket from <a href="http://en.wikipedia.org/wiki/Kennedy_Space_Center" title="Kennedy Space Center">Kennedy Space Center</a> in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA" title="NASA">NASA</a>&#39;s Apollo program. The Apollo spacecraft had three parts:</p>
-
-		<ol>
-			<li><strong>Command Module</strong> with a cabin for the three astronauts which was the only part which landed back on Earth</li>
-			<li><strong>Service Module</strong> which supported the Command Module with propulsion, electrical power, oxygen and water</li>
-			<li><strong>Lunar Module</strong> for landing on the Moon.</li>
-		</ol>
-
-		<p>After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the <a href="http://en.wikipedia.org/wiki/Mare_Tranquillitatis" title="Mare Tranquillitatis">Sea of Tranquility</a>. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the <a href="http://en.wikipedia.org/wiki/Pacific_Ocean" title="Pacific Ocean">Pacific Ocean</a> on July 24.</p>
-
-		<hr />
-		<p style="text-align: right;"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</div>
-	<script>
 
+	<h2 class="samples">Replace Textarea with Inline Editor</h2>
+	<div class="description">
+		<p>
+			You can also create inline editor from a <code>textarea</code> element. In this case the <code>textarea</code> element will be replaced with <code>div</code> element with editable content.
+		</p>
+<pre class="samples">
+var editor = CKEDITOR.inline( 'textarea-editable' );
+</pre>
+	</div>
+	<form action="sample_posteddata.php" method="post">
+		<textarea id="textarea-editable" name="textarea-editable">
+			&lt;h2&gt;Technical details &lt;a id="tech-details" name="tech-details"&gt;&lt;/a&gt;&lt;/h2&gt;
+
+			&lt;table align="right" border="1" bordercolor="#ccc" cellpadding="5" cellspacing="0" style="border-collapse:collapse;margin:10px 0 10px 15px;"&gt;
+				&lt;caption&gt;&lt;strong&gt;Mission crew&lt;/strong&gt;&lt;/caption&gt;
+				&lt;thead&gt;
+				&lt;tr&gt;
+					&lt;th scope="col"&gt;Position&lt;/th&gt;
+					&lt;th scope="col"&gt;Astronaut&lt;/th&gt;
+				&lt;/tr&gt;
+				&lt;/thead&gt;
+				&lt;tbody&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Commander&lt;/td&gt;
+					&lt;td&gt;Neil A. Armstrong&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Command Module Pilot&lt;/td&gt;
+					&lt;td&gt;Michael Collins&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Lunar Module Pilot&lt;/td&gt;
+					&lt;td&gt;Edwin &quot;Buzz&quot; E. Aldrin, Jr.&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;/tbody&gt;
+			&lt;/table&gt;
+
+			&lt;p&gt;Launched by a &lt;strong&gt;Saturn V&lt;/strong&gt; rocket from &lt;a href="http://en.wikipedia.org/wiki/Kennedy_Space_Center" title="Kennedy Space Center"&gt;Kennedy Space Center&lt;/a&gt; in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of &lt;a href="http://en.wikipedia.org/wiki/NASA" title="NASA"&gt;NASA&lt;/a&gt;&#39;s Apollo program. The Apollo spacecraft had three parts:&lt;/p&gt;
+
+			&lt;ol&gt;
+				&lt;li&gt;&lt;strong&gt;Command Module&lt;/strong&gt; with a cabin for the three astronauts which was the only part which landed back on Earth&lt;/li&gt;
+				&lt;li&gt;&lt;strong&gt;Service Module&lt;/strong&gt; which supported the Command Module with propulsion, electrical power, oxygen and water&lt;/li&gt;
+				&lt;li&gt;&lt;strong&gt;Lunar Module&lt;/strong&gt; for landing on the Moon.&lt;/li&gt;
+			&lt;/ol&gt;
+
+			&lt;p&gt;After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the &lt;a href="http://en.wikipedia.org/wiki/Mare_Tranquillitatis" title="Mare Tranquillitatis"&gt;Sea of Tranquility&lt;/a&gt;. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the &lt;a href="http://en.wikipedia.org/wiki/Pacific_Ocean" title="Pacific Ocean"&gt;Pacific Ocean&lt;/a&gt; on July 24.&lt;/p&gt;
+
+			&lt;hr /&gt;
+			&lt;p style="text-align: right;"&gt;&lt;small&gt;Source: &lt;a href="http://en.wikipedia.org/wiki/Apollo_11"&gt;Wikipedia.org&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+		</textarea>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</form>
+
+	<script>
 		// We need to turn off the automatic editor creation first.
 		CKEDITOR.disableAutoInline = true;
 
 		var editor = CKEDITOR.inline( 'editable' );
-
+		var editor2 = CKEDITOR.inline( 'textarea-editable' );
 	</script>
 	<div id="footer">
 		<hr>

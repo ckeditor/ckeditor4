@@ -11,6 +11,7 @@ CKEditor 4 Changelog
 * [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation.
 * [#8244](http://dev.ckeditor.com/ticket/8244): Use (SHIFT+)TAB to indent and outdent lists.
 * [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `textareas` - introduced `editor#required` event.
+* [#10280](http://dev.ckeditor.com/ticket/10280): Ability to replace `textarea` with inline editor.
 
 ## CKEditor 4.1.3
 
