@@ -40,29 +40,11 @@
 			else if ( !mode )
 				throw new Error( 'One of the element modes must be specified.' );
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && mode == CKEDITOR.ELEMENT_MODE_INLINE )
 				throw new Error( 'Inline element mode is not supported on IE quirks.' );
-			}
 
 			if ( !isSupportedElement( element, mode ) )
 				throw new Error( 'The specified element mode is not supported on element: "' + element.getName() + '".' );
-
-			// Asserting element DTD depending on mode.
-			function isSupportedElement ( element, mode ) {
-				if ( mode == CKEDITOR.ELEMENT_MODE_INLINE ) {
-					if ( element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' ) )
-						return  1;
-					else
-						return  0;
-				} else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
-					if ( !element.is( CKEDITOR.dtd.$nonBodyContent ) )
-						return  1;
-					else
-						return  0;
-				}
-				return 1;
-			}
-
 
 			/**
 			 * The original host page element upon which the editor is created, it's only
@@ -207,6 +189,15 @@
 		while ( CKEDITOR.instances[ name ] )
 
 		return name;
+	}
+
+	// Asserting element DTD depending on mode.
+	function isSupportedElement( element, mode ) {
+		if ( mode == CKEDITOR.ELEMENT_MODE_INLINE )
+			return element.is( CKEDITOR.dtd.$editable ) || element.is( 'textarea' );
+		else if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+			return !element.is( CKEDITOR.dtd.$nonBodyContent );
+		return 1;
 	}
 
 	function updateCommands() {
