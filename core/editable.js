@@ -524,7 +524,7 @@
 					var target = ev.getTarget();
 					if ( target.is( 'a' ) && ev.$.button != 2 && target.isReadOnly() )
 						ev.preventDefault();
-				});
+				} );
 
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
@@ -615,7 +615,15 @@
 					}
 
 					return !isHandled;
-				});
+				} );
+
+				this.attachListener( this, 'dblclick', function( evt ) {
+					if ( editor.readOnly )
+						return false;
+
+					var data = { element: evt.data.getTarget() };
+					editor.fire( 'doubleclick', data );
+				} );
 
 				// Prevent automatic submission in IE #6336
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
@@ -631,7 +639,7 @@
 							if ( control.is( 'input', 'textarea', 'select' ) )
 								ev.data.preventDefault();
 						}
-					});
+					} );
 				}
 
 				// Prevent right click from selecting an empty block even
@@ -647,7 +655,7 @@
 								range.select( true );
 							}
 						}
-					});
+					} );
 				}
 
 				// Webkit: avoid from editing form control elements content.
