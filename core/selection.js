@@ -2112,11 +2112,14 @@
 		 *
 		 *		var ancestor = editor.getSelection().getCommonAncestor();
 		 *
-		 * @returns {CKEDITOR.dom.element} The common ancestor of the selection.
+		 * @returns {CKEDITOR.dom.element} The common ancestor of the selection or `null` if selection is empty.
 		 */
 		getCommonAncestor: function() {
-			var ranges = this.getRanges(),
-				startNode = ranges[ 0 ].startContainer,
+			var ranges = this.getRanges();
+			if ( !ranges.length )
+				return null;
+
+			var startNode = ranges[ 0 ].startContainer,
 				endNode = ranges[ ranges.length - 1 ].endContainer;
 			return startNode.getCommonAncestor( endNode );
 		},
