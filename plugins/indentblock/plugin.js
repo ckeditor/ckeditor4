@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Handles the indentation of text block elements.
+ * @fileOverview Handles the indentation of block elements.
  */
 
 (function() {
