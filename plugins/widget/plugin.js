@@ -662,6 +662,10 @@
 					'data-widget-editable': editableName
 				} );
 				editable.addClass( 'cke_widget_editable' );
+				// This class may be left when d&ding widget which
+				// had focused editable. Clean this class here, not in
+				// cleanUpWidgetElement for performance and code size reasons.
+				editable.removeClass( 'cke_widget_editable_focused' );
 
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
