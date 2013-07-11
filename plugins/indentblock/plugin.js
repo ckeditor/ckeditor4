@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Allows block indentation.
+ * @fileOverview Handles the indentation of text block elements.
  */
 
 (function() {
@@ -278,10 +278,10 @@
 })();
 
 /**
- * List of classes to use for indenting the contents. If it's `null`, no classes will be used
+ * A list of classes to use for indenting the contents. If set to `null`, no classes will be used
  * and instead the {@link #indentUnit} and {@link #indentOffset} properties will be used.
  *
- *		// Use the classes 'Indent1', 'Indent2', 'Indent3'
+ *		// Use the 'Indent1', 'Indent2', 'Indent3' classes.
  *		config.indentClasses = ['Indent1', 'Indent2', 'Indent3'];
  *
  * @cfg {Array} [indentClasses=null]

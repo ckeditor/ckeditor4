@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Increase and decrease indent commands.
+ * @fileOverview Increase and Decrease Indent commands.
  */
 
 (function() {
@@ -93,23 +93,24 @@
 	 */
 	CKEDITOR.plugins.indent = {
 		/**
-		 * A base class for generic command definition, mainly responsible for creating indent
-		 * UI buttons, and refreshing UI states.
+		 * A base class for a generic command definition, responsible mainly for creating
+		 * Increase Indent and Decrease Indent toolbar buttons as well as for refreshing
+		 * UI states.
 		 *
-		 * Commands of this class do not perform any indentation itself. They
-		 * delegate job to content-specific indentation commands (i.e. indentlist).
+		 * Commands of this class do not perform any indentation by themselves. They
+		 * delegate this job to content-specific indentation commands (i.e. indentlist).
 		 *
 		 * @class CKEDITOR.plugins.indent.genericDefinition
 		 * @extends CKEDITOR.commandDefinition
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
-		 * related to.
-		 * @param {String} name Name of the command.
-		 * @param {Boolean} [isIndent] Define command as indenting or outdenting.
+		 * applied to.
+		 * @param {String} name The name of the command.
+		 * @param {Boolean} [isIndent] Defines the command as indenting or outdenting.
 		 */
 		genericDefinition: function( isIndent ) {
 			/**
-			 * Determines whether the command belongs to indentation family.
-			 * Otherwise it's assumed as an outdenting one.
+			 * Determines whether the command belongs to the indentation family.
+			 * Otherwise it is assumed to be an outdenting command.
 			 *
 			 * @readonly
 			 * @property {Boolean} [=false]
@@ -122,10 +123,11 @@
 
 		/**
 		 * A base class for specific indentation command definitions responsible for
-		 * handling a limited set of elements i.e. indentlist or indentblock.
+		 * handling a pre-defined set of elements i.e. indentlist for lists or
+		 * indentblock for text block elements.
 		 *
-		 * Commands of this class perform real indentation and modify DOM structure.
-		 * They observe events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
+		 * Commands of this class perform indentation operations and modify the DOM structure.
+		 * They listen for events fired by {@link CKEDITOR.plugins.indent.genericDefinition}
 		 * and execute defined actions.
 		 *
 		 * **NOTE**: This is not an {@link CKEDITOR.command editor command}.
@@ -133,17 +135,17 @@
 		 *
 		 * @class CKEDITOR.plugins.indent.specificDefinition
 		 * @param {CKEDITOR.editor} editor The editor instance this command will be
-		 * related to.
-		 * @param {String} name Name of the command.
-		 * @param {Boolean} [isIndent] Define command as indenting or outdenting.
+		 * applied to.
+		 * @param {String} name The name of the command.
+		 * @param {Boolean} [isIndent] Defines the command as indenting or outdenting.
 		 */
 		specificDefinition: function( editor, name, isIndent ) {
 			this.name = name;
 			this.editor = editor;
 
 			/**
-			 * An object of jobs handled by the command. Each job consist
-			 * of two functions: `refresh`, `exec` and execution priority.
+			 * An object of jobs handled by the command. Each job consists
+			 * of two functions: `refresh` and `exec` as well as the execution priority.
 			 *
 			 *	* The `refresh` function determines whether a job is doable for
 			 *	  a particular context. These functions are executed in the
@@ -154,13 +156,13 @@
 			 *	  **Note**: This function must return either {@link CKEDITOR#TRISTATE_DISABLED}
 			 *	  or {@link CKEDITOR#TRISTATE_OFF}.
 			 *
-			 *	* The `exec` function modifies DOM if possible. Just like
+			 *	* The `exec` function modifies the DOM if possible. Just like
 			 *	  `refresh`, `exec` functions are executed in the order of priorities
-			 *	  while the generic command is executed. This function isn't executed
+			 *	  while the generic command is executed. This function is not executed
 			 *	  if `refresh` for this job returned {@link CKEDITOR#TRISTATE_DISABLED}.
 			 *
-			 *	  **Note**: This function must return boolean, indicating whether it was successful.
-			 *	  If job was successful, then no other jobs are being executed.
+			 *	  **Note**: This function must return a Boolean value, indicating whether it
+			 *	  was successful. If a job was successful, then no other jobs are being executed.
 			 *
 			 * Sample definition:
 			 *
@@ -185,7 +187,7 @@
 			 *		};
 			 *
 			 * For additional information, please check comments for
-			 * `setupGenericListeners` function.
+			 * the `setupGenericListeners` function.
 			 *
 			 * @readonly
 			 * @property {Object} [={}]
@@ -193,8 +195,8 @@
 			this.jobs = {};
 
 			/**
-			 * Determines whether the editor that command belongs to has
-			 * config.enterMode set to CKEDITOR.ENTER_BR.
+			 * Determines whether the editor that the command belongs to has
+			 * {@link CKEDITOR.config#enterMode config.enterMode} set to {@link CKEDITOR#ENTER_BR}.
 			 *
 			 * @readonly
 			 * @see CKEDITOR.config#enterMode
@@ -203,8 +205,8 @@
 			this.enterBr = editor.config.enterMode == CKEDITOR.ENTER_BR;
 
 			/**
-			 * Determines whether the command belongs to indentation family.
-			 * Otherwise it's assumed as an outdenting one.
+			 * Determines whether the command belongs to the indentation family.
+			 * Otherwise it is assumed to be an outdenting command.
 			 *
 			 * @readonly
 			 * @property {Boolean} [=false]
@@ -212,14 +214,14 @@
 			this.isIndent = !!isIndent;
 
 			/**
-			 * The global command's name related to this one.
+			 * The name of the global command related to this one.
 			 *
 			 * @readonly
 			 */
 			this.relatedGlobal = isIndent ? 'indent' : 'outdent';
 
 			/**
-			 * A keystroke associated with this command (TAB or SHIFT+TAB).
+			 * A keystroke associated with this command (*Tab* or *Shift+Tab*).
 			 *
 			 * @readonly
 			 */
@@ -227,32 +229,32 @@
 
 			/**
 			 * Stores created markers for the command so they can eventually be
-			 * purged after exec.
+			 * purged after the `exec` function is run.
 			 */
 			this.database = {};
 		},
 
 		/**
-		 * Registers content-specific commands as a part of indentation system
+		 * Registers content-specific commands as a part of the indentation system
 		 * directed by generic commands. Once a command is registered,
-		 * it observes for events of a related generic command.
+		 * it listens for events of a related generic command.
 		 *
 		 *		CKEDITOR.plugins.indent.registerCommands( editor, {
 		 *			'indentlist': new indentListCommand( editor, 'indentlist' ),
 		 *			'outdentlist': new indentListCommand( editor, 'outdentlist' )
 		 *		} );
 		 *
-		 * Content-specific commands listen on generic command's `exec` and
-		 * try to execute own jobs, one after another. If some execution is
+		 * Content-specific commands listen for the generic command's `exec` and
+		 * try to execute their own jobs, one after another. If some execution is
 		 * successful, `evt.data.done` is set so no more jobs (commands) are involved.
 		 *
-		 * Content-specific commands also listen on generic command's `refresh`
-		 * and fill `evt.data.states` object with states of jobs. A generic command
-		 * uses these data to determine own state and update UI.
+		 * Content-specific commands also listen for the generic command's `refresh`
+		 * and fill the `evt.data.states` object with states of jobs. A generic command
+		 * uses this data to determine its own state and to update the UI.
 		 *
 		 * @member CKEDITOR.plugins.indent
 		 * @param {CKEDITOR.editor} editor The editor instance this command is
-		 * related to.
+		 * applied to.
 		 * @param {Object} commands An object of {@link CKEDITOR.command}.
 		 */
 		registerCommands: function( editor, commands ) {
@@ -314,13 +316,13 @@
 	CKEDITOR.plugins.indent.specificDefinition.prototype = {
 		/**
 		 * Executes the content-specific procedure if the context is correct.
-		 * It calls `exec` function of a job of the given `priority`
-		 * that modifies DOM.
+		 * It calls the `exec` function of a job of the given `priority`
+		 * that modifies the DOM.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance this command
-		 * will be related to.
+		 * will be applied to.
 		 * @param {Number} priority The priority of the job to be executed.
-		 * @returns {Boolean} Indicates whether job was successful.
+		 * @returns {Boolean} Indicates whether the job was successful.
 		 */
 		execJob: function( editor, priority ) {
 			var job = this.jobs[ priority ];
@@ -330,12 +332,12 @@
 		},
 
 		/**
-		 * It calls `refresh` function of a job of the given `priority`.
+		 * Calls the `refresh` function of a job of the given `priority`.
 		 * The function returns the state of the job which can be either
 		 * {@link CKEDITOR#TRISTATE_DISABLED} or {@link CKEDITOR#TRISTATE_OFF}.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance this command
-		 * will be related to.
+		 * will be applied to.
 		 * @param {Number} priority The priority of the job to be executed.
 		 * @returns {Number} The state of the job.
 		 */
@@ -348,7 +350,7 @@
 		},
 
 		/**
-		 * Method that checks if the element path contains an element handled
+		 * Checks if the element path contains the element handled
 		 * by this indentation command.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} node A path to be checked.
@@ -360,19 +362,19 @@
 	};
 
 	/**
-	 * Attaches event listeners for this generic command. Since indentation
+	 * Attaches event listeners for this generic command. Since the indentation
 	 * system is event-oriented, generic commands communicate with
-	 * content-specific commands using `exec` and `refresh` events.
+	 * content-specific commands using the `exec` and `refresh` events.
 	 *
 	 * Listener priorities are crucial. Different indentation phases
-	 * are executed whit different priorities.
+	 * are executed with different priorities.
 	 *
-	 * For `exec` event:
+	 * For the `exec` event:
 	 *
-	 *	* 0: Selection and bookmarks are saved by generic command.
+	 *	* 0: Selection and bookmarks are saved by the generic command.
 	 *	* 1-99: Content-specific commands try to indent the code by executing
-	 *	  own jobs ({@link CKEDITOR.plugins.indent.specificDefinition#jobs}).
-	 *	* 100: Bookmarks are re-selected by generic command.
+	 *	  their own jobs ({@link CKEDITOR.plugins.indent.specificDefinition#jobs}).
+	 *	* 100: Bookmarks are re-selected by the generic command.
 	 *
 	 * The visual interpretation looks as follows:
 	 *
@@ -380,16 +382,16 @@
 	 *		  | Exec event fired |
 	 *		  +------ + ---------+
 	 *		          |
-	 *		        0 -<----------+ Selection and bookmarks saved
+	 *		        0 -<----------+ Selection and bookmarks saved.
 	 *		          |
 	 *		          |
-	 *		       25 -<---+ Exec 1st job of plugin#1 (return false, continuing...)
+	 *		       25 -<---+ Exec 1st job of plugin#1 (return false, continuing...).
 	 *		          |
 	 *		          |
-	 *		       50 -<---+ Exec 1st job of plugin#2 (return false, continuing...)
+	 *		       50 -<---+ Exec 1st job of plugin#2 (return false, continuing...).
 	 *		          |
 	 *		          |
-	 *		       75 -<---+ Exec 2nd job of plugin#1 (only if plugin#2 failed)
+	 *		       75 -<---+ Exec 2nd job of plugin#1 (only if plugin#2 failed).
 	 *		          |
 	 *		          |
 	 *		      100 -<-----------+ Re-select bookmarks, clean-up.
@@ -398,21 +400,21 @@
 	 *		| Exec event finished |
 	 *		+---------------------+
 	 *
-	 * For `refresh` event:
+	 * For the `refresh` event:
 	 *
 	 *	* <100: Content-specific commands refresh their job states according
-	 *	  to the given path. Jobs save their states in `evt.data.states` object
+	 *	  to the given path. Jobs save their states in the `evt.data.states` object
 	 *	  passed along with the event. This can be either {@link CKEDITOR#TRISTATE_DISABLED}
 	 *	  or {@link CKEDITOR#TRISTATE_OFF}.
 	 *	* 100: Command state is determined according to what states
 	 *	  have been returned by content-specific jobs (`evt.data.states`).
 	 *	  UI elements are updated at this stage.
 	 *
-	 *	  **Note**: If there is at least one jobs with {@link CKEDITOR#TRISTATE_OFF} state,
-	 *	  then the generic command is also {@link CKEDITOR#TRISTATE_OFF}. Otherwise,
+	 *	  **Note**: If there is at least one job with the {@link CKEDITOR#TRISTATE_OFF} state,
+	 *	  then the generic command state is also {@link CKEDITOR#TRISTATE_OFF}. Otherwise,
 	 *	  the command state is {@link CKEDITOR#TRISTATE_DISABLED}.
 	 *
-	 * @param {CKEDITOR.command} command Command to be set up.
+	 * @param {CKEDITOR.command} command The command to be set up.
 	 * @private
 	 */
 	function setupGenericListeners( editor, command ) {
@@ -456,7 +458,7 @@
 })();
 
 /**
- * Size of each indentation step.
+ * The size in {@link CKEDITOR.config#indentUnit indentation units} of each indentation step.
  *
  *		config.indentOffset = 4;
  *
@@ -465,7 +467,7 @@
  */
 
 /**
- * Unit for the indentation style.
+ * The unit used for {@link CKEDITOR.config#indentOffset indentation offset}.
  *
  *		config.indentUnit = 'em';
  *

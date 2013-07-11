@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Allows list indentation.
+ * @fileOverview Handles the indentation of lists.
  */
 
 (function() {
