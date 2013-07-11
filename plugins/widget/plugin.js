@@ -27,19 +27,21 @@
 				'.cke_widget_editable{' +
 					'cursor:text' +
 				'}' +
-				'.cke_widget_drag_handler{' +
+				'.cke_widget_drag_handler_container{' +
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:' + DRAG_HANDLER_SIZE + 'px;' +
 					'display:none;' +
 					'opacity:0.75;' +
-					'background:rgba(200,200,200,0.25)' +
 				'}' +
-				'.cke_widget_wrapper:hover>.cke_widget_drag_handler{' +
+				'.cke_widget_wrapper:hover>.cke_widget_drag_handler_container{' +
 					'display:block' +
 				'}' +
-				'.cke_widget_drag_handler:hover{' +
+				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
+				'}'+
+				'img.cke_widget_drag_handler{' +
+					'cursor:move' +
 				'}'
 			);
 		},
@@ -550,7 +552,7 @@
 				this.element.removeClass( 'cke_widget_element' );
 				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
 				this.wrapper.addClass( 'cke_widget_new' );
-				this.dragHandler.remove();
+				this.dragHandlerContainer.remove();
 			}
 
 			this.wrapper = null;
@@ -1543,6 +1545,8 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
+	var transparentImageData = 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D';
+
 	function cancel( evt ) {
 		evt.cancel();
 	}
@@ -1607,22 +1611,38 @@
 
 	// Position drag handler according to the widget's element position.
 	function positionDragHandler( widget ) {
-		var handler = widget.dragHandler;
+		var handler = widget.dragHandlerContainer;
 
 		handler.setStyle( 'top', widget.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
 		handler.setStyle( 'left', widget.element.$.offsetLeft + 'px' );
 	}
 
 	function setupDragHandler( widget ) {
-		var img = new CKEDITOR.dom.element.createFromHtml(
-			'<img draggable="true" class="cke_widget_drag_handler" data-widget-drag-handler="1" src="' + widget.editor.plugins.widget.path + 'images/drag.png">', widget.editor.document );
+		var editor = widget.editor,
+			img = new CKEDITOR.dom.element( 'img', editor.document ),
+			container = new CKEDITOR.dom.element( 'span', editor.document );
 
-		img.on( 'dragstart', function( evt ) {
-			evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: widget.editor.name, id: widget.id } ) );
+		container.setAttributes( {
+			'class': 'cke_widget_drag_handler_container',
+			style: 'background:rgba(220,220,220,0.5) url(' + editor.plugins.widget.path + 'images/drag.png)'
 		} );
 
-		widget.wrapper.append( img );
-		widget.dragHandler = img;
+		img.setAttributes( {
+			draggable: 'true',
+			'class': 'cke_widget_drag_handler',
+			'data-widget-drag-handler': '1',
+			src: transparentImageData,
+			width: DRAG_HANDLER_SIZE,
+			height: DRAG_HANDLER_SIZE
+		} );
+
+		img.on( 'dragstart', function( evt ) {
+			evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
+		} );
+
+		container.append( img );
+		widget.wrapper.append( container );
+		widget.dragHandlerContainer = container;
 	}
 
 	function setupEditables( widget ) {
@@ -1646,7 +1666,7 @@
 		// When initialized for the first time.
 		if ( widget.needsMask ) {
 			var img = CKEDITOR.dom.element.createFromHtml(
-				'<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" ' +
+				'<img src="' + transparentImageData + '" ' +
 				'style="position:absolute;width:100%;height:100%;top:0;left:0;" draggable="false">', widget.editor.document );
 
 			img.appendTo( widget.wrapper );
