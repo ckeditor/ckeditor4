@@ -6,26 +6,28 @@
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
 		init: function( editor ) {
-			editor.addCommand( 'enter', { modes:{wysiwyg:1 },
+			editor.addCommand( 'enter', {
+				modes: { wysiwyg:1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					enter( editor );
 				}
-			});
+			} );
 
-			editor.addCommand( 'shiftEnter', { modes:{wysiwyg:1 },
+			editor.addCommand( 'shiftEnter', {
+				modes: { wysiwyg:1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					shiftEnter( editor );
 				}
-			});
+			} );
 
 			editor.setKeystroke( [
 				[ 13, 'enter' ],
 				[ CKEDITOR.SHIFT + 13, 'shiftEnter' ]
-				] );
+			] );
 		}
-	});
+	} );
 
 	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
 		bookmark = CKEDITOR.dom.walker.bookmark();
