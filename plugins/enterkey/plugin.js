@@ -483,7 +483,7 @@
 	function shiftEnter( editor ) {
 		// Only effective within document.
 		if ( editor.mode != 'wysiwyg' )
-			return false;
+			return;
 
 		// On SHIFT+ENTER:
 		// 1. We want to enforce the mode to be respected, instead
@@ -496,7 +496,7 @@
 
 		// Only effective within document.
 		if ( editor.mode != 'wysiwyg' )
-			return false;
+			return;
 
 		if ( !mode )
 			mode = editor.config.enterMode;
@@ -510,6 +510,16 @@
 			forceMode = 1;
 		}
 
+		// Downgrade P/DIV mode to BR if adequate element is not allowed by current filter.
+		if ( mode != CKEDITOR.ENTER_BR && !editor.activeFilter.check( mode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) {
+			mode = CKEDITOR.ENTER_BR;
+			forceMode = 1;
+		}
+
+		// Block enter completely if even BR is not allowed.
+		if ( mode == CKEDITOR.ENTER_BR && !editor.activeFilter.check( 'br' ) )
+			return;
+
 		editor.fire( 'saveSnapshot' ); // Save undo step.
 
 		if ( mode == CKEDITOR.ENTER_BR )
@@ -518,8 +528,6 @@
 			enterBlock( editor, mode, null, forceMode );
 
 		editor.fire( 'saveSnapshot' );
-
-		return true;
 	}
 
 	function getRange( editor ) {

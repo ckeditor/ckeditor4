@@ -123,7 +123,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'widgetimage',
 			height: 400,
-			contentsCss: [ '../../../contents.css', 'contents.css' ]
+			contentsCss: [ '../../../contents.css', 'contents.css' ],
+			on: {
+				widgetDefinition: function( evt ) {
+					if ( evt.data.name == 'image' ) {
+						evt.data.editables = {
+							caption: {
+								selector: 'figcaption',
+								allowedContent: 'strong em br; a[!href]'
+							}
+						};
+					}
+				}
+			}
 		} );
 
 		CKEDITOR.replace( 'editor2', {
@@ -155,6 +167,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						evt.data.config.upcasts = 'image';
 						evt.data.config.downcast = 'captionedImage';
 						evt.data.allowedContent = 'img[data-caption,data-widget]';
+						evt.data.editables = {
+							caption: {
+								selector: 'figcaption',
+								allowedContent: 'p strong em ul ol li'
+							}
+						};
 					}
 				}
 			}
