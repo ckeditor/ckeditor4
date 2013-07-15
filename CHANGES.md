@@ -3,22 +3,25 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2
 
-* [#10281](http://dev.ckeditor.com/ticket/10281): jQuery adapter.
-* [#10042](http://dev.ckeditor.com/ticket/10042): Introduced config.title to change the human-readable title of the editor.
+* [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation into two plugins: [indentlist](http://ckeditor.com/addon/indentlist) and [indentblock](http://ckeditor.com/addon/indentblock).
+* **Note:** Basic and Standard installation packages will not contain the indentblock plugin, so [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) might remove block indentations from existing texts. If you want to prevent this, either [add an appropriate ACF rule to your filter](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules) or create a custom build based on the Basic/Standard package and add the indentblock plugin in [CKBuilder](http://ckeditor.com/builder).
+* [#8244](http://dev.ckeditor.com/ticket/8244): Use *(Shift+)Tab* to indent and outdent lists.
+* [#10599](http://dev.ckeditor.com/ticket/10599): [Indent](http://ckeditor.com/addon/indent) plugin is no longer required by the [list]((http://ckeditor.com/addon/list) plugin.
+* [#10281](http://dev.ckeditor.com/ticket/10281): The [jQuery Adapter](http://docs.ckeditor.com/#!/guide/dev_jquery) is now available. Several jQuery-related issues fixed: [#8261](http://dev.ckeditor.com/ticket/8261), [#9077](http://dev.ckeditor.com/ticket/9077), [#8710](http://dev.ckeditor.com/ticket/8710), [#8530](http://dev.ckeditor.com/ticket/8530), [#9019](http://dev.ckeditor.com/ticket/9019), [#6181](http://dev.ckeditor.com/ticket/6181), [#7876](http://dev.ckeditor.com/ticket/7876), [#6906](http://dev.ckeditor.com/ticket/6906).
+* [#10042](http://dev.ckeditor.com/ticket/10042): Introduced [config.title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title) setting to change the human-readable title of the editor.
 * [#10370](http://dev.ckeditor.com/ticket/10370): Inconsistency in data events between framed and inline editors.
-* [#9794](http://dev.ckeditor.com/ticket/9794): OnChange event.
-* [#9923](http://dev.ckeditor.com/ticket/9923): HiDPI support in editor UI. HiDPI icons for Moono skin.
-* [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation.
-* [#8244](http://dev.ckeditor.com/ticket/8244): Use (SHIFT+)TAB to indent and outdent lists.
-* [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `textareas` - introduced `editor#required` event.
-* [#10280](http://dev.ckeditor.com/ticket/10280): Ability to replace `textarea` with inline editor.
+* [#9794](http://dev.ckeditor.com/ticket/9794): Added [onChange](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
+* [#9923](http://dev.ckeditor.com/ticket/9923): HiDPI support in the editor UI. HiDPI icons for [Moono skin](http://ckeditor.com/addon/moono) added.
+* [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `<textarea>` elements &mdash; introduced [editor#required](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-required) event.
+* [#10280](http://dev.ckeditor.com/ticket/10280): Ability to replace `<textarea>` elements with the inline editor.
+* [#10438](http://dev.ckeditor.com/ticket/10438): [FF, IE] No selection is done on an editable element on executing [setData](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData).
 
 ## CKEditor 4.1.3
 
-* [#5189](http://dev.ckeditor.com/ticket/5189): Find/Replace dialog: rename button to "Close".
-* [#10562](http://dev.ckeditor.com/ticket/10562): [Housekeeping] CSS gradient filters in Moono.
-* [#10537](http://dev.ckeditor.com/ticket/10537): ACF should register default rule for `config.shiftEnterMode`.
-* [#10610](http://dev.ckeditor.com/ticket/10610): CKEDITOR.dialog.addIframe will not fill the dialog with the iframe.
+* [#5189](http://dev.ckeditor.com/ticket/5189): Find/Replace dialog window: rename "Cancel" button to "Close".
+* [#10562](http://dev.ckeditor.com/ticket/10562): [Housekeeping] Unified CSS gradient filter formats in the Moono skin.
+* [#10537](http://dev.ckeditor.com/ticket/10537): ACF should register a default rule for [config.shiftEnterMode](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-shiftEnterMode).
+* [#10610](http://dev.ckeditor.com/ticket/10610): [CKEDITOR.dialog.addIframe](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog-static-method-addIframe) incorrectly sets the iframe size in dialog windows.
 
 ## CKEditor 4.1.2
 
