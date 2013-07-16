@@ -14,7 +14,6 @@
 
 	// Elements that are considered the "End level Block" in an element path.
 	var pathBlockElements = {};
-
 	for ( tag in CKEDITOR.dtd.$block ) {
 		// Exclude block limits, and empty block element, e.g. hr.
 		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
@@ -75,9 +74,9 @@
 					if ( pathBlockLimitElements[ elementName ] ) {
 						// End level DIV is considered as the block, if no block is available. (#525)
 						// But it must NOT be as the root element.
-						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) ) {
+						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) )
 							block = e;
-						} else
+						else
 							blockLimit = e;
 					}
 				}
@@ -89,28 +88,35 @@
 		while ( ( e = e.getParent() ) );
 
 		/**
+		 * First non-empty block element which:
+		 *
+		 * * is not a {@link CKEDITOR.dtd#$blockLimit},
+		 * * or is a `div` which does not contain block elements and is not a `root`.
+		 *
+		 * This means a first, splittable block in elements path.
+		 *
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.block = block;
 
 		/**
+		 * See the {@link CKEDITOR.dtd#$blockLimit} description.
+		 *
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.blockLimit = blockLimit;
 
 		/**
-		 * The root of the elements path - `startNode` argument passed to class constructor or body element.
+		 * The root of the elements path - `startNode` argument passed to class constructor or a `body` element.
 		 *
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.root = root;
 
 		/**
+		 * An array of elements (from `startNode` to `root`) in the path.
+		 *
 		 * @property {CKEDITOR.dom.element[]}
-		 * @todo
 		 */
 		this.elements = elements;
 	};
@@ -207,7 +213,6 @@ CKEDITOR.dom.elementPath.prototype = {
 		}
 
 		return true;
-
 	},
 
 	/**

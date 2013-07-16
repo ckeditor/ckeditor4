@@ -212,7 +212,7 @@ CKEDITOR.dtd = (function() {
 		$block: X( { audio:1,dd:1,dt:1,li:1,video:1 }, FO, DFO ),
 
 		/**
-		 * List of elements that contains other blocks, in which block-level operations should be limited,
+		 * List of elements that contain other blocks, in which block-level operations should be limited,
 		 * this property is not intended to be checked directly, use {@link CKEDITOR.dom.elementPath#blockLimit} instead.
 		 *
 		 * Some examples of editor behaviors that are impacted by block limits:
