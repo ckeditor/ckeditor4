@@ -1057,6 +1057,15 @@
 		range.select();
 	}
 
+	function moveWidget( editor, sourceWidget ) {
+		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
+
+		sourceWidget.wrapper.remove();
+		editor.widgets.destroy( sourceWidget, true );
+
+		editor.execCommand( 'paste', widgetHtml );
+	}
+
 	function onEditableKey( widget, keyCode ) {
 		var focusedEditable = widget.focusedEditable,
 			range;
@@ -1306,14 +1315,15 @@
 				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
 					return;
 
-				var widgetHtml = sourceWidget.wrapper.getOuterHtml();
-
 				moveSelectionToDropPosition( editor, evt );
 
-				sourceWidget.wrapper.remove();
-				widgetsRepo.destroy( sourceWidget, true );
-
-				editor.execCommand( 'paste', widgetHtml );
+				// Hack to prevent cursor loss on Firefox. Without timeout widget is
+				// correctly pasted but then cursor is invisible (although it works) and can be restored
+				// only by blurring editable.
+				if ( CKEDITOR.env.gecko )
+					setTimeout( moveWidget, 0, editor, sourceWidget );
+				else
+					moveWidget( editor, sourceWidget );
 			} );
 		} );
 	}
