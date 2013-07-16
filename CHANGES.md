@@ -7,13 +7,13 @@ CKEditor 4 Changelog
 
 * Dropped compatibility support for Internet Explorer 7 and Firefox 3.6.
 
-* Both the Basic and the Standard distribution packages will not contain the new indentblock plugin. Because of this the [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) might remove block indentations from existing contents. If you want to prevent this, either [add an appropriate ACF rule to your filter](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules) or create a custom build based on the Basic/Standard package and add the indentblock plugin in [CKBuilder](http://ckeditor.com/builder).
+* Both the Basic and the Standard distribution packages will not contain the new [indentblock](http://ckeditor.com/addon/indentblock) plugin. Because of this the [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) might remove block indentations from existing contents. If you want to prevent this, either [add an appropriate ACF rule to your filter](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules) or create a custom build based on the Basic/Standard package and add the indentblock plugin in [CKBuilder](http://ckeditor.com/builder).
 
 Fixed issues:
 
 * [#10027](http://dev.ckeditor.com/ticket/10027): Separated list and block indentation into two plugins: [indentlist](http://ckeditor.com/addon/indentlist) and [indentblock](http://ckeditor.com/addon/indentblock).
 * [#8244](http://dev.ckeditor.com/ticket/8244): Use *(Shift+)Tab* to indent and outdent lists.
-* [#10599](http://dev.ckeditor.com/ticket/10599): [Indent](http://ckeditor.com/addon/indent) plugin is no longer required by the [list]((http://ckeditor.com/addon/list) plugin.
+* [#10599](http://dev.ckeditor.com/ticket/10599): [Indent](http://ckeditor.com/addon/indent) plugin is no longer required by the [list](http://ckeditor.com/addon/list) plugin.
 * [#10281](http://dev.ckeditor.com/ticket/10281): The [jQuery Adapter](http://docs.ckeditor.com/#!/guide/dev_jquery) is now available. Several jQuery-related issues fixed: [#8261](http://dev.ckeditor.com/ticket/8261), [#9077](http://dev.ckeditor.com/ticket/9077), [#8710](http://dev.ckeditor.com/ticket/8710), [#8530](http://dev.ckeditor.com/ticket/8530), [#9019](http://dev.ckeditor.com/ticket/9019), [#6181](http://dev.ckeditor.com/ticket/6181), [#7876](http://dev.ckeditor.com/ticket/7876), [#6906](http://dev.ckeditor.com/ticket/6906).
 * [#10042](http://dev.ckeditor.com/ticket/10042): Introduced [config.title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title) setting to change the human-readable title of the editor.
 * [#10370](http://dev.ckeditor.com/ticket/10370): Inconsistency in data events between framed and inline editors.
